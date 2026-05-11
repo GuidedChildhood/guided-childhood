@@ -4,9 +4,21 @@
     {
       "src": "index.html",
       "use": "@vercel/static"
+    },
+    {
+      "src": "digitalwellbeing/index.html",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
+    {
+      "src": "/digitalwellbeing",
+      "dest": "/digitalwellbeing/index.html"
+    },
+    {
+      "src": "/digitalwellbeing/",
+      "dest": "/digitalwellbeing/index.html"
+    },
     {
       "src": "/(.*)",
       "dest": "/index.html"
