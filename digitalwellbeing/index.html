@@ -1,0 +1,1298 @@
+<!DOCTYPE html><html lang="en" style=""><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Early Access — Understanding Your Child's Digital Wellbeing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&amp;family=DM+Sans:wght@300;400;500&amp;display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --cream: #fdf8ef;
+  --cream-mid: #fcedc2;
+  --yellow: #e8b800;
+  --yellow-dark: #c9a000;
+  --yellow-pale: #fefcf5;
+  --text: #1a1208;
+  --text-mid: #4a3f2f;
+  --text-light: #9a8d78;
+  --white: #ffffff;
+  --dark: #1a1208;
+  --h-font: 'Fraunces', Georgia, serif;
+  --b-font: 'DM Sans', system-ui, sans-serif;
+  --max: 720px;
+  --max-wide: 960px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--b-font);
+  color: var(--text);
+  background: var(--white);
+  font-size: clamp(1rem, 1.1vw, 1.1rem);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+nav {
+  padding: 1.5rem 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(232,184,0,0.2);
+  background: var(--white);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.wordmark {
+  font-family: var(--h-font);
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+.wordmark span { color: var(--yellow-dark); }
+.nav-cta {
+  padding: 0.55rem 1.25rem;
+  font-family: var(--b-font);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text);
+  background: var(--yellow);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: filter 0.2s;
+}
+.nav-cta:hover { filter: brightness(0.92); }
+.section { padding: clamp(5rem, 9vw, 8rem) 2rem; }
+.section-cream { background: var(--cream); }
+.section-pale { background: var(--yellow-pale); }
+.section-dark { background: var(--dark); color: var(--white); }
+.inner { max-width: var(--max); margin: 0 auto; }
+.inner-wide { max-width: var(--max-wide); margin: 0 auto; }
+.overline {
+  font-family: var(--b-font);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--yellow-dark);
+  margin-bottom: 1.25rem;
+  display: block;
+}
+.section-dark .overline { color: rgba(232,184,0,0.7); }
+h1 {
+  font-family: var(--h-font);
+  font-size: clamp(2.6rem, 5.5vw, 4.4rem);
+  font-weight: 300;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  margin-bottom: 1.5rem;
+}
+h2 {
+  font-family: var(--h-font);
+  font-size: clamp(2rem, 3.8vw, 3rem);
+  font-weight: 300;
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  color: var(--text);
+  margin-bottom: 1.25rem;
+}
+.section-dark h2 { color: var(--white); }
+h3 {
+  font-family: var(--h-font);
+  font-size: clamp(1.2rem, 1.8vw, 1.45rem);
+  font-weight: 400;
+  color: var(--text);
+  margin-bottom: 0.6rem;
+  line-height: 1.25;
+}
+p { color: var(--text-mid); margin-bottom: 1rem; max-width: 60ch; }
+p:last-child { margin-bottom: 0; }
+.section-dark p { color: rgba(255,255,255,0.72); }
+.subhead {
+  font-size: clamp(1.1rem, 1.5vw, 1.22rem);
+  color: var(--text-mid);
+  font-weight: 300;
+  line-height: 1.65;
+  margin-bottom: 0.75rem;
+  max-width: 52ch;
+}
+.support-line {
+  font-family: var(--h-font);
+  font-style: italic;
+  font-size: clamp(1rem, 1.3vw, 1.1rem);
+  color: var(--text-mid);
+  margin-bottom: 2.75rem;
+  display: block;
+  max-width: 50ch;
+}
+.form-row {
+  display: flex;
+  gap: 0.75rem;
+  align-items: stretch;
+  max-width: 460px;
+  flex-wrap: wrap;
+}
+.form-row-dark input[type="email"] {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(232,184,0,0.4);
+  color: var(--white);
+}
+.form-row-dark input[type="email"]::placeholder { color: rgba(255,255,255,0.4); }
+label.sr { position: absolute; width: 1px; height: 1px; clip: rect(0,0,0,0); overflow: hidden; }
+input[type="email"] {
+  flex: 1;
+  min-width: 220px;
+  padding: 0.9rem 1.25rem;
+  font-family: var(--b-font);
+  font-size: 1rem;
+  color: var(--text);
+  background: var(--white);
+  border: 1.5px solid rgba(232,184,0,0.35);
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+input[type="email"]:focus { border-color: var(--yellow-dark); }
+input[type="email"]::placeholder { color: var(--text-light); }
+.btn {
+  padding: 0.9rem 1.75rem;
+  font-family: var(--b-font);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+  background: var(--yellow);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: filter 0.2s, transform 0.15s;
+  white-space: nowrap;
+  letter-spacing: -0.01em;
+}
+.btn:hover { filter: brightness(0.92); transform: translateY(-1px); }
+.btn-lg {
+  padding: 1rem 2.25rem;
+  font-size: 1rem;
+}
+.form-note {
+  margin-top: 0.9rem;
+  font-size: 0.8rem;
+  color: var(--text-light);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+.section-dark .form-note { color: rgba(255,255,255,0.4); }
+.divider {
+  width: 40px;
+  height: 2px;
+  background: var(--yellow);
+  margin: 2rem 0;
+  border-radius: 2px;
+}
+.pullquote {
+  font-family: var(--h-font);
+  font-size: clamp(1.3rem, 2.2vw, 1.75rem);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.4;
+  color: var(--text);
+  border-left: 3px solid var(--yellow);
+  padding: 1rem 0 1rem 1.75rem;
+  margin: 2.5rem 0;
+  max-width: 52ch;
+}
+.callout-block {
+  background: var(--cream-mid);
+  border-radius: 10px;
+  padding: 1.75rem 2rem;
+  margin: 2rem 0;
+  max-width: 58ch;
+}
+.callout-block p { color: var(--text); font-weight: 400; margin: 0; }
+.pattern-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1.75rem 0;
+}
+.tag {
+  display: inline-block;
+  padding: 0.45rem 1rem;
+  background: var(--white);
+  border: 1.5px solid rgba(232,184,0,0.4);
+  border-radius: 100px;
+  font-size: 0.85rem;
+  color: var(--text-mid);
+  font-weight: 400;
+}
+.section-cream .tag { background: var(--cream); }
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.5rem;
+  margin-top: 3rem;
+}
+.step-num {
+  font-family: var(--h-font);
+  font-size: 2.5rem;
+  font-weight: 300;
+  color: var(--yellow);
+  letter-spacing: -0.04em;
+  display: block;
+  margin-bottom: 1rem;
+}
+.step p { max-width: 28ch; }
+.report-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-top: 2.75rem;
+}
+.report-card {
+  background: var(--white);
+  border: 1.5px solid rgba(232,184,0,0.25);
+  border-radius: 10px;
+  padding: 1.75rem;
+  transition: box-shadow 0.2s;
+}
+.section-cream .report-card { background: var(--cream); border-color: rgba(232,184,0,0.35); }
+.report-card:hover { box-shadow: 0 8px 32px rgba(232,184,0,0.12); }
+.report-card-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--yellow-dark);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+.report-card h3 { font-size: 1.1rem; margin-bottom: 0.4rem; }
+.report-card p { font-size: 0.95rem; color: var(--text-mid); max-width: none; margin: 0; }
+.trust-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-top: 2.75rem;
+}
+.trust-item h3 { font-size: 1.05rem; margin-bottom: 0.4rem; }
+.trust-item p { font-size: 0.95rem; max-width: none; }
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  margin-top: 3rem;
+  max-width: var(--max-wide);
+}
+.price-card {
+  background: var(--white);
+  border: 1.5px solid rgba(232,184,0,0.3);
+  border-radius: 12px;
+  padding: 2.5rem;
+  position: relative;
+  transition: box-shadow 0.25s;
+}
+.price-card:hover { box-shadow: 0 12px 48px rgba(232,184,0,0.14); }
+.price-card.featured {
+  border-color: var(--yellow);
+  border-width: 2px;
+}
+.price-badge {
+  display: inline-block;
+  background: var(--yellow);
+  color: var(--text);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.8rem;
+  border-radius: 100px;
+  margin-bottom: 1.25rem;
+}
+.price-card h3 {
+  font-family: var(--h-font);
+  font-size: 1.35rem;
+  margin-bottom: 0.5rem;
+  font-weight: 400;
+}
+.price-amount {
+  margin: 1.25rem 0 0.25rem;
+}
+.price-was {
+  font-size: 1rem;
+  color: var(--text-light);
+  text-decoration: line-through;
+  font-weight: 300;
+  margin-right: 0.5rem;
+}
+.price-now {
+  font-family: var(--h-font);
+  font-size: 2.6rem;
+  font-weight: 300;
+  color: var(--text);
+  letter-spacing: -0.03em;
+}
+.price-period {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  margin-left: 0.2rem;
+}
+.price-desc {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  margin-bottom: 1.5rem;
+  font-style: italic;
+}
+.price-features {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0 2rem;
+  border-top: 1px solid rgba(232,184,0,0.2);
+  padding-top: 1.5rem;
+}
+.price-features li {
+  font-size: 0.95rem;
+  color: var(--text-mid);
+  padding: 0.45rem 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+}
+.price-features li::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--yellow);
+  flex-shrink: 0;
+  margin-top: 0.55rem;
+}
+.price-best {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  margin-top: 1rem;
+  font-style: italic;
+}
+.price-microcopy {
+  margin-top: 0.75rem;
+  font-size: 0.78rem;
+  color: var(--text-light);
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.price-microcopy span::before {
+  content: '→ ';
+  color: var(--yellow-dark);
+}
+.pricing-reframe {
+  margin-top: 2.5rem;
+  max-width: 60ch;
+}
+.pricing-reframe p { font-size: 0.95rem; font-style: italic; color: var(--text-mid); }
+.faq-list { margin-top: 2.5rem; max-width: var(--max); }
+details {
+  border-bottom: 1px solid rgba(232,184,0,0.2);
+  padding: 1.5rem 0;
+}
+details:first-of-type { border-top: 1px solid rgba(232,184,0,0.2); }
+summary {
+  font-family: var(--h-font);
+  font-size: clamp(1rem, 1.4vw, 1.2rem);
+  font-weight: 400;
+  color: var(--text);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+summary::-webkit-details-marker { display: none; }
+summary::after {
+  content: '+';
+  font-family: var(--b-font);
+  font-size: 1.4rem;
+  font-weight: 300;
+  color: var(--yellow-dark);
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+details[open] summary::after { transform: rotate(45deg); }
+details p {
+  margin-top: 1rem;
+  font-size: 0.97rem;
+  color: var(--text-mid);
+  max-width: 60ch;
+  padding-bottom: 0.5rem;
+}
+.final-cta { background: var(--dark); }
+.final-cta h2 {
+  color: var(--white);
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+}
+.final-microcopy {
+  display: flex;
+  gap: 1.75rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+.final-microcopy span {
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.45);
+  letter-spacing: 0.02em;
+}
+.final-microcopy span::before { content: '— '; }
+footer {
+  padding: 2.5rem;
+  border-top: 1px solid rgba(232,184,0,0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background: var(--white);
+}
+footer p { font-size: 0.78rem; color: var(--text-light); max-width: 68ch; margin: 0; }
+.fade-up { opacity: 0; transform: translateY(28px); transition: opacity 0.65s cubic-bezier(0.16,1,0.3,1), transform 0.65s cubic-bezier(0.16,1,0.3,1); }
+.fade-up.visible { opacity: 1; transform: none; }
+@media (max-width: 768px) {
+  .steps-grid, .report-grid, .trust-grid, .pricing-grid { grid-template-columns: 1fr; }
+  h1 { font-size: clamp(2.2rem, 8vw, 3rem); }
+  h2 { font-size: clamp(1.7rem, 6vw, 2.2rem); }
+  .section { padding: 3.5rem 1.5rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fade-up { opacity: 1; transform: none; transition: none; }
+}
+</style><style>:root {
+  --cream: #fdf8ef;
+  --cream-mid: #fcedc2;
+  --yellow: #e8b800;
+  --yellow-dark: #c9a000;
+  --yellow-pale: #fefcf5;
+  --text: #1a1208;
+  --text-mid: #4a3f2f;
+  --text-light: #9a8d78;
+  --white: #ffffff;
+  --dark: #1a1208;
+  --h-font: 'Fraunces', Georgia, serif;
+  --b-font: 'DM Sans', system-ui, sans-serif;
+  --max: 720px;
+  --max-wide: 960px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--b-font);
+  color: var(--text);
+  background: var(--white);
+  font-size: clamp(1rem, 1.1vw, 1.1rem);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+nav {
+  padding: 1.5rem 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(232,184,0,0.2);
+  background: var(--white);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.wordmark {
+  font-family: var(--h-font);
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+.wordmark span { color: var(--yellow-dark); }
+.nav-cta {
+  padding: 0.55rem 1.25rem;
+  font-family: var(--b-font);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text);
+  background: var(--yellow);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: filter 0.2s;
+}
+.nav-cta:hover { filter: brightness(0.92); }
+.section { padding: clamp(5rem, 9vw, 8rem) 2rem; }
+.section-cream { background: var(--cream); }
+.section-pale { background: var(--yellow-pale); }
+.section-dark { background: var(--dark); color: var(--white); }
+.inner { max-width: var(--max); margin: 0 auto; }
+.inner-wide { max-width: var(--max-wide); margin: 0 auto; }
+.overline {
+  font-family: var(--b-font);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--yellow-dark);
+  margin-bottom: 1.25rem;
+  display: block;
+}
+.section-dark .overline { color: rgba(232,184,0,0.7); }
+h1 {
+  font-family: var(--h-font);
+  font-size: clamp(2.6rem, 5.5vw, 4.4rem);
+  font-weight: 300;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  margin-bottom: 1.5rem;
+}
+h2 {
+  font-family: var(--h-font);
+  font-size: clamp(2rem, 3.8vw, 3rem);
+  font-weight: 300;
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  color: var(--text);
+  margin-bottom: 1.25rem;
+}
+.section-dark h2 { color: var(--white); }
+h3 {
+  font-family: var(--h-font);
+  font-size: clamp(1.2rem, 1.8vw, 1.45rem);
+  font-weight: 400;
+  color: var(--text);
+  margin-bottom: 0.6rem;
+  line-height: 1.25;
+}
+p { color: var(--text-mid); margin-bottom: 1rem; max-width: 60ch; }
+p:last-child { margin-bottom: 0; }
+.section-dark p { color: rgba(255,255,255,0.72); }
+.subhead {
+  font-size: clamp(1.1rem, 1.5vw, 1.22rem);
+  color: var(--text-mid);
+  font-weight: 300;
+  line-height: 1.65;
+  margin-bottom: 0.75rem;
+  max-width: 52ch;
+}
+.support-line {
+  font-family: var(--h-font);
+  font-style: italic;
+  font-size: clamp(1rem, 1.3vw, 1.1rem);
+  color: var(--text-mid);
+  margin-bottom: 2.75rem;
+  display: block;
+  max-width: 50ch;
+}
+.form-row {
+  display: flex;
+  gap: 0.75rem;
+  align-items: stretch;
+  max-width: 460px;
+  flex-wrap: wrap;
+}
+.form-row-dark input[type="email"] {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(232,184,0,0.4);
+  color: var(--white);
+}
+.form-row-dark input[type="email"]::placeholder { color: rgba(255,255,255,0.4); }
+label.sr { position: absolute; width: 1px; height: 1px; clip: rect(0,0,0,0); overflow: hidden; }
+input[type="email"] {
+  flex: 1;
+  min-width: 220px;
+  padding: 0.9rem 1.25rem;
+  font-family: var(--b-font);
+  font-size: 1rem;
+  color: var(--text);
+  background: var(--white);
+  border: 1.5px solid rgba(232,184,0,0.35);
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+input[type="email"]:focus { border-color: var(--yellow-dark); }
+input[type="email"]::placeholder { color: var(--text-light); }
+.btn {
+  padding: 0.9rem 1.75rem;
+  font-family: var(--b-font);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+  background: var(--yellow);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: filter 0.2s, transform 0.15s;
+  white-space: nowrap;
+  letter-spacing: -0.01em;
+}
+.btn:hover { filter: brightness(0.92); transform: translateY(-1px); }
+.btn-lg {
+  padding: 1rem 2.25rem;
+  font-size: 1rem;
+}
+.form-note {
+  margin-top: 0.9rem;
+  font-size: 0.8rem;
+  color: var(--text-light);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+.section-dark .form-note { color: rgba(255,255,255,0.4); }
+.divider {
+  width: 40px;
+  height: 2px;
+  background: var(--yellow);
+  margin: 2rem 0;
+  border-radius: 2px;
+}
+.pullquote {
+  font-family: var(--h-font);
+  font-size: clamp(1.3rem, 2.2vw, 1.75rem);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.4;
+  color: var(--text);
+  border-left: 3px solid var(--yellow);
+  padding: 1rem 0 1rem 1.75rem;
+  margin: 2.5rem 0;
+  max-width: 52ch;
+}
+.callout-block {
+  background: var(--cream-mid);
+  border-radius: 10px;
+  padding: 1.75rem 2rem;
+  margin: 2rem 0;
+  max-width: 58ch;
+}
+.callout-block p { color: var(--text); font-weight: 400; margin: 0; }
+.pattern-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1.75rem 0;
+}
+.tag {
+  display: inline-block;
+  padding: 0.45rem 1rem;
+  background: var(--white);
+  border: 1.5px solid rgba(232,184,0,0.4);
+  border-radius: 100px;
+  font-size: 0.85rem;
+  color: var(--text-mid);
+  font-weight: 400;
+}
+.section-cream .tag { background: var(--cream); }
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.5rem;
+  margin-top: 3rem;
+}
+.step-num {
+  font-family: var(--h-font);
+  font-size: 2.5rem;
+  font-weight: 300;
+  color: var(--yellow);
+  letter-spacing: -0.04em;
+  display: block;
+  margin-bottom: 1rem;
+}
+.step p { max-width: 28ch; }
+.report-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-top: 2.75rem;
+}
+.report-card {
+  background: var(--white);
+  border: 1.5px solid rgba(232,184,0,0.25);
+  border-radius: 10px;
+  padding: 1.75rem;
+  transition: box-shadow 0.2s;
+}
+.section-cream .report-card { background: var(--cream); border-color: rgba(232,184,0,0.35); }
+.report-card:hover { box-shadow: 0 8px 32px rgba(232,184,0,0.12); }
+.report-card-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--yellow-dark);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+.report-card h3 { font-size: 1.1rem; margin-bottom: 0.4rem; }
+.report-card p { font-size: 0.95rem; color: var(--text-mid); max-width: none; margin: 0; }
+.trust-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-top: 2.75rem;
+}
+.trust-item h3 { font-size: 1.05rem; margin-bottom: 0.4rem; }
+.trust-item p { font-size: 0.95rem; max-width: none; }
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  margin-top: 3rem;
+  max-width: var(--max-wide);
+}
+.price-card {
+  background: var(--white);
+  border: 1.5px solid rgba(232,184,0,0.3);
+  border-radius: 12px;
+  padding: 2.5rem;
+  position: relative;
+  transition: box-shadow 0.25s;
+}
+.price-card:hover { box-shadow: 0 12px 48px rgba(232,184,0,0.14); }
+.price-card.featured {
+  border-color: var(--yellow);
+  border-width: 2px;
+}
+.price-badge {
+  display: inline-block;
+  background: var(--yellow);
+  color: var(--text);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.8rem;
+  border-radius: 100px;
+  margin-bottom: 1.25rem;
+}
+.price-card h3 {
+  font-family: var(--h-font);
+  font-size: 1.35rem;
+  margin-bottom: 0.5rem;
+  font-weight: 400;
+}
+.price-amount {
+  margin: 1.25rem 0 0.25rem;
+}
+.price-was {
+  font-size: 1rem;
+  color: var(--text-light);
+  text-decoration: line-through;
+  font-weight: 300;
+  margin-right: 0.5rem;
+}
+.price-now {
+  font-family: var(--h-font);
+  font-size: 2.6rem;
+  font-weight: 300;
+  color: var(--text);
+  letter-spacing: -0.03em;
+}
+.price-period {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  margin-left: 0.2rem;
+}
+.price-desc {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  margin-bottom: 1.5rem;
+  font-style: italic;
+}
+.price-features {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0 2rem;
+  border-top: 1px solid rgba(232,184,0,0.2);
+  padding-top: 1.5rem;
+}
+.price-features li {
+  font-size: 0.95rem;
+  color: var(--text-mid);
+  padding: 0.45rem 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+}
+.price-features li::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--yellow);
+  flex-shrink: 0;
+  margin-top: 0.55rem;
+}
+.price-best {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  margin-top: 1rem;
+  font-style: italic;
+}
+.price-microcopy {
+  margin-top: 0.75rem;
+  font-size: 0.78rem;
+  color: var(--text-light);
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.price-microcopy span::before {
+  content: '→ ';
+  color: var(--yellow-dark);
+}
+.pricing-reframe {
+  margin-top: 2.5rem;
+  max-width: 60ch;
+}
+.pricing-reframe p { font-size: 0.95rem; font-style: italic; color: var(--text-mid); }
+.faq-list { margin-top: 2.5rem; max-width: var(--max); }
+details {
+  border-bottom: 1px solid rgba(232,184,0,0.2);
+  padding: 1.5rem 0;
+}
+details:first-of-type { border-top: 1px solid rgba(232,184,0,0.2); }
+summary {
+  font-family: var(--h-font);
+  font-size: clamp(1rem, 1.4vw, 1.2rem);
+  font-weight: 400;
+  color: var(--text);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+summary::-webkit-details-marker { display: none; }
+summary::after {
+  content: '+';
+  font-family: var(--b-font);
+  font-size: 1.4rem;
+  font-weight: 300;
+  color: var(--yellow-dark);
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+details[open] summary::after { transform: rotate(45deg); }
+details p {
+  margin-top: 1rem;
+  font-size: 0.97rem;
+  color: var(--text-mid);
+  max-width: 60ch;
+  padding-bottom: 0.5rem;
+}
+.final-cta { background: var(--dark); }
+.final-cta h2 {
+  color: var(--white);
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+}
+.final-microcopy {
+  display: flex;
+  gap: 1.75rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+.final-microcopy span {
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.45);
+  letter-spacing: 0.02em;
+}
+.final-microcopy span::before { content: '— '; }
+footer {
+  padding: 2.5rem;
+  border-top: 1px solid rgba(232,184,0,0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background: var(--white);
+}
+footer p { font-size: 0.78rem; color: var(--text-light); max-width: 68ch; margin: 0; }
+.fade-up { opacity: 0; transform: translateY(28px); transition: opacity 0.65s cubic-bezier(0.16,1,0.3,1), transform 0.65s cubic-bezier(0.16,1,0.3,1); }
+.fade-up.visible { opacity: 1; transform: none; }
+@media (max-width: 768px) {
+  .steps-grid, .report-grid, .trust-grid, .pricing-grid { grid-template-columns: 1fr; }
+  h1 { font-size: clamp(2.2rem, 8vw, 3rem); }
+  h2 { font-size: clamp(1.7rem, 6vw, 2.2rem); }
+  .section { padding: 3.5rem 1.5rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fade-up { opacity: 1; transform: none; transition: none; }
+}</style><style id="htmlpub-breakpoint-visibility">@media (max-width: 767px) { .hp-hide-mobile { display: none !important; } }
+@media (min-width: 768px) and (max-width: 1199px) { .hp-hide-tablet { display: none !important; } }
+@media (min-width: 1200px) { .hp-hide-desktop { display: none !important; } }</style><style>#htmlpub-link-input::placeholder{color:rgba(0,0,0,0.40);}ul,ol{padding:20px;}</style><style>#htmlpub-link-input::placeholder{color:rgba(0,0,0,0.40);}ul,ol{padding:20px;}</style><style>#htmlpub-link-input::placeholder{color:rgba(0,0,0,0.40);}ul,ol{padding:20px;}</style><style>#htmlpub-link-input::placeholder{color:rgba(0,0,0,0.40);}ul,ol{padding:20px;}</style><style>#htmlpub-link-input::placeholder{color:rgba(0,0,0,0.40);}ul,ol{padding:20px;}</style></head>
+<body style="">
+
+
+<nav style="">
+  <span class="wordmark" style="">The Social <span style="">Billboard</span></span>
+  <a href="#hero-form" class="nav-cta" style="" target="">Join the waitlist</a>
+</nav>
+
+
+
+<section class="section" style="padding-bottom: clamp(4rem, 8vw, 7rem);">
+  <div class="inner fade-up visible" style="">
+    <span class="overline" style="">Digital Wellbeing — Early Access</span>
+    <h1 style="">"What if your child's search history was trying to tell you something?"</h1>
+    <p class="subhead" style="">Upload their data. See the patterns. Understand what the algorithm may be reinforcing — before it becomes a problem.</p>
+    <span class="support-line" style="">Because it's not screen time that shapes outcomes. It's the pathway.</span>
+    <form name="hero-waitlist" data-success-message="You're on the list. We'll be in touch when early access opens." style="" id="hero-form">
+      <div class="form-row" id="waitlist" style="">
+        <label for="hero-email" class="sr">Email address</label>
+        <input type="text" name="first_name" placeholder="Your first name" required="" style="width: 100%; padding: 0.85rem 1.1rem; border: 1.5px solid rgb(232, 224, 208); border-radius: 8px; font-size: 1rem; font-family: inherit; background: rgb(255, 255, 255); color: rgb(26, 18, 8); margin-bottom: 0.75rem; box-sizing: border-box;"><input type="email" id="hero-email" name="email" placeholder="Your email address" required="" style="">
+        <button type="submit" class="btn btn-lg" style="">Join the waitlist</button>
+      </div>
+      <p class="form-note" style="">Opening soon for a small group of parents. No technical setup required.</p>
+    </form>
+  </div>
+</section>
+
+
+
+<section class="section section-cream" style="">
+  <div class="inner fade-up visible" style="">
+    <span class="overline" style="">The real problem</span>
+    <h2 style="">Most parents are looking in the wrong place.</h2>
+    <div class="divider"></div>
+    <p style="">You've been told to watch the screen time. But screen time doesn't tell you what your child is searching for. What they're repeatedly watching. What the algorithm is quietly learning about them.</p>
+    <p style="">Two children can spend the same time online. One learns, connects, and logs off. The other scrolls, compares, and loses sleep.</p>
+    <div class="callout-block" style="">
+      <p style="">Same time. Completely different outcome.</p>
+    </div>
+    <p style="">The difference isn't the hours. It's the pattern — and whether that pattern is quietly getting worse.</p>
+    <div class="pattern-tags" style="">
+      <span class="tag" style="">What they search for</span>
+      <span class="tag" style="">What they repeatedly watch</span>
+      <span class="tag" style="">What habits it replaces</span>
+      <span class="tag" style="">What the algorithm learns</span>
+      <span class="tag" style="">Whether it's getting worse</span>
+    </div>
+  </div>
+</section>
+
+
+
+<section class="section" style="">
+  <div class="inner fade-up visible" style="">
+    <span class="overline" style="">The real signal</span>
+    <h2 style="">It's not the content. It's the pattern.</h2>
+    <div class="divider"></div>
+    <p style="">Social media learns. It adapts. And once it understands what a child responds to, it can begin reinforcing it — quietly, continuously, without them noticing.</p>
+    <div class="pattern-tags" style="">
+      <span class="tag">Late-night use</span>
+      <span class="tag" style="">Passive scrolling</span>
+      <span class="tag" style="">Social comparison</span>
+      <span class="tag">Body image pressure</span>
+      <span class="tag" style="">Eco-doom content</span>
+      <span class="tag" style="">Distress language</span>
+      <span class="tag">Binge sessions</span>
+      <span class="tag">Social isolation</span>
+    </div>
+    <div class="pullquote" style="">The algorithm doesn't create vulnerability. It finds it, amplifies it, and feeds it back.</div>
+    <p style="">This tool helps you see that pattern before it becomes a behaviour. Before the behaviour becomes a habit. Before the habit becomes a problem.</p>
+  </div>
+</section>
+
+
+
+<section class="section section-cream" style="">
+  <div class="inner-wide fade-up" style="">
+    <span class="overline" style="">How it works</span>
+    <h2 style="">Three steps. One clear picture.</h2>
+    <div class="steps-grid" style="">
+      <div class="step">
+        <span class="step-num">01</span>
+        <h3>Add context</h3>
+        <p>Answer 6 short questions so the system understands your child's age, environment, and any changes you've already noticed.</p>
+      </div>
+      <div class="step" style="">
+        <span class="step-num" style="">02</span>
+        <h3 style="">Upload their history</h3>
+        <p style="">Securely upload your child's digital data from YouTube, TikTok, Instagram, Facebook, or their browser history. No logins. No ongoing access.</p>
+      </div>
+      <div class="step" style="">
+        <span class="step-num" style="">03</span>
+        <h3 style="">Get your report</h3>
+        <p style="">Receive a clear Digital Health Report — patterns, signals, alerts, and exactly what to do next. Written for parents, not experts.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<section class="section" style="">
+  <div class="inner-wide fade-up" style="">
+    <span class="overline">The Digital Health Report</span>
+    <h2>This is what you'll actually see.</h2>
+    <p style="margin-bottom: 0; max-width: 52ch;">Not dashboards. Not noise. Just clarity.</p>
+    <div class="report-grid" style="">
+      <div class="report-card">
+        <span class="report-card-label">Signal Score</span>
+        <h3>Where things stand right now</h3>
+        <p>A simple, clear view of overall pattern health — so you know at a glance whether things need attention.</p>
+      </div>
+      <div class="report-card">
+        <span class="report-card-label" style="">Pattern Detection</span>
+        <h3>Behaviours most parents can't easily see</h3>
+        <p style="">Late-night use, binge sessions, passive scrolling, social isolation, and emotional content patterns — surfaced and explained clearly.</p>
+      </div>
+      <div class="report-card">
+        <span class="report-card-label">Critical Alerts</span>
+        <h3>If something serious appears</h3>
+        <p>Flagged clearly, never buried. So you never miss what matters most.</p>
+      </div>
+      <div class="report-card" style="">
+        <span class="report-card-label">Monthly Shift</span>
+        <h3>Is it improving or deteriorating?</h3>
+        <p>Track whether patterns are getting better, staying stable, or quietly getting worse — month by month.</p>
+      </div>
+      <div class="report-card">
+        <span class="report-card-label">Algorithm Insight</span>
+        <h3>What the platform is reinforcing</h3>
+        <p>Understand what the algorithm has learned about your child — and what content it may be actively amplifying.</p>
+      </div>
+      <div class="report-card" style="">
+        <span class="report-card-label" style="">Priority Actions</span>
+        <h3>Know exactly what to do next</h3>
+        <p style="">Five clear, practical next steps — tailored to your child's specific patterns. No generic advice.</p>
+      </div>
+    </div>
+  
+  
+<div style="margin-top: 4rem;">
+  <p style="font-family: var(--b-font); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-light); margin-bottom: 1.5rem;">Real examples — what a Digital Health Report looks like</p>
+
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.25rem;">
+    <div style="border-radius: 12px; overflow: hidden; box-shadow: 0 2px 4px rgba(26,18,8,0.06), 0 8px 24px rgba(26,18,8,0.08); border: 1px solid rgba(232,184,0,0.2);">
+      <img src="https://new.leadpages.com/api/pages/xTI1RiAgZ2/assets/le3ojo924b95f4kiu2eu9poh" alt="Signals detected grid showing critical, high and medium flags" style="width: 100%; display: block;">
+    </div>
+    <div style="border-radius: 12px; overflow: hidden; box-shadow: 0 2px 4px rgba(26,18,8,0.06), 0 8px 24px rgba(26,18,8,0.08); border: 1px solid rgba(232,184,0,0.2);">
+      <img src="https://new.leadpages.com/api/pages/xTI1RiAgZ2/assets/tl3356wws9t8qokytyi08325" alt="Content diet breakdown showing passive use ratio and late-night sessions" style="width: 100%; display: block;">
+    </div>
+    <div style="border-radius: 12px; overflow: hidden; box-shadow: 0 2px 4px rgba(26,18,8,0.06), 0 8px 24px rgba(26,18,8,0.08); border: 1px solid rgba(232,184,0,0.2);">
+      <img src="https://new.leadpages.com/api/pages/xTI1RiAgZ2/assets/rzb5albq6d20yg18il6dvvds" alt="Priority actions with numbered steps and timing guidance" style="width: 100%; display: block;">
+    </div>
+    <div style="border-radius: 12px; overflow: hidden; box-shadow: 0 2px 4px rgba(26,18,8,0.06), 0 8px 24px rgba(26,18,8,0.08); border: 1px solid rgba(232,184,0,0.2);">
+      <img src="https://new.leadpages.com/api/pages/xTI1RiAgZ2/assets/bdo01jgxsisldrkc20fbpgim" alt="Paywall unlock screen showing full report summary with signal counts" style="width: 100%; display: block;">
+    </div>
+  </div>
+
+  <p style="font-family: var(--b-font); font-size: 0.8rem; color: var(--text-light); text-align: center; margin-bottom: 2.5rem;">Names and details changed for privacy</p>
+
+  <div style="background: linear-gradient(135deg, #fdf8ef 0%, #fffdf5 100%); border: 1px solid rgba(232,184,0,0.3); border-left: 4px solid var(--accent); border-radius: 12px; padding: 2rem 2.25rem; display: flex; gap: 1.5rem; align-items: flex-start;">
+    <div style="flex-shrink: 0; width: 44px; height: 44px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--dark)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+    </div>
+    <div>
+      <h4 style="font-family: var(--h-font); font-size: 1.15rem; font-weight: 700; color: var(--dark); margin: 0 0 0.5rem;">CAMHS-Ready Summary Included</h4>
+      <p style="font-family: var(--b-font); font-size: 0.95rem; color: var(--text-mid); margin: 0 0 0.5rem; line-height: 1.65;">Every Digital Health Report includes a one-page clinical summary — formatted to hand directly to your GP or CAMHS team. It presents observed patterns clearly, in language clinicians understand, so your concern is taken seriously from the very first appointment.</p>
+      <p style="font-family: var(--b-font); font-size: 0.85rem; color: var(--text-light); margin: 0; font-style: italic;">CAMHS waiting times are currently 18–20 months nationally. An earlier, clearer referral can make a real difference.</p>
+    </div>
+  </div>
+</div>
+
+</div>
+</section>
+
+
+
+<section class="section section-cream" style="">
+  <div class="inner fade-up" style="">
+    <span class="overline" style="">Why this matters now</span>
+    <h2 style="">Most problems don't start suddenly.</h2>
+    <div class="divider"></div>
+    <p style="">They build quietly. Through slightly later nights. Slightly different searches. Slightly more passive behaviour. Slightly more negative content.</p>
+    <div class="callout-block" style="">
+      <p style="">By the time it's obvious in real life, it may already have been building for weeks or months.</p>
+    </div>
+    <p style="">Children don't experience screens. They experience pathways.</p>
+    <p style="">This tool helps parents see those pathways earlier — so you can step in with more confidence, more calmly, and with the right support.</p>
+  </div>
+</section>
+
+
+
+<section class="section" style="">
+  <div class="inner-wide fade-up" style="">
+    <span class="overline" style="">Built on evidence</span>
+    <h2 style="">Designed for clarity. Not fear.</h2>
+    <div class="trust-grid">
+      <div class="trust-item">
+        <h3>Not a diagnosis tool</h3>
+        <p>We detect observed patterns — not labels. This is early insight to help parents understand what may be happening, not a clinical assessment.</p>
+      </div>
+      <div class="trust-item" style="">
+        <h3 style="">Evidence-led</h3>
+        <p style="">Built around research into adolescent wellbeing, sleep, passive vs active use, social comparison, vulnerability, and eco-anxiety.</p>
+      </div>
+      <div class="trust-item">
+        <h3>Privacy-first</h3>
+        <p>Raw files are deleted after processing. Only essential structured data is used. Your child's data is never stored, shared, or sold.</p>
+      </div>
+    </div>
+  <div style="margin-top: 3rem; background: #fff8f8; border: 1px solid rgba(200,80,80,0.15); border-left: 3px solid #c85050; border-radius: 12px; padding: 1.5rem 2rem; max-width: var(--max-wide); margin-left: auto; margin-right: auto;">
+    <p style="font-family: var(--b-font); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: #c85050; margin-bottom: 0.5rem;">On critical flags</p>
+    <p style="font-family: var(--b-font); font-size: 1rem; color: var(--text); margin: 0; line-height: 1.65;">If the system detects something serious — such as distress language, self-harm related searches, or high-risk content patterns — it is always surfaced clearly and never hidden behind a paywall. Because some things are too important to miss. If a critical flag appears, we always recommend speaking with a qualified professional.</p>
+  </div>
+
+    <div class="pullquote" style="margin-top: 3.5rem;">Children don't experience screens. They experience pathways.</div>
+  </div>
+</section>
+
+
+
+<section class="section section-cream" style="">
+  <div class="inner-wide fade-up" style="">
+    <span class="overline" style="">Pricing</span>
+    <h2 style="">Start with a clear one-time insight — or track changes over time.</h2>
+    <p style="max-width: 52ch; margin-bottom: 0px;">This isn't another parental control. It's a way to understand what's actually happening.</p>
+    
+  <div style="background: var(--cream); border: 1px solid rgba(232,184,0,0.3); border-radius: 10px; padding: 1rem 1.5rem; margin-bottom: 2rem; display: flex; align-items: center; gap: 0.75rem;">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+    <p style="font-family: var(--b-font); font-size: 0.875rem; color: var(--text-mid); margin: 0;">The tool is not yet open for purchases. Join the waitlist below to be notified first — and lock in early access pricing.</p>
+  </div>
+<div class="pricing-grid" style="">
+      <div class="price-card" style="">
+        <span class="price-badge">One-Time Report</span>
+        <h3 style="">Digital Health Report</h3>
+        <p style="font-size: 0.9rem; color: var(--text-mid); max-width: none; margin-bottom: 0;">A complete picture, right now.</p>
+        <div class="price-amount" style="">
+          <span class="price-was" style="">£29.95</span>
+          <span class="price-now" style="">£14.95</span>
+        </div>
+        <p class="price-desc" style="">Early access pricing — while we onboard our first group of parents.</p>
+        <ul class="price-features" style="">
+          <li style="">Full Digital Health Report</li>
+          <li style="">Signal score</li>
+          <li style="">Pattern breakdown</li>
+          <li style="">Critical alerts if detected</li>
+          <li style="">Algorithm insight</li>
+          <li style="">5 priority actions tailored to your child</li>
+        </ul>
+        
+      <a href="#waitlist" class="btn" style="width: 100%; display: block; text-align: center; text-decoration: none;">Join the waitlist — One-Time Report</a>
+      <p style="font-family: var(--b-font); font-size: 0.8rem; color: var(--text-light); text-align: center; margin: 0.75rem 0 0;">Early access pricing locked in at £14.95 when we launch</p>
+    
+        <div class="price-microcopy" style="">
+          <span style="">No technical setup required</span>
+          <span style="">Works with standard social media downloads</span>
+          <span style="">Private and secure</span>
+        </div>
+        <p class="price-best" style="">Best for: Parents who want a clear, immediate picture</p>
+      </div>
+      <div class="price-card featured" style="">
+        <span class="price-badge">Monthly</span>
+        <h3>Ongoing Monitoring</h3>
+        <p style="font-size: 0.9rem; color: var(--text-mid); max-width: none; margin-bottom: 0px;">Stay ahead, not reactive.</p>
+        <div class="price-amount" style="">
+          <span class="price-now" style="">£12.95</span>
+          <span class="price-period">/ month</span>
+        </div>
+        <p class="price-desc" style="">Cancel any time. No contracts.</p>
+        <ul class="price-features" style="">
+          <li style="">Everything in the one-off report</li>
+          <li style="">Monthly re-analysis of behaviour</li>
+          <li style="">Trend tracking over time</li>
+          <li style="">Early warning of pattern shifts</li>
+          <li style="">Continuous guidance as things change</li>
+        </ul>
+        
+      <a href="#waitlist" class="btn" style="width: 100%; display: block; text-align: center; text-decoration: none;">Join the waitlist — Monthly</a>
+      <p style="font-family: var(--b-font); font-size: 0.8rem; color: var(--text-light); text-align: center; margin: 0.75rem 0 0;">Tell us which plan you're interested in — we'll confirm when ready</p>
+    
+        <div class="price-microcopy">
+          <span style="">No technical setup required</span>
+          <span style="">Works with standard social media downloads</span>
+          <span>Private and secure</span>
+        </div>
+        <p class="price-best">Best for: Parents who want to stay ahead, not react late</p>
+      </div>
+    </div>
+    <div class="pricing-reframe">
+      <p style="">Most parents only notice changes once they show up in real life. This helps you see them earlier.</p>
+    </div>
+  </div>
+</section>
+
+
+
+<section class="section" style="">
+  <div class="inner-wide fade-up" style="">
+    <span class="overline" style="">Common questions</span>
+    <h2 style="">Frequently asked.</h2>
+    <div class="faq-list">
+      <details style="" open="">
+        <summary style="">Is this diagnosing my child?</summary>
+        <p style="">No. The Digital Health Report identifies <strong>observed patterns</strong> — not clinical diagnoses or labels. When the report flags something like "self-harm language detected in search history," it is surfacing a pattern that warrants attention — not making a clinical judgement. It is designed to help you understand what may be happening earlier, so you can respond calmly and with the right support. If a critical flag appears, we always recommend speaking with a qualified professional.</p>
+      </details>
+      <details style="">
+        <summary style="">What makes this different from parental controls?</summary>
+        <p>Parental controls limit access. This helps you understand behaviour. Restricting screen time tells you nothing about what your child is searching for, what content the algorithm is reinforcing, or whether patterns are quietly shifting. This tool gives you insight — not just restriction.</p>
+      </details>
+      <details style="">
+        <summary style="">Why do I need to upload their data?</summary>
+        <p>Because patterns show up over time. A single session tells you very little. History reveals what's being watched repeatedly, when habits are occurring, what's replacing other activities, and how things are trending. The data is what makes the insight meaningful.</p>
+      </details>
+      <details style="">
+        <summary style="">Which platforms does it support?</summary>
+        <p>YouTube, TikTok, Instagram, and Facebook. All platforms allow you to download a data export directly from their settings. No logins, no ongoing access, and no third-party integrations are required.</p>
+      </details>
+      <details style="">
+        <summary style="">Is my child's data private?</summary>
+        <p>Yes. Raw files are deleted immediately after processing. Only essential structured data is used to generate the report. Your child's data is never stored long-term, never shared, and never sold. Privacy is foundational to how this tool is built.</p>
+      </details>
+      <details style="">
+        <summary style="">Do I need to be technical to use this?</summary>
+        <p>Not at all. The process takes less than 2 minutes. You answer 6 short questions, upload the data export from the relevant platforms, and receive a clear, parent-friendly report. No technical knowledge required.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+
+
+
+<section class="section section-dark" id="waitlist" style="">
+  <div class="inner fade-up" style="text-align: center;">
+    <span class="overline" style="display: block; text-align: center;">Early access</span>
+    <h2 style="color: var(--white); max-width: 14ch; margin: 0px auto 1.25rem;">See what most parents can't.</h2>
+    <p style="color: rgba(255,255,255,0.68); text-align: center; margin: 0 auto 2.5rem; max-width: 46ch;">Join early access and be first to try the Digital Health Report for your child.</p>
+    <form name="final-waitlist" data-success-message="You're on the list. We'll be in touch when early access opens." style="display: flex; flex-direction: column; align-items: center; gap: 0;">
+      <div class="form-row form-row-dark" style="justify-content: center; margin-bottom: 1rem;">
+        <label for="final-email" class="sr">Email address</label>
+        <input type="text" name="first_name" placeholder="Your first name" required="" style="width:100%;padding:0.85rem 1.1rem;border:1.5px solid #e8e0d0;border-radius:8px;font-size:1rem;font-family:inherit;background:#fff;color:#1a1208;margin-bottom:0.75rem;box-sizing:border-box;"><input type="email" id="final-email" name="email" placeholder="Your email address" required="">
+        <button type="submit" class="btn btn-lg">Join the waitlist</button>
+      </div>
+      <div style="display: flex; gap: 1.75rem; flex-wrap: wrap; justify-content: center; margin-top: 0.25rem;">
+        <span style="font-size: 0.8rem; color: rgba(255,255,255,0.45); letter-spacing: 0.02em;">Takes less than 2 minutes</span>
+        <span style="font-size: 0.8rem; color: rgba(255,255,255,0.45); letter-spacing: 0.02em;">No technical setup</span>
+        <span style="font-size: 0.8rem; color: rgba(255,255,255,0.45); letter-spacing: 0.02em;">Built for parents, not experts</span>
+      </div>
+    </form>
+  </div>
+</section>
+<footer>
+  <span class="wordmark">The Social <span style="color: var(--yellow-dark);">Billboard</span></span>
+  <p>The Social Billboard does not provide medical or clinical diagnosis. Always consult a qualified professional for concerns about your child's health or wellbeing.</p>
+</footer>
+
+
+<script>
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+</script>
+
+
+</body></html>
