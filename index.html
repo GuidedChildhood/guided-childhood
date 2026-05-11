@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guided Childhood — The OS for Modern Parenting | Ages 4–16</title>
+<meta name="description" content="The only platform that guides your child through every stage of digital life, from age 4 to 16. Scripts for every hard conversation, weekly actions, DiGi AI advisor available any time, and school lesson plans. Close the digital cliff edge before it arrives.">
+<meta name="keywords" content="digital parenting, online safety children, guided digital childhood, social media age limits children, screen time parenting, digital literacy schools, parenting digital childhood">
+<meta name="author" content="Justin Phillips, Guided Childhood">
+<link rel="canonical" href="https://guidedchildhood.co.uk">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://guidedchildhood.co.uk">
+<meta property="og:title" content="Guided Childhood — The OS for Modern Parenting">
+<meta property="og:description" content="Guide your child's digital childhood from age 4 to 16. Scripts, weekly actions, DiGi AI advisor, school curriculum. Join the waitlist.">
+<meta property="og:image" content="https://guidedchildhood.co.uk/og-image.jpg">
+<meta property="og:site_name" content="Guided Childhood">
+<meta property="og:locale" content="en_GB">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Guided Childhood — The OS for Modern Parenting">
+<meta name="twitter:description" content="Guide your child's digital childhood from age 4 to 16. Scripts, AI advisor, school curriculum.">
+<meta name="twitter:image" content="https://guidedchildhood.co.uk/og-image.jpg">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Guided Childhood","description":"The UK platform guiding children through every stage of digital life from age 4 to 16","url":"https://guidedchildhood.co.uk","applicationCategory":"LifestyleApplication","offers":{"@type":"Offer","price":"12.99","priceCurrency":"GBP"},"author":{"@type":"Person","name":"Justin Phillips","worksFor":{"@type":"Organization","name":"The Social Billboard"}}}
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Backgrounds — closer to Good Inside: near-white warm cream */
+  --cream:    #FDFCF8;   /* main bg — almost pure white with just a breath of warmth */
+  --cream-2:  #F7F4EB;   /* section alt — barely-there warm white */
+  --cream-3:  #EEE8D0;   /* card surfaces */
+  --white:    #FFFFFF;
+
+  /* Text */
+  --ink:      #1C1A14;
+  --ink-soft: #453E30;
+  --ink-muted:#8A7E64;
+  --ink-light:#B8AC8E;
+
+  /* Pastel sage green — unchanged */
+  --green:    #8FBF9F;
+  --green-dark:#5A8C6E;
+  --green-lt: #EAF4EE;
+  --green-b:  rgba(143,191,159,0.25);
+
+  /* Coral — unchanged */
+  --coral:    #C96B47;
+  --coral-lt: #FAE8E0;
+  --coral-b:  rgba(201,107,71,0.18);
+
+  /* Gold — lighter pastel buttery yellow, closer to Good Inside */
+  --gold:     #D4A843;   /* warmer, lighter, more pastel */
+  --gold-lt:  #FDF5D0;   /* very pale yellow wash */
+  --gold-b:   rgba(212,168,67,0.22);
+  --gold-hover:#B8902E;
+
+  --border:   rgba(28,26,20,0.08);
+  --serif:    'Fraunces',Georgia,serif;
+  --sans:     'DM Sans',system-ui,sans-serif;
+  --sh:       0 4px 24px rgba(28,26,20,0.09);
+  --sh-lg:    0 12px 48px rgba(28,26,20,0.12);
+  --r:        12px;
+  --rl:       20px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.65;overflow-x:hidden}
+
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@keyframes tab-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.fu{animation:fadeUp .6s ease both}
+.d1{animation-delay:.05s}.d2{animation-delay:.1s}.d3{animation-delay:.15s}.d4{animation-delay:.2s}.d5{animation-delay:.25s}
+
+/* NAV — offset accounts for announcement bar (~44px) */
+nav{position:fixed;top:44px;left:0;right:0;z-index:300;height:64px;padding:0 32px;display:flex;align-items:center;justify-content:space-between;background:rgba(245,239,224,.97);backdrop-filter:blur(24px);border-bottom:1px solid var(--border)}
+.logo{display:flex;align-items:center;gap:9px;text-decoration:none}
+.logo-mark{width:32px;height:32px;background:var(--green);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.bars{display:flex;align-items:flex-end;gap:2.5px;height:15px}
+.bar{background:var(--ink);border-radius:1.5px;opacity:.7}
+.b1{width:3px;height:5px}.b2{width:3px;height:9px}.b3{width:3px;height:13px}.b4{width:3px;height:7px}
+.logo-name{font-family:var(--serif);font-size:.95rem;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+.nav-links{display:flex;gap:2px}
+.nav-btn{background:none;border:none;font-family:var(--sans);font-size:.82rem;font-weight:500;color:var(--ink-soft);cursor:pointer;padding:6px 13px;border-radius:100px;transition:all .15s}
+.nav-btn:hover{background:var(--cream-2);color:var(--ink)}
+.nav-r{display:flex;gap:8px;align-items:center}
+.btn-nav{background:var(--green);color:var(--ink);border:none;font-family:var(--sans);font-size:.82rem;font-weight:700;cursor:pointer;padding:9px 22px;border-radius:100px;transition:all .18s}
+.btn-nav:hover{background:var(--green-dark);color:#fff;transform:translateY(-1px)}
+
+/* TABS */
+.tab-bar{background:var(--cream-2);border-bottom:1px solid var(--border);padding:0 32px;display:flex;align-items:center;justify-content:center;gap:4px;height:48px;margin-top:108px}
+.tab{background:none;border:none;font-family:var(--sans);font-size:.82rem;font-weight:600;color:var(--ink-muted);cursor:pointer;padding:8px 20px;border-radius:100px;transition:all .18s}
+.tab.on{background:var(--white);color:var(--ink);box-shadow:0 1px 4px rgba(28,26,20,.1)}
+.tab:hover:not(.on){color:var(--ink-soft);background:rgba(255,255,255,.5)}
+.panel{display:none}
+.panel.on{display:block;animation:tab-in .3s ease both}
+
+/* SECTIONS */
+.sec{padding:80px 32px}
+.inner{max-width:1040px;margin:0 auto}
+.sec-alt{background:var(--cream-2)}
+.sec-green{background:var(--green)}
+.tc{text-align:center}
+
+/* TYPE */
+.eye{display:inline-block;font-size:.67rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px}
+.eye-g{color:var(--green-dark)}.eye-c{color:var(--coral)}.eye-gold{color:var(--gold)}
+h1,h2,h3,h4{font-family:var(--serif)}
+.h1{font-size:clamp(2.8rem,5.5vw,5.2rem);font-weight:700;line-height:1.04;letter-spacing:-.04em;color:var(--ink)}
+.h1 em,.h2 em{font-style:italic;font-weight:300;color:var(--coral)}
+.h2{font-size:clamp(1.9rem,2.8vw,2.9rem);font-weight:700;line-height:1.1;letter-spacing:-.03em;color:var(--ink);margin-bottom:14px}
+.lead{font-size:1rem;color:var(--ink-soft);line-height:1.8;max-width:500px}
+
+/* BUTTONS */
+.btn{background:var(--green);color:var(--ink);border:none;font-family:var(--sans);font-weight:700;font-size:.92rem;cursor:pointer;padding:14px 32px;border-radius:100px;transition:all .2s;display:inline-flex;align-items:center;gap:6px}
+.btn:hover{background:var(--green-dark);color:#fff;transform:translateY(-2px);box-shadow:0 6px 20px rgba(143,191,159,.4)}
+.btn-c{background:var(--coral);color:#fff}
+.btn-c:hover{background:#a8552e;transform:translateY(-2px);box-shadow:none}
+.btn-out{background:transparent;color:var(--ink);border:2px solid rgba(28,26,20,.18);font-family:var(--sans);font-weight:600;font-size:.9rem;cursor:pointer;padding:12px 30px;border-radius:100px;transition:all .2s}
+.btn-out:hover{border-color:var(--ink)}
+
+/* HERO */
+.hero{min-height:92vh;padding:60px 32px 80px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:var(--cream);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 40% at 15% 85%,rgba(143,191,159,.05) 0%,transparent 55%),radial-gradient(ellipse 50% 35% at 85% 15%,rgba(212,168,67,.06) 0%,transparent 55%)}
+.hero-pill{display:inline-flex;align-items:center;gap:7px;background:var(--green-lt);border:1px solid var(--green-b);border-radius:100px;padding:5px 14px;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--green-dark);margin-bottom:24px}
+.pill-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+.hero-sub{font-size:clamp(.92rem,1.5vw,1.1rem);color:var(--ink-soft);line-height:1.82;max-width:500px;margin:0 auto 32px}
+.hero-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:12px}
+.hero-note{font-size:.74rem;color:var(--ink-muted);margin-bottom:16px}
+/* Guarantee in hero */
+.hero-guarantee{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.6);border:1px solid var(--border);border-radius:100px;padding:6px 14px;font-size:.72rem;font-weight:600;color:var(--ink-soft);margin-bottom:40px}
+.hero-guarantee::before{content:'✓';color:var(--green-dark);font-weight:900}
+/* Press strip */
+.press-strip{display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:48px;flex-wrap:wrap}
+.press-label{font-size:.67rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-muted);margin-right:8px}
+.press-badge{background:var(--cream-2);border:1px solid var(--border);border-radius:100px;padding:4px 12px;font-size:.72rem;font-weight:600;color:var(--ink-muted)}
+/* Faces */
+.faces{display:flex}
+.face{width:32px;height:32px;border-radius:50%;border:3px solid var(--cream);margin-left:-9px;font-size:.58rem;font-weight:800;color:#fff;display:flex;align-items:center;justify-content:center}
+.face:first-child{margin-left:0}
+.f1{background:var(--green)}.f2{background:var(--coral)}.f3{background:#5a7a9a}.f4{background:#7a5a8a}.f5{background:#9a7a4a}.f6{background:#4a7a6a}
+.proof{display:flex;align-items:center;gap:11px;justify-content:center;margin-bottom:48px}
+.proof-txt{font-size:.82rem;color:var(--ink-soft)}
+.proof-txt strong{color:var(--ink)}
+/* Phone mockup */
+
+
+
+
+
+
+
+
+
+
+
+.ph-txt b{color:var(--ink);display:block;margin-bottom:1px}
+
+
+
+
+
+
+
+
+
+/* TICKER */
+.ticker{background:var(--green);padding:11px 0;overflow:hidden;white-space:nowrap}
+.ticker-inner{display:inline-flex;animation:ticker 32s linear infinite}
+.ti{display:inline-flex;align-items:center;gap:14px;padding:0 28px;font-size:.72rem;font-weight:600;color:var(--ink-soft);letter-spacing:.04em;text-transform:uppercase}
+.ti strong{color:var(--ink)}
+.tid{width:4px;height:4px;border-radius:50%;background:var(--coral);opacity:.7;flex-shrink:0}
+
+/* STAGE CARDS — Good Inside "find your stage" */
+.stage-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:11px}
+.sc{background:#fff;border:1px solid var(--border);border-radius:var(--rl);padding:24px 18px 20px;cursor:pointer;transition:all .22s;position:relative;overflow:hidden;display:flex;flex-direction:column}
+.sc::before{content:'';position:absolute;top:0;left:0;right:0;height:4px}
+.sc1::before{background:#A8C8B0}.sc2::before{background:#7A9BBF}
+.sc3::before{background:var(--coral)}.sc4::before{background:#9B7AC2}
+.sc5::before{background:var(--green)}
+.sc:hover{transform:translateY(-4px);box-shadow:var(--sh-lg)}
+.sc3{border-color:var(--coral-b);background:#fff9f7}
+.sc-num{font-size:.58rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:7px}
+.sc-crit{display:inline-flex;background:var(--coral-lt);border:1px solid var(--coral-b);border-radius:100px;padding:2px 7px;font-size:.58rem;font-weight:700;color:var(--coral);margin-bottom:5px}
+.sc-name{font-family:var(--serif);font-size:1.1rem;font-weight:700;color:var(--ink);margin-bottom:3px}
+.sc-ages{font-size:.73rem;color:var(--ink-muted);margin-bottom:11px}
+.sc-device{display:inline-flex;border-radius:100px;padding:2px 9px;font-size:.6rem;font-weight:700;margin-bottom:12px}
+.sd1{background:rgba(168,200,176,.15);color:#5a8a66}
+.sd2{background:rgba(122,155,191,.12);color:#4a6a8a}
+.sd3{background:var(--coral-lt);color:var(--coral)}
+.sd4{background:rgba(155,122,194,.12);color:#6a4a8a}
+.sd5{background:var(--green-lt);color:var(--green-dark)}
+.sc-tags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:14px}
+.sc-tag{background:var(--cream-2);border:1px solid var(--border);border-radius:100px;padding:2px 8px;font-size:.62rem;color:var(--ink-soft);font-weight:600}
+/* The parent quote — this is what Good Inside gets right */
+.sc-quote{font-family:var(--serif);font-size:.85rem;font-style:italic;color:var(--ink);line-height:1.55;margin-top:auto;padding-top:12px;border-top:1px solid var(--border)}
+.sc-btn{display:inline-flex;align-items:center;gap:4px;margin-top:11px;font-size:.75rem;font-weight:700;color:var(--ink);background:var(--green);border:none;padding:6px 13px;border-radius:100px;cursor:pointer;font-family:var(--sans);transition:all .15s}
+.sc3 .sc-btn{background:var(--coral);color:#fff}
+.sc-btn:hover{opacity:.85}
+
+/* METHOD STEPS */
+.method-row{display:flex;justify-content:center;gap:0;flex-wrap:wrap;margin-top:44px}
+.ms{flex:1;min-width:140px;max-width:185px;text-align:center;padding:24px 14px;position:relative}
+.ms::after{content:'\2192';position:absolute;right:-12px;top:28px;font-size:1rem;color:var(--ink-light)}
+.ms:last-child::after{display:none}
+.ms-circle{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 13px}
+.ms-letter{font-family:var(--serif);font-size:1.5rem;font-weight:900;line-height:1}
+.c1{background:var(--green-lt)}.c1 .ms-letter{color:var(--green-dark)}
+.c2{background:var(--coral-lt)}.c2 .ms-letter{color:var(--coral)}
+.c3{background:var(--gold-lt)}.c3 .ms-letter{color:var(--gold)}
+.c4{background:#e8f0f8}.c4 .ms-letter{color:#4a7a9a}
+.c5{background:#f0ebf8}.c5 .ms-letter{color:#6a4a8a}
+.ms-word{font-size:.7rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink);margin-bottom:6px}
+.ms-desc{font-size:.76rem;color:var(--ink-soft);line-height:1.6}
+
+/* FEATURES */
+.feat-wrap{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.feat-list{display:flex;flex-direction:column;gap:22px}
+.fi{display:flex;gap:15px;align-items:flex-start}
+.fi-icon{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.fi-line{width:2px;height:20px;border-radius:1px}
+.fi1{background:var(--green-lt)}.fi1 .fi-line{background:var(--green-dark)}
+.fi2{background:var(--coral-lt)}.fi2 .fi-line{background:var(--coral)}
+.fi3{background:var(--gold-lt)}.fi3 .fi-line{background:var(--gold)}
+.fi4{background:#e8f0f8}.fi4 .fi-line{background:#4a7a9a}
+.fi5{background:#f0ebf8}.fi5 .fi-line{background:#6a4a8a}
+.fi-text h3{font-family:var(--serif);font-size:.95rem;font-weight:700;color:var(--ink);margin-bottom:4px}
+.fi-text p{font-size:.82rem;color:var(--ink-soft);line-height:1.65}
+
+/* WHAT CHANGES — Good Inside 3-step outcome */
+.outcomes{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:44px}
+.oc{background:#fff;border-radius:var(--rl);padding:32px 26px;border:1px solid var(--border)}
+.oc-num{font-family:var(--serif);font-size:3.2rem;font-weight:900;line-height:1;margin-bottom:14px}
+.n1{color:var(--green-lt)}.n2{color:var(--coral-lt)}.n3{color:var(--cream-3)}
+.oc-stage{font-size:.64rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:9px}
+.oc h3{font-family:var(--serif);font-size:1.1rem;font-weight:700;color:var(--ink);margin-bottom:10px;line-height:1.3}
+.oc p{font-size:.83rem;color:var(--ink-soft);line-height:1.72}
+.oc-tag{display:inline-flex;border-radius:100px;padding:3px 10px;font-size:.63rem;font-weight:700;margin-top:14px}
+.ot1{background:var(--green-lt);color:var(--green-dark)}
+.ot2{background:var(--coral-lt);color:var(--coral)}
+.ot3{background:var(--gold-lt);color:var(--gold)}
+
+/* DIGI CHAT */
+.chat{background:#fff;border-radius:var(--rl);overflow:hidden;box-shadow:var(--sh-lg);border:1px solid var(--border)}
+.chat-head{background:var(--green);padding:14px 16px;display:flex;align-items:center;gap:10px}
+.chat-av{width:34px;height:34px;background:rgba(28,26,20,.12);border:2px solid rgba(28,26,20,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:.88rem;font-weight:700;color:var(--ink)}
+.chat-name{font-family:var(--serif);font-size:.88rem;font-weight:700;color:var(--ink)}
+.chat-status{display:flex;align-items:center;gap:4px;font-size:.65rem;color:rgba(28,26,20,.6);font-weight:600}
+.chat-dot{width:5px;height:5px;border-radius:50%;background:var(--green-dark);animation:pulse 2s infinite}
+.chat-body{padding:16px;display:flex;flex-direction:column;gap:9px;min-height:220px}
+.msg{max-width:90%;padding:9px 13px;border-radius:11px;font-size:.8rem;line-height:1.6}
+.msg-d{background:var(--green-lt);color:var(--ink-soft);border-bottom-left-radius:3px;border:1px solid var(--green-b);align-self:flex-start}
+.msg-u{background:var(--coral);color:#fff;font-weight:600;border-bottom-right-radius:3px;align-self:flex-end}
+.chat-foot{padding:12px 16px;border-top:1px solid var(--border);display:flex;gap:8px}
+.chat-input{flex:1;background:var(--cream-2);border:1.5px solid var(--border);border-radius:100px;padding:8px 14px;font-family:var(--sans);font-size:.78rem;color:var(--ink-light)}
+.chat-send{background:var(--green);color:var(--ink);border:none;width:32px;height:32px;border-radius:50%;cursor:pointer;font-weight:900;transition:background .15s}
+.chat-send:hover{background:var(--green-dark);color:#fff}
+
+/* TESTIMONIALS */
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.testi{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:24px}
+.stars{color:var(--coral);font-size:.85rem;margin-bottom:12px;letter-spacing:2px}
+.testi-txt{font-family:var(--serif);font-size:.92rem;font-style:italic;color:var(--ink);line-height:1.65;margin-bottom:14px}
+.testi-by{font-size:.7rem;font-weight:700;color:var(--ink-muted);text-transform:uppercase;letter-spacing:.05em}
+.stage-pill{font-size:.62rem;font-weight:700;color:var(--green-dark);background:var(--green-lt);padding:2px 7px;border-radius:100px;margin-left:7px}
+
+/* SHARE MOMENT — post-testimonial */
+.share-moment{background:var(--cream-3);border-radius:var(--rl);padding:28px 32px;margin-top:44px;text-align:center}
+.share-moment p{font-family:var(--serif);font-size:1.05rem;font-weight:700;color:var(--ink);margin-bottom:16px}
+.share-btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.share-btn{background:#fff;border:1px solid var(--border);color:var(--ink-soft);font-family:var(--sans);font-size:.78rem;font-weight:600;cursor:pointer;padding:8px 16px;border-radius:100px;transition:all .15s;display:inline-flex;align-items:center;gap:6px}
+.share-btn:hover{border-color:var(--green);color:var(--green-dark);background:var(--green-lt)}
+
+/* RESEARCH */
+.res-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin-bottom:22px}
+.rc{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:18px}
+.rc h4{font-family:var(--serif);font-size:.9rem;font-weight:700;color:var(--ink);margin-bottom:3px}
+.rc-uni{font-size:.66rem;font-weight:700;color:var(--green-dark);margin-bottom:8px}
+.rc p{font-size:.76rem;color:var(--ink-soft);line-height:1.65}
+.thesis{background:var(--green-lt);border:1px solid var(--green-b);border-radius:var(--r);padding:26px 28px}
+.thesis h3{font-family:var(--serif);font-size:1rem;font-weight:700;color:var(--green-dark);margin-bottom:14px}
+.thesis-pts{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.tp{display:flex;gap:8px;font-size:.82rem;color:var(--ink-soft);line-height:1.6}
+.tp::before{content:'\2022';color:var(--green-dark);font-weight:700;flex-shrink:0}
+
+/* ABOUT — Good Inside founder style */
+.about-wrap{display:grid;grid-template-columns:200px 1fr;gap:56px;align-items:center}
+.about-photo{width:120px;height:120px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:2.4rem;font-weight:700;color:var(--ink);margin:0 auto;box-shadow:0 6px 28px rgba(143,191,159,.3)}
+.about-text h2{font-family:var(--serif);font-size:clamp(1.6rem,2.3vw,2.2rem);font-weight:700;color:var(--ink);line-height:1.2;margin-bottom:15px}
+.about-text h2 em{font-style:italic;font-weight:300;color:var(--coral)}
+.about-text p{font-size:.9rem;color:var(--ink-soft);line-height:1.82;margin-bottom:12px}
+
+/* POLICY STRIP */
+.policy-strip{background:var(--cream-3);padding:16px 32px;display:flex;align-items:center;justify-content:center;gap:0;flex-wrap:wrap}
+.pb{display:flex;align-items:center;gap:7px;padding:7px 18px;font-size:.72rem;font-weight:600;color:var(--ink-soft);border-right:1px solid var(--border)}
+.pb:last-child{border-right:none}
+.pb-dot{width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0}
+
+/* FAQ — Good Inside style */
+.faq-wrap{max-width:680px;margin:0 auto;display:flex;flex-direction:column;gap:3px}
+.faq-item{border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.faq-q{background:#fff;padding:18px 22px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:14px;font-family:var(--serif);font-size:.96rem;font-weight:700;color:var(--ink);transition:background .15s;border:none;width:100%;text-align:left}
+.faq-q:hover{background:var(--cream)}
+.faq-arrow{font-size:.76rem;color:var(--ink-muted);transition:transform .25s;flex-shrink:0}
+.faq-a{background:var(--cream);padding:0 22px;max-height:0;overflow:hidden;transition:all .3s;font-size:.84rem;color:var(--ink-soft);line-height:1.78}
+.faq-item.open .faq-a{max-height:320px;padding:14px 22px 18px}
+.faq-item.open .faq-arrow{transform:rotate(180deg);color:var(--green-dark)}
+.faq-item.open .faq-q{color:var(--green-dark)}
+
+/* PRICING */
+.price-grid{display:grid;grid-template-columns:1fr 1.08fr 1fr;gap:12px}
+.price-card{background:#fff;border:1px solid var(--border);border-radius:var(--rl);padding:26px;transition:all .2s}
+.price-card:hover{box-shadow:var(--sh)}
+.price-feat{background:var(--cream-3);border-color:var(--coral-b);transform:scale(1.025)}
+.price-tier{font-size:.61rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:5px}
+.price-name{font-family:var(--serif);font-size:1.1rem;font-weight:700;color:var(--ink);margin-bottom:14px}
+.price-amt{display:flex;align-items:baseline;gap:2px;margin-bottom:4px}
+.price-sym{font-size:.9rem;font-weight:700;color:var(--ink)}
+.price-num{font-family:var(--serif);font-size:2.5rem;font-weight:700;color:var(--ink);line-height:1}
+.price-per{font-size:.76rem;color:var(--ink-muted)}
+.price-save{font-size:.71rem;color:var(--green-dark);font-weight:700;margin-bottom:18px;min-height:16px}
+.price-div{height:1px;background:var(--border);margin:16px 0}
+.price-feats{list-style:none;display:flex;flex-direction:column;gap:8px;margin-bottom:22px}
+.price-feats li{display:flex;gap:8px;font-size:.8rem;color:var(--ink-soft);align-items:flex-start}
+.pfc{font-weight:900;font-size:.73rem;margin-top:2px;flex-shrink:0}
+.pfc-g{color:var(--green-dark)}.pfc-c{color:var(--coral)}
+.btn-price{width:100%;padding:11px;border-radius:100px;font-family:var(--sans);font-weight:700;font-size:.82rem;cursor:pointer;transition:all .18s;border:none}
+.bp-out{background:transparent;color:var(--ink);border:2px solid var(--border)}
+.bp-out:hover{border-color:var(--green-dark);color:var(--green-dark)}
+.bp-coral{background:var(--coral);color:#fff}
+.bp-coral:hover{background:#a8552e}
+.bp-green{background:var(--green);color:var(--ink)}
+.bp-green:hover{background:var(--green-dark);color:#fff}
+.founder-bar{background:var(--coral-lt);border:1px solid var(--coral-b);border-radius:var(--r);padding:18px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:14px;flex-wrap:wrap}
+.founder-bar h4{font-family:var(--serif);font-size:.95rem;font-weight:700;color:var(--ink);margin-bottom:2px}
+.founder-bar p{font-size:.8rem;color:var(--ink-soft)}
+.btn-founder{background:var(--coral);color:#fff;border:none;font-family:var(--sans);font-weight:700;font-size:.8rem;padding:10px 22px;border-radius:100px;cursor:pointer;transition:all .18s;white-space:nowrap}
+.btn-founder:hover{background:#a8552e}
+
+/* SCHOOL */
+.school-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
+.school-card{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:22px}
+.school-card h3{font-family:var(--serif);font-size:.95rem;font-weight:700;color:var(--ink);margin-bottom:7px}
+.school-card p{font-size:.82rem;color:var(--ink-soft);line-height:1.7;margin-bottom:13px}
+.sl{list-style:none;display:flex;flex-direction:column;gap:5px}
+.sl li{font-size:.79rem;color:var(--ink-soft);display:flex;gap:7px}
+.sl li::before{content:'\2022';color:var(--green-dark);font-weight:700;flex-shrink:0}
+.school-bar{background:var(--green);border-radius:var(--r);padding:20px 24px;margin-top:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px}
+.school-bar h4{font-family:var(--serif);font-size:.95rem;font-weight:700;color:var(--ink);margin-bottom:2px}
+.school-bar p{font-size:.8rem;color:var(--ink-soft)}
+.btn-school{background:#fff;color:var(--green-dark);border:none;font-family:var(--sans);font-weight:700;font-size:.81rem;padding:10px 22px;border-radius:100px;cursor:pointer;transition:all .18s}
+.btn-school:hover{background:var(--green-lt)}
+
+/* CTA SECTION */
+.cta-sec{text-align:center;padding:80px 32px;background:var(--green);position:relative;overflow:hidden}
+.cta-sec::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 80% at 80% 20%,rgba(201,107,71,.1) 0%,transparent 60%)}
+.cta-inner{max-width:520px;margin:0 auto;position:relative}
+.cta-sec h2{font-family:var(--serif);font-size:clamp(1.9rem,3.2vw,3.2rem);font-weight:700;color:var(--ink);letter-spacing:-.03em;margin-bottom:14px;line-height:1.1}
+.cta-sec h2 em{font-style:italic;font-weight:300;color:var(--ink-soft)}
+.cta-sec p{font-size:.97rem;color:var(--ink-soft);line-height:1.78;margin-bottom:28px}
+.cta-form{display:flex;gap:7px;max-width:400px;margin:0 auto 11px}
+.cta-input{flex:1;background:rgba(255,255,255,.55);border:1.5px solid rgba(28,26,20,.14);color:var(--ink);font-family:var(--sans);font-size:.88rem;padding:11px 18px;border-radius:100px;outline:none}
+.cta-input::placeholder{color:var(--ink-muted)}
+.cta-input:focus{background:#fff;border-color:var(--ink-soft)}
+.cta-submit{background:var(--coral);color:#fff;border:none;font-family:var(--sans);font-weight:700;font-size:.82rem;padding:11px 20px;border-radius:100px;cursor:pointer;white-space:nowrap;transition:all .18s}
+.cta-submit:hover{background:#a8552e}
+.cta-fine{font-size:.71rem;color:var(--ink-muted)}
+.guarantee{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.4);border:1px solid rgba(28,26,20,.1);border-radius:100px;padding:6px 14px;font-size:.7rem;font-weight:600;color:var(--ink-soft);margin-top:14px}
+.guarantee::before{content:'\2713';color:var(--green-dark);font-weight:900}
+
+/* FOOTER */
+footer{background:var(--cream-2);border-top:1px solid var(--border);padding:36px 32px}
+.foot-inner{max-width:1040px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:18px}
+.foot-brand{font-family:var(--serif);font-size:.86rem;font-weight:700;color:var(--ink-muted)}
+.foot-links{display:flex;gap:18px;flex-wrap:wrap}
+.foot-links a{font-size:.73rem;color:var(--ink-muted);text-decoration:none;transition:color .15s}
+.foot-links a:hover{color:var(--ink)}
+.foot-copy{font-size:.7rem;color:var(--ink-light)}
+
+/* RESPONSIVE */
+@media(max-width:920px){
+  .stage-grid{grid-template-columns:repeat(2,1fr)}
+  .feat-wrap,.about-wrap{grid-template-columns:1fr;gap:36px}
+  .outcomes,.res-grid,.testi-grid{grid-template-columns:1fr}
+  .price-grid{grid-template-columns:1fr}
+  .price-feat{transform:none}
+  .school-grid{grid-template-columns:1fr}
+  .method-row .ms::after{display:none}
+  nav .nav-links{display:none}
+  .thesis-pts{grid-template-columns:1fr}
+}
+
+@media(max-width:520px){
+  .stage-grid{grid-template-columns:1fr}
+  .hero{padding:50px 20px 60px}
+  .sec{padding:60px 20px}
+  .policy-strip{flex-direction:column}
+  .pb{border-right:none;border-bottom:1px solid var(--border);width:100%;justify-content:center}
+  .pb:last-child{border-bottom:none}
+  nav{padding:0 18px}
+  .tab-bar{gap:2px;padding:0 16px}
+  .tab{padding:7px 13px;font-size:.76rem}
+}
+</style>
+</head>
+<body>
+
+<!-- ANNOUNCEMENT BAR — Good Inside urgency strip -->
+<div id="announce-bar" style="background:var(--green-lt);border-bottom:1px solid var(--green-b);padding:10px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;position:fixed;top:0;left:0;right:0;z-index:400;flex-wrap:wrap">
+  <span style="font-family:var(--sans);font-size:.78rem;font-weight:600;color:var(--ink-soft)">The UK government consultation on social media age restrictions closes <strong style="color:var(--ink)">May 2026</strong>. The pathway works either way.</span>
+  <button onclick="openModal('parent')" style="background:var(--coral);color:#fff;border:none;font-family:var(--sans);font-weight:700;font-size:.74rem;padding:7px 16px;border-radius:100px;cursor:pointer;white-space:nowrap;flex-shrink:0">Join the Waitlist</button>
+  <button onclick="document.getElementById('announce-bar').style.display='none'" style="background:none;border:none;font-size:1rem;cursor:pointer;color:var(--ink-muted);flex-shrink:0;padding:0 4px">&#215;</button>
+</div>
+
+<!-- NAV -->
+<nav style="top:44px">
+  <a href="#" class="logo">
+    <div class="logo-mark"><div class="bars"><div class="bar b1"></div><div class="bar b2"></div><div class="bar b3"></div><div class="bar b4"></div></div></div>
+    <span class="logo-name">Guided Childhood</span>
+  </a>
+  <div class="nav-links">
+    <button class="nav-btn" onclick="go('stages')">Find Your Stage</button>
+    <button class="nav-btn" onclick="go('how')">How It Works</button>
+    <button class="nav-btn" onclick="go('schools')">Schools</button>
+    <button class="nav-btn" onclick="go('pricing')">Pricing</button>
+  </div>
+  <div class="nav-r">
+    <button class="btn-nav" onclick="openModal('parent')">Join the Waitlist</button>
+  </div>
+</nav>
+
+<!-- AUDIENCE TABS -->
+<div class="tab-bar" role="tablist" style="margin-top:108px">
+  <button class="tab on" role="tab" aria-selected="true" onclick="switchTab('parents',this)">For Parents</button>
+  <button class="tab" role="tab" aria-selected="false" onclick="switchTab('teachers',this)">For Teachers &amp; Schools</button>
+</div>
+
+<!-- ══════════════ PARENTS TAB ══════════════ -->
+<div id="tab-parents" class="panel on">
+
+<!-- HERO — Good Inside model: eyebrow + headline + outcome bullets + single CTA + social proof + press -->
+<section class="hero" aria-label="Hero">
+  <!-- Eyebrow — hyper specific audience, exactly like Good Inside -->
+  <div style="font-family:var(--sans);font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:18px" class="fu d1">For parents of children aged 4 to 16</div>
+
+  <h1 class="h1 fu d2">Parenting the digital world<br>gets a lot <em>clearer</em> from here.</h1>
+
+  <p class="hero-sub fu d3">The only platform built on one consistent, research-backed approach to digital childhood — not random tips — from first screen to full access at 16.</p>
+
+  <!-- Outcome bullets — exactly like Good Inside's three-tick list -->
+  <ul class="fu d3" style="list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:32px;text-align:left;max-width:380px">
+    <li style="display:flex;align-items:flex-start;gap:10px;font-size:.9rem;color:var(--ink-soft)"><span style="color:var(--green-dark);font-weight:900;font-size:1rem;margin-top:1px">&#10003;</span>Know exactly what to say when the hard moment happens</li>
+    <li style="display:flex;align-items:flex-start;gap:10px;font-size:.9rem;color:var(--ink-soft)"><span style="color:var(--green-dark);font-weight:900;font-size:1rem;margin-top:1px">&#10003;</span>Handle every stage with calm and confidence</li>
+    <li style="display:flex;align-items:flex-start;gap:10px;font-size:.9rem;color:var(--ink-soft)"><span style="color:var(--green-dark);font-weight:900;font-size:1rem;margin-top:1px">&#10003;</span>Prepare your child for full digital access at 16 — not the cliff edge</li>
+  </ul>
+
+  <!-- Single dominant CTA — Good Inside warm gold button, full width on mobile -->
+  <div class="fu d4" style="width:100%;max-width:400px;margin-bottom:12px">
+    <button onclick="openModal('parent')" style="width:100%;background:var(--gold);color:var(--ink);border:none;font-family:var(--sans);font-weight:700;font-size:1rem;padding:17px 32px;border-radius:12px;cursor:pointer;transition:all .2s;letter-spacing:.01em">Join the Waitlist &#8594;</button>
+  </div>
+  <p class="hero-note fu d4">Get started in under 3 minutes &nbsp;&#183;&nbsp; Free to join &nbsp;&#183;&nbsp; Founder rate for first 50</p>
+
+  <!-- Stars + review count — Good Inside has this directly under CTA -->
+  <div class="fu d4" style="display:flex;align-items:center;gap:9px;margin-bottom:28px;justify-content:center">
+    <span style="color:var(--coral);font-size:.95rem;letter-spacing:2px">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+    <span style="font-size:.78rem;color:var(--ink-muted);font-weight:600">131 parents already on their pathway</span>
+  </div>
+
+  <!-- Press logos — Good Inside "Featured in" strip -->
+  <div class="fu d5" style="margin-bottom:44px">
+    <p style="font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-muted);text-align:center;margin-bottom:12px">Aligned with</p>
+    <div style="display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap">
+      <span style="background:var(--cream-2);border:1px solid var(--border);border-radius:100px;padding:5px 13px;font-size:.71rem;font-weight:700;color:var(--ink-muted)">Online Safety Act 2023</span>
+      <span style="background:var(--cream-2);border:1px solid var(--border);border-radius:100px;padding:5px 13px;font-size:.71rem;font-weight:700;color:var(--ink-muted)">DfE</span>
+      <span style="background:var(--cream-2);border:1px solid var(--border);border-radius:100px;padding:5px 13px;font-size:.71rem;font-weight:700;color:var(--ink-muted)">Statutory RSE</span>
+      <span style="background:var(--cream-2);border:1px solid var(--border);border-radius:100px;padding:5px 13px;font-size:.71rem;font-weight:700;color:var(--ink-muted)">Ofcom</span>
+    </div>
+  </div>
+
+</section>
+
+<!-- TICKER -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-inner">
+    <span class="ti"><strong>131 parents</strong> on their pathway<span class="tid"></span></span>
+    <span class="ti">Stage 1 to 5 &nbsp;·&nbsp; <strong>ages 4 to 16</strong><span class="tid"></span></span>
+    <span class="ti">Built on <strong>Odgers &middot; Orben &middot; Przybylski</strong><span class="tid"></span></span>
+    <span class="ti"><strong>Scripts</strong> for every hard moment<span class="tid"></span></span>
+    <span class="ti">DiGi &nbsp;·&nbsp; <strong>AI advisor any time</strong><span class="tid"></span></span>
+    <span class="ti">Aligned with <strong>Online Safety Act 2023</strong><span class="tid"></span></span>
+    <span class="ti"><strong>131 parents</strong> on their pathway<span class="tid"></span></span>
+    <span class="ti">Stage 1 to 5 &nbsp;·&nbsp; <strong>ages 4 to 16</strong><span class="tid"></span></span>
+    <span class="ti">Built on <strong>Odgers &middot; Orben &middot; Przybylski</strong><span class="tid"></span></span>
+    <span class="ti"><strong>Scripts</strong> for every hard moment<span class="tid"></span></span>
+    <span class="ti">DiGi &nbsp;·&nbsp; <strong>AI advisor any time</strong><span class="tid"></span></span>
+    <span class="ti">Aligned with <strong>Online Safety Act 2023</strong><span class="tid"></span></span>
+  </div>
+</div>
+
+<!-- DIGI COACH — Good Inside "Meet your 24/7 parenting coach" second screen -->
+<section style="background:var(--cream-2);padding:60px 32px;text-align:center">
+  <div style="max-width:560px;margin:0 auto">
+    <div style="font-family:var(--sans);font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green-dark);margin-bottom:14px">Your 24/7 digital parenting advisor</div>
+    <h2 style="font-family:var(--serif);font-size:clamp(1.8rem,3vw,2.6rem);font-weight:700;color:var(--ink);line-height:1.1;letter-spacing:-.03em;margin-bottom:20px">Meet DiGi</h2>
+    <ul style="list-style:none;display:flex;flex-direction:column;gap:12px;margin-bottom:28px;text-align:left;max-width:380px;margin-left:auto;margin-right:auto">
+      <li style="display:flex;align-items:flex-start;gap:10px;font-size:.92rem;color:var(--ink-soft)"><span style="color:var(--green-dark);font-weight:900;flex-shrink:0;margin-top:2px">&#10003;</span>Understand what your child is experiencing online</li>
+      <li style="display:flex;align-items:flex-start;gap:10px;font-size:.92rem;color:var(--ink-soft)"><span style="color:var(--green-dark);font-weight:900;flex-shrink:0;margin-top:2px">&#10003;</span>Get the exact words for any hard conversation</li>
+      <li style="display:flex;align-items:flex-start;gap:10px;font-size:.92rem;color:var(--ink-soft)"><span style="color:var(--green-dark);font-weight:900;flex-shrink:0;margin-top:2px">&#10003;</span>Available at 11pm when everything kicks off</li>
+    </ul>
+    <button onclick="openModal('parent')" style="background:var(--gold);color:var(--ink);border:none;font-family:var(--sans);font-weight:700;font-size:.95rem;padding:15px 36px;border-radius:12px;cursor:pointer;transition:all .2s;margin-bottom:10px">Join the Waitlist &#8594;</button>
+    <p style="font-size:.72rem;color:var(--ink-muted)">Like texting someone who has read all the research</p>
+  </div>
+</section>
+
+<!-- FIND YOUR STAGE — Good Inside core section -->
+<section class="sec" id="stages">
+  <div class="inner">
+    <div class="tc" style="margin-bottom:44px">
+      <span class="eye eye-c">The five stages</span>
+      <h2 class="h2">Find your stage</h2>
+      <p class="lead" style="margin:0 auto;text-align:center">Guided Childhood grows with your child. One framework, ages 4 to 16. Multiple children, one account.</p>
+    </div>
+    <div class="stage-grid">
+      <div class="sc sc1">
+        <div class="sc-num">Stage 01</div>
+        <div class="sc-name">Foundation</div>
+        <div class="sc-ages"><strong style="color:var(--ink-soft);font-size:.75rem">EYFS &amp; KS1 &nbsp;&middot;&nbsp; Yr R&ndash;2</strong><br><span style="font-size:.64rem;color:var(--ink-muted)">Ages 4&ndash;7</span> &nbsp;<span style="font-size:.59rem;color:var(--ink-light)">(US: K&ndash;2)</span></div>
+        <div class="sc-device sd1">Shared screen</div>
+        <div class="sc-tags"><span class="sc-tag">Co-viewing</span><span class="sc-tag">No solo device</span><span class="sc-tag">No feeds</span></div>
+        <div class="sc-quote">"I can't get my four-year-old off the iPad. What am I doing wrong?"</div>
+        <button class="sc-btn" onclick="openModal('parent')">Start here &#8594;</button>
+      </div>
+      <div class="sc sc2">
+        <div class="sc-num">Stage 02</div>
+        <div class="sc-name">First Steps</div>
+        <div class="sc-ages"><strong style="color:var(--ink-soft);font-size:.75rem">KS2 &nbsp;&middot;&nbsp; Yr 3&ndash;5</strong><br><span style="font-size:.64rem;color:var(--ink-muted)">Ages 8&ndash;10</span> &nbsp;<span style="font-size:.59rem;color:var(--ink-light)">(US: Gr 3&ndash;5)</span></div>
+        <div class="sc-device sd2">Restricted phone</div>
+        <div class="sc-tags"><span class="sc-tag">Family contacts</span><span class="sc-tag">Privacy basics</span><span class="sc-tag">Algorithms</span></div>
+        <div class="sc-quote">"How do I explain why their friends have phones and they don't?"</div>
+        <button class="sc-btn" onclick="openModal('parent')">Start here &#8594;</button>
+      </div>
+      <div class="sc sc3">
+        <div class="sc-num">Stage 03</div>
+        <div class="sc-crit">Critical window</div>
+        <div class="sc-name">Explorer</div>
+        <div class="sc-ages"><strong style="color:var(--ink-soft);font-size:.75rem">KS2/KS3 &nbsp;&middot;&nbsp; Yr 6&ndash;8</strong><br><span style="font-size:.64rem;color:var(--ink-muted)">Ages 11&ndash;13</span> &nbsp;<span style="font-size:.59rem;color:var(--ink-light)">(US: Gr 6&ndash;8)</span></div>
+        <div class="sc-device sd3">Guided smartphone</div>
+        <div class="sc-tags"><span class="sc-tag">No social media</span><span class="sc-tag">Comparison</span><span class="sc-tag">Orben research</span></div>
+        <div class="sc-quote">"Her mood drops every time she puts her phone down. I'm worried."</div>
+        <button class="sc-btn" onclick="openModal('parent')">Start here &#8594;</button>
+      </div>
+      <div class="sc sc4">
+        <div class="sc-num">Stage 04</div>
+        <div class="sc-name">Navigator</div>
+        <div class="sc-ages"><strong style="color:var(--ink-soft);font-size:.75rem">KS3/KS4 &nbsp;&middot;&nbsp; Yr 9&ndash;10</strong><br><span style="font-size:.64rem;color:var(--ink-muted)">Ages 13&ndash;15</span> &nbsp;<span style="font-size:.59rem;color:var(--ink-light)">(US: Gr 8&ndash;10)</span></div>
+        <div class="sc-device sd4">Monitored social</div>
+        <div class="sc-tags"><span class="sc-tag">Reputation</span><span class="sc-tag">Filter bubbles</span><span class="sc-tag">Readiness</span></div>
+        <div class="sc-quote">"He has accounts I don't know about. What do I do?"</div>
+        <button class="sc-btn" onclick="openModal('parent')">Start here &#8594;</button>
+      </div>
+      <div class="sc sc5">
+        <div class="sc-num">Stage 05</div>
+        <div class="sc-name">Independent</div>
+        <div class="sc-ages"><strong style="color:var(--ink-soft);font-size:.75rem">KS4/KS5 &nbsp;&middot;&nbsp; Yr 11+</strong><br><span style="font-size:.64rem;color:var(--ink-muted)">Ages 16+</span> &nbsp;<span style="font-size:.59rem;color:var(--ink-light)">(US: Gr 10+)</span></div>
+        <div class="sc-device sd5">Trust-based</div>
+        <div class="sc-tags"><span class="sc-tag">Full access</span><span class="sc-tag">AI literacy</span><span class="sc-tag">Vibe coding</span></div>
+        <div class="sc-quote">"She's 16 next month. I have no idea if she's ready."</div>
+        <button class="sc-btn" onclick="openModal('parent')">Start here &#8594;</button>
+      </div>
+    </div>
+    <p style="text-align:center;font-size:.78rem;color:var(--ink-muted);margin-top:22px">Multiple children? It's all one Guided Childhood account.</p>
+  </div>
+</section>
+
+<!-- THE METHOD — Good Inside framework section -->
+<section class="sec sec-alt" id="how">
+  <div class="inner">
+    <div class="tc">
+      <span class="eye eye-g">The Guided Childhood method</span>
+      <h2 class="h2">A framework that <em>changes everything</em></h2>
+      <p class="lead" style="margin:0 auto;text-align:center">A research-grounded framework. TRUST runs through every action, script, and lesson from age 4 to 16.</p>
+    </div>
+    <div class="method-row">
+      <div class="ms"><div class="ms-circle c1"><div class="ms-letter">T</div></div><div class="ms-word">Timing</div><div class="ms-desc">Right device at the right age. Not all-or-nothing. Not a cliff edge.</div></div>
+      <div class="ms"><div class="ms-circle c2"><div class="ms-letter">R</div></div><div class="ms-word">Relationships</div><div class="ms-desc">Connection is the strongest protective factor the research has found.</div></div>
+      <div class="ms"><div class="ms-circle c3"><div class="ms-letter">U</div></div><div class="ms-word">Upstream</div><div class="ms-desc">Environment before rules. Platform mechanics matter more than willpower.</div></div>
+      <div class="ms"><div class="ms-circle c4"><div class="ms-letter">S</div></div><div class="ms-word">Sleep</div><div class="ms-desc">The bedroom rule is the single highest-impact action in this system.</div></div>
+      <div class="ms"><div class="ms-circle c5"><div class="ms-letter">T</div></div><div class="ms-word">Transparency</div><div class="ms-desc">Openness over secrecy. Co-navigation over monitoring.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY I BUILT THIS — Good Inside founder placement -->
+<section class="sec">
+  <div class="inner">
+    <div class="about-wrap">
+      <div style="text-align:center">
+        <div class="about-photo">JP</div>
+        <p style="font-size:.71rem;color:var(--ink-muted);margin-top:11px;font-weight:700;line-height:1.6">Justin Phillips<br><span style="font-weight:400">Founder &middot; Guided Childhood<br>Father of three</span></p>
+      </div>
+      <div class="about-text">
+        <h2>Why I built <em>this</em></h2>
+        <p>I am a dad of three. During COVID I let my daughter watch YouTube for hours because I needed to keep our business running. I told myself it was fine. It was easier than saying no.</p>
+        <p>Then I noticed something changing in her. Her mood. Her attention. The way she reached for the screen the moment she was bored. I spent two years reading everything I could find. Professor Candace Odgers at UC Irvine. Dr Amy Orben at Cambridge. What they told me changed everything.</p>
+        <p>It is not the phone. It is the pathway. And nobody had built one.</p>
+        <button class="btn" style="margin-top:8px" onclick="openModal('parent')">Join the Waitlist</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EVERYTHING'S INCLUDED -->
+<section class="sec sec-alt">
+  <div class="inner">
+    <div class="feat-wrap">
+      <div>
+        <span class="eye eye-c">Everything is included</span>
+        <h2 class="h2">One membership.<br>Your child's whole<br><em>digital childhood.</em></h2>
+        <p class="lead" style="margin-bottom:28px">One approach. No contradiction. No overwhelm. When the hard moment happens at 11pm, you already know what to do.</p>
+        <button class="btn" onclick="openModal('parent')">Join the Waitlist</button>
+      </div>
+      <div class="feat-list">
+        <div class="fi"><div class="fi-icon fi1"><div class="fi-line"></div></div><div class="fi-text"><h3>Personalised weekly actions</h3><p>Three things every Monday, tailored to your child's exact stage. Each completable in under five minutes. Not homework. A habit.</p></div></div>
+        <div class="fi"><div class="fi-icon fi2"><div class="fi-line"></div></div><div class="fi-text"><h3>DiGi: AI advisor, any time</h3><p>Trained on the research. Available at 11pm when everything kicks off. Like having an expert in your pocket. Warm, direct, always practical.</p></div></div>
+        <div class="fi"><div class="fi-icon fi3"><div class="fi-line"></div></div><div class="fi-text"><h3>Scripts for every hard moment</h3><p>TikTok. Mood drops. Unknown contacts. "Everyone else has one." The exact words, word for word.</p></div></div>
+        <div class="fi"><div class="fi-icon fi4"><div class="fi-line"></div></div><div class="fi-text"><h3>Digital wellbeing tracker</h3><p>Weekly check-in with optional uploads: browsing data, AI usage, sleep. Trend chart over time. DiGi responds if concern emerges.</p></div></div>
+        <div class="fi"><div class="fi-icon fi5"><div class="fi-line"></div></div><div class="fi-text"><h3>Full curriculum: home and school</h3><p>Every lesson has a parent version and a school version. AI, dark web, vibe coding, deepfakes. Everything your child will encounter.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIGI -->
+<section class="sec">
+  <div class="inner">
+    <div class="feat-wrap">
+      <div>
+        <span class="eye eye-g">Meet DiGi</span>
+        <h2 class="h2">Your advisor,<br><em>always in your corner</em></h2>
+        <p class="lead" style="margin-bottom:22px">Available 24/7. Trained on the research of Odgers, Orben, and Przybylski. Calm and evidence-based. Like texting someone who has read everything.</p>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:26px">
+          <li style="font-size:.84rem;color:var(--ink-soft);display:flex;gap:9px;align-items:flex-start"><span style="color:var(--green-dark);font-weight:700;flex-shrink:0">&#8227;</span>When should my child get Instagram?</li>
+          <li style="font-size:.84rem;color:var(--ink-soft);display:flex;gap:9px;align-items:flex-start"><span style="color:var(--coral);font-weight:700;flex-shrink:0">&#8227;</span>I think something is wrong online.</li>
+          <li style="font-size:.84rem;color:var(--ink-soft);display:flex;gap:9px;align-items:flex-start"><span style="color:var(--green-dark);font-weight:700;flex-shrink:0">&#8227;</span>Give me the exact words for tonight.</li>
+          <li style="font-size:.84rem;color:var(--ink-soft);display:flex;gap:9px;align-items:flex-start"><span style="color:var(--coral);font-weight:700;flex-shrink:0">&#8227;</span>What does the UK social media guidance mean for us?</li>
+        </ul>
+        <button class="btn" onclick="openModal('parent')">Join the Waitlist</button>
+      </div>
+      <div class="chat">
+        <div class="chat-head">
+          <div class="chat-av">D</div>
+          <div><div class="chat-name">DiGi</div><div class="chat-status"><span class="chat-dot"></span>Guided Childhood Advisor &middot; Available now</div></div>
+        </div>
+        <div class="chat-body">
+          <div class="msg msg-d">Hi. What is on your mind about your child's digital childhood today?</div>
+          <div class="msg msg-u">My 11-year-old's mood drops every time she uses her phone. Should I be worried?</div>
+          <div class="msg msg-d">This is worth paying attention to. Dr Amy Orben's research identifies 11&ndash;13 as the peak sensitivity window, where social media shows the strongest link to lower life satisfaction, especially for girls.<br><br>Start tonight with this:<br><em>"I noticed you seem a bit flat after your phone. Does it ever leave you feeling worse?"</em><br><br>That one question opens more conversations than any rule.</div>
+        </div>
+        <div class="chat-foot">
+          <input class="chat-input" placeholder="Ask DiGi about your child's pathway..." aria-label="Ask DiGi">
+          <button class="chat-send" onclick="openModal('parent')">&#8594;</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT CHANGES — Good Inside 3-step outcome section -->
+<section class="sec sec-alt">
+  <div class="inner tc">
+    <span class="eye eye-c">What changes</span>
+    <h2 class="h2">How this shows up <em>in your home</em></h2>
+    <p class="lead" style="margin:0 auto;text-align:center">You are solving today's problem in a way that helps you and your child feel more capable tomorrow.</p>
+    <div class="outcomes">
+      <div class="oc">
+        <div class="oc-num n1">01</div>
+        <div class="oc-stage">The Beginning</div>
+        <h3>The hard moments don't make you spiral</h3>
+        <p>You have a framework, not a random tip. When the TikTok conversation happens, when the mood drops, when the unknown contact appears, you already know what to do.</p>
+        <div class="oc-tag ot1">Framework not tips</div>
+      </div>
+      <div class="oc">
+        <div class="oc-num n2">02</div>
+        <div class="oc-stage">The Shift</div>
+        <h3>Your child starts building the skills</h3>
+        <p>Resilience, self-regulation, digital literacy. Not because you went soft, but because you held the boundary and the connection at the same time.</p>
+        <div class="oc-tag ot2">Skills not compliance</div>
+      </div>
+      <div class="oc">
+        <div class="oc-num n3">03</div>
+        <div class="oc-stage">The Arrival</div>
+        <h3>You trust yourself as a parent</h3>
+        <p>Not because it got easy. Because you stopped needing it to be. The challenges change as they grow. Your approach does not have to.</p>
+        <div class="oc-tag ot3">Confidence not certainty</div>
+      </div>
+    </div>
+    <p style="font-family:var(--serif);font-size:.95rem;font-style:italic;color:var(--ink-soft);margin-top:36px">The challenges change as your child grows. Your approach doesn't.</p>
+    <div style="margin-top:24px"><button class="btn btn-c" onclick="openModal('parent')">Join the Waitlist</button></div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS + SHARE MOMENT — share here, after conviction -->
+<section class="sec">
+  <div class="inner">
+    <div class="tc" style="margin-bottom:36px">
+      <span class="eye eye-c">What parents say</span>
+      <h2 class="h2">It actually <em>works</em></h2>
+    </div>
+    <div class="testi-grid">
+      <div class="testi"><div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><div class="testi-txt">"I used to spiral every time the phone conversation came up. Now I have the exact words. It changed how we talk about it completely."</div><div class="testi-by">Sarah M. <span class="stage-pill">Stage 3</span></div></div>
+      <div class="testi"><div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><div class="testi-txt">"The weekly check-in is the thing I didn't know I needed. I spotted something shifting in my son before it became a real problem."</div><div class="testi-by">Tom K. <span class="stage-pill">Stage 4</span></div></div>
+      <div class="testi"><div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><div class="testi-txt">"My daughter and I are actually talking about this stuff now. DiGi gave me the language and the pathway gave me the confidence."</div><div class="testi-by">Clare H. <span class="stage-pill">Stage 3</span></div></div>
+    </div>
+
+    <!-- SHARE MOMENT — placed here after conviction -->
+    <div class="share-moment">
+      <p>Know a parent who needs this? Pass it on.</p>
+      <div class="share-btns">
+        <button class="share-btn" onclick="shareLink('whatsapp')">WhatsApp</button>
+        <button class="share-btn" onclick="shareLink('twitter')">Share on X</button>
+        <button class="share-btn" onclick="shareLink('email')">Send by email</button>
+        <button class="share-btn" onclick="shareLink('copy')">Copy link</button>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:48px">
+      <p style="font-family:var(--serif);font-size:clamp(1.2rem,1.9vw,1.7rem);font-weight:700;color:var(--ink);margin-bottom:10px">And in case you are wondering: no, it is not too late.</p>
+      <p style="font-size:.9rem;color:var(--ink-soft);max-width:420px;margin:0 auto 24px;line-height:1.78">There are more school pickups, more car journeys, more evenings ahead of you than behind you. The pathway starts from wherever you are.</p>
+      <button class="btn" onclick="openModal('parent')">Join the Waitlist</button>
+      <p style="font-size:.72rem;color:var(--ink-muted);margin-top:10px">14-day money-back guarantee on launch &nbsp;&#183;&nbsp; Cancel any time</p>
+    </div>
+  </div>
+</section>
+
+<!-- RESEARCH -->
+<section class="sec sec-alt">
+  <div class="inner">
+    <div class="tc" style="margin-bottom:36px">
+      <span class="eye eye-g">The research</span>
+      <h2 class="h2">Built on evidence, <em>not panic</em></h2>
+      <p class="lead" style="margin:0 auto;text-align:center">Every child benefits from a guided digital childhood. The research tells us which children need it most urgently — and we have designed for them too.</p>
+    </div>
+
+    <div class="res-grid">
+      <div class="rc"><h4>Prof. Candace Odgers</h4><div class="rc-uni">UC Irvine &middot; Duke University</div><p>Effects depend on vulnerability and environment, not just the device. Structure is protective.</p></div>
+      <div class="rc"><h4>Dr. Amy Orben</h4><div class="rc-uni">Cambridge MRC &middot; Oxford</div><p>Developmental sensitivity windows: 11&ndash;13 for girls, 14&ndash;15 for boys. These are the stages we protect most carefully.</p></div>
+      <div class="rc"><h4>Prof. Andrew Przybylski</h4><div class="rc-uni">Oxford Internet Institute</div><p>The Goldilocks effect. Moderate use is not inherently harmful. Too much, too early, structured wrong: that is where risk lives.</p></div>
+      <div class="rc"><h4>Prof. Sonia Livingstone</h4><div class="rc-uni">LSE, London</div><p>Children need skills and agency, not just restrictions. Every stage builds graduated digital skills.</p></div>
+    </div>
+
+    <div class="thesis" style="margin-bottom:18px">
+      <h3>Our thesis in plain language</h3>
+      <div class="thesis-pts">
+        <div class="tp">Social media amplifies existing vulnerabilities. It does not harm all children equally.</div>
+        <div class="tp">Environment and structure are more protective than any restriction or ban alone.</div>
+        <div class="tp">Ages 11&ndash;13 require the most care, especially for girls. That is exactly what Stage 3 is for.</div>
+        <div class="tp">Staged, graduated access with education builds the skills children actually need at 16.</div>
+      </div>
+    </div>
+
+    <!-- Vulnerable groups — a feature callout, not the headline -->
+    <div style="border:1px solid var(--border);border-radius:var(--r);padding:20px 24px;display:flex;align-items:flex-start;gap:16px;background:#fff">
+      <div style="flex-shrink:0;margin-top:2px">
+        <div style="width:10px;height:10px;border-radius:50%;background:var(--green)"></div>
+      </div>
+      <div>
+        <p style="font-size:.83rem;font-weight:700;color:var(--ink);margin-bottom:4px">Also designed for the most vulnerable</p>
+        <p style="font-size:.8rem;color:var(--ink-soft);line-height:1.72">The 2026 evidence briefing identifies six groups at highest risk: adolescent girls 11&ndash;15, children with pre-existing mental health conditions, LGBTQ+ youth, neurodivergent children, children from low-income backgrounds, and children aged 10&ndash;13. The platform includes tailored guidance for all six — in DiGi's responses, the curriculum, and the wellbeing tracker.</p>
+        <p style="font-size:.72rem;color:var(--ink-muted);margin-top:6px;font-style:italic">"It is not screen time. It is the pathway." &mdash; Who Is Actually Being Harmed, 2026</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- POLICY STRIP -->
+<div class="policy-strip">
+  <div class="pb"><span class="pb-dot"></span>Online Safety Act 2023</div>
+  <div class="pb"><span class="pb-dot"></span>Education for a Connected World (DfE)</div>
+  <div class="pb"><span class="pb-dot"></span>Statutory RSE &amp; Health Education</div>
+  <div class="pb"><span class="pb-dot"></span>Ofcom Media Literacy Framework</div>
+  <div class="pb"><span class="pb-dot"></span>DfE AI in Education Guidance 2025</div>
+</div>
+
+<!-- PRICING -->
+<section class="sec" id="pricing">
+  <div class="inner">
+    <div class="tc" style="margin-bottom:40px">
+      <span class="eye eye-g">Simple pricing</span>
+      <h2 class="h2">Join the waitlist. Be first<br>when we <em>launch</em>.</h2>
+    </div>
+    <div class="price-grid">
+      <div class="price-card">
+        <div class="price-tier">Free forever</div>
+        <div class="price-name">Starter Pack</div>
+        <div class="price-amt" style="align-items:center;gap:8px">
+          <span style="font-family:var(--serif);font-size:1.8rem;font-weight:700;color:var(--ink);line-height:1">Free</span>
+        </div>
+        <div class="price-save">Yours immediately on sign-up</div>
+        <div class="price-div"></div>
+        <ul class="price-feats">
+          <li><span class="pfc pfc-g">&#10003;</span>Age-stage roadmap</li>
+          <li><span class="pfc pfc-g">&#10003;</span>Family digital agreement template</li>
+          <li><span class="pfc pfc-g">&#10003;</span>5 conversation scripts</li>
+          <li><span class="pfc pfc-g">&#10003;</span>Warning signs checklist</li>
+          <li><span class="pfc pfc-g">&#10003;</span>Age restrictions guide</li>
+        </ul>
+        <button class="btn-price bp-out" onclick="openModal('parent')">Get Free Pack</button>
+      </div>
+      <div class="price-card price-feat">
+        <div class="price-tier">Most popular</div>
+        <div class="price-name">Guided Childhood OS</div>
+        <div class="price-amt"><span class="price-sym">£</span><span class="price-num">12.99</span><span class="price-per">/month</span></div>
+        <div class="price-save">Launching soon. Reserve your spot now.</div>
+        <div class="price-div"></div>
+        <ul class="price-feats">
+          <li><span class="pfc pfc-g">&#10003;</span>Full 5-stage dashboard</li>
+          <li><span class="pfc pfc-g">&#10003;</span>Weekly 3-action plan</li>
+          <li><span class="pfc pfc-g">&#10003;</span>All scripts and guides</li>
+          <li><span class="pfc pfc-g">&#10003;</span>Full curriculum, all lessons</li>
+          <li><span class="pfc pfc-g">&#10003;</span>Digital wellbeing tracker</li>
+          <li><span class="pfc pfc-c">&#10003;</span>DiGi AI advisor, unlimited</li>
+          <li><span class="pfc pfc-c">&#10003;</span>School lesson packs included</li>
+        </ul>
+        <button class="btn-price bp-coral" onclick="openModal('parent')">Reserve Your Spot</button>
+      </div>
+      <div class="price-card">
+        <div class="price-tier">Best value</div>
+        <div class="price-name">Annual OS</div>
+        <div class="price-amt"><span class="price-sym">£</span><span class="price-num">99</span><span class="price-per">/year</span></div>
+        <div class="price-save">Save £57. Two months free.</div>
+        <div class="price-div"></div>
+        <ul class="price-feats">
+          <li><span class="pfc pfc-g">&#10003;</span>Everything in monthly</li>
+          <li><span class="pfc pfc-g">&#10003;</span>Multi-child profiles</li>
+          <li><span class="pfc pfc-g">&#10003;</span>Priority DiGi access</li>
+          <li><span class="pfc pfc-g">&#10003;</span>School pack downloads</li>
+        </ul>
+        <button class="btn-price bp-green" onclick="openModal('parent')">Reserve Your Spot</button>
+      </div>
+    </div>
+    <div class="founder-bar">
+      <div><h4>Founder Rate: First 50 Members Only</h4><p>Lock in <strong>£7.99/month for life</strong>. Your 131 existing subscribers get 48-hour exclusive access on launch day.</p></div>
+      <button class="btn-founder" onclick="openModal('founder')">Claim Founder Rate</button>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ — Good Inside style with exact same questions structure -->
+<section class="sec sec-alt">
+  <div class="inner">
+    <div class="tc" style="margin-bottom:36px">
+      <span class="eye eye-g">Common questions</span>
+      <h2 class="h2">And in case you are <em>wondering</em></h2>
+    </div>
+    <div class="faq-wrap">
+      <div class="faq-item open">
+        <button class="faq-q" onclick="faq(this)" aria-expanded="true">Is this about banning phones? <span class="faq-arrow">&#9662;</span></button>
+        <div class="faq-a">No. Guided Childhood is not a ban. The research is clear: structure and timing protect children more than restriction. We give you the system to guide your child through the digital world, not to remove it from them.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="faq(this)" aria-expanded="false">How much time does it actually take? <span class="faq-arrow">&#9662;</span></button>
+        <div class="faq-a">This was made for busy parents, by a busy parent. Three actions per week, each under five minutes. The weekly check-in takes two minutes. DiGi answers in seconds. Most parents spend five to ten minutes a week. That is genuinely all.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="faq(this)" aria-expanded="false">I worry it is just too late for us. <span class="faq-arrow">&#9662;</span></button>
+        <div class="faq-a">It is not too late. There are more school pickups, more bedtimes, more conversations ahead of you than behind you. The system works from wherever you are starting. Stage 3 and 4 parents see real change within weeks.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="faq(this)" aria-expanded="false">What does the UK social media age guidance mean for us? <span class="faq-arrow">&#9662;</span></button>
+        <div class="faq-a">The UK government is consulting on age restrictions for under-16s. The Online Safety Act is already law and being enforced. Whether new restrictions pass or not, the pathway is the same. We built Guided Childhood because the research told us to, not because a law required it.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="faq(this)" aria-expanded="false">My partner is not on board yet. <span class="faq-arrow">&#9662;</span></button>
+        <div class="faq-a">Very common. Many members start on their own. The framework is evidence-based not fear-based, and most partners engage with that. Seeing it in action usually brings them around.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-sec">
+  <div class="cta-inner">
+    <h2>Get early access when<br>we <em>launch</em></h2>
+    <p>Join 131 parents already on the waitlist. Free starter pack sent immediately. Founder rate for the first 50.</p>
+    <div class="cta-form">
+      <input class="cta-input" type="email" id="cta-email" placeholder="Your email address" aria-label="Email">
+      <button class="cta-submit" onclick="submitMailchimp('cta-email','parent')">Get Early Access</button>
+    </div>
+    <div class="cta-fine" id="cta-msg">Free starter pack sent immediately &nbsp;&#183;&nbsp; No card &nbsp;&#183;&nbsp; Cancel any time</div>
+    <div class="guarantee">30-day money-back guarantee on launch</div>
+  </div>
+</section>
+
+</div><!-- end parents tab -->
+
+<!-- ══════════════ TEACHERS TAB ══════════════ -->
+<div id="tab-teachers" class="panel">
+
+<!-- TEACHER HERO -->
+<section class="hero" style="min-height:72vh">
+  <div class="hero-pill fu d1"><span class="pill-dot"></span>For PSHE Leads &middot; DSLs &middot; Class Teachers</div>
+  <h1 class="h1 fu d2" style="font-size:clamp(2.2rem,4.5vw,4.2rem)">A digital literacy curriculum<br>every school can <em>actually use</em>.</h1>
+  <p class="hero-sub fu d3">Ready-to-use lesson plans from EYFS to Sixth Form. Fully aligned with the Online Safety Act 2023, statutory RSE, and Education for a Connected World. Downloadable by UK Year Group. No prep required.</p>
+  <div class="hero-btns fu d4">
+    <button class="btn" onclick="openModal('school')">Get Free Assembly Pack &#8594;</button>
+    <button class="btn-out" onclick="go('school-content')">See What Is Included</button>
+  </div>
+  <p class="hero-note fu d4">Individual teacher licence from £49 &nbsp;&#183;&nbsp; School licence from £299 per year</p>
+  <div class="press-strip fu d5">
+    <span class="press-label">Aligned with</span>
+    <span class="press-badge">Online Safety Act 2023</span>
+    <span class="press-badge">Education for a Connected World</span>
+    <span class="press-badge">Statutory RSE</span>
+    <span class="press-badge">DfE AI Guidance 2025</span>
+  </div>
+</section>
+
+<!-- TICKER (teacher) -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-inner">
+    <span class="ti">Aligned with <strong>Online Safety Act 2023</strong><span class="tid"></span></span>
+    <span class="ti"><strong>Education for a Connected World</strong> framework<span class="tid"></span></span>
+    <span class="ti">Statutory <strong>RSE &amp; Health Education</strong><span class="tid"></span></span>
+    <span class="ti"><strong>DfE AI in Education</strong> guidance 2025<span class="tid"></span></span>
+    <span class="ti">All 8 <strong>UKCIS framework areas</strong> covered<span class="tid"></span></span>
+    <span class="ti">Aligned with <strong>Online Safety Act 2023</strong><span class="tid"></span></span>
+    <span class="ti"><strong>Education for a Connected World</strong> framework<span class="tid"></span></span>
+    <span class="ti">Statutory <strong>RSE &amp; Health Education</strong><span class="tid"></span></span>
+    <span class="ti"><strong>DfE AI in Education</strong> guidance 2025<span class="tid"></span></span>
+    <span class="ti">All 8 <strong>UKCIS framework areas</strong> covered<span class="tid"></span></span>
+  </div>
+</div>
+
+<!-- SCHOOL CONTENT -->
+<section class="sec sec-alt" id="school-content">
+  <div class="inner">
+    <div class="tc" style="margin-bottom:36px">
+      <span class="eye eye-c">What is included</span>
+      <h2 class="h2">Everything your school <em>needs</em></h2>
+      <p class="lead" style="margin:0 auto;text-align:center">A complete scheme of work from EYFS to Sixth Form. Mapped to UK Key Stages, Year Groups, and every statutory framework your school is accountable to.</p>
+    </div>
+    <div class="school-grid">
+      <div class="school-card">
+        <h3>Complete Scheme of Work</h3>
+        <p>21 half-term modules from EYFS to Year 13. Every lesson mapped to UK Year Group, Key Stage, and the statutory frameworks your school is accountable to. Filter by year group and download in one click.</p>
+        <ul class="sl">
+          <li><strong>EYFS &amp; KS1 (Yr R&ndash;2):</strong> screens, kindness, real vs not real</li>
+          <li><strong>KS2 (Yr 3&ndash;6):</strong> algorithms, privacy, internet safety, coding basics</li>
+          <li><strong>KS3 (Yr 7&ndash;9):</strong> social media, AI chatbots, deepfakes, dark web awareness</li>
+          <li><strong>KS4 (Yr 10&ndash;11):</strong> manipulation, sextortion, radicalisation, readiness for 16</li>
+          <li><strong>KS5 (Yr 12&ndash;13):</strong> AI mastery, data rights, vibe coding, future technology</li>
+          <li>Every lesson: teacher plan, pupil worksheet, slides, parent note</li>
+        </ul>
+      </div>
+      <div class="school-card">
+        <h3>Staff CPD and Training</h3>
+        <p>Two-hour CPD module for DSLs and PSHE leads. Self-paced online with downloadable facilitator guide. Completion tracking and CPD certificate included.</p>
+        <ul class="sl">
+          <li>Part 1: The research, the cliff edge, and the TRUST framework</li>
+          <li>Part 2: What children encounter online right now</li>
+          <li>Part 3: Safe classroom practice and disclosure response</li>
+          <li>Part 4: Using the scheme of work in your school</li>
+          <li>6 assemblies: KS1 through KS5 plus whole-school agreement</li>
+          <li>Primary and secondary parent evening packs included</li>
+        </ul>
+      </div>
+      <div class="school-card">
+        <h3>Policy and Statutory Compliance</h3>
+        <p>Ready-to-use templates for governors and senior leaders. One document shows every statutory requirement met. No preparation required.</p>
+        <ul class="sl">
+          <li>School digital behaviour policy template</li>
+          <li>Staff AI tools policy (DfE June 2025 aligned)</li>
+          <li>Online safety statement for school website</li>
+          <li>Statutory alignment document for governors</li>
+          <li>Maps to: Online Safety Act, RSE, Education for a Connected World, DfE AI Guidance</li>
+          <li>UK Key Stage and Year Group on every lesson</li>
+        </ul>
+      </div>
+    </div>
+    <div class="school-bar">
+      <div><h4>School DiGi: safeguarding advisor</h4><p>Educators get their own DiGi trained for safeguarding questions, statutory queries, and class preparation. GDPR compliant. No parent or child personal data visible to the school view.</p></div>
+      <button class="btn-school" onclick="openModal('school')">Learn More</button>
+    </div>
+  </div>
+</section>
+
+<!-- STATUTORY ALIGNMENT -->
+<section class="sec">
+  <div class="inner">
+    <div class="tc" style="margin-bottom:32px">
+      <span class="eye eye-g">Statutory alignment</span>
+      <h2 class="h2">Every legal requirement, <em>covered</em></h2>
+      <p class="lead" style="margin:0 auto;text-align:center">One printable document shows your governor every statutory requirement met. Built for Ofsted readiness.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:13px;max-width:800px;margin:0 auto 22px">
+      <div class="rc" style="border-left:3px solid var(--green)"><h4>Online Safety Act 2023</h4><div class="rc-uni">In force &middot; Ofcom enforcing &middot; Ofsted aware</div><p>Platforms must protect children. Schools must teach them to protect themselves. Guided Childhood provides the curriculum.</p></div>
+      <div class="rc" style="border-left:3px solid var(--coral)"><h4>Statutory RSE &amp; Health Education</h4><div class="rc-uni">Compulsory in all state schools from September 2020</div><p>Online safety is embedded throughout. Guided Childhood units directly cover the online safety components of both statutory subjects.</p></div>
+      <div class="rc" style="border-left:3px solid var(--gold)"><h4>Education for a Connected World</h4><div class="rc-uni">UKCIS 2020 &middot; DfE recommended</div><p>All 8 UKCIS framework areas covered across every Key Stage. Downloadable mapping document for Ofsted preparation included.</p></div>
+      <div class="rc" style="border-left:3px solid #9B7AC2"><h4>DfE AI in Education Guidance</h4><div class="rc-uni">June 2025 &middot; AI literacy by 2027</div><p>DfE plans AI literacy in the national curriculum by 2027. Guided Childhood already delivers this from KS3 onwards. Stay ahead of the standard.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SCHOOL PRICING -->
+<section class="sec sec-alt" id="schools">
+  <div class="inner">
+    <div class="tc" style="margin-bottom:36px">
+      <span class="eye eye-c">School pricing</span>
+      <h2 class="h2">From <em>£49 per year</em></h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
+      <div class="price-card">
+        <div class="price-tier">Individual</div>
+        <div class="price-name">Teacher Licence</div>
+        <div class="price-amt"><span class="price-sym">£</span><span class="price-num">49</span><span class="price-per">/year</span></div>
+        <div class="price-save">&nbsp;</div>
+        <div class="price-div"></div>
+        <ul class="price-feats">
+          <li><span class="pfc pfc-g">&#10003;</span>Single educator login</li>
+          <li><span class="pfc pfc-g">&#10003;</span>All lesson plans all stages</li>
+          <li><span class="pfc pfc-g">&#10003;</span>CPD module access</li>
+          <li><span class="pfc pfc-g">&#10003;</span>School DiGi</li>
+        </ul>
+        <button class="btn-price bp-out" onclick="openModal('school')">Enquire</button>
+      </div>
+      <div class="price-card price-feat">
+        <div class="price-tier">Up to 300 pupils</div>
+        <div class="price-name">Small School</div>
+        <div class="price-amt"><span class="price-sym">£</span><span class="price-num">299</span><span class="price-per">/year</span></div>
+        <div class="price-save">Most popular</div>
+        <div class="price-div"></div>
+        <ul class="price-feats">
+          <li><span class="pfc pfc-g">&#10003;</span>Unlimited educator logins</li>
+          <li><span class="pfc pfc-g">&#10003;</span>Full curriculum pack</li>
+          <li><span class="pfc pfc-g">&#10003;</span>Assembly materials</li>
+          <li><span class="pfc pfc-c">&#10003;</span>Policy template</li>
+          <li><span class="pfc pfc-c">&#10003;</span>School dashboard</li>
+        </ul>
+        <button class="btn-price bp-coral" onclick="openModal('school')">Enquire</button>
+      </div>
+      <div class="price-card">
+        <div class="price-tier">300&ndash;800 pupils</div>
+        <div class="price-name">Medium School</div>
+        <div class="price-amt"><span class="price-sym">£</span><span class="price-num">499</span><span class="price-per">/year</span></div>
+        <div class="price-save">&nbsp;</div>
+        <div class="price-div"></div>
+        <ul class="price-feats">
+          <li><span class="pfc pfc-g">&#10003;</span>Everything in small</li>
+          <li><span class="pfc pfc-g">&#10003;</span>Parent evening pack</li>
+          <li><span class="pfc pfc-g">&#10003;</span>Staff training module</li>
+          <li><span class="pfc pfc-g">&#10003;</span>Priority support</li>
+        </ul>
+        <button class="btn-price bp-green" onclick="openModal('school')">Enquire</button>
+      </div>
+      <div class="price-card">
+        <div class="price-tier">800+ or multi-site</div>
+        <div class="price-name">Large School / MAT</div>
+        <div class="price-amt"><span class="price-sym">£</span><span class="price-num">999+</span></div>
+        <div class="price-save">Custom pricing</div>
+        <div class="price-div"></div>
+        <ul class="price-feats">
+          <li><span class="pfc pfc-g">&#10003;</span>Everything in medium</li>
+          <li><span class="pfc pfc-g">&#10003;</span>Multi-site dashboard</li>
+          <li><span class="pfc pfc-g">&#10003;</span>Co-branded materials</li>
+          <li><span class="pfc pfc-g">&#10003;</span>Bespoke onboarding</li>
+        </ul>
+        <button class="btn-price bp-out" onclick="openModal('school')">Contact Us</button>
+      </div>
+    </div>
+    <p style="text-align:center;font-size:.78rem;color:var(--ink-muted);margin-top:14px">10% discount on 2-year school commitments &nbsp;&#183;&nbsp; Free assembly pack for all enquiries</p>
+  </div>
+</section>
+
+<!-- SCHOOL CTA -->
+<section class="cta-sec">
+  <div class="cta-inner">
+    <h2>Start with a free <em>assembly pack</em></h2>
+    <p>A 20-minute digital safety assembly, fully planned, no prep required. That is the entry point.</p>
+    <div class="cta-form">
+      <input class="cta-input" type="email" id="school-email" placeholder="Your school email" aria-label="School email">
+      <button class="cta-submit" onclick="submitMailchimp('school-email','school')">Get Free Pack</button>
+    </div>
+    <div class="cta-fine" id="school-msg">No commitment &nbsp;&#183;&nbsp; School licence only if you want one</div>
+  </div>
+</section>
+
+</div><!-- end teachers tab -->
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-inner">
+    <div class="foot-brand">Guided Childhood &mdash; The OS for Modern Parenting</div>
+    <div class="foot-links">
+      <a href="#">Home</a><a href="#">Find Your Stage</a><a href="#">Schools</a>
+      <a href="#">Pricing</a><a href="#">About</a><a href="#">Privacy</a><a href="#">Terms</a>
+    </div>
+    <div class="foot-copy">&copy; 2026 The Social Billboard &middot; Justin Phillips</div>
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div id="modal-overlay" style="display:none;position:fixed;inset:0;background:rgba(28,26,20,.55);z-index:500;align-items:center;justify-content:center;padding:20px" onclick="closeModal(event)">
+  <div id="modal-box" style="background:#fff;border-radius:20px;padding:36px;max-width:420px;width:100%;position:relative;box-shadow:0 20px 60px rgba(28,26,20,.18)">
+    <button onclick="closeModalDirect()" style="position:absolute;top:14px;right:16px;background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--ink-muted)">&#215;</button>
+
+    <div id="modal-parent" style="display:none">
+      <div style="display:inline-flex;align-items:center;gap:7px;background:var(--green-lt);border:1px solid var(--green-b);border-radius:100px;padding:4px 12px;font-size:.67rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--green-dark);margin-bottom:16px"><span style="width:5px;height:5px;border-radius:50%;background:var(--green);display:inline-block"></span>Launching Soon</div>
+      <h3 style="font-family:var(--serif);font-size:1.6rem;font-weight:700;color:var(--ink);margin-bottom:9px;line-height:1.2">Join the Guided Childhood waitlist</h3>
+      <p style="font-size:.86rem;color:var(--ink-soft);line-height:1.72;margin-bottom:20px">Free starter pack arrives immediately. Founder rate (£7.99/month for life) offered to the first 50. You get 48-hour advance access before public launch.</p>
+      <input type="email" id="modal-email" placeholder="Your email address" style="width:100%;background:var(--cream-2);border:1.5px solid var(--border);border-radius:100px;padding:11px 16px;font-family:var(--sans);font-size:.88rem;color:var(--ink);margin-bottom:9px;outline:none;display:block" onkeydown="if(event.key==='Enter')submitModal('parent')">
+      <button onclick="submitModal('parent')" style="width:100%;background:var(--green);color:var(--ink);border:none;font-family:var(--sans);font-weight:700;font-size:.9rem;padding:12px;border-radius:100px;cursor:pointer">Get Early Access</button>
+      <p id="modal-parent-msg" style="font-size:.73rem;color:var(--ink-muted);text-align:center;margin-top:9px">Free starter pack sent immediately. No card required.</p>
+    </div>
+
+    <div id="modal-founder" style="display:none">
+      <div style="display:inline-flex;align-items:center;gap:7px;background:var(--coral-lt);border:1px solid var(--coral-b);border-radius:100px;padding:4px 12px;font-size:.67rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--coral);margin-bottom:16px"><span style="width:5px;height:5px;border-radius:50%;background:var(--coral);display:inline-block"></span>First 50 Only</div>
+      <h3 style="font-family:var(--serif);font-size:1.6rem;font-weight:700;color:var(--ink);margin-bottom:9px;line-height:1.2">Claim your Founder Rate</h3>
+      <p style="font-size:.86rem;color:var(--ink-soft);line-height:1.72;margin-bottom:20px"><strong>£7.99/month locked for life.</strong> 48-hour exclusive access before public launch. Gone when 50 members claim it.</p>
+      <input type="email" id="modal-founder-email" placeholder="Your email address" style="width:100%;background:var(--cream-2);border:1.5px solid var(--border);border-radius:100px;padding:11px 16px;font-family:var(--sans);font-size:.88rem;color:var(--ink);margin-bottom:9px;outline:none;display:block" onkeydown="if(event.key==='Enter')submitModal('founder')">
+      <button onclick="submitModal('founder')" style="width:100%;background:var(--coral);color:#fff;border:none;font-family:var(--sans);font-weight:700;font-size:.9rem;padding:12px;border-radius:100px;cursor:pointer">Claim Founder Rate</button>
+      <p id="modal-founder-msg" style="font-size:.73rem;color:var(--ink-muted);text-align:center;margin-top:9px">You will hear from us 48 hours before public launch.</p>
+    </div>
+
+    <div id="modal-school" style="display:none">
+      <div style="display:inline-flex;align-items:center;gap:7px;background:var(--green-lt);border:1px solid var(--green-b);border-radius:100px;padding:4px 12px;font-size:.67rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--green-dark);margin-bottom:16px"><span style="width:5px;height:5px;border-radius:50%;background:var(--green);display:inline-block"></span>For Schools</div>
+      <h3 style="font-family:var(--serif);font-size:1.6rem;font-weight:700;color:var(--ink);margin-bottom:9px;line-height:1.2">Get your free assembly pack</h3>
+      <p style="font-size:.86rem;color:var(--ink-soft);line-height:1.72;margin-bottom:20px">A free 20-minute digital safety assembly, fully planned, no prep. Sent to your school email with no obligation.</p>
+      <input type="email" id="modal-school-email" placeholder="Your school email" style="width:100%;background:var(--cream-2);border:1.5px solid var(--border);border-radius:100px;padding:11px 16px;font-family:var(--sans);font-size:.88rem;color:var(--ink);margin-bottom:9px;outline:none;display:block" onkeydown="if(event.key==='Enter')submitModal('school')">
+      <button onclick="submitModal('school')" style="width:100%;background:var(--green);color:var(--ink);border:none;font-family:var(--sans);font-weight:700;font-size:.9rem;padding:12px;border-radius:100px;cursor:pointer">Send Me the Pack</button>
+      <p id="modal-school-msg" style="font-size:.73rem;color:var(--ink-muted);text-align:center;margin-top:9px">No commitment. School licence only if you want one.</p>
+    </div>
+
+    <div id="modal-success" style="display:none;text-align:center;padding:20px 0">
+      <div style="width:52px;height:52px;background:var(--green-lt);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:1.4rem;color:var(--green-dark)">&#10003;</div>
+      <h3 style="font-family:var(--serif);font-size:1.5rem;font-weight:700;color:var(--ink);margin-bottom:9px">You are on the pathway.</h3>
+      <p style="font-size:.86rem;color:var(--ink-soft);line-height:1.72;margin-bottom:20px" id="modal-success-msg">Check your inbox. Your free starter pack is on its way.</p>
+      <!-- Share inside success modal — highest-intent moment -->
+      <p style="font-size:.8rem;font-weight:700;color:var(--ink-muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:.06em">Know a parent who needs this?</p>
+      <div style="display:flex;gap:7px;justify-content:center;flex-wrap:wrap">
+        <button class="share-btn" onclick="shareLink('whatsapp')">WhatsApp</button>
+        <button class="share-btn" onclick="shareLink('email')">Email a friend</button>
+        <button class="share-btn" onclick="shareLink('copy')">Copy link</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── MAILCHIMP CONFIG ──
+const MC_URL  = 'https://YOUR_SUBDOMAIN.us1.list-manage.com/subscribe/post-json';
+const MC_U    = 'YOUR_MAILCHIMP_U';
+const MC_ID   = 'YOUR_MAILCHIMP_LIST_ID';
+const MC_TAGS = { parent:'WAITLIST_PARENT', founder:'WAITLIST_FOUNDER', school:'WAITLIST_SCHOOL' };
+
+function openModal(type) {
+  const ov = document.getElementById('modal-overlay');
+  ov.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+  ['parent','founder','school','success'].forEach(t =>
+    document.getElementById('modal-'+t).style.display = 'none');
+  document.getElementById('modal-'+type).style.display = 'block';
+  setTimeout(() => {
+    const inp = document.getElementById(
+      type === 'parent' ? 'modal-email' :
+      type === 'founder' ? 'modal-founder-email' : 'modal-school-email');
+    if (inp) inp.focus();
+  }, 80);
+}
+function closeModal(e) { if (e.target.id === 'modal-overlay') closeModalDirect(); }
+function closeModalDirect() {
+  document.getElementById('modal-overlay').style.display = 'none';
+  document.body.style.overflow = '';
+}
+function submitModal(type) {
+  const id = type === 'parent' ? 'modal-email' : type === 'founder' ? 'modal-founder-email' : 'modal-school-email';
+  const email = document.getElementById(id).value.trim();
+  if (!email || !email.includes('@')) { document.getElementById(id).style.borderColor = 'var(--coral)'; return; }
+  sendToMailchimp(email, type, () => {
+    document.getElementById('modal-'+type).style.display = 'none';
+    const msgs = {
+      parent: 'Check your inbox. Your free starter pack is on its way.',
+      founder: 'Founder rate locked. You will hear from us 48 hours before anyone else.',
+      school: 'Your free assembly pack will arrive shortly.'
+    };
+    document.getElementById('modal-success-msg').textContent = msgs[type];
+    document.getElementById('modal-success').style.display = 'block';
+  });
+}
+function submitMailchimp(inputId, type) {
+  const email = document.getElementById(inputId).value.trim();
+  const msgId = type === 'school' ? 'school-msg' : 'cta-msg';
+  if (!email || !email.includes('@')) { document.getElementById(inputId).style.borderColor = 'var(--coral)'; return; }
+  const msg = document.getElementById(msgId);
+  msg.textContent = 'Signing you up...';
+  sendToMailchimp(email, type, () => {
+    msg.style.color = 'var(--green-dark)';
+    msg.textContent = type === 'school'
+      ? 'Your free assembly pack is on its way.'
+      : 'You are on the pathway. Check your inbox for your free starter pack.';
+    document.getElementById(inputId).value = '';
+  });
+}
+function sendToMailchimp(email, type, cb) {
+  const params = new URLSearchParams({ u: MC_U, id: MC_ID, EMAIL: email, tags: MC_TAGS[type]||'', b_:'' });
+  const cbName = '_mc_'+Date.now();
+  window[cbName] = () => { delete window[cbName]; if(s.parentNode)s.parentNode.removeChild(s); cb(); };
+  const s = document.createElement('script');
+  s.src = MC_URL + '?' + params.toString() + '&c=' + cbName;
+  document.body.appendChild(s);
+  setTimeout(() => { if(window[cbName]) window[cbName](); }, 3000);
+}
+
+function switchTab(tab, el) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t => { t.classList.remove('on'); t.setAttribute('aria-selected','false'); });
+  document.getElementById('tab-'+tab).classList.add('on');
+  el.classList.add('on'); el.setAttribute('aria-selected','true');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function faq(el) {
+  const item = el.closest('.faq-item');
+  const open = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => { i.classList.remove('open'); i.querySelector('.faq-q').setAttribute('aria-expanded','false'); });
+  if (!open) { item.classList.add('open'); el.setAttribute('aria-expanded','true'); }
+}
+function go(id) { const el = document.getElementById(id); if(el) el.scrollIntoView({ behavior:'smooth', block:'start' }); }
+function shareLink(platform) {
+  const url  = 'https://guidedchildhood.co.uk';
+  const text = 'Guided Childhood — guide your child through every stage of digital life, from age 4 to 16.';
+  const btn  = event.currentTarget;
+  if (platform === 'whatsapp') window.open('https://wa.me/?text='+encodeURIComponent(text+' '+url));
+  else if (platform === 'twitter') window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(text)+'&url='+encodeURIComponent(url));
+  else if (platform === 'email') window.open('mailto:?subject=Guided Childhood — worth a look&body='+encodeURIComponent(text+'\n\n'+url));
+  else if (platform === 'copy') {
+    navigator.clipboard.writeText(url).then(() => {
+      const orig = btn.textContent; btn.textContent = 'Copied'; setTimeout(()=>btn.textContent=orig, 2000);
+    });
+  }
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModalDirect(); });
+</script>
+</body>
+</html>
