@@ -63,5 +63,5 @@ DNS records (add at 123-reg):
 ## Contact
 
 Justin Phillips
-The Social Billboard
-justin@guidedchildhood.co.uk
+The Guided Digital Pathway
+hello@guidedchildhood.co.uk
