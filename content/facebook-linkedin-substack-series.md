@@ -1,5 +1,5 @@
 # Guided Childhood — Facebook, LinkedIn & Substack Content Series
-## "The Guided Digital Pathway" — A Week-Long Campaign
+## "The Guided Digital Pathway" — A Week-Long Campaign + AI Safeguarding Extension
 ### Target: Teachers, School Leaders & Parents | Links to guidedchildhood.com
 
 ---
@@ -179,6 +179,39 @@ The challenge is getting them to 16 **ready** for full digital independence.
 That's what the pathway is for.
 
 → guidedchildhood.com
+
+---
+
+## FACEBOOK POST 8 — Monday (Week 2 or standalone)
+**Theme: AI — The Conversation Every Parent and Teacher Is Avoiding**
+
+Your child is already using AI.
+
+ChatGPT for homework. AI image generators. Voice cloning apps. Tools that can write, create, and deceive in seconds.
+
+Most schools have a policy. Most parents have a worry. Almost nobody has a framework.
+
+Here's what we know from the DfE's AI in Education Guidance (June 2025):
+
+Children need to understand AI tools — not just avoid them. Banning ChatGPT from school doesn't teach a child how to use it responsibly. It just moves the conversation somewhere adults aren't.
+
+The risks are real:
+— AI-generated deepfakes used in sextortion
+— Voice cloning used to impersonate trusted adults
+— AI chatbots that children form emotional attachments to
+— Homework completed without understanding — at scale
+
+The skills children need are equally real:
+— Prompt literacy (knowing what to ask and how)
+— Critical evaluation (knowing when AI output is wrong or manipulated)
+— Identity and authenticity (understanding what they produce vs what AI produces)
+— Ethical use (consent, copyright, transparency)
+
+This is Stage 5 of the Guided Digital Pathway. But the groundwork starts at Stage 3.
+
+→ See the AI curriculum at guidedchildhood.com
+
+*(For schools: the free assembly pack includes an AI-focused option)*
 
 ---
 
@@ -371,6 +404,53 @@ The only question is: which year group are you starting with?
 
 ---
 
+## LINKEDIN POST 8 — Monday (Week 2 or standalone)
+**Theme: AI in Schools — Why a Static Policy Is Already Out of Date**
+
+Most schools now have an AI policy.
+
+Most of those policies were written in 2023 or 2024, approved by governors, filed on the website, and haven't been revisited since.
+
+AI tools have changed more in the last 12 months than in the previous decade. A static policy is not a safeguard. It's a paper trail.
+
+What schools actually need is a **dynamic AI model** — a living framework that responds to how tools are evolving, not a document that reflects how they were.
+
+The DfE's AI in Education Guidance (June 2025) sets the current expectation. It covers:
+— Appropriate use of AI tools by staff
+— Safeguarding considerations around AI-generated content
+— Transparency obligations when AI is used in assessment or feedback
+— Student data protection in AI tool interactions
+
+**What a dynamic school AI model looks like in practice:**
+
+*For governors and senior leaders:*
+Termly AI policy review. Not annual. Tools, risks, and DfE guidance change faster than a 12-month cycle allows.
+
+*For PSHE leads and classroom teachers:*
+AI literacy is curriculum content, not just an acceptable use rule. Children need to understand how large language models work, why they hallucinate, and what responsible use looks like — before they encounter AI in a high-stakes context.
+
+*For DSLs:*
+AI-specific safeguarding risks require explicit inclusion in your safeguarding policy. These include: AI-generated CSAM, deepfake sextortion, voice cloning used in grooming, and children forming dependent relationships with AI companions.
+
+*For parents:*
+Home use of AI tools is not covered by the school's acceptable use policy. The gap between what children are permitted to do in school and what they're actually doing at home is where most AI risk lives.
+
+**The Guided Childhood AI curriculum covers:**
+— KS3: AI chatbots, deepfakes, identifying AI-generated content
+— KS4: Manipulation via AI, sextortion, AI and identity
+— KS5: AI mastery, prompt literacy, vibe coding, data rights, ethical AI use
+— Staff CPD: AI safeguarding, classroom AI practice, disclosure response
+
+Every lesson includes a parent note — because a school AI policy without parent alignment is only protecting children for six hours a day.
+
+The Guided Childhood school package includes a staff AI tools policy template, fully aligned to DfE June 2025 guidance. Ready to adopt or adapt.
+
+→ guidedchildhood.com — school enquiries welcome
+
+#AIinEducation #AIPolicy #Safeguarding #DigitalLiteracy #DSL #PSHE #EdTech #SchoolLeadership
+
+---
+
 ---
 
 # SUBSTACK NEWSLETTER
@@ -445,7 +525,7 @@ The answer is rarely that you gave them a screen. It's that the transition off-s
 
 **For schools:** EYFS content covers screens and kindness, real vs not real, and the difference between talking to people online and in person. Every child in Reception has already had significant screen exposure. The curriculum acknowledges this and works from where they actually are.
 
-→ Full Stage 1 resources at guidedchildhood.com
+→ [Full Stage 1 resources at guidedchildhood.com](https://www.guidedchildhood.com)
 
 ---
 
@@ -464,7 +544,7 @@ The script: "Some families choose different timings. Our plan is Stage 3 at age 
 
 **For schools:** KS2 modules cover algorithms, privacy basics, internet safety, and coding foundations. Each lesson includes a parent note — a single practical action the family can take that week to reinforce what was taught in class.
 
-→ Full Stage 2 resources at guidedchildhood.com
+→ [Full Stage 2 resources at guidedchildhood.com](https://www.guidedchildhood.com)
 
 ---
 
@@ -485,7 +565,7 @@ This is a measurable, documented phenomenon. The response: *"Start tonight with 
 
 **For schools:** Stage 3 maps to Years 6–8. This is the critical window for PSHE leads and pastoral teams. KS3 modules cover social media mechanics, AI chatbots, deepfakes, and dark web awareness. The content is not designed to frighten — it's designed to build pattern recognition in the children most likely to encounter harm.
 
-→ Full Stage 3 resources at guidedchildhood.com
+→ [Full Stage 3 resources at guidedchildhood.com](https://www.guidedchildhood.com)
 
 ---
 
@@ -502,7 +582,7 @@ The script: "I know you have some accounts I don't know about. I'm not going to 
 
 **For schools:** KS4 modules cover manipulation, sextortion, radicalisation, and preparation for full digital independence at 16. This is not about alarming students — it's about building the pattern recognition that makes manipulation harder to execute.
 
-→ Full Stage 4 resources at guidedchildhood.com
+→ [Full Stage 4 resources at guidedchildhood.com](https://www.guidedchildhood.com)
 
 ---
 
@@ -521,7 +601,43 @@ If you've followed the pathway: she is more ready than most. If you're starting 
 
 **For schools:** KS5 modules cover AI mastery, data rights, vibe coding, and future technology literacy — bridging digital safety and digital skills. Two conversations that have been separated for too long.
 
-→ Full Stage 5 resources at guidedchildhood.com
+→ [Full Stage 5 resources at guidedchildhood.com](https://www.guidedchildhood.com)
+
+---
+
+### The AI Layer — What Schools and Parents Are Getting Wrong
+
+AI has arrived in every classroom, every bedroom, and every pocket. Most schools have a policy. Most parents have a vague worry. Almost nobody has a framework.
+
+Here is what the DfE's AI in Education Guidance (June 2025) requires schools to have in place — and what it doesn't cover.
+
+**What it covers:**
+— Appropriate use of AI tools by staff in planning, assessment, and feedback
+— Transparency obligations when AI contributes to student-facing content
+— Student data protection in AI tool interactions
+— Responsibilities around AI-generated academic work
+
+**What it doesn't cover — and what schools therefore need to address themselves:**
+— How to teach children to use AI tools responsibly (prompt literacy, critical evaluation)
+— AI-specific safeguarding: deepfake sextortion, voice cloning, AI companion dependency, AI-generated harmful content
+— Home use, which falls entirely outside the school's acceptable use policy
+— The gap between what students are permitted to do in school and what they're doing at home
+
+**The dynamic model problem.** Most school AI policies were written in 2023 or 2024. AI tools have changed more in the last 12 months than in the previous decade. A static policy approved by governors and filed on the website is not a safeguard. It's a paper trail. Schools need a **termly** AI policy review, not an annual one.
+
+**What the Guided Childhood AI curriculum covers by key stage:**
+
+*KS3 (Years 7–9):* What AI chatbots are and how they work. How to identify AI-generated content. Deepfakes — what they are, how they're made, and what to do if you encounter one. AI and social comparison. The risks of forming emotional attachments to AI companions.
+
+*KS4 (Years 10–11):* How AI is used in manipulation and grooming. Sextortion — including AI-generated imagery. AI and identity: what it means to create something with AI vs as yourself. Consent and AI-generated likenesses.
+
+*KS5 (Years 12–13):* Prompt literacy. Critical evaluation of AI output. Vibe coding — working with AI as a creative and professional tool. Data rights. Ethical AI use. How AI tools will shape the workplace they're entering.
+
+**For DSLs specifically:** AI-generated CSAM and deepfake sextortion are now active safeguarding concerns, not theoretical ones. Your safeguarding policy needs explicit language covering AI-specific risks. The Guided Childhood DSL training module covers disclosure response for AI-related harm — a scenario most existing CPD does not address.
+
+**For parents:** The most important thing to understand about AI is that your child's school policy covers six hours a day. Everything else is your territory. The Guided Childhood platform gives parents the same AI literacy framing their child gets in school — so the conversation at home uses the same language, the same framework, and the same evidence base.
+
+**A note on the "just ban it" instinct.** The research on restriction without education is consistent: it produces compliance in controlled environments and unchecked behaviour everywhere else. Children who understand *why* AI tools require careful use make better decisions with those tools than children who have simply been told not to. The pathway applies to AI the same way it applies to social media: structure, education, and graduated access beat blanket restriction every time.
 
 ---
 
@@ -537,7 +653,7 @@ Every school enquiry receives a free assembly pack: a fully planned 20-minute di
 
 School licences from £49/year per teacher. Whole-school from £299/year.
 
-→ School enquiries: guidedchildhood.com
+→ [School enquiries: guidedchildhood.com](https://www.guidedchildhood.com)
 
 ---
 
@@ -556,7 +672,7 @@ Guided Childhood gives you:
 
 Start free. No card required.
 
-→ guidedchildhood.com
+→ [guidedchildhood.com](https://www.guidedchildhood.com)
 
 ---
 
@@ -568,7 +684,7 @@ That's what a pathway is for.
 
 *Justin Phillips*
 *Guided Childhood — The OS for Modern Parenting*
-*guidedchildhood.com*
+*[guidedchildhood.com](https://www.guidedchildhood.com)*
 
 ---
 
@@ -576,21 +692,22 @@ That's what a pathway is for.
 
 | Day | Facebook | LinkedIn | Substack |
 |-----|----------|----------|---------|
-| Monday | The Digital Cliff Edge | The Systemic Gap | Publish long-form |
+| Monday | The Digital Cliff Edge | The Systemic Gap | Publish long-form (inc. AI section) |
 | Tuesday | Stage 1: Foundation | What the Research Says | — |
 | Wednesday | Stage 3: Critical Window | TRUST Framework | — |
 | Thursday | TRUST Framework | 21 Modules Overview | — |
 | Friday | What Schools Can Do | The Compliance Gap | — |
 | Saturday | The Hard Conversations | Home-School Connection | — |
 | Sunday | Full CTA | Where to Start | — |
+| **Week 2 Monday** | **AI — The Conversation Everyone Is Avoiding** | **AI in Schools — Why a Static Policy Is Already Out of Date** | — |
 
 ## CROSS-LINKING STRATEGY
 
 - Every Facebook post ends with → guidedchildhood.com
 - Every LinkedIn post ends with → guidedchildhood.com
-- Substack links to the relevant stage at each section break
+- Substack links to the relevant stage page at each section break
 - Facebook Post 7 and LinkedIn Post 7 both reference the Substack as "the full breakdown this week"
-- Add to Facebook/LinkedIn bios for duration of series: "guidedchildhood.com — free for parents and schools"
+- Add to Facebook/LinkedIn bios for duration of series: "🔗 guidedchildhood.com — free for parents and schools"
 
 ## NOTES ON TONE
 
