@@ -1,7 +1,9 @@
 """Run the Guided Childhood daily briefing.
 
-After each run, saves agent outputs to agents/outputs/latest.json so the
-Mission Control dashboard can display them live.
+Each agent runs with the real outputs of upstream agents injected into their
+task description — so Navigator literally reads Scout's intelligence and
+Guardian's safeguarding watch before deciding who to target, Sage uses Scout's
+news hook, and so on. Pulse compiles everything into the founder email.
 
 Run:  python agents/daily_briefing.py
 Env:  ANTHROPIC_API_KEY, GMAIL_USER, GMAIL_APP_PASSWORD
@@ -12,23 +14,30 @@ from __future__ import annotations
 import json
 import os
 import sys
+import textwrap
 import traceback
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 
-# Support running as `python agents/daily_briefing.py` from repo root.
+# CrewAI validates OPENAI_API_KEY at import time even when using Claude.
+# Set a dummy value so the validation passes — it is never sent to OpenAI.
+os.environ.setdefault("OPENAI_API_KEY", "sk-not-used-we-use-anthropic-claude")
+
 try:
-    from agents.crew import build_agents, build_daily_tasks, build_llm
+    from agents.crew import build_agents, build_llm, TASKS_CFG
     from agents.email_template import render_briefing_html, render_plain
     from agents.tools.email_tool import send_briefing_email, DEFAULT_RECIPIENT
 except ModuleNotFoundError:
     sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    from agents.crew import build_agents, build_daily_tasks, build_llm
+    from agents.crew import build_agents, build_llm, TASKS_CFG
     from agents.email_template import render_briefing_html, render_plain
     from agents.tools.email_tool import send_briefing_email, DEFAULT_RECIPIENT
 
-from crewai import Crew, Process
+from crewai import Crew, Process, Task
+
+TODAY = date.today().isoformat()
 
 SPECIALISTS = ["scout", "guardian", "navigator", "sage", "herald", "compass"]
+
 DISPLAY = {
     "scout":    "Scout",
     "guardian": "Guardian",
@@ -48,15 +57,47 @@ AGENT_META = {
     "Pulse":     ("💓", "Daily Operations"),
 }
 
+CONTEXT_DEPS: dict[str, list[str]] = {
+    "scout":     [],
+    "guardian":  [],
+    "navigator": ["Scout", "Guardian"],
+    "sage":      ["Scout"],
+    "herald":    ["Scout", "Sage"],
+    "compass":   [],
+}
 
-def _run_single(agent, task) -> str:
+
+def _fmt(text: str) -> str:
+    return text.strip().replace("{date}", TODAY)
+
+
+def _build_task(key: str, agent, context_outputs: dict[str, str]) -> Task:
+    desc = _fmt(TASKS_CFG[f"{key}_task"]["description"])
+    expected = _fmt(TASKS_CFG[f"{key}_task"]["expected_output"])
+
+    deps = CONTEXT_DEPS.get(key, [])
+    relevant = {name: context_outputs[name] for name in deps if name in context_outputs}
+
+    if relevant:
+        header = textwrap.dedent("""
+
+            ---
+            INTELLIGENCE FROM YOUR TEAM — you MUST read this, reference specific
+            findings in your response, and build directly on what your colleagues
+            have already found. Do not duplicate their work; extend it.
+        """)
+        blocks = [f"\n### {name} says:\n{output}" for name, output in relevant.items()]
+        desc = desc + header + "\n".join(blocks)
+
+    return Task(description=desc, expected_output=expected, agent=agent)
+
+
+def _run_single(agent, task: Task) -> str:
     mini = Crew(agents=[agent], tasks=[task], process=Process.sequential, verbose=True)
-    result = mini.kickoff()
-    return str(result).strip()
+    return str(mini.kickoff()).strip()
 
 
 def _save_outputs(sections: dict, intro: str, failures: list) -> None:
-    """Save agent outputs to agents/outputs/latest.json for the dashboard."""
     now = datetime.now(timezone.utc)
     agents_data = {}
     for name, output in sections.items():
@@ -67,7 +108,6 @@ def _save_outputs(sections: dict, intro: str, failures: list) -> None:
             "output": output,
             "status": "error" if name in failures else "ok",
         }
-
     payload = {
         "run_date": now.strftime("%Y-%m-%d"),
         "run_time": now.strftime("%H:%M UTC"),
@@ -76,89 +116,87 @@ def _save_outputs(sections: dict, intro: str, failures: list) -> None:
         "summary": intro,
         "agents": agents_data,
     }
-
     out_dir = os.path.join(os.path.dirname(__file__), "outputs")
     os.makedirs(out_dir, exist_ok=True)
-    out_path = os.path.join(out_dir, "latest.json")
-    with open(out_path, "w", encoding="utf-8") as fh:
+    with open(os.path.join(out_dir, "latest.json"), "w", encoding="utf-8") as fh:
         json.dump(payload, fh, indent=2, ensure_ascii=False)
-    print(f"Saved outputs to {out_path}")
+    print(f"Saved outputs to {os.path.join(out_dir, 'latest.json')}")
 
 
 def main() -> int:
     if not os.getenv("ANTHROPIC_API_KEY"):
         print("WARNING: ANTHROPIC_API_KEY not set — the run will likely fail.")
 
-    now = datetime.now(timezone.utc)
-    today = now.strftime("%Y-%m-%d")
-    print(f"=== Guided Childhood daily briefing — {today} ===")
+    print(f"=== Guided Childhood daily briefing — {TODAY} ===")
 
     llm = build_llm()
     agents = build_agents(llm)
-    tasks = build_daily_tasks(agents)
 
+    collected: dict[str, str] = {}
     sections: dict[str, str] = {}
     failures: list[str] = []
 
     for key in SPECIALISTS:
         name = DISPLAY[key]
-        print(f"\n--- Running {name} ---")
+        print(f"\n--- Running {name} (context: {CONTEXT_DEPS.get(key, [])}) ---")
         try:
-            output = _run_single(agents[key], tasks[key])
-            sections[name] = output or "(no output produced)"
+            task = _build_task(key, agents[key], collected)
+            output = _run_single(agents[key], task)
+            result = output or "(no output produced)"
+            sections[name] = result
+            collected[name] = result
+            print(f"✓ {name} complete ({len(result)} chars)")
         except Exception as exc:
             failures.append(name)
-            sections[name] = f"⚠️ {name} could not complete today: {exc}"
+            err_msg = f"⚠️ {name} could not complete today: {exc}"
+            sections[name] = err_msg
+            collected[name] = err_msg
             print(f"!! {name} failed: {exc}")
             traceback.print_exc()
 
-    # Pulse compiles a top-line summary
-    collected = "\n\n".join(f"### {n}\n{t}" for n, t in sections.items())
-    pulse_prompt = (
-        f"Compile the Guided Childhood morning briefing for {today}.\n"
-        "Write a concise 3-4 sentence executive summary: the single most "
-        "important thing today, progress toward £1M ARR, and the one action "
-        "to take. Sections marked ⚠️ failed — acknowledge briefly.\n\n"
-        f"AGENT OUTPUTS:\n{collected}"
+    pulse_context = "\n\n".join(f"### {n}\n{t}" for n, t in sections.items())
+    pulse_desc = textwrap.dedent(f"""
+        You are compiling the Guided Childhood morning briefing for {TODAY}.
+        Below are the outputs from all six specialists on your team. Synthesise
+        them into a concise 3-4 sentence executive summary: the single most
+        important thing today, where Guided Childhood stands on the £1M ARR
+        mission, and the one action to take right now. Acknowledge any failures briefly.
+
+        AGENT OUTPUTS:
+        {pulse_context}
+    """)
+    pulse_task = Task(
+        description=pulse_desc.strip(),
+        expected_output="A 3-4 sentence executive summary followed by labelled sections for each agent.",
+        agent=agents["pulse"],
     )
 
     intro = ""
     try:
-        from crewai import Task
-        summary_task = Task(
-            description=pulse_prompt,
-            expected_output="A 3-4 sentence executive summary for the founder.",
-            agent=agents["pulse"],
-        )
-        intro = _run_single(agents["pulse"], summary_task)
+        intro = _run_single(agents["pulse"], pulse_task)
+        sections["Pulse"] = intro
     except Exception as exc:
         intro = (
-            f"Daily briefing for {today}. "
+            f"Daily briefing for {TODAY}. "
             f"{len(sections) - len(failures)}/{len(SPECIALISTS)} agents reported."
             + (f" Issues: {', '.join(failures)}." if failures else "")
         )
         print(f"!! Pulse summary failed, using fallback: {exc}")
 
-    # Save JSON for the dashboard (must happen before email send)
     try:
         _save_outputs(sections, intro, failures)
     except Exception as exc:
         print(f"!! Could not save outputs JSON: {exc}")
 
-    # Render + send email
     display_order = [DISPLAY[k] for k in SPECIALISTS]
     html_body = render_briefing_html(
-        title="Daily Briefing",
-        intro=intro,
-        sections=sections,
-        order=display_order,
-        briefing_date=today,
+        title="Daily Briefing", intro=intro, sections=sections,
+        order=display_order, briefing_date=TODAY,
     )
     text_body = render_plain("Daily Briefing", intro, sections, display_order)
-    subject = f"🌳 Guided Childhood — Daily Briefing {today}"
+    subject = f"🌳 Guided Childhood — Daily Briefing {TODAY}"
     status = send_briefing_email(subject, html_body, text_body, DEFAULT_RECIPIENT)
     print(f"\n{status}")
-
     print("=== Daily briefing complete ===")
     return 0
 
