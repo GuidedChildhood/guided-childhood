@@ -65,10 +65,10 @@ a { color:var(--green-dark); text-decoration:none; }
 .agent-card.error-card { border-left:4px solid var(--coral); }
 
 .agent-left {
-  flex-shrink:0; width:180px;
+  flex-shrink:0; width:200px;
   background:linear-gradient(160deg, var(--cream-2) 0%, var(--cream-3) 100%);
   display:flex; flex-direction:column; align-items:center;
-  padding:28px 16px 22px; gap:14px; border-right:1px solid var(--border);
+  padding:28px 16px 22px; gap:12px; border-right:1px solid var(--border);
 }
 .portrait-wrap { position:relative; }
 .portrait { width:120px; height:120px; border-radius:50%; object-fit:cover; object-position:top center; border:3px solid #fff; box-shadow:0 4px 20px rgba(28,26,20,.15); display:block; }
@@ -79,6 +79,8 @@ a { color:var(--green-dark); text-decoration:none; }
 .agent-name-panel .name { font-family:"Fraunces",serif; font-size:17px; font-weight:600; line-height:1.1; }
 .agent-name-panel .role-tag { font-size:11px; color:var(--ink-muted); font-weight:600; text-transform:uppercase; letter-spacing:.06em; margin-top:4px; }
 .agent-name-panel .emoji-role { font-size:18px; margin-bottom:4px; }
+.agent-produces { font-size:11.5px; color:var(--ink-soft); text-align:center; line-height:1.5; padding:8px 10px; background:rgba(255,255,255,.6); border-radius:8px; border:1px solid var(--border); }
+.agent-produces strong { display:block; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.07em; color:var(--ink-muted); margin-bottom:3px; }
 .last-ran { font-size:11px; color:var(--ink-muted); text-align:center; margin-top:auto; }
 
 .agent-right { flex:1; min-width:0; display:flex; flex-direction:column; }
@@ -99,11 +101,15 @@ a { color:var(--green-dark); text-decoration:none; }
 .output-pending { color:var(--ink-muted); font-style:italic; }
 
 .speak-box { padding:18px 24px; background:var(--cream-2); }
-.speak-header { display:flex; align-items:center; gap:8px; margin-bottom:10px; }
-.speak-avatar { width:28px; height:28px; border-radius:50%; object-fit:cover; object-position:top; border:2px solid var(--green-lt); }
-.speak-avatar-fallback { width:28px; height:28px; border-radius:50%; background:var(--green-lt); display:grid; place-items:center; font-size:14px; border:2px solid var(--green-lt); }
+.speak-header { display:flex; align-items:flex-start; gap:10px; margin-bottom:10px; }
+.speak-avatar { width:28px; height:28px; border-radius:50%; object-fit:cover; object-position:top; border:2px solid var(--green-lt); flex-shrink:0; margin-top:2px; }
+.speak-avatar-fallback { width:28px; height:28px; border-radius:50%; background:var(--green-lt); display:grid; place-items:center; font-size:14px; border:2px solid var(--green-lt); flex-shrink:0; }
+.speak-header-text { flex:1; }
 .speak-question { font-size:14px; font-weight:600; color:var(--ink); line-height:1.4; }
 .speak-question em { font-style:normal; color:var(--green-dark); }
+.speak-uses { margin-top:6px; display:flex; flex-wrap:wrap; gap:6px; }
+.speak-use-chip { font-size:11px; background:#fff; border:1px solid var(--border); color:var(--ink-soft); border-radius:999px; padding:3px 10px; cursor:pointer; transition:all .15s; white-space:nowrap; }
+.speak-use-chip:hover { background:var(--green-lt); border-color:var(--green); color:var(--green-dark); }
 .chat-thread { max-height:160px; overflow-y:auto; display:flex; flex-direction:column; gap:8px; margin-bottom:12px; }
 .chat-bubble { padding:9px 13px; border-radius:12px; font-size:13.5px; line-height:1.5; max-width:88%; }
 .chat-bubble.from-agent { background:#fff; border:1px solid var(--border); align-self:flex-start; color:var(--ink-soft); border-bottom-left-radius:4px; }
@@ -130,8 +136,9 @@ a { color:var(--green-dark); text-decoration:none; }
 
 @media(max-width:680px) {
   .agent-card { flex-direction:column; }
-  .agent-left { width:100%; flex-direction:row; padding:16px 20px; border-right:none; border-bottom:1px solid var(--border); }
+  .agent-left { width:100%; flex-direction:row; flex-wrap:wrap; padding:16px 20px; border-right:none; border-bottom:1px solid var(--border); gap:12px; }
   .agent-name-panel { text-align:left; }
+  .agent-produces { text-align:left; width:100%; }
   .last-ran { margin-top:0; margin-left:auto; align-self:flex-start; }
   .portrait, .portrait-fallback { width:72px; height:72px; }
   .pulse-card { flex-direction:column; }
@@ -155,7 +162,7 @@ a { color:var(--green-dark); text-decoration:none; }
 <div class="hero">
   <div class="eyebrow">Guided Childhood · Agent Team</div>
   <h1>Your AI Team</h1>
-  <p class="hero-sub">7 specialists working every morning. Each one tells you what to do.</p>
+  <p class="hero-sub">7 specialists working every morning. Each one tells you exactly what to do.</p>
   <div class="mission-row">
     <div class="mission-pill">Mission: <span class="pound">&nbsp;£1,000,000&nbsp;</span> ARR · Safer childhoods online</div>
   </div>
@@ -178,30 +185,54 @@ a { color:var(--green-dark); text-decoration:none; }
 const OUTPUTS_URL = "https://raw.githubusercontent.com/guidedchildhood/guided-childhood/main/agents/outputs/latest.json";
 
 const AGENTS = [
-  { key:"Scout",     emoji:"🔭", role:"Research & Market Intelligence",
+  {
+    key:"Scout", emoji:"🔭", role:"Research & Market Intelligence",
     portrait:"https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260604_110937_0f86eb13-a3e6-491e-914a-8ce28ebc7733_min.webp",
+    produces:"3–5 UK education & safeguarding news bullets with source links, so you always know what's happening before anyone else does.",
+    chatUses:["Focus more on Ofsted news this week","Prioritise Online Safety Act updates","I care most about MAT safeguarding stories"],
     defaultAction:"Read Scout's intelligence briefing and identify one item to act on in the next hour.",
-    defaultQuestion:"Which topic should I prioritise this week — Ofsted news, DfE policy, or Online Safety Act?" },
-  { key:"Guardian",  emoji:"🛡️", role:"Safeguarding & Child Safety",
+    defaultQuestion:"Which topic should I prioritise this week — Ofsted news, DfE policy, or Online Safety Act?"
+  },
+  {
+    key:"Guardian", emoji:"🛡️", role:"Safeguarding & Child Safety",
     portrait:"https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260604_110938_e131db40-4fec-4bd5-80fc-d225b8314285_min.webp",
+    produces:"One key safeguarding development + a 2–3 sentence 'how Guided Childhood should respond' recommendation specific enough to use in school outreach.",
+    chatUses:["Flag anything about KCSIE updates urgently","I'm speaking at a DSL event — what safeguarding angle is sharpest?","Which age group (primary/secondary) should I focus messaging on?"],
     defaultAction:"Share Guardian's safeguarding briefing with one school contact today.",
-    defaultQuestion:"Are there specific safeguarding scenarios you want me to flag more urgently?" },
-  { key:"Navigator", emoji:"🧭", role:"LinkedIn & Sales Growth",
+    defaultQuestion:"Are there specific safeguarding scenarios you want me to flag more urgently?"
+  },
+  {
+    key:"Navigator", emoji:"🧭", role:"LinkedIn & Sales Growth",
     portrait:"https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260604_110940_4ff3f70d-ec53-486d-ab3d-2cb6dace7263_min.webp",
+    produces:"5 copy-paste LinkedIn connection messages to DSLs, Headteachers and MAT leads — each one under 300 characters with a real news hook baked in.",
+    chatUses:["Target primary schools only this week","I sent messages #1 and #3 — mark as done","Focus on MAT safeguarding leads, not individual schools"],
     defaultAction:"Send the first connection request from Navigator's list — copy, paste, send. 90 seconds.",
-    defaultQuestion:"What tone is landing best with DSLs right now — safeguarding angle or EdTech value?" },
-  { key:"Sage",      emoji:"✍️", role:"Content & Thought Leadership",
+    defaultQuestion:"What tone is landing best with DSLs right now — safeguarding angle or EdTech value?"
+  },
+  {
+    key:"Sage", emoji:"✍️", role:"Content & Thought Leadership",
     portrait:"https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260604_110941_e1e71965-e8f3-4718-ad44-ffb32ad72950_min.webp",
+    produces:"One 200–300 word LinkedIn post built on today's real news hook — copy-paste ready, educator tone, 3–5 hashtags.",
+    chatUses:["Posted ✓ — got 12 reactions","Make tomorrow's post more conversational, less formal","Focus the next post on parents not teachers"],
     defaultAction:"Post Sage's LinkedIn draft right now — copy it, paste it, post it.",
-    defaultQuestion:"What's the one message about Guided Childhood you most want educators to remember?" },
-  { key:"Herald",    emoji:"📣", role:"PR & Media",
+    defaultQuestion:"What's the one message about Guided Childhood you most want educators to remember?"
+  },
+  {
+    key:"Herald", emoji:"📣", role:"PR & Media",
     portrait:"https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260604_110942_066eb808-751e-4472-8658-4a424af4ecd8_min.webp",
+    produces:"The single best PR opportunity of the day + a 3-sentence pitch ready to copy and email to a journalist or outlet right now.",
+    chatUses:["I want TES and Schools Week specifically","Sent this pitch — journalist replied, following up","Look for podcast opportunities not just press"],
     defaultAction:"Send Herald's pitch to the journalist identified today. One email, sent.",
-    defaultQuestion:"Which outlets or journalists are you most keen to land coverage in?" },
-  { key:"Compass",   emoji:"🎯", role:"Revenue & £1M Mission",
+    defaultQuestion:"Which outlets or journalists are you most keen to land coverage in?"
+  },
+  {
+    key:"Compass", emoji:"🎯", role:"Revenue & £1M Mission",
     portrait:"https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260604_110943_da31d1c8-c88a-4e2c-9796-09acc0d6ddcb_min.webp",
+    produces:"Current ARR vs £1M target, schools signed, parent subscribers, pipeline value — plus one do-it-today tactical revenue action.",
+    chatUses:["Update: signed 2 new schools this week","Pipeline note: St Mary's Academy close to signing","Focus on upsell to existing schools not new ones"],
     defaultAction:"Act on Compass's one tactical recommendation — the highest-leverage thing today.",
-    defaultQuestion:"What's the one deal or partnership that would move ARR the most right now?" },
+    defaultQuestion:"What's the one deal or partnership that would move ARR the most right now?"
+  },
 ];
 
 const PULSE_PORTRAIT = "https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260604_110944_297dd6a2-4545-422f-9d19-1df2f3797e95_min.webp";
@@ -219,6 +250,15 @@ function stripMeta(raw) {
 }
 function esc(s) { return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
 
+function fillReply(key, text) {
+  const ta = document.getElementById(`reply-${key}`);
+  if(!ta) return;
+  ta.value = text;
+  ta.focus();
+  ta.style.height = "52px";
+  ta.style.height = ta.scrollHeight + "px";
+}
+
 function sendReply(key) {
   const ta = document.getElementById(`reply-${key}`);
   const text = ta.value.trim();
@@ -227,6 +267,7 @@ function sendReply(key) {
   msgs.push({from:"you", text, time: new Date().toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"})});
   saveChat(key, msgs);
   ta.value = "";
+  ta.style.height = "52px";
   renderChat(key, msgs);
 }
 
@@ -255,6 +296,10 @@ function renderCard(cfg, data, container) {
   const msgs     = loadChat(cfg.key);
   const isError  = status==="error";
 
+  const chipsHtml = cfg.chatUses.map(u =>
+    `<span class="speak-use-chip" onclick="fillReply('${cfg.key}',${JSON.stringify(u)})">${esc(u)}</span>`
+  ).join("");
+
   const card = document.createElement("div");
   card.className = `agent-card ${raw?(isError?"error-card":"ok-card"):""}`;
   card.innerHTML = `
@@ -269,6 +314,10 @@ function renderCard(cfg, data, container) {
         <div class="emoji-role">${cfg.emoji}</div>
         <div class="name">${cfg.key}</div>
         <div class="role-tag">${cfg.role}</div>
+      </div>
+      <div class="agent-produces">
+        <strong>What I give you</strong>
+        ${esc(cfg.produces)}
       </div>
       <div class="last-ran">${data?"Ran today":"Pending"}</div>
     </div>
@@ -295,17 +344,20 @@ function renderCard(cfg, data, container) {
           <img class="speak-avatar" src="${cfg.portrait}" alt="${cfg.key}"
                onerror="this.style.display='none';this.nextElementSibling.style.display='grid';" />
           <div class="speak-avatar-fallback" style="display:none">${cfg.emoji}</div>
-          <div class="speak-question"><em>${cfg.key} asks:</em> &ldquo;${esc(question)}&rdquo;</div>
+          <div class="speak-header-text">
+            <div class="speak-question"><em>${cfg.key} asks:</em> &ldquo;${esc(question)}&rdquo;</div>
+            <div class="speak-uses">${chipsHtml}</div>
+          </div>
         </div>
         <div class="chat-thread" id="chat-${cfg.key}"></div>
         <div class="speak-input-row">
           <textarea class="speak-textarea" id="reply-${cfg.key}"
-            placeholder="Reply to ${cfg.key}…"
+            placeholder="Reply to ${cfg.key} — tap a suggestion above or write your own…"
             onkeydown="if(event.key==='Enter'&&(event.ctrlKey||event.metaKey))sendReply('${cfg.key}')"
             oninput="this.style.height='52px';this.style.height=this.scrollHeight+'px'"></textarea>
           <button class="send-btn" onclick="sendReply('${cfg.key}')">Send ↑</button>
         </div>
-        <div class="speak-hint">Ctrl+Enter to send · Replies saved locally</div>
+        <div class="speak-hint">Tap a suggestion to pre-fill · Ctrl+Enter to send · Replies saved locally and will guide tomorrow's run</div>
       </div>
     </div>`;
   container.appendChild(card);
