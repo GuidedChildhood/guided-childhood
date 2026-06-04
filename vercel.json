@@ -6,6 +6,10 @@
       "use": "@vercel/static"
     },
     {
+      "src": "agents.html",
+      "use": "@vercel/static"
+    },
+    {
       "src": "digitalwellbeing/index.html",
       "use": "@vercel/static"
     }
@@ -18,6 +22,14 @@
     {
       "src": "/digitalwellbeing/",
       "dest": "/digitalwellbeing/index.html"
+    },
+    {
+      "src": "/agents",
+      "dest": "/agents.html"
+    },
+    {
+      "src": "/agents/",
+      "dest": "/agents.html"
     },
     {
       "src": "/(.*)",
