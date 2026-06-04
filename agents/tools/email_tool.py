@@ -66,6 +66,16 @@ def send_html_email(
         return f"Email send failed: {exc}"
 
 
+def send_briefing_email(
+    subject: str,
+    html_body: str,
+    text_body: str = "",
+    to_address: str = DEFAULT_RECIPIENT,
+) -> str:
+    """Send the compiled daily/weekly briefing. Called directly by runner scripts."""
+    return send_html_email(subject, html_body, to_address, text_body or None)
+
+
 @tool("Send Email")
 def send_email_tool(subject: str, html_body: str) -> str:
     """Send an HTML email to the Guided Childhood founder.
