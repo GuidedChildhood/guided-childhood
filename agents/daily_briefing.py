@@ -36,6 +36,7 @@ from crewai import Crew, Process, Task
 
 TODAY = date.today().isoformat()
 
+# Run order — each key maps to its tasks.yaml entry
 SPECIALISTS = ["scout", "guardian", "navigator", "sage", "herald", "compass"]
 
 DISPLAY = {
@@ -57,13 +58,15 @@ AGENT_META = {
     "Pulse":     ("💓", "Daily Operations"),
 }
 
+# Which agents each specialist should read before doing their work.
+# The values are DISPLAY names so the injected headers match.
 CONTEXT_DEPS: dict[str, list[str]] = {
     "scout":     [],
     "guardian":  [],
-    "navigator": ["Scout", "Guardian"],
-    "sage":      ["Scout"],
-    "herald":    ["Scout", "Sage"],
-    "compass":   [],
+    "navigator": ["Scout", "Guardian"],   # outreach hooks from news + safeguarding
+    "sage":      ["Scout"],               # news hook for LinkedIn post
+    "herald":    ["Scout", "Sage"],       # news peg + content angle Sage chose
+    "compass":   [],                      # reads revenue_data.json directly
 }
 
 
@@ -72,6 +75,7 @@ def _fmt(text: str) -> str:
 
 
 def _build_task(key: str, agent, context_outputs: dict[str, str]) -> Task:
+    """Create a Task with real upstream outputs injected into the description."""
     desc = _fmt(TASKS_CFG[f"{key}_task"]["description"])
     expected = _fmt(TASKS_CFG[f"{key}_task"]["expected_output"])
 
@@ -86,7 +90,9 @@ def _build_task(key: str, agent, context_outputs: dict[str, str]) -> Task:
             findings in your response, and build directly on what your colleagues
             have already found. Do not duplicate their work; extend it.
         """)
-        blocks = [f"\n### {name} says:\n{output}" for name, output in relevant.items()]
+        blocks = []
+        for name, output in relevant.items():
+            blocks.append(f"\n### {name} says:\n{output}")
         desc = desc + header + "\n".join(blocks)
 
     return Task(description=desc, expected_output=expected, agent=agent)
@@ -118,20 +124,25 @@ def _save_outputs(sections: dict, intro: str, failures: list) -> None:
     }
     out_dir = os.path.join(os.path.dirname(__file__), "outputs")
     os.makedirs(out_dir, exist_ok=True)
-    with open(os.path.join(out_dir, "latest.json"), "w", encoding="utf-8") as fh:
+    out_path = os.path.join(out_dir, "latest.json")
+    with open(out_path, "w", encoding="utf-8") as fh:
         json.dump(payload, fh, indent=2, ensure_ascii=False)
-    print(f"Saved outputs to {os.path.join(out_dir, 'latest.json')}")
+    print(f"Saved outputs to {out_path}")
 
 
 def main() -> int:
-    if not os.getenv("ANTHROPIC_API_KEY"):
-        print("WARNING: ANTHROPIC_API_KEY not set — the run will likely fail.")
+    anthropic_key = os.getenv("ANTHROPIC_API_KEY", "")
+    if not anthropic_key:
+        print("ERROR: ANTHROPIC_API_KEY is not set — add it to GitHub Secrets. Agents will fail.")
+    else:
+        print(f"ANTHROPIC_API_KEY set (length {len(anthropic_key)}, starts {anthropic_key[:8]}...)")
 
     print(f"=== Guided Childhood daily briefing — {TODAY} ===")
 
     llm = build_llm()
     agents = build_agents(llm)
 
+    # Accumulated outputs keyed by DISPLAY name — shared between agents
     collected: dict[str, str] = {}
     sections: dict[str, str] = {}
     failures: list[str] = []
@@ -144,30 +155,38 @@ def main() -> int:
             output = _run_single(agents[key], task)
             result = output or "(no output produced)"
             sections[name] = result
-            collected[name] = result
+            collected[name] = result          # make available to downstream agents
             print(f"✓ {name} complete ({len(result)} chars)")
         except Exception as exc:
             failures.append(name)
             err_msg = f"⚠️ {name} could not complete today: {exc}"
             sections[name] = err_msg
-            collected[name] = err_msg
+            collected[name] = err_msg         # downstream agents see the failure
             print(f"!! {name} failed: {exc}")
             traceback.print_exc()
 
-    pulse_context = "\n\n".join(f"### {n}\n{t}" for n, t in sections.items())
+    # Pulse compiles everything — gets all six outputs as injected context
+    pulse_context = "\n\n".join(
+        f"### {n}\n{t}" for n, t in sections.items()
+    )
     pulse_desc = textwrap.dedent(f"""
         You are compiling the Guided Childhood morning briefing for {TODAY}.
         Below are the outputs from all six specialists on your team. Synthesise
         them into a concise 3-4 sentence executive summary: the single most
         important thing today, where Guided Childhood stands on the £1M ARR
-        mission, and the one action to take right now. Acknowledge any failures briefly.
+        mission, and the one action to take right now. Acknowledge any ⚠️
+        failures briefly. Then compile a clean scannable briefing with one
+        labelled section per agent.
 
         AGENT OUTPUTS:
         {pulse_context}
     """)
     pulse_task = Task(
         description=pulse_desc.strip(),
-        expected_output="A 3-4 sentence executive summary followed by labelled sections for each agent.",
+        expected_output=(
+            "A 3-4 sentence executive summary followed by clearly labelled "
+            "sections for each agent. Suitable for an HTML email."
+        ),
         agent=agents["pulse"],
     )
 
@@ -175,6 +194,7 @@ def main() -> int:
     try:
         intro = _run_single(agents["pulse"], pulse_task)
         sections["Pulse"] = intro
+        collected["Pulse"] = intro
     except Exception as exc:
         intro = (
             f"Daily briefing for {TODAY}. "
@@ -190,13 +210,17 @@ def main() -> int:
 
     display_order = [DISPLAY[k] for k in SPECIALISTS]
     html_body = render_briefing_html(
-        title="Daily Briefing", intro=intro, sections=sections,
-        order=display_order, briefing_date=TODAY,
+        title="Daily Briefing",
+        intro=intro,
+        sections=sections,
+        order=display_order,
+        briefing_date=TODAY,
     )
     text_body = render_plain("Daily Briefing", intro, sections, display_order)
     subject = f"🌳 Guided Childhood — Daily Briefing {TODAY}"
     status = send_briefing_email(subject, html_body, text_body, DEFAULT_RECIPIENT)
     print(f"\n{status}")
+
     print("=== Daily briefing complete ===")
     return 0
 
