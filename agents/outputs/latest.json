@@ -1,7 +1,7 @@
 {
   "run_date": "2026-06-04",
-  "run_time": "11:43 UTC",
-  "run_timestamp": "2026-06-04T11:43:16.854714+00:00",
+  "run_time": "11:57 UTC",
+  "run_timestamp": "2026-06-04T11:57:06.100294+00:00",
   "status": "partial (6 failed)",
   "summary": "Daily briefing for 2026-06-04. 0/6 agents reported. Issues: Scout, Guardian, Navigator, Sage, Herald, Compass.",
   "agents": {
