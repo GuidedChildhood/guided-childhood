@@ -18,6 +18,10 @@ import textwrap
 import traceback
 from datetime import date, datetime, timezone
 
+# CrewAI validates OPENAI_API_KEY at import time even when using Claude.
+# Set a dummy value so the validation passes — it is never sent to OpenAI.
+os.environ.setdefault("OPENAI_API_KEY", "sk-not-used-we-use-anthropic-claude")
+
 try:
     from agents.crew import build_agents, build_llm, TASKS_CFG
     from agents.email_template import render_briefing_html, render_plain
