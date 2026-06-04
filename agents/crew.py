@@ -17,10 +17,10 @@ import yaml
 from crewai import LLM, Agent, Crew, Process, Task
 
 from .tools import (
-    FileReadTool,
-    FileWriteTool,
-    SendEmailTool,
-    WebSearchTool,
+    web_search_tool,
+    file_read_tool,
+    file_write_tool,
+    send_email_tool,
 )
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -54,10 +54,10 @@ def build_llm() -> LLM:
 # --------------------------------------------------------------------------- #
 # Shared tool instances
 # --------------------------------------------------------------------------- #
-search_tool = WebSearchTool()
-file_read = FileReadTool()
-file_write = FileWriteTool()
-email_tool = SendEmailTool()
+search_tool = web_search_tool
+file_read = file_read_tool
+file_write = file_write_tool
+email_tool = send_email_tool
 
 
 # --------------------------------------------------------------------------- #
