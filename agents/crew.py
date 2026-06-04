@@ -4,7 +4,7 @@ This module builds the agents and tasks from the YAML configs, wires up the
 inter-agent context dependencies, and exposes factory functions for the daily
 (sequential) and weekly (hierarchical) crews.
 
-LLM: Claude via CrewAI's LLM class (model claude-opus-4-8).
+LLM: Claude via CrewAI's LLM class (model anthropic/claude-opus-4-8).
 """
 
 from __future__ import annotations
@@ -43,9 +43,13 @@ TASKS_CFG = _load_yaml("tasks.yaml")
 # LLM
 # --------------------------------------------------------------------------- #
 def build_llm() -> LLM:
-    """Build the Claude LLM. API key is read from the environment only."""
+    """Build the Claude LLM. API key is read from the environment only.
+
+    Using the 'anthropic/' prefix forces LiteLLM to route to Anthropic
+    regardless of whether the model name is in its built-in model registry.
+    """
     return LLM(
-        model="claude-opus-4-8",
+        model="anthropic/claude-opus-4-8",
         api_key=os.getenv("ANTHROPIC_API_KEY"),
         temperature=0.6,
     )
