@@ -292,6 +292,47 @@
   .ag-dur { font-size: 12px; color: var(--ink-muted); font-weight: 600; }
   .agenda-item input:checked ~ .ag-text { color: var(--ink-muted); text-decoration: line-through; }
 
+  /* LIVE OUTPUTS */
+  .live-meta {
+    display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+    margin-bottom: 22px; padding: 14px 20px;
+    background: var(--cream-2); border-radius: var(--r); border: 1px solid var(--border);
+  }
+  .live-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--green-dark); animation: pulse 2s infinite; flex-shrink: 0; }
+  .live-dot.pending { background: var(--gold); }
+  .live-time { font-weight: 700; font-size: 14px; color: var(--ink-soft); }
+  .live-status-badge {
+    margin-left: auto; font-size: 12px; font-weight: 700; padding: 4px 12px;
+    border-radius: 999px; background: var(--green-lt); color: var(--green-dark);
+    text-transform: uppercase; letter-spacing: .06em;
+  }
+  .live-status-badge.pending { background: var(--gold-lt); color: #a07010; }
+  .live-summary {
+    margin-bottom: 22px; padding: 18px 22px;
+    background: linear-gradient(135deg, var(--ink) 0%, #2a2619 100%);
+    border-radius: var(--rl); color: var(--cream);
+    font-size: 15.5px; line-height: 1.7;
+  }
+  .live-summary .ls-label { font-size: 11px; text-transform: uppercase; letter-spacing: .1em; color: var(--gold); font-weight: 700; margin-bottom: 8px; }
+  .live-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 18px; }
+  .live-card {
+    background: #fff; border: 1px solid var(--border); border-radius: var(--rl);
+    box-shadow: var(--sh); padding: 22px; animation: fadeUp .5s ease both;
+    border-top: 3px solid var(--green-dark);
+  }
+  .live-card-head { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+  .live-emoji { font-size: 26px; width: 46px; height: 46px; border-radius: 50%; background: var(--green-lt); display: grid; place-items: center; flex-shrink: 0; }
+  .live-name { font-family: "Fraunces", serif; font-size: 19px; font-weight: 600; }
+  .live-role { font-size: 12px; color: var(--ink-muted); font-weight: 600; }
+  .live-output {
+    font-size: 14px; line-height: 1.65; color: var(--ink-soft);
+    white-space: pre-wrap; word-break: break-word;
+    max-height: 220px; overflow-y: auto;
+    background: var(--cream-2); border-radius: var(--r); padding: 12px 14px;
+  }
+  .live-output.error { background: var(--coral-lt); color: var(--coral); }
+  .live-loading { text-align: center; padding: 40px; color: var(--ink-muted); font-size: 15px; }
+
   /* FUTURE AGENTS */
   .future-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 22px; }
   .future {
@@ -341,6 +382,7 @@
     <div class="nav-brand"><span class="dot"></span> Mission Control</div>
     <div class="nav-links">
       <a href="#dashboard">Dashboard</a>
+      <a href="#live">Live Outputs</a>
       <a href="#agents">Agents</a>
       <a href="#salesnav">Sales Navigator</a>
       <a href="#meeting">Weekly Meeting</a>
@@ -487,6 +529,17 @@
       <span class="meeting-when">📅 Every Monday 9:00am — 45 minutes</span>
       <ul class="agenda" id="agendaList"></ul>
     </div>
+  </div>
+</section>
+
+<!-- LIVE AGENT OUTPUTS -->
+<section id="live">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Today's Agent Outputs</h2>
+      <p class="lead">Live results from the last agent run — fetched directly from your agents. Refreshes every time you open this page.</p>
+    </div>
+    <div id="liveContainer"><div class="live-loading">⏳ Loading agent outputs…</div></div>
   </div>
 </section>
 
@@ -748,6 +801,71 @@
   window.addEventListener("load", () => {
     setTimeout(() => { document.getElementById("progressFill").style.width = "5%"; }, 300);
   });
+
+  // ---------- LIVE OUTPUTS ----------
+  const OUTPUTS_URL = "https://raw.githubusercontent.com/guidedchildhood/guided-childhood/main/agents/outputs/latest.json";
+
+  async function loadLiveOutputs() {
+    const container = document.getElementById("liveContainer");
+    try {
+      const res = await fetch(OUTPUTS_URL + "?_=" + Date.now());
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      const data = await res.json();
+      renderOutputs(container, data);
+    } catch (err) {
+      container.innerHTML = `<div class="live-loading">⚠️ Could not load agent outputs. The daily briefing may not have run yet, or outputs are pending.<br><small style="color:var(--ink-muted);margin-top:8px;display:block;">${err.message}</small></div>`;
+    }
+  }
+
+  function renderOutputs(container, data) {
+    const isPending = data.status === "pending" || !data.agents;
+    const dotClass = isPending ? "live-dot pending" : "live-dot";
+    const badgeClass = isPending ? "live-status-badge pending" : "live-status-badge";
+
+    let html = `
+      <div class="live-meta">
+        <div class="${dotClass}"></div>
+        <span class="live-time">Last run: ${data.run_date || "—"} at ${data.run_time || "—"}</span>
+        <span class="${badgeClass}">${data.status || "unknown"}</span>
+      </div>`;
+
+    if (data.summary) {
+      html += `
+      <div class="live-summary">
+        <div class="ls-label">💓 Pulse — Executive Summary</div>
+        ${escapeHtml(data.summary)}
+      </div>`;
+    }
+
+    if (data.agents && Object.keys(data.agents).length) {
+      html += `<div class="live-grid">`;
+      for (const [name, agent] of Object.entries(data.agents)) {
+        const outputClass = agent.status === "error" ? "live-output error" : "live-output";
+        html += `
+        <div class="live-card">
+          <div class="live-card-head">
+            <div class="live-emoji">${agent.emoji || "•"}</div>
+            <div>
+              <div class="live-name">${escapeHtml(name)}</div>
+              <div class="live-role">${escapeHtml(agent.role || "")}</div>
+            </div>
+          </div>
+          <div class="${outputClass}">${escapeHtml(agent.output || "(no output)")}</div>
+        </div>`;
+      }
+      html += `</div>`;
+    } else {
+      html += `<div class="live-loading">⏳ Agents have not run yet today. The daily briefing runs at 08:00 BST.</div>`;
+    }
+
+    container.innerHTML = html;
+  }
+
+  function escapeHtml(str) {
+    return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  }
+
+  loadLiveOutputs();
 </script>
 </body>
 </html>

@@ -1,0 +1,15 @@
+{
+  "run_date": "not yet run",
+  "run_time": "--:-- UTC",
+  "run_timestamp": null,
+  "status": "pending",
+  "summary": "Your agents haven't run yet. Trigger the Daily Agent Briefing workflow in GitHub Actions to see live outputs here.",
+  "agents": {
+    "Scout": {"emoji": "🔭", "role": "Research & Market Intelligence", "output": "No output yet — run the workflow to see today's intelligence briefing.", "status": "pending"},
+    "Guardian": {"emoji": "🛡️", "role": "Safeguarding & Child Safety", "output": "No output yet — run the workflow to see today's safeguarding update.", "status": "pending"},
+    "Navigator": {"emoji": "🧭", "role": "LinkedIn & Sales Growth", "output": "No output yet — run the workflow to see today's outreach targets.", "status": "pending"},
+    "Sage": {"emoji": "✍️", "role": "Content & Thought Leadership", "output": "No output yet — run the workflow to see today's LinkedIn post draft.", "status": "pending"},
+    "Herald": {"emoji": "📣", "role": "PR & Media", "output": "No output yet — run the workflow to see today's PR opportunity.", "status": "pending"},
+    "Compass": {"emoji": "🎯", "role": "Revenue & £1M Mission", "output": "No output yet — run the workflow to see today's revenue snapshot.", "status": "pending"}
+  }
+}
