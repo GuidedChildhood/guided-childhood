@@ -18,6 +18,9 @@ scout_task:
     A 3-5 bullet intelligence briefing. Each bullet: a one-line headline, a
     one-line "why it matters to Guided Childhood", and a source link.
     No preamble, no filler. Be specific — vague summaries are useless to the team.
+    End with exactly two lines:
+    YOUR ACTION TODAY: [one concrete sentence telling the founder what to do right now]
+    YOUR QUESTION: [one question you need answered to do better tomorrow]
 
 guardian_task:
   description: >
@@ -33,6 +36,9 @@ guardian_task:
     by a short, concrete "How Guided Childhood should respond" recommendation
     (2-3 sentences) that genuinely helps schools and children — specific enough
     that Navigator can quote it in a connection message.
+    End with exactly two lines:
+    YOUR ACTION TODAY: [one concrete sentence telling the founder what to do right now]
+    YOUR QUESTION: [one question you need answered to do better tomorrow]
 
 navigator_task:
   description: >
@@ -56,6 +62,9 @@ navigator_task:
     (b) why they are a good fit today specifically (cite the team intelligence),
     (c) a personalised connection message under 300 characters that leads with
     value, and (d) "Hook used: [exact finding from Scout or Guardian]".
+    End with exactly two lines:
+    YOUR ACTION TODAY: [one concrete sentence — e.g. "Send message #1 to the DSL at X academy right now"]
+    YOUR QUESTION: [one question you need answered to do better tomorrow]
 
 sage_task:
   description: >
@@ -74,6 +83,9 @@ sage_task:
     First line: "News hook used: [Scout finding]"
     Then: a finished LinkedIn post of 200-300 words, ready to copy and paste,
     with a strong opening line, a practical takeaway for educators, and 3-5 hashtags.
+    End with exactly two lines:
+    YOUR ACTION TODAY: [one concrete sentence — e.g. "Post this LinkedIn piece before 10am for best reach"]
+    YOUR QUESTION: [one question you need answered to do better tomorrow]
 
 herald_task:
   description: >
@@ -92,6 +104,9 @@ herald_task:
     First line: "Scout finding used: [the item you're building on]"
     Then: the top PR opportunity (outlet/journalist/hook, 1-2 lines) followed by
     a tight 3-sentence pitch Guided Childhood could send today.
+    End with exactly two lines:
+    YOUR ACTION TODAY: [one concrete sentence — e.g. "Email this pitch to [journalist] at [outlet] today"]
+    YOUR QUESTION: [one question you need answered to do better tomorrow]
 
 compass_task:
   description: >
@@ -104,6 +119,9 @@ compass_task:
     A short revenue snapshot: current ARR, gap to £1M, % complete, schools
     signed, parent subscribers, pipeline value. Then exactly ONE clear,
     do-it-today tactical recommendation with a rationale in one sentence.
+    End with exactly two lines:
+    YOUR ACTION TODAY: [the single most important revenue action right now]
+    YOUR QUESTION: [one question you need answered to sharpen the revenue recommendation tomorrow]
 
 pulse_daily_task:
   description: >
