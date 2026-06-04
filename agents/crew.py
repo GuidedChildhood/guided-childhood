@@ -43,15 +43,10 @@ TASKS_CFG = _load_yaml("tasks.yaml")
 # LLM
 # --------------------------------------------------------------------------- #
 def build_llm() -> LLM:
-    """Build the Claude LLM. API key is read from the environment only.
-
-    Using the 'anthropic/' prefix forces LiteLLM to route to Anthropic
-    regardless of whether the model name is in its built-in model registry.
-    """
+    """Build the Claude LLM. API key is read from the environment only."""
     return LLM(
         model="anthropic/claude-opus-4-8",
         api_key=os.getenv("ANTHROPIC_API_KEY"),
-        temperature=0.6,
     )
 
 
@@ -168,9 +163,6 @@ def build_daily_tasks(agents: dict[str, Agent]) -> dict[str, Task]:
 # --------------------------------------------------------------------------- #
 # Crew factories
 # --------------------------------------------------------------------------- #
-# Daily execution order (sequential): Scout -> Guardian -> Navigator -> Sage
-# -> Herald -> Compass -> Pulse. Note that CrewAI still honours `context`, so
-# downstream tasks receive upstream outputs regardless of list order.
 DAILY_ORDER = ["scout", "guardian", "navigator", "sage", "herald", "compass", "pulse"]
 
 
@@ -188,11 +180,7 @@ def build_daily_crew(llm: LLM | None = None) -> tuple[Crew, dict[str, Task], dic
 
 
 def build_weekly_crew(llm: LLM | None = None) -> tuple[Crew, dict[str, Agent]]:
-    """Hierarchical weekly meeting with Pulse as manager.
-
-    In a hierarchical process the manager agent delegates to the workers, so
-    information genuinely passes between agents as Pulse coordinates them.
-    """
+    """Hierarchical weekly meeting with Pulse as manager."""
     llm = llm or build_llm()
     agents = build_agents(llm)
 
@@ -202,11 +190,10 @@ def build_weekly_crew(llm: LLM | None = None) -> tuple[Crew, dict[str, Agent]]:
     weekly_task = Task(
         description=_fmt(TASKS_CFG["pulse_weekly_task"]["description"]),
         expected_output=_fmt(TASKS_CFG["pulse_weekly_task"]["expected_output"]),
-        # No agent assigned: the manager decides delegation in hierarchical mode.
     )
 
     crew = Crew(
-        agents=[agents[k] for k in workers],  # workers only; manager is separate
+        agents=[agents[k] for k in workers],
         tasks=[weekly_task],
         process=Process.hierarchical,
         manager_agent=manager,
