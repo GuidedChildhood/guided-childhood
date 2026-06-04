@@ -1,0 +1,107 @@
+# Task definitions for the Guided Childhood crew.
+# Context wiring (which task feeds which) and agent assignment are done in
+# crew.py, because YAML cannot reference Python Task/Agent objects. The {date}
+# placeholder is substituted at runtime with today's ISO date.
+
+scout_task:
+  description: >
+    Research today's ({date}) most important UK news in education,
+    safeguarding and children's digital literacy. Prioritise:
+    Department for Education and Ofqual announcements, the Online Safety Act
+    and Ofcom enforcement, NSPCC / Internet Matters / Childnet reports, Ofsted
+    framework changes, and notable EdTech moves. Use web search to verify and
+    find sources. For each item explain in one line WHY it matters to Guided
+    Childhood, a platform helping children aged 4-16 navigate digital life
+    safely.
+  expected_output: >
+    A 3-5 bullet intelligence briefing. Each bullet: a one-line headline, a
+    one-line "why it matters", and a source link. No preamble, no filler.
+
+guardian_task:
+  description: >
+    Monitor NSPCC, Ofsted, Ofcom and UK government sources for the most
+    significant CHILD-SAFETY / safeguarding development relevant to Guided
+    Childhood as of {date}. Use web search. Child welfare is the priority —
+    be responsible and never fear-monger.
+  expected_output: >
+    One clearly-stated key safeguarding development (with source link) followed
+    by a short, concrete "How Guided Childhood should respond" recommendation
+    (2-3 sentences) that genuinely helps schools and children.
+
+navigator_task:
+  description: >
+    Identify FIVE high-value LinkedIn outreach targets for Guided Childhood for
+    today ({date}): UK Designated Safeguarding Leads, Headteachers, Deputy
+    Heads, MAT safeguarding leads or PSHE leads. Use web search to find real,
+    plausible profile types and current hooks. Where today's news (from the
+    research briefing) gives a timely reason to reach out, use it. Children's
+    online safety must be the genuine value lead — never salesy.
+  expected_output: >
+    A numbered list of 5 targets. For each: (a) role + the kind of school/MAT,
+    (b) why they're a good fit now, (c) a personalised connection message under
+    300 characters that leads with value about keeping children safe online.
+
+sage_task:
+  description: >
+    Write ONE ready-to-publish LinkedIn post (200-300 words) for today ({date})
+    for an audience of UK educators, DSLs and Headteachers. Position Guided
+    Childhood as the trusted voice on digital childhood and online safety for
+    ages 4-16. If the research briefing surfaced a relevant news hook, build the
+    post around it. Warm, authoritative, practical — one clear takeaway, a
+    light call to engagement, and 3-5 relevant hashtags. No buzzwords, no
+    generic motivational filler.
+  expected_output: >
+    A finished LinkedIn post of 200-300 words, ready to copy and paste,
+    including a strong opening line, a practical takeaway and 3-5 hashtags.
+
+herald_task:
+  description: >
+    Identify the single best PR opportunity of the day ({date}) for Guided
+    Childhood related to children's digital safety — a journalist request, a
+    media hook, or a news peg (use the research briefing where relevant). Use
+    web search. Then draft a tight pitch.
+  expected_output: >
+    The top PR opportunity (1-2 lines, with source/outlet if known) followed by
+    a 3-sentence draft pitch Guided Childhood could send today.
+
+compass_task:
+  description: >
+    Read the current revenue metrics from revenue_data.json. Calculate the
+    distance to the £1,000,000 annual ARR target (absolute gap and percent
+    complete), comment briefly on schools signed, parent subscribers and
+    pipeline value, and recommend ONE concrete tactical action that would most
+    accelerate ARR this week. Today is {date}.
+  expected_output: >
+    A short revenue snapshot (current ARR, gap to £1M, % complete, schools,
+    subscribers, pipeline) followed by exactly ONE clear tactical
+    recommendation.
+
+pulse_daily_task:
+  description: >
+    You are compiling the Guided Childhood morning briefing for {date}. You
+    have received the outputs of all six other agents as context: the research
+    briefing (Scout), the safeguarding watch (Guardian), the 5 LinkedIn targets
+    (Navigator), today's LinkedIn post (Sage), the PR opportunity (Herald) and
+    the revenue snapshot (Compass). Compile them into one clean, scannable
+    briefing. If any single agent's output is missing or errored, note it
+    briefly and continue with the rest — never block the briefing. Then the
+    email tool will deliver it to the founder.
+  expected_output: >
+    A clean, well-structured daily briefing with a short top-line summary
+    followed by a clearly labelled section for each agent's contribution
+    (Research, Safeguarding, LinkedIn Targets, Today's Post, PR, Revenue).
+    Suitable for rendering into an HTML email.
+
+pulse_weekly_task:
+  description: >
+    Chair the Guided Childhood weekly Monday meeting for the week of {date}.
+    As manager, coordinate all six specialists, ensure information genuinely
+    flows between them (Scout's intelligence should inform Sage and Herald;
+    Guardian's safeguarding read should inform Navigator's outreach; Compass
+    should tie everything back to the £1M mission), and produce a strategic
+    weekly plan. Delegate as needed.
+  expected_output: >
+    A weekly strategic briefing: top 3 priorities for the week, each agent's
+    key contribution and assigned action, explicit cross-agent hand-offs, and a
+    single most-important focus for hitting £1M ARR while keeping children
+    safer online.
