@@ -1,0 +1,11 @@
+# Guided Childhood agent system dependencies.
+# Pinned to compatible major versions; loosen if you upgrade deliberately.
+
+crewai>=0.80.0
+crewai-tools>=0.14.0
+anthropic>=0.39.0
+ddgs>=6.0.0
+duckduckgo-search>=6.0.0
+pyyaml>=6.0
+pydantic>=2.6
+python-dotenv>=1.0.0

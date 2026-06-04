@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mission Control — Guided Childhood Agent Team</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --cream: #FDFCF8;
+    --cream-2: #F7F4EB;
+    --cream-3: #EEE8D0;
+    --ink: #1C1A14;
+    --ink-soft: #453E30;
+    --ink-muted: #8A7E64;
+    --green: #8FBF9F;
+    --green-dark: #5A8C6E;
+    --green-lt: #EAF4EE;
+    --coral: #C96B47;
+    --coral-lt: #FAE8E0;
+    --gold: #D4A843;
+    --gold-lt: #FDF5D0;
+    --border: rgba(28, 26, 20, 0.08);
+    --r: 12px;
+    --rl: 20px;
+    --sh: 0 4px 24px rgba(28, 26, 20, 0.09);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+
+  body {
+    font-family: "DM Sans", system-ui, sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4 { font-family: "Fraunces", Georgia, serif; font-weight: 600; line-height: 1.15; color: var(--ink); }
+
+  a { color: var(--green-dark); text-decoration: none; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+
+  /* NAV */
+  .nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(253, 252, 248, 0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner {
+    max-width: 1180px; margin: 0 auto; padding: 14px 24px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  }
+  .nav-brand { display: flex; align-items: center; gap: 10px; font-family: "Fraunces", serif; font-weight: 600; font-size: 18px; }
+  .nav-brand .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--green-dark); box-shadow: 0 0 0 4px var(--green-lt); }
+  .nav-links { display: flex; gap: 4px; flex-wrap: wrap; }
+  .nav-links a {
+    color: var(--ink-soft); font-size: 14px; font-weight: 500;
+    padding: 7px 13px; border-radius: 999px; transition: all .2s ease;
+  }
+  .nav-links a:hover { background: var(--cream-3); color: var(--ink); }
+  .clock {
+    font-family: "DM Sans", monospace; font-variant-numeric: tabular-nums;
+    font-weight: 600; font-size: 14px; color: var(--green-dark);
+    background: var(--green-lt); padding: 6px 12px; border-radius: 999px; white-space: nowrap;
+  }
+
+  /* HERO */
+  .hero { padding: 64px 0 40px; text-align: center; animation: fadeUp .6s ease both; }
+  .hero .eyebrow {
+    display: inline-block; font-size: 13px; font-weight: 600; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--coral); background: var(--coral-lt);
+    padding: 6px 14px; border-radius: 999px; margin-bottom: 20px;
+  }
+  .hero h1 { font-size: clamp(44px, 8vw, 78px); font-weight: 600; letter-spacing: -0.02em; }
+  .hero .sub { font-size: clamp(18px, 3vw, 22px); color: var(--ink-soft); margin-top: 10px; font-weight: 500; }
+  .mission-banner {
+    margin: 28px auto 0; max-width: 760px;
+    background: linear-gradient(135deg, var(--ink) 0%, var(--ink-soft) 100%);
+    color: var(--cream); padding: 18px 26px; border-radius: var(--rl);
+    font-family: "Fraunces", serif; font-size: clamp(16px, 2.4vw, 20px); font-weight: 500;
+    box-shadow: var(--sh);
+  }
+  .mission-banner .pound { color: var(--gold); }
+  .hero-date { margin-top: 18px; color: var(--ink-muted); font-size: 15px; font-weight: 500; }
+
+  /* SECTION */
+  section { padding: 40px 0; }
+  .sec-head { margin-bottom: 26px; }
+  .sec-head h2 { font-size: clamp(28px, 4.5vw, 40px); letter-spacing: -0.015em; }
+  .sec-head .lead { color: var(--ink-muted); font-size: 16px; margin-top: 6px; max-width: 620px; }
+
+  /* CARD */
+  .card {
+    background: #fff; border: 1px solid var(--border);
+    border-radius: var(--rl); box-shadow: var(--sh); padding: 28px;
+  }
+
+  /* REVENUE TRACKER */
+  .revenue-card { background: linear-gradient(160deg, #fff 0%, var(--gold-lt) 140%); padding: 34px; }
+  .revenue-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; flex-wrap: wrap; }
+  .revenue-goal { font-family: "Fraunces", serif; font-size: clamp(40px, 7vw, 64px); font-weight: 600; letter-spacing: -0.02em; line-height: 1; }
+  .revenue-goal small { font-size: 18px; color: var(--ink-muted); font-family: "DM Sans", sans-serif; font-weight: 600; }
+  .revenue-badge {
+    background: var(--gold); color: var(--ink); font-weight: 700; font-size: 13px;
+    padding: 8px 16px; border-radius: 999px; letter-spacing: .04em; text-transform: uppercase;
+  }
+  .targets { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 14px; margin: 26px 0; }
+  .target {
+    background: var(--cream-2); border: 1px solid var(--border); border-radius: var(--r);
+    padding: 16px 18px;
+  }
+  .target .label { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-muted); font-weight: 600; }
+  .target .val { font-family: "Fraunces", serif; font-size: 24px; font-weight: 600; margin-top: 4px; }
+  .paths { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-bottom: 26px; }
+  .path {
+    border: 1px dashed var(--green-dark); background: var(--green-lt);
+    border-radius: var(--r); padding: 16px 18px;
+  }
+  .path.coral { border-color: var(--coral); background: var(--coral-lt); }
+  .path .ptitle { font-weight: 700; font-size: 14px; margin-bottom: 4px; }
+  .path .pmath { font-size: 15px; color: var(--ink-soft); }
+  .path .pmath b { font-family: "Fraunces", serif; }
+
+  .progress-wrap { margin-bottom: 8px; }
+  .progress-meta { display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; color: var(--ink-soft); margin-bottom: 8px; }
+  .progress-track { height: 16px; background: var(--cream-3); border-radius: 999px; overflow: hidden; }
+  .progress-fill {
+    height: 100%; width: 5%;
+    background: linear-gradient(90deg, var(--green) 0%, var(--green-dark) 100%);
+    border-radius: 999px; transition: width 1s ease;
+  }
+
+  .milestones { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 22px; }
+  .milestone {
+    display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600;
+    background: #fff; border: 1px solid var(--border); border-radius: 999px; padding: 8px 14px;
+  }
+  .milestone .ms-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--cream-3); }
+  .milestone.done .ms-dot { background: var(--green-dark); }
+  .milestone.done { color: var(--green-dark); }
+
+  /* AGENT GRID */
+  .agent-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 22px; }
+  .agent {
+    background: #fff; border: 1px solid var(--border); border-radius: var(--rl);
+    box-shadow: var(--sh); padding: 24px; transition: transform .25s ease, box-shadow .25s ease;
+    border-top: 4px solid var(--agent-color, var(--green-dark));
+    display: flex; flex-direction: column; animation: fadeUp .6s ease both;
+  }
+  .agent:hover { transform: translateY(-6px); box-shadow: 0 14px 38px rgba(28, 26, 20, 0.16); }
+  .agent-head { display: flex; align-items: center; gap: 14px; }
+  .avatar {
+    width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center;
+    font-size: 28px; background: var(--agent-bg, var(--green-lt)); flex-shrink: 0;
+  }
+  .agent-id { flex: 1; }
+  .agent-id .codename { font-family: "Fraunces", serif; font-size: 22px; font-weight: 600; }
+  .agent-id .human { color: var(--ink-muted); font-size: 14px; font-weight: 500; }
+  .status { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--green-dark); }
+  .status .live { width: 8px; height: 8px; border-radius: 50%; background: var(--green-dark); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(90,140,110,.5); } 50% { box-shadow: 0 0 0 5px rgba(90,140,110,0); } }
+  .role-badge {
+    display: inline-block; margin-top: 14px; font-size: 13px; font-weight: 600;
+    color: var(--agent-color, var(--green-dark)); background: var(--agent-bg, var(--green-lt));
+    padding: 5px 12px; border-radius: 999px;
+  }
+  .agent-mission { font-size: 14.5px; color: var(--ink-soft); margin-top: 14px; font-style: italic; }
+  .tasks-title { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-muted); font-weight: 700; margin: 18px 0 10px; }
+  .task {
+    display: flex; align-items: flex-start; gap: 10px; padding: 8px 10px; border-radius: var(--r);
+    cursor: pointer; transition: background .15s ease; font-size: 14.5px;
+  }
+  .task:hover { background: var(--cream-2); }
+  .task input { display: none; }
+  .checkbox {
+    width: 20px; height: 20px; border-radius: 6px; border: 2px solid var(--cream-3);
+    flex-shrink: 0; margin-top: 2px; display: grid; place-items: center; transition: all .15s ease;
+  }
+  .task input:checked + .checkbox { background: var(--green-dark); border-color: var(--green-dark); }
+  .checkbox svg { width: 12px; height: 12px; stroke: #fff; stroke-width: 3.5; fill: none; opacity: 0; transition: opacity .15s; }
+  .task input:checked + .checkbox svg { opacity: 1; }
+  .task input:checked ~ .task-label { color: var(--ink-muted); text-decoration: line-through; }
+  .task-label { transition: all .15s ease; }
+
+  .weekly-toggle {
+    margin-top: auto; padding-top: 16px;
+  }
+  .weekly-btn {
+    width: 100%; background: var(--cream-2); border: 1px solid var(--border); border-radius: var(--r);
+    padding: 10px 14px; font-family: "DM Sans", sans-serif; font-weight: 600; font-size: 13.5px;
+    color: var(--ink-soft); cursor: pointer; display: flex; justify-content: space-between;
+    align-items: center; transition: background .15s ease;
+  }
+  .weekly-btn:hover { background: var(--cream-3); }
+  .weekly-btn .chev { transition: transform .25s ease; }
+  .weekly-btn.open .chev { transform: rotate(180deg); }
+  .weekly-body {
+    max-height: 0; overflow: hidden; transition: max-height .3s ease;
+    font-size: 14px; color: var(--ink-soft);
+  }
+  .weekly-body.open { max-height: 260px; }
+  .weekly-body .inner { padding: 12px 4px 2px; }
+  .weekly-body .inner strong { color: var(--agent-color, var(--green-dark)); }
+
+  /* TOP 5 FOCUS */
+  .focus-card { background: linear-gradient(160deg, var(--ink) 0%, #2a2619 100%); color: var(--cream); padding: 34px; }
+  .focus-card h2 { color: var(--cream); }
+  .focus-card .lead { color: rgba(253, 252, 248, 0.65); }
+  .focus-list { list-style: none; margin-top: 22px; display: grid; gap: 12px; }
+  .focus-item {
+    display: flex; align-items: flex-start; gap: 16px; padding: 16px 18px;
+    background: rgba(253, 252, 248, 0.05); border: 1px solid rgba(253, 252, 248, 0.1);
+    border-radius: var(--r); cursor: pointer; transition: background .2s ease;
+  }
+  .focus-item:hover { background: rgba(253, 252, 248, 0.1); }
+  .focus-num {
+    width: 34px; height: 34px; border-radius: 50%; background: var(--gold); color: var(--ink);
+    font-family: "Fraunces", serif; font-weight: 700; display: grid; place-items: center; flex-shrink: 0; font-size: 17px;
+  }
+  .focus-text { flex: 1; }
+  .focus-text .ft-cat { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--gold); font-weight: 700; }
+  .focus-text .ft-body { font-size: 15.5px; margin-top: 2px; }
+  .focus-item input { display: none; }
+  .focus-check { width: 22px; height: 22px; border-radius: 6px; border: 2px solid rgba(253,252,248,.25); flex-shrink: 0; margin-top: 6px; display: grid; place-items: center; }
+  .focus-item input:checked + .focus-check { background: var(--green); border-color: var(--green); }
+  .focus-check svg { width: 13px; height: 13px; stroke: var(--ink); stroke-width: 3.5; fill: none; opacity: 0; }
+  .focus-item input:checked + .focus-check svg { opacity: 1; }
+  .focus-item input:checked ~ .focus-text .ft-body { text-decoration: line-through; opacity: .6; }
+
+  /* RITUAL */
+  .ritual-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  .timeline { list-style: none; display: grid; gap: 4px; }
+  .tl-item { display: flex; gap: 16px; align-items: flex-start; }
+  .tl-time {
+    font-family: "Fraunces", serif; font-weight: 600; font-size: 15px; color: var(--green-dark);
+    width: 72px; flex-shrink: 0; padding-top: 12px;
+  }
+  .tl-content {
+    flex: 1; background: var(--cream-2); border-radius: var(--r); padding: 12px 16px;
+    border-left: 3px solid var(--green-dark); margin-bottom: 8px;
+  }
+  .tl-content .tl-act { font-weight: 600; font-size: 14.5px; }
+  .tl-content .tl-dur { font-size: 12px; color: var(--ink-muted); font-weight: 600; }
+  .searches { list-style: none; display: grid; gap: 10px; margin-top: 8px; }
+  .search-item {
+    background: var(--green-lt); border-radius: var(--r); padding: 12px 16px; font-size: 14.5px; font-weight: 500;
+    display: flex; gap: 10px; align-items: center;
+  }
+  .search-item::before { content: "🔎"; font-size: 16px; }
+  blockquote.template {
+    margin-top: 18px; background: var(--cream-3); border-left: 4px solid var(--coral);
+    border-radius: 0 var(--r) var(--r) 0; padding: 18px 22px; font-style: italic;
+    color: var(--ink-soft); font-size: 15px; line-height: 1.65;
+  }
+  .week-prog { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 14px; margin-top: 22px; }
+  .week-card { background: var(--cream-2); border: 1px solid var(--border); border-radius: var(--r); padding: 16px 18px; }
+  .week-card .wk { font-family: "Fraunces", serif; font-weight: 600; color: var(--coral); font-size: 15px; }
+  .week-card p { font-size: 14px; color: var(--ink-soft); margin-top: 4px; }
+
+  /* MEETING */
+  .meeting-card { padding: 32px; }
+  .meeting-when {
+    display: inline-block; background: var(--green-lt); color: var(--green-dark);
+    font-weight: 700; font-size: 14px; padding: 7px 16px; border-radius: 999px; margin-bottom: 22px;
+  }
+  .agenda { list-style: none; display: grid; gap: 8px; }
+  .agenda-item {
+    display: flex; align-items: center; gap: 14px; padding: 12px 16px; border-radius: var(--r);
+    background: var(--cream-2); cursor: pointer; transition: background .15s ease;
+  }
+  .agenda-item:hover { background: var(--cream-3); }
+  .agenda-item input { display: none; }
+  .ag-check { width: 20px; height: 20px; border-radius: 6px; border: 2px solid var(--cream-3); flex-shrink: 0; display: grid; place-items: center; }
+  .agenda-item input:checked + .ag-check { background: var(--green-dark); border-color: var(--green-dark); }
+  .ag-check svg { width: 12px; height: 12px; stroke: #fff; stroke-width: 3.5; fill: none; opacity: 0; }
+  .agenda-item input:checked + .ag-check svg { opacity: 1; }
+  .ag-time { font-family: "Fraunces", serif; font-weight: 600; color: var(--green-dark); width: 54px; flex-shrink: 0; font-size: 15px; }
+  .ag-text { flex: 1; font-size: 14.5px; }
+  .ag-text b { font-weight: 700; }
+  .ag-dur { font-size: 12px; color: var(--ink-muted); font-weight: 600; }
+  .agenda-item input:checked ~ .ag-text { color: var(--ink-muted); text-decoration: line-through; }
+
+  /* FUTURE AGENTS */
+  .future-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 22px; }
+  .future {
+    background: repeating-linear-gradient(135deg, #fff, #fff 12px, var(--cream-2) 12px, var(--cream-2) 24px);
+    border: 2px dashed var(--border); border-radius: var(--rl); padding: 26px; text-align: center;
+    transition: transform .25s ease;
+  }
+  .future:hover { transform: translateY(-4px); }
+  .future .favatar { width: 60px; height: 60px; border-radius: 50%; background: #fff; border: 1px solid var(--border); display: grid; place-items: center; font-size: 30px; margin: 0 auto 14px; }
+  .future h3 { font-size: 22px; }
+  .future .frole { font-size: 13px; font-weight: 700; color: var(--coral); text-transform: uppercase; letter-spacing: .06em; margin-top: 4px; }
+  .future p { font-size: 14.5px; color: var(--ink-soft); margin-top: 10px; }
+  .future .ftag { display: inline-block; margin-top: 14px; font-size: 12px; font-weight: 600; color: var(--ink-muted); background: var(--cream-3); padding: 4px 12px; border-radius: 999px; }
+
+  /* BUTTON */
+  .btn {
+    font-family: "DM Sans", sans-serif; font-weight: 700; font-size: 14px; cursor: pointer;
+    background: var(--gold); color: var(--ink); border: none; padding: 11px 22px;
+    border-radius: 999px; transition: all .2s ease; box-shadow: 0 2px 10px rgba(212,168,67,.35);
+  }
+  .btn:hover { background: #c79a36; transform: translateY(-2px); box-shadow: 0 6px 18px rgba(212,168,67,.45); }
+  .reset-bar { display: flex; justify-content: center; padding: 8px 0 0; }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink); color: var(--cream); padding: 54px 0; margin-top: 40px; text-align: center;
+  }
+  footer .built { font-family: "Fraunces", serif; font-size: 24px; font-weight: 600; }
+  footer .fmission { color: rgba(253,252,248,.7); margin-top: 10px; font-size: 16px; font-style: italic; }
+  footer .flink { margin-top: 20px; }
+  footer .flink a { color: var(--gold); font-weight: 600; }
+  footer .fmark { color: var(--gold); }
+
+  @media (max-width: 720px) {
+    .ritual-grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .hero { padding: 40px 0 26px; }
+    .revenue-card, .focus-card, .meeting-card { padding: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-brand"><span class="dot"></span> Mission Control</div>
+    <div class="nav-links">
+      <a href="#dashboard">Dashboard</a>
+      <a href="#agents">Agents</a>
+      <a href="#salesnav">Sales Navigator</a>
+      <a href="#meeting">Weekly Meeting</a>
+      <a href="#revenue">Revenue</a>
+    </div>
+    <div class="clock" id="clock">--:--:--</div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="dashboard">
+  <div class="wrap">
+    <span class="eyebrow">Guided Childhood</span>
+    <h1>Mission Control</h1>
+    <p class="sub">Your AI Agent Team — Guided Childhood</p>
+    <div class="mission-banner">
+      Mission: <span class="pound">£1,000,000 ARR</span> + Making children safer &amp; better educated online
+    </div>
+    <p class="hero-date" id="heroDate">Loading today's date…</p>
+  </div>
+</header>
+
+<!-- REVENUE TRACKER -->
+<section id="revenue">
+  <div class="wrap">
+    <div class="card revenue-card">
+      <div class="revenue-top">
+        <div>
+          <div class="revenue-goal">£1,000,000 <small>/ year ARR</small></div>
+          <p style="color:var(--ink-muted); margin-top:6px; font-weight:600;">The North Star. Every agent points here.</p>
+        </div>
+        <span class="revenue-badge">£1M Mission</span>
+      </div>
+
+      <div class="targets">
+        <div class="target"><div class="label">Annual Target</div><div class="val">£1,000,000</div></div>
+        <div class="target"><div class="label">Monthly Target</div><div class="val">£83,333</div></div>
+        <div class="target"><div class="label">Weekly Target</div><div class="val">£19,231</div></div>
+      </div>
+
+      <div class="paths">
+        <div class="path">
+          <div class="ptitle">🏫 School Licensing Path</div>
+          <div class="pmath"><b>500 schools</b> × £2,000/year = <b>£1,000,000</b></div>
+        </div>
+        <div class="path coral">
+          <div class="ptitle">👪 Parent Subscriptions Path</div>
+          <div class="pmath"><b>6,410 parents</b> × £12.99/month = <b>£1,000,000/year</b></div>
+        </div>
+      </div>
+
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>Progress to £1M ARR</span><span>~5% &middot; Early stage</span></div>
+        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      </div>
+
+      <div class="milestones">
+        <span class="milestone done"><span class="ms-dot"></span> First school</span>
+        <span class="milestone"><span class="ms-dot"></span> 10 schools</span>
+        <span class="milestone"><span class="ms-dot"></span> 50 schools</span>
+        <span class="milestone"><span class="ms-dot"></span> 100 schools</span>
+        <span class="milestone"><span class="ms-dot"></span> 500 schools — £1M</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AGENT DASHBOARD -->
+<section id="agents">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Agent Dashboard</h2>
+      <p class="lead">Seven specialised agents, one mission. Check off today's tasks — progress saves automatically.</p>
+    </div>
+    <div class="agent-grid" id="agentGrid"></div>
+    <div class="reset-bar" style="margin-top:26px;">
+      <button class="btn" id="resetBtn">↺ Reset Day — Clear All Checkboxes</button>
+    </div>
+  </div>
+</section>
+
+<!-- TOP 5 FOCUS -->
+<section id="focus">
+  <div class="wrap">
+    <div class="card focus-card">
+      <div class="sec-head" style="margin-bottom:6px;">
+        <h2>Today's Top 5 Focus</h2>
+        <p class="lead">Justin's daily briefing — the 20% that drives 80% of results.</p>
+      </div>
+      <ul class="focus-list" id="focusList"></ul>
+    </div>
+  </div>
+</section>
+
+<!-- SALES NAVIGATOR -->
+<section id="salesnav">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>LinkedIn Sales Navigator — Daily Ritual</h2>
+      <p class="lead">A 20-minute morning ritual. Consistency compounds. Do it before email.</p>
+    </div>
+    <div class="card">
+      <div class="ritual-grid">
+        <div>
+          <h3 style="font-size:20px; margin-bottom:14px;">⏱️ The 20-Minute Morning Ritual</h3>
+          <ul class="timeline">
+            <li class="tl-item"><div class="tl-time">7:30am</div><div class="tl-content"><div class="tl-act">Check Sales Navigator lead alerts</div><div class="tl-dur">5 min</div></div></li>
+            <li class="tl-item"><div class="tl-time">7:35am</div><div class="tl-content"><div class="tl-act">Like 10 educator posts</div><div class="tl-dur">5 min</div></div></li>
+            <li class="tl-item"><div class="tl-time">7:40am</div><div class="tl-content"><div class="tl-act">Comment on 5 posts with genuine insight</div><div class="tl-dur">5 min</div></div></li>
+            <li class="tl-item"><div class="tl-time">7:45am</div><div class="tl-content"><div class="tl-act">Send 5 personalised connection requests</div><div class="tl-dur">5 min</div></div></li>
+          </ul>
+        </div>
+        <div>
+          <h3 style="font-size:20px; margin-bottom:14px;">🎯 Target Searches</h3>
+          <ul class="searches">
+            <li class="search-item">DSLs &amp; Safeguarding Leads (UK, posted last 30 days)</li>
+            <li class="search-item">Headteachers &amp; Principals (UK, Education industry)</li>
+            <li class="search-item">PSHE &amp; Digital Literacy leads (keyword search)</li>
+          </ul>
+          <h3 style="font-size:20px; margin:22px 0 6px;">✉️ Connection Request Template</h3>
+          <blockquote class="template">
+            "Hi [Name], I really admire the work you're doing on [school/safeguarding focus]. I'm building Guided Childhood to help schools keep children safer and better educated online. Would love to connect and learn from your perspective as a [DSL / Headteacher / PSHE lead]."
+          </blockquote>
+        </div>
+      </div>
+
+      <div class="week-prog">
+        <div class="week-card"><div class="wk">Week 1 — Listen</div><p>Connect &amp; observe. Like and comment authentically. Build the Guided Childhood 100 list. No pitching.</p></div>
+        <div class="week-card"><div class="wk">Week 2 — Engage</div><p>Add real value in comments. Share Sage's content. Start light DMs with warm connections.</p></div>
+        <div class="week-card"><div class="wk">Week 3 — Convert</div><p>Offer a pilot / demo to warm leads. Book first school conversations. Track to first deal.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WEEKLY MEETING -->
+<section id="meeting">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Weekly Team Meeting</h2>
+      <p class="lead">Tight, focused, accountable. Pulse runs the room.</p>
+    </div>
+    <div class="card meeting-card">
+      <span class="meeting-when">📅 Every Monday 9:00am — 45 minutes</span>
+      <ul class="agenda" id="agendaList"></ul>
+    </div>
+  </div>
+</section>
+
+<!-- FUTURE AGENTS -->
+<section id="future">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Suggested New Team Members</h2>
+      <p class="lead">Future agents to recruit as the mission scales.</p>
+    </div>
+    <div class="future-grid">
+      <div class="future">
+        <div class="favatar">🏗️</div>
+        <h3>Architect</h3>
+        <div class="frole">Product &amp; Curriculum Builder</div>
+        <p>Builds the school syllabus and parent journey — turning the mission into a teachable product.</p>
+        <span class="ftag">Future agent</span>
+      </div>
+      <div class="future">
+        <div class="favatar">🤝</div>
+        <h3>Ambassador</h3>
+        <div class="frole">School Partnerships</div>
+        <p>Turns educators into advocates and case studies — building referral and trust engines.</p>
+        <span class="ftag">Future agent</span>
+      </div>
+      <div class="future">
+        <div class="favatar">🔬</div>
+        <h3>Analyst</h3>
+        <div class="frole">Data &amp; Impact</div>
+        <p>Measures child safety outcomes and publishes impact reports that prove the difference.</p>
+        <span class="ftag">Future agent</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="built">Built for Justin Phillips, Guided Childhood</div>
+    <div class="fmission">"Making children safer and better educated in digital worlds"</div>
+    <div class="flink">
+      <span class="fmark">★</span> <a href="https://guidedchildhood.co.uk" target="_blank" rel="noopener">guidedchildhood.co.uk</a> <span class="fmark">★</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ---------- DATA ----------
+  const AGENTS = [
+    {
+      key: "navigator", emoji: "🧭", codename: "Navigator", human: "Sara",
+      role: "LinkedIn & Sales Growth", color: "green",
+      mission: "Build the Guided Childhood 100 — 20 connection requests/day, 5 comments/day.",
+      tasks: ["Like 10 educator posts", "Comment on 5 posts", "Send 5 connection requests", "Check lead alerts"],
+      weekly: "Run Sales Navigator searches for DSLs, Headteachers, and PSHE leads. Build lead lists."
+    },
+    {
+      key: "sage", emoji: "📖", codename: "Sage", human: "Maya",
+      role: "Content & Thought Leadership", color: "gold",
+      mission: "1 educator-focused LinkedIn post/day — grow to 50k followers.",
+      tasks: ["Draft 1 LinkedIn post", "Engage with PSHE Association posts", "Research content angles"],
+      weekly: "Write school phone policy analysis, safeguarding gap content, and digital literacy hooks."
+    },
+    {
+      key: "scout", emoji: "🔍", codename: "Scout", human: "Finn",
+      role: "Research & Market Intelligence", color: "coral-lt",
+      mission: "Monitor policy changes, safeguarding news, and competitor moves.",
+      tasks: ["Scan education news", "Monitor competitor activity", "Flag policy opportunities"],
+      weekly: "Track Ofsted reports, NSPCC updates, and government digital literacy announcements."
+    },
+    {
+      key: "compass", emoji: "📊", codename: "Compass", human: "Alex",
+      role: "Revenue & £1M Mission Tracker", color: "gold",
+      mission: "Hit £1,000,000 ARR — track every metric toward it.",
+      tasks: ["Update revenue dashboard", "Analyse signup metrics", "Track pipeline"],
+      weekly: "Review conversion funnel, pricing, and school licensing deals."
+    },
+    {
+      key: "herald", emoji: "📣", codename: "Herald", human: "Priya",
+      role: "PR & Media Relations", color: "coral",
+      mission: "Secure coverage in TES, BBC, and The Guardian Education within 90 days.",
+      tasks: ["Monitor journalist requests", "Pitch 1 story", "Track coverage"],
+      weekly: "Build journalist relationships, pitch the safeguarding angle, respond to media opportunities."
+    },
+    {
+      key: "guardian", emoji: "🛡️", codename: "Guardian", human: "Dr. Sam",
+      role: "Safeguarding & Child Safety Expert", color: "green",
+      mission: "Ensure Guided Childhood is the gold standard for digital safeguarding.",
+      tasks: ["Review safeguarding resources", "Engage with DSL community", "Monitor online safety legislation"],
+      weekly: "Align with Keeping Children Safe in Education and the OFSTED framework. Build DSL trust."
+    },
+    {
+      key: "pulse", emoji: "⚡", codename: "Pulse", human: "Leo",
+      role: "Daily Operations & Accountability", color: "ink",
+      mission: "Keep Justin focused on the 20% that drives 80% of results.",
+      tasks: ["Send morning briefing", "Track task completion", "Flag blockers", "Update weekly scorecard"],
+      weekly: "Run the weekly team meeting, set daily priorities, track progress against 90-day goals."
+    }
+  ];
+
+  const COLOR_MAP = {
+    green:      { c: "var(--green-dark)", bg: "var(--green-lt)" },
+    gold:       { c: "#b8902f",           bg: "var(--gold-lt)"  },
+    coral:      { c: "var(--coral)",      bg: "var(--coral-lt)" },
+    "coral-lt": { c: "var(--coral)",      bg: "var(--coral-lt)" },
+    ink:        { c: "var(--ink-soft)",   bg: "var(--cream-3)"  }
+  };
+
+  const FOCUS = [
+    { cat: "LinkedIn", body: "Send 20 connection requests to DSLs / Headteachers" },
+    { cat: "Content",  body: "Publish 1 educator-focused LinkedIn post (use Sage's angle)" },
+    { cat: "Revenue",  body: "Follow up with any warm school leads" },
+    { cat: "Learning", body: "Read 1 safeguarding or EdTech article" },
+    { cat: "Mission",  body: "Spend 20 minutes on product / syllabus development" }
+  ];
+
+  const AGENDA = [
+    { time: "9:00", who: "Pulse",     text: "opens: Week in review, metrics check", dur: "5 min" },
+    { time: "9:05", who: "Compass",   text: "Revenue update vs £1M target", dur: "5 min" },
+    { time: "9:10", who: "Navigator", text: "LinkedIn growth & lead quality this week", dur: "5 min" },
+    { time: "9:15", who: "Scout",     text: "Intelligence briefing — news, policy, competitors", dur: "5 min" },
+    { time: "9:20", who: "Guardian",  text: "Safeguarding content & DSL relationships", dur: "5 min" },
+    { time: "9:25", who: "Herald",    text: "PR pipeline & media opportunities", dur: "5 min" },
+    { time: "9:30", who: "Sage",      text: "Content performance & next week's themes", dur: "5 min" },
+    { time: "9:35", who: "Pulse",     text: "3 priorities for next week, blockers resolved", dur: "5 min" },
+    { time: "9:43", who: "Close",     text: "Pulse reads mission statement aloud", dur: "2 min" }
+  ];
+
+  const CHECK_SVG = '<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>';
+
+  // ---------- STORAGE ----------
+  function save(id, val) { try { localStorage.setItem(id, val ? "1" : "0"); } catch (e) {} }
+  function load(id) { try { return localStorage.getItem(id) === "1"; } catch (e) { return false; } }
+
+  // ---------- RENDER AGENTS ----------
+  const grid = document.getElementById("agentGrid");
+  AGENTS.forEach((a, ai) => {
+    const col = COLOR_MAP[a.color] || COLOR_MAP.green;
+    const card = document.createElement("div");
+    card.className = "agent";
+    card.style.setProperty("--agent-color", col.c);
+    card.style.setProperty("--agent-bg", col.bg);
+    card.style.animationDelay = (ai * 0.05) + "s";
+
+    let tasksHTML = "";
+    a.tasks.forEach((t, ti) => {
+      const id = "task_" + a.key + "_" + ti;
+      tasksHTML += `<label class="task" for="${id}">
+        <input type="checkbox" id="${id}" data-store="${id}" ${load(id) ? "checked" : ""}/>
+        <span class="checkbox">${CHECK_SVG}</span>
+        <span class="task-label">${t}</span>
+      </label>`;
+    });
+
+    card.innerHTML = `
+      <div class="agent-head">
+        <div class="avatar">${a.emoji}</div>
+        <div class="agent-id">
+          <div class="codename">${a.codename}</div>
+          <div class="human">"${a.human}"</div>
+        </div>
+        <div class="status"><span class="live"></span> Active</div>
+      </div>
+      <span class="role-badge">${a.role}</span>
+      <p class="agent-mission">${a.mission}</p>
+      <div class="tasks-title">Today's Tasks</div>
+      ${tasksHTML}
+      <div class="weekly-toggle">
+        <button class="weekly-btn" type="button">
+          <span>📌 Weekly Priority</span><span class="chev">▾</span>
+        </button>
+        <div class="weekly-body"><div class="inner"><strong>This week:</strong> ${a.weekly}</div></div>
+      </div>
+    `;
+    grid.appendChild(card);
+
+    const btn = card.querySelector(".weekly-btn");
+    const body = card.querySelector(".weekly-body");
+    btn.addEventListener("click", () => {
+      btn.classList.toggle("open");
+      body.classList.toggle("open");
+    });
+  });
+
+  // ---------- RENDER FOCUS ----------
+  const focusList = document.getElementById("focusList");
+  FOCUS.forEach((f, i) => {
+    const id = "focus_" + i;
+    const li = document.createElement("li");
+    li.className = "focus-item";
+    li.innerHTML = `
+      <span class="focus-num">${i + 1}</span>
+      <input type="checkbox" id="${id}" data-store="${id}" ${load(id) ? "checked" : ""}/>
+      <span class="focus-check">${CHECK_SVG}</span>
+      <span class="focus-text">
+        <span class="ft-cat">${f.cat}</span>
+        <span class="ft-body">${f.body}</span>
+      </span>
+    `;
+    const input = li.querySelector("input");
+    li.addEventListener("click", (e) => {
+      if (e.target.tagName !== "INPUT") { input.checked = !input.checked; input.dispatchEvent(new Event("change", { bubbles: true })); }
+    });
+    focusList.appendChild(li);
+  });
+
+  // ---------- RENDER AGENDA ----------
+  const agendaList = document.getElementById("agendaList");
+  AGENDA.forEach((a, i) => {
+    const id = "agenda_" + i;
+    const li = document.createElement("li");
+    li.className = "agenda-item";
+    li.innerHTML = `
+      <input type="checkbox" id="${id}" data-store="${id}" ${load(id) ? "checked" : ""}/>
+      <span class="ag-check">${CHECK_SVG}</span>
+      <span class="ag-time">${a.time}</span>
+      <span class="ag-text"><b>${a.who}</b> ${a.text}</span>
+      <span class="ag-dur">${a.dur}</span>
+    `;
+    const input = li.querySelector("input");
+    li.addEventListener("click", (e) => {
+      if (e.target.tagName !== "INPUT") { input.checked = !input.checked; input.dispatchEvent(new Event("change", { bubbles: true })); }
+    });
+    agendaList.appendChild(li);
+  });
+
+  // ---------- PERSIST ALL CHECKBOXES ----------
+  document.addEventListener("change", (e) => {
+    const el = e.target;
+    if (el.matches('input[type="checkbox"][data-store]')) {
+      save(el.dataset.store, el.checked);
+    }
+  });
+
+  // ---------- RESET DAY ----------
+  document.getElementById("resetBtn").addEventListener("click", () => {
+    if (!confirm("Reset all checkboxes for the day?")) return;
+    document.querySelectorAll('input[type="checkbox"][data-store]').forEach((cb) => {
+      cb.checked = false;
+      save(cb.dataset.store, false);
+    });
+  });
+
+  // ---------- CLOCK + DATE ----------
+  function tick() {
+    const now = new Date();
+    const t = now.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+    document.getElementById("clock").textContent = t;
+  }
+  function setDate() {
+    const now = new Date();
+    const d = now.toLocaleDateString("en-GB", { weekday: "long", year: "numeric", month: "long", day: "numeric" });
+    document.getElementById("heroDate").textContent = "Today — " + d;
+  }
+  tick(); setDate(); setInterval(tick, 1000);
+
+  // ---------- PROGRESS BAR ANIMATE ----------
+  window.addEventListener("load", () => {
+    setTimeout(() => { document.getElementById("progressFill").style.width = "5%"; }, 300);
+  });
+</script>
+</body>
+</html>

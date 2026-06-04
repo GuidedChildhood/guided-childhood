@@ -1,0 +1,28 @@
+name: Weekly Monday Meeting
+
+on:
+  schedule:
+    - cron: '0 9 * * 1'   # 09:00 UTC every Monday
+  workflow_dispatch: {}     # allow manual runs from the Actions tab
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r agents/requirements.txt
+
+      - name: Run weekly meeting
+        run: python agents/weekly_meeting.py
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}

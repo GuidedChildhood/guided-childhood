@@ -1,0 +1,13 @@
+{
+  "annual_target": 1000000,
+  "current_arr": 0,
+  "schools_signed": 0,
+  "parent_subscribers": 0,
+  "pipeline_value": 0,
+  "last_updated": "2026-06-04",
+  "notes": [
+    "Starting point: pre-revenue. Mission is GBP 1,000,000 ARR.",
+    "B2B: school/MAT safeguarding licences. B2C: parent subscriptions.",
+    "Update current_arr, schools_signed, parent_subscribers and pipeline_value as deals close. Compass reads this file each morning."
+  ]
+}
