@@ -1,15 +1,45 @@
 {
-  "run_date": "not yet run",
-  "run_time": "--:-- UTC",
-  "run_timestamp": null,
-  "status": "pending",
-  "summary": "Your agents haven't run yet. Trigger the Daily Agent Briefing workflow in GitHub Actions to see live outputs here.",
+  "run_date": "2026-06-04",
+  "run_time": "10:26 UTC",
+  "run_timestamp": "2026-06-04T10:26:07.014815+00:00",
+  "status": "partial (6 failed)",
+  "summary": "Daily briefing for 2026-06-04. 0/6 agents reported. Issues: Scout, Guardian, Navigator, Sage, Herald, Compass.",
   "agents": {
-    "Scout": {"emoji": "🔭", "role": "Research & Market Intelligence", "output": "No output yet — run the workflow to see today's intelligence briefing.", "status": "pending"},
-    "Guardian": {"emoji": "🛡️", "role": "Safeguarding & Child Safety", "output": "No output yet — run the workflow to see today's safeguarding update.", "status": "pending"},
-    "Navigator": {"emoji": "🧭", "role": "LinkedIn & Sales Growth", "output": "No output yet — run the workflow to see today's outreach targets.", "status": "pending"},
-    "Sage": {"emoji": "✍️", "role": "Content & Thought Leadership", "output": "No output yet — run the workflow to see today's LinkedIn post draft.", "status": "pending"},
-    "Herald": {"emoji": "📣", "role": "PR & Media", "output": "No output yet — run the workflow to see today's PR opportunity.", "status": "pending"},
-    "Compass": {"emoji": "🎯", "role": "Revenue & £1M Mission", "output": "No output yet — run the workflow to see today's revenue snapshot.", "status": "pending"}
+    "Scout": {
+      "emoji": "🔭",
+      "role": "Research & Market Intelligence",
+      "output": "⚠️ Scout could not complete today: OPENAI_API_KEY is required",
+      "status": "error"
+    },
+    "Guardian": {
+      "emoji": "🛡️",
+      "role": "Safeguarding & Child Safety",
+      "output": "⚠️ Guardian could not complete today: OPENAI_API_KEY is required",
+      "status": "error"
+    },
+    "Navigator": {
+      "emoji": "🧭",
+      "role": "LinkedIn & Sales Growth",
+      "output": "⚠️ Navigator could not complete today: OPENAI_API_KEY is required",
+      "status": "error"
+    },
+    "Sage": {
+      "emoji": "✍️",
+      "role": "Content & Thought Leadership",
+      "output": "⚠️ Sage could not complete today: OPENAI_API_KEY is required",
+      "status": "error"
+    },
+    "Herald": {
+      "emoji": "📣",
+      "role": "PR & Media",
+      "output": "⚠️ Herald could not complete today: OPENAI_API_KEY is required",
+      "status": "error"
+    },
+    "Compass": {
+      "emoji": "🎯",
+      "role": "Revenue & £1M Mission",
+      "output": "⚠️ Compass could not complete today: OPENAI_API_KEY is required",
+      "status": "error"
+    }
   }
 }
