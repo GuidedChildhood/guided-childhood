@@ -1,13 +1,12 @@
 """Email tool for the Guided Childhood crew.
 
 Sends mail via Gmail SMTP using an app password. Credentials come from env vars
-GMAIL_USER and GMAIL_APP_PASSWORD -- never hardcoded. Pulse calls this to
-deliver the compiled briefing.
+GMAIL_USER and GMAIL_APP_PASSWORD — never hardcoded.
 
-The module exposes both:
-  * `send_html_email(...)` -- a plain Python helper the runner scripts call
-    directly with their fully rendered HTML, and
-  * `send_email_tool` -- a CrewAI @tool wrapper so an agent can send mail itself.
+Exposes:
+  send_briefing_email()  — plain Python helper called by runner scripts (no crewai needed)
+  send_html_email()      — lower-level helper
+  send_email_tool        — CrewAI @tool wrapper (only created when crewai is available)
 """
 
 from __future__ import annotations
@@ -16,8 +15,6 @@ import os
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-
-from crewai.tools import tool
 
 DEFAULT_RECIPIENT = "justin@thesocialbillboard.com"
 SMTP_HOST = "smtp.gmail.com"
@@ -30,30 +27,21 @@ def send_html_email(
     to_address: str = DEFAULT_RECIPIENT,
     text_fallback: str | None = None,
 ) -> str:
-    """Send an HTML email via Gmail SMTP.
-
-    Returns a status string. Raises nothing -- failures are returned as text so
-    a failed send never crashes a scheduled run (the briefing is also saved to
-    disk by the runner as a backup).
-    """
+    """Send an HTML email via Gmail SMTP. Returns a status string, never raises."""
     gmail_user = os.getenv("GMAIL_USER")
     gmail_password = os.getenv("GMAIL_APP_PASSWORD")
 
     if not gmail_user or not gmail_password:
         return (
             "Email NOT sent: GMAIL_USER and/or GMAIL_APP_PASSWORD are not set. "
-            "Configure them as environment variables / GitHub secrets."
+            "Add them as GitHub secrets."
         )
 
     msg = MIMEMultipart("alternative")
     msg["Subject"] = subject
     msg["From"] = gmail_user
     msg["To"] = to_address
-
-    # Provide a plain-text part for clients that won't render HTML.
-    if text_fallback is None:
-        text_fallback = "Your Guided Childhood briefing is best viewed in HTML."
-    msg.attach(MIMEText(text_fallback, "plain", "utf-8"))
+    msg.attach(MIMEText(text_fallback or "View this briefing in HTML.", "plain", "utf-8"))
     msg.attach(MIMEText(html_body, "html", "utf-8"))
 
     try:
@@ -72,15 +60,21 @@ def send_briefing_email(
     text_body: str = "",
     to_address: str = DEFAULT_RECIPIENT,
 ) -> str:
-    """Send the compiled daily/weekly briefing. Called directly by runner scripts."""
+    """Send the compiled briefing. Called directly by the runner scripts."""
     return send_html_email(subject, html_body, to_address, text_body or None)
 
 
-@tool("Send Email")
-def send_email_tool(subject: str, html_body: str) -> str:
-    """Send an HTML email to the Guided Childhood founder.
+# CrewAI @tool wrapper — only registered when crewai is importable.
+# Uses try/except so this module always loads cleanly even before crewai is installed.
+try:
+    from crewai.tools import tool as _crewai_tool
 
-    Pass `subject` and `html_body` (HTML string). Sends to
-    justin@thesocialbillboard.com via Gmail SMTP. Returns a status message.
-    """
-    return send_html_email(subject=subject, html_body=html_body)
+    @_crewai_tool("Send Email")
+    def send_email_tool(subject: str, html_body: str) -> str:
+        """Send an HTML email to the Guided Childhood founder (justin@thesocialbillboard.com)."""
+        return send_html_email(subject=subject, html_body=html_body)
+
+except Exception:
+    # crewai not installed yet or version mismatch — plain fallback so imports never fail
+    def send_email_tool(subject: str, html_body: str) -> str:  # type: ignore[misc]
+        return send_html_email(subject=subject, html_body=html_body)
