@@ -1,44 +1,44 @@
 {
   "run_date": "2026-06-04",
-  "run_time": "11:57 UTC",
-  "run_timestamp": "2026-06-04T11:57:06.100294+00:00",
+  "run_time": "12:11 UTC",
+  "run_timestamp": "2026-06-04T12:11:16.388495+00:00",
   "status": "partial (6 failed)",
   "summary": "Daily briefing for 2026-06-04. 0/6 agents reported. Issues: Scout, Guardian, Navigator, Sage, Herald, Compass.",
   "agents": {
     "Scout": {
       "emoji": "🔭",
       "role": "Research & Market Intelligence",
-      "output": "⚠️ Scout could not complete today: \"Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted\"",
+      "output": "⚠️ Scout could not complete today: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': '`temperature` is deprecated for this model.'}, 'request_id': 'req_011CbiCPE3cG1dDwAWqo1cRN'}",
       "status": "error"
     },
     "Guardian": {
       "emoji": "🛡️",
       "role": "Safeguarding & Child Safety",
-      "output": "⚠️ Guardian could not complete today: \"Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted\"",
+      "output": "⚠️ Guardian could not complete today: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': '`temperature` is deprecated for this model.'}, 'request_id': 'req_011CbiCPGTiMzYAReVBZMYSo'}",
       "status": "error"
     },
     "Navigator": {
       "emoji": "🧭",
       "role": "LinkedIn & Sales Growth",
-      "output": "⚠️ Navigator could not complete today: \"Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted\"",
+      "output": "⚠️ Navigator could not complete today: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': '`temperature` is deprecated for this model.'}, 'request_id': 'req_011CbiCPK5iw7obmV1ZMY9z2'}",
       "status": "error"
     },
     "Sage": {
       "emoji": "✍️",
       "role": "Content & Thought Leadership",
-      "output": "⚠️ Sage could not complete today: \"Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted\"",
+      "output": "⚠️ Sage could not complete today: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': '`temperature` is deprecated for this model.'}, 'request_id': 'req_011CbiCPLouVX5KcfxC1hv9r'}",
       "status": "error"
     },
     "Herald": {
       "emoji": "📣",
       "role": "PR & Media",
-      "output": "⚠️ Herald could not complete today: \"Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted\"",
+      "output": "⚠️ Herald could not complete today: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': '`temperature` is deprecated for this model.'}, 'request_id': 'req_011CbiCPNe3JoRP6xFtVRtz7'}",
       "status": "error"
     },
     "Compass": {
       "emoji": "🎯",
       "role": "Revenue & £1M Mission",
-      "output": "⚠️ Compass could not complete today: \"Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted\"",
+      "output": "⚠️ Compass could not complete today: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': '`temperature` is deprecated for this model.'}, 'request_id': 'req_011CbiCPQVfViV4Waq3ovkCi'}",
       "status": "error"
     }
   }
