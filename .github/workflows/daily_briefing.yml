@@ -2,8 +2,11 @@ name: Daily Agent Briefing
 
 on:
   schedule:
-    - cron: '0 7 * * *'   # 07:00 UTC every day
+    - cron: '0 7 * * *'   # 07:00 UTC (08:00 BST) every day
   workflow_dispatch: {}     # allow manual runs from the Actions tab
+
+permissions:
+  contents: write           # needed to push latest.json back to the repo
 
 jobs:
   run:
@@ -11,6 +14,8 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: actions/setup-python@v5
         with:
@@ -26,3 +31,11 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+
+      - name: Commit agent outputs to repo
+        run: |
+          git config user.name  "Guided Childhood Agents"
+          git config user.email "agents@guidedchildhood.co.uk"
+          git add agents/outputs/latest.json
+          git diff --cached --quiet || git commit -m "chore: agent run outputs $(date -u +'%Y-%m-%d %H:%M UTC')"
+          git push
