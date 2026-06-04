@@ -43,7 +43,11 @@ TASKS_CFG = _load_yaml("tasks.yaml")
 # LLM
 # --------------------------------------------------------------------------- #
 def build_llm() -> LLM:
-    """Build the Claude LLM. API key is read from the environment only."""
+    """Build the Claude LLM. API key is read from the environment only.
+
+    Using the 'anthropic/' prefix forces LiteLLM to route to Anthropic
+    regardless of whether the model name is in its built-in model registry.
+    """
     return LLM(
         model="anthropic/claude-opus-4-8",
         api_key=os.getenv("ANTHROPIC_API_KEY"),

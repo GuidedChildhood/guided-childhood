@@ -131,8 +131,11 @@ def _save_outputs(sections: dict, intro: str, failures: list) -> None:
 
 
 def main() -> int:
-    if not os.getenv("ANTHROPIC_API_KEY"):
-        print("WARNING: ANTHROPIC_API_KEY not set — the run will likely fail.")
+    key = os.getenv("ANTHROPIC_API_KEY", "")
+    if not key:
+        print("ERROR: ANTHROPIC_API_KEY is not set — add it to GitHub Secrets. Agents will fail.")
+    else:
+        print(f"ANTHROPIC_API_KEY set (length {len(key)}, starts {key[:8]}...)")
 
     print(f"=== Guided Childhood daily briefing — {TODAY} ===")
 
