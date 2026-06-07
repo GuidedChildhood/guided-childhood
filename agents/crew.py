@@ -1,4 +1,4 @@
-"""CrewAI Crew definition for Guided Childhood — all 7 agents.
+"""CrewAI Crew definition for Guided Childhood — all 8 agents.
 
 This module builds the agents and tasks from the YAML configs, wires up the
 inter-agent context dependencies, and exposes factory functions for the daily
@@ -77,15 +77,16 @@ def _make_agent(key: str, llm: LLM, tools: list, allow_delegation: bool = False)
 
 
 def build_agents(llm: LLM | None = None) -> dict[str, Agent]:
-    """Instantiate all seven agents keyed by their lowercase name."""
+    """Instantiate all eight agents keyed by their lowercase name."""
     llm = llm or build_llm()
     return {
         "navigator": _make_agent("navigator", llm, [search_tool]),
-        "sage": _make_agent("sage", llm, [search_tool, file_write]),
-        "scout": _make_agent("scout", llm, [search_tool]),
-        "compass": _make_agent("compass", llm, [file_read, file_write]),
-        "herald": _make_agent("herald", llm, [search_tool]),
-        "guardian": _make_agent("guardian", llm, [search_tool]),
+        "sage":      _make_agent("sage",      llm, [search_tool, file_write]),
+        "diego":     _make_agent("diego",     llm, [search_tool, file_write]),
+        "scout":     _make_agent("scout",     llm, [search_tool]),
+        "compass":   _make_agent("compass",   llm, [file_read, file_write]),
+        "herald":    _make_agent("herald",    llm, [search_tool]),
+        "guardian":  _make_agent("guardian",  llm, [search_tool]),
         # Pulse can delegate so it can chair the hierarchical weekly meeting.
         "pulse": _make_agent(
             "pulse", llm, [email_tool, file_write], allow_delegation=True
@@ -105,10 +106,12 @@ def build_daily_tasks(agents: dict[str, Agent]) -> dict[str, Task]:
 
     Dependency graph (context flows downstream):
         scout ──┬─> sage      (post informed by today's news)
+                ├─> diego     (content series + Substack built on news + Sage's post)
                 ├─> herald    (pitch references the intelligence)
                 └─> navigator (outreach can use timely hooks)
+        sage   ──> diego      (Substack companion aligned to LinkedIn post)
         guardian ─> navigator (safeguarding read informs outreach)
-        all 6  ──> pulse      (compiles everything)
+        all 7  ──> pulse      (compiles everything)
     """
     scout = Task(
         description=_fmt(TASKS_CFG["scout_task"]["description"]),
@@ -132,11 +135,17 @@ def build_daily_tasks(agents: dict[str, Agent]) -> dict[str, Task]:
         agent=agents["sage"],
         context=[scout],
     )
+    diego = Task(
+        description=_fmt(TASKS_CFG["diego_task"]["description"]),
+        expected_output=_fmt(TASKS_CFG["diego_task"]["expected_output"]),
+        agent=agents["diego"],
+        context=[scout, sage],
+    )
     herald = Task(
         description=_fmt(TASKS_CFG["herald_task"]["description"]),
         expected_output=_fmt(TASKS_CFG["herald_task"]["expected_output"]),
         agent=agents["herald"],
-        context=[scout],
+        context=[scout, sage],
     )
     compass = Task(
         description=_fmt(TASKS_CFG["compass_task"]["description"]),
@@ -147,23 +156,24 @@ def build_daily_tasks(agents: dict[str, Agent]) -> dict[str, Task]:
         description=_fmt(TASKS_CFG["pulse_daily_task"]["description"]),
         expected_output=_fmt(TASKS_CFG["pulse_daily_task"]["expected_output"]),
         agent=agents["pulse"],
-        context=[scout, guardian, navigator, sage, herald, compass],
+        context=[scout, guardian, navigator, sage, diego, herald, compass],
     )
     return {
-        "scout": scout,
-        "guardian": guardian,
+        "scout":     scout,
+        "guardian":  guardian,
         "navigator": navigator,
-        "sage": sage,
-        "herald": herald,
-        "compass": compass,
-        "pulse": pulse,
+        "sage":      sage,
+        "diego":     diego,
+        "herald":    herald,
+        "compass":   compass,
+        "pulse":     pulse,
     }
 
 
 # --------------------------------------------------------------------------- #
 # Crew factories
 # --------------------------------------------------------------------------- #
-DAILY_ORDER = ["scout", "guardian", "navigator", "sage", "herald", "compass", "pulse"]
+DAILY_ORDER = ["scout", "guardian", "navigator", "sage", "diego", "herald", "compass", "pulse"]
 
 
 def build_daily_crew(llm: LLM | None = None) -> tuple[Crew, dict[str, Task], dict[str, Agent]]:
@@ -185,7 +195,7 @@ def build_weekly_crew(llm: LLM | None = None) -> tuple[Crew, dict[str, Agent]]:
     agents = build_agents(llm)
 
     manager = agents["pulse"]
-    workers = ["scout", "guardian", "navigator", "sage", "herald", "compass"]
+    workers = ["scout", "guardian", "navigator", "sage", "diego", "herald", "compass"]
 
     weekly_task = Task(
         description=_fmt(TASKS_CFG["pulse_weekly_task"]["description"]),
