@@ -3,7 +3,8 @@
 Each agent runs with the real outputs of upstream agents injected into their
 task description — so Navigator literally reads Scout's intelligence and
 Guardian's safeguarding watch before deciding who to target, Sage uses Scout's
-news hook, and so on. Pulse compiles everything into the founder email.
+news hook, Diego reads Scout + Sage to write the content series and Substack
+newsletter, and so on. Pulse compiles everything into the founder email.
 
 Run:  python agents/daily_briefing.py
 Env:  ANTHROPIC_API_KEY, GMAIL_USER, GMAIL_APP_PASSWORD
@@ -37,15 +38,16 @@ from crewai import Crew, Process, Task
 TODAY = date.today().isoformat()
 
 # Run order — each key maps to its tasks.yaml entry
-SPECIALISTS = ["scout", "guardian", "navigator", "sage", "herald", "compass"]
+SPECIALISTS = ["scout", "guardian", "navigator", "sage", "diego", "herald", "compass"]
 
 DISPLAY = {
-    "scout":    "Scout",
-    "guardian": "Guardian",
-    "navigator":"Navigator",
-    "sage":     "Sage",
-    "herald":   "Herald",
-    "compass":  "Compass",
+    "scout":     "Scout",
+    "guardian":  "Guardian",
+    "navigator": "Navigator",
+    "sage":      "Sage",
+    "diego":     "Diego",
+    "herald":    "Herald",
+    "compass":   "Compass",
 }
 
 AGENT_META = {
@@ -53,6 +55,7 @@ AGENT_META = {
     "Guardian":  ("🛡️", "Safeguarding & Child Safety"),
     "Navigator": ("🧭", "LinkedIn & Sales Growth"),
     "Sage":      ("✍️", "Content & Thought Leadership"),
+    "Diego":     ("📝", "Brand, Content Series & Substack"),
     "Herald":    ("📣", "PR & Media"),
     "Compass":   ("🎯", "Revenue & £1M Mission"),
     "Pulse":     ("💓", "Daily Operations"),
@@ -63,10 +66,11 @@ AGENT_META = {
 CONTEXT_DEPS: dict[str, list[str]] = {
     "scout":     [],
     "guardian":  [],
-    "navigator": ["Scout", "Guardian"],   # outreach hooks from news + safeguarding
-    "sage":      ["Scout"],               # news hook for LinkedIn post
-    "herald":    ["Scout", "Sage"],       # news peg + content angle Sage chose
-    "compass":   [],                      # reads revenue_data.json directly
+    "navigator": ["Scout", "Guardian"],  # outreach hooks from news + safeguarding
+    "sage":      ["Scout"],              # news hook for LinkedIn post
+    "diego":     ["Scout", "Sage"],      # series post + Substack built on news + Sage's post
+    "herald":    ["Scout", "Sage"],      # news peg + content angle Sage chose
+    "compass":   [],                     # reads revenue_data.json directly
 }
 
 
@@ -90,9 +94,7 @@ def _build_task(key: str, agent, context_outputs: dict[str, str]) -> Task:
             findings in your response, and build directly on what your colleagues
             have already found. Do not duplicate their work; extend it.
         """)
-        blocks = []
-        for name, output in relevant.items():
-            blocks.append(f"\n### {name} says:\n{output}")
+        blocks = [f"\n### {name} says:\n{output}" for name, output in relevant.items()]
         desc = desc + header + "\n".join(blocks)
 
     return Task(description=desc, expected_output=expected, agent=agent)
@@ -144,8 +146,8 @@ def main() -> int:
 
     # Accumulated outputs keyed by DISPLAY name — shared between agents
     collected: dict[str, str] = {}
-    sections: dict[str, str] = {}
-    failures: list[str] = []
+    sections:  dict[str, str] = {}
+    failures:  list[str] = []
 
     for key in SPECIALISTS:
         name = DISPLAY[key]
@@ -165,18 +167,18 @@ def main() -> int:
             print(f"!! {name} failed: {exc}")
             traceback.print_exc()
 
-    # Pulse compiles everything — gets all six outputs as injected context
-    pulse_context = "\n\n".join(
-        f"### {n}\n{t}" for n, t in sections.items()
-    )
+    # Pulse compiles everything — gets all seven outputs as injected context
+    pulse_context = "\n\n".join(f"### {n}\n{t}" for n, t in sections.items())
     pulse_desc = textwrap.dedent(f"""
         You are compiling the Guided Childhood morning briefing for {TODAY}.
-        Below are the outputs from all six specialists on your team. Synthesise
+        Below are the outputs from all seven specialists on your team. Synthesise
         them into a concise 3-4 sentence executive summary: the single most
         important thing today, where Guided Childhood stands on the £1M ARR
         mission, and the one action to take right now. Acknowledge any ⚠️
         failures briefly. Then compile a clean scannable briefing with one
-        labelled section per agent.
+        labelled section per agent. Note cross-agent connections explicitly
+        (e.g. Diego built the content series on Scout's finding about X and
+        aligned the Substack newsletter to Sage's LinkedIn post).
 
         AGENT OUTPUTS:
         {pulse_context}
