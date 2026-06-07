@@ -12,8 +12,8 @@ scout_task:
     framework changes, and notable EdTech moves. Use web search to verify and
     find sources. For each item explain in one line WHY it matters to Guided
     Childhood, a platform helping children aged 4-16 navigate digital life
-    safely. Your findings will be read by Navigator, Sage, and Herald — make
-    them specific and actionable.
+    safely. Your findings will be read by Navigator, Sage, Diego and Herald —
+    make them specific and actionable.
   expected_output: >
     A 3-5 bullet intelligence briefing. Each bullet: a one-line headline, a
     one-line "why it matters to Guided Childhood", and a source link.
@@ -87,6 +87,87 @@ sage_task:
     YOUR ACTION TODAY: [one concrete sentence — e.g. "Post this LinkedIn piece before 10am for best reach"]
     YOUR QUESTION: [one question you need answered to do better tomorrow]
 
+diego_task:
+  description: >
+    Today is {date}. You are Diego, the brand storytelling and Substack lead.
+
+    You have received Scout's intelligence briefing and Sage's LinkedIn post as
+    context above. Read both carefully.
+
+    YOUR JOB HAS THREE PARTS:
+
+    ---
+    PART 1 — NEXT SERIES POST (LinkedIn, 200-350 words):
+
+    Write the next post in Justin's proven viral content series. Follow this
+    exact format — do not deviate:
+
+    1. Lead with ONE precise, cited data point from today's news or research
+    2. State what it IS and what it ISN'T — be direct, no hedging
+    3. Ground it with a memorable comparison that makes the number land
+    4. Cite multiple independent sources reaching the same conclusion
+    5. Deliver the proportionality argument — what gets most attention vs what
+       actually drives the most impact (use percentages, be specific)
+    6. Name or reference the series (e.g. "The Wrong Villain series continued")
+    7. Offer a tool/resource via a COMMENT KEYWORD — do not put the URL in the
+       post body, LinkedIn suppresses reach. Instead write:
+       "Drop [KEYWORD] in the comments and I'll send you the link."
+    8. Repost ask + follow ask — direct, not apologetic
+    9. End with a question that invites the sharpest disagreement
+
+    PRE-EMPT these objections naturally in the post body:
+    - The average hides a vulnerable minority (address: concentrated harm, not
+      small harm — wrong villain doesn't mean no villain)
+    - Missing citations (put source in first comment, not post body)
+    - Social media as amplifier not originator (use this as your core thesis)
+    - The policy response is aimed at the average child while the minority who
+       are actually harmed sit in a part of the distribution nobody is funding
+
+    ---
+    PART 2 — SUBSTACK NEWSLETTER (600-900 words):
+
+    Write a long-form Substack newsletter that is the deep-dive companion to
+    today's LinkedIn series post. Sage's post is the educator-facing hook;
+    this newsletter goes deeper for the researchers, clinicians and policy
+    people who followed up in the comments.
+
+    Include:
+    - A strong opening that references the LinkedIn post and what the comments revealed
+    - Full citations for every claim (URLs are fine in Substack)
+    - Deeper treatment of the 2-3 sharpest objections raised in comments
+    - The narrative arc: how this post fits into the Wrong Villain series
+    - A call to action: subscribe, share, reply with their own evidence
+    - Use Substack-appropriate formatting: headers (##), pull quotes (>),
+      short paragraphs
+
+    ---
+    PART 3 — CHATGPT STYLE PROMPTS (for maintaining consistent voice):
+
+    Write 3 short ChatGPT prompts Justin can copy-paste to produce future posts
+    in this style. Each prompt should encode:
+    - The voice (calm, evidence-led, proportionality spine, never preachy)
+    - The format (data hook → IS/ISN'T → comparison → proportionality → series name → CTA)
+    - The pre-empted objections to weave in
+    Keep each prompt under 150 words.
+
+  expected_output: >
+    Start with: "Series hook used: [the Scout finding or research point you built on]"
+
+    Then three clearly labelled sections:
+
+    ## PART 1 — LINKEDIN SERIES POST
+    [200-350 word post in the exact proven format]
+
+    ## PART 2 — SUBSTACK NEWSLETTER
+    [600-900 word long-form newsletter with headers and citations]
+
+    ## PART 3 — CHATGPT STYLE PROMPTS
+    [3 numbered prompts, each under 150 words]
+
+    End with exactly two lines:
+    YOUR ACTION TODAY: [e.g. "Post Part 1 now; paste Part 2 into Substack as a draft; save the 3 prompts"]
+    YOUR QUESTION: [one question about the series direction or evidence you need Justin to answer]
+
 herald_task:
   description: >
     Identify the single best PR opportunity of the day ({date}) for Guided
@@ -126,23 +207,26 @@ compass_task:
 pulse_daily_task:
   description: >
     You are compiling the Guided Childhood morning briefing for {date}.
-    You have the outputs of all six agents as context. Synthesise them into
-    a 3-4 sentence executive summary: the single most important thing today,
+    You have the outputs of all seven specialists as context. Synthesise them
+    into a 3-4 sentence executive summary: the single most important thing today,
     where Guided Childhood stands on the £1M ARR mission, and the one action
     to take. Sections marked failed — acknowledge briefly. Then compile a
     clean, scannable briefing with one clearly labelled section per agent.
-    Note any cross-agent connections explicitly.
+    Note any cross-agent connections explicitly (e.g. Diego built on Scout's
+    finding about X; Sage's hook and Diego's Substack companion are aligned).
   expected_output: >
     A 3-4 sentence executive summary followed by labelled sections for each
-    agent (Research, Safeguarding, LinkedIn Targets, Today's Post, PR, Revenue).
-    Highlight cross-agent connections. Suitable for rendering into an HTML email.
+    agent (Research, Safeguarding, LinkedIn Targets, Today's Post, Content Series
+    & Substack, PR, Revenue). Highlight cross-agent connections. Suitable for
+    rendering into an HTML email.
 
 pulse_weekly_task:
   description: >
     Chair the Guided Childhood weekly Monday meeting for the week of {date}.
-    As manager, coordinate all six specialists so information genuinely flows
-    between them: Scout's intelligence must inform Sage and Herald's angles;
-    Guardian's safeguarding read must inform Navigator's outreach framing;
+    As manager, coordinate all seven specialists so information genuinely flows
+    between them: Scout's intelligence must inform Sage, Diego and Herald's
+    angles; Guardian's safeguarding read must inform Navigator's outreach framing;
+    Diego must build the content series on Scout's strongest finding;
     Compass must tie every recommendation back to the £1M ARR mission.
     Delegate tasks, ask follow-up questions between agents, and surface
     cross-agent dependencies explicitly.
