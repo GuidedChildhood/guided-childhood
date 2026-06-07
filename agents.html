@@ -131,7 +131,6 @@ a { color:var(--green-dark); text-decoration:none; }
 .pulse-meta { font-size:12px; color:rgba(253,252,248,.45); margin-top:10px; }
 
 .loading-state { text-align:center; padding:60px 24px; color:var(--ink-muted); }
-
 .footer { border-top:1px solid var(--border); padding:24px; text-align:center; color:var(--ink-muted); font-size:13px; margin-top:20px; }
 
 @media(max-width:680px) {
@@ -162,7 +161,7 @@ a { color:var(--green-dark); text-decoration:none; }
 <div class="hero">
   <div class="eyebrow">Guided Childhood · Agent Team</div>
   <h1>Your AI Team</h1>
-  <p class="hero-sub">7 specialists working every morning. Each one tells you exactly what to do.</p>
+  <p class="hero-sub">8 specialists working every morning. Each one tells you exactly what to do.</p>
   <div class="mission-row">
     <div class="mission-pill">Mission: <span class="pound">&nbsp;£1,000,000&nbsp;</span> ARR · Safer childhoods online</div>
   </div>
@@ -216,6 +215,14 @@ const AGENTS = [
     chatUses:["Posted ✓ — got 12 reactions","Make tomorrow's post more conversational, less formal","Focus the next post on parents not teachers"],
     defaultAction:"Post Sage's LinkedIn draft right now — copy it, paste it, post it.",
     defaultQuestion:"What's the one message about Guided Childhood you most want educators to remember?"
+  },
+  {
+    key:"Diego", emoji:"📝", role:"Brand, Content Series & Substack",
+    portrait:"",
+    produces:"Next post in the Wrong Villain series (proven viral format) + a 600–900 word Substack newsletter companion + 3 ChatGPT prompts to keep Justin's voice consistent across everything.",
+    chatUses:["This post format worked well — keep it","Focus next series post on the phone ban evidence","The objection about distribution keeps coming up — pre-empt it harder next time"],
+    defaultAction:"Post Diego's LinkedIn series post and paste the Substack newsletter draft into Substack as a draft.",
+    defaultQuestion:"Which dataset or research finding should the next series post be built around?"
   },
   {
     key:"Herald", emoji:"📣", role:"PR & Media",
@@ -300,14 +307,19 @@ function renderCard(cfg, data, container) {
     `<span class="speak-use-chip" onclick="fillReply('${cfg.key}',${JSON.stringify(u)})">${esc(u)}</span>`
   ).join("");
 
+  const portraitHtml = cfg.portrait
+    ? `<img class="portrait" src="${cfg.portrait}" alt="${cfg.key}" onerror="this.style.display='none';this.nextElementSibling.style.display='grid';" /><div class="portrait-fallback" style="display:none">${cfg.emoji}</div>`
+    : `<div class="portrait-fallback">${cfg.emoji}</div>`;
+  const avatarHtml = cfg.portrait
+    ? `<img class="speak-avatar" src="${cfg.portrait}" alt="${cfg.key}" onerror="this.style.display='none';this.nextElementSibling.style.display='grid';" /><div class="speak-avatar-fallback" style="display:none">${cfg.emoji}</div>`
+    : `<div class="speak-avatar-fallback">${cfg.emoji}</div>`;
+
   const card = document.createElement("div");
   card.className = `agent-card ${raw?(isError?"error-card":"ok-card"):""}`;
   card.innerHTML = `
     <div class="agent-left">
       <div class="portrait-wrap">
-        <img class="portrait" src="${cfg.portrait}" alt="${cfg.key}"
-             onerror="this.style.display='none';this.nextElementSibling.style.display='grid';" />
-        <div class="portrait-fallback" style="display:none">${cfg.emoji}</div>
+        ${portraitHtml}
         <div class="agent-status-dot${!raw?" offline":""}"></div>
       </div>
       <div class="agent-name-panel">
@@ -341,9 +353,7 @@ function renderCard(cfg, data, container) {
       </div>
       <div class="speak-box">
         <div class="speak-header">
-          <img class="speak-avatar" src="${cfg.portrait}" alt="${cfg.key}"
-               onerror="this.style.display='none';this.nextElementSibling.style.display='grid';" />
-          <div class="speak-avatar-fallback" style="display:none">${cfg.emoji}</div>
+          ${avatarHtml}
           <div class="speak-header-text">
             <div class="speak-question"><em>${cfg.key} asks:</em> &ldquo;${esc(question)}&rdquo;</div>
             <div class="speak-uses">${chipsHtml}</div>
@@ -357,7 +367,7 @@ function renderCard(cfg, data, container) {
             oninput="this.style.height='52px';this.style.height=this.scrollHeight+'px'"></textarea>
           <button class="send-btn" onclick="sendReply('${cfg.key}')">Send ↑</button>
         </div>
-        <div class="speak-hint">Tap a suggestion to pre-fill · Ctrl+Enter to send · Replies saved locally and will guide tomorrow's run</div>
+        <div class="speak-hint">Tap a suggestion to pre-fill · Ctrl+Enter to send · Replies guide tomorrow's run</div>
       </div>
     </div>`;
   container.appendChild(card);
