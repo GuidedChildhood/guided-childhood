@@ -6,18 +6,27 @@ Guardian's safeguarding watch before deciding who to target, Sage uses Scout's
 news hook, Diego reads Scout + Sage to write the content series and Substack
 newsletter, and so on. Pulse compiles everything into the founder email.
 
+Scout also reads any Google Alerts that arrived in GMAIL_USER's inbox in the
+last 24 hours before starting web research — those headlines act as pre-filtered
+leads so Scout can verify and expand rather than start from scratch.
+
 Run:  python agents/daily_briefing.py
 Env:  ANTHROPIC_API_KEY, GMAIL_USER, GMAIL_APP_PASSWORD
 """
 
 from __future__ import annotations
 
+import email as email_lib
+import html as html_lib
+import imaplib
 import json
 import os
+import re
 import sys
 import textwrap
 import traceback
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timedelta, timezone
+from email.header import decode_header as _decode_header
 
 # CrewAI validates OPENAI_API_KEY at import time even when using Claude.
 # Set a dummy value so the validation passes — it is never sent to OpenAI.
@@ -74,14 +83,133 @@ CONTEXT_DEPS: dict[str, list[str]] = {
 }
 
 
+# ---------------------------------------------------------------------------
+# Google Alerts inbox reader
+# ---------------------------------------------------------------------------
+
+def fetch_google_alerts(gmail_user: str, gmail_password: str) -> str:
+    """Read Google Alerts emails from the last 24h and return a formatted list.
+
+    Connects to Gmail via IMAP, finds emails from
+    googlealerts-noreply@google.com, extracts article headlines and URLs,
+    and returns them as a bullet list ready to inject into Scout's prompt.
+    Returns an empty string if credentials are missing or no alerts arrived.
+    """
+    if not gmail_user or not gmail_password:
+        return ""
+
+    try:
+        mail = imaplib.IMAP4_SSL("imap.gmail.com")
+        mail.login(gmail_user, gmail_password)
+        mail.select("inbox")
+
+        since = (datetime.now(timezone.utc) - timedelta(hours=24)).strftime("%d-%b-%Y")
+        _, data = mail.search(
+            None,
+            f'(FROM "googlealerts-noreply@google.com" SINCE "{since}")',
+        )
+
+        if not data or not data[0]:
+            mail.logout()
+            return ""
+
+        alerts: list[str] = []
+        link_re = re.compile(r'<a[^>]+href="([^"]+)"[^>]*>(.*?)</a>', re.DOTALL)
+
+        for num in data[0].split()[:10]:  # cap at 10 alert emails
+            _, msg_data = mail.fetch(num, "(RFC822)")
+            if not msg_data or not msg_data[0]:
+                continue
+
+            msg = email_lib.message_from_bytes(msg_data[0][1])
+
+            # Decode subject → extract the alert topic
+            raw = msg.get("Subject", "Google Alert")
+            decoded = _decode_header(raw)[0]
+            subject = (
+                decoded[0].decode(decoded[1] or "utf-8")
+                if isinstance(decoded[0], bytes)
+                else decoded[0]
+            )
+            topic = re.sub(r"^Google Alert\s*[-–:]\s*", "", subject).strip()
+
+            # Find HTML body
+            body = ""
+            for part in msg.walk():
+                if part.get_content_type() == "text/html":
+                    raw_payload = part.get_payload(decode=True)
+                    if raw_payload:
+                        body = raw_payload.decode("utf-8", errors="ignore")
+                    break
+
+            if not body:
+                continue
+
+            for href, inner in link_re.findall(body):
+                # Skip Google internal links (preferences, unsubscribe, etc.)
+                if any(
+                    x in href
+                    for x in ("google.com/alerts", "accounts.google.com", "support.google.com")
+                ):
+                    continue
+
+                # Clean HTML tags from link text
+                headline = html_lib.unescape(re.sub(r"<[^>]+>", "", inner).strip())
+
+                # Filter out nav fragments and very long strings
+                if len(headline) < 30 or len(headline) > 300:
+                    continue
+
+                # Unwrap Google redirect to get the real URL
+                url_match = re.search(r"url=([^&]+)", href)
+                if url_match:
+                    try:
+                        from urllib.parse import unquote
+                        real_url = unquote(url_match.group(1))
+                    except Exception:
+                        real_url = href
+                else:
+                    real_url = href
+
+                alerts.append(f"- {headline} [Alert topic: {topic}] — {real_url}")
+                if len(alerts) >= 20:
+                    break
+
+            if len(alerts) >= 20:
+                break
+
+        mail.logout()
+        return "\n".join(alerts)
+
+    except Exception as exc:
+        print(f"Warning: Google Alerts fetch failed (non-fatal): {exc}")
+        return ""
+
+
+# ---------------------------------------------------------------------------
+# Task builder
+# ---------------------------------------------------------------------------
+
 def _fmt(text: str) -> str:
     return text.strip().replace("{date}", TODAY)
 
 
-def _build_task(key: str, agent, context_outputs: dict[str, str]) -> Task:
-    """Create a Task with real upstream outputs injected into the description."""
+def _build_task(
+    key: str,
+    agent,
+    context_outputs: dict[str, str],
+    pre_inject: str = "",
+) -> Task:
+    """Create a Task with real upstream outputs injected into the description.
+
+    pre_inject is prepended verbatim before the task description — used to
+    pass Google Alerts headlines to Scout before web research starts.
+    """
     desc = _fmt(TASKS_CFG[f"{key}_task"]["description"])
     expected = _fmt(TASKS_CFG[f"{key}_task"]["expected_output"])
+
+    if pre_inject:
+        desc = pre_inject.strip() + "\n\n" + desc
 
     deps = CONTEXT_DEPS.get(key, [])
     relevant = {name: context_outputs[name] for name in deps if name in context_outputs}
@@ -132,6 +260,10 @@ def _save_outputs(sections: dict, intro: str, failures: list) -> None:
     print(f"Saved outputs to {out_path}")
 
 
+# ---------------------------------------------------------------------------
+# Main
+# ---------------------------------------------------------------------------
+
 def main() -> int:
     anthropic_key = os.getenv("ANTHROPIC_API_KEY", "")
     if not anthropic_key:
@@ -140,6 +272,32 @@ def main() -> int:
         print(f"ANTHROPIC_API_KEY set (length {len(anthropic_key)}, starts {anthropic_key[:8]}...)")
 
     print(f"=== Guided Childhood daily briefing — {TODAY} ===")
+
+    # Fetch Google Alerts from Gmail before agents start.
+    # Scout gets these as pre-filtered leads — it verifies and expands via web search.
+    gmail_user = os.getenv("GMAIL_USER", "")
+    gmail_password = os.getenv("GMAIL_APP_PASSWORD", "")
+    google_alerts = fetch_google_alerts(gmail_user, gmail_password)
+    if google_alerts:
+        alert_count = google_alerts.count("\n") + 1
+        print(f"Fetched {alert_count} Google Alert headline(s) from Gmail inbox")
+        scout_pre_inject = textwrap.dedent(f"""
+            ---
+            GOOGLE ALERTS — HEADLINES FROM YOUR GMAIL INBOX (last 24 hours)
+            These arrived via Google Alerts set up for relevant topics. They are
+            pre-filtered, high-signal leads. Start here, then verify and expand
+            each with your web search tools. Do NOT invent sources — every claim
+            must be backed by a real URL you can find.
+
+            {google_alerts}
+            ---
+        """).strip()
+    else:
+        if gmail_user:
+            print("No Google Alerts found in inbox for the last 24h (or Gmail fetch failed)")
+        else:
+            print("GMAIL_USER not set — skipping Google Alerts inbox check")
+        scout_pre_inject = ""
 
     llm = build_llm()
     agents = build_agents(llm)
@@ -153,7 +311,9 @@ def main() -> int:
         name = DISPLAY[key]
         print(f"\n--- Running {name} (context: {CONTEXT_DEPS.get(key, [])}) ---")
         try:
-            task = _build_task(key, agents[key], collected)
+            # Scout gets Google Alerts prepended; all other agents get nothing extra
+            pre = scout_pre_inject if key == "scout" else ""
+            task = _build_task(key, agents[key], collected, pre_inject=pre)
             output = _run_single(agents[key], task)
             result = output or "(no output produced)"
             sections[name] = result
