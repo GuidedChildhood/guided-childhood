@@ -1,3 +1,4 @@
+
 # Task definitions for the Guided Childhood crew.
 # Context injection (passing real upstream outputs) is handled in daily_briefing.py.
 # The {date} placeholder is substituted at runtime with today's ISO date.
@@ -9,15 +10,22 @@ scout_task:
     safeguarding and children's digital literacy. Prioritise:
     Department for Education and Ofqual announcements, the Online Safety Act
     and Ofcom enforcement, NSPCC / Internet Matters / Childnet reports, Ofsted
-    framework changes, and notable EdTech moves. Use web search to verify and
-    find sources. For each item explain in one line WHY it matters to Guided
-    Childhood, a platform helping children aged 4-16 navigate digital life
-    safely. Your findings will be read by Navigator, Sage, Diego and Herald —
-    make them specific and actionable.
+    framework changes, notable EdTech moves, and — critically — any
+    announcements by Prime Minister Keir Starmer, DCMS, or DSIT regarding
+    social media companies and tech regulation (age verification, algorithm
+    accountability, duty of care enforcement, platform fines, or new
+    government commitments on children's online safety). Check Starmer's
+    official social media accounts, gov.uk press releases, and UK political
+    news sources for the latest tech policy signals. Use web search to verify
+    and find sources. For each item explain in one line WHY it matters to
+    Guided Childhood, a platform helping children aged 4-16 navigate digital
+    life safely. Your findings will be read by Navigator, Sage, Diego and
+    Herald — make them specific and actionable.
   expected_output: >
     A 3-5 bullet intelligence briefing. Each bullet: a one-line headline, a
     one-line "why it matters to Guided Childhood", and a source link.
     No preamble, no filler. Be specific — vague summaries are useless to the team.
+    If there is a Starmer / government tech policy release today, flag it first.
     End with exactly two lines:
     YOUR ACTION TODAY: [one concrete sentence telling the founder what to do right now]
     YOUR QUESTION: [one question you need answered to do better tomorrow]
