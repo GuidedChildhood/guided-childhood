@@ -1,0 +1,16 @@
+{
+  "agent": "herald",
+  "run_count": 0,
+  "last_updated": "",
+  "journalists_pitched": [],
+  "outlets_with_appetite": [
+    "TES (Times Educational Supplement) — education + safeguarding angles",
+    "The Guardian Education — policy and digital childhood",
+    "BBC News Education — national policy hooks",
+    "Schools Week — MAT and policy implementation angles"
+  ],
+  "angles_already_used": [],
+  "recent_actions": [],
+  "recent_questions": [],
+  "notes_to_self": "Memory starts empty — builds from real runs. Track every journalist pitched to avoid repeating within 30 days."
+}
