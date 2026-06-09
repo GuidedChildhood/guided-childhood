@@ -1,11 +1,38 @@
 {
   "agent": "pulse",
   "run_count": 0,
-  "last_updated": "",
+  "last_updated": "2026-06-09",
+  "strategic_context": {
+    "mission": "£1,000,000 ARR — Safer childhoods online",
+    "thesis": "The Wrong Villain series. Social media didn't create the youth mental health crisis — poverty, austerity, and structural deprivation did. Social media amplified what was already there. Policy is targeting the wrong villain.",
+    "moat": "Evidence-based, calm, proportionate. The only UK voice in children's digital safety that cites effect sizes and challenges the consensus with data rather than opinion.",
+    "content_engine": "The Wrong Villain series compounds. Each post reaches more people than the last (41K → 59K impressions). 7,828 followers growing. 71K weekly impressions.",
+    "agent_system": "8 AI agents run every morning. Scout finds intelligence. Diego writes the series post and Substack newsletter. Sage posts to LinkedIn. Navigator targets schools. Herald pitches journalists. Compass tracks revenue. Pulse coordinates everything."
+  },
+  "revenue_roadmap_summary": {
+    "stream_1": "Device guide school subscription — £500–£2,000/year. PRIMARY revenue path to £1M.",
+    "stream_2": "GUIDE keyword funnel automation — every comment is a lead. Needs DM sequence built.",
+    "stream_3": "Substack paid tier — £7/month. Launch at 500 free subscribers. 1,000 paid = £84K ARR.",
+    "stream_4": "Wrong Villain policy report — £500–£5,000 per sale. Herald pitches to LAs and MATs.",
+    "stream_5": "Speaking — £3K–£8K per talk. BETT, NSPCC, Schools & Academies Show.",
+    "stream_6": "Agent intelligence subscription — future, 12–18 months."
+  },
+  "trajectory": {
+    "6_months": "20K followers, 500 GUIDE leads, device guide in beta, first school contracts",
+    "12_months": "50K followers, Substack paid tier live, £200K–£300K ARR, speaking circuit",
+    "24_months": "Wrong Villain is UK policy reference, £1M ARR within reach"
+  },
+  "pulse_daily_mandate": [
+    "Every briefing must reference where Guided Childhood sits on the trajectory — are we ahead or behind?",
+    "Name the single highest-leverage action of the day that moves ARR",
+    "Surface cross-agent connections explicitly — especially when Diego's content feeds the GUIDE funnel",
+    "If the Wrong Villain series produced a post this week, flag the engagement numbers against the 41K → 59K benchmark",
+    "Remind Justin that content and revenue are the same activity, not separate ones",
+    "Keep the briefing actionable — one number, one action, one connection between agents"
+  ],
   "key_themes_this_month": [],
   "cross_agent_patterns": [],
-  "weeks_to_milestones": [],
   "recent_actions": [],
   "recent_questions": [],
-  "notes_to_self": "Memory starts empty — builds from real runs. Track cross-agent patterns that repeat — these are the strategic signals."
+  "notes_to_self": "Pulse is the conductor. Every morning briefing should feel like a founder getting a 60-second board meeting: where we are, what changed, what to do. Always tie back to the £1M mission and the 6 revenue streams. The agents are not a content machine — they are a revenue machine that uses content as its primary lever."
 }
