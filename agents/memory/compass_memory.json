@@ -2,38 +2,97 @@
   "agent": "compass",
   "run_count": 0,
   "last_updated": "2026-06-09",
+  "mission": "£1,000,000 ARR — Safer childhoods online",
   "linkedin_metrics": {
-    "note": "Real data from Justin's LinkedIn analytics — as of 2026-06-09",
     "followers": 7828,
-    "connections": "500+",
-    "profile_views_last_7_days": 1667,
-    "post_impressions_last_7_days": 71134,
-    "content_analytics": {
-      "total_social_engagements": 2009,
-      "reactions": 1374,
-      "comments": 276,
-      "reposts": 59,
-      "saves": 258,
-      "sends_on_linkedin": 42,
-      "link_engagements": 50
-    },
-    "top_performing_post": {
-      "description": "β = 0.061 — The Effect Size That Changes Everything",
-      "impressions": 59144,
-      "engagements": 2009
-    }
+    "weekly_impressions": 71134,
+    "total_engagements": 2009,
+    "saves": 258,
+    "note": "Growing fast. Series compounds. Each post reaches more people than the last."
   },
+  "revenue_roadmap": {
+    "note": "Six revenue streams. Compass must remind Justin which lever to pull each day based on where ARR currently sits.",
+    "streams": [
+      {
+        "id": 1,
+        "name": "Device Guide — School Subscription",
+        "description": "Age-unlocking device settings guide, science-backed, calendar reminders, AI-updated. Schools pay annually.",
+        "pricing": "£500–£2,000 per school per year",
+        "target": "100 schools = £100K ARR. 500 schools = £500K ARR",
+        "status": "In development",
+        "lever": "Every GUIDE comment is a warm school lead. GUIDE funnel feeds this.",
+        "priority": "PRIMARY — this is the path to £1M"
+      },
+      {
+        "id": 2,
+        "name": "GUIDE Keyword Funnel → Demo Conversion",
+        "description": "Every person who drops GUIDE in LinkedIn comments enters an automated sequence: framework PDF → device guide → demo invitation",
+        "pricing": "Free to enter, converts to school subscription",
+        "target": "Each GUIDE lead worth £50–£200 in expected value",
+        "status": "Manual currently — needs automation",
+        "lever": "Diego posts drive GUIDE comments. More posts = more leads.",
+        "priority": "HIGH — automate the DM sequence immediately"
+      },
+      {
+        "id": 3,
+        "name": "Substack Paid Tier",
+        "description": "£7/month for full research citations, advance posts, ChatGPT voice prompts, monthly evidence deep dive",
+        "pricing": "£7/month per subscriber",
+        "target": "1,000 paid = £84K ARR. Achievable in 3 months at current trajectory.",
+        "status": "Not launched — Diego writes companion newsletters, audience is building",
+        "lever": "Every Diego Substack companion builds the list. Launch paid tier at 500 free subscribers.",
+        "priority": "HIGH — fast path to significant ARR with zero marginal cost"
+      },
+      {
+        "id": 4,
+        "name": "The Wrong Villain Policy Report",
+        "description": "Posts 1–10 compiled into a PDF policy briefing with full citations. One-time product.",
+        "pricing": "£500 individual schools, £2,000 MATs, £5,000 local authorities",
+        "target": "10 LA sales = £50K. Credibility built by series already.",
+        "status": "Not created — Diego and Scout build the content, Herald pitches it",
+        "lever": "Herald should be pitching this to LA safeguarding teams now",
+        "priority": "MEDIUM — Herald-led, can move fast once series has 8-10 posts"
+      },
+      {
+        "id": 5,
+        "name": "Speaking",
+        "description": "Conference keynote — BETT, Schools & Academies Show, NSPCC, PSHE Association",
+        "pricing": "£3,000–£8,000 per talk",
+        "target": "10 talks/year = £30K–£80K. Each talk drives new GUIDE funnel entries.",
+        "status": "Not booked — Herald should be pursuing this now",
+        "lever": "Wrong Villain series IS the keynote. β = 0.061 is the hook. 164 people argued — that's an audience.",
+        "priority": "MEDIUM — drives followers and credibility as much as direct revenue"
+      },
+      {
+        "id": 6,
+        "name": "Agent Intelligence Subscription (B2B)",
+        "description": "Weekly intelligence briefings powered by Scout and the agent system. For EdTech founders, LA safeguarding teams, children's charities.",
+        "pricing": "£200/month per organisation",
+        "target": "50 subscribers = £120K ARR",
+        "status": "Future — build once core product is at £300K ARR",
+        "lever": "The agent system itself becomes a product once proven",
+        "priority": "FUTURE — 12–18 months"
+      }
+    ]
+  },
+  "trajectory_forecast": {
+    "now": "Agent system running, series building, 7.8K followers",
+    "6_months": "20K followers, 500 GUIDE leads captured, device guide in beta, first school contracts signed",
+    "12_months": "50K followers, Substack paid tier live, £200K–£300K ARR, speaking circuit active",
+    "24_months": "Wrong Villain is cited evidence base in UK policy, £1M ARR within reach"
+  },
+  "compass_daily_mandate": [
+    "Every morning: check ARR against the trajectory. Are we ahead or behind the 6-month forecast?",
+    "Identify which of the 6 revenue streams has the most momentum today and recommend ONE action on it",
+    "The GUIDE funnel is the master lever — more Diego posts = more GUIDE comments = more leads = more school conversions",
+    "Never let Justin do a revenue action that isn't tied to one of the 6 streams",
+    "When ARR is low: push stream 1 (school subscriptions) and stream 2 (GUIDE funnel automation)",
+    "When content is performing: push stream 3 (Substack paid tier launch) and stream 5 (speaking)"
+  ],
   "revenue_snapshots": [],
   "actions_recommended": [],
   "milestones_reached": [],
-  "growth_context": [
-    "7,828 followers growing via Wrong Villain series",
-    "71,134 impressions in 7 days — strong organic reach",
-    "258 saves = high educational value signal — people are bookmarking for later use",
-    "GUIDE keyword CTA is the conversion mechanism — every person who drops GUIDE is a warm lead",
-    "Series growing: 41K → 59K impressions between posts — momentum is building"
-  ],
   "recent_actions": [],
   "recent_questions": [],
-  "notes_to_self": "The LinkedIn audience (7,828 followers, 71K weekly impressions) is the top-of-funnel for Guided Childhood. The GUIDE CTA is the lead capture mechanism. Track how many GUIDE responses convert to demo requests or sign-ups. Each post in the Wrong Villain series is a revenue pipeline event, not just content."
+  "notes_to_self": "The content series is the engine for ALL six revenue streams. Diego posts → GUIDE leads → school demos → ARR. Never let Justin treat content and revenue as separate activities. Every Wrong Villain post is a revenue pipeline event."
 }
