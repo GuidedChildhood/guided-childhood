@@ -34,13 +34,14 @@
 }
 *,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior:smooth; scroll-padding-top:72px; }
-body { font-family:var(--sans); background:var(--cream); color:var(--ink); line-height:1.6; -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+body { font-family:var(--sans); background:var(--cream); color:var(--ink); line-height:1.6; -webkit-font-smoothing:antialiased; overflow-x:hidden; padding-bottom:80px; }
 h1,h2,h3,h4 { font-family:var(--serif); font-weight:600; line-height:1.15; }
 a { color:var(--green-dark); text-decoration:none; }
 
 @keyframes fadeUp  { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
 @keyframes glow    { 0%,100%{box-shadow:0 0 0 0 rgba(90,140,110,.5)} 60%{box-shadow:0 0 0 7px rgba(90,140,110,0)} }
 @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+@keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
 
 /* ── NAV ─────────────────────────────────────────────────── */
 .nav { position:sticky; top:0; z-index:200; background:rgba(253,252,248,.92); backdrop-filter:blur(14px); border-bottom:1px solid var(--border); }
@@ -56,6 +57,27 @@ a { color:var(--green-dark); text-decoration:none; }
 .nav-links a:hover { background:var(--cream-3); color:var(--ink); }
 .clock { font-size:13px; font-weight:700; color:var(--green-dark); background:var(--green-lt); padding:5px 12px; border-radius:999px; font-variant-numeric:tabular-nums; white-space:nowrap; }
 
+/* ── FEEDBACK BAR ────────────────────────────────────────── */
+.feedback-bar {
+  position:fixed; bottom:0; left:0; right:0; z-index:300;
+  background:var(--ink); color:var(--cream);
+  padding:13px 24px; display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+  box-shadow:0 -4px 32px rgba(28,26,20,.25);
+  transform:translateY(110%); transition:transform .35s cubic-bezier(.4,0,.2,1);
+}
+.feedback-bar.visible { transform:translateY(0); animation:slideUp .35s cubic-bezier(.4,0,.2,1); }
+.feedback-bar-text { flex:1; font-size:14px; min-width:0; }
+.feedback-bar-text strong { color:var(--gold); }
+.feedback-bar-text span { color:rgba(253,252,248,.65); font-size:12px; display:block; margin-top:1px; }
+.feedback-send-btn {
+  background:var(--green-dark); color:#fff; border:none; border-radius:var(--r);
+  padding:10px 20px; font-family:var(--sans); font-size:13px; font-weight:700;
+  cursor:pointer; white-space:nowrap; transition:all .15s; flex-shrink:0;
+}
+.feedback-send-btn:hover { background:var(--green); }
+.feedback-dismiss { background:none; border:none; color:rgba(253,252,248,.45); font-size:13px; cursor:pointer; padding:4px 8px; flex-shrink:0; transition:color .15s; }
+.feedback-dismiss:hover { color:rgba(253,252,248,.8); }
+
 /* ── HERO ────────────────────────────────────────────────── */
 .hero { max-width:1140px; margin:0 auto; padding:40px 24px 24px; text-align:center; }
 .eyebrow { display:inline-flex; align-items:center; gap:7px; font-size:11px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--coral); background:var(--coral-lt); padding:5px 14px; border-radius:999px; margin-bottom:14px; }
@@ -67,23 +89,13 @@ a { color:var(--green-dark); text-decoration:none; }
 
 /* ── DAILY CHECKLIST ─────────────────────────────────────── */
 .checklist-wrap { max-width:1140px; margin:20px auto 0; padding:0 24px; }
-.checklist-card {
-  background:var(--white); border-radius:var(--rl); border:1px solid var(--border);
-  box-shadow:var(--sh); overflow:hidden; animation:fadeUp .4s ease both;
-}
-.checklist-header {
-  display:flex; align-items:center; gap:12px;
-  padding:16px 22px; background:var(--ink); cursor:pointer; user-select:none;
-}
+.checklist-card { background:var(--white); border-radius:var(--rl); border:1px solid var(--border); box-shadow:var(--sh); overflow:hidden; animation:fadeUp .4s ease both; }
+.checklist-header { display:flex; align-items:center; gap:12px; padding:16px 22px; background:var(--ink); cursor:pointer; user-select:none; }
 .checklist-header h2 { font-family:var(--serif); font-size:17px; color:var(--cream); font-weight:600; flex:1; }
 .checklist-badge { font-size:12px; font-weight:700; color:var(--ink); background:var(--gold); padding:3px 10px; border-radius:999px; white-space:nowrap; }
 .checklist-toggle { font-size:13px; color:rgba(253,252,248,.6); white-space:nowrap; }
 .checklist-body { padding:6px 0; }
-.check-row {
-  display:flex; align-items:flex-start; gap:14px;
-  padding:12px 22px; border-bottom:1px solid var(--border);
-  cursor:pointer; transition:background .15s;
-}
+.check-row { display:flex; align-items:flex-start; gap:14px; padding:12px 22px; border-bottom:1px solid var(--border); cursor:pointer; transition:background .15s; }
 .check-row:last-child { border-bottom:none; }
 .check-row:hover { background:var(--cream-2); }
 .check-row.done { opacity:.55; }
@@ -100,12 +112,7 @@ a { color:var(--green-dark); text-decoration:none; }
 .team-wrap { max-width:1140px; margin:28px auto 0; padding:0 24px 60px; }
 
 /* ── PULSE CARD ──────────────────────────────────────────── */
-.pulse-card {
-  background:linear-gradient(135deg, var(--ink) 0%, #2a2619 100%);
-  border-radius:var(--rl); padding:26px 28px; margin-bottom:24px;
-  display:flex; gap:20px; align-items:flex-start;
-  box-shadow:var(--sh-lg); animation:fadeUp .4s ease both;
-}
+.pulse-card { background:linear-gradient(135deg, var(--ink) 0%, #2a2619 100%); border-radius:var(--rl); padding:26px 28px; margin-bottom:24px; display:flex; gap:20px; align-items:flex-start; box-shadow:var(--sh-lg); animation:fadeUp .4s ease both; }
 .pulse-portrait { width:80px; height:80px; border-radius:50%; object-fit:cover; object-position:top; border:3px solid rgba(255,255,255,.2); flex-shrink:0; }
 .pulse-portrait-fallback { width:80px; height:80px; border-radius:50%; background:rgba(255,255,255,.1); display:grid; place-items:center; font-size:32px; flex-shrink:0; }
 .pulse-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:var(--gold); margin-bottom:6px; }
@@ -113,73 +120,30 @@ a { color:var(--green-dark); text-decoration:none; }
 .pulse-meta { font-size:11.5px; color:rgba(253,252,248,.4); margin-top:8px; }
 
 /* ── AGENT CARD ──────────────────────────────────────────── */
-.agent-card {
-  background:var(--white); border-radius:var(--rl);
-  border:1px solid var(--border); box-shadow:var(--sh);
-  margin-bottom:20px; overflow:hidden;
-  animation:fadeUp .5s ease both;
-  border-left:4px solid var(--cream-3);
-}
+.agent-card { background:var(--white); border-radius:var(--rl); border:1px solid var(--border); box-shadow:var(--sh); margin-bottom:20px; overflow:hidden; animation:fadeUp .5s ease both; border-left:4px solid var(--cream-3); }
 .agent-card.ready   { border-left-color:var(--green-dark); }
 .agent-card.error   { border-left-color:var(--coral); }
 .agent-card.pending { border-left-color:var(--cream-3); }
-
-/* Card top bar */
-.card-topbar {
-  display:flex; align-items:center; gap:14px;
-  padding:14px 20px 14px 18px; background:var(--cream-2);
-  border-bottom:1px solid var(--border);
-}
+.card-topbar { display:flex; align-items:center; gap:14px; padding:14px 20px 14px 18px; background:var(--cream-2); border-bottom:1px solid var(--border); }
 .agent-portrait { width:48px; height:48px; border-radius:50%; object-fit:cover; object-position:top; border:2px solid var(--white); box-shadow:0 2px 8px rgba(28,26,20,.12); flex-shrink:0; }
 .agent-portrait-fallback { width:48px; height:48px; border-radius:50%; background:var(--green-lt); display:grid; place-items:center; font-size:22px; border:2px solid var(--white); flex-shrink:0; }
 .agent-identity { flex:1; min-width:0; }
 .agent-name { font-family:var(--serif); font-size:17px; font-weight:600; line-height:1.1; }
 .agent-role { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.07em; color:var(--ink-muted); margin-top:2px; }
-.status-badge {
-  font-size:11px; font-weight:700; padding:4px 11px; border-radius:999px;
-  white-space:nowrap; flex-shrink:0;
-}
+.status-badge { font-size:11px; font-weight:700; padding:4px 11px; border-radius:999px; white-space:nowrap; flex-shrink:0; }
 .status-badge.ready   { background:var(--green-lt); color:var(--green-dark); }
 .status-badge.error   { background:var(--coral-lt); color:var(--coral); }
-.status-badge.pending {
-  background:linear-gradient(90deg,var(--cream-3) 25%,var(--cream-2) 50%,var(--cream-3) 75%);
-  background-size:200% auto; animation:shimmer 2s linear infinite;
-  color:var(--ink-muted);
-}
-
-/* Action block — the most important section */
-.action-block {
-  padding:18px 22px 16px;
-  background:linear-gradient(135deg, var(--gold-lt) 0%, #fffbe8 100%);
-  border-bottom:1px solid rgba(212,168,67,.18);
-}
+.status-badge.pending { background:linear-gradient(90deg,var(--cream-3) 25%,var(--cream-2) 50%,var(--cream-3) 75%); background-size:200% auto; animation:shimmer 2s linear infinite; color:var(--ink-muted); }
+.action-block { padding:18px 22px 16px; background:linear-gradient(135deg, var(--gold-lt) 0%, #fffbe8 100%); border-bottom:1px solid rgba(212,168,67,.18); }
 .action-label { font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:.12em; color:var(--gold); margin-bottom:7px; display:flex; align-items:center; gap:7px; }
-.action-check {
-  width:22px; height:22px; border-radius:7px; border:2px solid rgba(212,168,67,.4);
-  background:rgba(255,255,255,.7); display:grid; place-items:center; cursor:pointer;
-  flex-shrink:0; transition:all .15s; margin-left:auto;
-}
+.action-check { width:22px; height:22px; border-radius:7px; border:2px solid rgba(212,168,67,.4); background:rgba(255,255,255,.7); display:grid; place-items:center; cursor:pointer; flex-shrink:0; transition:all .15s; margin-left:auto; }
 .action-check.done { background:var(--green-dark); border-color:var(--green-dark); }
 .action-check.done::after { content:'✓'; color:#fff; font-size:13px; font-weight:700; }
-.action-text {
-  font-family:var(--serif); font-size:clamp(15px,2vw,18px); font-weight:600;
-  color:var(--ink); line-height:1.4;
-}
+.action-text { font-family:var(--serif); font-size:clamp(15px,2vw,18px); font-weight:600; color:var(--ink); line-height:1.4; }
 .action-text.pending { font-family:var(--sans); font-size:14px; font-weight:400; color:var(--ink-muted); font-style:italic; }
-
-/* Produces strip */
-.produces-strip {
-  padding:10px 22px; background:var(--cream-2); border-bottom:1px solid var(--border);
-  font-size:12.5px; color:var(--ink-muted); line-height:1.5;
-}
+.produces-strip { padding:10px 22px; background:var(--cream-2); border-bottom:1px solid var(--border); font-size:12.5px; color:var(--ink-muted); line-height:1.5; }
 .produces-strip strong { font-weight:700; color:var(--ink-soft); font-size:11px; text-transform:uppercase; letter-spacing:.06em; margin-right:5px; }
-
-/* Output accordion */
-.output-toggle {
-  display:flex; align-items:center; gap:10px;
-  padding:13px 22px; cursor:pointer; transition:background .15s;
-  border-bottom:1px solid var(--border); user-select:none;
-}
+.output-toggle { display:flex; align-items:center; gap:10px; padding:13px 22px; cursor:pointer; transition:background .15s; border-bottom:1px solid var(--border); user-select:none; }
 .output-toggle:hover { background:var(--cream-2); }
 .output-toggle-label { font-size:13px; font-weight:600; color:var(--ink-soft); flex:1; }
 .output-chevron { font-size:11px; color:var(--ink-muted); transition:transform .2s; }
@@ -190,17 +154,11 @@ a { color:var(--green-dark); text-decoration:none; }
 .output-body.open { display:block; }
 .output-text { font-size:13.5px; line-height:1.75; color:var(--ink-soft); white-space:pre-wrap; word-break:break-word; }
 .output-text.error { color:var(--coral); background:var(--coral-lt); padding:12px 14px; border-radius:var(--r); }
-
-/* Question & chat */
 .speak-block { padding:16px 22px; background:var(--cream-2); }
 .speak-question { font-size:13.5px; font-weight:600; color:var(--ink); margin-bottom:8px; }
 .speak-question em { font-style:normal; color:var(--green-dark); }
 .chips { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px; }
-.chip {
-  font-size:11.5px; background:var(--white); border:1px solid var(--border);
-  color:var(--ink-soft); border-radius:999px; padding:4px 12px;
-  cursor:pointer; transition:all .15s; white-space:nowrap;
-}
+.chip { font-size:11.5px; background:var(--white); border:1px solid var(--border); color:var(--ink-soft); border-radius:999px; padding:4px 12px; cursor:pointer; transition:all .15s; white-space:nowrap; }
 .chip:hover { background:var(--green-lt); border-color:var(--green); color:var(--green-dark); }
 .chat-thread { max-height:140px; overflow-y:auto; display:flex; flex-direction:column; gap:7px; margin-bottom:10px; }
 .bubble { padding:8px 12px; border-radius:12px; font-size:13px; line-height:1.5; max-width:86%; }
@@ -208,36 +166,25 @@ a { color:var(--green-dark); text-decoration:none; }
 .bubble.you   { background:var(--green-dark); color:#fff; align-self:flex-end; border-bottom-right-radius:3px; }
 .bubble-meta  { font-size:10.5px; opacity:.6; margin-top:3px; }
 .speak-row { display:flex; gap:8px; }
-.speak-ta {
-  flex:1; resize:none; padding:9px 14px; border-radius:var(--r);
-  border:1.5px solid var(--border); background:var(--white);
-  font-family:var(--sans); font-size:13.5px; color:var(--ink);
-  min-height:48px; line-height:1.5; outline:none; transition:border-color .15s;
-}
+.speak-ta { flex:1; resize:none; padding:9px 14px; border-radius:var(--r); border:1.5px solid var(--border); background:var(--white); font-family:var(--sans); font-size:13.5px; color:var(--ink); min-height:48px; line-height:1.5; outline:none; transition:border-color .15s; }
 .speak-ta:focus { border-color:var(--green-dark); box-shadow:0 0 0 3px rgba(90,140,110,.12); }
-.send-btn {
-  background:var(--green-dark); color:#fff; border:none; border-radius:var(--r);
-  padding:9px 18px; font-family:var(--sans); font-size:13px; font-weight:700;
-  cursor:pointer; transition:all .18s; flex-shrink:0; white-space:nowrap;
-}
+.send-btn { background:var(--green-dark); color:#fff; border:none; border-radius:var(--r); padding:9px 18px; font-family:var(--sans); font-size:13px; font-weight:700; cursor:pointer; transition:all .18s; flex-shrink:0; white-space:nowrap; }
 .send-btn:hover { background:var(--green); transform:translateY(-1px); }
 .speak-hint { font-size:11px; color:var(--ink-muted); margin-top:6px; }
-
-/* Footer */
 .footer { border-top:1px solid var(--border); padding:22px 24px; text-align:center; color:var(--ink-muted); font-size:13px; }
 
-/* Responsive */
 @media(max-width:640px) {
   .card-topbar { flex-wrap:wrap; }
   .pulse-card { flex-direction:column; }
   .pulse-portrait,.pulse-portrait-fallback { width:58px; height:58px; }
   .action-text { font-size:15px; }
+  .feedback-bar { flex-direction:column; align-items:stretch; gap:10px; }
+  .feedback-send-btn { text-align:center; }
 }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav class="nav">
   <div class="nav-inner">
     <div class="nav-brand">
@@ -254,7 +201,6 @@ a { color:var(--green-dark); text-decoration:none; }
   </div>
 </nav>
 
-<!-- HERO -->
 <div class="hero">
   <div class="eyebrow">Guided Childhood · Agent Team</div>
   <h1>Your AI Team</h1>
@@ -263,7 +209,6 @@ a { color:var(--green-dark); text-decoration:none; }
   <div class="run-meta" id="runMeta">Loading last agent run…</div>
 </div>
 
-<!-- DAILY CHECKLIST -->
 <div class="checklist-wrap" id="checklist">
   <div class="checklist-card">
     <div class="checklist-header" onclick="toggleChecklist()">
@@ -277,7 +222,6 @@ a { color:var(--green-dark); text-decoration:none; }
   </div>
 </div>
 
-<!-- TEAM -->
 <div class="team-wrap" id="team">
   <div id="pulseContainer"></div>
   <div id="teamContainer">
@@ -290,8 +234,19 @@ a { color:var(--green-dark); text-decoration:none; }
   <a href="https://github.com/GuidedChildhood/guided-childhood/actions" target="_blank">GitHub Actions ↗</a>
 </div>
 
+<!-- FEEDBACK BAR — slides up when you have unsent replies -->
+<div class="feedback-bar" id="feedbackBar">
+  <div class="feedback-bar-text">
+    <strong id="feedbackCount">3 replies</strong> ready to send to your agents
+    <span>Tap Send to email them — they'll read it before tomorrow's 8am run</span>
+  </div>
+  <button class="feedback-send-btn" onclick="sendFeedbackToAgents()">📬 Send to agents</button>
+  <button class="feedback-dismiss" onclick="dismissFeedbackBar()" title="Dismiss">✕</button>
+</div>
+
 <script>
 const OUTPUTS_URL = "https://raw.githubusercontent.com/guidedchildhood/guided-childhood/main/agents/outputs/latest.json";
+const FEEDBACK_EMAIL = "justin@thesocialbillboard.com";
 
 const AGENTS = [
   {
@@ -354,34 +309,74 @@ const AGENTS = [
 
 const PULSE_PORTRAIT = "https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260604_110944_297dd6a2-4545-422f-9d19-1df2f3797e95_min.webp";
 
-// ── Utilities ─────────────────────────────────────────────
+// ── Keys ──────────────────────────────────────────────────
 function todayStr(){ return new Date().toISOString().slice(0,10); }
 function checkKey(k){ return `gc_done_${k}_${todayStr()}`; }
 function chatKey(k) { return `gc_chat_${k}_${todayStr()}`; }
+function sentKey()  { return `gc_feedback_sent_${todayStr()}`; }
 function loadChat(k){ try{return JSON.parse(localStorage.getItem(chatKey(k))||"[]")}catch{return []} }
 function saveChat(k,m){ localStorage.setItem(chatKey(k), JSON.stringify(m)); }
-function isDone(k)   { return localStorage.getItem(checkKey(k))==="1"; }
+function isDone(k)  { return localStorage.getItem(checkKey(k))==="1"; }
 function setDone(k,v){ localStorage.setItem(checkKey(k), v?"1":"0"); }
 
-function parseAction(raw){
-  if(!raw) return null;
-  const m = raw.match(/YOUR ACTION TODAY[:\s]+([^\n]+)/i);
-  return m ? m[1].trim() : null;
-}
-function parseQuestion(raw){
-  if(!raw) return null;
-  const m = raw.match(/(?:YOUR QUESTION|MY QUESTION)[:\s]+([^\n]+)/i);
-  return m ? m[1].trim() : null;
-}
+function parseAction(raw){ if(!raw) return null; const m=raw.match(/YOUR ACTION TODAY[:\s]+([^\n]+)/i); return m?m[1].trim():null; }
+function parseQuestion(raw){ if(!raw) return null; const m=raw.match(/(?:YOUR QUESTION|MY QUESTION)[:\s]+([^\n]+)/i); return m?m[1].trim():null; }
 function stripMeta(raw){
   if(!raw) return raw;
-  return raw
-    .replace(/YOUR ACTION TODAY[:\s]+[^\n]+\n?/gi,"")
-    .replace(/YOUR QUESTION[:\s]+[^\n]+\n?/gi,"")
-    .replace(/MY QUESTION[:\s]+[^\n]+\n?/gi,"")
-    .trim();
+  return raw.replace(/YOUR ACTION TODAY[:\s]+[^\n]+\n?/gi,"").replace(/YOUR QUESTION[:\s]+[^\n]+\n?/gi,"").replace(/MY QUESTION[:\s]+[^\n]+\n?/gi,"").trim();
 }
 function esc(s){ return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+
+// ── Feedback bar ──────────────────────────────────────────
+function countPendingReplies(){
+  if(localStorage.getItem(sentKey())==="1") return 0;
+  let count = 0;
+  AGENTS.forEach(cfg=>{
+    const msgs = loadChat(cfg.key);
+    count += msgs.filter(m=>m.from==="you").length;
+  });
+  return count;
+}
+
+function updateFeedbackBar(){
+  const count = countPendingReplies();
+  const bar   = document.getElementById("feedbackBar");
+  const label = document.getElementById("feedbackCount");
+  if(count > 0){
+    label.textContent = `${count} ${count===1?"reply":"replies"}`;
+    bar.classList.add("visible");
+  } else {
+    bar.classList.remove("visible");
+  }
+}
+
+function dismissFeedbackBar(){
+  document.getElementById("feedbackBar").classList.remove("visible");
+}
+
+function sendFeedbackToAgents(){
+  const lines = [`Guided Childhood Agent Feedback — ${todayStr()}`, ""];
+  AGENTS.forEach(cfg=>{
+    const msgs = loadChat(cfg.key).filter(m=>m.from==="you");
+    if(msgs.length){
+      const combined = msgs.map(m=>m.text).join(" | ");
+      lines.push(`${cfg.key.toUpperCase()}: ${combined}`);
+    }
+  });
+  lines.push("", "---", "Sent from Mission Control dashboard · guidedchildhood.vercel.app/agents");
+
+  const subject = encodeURIComponent(`[GC Feedback] ${todayStr()}`);
+  const body    = encodeURIComponent(lines.join("\n"));
+  const mailto  = `mailto:${FEEDBACK_EMAIL}?subject=${subject}&body=${body}`;
+
+  window.location.href = mailto;
+
+  // Mark as sent so bar disappears
+  localStorage.setItem(sentKey(), "1");
+  setTimeout(()=>{
+    document.getElementById("feedbackBar").classList.remove("visible");
+  }, 800);
+}
 
 // ── Checklist ─────────────────────────────────────────────
 let checklistOpen = true;
@@ -394,12 +389,12 @@ function toggleChecklist(){
 function renderChecklist(liveAgents){
   const body = document.getElementById("checklistBody");
   const badge = document.getElementById("checklistBadge");
-  let done = 0, total = AGENTS.length;
-  let html = "";
+  let done=0; const total=AGENTS.length;
+  let html="";
   for(const cfg of AGENTS){
-    const data   = liveAgents ? liveAgents[cfg.key] : null;
-    const raw    = data ? data.output : null;
-    const action = parseAction(raw) || cfg.defaultAction;
+    const data   = liveAgents?liveAgents[cfg.key]:null;
+    const raw    = data?data.output:null;
+    const action = parseAction(raw)||cfg.defaultAction;
     const d      = isDone(cfg.key);
     if(d) done++;
     html += `<div class="check-row${d?" done":""}" id="chkrow-${cfg.key}" onclick="toggleDone('${cfg.key}')">
@@ -409,131 +404,119 @@ function renderChecklist(liveAgents){
     </div>`;
   }
   body.innerHTML = html;
-  badge.textContent = `${done}/${total} done`;
-  badge.style.background = done===total ? "var(--green-dark)" : "var(--gold)";
-  badge.style.color = done===total ? "#fff" : "var(--ink)";
+  badge.textContent=`${done}/${total} done`;
+  badge.style.background = done===total?"var(--green-dark)":"var(--gold)";
+  badge.style.color = done===total?"#fff":"var(--ink)";
 }
 
 function toggleDone(key){
   const now = !isDone(key);
-  setDone(key, now);
+  setDone(key,now);
   const row = document.getElementById(`chkrow-${key}`);
-  if(row){ row.classList.toggle("done", now); row.querySelector(".check-text").classList.toggle("pending",false); }
-  // update badge
-  let done=0;
-  AGENTS.forEach(a=>{ if(isDone(a.key)) done++; });
-  const badge = document.getElementById("checklistBadge");
+  if(row) row.classList.toggle("done",now);
+  let done=0; AGENTS.forEach(a=>{if(isDone(a.key))done++;});
+  const badge=document.getElementById("checklistBadge");
   badge.textContent=`${done}/${AGENTS.length} done`;
-  badge.style.background = done===AGENTS.length?"var(--green-dark)":"var(--gold)";
-  badge.style.color = done===AGENTS.length?"#fff":"var(--ink)";
-  // sync card checkbox
-  const cc = document.getElementById(`action-check-${key}`);
-  if(cc) cc.classList.toggle("done", now);
+  badge.style.background=done===AGENTS.length?"var(--green-dark)":"var(--gold)";
+  badge.style.color=done===AGENTS.length?"#fff":"var(--ink)";
+  const cc=document.getElementById(`action-check-${key}`);
+  if(cc) cc.classList.toggle("done",now);
 }
 
 // ── Output accordion ──────────────────────────────────────
 function toggleOutput(key){
-  const body    = document.getElementById(`out-body-${key}`);
-  const toggle  = document.getElementById(`out-toggle-${key}`);
-  const chevron = document.getElementById(`out-chevron-${key}`);
-  const open = !body.classList.contains("open");
-  body.classList.toggle("open", open);
-  toggle.classList.toggle("open", open);
-  chevron.textContent = open ? "▲ hide" : "▼ show full output";
+  const body=document.getElementById(`out-body-${key}`);
+  const toggle=document.getElementById(`out-toggle-${key}`);
+  const chevron=document.getElementById(`out-chevron-${key}`);
+  const open=!body.classList.contains("open");
+  body.classList.toggle("open",open);
+  toggle.classList.toggle("open",open);
+  chevron.textContent=open?"▲ hide":"▼ show full output";
 }
-
 function copyOutput(key){
-  const el = document.getElementById(`out-text-${key}`);
+  const el=document.getElementById(`out-text-${key}`);
   if(!el) return;
   navigator.clipboard.writeText(el.innerText).then(()=>{
-    const btn = document.getElementById(`copy-btn-${key}`);
+    const btn=document.getElementById(`copy-btn-${key}`);
     if(btn){btn.textContent="Copied!";setTimeout(()=>btn.textContent="Copy",1500);}
   });
 }
 
 // ── Chat ──────────────────────────────────────────────────
-function fillReply(key, text){
-  const ta = document.getElementById(`ta-${key}`);
+function fillReply(key,text){
+  const ta=document.getElementById(`ta-${key}`);
   if(!ta) return;
-  ta.value = text; ta.focus();
+  ta.value=text; ta.focus();
   ta.style.height="48px"; ta.style.height=ta.scrollHeight+"px";
 }
 function sendReply(key){
-  const ta = document.getElementById(`ta-${key}`);
-  const text = ta.value.trim();
+  const ta=document.getElementById(`ta-${key}`);
+  const text=ta.value.trim();
   if(!text) return;
-  const msgs = loadChat(key);
+  const msgs=loadChat(key);
   msgs.push({from:"you",text,time:new Date().toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"})});
   saveChat(key,msgs); ta.value=""; ta.style.height="48px";
   renderChat(key,msgs);
+  // Clear "already sent" flag so new replies show the bar again
+  localStorage.removeItem(sentKey());
+  updateFeedbackBar();
 }
 function renderChat(key,msgs){
-  const el = document.getElementById(`chat-${key}`);
+  const el=document.getElementById(`chat-${key}`);
   if(!el||!msgs.length) return;
-  el.innerHTML = msgs.map(m=>`<div class="bubble ${m.from==="you"?"you":"agent"}">${esc(m.text)}<div class="bubble-meta">${m.from==="you"?"You":key} · ${m.time}</div></div>`).join("");
-  el.scrollTop = el.scrollHeight;
+  el.innerHTML=msgs.map(m=>`<div class="bubble ${m.from==="you"?"you":"agent"}">${esc(m.text)}<div class="bubble-meta">${m.from==="you"?"You":key} · ${m.time}</div></div>`).join("");
+  el.scrollTop=el.scrollHeight;
 }
 
 // ── Render helpers ────────────────────────────────────────
-function imgEl(src, fallbackEmoji, cls, fallbackCls){
-  if(!src) return `<div class="${fallbackCls}">${fallbackEmoji}</div>`;
-  return `<img class="${cls}" src="${src}" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='grid';" /><div class="${fallbackCls}" style="display:none">${fallbackEmoji}</div>`;
+function imgEl(src,fe,cls,fc){
+  if(!src) return `<div class="${fc}">${fe}</div>`;
+  return `<img class="${cls}" src="${src}" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='grid';" /><div class="${fc}" style="display:none">${fe}</div>`;
 }
 
-function renderCard(cfg, data, container){
-  const raw      = data ? data.output : null;
-  const status   = data ? data.status : "pending";
-  const isError  = status==="error";
-  const isReady  = raw && !isError;
-  const action   = parseAction(raw)   || cfg.defaultAction;
-  const question = parseQuestion(raw) || cfg.defaultQuestion;
-  const output   = stripMeta(raw);
-  const msgs     = loadChat(cfg.key);
-  const done     = isDone(cfg.key);
+function renderCard(cfg,data,container){
+  const raw    = data?data.output:null;
+  const status = data?data.status:"pending";
+  const isError= status==="error";
+  const isReady= raw&&!isError;
+  const action = parseAction(raw)||cfg.defaultAction;
+  const question=parseQuestion(raw)||cfg.defaultQuestion;
+  const output = stripMeta(raw);
+  const msgs   = loadChat(cfg.key);
+  const done   = isDone(cfg.key);
+  const stLbl  = isReady?"✓ Output ready":isError?"⚠ Error":"Runs 8am BST";
+  const stCls  = isReady?"ready":isError?"error":"pending";
+  const chips  = cfg.chatUses.map(u=>`<span class="chip" onclick="fillReply('${cfg.key}',${JSON.stringify(u)})">${esc(u)}</span>`).join("");
 
-  const statusLabel = isReady ? "✓ Output ready" : isError ? "⚠ Error" : "Runs 8am BST";
-  const statusClass = isReady ? "ready" : isError ? "error" : "pending";
-
-  const chipsHtml = cfg.chatUses.map(u=>
-    `<span class="chip" onclick="fillReply('${cfg.key}',${JSON.stringify(u)})">${esc(u)}</span>`
-  ).join("");
-
-  const card = document.createElement("div");
-  card.className = `agent-card ${statusClass}`;
-  card.innerHTML = `
+  const card=document.createElement("div");
+  card.className=`agent-card ${stCls}`;
+  card.innerHTML=`
     <div class="card-topbar">
-      ${imgEl(cfg.portrait, cfg.emoji, "agent-portrait", "agent-portrait-fallback")}
+      ${imgEl(cfg.portrait,cfg.emoji,"agent-portrait","agent-portrait-fallback")}
       <div class="agent-identity">
         <div class="agent-name">${cfg.key}</div>
         <div class="agent-role">${cfg.role}</div>
       </div>
-      <div class="status-badge ${statusClass}">${statusLabel}</div>
+      <div class="status-badge ${stCls}">${stLbl}</div>
     </div>
-
     <div class="action-block">
-      <div class="action-label">
-        📋 Your action today
+      <div class="action-label">📋 Your action today
         <div class="action-check${done?" done":""}" id="action-check-${cfg.key}" onclick="event.stopPropagation();toggleDone('${cfg.key}')"></div>
       </div>
       <div class="action-text${!raw?" pending":""}">${esc(action)}</div>
     </div>
-
-    <div class="produces-strip">
-      <strong>What ${cfg.key} gives you:</strong>${esc(cfg.produces)}
-    </div>
-
+    <div class="produces-strip"><strong>What ${cfg.key} gives you:</strong>${esc(cfg.produces)}</div>
     <div class="output-toggle" id="out-toggle-${cfg.key}" onclick="toggleOutput('${cfg.key}')">
-      <span class="output-toggle-label">${isReady?"Today's full output from "+cfg.key : "No output yet — agents run daily at 08:00 BST"}</span>
+      <span class="output-toggle-label">${isReady?"Today's full output from "+cfg.key:"No output yet — agents run daily at 08:00 BST"}</span>
       ${isReady?`<button class="output-copy" id="copy-btn-${cfg.key}" onclick="event.stopPropagation();copyOutput('${cfg.key}')">Copy</button>`:""}
       <span class="output-chevron" id="out-chevron-${cfg.key}">▼ show full output</span>
     </div>
     <div class="output-body" id="out-body-${cfg.key}">
       <div class="output-text${isError?" error":""}" id="out-text-${cfg.key}">${output?esc(output):"No output yet."}</div>
     </div>
-
     <div class="speak-block">
       <div class="speak-question"><em>${cfg.key} asks:</em> &ldquo;${esc(question)}&rdquo;</div>
-      <div class="chips">${chipsHtml}</div>
+      <div class="chips">${chips}</div>
       <div class="chat-thread" id="chat-${cfg.key}"></div>
       <div class="speak-row">
         <textarea class="speak-ta" id="ta-${cfg.key}"
@@ -542,15 +525,14 @@ function renderCard(cfg, data, container){
           oninput="this.style.height='48px';this.style.height=this.scrollHeight+'px'"></textarea>
         <button class="send-btn" onclick="sendReply('${cfg.key}')">Send ↑</button>
       </div>
-      <div class="speak-hint">Tap a suggestion to pre-fill · Ctrl+Enter to send · Guides tomorrow's run</div>
+      <div class="speak-hint">Tap a suggestion · Ctrl+Enter to send · Tap <strong>"📬 Send to agents"</strong> at the bottom to send all replies before 8am</div>
     </div>`;
-
   container.appendChild(card);
-  renderChat(cfg.key, msgs);
+  renderChat(cfg.key,msgs);
 }
 
-function renderPulse(data, summary){
-  const c = document.getElementById("pulseContainer");
+function renderPulse(data,summary){
+  const c=document.getElementById("pulseContainer");
   if(!summary){c.innerHTML="";return;}
   c.innerHTML=`
     <div class="pulse-card">
@@ -566,32 +548,29 @@ function renderPulse(data, summary){
 
 // ── Init ──────────────────────────────────────────────────
 async function init(){
-  const container = document.getElementById("teamContainer");
-  let live = null;
+  const container=document.getElementById("teamContainer");
+  let live=null;
   try {
-    const res = await fetch(OUTPUTS_URL+"?_="+Date.now());
+    const res=await fetch(OUTPUTS_URL+"?_="+Date.now());
     if(res.ok){
-      live = await res.json();
-      document.getElementById("runMeta").textContent =
+      live=await res.json();
+      document.getElementById("runMeta").textContent=
         live.status==="pending"
-          ? "No run yet today — agents fire at 08:00 BST"
-          : `Last run: ${live.run_date} at ${live.run_time} · ${live.status}`;
-      if(live.summary && live.status!=="pending") renderPulse(live, live.summary);
+          ?"No run yet today — agents fire at 08:00 BST"
+          :`Last run: ${live.run_date} at ${live.run_time} · ${live.status}`;
+      if(live.summary&&live.status!=="pending") renderPulse(live,live.summary);
     }
   } catch(e){
-    document.getElementById("runMeta").textContent = "Could not fetch latest agent run";
+    document.getElementById("runMeta").textContent="Could not fetch latest agent run";
   }
-
-  const liveAgents = live&&live.agents ? live.agents : null;
+  const liveAgents=live&&live.agents?live.agents:null;
   renderChecklist(liveAgents);
   container.innerHTML="";
-  for(const cfg of AGENTS) renderCard(cfg, liveAgents?liveAgents[cfg.key]:null, container);
+  for(const cfg of AGENTS) renderCard(cfg,liveAgents?liveAgents[cfg.key]:null,container);
+  updateFeedbackBar();
 }
 
-function tick(){
-  document.getElementById("clock").textContent =
-    new Date().toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"});
-}
+function tick(){ document.getElementById("clock").textContent=new Date().toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"}); }
 tick(); setInterval(tick,30000);
 init();
 </script>
