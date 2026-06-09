@@ -1,0 +1,39 @@
+{
+  "agent": "diego",
+  "run_count": 0,
+  "last_updated": "",
+  "series_posts_drafted": [
+    {
+      "topic": "Social media is not the cause of youth mental health crisis — it is the amplifier",
+      "hook": "41% of teens report feeling worse after social media use. Social media didn't create the mental health crisis. It amplified one that already existed.",
+      "result": "41,998 impressions, 916 reactions, 127 comments, 205 reposts — VIRAL",
+      "date": "2026-05"
+    }
+  ],
+  "substack_drafts_created": [],
+  "objections_to_preempt": [
+    "The average hides a vulnerable minority — address by saying concentrated harm is still harm, wrong villain doesn't mean no villain",
+    "Missing citations — always put source URL in first comment not post body (LinkedIn suppresses reach)",
+    "Social media as amplifier not originator — USE this as your core thesis, not a problem to defend",
+    "Policy aimed at average child ignores the minority who are actually harmed",
+    "Effect size depends on the model used — acknowledge uncertainty, cite multiple studies",
+    "Corporate data gatekeeping — researchers can't access platform data",
+    "Ban cuts lifeline for isolated kids — acknowledge this directly, propose alternatives"
+  ],
+  "topics_to_develop": [
+    "Device type vs parental conversation — which predicts safety outcomes",
+    "The funding gap: billions on device policy, pennies on conversation skills",
+    "Age-appropriate access: the science on what age unlocks what",
+    "Dumb phones fallacy — 84% still access internet via basic handsets"
+  ],
+  "voice_reminders": [
+    "Calm, never preachy",
+    "Evidence-led with proportionality spine",
+    "Always the proportionality argument: what gets attention vs what actually drives impact",
+    "End with a question that invites the sharpest disagreement",
+    "Never put URLs in post body — LinkedIn suppresses reach — use comment keywords"
+  ],
+  "recent_actions": [],
+  "recent_questions": [],
+  "notes_to_self": "Pre-loaded with viral post data and series direction. Build every new post as a continuation of the Wrong Villain series. Never repeat the social media amplifier post — that one is done."
+}
