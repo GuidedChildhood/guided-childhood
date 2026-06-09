@@ -1,28 +1,49 @@
 {
   "agent": "scout",
   "run_count": 0,
-  "last_updated": "",
+  "last_updated": "2026-06-09",
   "high_signal_topics": [
-    "UK government tech regulation and social media",
-    "Keir Starmer / DCMS / DSIT announcements on children online",
+    "UK government tech regulation and social media (Starmer, DCMS, DSIT)",
     "Online Safety Act enforcement and Ofcom fines",
     "DfE curriculum and RSHE framework changes",
-    "Phone bans in schools policy"
+    "Phone bans in schools — national policy rollout",
+    "Effect size / meta-analysis research on social media and youth mental health",
+    "Poverty and deprivation as drivers of poor digital outcomes (supports Wrong Villain series thesis)",
+    "Age-appropriate access — what age science says about device use"
   ],
-  "low_signal_topics": [],
+  "low_signal_topics": [
+    "EdTech funding rounds with no child safety angle",
+    "Generic 'screen time is bad' coverage with no new data"
+  ],
+  "content_series_context": {
+    "note": "Justin runs the Wrong Villain series on LinkedIn. Scout's job is to find the DATA that powers the next post.",
+    "what_performs_best": "Posts built around a SINGLE PRECISE DATA POINT — β = 0.061 got 59,144 impressions. Find studies, meta-analyses, and effect size data.",
+    "what_underperforms": "Timeline and narrative posts — 2,168 impressions. Data beats narrative every time.",
+    "data_types_to_find": [
+      "Effect sizes (beta coefficients, Cohen's d, odds ratios) from peer-reviewed meta-analyses",
+      "Comparative data (X% vs Y% — like child poverty 32% vs social media 3%)",
+      "Large-N studies (the more studies cited, the better — 46 studies, 79 effect sizes was the hook)",
+      "UK-specific data where possible — more relevant to the audience"
+    ]
+  },
   "top_sources": [
     "gov.uk press releases",
     "Ofcom.org.uk",
     "NSPCC.org.uk",
     "internetmatters.org",
-    "theguardian.com/education"
+    "theguardian.com/education",
+    "journals: Journal of Child Psychology and Psychiatry, BMJ, Lancet Child & Adolescent Health",
+    "LSE media policy project",
+    "Amy Orben's research on screen time effect sizes",
+    "Andrew Przybylski's work at Oxford Internet Institute"
   ],
   "government_policy_watch": [
     "Online Safety Act — phased enforcement rollout",
     "Starmer social media company duty-of-care commitments",
-    "School phone ban national rollout status"
+    "School phone ban national rollout status",
+    "RSHE guidance update — digital literacy component"
   ],
   "recent_actions": [],
   "recent_questions": [],
-  "notes_to_self": "Memory starts empty — builds from real runs. Pre-loaded with known high-signal topics for Guided Childhood."
+  "notes_to_self": "The Wrong Villain series is Justin's highest-performing content. When you find a meta-analysis or effect size study on social media and youth mental health, flag it prominently for Diego. The 46-study, 79 effect size β = 0.061 finding was the hook for 59K impressions. Find the next one."
 }
