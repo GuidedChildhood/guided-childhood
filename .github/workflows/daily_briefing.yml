@@ -6,7 +6,7 @@ on:
   workflow_dispatch: {}     # allow manual runs from the Actions tab
 
 permissions:
-  contents: write           # needed to push latest.json back to the repo
+  contents: write           # needed to push outputs and memory back to the repo
 
 jobs:
   run:
@@ -32,10 +32,10 @@ jobs:
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
 
-      - name: Commit agent outputs to repo
+      - name: Commit agent outputs and memory to repo
         run: |
           git config user.name  "Guided Childhood Agents"
           git config user.email "agents@guidedchildhood.co.uk"
-          git add agents/outputs/latest.json
-          git diff --cached --quiet || git commit -m "chore: agent run outputs $(date -u +'%Y-%m-%d %H:%M UTC')"
+          git add agents/outputs/latest.json agents/memory/
+          git diff --cached --quiet || git commit -m "chore: agent run + memory update $(date -u +'%Y-%m-%d %H:%M UTC')"
           git push
