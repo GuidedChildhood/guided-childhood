@@ -1,0 +1,28 @@
+{
+  "agent": "scout",
+  "run_count": 0,
+  "last_updated": "",
+  "high_signal_topics": [
+    "UK government tech regulation and social media",
+    "Keir Starmer / DCMS / DSIT announcements on children online",
+    "Online Safety Act enforcement and Ofcom fines",
+    "DfE curriculum and RSHE framework changes",
+    "Phone bans in schools policy"
+  ],
+  "low_signal_topics": [],
+  "top_sources": [
+    "gov.uk press releases",
+    "Ofcom.org.uk",
+    "NSPCC.org.uk",
+    "internetmatters.org",
+    "theguardian.com/education"
+  ],
+  "government_policy_watch": [
+    "Online Safety Act — phased enforcement rollout",
+    "Starmer social media company duty-of-care commitments",
+    "School phone ban national rollout status"
+  ],
+  "recent_actions": [],
+  "recent_questions": [],
+  "notes_to_self": "Memory starts empty — builds from real runs. Pre-loaded with known high-signal topics for Guided Childhood."
+}
