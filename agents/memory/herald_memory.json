@@ -2,38 +2,44 @@
   "agent": "herald",
   "run_count": 0,
   "last_updated": "2026-06-09",
-  "pr_asset_data": {
-    "note": "Real performance data — use these as PR hooks and credibility signals",
-    "wrong_villain_series": {
-      "best_post_impressions": 59144,
-      "total_series_engagements": "2,009+ across series",
-      "saves": 258,
-      "comments": 276,
-      "reposts": 258,
-      "key_finding": "β = 0.061 — social media's effect on youth mental health is statistically indistinguishable from noise across 46 studies and 79 effect sizes"
+  "strategic_targets": {
+    "speaking_circuit": {
+      "description": "The Wrong Villain series IS a conference keynote. β = 0.061 is the hook. 164 people argued in the comments — that is an engaged audience.",
+      "target_events": ["BETT (January)", "Schools & Academies Show", "NSPCC national conference", "PSHE Association annual conference", "CST (Confederation of School Trusts)", "ASCL annual conference"],
+      "fee_range": "£3,000–£8,000 per talk",
+      "herald_action": "Identify and pitch 2 speaking opportunities per week. Start with PSHE Association and ASCL — most aligned to the series thesis."
     },
-    "founder_reach": {
-      "linkedin_followers": 7828,
-      "weekly_impressions": 71134
+    "policy_report": {
+      "description": "Wrong Villain posts 1–10 compiled into a PDF policy briefing with full citations.",
+      "pricing": "£500 individual schools, £2,000 MATs, £5,000 local authorities",
+      "target_buyers": "Local Authority safeguarding leads, MAT CEOs, DfE policy team, NSPCC policy team",
+      "herald_action": "Begin pitching to LA safeguarding teams once series reaches 8 posts. Herald drafts the pitch letter."
+    },
+    "media_credibility": {
+      "description": "59K impressions, β = 0.061 finding, 46 studies — this is press-ready. The counter-narrative to Haidt and phone bans.",
+      "target_outlets": ["TES", "Schools Week", "The Guardian Education", "BBC News Education", "The i newspaper", "Tes Magazine"],
+      "key_angle": "UK founder analyses 46 studies and 79 effect sizes. Conclusion: the mental health crisis started in 2008, not 2012. Social media is not the villain policymakers think it is.",
+      "secondary_angle": "258 educators saving the post — grassroots evidence that teachers are changing how they talk about screens based on this research synthesis."
     }
   },
-  "pr_angles_available": [
-    "Educator-led research synthesis — founder analysing 46 studies and 79 effect sizes, presenting findings to 7,800+ educators. Not a think tank. Not a tech company. A founder who did the reading.",
-    "The β = 0.061 finding — a precise, citeable number that challenges the phone ban consensus. Journalists love a number that contradicts the narrative.",
-    "UK-specific timeline data — mental health acceleration started 2008 (financial crash), 4 years before the 2012 smartphone story. Challenges Haidt directly.",
-    "258 educators saving the post = the evidence is being used in schools. Real adoption story.",
-    "The GUIDE keyword CTA — hundreds of educators asking for the framework. Demand-led product story."
-  ],
+  "pr_asset_data": {
+    "best_post_impressions": 59144,
+    "total_engagements": 2009,
+    "saves": 258,
+    "comments": 276,
+    "key_finding": "β = 0.061 — social media's effect on youth mental health is statistically indistinguishable from noise across 46 studies and 79 effect sizes",
+    "founder_reach": {"linkedin_followers": 7828, "weekly_impressions": 71134}
+  },
   "journalists_pitched": [],
   "outlets_with_appetite": [
-    "TES (Times Educational Supplement) — education + safeguarding angles",
+    "TES — education + safeguarding angles",
     "The Guardian Education — policy and digital childhood",
     "BBC News Education — national policy hooks with a counter-narrative",
-    "Schools Week — MAT and policy implementation angles",
-    "The i newspaper — accessible science journalism, would love the β = 0.061 angle"
+    "Schools Week — MAT and policy angles",
+    "The i newspaper — accessible science journalism"
   ],
   "angles_already_used": [],
   "recent_actions": [],
   "recent_questions": [],
-  "notes_to_self": "The β = 0.061 finding is a press-ready number. 'Founder analyses 46 studies showing social media effect on children's mental health is statistically indistinguishable from noise' is a headline. Herald should look for journalists covering the phone ban / Haidt debate and pitch the counter-narrative angle."
+  "notes_to_self": "Herald has two jobs: (1) get Justin on stages — speaking is both revenue and top-of-funnel. (2) get the Wrong Villain thesis into press coverage — credibility that no amount of LinkedIn posts can buy. Prioritise speaking circuit first. Each talk = £3K–£8K + hundreds of new GUIDE funnel entries."
 }
