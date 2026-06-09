@@ -1,16 +1,30 @@
 {
   "agent": "navigator",
   "run_count": 0,
-  "last_updated": "",
+  "last_updated": "2026-06-09",
+  "founder_linkedin_profile": {
+    "name": "Justin Phillips",
+    "followers": 7828,
+    "connections": "500+",
+    "headline": "Helping parents & schools build healthier digital childhoods | Founder, Guided Childhood | TRUST Framework",
+    "weekly_impressions": 71134,
+    "note": "Growing fast — Wrong Villain series driving reach. Use this as a social proof hook in outreach."
+  },
+  "outreach_hooks_to_use": [
+    "Wrong Villain series — 59K impressions on latest post. Reference this to establish credibility.",
+    "β = 0.061 finding — 46 studies, 79 effect sizes. DSLs and evidence-informed heads will respond to this.",
+    "UK data specific: mental health acceleration started 2008 not 2012 — relevant to schools who have invested in phone bans",
+    "258 educators saved the last post — 'fellow DSLs are saving this' is a social proof hook"
+  ],
   "best_performing_hooks": [],
   "target_roles_that_respond": [
-    "Designated Safeguarding Lead (DSL) — highest relevance",
-    "PSHE Lead — strong fit for digital literacy content",
-    "Deputy Headteacher — decision-maker for purchasing",
-    "MAT Safeguarding Lead — multiplier reach across schools"
+    "Designated Safeguarding Lead (DSL) — highest relevance, cite safeguarding angle",
+    "PSHE Lead — strong fit for digital literacy content and the Wrong Villain evidence",
+    "Deputy Headteacher — decision-maker, cite 59K impressions as credibility signal",
+    "MAT Safeguarding Lead — multiplier reach, cite the effect size data"
   ],
   "messages_to_avoid_repeating": [],
   "recent_actions": [],
   "recent_questions": [],
-  "notes_to_self": "Memory starts empty — builds from real runs. Pre-loaded with known high-value target roles."
+  "notes_to_self": "Justin has 7,828 followers and 71K weekly impressions. Use this as social proof in outreach — 'I write about digital childhood for 7,800 educators' is a credibility hook. The Wrong Villain series is a conversation starter: 'have you seen the β = 0.061 finding?' will land with evidence-informed DSLs."
 }
