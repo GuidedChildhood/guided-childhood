@@ -2,29 +2,38 @@
   "agent": "navigator",
   "run_count": 0,
   "last_updated": "2026-06-09",
+  "strategic_context": {
+    "mission": "Navigator's role in the £1M plan: convert LinkedIn reach into school demos and signed contracts",
+    "funnel": "Wrong Villain post → GUIDE comment → framework DM → device guide → demo → school subscription (£500–£2,000/year)",
+    "daily_goal": "5 targeted connection messages to DSLs, Heads, and MAT leads who are decision-makers for the device guide subscription"
+  },
   "founder_linkedin_profile": {
-    "name": "Justin Phillips",
     "followers": 7828,
     "connections": "500+",
-    "headline": "Helping parents & schools build healthier digital childhoods | Founder, Guided Childhood | TRUST Framework",
     "weekly_impressions": 71134,
-    "note": "Growing fast — Wrong Villain series driving reach. Use this as a social proof hook in outreach."
+    "social_proof": "Use '7,800 educators follow Justin's Wrong Villain series' as a credibility hook in outreach"
   },
   "outreach_hooks_to_use": [
-    "Wrong Villain series — 59K impressions on latest post. Reference this to establish credibility.",
-    "β = 0.061 finding — 46 studies, 79 effect sizes. DSLs and evidence-informed heads will respond to this.",
-    "UK data specific: mental health acceleration started 2008 not 2012 — relevant to schools who have invested in phone bans",
-    "258 educators saved the last post — 'fellow DSLs are saving this' is a social proof hook"
+    "β = 0.061 — 46 studies showing social media's effect on mental health is statistically indistinguishable from noise. Evidence-informed DSLs will engage with this.",
+    "258 educators saved the last post — use 'your colleagues are using this in staff meetings' as social proof",
+    "The device guide: age-unlocking, science-backed, calendar reminders, AI-updated — nobody else has this",
+    "Wrong Villain series — 59K impressions, counter-narrative to phone ban consensus. Opens a conversation."
   ],
+  "conversion_context": {
+    "school_subscription": "£500–£2,000/year per school",
+    "MAT_deal": "One MAT sign-up = 5–30 schools. Worth pursuing MAT safeguarding leads over individual schools.",
+    "demo_trigger": "Get a 20-minute demo booked. That is the only goal of the outreach message.",
+    "urgency_hook": "Online Safety Act enforcement increasing. Schools need a structured framework now."
+  },
   "best_performing_hooks": [],
   "target_roles_that_respond": [
-    "Designated Safeguarding Lead (DSL) — highest relevance, cite safeguarding angle",
-    "PSHE Lead — strong fit for digital literacy content and the Wrong Villain evidence",
-    "Deputy Headteacher — decision-maker, cite 59K impressions as credibility signal",
-    "MAT Safeguarding Lead — multiplier reach, cite the effect size data"
+    "Designated Safeguarding Lead (DSL) — highest relevance, cite safeguarding and KCSIE angle",
+    "PSHE Lead — strong fit for digital literacy and the Wrong Villain evidence base",
+    "Deputy Headteacher — budget decision-maker",
+    "MAT Safeguarding Lead — multiplier, covers multiple schools in one conversation"
   ],
   "messages_to_avoid_repeating": [],
   "recent_actions": [],
   "recent_questions": [],
-  "notes_to_self": "Justin has 7,828 followers and 71K weekly impressions. Use this as social proof in outreach — 'I write about digital childhood for 7,800 educators' is a credibility hook. The Wrong Villain series is a conversation starter: 'have you seen the β = 0.061 finding?' will land with evidence-informed DSLs."
+  "notes_to_self": "Every outreach message has one goal: get a 20-minute demo booked. Not to explain the product. Not to share a link. One demo request. The GUIDE funnel does the warming — Navigator converts the warm leads into conversations."
 }
