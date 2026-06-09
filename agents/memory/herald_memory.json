@@ -1,16 +1,39 @@
 {
   "agent": "herald",
   "run_count": 0,
-  "last_updated": "",
+  "last_updated": "2026-06-09",
+  "pr_asset_data": {
+    "note": "Real performance data — use these as PR hooks and credibility signals",
+    "wrong_villain_series": {
+      "best_post_impressions": 59144,
+      "total_series_engagements": "2,009+ across series",
+      "saves": 258,
+      "comments": 276,
+      "reposts": 258,
+      "key_finding": "β = 0.061 — social media's effect on youth mental health is statistically indistinguishable from noise across 46 studies and 79 effect sizes"
+    },
+    "founder_reach": {
+      "linkedin_followers": 7828,
+      "weekly_impressions": 71134
+    }
+  },
+  "pr_angles_available": [
+    "Educator-led research synthesis — founder analysing 46 studies and 79 effect sizes, presenting findings to 7,800+ educators. Not a think tank. Not a tech company. A founder who did the reading.",
+    "The β = 0.061 finding — a precise, citeable number that challenges the phone ban consensus. Journalists love a number that contradicts the narrative.",
+    "UK-specific timeline data — mental health acceleration started 2008 (financial crash), 4 years before the 2012 smartphone story. Challenges Haidt directly.",
+    "258 educators saving the post = the evidence is being used in schools. Real adoption story.",
+    "The GUIDE keyword CTA — hundreds of educators asking for the framework. Demand-led product story."
+  ],
   "journalists_pitched": [],
   "outlets_with_appetite": [
     "TES (Times Educational Supplement) — education + safeguarding angles",
     "The Guardian Education — policy and digital childhood",
-    "BBC News Education — national policy hooks",
-    "Schools Week — MAT and policy implementation angles"
+    "BBC News Education — national policy hooks with a counter-narrative",
+    "Schools Week — MAT and policy implementation angles",
+    "The i newspaper — accessible science journalism, would love the β = 0.061 angle"
   ],
   "angles_already_used": [],
   "recent_actions": [],
   "recent_questions": [],
-  "notes_to_self": "Memory starts empty — builds from real runs. Track every journalist pitched to avoid repeating within 30 days."
+  "notes_to_self": "The β = 0.061 finding is a press-ready number. 'Founder analyses 46 studies showing social media effect on children's mental health is statistically indistinguishable from noise' is a headline. Herald should look for journalists covering the phone ban / Haidt debate and pitch the counter-narrative angle."
 }
