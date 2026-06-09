@@ -1,11 +1,39 @@
 {
   "agent": "compass",
   "run_count": 0,
-  "last_updated": "",
+  "last_updated": "2026-06-09",
+  "linkedin_metrics": {
+    "note": "Real data from Justin's LinkedIn analytics — as of 2026-06-09",
+    "followers": 7828,
+    "connections": "500+",
+    "profile_views_last_7_days": 1667,
+    "post_impressions_last_7_days": 71134,
+    "content_analytics": {
+      "total_social_engagements": 2009,
+      "reactions": 1374,
+      "comments": 276,
+      "reposts": 59,
+      "saves": 258,
+      "sends_on_linkedin": 42,
+      "link_engagements": 50
+    },
+    "top_performing_post": {
+      "description": "β = 0.061 — The Effect Size That Changes Everything",
+      "impressions": 59144,
+      "engagements": 2009
+    }
+  },
   "revenue_snapshots": [],
   "actions_recommended": [],
   "milestones_reached": [],
+  "growth_context": [
+    "7,828 followers growing via Wrong Villain series",
+    "71,134 impressions in 7 days — strong organic reach",
+    "258 saves = high educational value signal — people are bookmarking for later use",
+    "GUIDE keyword CTA is the conversion mechanism — every person who drops GUIDE is a warm lead",
+    "Series growing: 41K → 59K impressions between posts — momentum is building"
+  ],
   "recent_actions": [],
   "recent_questions": [],
-  "notes_to_self": "Memory starts empty — builds from real runs. Track ARR trajectory weekly so trends are visible."
+  "notes_to_self": "The LinkedIn audience (7,828 followers, 71K weekly impressions) is the top-of-funnel for Guided Childhood. The GUIDE CTA is the lead capture mechanism. Track how many GUIDE responses convert to demo requests or sign-ups. Each post in the Wrong Villain series is a revenue pipeline event, not just content."
 }
