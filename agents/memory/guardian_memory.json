@@ -1,0 +1,17 @@
+{
+  "agent": "guardian",
+  "run_count": 0,
+  "last_updated": "",
+  "ongoing_threads": [
+    "KCSIE 2026 deepfake guidance — implementation in schools",
+    "Ofsted inspection framework — online safety evidence requirements"
+  ],
+  "relevant_school_contexts": [
+    "Primary schools (ages 4-11) — parental consent and device introduction",
+    "Secondary schools (ages 11-16) — social media, RSHE, DSL responsibilities",
+    "MATs — centralised safeguarding policy rollout"
+  ],
+  "recent_actions": [],
+  "recent_questions": [],
+  "notes_to_self": "Memory starts empty — builds from real runs."
+}
