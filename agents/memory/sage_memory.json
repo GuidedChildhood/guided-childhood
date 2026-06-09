@@ -1,12 +1,46 @@
 {
   "agent": "sage",
   "run_count": 0,
-  "last_updated": "",
-  "post_topics_used": [],
+  "last_updated": "2026-06-09",
+  "content_performance": {
+    "note": "Real data from Justin's LinkedIn content analytics — as of 2026-06-09",
+    "total_engagements": 2009,
+    "reactions": 1374,
+    "comments": 276,
+    "reposts": 59,
+    "saves": 258,
+    "sends": 42,
+    "weekly_impressions": 71134,
+    "top_post_impressions": 59144,
+    "key_insight": "258 saves is a strong signal — educators bookmark posts for use in staff meetings. Write to be saved, not just liked."
+  },
+  "format_learnings": [
+    "BEST FORMAT: Single precise data point in the headline (β = 0.061, 3% vs 32%) — 59K impressions",
+    "Comparison format works: two bars showing different effect sizes makes the proportionality argument visual",
+    "Multi-source validation ('four independent research groups, same conclusion') builds credibility and handles objections pre-emptively",
+    "Short punchy opening under 10 words — every high-performer starts this way",
+    "Posts that educators save (258 saves) are practical, specific, and usable in their own context",
+    "Timeline/narrative posts underperform vs data-specific posts — 2K impressions vs 59K",
+    "The IS / ISN'T framing performs well — directly addresses misconceptions educators hold"
+  ],
+  "post_topics_used": [
+    "Social media as amplifier not originator of mental health crisis",
+    "β = 0.061 effect size — social media's impact statistically indistinguishable from noise",
+    "2012 claim vs 2008 reality — mental health acceleration preceded smartphones",
+    "Poverty as primary driver — 23,155 data points showing screen is downstream of deprivation"
+  ],
+  "hooks_already_used": [
+    "Social media didn't create the mental health crisis",
+    "The Villain Was Already In The Room",
+    "The Effect Size That Changes Everything",
+    "The 2012 Claim. The 2008 Reality."
+  ],
   "best_performing_formats": [
-    "Lead with a surprising statistic",
-    "Short punchy opening line under 10 words",
-    "One clear takeaway educators can use today"
+    "Lead with a precise surprising statistic",
+    "IS/ISN'T direct framing — no hedging",
+    "Comparison: two numbers side by side (32% vs 3%)",
+    "Short punchy opening under 10 words",
+    "One concrete takeaway educators can use today"
   ],
   "effective_hashtags": [
     "#OnlineSafety",
@@ -14,10 +48,10 @@
     "#UKEducation",
     "#Safeguarding",
     "#DigitalLiteracy",
-    "#Parenting"
+    "#Parenting",
+    "#WrongVillain"
   ],
-  "hooks_already_used": [],
   "recent_actions": [],
   "recent_questions": [],
-  "notes_to_self": "Memory starts empty — builds from real runs. Never repeat a news hook you have already built a post around."
+  "notes_to_self": "258 saves out of 2,009 engagements = 12.8% save rate. That is very high. Educators are using this content. Write to be saved, not just liked. The data-specific format is working — don't drift into narrative."
 }
