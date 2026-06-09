@@ -33,7 +33,7 @@
         "reactions": 1151,
         "comments": 164,
         "reposts": 258,
-        "verdict": "BEST PERFORMER — highest impressions in the series. Specific beta coefficient + comparison bar chart format."
+        "verdict": "BEST PERFORMER — THIS IS THE TEMPLATE. Specific beta coefficient + comparison format. Keep building posts exactly like this with NEW data."
       },
       {
         "title": "Key Insight 04 — The 2012 Claim. The 2008 Reality.",
@@ -43,32 +43,36 @@
         "reactions": 51,
         "comments": 14,
         "reposts": 12,
-        "verdict": "UNDERPERFORMED — timeline/narrative format. Less punchy than specific data point posts."
+        "verdict": "UNDERPERFORMED — timeline/narrative format without a sharp data point at the centre. The insight is valid but the format is wrong."
       }
     ]
   },
   "series_learnings": [
-    "MOST IMPORTANT: Posts with a SINGLE PRECISE DATA POINT (β = 0.061, 3% vs 32%) dramatically outperform narrative/timeline posts. Always lead with a specific, surprising number.",
-    "The series is GROWING — 41K → 59K impressions. Keep going.",
-    "The beta coefficient format (β = X.XXX, what it means) is the highest-performing format. Use it when the data supports it.",
-    "Comparison bar charts (Child Poverty 32% vs Social Media 3%) make the proportionality argument visual and shareable.",
-    "Timeline posts underperform — the 2012/2008 insight is true but the format doesn't drive engagement.",
-    "The series has a naming convention: Wrong Villain + Part/Key Insight + number. Keep consistent.",
-    "Effect size and meta-analysis data outperforms single study data — 46 studies, 79 effect sizes is more credible than one paper.",
-    "Four independent research groups reaching same conclusion is the most pre-emptive objection handler — use it."
+    "MOST IMPORTANT: The β = 0.061 format IS the series. Keep building it. Find new data points, new effect sizes, new comparisons — same structure every time.",
+    "The series is GROWING — 41K → 59K impressions. The audience is building. Every new post reaches more people than the last.",
+    "Do NOT avoid the effect size / social media mental health topic — that IS the Wrong Villain thesis. Go deeper into it with new data.",
+    "What NOT to repeat is the SPECIFIC FINDING (β = 0.061 from those 46 studies) — find the NEXT precise data point in the same space.",
+    "Comparison bar charts (Child Poverty 32% vs Social Media 3%) make the proportionality argument visual and shareable — use this format again.",
+    "Timeline posts without a data point at the centre underperform — always anchor to a number.",
+    "Effect size and meta-analysis data outperforms single study data — cite multiple studies and multiple research groups.",
+    "Four independent research groups reaching same conclusion is the strongest objection handler — always try to cite multiple sources."
   ],
-  "series_posts_drafted": [
-    "The Wrong Villain — Original (amplifier thesis) — DO NOT REPEAT",
-    "The Villain Was Already In The Room (poverty data 23,155) — DO NOT REPEAT",
-    "Key Insight 03: The Effect Size That Changes Everything (β = 0.061) — DO NOT REPEAT",
-    "Key Insight 04: The 2012 Claim. The 2008 Reality. (timeline) — DO NOT REPEAT"
-  ],
-  "topics_to_develop": [
-    "The funding gap: billions spent on device policy, pennies on conversation skills (proportionality argument — fits the proven format perfectly)",
-    "Dumb phones fallacy — 84% still access internet via basic handsets (precise data point, strong comparison)",
-    "Age-appropriate access: what age science says unlocks what (practical, parents will save this)",
-    "The algorithm accountability gap: what platforms know vs what they publish (corporate data gatekeeping angle)",
-    "Screen time vs content type: same hours, wildly different outcomes (nuance angle, challenges simplistic messaging)"
+  "series_posts_already_published": {
+    "note": "These specific posts are published. Do not re-post the same content. But DO continue the series with new data on the same themes.",
+    "published": [
+      "The Wrong Villain — Original (amplifier thesis, social media as amplifier not originator)",
+      "The Villain Was Already In The Room (poverty data, 23,155 dataset)",
+      "Key Insight 03: The Effect Size That Changes Everything (β = 0.061, 46 studies, 79 effect sizes)",
+      "Key Insight 04: The 2012 Claim. The 2008 Reality. (2008 financial crash timeline)"
+    ]
+  },
+  "next_series_directions": [
+    "Find the next effect size — a new meta-analysis on a different driver (screen time vs content type, algorithm recommendation vs passive scrolling, age-specific effects). Same β format.",
+    "The funding gap: billions spent on device policy, pennies on conversation skills — find the actual spending figures and make the comparison.",
+    "Dumb phones fallacy — 84% still access internet via basic handsets. Precise data point, strong comparison, fits the format exactly.",
+    "Age-appropriate access: the actual science on what age unlocks what. Use official developmental psychology data, not policy guesses.",
+    "The algorithm accountability gap: what platforms know internally vs what they publish. Effect size format if data exists.",
+    "Screen time vs content type: same hours on TikTok vs YouTube vs messaging — wildly different outcomes. Find the comparative data."
   ],
   "objections_to_preempt": [
     "The average hides a vulnerable minority — address: concentrated harm is still harm. Wrong villain doesn't mean no villain. The 3% who are severely harmed deserve targeted intervention, not blunt device bans.",
@@ -86,10 +90,10 @@
     "End every post with a question that invites the sharpest disagreement",
     "NEVER put URLs in post body — LinkedIn suppresses reach. Use comment keyword CTA (e.g. Drop GUIDE in comments)",
     "The proven format: precise data point → IS/ISN'T → memorable comparison → multiple independent sources → proportionality argument → series name → keyword CTA → repost ask → open question",
-    "Series is growing: 41K → 59K impressions. Each post should build on the previous."
+    "Series is growing: 41K → 59K impressions. Keep going. The audience is compounding."
   ],
   "substack_drafts_created": [],
   "recent_actions": [],
   "recent_questions": [],
-  "notes_to_self": "The β = 0.061 post is the template. Specific, precise, comparative, multi-source. That format at 59K impressions is the benchmark. Every future post should aim to match or beat it. Never use the timeline format again without a killer data point at its centre."
+  "notes_to_self": "The β = 0.061 post is the TEMPLATE to replicate with new data, not a topic to avoid. Find the next precise effect size or comparative data point in the children's digital safety space and write post #5 in the same format. The series compounds — keep building it."
 }
