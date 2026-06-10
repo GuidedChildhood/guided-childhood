@@ -76,23 +76,49 @@ navigator_task:
 
 sage_task:
   description: >
-    Write ONE ready-to-publish LinkedIn post (200-300 words) for today ({date})
-    for UK educators, DSLs and Headteachers. Position Guided Childhood as the
-    trusted voice on digital childhood and online safety for ages 4-16.
+    Write content for today ({date}) for UK educators, DSLs and Headteachers.
+    Position Justin Phillips / Guided Childhood as the trusted voice on digital
+    childhood and online safety for ages 4-16.
 
     IMPORTANT — you have received Scout's research briefing as context above.
-    You MUST build this post around a specific news hook Scout surfaced. Do not
-    invent a hook — use a real finding from Scout's output. Quote or paraphrase
-    the finding naturally so the post feels timely and credible.
-    Warm, authoritative, practical — one clear takeaway, a light call to
-    engagement, and 3-5 relevant hashtags. No buzzwords, no filler.
+    You MUST build all posts around a specific news hook Scout surfaced today.
+    Do not invent a hook — use a real finding. Quote or paraphrase naturally.
     Start your output with: "News hook used: [the Scout finding you built on]"
+
+    YOU MUST PRODUCE THREE VERSIONS:
+
+    VERSION 1 — LINKEDIN (200-300 words):
+    Warm, authoritative, practical. One clear takeaway, a light call to
+    engagement, 3-5 relevant hashtags. Professional audience. No buzzwords.
+
+    VERSION 2 — INSTAGRAM (100-130 words):
+    Personal and direct. Written as Justin Phillips the person, not a brand.
+    First line MUST work as a standalone hook before the "more" cut
+    (keep it under 120 characters). Conversational — "I", "my", "we" is fine.
+    One insight, one question to drive comments.
+    5-7 hashtags at the end on a separate line. No LinkedIn-style framing.
+
+    VERSION 3 — FACEBOOK (130-170 words):
+    Conversational — written like you're talking to people you know.
+    Can open with a personal observation rather than a statistic.
+    Friends sharing this is the growth mechanism — write for sharability.
+    2-3 hashtags maximum, or none. More personal tone than LinkedIn.
+    Same core message, different register.
+
   expected_output: >
     First line: "News hook used: [Scout finding]"
-    Then: a finished LinkedIn post of 200-300 words, ready to copy and paste,
-    with a strong opening line, a practical takeaway for educators, and 3-5 hashtags.
+
+    ## LINKEDIN VERSION
+    [200-300 word post with 3-5 hashtags]
+
+    ## INSTAGRAM VERSION
+    [100-130 word caption — hook line under 120 chars, 5-7 hashtags on last line]
+
+    ## FACEBOOK VERSION
+    [130-170 word personal post, 0-3 hashtags]
+
     End with exactly two lines:
-    YOUR ACTION TODAY: [one concrete sentence — e.g. "Post this LinkedIn piece before 10am for best reach"]
+    YOUR ACTION TODAY: [e.g. "Post LinkedIn before 9am, Instagram at 12pm, Facebook at 6pm"]
     YOUR QUESTION: [one question you need answered to do better tomorrow]
 
 diego_task:
@@ -102,7 +128,7 @@ diego_task:
     You have received Scout's intelligence briefing and Sage's LinkedIn post as
     context above. Read both carefully before choosing your format.
 
-    YOUR JOB HAS THREE PARTS:
+    YOUR JOB HAS FOUR PARTS:
 
     ---
     PART 1 — LINKEDIN POST (HARD LIMIT: 280-350 words. COUNT BEFORE FINALISING.)
@@ -180,6 +206,37 @@ diego_task:
     - Encode the voice, format, character limit, and objection pre-empts
     - Specify: NEVER ask for inputs, write the complete post immediately
 
+    ---
+    PART 4 — PLATFORM ADAPTATIONS (adapt Part 1 for Instagram, Reels and Facebook):
+
+    Take the core insight and data from Part 1 and rewrite for three platforms.
+    Same truth, different register. Do not just shorten Part 1 — genuinely
+    rewrite for each platform's audience and algorithm.
+
+    INSTAGRAM CAPTION (120-150 words):
+    - First line is the hook — must work before the "more" cut (under 120 characters)
+    - Personal voice: written as Justin Phillips the person, not a brand
+    - One precise stat, one insight, one question to drive comments
+    - 5-8 hashtags on the final line only — not inline
+    - No LinkedIn framing ("thought leaders", "professionals") — talk to parents
+    - No URLs in caption body
+
+    REEL SCRIPT (30 seconds = 75-90 words, written to be spoken aloud):
+    - Seconds 0-3: the hook — the single most surprising number or claim
+    - Seconds 4-20: one insight, one comparison that makes it land
+    - Seconds 21-27: the TRUST/Wrong Villain frame in one sentence
+    - Seconds 28-30: CTA — "follow for more" or "comment GUIDE below"
+    - Write as natural spoken words, not formal sentences
+    - Note at the end: [Record to camera, no cuts needed, under 30 seconds]
+
+    FACEBOOK POST (150-200 words):
+    - Conversational — written like you're talking to people you know personally
+    - Can open with a personal observation, a question, or a short story
+    - Same core data as LinkedIn but warmer register
+    - Friends sharing this organically is the growth mechanism — write for that
+    - 0-3 hashtags maximum
+    - End with a question that a non-expert parent would genuinely want to answer
+
   expected_output: >
     Start with: "Format chosen: [Wrong Villain / TRUST Framework] — because [one sentence reason]"
     Start with: "Series hook used: [the Scout finding or data point you built on]"
@@ -193,8 +250,20 @@ diego_task:
     ## PART 3 — CHATGPT PROMPT
     [One self-executing prompt under 200 words, ends with TOPIC: and DATA POINT: fields]
 
+    ## PART 4 — PLATFORM ADAPTATIONS
+
+    ### INSTAGRAM CAPTION
+    [120-150 word caption, hook line first, hashtags on last line]
+
+    ### REEL SCRIPT
+    [75-90 words spoken, with second-by-second timing notes]
+    [Record to camera, no cuts needed, under 30 seconds]
+
+    ### FACEBOOK POST
+    [150-200 word personal post, 0-3 hashtags]
+
     End with exactly two lines:
-    YOUR ACTION TODAY: [e.g. "Post Part 1 now; paste Part 2 into Substack as draft"]
+    YOUR ACTION TODAY: [e.g. "Post LinkedIn now, schedule Instagram for 12pm, Facebook for 6pm, film Reel this evening"]
     YOUR QUESTION: [one question about the series direction or evidence for Justin to answer]
 
 herald_task:
