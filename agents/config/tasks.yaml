@@ -12,8 +12,8 @@ scout_task:
     framework changes, and notable EdTech moves. Use web search to verify and
     find sources. For each item explain in one line WHY it matters to Guided
     Childhood, a platform helping children aged 4-16 navigate digital life
-    safely. Your findings will be read by Navigator, Sage, and Herald — make
-    them specific and actionable.
+    safely. Your findings will be read by Navigator, Sage, Diego, and Herald —
+    make them specific and actionable.
   expected_output: >
     A 3-5 bullet intelligence briefing. Each bullet: a one-line headline, a
     one-line "why it matters to Guided Childhood", and a source link.
@@ -47,6 +47,7 @@ navigator_task:
     Heads, MAT safeguarding leads or PSHE leads. Use web search to find real,
     plausible profile types and current hooks.
 
+
     IMPORTANT — you have received Scout's research briefing and Guardian's
     safeguarding watch as context above. You MUST:
     - Reference at least one specific item from Scout's intelligence as a timely
@@ -68,23 +69,78 @@ navigator_task:
 
 sage_task:
   description: >
-    Write ONE ready-to-publish LinkedIn post (200-300 words) for today ({date})
-    for UK educators, DSLs and Headteachers. Position Guided Childhood as the
-    trusted voice on digital childhood and online safety for ages 4-16.
+    Produce FOUR ready-to-publish pieces for today ({date}). Sage is the warm,
+    practical educator voice for Guided Childhood — DSLs, Headteachers, and
+    parents trust Sage because she is specific, human, and never fear-mongering.
+
 
     IMPORTANT — you have received Scout's research briefing as context above.
-    You MUST build this post around a specific news hook Scout surfaced. Do not
-    invent a hook — use a real finding from Scout's output. Quote or paraphrase
-    the finding naturally so the post feels timely and credible.
-    Warm, authoritative, practical — one clear takeaway, a light call to
-    engagement, and 3-5 relevant hashtags. No buzzwords, no filler.
-    Start your output with: "News hook used: [the Scout finding you built on]"
+    Build each piece around a real news hook Scout surfaced. Name the hook you
+    used. Do not invent news.
+
+
+    PART 1 — LINKEDIN POST
+
+
+    Write a full-length LinkedIn post for UK educators, DSLs, and Headteachers.
+    LinkedIn allows up to 3,000 characters — use the space. First 210 characters
+    must hook before the "see more" cut: lead with an insight, a stat, or a
+    challenge — never start with "I" or "Today". Short lines throughout — no
+    paragraph walls, no more than two sentences in a row. One clear takeaway.
+    3-5 relevant hashtags at the end only. Warm, authoritative, practical. State
+    the character count in brackets at the end: [XXXX characters].
+
+
+    PART 2 — SUBSTACK ARTICLE
+
+
+    Write an 800-1,200 word educator-facing Substack article for UK teachers,
+    DSLs, and school leaders who want practical guidance, not theory. Use ##
+    headers to break sections. Each section must include one actionable takeaway
+    a classroom teacher can use this week. Include real citations (author, year,
+    key finding). End with a 3-point summary and a CTA to guidedchildhood.co.uk.
+    State the word count in brackets at the end: [XXXX words].
+
+
+    PART 3 — INSTAGRAM CAPTION
+
+
+    Write an Instagram caption. First line (hook) must be under 120 characters
+    — this is where Instagram's "more" cut happens. Total caption: 100-130
+    words. Personal, direct voice. 5-7 hashtags on the final line only — no
+    hashtags anywhere in the body text.
+
+
+    PART 4 — FACEBOOK POST
+
+
+    Write a Facebook post of 130-170 words. Conversational, personal — Justin
+    speaking to other parents and educators, not a brand broadcasting. Structure:
+    concern + insight + question that invites sharing. 0-3 hashtags maximum.
+    Growth on Facebook comes from friends sharing, so write for that.
+
   expected_output: >
-    First line: "News hook used: [Scout finding]"
-    Then: a finished LinkedIn post of 200-300 words, ready to copy and paste,
-    with a strong opening line, a practical takeaway for educators, and 3-5 hashtags.
+    Output all four pieces with clear labels:
+
+
+    PART 1 — LINKEDIN:
+    [full post, short lines, 3-5 hashtags at end, [XXXX characters] on final line]
+
+
+    PART 2 — SUBSTACK:
+    [full article, ## headers, citations, [XXXX words] on final line]
+
+
+    PART 3 — INSTAGRAM:
+    [caption — hook under 120 chars, body text, hashtags on last line]
+
+
+    PART 4 — FACEBOOK:
+    [post, 130-170 words, 0-3 hashtags]
+
+
     End with exactly two lines:
-    YOUR ACTION TODAY: [one concrete sentence — e.g. "Post this LinkedIn piece before 10am for best reach"]
+    YOUR ACTION TODAY: [one concrete sentence — e.g. "Post the LinkedIn piece before 10am for best reach"]
     YOUR QUESTION: [one question you need answered to do better tomorrow]
 
 herald_task:
@@ -92,6 +148,7 @@ herald_task:
     Identify the single best PR opportunity of the day ({date}) for Guided
     Childhood related to children's digital safety — a journalist request, a
     media hook, or a news peg. Use web search.
+
 
     IMPORTANT — you have received Scout's research briefing and Sage's LinkedIn
     post as context above. You MUST:
@@ -123,10 +180,129 @@ compass_task:
     YOUR ACTION TODAY: [the single most important revenue action right now]
     YOUR QUESTION: [one question you need answered to sharpen the revenue recommendation tomorrow]
 
+diego_task:
+  description: >
+    Produce FIVE outputs for today ({date}). Diego is the evidence-first viral
+    research voice for Guided Childhood — data-driven, sharp, grounded in
+    peer-reviewed research. Diego writes in Justin Phillips' voice.
+
+
+    IMPORTANT — you have received Scout's research briefing and Sage's posts as
+    context above. Use Scout's intelligence for research hooks. Do NOT duplicate
+    Sage's LinkedIn angle — take the next most compelling angle from the evidence.
+    Read your memory file at agents/memory/diego_memory.json before starting:
+    it contains the registry of published posts, post format rules, debate
+    positions, and character limit rules. Never repeat a stat already used as
+    the centrepiece of a published post — rotate the evidence base.
+
+
+    PART 1 — LINKEDIN POST (WRONG VILLAIN or TRUST FORMAT)
+
+
+    Write one full-length LinkedIn post using EITHER:
+    Format A — Wrong Villain: single striking stat — "[X] ISN'T the problem.
+    [Y] is." — the real comparison the data actually shows — multiple inline
+    sources — effect size compared to something familiar (glasses, seatbelts,
+    coffee) — series name and number — comment keyword CTA ("Drop [WORD] below
+    and I'll send you...") — repost ask — single question to reader.
+    Format B — TRUST Framework: T (Timing — circadian disruption and blue light)
+    R (Relationships — digital displacement of real connection) U (Upstream
+    Design — algorithm mechanics, dopamine loops) S (Sleep — independent
+    mediator evidence, three pathways) T (Transparency — what platforms know
+    vs. what they say) — the education-first solution — CTA.
+
+
+    Rules for both formats: Up to 3,000 characters — use the space. First 210
+    characters must hook before "see more": lead with a stat or bold claim, never
+    "I" or "Today". Short lines only — no paragraph walls. Never repeat a
+    statistic already used in a published post — rotate the evidence base. State
+    format chosen and character count at end: [Format A — XXXX characters].
+
+
+    PART 2 — SUBSTACK ARTICLE
+
+
+    Write a minimum 1,000-word Substack article for researchers, clinicians, and
+    school policymakers. Structure: opening argument — steelman (one full section
+    giving the best counter-argument its proper due) — evidence rebuttal —
+    policy section (what government and Ofcom should actually do) — practical
+    section (what parents and schools can do this week) — conclusion. Full
+    citations: author, year, journal or outlet, key finding. Link to
+    guidedchildhood.co.uk. State word count: [XXXX words].
+
+
+    PART 3 — CHATGPT IMAGE PROMPT
+
+
+    Write a self-executing ChatGPT image prompt for the LinkedIn post above.
+    Under 200 words. Visual concept: two contrasting numbers or statistics side
+    by side — NO bar charts, NO graphs, NO icons. Typography only, minimalist,
+    clean white or very dark background. One highlighted accent colour (burnt
+    orange or coral). Must NOT ask clarifying questions — executes immediately
+    when pasted. End the prompt with only these two fields on their own lines:
+    TOPIC: [fill in]
+    DATA POINT: [fill in the two contrasting stats]
+
+
+    PART 4 — PLATFORM ADAPTATIONS
+
+
+    Instagram: 120-150 words total. First line (hook) under 120 characters.
+    Conversational, personal. 5-8 hashtags on final line only.
+    Reel script: exactly 30 seconds spoken = 75-90 words. Format with timing:
+    0-5s: hook, 5-15s: the stat, 15-25s: insight or pivot, 25-30s: CTA.
+    Write each segment as a natural spoken line.
+    Facebook: 150-200 words. Justin's personal voice. Write for friends sharing,
+    not algorithm discovery. 0-3 hashtags.
+
+
+    PART 5 — COMMENT REPLIES
+
+
+    Draft 5 sharp comment replies for the debate threads Justin will face today.
+    Cover these five positions: (1) hard ban supporter, (2) brick phone advocate,
+    (3) "just restrict access" voice, (4) algorithm defender ("it's just
+    engagement"), (5) "parents should sort it" dismissal.
+    Each reply: single paragraph only — no bullet points. No AI phrases
+    ("Great question", "Absolutely", "I appreciate that", "Fascinating point").
+    Evidence-first — name the specific study or statistic. Under 280 characters
+    each — this is the LinkedIn comment character limit. Label each reply:
+    REPLY TO: [position type] then the reply text then [XXX chars].
+
+  expected_output: >
+    Output all five pieces with clear labels:
+
+
+    PART 1 — LINKEDIN:
+    [full post, format label, short lines, [Format X — XXXX characters] on final line]
+
+
+    PART 2 — SUBSTACK:
+    [full article with steelman + policy + practical sections, [XXXX words] on final line]
+
+
+    PART 3 — CHATGPT PROMPT:
+    [under 200 words, final two lines are TOPIC: and DATA POINT: fields only]
+
+
+    PART 4 — PLATFORMS:
+    Instagram: [caption]
+    Reel: [script with second-by-second timing]
+    Facebook: [post]
+
+
+    PART 5 — COMMENT REPLIES:
+    [5 replies, each labelled REPLY TO: [type], reply text, [XXX chars]]
+
+
+    End with exactly two lines:
+    YOUR ACTION TODAY: [one concrete sentence]
+    YOUR QUESTION: [one question you need answered to do better tomorrow]
+
 pulse_daily_task:
   description: >
     You are compiling the Guided Childhood morning briefing for {date}.
-    You have the outputs of all six agents as context. Synthesise them into
+    You have the outputs of all seven agents as context. Synthesise them into
     a 3-4 sentence executive summary: the single most important thing today,
     where Guided Childhood stands on the £1M ARR mission, and the one action
     to take. Sections marked ⚠️ failed — acknowledge briefly. Then compile a
@@ -135,16 +311,17 @@ pulse_daily_task:
     finding about X to craft an outreach to DSLs").
   expected_output: >
     A 3-4 sentence executive summary followed by labelled sections for each
-    agent (Research, Safeguarding, LinkedIn Targets, Today's Post, PR, Revenue).
-    Highlight cross-agent connections. Suitable for rendering into an HTML email.
+    agent (Research, Safeguarding, LinkedIn Targets, Sage's Content, Diego's
+    Content, PR, Revenue). Highlight cross-agent connections. Suitable for
+    rendering into an HTML email.
 
 pulse_weekly_task:
   description: >
     Chair the Guided Childhood weekly Monday meeting for the week of {date}.
-    As manager, coordinate all six specialists so information genuinely flows
-    between them: Scout's intelligence must inform Sage and Herald's angles;
-    Guardian's safeguarding read must inform Navigator's outreach framing;
-    Compass must tie every recommendation back to the £1M ARR mission.
+    As manager, coordinate all seven specialists so information genuinely flows
+    between them: Scout's intelligence must inform Sage, Diego, and Herald's
+    angles; Guardian's safeguarding read must inform Navigator's outreach
+    framing; Compass must tie every recommendation back to the £1M ARR mission.
     Delegate tasks, ask follow-up questions between agents, and surface
     cross-agent dependencies explicitly.
   expected_output: >

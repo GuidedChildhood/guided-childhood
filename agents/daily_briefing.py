@@ -3,7 +3,8 @@
 Each agent runs with the real outputs of upstream agents injected into their
 task description — so Navigator literally reads Scout's intelligence and
 Guardian's safeguarding watch before deciding who to target, Sage uses Scout's
-news hook, and so on. Pulse compiles everything into the founder email.
+news hook, Diego reads Scout's research AND Sage's post so he takes a different
+LinkedIn angle, and so on. Pulse compiles everything into the founder email.
 
 Run:  python agents/daily_briefing.py
 Env:  ANTHROPIC_API_KEY, GMAIL_USER, GMAIL_APP_PASSWORD
@@ -36,37 +37,41 @@ from crewai import Crew, Process, Task
 
 TODAY = date.today().isoformat()
 
-# Run order — each key maps to its tasks.yaml entry
-SPECIALISTS = ["scout", "guardian", "navigator", "sage", "herald", "compass"]
+# Run order — each key maps to its tasks.yaml entry.
+# Diego runs after Sage so he can read her post and take a different angle.
+SPECIALISTS = ["scout", "guardian", "navigator", "sage", "herald", "compass", "diego"]
 
 DISPLAY = {
-    "scout":    "Scout",
-    "guardian": "Guardian",
-    "navigator":"Navigator",
-    "sage":     "Sage",
-    "herald":   "Herald",
-    "compass":  "Compass",
+    "scout":     "Scout",
+    "guardian":  "Guardian",
+    "navigator": "Navigator",
+    "sage":      "Sage",
+    "herald":    "Herald",
+    "compass":   "Compass",
+    "diego":     "Diego",
 }
 
 AGENT_META = {
-    "Scout":     ("🔭", "Research & Market Intelligence"),
-    "Guardian":  ("🛡️", "Safeguarding & Child Safety"),
-    "Navigator": ("🧭", "LinkedIn & Sales Growth"),
+    "Scout":     ("\U0001f52d", "Research & Market Intelligence"),
+    "Guardian":  ("\U0001f6e1️", "Safeguarding & Child Safety"),
+    "Navigator": ("\U0001f9ed", "LinkedIn & Sales Growth"),
     "Sage":      ("✍️", "Content & Thought Leadership"),
-    "Herald":    ("📣", "PR & Media"),
-    "Compass":   ("🎯", "Revenue & £1M Mission"),
-    "Pulse":     ("💓", "Daily Operations"),
+    "Herald":    ("\U0001f4e3", "PR & Media"),
+    "Compass":   ("\U0001f3af", "Revenue & £1M Mission"),
+    "Diego":     ("\U0001f4ca", "Viral Research & Policy Content"),
+    "Pulse":     ("\U0001f493", "Daily Operations"),
 }
 
 # Which agents each specialist should read before doing their work.
-# The values are DISPLAY names so the injected headers match.
+# Values are DISPLAY names so injected headers match.
 CONTEXT_DEPS: dict[str, list[str]] = {
     "scout":     [],
     "guardian":  [],
     "navigator": ["Scout", "Guardian"],   # outreach hooks from news + safeguarding
-    "sage":      ["Scout"],               # news hook for LinkedIn post
+    "sage":      ["Scout"],               # news hook for educator LinkedIn post
     "herald":    ["Scout", "Sage"],       # news peg + content angle Sage chose
     "compass":   [],                      # reads revenue_data.json directly
+    "diego":     ["Scout", "Sage"],       # research hooks; must not duplicate Sage's angle
 }
 
 
@@ -165,13 +170,13 @@ def main() -> int:
             print(f"!! {name} failed: {exc}")
             traceback.print_exc()
 
-    # Pulse compiles everything — gets all six outputs as injected context
+    # Pulse compiles everything — gets all seven outputs as injected context
     pulse_context = "\n\n".join(
         f"### {n}\n{t}" for n, t in sections.items()
     )
     pulse_desc = textwrap.dedent(f"""
         You are compiling the Guided Childhood morning briefing for {TODAY}.
-        Below are the outputs from all six specialists on your team. Synthesise
+        Below are the outputs from all seven specialists on your team. Synthesise
         them into a concise 3-4 sentence executive summary: the single most
         important thing today, where Guided Childhood stands on the £1M ARR
         mission, and the one action to take right now. Acknowledge any ⚠️
@@ -185,7 +190,9 @@ def main() -> int:
         description=pulse_desc.strip(),
         expected_output=(
             "A 3-4 sentence executive summary followed by clearly labelled "
-            "sections for each agent. Suitable for an HTML email."
+            "sections for each agent (Research, Safeguarding, LinkedIn Targets, "
+            "Sage's Content, Diego's Content, PR, Revenue). "
+            "Highlight cross-agent connections. Suitable for an HTML email."
         ),
         agent=agents["pulse"],
     )
@@ -217,7 +224,7 @@ def main() -> int:
         briefing_date=TODAY,
     )
     text_body = render_plain("Daily Briefing", intro, sections, display_order)
-    subject = f"🌳 Guided Childhood — Daily Briefing {TODAY}"
+    subject = f"\U0001f333 Guided Childhood — Daily Briefing {TODAY}"
     status = send_briefing_email(subject, html_body, text_body, DEFAULT_RECIPIENT)
     print(f"\n{status}")
 
