@@ -1,99 +1,157 @@
 {
   "agent": "diego",
   "run_count": 0,
-  "last_updated": "2026-06-09",
+  "last_updated": "2026-06-10",
+
+  "CHARACTER_LIMITS": {
+    "rule": "LinkedIn posts MUST be 280-350 words maximum. Count before finalising. No exceptions.",
+    "why": "Posts over 400 words lose engagement. The β=0.061 post won because it was tight, not because it was long.",
+    "format_check": "Short lines. One sentence = one line where possible. No bullet-point walls. White space is content."
+  },
+
+  "post_formats": {
+    "format_1_wrong_villain": {
+      "name": "Wrong Villain Series",
+      "use_when": "Scout surfaces a precise effect size, meta-analysis figure, or comparative statistic showing the real driver of harm vs the blamed one",
+      "structure": [
+        "1. Single number on its own line — no preamble",
+        "2. IS/ISN'T — what it IS (the truth), what it ISN'T (the assumption). Direct. No hedging.",
+        "3. One memorable comparison that makes the number land",
+        "4. Two or more independent sources reaching the same conclusion",
+        "5. Proportionality argument — name the real driver vs the blamed one with percentages",
+        "6. Wrong Villain series name reference",
+        "7. Comment keyword CTA — NEVER put URL in post body",
+        "8. Repost ask + follow ask — direct, not apologetic",
+        "9. Closing question that invites the sharpest disagreement"
+      ]
+    },
+    "format_2_trust_framework": {
+      "name": "TRUST Framework Series",
+      "use_when": "Scout surfaces a ban/restriction story, a policy debate, or evidence about what actually protects children (timing, relationships, platform design, sleep, algorithmic literacy)",
+      "structure": [
+        "1. Single number on its own line — no preamble",
+        "2. IS/ISN'T — what the number IS vs what governments/parents assume it means",
+        "3. The ban/restriction problem — behaviour adapts, harm displaces, not disappears. Cite live evidence (e.g. Australia 60% bypass rate)",
+        "4. The real mechanism — name the TRUST letter driving the harm (Timing/Relationships/Upstream Design/Sleep/Transparency). Cite specific study.",
+        "5. TRUST framework reference — one line per letter, no more",
+        "6. Comment keyword CTA: Drop TRUST in comments",
+        "7. Repost ask + follow ask",
+        "8. Closing question — make it genuinely hard for a ban-supporter to dismiss"
+      ]
+    }
+  },
+
+  "trust_framework": {
+    "definition": "Justin's original evidence-based framework for digital resilience. His IP. Reference it by name.",
+    "T_timing": {
+      "what": "When technology fits into daily rhythms — especially evening cutoffs",
+      "evidence": "Evening screen use shifts circadian rhythm. Social media in the hour before bed is worse than equivalent daytime use. Blue light + arousal + social comparison combine at the moment the brain needs to begin recovery.",
+      "key_stat": "Bedtime smartphone use specifically linked to worse sleep quality — effect is timing-dependent, not duration-dependent alone (Journal of Adolescent Health, 2024)"
+    },
+    "R_relationships": {
+      "what": "Co-viewing and family context — the relational wrapper around technology use",
+      "evidence": "Active parental mediation (discussing content, asking questions, co-interpreting) consistently outperforms restriction alone. Parental rules specifically about pre-sleep internet use show a protective effect on sleep duration.",
+      "key_stat": "Parental mediation correlates with children's digital wellbeing even controlling for hours of use (Tandfonline, 2023)"
+    },
+    "U_upstream": {
+      "what": "Safer platform architecture — designing for wellbeing not engagement",
+      "evidence": "23 peer-reviewed studies on YouTube recommendations: 14 implicated the recommender system in problematic content pathways, only 2 did not. 2023 PNAS study: recommendations become progressively more extreme deeper in the autoplay chain.",
+      "key_stat": "Children don't watch videos — they follow pathways. The harm is in the sequence, not the first video."
+    },
+    "S_sleep": {
+      "what": "Protecting cognitive recovery — the most evidence-dense letter",
+      "evidence": "Swedish longitudinal study (4,810 adolescents): sleep quality, sleep duration, AND circadian timing independently mediate the screen→depression pathway. Three separate mechanisms, not one. UK Millennium Cohort Study: very high social media users (5+ hrs/day, 20.8% of UK teens) significantly more likely to report late sleep onset. Most UK adolescents need 8-10 hours — most get 6-7.",
+      "key_stat": "One week of partial sleep deprivation impairs attention, reaction time and emotional regulation in ways not fully reversed after two recovery nights. The phone in bed is the mechanism, not just a distraction.",
+      "strongest_claim": "Depression risk increases 20% per additional hour of daily social media use (2024 meta-analysis, 9 cohort studies). BUT the pathway runs through sleep — remove the sleep displacement, much of the depression signal weakens."
+    },
+    "T_transparency": {
+      "what": "Understanding algorithms and incentives — algorithmic literacy as a psychological protective factor",
+      "evidence": "Children who understand WHY a recommendation appears demonstrate better critical distance from the content. Engagement-optimised algorithms are designed to maximise time-on-platform, not user wellbeing — understanding this reframes the relationship with the feed.",
+      "key_stat": "Algorithmic literacy is a protective factor — not just digital literacy but a cognitive defence against manipulation"
+    }
+  },
+
+  "self_executing_prompt": {
+    "note": "This is the ChatGPT prompt for Justin to paste. It does NOT ask for inputs — it tells ChatGPT to use the latest relevant data.",
+    "prompt": "Write a LinkedIn post for Justin Phillips, founder of Guided Childhood. DO NOT ask clarifying questions. Write the complete post now using the format and rules below.\n\nVOICE: Calm, evidence-led, never preachy. Proportionality over alarm. Short lines — one sentence per line where possible. No exclamation marks.\n\nCHARACTER LIMIT: 280-350 words maximum. Count before finalising.\n\nFORMAT (follow exactly — do not skip steps):\n1. HOOK: One precise cited statistic on its own line. No preamble.\n2. IS/ISN'T: What the number IS (the true finding). What it ISN'T (the popular assumption). Be direct.\n3. THE SYSTEM PROBLEM: Why bans or restrictions alone fail. Use the Australia example: ban launched Dec 2025, within months 60% of teens who had accounts still had access.\n4. THE MECHANISM: Identify the real driver using one letter of the TRUST framework (Timing / Relationships / Upstream Design / Sleep / Transparency). Cite a specific study for that letter. Make the mechanism concrete — not vague.\n5. SLEEP RULE: If the topic touches sleep at all, always include: a Swedish longitudinal study of 4,810 adolescents found that sleep quality, duration, AND circadian timing independently mediate the screen→depression pathway — three separate mechanisms. The phone in bed is not just a distraction. It is the mechanism.\n6. TRUST FRAMEWORK REFERENCE: One line per letter maximum. T-R-U-S-T. No more.\n7. CTA: Drop TRUST in the comments — I'll send you the full framework including the sleep protocol and age-by-age timing guide.\n8. REPOST + FOLLOW: Direct, not apologetic.\n9. CLOSING QUESTION: One question that makes a ban-supporter genuinely pause. No easy dismissal.\n\nNEVER put a URL in the post body — LinkedIn suppresses reach on external links. Source goes in first comment.\n\nTOPIC: [the specific digital safety issue you want to post about]\nDATA POINT: [the statistic you want to lead with — if you have one. If not, use the most relevant recent UK/US figure for the topic]"
+  },
+
   "series_performance_data": {
     "note": "REAL performance data from Justin's LinkedIn — use this to understand what works",
     "posts": [
       {
         "title": "The Wrong Villain — Original",
         "hook": "Social media didn't create the mental health crisis. It amplified one that already existed.",
-        "data_point": "Stats showing social media as amplifier not originator",
         "impressions": 41998,
-        "reactions": 916,
-        "comments": 127,
-        "reposts": 205,
         "verdict": "VIRAL — original series launch"
       },
       {
         "title": "Wrong Villain Part Two — The Villain Was Already In The Room",
         "hook": "The screen was downstream of the poverty",
-        "data_point": "23,155 — ten years of data. Poverty lowered life satisfaction. The extra scrolling did not.",
         "impressions": 150,
-        "reactions": null,
-        "comments": 1,
-        "reposts": 1,
-        "verdict": "LOW PERFORMER — early post, low reach at time of posting. Narrative-led, less data-specific."
+        "verdict": "LOW PERFORMER — narrative-led, no sharp data point at centre"
       },
       {
         "title": "Key Insight 03 — The Effect Size That Changes Everything",
-        "hook": "β = 0.061. 46 studies. 79 effect sizes. Below the evidentiary threshold. Statistically indistinguishable from noise.",
-        "data_point": "Child Poverty → Mental Health: 32%. Social Media → Mental Health: 3%. Four independent research groups. Same conclusion.",
+        "hook": "β = 0.061. 46 studies. 79 effect sizes.",
+        "data_point": "Child Poverty → Mental Health: 32%. Social Media → Mental Health: 3%.",
         "impressions": 59144,
-        "reactions": 1151,
-        "comments": 164,
-        "reposts": 258,
-        "verdict": "BEST PERFORMER — THIS IS THE TEMPLATE. Specific beta coefficient + comparison format. Keep building posts exactly like this with NEW data."
+        "verdict": "BEST PERFORMER — THIS IS THE TEMPLATE. Precise beta + comparison format. Replicate with new data."
       },
       {
         "title": "Key Insight 04 — The 2012 Claim. The 2008 Reality.",
-        "hook": "In UK data the mental health bar does not change gradient in 2012. The drivers were already in motion.",
-        "data_point": "Timeline: mental health crisis starts accelerating post-2008 financial crash, 4 years before Haidt's 2012 smartphone claim",
         "impressions": 2168,
-        "reactions": 51,
-        "comments": 14,
-        "reposts": 12,
-        "verdict": "UNDERPERFORMED — timeline/narrative format without a sharp data point at the centre. The insight is valid but the format is wrong."
+        "verdict": "UNDERPERFORMED — timeline format without a sharp data point. Valid insight, wrong format."
       }
     ]
   },
+
   "series_learnings": [
-    "MOST IMPORTANT: The β = 0.061 format IS the series. Keep building it. Find new data points, new effect sizes, new comparisons — same structure every time.",
-    "The series is GROWING — 41K → 59K impressions. The audience is building. Every new post reaches more people than the last.",
-    "Do NOT avoid the effect size / social media mental health topic — that IS the Wrong Villain thesis. Go deeper into it with new data.",
-    "What NOT to repeat is the SPECIFIC FINDING (β = 0.061 from those 46 studies) — find the NEXT precise data point in the same space.",
-    "Comparison bar charts (Child Poverty 32% vs Social Media 3%) make the proportionality argument visual and shareable — use this format again.",
-    "Timeline posts without a data point at the centre underperform — always anchor to a number.",
-    "Effect size and meta-analysis data outperforms single study data — cite multiple studies and multiple research groups.",
-    "Four independent research groups reaching same conclusion is the strongest objection handler — always try to cite multiple sources."
+    "MOST IMPORTANT: β = 0.061 format IS the template. Precise effect size + proportionality comparison + multiple sources = viral.",
+    "Series is GROWING: 41K → 59K impressions. Audience is compounding. Keep going.",
+    "TRUST framework posts use the same spine as Wrong Villain — single stat, IS/ISN'T, mechanism, proportionality — just with a solutions frame at the end.",
+    "CHARACTER LIMIT IS NOT OPTIONAL. Posts over 400 words lose engagement regardless of quality.",
+    "Timeline posts without a data point underperform. Always anchor to a number.",
+    "Effect size and meta-analysis data outperforms single study data — cite multiple sources."
   ],
+
   "series_posts_already_published": {
-    "note": "These specific posts are published. Do not re-post the same content. But DO continue the series with new data on the same themes.",
+    "note": "Do not re-post the same content. DO continue the series with new data on the same themes.",
     "published": [
-      "The Wrong Villain — Original (amplifier thesis, social media as amplifier not originator)",
+      "The Wrong Villain — Original (amplifier thesis)",
       "The Villain Was Already In The Room (poverty data, 23,155 dataset)",
-      "Key Insight 03: The Effect Size That Changes Everything (β = 0.061, 46 studies, 79 effect sizes)",
-      "Key Insight 04: The 2012 Claim. The 2008 Reality. (2008 financial crash timeline)"
+      "Key Insight 03: β = 0.061, 46 studies, 79 effect sizes",
+      "Key Insight 04: The 2012 Claim. The 2008 Reality.",
+      "TRUST Framework — Social media ban debate, 20.8% UK teens, sleep mechanism (June 2026)"
     ]
   },
+
   "next_series_directions": [
-    "Find the next effect size — a new meta-analysis on a different driver (screen time vs content type, algorithm recommendation vs passive scrolling, age-specific effects). Same β format.",
-    "The funding gap: billions spent on device policy, pennies on conversation skills — find the actual spending figures and make the comparison.",
-    "Dumb phones fallacy — 84% still access internet via basic handsets. Precise data point, strong comparison, fits the format exactly.",
-    "Age-appropriate access: the actual science on what age unlocks what. Use official developmental psychology data, not policy guesses.",
-    "The algorithm accountability gap: what platforms know internally vs what they publish. Effect size format if data exists.",
-    "Screen time vs content type: same hours on TikTok vs YouTube vs messaging — wildly different outcomes. Find the comparative data."
+    "Wrong Villain #5: Find next effect size — content type vs screen time (same hours, different outcomes). TikTok vs messaging vs YouTube. Comparative β format.",
+    "Wrong Villain #6: The funding gap — billions on device policy, actual spend on conversation skills/family support. Find the figures.",
+    "Wrong Villain #7: Dumb phones fallacy — 84% still access internet via basic handsets. Strong comparison, tight format.",
+    "TRUST Series: S (Sleep) deep dive — the 3 independent mechanisms from Swedish study as the hook. Most evidence-dense letter.",
+    "TRUST Series: U (Upstream Design) — YouTube pathway data. 14/23 studies implicated recommender. The sequence is the harm.",
+    "TRUST Series: T (Transparency) — algorithmic literacy as a protective factor. What platforms know vs what they publish."
   ],
+
   "objections_to_preempt": [
-    "The average hides a vulnerable minority — address: concentrated harm is still harm. Wrong villain doesn't mean no villain. The 3% who are severely harmed deserve targeted intervention, not blunt device bans.",
-    "Missing citations — ALWAYS put source URL in FIRST COMMENT not post body. LinkedIn suppresses reach on posts with external links.",
-    "Social media as amplifier not originator — USE this as your core thesis. The screen is downstream of the deprivation.",
-    "Policy aimed at average child ignores the minority who are actually harmed — this is the strongest objection. Name it directly.",
-    "Effect size depends on the model used — cite multiple studies and meta-analyses, not single papers.",
-    "Corporate data gatekeeping — researchers can't access platform data to validate or refute claims.",
-    "Ban cuts lifeline for isolated kids — acknowledge this directly. The vulnerable minority uses social media for connection.",
-    "Haidt objection — his 2012 smartphone claim doesn't hold in UK data. Mental health acceleration began in 2008 post-financial crash."
+    "The average hides the vulnerable minority — address: concentrated harm is still harm. Wrong villain doesn't mean no villain.",
+    "URLs in post body suppresses reach — always put source in FIRST COMMENT, never post body.",
+    "Social media as amplifier not originator — USE as core thesis. The screen is downstream of the deprivation.",
+    "Policy aimed at average child ignores minority — name this directly. It is the strongest objection.",
+    "Haidt objection — 2012 smartphone claim doesn't hold in UK data. Acceleration began 2008 post-financial crash.",
+    "Ban cuts lifeline for isolated kids — acknowledge directly. Vulnerable minority uses social media for connection."
   ],
+
   "voice_reminders": [
     "Calm, never preachy — evidence-led throughout",
     "Proportionality spine in every post: what gets most attention vs what actually drives most impact",
     "End every post with a question that invites the sharpest disagreement",
-    "NEVER put URLs in post body — LinkedIn suppresses reach. Use comment keyword CTA (e.g. Drop GUIDE in comments)",
-    "The proven format: precise data point → IS/ISN'T → memorable comparison → multiple independent sources → proportionality argument → series name → keyword CTA → repost ask → open question",
-    "Series is growing: 41K → 59K impressions. Keep going. The audience is compounding."
+    "NEVER put URLs in post body — use comment keyword CTA",
+    "Short lines. One sentence = one line. White space is content.",
+    "280-350 words. Hard limit. Count it."
   ],
-  "substack_drafts_created": [],
-  "recent_actions": [],
-  "recent_questions": [],
-  "notes_to_self": "The β = 0.061 post is the TEMPLATE to replicate with new data, not a topic to avoid. Find the next precise effect size or comparative data point in the children's digital safety space and write post #5 in the same format. The series compounds — keep building it."
+
+  "notes_to_self": "Two formats now: Wrong Villain (find the next effect size) and TRUST Framework (policy/systems story). Choose based on Scout's finding. Both use the same spine: precise number → IS/ISN'T → mechanism → proportionality → CTA → question. Character limit is 280-350 words — the β post won because it was tight."
 }
