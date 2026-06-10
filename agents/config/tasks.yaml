@@ -81,46 +81,58 @@ sage_task:
     childhood and online safety for ages 4-16.
 
     IMPORTANT — you have received Scout's research briefing as context above.
-    You MUST build all posts around a specific news hook Scout surfaced today.
+    You MUST build all content around a specific news hook Scout surfaced today.
     Do not invent a hook — use a real finding. Quote or paraphrase naturally.
     Start your output with: "News hook used: [the Scout finding you built on]"
 
-    YOU MUST PRODUCE THREE VERSIONS:
+    YOU MUST PRODUCE FOUR VERSIONS:
 
-    VERSION 1 — LINKEDIN (280-350 words. COUNT BEFORE FINALISING.):
-    Full-length post. Warm, authoritative, practical. Strong opening line,
-    one clear takeaway, a call to engagement, 3-5 relevant hashtags.
-    Professional audience of educators and DSLs. No buzzwords, no filler.
-    Short lines — one sentence per line where possible. No exclamation marks.
+    VERSION 1 — LINKEDIN (use LinkedIn's full 3,000 character limit):
+    Write to the maximum. LinkedIn rewards depth and specificity for thought
+    leadership. Warm, authoritative, practical. Strong opening line that works
+    before the "see more" cut (first 210 characters must hook the reader).
+    Build the argument fully — evidence, practical takeaway, call to engagement.
+    Short lines — one sentence per line. No exclamation marks. No buzzwords.
+    3-5 relevant hashtags at the end.
 
-    VERSION 2 — INSTAGRAM (100-130 words):
+    VERSION 2 — SUBSTACK ARTICLE (800-1,200 words):
+    The educator-facing deep dive. Written for UK teachers, DSLs, Headteachers
+    and PSHE leads who want the full picture behind today's news hook.
+    This is the practical companion — what the research means for the classroom,
+    what schools should do, what questions to ask governors and parents.
+    Include: strong opening tied to today's hook, full citations (URLs fine),
+    practical section headers (##), one concrete "what to do in your school"
+    section, a closing question for reader reflection.
+    CTA: subscribe to get this briefing every weekday.
+
+    VERSION 3 — INSTAGRAM (100-130 words):
     Personal and direct. Written as Justin Phillips the person, not a brand.
-    First line MUST work as a standalone hook before the "more" cut
-    (keep it under 120 characters). Conversational — "I", "my", "we" is fine.
-    One insight, one question to drive comments.
-    5-7 hashtags at the end on a separate line. No LinkedIn-style framing.
+    First line MUST work before the "more" cut (under 120 characters).
+    Conversational — "I", "my", "we" is fine. One insight, one question.
+    5-7 hashtags on a separate final line only.
 
-    VERSION 3 — FACEBOOK (130-170 words):
-    Conversational — written like you're talking to people you know.
+    VERSION 4 — FACEBOOK (130-170 words):
+    Conversational — written like talking to people you know personally.
     Can open with a personal observation rather than a statistic.
-    Friends sharing this is the growth mechanism — write for sharability.
-    2-3 hashtags maximum, or none. More personal tone than LinkedIn.
-    Same core message, different register.
+    Write for friends sharing it. 0-3 hashtags. Warmer register than LinkedIn.
 
   expected_output: >
     First line: "News hook used: [Scout finding]"
 
     ## LINKEDIN VERSION
-    [280-350 word post — state word count: "Word count: X" — with 3-5 hashtags]
+    [Full 3,000 character post — state character count: "Chars: ~X" — with 3-5 hashtags]
+
+    ## SUBSTACK ARTICLE
+    [800-1,200 word educator-facing article with ## headers and citations]
 
     ## INSTAGRAM VERSION
-    [100-130 word caption — hook line under 120 chars, 5-7 hashtags on last line]
+    [100-130 word caption — hook under 120 chars, 5-7 hashtags on last line]
 
     ## FACEBOOK VERSION
     [130-170 word personal post, 0-3 hashtags]
 
     End with exactly two lines:
-    YOUR ACTION TODAY: [e.g. "Post LinkedIn before 9am, Instagram at 12pm, Facebook at 6pm"]
+    YOUR ACTION TODAY: [e.g. "Post LinkedIn before 9am, paste Substack draft, Instagram at 12pm, Facebook at 6pm"]
     YOUR QUESTION: [one question you need answered to do better tomorrow]
 
 diego_task:
@@ -133,11 +145,12 @@ diego_task:
     YOUR JOB HAS FOUR PARTS:
 
     ---
-    PART 1 — LINKEDIN POST (HARD LIMIT: 280-350 words. COUNT BEFORE FINALISING.)
+    PART 1 — LINKEDIN POST (use LinkedIn's full 3,000 character limit):
 
-    LinkedIn has a 3,000 character cap and posts over 400 words lose engagement.
-    The best-performing posts in this series were tight and precise — not long.
-    Do not exceed 350 words under any circumstances.
+    Write to the maximum. LinkedIn rewards fully developed arguments.
+    The best-performing posts in this series were tight AND complete —
+    every line earned its place. Fill the space but waste none of it.
+    First 210 characters must work as a standalone hook before "see more".
 
     CHOOSE ONE FORMAT based on Scout's finding today:
 
@@ -167,7 +180,7 @@ diego_task:
        ban Dec 2025, within months 60% of teens still had access.
     4. The real mechanism — name the TRUST letter driving the harm.
        Cite one specific study for that letter.
-    5. TRUST framework — ONE line per letter only: T·R·U·S·T
+    5. TRUST framework — fully develop each letter with evidence
     6. CTA: "Drop TRUST in the comments — I'll send you the full framework."
     7. Repost ask + follow ask
     8. Closing question a ban-supporter can't easily dismiss
@@ -186,16 +199,19 @@ diego_task:
     - Policy aimed at average child ignores the minority most harmed
 
     ---
-    PART 2 — SUBSTACK NEWSLETTER (600-900 words):
+    PART 2 — SUBSTACK NEWSLETTER (full long-form, minimum 1,000 words):
 
-    The deep-dive companion to today's LinkedIn post. Goes deeper for
-    researchers, clinicians and policy people who followed up in the comments.
+    Write to depth. No arbitrary ceiling. The deep-dive companion to today's
+    LinkedIn post — for researchers, clinicians and policy people who followed
+    the comments and want the full evidence base.
     Include:
-    - Opening that references the LinkedIn post and what the comments reveal
+    - Opening that references the LinkedIn post and the sharpest comment it received
     - Full citations for every claim (URLs are fine in Substack)
-    - Deeper treatment of the 2-3 sharpest objections
-    - Narrative arc: how this fits the Wrong Villain / TRUST series
-    - CTA: subscribe, share, reply with evidence
+    - Deep treatment of the 3-4 sharpest objections — steelman then rebut
+    - The full narrative arc: where this fits in the Wrong Villain / TRUST series
+    - A section on what this means for policy specifically
+    - A section on what parents and schools can do right now
+    - CTA: subscribe, share, reply with their own evidence or challenge
     - Formatting: headers (##), pull quotes (>), short paragraphs
 
     ---
@@ -205,22 +221,18 @@ diego_task:
     in this exact style. The prompt must:
     - NOT ask clarifying questions — it must execute immediately
     - End with: "TOPIC: [fill in]" and "DATA POINT: [fill in or use latest UK figure]"
-    - Encode the voice, format, character limit, and objection pre-empts
+    - Encode the voice, format, and objection pre-empts
     - Specify: NEVER ask for inputs, write the complete post immediately
 
     ---
     PART 4 — PLATFORM ADAPTATIONS (adapt Part 1 for Instagram, Reels and Facebook):
-
-    Take the core insight and data from Part 1 and rewrite for three platforms.
-    Same truth, different register. Do not just shorten Part 1 — genuinely
-    rewrite for each platform's audience and algorithm.
 
     INSTAGRAM CAPTION (120-150 words):
     - First line is the hook — must work before the "more" cut (under 120 characters)
     - Personal voice: written as Justin Phillips the person, not a brand
     - One precise stat, one insight, one question to drive comments
     - 5-8 hashtags on the final line only — not inline
-    - No LinkedIn framing ("thought leaders", "professionals") — talk to parents
+    - No LinkedIn framing — talk to parents directly
     - No URLs in caption body
 
     REEL SCRIPT (30 seconds = 75-90 words, written to be spoken aloud):
@@ -229,25 +241,25 @@ diego_task:
     - Seconds 21-27: the TRUST/Wrong Villain frame in one sentence
     - Seconds 28-30: CTA — "follow for more" or "comment GUIDE below"
     - Write as natural spoken words, not formal sentences
-    - Note at the end: [Record to camera, no cuts needed, under 30 seconds]
+    - Note: [Record to camera, no cuts needed, under 30 seconds]
 
     FACEBOOK POST (150-200 words):
-    - Conversational — written like you're talking to people you know personally
+    - Conversational — written like talking to people you know personally
     - Can open with a personal observation, a question, or a short story
     - Same core data as LinkedIn but warmer register
     - Friends sharing this organically is the growth mechanism — write for that
     - 0-3 hashtags maximum
-    - End with a question that a non-expert parent would genuinely want to answer
+    - End with a question a non-expert parent would genuinely want to answer
 
   expected_output: >
     Start with: "Format chosen: [Wrong Villain / TRUST Framework] — because [one sentence reason]"
     Start with: "Series hook used: [the Scout finding or data point you built on]"
 
     ## PART 1 — LINKEDIN POST
-    [280-350 word post — state word count at the end: "Word count: X"]
+    [Full 3,000 character post — state character count: "Chars: ~X"]
 
     ## PART 2 — SUBSTACK NEWSLETTER
-    [600-900 word newsletter with headers and citations]
+    [Full long-form newsletter, minimum 1,000 words, with ## headers and citations]
 
     ## PART 3 — CHATGPT PROMPT
     [One self-executing prompt under 200 words, ends with TOPIC: and DATA POINT: fields]
@@ -265,7 +277,7 @@ diego_task:
     [150-200 word personal post, 0-3 hashtags]
 
     End with exactly two lines:
-    YOUR ACTION TODAY: [e.g. "Post LinkedIn now, schedule Instagram for 12pm, Facebook for 6pm, film Reel this evening"]
+    YOUR ACTION TODAY: [e.g. "Post LinkedIn now, paste Substack draft, Instagram 12pm, Facebook 6pm, film Reel tonight"]
     YOUR QUESTION: [one question about the series direction or evidence for Justin to answer]
 
 herald_task:
