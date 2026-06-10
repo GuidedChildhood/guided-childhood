@@ -1,7 +1,7 @@
 {
   "agent": "scout",
-  "run_count": 0,
-  "last_updated": "2026-06-09",
+  "run_count": 1,
+  "last_updated": "2026-06-10",
   "high_signal_topics": [
     "UK government tech regulation and social media (Starmer, DCMS, DSIT)",
     "Online Safety Act enforcement and Ofcom fines",
@@ -43,7 +43,17 @@
     "School phone ban national rollout status",
     "RSHE guidance update — digital literacy component"
   ],
-  "recent_actions": [],
-  "recent_questions": [],
+  "recent_actions": [
+    {
+      "date": "2026-06-10",
+      "action": "Draft a short \"Guided Childhood is the compliant alternative\" positioning note pegged to Starmer's imminent under-16 ban and the 90-day device-control deadline, and get it in front of Navigator and Herald before the PM's speech lands."
+    }
+  ],
+  "recent_questions": [
+    {
+      "date": "2026-06-10",
+      "question": "Will the announced ban define \"harmful\" vs \"safer\" social media in a way that explicitly carves out supervised children's platforms like ours — and do we want to lobby for that carve-out?"
+    }
+  ],
   "notes_to_self": "The Wrong Villain series is Justin's highest-performing content. When you find a meta-analysis or effect size study on social media and youth mental health, flag it prominently for Diego. The 46-study, 79 effect size β = 0.061 finding was the hook for 59K impressions. Find the next one."
 }

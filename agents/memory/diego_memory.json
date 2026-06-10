@@ -1,14 +1,12 @@
 {
   "agent": "diego",
-  "run_count": 0,
+  "run_count": 1,
   "last_updated": "2026-06-10",
-
   "CHARACTER_LIMITS": {
     "rule": "LinkedIn posts MUST be 280-350 words maximum. Count before finalising. No exceptions.",
     "why": "Posts over 400 words lose engagement. The β=0.061 post won because it was tight, not because it was long.",
     "format_check": "Short lines. One sentence = one line where possible. No bullet-point walls. White space is content."
   },
-
   "post_formats": {
     "format_1_wrong_villain": {
       "name": "Wrong Villain Series",
@@ -40,7 +38,6 @@
       ]
     }
   },
-
   "trust_framework": {
     "definition": "Justin's original evidence-based framework for digital resilience. His IP. Reference it by name.",
     "T_timing": {
@@ -70,12 +67,10 @@
       "key_stat": "Algorithmic literacy is a protective factor — not just digital literacy but a cognitive defence against manipulation"
     }
   },
-
   "self_executing_prompt": {
     "note": "This is the ChatGPT prompt for Justin to paste. It does NOT ask for inputs — it tells ChatGPT to use the latest relevant data.",
     "prompt": "Write a LinkedIn post for Justin Phillips, founder of Guided Childhood. DO NOT ask clarifying questions. Write the complete post now using the format and rules below.\n\nVOICE: Calm, evidence-led, never preachy. Proportionality over alarm. Short lines — one sentence per line where possible. No exclamation marks.\n\nCHARACTER LIMIT: 280-350 words maximum. Count before finalising.\n\nFORMAT (follow exactly — do not skip steps):\n1. HOOK: One precise cited statistic on its own line. No preamble.\n2. IS/ISN'T: What the number IS (the true finding). What it ISN'T (the popular assumption). Be direct.\n3. THE SYSTEM PROBLEM: Why bans or restrictions alone fail. Use the Australia example: ban launched Dec 2025, within months 60% of teens who had accounts still had access.\n4. THE MECHANISM: Identify the real driver using one letter of the TRUST framework (Timing / Relationships / Upstream Design / Sleep / Transparency). Cite a specific study for that letter. Make the mechanism concrete — not vague.\n5. SLEEP RULE: If the topic touches sleep at all, always include: a Swedish longitudinal study of 4,810 adolescents found that sleep quality, duration, AND circadian timing independently mediate the screen→depression pathway — three separate mechanisms. The phone in bed is not just a distraction. It is the mechanism.\n6. TRUST FRAMEWORK REFERENCE: One line per letter maximum. T-R-U-S-T. No more.\n7. CTA: Drop TRUST in the comments — I'll send you the full framework including the sleep protocol and age-by-age timing guide.\n8. REPOST + FOLLOW: Direct, not apologetic.\n9. CLOSING QUESTION: One question that makes a ban-supporter genuinely pause. No easy dismissal.\n\nNEVER put a URL in the post body — LinkedIn suppresses reach on external links. Source goes in first comment.\n\nTOPIC: [the specific digital safety issue you want to post about]\nDATA POINT: [the statistic you want to lead with — if you have one. If not, use the most relevant recent UK/US figure for the topic]"
   },
-
   "series_performance_data": {
     "note": "REAL performance data from Justin's LinkedIn — use this to understand what works",
     "posts": [
@@ -105,7 +100,6 @@
       }
     ]
   },
-
   "series_learnings": [
     "MOST IMPORTANT: β = 0.061 format IS the template. Precise effect size + proportionality comparison + multiple sources = viral.",
     "Series is GROWING: 41K → 59K impressions. Audience is compounding. Keep going.",
@@ -114,7 +108,6 @@
     "Timeline posts without a data point underperform. Always anchor to a number.",
     "Effect size and meta-analysis data outperforms single study data — cite multiple sources."
   ],
-
   "series_posts_already_published": {
     "note": "Do not re-post the same content. DO continue the series with new data on the same themes.",
     "published": [
@@ -125,7 +118,6 @@
       "TRUST Framework — Social media ban debate, 20.8% UK teens, sleep mechanism (June 2026)"
     ]
   },
-
   "next_series_directions": [
     "Wrong Villain #5: Find next effect size — content type vs screen time (same hours, different outcomes). TikTok vs messaging vs YouTube. Comparative β format.",
     "Wrong Villain #6: The funding gap — billions on device policy, actual spend on conversation skills/family support. Find the figures.",
@@ -134,7 +126,6 @@
     "TRUST Series: U (Upstream Design) — YouTube pathway data. 14/23 studies implicated recommender. The sequence is the harm.",
     "TRUST Series: T (Transparency) — algorithmic literacy as a protective factor. What platforms know vs what they publish."
   ],
-
   "objections_to_preempt": [
     "The average hides the vulnerable minority — address: concentrated harm is still harm. Wrong villain doesn't mean no villain.",
     "URLs in post body suppresses reach — always put source in FIRST COMMENT, never post body.",
@@ -143,7 +134,6 @@
     "Haidt objection — 2012 smartphone claim doesn't hold in UK data. Acceleration began 2008 post-financial crash.",
     "Ban cuts lifeline for isolated kids — acknowledge directly. Vulnerable minority uses social media for connection."
   ],
-
   "voice_reminders": [
     "Calm, never preachy — evidence-led throughout",
     "Proportionality spine in every post: what gets most attention vs what actually drives most impact",
@@ -152,6 +142,5 @@
     "Short lines. One sentence = one line. White space is content.",
     "280-350 words. Hard limit. Count it."
   ],
-
   "notes_to_self": "Two formats now: Wrong Villain (find the next effect size) and TRUST Framework (policy/systems story). Choose based on Scout's finding. Both use the same spine: precise number → IS/ISN'T → mechanism → proportionality → CTA → question. Character limit is 280-350 words — the β post won because it was tight."
 }

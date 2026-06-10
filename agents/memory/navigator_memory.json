@@ -1,7 +1,7 @@
 {
   "agent": "navigator",
-  "run_count": 0,
-  "last_updated": "2026-06-09",
+  "run_count": 1,
+  "last_updated": "2026-06-10",
   "strategic_context": {
     "mission": "Navigator's role in the £1M plan: convert LinkedIn reach into school demos and signed contracts",
     "funnel": "Wrong Villain post → GUIDE comment → framework DM → device guide → demo → school subscription (£500–£2,000/year)",
@@ -33,7 +33,17 @@
     "MAT Safeguarding Lead — multiplier, covers multiple schools in one conversation"
   ],
   "messages_to_avoid_repeating": [],
-  "recent_actions": [],
-  "recent_questions": [],
+  "recent_actions": [
+    {
+      "date": "2026-06-10",
+      "action": "Verify and send message #2 first — find the named Trust Safeguarding Lead at a 10+ academy MAT (the NSPCC 36% + 90-day deadline combo is the most urgent, highest-value hook) and fire the connection request before the PM's speech lands this week."
+    }
+  ],
+  "recent_questions": [
+    {
+      "date": "2026-06-10",
+      "question": "Has the final KCSIE 2026 wording confirmed the \"at least once per academic year\" filtering/monitoring review line post-consultation (per Guardian's open question), so I know whether I can quote it as statutory fact or must hedge it as \"draft\" in messages #1 and #4?"
+    }
+  ],
   "notes_to_self": "Every outreach message has one goal: get a 20-minute demo booked. Not to explain the product. Not to share a link. One demo request. The GUIDE funnel does the warming — Navigator converts the warm leads into conversations."
 }

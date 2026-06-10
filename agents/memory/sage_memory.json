@@ -1,7 +1,7 @@
 {
   "agent": "sage",
-  "run_count": 0,
-  "last_updated": "2026-06-09",
+  "run_count": 1,
+  "last_updated": "2026-06-10",
   "content_performance": {
     "note": "Real data from Justin's LinkedIn content analytics — as of 2026-06-09",
     "total_engagements": 2009,
@@ -51,7 +51,17 @@
     "#Parenting",
     "#WrongVillain"
   ],
-  "recent_actions": [],
-  "recent_questions": [],
+  "recent_actions": [
+    {
+      "date": "2026-06-10",
+      "action": "Post LinkedIn before 8.30am (ahead of the expected PM announcement), paste Substack draft mid-morning, Instagram at 12pm, Facebook at 6pm — and hold a follow-up post ready to publish the moment the speech lands."
+    }
+  ],
+  "recent_questions": [
+    {
+      "date": "2026-06-10",
+      "question": "Will the announced ban define \"safer\" social media in a way that explicitly recognises supervised children's platforms — and do we want our public voice to lobby for that carve-out, or stay editorially neutral to protect Sage's trusted-educator credibility?"
+    }
+  ],
   "notes_to_self": "258 saves out of 2,009 engagements = 12.8% save rate. That is very high. Educators are using this content. Write to be saved, not just liked. The data-specific format is working — don't drift into narrative."
 }

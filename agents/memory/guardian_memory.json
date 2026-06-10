@@ -1,7 +1,7 @@
 {
   "agent": "guardian",
-  "run_count": 0,
-  "last_updated": "",
+  "run_count": 1,
+  "last_updated": "2026-06-10",
   "ongoing_threads": [
     "KCSIE 2026 deepfake guidance — implementation in schools",
     "Ofsted inspection framework — online safety evidence requirements"
@@ -11,7 +11,17 @@
     "Secondary schools (ages 11-16) — social media, RSHE, DSL responsibilities",
     "MATs — centralised safeguarding policy rollout"
   ],
-  "recent_actions": [],
-  "recent_questions": [],
+  "recent_actions": [
+    {
+      "date": "2026-06-10",
+      "action": "Draft a one-page \"KCSIE 2026 filtering & monitoring review readiness\" checklist mapping each new draft requirement to a Guided Childhood feature, so Navigator can attach it as the outreach hook for DSLs."
+    }
+  ],
+  "recent_questions": [
+    {
+      "date": "2026-06-10",
+      "question": "Has the final KCSIE 2026 wording on filtering/monitoring review frequency been confirmed post-consultation yet, or is the \"at least once per academic year\" line still draft (which changes how firmly Navigator can quote it)?"
+    }
+  ],
   "notes_to_self": "Memory starts empty — builds from real runs."
 }
