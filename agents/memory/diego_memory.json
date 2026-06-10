@@ -16,6 +16,18 @@
     "rationale": "LinkedIn posts cap at 3,000 chars. LinkedIn comment replies cap at 280 chars. Instagram cuts caption after 120 chars before 'more' button. Reel scripts must be speakable in exactly 30 seconds. Always state character count at end of LinkedIn posts. Always state word count at end of Substack drafts."
   },
 
+  "FACT_CHECK_RULES": {
+    "rule": "Never publish a statistic without a verifiable source. If a source cannot be confirmed, mark it UNVERIFIED and do not use it as a centrepiece claim.",
+    "BANNED_STAT_DO_NOT_USE": "'60% of Australian teens bypassed the social media age ban within weeks — Reuters 2024' — THIS IS WRONG. Australia's Under-16 ban was passed November 2024 and did not come into effect until late 2025. No 2024 source could report actual bypass rates. This figure is unverifiable and must never appear in any published content.",
+    "australia_ban_verified_facts": [
+      "Australia's Online Safety Amendment (Social Media Minimum Age) Act passed: November 2024",
+      "Enforcement start date: approximately November 2025 (12 months after royal assent)",
+      "The ban covers under-16s on social media platforms",
+      "Pre-ban surveys showed significant proportions of Australian teens intended to use VPNs — but specific bypass rate figures post-enforcement require verified sourcing before use"
+    ],
+    "stronger_argument_for_ban_failure": "Use the UK 13+ restriction failure data instead — it is documented, current, and more powerful. Ofcom 2025 shows 37% of UK 3-5 year olds on social media and Instagram ownership among 8-9 year olds jumping from 8% to 14% in a single year, all on a platform legally restricted to 13+. COPPA has enforced 13+ since 1998 — 26 years of the same mechanism failing is stronger evidence than any single ban bypass rate."
+  },
+
   "post_formats": {
     "format_a_wrong_villain": {
       "name": "Wrong Villain",
@@ -49,7 +61,7 @@
         "3. R — Relationships (digital displacement of face-to-face connection)",
         "4. U — Upstream Design (algorithm mechanics, dopamine loops, engagement maximisation)",
         "5. S — Sleep (independent mediator — three pathways from Swedish study)",
-        "6. T — Transparency (what platforms know vs what they say; bypass rates)",
+        "6. T — Transparency (what platforms know vs what they say)",
         "7. The solution — education-first, device pathway, gradual release",
         "8. CTA + question"
       ],
@@ -95,18 +107,23 @@
     },
     "T_transparency": {
       "point": "Platforms know the harm. Age verification, parental controls, and screen time tools exist — but are buried, opt-in, and designed to be ignored.",
-      "australia_ban": "Australia's Under-16 social media ban: 60% of banned teens found workarounds (VPNs, misreported age) within weeks — Reuters, 2024",
-      "argument": "Restriction without education is digital cat-and-mouse. The platform is the same. The algorithm is the same. Only the legal liability shifted.",
-      "key_stat": "60% of Australian teens bypassed the social media age ban within weeks (Reuters, 2024)"
+      "restriction_failure_argument": "The 13+ restriction has been enforceable under COPPA since 1998 — 26 years. Ofcom's 2025 Children and Parents report: 37% of UK 3-5 year olds use social media and Instagram ownership among 8-9 year olds jumped from 8% to 14% in a single year, all on a platform those children are legally banned from. This is not a compliance problem. It is a mechanism that does not work.",
+      "key_stat": "37% of UK 3-5 year olds on social media; Instagram ownership among 8-9 year olds up from 8% to 14% in one year — Ofcom Children and Parents Media Use Report 2025",
+      "note": "DO NOT cite the Australia 60% bypass rate — see FACT_CHECK_RULES above. Use the 26-year 13+ restriction failure data instead. It is stronger, documented, and UK-specific."
     }
   },
 
   "debate_positions": {
     "vs_hard_ban": {
-      "position": "Bans treat the symptom not the cause. A 60% bypass rate proves restriction without education fails.",
-      "key_argument": "Social media is already restricted to 13+. Under-10s are on these platforms in large numbers. If a 13+ restriction fails at scale, what exactly changes with a 16+ restriction? Same platform. Same algorithm. Same psychological mechanics.",
-      "sources": ["Australia 60% bypass — Reuters 2024", "13+ restriction already failing at scale", "UK Millennium Cohort data on 5+ hrs/day"],
-      "pivot": "The question isn't what age you grant access. It's whether you've prepared the child for what they find there."
+      "position": "Bans treat the symptom not the cause. The 13+ restriction has been failing for 26 years — raising the number to 16 applies the same broken mechanism three years later.",
+      "key_argument": "Social media is already restricted to 13+. Under-10s are on these platforms in large numbers. Ofcom 2025 shows 37% of 3-5 year olds and Instagram ownership among 8-9 year olds jumping 75% in a single year — all legally prohibited. If a 13+ restriction fails at that scale after 26 years, what exactly changes with a 16+ restriction? Same platform. Same algorithm. Same psychological mechanics. Same broken enforcement architecture.",
+      "sources": [
+        "Ofcom Children and Parents Media Use Report 2025 — 37% of 3-5 yr olds on social media",
+        "Ofcom 2025 — Instagram among 8-9 yr olds: 8% to 14% in one year",
+        "COPPA 1998 — 13+ restriction in US law for 26 years"
+      ],
+      "pivot": "The question isn't what age you draw the line. It's whether you've changed anything on the other side of it.",
+      "BANNED_SOURCE": "Do NOT use 'Australia 60% bypass — Reuters 2024' — this figure is unverified. See FACT_CHECK_RULES."
     },
     "vs_brick_phones": {
       "position": "Brick phones address access, not education. Children who never develop digital skills in guided environments face greater harm when they inevitably go online.",
@@ -146,15 +163,22 @@
       "centrepiece_stat": "Three independent sleep mediators — Swedish study n=4,810",
       "date": "2026-06",
       "note": "Full framework intro published. Future TRUST posts should zoom into individual letters with deeper evidence."
+    },
+    {
+      "topic": "Age restriction failure — 13+ has been law for 26 years",
+      "format": "Wrong Villain",
+      "centrepiece_stat": "37% of UK 3-5 year olds on social media; 13+ restriction in law since 1998 — Ofcom 2025",
+      "date": "2026-06",
+      "note": "Built from the Kitty Hamilton comment thread. Core argument: raising the age to 16 applies the same broken mechanism three years later."
     }
   ],
 
   "next_post_ideas": [
-    "Wrong Villain: 'The ban isn't the solution. The algorithm is.' — Australia bypass rate as centrepiece",
-    "Wrong Villain: 'We're not teaching the wrong subject. We're missing the right one.' — digital literacy gap",
+    "Wrong Villain: 'We're not teaching the wrong subject. We're missing the right one.' — digital literacy gap in school curriculum",
     "TRUST zoom: S for Sleep — the three-pathway mechanism in full detail",
     "Wrong Villain: Apple WWDC 2026 child safety features — 'Tech isn't getting safer. It's getting smarter at managing liability.'",
-    "TRUST zoom: U for Upstream Design — algorithm design as a public health issue"
+    "TRUST zoom: U for Upstream Design — algorithm design as a public health issue",
+    "Wrong Villain: Facebook Papers — platforms knew, shipped anyway"
   ],
 
   "self_executing_chatgpt_prompt": {
