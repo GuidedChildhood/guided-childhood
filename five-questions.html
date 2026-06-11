@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Five Questions a Doctor Would Ask | Guided Childhood</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FAFAF8;
+    --ink:#1A1A1A;
+    --green:#63AA22;
+    --green-soft:#E7F0DC;
+    --lavender:#E9E4F5;
+    --yellow:#F7C948;
+    --grey:#6B6B66;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Hanken Grotesk',sans-serif;
+    line-height:1.55;
+    min-height:100vh;
+  }
+  .wrap{max-width:640px;margin:0 auto;padding:32px 20px 80px}
+
+  .brand{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--grey);margin-bottom:36px;
+  }
+  .brand b{color:var(--ink);font-weight:600}
+
+  /* ---------- intro ---------- */
+  .eyebrow{
+    display:inline-block;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;
+    background:var(--lavender);
+    padding:7px 14px;border-radius:999px;
+    margin-bottom:20px;
+  }
+  h1{
+    font-size:clamp(30px,7vw,44px);
+    font-weight:800;line-height:1.12;letter-spacing:-.015em;
+    margin-bottom:18px;
+  }
+  .lede{font-size:18px;color:#3A3A36;margin-bottom:14px;max-width:46ch}
+  .lede.small{font-size:15px;color:var(--grey)}
+
+  .pillbtn{
+    display:inline-block;border:2px solid var(--ink);border-radius:999px;
+    font-family:'Hanken Grotesk',sans-serif;font-weight:700;font-size:17px;
+    padding:15px 30px;cursor:pointer;text-decoration:none;color:var(--ink);
+    box-shadow:4px 4px 0 var(--ink);
+    transition:transform .12s ease, box-shadow .12s ease;
+    background:var(--yellow);
+  }
+  .pillbtn.green{background:var(--green);color:#fff}
+  .pillbtn:hover{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink)}
+  .pillbtn:focus-visible{outline:3px solid var(--green);outline-offset:3px}
+  .pillbtn:active{transform:translate(4px,4px);box-shadow:0 0 0 var(--ink)}
+
+  .startblock{margin-top:30px}
+  .micro{
+    font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--grey);
+    margin-top:18px;max-width:48ch;line-height:1.7;
+  }
+
+  /* ---------- question stage ---------- */
+  .stage{display:none}
+  .stage.active{display:block;animation:rise .35s ease both}
+  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion: reduce){
+    .stage.active{animation:none}
+  }
+
+  .pips{display:flex;gap:8px;margin-bottom:26px}
+  .pip{
+    width:34px;height:8px;border-radius:999px;
+    background:#E3E3DD;border:1.5px solid var(--ink);
+  }
+  .pip.done{background:var(--green)}
+  .pip.now{background:var(--yellow)}
+
+  .qcount{
+    font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--grey);margin-bottom:12px;
+  }
+  .qcard{
+    border:2px solid var(--ink);border-radius:24px;
+    padding:28px 24px;background:#fff;
+    box-shadow:5px 5px 0 var(--ink);
+  }
+  .qcard.tint-green{background:var(--green-soft)}
+  .qcard.tint-lav{background:var(--lavender)}
+  .qtext{font-size:clamp(21px,5vw,26px);font-weight:700;line-height:1.25;margin-bottom:8px}
+  .qsub{font-size:15.5px;color:#4A4A45;margin-bottom:22px}
+
+  .opts{display:flex;flex-direction:column;gap:12px}
+  .opt{
+    text-align:left;border:2px solid var(--ink);border-radius:16px;
+    background:var(--cream);padding:15px 18px;
+    font-family:'Hanken Grotesk',sans-serif;font-size:16.5px;font-weight:600;
+    cursor:pointer;box-shadow:3px 3px 0 var(--ink);
+    transition:transform .1s ease, box-shadow .1s ease, background .1s ease;
+  }
+  .opt:hover{background:#fff;transform:translate(1px,1px);box-shadow:2px 2px 0 var(--ink)}
+  .opt:focus-visible{outline:3px solid var(--green);outline-offset:2px}
+  .opt:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+
+  /* ---------- results ---------- */
+  .bignum{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:clamp(54px,14vw,84px);font-weight:600;line-height:1;
+    margin:8px 0 4px;
+  }
+  .bignum span{font-size:.45em;color:var(--grey)}
+  .resultlabel{
+    font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--grey);
+  }
+  .rblock{
+    border:2px solid var(--ink);border-radius:24px;padding:26px 24px;
+    margin-top:22px;box-shadow:5px 5px 0 var(--ink);
+  }
+  .rblock h2{font-size:22px;font-weight:800;margin-bottom:10px;letter-spacing:-.01em}
+  .rblock p{font-size:16.5px;margin-bottom:12px;color:#2C2C28}
+  .rblock p:last-child{margin-bottom:0}
+  .rblock.green{background:var(--green-soft)}
+  .rblock.lav{background:var(--lavender)}
+  .rblock.white{background:#fff}
+
+  .ctaprice{
+    font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--grey);
+    margin-top:14px;line-height:1.7;
+  }
+
+  .emailrow{display:flex;flex-direction:column;gap:12px;margin-top:16px}
+  .emailrow input{
+    border:2px solid var(--ink);border-radius:999px;padding:14px 20px;
+    font-family:'Hanken Grotesk',sans-serif;font-size:16px;background:var(--cream);
+  }
+  .emailrow input:focus-visible{outline:3px solid var(--green);outline-offset:2px}
+  .sentnote{
+    display:none;font-family:'IBM Plex Mono',monospace;font-size:12.5px;
+    color:var(--green);margin-top:10px;font-weight:600;
+  }
+
+  .safety{
+    margin-top:34px;padding:18px 20px;border-radius:16px;
+    background:#fff;border:1.5px dashed var(--ink);
+    font-size:14px;color:#3A3A36;line-height:1.6;
+  }
+  .safety b{font-weight:700}
+
+  footer{
+    margin-top:44px;font-family:'IBM Plex Mono',monospace;
+    font-size:11px;color:var(--grey);line-height:1.8;
+  }
+  @media(min-width:560px){
+    .emailrow{flex-direction:row}
+    .emailrow input{flex:1}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="brand"><b>Guided Childhood</b> &nbsp;/&nbsp; The Social Billboard</div>
+
+  <!-- ============ INTRO ============ -->
+  <section class="stage active" id="stage-intro">
+    <span class="eyebrow">A one minute check for parents</span>
+    <h1>The five questions a doctor would ask.</h1>
+    <p class="lede">If you took your child to a GP and said something feels off, these are the things they would want to know first. Not screen time. Not which apps. These.</p>
+    <p class="lede small">Five questions. Under a minute. There are no right answers, only honest ones.</p>
+    <div class="startblock">
+      <button class="pillbtn" onclick="goTo(1)">Start the check</button>
+    </div>
+    <p class="micro">Your answers are stored anonymously and used for research into children's digital wellbeing. No names. No child data. Nothing identifiable.</p>
+  </section>
+
+  <!-- ============ QUESTIONS (built by JS) ============ -->
+  <section class="stage" id="stage-q"></section>
+
+  <!-- ============ RESULT ============ -->
+  <section class="stage" id="stage-result"></section>
+
+</div>
+
+<script>
+/* =========================================================
+   JP: Mailchimp setup, you do this yourself, no dev needed.
+   1. In Mailchimp create six merge fields on your audience
+      with these exact tags: Q1, Q2, Q3, Q4, Q5, CHANGES
+      (text fields, not required, hidden from signup forms).
+   2. Create an automation triggered by the tag FIVEQ that
+      sends people their answers using those merge tags.
+   3. Get your embedded form action URL from
+      Audience > Signup forms > Embedded forms. It looks like
+      https://xxxx.usX.list-manage.com/subscribe/post?u=AAAA&id=BBBB
+      Paste it below and change /post to /post-json.
+   Answers arrive as 0, 1 or 2 in question order. For Q1 to Q4
+   that means no change, a little, yes clearly. For Q5 it means
+   knows the feed, roughly, no idea.
+   ========================================================= */
+const MAILCHIMP_URL = "https://PASTE.usX.list-manage.com/subscribe/post-json?u=PASTE_U&id=PASTE_ID";
+const REPORT_URL = "https://guidedchildhood.com/digitalwellbeing";
+
+const QUESTIONS = [
+  {
+    tint:"",
+    q:"In the last month, has your child's sleep changed?",
+    sub:"Later nights. Harder to wake. Tired through the day.",
+    opts:["No change","A little","Yes, clearly"]
+  },
+  {
+    tint:"tint-green",
+    q:"Have they pulled away from things or people they used to enjoy?",
+    sub:"Friends, clubs, family time, hobbies they once loved.",
+    opts:["No change","A little","Yes, clearly"]
+  },
+  {
+    tint:"tint-lav",
+    q:"Have you noticed their mood shift after time on their phone?",
+    sub:"Flat, snappy, anxious or down once they put it away.",
+    opts:["No change","A little","Yes, clearly"]
+  },
+  {
+    tint:"tint-green",
+    q:"Has the way they talk about themselves changed?",
+    sub:"More critical. Comparing themselves to others. Saying they are not good enough.",
+    opts:["No change","A little","Yes, clearly"]
+  },
+  {
+    tint:"tint-lav",
+    q:"Do you know what their feed is actually showing them?",
+    sub:"Not which apps they use. What the algorithm has decided to put in front of them, every day.",
+    opts:["Yes, I know it well","Roughly","No idea, honestly"]
+  }
+];
+
+let answers = [null,null,null,null,null];
+
+function pipsHTML(current){
+  let h = '<div class="pips" aria-hidden="true">';
+  for(let i=0;i<5;i++){
+    h += '<div class="pip '+(i<current?'done':(i===current?'now':''))+'"></div>';
+  }
+  return h+'</div>';
+}
+
+function goTo(n){
+  document.querySelectorAll('.stage').forEach(s=>s.classList.remove('active'));
+  if(n>=1 && n<=5){
+    renderQuestion(n-1);
+    document.getElementById('stage-q').classList.add('active');
+  } else if(n===6){
+    renderResult();
+    document.getElementById('stage-result').classList.add('active');
+  }
+  window.scrollTo({top:0});
+}
+
+function renderQuestion(i){
+  const q = QUESTIONS[i];
+  const el = document.getElementById('stage-q');
+  el.innerHTML = pipsHTML(i) +
+    '<div class="qcount">Question '+(i+1)+' of 5</div>' +
+    '<div class="qcard '+q.tint+'">' +
+      '<div class="qtext">'+q.q+'</div>' +
+      '<div class="qsub">'+q.sub+'</div>' +
+      '<div class="opts">' +
+        q.opts.map((o,oi)=>'<button class="opt" onclick="answer('+i+','+oi+')">'+o+'</button>').join('') +
+      '</div>' +
+    '</div>';
+}
+
+function answer(qi, oi){
+  answers[qi] = oi;
+  if(qi < 4){ goTo(qi+2); } else { goTo(6); }
+}
+
+function renderResult(){
+  const changes = answers.slice(0,4).filter(a=>a>0).length;
+  const clear   = answers.slice(0,4).filter(a=>a===2).length;
+  const feed    = answers[4]; // 0 knows, 1 roughly, 2 no idea
+
+  let head, body;
+  if(changes===0){
+    head = "Mostly steady.";
+    body = "You did not notice changes in any of the four areas a doctor would ask about. That is good news. It is also the best moment to get a baseline. A report now gives you something solid to compare against if anything shifts later, because change is easiest to spot when you know the starting point.";
+  } else if(changes<=2){
+    head = "Worth a closer look.";
+    body = "You noticed change in "+changes+" of the four areas a doctor would ask about"+(clear>0?", and at least one felt clear rather than slight":"")+". One change on its own often means nothing. It is when changes start to stack that a GP would begin asking more questions. The useful next step is not more worry. It is more information.";
+  } else {
+    head = "Several changes at once.";
+    body = "You noticed change in "+changes+" of the four areas a doctor would ask about. When changes stack like this it is worth taking seriously. Not panicking. Looking properly. What a parent cannot see from the outside is what is feeding those changes, and that is usually where the answer is.";
+  }
+
+  let feedBlock = "";
+  if(feed>0){
+    const feedLine = feed===2 ? "you have no real picture of what their feed is showing them" : "you only roughly know what their feed is showing them";
+    feedBlock =
+    '<div class="rblock lav">' +
+      '<h2>The question you could not answer.</h2>' +
+      '<p>You said '+feedLine+'. That is true for almost every parent who takes this check, and it is the one question that matters most. The feed is where mood, sleep and self talk are shaped, hour after hour.</p>' +
+      '<p>The Digital Health Report answers it directly. It reads your child\u2019s own platform data, shows you what the algorithm has learned about them, flags worrying patterns, and gives you five priority actions. If it finds serious signals, you get a one page summary you can take straight to your GP.</p>' +
+    '</div>';
+  } else {
+    feedBlock =
+    '<div class="rblock lav">' +
+      '<h2>You know their feed. Most parents do not.</h2>' +
+      '<p>That puts you ahead. The Digital Health Report goes one layer deeper. It reads your child\u2019s own platform data and shows what the algorithm has learned about them, the patterns a parent cannot spot by watching over a shoulder, and five priority actions. If it finds serious signals, you get a one page summary you can take straight to your GP.</p>' +
+    '</div>';
+  }
+
+  const el = document.getElementById('stage-result');
+  el.innerHTML =
+    pipsHTML(5) +
+    '<div class="resultlabel">Your result</div>' +
+    '<div class="bignum">'+changes+'<span> of 4</span></div>' +
+    '<p class="lede small">areas of change a doctor would ask about</p>' +
+
+    '<div class="rblock green">' +
+      '<h2>'+head+'</h2>' +
+      '<p>'+body+'</p>' +
+    '</div>' +
+
+    feedBlock +
+
+    '<div class="rblock white">' +
+      '<h2>See the full picture.</h2>' +
+      '<p>This check gives you a snapshot. The report gives you sight. It is a picture, not a diagnosis, built for parents of children aged 8 to 16.</p>' +
+      '<a class="pillbtn green" href="'+REPORT_URL+'">Run the Digital Health Report</a>' +
+      '<p class="ctaprice">Single report \u00A39.99. No subscription. Your child needs no login and raw files are deleted after analysis.</p>' +
+    '</div>' +
+
+    '<div class="rblock white">' +
+      '<h2>Want your answers by email?</h2>' +
+      '<p>We will send you your five answers and a short note on what each one can mean.</p>' +
+      '<div class="emailrow">' +
+        '<input type="email" id="emailInput" placeholder="you@email.com" aria-label="Your email address">' +
+        '<button class="pillbtn" onclick="sendEmail()">Send my answers</button>' +
+      '</div>' +
+      '<div class="sentnote" id="sentNote">Done. Check your inbox shortly.</div>' +
+    '</div>' +
+
+    '<div class="safety"><b>If you are seriously worried.</b> If your child has talked about harming themselves or you are worried about their immediate safety, this tool is not the right step. Speak to your GP, call 111, or contact CAMHS directly. Serious signals always mean talking to a professional.</div>';
+}
+
+function buildPayload(email){
+  return {
+    q1:answers[0], q2:answers[1], q3:answers[2], q4:answers[3], q5:answers[4],
+    changes: answers.slice(0,4).filter(a=>a>0).length,
+    email: email || "",
+    ts: new Date().toISOString()
+  };
+}
+
+function sendToMailchimp(email){
+  // JSONP submit so it works from a static page with no backend.
+  const p = buildPayload(email);
+  const cb = "mcDone" + Date.now();
+  window[cb] = function(){ delete window[cb]; };
+  const qs =
+    "&EMAIL=" + encodeURIComponent(email) +
+    "&Q1=" + p.q1 + "&Q2=" + p.q2 + "&Q3=" + p.q3 +
+    "&Q4=" + p.q4 + "&Q5=" + p.q5 +
+    "&CHANGES=" + p.changes +
+    "&tags=FIVEQ" +
+    "&c=" + cb;
+  const s = document.createElement("script");
+  s.src = MAILCHIMP_URL + qs;
+  document.body.appendChild(s);
+}
+
+function sendEmail(){
+  const v = document.getElementById('emailInput').value.trim();
+  if(!v || v.indexOf('@')<0){ document.getElementById('emailInput').focus(); return; }
+  try{ sendToMailchimp(v); }catch(e){}
+  document.getElementById('sentNote').style.display='block';
+}
+</script>
+
+<div class="wrap">
+  <footer>
+    Guided Childhood. A picture, not a diagnosis. Answers stored anonymously for research.<br>
+    guidedchildhood.com/digitalwellbeing
+  </footer>
+</div>
+</body>
+</html>

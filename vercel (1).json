@@ -1,0 +1,125 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "index.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "agents.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "digitalwellbeing/index.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "starter-pack.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "school-pack.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "teachers.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "five-questions.html",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/digitalwellbeing",
+      "dest": "/digitalwellbeing/index.html"
+    },
+    {
+      "src": "/digitalwellbeing/",
+      "dest": "/digitalwellbeing/index.html"
+    },
+    {
+      "src": "/agents",
+      "dest": "/agents.html"
+    },
+    {
+      "src": "/agents/",
+      "dest": "/agents.html"
+    },
+    {
+      "src": "/teachers/?",
+      "dest": "/teachers.html"
+    },
+    {
+      "src": "/schools/?",
+      "status": 307,
+      "headers": {
+        "Location": "/teachers"
+      }
+    },
+    {
+      "src": "/stages/?",
+      "status": 307,
+      "headers": {
+        "Location": "/#stages"
+      }
+    },
+    {
+      "src": "/pricing/?",
+      "status": 307,
+      "headers": {
+        "Location": "/#pricing"
+      }
+    },
+    {
+      "src": "/how/?",
+      "status": 307,
+      "headers": {
+        "Location": "/#how"
+      }
+    },
+    {
+      "src": "/research/?",
+      "status": 307,
+      "headers": {
+        "Location": "/#research"
+      }
+    },
+    {
+      "src": "/starter-pack/?",
+      "dest": "/starter-pack.html"
+    },
+    {
+      "src": "/school-pack/?",
+      "dest": "/school-pack.html"
+    },
+    {
+      "src": "/five-questions/?",
+      "dest": "/five-questions.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        }
+      ]
+    }
+  ]
+}
