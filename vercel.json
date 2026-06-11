@@ -20,6 +20,10 @@
     {
       "src": "school-pack.html",
       "use": "@vercel/static"
+    },
+    {
+      "src": "teachers.html",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
@@ -41,16 +45,13 @@
     },
     {
       "src": "/teachers/?",
-      "status": 307,
-      "headers": {
-        "Location": "/#teachers"
-      }
+      "dest": "/teachers.html"
     },
     {
       "src": "/schools/?",
       "status": 307,
       "headers": {
-        "Location": "/#teachers"
+        "Location": "/teachers"
       }
     },
     {
