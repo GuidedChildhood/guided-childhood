@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Free Starter Pack | Guided Childhood</title>
+<meta name="description" content="Three questions. Two minutes. A starter pack built for your child's exact stage, with scripts, warning signs and your next step.">
+<meta name="theme-color" content="#F7F3EE">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#F7F3EE; --warm:#FDFBF8; --ink:#1C1C1C; --ink-soft:#4A4A4A; --ink-muted:#6E6A62; --ink-light:#9B958A;
+  --green:#AFDCA2; --green-dark:#2E7D5A; --green-lt:#EEF7F2;
+  --coral:#D4600A; --coral-lt:#FEF3E8; --coral-dark:#C0392B;
+  --gold:#F2C94C; --gold-lt:#FEFAE8; --gold-dark:#C9962A; --gold-hover:#E3B53A;
+  --lav:#E7ECF8; --lav-deep:#3D5BA9;
+  --border:#E4DFD7;
+  --sans:'Hanken Grotesk',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--cream);font-family:var(--sans);color:var(--ink);-webkit-font-smoothing:antialiased}
+.wrap{max-width:580px;margin:0 auto;padding:0 20px 80px}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;max-width:580px;margin:0 auto}
+.logo{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--ink)}
+.logo-mark{width:24px;height:24px;background:var(--green);border-radius:6px}
+.logo-name{font-weight:800;font-size:.95rem;letter-spacing:-.01em}
+.mono-tag{font-family:var(--mono);font-size:.6rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-muted)}
+.eye{display:inline-block;font-family:var(--mono);font-size:.65rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;margin-bottom:14px}
+.btn{display:inline-flex;align-items:center;gap:6px;background:var(--gold);color:var(--ink);border:none;font-family:var(--mono);font-weight:600;font-size:.9rem;letter-spacing:.02em;cursor:pointer;padding:15px 28px;border-radius:16px;box-shadow:0 5px 0 var(--gold-hover);transition:transform .14s,box-shadow .14s;text-decoration:none;line-height:1}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 var(--gold-hover)}
+.fade{animation:fade .45s ease both}
+@keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.card{background:var(--warm);border:1px solid var(--border);border-radius:16px;padding:22px}
+.opt{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--warm);border:1.5px solid var(--border);border-radius:14px;padding:15px 16px;font-family:var(--sans);font-size:.95rem;font-weight:500;color:var(--ink-soft);cursor:pointer;transition:all .15s;margin-bottom:10px}
+.opt:hover{border-color:var(--green-dark);background:var(--green-lt);color:var(--ink);transform:translateX(3px)}
+.opt .n{font-family:var(--mono);font-size:.7rem;font-weight:600;width:24px;height:24px;border-radius:8px;background:var(--cream);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--ink-muted);flex-shrink:0}
+.prog{display:flex;gap:6px;margin:26px 0}
+.prog span{flex:1;height:4px;border-radius:99px;background:var(--border);transition:background .3s}
+.prog span.on{background:var(--green-dark)}
+.tabs{display:flex;border-bottom:1px solid var(--border);margin:26px 0 20px;overflow-x:auto}
+.tab{font-family:var(--mono);font-size:.68rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-muted);background:none;border:none;border-bottom:2px solid transparent;padding:10px 14px;cursor:pointer;white-space:nowrap}
+.tab.on{color:var(--green-dark);border-bottom-color:var(--green-dark)}
+.box{border-radius:14px;padding:16px 18px;margin-bottom:10px;border:1px solid var(--border)}
+.box .lbl{font-family:var(--mono);font-size:.6rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;display:block;margin-bottom:8px}
+h1{font-size:clamp(1.9rem,5.5vw,2.5rem);font-weight:800;letter-spacing:-.03em;line-height:1.12;margin-bottom:14px}
+h2{font-size:1.35rem;font-weight:800;letter-spacing:-.02em;line-height:1.2;margin-bottom:8px}
+p{line-height:1.7}
+.hide{display:none!important}
+.pill{display:inline-block;font-family:var(--mono);font-size:.58rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:4px 11px;border-radius:8px}
+.sig{display:flex;gap:9px;align-items:flex-start;margin-bottom:9px;font-size:.85rem;color:var(--ink-soft);line-height:1.55}
+.sig b{font-family:var(--mono);font-weight:600;flex-shrink:0;margin-top:1px}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a class="logo" href="/"><span class="logo-mark"></span><span class="logo-name">Guided Childhood</span></a>
+  <span class="mono-tag">Free Starter Pack</span>
+</div>
+
+<div class="wrap">
+
+  <!-- WELCOME -->
+  <div id="s-welcome" class="fade">
+    <div style="text-align:center;padding-top:28px">
+      <span class="eye" style="background:var(--gold-lt);color:var(--gold-dark);padding:6px 14px;border-radius:10px">Free &middot; 2 minutes</span>
+      <h1>Your personalised digital parenting starter pack</h1>
+      <p style="color:var(--ink-soft);max-width:420px;margin:0 auto 28px;font-size:1.02rem">Three questions. A starter pack built for your child's exact stage, with the script to use tonight, the warning signs to know, and your next step.</p>
+      <button class="btn" onclick="start()">Build my starter pack &rarr;</button>
+      <p style="font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-light);margin-top:16px">No signup needed &middot; Ages 4 to 16</p>
+    </div>
+  </div>
+
+  <!-- QUESTIONS -->
+  <div id="s-q" class="hide">
+    <div class="prog" id="prog"><span></span><span></span><span></span></div>
+    <div id="q-body"></div>
+  </div>
+
+  <!-- RESULT -->
+  <div id="s-r" class="hide"></div>
+
+</div>
+
+<script>
+const stages = {
+  1:{name:"Foundation", ks:"EYFS & KS1 · Yr R–2", ages:"Ages 4–7", us:"US: K–2",
+     device:"Shared screen only", bar:"var(--green)", wash:"var(--green-lt)", deep:"var(--green-dark)",
+     summary:"Building habits before they become battles. No solo device. Screens are something your family does together.",
+     action:"Co-viewing. Watch together and talk about what you see. Every shared screen moment at this age is a lesson that pays off at thirteen.",
+     script:{title:"When they want their own device",
+       say:"We watch things together in our family. That is how we do it right now. When you are a bit older we will talk about having your own.",
+       not:"You are too young.",
+       why:"The first response gives a timeline and makes it feel considered, not arbitrary. It keeps the door open."},
+     normal:["Excitement about screen time","Preferring screens to other activities sometimes","Occasional upset when a device is taken away"],
+     watch:["Complete inability to stop without major distress, every time","Total loss of interest in activities they previously loved","Sleep regularly disrupted by device use"]},
+  2:{name:"First Steps", ks:"KS2 · Yr 3–5", ages:"Ages 8–10", us:"US: Gr 3–5",
+     device:"Restricted phone or tablet", bar:"var(--lav-deep)", wash:"var(--lav)", deep:"var(--lav-deep)",
+     summary:"The algorithm conversation starts here. Privacy basics. Understanding how the app works before using it unsupervised.",
+     action:"Have the algorithm conversation this week. Search for something together, come back an hour later, and show them how the recommendations changed.",
+     script:{title:"The algorithm conversation",
+       say:"What do you think the app is trying to do? ... Close. It is trying to keep you watching. Those are different things. Watch, I will show you.",
+       not:"Stop watching YouTube. It is rotting your brain.",
+       why:"Once a child understands the algorithm is engineered to keep them watching, they are not a passive user anymore. That understanding is more protective than any rule."},
+     normal:["Curiosity about what older children can access","Wanting apps their friends use","Occasional resistance to stopping"],
+     watch:["Secretiveness beyond normal privacy","Significant mood changes after device use","Preferring online friends to offline ones"]},
+  3:{name:"Explorer", ks:"KS2/KS3 · Yr 6–8", ages:"Ages 11–13", us:"US: Gr 6–8", critical:true,
+     device:"Guided smartphone, no social media yet", bar:"var(--coral)", wash:"var(--coral-lt)", deep:"var(--coral)",
+     summary:"The critical window. Cambridge research identifies 11 to 13 as the peak sensitivity period, especially for girls. The bedroom rule matters most here.",
+     action:"The bedroom rule starts tonight. Devices charge outside the bedroom. For everyone, including parents. It is the single highest-impact action in the system.",
+     script:{title:"Introducing the bedroom rule",
+       say:"We are all doing this as a family. My phone charges in the kitchen tonight. It is not about trust. It is about sleep, and I want to model that for you.",
+       not:"Give me your phone. It charges in here from now on.",
+       why:"The bedroom rule is twice as effective when the parent does it too. You are making a family decision together, not policing your child."},
+     normal:["Wanting the same platforms as friends","Occasional short-lived mood dips after social media","Comparing themselves to peers online"],
+     watch:["Consistent mood drops after every phone session","Sleep disruption three or more nights a week","Distress language in searches or eating changes","Hiding the screen when you walk in"]},
+  4:{name:"Navigator", ks:"KS3/KS4 · Yr 9–10", ages:"Ages 13–15", us:"US: Gr 8–10",
+     device:"Monitored social media, guided access", bar:"var(--gold-dark)", wash:"var(--gold-lt)", deep:"var(--gold-dark)",
+     summary:"Guided access begins. Digital reputation, filter bubbles, and genuine readiness for full access at 16.",
+     action:"Have the digital reputation conversation. What exists about them online is permanent. Universities and employers will see it.",
+     script:{title:"When you find something concerning",
+       say:"I noticed something and I am not angry. I want to understand this with you, not fix it for you.",
+       not:"Give me your phone. I am going through everything.",
+       why:"Surveillance destroys the thing you most need: your child's willingness to come to you. Honesty without punishment keeps them talking."},
+     normal:["Identity exploration online","Time online that feels excessive but is social","Not sharing everything they do online"],
+     watch:["Contact with unknown adults","Requests for money or gift cards","Extreme distress if access is paused"]},
+  5:{name:"Independent", ks:"KS4/KS5 · Yr 11+", ages:"Ages 16+", us:"US: Gr 11+",
+     device:"Full access, trust based", bar:"var(--green-dark)", wash:"var(--green-lt)", deep:"var(--green-dark)",
+     summary:"Full access with genuine readiness. Not a cliff edge. A graduation. AI literacy, data rights, and building things online.",
+     action:"The deepfake conversation and a family code word. AI can clone a voice from three seconds of audio. A code word protects against it. Two minutes to set up.",
+     script:{title:"The deepfake conversation",
+       say:"AI can make a video of anyone saying anything. Before you react to something shocking online, pause and ask: could this be AI? And here is our family code word for real emergencies.",
+       not:"Do not believe anything you see online.",
+       why:"The reflex of pause, question, verify is the most important media literacy skill of the next decade. The code word is practical protection."},
+     normal:["Full social media use and identity exploration","Using AI tools for school and projects","Independent online decisions"],
+     watch:["Deeply disturbing or radicalising content","Big changes tied to online-only relationships","Extreme distress if all access pauses"]}
+};
+
+const ageMap = {"4–7 years old":1,"8–10 years old":2,"11–13 years old":3,"13–15 years old":4,"16 or older":5};
+
+const challengeNotes = {
+  "They want social media or a phone and we are not sure":"You are not against it. You are doing it at the right time. The script below gives you the exact words for that conversation.",
+  "Their mood changes after screen time":"You have noticed the most important signal there is. The script below opens that conversation without closing your child down.",
+  "They cannot stop using their device":"Stopping is genuinely hard. The app is engineered that way. The pathway below treats this as a design problem to solve together, not a discipline problem.",
+  "I think something is wrong but I am not sure what":"Trust that instinct. The warning signs tab below helps you tell normal from worth-a-closer-look, and the script keeps your child talking to you.",
+  "We have not really started this conversation yet":"You are starting at exactly the right time. There are more school pickups ahead of you than behind you. Begin with the one action below."
+};
+
+const feelNotes = {
+  "Behind, I wish we had started earlier":"It is not too late. The pathway starts from wherever you are, not from where you wish you had started.",
+  "Overwhelmed, there is too much conflicting advice":"This pack is one consistent, research-backed approach. No conflicting tips. One stage, one action, one script.",
+  "Worried, something feels off":"The fastest way to see clearly is the free Digital Health Check. It reads the signals and gives you a plain picture.",
+  "Okay, I just want the right next step":"Good. Your next step is below, and it takes one evening.",
+  "Good, I want to go deeper":"The full pathway has every stage, 17 scripts and the wellbeing tracker waiting for you."
+};
+
+const questions = [
+  {q:"How old is your child?", sub:"If you have more than one, pick the child you are most focused on right now.",
+   opts:["4–7 years old","8–10 years old","11–13 years old","13–15 years old","16 or older"]},
+  {q:"What is the hardest thing right now?", sub:"Choose the one that feels most pressing.",
+   opts:Object.keys(challengeNotes)},
+  {q:"How do you feel about where things stand?", sub:"Be honest. It shapes what your pack focuses on.",
+   opts:Object.keys(feelNotes)}
+];
+
+let step = 0, answers = [];
+
+function start(){
+  document.getElementById('s-welcome').classList.add('hide');
+  document.getElementById('s-q').classList.remove('hide');
+  renderQ();
+}
+function renderQ(){
+  const q = questions[step];
+  document.querySelectorAll('#prog span').forEach((s,i)=>s.classList.toggle('on', i<=step));
+  document.getElementById('q-body').innerHTML =
+    '<div class="fade"><h2>'+q.q+'</h2><p style="color:var(--ink-muted);font-size:.88rem;margin-bottom:20px">'+q.sub+'</p>'+
+    q.opts.map((o,i)=>'<button class="opt" onclick="pick(\''+o.replace(/'/g,"\\'")+'\')"><span class="n">'+(i+1)+'</span>'+o+'</button>').join('')+'</div>';
+  window.scrollTo({top:0});
+}
+function pick(val){
+  answers[step] = val;
+  if(step < 2){ step++; renderQ(); }
+  else renderResult();
+}
+function renderResult(){
+  const st = stages[ageMap[answers[0]]];
+  document.getElementById('s-q').classList.add('hide');
+  const r = document.getElementById('s-r');
+  r.classList.remove('hide');
+  r.innerHTML = `
+  <div class="fade">
+    <div style="border:1px solid var(--border);border-left:5px solid ${st.bar};border-radius:14px;background:${st.wash};padding:22px;margin-top:10px">
+      ${st.critical ? '<span class="pill" style="background:var(--coral);color:#fff;margin-bottom:10px">The Critical Window</span>' : ''}
+      <div style="font-family:var(--mono);font-size:.62rem;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-muted);margin:8px 0 4px">${st.ks} &middot; ${st.us}</div>
+      <h1 style="font-size:1.7rem;margin-bottom:2px">Stage ${ageMap[answers[0]]}: ${st.name}</h1>
+      <div style="font-weight:700;color:var(--ink-soft);margin-bottom:10px">${st.ages}</div>
+      <p style="font-size:.92rem;color:var(--ink-soft)">${st.summary}</p>
+      <p style="font-size:.82rem;color:${st.deep};font-weight:700;margin-top:10px">Device right now: ${st.device}</p>
+    </div>
+
+    <div class="card" style="background:var(--gold-lt);margin-top:14px">
+      <span class="lbl" style="color:var(--gold-dark);font-family:var(--mono);font-size:.6rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;display:block;margin-bottom:8px">Your situation</span>
+      <p style="font-size:.92rem;color:var(--ink-soft)">${challengeNotes[answers[1]]}</p>
+      <p style="font-size:.88rem;color:var(--ink-soft);margin-top:8px;font-style:italic">${feelNotes[answers[2]]}</p>
+    </div>
+
+    <div class="tabs">
+      <button class="tab on" onclick="tab(this,'t-script')">Your Script</button>
+      <button class="tab" onclick="tab(this,'t-action')">One Action</button>
+      <button class="tab" onclick="tab(this,'t-signs')">Warning Signs</button>
+      <button class="tab" onclick="tab(this,'t-next')">What's Next</button>
+    </div>
+
+    <div id="t-script">
+      <h2 style="font-size:1.15rem">${st.script.title}</h2>
+      <p style="font-size:.8rem;color:var(--ink-muted);margin-bottom:14px">Use it word for word. Tonight if possible.</p>
+      <div class="box" style="background:var(--green-lt);border-left:4px solid var(--green-dark)">
+        <span class="lbl" style="color:var(--green-dark)">Say this</span>
+        <p style="font-size:.95rem;font-style:italic">"${st.script.say}"</p>
+      </div>
+      <div class="box" style="background:var(--coral-lt);border-left:4px solid var(--coral)">
+        <span class="lbl" style="color:var(--coral)">Not this</span>
+        <p style="font-size:.95rem;font-style:italic">"${st.script.not}"</p>
+      </div>
+      <div class="box" style="background:var(--gold-lt);border-left:4px solid var(--gold-dark)">
+        <span class="lbl" style="color:var(--gold-dark)">Why it works</span>
+        <p style="font-size:.88rem;color:var(--ink-soft)">${st.script.why}</p>
+      </div>
+    </div>
+
+    <div id="t-action" class="hide">
+      <h2 style="font-size:1.15rem">Your highest-impact action</h2>
+      <div class="box" style="background:var(--warm);margin-top:12px">
+        <p style="font-size:.95rem;font-weight:600">${st.action}</p>
+      </div>
+    </div>
+
+    <div id="t-signs" class="hide">
+      <h2 style="font-size:1.15rem">Warning signs at this stage</h2>
+      <p style="font-size:.8rem;color:var(--ink-muted);margin-bottom:14px">Most things are fine. This helps you tell the difference.</p>
+      <div class="box" style="background:var(--green-lt);border-left:4px solid var(--green-dark)">
+        <span class="lbl" style="color:var(--green-dark)">This is normal</span>
+        ${st.normal.map(w=>'<div class="sig"><b style="color:var(--green-dark)">&#10003;</b>'+w+'</div>').join('')}
+      </div>
+      <div class="box" style="background:var(--coral-lt);border-left:4px solid var(--coral)">
+        <span class="lbl" style="color:var(--coral)">Worth a closer look</span>
+        ${st.watch.map(w=>'<div class="sig"><b style="color:var(--coral)">!</b>'+w+'</div>').join('')}
+      </div>
+      <p style="font-size:.75rem;color:var(--ink-muted);margin-top:10px">Seriously concerned? Contact your GP, CAMHS, or the NSPCC on 0808 800 5000. Immediate danger: call 999.</p>
+    </div>
+
+    <div id="t-next" class="hide">
+      <h2 style="font-size:1.15rem">This is page one of the pathway</h2>
+      <p style="font-size:.9rem;color:var(--ink-soft);margin:10px 0 16px">The full platform has all five stages, 17 scripts for every hard moment, DiGi the AI advisor available any time, the weekly wellbeing tracker, and the complete home curriculum.</p>
+      <div class="box" style="background:var(--gold-lt);text-align:center;padding:24px 18px">
+        <p style="font-weight:800;font-size:1.05rem;margin-bottom:4px">Save your child's pathway</p>
+        <p style="font-size:.82rem;color:var(--ink-soft);margin-bottom:16px">Join free and be first in when we launch. Founder rate locked at &pound;7.99 a month for life, first 50 members only.</p>
+        <a class="btn" href="https://mailchi.mp/thesocialbillboard/parents" target="_blank" rel="noopener">Save my pathway &rarr;</a>
+      </div>
+      <div class="box" style="background:var(--warm);text-align:center;padding:20px 18px;margin-top:10px">
+        <p style="font-weight:700;font-size:.92rem;margin-bottom:4px">Want a clearer picture first?</p>
+        <p style="font-size:.8rem;color:var(--ink-soft);margin-bottom:14px">The free Digital Health Check reads the signals in your child's online world in five minutes.</p>
+        <a href="/digitalwellbeing" style="font-family:var(--mono);font-size:.8rem;font-weight:600;color:var(--green-dark)">Take the free Digital Health Check &rarr;</a>
+      </div>
+      <button onclick="location.reload()" style="width:100%;margin-top:14px;background:none;border:1px solid var(--border);border-radius:14px;padding:12px;font-family:var(--mono);font-size:.72rem;letter-spacing:.04em;color:var(--ink-muted);cursor:pointer">Build a pack for another child</button>
+    </div>
+  </div>`;
+  window.scrollTo({top:0});
+}
+function tab(btn, id){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  btn.classList.add('on');
+  ['t-script','t-action','t-signs','t-next'].forEach(t=>document.getElementById(t).classList.add('hide'));
+  document.getElementById(id).classList.remove('hide');
+}
+</script>
+</body>
+</html>
