@@ -88,7 +88,7 @@ nav{position:fixed;top:44px;left:0;right:0;z-index:300;height:64px;padding:0 32p
 .b1{width:3px;height:5px}.b2{width:3px;height:9px}.b3{width:3px;height:13px}.b4{width:3px;height:7px}
 .logo-name{font-family:var(--serif);font-size:.95rem;font-weight:700;color:var(--ink);letter-spacing:-.01em}
 .nav-links{display:flex;gap:2px}
-.nav-btn{background:none;border:none;font-family:var(--sans);font-size:.82rem;font-weight:500;color:var(--ink-soft);cursor:pointer;padding:6px 13px;border-radius:100px;transition:all .15s}
+.nav-btn{background:none;border:none;text-decoration:none;display:inline-block;font-family:var(--sans);font-size:.82rem;font-weight:500;color:var(--ink-soft);cursor:pointer;padding:6px 13px;border-radius:100px;transition:all .15s}
 .nav-btn:hover{background:var(--cream-2);color:var(--ink)}
 .nav-r{display:flex;gap:8px;align-items:center}
 .btn-nav{background:var(--green);color:var(--ink);border:none;font-family:var(--sans);font-size:.82rem;font-weight:700;cursor:pointer;padding:9px 22px;border-radius:100px;transition:all .18s}
@@ -316,22 +316,23 @@ h1,h2,h3,h4{font-family:var(--serif)}
 
 /* PRICING */
 .price-grid{display:grid;grid-template-columns:1fr 1.08fr 1fr;gap:12px}
-.price-card{background:#fff;border:1px solid var(--border);border-radius:var(--rl);padding:26px;transition:all .2s}
+.price-card{background:#fff;border:1px solid var(--border);border-radius:var(--rl);padding:26px;transition:transform .22s ease,box-shadow .22s ease;display:flex;flex-direction:column}
+.price-card:hover{transform:translateY(-4px);box-shadow:0 12px 28px rgba(28,28,28,.08)}
 .price-card:hover{box-shadow:var(--sh)}
 .price-feat{background:var(--cream-3);border-color:var(--coral-b);transform:scale(1.025)}
-.price-tier{font-size:.61rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:5px}
-.price-name{font-family:var(--serif);font-size:1.1rem;font-weight:700;color:var(--ink);margin-bottom:14px}
+.price-tier{font-family:var(--mono);font-size:.6rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:5px;min-height:2em}
+.price-name{font-family:var(--serif);font-size:1.1rem;font-weight:800;letter-spacing:-.01em;color:var(--ink);margin-bottom:14px;min-height:2.6em;display:flex;align-items:flex-start}
 .price-amt{display:flex;align-items:baseline;gap:2px;margin-bottom:4px}
 .price-sym{font-size:.9rem;font-weight:700;color:var(--ink)}
 .price-num{font-family:var(--serif);font-size:2.5rem;font-weight:700;color:var(--ink);line-height:1}
 .price-per{font-size:.76rem;color:var(--ink-muted)}
 .price-save{font-size:.71rem;color:var(--green-dark);font-weight:700;margin-bottom:18px;min-height:16px}
 .price-div{height:1px;background:var(--border);margin:16px 0}
-.price-feats{list-style:none;display:flex;flex-direction:column;gap:8px;margin-bottom:22px}
+.price-feats{list-style:none;display:flex;flex-direction:column;gap:8px;margin-bottom:22px;flex:1}
 .price-feats li{display:flex;gap:8px;font-size:.8rem;color:var(--ink-soft);align-items:flex-start}
 .pfc{font-weight:900;font-size:.73rem;margin-top:2px;flex-shrink:0}
 .pfc-g{color:var(--green-dark)}.pfc-c{color:var(--coral)}
-.btn-price{width:100%;padding:11px;border-radius:100px;font-family:var(--sans);font-weight:700;font-size:.82rem;cursor:pointer;transition:all .18s;border:none}
+.btn-price{width:100%;margin-top:auto;padding:13px;border-radius:14px;font-family:var(--mono);letter-spacing:.02em;font-family:var(--sans);font-weight:700;font-size:.82rem;cursor:pointer;transition:all .18s;border:none}
 .bp-out{background:transparent;color:var(--ink);border:2px solid var(--border)}
 .bp-out:hover{border-color:var(--green-dark);color:var(--green-dark)}
 .bp-coral{background:var(--coral);color:#fff}
@@ -408,6 +409,12 @@ footer{background:var(--cream-2);border-top:1px solid var(--border);padding:36px
   .tab-bar{gap:2px;padding:0 16px}
   .tab{padding:7px 13px;font-size:.76rem}
 }
+@media(max-width:680px){.cw-grid{grid-template-columns:1fr!important}}
+.sprice-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+@media(max-width:960px){.sprice-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.sprice-grid{grid-template-columns:1fr}}
+.sc,.rc{transition:transform .22s ease,box-shadow .22s ease}
+.sc:hover,.rc:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(28,28,28,.07)}
 </style>
 </head>
 <body>
@@ -426,10 +433,10 @@ footer{background:var(--cream-2);border-top:1px solid var(--border);padding:36px
     <span class="logo-name">Guided Childhood</span>
   </a>
   <div class="nav-links">
-    <button class="nav-btn" onclick="go('stages')">Find Your Stage</button>
-    <button class="nav-btn" onclick="go('how')">How It Works</button>
-    <button class="nav-btn" onclick="go('teachers')">Schools</button>
-    <button class="nav-btn" onclick="go('pricing')">Pricing</button>
+    <a class="nav-btn" href="#stages">Find Your Stage</a>
+    <a class="nav-btn" href="#how">How It Works</a>
+    <a class="nav-btn" href="#teachers">Schools</a>
+    <a class="nav-btn" href="#pricing">Pricing</a>
   </div>
   <div class="nav-r">
     <button class="btn-nav" onclick="window.open('https://mailchi.mp/thesocialbillboard/parents','_blank')">Join the Waitlist</button>
@@ -740,7 +747,7 @@ footer{background:var(--cream-2);border-top:1px solid var(--border);padding:36px
 </section>
 
 <!-- RESEARCH -->
-<section class="sec sec-alt">
+<section class="sec sec-alt" id="research">
   <div class="inner">
     <div class="tc" style="margin-bottom:36px">
       <span class="eye eye-g">The research</span>
@@ -765,6 +772,26 @@ footer{background:var(--cream-2);border-top:1px solid var(--border);padding:36px
       </div>
     </div>
 
+
+    <!-- CRITICAL WINDOW — girls vs boys -->
+    <div style="border:1px solid var(--coral-b);border-radius:var(--r);background:var(--coral-lt);padding:24px;margin-bottom:18px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+        <span style="font-family:var(--mono);font-size:.62rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;background:var(--coral);color:#fff;padding:4px 12px;border-radius:8px">The Critical Window</span>
+      </div>
+      <p style="font-size:.95rem;font-weight:700;color:var(--ink);margin-bottom:10px">The research is specific: girls and boys have different sensitivity windows. The pathway calibrates for each.</p>
+      <div class="cw-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:12px">
+        <div style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 16px">
+          <div style="font-family:var(--mono);font-size:.62rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--coral);margin-bottom:5px">The girls&rsquo; window &middot; 11&ndash;13</div>
+          <p style="font-size:.78rem;color:var(--ink-soft);line-height:1.65">Cambridge research by Dr Amy Orben identifies ages 11 to 13 as the peak sensitivity window for girls. Appearance comparison feeds hit hardest while identity is forming. The pathway response is structure and conversation at the right moment, never a ban: the bedroom rule, the comparison conversation, and social media access introduced by readiness.</p>
+        </div>
+        <div style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 16px">
+          <div style="font-family:var(--mono);font-size:.62rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--lav-deep);margin-bottom:5px">The boys&rsquo; window &middot; 14&ndash;15</div>
+          <p style="font-size:.78rem;color:var(--ink-soft);line-height:1.65">The same research shows a later, different window for boys. Gaming, status comparison and algorithm rabbit holes carry more of the risk than appearance feeds. The pathway calibrates differently here: the algorithm conversation, gaming structure, and guided access across every part of digital life, not just social media.</p>
+        </div>
+      </div>
+      <p style="font-size:.74rem;color:var(--ink-muted);font-style:italic">Tailored by research, not grouped. Every stage covers the full digital world: social media, gaming, video, messaging and AI. Integrated, age-related access. A pathway, never a ban.</p>
+    </div>
+
     <!-- Vulnerable groups — a feature callout, not the headline -->
     <div style="border:1px solid var(--border);border-radius:var(--r);padding:20px 24px;display:flex;align-items:flex-start;gap:16px;background:#fff">
       <div style="flex-shrink:0;margin-top:2px">
@@ -772,9 +799,17 @@ footer{background:var(--cream-2);border-top:1px solid var(--border);padding:36px
       </div>
       <div>
         <p style="font-size:.83rem;font-weight:700;color:var(--ink);margin-bottom:4px">Also designed for the most vulnerable</p>
-        <p style="font-size:.8rem;color:var(--ink-soft);line-height:1.72">The 2026 evidence briefing identifies six groups at highest risk: adolescent girls 11&ndash;15, children with pre-existing mental health conditions, LGBTQ+ youth, neurodivergent children, children from low-income backgrounds, and children aged 10&ndash;13. The platform includes tailored guidance for all six: in DiGi's responses, the curriculum, and the wellbeing tracker.</p>
+        <p style="font-size:.8rem;color:var(--ink-soft);line-height:1.72">The 2026 evidence briefing identifies six groups at highest risk: adolescent girls 11&ndash;15, children with pre-existing mental health conditions, LGBTQ+ youth, neurodivergent children, children from low-income backgrounds, and children aged 10&ndash;13. The platform includes tailored guidance for all six: in DiGi's responses, the curriculum, and the wellbeing tracker. If your child has ADHD, autism, anxiety, or an existing mental health condition, the pathway adjusts. The Digital Health Check picks up what is showing in their online world, and DiGi calibrates its guidance to what it finds.</p>
         <p style="font-size:.72rem;color:var(--ink-muted);margin-top:6px;font-style:italic">"It is not screen time. It is the pathway." &mdash; Who Is Actually Being Harmed, 2026</p>
       </div>
+    </div>
+
+    <!-- DIGITAL HEALTH CHECK CTA -->
+    <div style="margin-top:18px;border:1px solid var(--border);border-radius:var(--r);background:var(--gold-lt);padding:28px 24px;text-align:center">
+      <span class="eye" style="color:var(--gold-dark)">Free &middot; 5 minutes</span>
+      <h3 style="font-size:1.35rem;font-weight:800;color:var(--ink);letter-spacing:-.02em;margin-bottom:8px">Find out where your child is today</h3>
+      <p style="font-size:.88rem;color:var(--ink-soft);line-height:1.7;max-width:520px;margin:0 auto 18px">The Digital Health Check reads the signals in your child's online world and gives you a clear, personal report. It is the fastest way to see your starting point on the pathway.</p>
+      <a href="/digitalwellbeing" style="display:inline-flex;align-items:center;gap:6px;background:var(--gold);color:var(--ink);font-family:var(--mono);font-weight:600;font-size:.9rem;letter-spacing:.02em;text-decoration:none;padding:15px 28px;border-radius:16px;box-shadow:0 5px 0 var(--gold-hover)">Take the free Digital Health Check &rarr;</a>
     </div>
   </div>
 </section>
@@ -904,7 +939,7 @@ footer{background:var(--cream-2);border-top:1px solid var(--border);padding:36px
 <div id="tab-teachers" class="panel">
 
 <!-- TEACHER HERO -->
-<section class="hero" style="min-height:72vh">
+<section class="hero" id="teachers" style="min-height:72vh;scroll-margin-top:90px"><span id="schools" style="position:absolute"></span>
   <div class="hero-pill fu d1"><span class="pill-dot"></span>For PSHE Leads &middot; DSLs &middot; Class Teachers</div>
   <h1 class="h1 fu d2" style="font-size:clamp(2.2rem,4.5vw,4.2rem)">A digital literacy curriculum<br>every school can <em>actually use</em>.</h1>
   <p class="hero-sub fu d3">Ready-to-use lesson plans from EYFS to Sixth Form. Fully aligned with the Online Safety Act 2023, statutory RSE, and Education for a Connected World. Downloadable by UK Year Group. No prep required.</p>
@@ -1009,13 +1044,13 @@ footer{background:var(--cream-2);border-top:1px solid var(--border);padding:36px
 </section>
 
 <!-- SCHOOL PRICING -->
-<section class="sec sec-alt" id="teachers"><span id="schools" style="position:absolute"></span>
+<section class="sec sec-alt" id="school-pricing">
   <div class="inner">
     <div class="tc" style="margin-bottom:36px">
       <span class="eye eye-c">School pricing</span>
       <h2 class="h2">From <em>£49 per year</em></h2>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
+    <div class="sprice-grid">
       <div class="price-card">
         <div class="price-tier">Individual</div>
         <div class="price-name">Teacher Licence</div>
@@ -1245,6 +1280,40 @@ function shareLink(platform) {
   }
 }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModalDirect(); });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+(function(){
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !window.gsap) return;
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Section headers and leads: gentle fade-up
+  gsap.utils.toArray('.sec .tc, .sec .h2, .sec .lead').forEach(function(el){
+    gsap.from(el, { opacity:0, y:24, duration:.7, ease:'power2.out',
+      scrollTrigger:{ trigger:el, start:'top 86%', once:true } });
+  });
+
+  // Card grids: staggered reveal
+  ['.stage-grid','.res-grid','.price-grid','.school-grid','.testi-grid','.cw-grid'].forEach(function(sel){
+    gsap.utils.toArray(sel).forEach(function(grid){
+      gsap.from(grid.children, { opacity:0, y:28, duration:.6, ease:'power2.out',
+        stagger:.09, scrollTrigger:{ trigger:grid, start:'top 84%', once:true } });
+    });
+  });
+
+  // Feature rows and thesis points
+  gsap.utils.toArray('.fi, .tp').forEach(function(el){
+    gsap.from(el, { opacity:0, y:18, duration:.55, ease:'power2.out',
+      scrollTrigger:{ trigger:el, start:'top 90%', once:true } });
+  });
+
+  // CTA blocks: slight scale settle
+  gsap.utils.toArray('.thesis, .policy-strip').forEach(function(el){
+    gsap.from(el, { opacity:0, y:20, duration:.7, ease:'power2.out',
+      scrollTrigger:{ trigger:el, start:'top 88%', once:true } });
+  });
+})();
 </script>
 </body>
 </html>
