@@ -36,23 +36,15 @@
       "CRITICAL_FORMAT_RULE": "This format uses FULL PROSE PARAGRAPHS, not single lines or bullet points. The two proven viral posts that have driven the most engagement both use complete paragraphs with 2-4 sentences. Do NOT write this as a staccato list of short single lines. The rhythm comes from paragraph length variation and standalone stat lines, not from line breaks after every sentence.",
 
       "paragraph_by_paragraph_structure": [
-        "PARA 1 - SOURCE FRAME (2-3 sentences): Name the study, report, or data source. Give it full academic credibility. Name the institution, year, methodology if available. This is what makes the reader trust what follows. Example: 'A peer-reviewed meta-analysis published this year looked at 46 studies and 79 effect sizes on the relationship between social media use and adolescent mental health.'",
-
-        "STANDALONE STAT LINE: The key number on its own line, introduced with a short label and colon. Short. Maximum one line. This is the only place single-line formatting is used. Example: 'The pooled result: β = 0.061.' or 'Among children aged 3 to 5: 37% are already using social media platforms.'",
-
-        "PARA 2 - CREDIBILITY + CONTEXT (3-5 sentences): What the number means. Add caveats that show intellectual honesty. Name specific researchers and institutions. Use the 'That is not X I invented. It is how [researcher] at [institution] described it.' move - own the claim by pointing to the source. Example: 'That number is not zero. Social media has a measurable association with child mental health outcomes. But β = 0.061 is smaller than the effect of wearing glasses. That is not a metaphor I invented. It is how Andrew Przybylski at Oxford described his own independent finding.'",
-
-        "PARA 3 - CONSENSUS PARAGRAPH (2-4 sentences): Multiple research groups, different methodologies, same conclusion. Format as: '[Group 1]. [Group 2]. [Group 3]. Different datasets, different methodologies, different countries, different starting assumptions. Same conclusion: [result in short declaratives].' This proves it is not one outlier study.",
-
-        "PARA 4 - THE REAL COMPARISON (3-5 sentences): The competing factor data that dwarfs social media. This is the emotional core of the post. Present real comparative statistics. Child poverty, adverse childhood experiences, parental mental health - whatever the evidence shows is bigger. End with the ratio contrast that reveals the proportionality problem.",
-
-        "STANDALONE PIVOT LINE: One or two short declarative sentences on their own. This is the turn. Example: 'Age restrictions draw a legal line. They have never drawn a psychological one.' Maximum two sentences. No elaboration here - the paragraphs before and after do the work.",
-
-        "PARA 5 - WRONG VILLAIN REVEAL (2-3 sentences): What the data actually describes. Name the real problem directly. 'If you want to understand why [X] keeps missing the mark, [Y] is the answer.' Then the reveal: 'The Wrong Villain in [debate] is not [X]. It is [Y].'",
-
-        "SERIES LINE: 'This is The Wrong Villain series continued.' One line, no embellishment.",
-
-        "THREE-PART CTA: Keyword drop line (Drop [WORD] in the comments + what you'll send). Repost ask (one sentence, reason why - 'the response to this should be proportional to the evidence'). Follow ask (one sentence - 'this conversation needs more people in it')."
+        "PARA 1 - SOURCE FRAME (2-3 sentences): Name the study, report, or data source. Give it full academic credibility. Name the institution, year, methodology if available. Example: 'A peer-reviewed meta-analysis published this year looked at 46 studies and 79 effect sizes on the relationship between social media use and adolescent mental health.'",
+        "STANDALONE STAT LINE: The key number on its own line, introduced with a short label and colon. Maximum one line. Example: 'The pooled result: β = 0.061.' or 'Among children aged 3 to 5: 37% are already using social media platforms.'",
+        "PARA 2 - CREDIBILITY + CONTEXT (3-5 sentences): What the number means. Name specific researchers and institutions. Use the 'That is not X I invented. It is how [researcher] at [institution] described it.' move.",
+        "PARA 3 - CONSENSUS PARAGRAPH (2-4 sentences): Multiple research groups, different methodologies, same conclusion.",
+        "PARA 4 - THE REAL COMPARISON (3-5 sentences): The competing factor data. Child poverty, adverse childhood experiences, parental mental health vs social media. End with the ratio contrast.",
+        "STANDALONE PIVOT LINE: One or two short declarative sentences. The turn. Example: 'Age restrictions draw a legal line. They have never drawn a psychological one.'",
+        "PARA 5 - WRONG VILLAIN REVEAL (2-3 sentences): Name the real problem. 'If you want to understand why X keeps missing the mark, Y is the answer.' Then: 'The Wrong Villain in [debate] is not [X]. It is [Y].'",
+        "SERIES LINE: 'This is The Wrong Villain series continued.'",
+        "THREE-PART CTA: Keyword drop / Repost ask / Follow ask."
       ],
 
       "what_NOT_to_do": [
@@ -60,19 +52,18 @@
         "Do NOT use bullet points or dashes as list formatting within the post body",
         "Do NOT use '---' as section dividers",
         "Do NOT start with 'I' or 'Today'",
-        "Do NOT use hedging phrases ('it's important to note', 'it's worth mentioning', 'we should consider')",
+        "Do NOT use hedging phrases ('it's important to note', 'it's worth mentioning')",
         "Do NOT use AI phrases ('fascinating', 'absolutely', 'great question', 'I appreciate')",
         "Do NOT vaguely cite 'research shows' - always name the researcher, institution, year",
-        "Do NOT repeat a centrepiece stat already used in a published post - see series_posts_already_published"
+        "Do NOT repeat a centrepiece stat already used in a published post"
       ],
 
       "voice_rules": [
         "'That is not [X] I invented. It is how [researcher] at [institution] described it.' - own the claim by pointing to the named source",
-        "'That is not a data error. It is not a measurement anomaly. It is [the actual explanation].' - reframe definitively in three short sentences",
+        "'That is not a data error. It is not a measurement anomaly. It is [the actual explanation].' - reframe definitively",
         "Short declaratives land hardest when surrounded by longer paragraphs - use the contrast",
-        "Name institutions specifically: Oxford, Cambridge MRC, UC Irvine, Stetson University, Ofcom, NSPCC - specificity beats vagueness every time",
-        "The ratio contrast is the most powerful move: '[X]% problem receiving vast majority of policy energy. [Y]% problem chronically underfunded.'",
-        "End with a question that is also a challenge, not just a conversation starter"
+        "Name institutions specifically: Oxford, Cambridge MRC, UC Irvine, Stetson University, Ofcom, NSPCC",
+        "The ratio contrast is the most powerful move: '[X]% problem receiving vast majority of policy energy. [Y]% problem chronically underfunded.'"
       ],
 
       "hook_rules": [
@@ -113,7 +104,6 @@
       "key_move": "'That is not a metaphor I invented. It is how Andrew Przybylski at Oxford described his own independent finding when he and Amy Orben at Cambridge MRC ran the same calculation with a different dataset and reached essentially the same result.'",
       "consensus_move": "'Four research groups. UC Irvine. Cambridge MRC. Oxford. Stetson University. Different datasets, different methodologies, different countries, different starting assumptions. Same conclusion: real, measurable, and very small.'",
       "comparison": "Child poverty 32%, adverse childhood experiences 24%, parental mental health 14%, social media 3%",
-      "wrong_villain_reveal": "'The 3% problem is receiving the vast majority of parliamentary time and policy energy. The 32% problem is chronically underfunded and almost invisible.'",
       "result": "VIRAL - highest performing post in series"
     },
     "example_2_age_restriction_post": {
@@ -122,7 +112,6 @@
       "standalone_stat": "Among children aged 3 to 5: 37% are already using social media platforms.",
       "key_move": "'That is not a data error. It is not a measurement anomaly. It is the documented outcome of an enforcement mechanism that relies on self-reported age, parental trust, and platform goodwill. None of which have ever been reliably present.'",
       "pivot_line": "'Age restrictions draw a legal line. They have never drawn a psychological one.'",
-      "wrong_villain_reveal": "'The Wrong Villain in the children's phone debate is not the age limit being too low. It is the fifteen years between birth and the phone that we have done almost nothing with.'",
       "result": "Developed from high-engagement comment thread - proven debate position"
     }
   },
@@ -136,69 +125,98 @@
     "R_relationships": {
       "point": "Every hour on social media displaces face-to-face connection - the relationships most protective against depression.",
       "orben_przybylski": "Orben & Przybylski (2019), Nature Human Behaviour: social media effect size on wellbeing = r=0.05",
-      "comparison": "Effect size equivalent to wearing glasses - real but not catastrophic. The TYPE of use matters more than the TIME.",
       "key_stat": "r=0.05 - same effect size as wearing glasses (Orben & Przybylski, 2019)"
     },
     "U_upstream_design": {
-      "point": "Algorithms are engineered to maximise engagement, not wellbeing - autoplay, infinite scroll, and notification timing exploit adolescent reward circuits.",
+      "point": "Algorithms are engineered to maximise engagement, not wellbeing.",
       "facebook_papers": "Frances Haugen Facebook Papers (2021): Instagram's own internal research showed the platform made body image worse for 1 in 3 teen girls.",
       "key_stat": "32% of teen girls said Instagram made them feel worse about their bodies - Facebook's own internal research (2021)"
     },
     "S_sleep": {
-      "point": "Sleep is not just a side effect - it is the single most important independent mediator between screen time and mental health.",
+      "point": "Sleep is the single most important independent mediator between screen time and mental health.",
       "swedish_longitudinal_study": {
-        "finding": "Three independent mediators found: sleep duration, sleep quality, and daytime sleepiness each independently mediated the screen-mental health link",
-        "sample": "n=4,810 adolescents",
-        "significance": "Three independent pathways - meaning sleep mediates the harm even after controlling for the other two sleep variables"
+        "finding": "Three independent mediators: sleep duration, sleep quality, and daytime sleepiness each independently mediated the screen-mental health link",
+        "sample": "n=4,810 adolescents"
       },
       "uk_millennium_cohort": {
         "finding": "20.8% of UK teenagers report 5+ hours screen time per day",
-        "outcome": "This group shows significantly elevated depression and anxiety scores compared to lower-use peers"
+        "outcome": "Significantly elevated depression and anxiety scores vs lower-use peers"
       },
-      "feedback_loop": "Social media delays sleep onset -> reduces REM sleep -> impairs emotional regulation next day -> increases sensitivity to social rejection online -> more anxious scrolling at night - a self-reinforcing cycle",
-      "key_stat": "Three independent sleep mediators (duration, quality, daytime function) each link screen time to mental health - Swedish longitudinal study, n=4,810"
+      "key_stat": "Three independent sleep mediators - Swedish longitudinal study, n=4,810"
     },
     "T_transparency": {
-      "point": "Platforms know the harm. Age verification, parental controls, and screen time tools exist - but are buried, opt-in, and designed to be ignored.",
-      "restriction_failure_argument": "The 13+ restriction has been enforceable under COPPA since 1998 - 26 years. Ofcom's 2025 Children and Parents report: 37% of UK 3-5 year olds use social media and Instagram ownership among 8-9 year olds jumped from 8% to 14% in a single year, all on a platform those children are legally banned from. This is not a compliance problem. It is a mechanism that does not work.",
-      "key_stat": "37% of UK 3-5 year olds on social media; Instagram ownership among 8-9 year olds up from 8% to 14% in one year - Ofcom Children and Parents Media Use Report 2025",
-      "note": "DO NOT cite the Australia 60% bypass rate - see FACT_CHECK_RULES above. Use the 26-year 13+ restriction failure data instead."
+      "point": "Platforms know the harm. Tools exist but are buried, opt-in, and designed to be ignored.",
+      "restriction_failure": "13+ restriction under COPPA since 1998 - 26 years. Ofcom 2025: 37% of UK 3-5 year olds on social media, Instagram among 8-9 yr olds up 8% to 14% in one year.",
+      "key_stat": "37% of UK 3-5 year olds on social media - Ofcom 2025",
+      "note": "DO NOT cite Australia 60% bypass rate - see FACT_CHECK_RULES."
     }
   },
 
   "debate_positions": {
     "vs_hard_ban": {
-      "position": "Bans treat the symptom not the cause. The 13+ restriction has been failing for 26 years - raising the number to 16 applies the same broken mechanism three years later.",
-      "key_argument": "Social media is already restricted to 13+. Ofcom 2025 shows 37% of 3-5 year olds and Instagram ownership among 8-9 year olds jumping 75% in a single year - all legally prohibited. If a 13+ restriction fails at that scale after 26 years, what exactly changes with a 16+ restriction? Same platform. Same algorithm. Same psychological mechanics. Same broken enforcement architecture.",
+      "position": "The 13+ restriction has been failing for 26 years. Raising the number to 16 applies the same broken mechanism three years later.",
+      "key_argument": "Ofcom 2025: 37% of 3-5 year olds and Instagram ownership among 8-9 year olds jumping 75% in a single year - all legally prohibited. Same platform. Same algorithm. Same psychological mechanics. Same broken enforcement architecture.",
       "sources": [
-        "Ofcom Children and Parents Media Use Report 2025 - 37% of 3-5 yr olds on social media",
-        "Ofcom 2025 - Instagram among 8-9 yr olds: 8% to 14% in one year",
+        "Ofcom Children and Parents Media Use Report 2025",
         "COPPA 1998 - 13+ restriction in US law for 26 years"
       ],
       "pivot": "The question isn't what age you draw the line. It's whether you've changed anything on the other side of it.",
-      "BANNED_SOURCE": "Do NOT use 'Australia 60% bypass - Reuters 2024' - this figure is unverified. See FACT_CHECK_RULES."
+      "BANNED_SOURCE": "Do NOT use 'Australia 60% bypass - Reuters 2024' - unverified. See FACT_CHECK_RULES."
     },
+
+    "vs_swimming_pool_analogy": {
+      "the_attack": "'Education-first is like teaching children to swim while drop-kicking them into deep water. Education should come AFTER we reduce exposure, not be used as an excuse for continued exposure.'",
+      "who_uses_it": "Ban advocates (Liam Maguire pattern) who argue that any framework supporting continued device use is normalising harm and monetising a coping strategy.",
+      "the_counter": "The analogy breaks down on the data. Ofcom 2025 shows 37% of UK 3-5 year olds are already on social media - on platforms legally restricted to 13+. These children are already in the water. The question for them is not whether to teach them to swim. They are already there. The preparation has to happen. For children not yet exposed, teaching them before they encounter it IS the prevention - not the normalisation of harm. The Guided Childhood pathway starts at age 0-4, years before any device is introduced. That is not education-as-excuse-for-exposure. That is education as the only mechanism that works when the legal barrier has demonstrably failed.",
+      "key_principle": "Never defend education as damage control. Frame it correctly: education that happens BEFORE exposure is the definition of prevention. The device pathway starts long before the phone arrives."
+    },
+
+    "vs_follow_the_money": {
+      "the_attack": "'People selling education frameworks, apps, pathways and consultancy have a financial interest in children remaining on devices. Follow the money. Their model depends on the problem continuing.'",
+      "who_uses_it": "Ban advocates who want to discredit rather than debate the evidence. Deliberately shifts from evidence to motivation.",
+      "honest_reality": "Justin Phillips does have a paid platform (Guided Childhood OS). The free tool at tools.guidedchildhood.com is also a lead magnet. This is honest and should be acknowledged if pressed, not denied.",
+      "the_counter": "Argue the evidence, not the motivation. The research cited is peer-reviewed, independently conducted, and publicly available. It has no commercial relationship with Guided Childhood. Anyone can check it. The question is not whether someone has a financial interest - it is whether the evidence supports the approach. Do not engage with this attack beyond one clear statement.",
+      "one_clear_statement": "The research I cite is peer-reviewed and publicly available. I didn't commission it. Anyone can check it. The question isn't whether I have a financial interest - it's whether the evidence supports the approach.",
+      "then_exit": "Say this once. Do not re-engage. Every additional reply confirms you are worried about the charge. Walk away.",
+      "glass_houses_note": "Ban advocates (training organisations, trustee roles, consultancy) also benefit professionally from the debate continuing. Do NOT say this publicly - it is personal and defensive. Note it internally to maintain perspective."
+    },
+
+    "ban_platforms_not_children_reframe": {
+      "origin": "Keith Fulford in comment thread - responding to Emma Parfitt's safeguarding visibility argument",
+      "the_reframe": "'Ban social media platforms from accessing our children, rather than banning our children from social media.' When platforms haven't self-regulated despite years of government requests, the framing of who is being restricted matters.",
+      "why_it_is_useful": "This reframe places responsibility correctly on platform architecture rather than on children or parents. It is the upstream design argument from the TRUST framework stated differently. It avoids the 'ban children' framing that Justin opposes while acknowledging that platforms must be structurally changed.",
+      "connection_to_trust": "This is the U (Upstream Design) and T (Transparency) argument - platforms designed to maximise engagement at the expense of child wellbeing are the correct target, not blanket prohibition of children. Apple's WWDC 2026 announcement is the first major hardware manufacturer doing at the OS level what regulators have asked platforms to do voluntarily for years.",
+      "use_in_debate": "Agree with the reframe when it comes up. It is compatible with the Guided Childhood position and builds coalition with people who want platform accountability rather than child prohibition."
+    },
+
     "vs_brick_phones": {
       "position": "Brick phones address access, not education. Children who never develop digital skills in guided environments face greater harm when they inevitably go online.",
       "key_argument": "Even the Light Phone founder describes it as a transitional tool, not a permanent destination. Digital literacy is the destination - the device pathway is the route.",
-      "sources": ["Light Phone founder statements", "Guided Childhood device guide at guidedchildhood.co.uk/devices"],
       "pivot": "The goal isn't to keep children offline. The goal is to make them ready for when they go online."
     },
+
     "vs_screen_time_panic": {
       "position": "Effect sizes matter. Panic about screen time distracts from the upstream design problem.",
-      "key_argument": "Screen time effect on wellbeing = r=0.05 (same as wearing glasses - Orben & Przybylski 2019). That's real but not catastrophic. The real question is WHAT they're doing and HOW the platform is designed, not HOW LONG they spend there.",
-      "sources": ["Orben & Przybylski 2019, Nature Human Behaviour"],
-      "pivot": "Stop counting the hours. Start asking what the algorithm is doing with them."
+      "key_argument": "Screen time effect on wellbeing = r=0.05 (same as wearing glasses - Orben & Przybylski 2019). The real question is WHAT they're doing and HOW the platform is designed, not HOW LONG.",
+      "sources": ["Orben & Przybylski 2019, Nature Human Behaviour"]
     },
+
     "vs_algorithm_defence": {
       "position": "'Just engagement' is not neutral. Engagement maximisation at the expense of sleep and emotional regulation is a design choice with documented harms.",
       "key_argument": "Facebook's own internal researchers documented it. Not an external critic - their own team. And they shipped the product anyway.",
       "sources": ["Facebook Papers 2021", "Frances Haugen testimony"]
     },
+
     "vs_parents_should_sort_it": {
       "position": "Individual parent choices can't override platform architecture. Expecting parents to out-design billion-dollar engagement systems is not a policy.",
-      "key_argument": "Informed parents need informed tools. That's what the Guided Childhood device pathway is - not a ban, not panic, a structured preparation route.",
-      "sources": ["guidedchildhood.co.uk/devices"]
+      "key_argument": "Informed parents need informed tools. That's what the Guided Childhood device pathway is - not a ban, not panic, a structured preparation route."
+    },
+
+    "emma_parfitt_safeguarding_visibility_argument": {
+      "origin": "Emma Parfitt (child safeguarding, Front Door Theory) - independent expert voice",
+      "argument": "Banning children doesn't make them safer - it makes them unseen. In child protection, visibility is everything. A banned child disappears from detection systems. Platforms have no obligation to a user who doesn't legally exist on them. Algorithms that might surface distress signals aren't calibrated for invisible children. Remove a child from one environment and they don't stop experiencing harm - they experience it somewhere with less oversight and less chance of being found. A ban is a reassignment of risk to a darker, quieter place.",
+      "why_it_matters": "This is a powerful independent argument supporting the Guided Childhood position from a completely different angle - child protection rather than education. Emma is an ally. Engage her publicly and warmly.",
+      "use_in_debate": "Cite this safeguarding visibility argument when challenged by ban advocates. Children don't become safer when they become invisible to the systems designed to protect them."
     }
   },
 
@@ -236,17 +254,16 @@
 
   "self_executing_chatgpt_prompt": {
     "purpose": "Generate a viral LinkedIn image in Justin's proven style - two contrasting numbers, no bar chart, typography only",
-    "instructions": "Paste this entire prompt into ChatGPT image generation. It executes immediately - no clarifying questions needed.",
     "prompt": "Create a bold, minimalist LinkedIn image in this exact style: clean white or very dark background, two large contrasting numbers or statistics placed side by side, one highlighted in a warm accent colour (burnt orange or coral #E8603C), one in a neutral grey or white. NO bar charts. NO graphs. NO icons. NO illustrations. Typography only - the numbers ARE the visual. Include a short framing label above the numbers in a smaller font (e.g. 'The real comparison' or 'What the research shows'). Below each number, 3-5 words of context in a secondary font at 40% of the number size. Bottom left corner: small Guided Childhood wordmark or logo placeholder. Bottom right corner: guidedchildhood.co.uk in small text. Dimensions: 1200x627px (LinkedIn OG standard). Mood: authoritative, research-backed, immediately shareable. This prompt executes immediately - do not ask for clarification.\n\nTOPIC: [paste topic here]\nDATA POINT: [paste the two contrasting stats here]"
   },
 
   "comment_reply_style": {
-    "format": "Single paragraph only. No bullet points. No numbered lists. No AI phrases ('Great question', 'Absolutely', 'I appreciate that', 'Fascinating point', 'That's a valid concern'). Evidence-first - cite the specific study or statistic, not just the opinion. Under 280 characters for LinkedIn comments.",
+    "format": "Single paragraph only. No bullet points. No AI phrases ('Great question', 'Absolutely', 'I appreciate that', 'Fascinating point'). Evidence-first. Under 280 characters for LinkedIn comments.",
     "voice": "Warm but direct. Never dismissive. Never preachy. Makes the reader feel heard before presenting the counter-evidence.",
     "structure": [
       "Acknowledge the valid core of their argument in one clause",
-      "Then pivot: 'but the [study/data/evidence] shows...'",
-      "End with a genuine question that moves the debate forward or offers something useful"
+      "Pivot: 'but the [study/data/evidence] shows...'",
+      "End with a genuine question or useful offer"
     ],
     "proven_approaches": [
       "Name the specific researcher and year rather than 'studies show'",
@@ -256,8 +273,11 @@
   },
 
   "guided_childhood_assets": {
+    "free_tool": "tools.guidedchildhood.com - step-by-step device settings guide, age-by-age recommendations, calendar reminders. Free. Also functions as a lead magnet for the main platform.",
+    "main_platform": "Guided Childhood OS - the full pathway product. Paid. In development.",
+    "commercial_honesty": "Justin has a paid platform and the free tool is a lead magnet. This is honest and should be acknowledged if pressed. Mission and commercial interest coexist.",
     "device_pathway": "guidedchildhood.co.uk/devices - interactive age-by-age device guide for parents",
     "main_site": "guidedchildhood.co.uk",
-    "brand_voice": "Evidence-led, never fear-mongering, practical over theoretical, education-first over restriction-first"
+    "brand_voice": "Evidence-led, never fear-mongering, practical over theoretical, education-first over restriction-first. Dad of three building from personal experience and peer-reviewed science."
   }
 }
