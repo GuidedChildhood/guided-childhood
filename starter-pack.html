@@ -41,7 +41,7 @@ body{background:var(--cream);font-family:var(--sans);color:var(--ink);-webkit-fo
 .prog span{flex:1;height:4px;border-radius:99px;background:var(--border);transition:background .3s}
 .prog span.on{background:var(--green-dark)}
 .tabs{display:flex;border-bottom:1px solid var(--border);margin:26px 0 20px;overflow-x:auto}
-.tab{font-family:var(--mono);font-size:.68rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-muted);background:none;border:none;border-bottom:2px solid transparent;padding:10px 14px;cursor:pointer;white-space:nowrap}
+.tab{flex:1;font-family:var(--mono);font-size:.7rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-muted);background:none;border:none;border-bottom:2px solid transparent;padding:11px 6px;cursor:pointer;white-space:nowrap;text-align:center}
 .tab.on{color:var(--green-dark);border-bottom-color:var(--green-dark)}
 .box{border-radius:14px;padding:16px 18px;margin-bottom:10px;border:1px solid var(--border)}
 .box .lbl{font-family:var(--mono);font-size:.6rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;display:block;margin-bottom:8px}
@@ -209,10 +209,10 @@ function renderResult(){
     </div>
 
     <div class="tabs">
-      <button class="tab on" onclick="tab(this,'t-script')">Your Script</button>
-      <button class="tab" onclick="tab(this,'t-action')">One Action</button>
-      <button class="tab" onclick="tab(this,'t-signs')">Warning Signs</button>
-      <button class="tab" onclick="tab(this,'t-next')">What's Next</button>
+      <button class="tab on" onclick="tab(this,'t-script')">Script</button>
+      <button class="tab" onclick="tab(this,'t-action')">Action</button>
+      <button class="tab" onclick="tab(this,'t-signs')">Signs</button>
+      <button class="tab" onclick="tab(this,'t-next')">Next</button>
     </div>
 
     <div id="t-script">
@@ -267,6 +267,7 @@ function renderResult(){
         <a href="/digitalwellbeing" style="font-family:var(--mono);font-size:.8rem;font-weight:600;color:var(--green-dark)">Take the free Digital Health Check &rarr;</a>
       </div>
       <button onclick="location.reload()" style="width:100%;margin-top:14px;background:none;border:1px solid var(--border);border-radius:14px;padding:12px;font-family:var(--mono);font-size:.72rem;letter-spacing:.04em;color:var(--ink-muted);cursor:pointer">Build a pack for another child</button>
+      <a href="/" style="display:block;text-align:center;margin-top:12px;font-family:var(--mono);font-size:.72rem;letter-spacing:.04em;color:var(--green-dark);text-decoration:none;padding:12px">&larr; Back to guidedchildhood.com</a>
     </div>
   </div>`;
   window.scrollTo({top:0});
