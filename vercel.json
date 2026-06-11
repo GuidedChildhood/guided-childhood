@@ -12,6 +12,14 @@
     {
       "src": "digitalwellbeing/index.html",
       "use": "@vercel/static"
+    },
+    {
+      "src": "starter-pack.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "school-pack.html",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
@@ -32,6 +40,56 @@
       "dest": "/agents.html"
     },
     {
+      "src": "/teachers/?",
+      "status": 307,
+      "headers": {
+        "Location": "/#teachers"
+      }
+    },
+    {
+      "src": "/schools/?",
+      "status": 307,
+      "headers": {
+        "Location": "/#teachers"
+      }
+    },
+    {
+      "src": "/stages/?",
+      "status": 307,
+      "headers": {
+        "Location": "/#stages"
+      }
+    },
+    {
+      "src": "/pricing/?",
+      "status": 307,
+      "headers": {
+        "Location": "/#pricing"
+      }
+    },
+    {
+      "src": "/how/?",
+      "status": 307,
+      "headers": {
+        "Location": "/#how"
+      }
+    },
+    {
+      "src": "/research/?",
+      "status": 307,
+      "headers": {
+        "Location": "/#research"
+      }
+    },
+    {
+      "src": "/starter-pack/?",
+      "dest": "/starter-pack.html"
+    },
+    {
+      "src": "/school-pack/?",
+      "dest": "/school-pack.html"
+    },
+    {
       "src": "/(.*)",
       "dest": "/index.html"
     }
@@ -40,9 +98,18 @@
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "X-Frame-Options", "value": "DENY" },
-        { "key": "X-XSS-Protection", "value": "1; mode=block" }
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        }
       ]
     }
   ]
