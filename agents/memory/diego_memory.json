@@ -183,11 +183,30 @@
 
     "ban_platforms_not_children_reframe": {
       "origin": "Keith Fulford in comment thread - responding to Emma Parfitt's safeguarding visibility argument",
+      "keith_fulford_status": "NOT AN ALLY. Keith is a restriction advocate. His reframe ('ban platforms from accessing children') still relies on the same broken enforcement architecture as any other ban. It has the same enforcement problem: how do you stop a platform from accessing a child if the child can change their age? The framing sounds different but the mechanism is identical.",
       "the_reframe": "'Ban social media platforms from accessing our children, rather than banning our children from social media.' When platforms haven't self-regulated despite years of government requests, the framing of who is being restricted matters.",
-      "why_it_is_useful": "This reframe places responsibility correctly on platform architecture rather than on children or parents. It is the upstream design argument from the TRUST framework stated differently. It avoids the 'ban children' framing that Justin opposes while acknowledging that platforms must be structurally changed.",
-      "connection_to_trust": "This is the U (Upstream Design) and T (Transparency) argument - platforms designed to maximise engagement at the expense of child wellbeing are the correct target, not blanket prohibition of children. Apple's WWDC 2026 announcement is the first major hardware manufacturer doing at the OS level what regulators have asked platforms to do voluntarily for years.",
-      "use_in_debate": "Agree with the reframe when it comes up. It is compatible with the Guided Childhood position and builds coalition with people who want platform accountability rather than child prohibition."
+      "why_it_sounds_compatible": "The reframe targets platforms not children, which sounds like Justin's position. But it is still a restriction argument with no preparation component and the same enforcement weakness. Do not publicly agree with Keith — acknowledge the platform-accountability point without endorsing the ban mechanism.",
+      "connection_to_trust": "The U (Upstream Design) and T (Transparency) argument is the correct version: platforms designed to maximise engagement at the expense of child wellbeing are the correct target. Apple's WWDC 2026 is the first major hardware manufacturer doing this at OS level.",
+      "use_in_debate": "Acknowledge platform accountability without endorsing the ban. 'Platforms need architectural accountability — Apple showed this week what that looks like in practice.' Then pivot to the preparation gap."
     },
+
+    "vs_brad_marshall_road_safety": {
+      "brad_profile": "Internationally bestselling author (3 books), psychologist, academic, speaker. Mission: revolutionise online safety. www.ctrlshft.global + www.unpluggedpsychologist.com.au. Corporate training, consulting, speaking, executive coaching — meaning he has commercial interests in the debate. Do NOT mention this publicly.",
+      "his_argument": "'We teach them road safety. We don't let them drive. No reason we can't teach cybersecurity without giving them a smartphone.'",
+      "the_crack_in_the_analogy": "Road safety is NOT taught car-free. Children are pedestrians from birth. They cross roads from age 4. Cycle in traffic at 8. They are in real road environments, with supervision, for 13 years before they drive. By the time they sit a driving test, the environment is not new — only the level of autonomy is. Brad's analogy proves the case for graduated real-environment digital practice, not against it.",
+      "the_science": "Lave and Wenger (1991) 'Situated Learning: Legitimate Peripheral Participation' — skills transfer only when learned in the context they will be used. Transfer-appropriate processing (Morris et al. 1977): encoding conditions must match retrieval conditions. Prefrontal cortex develops through real decision-making in real contexts — not through theory.",
+      "bulletproof_reply_280_chars": "Road safety isn't taught car-free. Children cross roads from age 4, cycle in traffic — 13 years in real road environments before they drive. Lave & Wenger (1991): skills transfer only in context. The pathway is graduated supervised digital exposure. Not a smartphone.",
+      "why_it_closes_the_debate": "Any answer Brad gives confirms Justin's position: (a) 'I'll deal with that at 13' = admits no plan for the cliff edge; (b) 'I'll gradually introduce digital environments' = Justin's model; (c) 'They'll never use smartphones' = unrealistic. The question that destroys the analogy: 'What exactly is the plan for the day they turn 13?'",
+      "position_frame": "Not attacking Brad. Applying the same evidence standard to the solution that he applies to the problem. Evidence-first, calm authority. Not defending Big Tech — a father of three following the science."
+    },
+
+    "vs_waffle_and_screen_free_devices": {
+      "what_waffle_is": "Waffle (wafflekids.co) — screen-free voice-only device for children aged 5-12. Calls to approved contacts only. No internet, no apps, no social media. Pre-order only. Ships October 2026.",
+      "the_problem_with_the_solution": "Waffle is a thoughtful product for a specific window. The problem is the window ends at 12. What is the plan for the morning that child — who has never navigated an online interaction, never recognised manipulation in a digital context — transitions to a full smartphone? The product solves 5-12. It says nothing about 13+. The gap between Waffle and a smartphone is not something you can buy. It has to be built deliberately, with supervision, while there is still time.",
+      "what_it_gets_right": "Waffle is not the villain. Neither is the smartphone. The villain is the absence of a pathway between them. Acknowledge the product's genuine value for the early years window before making the 13+ point.",
+      "sam_harris_closer": "These children are going to get the keys. If the plan is that they never will — say that. If the plan is that they eventually will — what does the preparation look like?",
+      "approved_linkedin_post_written": "2026-06-11 — Wrong Villain: The Solution. ~2,910 chars. Centrepiece: Waffle + the 13 cliff edge. Lave & Wenger (1991). Sam Harris closer: 'These children are going to get the keys.' Proved by: hook uses 'Ships October 2026' as irony anchor. Uses Haidt (2024) + Twenge longitudinal data for the concern. Never attacks Brad Marshall by name."
+    }
 
     "vs_brick_phones": {
       "position": "Brick phones address access, not education. Children who never develop digital skills in guided environments face greater harm when they inevitably go online.",
@@ -241,6 +260,13 @@
       "centrepiece_stat": "37% of UK 3-5 year olds on social media; 13+ in law since 1998 - Ofcom 2025",
       "date": "2026-06",
       "note": "Built from Kitty Hamilton comment thread. Core argument: raising the age to 16 applies the same broken mechanism three years later."
+    },
+    {
+      "topic": "Wrong Villain: The Solution — Waffle ships October 2026 / the 13+ cliff edge",
+      "format": "Wrong Villain",
+      "centrepiece_stat": "Ships October 2026. No screen. No apps. No internet. + Lave & Wenger (1991) situated learning",
+      "date": "2026-06-11",
+      "note": "Wrong Villain where the villain is the SOLUTION (restriction products), not the technology. Triggered by Brad Marshall endorsing Waffle. Core argument: Waffle covers 5-12 but says nothing about 13+. Situated learning: skills transfer only in context practised. Sam Harris closer: 'These children are going to get the keys.' Do NOT repeat these stats as centrepiece."
     }
   ],
 
