@@ -20,15 +20,36 @@
     "rule": "Never publish a statistic without a verifiable source. If a source cannot be confirmed, mark it UNVERIFIED and do not use it as a centrepiece claim.",
     "BANNED_STAT_DO_NOT_USE": "'60% of Australian teens bypassed the social media age ban within weeks - Reuters 2024' - THIS IS WRONG. Australia's Under-16 ban was passed November 2024 and did not come into effect until late 2025. No 2024 source could report actual bypass rates. This figure is unverifiable and must never appear in any published content.",
     "australia_ban_verified_facts": [
-      "Australia's Online Safety Amendment (Social Media Minimum Age) Act passed: November 2024",
-      "Enforcement start date: approximately November 2025 (12 months after royal assent)",
-      "The ban covers under-16s on social media platforms",
-      "Pre-ban surveys showed significant proportions of Australian teens intended to use VPNs - but specific post-enforcement bypass rate figures require verified sourcing before use"
+      "Australia's Online Safety Amendment (Social Media Minimum Age) Bill 2024 passed: 28 November 2024",
+      "Enforcement date: 10 December 2025",
+      "Platforms covered: YouTube, X, Facebook, Instagram, TikTok, Snapchat, Reddit, Twitch, Threads, Kick",
+      "Restricts social media to under-16s",
+      "Penalty: fines up to $50 million for non-compliant platforms",
+      "Enforcement: Australia's eSafety Commissioner Julie Inman Grant",
+      "Impact: 4.7 million under-16 accounts removed by mid-December 2025 (eSafety report, January 2026)",
+      "Global significance: CNBC Dec 2025 — 'Governments worldwide are watching'",
+      "Correct framing: 'passed into law November 2024, in effect since December 2025'"
     ],
     "stronger_argument_for_ban_failure": "Use the UK 13+ restriction failure data. Ofcom 2025 shows 37% of UK 3-5 year olds on social media and Instagram ownership among 8-9 year olds jumping from 8% to 14% in a single year, all on a platform legally restricted to 13+. COPPA has enforced 13+ since 1998 - 26 years of the same mechanism failing is stronger evidence than any single ban bypass rate."
   },
 
-  "post_formats": {
+  "guided_childhood_model_correct_framing": {
+    "what_it_is_NOT": "Guided Childhood is NOT about giving children smartphones. It is NOT 'handing them the keys.' This is the most common misframing used by ban advocates.",
+    "what_it_IS": "Graduated skill release. Like a driving licence — theory first, then L-plates with supervision, then provisional access, then earned full independence. The keys are not handed over. They are earned through demonstrated competence at each stage.",
+    "the_four_stages": [
+      "Stage 1 (0-7 approx): Digital literacy education before any device. Theory. Understanding how platforms work, why algorithms behave the way they do, what manipulation looks like.",
+      "Stage 2 (7-10 approx): First supervised digital environments. Limited, monitored, parent-present. L-plates equivalent. Not a smartphone — managed access to specific digital contexts.",
+      "Stage 3 (10-13 approx): Provisional access. Parental controls active. Screen Time limits. Approved contacts. Growing independence as competence is demonstrated.",
+      "Stage 4 (13+ approx): Graduated toward full independence. Not a sudden handover — continued monitoring, open conversations, trust built on demonstrated skill."
+    ],
+    "the_road_safety_parallel_precise": "We don't teach road safety and hand over car keys. We assess, stage, and release. Theory test. L-plates. Instructor supervision. Practical test. Full licence. By the time a child sits a driving test, the road environment is not new — only the level of autonomy is. Guided Childhood applies this to digital environments.",
+    "vs_ban_advocates": "Ban advocates frame any education-first approach as 'giving children smartphones.' This is wrong. The Guided Childhood pathway starts years before any device arrives. The preparation happens in Stage 1-2 precisely so Stage 3-4 is not a cliff.",
+    "vs_waffle": "Waffle is a Stage 2-3 product (limited access, no internet). The problem is it has no Stage 1 (digital literacy education) and no documented Stage 3-4 (transition pathway to smartphone). It solves the hardware problem for 5-12 and says nothing about what comes next. The gap between Waffle and a full smartphone is not filled by the product. It has to be built deliberately.",
+    "one_sentence_description": "Not the device pathway — graduated skill release. The keys are earned, not received.",
+    "sam_harris_closing_with_this_framing": "The question has not been answered. If the keys are never coming — say that. If they are coming — the answer is not handing them over. It is a graduated skill release. Earned, not received. The same principle road safety has always used."
+  },
+
+
     "format_a_wrong_villain": {
       "name": "Wrong Villain",
       "when_to_use": "When the debate is blaming the wrong thing - screen time panic, ban campaigns, moral panic. Redirect to the real culprit with evidence.",
@@ -205,7 +226,7 @@
       "the_problem_with_the_solution": "Waffle is a thoughtful product for a specific window. The problem is the window ends at 12. What is the plan for the morning that child — who has never navigated an online interaction, never recognised manipulation in a digital context — transitions to a full smartphone? The product solves 5-12. It says nothing about 13+. The gap between Waffle and a smartphone is not something you can buy. It has to be built deliberately, with supervision, while there is still time.",
       "what_it_gets_right": "Waffle is not the villain. Neither is the smartphone. The villain is the absence of a pathway between them. Acknowledge the product's genuine value for the early years window before making the 13+ point.",
       "sam_harris_closer": "These children are going to get the keys. If the plan is that they never will — say that. If the plan is that they eventually will — what does the preparation look like?",
-      "approved_linkedin_post_written": "2026-06-11 — Wrong Villain: The Solution. ~2,910 chars. Centrepiece: Waffle + the 13 cliff edge. Lave & Wenger (1991). Sam Harris closer: 'These children are going to get the keys.' Proved by: hook uses 'Ships October 2026' as irony anchor. Uses Haidt (2024) + Twenge longitudinal data for the concern. Never attacks Brad Marshall by name."
+      "approved_linkedin_post_written": "2026-06-12 — Wrong Villain: The Solution (REVISED). ~2,960 chars. All facts 100% verified. Centrepiece: Waffle has no graduation, no pathway, two cliff edges (12 and 16). Key move: Brad used Apple's announcement to argue against smartphones — but Apple's announcement IS the graduated pathway model. The argument turns on itself. Sam Harris closer: 'If the keys are never coming — say that. If they are coming — the answer is not handing them over. It is a graduated skill release. Earned, not received.' Never names Brad Marshall."
     }
 
     "vs_brick_phones": {
@@ -304,6 +325,8 @@
     "commercial_honesty": "Justin has a paid platform and the free tool is a lead magnet. This is honest and should be acknowledged if pressed. Mission and commercial interest coexist.",
     "device_pathway": "guidedchildhood.co.uk/devices - interactive age-by-age device guide for parents",
     "main_site": "guidedchildhood.co.uk",
-    "brand_voice": "Evidence-led, never fear-mongering, practical over theoretical, education-first over restriction-first. Dad of three building from personal experience and peer-reviewed science."
+    "brand_voice": "Evidence-led, never fear-mongering, practical over theoretical, education-first over restriction-first. Dad of three building from personal experience and peer-reviewed science.",
+    "model_one_liner": "Not the device pathway — graduated skill release. The keys are earned, not received.",
+    "critical_distinction": "Justin does NOT advocate giving children smartphones. He advocates building digital skills progressively BEFORE full device access arrives — like a driving licence, not like handing over car keys."
   }
 }
