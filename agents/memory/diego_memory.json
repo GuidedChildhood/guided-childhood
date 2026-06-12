@@ -283,21 +283,54 @@
       "note": "Built from Kitty Hamilton comment thread. Core argument: raising the age to 16 applies the same broken mechanism three years later."
     },
     {
-      "topic": "Wrong Villain: The Solution — Waffle ships October 2026 / the 13+ cliff edge",
+      "topic": "Wrong Villain: The Treaty — UNCRC vs age bans",
       "format": "Wrong Villain",
-      "centrepiece_stat": "Ships October 2026. No screen. No apps. No internet. + Lave & Wenger (1991) situated learning",
-      "date": "2026-06-11",
-      "note": "Wrong Villain where the villain is the SOLUTION (restriction products), not the technology. Triggered by Brad Marshall endorsing Waffle. Core argument: Waffle covers 5-12 but says nothing about 13+. Situated learning: skills transfer only in context practised. Sam Harris closer: 'These children are going to get the keys.' Do NOT repeat these stats as centrepiece."
+      "centrepiece_stat": "196 countries ratified UNCRC. Every UN member state except one. UN itself (May 2026) said banning is not the answer.",
+      "date": "2026-06-12",
+      "key_sources": [
+        "UN Human Rights Office, 29 May 2026 — Volker Türk: 'Simply limiting access to platforms that remain unsafe cannot stand as the endpoint'",
+        "UNCRC General Comment 25 (2021): 'Since the risks children experience online are related to their evolving capacities, governments must ensure digital provisions are appropriate'",
+        "Sonia Livingstone, British Journal of Developmental Psychology (2026): blunt age thresholds 'reductive and potentially counterproductive'",
+        "Tandfonline peer-reviewed paper (2024): 'There is no right age'",
+        "COPPA 1998: US data protection law, NEVER an age of digital consent",
+        "Australia March 2026: own regulator reports 'major gaps in enforcement'",
+        "Amnesty International: 'ineffective quick fix' violating children's rights",
+        "Reddit: constitutional challenge filed in Australian High Court"
+      ],
+      "note": "Wrong Villain is the AGE NUMBER that replaced the conversation about capacity. UNCRC Article 5 (evolving capacities) IS the graduated skill release model in international law. Do NOT repeat these sources as centrepiece in future posts."
     }
   ],
 
   "next_post_ideas": [
-    "Wrong Villain: 'We're not teaching the wrong subject. We're missing the right one.' - digital literacy gap in school curriculum",
     "TRUST zoom: S for Sleep - the three-pathway mechanism in full detail (Swedish study n=4,810)",
-    "Wrong Villain: Apple WWDC 2026 child safety features - 'Tech isn't getting safer. It's getting smarter at managing liability.'",
     "TRUST zoom: U for Upstream Design - algorithm design as a public health issue (Facebook Papers)",
-    "Wrong Villain: Facebook Papers - platforms knew, shipped anyway"
+    "Wrong Villain: Facebook Papers - platforms knew, shipped anyway",
+    "Wrong Villain: 'We're not teaching the wrong subject. We're missing the right one.' - digital literacy gap in school curriculum",
+    "Children's rights series zoom: Article 5 evolving capacities mapped to the four-stage Guided Childhood pathway"
   ],
+
+  "children_rights_evidence_bank": {
+    "UNCRC_key_articles": {
+      "Article_5": "Guidance must match the child's evolving capacities — NOT a fixed age cutoff",
+      "Article_12": "Children's views must be heard and weighted by age and maturity",
+      "Article_13": "Right to seek, receive, and share information — includes digital",
+      "Article_17": "Access to information from media sources — includes digital media"
+    },
+    "UN_general_comment_25_2021": "The definitive UN statement on children's digital rights. Key quote: 'Since the risks children experience online are related to their evolving capacities, governments must ensure digital provisions are appropriate.'",
+    "UN_may_2026_statement": "UN High Commissioner Volker Türk, 29 May 2026: 'Simply limiting access to platforms that remain unsafe cannot stand as the endpoint.' Age-based bans can be circumvented and push children toward riskier, less monitored spaces.",
+    "livingstone_2026": "Sonia Livingstone (LSE), British Journal of Developmental Psychology 2026: Blunt age thresholds are 'based on theoretically dated ages-and-stages models' and are 'reductive and potentially counterproductive'.",
+    "there_is_no_right_age_2024": "Peer-reviewed paper, Journal of Children and Media (Tandfonline) 2024: 'Strictly enforced age limits may restrict the agency of those already equipped with necessary maturity while failing to protect those who do not, even though they have reached the required age.'",
+    "COPPA_correction": "COPPA 1998 (13+ restriction) was US DATA PROTECTION law — protecting children from commercial data harvesting. It was NEVER designed as an age of digital consent. Governments adopted it as a global access threshold by mistake.",
+    "australia_enforcement_reality": {
+      "ban_passed": "28 November 2024",
+      "in_force": "10 December 2025",
+      "enforcement_gaps": "March 2026: Australia's own regulator reports 'major gaps in enforcement'",
+      "amnesty": "Amnesty International: 'ineffective quick fix' violating children's rights to expression and participation",
+      "human_rights_commission": "Australian Human Rights Commission raised UNCRC compliance concerns specifically on Article 12",
+      "reddit_challenge": "Reddit filed constitutional challenge in Australian High Court — argues ban infringes implied freedom of political communication"
+    },
+    "ratification_fact": "196 countries have ratified the UNCRC. Every UN member state except the United States (signed but not ratified)."
+  },
 
   "self_executing_chatgpt_prompt": {
     "purpose": "Generate a viral LinkedIn image in Justin's proven style - two contrasting numbers, no bar chart, typography only",
