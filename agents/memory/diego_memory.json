@@ -227,7 +227,7 @@
       "what_it_gets_right": "Waffle is not the villain. Neither is the smartphone. The villain is the absence of a pathway between them. Acknowledge the product's genuine value for the early years window before making the 13+ point.",
       "sam_harris_closer": "These children are going to get the keys. If the plan is that they never will — say that. If the plan is that they eventually will — what does the preparation look like?",
       "approved_linkedin_post_written": "2026-06-12 — Wrong Villain: The Solution (REVISED). ~2,960 chars. All facts 100% verified. Centrepiece: Waffle has no graduation, no pathway, two cliff edges (12 and 16). Key move: Brad used Apple's announcement to argue against smartphones — but Apple's announcement IS the graduated pathway model. The argument turns on itself. Sam Harris closer: 'If the keys are never coming — say that. If they are coming — the answer is not handing them over. It is a graduated skill release. Earned, not received.' Never names Brad Marshall."
-    }
+    },
 
     "vs_brick_phones": {
       "position": "Brick phones address access, not education. Children who never develop digital skills in guided environments face greater harm when they inevitably go online.",
@@ -298,6 +298,41 @@
         "Reddit: constitutional challenge filed in Australian High Court"
       ],
       "note": "Wrong Villain is the AGE NUMBER that replaced the conversation about capacity. UNCRC Article 5 (evolving capacities) IS the graduated skill release model in international law. Do NOT repeat these sources as centrepiece in future posts."
+    },
+    {
+      "topic": "Wrong Villain: The Solution — graduated skill release vs WaffleKids cliff edge",
+      "format": "Wrong Villain",
+      "centrepiece_stat": "Two cliff edges: the product ends at 12, the law ends at 16. Neither is a graduation.",
+      "date": "2026-06-12",
+      "key_sources": [
+        "Lave and Wenger (1991) Situated Learning: Legitimate Peripheral Participation — skills transfer only in context",
+        "Apple WWDC 2026 — Screen Distance, Communication Limits, Content & Privacy Restrictions: hardware-level graduated access",
+        "Road safety parallel: children are pedestrians from age 4, cyclists in traffic at 8, 13 years of real road environments before driving test"
+      ],
+      "note": "Never names Brad Marshall directly. Wrong Villain is the absent pathway between WaffleKids and a full smartphone. Sam Harris closer: 'If the keys are never coming — say that.' Do NOT repeat Waffle product or Apple WWDC as centrepiece."
+    },
+    {
+      "topic": "Starmer UK social media ban — news response post",
+      "format": "News response with Wrong Villain lens",
+      "centrepiece_stat": "Australia removed 4.7M accounts. Two-thirds of target group remained on banned platforms. You cannot ban a behaviour out of someone who was never taught an alternative.",
+      "date": "2026-06-12",
+      "key_sources": [
+        "Children's Wellbeing and Schools Act 2026 Part 3 — Royal Assent 29 April 2026",
+        "Parliament rejected blanket ban 16 February 2026 — 307 to 173",
+        "UK consultation 'Growing up in the online world' — 116,211 responses, 9 in 10 parents wanted restrictions",
+        "Australia ban in force 10 December 2025 — 4.7 million accounts removed",
+        "Australia eSafety Commissioner: two-thirds of target group remained on banned platforms via workarounds",
+        "NSPCC + 42 child-protection charities: blanket bans 'push teens into darker, unregulated corners of the internet'",
+        "NSPCC youth voice (14-17 yr olds): do NOT support a complete ban",
+        "Orben and Przybylski (Oxford, n=355,358): effect size r=0.05",
+        "Swedish longitudinal (n=4,810): three independent mediators — sleep disruption, social comparison, passive consumption",
+        "UN Volker Türk, May 2026: 'Simply limiting access to platforms that remain unsafe cannot stand as the endpoint'",
+        "Lave and Wenger (1991): skills transfer only in context",
+        "Features targeted by UK model: infinite scroll, autoplay, overnight curfews, stranger-contact algorithms, livestreaming",
+        "Implementation timeline: secondary legislation by July 2027 at latest, actual implementation late 2026/2027",
+        "VPN surge: 1,800% increase during Online Safety Act rollout"
+      ],
+      "note": "Do NOT repeat: r=0.05 as centrepiece (used in previous posts), Volker Türk quote as lead. Wrong Villain is the 'build a wall' framing — real villain is the absent education. The window is late 2026/2027 — use that fact every time."
     }
   ],
 
@@ -306,8 +341,61 @@
     "TRUST zoom: U for Upstream Design - algorithm design as a public health issue (Facebook Papers)",
     "Wrong Villain: Facebook Papers - platforms knew, shipped anyway",
     "Wrong Villain: 'We're not teaching the wrong subject. We're missing the right one.' - digital literacy gap in school curriculum",
-    "Children's rights series zoom: Article 5 evolving capacities mapped to the four-stage Guided Childhood pathway"
+    "Children's rights series zoom: Article 5 evolving capacities mapped to the four-stage Guided Childhood pathway",
+    "Post-ban follow-up: 'The ban is live. Here's what happened.' — once implementation occurs (not before)",
+    "Feature restrictions vs education: targeting the 'right direction but not enough' angle deeper"
   ],
+
+  "uk_social_media_ban_2026": {
+    "status_as_of_june_2026": "Announced by Starmer, secondary legislation expected late 2026/2027. NOT yet in force.",
+    "what_it_is": "Australian-plus model. NOT a blanket ban (Parliament rejected that 307-173 on 16 February 2026). Combines age-based access restrictions with specific feature restrictions.",
+    "legal_basis": "Children's Wellbeing and Schools Act 2026 Part 3. Royal Assent 29 April 2026. Enables Secretary of State to impose restrictions via secondary legislation without new Acts.",
+    "features_targeted": [
+      "Infinite scroll / autoplay",
+      "Livestreaming for under-16s",
+      "Disappearing messages",
+      "Stranger-contact pairing algorithms",
+      "Overnight curfews on platform use"
+    ],
+    "platforms_covered": "Instagram, TikTok, Snapchat, Facebook confirmed. YouTube treated separately. No parental consent override.",
+    "implementation_timeline": {
+      "parliamentary_statement_deadline": "29 July 2026",
+      "secondary_legislation_deadline": "By 29 July 2027",
+      "actual_implementation_estimate": "Late 2026 or 2027"
+    },
+    "enforcement": "Ofcom fines up to £18m or 10% global turnover. Self-declaration of age banned as verification method.",
+    "consultation_data": {
+      "responses": 116211,
+      "period": "2 March – 26 May 2026",
+      "headline_finding": "9 in 10 parents who responded wanted a ban or significant restrictions"
+    },
+    "opposition_from_child_charities": {
+      "nspcc_and_42_charities": "Blanket bans are 'blunt responses' that push teens into darker, unregulated corners of the internet",
+      "nspcc_youth_voice": "14-17 year olds surveyed by NSPCC: do NOT support a complete ban",
+      "mental_health_foundation": "Recommended safety standards for all platforms rather than blanket bans"
+    },
+    "australia_lessons": {
+      "ban_in_force": "10 December 2025",
+      "accounts_removed": "4.7 million",
+      "enforcement_failure": "Two-thirds of target group remained on banned platforms via workarounds",
+      "workarounds_observed": "Children drawing facial hair to fool facial age estimation; VPN use",
+      "displacement": "Movement to Discord, gaming chat rooms, Telegram, anonymous forums"
+    },
+    "displacement_risk_data": {
+      "vpn_surge": "1,800% increase in VPN downloads during Online Safety Act rollout (UK)",
+      "where_children_go": "Discord, Telegram, anonymous forums, gaming chat rooms — spaces with no safeguarding infrastructure",
+      "research_warning": "Help Net Security (April 2026): 'Social media bans might steer kids into riskier corners of the internet'",
+      "un_warning": "Volker Türk, May 2026: 'Simply limiting access to platforms that remain unsafe cannot stand as the endpoint'"
+    },
+    "key_framing_for_content": {
+      "the_window": "Implementation late 2026/2027. That is a window. Use it to build skills, not wait for regulation.",
+      "feature_restrictions_are_right": "Targeting infinite scroll, autoplay, stranger contact = attacking the mechanism of harm. This is the right direction.",
+      "but_not_enough": "Regulation is a container. Education is the content. Both are needed.",
+      "the_endpoint_question": "What does a child who turns 16 look like if all we did was restrict access? Same skills they had at 10. Handed full access to a platform engineered to capture them."
+    },
+    "do_not_write_yet": "Do not write 'the ban has failed' or 'the ban worked' — it is not yet implemented. Write only about what the evidence predicts and what parents should do during the window.",
+    "vpn_ban_proposal": "Under consultation as of June 2026. Not confirmed. Do not state it is happening."
+  },
 
   "children_rights_evidence_bank": {
     "UNCRC_key_articles": {
