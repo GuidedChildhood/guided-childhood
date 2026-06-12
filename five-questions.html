@@ -182,7 +182,7 @@
     <div class="startblock">
       <button class="pillbtn" onclick="goTo(1)">Start the check</button>
     </div>
-    <p class="micro">Your answers are stored anonymously and used for research into children's digital wellbeing. No names. No child data. Nothing identifiable.</p>
+    <p class="micro">Nothing is stored. Your answers stay on this page and disappear when you close it.</p>
   </section>
 
   <!-- ============ QUESTIONS (built by JS) ============ -->
@@ -210,6 +210,27 @@
    knows the feed, roughly, no idea.
    ========================================================= */
 const MAILCHIMP_URL = "https://PASTE.usX.list-manage.com/subscribe/post-json?u=PASTE_U&id=PASTE_ID";
+
+/* JP: tagging by answer.
+   Embedded forms need tag IDs, not names. Ten minute job:
+   1. In Mailchimp go to Audience > Tags and create these seven:
+      5Q-TAKEN, 5Q-SLEEP, 5Q-WITHDRAWN, 5Q-MOOD, 5Q-SELFTALK,
+      5Q-FEEDBLIND, 5Q-HIGH
+   2. Click each tag. The number at the end of the browser URL
+      is its ID. Paste each ID between the quotes below.
+   How they fire: TAKEN on everyone, the four change tags when
+   a parent answered a little or yes clearly, FEEDBLIND when
+   they said no idea about the feed, HIGH when 3 or more
+   changes stacked. Trigger your answers automation off 5Q-TAKEN. */
+const TAG_IDS = {
+  taken:     "",   // 5Q-TAKEN
+  sleep:     "",   // 5Q-SLEEP
+  withdrawn: "",   // 5Q-WITHDRAWN
+  mood:      "",   // 5Q-MOOD
+  selftalk:  "",   // 5Q-SELFTALK
+  feedblind: "",   // 5Q-FEEDBLIND
+  high:      ""    // 5Q-HIGH
+};
 const REPORT_URL = "https://guidedchildhood.com/digitalwellbeing";
 
 const QUESTIONS = [
@@ -341,15 +362,6 @@ function renderResult(){
       '<p class="ctaprice">Single report \u00A39.99. No subscription. Your child needs no login and raw files are deleted after analysis.</p>' +
     '</div>' +
 
-    '<div class="rblock white">' +
-      '<h2>Want your answers by email?</h2>' +
-      '<p>We will send you your five answers and a short note on what each one can mean.</p>' +
-      '<div class="emailrow">' +
-        '<input type="email" id="emailInput" placeholder="you@email.com" aria-label="Your email address">' +
-        '<button class="pillbtn" onclick="sendEmail()">Send my answers</button>' +
-      '</div>' +
-      '<div class="sentnote" id="sentNote">Done. Check your inbox shortly.</div>' +
-    '</div>' +
 
     '<div class="safety"><b>If you are seriously worried.</b> If your child has talked about harming themselves or you are worried about their immediate safety, this tool is not the right step. Speak to your GP, call 111, or contact CAMHS directly. Serious signals always mean talking to a professional.</div>';
 }
@@ -363,9 +375,22 @@ function buildPayload(email){
   };
 }
 
+/* Email capture removed for launch. The sendToMailchimp and
+   sendEmail functions and the TAG_IDS setup above stay here
+   unused, so the email option can be switched back on later
+   without rebuilding. */
 function sendToMailchimp(email){
   // JSONP submit so it works from a static page with no backend.
   const p = buildPayload(email);
+  const tags = [];
+  if(TAG_IDS.taken) tags.push(TAG_IDS.taken);
+  if(p.q1 > 0 && TAG_IDS.sleep)     tags.push(TAG_IDS.sleep);
+  if(p.q2 > 0 && TAG_IDS.withdrawn) tags.push(TAG_IDS.withdrawn);
+  if(p.q3 > 0 && TAG_IDS.mood)      tags.push(TAG_IDS.mood);
+  if(p.q4 > 0 && TAG_IDS.selftalk)  tags.push(TAG_IDS.selftalk);
+  if(p.q5 === 2 && TAG_IDS.feedblind) tags.push(TAG_IDS.feedblind);
+  if(p.changes >= 3 && TAG_IDS.high)  tags.push(TAG_IDS.high);
+
   const cb = "mcDone" + Date.now();
   window[cb] = function(){ delete window[cb]; };
   const qs =
@@ -373,7 +398,7 @@ function sendToMailchimp(email){
     "&Q1=" + p.q1 + "&Q2=" + p.q2 + "&Q3=" + p.q3 +
     "&Q4=" + p.q4 + "&Q5=" + p.q5 +
     "&CHANGES=" + p.changes +
-    "&tags=FIVEQ" +
+    (tags.length ? "&tags=" + tags.join(",") : "") +
     "&c=" + cb;
   const s = document.createElement("script");
   s.src = MAILCHIMP_URL + qs;
@@ -390,7 +415,7 @@ function sendEmail(){
 
 <div class="wrap">
   <footer>
-    Guided Childhood. A picture, not a diagnosis. Answers stored anonymously for research.<br>
+    Guided Childhood. A picture, not a diagnosis. Nothing is stored on this page.<br>
     guidedchildhood.com/digitalwellbeing
   </footer>
 </div>
