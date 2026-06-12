@@ -1,7 +1,7 @@
 {
   "agent": "herald",
-  "run_count": 1,
-  "last_updated": "2026-06-10",
+  "run_count": 2,
+  "last_updated": "2026-06-12",
   "strategic_targets": {
     "speaking_circuit": {
       "description": "The Wrong Villain series IS a conference keynote. β = 0.061 is the hook. 164 people argued in the comments — that is an engaged audience.",
@@ -60,12 +60,20 @@
     {
       "date": "2026-06-10",
       "action": "Email this pitch to Dan Milmo and Robert Booth at the Guardian technology desk this morning, headed \"Reaction ready: who decides what 'safer' social media means?\", with the five-test checklist attached and the founder on standby for the moment the speech lands."
+    },
+    {
+      "date": "2026-06-12",
+      "action": "Email this pitch to Robert Booth and Dan Milmo at the Guardian today, subject line \"The 90-day clock runs through the school holidays — expert ready on what parents do now,\" with the founder on standby for same-day comment."
     }
   ],
   "recent_questions": [
     {
       "date": "2026-06-10",
       "question": "Has the founder approved going on record advocating a standards-based \"safer platform\" definition — and are we comfortable being publicly seen to benefit commercially from the carve-out we'd be lobbying for?"
+    },
+    {
+      "date": "2026-06-12",
+      "question": "Has the founder agreed to be positioned on the emotionally heavy CSAM/sexting beat specifically (not just the \"design/literacy\" beat), since that determines whether I can lead future pitches with this harder, higher-cut-through news peg?"
     }
   ],
   "notes_to_self": "Herald has two jobs: (1) get Justin on stages — speaking is both revenue and top-of-funnel. (2) get the Wrong Villain thesis into press coverage — credibility that no amount of LinkedIn posts can buy. Prioritise speaking circuit first. Each talk = £3K–£8K + hundreds of new GUIDE funnel entries."

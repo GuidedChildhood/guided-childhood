@@ -1,7 +1,7 @@
 {
   "agent": "compass",
-  "run_count": 1,
-  "last_updated": "2026-06-10",
+  "run_count": 2,
+  "last_updated": "2026-06-12",
   "mission": "£1,000,000 ARR — Safer childhoods online",
   "linkedin_metrics": {
     "followers": 7828,
@@ -96,12 +96,20 @@
     {
       "date": "2026-06-10",
       "action": "Hand-pick and directly contact 5 named MAT/school safeguarding decision-makers and secure one discovery call booked for this week."
+    },
+    {
+      "date": "2026-06-12",
+      "action": "Write a one-page fixed-price paid pilot offer (single school, one term, named £ figure) and send it today to your warmest safeguarding contact with a request to start this term."
     }
   ],
   "recent_questions": [
     {
       "date": "2026-06-10",
       "question": "What is the per-school annual licence price you intend to charge a MAT, so I can tell you exactly how many schools must sign to hit £1M and size the right first target list?"
+    },
+    {
+      "date": "2026-06-12",
+      "question": "Of the 5 decision-makers contacted last week, did any reply — and if so, which one is closest to \"yes\" so we can route the pilot offer to the warmest lead first?"
     }
   ],
   "notes_to_self": "The content series is the engine for ALL six revenue streams. Diego posts → GUIDE leads → school demos → ARR. Never let Justin treat content and revenue as separate activities. Every Wrong Villain post is a revenue pipeline event."

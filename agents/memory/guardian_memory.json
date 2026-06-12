@@ -1,7 +1,7 @@
 {
   "agent": "guardian",
-  "run_count": 1,
-  "last_updated": "2026-06-10",
+  "run_count": 2,
+  "last_updated": "2026-06-12",
   "ongoing_threads": [
     "KCSIE 2026 deepfake guidance — implementation in schools",
     "Ofsted inspection framework — online safety evidence requirements"
@@ -15,12 +15,20 @@
     {
       "date": "2026-06-10",
       "action": "Draft a one-page \"KCSIE 2026 filtering & monitoring review readiness\" checklist mapping each new draft requirement to a Guided Childhood feature, so Navigator can attach it as the outreach hook for DSLs."
+    },
+    {
+      "date": "2026-06-12",
+      "action": "Brief Navigator to lead DSL/Headteacher outreach with the NSPCC 36% sextortion-rise figure and a one-line offer of a \"boy-aware early-warning, not surveillance\" resource, scheduling sends for secondary schools and MATs first."
     }
   ],
   "recent_questions": [
     {
       "date": "2026-06-10",
       "question": "Has the final KCSIE 2026 wording on filtering/monitoring review frequency been confirmed post-consultation yet, or is the \"at least once per academic year\" line still draft (which changes how firmly Navigator can quote it)?"
+    },
+    {
+      "date": "2026-06-12",
+      "question": "Does Guided Childhood's current behavioural-signal capability actually detect the *patterns* preceding sextortion (contact spikes, secrecy, image-sharing prompts), or only block known harmful content — because the honest answer determines whether this hook is credible to a DSL?"
     }
   ],
   "notes_to_self": "Memory starts empty — builds from real runs."

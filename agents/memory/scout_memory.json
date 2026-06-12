@@ -1,7 +1,7 @@
 {
   "agent": "scout",
-  "run_count": 1,
-  "last_updated": "2026-06-10",
+  "run_count": 2,
+  "last_updated": "2026-06-12",
   "high_signal_topics": [
     "UK government tech regulation and social media (Starmer, DCMS, DSIT)",
     "Online Safety Act enforcement and Ofcom fines",
@@ -47,12 +47,20 @@
     {
       "date": "2026-06-10",
       "action": "Draft a short \"Guided Childhood is the compliant alternative\" positioning note pegged to Starmer's imminent under-16 ban and the 90-day device-control deadline, and get it in front of Navigator and Herald before the PM's speech lands."
+    },
+    {
+      "date": "2026-06-12",
+      "action": "Get the \"Guided Childhood is the compliant safe-platform\" one-pager finalised and into Navigator's and Herald's hands TODAY — map GC's features line-by-line against (a) Starmer's 90-day device-control demand and (b) the Children's Commissioner's \"banned design features\" list, so we're ready the hour the PM speaks before the 18 June by-election."
     }
   ],
   "recent_questions": [
     {
       "date": "2026-06-10",
       "question": "Will the announced ban define \"harmful\" vs \"safer\" social media in a way that explicitly carves out supervised children's platforms like ours — and do we want to lobby for that carve-out?"
+    },
+    {
+      "date": "2026-06-12",
+      "question": "Which of the three Starmer options (outright ban / feature restrictions / \"safe platforms allowed\") is the PM most likely to choose — and does GC want to be classed *as* a permitted \"safer platform\" or positioned as the compliance/age-assurance layer that other platforms buy in?"
     }
   ],
   "notes_to_self": "The Wrong Villain series is Justin's highest-performing content. When you find a meta-analysis or effect size study on social media and youth mental health, flag it prominently for Diego. The 46-study, 79 effect size β = 0.061 finding was the hook for 59K impressions. Find the next one."

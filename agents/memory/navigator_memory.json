@@ -1,7 +1,7 @@
 {
   "agent": "navigator",
-  "run_count": 1,
-  "last_updated": "2026-06-10",
+  "run_count": 2,
+  "last_updated": "2026-06-12",
   "strategic_context": {
     "mission": "Navigator's role in the £1M plan: convert LinkedIn reach into school demos and signed contracts",
     "funnel": "Wrong Villain post → GUIDE comment → framework DM → device guide → demo → school subscription (£500–£2,000/year)",
@@ -37,12 +37,20 @@
     {
       "date": "2026-06-10",
       "action": "Verify and send message #2 first — find the named Trust Safeguarding Lead at a 10+ academy MAT (the NSPCC 36% + 90-day deadline combo is the most urgent, highest-value hook) and fire the connection request before the PM's speech lands this week."
+    },
+    {
+      "date": "2026-06-12",
+      "action": "Verify and send message #1 to the named Trust/Regional Safeguarding Lead at a 10+ academy secondary MAT now — the NSPCC 36% boy-aware sextortion hook is the most urgent, highest-multiplier send and must land before the PM's speech this week."
     }
   ],
   "recent_questions": [
     {
       "date": "2026-06-10",
       "question": "Has the final KCSIE 2026 wording confirmed the \"at least once per academic year\" filtering/monitoring review line post-consultation (per Guardian's open question), so I know whether I can quote it as statutory fact or must hedge it as \"draft\" in messages #1 and #4?"
+    },
+    {
+      "date": "2026-06-12",
+      "question": "Does GC's behavioural-signal capability actually detect the *patterns* preceding sextortion (contact spikes, secrecy, image-sharing prompts), or only block known harmful content — because the honest answer decides whether messages #1 and #2 are credible to a DSL?"
     }
   ],
   "notes_to_self": "Every outreach message has one goal: get a 20-minute demo booked. Not to explain the product. Not to share a link. One demo request. The GUIDE funnel does the warming — Navigator converts the warm leads into conversations."
