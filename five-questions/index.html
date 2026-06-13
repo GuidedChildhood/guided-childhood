@@ -140,17 +140,6 @@
     margin-top:14px;line-height:1.7;
   }
 
-  .emailrow{display:flex;flex-direction:column;gap:12px;margin-top:16px}
-  .emailrow input{
-    border:2px solid var(--ink);border-radius:999px;padding:14px 20px;
-    font-family:'Hanken Grotesk',sans-serif;font-size:16px;background:var(--cream);
-  }
-  .emailrow input:focus-visible{outline:3px solid var(--green);outline-offset:2px}
-  .sentnote{
-    display:none;font-family:'IBM Plex Mono',monospace;font-size:12.5px;
-    color:var(--green);margin-top:10px;font-weight:600;
-  }
-
   .safety{
     margin-top:34px;padding:18px 20px;border-radius:16px;
     background:#fff;border:1.5px dashed var(--ink);
@@ -194,22 +183,6 @@
 </div>
 
 <script>
-/* =========================================================
-   JP: Mailchimp setup, you do this yourself, no dev needed.
-   1. In Mailchimp create six merge fields on your audience
-      with these exact tags: Q1, Q2, Q3, Q4, Q5, CHANGES
-      (text fields, not required, hidden from signup forms).
-   2. Create an automation triggered by the tag FIVEQ that
-      sends people their answers using those merge tags.
-   3. Get your embedded form action URL from
-      Audience > Signup forms > Embedded forms. It looks like
-      https://xxxx.usX.list-manage.com/subscribe/post?u=AAAA&id=BBBB
-      Paste it below and change /post to /post-json.
-   Answers arrive as 0, 1 or 2 in question order. For Q1 to Q4
-   that means no change, a little, yes clearly. For Q5 it means
-   knows the feed, roughly, no idea.
-   ========================================================= */
-const MAILCHIMP_URL = "https://PASTE.usX.list-manage.com/subscribe/post-json?u=PASTE_U&id=PASTE_ID";
 const REPORT_URL = "https://guidedchildhood.com/digitalwellbeing";
 
 const QUESTIONS = [
@@ -341,51 +314,10 @@ function renderResult(){
       '<p class="ctaprice">Single report £9.99. No subscription. Your child needs no login and raw files are deleted after analysis.</p>' +
     '</div>' +
 
-    '<div class="rblock white">' +
-      '<h2>Want your answers by email?</h2>' +
-      '<p>We will send you your five answers and a short note on what each one can mean.</p>' +
-      '<div class="emailrow">' +
-        '<input type="email" id="emailInput" placeholder="you@email.com" aria-label="Your email address">' +
-        '<button class="pillbtn" onclick="sendEmail()">Send my answers</button>' +
-      '</div>' +
-      '<div class="sentnote" id="sentNote">Done. Check your inbox shortly.</div>' +
-    '</div>' +
-
     '<div class="safety"><b>If you are seriously worried.</b> If your child has talked about harming themselves or you are worried about their immediate safety, this tool is not the right step. Speak to your GP, call 111, or contact CAMHS directly. Serious signals always mean talking to a professional.</div>';
 }
 
-function buildPayload(email){
-  return {
-    q1:answers[0], q2:answers[1], q3:answers[2], q4:answers[3], q5:answers[4],
-    changes: answers.slice(0,4).filter(a=>a>0).length,
-    email: email || "",
-    ts: new Date().toISOString()
-  };
-}
 
-function sendToMailchimp(email){
-  // JSONP submit so it works from a static page with no backend.
-  const p = buildPayload(email);
-  const cb = "mcDone" + Date.now();
-  window[cb] = function(){ delete window[cb]; };
-  const qs =
-    "&EMAIL=" + encodeURIComponent(email) +
-    "&Q1=" + p.q1 + "&Q2=" + p.q2 + "&Q3=" + p.q3 +
-    "&Q4=" + p.q4 + "&Q5=" + p.q5 +
-    "&CHANGES=" + p.changes +
-    "&tags=FIVEQ" +
-    "&c=" + cb;
-  const s = document.createElement("script");
-  s.src = MAILCHIMP_URL + qs;
-  document.body.appendChild(s);
-}
-
-function sendEmail(){
-  const v = document.getElementById('emailInput').value.trim();
-  if(!v || v.indexOf('@')<0){ document.getElementById('emailInput').focus(); return; }
-  try{ sendToMailchimp(v); }catch(e){}
-  document.getElementById('sentNote').style.display='block';
-}
 </script>
 
 <div class="wrap">
