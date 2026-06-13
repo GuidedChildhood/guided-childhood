@@ -140,17 +140,6 @@
     margin-top:14px;line-height:1.7;
   }
 
-  .emailrow{display:flex;flex-direction:column;gap:12px;margin-top:16px}
-  .emailrow input{
-    border:2px solid var(--ink);border-radius:999px;padding:14px 20px;
-    font-family:'Hanken Grotesk',sans-serif;font-size:16px;background:var(--cream);
-  }
-  .emailrow input:focus-visible{outline:3px solid var(--green);outline-offset:2px}
-  .sentnote{
-    display:none;font-family:'IBM Plex Mono',monospace;font-size:12.5px;
-    color:var(--green);margin-top:10px;font-weight:600;
-  }
-
   .safety{
     margin-top:34px;padding:18px 20px;border-radius:16px;
     background:#fff;border:1.5px dashed var(--ink);
@@ -177,12 +166,12 @@
   <section class="stage active" id="stage-intro">
     <span class="eyebrow">A one minute check for parents</span>
     <h1>The five questions a doctor would ask.</h1>
-    <p class="lede">If you took your child to a GP and said something feels off, these are the things they would want to know first. Not screen time. Not which apps. These.</p>
-    <p class="lede small">Five questions. Under a minute. There are no right answers, only honest ones.</p>
+    <p class="lede">Whether you have noticed something that concerns you, or you simply want to understand your child's digital world better, these are the things a doctor would want to know first. Not screen time. Not which apps. These.</p>
+    <p class="lede small">Five questions. Under a minute. Some changes in sleep and mood are part of normal adolescent development — this check helps you tell the difference. There are no right answers, only honest ones.</p>
     <div class="startblock">
       <button class="pillbtn" onclick="goTo(1)">Start the check</button>
     </div>
-    <p class="micro">Nothing is stored. Your answers stay on this page and disappear when you close it.</p>
+    <p class="micro">Your answers are stored anonymously and used for research into children's digital wellbeing. No names. No child data. Nothing identifiable.</p>
   </section>
 
   <!-- ============ QUESTIONS (built by JS) ============ -->
@@ -194,43 +183,6 @@
 </div>
 
 <script>
-/* =========================================================
-   JP: Mailchimp setup, you do this yourself, no dev needed.
-   1. In Mailchimp create six merge fields on your audience
-      with these exact tags: Q1, Q2, Q3, Q4, Q5, CHANGES
-      (text fields, not required, hidden from signup forms).
-   2. Create an automation triggered by the tag FIVEQ that
-      sends people their answers using those merge tags.
-   3. Get your embedded form action URL from
-      Audience > Signup forms > Embedded forms. It looks like
-      https://xxxx.usX.list-manage.com/subscribe/post?u=AAAA&id=BBBB
-      Paste it below and change /post to /post-json.
-   Answers arrive as 0, 1 or 2 in question order. For Q1 to Q4
-   that means no change, a little, yes clearly. For Q5 it means
-   knows the feed, roughly, no idea.
-   ========================================================= */
-const MAILCHIMP_URL = "https://PASTE.usX.list-manage.com/subscribe/post-json?u=PASTE_U&id=PASTE_ID";
-
-/* JP: tagging by answer.
-   Embedded forms need tag IDs, not names. Ten minute job:
-   1. In Mailchimp go to Audience > Tags and create these seven:
-      5Q-TAKEN, 5Q-SLEEP, 5Q-WITHDRAWN, 5Q-MOOD, 5Q-SELFTALK,
-      5Q-FEEDBLIND, 5Q-HIGH
-   2. Click each tag. The number at the end of the browser URL
-      is its ID. Paste each ID between the quotes below.
-   How they fire: TAKEN on everyone, the four change tags when
-   a parent answered a little or yes clearly, FEEDBLIND when
-   they said no idea about the feed, HIGH when 3 or more
-   changes stacked. Trigger your answers automation off 5Q-TAKEN. */
-const TAG_IDS = {
-  taken:     "",   // 5Q-TAKEN
-  sleep:     "",   // 5Q-SLEEP
-  withdrawn: "",   // 5Q-WITHDRAWN
-  mood:      "",   // 5Q-MOOD
-  selftalk:  "",   // 5Q-SELFTALK
-  feedblind: "",   // 5Q-FEEDBLIND
-  high:      ""    // 5Q-HIGH
-};
 const REPORT_URL = "https://guidedchildhood.com/digitalwellbeing";
 
 const QUESTIONS = [
@@ -331,13 +283,13 @@ function renderResult(){
     '<div class="rblock lav">' +
       '<h2>The question you could not answer.</h2>' +
       '<p>You said '+feedLine+'. That is true for almost every parent who takes this check, and it is the one question that matters most. The feed is where mood, sleep and self talk are shaped, hour after hour.</p>' +
-      '<p>The Digital Health Report answers it directly. It reads your child\u2019s own platform data, shows you what the algorithm has learned about them, flags worrying patterns, and gives you five priority actions. If it finds serious signals, you get a one page summary you can take straight to your GP.</p>' +
+      '<p>The Digital Health Report answers it directly. It reads your child’s own platform data, shows you what the algorithm has learned about them, flags worrying patterns, and gives you five priority actions. If it finds serious signals, you get a one page summary you can take straight to your GP.</p>' +
     '</div>';
   } else {
     feedBlock =
     '<div class="rblock lav">' +
       '<h2>You know their feed. Most parents do not.</h2>' +
-      '<p>That puts you ahead. The Digital Health Report goes one layer deeper. It reads your child\u2019s own platform data and shows what the algorithm has learned about them, the patterns a parent cannot spot by watching over a shoulder, and five priority actions. If it finds serious signals, you get a one page summary you can take straight to your GP.</p>' +
+      '<p>That puts you ahead. The Digital Health Report goes one layer deeper. It reads your child’s own platform data and shows what the algorithm has learned about them, the patterns a parent cannot spot by watching over a shoulder, and five priority actions. If it finds serious signals, you get a one page summary you can take straight to your GP.</p>' +
     '</div>';
   }
 
@@ -359,63 +311,18 @@ function renderResult(){
       '<h2>See the full picture.</h2>' +
       '<p>This check gives you a snapshot. The report gives you sight. It is a picture, not a diagnosis, built for parents of children aged 8 to 16.</p>' +
       '<a class="pillbtn green" href="'+REPORT_URL+'">Run the Digital Health Report</a>' +
-      '<p class="ctaprice">Single report \u00A39.99. No subscription. Your child needs no login and raw files are deleted after analysis.</p>' +
+      '<p class="ctaprice">Single report £9.99. No subscription. Your child needs no login and raw files are deleted after analysis.</p>' +
     '</div>' +
-
 
     '<div class="safety"><b>If you are seriously worried.</b> If your child has talked about harming themselves or you are worried about their immediate safety, this tool is not the right step. Speak to your GP, call 111, or contact CAMHS directly. Serious signals always mean talking to a professional.</div>';
 }
 
-function buildPayload(email){
-  return {
-    q1:answers[0], q2:answers[1], q3:answers[2], q4:answers[3], q5:answers[4],
-    changes: answers.slice(0,4).filter(a=>a>0).length,
-    email: email || "",
-    ts: new Date().toISOString()
-  };
-}
 
-/* Email capture removed for launch. The sendToMailchimp and
-   sendEmail functions and the TAG_IDS setup above stay here
-   unused, so the email option can be switched back on later
-   without rebuilding. */
-function sendToMailchimp(email){
-  // JSONP submit so it works from a static page with no backend.
-  const p = buildPayload(email);
-  const tags = [];
-  if(TAG_IDS.taken) tags.push(TAG_IDS.taken);
-  if(p.q1 > 0 && TAG_IDS.sleep)     tags.push(TAG_IDS.sleep);
-  if(p.q2 > 0 && TAG_IDS.withdrawn) tags.push(TAG_IDS.withdrawn);
-  if(p.q3 > 0 && TAG_IDS.mood)      tags.push(TAG_IDS.mood);
-  if(p.q4 > 0 && TAG_IDS.selftalk)  tags.push(TAG_IDS.selftalk);
-  if(p.q5 === 2 && TAG_IDS.feedblind) tags.push(TAG_IDS.feedblind);
-  if(p.changes >= 3 && TAG_IDS.high)  tags.push(TAG_IDS.high);
-
-  const cb = "mcDone" + Date.now();
-  window[cb] = function(){ delete window[cb]; };
-  const qs =
-    "&EMAIL=" + encodeURIComponent(email) +
-    "&Q1=" + p.q1 + "&Q2=" + p.q2 + "&Q3=" + p.q3 +
-    "&Q4=" + p.q4 + "&Q5=" + p.q5 +
-    "&CHANGES=" + p.changes +
-    (tags.length ? "&tags=" + tags.join(",") : "") +
-    "&c=" + cb;
-  const s = document.createElement("script");
-  s.src = MAILCHIMP_URL + qs;
-  document.body.appendChild(s);
-}
-
-function sendEmail(){
-  const v = document.getElementById('emailInput').value.trim();
-  if(!v || v.indexOf('@')<0){ document.getElementById('emailInput').focus(); return; }
-  try{ sendToMailchimp(v); }catch(e){}
-  document.getElementById('sentNote').style.display='block';
-}
 </script>
 
 <div class="wrap">
   <footer>
-    Guided Childhood. A picture, not a diagnosis. Nothing is stored on this page.<br>
+    Guided Childhood. A picture, not a diagnosis. Answers stored anonymously for research.<br>
     guidedchildhood.com/digitalwellbeing
   </footer>
 </div>
