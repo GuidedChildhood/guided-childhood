@@ -1,9 +1,7 @@
 name: Daily Agent Briefing
 
 on:
-  schedule:
-    - cron: '0 7 * * *'   # 07:00 UTC (08:00 BST) every day
-  workflow_dispatch: {}     # allow manual runs from the Actions tab
+  workflow_dispatch: {}     # manual only — trigger from Actions tab or by request
 
 permissions:
   contents: write           # needed to push outputs and memory back to the repo

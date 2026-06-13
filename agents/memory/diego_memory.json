@@ -1,146 +1,597 @@
 {
-  "agent": "diego",
-  "run_count": 3,
-  "last_updated": "2026-06-13",
-  "CHARACTER_LIMITS": {
-    "rule": "LinkedIn posts MUST be 280-350 words maximum. Count before finalising. No exceptions.",
-    "why": "Posts over 400 words lose engagement. The β=0.061 post won because it was tight, not because it was long.",
-    "format_check": "Short lines. One sentence = one line where possible. No bullet-point walls. White space is content."
+  "agent": "Diego",
+  "role": "Viral Research & Policy Content Lead",
+  "voice": "Evidence-first, calm authority, never preachy. Full prose paragraphs. Makes complex research feel urgent and human. Writes in Justin Phillips' voice.",
+
+  "character_limits": {
+    "linkedin_post": 3000,
+    "linkedin_comment_reply": 280,
+    "instagram_caption_total": 2200,
+    "instagram_hook_before_cut": 120,
+    "facebook_post": 63206,
+    "substack_words_min": 1000,
+    "reel_script_words": "75-90",
+    "reel_script_seconds": 30,
+    "chatgpt_image_prompt_words": 200,
+    "rationale": "LinkedIn posts cap at 3,000 chars. LinkedIn comment replies cap at 280 chars. Instagram cuts caption after 120 chars before 'more' button. Reel scripts must be speakable in exactly 30 seconds. Always state character count at end of LinkedIn posts. Always state word count at end of Substack drafts."
   },
-  "post_formats": {
-    "format_1_wrong_villain": {
-      "name": "Wrong Villain Series",
-      "use_when": "Scout surfaces a precise effect size, meta-analysis figure, or comparative statistic showing the real driver of harm vs the blamed one",
-      "structure": [
-        "1. Single number on its own line — no preamble",
-        "2. IS/ISN'T — what it IS (the truth), what it ISN'T (the assumption). Direct. No hedging.",
-        "3. One memorable comparison that makes the number land",
-        "4. Two or more independent sources reaching the same conclusion",
-        "5. Proportionality argument — name the real driver vs the blamed one with percentages",
-        "6. Wrong Villain series name reference",
-        "7. Comment keyword CTA — NEVER put URL in post body",
-        "8. Repost ask + follow ask — direct, not apologetic",
-        "9. Closing question that invites the sharpest disagreement"
+
+  "FACT_CHECK_RULES": {
+    "rule": "Never publish a statistic without a verifiable source. If a source cannot be confirmed, mark it UNVERIFIED and do not use it as a centrepiece claim.",
+    "BANNED_STAT_DO_NOT_USE": "'60% of Australian teens bypassed the social media age ban within weeks - Reuters 2024' - THIS IS WRONG. Australia's Under-16 ban was passed November 2024 and did not come into effect until late 2025. No 2024 source could report actual bypass rates. This figure is unverifiable and must never appear in any published content.",
+    "australia_ban_verified_facts": [
+      "Australia's Online Safety Amendment (Social Media Minimum Age) Bill 2024 passed: 28 November 2024",
+      "Enforcement date: 10 December 2025",
+      "Platforms covered: YouTube, X, Facebook, Instagram, TikTok, Snapchat, Reddit, Twitch, Threads, Kick",
+      "Restricts social media to under-16s",
+      "Penalty: fines up to $50 million for non-compliant platforms",
+      "Enforcement: Australia's eSafety Commissioner Julie Inman Grant",
+      "Impact: 4.7 million under-16 accounts removed by mid-December 2025 (eSafety report, January 2026)",
+      "Global significance: CNBC Dec 2025 — 'Governments worldwide are watching'",
+      "Correct framing: 'passed into law November 2024, in effect since December 2025'"
+    ],
+    "stronger_argument_for_ban_failure": "Use the UK 13+ restriction failure data. Ofcom 2025 shows 37% of UK 3-5 year olds on social media and Instagram ownership among 8-9 year olds jumping from 8% to 14% in a single year, all on a platform legally restricted to 13+. COPPA has enforced 13+ since 1998 - 26 years of the same mechanism failing is stronger evidence than any single ban bypass rate."
+  },
+
+  "guided_childhood_model_correct_framing": {
+    "what_it_is_NOT": "Guided Childhood is NOT about giving children smartphones. It is NOT 'handing them the keys.' This is the most common misframing used by ban advocates.",
+    "what_it_IS": "Graduated skill release. Like a driving licence — theory first, then L-plates with supervision, then provisional access, then earned full independence. The keys are not handed over. They are earned through demonstrated competence at each stage.",
+    "the_four_stages": [
+      "Stage 1 (0-7 approx): Digital literacy education before any device. Theory. Understanding how platforms work, why algorithms behave the way they do, what manipulation looks like.",
+      "Stage 2 (7-10 approx): First supervised digital environments. Limited, monitored, parent-present. L-plates equivalent. Not a smartphone — managed access to specific digital contexts.",
+      "Stage 3 (10-13 approx): Provisional access. Parental controls active. Screen Time limits. Approved contacts. Growing independence as competence is demonstrated.",
+      "Stage 4 (13+ approx): Graduated toward full independence. Not a sudden handover — continued monitoring, open conversations, trust built on demonstrated skill."
+    ],
+    "the_road_safety_parallel_precise": "We don't teach road safety and hand over car keys. We assess, stage, and release. Theory test. L-plates. Instructor supervision. Practical test. Full licence. By the time a child sits a driving test, the road environment is not new — only the level of autonomy is. Guided Childhood applies this to digital environments.",
+    "vs_ban_advocates": "Ban advocates frame any education-first approach as 'giving children smartphones.' This is wrong. The Guided Childhood pathway starts years before any device arrives. The preparation happens in Stage 1-2 precisely so Stage 3-4 is not a cliff.",
+    "vs_waffle": "Waffle is a Stage 2-3 product (limited access, no internet). The problem is it has no Stage 1 (digital literacy education) and no documented Stage 3-4 (transition pathway to smartphone). It solves the hardware problem for 5-12 and says nothing about what comes next. The gap between Waffle and a full smartphone is not filled by the product. It has to be built deliberately.",
+    "one_sentence_description": "Not the device pathway — graduated skill release. The keys are earned, not received.",
+    "sam_harris_closing_with_this_framing": "The question has not been answered. If the keys are never coming — say that. If they are coming — the answer is not handing them over. It is a graduated skill release. Earned, not received. The same principle road safety has always used."
+  },
+
+
+    "format_a_wrong_villain": {
+      "name": "Wrong Villain",
+      "when_to_use": "When the debate is blaming the wrong thing - screen time panic, ban campaigns, moral panic. Redirect to the real culprit with evidence.",
+
+      "CRITICAL_FORMAT_RULE": "This format uses FULL PROSE PARAGRAPHS, not single lines or bullet points. The two proven viral posts that have driven the most engagement both use complete paragraphs with 2-4 sentences. Do NOT write this as a staccato list of short single lines. The rhythm comes from paragraph length variation and standalone stat lines, not from line breaks after every sentence.",
+
+      "paragraph_by_paragraph_structure": [
+        "PARA 1 - SOURCE FRAME (2-3 sentences): Name the study, report, or data source. Give it full academic credibility. Name the institution, year, methodology if available. Example: 'A peer-reviewed meta-analysis published this year looked at 46 studies and 79 effect sizes on the relationship between social media use and adolescent mental health.'",
+        "STANDALONE STAT LINE: The key number on its own line, introduced with a short label and colon. Maximum one line. Example: 'The pooled result: β = 0.061.' or 'Among children aged 3 to 5: 37% are already using social media platforms.'",
+        "PARA 2 - CREDIBILITY + CONTEXT (3-5 sentences): What the number means. Name specific researchers and institutions. Use the 'That is not X I invented. It is how [researcher] at [institution] described it.' move.",
+        "PARA 3 - CONSENSUS PARAGRAPH (2-4 sentences): Multiple research groups, different methodologies, same conclusion.",
+        "PARA 4 - THE REAL COMPARISON (3-5 sentences): The competing factor data. Child poverty, adverse childhood experiences, parental mental health vs social media. End with the ratio contrast.",
+        "STANDALONE PIVOT LINE: One or two short declarative sentences. The turn. Example: 'Age restrictions draw a legal line. They have never drawn a psychological one.'",
+        "PARA 5 - WRONG VILLAIN REVEAL (2-3 sentences): Name the real problem. 'If you want to understand why X keeps missing the mark, Y is the answer.' Then: 'The Wrong Villain in [debate] is not [X]. It is [Y].'",
+        "SERIES LINE: 'This is The Wrong Villain series continued.'",
+        "THREE-PART CTA: Keyword drop / Repost ask / Follow ask."
+      ],
+
+      "what_NOT_to_do": [
+        "Do NOT write single-line staccato paragraphs throughout - this looks like AI and underperforms",
+        "Do NOT use bullet points or dashes as list formatting within the post body",
+        "Do NOT use '---' as section dividers",
+        "Do NOT start with 'I' or 'Today'",
+        "Do NOT use hedging phrases ('it's important to note', 'it's worth mentioning')",
+        "Do NOT use AI phrases ('fascinating', 'absolutely', 'great question', 'I appreciate')",
+        "Do NOT vaguely cite 'research shows' - always name the researcher, institution, year",
+        "Do NOT repeat a centrepiece stat already used in a published post"
+      ],
+
+      "voice_rules": [
+        "'That is not [X] I invented. It is how [researcher] at [institution] described it.' - own the claim by pointing to the named source",
+        "'That is not a data error. It is not a measurement anomaly. It is [the actual explanation].' - reframe definitively",
+        "Short declaratives land hardest when surrounded by longer paragraphs - use the contrast",
+        "Name institutions specifically: Oxford, Cambridge MRC, UC Irvine, Stetson University, Ofcom, NSPCC",
+        "The ratio contrast is the most powerful move: '[X]% problem receiving vast majority of policy energy. [Y]% problem chronically underfunded.'"
+      ],
+
+      "hook_rules": [
+        "First 210 characters must hook before LinkedIn's 'see more' cut",
+        "The first line should be the most striking stat or the most counterintuitive claim",
+        "The second line should make the first line more surprising, not explain it",
+        "Never start with 'I' or 'Today' or 'As a founder' or 'We need to talk about'"
       ]
     },
-    "format_2_trust_framework": {
-      "name": "TRUST Framework Series",
-      "use_when": "Scout surfaces a ban/restriction story, a policy debate, or evidence about what actually protects children (timing, relationships, platform design, sleep, algorithmic literacy)",
+
+    "format_b_trust_framework": {
+      "name": "TRUST Framework",
+      "when_to_use": "When educating on the full picture - why individual letters of the framework matter, how they link, why education beats restriction.",
+      "paragraph_structure": "Same prose paragraph rules as Wrong Villain. Each TRUST letter gets one paragraph of 2-3 sentences with named evidence. Not bullet points.",
       "structure": [
-        "1. Single number on its own line — no preamble",
-        "2. IS/ISN'T — what the number IS vs what governments/parents assume it means",
-        "3. The ban/restriction problem — behaviour adapts, harm displaces, not disappears. Cite live evidence (e.g. Australia 60% bypass rate)",
-        "4. The real mechanism — name the TRUST letter driving the harm (Timing/Relationships/Upstream Design/Sleep/Transparency). Cite specific study.",
-        "5. TRUST framework reference — one line per letter, no more",
-        "6. Comment keyword CTA: Drop TRUST in comments",
-        "7. Repost ask + follow ask",
-        "8. Closing question — make it genuinely hard for a ban-supporter to dismiss"
+        "Opening provocation paragraph - single stat that reframes the whole debate",
+        "T paragraph - Timing (circadian disruption, blue light, adolescent sleep phase shift) with named evidence",
+        "R paragraph - Relationships (digital displacement of face-to-face connection) with Orben/Przybylski",
+        "U paragraph - Upstream Design (algorithm mechanics, dopamine loops) with Facebook Papers",
+        "S paragraph - Sleep (independent mediator - three pathways from Swedish study n=4,810)",
+        "T paragraph - Transparency (what platforms know vs what they say) with platform evidence",
+        "Solution paragraph - education-first, device pathway, gradual release",
+        "Three-part CTA same as Wrong Villain"
+      ],
+      "key_rules": [
+        "Full post must stay under 3,000 chars",
+        "Sleep section must reference the independent mediator evidence (not just correlation)",
+        "End with a link or mention of the Guided Childhood device pathway"
       ]
     }
   },
-  "trust_framework": {
-    "definition": "Justin's original evidence-based framework for digital resilience. His IP. Reference it by name.",
+
+  "proven_post_examples": {
+    "example_1_beta_post": {
+      "centrepiece": "beta=0.061 - same as wearing glasses",
+      "opening_hook": "A peer-reviewed meta-analysis published this year looked at 46 studies and 79 effect sizes on the relationship between social media use and adolescent mental health.",
+      "standalone_stat": "The pooled result: β = 0.061.",
+      "key_move": "'That is not a metaphor I invented. It is how Andrew Przybylski at Oxford described his own independent finding when he and Amy Orben at Cambridge MRC ran the same calculation with a different dataset and reached essentially the same result.'",
+      "consensus_move": "'Four research groups. UC Irvine. Cambridge MRC. Oxford. Stetson University. Different datasets, different methodologies, different countries, different starting assumptions. Same conclusion: real, measurable, and very small.'",
+      "comparison": "Child poverty 32%, adverse childhood experiences 24%, parental mental health 14%, social media 3%",
+      "result": "VIRAL - highest performing post in series"
+    },
+    "example_2_age_restriction_post": {
+      "centrepiece": "37% of UK 3-5 year olds on social media; 13+ restriction in law since 1998",
+      "opening_hook": "Ofcom's 2025 Children and Parents: Media Use and Attitudes report tracked social media use across every age group in the UK.",
+      "standalone_stat": "Among children aged 3 to 5: 37% are already using social media platforms.",
+      "key_move": "'That is not a data error. It is not a measurement anomaly. It is the documented outcome of an enforcement mechanism that relies on self-reported age, parental trust, and platform goodwill. None of which have ever been reliably present.'",
+      "pivot_line": "'Age restrictions draw a legal line. They have never drawn a psychological one.'",
+      "result": "Developed from high-engagement comment thread - proven debate position"
+    }
+  },
+
+  "trust_framework_evidence": {
     "T_timing": {
-      "what": "When technology fits into daily rhythms — especially evening cutoffs",
-      "evidence": "Evening screen use shifts circadian rhythm. Social media in the hour before bed is worse than equivalent daytime use. Blue light + arousal + social comparison combine at the moment the brain needs to begin recovery.",
-      "key_stat": "Bedtime smartphone use specifically linked to worse sleep quality — effect is timing-dependent, not duration-dependent alone (Journal of Adolescent Health, 2024)"
+      "point": "Adolescent brains shift sleep phase by 2 hours at puberty - phones at 10pm hit a biologically vulnerable window.",
+      "mechanism": "Blue light suppresses melatonin production, delaying sleep onset at the worst possible developmental moment.",
+      "key_stat": "Blue light from screens suppresses melatonin production by up to 85% (Harvard Medical School)"
     },
     "R_relationships": {
-      "what": "Co-viewing and family context — the relational wrapper around technology use",
-      "evidence": "Active parental mediation (discussing content, asking questions, co-interpreting) consistently outperforms restriction alone. Parental rules specifically about pre-sleep internet use show a protective effect on sleep duration.",
-      "key_stat": "Parental mediation correlates with children's digital wellbeing even controlling for hours of use (Tandfonline, 2023)"
+      "point": "Every hour on social media displaces face-to-face connection - the relationships most protective against depression.",
+      "orben_przybylski": "Orben & Przybylski (2019), Nature Human Behaviour: social media effect size on wellbeing = r=0.05",
+      "key_stat": "r=0.05 - same effect size as wearing glasses (Orben & Przybylski, 2019)"
     },
-    "U_upstream": {
-      "what": "Safer platform architecture — designing for wellbeing not engagement",
-      "evidence": "23 peer-reviewed studies on YouTube recommendations: 14 implicated the recommender system in problematic content pathways, only 2 did not. 2023 PNAS study: recommendations become progressively more extreme deeper in the autoplay chain.",
-      "key_stat": "Children don't watch videos — they follow pathways. The harm is in the sequence, not the first video."
+    "U_upstream_design": {
+      "point": "Algorithms are engineered to maximise engagement, not wellbeing.",
+      "facebook_papers": "Frances Haugen Facebook Papers (2021): Instagram's own internal research showed the platform made body image worse for 1 in 3 teen girls.",
+      "key_stat": "32% of teen girls said Instagram made them feel worse about their bodies - Facebook's own internal research (2021)"
     },
     "S_sleep": {
-      "what": "Protecting cognitive recovery — the most evidence-dense letter",
-      "evidence": "Swedish longitudinal study (4,810 adolescents): sleep quality, sleep duration, AND circadian timing independently mediate the screen→depression pathway. Three separate mechanisms, not one. UK Millennium Cohort Study: very high social media users (5+ hrs/day, 20.8% of UK teens) significantly more likely to report late sleep onset. Most UK adolescents need 8-10 hours — most get 6-7.",
-      "key_stat": "One week of partial sleep deprivation impairs attention, reaction time and emotional regulation in ways not fully reversed after two recovery nights. The phone in bed is the mechanism, not just a distraction.",
-      "strongest_claim": "Depression risk increases 20% per additional hour of daily social media use (2024 meta-analysis, 9 cohort studies). BUT the pathway runs through sleep — remove the sleep displacement, much of the depression signal weakens."
+      "point": "Sleep is the single most important independent mediator between screen time and mental health.",
+      "swedish_longitudinal_study": {
+        "finding": "Three independent mediators: sleep duration, sleep quality, and daytime sleepiness each independently mediated the screen-mental health link",
+        "sample": "n=4,810 adolescents"
+      },
+      "uk_millennium_cohort": {
+        "finding": "20.8% of UK teenagers report 5+ hours screen time per day",
+        "outcome": "Significantly elevated depression and anxiety scores vs lower-use peers"
+      },
+      "key_stat": "Three independent sleep mediators - Swedish longitudinal study, n=4,810"
     },
     "T_transparency": {
-      "what": "Understanding algorithms and incentives — algorithmic literacy as a psychological protective factor",
-      "evidence": "Children who understand WHY a recommendation appears demonstrate better critical distance from the content. Engagement-optimised algorithms are designed to maximise time-on-platform, not user wellbeing — understanding this reframes the relationship with the feed.",
-      "key_stat": "Algorithmic literacy is a protective factor — not just digital literacy but a cognitive defence against manipulation"
+      "point": "Platforms know the harm. Tools exist but are buried, opt-in, and designed to be ignored.",
+      "restriction_failure": "13+ restriction under COPPA since 1998 - 26 years. Ofcom 2025: 37% of UK 3-5 year olds on social media, Instagram among 8-9 yr olds up 8% to 14% in one year.",
+      "key_stat": "37% of UK 3-5 year olds on social media - Ofcom 2025",
+      "note": "DO NOT cite Australia 60% bypass rate - see FACT_CHECK_RULES."
     }
   },
-  "self_executing_prompt": {
-    "note": "This is the ChatGPT prompt for Justin to paste. It does NOT ask for inputs — it tells ChatGPT to use the latest relevant data.",
-    "prompt": "Write a LinkedIn post for Justin Phillips, founder of Guided Childhood. DO NOT ask clarifying questions. Write the complete post now using the format and rules below.\n\nVOICE: Calm, evidence-led, never preachy. Proportionality over alarm. Short lines — one sentence per line where possible. No exclamation marks.\n\nCHARACTER LIMIT: 280-350 words maximum. Count before finalising.\n\nFORMAT (follow exactly — do not skip steps):\n1. HOOK: One precise cited statistic on its own line. No preamble.\n2. IS/ISN'T: What the number IS (the true finding). What it ISN'T (the popular assumption). Be direct.\n3. THE SYSTEM PROBLEM: Why bans or restrictions alone fail. Use the Australia example: ban launched Dec 2025, within months 60% of teens who had accounts still had access.\n4. THE MECHANISM: Identify the real driver using one letter of the TRUST framework (Timing / Relationships / Upstream Design / Sleep / Transparency). Cite a specific study for that letter. Make the mechanism concrete — not vague.\n5. SLEEP RULE: If the topic touches sleep at all, always include: a Swedish longitudinal study of 4,810 adolescents found that sleep quality, duration, AND circadian timing independently mediate the screen→depression pathway — three separate mechanisms. The phone in bed is not just a distraction. It is the mechanism.\n6. TRUST FRAMEWORK REFERENCE: One line per letter maximum. T-R-U-S-T. No more.\n7. CTA: Drop TRUST in the comments — I'll send you the full framework including the sleep protocol and age-by-age timing guide.\n8. REPOST + FOLLOW: Direct, not apologetic.\n9. CLOSING QUESTION: One question that makes a ban-supporter genuinely pause. No easy dismissal.\n\nNEVER put a URL in the post body — LinkedIn suppresses reach on external links. Source goes in first comment.\n\nTOPIC: [the specific digital safety issue you want to post about]\nDATA POINT: [the statistic you want to lead with — if you have one. If not, use the most relevant recent UK/US figure for the topic]"
+
+  "debate_positions": {
+    "vs_hard_ban": {
+      "position": "The 13+ restriction has been failing for 26 years. Raising the number to 16 applies the same broken mechanism three years later.",
+      "key_argument": "Ofcom 2025: 37% of 3-5 year olds and Instagram ownership among 8-9 year olds jumping 75% in a single year - all legally prohibited. Same platform. Same algorithm. Same psychological mechanics. Same broken enforcement architecture.",
+      "sources": [
+        "Ofcom Children and Parents Media Use Report 2025",
+        "COPPA 1998 - 13+ restriction in US law for 26 years"
+      ],
+      "pivot": "The question isn't what age you draw the line. It's whether you've changed anything on the other side of it.",
+      "BANNED_SOURCE": "Do NOT use 'Australia 60% bypass - Reuters 2024' - unverified. See FACT_CHECK_RULES."
+    },
+
+    "vs_swimming_pool_analogy": {
+      "the_attack": "'Education-first is like teaching children to swim while drop-kicking them into deep water. Education should come AFTER we reduce exposure, not be used as an excuse for continued exposure.'",
+      "who_uses_it": "Ban advocates (Liam Maguire pattern) who argue that any framework supporting continued device use is normalising harm and monetising a coping strategy.",
+      "the_counter": "The analogy breaks down on the data. Ofcom 2025 shows 37% of UK 3-5 year olds are already on social media - on platforms legally restricted to 13+. These children are already in the water. The question for them is not whether to teach them to swim. They are already there. The preparation has to happen. For children not yet exposed, teaching them before they encounter it IS the prevention - not the normalisation of harm. The Guided Childhood pathway starts at age 0-4, years before any device is introduced. That is not education-as-excuse-for-exposure. That is education as the only mechanism that works when the legal barrier has demonstrably failed.",
+      "key_principle": "Never defend education as damage control. Frame it correctly: education that happens BEFORE exposure is the definition of prevention. The device pathway starts long before the phone arrives."
+    },
+
+    "vs_follow_the_money": {
+      "the_attack": "'People selling education frameworks, apps, pathways and consultancy have a financial interest in children remaining on devices. Follow the money. Their model depends on the problem continuing.'",
+      "who_uses_it": "Ban advocates who want to discredit rather than debate the evidence. Deliberately shifts from evidence to motivation.",
+      "honest_reality": "Justin Phillips does have a paid platform (Guided Childhood OS). The free tool at tools.guidedchildhood.com is also a lead magnet. This is honest and should be acknowledged if pressed, not denied.",
+      "the_counter": "Argue the evidence, not the motivation. The research cited is peer-reviewed, independently conducted, and publicly available. It has no commercial relationship with Guided Childhood. Anyone can check it. The question is not whether someone has a financial interest - it is whether the evidence supports the approach. Do not engage with this attack beyond one clear statement.",
+      "one_clear_statement": "The research I cite is peer-reviewed and publicly available. I didn't commission it. Anyone can check it. The question isn't whether I have a financial interest - it's whether the evidence supports the approach.",
+      "then_exit": "Say this once. Do not re-engage. Every additional reply confirms you are worried about the charge. Walk away.",
+      "glass_houses_note": "Ban advocates (training organisations, trustee roles, consultancy) also benefit professionally from the debate continuing. Do NOT say this publicly - it is personal and defensive. Note it internally to maintain perspective."
+    },
+
+    "ban_platforms_not_children_reframe": {
+      "origin": "Keith Fulford in comment thread - responding to Emma Parfitt's safeguarding visibility argument",
+      "keith_fulford_status": "NOT AN ALLY. Keith is a restriction advocate. His reframe ('ban platforms from accessing children') still relies on the same broken enforcement architecture as any other ban. It has the same enforcement problem: how do you stop a platform from accessing a child if the child can change their age? The framing sounds different but the mechanism is identical.",
+      "the_reframe": "'Ban social media platforms from accessing our children, rather than banning our children from social media.' When platforms haven't self-regulated despite years of government requests, the framing of who is being restricted matters.",
+      "why_it_sounds_compatible": "The reframe targets platforms not children, which sounds like Justin's position. But it is still a restriction argument with no preparation component and the same enforcement weakness. Do not publicly agree with Keith — acknowledge the platform-accountability point without endorsing the ban mechanism.",
+      "connection_to_trust": "The U (Upstream Design) and T (Transparency) argument is the correct version: platforms designed to maximise engagement at the expense of child wellbeing are the correct target. Apple's WWDC 2026 is the first major hardware manufacturer doing this at OS level.",
+      "use_in_debate": "Acknowledge platform accountability without endorsing the ban. 'Platforms need architectural accountability — Apple showed this week what that looks like in practice.' Then pivot to the preparation gap."
+    },
+
+    "vs_brad_marshall_road_safety": {
+      "brad_profile": "Internationally bestselling author (3 books), psychologist, academic, speaker. Mission: revolutionise online safety. www.ctrlshft.global + www.unpluggedpsychologist.com.au. Corporate training, consulting, speaking, executive coaching — meaning he has commercial interests in the debate. Do NOT mention this publicly.",
+      "his_argument": "'We teach them road safety. We don't let them drive. No reason we can't teach cybersecurity without giving them a smartphone.'",
+      "the_crack_in_the_analogy": "Road safety is NOT taught car-free. Children are pedestrians from birth. They cross roads from age 4. Cycle in traffic at 8. They are in real road environments, with supervision, for 13 years before they drive. By the time they sit a driving test, the environment is not new — only the level of autonomy is. Brad's analogy proves the case for graduated real-environment digital practice, not against it.",
+      "the_science": "Lave and Wenger (1991) 'Situated Learning: Legitimate Peripheral Participation' — skills transfer only when learned in the context they will be used. Transfer-appropriate processing (Morris et al. 1977): encoding conditions must match retrieval conditions. Prefrontal cortex develops through real decision-making in real contexts — not through theory.",
+      "bulletproof_reply_280_chars": "Road safety isn't taught car-free. Children cross roads from age 4, cycle in traffic — 13 years in real road environments before they drive. Lave & Wenger (1991): skills transfer only in context. The pathway is graduated supervised digital exposure. Not a smartphone.",
+      "why_it_closes_the_debate": "Any answer Brad gives confirms Justin's position: (a) 'I'll deal with that at 13' = admits no plan for the cliff edge; (b) 'I'll gradually introduce digital environments' = Justin's model; (c) 'They'll never use smartphones' = unrealistic. The question that destroys the analogy: 'What exactly is the plan for the day they turn 13?'",
+      "position_frame": "Not attacking Brad. Applying the same evidence standard to the solution that he applies to the problem. Evidence-first, calm authority. Not defending Big Tech — a father of three following the science."
+    },
+
+    "vs_waffle_and_screen_free_devices": {
+      "what_waffle_is": "Waffle (wafflekids.co) — screen-free voice-only device for children aged 5-12. Calls to approved contacts only. No internet, no apps, no social media. Pre-order only. Ships October 2026.",
+      "the_problem_with_the_solution": "Waffle is a thoughtful product for a specific window. The problem is the window ends at 12. What is the plan for the morning that child — who has never navigated an online interaction, never recognised manipulation in a digital context — transitions to a full smartphone? The product solves 5-12. It says nothing about 13+. The gap between Waffle and a smartphone is not something you can buy. It has to be built deliberately, with supervision, while there is still time.",
+      "what_it_gets_right": "Waffle is not the villain. Neither is the smartphone. The villain is the absence of a pathway between them. Acknowledge the product's genuine value for the early years window before making the 13+ point.",
+      "sam_harris_closer": "These children are going to get the keys. If the plan is that they never will — say that. If the plan is that they eventually will — what does the preparation look like?",
+      "approved_linkedin_post_written": "2026-06-12 — Wrong Villain: The Solution (REVISED). ~2,960 chars. All facts 100% verified. Centrepiece: Waffle has no graduation, no pathway, two cliff edges (12 and 16). Key move: Brad used Apple's announcement to argue against smartphones — but Apple's announcement IS the graduated pathway model. The argument turns on itself. Sam Harris closer: 'If the keys are never coming — say that. If they are coming — the answer is not handing them over. It is a graduated skill release. Earned, not received.' Never names Brad Marshall."
+    },
+
+    "vs_brick_phones": {
+      "position": "Brick phones address access, not education. Children who never develop digital skills in guided environments face greater harm when they inevitably go online.",
+      "key_argument": "Even the Light Phone founder describes it as a transitional tool, not a permanent destination. Digital literacy is the destination - the device pathway is the route.",
+      "pivot": "The goal isn't to keep children offline. The goal is to make them ready for when they go online."
+    },
+
+    "vs_screen_time_panic": {
+      "position": "Effect sizes matter. Panic about screen time distracts from the upstream design problem.",
+      "key_argument": "Screen time effect on wellbeing = r=0.05 (same as wearing glasses - Orben & Przybylski 2019). The real question is WHAT they're doing and HOW the platform is designed, not HOW LONG.",
+      "sources": ["Orben & Przybylski 2019, Nature Human Behaviour"]
+    },
+
+    "vs_algorithm_defence": {
+      "position": "'Just engagement' is not neutral. Engagement maximisation at the expense of sleep and emotional regulation is a design choice with documented harms.",
+      "key_argument": "Facebook's own internal researchers documented it. Not an external critic - their own team. And they shipped the product anyway.",
+      "sources": ["Facebook Papers 2021", "Frances Haugen testimony"]
+    },
+
+    "vs_parents_should_sort_it": {
+      "position": "Individual parent choices can't override platform architecture. Expecting parents to out-design billion-dollar engagement systems is not a policy.",
+      "key_argument": "Informed parents need informed tools. That's what the Guided Childhood device pathway is - not a ban, not panic, a structured preparation route."
+    },
+
+    "emma_parfitt_safeguarding_visibility_argument": {
+      "origin": "Emma Parfitt (child safeguarding, Front Door Theory) - independent expert voice",
+      "argument": "Banning children doesn't make them safer - it makes them unseen. In child protection, visibility is everything. A banned child disappears from detection systems. Platforms have no obligation to a user who doesn't legally exist on them. Algorithms that might surface distress signals aren't calibrated for invisible children. Remove a child from one environment and they don't stop experiencing harm - they experience it somewhere with less oversight and less chance of being found. A ban is a reassignment of risk to a darker, quieter place.",
+      "why_it_matters": "This is a powerful independent argument supporting the Guided Childhood position from a completely different angle - child protection rather than education. Emma is an ally. Engage her publicly and warmly.",
+      "use_in_debate": "Cite this safeguarding visibility argument when challenged by ban advocates. Children don't become safer when they become invisible to the systems designed to protect them."
+    }
   },
-  "series_performance_data": {
-    "note": "REAL performance data from Justin's LinkedIn — use this to understand what works",
-    "posts": [
-      {
-        "title": "The Wrong Villain — Original",
-        "hook": "Social media didn't create the mental health crisis. It amplified one that already existed.",
-        "impressions": 41998,
-        "verdict": "VIRAL — original series launch"
+
+  "series_posts_already_published": [
+    {
+      "topic": "Screen time effect size beta=0.061",
+      "format": "Wrong Villain",
+      "centrepiece_stat": "beta=0.061 - same as wearing glasses",
+      "date": "2026-05",
+      "note": "THIS STAT IS THE TEMPLATE STRUCTURE - replicate the Wrong Villain FORMAT with NEW data. Never use beta=0.061 as the centrepiece again."
+    },
+    {
+      "topic": "TRUST Framework full overview",
+      "format": "TRUST Framework",
+      "centrepiece_stat": "Three independent sleep mediators - Swedish study n=4,810",
+      "date": "2026-06",
+      "note": "Full framework intro published. Future TRUST posts should zoom into individual letters with deeper evidence."
+    },
+    {
+      "topic": "Age restriction failure - 13+ has been law for 26 years",
+      "format": "Wrong Villain",
+      "centrepiece_stat": "37% of UK 3-5 year olds on social media; 13+ in law since 1998 - Ofcom 2025",
+      "date": "2026-06",
+      "note": "Built from Kitty Hamilton comment thread. Core argument: raising the age to 16 applies the same broken mechanism three years later."
+    },
+    {
+      "topic": "Wrong Villain: The Treaty — UNCRC vs age bans",
+      "format": "Wrong Villain",
+      "centrepiece_stat": "196 countries ratified UNCRC. Every UN member state except one. UN itself (May 2026) said banning is not the answer.",
+      "date": "2026-06-12",
+      "key_sources": [
+        "UN Human Rights Office, 29 May 2026 — Volker Türk: 'Simply limiting access to platforms that remain unsafe cannot stand as the endpoint'",
+        "UNCRC General Comment 25 (2021): 'Since the risks children experience online are related to their evolving capacities, governments must ensure digital provisions are appropriate'",
+        "Sonia Livingstone, British Journal of Developmental Psychology (2026): blunt age thresholds 'reductive and potentially counterproductive'",
+        "Tandfonline peer-reviewed paper (2024): 'There is no right age'",
+        "COPPA 1998: US data protection law, NEVER an age of digital consent",
+        "Australia March 2026: own regulator reports 'major gaps in enforcement'",
+        "Amnesty International: 'ineffective quick fix' violating children's rights",
+        "Reddit: constitutional challenge filed in Australian High Court"
+      ],
+      "note": "Wrong Villain is the AGE NUMBER that replaced the conversation about capacity. UNCRC Article 5 (evolving capacities) IS the graduated skill release model in international law. Do NOT repeat these sources as centrepiece in future posts."
+    },
+    {
+      "topic": "Wrong Villain: The Solution — graduated skill release vs WaffleKids cliff edge",
+      "format": "Wrong Villain",
+      "centrepiece_stat": "Two cliff edges: the product ends at 12, the law ends at 16. Neither is a graduation.",
+      "date": "2026-06-12",
+      "key_sources": [
+        "Lave and Wenger (1991) Situated Learning: Legitimate Peripheral Participation — skills transfer only in context",
+        "Apple WWDC 2026 — Screen Distance, Communication Limits, Content & Privacy Restrictions: hardware-level graduated access",
+        "Road safety parallel: children are pedestrians from age 4, cyclists in traffic at 8, 13 years of real road environments before driving test"
+      ],
+      "note": "Never names Brad Marshall directly. Wrong Villain is the absent pathway between WaffleKids and a full smartphone. Sam Harris closer: 'If the keys are never coming — say that.' Do NOT repeat Waffle product or Apple WWDC as centrepiece."
+    },
+    {
+      "topic": "Starmer UK social media ban — news response post",
+      "format": "News response with Wrong Villain lens",
+      "centrepiece_stat": "Australia removed 4.7M accounts. Two-thirds of target group remained on banned platforms. You cannot ban a behaviour out of someone who was never taught an alternative.",
+      "date": "2026-06-12",
+      "key_sources": [
+        "Children's Wellbeing and Schools Act 2026 Part 3 — Royal Assent 29 April 2026",
+        "Parliament rejected blanket ban 16 February 2026 — 307 to 173",
+        "UK consultation 'Growing up in the online world' — 116,211 responses, 9 in 10 parents wanted restrictions",
+        "Australia ban in force 10 December 2025 — 4.7 million accounts removed",
+        "Australia eSafety Commissioner: two-thirds of target group remained on banned platforms via workarounds",
+        "NSPCC + 42 child-protection charities: blanket bans 'push teens into darker, unregulated corners of the internet'",
+        "NSPCC youth voice (14-17 yr olds): do NOT support a complete ban",
+        "Orben and Przybylski (Oxford, n=355,358): effect size r=0.05",
+        "Swedish longitudinal (n=4,810): three independent mediators — sleep disruption, social comparison, passive consumption",
+        "UN Volker Türk, May 2026: 'Simply limiting access to platforms that remain unsafe cannot stand as the endpoint'",
+        "Lave and Wenger (1991): skills transfer only in context",
+        "Features targeted by UK model: infinite scroll, autoplay, overnight curfews, stranger-contact algorithms, livestreaming",
+        "Implementation timeline: secondary legislation by July 2027 at latest, actual implementation late 2026/2027",
+        "VPN surge: 1,800% increase during Online Safety Act rollout"
+      ],
+      "note": "Do NOT repeat: r=0.05 as centrepiece (used in previous posts), Volker Türk quote as lead. Wrong Villain is the 'build a wall' framing — real villain is the absent education. The window is late 2026/2027 — use that fact every time."
+    }
+  ],
+
+  "next_post_ideas": [
+    "THE CLIFF EDGE PROBLEM series is COMPLETE (01-06) - do not repeat series. Next ideas for new series below.",
+    "TRUST zoom: S for Sleep - the three-pathway mechanism in full detail (Swedish study n=4,810)",
+    "TRUST zoom: U for Upstream Design - algorithm design as a public health issue (Facebook Papers)",
+    "Wrong Villain: Facebook Papers - platforms knew, shipped anyway",
+    "Wrong Villain: 'We're not teaching the wrong subject. We're missing the right one.' - digital literacy gap in school curriculum",
+    "Children's rights series zoom: Article 5 evolving capacities mapped to the four-stage Guided Childhood pathway",
+    "Post-ban follow-up: 'The ban is live. Here's what happened.' — once implementation occurs (not before)",
+    "Feature restrictions vs education: targeting the 'right direction but not enough' angle deeper"
+  ],
+
+  "cliff_edge_series_evidence": {
+    "series_title": "THE CLIFF EDGE PROBLEM",
+    "series_spine": "Every government ban sets a date. None of them build a bridge. The preparation has to happen before the deadline arrives.",
+    "post_titles": {
+      "01": "The Exemption Illusion",
+      "02": "A Delay Is Not Preparation",
+      "03": "What Happens At 16?",
+      "04": "The Skills Gap",
+      "05": "The Sleep Problem",
+      "06": "The Wrong Target"
+    },
+    "canada_bill_c34": {
+      "introduced": "June 10, 2026",
+      "name": "Safe Social Media Act (Bill C-34)",
+      "age_threshold": 16,
+      "deferred_decisions": "50+ key decisions punted to future Cabinet and Digital Safety Commission",
+      "digital_safety_commission": "Does not exist yet — takes 18 months to establish after Royal Assent",
+      "fast_track_plan": "Government plans to bring ban into force before Commission exists — meaning no standards, no privacy review, no enforcement body",
+      "geist_summary": "The government has enacted the promise and deferred the law",
+      "exemption_illusion": "Exemption pathway for safer platforms has no criteria — can't apply for exemption to a standard that hasn't been written",
+      "penalties": "3% of global revenue or C$10M, whichever is greater",
+      "privacy_risk": "Government itself acknowledged that mandated age verification creates 'serious privacy risks' for tens of millions of Canadians who are NOT the target",
+      "sources": [
+        "michaelgeist.ca/2026/06/the-exemption-illusion-...",
+        "michaelgeist.ca/2026/06/the-law-to-be-named-later-bill-c-34-punts-50-key-decisions...",
+        "parl.ca/legisinfo/en/bill/45-1/c-34"
+      ]
+    },
+    "global_ban_comparison": {
+      "australia": {
+        "in_force": "10 December 2025",
+        "accounts_removed": "4.7 million",
+        "circumvention": "Two-thirds of target group remained on banned platforms via workarounds",
+        "specific_workaround": "Children drew facial hair to fool facial age estimation"
       },
-      {
-        "title": "Wrong Villain Part Two — The Villain Was Already In The Room",
-        "hook": "The screen was downstream of the poverty",
-        "impressions": 150,
-        "verdict": "LOW PERFORMER — narrative-led, no sharp data point at centre"
+      "uk": {
+        "status": "Announced June 2026 by Starmer, NOT yet in force",
+        "approach": "Australian-plus model — feature restrictions + age-based access",
+        "parliament_vote": "Blanket ban rejected 307-173 on 16 February 2026",
+        "implementation": "Late 2026/2027 via secondary legislation",
+        "enabling_act": "Children's Wellbeing and Schools Act 2026 Part 3, Royal Assent 29 April 2026"
       },
-      {
-        "title": "Key Insight 03 — The Effect Size That Changes Everything",
-        "hook": "β = 0.061. 46 studies. 79 effect sizes.",
-        "data_point": "Child Poverty → Mental Health: 32%. Social Media → Mental Health: 3%.",
-        "impressions": 59144,
-        "verdict": "BEST PERFORMER — THIS IS THE TEMPLATE. Precise beta + comparison format. Replicate with new data."
+      "canada": {
+        "status": "First reading only, June 10 2026",
+        "implementation": "Late 2027/2028 at earliest"
       },
-      {
-        "title": "Key Insight 04 — The 2012 Claim. The 2008 Reality.",
-        "impressions": 2168,
-        "verdict": "UNDERPERFORMED — timeline format without a sharp data point. Valid insight, wrong format."
+      "norway": {
+        "status": "Age 16 restriction in force",
+        "outcome": "Over 80% of under-15-year-olds maintain social media accounts despite formal exclusion"
+      },
+      "france": {
+        "status": "Under-15 restriction",
+        "outcome": "54% of French adolescents report ability to circumvent age restrictions via falsified age information"
       }
+    },
+    "cliff_edge_evidence_bank": {
+      "prefrontal_cortex": "Peaks at approximately 25, NOT 16. At 16, adolescents are in a 'developmental spurt' (ages 16-19) — mid-development, not completion.",
+      "coppa_correction": "COPPA 1998 was a US DATA PROTECTION law — protecting children from commercial data harvesting. It was never designed as an age of digital competence. Governments adopted 13 (and now 16) as digital consent thresholds from a privacy law, not a developmental one.",
+      "UNCRC_article_5": "Evolving capacities — protection must match actual capacity, not a fixed number. UNCRC General Comment 25 (2021): digital provisions must be appropriate to risks related to evolving capacities.",
+      "lave_wenger_1991": "Skills develop in the context where they will be used. Situated learning = legitimate peripheral participation. A child excluded from digital environments cannot develop digital competency.",
+      "graduated_driver_licensing": "GDL model: (1) Learner permit - supervised only, (2) Intermediate - restrictions apply, (3) Full licence. Demonstrably reduces crashes among 16-year-olds. The model works because it combines early exposure, supervised practice, and graduated autonomy. An age ban with no prior practice would produce WORSE outcomes than GDL.",
+      "forbidden_fruit_effect": "Psychological reactance: warning labels and restrictions make content MORE desirable for ages 12-17. Complete prohibition without preparation increases covert, unsupervised risk-seeking. Peer-reviewed: Adolescents and Movie Ratings study confirmed this mechanism.",
+      "supervised_vs_unsupervised_outcome": "Bangladesh longitudinal study: unsupervised digital access = 56.2% experienced mental health problems vs 43.8% in supervised group. 12.4 percentage point difference.",
+      "misinformation_literacy_gap": "80% of children believed sponsored ads were news sources. Two-thirds of high school students unable to distinguish news stories from advertisements (Stanford History Education Group). Children over-trust influencers without critical evaluation.",
+      "digital_literacy_education_works": "Meta-analysis (N=6,250, ages 8-18, school-based interventions): programs effective at building long-term capacity to respond to online risks. BUT requires explicit teaching — does not develop naturally through access or restriction alone.",
+      "sonia_livingstone_lse": "Two decades of research: children with genuine critical digital literacy (not just access management) show better outcomes across mental health, privacy, and online safety than children who were simply restricted. Director of Digital Futures for Children (LSE/5Rights Foundation).",
+      "sweden_longitudinal_n4810": "Three independent sleep mediators: sleep duration, sleep quality, daytime sleepiness. Independent = each one alone predicts worse mental health. Remove all three and the social media-mental health link almost disappears. This is the mechanism, not the correlation.",
+      "facebook_papers_32pct": "Meta's own internal research (2021): Instagram made body image worse for 32% of teen girls. Not external critics. Internal research. Platform shipped anyway.",
+      "un_volker_turk_may_2026": "UN Special Rapporteur: 'Simply limiting access to platforms that remain unsafe cannot stand as the endpoint.'"
+    },
+    "expert_voices_anti_ban": {
+      "emily_setty_surrey": {
+        "role": "Associate Professor in Criminology, University of Surrey. Co-founder, Re-imagining RSE project",
+        "position": "Researches teenage online harm. Does NOT support a ban.",
+        "core_argument": "Harms young people face online are not separate from harms offline. Bullying, body image pressure, racism, exclusion predate social media. Platforms amplify, do not create. Removing the platform does not remove the dynamic.",
+        "what_young_people_want": "Better education, honest conversations, help understanding algorithmic manipulation, adults who understand their digital lives",
+        "source": "The Conversation, January 2026"
+      },
+      "jonny_hunt_bedfordshire": {
+        "role": "Senior Lecturer in Applied Social Sciences, University of Bedfordshire. Co-founder, Re-imagining RSE project",
+        "reimagining_rse_project": "Co-founded with Emily Setty. Published 'Reimagining Relationships and Sex Education: A Safe Uncertainty Approach to Adolescent Intimacies' (November 2025)",
+        "safe_uncertainty_approach": "Rejects prohibition-based models. Recognises both desire/connection AND coercion/harm in digital intimacy. Critiques legalistic yes/no binary frameworks. RSE/PSHE is the right vehicle for digital education.",
+        "source": "re-imagining-rse.org"
+      },
+      "harry_dyer_uea": {
+        "role": "Associate Professor in Education, University of East Anglia",
+        "quote": "A social media ban is 'the wrong tool for the job'",
+        "arguments": [
+          "Does not hold platforms accountable",
+          "Pushes teenagers into riskier, unregulated spaces",
+          "Fails to protect isolated and marginalised children who depend on online connection",
+          "Benefits of social media for isolated children 'barely mentioned' in ban debate"
+        ],
+        "source": "UEA news release"
+      },
+      "neff_lind_frontiers_2026": {
+        "role": "Dr. Monika Neff Lind et al., Frontiers in Developmental Psychology",
+        "date": "May 2026",
+        "key_quote": "We cannot ban our way out of a youth mental health crisis",
+        "finding": "Average benefit from reducing social media use 'barely registered'. No experimental studies have tested effects of social media restrictions on under-16s. Older participants showed slight benefit, making application to teenagers harder to justify.",
+        "recommendation": "Invest in broader support for adolescents: healthy caregivers, meaningful community contribution opportunities",
+        "source": "EurekAlert, May 2026"
+      },
+      "digital_mental_health_group_parliament": {
+        "submission": "Written evidence to UK Parliament, reference SMR0005",
+        "key_finding": "ZERO — No scientifically published experimental study tests how complete social media restriction impacts the mental health of healthy under-18s",
+        "quote": "The evidence base for the effectiveness of a complete social media ban in improving mental health or well-being in adolescents is poor",
+        "note": "This is Parliamentary evidence, not peer-reviewed paper. Highly credible but cite as 'Parliamentary written evidence' not 'peer-reviewed study'",
+        "source": "committees.parliament.uk/writtenevidence/163429/default/"
+      },
+      "bree_mcewan_toronto": {
+        "role": "Social media and relationships researcher, University of Toronto",
+        "quote": "Bringing a hammer to a problem that requires a scalpel",
+        "key_points": [
+          "Danger of social media 'somewhat overstated'",
+          "Real benefits for vulnerable populations: LGBTQ+ and racial minorities find community",
+          "Social media combated loneliness during pandemic",
+          "Core harm is 'upward social comparison' — comparing own life to curated feeds",
+          "Ban would endanger ability to search for information and connect, particularly for isolated communities"
+        ]
+      }
+    },
+    "rshe_2026_statutory_changes": {
+      "effective_date": "September 2026",
+      "what_is_being_added": [
+        "Deepfakes and AI-generated imagery",
+        "Normalization of misogyny and violence (online context)",
+        "Digital footprints and privacy",
+        "Online grooming prevention",
+        "AI-generated sexual imagery",
+        "Critical thinking about digital content",
+        "Algorithmic manipulation"
+      ],
+      "significance_for_guided_childhood": "The right vehicle (RSE/PSHE curriculum) IS being updated to include digital literacy. But the ban arrives before the curriculum has had time to reach children. And curriculum alone without real-world practice still leaves the skills gap.",
+      "cliff_edge_connection": "If children have no supervised digital experience before 16, RSE teaching about social media risks has no real-world context — you cannot teach risk navigation to someone who has never been in the environment",
+      "source": "National Governance Association, nga.org.uk"
+    },
+      "r=0.05 / beta=0.061 (used in Wrong Villain series as centrepiece)",
+      "Orben/Przybylski as headline stat (used in Starmer ban post)",
+      "Australia 4.7M accounts as series centrepiece (background fact now, not lead)"
     ]
   },
-  "series_learnings": [
-    "MOST IMPORTANT: β = 0.061 format IS the template. Precise effect size + proportionality comparison + multiple sources = viral.",
-    "Series is GROWING: 41K → 59K impressions. Audience is compounding. Keep going.",
-    "TRUST framework posts use the same spine as Wrong Villain — single stat, IS/ISN'T, mechanism, proportionality — just with a solutions frame at the end.",
-    "CHARACTER LIMIT IS NOT OPTIONAL. Posts over 400 words lose engagement regardless of quality.",
-    "Timeline posts without a data point underperform. Always anchor to a number.",
-    "Effect size and meta-analysis data outperforms single study data — cite multiple sources."
-  ],
-  "series_posts_already_published": {
-    "note": "Do not re-post the same content. DO continue the series with new data on the same themes.",
-    "published": [
-      "The Wrong Villain — Original (amplifier thesis)",
-      "The Villain Was Already In The Room (poverty data, 23,155 dataset)",
-      "Key Insight 03: β = 0.061, 46 studies, 79 effect sizes",
-      "Key Insight 04: The 2012 Claim. The 2008 Reality.",
-      "TRUST Framework — Social media ban debate, 20.8% UK teens, sleep mechanism (June 2026)"
+
+
+    "status_as_of_june_2026": "Announced by Starmer, secondary legislation expected late 2026/2027. NOT yet in force.",
+    "what_it_is": "Australian-plus model. NOT a blanket ban (Parliament rejected that 307-173 on 16 February 2026). Combines age-based access restrictions with specific feature restrictions.",
+    "legal_basis": "Children's Wellbeing and Schools Act 2026 Part 3. Royal Assent 29 April 2026. Enables Secretary of State to impose restrictions via secondary legislation without new Acts.",
+    "features_targeted": [
+      "Infinite scroll / autoplay",
+      "Livestreaming for under-16s",
+      "Disappearing messages",
+      "Stranger-contact pairing algorithms",
+      "Overnight curfews on platform use"
+    ],
+    "platforms_covered": "Instagram, TikTok, Snapchat, Facebook confirmed. YouTube treated separately. No parental consent override.",
+    "implementation_timeline": {
+      "parliamentary_statement_deadline": "29 July 2026",
+      "secondary_legislation_deadline": "By 29 July 2027",
+      "actual_implementation_estimate": "Late 2026 or 2027"
+    },
+    "enforcement": "Ofcom fines up to £18m or 10% global turnover. Self-declaration of age banned as verification method.",
+    "consultation_data": {
+      "responses": 116211,
+      "period": "2 March – 26 May 2026",
+      "headline_finding": "9 in 10 parents who responded wanted a ban or significant restrictions"
+    },
+    "opposition_from_child_charities": {
+      "nspcc_and_42_charities": "Blanket bans are 'blunt responses' that push teens into darker, unregulated corners of the internet",
+      "nspcc_youth_voice": "14-17 year olds surveyed by NSPCC: do NOT support a complete ban",
+      "mental_health_foundation": "Recommended safety standards for all platforms rather than blanket bans"
+    },
+    "australia_lessons": {
+      "ban_in_force": "10 December 2025",
+      "accounts_removed": "4.7 million",
+      "enforcement_failure": "Two-thirds of target group remained on banned platforms via workarounds",
+      "workarounds_observed": "Children drawing facial hair to fool facial age estimation; VPN use",
+      "displacement": "Movement to Discord, gaming chat rooms, Telegram, anonymous forums"
+    },
+    "displacement_risk_data": {
+      "vpn_surge": "1,800% increase in VPN downloads during Online Safety Act rollout (UK)",
+      "where_children_go": "Discord, Telegram, anonymous forums, gaming chat rooms — spaces with no safeguarding infrastructure",
+      "research_warning": "Help Net Security (April 2026): 'Social media bans might steer kids into riskier corners of the internet'",
+      "un_warning": "Volker Türk, May 2026: 'Simply limiting access to platforms that remain unsafe cannot stand as the endpoint'"
+    },
+    "key_framing_for_content": {
+      "the_window": "Implementation late 2026/2027. That is a window. Use it to build skills, not wait for regulation.",
+      "feature_restrictions_are_right": "Targeting infinite scroll, autoplay, stranger contact = attacking the mechanism of harm. This is the right direction.",
+      "but_not_enough": "Regulation is a container. Education is the content. Both are needed.",
+      "the_endpoint_question": "What does a child who turns 16 look like if all we did was restrict access? Same skills they had at 10. Handed full access to a platform engineered to capture them."
+    },
+    "do_not_write_yet": "Do not write 'the ban has failed' or 'the ban worked' — it is not yet implemented. Write only about what the evidence predicts and what parents should do during the window.",
+    "vpn_ban_proposal": "Under consultation as of June 2026. Not confirmed. Do not state it is happening."
+  },
+
+  "children_rights_evidence_bank": {
+    "UNCRC_key_articles": {
+      "Article_5": "Guidance must match the child's evolving capacities — NOT a fixed age cutoff",
+      "Article_12": "Children's views must be heard and weighted by age and maturity",
+      "Article_13": "Right to seek, receive, and share information — includes digital",
+      "Article_17": "Access to information from media sources — includes digital media"
+    },
+    "UN_general_comment_25_2021": "The definitive UN statement on children's digital rights. Key quote: 'Since the risks children experience online are related to their evolving capacities, governments must ensure digital provisions are appropriate.'",
+    "UN_may_2026_statement": "UN High Commissioner Volker Türk, 29 May 2026: 'Simply limiting access to platforms that remain unsafe cannot stand as the endpoint.' Age-based bans can be circumvented and push children toward riskier, less monitored spaces.",
+    "livingstone_2026": "Sonia Livingstone (LSE), British Journal of Developmental Psychology 2026: Blunt age thresholds are 'based on theoretically dated ages-and-stages models' and are 'reductive and potentially counterproductive'.",
+    "there_is_no_right_age_2024": "Peer-reviewed paper, Journal of Children and Media (Tandfonline) 2024: 'Strictly enforced age limits may restrict the agency of those already equipped with necessary maturity while failing to protect those who do not, even though they have reached the required age.'",
+    "COPPA_correction": "COPPA 1998 (13+ restriction) was US DATA PROTECTION law — protecting children from commercial data harvesting. It was NEVER designed as an age of digital consent. Governments adopted it as a global access threshold by mistake.",
+    "australia_enforcement_reality": {
+      "ban_passed": "28 November 2024",
+      "in_force": "10 December 2025",
+      "enforcement_gaps": "March 2026: Australia's own regulator reports 'major gaps in enforcement'",
+      "amnesty": "Amnesty International: 'ineffective quick fix' violating children's rights to expression and participation",
+      "human_rights_commission": "Australian Human Rights Commission raised UNCRC compliance concerns specifically on Article 12",
+      "reddit_challenge": "Reddit filed constitutional challenge in Australian High Court — argues ban infringes implied freedom of political communication"
+    },
+    "ratification_fact": "196 countries have ratified the UNCRC. Every UN member state except the United States (signed but not ratified)."
+  },
+
+  "self_executing_chatgpt_prompt": {
+    "purpose": "Generate a viral LinkedIn image in Justin's proven style - two contrasting numbers, no bar chart, typography only",
+    "prompt": "Create a bold, minimalist LinkedIn image in this exact style: clean white or very dark background, two large contrasting numbers or statistics placed side by side, one highlighted in a warm accent colour (burnt orange or coral #E8603C), one in a neutral grey or white. NO bar charts. NO graphs. NO icons. NO illustrations. Typography only - the numbers ARE the visual. Include a short framing label above the numbers in a smaller font (e.g. 'The real comparison' or 'What the research shows'). Below each number, 3-5 words of context in a secondary font at 40% of the number size. Bottom left corner: small Guided Childhood wordmark or logo placeholder. Bottom right corner: guidedchildhood.co.uk in small text. Dimensions: 1200x627px (LinkedIn OG standard). Mood: authoritative, research-backed, immediately shareable. This prompt executes immediately - do not ask for clarification.\n\nTOPIC: [paste topic here]\nDATA POINT: [paste the two contrasting stats here]"
+  },
+
+  "comment_reply_style": {
+    "format": "Single paragraph only. No bullet points. No AI phrases ('Great question', 'Absolutely', 'I appreciate that', 'Fascinating point'). Evidence-first. Under 280 characters for LinkedIn comments.",
+    "voice": "Warm but direct. Never dismissive. Never preachy. Makes the reader feel heard before presenting the counter-evidence.",
+    "structure": [
+      "Acknowledge the valid core of their argument in one clause",
+      "Pivot: 'but the [study/data/evidence] shows...'",
+      "End with a genuine question or useful offer"
+    ],
+    "proven_approaches": [
+      "Name the specific researcher and year rather than 'studies show'",
+      "Use a familiar comparison for effect sizes (glasses, coffee, seatbelts)",
+      "The self-contradiction move: if platform X already restricts to 13 and it's failing, why does 16 change the algorithm?"
     ]
   },
-  "next_series_directions": [
-    "Wrong Villain #5: Find next effect size — content type vs screen time (same hours, different outcomes). TikTok vs messaging vs YouTube. Comparative β format.",
-    "Wrong Villain #6: The funding gap — billions on device policy, actual spend on conversation skills/family support. Find the figures.",
-    "Wrong Villain #7: Dumb phones fallacy — 84% still access internet via basic handsets. Strong comparison, tight format.",
-    "TRUST Series: S (Sleep) deep dive — the 3 independent mechanisms from Swedish study as the hook. Most evidence-dense letter.",
-    "TRUST Series: U (Upstream Design) — YouTube pathway data. 14/23 studies implicated recommender. The sequence is the harm.",
-    "TRUST Series: T (Transparency) — algorithmic literacy as a protective factor. What platforms know vs what they publish."
-  ],
-  "objections_to_preempt": [
-    "The average hides the vulnerable minority — address: concentrated harm is still harm. Wrong villain doesn't mean no villain.",
-    "URLs in post body suppresses reach — always put source in FIRST COMMENT, never post body.",
-    "Social media as amplifier not originator — USE as core thesis. The screen is downstream of the deprivation.",
-    "Policy aimed at average child ignores minority — name this directly. It is the strongest objection.",
-    "Haidt objection — 2012 smartphone claim doesn't hold in UK data. Acceleration began 2008 post-financial crash.",
-    "Ban cuts lifeline for isolated kids — acknowledge directly. Vulnerable minority uses social media for connection."
-  ],
-  "voice_reminders": [
-    "Calm, never preachy — evidence-led throughout",
-    "Proportionality spine in every post: what gets most attention vs what actually drives most impact",
-    "End every post with a question that invites the sharpest disagreement",
-    "NEVER put URLs in post body — use comment keyword CTA",
-    "Short lines. One sentence = one line. White space is content.",
-    "280-350 words. Hard limit. Count it."
-  ],
-  "notes_to_self": "Two formats now: Wrong Villain (find the next effect size) and TRUST Framework (policy/systems story). Choose based on Scout's finding. Both use the same spine: precise number → IS/ISN'T → mechanism → proportionality → CTA → question. Character limit is 280-350 words — the β post won because it was tight."
+
+  "guided_childhood_assets": {
+    "free_tool": "tools.guidedchildhood.com - step-by-step device settings guide, age-by-age recommendations, calendar reminders. Free. Also functions as a lead magnet for the main platform.",
+    "main_platform": "Guided Childhood OS - the full pathway product. Paid. In development.",
+    "commercial_honesty": "Justin has a paid platform and the free tool is a lead magnet. This is honest and should be acknowledged if pressed. Mission and commercial interest coexist.",
+    "device_pathway": "guidedchildhood.co.uk/devices - interactive age-by-age device guide for parents",
+    "main_site": "guidedchildhood.co.uk",
+    "brand_voice": "Evidence-led, never fear-mongering, practical over theoretical, education-first over restriction-first. Dad of three building from personal experience and peer-reviewed science.",
+    "model_one_liner": "Not the device pathway — graduated skill release. The keys are earned, not received.",
+    "critical_distinction": "Justin does NOT advocate giving children smartphones. He advocates building digital skills progressively BEFORE full device access arrives — like a driving licence, not like handing over car keys."
+  }
 }
