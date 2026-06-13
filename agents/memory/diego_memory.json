@@ -417,7 +417,73 @@
       "facebook_papers_32pct": "Meta's own internal research (2021): Instagram made body image worse for 32% of teen girls. Not external critics. Internal research. Platform shipped anyway.",
       "un_volker_turk_may_2026": "UN Special Rapporteur: 'Simply limiting access to platforms that remain unsafe cannot stand as the endpoint.'"
     },
-    "do_not_use_in_cliff_edge_series": [
+    "expert_voices_anti_ban": {
+      "emily_setty_surrey": {
+        "role": "Associate Professor in Criminology, University of Surrey. Co-founder, Re-imagining RSE project",
+        "position": "Researches teenage online harm. Does NOT support a ban.",
+        "core_argument": "Harms young people face online are not separate from harms offline. Bullying, body image pressure, racism, exclusion predate social media. Platforms amplify, do not create. Removing the platform does not remove the dynamic.",
+        "what_young_people_want": "Better education, honest conversations, help understanding algorithmic manipulation, adults who understand their digital lives",
+        "source": "The Conversation, January 2026"
+      },
+      "jonny_hunt_bedfordshire": {
+        "role": "Senior Lecturer in Applied Social Sciences, University of Bedfordshire. Co-founder, Re-imagining RSE project",
+        "reimagining_rse_project": "Co-founded with Emily Setty. Published 'Reimagining Relationships and Sex Education: A Safe Uncertainty Approach to Adolescent Intimacies' (November 2025)",
+        "safe_uncertainty_approach": "Rejects prohibition-based models. Recognises both desire/connection AND coercion/harm in digital intimacy. Critiques legalistic yes/no binary frameworks. RSE/PSHE is the right vehicle for digital education.",
+        "source": "re-imagining-rse.org"
+      },
+      "harry_dyer_uea": {
+        "role": "Associate Professor in Education, University of East Anglia",
+        "quote": "A social media ban is 'the wrong tool for the job'",
+        "arguments": [
+          "Does not hold platforms accountable",
+          "Pushes teenagers into riskier, unregulated spaces",
+          "Fails to protect isolated and marginalised children who depend on online connection",
+          "Benefits of social media for isolated children 'barely mentioned' in ban debate"
+        ],
+        "source": "UEA news release"
+      },
+      "neff_lind_frontiers_2026": {
+        "role": "Dr. Monika Neff Lind et al., Frontiers in Developmental Psychology",
+        "date": "May 2026",
+        "key_quote": "We cannot ban our way out of a youth mental health crisis",
+        "finding": "Average benefit from reducing social media use 'barely registered'. No experimental studies have tested effects of social media restrictions on under-16s. Older participants showed slight benefit, making application to teenagers harder to justify.",
+        "recommendation": "Invest in broader support for adolescents: healthy caregivers, meaningful community contribution opportunities",
+        "source": "EurekAlert, May 2026"
+      },
+      "digital_mental_health_group_parliament": {
+        "submission": "Written evidence to UK Parliament, reference SMR0005",
+        "key_finding": "ZERO — No scientifically published experimental study tests how complete social media restriction impacts the mental health of healthy under-18s",
+        "quote": "The evidence base for the effectiveness of a complete social media ban in improving mental health or well-being in adolescents is poor",
+        "note": "This is Parliamentary evidence, not peer-reviewed paper. Highly credible but cite as 'Parliamentary written evidence' not 'peer-reviewed study'",
+        "source": "committees.parliament.uk/writtenevidence/163429/default/"
+      },
+      "bree_mcewan_toronto": {
+        "role": "Social media and relationships researcher, University of Toronto",
+        "quote": "Bringing a hammer to a problem that requires a scalpel",
+        "key_points": [
+          "Danger of social media 'somewhat overstated'",
+          "Real benefits for vulnerable populations: LGBTQ+ and racial minorities find community",
+          "Social media combated loneliness during pandemic",
+          "Core harm is 'upward social comparison' — comparing own life to curated feeds",
+          "Ban would endanger ability to search for information and connect, particularly for isolated communities"
+        ]
+      }
+    },
+    "rshe_2026_statutory_changes": {
+      "effective_date": "September 2026",
+      "what_is_being_added": [
+        "Deepfakes and AI-generated imagery",
+        "Normalization of misogyny and violence (online context)",
+        "Digital footprints and privacy",
+        "Online grooming prevention",
+        "AI-generated sexual imagery",
+        "Critical thinking about digital content",
+        "Algorithmic manipulation"
+      ],
+      "significance_for_guided_childhood": "The right vehicle (RSE/PSHE curriculum) IS being updated to include digital literacy. But the ban arrives before the curriculum has had time to reach children. And curriculum alone without real-world practice still leaves the skills gap.",
+      "cliff_edge_connection": "If children have no supervised digital experience before 16, RSE teaching about social media risks has no real-world context — you cannot teach risk navigation to someone who has never been in the environment",
+      "source": "National Governance Association, nga.org.uk"
+    },
       "r=0.05 / beta=0.061 (used in Wrong Villain series as centrepiece)",
       "Orben/Przybylski as headline stat (used in Starmer ban post)",
       "Australia 4.7M accounts as series centrepiece (background fact now, not lead)"
