@@ -337,6 +337,7 @@
   ],
 
   "next_post_ideas": [
+    "THE CLIFF EDGE PROBLEM series is COMPLETE (01-06) - do not repeat series. Next ideas for new series below.",
     "TRUST zoom: S for Sleep - the three-pathway mechanism in full detail (Swedish study n=4,810)",
     "TRUST zoom: U for Upstream Design - algorithm design as a public health issue (Facebook Papers)",
     "Wrong Villain: Facebook Papers - platforms knew, shipped anyway",
@@ -346,7 +347,84 @@
     "Feature restrictions vs education: targeting the 'right direction but not enough' angle deeper"
   ],
 
-  "uk_social_media_ban_2026": {
+  "cliff_edge_series_evidence": {
+    "series_title": "THE CLIFF EDGE PROBLEM",
+    "series_spine": "Every government ban sets a date. None of them build a bridge. The preparation has to happen before the deadline arrives.",
+    "post_titles": {
+      "01": "The Exemption Illusion",
+      "02": "A Delay Is Not Preparation",
+      "03": "What Happens At 16?",
+      "04": "The Skills Gap",
+      "05": "The Sleep Problem",
+      "06": "The Wrong Target"
+    },
+    "canada_bill_c34": {
+      "introduced": "June 10, 2026",
+      "name": "Safe Social Media Act (Bill C-34)",
+      "age_threshold": 16,
+      "deferred_decisions": "50+ key decisions punted to future Cabinet and Digital Safety Commission",
+      "digital_safety_commission": "Does not exist yet — takes 18 months to establish after Royal Assent",
+      "fast_track_plan": "Government plans to bring ban into force before Commission exists — meaning no standards, no privacy review, no enforcement body",
+      "geist_summary": "The government has enacted the promise and deferred the law",
+      "exemption_illusion": "Exemption pathway for safer platforms has no criteria — can't apply for exemption to a standard that hasn't been written",
+      "penalties": "3% of global revenue or C$10M, whichever is greater",
+      "privacy_risk": "Government itself acknowledged that mandated age verification creates 'serious privacy risks' for tens of millions of Canadians who are NOT the target",
+      "sources": [
+        "michaelgeist.ca/2026/06/the-exemption-illusion-...",
+        "michaelgeist.ca/2026/06/the-law-to-be-named-later-bill-c-34-punts-50-key-decisions...",
+        "parl.ca/legisinfo/en/bill/45-1/c-34"
+      ]
+    },
+    "global_ban_comparison": {
+      "australia": {
+        "in_force": "10 December 2025",
+        "accounts_removed": "4.7 million",
+        "circumvention": "Two-thirds of target group remained on banned platforms via workarounds",
+        "specific_workaround": "Children drew facial hair to fool facial age estimation"
+      },
+      "uk": {
+        "status": "Announced June 2026 by Starmer, NOT yet in force",
+        "approach": "Australian-plus model — feature restrictions + age-based access",
+        "parliament_vote": "Blanket ban rejected 307-173 on 16 February 2026",
+        "implementation": "Late 2026/2027 via secondary legislation",
+        "enabling_act": "Children's Wellbeing and Schools Act 2026 Part 3, Royal Assent 29 April 2026"
+      },
+      "canada": {
+        "status": "First reading only, June 10 2026",
+        "implementation": "Late 2027/2028 at earliest"
+      },
+      "norway": {
+        "status": "Age 16 restriction in force",
+        "outcome": "Over 80% of under-15-year-olds maintain social media accounts despite formal exclusion"
+      },
+      "france": {
+        "status": "Under-15 restriction",
+        "outcome": "54% of French adolescents report ability to circumvent age restrictions via falsified age information"
+      }
+    },
+    "cliff_edge_evidence_bank": {
+      "prefrontal_cortex": "Peaks at approximately 25, NOT 16. At 16, adolescents are in a 'developmental spurt' (ages 16-19) — mid-development, not completion.",
+      "coppa_correction": "COPPA 1998 was a US DATA PROTECTION law — protecting children from commercial data harvesting. It was never designed as an age of digital competence. Governments adopted 13 (and now 16) as digital consent thresholds from a privacy law, not a developmental one.",
+      "UNCRC_article_5": "Evolving capacities — protection must match actual capacity, not a fixed number. UNCRC General Comment 25 (2021): digital provisions must be appropriate to risks related to evolving capacities.",
+      "lave_wenger_1991": "Skills develop in the context where they will be used. Situated learning = legitimate peripheral participation. A child excluded from digital environments cannot develop digital competency.",
+      "graduated_driver_licensing": "GDL model: (1) Learner permit - supervised only, (2) Intermediate - restrictions apply, (3) Full licence. Demonstrably reduces crashes among 16-year-olds. The model works because it combines early exposure, supervised practice, and graduated autonomy. An age ban with no prior practice would produce WORSE outcomes than GDL.",
+      "forbidden_fruit_effect": "Psychological reactance: warning labels and restrictions make content MORE desirable for ages 12-17. Complete prohibition without preparation increases covert, unsupervised risk-seeking. Peer-reviewed: Adolescents and Movie Ratings study confirmed this mechanism.",
+      "supervised_vs_unsupervised_outcome": "Bangladesh longitudinal study: unsupervised digital access = 56.2% experienced mental health problems vs 43.8% in supervised group. 12.4 percentage point difference.",
+      "misinformation_literacy_gap": "80% of children believed sponsored ads were news sources. Two-thirds of high school students unable to distinguish news stories from advertisements (Stanford History Education Group). Children over-trust influencers without critical evaluation.",
+      "digital_literacy_education_works": "Meta-analysis (N=6,250, ages 8-18, school-based interventions): programs effective at building long-term capacity to respond to online risks. BUT requires explicit teaching — does not develop naturally through access or restriction alone.",
+      "sonia_livingstone_lse": "Two decades of research: children with genuine critical digital literacy (not just access management) show better outcomes across mental health, privacy, and online safety than children who were simply restricted. Director of Digital Futures for Children (LSE/5Rights Foundation).",
+      "sweden_longitudinal_n4810": "Three independent sleep mediators: sleep duration, sleep quality, daytime sleepiness. Independent = each one alone predicts worse mental health. Remove all three and the social media-mental health link almost disappears. This is the mechanism, not the correlation.",
+      "facebook_papers_32pct": "Meta's own internal research (2021): Instagram made body image worse for 32% of teen girls. Not external critics. Internal research. Platform shipped anyway.",
+      "un_volker_turk_may_2026": "UN Special Rapporteur: 'Simply limiting access to platforms that remain unsafe cannot stand as the endpoint.'"
+    },
+    "do_not_use_in_cliff_edge_series": [
+      "r=0.05 / beta=0.061 (used in Wrong Villain series as centrepiece)",
+      "Orben/Przybylski as headline stat (used in Starmer ban post)",
+      "Australia 4.7M accounts as series centrepiece (background fact now, not lead)"
+    ]
+  },
+
+
     "status_as_of_june_2026": "Announced by Starmer, secondary legislation expected late 2026/2027. NOT yet in force.",
     "what_it_is": "Australian-plus model. NOT a blanket ban (Parliament rejected that 307-173 on 16 February 2026). Combines age-based access restrictions with specific feature restrictions.",
     "legal_basis": "Children's Wellbeing and Schools Act 2026 Part 3. Royal Assent 29 April 2026. Enables Secretary of State to impose restrictions via secondary legislation without new Acts.",
