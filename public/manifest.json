@@ -1,0 +1,28 @@
+{
+  "name": "Guided Childhood",
+  "short_name": "GC",
+  "description": "A staged digital parenting pathway for children aged 4 to 16. Five stages, DiGi AI advisor, conversation scripts, and a weekly wellbeing tracker.",
+  "start_url": "/dashboard",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F7F3EE",
+  "theme_color": "#F7F3EE",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ],
+  "categories": ["education", "health", "parenting"],
+  "lang": "en-GB",
+  "dir": "ltr",
+  "scope": "/"
+}

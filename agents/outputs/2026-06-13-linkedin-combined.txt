@@ -1,0 +1,181 @@
+GUIDED CHILDHOOD — LINKEDIN CONTENT
+13 June 2026
+════════════════════════════════════════════════════════════════
+
+
+POST 1 — GAMING PANIC / SOCIAL MEDIA BAN
+~2,100 chars | Thought leadership
+Audience: parents, DSLs, educators, policymakers
+────────────────────────────────────────────────────────────────
+
+In 2012, a peer-reviewed journal published this sentence:
+
+"It is likely that social networking will take the place of video games as the next folk devil."
+
+That paper was published 14 years before the UK Social Media Ban.
+
+Here's the pattern.
+
+In the 1990s, politicians called video games "murder simulators" and "digital poison." The American Psychological Association issued policy statements warning of impending harm. Nine US states passed laws banning their sale to minors.
+
+During the same period, youth violence fell to a 30-year low.
+
+By 2011, the US Supreme Court had reviewed the evidence. The majority opinion, 7-2, stated the studies "do not prove that such exposure causes minors to act aggressively." The court added: these studies "have been rejected by every court to consider them, and with good reason."
+
+Every law collapsed. Every restriction failed. And children were no safer.
+
+The behaviour didn't stop. It relocated.
+
+Australia banned social media for under-16s on December 10, 2025. Platforms removed 4.7 million accounts. Within weeks, two-thirds remained on banned platforms through workarounds — on Discord, Telegram, and unmoderated spaces with none of Instagram's safeguarding infrastructure.
+
+The researchers who wrote that 2012 paper also published a moral panic indicator checklist. It maps almost exactly onto how this debate is currently running.
+
+None of this means social media is harmless. Some of the evidence is specific and credible — particularly on sleep disruption and passive scrolling. Those mechanisms are real and targetable.
+
+But there is a difference between targeting the mechanism of harm and banning the medium entirely.
+
+The behavioral research on restriction is sixty years old and consistent. Access bans without skill-building increase risk exposure rather than reduce it. When two-thirds bypass the ban — as Australia measured — they do so in secret, on unmoderated platforms, without parental visibility. The ban doesn't pause digital life. It relocates it to where parents can't see it.
+
+The child who complies hits 16 with no graduated experience and unrestricted access simultaneously. The child who bypasses is already in unregulated spaces without a framework.
+
+Neither outcome is preparation.
+
+The legislation is a signal. The signal is correct — platform design is causing harm and needs to change.
+
+But signals are not solutions.
+
+If this is an argument you think needs to be heard, follow. More of the evidence behind it coming this week.
+
+────────────────────────────────────────────────────────────────
+SOURCES
+- Ferguson et al. (2012), Journal of Psychiatric Research 46:141-146
+- Brown v. Entertainment Merchants Association, 564 U.S. 786 (2011)
+- FBI Uniform Crime Reports 1993-2017
+- Australian eSafety Commissioner, Jan 2026
+- Australian Government AG Dept review (2010)
+
+PUSHBACK PREP
+- "Ferguson is biased" → other facts are independent of him
+- "Games and social media are different" → legislative pattern is identical
+- "Do both — educate AND ban" → ban relocates behaviour to where parents cannot see it
+- "You're defending Big Tech" → post calls for platform design regulation
+
+
+════════════════════════════════════════════════════════════════
+
+
+POST 2 — APPLE AGE-STAGED ACCESS
+~1,500 chars | Thought leadership
+Audience: parents, school leaders, DSLs
+────────────────────────────────────────────────────────────────
+
+Apple just introduced something the smartphone debate has almost entirely missed.
+
+The new Child Accounts system doesn't ask children their birthday. Apple already knows the age band — under 13, 13-15, 16-17, 18+ — and shares only that category with apps, not the actual date of birth.
+
+Apps can then disable features, restrict messaging, filter content, trigger parental approval, and present an entirely different experience.
+
+Not based on manual parental toggles. Built into the architecture.
+
+---
+
+The debate that has run for two years is: smartphone or brick phone?
+
+Apple appears to be building a third option.
+
+Same hardware. Age-staged capability release.
+
+A 12-year-old's iPhone can now behave very differently from a 16-year-old's iPhone — and the difference isn't a parent manually adjusting settings every six months. It's structural.
+
+---
+
+This changes the question.
+
+Not "should a child have a smartphone?"
+
+But "what capabilities should be available at each age, and how do we graduate them as the child demonstrates readiness?"
+
+That's a different debate. And a more useful one.
+
+---
+
+The New York bell-to-bell school phone restriction has produced real improvements in classroom attention and peer interaction. That finding is consistent across multiple studies.
+
+But one student in the original report described the lock boxes as "a great temporary solution — but a solution to a symptom of a root cause."
+
+That student identified something the policy literature hasn't resolved.
+
+You can improve the school day without answering the harder question: where does a child learn the skills they'll need the day they gain unrestricted access?
+
+The school restriction doesn't address that.
+
+Apple's direction is the closest structural answer I've seen.
+
+Not a wall. Not a cliff edge at 16.
+
+A graduated capability release, aligned with development.
+
+---
+
+If the technology is moving toward age-staged access rather than a binary, the policy debate probably needs to catch up.
+
+If this framing is useful, follow. More on what the evidence says about staged digital access this week.
+
+
+════════════════════════════════════════════════════════════════
+
+
+FERGUSON COMMENT REPLY
+────────────────────────────────────────────────────────────────
+
+Context: Professor Christopher Ferguson commented on the Wrong Villain post:
+"Ad hominem is a classic part of moral panics. I'm not just saying this.
+I literally published this in a peer reviewed journal as part of a list
+back in 2012. See #8."
+
+SHORT REPLY (post under his comment — genuine reaction)
+
+I felt this before I had a name for it. Reading your 2012 list while this was happening to me in real time — that's one of those moments. The fact you literally predicted social media would be the next folk devil, in a peer-reviewed journal, before any of this legislation existed. Thank you.
+
+---
+
+PERMISSION ASK (DM — gives him room to say no privately)
+
+Professor Ferguson — would you be open to me writing a post for parents referencing your 2012 moral panic indicators? The checklist maps almost exactly onto how the UK social media ban debate is playing out, and I think it would give parents and school DSLs a useful framework for reading the headlines critically. Happy to send a draft before I post anything. — Justin
+
+Paper: Ferguson CJ et al., Journal of Psychiatric Research 46 (2012) 141-146
+Point 8: "Proponents of a theoretical view employ ad hominem attacks against critics."
+Key quote: "Social networking will likely take the place of video games as the next folk devil."
+
+
+════════════════════════════════════════════════════════════════
+
+
+IMAGE PROMPTS
+────────────────────────────────────────────────────────────────
+
+POST 1 IMAGE (recommended — typographic)
+
+Single bold line, white text on deep charcoal, Guided Childhood typography:
+
+"The behaviour didn't stop. It relocated."
+
+Smaller weight below: "Gaming bans. Social media bans. Same outcome."
+
+---
+
+POST 2 IMAGE
+
+Single typographic card. Dark navy. White text:
+
+"Not: should a child have a smartphone?
+
+But: what capabilities should be available at each age?"
+
+Small device icon in light grey at bottom. No brand logos. No faces.
+
+---
+
+VISUAL NOTE
+Matt Gray steal: one line that works standalone is the image.
+Keep Guided Childhood palette. Consistency over novelty at this stage.
