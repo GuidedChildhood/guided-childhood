@@ -1,10 +1,25 @@
 import { createClient } from '@/lib/supabase/server'
-import { DIGI_MODEL } from '@/lib/config/digi'
+import { DIGI_MODEL, DIGI_MODEL_FALLBACKS } from '@/lib/config/digi'
 import { NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 import { getStageFromAgeBand, STAGES, type AgeBand } from '@/lib/content/stages'
 
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+
+async function callDigi(params: Anthropic.MessageCreateParamsNonStreaming): Promise<Anthropic.Message> {
+  const modelsToTry = [DIGI_MODEL, ...DIGI_MODEL_FALLBACKS.filter(m => m !== DIGI_MODEL)]
+  let lastError: unknown
+  for (const model of modelsToTry) {
+    try {
+      return await anthropic.messages.create({ ...params, model })
+    } catch (err) {
+      const isModelError = err instanceof Anthropic.APIError && (err.status === 404 || err.status === 400)
+      if (!isModelError) throw err
+      lastError = err
+    }
+  }
+  throw lastError
+}
 
 const FREE_DAILY_LIMIT = 3
 
@@ -78,7 +93,7 @@ export async function POST(request: Request) {
     { role: 'user' as const, content: message },
   ]
 
-  const response = await anthropic.messages.create({
+  const response = await callDigi({
     model: DIGI_MODEL,
     max_tokens: 600,
     system: systemPrompt,
