@@ -1,7 +1,7 @@
 {
   "agent": "guardian",
-  "run_count": 2,
-  "last_updated": "2026-06-12",
+  "run_count": 3,
+  "last_updated": "2026-06-13",
   "ongoing_threads": [
     "KCSIE 2026 deepfake guidance — implementation in schools",
     "Ofsted inspection framework — online safety evidence requirements"
@@ -19,6 +19,10 @@
     {
       "date": "2026-06-12",
       "action": "Brief Navigator to lead DSL/Headteacher outreach with the NSPCC 36% sextortion-rise figure and a one-line offer of a \"boy-aware early-warning, not surveillance\" resource, scheduling sends for secondary schools and MATs first."
+    },
+    {
+      "date": "2026-06-13",
+      "action": "Brief Navigator to lead outreach with the line \"Your phone ban is now statutory and Ofsted-checked — Guided Childhood helps you prove your online-safety culture continues at home, where the real harm now sits,\" targeting secondary-school and MAT DSLs first with the \"Phone-free at school, supported at home\" one-pager."
     }
   ],
   "recent_questions": [
@@ -29,6 +33,10 @@
     {
       "date": "2026-06-12",
       "question": "Does Guided Childhood's current behavioural-signal capability actually detect the *patterns* preceding sextortion (contact spikes, secrecy, image-sharing prompts), or only block known harmful content — because the honest answer determines whether this hook is credible to a DSL?"
+    },
+    {
+      "date": "2026-06-13",
+      "question": "Do we already have parent-facing conversation materials differentiated by key stage (primary 4-11 vs secondary 11-16) that I can map to this resource, or does that content need to be drafted first?"
     }
   ],
   "notes_to_self": "Memory starts empty — builds from real runs."

@@ -1,7 +1,7 @@
 {
   "agent": "sage",
-  "run_count": 2,
-  "last_updated": "2026-06-12",
+  "run_count": 3,
+  "last_updated": "2026-06-13",
   "content_performance": {
     "note": "Real data from Justin's LinkedIn content analytics — as of 2026-06-09",
     "total_engagements": 2009,
@@ -59,6 +59,10 @@
     {
       "date": "2026-06-12",
       "action": "Post LinkedIn before 8.30am (ahead of the expected PM speech), paste Substack draft mid-morning, Instagram at 12pm, Facebook at 6pm — and keep a same-day reaction post drafted to publish the moment Starmer confirms which of the three options he's chosen."
+    },
+    {
+      "date": "2026-06-13",
+      "action": "Post LinkedIn before 8.30am (ahead of the PM's speech), paste Substack draft mid-morning, Instagram at 12pm, Facebook at 6pm — and keep a same-day reaction post drafted to publish the moment Starmer confirms the final banned-feature list and any age-assurance detail."
     }
   ],
   "recent_questions": [
@@ -69,6 +73,10 @@
     {
       "date": "2026-06-12",
       "question": "Does Guided Childhood want to be positioned publicly *as* a permitted \"safer platform\" under whatever model the PM picks, or as the neutral age-assurance/compliance layer other platforms buy in — because the content angle (and how hard I lean on \"we are the safe environment\") changes materially depending on that decision?"
+    },
+    {
+      "date": "2026-06-13",
+      "question": "What is GC's current age-assurance method, and does it map to the verification approaches Ofcom is expected to endorse in its July 2026 effectiveness report — so I can credibly position GC as \"compliant by design\" without overstating it?"
     }
   ],
   "notes_to_self": "258 saves out of 2,009 engagements = 12.8% save rate. That is very high. Educators are using this content. Write to be saved, not just liked. The data-specific format is working — don't drift into narrative."

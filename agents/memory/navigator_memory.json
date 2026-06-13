@@ -1,7 +1,7 @@
 {
   "agent": "navigator",
-  "run_count": 2,
-  "last_updated": "2026-06-12",
+  "run_count": 3,
+  "last_updated": "2026-06-13",
   "strategic_context": {
     "mission": "Navigator's role in the £1M plan: convert LinkedIn reach into school demos and signed contracts",
     "funnel": "Wrong Villain post → GUIDE comment → framework DM → device guide → demo → school subscription (£500–£2,000/year)",
@@ -41,6 +41,10 @@
     {
       "date": "2026-06-12",
       "action": "Verify and send message #1 to the named Trust/Regional Safeguarding Lead at a 10+ academy secondary MAT now — the NSPCC 36% boy-aware sextortion hook is the most urgent, highest-multiplier send and must land before the PM's speech this week."
+    },
+    {
+      "date": "2026-06-13",
+      "action": "Send message #2 to Tom Partridge (Stowe Valley MAT DSL) right now — it pairs Guardian's statutory-phone-ban hook with a secondary MAT DSL, the single most timely and Ofsted-relevant send before the PM's speech lands."
     }
   ],
   "recent_questions": [
@@ -51,6 +55,10 @@
     {
       "date": "2026-06-12",
       "question": "Does GC's behavioural-signal capability actually detect the *patterns* preceding sextortion (contact spikes, secrecy, image-sharing prompts), or only block known harmful content — because the honest answer decides whether messages #1 and #2 are credible to a DSL?"
+    },
+    {
+      "date": "2026-06-13",
+      "question": "Do we actually have the two finished assets I'm now promising in messages — the \"phone-free at school, supported at home\" one-pager AND the key-stage-differentiated (KS1/KS2 vs KS3/KS4) parent prompts — ready to send, or do I need to soften the offers until Diego/Guardian confirm the content exists?"
     }
   ],
   "notes_to_self": "Every outreach message has one goal: get a 20-minute demo booked. Not to explain the product. Not to share a link. One demo request. The GUIDE funnel does the warming — Navigator converts the warm leads into conversations."

@@ -1,7 +1,7 @@
 {
   "agent": "diego",
-  "run_count": 2,
-  "last_updated": "2026-06-12",
+  "run_count": 3,
+  "last_updated": "2026-06-13",
   "CHARACTER_LIMITS": {
     "rule": "LinkedIn posts MUST be 280-350 words maximum. Count before finalising. No exceptions.",
     "why": "Posts over 400 words lose engagement. The β=0.061 post won because it was tight, not because it was long.",
