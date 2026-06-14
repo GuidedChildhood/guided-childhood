@@ -1,0 +1,41 @@
+Most schools now have an AI policy.
+
+Most of those policies were written in 2023 or 2024, approved by governors, filed on the website, and haven't been revisited since.
+
+AI tools have changed more in the last 12 months than in the previous decade. A static policy is not a safeguard. It's a paper trail.
+
+What schools actually need is a dynamic AI model — a living framework that responds to how tools are evolving, not a document that reflects how they were.
+
+The DfE's AI in Education Guidance (June 2025) sets the current expectation:
+— Appropriate use of AI tools by staff
+— Safeguarding considerations around AI-generated content
+— Transparency obligations when AI is used in assessment or feedback
+— Student data protection in AI tool interactions
+
+What a dynamic school AI model looks like in practice:
+
+For governors and senior leaders:
+Termly AI policy review. Not annual. Tools, risks, and DfE guidance change faster than a 12-month cycle allows.
+
+For PSHE leads and classroom teachers:
+AI literacy is curriculum content, not just an acceptable use rule. Children need to understand how large language models work, why they hallucinate, and what responsible use looks like — before they encounter AI in a high-stakes context.
+
+For DSLs:
+AI-specific safeguarding risks require explicit inclusion in your safeguarding policy. These include: AI-generated CSAM, deepfake sextortion, voice cloning used in grooming, and children forming dependent relationships with AI companions.
+
+For parents:
+Home use of AI tools is not covered by the school's acceptable use policy. The gap between what children are permitted to do in school and what they're actually doing at home is where most AI risk lives.
+
+The Guided Childhood AI curriculum covers:
+— KS3: AI chatbots, deepfakes, identifying AI-generated content
+— KS4: Manipulation via AI, sextortion, AI and identity
+— KS5: AI mastery, prompt literacy, vibe coding, data rights, ethical AI use
+— Staff CPD: AI safeguarding, classroom AI practice, disclosure response
+
+Every lesson includes a parent note — because a school AI policy without parent alignment is only protecting children for six hours a day.
+
+The school package includes a staff AI tools policy template, fully aligned to DfE June 2025 guidance. Ready to adopt or adapt.
+
+→ guidedchildhood.com — school enquiries welcome
+
+#AIinEducation #AIPolicy #Safeguarding #DigitalLiteracy #DSL #PSHE #EdTech #SchoolLeadership
