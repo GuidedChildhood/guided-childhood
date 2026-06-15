@@ -394,7 +394,7 @@ export default async function JoinPage() {
             </p>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '16px', marginBottom: '36px' }}>
-            [
+            {[
               { who: 'DSL and senior leadership', what: 'Statutory alignment document across KCSIE, RSHE, Online Safety Act, Ofcom and DfE AI guidance. Ofsted-ready evidence trail. Parent letter template and QR codes for every module. The compliance case made for you.' },
               { who: 'PSHE leads and teachers', what: 'Zero-prep slide decks and teacher notes for every module. Oak National Academy format. Assembly guides and PSHE one-pagers. Teachers deliver with confidence, no specialist training needed.' },
               { who: 'Students', what: 'Scenario-based, interactive content built on Rosenshine principles. No scare tactics. Treats students as capable of making good decisions when they understand what they are dealing with.' },

@@ -206,6 +206,12 @@ h3 { font-size: clamp(1.25rem, 2.5vw, 1.75rem); }
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 
+@keyframes ticker {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.ticker-track { animation: ticker 36s linear infinite; }
 @media (prefers-reduced-motion: reduce) {
+  .ticker-track { animation: none; }
   * { animation: none !important; transition: none !important; }
 }
