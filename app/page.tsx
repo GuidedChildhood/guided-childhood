@@ -599,15 +599,15 @@ export default function HomePage() {
                 style: {},
               },
               {
-                tier: 'Most popular', name: 'Guided Childhood OS', price: '£12.99', period: '/month', save: 'Launching soon. Reserve your spot now.',
+                tier: 'Most popular', name: 'Guided Childhood OS', price: '£12.99', period: '/month', save: 'First 50 members: lock in £7.99/month for life.',
                 features: [['✓', true, 'Full 5-stage dashboard'], ['✓', true, 'Weekly 3-action plan'], ['✓', true, 'All scripts and guides'], ['✓', true, 'Full curriculum, all lessons'], ['✓', true, 'Digital wellbeing tracker'], ['✓', false, 'DiGi AI advisor, unlimited'], ['✓', false, 'School lesson packs included']],
-                cta: 'Reserve Your Spot', href: '/starter-pack', ctaClass: 'bp-coral',
+                cta: 'Start now', href: '/join', ctaClass: 'bp-coral',
                 style: { background: '#EFE9DF', borderColor: 'rgba(212,96,10,0.25)', transform: 'scale(1.025)' },
               },
               {
                 tier: 'Best value', name: 'Annual OS', price: '£99', period: '/year', save: 'Save £57. Two months free.',
                 features: [['✓', true, 'Everything in monthly'], ['✓', true, 'Multi-child profiles'], ['✓', true, 'Priority DiGi access'], ['✓', true, 'School pack downloads']],
-                cta: 'Reserve Your Spot', href: '/starter-pack', ctaClass: 'bp-green',
+                cta: 'Start now', href: '/join', ctaClass: 'bp-green',
                 style: {},
               },
             ].map((plan, i) => (
@@ -642,7 +642,7 @@ export default function HomePage() {
           <div style={{ background: 'var(--coral-lt)', border: '1px solid rgba(212,96,10,0.25)', borderRadius: '12px', padding: '18px 22px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', marginTop: '14px', flexWrap: 'wrap' }}>
             <div>
               <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '.95rem', fontWeight: 700, color: 'var(--ink)', marginBottom: '2px' }}>Founder Rate: First 50 Members Only</h4>
-              <p style={{ fontSize: '.8rem', color: 'var(--ink-soft)' }}>Lock in <strong>£7.99/month for life</strong>. Your 131 existing subscribers get 48-hour exclusive access on launch day.</p>
+              <p style={{ fontSize: '.8rem', color: 'var(--ink-soft)' }}>Lock in <strong>£7.99/month for life</strong>. Places are limited to the first 50 members.</p>
             </div>
             <Link href="/starter-pack" style={{ background: 'var(--coral)', color: '#fff', border: 'none', fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '.8rem', padding: '10px 22px', borderRadius: '100px', whiteSpace: 'nowrap', textDecoration: 'none', display: 'inline-block' }}>
               Claim Founder Rate
