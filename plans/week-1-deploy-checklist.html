@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guided Childhood — Week 1 Deploy Checklist</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Hanken+Grotesk:wght@400;600;700;800&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-size: 13px;
+    color: #1a1a1a;
+    background: #fff;
+    padding: 40px;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  .header {
+    border-bottom: 3px solid #1a1a1a;
+    padding-bottom: 16px;
+    margin-bottom: 28px;
+  }
+
+  .brand {
+    font-size: 11px;
+    font-family: 'IBM Plex Mono', monospace;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #555;
+    margin-bottom: 6px;
+  }
+
+  h1 {
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1.2;
+  }
+
+  .date {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: #888;
+    margin-top: 4px;
+  }
+
+  .urgent {
+    background: #1a1a1a;
+    color: #fff;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 28px;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  .urgent strong {
+    font-weight: 700;
+  }
+
+  .section {
+    margin-bottom: 28px;
+    page-break-inside: avoid;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .step-number {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    background: #1a1a1a;
+    color: #fff;
+    padding: 3px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+  }
+
+  .step-number.linkedin {
+    background: #0077B5;
+  }
+
+  h2 {
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  .task-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+
+  .task-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 7px 10px;
+    background: #f8f8f7;
+    border-radius: 6px;
+    border-left: 3px solid #ddd;
+    font-size: 12px;
+  }
+
+  .task-list li.important {
+    border-left-color: #2a7a2a;
+    background: #f0f7f0;
+  }
+
+  .checkbox {
+    width: 16px;
+    height: 16px;
+    border: 2px solid #999;
+    border-radius: 3px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .task-text {
+    flex: 1;
+    line-height: 1.5;
+  }
+
+  .task-text code {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    background: #e8e8e6;
+    padding: 1px 5px;
+    border-radius: 3px;
+    color: #333;
+  }
+
+  .task-text .note {
+    display: block;
+    font-size: 10px;
+    color: #666;
+    margin-top: 2px;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  .env-block {
+    background: #f0f0ee;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 12px;
+    margin-top: 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    line-height: 2;
+  }
+
+  .env-block .key {
+    color: #0a5a0a;
+    font-weight: 600;
+  }
+
+  .env-block .val {
+    color: #888;
+  }
+
+  .post-box {
+    border: 2px solid #0077B5;
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-top: 10px;
+    font-size: 12px;
+    line-height: 1.7;
+    color: #1a1a1a;
+    white-space: pre-line;
+  }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 10px;
+  }
+
+  .content-day {
+    background: #f8f8f7;
+    border-radius: 6px;
+    padding: 12px;
+    border-left: 3px solid #2a7a2a;
+    font-size: 12px;
+  }
+
+  .content-day .day-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #2a7a2a;
+    margin-bottom: 4px;
+  }
+
+  .footer {
+    margin-top: 32px;
+    padding-top: 16px;
+    border-top: 1px solid #ddd;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: #aaa;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  @media print {
+    body { padding: 20px; font-size: 11px; }
+    .section { page-break-inside: avoid; }
+    h1 { font-size: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="brand">Guided Childhood</div>
+  <h1>Week 1 Deploy Checklist</h1>
+  <div class="date">15 June 2026 — Ban announced today. Spring 2027 deadline confirmed.</div>
+</div>
+
+<div class="urgent">
+  <strong>The UK social media ban is confirmed.</strong> Regulation before Christmas 2026. Ban in force Spring 2027. Complete this checklist today. The platform needs to be live before the content series drives traffic.
+</div>
+
+<!-- LINKEDIN -->
+<div class="section">
+  <div class="section-header">
+    <div class="step-number linkedin">NOW</div>
+    <h2>LinkedIn — Post Today</h2>
+  </div>
+  <div class="task-list">
+    <li>
+      <div class="checkbox"></div>
+      <div class="task-text">Choose Option A (cliff edge) or Option B (phone is not banned) and post now. The ban conversation is happening on LinkedIn today.</div>
+    </li>
+  </div>
+  <div class="post-box"><strong>OPTION A — The cliff edge</strong>
+
+Today the UK government confirmed it. Under-16s off social media. Regulation before Christmas. Ban in force Spring 2027.
+
+I want to tell you what nobody else is saying today.
+
+The children who comply will hit 16 on the day the ban lifts with no graduated exposure, no framework, and no preparation for what they are about to access. The switch flips. Two years of being kept away from it. Then suddenly all of it, at once.
+
+That is the cliff edge the ban creates.
+
+The children who do not comply will navigate around it in darker, less monitored spaces. Without the minimal safeguards the platforms provide. Without the conversations that should have happened first.
+
+Neither group is ready.
+
+The ban is not the education. Spring 2027 is the deadline. That is what the next nine months are for.
+
+Justin Phillips, Guided Childhood</div>
+
+  <div class="post-box" style="margin-top:10px;"><strong>OPTION B — The phone is not banned</strong>
+
+Something important is being lost in today's announcement.
+
+The government has banned social media for under-16s. Not smartphones.
+
+Your child will still have a phone. They will still have WhatsApp. They will still have gaming. They will still encounter algorithms. They will still be in group chats. They will still see things that are hard to talk about.
+
+The ban removes Instagram and TikTok. It does not remove the need for the conversation.
+
+If anything, it makes it more urgent. Because from Spring 2027, every difficult conversation that used to happen gradually, inside a platform, now happens in one go when a 16-year-old gets legal access for the first time.
+
+The preparation starts now.
+
+Justin Phillips, Guided Childhood</div>
+</div>
+
+<!-- STEP 1 SUPABASE -->
+<div class="section">
+  <div class="section-header">
+    <div class="step-number">STEP 1</div>
+    <h2>Supabase — Database</h2>
+  </div>
+  <ul class="task-list">
+    <li><div class="checkbox"></div><div class="task-text">Go to <strong>supabase.com</strong> and create a new project</div></li>
+    <li><div class="checkbox"></div><div class="task-text">Open the SQL editor and run the full schema from <code>guided-childhood-build/docs/02</code></div></li>
+    <li class="important"><div class="checkbox"></div><div class="task-text">Copy these three values from Supabase → Settings → API:<span class="note">NEXT_PUBLIC_SUPABASE_URL · NEXT_PUBLIC_SUPABASE_ANON_KEY · SUPABASE_SERVICE_ROLE_KEY</span></div></li>
+  </ul>
+</div>
+
+<!-- STEP 2 STRIPE -->
+<div class="section">
+  <div class="section-header">
+    <div class="step-number">STEP 2</div>
+    <h2>Stripe — Payments</h2>
+  </div>
+  <ul class="task-list">
+    <li><div class="checkbox"></div><div class="task-text">Go to <strong>stripe.com</strong> — switch to <strong>test mode</strong> first</div></li>
+    <li class="important"><div class="checkbox"></div><div class="task-text">Create product: <strong>Founder rate</strong> — £7.99/month recurring<span class="note">Copy the Price ID (starts price_) → STRIPE_FOUNDER_PRICE_ID</span></div></li>
+    <li class="important"><div class="checkbox"></div><div class="task-text">Create product: <strong>Standard</strong> — £12.99/month recurring<span class="note">Copy the Price ID → STRIPE_STANDARD_PRICE_ID</span></div></li>
+    <li class="important"><div class="checkbox"></div><div class="task-text">Create product: <strong>Annual</strong> — £99/year recurring<span class="note">Copy the Price ID → STRIPE_ANNUAL_PRICE_ID</span></div></li>
+    <li><div class="checkbox"></div><div class="task-text">Copy your Stripe secret key and publishable key<span class="note">STRIPE_SECRET_KEY (starts sk_test_) · NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY (starts pk_test_)</span></div></li>
+  </ul>
+</div>
+
+<!-- STEP 3 VERCEL -->
+<div class="section">
+  <div class="section-header">
+    <div class="step-number">STEP 3</div>
+    <h2>Vercel — Environment Variables</h2>
+  </div>
+  <ul class="task-list">
+    <li><div class="checkbox"></div><div class="task-text">Go to Vercel project → Settings → Environment Variables</div></li>
+    <li class="important"><div class="checkbox"></div><div class="task-text">Add all variables from <code>.env.local.template</code> in the codebase</div></li>
+  </ul>
+  <div class="env-block">
+    <div><span class="key">NEXT_PUBLIC_SUPABASE_URL</span> <span class="val">= from Supabase step 1</span></div>
+    <div><span class="key">NEXT_PUBLIC_SUPABASE_ANON_KEY</span> <span class="val">= from Supabase step 1</span></div>
+    <div><span class="key">SUPABASE_SERVICE_ROLE_KEY</span> <span class="val">= from Supabase step 1</span></div>
+    <div><span class="key">STRIPE_SECRET_KEY</span> <span class="val">= from Stripe step 2</span></div>
+    <div><span class="key">NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY</span> <span class="val">= from Stripe step 2</span></div>
+    <div><span class="key">STRIPE_FOUNDER_PRICE_ID</span> <span class="val">= from Stripe step 2</span></div>
+    <div><span class="key">STRIPE_STANDARD_PRICE_ID</span> <span class="val">= from Stripe step 2</span></div>
+    <div><span class="key">STRIPE_ANNUAL_PRICE_ID</span> <span class="val">= from Stripe step 2</span></div>
+    <div><span class="key">STRIPE_WEBHOOK_SECRET</span> <span class="val">= from Stripe step 4</span></div>
+    <div><span class="key">DIGI_MODEL</span> <span class="val">= claude-fable-5</span></div>
+    <div><span class="key">ANTHROPIC_API_KEY</span> <span class="val">= from console.anthropic.com</span></div>
+  </div>
+</div>
+
+<!-- STEP 4 WEBHOOK -->
+<div class="section">
+  <div class="section-header">
+    <div class="step-number">STEP 4</div>
+    <h2>Stripe Webhook</h2>
+  </div>
+  <ul class="task-list">
+    <li><div class="checkbox"></div><div class="task-text">In Stripe → Developers → Webhooks → Add endpoint</div></li>
+    <li class="important"><div class="checkbox"></div><div class="task-text">Endpoint URL: <code>https://your-vercel-domain.vercel.app/api/stripe/webhook</code></div></li>
+    <li><div class="checkbox"></div><div class="task-text">Events to listen for:<span class="note">checkout.session.completed · customer.subscription.updated · customer.subscription.deleted · invoice.payment_failed</span></div></li>
+    <li class="important"><div class="checkbox"></div><div class="task-text">Copy the webhook signing secret → add as <code>STRIPE_WEBHOOK_SECRET</code> in Vercel</div></li>
+  </ul>
+</div>
+
+<!-- STEP 5 ICONS -->
+<div class="section">
+  <div class="section-header">
+    <div class="step-number">STEP 5</div>
+    <h2>App Icons (PWA)</h2>
+  </div>
+  <ul class="task-list">
+    <li><div class="checkbox"></div><div class="task-text">Create <code>public/icons/icon-192.png</code> — 192×192px, Guided Childhood logo on cream background</div></li>
+    <li><div class="checkbox"></div><div class="task-text">Create <code>public/icons/icon-512.png</code> — 512×512px, same design</div></li>
+    <li><div class="checkbox"></div><div class="task-text">Commit and push both files to the branch</div></li>
+  </ul>
+</div>
+
+<!-- STEP 6 DEPLOY -->
+<div class="section">
+  <div class="section-header">
+    <div class="step-number">STEP 6</div>
+    <h2>Deploy and Test</h2>
+  </div>
+  <ul class="task-list">
+    <li><div class="checkbox"></div><div class="task-text">Vercel will auto-deploy once all env vars are set. Or trigger manually: Vercel → Deployments → Redeploy</div></li>
+    <li class="important"><div class="checkbox"></div><div class="task-text">Test: visit <code>/starter-pack</code>, complete the quiz, sign up, complete onboarding</div></li>
+    <li><div class="checkbox"></div><div class="task-text">Test: visit <code>/dashboard</code> — stage card shows correctly</div></li>
+    <li><div class="checkbox"></div><div class="task-text">Test: send a DiGi message — response arrives</div></li>
+    <li><div class="checkbox"></div><div class="task-text">Test: visit <code>/dashboard/upgrade</code> — founder count shows from Supabase</div></li>
+    <li><div class="checkbox"></div><div class="task-text">Test: mobile view in Chrome DevTools — all pages responsive</div></li>
+  </ul>
+</div>
+
+<!-- CONTENT SERIES -->
+<div class="section">
+  <div class="section-header">
+    <div class="step-number" style="background:#2a7a2a;">CONTENT</div>
+    <h2>What Happens Now — 14-Day Series</h2>
+  </div>
+  <div class="two-col">
+    <div class="content-day"><div class="day-label">Day 1 — Today</div>Ban confirmed post (Option A or B above)</div>
+    <div class="content-day"><div class="day-label">Day 2 — Tomorrow</div>What is your child actually seeing before the ban? Link to Digital Wellbeing tool</div>
+    <div class="content-day"><div class="day-label">Day 3</div>What to say to your child tonight</div>
+    <div class="content-day"><div class="day-label">Day 4</div>The 6pm problem: screens the moment they walk in</div>
+    <div class="content-day"><div class="day-label">Day 5</div>Bedtime — why this is the most important rule</div>
+    <div class="content-day"><div class="day-label">Day 6</div>Mealtimes and screens</div>
+    <div class="content-day"><div class="day-label">Day 7</div>Boredom: what to do when they say I'm bored</div>
+    <div class="content-day"><div class="day-label">Day 8</div>VPNs and workarounds: when the rules are tested</div>
+    <div class="content-day"><div class="day-label">Day 9</div>Gaming is not social media: what parents need to know</div>
+    <div class="content-day"><div class="day-label">Day 10</div>The mood crash: why they are difficult after screens</div>
+    <div class="content-day"><div class="day-label">Day 11</div>Group chats: the platform nobody is talking about</div>
+    <div class="content-day"><div class="day-label">Day 12</div>The 16 conversation: how to prepare now</div>
+    <div class="content-day"><div class="day-label">Day 13</div>Reading, homework, family time: getting them back</div>
+    <div class="content-day"><div class="day-label">Day 14</div>The whole picture: Guided Childhood</div>
+  </div>
+</div>
+
+<div class="footer">
+  <span>Guided Childhood — guidedchildhood.com</span>
+  <span>Justin Phillips, Bath UK — 15 June 2026</span>
+</div>
+
+</body>
+</html>
