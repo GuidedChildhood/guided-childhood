@@ -50,7 +50,7 @@ export default async function JoinPage() {
             Raise a child who is ready for the digital world
           </h1>
           <p style={{ fontSize: '18px', color: 'var(--ink-soft)', maxWidth: '540px', margin: '0 auto 32px', lineHeight: 1.7 }}>
-            Not a ban. Not more screen time rules. A pathway, from age 4 to 16, with the conversations, tools and AI advisor to navigate every stage.
+            The UK social media ban is confirmed. Spring 2027. The conversations that prepare your child for that day start now. A pathway from age 4 to 16, covering social media, TV, gaming, bedtime, daily behaviour and everything in between.
           </p>
           <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '16px', padding: '18px 40px' }}>
             Find your child's stage — it is free
@@ -191,8 +191,8 @@ export default async function JoinPage() {
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '14px' }}>
             {[
-              { icon: '◎', title: 'DiGi AI advisor', desc: 'Stage-specific. Research-grounded. Available any time. Never allow/deny. Always a calibrated pathway.' },
-              { icon: '◻', title: '17 conversation scripts', desc: 'Say this, not this, and why it works. For every stage and every difficult moment.' },
+              { icon: '◎', title: 'DiGi AI advisor', desc: 'Stage-specific. Research-grounded. Available at 11pm when you need it. Ask about social media, TV battles, gaming, mood changes, workarounds. Never allow or deny. Always a calibrated next step.' },
+              { icon: '◻', title: '17 conversation scripts', desc: 'Say this, not this, and why it works. Social media, TV rules, bedtime battles, gaming, the boredom fight, mood after screens. Every difficult moment covered.' },
               { icon: '△', title: 'Weekly wellbeing tracker', desc: 'Five questions, once a week. Over time, patterns emerge. DiGi responds to what you find.' },
               { icon: '⌂', title: 'Five developmental stages', desc: 'Age 4 to 16. Each stage has different risks, different conversations, and a different device recommendation.' },
               { icon: '◈', title: 'Family agreement builder', desc: 'A document your whole family creates together. Agreed, not imposed. Reviewed each term.' },
@@ -217,7 +217,7 @@ export default async function JoinPage() {
             {[
               { time: 'Tonight', desc: 'The bedroom rule is in place. Devices sleep in the kitchen. Everyone sleeps better.' },
               { time: 'This term', desc: 'You have had the algorithm conversation. They come to you when something weird shows up. The door is open.' },
-              { time: 'At 16', desc: 'A young person who knows how algorithms work, what their digital footprint says about them, and how to get help when something goes wrong online.' },
+              { time: 'Spring 2027', desc: 'The ban comes into force. Your child reaches 16 ready. They know how algorithms work, what their digital footprint says about them, and how to get help when something goes wrong online. The switch flips. They are not starting from zero.' },
             ].map((moment, i) => (
               <div key={i} style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '14px', padding: '22px', textAlign: 'left' }}>
                 <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--gold)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '12px' }}>{moment.time}</div>
@@ -259,9 +259,9 @@ export default async function JoinPage() {
       {/* Not too late */}
       <section style={{ padding: 'clamp(40px, 6vw, 64px) 24px', background: 'var(--gold-lt)', borderTop: '1px solid var(--gold)', borderBottom: '1px solid var(--gold)' }}>
         <div style={{ maxWidth: '640px', margin: '0 auto', textAlign: 'center' }}>
-          <h2 style={{ marginBottom: '16px', fontSize: 'clamp(1.5rem, 3vw, 2rem)' }}>It is not too late</h2>
+          <h2 style={{ marginBottom: '16px', fontSize: 'clamp(1.5rem, 3vw, 2rem)' }}>Spring 2027 is the date. Now is the time.</h2>
           <p style={{ color: 'var(--ink-soft)', fontSize: '16px', lineHeight: 1.7, marginBottom: '24px' }}>
-            The phone is already there. The accounts already exist. You are not starting from zero — you are starting from now. Every stage has a next step. The algorithm conversation is just as important after the phone as before it.
+            The phone is already there. The accounts already exist. The ban is coming. You are not starting from zero. You are starting from now. Every stage has a next step. The algorithm conversation is just as important after the accounts exist as before. The preparation conversation matters most before the day it becomes legal.
           </p>
           <Link href="/starter-pack" className="btn btn-gold">
             Find your starting point
@@ -368,7 +368,7 @@ export default async function JoinPage() {
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {[
-              { q: 'Is this about banning phones or social media?', a: 'No. This is a pathway, not a ban. The research is clear that restriction without education produces children who are less capable, not more protected. Guided Childhood prepares your child for the digital world, at the right pace for their stage.' },
+              { q: 'The government just banned social media for under-16s. Does this change what I need to do?', a: 'The ban changes access. It does not change readiness. A child who complies will hit 16 with the switch flipped and no framework for what just became legal. A child who finds workarounds will do so in less monitored spaces. Guided Childhood is the preparation that fills both gaps. Regulation passes before Christmas. Ban in force Spring 2027. The conversations start now.' },
               { q: 'How fast does it work?', a: 'Some parents notice a difference in the first week, usually after having one conversation using a script that lands differently than they expected. The tracker starts showing patterns after four to six weeks.' },
               { q: 'What if my partner is not on board?', a: 'Start yourself. The scripts and DiGi give you the language to have the conversation at home first. Sharing your dashboard on any device is straightforward.' },
               { q: 'Is it too late if my child already has a phone and social media?', a: 'No. The algorithm conversation is just as important after the accounts exist as before. Stage 3 and 4 parents often see the fastest change because there is a specific, immediate thing to address.' },
@@ -379,6 +379,53 @@ export default async function JoinPage() {
                 <p style={{ fontSize: '14px', color: 'var(--ink-muted)', lineHeight: 1.7 }}>{faq.a}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Schools */}
+      <section style={{ padding: 'clamp(48px, 8vw, 80px) 24px', background: 'var(--green-lt)' }}>
+        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+            <p className="eyebrow" style={{ color: 'var(--green-dark)', marginBottom: '10px' }}>For schools</p>
+            <h2 style={{ marginBottom: '16px' }}>The ban handles access. We handle readiness. Ofsted will ask about the second part.</h2>
+            <p style={{ color: 'var(--ink-muted)', fontSize: '16px', maxWidth: '560px', margin: '0 auto', lineHeight: 1.7 }}>
+              Your school has a statutory duty to prepare children for life online. The ban makes that duty more urgent, not less. 21 modules, EYFS to Year 13. Full alignment to KCSIE, statutory RSHE, Online Safety Act, Ofcom and DfE AI guidance. The home-school connection built into every module.
+            </p>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '16px', marginBottom: '36px' }}>
+            [
+              { who: 'DSL and senior leadership', what: 'Statutory alignment document across KCSIE, RSHE, Online Safety Act, Ofcom and DfE AI guidance. Ofsted-ready evidence trail. Parent letter template and QR codes for every module. The compliance case made for you.' },
+              { who: 'PSHE leads and teachers', what: 'Zero-prep slide decks and teacher notes for every module. Oak National Academy format. Assembly guides and PSHE one-pagers. Teachers deliver with confidence, no specialist training needed.' },
+              { who: 'Students', what: 'Scenario-based, interactive content built on Rosenshine principles. No scare tactics. Treats students as capable of making good decisions when they understand what they are dealing with.' },
+              { who: 'Parents at home', what: 'Every module pairs with a parent version sent home. The school teaches it on Thursday. Parents have the conversation at the weekend. The home-school bridge is the product.' },
+            ].map((card, i) => (
+              <div key={i} style={{ background: 'var(--warm)', border: '1px solid var(--border)', borderRadius: '14px', padding: '20px' }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--green-dark)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '8px' }}>{card.who}</div>
+                <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.6 }}>{card.what}</p>
+              </div>
+            ))}
+          </div>
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '14px' }}>
+              {[
+                { label: 'Single educator', price: '£49 / year' },
+                { label: 'Small school up to 300 pupils', price: '£299 / year' },
+                { label: 'Medium school 300 to 800 pupils', price: '£499 / year' },
+                { label: 'Large school / MAT 800+', price: 'Custom' },
+              ].map((tier, i) => (
+                <div key={i} style={{ background: 'var(--warm)', border: '1px solid var(--border)', borderRadius: '12px', padding: '12px 18px', textAlign: 'center' }}>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--ink-muted)', marginBottom: '4px' }}>{tier.label}</div>
+                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '18px', color: 'var(--green-dark)' }}>{tier.price}</div>
+                </div>
+              ))}
+            </div>
+            <Link href="/starter-pack" className="btn btn-green" style={{ display: 'inline-flex', marginBottom: '12px' }}>
+              Request a pilot meeting
+            </Link>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--ink-light)' }}>
+              Free one-term pilot for selected schools. 48-hour response.
+            </p>
           </div>
         </div>
       </section>

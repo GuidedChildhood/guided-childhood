@@ -43,7 +43,7 @@ export default function HomePage() {
             Raise a child who is ready for the digital world
           </h1>
           <p style={{ fontSize: 'clamp(1rem, 2vw, 1.2rem)', color: 'var(--ink-soft)', maxWidth: '560px', margin: '0 auto 36px', lineHeight: 1.7 }}>
-            Five developmental stages. Conversation scripts. DiGi, your AI advisor. A weekly wellbeing tracker. Everything a parent needs, at the right moment for their child's age.
+            Five developmental stages. Conversation scripts for every difficult moment. DiGi, your AI advisor. The after-school TV fight, the bedtime battle, the algorithm conversation, the moment something goes wrong online. Everything a parent needs, at the right moment.
           </p>
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '15px', padding: '16px 32px' }}>
@@ -175,16 +175,13 @@ export default function HomePage() {
         <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}>
           <a id="schools" style={{ display: 'none' }} />
           <p className="eyebrow" style={{ color: 'var(--green-dark)', marginBottom: '10px' }}>For schools</p>
-          <h2 style={{ marginBottom: '16px' }}>A digital literacy curriculum your school can actually use</h2>
-          <p style={{ color: 'var(--ink-muted)', fontSize: '16px', maxWidth: '520px', margin: '0 auto 28px', lineHeight: 1.7 }}>
-            21 modules, EYFS to Sixth Form, in Oak National Academy format. Zero-prep slide decks. Statutory alignment document for your DSL. The home-school connection built in.
+          <h2 style={{ marginBottom: '16px' }}>The ban handles access. We handle readiness. Ofsted will ask about the second part.</h2>
+          <p style={{ color: 'var(--ink-muted)', fontSize: '16px', maxWidth: '540px', margin: '0 auto 28px', lineHeight: 1.7 }}>
+            21 modules, EYFS to Year 13. Oak National Academy format. Zero-prep slide decks, teacher notes, no login to browse. Every module pairs with a parent version sent home. Full statutory alignment for your DSL: KCSIE, RSHE, Online Safety Act, Ofcom.
           </p>
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link href="/join" className="btn btn-green" style={{ fontSize: '14px' }}>
-              Request a pilot meeting
-            </Link>
-            <Link href="/join" style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--green-dark)', textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
-              See school pricing →
+            <Link href="/starter-pack" className="btn btn-green" style={{ fontSize: '14px' }}>
+              Request a pilot for your school
             </Link>
           </div>
           <p style={{ marginTop: '16px', fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--ink-light)' }}>
