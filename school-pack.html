@@ -3,123 +3,337 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>School Starter Pack | Guided Childhood</title>
-<meta name="description" content="A complete sample lesson, assembly outline and statutory alignment summary from the Guided Childhood scheme of work. Free pilot scheme for UK schools.">
-<meta name="theme-color" content="#F7F3EE">
+<title>Module 9 Resource Pack | Guided Childhood Schools</title>
+<meta name="description" content="Everything you need to teach Social Media and the Brain. Slides, worksheet, teacher notes, feedback sheet, and safeguarding form. Module 9, KS3.">
+<link rel="canonical" href="https://guidedchildhood.co.uk/school-pack">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet"></noscript>
 <style>
 :root{
-  --cream:#F7F3EE; --warm:#FDFBF8; --ink:#1C1C1C; --ink-soft:#4A4A4A; --ink-muted:#6E6A62; --ink-light:#9B958A;
-  --green:#AFDCA2; --green-dark:#2E7D5A; --green-lt:#EEF7F2;
-  --coral:#D4600A; --coral-lt:#FEF3E8;
-  --gold:#F2C94C; --gold-lt:#FEFAE8; --gold-dark:#C9962A; --gold-hover:#E3B53A;
-  --lav:#E7ECF8; --lav-deep:#3D5BA9;
-  --border:#E4DFD7;
-  --sans:'Hanken Grotesk',system-ui,sans-serif;
-  --mono:'IBM Plex Mono',ui-monospace,monospace;
+  --forest:#1A3C2B;--fern:#2E7D5A;--sage:#5A8A6A;--leaf:#AFDCA2;--mint:#EEF7F2;
+  --cream:#F5F0E8;--parch:#EDE8DF;--sand:#D4C9B0;
+  --gold:#C9962A;--goldbrt:#F2C94C;--amber:#8A5C00;
+  --ink:#1A1A18;--char:#3D3D35;--ash:#6B6B60;--stone:#9B9B8E;
+  --coral:#C0451A;--coralt:#F5E8E3;
+  --border:#D4C9B0;
+  --serif:'Crimson Pro',Georgia,serif;
+  --sans:'Inter',system-ui,sans-serif;
+  --mono:'JetBrains Mono',monospace;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:var(--cream);font-family:var(--sans);color:var(--ink);-webkit-font-smoothing:antialiased}
-.wrap{max-width:680px;margin:0 auto;padding:0 20px 80px}
-.topbar{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;max-width:680px;margin:0 auto}
-.logo{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--ink)}
-.logo-mark{width:24px;height:24px;background:var(--green);border-radius:6px}
-.logo-name{font-weight:800;font-size:.95rem;letter-spacing:-.01em}
-.mono-tag{font-family:var(--mono);font-size:.6rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-muted)}
-.eye{display:inline-block;font-family:var(--mono);font-size:.65rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;margin-bottom:14px}
-.btn{display:inline-flex;align-items:center;gap:6px;background:var(--gold);color:var(--ink);border:none;font-family:var(--mono);font-weight:600;font-size:.9rem;letter-spacing:.02em;cursor:pointer;padding:15px 28px;border-radius:16px;box-shadow:0 5px 0 var(--gold-hover);text-decoration:none;line-height:1;transition:transform .14s,box-shadow .14s}
-.btn:active{transform:translateY(4px);box-shadow:0 1px 0 var(--gold-hover)}
-h1{font-size:clamp(1.9rem,5.5vw,2.6rem);font-weight:800;letter-spacing:-.03em;line-height:1.12;margin-bottom:14px}
-h2{font-size:1.4rem;font-weight:800;letter-spacing:-.02em;margin-bottom:10px}
-h3{font-size:1.02rem;font-weight:700;margin-bottom:6px}
-p{line-height:1.7}
-.card{background:var(--warm);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:16px}
-.lbl{font-family:var(--mono);font-size:.6rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;display:block;margin-bottom:8px}
-.step{display:flex;gap:14px;margin-bottom:14px}
-.step .t{font-family:var(--mono);font-size:.62rem;font-weight:600;color:var(--ink-muted);flex-shrink:0;width:64px;padding-top:3px}
-.row{display:flex;gap:9px;align-items:flex-start;margin-bottom:8px;font-size:.88rem;color:var(--ink-soft);line-height:1.6}
-.row b{font-family:var(--mono);flex-shrink:0;margin-top:1px;color:var(--green-dark)}
-.sec-eye{margin-top:44px}
-.pill{display:inline-block;font-family:var(--mono);font-size:.58rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:4px 11px;border-radius:8px;background:var(--lav);color:var(--lav-deep);margin:0 6px 6px 0}
+body{background:var(--cream);font-family:var(--sans);color:var(--ink);font-size:15px;line-height:1.65}
+nav{background:var(--forest);padding:0 32px;height:58px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.logo{display:flex;align-items:center;gap:9px;text-decoration:none}
+.logo-mark{width:28px;height:28px;background:var(--leaf);border-radius:7px;display:flex;align-items:center;justify-content:center}
+.logo-mark-inner{width:14px;height:14px;border-radius:3px;background:var(--forest)}
+.logo-name{font-family:var(--serif);font-weight:700;font-size:1rem;color:#fff}
+.nav-right{display:flex;align-items:center;gap:16px}
+.nav-link{font-size:.82rem;color:var(--leaf);text-decoration:none;font-weight:500}
+.nav-link:hover{color:#fff}
+.nav-btn{background:var(--goldbrt);color:var(--amber);border:none;font-family:var(--sans);font-weight:700;font-size:.8rem;padding:8px 18px;border-radius:100px;cursor:pointer;text-decoration:none;display:inline-block;transition:all .15s}
+.nav-btn:hover{background:#fff;color:var(--forest)}
+.hero{background:var(--forest);padding:56px 32px 52px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-60px;right:-60px;width:360px;height:360px;border-radius:50%;background:var(--fern);opacity:.18;pointer-events:none}
+.hero-inner{max-width:900px;margin:0 auto;position:relative}
+.hero-eyebrow{font-family:var(--mono);font-size:.68rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--leaf);margin-bottom:14px;display:block}
+.hero h1{font-family:var(--serif);font-size:clamp(2.2rem,4vw,3.4rem);font-weight:700;color:#fff;line-height:1.1;letter-spacing:-.02em;margin-bottom:14px}
+.hero h1 em{font-style:italic;font-weight:400;color:var(--leaf)}
+.hero-sub{font-size:1rem;color:rgba(255,255,255,.75);line-height:1.78;max-width:540px;margin-bottom:28px}
+.module-pills{display:flex;gap:8px;flex-wrap:wrap}
+.mpill{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:100px;padding:5px 14px;font-family:var(--mono);font-size:.7rem;font-weight:500;color:rgba(255,255,255,.8);letter-spacing:.06em;text-transform:uppercase}
+.progress-bar{background:var(--parch);border-bottom:1px solid var(--border);padding:12px 32px}
+.progress-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.progress-inner p{font-family:var(--mono);font-size:.7rem;color:var(--ash);letter-spacing:.06em;text-transform:uppercase}
+.steps{display:flex;gap:6px}
+.step-pip{height:4px;width:52px;border-radius:100px;background:var(--fern)}
+.main{max-width:900px;margin:0 auto;padding:52px 32px 80px}
+.sec-head{margin-bottom:28px}
+.sec-label{font-family:var(--mono);font-size:.68rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--sage);margin-bottom:8px;display:block}
+.sec-head h2{font-family:var(--serif);font-size:clamp(1.6rem,2.8vw,2.2rem);font-weight:700;color:var(--forest);line-height:1.15;letter-spacing:-.02em}
+.how-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:40px}
+.how-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px 16px;text-align:center}
+.how-num{font-family:var(--serif);font-size:2rem;font-weight:700;color:var(--leaf);line-height:1;margin-bottom:8px}
+.how-head{font-weight:700;font-size:.88rem;color:var(--ink);margin-bottom:5px}
+.how-body{font-size:.8rem;color:var(--ash);line-height:1.6}
+.resource-list{display:flex;flex-direction:column;gap:12px;margin-bottom:48px}
+.resource-card{background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden;display:grid;grid-template-columns:8px 1fr auto;transition:box-shadow .18s}
+.resource-card:hover{box-shadow:0 6px 24px rgba(26,60,43,.1)}
+.rc-stripe{background:var(--fern)}
+.rc-stripe.s-gold{background:var(--goldbrt)}
+.rc-stripe.s-coral{background:var(--coral)}
+.rc-stripe.s-sage{background:var(--sage)}
+.rc-body{padding:20px 22px}
+.rc-top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.rc-icon{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1.15rem;flex-shrink:0;background:var(--mint)}
+.rc-icon.i-gold{background:var(--goldbrt)}
+.rc-icon.i-coral{background:var(--coralt)}
+.rc-icon.i-sage{background:var(--parch)}
+.rc-icon.i-forest{background:var(--forest)}
+.rc-meta{font-family:var(--mono);font-size:.65rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--stone);margin-bottom:3px}
+.rc-title{font-family:var(--serif);font-size:1.15rem;font-weight:700;color:var(--ink);line-height:1.2}
+.rc-desc{font-size:.88rem;color:var(--ash);line-height:1.65;margin-bottom:12px}
+.rc-tags{display:flex;gap:6px;flex-wrap:wrap}
+.rc-tag{font-family:var(--mono);font-size:.62rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;background:var(--parch);color:var(--ash);border-radius:100px;padding:3px 10px}
+.rc-actions{display:flex;flex-direction:column;justify-content:center;gap:8px;padding:20px 20px 20px 0;min-width:160px}
+.btn-dl{display:flex;align-items:center;justify-content:center;gap:7px;background:var(--forest);color:#fff;text-decoration:none;font-family:var(--sans);font-weight:600;font-size:.82rem;padding:10px 18px;border-radius:10px;transition:all .15s;white-space:nowrap;border:none;cursor:pointer}
+.btn-dl:hover{background:var(--fern);transform:translateY(-1px)}
+.safeguarding-box{background:var(--coralt);border:1.5px solid var(--coral);border-radius:12px;padding:20px 24px;margin-bottom:48px;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center}
+.sb-left h3{font-family:var(--serif);font-size:1.1rem;font-weight:700;color:var(--coral);margin-bottom:6px}
+.sb-left p{font-size:.88rem;color:var(--char);line-height:1.65}
+.btn-coral{background:var(--coral);color:#fff;text-decoration:none;font-family:var(--sans);font-weight:700;font-size:.82rem;padding:11px 20px;border-radius:10px;white-space:nowrap;display:inline-block;transition:all .15s}
+.btn-coral:hover{background:var(--forest)}
+.pilot-cta{background:var(--forest);border-radius:16px;padding:36px 32px;text-align:center}
+.pilot-cta h2{font-family:var(--serif);font-size:clamp(1.5rem,2.5vw,2.2rem);font-weight:700;color:#fff;margin-bottom:10px;letter-spacing:-.02em}
+.pilot-cta p{font-size:.95rem;color:rgba(255,255,255,.72);line-height:1.75;max-width:480px;margin:0 auto 24px}
+.pilot-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.btn-gold{background:var(--goldbrt);color:var(--amber);border:none;font-family:var(--sans);font-weight:700;font-size:.9rem;padding:13px 28px;border-radius:12px;cursor:pointer;text-decoration:none;display:inline-block;transition:all .15s}
+.btn-gold:hover{background:#fff;color:var(--forest)}
+.btn-ghost{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.25);font-family:var(--sans);font-weight:600;font-size:.9rem;padding:13px 28px;border-radius:12px;cursor:pointer;text-decoration:none;display:inline-block;transition:all .15s}
+.btn-ghost:hover{background:rgba(255,255,255,.22)}
+footer{background:var(--forest);padding:28px 32px}
+.foot-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px}
+.foot-brand{font-family:var(--serif);font-size:.9rem;font-weight:600;color:var(--leaf)}
+.foot-links{display:flex;gap:18px}
+.foot-links a{font-size:.78rem;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s}
+.foot-links a:hover{color:#fff}
+.foot-copy{font-size:.72rem;color:rgba(255,255,255,.35)}
+@media(max-width:720px){
+  .resource-card{grid-template-columns:8px 1fr;grid-template-rows:1fr auto}
+  .rc-actions{flex-direction:row;padding:0 18px 18px;gap:8px}
+  .how-grid{grid-template-columns:1fr 1fr}
+  .safeguarding-box{grid-template-columns:1fr}
+  .main{padding:36px 20px 60px}
+  nav{padding:0 20px}
+  .hero{padding:40px 20px 40px}
+}
 </style>
 </head>
 <body>
 
-<div class="topbar">
-  <a class="logo" href="/"><span class="logo-mark"></span><span class="logo-name">Guided Childhood</span></a>
-  <span class="mono-tag">School Starter Pack</span>
+<nav>
+  <a href="/" class="logo">
+    <div class="logo-mark"><div class="logo-mark-inner"></div></div>
+    <span class="logo-name">Guided Childhood</span>
+  </a>
+  <div class="nav-right">
+    <a href="/schools" class="nav-link">Schools</a>
+    <a href="/" class="nav-link">For Parents</a>
+    <a href="https://mailchi.mp/thesocialbillboard/school" target="_blank" rel="noopener" class="nav-btn">Book a Pilot</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <span class="hero-eyebrow">School Resource Pack &middot; Module 9 &middot; KS3</span>
+    <h1>Social Media<br>and the <em>Brain</em></h1>
+    <p class="hero-sub">Everything you need to teach this lesson. Slides, worksheet, teacher notes, feedback sheet, and safeguarding form. Open, print, teach.</p>
+    <div class="module-pills">
+      <span class="mpill">Year 7&ndash;9</span>
+      <span class="mpill">50 minutes</span>
+      <span class="mpill">PSHE &middot; Computing</span>
+      <span class="mpill">Online Safety Act 2023</span>
+      <span class="mpill">Statutory RSE</span>
+    </div>
+  </div>
+</section>
+
+<div class="progress-bar">
+  <div class="progress-inner">
+    <p>5 resources &middot; ready to use</p>
+    <div class="steps">
+      <div class="step-pip"></div><div class="step-pip"></div><div class="step-pip"></div><div class="step-pip"></div><div class="step-pip"></div>
+    </div>
+  </div>
 </div>
 
-<div class="wrap">
+<main class="main">
 
-  <div style="text-align:center;padding-top:28px;margin-bottom:36px">
-    <span class="eye" style="background:var(--lav);color:var(--lav-deep);padding:6px 14px;border-radius:10px">For DSLs, PSHE Leads &amp; Headteachers</span>
-    <h1>A digital literacy scheme your school can deliver tomorrow</h1>
-    <p style="color:var(--ink-soft);max-width:520px;margin:0 auto">Below: one complete sample lesson, an assembly outline, and the statutory alignment summary. Everything in the Oak National Academy format your staff already know. Then one conversation to run a free pilot.</p>
+  <div class="sec-head">
+    <span class="sec-label">Before you start</span>
+    <h2>Four steps. No preparation needed.</h2>
   </div>
 
-  <!-- SAMPLE LESSON -->
-  <span class="eye sec-eye" style="color:var(--coral)">Sample Lesson &middot; Module 9 &middot; KS3</span>
-  <div class="card" style="border-left:5px solid var(--coral)">
-    <span class="lbl" style="color:var(--ink-muted)">Year 7&ndash;9 &middot; PSHE / Computing &middot; 50 minutes</span>
-    <h2>Social Media and the Brain</h2>
-    <p style="font-size:.92rem;color:var(--ink-soft);margin-bottom:18px"><strong>Learning objective:</strong> Understand why social media affects mood and self-image, and identify one personal strategy in response.</p>
+  <div class="how-grid">
+    <div class="how-card"><div class="how-num">1</div><div class="how-head">Download the slides</div><div class="how-body">Open in PowerPoint or Keynote. Speaker notes with full scripts are on every slide.</div></div>
+    <div class="how-card"><div class="how-num">2</div><div class="how-head">Print pupil sheets</div><div class="how-body">Worksheet and feedback sheet — one per pupil. Parent note is attached to the worksheet bottom.</div></div>
+    <div class="how-card"><div class="how-num">3</div><div class="how-head">Read the teacher notes</div><div class="how-body">Full scripts, timing, and safeguarding guidance. Ten minutes before the lesson is enough.</div></div>
+    <div class="how-card"><div class="how-num">4</div><div class="how-head">Keep the DSL form handy</div><div class="how-body">This lesson can surface disclosures. Have Form GC-DSL-001 accessible before you start.</div></div>
+  </div>
 
-    <div class="step"><span class="t">0&ndash;5 min</span><div><h3>Starter</h3><p style="font-size:.88rem;color:var(--ink-soft)">Quick poll, hands up or anonymous slips: "Have you ever felt worse after scrolling, without knowing why?" Do not collect answers aloud. The point is private recognition.</p></div></div>
+  <div class="sec-head">
+    <span class="sec-label">All resources</span>
+    <h2>Everything for Module 9.</h2>
+  </div>
 
-    <div class="step"><span class="t">5&ndash;20 min</span><div><h3>Main 1: The variable reward</h3><p style="font-size:.88rem;color:var(--ink-soft)">Teach the slot machine mechanic: pull to refresh, unpredictable reward, dopamine loop. Pupils map one app they use against the mechanic. Key teaching point: the design is intentional and it is not a personal weakness to find it hard to stop.</p></div></div>
+  <div class="resource-list">
 
-    <div class="step"><span class="t">20&ndash;35 min</span><div><h3>Main 2: The comparison machine</h3><p style="font-size:.88rem;color:var(--ink-soft)">Cambridge research (Dr Amy Orben) identifies ages 11 to 13 as the peak sensitivity window, especially for girls, with a later window for boys around 14 to 15. Activity: pupils analyse an anonymised feed and list what the curated version leaves out. They write one sentence: "What this feed does not show is ..."</p></div></div>
+    <div class="resource-card">
+      <div class="rc-stripe"></div>
+      <div class="rc-body">
+        <div class="rc-top">
+          <div class="rc-icon i-forest">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#AFDCA2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          </div>
+          <div>
+            <div class="rc-meta">PowerPoint &middot; 10 slides &middot; For teachers</div>
+            <div class="rc-title">Lesson Slides</div>
+          </div>
+        </div>
+        <p class="rc-desc">10 slides. Starter, two teaching sequences, two activities, plenary, exit ticket, and a DSL safeguarding note. Word-for-word speaker notes on every slide.</p>
+        <div class="rc-tags"><span class="rc-tag">PowerPoint</span><span class="rc-tag">Speaker notes</span><span class="rc-tag">Full scripts</span><span class="rc-tag">DSL slide included</span></div>
+      </div>
+      <div class="rc-actions">
+        <a href="/GC-Module9-SocialMediaBrain-KS3.pptx" download class="btn-dl">&#8595;&nbsp; Download .pptx</a>
+        <p style="font-size:.72rem;color:var(--stone);text-align:center;line-height:1.4;margin-top:2px">Opens in PowerPoint</p>
+      </div>
+    </div>
 
-    <div class="step"><span class="t">35&ndash;45 min</span><div><h3>Plenary</h3><p style="font-size:.88rem;color:var(--ink-soft)">Each pupil chooses one strategy: bedroom charging, a follow audit, turning off one notification type. Exit ticket: "One thing I now know about how my apps are designed."</p></div></div>
+    <div class="resource-card">
+      <div class="rc-stripe s-gold"></div>
+      <div class="rc-body">
+        <div class="rc-top">
+          <div class="rc-icon i-gold">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8A5C00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          </div>
+          <div>
+            <div class="rc-meta">Print A4 &middot; One per pupil &middot; Parent note attached</div>
+            <div class="rc-title">Pupil Worksheet</div>
+          </div>
+        </div>
+        <p class="rc-desc">Three sections matching the lesson. Anonymised feed for analysis, strategy chooser, and exit ticket. Parent take-home note as a tear-off at the bottom.</p>
+        <div class="rc-tags"><span class="rc-tag">Print A4</span><span class="rc-tag">Parent note included</span><span class="rc-tag">Exit ticket</span><span class="rc-tag">Strategy chooser</span></div>
+      </div>
+      <div class="rc-actions">
+        <a href="/GC-Module9-Worksheet" target="_blank" class="btn-dl">&#8599;&nbsp; Open &amp; Print</a>
+        <p style="font-size:.72rem;color:var(--stone);text-align:center;line-height:1.4;margin-top:2px">Ctrl+P / Cmd+P<br>to print</p>
+      </div>
+    </div>
 
-    <div class="step"><span class="t">Home</span><div><h3>Parent take-home note</h3><p style="font-size:.88rem;color:var(--ink-soft)">A one-page plain-language note goes home: what was taught, the one question to ask at dinner, and the bedroom rule explained. Every lesson in the scheme connects school to home this way.</p></div></div>
+    <div class="resource-card">
+      <div class="rc-stripe"></div>
+      <div class="rc-body">
+        <div class="rc-top">
+          <div class="rc-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E7D5A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          </div>
+          <div>
+            <div class="rc-meta">Print A4 &middot; Confidential &middot; Teacher only</div>
+            <div class="rc-title">Teacher Notes</div>
+          </div>
+        </div>
+        <p class="rc-desc">Word-for-word scripts for every key moment. Timing plan, discussion questions, three-tier differentiation, and statutory framework references.</p>
+        <div class="rc-tags"><span class="rc-tag">Full scripts</span><span class="rc-tag">Timing plan</span><span class="rc-tag">3-level differentiation</span><span class="rc-tag">Statutory links</span><span class="rc-tag">Confidential</span></div>
+      </div>
+      <div class="rc-actions">
+        <a href="/GC-Module9-TeacherNotes" target="_blank" class="btn-dl">&#8599;&nbsp; Open &amp; Print</a>
+        <p style="font-size:.72rem;color:var(--stone);text-align:center;line-height:1.4;margin-top:2px">Do not distribute<br>to pupils</p>
+      </div>
+    </div>
 
-    <div style="background:var(--coral-lt);border-radius:12px;padding:14px 16px;margin-top:6px">
-      <span class="lbl" style="color:var(--coral)">Safeguarding note for the DSL</span>
-      <p style="font-size:.82rem;color:var(--ink-soft)">This lesson can surface disclosures about mood and online experience. Teacher notes include the escalation pathway and the no-blame disclosure script.</p>
+    <div class="resource-card">
+      <div class="rc-stripe s-sage"></div>
+      <div class="rc-body">
+        <div class="rc-top">
+          <div class="rc-icon i-sage">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5A8A6A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          </div>
+          <div>
+            <div class="rc-meta">Print A4 &middot; One per pupil &middot; Teacher section at bottom</div>
+            <div class="rc-title">Feedback and Self-Assessment Sheet</div>
+          </div>
+        </div>
+        <p class="rc-desc">Pupil self-assessment with rating scales and optional wellbeing check. Teacher assessment grid with developing, secure, and extended levels and a DSL referral flag.</p>
+        <div class="rc-tags"><span class="rc-tag">Pupil self-assessment</span><span class="rc-tag">Wellbeing check</span><span class="rc-tag">Teacher grade grid</span><span class="rc-tag">DSL flag built in</span></div>
+      </div>
+      <div class="rc-actions">
+        <a href="/GC-Module9-FeedbackSheet" target="_blank" class="btn-dl">&#8599;&nbsp; Open &amp; Print</a>
+      </div>
+    </div>
+
+    <div class="resource-card">
+      <div class="rc-stripe s-coral"></div>
+      <div class="rc-body">
+        <div class="rc-top">
+          <div class="rc-icon i-coral">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C0451A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div>
+            <div class="rc-meta">Print A4 &middot; DSL use only &middot; Confidential &middot; GC-DSL-001</div>
+            <div class="rc-title">DSL Safeguarding Concern Form</div>
+          </div>
+        </div>
+        <p class="rc-desc">Sections A–G. Nature of concern with 10 checkboxes, verbatim account, urgency assessment, and DSL action log. Complete and submit to the DSL before end of day.</p>
+        <div class="rc-tags"><span class="rc-tag">DSL use only</span><span class="rc-tag">Sections A–G</span><span class="rc-tag">Urgency assessment</span><span class="rc-tag">DSL action log</span><span class="rc-tag">Confidential</span></div>
+      </div>
+      <div class="rc-actions">
+        <a href="/GC-Module9-DSLForm" target="_blank" class="btn-dl">&#8599;&nbsp; Open &amp; Print</a>
+        <p style="font-size:.72rem;color:var(--stone);text-align:center;line-height:1.4;margin-top:2px">Keep in the<br>DSL folder</p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="safeguarding-box">
+    <div class="sb-left">
+      <h3>Read the safeguarding note before you teach</h3>
+      <p>This lesson can surface disclosures. Have Form GC-DSL-001 to hand. Any concern goes to the DSL before end of day.</p>
+    </div>
+    <a href="/GC-Module9-TeacherNotes" target="_blank" class="btn-coral">Open teacher notes</a>
+  </div>
+
+  <div class="sec-head">
+    <span class="sec-label">Quick reference</span>
+    <h2>Lesson at a glance.</h2>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:48px">
+    <div style="background:#fff;border:1px solid var(--border);border-radius:12px;padding:20px 22px">
+      <div style="font-family:var(--mono);font-size:.65rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--sage);margin-bottom:14px">Lesson sequence</div>
+      <div style="display:flex;flex-direction:column;gap:9px">
+        <div style="display:flex;gap:10px;font-size:.88rem;color:var(--char)"><span style="font-family:var(--mono);font-size:.72rem;color:var(--stone);flex-shrink:0;width:54px">0&ndash;5 min</span>Starter &mdash; private recognition poll</div>
+        <div style="display:flex;gap:10px;font-size:.88rem;color:var(--char)"><span style="font-family:var(--mono);font-size:.72rem;color:var(--stone);flex-shrink:0;width:54px">5&ndash;20 min</span>Main 1 &mdash; the variable reward and app mapping</div>
+        <div style="display:flex;gap:10px;font-size:.88rem;color:var(--char)"><span style="font-family:var(--mono);font-size:.72rem;color:var(--stone);flex-shrink:0;width:54px">20&ndash;35 min</span>Main 2 &mdash; the comparison machine and feed analysis</div>
+        <div style="display:flex;gap:10px;font-size:.88rem;color:var(--char)"><span style="font-family:var(--mono);font-size:.72rem;color:var(--stone);flex-shrink:0;width:54px">35&ndash;45 min</span>Plenary &mdash; strategy choice</div>
+        <div style="display:flex;gap:10px;font-size:.88rem;color:var(--char)"><span style="font-family:var(--mono);font-size:.72rem;color:var(--stone);flex-shrink:0;width:54px">45&ndash;50 min</span>Exit ticket &mdash; collect worksheets before they leave</div>
+      </div>
+    </div>
+    <div style="background:#fff;border:1px solid var(--border);border-radius:12px;padding:20px 22px">
+      <div style="font-family:var(--mono);font-size:.65rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--sage);margin-bottom:14px">Statutory links</div>
+      <div style="display:flex;flex-direction:column;gap:9px">
+        <div style="display:flex;gap:8px;font-size:.88rem;color:var(--char)"><span style="color:var(--fern);font-weight:700;flex-shrink:0">&#10003;</span>Online Safety Act 2023 &mdash; education provision duty</div>
+        <div style="display:flex;gap:8px;font-size:.88rem;color:var(--char)"><span style="color:var(--fern);font-weight:700;flex-shrink:0">&#10003;</span>Statutory RSE &mdash; online safety and mental wellbeing</div>
+        <div style="display:flex;gap:8px;font-size:.88rem;color:var(--char)"><span style="color:var(--fern);font-weight:700;flex-shrink:0">&#10003;</span>UKCIS Education for a Connected World &mdash; areas 3, 4, 6, 8</div>
+        <div style="display:flex;gap:8px;font-size:.88rem;color:var(--char)"><span style="color:var(--fern);font-weight:700;flex-shrink:0">&#10003;</span>Orben &amp; Przybylski (2019) &mdash; Nature Human Behaviour</div>
+        <div style="display:flex;gap:8px;font-size:.88rem;color:var(--char)"><span style="color:var(--fern);font-weight:700;flex-shrink:0">&#10003;</span>Odgers (2018) &mdash; Nature</div>
+      </div>
     </div>
   </div>
 
-  <!-- ASSEMBLY -->
-  <span class="eye sec-eye" style="color:var(--green-dark)">Assembly Outline &middot; 15 minutes &middot; KS2 or KS3</span>
-  <div class="card" style="border-left:5px solid var(--green-dark)">
-    <h2>"The App Is Not Your Friend. It Is Not Your Enemy Either."</h2>
-    <div class="row"><b>1.</b>Open with the one-hour experiment: search one thing, return an hour later, the recommendations changed. Ask: who changed them?</div>
-    <div class="row"><b>2.</b>The reveal: the algorithm has one job, keeping you watching. That is different from showing you what is good for you.</div>
-    <div class="row"><b>3.</b>The reframe: pupils who understand the machine are not passive users. They are the ones in control.</div>
-    <div class="row"><b>4.</b>Close with one action for everyone, staff included: tonight, charge the phone outside the bedroom.</div>
-    <p style="font-size:.8rem;color:var(--ink-muted);margin-top:10px;font-style:italic">Full slide deck and speaker notes included in the pilot.</p>
-  </div>
-
-  <!-- STATUTORY ALIGNMENT -->
-  <span class="eye sec-eye" style="color:var(--lav-deep)">Statutory Alignment</span>
-  <div class="card" style="border-left:5px solid var(--lav-deep)">
-    <h2>Evidence for governors and Ofsted, included</h2>
-    <p style="font-size:.9rem;color:var(--ink-soft);margin-bottom:14px">Every one of the 21 modules maps explicitly to the statutory framework. The pilot includes a printable mapping document showing which requirement each lesson meets.</p>
-    <div>
-      <span class="pill">Online Safety Act 2023</span>
-      <span class="pill">Statutory RSE &amp; Health Education</span>
-      <span class="pill">Education for a Connected World (UKCIS)</span>
-      <span class="pill">DfE AI in Education Guidance 2025</span>
-      <span class="pill">Ofcom Media Literacy Framework</span>
+  <div class="pilot-cta">
+    <h2>This is one module from 21.</h2>
+    <p>The full Guided Childhood scheme covers EYFS to Year 13. Screen behaviour, routines, every online risk, digital literacy, and readiness at 16. One school licence. Every teacher included. Free pilot available.</p>
+    <div class="pilot-btns">
+      <a href="https://mailchi.mp/thesocialbillboard/school" target="_blank" rel="noopener" class="btn-gold">Request a pilot meeting</a>
+      <a href="/schools" class="btn-ghost">See the full programme</a>
     </div>
-    <p style="font-size:.85rem;color:var(--ink-soft);margin-top:14px">The scheme covers EYFS to Year 13: 21 half-term modules in the Oak National Academy lesson format, with CPD for staff, a DSL safeguarding view, and a parent connection layer built into every lesson.</p>
   </div>
 
-  <!-- PILOT CTA -->
-  <div style="background:var(--gold-lt);border:1px solid var(--border);border-radius:16px;padding:32px 24px;text-align:center;margin-top:44px">
-    <span class="eye" style="color:var(--gold-dark)">Free &middot; One full term &middot; No commitment</span>
-    <h2 style="margin-bottom:8px">Start with a free pilot scheme</h2>
-    <p style="font-size:.9rem;color:var(--ink-soft);max-width:480px;margin:0 auto 10px">We work with a small number of schools each term and support each one properly. The pilot includes a term's access for selected year groups, a 90-minute CPD session for your team, the parent evening pack, a DSL briefing, and the full statutory alignment document.</p>
-    <p style="font-size:.85rem;color:var(--ink-soft);margin-bottom:20px">One conversation to see if it fits. We respond within 48 hours.</p>
-    <a class="btn" href="https://mailchi.mp/thesocialbillboard/school" target="_blank" rel="noopener">Request a pilot meeting &rarr;</a>
+</main>
+
+<footer>
+  <div class="foot-inner">
+    <div class="foot-brand">Guided Childhood &middot; Schools Programme</div>
+    <div class="foot-links">
+      <a href="/">For Parents</a>
+      <a href="/schools">For Schools</a>
+      <a href="/starter-pack">Starter Pack</a>
+    </div>
+    <div class="foot-copy">&copy; 2026 The Social Billboard &middot; Justin Phillips</div>
   </div>
+</footer>
 
-  <p style="font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-light);text-align:center;margin-top:28px">Guided Childhood &middot; Bath, UK &middot; guidedchildhood.com</p>
-
-</div>
 </body>
 </html>
