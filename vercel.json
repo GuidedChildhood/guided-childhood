@@ -22,7 +22,11 @@
       "use": "@vercel/static"
     },
     {
-      "src": "teachers.html",
+      "src": "schools.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "get-started.html",
       "use": "@vercel/static"
     },
     {
@@ -48,15 +52,19 @@
       "dest": "/agents.html"
     },
     {
-      "src": "/teachers/?",
-      "dest": "/teachers.html"
+      "src": "/schools/?",
+      "dest": "/schools.html"
     },
     {
-      "src": "/schools/?",
-      "status": 307,
+      "src": "/teachers/?",
+      "status": 301,
       "headers": {
-        "Location": "/teachers"
+        "Location": "/schools"
       }
+    },
+    {
+      "src": "/get-started/?",
+      "dest": "/get-started.html"
     },
     {
       "src": "/stages/?",
