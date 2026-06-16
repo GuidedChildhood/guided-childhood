@@ -15,10 +15,12 @@ const CURRICULUM = [
 ]
 
 const PRICING = [
-  { tier: 'Small', pupils: 'Up to 300 pupils', price: '£299', period: '/year', features: ['Full 21-module scheme of work', 'Teacher plans, worksheets, slides', 'Parent notes for every lesson', 'Staff CPD module (2 hours)', 'Policy template pack', 'Statutory alignment documentation'], cta: 'Request a pilot', featured: false },
-  { tier: 'Medium', pupils: '300 to 800 pupils', price: '£499', period: '/year', features: ['Everything in Small', 'School DiGi safeguarding advisor', 'Unlimited teacher accounts', 'Priority email support', 'Ofsted evidence bundle'], cta: 'Request a pilot', featured: true },
-  { tier: 'Large / MAT', pupils: '800+ pupils or multi-academy trust', price: '£999+', period: '/year custom', features: ['Everything in Medium', 'Bespoke onboarding session', 'MAT-wide licence and reporting', 'Dedicated account management', 'Custom staff CPD delivery'], cta: 'Get in touch', featured: false },
+  { tier: 'Small', pupils: 'Up to 300 pupils', price: '£299', period: '/year', features: ['Unlimited teacher logins', 'Full curriculum pack all stages', 'Assembly materials', 'Policy and compliance templates', 'School dashboard'], cta: 'Enquire', featured: false },
+  { tier: 'Medium', pupils: '300 to 800 pupils', price: '£499', period: '/year', features: ['Everything in small school', 'Parent evening pack', 'Staff CPD training module'], cta: 'Enquire', featured: true },
+  { tier: 'Large / MAT', pupils: '800+ pupils or multi-academy trust', price: '£999+', period: '/year', features: ['Everything in medium school', 'Multi-site dashboard', 'Co-branded materials', 'Bespoke onboarding'], cta: 'Contact us', featured: false },
 ]
+
+const MAILCHIMP_ENQUIRY = 'https://mailchi.mp/thesocialbillboard/school'
 
 export default function SchoolsPage() {
   return (
@@ -32,9 +34,9 @@ export default function SchoolsPage() {
             <Link key={label} href={href} style={{ fontFamily: 'var(--font-body)', fontSize: '.82rem', fontWeight: 500, color: 'var(--ink-soft)', padding: '6px 13px', borderRadius: '100px', textDecoration: 'none' }}>{label}</Link>
           ))}
         </nav>
-        <Link href="/starter-pack" style={{ background: 'var(--green-dark)', color: '#fff', fontFamily: 'var(--font-body)', fontSize: '.82rem', fontWeight: 700, padding: '9px 22px', borderRadius: '100px', textDecoration: 'none' }}>
-          Request a pilot
-        </Link>
+        <a href={MAILCHIMP_ENQUIRY} target="_blank" rel="noopener noreferrer" style={{ background: 'var(--green-dark)', color: '#fff', fontFamily: 'var(--font-body)', fontSize: '.82rem', fontWeight: 700, padding: '9px 22px', borderRadius: '100px', textDecoration: 'none' }}>
+          Enquire
+        </a>
       </header>
 
       {/* Hero */}
@@ -48,9 +50,9 @@ export default function SchoolsPage() {
             21 modules. EYFS to Sixth Form. Every lesson with a teacher plan, pupil worksheet, slides, and parent note. Zero prep. Full statutory alignment. Ofsted ready.
           </p>
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link href="/starter-pack" style={{ background: 'var(--green-dark)', color: '#fff', fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '1rem', padding: '16px 32px', borderRadius: '12px', textDecoration: 'none', boxShadow: '0 5px 0 #1a5e40' }}>
+            <a href={MAILCHIMP_ENQUIRY} target="_blank" rel="noopener noreferrer" style={{ background: 'var(--green-dark)', color: '#fff', fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '1rem', padding: '16px 32px', borderRadius: '12px', textDecoration: 'none', boxShadow: '0 5px 0 #1a5e40' }}>
               Request a free pilot →
-            </Link>
+            </a>
             <Link href="#curriculum" style={{ background: '#fff', border: '2px solid var(--border)', color: 'var(--ink)', fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '1rem', padding: '16px 32px', borderRadius: '12px', textDecoration: 'none' }}>
               See the curriculum
             </Link>
@@ -156,9 +158,9 @@ export default function SchoolsPage() {
             <h3 style={{ fontSize: '1.3rem', marginBottom: '8px' }}>Free assembly pack for any school</h3>
             <p style={{ fontSize: '.88rem', color: 'var(--ink-soft)', maxWidth: '480px', lineHeight: 1.7 }}>A complete 45-minute assembly on digital life today, with slides, speaker notes, and a pupil handout. Works from Year 5 upward. No Guided Childhood licence needed.</p>
           </div>
-          <Link href="/starter-pack" style={{ background: 'var(--gold)', color: 'var(--ink)', fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '.88rem', padding: '14px 28px', borderRadius: '12px', textDecoration: 'none', boxShadow: '0 5px 0 var(--gold-hover)', whiteSpace: 'nowrap' }}>
+          <a href={MAILCHIMP_ENQUIRY} target="_blank" rel="noopener noreferrer" style={{ background: 'var(--gold)', color: 'var(--ink)', fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '.88rem', padding: '14px 28px', borderRadius: '12px', textDecoration: 'none', boxShadow: '0 5px 0 var(--gold-hover)', whiteSpace: 'nowrap' }}>
             Get the free assembly pack →
-          </Link>
+          </a>
         </div>
       </section>
 
@@ -216,13 +218,15 @@ export default function SchoolsPage() {
                     </li>
                   ))}
                 </ul>
-                <Link href="/starter-pack" style={{ width: '100%', padding: '14px', borderRadius: '12px', fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '.85rem', textDecoration: 'none', display: 'block', textAlign: 'center', ...(plan.featured ? { background: 'var(--green-dark)', color: '#fff' } : { background: 'transparent', color: 'var(--ink)', border: '2px solid var(--border)' }) }}>
+                <a href={MAILCHIMP_ENQUIRY} target="_blank" rel="noopener noreferrer" style={{ width: '100%', padding: '14px', borderRadius: '12px', fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '.85rem', textDecoration: 'none', display: 'block', textAlign: 'center', ...(plan.featured ? { background: 'var(--green-dark)', color: '#fff' } : { background: 'transparent', color: 'var(--ink)', border: '2px solid var(--border)' }) }}>
                   {plan.cta}
-                </Link>
+                </a>
               </div>
             ))}
           </div>
-          <p style={{ textAlign: 'center', fontSize: '.78rem', color: 'var(--ink-muted)', marginTop: '20px' }}>All licences include the free assembly pack and CPD module. VAT will be added at the applicable rate.</p>
+          <p style={{ textAlign: 'center', fontSize: '.78rem', color: 'var(--ink-muted)', marginTop: '20px' }}>
+            10% discount on 2-year commitments · Free assembly pack for all enquiries · All teacher logins included
+          </p>
         </div>
       </section>
 
@@ -232,12 +236,12 @@ export default function SchoolsPage() {
           <h2 style={{ color: '#fff', marginBottom: '16px' }}>Ready to talk? We'll get back within 48 hours.</h2>
           <p style={{ fontSize: '1rem', color: 'rgba(255,255,255,.7)', lineHeight: 1.78, marginBottom: '28px' }}>Free pilot available for selected schools. Assembly pack available for every school, free, today.</p>
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link href="/starter-pack" style={{ background: 'var(--gold)', color: 'var(--ink)', fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '1rem', padding: '16px 32px', borderRadius: '12px', textDecoration: 'none', boxShadow: '0 5px 0 var(--gold-hover)' }}>
-              Request a pilot →
-            </Link>
-            <Link href="/starter-pack" style={{ background: 'rgba(255,255,255,.15)', border: '2px solid rgba(255,255,255,.3)', color: '#fff', fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '1rem', padding: '16px 32px', borderRadius: '12px', textDecoration: 'none' }}>
+            <a href={MAILCHIMP_ENQUIRY} target="_blank" rel="noopener noreferrer" style={{ background: 'var(--gold)', color: 'var(--ink)', fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '1rem', padding: '16px 32px', borderRadius: '12px', textDecoration: 'none', boxShadow: '0 5px 0 var(--gold-hover)' }}>
+              Enquire now →
+            </a>
+            <a href={MAILCHIMP_ENQUIRY} target="_blank" rel="noopener noreferrer" style={{ background: 'rgba(255,255,255,.15)', border: '2px solid rgba(255,255,255,.3)', color: '#fff', fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '1rem', padding: '16px 32px', borderRadius: '12px', textDecoration: 'none' }}>
               Get the free assembly pack
-            </Link>
+            </a>
           </div>
         </div>
       </section>
