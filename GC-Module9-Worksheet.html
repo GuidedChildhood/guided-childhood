@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pupil Worksheet — Module 9 | Guided Childhood</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap');
+@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}.no-print{display:none}}
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --forest:#1A3C2B;--fern:#2E7D5A;--sage:#5A8A6A;--leaf:#AFDCA2;--mint:#EEF7F2;
+  --cream:#F5F0E8;--parch:#EDE8DF;--sand:#D4C9B0;
+  --gold:#C9962A;--goldbrt:#F2C94C;--amber:#8A5C00;
+  --ink:#1A1A18;--char:#3D3D35;--ash:#6B6B60;--stone:#9B9B8E;
+  --coral:#C0451A;--coralt:#F5E8E3;
+  --border:#D4C9B0;
+}
+body{background:#fff;font-family:'Inter',system-ui,sans-serif;color:var(--ink);font-size:12.5px;line-height:1.65}
+.page{max-width:210mm;margin:0 auto;padding:12mm 18mm 10mm;background:#fff}
+
+/* HEADER BANNER */
+.header-banner{background:var(--forest);border-radius:12px;padding:14px 20px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between}
+.hb-left h1{font-family:'Crimson Pro',serif;font-size:20px;font-weight:700;color:#fff;margin-bottom:3px}
+.hb-left .meta{font-family:'JetBrains Mono',monospace;font-size:8px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--leaf)}
+.hb-right{display:flex;flex-direction:column;gap:8px;min-width:220px}
+.name-field{display:flex;align-items:center;gap:8px}
+.name-field label{font-family:'JetBrains Mono',monospace;font-size:7.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--sage);min-width:48px}
+.name-line{flex:1;border-bottom:1px solid var(--fern);height:18px}
+
+/* SECTION HEADINGS */
+.section{margin-bottom:18px}
+.sec-banner{display:flex;align-items:center;gap:9px;margin-bottom:12px;padding:8px 12px;background:var(--parch);border-radius:8px}
+.sec-num{width:24px;height:24px;border-radius:6px;background:var(--forest);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;color:var(--leaf);flex-shrink:0}
+.sec-title{font-family:'Crimson Pro',serif;font-size:15px;font-weight:700;color:var(--forest)}
+.sec-time{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:8px;font-weight:500;color:var(--ash);white-space:nowrap}
+
+/* CONCEPT CARDS (variable reward) */
+.concept-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.concept-card{border-radius:8px;padding:10px 12px;border:1px solid var(--border)}
+.cc-forest{background:var(--forest)}
+.cc-fern{background:var(--fern)}
+.cc-sage{background:var(--sage)}
+.concept-card .cc-label{font-family:'JetBrains Mono',monospace;font-size:7px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-bottom:5px}
+.cc-forest .cc-label{color:var(--goldbrt)}
+.cc-fern .cc-label{color:var(--leaf)}
+.cc-sage .cc-label{color:var(--cream)}
+.concept-card .cc-head{font-family:'Crimson Pro',serif;font-size:13.5px;font-weight:700;margin-bottom:4px}
+.cc-forest .cc-head,.cc-fern .cc-head,.cc-sage .cc-head{color:#fff}
+.concept-card .cc-body{font-size:11px;line-height:1.55}
+.cc-forest .cc-body,.cc-fern .cc-body,.cc-sage .cc-body{color:rgba(255,255,255,.78)}
+
+/* ACTIVITY 1 */
+.app-map{background:var(--mint);border:1.5px solid var(--leaf);border-radius:10px;padding:13px 15px;margin-bottom:12px}
+.app-map-head{font-family:'JetBrains Mono',monospace;font-size:8px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--fern);margin-bottom:10px}
+.app-map-row{display:grid;grid-template-columns:110px 1fr;gap:10px;margin-bottom:8px;align-items:baseline}
+.app-map-label{font-size:11.5px;font-weight:600;color:var(--fern)}
+.write-line{border:none;border-bottom:1.5px solid var(--fern);width:100%;height:22px;background:transparent;font-family:'Inter',sans-serif;font-size:12px}
+
+/* Q ROWS */
+.q-row{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px}
+.q-num{width:22px;height:22px;border-radius:6px;background:var(--goldbrt);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;color:var(--amber);flex-shrink:0;margin-top:1px}
+.q-body{flex:1}
+.q-body .q-text{font-size:12.5px;color:var(--ink);margin-bottom:5px;line-height:1.5}
+.q-body .wl{border-bottom:1px solid var(--border);height:22px;margin-bottom:4px}
+
+/* FEED ANALYSIS */
+.feed-sample{background:var(--parch);border-radius:10px;padding:11px 13px;margin-bottom:10px}
+.feed-sample-label{font-family:'JetBrains Mono',monospace;font-size:7.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ash);margin-bottom:8px}
+.post{background:#fff;border-radius:7px;padding:8px 10px;margin-bottom:6px;border:1px solid var(--border)}
+.post:last-child{margin-bottom:0}
+.post-name{font-weight:700;font-size:11.5px;color:var(--ink)}
+.post-text{font-size:11.5px;color:var(--char);margin:2px 0 4px}
+.post-stats{font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--stone)}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.col-box{border:1px solid var(--border);border-radius:8px;padding:10px 12px;background:#fff}
+.col-box-label{font-family:'JetBrains Mono',monospace;font-size:7.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-bottom:7px}
+.cbl-coral{color:var(--coral)}.cbl-fern{color:var(--fern)}
+
+/* SENTENCE COMPLETION */
+.sentence-box{background:var(--forest);border-radius:10px;padding:13px 16px;margin-bottom:12px}
+.sentence-label{font-family:'JetBrains Mono',monospace;font-size:7.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--leaf);margin-bottom:8px}
+.sentence-row{display:flex;align-items:baseline;gap:6px}
+.sentence-start{font-family:'Crimson Pro',serif;font-size:14px;font-weight:600;color:#fff;white-space:nowrap}
+.sentence-input{flex:1;border:none;border-bottom:1.5px solid var(--fern);background:transparent;height:22px;font-family:'Crimson Pro',serif;font-size:14px;font-style:italic;color:#fff}
+
+/* STRATEGY CHOOSER */
+.strategy-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.strategy-card{border:2px solid var(--border);border-radius:8px;padding:10px 12px;position:relative}
+.strategy-checkbox{width:16px;height:16px;border:2px solid var(--border);border-radius:4px;position:absolute;top:10px;right:10px;background:#fff}
+.s-tag{font-family:'JetBrains Mono',monospace;font-size:7.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--fern);margin-bottom:4px}
+.s-head{font-family:'Crimson Pro',serif;font-size:13.5px;font-weight:700;color:var(--ink);margin-bottom:3px}
+.s-body{font-size:11.5px;color:var(--ash);line-height:1.55}
+
+/* EXIT TICKET */
+.exit-box{border:2px solid var(--forest);border-radius:10px;overflow:hidden}
+.exit-header{background:var(--forest);padding:10px 14px;display:flex;align-items:center;justify-content:space-between}
+.exit-header h3{font-family:'Crimson Pro',serif;font-size:14px;font-weight:700;color:#fff}
+.exit-header span{font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--leaf)}
+.exit-body{padding:12px 14px;background:#fff}
+.exit-prompt{font-family:'Crimson Pro',serif;font-size:13px;font-weight:600;color:var(--forest);margin-bottom:5px;font-style:italic}
+.exit-area{border:1px solid var(--border);border-radius:6px;min-height:38px;margin-bottom:10px;padding:5px 8px}
+
+/* PARENT TEAROFF */
+.tearoff{margin-top:20px;border-top:2px dashed var(--sand);padding-top:14px}
+.tearoff-label{font-family:'JetBrains Mono',monospace;font-size:7.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--stone);display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.parent-note{background:var(--forest);border-radius:10px;padding:14px 18px;display:grid;grid-template-columns:1fr auto;gap:18px;align-items:start}
+.pn-title{font-family:'Crimson Pro',serif;font-size:15px;font-weight:700;color:#fff;margin-bottom:5px}
+.pn-meta{font-family:'JetBrains Mono',monospace;font-size:7.5px;color:var(--leaf);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px}
+.pn-body{font-size:12px;color:rgba(255,255,255,.8);line-height:1.65;margin-bottom:10px}
+.pn-question{background:rgba(255,255,255,.1);border-radius:7px;padding:9px 12px;border:1px solid rgba(255,255,255,.2)}
+.pn-q-label{font-family:'JetBrains Mono',monospace;font-size:7.5px;color:var(--goldbrt);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
+.pn-q-text{font-family:'Crimson Pro',serif;font-size:13.5px;font-weight:600;color:#fff;font-style:italic}
+.pn-side{min-width:160px}
+.pn-side-box{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:11px 13px}
+.pn-side-label{font-family:'JetBrains Mono',monospace;font-size:7px;color:var(--leaf);letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px}
+.pn-side-body{font-size:11.5px;color:rgba(255,255,255,.8);line-height:1.6}
+
+/* FOOTER */
+.footer{margin-top:14px;padding-top:8px;border-top:1px solid var(--border);display:flex;justify-content:space-between}
+.footer p{font-family:'JetBrains Mono',monospace;font-size:7px;color:var(--stone);letter-spacing:.06em;text-transform:uppercase}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header-banner">
+    <div class="hb-left">
+      <h1>Social Media and the Brain</h1>
+      <div class="meta">Guided Childhood &middot; Module 9 &middot; Digital Literacy &middot; Year 7&ndash;9</div>
+    </div>
+    <div class="hb-right">
+      <div class="name-field"><label>Name</label><div class="name-line"></div></div>
+      <div class="name-field"><label>Year</label><div class="name-line" style="max-width:60px"></div></div>
+      <div class="name-field"><label>Date</label><div class="name-line" style="max-width:80px"></div></div>
+    </div>
+  </div>
+
+  <!-- PART 1: VARIABLE REWARD -->
+  <div class="section">
+    <div class="sec-banner">
+      <div class="sec-num">1</div>
+      <div class="sec-title">The Variable Reward</div>
+      <div class="sec-time">5–20 min</div>
+    </div>
+
+    <div class="concept-row">
+      <div class="concept-card cc-forest">
+        <div class="cc-label">Mechanism 1</div>
+        <div class="cc-head">Pull to refresh</div>
+        <div class="cc-body">Same gesture as a slot machine. Same anticipation. Copied deliberately.</div>
+      </div>
+      <div class="concept-card cc-fern">
+        <div class="cc-label">Mechanism 2</div>
+        <div class="cc-head">Unpredictable reward</div>
+        <div class="cc-body">Sometimes a like. Sometimes nothing. The unpredictability is the compulsion.</div>
+      </div>
+      <div class="concept-card cc-sage">
+        <div class="cc-label">Mechanism 3</div>
+        <div class="cc-head">The dopamine loop</div>
+        <div class="cc-body">Dopamine releases in anticipation — not after. So you keep going back.</div>
+      </div>
+    </div>
+
+    <div class="app-map">
+      <div class="app-map-head">My app — map your own variable reward</div>
+      <div class="app-map-row">
+        <span class="app-map-label">My app is</span>
+        <input class="write-line" type="text" placeholder="e.g. TikTok, YouTube, Instagram">
+      </div>
+      <div class="app-map-row">
+        <span class="app-map-label">My refresh is</span>
+        <input class="write-line" type="text" placeholder="e.g. swipe down on the feed">
+      </div>
+      <div class="app-map-row">
+        <span class="app-map-label">My reward is</span>
+        <input class="write-line" type="text" placeholder="e.g. a new video, a like, a message">
+      </div>
+    </div>
+
+    <div class="q-row">
+      <div class="q-num">Q</div>
+      <div class="q-body">
+        <div class="q-text">If this app gave you the exact same thing every time you opened it — would you use it as much? Why or why not?</div>
+        <div class="wl"></div><div class="wl"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PART 2: COMPARISON MACHINE -->
+  <div class="section">
+    <div class="sec-banner">
+      <div class="sec-num">2</div>
+      <div class="sec-title">The Comparison Machine — analyse the feed</div>
+      <div class="sec-time">20–35 min</div>
+    </div>
+
+    <div class="feed-sample">
+      <div class="feed-sample-label">Sample feed — all posts anonymised</div>
+      <div class="post">
+        <div class="post-name">@summer_vibes99</div>
+        <div class="post-text">Best summer ever with these actual legends 🌴☀️ honestly this is the life. nothing could be better rn</div>
+        <div class="post-stats">❤ 312 &nbsp;&middot;&nbsp; 💬 47 comments &nbsp;&middot;&nbsp; Posted 2 hours ago</div>
+      </div>
+      <div class="post">
+        <div class="post-name">@fitness_always</div>
+        <div class="post-text">8 weeks of commitment. The results don't lie 💪 No excuses. If I can do it anyone can. #nodaysoff</div>
+        <div class="post-stats">❤ 1.2k &nbsp;&middot;&nbsp; 💬 203 comments &nbsp;&middot;&nbsp; Posted 5 hours ago</div>
+      </div>
+      <div class="post">
+        <div class="post-name">@just.being.me</div>
+        <div class="post-text">lol "candid" photo (only took 23 attempts and 40 minutes) 😂 anyway hope everyone's having the best Tuesday</div>
+        <div class="post-stats">❤ 847 &nbsp;&middot;&nbsp; 💬 91 comments &nbsp;&middot;&nbsp; Posted 1 hour ago</div>
+      </div>
+      <div class="post">
+        <div class="post-name">@thewholegang</div>
+        <div class="post-text">Squad goals forever 🥂 couldn't do life without these humans, best night we've had in ages</div>
+        <div class="post-stats">❤ 529 &nbsp;&middot;&nbsp; 💬 88 comments &nbsp;&middot;&nbsp; Posted 3 hours ago</div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="col-box">
+        <div class="col-box-label cbl-coral">This feed makes life look like...</div>
+        <div class="wl" style="margin-top:8px"></div>
+        <div class="wl" style="margin-top:8px"></div>
+        <div class="wl" style="margin-top:8px"></div>
+      </div>
+      <div class="col-box">
+        <div class="col-box-label cbl-fern">What this feed leaves out...</div>
+        <div class="wl" style="margin-top:8px"></div>
+        <div class="wl" style="margin-top:8px"></div>
+        <div class="wl" style="margin-top:8px"></div>
+      </div>
+    </div>
+
+    <div class="sentence-box">
+      <div class="sentence-label">Complete this sentence — be honest</div>
+      <div class="sentence-row">
+        <span class="sentence-start">"What this feed does not show is&nbsp;</span>
+        <input class="sentence-input" type="text" placeholder="...">
+        <span style="color:#fff;font-family:'Crimson Pro',serif;font-size:14px">"</span>
+      </div>
+    </div>
+
+    <div class="q-row">
+      <div class="q-num">Q</div>
+      <div class="q-body">
+        <div class="q-text">Cambridge research shows girls are most affected by social media between ages 11–13, and boys around 14–15. Why do you think there might be a difference? Does this match anything you have noticed?</div>
+        <div class="wl"></div><div class="wl"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PART 3: MY STRATEGY -->
+  <div class="section">
+    <div class="sec-banner">
+      <div class="sec-num">3</div>
+      <div class="sec-title">My strategy — choose one and circle it</div>
+      <div class="sec-time">35–45 min</div>
+    </div>
+
+    <div class="strategy-grid">
+      <div class="strategy-card">
+        <div class="strategy-checkbox"></div>
+        <div class="s-tag">🛏 Bedroom rule</div>
+        <div class="s-head">Phone charges outside the bedroom</div>
+        <div class="s-body">The single highest-impact change in the research. Sleep and mood both improve.</div>
+      </div>
+      <div class="strategy-card">
+        <div class="strategy-checkbox"></div>
+        <div class="s-tag">✂ Follow audit</div>
+        <div class="s-head">Unfollow three accounts</div>
+        <div class="s-body">Unfollow the ones that consistently make you feel worse. You owe them nothing.</div>
+      </div>
+      <div class="strategy-card">
+        <div class="strategy-checkbox"></div>
+        <div class="s-tag">🔕 Notification off</div>
+        <div class="s-head">Turn off one app's notifications</div>
+        <div class="s-body">You open it on your terms. Not when it calls you. Small shift, big difference.</div>
+      </div>
+      <div class="strategy-card">
+        <div class="strategy-checkbox"></div>
+        <div class="s-tag">⏱ The pause</div>
+        <div class="s-head">Ask before you open</div>
+        <div class="s-body">"What am I looking for?" If you cannot answer, wait five minutes.</div>
+      </div>
+    </div>
+
+    <div class="q-row">
+      <div class="q-num">Q</div>
+      <div class="q-body">
+        <div class="q-text">Why did you choose that strategy in particular? What made the others less likely to work for you?</div>
+        <div class="wl"></div><div class="wl"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXIT TICKET -->
+  <div class="section">
+    <div class="exit-box">
+      <div class="exit-header">
+        <h3>Exit Ticket — hand this in before you leave</h3>
+        <span>45–50 min</span>
+      </div>
+      <div class="exit-body">
+        <div class="exit-prompt">"These apps are designed to...</div>
+        <div class="exit-area"></div>
+        <div class="exit-prompt">"One thing I noticed about my own habits is...</div>
+        <div class="exit-area"></div>
+        <div class="exit-prompt">"The one thing I will try this week is...</div>
+        <div class="exit-area" style="margin-bottom:0"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <p>Guided Childhood &middot; Module 9 &middot; Social Media and the Brain &middot; Year 7&ndash;9</p>
+    <p>guidedchildhood.co.uk &middot; &copy; 2026</p>
+  </div>
+
+  <!-- PARENT TEAROFF -->
+  <div class="tearoff">
+    <div class="tearoff-label">✂ &nbsp; Tear here — parent / carer take-home note</div>
+    <div class="parent-note">
+      <div>
+        <div class="pn-title">Social Media and the Brain</div>
+        <div class="pn-meta">Guided Childhood &middot; Module 9 &middot; KS3 Digital Literacy</div>
+        <div class="pn-body">In today's lesson your child learned why social media apps are designed to hold attention (the variable reward), how feeds show a curated highlight reel rather than real life, and chose one personal strategy to try this week.</div>
+        <div class="pn-question">
+          <div class="pn-q-label">One question to ask at dinner tonight</div>
+          <div class="pn-q-text">"What did you find out today about how your apps are actually designed?"</div>
+        </div>
+      </div>
+      <div class="pn-side">
+        <div class="pn-side-box">
+          <div class="pn-side-label">The bedroom rule</div>
+          <div class="pn-side-body">The highest-impact single action in the research: phone charges outside the bedroom at night. Your child may have chosen this as their strategy today.</div>
+        </div>
+        <div style="margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:7.5px;color:rgba(255,255,255,.5);text-align:right">More at guidedchildhood.co.uk</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
