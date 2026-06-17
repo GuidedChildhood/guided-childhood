@@ -17,6 +17,8 @@
     { "src": "/starter-pack/", "dest": "/starter-pack.html" },
     { "src": "/five-questions", "dest": "/five-questions.html" },
     { "src": "/five-questions/", "dest": "/five-questions.html" },
+    { "src": "/evidence", "dest": "/evidence.html" },
+    { "src": "/evidence/", "dest": "/evidence.html" },
     { "src": "/GC-Module9-Worksheet", "dest": "/GC-Module9-Worksheet.html" },
     { "src": "/GC-Module9-Worksheet/", "dest": "/GC-Module9-Worksheet.html" },
     { "src": "/GC-Module9-TeacherNotes", "dest": "/GC-Module9-TeacherNotes.html" },
@@ -38,6 +40,13 @@
       "headers": [
         { "key": "Content-Type", "value": "application/vnd.openxmlformats-officedocument.presentationml.presentation" },
         { "key": "Content-Disposition", "value": "attachment; filename=\"GC-Module9-SocialMediaBrain-KS3.pptx\"" }
+      ]
+    },
+    {
+      "source": "/evidence-paper.pdf",
+      "headers": [
+        { "key": "Content-Type", "value": "application/pdf" },
+        { "key": "Content-Disposition", "value": "attachment; filename=\"The-Social-Media-Ban-Evidence-Review-2026.pdf\"" }
       ]
     },
     {
