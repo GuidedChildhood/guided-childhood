@@ -48,7 +48,7 @@ This folder is the single source of truth for all DiGi Squad characters. Read it
 - **Intro speech**: "Hi! I'm Olga and I'm here to help you today! Today we're going on a DETECTIVE mission to spot what's real online. Put your thinking hat on — let's go!"
 - **Higgsfield job IDs**: `b4f9d05b` (still image), `4641ac49` (5s video: celebration leap)
 
-### Alam — Privacy Guardian
+### Alma — Privacy Guardian
 - **Age**: 6
 - **Real name origin**: Justin's child
 - **Digital superpower**: Keeps the whole squad safe. Knows what to keep private always.
@@ -57,13 +57,13 @@ This folder is the single source of truth for all DiGi Squad characters. Read it
 - **Kit**: Pink tutu dress, orange cape
 - **Lesson topics**: Personal information, photo sharing, who to talk to, what to do if someone asks for your info
 - **Stage**: 1 to 2 · Ages 4 to 9
-- **Intro speech**: "Hi! I'm Alam and I'm here to help you today! Today we're going to build YOUR privacy shield. Ready to be a guardian?"
+- **Intro speech**: "Hi! I'm Alma and I'm here to help you today! Today we're going to build YOUR privacy shield. Ready to be a guardian?"
 - **Higgsfield job IDs**: `2f0372a9` (still image), `457b92ac` (5s video: spinning with sparkles)
 
 ---
 
 ## Team Poster
-- All four characters together (Olga, Teo, Alam, DiGi Junior)
+- All four characters together (Olga, Teo, Alma, DiGi Junior)
 - Dark forest green stadium background, golden spotlights, bokeh effects
 - **Higgsfield job ID**: `9424aadf`
 
@@ -116,7 +116,7 @@ Modelled on Jigsaw PSHE but cinematic. Every lesson follows this arc:
 ### Character voice rules
 - Teo: uses football metaphors. "Cool-down lap", "the other team's move", "kick off"
 - Olga: uses detective metaphors. "Mission", "clue", "case solved"
-- Alam: uses shield/guardian metaphors. "Privacy shield", "guardian", "protect"
+- Alma: uses shield/guardian metaphors. "Privacy shield", "guardian", "protect"
 - DiGi Junior: playful robot voice. "BEEP BOOP!", "brilliant!", casual and fun
 
 ### The distancing technique (from Jigsaw)
@@ -135,7 +135,7 @@ components/lessons/
   DigiJuniorPause.tsx  — mid-lesson DiGi Junior breathing pause beat
 
 app/(marketing)/digi-squad/
-  page.tsx             — squad homepage (meet Teo, Olga, Alam + animal guides)
+  page.tsx             — squad homepage (meet Teo, Olga, Alma + animal guides)
   lesson/page.tsx      — Teo's first lesson: "Why your brain loves screens"
 ```
 

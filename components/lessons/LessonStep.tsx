@@ -24,7 +24,7 @@ const CHARACTER_COLOR_LIGHT: Record<LessonCharacter, string> = {
 const CHARACTER_NAME: Record<LessonCharacter, string> = {
   teo: 'Teo',
   olga: 'Olga',
-  alam: 'Alam',
+  alam: 'Alma',
   'digi-junior': 'DiGi Junior',
 }
 

@@ -31,7 +31,7 @@ const CHARACTERS: Record<LessonCharacter, {
     personality: 'curious and sharp',
   },
   alam: {
-    name: 'Alam',
+    name: 'Alma',
     emoji: '🛡️',
     color: 'var(--green-dark)',
     colorLight: 'var(--green-lt)',

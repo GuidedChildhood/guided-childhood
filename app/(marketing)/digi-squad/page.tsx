@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'The DiGi Squad | Guided Childhood',
-  description: 'Meet Teo, Olga and Alam. Three kids on a mission to help every child navigate the digital world with confidence, smarts, and safety.',
+  description: 'Meet Teo, Olga and Alma. Three kids on a mission to help every child navigate the digital world with confidence, smarts, and safety.',
 }
 
 const SQUAD = [
@@ -44,7 +44,7 @@ const SQUAD = [
     emoji: '🔍',
   },
   {
-    name: 'Alam',
+    name: 'Alma',
     age: 'Age 6',
     role: 'Privacy Guardian',
     power: 'Keeps the whole squad safe. Teaches kids what information is theirs to keep and what to never share.',
@@ -101,7 +101,7 @@ export default function DigiSquadPage() {
             The DiGi Squad
           </h1>
           <p style={{ color: 'rgba(255,255,255,.75)', fontSize: 'clamp(1rem, 2vw, 1.2rem)', lineHeight: 1.65, maxWidth: '560px', margin: '0 auto 16px' }}>
-            Three kids on a mission. Teo, Olga and Alam teach children everything they need to be safe, smart and in control online.
+            Three kids on a mission. Teo, Olga and Alma teach children everything they need to be safe, smart and in control online.
           </p>
           <p style={{ color: 'rgba(255,255,255,.45)', fontFamily: 'var(--font-mono)', fontSize: '.78rem', letterSpacing: '.06em', marginBottom: '40px' }}>
             Guided by DiGi the owl · Powered by real research · Built for ages 4 to 16
@@ -208,7 +208,7 @@ export default function DigiSquadPage() {
             <p className="eyebrow" style={{ marginBottom: '12px' }}>How it works</p>
             <h2>Designed for kids. Guided by parents.</h2>
             <p style={{ color: 'var(--ink-soft)', fontSize: '1.05rem', maxWidth: '540px', margin: '16px auto 0', lineHeight: 1.65 }}>
-              Short animated lessons with Teo, Olga and Alam. Each one takes under five minutes and comes with a family conversation starter so parents and children learn together.
+              Short animated lessons with Teo, Olga and Alma. Each one takes under five minutes and comes with a family conversation starter so parents and children learn together.
             </p>
           </div>
           <div className="three-col">
@@ -286,7 +286,7 @@ export default function DigiSquadPage() {
         <div className="container" style={{ textAlign: 'center', position: 'relative', zIndex: 1 }}>
           <p className="eyebrow" style={{ color: 'var(--green)', marginBottom: '16px' }}>The DiGi Squad</p>
           <h2 style={{ color: '#fff', marginBottom: '20px' }}>
-            Teo, Olga and Alam are waiting.<br />First lesson is free.
+            Teo, Olga and Alma are waiting.<br />First lesson is free.
           </h2>
           <p style={{ color: 'rgba(255,255,255,.75)', fontSize: '1.05rem', maxWidth: '480px', margin: '0 auto 36px', lineHeight: 1.65 }}>
             Get your child&rsquo;s stage, their squad character, and the first lesson free with the starter pack. No account required.
