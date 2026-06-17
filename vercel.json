@@ -1,6 +1,22 @@
 {
+  "version": 2,
+  "builds": [
+    { "src": "index.html", "use": "@vercel/static" },
+    { "src": "agents.html", "use": "@vercel/static" },
+    { "src": "digitalwellbeing/index.html", "use": "@vercel/static" },
+    { "src": "starter-pack.html", "use": "@vercel/static" },
+    { "src": "school-pack.html", "use": "@vercel/static" },
+    { "src": "schools.html", "use": "@vercel/static" },
+    { "src": "get-started.html", "use": "@vercel/static" },
+    { "src": "five-questions.html", "use": "@vercel/static" },
+    { "src": "evidence.html", "use": "@vercel/static" },
+    { "src": "GC-Module9-SocialMediaBrain-KS3.pptx", "use": "@vercel/static" },
+    { "src": "GC-Module9-Worksheet.html", "use": "@vercel/static" },
+    { "src": "GC-Module9-TeacherNotes.html", "use": "@vercel/static" },
+    { "src": "GC-Module9-FeedbackSheet.html", "use": "@vercel/static" },
+    { "src": "dsl-form.html", "use": "@vercel/static" }
+  ],
   "routes": [
-    { "handle": "filesystem" },
     { "src": "/digitalwellbeing", "dest": "/digitalwellbeing/index.html" },
     { "src": "/digitalwellbeing/", "dest": "/digitalwellbeing/index.html" },
     { "src": "/agents", "dest": "/agents.html" },
@@ -19,6 +35,7 @@
     { "src": "/five-questions/", "dest": "/five-questions.html" },
     { "src": "/evidence", "dest": "/evidence.html" },
     { "src": "/evidence/", "dest": "/evidence.html" },
+    { "src": "/evidence.html", "dest": "/evidence.html" },
     { "src": "/GC-Module9-Worksheet", "dest": "/GC-Module9-Worksheet.html" },
     { "src": "/GC-Module9-Worksheet/", "dest": "/GC-Module9-Worksheet.html" },
     { "src": "/GC-Module9-TeacherNotes", "dest": "/GC-Module9-TeacherNotes.html" },
