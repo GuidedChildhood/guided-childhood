@@ -1,21 +1,6 @@
 {
-  "version": 2,
-  "builds": [
-    { "src": "index.html", "use": "@vercel/static" },
-    { "src": "agents.html", "use": "@vercel/static" },
-    { "src": "digitalwellbeing/index.html", "use": "@vercel/static" },
-    { "src": "starter-pack.html", "use": "@vercel/static" },
-    { "src": "school-pack.html", "use": "@vercel/static" },
-    { "src": "schools.html", "use": "@vercel/static" },
-    { "src": "get-started.html", "use": "@vercel/static" },
-    { "src": "five-questions.html", "use": "@vercel/static" },
-    { "src": "GC-Module9-SocialMediaBrain-KS3.pptx", "use": "@vercel/static" },
-    { "src": "GC-Module9-Worksheet.html", "use": "@vercel/static" },
-    { "src": "GC-Module9-TeacherNotes.html", "use": "@vercel/static" },
-    { "src": "GC-Module9-FeedbackSheet.html", "use": "@vercel/static" },
-    { "src": "dsl-form.html", "use": "@vercel/static" }
-  ],
   "routes": [
+    { "handle": "filesystem" },
     { "src": "/digitalwellbeing", "dest": "/digitalwellbeing/index.html" },
     { "src": "/digitalwellbeing/", "dest": "/digitalwellbeing/index.html" },
     { "src": "/agents", "dest": "/agents.html" },
@@ -32,12 +17,15 @@
     { "src": "/starter-pack/", "dest": "/starter-pack.html" },
     { "src": "/five-questions", "dest": "/five-questions.html" },
     { "src": "/five-questions/", "dest": "/five-questions.html" },
+    { "src": "/evidence", "dest": "/evidence.html" },
+    { "src": "/evidence/", "dest": "/evidence.html" },
     { "src": "/GC-Module9-Worksheet", "dest": "/GC-Module9-Worksheet.html" },
     { "src": "/GC-Module9-Worksheet/", "dest": "/GC-Module9-Worksheet.html" },
     { "src": "/GC-Module9-TeacherNotes", "dest": "/GC-Module9-TeacherNotes.html" },
     { "src": "/GC-Module9-TeacherNotes/", "dest": "/GC-Module9-TeacherNotes.html" },
     { "src": "/GC-Module9-FeedbackSheet", "dest": "/GC-Module9-FeedbackSheet.html" },
     { "src": "/GC-Module9-FeedbackSheet/", "dest": "/GC-Module9-FeedbackSheet.html" },
+    { "src": "/GC-Module9-SocialMediaBrain-KS3.pptx", "dest": "/GC-Module9-SocialMediaBrain-KS3.pptx" },
     { "src": "/GC-Module9-DSLForm", "dest": "/dsl-form.html" },
     { "src": "/GC-Module9-DSLForm/", "dest": "/dsl-form.html" },
     { "src": "/stages", "status": 307, "headers": { "Location": "/#stages" } },
@@ -47,6 +35,20 @@
     { "src": "/(.*)", "dest": "/index.html" }
   ],
   "headers": [
+    {
+      "source": "/GC-Module9-SocialMediaBrain-KS3.pptx",
+      "headers": [
+        { "key": "Content-Type", "value": "application/vnd.openxmlformats-officedocument.presentationml.presentation" },
+        { "key": "Content-Disposition", "value": "attachment; filename=\"GC-Module9-SocialMediaBrain-KS3.pptx\"" }
+      ]
+    },
+    {
+      "source": "/evidence-paper.pdf",
+      "headers": [
+        { "key": "Content-Type", "value": "application/pdf" },
+        { "key": "Content-Disposition", "value": "attachment; filename=\"The-Social-Media-Ban-Evidence-Review-2026.pdf\"" }
+      ]
+    },
     {
       "source": "/(.*)",
       "headers": [
