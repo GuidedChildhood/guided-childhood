@@ -92,6 +92,18 @@ p{line-height:1.7;color:var(--ink-soft)}
 .author-body h3{font-size:.95rem;font-weight:700;margin-bottom:2px;color:var(--ink)}
 .author-body p{font-size:.82rem;line-height:1.55}
 
+.role-selector{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
+@media(max-width:520px){.role-selector{grid-template-columns:1fr}}
+.role-card{display:flex;flex-direction:column;background:var(--warm);border:1.5px solid var(--border);border-radius:14px;padding:14px 16px;text-decoration:none;color:var(--ink);transition:border-color .14s,background .14s}
+.role-card:hover{border-color:var(--green-dark);background:var(--green-lt)}
+.role-label{font-weight:700;font-size:.88rem;margin-bottom:4px;color:var(--ink)}
+.role-desc{font-family:var(--mono);font-size:.58rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-muted)}
+.cta-box .role-card{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15)}
+.cta-box .role-card:hover{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.35)}
+.cta-box .role-label{color:#fff}
+.cta-box .role-desc{color:rgba(255,255,255,.45)}
+.paper-gate{background:var(--green-lt);border:1.5px solid var(--green);border-radius:16px;padding:24px;margin-bottom:28px}
+
 .footer{border-top:1px solid var(--border);padding-top:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
 .footer p{font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-light)}
 .footer a{font-family:var(--mono);font-size:.7rem;font-weight:600;color:var(--green-dark);text-decoration:none}
@@ -114,9 +126,23 @@ p{line-height:1.7;color:var(--ink-soft)}
     <span class="eye">Independent Policy &amp; Evidence Review</span>
     <h1>The Social Media Ban and the Evidence We Owe Children</h1>
     <p class="hero-sub">What the research actually shows. What it does not say. And what should happen before Spring 2027.</p>
-    <a class="btn" href="https://mailchi.mp/be8fc2e8e0fd/newsletter" target="_blank" rel="noopener">Get the paper &rarr;</a>
-    <p class="hero-meta" style="margin-top:12px">Free &middot; Subscribe on Mailchimp &middot; Unsubscribe any time</p>
-    <div style="margin-top:10px"><a class="btn-ghost" href="#findings">Read the findings &darr;</a></div>
+    <p style="font-family:var(--mono);font-size:.62rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:10px">Who are you reading this as?</p>
+    <div class="role-selector">
+      <a class="role-card" href="https://mailchi.mp/thesocialbillboard/parents" target="_blank" rel="noopener">
+        <span class="role-label">Parent / Carer</span>
+        <span class="role-desc">Guidance for your family</span>
+      </a>
+      <a class="role-card" href="https://mailchi.mp/be8fc2e8e0fd/newsletter" target="_blank" rel="noopener">
+        <span class="role-label">Teacher / School</span>
+        <span class="role-desc">Evidence for your setting</span>
+      </a>
+      <a class="role-card" href="https://mailchi.mp/be8fc2e8e0fd/newsletter" target="_blank" rel="noopener">
+        <span class="role-label">Researcher / Clinician</span>
+        <span class="role-desc">The full cited paper</span>
+      </a>
+    </div>
+    <p class="hero-meta">Free &middot; We send the download link &middot; Unsubscribe any time</p>
+    <div style="margin-top:14px"><a class="btn-ghost" href="#findings">Read the findings &darr;</a></div>
     <p class="hero-meta">Free &middot; 20 pages &middot; Fully cited &middot; June 2026 &middot; Justin Phillips, The Guided Digital Childhood</p>
   </div>
 
@@ -145,6 +171,27 @@ p{line-height:1.7;color:var(--ink-soft)}
         <p><strong>The cliff edge at 16 is the most underacknowledged risk.</strong> A child kept from platforms until 16, then given full access without preparation, is not protected. They are delayed. The preparation curriculum does not yet exist at scale in the UK.</p>
       </div>
     </div>
+  </div>
+
+  <!-- INLINE GATE -->
+  <div class="paper-gate">
+    <span class="section-label">Get the full paper</span>
+    <p style="font-size:.9rem;line-height:1.6;color:var(--ink-soft);margin-bottom:16px">Sign up once. We send the download link and the right follow-up for your situation.</p>
+    <div class="role-selector">
+      <a class="role-card" href="https://mailchi.mp/thesocialbillboard/parents" target="_blank" rel="noopener">
+        <span class="role-label">Parent / Carer</span>
+        <span class="role-desc">Guidance for your family</span>
+      </a>
+      <a class="role-card" href="https://mailchi.mp/be8fc2e8e0fd/newsletter" target="_blank" rel="noopener">
+        <span class="role-label">Teacher / School</span>
+        <span class="role-desc">Evidence for your setting</span>
+      </a>
+      <a class="role-card" href="https://mailchi.mp/be8fc2e8e0fd/newsletter" target="_blank" rel="noopener">
+        <span class="role-label">Researcher / Clinician</span>
+        <span class="role-desc">The full cited paper</span>
+      </a>
+    </div>
+    <p class="hero-meta" style="margin-top:6px">Free &middot; Unsubscribe any time</p>
   </div>
 
   <!-- STAT ROW -->
@@ -239,8 +286,21 @@ p{line-height:1.7;color:var(--ink-soft)}
   <div class="cta-box">
     <h2>Read the full evidence review</h2>
     <p>20 pages. Every claim cited. Platform-by-platform analysis. Eight objections addressed. Written for parents, school leaders, journalists and policymakers.</p>
-    <a class="btn" href="https://mailchi.mp/be8fc2e8e0fd/newsletter" target="_blank" rel="noopener">Get the paper &rarr;</a>
-    <p class="btn-note" style="margin-top:12px">Free &middot; Subscribe on Mailchimp &middot; Unsubscribe any time</p>
+    <div class="role-selector">
+      <a class="role-card" href="https://mailchi.mp/thesocialbillboard/parents" target="_blank" rel="noopener">
+        <span class="role-label">Parent / Carer</span>
+        <span class="role-desc">Guidance for your family</span>
+      </a>
+      <a class="role-card" href="https://mailchi.mp/be8fc2e8e0fd/newsletter" target="_blank" rel="noopener">
+        <span class="role-label">Teacher / School</span>
+        <span class="role-desc">Evidence for your setting</span>
+      </a>
+      <a class="role-card" href="https://mailchi.mp/be8fc2e8e0fd/newsletter" target="_blank" rel="noopener">
+        <span class="role-label">Researcher / Clinician</span>
+        <span class="role-desc">The full cited paper</span>
+      </a>
+    </div>
+    <p class="btn-note" style="margin-top:12px">Free &middot; Unsubscribe any time</p>
   </div>
 
   <!-- AUTHOR -->
