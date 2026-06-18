@@ -1,5 +1,7 @@
 {
   "routes": [
+    { "src": "/evidence", "dest": "/evidence.html" },
+    { "src": "/evidence/", "dest": "/evidence.html" },
     { "handle": "filesystem" },
     { "src": "/digitalwellbeing", "dest": "/digitalwellbeing/index.html" },
     { "src": "/digitalwellbeing/", "dest": "/digitalwellbeing/index.html" },
@@ -17,8 +19,6 @@
     { "src": "/starter-pack/", "dest": "/starter-pack.html" },
     { "src": "/five-questions", "dest": "/five-questions.html" },
     { "src": "/five-questions/", "dest": "/five-questions.html" },
-    { "src": "/evidence", "dest": "/evidence.html" },
-    { "src": "/evidence/", "dest": "/evidence.html" },
     { "src": "/GC-Module9-Worksheet", "dest": "/GC-Module9-Worksheet.html" },
     { "src": "/GC-Module9-Worksheet/", "dest": "/GC-Module9-Worksheet.html" },
     { "src": "/GC-Module9-TeacherNotes", "dest": "/GC-Module9-TeacherNotes.html" },
