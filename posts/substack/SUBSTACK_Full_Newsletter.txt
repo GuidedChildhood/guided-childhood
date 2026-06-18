@@ -1,0 +1,218 @@
+TITLE: The Guided Digital Pathway: A Module-by-Module Breakdown
+SUBTITLE: What every parent and teacher should know about how we actually guide children through digital life — from first screen to full independence at 16.
+
+---
+
+I want to start with a number: 16.
+
+That's the age most of us — parents, teachers, schools — tacitly agree children are ready for full digital independence. An unrestricted phone. Open social media accounts. No family controls. Their own decisions.
+
+We don't often say it out loud. But watch what actually happens and the pattern is consistent: at 16, the guardrails come off.
+
+The question the Guided Digital Pathway was built to answer is this: what should happen between first screen and 16?
+
+Not a ban. Not a single assembly. Not a set of rules emailed home at the start of term. A pathway. Sequenced, evidence-based, and consistent from the moment a child first holds a device.
+
+This newsletter covers every stage — specifically enough to be useful. Vague digital safety advice is everywhere. What's rare is precision.
+
+
+WHY A PATHWAY — NOT TIPS
+
+Before the modules, the philosophy.
+
+Professor Candace Odgers at UC Irvine spent years studying the relationship between social media and adolescent mental health. Her conclusion is more nuanced than most headlines suggest: effects depend on vulnerability and environment, not just the device. A phone isn't inherently harmful. A phone handed to a child at the wrong developmental stage, without structure, in a vulnerable environment — that's where harm concentrates.
+
+Dr Amy Orben at Cambridge's MRC Cognition and Brain Sciences Unit identifies developmental sensitivity windows: periods where digital exposure carries the most risk. For girls, this is ages 11–13. For boys, 14–15. These are not arbitrary numbers. They are the windows the pathway protects most carefully.
+
+Professor Andrew Przybylski at the Oxford Internet Institute describes what he calls the Goldilocks Effect: moderate, age-appropriate use isn't inherently harmful. Too much, too early, structured wrong — that's where risk lives.
+
+Professor Sonia Livingstone at LSE ties it together: children need skills and agency, not just restrictions. Every restriction without education builds compliance, not capability. And capability is what they need at 16.
+
+The pathway is built on all four bodies of work. Not panic. Evidence.
+
+
+THE TRUST FRAMEWORK
+
+Five letters. One framework. Every stage from 4 to 16.
+
+T — Timing. Right device at the right age. Not all-or-nothing. Not a cliff edge. Sequenced, graduated access is more protective than restriction followed by sudden full access.
+
+R — Relationships. Connection is the strongest protective factor the research has found. A child who trusts a parent or teacher to navigate digital moments with them — rather than police them — develops better self-regulation over time.
+
+U — Upstream. Environment before rules. Platform mechanics — algorithms, autoplay, notification design — are built to maximise engagement regardless of age. Understanding how those mechanics work is more protective than rules that fight them without explaining them.
+
+S — Sleep. The bedroom rule is the single highest-impact action in this system. The evidence on sleep disruption and adolescent mental health is unambiguous. No devices in bedrooms at night.
+
+T — Transparency. Openness over secrecy. Co-navigation over surveillance. Children who understand why limits exist internalise them more effectively than children who are simply monitored.
+
+TRUST runs through every module. Every lesson. Every conversation script.
+
+
+STAGE 1: FOUNDATION — AGES 4–7
+Shared screen. No solo browsing. No feeds.
+
+The first stage is the most misunderstood. Parents often interpret managing screen time as a battle over duration. Duration matters — but the more important variable at this stage is who is present.
+
+Co-viewing — being in the room, watching with your child, narrating what you see — does two things the research consistently supports. First, it shapes how a child processes digital content. Second, it establishes the habit of navigation as something done with an adult, not hidden from one.
+
+The most common question at Stage 1: "I can't get my four-year-old off the iPad. What am I doing wrong?"
+
+The answer is rarely that you gave them a screen. It's that the transition off-screen hasn't been scaffolded. Children at this stage need an explicit routine: we watch together, then we stop together, then we do something else together. The exit is part of the habit.
+
+For schools: EYFS content covers screens and kindness, real vs not real, and the difference between talking to people online and in person. Every child in Reception has already had significant screen exposure. The curriculum acknowledges this and works from where they actually are.
+
+→ Full Stage 1 resources at guidedchildhood.com
+
+
+STAGE 2: FIRST STEPS — AGES 8–10
+Restricted phone. Family contacts. Privacy basics. Algorithms.
+
+By age 8, most children are aware that some of their peers have phones. The comparison begins. Stage 2 addresses that comparison directly — not by dismissing it, but by using it as the entry point to a conversation about timing, readiness, and what a phone actually gives access to.
+
+The key concept at Stage 2 is algorithms. Not in a technical sense — but in the practical sense that a child can understand: "The app is designed to keep showing you things you click on. That's not magic. That's a business decision."
+
+Teaching a nine-year-old that a platform's goal is engagement, not their wellbeing, is one of the most protective pieces of digital literacy education in the entire pathway. It gives them a lens for every platform they encounter for the rest of their life.
+
+The most common question at Stage 2: "How do I explain why their friends have phones and they don't?"
+
+The script: "Some families choose different timings. Our plan is Stage 3 at age 11. Here's exactly what that phone will have on it when you get it." Specificity is more reassuring than vague future promises.
+
+For schools: KS2 modules cover algorithms, privacy basics, internet safety, and coding foundations. Each lesson includes a parent note — a single practical action the family can take that week to reinforce what was taught in class.
+
+→ Full Stage 2 resources at guidedchildhood.com
+
+
+STAGE 3: EXPLORER — AGES 11–13 (THE CRITICAL WINDOW)
+Guided smartphone. No social media. Mood literacy. Comparison skills.
+
+This is the stage the entire pathway was designed to protect.
+
+Dr Amy Orben's research identifies 11–13 as the peak sensitivity window for girls. The combination of developmental vulnerability, social comparison, and algorithmic content optimised for engagement creates the conditions where social media use shows its strongest association with reduced life satisfaction.
+
+Stage 3 is not about removing phones. By age 11, that conversation has usually passed. Stage 3 is about what is on the phone and how the child understands it.
+
+No social media accounts. Guided smartphone access. And critically: explicit conversation about comparison, mood, and the mechanics driving both.
+
+The most common question at Stage 3: "Her mood drops every time she puts her phone down. I'm worried."
+
+This is a measurable, documented phenomenon. The response: "Start tonight with this: 'I noticed you seem a bit flat after your phone. Does it ever leave you feeling worse?' That one question opens more conversations than any rule."
+
+For schools: Stage 3 maps to Years 6–8. This is the critical window for PSHE leads and pastoral teams. KS3 modules cover social media mechanics, AI chatbots, deepfakes, and dark web awareness. The content is not designed to frighten — it's designed to build pattern recognition in the children most likely to encounter harm.
+
+→ Full Stage 3 resources at guidedchildhood.com
+
+
+STAGE 4: NAVIGATOR — AGES 13–15
+Monitored social. Reputation. Filter bubbles. Readiness.
+
+By 13, most children have social media accounts — often before the platform's stated age minimum. Stage 4 works from this reality rather than against it.
+
+The key concepts: reputation (what you publish online persists), filter bubbles (the algorithm shows you what it predicts will keep you engaged, not a balanced view of the world), and readiness (an ongoing, genuine assessment of whether a child is equipped for the access they have).
+
+The most common question at Stage 4: "He has accounts I don't know about. What do I do?"
+
+The script: "I know you have some accounts I don't know about. I'm not going to demand you delete them. I want to understand what you're doing on them. Can we look together?" The goal is co-navigation, not surveillance.
+
+For schools: KS4 modules cover manipulation, sextortion, radicalisation, and preparation for full digital independence at 16. This is not about alarming students — it's about building the pattern recognition that makes manipulation harder to execute.
+
+→ Full Stage 4 resources at guidedchildhood.com
+
+
+STAGE 5: INDEPENDENT — AGES 16+
+Trust-based. Full access. AI literacy. Vibe coding.
+
+Stage 5 is the arrival. Full digital independence — not by default, but by design.
+
+A child who has moved through Stages 1–4 arrives at 16 with: an understanding of platform mechanics, a vocabulary for managing their own mood and digital habits, a track record of co-navigated decisions with trusted adults, and the digital literacy skills the research identifies as genuinely protective.
+
+Stage 5 extends into territory most digital safety education doesn't reach: AI literacy, data rights, and what researchers are calling "vibe coding" — the capacity to work fluently with AI tools in ways that are rapidly becoming a workplace expectation.
+
+The most common question at Stage 5: "She's 16 next month. I have no idea if she's ready."
+
+If you've followed the pathway: she is more ready than most. If you're starting at Stage 5 without the earlier stages: it's not too late. Structure introduced at any stage is protective.
+
+For schools: KS5 modules cover AI mastery, data rights, vibe coding, and future technology literacy — bridging digital safety and digital skills. Two conversations that have been separated for too long.
+
+→ Full Stage 5 resources at guidedchildhood.com
+
+
+THE AI LAYER — WHAT SCHOOLS AND PARENTS ARE GETTING WRONG
+
+AI has arrived in every classroom, every bedroom, and every pocket. Most schools have a policy. Most parents have a vague worry. Almost nobody has a framework.
+
+Here is what the DfE's AI in Education Guidance (June 2025) requires schools to have in place — and what it doesn't cover.
+
+What it covers:
+— Appropriate use of AI tools by staff in planning, assessment, and feedback
+— Transparency obligations when AI contributes to student-facing content
+— Student data protection in AI tool interactions
+— Responsibilities around AI-generated academic work
+
+What it doesn't cover — and what schools therefore need to address themselves:
+— How to teach children to use AI tools responsibly (prompt literacy, critical evaluation)
+— AI-specific safeguarding: deepfake sextortion, voice cloning, AI companion dependency, AI-generated harmful content
+— Home use, which falls entirely outside the school's acceptable use policy
+— The gap between what students are permitted to do in school and what they're doing at home
+
+The dynamic model problem: Most school AI policies were written in 2023 or 2024. AI tools have changed more in the last 12 months than in the previous decade. A static policy approved by governors and filed on the website is not a safeguard. It's a paper trail. Schools need a termly AI policy review, not an annual one.
+
+What the Guided Childhood AI curriculum covers by key stage:
+
+KS3 (Years 7–9): What AI chatbots are and how they work. How to identify AI-generated content. Deepfakes — what they are, how they're made, and what to do if you encounter one. AI and social comparison. The risks of forming emotional attachments to AI companions.
+
+KS4 (Years 10–11): How AI is used in manipulation and grooming. Sextortion — including AI-generated imagery. AI and identity: what it means to create something with AI vs as yourself. Consent and AI-generated likenesses.
+
+KS5 (Years 12–13): Prompt literacy. Critical evaluation of AI output. Vibe coding — working with AI as a creative and professional tool. Data rights. Ethical AI use. How AI tools will shape the workplace they're entering.
+
+For DSLs specifically: AI-generated CSAM and deepfake sextortion are now active safeguarding concerns, not theoretical ones. Your safeguarding policy needs explicit language covering AI-specific risks. The Guided Childhood DSL training module covers disclosure response for AI-related harm — a scenario most existing CPD does not address.
+
+For parents: The most important thing to understand about AI is that your child's school policy covers six hours a day. Everything else is your territory. The Guided Childhood platform gives parents the same AI literacy framing their child gets in school — so the conversation at home uses the same language, the same framework, and the same evidence base.
+
+A note on the "just ban it" instinct: The research on restriction without education is consistent — it produces compliance in controlled environments and unchecked behaviour everywhere else. Children who understand why AI tools require careful use make better decisions with those tools than children who have simply been told not to. The pathway applies to AI the same way it applies to social media: structure, education, and graduated access beat blanket restriction every time.
+
+→ AI curriculum and school resources at guidedchildhood.com
+
+
+WHAT SCHOOLS NEED TO KNOW
+
+The UK statutory framework is clear. The Online Safety Act 2023 is law. Education for a Connected World (DfE/UKCIS) sets the expectation. Statutory RSE requires online safety content. The DfE's AI in Education Guidance (June 2025) adds accountability for how schools handle AI tools.
+
+Most schools are meeting these obligations with a patchwork.
+
+The Guided Childhood school curriculum — 21 half-term modules from EYFS to Year 13 — was designed to replace the patchwork with a scheme of work that meets every statutory requirement, is ready to deliver without preparation, and connects explicitly to what parents are doing at home.
+
+Every school enquiry receives a free assembly pack: a fully planned 20-minute digital safety assembly, ready to deliver. That's the starting point.
+
+School licences from £49/year per teacher. Whole-school from £299/year.
+
+→ School enquiries: guidedchildhood.com
+
+
+FOR PARENTS READING THIS
+
+The hardest part of digital parenting is not knowing if you're doing it right.
+
+Tips don't answer that question. A framework does.
+
+Guided Childhood gives you:
+— A weekly 3-action plan tailored to your child's exact stage
+— Scripts for every hard conversation, word for word
+— DiGi: the AI advisor trained on the research, available 24/7
+— A wellbeing tracker that flags if concern emerges
+— The full curriculum, with a parent version of every school lesson
+
+Start free. No card required.
+
+→ guidedchildhood.com
+
+---
+
+The challenges change as your child grows.
+
+Your approach doesn't have to.
+
+That's what a pathway is for.
+
+Justin Phillips
+Guided Childhood — The OS for Modern Parenting
+guidedchildhood.com
