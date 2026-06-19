@@ -416,7 +416,7 @@ footer{background:var(--cream-2);border-top:1px solid var(--border);padding:36px
 <div id="announce-bar" style="background:var(--green-lt);border-bottom:1px solid var(--green-b);padding:10px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;position:fixed;top:0;left:0;right:0;z-index:400;flex-wrap:wrap">
   <span style="font-family:var(--sans);font-size:.78rem;font-weight:600;color:var(--ink-soft)">The UK social media ban has been rushed through. The cliff edge at 16 has not moved. <strong style="color:var(--ink)">Here is how you prepare your child before it arrives.</strong></span>
   <button onclick="window.open('https://mailchi.mp/thesocialbillboard/parents','_blank')" style="background:var(--coral);color:#fff;border:none;font-family:var(--sans);font-weight:700;font-size:.74rem;padding:7px 16px;border-radius:100px;cursor:pointer;white-space:nowrap;flex-shrink:0">Join the Waitlist</button>
-  <button onclick="document.getElementById('announce-bar').style.display='none'" style="background:none;border:none;font-size:1rem;cursor:pointer;color:var(--ink-muted);flex-shrink:0;padding:0 4px">&#215;</button>
+  <button onclick="document.getElementById('announce-bar').style.display='none';adjustForBar()" style="background:none;border:none;font-size:1rem;cursor:pointer;color:var(--ink-muted);flex-shrink:0;padding:0 4px">&#215;</button>
 </div>
 
 <!-- NAV -->
@@ -1245,6 +1245,17 @@ function shareLink(platform) {
   }
 }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModalDirect(); });
+
+function adjustForBar() {
+  var bar = document.getElementById('announce-bar');
+  var nav = document.querySelector('nav');
+  var tabs = document.querySelector('.tab-bar');
+  var h = (bar && bar.style.display !== 'none') ? bar.offsetHeight : 0;
+  if (nav) nav.style.top = h + 'px';
+  if (tabs) tabs.style.marginTop = (h + 64) + 'px';
+}
+window.addEventListener('load', adjustForBar);
+window.addEventListener('resize', adjustForBar);
 </script>
 </body>
 </html>
