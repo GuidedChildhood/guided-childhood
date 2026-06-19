@@ -84,7 +84,6 @@ p{line-height:1.7;color:var(--ink-soft)}
 .cta-box{background:var(--ink);border-radius:16px;padding:28px 24px;text-align:center;margin-bottom:28px}
 .cta-box h2{color:#fff;margin-bottom:8px;font-size:1.35rem}
 .cta-box p{color:rgba(255,255,255,.6);font-size:.9rem;margin-bottom:20px;max-width:420px;margin-left:auto;margin-right:auto}
-.cta-box .btn{font-size:.95rem;padding:16px 32px}
 .cta-box .btn-note{font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-top:12px}
 
 .author-block{display:flex;gap:14px;align-items:flex-start;background:var(--warm);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:28px}
@@ -92,17 +91,20 @@ p{line-height:1.7;color:var(--ink-soft)}
 .author-body h3{font-size:.95rem;font-weight:700;margin-bottom:2px;color:var(--ink)}
 .author-body p{font-size:.82rem;line-height:1.55}
 
-.role-selector{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
-@media(max-width:520px){.role-selector{grid-template-columns:1fr}}
-.role-card{display:flex;flex-direction:column;background:var(--warm);border:1.5px solid var(--border);border-radius:14px;padding:14px 16px;text-decoration:none;color:var(--ink);transition:border-color .14s,background .14s}
-.role-card:hover{border-color:var(--green-dark);background:var(--green-lt)}
-.role-label{font-weight:700;font-size:.88rem;margin-bottom:4px;color:var(--ink)}
-.role-desc{font-family:var(--mono);font-size:.58rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-muted)}
-.cta-box .role-card{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15)}
-.cta-box .role-card:hover{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.35)}
-.cta-box .role-label{color:#fff}
-.cta-box .role-desc{color:rgba(255,255,255,.45)}
 .paper-gate{background:var(--green-lt);border:1.5px solid var(--green);border-radius:16px;padding:24px;margin-bottom:28px}
+.dl-form{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.dl-input{flex:1;min-width:220px;padding:14px 16px;border-radius:12px;border:1.5px solid var(--border);background:#fff;font-family:var(--sans);font-size:.95rem;color:var(--ink);outline:none;transition:border-color .14s}
+.dl-input:focus{border-color:var(--green-dark)}
+.dl-input::placeholder{color:var(--ink-light)}
+.dl-btn{background:var(--green-dark);color:#fff;border:none;font-family:var(--mono);font-weight:600;font-size:.82rem;letter-spacing:.04em;cursor:pointer;padding:14px 24px;border-radius:12px;box-shadow:0 4px 0 #1d5238;transition:transform .14s,box-shadow .14s;white-space:nowrap}
+.dl-btn:hover{transform:translateY(-1px);box-shadow:0 5px 0 #1d5238}
+.dl-btn:active{transform:translateY(3px);box-shadow:0 1px 0 #1d5238}
+.dl-btn:disabled{opacity:.6;cursor:default;transform:none}
+.dl-note{font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-muted);margin-top:10px}
+.cta-box .dl-input{border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.1);color:#fff}
+.cta-box .dl-input::placeholder{color:rgba(255,255,255,.4)}
+.cta-box .dl-input:focus{border-color:rgba(255,255,255,.6)}
+.cta-box .dl-note{color:rgba(255,255,255,.4)}
 
 .footer{border-top:1px solid var(--border);padding-top:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
 .footer p{font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-light)}
@@ -126,11 +128,12 @@ p{line-height:1.7;color:var(--ink-soft)}
     <span class="eye">Independent Policy &amp; Evidence Review</span>
     <h1>The Social Media Ban and the Evidence We Owe Children</h1>
     <p class="hero-sub">What the research actually shows. What it does not say. And what should happen before Spring 2027.</p>
-    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px">
-      <a class="btn" href="#get-pdf">Download the PDF &darr;</a>
-      <a class="btn-ghost" href="#findings">Read the findings &darr;</a>
-    </div>
-    <p class="hero-meta">Free &middot; 20 pages &middot; Fully cited &middot; June 2026 &middot; Justin Phillips, The Guided Digital Childhood</p>
+    <form class="dl-form" onsubmit="handleDownload(event)">
+      <input class="dl-input" type="email" placeholder="Your email address" required>
+      <button class="dl-btn" type="submit">Download the PDF &darr;</button>
+    </form>
+    <p class="dl-note" style="margin-top:10px">Free &middot; 20 pages &middot; Fully cited &middot; No newsletter. Just the paper.</p>
+    <div style="margin-top:14px"><a class="btn-ghost" href="#findings">Read the findings &darr;</a></div>
   </div>
 
   <!-- FIVE FINDINGS -->
@@ -164,22 +167,12 @@ p{line-height:1.7;color:var(--ink-soft)}
   <div class="paper-gate" id="get-pdf">
     <span class="section-label">Download the PDF</span>
     <p style="font-size:.95rem;font-weight:700;color:var(--ink);margin-bottom:4px">20 pages. Every claim cited. Free.</p>
-    <p style="font-size:.88rem;line-height:1.6;color:var(--ink-soft);margin-bottom:16px">Tell us who you are and we send you the right version and the right follow-up for your situation.</p>
-    <div class="role-selector">
-      <a class="role-card" href="https://mailchi.mp/thesocialbillboard/parents" target="_blank" rel="noopener">
-        <span class="role-label">Parent / Carer</span>
-        <span class="role-desc">PDF + guidance for your family</span>
-      </a>
-      <a class="role-card" href="https://mailchi.mp/thesocialbillboard/school" target="_blank" rel="noopener">
-        <span class="role-label">Teacher / School</span>
-        <span class="role-desc">PDF + evidence for your setting</span>
-      </a>
-      <a class="role-card" href="https://mailchi.mp/be8fc2e8e0fd/newsletter" target="_blank" rel="noopener">
-        <span class="role-label">Researcher / Clinician</span>
-        <span class="role-desc">PDF + full cited paper</span>
-      </a>
-    </div>
-    <p class="hero-meta" style="margin-top:8px">Free &middot; PDF lands in your inbox &middot; Unsubscribe any time</p>
+    <p style="font-size:.88rem;line-height:1.6;color:var(--ink-soft);margin-bottom:4px">Enter your email and the PDF downloads immediately.</p>
+    <form class="dl-form" onsubmit="handleDownload(event)">
+      <input class="dl-input" type="email" placeholder="Your email address" required>
+      <button class="dl-btn" type="submit">Download now &darr;</button>
+    </form>
+    <p class="dl-note">No newsletter. Just the paper. We will be in touch if you want us to be.</p>
   </div>
 
   <!-- STAT ROW -->
@@ -273,22 +266,12 @@ p{line-height:1.7;color:var(--ink-soft)}
   <!-- DOWNLOAD CTA -->
   <div class="cta-box">
     <h2>Download the full evidence paper</h2>
-    <p>20 pages. Every claim cited. Platform-by-platform analysis. Eight objections addressed. Written for parents, school leaders, journalists and policymakers. PDF in your inbox in minutes.</p>
-    <div class="role-selector">
-      <a class="role-card" href="https://mailchi.mp/thesocialbillboard/parents" target="_blank" rel="noopener">
-        <span class="role-label">Parent / Carer</span>
-        <span class="role-desc">PDF + guidance for your family</span>
-      </a>
-      <a class="role-card" href="https://mailchi.mp/thesocialbillboard/school" target="_blank" rel="noopener">
-        <span class="role-label">Teacher / School</span>
-        <span class="role-desc">PDF + evidence for your setting</span>
-      </a>
-      <a class="role-card" href="https://mailchi.mp/be8fc2e8e0fd/newsletter" target="_blank" rel="noopener">
-        <span class="role-label">Researcher / Clinician</span>
-        <span class="role-desc">PDF + full cited paper</span>
-      </a>
-    </div>
-    <p class="btn-note" style="margin-top:12px">Free &middot; PDF lands in your inbox &middot; Unsubscribe any time</p>
+    <p>20 pages. Every claim cited. Platform-by-platform analysis. Eight objections addressed. Written for parents, school leaders, journalists and policymakers.</p>
+    <form class="dl-form" onsubmit="handleDownload(event)" style="justify-content:center">
+      <input class="dl-input" type="email" placeholder="Your email address" required>
+      <button class="dl-btn" type="submit">Download now &darr;</button>
+    </form>
+    <p class="dl-note">No newsletter. Just the paper.</p>
   </div>
 
   <!-- AUTHOR -->
@@ -311,6 +294,31 @@ p{line-height:1.7;color:var(--ink-soft)}
   </div>
 
 </div>
+
+<script>
+async function handleDownload(e){
+  e.preventDefault();
+  var form = e.target;
+  var btn = form.querySelector('.dl-btn');
+  var email = form.querySelector('input[type=email]').value;
+  btn.textContent = 'Downloading...';
+  btn.disabled = true;
+  try{
+    await fetch('https://formspree.io/f/xpqegvkb',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify({email:email,source:'evidence-download'})
+    });
+  }catch(err){}
+  var a = document.createElement('a');
+  a.href = '/evidence-paper.pdf';
+  a.download = 'Guided-Childhood-Evidence-Paper.pdf';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  btn.textContent = 'Downloaded ✓';
+}
+</script>
 
 </body>
 </html>
