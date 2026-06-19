@@ -92,6 +92,18 @@ p{line-height:1.7;color:var(--ink-soft)}
 .author-body h3{font-size:.95rem;font-weight:700;margin-bottom:2px;color:var(--ink)}
 .author-body p{font-size:.82rem;line-height:1.55}
 
+.role-selector{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
+@media(max-width:520px){.role-selector{grid-template-columns:1fr}}
+.role-card{display:flex;flex-direction:column;background:var(--warm);border:1.5px solid var(--border);border-radius:14px;padding:14px 16px;text-decoration:none;color:var(--ink);transition:border-color .14s,background .14s}
+.role-card:hover{border-color:var(--green-dark);background:var(--green-lt)}
+.role-label{font-weight:700;font-size:.88rem;margin-bottom:4px;color:var(--ink)}
+.role-desc{font-family:var(--mono);font-size:.58rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-muted)}
+.cta-box .role-card{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15)}
+.cta-box .role-card:hover{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.35)}
+.cta-box .role-label{color:#fff}
+.cta-box .role-desc{color:rgba(255,255,255,.45)}
+.paper-gate{background:var(--green-lt);border:1.5px solid var(--green);border-radius:16px;padding:24px;margin-bottom:28px}
+
 .footer{border-top:1px solid var(--border);padding-top:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
 .footer p{font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-light)}
 .footer a{font-family:var(--mono);font-size:.7rem;font-weight:600;color:var(--green-dark);text-decoration:none}
@@ -114,8 +126,8 @@ p{line-height:1.7;color:var(--ink-soft)}
     <span class="eye">Independent Policy &amp; Evidence Review</span>
     <h1>The Social Media Ban and the Evidence We Owe Children</h1>
     <p class="hero-sub">What the research actually shows. What it does not say. And what should happen before Spring 2027.</p>
-    <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">
-      <a class="btn" href="/evidence-paper.pdf" download="The-Social-Media-Ban-Evidence-Review-2026.pdf">Download the full paper &darr;</a>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px">
+      <a class="btn" href="#get-pdf">Download the PDF &darr;</a>
       <a class="btn-ghost" href="#findings">Read the findings &darr;</a>
     </div>
     <p class="hero-meta">Free &middot; 20 pages &middot; Fully cited &middot; June 2026 &middot; Justin Phillips, The Guided Digital Childhood</p>
@@ -148,6 +160,28 @@ p{line-height:1.7;color:var(--ink-soft)}
     </div>
   </div>
 
+  <!-- PDF DOWNLOAD GATE -->
+  <div class="paper-gate" id="get-pdf">
+    <span class="section-label">Download the PDF</span>
+    <p style="font-size:.95rem;font-weight:700;color:var(--ink);margin-bottom:4px">20 pages. Every claim cited. Free.</p>
+    <p style="font-size:.88rem;line-height:1.6;color:var(--ink-soft);margin-bottom:16px">Tell us who you are and we send you the right version and the right follow-up for your situation.</p>
+    <div class="role-selector">
+      <a class="role-card" href="https://mailchi.mp/thesocialbillboard/parents" target="_blank" rel="noopener">
+        <span class="role-label">Parent / Carer</span>
+        <span class="role-desc">PDF + guidance for your family</span>
+      </a>
+      <a class="role-card" href="https://mailchi.mp/thesocialbillboard/school" target="_blank" rel="noopener">
+        <span class="role-label">Teacher / School</span>
+        <span class="role-desc">PDF + evidence for your setting</span>
+      </a>
+      <a class="role-card" href="https://mailchi.mp/be8fc2e8e0fd/newsletter" target="_blank" rel="noopener">
+        <span class="role-label">Researcher / Clinician</span>
+        <span class="role-desc">PDF + full cited paper</span>
+      </a>
+    </div>
+    <p class="hero-meta" style="margin-top:8px">Free &middot; PDF lands in your inbox &middot; Unsubscribe any time</p>
+  </div>
+
   <!-- STAT ROW -->
   <div class="stat-row">
     <div class="stat-card">
@@ -166,9 +200,9 @@ p{line-height:1.7;color:var(--ink-soft)}
 
   <!-- STARMER QUOTE + REBUTTAL -->
   <div class="section">
-    <span class="section-label">The Alcohol Analogy &mdash; Examined</span>
+    <span class="section-label">The Alcohol Analogy Examined</span>
     <div class="quote-box">
-      <blockquote>&ldquo;Teenagers drink before they should, but we do not then say, &lsquo;in which case let us abandon any attempt to stop them buying alcohol&rsquo; &mdash; we say &lsquo;let&rsquo;s improve the enforcement of what we&rsquo;re doing&rsquo;.&rdquo;</blockquote>
+      <blockquote>"Teenagers drink before they should, but we do not then say, 'in which case let us abandon any attempt to stop them buying alcohol' &mdash; we say 'let's improve the enforcement of what we're doing'."</blockquote>
       <cite>Prime Minister Keir Starmer &middot; 15 June 2026</cite>
     </div>
     <p style="font-size:.92rem;margin-bottom:10px">The analogy fails at the mechanism. Alcohol laws regulate adult suppliers at a supply chain that requires human gatekeepers. Social media bans regulate a login checkpoint that requires a VPN tutorial.</p>
@@ -223,7 +257,7 @@ p{line-height:1.7;color:var(--ink-soft)}
         <span class="ask-n">Ask 02</span>
         <div class="ask-body">
           <h3>Enforce the Children's Code with real penalties</h3>
-          <p>The Age Appropriate Design Code came into force July 2025. Ofcom has the power to fine up to &pound;18 million or 10% of global revenue. Six fines had been issued by February 2026. Systematic enforcement at the design level reaches the algorithmic decisions that cause documented harm in a way an access ban cannot.</p>
+          <p>The Age Appropriate Design Code came into force July 2025. Ofcom has the power to fine up to £18 million or 10% of global revenue. Six fines had been issued by February 2026. Systematic enforcement at the design level reaches the algorithmic decisions that cause documented harm in a way an access ban cannot.</p>
         </div>
       </div>
       <div class="ask">
@@ -238,10 +272,23 @@ p{line-height:1.7;color:var(--ink-soft)}
 
   <!-- DOWNLOAD CTA -->
   <div class="cta-box">
-    <h2>Read the full evidence review</h2>
-    <p>20 pages. Every claim cited. Platform-by-platform analysis. Eight objections addressed. Written for parents, school leaders, journalists and policymakers.</p>
-    <a class="btn" href="/evidence-paper.pdf" download="The-Social-Media-Ban-Evidence-Review-2026.pdf">Download free &darr;</a>
-    <p class="btn-note">PDF &middot; No signup required &middot; Free</p>
+    <h2>Download the full evidence paper</h2>
+    <p>20 pages. Every claim cited. Platform-by-platform analysis. Eight objections addressed. Written for parents, school leaders, journalists and policymakers. PDF in your inbox in minutes.</p>
+    <div class="role-selector">
+      <a class="role-card" href="https://mailchi.mp/thesocialbillboard/parents" target="_blank" rel="noopener">
+        <span class="role-label">Parent / Carer</span>
+        <span class="role-desc">PDF + guidance for your family</span>
+      </a>
+      <a class="role-card" href="https://mailchi.mp/thesocialbillboard/school" target="_blank" rel="noopener">
+        <span class="role-label">Teacher / School</span>
+        <span class="role-desc">PDF + evidence for your setting</span>
+      </a>
+      <a class="role-card" href="https://mailchi.mp/be8fc2e8e0fd/newsletter" target="_blank" rel="noopener">
+        <span class="role-label">Researcher / Clinician</span>
+        <span class="role-desc">PDF + full cited paper</span>
+      </a>
+    </div>
+    <p class="btn-note" style="margin-top:12px">Free &middot; PDF lands in your inbox &middot; Unsubscribe any time</p>
   </div>
 
   <!-- AUTHOR -->
@@ -258,11 +305,12 @@ p{line-height:1.7;color:var(--ink-soft)}
     <p>&copy; 2026 Guided Childhood &middot; guidedchildhood.com</p>
     <div style="display:flex;gap:16px">
       <a href="/">Home</a>
-      <a href="/starter-pack">Free Starter Pack</a>
+      <a href="https://mailchi.mp/thesocialbillboard/parents">Free Starter Pack</a>
       <a href="/schools">Schools</a>
     </div>
   </div>
 
 </div>
+
 </body>
 </html>
