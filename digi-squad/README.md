@@ -6,66 +6,67 @@ This folder is the single source of truth for all DiGi Squad characters. Read it
 
 ## The Team
 
-### DiGi (Owl) — The Guide
+### DiGi — The Guide
 - **Role**: Coach and wise guide for parents and children across all stages
-- **Design**: Flat illustrated owl, forest green (#2E7D5A) and mint (#AFDCA2), gold accents (#F2C94C)
+- **Design**: Compact rounded robot, green body (#2E7D5A), mint screen face (#AFDCA2), gold antenna (#F2C94C). WALL-E meets Baymax but small and friendly.
 - **Where used**: Homepage DiGi card, /join chat preview, DiGi advisor throughout the platform
 - **Voice**: Warm, calm, knowledgeable. Speaks to parents. Never preachy.
-- **Higgsfield job IDs**: `a195409b` (owl image)
+- **Note**: DiGi is a cute robot, NOT an owl. All owl references are legacy and should be removed.
+- **Higgsfield job IDs**: `a195409b` (legacy owl image — superseded), `62f19158` (robot image)
 
-### DiGi Junior (Robot) — The Pause Guide
+### DiGi Junior — The Pause Guide
 - **Role**: Mid-lesson pause beats, breathing moments, check-ins between steps (like Jigsaw's Jerrie Cat)
-- **Design**: Tiny rounded robot, green body, mint screen face, gold antenna. WALL-E meets Baymax but small.
+- **Design**: Same robot design as DiGi but shown at child-friendly scale. Bounces and waves.
 - **Voice**: Fun, playful, "BEEP BOOP!" energy. Speaks directly to children.
-- **Higgsfield job IDs**: `62f19158` (DiGi Junior image)
+- **Higgsfield job IDs**: `62f19158` (robot image)
 - **Component**: `components/lessons/DigiJuniorPause.tsx`
 
 ---
 
 ## Squad Characters
 
-### Teo — Screen Time Captain
+### Oliver — Screen Time Boss
 - **Age**: 8
-- **Real name origin**: Justin's son
-- **Digital superpower**: Knows when to play and when to stop. Teaches kids to be the boss of their screens.
+- **Background**: English. Fair skin, sandy brown hair, blue eyes, green hoodie, sporty build.
+- **Digital superpower**: Knows when to play and when to stop. Teaches kids to be the boss of their screens, not the other way round.
 - **Personality**: Confident, sporty, uses football metaphors. "The cool-down lap", "Knowledge is power like knowing the other team's move."
 - **Colour**: Coral (#D4600A / var(--coral))
-- **Kit**: Orange football kit, number 10, flowing orange cape
+- **Kit**: Green and coral football kit, number 10, flowing coral cape
 - **Lesson topics**: Screen time routines, dopamine loops, wind-down strategies, sleep
 - **Stage**: 2 to 3 · Ages 7 to 11
-- **Intro speech**: "Hi! I'm Teo and I'm here to help you today! You know how I love football? Well today we're going to find out why your brain treats screens exactly like a REALLY exciting match. Ready? Let's kick off!"
+- **Intro speech**: "Hi! I'm Oliver and I'm here to help you today! You know how I love football? Well today we're going to find out why your brain treats screens exactly like a REALLY exciting match. Ready? Let's kick off!"
 - **Higgsfield job IDs**: `2a2d86f6` (still image), `a28311bc` (5s video: kicking football)
 
-### Olga — Online Smarts
+### Zara — Truth Finder
 - **Age**: 9
-- **Real name origin**: Justin's daughter
+- **Background**: British Muslim. Olive skin, dark hair, purple headband, coral orange top. Sharp and curious.
 - **Digital superpower**: Spots the tricks, the fakes and the traps before anyone else. Thinks before tapping.
 - **Personality**: Curious, sharp, detective energy. "Going on a DETECTIVE mission."
 - **Colour**: Gold (#C9962A / var(--gold-dark))
-- **Kit**: Orange and yellow striped top, blue dungarees, orange cape
+- **Kit**: Gold and purple striped top, navy trousers, detective-style gold cape
 - **Lesson topics**: Fake news, stranger danger, passwords, what to do when something feels wrong
 - **Stage**: 2 to 4 · Ages 8 to 13
-- **Intro speech**: "Hi! I'm Olga and I'm here to help you today! Today we're going on a DETECTIVE mission to spot what's real online. Put your thinking hat on — let's go!"
+- **Intro speech**: "Hi! I'm Zara and I'm here to help you today! Today we're going on a DETECTIVE mission to spot what's real online. Put your thinking hat on and let's go!"
 - **Higgsfield job IDs**: `b4f9d05b` (still image), `4641ac49` (5s video: celebration leap)
 
-### Alma — Privacy Guardian
+### Sofia — Safety Guardian
 - **Age**: 6
-- **Real name origin**: Justin's child
+- **Background**: Southern European. Mediterranean skin, wavy chestnut hair, lavender jumper, warm and brave.
 - **Digital superpower**: Keeps the whole squad safe. Knows what to keep private always.
 - **Personality**: Warm, brave, protective. "Building YOUR privacy shield."
 - **Colour**: Green (#2E7D5A / var(--green-dark))
-- **Kit**: Pink tutu dress, orange cape
+- **Kit**: Lavender dress, green cape with a shield emblem
 - **Lesson topics**: Personal information, photo sharing, who to talk to, what to do if someone asks for your info
 - **Stage**: 1 to 2 · Ages 4 to 9
-- **Intro speech**: "Hi! I'm Alma and I'm here to help you today! Today we're going to build YOUR privacy shield. Ready to be a guardian?"
+- **Intro speech**: "Hi! I'm Sofia and I'm here to help you today! Today we're going to build YOUR privacy shield. Ready to be a guardian?"
 - **Higgsfield job IDs**: `2f0372a9` (still image), `457b92ac` (5s video: spinning with sparkles)
 
 ---
 
 ## Team Poster
-- All four characters together (Olga, Teo, Alma, DiGi Junior)
+- All four characters together (Oliver, Zara, Sofia, DiGi Junior)
 - Dark forest green stadium background, golden spotlights, bokeh effects
-- **Higgsfield job ID**: `9424aadf`
+- **Higgsfield job ID**: `9424aadf` (legacy — shows Teo/Olga/Alma, needs regenerating)
 
 ---
 
@@ -114,10 +115,10 @@ Modelled on Jigsaw PSHE but cinematic. Every lesson follows this arc:
 - `mission` — weekly action (always the final step)
 
 ### Character voice rules
-- Teo: uses football metaphors. "Cool-down lap", "the other team's move", "kick off"
-- Olga: uses detective metaphors. "Mission", "clue", "case solved"
-- Alma: uses shield/guardian metaphors. "Privacy shield", "guardian", "protect"
-- DiGi Junior: playful robot voice. "BEEP BOOP!", "brilliant!", casual and fun
+- Oliver: uses football metaphors. "Cool-down lap", "the other team's move", "kick off"
+- Zara: uses detective metaphors. "Mission", "clue", "case solved"
+- Sofia: uses shield/guardian metaphors. "Privacy shield", "guardian", "protect"
+- DiGi / DiGi Junior: playful robot voice. "BEEP BOOP!", "brilliant!", casual and fun
 
 ### The distancing technique (from Jigsaw)
 Characters voice the struggle so the child agrees rather than being challenged directly.
@@ -135,8 +136,8 @@ components/lessons/
   DigiJuniorPause.tsx  — mid-lesson DiGi Junior breathing pause beat
 
 app/(marketing)/digi-squad/
-  page.tsx             — squad homepage (meet Teo, Olga, Alma + animal guides)
-  lesson/page.tsx      — Teo's first lesson: "Why your brain loves screens"
+  page.tsx             — squad homepage (meet Oliver, Zara, Sofia + animal guides)
+  lesson/page.tsx      — Oliver's first lesson: "Why your brain loves screens"
 ```
 
 ---
@@ -146,7 +147,7 @@ app/(marketing)/digi-squad/
 Each lesson needs:
 ```typescript
 {
-  character: 'teo' | 'olga' | 'alam'
+  character: 'oliver' | 'zara' | 'sofia'
   greeting: string          // character's opening speech bubble
   lessonTitle: string
   ageStage: string          // e.g. "Stage 2 to 3 · Ages 7 to 11"
