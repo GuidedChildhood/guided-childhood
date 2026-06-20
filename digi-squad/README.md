@@ -35,7 +35,7 @@ This folder is the single source of truth for all DiGi Squad characters. Read it
 - **Lesson topics**: Screen time routines, dopamine loops, wind-down strategies, sleep
 - **Stage**: 2 to 3 · Ages 7 to 11
 - **Intro speech**: "Hi! I'm Oliver and I'm here to help you today! You know how I love football? Well today we're going to find out why your brain treats screens exactly like a REALLY exciting match. Ready? Let's kick off!"
-- **Higgsfield job IDs**: `2a2d86f6` (still image), `a28311bc` (5s video: kicking football)
+- **Higgsfield job IDs**: `5019bb19` (still image, 1:1 avatar), `a28311bc` (5s video: kicking football)
 
 ### Zara — Truth Finder
 - **Age**: 9
@@ -47,7 +47,7 @@ This folder is the single source of truth for all DiGi Squad characters. Read it
 - **Lesson topics**: Fake news, stranger danger, passwords, what to do when something feels wrong
 - **Stage**: 2 to 4 · Ages 8 to 13
 - **Intro speech**: "Hi! I'm Zara and I'm here to help you today! Today we're going on a DETECTIVE mission to spot what's real online. Put your thinking hat on and let's go!"
-- **Higgsfield job IDs**: `b4f9d05b` (still image), `4641ac49` (5s video: celebration leap)
+- **Higgsfield job IDs**: `e29b139c` (still image, 1:1 avatar), `4641ac49` (5s video: celebration leap)
 
 ### Sofia — Safety Guardian
 - **Age**: 6
@@ -59,7 +59,7 @@ This folder is the single source of truth for all DiGi Squad characters. Read it
 - **Lesson topics**: Personal information, photo sharing, who to talk to, what to do if someone asks for your info
 - **Stage**: 1 to 2 · Ages 4 to 9
 - **Intro speech**: "Hi! I'm Sofia and I'm here to help you today! Today we're going to build YOUR privacy shield. Ready to be a guardian?"
-- **Higgsfield job IDs**: `2f0372a9` (still image), `457b92ac` (5s video: spinning with sparkles)
+- **Higgsfield job IDs**: `9a93adee` (still image, 1:1 avatar), `457b92ac` (5s video: spinning with sparkles)
 
 ---
 
