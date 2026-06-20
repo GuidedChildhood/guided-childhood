@@ -63,6 +63,20 @@ p{line-height:1.8;font-size:1.02rem}
 .conv-resp .rs{font-size:.82rem;color:var(--ink-soft);font-style:italic;line-height:1.55}
 .conv-agree{background:var(--gold-lt);border:2px dashed var(--gold-dark);border-radius:12px;padding:16px 18px;margin-top:12px}
 .expert-badge{display:inline-flex;align-items:center;font-family:var(--mono);font-size:.57rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:8px;background:var(--lav);color:var(--lav-deep);margin-bottom:12px}
+/* squad characters */
+.helpers-panel{background:linear-gradient(140deg,#EEF7F2 0%,#EEF1FF 100%);border:1.5px solid var(--green);border-radius:22px;padding:26px 22px;margin-top:14px;overflow:hidden}
+.helpers-row{display:flex;gap:12px;justify-content:center;margin-top:18px}
+.helper-char{flex:1;text-align:center;animation-fill-mode:both}
+.helper-char svg{display:block;margin:0 auto 8px;filter:drop-shadow(0 6px 12px rgba(0,0,0,.12))}
+.helper-name{font-weight:800;font-size:.95rem;color:var(--ink);margin-bottom:2px;letter-spacing:-.01em}
+.helper-role{font-family:var(--mono);font-size:.58rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-muted)}
+.helper-char:nth-child(1) svg{animation:char-bob 2.2s ease-in-out infinite}
+.helper-char:nth-child(2) svg{animation:char-wave 2s ease-in-out infinite .3s}
+.helper-char:nth-child(3) svg{animation:char-float 2.6s ease-in-out infinite .6s}
+@keyframes char-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+@keyframes char-wave{0%,100%{transform:rotate(-6deg);transform-origin:50% 90%}50%{transform:rotate(6deg);transform-origin:50% 90%}}
+@keyframes char-float{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-7px) scale(1.03)}}
+
 /* result two-column layout */
 .result-outer{max-width:960px;margin:0 auto;padding:0 20px 80px}
 .result-grid{display:grid;grid-template-columns:minmax(0,1fr) 284px;gap:28px;align-items:start}
@@ -393,6 +407,101 @@ function renderConvTab(stageId, challenge) {
   </div>`;
 }
 
+function renderHelpersPanel() {
+  const oliver = `<svg viewBox="0 0 80 90" width="80" height="90" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="40" cy="44" r="40" fill="#D4EDD8"/>
+  <path d="M8 90 Q8 68 40 64 Q72 68 72 90Z" fill="#2E7D5A"/>
+  <path d="M32 64 L40 71 L48 64" fill="none" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
+  <ellipse cx="40" cy="39" rx="22" ry="24" fill="#FFD4A3"/>
+  <path d="M18 39 Q18 15 40 13 Q62 15 62 39 Q58 23 50 17 Q40 13 30 17 Q22 23 18 39Z" fill="#6B3F20"/>
+  <ellipse cx="19.5" cy="43" rx="4" ry="7" fill="#6B3F20"/>
+  <ellipse cx="60.5" cy="43" rx="4" ry="7" fill="#6B3F20"/>
+  <circle cx="33" cy="38" r="4.5" fill="white"/>
+  <circle cx="33" cy="38" r="2.8" fill="#2C1A0E"/>
+  <circle cx="34.2" cy="37" r="1.1" fill="white"/>
+  <circle cx="47" cy="38" r="4.5" fill="white"/>
+  <circle cx="47" cy="38" r="2.8" fill="#2C1A0E"/>
+  <circle cx="48.2" cy="37" r="1.1" fill="white"/>
+  <path d="M29 33 Q33 31 37 33" stroke="#6B3F20" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  <path d="M43 33 Q47 31 51 33" stroke="#6B3F20" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  <circle cx="27" cy="47" r="5" fill="rgba(220,90,60,.14)"/>
+  <circle cx="53" cy="47" r="5" fill="rgba(220,90,60,.14)"/>
+  <path d="M31 53 Q40 61 49 53" stroke="#9B5040" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+  </svg>`;
+
+  const zara = `<svg viewBox="0 0 80 90" width="80" height="90" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="40" cy="44" r="40" fill="#FEF3DC"/>
+  <path d="M8 90 Q8 68 40 64 Q72 68 72 90Z" fill="#C9962A"/>
+  <path d="M32 64 L40 71 L48 64" fill="none" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
+  <ellipse cx="40" cy="39" rx="22" ry="24" fill="#EDB87A"/>
+  <path d="M18 39 Q18 14 40 12 Q62 14 62 39 Q62 24 52 17 Q40 11 28 17 Q18 24 18 39Z" fill="#1C1008"/>
+  <ellipse cx="18.5" cy="45" rx="4.5" ry="10" fill="#1C1008"/>
+  <ellipse cx="61.5" cy="45" rx="4.5" ry="10" fill="#1C1008"/>
+  <path d="M18 40 Q20 52 22 58 Q30 68 40 68 Q50 68 58 58 Q60 52 62 40" fill="#1C1008"/>
+  <circle cx="33" cy="38" r="4.5" fill="white"/>
+  <circle cx="33" cy="38" r="2.8" fill="#1A0E00"/>
+  <circle cx="34.2" cy="37" r="1.1" fill="white"/>
+  <circle cx="47" cy="38" r="4.5" fill="white"/>
+  <circle cx="47" cy="38" r="2.8" fill="#1A0E00"/>
+  <circle cx="48.2" cy="37" r="1.1" fill="white"/>
+  <path d="M29 33 Q33 31 37 33" stroke="#1C1008" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  <path d="M43 33 Q47 31 51 33" stroke="#1C1008" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  <circle cx="27" cy="47" r="5" fill="rgba(180,80,20,.15)"/>
+  <circle cx="53" cy="47" r="5" fill="rgba(180,80,20,.15)"/>
+  <path d="M31 53 Q40 61 49 53" stroke="#7A4010" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+  </svg>`;
+
+  const sofia = `<svg viewBox="0 0 80 90" width="80" height="90" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="40" cy="44" r="40" fill="#EEF0FF"/>
+  <path d="M8 90 Q8 68 40 64 Q72 68 72 90Z" fill="#3D5BA9"/>
+  <path d="M32 64 L40 71 L48 64" fill="none" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
+  <ellipse cx="40" cy="39" rx="22" ry="24" fill="#FFCBA4"/>
+  <path d="M18 39 Q18 15 40 13 Q62 15 62 39 Q60 25 52 18 Q40 12 28 18 Q20 25 18 39Z" fill="#C8923A"/>
+  <ellipse cx="19" cy="43" rx="4" ry="8" fill="#C8923A"/>
+  <ellipse cx="61" cy="43" rx="4" ry="8" fill="#C8923A"/>
+  <path d="M20 43 Q22 56 28 62" stroke="#C8923A" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <path d="M60 43 Q58 56 52 62" stroke="#C8923A" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <path d="M62 32 Q58 46 56 52" stroke="#C8923A" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M18 32 Q22 46 24 52" stroke="#C8923A" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <circle cx="33" cy="38" r="4.5" fill="white"/>
+  <circle cx="33" cy="38" r="2.8" fill="#2A4080"/>
+  <circle cx="34.2" cy="37" r="1.1" fill="white"/>
+  <circle cx="47" cy="38" r="4.5" fill="white"/>
+  <circle cx="47" cy="38" r="2.8" fill="#2A4080"/>
+  <circle cx="48.2" cy="37" r="1.1" fill="white"/>
+  <path d="M29 33 Q33 31 37 33" stroke="#C8923A" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  <path d="M43 33 Q47 31 51 33" stroke="#C8923A" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  <circle cx="27" cy="47" r="5" fill="rgba(200,80,60,.14)"/>
+  <circle cx="53" cy="47" r="5" fill="rgba(200,80,60,.14)"/>
+  <path d="M31 53 Q40 61 49 53" stroke="#804030" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+  </svg>`;
+
+  return `<div class="helpers-panel">
+    <div style="text-align:center">
+      <span style="font-family:var(--mono);font-size:.6rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;background:var(--green-lt);color:var(--green-dark);padding:5px 14px;border-radius:8px">On the platform</span>
+    </div>
+    <h2 style="text-align:center;font-size:1.15rem;margin:12px 0 4px">Meet your guides</h2>
+    <p style="text-align:center;font-size:.84rem;color:var(--ink-soft);line-height:1.6;max-width:340px;margin:0 auto 4px">Oliver, Zara and Sofia will be there at every step to help your child navigate their digital world.</p>
+    <div class="helpers-row">
+      <div class="helper-char">
+        ${oliver}
+        <div class="helper-name">Oliver</div>
+        <div class="helper-role">Screen time</div>
+      </div>
+      <div class="helper-char">
+        ${zara}
+        <div class="helper-name">Zara</div>
+        <div class="helper-role">Online safety</div>
+      </div>
+      <div class="helper-char">
+        ${sofia}
+        <div class="helper-name">Sofia</div>
+        <div class="helper-role">Conversations</div>
+      </div>
+    </div>
+  </div>`;
+}
+
 function renderSidebar(stageId, st, conv, last) {
   const agree = conv ? conv.agree : null;
   const isCritical = stageId === 3;
@@ -504,6 +613,8 @@ function renderResult(){
         <p style="font-size:.92rem;color:var(--ink-soft)">${challengeNotes[answers[1]]}</p>
         <p style="font-size:.88rem;color:var(--ink-soft);margin-top:8px;font-style:italic">${feelNotes[answers[2]]}</p>
       </div>
+
+      ${stageId === 1 ? renderHelpersPanel() : ''}
 
       <div class="tabs">
         <button class="tab on" onclick="tab(this,'t-script')">Script</button>
