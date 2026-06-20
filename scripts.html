@@ -58,6 +58,15 @@ p{line-height:1.7}
 .lbl{font-family:var(--mono);font-size:.6rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;display:block;margin-bottom:8px}
 .box{border-radius:14px;padding:16px 18px;margin-bottom:10px;border:1px solid var(--border)}
 .pill{display:inline-block;font-family:var(--mono);font-size:.58rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:4px 11px;border-radius:8px}
+/* interactive CTA banner */
+.interactive-cta{display:flex;align-items:center;justify-content:space-between;gap:16px;background:var(--green-dark);border-radius:20px;padding:22px 24px;margin:4px 0 4px}
+.interactive-cta-left{flex:1}
+.interactive-cta-badge{display:inline-block;font-family:var(--mono);font-size:.55rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;background:var(--gold);color:var(--ink);padding:4px 10px;border-radius:8px;margin-bottom:10px}
+.interactive-cta-title{font-size:1.12rem;font-weight:800;color:#fff;line-height:1.25;margin-bottom:6px;letter-spacing:-.02em}
+.interactive-cta-sub{font-size:.83rem;color:rgba(255,255,255,.7);line-height:1.55}
+.interactive-cta-arrow{font-size:1.6rem;color:rgba(255,255,255,.5);flex-shrink:0;animation:bounce-d .8s ease-in-out infinite alternate}
+@keyframes bounce-d{from{transform:translateY(0)}to{transform:translateY(6px)}}
+
 /* conversation node */
 .node{background:var(--warm);border:1px solid var(--border);border-radius:16px;padding:22px;margin-bottom:14px}
 .node.highlight{border-left:4px solid var(--green-dark);background:var(--green-lt)}
@@ -142,12 +151,20 @@ p{line-height:1.7}
     <div style="padding-top:20px">
       <span class="eyebrow" style="margin-bottom:16px">Expert conversation scripts</span>
       <h1>The exact words for the hardest moments</h1>
-      <p style="color:var(--ink-soft);font-size:1rem;margin:12px 0 8px;max-width:520px">Every script below is anchored in clinical research. Dr Becky Kennedy's connection before correction. Dr Ross Greene's Collaborative Problem Solving. Dr Dan Siegel's connect then redirect. Sue Atkins' UK practical approach.</p>
-      <p style="color:var(--ink-muted);font-size:.87rem;max-width:520px">Pick the situation. Pick the age. Follow the conversation step by step.</p>
+      <p style="color:var(--ink-soft);font-size:1rem;margin:12px 0 20px;max-width:520px">Pick a situation below and the conversation comes to life as a live script. Tap each response to follow the real conversation wherever it goes.</p>
+    </div>
+
+    <div class="interactive-cta">
+      <div class="interactive-cta-left">
+        <span class="interactive-cta-badge">New</span>
+        <div class="interactive-cta-title">Try the interactive conversation script</div>
+        <div class="interactive-cta-sub">Speech bubbles. Real responses. Every branch covered. Pick a situation below to start.</div>
+      </div>
+      <div class="interactive-cta-arrow">↓</div>
     </div>
 
     <div style="margin:28px 0 12px">
-      <span class="lbl">What is the situation?</span>
+      <span class="lbl">Pick a situation</span>
       <div class="issue-grid">
         <button class="issue-card" onclick="selectIssue('screen-end')">
           <span class="icon">📱</span>
