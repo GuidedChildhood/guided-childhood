@@ -1,4 +1,6 @@
 {
+  "buildCommand": "",
+  "outputDirectory": ".",
   "routes": [
     { "handle": "filesystem" },
     { "src": "/digitalwellbeing", "dest": "/digitalwellbeing/index.html" },
