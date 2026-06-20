@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The TRUST Framework | Guided Childhood</title>
+<meta name="description" content="Five evidence-based principles for raising children in the digital age. Ages 4 to 16. Built on peer-reviewed research from Harvard, Oxford, UC Berkeley and LSE.">
+<meta name="author" content="Justin Phillips, Guided Childhood">
+<link rel="canonical" href="https://guidedchildhood.co.uk/trust">
+<meta property="og:type" content="website">
+<meta property="og:title" content="The TRUST Framework | Guided Childhood">
+<meta property="og:description" content="Five research-backed principles for raising children in the digital age. Ages 4 to 16.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
+<style>
+:root{
+  --cream:#FFFFFF;
+  --cream-2:#FAFAF8;
+  --cream-3:#F2F0EB;
+  --ink:#1A1A1A;
+  --ink-soft:#4A4A4A;
+  --ink-muted:#7A7570;
+  --ink-light:#A8A39D;
+  --green:#B8E4C0;
+  --green-dark:#3A8F62;
+  --green-lt:#F0FAF3;
+  --green-b:#D6EDDB;
+  --coral:#E07050;
+  --coral-lt:#FDF1EC;
+  --coral-b:rgba(224,112,80,0.15);
+  --coral-dark:#C8532E;
+  --gold:#F5C842;
+  --gold-lt:#FFFAEC;
+  --gold-b:rgba(245,200,66,0.25);
+  --gold-dark:#C49A1A;
+  --lav:#EAF0FF;
+  --lav-line:#D5E0FA;
+  --lav-deep:#4A65C0;
+  --border:#E8E4DE;
+  --sans:'Hanken Grotesk',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.65;overflow-x:hidden}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:300;height:56px;padding:0 24px;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.logo{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--ink)}
+.logo-mark{width:28px;height:28px;background:var(--green);border-radius:7px;display:flex;align-items:center;justify-content:center}
+.bars{display:flex;align-items:flex-end;gap:2px;height:13px}
+.bar{background:var(--ink);border-radius:1.5px;opacity:.7}
+.b1{width:2.5px;height:4px}.b2{width:2.5px;height:8px}.b3{width:2.5px;height:11px}.b4{width:2.5px;height:6px}
+.logo-name{font-size:.88rem;font-weight:700;letter-spacing:-.01em}
+.nav-cta{background:var(--gold);color:var(--ink);border:none;font-family:var(--mono);font-size:.78rem;font-weight:600;cursor:pointer;padding:9px 18px;border-radius:12px;line-height:1;text-decoration:none;display:inline-flex;align-items:center;box-shadow:0 3px 0 var(--gold-dark);transition:transform .14s,box-shadow .14s}
+.nav-cta:hover{transform:translateY(-1px);box-shadow:0 4px 0 var(--gold-dark)}
+
+/* TRUST received bar */
+.received-bar{background:var(--lav);border-bottom:1px solid var(--lav-line);padding:11px 24px;text-align:center;font-size:.8rem;color:var(--lav-deep);font-weight:500}
+.received-bar strong{font-weight:700}
+
+/* HERO */
+.hero{padding:80px 24px 72px;text-align:center;background:var(--cream);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse 60% 50% at 50% 0%,rgba(184,228,192,.18) 0%,transparent 70%);pointer-events:none}
+.hero-eyebrow{display:inline-block;font-family:var(--mono);font-size:.65rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--green-dark);margin-bottom:24px;padding:6px 14px;background:var(--green-lt);border-radius:100px;border:1px solid var(--green-b)}
+.hero h1{font-size:clamp(5rem,14vw,10rem);font-weight:800;letter-spacing:-.06em;line-height:1;color:var(--ink);margin-bottom:8px}
+.hero-word{font-family:var(--mono);font-size:clamp(.7rem,1.5vw,1rem);font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:32px}
+.hero-lead{max-width:600px;margin:0 auto 40px;font-size:clamp(1.1rem,2.2vw,1.35rem);font-weight:500;color:var(--ink-soft);line-height:1.5}
+.evidence-badge{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:.62rem;font-weight:500;letter-spacing:.06em;color:var(--ink-muted);padding:10px 18px;background:var(--cream-2);border:1px solid var(--border);border-radius:100px}
+.evidence-dot{width:6px;height:6px;border-radius:50%;background:var(--green-dark)}
+
+/* OVERVIEW GRID */
+.overview{background:var(--ink);padding:0 24px}
+.overview-inner{max-width:1040px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr)}
+.ov-item{padding:32px 20px;text-align:center;border-right:1px solid rgba(255,255,255,.08)}
+.ov-item:last-child{border-right:none}
+.ov-letter{font-size:2.8rem;font-weight:800;line-height:1;margin-bottom:6px}
+.ov-word{font-family:var(--mono);font-size:.6rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:8px}
+.ov-desc{font-size:.75rem;color:rgba(255,255,255,.55);line-height:1.5}
+.ov-t1 .ov-letter{color:#E07050}
+.ov-r .ov-letter{color:#B8E4C0}
+.ov-u .ov-letter{color:#F5C842}
+.ov-s .ov-letter{color:#A5B8F0}
+.ov-t2 .ov-letter{color:rgba(255,255,255,.9)}
+@media(max-width:700px){.overview-inner{grid-template-columns:repeat(5,1fr)}.ov-item{padding:20px 10px}.ov-desc{display:none}}
+
+/* SECTIONS */
+.sec{padding:80px 24px}
+.sec-alt{background:var(--cream-2)}
+.inner{max-width:1040px;margin:0 auto}
+.section-letter{font-family:var(--mono);font-size:.62rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;display:inline-block;padding:5px 12px;border-radius:100px;margin-bottom:24px}
+.letter-t1{background:var(--coral-lt);color:var(--coral-dark)}
+.letter-r{background:var(--green-lt);color:var(--green-dark)}
+.letter-u{background:var(--gold-lt);color:var(--gold-dark)}
+.letter-s{background:var(--lav);color:var(--lav-deep)}
+.letter-t2{background:var(--cream-3);color:var(--ink-soft)}
+
+/* SECTION HEADER */
+.sec-header{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;margin-bottom:60px}
+.sec-title{font-size:clamp(2.4rem,5vw,4rem);font-weight:800;letter-spacing:-.04em;line-height:1.05;color:var(--ink)}
+.sec-title em{font-style:normal}
+.sec-title .t-col{color:var(--coral)}
+.sec-title .r-col{color:var(--green-dark)}
+.sec-title .u-col{color:var(--gold-dark)}
+.sec-title .s-col{color:var(--lav-deep)}
+.sec-lead{font-size:1.05rem;color:var(--ink-soft);line-height:1.7;margin-bottom:24px}
+@media(max-width:760px){.sec-header{grid-template-columns:1fr;gap:24px}}
+
+/* BIG STAT */
+.stat-block{background:var(--ink);border-radius:20px;padding:32px;margin-bottom:28px;color:#fff}
+.stat-num{font-size:clamp(2.8rem,7vw,5rem);font-weight:800;letter-spacing:-.04em;line-height:1;margin-bottom:8px}
+.stat-desc{font-size:.85rem;color:rgba(255,255,255,.6);line-height:1.5}
+.stat-src{font-family:var(--mono);font-size:.58rem;color:rgba(255,255,255,.35);margin-top:8px;letter-spacing:.04em}
+
+/* EXPERT QUOTE */
+.expert-quote{padding:24px 28px;border-left:3px solid currentColor;border-radius:0 12px 12px 0;margin:28px 0}
+.eq-t1{background:var(--coral-lt);border-color:var(--coral)}
+.eq-r{background:var(--green-lt);border-color:var(--green-dark)}
+.eq-u{background:var(--gold-lt);border-color:var(--gold)}
+.eq-s{background:var(--lav);border-color:var(--lav-deep)}
+.eq-t2{background:var(--cream-3);border-color:var(--ink-muted)}
+.eq-text{font-size:1rem;line-height:1.6;font-style:italic;color:var(--ink-soft);margin-bottom:8px}
+.eq-attr{font-family:var(--mono);font-size:.62rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-muted)}
+
+/* EVIDENCE ROW */
+.evidence-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:32px 0}
+.ev-card{background:var(--cream);border:1px solid var(--border);border-radius:14px;padding:20px}
+.ev-num{font-size:1.6rem;font-weight:800;letter-spacing:-.03em;color:var(--ink);margin-bottom:4px}
+.ev-label{font-size:.8rem;color:var(--ink-soft);line-height:1.4;margin-bottom:8px}
+.ev-src{font-family:var(--mono);font-size:.56rem;color:var(--ink-muted);letter-spacing:.06em}
+@media(max-width:580px){.evidence-row{grid-template-columns:1fr}}
+
+/* ACTION CARDS */
+.actions-title{font-family:var(--mono);font-size:.62rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:16px}
+.action-cards{display:flex;flex-direction:column;gap:12px}
+.ac{display:flex;gap:16px;align-items:flex-start;background:var(--cream);border:1px solid var(--border);border-radius:14px;padding:18px 20px}
+.ac-num{font-family:var(--mono);font-size:.72rem;font-weight:700;color:var(--ink-muted);flex-shrink:0;padding-top:2px}
+.ac-text{font-size:.9rem;color:var(--ink-soft);line-height:1.55}
+.ac-text strong{color:var(--ink);font-weight:600}
+
+/* SLEEP PROTOCOL */
+.sp-hero{background:var(--ink);border-radius:24px;padding:48px;margin-bottom:40px;text-align:center;color:#fff}
+.sp-hero h2{font-size:clamp(2rem,5vw,3.2rem);font-weight:800;letter-spacing:-.04em;color:#fff;margin-bottom:12px}
+.sp-hero p{font-size:1rem;color:rgba(255,255,255,.6);max-width:520px;margin:0 auto}
+.age-selector{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:36px;justify-content:center}
+.age-btn{font-family:var(--mono);font-size:.7rem;font-weight:600;letter-spacing:.06em;padding:10px 20px;border-radius:100px;border:2px solid var(--border);background:var(--cream);color:var(--ink-muted);cursor:pointer;transition:all .15s}
+.age-btn:hover{border-color:var(--lav-deep);color:var(--lav-deep)}
+.age-btn.active{background:var(--lav-deep);border-color:var(--lav-deep);color:#fff}
+.age-panel{display:none}
+.age-panel.active{display:block}
+.ap-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:660px){.ap-grid{grid-template-columns:1fr}}
+.ap-card{background:var(--cream);border:1px solid var(--border);border-radius:16px;padding:24px}
+.ap-card-title{font-family:var(--mono);font-size:.6rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:12px}
+.ap-hours{font-size:2.4rem;font-weight:800;letter-spacing:-.04em;color:var(--lav-deep);line-height:1;margin-bottom:4px}
+.ap-hours-sub{font-size:.78rem;color:var(--ink-muted)}
+.ap-list{list-style:none;display:flex;flex-direction:column;gap:8px}
+.ap-list li{font-size:.85rem;color:var(--ink-soft);display:flex;gap:10px;line-height:1.5}
+.ap-list li::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--lav-deep);flex-shrink:0;margin-top:7px}
+.warn-list li::before{background:var(--coral)!important}
+.task-list li::before{background:var(--green-dark)!important}
+.ap-full{background:var(--cream);border:1px solid var(--border);border-radius:16px;padding:24px;margin-top:0}
+.ap-note{font-family:var(--mono);font-size:.7rem;color:var(--lav-deep);font-weight:500;padding:14px 16px;background:var(--lav);border-radius:10px;margin-top:16px;line-height:1.5}
+
+/* 3 DIAGNOSTIC QUESTIONS */
+.diag-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media(max-width:660px){.diag-grid{grid-template-columns:1fr}}
+.dq{background:var(--cream);border:1px solid var(--border);border-radius:16px;padding:24px}
+.dq-num{font-family:var(--mono);font-size:2rem;font-weight:800;color:var(--border);line-height:1;margin-bottom:12px}
+.dq-q{font-size:.95rem;font-weight:600;color:var(--ink);margin-bottom:10px;line-height:1.4}
+.dq-note{font-size:.8rem;color:var(--ink-muted);line-height:1.5}
+
+/* PLATFORM MECHANICS */
+.pm-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin:28px 0}
+@media(max-width:580px){.pm-grid{grid-template-columns:1fr}}
+.pm{background:var(--cream);border:1px solid var(--border);border-radius:14px;padding:20px}
+.pm-label{font-family:var(--mono);font-size:.6rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:6px}
+.pm-title{font-size:.9rem;font-weight:700;color:var(--ink);margin-bottom:4px}
+.pm-desc{font-size:.8rem;color:var(--ink-soft);line-height:1.5}
+
+/* SOURCES */
+.sources-toggle{display:flex;align-items:center;gap:10px;background:none;border:1px solid var(--border);border-radius:100px;padding:10px 20px;font-family:var(--mono);font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-muted);cursor:pointer;transition:all .15s}
+.sources-toggle:hover{border-color:var(--ink-muted);color:var(--ink)}
+.sources-content{display:none;margin-top:24px}
+.sources-content.open{display:block}
+.sources-group{margin-bottom:24px}
+.sources-group h4{font-family:var(--mono);font-size:.6rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:10px}
+.sources-group ul{list-style:none;display:flex;flex-direction:column;gap:4px}
+.sources-group li{font-size:.78rem;color:var(--ink-muted);line-height:1.5;padding-left:16px;position:relative}
+.sources-group li::before{content:'—';position:absolute;left:0;color:var(--border)}
+
+/* CTA FOOTER */
+.cta-footer{background:var(--ink);padding:80px 24px;text-align:center;color:#fff}
+.cf-inner{max-width:640px;margin:0 auto}
+.cf-eyebrow{font-family:var(--mono);font-size:.62rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:20px;display:block}
+.cf-h2{font-size:clamp(2rem,5vw,3.2rem);font-weight:800;letter-spacing:-.04em;color:#fff;line-height:1.1;margin-bottom:16px}
+.cf-lead{font-size:1rem;color:rgba(255,255,255,.6);margin-bottom:36px;line-height:1.6}
+.btn-gold{display:inline-block;background:var(--gold);color:var(--ink);font-family:var(--mono);font-size:.9rem;font-weight:700;padding:16px 36px;border-radius:16px;text-decoration:none;box-shadow:0 5px 0 var(--gold-dark);transition:transform .14s,box-shadow .14s}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 7px 0 var(--gold-dark)}
+.cf-share{margin-top:32px;font-size:.8rem;color:rgba(255,255,255,.4)}
+.cf-form{display:flex;gap:10px;max-width:500px;margin:0 auto 10px;flex-wrap:wrap;justify-content:center}
+.cf-input{flex:1;min-width:220px;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.2);border-radius:14px;padding:15px 18px;font-family:var(--sans);font-size:1rem;color:#fff;outline:none;transition:border-color .15s}
+.cf-input::placeholder{color:rgba(255,255,255,.38)}
+.cf-input:focus{border-color:rgba(255,255,255,.55)}
+.cf-legal{font-size:.75rem;color:rgba(255,255,255,.32);margin-bottom:28px}
+.cf-thanks{font-size:1.1rem;font-weight:600;color:#fff;margin-bottom:28px;padding:18px;background:rgba(255,255,255,.08);border-radius:14px;border:1px solid rgba(255,255,255,.15)}
+.cf-secondary{display:inline-block;margin-top:20px;font-family:var(--mono);font-size:.75rem;font-weight:600;letter-spacing:.06em;color:rgba(255,255,255,.45);text-decoration:none;text-transform:uppercase}
+.cf-secondary:hover{color:rgba(255,255,255,.7)}
+
+/* PAGE FOOTER */
+.page-footer{background:var(--cream-2);border-top:1px solid var(--border);padding:24px;text-align:center}
+.pf-links{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:12px}
+.pf-links a{font-size:.78rem;color:var(--ink-muted);text-decoration:none}
+.pf-links a:hover{color:var(--ink)}
+.pf-copy{font-size:.72rem;color:var(--ink-light)}
+
+/* FULL WIDTH LAYOUT UTILITY */
+.fw{max-width:1040px;margin:0 auto}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+@media(max-width:760px){.split{grid-template-columns:1fr}}
+
+/* SECTION DIVIDER */
+.letter-display{font-size:clamp(6rem,16vw,12rem);font-weight:800;letter-spacing:-.06em;line-height:.9;opacity:.06;position:absolute;right:-20px;top:-20px;pointer-events:none;user-select:none}
+.sec-relative{position:relative;overflow:hidden}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="/">
+    <div class="logo-mark"><div class="bars"><div class="bar b1"></div><div class="bar b2"></div><div class="bar b3"></div><div class="bar b4"></div></div></div>
+    <span class="logo-name">Guided Childhood</span>
+  </a>
+  <a class="nav-cta" href="/starter-pack">Find my starting point &rarr;</a>
+</nav>
+
+<div class="received-bar">
+  You asked for the TRUST framework. <strong>Here it is</strong> &mdash; the full evidence base, plus the sleep protocol by age.
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">The Guided Childhood Method</div>
+  <h1>TRUST</h1>
+  <div class="hero-word">T &nbsp; R &nbsp; U &nbsp; S &nbsp; T</div>
+  <p class="hero-lead">Five research-backed principles for raising children in the digital age. Ages 4 to 16.</p>
+  <div class="evidence-badge">
+    <span class="evidence-dot"></span>
+    Built on peer-reviewed research from Harvard, Oxford, UC Berkeley, LSE, Brown University and the world&rsquo;s largest longitudinal studies of children and technology
+  </div>
+</section>
+
+<!-- OVERVIEW -->
+<div class="overview">
+  <div class="overview-inner">
+    <div class="ov-item ov-t1">
+      <div class="ov-letter">T</div>
+      <div class="ov-word">Timing</div>
+      <div class="ov-desc">Right device. Right age. Not all or nothing.</div>
+    </div>
+    <div class="ov-item ov-r">
+      <div class="ov-letter">R</div>
+      <div class="ov-word">Relationships</div>
+      <div class="ov-desc">Connection is the strongest protective factor in the research.</div>
+    </div>
+    <div class="ov-item ov-u">
+      <div class="ov-letter">U</div>
+      <div class="ov-word">Upstream</div>
+      <div class="ov-desc">Design the environment. Do not rely on willpower.</div>
+    </div>
+    <div class="ov-item ov-s">
+      <div class="ov-letter">S</div>
+      <div class="ov-word">Sleep</div>
+      <div class="ov-desc">The single highest-impact action in this system.</div>
+    </div>
+    <div class="ov-item ov-t2">
+      <div class="ov-letter">T</div>
+      <div class="ov-word">Transparency</div>
+      <div class="ov-desc">Openness over secrecy. Co-navigation over monitoring.</div>
+    </div>
+  </div>
+</div>
+
+<!-- T: TIMING -->
+<section class="sec sec-relative" id="timing">
+  <div class="inner fw">
+    <span class="section-letter letter-t1">T &mdash; Timing</span>
+    <div class="sec-header">
+      <div>
+        <h2 class="sec-title">Right device.<br><span class="t-col">Right age.</span><br>Not all or nothing.</h2>
+      </div>
+      <div>
+        <p class="sec-lead">Timing is not about being strict. It is about understanding what the research says about developmental readiness, and making an active choice rather than a passive one. Most parents do not decide when their child gets a smartphone. It just happens. The research suggests that is the problem.</p>
+        <div class="expert-quote eq-t1">
+          <p class="eq-text">&ldquo;The earlier a child received their first smartphone, the worse their mental wellbeing as an adult. The trajectory is dose-dependent: getting a phone at 6 produces worse outcomes than at 8, worse than at 10, worse than at 12.&rdquo;</p>
+          <div class="eq-attr">Sapien Labs, Global Mind Project &mdash; N=27,969 young adults across 85 countries</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="evidence-row">
+      <div class="ev-card">
+        <div class="ev-num" style="color:var(--coral)">61%</div>
+        <div class="ev-label">Higher risk of depression with 4+ hours of daily screen time</div>
+        <div class="ev-src">2026 study &mdash; N=50,231 children and adolescents aged 6 to 17</div>
+      </div>
+      <div class="ev-card">
+        <div class="ev-num" style="color:var(--coral)">167%</div>
+        <div class="ev-label">Rise in suicide rate for teenage girls from 2010 to 2020 in the US</div>
+        <div class="ev-src">Haidt &amp; colleagues &mdash; Clinical Psychological Science &mdash; N=506,820</div>
+      </div>
+      <div class="ev-card">
+        <div class="ev-num" style="color:var(--coral)">2012</div>
+        <div class="ev-label">The year teen mental health began declining simultaneously across the US, UK, Canada and Australia</div>
+        <div class="ev-src">Twenge, Joiner, Rogers &amp; Martin (2018); replicated across 36 countries</div>
+      </div>
+    </div>
+
+    <div class="split">
+      <div>
+        <p style="font-size:.9rem;color:var(--ink-soft);line-height:1.7;margin-bottom:20px">
+          The debate in this field is not whether to act. It is about the size of the effect. Jean Twenge (San Diego State University, N=506,820) identifies 1 to 2 hours per day as the research-based threshold below which risk is low. Above 4 hours, depression risk jumps 61%. Amy Orben and Andrew Przybylski at Oxford found that screen time explains 0.4% of wellbeing variance in isolation &mdash; but their own later work acknowledged substantially stronger effects in girls and in vulnerable groups. The question is not whether the risk is real. The question is what age your child is, and whether the timing of introduction is working for your family.
+        </p>
+        <div class="expert-quote eq-t1">
+          <p class="eq-text">&ldquo;No smartphone until at least age 14. No social media until 16. These are not parenting preferences. They are the thresholds the research data points toward.&rdquo;</p>
+          <div class="eq-attr">Jonathan Haidt, NYU Stern &mdash; The Anxious Generation (2024)</div>
+        </div>
+        <p style="font-size:.8rem;color:var(--ink-muted);margin-top:16px;line-height:1.6">Note: Haidt&rsquo;s causal claims remain scientifically contested. The correlation between smartphone introduction and mental health decline is well-established. Causation has not been proven in a randomised trial.</p>
+      </div>
+      <div>
+        <div class="actions-title">Three actions based on the evidence</div>
+        <div class="action-cards">
+          <div class="ac">
+            <div class="ac-num">01</div>
+            <div class="ac-text"><strong>Delay the smartphone introduction.</strong> A shared family tablet before a personal device is a meaningful buffer. Most research on harm clusters around personal smartphone ownership, not shared screen use. Ages 12 to 13 is the evidence-backed minimum, not the ideal.</div>
+          </div>
+          <div class="ac">
+            <div class="ac-num">02</div>
+            <div class="ac-text"><strong>Track total recreational hours, not just platforms.</strong> The dose-response relationship runs on total daily screen time. Two hours of YouTube plus one hour of gaming plus 45 minutes of TikTok is not three separate activities. It is 3 hours 45 minutes.</div>
+          </div>
+          <div class="ac">
+            <div class="ac-num">03</div>
+            <div class="ac-text"><strong>Start the conversation at 8 or 9.</strong> By 13, habits are set and the social pressure to conform is overwhelming. The timing conversation is much easier at 9 than at 12.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- R: RELATIONSHIPS -->
+<section class="sec sec-alt sec-relative" id="relationships">
+  <div class="inner fw">
+    <span class="section-letter letter-r">R &mdash; Relationships</span>
+    <div class="sec-header">
+      <div>
+        <h2 class="sec-title">Connection<br>is the<br><span class="r-col">strongest shield.</span></h2>
+      </div>
+      <div>
+        <p class="sec-lead">Connection is not a soft idea. It is the most consistently evidenced protective factor against online harm across every major review. A rule without a relationship is just a fight. The research does not say warm parents have fewer rules. It says warm parents have children who come to them when something goes wrong.</p>
+        <div class="expert-quote eq-r">
+          <p class="eq-text">&ldquo;Children of Mentors &mdash; parents who actively guide rather than restrict or permit &mdash; showed the best digital outcomes and the least problematic behaviour online. The Mentor profile maps almost exactly to Baumrind&rsquo;s authoritative parent: high warmth, high expectation, high communication.&rdquo;</p>
+          <div class="eq-attr">Alexandra Samuel &mdash; Survey of 10,000+ North American families &mdash; The Atlantic</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="evidence-row">
+      <div class="ev-card">
+        <div class="ev-num" style="color:var(--green-dark)">40,587</div>
+        <div class="ev-label">Participants in the largest meta-analysis on parenting style and problematic internet use</div>
+        <div class="ev-src">Journal of Behavioral Addictions (2023) &mdash; 35 studies, 171 effect sizes</div>
+      </div>
+      <div class="ev-card">
+        <div class="ev-num" style="color:var(--green-dark)">#1</div>
+        <div class="ev-label">Active parental mediation ranked as the single most effective protective factor against online harm</div>
+        <div class="ev-src">Meta-analysis &mdash; 88 studies, 2008 to 2024 &mdash; University of Hong Kong</div>
+      </div>
+      <div class="ev-card">
+        <div class="ev-num" style="color:var(--green-dark)">86%</div>
+        <div class="ev-label">The rate at which relationship &ldquo;masters&rdquo; respond to emotional bids from their partner or child (vs 33% for &ldquo;disasters&rdquo;)</div>
+        <div class="ev-src">John Gottman &mdash; University of Washington Love Lab &mdash; longitudinal research</div>
+      </div>
+    </div>
+
+    <div class="split">
+      <div>
+        <p style="font-size:.9rem;color:var(--ink-soft);line-height:1.7;margin-bottom:20px">
+          Diana Baumrind (UC Berkeley) identified three parenting styles over decades of research: authoritative (high warmth and high structure), authoritarian (high structure, low warmth), and permissive (high warmth, low structure). Every significant study on parenting style and digital outcomes has found the same pattern: authoritative parents produce the best outcomes, authoritarian parents see children use devices as emotional escape routes, and permissive parents see the highest rates of problematic use. The ABCD Study (NIH, N=8,096 adolescents) found that bedroom device access was the single most influential parenting variable &mdash; but it is the relationship quality that determines whether that conversation can happen at all.
+        </p>
+        <p style="font-size:.9rem;color:var(--ink-soft);line-height:1.7">
+          John Gottman&rsquo;s research on emotional bids &mdash; the small moments when children (and partners) reach out for connection &mdash; found that how you respond to these moments in ordinary daily life determines whether your child comes to you when something difficult happens online. The &ldquo;turning toward&rdquo; habit is built in hundreds of small moments that have nothing to do with screens.
+        </p>
+      </div>
+      <div>
+        <div class="actions-title">Three actions based on the evidence</div>
+        <div class="action-cards">
+          <div class="ac">
+            <div class="ac-num">01</div>
+            <div class="ac-text"><strong>Co-use before solo use, at every age.</strong> Watching together first is not just about safety. It builds the shared language to talk about what they are seeing. Research from UCL (N=1,288) shows active co-use produces measurably better outcomes than passive co-presence. Your presence matters. Your engagement matters more.</div>
+          </div>
+          <div class="ac">
+            <div class="ac-num">02</div>
+            <div class="ac-text"><strong>When something goes wrong online, your first response matters more than your rule.</strong> Curiosity before judgment keeps the disclosure channel open. &ldquo;Tell me what happened&rdquo; before &ldquo;Why did you do that&rdquo; is the research-supported approach in every study on adolescent disclosure.</div>
+          </div>
+          <div class="ac">
+            <div class="ac-num">03</div>
+            <div class="ac-text"><strong>Move from restricting to mentoring as your child ages.</strong> The evidence consistently shows restrictive monitoring loses effectiveness with older teens and damages the relationship. The Gottman Institute frames this as a shift from supervisor to consultant &mdash; staying involved without staying in control.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- U: UPSTREAM -->
+<section class="sec sec-relative" id="upstream">
+  <div class="inner fw">
+    <span class="section-letter letter-u">U &mdash; Upstream</span>
+    <div class="sec-header">
+      <div>
+        <h2 class="sec-title">Design the<br>environment.<br><span class="u-col">Not the rules.</span></h2>
+      </div>
+      <div>
+        <p class="sec-lead">The apps your child uses are not neutral. They were built by the world&rsquo;s best engineers using the same variable reward mechanisms as slot machines. Willpower is not a strategy against that. The research says the same thing Wendy Wood at USC says about all habits: 43% of daily behaviour fires automatically from context, not conscious choice. Change the context.</p>
+        <div class="expert-quote eq-u">
+          <p class="eq-text">&ldquo;I invented infinite scroll. I&rsquo;m sorry. What we are looking at is 200,000 human lifetimes wasted every single day. And I can&rsquo;t stop using it myself. That tells you everything about willpower as a strategy.&rdquo;</p>
+          <div class="eq-attr">Aza Raskin &mdash; Inventor of Infinite Scroll, Co-founder Center for Humane Technology &mdash; testified Meta trial, New Mexico, 2025</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-bottom:32px">
+      <p style="font-family:var(--mono);font-size:.62rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:16px">How the platforms actually work</p>
+      <div class="pm-grid">
+        <div class="pm">
+          <div class="pm-label">Variable reward</div>
+          <div class="pm-title">The slot machine mechanic</div>
+          <div class="pm-desc">B.F. Skinner showed in the 1950s that unpredictable rewards produce the highest and most persistent response rates of any reinforcement schedule. A pigeon pecked 87,000 times in 14 hours under this schedule. Pull-to-refresh is the lever. The next post is the unpredictable reward.</div>
+        </div>
+        <div class="pm">
+          <div class="pm-label">Dopamine anticipation</div>
+          <div class="pm-title">Wanting, not getting</div>
+          <div class="pm-desc">Kent Berridge at the University of Michigan showed that dopamine surges in anticipation of a reward, not upon receiving it. Platforms are designed to sustain anticipation. The checking behaviour is the mechanism, not the content. Anna Lembke at Stanford calls this a chronic dopamine deficit state.</div>
+        </div>
+        <div class="pm">
+          <div class="pm-label">Social validation loops</div>
+          <div class="pm-title">Likes activate reward circuits</div>
+          <div class="pm-desc">UCLA fMRI research (Sherman et al. 2016, N=32, ages 13 to 21) showed that receiving likes activates the nucleus accumbens &mdash; the same reward centre triggered by food, social connection, and drugs. The effect was strongest in adolescents. Absence of expected likes activated brain regions associated with physical pain.</div>
+        </div>
+        <div class="pm">
+          <div class="pm-label">Disappearing content</div>
+          <div class="pm-title">FOMO by design</div>
+          <div class="pm-desc">Stories, Snaps, and streaks are not design accidents. They exploit fear of missing out (first documented by Przybylski et al. 2013) to create urgency and compulsive checking. Adolescents are neurologically more susceptible to this mechanism than adults because their social reward system matures earlier than their impulse control system.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="split">
+      <div>
+        <div class="stat-block">
+          <div class="stat-num" style="color:var(--gold)">38</div>
+          <div class="stat-desc">Minutes less daily screen time from switching the phone to grayscale mode. Three independent studies, central finding around 38 to 40 minutes per day. The mechanism: colour is a trigger. Remove the trigger, weaken the automatic response.</div>
+          <div class="stat-src">Holte &amp; Ferraro 2020 (N=161) &mdash; Dekker &amp; Baumgartner 2024 (N=84) &mdash; Social Science Journal / Mobile Media &amp; Communication</div>
+        </div>
+        <div class="stat-block" style="background:var(--green-lt);color:var(--ink)">
+          <div class="stat-num" style="color:var(--green-dark)">20.6</div>
+          <div class="stat-desc" style="color:var(--ink-soft)">Fewer minutes of sleep per night when a child sleeps near a small screen. This is the cost of the phone being in the bedroom. Not the usage &mdash; just the presence.</div>
+          <div class="stat-src" style="color:var(--ink-muted)">Falbe et al. &mdash; Pediatrics (Harvard) &mdash; N=2,048 fourth and seventh graders</div>
+        </div>
+      </div>
+      <div>
+        <div class="actions-title">Three actions based on the evidence</div>
+        <div class="action-cards">
+          <div class="ac">
+            <div class="ac-num">01</div>
+            <div class="ac-text"><strong>Create a family charging station outside all bedrooms.</strong> This applies to parents too. BJ Fogg&rsquo;s behaviour model and Wendy Wood&rsquo;s habit research both point to the same mechanism: if the phone is not in the room, the automatic reach cannot fire. Physical separation is the evidence-based intervention, not screen time settings.</div>
+          </div>
+          <div class="ac">
+            <div class="ac-num">02</div>
+            <div class="ac-text"><strong>Design device-free zones before you design device-free times.</strong> The kitchen table, the car, the first 30 minutes after school. Zones work because they interrupt the context cue. Wood&rsquo;s research shows we are most likely to change habits during transitions &mdash; new term, new year, new device &mdash; those are the leverage points.</div>
+          </div>
+          <div class="ac">
+            <div class="ac-num">03</div>
+            <div class="ac-text"><strong>Do not rely on screen time apps alone.</strong> 97% of digital wellbeing apps have no research backing (systematic review, PMC 2022). The apps with the best evidence for reducing use are friction-based tools that make the phone mildly annoying to open &mdash; not hard lockouts, which children bypass within minutes.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S: SLEEP -->
+<section class="sec sec-alt sec-relative" id="sleep">
+  <div class="inner fw">
+    <span class="section-letter letter-s">S &mdash; Sleep</span>
+    <div class="sec-header">
+      <div>
+        <h2 class="sec-title">The highest<br>impact action<br><span class="s-col">in the system.</span></h2>
+      </div>
+      <div>
+        <p class="sec-lead">The bedroom phone rule is not a screen time rule. It is a health rule. Sleep is when the developing brain consolidates everything it learned during the day, secretes growth hormone, regulates emotional responses, and builds immune capacity. The data on what screen use in the bedroom does to all of this is unambiguous.</p>
+        <div class="expert-quote eq-s">
+          <p class="eq-text">&ldquo;Reading on an iPad for four hours before bed suppressed melatonin by 55% and delayed its onset by more than 1.5 hours compared to reading a printed book. Participants slept less, had reduced REM sleep, and were impaired the next morning even after eight hours in bed.&rdquo;</p>
+          <div class="eq-attr">Chang, Aeschbach, Duffy &amp; Czeisler &mdash; Proceedings of the National Academy of Sciences (2015) &mdash; Harvard and Brigham &amp; Women&rsquo;s Hospital</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="evidence-row">
+      <div class="ev-card">
+        <div class="ev-num" style="color:var(--lav-deep)">2.7&times;</div>
+        <div class="ev-label">More melatonin suppression in children than adults under the same evening light exposure</div>
+        <div class="ev-src">Lee et al. (2018) &mdash; Physiological Reports &mdash; N=22 children, N=20 adults</div>
+      </div>
+      <div class="ev-card">
+        <div class="ev-num" style="color:var(--lav-deep)">77%</div>
+        <div class="ev-label">Of US high school students do not get 8 hours of sleep on school nights</div>
+        <div class="ev-src">CDC Youth Risk Behaviour Surveillance System (2023)</div>
+      </div>
+      <div class="ev-card">
+        <div class="ev-num" style="color:var(--lav-deep)">76%</div>
+        <div class="ev-label">More likely to be overweight or obese with the shortest sleep duration vs. longest</div>
+        <div class="ev-src">Cappuccio et al. &mdash; Sleep (meta-analysis, 2018)</div>
+      </div>
+    </div>
+
+    <div class="split" style="margin-bottom:40px">
+      <div>
+        <p style="font-size:.9rem;color:var(--ink-soft);line-height:1.7;margin-bottom:16px">Mary Carskadon at Brown University spent decades establishing that the adolescent phase delay &mdash; the biological drive to sleep later &mdash; is real and driven by puberty, not laziness. During puberty, the rate at which sleep pressure builds slows from a time constant of 8.9 hours in pre-pubescent children to 15.4 hours in post-pubescent teenagers. The melatonin signal shifts later at every Tanner stage. This is not a choice your teenager is making. It is a biological fact.</p>
+        <p style="font-size:.9rem;color:var(--ink-soft);line-height:1.7;margin-bottom:16px">The practical implication: a teenager who cannot fall asleep before 11pm is not being defiant. Their melatonin onset has not arrived yet. Screens in the bedroom delay it further, and the melatonin suppression in children is 2.7 times more powerful than in adults under the same light (Lee et al. 2018). Even 5 lux &mdash; barely any light at all &mdash; suppresses preschoolers&rsquo; melatonin by 77.5% (Hartstein et al. 2022, University of Colorado Boulder).</p>
+        <div class="expert-quote eq-s">
+          <p class="eq-text">&ldquo;70 to 80% of growth hormone is secreted during slow-wave sleep, predominantly in the first sleep cycle of the night. This is the stage device use most disrupts. Chronic sleep deprivation during adolescence &mdash; the most critical window for brain maturation &mdash; can be a tipping point toward lifelong psychiatric illness.&rdquo;</p>
+          <div class="eq-attr">Matthew Walker &mdash; Professor of Neuroscience, UC Berkeley &mdash; Why We Sleep (2017)</div>
+        </div>
+      </div>
+      <div>
+        <div class="actions-title">Three actions based on the evidence</div>
+        <div class="action-cards">
+          <div class="ac">
+            <div class="ac-num">01</div>
+            <div class="ac-text"><strong>All devices charge outside all bedrooms.</strong> Not just children&rsquo;s bedrooms. A 2025 University of Geneva study (N=329) found that only the strictest rules &mdash; phone out of bedroom AND no evening use &mdash; produced significantly longer sleep duration. Partial rules produced no significant benefit.</div>
+          </div>
+          <div class="ac">
+            <div class="ac-num">02</div>
+            <div class="ac-text"><strong>Devices off 90 minutes before bed.</strong> The Chang et al. PNAS study used four hours of evening screen use. The minimum evidence base supports 90 minutes as the practical threshold. The blue light wavelength most responsible is around 480nm &mdash; the dominant wavelength of most phone and tablet screens.</div>
+          </div>
+          <div class="ac">
+            <div class="ac-num">03</div>
+            <div class="ac-text"><strong>20 to 30 minutes of outdoor light within the first hour of waking.</strong> Morning light is what anchors the circadian clock. Research published in Frontiers in Neuroscience (2020) showed that 2.5 hours of weekend morning bright light advanced teenagers&rsquo; melatonin onset by a full hour. Even overcast UK daylight delivers 2,000 to 10,000 lux. Indoor lighting delivers 200 to 500.</div>
+          </div>
+        </div>
+        <div style="margin-top:16px;padding:14px 16px;background:var(--lav);border-radius:10px;font-size:.78rem;color:var(--lav-deep);line-height:1.6">
+          <strong>Bedroom temperature:</strong> 16 to 18&deg;C (NHS UK recommendation). The body needs to drop its core temperature by 1 to 2&deg;C to initiate sleep. A cooler room supports this.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLEEP PROTOCOL: INTERACTIVE -->
+<section class="sec" id="sleep-protocol">
+  <div class="inner fw">
+    <div class="sp-hero">
+      <h2>The Sleep Protocol</h2>
+      <p>Evidence-based by age band &mdash; NHS, AAP, National Sleep Foundation and the latest peer-reviewed research. Select your child&rsquo;s age to see their full protocol.</p>
+    </div>
+    <div class="age-selector">
+      <button class="age-btn active" onclick="showAge('a45',this)">Ages 4 to 5</button>
+      <button class="age-btn" onclick="showAge('a69',this)">Ages 6 to 9</button>
+      <button class="age-btn" onclick="showAge('a1011',this)">Ages 10 to 11</button>
+      <button class="age-btn" onclick="showAge('a1213',this)">Ages 12 to 13</button>
+      <button class="age-btn" onclick="showAge('a1416',this)">Ages 14 to 16</button>
+    </div>
+
+    <!-- AGES 4-5 -->
+    <div class="age-panel active" id="panel-a45">
+      <div class="ap-grid">
+        <div class="ap-card">
+          <div class="ap-card-title">Recommended sleep</div>
+          <div class="ap-hours">10 to 13</div>
+          <div class="ap-hours-sub">hours per night including any nap &mdash; NHS and National Sleep Foundation</div>
+          <div class="ap-note">Most 4-year-olds are dropping their nap. If no daytime nap, move bedtime earlier by 30 to 45 minutes. Watch for the late-afternoon &ldquo;second wind&rdquo; &mdash; that wired, silly energy is cortisol masking exhaustion.</div>
+        </div>
+        <div class="ap-card">
+          <div class="ap-card-title">Device off time</div>
+          <div class="ap-hours" style="font-size:1.6rem">90 min before bed</div>
+          <div class="ap-hours-sub">No screens in bedrooms at any time</div>
+          <div class="ap-note">Preschoolers&rsquo; melatonin suppression is extreme: even 5 lux (a phone screen face-down) suppresses melatonin by 77.5% (Hartstein et al. 2022). A TV in the corner of the room causes measurable sleep disruption even when the child is not watching it.</div>
+        </div>
+      </div>
+      <div class="ap-grid" style="margin-top:16px">
+        <div class="ap-card">
+          <div class="ap-card-title">Bedtime ritual (3 steps)</div>
+          <ul class="ap-list">
+            <li>Bath or warm wash (drops core body temperature, signals sleep time)</li>
+            <li>One book together in a dim, warm room (not overhead light)</li>
+            <li>Consistent final words &mdash; same short phrase every night &mdash; this becomes the sleep trigger</li>
+          </ul>
+        </div>
+        <div class="ap-card">
+          <div class="ap-card-title">Warning signs of poor sleep</div>
+          <ul class="ap-list warn-list">
+            <li>Hyperactivity or &ldquo;silliness&rdquo; at bedtime &mdash; the cortisol second wind</li>
+            <li>Meltdowns disproportionate to the trigger, especially between 4pm and 6pm</li>
+            <li>Falling asleep in the car or pushchair unexpectedly during the day</li>
+          </ul>
+        </div>
+      </div>
+      <div class="ap-card" style="margin-top:16px">
+        <div class="ap-card-title">Three parent tasks</div>
+        <ul class="ap-list task-list">
+          <li>No screen in the bedroom &mdash; including a television. This is the single most effective structural intervention for this age group.</li>
+          <li>Bedtime ritual begins 45 minutes before lights out, screens off at the start of the ritual not the end.</li>
+          <li>Consistent wake time matters as much as bedtime. Letting a tired child sleep past 7:30am on weekends pushes their next night&rsquo;s bedtime later. Same wake time, 7 days a week.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- AGES 6-9 -->
+    <div class="age-panel" id="panel-a69">
+      <div class="ap-grid">
+        <div class="ap-card">
+          <div class="ap-card-title">Recommended sleep</div>
+          <div class="ap-hours">9 to 11</div>
+          <div class="ap-hours-sub">hours per night &mdash; NHS and National Sleep Foundation</div>
+          <div class="ap-note">NHS guidance runs more granularly: 9 years old needs around 10 hours, 6 to 7 year olds need closer to 10 hours 30 to 11 hours. The AAP gives a 9 to 12 hour range for ages 6 to 12. Aim for the higher end if your child is hard to wake in the mornings.</div>
+        </div>
+        <div class="ap-card">
+          <div class="ap-card-title">Device off time</div>
+          <div class="ap-hours" style="font-size:1.6rem">60 min before bed</div>
+          <div class="ap-hours-sub">No devices in the bedroom &mdash; including tablets, handheld games</div>
+          <div class="ap-note">Children&rsquo;s melatonin suppression from blue light is 2.7 times greater than adults (Lee et al. 2018). The 60-minute rule is the practical minimum. 90 minutes gives a more complete melatonin recovery before sleep onset.</div>
+        </div>
+      </div>
+      <div class="ap-grid" style="margin-top:16px">
+        <div class="ap-card">
+          <div class="ap-card-title">Bedtime ritual (3 steps)</div>
+          <ul class="ap-list">
+            <li>Screens off at 7:30pm &mdash; then a quiet activity of their choice: drawing, Lego, a book</li>
+            <li>Teeth, dim light, 10 minutes of reading or stories together</li>
+            <li>Lights out at 8pm to 8:30pm for most 6 to 9 year olds aiming for 10 to 11 hours</li>
+          </ul>
+        </div>
+        <div class="ap-card">
+          <div class="ap-card-title">Warning signs of poor sleep</div>
+          <ul class="ap-list warn-list">
+            <li>Poor impulse control, noncompliance, aggression &mdash; often misread as behavioural issues</li>
+            <li>Recurring headaches or stomach aches without clear cause</li>
+            <li>Difficulty retaining what they learned at school the day before</li>
+          </ul>
+        </div>
+      </div>
+      <div class="ap-card" style="margin-top:16px">
+        <div class="ap-card-title">Three parent tasks</div>
+        <ul class="ap-list task-list">
+          <li>Screen-free bedroom enforced from this age. If a TV is in the room, move it now &mdash; this is the easiest and highest-impact structural change.</li>
+          <li>Consistent bedtime and wake time 7 days a week. Weekend lie-ins past one hour of the school wake time create &ldquo;social jetlag&rdquo; that accumulates across the week.</li>
+          <li>Physical activity before 6pm helps sleep quality. Research shows 3+ sessions of moderate activity per week significantly improves sleep efficiency in school-age children.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- AGES 10-11 -->
+    <div class="age-panel" id="panel-a1011">
+      <div class="ap-grid">
+        <div class="ap-card">
+          <div class="ap-card-title">Recommended sleep</div>
+          <div class="ap-hours">9 to 11</div>
+          <div class="ap-hours-sub">hours per night &mdash; NHS and National Sleep Foundation</div>
+          <div class="ap-note">Some children this age begin the early stages of the pubertal circadian shift. They may start wanting to stay up later and finding it harder to wake. This is biological, not behavioural. It will intensify at 12 to 13. Establish the bedroom rule now, before it becomes a battle.</div>
+        </div>
+        <div class="ap-card">
+          <div class="ap-card-title">Device off time</div>
+          <div class="ap-hours" style="font-size:1.6rem">60 to 90 min before bed</div>
+          <div class="ap-hours-sub">Phone charges outside bedroom from this age</div>
+          <div class="ap-note">This is often the age at which children first get a personal device. Introduce the charging station habit from day one. It is far easier to establish it as the norm now than to remove it from the bedroom at 13 when social pressure is at its peak.</div>
+        </div>
+      </div>
+      <div class="ap-grid" style="margin-top:16px">
+        <div class="ap-card">
+          <div class="ap-card-title">Bedtime ritual (3 steps)</div>
+          <ul class="ap-list">
+            <li>Device handover to parent at agreed time &mdash; make this a habit, not a fight</li>
+            <li>Independent wind-down: reading, drawing, journalling &mdash; something they choose</li>
+            <li>Lights out by 9pm to 9:30pm for most 10 to 11 year olds</li>
+          </ul>
+        </div>
+        <div class="ap-card">
+          <div class="ap-card-title">Warning signs of poor sleep</div>
+          <ul class="ap-list warn-list">
+            <li>Sneaking devices after bedtime &mdash; particularly common at this age</li>
+            <li>Exhaustion mid-week despite early bedtimes &mdash; check for night-time device use</li>
+            <li>Significant mood shifts between Sunday night and Monday morning</li>
+          </ul>
+        </div>
+      </div>
+      <div class="ap-card" style="margin-top:16px">
+        <div class="ap-card-title">Three parent tasks</div>
+        <ul class="ap-list task-list">
+          <li>Start the handover habit now. A shared family charging station makes it feel normal rather than punitive. The rule is about sleep, not about trust.</li>
+          <li>Teach the science honestly: &ldquo;Your brain is doing more growing right now than at almost any other point in your life. Sleep is when it does most of the work. That&rsquo;s the reason for this rule.&rdquo;</li>
+          <li>Watch the weekend drift. Late weekend nights create a sleep deficit that compounds through the school week. More than a 1-hour difference between weekend and school wake times is worth addressing.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- AGES 12-13 -->
+    <div class="age-panel" id="panel-a1213">
+      <div class="ap-grid">
+        <div class="ap-card">
+          <div class="ap-card-title">Recommended sleep</div>
+          <div class="ap-hours">8 to 10</div>
+          <div class="ap-hours-sub">hours per night &mdash; AAP and National Sleep Foundation</div>
+          <div class="ap-note">Puberty triggers a genuine biological delay in the circadian clock. Mary Carskadon (Brown University) showed that by Tanner stage 5, sleep pressure accumulates nearly twice as slowly as in pre-pubescent children. A 12 to 13 year old who cannot fall asleep before 11pm is not being difficult. Their melatonin has not arrived yet.</div>
+        </div>
+        <div class="ap-card">
+          <div class="ap-card-title">Device off time</div>
+          <div class="ap-hours" style="font-size:1.6rem">90 min before bed</div>
+          <div class="ap-hours-sub">Phone out of bedroom &mdash; non-negotiable at this age</div>
+          <div class="ap-note">A 2025 University of Geneva study (N=329) found that only the strictest parental rules &mdash; phone out of bedroom AND no evening use &mdash; produced significantly longer sleep duration. Partial rules (phone in bedroom on silent, time limits only) produced no significant sleep improvement.</div>
+        </div>
+      </div>
+      <div class="ap-grid" style="margin-top:16px">
+        <div class="ap-card">
+          <div class="ap-card-title">Bedtime ritual (3 steps)</div>
+          <ul class="ap-list">
+            <li>9:30pm phone handover to charging station &mdash; agreed time, consistent every night</li>
+            <li>Personal time without screens until they feel sleepy &mdash; reading, music, drawing</li>
+            <li>Aim for lights out at 10pm to 10:30pm, giving 8 to 9 hours before a 6:30am school wake</li>
+          </ul>
+        </div>
+        <div class="ap-card">
+          <div class="ap-card-title">Warning signs of poor sleep</div>
+          <ul class="ap-list warn-list">
+            <li>Consistently alert and cheerful at 11pm, impossible to wake at 7am &mdash; this is the biological phase delay, not attitude</li>
+            <li>Sleeping significantly later on weekends &mdash; more than 2 hours difference is social jetlag</li>
+            <li>Emotional fragility or irritability that seems disproportionate, especially in the mornings</li>
+          </ul>
+        </div>
+      </div>
+      <div class="ap-card" style="margin-top:16px">
+        <div class="ap-card-title">Three parent tasks</div>
+        <ul class="ap-list task-list">
+          <li>Phone out of bedroom is the non-negotiable at this age. Social pressure to stay connected overnight peaks here. The rule needs to be structural (charging station elsewhere) not volitional (asking them not to).</li>
+          <li>Make it about sleep, not punishment. &ldquo;Your melatonin arrives about two hours later than mine does right now. The phone delays it another hour and a half. That is three hours of sleep quality you are losing.&rdquo; The science is genuinely persuasive to curious 12 to 13 year olds.</li>
+          <li>Watch for energy drink use. The AAP recommends no caffeine for under-12s and a maximum of 100mg per day for 13 to 18 year olds. One energy drink often exceeds that entire limit. Caffeine consumed at 3pm is still active at 8pm to 10pm, delaying sleep onset on an already-delayed clock.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- AGES 14-16 -->
+    <div class="age-panel" id="panel-a1416">
+      <div class="ap-grid">
+        <div class="ap-card">
+          <div class="ap-card-title">Recommended sleep</div>
+          <div class="ap-hours">8 to 10</div>
+          <div class="ap-hours-sub">hours per night &mdash; AAP and National Sleep Foundation</div>
+          <div class="ap-note">In the 2024 NSF Sleep in America Poll, teenagers were nearly half as likely to get the recommended 8 to 10 hours on school nights as on weekends. Sleep debt is cumulative: a week of 6-hour nights cannot be recovered over the weekend. Every hour lost impairs the memory consolidation for everything learned that week (Walker, UC Berkeley).</div>
+        </div>
+        <div class="ap-card">
+          <div class="ap-card-title">Device off time</div>
+          <div class="ap-hours" style="font-size:1.6rem">90 min before bed</div>
+          <div class="ap-hours-sub">Phone outside bedroom &mdash; negotiated but enforced</div>
+          <div class="ap-note">Autonomy matters at this age. Covert removal backfires. The evidence-based approach is to negotiate the rule together and involve them in setting it. A co-created rule that a 15-year-old owns is more effective than an imposed rule they resent and route around.</div>
+        </div>
+      </div>
+      <div class="ap-grid" style="margin-top:16px">
+        <div class="ap-card">
+          <div class="ap-card-title">Bedtime ritual (3 steps)</div>
+          <ul class="ap-list">
+            <li>Agreed phone handover time (10pm or earlier) &mdash; their input, your agreement, consistent</li>
+            <li>Wind-down of their choice: music, reading, a podcast &mdash; without a screen in hand</li>
+            <li>Lights out by 10:30pm to 11pm for most 14 to 16 year olds with a 7am school start</li>
+          </ul>
+        </div>
+        <div class="ap-card">
+          <div class="ap-card-title">Warning signs of poor sleep</div>
+          <ul class="ap-list warn-list">
+            <li>Falling asleep in the first two periods of school &mdash; the most common and underreported sign</li>
+            <li>Emotional dysregulation that seems sudden or out of character &mdash; sleep deprivation increases amygdala reactivity by up to 60% (Walker, UC Berkeley)</li>
+            <li>Declining school performance despite apparent effort &mdash; working memory and executive function are the first casualties of sleep debt</li>
+          </ul>
+        </div>
+      </div>
+      <div class="ap-card" style="margin-top:16px">
+        <div class="ap-card-title">Three parent tasks</div>
+        <ul class="ap-list task-list">
+          <li>Negotiate the bedtime rule together &mdash; involve them in setting it, show them the science. Matthew Walker&rsquo;s explanation of memory consolidation during sleep is genuinely persuasive to teenagers preparing for GCSEs who care about their results.</li>
+          <li>No energy drinks. 100mg caffeine per day maximum (AAP for teens). One can of many energy drinks exceeds that limit. Cut off all caffeine by 2pm for a 10pm bedtime &mdash; the half-life is 4 to 6 hours.</li>
+          <li>30 to 45 minutes of outdoor morning light at weekends. Research shows this can advance teenagers&rsquo; melatonin onset by a full hour over several weeks, making it easier to sleep and wake at school-compatible times (Frontiers in Neuroscience, 2020).</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- T2: TRANSPARENCY -->
+<section class="sec sec-alt sec-relative" id="transparency">
+  <div class="inner fw">
+    <span class="section-letter letter-t2">T &mdash; Transparency</span>
+    <div class="sec-header">
+      <div>
+        <h2 class="sec-title">Openness<br>over<br>secrecy.</h2>
+      </div>
+      <div>
+        <p class="sec-lead">The question is not whether your child will encounter something difficult online. They will. 73% of UK 11 to 17 year olds encountered harmful content in a four-week period (Ofcom 2025). The question is whether they will come to you when it happens. That is determined by openness, not by the tightness of the rule.</p>
+        <div class="expert-quote eq-t2">
+          <p class="eq-text">&ldquo;Teens are not reckless online because they are ignorant. They are navigating very real social pressures with a tool they were given without a manual. What they need from parents is not surveillance. It is a trusted adult they are not afraid to come to.&rdquo;</p>
+          <div class="eq-attr">Emily Weinstein and Carrie James &mdash; Behind Their Screens (2022) &mdash; MIT Press &mdash; Harvard Graduate School of Education</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="evidence-row">
+      <div class="ev-card">
+        <div class="ev-num" style="color:var(--ink)">73%</div>
+        <div class="ev-label">Of UK 11 to 17 year olds encountered harmful content online in a four-week period</div>
+        <div class="ev-src">Ofcom Children&rsquo;s Media Literacy Report 2025 &mdash; N=3,383 children</div>
+      </div>
+      <div class="ev-card">
+        <div class="ev-num" style="color:var(--ink)">21%</div>
+        <div class="ev-label">Of UK parents have never spoken to their children about online privacy</div>
+        <div class="ev-src">ICO &ldquo;One Click Too Many&rdquo; research &mdash; April 2026 &mdash; N=1,000 UK parents</div>
+      </div>
+      <div class="ev-card">
+        <div class="ev-num" style="color:var(--ink)">89%</div>
+        <div class="ev-label">Rise in online grooming offences in the UK since 2017 to 18 &mdash; 7,062 offences in 2023 to 24</div>
+        <div class="ev-src">NSPCC (2024) &mdash; 40% occurred on Snapchat &mdash; 81% of victims are girls</div>
+      </div>
+    </div>
+
+    <div class="split">
+      <div>
+        <p style="font-size:.9rem;color:var(--ink-soft);line-height:1.7;margin-bottom:20px">
+          A 2025 meta-analysis of 88 studies (University of Hong Kong) ranked parental protective factors in order of evidence strength. Active mediation &mdash; open conversations about what your child sees online &mdash; was the single most robustly evidenced factor. Technical controls ranked seventh. Parental warmth and relationship quality ranked second. The Oxford Internet Institute&rsquo;s rapid evidence review of parental control apps concluded that controls &ldquo;lose effectiveness in the eyes of older teens&rdquo; and that overuse of surveillance &ldquo;undermines parent-child relationships and children&rsquo;s sense of autonomy.&rdquo;
+        </p>
+        <p style="font-size:.9rem;color:var(--ink-soft);line-height:1.7;margin-bottom:20px">
+          Sonia Livingstone at LSE and the EU Kids Online project (N=6,400 across 8 European countries) found that restriction of peer-to-peer online interactions was protective against specific risks, but that active co-engagement &mdash; talking about what children see, explaining how platforms work, and being genuinely curious about their online life rather than suspicious of it &mdash; was the mechanism that kept children disclosing when something went wrong.
+        </p>
+        <p style="font-size:.9rem;color:var(--ink-soft);line-height:1.7">
+          53% of teachers report that children make safeguarding disclosures following online safety awareness activities at school (UK Safer Internet Centre). The disclosure channel opens when children feel safe. What makes them feel safe is a trusted adult who responds with curiosity before judgment.
+        </p>
+      </div>
+      <div>
+        <div class="actions-title">Three actions based on the evidence</div>
+        <div class="action-cards">
+          <div class="ac">
+            <div class="ac-num">01</div>
+            <div class="ac-text"><strong>Know the five platforms your child uses.</strong> Not to monitor, but to be able to talk about them without sounding like you have never opened one. A parent who has tried TikTok for five minutes can have a completely different conversation about it than one who has not.</div>
+          </div>
+          <div class="ac">
+            <div class="ac-num">02</div>
+            <div class="ac-text"><strong>Build the disclosure habit early with low-stakes questions.</strong> &ldquo;What is the funniest thing you saw online today?&rdquo; at 8 years old is the question that keeps the channel open for harder questions at 14. The research on adolescent disclosure consistently shows that children go to the adults who have consistently shown curiosity, not alarm.</div>
+          </div>
+          <div class="ac">
+            <div class="ac-num">03</div>
+            <div class="ac-text"><strong>Teach how the platforms work, not just what they are.</strong> A child who understands that TikTok&rsquo;s algorithm is designed to keep them watching, not to serve their interests, has a fundamentally different relationship with the app. Digital literacy is a protective factor: children with higher digital literacy show lower cyberbullying involvement and better online outcomes (Nature, 2025).</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIAGNOSTIC QUESTIONS -->
+<section class="sec" id="diagnostic">
+  <div class="inner fw">
+    <div style="text-align:center;margin-bottom:48px">
+      <span style="font-family:var(--mono);font-size:.62rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--green-dark);display:block;margin-bottom:12px">Quick assessment</span>
+      <h2 style="font-size:clamp(2rem,4vw,3rem);font-weight:800;letter-spacing:-.04em;margin-bottom:12px">Three questions that tell you where to start</h2>
+      <p style="max-width:540px;margin:0 auto;font-size:.95rem;color:var(--ink-soft)">These questions come from validated clinical screening tools used by sleep and child health specialists. They are not a diagnosis. They are a starting point.</p>
+    </div>
+    <div class="diag-grid">
+      <div class="dq">
+        <div class="dq-num">01</div>
+        <div class="dq-q">Does your child seem refreshed when they wake up, or do they struggle to get up most mornings?</div>
+        <div class="dq-note">A child who is consistently difficult to rouse, groggy for an hour or more, or frequently says they are tired in the morning is not getting enough restorative sleep &mdash; regardless of how many hours they appear to be in bed. If the answer is &ldquo;struggle,&rdquo; start with S.</div>
+      </div>
+      <div class="dq">
+        <div class="dq-num">02</div>
+        <div class="dq-q">Has their mood, behaviour, or school performance changed noticeably in the past four to six weeks without an obvious reason?</div>
+        <div class="dq-note">Unexplained irritability, emotional outbursts disproportionate to situations, declining school effort, or social withdrawal that has appeared gradually over weeks frequently traces back to a sleep deficit, a relationship strain, or an online experience they have not disclosed. This question points to R and T.</div>
+      </div>
+      <div class="dq">
+        <div class="dq-num">03</div>
+        <div class="dq-q">Is there more than a two-hour difference between when your child wakes up on a school day versus a weekend?</div>
+        <div class="dq-note">This gap &mdash; called social jetlag &mdash; is a measurable indicator of circadian misalignment. A difference of more than 2 hours signals chronic sleep debt and a body clock significantly out of sync with their school schedule. This is a U and S issue.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOURCES -->
+<section class="sec sec-alt">
+  <div class="inner fw">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:16px">
+      <div>
+        <h3 style="font-size:1.3rem;font-weight:700;letter-spacing:-.02em;margin-bottom:4px">Research sources</h3>
+        <p style="font-size:.82rem;color:var(--ink-muted)">Peer-reviewed studies, longitudinal data, and expert authority cited on this page</p>
+      </div>
+      <button class="sources-toggle" onclick="this.nextElementSibling.classList.toggle('open');this.textContent=this.nextElementSibling.classList.contains('open')?'Hide sources':'Show all sources'">Show all sources</button>
+    </div>
+    <div class="sources-content">
+      <div class="sources-group">
+        <h4>T &mdash; Timing</h4>
+        <ul>
+          <li>Twenge, Joiner, Rogers &amp; Martin (2018). Increases in Depressive Symptoms, Suicide-Related Outcomes, and Suicide Rates. <em>Clinical Psychological Science</em>, N=506,820</li>
+          <li>Sapien Labs / Global Mind Project (2023). Age of First Smartphone and Mental Wellbeing. N=27,969 across 85 countries</li>
+          <li>Medical Daily (2026). Screen time and depression, 61% higher risk. N=50,231 children aged 6 to 17</li>
+          <li>Haidt, J. (2024). <em>The Anxious Generation</em>. Penguin Press</li>
+          <li>Orben, A. &amp; Przybylski, A.K. (2019). The Association Between Adolescent Well-Being and Digital Technology Use. <em>Nature Human Behaviour</em>. N=355,358</li>
+          <li>American Academy of Pediatrics (2024). Screen Time Guidelines by Age. aap.org</li>
+          <li>WHO (2019). Guidelines on Physical Activity, Sedentary Behaviour and Sleep for Children Under 5</li>
+          <li>Adolescent Brain Cognitive Development (ABCD) Study &mdash; NIH. N=12,000 children</li>
+        </ul>
+      </div>
+      <div class="sources-group">
+        <h4>R &mdash; Relationships</h4>
+        <ul>
+          <li>Valcke, Bonte, De Wever &amp; Rots (2010). Internet Parenting Styles. <em>Computers &amp; Education</em>. N=533, Ghent University</li>
+          <li>Journal of Behavioral Addictions (2023). Parenting styles and problematic internet use meta-analysis. N=40,587, 35 studies</li>
+          <li>ABCD Study (2025). Longitudinal Patterns of Digital Parenting Restrictions. PMC12676394. N=8,096</li>
+          <li>Samuel, A. (2015). Mentors, Limiters, Enablers. Survey of 10,000+ North American families. <em>The Atlantic</em></li>
+          <li>Gottman Institute. The Digital Age: Your Teen Needs You to be Their Digital Mentor. gottman.com</li>
+          <li>Taylor, Sala, Kolak et al. (2024). Adult-Child Co-Use and Children&rsquo;s Learning Meta-Analysis. N=1,288. <em>Educational Research Review</em></li>
+          <li>Meta-analysis: Digital Parenting and Children&rsquo;s Digital Wellbeing (2025). 88 studies. University of Hong Kong</li>
+        </ul>
+      </div>
+      <div class="sources-group">
+        <h4>U &mdash; Upstream</h4>
+        <ul>
+          <li>Raskin, A. (2006 / 2019). Infinite scroll invention and advocacy. SXSW, The Social Dilemma (2020)</li>
+          <li>Harris, T. How Technology Hijacks People&rsquo;s Minds. Senate Commerce Subcommittee Testimony. Center for Humane Technology</li>
+          <li>Berridge, K. (2007). The debate over dopamine&rsquo;s role in reward: incentive salience. <em>PubMed</em> 17072591</li>
+          <li>Dar Meshi et al. (2013). Nucleus accumbens and social media feedback fMRI. <em>Frontiers in Human Neuroscience</em></li>
+          <li>Lembke, A. (2021). <em>Dopamine Nation</em>. Dutton. Stanford School of Medicine</li>
+          <li>Wood, W., Quinn, J. &amp; Kashy, D. (2002). Habits in Everyday Life. <em>J. Personality &amp; Social Psychology</em></li>
+          <li>Holte, M. &amp; Ferraro, F. (2020). True Colors: Grayscale and Screen Time. <em>The Social Science Journal</em>. N=161</li>
+          <li>Dekker, C. &amp; Baumgartner, S. (2024). Is Life Brighter When Your Phone Is Not? <em>Mobile Media &amp; Communication</em>. N=84</li>
+          <li>Falbe, J. et al. (2015). Sleep Duration, Restfulness, and Screens. <em>Pediatrics</em> (Harvard). N=2,048</li>
+          <li>Sherman, L. et al. (2016). The Power of the Like in Adolescence. <em>Psychological Science</em>. N=32, UCLA</li>
+        </ul>
+      </div>
+      <div class="sources-group">
+        <h4>S &mdash; Sleep</h4>
+        <ul>
+          <li>Chang, A-M., Aeschbach, D., Duffy, J.F. &amp; Czeisler, C.A. (2015). Evening use of light-emitting eReaders. <em>PNAS</em> 112(4). Harvard/Brigham &amp; Women&rsquo;s Hospital</li>
+          <li>Lee, S.I. et al. (2018). Melatonin suppression in children vs adults. <em>Physiological Reports</em> 6(24). PMC6295443</li>
+          <li>Hartstein, L.E. et al. (2022). High sensitivity of melatonin suppression in preschool children. <em>Journal of Pineal Research</em> 72(3). University of Colorado Boulder</li>
+          <li>Carskadon, M.A. et al. (1993 onward). Adolescent circadian phase delay and puberty. Multiple studies, Brown University</li>
+          <li>Walker, M. (2017). <em>Why We Sleep</em>. Scribner. UC Berkeley Center for Human Sleep Science</li>
+          <li>Foster, R.G. (2022). <em>Life Time</em>. Penguin. Sleep and Circadian Neuroscience Institute, Oxford</li>
+          <li>CDC Youth Risk Behaviour Surveillance System (2023). US teen sleep data</li>
+          <li>NHS England Digital (2023). Mental Health of Children and Young People. Wave 4, Part 2: Sleep</li>
+          <li>University of York / Stanway School (2024). Smartphone ban sleep outcomes. N=26. Prof. Lisa Henderson</li>
+          <li>He, J. et al. (2020). Restricting bedtime mobile phone use. <em>PLOS ONE</em>. PMC7010281. N=38</li>
+          <li>Perrault, A. et al. (2019). Reducing screen use in the evening and sleep. <em>SLEEP</em> 42(9). N=569. University of Geneva</li>
+          <li>University of Geneva / Discover Public Health (2025). Parental rules and adolescent sleep. N=329</li>
+          <li>Cappuccio, F. et al. (2018). Sleep and childhood obesity meta-analysis. <em>Sleep</em></li>
+          <li>Hirshkowitz, M. et al. (2015). NSF Sleep Duration Recommendations. <em>Sleep Health Journal</em></li>
+        </ul>
+      </div>
+      <div class="sources-group">
+        <h4>T &mdash; Transparency</h4>
+        <ul>
+          <li>Ofcom (2025). Children&rsquo;s Media Literacy Report. N=3,383 children aged 3 to 17</li>
+          <li>Ofcom (2024). Children and Parents: Media Use and Attitudes Report</li>
+          <li>NSPCC (2024). Online grooming offences press release. Police recorded crime data 2023 to 24</li>
+          <li>IWF Annual Data and Insights Report (2024). 424,047 reports assessed</li>
+          <li>ICO &ldquo;One Click Too Many&rdquo; (2026). N=1,000 UK parents</li>
+          <li>Weinstein, E. &amp; James, C. (2022). <em>Behind Their Screens</em>. MIT Press. Harvard Graduate School of Education</li>
+          <li>Livingstone, S. et al. (2017, 2025). Parental mediation styles. EU Kids Online. N=6,400, LSE</li>
+          <li>Oxford Internet Institute (2023). Parental control tools rapid evidence review. <em>Journal of Children and Media</em></li>
+          <li>Meta-analysis: Digital Parenting and Children&rsquo;s Digital Wellbeing (2025). 88 studies. University of Hong Kong</li>
+          <li>Nature / Humanities and Social Sciences (2025). Digital literacy and cyberbullying outcomes</li>
+          <li>UK Safer Internet Centre. Safer Internet Day 2024 Impact Report. 53% of teachers report safeguarding disclosures</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FOOTER -->
+<section class="cta-footer">
+  <div class="cf-inner">
+    <span class="cf-eyebrow">Guided Childhood</span>
+    <h2 class="cf-h2">Keep the framework close.</h2>
+    <p class="cf-lead">Leave your email and we will send you the full TRUST reference, the sleep protocol by age, and your first practical step. One email. No noise.</p>
+    <form id="trust-form" action="https://formspree.io/f/xbdvrror" method="POST">
+      <div class="cf-form">
+        <input class="cf-input" type="email" name="email" placeholder="Your email address" required autocomplete="email">
+        <button type="submit" class="btn-gold">Send it to me &rarr;</button>
+      </div>
+      <p class="cf-legal">No spam. Unsubscribe any time.</p>
+    </form>
+    <div id="trust-thanks" class="cf-thanks" style="display:none">
+      You are in. Check your inbox shortly.
+    </div>
+    <a class="cf-secondary" href="/starter-pack">Find my starting point instead &rarr;</a>
+    <div class="cf-share">Share this page: comment TRUST on our post and it arrives automatically &mdash; or copy the link to send directly.</div>
+  </div>
+</section>
+
+<footer class="page-footer">
+  <div class="pf-links">
+    <a href="/">Home</a>
+    <a href="/starter-pack">Starter Pack</a>
+    <a href="/scripts">Conversation Scripts</a>
+    <a href="/schools">Schools</a>
+    <a href="/evidence">Evidence</a>
+  </div>
+  <div class="pf-copy">&copy; 2026 Guided Childhood. Built by Justin Phillips.</div>
+</footer>
+
+<script>
+document.getElementById('trust-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const form = this;
+  try {
+    const res = await fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    });
+    if (res.ok) {
+      form.style.display = 'none';
+      document.getElementById('trust-thanks').style.display = 'block';
+    } else {
+      form.submit();
+    }
+  } catch(err) {
+    form.submit();
+  }
+});
+
+function showAge(id, btn) {
+  document.querySelectorAll('.age-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.age-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// Sources toggle
+document.querySelector('.sources-toggle').addEventListener('click', function() {
+  const c = this.nextElementSibling;
+  c.classList.toggle('open');
+  this.textContent = c.classList.contains('open') ? 'Hide sources' : 'Show all sources';
+});
+
+// Animate stats on scroll
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) e.target.style.opacity = '1';
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.ev-card, .ac, .dq').forEach(el => {
+  el.style.transition = 'opacity .4s ease';
+  el.style.opacity = '0';
+  obs.observe(el);
+});
+</script>
+</body>
+</html>

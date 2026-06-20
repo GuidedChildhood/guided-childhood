@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Social Billboard — Safe YouTube for Families</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #F7F3EE;
+      --warm:  #FDFAF6;
+      --ink:   #1A1A1A;
+      --ink-soft: #2E2E2E;
+      --ink-muted: #6B6460;
+      --ink-light: #9C9490;
+      --border: #E5DED6;
+      --gold:   #D4A843;
+      --gold-lt: #FDF3DC;
+      --gold-dark: #A07820;
+      --green:  #2D6A4F;
+      --green-lt: #EBF5EE;
+      --green-dark: #1B4332;
+      --coral:  #E05C3A;
+      --coral-lt: #FEF0EB;
+      --blue:   #2563EB;
+      --blue-lt: #EFF6FF;
+      --font-display: 'Hanken Grotesk', sans-serif;
+      --font-body:    'Hanken Grotesk', sans-serif;
+      --font-mono:    'IBM Plex Mono', monospace;
+      --radius: 16px;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--cream);
+      color: var(--ink);
+      line-height: 1.6;
+      font-size: 16px;
+    }
+
+    h1, h2, h3 { font-family: var(--font-display); font-weight: 800; line-height: 1.15; }
+    p { color: var(--ink-muted); }
+
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: var(--radius);
+      padding: 14px 28px;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.1s, box-shadow 0.1s;
+    }
+    .btn:active { transform: translateY(3px); box-shadow: none !important; }
+    .btn-gold  { background: var(--gold); color: #fff; box-shadow: 0 5px 0 var(--gold-dark); }
+    .btn-green { background: var(--green); color: #fff; box-shadow: 0 5px 0 var(--green-dark); }
+    .btn-outline { background: transparent; color: var(--ink); border: 2px solid var(--border); }
+
+    /* NAV */
+    nav {
+      padding: 0 24px;
+      border-bottom: 1px solid var(--border);
+      background: var(--warm);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .nav-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      height: 60px;
+      justify-content: space-between;
+    }
+    .logo { font-family: var(--font-display); font-weight: 800; font-size: 18px; color: var(--ink); text-decoration: none; }
+
+    /* SECTIONS */
+    section { padding: clamp(48px, 8vw, 80px) 24px; }
+    .inner { max-width: 720px; margin: 0 auto; }
+    .inner-wide { max-width: 960px; margin: 0 auto; }
+
+    /* GRID */
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+
+    /* CARD */
+    .card {
+      background: var(--warm);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px;
+    }
+
+    /* ALERT BANNER */
+    .alert {
+      background: var(--coral-lt);
+      border: 1.5px solid var(--coral);
+      border-radius: 12px;
+      padding: 14px 18px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .alert-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--coral);
+      border-radius: 50%;
+      margin-top: 6px;
+      flex-shrink: 0;
+    }
+
+    /* SCORE BADGE */
+    .score {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--green-lt);
+      border: 1.5px solid var(--green);
+      border-radius: 100px;
+      padding: 4px 12px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--green-dark);
+      font-weight: 600;
+    }
+
+    /* FORM */
+    .waitlist-form {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+    .waitlist-form input {
+      flex: 1;
+      min-width: 220px;
+      padding: 14px 18px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      font-family: var(--font-body);
+      font-size: 15px;
+      color: var(--ink);
+      background: var(--warm);
+      outline: none;
+    }
+    .waitlist-form input:focus { border-color: var(--gold); }
+
+    /* TRUST SCORE VISUAL */
+    .score-bar { display: flex; flex-direction: column; gap: 8px; }
+    .score-row { display: flex; align-items: center; gap: 10px; }
+    .score-label { font-family: var(--font-mono); font-size: 10px; color: var(--ink-light); width: 100px; flex-shrink: 0; text-transform: uppercase; letter-spacing: 0.08em; }
+    .score-track { flex: 1; background: var(--border); border-radius: 100px; height: 6px; overflow: hidden; }
+    .score-fill { height: 100%; background: var(--green); border-radius: 100px; }
+    .score-num { font-family: var(--font-mono); font-size: 11px; color: var(--green-dark); font-weight: 600; width: 30px; text-align: right; }
+
+    @media (max-width: 600px) {
+      .waitlist-form { flex-direction: column; }
+      .waitlist-form input { min-width: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="logo">The Social Billboard</a>
+      <a href="#waitlist" class="btn btn-gold" style="padding:10px 20px;font-size:11px;">Join the waitlist</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section style="background:var(--cream);text-align:center;padding-top:clamp(60px,10vw,100px);">
+    <div class="inner">
+      <div class="alert" style="text-align:left;margin-bottom:28px;">
+        <div class="alert-dot"></div>
+        <p style="color:var(--coral);font-size:14px;line-height:1.5;">
+          <strong>The UK has announced restrictions on social media for under 16s.</strong> When the platforms change, what children watch does not. The Social Billboard is your answer.
+        </p>
+      </div>
+
+      <p class="eyebrow" style="margin-bottom:16px;">Safe YouTube for families</p>
+      <h1 style="font-size:clamp(2rem,5vw,3.2rem);margin-bottom:20px;">
+        Know exactly what your child is watching. Before they watch it.
+      </h1>
+      <p style="font-size:17px;max-width:540px;margin:0 auto 32px;line-height:1.7;">
+        The Social Billboard rates YouTube channels for trust, tone, age-suitability, and pacing. Curated playlists your family can actually rely on.
+      </p>
+      <a href="#waitlist" class="btn btn-gold" style="font-size:14px;padding:16px 36px;">Get early access — it is free</a>
+      <p style="margin-top:14px;font-family:var(--font-mono);font-size:11px;color:var(--ink-light);">
+        Joining the waitlist takes 30 seconds. No card required.
+      </p>
+    </div>
+  </section>
+
+  <!-- THE PROBLEM -->
+  <section style="background:var(--warm);">
+    <div class="inner" style="text-align:center;">
+      <p class="eyebrow" style="margin-bottom:10px;">The problem</p>
+      <h2 style="margin-bottom:16px;">The ban changes what they can access. Not what they want to watch.</h2>
+      <p style="font-size:16px;max-width:560px;margin:0 auto;line-height:1.7;">
+        Children banned from TikTok and Instagram do not stop watching video content. They move to YouTube. The Social Billboard makes sure what they find there is rated, reviewed, and right for their age.
+      </p>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section style="background:var(--cream);">
+    <div class="inner-wide">
+      <div style="text-align:center;margin-bottom:36px;">
+        <p class="eyebrow" style="margin-bottom:10px;">How it works</p>
+        <h2>The Social Billboard Trust Score</h2>
+        <p style="max-width:480px;margin:12px auto 0;font-size:15px;">Every channel rated across five dimensions. No guesswork for parents.</p>
+      </div>
+
+      <div class="grid-3">
+
+        <div class="card">
+          <div class="score" style="margin-bottom:14px;">Trust</div>
+          <div class="score-bar">
+            <div class="score-row">
+              <span class="score-label">Accuracy</span>
+              <div class="score-track"><div class="score-fill" style="width:90%"></div></div>
+              <span class="score-num">9.0</span>
+            </div>
+            <div class="score-row">
+              <span class="score-label">Transparency</span>
+              <div class="score-track"><div class="score-fill" style="width:85%"></div></div>
+              <span class="score-num">8.5</span>
+            </div>
+          </div>
+          <p style="font-size:13px;margin-top:14px;">Is this creator honest about who they are and what they are doing?</p>
+        </div>
+
+        <div class="card">
+          <div class="score" style="margin-bottom:14px;">Tone</div>
+          <div class="score-bar">
+            <div class="score-row">
+              <span class="score-label">Warmth</span>
+              <div class="score-track"><div class="score-fill" style="width:92%"></div></div>
+              <span class="score-num">9.2</span>
+            </div>
+            <div class="score-row">
+              <span class="score-label">Language</span>
+              <div class="score-track"><div class="score-fill" style="width:88%"></div></div>
+              <span class="score-num">8.8</span>
+            </div>
+          </div>
+          <p style="font-size:13px;margin-top:14px;">Does the content treat young viewers with respect and without manipulation?</p>
+        </div>
+
+        <div class="card">
+          <div class="score" style="margin-bottom:14px;">Age fit</div>
+          <div class="score-bar">
+            <div class="score-row">
+              <span class="score-label">Themes</span>
+              <div class="score-track"><div class="score-fill" style="width:95%"></div></div>
+              <span class="score-num">9.5</span>
+            </div>
+            <div class="score-row">
+              <span class="score-label">Pacing</span>
+              <div class="score-track"><div class="score-fill" style="width:80%"></div></div>
+              <span class="score-num">8.0</span>
+            </div>
+          </div>
+          <p style="font-size:13px;margin-top:14px;">Is the content developmentally appropriate for the age group it targets?</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOR PARENTS + SCHOOLS -->
+  <section style="background:var(--warm);">
+    <div class="inner-wide">
+      <div class="grid-2">
+
+        <div class="card" style="border-color:var(--gold);border-width:2px;">
+          <p class="eyebrow" style="color:var(--gold-dark);margin-bottom:12px;">For parents</p>
+          <h3 style="font-size:1.2rem;margin-bottom:12px;">Curated playlists. Rated channels. No surprises.</h3>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;margin-bottom:20px;">
+            {['Age-rated playlists built for your child's stage','Trust Score for every channel before it enters your home','Weekly new additions, reviewed and cleared','Works alongside the Guided Childhood pathway'].map(f =>
+              `<li style="display:flex;gap:8px;align-items:flex-start;font-size:14px;color:var(--ink-soft);">
+                <span style="color:var(--gold-dark);margin-top:2px;">✓</span> ${f}
+              </li>`
+            ).join('')}
+          </ul>
+          <a href="#waitlist" class="btn btn-gold" style="font-size:12px;">Join the parent waitlist</a>
+        </div>
+
+        <div class="card" style="border-color:var(--green);border-width:2px;">
+          <p class="eyebrow" style="color:var(--green-dark);margin-bottom:12px;">For schools</p>
+          <h3 style="font-size:1.2rem;margin-bottom:12px;">Safe video content for PSHE, assemblies, and digital literacy.</h3>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;margin-bottom:20px;">
+            {['Classroom-ready playlists mapped to year groups','Trust-rated channels you can put on the whiteboard','Pairs with the Guided Childhood 21-module scheme','Statutory alignment included for your DSL'].map(f =>
+              `<li style="display:flex;gap:8px;align-items:flex-start;font-size:14px;color:var(--ink-soft);">
+                <span style="color:var(--green-dark);margin-top:2px;">✓</span> ${f}
+              </li>`
+            ).join('')}
+          </ul>
+          <a href="https://www.guidedchildhood.com/teachers" class="btn btn-green" style="font-size:12px;">School enquiries</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- WAITLIST -->
+  <section id="waitlist" style="background:var(--gold-lt);text-align:center;">
+    <div class="inner">
+      <p class="eyebrow" style="color:var(--gold-dark);margin-bottom:12px;">Early access</p>
+      <h2 style="margin-bottom:12px;">Join the waitlist. Free forever for founding families.</h2>
+      <p style="font-size:16px;max-width:480px;margin:0 auto;line-height:1.7;">
+        The ban is coming. The content your children move toward matters just as much as the platforms they leave. Be ready.
+      </p>
+      <form class="waitlist-form" style="justify-content:center;" onsubmit="return false;">
+        <input type="text" placeholder="Your name" />
+        <input type="email" placeholder="Your email address" />
+        <button type="submit" class="btn btn-gold">Join the waitlist</button>
+      </form>
+      <p style="margin-top:14px;font-family:var(--font-mono);font-size:11px;color:var(--gold-dark);">
+        No spam. No card. Just early access and founding family pricing.
+      </p>
+    </div>
+  </section>
+
+  <!-- FROM GUIDED CHILDHOOD -->
+  <section style="background:var(--cream);text-align:center;">
+    <div class="inner">
+      <p class="eyebrow" style="margin-bottom:12px;">From the founder</p>
+      <h2 style="font-size:clamp(1.4rem,3vw,2rem);margin-bottom:16px;">The ban handles access. We handle what comes next.</h2>
+      <p style="font-size:16px;max-width:520px;margin:0 auto 24px;line-height:1.7;">
+        The Social Billboard is built alongside Guided Childhood, the digital parenting pathway platform. Together they cover the two things that matter most: what your child watches, and how you guide them through it.
+      </p>
+      <a href="https://tools.guidedchildhood.com" class="btn btn-outline" style="font-size:12px;">
+        See the Guided Childhood pathway →
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="border-top:1px solid var(--border);padding:28px 24px;background:var(--warm);text-align:center;">
+    <p style="font-family:var(--font-mono);font-size:11px;color:var(--ink-light);">
+      © 2026 The Social Billboard · <a href="https://www.guidedchildhood.com" style="color:var(--ink-light);">Guided Childhood</a>
+    </p>
+  </footer>
+
+</body>
+</html>

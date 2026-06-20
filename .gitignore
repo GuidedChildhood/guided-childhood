@@ -1,0 +1,21 @@
+# Next.js
+.next/
+out/
+
+# Dependencies
+node_modules/
+
+# Build artifacts
+tsconfig.tsbuildinfo
+
+# Environment files — never commit real keys
+.env
+.env.local
+.env.*.local
+
+# Vercel
+.vercel
+
+# Misc
+.DS_Store
+*.pem
