@@ -200,6 +200,14 @@ nav{position:sticky;top:0;z-index:300;height:56px;padding:0 24px;display:flex;al
 .btn-gold{display:inline-block;background:var(--gold);color:var(--ink);font-family:var(--mono);font-size:.9rem;font-weight:700;padding:16px 36px;border-radius:16px;text-decoration:none;box-shadow:0 5px 0 var(--gold-dark);transition:transform .14s,box-shadow .14s}
 .btn-gold:hover{transform:translateY(-2px);box-shadow:0 7px 0 var(--gold-dark)}
 .cf-share{margin-top:32px;font-size:.8rem;color:rgba(255,255,255,.4)}
+.cf-form{display:flex;gap:10px;max-width:500px;margin:0 auto 10px;flex-wrap:wrap;justify-content:center}
+.cf-input{flex:1;min-width:220px;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.2);border-radius:14px;padding:15px 18px;font-family:var(--sans);font-size:1rem;color:#fff;outline:none;transition:border-color .15s}
+.cf-input::placeholder{color:rgba(255,255,255,.38)}
+.cf-input:focus{border-color:rgba(255,255,255,.55)}
+.cf-legal{font-size:.75rem;color:rgba(255,255,255,.32);margin-bottom:28px}
+.cf-thanks{font-size:1.1rem;font-weight:600;color:#fff;margin-bottom:28px;padding:18px;background:rgba(255,255,255,.08);border-radius:14px;border:1px solid rgba(255,255,255,.15)}
+.cf-secondary{display:inline-block;margin-top:20px;font-family:var(--mono);font-size:.75rem;font-weight:600;letter-spacing:.06em;color:rgba(255,255,255,.45);text-decoration:none;text-transform:uppercase}
+.cf-secondary:hover{color:rgba(255,255,255,.7)}
 
 /* PAGE FOOTER */
 .page-footer{background:var(--cream-2);border-top:1px solid var(--border);padding:24px;text-align:center}
@@ -979,9 +987,19 @@ nav{position:sticky;top:0;z-index:300;height:56px;padding:0 24px;display:flex;al
 <section class="cta-footer">
   <div class="cf-inner">
     <span class="cf-eyebrow">Guided Childhood</span>
-    <h2 class="cf-h2">This is the framework. The system is what puts it in practice.</h2>
-    <p class="cf-lead">TRUST runs through every conversation script, lesson, and check-in in Guided Childhood. The starter pack gives you your starting point: which stage your child is at, what to do this week, and the one conversation to have tonight.</p>
-    <a class="btn-gold" href="/starter-pack">Find my starting point &rarr;</a>
+    <h2 class="cf-h2">Keep the framework close.</h2>
+    <p class="cf-lead">Leave your email and we will send you the full TRUST reference, the sleep protocol by age, and your first practical step. One email. No noise.</p>
+    <form id="trust-form" action="https://formspree.io/f/xbdvrror" method="POST">
+      <div class="cf-form">
+        <input class="cf-input" type="email" name="email" placeholder="Your email address" required autocomplete="email">
+        <button type="submit" class="btn-gold">Send it to me &rarr;</button>
+      </div>
+      <p class="cf-legal">No spam. Unsubscribe any time.</p>
+    </form>
+    <div id="trust-thanks" class="cf-thanks" style="display:none">
+      You are in. Check your inbox shortly.
+    </div>
+    <a class="cf-secondary" href="/starter-pack">Find my starting point instead &rarr;</a>
     <div class="cf-share">Share this page: comment TRUST on our post and it arrives automatically &mdash; or copy the link to send directly.</div>
   </div>
 </section>
@@ -998,6 +1016,26 @@ nav{position:sticky;top:0;z-index:300;height:56px;padding:0 24px;display:flex;al
 </footer>
 
 <script>
+document.getElementById('trust-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const form = this;
+  try {
+    const res = await fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    });
+    if (res.ok) {
+      form.style.display = 'none';
+      document.getElementById('trust-thanks').style.display = 'block';
+    } else {
+      form.submit();
+    }
+  } catch(err) {
+    form.submit();
+  }
+});
+
 function showAge(id, btn) {
   document.querySelectorAll('.age-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.age-btn').forEach(b => b.classList.remove('active'));
