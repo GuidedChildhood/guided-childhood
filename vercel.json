@@ -17,6 +17,8 @@
     { "src": "/starter-pack/", "dest": "/starter-pack.html" },
     { "src": "/scripts", "dest": "/scripts.html" },
     { "src": "/scripts/", "dest": "/scripts.html" },
+    { "src": "/trust", "dest": "/trust.html" },
+    { "src": "/trust/", "dest": "/trust.html" },
     { "src": "/join", "status": 302, "headers": { "Location": "https://mailchi.mp/thesocialbillboard/parents" } },
     { "src": "/join/", "status": 302, "headers": { "Location": "https://mailchi.mp/thesocialbillboard/parents" } },
     { "src": "/five-questions", "dest": "/five-questions.html" },
