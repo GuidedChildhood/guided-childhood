@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Teacher Notes — Module 9 | Guided Childhood</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap');
+@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}.no-print{display:none}.page-break{page-break-before:always}}
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --forest:#1A3C2B;--fern:#2E7D5A;--sage:#5A8A6A;--leaf:#AFDCA2;--mint:#EEF7F2;
+  --cream:#F5F0E8;--parch:#EDE8DF;--sand:#D4C9B0;
+  --gold:#C9962A;--goldbrt:#F2C94C;--amber:#8A5C00;
+  --ink:#1A1A18;--char:#3D3D35;--ash:#6B6B60;--stone:#9B9B8E;
+  --coral:#C0451A;--coralt:#F5E8E3;
+  --border:#D4C9B0;
+  --serif:'Crimson Pro',Georgia,serif;
+  --sans:'Inter',system-ui,sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+body{background:var(--cream);font-family:var(--sans);color:var(--ink);font-size:13px;line-height:1.65}
+.page{max-width:210mm;margin:0 auto;padding:16mm 20mm 14mm;background:var(--cream)}
+
+/* HEADER */
+.header{display:grid;grid-template-columns:1fr auto;align-items:start;padding-bottom:14px;margin-bottom:20px;border-bottom:3px solid var(--forest)}
+.logo-row{display:flex;align-items:center;gap:8px}
+.logo-mark{width:26px;height:26px;background:var(--forest);border-radius:7px;display:flex;align-items:center;justify-content:center}
+.logo-mark-inner{width:14px;height:14px;border-radius:3px;background:var(--leaf)}
+.logo-name{font-family:var(--serif);font-weight:700;font-size:15px;letter-spacing:-.01em;color:var(--forest)}
+.doc-type{font-family:var(--mono);font-size:8px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ash);margin-top:3px}
+.module-badge{background:var(--forest);color:var(--leaf);border-radius:8px;padding:6px 14px;font-family:var(--mono);font-size:8px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;text-align:right}
+.module-badge .lesson-name{font-family:var(--serif);font-size:13px;font-weight:600;color:var(--cream);display:block;margin-top:3px;letter-spacing:0;text-transform:none}
+
+/* LESSON AT A GLANCE */
+.glance{display:grid;grid-template-columns:repeat(4,1fr);gap:0;background:var(--forest);border-radius:12px;overflow:hidden;margin-bottom:22px}
+.glance-cell{padding:13px 14px;border-right:1px solid var(--fern)}
+.glance-cell:last-child{border-right:none}
+.glance-label{font-family:var(--mono);font-size:7.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--sage);margin-bottom:5px}
+.glance-value{font-family:var(--serif);font-size:14px;font-weight:600;color:var(--cream);line-height:1.3}
+
+/* SECTION HEADERS */
+.sec-head{display:flex;align-items:center;gap:10px;margin:22px 0 12px}
+.sec-num{width:28px;height:28px;border-radius:7px;background:var(--forest);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;font-weight:600;color:var(--leaf);flex-shrink:0}
+.sec-title{font-family:var(--serif);font-size:17px;font-weight:700;color:var(--forest)}
+
+/* TIMING BLOCKS */
+.timing-block{margin-bottom:16px;display:grid;grid-template-columns:80px 1fr;gap:0;border-radius:10px;overflow:hidden;border:1px solid var(--border)}
+.timing-label{background:var(--forest);padding:12px 10px;display:flex;flex-direction:column;justify-content:flex-start;gap:4px}
+.timing-mins{font-family:var(--mono);font-size:14px;font-weight:600;color:var(--goldbrt);line-height:1}
+.timing-desc{font-family:var(--mono);font-size:7.5px;font-weight:500;color:var(--sage);letter-spacing:.08em;text-transform:uppercase;line-height:1.4}
+.timing-body{background:#fff;padding:12px 15px}
+.timing-body h3{font-family:var(--serif);font-size:14px;font-weight:700;color:var(--forest);margin-bottom:6px}
+.timing-body p{font-size:12.5px;color:var(--char);line-height:1.65;margin-bottom:8px}
+.timing-body p:last-child{margin-bottom:0}
+
+/* SCRIPT BOX */
+.script{background:var(--mint);border:1.5px solid var(--leaf);border-radius:8px;padding:12px 14px;margin:8px 0}
+.script-label{font-family:var(--mono);font-size:7.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--fern);margin-bottom:7px}
+.script p{font-family:var(--serif);font-size:13px;font-style:italic;color:var(--forest);line-height:1.7}
+
+/* TEACHER TIP */
+.tip{background:var(--goldbrt);border-radius:8px;padding:10px 13px;margin:8px 0;display:flex;gap:10px;align-items:flex-start}
+.tip-icon{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.1em;color:var(--amber);background:rgba(0,0,0,.08);border-radius:5px;padding:3px 7px;flex-shrink:0;margin-top:1px}
+.tip p{font-size:12px;color:var(--amber);line-height:1.6}
+
+/* DISCUSSION QUESTIONS */
+.dq{background:#fff;border-radius:8px;border:1px solid var(--border);margin-bottom:8px;padding:0;overflow:hidden}
+.dq-q{padding:10px 13px;font-family:var(--serif);font-size:13.5px;color:var(--ink);line-height:1.5;font-style:italic}
+.dq-note{padding:6px 13px 10px;font-size:11.5px;color:var(--ash);line-height:1.55}
+
+/* DIFFERENTIATION */
+.diff-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:10px}
+.diff-card{border-radius:8px;padding:11px 13px;border:1px solid var(--border)}
+.dc-foundation{background:var(--mint)}
+.dc-core{background:#fff}
+.dc-extension{background:var(--parch)}
+.diff-label{font-family:var(--mono);font-size:7px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px}
+.dl-f{color:var(--fern)}.dl-c{color:var(--ash)}.dl-e{color:var(--gold)}
+.diff-card p{font-size:11.5px;color:var(--char);line-height:1.6}
+
+/* ALERT / SAFEGUARDING */
+.alert{background:var(--coralt);border:1.5px solid var(--coral);border-radius:8px;padding:12px 14px;margin:10px 0}
+.alert-label{font-family:var(--mono);font-size:7.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--coral);margin-bottom:6px}
+.alert p{font-size:12.5px;color:var(--char);line-height:1.65}
+
+/* RESOURCE CHECKLIST */
+.checklist{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.checklist li{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--char);padding:6px 10px;background:#fff;border:1px solid var(--border);border-radius:6px}
+.cb{width:15px;height:15px;border:1.5px solid var(--border);border-radius:4px;flex-shrink:0}
+
+/* FOOTER */
+.footer{margin-top:20px;padding-top:10px;border-top:1px solid var(--border);display:flex;justify-content:space-between}
+.footer p{font-family:var(--mono);font-size:7.5px;color:var(--stone);letter-spacing:.06em;text-transform:uppercase}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div>
+      <div class="logo-row">
+        <div class="logo-mark"><div class="logo-mark-inner"></div></div>
+        <span class="logo-name">Guided Childhood</span>
+      </div>
+      <div class="doc-type">Teacher Notes &middot; Confidential &middot; Not for distribution to pupils</div>
+    </div>
+    <div class="module-badge">
+      Module 9 &middot; Digital Literacy
+      <span class="lesson-name">Social Media and the Brain</span>
+    </div>
+  </div>
+
+  <!-- LESSON AT A GLANCE -->
+  <div class="glance">
+    <div class="glance-cell"><div class="glance-label">Year group</div><div class="glance-value">Year 7–9</div></div>
+    <div class="glance-cell"><div class="glance-label">Duration</div><div class="glance-value">50 minutes</div></div>
+    <div class="glance-cell"><div class="glance-label">Subject fit</div><div class="glance-value">PSHE / Computing / RSE</div></div>
+    <div class="glance-cell"><div class="glance-label">Statutory links</div><div class="glance-value">Online Safety Act &middot; RSE &middot; UKCIS</div></div>
+  </div>
+
+  <!-- LEARNING OBJECTIVES -->
+  <div class="sec-head"><div class="sec-num">A</div><div class="sec-title">Learning Objectives</div></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:20px">
+    <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:12px 14px">
+      <div style="font-family:var(--mono);font-size:7.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--fern);margin-bottom:6px">Knowledge</div>
+      <p style="font-family:var(--serif);font-size:13px;color:var(--ink);line-height:1.6">Understand the variable reward mechanism and why social media platforms are engineered to hold attention.</p>
+    </div>
+    <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:12px 14px">
+      <div style="font-family:var(--mono);font-size:7.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--fern);margin-bottom:6px">Understanding</div>
+      <p style="font-family:var(--serif);font-size:13px;color:var(--ink);line-height:1.6">Recognise the comparison trap — the difference between curated online life and real life — and the research on why this matters particularly at ages 11–15.</p>
+    </div>
+    <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:12px 14px">
+      <div style="font-family:var(--mono);font-size:7.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--fern);margin-bottom:6px">Skill / Application</div>
+      <p style="font-family:var(--serif);font-size:13px;color:var(--ink);line-height:1.6">Choose and commit to one personal strategy before the end of the lesson. This is a decision, not homework.</p>
+    </div>
+  </div>
+
+  <!-- RESOURCES CHECKLIST -->
+  <div class="sec-head"><div class="sec-num">B</div><div class="sec-title">Resources — Check Before the Lesson</div></div>
+  <ul class="checklist" style="margin-bottom:20px">
+    <li><div class="cb"></div>Slide deck loaded and tested (GC-Module9-Slides.pptx)</li>
+    <li><div class="cb"></div>Pupil worksheets printed — one per pupil</li>
+    <li><div class="cb"></div>Blank slips of paper for starter activity</li>
+    <li><div class="cb"></div>Feedback and self-assessment sheet printed</li>
+    <li><div class="cb"></div>Parent take-home notes attached to worksheet backs</li>
+    <li><div class="cb"></div>DSL Safeguarding Concern Forms accessible (GC-DSL-001)</li>
+  </ul>
+
+  <!-- LESSON PLAN -->
+  <div class="sec-head"><div class="sec-num">C</div><div class="sec-title">Lesson Plan with Scripts</div></div>
+
+  <!-- 0-5 MINS -->
+  <div class="timing-block">
+    <div class="timing-label">
+      <span class="timing-mins">0–5</span>
+      <span class="timing-desc">Starter</span>
+    </div>
+    <div class="timing-body">
+      <h3>Before we begin</h3>
+      <p>Display Slide 2. Distribute blank slips. Ask pupils to write their answer privately — hands up is also fine for those willing.</p>
+      <div class="script">
+        <div class="script-label">Script</div>
+        <p>"Before we start — think about the last time you spent time scrolling. Did you feel better, worse, or the same afterwards? Write it on your slip. You don't need to share it. This is just between you and the paper."</p>
+      </div>
+      <div class="tip"><div class="tip-icon">TIP</div><p>Hold the silence for a full ten seconds after asking. The discomfort you feel is shorter than the recognition pupils are processing. Do not fill it.</p></div>
+    </div>
+  </div>
+
+  <!-- 5-20 MINS -->
+  <div class="timing-block">
+    <div class="timing-label">
+      <span class="timing-mins">5–20</span>
+      <span class="timing-desc">Main 1</span>
+    </div>
+    <div class="timing-body">
+      <h3>The Variable Reward (Slides 3–4)</h3>
+      <p>Teach the three concepts: pull to refresh, unpredictable reward, dopamine loop. Slide 3 displays each card in turn. Spend approximately 4 minutes on the teaching, then move to the activity.</p>
+      <div class="script">
+        <div class="script-label">Script — introducing the slot machine</div>
+        <p>"I want you to pull down on an imaginary feed right now. That gesture — the pull down. Now imagine you're at a slot machine and you pull the handle. The movement is identical. That is not a coincidence. The engineers who designed your app studied slot machines. They copied the hand movement deliberately."</p>
+      </div>
+      <div class="script">
+        <div class="script-label">Script — the key reframe</div>
+        <p>"Finding it hard to stop scrolling is not a personal weakness. It is the intended outcome of millions of pounds of engineering. You are not failing at willpower. You are succeeding exactly as the design intended."</p>
+      </div>
+      <p><strong>Activity (Slide 4, 7 minutes):</strong> Pupils work individually on Section 1 of the worksheet, then compare with the person next to them. Circulate and listen for the pupils who have the 'oh' moment — ask them to share with the class.</p>
+      <div class="tip"><div class="tip-icon">TIP</div><p>The pupil who says "I do this with YouTube" is your teaching moment. Name the mechanism they described and thank them for it.</p></div>
+    </div>
+  </div>
+
+  <!-- 20-35 MINS -->
+  <div class="timing-block">
+    <div class="timing-label">
+      <span class="timing-mins">20–35</span>
+      <span class="timing-desc">Main 2</span>
+    </div>
+    <div class="timing-body">
+      <h3>The Comparison Machine (Slides 5–6)</h3>
+      <p>Introduce Dr Amy Orben's Cambridge research. Deliver the three column points on Slide 5 without rushing. The research on peak sensitivity windows (11–13 for girls, 14–15 for boys) is the most important teaching content in the module.</p>
+      <div class="script">
+        <div class="script-label">Script — introducing the research</div>
+        <p>"A researcher at Cambridge University — Dr Amy Orben — tracked thousands of young people over time and looked at when social media had the most impact on wellbeing. She found that it wasn't the same for everyone. For girls, the period of highest impact is between 11 and 13. For boys, it's a little later — around 14 to 15. Some of you are right in the middle of that window. That doesn't mean you're damaged. It means we should be paying attention."</p>
+      </div>
+      <div class="script">
+        <div class="script-label">Script — the Tuesday line (use verbatim)</div>
+        <p>"Nobody posts their Tuesday. You scroll through a feed of everyone's best moments. Best holiday. Best angle. Best day. And your brain — automatically, without asking you — compares that to your behind-the-scenes reality. That comparison was never fair. It was never meant to be."</p>
+      </div>
+      <p><strong>Activity (Slide 6, 10 minutes):</strong> Feed analysis activity. Pupils analyse the sample feed on their worksheet. Collect two or three sentence completions for whole-class share.</p>
+      <div class="tip"><div class="tip-icon">TIP</div><p>The sentence "What this feed does not show is..." produces powerful answers. Read two or three aloud without naming the authors. The ones that land hardest are worth spending thirty seconds on.</p></div>
+    </div>
+  </div>
+
+  <!-- 35-45 MINS -->
+  <div class="timing-block">
+    <div class="timing-label">
+      <span class="timing-mins">35–45</span>
+      <span class="timing-desc">Plenary</span>
+    </div>
+    <div class="timing-body">
+      <h3>Choose Your One Strategy (Slides 7–8)</h3>
+      <p>If time allows, show Slide 7 (mental health signals) briefly — emphasise these are signals to notice, not diagnose. Then move to Slide 8 and the strategy choice.</p>
+      <div class="script">
+        <div class="script-label">Script — framing the strategy choice</div>
+        <p>"You cannot unknow what you now know. So the question is not whether this matters. The question is what you actually do. I am not asking you to delete your apps. I am asking you to choose one thing — one small action — and commit to it before you leave this room."</p>
+      </div>
+      <p>Pupils circle their chosen strategy on the worksheet. This is a commitment device — physical circling is more effective than a verbal instruction.</p>
+      <div class="tip"><div class="tip-icon">TIP</div><p>Acknowledge that the bedroom rule is the hardest one to stick to. If pupils laugh at it, that's a signal. Ask: "Why is that the funniest one?"</p></div>
+    </div>
+  </div>
+
+  <!-- 45-50 MINS -->
+  <div class="timing-block">
+    <div class="timing-label">
+      <span class="timing-mins">45–50</span>
+      <span class="timing-desc">Exit</span>
+    </div>
+    <div class="timing-body">
+      <h3>Exit Ticket and Collection (Slides 9)</h3>
+      <p>Display Slide 9. Pupils complete the three exit ticket sentences at the bottom of their worksheet. Collect all worksheets before pupils leave — do not allow them to take the worksheets home before you have reviewed them. The parent take-home note is on the back and may be detached.</p>
+      <div class="alert">
+        <div class="alert-label">Safeguarding — read before the lesson</div>
+        <p>This lesson regularly surfaces disclosures. Exit ticket responses about mood, contacts, or content should be read before you leave the building. Any concern — complete Form GC-DSL-001 and submit to the DSL today. Do not investigate independently or contact parents without DSL guidance.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- DISCUSSION QUESTIONS -->
+  <div class="sec-head"><div class="sec-num">D</div><div class="sec-title">Discussion Questions — Use as Time Allows</div></div>
+  <div style="margin-bottom:20px">
+    <div class="dq"><div class="dq-q">"If the app gives you the same thing every time you open it, does it still hold your attention in the same way? Why not?"</div><div class="dq-note">This surfaces the unpredictable reward mechanic without you having to name it. Let pupils arrive there.</div></div>
+    <div class="dq"><div class="dq-q">"What would a feed look like if it showed real life, not curated life? What would be different about how you felt afterwards?"</div><div class="dq-note">Opens discussion about design choices — platforms could show real life but choose not to.</div></div>
+    <div class="dq"><div class="dq-q">"Is there a difference between the accounts that make you feel worse and the ones that don't? What's the difference between them?"</div><div class="dq-note">Encourages specific, account-level thinking rather than blanket statements about social media being good or bad.</div></div>
+    <div class="dq"><div class="dq-q">"If you told a friend about the variable reward mechanic, do you think it would change how they use apps? Why or why not?"</div><div class="dq-note">Good for older groups or extension. Tests whether understanding the mechanism changes behaviour — a genuine research question.</div></div>
+  </div>
+
+  <!-- DIFFERENTIATION -->
+  <div class="sec-head"><div class="sec-num">E</div><div class="sec-title">Differentiation</div></div>
+  <div class="diff-grid" style="margin-bottom:20px">
+    <div class="diff-card dc-foundation">
+      <div class="diff-label dl-f">Foundation</div>
+      <p>Focus on pull-to-refresh and the unpredictable reward only. Skip the dopamine science. The slot machine comparison is accessible without the neuroscience. For the feed analysis, reduce to two questions instead of four.</p>
+    </div>
+    <div class="diff-card dc-core">
+      <div class="diff-label dl-c">Core</div>
+      <p>As written. All activities at standard pace. Sentence completion is the key output to assess. Strategy choice is the measure of application.</p>
+    </div>
+    <div class="diff-card dc-extension">
+      <div class="diff-label dl-e">Extension</div>
+      <p>Ask: who benefits from the current design? (platform owners, advertisers). Who designed the feed and why? Could feeds be designed differently? This moves from consumer literacy to systems thinking.</p>
+    </div>
+  </div>
+
+  <!-- STATUTORY LINKS -->
+  <div class="sec-head"><div class="sec-num">F</div><div class="sec-title">Statutory and Framework Links</div></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px">
+    <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:11px 13px">
+      <div style="font-family:var(--mono);font-size:7.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--fern);margin-bottom:5px">Statutory RSE &amp; Health Education (DfE 2019)</div>
+      <p style="font-size:12px;color:var(--char);line-height:1.6">Online safety, managing relationships with technology, the impact of social media on mental health — all explicitly named requirements at secondary level.</p>
+    </div>
+    <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:11px 13px">
+      <div style="font-family:var(--mono);font-size:7.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--fern);margin-bottom:5px">Online Safety Act 2023</div>
+      <p style="font-size:12px;color:var(--char);line-height:1.6">Duty of care for children's online experiences. Schools must provide education that builds capability to navigate online risks — this lesson directly meets that requirement.</p>
+    </div>
+    <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:11px 13px">
+      <div style="font-family:var(--mono);font-size:7.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--fern);margin-bottom:5px">Education for a Connected World (UKCIS)</div>
+      <p style="font-size:12px;color:var(--char);line-height:1.6">Framework area 3 (Online Relationships), area 4 (Online Reputation), area 6 (Managing Online Information), area 8 (Health, Wellbeing and Lifestyle).</p>
+    </div>
+    <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:11px 13px">
+      <div style="font-family:var(--mono);font-size:7.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--fern);margin-bottom:5px">Research Sources</div>
+      <p style="font-size:12px;color:var(--char);line-height:1.6">Orben, A. &amp; Przybylski, A.K. (2019). The association between adolescent well-being and digital technology use. <em>Nature Human Behaviour.</em> Odgers, C. (2018). Smartphones are bad for some teens. <em>Nature.</em></p>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>Guided Childhood &middot; Teacher Notes &middot; Module 9 &middot; Confidential — not for distribution</p>
+    <p>guidedchildhood.co.uk &middot; &copy; 2026</p>
+  </div>
+
+</div>
+</body>
+</html>

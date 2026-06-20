@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Safeguarding Concern Form | Guided Childhood School Programme</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+@media print{
+  body{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .no-print{display:none}
+}
+:root{
+  --ink:#1C1C1C;--soft:#4A4A4A;--muted:#6E6A62;
+  --coral:#D4600A;--clt:#FEF3E8;
+  --green:#AFDCA2;--gd:#2E7D5A;--glt:#EEF7F2;
+  --gold:#F2C94C;--glt2:#FEFAE8;
+  --lav:#E7ECF8;--lavd:#3D5BA9;
+  --border:#E4DFD7;
+  --red:#C0392B;--rlt:#FDF0F0;
+}
+body{font-family:'Hanken Grotesk',system-ui,sans-serif;color:var(--ink);background:#fff;font-size:12.5px;line-height:1.6}
+.page{max-width:210mm;margin:0 auto;padding:16mm 20mm 14mm;background:#fff}
+
+/* HEADER */
+.header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;padding-bottom:12px;border-bottom:3px solid var(--ink)}
+.logo-row{display:flex;align-items:center;gap:7px}
+.logo-dot{width:22px;height:22px;background:var(--green);border-radius:6px;flex-shrink:0}
+.logo-name{font-weight:800;font-size:13px}
+.doc-tag{font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:2px}
+.confidential{background:var(--red);color:#fff;border-radius:6px;padding:4px 12px;font-family:'IBM Plex Mono',monospace;font-size:8.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase}
+
+/* TITLE BANNER */
+.title-banner{background:var(--red);border-radius:10px;padding:13px 17px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between}
+.title-banner h1{font-size:17px;font-weight:800;color:#fff;letter-spacing:-.02em}
+.title-banner .subtitle{font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-top:4px}
+.doc-num{background:rgba(255,255,255,.18);border-radius:8px;padding:8px 13px;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;color:#fff;white-space:nowrap;text-align:right}
+.doc-num .label{font-size:7.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.6);display:block;margin-bottom:3px}
+
+/* GUIDANCE BOX */
+.guidance{background:var(--rlt);border:1.5px solid var(--red);border-radius:8px;padding:11px 14px;margin-bottom:18px}
+.guidance h3{font-size:11px;font-weight:700;color:var(--red);margin-bottom:7px;text-transform:uppercase;letter-spacing:.04em}
+.guidance ul{list-style:none;display:flex;flex-direction:column;gap:4px}
+.guidance li{font-size:11.5px;color:var(--soft);padding-left:14px;position:relative}
+.guidance li::before{content:'→';position:absolute;left:0;color:var(--red);font-size:10px}
+
+/* FORM GRID */
+.form-section{margin-bottom:18px}
+.form-section h2{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;padding-bottom:5px;border-bottom:1px solid var(--border)}
+.field-row{display:grid;gap:10px;margin-bottom:10px}
+.f1{grid-template-columns:1fr}
+.f2{grid-template-columns:1fr 1fr}
+.f3{grid-template-columns:1fr 1fr 1fr}
+.field{display:flex;flex-direction:column;gap:4px}
+.field label{font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.field input,.field select,.field textarea{border:1.5px solid var(--border);border-radius:6px;padding:7px 10px;font-family:'Hanken Grotesk',sans-serif;font-size:12px;color:var(--ink);background:#fff;width:100%}
+.field textarea{resize:vertical;min-height:60px;line-height:1.55}
+.field input:focus,.field select:focus,.field textarea:focus{outline:2px solid var(--gd);border-color:var(--gd)}
+
+/* CHECKBOXES */
+.check-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.check-item{display:flex;align-items:flex-start;gap:8px;padding:7px 10px;border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:12px}
+.check-item input{accent-color:var(--red);margin-top:2px;flex-shrink:0}
+
+/* URGENCY */
+.urgency-row{display:flex;gap:8px;margin-bottom:10px}
+.urg-btn{flex:1;padding:9px 6px;border:2px solid var(--border);border-radius:8px;font-size:11.5px;font-weight:700;text-align:center;cursor:pointer;user-select:none;display:flex;align-items:center;justify-content:center;gap:6px}
+.urg-btn input{accent-color:var(--ink);flex-shrink:0}
+.u-routine{border-color:var(--gd);color:var(--gd)}
+.u-concern{border-color:#D97706;color:#B45309}
+.u-urgent{border-color:var(--red);color:var(--red)}
+
+/* SIGNATURE ROW */
+.sig-row{display:grid;grid-template-columns:1fr 1fr 0.6fr;gap:14px;margin-top:12px}
+.sig-line{border:none;border-bottom:1.5px solid var(--ink);width:100%;height:30px;background:transparent;display:block;font-family:'Hanken Grotesk',sans-serif;font-size:12px}
+
+/* DSL SECTION */
+.dsl-box{background:var(--glt);border:1.5px solid var(--gd);border-radius:8px;padding:13px 16px;margin-top:16px}
+.dsl-box h2{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gd);margin-bottom:10px}
+
+/* ACTION TABLE */
+.action-table{width:100%;border-collapse:collapse;margin-bottom:10px}
+.action-table th{font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:left;padding:4px 8px;border-bottom:1.5px solid var(--border)}
+.action-table td{padding:8px 8px;border-bottom:1px solid var(--border);font-size:12px;color:var(--soft);vertical-align:top}
+.action-table td:first-child{font-weight:600;color:var(--ink);white-space:nowrap}
+.action-table input{border:none;border-bottom:1px solid var(--border);background:transparent;font-family:'Hanken Grotesk',sans-serif;font-size:12px;width:100%;padding:2px 0}
+
+/* FOOTER */
+.footer{margin-top:18px;padding-top:10px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.footer-txt{font-family:'IBM Plex Mono',monospace;font-size:7.5px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div>
+      <div class="logo-row">
+        <div class="logo-dot"></div>
+        <span class="logo-name">Guided Childhood</span>
+      </div>
+      <div class="doc-tag">School Programme &middot; Safeguarding Document</div>
+    </div>
+    <span class="confidential">CONFIDENTIAL — DSL USE ONLY</span>
+  </div>
+
+  <!-- TITLE BANNER -->
+  <div class="title-banner">
+    <div>
+      <h1>Safeguarding Concern Form</h1>
+      <div class="subtitle">Digital Literacy Lesson Series &middot; Complete and submit to the DSL on the same day</div>
+    </div>
+    <div class="doc-num">
+      <span class="label">Form reference</span>
+      GC-DSL-001
+    </div>
+  </div>
+
+  <!-- GUIDANCE -->
+  <div class="guidance">
+    <h3>Before you complete this form</h3>
+    <ul>
+      <li>Do not promise confidentiality to a pupil before, during, or after a disclosure.</li>
+      <li>Listen carefully, thank the pupil for sharing, and do not press for additional detail.</li>
+      <li>Record what was said in the pupil's own words where possible — do not interpret or paraphrase.</li>
+      <li>Submit this form to the DSL before the end of the school day. If urgent, speak to the DSL immediately.</li>
+      <li>Do not investigate the concern yourself or speak to parents before consulting the DSL.</li>
+    </ul>
+  </div>
+
+  <!-- SECTION A: PUPIL DETAILS -->
+  <div class="form-section">
+    <h2>A — Pupil details</h2>
+    <div class="field-row f3">
+      <div class="field"><label>Pupil surname</label><input type="text"></div>
+      <div class="field"><label>Pupil first name</label><input type="text"></div>
+      <div class="field"><label>Date of birth</label><input type="date"></div>
+    </div>
+    <div class="field-row f3">
+      <div class="field"><label>Year group</label><input type="text"></div>
+      <div class="field"><label>Form / tutor group</label><input type="text"></div>
+      <div class="field"><label>Gender (as known)</label><input type="text"></div>
+    </div>
+    <div class="field-row f2">
+      <div class="field"><label>Any existing safeguarding plan? (Y/N)</label><input type="text"></div>
+      <div class="field"><label>SEND / additional needs noted</label><input type="text"></div>
+    </div>
+  </div>
+
+  <!-- SECTION B: REPORTING DETAILS -->
+  <div class="form-section">
+    <h2>B — Reporting details</h2>
+    <div class="field-row f3">
+      <div class="field"><label>Date of lesson / concern</label><input type="date"></div>
+      <div class="field"><label>Time concern arose</label><input type="time"></div>
+      <div class="field"><label>Lesson module</label><input type="text" value="Module 9 — Social Media and the Brain"></div>
+    </div>
+    <div class="field-row f3">
+      <div class="field"><label>Reported by (name)</label><input type="text"></div>
+      <div class="field"><label>Role</label><input type="text" placeholder="e.g. Class teacher, PSHE lead"></div>
+      <div class="field"><label>Date submitted to DSL</label><input type="date"></div>
+    </div>
+  </div>
+
+  <!-- SECTION C: NATURE OF CONCERN -->
+  <div class="form-section">
+    <h2>C — Nature of concern — tick all that apply</h2>
+    <div class="check-grid" style="margin-bottom:12px">
+      <label class="check-item"><input type="checkbox">Online grooming or contact with an unknown adult</label>
+      <label class="check-item"><input type="checkbox">Exposure to age-inappropriate content</label>
+      <label class="check-item"><input type="checkbox">Cyberbullying or peer harassment online</label>
+      <label class="check-item"><input type="checkbox">Sextortion, image-based abuse, or sharing of images</label>
+      <label class="check-item"><input type="checkbox">Disclosure of self-harm or suicidal ideation</label>
+      <label class="check-item"><input type="checkbox">Significant distress linked to social media use</label>
+      <label class="check-item"><input type="checkbox">Radicalisation or extremist content encountered</label>
+      <label class="check-item"><input type="checkbox">Domestic abuse or home environment concern</label>
+      <label class="check-item"><input type="checkbox">Pupil-on-pupil harmful behaviour online</label>
+      <label class="check-item"><input type="checkbox">Other (describe below)</label>
+    </div>
+    <div class="field-row f1">
+      <div class="field"><label>How the concern arose (exit ticket, worksheet, verbal disclosure, observed behaviour, other)</label>
+        <select>
+          <option value="">Select...</option>
+          <option>Verbal disclosure to teacher during lesson</option>
+          <option>Exit ticket written response</option>
+          <option>Worksheet written response</option>
+          <option>Disclosed to peer, overheard by teacher</option>
+          <option>Pupil requested to speak privately after lesson</option>
+          <option>Observed behaviour during activity</option>
+          <option>Other</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION D: ACCOUNT OF CONCERN -->
+  <div class="form-section">
+    <h2>D — Account of the concern — use the pupil's own words where possible</h2>
+    <div class="field-row f1">
+      <div class="field"><label>What was said or observed — record verbatim where possible. Do not interpret.</label>
+        <textarea style="min-height:90px" placeholder="e.g. 'Pupil said: someone keeps messaging me on [app] and I don't know them. They asked me to send a photo.'"></textarea>
+      </div>
+    </div>
+    <div class="field-row f1">
+      <div class="field"><label>Context — what happened immediately before and after</label>
+        <textarea placeholder="e.g. During the 'who are you really talking to' activity, pupil became visibly distressed and asked to speak privately..."></textarea>
+      </div>
+    </div>
+    <div class="field-row f1">
+      <div class="field"><label>Non-verbal observations (body language, emotional state, any visible physical signs)</label>
+        <textarea placeholder="e.g. Pupil appeared anxious, made limited eye contact, became tearful when describing the contact..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION E: URGENCY -->
+  <div class="form-section">
+    <h2>E — Urgency level</h2>
+    <div class="urgency-row">
+      <label class="urg-btn u-routine"><input type="radio" name="urgency" value="routine">Routine — log and monitor</label>
+      <label class="urg-btn u-concern"><input type="radio" name="urgency" value="concern">Concern — DSL meeting within 24 hrs</label>
+      <label class="urg-btn u-urgent"><input type="radio" name="urgency" value="urgent">Urgent — DSL now / may require CSCP referral</label>
+    </div>
+    <div class="field-row f1">
+      <div class="field"><label>Reason for urgency assessment</label><input type="text" placeholder="e.g. Pupil described ongoing contact with unknown adult, may require immediate CSCP referral"></div>
+    </div>
+  </div>
+
+  <!-- SECTION F: TEACHER RESPONSE -->
+  <div class="form-section">
+    <h2>F — Immediate response taken</h2>
+    <div class="field-row f1">
+      <div class="field"><label>What did you say to the pupil? (record key words used)</label>
+        <textarea placeholder="e.g. 'Thank you for telling me. You've done the right thing. I need to share this with someone who can help. I'm not going to keep this secret but I will keep it safe.'"></textarea>
+      </div>
+    </div>
+    <div class="field-row f2">
+      <div class="field"><label>Was the pupil's parent / carer contacted?</label>
+        <select>
+          <option value="">Select...</option>
+          <option>No — awaiting DSL direction</option>
+          <option>Yes — DSL made contact</option>
+          <option>No — concern is about home environment</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="field"><label>Was the pupil signposted to any support today?</label><input type="text" placeholder="e.g. School counsellor, form tutor, no"></div>
+    </div>
+  </div>
+
+  <!-- TEACHER SIGNATURE -->
+  <div class="form-section">
+    <h2>G — Reporting teacher signature</h2>
+    <div class="sig-row">
+      <div class="field"><label>Signature</label><input class="sig-line" type="text" placeholder="Sign here"></div>
+      <div class="field"><label>Printed name</label><input class="sig-line" type="text"></div>
+      <div class="field"><label>Date and time</label><input class="sig-line" type="text"></div>
+    </div>
+  </div>
+
+  <!-- DSL ACTION BOX -->
+  <div class="dsl-box">
+    <h2>DSL action record — complete after receiving this form</h2>
+    <table class="action-table">
+      <thead>
+        <tr>
+          <th style="width:28%">Action</th>
+          <th style="width:36%">Notes</th>
+          <th style="width:20%">Date / time</th>
+          <th style="width:16%">Initials</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Form received by DSL</td>
+          <td><input type="text"></td>
+          <td><input type="text"></td>
+          <td><input type="text"></td>
+        </tr>
+        <tr>
+          <td>Added to safeguarding log</td>
+          <td><input type="text"></td>
+          <td><input type="text"></td>
+          <td><input type="text"></td>
+        </tr>
+        <tr>
+          <td>Action taken / next step</td>
+          <td><input type="text" placeholder="e.g. Monitor, CSCP referral, parent contact, no further action"></td>
+          <td><input type="text"></td>
+          <td><input type="text"></td>
+        </tr>
+        <tr>
+          <td>Outcome / resolved</td>
+          <td><input type="text"></td>
+          <td><input type="text"></td>
+          <td><input type="text"></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="field-row f1">
+      <div class="field"><label>DSL notes</label>
+        <textarea placeholder="DSL assessment, referral decision, rationale..."></textarea>
+      </div>
+    </div>
+    <div class="sig-row">
+      <div class="field"><label>DSL signature</label><input class="sig-line" type="text" placeholder="Sign here"></div>
+      <div class="field"><label>DSL printed name</label><input class="sig-line" type="text"></div>
+      <div class="field"><label>Date</label><input class="sig-line" type="text"></div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-txt">Guided Childhood School Programme &middot; GC-DSL-001 &middot; Confidential &middot; Retain in pupil's safeguarding file</div>
+    <div class="footer-txt">guidedchildhood.com &middot; © 2026</div>
+  </div>
+
+</div>
+</body>
+</html>

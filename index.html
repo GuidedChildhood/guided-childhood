@@ -88,7 +88,7 @@ nav{position:fixed;top:44px;left:0;right:0;z-index:300;height:64px;padding:0 32p
 .b1{width:3px;height:5px}.b2{width:3px;height:9px}.b3{width:3px;height:13px}.b4{width:3px;height:7px}
 .logo-name{font-family:var(--serif);font-size:.95rem;font-weight:700;color:var(--ink);letter-spacing:-.01em}
 .nav-links{display:flex;gap:2px}
-.nav-btn{background:none;border:none;text-decoration:none;display:inline-block;font-family:var(--sans);font-size:.82rem;font-weight:500;color:var(--ink-soft);cursor:pointer;padding:6px 13px;border-radius:100px;transition:all .15s}
+.nav-btn{background:none;border:none;font-family:var(--sans);font-size:.82rem;font-weight:500;color:var(--ink-soft);cursor:pointer;padding:6px 13px;border-radius:100px;transition:all .15s}
 .nav-btn:hover{background:var(--cream-2);color:var(--ink)}
 .nav-r{display:flex;gap:8px;align-items:center}
 .btn-nav{background:var(--green);color:var(--ink);border:none;font-family:var(--sans);font-size:.82rem;font-weight:700;cursor:pointer;padding:9px 22px;border-radius:100px;transition:all .18s}
@@ -316,23 +316,22 @@ h1,h2,h3,h4{font-family:var(--serif)}
 
 /* PRICING */
 .price-grid{display:grid;grid-template-columns:1fr 1.08fr 1fr;gap:12px}
-.price-card{background:#fff;border:1px solid var(--border);border-radius:var(--rl);padding:26px;transition:transform .22s ease,box-shadow .22s ease;display:flex;flex-direction:column}
-.price-card:hover{transform:translateY(-4px);box-shadow:0 12px 28px rgba(28,28,28,.08)}
+.price-card{background:#fff;border:1px solid var(--border);border-radius:var(--rl);padding:26px;transition:all .2s}
 .price-card:hover{box-shadow:var(--sh)}
 .price-feat{background:var(--cream-3);border-color:var(--coral-b);transform:scale(1.025)}
-.price-tier{font-family:var(--mono);font-size:.6rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:5px;min-height:2em}
-.price-name{font-family:var(--serif);font-size:1.1rem;font-weight:800;letter-spacing:-.01em;color:var(--ink);margin-bottom:14px;min-height:2.6em;display:flex;align-items:flex-start}
+.price-tier{font-size:.61rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:5px}
+.price-name{font-family:var(--serif);font-size:1.1rem;font-weight:700;color:var(--ink);margin-bottom:14px}
 .price-amt{display:flex;align-items:baseline;gap:2px;margin-bottom:4px}
 .price-sym{font-size:.9rem;font-weight:700;color:var(--ink)}
 .price-num{font-family:var(--serif);font-size:2.5rem;font-weight:700;color:var(--ink);line-height:1}
 .price-per{font-size:.76rem;color:var(--ink-muted)}
 .price-save{font-size:.71rem;color:var(--green-dark);font-weight:700;margin-bottom:18px;min-height:16px}
 .price-div{height:1px;background:var(--border);margin:16px 0}
-.price-feats{list-style:none;display:flex;flex-direction:column;gap:8px;margin-bottom:22px;flex:1}
+.price-feats{list-style:none;display:flex;flex-direction:column;gap:8px;margin-bottom:22px}
 .price-feats li{display:flex;gap:8px;font-size:.8rem;color:var(--ink-soft);align-items:flex-start}
 .pfc{font-weight:900;font-size:.73rem;margin-top:2px;flex-shrink:0}
 .pfc-g{color:var(--green-dark)}.pfc-c{color:var(--coral)}
-.btn-price{width:100%;margin-top:auto;padding:13px;border-radius:14px;font-family:var(--mono);letter-spacing:.02em;font-family:var(--sans);font-weight:700;font-size:.82rem;cursor:pointer;transition:all .18s;border:none}
+.btn-price{width:100%;padding:11px;border-radius:100px;font-family:var(--sans);font-weight:700;font-size:.82rem;cursor:pointer;transition:all .18s;border:none}
 .bp-out{background:transparent;color:var(--ink);border:2px solid var(--border)}
 .bp-out:hover{border-color:var(--green-dark);color:var(--green-dark)}
 .bp-coral{background:var(--coral);color:#fff}
@@ -406,24 +405,18 @@ footer{background:var(--cream-2);border-top:1px solid var(--border);padding:36px
   .pb{border-right:none;border-bottom:1px solid var(--border);width:100%;justify-content:center}
   .pb:last-child{border-bottom:none}
   nav{padding:0 18px}
-  .tab-bar{gap:2px;padding:0 16px}
-  .tab{padding:7px 13px;font-size:.76rem}
+  .tab-bar{gap:4px;padding:8px 12px;height:auto}
+  .tab{padding:8px 6px;font-size:.68rem;flex:1;text-align:center;line-height:1.25}
 }
-@media(max-width:680px){.cw-grid{grid-template-columns:1fr!important}}
-.sprice-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-@media(max-width:960px){.sprice-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:560px){.sprice-grid{grid-template-columns:1fr}}
-.sc,.rc{transition:transform .22s ease,box-shadow .22s ease}
-.sc:hover,.rc:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(28,28,28,.07)}
 </style>
 </head>
 <body>
 
 <!-- ANNOUNCEMENT BAR — Good Inside urgency strip -->
 <div id="announce-bar" style="background:var(--green-lt);border-bottom:1px solid var(--green-b);padding:10px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;position:fixed;top:0;left:0;right:0;z-index:400;flex-wrap:wrap">
-  <span style="font-family:var(--sans);font-size:.78rem;font-weight:600;color:var(--ink-soft)">The UK government consultation on social media age restrictions closes <strong style="color:var(--ink)">May 2026</strong>. The pathway works either way.</span>
+  <span style="font-family:var(--sans);font-size:.78rem;font-weight:600;color:var(--ink-soft)">The UK social media ban has been rushed through. The cliff edge at 16 has not moved. <strong style="color:var(--ink)">Here is how you prepare your child before it arrives.</strong></span>
   <button onclick="window.open('https://mailchi.mp/thesocialbillboard/parents','_blank')" style="background:var(--coral);color:#fff;border:none;font-family:var(--sans);font-weight:700;font-size:.74rem;padding:7px 16px;border-radius:100px;cursor:pointer;white-space:nowrap;flex-shrink:0">Join the Waitlist</button>
-  <button onclick="document.getElementById('announce-bar').style.display='none'" style="background:none;border:none;font-size:1rem;cursor:pointer;color:var(--ink-muted);flex-shrink:0;padding:0 4px">&#215;</button>
+  <button onclick="document.getElementById('announce-bar').style.display='none';adjustForBar()" style="background:none;border:none;font-size:1rem;cursor:pointer;color:var(--ink-muted);flex-shrink:0;padding:0 4px">&#215;</button>
 </div>
 
 <!-- NAV -->
@@ -433,17 +426,24 @@ footer{background:var(--cream-2);border-top:1px solid var(--border);padding:36px
     <span class="logo-name">Guided Childhood</span>
   </a>
   <div class="nav-links">
-    <a class="nav-btn" href="#stages">Find Your Stage</a>
-    <a class="nav-btn" href="#how">How It Works</a>
-    <a class="nav-btn" href="/teachers">Teachers &amp; Schools</a>
-    <a class="nav-btn" href="#pricing">Pricing</a>
+    <button class="nav-btn" onclick="go('stages')">Find Your Stage</button>
+    <button class="nav-btn" onclick="go('how')">How It Works</button>
+    <button class="nav-btn" onclick="go('teachers')">Schools</button>
+    <button class="nav-btn" onclick="go('pricing')">Pricing</button>
   </div>
   <div class="nav-r">
     <button class="btn-nav" onclick="window.open('https://mailchi.mp/thesocialbillboard/parents','_blank')">Join the Waitlist</button>
   </div>
 </nav>
 
-<div style="height:108px"></div>
+<!-- AUDIENCE TABS -->
+<div class="tab-bar" role="tablist" style="margin-top:108px">
+  <button class="tab on" role="tab" aria-selected="true" onclick="switchTab('parents',this)">For Parents</button>
+  <button class="tab" role="tab" aria-selected="false" onclick="switchTab('teachers',this)">For Teachers &amp; Schools</button>
+</div>
+
+<!-- ══════════════ PARENTS TAB ══════════════ -->
+<div id="tab-parents" class="panel on">
 
 <!-- HERO — Good Inside model: eyebrow + headline + outcome bullets + single CTA + social proof + press -->
 <section class="hero" aria-label="Hero">
@@ -740,7 +740,7 @@ footer{background:var(--cream-2);border-top:1px solid var(--border);padding:36px
 </section>
 
 <!-- RESEARCH -->
-<section class="sec sec-alt" id="research">
+<section class="sec sec-alt">
   <div class="inner">
     <div class="tc" style="margin-bottom:36px">
       <span class="eye eye-g">The research</span>
@@ -765,26 +765,6 @@ footer{background:var(--cream-2);border-top:1px solid var(--border);padding:36px
       </div>
     </div>
 
-
-    <!-- CRITICAL WINDOW — girls vs boys -->
-    <div style="border:1px solid var(--coral-b);border-radius:var(--r);background:var(--coral-lt);padding:24px;margin-bottom:18px">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
-        <span style="font-family:var(--mono);font-size:.62rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;background:var(--coral);color:#fff;padding:4px 12px;border-radius:8px">The Critical Window</span>
-      </div>
-      <p style="font-size:.95rem;font-weight:700;color:var(--ink);margin-bottom:10px">The research is specific: girls and boys have different sensitivity windows. The pathway calibrates for each.</p>
-      <div class="cw-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:12px">
-        <div style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 16px">
-          <div style="font-family:var(--mono);font-size:.62rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--coral);margin-bottom:5px">The girls&rsquo; window &middot; 11&ndash;13</div>
-          <p style="font-size:.78rem;color:var(--ink-soft);line-height:1.65">Cambridge research by Dr Amy Orben identifies ages 11 to 13 as the peak sensitivity window for girls. Appearance comparison feeds hit hardest while identity is forming. The pathway response is structure and conversation at the right moment, never a ban: the bedroom rule, the comparison conversation, and social media access introduced by readiness.</p>
-        </div>
-        <div style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 16px">
-          <div style="font-family:var(--mono);font-size:.62rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--lav-deep);margin-bottom:5px">The boys&rsquo; window &middot; 14&ndash;15</div>
-          <p style="font-size:.78rem;color:var(--ink-soft);line-height:1.65">The same research shows a later, different window for boys. Gaming, status comparison and algorithm rabbit holes carry more of the risk than appearance feeds. The pathway calibrates differently here: the algorithm conversation, gaming structure, and guided access across every part of digital life, not just social media.</p>
-        </div>
-      </div>
-      <p style="font-size:.74rem;color:var(--ink-muted);font-style:italic">Tailored by research, not grouped. Every stage covers the full digital world: social media, gaming, video, messaging and AI. Integrated, age-related access. A pathway, never a ban.</p>
-    </div>
-
     <!-- Vulnerable groups — a feature callout, not the headline -->
     <div style="border:1px solid var(--border);border-radius:var(--r);padding:20px 24px;display:flex;align-items:flex-start;gap:16px;background:#fff">
       <div style="flex-shrink:0;margin-top:2px">
@@ -792,17 +772,9 @@ footer{background:var(--cream-2);border-top:1px solid var(--border);padding:36px
       </div>
       <div>
         <p style="font-size:.83rem;font-weight:700;color:var(--ink);margin-bottom:4px">Also designed for the most vulnerable</p>
-        <p style="font-size:.8rem;color:var(--ink-soft);line-height:1.72">The 2026 evidence briefing identifies six groups at highest risk: adolescent girls 11&ndash;15, children with pre-existing mental health conditions, LGBTQ+ youth, neurodivergent children, children from low-income backgrounds, and children aged 10&ndash;13. The platform includes tailored guidance for all six: in DiGi's responses, the curriculum, and the wellbeing tracker. If your child has ADHD, autism, anxiety, or an existing mental health condition, the pathway adjusts. The Digital Health Check picks up what is showing in their online world, and DiGi calibrates its guidance to what it finds.</p>
+        <p style="font-size:.8rem;color:var(--ink-soft);line-height:1.72">The 2026 evidence briefing identifies six groups at highest risk: adolescent girls 11&ndash;15, children with pre-existing mental health conditions, LGBTQ+ youth, neurodivergent children, children from low-income backgrounds, and children aged 10&ndash;13. The platform includes tailored guidance for all six: in DiGi's responses, the curriculum, and the wellbeing tracker.</p>
         <p style="font-size:.72rem;color:var(--ink-muted);margin-top:6px;font-style:italic">"It is not screen time. It is the pathway." &mdash; Who Is Actually Being Harmed, 2026</p>
       </div>
-    </div>
-
-    <!-- DIGITAL HEALTH CHECK CTA -->
-    <div style="margin-top:18px;border:1px solid var(--border);border-radius:var(--r);background:var(--gold-lt);padding:28px 24px;text-align:center">
-      <span class="eye" style="color:var(--gold-dark)">Free &middot; 5 minutes</span>
-      <h3 style="font-size:1.35rem;font-weight:800;color:var(--ink);letter-spacing:-.02em;margin-bottom:8px">Find out where your child is today</h3>
-      <p style="font-size:.88rem;color:var(--ink-soft);line-height:1.7;max-width:520px;margin:0 auto 18px">The Digital Health Check reads the signals in your child's online world and gives you a clear, personal report. It is the fastest way to see your starting point on the pathway.</p>
-      <a href="/digitalwellbeing" style="display:inline-flex;align-items:center;gap:6px;background:var(--gold);color:var(--ink);font-family:var(--mono);font-weight:600;font-size:.9rem;letter-spacing:.02em;text-decoration:none;padding:15px 28px;border-radius:16px;box-shadow:0 5px 0 var(--gold-hover)">Take the free Digital Health Check &rarr;</a>
     </div>
   </div>
 </section>
@@ -926,13 +898,207 @@ footer{background:var(--cream-2);border-top:1px solid var(--border);padding:36px
   </div>
 </section>
 
+</div><!-- end parents tab -->
+
+<!-- ══════════════ TEACHERS TAB ══════════════ -->
+<div id="tab-teachers" class="panel">
+
+<!-- TEACHER HERO -->
+<section class="hero" style="min-height:72vh">
+  <div class="hero-pill fu d1"><span class="pill-dot"></span>For PSHE Leads &middot; DSLs &middot; Class Teachers</div>
+  <h1 class="h1 fu d2" style="font-size:clamp(2.2rem,4.5vw,4.2rem)">A digital literacy curriculum<br>every school can <em>actually use</em>.</h1>
+  <p class="hero-sub fu d3">Ready-to-use lesson plans from EYFS to Sixth Form. Fully aligned with the Online Safety Act 2023, statutory RSE, and Education for a Connected World. Downloadable by UK Year Group. No prep required.</p>
+  <div class="hero-btns fu d4">
+    <button class="btn" onclick="window.open('https://mailchi.mp/thesocialbillboard/school','_blank')">Get Free Assembly Pack &#8594;</button>
+    <button class="btn-out" onclick="go('school-content')">See What Is Included</button>
+  </div>
+  <p class="hero-note fu d4">Individual teacher licence from £49 &nbsp;&#183;&nbsp; School licence from £299 per year</p>
+  <div class="press-strip fu d5">
+    <span class="press-label">Aligned with</span>
+    <span class="press-badge">Online Safety Act 2023</span>
+    <span class="press-badge">Education for a Connected World</span>
+    <span class="press-badge">Statutory RSE</span>
+    <span class="press-badge">DfE AI Guidance 2025</span>
+  </div>
+</section>
+
+<!-- TICKER (teacher) -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-inner">
+    <span class="ti">Aligned with <strong>Online Safety Act 2023</strong><span class="tid"></span></span>
+    <span class="ti"><strong>Education for a Connected World</strong> framework<span class="tid"></span></span>
+    <span class="ti">Statutory <strong>RSE &amp; Health Education</strong><span class="tid"></span></span>
+    <span class="ti"><strong>DfE AI in Education</strong> guidance 2025<span class="tid"></span></span>
+    <span class="ti">All 8 <strong>UKCIS framework areas</strong> covered<span class="tid"></span></span>
+    <span class="ti">Aligned with <strong>Online Safety Act 2023</strong><span class="tid"></span></span>
+    <span class="ti"><strong>Education for a Connected World</strong> framework<span class="tid"></span></span>
+    <span class="ti">Statutory <strong>RSE &amp; Health Education</strong><span class="tid"></span></span>
+    <span class="ti"><strong>DfE AI in Education</strong> guidance 2025<span class="tid"></span></span>
+    <span class="ti">All 8 <strong>UKCIS framework areas</strong> covered<span class="tid"></span></span>
+  </div>
+</div>
+
+<!-- SCHOOL CONTENT -->
+<section class="sec sec-alt" id="school-content">
+  <div class="inner">
+    <div class="tc" style="margin-bottom:36px">
+      <span class="eye eye-c">What is included</span>
+      <h2 class="h2">Everything your school <em>needs</em></h2>
+      <p class="lead" style="margin:0 auto;text-align:center">A complete scheme of work from EYFS to Sixth Form. Mapped to UK Key Stages, Year Groups, and every statutory framework your school is accountable to.</p>
+    </div>
+    <div class="school-grid">
+      <div class="school-card">
+        <h3>Complete Scheme of Work</h3>
+        <p>21 half-term modules from EYFS to Year 13. Every lesson mapped to UK Year Group, Key Stage, and the statutory frameworks your school is accountable to. Filter by year group and download in one click.</p>
+        <ul class="sl">
+          <li><strong>EYFS &amp; KS1 (Yr R&ndash;2):</strong> screens, kindness, real vs not real</li>
+          <li><strong>KS2 (Yr 3&ndash;6):</strong> algorithms, privacy, internet safety, coding basics</li>
+          <li><strong>KS3 (Yr 7&ndash;9):</strong> social media, AI chatbots, deepfakes, dark web awareness</li>
+          <li><strong>KS4 (Yr 10&ndash;11):</strong> manipulation, sextortion, radicalisation, readiness for 16</li>
+          <li><strong>KS5 (Yr 12&ndash;13):</strong> AI mastery, data rights, vibe coding, future technology</li>
+          <li>Every lesson: teacher plan, pupil worksheet, slides, parent note</li>
+        </ul>
+      </div>
+      <div class="school-card">
+        <h3>Staff CPD and Training</h3>
+        <p>Two-hour CPD module for DSLs and PSHE leads. Self-paced online with downloadable facilitator guide. Completion tracking and CPD certificate included.</p>
+        <ul class="sl">
+          <li>Part 1: The research, the cliff edge, and the TRUST framework</li>
+          <li>Part 2: What children encounter online right now</li>
+          <li>Part 3: Safe classroom practice and disclosure response</li>
+          <li>Part 4: Using the scheme of work in your school</li>
+          <li>6 assemblies: KS1 through KS5 plus whole-school agreement</li>
+          <li>Primary and secondary parent evening packs included</li>
+        </ul>
+      </div>
+      <div class="school-card">
+        <h3>Policy and Statutory Compliance</h3>
+        <p>Ready-to-use templates for governors and senior leaders. One document shows every statutory requirement met. No preparation required.</p>
+        <ul class="sl">
+          <li>School digital behaviour policy template</li>
+          <li>Staff AI tools policy (DfE June 2025 aligned)</li>
+          <li>Online safety statement for school website</li>
+          <li>Statutory alignment document for governors</li>
+          <li>Maps to: Online Safety Act, RSE, Education for a Connected World, DfE AI Guidance</li>
+          <li>UK Key Stage and Year Group on every lesson</li>
+        </ul>
+      </div>
+    </div>
+    <div class="school-bar">
+      <div><h4>School DiGi: safeguarding advisor</h4><p>Educators get their own DiGi trained for safeguarding questions, statutory queries, and class preparation. GDPR compliant. No parent or child personal data visible to the school view.</p></div>
+      <button class="btn-school" onclick="window.open('https://mailchi.mp/thesocialbillboard/school','_blank')">Learn More</button>
+    </div>
+  </div>
+</section>
+
+<!-- STATUTORY ALIGNMENT -->
+<section class="sec">
+  <div class="inner">
+    <div class="tc" style="margin-bottom:32px">
+      <span class="eye eye-g">Statutory alignment</span>
+      <h2 class="h2">Every legal requirement, <em>covered</em></h2>
+      <p class="lead" style="margin:0 auto;text-align:center">One printable document shows your governor every statutory requirement met. Built for Ofsted readiness.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:13px;max-width:800px;margin:0 auto 22px">
+      <div class="rc" style="border-left:3px solid var(--green)"><h4>Online Safety Act 2023</h4><div class="rc-uni">In force &middot; Ofcom enforcing &middot; Ofsted aware</div><p>Platforms must protect children. Schools must teach them to protect themselves. Guided Childhood provides the curriculum.</p></div>
+      <div class="rc" style="border-left:3px solid var(--coral)"><h4>Statutory RSE &amp; Health Education</h4><div class="rc-uni">Compulsory in all state schools from September 2020</div><p>Online safety is embedded throughout. Guided Childhood units directly cover the online safety components of both statutory subjects.</p></div>
+      <div class="rc" style="border-left:3px solid var(--gold)"><h4>Education for a Connected World</h4><div class="rc-uni">UKCIS 2020 &middot; DfE recommended</div><p>All 8 UKCIS framework areas covered across every Key Stage. Downloadable mapping document for Ofsted preparation included.</p></div>
+      <div class="rc" style="border-left:3px solid var(--gold)"><h4>DfE AI in Education Guidance</h4><div class="rc-uni">June 2025 &middot; AI literacy by 2027</div><p>DfE plans AI literacy in the national curriculum by 2027. Guided Childhood already delivers this from KS3 onwards. Stay ahead of the standard.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SCHOOL PRICING -->
+<section class="sec sec-alt" id="teachers"><span id="schools" style="position:absolute"></span>
+  <div class="inner">
+    <div class="tc" style="margin-bottom:36px">
+      <span class="eye eye-c">School pricing</span>
+      <h2 class="h2">From <em>£49 per year</em></h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
+      <div class="price-card">
+        <div class="price-tier">Individual</div>
+        <div class="price-name">Teacher Licence</div>
+        <div class="price-amt"><span class="price-sym">£</span><span class="price-num">49</span><span class="price-per">/year</span></div>
+        <div class="price-save">&nbsp;</div>
+        <div class="price-div"></div>
+        <ul class="price-feats">
+          <li><span class="pfc pfc-g">&#10003;</span>Single educator login</li>
+          <li><span class="pfc pfc-g">&#10003;</span>All lesson plans all stages</li>
+          <li><span class="pfc pfc-g">&#10003;</span>CPD module access</li>
+          <li><span class="pfc pfc-g">&#10003;</span>School DiGi</li>
+        </ul>
+        <button class="btn-price bp-out" onclick="window.open('https://mailchi.mp/thesocialbillboard/school','_blank')">Enquire</button>
+      </div>
+      <div class="price-card price-feat">
+        <div class="price-tier">Up to 300 pupils</div>
+        <div class="price-name">Small School</div>
+        <div class="price-amt"><span class="price-sym">£</span><span class="price-num">299</span><span class="price-per">/year</span></div>
+        <div class="price-save">Most popular</div>
+        <div class="price-div"></div>
+        <ul class="price-feats">
+          <li><span class="pfc pfc-g">&#10003;</span>Unlimited educator logins</li>
+          <li><span class="pfc pfc-g">&#10003;</span>Full curriculum pack</li>
+          <li><span class="pfc pfc-g">&#10003;</span>Assembly materials</li>
+          <li><span class="pfc pfc-c">&#10003;</span>Policy template</li>
+          <li><span class="pfc pfc-c">&#10003;</span>School dashboard</li>
+        </ul>
+        <button class="btn-price bp-coral" onclick="window.open('https://mailchi.mp/thesocialbillboard/school','_blank')">Enquire</button>
+      </div>
+      <div class="price-card">
+        <div class="price-tier">300&ndash;800 pupils</div>
+        <div class="price-name">Medium School</div>
+        <div class="price-amt"><span class="price-sym">£</span><span class="price-num">499</span><span class="price-per">/year</span></div>
+        <div class="price-save">&nbsp;</div>
+        <div class="price-div"></div>
+        <ul class="price-feats">
+          <li><span class="pfc pfc-g">&#10003;</span>Everything in small</li>
+          <li><span class="pfc pfc-g">&#10003;</span>Parent evening pack</li>
+          <li><span class="pfc pfc-g">&#10003;</span>Staff training module</li>
+          <li><span class="pfc pfc-g">&#10003;</span>Priority support</li>
+        </ul>
+        <button class="btn-price bp-green" onclick="window.open('https://mailchi.mp/thesocialbillboard/school','_blank')">Enquire</button>
+      </div>
+      <div class="price-card">
+        <div class="price-tier">800+ or multi-site</div>
+        <div class="price-name">Large School / MAT</div>
+        <div class="price-amt"><span class="price-sym">£</span><span class="price-num">999+</span></div>
+        <div class="price-save">Custom pricing</div>
+        <div class="price-div"></div>
+        <ul class="price-feats">
+          <li><span class="pfc pfc-g">&#10003;</span>Everything in medium</li>
+          <li><span class="pfc pfc-g">&#10003;</span>Multi-site dashboard</li>
+          <li><span class="pfc pfc-g">&#10003;</span>Co-branded materials</li>
+          <li><span class="pfc pfc-g">&#10003;</span>Bespoke onboarding</li>
+        </ul>
+        <button class="btn-price bp-out" onclick="window.open('https://mailchi.mp/thesocialbillboard/school','_blank')">Contact Us</button>
+      </div>
+    </div>
+    <p style="text-align:center;font-size:.78rem;color:var(--ink-muted);margin-top:14px">10% discount on 2-year school commitments &nbsp;&#183;&nbsp; Free assembly pack for all enquiries</p>
+  </div>
+</section>
+
+<!-- SCHOOL CTA -->
+<section class="cta-sec">
+  <div class="cta-inner">
+    <h2>Start with a free <em>assembly pack</em></h2>
+    <p>A 20-minute digital safety assembly, fully planned, no prep required. That is the entry point.</p>
+    <div class="cta-form">
+      <input class="cta-input" type="email" id="school-email" placeholder="Your school email" aria-label="School email">
+      <button class="cta-submit" onclick="submitMailchimp('school-email','school')">Get Free Pack</button>
+    </div>
+    <div class="cta-fine" id="school-msg">No commitment &nbsp;&#183;&nbsp; School licence only if you want one</div>
+  </div>
+</section>
+
+</div><!-- end teachers tab -->
 
 <!-- FOOTER -->
 <footer>
   <div class="foot-inner">
     <div class="foot-brand">Guided Childhood &mdash; The OS for Modern Parenting</div>
     <div class="foot-links">
-      <a href="/">Home</a><a href="#stages">Find Your Stage</a><a href="/teachers">Teachers &amp; Schools</a>
+      <a href="/">Home</a><a href="#stages">Find Your Stage</a><a href="#teachers">Teachers &amp; Schools</a>
       <a href="#pricing">Pricing</a><a href="#how">How It Works</a><a href="/digitalwellbeing">Wellbeing Tool</a>
     </div>
     <div class="foot-copy">&copy; 2026 The Social Billboard &middot; Justin Phillips</div>
@@ -1079,40 +1245,17 @@ function shareLink(platform) {
   }
 }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModalDirect(); });
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script>
-(function(){
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !window.gsap) return;
-  gsap.registerPlugin(ScrollTrigger);
 
-  // Section headers and leads: gentle fade-up
-  gsap.utils.toArray('.sec .tc, .sec .h2, .sec .lead').forEach(function(el){
-    gsap.from(el, { opacity:0, y:24, duration:.7, ease:'power2.out',
-      scrollTrigger:{ trigger:el, start:'top 86%', once:true } });
-  });
-
-  // Card grids: staggered reveal
-  ['.stage-grid','.res-grid','.price-grid','.school-grid','.testi-grid','.cw-grid'].forEach(function(sel){
-    gsap.utils.toArray(sel).forEach(function(grid){
-      gsap.from(grid.children, { opacity:0, y:28, duration:.6, ease:'power2.out',
-        stagger:.09, scrollTrigger:{ trigger:grid, start:'top 84%', once:true } });
-    });
-  });
-
-  // Feature rows and thesis points
-  gsap.utils.toArray('.fi, .tp').forEach(function(el){
-    gsap.from(el, { opacity:0, y:18, duration:.55, ease:'power2.out',
-      scrollTrigger:{ trigger:el, start:'top 90%', once:true } });
-  });
-
-  // CTA blocks: slight scale settle
-  gsap.utils.toArray('.thesis, .policy-strip').forEach(function(el){
-    gsap.from(el, { opacity:0, y:20, duration:.7, ease:'power2.out',
-      scrollTrigger:{ trigger:el, start:'top 88%', once:true } });
-  });
-})();
+function adjustForBar() {
+  var bar = document.getElementById('announce-bar');
+  var nav = document.querySelector('nav');
+  var tabs = document.querySelector('.tab-bar');
+  var h = (bar && bar.style.display !== 'none') ? bar.offsetHeight : 0;
+  if (nav) nav.style.top = h + 'px';
+  if (tabs) tabs.style.marginTop = (h + 64) + 'px';
+}
+window.addEventListener('load', adjustForBar);
+window.addEventListener('resize', adjustForBar);
 </script>
 </body>
 </html>

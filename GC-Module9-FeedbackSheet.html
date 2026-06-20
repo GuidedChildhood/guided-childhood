@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Feedback Sheet — Module 9 | Guided Childhood</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap');
+@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --forest:#1A3C2B;--fern:#2E7D5A;--sage:#5A8A6A;--leaf:#AFDCA2;--mint:#EEF7F2;
+  --cream:#F5F0E8;--parch:#EDE8DF;--sand:#D4C9B0;
+  --gold:#C9962A;--goldbrt:#F2C94C;--amber:#8A5C00;
+  --ink:#1A1A18;--char:#3D3D35;--ash:#6B6B60;--stone:#9B9B8E;
+  --coral:#C0451A;--coralt:#F5E8E3;
+  --border:#D4C9B0;
+}
+body{background:#fff;font-family:'Inter',system-ui,sans-serif;color:var(--ink);font-size:12.5px;line-height:1.65}
+.page{max-width:210mm;margin:0 auto;padding:13mm 18mm 11mm;background:#fff}
+
+.header{background:var(--forest);border-radius:12px;padding:13px 18px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between}
+.h-left h1{font-family:'Crimson Pro',serif;font-size:18px;font-weight:700;color:#fff;margin-bottom:2px}
+.h-left .sub{font-family:'JetBrains Mono',monospace;font-size:7.5px;color:var(--leaf);letter-spacing:.1em;text-transform:uppercase}
+.h-right{display:flex;gap:14px}
+.h-field{display:flex;flex-direction:column;gap:4px}
+.h-field label{font-family:'JetBrains Mono',monospace;font-size:7px;color:var(--sage);letter-spacing:.1em;text-transform:uppercase}
+.h-field .hl{border-bottom:1px solid var(--fern);height:18px;min-width:110px}
+
+/* PUPIL SECTION */
+.pupil-section{margin-bottom:22px}
+.ps-head{display:flex;align-items:center;gap:9px;background:var(--parch);border-radius:8px;padding:8px 12px;margin-bottom:14px}
+.ps-badge{background:var(--forest);color:var(--leaf);border-radius:6px;padding:3px 10px;font-family:'JetBrains Mono',monospace;font-size:8px;font-weight:600;letter-spacing:.1em;text-transform:uppercase}
+.ps-title{font-family:'Crimson Pro',serif;font-size:15px;font-weight:700;color:var(--forest)}
+
+/* SCALE */
+.scale-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.scale-label{font-size:12.5px;color:var(--ink);flex:1;line-height:1.4}
+.scale-dots{display:flex;gap:6px;align-items:center}
+.dot-item{display:flex;flex-direction:column;align-items:center;gap:3px}
+.dot{width:24px;height:24px;border-radius:50%;border:2px solid var(--border);background:#fff}
+.dot-num{font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--stone)}
+.scale-anchor{font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--ash);width:50px;text-align:center}
+
+/* REFLECTION LINES */
+.reflect-q{font-size:12.5px;font-weight:600;color:var(--forest);margin-bottom:6px;line-height:1.4}
+.rl{border-bottom:1px solid var(--border);height:22px;margin-bottom:4px;width:100%}
+
+/* TEACHER SECTION */
+.teacher-section{margin-top:20px;padding-top:16px;border-top:2px dashed var(--sand)}
+.ts-head{display:flex;align-items:center;gap:9px;background:var(--forest);border-radius:8px;padding:8px 12px;margin-bottom:14px}
+.ts-head h2{font-family:'Crimson Pro',serif;font-size:15px;font-weight:700;color:#fff}
+.ts-head span{font-family:'JetBrains Mono',monospace;font-size:7.5px;color:var(--sage);margin-left:auto;letter-spacing:.08em;text-transform:uppercase}
+
+/* ASSESSMENT GRID */
+.assess-grid{display:grid;grid-template-columns:1fr auto;gap:12px;margin-bottom:14px}
+.assess-item{background:var(--parch);border-radius:8px;padding:10px 13px;border:1px solid var(--border)}
+.assess-label{font-family:'JetBrains Mono',monospace;font-size:7.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ash);margin-bottom:5px}
+.assess-q{font-size:12px;color:var(--ink);line-height:1.5;margin-bottom:7px}
+.assess-scale{display:flex;gap:5px}
+.as-opt{display:flex;align-items:center;gap:4px;font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--ash)}
+.as-opt input{accent-color:var(--forest)}
+.grade-box{background:var(--parch);border-radius:8px;padding:10px 13px;border:1px solid var(--border);min-width:140px}
+.grade-label{font-family:'JetBrains Mono',monospace;font-size:7.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ash);margin-bottom:8px}
+.grade-circles{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}
+.gc{border:2px solid var(--border);border-radius:6px;padding:5px 4px;text-align:center;background:#fff}
+.gc-letter{font-family:'Crimson Pro',serif;font-size:16px;font-weight:700;color:var(--forest)}
+.gc-desc{font-family:'JetBrains Mono',monospace;font-size:7px;color:var(--stone)}
+
+/* COMMENTS */
+.comment-box{background:#fff;border:1.5px solid var(--border);border-radius:8px;min-height:60px;padding:8px 10px;margin-bottom:8px;font-family:'Inter',sans-serif;font-size:12px}
+
+/* DSL FLAG */
+.dsl-flag{display:flex;align-items:center;gap:10px;background:var(--coralt);border:1.5px solid var(--coral);border-radius:8px;padding:10px 13px;margin-top:10px}
+.dsl-flag input[type="checkbox"]{accent-color:var(--coral);width:16px;height:16px}
+.dsl-flag label{font-size:12px;color:var(--char);line-height:1.5}
+.dsl-flag label strong{color:var(--coral)}
+
+/* FOOTER */
+.footer{margin-top:14px;padding-top:8px;border-top:1px solid var(--border);display:flex;justify-content:space-between}
+.footer p{font-family:'JetBrains Mono',monospace;font-size:7px;color:var(--stone);letter-spacing:.06em;text-transform:uppercase}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="h-left">
+      <h1>Feedback and Self-Assessment</h1>
+      <div class="sub">Guided Childhood &middot; Module 9 &middot; Social Media and the Brain &middot; Year 7&ndash;9</div>
+    </div>
+    <div class="h-right">
+      <div class="h-field"><label>Name</label><div class="hl"></div></div>
+      <div class="h-field"><label>Date</label><div class="hl" style="min-width:80px"></div></div>
+      <div class="h-field"><label>Class</label><div class="hl" style="min-width:70px"></div></div>
+    </div>
+  </div>
+
+  <!-- PUPIL SELF-ASSESSMENT -->
+  <div class="pupil-section">
+    <div class="ps-head">
+      <div class="ps-badge">Pupil</div>
+      <div class="ps-title">Self-Assessment — complete this section yourself</div>
+    </div>
+
+    <p style="font-size:12px;color:var(--ash);margin-bottom:14px;font-style:italic">Be honest. There are no wrong answers here. This is about what you actually understood and what you are genuinely going to do.</p>
+
+    <!-- RATING SCALES -->
+    <div style="margin-bottom:16px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:8px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--fern);margin-bottom:10px">Rate yourself on each — circle the number</div>
+
+      <div class="scale-row">
+        <div class="scale-label">I understand why apps are designed to hold attention (pull to refresh, unpredictable reward, dopamine loop)</div>
+        <div class="scale-anchor">Not yet</div>
+        <div class="scale-dots">
+          <div class="dot-item"><div class="dot"></div><div class="dot-num">1</div></div>
+          <div class="dot-item"><div class="dot"></div><div class="dot-num">2</div></div>
+          <div class="dot-item"><div class="dot"></div><div class="dot-num">3</div></div>
+          <div class="dot-item"><div class="dot"></div><div class="dot-num">4</div></div>
+          <div class="dot-item"><div class="dot"></div><div class="dot-num">5</div></div>
+        </div>
+        <div class="scale-anchor">Completely</div>
+      </div>
+
+      <div class="scale-row">
+        <div class="scale-label">I can explain the difference between a curated social media feed and what real life actually looks like</div>
+        <div class="scale-anchor">Not yet</div>
+        <div class="scale-dots">
+          <div class="dot-item"><div class="dot"></div><div class="dot-num">1</div></div>
+          <div class="dot-item"><div class="dot"></div><div class="dot-num">2</div></div>
+          <div class="dot-item"><div class="dot"></div><div class="dot-num">3</div></div>
+          <div class="dot-item"><div class="dot"></div><div class="dot-num">4</div></div>
+          <div class="dot-item"><div class="dot"></div><div class="dot-num">5</div></div>
+        </div>
+        <div class="scale-anchor">Completely</div>
+      </div>
+
+      <div class="scale-row">
+        <div class="scale-label">I chose a strategy I am genuinely going to try — not just what sounded good to write down</div>
+        <div class="scale-anchor">Honestly, no</div>
+        <div class="scale-dots">
+          <div class="dot-item"><div class="dot"></div><div class="dot-num">1</div></div>
+          <div class="dot-item"><div class="dot"></div><div class="dot-num">2</div></div>
+          <div class="dot-item"><div class="dot"></div><div class="dot-num">3</div></div>
+          <div class="dot-item"><div class="dot"></div><div class="dot-num">4</div></div>
+          <div class="dot-item"><div class="dot"></div><div class="dot-num">5</div></div>
+        </div>
+        <div class="scale-anchor">Definitely yes</div>
+      </div>
+    </div>
+
+    <!-- REFLECTION QUESTIONS -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+      <div>
+        <div class="reflect-q">The most interesting thing I found out today was...</div>
+        <div class="rl"></div><div class="rl"></div><div class="rl"></div>
+      </div>
+      <div>
+        <div class="reflect-q">One thing I will find it hardest to actually change is...</div>
+        <div class="rl"></div><div class="rl"></div><div class="rl"></div>
+      </div>
+    </div>
+
+    <div style="margin-bottom:12px">
+      <div class="reflect-q">One thing I wish the lesson had covered, or a question I still have:</div>
+      <div class="rl"></div><div class="rl"></div>
+    </div>
+
+    <!-- WELLBEING CHECK -->
+    <div style="background:var(--mint);border:1.5px solid var(--leaf);border-radius:8px;padding:11px 14px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:8px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--fern);margin-bottom:8px">Optional — only complete this if you want to</div>
+      <p style="font-size:12px;color:var(--char);margin-bottom:8px;line-height:1.55">Is there anything about your own experience online — how you feel after using apps, contacts you're worried about, anything you saw — that you would like to talk to someone about? You don't have to share details here.</p>
+      <div style="display:flex;gap:16px">
+        <label style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--char);cursor:pointer">
+          <input type="radio" name="wbcheck" style="accent-color:var(--fern)"> Yes — I'd like to speak to someone
+        </label>
+        <label style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--char);cursor:pointer">
+          <input type="radio" name="wbcheck" style="accent-color:var(--fern)"> No — I'm fine
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEACHER FEEDBACK SECTION -->
+  <div class="teacher-section">
+    <div class="ts-head">
+      <h2>Teacher Feedback</h2>
+      <span>Complete before returning worksheets</span>
+    </div>
+
+    <div class="assess-grid">
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div class="assess-item">
+          <div class="assess-label">Knowledge — variable reward mechanism</div>
+          <div class="assess-q">Does the pupil's worksheet demonstrate understanding of pull to refresh, unpredictable reward, and dopamine anticipation?</div>
+          <div class="assess-scale">
+            <label class="as-opt"><input type="radio" name="k1"> Developing</label>
+            <label class="as-opt"><input type="radio" name="k1"> Secure</label>
+            <label class="as-opt"><input type="radio" name="k1"> Extended</label>
+          </div>
+        </div>
+        <div class="assess-item">
+          <div class="assess-label">Understanding — comparison and research</div>
+          <div class="assess-q">Does the feed analysis and sentence completion show the pupil understands the difference between curated and real life?</div>
+          <div class="assess-scale">
+            <label class="as-opt"><input type="radio" name="k2"> Developing</label>
+            <label class="as-opt"><input type="radio" name="k2"> Secure</label>
+            <label class="as-opt"><input type="radio" name="k2"> Extended</label>
+          </div>
+        </div>
+        <div class="assess-item">
+          <div class="assess-label">Application — strategy quality</div>
+          <div class="assess-q">Does the pupil's chosen strategy and rationale suggest genuine intention to act, or surface compliance?</div>
+          <div class="assess-scale">
+            <label class="as-opt"><input type="radio" name="k3"> Surface</label>
+            <label class="as-opt"><input type="radio" name="k3"> Genuine</label>
+            <label class="as-opt"><input type="radio" name="k3"> Thoughtful</label>
+          </div>
+        </div>
+      </div>
+      <div class="grade-box">
+        <div class="grade-label">Overall level</div>
+        <div class="grade-circles">
+          <div class="gc"><div class="gc-letter">D</div><div class="gc-desc">Developing</div></div>
+          <div class="gc"><div class="gc-letter">S</div><div class="gc-desc">Secure</div></div>
+          <div class="gc"><div class="gc-letter">E</div><div class="gc-desc">Extended</div></div>
+        </div>
+        <div style="margin-top:10px">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:7.5px;color:var(--ash);text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px">Follow-up needed</div>
+          <label style="display:flex;align-items:center;gap:7px;font-size:11.5px;color:var(--char);cursor:pointer"><input type="checkbox" style="accent-color:var(--fern)"> Wellbeing check</label>
+          <label style="display:flex;align-items:center;gap:7px;font-size:11.5px;color:var(--char);margin-top:4px;cursor:pointer"><input type="checkbox" style="accent-color:var(--fern)"> Deeper discussion</label>
+          <label style="display:flex;align-items:center;gap:7px;font-size:11.5px;color:var(--char);margin-top:4px;cursor:pointer"><input type="checkbox" style="accent-color:var(--fern)"> DSL referral</label>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-bottom:10px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:7.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ash);margin-bottom:5px">Strengths</div>
+      <div class="comment-box"></div>
+    </div>
+    <div style="margin-bottom:10px">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:7.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ash);margin-bottom:5px">Development / next steps</div>
+      <div class="comment-box"></div>
+    </div>
+
+    <div class="dsl-flag">
+      <input type="checkbox" id="dsl-check">
+      <label for="dsl-check"><strong>Safeguarding concern identified.</strong> Complete Form GC-DSL-001 and submit to the DSL before end of day. Do not record details here.</label>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr 0.6fr;gap:14px;margin-top:14px">
+      <div style="display:flex;flex-direction:column;gap:3px">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:7.5px;color:var(--stone);letter-spacing:.08em;text-transform:uppercase">Teacher signature</span>
+        <div style="border-bottom:1.5px solid var(--ink);height:26px"></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:3px">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:7.5px;color:var(--stone);letter-spacing:.08em;text-transform:uppercase">Printed name</span>
+        <div style="border-bottom:1.5px solid var(--ink);height:26px"></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:3px">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:7.5px;color:var(--stone);letter-spacing:.08em;text-transform:uppercase">Date returned</span>
+        <div style="border-bottom:1.5px solid var(--ink);height:26px"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>Guided Childhood &middot; Feedback Sheet &middot; Module 9 &middot; Social Media and the Brain</p>
+    <p>guidedchildhood.co.uk &middot; &copy; 2026</p>
+  </div>
+
+</div>
+</body>
+</html>

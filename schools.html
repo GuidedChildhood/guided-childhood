@@ -20,7 +20,7 @@
 <meta name="twitter:description" content="Guide your child's digital childhood from age 4 to 16. Scripts, AI advisor, school curriculum.">
 <meta name="twitter:image" content="https://guidedchildhood.co.uk/og-image.jpg">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebApplication","name":"Guided Childhood","description":"The UK platform guiding children through every stage of digital life from age 4 to 16","url":"https://guidedchildhood.co.uk","applicationCategory":"LifestyleApplication","offers":{"@type":"Offer","price":"12.99","priceCurrency":"GBP"},"author":{"@type":"Person","name":"Justin Phillips","worksFor":{"@type":"Organization","name":"The Social Billboard"}}}
+{"@context":"https://schema.org","@type":"WebApplication","name":"Guided Childhood","description":"The UK platform guiding children through every stage of digital life from age 4 to 16","url":"https://guidedchildhood.co.uk","applicationCategory":"LifestyleApplication","offers":{"@type":"Offer","price":"12.99","priceCurrency":"GBP"},"author":{"@type":"Person","name":"Justin Phillips","worksFor":{"@type":"Organization","name":"Guided Childhood"}}}
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,37 +29,37 @@
 <style>
 :root{
   /* Checker-aligned design system — one product, one look */
-  --cream:    #F7F3EE;   /* main bg — checker cream */
-  --cream-2:  #FDFBF8;   /* section alt — checker warm */
-  --cream-3:  #EFE9DF;   /* card surfaces */
-  --white:    #FDFBF8;
+  --cream:    #FFFFFF;   /* main bg — white, matches parent site */
+  --cream-2:  #FAFAF8;   /* section alt */
+  --cream-3:  #F2F0EB;   /* card surfaces */
+  --white:    #FFFFFF;
 
-  --ink:      #1C1C1C;
+  --ink:      #1A1A1A;
   --ink-soft: #4A4A4A;
-  --ink-muted:#6E6A62;
-  --ink-light:#9B958A;
+  --ink-muted:#7A7570;
+  --ink-light:#A8A39D;
 
-  --green:    #AFDCA2;   /* checker green-block */
-  --green-dark:#2E7D5A;  /* checker green-deep */
-  --green-lt: #EEF7F2;
-  --green-b:  #D3ECD9;
+  --green:    #D6E8FA;   /* much lighter pastel blue */
+  --green-dark:#5B8DC4;  /* deeper blue for text/icons on light bg */
+  --green-lt: #F4F9FE;
+  --green-b:  #E8F1FC;
 
-  --coral:    #D4600A;   /* checker high */
-  --coral-lt: #FEF3E8;
-  --coral-b:  rgba(212,96,10,0.25);
-  --coral-dark:#C0392B;  /* checker critical */
+  --coral:    #E07050;
+  --coral-lt: #FDF1EC;
+  --coral-b:  rgba(224,112,80,0.22);
+  --coral-dark:#C8532E;
 
-  --gold:     #F2C94C;   /* checker yellow — primary CTA */
-  --gold-lt:  #FEFAE8;
-  --gold-b:   rgba(242,201,76,0.35);
-  --gold-dark:#C9962A;
-  --gold-hover:#E3B53A;  /* checker yellow-deep */
+  --gold:     #F5C842;
+  --gold-lt:  #FFFAEC;
+  --gold-b:   rgba(245,200,66,0.3);
+  --gold-dark:#C49A1A;
+  --gold-hover:#E8B830;
 
-  --lav:      #E7ECF8;   /* checker lavender */
-  --lav-line: #D3DCF1;
-  --lav-deep: #3D5BA9;
+  --lav:      #EAF0FF;
+  --lav-line: #D5E0FA;
+  --lav-deep: #4A65C0;
 
-  --border:   #E4DFD7;
+  --border:   #E8E4DE;
 
   --serif:    'Hanken Grotesk',system-ui,sans-serif;
   --sans:     'Hanken Grotesk',system-ui,sans-serif;
@@ -439,7 +439,7 @@ footer{background:var(--cream-2);border-top:1px solid var(--border);padding:36px
 <!-- ANNOUNCEMENT BAR — Good Inside urgency strip -->
 <div id="announce-bar" style="background:var(--green-lt);border-bottom:1px solid var(--green-b);padding:9px 20px;display:flex;align-items:center;gap:10px">
   <span style="font-family:var(--sans);font-size:.75rem;font-weight:600;color:var(--ink-soft);flex:1;min-width:0">The UK under-16 social media law is here. <strong style="color:var(--ink)">Get children ready for what comes next.</strong></span>
-  <button onclick="window.open('https://mailchi.mp/thesocialbillboard/school','_blank')" style="background:var(--coral);color:#fff;border:none;font-family:var(--sans);font-weight:700;font-size:.72rem;padding:6px 14px;border-radius:100px;cursor:pointer;white-space:nowrap;flex-shrink:0">Get Free Assembly Pack</button>
+  <button onclick="window.open('https://mailchi.mp/thesocialbillboard/school','_blank')" style="background:var(--coral);color:#fff;border:none;font-family:var(--sans);font-weight:700;font-size:.72rem;padding:6px 14px;border-radius:100px;cursor:pointer;white-space:nowrap;flex-shrink:0">Book a Pilot</button>
   <button onclick="document.getElementById('announce-bar').style.display='none'" style="background:none;border:none;font-size:1rem;cursor:pointer;color:var(--ink-muted);flex-shrink:0;padding:0 2px">&#215;</button>
 </div>
 
@@ -456,7 +456,7 @@ footer{background:var(--cream-2);border-top:1px solid var(--border);padding:36px
     <a class="nav-btn" href="/teacher-login">Teacher Login</a>
   </div>
   <div class="nav-r">
-    <button class="btn-nav" onclick="window.open('https://mailchi.mp/thesocialbillboard/school','_blank')">Get Free Assembly Pack</button>
+    <button class="btn-nav" onclick="window.open('https://mailchi.mp/thesocialbillboard/school','_blank')">Book a Pilot</button>
   </div>
 </nav>
 
@@ -464,14 +464,14 @@ footer{background:var(--cream-2);border-top:1px solid var(--border);padding:36px
 
 <!-- HERO -->
 <section class="hero" id="schools-hero" style="min-height:auto;padding:64px 32px 60px;scroll-margin-top:90px"><span id="schools-anchor" style="position:absolute"></span>
-  <div class="hero-pill fu d1"><span class="pill-dot"></span>For Headteachers &middot; DSLs &middot; PSHE Leads</div>
-  <h1 class="h1 fu d2" style="font-size:clamp(2.2rem,4.5vw,4rem)">Everything teachers need.<br>Ready to use <em>tomorrow</em>.</h1>
-  <p class="hero-sub fu d3" style="max-width:520px">A complete digital literacy programme from EYFS to Sixth Form. School buys the licence. Teachers log in. Lessons are ready to teach. No preparation required.</p>
+  <div class="hero-pill fu d1"><span class="pill-dot"></span>Digital Literacy &middot; PSHE &middot; Online Safety &middot; EYFS to Sixth Form</div>
+  <h1 class="h1 fu d2" style="font-size:clamp(2.2rem,4.5vw,4rem)">Helping every child navigate<br>digital life <em>safely</em>.</h1>
+  <p class="hero-sub fu d3" style="max-width:520px">A whole-school digital literacy programme from EYFS to Year 13. Evidence-informed, fully resourced, and ready to teach. Saves teachers time. Reaches families at home.</p>
   <div class="hero-btns fu d4">
-    <button class="btn" onclick="window.open('https://mailchi.mp/thesocialbillboard/school','_blank')">Get Free Assembly Pack &#8594;</button>
-    <button class="btn-out" onclick="go('school-content')">See What Is Included</button>
+    <button class="btn" onclick="window.open('https://mailchi.mp/thesocialbillboard/school','_blank')">Book a Pilot &#8594;</button>
+    <button class="btn-out" onclick="go('school-content')">Access Free Resources</button>
   </div>
-  <p class="hero-note fu d4">From £299 per year &nbsp;&#183;&nbsp; All teacher logins included &nbsp;&#183;&nbsp; No prep required</p>
+  <p class="hero-note fu d4">From £299 per year &nbsp;&#183;&nbsp; All teachers included &nbsp;&#183;&nbsp; Parents informed every lesson</p>
   <div class="press-strip fu d5">
     <span class="press-label">Aligned with</span>
     <span class="press-badge">Online Safety Act 2023</span>
@@ -502,71 +502,72 @@ footer{background:var(--cream-2);border-top:1px solid var(--border);padding:36px
 </div>
 
 <!-- SCHOOL CONTENT -->
-<section class="sec sec-alt" id="school-content">
+<section class="sec sec-green" id="school-content">
   <div class="inner">
     <div class="tc" style="margin-bottom:36px">
-      <span class="eye eye-c">Why schools choose Guided Childhood</span>
-      <h2 class="h2">Built for real classrooms.<br><em>Not just on paper.</em></h2>
+      <span class="eye eye-c" style="color:var(--green-dark)">Why schools choose Guided Childhood</span>
+      <h2 class="h2" style="font-weight:800">Benefits of choosing<br><em>Guided Childhood</em>.</h2>
     </div>
 
-    <!-- BENEFITS — Jigsaw style -->
+    <!-- BENEFITS — Jigsaw strategy: time saved first, child outcome second, compliance third -->
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:36px">
 
-      <div style="background:#fff;border:1px solid var(--border);border-radius:12px;padding:22px 20px">
+      <div style="background:#fff;border:1px solid rgba(0,0,0,.04);border-radius:12px;padding:22px 20px;box-shadow:0 4px 16px rgba(0,0,0,.05)">
         <div style="font-size:1.6rem;margin-bottom:10px">⏱</div>
-        <div style="font-weight:700;font-size:.95rem;color:var(--ink);margin-bottom:5px">No preparation required</div>
-        <p style="font-size:.84rem;color:var(--ink-soft);line-height:1.65">Lesson plans, slides, worksheets, and parent notes are ready when teachers log in. Open and teach.</p>
+        <div style="font-weight:800;font-size:.95rem;color:var(--ink);margin-bottom:5px">Saves teachers valuable time</div>
+        <p style="font-size:.84rem;color:var(--ink-soft);line-height:1.65">Lesson plans, slides, worksheets, and parent notes all ready when teachers log in. No preparation required.</p>
       </div>
 
-      <div style="background:#fff;border:1px solid var(--border);border-radius:12px;padding:22px 20px">
-        <div style="font-size:1.6rem;margin-bottom:10px">🏫</div>
-        <div style="font-weight:700;font-size:.95rem;color:var(--ink);margin-bottom:5px">One licence. Every teacher included.</div>
-        <p style="font-size:.84rem;color:var(--ink-soft);line-height:1.65">The school buys once. Every teacher in the building gets their own login. No per-seat fees.</p>
+      <div style="background:#fff;border:1px solid rgba(0,0,0,.04);border-radius:12px;padding:22px 20px;box-shadow:0 4px 16px rgba(0,0,0,.05)">
+        <div style="font-size:1.6rem;margin-bottom:10px">💪</div>
+        <div style="font-weight:800;font-size:.95rem;color:var(--ink);margin-bottom:5px">Builds confident, resilient pupils</div>
+        <p style="font-size:.84rem;color:var(--ink-soft);line-height:1.65">Children leave each lesson with one clear, specific action. Not a list of rules. A skill they can use tonight.</p>
       </div>
 
-      <div style="background:#fff;border:1px solid var(--border);border-radius:12px;padding:22px 20px">
+      <div style="background:#fff;border:1px solid rgba(0,0,0,.04);border-radius:12px;padding:22px 20px;box-shadow:0 4px 16px rgba(0,0,0,.05)">
         <div style="font-size:1.6rem;margin-bottom:10px">🏠</div>
-        <div style="font-weight:700;font-size:.95rem;color:var(--ink);margin-bottom:5px">School learning extends into the home.</div>
-        <p style="font-size:.84rem;color:var(--ink-soft);line-height:1.65">Every lesson includes a parent note. What you teach on Monday, families can reinforce that evening.</p>
+        <div style="font-weight:800;font-size:.95rem;color:var(--ink);margin-bottom:5px">Reaches families at home</div>
+        <p style="font-size:.84rem;color:var(--ink-soft);line-height:1.65">Every lesson includes a parent note. What you teach on Monday, families reinforce that evening. Unique to Guided Childhood.</p>
       </div>
 
-      <div style="background:#fff;border:1px solid var(--border);border-radius:12px;padding:22px 20px">
+      <div style="background:#fff;border:1px solid rgba(0,0,0,.04);border-radius:12px;padding:22px 20px;box-shadow:0 4px 16px rgba(0,0,0,.05)">
         <div style="font-size:1.6rem;margin-bottom:10px">📋</div>
-        <div style="font-weight:700;font-size:.95rem;color:var(--ink);margin-bottom:5px">Ofsted evidence, ready to print.</div>
+        <div style="font-weight:800;font-size:.95rem;color:var(--ink);margin-bottom:5px">Ofsted evidence, ready to print</div>
         <p style="font-size:.84rem;color:var(--ink-soft);line-height:1.65">One document maps every lesson to every statutory requirement. Hand it to an inspector with confidence.</p>
       </div>
 
-      <div style="background:#fff;border:1px solid var(--border);border-radius:12px;padding:22px 20px">
+      <div style="background:#fff;border:1px solid rgba(0,0,0,.04);border-radius:12px;padding:22px 20px;box-shadow:0 4px 16px rgba(0,0,0,.05)">
         <div style="font-size:1.6rem;margin-bottom:10px">🔬</div>
-        <div style="font-weight:700;font-size:.95rem;color:var(--ink);margin-bottom:5px">Evidence-informed. Research-backed.</div>
-        <p style="font-size:.84rem;color:var(--ink-soft);line-height:1.65">Built on Orben, Odgers, Przybylski, and Livingstone. Not opinion — peer-reviewed evidence translated into classroom practice.</p>
+        <div style="font-weight:800;font-size:.95rem;color:var(--ink);margin-bottom:5px">Evidence-informed. Research-backed.</div>
+        <p style="font-size:.84rem;color:var(--ink-soft);line-height:1.65">Built on Orben, Odgers, Przybylski, and Livingstone. Peer-reviewed evidence, translated into classroom practice.</p>
       </div>
 
-      <div style="background:#fff;border:1px solid var(--border);border-radius:12px;padding:22px 20px">
+      <div style="background:#fff;border:1px solid rgba(0,0,0,.04);border-radius:12px;padding:22px 20px;box-shadow:0 4px 16px rgba(0,0,0,.05)">
         <div style="font-size:1.6rem;margin-bottom:10px">🛡</div>
-        <div style="font-weight:700;font-size:.95rem;color:var(--ink);margin-bottom:5px">DSL safeguarding built in.</div>
+        <div style="font-weight:800;font-size:.95rem;color:var(--ink);margin-bottom:5px">DSL safeguarding built in</div>
         <p style="font-size:.84rem;color:var(--ink-soft);line-height:1.65">Every lesson has a DSL note. School DiGi answers safeguarding queries any time. Concern forms included.</p>
       </div>
 
     </div>
 
-    <!-- HOW IT WORKS — 4 steps, cleaner -->
-    <div style="background:var(--green-lt);border:1px solid var(--green-b);border-radius:14px;overflow:hidden;margin-bottom:28px">
-      <div style="padding:18px 24px;border-bottom:1px solid var(--green-b)">
+
+    <!-- HOW IT WORKS — 4 steps, white card on blue section -->
+    <div style="background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:14px;overflow:hidden;margin-bottom:28px;box-shadow:0 4px 16px rgba(0,0,0,.05)">
+      <div style="padding:18px 24px;border-bottom:1px solid var(--border)">
         <div style="font-family:var(--mono);font-size:.65rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--green-dark)">How it works</div>
       </div>
       <div class="hiw-row" style="display:grid;grid-template-columns:repeat(4,1fr);gap:0">
-        <div style="padding:18px 20px;border-right:1px solid var(--green-b)">
+        <div style="padding:18px 20px;border-right:1px solid var(--border)">
           <div style="font-family:var(--mono);font-size:.62rem;font-weight:700;color:var(--green-dark);margin-bottom:6px">1</div>
           <div style="font-weight:700;font-size:.88rem;color:var(--ink);margin-bottom:4px">School takes the licence</div>
           <p style="font-size:.78rem;color:var(--ink-soft);line-height:1.6">One decision. Covers every teacher, every year group.</p>
         </div>
-        <div style="padding:18px 20px;border-right:1px solid var(--green-b)">
+        <div style="padding:18px 20px;border-right:1px solid var(--border)">
           <div style="font-family:var(--mono);font-size:.62rem;font-weight:700;color:var(--green-dark);margin-bottom:6px">2</div>
           <div style="font-weight:700;font-size:.88rem;color:var(--ink);margin-bottom:4px">Teachers log in</div>
           <p style="font-size:.78rem;color:var(--ink-soft);line-height:1.6">Filter by year group. Download. Teach.</p>
         </div>
-        <div style="padding:18px 20px;border-right:1px solid var(--green-b)">
+        <div style="padding:18px 20px;border-right:1px solid var(--border)">
           <div style="font-family:var(--mono);font-size:.62rem;font-weight:700;color:var(--green-dark);margin-bottom:6px">3</div>
           <div style="font-weight:700;font-size:.88rem;color:var(--ink);margin-bottom:4px">Lesson goes home</div>
           <p style="font-size:.78rem;color:var(--ink-soft);line-height:1.6">Parent note included with every lesson. No extra work.</p>
@@ -617,9 +618,9 @@ footer{background:var(--cream-2);border-top:1px solid var(--border);padding:36px
     </div>
 
     <!-- WHAT THE CURRICULUM COVERS -->
-    <div style="margin-top:24px;background:var(--cream-3);border-radius:14px;padding:28px 26px">
+    <div style="margin-top:24px;background:#fff;border-radius:14px;padding:28px 26px;box-shadow:0 4px 16px rgba(0,0,0,.05)">
       <div style="font-family:var(--serif);font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:6px">What the curriculum actually covers</div>
-      <p style="font-size:.84rem;color:var(--ink-soft);line-height:1.7;margin-bottom:20px">The research does not separate screen time from behaviour. Neither does this curriculum. Every module addresses the full picture — from the daily routines children struggle with at home, to the digital literacy skills they need as they grow.</p>
+      <p style="font-size:.84rem;color:var(--ink-soft);line-height:1.7;margin-bottom:20px">The research does not separate screen time from behaviour. Neither does this curriculum. Every module covers the daily routines at home and the digital literacy skills children need as they grow.</p>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
         <div>
           <div style="font-family:var(--mono);font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--coral);margin-bottom:10px">Screen behaviour and routines</div>
@@ -639,7 +640,7 @@ footer{background:var(--cream-2);border-top:1px solid var(--border);padding:36px
           <ul style="list-style:none;display:flex;flex-direction:column;gap:6px">
             <li style="font-size:.8rem;color:var(--ink-soft);display:flex;gap:8px"><span style="color:var(--lav-deep);font-weight:700;flex-shrink:0">&#8227;</span>How algorithms work</li>
             <li style="font-size:.8rem;color:var(--ink-soft);display:flex;gap:8px"><span style="color:var(--lav-deep);font-weight:700;flex-shrink:0">&#8227;</span>Social media, group chats, VPNs</li>
-            <li style="font-size:.8rem;color:var(--ink-soft);display:flex;gap:8px"><span style="color:var(--lav-deep);font-weight:700;flex-shrink:0">&#8227;</span>Rules being tested — VPNs, friends' accounts, workarounds</li>
+            <li style="font-size:.8rem;color:var(--ink-soft);display:flex;gap:8px"><span style="color:var(--lav-deep);font-weight:700;flex-shrink:0">&#8227;</span>Rules being tested: VPNs, friends' accounts, workarounds</li>
             <li style="font-size:.8rem;color:var(--ink-soft);display:flex;gap:8px"><span style="color:var(--lav-deep);font-weight:700;flex-shrink:0">&#8227;</span>Privacy and digital reputation</li>
             <li style="font-size:.8rem;color:var(--ink-soft);display:flex;gap:8px"><span style="color:var(--lav-deep);font-weight:700;flex-shrink:0">&#8227;</span>Misinformation and AI content</li>
             <li style="font-size:.8rem;color:var(--ink-soft);display:flex;gap:8px"><span style="color:var(--lav-deep);font-weight:700;flex-shrink:0">&#8227;</span>Grooming and online strangers</li>
@@ -651,7 +652,7 @@ footer{background:var(--cream-2);border-top:1px solid var(--border);padding:36px
     </div>
 
     <div class="school-bar">
-      <div><h4>School DiGi — safeguarding advisor</h4><p>Every educator gets their own DiGi. Safeguarding queries, statutory questions, lesson prep. Available any time. GDPR compliant.</p></div>
+      <div><h4>School DiGi: safeguarding advisor</h4><p>Every educator gets their own DiGi. Safeguarding queries, statutory questions, lesson prep. Available any time. GDPR compliant.</p></div>
       <button class="btn-school" onclick="window.open('https://mailchi.mp/thesocialbillboard/school','_blank')">Learn More</button>
     </div>
   </div>
@@ -787,7 +788,7 @@ footer{background:var(--cream-2);border-top:1px solid var(--border);padding:36px
       <a href="/">For Parents</a><a href="/#stages">Find Your Stage</a><a href="/starter-pack">Free Starter Pack</a>
       <a href="/#pricing">Pricing</a><a href="/#how">How It Works</a><a href="/digitalwellbeing">Wellbeing Tool</a>
     </div>
-    <div class="foot-copy">&copy; 2026 The Social Billboard &middot; Justin Phillips</div>
+    <div class="foot-copy">&copy; 2026 Guided Childhood &middot; Justin Phillips</div>
   </div>
 </footer>
 
