@@ -23,7 +23,7 @@
 html{scroll-behavior:smooth}
 body{background:var(--cream);font-family:var(--sans);color:var(--ink);-webkit-font-smoothing:antialiased}
 .wrap{max-width:580px;margin:0 auto;padding:0 20px 80px}
-.topbar{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;max-width:580px;margin:0 auto}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;max-width:960px;margin:0 auto}
 .logo{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--ink)}
 .logo-mark{width:24px;height:24px;background:var(--green);border-radius:6px}
 .logo-name{font-weight:800;font-size:.95rem;letter-spacing:-.01em}
@@ -43,7 +43,7 @@ body{background:var(--cream);font-family:var(--sans);color:var(--ink);-webkit-fo
 .prog span.on{background:var(--green-dark)}
 .tabs{display:flex;border-bottom:1px solid var(--border);margin:26px 0 20px;overflow-x:auto;-ms-overflow-style:none;scrollbar-width:none}
 .tabs::-webkit-scrollbar{display:none}
-.tab{flex:0 0 auto;font-family:var(--mono);font-size:.66rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-muted);background:none;border:none;border-bottom:2px solid transparent;padding:11px 10px;cursor:pointer;white-space:nowrap;text-align:center}
+.tab{flex:0 0 auto;font-family:var(--mono);font-size:.68rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-muted);background:none;border:none;border-bottom:2px solid transparent;padding:11px 10px;cursor:pointer;white-space:nowrap;text-align:center}
 .tab.on{color:var(--green-dark);border-bottom-color:var(--green-dark)}
 .box{border-radius:14px;padding:16px 18px;margin-bottom:10px;border:1px solid var(--border)}
 .box .lbl{font-family:var(--mono);font-size:.6rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;display:block;margin-bottom:8px}
@@ -54,7 +54,8 @@ p{line-height:1.7}
 .pill{display:inline-block;font-family:var(--mono);font-size:.58rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:4px 11px;border-radius:8px}
 .sig{display:flex;gap:9px;align-items:flex-start;margin-bottom:9px;font-size:.85rem;color:var(--ink-soft);line-height:1.55}
 .sig b{font-family:var(--mono);font-weight:600;flex-shrink:0;margin-top:1px}
-.lbl{font-family:var(--mono);font-size:.6rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;display:block;margin-bottom:8px}
+/* conversation tab */
+.conv-step{background:var(--warm);border:1px solid var(--border);border-radius:14px;padding:16px 18px;margin-bottom:10px}
 .conv-say{background:var(--green-lt);border-left:4px solid var(--green-dark);border-radius:10px;padding:14px 16px;margin:10px 0;font-style:italic;font-size:.95rem;line-height:1.65;color:var(--ink)}
 .conv-resp{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border:1.5px solid var(--border);border-radius:12px;margin-bottom:8px;background:var(--warm)}
 .conv-resp .rl{font-family:var(--mono);font-size:.65rem;font-weight:600;width:22px;height:22px;border-radius:7px;background:var(--cream);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--ink-muted);flex-shrink:0;margin-top:2px}
@@ -62,14 +63,36 @@ p{line-height:1.7}
 .conv-resp .rs{font-size:.82rem;color:var(--ink-soft);font-style:italic;line-height:1.55}
 .conv-agree{background:var(--gold-lt);border:2px dashed var(--gold-dark);border-radius:12px;padding:16px 18px;margin-top:12px}
 .expert-badge{display:inline-flex;align-items:center;font-family:var(--mono);font-size:.57rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:8px;background:var(--lav);color:var(--lav-deep);margin-bottom:12px}
+/* result two-column layout */
+.result-outer{max-width:960px;margin:0 auto;padding:0 20px 80px}
+.result-grid{display:grid;grid-template-columns:minmax(0,1fr) 284px;gap:28px;align-items:start}
+@media(max-width:760px){.result-grid{display:block}}
+.r-main{}
+.sidebar{display:flex;flex-direction:column;gap:12px}
+@media(min-width:761px){
+  .sidebar{position:sticky;top:20px;max-height:calc(100vh - 48px);overflow-y:auto;scrollbar-width:none}
+  .sidebar::-webkit-scrollbar{display:none}
+}
+@media(max-width:760px){.sidebar{margin-top:24px}}
+.sc{background:var(--warm);border:1px solid var(--border);border-radius:16px;padding:18px 20px}
+.sc-lbl{font-family:var(--mono);font-size:.58rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-muted);display:block;margin-bottom:10px}
+.sc-sign{display:flex;gap:8px;align-items:flex-start;font-size:.82rem;color:var(--ink-soft);margin-bottom:7px;line-height:1.5}
+.digi-av{width:52px;height:52px;border-radius:14px;background:var(--green);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:800;font-size:1.3rem;color:var(--green-dark);flex-shrink:0;border:2px solid var(--green-dark)}
+.join-sc{background:var(--gold-lt);border:2px solid var(--gold);border-radius:16px;padding:18px 20px;text-align:center}
+.spots-bar{height:6px;background:var(--border);border-radius:99px;margin:10px 0 14px;overflow:hidden}
+.spots-fill{height:100%;border-radius:99px;background:var(--coral);width:74%}
 </style>
 </head>
 <body>
+
 <div class="topbar">
   <a class="logo" href="/"><span class="logo-mark"></span><span class="logo-name">Guided Childhood</span></a>
   <span class="mono-tag">Free Starter Pack</span>
 </div>
-<div class="wrap">
+
+<div class="wrap" id="quiz-wrap">
+
+  <!-- WELCOME -->
   <div id="s-welcome" class="fade">
     <div style="text-align:center;padding-top:28px">
       <span class="eye" style="background:var(--gold-lt);color:var(--gold-dark);padding:6px 14px;border-radius:10px">Free &middot; 2 minutes</span>
@@ -79,147 +102,490 @@ p{line-height:1.7}
       <p style="font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-light);margin-top:16px">No signup needed &middot; Ages 4 to 16</p>
     </div>
   </div>
+
+  <!-- QUESTIONS -->
   <div id="s-q" class="hide">
     <div class="prog" id="prog"><span></span><span></span><span></span></div>
     <div id="q-body"></div>
   </div>
-  <div id="s-r" class="hide"></div>
+
 </div>
+
+<!-- RESULT sits outside quiz-wrap for wider layout -->
+<div id="s-r" class="hide result-outer"></div>
+
 <script>
-const stages={
-  1:{name:"Foundation",ks:"EYFS & KS1 · Yr R–2",ages:"Ages 4–7",us:"US: K–2",device:"Shared screen only",bar:"var(--green)",wash:"var(--green-lt)",deep:"var(--green-dark)",summary:"Building habits before they become battles. No solo device. Screens are something your family does together.",action:"Co-viewing. Watch together and talk about what you see. Every shared screen moment at this age is a lesson that pays off at thirteen.",script:{title:"When they want their own device",say:"We watch things together in our family. That is how we do it right now. When you are a bit older we will talk about having your own.",not:"You are too young.",why:"The first response gives a timeline and makes it feel considered, not arbitrary. It keeps the door open."},normal:["Excitement about screen time","Preferring screens to other activities sometimes","Occasional upset when a device is taken away"],watch:["Complete inability to stop without major distress, every time","Total loss of interest in activities they previously loved","Sleep regularly disrupted by device use"]},
-  2:{name:"First Steps",ks:"KS2 · Yr 3–5",ages:"Ages 8–10",us:"US: Gr 3–5",device:"Restricted phone or tablet",bar:"var(--lav-deep)",wash:"var(--lav)",deep:"var(--lav-deep)",summary:"The algorithm conversation starts here. Privacy basics. Understanding how the app works before using it unsupervised.",action:"Have the algorithm conversation this week. Search for something together, come back an hour later, and show them how the recommendations changed.",script:{title:"The algorithm conversation",say:"What do you think the app is trying to do? ... Close. It is trying to keep you watching. Those are different things. Watch, I will show you.",not:"Stop watching YouTube. It is rotting your brain.",why:"Once a child understands the algorithm is engineered to keep them watching, they are not a passive user anymore. That understanding is more protective than any rule."},normal:["Curiosity about what older children can access","Wanting apps their friends use","Occasional resistance to stopping"],watch:["Secretiveness beyond normal privacy","Significant mood changes after device use","Preferring online friends to offline ones"]},
-  3:{name:"Explorer",ks:"KS2/KS3 · Yr 6–8",ages:"Ages 11–13",us:"US: Gr 6–8",critical:true,device:"Guided smartphone, no social media yet",bar:"var(--coral)",wash:"var(--coral-lt)",deep:"var(--coral)",summary:"The critical window. Cambridge research identifies 11 to 13 as the peak sensitivity period, especially for girls. The bedroom rule matters most here.",action:"The bedroom rule starts tonight. Devices charge outside the bedroom. For everyone, including parents. It is the single highest-impact action in the system.",script:{title:"Introducing the bedroom rule",say:"We are all doing this as a family. My phone charges in the kitchen tonight. It is not about trust. It is about sleep, and I want to model that for you.",not:"Give me your phone. It charges in here from now on.",why:"The bedroom rule is twice as effective when the parent does it too. You are making a family decision together, not policing your child."},normal:["Wanting the same platforms as friends","Occasional short-lived mood dips after social media","Comparing themselves to peers online"],watch:["Consistent mood drops after every phone session","Sleep disruption three or more nights a week","Distress language in searches or eating changes","Hiding the screen when you walk in"]},
-  4:{name:"Navigator",ks:"KS3/KS4 · Yr 9–10",ages:"Ages 13–15",us:"US: Gr 8–10",device:"Monitored social media, guided access",bar:"var(--gold-dark)",wash:"var(--gold-lt)",deep:"var(--gold-dark)",summary:"Guided access begins. Digital reputation, filter bubbles, and genuine readiness for full access at 16.",action:"Have the digital reputation conversation. What exists about them online is permanent. Universities and employers will see it.",script:{title:"When you find something concerning",say:"I noticed something and I am not angry. I want to understand this with you, not fix it for you.",not:"Give me your phone. I am going through everything.",why:"Surveillance destroys the thing you most need: your child's willingness to come to you. Honesty without punishment keeps them talking."},normal:["Identity exploration online","Time online that feels excessive but is social","Not sharing everything they do online"],watch:["Contact with unknown adults","Requests for money or gift cards","Extreme distress if access is paused"]},
-  5:{name:"Independent",ks:"KS4/KS5 · Yr 11+",ages:"Ages 16+",us:"US: Gr 11+",device:"Full access, trust based",bar:"var(--green-dark)",wash:"var(--green-lt)",deep:"var(--green-dark)",summary:"Full access with genuine readiness. Not a cliff edge. A graduation. AI literacy, data rights, and building things online.",action:"The deepfake conversation and a family code word. AI can clone a voice from three seconds of audio. A code word protects against it. Two minutes to set up.",script:{title:"The deepfake conversation",say:"AI can make a video of anyone saying anything. Before you react to something shocking online, pause and ask: could this be AI? And here is our family code word for real emergencies.",not:"Do not believe anything you see online.",why:"The reflex of pause, question, verify is the most important media literacy skill of the next decade. The code word is practical protection."},normal:["Full social media use and identity exploration","Using AI tools for school and projects","Independent online decisions"],watch:["Deeply disturbing or radicalising content","Big changes tied to online-only relationships","Extreme distress if all access pauses"]}
+const stages = {
+  1:{name:"Foundation", ks:"EYFS & KS1 · Yr R–2", ages:"Ages 4–7", us:"US: K–2",
+     device:"Shared screen only", bar:"var(--green)", wash:"var(--green-lt)", deep:"var(--green-dark)",
+     summary:"Building habits before they become battles. No solo device. Screens are something your family does together.",
+     action:"Co-viewing. Watch together and talk about what you see. Every shared screen moment at this age is a lesson that pays off at thirteen.",
+     script:{title:"When they want their own device",
+       say:"We watch things together in our family. That is how we do it right now. When you are a bit older we will talk about having your own.",
+       not:"You are too young.",
+       why:"The first response gives a timeline and makes it feel considered, not arbitrary. It keeps the door open."},
+     normal:["Excitement about screen time","Preferring screens to other activities sometimes","Occasional upset when a device is taken away"],
+     watch:["Complete inability to stop without major distress, every time","Total loss of interest in activities they previously loved","Sleep regularly disrupted by device use"]},
+  2:{name:"First Steps", ks:"KS2 · Yr 3–5", ages:"Ages 8–10", us:"US: Gr 3–5",
+     device:"Restricted phone or tablet", bar:"var(--lav-deep)", wash:"var(--lav)", deep:"var(--lav-deep)",
+     summary:"The algorithm conversation starts here. Privacy basics. Understanding how the app works before using it unsupervised.",
+     action:"Have the algorithm conversation this week. Search for something together, come back an hour later, and show them how the recommendations changed.",
+     script:{title:"The algorithm conversation",
+       say:"What do you think the app is trying to do? ... Close. It is trying to keep you watching. Those are different things. Watch, I will show you.",
+       not:"Stop watching YouTube. It is rotting your brain.",
+       why:"Once a child understands the algorithm is engineered to keep them watching, they are not a passive user anymore. That understanding is more protective than any rule."},
+     normal:["Curiosity about what older children can access","Wanting apps their friends use","Occasional resistance to stopping"],
+     watch:["Secretiveness beyond normal privacy","Significant mood changes after device use","Preferring online friends to offline ones"]},
+  3:{name:"Explorer", ks:"KS2/KS3 · Yr 6–8", ages:"Ages 11–13", us:"US: Gr 6–8", critical:true,
+     device:"Guided smartphone, no social media yet", bar:"var(--coral)", wash:"var(--coral-lt)", deep:"var(--coral)",
+     summary:"The critical window. Cambridge research identifies 11 to 13 as the peak sensitivity period, especially for girls. The bedroom rule matters most here.",
+     action:"The bedroom rule starts tonight. Devices charge outside the bedroom. For everyone, including parents. It is the single highest-impact action in the system.",
+     script:{title:"Introducing the bedroom rule",
+       say:"We are all doing this as a family. My phone charges in the kitchen tonight. It is not about trust. It is about sleep, and I want to model that for you.",
+       not:"Give me your phone. It charges in here from now on.",
+       why:"The bedroom rule is twice as effective when the parent does it too. You are making a family decision together, not policing your child."},
+     normal:["Wanting the same platforms as friends","Occasional short-lived mood dips after social media","Comparing themselves to peers online"],
+     watch:["Consistent mood drops after every phone session","Sleep disruption three or more nights a week","Distress language in searches or eating changes","Hiding the screen when you walk in"]},
+  4:{name:"Navigator", ks:"KS3/KS4 · Yr 9–10", ages:"Ages 13–15", us:"US: Gr 8–10",
+     device:"Monitored social media, guided access", bar:"var(--gold-dark)", wash:"var(--gold-lt)", deep:"var(--gold-dark)",
+     summary:"Guided access begins. Digital reputation, filter bubbles, and genuine readiness for full access at 16.",
+     action:"Have the digital reputation conversation. What exists about them online is permanent. Universities and employers will see it.",
+     script:{title:"When you find something concerning",
+       say:"I noticed something and I am not angry. I want to understand this with you, not fix it for you.",
+       not:"Give me your phone. I am going through everything.",
+       why:"Surveillance destroys the thing you most need: your child's willingness to come to you. Honesty without punishment keeps them talking."},
+     normal:["Identity exploration online","Time online that feels excessive but is social","Not sharing everything they do online"],
+     watch:["Contact with unknown adults","Requests for money or gift cards","Extreme distress if access is paused"]},
+  5:{name:"Independent", ks:"KS4/KS5 · Yr 11+", ages:"Ages 16+", us:"US: Gr 11+",
+     device:"Full access, trust based", bar:"var(--green-dark)", wash:"var(--green-lt)", deep:"var(--green-dark)",
+     summary:"Full access with genuine readiness. Not a cliff edge. A graduation. AI literacy, data rights, and building things online.",
+     action:"The deepfake conversation and a family code word. AI can clone a voice from three seconds of audio. A code word protects against it. Two minutes to set up.",
+     script:{title:"The deepfake conversation",
+       say:"AI can make a video of anyone saying anything. Before you react to something shocking online, pause and ask: could this be AI? And here is our family code word for real emergencies.",
+       not:"Do not believe anything you see online.",
+       why:"The reflex of pause, question, verify is the most important media literacy skill of the next decade. The code word is practical protection."},
+     normal:["Full social media use and identity exploration","Using AI tools for school and projects","Independent online decisions"],
+     watch:["Deeply disturbing or radicalising content","Big changes tied to online-only relationships","Extreme distress if all access pauses"]}
 };
-const ageMap={"4–7 years old":1,"8–10 years old":2,"11–13 years old":3,"13–15 years old":4,"16 or older":5};
-const challengeNotes={"They want social media or a phone and we are not sure":"You are not against it. You are doing it at the right time. The script below gives you the exact words for that conversation.","Their mood changes after screen time":"You have noticed the most important signal there is. The script below opens that conversation without closing your child down.","They cannot stop using their device":"Stopping is genuinely hard. The app is engineered that way. The pathway below treats this as a design problem to solve together, not a discipline problem.","I think something is wrong but I am not sure what":"Trust that instinct. The warning signs tab below helps you tell normal from worth-a-closer-look, and the script keeps your child talking to you.","We have not really started this conversation yet":"You are starting at exactly the right time. There are more school pickups ahead of you than behind you. Begin with the one action below."};
-const feelNotes={"Behind, I wish we had started earlier":"It is not too late. The pathway starts from wherever you are, not from where you wish you had started.","Overwhelmed, there is too much conflicting advice":"This pack is one consistent, research-backed approach. No conflicting tips. One stage, one action, one script.","Worried, something feels off":"The fastest way to see clearly is the free Digital Health Check. It reads the signals and gives you a plain picture.","Okay, I just want the right next step":"Good. Your next step is below, and it takes one evening.","Good, I want to go deeper":"The full pathway has every stage, 17 scripts and the wellbeing tracker waiting for you."};
-const questions=[
-  {q:"How old is your child?",sub:"If you have more than one, pick the child you are most focused on right now.",opts:["4–7 years old","8–10 years old","11–13 years old","13–15 years old","16 or older"]},
-  {q:"What is the hardest thing right now?",sub:"Choose the one that feels most pressing.",opts:Object.keys(challengeNotes)},
-  {q:"How do you feel about where things stand?",sub:"Be honest. It shapes what your pack focuses on.",opts:Object.keys(feelNotes)}
+
+const ageMap = {"4–7 years old":1,"8–10 years old":2,"11–13 years old":3,"13–15 years old":4,"16 or older":5};
+
+const challengeNotes = {
+  "They want social media or a phone and we are not sure":"You are not against it. You are doing it at the right time. The script below gives you the exact words for that conversation.",
+  "Their mood changes after screen time":"You have noticed the most important signal there is. The script below opens that conversation without closing your child down.",
+  "They cannot stop using their device":"Stopping is genuinely hard. The app is engineered that way. The pathway below treats this as a design problem to solve together, not a discipline problem.",
+  "I think something is wrong but I am not sure what":"Trust that instinct. The warning signs tab below helps you tell normal from worth-a-closer-look, and the script keeps your child talking to you.",
+  "We have not really started this conversation yet":"You are starting at exactly the right time. There are more school pickups ahead of you than behind you. Begin with the one action below."
+};
+
+const feelNotes = {
+  "Behind, I wish we had started earlier":"It is not too late. The pathway starts from wherever you are, not from where you wish you had started.",
+  "Overwhelmed, there is too much conflicting advice":"This pack is one consistent, research-backed approach. No conflicting tips. One stage, one action, one script.",
+  "Worried, something feels off":"The fastest way to see clearly is the free Digital Health Check. It reads the signals and gives you a plain picture.",
+  "Okay, I just want the right next step":"Good. Your next step is below, and it takes one evening.",
+  "Good, I want to go deeper":"The full pathway has every stage, 17 scripts and the wellbeing tracker waiting for you."
+};
+
+const questions = [
+  {q:"How old is your child?", sub:"If you have more than one, pick the child you are most focused on right now.",
+   opts:["4–7 years old","8–10 years old","11–13 years old","13–15 years old","16 or older"]},
+  {q:"What is the hardest thing right now?", sub:"Choose the one that feels most pressing.",
+   opts:Object.keys(challengeNotes)},
+  {q:"How do you feel about where things stand?", sub:"Be honest. It shapes what your pack focuses on.",
+   opts:Object.keys(feelNotes)}
 ];
-const CHALLENGE_TO_ISSUE={"They want social media or a phone and we are not sure":"online-safety","Their mood changes after screen time":"mood-after","They cannot stop using their device":"screen-end","I think something is wrong but I am not sure what":"online-safety","We have not really started this conversation yet":"homework"};
-const STAGE_AGE={1:'young',2:'middle',3:'teen',4:'teen',5:'teen'};
-const CONV={
-'screen-end':{
-young:{experts:'Dr Becky Kennedy · Dr Dan Siegel',method:'Connection before correction',prep:'Give a 5-minute warning while physically close. Bend to their level. Your calm body is the most important tool.',say:'"Screen time is done now. I can see you were right in the middle of something and that is really hard."',A:{h:'They accept it',s:'"You stopped when it was time. That was hard and you did it. That is something to be proud of."'},B:{h:'"Just a bit longer"',s:'"The rule is the same every day so your brain knows what to expect. Let\'s put it down together."'},C:{h:'Meltdown or ignoring',s:'Say nothing. Sit beside them. "I am here. I know." Wait for the body to settle. Then: "That was really hard. Screen time is still done. Let\'s have a snack."'},agree:'"Tomorrow screen time comes after [activity]. Shall we shake on that?"'},
-middle:{experts:'Dr Ross Greene · Dr Dan Siegel',method:'Collaborative Problem Solving',prep:'Set the agreement before the next session, not during it. The conversation is easier at a calm moment.',say:'"Time\'s up. I know — I could see you were right in the middle of something."',A:{h:'They accept it',s:'"You respected that. Can we agree: when the timer goes, it goes? I\'ll always give a five-minute warning."'},B:{h:'"Just 10 more mins"',s:'"I get it. But if I shift the rule today, your brain stops trusting the signal. The timer means done. What\'s one thing you\'re looking forward to after?"'},C:{h:'Anger or storming off',s:'Give 5 to 10 minutes. Then: "I know you\'re still annoyed. The answer is still no. I love you." Later: "Can we talk about what makes stopping hard?"'},agree:'"When the timer goes, it goes. Five-minute warning always given. Review it if it is not working."'},
-teen:{experts:'Dr Ross Greene · Dr Dan Siegel',method:'Collaborative agreement, not imposed rule',prep:'The rule must be built together at a genuinely calm moment first.',say:'"Time\'s up. I know that\'s annoying mid-session."',A:{h:'They comply',s:'"Appreciated." Simple — teens find over-praise condescending.'},B:{h:'Negotiating',s:'"Okay, make your case. You have one minute." Then: "I heard you. The rule still stands tonight. Let\'s revisit it at the weekend."'},C:{h:'Refusing or blow-up',s:'"I am not doing this now. We will talk when things are calm." Next day: "I want us to make an agreement that actually works for both of us."'},agree:'"What would feel fair to you? Here is my concern: sleep, school, real life. Can we find something that works for both of us?"'}
-},
-'homework':{
-young:{experts:'Dr Becky Kennedy · Sue Atkins',method:'Routine as family identity',prep:'Introduce it as what your family does, not a rule imposed on them.',say:'"In our family, homework comes before screens. That is just how we do it — like eating before pudding. Let\'s get it done and then you can have what you want."',A:{h:'They do it',s:'"You did homework first and now you get your screen time. That is exactly how it works."'},B:{h:'"I\'ll do it after"',s:'"In our family it comes first. Let\'s sit together. I\'ll be right here."'},C:{h:'Refusing or meltdown',s:'"You seem really done in. Are you hungry? Let\'s have a snack first, then we will do homework together."'},agree:'"Every day: home then snack then homework then screens. Can you tell me the order back to me?"'},
-middle:{experts:'Dr Ross Greene · Dr Dan Siegel',method:'Curiosity before enforcement',prep:'Resistance is often information about anxiety, difficulty, or overwhelm. Ask first, enforce second.',say:'"Homework now, then screens. I\'ll leave you to it — shout if you get stuck."',A:{h:'They get on with it',s:'"Done and dusted. Now it is out of the way."'},B:{h:'Stalling',s:'"I notice you are not starting. Is there something difficult about it, or do you just not want to do it right now?"'},C:{h:'Flat refusal',s:'"Something is going on. What is making homework feel impossible today?" Listen. Then find the overlap.'},agree:'"What time works best — right after school, or after a break? It needs to be done by a reasonable hour. Can we find something in there?"'},
-teen:{experts:'Dr Ross Greene · Dr Dan Siegel',method:'Hand them ownership, hold the concern',prep:'You cannot make a teenager do homework. The relationship is the only lever you have.',say:'"I am not going to nag you. Here is my concern: I do not want it to get to midnight and you are stressed and behind. How do you want to handle it?"',A:{h:'They have a plan',s:'"Sounds good. I\'ll leave you to it. Shout if you need anything."'},B:{h:'Dismissive',s:'"My concern is: if it does not get done tonight, tomorrow is harder. I am going to leave it with you."'},C:{h:'Anxiety or overwhelm',s:'"Put the homework down. Something is going on. Tell me what is making this feel impossible."'},agree:'"You manage your own homework — I trust you. Screens need a reasonable cut-off in the evenings. What can we agree on?"'}
-},
-'mood-after':{
-young:{experts:'Dr Dan Siegel · Dr Becky Kennedy',method:'Biology, not bad behaviour',prep:'The nervous system is genuinely downshifting after stimulation. This is real. It is not defiance.',say:'"Your brain has been really active in there. It needs a minute to settle. That is normal. Let\'s have a snack and sit quietly."',A:{h:'Settles within 20 minutes',s:'Normal. Keep a consistent post-screen routine — snack, quiet, outdoor time.'},B:{h:'Grumpy for an hour or more',s:'"We are going to try something. After screens we will do something physical to help your body switch gears."'},C:{h:'Distress or big reactions',s:'"I can see you are having a really hard time. Come here." No screens, just presence. Later: "Was anything in it scary or upsetting?"'},agree:'"After screens we always do snack and then something physical. Every time. That helps your brain come back to calm."'},
-middle:{experts:'Dr Dan Siegel · Catherine Knibbs',method:'The mood change is information',prep:'Find out what they are consuming and who they are talking to. Volume matters less than content and context.',say:'"You seem a bit off since you put the phone down. That is not a criticism — I just notice it. Are you okay?"',A:{h:'"I\'m fine"',s:'"Okay. I am here if you do want to talk. No pressure." Check in tomorrow, not tonight.'},B:{h:'Something happened',s:'"Tell me what happened. I am just going to listen first, not fix it." Listen fully. No interruptions.'},C:{h:'Repeated pattern',s:'"I have noticed that most evenings you seem down after your phone. I want to understand what is going on, because I care about you."'},agree:'"Can we check in once a week about how things are going online? Not an interrogation — just fifteen minutes."'},
-teen:{experts:'Catherine Knibbs · Dr Becky Kennedy',method:'The person, not the phone',prep:'Do not start with the device. Start with your child. The mood shift may be telling you something important.',say:'"You seem really flat lately, and I notice it often happens after you come off your phone. I am not saying that to accuse you. I am worried about you."',A:{h:'"I\'m fine"',s:'"Okay. I am not going to push. I want you to know I am here and I will not overreact if you do tell me something."'},B:{h:'Opens up',s:'"Thank you for telling me that." Listen fully. "That sounds really hard. What do you need from me?"'},C:{h:'Signs of something serious',s:'"I am worried. I am not angry. Can we see the doctor together? Not because something is wrong with you — because I want you to have more support than just me."'},agree:'"Once a week, no agenda. You do not have to talk. The door is always open."'}
-},
-'online-safety':{
-young:{experts:'Sue Atkins · Dr Becky Kennedy',method:'Competence, not fear',prep:'Use "what would you do if" questions, not warnings. Start before there is a problem.',say:'"If someone you did not know asked you for your name or address online — what would you do? There is no wrong answer, I just want to know what you think."',A:{h:'Good instincts',s:'"That is exactly right. And you can always come and tell me — even if you are not sure, even if you did something you were not supposed to."'},B:{h:'Unsure',s:'"Our family rule: if anyone online wants your name, address, or a photo — the answer is always no, and you come and tell me. Always."'},C:{h:'Something has already happened',s:'"Tell me everything. I am not going to be cross with you." Then: "You did the right thing telling me. We are going to sort this out together."'},agree:'"Anything weird, scary, or confusing online — you tell me straight away. I will never be angry at you for telling me."'},
-middle:{experts:'Catherine Knibbs · Dr Dan Siegel',method:'Build competence not fear',prep:'Ages 8 to 11 are highest risk. Curiosity-based questions activate reasoning, not fear.',say:'"I want to talk to you about something important, and I want to know what you think — not just tell you what I think. Are you up for that?"',A:{h:'Unknown contact or message',s:'"Tell me everything about this person. What have they asked? What have you told them?" Block and report together.'},B:{h:'Upsetting content',s:'"Tell me about it. All of it — you are not in trouble. What did it feel like when you saw it?"'},C:{h:'Peer conflict online',s:'"That sounds really awful. Tell me what happened from the beginning. I am just going to listen first."'},agree:'"Anything uncomfortable online — you tell me first. Telling me protects your access. Hiding it is the only thing that risks it."'},
-teen:{experts:'Catherine Knibbs · Dr Becky Kennedy',method:'The relationship is the only safeguard',prep:'Filters and monitoring are secondary. The relationship that makes them want to tell you is everything.',say:'"I want to understand your experience online. And I want you to know you can come to me with anything. Anything. I will not overreact."',A:{h:'Someone making them uncomfortable',s:'"Tell me what has been happening. How is it making you feel?" Then: "What do you want to do about it?"'},B:{h:'Something serious they have seen',s:'"Thank you for telling me. Before we do anything — how are you? Tell me how you feel about what you saw."'},C:{h:'An image or privacy issue',s:'"I am not angry. I need to understand what happened so we can sort it together. Tell me everything."'},agree:'"Whatever happens online — I want to be your first call. I will not take your device away as a punishment for coming to me."'}
-}
+
+const CHALLENGE_TO_ISSUE = {
+  "They want social media or a phone and we are not sure": "online-safety",
+  "Their mood changes after screen time": "mood-after",
+  "They cannot stop using their device": "screen-end",
+  "I think something is wrong but I am not sure what": "online-safety",
+  "We have not really started this conversation yet": "homework"
 };
-function renderConvTab(stageId,challenge){
-const issueKey=CHALLENGE_TO_ISSUE[challenge]||'screen-end';
-const ageKey=STAGE_AGE[stageId]||'middle';
-const d=CONV[issueKey]&&CONV[issueKey][ageKey];
-if(!d)return '<p style="color:var(--ink-muted);font-size:.9rem">Full conversation scripts available on the platform.</p>';
-return `<div class="expert-badge">${d.experts}</div>
-<h2 style="font-size:1.05rem;margin-bottom:4px">${d.method}</h2>
-<p style="font-size:.82rem;color:var(--ink-muted);margin-bottom:14px">${d.prep}</p>
-<div class="conv-say">${d.say}</div>
-<p style="font-family:var(--mono);font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-muted);margin:14px 0 10px">How do they respond?</p>
-<div class="conv-resp"><span class="rl">A</span><div><div class="rh">${d.A.h}</div><div class="rs">${d.A.s}</div></div></div>
-<div class="conv-resp"><span class="rl">B</span><div><div class="rh">${d.B.h}</div><div class="rs">${d.B.s}</div></div></div>
-<div class="conv-resp"><span class="rl">C</span><div><div class="rh">${d.C.h}</div><div class="rs">${d.C.s}</div></div></div>
-<div class="conv-agree"><span class="lbl" style="color:var(--gold-dark);padding:0;border:none">The agreement to make</span><p style="font-size:.95rem;font-style:italic;color:var(--ink);font-weight:600;line-height:1.6">${d.agree}</p></div>
-<div style="margin-top:14px;padding:14px 16px;background:var(--warm);border:1px solid var(--border);border-radius:12px;text-align:center">
-<p style="font-size:.82rem;color:var(--ink-soft);margin-bottom:8px">The full conversation tree walks through every possible response, step by step.</p>
-<a href="/scripts" style="font-family:var(--mono);font-size:.78rem;font-weight:600;color:var(--green-dark);text-decoration:none">See the full conversation script &rarr;</a>
-</div>`;
+const STAGE_AGE = {1:'young',2:'middle',3:'teen',4:'teen',5:'teen'};
+
+const CONV = {
+  'screen-end':{
+    young:{
+      experts:'Dr Becky Kennedy · Dr Dan Siegel',
+      method:'Connection before correction',
+      prep:'Give a 5-minute warning while physically close. Bend to their level. Your calm body is the most important tool.',
+      say:'"Screen time is done now. I can see you were right in the middle of something and that is really hard."',
+      A:{h:'They accept it',s:'"You stopped when it was time. That was hard and you did it. That is something to be proud of."'},
+      B:{h:'"Just a bit longer"',s:'"The rule is the same every day so your brain knows what to expect. Let\'s put it down together."'},
+      C:{h:'Meltdown or ignoring',s:'Say nothing. Sit beside them. "I am here. I know." Wait for the body to settle. Then: "That was really hard. Screen time is still done. Let\'s have a snack."'},
+      agree:'"Tomorrow screen time comes after [activity]. Shall we shake on that?"'
+    },
+    middle:{
+      experts:'Dr Ross Greene · Dr Dan Siegel',
+      method:'Collaborative Problem Solving',
+      prep:'Set the agreement before the next session, not during it. The conversation is easier at a calm moment.',
+      say:'"Time\'s up. I know — I could see you were right in the middle of something."',
+      A:{h:'They accept it',s:'"You respected that. Can we agree: when the timer goes, it goes? I\'ll always give a five-minute warning."'},
+      B:{h:'"Just 10 more mins"',s:'"I get it. But if I shift the rule today, your brain stops trusting the signal. The timer means done. What\'s one thing you\'re looking forward to after?"'},
+      C:{h:'Anger or storming off',s:'Give 5 to 10 minutes. Then: "I know you\'re still annoyed. The answer is still no. I love you." Later, calmly: "Can we talk about what makes stopping hard?"'},
+      agree:'"When the timer goes, it goes. Five-minute warning always given. Review it if it is not working."'
+    },
+    teen:{
+      experts:'Dr Ross Greene · Dr Dan Siegel',
+      method:'Collaborative agreement, not imposed rule',
+      prep:'The rule must be built together — not imposed. Have that conversation at a genuinely calm moment first.',
+      say:'"Time\'s up. I know that\'s annoying mid-session."',
+      A:{h:'They comply',s:'"Appreciated." Simple acknowledgement — teens find over-praise condescending.'},
+      B:{h:'Negotiating',s:'"Okay, make your case. You have one minute." Then: "I heard you. The rule still stands tonight. Let\'s revisit the agreement at the weekend."'},
+      C:{h:'Refusing or blow-up',s:'"I am not doing this now. We will talk when things are calm." Next day: "I want us to make an agreement that actually works for both of us."'},
+      agree:'"What would feel fair to you? Here is my concern: sleep, school, real life. Can we find something that deals with that and works for you too?"'
+    }
+  },
+  'homework':{
+    young:{
+      experts:'Dr Becky Kennedy · Sue Atkins',
+      method:'Routine as family identity',
+      prep:'Introduce it as what your family does, not a rule imposed on them. "In our family we do homework when we get home."',
+      say:'"In our family, homework comes before screens. That is just how we do it — like eating before pudding. Let\'s get it done and then you can have [the thing they want]."',
+      A:{h:'They do it',s:'"You did homework first and now you get your screen time. That is exactly how it works."'},
+      B:{h:'"I\'ll do it after"',s:'"In our family it comes first. Let\'s sit together and get it done quickly. I\'ll be right here."'},
+      C:{h:'Refusing or meltdown',s:'"You seem really done in. Are you hungry? Let\'s have a snack first, then we will do homework together."'},
+      agree:'"Every day: home then snack then homework then screens. Can you tell me the order back to me?"'
+    },
+    middle:{
+      experts:'Dr Ross Greene · Dr Dan Siegel',
+      method:'Curiosity before enforcement',
+      prep:'Resistance is often information about anxiety, difficulty, or overwhelm. Ask first, enforce second.',
+      say:'"Homework now, then screens. I\'ll leave you to it — shout if you get stuck."',
+      A:{h:'They get on with it',s:'"Done and dusted. Now it is out of the way."'},
+      B:{h:'Stalling',s:'"I notice you are not starting. Is there something difficult about it, or do you just not want to do it right now?"'},
+      C:{h:'Flat refusal',s:'"Something is going on. What is making homework feel impossible today?" Listen. Then find the overlap.'},
+      agree:'"What time works best? Right after school, or after a break? It needs to be done by [a reasonable hour]. Can we find something in there?"'
+    },
+    teen:{
+      experts:'Dr Ross Greene · Dr Dan Siegel',
+      method:'Hand them ownership, hold the concern',
+      prep:'You cannot make a teenager do homework. The relationship is the only lever you have.',
+      say:'"I am not going to nag you. Here is my concern: I do not want it to get to midnight and you are stressed and behind. How do you want to handle it?"',
+      A:{h:'They have a plan',s:'"Sounds good. I\'ll leave you to it. Shout if you need anything."'},
+      B:{h:'Dismissive',s:'"My concern is: if it does not get done tonight, tomorrow is harder. I am going to leave it with you."'},
+      C:{h:'Anxiety or overwhelm',s:'"Put the homework down. Something is going on. Tell me what is making this feel impossible."'},
+      agree:'"You manage your own homework, I trust you. In return, I need to know it is getting done, and screens need a reasonable cut-off in the evenings. What can we agree on?"'
+    }
+  },
+  'mood-after':{
+    young:{
+      experts:'Dr Dan Siegel · Dr Becky Kennedy',
+      method:'Biology, not bad behaviour',
+      prep:'The nervous system is genuinely downshifting after stimulation. This is real. It is not defiance.',
+      say:'"Your brain has been really active in there. It needs a minute to settle. That is normal. Let\'s have a snack and sit quietly."',
+      A:{h:'Settles within 20 minutes',s:'Normal. Keep a consistent post-screen routine: snack, quiet, outdoor time.'},
+      B:{h:'Grumpy for an hour or more',s:'"We are going to try something. After screens we will do [physical activity] to help your body switch gears."'},
+      C:{h:'Distress or big reactions',s:'"I can see you are having a really hard time. Come here." No screens, just presence. Later: "Was anything in it scary or upsetting?"'},
+      agree:'"After screens we always do [snack and something physical]. Every time. That helps your brain come back to calm."'
+    },
+    middle:{
+      experts:'Dr Dan Siegel · Catherine Knibbs',
+      method:'The mood change is information',
+      prep:'Find out what they are consuming and who they are talking to. Volume matters less than content and context.',
+      say:'"You seem a bit off since you put the phone down. That is not a criticism — I just notice it. Are you okay?"',
+      A:{h:'"I\'m fine"',s:'"Okay. I am here if you do want to talk. No pressure." Check in tomorrow, not tonight.'},
+      B:{h:'Something happened',s:'"Tell me what happened. I am just going to listen first, not fix it." Listen fully. No interruptions.'},
+      C:{h:'Repeated pattern',s:'"I have noticed that most evenings you seem down after your phone. I want to understand what is going on, because I care about you."'},
+      agree:'"Can we check in once a week about how things are going online? Not an interrogation, just fifteen minutes."'
+    },
+    teen:{
+      experts:'Catherine Knibbs · Dr Becky Kennedy',
+      method:'The person, not the phone',
+      prep:'Do not start with the device. Start with your child. The mood shift may be telling you something important.',
+      say:'"You seem really flat lately, and I notice it often happens after you come off your phone. I am not saying that to accuse you. I am worried about you."',
+      A:{h:'"I\'m fine"',s:'"Okay. I am not going to push. I want you to know I am here and I will not overreact if you do tell me something."'},
+      B:{h:'Opens up',s:'"Thank you for telling me that." [listen fully] "That sounds really hard. What do you need from me?"'},
+      C:{h:'Signs of something serious',s:'"I am worried. I am not angry. Can we see the doctor together? Not because something is wrong with you, because I want you to have more support than just me."'},
+      agree:'"Once a week, no agenda. You do not have to talk. The door is always open."'
+    }
+  },
+  'online-safety':{
+    young:{
+      experts:'Sue Atkins · Dr Becky Kennedy',
+      method:'Competence, not fear',
+      prep:'Use "what would you do if" questions, not warnings. Start before there is a problem.',
+      say:'"If someone you did not know asked you for your name or address online, what would you do? There is no wrong answer, I just want to know what you think."',
+      A:{h:'Good instincts',s:'"That is exactly right. And you can always come and tell me, even if you are not sure, even if you did something you were not supposed to."'},
+      B:{h:'Unsure',s:'"Our family rule: if anyone online wants your name, address, or a photo, the answer is always no, and you come and tell me. Always."'},
+      C:{h:'Something has already happened',s:'"Tell me everything. I am not going to be cross with you." Then: "You did the right thing telling me. We are going to sort this out together."'},
+      agree:'"Anything weird, scary, or confusing online, you tell me straight away. I will never be angry at you for telling me."'
+    },
+    middle:{
+      experts:'Catherine Knibbs · Dr Dan Siegel',
+      method:'Build competence not fear',
+      prep:'Ages 8 to 11 are highest risk. Curiosity-based questions activate reasoning, not fear.',
+      say:'"I want to talk to you about something important, and I want to know what you think, not just tell you what I think. Are you up for that?"',
+      A:{h:'Unknown contact or message',s:'"Tell me everything about this person. What have they asked? What have you told them?" Block and report together.'},
+      B:{h:'Upsetting content',s:'"Tell me about it. All of it, you are not in trouble. What did it feel like when you saw it?"'},
+      C:{h:'Peer conflict online',s:'"That sounds really awful. Tell me what happened from the beginning. I am just going to listen first."'},
+      agree:'"Anything uncomfortable online, you tell me first. Telling me protects your access. Hiding it is the only thing that risks it."'
+    },
+    teen:{
+      experts:'Catherine Knibbs · Dr Becky Kennedy',
+      method:'The relationship is the only safeguard',
+      prep:'Filters and monitoring are secondary. The relationship that makes them want to tell you is everything.',
+      say:'"I want to understand your experience online. And I want you to know you can come to me with anything. Anything. I will not overreact."',
+      A:{h:'Someone making them uncomfortable',s:'"Tell me what has been happening. How is it making you feel?" Then: "What do you want to do about it?"'},
+      B:{h:'Something serious they have seen',s:'"Thank you for telling me. Before we do anything, how are you? Tell me how you feel about what you saw."'},
+      C:{h:'An image or privacy issue',s:'"I am not angry. I need to understand what happened so we can sort it together. Tell me everything."'},
+      agree:'"Whatever happens online, I want to be your first call. I will not take your device away as a punishment for coming to me."'
+    }
+  }
+};
+
+function getLastSession() {
+  try { return JSON.parse(localStorage.getItem('gc_last')) || null; }
+  catch(e){ return null; }
 }
-let step=0,answers=[];
-function start(){document.getElementById('s-welcome').classList.add('hide');document.getElementById('s-q').classList.remove('hide');renderQ();}
+function saveSession(stageId, st, conv) {
+  try {
+    localStorage.setItem('gc_last', JSON.stringify({
+      date: new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short'}),
+      stage: 'Stage ' + stageId + ': ' + st.name,
+      ages: st.ages,
+      action: st.action,
+      agree: conv ? conv.agree : null
+    }));
+  } catch(e){}
+}
+
+function renderConvTab(stageId, challenge) {
+  const issueKey = CHALLENGE_TO_ISSUE[challenge] || 'screen-end';
+  const ageKey = STAGE_AGE[stageId] || 'middle';
+  const d = CONV[issueKey] && CONV[issueKey][ageKey];
+  if (!d) return '<p style="color:var(--ink-muted);font-size:.9rem">Full conversation scripts available on the platform.</p>';
+
+  return `
+  <div class="expert-badge">${d.experts}</div>
+  <h2 style="font-size:1.05rem;margin-bottom:6px">${d.method}</h2>
+  <div class="box" style="background:var(--cream);padding:11px 14px;margin-bottom:14px;border:none">
+    <span style="font-family:var(--mono);font-size:.6rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-muted);display:block;margin-bottom:4px">Before you start</span>
+    <p style="font-size:.85rem;color:var(--ink-soft)">${d.prep}</p>
+  </div>
+
+  <div class="conv-say">${d.say}</div>
+
+  <p style="font-family:var(--mono);font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-muted);margin:16px 0 10px">How do they respond?</p>
+
+  <div class="conv-resp">
+    <span class="rl">A</span>
+    <div><div class="rh">${d.A.h}</div><div class="rs">${d.A.s}</div></div>
+  </div>
+  <div class="conv-resp">
+    <span class="rl">B</span>
+    <div><div class="rh">${d.B.h}</div><div class="rs">${d.B.s}</div></div>
+  </div>
+  <div class="conv-resp">
+    <span class="rl">C</span>
+    <div><div class="rh">${d.C.h}</div><div class="rs">${d.C.s}</div></div>
+  </div>
+
+  <div class="conv-agree">
+    <span style="font-family:var(--mono);font-size:.6rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-dark);display:block;margin-bottom:8px">The agreement to make</span>
+    <p style="font-size:.95rem;font-style:italic;color:var(--ink);font-weight:600;line-height:1.6">${d.agree}</p>
+  </div>
+
+  <div style="margin-top:16px;padding:14px 16px;background:var(--warm);border:1px solid var(--border);border-radius:12px;text-align:center">
+    <p style="font-size:.82rem;color:var(--ink-soft);margin-bottom:10px">The full conversation tree walks you through every possible response, step by step.</p>
+    <a href="/scripts" style="font-family:var(--mono);font-size:.78rem;font-weight:600;color:var(--green-dark);text-decoration:none">See the full conversation script &rarr;</a>
+  </div>`;
+}
+
+function renderSidebar(stageId, st, conv, last) {
+  const agree = conv ? conv.agree : null;
+  const isCritical = stageId === 3;
+
+  const lastCard = last ? `
+  <div class="sc" style="background:var(--lav);border-color:rgba(61,91,169,.25)">
+    <span class="sc-lbl" style="color:var(--lav-deep)">Last session &middot; ${last.date}</span>
+    <p style="font-size:.82rem;font-weight:700;margin-bottom:6px;color:var(--ink)">${last.stage} &middot; ${last.ages}</p>
+    <p style="font-size:.78rem;color:var(--ink-soft);line-height:1.55">${last.action.length > 130 ? last.action.slice(0,127) + '...' : last.action}</p>
+    ${last.agree ? `<p style="font-size:.78rem;font-style:italic;color:var(--lav-deep);margin-top:10px;padding-top:10px;border-top:1px solid rgba(61,91,169,.2);line-height:1.5">${last.agree}</p>` : ''}
+  </div>` : '';
+
+  const actionCard = `
+  <div class="sc" style="background:var(--green-lt);border-color:var(--green)">
+    <span class="sc-lbl" style="color:var(--green-dark)">Tonight's action</span>
+    <p style="font-size:.88rem;font-weight:600;color:var(--ink);line-height:1.6">${st.action}</p>
+  </div>`;
+
+  const agreeCard = agree ? `
+  <div class="sc" style="background:var(--gold-lt);border:2px dashed var(--gold-dark)">
+    <span class="sc-lbl" style="color:var(--gold-dark)">The agreement</span>
+    <p style="font-size:.9rem;font-style:italic;font-weight:600;color:var(--ink);line-height:1.6">${agree}</p>
+    <p style="font-size:.72rem;color:var(--ink-muted);margin-top:8px">From the Conversation tab. Walk through the full script first.</p>
+  </div>` : '';
+
+  const signsCard = `
+  <div class="sc">
+    <span class="sc-lbl">Watch for these</span>
+    ${st.watch.map(w => `<div class="sc-sign"><span style="color:var(--coral);font-weight:800;flex-shrink:0;margin-top:1px;font-size:.85rem">!</span><span>${w}</span></div>`).join('')}
+    ${isCritical ? '<p style="font-size:.72rem;color:var(--coral);margin-top:8px;font-weight:600;padding-top:8px;border-top:1px solid var(--coral-lt)">Cambridge research identifies this as the peak sensitivity window, especially for girls.</p>' : ''}
+  </div>`;
+
+  const digiCard = `
+  <div class="sc" style="background:var(--ink);border-color:var(--ink)">
+    <div style="display:flex;gap:14px;align-items:center;margin-bottom:14px">
+      <div class="digi-av">D</div>
+      <div>
+        <span class="sc-lbl" style="color:var(--green);margin-bottom:4px">Ask DiGi</span>
+        <p style="font-size:.88rem;color:#fff;font-weight:700;line-height:1.3">Your AI parenting advisor</p>
+      </div>
+    </div>
+    <p style="font-size:.8rem;color:rgba(255,255,255,.7);margin-bottom:16px;line-height:1.65">Ask anything about the script, the conversation you are planning, or what to try next. Available any time.</p>
+    <a href="/chat" style="display:block;text-align:center;background:var(--green);color:var(--ink);font-family:var(--mono);font-weight:700;font-size:.8rem;padding:13px 16px;border-radius:12px;text-decoration:none;letter-spacing:.02em">Ask DiGi about my child &rarr;</a>
+  </div>`;
+
+  const joinCard = `
+  <div class="join-sc">
+    <span class="sc-lbl" style="color:var(--gold-dark)">Founder rate</span>
+    <p style="font-weight:800;font-size:1.15rem;margin-bottom:2px">&pound;7.99 a month</p>
+    <p style="font-size:.78rem;color:var(--ink-soft);margin-bottom:2px">For life. First 50 members only.</p>
+    <div class="spots-bar"><div class="spots-fill"></div></div>
+    <p style="font-family:var(--mono);font-size:.65rem;font-weight:700;color:var(--coral);letter-spacing:.06em;margin-bottom:14px">37 OF 50 SPOTS TAKEN</p>
+    <a class="btn" href="https://mailchi.mp/thesocialbillboard/parents" target="_blank" rel="noopener" style="display:block;text-align:center;justify-content:center;width:100%;padding:14px">Join at founder rate &rarr;</a>
+    <p style="font-size:.7rem;color:var(--ink-muted);margin-top:10px">Full platform: all 5 stages, 17 scripts, DiGi advisor, wellbeing tracker.</p>
+  </div>`;
+
+  return lastCard + actionCard + agreeCard + signsCard + digiCard + joinCard;
+}
+
+let step = 0, answers = [];
+
+function start(){
+  document.getElementById('s-welcome').classList.add('hide');
+  document.getElementById('s-q').classList.remove('hide');
+  renderQ();
+}
 function renderQ(){
-const q=questions[step];
-document.querySelectorAll('#prog span').forEach((s,i)=>s.classList.toggle('on',i<=step));
-document.getElementById('q-body').innerHTML='<div class="fade"><h2>'+q.q+'</h2><p style="color:var(--ink-muted);font-size:.88rem;margin-bottom:20px">'+q.sub+'</p>'+q.opts.map((o,i)=>'<button class="opt" onclick="pick(\''+o.replace(/'/g,"\\'")+'\')"><span class="n">'+(i+1)+'</span>'+o+'</button>').join('')+'</div>';
-window.scrollTo({top:0});
+  const q = questions[step];
+  document.querySelectorAll('#prog span').forEach((s,i)=>s.classList.toggle('on', i<=step));
+  document.getElementById('q-body').innerHTML =
+    '<div class="fade"><h2>'+q.q+'</h2><p style="color:var(--ink-muted);font-size:.88rem;margin-bottom:20px">'+q.sub+'</p>'+
+    q.opts.map((o,i)=>'<button class="opt" onclick="pick(\''+o.replace(/'/g,"\\'")+'\')">' +
+      '<span class="n">'+(i+1)+'</span>'+o+'</button>').join('')+'</div>';
+  window.scrollTo({top:0});
 }
-function pick(val){answers[step]=val;if(step<2){step++;renderQ();}else renderResult();}
+function pick(val){
+  answers[step] = val;
+  if(step < 2){ step++; renderQ(); }
+  else renderResult();
+}
 function renderResult(){
-const stageId=ageMap[answers[0]];
-const st=stages[stageId];
-document.getElementById('s-q').classList.add('hide');
-const r=document.getElementById('s-r');
-r.classList.remove('hide');
-r.innerHTML=`
-<div class="fade">
-<div style="border:1px solid var(--border);border-left:5px solid ${st.bar};border-radius:14px;background:${st.wash};padding:22px;margin-top:10px">
-${st.critical?'<span class="pill" style="background:var(--coral);color:#fff;margin-bottom:10px">The Critical Window</span>':''}
-<div style="font-family:var(--mono);font-size:.62rem;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-muted);margin:8px 0 4px">${st.ks} &middot; ${st.us}</div>
-<h1 style="font-size:1.7rem;margin-bottom:2px">Stage ${stageId}: ${st.name}</h1>
-<div style="font-weight:700;color:var(--ink-soft);margin-bottom:10px">${st.ages}</div>
-<p style="font-size:.92rem;color:var(--ink-soft)">${st.summary}</p>
-<p style="font-size:.82rem;color:${st.deep};font-weight:700;margin-top:10px">Device right now: ${st.device}</p>
-</div>
-<div class="card" style="background:var(--gold-lt);margin-top:14px">
-<span class="lbl" style="color:var(--gold-dark)">Your situation</span>
-<p style="font-size:.92rem;color:var(--ink-soft)">${challengeNotes[answers[1]]}</p>
-<p style="font-size:.88rem;color:var(--ink-soft);margin-top:8px;font-style:italic">${feelNotes[answers[2]]}</p>
-</div>
-<div class="tabs">
-<button class="tab on" onclick="tab(this,'t-script')">Script</button>
-<button class="tab" onclick="tab(this,'t-conv')">Conversation</button>
-<button class="tab" onclick="tab(this,'t-action')">Action</button>
-<button class="tab" onclick="tab(this,'t-signs')">Signs</button>
-<button class="tab" onclick="tab(this,'t-next')">Next</button>
-</div>
-<div id="t-script">
-<h2 style="font-size:1.15rem">${st.script.title}</h2>
-<p style="font-size:.8rem;color:var(--ink-muted);margin-bottom:14px">Use it word for word. Tonight if possible.</p>
-<div class="box" style="background:var(--green-lt);border-left:4px solid var(--green-dark)"><span class="lbl" style="color:var(--green-dark)">Say this</span><p style="font-size:.95rem;font-style:italic">&ldquo;${st.script.say}&rdquo;</p></div>
-<div class="box" style="background:var(--coral-lt);border-left:4px solid var(--coral)"><span class="lbl" style="color:var(--coral)">Not this</span><p style="font-size:.95rem;font-style:italic">&ldquo;${st.script.not}&rdquo;</p></div>
-<div class="box" style="background:var(--gold-lt);border-left:4px solid var(--gold-dark)"><span class="lbl" style="color:var(--gold-dark)">Why it works</span><p style="font-size:.88rem;color:var(--ink-soft)">${st.script.why}</p></div>
-</div>
-<div id="t-conv" class="hide">${renderConvTab(stageId,answers[1])}</div>
-<div id="t-action" class="hide">
-<h2 style="font-size:1.15rem">Your highest-impact action</h2>
-<div class="box" style="background:var(--warm);margin-top:12px"><p style="font-size:.95rem;font-weight:600">${st.action}</p></div>
-</div>
-<div id="t-signs" class="hide">
-<h2 style="font-size:1.15rem">Warning signs at this stage</h2>
-<p style="font-size:.8rem;color:var(--ink-muted);margin-bottom:14px">Most things are fine. This helps you tell the difference.</p>
-<div class="box" style="background:var(--green-lt);border-left:4px solid var(--green-dark)"><span class="lbl" style="color:var(--green-dark)">This is normal</span>${st.normal.map(w=>'<div class="sig"><b style="color:var(--green-dark)">&#10003;</b>'+w+'</div>').join('')}</div>
-<div class="box" style="background:var(--coral-lt);border-left:4px solid var(--coral)"><span class="lbl" style="color:var(--coral)">Worth a closer look</span>${st.watch.map(w=>'<div class="sig"><b style="color:var(--coral)">!</b>'+w+'</div>').join('')}</div>
-<p style="font-size:.75rem;color:var(--ink-muted);margin-top:10px">Seriously concerned? Contact your GP, CAMHS, or the NSPCC on 0808 800 5000. Immediate danger: call 999.</p>
-</div>
-<div id="t-next" class="hide">
-<h2 style="font-size:1.15rem">This is page one of the pathway</h2>
-<p style="font-size:.9rem;color:var(--ink-soft);margin:10px 0 16px">The full platform has all five stages, 17 scripts for every hard moment, DiGi the AI advisor available any time, the weekly wellbeing tracker, and the complete home curriculum.</p>
-<div class="box" style="background:var(--gold-lt);text-align:center;padding:24px 18px">
-<p style="font-weight:800;font-size:1.05rem;margin-bottom:4px">Save your child's pathway</p>
-<p style="font-size:.82rem;color:var(--ink-soft);margin-bottom:16px">Join free and be first in when we launch. Founder rate locked at &pound;7.99 a month for life, first 50 members only.</p>
-<a class="btn" href="https://mailchi.mp/thesocialbillboard/parents" target="_blank" rel="noopener">Save my pathway &rarr;</a>
-</div>
-<div class="box" style="background:var(--warm);text-align:center;padding:20px 18px;margin-top:10px">
-<p style="font-weight:700;font-size:.92rem;margin-bottom:4px">Want a clearer picture first?</p>
-<p style="font-size:.8rem;color:var(--ink-soft);margin-bottom:14px">The free Digital Health Check reads the signals in your child's online world in five minutes.</p>
-<a href="/digitalwellbeing" style="font-family:var(--mono);font-size:.8rem;font-weight:600;color:var(--green-dark)">Take the free Digital Health Check &rarr;</a>
-</div>
-<button onclick="location.reload()" style="width:100%;margin-top:14px;background:none;border:1px solid var(--border);border-radius:14px;padding:12px;font-family:var(--mono);font-size:.72rem;letter-spacing:.04em;color:var(--ink-muted);cursor:pointer">Build a pack for another child</button>
-<a href="/" style="display:block;text-align:center;margin-top:12px;font-family:var(--mono);font-size:.72rem;letter-spacing:.04em;color:var(--green-dark);text-decoration:none;padding:12px">&larr; Back to guidedchildhood.com</a>
-</div>
-</div>`;
-window.scrollTo({top:0});
+  const last = getLastSession();
+  const stageId = ageMap[answers[0]];
+  const st = stages[stageId];
+  const issueKey = CHALLENGE_TO_ISSUE[answers[1]] || 'screen-end';
+  const ageKey = STAGE_AGE[stageId] || 'middle';
+  const conv = (CONV[issueKey] && CONV[issueKey][ageKey]) || null;
+
+  saveSession(stageId, st, conv);
+
+  document.getElementById('quiz-wrap').classList.add('hide');
+  const r = document.getElementById('s-r');
+  r.classList.remove('hide');
+
+  r.innerHTML = `
+  <div class="fade result-grid">
+    <div class="r-main">
+      <div style="border:1px solid var(--border);border-left:5px solid ${st.bar};border-radius:14px;background:${st.wash};padding:22px;margin-top:10px">
+        ${st.critical ? '<span class="pill" style="background:var(--coral);color:#fff;margin-bottom:10px">The Critical Window</span>' : ''}
+        <div style="font-family:var(--mono);font-size:.62rem;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-muted);margin:8px 0 4px">${st.ks} &middot; ${st.us}</div>
+        <h1 style="font-size:1.7rem;margin-bottom:2px">Stage ${stageId}: ${st.name}</h1>
+        <div style="font-weight:700;color:var(--ink-soft);margin-bottom:10px">${st.ages}</div>
+        <p style="font-size:.92rem;color:var(--ink-soft)">${st.summary}</p>
+        <p style="font-size:.82rem;color:${st.deep};font-weight:700;margin-top:10px">Device right now: ${st.device}</p>
+      </div>
+
+      <div class="card" style="background:var(--gold-lt);margin-top:14px">
+        <span class="lbl" style="color:var(--gold-dark)">Your situation</span>
+        <p style="font-size:.92rem;color:var(--ink-soft)">${challengeNotes[answers[1]]}</p>
+        <p style="font-size:.88rem;color:var(--ink-soft);margin-top:8px;font-style:italic">${feelNotes[answers[2]]}</p>
+      </div>
+
+      <div class="tabs">
+        <button class="tab on" onclick="tab(this,'t-script')">Script</button>
+        <button class="tab" onclick="tab(this,'t-conv')">Conversation</button>
+        <button class="tab" onclick="tab(this,'t-action')">Action</button>
+        <button class="tab" onclick="tab(this,'t-signs')">Signs</button>
+        <button class="tab" onclick="tab(this,'t-next')">Next</button>
+      </div>
+
+      <div id="t-script">
+        <h2 style="font-size:1.15rem">${st.script.title}</h2>
+        <p style="font-size:.8rem;color:var(--ink-muted);margin-bottom:14px">Use it word for word. Tonight if possible.</p>
+        <div class="box" style="background:var(--green-lt);border-left:4px solid var(--green-dark)">
+          <span class="lbl" style="color:var(--green-dark)">Say this</span>
+          <p style="font-size:.95rem;font-style:italic">"${st.script.say}"</p>
+        </div>
+        <div class="box" style="background:var(--coral-lt);border-left:4px solid var(--coral)">
+          <span class="lbl" style="color:var(--coral)">Not this</span>
+          <p style="font-size:.95rem;font-style:italic">"${st.script.not}"</p>
+        </div>
+        <div class="box" style="background:var(--gold-lt);border-left:4px solid var(--gold-dark)">
+          <span class="lbl" style="color:var(--gold-dark)">Why it works</span>
+          <p style="font-size:.88rem;color:var(--ink-soft)">${st.script.why}</p>
+        </div>
+      </div>
+
+      <div id="t-conv" class="hide">
+        ${renderConvTab(stageId, answers[1])}
+      </div>
+
+      <div id="t-action" class="hide">
+        <h2 style="font-size:1.15rem">Your highest-impact action</h2>
+        <div class="box" style="background:var(--warm);margin-top:12px">
+          <p style="font-size:.95rem;font-weight:600">${st.action}</p>
+        </div>
+      </div>
+
+      <div id="t-signs" class="hide">
+        <h2 style="font-size:1.15rem">Warning signs at this stage</h2>
+        <p style="font-size:.8rem;color:var(--ink-muted);margin-bottom:14px">Most things are fine. This helps you tell the difference.</p>
+        <div class="box" style="background:var(--green-lt);border-left:4px solid var(--green-dark)">
+          <span class="lbl" style="color:var(--green-dark)">This is normal</span>
+          ${st.normal.map(w=>'<div class="sig"><b style="color:var(--green-dark)">&#10003;</b>'+w+'</div>').join('')}
+        </div>
+        <div class="box" style="background:var(--coral-lt);border-left:4px solid var(--coral)">
+          <span class="lbl" style="color:var(--coral)">Worth a closer look</span>
+          ${st.watch.map(w=>'<div class="sig"><b style="color:var(--coral)">!</b>'+w+'</div>').join('')}
+        </div>
+        <p style="font-size:.75rem;color:var(--ink-muted);margin-top:10px">Seriously concerned? Contact your GP, CAMHS, or the NSPCC on 0808 800 5000. Immediate danger: call 999.</p>
+      </div>
+
+      <div id="t-next" class="hide">
+        <h2 style="font-size:1.15rem">This is page one of the pathway</h2>
+        <p style="font-size:.9rem;color:var(--ink-soft);margin:10px 0 16px">The full platform has all five stages, 17 scripts for every hard moment, DiGi the AI advisor available any time, the weekly wellbeing tracker, and the complete home curriculum.</p>
+        <div class="box" style="background:var(--gold-lt);text-align:center;padding:24px 18px">
+          <p style="font-weight:800;font-size:1.05rem;margin-bottom:4px">Save your child's pathway</p>
+          <p style="font-size:.82rem;color:var(--ink-soft);margin-bottom:16px">Join free and be first in when we launch. Founder rate locked at &pound;7.99 a month for life, first 50 members only.</p>
+          <a class="btn" href="https://mailchi.mp/thesocialbillboard/parents" target="_blank" rel="noopener">Save my pathway &rarr;</a>
+        </div>
+        <div class="box" style="background:var(--warm);text-align:center;padding:20px 18px;margin-top:10px">
+          <p style="font-weight:700;font-size:.92rem;margin-bottom:4px">Want a clearer picture first?</p>
+          <p style="font-size:.8rem;color:var(--ink-soft);margin-bottom:14px">The free Digital Health Check reads the signals in your child's online world in five minutes.</p>
+          <a href="/digitalwellbeing" style="font-family:var(--mono);font-size:.8rem;font-weight:600;color:var(--green-dark)">Take the free Digital Health Check &rarr;</a>
+        </div>
+        <button onclick="location.reload()" style="width:100%;margin-top:14px;background:none;border:1px solid var(--border);border-radius:14px;padding:12px;font-family:var(--mono);font-size:.72rem;letter-spacing:.04em;color:var(--ink-muted);cursor:pointer">Build a pack for another child</button>
+        <a href="/" style="display:block;text-align:center;margin-top:12px;font-family:var(--mono);font-size:.72rem;letter-spacing:.04em;color:var(--green-dark);text-decoration:none;padding:12px">&larr; Back to guidedchildhood.com</a>
+      </div>
+    </div>
+
+    <div class="sidebar">
+      ${renderSidebar(stageId, st, conv, last)}
+    </div>
+  </div>`;
+
+  window.scrollTo({top:0});
 }
-function tab(btn,id){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));btn.classList.add('on');['t-script','t-conv','t-action','t-signs','t-next'].forEach(t=>document.getElementById(t).classList.add('hide'));document.getElementById(id).classList.remove('hide');}
+function tab(btn, id){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  btn.classList.add('on');
+  ['t-script','t-conv','t-action','t-signs','t-next'].forEach(t=>document.getElementById(t).classList.add('hide'));
+  document.getElementById(id).classList.remove('hide');
+}
 </script>
 </body>
 </html>
