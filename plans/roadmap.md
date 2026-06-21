@@ -269,6 +269,51 @@ Stored as scripts in the database (type: settings_guide), updatable without a de
 
 ---
 
+## PLATFORM DIFFERENTIATION (core intellectual position)
+
+Treating TikTok and YouTube as the same instrument is not targeted policy. It is blunt policy. The evidence does not support treating them as equivalent and the platform build must reflect this distinction throughout.
+
+### Why it matters
+TikTok: algorithmic feed, no user intent, engineered for compulsive consumption, short-form dopamine loop, no parental pathway to educational use.
+YouTube: can be search-driven, educational, purposeful, has supervised accounts and parental controls. The same child can use YouTube to learn to code, play an instrument, or understand history.
+
+A blanket ban that treats these identically removes real value from children's lives while failing to address the actual mechanics causing harm. The children who lose most are those who rely on online learning, connection and community — often the most vulnerable.
+
+### The cliff edge and vulnerability
+The children most at risk from the current ban approach are those at the cliff edge: the ones who most need a thoughtful, graduated pathway are the ones a blunt instrument hits hardest. Vulnerable young people who rely on online community do not stop using platforms because of a law. They find a way around it, now without any adult knowing they are there.
+
+### How this shapes the platform build
+
+**Scripts (already in database — add platform column)**
+- Each script should be platform-aware: the TikTok conversation is different from the YouTube conversation, which is different from the gaming conversation
+- Add a `platform` column to the scripts table (tiktok / youtube / instagram / gaming / general)
+- DiGi should surface platform-specific scripts based on the child's stage and the parent's question
+- 🔲 Platform-specific script variants for all 17 scripts where relevant
+
+**DiGi platform intelligence**
+- DiGi must answer "is YouTube okay for my 9-year-old" differently from "is TikTok okay for my 9-year-old" because the evidence supports different answers
+- DiGi should know the difference between passive algorithmic consumption and active search-driven use
+- 🔲 Add platform context to DiGi system prompt (docs/digi/01-philosophy.md to be updated)
+
+**Digital Driver's Licence — platform literacy component**
+- Students must demonstrate they understand how different platforms work and why the mechanics differ
+- Bronze: can name the difference between a search-driven platform and an algorithm-driven feed
+- Silver: can explain what an engagement loop is and identify it on a platform they use
+- Gold: can evaluate a platform they use against a set of evidence-based criteria
+- 🔲 Add platform literacy as a named skill strand in the DDL framework
+
+**School scheme of work — platform-specific modules**
+- At least two modules should address platform mechanics explicitly: one for KS2 (gaming/YouTube), one for KS3/4 (TikTok/Instagram/algorithmic feeds)
+- No module should treat "the internet" or "social media" as a single category
+- 🔲 Flag existing modules for platform-specificity in content review
+
+**Positioning and copy**
+- This distinction should be explicit on the /schools and /evidence pages
+- The evidence paper already covers this platform by platform — surface it more prominently in marketing
+- Key line: "The evidence does not treat all platforms equally. Neither do we."
+
+---
+
 ## PWA
 
 - ✅ manifest.json
