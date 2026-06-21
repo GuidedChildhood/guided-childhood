@@ -134,24 +134,6 @@ Sample module on /school-pack: Module 9, Social Media and the Brain (KS3, 50 min
 - 🔲 /school-pack — the school landing page (not /schools). No login to browse. Sample lesson + assembly + statutory alignment doc available immediately.
 - 🔲 /teachers — redirect or alias for /school-pack
 
-### Parent Workshops (school-delivered)
-Schools host parent evenings but have nothing to deliver. GDC provides a ready-made parent workshop package that the school can run with zero preparation.
-
-Each workshop:
-- 45 to 60 minute facilitated session (slides, facilitator guide, handouts, follow-up email template)
-- Tied to a specific year group / module set (e.g. Year 7 intake: "Setting up for secondary school")
-- QR code to the parent membership at the end — warm acquisition, not cold
-
-Topics (one per year group band):
-- Reception to Year 2: First devices, screen time routines, sleep
-- Year 3 to 6: Gaming, YouTube, family agreements
-- Year 7 to 9: Social media readiness, the ban, what readiness actually looks like
-- Year 10 to 13: AI literacy, digital footprint, university and employment
-
-Why this matters for sales: "We deliver the parent evening for you" is the single most compelling sentence a DSL hears. It removes a major workload pain.
-
-Build: workshop packs are downloadable PDFs from /educator/share. No build required initially — content problem not a code problem.
-
 ### Educator dashboard (/educator/*)
 - 🔲 /educator/login (separate auth, school code or invite link)
 - 🔲 /educator/dashboard — browse/teach modules by year group, one-click to slides, mark taught, send parent version, pilot status
