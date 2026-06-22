@@ -91,8 +91,9 @@ p{line-height:1.8;font-size:1.02rem}
 @keyframes cardIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
 /* fixed bottom deck nav */
-.deck-nav-fixed{position:fixed;bottom:0;left:0;right:0;background:var(--warm);border-top:1px solid var(--border);padding:14px 24px 22px;z-index:100;display:none;box-shadow:0 -4px 16px rgba(0,0,0,.06)}
-.deck-nav-fixed.show{display:flex;align-items:center;justify-content:space-between}
+.deck-nav-fixed{position:fixed;bottom:0;left:0;right:0;background:var(--warm);border-top:1px solid var(--border);z-index:100;display:none;box-shadow:0 -4px 16px rgba(0,0,0,.06)}
+.deck-nav-fixed.show{display:block}
+.deck-nav-inner{max-width:640px;margin:0 auto;padding:14px 24px 22px;display:flex;align-items:center;justify-content:space-between}
 .deck-dots{display:flex;gap:5px;align-items:center}
 .deck-dot{width:6px;height:6px;border-radius:50%;background:var(--border);transition:all .22s;cursor:pointer}
 .deck-dot.on{background:var(--green-dark);width:20px;border-radius:3px}
@@ -648,24 +649,11 @@ function renderResult(){
           <p style="font-size:.94rem;font-style:italic;color:var(--ink-soft);margin:0">"${st.script.not}"</p>
         </div>
 
-        <div style="margin-top:18px">
-          <div style="font-family:var(--mono);font-size:.58rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:10px">Go deeper</div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
-            <a href="https://tools.guidedchildhood.com/" style="background:var(--lav);border-radius:14px;padding:14px;text-decoration:none;display:block">
-              <div style="font-family:var(--mono);font-size:.55rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--lav-deep);margin-bottom:5px">Device setup</div>
-              <p style="font-size:.8rem;font-weight:700;color:var(--ink);margin:0;line-height:1.35">Settings by brand and age &rarr;</p>
-            </a>
-            <a href="/digitalwellbeing" style="background:var(--green-lt);border-radius:14px;padding:14px;text-decoration:none;display:block">
-              <div style="font-family:var(--mono);font-size:.55rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green-dark);margin-bottom:5px">Wellbeing check</div>
-              <p style="font-size:.8rem;font-weight:700;color:var(--ink);margin:0;line-height:1.35">Free digital health check &rarr;</p>
-            </a>
-          </div>
-          <a href="/scripts" target="_blank" rel="noopener" style="background:var(--cream);border:1px solid var(--border);border-radius:14px;padding:14px 16px;text-decoration:none;display:flex;align-items:center;justify-content:space-between">
-            <div>
-              <div style="font-family:var(--mono);font-size:.55rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:3px">Print ready</div>
-              <p style="font-size:.82rem;font-weight:700;color:var(--ink);margin:0">Full script library. Open and print. &rarr;</p>
-            </div>
-          </a>
+        <div style="margin-top:18px;background:var(--ink);border-radius:16px;padding:18px 20px">
+          <div style="font-family:var(--mono);font-size:.55rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:8px">On the platform</div>
+          <p style="font-size:.88rem;font-weight:700;color:#fff;margin-bottom:4px;line-height:1.4">100+ scripts tailored to your child's exact stage and situation.</p>
+          <p style="font-size:.78rem;color:rgba(255,255,255,.6);margin-bottom:14px;line-height:1.6">Screen time endings, mood after phones, the social media ask, gaming, online safety and more. Every hard moment covered.</p>
+          <a href="https://buy.stripe.com/4gM8wI9d0eAOgoK6Kp5sA00" style="font-family:var(--mono);font-size:.68rem;font-weight:700;letter-spacing:.06em;color:var(--gold);text-decoration:none">Unlock all scripts &rarr;</a>
         </div>
       </div>
     </div>
@@ -750,11 +738,18 @@ function renderResult(){
           <p style="font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;color:var(--ink-muted);text-align:center">Not right for your family in 30 days? Full refund. No questions asked.</p>
         </div>
 
-        <div style="background:var(--cream);border-radius:16px;padding:20px 22px;text-align:center;margin-bottom:16px;border:1px solid var(--border)">
-          <p style="font-weight:700;font-size:.92rem;margin-bottom:6px">Want a clearer picture first?</p>
-          <p style="font-size:.82rem;color:var(--ink-soft);margin-bottom:12px;line-height:1.65">The free Digital Health Check reads the signals in your child's online world.</p>
-          <a href="/digitalwellbeing" style="font-family:var(--mono);font-size:.82rem;font-weight:700;color:var(--green-dark)">Take the free Digital Health Check &rarr;</a>
-        </div>
+        <a href="/pathway" style="display:block;text-decoration:none;background:var(--lav);border:1.5px solid rgba(61,91,169,.2);border-radius:20px;padding:22px 20px;margin-bottom:12px;position:relative;overflow:hidden">
+          <div aria-hidden="true" style="position:absolute;top:-30px;right:-30px;width:130px;height:130px;border-radius:50%;background:rgba(61,91,169,.06);pointer-events:none"></div>
+          <div style="font-family:var(--mono);font-size:.55rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--lav-deep);margin-bottom:8px">The full journey</div>
+          <p style="font-size:1.05rem;font-weight:800;color:var(--ink);margin:0 0 6px;letter-spacing:-.02em;line-height:1.3">Ages 4 to 16. Every stage mapped.</p>
+          <p style="font-size:.82rem;color:var(--ink-soft);margin:0 0 14px;line-height:1.6">20 units. School curriculum aligned. See exactly where your child is and what comes next.</p>
+          <span style="font-family:var(--mono);font-size:.68rem;font-weight:700;letter-spacing:.06em;color:var(--lav-deep)">See the full pathway &rarr;</span>
+        </a>
+
+        <a href="/digitalwellbeing" style="display:block;text-decoration:none;background:var(--green-lt);border-radius:16px;padding:16px 18px;margin-bottom:12px">
+          <div style="font-family:var(--mono);font-size:.55rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green-dark);margin-bottom:4px">Free tool</div>
+          <p style="font-size:.85rem;font-weight:700;color:var(--ink);margin:0;line-height:1.35">Digital wellbeing check &rarr;</p>
+        </a>
 
         <button onclick="location.reload()" style="width:100%;background:none;border:1.5px solid var(--border);border-radius:16px;padding:14px;font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-muted);cursor:pointer">Build a pack for another child</button>
       </div>
@@ -767,7 +762,7 @@ function renderResult(){
     navEl = document.createElement('div');
     navEl.id = 'deck-nav';
     navEl.className = 'deck-nav-fixed';
-    navEl.innerHTML = '<button class="deck-btn-back" id="deck-back" onclick="prevCard()">&#8592; Back</button><div class="deck-dots" id="deck-dots"></div><button class="deck-btn-next" id="deck-next" onclick="nextCard()">Next &#8594;</button>';
+    navEl.innerHTML = '<div class="deck-nav-inner"><button class="deck-btn-back" id="deck-back" onclick="prevCard()">&#8592; Back</button><div class="deck-dots" id="deck-dots"></div><button class="deck-btn-next" id="deck-next" onclick="nextCard()">Next &#8594;</button></div>';
     document.body.appendChild(navEl);
   }
   deckCard = 0;
