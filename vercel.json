@@ -26,6 +26,8 @@
     { "src": "/evidence/", "dest": "/evidence.html" },
     { "src": "/join", "status": 302, "headers": { "Location": "https://mailchi.mp/thesocialbillboard/parents" } },
     { "src": "/join/", "status": 302, "headers": { "Location": "https://mailchi.mp/thesocialbillboard/parents" } },
+    { "src": "/pathway", "dest": "/pathway.html" },
+    { "src": "/pathway/", "dest": "/pathway.html" },
     { "src": "/five-questions", "dest": "/five-questions.html" },
     { "src": "/five-questions/", "dest": "/five-questions.html" },
     { "src": "/GC-Module9-Worksheet", "dest": "/GC-Module9-Worksheet.html" },
