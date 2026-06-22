@@ -8,98 +8,97 @@
 <link rel="canonical" href="https://guidedchildhood.co.uk/school-pack">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-<noscript><link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet"></noscript>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
 <style>
 :root{
-  --forest:#4A65C0;--fern:#5B8DC4;--sage:#8B9CE0;--leaf:#E8F1FC;--mint:#F4F9FE;
-  --cream:#FFFFFF;--parch:#F8F8F6;--sand:#E8E4DE;
-  --gold:#C49A1A;--goldbrt:#F5C842;--amber:#7A5C00;
-  --ink:#1A1A18;--char:#3D3D35;--ash:#6B6B60;--stone:#9B9B8E;
-  --coral:#E07050;--coralt:#FDF1EC;
-  --border:#E8E4DE;
-  --serif:'Crimson Pro',Georgia,serif;
-  --sans:'Inter',system-ui,sans-serif;
-  --mono:'JetBrains Mono',monospace;
+  --cream:#F7F3EE; --warm:#FDFBF8; --ink:#1C1C1C; --ink-soft:#4A4A4A; --ink-muted:#6E6A62; --ink-light:#9B958A;
+  --green:#AFDCA2; --green-dark:#2E7D5A; --green-lt:#EEF7F2;
+  --coral:#D4600A; --coral-lt:#FEF3E8;
+  --gold:#F2C94C; --gold-lt:#FEFAE8; --gold-dark:#C9962A; --gold-hover:#E3B53A;
+  --lav:#E7ECF8; --lav-deep:#3D5BA9;
+  --border:#E4DFD7;
+  --sans:'Hanken Grotesk',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:var(--cream);font-family:var(--sans);color:var(--ink);font-size:15px;line-height:1.65}
-nav{background:var(--forest);padding:0 32px;height:58px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+body{background:var(--cream);font-family:var(--sans);color:var(--ink);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+nav{background:var(--green-dark);padding:0 32px;height:58px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
 .logo{display:flex;align-items:center;gap:9px;text-decoration:none}
-.logo-mark{width:28px;height:28px;background:var(--leaf);border-radius:7px;display:flex;align-items:center;justify-content:center}
-.logo-mark-inner{width:14px;height:14px;border-radius:3px;background:var(--forest)}
-.logo-name{font-family:var(--serif);font-weight:700;font-size:1rem;color:#fff}
+.logo-mark{width:28px;height:28px;background:var(--green);border-radius:7px;display:flex;align-items:center;justify-content:center}
+.logo-mark-inner{width:14px;height:14px;border-radius:3px;background:var(--green-dark)}
+.logo-name{font-family:var(--sans);font-weight:800;font-size:1rem;color:#fff;letter-spacing:-.01em}
 .nav-right{display:flex;align-items:center;gap:16px}
-.nav-link{font-size:.82rem;color:var(--leaf);text-decoration:none;font-weight:500}
+.nav-link{font-size:.82rem;color:var(--green);text-decoration:none;font-weight:600;font-family:var(--mono);letter-spacing:.04em}
 .nav-link:hover{color:#fff}
-.nav-btn{background:var(--goldbrt);color:var(--amber);border:none;font-family:var(--sans);font-weight:700;font-size:.8rem;padding:8px 18px;border-radius:100px;cursor:pointer;text-decoration:none;display:inline-block;transition:all .15s}
-.nav-btn:hover{background:#fff;color:var(--forest)}
-.hero{background:var(--forest);padding:56px 32px 52px;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;top:-60px;right:-60px;width:360px;height:360px;border-radius:50%;background:var(--fern);opacity:.18;pointer-events:none}
+.nav-btn{background:var(--gold);color:var(--ink);border:none;font-family:var(--mono);font-weight:700;font-size:.8rem;letter-spacing:.02em;padding:9px 18px;border-radius:16px;box-shadow:0 4px 0 var(--gold-hover);cursor:pointer;text-decoration:none;display:inline-block;transition:transform .12s,box-shadow .12s}
+.nav-btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--gold-hover)}
+.hero{background:#1C2E24;padding:56px 32px 52px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-60px;right:-60px;width:360px;height:360px;border-radius:50%;background:var(--green-dark);opacity:.25;pointer-events:none}
 .hero-inner{max-width:900px;margin:0 auto;position:relative}
-.hero-eyebrow{font-family:var(--mono);font-size:.68rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--leaf);margin-bottom:14px;display:block}
-.hero h1{font-family:var(--serif);font-size:clamp(2.2rem,4vw,3.4rem);font-weight:700;color:#fff;line-height:1.1;letter-spacing:-.02em;margin-bottom:14px}
-.hero h1 em{font-style:italic;font-weight:400;color:var(--leaf)}
+.hero-eyebrow{font-family:var(--mono);font-size:.68rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--green);margin-bottom:14px;display:block}
+.hero h1{font-family:var(--sans);font-size:clamp(2.2rem,4vw,3.4rem);font-weight:800;color:#fff;line-height:1.08;letter-spacing:-.03em;margin-bottom:14px}
+.hero h1 em{font-style:italic;font-weight:400;color:var(--green)}
 .hero-sub{font-size:1rem;color:rgba(255,255,255,.75);line-height:1.78;max-width:540px;margin-bottom:28px}
 .module-pills{display:flex;gap:8px;flex-wrap:wrap}
-.mpill{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:100px;padding:5px 14px;font-family:var(--mono);font-size:.7rem;font-weight:500;color:rgba(255,255,255,.8);letter-spacing:.06em;text-transform:uppercase}
-.progress-bar{background:var(--parch);border-bottom:1px solid var(--border);padding:12px 32px}
+.mpill{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:100px;padding:5px 14px;font-family:var(--mono);font-size:.7rem;font-weight:600;color:rgba(255,255,255,.8);letter-spacing:.06em;text-transform:uppercase}
+.progress-bar{background:var(--warm);border-bottom:1px solid var(--border);padding:12px 32px}
 .progress-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px}
-.progress-inner p{font-family:var(--mono);font-size:.7rem;color:var(--ash);letter-spacing:.06em;text-transform:uppercase}
+.progress-inner p{font-family:var(--mono);font-size:.7rem;color:var(--ink-muted);letter-spacing:.06em;text-transform:uppercase}
 .steps{display:flex;gap:6px}
-.step-pip{height:4px;width:52px;border-radius:100px;background:var(--fern)}
+.step-pip{height:4px;width:52px;border-radius:100px;background:var(--green-dark)}
 .main{max-width:900px;margin:0 auto;padding:52px 32px 80px}
 .sec-head{margin-bottom:28px}
-.sec-label{font-family:var(--mono);font-size:.68rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--sage);margin-bottom:8px;display:block}
-.sec-head h2{font-family:var(--serif);font-size:clamp(1.6rem,2.8vw,2.2rem);font-weight:700;color:var(--forest);line-height:1.15;letter-spacing:-.02em}
+.sec-label{font-family:var(--mono);font-size:.68rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:8px;display:block}
+.sec-head h2{font-family:var(--sans);font-size:clamp(1.6rem,2.8vw,2.2rem);font-weight:800;color:var(--green-dark);line-height:1.1;letter-spacing:-.025em}
 .how-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:40px}
-.how-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px 16px;text-align:center}
-.how-num{font-family:var(--serif);font-size:2rem;font-weight:700;color:var(--leaf);line-height:1;margin-bottom:8px}
+.how-card{background:var(--warm);border:1px solid var(--border);border-radius:16px;padding:18px 16px;text-align:center}
+.how-num{font-family:var(--mono);font-size:2rem;font-weight:700;color:var(--green);line-height:1;margin-bottom:8px}
 .how-head{font-weight:700;font-size:.88rem;color:var(--ink);margin-bottom:5px}
-.how-body{font-size:.8rem;color:var(--ash);line-height:1.6}
+.how-body{font-size:.8rem;color:var(--ink-muted);line-height:1.6}
 .resource-list{display:flex;flex-direction:column;gap:12px;margin-bottom:48px}
-.resource-card{background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden;display:grid;grid-template-columns:8px 1fr auto;transition:box-shadow .18s}
-.resource-card:hover{box-shadow:0 6px 24px rgba(26,60,43,.1)}
-.rc-stripe{background:var(--fern)}
-.rc-stripe.s-gold{background:var(--goldbrt)}
+.resource-card{background:var(--warm);border:1px solid var(--border);border-radius:16px;overflow:hidden;display:grid;grid-template-columns:8px 1fr auto;transition:box-shadow .18s}
+.resource-card:hover{box-shadow:0 6px 24px rgba(0,0,0,.1)}
+.rc-stripe{background:var(--green-dark)}
+.rc-stripe.s-gold{background:var(--gold)}
 .rc-stripe.s-coral{background:var(--coral)}
-.rc-stripe.s-sage{background:var(--sage)}
+.rc-stripe.s-sage{background:var(--green)}
 .rc-body{padding:20px 22px}
 .rc-top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-.rc-icon{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1.15rem;flex-shrink:0;background:var(--mint)}
-.rc-icon.i-gold{background:var(--goldbrt)}
-.rc-icon.i-coral{background:var(--coralt)}
-.rc-icon.i-sage{background:var(--parch)}
-.rc-icon.i-forest{background:var(--forest)}
-.rc-meta{font-family:var(--mono);font-size:.65rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--stone);margin-bottom:3px}
-.rc-title{font-family:var(--serif);font-size:1.15rem;font-weight:700;color:var(--ink);line-height:1.2}
-.rc-desc{font-size:.88rem;color:var(--ash);line-height:1.65;margin-bottom:12px}
+.rc-icon{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1.15rem;flex-shrink:0;background:var(--green-lt)}
+.rc-icon.i-gold{background:var(--gold-lt)}
+.rc-icon.i-coral{background:var(--coral-lt)}
+.rc-icon.i-sage{background:var(--green-lt)}
+.rc-icon.i-forest{background:var(--green-dark)}
+.rc-meta{font-family:var(--mono);font-size:.65rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:3px}
+.rc-title{font-family:var(--sans);font-size:1.1rem;font-weight:800;color:var(--ink);line-height:1.2;letter-spacing:-.015em}
+.rc-desc{font-size:.88rem;color:var(--ink-muted);line-height:1.65;margin-bottom:12px}
 .rc-tags{display:flex;gap:6px;flex-wrap:wrap}
-.rc-tag{font-family:var(--mono);font-size:.62rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;background:var(--parch);color:var(--ash);border-radius:100px;padding:3px 10px}
+.rc-tag{font-family:var(--mono);font-size:.62rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;background:var(--cream);color:var(--ink-muted);border-radius:100px;padding:3px 10px;border:1px solid var(--border)}
 .rc-actions{display:flex;flex-direction:column;justify-content:center;gap:8px;padding:20px 20px 20px 0;min-width:160px}
-.btn-dl{display:flex;align-items:center;justify-content:center;gap:7px;background:var(--forest);color:#fff;text-decoration:none;font-family:var(--sans);font-weight:600;font-size:.82rem;padding:10px 18px;border-radius:10px;transition:all .15s;white-space:nowrap;border:none;cursor:pointer}
-.btn-dl:hover{background:var(--fern);transform:translateY(-1px)}
-.safeguarding-box{background:var(--coralt);border:1.5px solid var(--coral);border-radius:12px;padding:20px 24px;margin-bottom:48px;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center}
-.sb-left h3{font-family:var(--serif);font-size:1.1rem;font-weight:700;color:var(--coral);margin-bottom:6px}
-.sb-left p{font-size:.88rem;color:var(--char);line-height:1.65}
-.btn-coral{background:var(--coral);color:#fff;text-decoration:none;font-family:var(--sans);font-weight:700;font-size:.82rem;padding:11px 20px;border-radius:10px;white-space:nowrap;display:inline-block;transition:all .15s}
-.btn-coral:hover{background:var(--forest)}
-.pilot-cta{background:var(--forest);border-radius:16px;padding:36px 32px;text-align:center}
-.pilot-cta h2{font-family:var(--serif);font-size:clamp(1.5rem,2.5vw,2.2rem);font-weight:700;color:#fff;margin-bottom:10px;letter-spacing:-.02em}
+.btn-dl{display:flex;align-items:center;justify-content:center;gap:7px;background:var(--gold);color:var(--ink);text-decoration:none;font-family:var(--mono);font-weight:700;font-size:.82rem;letter-spacing:.02em;padding:11px 18px;border-radius:14px;box-shadow:0 4px 0 var(--gold-hover);transition:transform .12s,box-shadow .12s;white-space:nowrap;border:none;cursor:pointer}
+.btn-dl:active{transform:translateY(3px);box-shadow:0 1px 0 var(--gold-hover)}
+.safeguarding-box{background:var(--coral-lt);border:1.5px solid var(--coral);border-radius:16px;padding:20px 24px;margin-bottom:48px;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center}
+.sb-left h3{font-family:var(--sans);font-size:1.1rem;font-weight:800;color:var(--coral);margin-bottom:6px;letter-spacing:-.015em}
+.sb-left p{font-size:.88rem;color:var(--ink-soft);line-height:1.65}
+.btn-coral{background:var(--coral);color:#fff;text-decoration:none;font-family:var(--mono);font-weight:700;font-size:.82rem;letter-spacing:.02em;padding:12px 20px;border-radius:14px;box-shadow:0 4px 0 #a84a08;white-space:nowrap;display:inline-block;transition:transform .12s,box-shadow .12s}
+.btn-coral:active{transform:translateY(3px);box-shadow:0 1px 0 #a84a08}
+.pilot-cta{background:#1C2E24;border-radius:20px;padding:40px 36px;text-align:center}
+.pilot-cta h2{font-family:var(--sans);font-size:clamp(1.5rem,2.5vw,2.2rem);font-weight:800;color:#fff;margin-bottom:10px;letter-spacing:-.025em}
 .pilot-cta p{font-size:.95rem;color:rgba(255,255,255,.72);line-height:1.75;max-width:480px;margin:0 auto 24px}
 .pilot-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
-.btn-gold{background:var(--goldbrt);color:var(--amber);border:none;font-family:var(--sans);font-weight:700;font-size:.9rem;padding:13px 28px;border-radius:12px;cursor:pointer;text-decoration:none;display:inline-block;transition:all .15s}
-.btn-gold:hover{background:#fff;color:var(--forest)}
-.btn-ghost{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.25);font-family:var(--sans);font-weight:600;font-size:.9rem;padding:13px 28px;border-radius:12px;cursor:pointer;text-decoration:none;display:inline-block;transition:all .15s}
-.btn-ghost:hover{background:rgba(255,255,255,.22)}
-footer{background:var(--forest);padding:28px 32px}
+.btn-gold{background:var(--gold);color:var(--ink);border:none;font-family:var(--mono);font-weight:700;font-size:.9rem;letter-spacing:.02em;padding:14px 28px;border-radius:16px;box-shadow:0 5px 0 var(--gold-hover);cursor:pointer;text-decoration:none;display:inline-block;transition:transform .12s,box-shadow .12s}
+.btn-gold:active{transform:translateY(4px);box-shadow:0 1px 0 var(--gold-hover)}
+.btn-ghost{background:rgba(255,255,255,.1);color:#fff;border:1.5px solid rgba(255,255,255,.2);font-family:var(--mono);font-weight:600;font-size:.9rem;letter-spacing:.02em;padding:14px 28px;border-radius:16px;cursor:pointer;text-decoration:none;display:inline-block;transition:all .15s}
+.btn-ghost:hover{background:rgba(255,255,255,.18)}
+footer{background:var(--ink);padding:28px 32px}
 .foot-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px}
-.foot-brand{font-family:var(--serif);font-size:.9rem;font-weight:600;color:var(--leaf)}
+.foot-brand{font-family:var(--mono);font-size:.8rem;font-weight:600;color:var(--green);letter-spacing:.04em}
 .foot-links{display:flex;gap:18px}
-.foot-links a{font-size:.78rem;color:rgba(255,255,255,.55);text-decoration:none;transition:color .15s}
+.foot-links a{font-size:.78rem;color:rgba(255,255,255,.5);text-decoration:none;transition:color .15s;font-family:var(--mono)}
 .foot-links a:hover{color:#fff}
-.foot-copy{font-size:.72rem;color:rgba(255,255,255,.35)}
+.foot-copy{font-size:.72rem;color:rgba(255,255,255,.3);font-family:var(--mono)}
 @media(max-width:720px){
   .resource-card{grid-template-columns:8px 1fr;grid-template-rows:1fr auto}
   .rc-actions{flex-direction:row;padding:0 18px 18px;gap:8px}
@@ -160,19 +159,19 @@ footer{background:var(--forest);padding:28px 32px}
       <p style="color:rgba(255,255,255,.65);font-size:.94rem;line-height:1.75;max-width:520px;margin-bottom:32px"><strong style="color:rgba(255,255,255,.85)">Your job:</strong> open the slides, print the sheets, teach the lesson. Oliver, Zara and Sofia do the rest.</p>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:28px">
         <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:20px 16px;text-align:center">
-          <div style="width:48px;height:48px;border-radius:50%;background:#D4600A22;border:2px solid #D4600A;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-family:'IBM Plex Mono',monospace;font-weight:800;font-size:1.1rem;color:#D4600A">O</div>
+          <img src="/digi-squad/Oliver.png" alt="Oliver" style="width:64px;height:64px;border-radius:50%;object-fit:cover;object-position:top;margin:0 auto 12px;display:block;border:2px solid rgba(212,96,10,.5)">
           <p style="font-family:'Hanken Grotesk',sans-serif;font-weight:800;font-size:.95rem;color:#fff;margin-bottom:3px">Oliver</p>
           <p style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#F2C94C;margin-bottom:8px">Screen time</p>
           <p style="font-size:.78rem;color:rgba(255,255,255,.6);line-height:1.55">Teaches kids when to play and when to stop. Stage 2 to 3, ages 7 to 11.</p>
         </div>
         <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:20px 16px;text-align:center">
-          <div style="width:48px;height:48px;border-radius:50%;background:#C9962A22;border:2px solid #C9962A;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-family:'IBM Plex Mono',monospace;font-weight:800;font-size:1.1rem;color:#C9962A">Z</div>
+          <img src="/digi-squad/Zara.png" alt="Zara" style="width:64px;height:64px;border-radius:50%;object-fit:cover;object-position:top;margin:0 auto 12px;display:block;border:2px solid rgba(201,150,42,.5)">
           <p style="font-family:'Hanken Grotesk',sans-serif;font-weight:800;font-size:.95rem;color:#fff;margin-bottom:3px">Zara</p>
           <p style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#F2C94C;margin-bottom:8px">Online safety</p>
           <p style="font-size:.78rem;color:rgba(255,255,255,.6);line-height:1.55">Spots the tricks and fakes before anyone else. Stage 2 to 4, ages 8 to 13.</p>
         </div>
         <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:20px 16px;text-align:center">
-          <div style="width:48px;height:48px;border-radius:50%;background:#2E7D5A22;border:2px solid #2E7D5A;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-family:'IBM Plex Mono',monospace;font-weight:800;font-size:1.1rem;color:#AFDCA2">S</div>
+          <img src="/digi-squad/Sofia.jpeg" alt="Sofia" style="width:64px;height:64px;border-radius:50%;object-fit:cover;object-position:top;margin:0 auto 12px;display:block;border:2px solid rgba(46,125,90,.5)">
           <p style="font-family:'Hanken Grotesk',sans-serif;font-weight:800;font-size:.95rem;color:#fff;margin-bottom:3px">Sofia</p>
           <p style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#F2C94C;margin-bottom:8px">Privacy &amp; safety</p>
           <p style="font-size:.78rem;color:rgba(255,255,255,.6);line-height:1.55">Keeps every pupil safe. Knows what to keep private, always. Stage 1 to 2, ages 4 to 9.</p>
@@ -224,7 +223,7 @@ footer{background:var(--forest);padding:28px 32px}
       </div>
       <div class="rc-actions">
         <a href="https://github.com/GuidedChildhood/guided-childhood/raw/main/GC-Module9-SocialMediaBrain-KS3.pptx" class="btn-dl">&#8595;&nbsp; Download .pptx</a>
-        <p style="font-size:.72rem;color:var(--stone);text-align:center;line-height:1.4;margin-top:2px">Opens in PowerPoint</p>
+        <p style="font-size:.72rem;color:var(--ink-light);text-align:center;line-height:1.4;margin-top:2px">Opens in PowerPoint</p>
       </div>
     </div>
 
@@ -245,7 +244,7 @@ footer{background:var(--forest);padding:28px 32px}
       </div>
       <div class="rc-actions">
         <a href="/GC-Module9-Worksheet" target="_blank" class="btn-dl">&#8599;&nbsp; Open &amp; Print</a>
-        <p style="font-size:.72rem;color:var(--stone);text-align:center;line-height:1.4;margin-top:2px">Ctrl+P / Cmd+P<br>to print</p>
+        <p style="font-size:.72rem;color:var(--ink-light);text-align:center;line-height:1.4;margin-top:2px">Ctrl+P / Cmd+P<br>to print</p>
       </div>
     </div>
 
@@ -254,7 +253,7 @@ footer{background:var(--forest);padding:28px 32px}
       <div class="rc-body">
         <div class="rc-top">
           <div class="rc-icon">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4A65C0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E7D5A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
           </div>
           <div>
             <div class="rc-meta">Print A4 &middot; Confidential &middot; Teacher only</div>
@@ -266,7 +265,7 @@ footer{background:var(--forest);padding:28px 32px}
       </div>
       <div class="rc-actions">
         <a href="/GC-Module9-TeacherNotes" target="_blank" class="btn-dl">&#8599;&nbsp; Open &amp; Print</a>
-        <p style="font-size:.72rem;color:var(--stone);text-align:center;line-height:1.4;margin-top:2px">Do not distribute<br>to pupils</p>
+        <p style="font-size:.72rem;color:var(--ink-light);text-align:center;line-height:1.4;margin-top:2px">Do not distribute<br>to pupils</p>
       </div>
     </div>
 
@@ -275,7 +274,7 @@ footer{background:var(--forest);padding:28px 32px}
       <div class="rc-body">
         <div class="rc-top">
           <div class="rc-icon i-sage">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5A8A6A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E7D5A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
           </div>
           <div>
             <div class="rc-meta">Print A4 &middot; One per pupil &middot; Teacher section at bottom</div>
@@ -295,19 +294,19 @@ footer{background:var(--forest);padding:28px 32px}
       <div class="rc-body">
         <div class="rc-top">
           <div class="rc-icon i-coral">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E07050" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D4600A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
           </div>
           <div>
             <div class="rc-meta">Print A4 &middot; DSL use only &middot; Confidential &middot; GC-DSL-001</div>
             <div class="rc-title">DSL Safeguarding Concern Form</div>
           </div>
         </div>
-        <p class="rc-desc">Sections A–G. Nature of concern with 10 checkboxes, verbatim account, urgency assessment, and DSL action log. Complete and submit to the DSL before end of day.</p>
-        <div class="rc-tags"><span class="rc-tag">DSL use only</span><span class="rc-tag">Sections A–G</span><span class="rc-tag">Urgency assessment</span><span class="rc-tag">DSL action log</span><span class="rc-tag">Confidential</span></div>
+        <p class="rc-desc">Sections A&ndash;G. Nature of concern with 10 checkboxes, verbatim account, urgency assessment, and DSL action log. Complete and submit to the DSL before end of day.</p>
+        <div class="rc-tags"><span class="rc-tag">DSL use only</span><span class="rc-tag">Sections A&ndash;G</span><span class="rc-tag">Urgency assessment</span><span class="rc-tag">DSL action log</span><span class="rc-tag">Confidential</span></div>
       </div>
       <div class="rc-actions">
         <a href="/GC-Module9-DSLForm" target="_blank" class="btn-dl">&#8599;&nbsp; Open &amp; Print</a>
-        <p style="font-size:.72rem;color:var(--stone);text-align:center;line-height:1.4;margin-top:2px">Keep in the<br>DSL folder</p>
+        <p style="font-size:.72rem;color:var(--ink-light);text-align:center;line-height:1.4;margin-top:2px">Keep in the<br>DSL folder</p>
       </div>
     </div>
 
@@ -327,24 +326,24 @@ footer{background:var(--forest);padding:28px 32px}
   </div>
 
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:48px">
-    <div style="background:#fff;border:1px solid var(--border);border-radius:12px;padding:20px 22px">
-      <div style="font-family:var(--mono);font-size:.65rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--sage);margin-bottom:14px">Lesson sequence</div>
+    <div style="background:var(--warm);border:1px solid var(--border);border-radius:16px;padding:20px 22px">
+      <div style="font-family:var(--mono);font-size:.65rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:14px">Lesson sequence</div>
       <div style="display:flex;flex-direction:column;gap:9px">
-        <div style="display:flex;gap:10px;font-size:.88rem;color:var(--char)"><span style="font-family:var(--mono);font-size:.72rem;color:var(--stone);flex-shrink:0;width:54px">0&ndash;5 min</span>Starter &mdash; private recognition poll</div>
-        <div style="display:flex;gap:10px;font-size:.88rem;color:var(--char)"><span style="font-family:var(--mono);font-size:.72rem;color:var(--stone);flex-shrink:0;width:54px">5&ndash;20 min</span>Main 1 &mdash; the variable reward and app mapping</div>
-        <div style="display:flex;gap:10px;font-size:.88rem;color:var(--char)"><span style="font-family:var(--mono);font-size:.72rem;color:var(--stone);flex-shrink:0;width:54px">20&ndash;35 min</span>Main 2 &mdash; the comparison machine and feed analysis</div>
-        <div style="display:flex;gap:10px;font-size:.88rem;color:var(--char)"><span style="font-family:var(--mono);font-size:.72rem;color:var(--stone);flex-shrink:0;width:54px">35&ndash;45 min</span>Plenary &mdash; strategy choice</div>
-        <div style="display:flex;gap:10px;font-size:.88rem;color:var(--char)"><span style="font-family:var(--mono);font-size:.72rem;color:var(--stone);flex-shrink:0;width:54px">45&ndash;50 min</span>Exit ticket &mdash; collect worksheets before they leave</div>
+        <div style="display:flex;gap:10px;font-size:.88rem;color:var(--ink-soft)"><span style="font-family:var(--mono);font-size:.72rem;color:var(--ink-light);flex-shrink:0;width:54px">0&ndash;5 min</span>Starter &mdash; private recognition poll</div>
+        <div style="display:flex;gap:10px;font-size:.88rem;color:var(--ink-soft)"><span style="font-family:var(--mono);font-size:.72rem;color:var(--ink-light);flex-shrink:0;width:54px">5&ndash;20 min</span>Main 1 &mdash; the variable reward and app mapping</div>
+        <div style="display:flex;gap:10px;font-size:.88rem;color:var(--ink-soft)"><span style="font-family:var(--mono);font-size:.72rem;color:var(--ink-light);flex-shrink:0;width:54px">20&ndash;35 min</span>Main 2 &mdash; the comparison machine and feed analysis</div>
+        <div style="display:flex;gap:10px;font-size:.88rem;color:var(--ink-soft)"><span style="font-family:var(--mono);font-size:.72rem;color:var(--ink-light);flex-shrink:0;width:54px">35&ndash;45 min</span>Plenary &mdash; strategy choice</div>
+        <div style="display:flex;gap:10px;font-size:.88rem;color:var(--ink-soft)"><span style="font-family:var(--mono);font-size:.72rem;color:var(--ink-light);flex-shrink:0;width:54px">45&ndash;50 min</span>Exit ticket &mdash; collect worksheets before they leave</div>
       </div>
     </div>
-    <div style="background:#fff;border:1px solid var(--border);border-radius:12px;padding:20px 22px">
-      <div style="font-family:var(--mono);font-size:.65rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--sage);margin-bottom:14px">Statutory links</div>
+    <div style="background:var(--warm);border:1px solid var(--border);border-radius:16px;padding:20px 22px">
+      <div style="font-family:var(--mono);font-size:.65rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:14px">Statutory links</div>
       <div style="display:flex;flex-direction:column;gap:9px">
-        <div style="display:flex;gap:8px;font-size:.88rem;color:var(--char)"><span style="color:var(--fern);font-weight:700;flex-shrink:0">&#10003;</span>Online Safety Act 2023 &mdash; education provision duty</div>
-        <div style="display:flex;gap:8px;font-size:.88rem;color:var(--char)"><span style="color:var(--fern);font-weight:700;flex-shrink:0">&#10003;</span>Statutory RSE &mdash; online safety and mental wellbeing</div>
-        <div style="display:flex;gap:8px;font-size:.88rem;color:var(--char)"><span style="color:var(--fern);font-weight:700;flex-shrink:0">&#10003;</span>UKCIS Education for a Connected World &mdash; areas 3, 4, 6, 8</div>
-        <div style="display:flex;gap:8px;font-size:.88rem;color:var(--char)"><span style="color:var(--fern);font-weight:700;flex-shrink:0">&#10003;</span>Orben &amp; Przybylski (2019) &mdash; Nature Human Behaviour</div>
-        <div style="display:flex;gap:8px;font-size:.88rem;color:var(--char)"><span style="color:var(--fern);font-weight:700;flex-shrink:0">&#10003;</span>Odgers (2018) &mdash; Nature</div>
+        <div style="display:flex;gap:8px;font-size:.88rem;color:var(--ink-soft)"><span style="color:var(--green-dark);font-weight:700;flex-shrink:0">&#10003;</span>Online Safety Act 2023 &mdash; education provision duty</div>
+        <div style="display:flex;gap:8px;font-size:.88rem;color:var(--ink-soft)"><span style="color:var(--green-dark);font-weight:700;flex-shrink:0">&#10003;</span>Statutory RSE &mdash; online safety and mental wellbeing</div>
+        <div style="display:flex;gap:8px;font-size:.88rem;color:var(--ink-soft)"><span style="color:var(--green-dark);font-weight:700;flex-shrink:0">&#10003;</span>UKCIS Education for a Connected World &mdash; areas 3, 4, 6, 8</div>
+        <div style="display:flex;gap:8px;font-size:.88rem;color:var(--ink-soft)"><span style="color:var(--green-dark);font-weight:700;flex-shrink:0">&#10003;</span>Orben &amp; Przybylski (2019) &mdash; Nature Human Behaviour</div>
+        <div style="display:flex;gap:8px;font-size:.88rem;color:var(--ink-soft)"><span style="color:var(--green-dark);font-weight:700;flex-shrink:0">&#10003;</span>Odgers (2018) &mdash; Nature</div>
       </div>
     </div>
   </div>

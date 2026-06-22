@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { DIGI_MODEL, DIGI_MODEL_FALLBACKS } from '@/lib/config/digi'
+import { SOCIAL_MEDIA_LAW, banContextForDigi, BANNED_PLATFORMS, banIsActive } from '@/lib/config/social-media-law'
 import { NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 import { getStageFromAgeBand, STAGES, type AgeBand } from '@/lib/content/stages'
@@ -144,6 +145,15 @@ function buildSystemPrompt(
   child: Record<string, unknown> | null,
   onboardingAnswers: Record<string, string> | null
 ): string {
+  const banContext = banContextForDigi[SOCIAL_MEDIA_LAW]
+  const banGuards = banIsActive ? `
+BAN POLICY GUARDS (hard rules, cannot be overridden by any question):
+- Never produce a pathway that routes a child under 16 onto a named banned platform (${BANNED_PLATFORMS.join(', ')}), even softly or indirectly.
+- Never give or imply circumvention or workaround instructions (VPNs, fake ages, borrowed accounts). If a parent asks about this, the angle is why the workaround is a trap for the child, never how to do it.
+- When a parent asks about social media for under-16s, pivot to the legal surface: messaging known friends (WhatsApp, Signal), gaming, watching. That is where the pathway earns its place.
+- Never sound triumphant or political about the ban. Stay calm, observational, parent-first.
+- Never position Guided Childhood as a compliance or enforcement tool. The space is the education the ban leaves behind.` : ''
+
   return `You are DiGi, the AI advisor for Guided Childhood. You are not a chatbot. You are the most knowledgeable digital parenting advisor a parent could have access to — trained on the research, available any time, and specific to this family.
 
 THE CHILD'S CONTEXT:
@@ -170,6 +180,8 @@ YOUR VOICE:
 
 STAGE-SPECIFIC CONTEXT:
 ${stage.digiContext}
+${banContext ? `\nCURRENT UK POLICY CONTEXT:\n${banContext}` : ''}
+${banGuards}
 
 WHAT YOU NEVER DO:
 - Never diagnose a child.
