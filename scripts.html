@@ -21,13 +21,15 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:var(--cream);font-family:var(--sans);color:var(--ink);-webkit-font-smoothing:antialiased}
+body{background:#fff;font-family:var(--sans);color:var(--ink);-webkit-font-smoothing:antialiased}
 
 /* Nav */
-.nav{position:sticky;top:0;z-index:100;background:rgba(247,243,238,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
-.nav-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;max-width:960px;margin:0 auto;gap:12px}
+.nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;max-width:720px;margin:0 auto;gap:12px}
 .logo{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--ink);flex-shrink:0}
-.logo-mark{width:24px;height:24px;background:var(--green);border-radius:6px;flex-shrink:0}
+.logo-mark{width:24px;height:24px;background:var(--green-dark);border-radius:6px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.logo-bars{display:flex;align-items:flex-end;gap:2px;height:12px}
+.logo-bar{width:2.5px;border-radius:1.5px;background:#fff}
 .logo-name{font-weight:800;font-size:.95rem;letter-spacing:-.01em}
 .nav-actions{display:flex;align-items:center;gap:10px}
 .btn-print{display:inline-flex;align-items:center;gap:6px;background:none;border:1.5px solid var(--border);color:var(--ink-soft);font-family:var(--mono);font-weight:600;font-size:.78rem;letter-spacing:.05em;cursor:pointer;padding:9px 18px;border-radius:14px;transition:all .15s;text-decoration:none;line-height:1}
@@ -36,211 +38,160 @@ body{background:var(--cream);font-family:var(--sans);color:var(--ink);-webkit-fo
 .btn:active{transform:translateY(4px);box-shadow:0 1px 0 var(--gold-hover)}
 
 /* Layout */
-.wrap{max-width:960px;margin:0 auto;padding:0 20px 100px}
+.wrap{max-width:720px;margin:0 auto;padding:0 20px 100px}
 
 /* Hero */
-.hero{padding:52px 0 44px;text-align:center}
+.hero{padding:40px 0 32px;text-align:center}
 .eyebrow{display:inline-block;font-family:var(--mono);font-size:.63rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;padding:7px 18px;border-radius:10px;background:var(--lav);color:var(--lav-deep);margin-bottom:20px}
-h1{font-size:clamp(2rem,5.5vw,3rem);font-weight:800;letter-spacing:-.04em;line-height:1.1;margin-bottom:16px}
-.hero-sub{font-size:clamp(.95rem,2.3vw,1.1rem);color:var(--ink-soft);line-height:1.8;max-width:520px;margin:0 auto 14px}
+h1{font-size:clamp(1.8rem,5vw,2.6rem);font-weight:800;letter-spacing:-.04em;line-height:1.15;margin-bottom:16px}
+.hero-sub{font-size:clamp(.95rem,2.3vw,1.05rem);color:var(--ink-soft);line-height:1.8;max-width:500px;margin:0 auto 10px}
 .hero-note{font-family:var(--mono);font-size:.62rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-muted)}
 
-/* ===== FLIP CARDS ===== */
-.scripts-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:20px;
-  margin-top:48px;
-}
-@media(max-width:640px){
-  .scripts-grid{grid-template-columns:1fr}
-}
-
-.flip-wrap{
-  perspective:1200px;
-}
-
-.flip-card{
-  position:relative;
-  width:100%;
-  transform-style:preserve-3d;
-  transition:transform .55s cubic-bezier(.4,0,.2,1);
-  cursor:pointer;
-  min-height:320px;
-}
-
-.flip-card.is-flipped{
-  transform:rotateY(180deg);
-}
-
-.flip-face{
-  position:absolute;
-  top:0;left:0;right:0;
-  backface-visibility:hidden;
-  -webkit-backface-visibility:hidden;
-  border-radius:20px;
-  overflow:hidden;
-}
-
-.flip-back{
-  transform:rotateY(180deg);
-}
-
-/* Front face */
-.front-header{
-  padding:24px 24px 20px;
-}
-.front-badges{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  flex-wrap:wrap;
-  margin-bottom:0;
-}
-.front-stage-pill{
-  font-family:var(--mono);
-  font-size:.58rem;
-  font-weight:700;
-  letter-spacing:.1em;
-  text-transform:uppercase;
-  padding:5px 12px;
-  border-radius:7px;
-}
-.front-critical{
-  background:var(--coral);
-  color:#fff;
-  font-family:var(--mono);
-  font-size:.54rem;
-  font-weight:700;
-  letter-spacing:.1em;
-  text-transform:uppercase;
-  padding:4px 10px;
-  border-radius:7px;
-}
-.front-body{
-  background:#fff;
-  padding:22px 24px 20px;
-}
-.front-title{
-  font-size:1.3rem;
-  font-weight:800;
-  letter-spacing:-.025em;
-  line-height:1.25;
-  margin-bottom:10px;
-}
-.front-teaser{
-  font-size:.9rem;
-  color:var(--ink-soft);
-  line-height:1.7;
-  margin-bottom:0;
-}
-.front-bottom{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:14px 24px 20px;
-  background:#fff;
+/* Stage section */
+.stage-section{
   border-top:1px solid var(--border);
-  margin-top:auto;
+  padding:28px 0;
 }
-.front-duration{
-  font-family:var(--mono);
-  font-size:.56rem;
-  font-weight:700;
-  letter-spacing:.1em;
-  text-transform:uppercase;
-  background:var(--cream);
-  color:var(--ink-muted);
-  padding:4px 10px;
-  border-radius:7px;
-  border:1px solid var(--border);
-}
-.front-hint{
-  font-family:var(--mono);
-  font-size:.58rem;
-  font-weight:600;
-  letter-spacing:.08em;
-  text-transform:uppercase;
-  color:var(--ink-light);
-}
+.stage-section:first-of-type{border-top:none;padding-top:0}
 
-/* Back face */
-.back-header{
-  height:56px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 24px;
-  flex-shrink:0;
-}
-.back-stage-name{
+/* Stage header */
+.stage-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.stage-pill{
   font-family:var(--mono);
   font-size:.6rem;
   font-weight:700;
   letter-spacing:.12em;
   text-transform:uppercase;
-  color:#fff;
+  padding:6px 14px;
+  border-radius:8px;
 }
-.back-close{
+.critical-badge{
   font-family:var(--mono);
-  font-size:.54rem;
-  font-weight:600;
+  font-size:.56rem;
+  font-weight:700;
   letter-spacing:.1em;
   text-transform:uppercase;
-  color:rgba(255,255,255,.7);
+  padding:5px 12px;
+  border-radius:8px;
+  background:var(--coral);
+  color:#fff;
 }
-.back-content{
-  background:#fff;
-  overflow-y:auto;
-  padding:20px 20px 24px;
-  display:flex;
-  flex-direction:column;
-  gap:12px;
+.stage-title{
+  font-size:clamp(1.3rem,3.5vw,1.75rem);
+  font-weight:800;
+  letter-spacing:-.03em;
+  line-height:1.2;
+  margin-bottom:6px;
+  color:var(--ink);
+}
+.stage-ks{
+  font-family:var(--mono);
+  font-size:.62rem;
+  font-weight:600;
+  letter-spacing:.06em;
+  color:var(--ink-muted);
+  margin-bottom:20px;
 }
 
-/* Content blocks on back */
-.block{
-  border-radius:12px;
-  padding:16px 18px;
+/* Dotted separator */
+.sep{
+  width:100%;
+  border:none;
+  border-top:2px dotted var(--border);
+  margin:20px 0 24px;
 }
-.block-label{
+
+/* "Say this:" label */
+.script-label{
+  font-size:.95rem;
+  font-style:italic;
+  color:var(--ink-muted);
+  margin-bottom:20px;
+  font-weight:500;
+}
+
+/* Numbered items */
+.num-list{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.num-item{
+  display:flex;
+  gap:12px;
+  align-items:flex-start;
+}
+.num-circle{
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  background:var(--gold);
+  color:var(--ink);
+  font-weight:800;
+  font-size:1rem;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+  margin-top:2px;
+  box-shadow:0 3px 0 var(--gold-hover);
+}
+.num-card{
+  flex:1;
+  background:var(--gold-lt);
+  border-radius:16px;
+  padding:16px 20px;
+  line-height:1.65;
+}
+.num-card-label{
   font-family:var(--mono);
   font-size:.56rem;
   font-weight:700;
   letter-spacing:.14em;
   text-transform:uppercase;
-  display:block;
-  margin-bottom:8px;
+  margin-bottom:6px;
 }
-.block-text{
-  font-size:.875rem;
-  line-height:1.75;
-  color:var(--ink-soft);
-}
-.block-say{
-  border-left:4px solid;
-  border-radius:0 12px 12px 0;
-}
-.block-say .block-text{
-  font-style:italic;
+.num-card p{
+  font-size:.95rem;
+  font-weight:600;
   color:var(--ink);
+  margin:0;
 }
-.block-not{background:var(--coral-lt)}
-.block-not .block-label{color:var(--coral)}
-.block-why{background:var(--gold-lt)}
-.block-why .block-label{color:var(--gold-dark)}
-.block-tonight{background:var(--green-lt)}
-.block-tonight .block-label{color:var(--green-dark)}
-.block-tonight .block-text{font-weight:600}
+.num-card p em{
+  font-style:italic;
+}
 
-/* Find your stage strip */
+/* Say this — gold */
+.num-card-say{background:var(--gold-lt);border:1.5px solid rgba(242,201,76,.4)}
+.num-card-say .num-card-label{color:var(--gold-dark)}
+.num-card-say p{font-style:italic}
+
+/* Not this — coral */
+.num-card-not{background:var(--coral-lt);border:1.5px solid rgba(212,96,10,.15)}
+.num-card-not .num-card-label{color:var(--coral)}
+.num-card-not p{font-weight:400;color:var(--ink-soft)}
+.num-circle-not{background:var(--coral-lt);border:2px solid rgba(212,96,10,.3);color:var(--coral);box-shadow:none}
+
+/* Why — cream */
+.num-card-why{background:var(--cream);border:1.5px solid var(--border)}
+.num-card-why .num-card-label{color:var(--ink-muted)}
+.num-card-why p{font-weight:400;color:var(--ink-soft)}
+.num-circle-why{background:var(--cream);border:2px solid var(--border);color:var(--ink-muted);box-shadow:none}
+
+/* Tonight — green */
+.num-card-tonight{background:var(--green-lt);border:1.5px solid #C5E3D3}
+.num-card-tonight .num-card-label{color:var(--green-dark)}
+.num-card-tonight p{font-weight:600;color:var(--ink)}
+.num-circle-tonight{background:var(--green-lt);border:2px solid #C5E3D3;color:var(--green-dark);box-shadow:none}
+
+/* Find your stage */
 .find-strip{
   background:var(--cream);
   border:1.5px solid var(--border);
   border-radius:20px;
   padding:36px 32px;
   text-align:center;
-  margin-top:40px;
+  margin-top:48px;
 }
 .find-strip p{
   font-size:1rem;
@@ -254,26 +205,8 @@ h1{font-size:clamp(2rem,5.5vw,3rem);font-weight:800;letter-spacing:-.04em;line-h
 @media(max-width:560px){.upsell{padding:36px 24px;border-radius:20px}}
 .upsell-eyebrow{font-family:var(--mono);font-size:.62rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
 .upsell-heading{font-size:clamp(1.5rem,4vw,2rem);font-weight:800;letter-spacing:-.03em;color:#fff;line-height:1.2;margin-bottom:16px}
-.upsell-list{
-  list-style:none;
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:center;
-  gap:8px;
-  margin-bottom:28px;
-}
-.upsell-list li{
-  font-family:var(--mono);
-  font-size:.6rem;
-  font-weight:600;
-  letter-spacing:.08em;
-  text-transform:uppercase;
-  padding:6px 14px;
-  border-radius:8px;
-  background:rgba(255,255,255,.1);
-  color:rgba(255,255,255,.8);
-  border:1px solid rgba(255,255,255,.15);
-}
+.upsell-list{list-style:none;display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:28px}
+.upsell-list li{font-family:var(--mono);font-size:.6rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:6px 14px;border-radius:8px;background:rgba(255,255,255,.1);color:rgba(255,255,255,.8);border:1px solid rgba(255,255,255,.15)}
 .upsell-actions{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap}
 .btn-upsell{display:inline-flex;align-items:center;background:var(--gold);color:var(--ink);border:none;font-family:var(--mono);font-weight:600;font-size:.88rem;letter-spacing:.03em;cursor:pointer;padding:16px 32px;border-radius:16px;box-shadow:0 5px 0 var(--gold-hover);transition:transform .14s,box-shadow .14s;text-decoration:none;line-height:1}
 .btn-upsell:active{transform:translateY(4px);box-shadow:0 1px 0 var(--gold-hover)}
@@ -282,12 +215,8 @@ h1{font-size:clamp(2rem,5.5vw,3rem);font-weight:800;letter-spacing:-.04em;line-h
 
 /* Print */
 @media print{
-  .nav,.upsell,.find-strip{display:none!important}
-  .flip-back{display:none!important}
-  .flip-wrap{perspective:none;break-inside:avoid}
-  .flip-card{transform:none!important;position:static;min-height:0}
-  .flip-face{position:static;transform:none!important;backface-visibility:visible;-webkit-backface-visibility:visible}
-  .flip-wrap{height:auto!important}
+  .nav,.upsell,.find-strip,.no-print{display:none!important}
+  .stage-section{break-inside:avoid;border-top:1px solid #ddd}
   @page{margin:20mm}
 }
 </style>
@@ -297,12 +226,19 @@ h1{font-size:clamp(2rem,5.5vw,3rem);font-weight:800;letter-spacing:-.04em;line-h
 <nav class="nav">
   <div class="nav-inner">
     <a class="logo" href="/">
-      <span class="logo-mark"></span>
+      <span class="logo-mark">
+        <span class="logo-bars">
+          <span class="logo-bar" style="height:3px"></span>
+          <span class="logo-bar" style="height:7px"></span>
+          <span class="logo-bar" style="height:11px"></span>
+          <span class="logo-bar" style="height:6px"></span>
+        </span>
+      </span>
       <span class="logo-name">Guided Childhood</span>
     </a>
     <div class="nav-actions">
-      <button class="btn-print" onclick="window.print()">Print</button>
-      <a class="btn" href="/join">Join as Founder</a>
+      <button class="btn-print no-print" onclick="window.print()">Print</button>
+      <a class="btn no-print" href="https://buy.stripe.com/4gM8wI9d0eAOgoK6Kp5sA00">Join as Founder &rarr;</a>
     </div>
   </div>
 </nav>
@@ -312,263 +248,227 @@ h1{font-size:clamp(2rem,5.5vw,3rem);font-weight:800;letter-spacing:-.04em;line-h
   <!-- Hero -->
   <section class="hero">
     <span class="eyebrow">Five stages &middot; Ages 4 to 16</span>
-    <h1>The conversations that change everything.</h1>
-    <p class="hero-sub">One script per stage. Tap a card to read it.</p>
-    <p class="hero-note">The full library has 17 scripts. Available to members.</p>
+    <h1>The conversations<br><em style="font-weight:300;font-style:italic">that change everything.</em></h1>
+    <p class="hero-sub">One script per stage. Read it through in 10 minutes. Say it tonight.</p>
+    <p class="hero-note">The full library has 100+ scripts. Available to members.</p>
   </section>
 
-  <!-- Scripts Grid -->
-  <div class="scripts-grid">
-
-    <!-- Card 1: Foundation -->
-    <div class="flip-wrap">
-      <div class="flip-card">
-        <!-- Front -->
-        <div class="flip-face flip-front" style="border:1.5px solid #C5E3D3">
-          <div class="front-header" style="background:#EEF7F2">
-            <div class="front-badges">
-              <span class="front-stage-pill" style="background:#fff;color:#2E7D5A;border:1px solid #C5E3D3">Stage 1 &middot; Ages 4 to 7</span>
-            </div>
-          </div>
-          <div class="front-body">
-            <div class="front-title">The First Device Conversation</div>
-            <p class="front-teaser">The timer is the rule, not you.</p>
-          </div>
-          <div class="front-bottom" style="border-top-color:#C5E3D3">
-            <span class="front-duration">10 minutes</span>
-            <span class="front-hint">Tap to read &#8594;</span>
-          </div>
+  <!-- Stage 1 -->
+  <section class="stage-section">
+    <div class="stage-meta">
+      <span class="stage-pill" style="background:#EEF7F2;color:#2E7D5A;border:1px solid #C5E3D3">Stage 1 &middot; Ages 4 to 7</span>
+    </div>
+    <h2 class="stage-title">The First Device Conversation</h2>
+    <p class="stage-ks">Foundation &middot; KS1 &middot; Years 1 to 3</p>
+    <hr class="sep">
+    <p class="script-label">Say this:</p>
+    <div class="num-list">
+      <div class="num-item">
+        <span class="num-circle">1</span>
+        <div class="num-card num-card-say">
+          <div class="num-card-label">Say this</div>
+          <p>"We have a family rule about screens. When the timer goes off, screens go down. Every time, no exceptions. And then we do something together."</p>
         </div>
-        <!-- Back -->
-        <div class="flip-face flip-back" style="border:1.5px solid #C5E3D3">
-          <div class="back-header" style="background:#2E7D5A">
-            <span class="back-stage-name">Foundation &middot; Stage 1</span>
-            <span class="back-close">Tap to close</span>
-          </div>
-          <div class="back-content">
-            <div class="block block-say" style="background:#EEF7F2;border-color:#2E7D5A">
-              <span class="block-label" style="color:#2E7D5A">Say this</span>
-              <p class="block-text">"We have a family rule about screens. When the timer goes off, screens go down. Every time, no exceptions. And then we do something together."</p>
-            </div>
-            <div class="block block-not">
-              <span class="block-label">Not this</span>
-              <p class="block-text">"Just five more minutes." Once you move the line, it moves every time.</p>
-            </div>
-            <div class="block block-why">
-              <span class="block-label">Why it works</span>
-              <p class="block-text">Children at this stage cannot regulate device use themselves. The rule is not a punishment, it is the structure that makes screen time safe. Consistent boundaries now build the self-regulation they will need at 13.</p>
-            </div>
-            <div class="block block-tonight">
-              <span class="block-label">Tonight</span>
-              <p class="block-text">Set up a charging station in the kitchen or hallway tonight. Devices do not sleep in bedrooms in this house.</p>
-            </div>
-          </div>
+      </div>
+      <div class="num-item">
+        <span class="num-circle num-circle-not">2</span>
+        <div class="num-card num-card-not">
+          <div class="num-card-label">Not this</div>
+          <p>"Just five more minutes." Once you move the line, it moves every time.</p>
+        </div>
+      </div>
+      <div class="num-item">
+        <span class="num-circle num-circle-why">3</span>
+        <div class="num-card num-card-why">
+          <div class="num-card-label">Why it works</div>
+          <p>Children at this stage cannot regulate device use themselves. The rule is not a punishment, it is the structure that makes screen time safe. Consistent limits now build the self-regulation they will need at 13.</p>
+        </div>
+      </div>
+      <div class="num-item">
+        <span class="num-circle num-circle-tonight">4</span>
+        <div class="num-card num-card-tonight">
+          <div class="num-card-label">Tonight</div>
+          <p>Set up a charging station in the kitchen or hallway tonight. Devices do not sleep in bedrooms in this house.</p>
         </div>
       </div>
     </div>
+  </section>
 
-    <!-- Card 2: Builder -->
-    <div class="flip-wrap">
-      <div class="flip-card">
-        <!-- Front -->
-        <div class="flip-face flip-front" style="border:1.5px solid #B8C8F0">
-          <div class="front-header" style="background:#E7ECF8">
-            <div class="front-badges">
-              <span class="front-stage-pill" style="background:#fff;color:#3D5BA9;border:1px solid #B8C8F0">Stage 2 &middot; Ages 8 to 10</span>
-            </div>
-          </div>
-          <div class="front-body">
-            <div class="front-title">The Bedroom Rule</div>
-            <p class="front-teaser">One rule. The highest-impact change in the system.</p>
-          </div>
-          <div class="front-bottom" style="border-top-color:#B8C8F0">
-            <span class="front-duration">10 minutes</span>
-            <span class="front-hint">Tap to read &#8594;</span>
-          </div>
+  <!-- Stage 2 -->
+  <section class="stage-section">
+    <div class="stage-meta">
+      <span class="stage-pill" style="background:#E7ECF8;color:#3D5BA9;border:1px solid #B8C8F0">Stage 2 &middot; Ages 8 to 10</span>
+    </div>
+    <h2 class="stage-title">The Bedroom Rule</h2>
+    <p class="stage-ks">Builder &middot; KS2 &middot; Years 4 to 6</p>
+    <hr class="sep">
+    <p class="script-label">Say this:</p>
+    <div class="num-list">
+      <div class="num-item">
+        <span class="num-circle">1</span>
+        <div class="num-card num-card-say">
+          <div class="num-card-label">Say this</div>
+          <p>"Where does your phone sleep at night? In our house, phones sleep in the kitchen. The bedroom is for sleep. That is our rule and it will not change."</p>
         </div>
-        <!-- Back -->
-        <div class="flip-face flip-back" style="border:1.5px solid #B8C8F0">
-          <div class="back-header" style="background:#3D5BA9">
-            <span class="back-stage-name">Builder &middot; Stage 2</span>
-            <span class="back-close">Tap to close</span>
-          </div>
-          <div class="back-content">
-            <div class="block block-say" style="background:#E7ECF8;border-color:#3D5BA9">
-              <span class="block-label" style="color:#3D5BA9">Say this</span>
-              <p class="block-text">"Where does your phone sleep at night? In our house, phones sleep in the kitchen. The bedroom is for sleep. That is our rule and it will not change."</p>
-            </div>
-            <div class="block block-not">
-              <span class="block-label">Not this</span>
-              <p class="block-text">"You need to earn the right to have it in your room." That makes it a prize, not a family norm.</p>
-            </div>
-            <div class="block block-why">
-              <span class="block-label">Why it works</span>
-              <p class="block-text">Sleep is the non-negotiable. Blue light, notification sounds, and the temptation to check at 2am are all removed by one consistent rule. Set it now, before they have a personal device, and it is just how things work.</p>
-            </div>
-            <div class="block block-tonight">
-              <span class="block-label">Tonight</span>
-              <p class="block-text">Have the bedroom rule conversation tonight, not as a rule you are imposing, but as a family decision. Where should our devices sleep?</p>
-            </div>
-          </div>
+      </div>
+      <div class="num-item">
+        <span class="num-circle num-circle-not">2</span>
+        <div class="num-card num-card-not">
+          <div class="num-card-label">Not this</div>
+          <p>"You need to earn the right to have it in your room." That makes it a prize, not a family norm.</p>
+        </div>
+      </div>
+      <div class="num-item">
+        <span class="num-circle num-circle-why">3</span>
+        <div class="num-card num-card-why">
+          <div class="num-card-label">Why it works</div>
+          <p>Sleep is the non-negotiable. Blue light, notification sounds, and the temptation to check at 2am are all removed by one consistent rule. Set it now, before they have a personal device, and it is just how things work.</p>
+        </div>
+      </div>
+      <div class="num-item">
+        <span class="num-circle num-circle-tonight">4</span>
+        <div class="num-card num-card-tonight">
+          <div class="num-card-label">Tonight</div>
+          <p>Have the bedroom rule conversation tonight. Not as a rule you are imposing but as a family decision. Where should our devices sleep?</p>
         </div>
       </div>
     </div>
+  </section>
 
-    <!-- Card 3: Explorer (critical) -->
-    <div class="flip-wrap">
-      <div class="flip-card">
-        <!-- Front -->
-        <div class="flip-face flip-front" style="border:1.5px solid rgba(212,96,10,.35);box-shadow:0 0 0 3px rgba(212,96,10,.07)">
-          <div class="front-header" style="background:#FEF3E8">
-            <div class="front-badges">
-              <span class="front-stage-pill" style="background:#fff;color:#D4600A;border:1px solid rgba(212,96,10,.3)">Stage 3 &middot; Ages 11 to 13</span>
-              <span class="front-critical">Critical window</span>
-            </div>
-          </div>
-          <div class="front-body">
-            <div class="front-title">The Algorithm Conversation</div>
-            <p class="front-teaser">Before social media. The talk that changes everything.</p>
-          </div>
-          <div class="front-bottom" style="border-top-color:rgba(212,96,10,.2)">
-            <span class="front-duration">10 minutes</span>
-            <span class="front-hint">Tap to read &#8594;</span>
-          </div>
+  <!-- Stage 3 -->
+  <section class="stage-section">
+    <div class="stage-meta">
+      <span class="stage-pill" style="background:#FEF3E8;color:#D4600A;border:1px solid rgba(212,96,10,.25)">Stage 3 &middot; Ages 11 to 13</span>
+      <span class="critical-badge">Critical window</span>
+    </div>
+    <h2 class="stage-title">The Algorithm Conversation</h2>
+    <p class="stage-ks">Explorer &middot; KS3 &middot; Years 7 to 9</p>
+    <hr class="sep">
+    <p class="script-label">Say this:</p>
+    <div class="num-list">
+      <div class="num-item">
+        <span class="num-circle">1</span>
+        <div class="num-card num-card-say">
+          <div class="num-card-label">Say this</div>
+          <p>"Did you know your phone is learning what you like? Every video you watch, every post you pause on, it notes it. Let me show you something. Open your feed and we will look at it together."</p>
         </div>
-        <!-- Back -->
-        <div class="flip-face flip-back" style="border:1.5px solid rgba(212,96,10,.35)">
-          <div class="back-header" style="background:#D4600A">
-            <span class="back-stage-name">Explorer &middot; Stage 3</span>
-            <span class="back-close">Tap to close</span>
-          </div>
-          <div class="back-content">
-            <div class="block block-say" style="background:#FEF3E8;border-color:#D4600A">
-              <span class="block-label" style="color:#D4600A">Say this</span>
-              <p class="block-text">"Did you know your phone is learning what you like? Every video you watch, every post you pause on, it notes it. Let me show you something. Open your feed and we will look at it together."</p>
-            </div>
-            <div class="block block-not">
-              <span class="block-label">Not this</span>
-              <p class="block-text">"That app is rotting your brain." That shuts the conversation down before it starts.</p>
-            </div>
-            <div class="block block-why">
-              <span class="block-label">Why it works</span>
-              <p class="block-text">Children at 11 to 13 are in the highest-risk window identified by Cambridge MRC research. They are forming identity through comparison, and the algorithm amplifies whatever vulnerability it finds. The parent who can talk about this without alarm is the greatest protective factor.</p>
-            </div>
-            <div class="block block-tonight">
-              <span class="block-label">Tonight</span>
-              <p class="block-text">Open their feed together tonight. No judgment, just curiosity. Why do you think it showed you that? Stay for 10 minutes.</p>
-            </div>
-          </div>
+      </div>
+      <div class="num-item">
+        <span class="num-circle num-circle-not">2</span>
+        <div class="num-card num-card-not">
+          <div class="num-card-label">Not this</div>
+          <p>"That app is rotting your brain." That shuts the conversation down before it starts.</p>
+        </div>
+      </div>
+      <div class="num-item">
+        <span class="num-circle num-circle-why">3</span>
+        <div class="num-card num-card-why">
+          <div class="num-card-label">Why it works</div>
+          <p>Children at 11 to 13 are in the highest-risk window identified by Cambridge MRC research. They are forming identity through comparison, and the algorithm amplifies whatever vulnerability it finds. The parent who can talk about this without alarm is the greatest protective factor.</p>
+        </div>
+      </div>
+      <div class="num-item">
+        <span class="num-circle num-circle-tonight">4</span>
+        <div class="num-card num-card-tonight">
+          <div class="num-card-label">Tonight</div>
+          <p>Open their feed together tonight. No judgment, just curiosity. Why do you think it showed you that? Stay for 10 minutes.</p>
         </div>
       </div>
     </div>
+  </section>
 
-    <!-- Card 4: Shaper -->
-    <div class="flip-wrap">
-      <div class="flip-card">
-        <!-- Front -->
-        <div class="flip-face flip-front" style="border:1.5px solid rgba(242,201,76,.5)">
-          <div class="front-header" style="background:#FEFAE8">
-            <div class="front-badges">
-              <span class="front-stage-pill" style="background:#fff;color:#C9962A;border:1px solid rgba(242,201,76,.5)">Stage 4 &middot; Ages 13 to 15</span>
-            </div>
-          </div>
-          <div class="front-body">
-            <div class="front-title">Keeping the Door Open</div>
-            <p class="front-teaser">Say this before anything goes wrong.</p>
-          </div>
-          <div class="front-bottom" style="border-top-color:rgba(242,201,76,.4)">
-            <span class="front-duration">10 minutes</span>
-            <span class="front-hint">Tap to read &#8594;</span>
-          </div>
+  <!-- Stage 4 -->
+  <section class="stage-section">
+    <div class="stage-meta">
+      <span class="stage-pill" style="background:#FEFAE8;color:#C9962A;border:1px solid rgba(242,201,76,.4)">Stage 4 &middot; Ages 13 to 15</span>
+    </div>
+    <h2 class="stage-title">Keeping the Door Open</h2>
+    <p class="stage-ks">Shaper &middot; KS4 &middot; Years 10 to 11</p>
+    <hr class="sep">
+    <p class="script-label">Say this:</p>
+    <div class="num-list">
+      <div class="num-item">
+        <span class="num-circle">1</span>
+        <div class="num-card num-card-say">
+          <div class="num-card-label">Say this</div>
+          <p>"If anything ever goes wrong online and things do go wrong, I am the first call you make, not the last. I will not overreact. I will help."</p>
         </div>
-        <!-- Back -->
-        <div class="flip-face flip-back" style="border:1.5px solid rgba(242,201,76,.5)">
-          <div class="back-header" style="background:#C9962A">
-            <span class="back-stage-name">Shaper &middot; Stage 4</span>
-            <span class="back-close">Tap to close</span>
-          </div>
-          <div class="back-content">
-            <div class="block block-say" style="background:#FEFAE8;border-color:#C9962A">
-              <span class="block-label" style="color:#C9962A">Say this</span>
-              <p class="block-text">"If anything ever goes wrong online and things do go wrong, I am the first call you make, not the last. I will not overreact. I will help."</p>
-            </div>
-            <div class="block block-not">
-              <span class="block-label">Not this</span>
-              <p class="block-text">"If I catch you doing that, I am taking your phone." That closes the door before anything happens.</p>
-            </div>
-            <div class="block block-why">
-              <span class="block-label">Why it works</span>
-              <p class="block-text">Teenagers at this stage need to know the door is open before anything goes wrong. A child who fears losing their phone is a child who hides problems. This script keeps the door open.</p>
-            </div>
-            <div class="block block-tonight">
-              <span class="block-label">Tonight</span>
-              <p class="block-text">Set up a no-agenda weekly 10 minutes. Not about screens, not about homework. Just checking in. Same day, same time.</p>
-            </div>
-          </div>
+      </div>
+      <div class="num-item">
+        <span class="num-circle num-circle-not">2</span>
+        <div class="num-card num-card-not">
+          <div class="num-card-label">Not this</div>
+          <p>"If I catch you doing that, I am taking your phone." That closes the door before anything happens.</p>
+        </div>
+      </div>
+      <div class="num-item">
+        <span class="num-circle num-circle-why">3</span>
+        <div class="num-card num-card-why">
+          <div class="num-card-label">Why it works</div>
+          <p>Teenagers at this stage need to know the door is open before anything goes wrong. A child who fears losing their phone is a child who hides problems. This script keeps the door open.</p>
+        </div>
+      </div>
+      <div class="num-item">
+        <span class="num-circle num-circle-tonight">4</span>
+        <div class="num-card num-card-tonight">
+          <div class="num-card-label">Tonight</div>
+          <p>Set up a no-agenda weekly 10 minutes. Not about screens, not about homework. Just checking in. Same day, same time.</p>
         </div>
       </div>
     </div>
+  </section>
 
-    <!-- Card 5: Independent -->
-    <div class="flip-wrap">
-      <div class="flip-card">
-        <!-- Front -->
-        <div class="flip-face flip-front" style="border:1.5px solid #E4DFD7">
-          <div class="front-header" style="background:#FDFBF8">
-            <div class="front-badges">
-              <span class="front-stage-pill" style="background:#fff;color:#4A4A4A;border:1px solid #E4DFD7">Stage 5 &middot; Ages 16 and above</span>
-            </div>
-          </div>
-          <div class="front-body">
-            <div class="front-title">Handing Over the Wheel</div>
-            <p class="front-teaser">The conversation that completes the pathway.</p>
-          </div>
-          <div class="front-bottom" style="border-top-color:#E4DFD7">
-            <span class="front-duration">10 minutes</span>
-            <span class="front-hint">Tap to read &#8594;</span>
-          </div>
+  <!-- Stage 5 -->
+  <section class="stage-section">
+    <div class="stage-meta">
+      <span class="stage-pill" style="background:#F4F0EC;color:#4A4A4A;border:1px solid #E4DFD7">Stage 5 &middot; Ages 16 and above</span>
+    </div>
+    <h2 class="stage-title">Handing Over the Wheel</h2>
+    <p class="stage-ks">Independent &middot; KS5 &middot; Years 12 and 13</p>
+    <hr class="sep">
+    <p class="script-label">Say this:</p>
+    <div class="num-list">
+      <div class="num-item">
+        <span class="num-circle">1</span>
+        <div class="num-card num-card-say">
+          <div class="num-card-label">Say this</div>
+          <p>"You are at the age where you get to decide what kind of digital life you build. What does your online presence say about who you are? Not to me. To the world."</p>
         </div>
-        <!-- Back -->
-        <div class="flip-face flip-back" style="border:1.5px solid #E4DFD7">
-          <div class="back-header" style="background:#4A4A4A">
-            <span class="back-stage-name">Independent &middot; Stage 5</span>
-            <span class="back-close">Tap to close</span>
-          </div>
-          <div class="back-content">
-            <div class="block block-say" style="background:#F4F0EC;border-color:#4A4A4A">
-              <span class="block-label" style="color:#4A4A4A">Say this</span>
-              <p class="block-text">"You are at the age where you get to decide what kind of digital life you build. What does your online presence say about who you are? Not to me. To the world."</p>
-            </div>
-            <div class="block block-not">
-              <span class="block-label">Not this</span>
-              <p class="block-text">"Get off your phone." That conversation is over. A different one has started.</p>
-            </div>
-            <div class="block block-why">
-              <span class="block-label">Why it works</span>
-              <p class="block-text">At 16, the goal is not compliance but genuine digital literacy. A young person who can articulate their own relationship with technology, what it gives them and what it costs them, is genuinely prepared for what comes next.</p>
-            </div>
-            <div class="block block-tonight">
-              <span class="block-label">Tonight</span>
-              <p class="block-text">Suggest a joint digital audit: go through their online presence together as peers, not parent and child. What does it say? What would they change?</p>
-            </div>
-          </div>
+      </div>
+      <div class="num-item">
+        <span class="num-circle num-circle-not">2</span>
+        <div class="num-card num-card-not">
+          <div class="num-card-label">Not this</div>
+          <p>"Get off your phone." That conversation is over. A different one has started.</p>
+        </div>
+      </div>
+      <div class="num-item">
+        <span class="num-circle num-circle-why">3</span>
+        <div class="num-card num-card-why">
+          <div class="num-card-label">Why it works</div>
+          <p>At 16, the goal is not compliance but genuine digital literacy. A young person who can articulate their own relationship with technology, what it gives them and what it costs them, is genuinely prepared for what comes next.</p>
+        </div>
+      </div>
+      <div class="num-item">
+        <span class="num-circle num-circle-tonight">4</span>
+        <div class="num-card num-card-tonight">
+          <div class="num-card-label">Tonight</div>
+          <p>Suggest a joint digital audit: go through their online presence together as peers, not parent and child. What does it say? What would they change?</p>
         </div>
       </div>
     </div>
+  </section>
 
-  </div>
-  <!-- end scripts-grid -->
-
-  <!-- Find your stage strip -->
-  <div class="find-strip">
+  <!-- Find your stage -->
+  <div class="find-strip no-print">
     <p>Not sure which script is yours?</p>
-    <a class="btn" href="/starter-pack" style="font-size:.88rem">Take the free check &#8594;</a>
+    <a class="btn" href="/starter-pack" style="font-size:.88rem">Take the free check &rarr;</a>
   </div>
 
   <!-- Upsell -->
-  <div class="upsell">
+  <div class="upsell no-print">
     <div class="upsell-eyebrow">Member library</div>
-    <div class="upsell-heading">17 scripts. Every hard moment covered.</div>
+    <div class="upsell-heading">100+ scripts. Every hard moment covered.</div>
     <ul class="upsell-list">
       <li>Screen time endings</li>
       <li>Mood after phones</li>
@@ -579,47 +479,12 @@ h1{font-size:clamp(2rem,5.5vw,3rem);font-weight:800;letter-spacing:-.04em;line-h
       <li>and more</li>
     </ul>
     <div class="upsell-actions">
-      <a class="btn-upsell" href="/starter-pack">Find my child's stage &#8594;</a>
-      <a class="link-upsell" href="/join">See membership &#8594;</a>
+      <a class="btn-upsell" href="/starter-pack">Find my child's stage &rarr;</a>
+      <a class="link-upsell" href="https://buy.stripe.com/4gM8wI9d0eAOgoK6Kp5sA00">Join as Founder &rarr;</a>
     </div>
   </div>
 
 </div>
-
-<script>
-document.querySelectorAll('.flip-wrap').forEach(function(wrap) {
-  var card = wrap.querySelector('.flip-card');
-  var front = wrap.querySelector('.flip-face:not(.flip-back)');
-  var back = wrap.querySelector('.flip-back');
-
-  function setHeight() {
-    // Temporarily make both visible for measurement
-    var prevTransform = card.style.transform;
-    // Measure front
-    var frontH = front.scrollHeight;
-    // Measure back by temporarily removing the 3d transform to get true scrollHeight
-    back.style.transform = 'none';
-    back.style.backfaceVisibility = 'visible';
-    back.style.webkitBackfaceVisibility = 'visible';
-    var backH = back.scrollHeight;
-    back.style.transform = '';
-    back.style.backfaceVisibility = '';
-    back.style.webkitBackfaceVisibility = '';
-
-    var h = Math.max(frontH, backH, 320);
-    wrap.style.height = h + 'px';
-    card.style.minHeight = h + 'px';
-  }
-
-  // Initial set after a brief delay for fonts
-  setTimeout(setHeight, 100);
-  window.addEventListener('resize', setHeight);
-
-  card.addEventListener('click', function() {
-    card.classList.toggle('is-flipped');
-  });
-});
-</script>
 
 </body>
 </html>
