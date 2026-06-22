@@ -26,6 +26,8 @@
     { "src": "/evidence/", "dest": "/evidence.html" },
     { "src": "/join", "status": 302, "headers": { "Location": "https://mailchi.mp/thesocialbillboard/parents" } },
     { "src": "/join/", "status": 302, "headers": { "Location": "https://mailchi.mp/thesocialbillboard/parents" } },
+    { "src": "/device-checklist", "dest": "/device-checklist.html" },
+    { "src": "/device-checklist/", "dest": "/device-checklist.html" },
     { "src": "/pathway", "dest": "/pathway.html" },
     { "src": "/pathway/", "dest": "/pathway.html" },
     { "src": "/five-questions", "dest": "/five-questions.html" },
