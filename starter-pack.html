@@ -76,6 +76,14 @@ p{line-height:1.8;font-size:1.02rem}
 @keyframes char-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
 @keyframes char-wave{0%,100%{transform:rotate(-6deg);transform-origin:50% 90%}50%{transform:rotate(6deg);transform-origin:50% 90%}}
 @keyframes char-float{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-7px) scale(1.03)}}
+/* copy buttons */
+.copy-btn{font-family:var(--mono);font-size:.58rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:7px;background:var(--cream);border:1px solid var(--border);color:var(--ink-muted);cursor:pointer;transition:all .15s;flex-shrink:0}
+.copy-btn:hover,.copy-btn.done{background:var(--green-lt);color:var(--green-dark);border-color:var(--green)}
+/* character speech bubbles */
+.char-bubble{position:relative;background:var(--warm);border:1px solid var(--border);border-radius:10px;padding:8px 28px 8px 10px;font-size:.75rem;color:var(--ink);line-height:1.55;margin-bottom:10px;text-align:left}
+.char-bubble::after{content:'';position:absolute;bottom:-9px;left:50%;transform:translateX(-50%);border:9px solid transparent;border-top-color:var(--border);border-bottom:none}
+.char-bubble::before{content:'';position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);border:9px solid transparent;border-top-color:var(--warm);border-bottom:none;z-index:1}
+.char-bubble button{position:absolute;top:5px;right:8px;background:none;border:none;font-size:.95rem;color:var(--ink-light);cursor:pointer;padding:0;line-height:1}
 
 /* result two-column layout */
 .result-outer{max-width:960px;margin:0 auto;padding:0 20px 80px}
@@ -379,7 +387,7 @@ function renderConvTab(stageId, challenge) {
     <p style="font-size:.85rem;color:var(--ink-soft)">${d.prep}</p>
   </div>
 
-  <div class="conv-say">${d.say}</div>
+  <div class="conv-say" style="position:relative;padding-right:64px">${d.say}<button class="copy-btn" style="position:absolute;top:50%;right:10px;transform:translateY(-50%)" onclick="copyBox(this)">Copy</button></div>
 
   <p style="font-family:var(--mono);font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-muted);margin:16px 0 10px">How do they respond?</p>
 
@@ -484,16 +492,19 @@ function renderHelpersPanel() {
     <p style="text-align:center;font-size:.84rem;color:var(--ink-soft);line-height:1.6;max-width:340px;margin:0 auto 4px">Oliver, Zara and Sofia will be there at every step to help your child navigate their digital world.</p>
     <div class="helpers-row">
       <div class="helper-char">
+        <div class="char-bubble" id="hb-oliver"><button onclick="clearBubble('hb-oliver')" aria-label="dismiss">&times;</button>Ready to find out why your brain loves screens? Let's kick off!</div>
         ${oliver}
         <div class="helper-name">Oliver</div>
         <div class="helper-role">Screen time</div>
       </div>
       <div class="helper-char">
+        <div class="char-bubble" id="hb-zara"><button onclick="clearBubble('hb-zara')" aria-label="dismiss">&times;</button>We are going on a detective mission. Put your thinking hat on!</div>
         ${zara}
         <div class="helper-name">Zara</div>
         <div class="helper-role">Online safety</div>
       </div>
       <div class="helper-char">
+        <div class="char-bubble" id="hb-sofia"><button onclick="clearBubble('hb-sofia')" aria-label="dismiss">&times;</button>Time to build your privacy shield. Ready to be a guardian?</div>
         ${sofia}
         <div class="helper-name">Sofia</div>
         <div class="helper-role">Conversations</div>
@@ -628,7 +639,7 @@ function renderResult(){
         <h2>${st.script.title}</h2>
         <p style="font-size:.8rem;color:var(--ink-muted);margin-bottom:14px">Use it word for word. Tonight if possible.</p>
         <div class="box" style="background:var(--green-lt);border-color:var(--green)">
-          <span class="lbl" style="color:var(--green-dark)">Say this</span>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span class="lbl" style="color:var(--green-dark);margin-bottom:0">Say this</span><button class="copy-btn" onclick="copyBox(this)">Copy</button></div>
           <p style="font-size:.96rem;font-style:italic">"${st.script.say}"</p>
         </div>
         <div class="box" style="background:var(--coral-lt);border-color:rgba(212,96,10,.18)">
@@ -669,6 +680,17 @@ function renderResult(){
       <div id="t-next" class="hide">
         <h2>This is page one of the pathway</h2>
         <p style="font-size:.9rem;color:var(--ink-soft);margin:10px 0 16px">The full platform has all five stages, 17 scripts for every hard moment, DiGi the AI advisor available any time, the weekly wellbeing tracker, and the complete home curriculum.</p>
+        <div style="display:flex;gap:12px;align-items:center;padding:14px 16px;background:var(--warm);border:1px solid var(--border);border-radius:14px;margin-bottom:14px">
+          <div style="display:flex;gap:6px;flex-shrink:0">
+            <div style="width:34px;height:34px;border-radius:50%;background:var(--coral-lt);border:2px solid var(--coral);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:800;font-size:.82rem;color:var(--coral)">O</div>
+            <div style="width:34px;height:34px;border-radius:50%;background:var(--gold-lt);border:2px solid var(--gold-dark);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:800;font-size:.82rem;color:var(--gold-dark)">Z</div>
+            <div style="width:34px;height:34px;border-radius:50%;background:var(--green-lt);border:2px solid var(--green-dark);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:800;font-size:.82rem;color:var(--green-dark)">S</div>
+          </div>
+          <div>
+            <p style="font-size:.82rem;font-weight:700;color:var(--ink);margin-bottom:2px">Oliver, Zara and Sofia</p>
+            <p style="font-size:.76rem;color:var(--ink-soft);line-height:1.5">Your child's guides on the platform. Screen time, online safety and staying safe. Step by step.</p>
+          </div>
+        </div>
         <div class="box" style="background:var(--gold-lt);text-align:center;padding:24px 18px">
           <p style="font-weight:800;font-size:1.05rem;margin-bottom:4px">Save your child's pathway</p>
           <p style="font-size:.82rem;color:var(--ink-soft);margin-bottom:16px">Join free and be first in when we launch. Founder rate locked at &pound;7.99 a month for life, first 50 members only.</p>
@@ -696,6 +718,22 @@ function tab(btn, id){
   btn.classList.add('on');
   ['t-script','t-conv','t-action','t-signs','t-next'].forEach(t=>document.getElementById(t).classList.add('hide'));
   document.getElementById(id).classList.remove('hide');
+}
+function copyBox(btn){
+  const container = btn.closest('.box,.conv-say');
+  const p = container ? container.querySelector('p') : null;
+  const text = p ? p.textContent.trim() : '';
+  navigator.clipboard.writeText(text).catch(()=>{
+    const ta=document.createElement('textarea');ta.value=text;
+    document.body.appendChild(ta);ta.select();
+    document.execCommand('copy');document.body.removeChild(ta);
+  });
+  btn.textContent='Copied';btn.classList.add('done');
+  setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('done');},2000);
+}
+function clearBubble(id){
+  const el=document.getElementById(id);
+  if(el)el.style.display='none';
 }
 </script>
 </body>
