@@ -15,6 +15,7 @@ Re-read /plans/decisions.md after any compaction.
 - Retention features         → docs/08
 - Marketing pages            → docs/06 + docs/09 (delivery model)
 - Ban resilience             → docs/11 (social_media_law config flag)
+- UX flow / onboarding       → design-refs/good-inside-notes.md (copy structure, not brand)
 
 ## PLANS
 

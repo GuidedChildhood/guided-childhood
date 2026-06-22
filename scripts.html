@@ -58,6 +58,15 @@ p{line-height:1.7}
 .lbl{font-family:var(--mono);font-size:.6rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;display:block;margin-bottom:8px}
 .box{border-radius:14px;padding:16px 18px;margin-bottom:10px;border:1px solid var(--border)}
 .pill{display:inline-block;font-family:var(--mono);font-size:.58rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:4px 11px;border-radius:8px}
+/* formula strip */
+.formula-strip{display:flex;align-items:center;gap:8px;background:#fff;border:1.5px solid var(--border);border-radius:18px;padding:18px 16px;margin-bottom:16px;flex-wrap:wrap}
+.fs-step{flex:1;min-width:90px;text-align:center}
+.fs-n{font-family:var(--mono);font-size:.58rem;font-weight:700;letter-spacing:.12em;color:var(--green-dark);background:var(--green-lt);width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;margin:0 auto 6px}
+.fs-label{font-size:.88rem;font-weight:700;color:var(--ink);line-height:1.2;margin-bottom:4px}
+.fs-eg{font-size:.72rem;color:var(--ink-muted);font-style:italic;line-height:1.4}
+.fs-arrow{font-size:1.1rem;color:var(--border);font-weight:700;flex-shrink:0}
+@media(max-width:480px){.formula-strip{flex-direction:column;gap:6px}.fs-arrow{transform:rotate(90deg)}}
+
 /* interactive CTA banner */
 .interactive-cta{display:flex;align-items:center;justify-content:space-between;gap:16px;background:var(--green-dark);border-radius:20px;padding:22px 24px;margin:4px 0 4px}
 .interactive-cta-left{flex:1}
@@ -149,22 +158,43 @@ p{line-height:1.7}
   <!-- INTRO -->
   <div id="s-intro" class="fade">
     <div style="padding-top:20px">
-      <span class="eyebrow" style="margin-bottom:16px">Expert conversation scripts</span>
-      <h1>The exact words for the hardest moments</h1>
-      <p style="color:var(--ink-soft);font-size:1rem;margin:12px 0 20px;max-width:520px">Pick a situation below and the conversation comes to life as a live script. Tap each response to follow the real conversation wherever it goes.</p>
+      <span class="eyebrow" style="margin-bottom:16px">Dr Becky Kennedy · Dr Ross Greene · Dr Dan Siegel</span>
+      <h1>Rehearse the conversation before it happens</h1>
+      <p style="color:var(--ink-soft);font-size:1rem;margin:12px 0 6px;max-width:520px">You cannot read a script in the heat of the moment. That is not how this works. Use this before or after. Pick the situation, follow the branches, and build the muscle memory so the words arrive naturally when you need them.</p>
+      <p style="color:var(--ink-muted);font-size:.84rem;margin:0 0 20px;max-width:520px">This is the same branching approach used by the Good Inside app. Every branch follows one formula.</p>
+    </div>
+
+    <div class="formula-strip">
+      <div class="fs-step">
+        <div class="fs-n">1</div>
+        <div class="fs-label">Validate</div>
+        <div class="fs-eg">"I can see that felt really hard"</div>
+      </div>
+      <div class="fs-arrow">→</div>
+      <div class="fs-step">
+        <div class="fs-n">2</div>
+        <div class="fs-label">Hold the boundary</div>
+        <div class="fs-eg">"And screen time is still done"</div>
+      </div>
+      <div class="fs-arrow">→</div>
+      <div class="fs-step">
+        <div class="fs-n">3</div>
+        <div class="fs-label">Offer what comes next</div>
+        <div class="fs-eg">"Let's have a snack and then..."</div>
+      </div>
     </div>
 
     <div class="interactive-cta">
       <div class="interactive-cta-left">
-        <span class="interactive-cta-badge">New</span>
-        <div class="interactive-cta-title">Try the interactive conversation script</div>
-        <div class="interactive-cta-sub">Speech bubbles. Real responses. Every branch covered. Pick a situation below to start.</div>
+        <span class="interactive-cta-badge">Rehearsal space</span>
+        <div class="interactive-cta-title">Pick a situation. Follow the branches.</div>
+        <div class="interactive-cta-sub">Every possible response your child gives is covered. Practice the logic now so you have it when it counts.</div>
       </div>
       <div class="interactive-cta-arrow">↓</div>
     </div>
 
     <div style="margin:28px 0 12px">
-      <span class="lbl">Pick a situation</span>
+      <span class="lbl">What happened?</span>
       <div class="issue-grid">
         <button class="issue-card" onclick="selectIssue('screen-end')">
           <span class="icon">📱</span>
@@ -1164,7 +1194,7 @@ function selectChildResponse(nextId, head) {
 
 function renderChatThread(currentNode) {
   let html = crumbsHtml([ISSUES[currentIssue], AGES[currentAge]], true);
-  html += '<div class="tree-bar"><p class="tree-bar-text">The full conversation tree walks you through every possible response, step by step.</p><button class="tree-bar-link" onclick="toggleLive()">See the full conversation script &rarr;</button></div>';
+  html += '<div class="tree-bar"><p class="tree-bar-text"><strong>Rehearse this before the moment arrives.</strong> Each branch follows: Validate &rarr; Hold the boundary &rarr; Offer what comes next. Tap the response your child gave.</p><button class="tree-bar-link" onclick="toggleLive()">See the full script &rarr;</button></div>';
 
   html += '<div class="chat-thread">';
   chatHistory.forEach((msg, i) => {
