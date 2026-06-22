@@ -24,6 +24,18 @@ export interface Stage {
   parentQuote: string
   digiContext: string
   challengeActions: Partial<Record<ChallengeId, string>>
+  // Rendered when social_media_law flag is partial_ban or full_ban_u16
+  banWorld?: {
+    focus: string
+    script: {
+      title: string
+      sayThis: string
+      notThis: string
+      why: string
+    }
+    action: string
+    challengeActions: Partial<Record<ChallengeId, string>>
+  }
 }
 
 export const STAGES: Stage[] = [
@@ -163,6 +175,24 @@ export const STAGES: Stage[] = [
       online_safety: 'Make sure the open door is open. "If anything ever makes you uncomfortable online, I am the first call, not the last. I will not take your phone away. I will help."',
       start_conversation: 'Ask about one thing they have been into online this week. Not a test, genuine curiosity. Then ask one follow-up question.',
       asking_for_phone: 'You are probably past this, but if guidelines are still the conversation: agreed as a family, not imposed by you. Teens who own the decision stick to it.',
+    },
+    banWorld: {
+      focus: 'Navigating digital life after the ban — messaging, gaming, watching, and the workaround trap',
+      script: {
+        title: 'The Ban Conversation',
+        sayThis: 'The government has said the apps are going. That does not fix the thing underneath them. I am not here to police it. I want us to figure out together what your digital life actually looks like now.',
+        notThis: '"Good, finally." That closes the door before it opens.',
+        why: 'A parent who sounds relieved by the ban is a parent a teenager cannot talk to about finding a workaround. The child who bypasses it and hits something harmful is now alone with it. Staying curious keeps the door open.',
+      },
+      action: 'Have the workaround conversation before it happens, not after. "If you find a way around the ban, I am not going to explode. I want to understand what you were looking for." That sentence is worth more than the ban itself.',
+      challengeActions: {
+        screens_takeover: 'The ban removes the named apps. It does not remove messaging, gaming, or watching. The question shifts from social media to what their actual digital life looks like now.',
+        mood_changes: 'Mood changes after the ban can come from social exclusion — being the child not on the app the others moved to. Ask what it is like at school. Not what they are doing online. What it feels like.',
+        gaming: 'Gaming is untouched by the ban. If they are spending more time there after the ban, that is displacement not addiction. Ask what they are getting from it. The social life moved somewhere.',
+        online_safety: 'The workaround trap is the open safety conversation now. "If you do find a way onto one of the banned apps, or onto something I do not know about, I want to be your first call if anything feels wrong." Say that before anything happens.',
+        start_conversation: 'Try: "What do you think your friends are actually doing now?" Then listen. The answer tells you where the real digital life has moved to.',
+        asking_for_phone: 'The conversation has shifted. It is not about getting a phone or unlocking an app. It is about what their digital life looks like in the gap the ban creates. That is the conversation to have.',
+      },
     },
   },
   {

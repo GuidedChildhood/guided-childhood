@@ -491,32 +491,25 @@
   },
 
 
-    "status_as_of_june_2026": "Announced by Starmer, secondary legislation expected late 2026/2027. NOT yet in force.",
-    "what_it_is": "Australian-plus model. NOT a blanket ban (Parliament rejected that 307-173 on 16 February 2026). Combines age-based access restrictions with specific feature restrictions.",
+    "status_as_of_june_2026": "CONFIRMED 15 June 2026. Full access ban for under-16s on named social media platforms. Regulations due end 2026. Ban goes live Spring 2027. NOT yet in force.",
+    "what_it_is": "Full access ban for under-16s using the Australian model. Confirmed by the government on 15 June 2026. Earlier framing of 'feature restrictions only' is superseded by this announcement. Named platforms: Instagram, YouTube, TikTok, Snapchat, Facebook, X. Messaging (WhatsApp, Signal) explicitly out of scope. Gaming keeps apps but loses high-risk features for under-16s (livestreaming, strangers contacting children). Final UK platform list not yet fixed in regulation — treat as config, not hardcoded fact.",
+    "dead_line_retired": "Do NOT use 'NOT a blanket ban' or 'Parliament rejected that' framing. That was the position before June 15, 2026. The confirmed position is a full access ban. Using the old framing puts Justin on the wrong side of a settled direction.",
     "legal_basis": "Children's Wellbeing and Schools Act 2026 Part 3. Royal Assent 29 April 2026. Enables Secretary of State to impose restrictions via secondary legislation without new Acts.",
-    "features_targeted": [
-      "Infinite scroll / autoplay",
-      "Livestreaming for under-16s",
-      "Disappearing messages",
-      "Stranger-contact pairing algorithms",
-      "Overnight curfews on platform use"
-    ],
-    "platforms_covered": "Instagram, TikTok, Snapchat, Facebook confirmed. YouTube treated separately. No parental consent override.",
+    "platforms_confirmed_in_scope": ["Instagram", "YouTube", "TikTok", "Snapchat", "Facebook", "X"],
+    "platforms_out_of_scope": ["WhatsApp", "Signal"],
+    "gaming_status": "Keeps the apps. Loses high-risk features for under-16s: livestreaming and strangers contacting children.",
+    "open_question": "Whether YouTube stays in scope is the highest-impact open question. Treat as in-scope until confirmed otherwise.",
     "implementation_timeline": {
-      "parliamentary_statement_deadline": "29 July 2026",
-      "secondary_legislation_deadline": "By 29 July 2027",
-      "actual_implementation_estimate": "Late 2026 or 2027"
+      "confirmed_date": "15 June 2026",
+      "regulations_due": "Before end of 2026",
+      "ban_live": "Spring 2027",
+      "secondary_legislation_deadline": "By 29 July 2027"
     },
-    "enforcement": "Ofcom fines up to £18m or 10% global turnover. Self-declaration of age banned as verification method.",
+    "enforcement": "Ofcom fines up to £18m or 10% global turnover. Self-declaration of age banned as verification method. Ofcom to set age-assurance options in coming months.",
     "consultation_data": {
       "responses": 116211,
       "period": "2 March – 26 May 2026",
       "headline_finding": "9 in 10 parents who responded wanted a ban or significant restrictions"
-    },
-    "opposition_from_child_charities": {
-      "nspcc_and_42_charities": "Blanket bans are 'blunt responses' that push teens into darker, unregulated corners of the internet",
-      "nspcc_youth_voice": "14-17 year olds surveyed by NSPCC: do NOT support a complete ban",
-      "mental_health_foundation": "Recommended safety standards for all platforms rather than blanket bans"
     },
     "australia_lessons": {
       "ban_in_force": "10 December 2025",
@@ -532,11 +525,24 @@
       "un_warning": "Volker Türk, May 2026: 'Simply limiting access to platforms that remain unsafe cannot stand as the endpoint'"
     },
     "key_framing_for_content": {
-      "the_window": "Implementation late 2026/2027. That is a window. Use it to build skills, not wait for regulation.",
-      "feature_restrictions_are_right": "Targeting infinite scroll, autoplay, stranger contact = attacking the mechanism of harm. This is the right direction.",
-      "but_not_enough": "Regulation is a container. Education is the content. Both are needed.",
-      "the_endpoint_question": "What does a child who turns 16 look like if all we did was restrict access? Same skills they had at 10. Handed full access to a platform engineered to capture them."
+      "wrong_villain_updated": "The government named the app as the villain and removed it. The ban addresses use, not the mechanism. Not pro-ban, not anti-ban: the ban is the start of the parenting problem, not the end of it.",
+      "the_window": "Regulations end 2026, ban live Spring 2027. That window is the education gap. Use it to build skills, not wait for regulation.",
+      "non_banned_surface": "Messaging, gaming and watching continue untouched. WhatsApp, Signal, Roblox, Discord, YouTube Kids — the full screen life continues. The platform is not narrowed to social media.",
+      "the_endpoint_question": "What does a child who turns 16 look like if all we did was restrict access? Same skills they had at 10. Handed full access to a platform engineered to capture them.",
+      "new_content_surfaces": {
+        "age_verification": "Facial recognition checks, what data is involved, the privacy worry a parent will feel.",
+        "workaround_trap": "The child who finds a way around it and why that is the harder problem, not the solved one.",
+        "fifteen_to_sixteen_gap": "The year before the line, and the cliff edge at 16.",
+        "school_gate": "The social cost of being the child not on the app the others moved to.",
+        "non_banned_surface": "Messaging, gaming and watching continue with zero guidance attached — exactly where the pathway earns its place."
+      }
     },
+    "guardrails_for_content": {
+      "no_pro_ban_positioning": "Never position Guided Childhood as pro-ban or as a compliance or enforcement tool.",
+      "no_circumvention_advice": "Never give or imply circumvention advice (VPNs, fake ages, borrowed accounts). When it comes up, the angle is why the workaround is a trap, never how to do it.",
+      "no_triumphalism": "Do not sound triumphant or political. The register stays calm, observational, parent-first."
+    },
+    "triage_note": "Treat any further ban news (the Regulations, the Ofcom age-assurance options, platform-list decisions, especially the YouTube question) as a fast-react Step 1 item under 'policy that addresses use but not the mechanism.'",
     "do_not_write_yet": "Do not write 'the ban has failed' or 'the ban worked' — it is not yet implemented. Write only about what the evidence predicts and what parents should do during the window.",
     "vpn_ban_proposal": "Under consultation as of June 2026. Not confirmed. Do not state it is happening."
   },
