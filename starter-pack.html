@@ -479,8 +479,8 @@ function renderHelpersPanel() {
     <div style="text-align:center">
       <span style="font-family:var(--mono);font-size:.6rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;background:var(--green-lt);color:var(--green-dark);padding:5px 14px;border-radius:8px">On the platform</span>
     </div>
-    <h2 style="text-align:center;font-size:1.15rem;margin:12px 0 4px">Meet your child's guides</h2>
-    <p style="text-align:center;font-size:.84rem;color:var(--ink-soft);line-height:1.6;max-width:340px;margin:0 auto 4px">Oliver, Zara and Sofia are with your child at every step. Real characters, real conversations.</p>
+    <h2 style="text-align:center;font-size:1.15rem;margin:12px 0 4px">Meet your guides</h2>
+    <p style="text-align:center;font-size:.84rem;color:var(--ink-soft);line-height:1.6;max-width:340px;margin:0 auto 4px">Oliver, Zara and Sofia guide your child. DiGi is yours.</p>
     <div class="helpers-row">
       <div class="helper-char">
         <div class="char-bubble" id="hb-oliver"><button onclick="clearBubble('hb-oliver')" aria-label="dismiss">&times;</button>Ready to find out why your brain loves screens? Let's kick off!</div>
@@ -499,6 +499,15 @@ function renderHelpersPanel() {
         ${charImg('/digi-squad/Sofia.jpeg','Sofia','char-float 2.6s ease-in-out infinite .6s')}
         <div class="helper-name">Sofia</div>
         <div class="helper-role">Conversations</div>
+      </div>
+    </div>
+
+    <div style="margin-top:18px;background:var(--warm);border-radius:16px;padding:18px 20px;border:1px solid var(--border);display:flex;align-items:flex-start;gap:16px">
+      <img src="/digi-squad/Digi.png" alt="DiGi" style="width:72px;height:72px;border-radius:50%;object-fit:cover;object-position:top;display:block;flex-shrink:0;border:3px solid var(--green-dark);animation:char-float 2.6s ease-in-out infinite">
+      <div>
+        <div style="font-family:var(--mono);font-size:.58rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--green-dark);margin-bottom:5px">Your advisor</div>
+        <p style="font-weight:800;font-size:1.05rem;color:var(--ink);margin-bottom:6px;letter-spacing:-.015em">DiGi</p>
+        <p style="font-size:.86rem;color:var(--ink-soft);line-height:1.7;margin:0">Ask DiGi anything about your child's digital world. At 11pm when things kick off. In the car before a hard conversation. Built on the research behind this pack.</p>
       </div>
     </div>
   </div>`;
@@ -676,11 +685,22 @@ function renderResult(){
       <div style="padding-top:8px">
         ${renderHelpersPanel()}
 
-        <div style="text-align:center;padding:32px 0 24px">
-          <p style="font-size:1.3rem;font-weight:800;color:var(--ink);line-height:1.45;margin-bottom:12px;letter-spacing:-.02em">Imagine this time next year.</p>
-          <p style="font-size:.96rem;color:var(--ink-soft);line-height:1.9;max-width:380px;margin:0 auto 28px">You know exactly what to say. The conversations don't spiral. Your child comes to you when something goes wrong online.</p>
-          <a class="btn" href="/join" style="display:block;text-align:center;margin-bottom:14px">Save my pathway &rarr;</a>
-          <p style="font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;color:var(--ink-muted)">Not right for your family in 30 days? Full refund. No questions asked.</p>
+        <div style="padding:24px 0 20px">
+          <p style="font-size:1.3rem;font-weight:800;color:var(--ink);line-height:1.45;margin-bottom:6px;letter-spacing:-.02em">Imagine this time next year.</p>
+          <p style="font-size:.96rem;color:var(--ink-soft);line-height:1.9;margin:0 0 20px">You know exactly what to say. The conversations don't spiral. Your child comes to you when something goes wrong online.</p>
+
+          <div id="founder-offer" style="background:var(--gold-lt);border:1.5px solid var(--gold);border-radius:20px;padding:24px 22px;margin-bottom:16px">
+            <div style="font-family:var(--mono);font-size:.58rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-dark);margin-bottom:12px">Founder Rate</div>
+            <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:4px">
+              <span style="font-size:2.4rem;font-weight:800;color:var(--ink);letter-spacing:-.03em">&#163;7.99</span>
+              <span style="font-family:var(--mono);font-size:.8rem;color:var(--ink-muted)">/month</span>
+            </div>
+            <p style="font-size:.85rem;color:var(--ink-muted);margin-bottom:14px"><span style="text-decoration:line-through">&#163;12.99/month</span>. Locked in for life.</p>
+            <div id="spots-line" style="font-family:var(--mono);font-size:.72rem;font-weight:700;letter-spacing:.06em;color:var(--coral);margin-bottom:20px;min-height:1.1em">&nbsp;</div>
+            <a id="founder-cta" class="btn" href="https://buy.stripe.com/4gM8wI9d0eAOgoK6Kp5sA00" style="display:block;text-align:center;background:var(--gold);color:var(--ink);box-shadow:0 5px 0 var(--gold-dark)">Join as a Founder &rarr;</a>
+          </div>
+
+          <p style="font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;color:var(--ink-muted);text-align:center">Not right for your family in 30 days? Full refund. No questions asked.</p>
         </div>
 
         <div style="background:var(--cream);border-radius:16px;padding:20px 22px;text-align:center;margin-bottom:16px;border:1px solid var(--border)">
@@ -706,6 +726,32 @@ function renderResult(){
   deckCard = 0;
   updateDeckNav();
   window.scrollTo({top:0});
+  fetchFounderSpots();
+}
+
+async function fetchFounderSpots(){
+  try {
+    const res = await fetch('/api/founder-spots');
+    if(!res.ok) return;
+    const data = await res.json();
+    const spotsEl = document.getElementById('spots-line');
+    const ctaEl   = document.getElementById('founder-cta');
+    if(!spotsEl) return;
+    if(data.sold_out){
+      spotsEl.textContent = 'Founder rate is now closed';
+      spotsEl.style.color = 'var(--ink-muted)';
+      if(ctaEl){
+        ctaEl.textContent = 'Join at standard rate →';
+        ctaEl.href = '/join';
+        ctaEl.style.background = 'var(--green)';
+        ctaEl.style.boxShadow = '0 5px 0 var(--green-dark)';
+        ctaEl.style.color = 'var(--ink)';
+      }
+    } else {
+      const left = data.remaining;
+      spotsEl.textContent = left + ' founder ' + (left===1?'spot':'spots') + ' left of 50';
+    }
+  } catch {}
 }
 
 function nextCard(){
@@ -751,8 +797,8 @@ function updateDeckNav(){
   if(backBtn) backBtn.disabled = deckCard===0;
   if(nextBtn){
     if(deckCard===total-1){
-      nextBtn.textContent='Get full pathway';
-      nextBtn.onclick=()=>window.location.href='/join';
+      nextBtn.textContent='Join as a Founder';
+      nextBtn.onclick=()=>window.location.href='https://buy.stripe.com/4gM8wI9d0eAOgoK6Kp5sA00';
     } else {
       nextBtn.innerHTML='Next &#8594;';
       nextBtn.onclick=nextCard;
