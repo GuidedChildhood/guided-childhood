@@ -479,8 +479,8 @@ function renderHelpersPanel() {
     <div style="text-align:center">
       <span style="font-family:var(--mono);font-size:.6rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;background:var(--green-lt);color:var(--green-dark);padding:5px 14px;border-radius:8px">On the platform</span>
     </div>
-    <h2 style="text-align:center;font-size:1.15rem;margin:12px 0 4px">Meet your child's guides</h2>
-    <p style="text-align:center;font-size:.84rem;color:var(--ink-soft);line-height:1.6;max-width:340px;margin:0 auto 4px">Oliver, Zara and Sofia are with your child at every step. Real characters, real conversations.</p>
+    <h2 style="text-align:center;font-size:1.15rem;margin:12px 0 4px">Meet your guides</h2>
+    <p style="text-align:center;font-size:.84rem;color:var(--ink-soft);line-height:1.6;max-width:340px;margin:0 auto 4px">Oliver, Zara and Sofia guide your child. DiGi is yours.</p>
     <div class="helpers-row">
       <div class="helper-char">
         <div class="char-bubble" id="hb-oliver"><button onclick="clearBubble('hb-oliver')" aria-label="dismiss">&times;</button>Ready to find out why your brain loves screens? Let's kick off!</div>
@@ -499,6 +499,15 @@ function renderHelpersPanel() {
         ${charImg('/digi-squad/Sofia.jpeg','Sofia','char-float 2.6s ease-in-out infinite .6s')}
         <div class="helper-name">Sofia</div>
         <div class="helper-role">Conversations</div>
+      </div>
+    </div>
+
+    <div style="margin-top:18px;background:var(--warm);border-radius:16px;padding:18px 20px;border:1px solid var(--border);display:flex;align-items:flex-start;gap:16px">
+      <img src="/digi-squad/Digi.png" alt="DiGi" style="width:72px;height:72px;border-radius:50%;object-fit:cover;object-position:top;display:block;flex-shrink:0;border:3px solid var(--green-dark);animation:char-float 2.6s ease-in-out infinite">
+      <div>
+        <div style="font-family:var(--mono);font-size:.58rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--green-dark);margin-bottom:5px">Your advisor</div>
+        <p style="font-weight:800;font-size:1.05rem;color:var(--ink);margin-bottom:6px;letter-spacing:-.015em">DiGi</p>
+        <p style="font-size:.86rem;color:var(--ink-soft);line-height:1.7;margin:0">Ask DiGi anything about your child's digital world. At 11pm when things kick off. In the car before a hard conversation. Built on the research behind this pack.</p>
       </div>
     </div>
   </div>`;
