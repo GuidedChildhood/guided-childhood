@@ -117,18 +117,34 @@ p{line-height:1.8;font-size:1.02rem}
   <!-- WELCOME -->
   <div id="s-welcome" class="fade">
     <div style="text-align:center;padding-top:28px">
-      <span class="eye" style="background:var(--gold-lt);color:var(--gold-dark)">Free &middot; 2 minutes</span>
-      <h1>Your personalised digital parenting starter pack</h1>
-      <p style="color:var(--ink-soft);max-width:460px;margin:0 auto 32px;font-size:1.08rem;line-height:1.8">Three questions. A starter pack built for your child's exact stage, with the script to use tonight, the warning signs to know, and your next step.</p>
+      <span class="eye" style="background:var(--gold-lt);color:var(--gold-dark)">Free &middot; 2 minutes &middot; No sign-up</span>
+      <h1 style="font-size:clamp(2.2rem,7vw,3rem);margin-bottom:10px"><strong>Our job:</strong> the right script for tonight, the warning signs to know, and one clear next step.</h1>
+      <p style="color:var(--ink-soft);max-width:440px;margin:0 auto 6px;font-size:1.05rem;line-height:1.8"><strong>Your job:</strong> answer three questions about your child. Two minutes. Free.</p>
+      <p style="color:var(--ink-light);max-width:400px;margin:0 auto 30px;font-size:.88rem;line-height:1.7">(We know you have a dozen tabs open and parenting asks so much. This one is worth it.)</p>
       <button class="btn" onclick="start()">Build my starter pack &rarr;</button>
-      <p style="font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-light);margin-top:16px">No signup needed &middot; Ages 4 to 16</p>
+      <p style="font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-light);margin-top:16px">Ages 4 to 16 &middot; Built for your child's exact stage</p>
     </div>
   </div>
 
   <!-- QUESTIONS -->
   <div id="s-q" class="hide">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:4px">
+      <button id="back-btn" onclick="goBack()" style="background:none;border:none;font-family:var(--mono);font-size:.8rem;color:var(--ink-muted);cursor:pointer;padding:4px 0;display:none">&larr; Back</button>
+      <span id="step-counter" style="font-family:var(--mono);font-size:.62rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-light)">Question 1 of 3</span>
+    </div>
     <div class="prog" id="prog"><span></span><span></span><span></span></div>
     <div id="q-body"></div>
+  </div>
+
+  <!-- REASSURANCE -->
+  <div id="s-reassure" class="hide fade">
+    <div style="padding-top:32px;text-align:center;max-width:440px;margin:0 auto">
+      <div style="width:56px;height:56px;border-radius:16px;background:var(--green-lt);border:2px solid var(--green-dark);display:flex;align-items:center;justify-content:center;margin:0 auto 22px;font-size:1.6rem">&#10003;</div>
+      <h2 style="font-size:1.9rem;font-weight:800;letter-spacing:-.03em;margin-bottom:16px" id="reassure-head">You're in the right place.</h2>
+      <p style="font-size:1rem;color:var(--ink-soft);line-height:1.8;margin-bottom:28px" id="reassure-body"></p>
+      <button class="btn" onclick="showResult()" style="display:block;width:100%;justify-content:center;text-align:center">Show my starter pack &rarr;</button>
+      <p style="font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-light);margin-top:14px">Free &middot; No sign-up needed</p>
+    </div>
   </div>
 
 </div>
@@ -572,6 +588,14 @@ function renderSidebar(stageId, st, conv, last) {
   return lastCard + actionCard + agreeCard + signsCard + digiCard + joinCard;
 }
 
+const reassureMsg = {
+  "They want social media or a phone and we are not sure": "The fact that you are asking means you are already doing this right. Most parents just say yes or no. You are thinking about the right time.",
+  "Their mood changes after screen time": "Noticing the mood shift is the hardest part. You have already done it. Your pack shows you what it means and what to say.",
+  "They cannot stop using their device": "This is not a discipline problem. The app is engineered to be hard to stop. Your pack treats it that way.",
+  "I think something is wrong but I am not sure what": "Trusting that instinct is exactly the right move. Your pack helps you tell the difference between normal and worth a closer look.",
+  "We have not really started this conversation yet": "There are more school pickups ahead of you than behind you. You are starting at exactly the right time."
+};
+
 let step = 0, answers = [];
 
 function start(){
@@ -582,16 +606,35 @@ function start(){
 function renderQ(){
   const q = questions[step];
   document.querySelectorAll('#prog span').forEach((s,i)=>s.classList.toggle('on', i<=step));
+  const backBtn = document.getElementById('back-btn');
+  const counter = document.getElementById('step-counter');
+  if(backBtn) backBtn.style.display = step > 0 ? 'inline' : 'none';
+  if(counter) counter.textContent = 'Question ' + (step+1) + ' of 3';
   document.getElementById('q-body').innerHTML =
     '<div class="fade"><h2>'+q.q+'</h2><p style="color:var(--ink-muted);font-size:.88rem;margin-bottom:20px">'+q.sub+'</p>'+
     q.opts.map((o,i)=>'<button class="opt" onclick="pick(\''+o.replace(/'/g,"\\'")+'\')">' +
       '<span class="n">'+(i+1)+'</span>'+o+'</button>').join('')+'</div>';
   window.scrollTo({top:0});
 }
+function goBack(){
+  if(step > 0){ step--; renderQ(); }
+}
 function pick(val){
   answers[step] = val;
   if(step < 2){ step++; renderQ(); }
-  else renderResult();
+  else showReassure();
+}
+function showReassure(){
+  document.getElementById('s-q').classList.add('hide');
+  const r = document.getElementById('s-reassure');
+  r.classList.remove('hide');
+  const msg = reassureMsg[answers[1]] || "The pathway starts from wherever you are.";
+  document.getElementById('reassure-body').textContent = msg;
+  window.scrollTo({top:0});
+}
+function showResult(){
+  document.getElementById('s-reassure').classList.add('hide');
+  renderResult();
 }
 function renderResult(){
   const last = getLastSession();
@@ -691,10 +734,15 @@ function renderResult(){
             <p style="font-size:.76rem;color:var(--ink-soft);line-height:1.5">Your child's guides on the platform. Screen time, online safety and staying safe. Step by step.</p>
           </div>
         </div>
+        <div style="padding:20px 18px 18px;background:var(--warm);border:1px solid var(--border);border-radius:18px;margin-bottom:14px">
+          <p style="font-size:1rem;font-weight:800;color:var(--ink);line-height:1.5;margin-bottom:6px">Imagine this time next year.</p>
+          <p style="font-size:.92rem;color:var(--ink-soft);line-height:1.75">You know exactly what to say. The conversations don't spiral. Your child comes to you when something goes wrong online. That is what the full pathway is built for.</p>
+        </div>
         <div class="box" style="background:var(--gold-lt);text-align:center;padding:24px 18px">
           <p style="font-weight:800;font-size:1.05rem;margin-bottom:4px">Save your child's pathway</p>
-          <p style="font-size:.82rem;color:var(--ink-soft);margin-bottom:16px">Join free and be first in when we launch. Founder rate locked at &pound;7.99 a month for life, first 50 members only.</p>
-          <a class="btn" href="https://mailchi.mp/thesocialbillboard/parents" target="_blank" rel="noopener">Save my pathway &rarr;</a>
+          <p style="font-size:.82rem;color:var(--ink-soft);margin-bottom:16px">Founder rate locked at &pound;7.99 a month for life. First 50 members only.</p>
+          <a class="btn" href="https://mailchi.mp/thesocialbillboard/parents" target="_blank" rel="noopener" style="display:block;text-align:center;justify-content:center">Save my pathway &rarr;</a>
+          <p style="font-size:.72rem;color:var(--ink-muted);margin-top:12px">Not right for your family in 30 days? Full refund. No questions asked.</p>
         </div>
         <div class="box" style="background:var(--warm);text-align:center;padding:20px 18px;margin-top:10px">
           <p style="font-weight:700;font-size:.92rem;margin-bottom:4px">Want a clearer picture first?</p>
