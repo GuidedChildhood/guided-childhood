@@ -41,11 +41,6 @@ body{background:var(--cream);font-family:var(--sans);color:var(--ink);-webkit-fo
 .prog{display:flex;gap:6px;margin:16px 0 28px}
 .prog span{flex:1;height:8px;border-radius:99px;background:var(--border);transition:background .3s}
 .prog span.on{background:var(--gold-dark)}
-.tabs{display:flex;border-bottom:2px solid var(--border);margin:28px 0 22px;overflow-x:auto;-ms-overflow-style:none;scrollbar-width:none}
-.tabs::-webkit-scrollbar{display:none}
-.tab{flex:0 0 auto;font-family:var(--mono);font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-muted);background:none;border:none;border-bottom:3px solid transparent;margin-bottom:-2px;padding:14px 16px;cursor:pointer;white-space:nowrap;text-align:center;transition:color .15s}
-.tab:hover{color:var(--ink)}
-.tab.on{color:var(--green-dark);border-bottom-color:var(--green-dark)}
 .box{border-radius:18px;padding:22px 24px;margin-bottom:10px;border:1px solid var(--border)}
 .box .lbl{font-family:var(--mono);font-size:.6rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;display:block;margin-bottom:8px}
 h1{font-size:clamp(2.4rem,7vw,3.2rem);font-weight:800;letter-spacing:-.04em;line-height:1.08;margin-bottom:20px}
@@ -86,24 +81,39 @@ p{line-height:1.8;font-size:1.02rem}
 .char-bubble::before{content:'';position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);border:9px solid transparent;border-top-color:var(--warm);border-bottom:none;z-index:1}
 .char-bubble button{position:absolute;top:5px;right:8px;background:none;border:none;font-size:.95rem;color:var(--ink-light);cursor:pointer;padding:0;line-height:1}
 
-/* result two-column layout */
-.result-outer{max-width:960px;margin:0 auto;padding:0 20px 80px}
-.result-grid{display:grid;grid-template-columns:minmax(0,1fr) 284px;gap:28px;align-items:start}
-@media(max-width:760px){.result-grid{display:block}}
-.r-main{}
-.sidebar{display:flex;flex-direction:column;gap:12px}
-@media(min-width:761px){
-  .sidebar{position:sticky;top:20px;max-height:calc(100vh - 48px);overflow-y:auto;scrollbar-width:none}
-  .sidebar::-webkit-scrollbar{display:none}
-}
-@media(max-width:760px){.sidebar{margin-top:24px}}
+/* result single column layout */
+.result-outer{max-width:640px;margin:0 auto;padding:0 20px 80px}
+.result-wrap{max-width:640px;margin:0 auto}
+
+/* sticky app tab bar */
+.rtabs{display:flex;background:var(--warm);border-bottom:2px solid var(--border);position:sticky;top:0;z-index:50;overflow-x:auto;-ms-overflow-style:none;scrollbar-width:none;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.rtabs::-webkit-scrollbar{display:none}
+.rtab{flex:1;min-width:80px;padding:18px 12px;font-family:var(--mono);font-size:.68rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-muted);background:none;border:none;border-bottom:3px solid transparent;margin-bottom:-2px;cursor:pointer;white-space:nowrap;transition:color .15s}
+.rtab:hover{color:var(--ink)}
+.rtab.on{color:var(--green-dark);border-bottom-color:var(--green-dark)}
+
+/* big copy button */
+.copy-main{display:block;width:100%;margin-top:18px;background:var(--green-dark);color:#fff;border:none;border-radius:12px;padding:16px;font-family:var(--mono);font-size:.85rem;font-weight:700;letter-spacing:.04em;cursor:pointer;box-shadow:0 4px 0 #1d5239;transition:transform .12s,box-shadow .12s;text-align:center}
+.copy-main:active{transform:translateY(3px);box-shadow:0 1px 0 #1d5239}
+.copy-main.done{background:var(--green);color:var(--green-dark);box-shadow:0 4px 0 #8fc48a}
+
+/* result cards */
+.r-card{background:var(--warm);border-radius:20px;padding:28px 26px;box-shadow:0 2px 20px rgba(0,0,0,.06);margin-bottom:14px;border:1px solid var(--border)}
+.r-eyebrow{font-family:var(--mono);font-size:.6rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;margin-bottom:8px;color:var(--ink-muted)}
+.r-title{font-size:1.5rem;font-weight:800;letter-spacing:-.025em;margin-bottom:6px}
+.r-sub{font-size:.85rem;color:var(--ink-muted);margin-bottom:18px}
+
+/* script card */
+.script-say{background:var(--green-lt);border-left:4px solid var(--green-dark);border-radius:0 14px 14px 0;padding:20px;margin:14px 0}
+.script-say-label{font-family:var(--mono);font-size:.58rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--green-dark);margin-bottom:8px}
+.script-say-text{font-size:1.05rem;font-style:italic;line-height:1.7;color:var(--ink)}
+.script-not{background:var(--coral-lt);border-left:4px solid var(--coral);border-radius:0 14px 14px 0;padding:16px 20px;margin:10px 0}
+.script-why{background:var(--gold-lt);border-radius:14px;padding:16px 20px;margin:10px 0}
+
+/* keep old tab fn working */
 .sc{background:var(--warm);border:none;border-radius:18px;padding:22px 24px;box-shadow:0 2px 16px rgba(0,0,0,.06)}
 .sc-lbl{font-family:var(--mono);font-size:.58rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-muted);display:block;margin-bottom:10px}
-.sc-sign{display:flex;gap:8px;align-items:flex-start;font-size:.82rem;color:var(--ink-soft);margin-bottom:7px;line-height:1.5}
 .digi-av{width:52px;height:52px;border-radius:14px;background:var(--green);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:800;font-size:1.3rem;color:var(--green-dark);flex-shrink:0;border:2px solid var(--green-dark)}
-.join-sc{background:var(--gold-lt);border:2px solid var(--gold);border-radius:16px;padding:18px 20px;text-align:center}
-.spots-bar{height:6px;background:var(--border);border-radius:99px;margin:10px 0 14px;overflow:hidden}
-.spots-fill{height:100%;border-radius:99px;background:var(--coral);width:74%}
 </style>
 </head>
 <body>
@@ -154,7 +164,7 @@ p{line-height:1.8;font-size:1.02rem}
 
 </div>
 
-<!-- RESULT sits outside quiz-wrap for wider layout -->
+<!-- RESULT sits outside quiz-wrap -->
 <div id="s-r" class="hide result-outer"></div>
 
 <script>
@@ -470,65 +480,6 @@ function renderHelpersPanel() {
   </div>`;
 }
 
-function renderSidebar(stageId, st, conv, last) {
-  const agree = conv ? conv.agree : null;
-  const isCritical = stageId === 3;
-
-  const lastCard = last ? `
-  <div class="sc" style="background:var(--lav);box-shadow:0 2px 16px rgba(61,91,169,.12)">
-    <span class="sc-lbl" style="color:var(--lav-deep)">Last session &middot; ${last.date}</span>
-    <p style="font-size:.82rem;font-weight:700;margin-bottom:6px;color:var(--ink)">${last.stage} &middot; ${last.ages}</p>
-    <p style="font-size:.78rem;color:var(--ink-soft);line-height:1.55">${last.action.length > 130 ? last.action.slice(0,127) + '...' : last.action}</p>
-    ${last.agree ? `<p style="font-size:.78rem;font-style:italic;color:var(--lav-deep);margin-top:10px;padding-top:10px;border-top:1px solid rgba(61,91,169,.2);line-height:1.5">${last.agree}</p>` : ''}
-  </div>` : '';
-
-  const actionCard = `
-  <div class="sc" style="background:var(--green-lt);box-shadow:0 2px 16px rgba(46,125,90,.1)">
-    <span class="sc-lbl" style="color:var(--green-dark)">Tonight's action</span>
-    <p style="font-size:.88rem;font-weight:600;color:var(--ink);line-height:1.6">${st.action}</p>
-  </div>`;
-
-  const agreeCard = agree ? `
-  <div class="sc" style="background:var(--gold-lt);border:2px dashed var(--gold-dark)">
-    <span class="sc-lbl" style="color:var(--gold-dark)">The agreement</span>
-    <p style="font-size:.9rem;font-style:italic;font-weight:600;color:var(--ink);line-height:1.6">${agree}</p>
-    <p style="font-size:.72rem;color:var(--ink-muted);margin-top:8px">From the Conversation tab. Walk through the full script first.</p>
-  </div>` : '';
-
-  const signsCard = `
-  <div class="sc">
-    <span class="sc-lbl">Watch for these</span>
-    ${st.watch.map(w => `<div class="sc-sign"><span style="color:var(--coral);font-weight:800;flex-shrink:0;margin-top:1px;font-size:.85rem">!</span><span>${w}</span></div>`).join('')}
-    ${isCritical ? '<p style="font-size:.72rem;color:var(--coral);margin-top:8px;font-weight:600;padding-top:8px;border-top:1px solid var(--coral-lt)">Cambridge research identifies this as the peak sensitivity window, especially for girls.</p>' : ''}
-  </div>`;
-
-  const digiCard = `
-  <div class="sc" style="background:var(--ink);box-shadow:0 4px 24px rgba(0,0,0,.18)">
-    <div style="display:flex;gap:14px;align-items:center;margin-bottom:14px">
-      <div class="digi-av">D</div>
-      <div>
-        <span class="sc-lbl" style="color:var(--green);margin-bottom:4px">Ask DiGi</span>
-        <p style="font-size:.88rem;color:#fff;font-weight:700;line-height:1.3">Your AI parenting advisor</p>
-      </div>
-    </div>
-    <p style="font-size:.8rem;color:rgba(255,255,255,.7);margin-bottom:16px;line-height:1.65">Ask anything about the script, the conversation you are planning, or what to try next. Available to all members.</p>
-    <a href="https://mailchi.mp/thesocialbillboard/parents" target="_blank" rel="noopener" style="display:block;text-align:center;background:var(--green);color:var(--ink);font-family:var(--mono);font-weight:700;font-size:.8rem;padding:13px 16px;border-radius:12px;text-decoration:none;letter-spacing:.02em">Get early access to DiGi &rarr;</a>
-  </div>`;
-
-  const joinCard = `
-  <div class="join-sc">
-    <span class="sc-lbl" style="color:var(--gold-dark)">Founder rate</span>
-    <p style="font-weight:800;font-size:1.15rem;margin-bottom:2px">&pound;7.99 a month</p>
-    <p style="font-size:.78rem;color:var(--ink-soft);margin-bottom:2px">For life. First 50 members only.</p>
-    <div class="spots-bar"><div class="spots-fill"></div></div>
-    <p style="font-family:var(--mono);font-size:.65rem;font-weight:700;color:var(--coral);letter-spacing:.06em;margin-bottom:14px">37 OF 50 SPOTS TAKEN</p>
-    <a class="btn" href="https://mailchi.mp/thesocialbillboard/parents" target="_blank" rel="noopener" style="display:block;text-align:center;justify-content:center;width:100%;padding:14px">Join at founder rate &rarr;</a>
-    <p style="font-size:.7rem;color:var(--ink-muted);margin-top:10px">Full platform: all 5 stages, 17 scripts, DiGi advisor, wellbeing tracker.</p>
-  </div>`;
-
-  return lastCard + actionCard + agreeCard + signsCard + digiCard + joinCard;
-}
-
 const reassureMsg = {
   "They want social media or a phone and we are not sure": "The fact that you are asking means you are already doing this right. Most parents just say yes or no. You are thinking about the right time.",
   "Their mood changes after screen time": "Noticing the mood shift is the hardest part. You have already done it. Your pack shows you what it means and what to say.",
@@ -577,6 +528,7 @@ function showResult(){
   document.getElementById('s-reassure').classList.add('hide');
   renderResult();
 }
+
 function renderResult(){
   const last = getLastSession();
   const stageId = ageMap[answers[0]];
@@ -591,123 +543,151 @@ function renderResult(){
   const r = document.getElementById('s-r');
   r.classList.remove('hide');
 
+  const esc = s => s.replace(/'/g,"\\'").replace(/"/g,'&quot;');
+
   r.innerHTML = `
-  <div class="fade result-grid">
-    <div class="r-main">
-      <div style="border:1px solid var(--border);border-top:4px solid ${st.bar};border-radius:20px;background:${st.wash};padding:28px 26px;margin-top:10px;box-shadow:0 2px 16px rgba(0,0,0,.05)">
-        ${st.critical ? '<span class="pill" style="background:var(--coral);color:#fff;margin-bottom:12px">The Critical Window</span>' : ''}
-        <div style="font-family:var(--mono);font-size:.65rem;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-muted);margin:8px 0 6px">${st.ks} &middot; ${st.us}</div>
-        <h1 style="font-size:2rem;margin-bottom:4px">Stage ${stageId}: ${st.name}</h1>
-        <div style="font-weight:700;font-size:1.05rem;color:var(--ink-soft);margin-bottom:14px">${st.ages}</div>
-        <p style="font-size:.94rem;color:var(--ink-soft)">${st.summary}</p>
-        <p style="font-size:.84rem;color:${st.deep};font-weight:700;margin-top:12px">Device right now: ${st.device}</p>
-      </div>
+  <div class="result-wrap fade">
 
-      <div class="card" style="background:var(--gold-lt);margin-top:14px">
-        <span class="lbl" style="color:var(--gold-dark)">Your situation</span>
-        <p style="font-size:.92rem;color:var(--ink-soft)">${challengeNotes[answers[1]]}</p>
-        <p style="font-size:.88rem;color:var(--ink-soft);margin-top:8px;font-style:italic">${feelNotes[answers[2]]}</p>
-      </div>
+    <!-- Stage header card -->
+    <div class="r-card" style="border-top:4px solid ${st.bar};background:${st.wash};padding:28px 26px;margin-bottom:0;border-radius:0 0 20px 20px;box-shadow:0 2px 20px rgba(0,0,0,.06)">
+      ${st.critical ? '<span style="display:inline-block;background:var(--coral);color:#fff;font-family:var(--mono);font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:4px 12px;border-radius:8px;margin-bottom:12px">The Critical Window</span>' : ''}
+      <div class="r-eyebrow">${st.ks}</div>
+      <h1 style="font-size:1.9rem;font-weight:800;letter-spacing:-.03em;margin-bottom:2px">Stage ${stageId}: ${st.name}</h1>
+      <div style="font-family:var(--mono);font-size:.75rem;font-weight:600;color:${st.deep};margin-bottom:14px">${st.ages}</div>
+      <p style="font-size:.95rem;color:var(--ink-soft);line-height:1.75;margin-bottom:10px">${st.summary}</p>
+      <div style="background:rgba(0,0,0,.04);border-radius:10px;padding:10px 14px;font-size:.82rem;font-weight:600;color:var(--ink-soft)">Device right now: ${st.device}</div>
+    </div>
 
-      ${stageId === 1 ? renderHelpersPanel() : ''}
+    <!-- Situation card -->
+    <div class="r-card" style="background:var(--gold-lt);border-color:rgba(242,201,76,.3);margin-top:14px">
+      <div class="r-eyebrow" style="color:var(--gold-dark)">Your situation</div>
+      <p style="font-size:.94rem;color:var(--ink-soft);line-height:1.75;margin-bottom:8px">${challengeNotes[answers[1]]}</p>
+      <p style="font-size:.88rem;color:var(--ink-muted);font-style:italic">${feelNotes[answers[2]]}</p>
+    </div>
 
-      <div class="tabs">
-        <button class="tab on" onclick="tab(this,'t-script')">Script</button>
-        <button class="tab" onclick="tab(this,'t-conv')">Conversation</button>
-        <button class="tab" onclick="tab(this,'t-action')">Action</button>
-        <button class="tab" onclick="tab(this,'t-signs')">Signs</button>
-        <button class="tab" onclick="tab(this,'t-next')">Next</button>
-      </div>
+    <!-- Sticky tab bar -->
+    <div class="rtabs">
+      <button class="rtab on" onclick="rtab(this,'t-script')">Script</button>
+      <button class="rtab" onclick="rtab(this,'t-conv')">Conversation</button>
+      <button class="rtab" onclick="rtab(this,'t-signs')">Signs</button>
+      <button class="rtab" onclick="rtab(this,'t-next')">Next</button>
+    </div>
 
-      <div id="t-script">
-        <h2>${st.script.title}</h2>
-        <p style="font-size:.8rem;color:var(--ink-muted);margin-bottom:14px">Use it word for word. Tonight if possible.</p>
-        <div class="box" style="background:var(--green-lt);border-color:var(--green)">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span class="lbl" style="color:var(--green-dark);margin-bottom:0">Say this</span><button class="copy-btn" onclick="copyBox(this)">Copy</button></div>
-          <p style="font-size:.96rem;font-style:italic">"${st.script.say}"</p>
+    <!-- Script tab -->
+    <div id="t-script" class="rtab-content">
+      <div class="r-card" style="margin-top:14px">
+        <div class="r-eyebrow">Tonight's script</div>
+        <h2 class="r-title">${st.script.title}</h2>
+        <p class="r-sub">Use it word for word. Tonight if possible.</p>
+        <div class="script-say">
+          <div class="script-say-label">Say this</div>
+          <p class="script-say-text">"${st.script.say}"</p>
         </div>
-        <div class="box" style="background:var(--coral-lt);border-color:rgba(212,96,10,.18)">
-          <span class="lbl" style="color:var(--coral)">Not this</span>
-          <p style="font-size:.96rem;font-style:italic">"${st.script.not}"</p>
+        <button class="copy-main" onclick="copyScript(this,'${esc(st.script.say)}')">Copy this script</button>
+        <div class="script-not" style="margin-top:14px">
+          <div style="font-family:var(--mono);font-size:.58rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--coral);margin-bottom:8px">Not this</div>
+          <p style="font-size:.95rem;font-style:italic;color:var(--ink-soft)">"${st.script.not}"</p>
         </div>
-        <div class="box" style="background:var(--gold-lt);border-color:rgba(242,201,76,.4)">
-          <span class="lbl" style="color:var(--gold-dark)">Why it works</span>
-          <p style="font-size:.9rem;color:var(--ink-soft)">${st.script.why}</p>
+        <div class="script-why" style="margin-top:10px">
+          <div style="font-family:var(--mono);font-size:.58rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-dark);margin-bottom:8px">Why it works</div>
+          <p style="font-size:.88rem;color:var(--ink-soft);line-height:1.75">${st.script.why}</p>
         </div>
       </div>
+    </div>
 
-      <div id="t-conv" class="hide">
+    <!-- Conversation tab -->
+    <div id="t-conv" class="rtab-content hide">
+      <div class="r-card" style="margin-top:14px">
         ${renderConvTab(stageId, answers[1])}
       </div>
+    </div>
 
-      <div id="t-action" class="hide">
-        <h2>Your highest-impact action</h2>
-        <div class="box" style="background:var(--warm);margin-top:12px">
-          <p style="font-size:.95rem;font-weight:600">${st.action}</p>
-        </div>
-      </div>
-
-      <div id="t-signs" class="hide">
-        <h2>Warning signs at this stage</h2>
-        <p style="font-size:.8rem;color:var(--ink-muted);margin-bottom:14px">Most things are fine. This helps you tell the difference.</p>
-        <div class="box" style="background:var(--green-lt);border-color:var(--green)">
-          <span class="lbl" style="color:var(--green-dark)">This is normal</span>
-          ${st.normal.map(w=>'<div class="sig"><b style="color:var(--green-dark)">&#10003;</b>'+w+'</div>').join('')}
-        </div>
-        <div class="box" style="background:var(--coral-lt);border-color:rgba(212,96,10,.18)">
-          <span class="lbl" style="color:var(--coral)">Worth a closer look</span>
-          ${st.watch.map(w=>'<div class="sig"><b style="color:var(--coral)">!</b>'+w+'</div>').join('')}
-        </div>
-        <p style="font-size:.75rem;color:var(--ink-muted);margin-top:10px">Seriously concerned? Contact your GP, CAMHS, or the NSPCC on 0808 800 5000. Immediate danger: call 999.</p>
-      </div>
-
-      <div id="t-next" class="hide">
-        <h2>This is page one of the pathway</h2>
-        <p style="font-size:.9rem;color:var(--ink-soft);margin:10px 0 16px">The full platform has all five stages, 17 scripts for every hard moment, DiGi the AI advisor available any time, the weekly wellbeing tracker, and the complete home curriculum.</p>
-        <div style="display:flex;gap:12px;align-items:center;padding:14px 16px;background:var(--warm);border:1px solid var(--border);border-radius:14px;margin-bottom:14px">
-          <div style="display:flex;gap:6px;flex-shrink:0">
-            <div style="width:34px;height:34px;border-radius:50%;background:var(--coral-lt);border:2px solid var(--coral);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:800;font-size:.82rem;color:var(--coral)">O</div>
-            <div style="width:34px;height:34px;border-radius:50%;background:var(--gold-lt);border:2px solid var(--gold-dark);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:800;font-size:.82rem;color:var(--gold-dark)">Z</div>
-            <div style="width:34px;height:34px;border-radius:50%;background:var(--green-lt);border:2px solid var(--green-dark);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:800;font-size:.82rem;color:var(--green-dark)">S</div>
-          </div>
+    <!-- Signs tab -->
+    <div id="t-signs" class="rtab-content hide">
+      <div class="r-card" style="margin-top:14px;background:var(--green-lt);border-color:var(--green)">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+          <div style="width:32px;height:32px;border-radius:50%;background:var(--green-dark);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1rem;flex-shrink:0">&#10003;</div>
           <div>
-            <p style="font-size:.82rem;font-weight:700;color:var(--ink);margin-bottom:2px">Oliver, Zara and Sofia</p>
-            <p style="font-size:.76rem;color:var(--ink-soft);line-height:1.5">Your child's guides on the platform. Screen time, online safety and staying safe. Step by step.</p>
+            <div class="r-eyebrow" style="color:var(--green-dark);margin-bottom:0">This is normal</div>
+            <p style="font-size:.76rem;color:var(--ink-muted)">Most children show these at this stage.</p>
           </div>
         </div>
-        <div style="padding:20px 18px 18px;background:var(--warm);border:1px solid var(--border);border-radius:18px;margin-bottom:14px">
-          <p style="font-size:1rem;font-weight:800;color:var(--ink);line-height:1.5;margin-bottom:6px">Imagine this time next year.</p>
-          <p style="font-size:.92rem;color:var(--ink-soft);line-height:1.75">You know exactly what to say. The conversations don't spiral. Your child comes to you when something goes wrong online. That is what the full pathway is built for.</p>
+        ${st.normal.map(w=>`<div style="display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-top:1px solid rgba(46,125,90,.12);font-size:.92rem;color:var(--ink-soft);line-height:1.6"><span style="color:var(--green-dark);flex-shrink:0;font-weight:700;margin-top:2px">&#10003;</span>${w}</div>`).join('')}
+      </div>
+      <div class="r-card" style="background:var(--coral-lt);border-color:rgba(212,96,10,.2)">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+          <div style="width:32px;height:32px;border-radius:50%;background:var(--coral);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1rem;flex-shrink:0;font-weight:700">!</div>
+          <div>
+            <div class="r-eyebrow" style="color:var(--coral);margin-bottom:0">Worth a closer look</div>
+            <p style="font-size:.76rem;color:var(--ink-muted)">Not necessarily serious. But worth attention.</p>
+          </div>
         </div>
-        <div class="box" style="background:var(--gold-lt);text-align:center;padding:24px 18px">
-          <p style="font-weight:800;font-size:1.05rem;margin-bottom:4px">Save your child's pathway</p>
-          <p style="font-size:.82rem;color:var(--ink-soft);margin-bottom:16px">Founder rate locked at &pound;7.99 a month for life. First 50 members only.</p>
-          <a class="btn" href="https://mailchi.mp/thesocialbillboard/parents" target="_blank" rel="noopener" style="display:block;text-align:center;justify-content:center">Save my pathway &rarr;</a>
-          <p style="font-size:.72rem;color:var(--ink-muted);margin-top:12px">Not right for your family in 30 days? Full refund. No questions asked.</p>
-        </div>
-        <div class="box" style="background:var(--warm);text-align:center;padding:20px 18px;margin-top:10px">
-          <p style="font-weight:700;font-size:.92rem;margin-bottom:4px">Want a clearer picture first?</p>
-          <p style="font-size:.8rem;color:var(--ink-soft);margin-bottom:14px">The free Digital Health Check reads the signals in your child's online world in five minutes.</p>
-          <a href="/digitalwellbeing" style="font-family:var(--mono);font-size:.8rem;font-weight:600;color:var(--green-dark)">Take the free Digital Health Check &rarr;</a>
-        </div>
-        <button onclick="location.reload()" style="width:100%;margin-top:14px;background:none;border:1px solid var(--border);border-radius:14px;padding:12px;font-family:var(--mono);font-size:.72rem;letter-spacing:.04em;color:var(--ink-muted);cursor:pointer">Build a pack for another child</button>
-        <a href="/" style="display:block;text-align:center;margin-top:12px;font-family:var(--mono);font-size:.72rem;letter-spacing:.04em;color:var(--green-dark);text-decoration:none;padding:12px">&larr; Back to guidedchildhood.com</a>
+        ${st.watch.map(w=>`<div style="display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-top:1px solid rgba(212,96,10,.1);font-size:.92rem;color:var(--ink-soft);line-height:1.6"><span style="color:var(--coral);flex-shrink:0;font-weight:700;margin-top:2px">!</span>${w}</div>`).join('')}
+        <div style="margin-top:14px;padding:12px 14px;background:rgba(212,96,10,.06);border-radius:10px;font-size:.78rem;color:var(--ink-muted);line-height:1.6">Seriously concerned? Contact your GP, CAMHS, or the NSPCC on 0808 800 5000. Immediate danger: call 999.</div>
       </div>
     </div>
 
-    <div class="sidebar">
-      ${renderSidebar(stageId, st, conv, last)}
+    <!-- Next tab -->
+    <div id="t-next" class="rtab-content hide">
+      <div class="r-card" style="margin-top:14px">
+        <div class="r-eyebrow">Your one action for tonight</div>
+        <h2 class="r-title">Do this tonight</h2>
+        <p style="font-size:.95rem;color:var(--ink-soft);line-height:1.75">${st.action}</p>
+      </div>
+
+      <div class="r-card" style="text-align:center;padding:32px 26px">
+        <p style="font-size:1.15rem;font-weight:800;color:var(--ink);line-height:1.5;margin-bottom:8px">Imagine this time next year.</p>
+        <p style="font-size:.95rem;color:var(--ink-soft);line-height:1.8;margin-bottom:24px">You know exactly what to say. The conversations don't spiral. Your child comes to you when something goes wrong online. That is what the full pathway is built for.</p>
+        <div style="display:flex;gap:10px;justify-content:center;margin-bottom:20px">
+          ${[{c:'var(--coral-lt)',b:'var(--coral)',l:'O',n:'Oliver'},{c:'var(--gold-lt)',b:'var(--gold-dark)',l:'Z',n:'Zara'},{c:'var(--green-lt)',b:'var(--green-dark)',l:'S',n:'Sofia'}].map(ch=>`<div style="text-align:center"><div style="width:48px;height:48px;border-radius:50%;background:${ch.c};border:2px solid ${ch.b};display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:800;font-size:1rem;color:${ch.b};margin:0 auto 4px">${ch.l}</div><div style="font-family:var(--mono);font-size:.55rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-muted)">${ch.n}</div></div>`).join('')}
+        </div>
+        <a class="btn" href="/join" style="display:block;text-align:center;justify-content:center;margin-bottom:10px">Save my pathway &rarr;</a>
+        <p style="font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;color:var(--ink-muted)">Not right for your family in 30 days? Full refund. No questions asked.</p>
+      </div>
+
+      <div class="r-card" style="text-align:center;padding:20px">
+        <p style="font-weight:700;font-size:.92rem;margin-bottom:6px">Want a clearer picture first?</p>
+        <p style="font-size:.82rem;color:var(--ink-soft);margin-bottom:14px">The free Digital Health Check reads the signals in your child's online world.</p>
+        <a href="/digitalwellbeing" style="font-family:var(--mono);font-size:.82rem;font-weight:700;color:var(--green-dark)">Take the free Digital Health Check &rarr;</a>
+      </div>
+
+      <button onclick="location.reload()" style="width:100%;margin-top:14px;background:none;border:1.5px solid var(--border);border-radius:16px;padding:14px;font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-muted);cursor:pointer">Build a pack for another child</button>
     </div>
+
   </div>`;
 
   window.scrollTo({top:0});
 }
+
+function rtab(btn, id){
+  document.querySelectorAll('.rtab').forEach(t=>t.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('.rtab-content').forEach(t=>t.classList.add('hide'));
+  document.getElementById(id).classList.remove('hide');
+}
+
 function tab(btn, id){
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
   btn.classList.add('on');
-  ['t-script','t-conv','t-action','t-signs','t-next'].forEach(t=>document.getElementById(t).classList.add('hide'));
-  document.getElementById(id).classList.remove('hide');
+  ['t-script','t-conv','t-action','t-signs','t-next'].forEach(t=>{
+    const el = document.getElementById(t);
+    if(el) el.classList.add('hide');
+  });
+  const target = document.getElementById(id);
+  if(target) target.classList.remove('hide');
 }
+
+function copyScript(btn, text){
+  const decoded = text.replace(/&quot;/g,'"');
+  navigator.clipboard.writeText(decoded).catch(()=>{
+    const ta=document.createElement('textarea');ta.value=decoded;
+    document.body.appendChild(ta);ta.select();
+    document.execCommand('copy');document.body.removeChild(ta);
+  });
+  btn.textContent='Copied';btn.classList.add('done');
+  setTimeout(()=>{btn.textContent='Copy this script';btn.classList.remove('done');},2000);
+}
+
 function copyBox(btn){
   const container = btn.closest('.box,.conv-say');
   const p = container ? container.querySelector('p') : null;
@@ -720,6 +700,7 @@ function copyBox(btn){
   btn.textContent='Copied';btn.classList.add('done');
   setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('done');},2000);
 }
+
 function clearBubble(id){
   const el=document.getElementById(id);
   if(el)el.style.display='none';
