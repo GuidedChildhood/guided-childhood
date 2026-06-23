@@ -45,6 +45,8 @@
     { "src": "/pricing", "status": 307, "headers": { "Location": "/#pricing" } },
     { "src": "/how", "status": 307, "headers": { "Location": "/#how" } },
     { "src": "/research", "status": 307, "headers": { "Location": "/#research" } },
+    { "src": "/digital-literacy", "dest": "/digital-literacy.html" },
+    { "src": "/digital-literacy/", "dest": "/digital-literacy.html" },
     { "src": "/(.*)", "dest": "/index.html" }
   ],
   "headers": [
