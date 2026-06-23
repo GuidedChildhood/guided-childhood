@@ -15,6 +15,8 @@ That is the cornerstone idea. Everything below is the same idea cut for a differ
 
 **The line that travels:** *The ban is a wall. A wall is not a plan. We build the bridge from 4 to 16.*
 
+**The counterintuitive spine, and the part that sets us apart:** the biggest social media law in a generation should change how we build digital literacy *not much*. The skills are the constant. The law is the variable. We adjust one conversation at 13 to 15 about the workaround, and the rest of the pathway stands exactly as it was. Everyone else is rewriting their approach around the platform. We built around the child, so the rules can change and the approach holds. Carry that line through every piece: *Does this change our approach? Not much. And that is the point.*
+
 ---
 
 ## WHY A WATERFALL AND NOT SCATTERED POSTS

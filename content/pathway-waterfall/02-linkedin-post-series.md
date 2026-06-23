@@ -172,6 +172,35 @@ The full pathway, age 4 to 16, with the scripts for each conversation, is in the
 
 ---
 
+## POST 9 · Does the ban change our approach? Not much.
+
+*Strong candidate to lead the series or pin to the profile. It is the thesis in one post.*
+
+Hook before the fold:
+The biggest social media law in a generation just passed. Here is how much it changes the way we should build digital literacy in children. Not much. And that is the point.
+
+---
+
+The biggest social media law in a generation just passed. Here is how much it changes the way we should build digital literacy in children.
+
+Not much. And that is the point.
+
+A law this big feels like it should change everything. It does not. And that is not a weakness in the approach. It is the whole reason it works.
+
+The skills that protect a child are the same whether the apps are banned, allowed, renamed or replaced. How an algorithm decides what you see. How comparison affects your mood. What manipulation looks like. How to use a device rather than be used by it. None of that is specific to Instagram, or to 2026, or to whether the wall is up or down.
+
+The ban is a variable. The platform list will change. The date will move again. Another app will appear that nobody has named yet. If a child's protection depends on the exact rules of the day, it breaks every time the rules change. If it is built on understanding, it holds through all of it.
+
+So we adjust exactly one conversation, the one at 13 to 15 about the workaround and what a child is actually looking for. Everything else in the pathway from 4 to 16 stands exactly as it was.
+
+The people rewriting their whole approach around the ban were building around the platform. We built around the child.
+
+That is why the ban changes our approach not much. And that is the strongest thing about it.
+
+Full pathway in the first comment.
+
+---
+
 ## POST 8 · The closer
 
 Hook before the fold:

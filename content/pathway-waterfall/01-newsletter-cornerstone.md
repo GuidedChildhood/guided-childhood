@@ -59,6 +59,20 @@ Identity and footprint, while the relationship still holds. The protection at th
 
 The wall lifts here. If the years before were a pathway, this is a step. The conversation is no longer get off your phone. It is what kind of digital life do you want to build, and what does your presence say about who you are. Sextortion, deepfakes and AI generated content are real and named plainly. A young person who can describe their own relationship with technology, what it gives them and what it costs, is genuinely ready. That readiness is the only thing the ban cannot hand them at midnight. It has to be built before.
 
+## So does the ban change how we build digital literacy? Not much.
+
+This is the part I most want you to take away, because it is the opposite of what the headlines suggest.
+
+A law this big feels like it should change everything. It does not change our approach much at all. And that is not a weakness in the approach. It is the whole point of it.
+
+The skills that protect a child are the same skills whether the apps are banned, allowed, renamed or replaced. How an algorithm decides what you see. How comparison affects your mood. What manipulation looks like. How to use a device rather than be used by it. None of that is specific to Instagram, or to 2026, or to whether the wall is up or down. It is the constant.
+
+The ban is a variable. The platform list will change. The date will move again. Another app will appear that nobody has named yet. If your child's protection depends on the exact rules of the day, it breaks every time the rules change. If their protection is built on understanding, it holds through all of it.
+
+So when people ask whether the ban means we should rethink digital literacy, the honest answer is no. We adjust one conversation, the one at 13 to 15 about the workaround and what your child is actually looking for. Everything else stands exactly as it was. We were never teaching children to cope with one app. We were building the capability that survives whichever app comes next.
+
+The people scrambling to rewrite their whole approach around the ban were building around the platform. We built around the child. That is why the ban changes our approach not much, and why that is the strongest thing about it.
+
 ## What this means for schools
 
 The ban handles access. Ofsted will ask about readiness. KCSIE requires schools to support online safety. RSHE requires teaching about healthy online relationships, and the statutory curriculum is being updated from September 2026 to add algorithmic manipulation, deepfakes and AI generated imagery. The vehicle is being built. Most schools are not yet delivering it.
