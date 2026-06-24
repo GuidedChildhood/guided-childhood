@@ -153,3 +153,17 @@ IMAGE PROMPT:
 
 *Justin Phillips | Guided Childhood | guidedchildhood.com*
 *Parent of three. Three years in the primary literature. Read the sources. Challenge anything.*
+
+---
+
+## GENERATED ILLUSTRATIONS
+
+Six brand illustrations generated 24 June 2026 (nano_banana_pro, 928 x 1152, 4:5).
+Uploaded to Canva Uploads, ready to drop onto slides. Source PNGs below as backup.
+
+- Slide 1 Cover (cigarette phone). Canva asset MAHNeoLYTJQ. https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260624_101651_68ae00d7-4422-4e3f-bd0f-6557b2a59f76.png
+- Slide 2 The Gap (cliffs chasm). Canva asset MAHNevcVqA8. https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260624_101655_c7d3b062-7131-4948-9f9f-9f18e88ae6ac.png
+- Slide 3 Size of Effect (tiny pie sliver). Canva asset MAHNeu_-PS0. https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260624_101659_049a0125-fc27-4ce2-9e72-e477ddc52dbc.png
+- Slide 4 Real Predictor (storm over adult). Canva asset MAHNesrP_Yc. https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260624_101702_b1ffd619-5b14-4a6e-8117-b532a4ddee47.png
+- Slide 5 Sleep (phone outside bedroom). Canva asset MAHNepMKf4U. https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260624_101705_5bf5f57e-15b6-4a61-bd26-7e4fbec8d6cf.png
+- Slide 6 What To Do (sunrise foundations). Canva asset MAHNeogT9G8. https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260624_101709_ee825712-1e0b-44d8-bc05-7d7cedec2b8b.png
