@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Guided Childhood — Investor Documents</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream:      #F7F3EE;
+    --cream-2:    #FDFBF8;
+    --cream-3:    #EFE9DF;
+    --ink:        #1C1C1C;
+    --ink-soft:   #4A4A4A;
+    --ink-muted:  #6E6A62;
+    --ink-light:  #9B958A;
+    --green:      #AFDCA2;
+    --green-dark: #2E7D5A;
+    --green-lt:   #EEF7F2;
+    --green-b:    #D3ECD9;
+    --coral:      #D4600A;
+    --gold:       #F2C94C;
+    --gold-dark:  #C9962A;
+    --lav-deep:   #3D5BA9;
+    --font-display: 'Hanken Grotesk', sans-serif;
+    --font-mono:    'IBM Plex Mono', monospace;
+  }
+
+  html, body {
+    min-height: 100vh;
+    font-family: var(--font-display);
+    background: var(--cream);
+    color: var(--ink);
+  }
+
+  /* ── HEADER ─────────────────────── */
+  .hd {
+    background: var(--ink);
+    padding: 24px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .hd-brand { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+  .hd-logo {
+    width: 40px; height: 40px;
+    background: var(--green-dark);
+    border-radius: 11px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; font-weight: 800; color: #fff; letter-spacing: -0.05em;
+  }
+  .hd-name { font-size: 18px; font-weight: 800; color: #fff; letter-spacing: -0.02em; }
+  .hd-badge {
+    font-family: var(--font-mono);
+    font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    background: rgba(255,255,255,0.08);
+    border-radius: 100px; padding: 5px 12px;
+  }
+
+  /* ── HERO ───────────────────────── */
+  .hero {
+    padding: 64px 48px 48px;
+    border-bottom: 1.5px solid var(--cream-3);
+    max-width: 880px;
+  }
+  .hero-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--green-dark); margin-bottom: 16px;
+  }
+  .hero-title {
+    font-size: 48px; font-weight: 800; line-height: 1.05; letter-spacing: -0.03em;
+    margin-bottom: 16px;
+  }
+  .hero-sub {
+    font-size: 17px; color: var(--ink-muted); line-height: 1.6; max-width: 560px;
+  }
+  .hero-raise {
+    display: flex; gap: 32px; margin-top: 32px; flex-wrap: wrap;
+  }
+  .raise-item { display: flex; flex-direction: column; gap: 3px; }
+  .raise-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-light); }
+  .raise-value { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; color: var(--ink); }
+  .raise-value.green { color: var(--green-dark); }
+
+  /* ── MAIN ───────────────────────── */
+  .main {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 0;
+    max-width: 1100px;
+    padding: 0 48px 80px;
+  }
+
+  /* ── DOCUMENTS ──────────────────── */
+  .docs { padding-top: 48px; padding-right: 56px; }
+  .docs-title {
+    font-family: var(--font-mono);
+    font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink-light); margin-bottom: 24px;
+  }
+  .doc-card {
+    background: var(--cream-2);
+    border: 1.5px solid var(--cream-3);
+    border-radius: 20px;
+    padding: 28px;
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .doc-card:hover {
+    border-color: var(--green-b);
+    box-shadow: 0 4px 24px rgba(46,125,90,0.08);
+  }
+  .doc-card-top {
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;
+  }
+  .doc-icon {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; flex-shrink: 0;
+  }
+  .doc-icon.green { background: var(--green-lt); }
+  .doc-icon.ink   { background: rgba(28,28,28,0.07); }
+  .doc-icon.gold  { background: #FEF9E7; }
+  .doc-icon.coral { background: #FEF3E8; }
+
+  .doc-meta { flex: 1; }
+  .doc-tag {
+    font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--ink-light); margin-bottom: 6px;
+  }
+  .doc-name { font-size: 20px; font-weight: 700; color: var(--ink); letter-spacing: -0.01em; }
+  .doc-desc { font-size: 13px; color: var(--ink-muted); margin-top: 4px; line-height: 1.5; }
+
+  .doc-url {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--cream-3);
+    border-radius: 10px; padding: 10px 14px;
+    font-family: var(--font-mono); font-size: 12px; color: var(--ink-soft);
+    word-break: break-all; line-height: 1.4;
+  }
+  .doc-url-label { font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-light); margin-bottom: 2px; }
+
+  .doc-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 10px 18px; border-radius: 12px;
+    font-size: 13px; font-weight: 600; text-decoration: none;
+    transition: opacity 0.2s;
+    cursor: pointer;
+  }
+  .btn:hover { opacity: 0.85; }
+  .btn-primary { background: var(--green-dark); color: #fff; }
+  .btn-secondary { background: var(--cream-3); color: var(--ink); }
+  .btn svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* ── SIDEBAR ────────────────────── */
+  .sidebar { padding-top: 48px; border-left: 1.5px solid var(--cream-3); padding-left: 40px; }
+
+  .side-block { margin-bottom: 32px; }
+  .side-head {
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--ink-light);
+    border-bottom: 1.5px solid var(--cream-3); padding-bottom: 8px; margin-bottom: 14px;
+  }
+
+  /* how-to steps */
+  .steps { display: flex; flex-direction: column; gap: 12px; }
+  .step { display: flex; gap: 12px; align-items: flex-start; }
+  .step-num {
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--green-dark); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; flex-shrink: 0; margin-top: 1px;
+  }
+  .step-text { font-size: 13px; color: var(--ink-soft); line-height: 1.5; }
+  .step-text strong { color: var(--ink); }
+
+  /* tip box */
+  .tip {
+    background: var(--green-lt);
+    border: 1.5px solid var(--green-b);
+    border-radius: 14px;
+    padding: 16px;
+    font-size: 12px; color: var(--ink-soft); line-height: 1.55;
+  }
+  .tip strong { color: var(--green-dark); }
+
+  /* contact */
+  .contact-card {
+    background: var(--ink);
+    border-radius: 16px;
+    padding: 20px;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .contact-name { font-size: 16px; font-weight: 700; color: #fff; }
+  .contact-role { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+  .contact-email {
+    font-size: 13px; color: var(--green); text-decoration: none;
+    font-family: var(--font-mono); font-weight: 500;
+  }
+  .contact-note { font-size: 12px; color: rgba(255,255,255,0.4); line-height: 1.4; }
+
+  /* SEIS/EIS badges */
+  .tax-row { display: flex; gap: 8px; }
+  .tax-badge {
+    flex: 1; border-radius: 12px; padding: 12px 14px;
+    display: flex; flex-direction: column; gap: 2px;
+  }
+  .tax-badge.seis { background: var(--green-lt); border: 1.5px solid var(--green-b); }
+  .tax-badge.eis  { background: #EFF3FC; border: 1.5px solid #C5D0EC; }
+  .tb-name { font-size: 16px; font-weight: 800; }
+  .tax-badge.seis .tb-name { color: var(--green-dark); }
+  .tax-badge.eis  .tb-name { color: var(--lav-deep); }
+  .tb-amount { font-size: 12px; font-weight: 700; color: var(--ink); }
+  .tb-relief { font-size: 11px; color: var(--ink-muted); }
+
+  /* ── FOOTER ─────────────────────── */
+  .ft {
+    background: var(--ink); padding: 20px 48px;
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+  }
+  .ft-left { font-size: 11px; color: rgba(255,255,255,0.3); font-family: var(--font-mono); }
+  .ft-right { font-size: 11px; color: var(--green); font-family: var(--font-mono); }
+
+  @media (max-width: 860px) {
+    .main { grid-template-columns: 1fr; padding: 0 24px 64px; }
+    .sidebar { border-left: none; border-top: 1.5px solid var(--cream-3); padding-left: 0; padding-top: 32px; }
+    .docs { padding-right: 0; }
+    .hero, .hd { padding-left: 24px; padding-right: 24px; }
+    .hero-title { font-size: 36px; }
+    .ft { padding: 20px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hd">
+  <a href="/" class="hd-brand">
+    <div class="hd-logo">GC</div>
+    <div class="hd-name">Guided Childhood</div>
+  </a>
+  <div class="hd-badge">Investor Documents</div>
+</div>
+
+<div class="hero">
+  <div class="hero-eyebrow">Seed Round — 2026</div>
+  <h1 class="hero-title">Investment<br>Documents</h1>
+  <p class="hero-sub">All materials for the £250,000 seed raise. View each document in your browser at full quality, or print to PDF from the open page.</p>
+  <div class="hero-raise">
+    <div class="raise-item">
+      <span class="raise-label">Raising</span>
+      <span class="raise-value green">£250,000</span>
+    </div>
+    <div class="raise-item">
+      <span class="raise-label">Pre-money valuation</span>
+      <span class="raise-value">£1.5M</span>
+    </div>
+    <div class="raise-item">
+      <span class="raise-label">Equity offered</span>
+      <span class="raise-value">15%</span>
+    </div>
+    <div class="raise-item">
+      <span class="raise-label">Year 3 ARR target</span>
+      <span class="raise-value green">£1.15M</span>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- DOCUMENTS -->
+  <div class="docs">
+    <div class="docs-title">Documents</div>
+
+    <!-- Pitch Deck (interactive) -->
+    <div class="doc-card">
+      <div class="doc-card-top">
+        <div class="doc-icon green">📊</div>
+        <div class="doc-meta">
+          <div class="doc-tag">01 — Presentation</div>
+          <div class="doc-name">Investor Pitch Deck</div>
+          <div class="doc-desc">10-slide interactive presentation. Navigate with arrow keys or swipe. Best viewed fullscreen in Chrome.</div>
+        </div>
+      </div>
+      <div>
+        <div class="doc-url-label">Live URL</div>
+        <div class="doc-url">guidedchildhood.com/investor-deck</div>
+      </div>
+      <div class="doc-actions">
+        <a href="/investor-deck" target="_blank" class="btn btn-primary">
+          <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Open as slides
+        </a>
+        <a href="/investor-deck-print" target="_blank" class="btn btn-secondary">
+          <svg viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+          Print version
+        </a>
+      </div>
+    </div>
+
+    <!-- Executive Summary -->
+    <div class="doc-card">
+      <div class="doc-card-top">
+        <div class="doc-icon ink">📄</div>
+        <div class="doc-meta">
+          <div class="doc-tag">02 — Summary</div>
+          <div class="doc-name">Executive Summary</div>
+          <div class="doc-desc">One-page overview covering opportunity, product, revenue model, three-year financials, SEIS/EIS terms, and founder background.</div>
+        </div>
+      </div>
+      <div>
+        <div class="doc-url-label">Live URL</div>
+        <div class="doc-url">guidedchildhood.com/executive-summary</div>
+      </div>
+      <div class="doc-actions">
+        <a href="/executive-summary" target="_blank" class="btn btn-primary">
+          <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          View document
+        </a>
+      </div>
+    </div>
+
+    <!-- Financial Forecast -->
+    <div class="doc-card">
+      <div class="doc-card-top">
+        <div class="doc-icon gold">📈</div>
+        <div class="doc-meta">
+          <div class="doc-tag">03 — Financials</div>
+          <div class="doc-name">Three-Year Financial Forecast</div>
+          <div class="doc-desc">Detailed financial model including quarterly projections, revenue breakdown, cost assumptions, breakeven analysis, and investor notes.</div>
+        </div>
+      </div>
+      <div>
+        <div class="doc-url-label">Live URL</div>
+        <div class="doc-url">guidedchildhood.com/financial-forecast</div>
+      </div>
+      <div class="doc-actions">
+        <a href="/financial-forecast" target="_blank" class="btn btn-primary">
+          <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          View document
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+
+    <!-- How to view as slides -->
+    <div class="side-block">
+      <div class="side-head">How to view as slides</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-text">Click <strong>Open as slides</strong> above — the pitch deck opens in your browser as a full interactive presentation.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-text">Press <strong>F11</strong> (or Cmd+Shift+F on Mac) to go fullscreen for a proper slide experience.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-text">Navigate with <strong>← → arrow keys</strong> or swipe left/right on a touchscreen.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- How to save as PDF -->
+    <div class="side-block">
+      <div class="side-head">How to save as PDF</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-text">Click <strong>Print version</strong> (pitch deck) or <strong>View document</strong> — opens the print-ready version.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-text">Press <strong>Ctrl+P</strong> (or Cmd+P). Set destination to <strong>Save as PDF</strong>.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-text">Set margins to <strong>None</strong> and tick <strong>Background graphics</strong>. Click Save.</div>
+        </div>
+      </div>
+      <div class="tip" style="margin-top:14px">
+        <strong>Tip:</strong> Always print from the live URL (not a downloaded file) so fonts load correctly and the PDF looks identical to the screen.
+      </div>
+    </div>
+
+    <!-- SEIS / EIS -->
+    <div class="side-block">
+      <div class="side-head">Tax relief available</div>
+      <div class="tax-row">
+        <div class="tax-badge seis">
+          <div class="tb-name">SEIS</div>
+          <div class="tb-amount">First £150k</div>
+          <div class="tb-relief">50% income tax relief</div>
+        </div>
+        <div class="tax-badge eis">
+          <div class="tb-name">EIS</div>
+          <div class="tb-amount">Remaining £100k</div>
+          <div class="tb-relief">30% income tax relief</div>
+        </div>
+      </div>
+      <p style="font-size:12px;color:var(--ink-muted);margin-top:10px;line-height:1.5">Minimum ticket £5,000. Typical investment £10k–£25k. CGT exemption on gains under both schemes.</p>
+    </div>
+
+    <!-- Contact -->
+    <div class="side-block">
+      <div class="side-head">Contact</div>
+      <div class="contact-card">
+        <div>
+          <div class="contact-name">Justin Phillips</div>
+          <div class="contact-role">Founder and CEO</div>
+        </div>
+        <a href="mailto:hello@guidedchildhood.com" class="contact-email">hello@guidedchildhood.com</a>
+        <div class="contact-note">Happy to answer questions, arrange a call, or share additional information on request.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="ft">
+  <div class="ft-left">Guided Childhood Ltd · Confidential · 2026 · Not for public distribution</div>
+  <div class="ft-right">hello@guidedchildhood.com</div>
+</div>
+
+</body>
+</html>

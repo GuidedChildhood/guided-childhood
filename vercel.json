@@ -57,6 +57,8 @@
     { "src": "/executive-summary/", "dest": "/executive-summary.html" },
     { "src": "/financial-forecast", "dest": "/financial-forecast.html" },
     { "src": "/financial-forecast/", "dest": "/financial-forecast.html" },
+    { "src": "/investor", "dest": "/investor.html" },
+    { "src": "/investor/", "dest": "/investor.html" },
     { "src": "/(.*)", "dest": "/index.html" }
   ],
   "headers": [

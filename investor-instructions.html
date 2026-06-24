@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Guided Childhood — How to View Investor Documents</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #1C1C1C; --ink-soft: #4A4A4A; --ink-muted: #6E6A62; --ink-light: #9B958A;
+    --cream: #F7F3EE; --cream-2: #FDFBF8; --cream-3: #EFE9DF;
+    --green: #AFDCA2; --green-dark: #2E7D5A; --green-lt: #EEF7F2; --green-b: #D3ECD9;
+    --gold-dark: #C9962A; --gold-lt: #FEFAE8;
+    --coral: #D4600A; --coral-lt: #FEF3E8;
+    --lav-deep: #3D5BA9; --lav: #E7ECF8;
+    --font: 'Hanken Grotesk', sans-serif;
+    --mono: 'IBM Plex Mono', monospace;
+  }
+  html, body { font-family: var(--font); background: #bbb; }
+
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    background: var(--cream);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* HEADER */
+  .hd {
+    background: var(--ink);
+    padding: 24px 40px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .hd-left { display: flex; align-items: center; gap: 12px; }
+  .hd-logo { width: 38px; height: 38px; background: var(--green-dark); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 800; color: #fff; letter-spacing: -0.05em; }
+  .hd-name { font-size: 17px; font-weight: 800; color: #fff; letter-spacing: -0.02em; }
+  .hd-right { font-family: var(--mono); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.35); }
+
+  /* BODY */
+  .body { padding: 36px 40px 40px; flex: 1; display: flex; flex-direction: column; gap: 28px; }
+
+  .intro-title { font-size: 28px; font-weight: 800; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 8px; }
+  .intro-sub { font-size: 14px; color: var(--ink-muted); line-height: 1.6; max-width: 520px; }
+
+  /* SECTION LABEL */
+  .sec-label {
+    font-family: var(--mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--green-dark); border-bottom: 1.5px solid var(--green-b);
+    padding-bottom: 6px; margin-bottom: 14px;
+  }
+
+  /* DOCUMENT ROWS */
+  .doc-row {
+    display: grid; grid-template-columns: 24px 1fr;
+    gap: 0 16px; align-items: start;
+    padding: 16px 18px;
+    background: var(--cream-2); border: 1.5px solid var(--cream-3);
+    border-radius: 14px; margin-bottom: 10px;
+  }
+  .doc-num {
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--green-dark); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; flex-shrink: 0; margin-top: 2px;
+  }
+  .doc-content { display: flex; flex-direction: column; gap: 7px; }
+  .doc-name { font-size: 15px; font-weight: 700; color: var(--ink); }
+  .doc-desc { font-size: 12px; color: var(--ink-muted); line-height: 1.5; }
+  .url-box {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--ink); border-radius: 8px; padding: 8px 12px;
+    margin-top: 2px;
+  }
+  .url-label { font-family: var(--mono); font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.35); white-space: nowrap; }
+  .url-value { font-family: var(--mono); font-size: 11px; color: var(--green); font-weight: 500; }
+
+  /* HOW-TO STEPS */
+  .steps-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .step-card {
+    background: var(--cream-2); border: 1.5px solid var(--cream-3);
+    border-radius: 14px; padding: 16px;
+    display: flex; gap: 10px; align-items: flex-start;
+  }
+  .step-num {
+    width: 22px; height: 22px; border-radius: 50%; background: var(--green-dark);
+    color: #fff; font-size: 10px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px;
+  }
+  .step-text { font-size: 12px; color: var(--ink-soft); line-height: 1.55; }
+  .step-text strong { color: var(--ink); }
+
+  .tip {
+    background: var(--green-lt); border: 1.5px solid var(--green-b);
+    border-radius: 12px; padding: 14px 16px;
+    font-size: 12px; color: var(--ink-soft); line-height: 1.6;
+  }
+  .tip strong { color: var(--green-dark); }
+
+  /* PDF STEPS */
+  .pdf-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .pdf-step {
+    background: var(--cream-2); border: 1.5px solid var(--cream-3);
+    border-radius: 12px; padding: 14px 12px; text-align: center;
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+  }
+  .pdf-step-num {
+    width: 28px; height: 28px; border-radius: 50%; background: var(--ink);
+    color: #fff; font-size: 12px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .pdf-step-text { font-size: 11px; color: var(--ink-soft); line-height: 1.45; text-align: center; }
+  .pdf-step-text strong { color: var(--ink); display: block; margin-bottom: 2px; }
+
+  /* CONTACT */
+  .contact-strip {
+    background: var(--ink); border-radius: 14px; padding: 18px 20px;
+    display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;
+  }
+  .contact-name { font-size: 15px; font-weight: 700; color: #fff; }
+  .contact-role { font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-top: 3px; }
+  .contact-email { font-family: var(--mono); font-size: 13px; color: var(--green); font-weight: 500; }
+
+  /* FOOTER */
+  .ft { background: var(--ink); padding: 12px 40px; display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
+  .ft-l { font-size: 10px; color: rgba(255,255,255,0.25); font-family: var(--mono); }
+  .ft-r { font-size: 10px; color: var(--green); font-family: var(--mono); }
+
+  @media print {
+    @page { size: A4 portrait; margin: 0; }
+    html, body { background: none; }
+    .page { margin: 0; }
+  }
+  @media screen {
+    body { padding: 28px; }
+    .page { box-shadow: 0 4px 40px rgba(0,0,0,0.2); }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="hd">
+    <div class="hd-left">
+      <div class="hd-logo">GC</div>
+      <div class="hd-name">Guided Childhood</div>
+    </div>
+    <div class="hd-right">Investor Documents — How to Access</div>
+  </div>
+
+  <div class="body">
+
+    <div>
+      <div class="intro-title">How to view the investor documents</div>
+      <p class="intro-sub">All documents are hosted live at guidedchildhood.com. Open any URL below in Chrome for the best experience. The pitch deck runs as an interactive presentation directly in your browser.</p>
+    </div>
+
+    <!-- DOCUMENT URLS -->
+    <div>
+      <div class="sec-label">Document URLs</div>
+
+      <div class="doc-row">
+        <div class="doc-num">1</div>
+        <div class="doc-content">
+          <div class="doc-name">All Documents — Start Here</div>
+          <div class="doc-desc">One page with links to every document, instructions, and SEIS/EIS summary.</div>
+          <div class="url-box">
+            <span class="url-label">URL</span>
+            <span class="url-value">guidedchildhood.com/investor</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="doc-row">
+        <div class="doc-num">2</div>
+        <div class="doc-content">
+          <div class="doc-name">Investor Pitch Deck (interactive slides)</div>
+          <div class="doc-desc">10-slide presentation. Navigate with arrow keys or swipe. Press F11 for fullscreen.</div>
+          <div class="url-box">
+            <span class="url-label">URL</span>
+            <span class="url-value">guidedchildhood.com/investor-deck</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="doc-row">
+        <div class="doc-num">3</div>
+        <div class="doc-content">
+          <div class="doc-name">Executive Summary</div>
+          <div class="doc-desc">One-page overview of the opportunity, product, financials, and investment terms.</div>
+          <div class="url-box">
+            <span class="url-label">URL</span>
+            <span class="url-value">guidedchildhood.com/executive-summary</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="doc-row">
+        <div class="doc-num">4</div>
+        <div class="doc-content">
+          <div class="doc-name">Three-Year Financial Forecast</div>
+          <div class="doc-desc">Detailed projections, quarterly breakdown, cost model, and breakeven analysis.</div>
+          <div class="url-box">
+            <span class="url-label">URL</span>
+            <span class="url-value">guidedchildhood.com/financial-forecast</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW AS SLIDES -->
+    <div>
+      <div class="sec-label">Viewing the pitch deck as slides</div>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-num">1</div>
+          <div class="step-text">Open <strong>guidedchildhood.com/investor-deck</strong> in Chrome on a laptop or desktop.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">2</div>
+          <div class="step-text">Press <strong>F11</strong> (Windows) or <strong>Cmd+Shift+F</strong> (Mac) to go fullscreen.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">3</div>
+          <div class="step-text">Use <strong>← → arrow keys</strong> to move between slides, or swipe on a touchscreen.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">4</div>
+          <div class="step-text">Press <strong>Esc</strong> to exit fullscreen. Use the dots at the bottom to jump to any slide.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SAVE AS PDF -->
+    <div>
+      <div class="sec-label">Saving any document as a PDF</div>
+      <div class="pdf-steps">
+        <div class="pdf-step">
+          <div class="pdf-step-num">1</div>
+          <div class="pdf-step-text"><strong>Open the URL</strong> in Chrome. Use the live URL, not a downloaded file.</div>
+        </div>
+        <div class="pdf-step">
+          <div class="pdf-step-num">2</div>
+          <div class="pdf-step-text"><strong>Press Ctrl+P</strong> (Cmd+P on Mac) to open the print dialog.</div>
+        </div>
+        <div class="pdf-step">
+          <div class="pdf-step-num">3</div>
+          <div class="pdf-step-text"><strong>Set destination</strong> to Save as PDF. Margins: None. Tick Background graphics.</div>
+        </div>
+        <div class="pdf-step">
+          <div class="pdf-step-num">4</div>
+          <div class="pdf-step-text"><strong>For the deck,</strong> use guidedchildhood.com/investor-deck-print (all slides on one page).</div>
+        </div>
+      </div>
+      <div class="tip" style="margin-top:12px">
+        <strong>Important:</strong> Always print from the live URL, not from a saved HTML file. This ensures fonts load correctly and the PDF looks identical to the browser view.
+      </div>
+    </div>
+
+    <!-- CONTACT -->
+    <div>
+      <div class="sec-label">Questions</div>
+      <div class="contact-strip">
+        <div>
+          <div class="contact-name">Justin Phillips — Founder and CEO</div>
+          <div class="contact-role">Guided Childhood Ltd</div>
+        </div>
+        <div class="contact-email">hello@guidedchildhood.com</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="ft">
+    <div class="ft-l">Guided Childhood Ltd · Confidential · 2026</div>
+    <div class="ft-r">guidedchildhood.com</div>
+  </div>
+
+</div>
+</body>
+</html>
