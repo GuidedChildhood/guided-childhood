@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why Digital Literacy | Guided Childhood</title>
+<meta name="description" content="A digitally literate child is safer, more confident, and better equipped for the world they are actually growing up in. Here is the evidence.">
+<meta name="author" content="Justin Phillips, Guided Childhood">
+<link rel="canonical" href="https://guidedchildhood.co.uk/digital-literacy">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://guidedchildhood.co.uk/digital-literacy">
+<meta property="og:title" content="Why Digital Literacy | Guided Childhood">
+<meta property="og:description" content="A digitally literate child is safer, more confident, and better equipped for the world they are actually growing up in.">
+<meta property="og:site_name" content="Guided Childhood">
+<meta property="og:locale" content="en_GB">
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #F7F3EE;
+  --cream-2: #FDFBF8;
+  --cream-3: #EFE9DF;
+  --ink: #1C1C1C;
+  --ink-soft: #4A4A4A;
+  --ink-muted: #6E6A62;
+  --ink-light: #9B958A;
+  --green: #AFDCA2;
+  --green-dark: #2E7D5A;
+  --green-lt: #EEF7F2;
+  --coral: #D4600A;
+  --coral-lt: #FEF3E8;
+  --gold: #F2C94C;
+  --gold-lt: #FEFAE8;
+  --gold-dark: #C9962A;
+  --lav: #E7ECF8;
+  --lav-deep: #3D5BA9;
+  --border: #E4DFD7;
+  --serif: 'Hanken Grotesk', system-ui, sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 16px;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* NAV */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: 60px;
+  background: rgba(247, 243, 238, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+}
+.nav-inner {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--ink);
+  text-decoration: none;
+}
+.nav-logo-icon {
+  width: 32px;
+  height: 32px;
+  background: var(--green);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.nav-logo-icon span {
+  display: block;
+  width: 16px;
+  height: 2px;
+  background: var(--green-dark);
+  border-radius: 2px;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.nav-links a {
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+  font-weight: 500;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--ink); }
+.nav-cta {
+  background: var(--green-dark);
+  color: #fff !important;
+  border-radius: 20px;
+  padding: 8px 18px;
+  font-size: 0.88rem !important;
+  font-weight: 600 !important;
+  transition: opacity 0.2s !important;
+}
+.nav-cta:hover { opacity: 0.85; }
+
+/* HERO */
+.hero {
+  background: var(--cream);
+  padding: 100px 24px 80px;
+  text-align: center;
+}
+.hero-inner {
+  max-width: 720px;
+  margin: 0 auto;
+}
+.eyebrow {
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--green-dark);
+  margin-bottom: 20px;
+}
+.hero h1 {
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  font-weight: 800;
+  color: var(--ink);
+  line-height: 1.15;
+  margin-bottom: 20px;
+  letter-spacing: -0.02em;
+}
+.hero-sub {
+  font-size: 1.1rem;
+  color: var(--ink-soft);
+  max-width: 560px;
+  margin: 0 auto 32px;
+  line-height: 1.7;
+}
+.btn-gold {
+  display: inline-block;
+  background: var(--gold);
+  color: var(--ink);
+  border-radius: 16px;
+  padding: 14px 32px;
+  font-weight: 700;
+  font-size: 1rem;
+  box-shadow: 0 5px 0 var(--gold-dark);
+  transition: transform 0.15s, box-shadow 0.15s;
+  cursor: pointer;
+}
+.btn-gold:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 0 var(--gold-dark);
+}
+.btn-gold:active {
+  transform: translateY(2px);
+  box-shadow: 0 3px 0 var(--gold-dark);
+}
+
+/* STATS STRIP */
+.stats-strip {
+  background: var(--ink);
+  padding: 32px 24px;
+}
+.stats-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px 24px;
+}
+.stat-item {
+  text-align: center;
+}
+.stat-number {
+  display: block;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--gold);
+  line-height: 1.2;
+  margin-bottom: 6px;
+}
+.stat-source {
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.4;
+}
+
+/* SAFETY NET SECTION */
+.section-safety {
+  background: var(--cream-2);
+  padding: 80px 24px;
+}
+.section-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+}
+.section-lead {
+  max-width: 680px;
+  margin-bottom: 48px;
+}
+.section-lead h2 {
+  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+  font-weight: 800;
+  color: var(--ink);
+  line-height: 1.2;
+  margin-bottom: 16px;
+  letter-spacing: -0.02em;
+}
+.section-lead p {
+  font-size: 1.05rem;
+  color: var(--ink-soft);
+  line-height: 1.7;
+}
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.skill-card {
+  background: var(--lav);
+  border-radius: 20px;
+  padding: 24px;
+}
+.skill-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+.skill-num {
+  width: 32px;
+  height: 32px;
+  background: var(--gold);
+  color: var(--ink);
+  border-radius: 50%;
+  font-weight: 800;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.skill-title {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--ink);
+  padding-top: 4px;
+}
+.skill-body {
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+  line-height: 1.65;
+}
+
+/* INNOVATORS SECTION */
+.section-innovators {
+  background: var(--cream);
+  padding: 80px 24px;
+}
+.innovators-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.innovator-card {
+  background: var(--cream-2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 24px;
+}
+.innovator-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-bottom: 14px;
+}
+.innovator-tag {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--green-dark);
+  margin-bottom: 6px;
+}
+.innovator-title {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+.innovator-body {
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+  line-height: 1.65;
+}
+
+/* BALANCE SECTION */
+.section-balance {
+  background: var(--green-lt);
+  padding: 80px 24px;
+}
+.balance-content {
+  max-width: 720px;
+  margin: 0 auto;
+}
+.balance-content p {
+  font-size: 1.05rem;
+  color: var(--ink-soft);
+  line-height: 1.75;
+  margin-bottom: 20px;
+}
+.research-credits {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px 24px;
+  border: 1px solid var(--border);
+  margin-top: 40px;
+}
+.research-label {
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--ink-muted);
+  margin-bottom: 14px;
+}
+.research-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.research-list li {
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+.research-list li::before {
+  content: "\2197\00A0";
+  color: var(--green-dark);
+}
+
+/* CTA SECTION */
+.section-cta {
+  background: var(--ink);
+  padding: 80px 24px;
+  text-align: center;
+}
+.section-cta h2 {
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.2;
+  margin-bottom: 16px;
+  letter-spacing: -0.02em;
+}
+.section-cta p {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.7);
+  max-width: 500px;
+  margin: 0 auto 36px;
+  line-height: 1.7;
+}
+.cta-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.btn-outline-white {
+  display: inline-block;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  color: #fff;
+  border-radius: 16px;
+  padding: 14px 32px;
+  font-weight: 700;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+  cursor: pointer;
+}
+.btn-outline-white:hover { border-color: rgba(255, 255, 255, 0.7); }
+
+/* FOOTER */
+.footer {
+  background: var(--cream-3);
+  padding: 32px 24px;
+  border-top: 1px solid var(--border);
+}
+.footer-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.footer-copy {
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+}
+.footer-links {
+  display: flex;
+  gap: 20px;
+}
+.footer-links a {
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--ink); }
+.footer-tagline {
+  width: 100%;
+  font-size: 0.8rem;
+  color: var(--ink-light);
+  font-family: var(--mono);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .nav-links a:not(.nav-cta) { display: none; }
+
+  .stats-inner {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px 16px;
+  }
+
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .innovators-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-inner {
+    grid-template-columns: 1fr;
+  }
+  .stat-number {
+    font-size: 1.6rem;
+  }
+}
+
+@media (min-width: 769px) {
+  .stats-inner {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-icon">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      Guided Childhood
+    </a>
+    <div class="nav-links">
+      <a href="/pathway">The Pathway</a>
+      <a href="/schools">Schools</a>
+      <a href="/starter-pack" class="nav-cta">Start here</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <span class="eyebrow">THE CASE FOR DIGITAL LITERACY</span>
+    <h1>The goal was never less screen time.</h1>
+    <p class="hero-sub">A digitally literate child is safer, more confident, and better equipped for the world they are actually growing up in. Here is the evidence.</p>
+    <a href="/starter-pack" class="btn-gold">Start the pathway check</a>
+  </div>
+</section>
+
+<!-- STATS STRIP -->
+<div class="stats-strip">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <span class="stat-number">97%</span>
+      <span class="stat-source">of UK children aged 3 to 17 are online<br>Ofcom 2024</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number">Under 10</span>
+      <span class="stat-source">average age of first smartphone<br>Ofcom 2024</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number">No. 1</span>
+      <span class="stat-source">online safety is the number 1 reason<br>children contact Childline<br>NSPCC 2023</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number">65%</span>
+      <span class="stat-source">of today's primary school children will work<br>in jobs that do not yet exist<br>World Economic Forum 2023</span>
+    </div>
+  </div>
+</div>
+
+<!-- SAFETY NET SECTION -->
+<section class="section-safety">
+  <div class="section-inner">
+    <div class="section-lead">
+      <span class="eyebrow">THE PROTECTION CASE</span>
+      <h2>Knowing the risks is not protection. Understanding the system is.</h2>
+      <p>These are the six skills that change outcomes. Not as a school subject. As a way of thinking.</p>
+    </div>
+    <div class="skills-grid">
+
+      <div class="skill-card">
+        <div class="skill-header">
+          <div class="skill-num">1</div>
+          <div class="skill-title">How algorithms work</div>
+        </div>
+        <p class="skill-body">Every platform is built by engineers whose job is to keep your child there as long as possible. A child who understands this is not immune but they have a frame. They can name what is happening to them.</p>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-header">
+          <div class="skill-num">2</div>
+          <div class="skill-title">Privacy as power</div>
+        </div>
+        <p class="skill-body">The product is free because the child is the product. Data literacy means understanding what apps collect, why the platform costs nothing, and what that means for the content they are shown.</p>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-header">
+          <div class="skill-num">3</div>
+          <div class="skill-title">Scam and phishing recognition</div>
+        </div>
+        <p class="skill-body">Online fraud is the UK's most common crime and young people are the most targeted group. Recognising a fake profile, a phishing link, and a manipulation attempt is protective knowledge that is now as important as road safety.</p>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-header">
+          <div class="skill-num">4</div>
+          <div class="skill-title">Image consent and digital footprint</div>
+        </div>
+        <p class="skill-body">Sending an image removes control of it permanently. Understanding what stays, what spreads, and what the law says is knowledge every child needs before they are asked to share something.</p>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-header">
+          <div class="skill-num">5</div>
+          <div class="skill-title">Verifying information</div>
+        </div>
+        <p class="skill-body">Being able to check a source, trace a claim, and recognise a manipulated image is the civic literacy of this century. Children who can do this are harder to radicalise and harder to mislead.</p>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-header">
+          <div class="skill-num">6</div>
+          <div class="skill-title">Recognising emotional targeting</div>
+        </div>
+        <p class="skill-body">Platforms and advertisers target emotional states algorithmically. Loneliness, boredom, and anxiety are exploited by design. A child who can name this is measurably more resilient to it.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- INNOVATORS SECTION -->
+<section class="section-innovators">
+  <div class="section-inner">
+    <div class="section-lead">
+      <span class="eyebrow">WHAT IT ENABLES</span>
+      <h2>Six young people who changed the world using the skills you are building.</h2>
+      <p>These are not exceptional talents. They are the result of curiosity, access to information, and adults who did not restrict the tools.</p>
+    </div>
+    <div class="innovators-grid">
+
+      <div class="innovator-card">
+        <div class="innovator-avatar" style="background: var(--green); color: var(--green-dark);">BS</div>
+        <span class="innovator-tag">Boyan Slat, age 16</span>
+        <div class="innovator-title">The Ocean Cleanup</div>
+        <p class="innovator-body">At 16, while diving in Greece, Boyan found more plastic bags than fish. He spent the next two years using online research and digital design tools to model The Ocean Cleanup. His organisation has now removed more than 10 million kg of plastic from the world's oceans and rivers.</p>
+      </div>
+
+      <div class="innovator-card">
+        <div class="innovator-avatar" style="background: var(--gold); color: var(--ink);">GR</div>
+        <span class="innovator-tag">Gitanjali Rao, age 11</span>
+        <div class="innovator-title">Lead Detection Device</div>
+        <p class="innovator-body">After watching the Flint water crisis unfold online, Gitanjali used YouTube and Khan Academy to teach herself carbon nanotube science. She built Tethys, a portable lead detection device, and won the Google Science Fair. TIME magazine named her Kid of the Year in 2020.</p>
+      </div>
+
+      <div class="innovator-card">
+        <div class="innovator-avatar" style="background: var(--lav); color: var(--lav-deep);">KD</div>
+        <span class="innovator-tag">Kelvin Doe, age 15</span>
+        <div class="innovator-title">Community FM Radio Station</div>
+        <p class="innovator-body">Growing up in Sierra Leone with no formal training, Kelvin taught himself electronics from online resources and parts from rubbish bins. At 15 he built a working FM radio station for his community. He became the youngest person ever invited to MIT's visiting practitioner programme.</p>
+      </div>
+
+      <div class="innovator-card">
+        <div class="innovator-avatar" style="background: var(--coral-lt); color: var(--coral);">AM</div>
+        <span class="innovator-tag">Ann Makosinski, age 16</span>
+        <div class="innovator-title">Body Heat Flashlight</div>
+        <p class="innovator-body">Ann's friend in the Philippines could not study at night because her family had no electricity. At 16 Ann entered the Google Science Fair with a flashlight powered entirely by the heat of a human hand. No batteries. No charging. She won.</p>
+      </div>
+
+      <div class="innovator-card">
+        <div class="innovator-avatar" style="background: var(--green-lt); color: var(--green-dark);">SB</div>
+        <span class="innovator-tag">Shubham Banerjee, age 12</span>
+        <div class="innovator-title">Low Cost Braille Printer</div>
+        <p class="innovator-body">Shubham asked his parents why a Braille printer cost $2,000. Nobody had a good answer. At 12 he built one from a LEGO Mindstorms kit for $350. Intel invested in his company before he turned 14.</p>
+      </div>
+
+      <div class="innovator-card">
+        <div class="innovator-avatar" style="background: var(--gold-lt); color: var(--gold-dark);">JA</div>
+        <span class="innovator-tag">Jack Andraka, age 15</span>
+        <div class="innovator-title">Pancreatic Cancer Detection</div>
+        <p class="innovator-body">After a family friend died of pancreatic cancer, Jack emailed 200 research scientists asking to use their lab. 199 said no. One said yes. At 15 he developed a test that is 168 times faster, 400 times more sensitive, and 26,000 times cheaper than existing methods.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- BALANCE SECTION -->
+<section class="section-balance">
+  <div class="section-inner">
+    <div class="balance-content">
+      <span class="eyebrow">THE BALANCE</span>
+      <h2 style="font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 800; color: var(--ink); line-height: 1.2; margin-bottom: 24px; letter-spacing: -0.02em;">The richest digital lives belong to children with the richest real lives.</h2>
+      <p>The research is consistent. Jonathan Haidt's work in The Anxious Generation shows that the children who navigate digital life best are not the ones with the strictest screen rules. They are the ones with the most compelling offline alternatives. Sport, cooking, music, building, reading, time outdoors without a goal. The algorithm has less to work with when a child already has somewhere better to be.</p>
+      <p>Digital literacy and real world richness are not in competition. They are the same project. A child who can build a radio station from salvaged parts and a child who can spend an afternoon outside with no agenda are both harder for the internet to own.</p>
+
+      <div class="research-credits">
+        <span class="research-label">KEY RESEARCH BEHIND THIS PAGE</span>
+        <ul class="research-list">
+          <li>Jonathan Haidt, The Anxious Generation (2024) — haidt.net</li>
+          <li>Ofcom Children and Parents Media Use and Attitudes Report (2024) — ofcom.org.uk</li>
+          <li>NSPCC Childline Annual Review (2023) — nspcc.org.uk</li>
+          <li>World Economic Forum, Future of Jobs Report (2023) — weforum.org</li>
+          <li>Richard Louv, Last Child in the Woods (2005, updated 2008)</li>
+          <li>Peter Gray, Free to Learn (2013)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA SECTION -->
+<section class="section-cta">
+  <h2>Guided Childhood builds all of this. Stage by stage.</h2>
+  <p>From the first device conversation at age 4 to the digital footprint conversation before university at 17. Every stage mapped. Every skill embedded.</p>
+  <div class="cta-buttons">
+    <a href="/starter-pack" class="btn-gold">Start the pathway check</a>
+    <a href="/pathway" class="btn-outline-white">See the full pathway</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <span class="footer-copy">&#169; 2026 Guided Childhood</span>
+    <nav class="footer-links">
+      <a href="/pathway">Pathway</a>
+      <a href="/schools">Schools</a>
+      <a href="/scripts">Scripts</a>
+    </nav>
+    <span class="footer-tagline">Built in the UK. Backed by research.</span>
+  </div>
+</footer>
+
+</body>
+</html>

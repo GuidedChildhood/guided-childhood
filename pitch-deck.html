@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Guided Childhood — Investor Deck 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream:      #F7F3EE;
+    --cream-2:    #FDFBF8;
+    --cream-3:    #EFE9DF;
+    --ink:        #1C1C1C;
+    --ink-soft:   #4A4A4A;
+    --ink-muted:  #6E6A62;
+    --ink-light:  #9B958A;
+    --green:      #AFDCA2;
+    --green-dark: #2E7D5A;
+    --green-lt:   #EEF7F2;
+    --green-b:    #D3ECD9;
+    --coral:      #D4600A;
+    --coral-lt:   #FEF3E8;
+    --gold:       #F2C94C;
+    --gold-lt:    #FEFAE8;
+    --gold-dark:  #C9962A;
+    --lav:        #E7ECF8;
+    --lav-deep:   #3D5BA9;
+    --font-display: 'Hanken Grotesk', sans-serif;
+    --font-mono:    'IBM Plex Mono', monospace;
+  }
+
+  html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: var(--ink);
+    font-family: var(--font-display);
+  }
+
+  /* ── DECK SHELL ─────────────────────────────── */
+  .deck {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* ── SLIDE BASE ─────────────────────────────── */
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    padding: clamp(32px, 5vw, 72px) clamp(32px, 6vw, 96px);
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .slide.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+  }
+  .slide.exit {
+    opacity: 0;
+    transform: translateY(-24px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+  }
+
+  /* cream bg */
+  .slide--cream { background: var(--cream); color: var(--ink); }
+  /* ink bg */
+  .slide--ink   { background: var(--ink);   color: var(--cream); }
+  /* green bg */
+  .slide--green { background: var(--green-dark); color: var(--cream); }
+
+  /* ── EYEBROW ─────────────────────────────────── */
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 20px;
+  }
+  .slide--ink .eyebrow,
+  .slide--green .eyebrow { color: rgba(255,255,255,0.45); }
+
+  /* ── HEADLINES ───────────────────────────────── */
+  .h-giant {
+    font-size: clamp(44px, 7.5vw, 96px);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+  }
+  .h-xl {
+    font-size: clamp(32px, 5vw, 64px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+  }
+  .h-lg {
+    font-size: clamp(24px, 3.5vw, 48px);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+  .h-md {
+    font-size: clamp(18px, 2vw, 26px);
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  .body-lg {
+    font-size: clamp(15px, 1.4vw, 20px);
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+  .slide--ink .body-lg,
+  .slide--green .body-lg { color: rgba(255,255,255,0.65); }
+
+  .accent-green { color: var(--green-dark); }
+  .slide--ink .accent-green { color: var(--green); }
+  .accent-coral { color: var(--coral); }
+  .accent-gold  { color: var(--gold-dark); }
+  .slide--ink .accent-gold { color: var(--gold); }
+
+  /* ── PILL / TAG ──────────────────────────────── */
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 14px;
+    border-radius: 100px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .pill--green { background: var(--green-lt); color: var(--green-dark); }
+  .pill--gold  { background: var(--gold-lt);  color: var(--gold-dark);  }
+  .pill--coral { background: var(--coral-lt); color: var(--coral);      }
+  .pill--ink   { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); }
+  .pill--cream { background: var(--cream-3); color: var(--ink-soft); }
+
+  /* ── GRID HELPERS ────────────────────────────── */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; }
+  .grid-5 { display: grid; grid-template-columns: repeat(5,1fr); gap: 16px; }
+
+  /* ── CARD ────────────────────────────────────── */
+  .card {
+    background: var(--cream-2);
+    border-radius: 20px;
+    padding: 28px 24px;
+    border: 1.5px solid var(--cream-3);
+  }
+  .card--ink {
+    background: rgba(255,255,255,0.05);
+    border: 1.5px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+    padding: 28px 24px;
+  }
+  .card--green-dark {
+    background: rgba(255,255,255,0.08);
+    border: 1.5px solid rgba(255,255,255,0.12);
+    border-radius: 20px;
+    padding: 28px 24px;
+  }
+  .card .card-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 10px;
+  }
+  .card--ink .card-label,
+  .card--green-dark .card-label { color: rgba(255,255,255,0.4); }
+
+  .card .card-value {
+    font-size: clamp(24px, 3vw, 40px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .card .card-desc {
+    font-size: 13px;
+    color: var(--ink-muted);
+    margin-top: 6px;
+    line-height: 1.4;
+  }
+  .card--ink .card-desc,
+  .card--green-dark .card-desc { color: rgba(255,255,255,0.5); }
+
+  /* ── NAVIGATION ──────────────────────────────── */
+  .nav {
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    z-index: 100;
+    background: rgba(28,28,28,0.85);
+    backdrop-filter: blur(12px);
+    border-radius: 100px;
+    padding: 10px 20px;
+  }
+  .nav-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    transition: background 0.2s;
+  }
+  .nav-btn:hover { background: rgba(255,255,255,0.2); }
+  .nav-btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+
+  .dots { display: flex; gap: 6px; align-items: center; }
+  .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.25);
+    cursor: pointer;
+    transition: background 0.25s, transform 0.25s;
+  }
+  .dot.active { background: var(--green); transform: scale(1.4); }
+
+  .slide-counter {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: rgba(255,255,255,0.35);
+    min-width: 40px;
+    text-align: center;
+  }
+
+  /* ── KEYBOARD HINT ───────────────────────────── */
+  .hint {
+    position: fixed;
+    top: 28px;
+    right: 40px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: rgba(255,255,255,0.2);
+    letter-spacing: 0.08em;
+  }
+
+  /* ══════════════════════════════════════════════
+     SLIDE-SPECIFIC STYLES
+  ══════════════════════════════════════════════ */
+
+  /* S1 — COVER */
+  .s1-logo {
+    width: 52px;
+    height: 52px;
+    background: var(--green-dark);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 32px;
+  }
+  .s1-logo span {
+    font-size: 22px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.05em;
+  }
+  .s1-tagline {
+    font-size: clamp(15px, 1.5vw, 20px);
+    color: var(--ink-muted);
+    margin-top: 20px;
+    max-width: 540px;
+    line-height: 1.5;
+  }
+  .s1-stages {
+    display: flex;
+    gap: 10px;
+    margin-top: auto;
+    padding-top: 32px;
+    flex-wrap: wrap;
+  }
+  .s1-stage {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--cream-2);
+    border: 1.5px solid var(--cream-3);
+    border-radius: 100px;
+    padding: 7px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-soft);
+  }
+  .s1-stage-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .s1-raise {
+    margin-top: auto;
+    padding-top: 16px;
+    display: flex;
+    gap: 40px;
+    align-items: flex-end;
+  }
+  .s1-raise-item { display: flex; flex-direction: column; gap: 4px; }
+  .s1-raise-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-light); }
+  .s1-raise-value { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; color: var(--ink); }
+
+  /* S2 — TIMELINE */
+  .timeline {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: 32px;
+    flex: 1;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 80px;
+    top: 0; bottom: 0;
+    width: 1.5px;
+    background: rgba(255,255,255,0.1);
+  }
+  .tl-row {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 0 32px;
+    padding: 16px 0;
+    position: relative;
+  }
+  .tl-row::after {
+    content: '';
+    position: absolute;
+    left: 73.5px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 13px; height: 13px;
+    border-radius: 50%;
+    background: var(--ink);
+    border: 2px solid rgba(255,255,255,0.2);
+  }
+  .tl-row.highlight::after {
+    background: var(--green);
+    border-color: var(--green);
+    box-shadow: 0 0 0 4px rgba(175,220,162,0.2);
+  }
+  .tl-year {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.35);
+    padding-top: 2px;
+    text-align: right;
+  }
+  .tl-row.highlight .tl-year { color: var(--green); }
+  .tl-content { }
+  .tl-title { font-size: 15px; font-weight: 700; color: rgba(255,255,255,0.9); margin-bottom: 2px; }
+  .tl-row.highlight .tl-title { color: var(--green); }
+  .tl-desc { font-size: 13px; color: rgba(255,255,255,0.4); line-height: 1.4; }
+
+  /* S3 — STAGES */
+  .stages-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 14px;
+    margin-top: 28px;
+    flex: 1;
+  }
+  .stage-card {
+    background: var(--cream-2);
+    border-radius: 20px;
+    padding: 24px 18px;
+    border: 1.5px solid var(--cream-3);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+    overflow: hidden;
+  }
+  .stage-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    border-radius: 20px 20px 0 0;
+  }
+  .stage-age {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--ink-light);
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+  .stage-name { font-size: 17px; font-weight: 800; color: var(--ink); }
+  .stage-skills {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: auto;
+  }
+  .stage-skill {
+    font-size: 12px;
+    color: var(--ink-soft);
+    line-height: 1.35;
+    padding: 5px 10px;
+    background: var(--cream-3);
+    border-radius: 8px;
+  }
+
+  /* S4 — COMPETITION */
+  .comp-table { margin-top: 28px; flex: 1; overflow: auto; }
+  .comp-table table { width: 100%; border-collapse: collapse; }
+  .comp-table th {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    text-align: left;
+    padding: 12px 16px;
+    border-bottom: 1.5px solid var(--cream-3);
+  }
+  .comp-table td {
+    padding: 14px 16px;
+    font-size: 14px;
+    color: var(--ink-soft);
+    border-bottom: 1px solid var(--cream-3);
+    vertical-align: middle;
+  }
+  .comp-table tr.featured td {
+    background: var(--green-lt);
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .comp-table tr.featured td:first-child {
+    border-left: 3px solid var(--green-dark);
+    font-weight: 800;
+    color: var(--green-dark);
+  }
+  .check { color: var(--green-dark); font-size: 18px; }
+  .cross { color: var(--coral); font-size: 16px; opacity: 0.6; }
+  .partial { color: var(--gold-dark); font-size: 16px; }
+
+  /* S5 — PRODUCT HUB */
+  .hub-wrap {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .hub-center {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    background: var(--green-dark);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    box-shadow: 0 0 0 16px rgba(46,125,90,0.12), 0 0 0 32px rgba(46,125,90,0.06);
+    flex-shrink: 0;
+  }
+  .hub-center-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+  .hub-center-name { font-size: 28px; font-weight: 800; color: #fff; letter-spacing: -0.02em; }
+  .hub-spokes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    max-width: 460px;
+  }
+  .spoke-card {
+    background: var(--cream-2);
+    border: 1.5px solid var(--cream-3);
+    border-radius: 16px;
+    padding: 18px 20px;
+  }
+  .spoke-icon { font-size: 22px; margin-bottom: 8px; }
+  .spoke-name { font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+  .spoke-desc { font-size: 12px; color: var(--ink-muted); line-height: 1.4; }
+
+  /* S6 — WHY NOW */
+  .why-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 28px;
+    flex: 1;
+  }
+  .why-card {
+    background: rgba(255,255,255,0.06);
+    border: 1.5px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .why-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+  }
+  .why-title { font-size: 18px; font-weight: 700; color: #fff; }
+  .why-body { font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.55; }
+
+  /* S7 — TRACTION */
+  .traction-metrics {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 16px;
+    margin-top: 28px;
+  }
+  .metric-card {
+    background: rgba(255,255,255,0.05);
+    border: 1.5px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+    padding: 28px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .metric-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.35); }
+  .metric-value { font-size: clamp(28px, 3.5vw, 44px); font-weight: 800; letter-spacing: -0.02em; color: #fff; }
+  .metric-desc { font-size: 12px; color: rgba(255,255,255,0.4); line-height: 1.4; }
+
+  .traction-social {
+    margin-top: 20px;
+    background: rgba(255,255,255,0.04);
+    border: 1.5px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  .social-item { display: flex; flex-direction: column; gap: 3px; }
+  .social-item-value { font-size: 20px; font-weight: 800; color: var(--green); letter-spacing: -0.02em; }
+  .social-item-label { font-size: 12px; color: rgba(255,255,255,0.35); }
+
+  /* S8 — BUSINESS MODEL */
+  .model-grid {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 16px;
+    margin-top: 28px;
+    flex: 1;
+  }
+  .model-card {
+    background: var(--cream-2);
+    border: 1.5px solid var(--cream-3);
+    border-radius: 20px;
+    padding: 28px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .model-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .model-card-type { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-light); }
+  .model-card-price { font-size: 24px; font-weight: 800; letter-spacing: -0.02em; color: var(--ink); }
+  .model-card-period { font-size: 12px; color: var(--ink-muted); margin-top: -4px; }
+  .model-card-title { font-size: 19px; font-weight: 700; color: var(--ink); }
+  .model-features { display: flex; flex-direction: column; gap: 7px; margin-top: auto; }
+  .model-feature { font-size: 13px; color: var(--ink-soft); display: flex; align-items: baseline; gap: 8px; }
+  .model-feature::before { content: '–'; color: var(--green-dark); font-weight: 700; flex-shrink: 0; }
+
+  /* S9 — VISION */
+  .vision-headline {
+    font-size: clamp(36px, 6.5vw, 80px);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -0.04em;
+    max-width: 900px;
+  }
+  .vision-headline em { font-style: normal; color: var(--green); }
+  .vision-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: auto;
+  }
+  .vision-market {
+    margin-top: 28px;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .market-stat {
+    background: rgba(255,255,255,0.06);
+    border: 1.5px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 20px 24px;
+    flex: 1;
+    min-width: 180px;
+  }
+  .market-stat-value { font-size: 28px; font-weight: 800; letter-spacing: -0.02em; color: var(--green); }
+  .market-stat-label { font-size: 13px; color: rgba(255,255,255,0.45); margin-top: 4px; }
+
+  /* S10 — TEAM + ASK */
+  .s10-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    margin-top: 28px;
+    flex: 1;
+  }
+  .founder-card {
+    background: var(--cream-2);
+    border: 1.5px solid var(--cream-3);
+    border-radius: 20px;
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .founder-avatar {
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    background: var(--green-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.03em;
+  }
+  .founder-name { font-size: 22px; font-weight: 800; color: var(--ink); letter-spacing: -0.02em; }
+  .founder-role { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-muted); }
+  .founder-bio { font-size: 14px; color: var(--ink-soft); line-height: 1.6; }
+  .founder-badges { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 4px; }
+
+  .ask-card {
+    background: var(--green-dark);
+    border-radius: 20px;
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .ask-title { font-size: 13px; font-family: var(--font-mono); letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+  .ask-amount { font-size: clamp(36px, 4.5vw, 56px); font-weight: 800; color: #fff; letter-spacing: -0.03em; }
+  .ask-line { display: flex; flex-direction: column; gap: 3px; }
+  .ask-line-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+  .ask-line-value { font-size: 15px; font-weight: 600; color: rgba(255,255,255,0.85); }
+  .ask-divider { height: 1px; background: rgba(255,255,255,0.12); }
+  .ask-seis {
+    background: rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 14px 16px;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .ask-seis-item { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 110px; }
+  .ask-seis-label { font-size: 10px; font-family: var(--font-mono); letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+  .ask-seis-value { font-size: 16px; font-weight: 700; color: var(--gold); }
+  .ask-seis-sub { font-size: 11px; color: rgba(255,255,255,0.4); }
+
+  /* responsive nudges */
+  @media (max-width: 900px) {
+    .stages-grid { grid-template-columns: repeat(3,1fr); }
+    .traction-metrics { grid-template-columns: repeat(2,1fr); }
+    .s10-layout { grid-template-columns: 1fr; }
+    .why-grid { grid-template-columns: 1fr; gap: 12px; }
+    .model-grid { grid-template-columns: 1fr; }
+    .hub-spokes { grid-template-columns: 1fr 1fr; }
+    .grid-4 { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* ── PRINT / PDF EXPORT ──────────────────────── */
+  @media print {
+    @page { size: 297mm 167mm; margin: 0; }
+
+    html, body {
+      width: 297mm;
+      height: 167mm;
+      overflow: visible;
+      background: #1C1C1C;
+    }
+
+    .deck {
+      position: static;
+      width: 297mm;
+      height: auto;
+      overflow: visible;
+    }
+
+    .nav { display: none !important; }
+
+    .slide {
+      position: relative !important;
+      inset: auto !important;
+      width: 297mm;
+      height: 167mm;
+      opacity: 1 !important;
+      transform: none !important;
+      pointer-events: none;
+      overflow: hidden;
+      page-break-after: always;
+      break-after: page;
+      display: flex !important;
+    }
+
+    .slide.exit { opacity: 1 !important; transform: none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+  <!-- ── SLIDE 1: COVER ─────────────────────────── -->
+  <section class="slide slide--cream active" data-index="0">
+    <div class="s1-logo"><span>GC</span></div>
+    <div class="eyebrow">Investor Presentation — 2026</div>
+    <h1 class="h-giant">The Digital<br><span class="accent-green">Childhood OS.</span></h1>
+    <p class="s1-tagline">The infrastructure layer for how children develop a healthy relationship with technology. From first screen to digital independence.</p>
+
+    <div class="s1-stages">
+      <div class="s1-stage"><span class="s1-stage-dot" style="background:#AFDCA2"></span>Foundation 4–7</div>
+      <div class="s1-stage"><span class="s1-stage-dot" style="background:#F2C94C"></span>Builder 8–10</div>
+      <div class="s1-stage"><span class="s1-stage-dot" style="background:#D4600A"></span>Explorer 11–13</div>
+      <div class="s1-stage"><span class="s1-stage-dot" style="background:#3D5BA9"></span>Navigator 13–15</div>
+      <div class="s1-stage"><span class="s1-stage-dot" style="background:#9B958A"></span>Independent 16+</div>
+    </div>
+
+    <div class="s1-raise">
+      <div class="s1-raise-item">
+        <span class="s1-raise-label">Raising</span>
+        <span class="s1-raise-value">£250,000</span>
+      </div>
+      <div class="s1-raise-item">
+        <span class="s1-raise-label">Pre-money valuation</span>
+        <span class="s1-raise-value">£1.5M</span>
+      </div>
+      <div class="s1-raise-item">
+        <span class="s1-raise-label">Equity offered</span>
+        <span class="s1-raise-value">15%</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SLIDE 2: TIMELINE ──────────────────────── -->
+  <section class="slide slide--ink" data-index="1">
+    <div class="eyebrow">Context</div>
+    <h2 class="h-xl">The world changed.<br><span class="accent-green">Parenting didn't.</span></h2>
+
+    <div class="timeline">
+      <div class="tl-row">
+        <div class="tl-year">1995</div>
+        <div class="tl-content">
+          <div class="tl-title">The commercial internet arrives</div>
+          <div class="tl-desc">Parents had no framework. Schools had no curriculum. Technology moved faster than guidance.</div>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-year">2007</div>
+        <div class="tl-content">
+          <div class="tl-title">The smartphone enters the pocket — then the classroom</div>
+          <div class="tl-desc">Every child now carries a device with unlimited access. Average first smartphone: age 10.</div>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-year">2017</div>
+        <div class="tl-content">
+          <div class="tl-title">The mental health crisis becomes measurable</div>
+          <div class="tl-desc">Odgers, Orben, NSPCC data links unsupported smartphone use to rising anxiety in under-16s.</div>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-year">2024</div>
+        <div class="tl-content">
+          <div class="tl-title">Governments legislate. Banning doesn't teach.</div>
+          <div class="tl-desc">Australia bans social media under 16. UK Online Safety Act passes. Parents still have no playbook.</div>
+        </div>
+      </div>
+      <div class="tl-row highlight">
+        <div class="tl-year">2026</div>
+        <div class="tl-content">
+          <div class="tl-title">Guided Childhood launches the Digital Childhood OS</div>
+          <div class="tl-desc">The first structured, stage-by-stage framework — personalised guidance, not just restriction.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SLIDE 3: STAGES FRAMEWORK ─────────────── -->
+  <section class="slide slide--cream" data-index="2">
+    <div class="eyebrow">The Framework</div>
+    <h2 class="h-xl">Five stages. One pathway.<br><span class="accent-green">Every child.</span></h2>
+
+    <div class="stages-grid">
+      <div class="stage-card" style="--c:#AFDCA2">
+        <div style="position:absolute;top:0;left:0;right:0;height:4px;background:#AFDCA2;border-radius:20px 20px 0 0"></div>
+        <div class="stage-age">Ages 4–7</div>
+        <div class="stage-name">Foundation</div>
+        <div class="stage-skills">
+          <div class="stage-skill">Boundaries with screens</div>
+          <div class="stage-skill">Healthy bedtime habits</div>
+          <div class="stage-skill">First device rules</div>
+        </div>
+      </div>
+      <div class="stage-card">
+        <div style="position:absolute;top:0;left:0;right:0;height:4px;background:#F2C94C;border-radius:20px 20px 0 0"></div>
+        <div class="stage-age">Ages 8–10</div>
+        <div class="stage-name">Builder</div>
+        <div class="stage-skills">
+          <div class="stage-skill">Gaming balance</div>
+          <div class="stage-skill">Online safety basics</div>
+          <div class="stage-skill">Content literacy</div>
+        </div>
+      </div>
+      <div class="stage-card">
+        <div style="position:absolute;top:0;left:0;right:0;height:4px;background:#D4600A;border-radius:20px 20px 0 0"></div>
+        <div class="stage-age">Ages 11–13</div>
+        <div class="stage-name">Explorer</div>
+        <div class="stage-skills">
+          <div class="stage-skill">First social media</div>
+          <div class="stage-skill">Group chat dynamics</div>
+          <div class="stage-skill">Identity online</div>
+        </div>
+      </div>
+      <div class="stage-card">
+        <div style="position:absolute;top:0;left:0;right:0;height:4px;background:#3D5BA9;border-radius:20px 20px 0 0"></div>
+        <div class="stage-age">Ages 13–15</div>
+        <div class="stage-name">Navigator</div>
+        <div class="stage-skills">
+          <div class="stage-skill">Platform pressures</div>
+          <div class="stage-skill">Algorithmic literacy</div>
+          <div class="stage-skill">Digital reputation</div>
+        </div>
+      </div>
+      <div class="stage-card">
+        <div style="position:absolute;top:0;left:0;right:0;height:4px;background:#9B958A;border-radius:20px 20px 0 0"></div>
+        <div class="stage-age">Ages 16+</div>
+        <div class="stage-name">Independent</div>
+        <div class="stage-skills">
+          <div class="stage-skill">Digital wellbeing</div>
+          <div class="stage-skill">Autonomous judgment</div>
+          <div class="stage-skill">Future-readiness</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SLIDE 4: COMPETITION ───────────────────── -->
+  <section class="slide slide--cream" data-index="3">
+    <div class="eyebrow">Market Position</div>
+    <h2 class="h-xl">Everyone blocks.<br><span class="accent-green">We build.</span></h2>
+
+    <div class="comp-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Platform</th>
+            <th>Stage-by-stage</th>
+            <th>Parent education</th>
+            <th>School curriculum</th>
+            <th>AI guidance</th>
+            <th>Not restriction-first</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="featured">
+            <td>Guided Childhood</td>
+            <td><span class="check">✓</span></td>
+            <td><span class="check">✓</span></td>
+            <td><span class="check">✓</span></td>
+            <td><span class="check">✓</span></td>
+            <td><span class="check">✓</span></td>
+          </tr>
+          <tr>
+            <td>Bark / Circle</td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+          </tr>
+          <tr>
+            <td>Common Sense Media</td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="partial">~</span></td>
+            <td><span class="partial">~</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="check">✓</span></td>
+          </tr>
+          <tr>
+            <td>Good Inside</td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="check">✓</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="partial">~</span></td>
+            <td><span class="check">✓</span></td>
+          </tr>
+          <tr>
+            <td>School PSHE / CEOP</td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="partial">~</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="check">✓</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p style="margin-top:20px;font-size:13px;color:var(--ink-muted)">No platform combines developmental stages, parent education, school delivery, and AI-personalised guidance in one place.</p>
+  </section>
+
+  <!-- ── SLIDE 5: PRODUCT OS ────────────────────── -->
+  <section class="slide slide--cream" data-index="4">
+    <div class="eyebrow">The Product</div>
+    <h2 class="h-xl">One platform.<br><span class="accent-green">Every touchpoint.</span></h2>
+
+    <div class="hub-wrap">
+      <div class="hub-center">
+        <span class="hub-center-label">Platform</span>
+        <span class="hub-center-name">GC</span>
+        <span style="font-size:12px;color:rgba(255,255,255,0.5);font-family:var(--font-mono)">OS</span>
+      </div>
+      <div class="hub-spokes">
+        <div class="spoke-card">
+          <div class="spoke-icon">✦</div>
+          <div class="spoke-name">DiGi</div>
+          <div class="spoke-desc">AI guide personalised to each child's stage. Never ban. Always pathway.</div>
+        </div>
+        <div class="spoke-card">
+          <div class="spoke-icon">📋</div>
+          <div class="spoke-name">Scripts</div>
+          <div class="spoke-desc">Word-for-word conversation guides for parents. What to say when things go wrong.</div>
+        </div>
+        <div class="spoke-card">
+          <div class="spoke-icon">📊</div>
+          <div class="spoke-name">Tracker</div>
+          <div class="spoke-desc">Stage progress dashboard. Know exactly where your child is on the digital journey.</div>
+        </div>
+        <div class="spoke-card">
+          <div class="spoke-icon">🏫</div>
+          <div class="spoke-name">Schools</div>
+          <div class="spoke-desc">Curriculum-aligned lesson packs. Deliver the same framework in the classroom.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SLIDE 6: WHY NOW ───────────────────────── -->
+  <section class="slide slide--ink" data-index="5">
+    <div class="eyebrow">Timing</div>
+    <h2 class="h-xl">Four forces.<br><span class="accent-green">One window.</span></h2>
+
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon" style="background:rgba(175,220,162,0.15)">🚫</div>
+        <div class="why-title">The Ban Era</div>
+        <div class="why-body">Australia bans social media for under-16s. UK Online Safety Act. France, Denmark following. Bans create anxiety, not skills. Parents need a framework to fill the gap.</div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon" style="background:rgba(242,201,76,0.15)">⚡</div>
+        <div class="why-title">AI Arrives in the Classroom</div>
+        <div class="why-body">ChatGPT reached 100 million users faster than any product in history. Children are using AI before schools have policies. Parents are completely unprepared.</div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon" style="background:rgba(212,96,10,0.15)">📱</div>
+        <div class="why-title">The Smartphone Age Debate</div>
+        <div class="why-body">Every school and government is asking: when is the right age for a first phone? There's no evidence-based answer. We are building it, stage by stage.</div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon" style="background:rgba(61,91,169,0.15)">😟</div>
+        <div class="why-title">Parent Anxiety at Peak</div>
+        <div class="why-body">9 in 10 UK parents worried about their child's online safety. Yet 73% feel they lack the knowledge to help. This is not a content problem. It is an infrastructure problem.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SLIDE 7: TRACTION ──────────────────────── -->
+  <section class="slide slide--ink" data-index="6">
+    <div class="eyebrow">Evidence</div>
+    <h2 class="h-xl">Built, validated,<br><span class="accent-green">growing.</span></h2>
+
+    <div class="traction-metrics">
+      <div class="metric-card">
+        <div class="metric-label">Waitlist</div>
+        <div class="metric-value" style="color:var(--green)">400</div>
+        <div class="metric-desc">Pre-launch subscribers. Zero paid acquisition.</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Platform</div>
+        <div class="metric-value" style="color:var(--gold)">V1</div>
+        <div class="metric-desc">Full-stack app live. DiGi, Scripts, Schools module built.</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Raised to date</div>
+        <div class="metric-value">£0</div>
+        <div class="metric-desc">Bootstrapped to this point. Capital efficient by design.</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Year 3 target</div>
+        <div class="metric-value" style="color:var(--green)">£1.15M</div>
+        <div class="metric-desc">ARR. £143k by end of Year 1. Near breakeven without investment.</div>
+      </div>
+    </div>
+
+    <div class="traction-social">
+      <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.3);min-width:90px">Social reach</div>
+      <div class="social-item">
+        <div class="social-item-value">9,000</div>
+        <div class="social-item-label">LinkedIn followers</div>
+      </div>
+      <div class="social-item">
+        <div class="social-item-value">Organic</div>
+        <div class="social-item-label">100% content-led growth</div>
+      </div>
+      <div class="social-item">
+        <div class="social-item-value">Schools</div>
+        <div class="social-item-label">Pilot conversations underway</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SLIDE 8: BUSINESS MODEL ────────────────── -->
+  <section class="slide slide--cream" data-index="7">
+    <div class="eyebrow">Revenue</div>
+    <h2 class="h-xl">Three streams.<br><span class="accent-green">One flywheel.</span></h2>
+
+    <div class="model-grid">
+      <div class="model-card">
+        <div class="model-card-top">
+          <div>
+            <div class="model-card-type">Parents</div>
+            <div class="model-card-title">Family Subscription</div>
+          </div>
+          <div style="text-align:right">
+            <div class="model-card-price">£12.99</div>
+            <div class="model-card-period">per month &nbsp;·&nbsp; £99/year</div>
+          </div>
+        </div>
+        <div class="model-features">
+          <div class="model-feature">Full 5-stage pathway access</div>
+          <div class="model-feature">DiGi AI advisor (unlimited)</div>
+          <div class="model-feature">All scripts and guides</div>
+          <div class="model-feature">Digital wellbeing tracker</div>
+          <div class="model-feature">School lesson packs included</div>
+          <div class="model-feature">Save £57 on annual plan</div>
+        </div>
+      </div>
+      <div class="model-card" style="border-color:var(--green-b);background:var(--green-lt)">
+        <div class="model-card-top">
+          <div>
+            <div class="model-card-type" style="color:var(--green-dark)">Schools</div>
+            <div class="model-card-title">School Licence</div>
+          </div>
+          <div style="text-align:right">
+            <div class="model-card-price" style="color:var(--green-dark)">from £299</div>
+            <div class="model-card-period">per year</div>
+          </div>
+        </div>
+        <div class="model-features">
+          <div class="model-feature">Small school (up to 300 pupils) £299/year</div>
+          <div class="model-feature">Medium school (300–800 pupils) £499/year</div>
+          <div class="model-feature">All teachers included, no per-seat fees</div>
+          <div class="model-feature">Full curriculum pack, all five stages</div>
+          <div class="model-feature">Assembly materials + policy templates</div>
+        </div>
+      </div>
+      <div class="model-card">
+        <div class="model-card-top">
+          <div>
+            <div class="model-card-type">Large School / MAT</div>
+            <div class="model-card-title">Enterprise</div>
+          </div>
+          <div style="text-align:right">
+            <div class="model-card-price">£999+</div>
+            <div class="model-card-period">per year</div>
+          </div>
+        </div>
+        <div class="model-features">
+          <div class="model-feature">Multi-school deployment</div>
+          <div class="model-feature">White-label option</div>
+          <div class="model-feature">Priority support and onboarding</div>
+          <div class="model-feature">Custom reporting</div>
+        </div>
+      </div>
+    </div>
+
+    <p style="margin-top:20px;font-size:13px;color:var(--ink-muted)"><strong style="color:var(--ink)">Flywheel:</strong> Parents discover through schools. Schools adopt because parents ask. Each school deal seeds 300+ family relationships at zero acquisition cost.</p>
+  </section>
+
+  <!-- ── SLIDE 9: VISION ────────────────────────── -->
+  <section class="slide slide--ink" data-index="8">
+    <div class="eyebrow">Vision</div>
+
+    <div class="vision-headline">
+      Every child.<br>Every stage.<br><em>Every digital decision.</em>
+    </div>
+
+    <div class="vision-market">
+      <div class="market-stat">
+        <div class="market-stat-value">13M</div>
+        <div class="market-stat-label">Children under 16 in the UK</div>
+      </div>
+      <div class="market-stat">
+        <div class="market-stat-value">£4.2B</div>
+        <div class="market-stat-label">Global digital parenting market by 2028</div>
+      </div>
+      <div class="market-stat">
+        <div class="market-stat-value">25,000</div>
+        <div class="market-stat-label">Schools in the UK needing curriculum support</div>
+      </div>
+    </div>
+
+    <div class="vision-pills" style="margin-top:24px">
+      <span class="pill pill--ink">UK → Ireland → Australia</span>
+      <span class="pill pill--ink">English-speaking markets first</span>
+      <span class="pill pill--ink">School licensing at scale</span>
+      <span class="pill pill--ink">B2B2C distribution</span>
+      <span class="pill pill--ink">Platform not product</span>
+    </div>
+
+    <p style="margin-top:24px;font-size:15px;color:rgba(255,255,255,0.5);max-width:600px;line-height:1.6">This is not an app. It is the infrastructure layer for how an entire generation grows up with technology. We are building the scaffolding that every parent, teacher, and school needs.</p>
+  </section>
+
+  <!-- ── SLIDE 10: TEAM + ASK ───────────────────── -->
+  <section class="slide slide--cream" data-index="9">
+    <div class="eyebrow">The Ask</div>
+    <h2 class="h-xl">Back the founder<br><span class="accent-green">who built it.</span></h2>
+
+    <div class="s10-layout">
+      <div class="founder-card">
+        <div class="founder-avatar">JP</div>
+        <div>
+          <div class="founder-name">Justin Phillips</div>
+          <div class="founder-role">Founder and CEO</div>
+        </div>
+        <div class="founder-bio">
+          Serial SaaS founder with a background building software businesses in the accountancy sector. Dad of three children aged 4, 9, and 11.<br><br>
+          Built Guided Childhood because no platform existed that gave parents a structured, developmental pathway rather than just restriction tools. Every lesson in this product came from his own household.
+        </div>
+        <div class="founder-badges">
+          <span class="pill pill--green">Serial founder</span>
+          <span class="pill pill--gold">SaaS background</span>
+          <span class="pill pill--cream">Dad of three</span>
+        </div>
+      </div>
+
+      <div class="ask-card">
+        <div>
+          <div class="ask-title">Raising</div>
+          <div class="ask-amount">£250,000</div>
+        </div>
+
+        <div class="ask-divider"></div>
+
+        <div class="ask-line">
+          <div class="ask-line-label">Pre-money valuation</div>
+          <div class="ask-line-value">£1.5 million</div>
+        </div>
+        <div class="ask-line">
+          <div class="ask-line-label">Equity offered</div>
+          <div class="ask-line-value">Up to 15%</div>
+        </div>
+        <div class="ask-line">
+          <div class="ask-line-label">Use of funds</div>
+          <div class="ask-line-value">Marketing, schools partnerships, platform development</div>
+        </div>
+
+        <div class="ask-divider"></div>
+
+        <div class="ask-seis">
+          <div class="ask-seis-item">
+            <div class="ask-seis-label">First £150k</div>
+            <div class="ask-seis-value">SEIS</div>
+            <div class="ask-seis-sub">50% income tax relief</div>
+          </div>
+          <div class="ask-seis-item">
+            <div class="ask-seis-label">Remaining £100k</div>
+            <div class="ask-seis-value">EIS</div>
+            <div class="ask-seis-sub">30% income tax relief</div>
+          </div>
+          <div class="ask-seis-item">
+            <div class="ask-seis-label">Minimum ticket</div>
+            <div class="ask-seis-value">£5,000</div>
+            <div class="ask-seis-sub">Typical £10k–£25k</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ── NAVIGATION ─────────────────────────────── -->
+<div class="nav" id="nav">
+  <button class="nav-btn" id="btnPrev" aria-label="Previous">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+  </button>
+  <div class="dots" id="dots"></div>
+  <span class="slide-counter" id="counter">1 / 10</span>
+  <button class="nav-btn" id="btnNext" aria-label="Next">
+    <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+  </button>
+</div>
+
+<div class="hint">← → arrow keys &nbsp;|&nbsp; swipe</div>
+
+<script>
+  const slides = [...document.querySelectorAll('.slide')];
+  const total  = slides.length;
+  let current  = 0;
+  let locked   = false;
+
+  const dotsEl   = document.getElementById('dots');
+  const counter  = document.getElementById('counter');
+
+  // build dots
+  slides.forEach((_, i) => {
+    const d = document.createElement('button');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.setAttribute('aria-label', `Slide ${i + 1}`);
+    d.addEventListener('click', () => goTo(i));
+    dotsEl.appendChild(d);
+  });
+
+  function updateDots(idx) {
+    dotsEl.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+    counter.textContent = `${idx + 1} / ${total}`;
+  }
+
+  function goTo(idx) {
+    if (locked || idx === current) return;
+    locked = true;
+
+    const prev = current;
+    current = idx;
+
+    slides[prev].classList.add('exit');
+    slides[prev].classList.remove('active');
+
+    // small delay so exit fires before active
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        slides[prev].classList.remove('exit');
+        slides[current].classList.add('active');
+        updateDots(current);
+        setTimeout(() => locked = false, 600);
+      });
+    });
+  }
+
+  document.getElementById('btnNext').addEventListener('click', () => goTo(Math.min(current + 1, total - 1)));
+  document.getElementById('btnPrev').addEventListener('click', () => goTo(Math.max(current - 1, 0)));
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goTo(Math.min(current + 1, total - 1));
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   goTo(Math.max(current - 1, 0));
+  });
+
+  // touch / swipe
+  let touchStartX = 0;
+  document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 50) {
+      if (dx < 0) goTo(Math.min(current + 1, total - 1));
+      else        goTo(Math.max(current - 1, 0));
+    }
+  }, { passive: true });
+</script>
+</body>
+</html>
