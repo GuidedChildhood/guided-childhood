@@ -702,6 +702,43 @@
     .hub-spokes { grid-template-columns: 1fr 1fr; }
     .grid-4 { grid-template-columns: 1fr 1fr; }
   }
+
+  /* ── PRINT / PDF EXPORT ──────────────────────── */
+  @media print {
+    @page { size: 297mm 167mm; margin: 0; }
+
+    html, body {
+      width: 297mm;
+      height: 167mm;
+      overflow: visible;
+      background: #1C1C1C;
+    }
+
+    .deck {
+      position: static;
+      width: 297mm;
+      height: auto;
+      overflow: visible;
+    }
+
+    .nav { display: none !important; }
+
+    .slide {
+      position: relative !important;
+      inset: auto !important;
+      width: 297mm;
+      height: 167mm;
+      opacity: 1 !important;
+      transform: none !important;
+      pointer-events: none;
+      overflow: hidden;
+      page-break-after: always;
+      break-after: page;
+      display: flex !important;
+    }
+
+    .slide.exit { opacity: 1 !important; transform: none !important; }
+  }
 </style>
 </head>
 <body>
