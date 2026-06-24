@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Guided Childhood — Three-Year Financial Forecast 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream:      #F7F3EE;
+    --cream-2:    #FDFBF8;
+    --cream-3:    #EFE9DF;
+    --ink:        #1C1C1C;
+    --ink-soft:   #4A4A4A;
+    --ink-muted:  #6E6A62;
+    --ink-light:  #9B958A;
+    --green:      #AFDCA2;
+    --green-dark: #2E7D5A;
+    --green-lt:   #EEF7F2;
+    --green-b:    #D3ECD9;
+    --coral:      #D4600A;
+    --coral-lt:   #FEF3E8;
+    --gold:       #F2C94C;
+    --gold-lt:    #FEFAE8;
+    --gold-dark:  #C9962A;
+  }
+
+  body {
+    font-family: 'Hanken Grotesk', sans-serif;
+    background: #e8e4df;
+    color: var(--ink);
+    padding: 32px 16px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .doc {
+    max-width: 860px;
+    margin: 0 auto;
+    background: var(--cream-2);
+    box-shadow: 0 4px 40px rgba(0,0,0,0.12);
+  }
+
+  /* ── COVER HEADER ─────────────── */
+  .cover {
+    background: var(--ink);
+    padding: 48px 56px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .cover-logo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 40px;
+  }
+  .cover-logo-mark {
+    width: 44px; height: 44px;
+    background: var(--green-dark);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 17px; font-weight: 800; color: #fff; letter-spacing: -0.04em;
+  }
+  .cover-logo-name {
+    font-size: 16px; font-weight: 700; color: rgba(255,255,255,0.9); letter-spacing: -0.01em;
+  }
+  .cover-logo-sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; color: rgba(255,255,255,0.4); letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .cover-title {
+    font-size: 32px; font-weight: 800; color: #fff; letter-spacing: -0.03em; line-height: 1.05;
+  }
+  .cover-title span { color: var(--green); }
+  .cover-meta {
+    display: flex; gap: 40px; margin-top: 28px; flex-wrap: wrap;
+  }
+  .cover-meta-item { display: flex; flex-direction: column; gap: 3px; }
+  .cover-meta-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.35);
+  }
+  .cover-meta-value { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.8); }
+
+  /* ── BODY ─────────────────────── */
+  .body { padding: 0 56px 56px; }
+
+  /* ── SECTION HEADINGS ─────────── */
+  .section {
+    margin-top: 44px;
+  }
+  .section-header {
+    display: flex; align-items: center; gap: 14px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--ink);
+    margin-bottom: 20px;
+  }
+  .section-number {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; font-weight: 500; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--ink-light);
+    flex-shrink: 0;
+  }
+  .section-title {
+    font-size: 16px; font-weight: 800; color: var(--ink); letter-spacing: -0.02em;
+  }
+  .section-subtitle {
+    font-size: 12px; color: var(--ink-muted); margin-left: auto; text-align: right;
+  }
+
+  /* ── CALLOUT ─────────────────── */
+  .callout {
+    background: var(--green-lt);
+    border-left: 3px solid var(--green-dark);
+    border-radius: 0 10px 10px 0;
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+  .callout strong { color: var(--green-dark); }
+  .callout.gold {
+    background: var(--gold-lt);
+    border-left-color: var(--gold-dark);
+  }
+  .callout.gold strong { color: var(--gold-dark); }
+  .callout.coral {
+    background: var(--coral-lt);
+    border-left-color: var(--coral);
+  }
+  .callout.coral strong { color: var(--coral); }
+
+  /* ── TABLE BASE ──────────────── */
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  thead th {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9.5px; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--ink-light);
+    padding: 10px 14px; text-align: left;
+    background: var(--cream-3);
+    border-bottom: 1.5px solid var(--cream-3);
+  }
+  thead th:not(:first-child) { text-align: right; }
+  tbody td {
+    padding: 10px 14px; color: var(--ink-soft);
+    border-bottom: 1px solid var(--cream-3);
+    vertical-align: top;
+  }
+  tbody td:not(:first-child) { text-align: right; font-variant-numeric: tabular-nums; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover td { background: var(--cream); }
+
+  .row-total td {
+    background: var(--cream-3) !important;
+    font-weight: 700; color: var(--ink);
+    border-top: 1.5px solid var(--ink-light);
+    border-bottom: none;
+  }
+  .row-positive td:last-child { color: var(--green-dark); font-weight: 700; }
+  .row-negative td:last-child { color: var(--coral); font-weight: 700; }
+  .row-highlight td {
+    background: var(--green-lt) !important;
+    color: var(--ink) !important; font-weight: 700;
+  }
+  .row-highlight td:not(:first-child) { color: var(--green-dark) !important; }
+
+  td.mono { font-family: 'IBM Plex Mono', monospace; font-size: 11px; }
+  td.note { font-size: 11px; color: var(--ink-light); font-style: italic; }
+
+  /* ── QUARTERLY BLOCK ─────────── */
+  .quarter-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  .quarter-card {
+    background: var(--cream);
+    border: 1.5px solid var(--cream-3);
+    border-radius: 12px;
+    padding: 16px 18px;
+  }
+  .quarter-card-header {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  .quarter-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-light);
+  }
+  .quarter-revenue {
+    font-size: 18px; font-weight: 800; color: var(--ink); letter-spacing: -0.02em;
+  }
+  .quarter-rows { display: flex; flex-direction: column; gap: 5px; }
+  .quarter-row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-size: 11.5px;
+  }
+  .quarter-row-label { color: var(--ink-muted); }
+  .quarter-row-value { font-weight: 600; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+  .quarter-row-value.green { color: var(--green-dark); }
+  .quarter-divider { height: 1px; background: var(--cream-3); margin: 7px 0; }
+
+  /* ── COMPARISON TABLE ─────────── */
+  .comp-header-opt { background: var(--green-lt) !important; color: var(--green-dark) !important; }
+  .comp-header-base { background: var(--cream-3) !important; color: var(--ink-muted) !important; }
+
+  .col-opt { background: rgba(174,220,162,0.08); }
+  .col-base { }
+
+  /* ── METRIC CARDS ─────────────── */
+  .metric-row {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px;
+  }
+  .metric-card {
+    background: var(--cream);
+    border: 1.5px solid var(--cream-3);
+    border-radius: 12px;
+    padding: 16px 14px;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .metric-card-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-light);
+  }
+  .metric-card-value {
+    font-size: 22px; font-weight: 800; letter-spacing: -0.02em; color: var(--ink);
+  }
+  .metric-card-value.green { color: var(--green-dark); }
+  .metric-card-value.gold  { color: var(--gold-dark); }
+  .metric-card-sub { font-size: 11px; color: var(--ink-muted); line-height: 1.4; }
+
+  /* ── FOOTER ──────────────────── */
+  .footer {
+    background: var(--ink);
+    padding: 20px 56px;
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 20px; flex-wrap: wrap;
+  }
+  .footer-left { font-size: 11px; color: rgba(255,255,255,0.35); }
+  .footer-right { font-size: 11px; color: rgba(255,255,255,0.5); }
+  .footer-right strong { color: rgba(255,255,255,0.8); }
+
+  /* ── PRINT ───────────────────── */
+  @media print {
+    body { background: white; padding: 0; }
+    .doc { box-shadow: none; }
+    .section { page-break-inside: avoid; }
+    .quarter-grid { page-break-inside: avoid; }
+    .no-print { display: none !important; }
+  }
+  @page { size: A4; margin: 12mm; }
+</style>
+</head>
+<body>
+
+<div class="doc">
+
+  <!-- COVER -->
+  <div class="cover">
+    <div class="cover-logo">
+      <div class="cover-logo-mark">GC</div>
+      <div>
+        <div class="cover-logo-name">Guided Childhood</div>
+        <div class="cover-logo-sub">The Digital Childhood OS</div>
+      </div>
+    </div>
+    <div class="cover-title">Three-Year<br>Financial <span>Forecast</span></div>
+    <div class="cover-meta">
+      <div class="cover-meta-item">
+        <span class="cover-meta-label">Prepared</span>
+        <span class="cover-meta-value">June 2026</span>
+      </div>
+      <div class="cover-meta-item">
+        <span class="cover-meta-label">Stage</span>
+        <span class="cover-meta-value">Pre-revenue · Launch July 2026</span>
+      </div>
+      <div class="cover-meta-item">
+        <span class="cover-meta-label">Founder</span>
+        <span class="cover-meta-value">Justin Phillips</span>
+      </div>
+      <div class="cover-meta-item">
+        <span class="cover-meta-label">Contact</span>
+        <span class="cover-meta-value">hello@guidedchildhood.com</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <!-- ASSUMPTIONS -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-number">01</span>
+        <span class="section-title">Key Assumptions</span>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th style="text-align:left">Value</th>
+            <th style="text-align:left">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Founder rate</td>
+            <td class="mono" style="text-align:left">£7.99 / month</td>
+            <td class="note">Capped at 50 subscribers. Locked for life.</td>
+          </tr>
+          <tr>
+            <td>Standard monthly</td>
+            <td class="mono" style="text-align:left">£12.99 / month</td>
+            <td class="note">Main retail price point.</td>
+          </tr>
+          <tr>
+            <td>Annual plan</td>
+            <td class="mono" style="text-align:left">£99 / year</td>
+            <td class="note">= £8.25/month equivalent. Saves £57. Two months free.</td>
+          </tr>
+          <tr>
+            <td>School — Small</td>
+            <td class="mono" style="text-align:left">£299 / year</td>
+            <td class="note">Up to 300 pupils. All teachers included.</td>
+          </tr>
+          <tr>
+            <td>School — Medium</td>
+            <td class="mono" style="text-align:left">£499 / year</td>
+            <td class="note">300–800 pupils.</td>
+          </tr>
+          <tr>
+            <td>School — Large / MAT</td>
+            <td class="mono" style="text-align:left">£999+ / year</td>
+            <td class="note">800+ pupils or multi-site. Custom pricing.</td>
+          </tr>
+          <tr>
+            <td>Blended parent ARPU</td>
+            <td class="mono" style="text-align:left">~£11 / month</td>
+            <td class="note">Weighted average across founder, standard, annual mix.</td>
+          </tr>
+          <tr>
+            <td>Monthly churn</td>
+            <td class="mono" style="text-align:left">4–5%</td>
+            <td class="note">Conservative vs. 3–7% industry average for parenting subscriptions.</td>
+          </tr>
+          <tr>
+            <td>School renewal rate</td>
+            <td class="mono" style="text-align:left">85%</td>
+            <td class="note">Annual contract. Renewal driven by parent and governor demand.</td>
+          </tr>
+          <tr>
+            <td>Founder salary</td>
+            <td class="mono" style="text-align:left">£35,000 / year</td>
+            <td class="note">Deliberately below market (market: £60–90k). Founder's return is in equity.</td>
+          </tr>
+          <tr>
+            <td>COGS</td>
+            <td class="mono" style="text-align:left">~£0.10 / user / month</td>
+            <td class="note">Anthropic API at scale + Supabase + Vercel hosting.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout" style="margin-top:16px">
+        <strong>Two scenarios presented throughout:</strong> Optimistic case (1,000 parents / 20 schools by end of Year 1) and Base case (300 parents / 10 schools). Both are presented side by side in the Summary Table on page 4.
+      </div>
+    </div>
+
+    <!-- YEAR 1 -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-number">02</span>
+        <span class="section-title">Year 1 — July 2026 to June 2027</span>
+        <span class="section-subtitle">Platform launch · Ban enters news cycle · First schools</span>
+      </div>
+
+      <div class="metric-row">
+        <div class="metric-card">
+          <span class="metric-card-label">Ending ARR</span>
+          <span class="metric-card-value green">£143k</span>
+          <span class="metric-card-sub">Optimistic case</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-card-label">Parent subs EOY</span>
+          <span class="metric-card-value">1,000</span>
+          <span class="metric-card-sub">From 400 warm waitlist</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-card-label">Schools EOY</span>
+          <span class="metric-card-value">20</span>
+          <span class="metric-card-sub">12 small · 8 medium</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-card-label">Net position</span>
+          <span class="metric-card-value green">+£26k</span>
+          <span class="metric-card-sub">Revenue covers costs</span>
+        </div>
+      </div>
+
+      <div class="quarter-grid">
+        <div class="quarter-card">
+          <div class="quarter-card-header">
+            <span class="quarter-label">Q1 · Jul–Sep 2026</span>
+            <span class="quarter-revenue">£8,450</span>
+          </div>
+          <div class="quarter-rows">
+            <div class="quarter-row">
+              <span class="quarter-row-label">Platform launches. Founder 50 fills.</span>
+            </div>
+            <div class="quarter-divider"></div>
+            <div class="quarter-row">
+              <span class="quarter-row-label">Parent subscribers</span>
+              <span class="quarter-row-value">200</span>
+            </div>
+            <div class="quarter-row">
+              <span class="quarter-row-label">Schools signed</span>
+              <span class="quarter-row-value">4</span>
+            </div>
+            <div class="quarter-row">
+              <span class="quarter-row-label">MRR end of Q1</span>
+              <span class="quarter-row-value green">~£2,350</span>
+            </div>
+          </div>
+        </div>
+        <div class="quarter-card">
+          <div class="quarter-card-header">
+            <span class="quarter-label">Q2 · Oct–Dec 2026</span>
+            <span class="quarter-revenue">£15,630</span>
+          </div>
+          <div class="quarter-rows">
+            <div class="quarter-row">
+              <span class="quarter-row-label">First marketing push. Ban in news cycle.</span>
+            </div>
+            <div class="quarter-divider"></div>
+            <div class="quarter-row">
+              <span class="quarter-row-label">Parent subscribers</span>
+              <span class="quarter-row-value">450</span>
+            </div>
+            <div class="quarter-row">
+              <span class="quarter-row-label">Schools signed</span>
+              <span class="quarter-row-value">10 cumulative</span>
+            </div>
+            <div class="quarter-row">
+              <span class="quarter-row-label">MRR end of Q2</span>
+              <span class="quarter-row-value green">~£4,470</span>
+            </div>
+          </div>
+        </div>
+        <div class="quarter-card">
+          <div class="quarter-card-header">
+            <span class="quarter-label">Q3 · Jan–Mar 2027</span>
+            <span class="quarter-revenue">£25,000</span>
+          </div>
+          <div class="quarter-rows">
+            <div class="quarter-row">
+              <span class="quarter-row-label">Ban announced. School awareness peaks.</span>
+            </div>
+            <div class="quarter-divider"></div>
+            <div class="quarter-row">
+              <span class="quarter-row-label">Parent subscribers</span>
+              <span class="quarter-row-value">700</span>
+            </div>
+            <div class="quarter-row">
+              <span class="quarter-row-label">Schools signed</span>
+              <span class="quarter-row-value">15 cumulative</span>
+            </div>
+            <div class="quarter-row">
+              <span class="quarter-row-label">MRR end of Q3</span>
+              <span class="quarter-row-value green">~£7,660</span>
+            </div>
+          </div>
+        </div>
+        <div class="quarter-card" style="border-color:var(--green-b);background:var(--green-lt)">
+          <div class="quarter-card-header">
+            <span class="quarter-label">Q4 · Apr–Jun 2027</span>
+            <span class="quarter-revenue" style="color:var(--green-dark)">£35,800</span>
+          </div>
+          <div class="quarter-rows">
+            <div class="quarter-row">
+              <span class="quarter-row-label">Ban goes live. Demand peaks.</span>
+            </div>
+            <div class="quarter-divider"></div>
+            <div class="quarter-row">
+              <span class="quarter-row-label">Parent subscribers</span>
+              <span class="quarter-row-value green">1,000</span>
+            </div>
+            <div class="quarter-row">
+              <span class="quarter-row-label">Schools signed</span>
+              <span class="quarter-row-value green">20 cumulative</span>
+            </div>
+            <div class="quarter-row">
+              <span class="quarter-row-label">MRR end of Q4</span>
+              <span class="quarter-row-value green">~£11,318</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Year 1 Revenue</th>
+            <th>Amount</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Parent subscriptions (in-year)</td>
+            <td>£76,680</td>
+            <td class="note">Average ~583 subscribers × £11 ARPU × 12 months</td>
+          </tr>
+          <tr>
+            <td>School licences (in-year)</td>
+            <td>£8,200</td>
+            <td class="note">20 schools × avg £390 blended, signed across the year</td>
+          </tr>
+          <tr class="row-total">
+            <td>Total Year 1 Revenue</td>
+            <td>£84,880</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Ending MRR (parent)</td>
+            <td>£11,318</td>
+            <td class="note">50×£7.99 + 650×£12.99 + 300×£8.25</td>
+          </tr>
+          <tr>
+            <td>School ARR (20 schools)</td>
+            <td>£7,580</td>
+            <td class="note">12×£299 + 8×£499</td>
+          </tr>
+          <tr class="row-highlight">
+            <td>Ending ARR</td>
+            <td>£143,396</td>
+            <td class="note">(£11,318 × 12) + £7,580</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div style="height:16px"></div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Year 1 Costs</th>
+            <th>Amount</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Founder salary</td>
+            <td>£35,000</td>
+            <td class="note">Below-market rate. Founder's return is in equity.</td>
+          </tr>
+          <tr>
+            <td>Platform hosting &amp; APIs</td>
+            <td>£4,800</td>
+            <td class="note">Vercel, Supabase, Anthropic API at early scale</td>
+          </tr>
+          <tr>
+            <td>Marketing</td>
+            <td>£12,000</td>
+            <td class="note">Organic content + initial paid tests</td>
+          </tr>
+          <tr>
+            <td>Tools &amp; software</td>
+            <td>£2,400</td>
+            <td class="note">Subscriptions, design tools, CRM</td>
+          </tr>
+          <tr>
+            <td>Legal &amp; accounting</td>
+            <td>£3,000</td>
+            <td class="note">GDPR, SEIS advance assurance, accountancy</td>
+          </tr>
+          <tr>
+            <td>Miscellaneous</td>
+            <td>£2,000</td>
+            <td class="note">Travel, events, contingency</td>
+          </tr>
+          <tr class="row-total">
+            <td>Total Year 1 Costs</td>
+            <td>£59,200</td>
+            <td></td>
+          </tr>
+          <tr class="row-positive">
+            <td><strong>Year 1 Net</strong></td>
+            <td><strong>+£25,680</strong></td>
+            <td class="note">Investment capital available entirely for growth</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- YEAR 2 -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-number">03</span>
+        <span class="section-title">Year 2 — July 2027 to June 2028</span>
+        <span class="section-subtitle">Ban live · Schools flywheel · First hire</span>
+      </div>
+
+      <div class="callout">
+        Social media ban goes live Spring 2027. Schools begin formal RSHE digital alignment. Investment funds paid acquisition and schools partnerships hire from Q2.
+      </div>
+
+      <div class="metric-row">
+        <div class="metric-card">
+          <span class="metric-card-label">Ending ARR</span>
+          <span class="metric-card-value green">£421k</span>
+          <span class="metric-card-sub">Optimistic case</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-card-label">Parent subs EOY</span>
+          <span class="metric-card-value">3,000</span>
+          <span class="metric-card-sub">3× growth from Y1</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-card-label">Schools EOY</span>
+          <span class="metric-card-value">60</span>
+          <span class="metric-card-sub">36 small · 24 medium</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-card-label">Net position</span>
+          <span class="metric-card-value green">+£148k</span>
+          <span class="metric-card-sub">Profitable in Year 2</span>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Year 2 Revenue</th>
+            <th>Amount</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Parent subscriptions (in-year)</td>
+            <td>£264,000</td>
+            <td class="note">Average ~2,000 subscribers × £11 ARPU × 12 months</td>
+          </tr>
+          <tr>
+            <td>School licences — new signings</td>
+            <td>£18,200</td>
+            <td class="note">~40 new schools × avg £455 blended</td>
+          </tr>
+          <tr>
+            <td>School licences — Year 1 renewals</td>
+            <td>£9,800</td>
+            <td class="note">17 of 20 renew (85%) × avg £390</td>
+          </tr>
+          <tr class="row-total">
+            <td>Total Year 2 Revenue</td>
+            <td>£292,000</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Ending MRR — parents</td>
+            <td>£33,269</td>
+            <td class="note">50×£7.99 + 1,800×£12.99 + 1,150×£8.25</td>
+          </tr>
+          <tr>
+            <td>School ARR (60 schools)</td>
+            <td>£22,740</td>
+            <td class="note">36×£299 + 24×£499</td>
+          </tr>
+          <tr class="row-highlight">
+            <td>Ending ARR</td>
+            <td>£421,968</td>
+            <td class="note">(£33,269 × 12) + £22,740</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div style="height:16px"></div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Year 2 Costs</th>
+            <th>Amount</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Founder salary</td>
+            <td>£40,000</td>
+            <td class="note">Modest Year 2 increase. Still well below market rate.</td>
+          </tr>
+          <tr>
+            <td>Schools partnerships hire</td>
+            <td>£38,000</td>
+            <td class="note">Part year from Q2 onwards. Drives B2B school growth.</td>
+          </tr>
+          <tr>
+            <td>Platform hosting &amp; APIs</td>
+            <td>£12,000</td>
+            <td class="note">Scales with user growth</td>
+          </tr>
+          <tr>
+            <td>Marketing</td>
+            <td>£40,000</td>
+            <td class="note">Paid social, school outreach, PR</td>
+          </tr>
+          <tr>
+            <td>Tools &amp; software</td>
+            <td>£5,000</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Legal &amp; accounting</td>
+            <td>£5,000</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Miscellaneous</td>
+            <td>£4,000</td>
+            <td></td>
+          </tr>
+          <tr class="row-total">
+            <td>Total Year 2 Costs</td>
+            <td>£144,000</td>
+            <td></td>
+          </tr>
+          <tr class="row-positive">
+            <td><strong>Year 2 Net</strong></td>
+            <td><strong>+£148,000</strong></td>
+            <td class="note">Strongly profitable</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- YEAR 3 -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-number">04</span>
+        <span class="section-title">Year 3 — July 2028 to June 2029</span>
+        <span class="section-subtitle">Established brand · International expansion begins · Series A readiness</span>
+      </div>
+
+      <div class="metric-row">
+        <div class="metric-card">
+          <span class="metric-card-label">Ending ARR</span>
+          <span class="metric-card-value green">£1.15M</span>
+          <span class="metric-card-sub">£1M milestone crossed</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-card-label">Parent subs EOY</span>
+          <span class="metric-card-value">8,000</span>
+          <span class="metric-card-sub">0.1% of UK market</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-card-label">Schools EOY</span>
+          <span class="metric-card-value">180</span>
+          <span class="metric-card-sub">Inc. 10 MATs</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-card-label">Net position</span>
+          <span class="metric-card-value green">+£533k</span>
+          <span class="metric-card-sub">Series A or profitable exit</span>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Year 3 Revenue</th>
+            <th>Amount</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Parent subscriptions (in-year)</td>
+            <td>£726,000</td>
+            <td class="note">Average ~5,500 subscribers × £11 ARPU × 12 months</td>
+          </tr>
+          <tr>
+            <td>School licences — new signings</td>
+            <td>£52,000</td>
+            <td class="note">~120 new schools × avg £435 blended</td>
+          </tr>
+          <tr>
+            <td>School licences — Year 2 renewals</td>
+            <td>£21,600</td>
+            <td class="note">51 of 60 renew (85%) × avg £425</td>
+          </tr>
+          <tr class="row-total">
+            <td>Total Year 3 Revenue</td>
+            <td>£799,600</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Ending MRR — parents</td>
+            <td>£89,687</td>
+            <td class="note">50×£7.99 + 5,000×£12.99 + 2,950×£8.25</td>
+          </tr>
+          <tr>
+            <td>School ARR (180 schools)</td>
+            <td>£72,820</td>
+            <td class="note">110×£299 + 60×£499 + 10×£999</td>
+          </tr>
+          <tr class="row-highlight">
+            <td>Ending ARR</td>
+            <td>£1,149,064</td>
+            <td class="note">(£89,687 × 12) + £72,820</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div style="height:16px"></div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Year 3 Costs</th>
+            <th>Amount</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Founder salary</td>
+            <td>£50,000</td>
+            <td class="note">Reviewed at Series A. Still below market.</td>
+          </tr>
+          <tr>
+            <td>Three hires (marketing, schools, product)</td>
+            <td>£120,000</td>
+            <td class="note">Full-year team. £40k avg.</td>
+          </tr>
+          <tr>
+            <td>Platform hosting &amp; APIs</td>
+            <td>£25,000</td>
+            <td class="note">Scales with 8,000 active subscribers</td>
+          </tr>
+          <tr>
+            <td>Marketing</td>
+            <td>£60,000</td>
+            <td class="note">Paid acquisition, international PR, schools events</td>
+          </tr>
+          <tr>
+            <td>Tools &amp; software</td>
+            <td>£8,000</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Legal &amp; accounting</td>
+            <td>£8,000</td>
+            <td class="note">International expansion, Series A prep</td>
+          </tr>
+          <tr>
+            <td>Miscellaneous</td>
+            <td>£6,000</td>
+            <td></td>
+          </tr>
+          <tr class="row-total">
+            <td>Total Year 3 Costs</td>
+            <td>£277,000</td>
+            <td></td>
+          </tr>
+          <tr class="row-positive">
+            <td><strong>Year 3 Net</strong></td>
+            <td><strong>+£533,000</strong></td>
+            <td class="note">£1M+ ARR milestone reached</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SUMMARY TABLE -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-number">05</span>
+        <span class="section-title">Summary — Optimistic vs Base Case</span>
+      </div>
+
+      <div class="callout gold">
+        <strong>Optimistic case:</strong> 1,000 parents and 20 schools by end of Year 1, growing to 8,000 parents and 180 schools by Year 3. Models the UK social media ban as a significant Q4 Year 1 catalyst.
+        <br><br>
+        <strong>Base case:</strong> 300 parents and 10 schools by end of Year 1. Conservative churn at 5%. No viral growth events modelled. Still reaches profitability in Year 2.
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th class="comp-header-opt" style="text-align:right">Year 1 Opt.</th>
+            <th class="comp-header-base" style="text-align:right">Year 1 Base</th>
+            <th class="comp-header-opt" style="text-align:right">Year 2 Opt.</th>
+            <th class="comp-header-base" style="text-align:right">Year 2 Base</th>
+            <th class="comp-header-opt" style="text-align:right">Year 3 Opt.</th>
+            <th class="comp-header-base" style="text-align:right">Year 3 Base</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>In-year revenue</td>
+            <td class="col-opt">£84,880</td>
+            <td>£27,800</td>
+            <td class="col-opt">£292,000</td>
+            <td>£130,000</td>
+            <td class="col-opt">£799,600</td>
+            <td>£378,000</td>
+          </tr>
+          <tr class="row-highlight">
+            <td>Ending ARR</td>
+            <td class="col-opt">£143,000</td>
+            <td>£55,000</td>
+            <td class="col-opt">£421,000</td>
+            <td>£132,000</td>
+            <td class="col-opt">£1,150,000</td>
+            <td>£376,000</td>
+          </tr>
+          <tr>
+            <td>Total costs</td>
+            <td class="col-opt">£59,200</td>
+            <td>£54,200</td>
+            <td class="col-opt">£144,000</td>
+            <td>£119,000</td>
+            <td class="col-opt">£277,000</td>
+            <td>£202,000</td>
+          </tr>
+          <tr>
+            <td><strong>Net</strong></td>
+            <td class="col-opt" style="color:var(--green-dark);font-weight:700">+£25,680</td>
+            <td style="color:var(--coral);font-weight:700">−£26,400</td>
+            <td class="col-opt" style="color:var(--green-dark);font-weight:700">+£148,000</td>
+            <td style="color:var(--green-dark);font-weight:700">+£11,000</td>
+            <td class="col-opt" style="color:var(--green-dark);font-weight:700">+£533,000</td>
+            <td style="color:var(--green-dark);font-weight:700">+£176,000</td>
+          </tr>
+          <tr>
+            <td>Parent subs (EOY)</td>
+            <td class="col-opt">1,000</td>
+            <td>300</td>
+            <td class="col-opt">3,000</td>
+            <td>900</td>
+            <td class="col-opt">8,000</td>
+            <td>2,500</td>
+          </tr>
+          <tr>
+            <td>Schools (EOY)</td>
+            <td class="col-opt">20</td>
+            <td>10</td>
+            <td class="col-opt">60</td>
+            <td>30</td>
+            <td class="col-opt">180</td>
+            <td>120</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- BREAKEVEN -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-number">06</span>
+        <span class="section-title">Breakeven Analysis</span>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Scenario</th>
+            <th>Breakeven subscribers</th>
+            <th>Expected timing</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Parents only (no schools)</td>
+            <td>~449 at blended £11 ARPU</td>
+            <td class="note">Q3 Year 1 (optimistic) · Q2 Year 2 (base)</td>
+          </tr>
+          <tr class="row-highlight">
+            <td>Parents + 20 schools</td>
+            <td>~380 parent subscribers</td>
+            <td class="note">Q2 Year 1 (optimistic)</td>
+          </tr>
+          <tr>
+            <td>Fixed monthly cost base (Year 1)</td>
+            <td colspan="2" class="note">~£4,933/month (founder salary + hosting + tools)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout" style="margin-top:16px">
+        <strong>Investor implication:</strong> The £250,000 raise is not required to reach breakeven — it is required to reach breakeven <em>quickly</em> and then scale. In the optimistic case, Year 1 revenue covers all operating costs. The investment accelerates the marketing and schools partnerships that deliver the 3× Year 2 growth.
+      </div>
+    </div>
+
+    <!-- NOTES -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-number">07</span>
+        <span class="section-title">Notes for Investors</span>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th style="text-align:left">Detail</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="width:220px">Founder salary</td>
+            <td>£35,000 per year. A senior SaaS founder typically earns £60,000–£90,000. This deliberate below-market rate ensures maximum capital is deployed toward growth. The founder's upside is in equity.</td>
+          </tr>
+          <tr>
+            <td>Not modelled — upside only</td>
+            <td>NHS/LA partnerships · International revenue (Years 1–2) · White-label licensing · Viral growth events · MAT framework agreements</td>
+          </tr>
+          <tr>
+            <td>Policy catalyst</td>
+            <td>The UK social media ban going live in Spring 2027 is modelled as a demand spike in Q3–Q4 Year 1. Even if delayed, the base case shows profitability in Year 2 without it.</td>
+          </tr>
+          <tr>
+            <td>Use of investment</td>
+            <td>Marketing and paid acquisition (£90k) · Schools partnerships (£65k) · Product development (£55k) · Operations and founder salary (£40k). This is not a fundraise to cover losses — it is a fundraise to build the growth machine.</td>
+          </tr>
+          <tr>
+            <td>Exit potential</td>
+            <td>At £1M+ ARR and established school relationships, the business is attractive to educational publishers, school platform providers, and parenting media groups. Series A or strategic acquisition in Years 4–5.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div><!-- /body -->
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-left">Guided Childhood Ltd · June 2026 · Pre-revenue stage · These are founder projections, not audited accounts.</div>
+    <div class="footer-right"><strong>hello@guidedchildhood.com</strong> · guidedchildhood.com</div>
+  </div>
+
+</div><!-- /doc -->
+
+</body>
+</html>
