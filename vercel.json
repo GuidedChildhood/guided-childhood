@@ -24,6 +24,8 @@
     { "src": "/trust/", "dest": "/trust.html" },
     { "src": "/evidence", "dest": "/evidence.html" },
     { "src": "/evidence/", "dest": "/evidence.html" },
+    { "src": "/evidence-report", "dest": "/evidence-report.html" },
+    { "src": "/evidence-report/", "dest": "/evidence-report.html" },
     { "src": "/join", "status": 302, "headers": { "Location": "https://mailchi.mp/thesocialbillboard/parents" } },
     { "src": "/join/", "status": 302, "headers": { "Location": "https://mailchi.mp/thesocialbillboard/parents" } },
     { "src": "/device-checklist", "dest": "/device-checklist.html" },
