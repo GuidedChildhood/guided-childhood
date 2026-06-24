@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Guided Childhood — Executive Summary 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream:      #F7F3EE;
+    --cream-2:    #FDFBF8;
+    --cream-3:    #EFE9DF;
+    --ink:        #1C1C1C;
+    --ink-soft:   #4A4A4A;
+    --ink-muted:  #6E6A62;
+    --ink-light:  #9B958A;
+    --green:      #AFDCA2;
+    --green-dark: #2E7D5A;
+    --green-lt:   #EEF7F2;
+    --green-b:    #D3ECD9;
+    --coral:      #D4600A;
+    --gold:       #F2C94C;
+    --gold-dark:  #C9962A;
+    --lav-deep:   #3D5BA9;
+    --font-display: 'Hanken Grotesk', sans-serif;
+    --font-mono:    'IBM Plex Mono', monospace;
+  }
+
+  html, body {
+    font-family: var(--font-display);
+    background: #ccc;
+    color: var(--ink);
+  }
+
+  /* ── PAGE ───────────────────────── */
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    background: var(--cream);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── HEADER ─────────────────────── */
+  .hd {
+    background: var(--ink);
+    padding: 28px 40px 24px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .hd-left { display: flex; flex-direction: column; gap: 10px; }
+  .hd-logo {
+    width: 42px; height: 42px;
+    background: var(--green-dark);
+    border-radius: 11px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 17px; font-weight: 800; color: #fff; letter-spacing: -0.05em;
+  }
+  .hd-name {
+    font-size: 22px; font-weight: 800; color: #fff; letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+  .hd-strapline {
+    font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.4; max-width: 280px;
+  }
+  .hd-right { text-align: right; }
+  .hd-label {
+    font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 4px;
+  }
+  .hd-doc { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.7); margin-bottom: 16px; }
+  .raise-pill {
+    display: inline-flex; flex-direction: column; gap: 2px;
+    background: var(--green-dark); border-radius: 10px; padding: 10px 16px; text-align: center;
+  }
+  .raise-pill-label { font-family: var(--font-mono); font-size: 8px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+  .raise-pill-value { font-size: 20px; font-weight: 800; color: #fff; letter-spacing: -0.02em; }
+
+  /* ── CONTENT AREA ───────────────── */
+  .body { padding: 32px 40px 40px; display: flex; flex-direction: column; gap: 24px; flex: 1; }
+
+  /* ── SECTION ────────────────────── */
+  .sec {}
+  .sec-head {
+    font-family: var(--font-mono); font-size: 9px; font-weight: 500;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--green-dark);
+    border-bottom: 1.5px solid var(--green-b);
+    padding-bottom: 6px; margin-bottom: 10px;
+  }
+  .sec p {
+    font-size: 13px; color: var(--ink-soft); line-height: 1.65;
+  }
+  .sec p + p { margin-top: 7px; }
+  strong { font-weight: 700; color: var(--ink); }
+
+  /* ── METRICS STRIP ──────────────── */
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+  .mc {
+    background: var(--cream-2);
+    border: 1.5px solid var(--cream-3);
+    border-radius: 12px;
+    padding: 14px 14px 12px;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .mc-label { font-family: var(--font-mono); font-size: 8px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-light); }
+  .mc-value { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; color: var(--ink); }
+  .mc-sub { font-size: 10px; color: var(--ink-muted); line-height: 1.35; }
+  .mc.green .mc-value { color: var(--green-dark); }
+  .mc.gold  .mc-value { color: var(--gold-dark); }
+  .mc.coral .mc-value { color: var(--coral); }
+  .mc.lav   .mc-value { color: var(--lav-deep); }
+
+  /* ── TWO-COL ────────────────────── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  /* ── REVENUE TABLE ──────────────── */
+  .rev-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .rev-table th {
+    font-family: var(--font-mono); font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink-light); text-align: left; padding: 7px 10px; border-bottom: 1.5px solid var(--cream-3);
+  }
+  .rev-table td { padding: 8px 10px; color: var(--ink-soft); border-bottom: 1px solid var(--cream-3); }
+  .rev-table tr:last-child td { border-bottom: none; }
+  .rev-table td:first-child { font-weight: 600; color: var(--ink); }
+  .rev-table td.price { font-weight: 700; color: var(--green-dark); }
+
+  /* ── FINANCIALS TABLE ───────────── */
+  .fin-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .fin-table th {
+    font-family: var(--font-mono); font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: #fff; text-align: right; padding: 8px 10px; background: var(--ink);
+  }
+  .fin-table th:first-child { text-align: left; border-radius: 8px 0 0 0; }
+  .fin-table th:last-child { border-radius: 0 8px 0 0; }
+  .fin-table td { padding: 8px 10px; color: var(--ink-soft); border-bottom: 1px solid var(--cream-3); text-align: right; font-size: 12px; }
+  .fin-table td:first-child { text-align: left; font-weight: 600; color: var(--ink); }
+  .fin-table tr.total td { font-weight: 700; color: var(--ink); background: var(--cream-3); }
+  .fin-table tr.total td:first-child { border-radius: 0 0 0 8px; }
+  .fin-table tr.total td:last-child { border-radius: 0 0 8px 0; }
+  .y1 { color: var(--green-dark) !important; }
+  .y2 { color: var(--gold-dark) !important; }
+  .y3 { color: var(--coral) !important; }
+
+  /* ── SEIS/EIS BLOCK ─────────────── */
+  .tax-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .tax-card {
+    border-radius: 12px; padding: 14px 16px;
+    display: flex; flex-direction: column; gap: 3px;
+  }
+  .tax-card.seis { background: var(--green-lt); border: 1.5px solid var(--green-b); }
+  .tax-card.eis  { background: #EFF3FC;         border: 1.5px solid #C5D0EC; }
+  .tax-badge {
+    font-size: 18px; font-weight: 800; letter-spacing: -0.02em;
+  }
+  .tax-card.seis .tax-badge { color: var(--green-dark); }
+  .tax-card.eis  .tax-badge { color: var(--lav-deep); }
+  .tax-amount { font-size: 13px; font-weight: 700; color: var(--ink); }
+  .tax-desc   { font-size: 11px; color: var(--ink-muted); line-height: 1.4; }
+
+  /* ── USE OF FUNDS ───────────────── */
+  .use-items { display: flex; flex-direction: column; gap: 6px; }
+  .use-item { display: flex; align-items: center; gap: 10px; }
+  .use-bar-wrap { flex: 1; height: 6px; background: var(--cream-3); border-radius: 100px; overflow: hidden; }
+  .use-bar { height: 100%; background: var(--green-dark); border-radius: 100px; }
+  .use-label { font-size: 12px; color: var(--ink-soft); min-width: 220px; }
+  .use-pct { font-family: var(--font-mono); font-size: 10px; font-weight: 500; color: var(--green-dark); min-width: 32px; text-align: right; }
+
+  /* ── FOOTER ─────────────────────── */
+  .ft {
+    background: var(--ink); padding: 14px 40px;
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: auto;
+  }
+  .ft-left { font-size: 11px; color: rgba(255,255,255,0.35); font-family: var(--font-mono); }
+  .ft-right { font-size: 11px; color: var(--green); font-family: var(--font-mono); }
+
+  /* ── PRINT ──────────────────────── */
+  @media print {
+    @page { size: A4 portrait; margin: 0; }
+    html, body { background: none; }
+    .page { margin: 0; min-height: 297mm; }
+  }
+
+  @media screen {
+    body { padding: 32px; }
+    .page { box-shadow: 0 4px 40px rgba(0,0,0,0.25); }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="hd">
+    <div class="hd-left">
+      <div class="hd-logo">GC</div>
+      <div class="hd-name">Guided Childhood</div>
+      <div class="hd-strapline">The infrastructure layer for how children develop a healthy relationship with technology.</div>
+    </div>
+    <div class="hd-right">
+      <div class="hd-label">Document</div>
+      <div class="hd-doc">Executive Summary — 2026</div>
+      <div class="raise-pill">
+        <div class="raise-pill-label">Investment round</div>
+        <div class="raise-pill-value">£250,000</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <!-- OPPORTUNITY -->
+    <div class="sec">
+      <div class="sec-head">The Opportunity</div>
+      <p><strong>13 million children under 16 in the UK.</strong> Every one of them will grow up navigating social media, AI tools, group chats, and constant screen pressure — and almost no parent has a structured framework to guide them through it.</p>
+      <p>Governments are legislating. Schools are overwhelmed. Parents are anxious. The market is not short of restriction tools — screen-time blockers, content filters, monitoring apps. What does not exist is a <strong>structured, developmental pathway</strong> that teaches children how to navigate technology safely, stage by stage, from first device to digital independence.</p>
+    </div>
+
+    <!-- KEY METRICS -->
+    <div class="metrics">
+      <div class="mc green">
+        <div class="mc-label">Y1 ARR target</div>
+        <div class="mc-value">£143k</div>
+        <div class="mc-sub">1,000 families + 20 schools</div>
+      </div>
+      <div class="mc gold">
+        <div class="mc-label">Y2 ARR target</div>
+        <div class="mc-value">£430k</div>
+        <div class="mc-sub">3,000 families + 60 schools</div>
+      </div>
+      <div class="mc coral">
+        <div class="mc-label">Y3 ARR target</div>
+        <div class="mc-value">£1.15M</div>
+        <div class="mc-sub">8,000 families + 180 schools</div>
+      </div>
+      <div class="mc lav">
+        <div class="mc-label">Pre-launch waitlist</div>
+        <div class="mc-value">400</div>
+        <div class="mc-sub">Zero paid acquisition</div>
+      </div>
+    </div>
+
+    <!-- PRODUCT + MODEL -->
+    <div class="two-col">
+      <div class="sec">
+        <div class="sec-head">The Product</div>
+        <p>Guided Childhood is a subscription platform built around five developmental stages — Foundation (4–7), Builder (8–10), Explorer (11–13), Navigator (13–15), and Independent (16+).</p>
+        <p style="margin-top:9px">The platform includes <strong>DiGi</strong>, an AI advisor personalised to each child's stage; <strong>Scripts</strong>, word-for-word conversation guides for parents; a <strong>Progress Tracker</strong>; and a <strong>Schools module</strong> with full curriculum-aligned lesson packs.</p>
+        <p style="margin-top:9px">DiGi never bans or restricts. It always provides a calibrated, developmental pathway — because the goal is not to limit children, it is to prepare them.</p>
+      </div>
+
+      <div class="sec">
+        <div class="sec-head">Revenue Model</div>
+        <table class="rev-table">
+          <thead>
+            <tr>
+              <th>Stream</th>
+              <th>Pricing</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Family subscription</td>
+              <td class="price">£12.99/month · £99/year</td>
+            </tr>
+            <tr>
+              <td>Small school (up to 300)</td>
+              <td class="price">£299/year</td>
+            </tr>
+            <tr>
+              <td>Medium school (300–800)</td>
+              <td class="price">£499/year</td>
+            </tr>
+            <tr>
+              <td>Enterprise / MAT</td>
+              <td class="price">£999+/year</td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="margin-top:9px;font-size:11px;color:var(--ink-muted)"><strong style="color:var(--ink)">Flywheel:</strong> parents discover through schools. Schools adopt because parents ask. Each school seeds 300+ family relationships at zero acquisition cost.</p>
+      </div>
+    </div>
+
+    <!-- FINANCIALS -->
+    <div class="sec">
+      <div class="sec-head">Three-Year Financial Summary</div>
+      <table class="fin-table">
+        <thead>
+          <tr>
+            <th>Metric</th>
+            <th>Year 1</th>
+            <th>Year 2</th>
+            <th>Year 3</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Family subscribers (end)</td>
+            <td class="y1">1,000</td>
+            <td class="y2">3,000</td>
+            <td class="y3">8,000</td>
+          </tr>
+          <tr>
+            <td>School licences (end)</td>
+            <td class="y1">20</td>
+            <td class="y2">60</td>
+            <td class="y3">180</td>
+          </tr>
+          <tr>
+            <td>Parent MRR (end of year)</td>
+            <td class="y1">£9,900</td>
+            <td class="y2">£29,700</td>
+            <td class="y3">£79,200</td>
+          </tr>
+          <tr>
+            <td>School ARR</td>
+            <td class="y1">£9,200</td>
+            <td class="y2">£27,600</td>
+            <td class="y3">£82,800</td>
+          </tr>
+          <tr class="total">
+            <td>ARR (end of year)</td>
+            <td class="y1">£143k</td>
+            <td class="y2">£430k</td>
+            <td class="y3">£1.15M</td>
+          </tr>
+          <tr>
+            <td>Total costs</td>
+            <td>£243k</td>
+            <td>£319k</td>
+            <td>£461k</td>
+          </tr>
+          <tr class="total">
+            <td>Net position</td>
+            <td style="color:var(--coral)">−£163k</td>
+            <td style="color:var(--gold-dark)">+£8k</td>
+            <td style="color:var(--green-dark)">+£231k</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="margin-top:8px;font-size:11px;color:var(--ink-muted)">Forecasts assume blended parent ARPU of ~£11/month. Year 2 reaches near-breakeven. Year 3 is profitable without further investment. Founder salary held at £35k throughout — deliberately below market to preserve runway.</p>
+    </div>
+
+    <!-- INVESTMENT TERMS + USE OF FUNDS -->
+    <div class="two-col">
+      <div class="sec">
+        <div class="sec-head">Investment Terms</div>
+        <div class="tax-grid">
+          <div class="tax-card seis">
+            <div class="tax-badge">SEIS</div>
+            <div class="tax-amount">First £150,000</div>
+            <div class="tax-desc">50% income tax relief. CGT exemption on gains. Loss relief available.</div>
+          </div>
+          <div class="tax-card eis">
+            <div class="tax-badge">EIS</div>
+            <div class="tax-amount">Remaining £100,000</div>
+            <div class="tax-desc">30% income tax relief. CGT deferral. Loss relief available.</div>
+          </div>
+        </div>
+        <p style="margin-top:10px;font-size:11px;color:var(--ink-muted)">Pre-money valuation <strong style="color:var(--ink)">£1.5M</strong>. Equity offered up to <strong style="color:var(--ink)">15%</strong>. Minimum ticket <strong style="color:var(--ink)">£5,000</strong>, typical £10k–£25k.</p>
+      </div>
+
+      <div class="sec">
+        <div class="sec-head">Use of Funds</div>
+        <div class="use-items">
+          <div class="use-item">
+            <div class="use-label">Marketing and parent acquisition</div>
+            <div class="use-bar-wrap"><div class="use-bar" style="width:40%"></div></div>
+            <div class="use-pct">40%</div>
+          </div>
+          <div class="use-item">
+            <div class="use-label">Schools partnerships and sales</div>
+            <div class="use-bar-wrap"><div class="use-bar" style="width:25%"></div></div>
+            <div class="use-pct">25%</div>
+          </div>
+          <div class="use-item">
+            <div class="use-label">Platform development</div>
+            <div class="use-bar-wrap"><div class="use-bar" style="width:20%"></div></div>
+            <div class="use-pct">20%</div>
+          </div>
+          <div class="use-item">
+            <div class="use-label">Operations and legal</div>
+            <div class="use-bar-wrap"><div class="use-bar" style="width:15%"></div></div>
+            <div class="use-pct">15%</div>
+          </div>
+        </div>
+        <p style="margin-top:10px;font-size:11px;color:var(--ink-muted)">Runway of approximately 18 months. Breakeven forecast in Year 2 without further raise required.</p>
+      </div>
+    </div>
+
+    <!-- FOUNDER -->
+    <div class="sec">
+      <div class="sec-head">Founder</div>
+      <p><strong>Justin Phillips</strong> — serial SaaS founder, background building software businesses in the accountancy sector. Dad of three children aged 4, 9, and 11. Built Guided Childhood because no platform existed that gave parents a structured, developmental pathway rather than just restriction tools. Every lesson in this product came from his own household.</p>
+      <p style="margin-top:7px">The founder's salary is set at £35,000 — deliberately below market rate for a senior SaaS founder (market equivalent: £60–90k). The difference funds an extra £25–55k of growth capital per year. Founder return is in equity, not salary.</p>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="ft">
+    <div class="ft-left">Guided Childhood Ltd · Confidential · 2026</div>
+    <div class="ft-right">hello@guidedchildhood.com · guidedchildhood.com</div>
+  </div>
+
+</div>
+</body>
+</html>
