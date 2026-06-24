@@ -47,6 +47,14 @@
     { "src": "/research", "status": 307, "headers": { "Location": "/#research" } },
     { "src": "/digital-literacy", "dest": "/digital-literacy.html" },
     { "src": "/digital-literacy/", "dest": "/digital-literacy.html" },
+    { "src": "/investor-deck", "dest": "/pitch-deck.html" },
+    { "src": "/investor-deck/", "dest": "/pitch-deck.html" },
+    { "src": "/investor-deck-print", "dest": "/pitch-deck-print.html" },
+    { "src": "/investor-deck-print/", "dest": "/pitch-deck-print.html" },
+    { "src": "/executive-summary", "dest": "/executive-summary.html" },
+    { "src": "/executive-summary/", "dest": "/executive-summary.html" },
+    { "src": "/financial-forecast", "dest": "/financial-forecast.html" },
+    { "src": "/financial-forecast/", "dest": "/financial-forecast.html" },
     { "src": "/(.*)", "dest": "/index.html" }
   ],
   "headers": [
