@@ -45,6 +45,25 @@ export default async function DashboardPage() {
   const isPaid = profile?.subscription_status === 'active'
   const firstName = profile?.full_name?.split(' ')[0] ?? 'there'
 
+  // Last completed script insight
+  const { data: lastCompletion } = await supabase
+    .from('script_completions')
+    .select('script_sort_order, completed_at')
+    .eq('user_id', user.id)
+    .order('completed_at', { ascending: false })
+    .limit(1)
+    .single()
+
+  let lastInsight: { title: string; why_it_works: string; sort_order: number; category: string | null } | null = null
+  if (lastCompletion) {
+    const { data: lastScript } = await supabase
+      .from('scripts')
+      .select('title, why_it_works, sort_order, category')
+      .eq('sort_order', lastCompletion.script_sort_order)
+      .single()
+    if (lastScript) lastInsight = lastScript
+  }
+
   return (
     <div style={{ maxWidth: '640px', margin: '0 auto', padding: '24px 20px' }}>
       {/* Welcome */}
@@ -115,6 +134,35 @@ export default async function DashboardPage() {
           </div>
         )}
       </div>
+
+      {/* Last script insight */}
+      {lastInsight && (
+        <div style={{
+          background: 'var(--green-lt)',
+          border: '1.5px solid var(--green-b)',
+          borderRadius: '16px',
+          padding: '22px',
+          marginBottom: '20px',
+        }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '10px', gap: '12px', flexWrap: 'wrap' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--green-dark)' }}>
+              Last script insight
+            </div>
+            <Link
+              href={`/dashboard/scripts/${lastInsight.sort_order}/deck`}
+              style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--green-dark)', textDecoration: 'none', letterSpacing: '0.06em' }}
+            >
+              Read again →
+            </Link>
+          </div>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '14px', color: 'var(--ink)', marginBottom: '8px' }}>
+            {lastInsight.title}
+          </div>
+          <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>
+            {lastInsight.why_it_works}
+          </p>
+        </div>
+      )}
 
       {/* This week's actions */}
       <div style={{ background: 'var(--warm)', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '20px' }}>

@@ -2,35 +2,34 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 
-const FREE_SCRIPT_IDS = [1, 2, 3]
+export const CATEGORY_META: Record<string, {
+  label: string
+  description: string
+  accent: string
+  bg: string
+  border: string
+  textOnAccent: string
+}> = {
+  'first-device':  { label: 'First Device',        description: 'Setting up healthy habits from day one',          accent: 'var(--green-dark)', bg: 'var(--green-lt)',  border: 'var(--green-b)',  textOnAccent: '#fff' },
+  'screen-time':   { label: 'Screen Time',          description: 'Navigating limits without the battles',           accent: 'var(--green-dark)', bg: 'var(--green-lt)',  border: 'var(--green-b)',  textOnAccent: '#fff' },
+  'gaming':        { label: 'Gaming',               description: 'When gaming feels like it is taking over',        accent: 'var(--lav-deep)',   bg: 'var(--lav)',       border: '#b8c8f0',         textOnAccent: '#fff' },
+  'social-media':  { label: 'Social Media',         description: 'From the first ask to identity and influence',    accent: 'var(--coral)',      bg: 'var(--coral-lt)',  border: 'var(--coral)',    textOnAccent: '#fff' },
+  'online-safety': { label: 'Online Safety',        description: 'Strangers, privacy, and knowing the risks',       accent: 'var(--gold-dark)',  bg: 'var(--gold-lt)',   border: 'var(--gold)',     textOnAccent: '#fff' },
+  'cyberbullying': { label: 'Cyberbullying',        description: 'What to say when they are hurting online',        accent: 'var(--coral)',      bg: 'var(--coral-lt)',  border: 'var(--coral)',    textOnAccent: '#fff' },
+  'mental-health': { label: 'Mental Health',        description: 'When screens are affecting how they feel',        accent: 'var(--lav-deep)',   bg: 'var(--lav)',       border: '#b8c8f0',         textOnAccent: '#fff' },
+  'body-image':    { label: 'Body Image',           description: 'Comparison culture and how to counter it',        accent: 'var(--coral)',      bg: 'var(--coral-lt)',  border: 'var(--coral)',    textOnAccent: '#fff' },
+  'identity':      { label: 'Identity',             description: 'Who they are online vs who they are at home',     accent: 'var(--green-dark)', bg: 'var(--green-lt)',  border: 'var(--green-b)',  textOnAccent: '#fff' },
+  'ai-technology': { label: 'AI and Technology',    description: 'Deepfakes, AI tools, and what to do about them',  accent: 'var(--ink)',        bg: 'var(--warm)',      border: 'var(--border)',   textOnAccent: '#fff' },
+  'family-rules':  { label: 'Family Rules',         description: 'Building agreements that actually stick',         accent: 'var(--gold-dark)',  bg: 'var(--gold-lt)',   border: 'var(--gold)',     textOnAccent: '#fff' },
+  'school':        { label: 'School',               description: 'Devices, homework, and classroom distraction',    accent: 'var(--lav-deep)',   bg: 'var(--lav)',       border: '#b8c8f0',         textOnAccent: '#fff' },
+  'relationships': { label: 'Relationships',        description: 'Friendships, connections, and who they trust',    accent: 'var(--green-dark)', bg: 'var(--green-lt)',  border: 'var(--green-b)',  textOnAccent: '#fff' },
+}
 
-const SCRIPTS = [
-  { id: 1, title: 'The First Device Conversation', stage: 1, context: 'When you are introducing the first screen or device', tag: 'Foundation' },
-  { id: 2, title: 'The Bedroom Rule', stage: 2, context: 'Before or after your child gets a personal device', tag: 'Habits' },
-  { id: 3, title: 'The Algorithm Conversation', stage: 3, context: 'When they are approaching social media age', tag: 'Critical Window' },
-  { id: 4, title: 'When Things Go Wrong Online', stage: 3, context: 'If something upsetting has happened online', tag: 'Safety' },
-  { id: 5, title: 'The Mood and Phone Connection', stage: 3, context: 'When mood changes seem tied to device use', tag: 'Wellbeing' },
-  { id: 6, title: 'The Gaming Conversation', stage: 2, context: 'When gaming feels like it is taking over', tag: 'Gaming' },
-  { id: 7, title: 'The Social Media Ask', stage: 3, context: 'When they are asking for social media accounts', tag: 'Social Media' },
-  { id: 8, title: 'The Bedtime Device Check-In', stage: 2, context: 'Introducing the device off / bedroom rule for the first time', tag: 'Bedtime' },
-  { id: 9, title: 'The Unknown Contact Conversation', stage: 4, context: 'If you discover they have been contacted by someone unknown', tag: 'Safety' },
-  { id: 10, title: 'The Sexting Risk Conversation', stage: 4, context: 'Age-appropriate conversation about image sharing', tag: 'Safety' },
-  { id: 11, title: 'The AI and Deepfakes Conversation', stage: 4, context: 'When they start using AI tools or encounter deepfakes', tag: 'AI Literacy' },
-  { id: 12, title: 'The TikTok Algorithm Walk-Through', stage: 3, context: 'Sit together and look at what the algorithm is showing them', tag: 'Algorithm' },
-  { id: 13, title: 'The Family Agreement Introduction', stage: 2, context: 'Starting the family digital agreement together', tag: 'Agreement' },
-  { id: 14, title: 'The Weekly Check-In Script', stage: 4, context: 'The no-agenda 10 minutes, same day, same time', tag: 'Relationship' },
-  { id: 15, title: 'The Influencer and Body Image Conversation', stage: 3, context: 'When comparison culture is affecting mood or self-image', tag: 'Body Image' },
-  { id: 16, title: 'The Digital Footprint Conversation', stage: 4, context: 'Before they start creating content or building an online presence', tag: 'Identity' },
-  { id: 17, title: 'Building Independence', stage: 5, context: 'When they are ready to manage their digital life more independently', tag: 'Independence' },
-]
-
-const STAGE_TAGS = {
-  1: { label: 'Stage 1', color: 'var(--green-dark)', bg: 'var(--green-lt)' },
-  2: { label: 'Stage 2', color: 'var(--lav-deep)', bg: 'var(--lav)' },
-  3: { label: 'Stage 3', color: 'var(--coral)', bg: 'var(--coral-lt)' },
-  4: { label: 'Stage 4', color: 'var(--gold-dark)', bg: 'var(--gold-lt)' },
-  5: { label: 'Stage 5', color: 'var(--ink-soft)', bg: 'var(--warm)' },
-} as const
+type CategoryRow = {
+  category: string
+  script_count: number
+  has_free: boolean
+}
 
 export default async function ScriptsPage() {
   const supabase = await createClient()
@@ -45,134 +44,138 @@ export default async function ScriptsPage() {
 
   const isPaid = profile?.subscription_status === 'active'
 
-  const visibleScripts = isPaid ? SCRIPTS : SCRIPTS.filter(s => FREE_SCRIPT_IDS.includes(s.id))
-  const lockedCount = SCRIPTS.length - visibleScripts.length
+  const { data: scriptRows } = await supabase
+    .from('scripts')
+    .select('category, is_free')
+
+  const catMap = new Map<string, { count: number; hasFree: boolean }>()
+  for (const row of scriptRows ?? []) {
+    if (!row.category) continue
+    const existing = catMap.get(row.category) ?? { count: 0, hasFree: false }
+    catMap.set(row.category, { count: existing.count + 1, hasFree: existing.hasFree || row.is_free })
+  }
+
+  const categories: CategoryRow[] = Object.keys(CATEGORY_META).map(k => {
+    const agg = catMap.get(k)
+    return { category: k, script_count: agg?.count ?? 0, has_free: agg?.hasFree ?? (k === 'first-device') }
+  }).filter(c => c.script_count > 0 || c.category === 'first-device')
 
   return (
-    <div style={{ maxWidth: '700px', margin: '0 auto', padding: '24px 20px' }}>
+    <div style={{ maxWidth: '720px', margin: '0 auto', padding: '24px 20px' }}>
       <div style={{ marginBottom: '28px' }}>
         <p className="eyebrow" style={{ marginBottom: '4px' }}>Conversation tools</p>
         <h1 style={{ fontSize: 'clamp(1.5rem, 4vw, 2rem)', marginBottom: '8px' }}>Scripts</h1>
-        <p style={{ color: 'var(--ink-muted)', fontSize: '15px' }}>
-          What to say, what not to say, and why it works. Scripts for real moments, not perfect families.
+        <p style={{ color: 'var(--ink-muted)', fontSize: '15px', lineHeight: 1.55 }}>
+          Real conversations for real moments. Tap a topic to see what to say, what not to say, and why it works.
         </p>
       </div>
 
       {!isPaid && (
-        <div style={{ background: 'var(--gold-lt)', border: '2px solid var(--gold)', borderRadius: '14px', padding: '16px 20px', marginBottom: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+        <div style={{
+          background: 'var(--gold-lt)', border: '2px solid var(--gold)',
+          borderRadius: '14px', padding: '16px 20px', marginBottom: '24px',
+          display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+          gap: '16px', flexWrap: 'wrap',
+        }}>
           <div>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--gold-dark)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Free plan</span>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--gold-dark)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+              Free plan
+            </span>
             <p style={{ fontSize: '14px', color: 'var(--ink-soft)', marginTop: '4px' }}>
-              You have access to 3 of 17 scripts. Upgrade to unlock all of them.
+              First Device scripts are free. Upgrade to unlock all categories.
             </p>
           </div>
           <Link href="/dashboard/upgrade" className="btn btn-gold" style={{ flexShrink: 0, padding: '10px 20px', fontSize: '12px' }}>
-            Unlock all 17
+            Unlock everything
           </Link>
         </div>
       )}
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-        {visibleScripts.map(script => {
-          const stageTag = STAGE_TAGS[script.stage as keyof typeof STAGE_TAGS]
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(2, 1fr)',
+        gap: '12px',
+      }}>
+        {categories.map(row => {
+          const meta = CATEGORY_META[row.category]
+          if (!meta) return null
+          const isLocked = !isPaid && !row.has_free
           return (
-            <div
-              key={script.id}
-              style={{
-                background: 'var(--warm)',
-                border: '1px solid var(--border)',
-                borderRadius: '14px',
-                padding: '18px 20px',
-              }}
+            <Link
+              key={row.category}
+              href={isLocked ? '/dashboard/upgrade' : `/dashboard/scripts/category/${row.category}`}
+              style={{ textDecoration: 'none', display: 'block' }}
             >
-              <div style={{ display: 'flex', gap: '8px', marginBottom: '10px', flexWrap: 'wrap' }}>
-                <span style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '9px',
-                  fontWeight: 600,
-                  letterSpacing: '0.1em',
-                  textTransform: 'uppercase',
-                  color: stageTag.color,
-                  background: stageTag.bg,
-                  padding: '3px 8px',
-                  borderRadius: '100px',
+              <div style={{
+                background: isLocked ? 'var(--warm)' : meta.bg,
+                border: `1.5px solid ${isLocked ? 'var(--border)' : meta.border}`,
+                borderRadius: '18px',
+                overflow: 'hidden',
+                opacity: isLocked ? 0.75 : 1,
+                transition: 'transform 0.15s, box-shadow 0.15s',
+              }}
+              className="category-tile"
+              >
+                {/* Colored accent bar */}
+                <div style={{
+                  background: isLocked ? 'var(--ink-light)' : meta.accent,
+                  padding: '14px 18px 12px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
                 }}>
-                  {stageTag.label}
-                </span>
-                <span style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '9px',
-                  letterSpacing: '0.08em',
-                  textTransform: 'uppercase',
-                  color: 'var(--ink-light)',
-                  background: 'var(--cream)',
-                  padding: '3px 8px',
-                  borderRadius: '100px',
-                  border: '1px solid var(--border)',
-                }}>
-                  {script.tag}
-                </span>
-              </div>
-
-              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '16px', color: 'var(--ink)', marginBottom: '6px' }}>
-                #{script.id} — {script.title}
-              </div>
-              <div style={{ fontSize: '13px', color: 'var(--ink-muted)', fontStyle: 'italic' }}>
-                {script.context}
-              </div>
-
-              <div style={{ marginTop: '14px', display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                <Link
-                  href={`/dashboard/scripts/${script.id}`}
-                  className="btn btn-outline"
-                  style={{ padding: '9px 18px', fontSize: '11px' }}
-                >
-                  Open script
-                </Link>
-                <Link
-                  href={`/dashboard/digi?q=${encodeURIComponent(`Help me with: ${script.title}`)}`}
-                  style={{
-                    padding: '9px 18px',
-                    fontSize: '11px',
+                  <span style={{
                     fontFamily: 'var(--font-mono)',
-                    letterSpacing: '0.05em',
+                    fontSize: '9px',
+                    fontWeight: 600,
+                    letterSpacing: '0.12em',
                     textTransform: 'uppercase',
-                    color: 'var(--gold-dark)',
-                    background: 'var(--gold-lt)',
-                    border: '1px solid var(--gold)',
-                    borderRadius: 'var(--radius-btn)',
-                    textDecoration: 'none',
-                  }}
-                >
-                  Ask DiGi
-                </Link>
+                    color: 'rgba(255,255,255,0.9)',
+                  }}>
+                    {row.script_count > 0 ? `${row.script_count} scripts` : 'Scripts'}
+                  </span>
+                  {isLocked && (
+                    <span style={{ fontSize: '14px', opacity: 0.8 }}>🔒</span>
+                  )}
+                </div>
+
+                {/* Card body */}
+                <div style={{ padding: '16px 18px 18px' }}>
+                  <div style={{
+                    fontFamily: 'var(--font-display)',
+                    fontWeight: 800,
+                    fontSize: '17px',
+                    color: 'var(--ink)',
+                    lineHeight: 1.2,
+                    marginBottom: '7px',
+                    letterSpacing: '-0.01em',
+                  }}>
+                    {meta.label}
+                  </div>
+                  <p style={{
+                    fontSize: '12px',
+                    color: 'var(--ink-muted)',
+                    lineHeight: 1.5,
+                    margin: 0,
+                  }}>
+                    {meta.description}
+                  </p>
+                </div>
               </div>
-            </div>
+            </Link>
           )
         })}
-
-        {/* Locked paywall card */}
-        {!isPaid && lockedCount > 0 && (
-          <div style={{
-            background: 'var(--warm)',
-            border: '2px dashed var(--border)',
-            borderRadius: '14px',
-            padding: '24px 20px',
-            textAlign: 'center',
-          }}>
-            <div style={{ fontSize: '24px', marginBottom: '12px' }}>🔒</div>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '16px', marginBottom: '8px' }}>
-              {lockedCount} more scripts unlocked with membership
-            </div>
-            <p style={{ fontSize: '14px', color: 'var(--ink-muted)', marginBottom: '16px' }}>
-              Including gaming, safety, social media, AI, body image, and more.
-            </p>
-            <Link href="/dashboard/upgrade" className="btn btn-gold" style={{ display: 'inline-flex' }}>
-              Unlock all 17 scripts
-            </Link>
-          </div>
-        )}
       </div>
+
+      <style>{`
+        .category-tile:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+        }
+        @media (min-width: 520px) {
+          .category-tile-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+      `}</style>
     </div>
   )
 }
