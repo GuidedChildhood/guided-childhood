@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guided Childhood — Founder Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#F7F3EE;--warm:#FDFBF8;--ink:#1C1C1C;--mid:#4A4A4A;--muted:#6E6A62;--border:#E4DFD7;
+  --yellow:#F2C94C;--yellow-deep:#E3B53A;
+  --green:#2E7D5A;--green-ink:#1C5740;--green-soft:#C2E3B6;--green-block:#AFDCA2;
+  --lav:#E7ECF8;--lav-line:#D3DCF1;--lav-deep:#3D5BA9;
+  --red:#C0392B;--red-bg:#FDF2F0;--orange:#D4600A;--orange-bg:#FEF3E8;
+  --display:'Hanken Grotesk',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--cream);color:var(--ink);font-family:var(--display);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1160px;margin:0 auto;padding:0 20px}
+h2{font-weight:800;font-size:20px;line-height:1.1;letter-spacing:-.02em;margin-top:6px}
+.eyebrow{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--green)}
+.muted{color:var(--muted);font-size:14px;margin-top:8px}
+
+/* topbar */
+.topbar{background:var(--ink);color:#fff;padding:13px 0;position:sticky;top:0;z-index:100}
+.tb-in{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.logo{font-family:var(--display);font-weight:800;font-size:17px;color:#fff}
+.logo small{display:block;font-family:var(--mono);font-size:10px;color:#999;font-weight:400;letter-spacing:.08em;text-transform:uppercase}
+.tb-right{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.date-lbl{font-family:var(--mono);font-size:12px;color:#bbb}
+.phase-pill{font-family:var(--mono);font-size:11px;font-weight:600;padding:5px 12px;border-radius:99px;background:var(--yellow);color:var(--ink)}
+
+/* sections */
+.sec{padding:32px 0;border-bottom:1px solid var(--border)}
+.sec:last-child{border-bottom:none}
+.sec-head{margin-bottom:20px}
+.sec-head-row{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+/* metric cards */
+.mc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
+@media(max-width:700px){.mc-grid{grid-template-columns:1fr}}
+.mc{background:var(--warm);border:1px solid var(--border);border-radius:14px;padding:18px}
+.mc .lbl{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.mc .val{font-family:var(--display);font-weight:800;font-size:34px;color:var(--ink);line-height:1.1;margin-top:6px}
+.mc .val input{font-family:var(--display);font-weight:800;font-size:34px;color:var(--ink);border:none;background:transparent;width:160px;outline:none;padding:0}
+.mc .val input::placeholder{color:var(--border)}
+.mc .sub{font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:4px}
+
+/* progress */
+.prog-wrap{background:var(--warm);border:1px solid var(--border);border-radius:14px;padding:18px;margin-top:14px}
+.prog-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.prog-hd .l{font-family:var(--mono);font-size:13px;color:var(--muted)}
+.prog-hd .r{font-family:var(--display);font-weight:700;font-size:14px;color:var(--green)}
+.prog-track{background:var(--border);border-radius:8px;height:14px;overflow:hidden}
+.prog-fill{background:linear-gradient(90deg,var(--green),var(--green-block));height:100%;border-radius:8px;transition:width .5s ease;min-width:3px}
+.prog-marks{display:flex;justify-content:space-between;margin-top:8px;font-family:var(--mono);font-size:9px;color:var(--muted)}
+
+/* gap bar */
+.gap-bar{background:var(--lav);border:1px solid var(--lav-line);border-radius:14px;padding:18px;margin-top:14px;display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+@media(max-width:700px){.gap-bar{grid-template-columns:repeat(2,1fr)}}
+.gap-item .gl{font-size:13px;color:var(--mid)}
+.gap-item .gv{font-family:var(--display);font-weight:800;font-size:26px;color:var(--lav-deep);line-height:1.1;margin-top:4px}
+.gap-item .gs{font-family:var(--mono);font-size:10px;color:var(--muted)}
+
+/* daily tasks */
+.task-list{display:grid;gap:11px}
+.task-item{background:var(--warm);border:1px solid var(--border);border-radius:13px;padding:16px 18px;display:flex;align-items:flex-start;gap:13px;cursor:pointer;transition:border-color .15s,background .15s}
+.task-item:hover{border-color:var(--green)}
+.task-item.done{background:var(--green-soft);border-color:var(--green-block)}
+.task-item.done .t-text{text-decoration:line-through;color:var(--muted)}
+.t-box{width:20px;height:20px;border:2px solid var(--border);border-radius:5px;flex-shrink:0;display:grid;place-items:center;margin-top:2px;transition:background .15s,border-color .15s}
+.task-item.done .t-box{background:var(--green);border-color:var(--green)}
+.t-check{color:#fff;font-size:11px;display:none}
+.task-item.done .t-check{display:block}
+.t-body{flex:1}
+.t-area{display:inline-block;font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:4px;margin-bottom:5px}
+.ta-product{background:#EDE8F8;color:#6B48A3}
+.ta-marketing{background:var(--lav);color:var(--lav-deep)}
+.ta-sales{background:var(--orange-bg);color:var(--orange)}
+.ta-partnerships{background:var(--green-soft);color:var(--green-ink)}
+.ta-operations{background:#DFF0F5;color:#2C5F7A}
+.t-text{font-size:14px;color:var(--ink);line-height:1.5}
+.t-why{font-size:12px;color:var(--muted);margin-top:3px;font-style:italic}
+.task-meta{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+.task-count{font-family:var(--mono);font-size:12px;color:var(--green)}
+
+/* status board */
+.status-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:6px}
+@media(max-width:860px){.status-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.status-grid{grid-template-columns:1fr}}
+.sc{background:var(--warm);border:1px solid var(--border);border-radius:13px;padding:14px}
+.sc .sn{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;display:flex;align-items:center;gap:7px}
+.dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.dot.g{background:#27ae60}.dot.y{background:#f39c12}.dot.r{background:#e74c3c}.dot.u{background:var(--border)}
+.sc .sv{font-size:13px;font-weight:600;color:var(--ink);min-height:18px}
+.sc select{font-family:var(--mono);font-size:11px;border:1px solid var(--border);border-radius:7px;padding:4px 7px;background:var(--cream);color:var(--ink);margin-top:8px;width:100%;cursor:pointer}
+
+/* checklist */
+.chk-cats{display:grid;gap:11px;margin-top:6px}
+.cat{background:var(--warm);border:1px solid var(--border);border-radius:13px;overflow:hidden}
+.cat-hd{padding:13px 16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none}
+.cat-hd:hover{background:#f8f3eb}
+.cat-title{font-weight:700;font-size:14px;display:flex;align-items:center;gap:8px}
+.cat-cnt{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.cat-ok{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--green)}
+.cat-body{display:none;padding:0 16px 12px}
+.cat.open .cat-body{display:block}
+.ci{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-top:1px solid var(--border);cursor:pointer}
+.ci:first-child{border-top:none}
+.ci input[type=checkbox]{width:15px;height:15px;flex-shrink:0;margin-top:3px;accent-color:var(--green);cursor:pointer}
+.ci label{font-size:13px;cursor:pointer;line-height:1.4}
+.ci.done label{text-decoration:line-through;color:var(--muted)}
+.badge{font-family:var(--mono);font-size:9px;font-weight:600;padding:2px 6px;border-radius:4px;margin-left:6px;vertical-align:middle}
+.bd-live{background:var(--green-soft);color:var(--green-ink)}
+.bd-urgent{background:var(--red-bg);color:var(--red)}
+.bd-soon{background:var(--orange-bg);color:var(--orange)}
+
+/* pipeline */
+.pipe-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:6px}
+@media(max-width:600px){.pipe-grid{grid-template-columns:1fr}}
+.pc{background:var(--warm);border:1px solid var(--border);border-radius:13px;padding:16px}
+.pc h3{font-size:14px;font-weight:700;margin-bottom:13px}
+.pipe-stages{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.ps-lbl{font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);text-align:center;margin-bottom:5px}
+.ps-in{font-family:var(--display);font-weight:800;font-size:22px;width:100%;text-align:center;border:1px solid var(--border);border-radius:7px;padding:7px 3px;background:var(--cream);color:var(--ink)}
+.ps-in:focus{outline:none;border-color:var(--green)}
+
+/* roadmap */
+.roadmap{display:grid;grid-template-columns:repeat(7,1fr);gap:9px;margin-top:14px}
+@media(max-width:900px){.roadmap{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:500px){.roadmap{grid-template-columns:repeat(2,1fr)}}
+.ms{background:var(--warm);border:1px solid var(--border);border-radius:12px;padding:13px 10px;text-align:center}
+.ms.reached{background:var(--green-soft);border-color:var(--green-block)}
+.ms.current{border:2px solid var(--green)}
+.ms .mw{font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.ms .mv{font-family:var(--display);font-weight:800;font-size:19px;color:var(--green);margin:4px 0}
+.ms .ml{font-size:11px;color:var(--mid)}
+
+/* calc paths */
+.calc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
+@media(max-width:700px){.calc-grid{grid-template-columns:1fr}}
+.cp{background:var(--warm);border:1px solid var(--border);border-radius:13px;padding:18px}
+.cp-title{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.cp-row{display:flex;justify-content:space-between;font-size:13px;padding:5px 0;border-bottom:1px solid var(--border)}
+.cp-row:last-of-type{border-bottom:none}
+.cp-row b{font-family:var(--display);font-weight:800;font-size:15px;color:var(--green)}
+.cp-note{font-size:12px;color:var(--muted);margin-top:12px;line-height:1.5;border-top:1px solid var(--border);padding-top:10px}
+
+/* buttons */
+.btn{font-family:var(--mono);font-weight:600;font-size:12px;padding:9px 16px;border:none;border-radius:9px;cursor:pointer;transition:transform .12s,box-shadow .12s}
+.btn-y{background:var(--yellow);color:var(--ink);box-shadow:0 4px 0 var(--yellow-deep)}
+.btn-y:hover{transform:translateY(-1px);box-shadow:0 5px 0 var(--yellow-deep)}
+.btn-o{background:transparent;border:2px solid var(--border);color:var(--ink)}
+.btn-o:hover{border-color:var(--green)}
+
+footer{background:var(--ink);color:#666;font-family:var(--mono);font-size:11px;padding:20px 0;margin-top:32px}
+.ft-in{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap tb-in">
+    <div class="logo">Guided Childhood <small>Founder Operations Dashboard</small></div>
+    <div class="tb-right">
+      <span class="date-lbl" id="todayDate"></span>
+      <span class="phase-pill" id="phasePill">Phase 1</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- REVENUE GOAL -->
+<section class="sec">
+  <div class="sec-head">
+    <span class="eyebrow">Revenue Goal</span>
+    <h2>Path to £100,000 ARR</h2>
+    <p class="muted">Enter your current numbers. Phase and daily tasks update automatically.</p>
+  </div>
+
+  <div class="mc-grid">
+    <div class="mc">
+      <div class="lbl">Monthly Subscribers</div>
+      <div class="val"><input type="number" id="inSubs" placeholder="0" min="0" oninput="recalc()"></div>
+      <div class="sub">× £29.99/mo = <span id="subMRR">£0</span>/mo</div>
+    </div>
+    <div class="mc">
+      <div class="lbl">One-off Reports (this month)</div>
+      <div class="val"><input type="number" id="inReports" placeholder="0" min="0" oninput="recalc()"></div>
+      <div class="sub">× £9.99 = <span id="repMRR">£0</span>/mo</div>
+    </div>
+    <div class="mc">
+      <div class="lbl">School / B2B (annual £)</div>
+      <div class="val"><input type="number" id="inSchool" placeholder="0" min="0" oninput="recalc()"></div>
+      <div class="sub">Annual contract value</div>
+    </div>
+  </div>
+
+  <div class="prog-wrap">
+    <div class="prog-hd">
+      <span class="l">Current ARR: <strong id="currARR">£0</strong></span>
+      <span class="r" id="progPct">0% of £100k</span>
+    </div>
+    <div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+    <div class="prog-marks"><span>£0</span><span>£10k</span><span>£25k</span><span>£50k</span><span>£75k</span><span>£100k ✓</span></div>
+  </div>
+
+  <div class="gap-bar">
+    <div class="gap-item"><div class="gl">Still to close</div><div class="gv" id="gapAmt">£100,000</div><div class="gs">ARR gap</div></div>
+    <div class="gap-item"><div class="gl">Monthly subs needed</div><div class="gv" id="gapSubs">278</div><div class="gs">at £29.99/mo</div></div>
+    <div class="gap-item"><div class="gl">One-off reports needed</div><div class="gv" id="gapReps">10,010</div><div class="gs">at £9.99 each</div></div>
+    <div class="gap-item"><div class="gl">MRR target</div><div class="gv" id="mrrTarget">£8,333</div><div class="gs">per month</div></div>
+  </div>
+</section>
+
+<!-- DAILY TASKS -->
+<section class="sec">
+  <div class="sec-head">
+    <div class="task-meta">
+      <div>
+        <span class="eyebrow">Daily Mission</span>
+        <h2>Today’s 5 Tasks</h2>
+      </div>
+      <div style="text-align:right">
+        <div class="task-count" id="taskCount">0 / 5 done</div>
+        <div style="font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:3px" id="taskDateLbl"></div>
+      </div>
+    </div>
+  </div>
+  <div class="task-list" id="taskList"></div>
+  <div style="margin-top:16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+    <button class="btn btn-y" onclick="resetTasks()">Reset today</button>
+    <span style="font-family:var(--mono);font-size:11px;color:var(--muted)">Tasks rotate daily by phase. All progress saves in your browser.</span>
+  </div>
+</section>
+
+<!-- STATUS BOARD -->
+<section class="sec">
+  <div class="sec-head">
+    <span class="eyebrow">Business Status</span>
+    <h2>8 Areas at a Glance</h2>
+  </div>
+  <div class="status-grid">
+    <div class="sc"><div class="sn"><span class="dot u" id="d-product"></span>Product</div><div class="sv" id="v-product">&mdash;</div><select onchange="setStatus('product',this.value)"><option value="">Set status…</option><option value="g|Live and working">Live and working</option><option value="y|In progress">In progress</option><option value="r|Not built yet">Not built yet</option></select></div>
+    <div class="sc"><div class="sn"><span class="dot u" id="d-payments"></span>Payments</div><div class="sv" id="v-payments">&mdash;</div><select onchange="setStatus('payments',this.value)"><option value="">Set status…</option><option value="g|Stripe live">Stripe live</option><option value="y|Set up, not tested">Set up, not tested</option><option value="r|Not set up">Not set up</option></select></div>
+    <div class="sc"><div class="sn"><span class="dot u" id="d-email"></span>Email sequences</div><div class="sv" id="v-email">&mdash;</div><select onchange="setStatus('email',this.value)"><option value="">Set status…</option><option value="g|Welcome + drip live">Welcome + drip live</option><option value="y|Welcome email only">Welcome only</option><option value="r|Nothing set up">Nothing set up</option></select></div>
+    <div class="sc"><div class="sn"><span class="dot u" id="d-analytics"></span>Analytics</div><div class="sv" id="v-analytics">&mdash;</div><select onchange="setStatus('analytics',this.value)"><option value="">Set status…</option><option value="g|GA4 + GSC live">GA4 + GSC live</option><option value="y|Basic tracking">Basic tracking</option><option value="r|Not set up">Not set up</option></select></div>
+    <div class="sc"><div class="sn"><span class="dot u" id="d-marketing"></span>Marketing</div><div class="sv" id="v-marketing">&mdash;</div><select onchange="setStatus('marketing',this.value)"><option value="">Set status…</option><option value="g|Posting 3×/week">Posting 3×/week</option><option value="y|Occasional posts">Occasional posts</option><option value="r|Not started">Not started</option></select></div>
+    <div class="sc"><div class="sn"><span class="dot u" id="d-sales"></span>Active outreach</div><div class="sv" id="v-sales">&mdash;</div><select onchange="setStatus('sales',this.value)"><option value="">Set status…</option><option value="g|Outreaching daily">Outreaching daily</option><option value="y|Some outreach">Some outreach</option><option value="r|Not started">Not started</option></select></div>
+    <div class="sc"><div class="sn"><span class="dot u" id="d-seo"></span>SEO</div><div class="sv" id="v-seo">&mdash;</div><select onchange="setStatus('seo',this.value)"><option value="">Set status…</option><option value="g|Optimised + indexing">Optimised + indexed</option><option value="y|Partially done">Partially done</option><option value="r|Not done">Not done</option></select></div>
+    <div class="sc"><div class="sn"><span class="dot u" id="d-legal"></span>Legal / GDPR</div><div class="sv" id="v-legal">&mdash;</div><select onchange="setStatus('legal',this.value)"><option value="">Set status…</option><option value="g|Privacy + T&amp;Cs live">Docs live</option><option value="y|In progress">In progress</option><option value="r|Not done">Not done</option></select></div>
+  </div>
+</section>
+
+<!-- MASTER CHECKLIST -->
+<section class="sec">
+  <div class="sec-head">
+    <div class="sec-head-row">
+      <div><span class="eyebrow">Master Checklist</span><h2>Everything needed to launch and grow</h2></div>
+      <div style="font-family:var(--mono);font-size:13px;font-weight:600;color:var(--green)" id="chkTotal">0 / 0 done</div>
+    </div>
+  </div>
+  <div class="chk-cats" id="chkCats"></div>
+</section>
+
+<!-- OUTREACH PIPELINE -->
+<section class="sec">
+  <div class="sec-head">
+    <span class="eyebrow">Outreach Pipeline</span>
+    <h2>Track your active sales efforts</h2>
+  </div>
+  <div class="pipe-grid">
+    <div class="pc"><h3>GP Practices</h3><div class="pipe-stages"><div><div class="ps-lbl">Contacted</div><input class="ps-in" type="number" min="0" placeholder="0" id="gp-c" oninput="savePipe()"></div><div><div class="ps-lbl">Replied</div><input class="ps-in" type="number" min="0" placeholder="0" id="gp-r" oninput="savePipe()"></div><div><div class="ps-lbl">Demo done</div><input class="ps-in" type="number" min="0" placeholder="0" id="gp-d" oninput="savePipe()"></div><div><div class="ps-lbl">Converted</div><input class="ps-in" type="number" min="0" placeholder="0" id="gp-v" oninput="savePipe()"></div></div></div>
+    <div class="pc"><h3>Schools</h3><div class="pipe-stages"><div><div class="ps-lbl">Contacted</div><input class="ps-in" type="number" min="0" placeholder="0" id="sc-c" oninput="savePipe()"></div><div><div class="ps-lbl">Replied</div><input class="ps-in" type="number" min="0" placeholder="0" id="sc-r" oninput="savePipe()"></div><div><div class="ps-lbl">Demo done</div><input class="ps-in" type="number" min="0" placeholder="0" id="sc-d" oninput="savePipe()"></div><div><div class="ps-lbl">Pilot / paid</div><input class="ps-in" type="number" min="0" placeholder="0" id="sc-v" oninput="savePipe()"></div></div></div>
+    <div class="pc"><h3>Parent Communities</h3><div class="pipe-stages"><div><div class="ps-lbl">Posts made</div><input class="ps-in" type="number" min="0" placeholder="0" id="cm-c" oninput="savePipe()"></div><div><div class="ps-lbl">Responses</div><input class="ps-in" type="number" min="0" placeholder="0" id="cm-r" oninput="savePipe()"></div><div><div class="ps-lbl">Signups</div><input class="ps-in" type="number" min="0" placeholder="0" id="cm-d" oninput="savePipe()"></div><div><div class="ps-lbl">Paying</div><input class="ps-in" type="number" min="0" placeholder="0" id="cm-v" oninput="savePipe()"></div></div></div>
+    <div class="pc"><h3>Media / Press</h3><div class="pipe-stages"><div><div class="ps-lbl">Pitched</div><input class="ps-in" type="number" min="0" placeholder="0" id="md-c" oninput="savePipe()"></div><div><div class="ps-lbl">Replied</div><input class="ps-in" type="number" min="0" placeholder="0" id="md-r" oninput="savePipe()"></div><div><div class="ps-lbl">In progress</div><input class="ps-in" type="number" min="0" placeholder="0" id="md-d" oninput="savePipe()"></div><div><div class="ps-lbl">Published</div><input class="ps-in" type="number" min="0" placeholder="0" id="md-v" oninput="savePipe()"></div></div></div>
+  </div>
+</section>
+
+<!-- REVENUE ROADMAP -->
+<section class="sec">
+  <div class="sec-head">
+    <span class="eyebrow">Revenue Roadmap</span>
+    <h2>Milestones to £100k ARR</h2>
+  </div>
+  <div class="roadmap" id="roadmap"></div>
+</section>
+
+<!-- PATHS TO £100k -->
+<section class="sec">
+  <div class="sec-head">
+    <span class="eyebrow">Revenue Calculator</span>
+    <h2>Three paths to £100,000</h2>
+  </div>
+  <div class="calc-grid">
+    <div class="cp">
+      <div class="cp-title">Path A — Subscriptions only</div>
+      <div class="cp-row">Monthly subscribers<b>278</b></div>
+      <div class="cp-row">Price per subscriber<b>£29.99</b></div>
+      <div class="cp-row">Monthly revenue<b>£8,337</b></div>
+      <div class="cp-note">278 families paying monthly. Realistic at month 18 with consistent content marketing and SEO.</div>
+    </div>
+    <div class="cp">
+      <div class="cp-title">Path B — Hybrid (recommended)</div>
+      <div class="cp-row">100 monthly subs<b>£36k/yr</b></div>
+      <div class="cp-row">6 school contracts @ £5k<b>£30k/yr</b></div>
+      <div class="cp-row">300 one-off reports/mo<b>£36k/yr</b></div>
+      <div class="cp-note">One school deal replaces 14 months of one subscriber. Pursue schools from month 3 onwards.</div>
+    </div>
+    <div class="cp">
+      <div class="cp-title">Path C — B2B led</div>
+      <div class="cp-row">20 school / GP contracts<b>£60k/yr</b></div>
+      <div class="cp-row">50 monthly subscribers<b>£18k/yr</b></div>
+      <div class="cp-row">2,200 one-off reports<b>£22k/yr</b></div>
+      <div class="cp-note">Each school contract is worth £2k–£10k/year. Fewer customers, higher value per deal, relationship-driven.</div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<footer>
+  <div class="wrap ft-in">
+    <span>Guided Childhood — Founder Dashboard — guidedchildhood.co.uk</span>
+    <span>All data stored locally in your browser. Nothing sent to any server.</span>
+  </div>
+</footer>
+
+<script>
+const SK='gc-dash-v2';
+const MILESTONES=[
+  {when:'Week 1',mrr:0,arr:0,label:'First customer',subs:1},
+  {when:'Week 3',mrr:150,arr:1800,label:'5 subscribers',subs:5},
+  {when:'Month 1',mrr:300,arr:3600,label:'10 subscribers',subs:10},
+  {when:'Month 2',mrr:1000,arr:12000,label:'£1k MRR',subs:33},
+  {when:'Month 4',mrr:2500,arr:30000,label:'£2.5k MRR',subs:83},
+  {when:'Month 8',mrr:5000,arr:60000,label:'£5k MRR',subs:167},
+  {when:'Month 12',mrr:8333,arr:100000,label:'£100k 🎯',subs:278}
+];
+const CHECKS=[
+  {id:'core',title:'Core Platform',icon:'⚙️',items:[
+    {id:'c1',t:'Marketing page live at guidedchildhood.co.uk/digitalwellbeing',b:'live'},
+    {id:'c2',t:'wellbeing.guidedchildhood.com tool accessible and working',b:'urgent'},
+    {id:'c3',t:'Stripe £9.99 one-off report product configured and tested',b:'urgent'},
+    {id:'c4',t:'Stripe £29.99/month subscription configured and tested',b:'urgent'},
+    {id:'c5',t:'User login so parents see past reports',b:'urgent'},
+    {id:'c6',t:'Data upload flow for YouTube, TikTok, Instagram, Facebook, browser history',b:'urgent'},
+    {id:'c7',t:'Analysis engine runs and produces a structured report',b:'urgent'},
+    {id:'c8',t:'Parent-facing report display page — clear, mobile-friendly',b:'urgent'},
+    {id:'c9',t:'GP summary generator — pulls findings into a printable letter',b:'soon'},
+    {id:'c10',t:'Multi-child support — one account, multiple children',b:'soon'},
+    {id:'c11',t:'Monthly trend chart for subscribers',b:'soon'},
+    {id:'c12',t:'School dashboard — grouped, anonymous year-group data',b:'soon'}
+  ]},
+  {id:'email',title:'Email & CRM',icon:'📧',items:[
+    {id:'e1',t:'Mailchimp set up with guidedchildhood.co.uk domain',b:'urgent'},
+    {id:'e2',t:'Day 0 welcome email on signup',b:'urgent'},
+    {id:'e3',t:'Day 3 follow-up: “Did you see what the report found?”',b:'urgent'},
+    {id:'e4',t:'Day 7 email: “What other parents discovered”',b:'urgent'},
+    {id:'e5',t:'7-email drip for leads who haven’t converted',b:'soon'},
+    {id:'e6',t:'NPS survey 3 days after every completed report',b:'soon'},
+    {id:'e7',t:'Cancellation win-back sequence',b:'soon'},
+    {id:'e8',t:'CRM to track GP and school leads (Notion or Airtable)',b:'soon'}
+  ]},
+  {id:'marketing',title:'Marketing',icon:'📢',items:[
+    {id:'m1',t:'Google Analytics 4 installed on wellbeing pages',b:'urgent'},
+    {id:'m2',t:'Google Search Console verified for guidedchildhood.co.uk',b:'urgent'},
+    {id:'m3',t:'Sitemap submitted to Google Search Console',b:'urgent'},
+    {id:'m4',t:'First SEO blog post published targeting a parent search term',b:'soon'},
+    {id:'m5',t:'LinkedIn active — posting 2–3× per week',b:'soon'},
+    {id:'m6',t:'Mumsnet and Facebook groups — posted in at least 5',b:'soon'},
+    {id:'m7',t:'Loom demo video recorded (2 minutes) and ready to send',b:'urgent'},
+    {id:'m8',t:'Founder personal email sent to 100+ contacts in your network',b:'urgent'}
+  ]},
+  {id:'legal',title:'Legal & GDPR',icon:'⚖️',items:[
+    {id:'l1',t:'Privacy policy published at /privacy on the wellbeing tool',b:'urgent'},
+    {id:'l2',t:'Terms of service published at /terms on the wellbeing tool',b:'urgent'},
+    {id:'l3',t:'Cookie consent banner on all wellbeing pages',b:'urgent'},
+    {id:'l4',t:'GDPR: raw files deleted automatically after analysis',b:'urgent'},
+    {id:'l5',t:'ICO registration completed (required for processing children’s data)',b:'urgent'},
+    {id:'l6',t:'Safeguarding policy for any school or GP integrations',b:'soon'}
+  ]},
+  {id:'sales',title:'Sales & Outreach',icon:'🤝',items:[
+    {id:'s1',t:'Founders offer email sent to personal network',b:'urgent'},
+    {id:'s2',t:'GP outreach email template written and tested',b:'urgent'},
+    {id:'s3',t:'School outreach email template written and tested',b:'urgent'},
+    {id:'s4',t:'GP one-pager PDF created and ready to attach',b:'urgent'},
+    {id:'s5',t:'School Starter Pack PDF created',b:'soon'},
+    {id:'s6',t:'Demo booking link (Calendly) live and in email signature',b:'urgent'},
+    {id:'s7',t:'10 GP practices contacted',b:'soon'},
+    {id:'s8',t:'10 schools contacted',b:'soon'},
+    {id:'s9',t:'Posted in 10 parent communities (Mumsnet, Facebook, Reddit)',b:'urgent'},
+    {id:'s10',t:'First paying customer acquired',b:'urgent'},
+    {id:'s11',t:'10 paying customers',b:'soon'},
+    {id:'s12',t:'Referral programme live',b:'soon'}
+  ]},
+  {id:'ops',title:'Operations',icon:'🔧',items:[
+    {id:'o1',t:'Revenue tracking spreadsheet built and updated daily',b:'urgent'},
+    {id:'o2',t:'Support inbox (hello@guidedchildhood.co.uk) monitored same-day',b:'urgent'},
+    {id:'o3',t:'FAQ page live on the wellbeing site',b:'soon'},
+    {id:'o4',t:'Weekly review habit — 15 min every Monday',b:'soon'},
+    {id:'o5',t:'Stripe customer portal so subscribers manage their own plan',b:'soon'},
+    {id:'o6',t:'Affiliate programme for parenting bloggers',b:'soon'}
+  ]}
+];
+const TASKS={
+  phase1:[
+    {a:'product',c:'ta-product',t:'Test the full signup → payment → report flow as a new parent. Note every friction point.',w:'You can only fix what you’ve personally felt. Do it before any outreach.'},
+    {a:'product',c:'ta-product',t:'Set up Stripe with two products: £9.99 one-off and £29.99/month subscription. Process a real test payment.',w:'No Stripe = no revenue. This must be live before you contact a single person.'},
+    {a:'product',c:'ta-product',t:'Write 3 Mailchimp emails: day 0 welcome, day 3 “did you see the report?”, day 7 “what parents found”.',w:'Most signups go cold without follow-up. Three emails is the minimum.'},
+    {a:'product',c:'ta-product',t:'Build a clear step-by-step guide for exporting data from YouTube, TikTok, and Instagram. Add it to the signup flow.',w:'The biggest drop-off is parents not knowing how to get their child’s data. Remove this blocker first.'},
+    {a:'product',c:'ta-product',t:'Check the wellbeing landing page on mobile — iPhone and Android. Fix anything broken or hard to read.',w:'Most parents will see this on a phone. A broken mobile view kills conversion silently.'},
+    {a:'marketing',c:'ta-marketing',t:'Post in one parent Facebook group with a genuinely helpful comment about digital safety patterns. No hard sell.',w:'Community trust comes before clicks. One real post beats ten ads.'},
+    {a:'marketing',c:'ta-marketing',t:'Start a Mumsnet thread in the Parenting section about what parents actually miss about screen time.',w:'Mumsnet drives real signups. One thread can send 50+ visitors.'},
+    {a:'marketing',c:'ta-marketing',t:'Post on your personal LinkedIn about what you learned building the Digital Health Report. First person, honest, no pitch.',w:'Your network is your fastest first customer pool.'},
+    {a:'marketing',c:'ta-marketing',t:'Set up Google Search Console. Verify guidedchildhood.co.uk and submit the sitemap.',w:'Free visibility into how Google sees your pages. Set it up once, use it forever.'},
+    {a:'marketing',c:'ta-marketing',t:'Write one 600-word blog post targeting the search “how to check what your child watches on TikTok”.',w:'That search happens thousands of times a month. One ranking post = 200+ free visitors/month.'},
+    {a:'sales',c:'ta-sales',t:'Email 10 parents in your personal network. Three sentences: what you built, why it matters, offer a free founder report.',w:'Your first 10 customers almost always come from people who already know you.'},
+    {a:'sales',c:'ta-sales',t:'DM 3 parent Instagram or TikTok accounts with 5k–50k followers. Ask a genuine question. Start a conversation.',w:'A micro-influencer mention to 10k followers beats a paid ad to 100k strangers.'},
+    {a:'sales',c:'ta-sales',t:'Post a helpful answer in r/Parenting or r/UKParenting about a current digital safety question.',w:'Reddit posts rank in Google and drive consistent traffic for years.'},
+    {a:'sales',c:'ta-sales',t:'Set up a Founders Offer email — first 50 parents get a free report. Send it to your Mailchimp list today.',w:'The first 50 customers are your most important. Give them a reason to try it today.'},
+    {a:'sales',c:'ta-sales',t:'Write a follow-up email for anyone who visited the pricing page but didn’t convert. Send it to your list.',w:'A single follow-up email can recover 15–30% of people who bounced.'},
+    {a:'partnerships',c:'ta-partnerships',t:'Email 3 local GP practices. Three sentences: what the service does, why it helps their patients, ask for a 15-minute call.',w:'A GP who mentions you to patients is a steady flow of warm leads.'},
+    {a:'partnerships',c:'ta-partnerships',t:'Find 5 schools near you. Note the safeguarding lead or SENCO contact on each website.',w:'Schools have a duty of care around digital safety. A free pilot offer is an easy yes.'},
+    {a:'partnerships',c:'ta-partnerships',t:'Find 2 UK parenting podcast hosts. Listen to 10 minutes. Draft a 3-line pitch for a guest slot.',w:'A podcast appearance reaches exactly your audience. Hosts are looking for quality guests.'},
+    {a:'partnerships',c:'ta-partnerships',t:'Message Parentzone or Internet Matters on LinkedIn. Introduce yourself. No ask — just visibility.',w:'These organisations already have the trust of your target audience. A relationship here compounds.'},
+    {a:'partnerships',c:'ta-partnerships',t:'Find 1 family therapist or child psychologist nearby. Email them about the GP-ready report and offer a free demo.',w:'Therapists often ask parents “what is their child seeing online?” You give them a ready answer.'},
+    {a:'operations',c:'ta-operations',t:'Build a Google Sheet: Date, Source, Signups, Conversions, MRR. Fill in what you know today. Update it every morning.',w:'You cannot improve what you don’t measure. Even rough numbers build the right habits.'},
+    {a:'operations',c:'ta-operations',t:'Record a 2-minute Loom walkthrough of the Digital Health Report. Use this link in all outreach emails.',w:'A video demo converts 3–5× better than text alone.'},
+    {a:'operations',c:'ta-operations',t:'Set up Calendly (free tier) for 20-minute school and GP demo calls. Add the link to your email signature.',w:'Making it easy to book removes friction. A missing booking link kills deals before they start.'},
+    {a:'operations',c:'ta-operations',t:'Write and publish a privacy policy and terms of service for the wellbeing tool today.',w:'Schools and GPs will not work with you without these. Parents check them before paying.'},
+    {a:'operations',c:'ta-operations',t:'Create a 1-page GP Referral Pack PDF: what it does, the GP summary report, how to refer a parent. Keep it simple.',w:'GPs are busy. A one-pager they can share is a very low-friction sales tool.'}
+  ],
+  phase2:[
+    {a:'product',c:'ta-product',t:'Add a referral CTA at the end of every report: “Know a parent who needs this? Share your link and get a free report.”',w:'Word-of-mouth is your cheapest customer acquisition channel.'},
+    {a:'product',c:'ta-product',t:'Set up an NPS survey via Mailchimp — 3 days after every report. Ask: “Why did you buy this?”',w:'Your customers’ own words are your best marketing copy.'},
+    {a:'product',c:'ta-product',t:'Build a demo version of the school dashboard using anonymised grouped data. You need this for every school pitch.',w:'Schools won’t sign without seeing something real. A working demo is worth more than any deck.'},
+    {a:'product',c:'ta-product',t:'Write up 3 anonymised parent case studies. Format: problem, what the report found, what they did, what changed.',w:'Case studies build more trust than any feature list.'},
+    {a:'product',c:'ta-product',t:'A/B test the digitalwellbeing page headline. Variant B: “Find out what your child’s feed is teaching them.”',w:'A 10% conversion improvement is worth £10k at scale. The headline is the highest-leverage variable.'},
+    {a:'marketing',c:'ta-marketing',t:'Write a LinkedIn article: “5 things parents miss when they check screen time on an iPhone.” 500 words.',w:'LinkedIn articles are indexed by Google and shown to second-degree connections.'},
+    {a:'marketing',c:'ta-marketing',t:'Film a 60-second Reel or TikTok: “What your child’s search history is actually telling you.” Raw and honest.',w:'Short video is the highest organic reach for a new account right now.'},
+    {a:'marketing',c:'ta-marketing',t:'Submit the site to 5 UK parenting directories and resource lists today.',w:'Directory listings build domain authority. Each is a free, permanent backlink.'},
+    {a:'marketing',c:'ta-marketing',t:'Pitch a guest post to Mumsnet Bloggers, Netmums, or Babycentre. Offer a piece on digital safety for parents.',w:'A published guest post on Mumsnet can drive 500–2,000 visitors in a week.'},
+    {a:'marketing',c:'ta-marketing',t:'Set up Google Alerts for: “child screen time UK”, “social media children safety UK”, “CAMHS waiting list”.',w:'Joining real trending conversations drives more traffic than starting new ones.'},
+    {a:'sales',c:'ta-sales',t:'Set up a 7-email drip in Mailchimp for leads who signed up but haven’t paid. Days 1, 3, 5, 7, 10, 14, 21.',w:'Most leads need 7+ touches. A drip sequence is the highest ROI marketing investment you can make.'},
+    {a:'sales',c:'ta-sales',t:'Create a 1-page School Starter Pack PDF: what schools get, GDPR compliance note, pilot pricing.',w:'Schools expect something professional. A polished PDF gets forwarded to the headteacher.'},
+    {a:'sales',c:'ta-sales',t:'Email 10 new GP practices. Angle: “Parents ask you about screen time. Here is a tool that gives them an answer.”',w:'GPs hear “my child is on their phone too much” constantly. You are solving a problem they already know.'},
+    {a:'sales',c:'ta-sales',t:'Test a £5/day Facebook Ad targeting parents of 10–16 year olds in the UK, to the digitalwellbeing page. Run 7 days.',w:'At £5/day you get 3–10 signups. Use it to learn cost-per-signup, not to scale.'},
+    {a:'sales',c:'ta-sales',t:'Reactivate dormant leads from your list who haven’t opened in 30 days. Send a personal email with a new angle.',w:'Dormant leads are warm leads that just need a different hook.'},
+    {a:'partnerships',c:'ta-partnerships',t:'Book a 15-minute call with 1 GP practice. Prepare: 3 slides, a 2-minute demo, a GP report example.',w:'A demo call converts 5–10× better than an email follow-up.'},
+    {a:'partnerships',c:'ta-partnerships',t:'Pitch 1 school a free 3-month pilot in exchange for a written case study and a testimonial.',w:'A school case study is worth more than £10k in advertising.'},
+    {a:'partnerships',c:'ta-partnerships',t:'Reach out to 1 child mental health charity on LinkedIn. Ask about a referral partnership.',w:'CAMHS and charities have trust your audience already needs. This relationship compounds.'},
+    {a:'partnerships',c:'ta-partnerships',t:'Contact 2 parenting podcast hosts. Subject: “Your listeners keep asking about social media and mental health — I have data.”',w:'Podcast listeners are buyers. 30 minutes on a show with 5k downloads = hundreds of organic signups.'},
+    {a:'partnerships',c:'ta-partnerships',t:'Find 1 parental control brand (Bark, Circle, Net Nanny). Draft a co-marketing proposal: their audience, your tool.',w:'A partnership with a brand that reaches parents cuts your acquisition cost by 80%.'},
+    {a:'operations',c:'ta-operations',t:'Set up a CRM in Notion or Airtable. One row per lead: name, type, date contacted, status, next action.',w:'Once you have 10+ active leads you will lose track without a system.'},
+    {a:'operations',c:'ta-operations',t:'Set up GA4 conversion events: view /pricing, click Get Started, complete signup.',w:'Conversion tracking shows which marketing source drives paying customers, not just visitors.'},
+    {a:'operations',c:'ta-operations',t:'Write an affiliate offer email for 5 parenting bloggers. Offer 20% commission per subscriber they send.',w:'Affiliate referrers only cost money when they succeed.'},
+    {a:'operations',c:'ta-operations',t:'Build a simple FAQ page answering: Is this a diagnosis? Which apps? Is the data private? Do I need to be techy?',w:'FAQs reduce pre-purchase anxiety. They also rank well for long-tail questions.'},
+    {a:'operations',c:'ta-operations',t:'Do a 15-minute weekly review: signups this week, MRR change, best traffic source, task you avoided. Write it down.',w:'Weekly reviews are the difference between founders who grow and founders who stay stuck.'}
+  ],
+  phase3:[
+    {a:'product',c:'ta-product',t:'Launch the school dashboard — grouped anonymous year-group view. Must be live before your next school pitch.',w:'Schools will not sign without a live product. Every week it’s not live is lost contracts.'},
+    {a:'product',c:'ta-product',t:'Add multi-child support so parents with 2+ children run reports for each under one account.',w:'Families with 2+ children are your highest-value customers. Multi-child doubles their value.'},
+    {a:'product',c:'ta-product',t:'Add a GP referral letter generator — one click pulls key report findings into a formatted GP letter.',w:'This is the feature that makes every paying parent want to tell every parent they know.'},
+    {a:'product',c:'ta-product',t:'Add a monthly trend chart so subscribers see if patterns are improving or worsening over 6 months.',w:'Trends are why parents stay subscribed. Show the value or lose them at month 2.'},
+    {a:'product',c:'ta-product',t:'Add a Stripe customer portal link so subscribers can cancel or change plan without emailing you.',w:'Self-serve cancellation reduces churn. People stay longer when they know they can leave easily.'},
+    {a:'marketing',c:'ta-marketing',t:'Launch a Google Search campaign at £10/day: “child social media safety checker” and “is my child safe on TikTok”.',w:'Google Search reaches parents with active intent. They are already looking.'},
+    {a:'marketing',c:'ta-marketing',t:'Pitch a story to The Times Parents or Guardian Families: “The hidden patterns in your child’s feed screen time can’t show you.”',w:'One national press feature can drive 5,000+ visitors and hundreds of signups. It compounds forever via Google.'},
+    {a:'marketing',c:'ta-marketing',t:'Build a 30-day content calendar: 2 LinkedIn posts/week, 3 Instagram posts/week, 1 email to list per week.',w:'At 50+ customers, random posting does not scale. A calendar lets you batch-create and stay consistent.'},
+    {a:'marketing',c:'ta-marketing',t:'Find a parenting influencer with 20k–100k followers. Offer them a free report for their own child, ask for an honest review.',w:'An authentic parent review outperforms paid influencer deals 10 to 1.'},
+    {a:'marketing',c:'ta-marketing',t:'Submit a press release to Education Technology, Schools Week, and Tes Magazine about the school version launch.',w:'Education press reaches the schools, governors, and safeguarding leads you need.'},
+    {a:'sales',c:'ta-sales',t:'Pitch 5 schools for a paid pilot at £500–£800 per school per term. Send the Starter Pack and offer a demo call.',w:'One school contract at £800/term = £2,400/year. 5 schools = £12k ARR in one move.'},
+    {a:'sales',c:'ta-sales',t:'Create a school pricing page. Two tiers: £500/term for access, £1,500/year for full dashboard + support.',w:'Clear pricing removes the most common objection in school sales.'},
+    {a:'sales',c:'ta-sales',t:'Launch a referral programme: subscribers get a unique link. They get a free month for each person they refer.',w:'Referral programmes can drive 20–40% of new subscriber growth at zero cost.'},
+    {a:'sales',c:'ta-sales',t:'Pitch 3 NHS CAMHS coordinators about the digital health report as a pre-referral tool for families on waiting lists.',w:'CAMHS waits are 18–20 months. A tool that helps families while they wait is a genuine NHS solution.'},
+    {a:'sales',c:'ta-sales',t:'Run a reactivation campaign to your full historical signup list. Offer 50% discount for returning users this week.',w:'Past users who didn’t convert are the lowest-cost customers to reactivate.'},
+    {a:'partnerships',c:'ta-partnerships',t:'Approach Mumsnet or Netmums about a featured partner placement. Prepare a one-page media pack.',w:'Mumsnet has 14 million monthly UK visitors. Even 0.1% conversion is 14,000 visitors.'},
+    {a:'partnerships',c:'ta-partnerships',t:'Contact NSPCC, Internet Matters, or UK Safer Internet Centre about an official endorsement or co-branded report.',w:'An endorsement from a trusted charity removes the biggest adoption barrier.'},
+    {a:'partnerships',c:'ta-partnerships',t:'Set up a revenue share deal with 3 family therapists. They refer parents, you pay 20% per subscriber.',w:'A therapist who refers 3 families/month generates £90+/month per therapist.'},
+    {a:'partnerships',c:'ta-partnerships',t:'Pitch a white-label version of the Digital Health Report to NSPCC or Internet Matters.',w:'A white-label deal can be worth £20k–£100k/year using their distribution, not yours.'},
+    {a:'partnerships',c:'ta-partnerships',t:'Negotiate a co-marketing deal with 1 parental control brand (Bark, Circle) to cross-refer their audience.',w:'You are complementary, not competitive. A referral swap costs nothing.'},
+    {a:'operations',c:'ta-operations',t:'Hire a part-time VA to handle parent email enquiries and school outreach follow-ups. Budget £400/month.',w:'At 50+ customers, email support becomes a full-time task. Your time is worth more than £25/hour on this.'},
+    {a:'operations',c:'ta-operations',t:'Set up automated Stripe revenue reporting to a Google Sheet showing MRR, churn, and new signups.',w:'You cannot manage a subscription business without real-time revenue data.'},
+    {a:'operations',c:'ta-operations',t:'Write a 2-page investor-ready summary of Guided Childhood: problem, solution, traction, market, ask.',w:'Writing this sharpens your pitch for press, schools, and GPs. It is always worth doing.'},
+    {a:'operations',c:'ta-operations',t:'Set up an affiliate programme for parenting bloggers. Offer 20% commission, unique link, track via Stripe.',w:'Affiliates are pure performance marketing. You only pay when they deliver a customer.'},
+    {a:'operations',c:'ta-operations',t:'Build a simple uptime status page for the wellbeing tool and link to it in the footer.',w:'Schools and B2B buyers check reliability before committing. A status page shows professionalism.'}
+  ]
+};
+
+let S={};
+try{S=JSON.parse(localStorage.getItem(SK))||{};}catch(e){}
+function save(){localStorage.setItem(SK,JSON.stringify(S));}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  const now=new Date();
+  document.getElementById('todayDate').textContent=now.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  document.getElementById('taskDateLbl').textContent='Tasks for '+now.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});
+  loadGoal();
+  recalc();
+  loadStatuses();
+  buildChecklist();
+  loadPipeline();
+  buildRoadmap();
+});
+
+function loadGoal(){
+  const g=S.goal||{};
+  if(g.subs) document.getElementById('inSubs').value=g.subs;
+  if(g.reps) document.getElementById('inReports').value=g.reps;
+  if(g.school) document.getElementById('inSchool').value=g.school;
+}
+
+function recalc(){
+  const subs=+document.getElementById('inSubs').value||0;
+  const reps=+document.getElementById('inReports').value||0;
+  const school=+document.getElementById('inSchool').value||0;
+  const subMRR=subs*29.99, repMRR=reps*9.99;
+  const totalMRR=subMRR+repMRR;
+  const arr=(totalMRR*12)+school;
+  const goal=100000;
+  const pct=Math.min(arr/goal*100,100);
+  const gap=Math.max(goal-arr,0);
+  document.getElementById('subMRR').textContent='£'+subMRR.toFixed(0);
+  document.getElementById('repMRR').textContent='£'+repMRR.toFixed(0);
+  document.getElementById('currARR').textContent='£'+fmt(arr);
+  document.getElementById('progPct').textContent=pct.toFixed(1)+'% of £100k';
+  document.getElementById('progFill').style.width=pct+'%';
+  document.getElementById('gapAmt').textContent='£'+fmt(gap);
+  document.getElementById('gapSubs').textContent=gap>0?Math.ceil(gap/(29.99*12)):'✓';
+  document.getElementById('gapReps').textContent=gap>0?fmt(Math.ceil(gap/9.99)):'✓';
+  document.getElementById('mrrTarget').textContent=gap>0?'£'+fmt(Math.ceil(gap/12)):'✓ Done';
+  const phase=arr<3600?'phase1':arr<24000?'phase2':'phase3';
+  const labels={phase1:'Phase 1: First 10 Customers',phase2:'Phase 2: Scale to £2k MRR',phase3:'Phase 3: Road to £100k'};
+  document.getElementById('phasePill').textContent=labels[phase];
+  S.goal={subs,reps,school};
+  save();
+  if(S.lastPhase!==phase){S.lastPhase=phase;save();buildTasks(phase);}
+  updateRoadmap(arr);
+}
+
+function fmt(n){return Math.round(n).toLocaleString('en-GB');}
+
+function dayOfYear(){
+  const n=new Date(),s=new Date(n.getFullYear(),0,0);
+  return Math.floor((n-s)/86400000);
+}
+function todayKey(){
+  const n=new Date();return n.getFullYear()+'-'+n.getMonth()+'-'+n.getDate();
+}
+
+function getPhase(){
+  const g=S.goal||{};
+  const arr=((+g.subs||0)*29.99+(+g.reps||0)*9.99)*12+(+g.school||0);
+  return arr<3600?'phase1':arr<24000?'phase2':'phase3';
+}
+
+function buildTasks(phase){
+  const bank=TASKS[phase]||TASKS.phase1;
+  const day=dayOfYear();
+  const areas=['product','marketing','sales','partnerships','operations'];
+  const todayKey_=todayKey();
+  const done=(S.taskDone||{})[todayKey_]||{};
+  const selected=areas.map((a,i)=>{
+    const pool=bank.filter(x=>x.a===a);
+    const t=pool[(day+i*7)%pool.length];
+    return {...t,id:'t-'+a+'-'+day};
+  });
+  S.todayTasks=selected.map(t=>t.id);save();
+  renderTasks(selected,done);
+}
+
+function renderTasks(tasks,done){
+  const list=document.getElementById('taskList');
+  list.innerHTML='';
+  tasks.forEach(task=>{
+    const isDone=!!done[task.id];
+    const div=document.createElement('div');
+    div.className='task-item'+(isDone?' done':'');
+    div.dataset.tid=task.id;
+    div.onclick=()=>toggleTask(task.id);
+    div.innerHTML=`<div class="t-box"><span class="t-check">✓</span></div><div class="t-body"><span class="t-area ${task.c}">${task.a}</span><div class="t-text">${task.t}</div><div class="t-why">${task.w}</div></div>`;
+    list.appendChild(div);
+  });
+  updateCount();
+}
+
+function toggleTask(id){
+  const k=todayKey();
+  if(!S.taskDone)S.taskDone={};
+  if(!S.taskDone[k])S.taskDone[k]={};
+  S.taskDone[k][id]=!S.taskDone[k][id];
+  save();
+  const el=document.querySelector('[data-tid="'+id+'"]');
+  if(el)el.classList.toggle('done',!!S.taskDone[k][id]);
+  updateCount();
+}
+
+function updateCount(){
+  const done=document.querySelectorAll('.task-item.done').length;
+  const total=document.querySelectorAll('.task-item').length;
+  document.getElementById('taskCount').textContent=done+' / '+total+' done';
+}
+
+function resetTasks(){
+  const k=todayKey();
+  if(S.taskDone)S.taskDone[k]={};
+  save();
+  document.querySelectorAll('.task-item').forEach(el=>el.classList.remove('done'));
+  updateCount();
+}
+
+function initTasks(){
+  buildTasks(getPhase());
+}
+initTasks();
+
+function loadStatuses(){
+  const st=S.statuses||{};
+  Object.entries(st).forEach(([k,v])=>renderStatus(k,v));
+  ['product','payments','email','analytics','marketing','sales','seo','legal'].forEach(k=>{
+    if(!st[k]){const d=document.getElementById('d-'+k);if(d)d.className='dot r';}
+  });
+}
+
+function setStatus(k,v){
+  if(!v)return;
+  if(!S.statuses)S.statuses={};
+  S.statuses[k]=v;save();
+  renderStatus(k,v);
+}
+
+function renderStatus(k,v){
+  if(!v)return;
+  const [c,lbl]=v.split('|');
+  const d=document.getElementById('d-'+k),vv=document.getElementById('v-'+k);
+  const map={g:'g',y:'y',r:'r'};
+  if(d)d.className='dot '+(map[c]||'u');
+  if(vv)vv.textContent=lbl;
+}
+
+function buildChecklist(){
+  const done=S.checks||{};
+  const container=document.getElementById('chkCats');
+  container.innerHTML='';
+  CHECKS.forEach(cat=>{
+    const catDone=cat.items.filter(i=>done[i.id]).length;
+    const div=document.createElement('div');
+    div.className='cat';
+    div.id='cat-'+cat.id;
+    const itemsHtml=cat.items.map(item=>{
+      const isD=!!done[item.id];
+      return `<div class="ci${isD?' done':''}" id="ci-${item.id}"><input type="checkbox" id="cb-${item.id}" ${isD?'checked':''} onchange="toggleCheck('${item.id}')"><label for="cb-${item.id}">${item.t}<span class="badge bd-${item.b}">${item.b}</span></label></div>`;
+    }).join('');
+    div.innerHTML=`<div class="cat-hd" onclick="toggleCat('${cat.id}')"><div class="cat-title">${cat.icon} ${cat.title}</div><div style="display:flex;align-items:center;gap:10px"><span class="cat-cnt" id="cc-${cat.id}">${catDone} / ${cat.items.length}</span><span class="cat-ok" id="co-${cat.id}">${catDone===cat.items.length?'✓ Done':''}</span></div></div><div class="cat-body">${itemsHtml}</div>`;
+    container.appendChild(div);
+  });
+  updateChkTotal();
+}
+
+function toggleCat(id){
+  const c=document.getElementById('cat-'+id);
+  if(c)c.classList.toggle('open');
+}
+
+function toggleCheck(id){
+  if(!S.checks)S.checks={};
+  const cb=document.getElementById('cb-'+id);
+  S.checks[id]=cb.checked;save();
+  const ci=document.getElementById('ci-'+id);
+  if(ci)ci.classList.toggle('done',cb.checked);
+  CHECKS.forEach(cat=>{
+    if(cat.items.find(i=>i.id===id)){
+      const cd=cat.items.filter(i=>(S.checks||{})[i.id]).length;
+      const cc=document.getElementById('cc-'+cat.id);
+      const co=document.getElementById('co-'+cat.id);
+      if(cc)cc.textContent=cd+' / '+cat.items.length;
+      if(co)co.textContent=cd===cat.items.length?'✓ Done':'';
+    }
+  });
+  updateChkTotal();
+}
+
+function updateChkTotal(){
+  const done=S.checks||{};
+  const total=CHECKS.reduce((s,c)=>s+c.items.length,0);
+  const d=CHECKS.reduce((s,c)=>s+c.items.filter(i=>done[i.id]).length,0);
+  document.getElementById('chkTotal').textContent=d+' / '+total+' done';
+}
+
+const PIPE_IDS=['gp-c','gp-r','gp-d','gp-v','sc-c','sc-r','sc-d','sc-v','cm-c','cm-r','cm-d','cm-v','md-c','md-r','md-d','md-v'];
+function loadPipeline(){
+  const p=S.pipe||{};
+  PIPE_IDS.forEach(id=>{const el=document.getElementById(id);if(el&&p[id])el.value=p[id];});
+}
+function savePipe(){
+  if(!S.pipe)S.pipe={};
+  PIPE_IDS.forEach(id=>{const el=document.getElementById(id);if(el)S.pipe[id]=el.value;});
+  save();
+}
+
+function buildRoadmap(){
+  const container=document.getElementById('roadmap');
+  container.innerHTML='';
+  const arr=getCurrentARR();
+  MILESTONES.forEach((m,i)=>{
+    const div=document.createElement('div');
+    div.className='ms'+(arr>=m.arr?' reached':'');
+    if(arr>=m.arr&&(i===MILESTONES.length-1||arr<MILESTONES[i+1].arr))div.classList.add('current');
+    div.innerHTML=`<div class="mw">${m.when}</div><div class="mv">${m.mrr>0?'£'+fmt(m.mrr):'🎯'}</div><div class="ml">${m.label}</div>`;
+    container.appendChild(div);
+  });
+}
+
+function updateRoadmap(arr){
+  const els=document.querySelectorAll('.ms');
+  MILESTONES.forEach((m,i)=>{
+    const el=els[i];if(!el)return;
+    el.className='ms';
+    if(arr>=m.arr){el.classList.add('reached');}
+    if(arr>=m.arr&&(i===MILESTONES.length-1||arr<MILESTONES[i+1].arr))el.classList.add('current');
+  });
+}
+
+function getCurrentARR(){
+  const g=S.goal||{};
+  return ((+g.subs||0)*29.99+(+g.reps||0)*9.99)*12+(+g.school||0);
+}
+</script>
+</body>
+</html>
