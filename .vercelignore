@@ -1,7 +1,3 @@
-/middleware.ts
-/next.config.ts
-/next-env.d.ts
-/tsconfig.json
-/package.json
-/package-lock.json
-/app/
+.env
+.env.local
+.env.*.local
