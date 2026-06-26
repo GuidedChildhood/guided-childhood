@@ -1,0 +1,12 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+
+# OS
+.DS_Store
+
+# Note: code/part-08-simulations/output/*.png ARE committed on purpose,
+# so readers can see the visualisations without running the code.

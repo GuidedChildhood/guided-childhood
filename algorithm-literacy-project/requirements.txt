@@ -1,0 +1,7 @@
+# The Algorithm Literacy Project - Python dependencies
+# Python 3.10 or newer recommended.
+# Everything here is a standard, widely used scientific package.
+
+numpy>=1.23
+matplotlib>=3.6
+networkx>=3.0      # used by the network and echo-chamber simulations
