@@ -1,0 +1,1042 @@
+-- Guided Childhood: Script library expansion (84 scripts, stages foundation to independent).
+-- Run AFTER 001_initial.sql and seed.sql. Brings the library to 101 total (matches the 100+ marketing claim).
+-- Generated for the parents service. Voice: Justin Phillips. British English, no dashes as punctuation.
+
+-- ============================ foundation ============================
+-- Guided Childhood: Foundation stage scripts (ages 4 to 7). Run after seed.sql.
+insert into public.scripts
+  (stage_id, title, situation, say_this, not_this, why_it_works, tonight, law_flag, is_free, sort_order)
+values
+(
+  'foundation',
+  'YouTube autoplay rabbit hole',
+  'You said yes to one video and twenty minutes later they are deep into something you never chose, eyes glazed, asking for just one more.',
+  'I can see the screen keeps choosing for you. That is its job, not yours. Let us pick the next one together, and then we will be done.',
+  '"Right, that is it, screen off now." Yanking it away mid-video without warning triggers the meltdown you are trying to avoid.',
+  'Autoplay is built to remove the natural stopping point. Each new video delivers a small hit of dopamine, and a young brain has almost no braking system to say enough. You are not fighting your child, you are fighting a design choice. Bringing the choosing back to a person restores the pause the platform removed.',
+  'Open the settings on your tablet or TV app and turn autoplay off tonight. One toggle does more than ten reminders.',
+  'none',
+  false,
+  101
+),
+(
+  'foundation',
+  'First time on a new app',
+  'Your child has been given a new app or game and wants to dive straight in on their own.',
+  'This one is new to both of us. Let us explore it together first, then I will know it is a good fit for you.',
+  '"Fine, just go and play it." Handing over something unknown means the app sets the rules before you do.',
+  'Sitting beside your child for a first go is co-regulation in action. You become the calm reference point as they meet something exciting and unfamiliar. It also lets you spot adverts, chat features, or pressure to spend before they do. The message that lands is simple: new things are explored with someone you trust.',
+  'Before bed, agree that any brand new app gets a together go first. Try the next one side by side this week.',
+  'none',
+  false,
+  102
+),
+(
+  'foundation',
+  'Screens at a restaurant',
+  'You are out for a meal or stuck in a waiting room, and the temptation is to hand over the phone to keep the peace.',
+  'It is a long wait, is it not. Let us see what game we can make up with just us two, and the screen can be our backup if we need it.',
+  '"Here, take my phone and be quiet." The screen becomes the only tool your child has for boredom, every single time.',
+  'Boredom is where a young brain learns to generate its own ideas. If a screen arrives the moment things go flat, that muscle never gets used. You do not have to ban the phone, you just want it to be the second option, not the first. Waiting together, even badly, builds the patience the screen would have replaced.',
+  'Put two small things in your bag tonight, a pencil and paper or a tiny toy, so the phone is not your only rescue tomorrow.',
+  'none',
+  false,
+  103
+),
+(
+  'foundation',
+  'Stumbling on something scary',
+  'Your child has seen something upsetting or frightening on a screen, and they are shaken or will not settle.',
+  'That looked scary, and it is okay that it gave you a wobbly feeling. You are safe here with me. Tell me what you saw and we will sort it out together.',
+  '"It was not even real, do not be silly." Dismissing the fear teaches them not to come to you next time.',
+  'A young child cannot reliably tell the real from the pretend, so the fear response is genuine. Your calm presence is what brings their nervous system back down, a process called co-regulation. By naming the feeling and staying steady, you become the safe place they return to. That trust is what makes them tell you when something worse appears later.',
+  'Tonight, agree a simple word or signal your child can use to tell you a screen has shown them something they did not like.',
+  'none',
+  false,
+  104
+),
+(
+  'foundation',
+  'The buy this tantrum',
+  'A game or app is pushing your child to buy coins, characters, or extras, and the no has turned into tears.',
+  'The game is trying really hard to get us to spend money. That is a clever trick, not a real need. We are not buying it, and I know that feels unfair right now.',
+  '"Stop crying and I will get you one thing." Giving in once teaches the tantrum that it works.',
+  'These prompts are engineered to feel urgent to a brain that cannot yet weigh long term against right now. Your child is not being greedy, they are responding exactly as the design intends. Naming the trick out loud hands them a thought they can use against it. The calm, steady no is what builds the tolerance for disappointment they will need for years.',
+  'Turn on purchase confirmation or a password on your app store tonight so no spend can happen by accident.',
+  'none',
+  false,
+  105
+),
+(
+  'foundation',
+  'Different rules at grandparents',
+  'Screen time runs looser at the grandparents house, and your child has noticed the rules change when they visit.',
+  'Grandma and Grandpa do things their way in their house, and that is lovely. Our family has our own way too, and we pick it back up when we get home.',
+  '"They let you do anything, it is ruining everything." Turning it into a conflict puts your child in the middle of the adults.',
+  'Young children can hold the idea that different places have different rules, the same way nursery and home differ. The consistency that matters is yours at home, not perfect agreement everywhere. Framing it warmly avoids making your child feel they must choose a side. A quiet word with the grandparents about one or two non-negotiables does more than a public rule.',
+  'Tonight, decide your one true non-negotiable for visits, and message it kindly to the grandparents before the next stay.',
+  'none',
+  false,
+  106
+),
+(
+  'foundation',
+  'My friend gets more',
+  'Your child has come home insisting a friend is allowed far more screen time, and it is not fair.',
+  'It sounds like that does feel unfair. Different families make different choices, and our choice is the one that is right for you. I am always happy to hear why you want more.',
+  '"I do not care what they are allowed." Shutting it down fast tells your child their feelings are not worth hearing.',
+  'Comparison is how children learn where the boundaries of their world sit, so the protest is healthy, not defiant. Acknowledging the feeling without caving keeps the boundary firm and the relationship warm. You are modelling that families can differ without one being wrong. Over time this builds a child who can hold their own line when friends do things differently.',
+  'Tonight, let your child finish telling you why they want more, then thank them for explaining without changing the rule.',
+  'none',
+  false,
+  107
+),
+(
+  'foundation',
+  'Screens before school',
+  'A quick show before school has turned mornings into a battle, with screen time bleeding into getting ready.',
+  'Mornings work better when our brains wake up slowly, so screens are for after school now. Let us find a different way to start the day together.',
+  '"You can watch but only if you are dressed in five minutes." Bargaining keeps the screen as the prize and the pressure on.',
+  'A screen first thing floods a barely awake brain with fast stimulation, which makes the slow tasks of getting ready feel even duller. Removing it stops the morning becoming a negotiation. A young child copes far better with a clear, calm rule than a moving target. Replacing the show with a small shared routine gives the same comfort without the cost.',
+  'Tonight, pick one simple morning anchor, a song, a stretch, or breakfast chat, to take the screens place tomorrow.',
+  'none',
+  false,
+  108
+),
+(
+  'foundation',
+  'Screen as a reward',
+  'You have started using screen time to get good behaviour, and now everything has become a negotiation for screens.',
+  'I want you to tidy up because it helps our family, not to earn a screen. We can still have screen time later, and it is not a prize for being good.',
+  '"If you are good you can have the tablet." This makes the screen the most valuable thing in the house.',
+  'When a screen becomes the reward, its value climbs every time you use it as a bribe, and ordinary cooperation fades without it. You also tie a calm activity to performance, which raises the stakes of every ask. Separating the two keeps screen time ordinary rather than precious. Helping because it matters to the family builds a stronger motivation than any prize.',
+  'Tonight, name one thing your child does just because it helps, and thank them for it without mentioning screens.',
+  'none',
+  false,
+  109
+),
+(
+  'foundation',
+  'First video call with a relative',
+  'Your child is about to video call a grandparent or relative, and may be shy, restless, or unsure what to do.',
+  'Granny is going to pop up on the screen and she cannot wait to see you. You can show her something or just say hello, whatever feels good.',
+  '"Sit still and talk properly to your nan." Forcing the performance makes the call something to dread.',
+  'A video call is a strange middle ground for a young child, a real person who is not really there, which can feel oddly flat. Giving them something to show turns the call from a test into a shared activity. Low pressure keeps the connection warm rather than awkward. These early calls build the idea that screens can carry real relationships, not just entertainment.',
+  'Tonight, help your child choose one thing to show on the next call, a drawing, a toy, or a new trick.',
+  'none',
+  false,
+  110
+),
+(
+  'foundation',
+  'Obsessed with one show',
+  'Your child wants the same character or show on a loop, and any other suggestion is met with a flat refusal.',
+  'You really love this one, do you not. It feels good to watch something you know. Let us watch a bit, and then I have something new I think you will like too.',
+  '"You watch this every single day, I am sick of it." Mocking the obsession shames a need for comfort and predictability.',
+  'Repetition is genuinely soothing to a young brain, because knowing what comes next lowers anxiety and feels safe. The favourite show is doing a real job for them. You do not need to crush the love, just gently widen the world around it. Honouring the comfort while introducing the new keeps your child open rather than dug in.',
+  'Tonight, watch the favourite without complaint, then offer one new thing right after while they are relaxed.',
+  'none',
+  false,
+  111
+),
+(
+  'foundation',
+  'Adverts aimed at children',
+  'An app or video is firing adverts at your young child, and they have started asking for everything they see.',
+  'That was an advert. Its whole job is to make you want something. Wanting it is normal, but we do not have to buy what the advert tells us to.',
+  '"Ignore it, it is just an advert." Without explanation, the pull of the advert still does its quiet work.',
+  'Children under about seven cannot reliably tell an advert from the programme, so the persuasion lands unfiltered. Naming the advert as a thing with a job gives your child a frame they can spot it through next time. You are building early media literacy, one of the strongest protections there is. The aim is not to stop the wanting but to make the trick visible.',
+  'Tonight, play spot the advert during a show, and let your child point them out before you do.',
+  'none',
+  false,
+  112
+),
+(
+  'foundation',
+  'Devices in the bedroom',
+  'Your child wants to take a tablet or screen into their bedroom, especially around bedtime.',
+  'Screens live downstairs at night, even mine. Bedrooms are for resting and sleeping. We can have screen time together earlier instead.',
+  '"Just this once you can take it up." One exception quietly becomes the new normal.',
+  'The bedroom is where sleep is learned, and screens disrupt it twice, through bright light that delays sleepiness and through content that keeps the brain switched on. Setting the rule early, before it is a habit, makes it far easier to keep. Including your own phone in the rule removes the do as I say problem. A screen free bedroom is one of the simplest, highest value boundaries you can set now.',
+  'Tonight, set up one charging spot downstairs for the whole family, and put your own phone there too.',
+  'none',
+  false,
+  113
+),
+(
+  'foundation',
+  'Family posting photos online',
+  'A relative regularly posts photos of your child online, and you are uneasy about it but unsure how to raise it.',
+  'We love that you adore the photos. We have decided to keep theirs off public profiles for now. Send them to us any time, just not to the wider world.',
+  '"It is fine, do not make a fuss." Staying quiet to avoid awkwardness hands your childs privacy to someone else.',
+  'Your child cannot consent to a public footprint that may follow them for years, which is why the choice sits with you for now. Framing it as a family decision rather than a complaint keeps relationships intact. You are modelling that consent and privacy matter, even within a loving family. Raising it early, before patterns set, is far easier than unpicking it later.',
+  'Tonight, agree your familys photo rule between the two parents, then share it warmly with relatives as a settled decision.',
+  'none',
+  false,
+  114
+),
+(
+  'foundation',
+  'Meltdown moving to dinner',
+  'Calling your child off a screen to come to the table tips them straight into a meltdown, every time.',
+  'I know it is really hard to stop when you are having fun. Your brain wants to keep going. Two more minutes, then we save it and come to dinner together.',
+  '"Dinner is ready now, screen off, come on." A sudden stop gives the brain no time to switch tracks.',
+  'Stopping a screen drops dopamine sharply, and a young brain feels that as a real loss, not a tantrum for effect. The meltdown is a nervous system reaction to an abrupt change, not defiance. A short, warned bridge gives the brain time to shift gear before the screen goes off. Naming the difficulty and counting it down together turns the cliff edge into a slope.',
+  'Tonight, give a clear two-minute warning before dinner, and watch whether the landing is softer.',
+  'none',
+  false,
+  115
+),
+(
+  'foundation',
+  'Learning versus entertainment',
+  'You are unsure how to handle the difference between screen time that teaches and screen time that just entertains.',
+  'Some screen things help your brain grow, like the ones where you make or solve or build. Others are just for fun, and a bit of fun is fine too. Let us notice which is which.',
+  '"As long as it is educational it does not count." Treating learning apps as unlimited misses that all screens still need balance.',
+  'Not all screen time is equal, but no screen replaces the messy, hands on play that grows a young brain most. Even good learning apps benefit from limits, because the body and the senses learn things a screen cannot teach. Helping your child notice the difference builds judgement they will use for life. The goal is a balanced diet of screens, not a free pass for the educational ones.',
+  'Tonight, sort two of your childs apps together into making something or just watching, out loud.',
+  'none',
+  false,
+  116
+),
+(
+  'foundation',
+  'The game their friends play',
+  'Your child has asked, for the first time, to play a game because all of their friends are playing it.',
+  'I can tell this one really matters because your friends love it. Let me have a proper look at it first, and then we will decide together if it is right for you.',
+  '"No, that game is for big kids." A flat no with no look teaches your child to stop asking and start hiding.',
+  'Wanting to belong is one of the strongest drives at this age, so this request is about friendship as much as the game. Taking it seriously, rather than dismissing it, keeps your child bringing these asks to you. Checking the game yourself models the very judgement you want them to grow. Whether the answer is yes or not yet, the open conversation is the real win.',
+  'Tonight, find out the name of the game and spend ten minutes looking it up before you decide anything.',
+  'none',
+  false,
+  117
+);
+
+-- ============================ builder ============================
+-- Guided Childhood: Builder stage scripts (ages 8 to 10). Run after seed.sql.
+insert into public.scripts
+  (stage_id, title, situation, say_this, not_this, why_it_works, tonight, law_flag, is_free, sort_order)
+values
+(
+  'builder',
+  'First messaging app request',
+  'Your child says all their friends are on a messaging app and asks to join so they are not left out.',
+  'I can hear that this matters to you, and I want to understand it properly. Let us look at the app together this week. I will set it up with you, we will agree who you can talk to, and I will be in the loop while you learn the ropes.',
+  '"No, you are too young for that." It shuts the door and teaches them to ask you for nothing next time.',
+  'At this age the social brain is coming online and belonging starts to feel urgent. Refusing flat out does not remove the pull, it just moves the activity out of your sight. Joining alongside them keeps you as the guide while the habits are still forming, which is exactly when influence is highest.',
+  'Sit down together and look at one app they are asking for. Ask what their friends actually do on it before you decide anything.',
+  'none',
+  false,
+  201
+),
+(
+  'builder',
+  'Left out of the group chat',
+  'Your child is upset because a group chat went on without them, or they were removed, and they feel pushed out.',
+  'That stings, and it makes sense that it does. Being left out feels real in your body, not just your head. Tell me what happened, and we will work out together what you want to do next, if anything.',
+  '"Just ignore it, it does not matter." It tells them their feeling is wrong and they will stop bringing these things to you.',
+  'Social exclusion activates the same brain regions as physical pain, so the hurt is genuine, not dramatic. A child who feels heard can think more clearly about their next move. Dismissing the feeling teaches them to manage social pain alone, which is the opposite of what you want at this age.',
+  'Ask your child to describe the moment they noticed they were left out. Just listen. Do not fix it yet.',
+  'none',
+  false,
+  202
+),
+(
+  'builder',
+  'Roblox and Minecraft time limits',
+  'Your child loses track of time in a building game and resists stopping when you ask.',
+  'These games are designed to never end, so stopping is genuinely hard. Let us pick a natural finish point together, like saving your build or ending the round, and I will give you a warning before we get there.',
+  '"Off now, I said so." A sudden stop mid-task feels like punishment and guarantees a fight.',
+  'Open-ended games offer no built-in stopping cue, so the brain keeps chasing the next small reward. Ending on a completed task respects how the game is structured and lowers the dopamine drop. A warning gives the prefrontal cortex, still developing at this age, time to prepare for the switch.',
+  'Agree one natural stopping point with your child before they start playing tonight.',
+  'none',
+  false,
+  203
+),
+(
+  'builder',
+  'Voice chat with strangers',
+  'Your child is playing an online game where they can talk to people you do not know through voice chat.',
+  'I am glad you enjoy playing with others. Some of those voices belong to people we do not know, so let us set a simple rule: you can chat about the game, but anything personal, like your name, school, or where we live, stays offline. If anyone asks for that, come and get me.',
+  '"You are never using voice chat, end of story." It removes the chance to teach the very judgement they will need.',
+  'Children this age trust easily and cannot yet read intent from a stranger online. A clear, concrete rule about what stays private gives them a script to follow under pressure. Telling them to fetch you keeps the door open rather than driving the contact underground.',
+  'Ask your child to show you how voice chat works in their game so you understand what they hear.',
+  'none',
+  false,
+  204
+),
+(
+  'builder',
+  'Obsessed with one YouTuber',
+  'Your child quotes, copies, and wants to watch one particular YouTuber or streamer constantly.',
+  'You really like this person. What is it about them that you enjoy so much? I would love to understand it. Let us watch one together so I can see what you see.',
+  '"That person is rubbish, turn it off." Mocking their hero feels like you are mocking them.',
+  'Looking up to an older figure is a normal part of identity forming at this age. Curiosity keeps the channel of communication open, while contempt closes it and pushes the interest somewhere you cannot see. Watching together lets you notice the values being modelled and talk about them naturally.',
+  'Watch one video of their favourite creator with them and ask one genuine question about it.',
+  'none',
+  false,
+  205
+),
+(
+  'builder',
+  'Asking for their own phone',
+  'Your child asks for their own phone, often because friends have one.',
+  'That is a big step, and I am happy to think about it properly with you. A phone is a tool, not a prize, so let us talk about what you would actually use it for and what would help us both feel okay about it.',
+  '"When you are older." A vague answer with no path forward just teaches them to keep nagging.',
+  'A phone is a gateway to an open social world, and the impulse-control systems that manage that are years from mature at this age. Treating the request as a real conversation, rather than a yes or no, models thoughtful decision making. Linking it to need rather than status helps your child reason about it too.',
+  'Ask your child to list three things they would use a phone for. Discuss whether each one truly needs a phone.',
+  'none',
+  false,
+  206
+),
+(
+  'builder',
+  'Saw something unsuitable at a friend''s house',
+  'Your child saw something on a screen at a friend''s house that worried or confused them.',
+  'Thank you for telling me. You are not in any trouble at all. Things can pop up that feel strange or scary, and it is always okay to come to me about them. What did you see, and how did it make you feel?',
+  '"You are not going to that house again." Punishing the messenger guarantees they hide the next thing.',
+  'A child who is praised for disclosing learns that you are a safe place for hard information. Reacting with alarm or blame teaches them that honesty brings trouble, so they go quiet. Naming that they are not in trouble lowers the fear response and lets them actually tell you what happened.',
+  'Tell your child tonight that they will never be in trouble for telling you about something they saw. Say it plainly.',
+  'none',
+  false,
+  207
+),
+(
+  'builder',
+  'A stranger messaged them in a game',
+  'Someone your child does not know sent them a message inside a game.',
+  'You did the right thing showing me. Most people are fine, but we cannot tell who is who online, so the rule is simple: we do not reply to people we have not met in real life, and we tell each other. Let us look at it together.',
+  '"Why were you even talking to strangers?" Blame makes them feel caught and they will stop reporting it.',
+  'Children this age cannot reliably judge who is safe online because the cues they rely on in person are missing. A fixed rule removes the need for them to assess each stranger in the moment. Praising the report, rather than questioning their behaviour, makes telling you the automatic response.',
+  'Practise with your child what to do if a stranger messages them: do not reply, come and show you.',
+  'none',
+  false,
+  208
+),
+(
+  'builder',
+  'Wanting to spend real money on skins',
+  'Your child wants to spend real money on skins, loot boxes, or in-game items.',
+  'I get why you want it, those items look brilliant. Here is the thing: these games are built to make spending feel urgent, and some of it works like gambling. Let us set a small budget you control, so you decide on purpose rather than in the heat of the moment.',
+  '"It is a waste of money, no." It ends the lesson before they learn how the spending traps actually work.',
+  'Loot boxes use the same variable reward pattern as slot machines, which the developing brain finds especially hard to resist. A fixed budget moves the choice from impulse to plan and builds early financial judgement. Explaining the design, rather than just refusing, gives your child a defence they can use for years.',
+  'Agree a small fixed monthly amount for in-game spending and let your child decide how to use it.',
+  'none',
+  false,
+  209
+),
+(
+  'builder',
+  'The nightly screen-time negotiation',
+  'Every evening turns into a negotiation about how much longer your child can stay on a screen.',
+  'I do not enjoy the nightly haggle and I do not think you do either. Let us agree the screen time once, together, and then it is settled. When it is fixed in advance, neither of us has to argue about it every night.',
+  '"Stop pushing your luck or you lose it all." Threats raise the stakes and make tomorrow night worse.',
+  'Decision fatigue makes repeated nightly negotiations exhausting for everyone and erodes the boundary over time. A rule agreed in advance removes the moment-by-moment bargaining and gives your child predictability, which lowers conflict. Involving them in setting it raises the chance they will keep to it.',
+  'Sit down together and agree a clear screen-time amount for school nights. Write it somewhere you both can see.',
+  'none',
+  false,
+  210
+),
+(
+  'builder',
+  'Homework versus games',
+  'Games are winning the battle against homework and getting your child to start is a daily struggle.',
+  'Games are built to grab your attention, and homework is not, so it makes sense that one feels easier to start. Let us agree the order: schoolwork first, then the game is yours with no nagging from me. That way the fun is something to look forward to, not something I have to take away.',
+  '"No games until I see straight As." Linking play to grades turns every result into a fight.',
+  'Games deliver fast, reliable rewards while homework delivers slow, uncertain ones, so the brain naturally prefers the game. Putting effort before reward uses the game as a motivator rather than a battleground. Removing the nagging once the work is done makes the deal feel fair and keeps you out of the policing role.',
+  'Agree the homework-then-game order with your child and commit to not nagging once they start the work.',
+  'none',
+  false,
+  211
+),
+(
+  'builder',
+  'Comparing themselves to friends online',
+  'Your child seems anxious or down after comparing what they have or do with friends they see online.',
+  'It is easy to feel behind when you only see everyone''s best bits. What people post is the highlight, not the whole story. Tell me what you have been comparing, and let us look at it honestly together.',
+  '"Do not be silly, you have loads." Brushing it off tells them their worry is daft and they will hide it.',
+  'Children this age increasingly measure themselves against peers, and online feeds show curated highlights that no real life can match. Naming the gap between the highlight and the whole story gives them a tool to question what they see. Dismissing the feeling leaves the comparison running silently underneath.',
+  'Ask your child what they have felt left behind by lately. Just listen and name how common that feeling is.',
+  'none',
+  false,
+  212
+),
+(
+  'builder',
+  'Setting a family technology agreement',
+  'You want to set shared rules about devices that apply to the whole family, not just your child.',
+  'Let us make a family agreement about screens, and it includes me too. We will write down a few simple rules we all keep, like no phones at the table. If I break one, you can call me on it.',
+  '"These are the rules, learn them." Rules handed down without buy-in feel like control and invite rebellion.',
+  'Children follow what is modelled far more than what is instructed, so rules that include the adults carry real weight. Building the agreement together gives your child ownership, which raises the chance they will keep to it. A shared standard also removes the sense that screens are a battle between you and them.',
+  'Write three simple device rules together that apply to every person in the house, adults included.',
+  'none',
+  false,
+  213
+),
+(
+  'builder',
+  'Witnessing someone being cyberbullied',
+  'Your child saw someone being picked on in a group chat or game and is not sure what to do.',
+  'It takes courage to even notice that and feel uneasy about it. You do not have to fix it alone. You can refuse to join in, you can message the person privately to check they are okay, and you can tell me or a teacher. Which of those feels possible for you?',
+  '"Stay out of it, it is not your problem." It teaches them that looking away is the safe choice.',
+  'Bystanders shape whether cruelty spreads or stops, and children this age are forming their sense of fairness and courage. Offering several small, safe actions makes helping feel possible rather than overwhelming. Telling them to stay out of it trains the habit of disengaging, which is hard to undo later.',
+  'Talk through one small thing your child could do if they see someone being picked on online.',
+  'none',
+  false,
+  214
+),
+(
+  'builder',
+  'The everyone has it argument',
+  'Your child argues that everyone has a particular game, app, or device, so they should too.',
+  'You might be right that lots of friends have it. Everyone having something does not automatically make it right for our family, but it does tell me it matters to you. Let us look at it on its own merits, just you and me.',
+  '"I do not care what everyone else has." It dismisses a real social pressure they are genuinely feeling.',
+  'The pull to match the group is strong at this age and is a normal part of fitting in, not manipulation. Acknowledging the pressure as real, while still deciding on your own terms, models how to hold a value under social pressure. Flat dismissal teaches them that you do not take their world seriously.',
+  'Ask your child why this particular thing matters to them, beyond the fact that others have it.',
+  'none',
+  false,
+  215
+),
+(
+  'builder',
+  'Devices and sleep',
+  'Screens are creeping into the bedroom and your child is harder to settle and wake.',
+  'Sleep is when your brain sorts out everything from the day, and screens make it harder to switch off. Let us agree that devices go to bed in the kitchen, not your room. I will charge mine there too, so we are doing it together.',
+  '"Give it here, no screens in bed." Confiscation framing makes it a punishment instead of a shared habit.',
+  'Screen light and the alertness games create both delay the wind-down the brain needs for sleep. Keeping devices out of the bedroom removes the temptation rather than relying on willpower at the moment they are most tired. Charging yours alongside theirs turns a rule into a family habit, which holds far better.',
+  'Set up one charging spot outside the bedrooms tonight and put your own phone there too.',
+  'none',
+  false,
+  216
+),
+(
+  'builder',
+  'Early body image messages from media',
+  'Your child is picking up messages from media about how bodies should look, and starting to repeat them.',
+  'I noticed what you said about how someone looks. A lot of what we see on screens is edited, filtered, or chosen to sell something. Bodies in real life come in every shape, and that is normal. What made you think about it?',
+  '"Do not say things like that." Shutting it down stops the comment but not the belief underneath.',
+  'Body image attitudes start forming early, and media presents a narrow, often altered ideal as if it were normal. Naming that images are edited gives your child a lens to question what they see rather than absorb it. Closing the conversation leaves the belief in place and signals that the topic is off limits with you.',
+  'Point out one edited or filtered image with your child and talk about how it differs from real life.',
+  'none',
+  false,
+  217
+);
+
+-- ============================ explorer ============================
+-- Guided Childhood: Explorer stage scripts (ages 11 to 13). Run after seed.sql.
+insert into public.scripts
+  (stage_id, title, situation, say_this, not_this, why_it_works, tonight, law_flag, is_free, sort_order)
+values
+(
+  'explorer',
+  'The first serious social media request',
+  'Your 11, 12, or 13 year old asks, seriously and repeatedly, to join Instagram, TikTok, or Snapchat because everyone in their year is on it.',
+  'I can hear that this matters to you, and being left out of where your friends are is a real thing, not a small thing. I do not want to give you a yes or a no in the next ten seconds. I want us to actually look at it together first and decide properly.',
+  'No. You are far too young and that is the end of it.',
+  'A flat refusal at this age does not stop access, it moves it out of your sight onto a friend''s phone. The adolescent brain is wired to prioritise peer belonging, so the social cost of exclusion is felt as genuine threat. Slowing the decision down, rather than slamming it shut, keeps you in the room for every choice that follows.',
+  'Tonight, ask them which platform matters most and why. Just listen. Do not decide anything yet.',
+  'partial_ban',
+  false,
+  301
+),
+(
+  'explorer',
+  'Explaining how the algorithm decides what they see',
+  'Your child believes their feed simply shows them what is popular or what their friends like, and has never questioned how it is chosen.',
+  'Here is something most adults do not even know. Nobody at the company chose what is on your feed. A system watched what made you pause, and now it shows you more of that, on purpose, to keep you there longer. That is worth understanding, because once you see it you can see past it.',
+  'It is all fake and designed to manipulate you, so do not believe any of it.',
+  'Naming the mechanism gives a young person genuine power rather than fear. The developing prefrontal cortex is building the capacity for abstract reasoning at this stage, so they are newly able to grasp how a system optimises for attention. Understanding the design is what lets them resist it, far more than being warned that it is bad.',
+  'Tonight, open your own feed and ask them to guess why each of the first five posts was chosen for you.',
+  'none',
+  false,
+  302
+),
+(
+  'explorer',
+  'Walking through their feed together',
+  'You want to understand what your child actually sees and experiences when they scroll, rather than guessing or assuming the worst.',
+  'Would you show me round your feed for ten minutes. I am not checking up on you and I am not going to comment on every single thing. I genuinely want to see what it is like to be in there, because I cannot understand it from the outside.',
+  'Hand me your phone, I want to see exactly what you have been looking at.',
+  'There is a difference between being invited in and being inspected, and adolescents are acutely sensitive to which one is happening. Heightened social awareness means they read your intent before they read your words. Curiosity opens the feed to you. Surveillance closes it, and teaches them to keep a cleaner version for you and a real one for themselves.',
+  'Tonight, ask for a guided tour, not an inspection. Let them be the expert for once.',
+  'none',
+  false,
+  303
+),
+(
+  'explorer',
+  'Influencers and body image',
+  'Your child is following accounts that present highly edited or idealised bodies, and is starting to compare themselves to them.',
+  'A lot of what you are seeing has been lit, posed, filtered, and chosen out of hundreds of attempts. I am not saying that to be a downer. I am saying it because your body is changing fast right now, and it is unfair to measure a changing real body against a finished, edited image.',
+  'You do not need to look like them, just stop following accounts that make you feel bad.',
+  'At this stage the body is changing rapidly and self-image is forming around social comparison, which adolescents are biologically primed to do. Pointing out the construction behind the image, calmly and without panic, restores a sense of proportion. Telling them simply to unfollow skips the understanding that makes the choice stick.',
+  'Tonight, find one before and after editing video together and just notice the gap. No lecture needed.',
+  'none',
+  false,
+  304
+),
+(
+  'explorer',
+  'Setting up a first smartphone',
+  'Your child is getting their own smartphone for the first time and you are deciding together how it will work.',
+  'This is your phone now, and I want it to actually be yours. So let us set it up together this once. We will turn off the bits designed to hook you, agree where it sleeps at night, and write down what we both expect. Then it is yours to look after.',
+  'There are going to be a lot of rules and I will be checking it whenever I want.',
+  'The first setup sets the tone for years, and doing it as a shared project rather than a handover with conditions builds ownership. The adolescent brain responds far better to autonomy framed with structure than to control. Notifications and infinite feeds exploit dopamine driven novelty seeking, so dialling those down at the start is the single most useful thing you can do.',
+  'Tonight, turn off non-essential notifications together and agree where the phone charges overnight.',
+  'none',
+  false,
+  305
+),
+(
+  'explorer',
+  'Being left out of a group chat',
+  'Your child discovers they have been removed from, or deliberately left out of, a group chat and is hurt by it.',
+  'That really stings, and it is meant to. Being shut out of where your friends are talking is one of the most painful things at your age, and I am not going to pretend it is no big deal. I am here. Do you want to talk about what happened or just sit with it for a bit.',
+  'It is only a group chat, just ignore them and find better friends.',
+  'Social exclusion activates the same brain regions as physical pain, and at this age the wiring that makes belonging feel urgent is at its peak. Minimising the hurt teaches them you do not understand the stakes, so they stop bringing things to you. Naming the pain as real is what keeps the door open.',
+  'Tonight, validate the feeling before offering any solution. Sometimes being heard is the whole repair.',
+  'none',
+  false,
+  306
+),
+(
+  'explorer',
+  'Late-night scrolling and sleep',
+  'You realise your child is scrolling late into the night and is exhausted, foggy, or short-tempered in the mornings.',
+  'I am not raising this to take anything away. I am raising it because your sleep is taking a hit, and at your age sleep is doing huge work on your mood and your brain. Let us sort out how the phone can rest somewhere at night so you actually get that sleep.',
+  'You are on that thing all night, no wonder you are a nightmare in the mornings.',
+  'Adolescent sleep need is high and their body clock naturally shifts later, so a glowing, endlessly novel feed at bedtime is working directly against their biology. Sleep loss at this stage feeds low mood and poor focus. Framing it as protecting their sleep, not policing their phone, keeps it a shared problem rather than a battle.',
+  'Tonight, agree a charging spot outside the bedroom and offer a cheap alarm clock so the phone has no excuse to stay.',
+  'none',
+  false,
+  307
+),
+(
+  'explorer',
+  'Comparison and dipping self-esteem',
+  'Your child seems flatter and more self-critical lately, often after time on their phone, comparing their life to what others post.',
+  'I have noticed you have seemed a bit down on yourself. I want to say one thing and then drop it. You are comparing your whole messy inside to everyone else''s best ten seconds. That is not a fair fight, and it is not the truth about you.',
+  'Stop comparing yourself to other people, it is pathetic and a waste of time.',
+  'Identity is actively forming at this age, and social media offers an endless stream of curated highlights to measure against, which the comparison wired adolescent brain finds hard to resist. Self-esteem dips are common and usually not permanent. Naming the unfair comparison gently, without shaming the feeling, protects the relationship and the self-worth at once.',
+  'Tonight, tell them one specific thing you genuinely admire about who they are, not how they look.',
+  'none',
+  false,
+  308
+),
+(
+  'explorer',
+  'Worry about too much gaming',
+  'You are concerned your child is spending too long gaming and struggling to stop when they say they will.',
+  'I want to get this right rather than just nag you. Games are built by very clever people to be hard to put down, so the struggle to stop is not a flaw in you. Let us work out together what a good amount looks like, and what would actually help you stop when you mean to.',
+  'You are addicted to that game, you need to get a life and go outside.',
+  'Games are engineered around variable rewards that drive the dopamine system, and the adolescent brain, with its still maturing self-control, finds these especially gripping. Calling it addiction or laziness shames a normal response to good engineering design. Treating stopping as a shared design problem teaches a skill they will use for life.',
+  'Tonight, ask them to show you one trick the game uses to keep them playing. Be curious, not cross.',
+  'none',
+  false,
+  309
+),
+(
+  'explorer',
+  'Online friends they have never met in person',
+  'Your child talks about friends they have made online, through games or apps, whom they have never met face to face.',
+  'I am genuinely glad you have people you click with, and online friendships can be real and good. I am not going to tell you they are not real friends. What I do want is to understand who they are with you, because not everyone online is who they say, and that is just worth us keeping our eyes open about together.',
+  'You have no idea who that person really is, stop talking to strangers online.',
+  'For this generation online friendships are genuine social bonds, and dismissing them outright tells your child you do not understand their world. At the same time, the adolescent drive toward connection can outrun their still developing judgement about risk. Respecting the friendship while staying involved is what keeps them telling you the truth about it.',
+  'Tonight, ask them to tell you about one online friend the way they would a friend from school. Stay interested.',
+  'none',
+  false,
+  310
+),
+(
+  'explorer',
+  'A first calm conversation about nudes and pressure',
+  'Your child is at the age where the topic of being asked to send a photo, or seeing one shared, may come up, and you want to have a calm first conversation before it does.',
+  'I want to talk about something a bit awkward, calmly, before it ever comes up. Sometimes people get pressured to send photos of themselves. If anyone ever asks you, the answer is always no, and you will never be in trouble with me for telling me it happened. That door is always open.',
+  'If you ever send a photo like that you will be in serious trouble, do you understand me.',
+  'Leading with threat guarantees they will hide it if it ever happens, exactly when they most need an adult. Peer pressure carries enormous weight at this age, and the impulse to please can outpace the still developing brakes of the prefrontal cortex. A calm, blame free conversation in advance makes you the person they come to, rather than the person they fear.',
+  'Tonight, plant one sentence: whatever happens, you will never be in trouble for telling me. Then leave it there.',
+  'none',
+  false,
+  311
+),
+(
+  'explorer',
+  'Negotiating more screen autonomy',
+  'Your child is pushing for more freedom over their own screen time and resents rules they feel are babyish.',
+  'You are growing up and it makes sense that you want more say over your own time. I am up for that. Freedom and trust go together though, so let us agree what more freedom looks like, and how we both know it is going well. If it works, it grows.',
+  'You get freedom when you earn it, and right now you have not earned anything.',
+  'Autonomy is the central developmental task of adolescence, and rules that feel babyish breed exactly the rebellion they are meant to prevent. Granting expanding freedom tied to visible responsibility works with the developing brain''s need for independence rather than against it. Negotiation also models the very judgement you want them to build.',
+  'Tonight, agree one specific freedom they gain this month and what keeps it. Write it down together.',
+  'none',
+  false,
+  312
+),
+(
+  'explorer',
+  'The link between mood and the phone',
+  'You have noticed your child often comes off their phone in a worse mood, but they have not made the connection themselves.',
+  'I have noticed something and I am curious whether you have too. You often seem a bit flatter after a long scroll than before it. I am not saying give it up. I just wonder if it is worth us both noticing how different apps actually leave you feeling.',
+  'That phone is making you miserable, anyone can see it, so just put it down.',
+  'Self-awareness about emotional triggers is a skill that is only beginning to develop at this age, and a feed designed to maximise engagement is not designed to leave anyone feeling good. Inviting them to notice the pattern themselves builds a lasting internal compass. Telling them how they feel just provokes denial and shuts the noticing down.',
+  'Tonight, ask them which app leaves them feeling best and which leaves them worst. Let the answer surprise you both.',
+  'none',
+  false,
+  313
+),
+(
+  'explorer',
+  'A secret or second account',
+  'You have discovered your child has a second, hidden account that you did not know about.',
+  'I found out there is another account, and my honest first feeling was hurt. But before I get into that, I want to understand why. Most people your age have one for a reason that makes sense to them. Help me get it, and let us talk about how we move forward.',
+  'A secret account, so you have been lying to me this whole time. I cannot trust you at all now.',
+  'Hidden accounts are extremely common at this age and usually reflect a healthy drive for a private space away from adult and family eyes, not deception for its own sake. Identity formation needs room to experiment. Reacting with betrayal confirms that honesty leads to punishment, while seeking the reason keeps the relationship, and your influence, intact.',
+  'Tonight, lead with curiosity about the why before any consequence. Understand it before you judge it.',
+  'none',
+  false,
+  314
+),
+(
+  'explorer',
+  'Doomscrolling distressing news',
+  'Your child has been scrolling through frightening or upsetting news and world events and seems anxious or overwhelmed by it.',
+  'It looks like a lot of heavy stuff has been coming up on your feed, and it is genuinely hard to take in that much at once. It is good to care about the world. It is also fine to put it down for a bit. You are allowed to look after yourself and still be someone who cares.',
+  'Stop reading the news if it upsets you, there is nothing you can do about any of it anyway.',
+  'The feed surfaces alarming content because it captures attention, and the still developing brain has not yet built strong filters for managing a constant stream of distant threat. The result is anxiety without any outlet for action. Permitting them to care and to step back at the same time teaches sustainable engagement, rather than either numbness or overwhelm.',
+  'Tonight, help them turn the feeling into one small real action, then agree it is okay to step away.',
+  'none',
+  false,
+  315
+),
+(
+  'explorer',
+  'Wanting to become a creator or go viral',
+  'Your child dreams of becoming a creator, getting followers, or going viral, and talks about it as a real goal.',
+  'I love that you make things and want people to see them. That is brilliant. Let us make this about what you create, not just the numbers. The likes are designed to come and go and they will mess with your head if you let them be the point. The work you are proud of, that lasts.',
+  'You are not going to become famous on the internet, focus on something real instead.',
+  'The desire for status and recognition peaks in adolescence, and platforms convert that into chasing metrics that trigger dopamine in unpredictable bursts, which is hard on a developing reward system. Dismissing the dream loses their trust. Redirecting it toward craft and pride, rather than the volatile scoreboard of likes, protects their sense of worth while honouring the ambition.',
+  'Tonight, ask to see something they have made and respond to the work itself, not the view count.',
+  'none',
+  false,
+  316
+),
+(
+  'explorer',
+  'Privacy and their digital footprint',
+  'Your child shares freely online and has not yet thought about how permanent and public their digital trail is.',
+  'Here is something the apps will never tell you. What you post does not really disappear, and a version of it can follow you for years. I am not trying to scare you. I want you to be the one in charge of what is out there about you, instead of leaving that to chance.',
+  'You are putting your whole life online and one day it is going to come back to bite you.',
+  'Adolescents live intensely in the present, and the part of the brain that weighs long term consequences is still maturing, so the permanence of a post is genuinely hard to feel. Framing privacy as power and control, rather than as a warning about future regret, fits the developmental wish for autonomy and is far more likely to change behaviour.',
+  'Tonight, search their name together and check their privacy settings as a shared project, with no judgement.',
+  'none',
+  false,
+  317
+);
+
+-- ============================ shaper ============================
+-- Guided Childhood: Shaper stage scripts (ages 13 to 15). Run after seed.sql.
+insert into public.scripts
+  (stage_id, title, situation, say_this, not_this, why_it_works, tonight, law_flag, is_free, sort_order)
+values
+(
+  'shaper',
+  'Something has gone wrong and they are scared to tell you',
+  'You sense your teenager is carrying something heavy that happened online, but they are afraid of how you will react.',
+  'Whatever it is, you are not in trouble for telling me. I would rather know and help than have you carry it alone. There is almost nothing you could say that we cannot sort out together. Take your time.',
+  '"You can tell me anything, but you had better not have done something stupid." The threat cancels out the invitation and guarantees silence.',
+  'At this age the threat-detection system is highly active while the brakes of the prefrontal cortex are still maturing, so fear of your reaction can outweigh the need for help. Leading with safety, not consequences, lowers that threat response and lets them think clearly. A teenager who believes coming to you is safe will come to you sooner next time, which is when problems are still small.',
+  'Say out loud, with no problem on the table, that they will never be in trouble simply for telling you something. Plant it before they need it.',
+  'none',
+  false,
+  401
+),
+(
+  'shaper',
+  'Heavy social media use and their mood',
+  'You have noticed your teenager seems flatter or more irritable, and it tracks with long stretches on social media.',
+  'I have noticed you seem a bit low lately, and I am not blaming the phone. I just want to understand how you are feeling. Can we talk about what is going on for you, on the apps and off them?',
+  '"That phone is making you miserable, give it here." It treats the device as the whole cause and shuts down the conversation you actually need.',
+  'Heavy passive scrolling is linked with lower mood in some teenagers, though the picture is complex and the phone is rarely the only factor. Leading with curiosity rather than blame keeps them talking, which is how you find the real driver. If low mood persists for more than a couple of weeks, affects sleep or appetite, or worries you, it is worth speaking to your GP or a mental health professional. You do not have to diagnose this alone.',
+  'Ask one open question about how they have been feeling lately, and listen without mentioning the phone first.',
+  'none',
+  false,
+  402
+),
+(
+  'shaper',
+  'Curious or accidental exposure to pornography',
+  'You have learned your teenager has come across pornography, whether by accident, by curiosity, or sent by someone.',
+  'I am not angry, and you are not in trouble. Being curious about sex and bodies is completely normal at your age. The thing is, a lot of what is online is not realistic and not how real relationships work, so I want us to be able to talk about it honestly.',
+  '"That is disgusting, I never want to hear about you looking at that again." Shame teaches them to hide it and leaves the false picture uncorrected.',
+  'Sexual curiosity is a normal part of adolescent development, and most teenagers will encounter pornography. Responding with shame drives the behaviour underground and removes your chance to provide context. Calm conversation lets you separate fantasy from real intimacy, consent, and respect. If the content was extreme, involved coercion, or you are worried about its effect, professional support through your GP or a counsellor is a sensible step.',
+  'Decide your own calm opening line in advance, so that if this comes up you respond from a steady place rather than shock.',
+  'none',
+  false,
+  403
+),
+(
+  'shaper',
+  'Extreme or radicalising content',
+  'Your teenager is repeating extreme views or has been drawn into content that pulls them toward an us-and-them way of seeing the world.',
+  'I have heard you say a few things lately that I want to understand better. I am not going to tell you what to think. I do want to know where these ideas are coming from and to think them through with you. Walk me through it.',
+  '"That is poison and I forbid you from watching it." Forbidding it confirms the narrative that you are the enemy and they are being silenced.',
+  'Adolescents are wired to seek identity, belonging, and certainty, which is exactly what radicalising content offers. Banning it can deepen the appeal and confirm the grievance the content feeds on. Staying curious and reasoning together keeps you inside their thinking, where you can introduce doubt and complexity. If you see fixation, secrecy, or talk of harm, contact your school safeguarding lead or local support services without delay.',
+  'Ask them to explain one idea they have picked up, and stay genuinely curious rather than correcting.',
+  'none',
+  false,
+  404
+),
+(
+  'shaper',
+  'Self-harm content in their feed',
+  'Self-harm or other unhealthy content has started surfacing in your teenager''s feed, whether they sought it out or it was served to them.',
+  'I have seen that some heavy stuff is showing up on your feed. I am not cross with you. I want to make sure you are okay, and I want to understand whether you are looking for this or it is just finding you. Either way, we are in this together.',
+  '"I am deleting all your apps right now." A sudden cut-off can feel like punishment for struggling and may stop them telling you anything real.',
+  'Recommendation algorithms can amplify distressing content once a teenager engages with it, deepening a low mood loop. Approaching with concern rather than punishment keeps them talking and lets you judge how serious things are. Self-harm content can normalise harmful behaviour, so it matters that they have a trusted adult, not an algorithm, to turn to. If you have any worry that your child is hurting themselves or thinking about it, contact your GP or a mental health professional promptly. You do not need to wait for certainty.',
+  'Sit with them and look at how to mute or report this kind of content, so they feel some control over what reaches them.',
+  'none',
+  false,
+  405
+),
+(
+  'shaper',
+  'Pressure, consent, and healthy relationships online',
+  'Your teenager is navigating early romantic or sexual interest online, including pressure to send photos or do things they are unsure about.',
+  'Anyone who really cares about you will never pressure you, and will always take a no without sulking or punishing you. Your body and your choices are yours. If anyone pushes, that tells you something about them, not about you. And you can always come to me.',
+  '"Do not ever send pictures or you will ruin your life." Fear-based warnings make them too ashamed to come to you if something has already happened.',
+  'Adolescents are highly sensitive to peer approval, which can make it hard to hold a boundary in the moment. Naming consent and pressure in advance gives them words and permission to refuse before they are tested. Framing it around respect rather than catastrophe keeps the door open if a mistake has already been made. If an image has been shared or they are being coerced, report it and seek support, including the police or a specialist service, rather than handling it alone.',
+  'Tell them plainly that real care never comes with pressure, so they have the standard in their head before they need it.',
+  'none',
+  false,
+  406
+),
+(
+  'shaper',
+  'Holding oversight while they grow independent',
+  'Your teenager is asking for more privacy and less monitoring, and you are unsure how much to loosen the reins.',
+  'You are getting older and you have earned more privacy. I am not trying to spy on you. My job is shifting from watching to trusting, and the way we keep that trust is honesty both ways. Let us agree what stays private and what I still need to know.',
+  '"As long as you live here, I read everything on your phone." Total surveillance at this age breeds resentment and teaches them to hide better.',
+  'Autonomy is a core developmental need in adolescence, and granting it in step with maturity supports healthy identity and self-regulation. Heavy-handed monitoring tends to push risky behaviour out of sight rather than reduce it. Shifting from control to negotiated trust keeps you informed of the things that matter most: safety, wellbeing, and who they are talking to. The aim is a teenager who chooses to tell you, not one who has been caught.',
+  'Agree one thing you will stop checking and one thing you still need to know about, and say both out loud.',
+  'none',
+  false,
+  407
+),
+(
+  'shaper',
+  'Gambling mechanics and loot boxes',
+  'Your teenager is spending real or in-game money on loot boxes, skins, or other chance-based rewards in games.',
+  'I want to show you something about how these games make money. Those boxes are built to feel like a win even when you lose, the same way a slot machine works. That does not make you daft for enjoying it. It means the design is clever, and I want you to see the trick.',
+  '"You are wasting money on rubbish, no more." Banning it without explaining the mechanic leaves the susceptibility in place for the next time.',
+  'Loot boxes use variable-ratio rewards, the same reinforcement schedule that makes gambling so compelling, and the adolescent reward system is especially responsive to it. Explaining the mechanism builds genuine resistance, because they learn to recognise the pattern rather than just obey a rule. Teenagers respect being treated as capable of understanding the trick. If spending becomes secretive, distressing, or hard to stop, that is worth taking seriously and may warrant professional support.',
+  'Watch a short clip together explaining how loot boxes are designed, and ask them what they notice.',
+  'none',
+  false,
+  408
+),
+(
+  'shaper',
+  'Pressure to perform as a creator',
+  'Your teenager is posting content and is increasingly anxious about views, likes, followers, or going viral.',
+  'I love that you make things. I want to check in on how it feels, not just how it performs. The numbers are not a measure of you. On the days the post does badly, you are exactly the same person you were the day before. Tell me how it has been.',
+  '"It is just a silly app, stop caring what strangers think." It dismisses something that feels significant to them and ends the conversation.',
+  'Adolescents are acutely tuned to social feedback, and likes and follower counts deliver that feedback in a fast, quantified, and public form. Tying self-worth to metrics can fuel anxiety and a fragile sense of identity. Separating who they are from how a post performs protects self-esteem while still honouring their creativity. If the pressure is causing real distress or compulsive checking, it is worth talking it through with a counsellor.',
+  'Ask how creating actually feels day to day, and listen for whether it is bringing joy or just pressure.',
+  'none',
+  false,
+  409
+),
+(
+  'shaper',
+  'Chronic sleep loss from devices',
+  'Your teenager is regularly up late on their phone and is exhausted, struggling to wake, or running on empty.',
+  'You are shattered, and your body genuinely needs more sleep than mine does right now. This is not me being strict for the sake of it. Let us solve the sleep problem together, because everything else gets harder when you are running on empty. What would actually help?',
+  '"Phone off at nine, no argument." The flat rule invites a nightly battle and ignores that they need to own the solution to keep it.',
+  'Adolescent body clocks shift later, so teenagers are biologically wired to feel awake at night, and screens plus notifications make settling harder. Sustained sleep loss affects mood, concentration, and mental health, all of which are already under strain at this age. Solving it with them rather than imposing it increases the chance the habit sticks, because autonomy supports follow-through. A consistent wind-down and the phone charging outside the room are the highest-impact changes.',
+  'Ask them what they think would help them wind down, and build the plan around their answer.',
+  'none',
+  false,
+  410
+),
+(
+  'shaper',
+  'Comparison and anxiety',
+  'Your teenager seems to measure themselves against the lives, bodies, and successes they see online, and it is feeding anxiety.',
+  'What you see on those feeds is the highlight reel, carefully chosen and often edited. You are comparing your whole messy inside to everyone else''s best outside. That is not a fair fight, and it would make anyone feel rotten. You are not falling behind.',
+  '"Just stop comparing yourself, it is pointless." Telling them to stop a feeling they cannot control only adds the failure of not managing it.',
+  'The adolescent brain is primed for social comparison as part of working out where they fit, and curated feeds supply an endless stream of upward comparisons. This can quietly erode self-esteem and feed anxiety. Naming the highlight-reel effect gives them a frame to question what they see rather than absorb it as truth. If anxiety is persistent or interfering with daily life, a GP or counsellor can help, and seeking that support is a sign of good parenting, not failure.',
+  'Look at one polished post together and talk about what was likely cropped, staged, or left out.',
+  'none',
+  false,
+  411
+),
+(
+  'shaper',
+  'Supporting a friend in crisis online',
+  'Your teenager has a friend who is in distress online, perhaps talking about self-harm or feeling unsafe, and is carrying that weight alone.',
+  'It says a lot about you that your friend trusts you. That is a heavy thing to hold by yourself, and you are not meant to carry it alone. Helping a friend in real trouble sometimes means telling a trusted adult, even if they asked you not to. That is not betrayal. That is keeping them safe.',
+  '"That is not your problem, just block them and stay out of it." It abandons a frightened friend and teaches your child to look away from someone in need.',
+  'Teenagers often become the first point of contact when a peer is struggling, and they can feel torn between loyalty and a promise of secrecy. Carrying that responsibility alone is a real burden and can affect their own wellbeing. Helping them understand when a secret must be shared to keep someone safe protects both the friend and your child. Make sure they know the relevant resources, such as a school counsellor, a GP, or a crisis line, and that adults exist to take this weight from them.',
+  'Tell them clearly that a secret which could keep someone safe is one they are allowed to share with you.',
+  'none',
+  false,
+  412
+),
+(
+  'shaper',
+  'Location sharing and personal safety',
+  'Your teenager shares their location through apps, posts, or with friends, and may not have thought through who can see it.',
+  'I am not worried about most of the people you share with. I want you to think about the edges. Who exactly can see where you are, and could that map be seen by someone you do not actually know? Let us go through the settings together so you are the one deciding.',
+  '"Turn off all location sharing, it is dangerous." A blanket ban skips teaching the judgement they will rely on once you are not checking.',
+  'Adolescents tend to focus on the immediate social benefit of sharing and underweight low-probability risks, partly because the brain''s reward system outpaces its risk-assessment system at this age. Helping them think through who can actually see their location builds lasting judgement rather than dependence on your rules. Putting them in charge of the settings respects their autonomy while raising their awareness. The goal is a teenager who shares deliberately, not by default.',
+  'Go through their location settings together and have them decide who stays on and who comes off.',
+  'none',
+  false,
+  413
+),
+(
+  'shaper',
+  'Their digital footprint and future',
+  'Your teenager is posting freely without much thought for how it might look to a future employer, college, or their older self.',
+  'What you post tends to stick around longer than the moment it was made for. I am not saying live in fear of it. I am saying post like a version of you in five years is reading it, because one day they will be. Would future you be glad this is out there?',
+  '"One stupid post will ruin your whole life." Catastrophising makes them tune you out rather than think it through.',
+  'Adolescents are wired to prioritise the immediate and social over the distant and abstract, so the long-term cost of a post is hard to feel in the moment. Offering a simple, concrete frame, picturing their future self, helps the still-developing prefrontal cortex weigh consequences without inducing paralysing fear. Treating them as capable of foresight tends to draw out more careful behaviour than threats do. The aim is thoughtful posting, not anxious silence.',
+  'Ask them to pause before one post and consider whether they would be happy for future them to find it.',
+  'none',
+  false,
+  414
+),
+(
+  'shaper',
+  'Standing firm against group pressure',
+  'Your teenager is being pushed by a group chat or friends to join in on something they are uneasy about, like piling on someone or sharing a photo.',
+  'It is genuinely hard to be the one who says no when everyone else is in. That takes more guts than going along with it. You are allowed to step back, stay quiet, or say it is not for you. If you need a way out, you can always blame me. Say your dad would lose it.',
+  '"Just say no, it is simple." It is not simple under that much pressure, and saying so leaves them without a usable strategy.',
+  'Peer influence peaks in adolescence, and the presence of peers measurably increases risk-taking by amping up the brain''s reward response. Acknowledging how hard it is to resist, rather than pretending it is easy, validates their real experience and keeps them listening. Giving them a concrete exit, including permission to blame you, hands them a workable tool for the moment of pressure. A teenager with a ready-made out is far more likely to use it.',
+  'Offer yourself as the ready-made excuse, so they have a face-saving way out of group pressure.',
+  'none',
+  false,
+  415
+),
+(
+  'shaper',
+  'Spotting misinformation and manipulation',
+  'Your teenager shares or believes things they have seen online without checking whether they are true or who is behind them.',
+  'A lot of what goes viral is designed to make you feel something fast, usually angry or scared, because strong feelings get shared. Before you pass something on, it is worth a pause: who made this, what do they want me to do, and is it actually true? You are smart enough to spot the play.',
+  '"Do not believe anything you read online." Blanket cynicism is as useless as blanket trust and gives them no way to tell the two apart.',
+  'Adolescents are developing critical reasoning but are also drawn to emotionally charged, identity-affirming content, which is exactly what manipulative material exploits. Teaching a few quick questions about source and intent builds media literacy they can apply themselves, which is far more durable than a rule. Framing them as capable of seeing the manipulation appeals to their growing desire for autonomy and respect. The goal is a discerning teenager, not a cynical or a credulous one.',
+  'Take one thing they shared recently and work through together who made it and why.',
+  'none',
+  false,
+  416
+),
+(
+  'shaper',
+  'Renegotiating the phone-free bedroom',
+  'Your teenager is pushing back on the phone staying out of the bedroom at night, arguing they are old enough to manage it.',
+  'You are older now, so let us talk about this properly rather than me just laying down the law. The reason is not trust, it is sleep. Your phone in arm''s reach at night makes good sleep almost impossible for anyone, me included. Let us find a version of this that works for you.',
+  '"The rule is the rule, you are not special." Refusing to revisit a rule they have outgrown invites them to break it the moment you are not looking.',
+  'As teenagers mature, rules imposed without negotiation lose their force, because autonomy is the developmental priority. The science on sleep, however, does not change: a phone in the bedroom disrupts sleep through notifications, late-night use, and the pull to check. Reopening the conversation respectfully, while holding the principle, models how to keep a sound boundary while honouring their growing independence. A charging spot just outside the room is a common compromise that keeps the principle intact.',
+  'Sit down and renegotiate the bedroom phone rule together, holding the sleep principle while updating the detail.',
+  'none',
+  false,
+  417
+);
+
+-- ============================ independent ============================
+-- Guided Childhood: Independent stage scripts (ages 16 and over). Run after seed.sql.
+insert into public.scripts
+  (stage_id, title, situation, say_this, not_this, why_it_works, tonight, law_flag, is_free, sort_order)
+values
+(
+  'independent',
+  'Preparing for full digital independence before leaving home',
+  'They are within a year or two of leaving home, and soon nobody will be checking their screen habits but them.',
+  'Soon you will be running all of this on your own, and I think you are ready for it. I am not here to manage your phone any more, I am here as someone to think out loud with. What do you already know about yourself online, the good habits and the ones you want to keep an eye on?',
+  '"While you are still under my roof, my rules apply." It frames independence as something you grant rather than something they are growing into, so they leave home with no practice at self-governing.',
+  'In late adolescence the goal shifts from external control to internal regulation, because the structures you provide will vanish the moment they move out. Treating them as the future manager of their own habits builds the self-awareness they will actually rely on. Coaching now, while you can still observe and discuss, is the last and best window to hand the controls over deliberately rather than abruptly.',
+  'Ask them to name one digital habit they want to take with them and one they want to leave behind.',
+  'none',
+  false,
+  501
+),
+(
+  'independent',
+  'Owning their own mental health online',
+  'You sense that how they feel is closely tied to what they see and post, and they are starting to notice it too.',
+  'You are old enough now to be the one watching how this stuff affects you, not me. I have noticed feeds can lift you or flatten you depending on the day. You know yourself better than anyone. What does your phone do to your mood, honestly, and what would you change if it were entirely your call?',
+  '"You are on that thing too much, it is making you miserable." A verdict delivered from outside invites a defence, and it teaches them to wait for someone else to diagnose them.',
+  'Emerging adults regulate mood far better when they own the insight rather than receive it as a complaint. Asking them to observe the link between input and feeling builds the metacognition that underpins lifelong mental health. The aim is a young person who notices their own state and adjusts it, which only develops when they are trusted to be the observer.',
+  'Ask them which account or app reliably lifts their mood and which one reliably drains it.',
+  'none',
+  false,
+  502
+),
+(
+  'independent',
+  'Building a healthy relationship with algorithms and feeds',
+  'Their feed seems to know them almost too well, and they are not always sure why they are being shown what they see.',
+  'The feed is not neutral. It is built to keep you scrolling, and it learns what holds you, including the things that wind you up. You are sharp enough to see the machinery now. What do you think yours has decided you are, and is that actually who you want to be fed?',
+  '"It is all rubbish, just delete the app." Telling them to walk away skips the more useful skill, which is understanding the system well enough to bend it to their own ends.',
+  'A young adult who understands that engagement, not wellbeing, is the goal of a feed can curate deliberately rather than be curated. Recommender systems amplify whatever provokes a reaction, so naming that mechanism turns a passive user into an active one. The skill they need for the next sixty years is shaping the algorithm, not just escaping it.',
+  'Ask them to unfollow or mute three accounts that consistently leave them worse off, tonight.',
+  'none',
+  false,
+  503
+),
+(
+  'independent',
+  'Spotting deepfakes and synthetic media',
+  'Convincing fake videos, voices, and images are everywhere, and even careful people are being fooled.',
+  'It is getting genuinely hard to tell what is real, and that is not a failing on your part, it is the technology. I would rather we both got good at pausing before we believe or share something. What makes you trust a clip when you see one, and where could that trust be played?',
+  '"Do not believe anything you see online." Blanket distrust is no more useful than blanket trust, and it leaves them with no actual method for telling the two apart.',
+  'Emerging adults navigate a media environment where synthetic content is cheap and convincing, so the durable skill is verification, not cynicism. Asking what earns their trust surfaces the shortcuts a forger exploits. Building a habit of checking the source and seeking a second confirmation gives them a method they can apply long after any single tool is outdated.',
+  'Look up one recent deepfake together and work out what gave it away.',
+  'none',
+  false,
+  504
+),
+(
+  'independent',
+  'Financial scams, crypto, and get rich quick content',
+  'Their feed is full of people promising fast money through crypto, trading, or some course, and some of it is tempting.',
+  'There is a whole industry online aimed at people your age with the line that fast money is one purchase away. Some of it is outright fraud, some of it is just people selling you the dream of selling the dream. You are smart, so let us pressure test it: who actually profits when you buy in?',
+  '"You are not putting a penny near any of that nonsense." A ban teaches nothing about how the trick works, and the moment you are not there to forbid it, the pitch lands unanswered.',
+  'Young adults are prime targets for financial manipulation precisely because they are building independence and want to get ahead. Teaching them to ask who profits and what is being promised gives them a reusable filter rather than a single prohibition. The protection that lasts is a sceptical question they carry, not a rule they outgrow the day they move out.',
+  'Pick one get rich quick post together and trace exactly how the person behind it actually makes their money.',
+  'none',
+  false,
+  505
+),
+(
+  'independent',
+  'Online dating safety and respect',
+  'They are starting to meet people online, and you want them safe without treating them like a child.',
+  'Meeting people online is normal now, and I trust you to do it well. A couple of things keep grown adults safe, not just teenagers: meet first in public, tell someone where you are, and trust the feeling if something is off. And the respect goes both ways, in how you are treated and how you treat them.',
+  '"Just be careful out there." It sounds caring but gives them nothing concrete, and it quietly implies the danger is all on the other side.',
+  'Emerging adults benefit from specific, dignifying safety practices rather than vague warnings or surveillance. Naming public meetings, a trusted contact, and the legitimacy of their own instincts gives them a portable protocol. Framing respect as mutual also builds them into someone who treats partners well, which is half of what makes a relationship safe.',
+  'Agree one simple plan: when they meet someone new, they tell a named person where and when.',
+  'none',
+  false,
+  506
+),
+(
+  'independent',
+  'Their professional and public digital footprint',
+  'What they post now can be seen by future employers, universities, and people who do not yet know them.',
+  'Almost everything you put out is searchable, and people who will decide things about your future, jobs, courses, references, can see it. I am not saying scrub yourself into a blank profile. I am saying post like the person you are becoming, because that record follows you.',
+  '"Delete those photos before someone sees them." Panic and policing teach concealment, not the lifelong judgement of deciding for themselves what is worth putting into the world.',
+  'In emerging adulthood identity becomes public and consequential, and the footprint they build now shapes real opportunities. Helping them think about audience and permanence develops the forward looking judgement that no amount of deleting can replace. The aim is a young person who curates their public self on purpose, because they will be doing it for the rest of their working life.',
+  'Search their own name together and talk about what a stranger would conclude from the first page.',
+  'none',
+  false,
+  507
+),
+(
+  'independent',
+  'Helping them support a younger sibling well',
+  'A younger sibling looks up to them, and their example online carries real weight in the house.',
+  'Your younger sibling watches you more than they listen to me, and that gives you a kind of quiet influence I do not have. I am not asking you to police them. I am asking you to be the older one who shows what good looks like, and who they can come to before they would ever come to me.',
+  '"Set a better example, they copy everything you do." Framed as a duty and a fault, it makes them resent the role instead of stepping into it.',
+  'Older adolescents take on mentoring identities readily when the role is offered as trust rather than obligation. A near adult who models healthy habits gives a younger child a closer, more credible guide than a parent. Inviting them into that role also deepens their own standards, because people live up to the version of themselves they are asked to be.',
+  'Tell them one thing their younger sibling already copies from them, and thank them for it.',
+  'none',
+  false,
+  508
+),
+(
+  'independent',
+  'News literacy and political polarisation',
+  'They are forming strong views, and their feeds may be feeding them one side hard while hiding the other.',
+  'You are forming your own politics now, and I respect that, even where we differ. The thing I want for you is not a particular view, it is the habit of knowing where yours came from. Feeds tend to show you more of what you already believe. Who do you read that you actually disagree with?',
+  '"You only think that because of what you watch." It dismisses their reasoning as brainwashing and guarantees they stop discussing politics with you at all.',
+  'As young adults consolidate their worldview, the lasting skill is recognising the information environment that shaped it, not adopting yours. Personalised feeds narrow the range of views people encounter, which hardens opinion into identity. Asking who they read across the divide builds intellectual independence, which serves them far better than agreement.',
+  'Each of you names one thoughtful source you disagree with and says one fair thing about it.',
+  'none',
+  false,
+  509
+),
+(
+  'independent',
+  'Focus, productivity, and distraction during study',
+  'Phones and feeds are pulling their attention apart while they are trying to study or revise.',
+  'Your attention is the thing every app is built to capture, and they are very good at it. This is not about willpower, it is about design. You are old enough to run your own experiment: what actually helps you concentrate, and what would you have to do to your phone to find out?',
+  '"Hand me your phone, you cannot be trusted to study with it." Confiscation works for one evening and teaches nothing they can use when they are alone in a library next year.',
+  'Emerging adults must build their own attention management because no one will be there to remove the phone at university or work. Framing focus as a design problem rather than a character flaw removes shame and invites strategy. Letting them test what works gives them a system they own, which is the only kind that survives leaving home.',
+  'Ask them to try one study session with the phone in another room and report back on the difference.',
+  'none',
+  false,
+  510
+),
+(
+  'independent',
+  'Sleep and study balance',
+  'Late nights on screens are eating into their sleep, and it is starting to show in how they cope.',
+  'You are running your own schedule now, which is exactly right. I will just say what I know: sleep is when your brain files everything you studied, so screens late at night cost you twice, the rest and the recall. You decide the line. I am only making sure you have the facts to decide with.',
+  '"Lights off and phone away, it is a school night." Imposing a bedtime on a near adult invites rebellion and removes the chance for them to learn to manage their own rest.',
+  'Young adults regulate sleep best when they own the decision and understand the cost, because soon no one will set their bedtime. Sleep consolidates learning, so the trade off is concrete and worth naming plainly. Handing them the facts and the choice builds the self regulation they will need in every term and every job ahead.',
+  'Share one fact about sleep and learning, then leave the decision genuinely with them.',
+  'none',
+  false,
+  511
+),
+(
+  'independent',
+  'A mature conversation about image sharing and the law',
+  'They are old enough to date and share, and they need to understand consent and the law around intimate images.',
+  'You are an adult or nearly one, so I will speak to you straight. Sharing an intimate image of someone without their consent is not just unkind, it is against the law, and so is pressuring someone to send one. The principle underneath all of it is consent. Are you clear on where those lines are?',
+  '"Do not ever send pictures like that." A flat prohibition shuts the topic down and leaves them unsure what the actual law and the actual harm are when it matters.',
+  'Emerging adults need an honest, adult level grasp of consent and the legal reality around intimate images, because the stakes are serious and lifelong. Grounding the conversation in consent gives them a principle that covers situations a rule cannot anticipate. Speaking to them as a responsible adult makes them more likely to come to you if something goes wrong.',
+  'Make sure they can state in their own words what consent means before an image is ever shared.',
+  'none',
+  false,
+  512
+),
+(
+  'independent',
+  'Knowing when and how to seek help',
+  'They are increasingly handling things alone, and you want them to know that asking for help is a strength, not a failure.',
+  'Being independent does not mean handling everything by yourself. The most capable adults I know are the ones who know when to ask for help and are not too proud to do it. If something online ever frightens you, traps you, or gets out of hand, you can come to me with zero judgement, and there are services that exist for exactly this too.',
+  '"You are an adult now, you should be able to sort your own problems." It teaches them that needing help is a failure of independence, so they will hide the moment they most need you.',
+  'Help seeking is a learned skill that protects emerging adults through every crisis they will face away from home. Framing it as a mark of capability rather than weakness keeps the door open precisely when shame would otherwise close it. Knowing both that you are available and that formal services exist gives them more than one route when they are alone.',
+  'Tell them plainly that asking for help is something strong adults do, and that your door has no judgement behind it.',
+  'none',
+  false,
+  513
+),
+(
+  'independent',
+  'Gambling and betting apps',
+  'Betting and gambling are heavily marketed to young men especially, and the apps are designed to keep them playing.',
+  'Betting apps are everywhere now, dressed up as a bit of fun with the football. Here is what they do not advertise: they are engineered so the house wins over time, and they are very good at getting young people hooked. You are sharp enough to see the design. What do you reckon the free bet is actually buying them?',
+  '"Gambling is a mug''s game, never touch it." The slogan is easy to ignore, and it gives them no understanding of how the hook is set so they can recognise it later.',
+  'Young adults, particularly young men, are intensively targeted by gambling marketing during the years their impulse control is still settling. Explaining the mechanics, the free bet, the near miss, the always on access, gives them a working knowledge they can apply to any product. Understanding the design protects far longer than a slogan they will tune out.',
+  'Look at one betting advert together and work out what behaviour it is really trying to start.',
+  'none',
+  false,
+  514
+),
+(
+  'independent',
+  'World event anxiety and doomscrolling',
+  'A relentless stream of crises and bad news is leaving them anxious, hopeless, or unable to look away.',
+  'The news never stops now, and it is weighted towards the worst of everything because that is what holds attention. Caring about the world is good. Drowning in it helps no one, least of all the people you care about. How do you want to stay informed without it flattening you?',
+  '"Just stop reading the news then." It dismisses a genuine moral instinct to care, and it offers no middle path between drowning and switching off entirely.',
+  'Emerging adults are developing their relationship with a wider world that arrives mainly through an anxiety optimised feed. Validating the care while questioning the consumption helps them stay engaged without being overwhelmed. The lasting skill is a sustainable way to be informed, which they will need across a lifetime of difficult news.',
+  'Help them set one boundary on news intake, a time of day or a number of minutes, and see how it feels.',
+  'none',
+  false,
+  515
+),
+(
+  'independent',
+  'The lifelong, ongoing nature of this conversation',
+  'They are about to leave, and you want them to know this thinking does not end when the parenting does.',
+  'We have been working this out together for years, and I want you to know it does not stop when you leave. The tech will keep changing, and so will you. The job is never finished, for you or for me. I am always here to think it through with you, not as your parent telling you what to do, but as someone who is in it too.',
+  '"Right, you know it all now, off you go." It pretends the work is done, when in truth the questions only get more complex once they are out in the world alone.',
+  'Digital life evolves continuously, so the most useful thing you can leave an emerging adult with is the expectation that reflection is permanent, not a phase they complete. Reframing yourself from controller to lifelong thinking partner keeps the relationship open across adulthood. They leave home equipped not with a finished rulebook but with a habit of asking, which is what actually lasts.',
+  'Tell them this conversation has no finish line, and that you are in it alongside them for good.',
+  'none',
+  false,
+  516
+);
+
