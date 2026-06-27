@@ -127,7 +127,7 @@ a { color: inherit; text-decoration: none; }
 /* HERO */
 .hero {
   background: var(--cream);
-  padding: 100px 24px 80px;
+  padding: 56px 24px 40px;
   text-align: center;
 }
 .hero-inner {
@@ -214,7 +214,7 @@ a { color: inherit; text-decoration: none; }
 /* SAFETY NET SECTION */
 .section-safety {
   background: var(--cream-2);
-  padding: 80px 24px;
+  padding: 56px 24px 48px;
 }
 .section-inner {
   max-width: 1120px;
@@ -369,6 +369,67 @@ a { color: inherit; text-decoration: none; }
 .research-list li::before {
   content: "\2197\00A0";
   color: var(--green-dark);
+}
+
+/* EMAIL CAPTURE SECTION */
+.section-email {
+  background: var(--cream-2);
+  padding: 80px 24px;
+  text-align: center;
+  border-top: 1px solid var(--border);
+}
+.email-inner {
+  max-width: 520px;
+  margin: 0 auto;
+}
+.email-inner h2 {
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 800;
+  color: var(--ink);
+  line-height: 1.2;
+  margin-bottom: 12px;
+  letter-spacing: -0.02em;
+}
+.email-inner p {
+  font-size: 1rem;
+  color: var(--ink-soft);
+  line-height: 1.7;
+  margin-bottom: 28px;
+}
+.dl-form-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.dl-input {
+  flex: 1;
+  min-width: 220px;
+  background: #fff;
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 15px 18px;
+  font-family: var(--serif);
+  font-size: 1rem;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.15s;
+}
+.dl-input::placeholder { color: var(--ink-light); }
+.dl-input:focus { border-color: var(--green-dark); }
+.dl-legal {
+  font-size: 0.75rem;
+  color: var(--ink-light);
+  margin-top: 12px;
+}
+.dl-thanks {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--green-dark);
+  padding: 20px;
+  background: var(--green-lt);
+  border: 1.5px solid var(--green);
+  border-radius: 14px;
 }
 
 /* CTA SECTION */
@@ -603,6 +664,26 @@ a { color: inherit; text-decoration: none; }
   </div>
 </section>
 
+<!-- EMAIL CAPTURE SECTION -->
+<section class="section-email">
+  <div class="email-inner">
+    <span class="eyebrow">Get the free guide</span>
+    <h2>Six steps to a digitally literate child.</h2>
+    <p>One practical email. What to say, what to do, and what to leave alone. No noise.</p>
+    <form id="dl-form" action="https://formspree.io/f/xzdlrlvg" method="POST">
+      <input type="hidden" name="source" value="digital-literacy">
+      <div class="dl-form-row">
+        <input class="dl-input" type="email" name="email" placeholder="Your email address" required autocomplete="email">
+        <button type="submit" class="btn-gold">Send it to me &rarr;</button>
+      </div>
+      <p class="dl-legal">No spam. Unsubscribe any time.</p>
+    </form>
+    <div id="dl-thanks" style="display:none;">
+      <p class="dl-thanks">You are on the list. Check your inbox in the next few minutes.</p>
+    </div>
+  </div>
+</section>
+
 <!-- INNOVATORS SECTION -->
 <section class="section-innovators">
   <div class="section-inner">
@@ -624,7 +705,7 @@ a { color: inherit; text-decoration: none; }
         <div class="innovator-avatar" style="background: var(--gold); color: var(--ink);">GR</div>
         <span class="innovator-tag">Gitanjali Rao, age 11</span>
         <div class="innovator-title">Lead Detection Device</div>
-        <p class="innovator-body">After watching the Flint water crisis unfold online, Gitanjali used YouTube and Khan Academy to teach herself carbon nanotube science. She built Tethys, a portable lead detection device, and won the Google Science Fair. TIME magazine named her Kid of the Year in 2020.</p>
+        <p class="innovator-body">After watching the Flint water crisis unfold online, Gitanjali used YouTube and Khan Academy to teach herself carbon nanotube science. She built Tethys, a portable lead detection device, and won the 3M Young Scientist Challenge. TIME magazine named her Kid of the Year in 2020.</p>
       </div>
 
       <div class="innovator-card">
@@ -665,13 +746,12 @@ a { color: inherit; text-decoration: none; }
     <div class="balance-content">
       <span class="eyebrow">THE BALANCE</span>
       <h2 style="font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 800; color: var(--ink); line-height: 1.2; margin-bottom: 24px; letter-spacing: -0.02em;">The richest digital lives belong to children with the richest real lives.</h2>
-      <p>The research is consistent. Jonathan Haidt's work in The Anxious Generation shows that the children who navigate digital life best are not the ones with the strictest screen rules. They are the ones with the most compelling offline alternatives. Sport, cooking, music, building, reading, time outdoors without a goal. The algorithm has less to work with when a child already has somewhere better to be.</p>
+      <p>The research is consistent. The children who navigate digital life best are not the ones with the strictest screen rules. They are the ones with the most compelling offline alternatives. Sport, cooking, music, building, reading, time outdoors without a goal. The algorithm has less to work with when a child already has somewhere better to be.</p>
       <p>Digital literacy and real world richness are not in competition. They are the same project. A child who can build a radio station from salvaged parts and a child who can spend an afternoon outside with no agenda are both harder for the internet to own.</p>
 
       <div class="research-credits">
         <span class="research-label">KEY RESEARCH BEHIND THIS PAGE</span>
         <ul class="research-list">
-          <li>Jonathan Haidt, The Anxious Generation (2024) — haidt.net</li>
           <li>Ofcom Children and Parents Media Use and Attitudes Report (2024) — ofcom.org.uk</li>
           <li>NSPCC Childline Annual Review (2023) — nspcc.org.uk</li>
           <li>World Economic Forum, Future of Jobs Report (2023) — weforum.org</li>
@@ -706,5 +786,33 @@ a { color: inherit; text-decoration: none; }
   </div>
 </footer>
 
+<script>
+document.getElementById('dl-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const btn = this.querySelector('button[type="submit"]');
+  const original = btn.textContent;
+  btn.textContent = 'Sending…';
+  btn.disabled = true;
+  try {
+    const res = await fetch('https://formspree.io/f/xzdlrlvg', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        email: this.querySelector('input[name="email"]').value,
+        source: 'digital-literacy'
+      })
+    });
+    if (res.ok) {
+      document.getElementById('dl-form').style.display = 'none';
+      document.getElementById('dl-thanks').style.display = 'block';
+    } else {
+      throw new Error('failed');
+    }
+  } catch {
+    btn.textContent = original;
+    btn.disabled = false;
+  }
+});
+</script>
 </body>
 </html>
