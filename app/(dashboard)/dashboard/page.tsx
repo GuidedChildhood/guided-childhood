@@ -30,12 +30,15 @@ export default async function DashboardPage() {
 
   if (!profile?.onboarding_complete) redirect('/onboarding')
 
-  const { data: child } = await supabase
-    .from('children')
-    .select('name, age_band, stage_id, streak_weeks, actions_this_week')
-    .eq('parent_id', user.id)
-    .eq('is_primary', true)
-    .single()
+  const today = new Date().toISOString().split('T')[0]
+
+  const [childResult, dailySessionResult] = await Promise.all([
+    supabase.from('children').select('name, age_band, stage_id, streak_weeks, actions_this_week').eq('parent_id', user.id).eq('is_primary', true).single(),
+    supabase.from('daily_sessions').select('completed_at').eq('user_id', user.id).eq('session_date', today).maybeSingle(),
+  ])
+
+  const child = childResult.data
+  const dailyDone = !!dailySessionResult.data?.completed_at
 
   const stage = child?.age_band
     ? getStageFromAgeBand(child.age_band as AgeBand)
@@ -67,12 +70,58 @@ export default async function DashboardPage() {
   return (
     <div style={{ maxWidth: '640px', margin: '0 auto', padding: '24px 20px' }}>
       {/* Welcome */}
-      <div style={{ marginBottom: '28px' }}>
+      <div style={{ marginBottom: '20px' }}>
         <p className="eyebrow" style={{ marginBottom: '4px' }}>Good to have you back</p>
         <h1 style={{ fontSize: 'clamp(1.5rem, 4vw, 2rem)', marginBottom: '0' }}>
           Hello, {firstName}
         </h1>
       </div>
+
+      {/* Daily practice — primary CTA on every login */}
+      <Link href="/dashboard/daily" style={{ textDecoration: 'none', display: 'block', marginBottom: '20px' }}>
+        <div style={{
+          background: dailyDone ? 'var(--green-lt)' : 'var(--ink)',
+          border: dailyDone ? '2px solid var(--green)' : 'none',
+          borderRadius: '18px',
+          padding: '18px 22px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: '16px',
+        }}>
+          <div>
+            <div style={{
+              fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600,
+              letterSpacing: '0.1em', textTransform: 'uppercase',
+              color: dailyDone ? 'var(--green-dark)' : 'var(--gold)',
+              marginBottom: '5px',
+            }}>
+              {dailyDone ? 'Done today' : 'Daily practice'}
+            </div>
+            <div style={{
+              fontFamily: 'var(--font-display)', fontWeight: 800,
+              fontSize: '17px', letterSpacing: '-0.01em',
+              color: dailyDone ? 'var(--ink)' : '#fff',
+            }}>
+              {dailyDone ? 'Practice complete' : 'Start today\'s session'}
+            </div>
+            <div style={{
+              fontSize: '13px', marginTop: '3px',
+              color: dailyDone ? 'var(--green-dark)' : 'rgba(255,255,255,0.6)',
+            }}>
+              {dailyDone ? 'See you tomorrow' : '5 cards · 2 minutes · builds the habit'}
+            </div>
+          </div>
+          <div style={{
+            width: '44px', height: '44px', borderRadius: '50%',
+            background: dailyDone ? 'var(--green-dark)' : 'rgba(255,255,255,0.1)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: '22px', flexShrink: 0,
+          }}>
+            {dailyDone ? '✓' : '▷'}
+          </div>
+        </div>
+      </Link>
 
       {/* Stage card */}
       <div style={{
