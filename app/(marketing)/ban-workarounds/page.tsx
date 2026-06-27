@@ -450,7 +450,7 @@ export default function BanWorkaroundsPage() {
       </section>
 
       {/* Final CTA */}
-      <section style={{ background: 'var(--green-dark)', padding: 'clamp(64px, 9vw, 104px) 32px', position: 'relative', overflow: 'hidden' }}>
+      <section style={{ background: 'var(--terracotta-dark)', padding: 'clamp(64px, 9vw, 104px) 32px', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', top: '-60px', right: '-60px', width: '280px', height: '280px', borderRadius: '50%', background: 'rgba(255,255,255,.04)', pointerEvents: 'none' }} />
         <div style={{ position: 'absolute', bottom: '-40px', left: '-40px', width: '200px', height: '200px', borderRadius: '50%', background: 'rgba(255,255,255,.03)', pointerEvents: 'none' }} />
         <div className="container" style={{ textAlign: 'center', position: 'relative', zIndex: 1 }}>
