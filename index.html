@@ -439,7 +439,7 @@ footer{background:var(--cream-2);border-top:1px solid var(--border);padding:36px
 <!-- AUDIENCE TABS -->
 <div class="tab-bar" role="tablist" style="margin-top:108px">
   <button class="tab on" role="tab" aria-selected="true" onclick="switchTab('parents',this)">For Parents</button>
-  <button class="tab" role="tab" aria-selected="false" onclick="switchTab('teachers',this)">For Teachers &amp; Schools</button>
+  <button class="tab" role="tab" aria-selected="false" onclick="window.location.href='/schools'">For Teachers &amp; Schools</button>
 </div>
 
 <!-- ══════════════ PARENTS TAB ══════════════ -->
@@ -1230,7 +1230,15 @@ function faq(el) {
   document.querySelectorAll('.faq-item').forEach(i => { i.classList.remove('open'); i.querySelector('.faq-q').setAttribute('aria-expanded','false'); });
   if (!open) { item.classList.add('open'); el.setAttribute('aria-expanded','true'); }
 }
-function go(id) { const el = document.getElementById(id); if(el) el.scrollIntoView({ behavior:'smooth', block:'start' }); }
+function go(id) {
+  var teachersPanel = document.getElementById('tab-teachers');
+  if (teachersPanel && teachersPanel.classList.contains('on')) {
+    var parentsBtn = document.querySelector('.tab[onclick*="parents"]');
+    if (parentsBtn) switchTab('parents', parentsBtn);
+  }
+  var el = document.getElementById(id);
+  if (el) setTimeout(function(){ el.scrollIntoView({ behavior:'smooth', block:'start' }); }, 50);
+}
 function shareLink(platform) {
   const url  = 'https://guidedchildhood.co.uk';
   const text = 'Guided Childhood. Guide your child through every stage of digital life, from age 4 to 16.';
