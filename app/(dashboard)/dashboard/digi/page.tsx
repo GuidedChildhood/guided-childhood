@@ -38,13 +38,20 @@ export default async function DigiPage() {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const [profileResult, childResult, convResult] = await Promise.all([
+  const today = new Date().toISOString().split('T')[0]
+
+  const [profileResult, childResult, convResult, feedbackResult] = await Promise.all([
     supabase.from('profiles').select('subscription_status').eq('id', user.id).single(),
     supabase.from('children').select('age_band').eq('parent_id', user.id).eq('is_primary', true).single(),
     supabase.from('digi_conversations')
       .select('messages, messages_today, last_message_date')
       .eq('user_id', user.id)
       .single(),
+    supabase.from('digi_feedback')
+      .select('question, parent_response, responded_at')
+      .eq('user_id', user.id)
+      .eq('feedback_date', today)
+      .maybeSingle(),
   ])
 
   const isPaid = profileResult.data?.subscription_status === 'active'
@@ -56,7 +63,6 @@ export default async function DigiPage() {
   const stagePrompts = STAGE_PROMPTS[stage.id] ?? STAGE_PROMPTS[3]
 
   const conv = convResult.data
-  const today = new Date().toISOString().split('T')[0]
   const isNewDay = !conv || conv.last_message_date !== today
   const initialCount = isNewDay ? 0 : (conv?.messages_today ?? 0)
 
@@ -65,12 +71,18 @@ export default async function DigiPage() {
     .filter(m => m.role === 'user' || m.role === 'assistant')
     .map(m => ({ role: m.role as 'user' | 'assistant', content: m.content }))
 
+  const todayFeedback = feedbackResult.data
+  const pendingReflection = todayFeedback
+    ? { question: todayFeedback.question, answered: !!todayFeedback.parent_response }
+    : null
+
   return (
     <DigiChat
       initialMessages={initialMessages}
       initialCount={initialCount}
       isPaid={isPaid}
       stagePrompts={stagePrompts}
+      pendingReflection={pendingReflection}
     />
   )
 }
