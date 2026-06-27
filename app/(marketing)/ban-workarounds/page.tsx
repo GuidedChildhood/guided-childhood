@@ -12,48 +12,48 @@ const WORKAROUNDS = [
     label: 'VPNs',
     desc: 'Hides location and identity. Platforms designed for adults are freely available on any app store. A 10 year old can install a VPN in under two minutes.',
     tag: 'Most common',
-    tagBg: 'var(--coral-lt)',
-    tagColor: 'var(--coral)',
+    tagBg: 'var(--stage-1)',
+    tagColor: 'var(--terracotta)',
   },
   {
     icon: '📅',
     label: 'False date of birth',
     desc: 'Most platforms ask for a date of birth at signup. There is no verification. Children have entered false ages since social media began and will continue to do so.',
     tag: 'Always existed',
-    tagBg: 'var(--gold-lt)',
-    tagColor: 'var(--gold-dark)',
+    tagBg: 'var(--stage-5)',
+    tagColor: 'var(--terracotta)',
   },
   {
     icon: '👤',
     label: 'Parent or sibling account',
     desc: 'Borrowing a logged-in adult account bypasses the ban entirely. No detection, no flag, no log. The algorithm treats them as an adult from that moment on.',
     tag: 'Very common',
-    tagBg: 'var(--coral-lt)',
-    tagColor: 'var(--coral)',
+    tagBg: 'var(--stage-1)',
+    tagColor: 'var(--terracotta)',
   },
   {
     icon: '🎮',
     label: 'Gaming platforms',
     desc: 'Discord, Steam, Roblox and Xbox Live all carry social features outside the ban. Group chats, voice calls, image sharing and video links all operate freely.',
     tag: 'Often missed',
-    tagBg: 'var(--lav)',
-    tagColor: 'var(--lav-deep)',
+    tagBg: 'var(--stage-4)',
+    tagColor: 'var(--terracotta)',
   },
   {
     icon: '🌍',
     label: 'International app versions',
     desc: 'A VPN plus a non-UK App Store account gives access to app versions without UK age restrictions. The ban is UK law. It does not apply to overseas servers.',
     tag: 'Growing fast',
-    tagBg: 'var(--green-lt)',
-    tagColor: 'var(--green-dark)',
+    tagBg: 'var(--stage-2)',
+    tagColor: 'var(--terracotta)',
   },
   {
     icon: '💬',
     label: 'Unregulated messaging',
     desc: 'Telegram, newer chat apps and peer-to-peer platforms are outside the same scope. Sharing content from banned platforms continues through these channels.',
     tag: 'Underestimated',
-    tagBg: 'var(--gold-lt)',
-    tagColor: 'var(--gold-dark)',
+    tagBg: 'var(--stage-5)',
+    tagColor: 'var(--terracotta)',
   },
 ]
 
@@ -61,38 +61,38 @@ const HARMS = [
   {
     title: 'No content filtering at all',
     desc: 'The algorithm does not know it is serving a child. Adult mode means adult content, graphic news, extreme material and no guardrails. Teen settings do not exist on an adult account.',
-    accent: 'var(--coral)',
-    bg: 'var(--coral-lt)',
+    accent: 'var(--terracotta)',
+    bg: 'var(--stage-1)',
   },
   {
     title: 'Grooming risk is dramatically higher',
     desc: 'Teen settings block unknown adults from messaging. On an adult account those protections are completely off. Any stranger can contact your child and they look like a peer.',
-    accent: 'var(--coral)',
-    bg: 'var(--coral-lt)',
+    accent: 'var(--terracotta)',
+    bg: 'var(--stage-1)',
   },
   {
     title: 'No help when something goes wrong',
     desc: 'A child using a fake or parent account cannot report abuse without revealing they should not be there. So they go silent. The harm compounds and you never find out.',
-    accent: '#C0392B',
-    bg: '#fff0ef',
+    accent: 'var(--terracotta-dark)',
+    bg: 'var(--terracotta-lt)',
   },
   {
     title: 'Deception becomes the habit',
     desc: 'Getting around one rule teaches that rules are optional. That lesson compounds into every boundary you try to set at home, at school, and later in life.',
-    accent: 'var(--gold-dark)',
-    bg: 'var(--gold-lt)',
+    accent: 'var(--terracotta)',
+    bg: 'var(--stage-5)',
   },
   {
     title: 'You lose all visibility',
     desc: 'You cannot monitor an account you do not know exists. Workarounds make meaningful supervision structurally impossible without a different kind of conversation.',
-    accent: 'var(--lav-deep)',
-    bg: 'var(--lav)',
+    accent: 'var(--terracotta)',
+    bg: 'var(--stage-4)',
   },
   {
     title: 'Sleep and mood impact worsens',
     desc: 'Teen mode screen time limits do not apply to adult accounts. Late-night use is unlimited. The impact on sleep, anxiety and next-day functioning is direct and measurable.',
-    accent: 'var(--lav-deep)',
-    bg: 'var(--lav)',
+    accent: 'var(--terracotta)',
+    bg: 'var(--stage-4)',
   },
 ]
 
@@ -121,8 +121,8 @@ const PARENT_SIGNALS = [
 const PLATFORMS = [
   {
     name: 'Instagram',
-    bg: 'var(--lav)',
-    text: 'var(--lav-deep)',
+    bg: 'var(--stage-4)',
+    text: 'var(--terracotta)',
     steps: [
       'Settings and privacy → Account → Saved login info. Delete all saved logins on every device.',
       'Settings → Security → Two-factor authentication. Use an authenticator app not SMS.',
@@ -133,8 +133,8 @@ const PLATFORMS = [
   },
   {
     name: 'TikTok',
-    bg: 'var(--green-lt)',
-    text: 'var(--green-dark)',
+    bg: 'var(--stage-2)',
+    text: 'var(--terracotta)',
     steps: [
       'Profile → Settings → Security → Two-step verification. Enable it now.',
       'Settings → Digital Wellbeing → Screen Time Management. Set a PIN only you know.',
@@ -145,8 +145,8 @@ const PLATFORMS = [
   },
   {
     name: 'Snapchat',
-    bg: 'var(--gold-lt)',
-    text: 'var(--gold-dark)',
+    bg: 'var(--stage-5)',
+    text: 'var(--terracotta)',
     steps: [
       'Settings → Two-Factor Authentication. Enable with an authenticator app.',
       'Settings → Manage → Sessions. Remove any unrecognised devices immediately.',
@@ -157,8 +157,8 @@ const PLATFORMS = [
   },
   {
     name: 'YouTube',
-    bg: 'var(--coral-lt)',
-    text: 'var(--coral)',
+    bg: 'var(--stage-1)',
+    text: 'var(--terracotta)',
     steps: [
       'Do not save your Google password on any shared device or family browser profile.',
       'Google Account → Security → Your devices. Remove every device you no longer use.',
@@ -169,8 +169,8 @@ const PLATFORMS = [
   },
   {
     name: 'WhatsApp',
-    bg: 'var(--green-lt)',
-    text: 'var(--green-dark)',
+    bg: 'var(--stage-2)',
+    text: 'var(--terracotta)',
     steps: [
       'Settings → Account → Two-step verification. Set a six-digit PIN only you know.',
       'Settings → Privacy → App Lock. Enable fingerprint or face lock.',
@@ -181,8 +181,8 @@ const PLATFORMS = [
   },
   {
     name: 'Discord',
-    bg: 'var(--lav)',
-    text: 'var(--lav-deep)',
+    bg: 'var(--stage-4)',
+    text: 'var(--terracotta)',
     steps: [
       'User Settings → My Account → Two-Factor Authentication. Enable it.',
       'User Settings → Devices. Log out of all sessions on unrecognised devices.',
@@ -211,7 +211,7 @@ export default function BanWorkaroundsPage() {
       </header>
 
       {/* Hero */}
-      <section style={{ background: 'var(--coral)', padding: 'clamp(56px, 8vw, 96px) 24px clamp(48px, 6vw, 80px)' }}>
+      <section style={{ background: 'var(--terracotta)', padding: 'clamp(56px, 8vw, 96px) 24px clamp(48px, 6vw, 80px)' }}>
         <div className="container" style={{ textAlign: 'center' }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(255,255,255,.18)', border: '1px solid rgba(255,255,255,.3)', borderRadius: '100px', padding: '5px 14px', fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: '#fff', marginBottom: '24px' }}>
             <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#fff', display: 'inline-block', animation: 'pulse 2s infinite' }} />
@@ -255,7 +255,7 @@ export default function BanWorkaroundsPage() {
       </section>
 
       {/* The real harms */}
-      <section className="section-lg" style={{ background: 'var(--warm)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
+      <section className="section-lg" style={{ background: 'var(--cream)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: '48px' }}>
             <p className="eyebrow" style={{ marginBottom: '12px' }}>Why workarounds are worse than no ban</p>
@@ -291,8 +291,8 @@ export default function BanWorkaroundsPage() {
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               {SCHOOL_SIGNALS.map((s, i) => (
-                <div key={i} style={{ display: 'flex', gap: '14px', alignItems: 'flex-start', background: 'var(--warm)', border: '1px solid var(--border)', borderRadius: '10px', padding: '14px 16px' }}>
-                  <span style={{ width: '24px', height: '24px', borderRadius: '50%', background: 'var(--green-lt)', border: '1.5px solid var(--green)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--green-dark)', fontWeight: 800, fontSize: '.7rem', flexShrink: 0, marginTop: '1px' }}>
+                <div key={i} style={{ display: 'flex', gap: '14px', alignItems: 'flex-start', background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '10px', padding: '14px 16px' }}>
+                  <span style={{ width: '24px', height: '24px', borderRadius: '50%', background: 'var(--stage-2)', border: '1.5px solid var(--stage-2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--terracotta)', fontWeight: 800, fontSize: '.7rem', flexShrink: 0, marginTop: '1px' }}>
                     {i + 1}
                   </span>
                   <p style={{ color: 'var(--ink-soft)', fontSize: '.9rem', lineHeight: 1.55, margin: 0 }}>{s}</p>
@@ -316,7 +316,7 @@ export default function BanWorkaroundsPage() {
           <div className="two-col-issues" style={{ maxWidth: '860px', margin: '0 auto' }}>
             {PARENT_SIGNALS.map((s, i) => (
               <div key={i} style={{ display: 'flex', gap: '14px', alignItems: 'flex-start', background: 'rgba(255,255,255,.05)', border: '1px solid rgba(255,255,255,.1)', borderRadius: '10px', padding: '16px' }}>
-                <span style={{ width: '26px', height: '26px', borderRadius: '50%', background: 'var(--coral)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 800, fontSize: '.72rem', flexShrink: 0, marginTop: '1px' }}>
+                <span style={{ width: '26px', height: '26px', borderRadius: '50%', background: 'var(--terracotta)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 800, fontSize: '.72rem', flexShrink: 0, marginTop: '1px' }}>
                   {i + 1}
                 </span>
                 <p style={{ color: 'rgba(255,255,255,.82)', fontSize: '.9rem', lineHeight: 1.6, margin: 0 }}>{s}</p>
@@ -327,7 +327,7 @@ export default function BanWorkaroundsPage() {
       </section>
 
       {/* Platform lockdown guide */}
-      <section className="section-lg" style={{ background: 'var(--warm)', borderTop: '1px solid var(--border)' }}>
+      <section className="section-lg" style={{ background: 'var(--cream)', borderTop: '1px solid var(--border)' }}>
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: '52px' }}>
             <p className="eyebrow" style={{ marginBottom: '12px' }}>Step by step</p>
@@ -389,7 +389,7 @@ export default function BanWorkaroundsPage() {
                 <div className="digi-avatar">D</div>
                 <div>
                   <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '.9rem', color: 'var(--ink)' }}>DiGi</div>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--green-dark)' }}>Your digital guide</div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>Your digital guide</div>
                 </div>
               </div>
 
@@ -400,7 +400,7 @@ export default function BanWorkaroundsPage() {
                 </div>
 
                 <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start', flexDirection: 'row-reverse' }}>
-                  <div className="digi-avatar-sm" style={{ background: 'var(--lav)', color: 'var(--lav-deep)' }}>JP</div>
+                  <div className="digi-avatar-sm" style={{ background: 'var(--stage-4)', color: 'var(--terracotta)' }}>JP</div>
                   <div className="bubble-parent">Start with curiosity, not accusation. Try: &ldquo;I noticed you have a VPN. Tell me about that.&rdquo; Let him explain before you respond.</div>
                 </div>
 
@@ -410,12 +410,12 @@ export default function BanWorkaroundsPage() {
                 </div>
 
                 <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start', flexDirection: 'row-reverse' }}>
-                  <div className="digi-avatar-sm" style={{ background: 'var(--lav)', color: 'var(--lav-deep)' }}>JP</div>
+                  <div className="digi-avatar-sm" style={{ background: 'var(--stage-4)', color: 'var(--terracotta)' }}>JP</div>
                   <div className="bubble-parent">That is normal. Say: &ldquo;I am not angry. I want to understand. Because on a VPN the platform does not know you are a child, and the things that protect you are all switched off.&rdquo;</div>
                 </div>
 
-                <div style={{ background: 'var(--green-lt)', border: '1px solid #D3ECD9', borderRadius: '10px', padding: '14px 16px', marginTop: '4px' }}>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--green-dark)', marginBottom: '8px' }}>Stage 4 script · full version in your guide</div>
+                <div style={{ background: 'var(--stage-2)', border: '1px solid var(--stage-2)', borderRadius: '10px', padding: '14px 16px', marginTop: '4px' }}>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '8px' }}>Stage 4 script · full version in your guide</div>
                   <p style={{ fontSize: '.82rem', color: 'var(--ink)', lineHeight: 1.6, margin: 0 }}>
                     Includes: how to respond without destroying trust, what to do next, and how to set a new agreement around privacy and access.
                   </p>
@@ -427,21 +427,21 @@ export default function BanWorkaroundsPage() {
       </section>
 
       {/* Research context */}
-      <section style={{ background: 'var(--warm)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)', padding: 'clamp(40px, 6vw, 72px) 32px' }}>
+      <section style={{ background: 'var(--cream)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)', padding: 'clamp(40px, 6vw, 72px) 32px' }}>
         <div className="container">
           <div className="three-col" style={{ gap: '32px' }}>
             <div style={{ padding: '0 8px' }}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '2rem', fontWeight: 700, color: 'var(--coral)', marginBottom: '8px' }}>73%</div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '2rem', fontWeight: 700, color: 'var(--terracotta)', marginBottom: '8px' }}>73%</div>
               <p style={{ fontSize: '.88rem', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>of UK teenagers who know about the ban say they plan to find a workaround before it takes effect.</p>
               <p style={{ fontFamily: 'var(--font-mono)', fontSize: '.7rem', color: 'var(--ink-light)', marginTop: '8px' }}>Ofcom · Children and Parents Media Use and Attitudes 2025</p>
             </div>
             <div style={{ padding: '0 8px' }}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '2rem', fontWeight: 700, color: 'var(--gold-dark)', marginBottom: '8px' }}>2 min</div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '2rem', fontWeight: 700, color: 'var(--terracotta)', marginBottom: '8px' }}>2 min</div>
               <p style={{ fontSize: '.88rem', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>Average time it takes a child to install and connect a VPN to access a blocked platform, based on platform testing.</p>
               <p style={{ fontFamily: 'var(--font-mono)', fontSize: '.7rem', color: 'var(--ink-light)', marginTop: '8px' }}>Internet Watch Foundation · 2025</p>
             </div>
             <div style={{ padding: '0 8px' }}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '2rem', fontWeight: 700, color: 'var(--green-dark)', marginBottom: '8px' }}>6 in 10</div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '2rem', fontWeight: 700, color: 'var(--terracotta)', marginBottom: '8px' }}>6 in 10</div>
               <p style={{ fontSize: '.88rem', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>Secondary school teachers report pupils already discussing ban workarounds during school time and on school devices.</p>
               <p style={{ fontFamily: 'var(--font-mono)', fontSize: '.7rem', color: 'var(--ink-light)', marginTop: '8px' }}>NASUWT Teacher Survey · 2025</p>
             </div>

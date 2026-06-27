@@ -268,8 +268,8 @@ export default function DigiSquadPage() {
                     Tonight you could ask: &ldquo;What did Teo say about why it is hard to stop?&rdquo; Just that. Let them explain it back to you.
                   </div>
                 </div>
-                <div style={{ background: 'var(--green-lt)', border: '1px solid #D3ECD9', borderRadius: '10px', padding: '14px 16px' }}>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--green-dark)', marginBottom: '8px' }}>Why this matters · Stage 3 · Ages 9 to 11</div>
+                <div style={{ background: 'var(--stage-2)', border: '1px solid var(--stage-2)', borderRadius: '10px', padding: '14px 16px' }}>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '8px' }}>Why this matters · Stage 3 · Ages 9 to 11</div>
                   <p style={{ fontSize: '.82rem', color: 'var(--ink)', lineHeight: 1.6, margin: 0 }}>
                     Children who can name what is happening in their brain are significantly better at self-regulating. Teo makes that naming feel like football tactics, not a lecture.
                   </p>
@@ -281,7 +281,7 @@ export default function DigiSquadPage() {
       </section>
 
       {/* Final CTA */}
-      <section style={{ background: 'var(--green-dark)', padding: 'clamp(64px, 9vw, 104px) 32px', position: 'relative', overflow: 'hidden' }}>
+      <section style={{ background: 'var(--terracotta-dark)', padding: 'clamp(64px, 9vw, 104px) 32px', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', top: '-60px', right: '-60px', width: '280px', height: '280px', borderRadius: '50%', background: 'rgba(255,255,255,.04)', pointerEvents: 'none' }} />
         <div className="container" style={{ textAlign: 'center', position: 'relative', zIndex: 1 }}>
           <p className="eyebrow" style={{ color: 'var(--green)', marginBottom: '16px' }}>The DiGi Squad</p>

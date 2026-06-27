@@ -101,7 +101,7 @@ export default function LessonPage() {
 
           {/* Mission card */}
           <div style={{ background: 'rgba(255,255,255,.08)', border: '1px solid rgba(255,255,255,.15)', borderRadius: '16px', padding: '24px', marginBottom: '24px', textAlign: 'left' }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: '10px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--stage-5)', marginBottom: '10px' }}>
               🚀 {LESSON.mission.heading}
             </div>
             <p style={{ color: '#fff', lineHeight: 1.65, marginBottom: '12px', fontSize: '.95rem' }}>{LESSON.mission.body}</p>
@@ -109,8 +109,8 @@ export default function LessonPage() {
           </div>
 
           {/* Family question */}
-          <div style={{ background: 'var(--green-lt)', borderRadius: '14px', padding: '16px 20px', marginBottom: '32px', textAlign: 'left' }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--green-dark)', marginBottom: '8px' }}>
+          <div style={{ background: 'var(--stage-2)', borderRadius: '14px', padding: '16px 20px', marginBottom: '32px', textAlign: 'left' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '8px' }}>
               💬 Talk about it tonight
             </div>
             <p style={{ color: 'var(--ink)', fontSize: '.9rem', lineHeight: 1.6, margin: 0 }}>{LESSON.familyQuestion}</p>
@@ -151,12 +151,12 @@ export default function LessonPage() {
 
           {/* Progress bar */}
           <div style={{ flex: 1, height: '6px', background: 'var(--border)', borderRadius: '100px', overflow: 'hidden' }}>
-            <div style={{ height: '100%', background: 'var(--coral)', borderRadius: '100px', width: `${progress}%`, transition: 'width 0.4s ease' }} />
+            <div style={{ height: '100%', background: 'var(--stage-1)', borderRadius: '100px', width: `${progress}%`, transition: 'width 0.4s ease' }} />
           </div>
 
           {/* Character chip */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexShrink: 0 }}>
-            <div style={{ width: '26px', height: '26px', borderRadius: '50%', background: 'var(--coral)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '.9rem' }}>⚽</div>
+            <div style={{ width: '26px', height: '26px', borderRadius: '50%', background: 'var(--stage-1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '.9rem' }}>⚽</div>
             <span style={{ fontFamily: 'var(--font-mono)', fontSize: '.68rem', fontWeight: 600, color: 'var(--ink-soft)' }}>Teo</span>
           </div>
         </div>

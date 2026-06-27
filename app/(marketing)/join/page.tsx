@@ -240,7 +240,7 @@ export default async function JoinPage() {
                   <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: color.accent }} />
 
                   {stage.isCritical && (
-                    <span style={{ display: 'inline-flex', alignSelf: 'flex-start', background: 'var(--coral)', color: '#fff', fontFamily: 'var(--font-mono)', fontSize: '.58rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', padding: '3px 8px', borderRadius: '100px', marginBottom: '8px' }}>
+                    <span style={{ display: 'inline-flex', alignSelf: 'flex-start', background: 'var(--terracotta)', color: '#fff', fontFamily: 'var(--font-mono)', fontSize: '.58rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', padding: '3px 8px', borderRadius: '100px', marginBottom: '8px' }}>
                       Critical window
                     </span>
                   )}
@@ -268,7 +268,7 @@ export default async function JoinPage() {
                     fontSize: '.72rem',
                     fontWeight: 700,
                     color: stage.isCritical ? '#fff' : 'var(--ink)',
-                    background: stage.isCritical ? 'var(--coral)' : color.accent,
+                    background: stage.isCritical ? 'var(--terracotta)' : color.accent,
                     padding: '8px 14px',
                     borderRadius: '10px',
                     fontFamily: 'var(--font-mono)',
@@ -494,9 +494,9 @@ export default async function JoinPage() {
           </h2>
           <div className="three-col" style={{ gap: '16px' }}>
             {[
-              { time: 'Tonight', color: 'var(--green)', desc: 'The bedroom rule is in place. Devices sleep in the kitchen. Everyone sleeps better. The conversation took four minutes and the script meant you did not flinch.' },
-              { time: 'This term', color: 'var(--gold)', desc: 'You have had the algorithm conversation. They come to you when something weird shows up. The door is open. That is the whole thing.' },
-              { time: 'Spring 2027', color: 'var(--coral)', desc: 'The ban comes into force. Your child reaches 16 ready. They know how algorithms work, what their digital footprint says about them, and how to get help when something goes wrong online. The switch flips. They are not starting from zero.' },
+              { time: 'Tonight', color: 'var(--stage-2)', desc: 'The bedroom rule is in place. Devices sleep in the kitchen. Everyone sleeps better. The conversation took four minutes and the script meant you did not flinch.' },
+              { time: 'This term', color: 'var(--stage-5)', desc: 'You have had the algorithm conversation. They come to you when something weird shows up. The door is open. That is the whole thing.' },
+              { time: 'Spring 2027', color: 'var(--stage-1)', desc: 'The ban comes into force. Your child reaches 16 ready. They know how algorithms work, what their digital footprint says about them, and how to get help when something goes wrong online. The switch flips. They are not starting from zero.' },
             ].map((moment, i) => (
               <div key={i} style={{ background: 'rgba(255,255,255,.06)', border: '1px solid rgba(255,255,255,.1)', borderRadius: '18px', padding: '28px', textAlign: 'left', position: 'relative', overflow: 'hidden' }}>
                 <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: moment.color }} />

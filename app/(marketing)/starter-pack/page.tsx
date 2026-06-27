@@ -279,7 +279,7 @@ function ResultScreen({
               fontWeight: 600,
               letterSpacing: '0.1em',
               textTransform: 'uppercase',
-              background: 'var(--coral)',
+              background: 'var(--terracotta)',
               color: '#fff',
               padding: '3px 8px',
               borderRadius: '100px',

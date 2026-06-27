@@ -1165,12 +1165,12 @@ export default function HomePage() {
       {/* ================================================================
           WHAT CHANGES
           ================================================================ */}
-      <section className="section-lg" style={{ background: '#FDFBF8', textAlign: 'center' }}>
+      <section className="section-lg" style={{ background: 'var(--cream)', textAlign: 'center' }}>
         <div style={{ maxWidth: '1040px', margin: '0 auto' }}>
-          <p className="eyebrow fu" style={{ color: 'var(--coral)', marginBottom: '12px' }}>What changes</p>
+          <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>What changes</p>
           <h2 className="fu" style={{ marginBottom: '14px' }}>
             How this shows up{' '}
-            <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--coral)' }}>in your home</em>
+            <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--terracotta)' }}>in your home</em>
           </h2>
           <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.8, maxWidth: '500px', margin: '0 auto 48px' }}>
             You are solving today's problem in a way that builds capacity for tomorrow.
@@ -1179,19 +1179,19 @@ export default function HomePage() {
           <div className="three-col fu" style={{ marginBottom: '32px' }}>
             {[
               {
-                num: '01', numColor: 'var(--green)', title: 'The hard moments don\'t make you spiral',
+                num: '01', numColor: 'var(--stage-2)', title: 'The hard moments don\'t make you spiral',
                 body: 'You have a framework, not a random tip. When the gaming fight happens, when the mood drops, when the unknown contact appears, you already know what to do.',
-                tag: 'Framework not tips', tagBg: 'var(--green-lt)', tagColor: 'var(--green-dark)',
+                tag: 'Framework not tips', tagBg: 'var(--stage-2)', tagColor: 'var(--ink)',
               },
               {
-                num: '02', numColor: 'var(--coral)', title: 'Your child starts building the actual skills',
+                num: '02', numColor: 'var(--stage-1)', title: 'Your child starts building the actual skills',
                 body: 'Resilience, self-regulation, digital literacy. Not because you went soft, but because you held the boundary and the connection at the same time.',
-                tag: 'Skills not compliance', tagBg: 'var(--coral-lt)', tagColor: 'var(--coral)',
+                tag: 'Skills not compliance', tagBg: 'var(--stage-1)', tagColor: 'var(--ink)',
               },
               {
-                num: '03', numColor: 'var(--gold)', title: 'You trust yourself as a parent',
+                num: '03', numColor: 'var(--stage-5)', title: 'You trust yourself as a parent',
                 body: "Not because it got easy. Because you stopped needing it to be. The challenges change as they grow. Your approach doesn't have to.",
-                tag: 'Confidence not certainty', tagBg: 'var(--gold-lt)', tagColor: 'var(--gold-dark)',
+                tag: 'Confidence not certainty', tagBg: 'var(--stage-5)', tagColor: 'var(--ink)',
               },
             ].map((oc, i) => (
               <div key={i} style={{ background: '#fff', borderRadius: '18px', padding: '36px 28px', border: '1px solid var(--border)', textAlign: 'left', position: 'relative', overflow: 'hidden' }}>
@@ -1233,10 +1233,10 @@ export default function HomePage() {
       <section className="section-lg">
         <div style={{ maxWidth: '1040px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-            <p className="eyebrow fu" style={{ color: 'var(--coral)', marginBottom: '12px' }}>What parents say</p>
+            <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>What parents say</p>
             <h2 className="fu">
               It actually{' '}
-              <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--coral)' }}>works</em>
+              <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--terracotta)' }}>works</em>
             </h2>
           </div>
 
@@ -1250,7 +1250,7 @@ export default function HomePage() {
                 display: 'flex',
                 flexDirection: 'column',
               }}>
-                <div style={{ color: 'var(--gold)', fontSize: '1rem', letterSpacing: '2px', marginBottom: '14px' }}>★★★★★</div>
+                <div style={{ color: 'var(--terracotta)', fontSize: '1rem', letterSpacing: '2px', marginBottom: '14px' }}>★★★★★</div>
                 <p style={{
                   fontFamily: 'var(--font-display)',
                   fontSize: '.92rem',
@@ -1267,7 +1267,7 @@ export default function HomePage() {
                     width: '36px',
                     height: '36px',
                     borderRadius: '50%',
-                    background: ['var(--green)', 'var(--lav)', 'var(--gold-lt)'][i],
+                    background: ['var(--stage-2)', 'var(--stage-4)', 'var(--stage-5)'][i],
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -1281,8 +1281,8 @@ export default function HomePage() {
                   <div>
                     <div style={{ fontSize: '.78rem', fontWeight: 700, color: 'var(--ink)' }}>{t.by}</div>
                     <span style={{
-                      background: 'var(--green-lt)',
-                      color: 'var(--green-dark)',
+                      background: 'var(--stage-2)',
+                      color: 'var(--terracotta)',
                       borderRadius: '100px',
                       padding: '2px 8px',
                       fontSize: '.62rem',
@@ -1311,13 +1311,13 @@ export default function HomePage() {
       {/* ================================================================
           RESEARCH
           ================================================================ */}
-      <section id="research" className="section-lg" style={{ background: '#FDFBF8', scrollMarginTop: '70px' }}>
+      <section id="research" className="section-lg" style={{ background: 'var(--cream)', scrollMarginTop: '70px' }}>
         <div style={{ maxWidth: '1040px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '36px' }}>
-            <p className="eyebrow fu" style={{ color: 'var(--green-dark)', marginBottom: '12px' }}>The research</p>
+            <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>The research</p>
             <h2 className="fu" style={{ marginBottom: '14px' }}>
               Built on evidence,{' '}
-              <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--coral)' }}>not panic</em>
+              <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--terracotta)' }}>not panic</em>
             </h2>
             <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.8, maxWidth: '500px', margin: '0 auto' }}>
               Every child benefits from a guided digital childhood. The research tells us which children need it most urgently.
@@ -1336,7 +1336,7 @@ export default function HomePage() {
             ))}
           </div>
 
-          <div className="fu" style={{ background: '#EFE9DF', borderRadius: '14px', padding: '26px', marginBottom: '18px' }}>
+          <div className="fu" style={{ background: 'var(--cream)', borderRadius: '14px', padding: '26px', marginBottom: '18px' }}>
             <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.05rem', fontWeight: 700, color: 'var(--ink)', marginBottom: '16px' }}>
               Our thesis in plain language
             </h3>
@@ -1348,15 +1348,15 @@ export default function HomePage() {
                 'Staged, graduated access with education builds the skills children need at 16.',
               ].map((pt, i) => (
                 <div key={i} style={{ display: 'flex', gap: '9px', fontSize: '.83rem', color: 'var(--ink-soft)', lineHeight: 1.65 }}>
-                  <span style={{ color: 'var(--green-dark)', fontWeight: 700, flexShrink: 0 }}>•</span>
+                  <span style={{ color: 'var(--terracotta)', fontWeight: 700, flexShrink: 0 }}>•</span>
                   {pt}
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="fu" style={{ border: '1px solid var(--border)', borderRadius: '14px', background: 'var(--gold-lt)', padding: '32px 28px', textAlign: 'center' }}>
-            <p className="eyebrow" style={{ color: 'var(--gold-dark)', marginBottom: '10px' }}>Free · 5 minutes · No signup needed</p>
+          <div className="fu" style={{ border: '1px solid var(--border)', borderRadius: '14px', background: 'var(--stage-5)', padding: '32px 28px', textAlign: 'center' }}>
+            <p className="eyebrow" style={{ color: 'var(--terracotta-dark)', marginBottom: '10px' }}>Free · 5 minutes · No signup needed</p>
             <h3 style={{ fontSize: 'clamp(1.2rem, 2vw, 1.5rem)', fontWeight: 800, color: 'var(--ink)', letterSpacing: '-.02em', marginBottom: '10px' }}>
               Not sure where to start? The tool will tell you.
             </h3>
@@ -1369,10 +1369,10 @@ export default function HomePage() {
       </section>
 
       {/* Policy strip */}
-      <div style={{ background: '#EFE9DF', padding: '16px 32px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: 0 }}>
+      <div style={{ background: 'var(--cream)', padding: '16px 32px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: 0 }}>
         {['Online Safety Act 2023', 'Education for a Connected World (DfE)', 'Statutory RSE and Health Education', 'Ofcom Media Literacy Framework', 'DfE AI in Education Guidance 2025'].map((item, i, arr) => (
           <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '7px', padding: '7px 18px', fontSize: '.72rem', fontWeight: 600, color: 'var(--ink-soft)', borderRight: i < arr.length - 1 ? '1px solid var(--border)' : 'none' }}>
-            <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--green-dark)', flexShrink: 0, display: 'inline-block' }} />
+            <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--terracotta)', flexShrink: 0, display: 'inline-block' }} />
             {item}
           </div>
         ))}
@@ -1381,14 +1381,14 @@ export default function HomePage() {
       {/* ================================================================
           SCHOOLS CROSSOVER
           ================================================================ */}
-      <section id="teachers" className="section-lg" style={{ background: 'var(--green-lt)', borderTop: '1px solid #D3ECD9', borderBottom: '1px solid #D3ECD9', scrollMarginTop: '70px' }}>
+      <section id="teachers" className="section-lg" style={{ background: 'var(--stage-2)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)', scrollMarginTop: '70px' }}>
         <div style={{ maxWidth: '1040px', margin: '0 auto' }}>
           <div className="two-col">
             <div>
-              <p className="eyebrow fu" style={{ color: 'var(--green-dark)', marginBottom: '14px' }}>For schools</p>
+              <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '14px' }}>For schools</p>
               <h2 className="fu" style={{ fontSize: 'clamp(1.6rem, 2.4vw, 2.4rem)', marginBottom: '16px' }}>
                 Not just safety.<br />
-                <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--coral)' }}>Full digital education.</em>
+                <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--terracotta)' }}>Full digital education.</em>
               </h2>
               <p className="fu" style={{ fontSize: '.92rem', color: 'var(--ink-soft)', lineHeight: 1.82, marginBottom: '14px' }}>
                 Most school programmes cover what to do when something goes wrong. Guided Childhood covers everything before that moment and everything that comes after.
@@ -1402,7 +1402,7 @@ export default function HomePage() {
             </div>
 
             <div className="fu" style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '18px', padding: '28px' }}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.6rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--green-dark)', marginBottom: '16px' }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.6rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '16px' }}>
                 What the school curriculum covers
               </div>
               <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -1416,7 +1416,7 @@ export default function HomePage() {
                   'Parent note with every single lesson',
                 ].map((item, i) => (
                   <li key={i} style={{ display: 'flex', gap: '10px', fontSize: '.84rem', color: 'var(--ink-soft)' }}>
-                    <span style={{ color: 'var(--green-dark)', fontWeight: 700, flexShrink: 0 }}>✓</span>
+                    <span style={{ color: 'var(--terracotta)', fontWeight: 700, flexShrink: 0 }}>✓</span>
                     {item}
                   </li>
                 ))}
@@ -1435,15 +1435,15 @@ export default function HomePage() {
       <section id="pricing" className="section-lg" style={{ scrollMarginTop: '70px' }}>
         <div style={{ maxWidth: '1040px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-            <p className="eyebrow fu" style={{ color: 'var(--green-dark)', marginBottom: '12px' }}>Simple pricing</p>
+            <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>Simple pricing</p>
             <h2 className="fu">
               Start free. Stay as long<br />as you{' '}
-              <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--coral)' }}>need.</em>
+              <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--terracotta)' }}>need.</em>
             </h2>
           </div>
 
           {/* Founder urgency bar */}
-          <div className="fu" style={{ background: 'var(--coral)', borderRadius: '12px', padding: '14px 22px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', marginBottom: '16px', flexWrap: 'wrap' }}>
+          <div className="fu" style={{ background: 'var(--terracotta)', borderRadius: '12px', padding: '14px 22px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', marginBottom: '16px', flexWrap: 'wrap' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
               <span style={{ fontFamily: 'var(--font-mono)', fontSize: '.68rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,.8)', flexShrink: 0 }}>Limited</span>
               <span style={{ fontSize: '.88rem', fontWeight: 600, color: '#fff' }}>
@@ -1453,7 +1453,7 @@ export default function HomePage() {
             </div>
             <Link href="/starter-pack" style={{
               background: '#fff',
-              color: 'var(--coral)',
+              color: 'var(--terracotta)',
               fontFamily: 'var(--font-mono)',
               fontWeight: 700,
               fontSize: '.72rem',
@@ -1498,8 +1498,8 @@ export default function HomePage() {
                   ['✓', 'coral', 'School lesson packs included'],
                 ],
                 cta: 'Start now', href: '/join',
-                ctaBg: 'var(--coral)', ctaColor: '#fff', ctaBorder: 'none', ctaShadow: '0 5px 0 var(--coral-dark)',
-                style: { background: '#FEF5F0', border: '2px solid rgba(212,96,10,.35)', transform: 'scale(1.025)' },
+                ctaBg: 'var(--terracotta)', ctaColor: '#fff', ctaBorder: 'none', ctaShadow: '0 5px 0 var(--terracotta-dark)',
+                style: { background: 'var(--stage-1)', border: '2px solid rgba(90,138,106,.35)', transform: 'scale(1.025)' },
               },
               {
                 tier: 'Best value', name: 'Annual OS', price: '£99', period: '/year',
@@ -1511,7 +1511,7 @@ export default function HomePage() {
                   ['✓', 'green', 'School pack downloads'],
                 ],
                 cta: 'Start now', href: '/join',
-                ctaBg: 'var(--green)', ctaColor: 'var(--ink)', ctaBorder: 'none', ctaShadow: '0 5px 0 var(--green-dark)',
+                ctaBg: 'var(--terracotta)', ctaColor: '#fff', ctaBorder: 'none', ctaShadow: '0 5px 0 var(--terracotta-dark)',
                 style: {},
               },
             ].map((plan, i) => (
@@ -1537,14 +1537,14 @@ export default function HomePage() {
                   </span>
                   <span style={{ fontSize: '.77rem', color: 'var(--ink-muted)', marginLeft: '2px' }}>{plan.period}</span>
                 </div>
-                <div style={{ fontSize: '.72rem', color: 'var(--green-dark)', fontWeight: 700, marginBottom: '20px', minHeight: '16px' }}>
+                <div style={{ fontSize: '.72rem', color: 'var(--terracotta)', fontWeight: 700, marginBottom: '20px', minHeight: '16px' }}>
                   {plan.save}
                 </div>
                 <div style={{ height: '1px', background: 'var(--border)', margin: '0 0 18px' }} />
                 <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '9px', marginBottom: '24px', flex: 1 }}>
                   {plan.features.map(([check, color, label], fi) => (
                     <li key={fi} style={{ display: 'flex', gap: '9px', fontSize: '.81rem', color: 'var(--ink-soft)', alignItems: 'flex-start' }}>
-                      <span style={{ fontWeight: 900, fontSize: '.74rem', marginTop: '2px', flexShrink: 0, color: color === 'green' ? 'var(--green-dark)' : 'var(--coral)' }}>
+                      <span style={{ fontWeight: 900, fontSize: '.74rem', marginTop: '2px', flexShrink: 0, color: color === 'green' ? 'var(--terracotta)' : 'var(--terracotta-dark)' }}>
                         {check}
                       </span>
                       {label}
@@ -1579,13 +1579,13 @@ export default function HomePage() {
       {/* ================================================================
           FAQ
           ================================================================ */}
-      <section className="section-lg" style={{ background: '#FDFBF8' }}>
+      <section className="section-lg" style={{ background: 'var(--cream)' }}>
         <div style={{ maxWidth: '1040px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '36px' }}>
-            <p className="eyebrow fu" style={{ color: 'var(--green-dark)', marginBottom: '12px' }}>Common questions</p>
+            <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>Common questions</p>
             <h2 className="fu">
               And in case you are{' '}
-              <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--coral)' }}>wondering</em>
+              <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--terracotta)' }}>wondering</em>
             </h2>
           </div>
           <FaqAccordion />
@@ -1595,19 +1595,19 @@ export default function HomePage() {
       {/* ================================================================
           FINAL CTA
           ================================================================ */}
-      <section style={{ textAlign: 'center', padding: 'clamp(80px, 10vw, 120px) 32px', background: 'var(--green-dark)', position: 'relative', overflow: 'hidden' }}>
+      <section style={{ textAlign: 'center', padding: 'clamp(80px, 10vw, 120px) 32px', background: 'var(--stage-2)', position: 'relative', overflow: 'hidden' }}>
         {/* Background circles */}
-        <div aria-hidden="true" style={{ position: 'absolute', top: '-80px', left: '50%', transform: 'translateX(-50%)', width: '500px', height: '500px', borderRadius: '50%', background: 'rgba(255,255,255,.04)', pointerEvents: 'none' }} />
-        <div aria-hidden="true" style={{ position: 'absolute', bottom: '-100px', right: '-80px', width: '300px', height: '300px', borderRadius: '50%', background: 'rgba(175,220,162,.15)', pointerEvents: 'none' }} />
+        <div aria-hidden="true" style={{ position: 'absolute', top: '-80px', left: '50%', transform: 'translateX(-50%)', width: '500px', height: '500px', borderRadius: '50%', background: 'rgba(0,0,0,.04)', pointerEvents: 'none' }} />
+        <div aria-hidden="true" style={{ position: 'absolute', bottom: '-100px', right: '-80px', width: '300px', height: '300px', borderRadius: '50%', background: 'rgba(90,138,106,.15)', pointerEvents: 'none' }} />
 
         <div style={{ maxWidth: '560px', margin: '0 auto', position: 'relative' }}>
-          <h2 style={{ fontSize: 'clamp(2rem, 3.5vw, 3.4rem)', fontWeight: 800, color: '#fff', letterSpacing: '-.04em', marginBottom: '16px', lineHeight: 1.06 }}>
+          <h2 style={{ fontSize: 'clamp(2rem, 3.5vw, 3.4rem)', fontWeight: 800, color: 'var(--ink)', letterSpacing: '-.04em', marginBottom: '16px', lineHeight: 1.06 }}>
             Ready to start?<br />
             Pick{' '}
             <em style={{ fontStyle: 'italic', fontWeight: 300 }}>your</em>
             {' '}path.
           </h2>
-          <p style={{ fontSize: '1rem', color: 'rgba(255,255,255,.72)', lineHeight: 1.82, marginBottom: '36px' }}>
+          <p style={{ fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.82, marginBottom: '36px' }}>
             131 parents already on the pathway. Find your starting point in 2 minutes, or grab the free starter pack and begin tonight.
           </p>
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '14px' }}>
@@ -1626,18 +1626,18 @@ export default function HomePage() {
               padding: '16px 32px',
               borderRadius: 'var(--radius-btn)',
               textDecoration: 'none',
-              background: 'rgba(255,255,255,.12)',
-              border: '1.5px solid rgba(255,255,255,.25)',
-              color: '#fff',
+              background: 'rgba(28,28,42,.08)',
+              border: '1.5px solid rgba(28,28,42,.2)',
+              color: 'var(--ink)',
               transition: 'background .2s',
             }}>
               Get the free starter pack
             </Link>
           </div>
-          <div style={{ fontSize: '.72rem', color: 'rgba(255,255,255,.5)', marginBottom: '18px' }}>
+          <div style={{ fontSize: '.72rem', color: 'var(--ink-muted)', marginBottom: '18px' }}>
             No card. No catch. Start where you are.
           </div>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', background: 'rgba(255,255,255,.1)', border: '1px solid rgba(255,255,255,.18)', borderRadius: '100px', padding: '7px 16px', fontSize: '.71rem', fontWeight: 600, color: 'rgba(255,255,255,.7)' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', background: 'rgba(28,28,42,.06)', border: '1px solid rgba(28,28,42,.15)', borderRadius: '100px', padding: '7px 16px', fontSize: '.71rem', fontWeight: 600, color: 'var(--ink-soft)' }}>
             ✓ 30-day money-back guarantee on launch
           </div>
         </div>
@@ -1646,11 +1646,11 @@ export default function HomePage() {
       {/* ================================================================
           FOOTER
           ================================================================ */}
-      <footer style={{ background: '#FDFBF8', borderTop: '1px solid var(--border)', padding: '40px 32px' }}>
+      <footer style={{ background: 'var(--cream)', borderTop: '1px solid var(--border)', padding: '40px 32px' }}>
         <div style={{ maxWidth: '1040px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '20px' }}>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '9px', marginBottom: '6px' }}>
-              <div style={{ width: '28px', height: '28px', background: 'var(--green-dark)', borderRadius: '7px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{ width: '28px', height: '28px', background: 'var(--terracotta)', borderRadius: '7px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <div style={{ display: 'flex', alignItems: 'flex-end', gap: '2px', height: '13px' }}>
                   {[4, 7, 11, 6].map((h, i) => (
                     <div key={i} style={{ width: '2.5px', height: `${h}px`, background: '#fff', borderRadius: '1px', opacity: .9 }} />
