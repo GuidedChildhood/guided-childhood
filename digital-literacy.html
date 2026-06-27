@@ -127,7 +127,7 @@ a { color: inherit; text-decoration: none; }
 /* HERO */
 .hero {
   background: var(--cream);
-  padding: 56px 24px 40px;
+  padding: 36px 24px 28px;
   text-align: center;
 }
 .hero-inner {
@@ -142,22 +142,22 @@ a { color: inherit; text-decoration: none; }
   text-transform: uppercase;
   letter-spacing: 0.16em;
   color: var(--green-dark);
-  margin-bottom: 20px;
+  margin-bottom: 14px;
 }
 .hero h1 {
-  font-size: clamp(2.4rem, 5vw, 4rem);
+  font-size: clamp(1.9rem, 4vw, 2.8rem);
   font-weight: 800;
   color: var(--ink);
   line-height: 1.15;
-  margin-bottom: 20px;
+  margin-bottom: 12px;
   letter-spacing: -0.02em;
 }
 .hero-sub {
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: var(--ink-soft);
-  max-width: 560px;
-  margin: 0 auto 32px;
-  line-height: 1.7;
+  max-width: 520px;
+  margin: 0 auto 0;
+  line-height: 1.65;
 }
 .btn-gold {
   display: inline-block;
@@ -183,7 +183,7 @@ a { color: inherit; text-decoration: none; }
 /* STATS STRIP */
 .stats-strip {
   background: var(--ink);
-  padding: 32px 24px;
+  padding: 20px 24px;
 }
 .stats-inner {
   max-width: 1120px;
@@ -374,7 +374,7 @@ a { color: inherit; text-decoration: none; }
 /* EMAIL CAPTURE SECTION */
 .section-email {
   background: var(--cream-2);
-  padding: 80px 24px;
+  padding: 44px 24px 40px;
   text-align: center;
   border-top: 1px solid var(--border);
 }
@@ -575,8 +575,7 @@ a { color: inherit; text-decoration: none; }
   <div class="hero-inner">
     <span class="eyebrow">THE CASE FOR DIGITAL LITERACY</span>
     <h1>The goal was never less screen time.</h1>
-    <p class="hero-sub">A digitally literate child is safer, more confident, and better equipped for the world they are actually growing up in. Here is the evidence.</p>
-    <a href="/starter-pack" class="btn-gold">Start the pathway check</a>
+    <p class="hero-sub">A digitally literate child is safer, more confident, and better equipped for the world they are actually growing up in.</p>
   </div>
 </section>
 
@@ -601,6 +600,26 @@ a { color: inherit; text-decoration: none; }
     </div>
   </div>
 </div>
+
+<!-- EMAIL CAPTURE — visible on first load -->
+<section class="section-email">
+  <div class="email-inner">
+    <span class="eyebrow">Get the free guide</span>
+    <h2>Six steps to a digitally literate child.</h2>
+    <p>What to say, what to do, and what to leave alone. One email. No noise.</p>
+    <form id="dl-form" action="https://formspree.io/f/xzdlrlvg" method="POST">
+      <input type="hidden" name="source" value="digital-literacy">
+      <div class="dl-form-row">
+        <input class="dl-input" type="email" name="email" placeholder="Your email address" required autocomplete="email">
+        <button type="submit" class="btn-gold">Send it to me &rarr;</button>
+      </div>
+      <p class="dl-legal">No spam. Unsubscribe any time.</p>
+    </form>
+    <div id="dl-thanks" style="display:none;">
+      <p class="dl-thanks">You are on the list. Check your inbox in the next few minutes.</p>
+    </div>
+  </div>
+</section>
 
 <!-- SAFETY NET SECTION -->
 <section class="section-safety">
@@ -660,26 +679,6 @@ a { color: inherit; text-decoration: none; }
         <p class="skill-body">Platforms and advertisers target emotional states algorithmically. Loneliness, boredom, and anxiety are exploited by design. A child who can name this is measurably more resilient to it.</p>
       </div>
 
-    </div>
-  </div>
-</section>
-
-<!-- EMAIL CAPTURE SECTION -->
-<section class="section-email">
-  <div class="email-inner">
-    <span class="eyebrow">Get the free guide</span>
-    <h2>Six steps to a digitally literate child.</h2>
-    <p>One practical email. What to say, what to do, and what to leave alone. No noise.</p>
-    <form id="dl-form" action="https://formspree.io/f/xzdlrlvg" method="POST">
-      <input type="hidden" name="source" value="digital-literacy">
-      <div class="dl-form-row">
-        <input class="dl-input" type="email" name="email" placeholder="Your email address" required autocomplete="email">
-        <button type="submit" class="btn-gold">Send it to me &rarr;</button>
-      </div>
-      <p class="dl-legal">No spam. Unsubscribe any time.</p>
-    </form>
-    <div id="dl-thanks" style="display:none;">
-      <p class="dl-thanks">You are on the list. Check your inbox in the next few minutes.</p>
     </div>
   </div>
 </section>
