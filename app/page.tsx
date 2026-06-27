@@ -548,7 +548,7 @@ export default function HomePage() {
             {STAGES.map(s => (
               <div key={s.num} style={{
                 background: s.critical ? 'var(--stage-1)' : '#fff',
-                border: `1px solid ${s.critical ? 'rgba(90,138,106,.25)' : 'var(--border)'}`,
+                border: `1px solid ${s.critical ? 'rgba(61,115,154,.25)' : 'var(--border)'}`,
                 borderRadius: '16px',
                 padding: '24px 18px 20px',
                 display: 'flex',
@@ -773,7 +773,7 @@ export default function HomePage() {
                     alignItems: 'center',
                     justifyContent: 'center',
                     flexShrink: 0,
-                    boxShadow: '0 4px 16px rgba(90,138,106,.4)',
+                    boxShadow: '0 4px 16px rgba(61,115,154,.4)',
                     letterSpacing: '-.02em',
                   }}>
                     D
@@ -1130,7 +1130,7 @@ export default function HomePage() {
                 fontWeight: 800,
                 color: '#fff',
                 margin: '0 auto',
-                boxShadow: '0 8px 32px rgba(90,138,106,.3)',
+                boxShadow: '0 8px 32px rgba(61,115,154,.3)',
                 letterSpacing: '-.03em',
               }}>
                 JP
@@ -1499,7 +1499,7 @@ export default function HomePage() {
                 ],
                 cta: 'Start now', href: '/join',
                 ctaBg: 'var(--terracotta)', ctaColor: '#fff', ctaBorder: 'none', ctaShadow: '0 5px 0 var(--terracotta-dark)',
-                style: { background: 'var(--stage-1)', border: '2px solid rgba(90,138,106,.35)', transform: 'scale(1.025)' },
+                style: { background: 'var(--stage-1)', border: '2px solid rgba(61,115,154,.35)', transform: 'scale(1.025)' },
               },
               {
                 tier: 'Best value', name: 'Annual OS', price: '£99', period: '/year',
@@ -1598,7 +1598,7 @@ export default function HomePage() {
       <section style={{ textAlign: 'center', padding: 'clamp(80px, 10vw, 120px) 32px', background: 'var(--stage-2)', position: 'relative', overflow: 'hidden' }}>
         {/* Background circles */}
         <div aria-hidden="true" style={{ position: 'absolute', top: '-80px', left: '50%', transform: 'translateX(-50%)', width: '500px', height: '500px', borderRadius: '50%', background: 'rgba(0,0,0,.04)', pointerEvents: 'none' }} />
-        <div aria-hidden="true" style={{ position: 'absolute', bottom: '-100px', right: '-80px', width: '300px', height: '300px', borderRadius: '50%', background: 'rgba(90,138,106,.15)', pointerEvents: 'none' }} />
+        <div aria-hidden="true" style={{ position: 'absolute', bottom: '-100px', right: '-80px', width: '300px', height: '300px', borderRadius: '50%', background: 'rgba(61,115,154,.1)', pointerEvents: 'none' }} />
 
         <div style={{ maxWidth: '560px', margin: '0 auto', position: 'relative' }}>
           <h2 style={{ fontSize: 'clamp(2rem, 3.5vw, 3.4rem)', fontWeight: 800, color: 'var(--ink)', letterSpacing: '-.04em', marginBottom: '16px', lineHeight: 1.06 }}>

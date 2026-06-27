@@ -14,21 +14,20 @@ One accent. Two fonts. Generous space. The opposite of busy.
 | `--ink-soft` | `#5A5A5A` | Secondary text |
 | `--ink-muted` | `#8A8A8A` | Labels, eyebrows, placeholders |
 | `--border` | `#E8E2DA` | Dividers, card borders |
-| `--terracotta` | `#C8643C` | Single accent — ALL buttons, ALL links, emphasis |
-| `--terracotta-dark` | `#A8502E` | Button shadow, hover state |
-| `--terracotta-lt` | `#F5EAE4` | Terracotta card tint |
+| `--terracotta` | `#5B8FA8` | Single accent — ALL buttons, ALL links, emphasis |
+| `--terracotta-dark` | `#3D739A` | Button shadow, hover state |
+| `--terracotta-lt` | `#E3EEF7` | Light blue card tint |
 
-### Card tints (muted, low saturation — backgrounds only)
+### Stage pastels (muted, low saturation — backgrounds only)
 | Token | Value | Use |
 |---|---|---|
-| `--tint-terracotta` | `#F5EAE4` | Tools card 1 |
-| `--tint-blue` | `#E8EDF5` | Tools card 2 |
-| `--tint-sage` | `#E8EDE4` | Tools card 3 |
-| `--tint-amber` | `#F5F0E4` | Stage cards, accent blocks |
-| `--tint-green` | `#E8F0E8` | Stage cards |
+| `--stage-1` | `#FBCAAE` | Ages 4–7 cards and tags |
+| `--stage-2` | `#B8DECE` | Ages 7–10 cards (muted mint) |
+| `--stage-3` | `#9ABCE0` | Ages 10–13 cards (pastel blue) |
+| `--stage-4` | `#C4B4E0` | Ages 13–16 cards (lavender) |
+| `--stage-5` | `#F0DC98` | Ages 16+ cards (amber) |
 
-**Rule:** No colour outside this list. Remove every gold, yellow, purple, and
-bright green from the interface.
+**Rule:** No colour outside this list. No strong greens, no bright coral, no purple gradients.
 
 ---
 
