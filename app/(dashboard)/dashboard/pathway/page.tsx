@@ -15,41 +15,41 @@ const STAGE_DISPLAY: Record<number, {
     displayName: 'Foundation',
     subtitle: null,
     concepts: ['Shared screen', 'Co-viewing', 'No solo device', 'No feeds'],
-    color: 'var(--green-dark)',
-    bg: 'var(--green-lt)',
-    numColor: 'var(--green)',
+    color: 'var(--terracotta)',
+    bg: 'var(--stage-1)',
+    numColor: 'var(--terracotta)',
   },
   2: {
     displayName: 'First Steps',
     subtitle: null,
     concepts: ['Restricted phone', 'Family contacts', 'Privacy basics', 'Algorithms'],
-    color: 'var(--lav-deep)',
-    bg: 'var(--lav)',
-    numColor: '#b8c8f0',
+    color: 'var(--terracotta)',
+    bg: 'var(--stage-2)',
+    numColor: 'var(--terracotta)',
   },
   3: {
     displayName: 'Explorer',
     subtitle: 'Critical Window',
     concepts: ['Guided smartphone', 'No social media', 'Comparison', 'Orben research'],
-    color: 'var(--coral)',
-    bg: 'var(--coral-lt)',
-    numColor: 'var(--coral)',
+    color: 'var(--terracotta)',
+    bg: 'var(--stage-3)',
+    numColor: 'var(--terracotta)',
   },
   4: {
     displayName: 'Navigator',
     subtitle: null,
     concepts: ['Monitored social', 'Reputation', 'Filter bubbles', 'Readiness'],
-    color: 'var(--gold-dark)',
-    bg: 'var(--gold-lt)',
-    numColor: 'var(--gold)',
+    color: 'var(--terracotta)',
+    bg: 'var(--stage-4)',
+    numColor: 'var(--terracotta)',
   },
   5: {
     displayName: 'Independent',
     subtitle: null,
     concepts: ['Trust-based', 'Full access', 'AI literacy', 'Vibe coding'],
     color: 'var(--ink)',
-    bg: 'var(--warm)',
-    numColor: 'var(--border)',
+    bg: 'var(--stage-5)',
+    numColor: 'var(--ink-muted)',
   },
 }
 
@@ -243,7 +243,7 @@ export default async function PathwayPage() {
                 return (
                   <div key={child.id} style={{
                     display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                    background: 'var(--warm)', border: '1px solid var(--border)',
+                    background: 'var(--cream)', border: '1px solid var(--border)',
                     borderRadius: '12px', padding: '12px 16px', gap: '12px',
                   }}>
                     <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '14px', color: 'var(--ink)' }}>
@@ -282,10 +282,10 @@ export default async function PathwayPage() {
         {!isPaid && (
           <div style={{
             marginTop: '24px',
-            border: '2px solid var(--gold)', borderRadius: '16px',
-            padding: '20px 22px', background: 'var(--gold-lt)',
+            border: '2px solid var(--stage-5)', borderRadius: '16px',
+            padding: '20px 22px', background: 'var(--stage-5)',
           }}>
-            <p className="eyebrow" style={{ color: 'var(--gold-dark)', marginBottom: '8px' }}>Founder rate</p>
+            <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '8px' }}>Founder rate</p>
             <h3 style={{ fontSize: '1.1rem', marginBottom: '8px' }}>Unlock all 5 stages for £7.99 / month</h3>
             <p style={{ fontSize: '14px', color: 'var(--ink-muted)', marginBottom: '16px' }}>
               All scripts, unlimited DiGi, wellbeing tracker. First 50 members only.

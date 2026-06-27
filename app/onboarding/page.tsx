@@ -92,7 +92,7 @@ export default function OnboardingPage() {
 
         {(status === 'loading' || status === 'saving' || status === 'redirecting') && (
           <>
-            <div style={{ width: '40px', height: '40px', border: '3px solid var(--border)', borderTopColor: 'var(--green-dark)', borderRadius: '50%', margin: '0 auto 24px', animation: 'spin 0.8s linear infinite' }} />
+            <div style={{ width: '40px', height: '40px', border: '3px solid var(--border)', borderTopColor: 'var(--terracotta)', borderRadius: '50%', margin: '0 auto 24px', animation: 'spin 0.8s linear infinite' }} />
             <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
             <p style={{ color: 'var(--ink-muted)', fontSize: '15px' }}>
               {status === 'loading' ? 'Loading your pathway...' : status === 'saving' ? 'Saving your pathway...' : 'Taking you to your dashboard...'}

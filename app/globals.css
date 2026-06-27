@@ -3,40 +3,68 @@
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,600;1,600&family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
+  /* ── NEUTRALS ── */
   --white:             #FFFFFF;
-  --cream:             #FBF7F0;
-  --ink:               #2B2B2B;
-  --ink-soft:          #5A5A5A;
-  --ink-muted:         #8A8A8A;
-  --ink-light:         #ABABAB;
-  --border:            #E8E2DA;
-  --terracotta:        #C8643C;
-  --terracotta-dark:   #A8502E;
-  --terracotta-lt:     #F5EAE4;
-  --tint-blue:         #E8EDF5;
-  --tint-sage:         #E8EDE4;
-  --tint-amber:        #F5F0E4;
-  --tint-green:        #E8F0E8;
+  --cream:             #F9F8F6;
+  --ink:               #1C1C2A;
+  --ink-soft:          #5A5A6A;
+  --ink-muted:         #8A8A9A;
+  --ink-light:         #B0B0BA;
+  --border:            #E4E2DC;
 
-  /* keep these for inline styles that reference old tokens — map to new values */
-  --warm:              #FBF7F0;
-  --cream-2:           #F5F0E8;
-  --green-dark:        #4A7A5A;
-  --green-lt:          var(--tint-green);
-  --green-b:           #C8DDD0;
+  /* ── ACCENT (warm sage — replaces dark coral) ── */
+  --terracotta:        #5A8A6A;
+  --terracotta-dark:   #3D6A50;
+  --terracotta-lt:     #DFF0E4;
+
+  /* ── STAGE PASTELS ── */
+  --stage-1:           #FBCAAE;   /* peach   — Ages 4–7  */
+  --stage-2:           #9ED8B2;   /* mint    — Ages 7–10 */
+  --stage-3:           #9ABCE0;   /* sky     — Ages 10–13 */
+  --stage-4:           #C4B4E0;   /* lavender — Ages 13–16 */
+  --stage-5:           #F0DC98;   /* amber   — Ages 16+  */
+
+  /* ── TINTS (light washes for cards / sections) ── */
+  --tint-blue:         #D8E8F8;
+  --tint-sage:         #D8EEE0;
+  --tint-amber:        #F0E8D0;
+  --tint-green:        #D8F0E0;
+
+  /* ── LEGACY ALIASES — keep old token names working ──
+     Background usage → stage pastels
+     Text/accent usage → --terracotta (sage, readable on white)       */
+  --warm:              var(--cream);
+  --cream-2:           var(--cream);
+  --cream-3:           var(--cream);
+
+  --green:             var(--stage-2);
+  --green-lt:          var(--stage-2);
+  --green-dark:        var(--terracotta);
+  --green-b:           var(--border);
+
   --coral:             var(--terracotta);
-  --coral-lt:          var(--terracotta-lt);
-  --gold:              var(--terracotta);
-  --gold-lt:           var(--terracotta-lt);
-  --gold-dark:         var(--terracotta-dark);
-  --lav:               var(--tint-blue);
-  --lav-deep:          #4A5A8A;
+  --coral-lt:          var(--stage-1);
+  --coral-b:           var(--border);
 
+  --gold:              var(--stage-5);
+  --gold-lt:           var(--stage-5);
+  --gold-dark:         var(--terracotta-dark);
+
+  --lav:               var(--stage-4);
+  --lav-deep:          var(--terracotta-dark);
+
+  /* ── FONTS ── */
   --font-display: 'Fraunces', Georgia, serif;
   --font-body:    'Inter', system-ui, sans-serif;
   --font-mono:    'Inter', system-ui, sans-serif;
-  --radius-btn:   10px;
-  --radius-card:  16px;
+  --sans:         var(--font-body);
+  --serif:        var(--font-display);
+  --mono:         var(--font-mono);
+
+  /* ── RADIUS ── */
+  --radius-btn:   12px;
+  --radius-card:  20px;
+  --r:            20px;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -71,7 +99,7 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
   color: var(--ink-muted);
 }
 
-/* ── BUTTONS — terracotta only ── */
+/* ── BUTTONS ── */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -95,7 +123,7 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
 .btn:hover  { transform: translateY(-1px); box-shadow: 0 5px 0 var(--terracotta-dark); }
 .btn:active { transform: translateY(2px);  box-shadow: 0 2px 0 var(--terracotta-dark); }
 
-/* alias all old button variants to terracotta */
+/* all old button variant classes route to the single sage accent */
 .btn-gold, .btn-green, .btn-coral, .btn-ink {
   background: var(--terracotta);
   color: #fff;
@@ -136,7 +164,7 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
   border: 1px solid var(--border);
   border-radius: var(--radius-card);
   padding: 32px;
-  box-shadow: 0 2px 12px rgba(43,43,43,0.06);
+  box-shadow: 0 2px 12px rgba(28,28,42,0.06);
 }
 
 /* ── INPUTS ── */
@@ -167,9 +195,14 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
   text-transform: uppercase;
   padding: 4px 10px;
   border-radius: 100px;
-  background: var(--tint-green);
-  color: var(--green-dark);
+  background: var(--stage-2);
+  color: var(--ink);
 }
+.stage-badge-1 { background: var(--stage-1); color: var(--ink); }
+.stage-badge-2 { background: var(--stage-2); color: var(--ink); }
+.stage-badge-3 { background: var(--stage-3); color: var(--ink); }
+.stage-badge-4 { background: var(--stage-4); color: var(--ink); }
+.stage-badge-5 { background: var(--stage-5); color: var(--ink); }
 
 /* ── LAYOUT ── */
 .section { padding: 96px 24px; }
@@ -218,7 +251,7 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
   background: var(--white);
   border-radius: 20px;
   border: 1px solid var(--border);
-  box-shadow: 0 4px 24px rgba(43,43,43,0.08);
+  box-shadow: 0 4px 24px rgba(28,28,42,0.08);
   overflow: visible;
   position: relative;
 }
@@ -236,7 +269,7 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  box-shadow: 0 4px 12px rgba(200,100,60,.3);
+  box-shadow: 0 4px 12px rgba(90,138,106,.3);
 }
 
 .digi-avatar-sm {
@@ -259,6 +292,7 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
   padding: 11px 14px;
   border-radius: 16px;
   border-bottom-left-radius: 4px;
+  border: 1px solid var(--border);
   font-size: .85rem;
   line-height: 1.65;
   color: var(--ink);
@@ -266,7 +300,7 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
 }
 
 .bubble-parent {
-  background: var(--terracotta-lt);
+  background: var(--stage-2);
   padding: 11px 14px;
   border-radius: 16px;
   border-bottom-right-radius: 4px;
@@ -299,7 +333,7 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
   align-items: center;
   gap: 8px;
   background: var(--terracotta-lt);
-  border: 1.5px solid rgba(200,100,60,.25);
+  border: 1.5px solid rgba(90,138,106,.25);
   border-radius: 100px;
   padding: 6px 14px;
   font-family: var(--font-body);
@@ -322,7 +356,7 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
   background: var(--terracotta-lt);
   padding: 8px 16px;
   border-radius: 100px;
-  border: 1px solid rgba(200,100,60,.2);
+  border: 1px solid rgba(90,138,106,.2);
 }
 
 /* ── RESPONSIVE GRIDS ── */
@@ -399,4 +433,14 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
 @media (prefers-reduced-motion: reduce) {
   .ticker-track { animation: none; }
   * { animation: none !important; transition: none !important; }
+}
+
+/* ── ERROR / ALERT PILLS ── */
+.alert-error {
+  padding: 12px 16px;
+  background: var(--stage-1);
+  border-radius: 10px;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 13px;
 }

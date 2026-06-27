@@ -4,18 +4,18 @@ import Link from 'next/link'
 import { SOCIAL_MEDIA_LAW } from '@/lib/config/social-media-law'
 
 const STAGE_META: Record<string, { label: string; color: string; bg: string }> = {
-  foundation:  { label: 'Foundation · Ages 4–7',  color: 'var(--green-dark)', bg: 'var(--green-lt)' },
-  builder:     { label: 'Builder · Ages 8–10',    color: 'var(--lav-deep)',   bg: 'var(--lav)' },
-  explorer:    { label: 'Explorer · Ages 11–13',  color: 'var(--coral)',      bg: 'var(--coral-lt)' },
-  shaper:      { label: 'Shaper · Ages 13–15',    color: 'var(--gold-dark)',  bg: 'var(--gold-lt)' },
-  independent: { label: 'Independent · Ages 16+', color: 'var(--ink-soft)',   bg: 'var(--warm)' },
+  foundation:  { label: 'Foundation · Ages 4 to 7',  color: 'var(--ink)', bg: 'var(--stage-1)' },
+  builder:     { label: 'Builder · Ages 8 to 10',    color: 'var(--ink)', bg: 'var(--stage-2)' },
+  explorer:    { label: 'Explorer · Ages 11 to 13',  color: 'var(--ink)', bg: 'var(--stage-3)' },
+  shaper:      { label: 'Shaper · Ages 13 to 15',    color: 'var(--ink)', bg: 'var(--stage-4)' },
+  independent: { label: 'Independent · Ages 16 and above', color: 'var(--ink)', bg: 'var(--stage-5)' },
 }
 
 const STEPS = [
-  { num: 1, key: 'say_this',     label: 'Say this',      accent: 'var(--green-dark)', bg: 'var(--green-lt)',  border: 'var(--green-b)' },
-  { num: 2, key: 'not_this',     label: 'Not this',      accent: 'var(--coral)',      bg: 'var(--coral-lt)', border: 'var(--coral)' },
-  { num: 3, key: 'why_it_works', label: 'Why it works',  accent: 'var(--lav-deep)',   bg: 'var(--lav)',      border: '#b8c8f0' },
-  { num: 4, key: 'tonight',      label: 'Tonight',       accent: 'var(--gold-dark)',  bg: 'var(--gold-lt)',  border: 'var(--gold)' },
+  { num: 1, key: 'say_this',     label: 'Say this',      accent: 'var(--terracotta)', bg: 'var(--stage-2)',  border: 'var(--stage-2)' },
+  { num: 2, key: 'not_this',     label: 'Not this',      accent: 'var(--terracotta)', bg: 'var(--stage-1)', border: 'var(--stage-1)' },
+  { num: 3, key: 'why_it_works', label: 'Why it works',  accent: 'var(--terracotta)', bg: 'var(--stage-3)', border: 'var(--stage-3)' },
+  { num: 4, key: 'tonight',      label: 'Tonight',       accent: 'var(--terracotta)', bg: 'var(--stage-5)',  border: 'var(--stage-5)' },
 ] as const
 
 type ScriptRow = {
@@ -106,8 +106,8 @@ export default async function ScriptDetailPage({
             <span style={{
               fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 600,
               letterSpacing: '0.08em', textTransform: 'uppercase',
-              color: 'var(--green-dark)', background: 'var(--green-lt)',
-              padding: '4px 10px', borderRadius: '100px', border: '1px solid var(--green-b)',
+              color: 'var(--terracotta)', background: 'var(--stage-2)',
+              padding: '4px 10px', borderRadius: '100px', border: '1px solid var(--stage-2)',
             }}>
               Free
             </span>
@@ -125,10 +125,10 @@ export default async function ScriptDetailPage({
       {/* Ban world note */}
       {showBanNote && (
         <div style={{
-          background: 'var(--gold-lt)', border: '2px solid var(--gold)',
+          background: 'var(--stage-5)', border: '2px solid var(--stage-5)',
           borderRadius: '14px', padding: '16px 18px', marginBottom: '24px',
         }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--gold-dark)', marginBottom: '6px' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '6px' }}>
             UK social media ban context
           </div>
           <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.55 }}>
@@ -192,7 +192,7 @@ export default async function ScriptDetailPage({
         marginBottom: '24px', display: 'flex', gap: '16px', alignItems: 'center', flexWrap: 'wrap',
       }}>
         <div style={{ flex: 1 }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--gold)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '6px' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--terracotta-lt)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '6px' }}>
             DiGi
           </div>
           <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.7)', lineHeight: 1.5 }}>
@@ -213,7 +213,7 @@ export default async function ScriptDetailPage({
         {prev ? (
           <Link
             href={`/dashboard/scripts/${prev}`}
-            style={{ flex: 1, padding: '14px 18px', background: 'var(--warm)', border: '1px solid var(--border)', borderRadius: '12px', textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: '4px' }}
+            style={{ flex: 1, padding: '14px 18px', background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '12px', textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: '4px' }}
           >
             <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-light)' }}>← Previous</span>
             <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--ink)' }}>Script #{prev}</span>
@@ -222,10 +222,10 @@ export default async function ScriptDetailPage({
 
         <Link
           href="/dashboard/scripts"
-          style={{ flex: 1, padding: '14px 18px', background: 'var(--green-lt)', border: '1px solid var(--green-b)', borderRadius: '12px', textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: '4px', textAlign: 'right' }}
+          style={{ flex: 1, padding: '14px 18px', background: 'var(--stage-2)', border: '1px solid var(--stage-2)', borderRadius: '12px', textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: '4px', textAlign: 'right' }}
         >
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--green-dark)' }}>All topics</span>
-          <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--green-dark)' }}>Back to scripts</span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>All topics</span>
+          <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--terracotta)' }}>Back to scripts</span>
         </Link>
       </div>
 

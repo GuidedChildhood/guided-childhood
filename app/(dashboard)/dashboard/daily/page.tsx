@@ -67,8 +67,8 @@ export default async function DailyPage() {
       eyebrow: 'From last time',
       headline: lastScript.title,
       body: lastScript.why_it_works,
-      accent: 'var(--lav-deep)',
-      bg: 'var(--lav)',
+      accent: 'var(--terracotta)',
+      bg: 'var(--stage-3)',
       icon: '↩',
     })
   } else {
@@ -78,8 +78,8 @@ export default async function DailyPage() {
       eyebrow: `Good to have you back, ${firstName}`,
       headline: `Stage ${stage.id}: ${stage.name}`,
       body: stage.focus,
-      accent: 'var(--lav-deep)',
-      bg: 'var(--lav)',
+      accent: 'var(--terracotta)',
+      bg: 'var(--stage-3)',
       icon: '◎',
     })
   }
@@ -91,8 +91,8 @@ export default async function DailyPage() {
     eyebrow: 'Today\'s focus',
     headline: 'What matters right now',
     body: stageChallenge,
-    accent: 'var(--green-dark)',
-    bg: 'var(--green-lt)',
+    accent: 'var(--terracotta)',
+    bg: 'var(--stage-2)',
     icon: '◈',
   })
 
@@ -104,8 +104,8 @@ export default async function DailyPage() {
       eyebrow: 'Watch for this today',
       headline: momentScript.title,
       body: `${momentScript.situation}\n\nIf this happens, try: "${momentScript.say_this}"`,
-      accent: 'var(--gold-dark)',
-      bg: 'var(--gold-lt)',
+      accent: 'var(--terracotta)',
+      bg: 'var(--stage-5)',
       icon: '△',
     })
   }
@@ -125,8 +125,8 @@ export default async function DailyPage() {
     eyebrow: 'A question for today',
     headline: 'Just one thing to notice',
     body: questions[stage.id] ?? questions[3],
-    accent: 'var(--coral)',
-    bg: 'var(--coral-lt)',
+    accent: 'var(--terracotta)',
+    bg: 'var(--stage-1)',
     icon: '?',
   })
 
@@ -141,8 +141,8 @@ export default async function DailyPage() {
       : streak > 0
       ? `${streak} week streak and counting. See you tomorrow.`
       : 'Practice done. Come back tomorrow and build the habit.',
-    accent: 'var(--green-dark)',
-    bg: 'var(--green-lt)',
+    accent: 'var(--terracotta)',
+    bg: 'var(--stage-2)',
     icon: '✓',
   })
 

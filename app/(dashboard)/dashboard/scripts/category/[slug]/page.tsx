@@ -12,11 +12,11 @@ const STAGE_LABELS: Record<string, string> = {
 }
 
 const STAGE_COLORS: Record<string, { color: string; bg: string }> = {
-  foundation:  { color: 'var(--green-dark)', bg: 'var(--green-lt)' },
-  builder:     { color: 'var(--lav-deep)',   bg: 'var(--lav)' },
-  explorer:    { color: 'var(--coral)',       bg: 'var(--coral-lt)' },
-  shaper:      { color: 'var(--gold-dark)',   bg: 'var(--gold-lt)' },
-  independent: { color: 'var(--ink-soft)',    bg: 'var(--warm)' },
+  foundation:  { color: 'var(--ink)', bg: 'var(--stage-1)' },
+  builder:     { color: 'var(--ink)', bg: 'var(--stage-2)' },
+  explorer:    { color: 'var(--ink)', bg: 'var(--stage-3)' },
+  shaper:      { color: 'var(--ink)', bg: 'var(--stage-4)' },
+  independent: { color: 'var(--ink)', bg: 'var(--stage-5)' },
 }
 
 type ScriptRow = {
@@ -119,8 +119,8 @@ export default async function CategoryPage({
             <div
               key={script.sort_order}
               style={{
-                background: isDone ? 'var(--green-lt)' : 'var(--warm)',
-                border: `1.5px solid ${isDone ? 'var(--green-b)' : 'var(--border)'}`,
+                background: isDone ? 'var(--stage-2)' : 'var(--cream)',
+                border: `1.5px solid ${isDone ? 'var(--stage-2)' : 'var(--border)'}`,
                 borderRadius: '16px',
                 padding: '18px 20px',
                 opacity: isLocked ? 0.7 : 1,
@@ -139,8 +139,8 @@ export default async function CategoryPage({
                   <span style={{
                     fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 600,
                     letterSpacing: '0.08em', textTransform: 'uppercase',
-                    color: 'var(--green-dark)', background: 'var(--green-lt)',
-                    padding: '3px 8px', borderRadius: '100px', border: '1px solid var(--green-b)',
+                    color: 'var(--terracotta)', background: 'var(--stage-2)',
+                    padding: '3px 8px', borderRadius: '100px', border: '1px solid var(--stage-2)',
                   }}>
                     Done
                   </span>
@@ -149,7 +149,7 @@ export default async function CategoryPage({
                   <span style={{
                     fontFamily: 'var(--font-mono)', fontSize: '9px',
                     letterSpacing: '0.08em', textTransform: 'uppercase',
-                    color: 'var(--ink-light)', background: 'var(--warm)',
+                    color: 'var(--ink-light)', background: 'var(--cream)',
                     padding: '3px 8px', borderRadius: '100px', border: '1px solid var(--border)',
                   }}>
                     Locked
@@ -189,9 +189,9 @@ export default async function CategoryPage({
                       fontFamily: 'var(--font-mono)',
                       letterSpacing: '0.05em',
                       textTransform: 'uppercase',
-                      color: 'var(--gold-dark)',
-                      background: 'var(--gold-lt)',
-                      border: '1px solid var(--gold)',
+                      color: 'var(--terracotta)',
+                      background: 'var(--stage-5)',
+                      border: '1px solid var(--stage-5)',
                       borderRadius: 'var(--radius-btn)',
                       textDecoration: 'none',
                     }}

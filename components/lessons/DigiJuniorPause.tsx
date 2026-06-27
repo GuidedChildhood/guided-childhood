@@ -16,8 +16,8 @@ export default function DigiJuniorPause({ message, onContinue }: DigiJuniorPause
 
   return (
     <div style={{
-      background: 'var(--green-lt)',
-      border: '2px solid var(--green)',
+      background: 'var(--stage-3)',
+      border: '2px solid var(--terracotta)',
       borderRadius: '20px',
       padding: '28px',
       textAlign: 'center',
@@ -29,20 +29,20 @@ export default function DigiJuniorPause({ message, onContinue }: DigiJuniorPause
         width: '72px',
         height: '72px',
         borderRadius: '50%',
-        background: 'var(--green-dark)',
-        border: '3px solid var(--green)',
+        background: 'var(--terracotta)',
+        border: '3px solid rgba(255,255,255,.4)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         fontSize: '2rem',
         margin: '0 auto 12px',
-        boxShadow: '0 0 24px rgba(46,125,90,.3)',
+        boxShadow: '0 0 24px rgba(90,138,106,.3)',
         animation: breathing ? 'breathe 4s ease-in-out' : 'bobble 2s ease-in-out infinite',
       }}>
         🤖
       </div>
 
-      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--green-dark)', marginBottom: '12px' }}>
+      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '12px' }}>
         DiGi Junior · Pause point
       </div>
 
@@ -52,7 +52,7 @@ export default function DigiJuniorPause({ message, onContinue }: DigiJuniorPause
         borderRadius: '16px',
         padding: '16px 20px',
         marginBottom: '20px',
-        boxShadow: '0 4px 16px rgba(46,125,90,.1)',
+        boxShadow: '0 4px 16px rgba(90,138,106,.1)',
       }}>
         <p style={{ fontSize: '1rem', lineHeight: 1.6, color: 'var(--ink)', margin: 0, fontWeight: 500 }}>
           {message}
@@ -63,7 +63,7 @@ export default function DigiJuniorPause({ message, onContinue }: DigiJuniorPause
         <button
           onClick={handleBreath}
           style={{
-            background: 'var(--green-dark)',
+            background: 'var(--terracotta)',
             color: '#fff',
             border: 'none',
             borderRadius: '100px',

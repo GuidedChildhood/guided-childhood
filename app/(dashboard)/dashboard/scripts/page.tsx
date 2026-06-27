@@ -9,22 +9,22 @@ export const CATEGORY_META: Record<string, {
   border: string
   accent: string
 }> = {
-  'first-device':  { label: 'First Device',  description: 'Setting the right foundations before and after the first screen arrives.', bg: 'var(--green-lt)',  border: 'var(--green-b)',  accent: 'var(--green-dark)' },
-  'social-media':  { label: 'Social Media',  description: 'Navigating platforms, algorithms, and identity with your child.',          bg: 'var(--coral-lt)', border: 'var(--border)',    accent: 'var(--coral)' },
-  'gaming':        { label: 'Gaming',        description: 'Healthy gaming conversations without the battle.',                          bg: 'var(--lav)',      border: 'var(--border)',    accent: 'var(--lav-deep)' },
-  'safety':        { label: 'Safety',        description: 'What to say when something goes wrong online.',                            bg: 'var(--gold-lt)',  border: 'var(--border)',    accent: 'var(--gold-dark)' },
-  'wellbeing':     { label: 'Wellbeing',     description: 'Mood, sleep, body image, and the digital connection.',                    bg: 'var(--warm)',     border: 'var(--border)',    accent: 'var(--ink-soft)' },
-  'screen-habits': { label: 'Screen Habits', description: 'Building routines that work for your whole family.',                      bg: 'var(--cream-2)',  border: 'var(--border)',    accent: 'var(--ink)' },
-  'ai-and-tech':   { label: 'AI and Tech',   description: 'Deepfakes, AI tools, and what digital literacy actually looks like.',     bg: 'var(--lav)',      border: 'var(--border)',    accent: 'var(--lav-deep)' },
-  'relationships': { label: 'Relationships', description: 'Trust, independence, and keeping the conversation open.',                 bg: 'var(--cream)',    border: 'var(--border)',    accent: 'var(--ink)' },
+  'first-device':  { label: 'First Device',  description: 'Setting the right foundations before and after the first screen arrives.', bg: 'var(--stage-1)',  border: 'var(--stage-1)',  accent: 'var(--terracotta)' },
+  'social-media':  { label: 'Social Media',  description: 'Navigating platforms, algorithms, and identity with your child.',          bg: 'var(--stage-3)', border: 'var(--stage-3)',    accent: 'var(--terracotta)' },
+  'gaming':        { label: 'Gaming',        description: 'Healthy gaming conversations without the battle.',                          bg: 'var(--stage-2)',      border: 'var(--stage-2)',    accent: 'var(--terracotta)' },
+  'safety':        { label: 'Safety',        description: 'What to say when something goes wrong online.',                            bg: 'var(--stage-4)',  border: 'var(--stage-4)',    accent: 'var(--terracotta)' },
+  'wellbeing':     { label: 'Wellbeing',     description: 'Mood, sleep, body image, and the digital connection.',                    bg: 'var(--stage-4)',     border: 'var(--stage-4)',    accent: 'var(--terracotta)' },
+  'screen-habits': { label: 'Screen Habits', description: 'Building routines that work for your whole family.',                      bg: 'var(--stage-1)',  border: 'var(--stage-1)',    accent: 'var(--terracotta)' },
+  'ai-and-tech':   { label: 'AI and Tech',   description: 'Deepfakes, AI tools, and what digital literacy actually looks like.',     bg: 'var(--stage-5)',      border: 'var(--stage-5)',    accent: 'var(--terracotta)' },
+  'relationships': { label: 'Relationships', description: 'Trust, independence, and keeping the conversation open.',                 bg: 'var(--stage-3)',    border: 'var(--stage-3)',    accent: 'var(--terracotta)' },
 }
 
 const STAGE_META = {
-  foundation:  { num: 1, label: 'Foundation',  ages: 'Ages 4 to 7',       color: 'var(--green-dark)', bg: 'var(--green-lt)' },
-  builder:     { num: 2, label: 'Builder',     ages: 'Ages 8 to 10',      color: 'var(--lav-deep)',   bg: 'var(--lav)' },
-  explorer:    { num: 3, label: 'Explorer',    ages: 'Ages 11 to 13',     color: 'var(--coral)',      bg: 'var(--coral-lt)' },
-  shaper:      { num: 4, label: 'Shaper',      ages: 'Ages 13 to 15',     color: 'var(--gold-dark)',  bg: 'var(--gold-lt)' },
-  independent: { num: 5, label: 'Independent', ages: 'Ages 16 and above', color: 'var(--ink-soft)',   bg: 'var(--warm)' },
+  foundation:  { num: 1, label: 'Foundation',  ages: 'Ages 4 to 7',       color: 'var(--ink)', bg: 'var(--stage-1)' },
+  builder:     { num: 2, label: 'Builder',     ages: 'Ages 8 to 10',      color: 'var(--ink)', bg: 'var(--stage-2)' },
+  explorer:    { num: 3, label: 'Explorer',    ages: 'Ages 11 to 13',     color: 'var(--ink)', bg: 'var(--stage-3)' },
+  shaper:      { num: 4, label: 'Shaper',      ages: 'Ages 13 to 15',     color: 'var(--ink)', bg: 'var(--stage-4)' },
+  independent: { num: 5, label: 'Independent', ages: 'Ages 16 and above', color: 'var(--ink)', bg: 'var(--stage-5)' },
 } as const
 
 type StageId = keyof typeof STAGE_META
@@ -77,9 +77,9 @@ export default async function ScriptsPage() {
       </div>
 
       {!isPaid && (
-        <div style={{ background: 'var(--gold-lt)', border: '2px solid var(--gold)', borderRadius: '14px', padding: '16px 20px', marginBottom: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+        <div style={{ background: 'var(--stage-5)', border: '2px solid var(--stage-5)', borderRadius: '14px', padding: '16px 20px', marginBottom: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
           <div>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--gold-dark)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Free plan</span>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--terracotta)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Free plan</span>
             <p style={{ fontSize: '14px', color: 'var(--ink-soft)', marginTop: '4px' }}>
               You have {freeCount} free scripts. Membership unlocks the full library of 100 plus, every stage from 4 to 16.
             </p>
@@ -116,7 +116,7 @@ export default async function ScriptsPage() {
                   style={{
                     display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                     textDecoration: 'none', gap: '12px',
-                    background: 'var(--warm)', border: '1px solid var(--border)',
+                    background: 'var(--cream)', border: '1px solid var(--border)',
                     borderRadius: '14px', padding: '14px 16px',
                     opacity: isLocked ? 0.7 : 1,
                   }}
@@ -143,7 +143,7 @@ export default async function ScriptsPage() {
 
       {!isPaid && (
         <div style={{
-          background: 'var(--warm)', border: '2px dashed var(--border)',
+          background: 'var(--cream)', border: '2px dashed var(--border)',
           borderRadius: '14px', padding: '24px 20px', textAlign: 'center',
         }}>
           <div style={{ fontSize: '24px', marginBottom: '12px' }}>🔒</div>

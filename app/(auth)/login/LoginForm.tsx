@@ -73,7 +73,7 @@ export default function LoginForm() {
             </div>
 
             {error && (
-              <div style={{ padding: '12px 16px', background: 'var(--coral-lt)', borderRadius: '10px', color: 'var(--coral)', fontFamily: 'var(--font-mono)', fontSize: '12px' }}>
+              <div style={{ padding: '12px 16px', background: 'var(--stage-1)', borderRadius: '10px', color: 'var(--ink)', fontFamily: 'var(--font-mono)', fontSize: '12px' }}>
                 {error}
               </div>
             )}
@@ -92,7 +92,7 @@ export default function LoginForm() {
 
         <p style={{ marginTop: '24px', textAlign: 'center', color: 'var(--ink-muted)', fontSize: '14px' }}>
           New here?{' '}
-          <Link href="/signup" style={{ color: 'var(--green-dark)', fontWeight: 600, textDecoration: 'none' }}>
+          <Link href="/signup" style={{ color: 'var(--terracotta)', fontWeight: 600, textDecoration: 'none' }}>
             Start your pathway
           </Link>
         </p>

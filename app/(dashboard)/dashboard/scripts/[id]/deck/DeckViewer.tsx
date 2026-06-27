@@ -20,32 +20,32 @@ const CARDS = [
     key: 'say_this' as const,
     label: 'Say this',
     step: 1,
-    accent: 'var(--green-dark)',
-    bg: 'var(--green-lt)',
+    accent: 'var(--terracotta)',
+    bg: 'var(--stage-2)',
     tip: 'Use these words tonight',
   },
   {
     key: 'not_this' as const,
     label: 'Not this',
     step: 2,
-    accent: 'var(--coral)',
-    bg: 'var(--coral-lt)',
+    accent: 'var(--terracotta)',
+    bg: 'var(--stage-1)',
     tip: 'Easy to say, hard to come back from',
   },
   {
     key: 'why_it_works' as const,
     label: 'Why it works',
     step: 3,
-    accent: 'var(--lav-deep)',
-    bg: 'var(--lav)',
+    accent: 'var(--terracotta)',
+    bg: 'var(--stage-3)',
     tip: 'The reason behind the approach',
   },
   {
     key: 'tonight' as const,
     label: 'Tonight',
     step: 4,
-    accent: 'var(--gold-dark)',
-    bg: 'var(--gold-lt)',
+    accent: 'var(--terracotta)',
+    bg: 'var(--stage-5)',
     tip: 'One thing to do right now',
   },
 ]
@@ -180,7 +180,7 @@ export default function DeckViewer({
             {isCompletionCard ? 'Complete' : `${cardIndex + 1} of ${CARDS.length}`}
           </span>
           {completed && !isCompletionCard && (
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--green-dark)', letterSpacing: '0.06em' }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--terracotta)', letterSpacing: '0.06em' }}>
               Done
             </span>
           )}
@@ -263,7 +263,7 @@ export default function DeckViewer({
               onClick={() => navigate('back')}
               style={{
                 padding: '14px 20px',
-                background: 'var(--warm)',
+                background: 'var(--cream)',
                 border: '1.5px solid var(--border)',
                 borderRadius: '14px',
                 fontFamily: 'var(--font-mono)',
@@ -282,7 +282,7 @@ export default function DeckViewer({
             style={{
               flex: 1,
               padding: '14px 20px',
-              background: cardIndex === CARDS.length - 1 && !completed ? 'var(--green-dark)' : card.accent,
+              background: cardIndex === CARDS.length - 1 && !completed ? 'var(--terracotta)' : card.accent,
               border: 'none',
               borderRadius: '14px',
               fontFamily: 'var(--font-mono)',
@@ -292,7 +292,7 @@ export default function DeckViewer({
               textTransform: 'uppercase',
               color: '#fff',
               cursor: 'pointer',
-              boxShadow: cardIndex === CARDS.length - 1 && !completed ? '0 4px 0 var(--green-dark)' : 'none',
+              boxShadow: cardIndex === CARDS.length - 1 && !completed ? '0 4px 0 var(--terracotta-dark)' : 'none',
             }}
           >
             {cardIndex === CARDS.length - 1
@@ -316,7 +316,7 @@ export default function DeckViewer({
         <div style={{
           position: 'fixed',
           inset: 0,
-          background: 'rgba(46, 125, 90, 0.92)',
+          background: 'rgba(61, 106, 80, 0.92)',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -360,7 +360,7 @@ function CompletionCard({
         boxShadow: '0 2px 24px rgba(0,0,0,0.09)',
         marginBottom: '16px',
       }}>
-        <div style={{ background: 'var(--green-dark)', padding: '16px 24px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <div style={{ background: 'var(--terracotta)', padding: '16px 24px', display: 'flex', alignItems: 'center', gap: '12px' }}>
           <div style={{
             width: '32px', height: '32px', borderRadius: '50%',
             background: 'rgba(255,255,255,0.2)',
@@ -371,8 +371,8 @@ function CompletionCard({
             Script complete
           </div>
         </div>
-        <div style={{ padding: '24px', background: 'var(--green-lt)' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--green-dark)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '10px' }}>
+        <div style={{ padding: '24px', background: 'var(--stage-2)' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--terracotta)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '10px' }}>
             Keep this in mind
           </div>
           <p style={{ fontSize: '15px', lineHeight: 1.65, color: 'var(--ink)', margin: 0 }}>

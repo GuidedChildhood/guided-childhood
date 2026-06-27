@@ -5,38 +5,38 @@ import FaqAccordion from '@/components/marketing/FaqAccordion'
 const STAGES = [
   {
     num: '01', name: 'Foundation', ks: 'EYFS and KS1', ages: 'Ages 4 to 7',
-    device: 'Shared screen', deviceBg: '#EEF7F2', deviceColor: '#2E7D5A',
+    device: 'Shared screen', deviceBg: 'var(--stage-1)', deviceColor: 'var(--terracotta)',
     tags: ['TV routines', 'Co-viewing', 'No solo device'],
     quote: '"I can\'t get my four-year-old off the iPad. What am I doing wrong?"',
-    accent: '#AFDCA2', accentDark: '#2E7D5A',
+    accent: 'var(--stage-1)', accentDark: 'var(--terracotta)',
   },
   {
     num: '02', name: 'First Steps', ks: 'KS2 · Yr 3 to 5', ages: 'Ages 8 to 10',
-    device: 'Restricted phone', deviceBg: '#E7ECF8', deviceColor: '#3D5BA9',
+    device: 'Restricted phone', deviceBg: 'var(--stage-3)', deviceColor: 'var(--terracotta)',
     tags: ['After-school TV', 'Gaming time', 'Boredom'],
     quote: '"The moment he walks in from school it\'s TV or gaming. I can\'t break the cycle."',
-    accent: '#3D5BA9', accentDark: '#3D5BA9',
+    accent: 'var(--stage-3)', accentDark: 'var(--terracotta)',
   },
   {
     num: '03', name: 'Explorer', ks: 'KS2/KS3 · Yr 6 to 8', ages: 'Ages 11 to 13',
-    device: 'Guided smartphone', deviceBg: '#FEF3E8', deviceColor: '#D4600A',
+    device: 'Guided smartphone', deviceBg: 'var(--stage-1)', deviceColor: 'var(--terracotta)',
     tags: ['Mood after screens', 'Sleep rules', 'Workarounds'],
     quote: '"Her mood drops every time she puts her phone down. I\'m worried."',
-    accent: '#D4600A', accentDark: '#C0392B', critical: true,
+    accent: 'var(--stage-1)', accentDark: 'var(--terracotta-dark)', critical: true,
   },
   {
     num: '04', name: 'Navigator', ks: 'KS3/KS4 · Yr 9 to 10', ages: 'Ages 13 to 15',
-    device: 'Monitored social', deviceBg: '#FEFAE8', deviceColor: '#C9962A',
+    device: 'Monitored social', deviceBg: 'var(--stage-5)', deviceColor: 'var(--terracotta)',
     tags: ['VPNs', 'Unknown accounts', 'Reputation'],
     quote: '"He has accounts I don\'t know about. What do I do?"',
-    accent: '#F2C94C', accentDark: '#C9962A',
+    accent: 'var(--stage-5)', accentDark: 'var(--terracotta)',
   },
   {
     num: '05', name: 'Independent', ks: 'KS4/KS5 · Yr 11+', ages: 'Ages 16+',
-    device: 'Trust-based', deviceBg: '#EEF7F2', deviceColor: '#2E7D5A',
+    device: 'Trust-based', deviceBg: 'var(--stage-1)', deviceColor: 'var(--terracotta)',
     tags: ['Full access', 'AI literacy', 'Readiness'],
     quote: '"She\'s 16 next month. I have no idea if she\'s ready."',
-    accent: '#AFDCA2', accentDark: '#2E7D5A',
+    accent: 'var(--stage-1)', accentDark: 'var(--terracotta)',
   },
 ]
 
@@ -94,11 +94,11 @@ const DIGITAL_GAPS = [
 ]
 
 const TRUST = [
-  { letter: 'T', word: 'Timing', desc: 'Right device at the right age. Not all-or-nothing. Not a cliff edge.', bg: '#EEF7F2', color: '#2E7D5A' },
-  { letter: 'R', word: 'Relationships', desc: 'Connection is the strongest protective factor the research has found.', bg: '#FEF3E8', color: '#D4600A' },
-  { letter: 'U', word: 'Upstream', desc: 'Environment before rules. Platform mechanics matter more than willpower.', bg: '#FEFAE8', color: '#C9962A' },
-  { letter: 'S', word: 'Sleep', desc: 'The bedroom rule is the single highest-impact action in this system.', bg: '#FEFAE8', color: '#C9962A' },
-  { letter: 'T', word: 'Transparency', desc: 'Openness over secrecy. Co-navigation over monitoring.', bg: '#E7ECF8', color: '#3D5BA9' },
+  { letter: 'T', word: 'Timing', desc: 'Right device at the right age. Not all-or-nothing. Not a cliff edge.', bg: 'var(--stage-2)', color: 'var(--terracotta)' },
+  { letter: 'R', word: 'Relationships', desc: 'Connection is the strongest protective factor the research has found.', bg: 'var(--stage-1)', color: 'var(--terracotta)' },
+  { letter: 'U', word: 'Upstream', desc: 'Environment before rules. Platform mechanics matter more than willpower.', bg: 'var(--stage-5)', color: 'var(--terracotta)' },
+  { letter: 'S', word: 'Sleep', desc: 'The bedroom rule is the single highest-impact action in this system.', bg: 'var(--stage-5)', color: 'var(--terracotta)' },
+  { letter: 'T', word: 'Transparency', desc: 'Openness over secrecy. Co-navigation over monitoring.', bg: 'var(--stage-3)', color: 'var(--terracotta)' },
 ]
 
 const RESEARCHERS = [
@@ -151,7 +151,7 @@ export default function HomePage() {
           <div style={{
             width: '34px',
             height: '34px',
-            background: 'var(--green-dark)',
+            background: 'var(--terracotta)',
             borderRadius: '9px',
             display: 'flex',
             alignItems: 'center',
@@ -200,13 +200,13 @@ export default function HomePage() {
         <div aria-hidden="true" style={{
           position: 'absolute', top: '-120px', right: '-120px',
           width: '500px', height: '500px', borderRadius: '50%',
-          background: 'var(--green)',
+          background: 'var(--stage-2)',
           opacity: 0.07, pointerEvents: 'none',
         }} />
         <div aria-hidden="true" style={{
           position: 'absolute', bottom: '-80px', left: '-60px',
           width: '320px', height: '320px', borderRadius: '50%',
-          background: 'var(--gold)',
+          background: 'var(--stage-5)',
           opacity: 0.06, pointerEvents: 'none',
         }} />
 
@@ -215,7 +215,7 @@ export default function HomePage() {
 
             {/* LEFT: Text */}
             <div>
-              <p className="eyebrow fu" style={{ color: 'var(--coral)', marginBottom: '18px', letterSpacing: '.14em' }}>
+              <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '18px', letterSpacing: '.14em' }}>
                 Science-backed · Ages 4 to 16 · UK families
               </p>
 
@@ -230,7 +230,7 @@ export default function HomePage() {
                 From their first screen<br />
                 to the moment<br />
                 they are{' '}
-                <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--coral)' }}>
+                <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--terracotta)' }}>
                   ready for everything.
                 </em>
               </h1>
@@ -279,10 +279,10 @@ export default function HomePage() {
               <div className="fu" style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
                 <div className="avatar-stack">
                   {[
-                    { l: 'SM', bg: 'var(--green)' },
-                    { l: 'TK', bg: 'var(--gold)' },
-                    { l: 'CH', bg: 'var(--coral-lt)' },
-                    { l: '+', bg: '#EFE9DF' },
+                    { l: 'SM', bg: 'var(--stage-2)' },
+                    { l: 'TK', bg: 'var(--stage-5)' },
+                    { l: 'CH', bg: 'var(--stage-1)' },
+                    { l: '+', bg: 'var(--cream)' },
                   ].map(({ l, bg }, i) => (
                     <div key={i} className="avatar-stack-item" style={{ background: bg, color: l === '+' ? 'var(--ink-muted)' : 'var(--ink)', zIndex: 4 - i }}>
                       {l}
@@ -290,7 +290,7 @@ export default function HomePage() {
                   ))}
                 </div>
                 <div>
-                  <span style={{ color: 'var(--coral)', fontSize: '.9rem', letterSpacing: '2px' }}>★★★★★</span>
+                  <span style={{ color: 'var(--terracotta)', fontSize: '.9rem', letterSpacing: '2px' }}>★★★★★</span>
                   <span style={{ fontSize: '.8rem', color: 'var(--ink-muted)', fontWeight: 600, marginLeft: '8px' }}>
                     131 parents already on their pathway
                   </span>
@@ -305,7 +305,7 @@ export default function HomePage() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
                   {['Online Safety Act 2023', 'DfE', 'Statutory RSE', 'Ofcom'].map(tag => (
                     <span key={tag} style={{
-                      background: '#FDFBF8',
+                      background: 'var(--cream)',
                       border: '1px solid var(--border)',
                       borderRadius: '100px',
                       padding: '5px 13px',
@@ -341,7 +341,7 @@ export default function HomePage() {
                 gap: '6px',
                 zIndex: 2,
               }}>
-                <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--coral)', display: 'inline-block' }} />
+                <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--terracotta)', display: 'inline-block' }} />
                 Ages 4 to 16 · One pathway
               </div>
 
@@ -350,12 +350,12 @@ export default function HomePage() {
 
                 {/* Card header */}
                 <div style={{
-                  background: 'var(--green-lt)',
+                  background: 'var(--stage-2)',
                   padding: '16px 20px',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '12px',
-                  borderBottom: '1px solid #D3ECD9',
+                  borderBottom: '1px solid var(--border)',
                   borderRadius: '20px 20px 0 0',
                 }}>
                   <div className="digi-avatar">D</div>
@@ -364,13 +364,13 @@ export default function HomePage() {
                       DiGi
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '.67rem', color: 'var(--ink-muted)', marginTop: '1px' }}>
-                      <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--green-dark)', flexShrink: 0 }} />
+                      <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--terracotta)', flexShrink: 0 }} />
                       Digital parenting advisor · Available now
                     </div>
                   </div>
                   <span style={{
-                    background: 'var(--coral-lt)',
-                    color: 'var(--coral)',
+                    background: 'var(--stage-1)',
+                    color: 'var(--terracotta)',
                     fontFamily: 'var(--font-mono)',
                     fontSize: '.58rem',
                     fontWeight: 700,
@@ -429,7 +429,7 @@ export default function HomePage() {
                     Ask DiGi about what is happening at home...
                   </div>
                   <Link href="/starter-pack" style={{
-                    background: 'var(--green-dark)',
+                    background: 'var(--terracotta)',
                     color: '#fff',
                     width: '36px',
                     height: '36px',
@@ -452,14 +452,14 @@ export default function HomePage() {
                 position: 'absolute',
                 bottom: '4px',
                 right: '16px',
-                background: 'var(--gold)',
-                border: '1.5px solid var(--gold-dark)',
+                background: 'var(--stage-5)',
+                border: '1.5px solid var(--terracotta-dark)',
                 borderRadius: '100px',
                 padding: '7px 14px',
                 fontSize: '.68rem',
                 fontWeight: 700,
                 color: 'var(--ink)',
-                boxShadow: '0 4px 20px rgba(242,201,76,.35)',
+                boxShadow: '0 4px 20px rgba(240,220,152,.35)',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '6px',
@@ -509,7 +509,7 @@ export default function HomePage() {
       </div>
 
       {/* Ticker */}
-      <div style={{ background: 'var(--green)', padding: '11px 0', overflow: 'hidden', whiteSpace: 'nowrap' }} aria-hidden="true">
+      <div style={{ background: 'var(--stage-2)', padding: '11px 0', overflow: 'hidden', whiteSpace: 'nowrap' }} aria-hidden="true">
         <div className="ticker-track" style={{ display: 'inline-flex' }}>
           {[...TICKER_ITEMS, ...TICKER_ITEMS].map(([strong, rest], i) => (
             <span key={i} style={{
@@ -525,7 +525,7 @@ export default function HomePage() {
             }}>
               <strong style={{ color: 'var(--ink)' }}>{strong}</strong>
               {rest}
-              <span style={{ width: '4px', height: '4px', borderRadius: '50%', background: 'var(--coral)', opacity: .7, display: 'inline-block', flexShrink: 0 }} />
+              <span style={{ width: '4px', height: '4px', borderRadius: '50%', background: 'var(--terracotta)', opacity: .7, display: 'inline-block', flexShrink: 0 }} />
             </span>
           ))}
         </div>
@@ -534,10 +534,10 @@ export default function HomePage() {
       {/* ================================================================
           STAGE CARDS
           ================================================================ */}
-      <section id="stages" className="section-lg" style={{ background: '#FDFBF8', scrollMarginTop: '70px' }}>
+      <section id="stages" className="section-lg" style={{ background: 'var(--cream)', scrollMarginTop: '70px' }}>
         <div style={{ maxWidth: '1060px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-            <p className="eyebrow fu" style={{ color: 'var(--coral)', marginBottom: '12px' }}>The five stages</p>
+            <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>The five stages</p>
             <h2 className="fu" style={{ marginBottom: '14px' }}>Find your stage</h2>
             <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.8, maxWidth: '500px', margin: '0 auto' }}>
               One framework from their first screen at age 4 to full independence at 16. Find where your child is now and start there.
@@ -547,8 +547,8 @@ export default function HomePage() {
           <div className="stages-grid">
             {STAGES.map(s => (
               <div key={s.num} style={{
-                background: s.critical ? 'var(--coral-lt)' : '#fff',
-                border: `1px solid ${s.critical ? 'rgba(212,96,10,.25)' : 'var(--border)'}`,
+                background: s.critical ? 'var(--stage-1)' : '#fff',
+                border: `1px solid ${s.critical ? 'rgba(90,138,106,.25)' : 'var(--border)'}`,
                 borderRadius: '16px',
                 padding: '24px 18px 20px',
                 display: 'flex',
@@ -567,7 +567,7 @@ export default function HomePage() {
                 {s.critical && (
                   <div style={{
                     display: 'inline-flex',
-                    background: 'var(--coral)',
+                    background: 'var(--terracotta)',
                     borderRadius: '100px',
                     padding: '2px 8px',
                     fontSize: '.58rem',
@@ -594,7 +594,7 @@ export default function HomePage() {
 
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', marginBottom: '14px' }}>
                   {s.tags.map(t => (
-                    <span key={t} style={{ background: '#FDFBF8', border: '1px solid var(--border)', borderRadius: '100px', padding: '2px 8px', fontSize: '.62rem', color: 'var(--ink-soft)', fontWeight: 600 }}>
+                    <span key={t} style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '100px', padding: '2px 8px', fontSize: '.62rem', color: 'var(--ink-soft)', fontWeight: 600 }}>
                       {t}
                     </span>
                   ))}
@@ -612,13 +612,13 @@ export default function HomePage() {
                   fontSize: '.72rem',
                   fontWeight: 700,
                   color: s.critical ? '#fff' : 'var(--ink)',
-                  background: s.critical ? 'var(--coral)' : 'var(--green)',
+                  background: s.critical ? 'var(--terracotta)' : 'var(--stage-2)',
                   padding: '8px 14px',
                   borderRadius: '10px',
                   fontFamily: 'var(--font-mono)',
                   letterSpacing: '.02em',
                   textDecoration: 'none',
-                  boxShadow: s.critical ? '0 3px 0 rgba(192,57,43,.5)' : '0 3px 0 var(--green-dark)',
+                  boxShadow: s.critical ? '0 3px 0 var(--terracotta-dark)' : '0 3px 0 var(--terracotta)',
                 }}>
                   Start here →
                 </Link>
@@ -638,10 +638,10 @@ export default function HomePage() {
       <section id="how-it-works" className="section-lg" style={{ scrollMarginTop: '70px' }}>
         <div style={{ maxWidth: '1040px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-            <p className="eyebrow fu" style={{ color: 'var(--green-dark)', marginBottom: '12px' }}>How it works</p>
+            <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>How it works</p>
             <h2 className="fu" style={{ marginBottom: '14px' }}>
               The problem.{' '}
-              <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--coral)' }}>Then what you do.</em>
+              <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--terracotta)' }}>Then what you do.</em>
             </h2>
             <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.8, maxWidth: '500px', margin: '0 auto' }}>
               Most parenting advice is a tip you forget by morning. This is a system. Here is what it looks like in real family life.
@@ -651,8 +651,8 @@ export default function HomePage() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '5px', maxWidth: '860px', margin: '0 auto' }}>
             {WALKTHROUGHS.map((w, i) => (
               <div key={i} className="walkthrough-row fu">
-                <div style={{ background: 'var(--coral-lt)', padding: '28px 24px', borderRight: '1px solid var(--border)' }}>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.56rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--coral)', marginBottom: '10px' }}>
+                <div style={{ background: 'var(--stage-1)', padding: '28px 24px', borderRight: '1px solid var(--border)' }}>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.56rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '10px' }}>
                     The problem
                   </div>
                   <p style={{ fontFamily: 'var(--font-display)', fontSize: '.92rem', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.45, marginBottom: '8px' }}>
@@ -661,7 +661,7 @@ export default function HomePage() {
                   <span style={{ fontSize: '.7rem', color: 'var(--ink-muted)', fontWeight: 600 }}>{w.stage}</span>
                 </div>
                 <div style={{ padding: '28px 26px' }}>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.56rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--green-dark)', marginBottom: '10px' }}>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.56rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '10px' }}>
                     What Guided Childhood gives you
                   </div>
                   <p style={{ fontSize: '.87rem', color: 'var(--ink-soft)', lineHeight: 1.72, marginBottom: '12px' }}>
@@ -674,8 +674,8 @@ export default function HomePage() {
                         padding: '4px 11px',
                         fontSize: '.66rem',
                         fontWeight: 700,
-                        background: j === 0 ? 'var(--green-lt)' : j === 1 ? '#EFE9DF' : 'var(--lav)',
-                        color: j === 0 ? 'var(--green-dark)' : j === 1 ? 'var(--ink-soft)' : 'var(--lav-deep)',
+                        background: j === 0 ? 'var(--stage-2)' : j === 1 ? 'var(--cream)' : 'var(--stage-4)',
+                        color: j === 0 ? 'var(--terracotta)' : j === 1 ? 'var(--ink-soft)' : 'var(--terracotta-dark)',
                       }}>
                         {t}
                       </span>
@@ -689,8 +689,8 @@ export default function HomePage() {
           {/* Time stats */}
           <div className="time-stats">
             {[['2 min', 'Weekly check-in'], ['3', 'Actions per week'], ['<5 min', 'Each action'], ['24/7', 'DiGi available']].map(([num, label], i) => (
-              <div key={i} style={{ textAlign: 'center', padding: '22px 12px', borderRight: i < 3 ? '1px solid #D3ECD9' : 'none' }}>
-                <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.8rem', fontWeight: 800, color: 'var(--green-dark)', lineHeight: 1, marginBottom: '5px', letterSpacing: '-.02em' }}>
+              <div key={i} style={{ textAlign: 'center', padding: '22px 12px', borderRight: i < 3 ? '1px solid var(--border)' : 'none' }}>
+                <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.8rem', fontWeight: 800, color: 'var(--terracotta)', lineHeight: 1, marginBottom: '5px', letterSpacing: '-.02em' }}>
                   {num}
                 </div>
                 <div style={{ fontSize: '.72rem', color: 'var(--ink-soft)', fontWeight: 600 }}>{label}</div>
@@ -706,13 +706,13 @@ export default function HomePage() {
       {/* ================================================================
           DIGI SECTION
           ================================================================ */}
-      <section style={{ padding: 'clamp(64px, 9vw, 104px) 32px', background: '#FDFBF8' }}>
+      <section style={{ padding: 'clamp(64px, 9vw, 104px) 32px', background: 'var(--cream)' }}>
         <div style={{ maxWidth: '1040px', margin: '0 auto' }}>
           <div className="two-col">
 
             {/* Left: Copy */}
             <div>
-              <p className="eyebrow fu" style={{ color: 'var(--green-dark)', marginBottom: '14px' }}>
+              <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '14px' }}>
                 Your 24/7 digital parenting advisor
               </p>
               <h2 className="fu" style={{ marginBottom: '20px' }}>
@@ -732,7 +732,7 @@ export default function HomePage() {
                   'Like texting someone who has read all the research',
                 ].map((item, i) => (
                   <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '.9rem', color: 'var(--ink-soft)' }}>
-                    <span style={{ color: 'var(--green-dark)', fontWeight: 900, flexShrink: 0, marginTop: '2px', fontSize: '.9rem' }}>✓</span>
+                    <span style={{ color: 'var(--terracotta)', fontWeight: 900, flexShrink: 0, marginTop: '2px', fontSize: '.9rem' }}>✓</span>
                     {item}
                   </li>
                 ))}
@@ -753,18 +753,18 @@ export default function HomePage() {
               }}>
                 {/* Header */}
                 <div style={{
-                  background: 'linear-gradient(135deg, var(--green-lt) 0%, #e8f5ed 100%)',
+                  background: 'linear-gradient(135deg, var(--stage-2) 0%, var(--stage-2) 100%)',
                   padding: '16px 20px',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '13px',
-                  borderBottom: '1px solid #D3ECD9',
+                  borderBottom: '1px solid var(--border)',
                 }}>
                   <div style={{
                     width: '52px',
                     height: '52px',
                     borderRadius: '50%',
-                    background: 'var(--green-dark)',
+                    background: 'var(--terracotta)',
                     color: '#fff',
                     fontFamily: 'var(--font-display)',
                     fontWeight: 800,
@@ -773,7 +773,7 @@ export default function HomePage() {
                     alignItems: 'center',
                     justifyContent: 'center',
                     flexShrink: 0,
-                    boxShadow: '0 4px 16px rgba(46,125,90,.4)',
+                    boxShadow: '0 4px 16px rgba(90,138,106,.4)',
                     letterSpacing: '-.02em',
                   }}>
                     D
@@ -782,8 +782,8 @@ export default function HomePage() {
                     <div style={{ fontFamily: 'var(--font-display)', fontSize: '1rem', fontWeight: 700, color: 'var(--ink)' }}>DiGi</div>
                     <div style={{ fontSize: '.68rem', color: 'var(--ink-muted)', marginTop: '1px' }}>Guided Childhood Advisor</div>
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '.67rem', color: 'var(--green-dark)', fontWeight: 600, background: 'var(--green-lt)', padding: '4px 10px', borderRadius: '100px', border: '1px solid #D3ECD9' }}>
-                    <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--green-dark)' }} />
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '.67rem', color: 'var(--terracotta)', fontWeight: 600, background: 'var(--stage-2)', padding: '4px 10px', borderRadius: '100px', border: '1px solid var(--border)' }}>
+                    <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--terracotta)' }} />
                     Online now
                   </div>
                 </div>
@@ -816,15 +816,15 @@ export default function HomePage() {
 
                   <div style={{ display: 'flex', gap: '9px', alignItems: 'flex-end' }}>
                     <div className="digi-avatar-sm">D</div>
-                    <div className="bubble-digi" style={{ background: 'var(--green-lt)', border: '1px solid #D3ECD9' }}>
-                      <strong style={{ display: 'block', marginBottom: '4px', color: 'var(--green-dark)', fontSize: '.76rem' }}>Stage 2 · Transition script</strong>
+                    <div className="bubble-digi" style={{ background: 'var(--stage-2)', border: '1px solid var(--border)' }}>
+                      <strong style={{ display: 'block', marginBottom: '4px', color: 'var(--terracotta)', fontSize: '.76rem' }}>Stage 2 · Transition script</strong>
                       "Before you get the TV on, let's do your five things: shoes away, bag on hook, snack, five minutes outside, then TV. Deal?" Deliver it once, warmly. Then hold it.
                     </div>
                   </div>
                 </div>
 
                 {/* Input */}
-                <div style={{ padding: '10px 16px 16px', display: 'flex', gap: '8px', alignItems: 'center', borderTop: '1px solid var(--border)', background: '#FDFBF8' }}>
+                <div style={{ padding: '10px 16px 16px', display: 'flex', gap: '8px', alignItems: 'center', borderTop: '1px solid var(--border)', background: 'var(--cream)' }}>
                   <input
                     readOnly
                     style={{
@@ -842,7 +842,7 @@ export default function HomePage() {
                     aria-label="Ask DiGi"
                   />
                   <Link href="/starter-pack" style={{
-                    background: 'var(--green-dark)',
+                    background: 'var(--terracotta)',
                     color: '#fff',
                     width: '36px',
                     height: '36px',
@@ -870,7 +870,7 @@ export default function HomePage() {
       <section id="issues" className="section-lg">
         <div style={{ maxWidth: '1040px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-            <p className="eyebrow fu" style={{ color: 'var(--coral)', marginBottom: '12px' }}>The full picture</p>
+            <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>The full picture</p>
             <h2 className="fu" style={{ marginBottom: '14px' }}>
               Twenty things showing up<br />in homes right now
             </h2>
@@ -883,8 +883,8 @@ export default function HomePage() {
             <div className="fu" style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '16px', padding: '28px 24px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px' }}>
                 <span style={{
-                  background: 'var(--coral-lt)',
-                  color: 'var(--coral)',
+                  background: 'var(--stage-1)',
+                  color: 'var(--terracotta)',
                   fontFamily: 'var(--font-mono)',
                   fontSize: '.58rem',
                   fontWeight: 700,
@@ -900,7 +900,7 @@ export default function HomePage() {
               <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 {BEHAVIOUR_ISSUES.map((item, i) => (
                   <li key={i} style={{ fontSize: '.81rem', color: 'var(--ink-soft)', display: 'flex', gap: '9px', alignItems: 'flex-start', lineHeight: 1.55 }}>
-                    <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--coral)', display: 'inline-block', flexShrink: 0, marginTop: '5px' }} />
+                    <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--terracotta)', display: 'inline-block', flexShrink: 0, marginTop: '5px' }} />
                     {item}
                   </li>
                 ))}
@@ -910,8 +910,8 @@ export default function HomePage() {
             <div className="fu" style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '16px', padding: '28px 24px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px' }}>
                 <span style={{
-                  background: 'var(--lav)',
-                  color: 'var(--lav-deep)',
+                  background: 'var(--stage-4)',
+                  color: 'var(--terracotta-dark)',
                   fontFamily: 'var(--font-mono)',
                   fontSize: '.58rem',
                   fontWeight: 700,
@@ -927,7 +927,7 @@ export default function HomePage() {
               <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 {DIGITAL_GAPS.map((item, i) => (
                   <li key={i} style={{ fontSize: '.81rem', color: 'var(--ink-soft)', display: 'flex', gap: '9px', alignItems: 'flex-start', lineHeight: 1.55 }}>
-                    <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--lav-deep)', display: 'inline-block', flexShrink: 0, marginTop: '5px' }} />
+                    <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--terracotta-dark)', display: 'inline-block', flexShrink: 0, marginTop: '5px' }} />
                     {item}
                   </li>
                 ))}
@@ -935,8 +935,8 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div style={{ background: 'var(--green-lt)', border: '1px solid #D3ECD9', borderRadius: '12px', padding: '16px 20px', marginTop: '16px', display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-            <span style={{ color: 'var(--green-dark)', fontSize: '1rem', flexShrink: 0, marginTop: '2px' }}>✓</span>
+          <div style={{ background: 'var(--stage-2)', border: '1px solid var(--border)', borderRadius: '12px', padding: '16px 20px', marginTop: '16px', display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+            <span style={{ color: 'var(--terracotta)', fontSize: '1rem', flexShrink: 0, marginTop: '2px' }}>✓</span>
             <p style={{ fontSize: '.84rem', color: 'var(--ink-soft)', lineHeight: 1.65 }}>
               Guided Childhood covers all 20. The behaviour issues are just as central to the platform as the digital literacy ones.
             </p>
@@ -951,13 +951,13 @@ export default function HomePage() {
       {/* ================================================================
           MENTAL HEALTH SIGNALS
           ================================================================ */}
-      <section className="section-lg" style={{ background: '#FDFBF8' }}>
+      <section className="section-lg" style={{ background: 'var(--cream)' }}>
         <div style={{ maxWidth: '1040px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-            <p className="eyebrow fu" style={{ color: 'var(--coral)', marginBottom: '12px' }}>Signs to watch for</p>
+            <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>Signs to watch for</p>
             <h2 className="fu" style={{ marginBottom: '14px' }}>
               What the research says to{' '}
-              <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--coral)' }}>pay attention to</em>
+              <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--terracotta)' }}>pay attention to</em>
             </h2>
             <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.8, maxWidth: '500px', margin: '0 auto' }}>
               Not a scare list. These are signals. The earlier you spot them, the simpler the response.
@@ -966,13 +966,13 @@ export default function HomePage() {
 
           <div className="two-col-issues" style={{ maxWidth: '880px', margin: '0 auto' }}>
             {[
-              { dot: 'var(--coral)', label: 'Behaviour signals', color: 'var(--coral)', items: [
+              { dot: 'var(--terracotta)', label: 'Behaviour signals', color: 'var(--terracotta)', items: [
                 ['Meltdowns when screens are removed', 'A sign that screens have become the primary regulation strategy. The framework builds alternatives before removing access.'],
                 ['Mood drops of 20 minutes or more after screens', 'The research identifies this duration as a meaningful signal, particularly in girls aged 11 to 13. Worth tracking, not diagnosing.'],
                 ['Sleep disruption caused by devices in the bedroom', 'The single highest-impact change you can make. The research shows this consistently across all age groups.'],
                 ['Withdrawal from offline activities they used to love', 'Not always screen-caused. But worth noting when it coincides with increased screen time.'],
               ]},
-              { dot: 'var(--lav-deep)', label: 'Mental health signals', color: 'var(--lav-deep)', items: [
+              { dot: 'var(--terracotta-dark)', label: 'Mental health signals', color: 'var(--terracotta-dark)', items: [
                 ['Persistent anxiety about notifications', 'Checking before sleep, on waking, at meals. The research links this to platform mechanics, not personality.'],
                 ['Appearance comparison and self-critical talk after scrolling', 'Research shows this is amplified by appearance-based content at the 11 to 13 window. What they look at matters as much as how long.'],
                 ['Secrecy and hidden device use', 'Not always a crisis. But secrecy is the signal to act on. The script for this is specific and non-confrontational.'],
@@ -996,11 +996,11 @@ export default function HomePage() {
             ))}
           </div>
 
-          <div style={{ background: 'var(--gold-lt)', border: '1px solid rgba(242,201,76,.35)', borderRadius: '12px', padding: '18px 22px', marginTop: '18px', maxWidth: '880px', marginLeft: 'auto', marginRight: 'auto', display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-            <span style={{ color: 'var(--gold-dark)', fontSize: '1rem', flexShrink: 0, marginTop: '2px' }}>⚑</span>
+          <div style={{ background: 'var(--stage-5)', border: '1px solid var(--border)', borderRadius: '12px', padding: '18px 22px', marginTop: '18px', maxWidth: '880px', marginLeft: 'auto', marginRight: 'auto', display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+            <span style={{ color: 'var(--terracotta-dark)', fontSize: '1rem', flexShrink: 0, marginTop: '2px' }}>⚑</span>
             <p style={{ fontSize: '.83rem', color: 'var(--ink-soft)', lineHeight: 1.65 }}>
               These signals do not mean something is wrong. They mean something is worth paying attention to. The Digital Health Check takes 5 minutes and gives you a personalised read.{' '}
-              <Link href="/digitalwellbeing" style={{ color: 'var(--gold-dark)', fontWeight: 700, textDecoration: 'underline' }}>
+              <Link href="/digitalwellbeing" style={{ color: 'var(--terracotta-dark)', fontWeight: 700, textDecoration: 'underline' }}>
                 Take it free here.
               </Link>
             </p>
@@ -1014,10 +1014,10 @@ export default function HomePage() {
       <section className="section-lg">
         <div style={{ maxWidth: '1040px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-            <p className="eyebrow fu" style={{ color: 'var(--coral)', marginBottom: '12px' }}>The risks, mapped</p>
+            <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>The risks, mapped</p>
             <h2 className="fu" style={{ marginBottom: '14px' }}>
               Every major online risk.{' '}
-              <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--coral)' }}>What it is. What you do.</em>
+              <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--terracotta)' }}>What it is. What you do.</em>
             </h2>
             <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.8, maxWidth: '500px', margin: '0 auto' }}>
               Each risk is covered at the right stage, in the right way. Not all at once. Not as a scare list.
@@ -1026,17 +1026,17 @@ export default function HomePage() {
 
           <div className="risks-grid fu" style={{ marginBottom: '20px' }}>
             {[
-              { label: 'Contact risks', color: 'var(--coral)', items: [
+              { label: 'Contact risks', color: 'var(--terracotta)', items: [
                 ['Online grooming', 'adults building trust through gaming and messaging. Stage 3 and 4 cover the warning signs and the conversation.'],
                 ['Unknown contacts', 'who they are really talking to, without destroying trust to find out.'],
                 ['Cyberbullying', 'in group chats, gaming lobbies, and social platforms. What to do when it is your child on either side.'],
               ]},
-              { label: 'Content risks', color: 'var(--lav-deep)', items: [
+              { label: 'Content risks', color: 'var(--terracotta-dark)', items: [
                 ['Age-inappropriate content', 'violent, sexual, or extremist material encountered through algorithms, search, or sharing.'],
                 ['Misinformation and AI content', 'what is real, what is generated, and how to build the skills that spot the difference.'],
                 ['Self-harm and eating disorder content', 'algorithmically amplified content that targets vulnerability.'],
               ]},
-              { label: 'Conduct and safety risks', color: 'var(--gold-dark)', items: [
+              { label: 'Conduct and safety risks', color: 'var(--terracotta-dark)', items: [
                 ['Sextortion and image-based abuse', 'what it is, how it starts, and the conversation to have before it becomes a possibility.'],
                 ['Radicalisation', 'how extremist communities recruit through gaming and niche forums. What a gradual shift looks like.'],
                 ['Digital reputation and permanence', 'what gets shared, what stays, and the consent conversation that changes behaviour.'],
@@ -1065,13 +1065,13 @@ export default function HomePage() {
       {/* ================================================================
           TRUST METHOD
           ================================================================ */}
-      <section id="how" className="section-lg" style={{ background: '#FDFBF8', scrollMarginTop: '70px' }}>
+      <section id="how" className="section-lg" style={{ background: 'var(--cream)', scrollMarginTop: '70px' }}>
         <div style={{ maxWidth: '1040px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-            <p className="eyebrow fu" style={{ color: 'var(--green-dark)', marginBottom: '12px' }}>The Guided Childhood method</p>
+            <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>The Guided Childhood method</p>
             <h2 className="fu" style={{ marginBottom: '14px' }}>
               One framework that{' '}
-              <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--coral)' }}>runs the lot</em>
+              <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--terracotta)' }}>runs the lot</em>
             </h2>
             <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.8, maxWidth: '500px', margin: '0 auto' }}>
               TRUST runs through every action, script, and lesson from age 4 to 16. Not a tip sheet. A system.
@@ -1121,7 +1121,7 @@ export default function HomePage() {
                 width: '128px',
                 height: '128px',
                 borderRadius: '50%',
-                background: 'linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%)',
+                background: 'linear-gradient(135deg, var(--stage-2) 0%, var(--terracotta) 100%)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -1130,7 +1130,7 @@ export default function HomePage() {
                 fontWeight: 800,
                 color: '#fff',
                 margin: '0 auto',
-                boxShadow: '0 8px 32px rgba(46,125,90,.3)',
+                boxShadow: '0 8px 32px rgba(90,138,106,.3)',
                 letterSpacing: '-.03em',
               }}>
                 JP
@@ -1145,7 +1145,7 @@ export default function HomePage() {
             <div>
               <h2 className="fu" style={{ fontSize: 'clamp(1.7rem, 2.4vw, 2.4rem)', fontWeight: 700, lineHeight: 1.18, marginBottom: '18px' }}>
                 I watched my daughter scroll for{' '}
-                <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--coral)' }}>three hours</em>{' '}
+                <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--terracotta)' }}>three hours</em>{' '}
                 and realised the conversation I was missing
               </h2>
               <p className="fu" style={{ fontSize: '.92rem', color: 'var(--ink-soft)', lineHeight: 1.85, marginBottom: '14px' }}>

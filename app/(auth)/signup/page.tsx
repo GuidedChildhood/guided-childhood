@@ -79,7 +79,7 @@ export default function SignupPage() {
             </div>
 
             {error && (
-              <div style={{ padding: '12px 16px', background: 'var(--coral-lt)', borderRadius: '10px', color: 'var(--coral)', fontFamily: 'var(--font-mono)', fontSize: '12px' }}>
+              <div style={{ padding: '12px 16px', background: 'var(--stage-1)', borderRadius: '10px', color: 'var(--ink)', fontFamily: 'var(--font-mono)', fontSize: '12px' }}>
                 {error}
               </div>
             )}
@@ -90,7 +90,7 @@ export default function SignupPage() {
 
             <p style={{ textAlign: 'center', fontSize: '12px', color: 'var(--ink-muted)' }}>
               By signing up you agree to our{' '}
-              <Link href="/privacy" style={{ color: 'var(--green-dark)' }}>privacy policy</Link>.
+              <Link href="/privacy" style={{ color: 'var(--terracotta)' }}>privacy policy</Link>.
               No card required.
             </p>
           </form>
@@ -98,7 +98,7 @@ export default function SignupPage() {
 
         <p style={{ marginTop: '24px', textAlign: 'center', color: 'var(--ink-muted)', fontSize: '14px' }}>
           Already have an account?{' '}
-          <Link href="/login" style={{ color: 'var(--green-dark)', fontWeight: 600, textDecoration: 'none' }}>Sign in</Link>
+          <Link href="/login" style={{ color: 'var(--terracotta)', fontWeight: 600, textDecoration: 'none' }}>Sign in</Link>
         </p>
       </div>
     </div>

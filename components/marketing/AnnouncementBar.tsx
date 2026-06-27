@@ -7,7 +7,7 @@ export default function AnnouncementBar() {
   if (!visible) return null
   return (
     <div style={{
-      background: 'var(--coral)',
+      background: 'var(--terracotta)',
       padding: '10px 20px',
       display: 'flex',
       alignItems: 'center',
@@ -41,7 +41,7 @@ export default function AnnouncementBar() {
         href="/starter-pack"
         style={{
           background: '#fff',
-          color: 'var(--coral)',
+          color: 'var(--terracotta)',
           fontFamily: 'var(--font-body)',
           fontWeight: 700,
           fontSize: '.72rem',

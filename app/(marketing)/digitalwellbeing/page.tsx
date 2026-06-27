@@ -7,12 +7,12 @@ export const metadata: Metadata = {
 }
 
 const AREAS = [
-  { label: 'Screen routines', desc: 'TV, bedtime, mealtimes, morning', color: 'var(--coral-lt)', text: 'var(--coral)' },
-  { label: 'Gaming', desc: 'Time, meltdowns, online gaming safety', color: 'var(--lav)', text: 'var(--lav-deep)' },
-  { label: 'Sleep', desc: 'Devices in the bedroom, late-night use', color: 'var(--green-lt)', text: 'var(--green-dark)' },
-  { label: 'Mood and wellbeing', desc: 'Mood after screens, anxiety, withdrawal', color: 'var(--gold-lt)', text: 'var(--gold-dark)' },
-  { label: 'Social media', desc: 'Platforms, accounts you know about, social comparison', color: 'var(--coral-lt)', text: 'var(--coral)' },
-  { label: 'Digital literacy', desc: 'Algorithms, privacy, misinformation, AI', color: 'var(--lav)', text: 'var(--lav-deep)' },
+  { label: 'Screen routines', desc: 'TV, bedtime, mealtimes, morning', color: 'var(--stage-1)', text: 'var(--terracotta)' },
+  { label: 'Gaming', desc: 'Time, meltdowns, online gaming safety', color: 'var(--stage-4)', text: 'var(--terracotta)' },
+  { label: 'Sleep', desc: 'Devices in the bedroom, late-night use', color: 'var(--stage-2)', text: 'var(--terracotta)' },
+  { label: 'Mood and wellbeing', desc: 'Mood after screens, anxiety, withdrawal', color: 'var(--stage-5)', text: 'var(--terracotta)' },
+  { label: 'Social media', desc: 'Platforms, accounts you know about, social comparison', color: 'var(--stage-3)', text: 'var(--terracotta)' },
+  { label: 'Digital literacy', desc: 'Algorithms, privacy, misinformation, AI', color: 'var(--stage-4)', text: 'var(--terracotta)' },
 ]
 
 export default function DigitalWellbeingPage() {
@@ -28,9 +28,9 @@ export default function DigitalWellbeingPage() {
       </header>
 
       {/* Hero */}
-      <section style={{ padding: 'clamp(60px, 8vw, 80px) 32px', textAlign: 'center', background: 'var(--gold-lt)', borderBottom: '1px solid rgba(242,201,76,0.35)' }}>
+      <section style={{ padding: 'clamp(60px, 8vw, 80px) 32px', textAlign: 'center', background: 'var(--stage-5)', borderBottom: '1px solid var(--stage-5)' }}>
         <div style={{ maxWidth: '640px', margin: '0 auto' }}>
-          <p className="eyebrow" style={{ color: 'var(--gold-dark)', marginBottom: '14px' }}>Free · 5 minutes · No signup needed</p>
+          <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '14px' }}>Free · 5 minutes · No signup needed</p>
           <h1 style={{ fontSize: 'clamp(2.2rem, 4.5vw, 3.6rem)', fontWeight: 800, lineHeight: 1.06, letterSpacing: '-.04em', color: 'var(--ink)', marginBottom: '20px' }}>
             The Digital Health Check
           </h1>
@@ -48,7 +48,7 @@ export default function DigitalWellbeingPage() {
       <section style={{ padding: 'clamp(60px, 8vw, 80px) 32px' }}>
         <div style={{ maxWidth: '1040px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '36px' }}>
-            <p className="eyebrow" style={{ color: 'var(--gold-dark)', marginBottom: '12px' }}>Six areas</p>
+            <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>Six areas</p>
             <h2 style={{ marginBottom: '12px' }}>What the check covers</h2>
             <p style={{ fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.8, maxWidth: '480px', margin: '0 auto' }}>Most parents are surprised. The issues they knew about are rarely the ones that need the most attention.</p>
           </div>
@@ -67,7 +67,7 @@ export default function DigitalWellbeingPage() {
       <section style={{ padding: 'clamp(60px, 8vw, 80px) 32px', background: '#FDFBF8' }}>
         <div style={{ maxWidth: '800px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '36px' }}>
-            <p className="eyebrow" style={{ color: 'var(--green-dark)', marginBottom: '12px' }}>What you get</p>
+            <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>What you get</p>
             <h2>Your personalised result</h2>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -78,7 +78,7 @@ export default function DigitalWellbeingPage() {
               { num: '04', title: 'Your starting point in Guided Childhood', body: 'If you want to go further, you\'ll know exactly where to start in the platform and what your first week looks like.' },
             ].map((item, i) => (
               <div key={i} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '14px', padding: '24px 28px', display: 'flex', gap: '20px', alignItems: 'flex-start' }}>
-                <div style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', fontWeight: 900, color: 'var(--gold-lt)', lineHeight: 1, flexShrink: 0 }}>{item.num}</div>
+                <div style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', fontWeight: 900, color: 'var(--stage-5)', lineHeight: 1, flexShrink: 0 }}>{item.num}</div>
                 <div>
                   <h3 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '6px' }}>{item.title}</h3>
                   <p style={{ fontSize: '.85rem', color: 'var(--ink-soft)', lineHeight: 1.72 }}>{item.body}</p>
@@ -90,7 +90,7 @@ export default function DigitalWellbeingPage() {
       </section>
 
       {/* Research note */}
-      <section style={{ padding: '40px 32px', background: 'var(--green-lt)', borderTop: '1px solid #D3ECD9', borderBottom: '1px solid #D3ECD9' }}>
+      <section style={{ padding: '40px 32px', background: 'var(--stage-2)', borderTop: '1px solid var(--stage-2)', borderBottom: '1px solid var(--stage-2)' }}>
         <div style={{ maxWidth: '760px', margin: '0 auto', textAlign: 'center' }}>
           <p style={{ fontSize: '.88rem', color: 'var(--ink-soft)', lineHeight: 1.78 }}>
             The Digital Health Check is grounded in findings from Odgers and Jensen (2020), Orben and Przybylski (2019), and Scott et al. (2019). It does not provide clinical advice or diagnosis. If you are concerned about your child's mental health, please contact your GP or CAMHS.
@@ -106,7 +106,7 @@ export default function DigitalWellbeingPage() {
           <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '15px', padding: '16px 32px' }}>
             Take the free check →
           </Link>
-          <p style={{ marginTop: '16px', fontSize: '.8rem', color: 'var(--ink-muted)' }}>Or <Link href="/" style={{ color: 'var(--green-dark)', fontWeight: 600, textDecoration: 'underline' }}>explore Guided Childhood</Link> first.</p>
+          <p style={{ marginTop: '16px', fontSize: '.8rem', color: 'var(--ink-muted)' }}>Or <Link href="/" style={{ color: 'var(--terracotta)', fontWeight: 600, textDecoration: 'underline' }}>explore Guided Childhood</Link> first.</p>
         </div>
       </section>
 

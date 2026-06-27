@@ -79,7 +79,7 @@ export default function DigiChat({
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: 'calc(100dvh - 80px)', maxWidth: '700px', margin: '0 auto' }}>
       {/* Header */}
-      <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)', background: 'var(--warm)', flexShrink: 0 }}>
+      <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)', background: 'var(--cream)', flexShrink: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div>
             <p className="eyebrow" style={{ marginBottom: '2px' }}>Your AI advisor</p>
@@ -92,7 +92,7 @@ export default function DigiChat({
               </span>
             )}
             {atLimit && (
-              <Link href="/dashboard/upgrade" style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--gold-dark)', textDecoration: 'none' }}>
+              <Link href="/dashboard/upgrade" style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--terracotta)', textDecoration: 'none' }}>
                 Upgrade for unlimited →
               </Link>
             )}
@@ -104,7 +104,7 @@ export default function DigiChat({
       <div style={{ flex: 1, overflowY: 'auto', padding: '20px 20px 0' }}>
         {messages.length === 0 && (
           <div style={{ paddingTop: '16px' }}>
-            <div style={{ background: 'var(--warm)', border: '1px solid var(--border)', borderRadius: '16px', padding: '20px', marginBottom: '24px' }}>
+            <div style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '16px', padding: '20px', marginBottom: '24px' }}>
               <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: '8px' }}>
                 I am DiGi, your digital parenting advisor. I am trained on the research and available any time. What is on your mind?
               </p>
@@ -123,7 +123,7 @@ export default function DigiChat({
                   onClick={() => sendMessage(prompt)}
                   style={{
                     padding: '12px 16px',
-                    background: 'var(--warm)',
+                    background: 'var(--cream)',
                     border: '1px solid var(--border)',
                     borderRadius: '12px',
                     fontSize: '14px',
@@ -154,7 +154,7 @@ export default function DigiChat({
               maxWidth: '85%',
               padding: '13px 16px',
               borderRadius: msg.role === 'user' ? '16px 16px 4px 16px' : '16px 16px 16px 4px',
-              background: msg.role === 'user' ? 'var(--ink)' : 'var(--warm)',
+              background: msg.role === 'user' ? 'var(--ink)' : 'var(--cream)',
               border: msg.role === 'assistant' ? '1px solid var(--border)' : 'none',
               color: msg.role === 'user' ? '#fff' : 'var(--ink)',
               fontSize: '15px',
@@ -168,7 +168,7 @@ export default function DigiChat({
 
         {loading && (
           <div style={{ display: 'flex', justifyContent: 'flex-start', marginBottom: '12px' }}>
-            <div style={{ padding: '13px 16px', background: 'var(--warm)', border: '1px solid var(--border)', borderRadius: '16px 16px 16px 4px', display: 'flex', gap: '4px', alignItems: 'center' }}>
+            <div style={{ padding: '13px 16px', background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '16px 16px 16px 4px', display: 'flex', gap: '4px', alignItems: 'center' }}>
               {[0, 1, 2].map(i => (
                 <div key={i} style={{ width: '6px', height: '6px', background: 'var(--ink-light)', borderRadius: '50%', animation: `bounce 1.2s ease-in-out ${i * 0.2}s infinite` }} />
               ))}
@@ -177,8 +177,8 @@ export default function DigiChat({
         )}
 
         {error && (
-          <div style={{ padding: '12px 16px', background: 'var(--coral-lt)', border: '1px solid var(--coral)', borderRadius: '12px', marginBottom: '12px' }}>
-            <p style={{ fontSize: '13px', color: 'var(--coral)', lineHeight: 1.5 }}>{error}</p>
+          <div style={{ padding: '12px 16px', background: 'var(--stage-1)', border: '1px solid var(--stage-1)', borderRadius: '12px', marginBottom: '12px' }}>
+            <p style={{ fontSize: '13px', color: 'var(--ink)', lineHeight: 1.5 }}>{error}</p>
             {error.includes('upgrade') && (
               <Link href="/dashboard/upgrade" className="btn btn-gold" style={{ marginTop: '12px', display: 'inline-flex', padding: '10px 20px', fontSize: '12px' }}>
                 Unlock unlimited DiGi
@@ -191,7 +191,7 @@ export default function DigiChat({
       </div>
 
       {/* Input */}
-      <div style={{ padding: '16px 20px', borderTop: '1px solid var(--border)', background: 'var(--warm)', flexShrink: 0 }}>
+      <div style={{ padding: '16px 20px', borderTop: '1px solid var(--border)', background: 'var(--cream)', flexShrink: 0 }}>
         {atLimit ? (
           <div style={{ textAlign: 'center', padding: '8px 0' }}>
             <p style={{ fontSize: '13px', color: 'var(--ink-muted)', marginBottom: '12px' }}>

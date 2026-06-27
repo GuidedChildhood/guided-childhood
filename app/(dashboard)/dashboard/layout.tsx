@@ -25,7 +25,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
       <header style={{
         display: 'none',
         borderBottom: '1px solid var(--border)',
-        background: 'var(--warm)',
+        background: 'var(--white)',
         position: 'sticky',
         top: 0,
         zIndex: 50,

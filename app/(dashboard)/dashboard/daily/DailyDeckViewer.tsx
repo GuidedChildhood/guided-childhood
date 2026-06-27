@@ -190,7 +190,7 @@ export default function DailyDeckViewer({
             onClick={() => navigate('back')}
             style={{
               padding: '14px 20px',
-              background: 'var(--warm)', border: '1.5px solid var(--border)',
+              background: 'var(--cream)', border: '1.5px solid var(--border)',
               borderRadius: '14px', fontFamily: 'var(--font-mono)',
               fontSize: '12px', letterSpacing: '0.06em',
               color: 'var(--ink-muted)', cursor: 'pointer', flexShrink: 0,
@@ -204,7 +204,7 @@ export default function DailyDeckViewer({
             onClick={() => navigate('next')}
             style={{
               flex: 1, padding: '14px 20px',
-              background: isLast ? 'var(--green-dark)' : card.accent,
+              background: isLast ? 'var(--terracotta)' : card.accent,
               border: 'none', borderRadius: '14px',
               fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600,
               letterSpacing: '0.08em', textTransform: 'uppercase',
@@ -219,7 +219,7 @@ export default function DailyDeckViewer({
             onClick={() => router.push('/dashboard')}
             style={{
               flex: 1, padding: '14px 20px',
-              background: 'var(--green-dark)', border: 'none',
+              background: 'var(--terracotta)', border: 'none',
               borderRadius: '14px', fontFamily: 'var(--font-mono)',
               fontSize: '12px', fontWeight: 600, letterSpacing: '0.08em',
               textTransform: 'uppercase', color: '#fff', cursor: 'pointer',
@@ -241,7 +241,7 @@ export default function DailyDeckViewer({
       {showCelebration && (
         <div style={{
           position: 'fixed', inset: 0,
-          background: 'rgba(46, 125, 90, 0.94)',
+          background: 'rgba(61, 106, 80, 0.94)',
           display: 'flex', flexDirection: 'column',
           alignItems: 'center', justifyContent: 'center',
           zIndex: 100,
