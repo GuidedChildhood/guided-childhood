@@ -2,6 +2,23 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 
+export const CATEGORY_META: Record<string, {
+  label: string
+  description: string
+  bg: string
+  border: string
+  accent: string
+}> = {
+  'first-device':  { label: 'First Device',  description: 'Setting the right foundations before and after the first screen arrives.', bg: 'var(--green-lt)',  border: 'var(--green-b)',  accent: 'var(--green-dark)' },
+  'social-media':  { label: 'Social Media',  description: 'Navigating platforms, algorithms, and identity with your child.',          bg: 'var(--coral-lt)', border: 'var(--border)',    accent: 'var(--coral)' },
+  'gaming':        { label: 'Gaming',        description: 'Healthy gaming conversations without the battle.',                          bg: 'var(--lav)',      border: 'var(--border)',    accent: 'var(--lav-deep)' },
+  'safety':        { label: 'Safety',        description: 'What to say when something goes wrong online.',                            bg: 'var(--gold-lt)',  border: 'var(--border)',    accent: 'var(--gold-dark)' },
+  'wellbeing':     { label: 'Wellbeing',     description: 'Mood, sleep, body image, and the digital connection.',                    bg: 'var(--warm)',     border: 'var(--border)',    accent: 'var(--ink-soft)' },
+  'screen-habits': { label: 'Screen Habits', description: 'Building routines that work for your whole family.',                      bg: 'var(--cream-2)',  border: 'var(--border)',    accent: 'var(--ink)' },
+  'ai-and-tech':   { label: 'AI and Tech',   description: 'Deepfakes, AI tools, and what digital literacy actually looks like.',     bg: 'var(--lav)',      border: 'var(--border)',    accent: 'var(--lav-deep)' },
+  'relationships': { label: 'Relationships', description: 'Trust, independence, and keeping the conversation open.',                 bg: 'var(--cream)',    border: 'var(--border)',    accent: 'var(--ink)' },
+}
+
 const STAGE_META = {
   foundation:  { num: 1, label: 'Foundation',  ages: 'Ages 4 to 7',       color: 'var(--green-dark)', bg: 'var(--green-lt)' },
   builder:     { num: 2, label: 'Builder',     ages: 'Ages 8 to 10',      color: 'var(--lav-deep)',   bg: 'var(--lav)' },
