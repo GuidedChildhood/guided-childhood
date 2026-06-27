@@ -371,6 +371,67 @@ a { color: inherit; text-decoration: none; }
   color: var(--green-dark);
 }
 
+/* EMAIL CAPTURE SECTION */
+.section-email {
+  background: var(--cream-2);
+  padding: 80px 24px;
+  text-align: center;
+  border-top: 1px solid var(--border);
+}
+.email-inner {
+  max-width: 520px;
+  margin: 0 auto;
+}
+.email-inner h2 {
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 800;
+  color: var(--ink);
+  line-height: 1.2;
+  margin-bottom: 12px;
+  letter-spacing: -0.02em;
+}
+.email-inner p {
+  font-size: 1rem;
+  color: var(--ink-soft);
+  line-height: 1.7;
+  margin-bottom: 28px;
+}
+.dl-form-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.dl-input {
+  flex: 1;
+  min-width: 220px;
+  background: #fff;
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 15px 18px;
+  font-family: var(--serif);
+  font-size: 1rem;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.15s;
+}
+.dl-input::placeholder { color: var(--ink-light); }
+.dl-input:focus { border-color: var(--green-dark); }
+.dl-legal {
+  font-size: 0.75rem;
+  color: var(--ink-light);
+  margin-top: 12px;
+}
+.dl-thanks {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--green-dark);
+  padding: 20px;
+  background: var(--green-lt);
+  border: 1.5px solid var(--green);
+  border-radius: 14px;
+}
+
 /* CTA SECTION */
 .section-cta {
   background: var(--ink);
@@ -682,6 +743,26 @@ a { color: inherit; text-decoration: none; }
   </div>
 </section>
 
+<!-- EMAIL CAPTURE SECTION -->
+<section class="section-email">
+  <div class="email-inner">
+    <span class="eyebrow">Get the free guide</span>
+    <h2>Six steps to a digitally literate child.</h2>
+    <p>One practical email. What to say, what to do, and what to leave alone. No noise.</p>
+    <form id="dl-form" action="https://formspree.io/f/xbdvrror" method="POST">
+      <input type="hidden" name="source" value="digital-literacy">
+      <div class="dl-form-row">
+        <input class="dl-input" type="email" name="email" placeholder="Your email address" required autocomplete="email">
+        <button type="submit" class="btn-gold">Send it to me &rarr;</button>
+      </div>
+      <p class="dl-legal">No spam. Unsubscribe any time.</p>
+    </form>
+    <div id="dl-thanks" style="display:none;">
+      <p class="dl-thanks">You are on the list. Check your inbox in the next few minutes.</p>
+    </div>
+  </div>
+</section>
+
 <!-- CTA SECTION -->
 <section class="section-cta">
   <h2>Guided Childhood builds all of this. Stage by stage.</h2>
@@ -705,5 +786,33 @@ a { color: inherit; text-decoration: none; }
   </div>
 </footer>
 
+<script>
+document.getElementById('dl-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const btn = this.querySelector('button[type="submit"]');
+  const original = btn.textContent;
+  btn.textContent = 'Sending…';
+  btn.disabled = true;
+  try {
+    const res = await fetch('https://formspree.io/f/xbdvrror', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        email: this.querySelector('input[name="email"]').value,
+        source: 'digital-literacy'
+      })
+    });
+    if (res.ok) {
+      document.getElementById('dl-form').style.display = 'none';
+      document.getElementById('dl-thanks').style.display = 'block';
+    } else {
+      throw new Error('failed');
+    }
+  } catch {
+    btn.textContent = original;
+    btn.disabled = false;
+  }
+});
+</script>
 </body>
 </html>
