@@ -22,7 +22,6 @@ export default function OnboardingPage() {
       } catch {}
 
       if (!answers) {
-        // Check if already onboarded
         const { data: profile } = await supabase
           .from('profiles')
           .select('onboarding_complete')
@@ -31,9 +30,25 @@ export default function OnboardingPage() {
 
         if (profile?.onboarding_complete) {
           router.push('/dashboard')
-        } else {
-          setStatus('no_answers')
+          return
         }
+
+        // Self-heal: if the user has children they completed onboarding before but the
+        // flag was never persisted (e.g. signUp ran before email confirmation established
+        // a session, so the RLS-guarded upsert silently failed). Fix it and continue.
+        const { data: existingChildren } = await supabase
+          .from('children')
+          .select('id')
+          .eq('parent_id', user.id)
+          .limit(1)
+
+        if (existingChildren && existingChildren.length > 0) {
+          await supabase.from('profiles').update({ onboarding_complete: true }).eq('id', user.id)
+          router.push('/dashboard')
+          return
+        }
+
+        setStatus('no_answers')
         return
       }
 

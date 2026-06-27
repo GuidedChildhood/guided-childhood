@@ -20,14 +20,7 @@ export default function SignupPage() {
 
     const supabase = createClient()
 
-    // Get onboarding answers from localStorage if coming from starter check
-    let onboardingAnswers = null
-    try {
-      const saved = localStorage.getItem('gc_starter_answers')
-      if (saved) onboardingAnswers = JSON.parse(saved)
-    } catch {}
-
-    const { data, error: signupError } = await supabase.auth.signUp({
+    const { error: signupError } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -42,17 +35,10 @@ export default function SignupPage() {
       return
     }
 
-    if (data.user && onboardingAnswers) {
-      await supabase.from('profiles').upsert({
-        id: data.user.id,
-        email,
-        full_name: name,
-        onboarding_answers: onboardingAnswers,
-        onboarding_complete: true,
-      })
-      localStorage.removeItem('gc_starter_answers')
-    }
-
+    // Do NOT write to profiles or clear localStorage here.
+    // signUp may return a user object before the session is established (email confirm pending),
+    // so an upsert here fails silently against RLS. /onboarding owns the write once a
+    // real session exists, and it clears localStorage after a confirmed DB write.
     router.push('/onboarding')
   }
 
