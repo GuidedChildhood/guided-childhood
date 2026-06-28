@@ -2,6 +2,8 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { getStageFromAgeBand, type AgeBand, STAGES } from '@/lib/content/stages'
+import type { Moment } from '@/components/cards/MomentCard'
+import MomentCard from '@/components/cards/MomentCard'
 
 const STAGE_COLORS = {
   1: { bg: 'var(--stage-1)', text: 'var(--ink)', border: 'var(--stage-1)' },
@@ -32,13 +34,19 @@ export default async function DashboardPage() {
 
   const today = new Date().toISOString().split('T')[0]
 
-  const [childResult, dailySessionResult] = await Promise.all([
+  const [childResult, dailySessionResult, todayMomentsResult] = await Promise.all([
     supabase.from('children').select('name, age_band, stage_id, streak_weeks, actions_this_week').eq('parent_id', user.id).eq('is_primary', true).single(),
     supabase.from('daily_sessions').select('completed_at').eq('user_id', user.id).eq('session_date', today).maybeSingle(),
+    supabase.from('daily_moments').select('id, title, category, age_bands, icon, science_brief, digi_opener').eq('active', true).order('sort_order').limit(20),
   ])
 
   const child = childResult.data
   const dailyDone = !!dailySessionResult.data?.completed_at
+
+  const allMoments: Moment[] = todayMomentsResult.data ?? []
+  const todayMoments = child?.age_band
+    ? allMoments.filter(m => m.age_bands.length === 0 || m.age_bands.includes(child.age_band as AgeBand)).slice(0, 3)
+    : allMoments.slice(0, 3)
 
   const stage = child?.age_band
     ? getStageFromAgeBand(child.age_band as AgeBand)
@@ -183,6 +191,35 @@ export default async function DashboardPage() {
           </div>
         )}
       </div>
+
+      {/* Moment cards section */}
+      {todayMoments.length > 0 && (
+        <div style={{ marginBottom: '20px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
+            <p className="eyebrow" style={{ margin: 0 }}>Moment cards</p>
+            <Link
+              href="/dashboard/moments"
+              style={{ fontFamily: 'var(--font-body)', fontSize: '12px', color: 'var(--terracotta)', textDecoration: 'none', fontWeight: 500 }}
+            >
+              Browse all →
+            </Link>
+          </div>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            gap: '10px',
+          }}>
+            {todayMoments.map(moment => (
+              <MomentCard
+                key={moment.id}
+                moment={moment}
+                childName={child?.name ?? undefined}
+                ageBand={child?.age_band ?? undefined}
+              />
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Last script insight */}
       {lastInsight && (
