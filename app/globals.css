@@ -375,6 +375,7 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
   align-items: center;
 }
 @media (max-width: 960px) { .hero-grid { grid-template-columns: 1fr; gap: 48px; } }
+@media (max-width: 960px) { .hero-chips { display: none; } }
 
 .stages-grid {
   display: grid;

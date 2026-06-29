@@ -310,136 +310,100 @@ export default function HomePage() {
       </header>
 
       {/* ================================================================
-          HERO
+          HERO — Good Inside split: left text, right floating chips
           ================================================================ */}
-      <section
-        aria-label="Hero"
-        style={{
-          padding: 'clamp(72px, 10vw, 120px) 32px clamp(56px, 8vw, 96px)',
-          background: '#fff',
-          textAlign: 'center',
-          position: 'relative',
-        }}
-      >
-        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+      <section aria-label="Hero" style={{ padding: 'clamp(56px, 7vw, 88px) 32px clamp(48px, 6vw, 80px)', background: '#F9F8F5' }}>
+        <div className="hero-grid" style={{ maxWidth: '1100px', margin: '0 auto' }}>
 
-          <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '20px', letterSpacing: '.14em' }}>
-            For UK parents · Ages 4 to 16 · Built on the research
-          </p>
-
-          <h1 className="fu" style={{
-            fontSize: 'clamp(2.6rem, 7vw, 5.2rem)',
-            fontWeight: 900,
-            lineHeight: 1.0,
-            letterSpacing: '-.04em',
-            color: 'var(--ink)',
-            marginBottom: '28px',
-          }}>
-            Raise a digitally<br />
-            healthy child.{' '}
-            <span style={{ color: 'var(--terracotta)' }}>At every stage.</span>
-          </h1>
-
-          <p className="fu" style={{
-            fontSize: 'clamp(1rem, 1.8vw, 1.15rem)',
-            color: 'var(--ink-soft)',
-            lineHeight: 1.8,
-            maxWidth: '600px',
-            margin: '0 auto 40px',
-            fontWeight: 400,
-          }}>
-            Screen time battles. Mood crashes after phones. Gaming meltdowns. TikTok at 13. No one prepared you for this and the generic advice does not work. Guided Childhood gives you the stage-by-stage guide, the exact scripts for the hard moments, and DiGi, an AI advisor who has read all the research and is available at 11pm. From your child's first device at age 4 to full digital independence at 16.
-          </p>
-
-          {/* DiGi star mascot */}
-          <div className="fu" style={{ display: 'flex', justifyContent: 'center', marginBottom: '8px' }}>
-            <Image
-              src="/digi-squad/DiGi-star.svg"
-              alt="DiGi"
-              width={140}
-              height={150}
-              style={{ filter: 'drop-shadow(0 8px 24px rgba(213,163,24,0.28))' }}
-              priority
-            />
-          </div>
-
-          <div className="fu" style={{ display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '48px' }}>
-            <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '15px', padding: '17px 36px' }}>
-              Get free starter pack
-            </Link>
-            <Link href="#stages" style={{
-              fontSize: '.92rem',
-              fontWeight: 600,
-              color: 'var(--ink-soft)',
-              textDecoration: 'none',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              padding: '17px 24px',
-              border: '1.5px solid var(--border)',
-              borderRadius: '12px',
-            }}>
-              Find your stage
-            </Link>
-          </div>
-
-          {/* Social proof */}
-          <div className="fu" style={{ display: 'flex', alignItems: 'center', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <div className="avatar-stack">
-              {[
-                { l: 'SM', bg: 'var(--stage-2)' },
-                { l: 'TK', bg: 'var(--stage-4)' },
-                { l: 'CH', bg: 'var(--stage-5)' },
-                { l: '+', bg: 'var(--cream)' },
-              ].map(({ l, bg }, i) => (
-                <div key={i} className="avatar-stack-item" style={{ background: bg, color: 'var(--ink)', zIndex: 4 - i }}>
-                  {l}
-                </div>
+          {/* Left: text */}
+          <div>
+            <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '18px' }}>
+              For UK parents · Ages 4 to 16 · Built on the research
+            </p>
+            <h1 className="fu" style={{ fontSize: 'clamp(2.4rem, 4.8vw, 3.9rem)', fontWeight: 900, lineHeight: 1.0, letterSpacing: '-.04em', color: 'var(--ink)', marginBottom: '22px' }}>
+              Raising kids<br />with screens is hard.<br />
+              <span style={{ color: 'var(--terracotta)' }}>We make it manageable.</span>
+            </h1>
+            <p className="fu" style={{ fontSize: '1.02rem', color: 'var(--ink-soft)', lineHeight: 1.78, maxWidth: '440px', marginBottom: '28px' }}>
+              The stage by stage guide, exact scripts for the hard moments, and DiGi, your AI parenting advisor available at 11pm.
+            </p>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '28px', flexWrap: 'wrap' }}>
+              <span style={{ color: '#F59E0B', letterSpacing: '2px', fontSize: '.95rem' }}>★★★★★</span>
+              <span style={{ fontSize: '.8rem', color: 'var(--ink-muted)', fontWeight: 600 }}>200 parents already on their pathway</span>
+            </div>
+            <div className="fu" style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center', marginBottom: '28px' }}>
+              <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '15px', padding: '16px 36px' }}>
+                Get free starter pack
+              </Link>
+              <Link href="#stages" style={{ fontSize: '.88rem', fontWeight: 600, color: 'var(--ink-soft)', textDecoration: 'none' }}>
+                Find your stage →
+              </Link>
+            </div>
+            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+              {['Online Safety Act 2023', 'DfE', 'Statutory RSE', 'Ofcom'].map(tag => (
+                <span key={tag} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '100px', padding: '4px 12px', fontSize: '.66rem', fontWeight: 700, color: 'var(--ink-muted)' }}>
+                  {tag}
+                </span>
               ))}
             </div>
-            <div>
-              <span style={{ color: 'var(--terracotta)', fontSize: '.9rem', letterSpacing: '2px' }}>★★★★★</span>
-              <span style={{ fontSize: '.8rem', color: 'var(--ink-muted)', fontWeight: 600, marginLeft: '8px' }}>
-                200 parents already on their pathway
-              </span>
-            </div>
           </div>
 
-          {/* Policy strip */}
-          <div className="fu" style={{ marginTop: '32px', display: 'flex', alignItems: 'center', gap: '8px', justifyContent: 'center', flexWrap: 'wrap' }}>
-            {['Online Safety Act 2023', 'DfE', 'Statutory RSE', 'Ofcom'].map(tag => (
-              <span key={tag} style={{
-                background: 'var(--cream)',
-                border: '1px solid var(--border)',
-                borderRadius: '100px',
-                padding: '5px 13px',
-                fontSize: '.69rem',
-                fontWeight: 700,
-                color: 'var(--ink-muted)',
+          {/* Right: DiGi + floating problem chips */}
+          <div className="hero-chips" style={{ position: 'relative', height: '440px' }}>
+            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 1 }}>
+              <Image src="/digi-squad/DiGi-star.svg" alt="DiGi" width={130} height={140} style={{ filter: 'drop-shadow(0 12px 32px rgba(213,163,24,0.22))' }} priority />
+            </div>
+            {([
+              { text: 'Gaming meltdowns',    icon: '🎮', pos: { top: '6%',    left: '0%'   }, bg: 'var(--stage-1)' },
+              { text: 'Mood after phones',   icon: '📱', pos: { top: '2%',    right: '2%'  }, bg: 'var(--stage-3)' },
+              { text: 'Bedtime every night', icon: '🌙', pos: { top: '42%',   left: '-2%'  }, bg: 'var(--stage-2)' },
+              { text: 'TikTok at 13',        icon: '📲', pos: { top: '38%',   right: '0%'  }, bg: 'var(--stage-4)' },
+              { text: 'Secret accounts',     icon: '🔒', pos: { bottom: '8%', left: '10%'  }, bg: 'var(--stage-5)' },
+              { text: 'After school screens',icon: '📺', pos: { bottom: '14%',right: '2%'  }, bg: 'var(--stage-2)' },
+            ] as const).map((chip, i) => (
+              <div key={i} style={{
+                position: 'absolute',
+                ...chip.pos,
+                background: '#fff',
+                border: '1.5px solid var(--border)',
+                borderRadius: '14px',
+                padding: '10px 14px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '10px',
+                boxShadow: '0 4px 20px rgba(26,26,46,.07)',
+                whiteSpace: 'nowrap',
+                zIndex: 2,
               }}>
-                {tag}
-              </span>
+                <span style={{ width: '32px', height: '32px', background: chip.bg, borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '.85rem', flexShrink: 0 }}>
+                  {chip.icon}
+                </span>
+                <span style={{ fontSize: '.8rem', fontWeight: 700, color: 'var(--ink)', letterSpacing: '-.01em' }}>
+                  {chip.text}
+                </span>
+              </div>
             ))}
           </div>
+
         </div>
       </section>
 
       {/* ================================================================
-          STATS — light pastel chips
+          STATS — clean numbers, no colour chips
           ================================================================ */}
-      <section style={{ background: '#fff', padding: '48px 32px 56px', borderTop: '1px solid var(--border)' }}>
-        <div style={{ maxWidth: '960px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
+      <section style={{ background: '#fff', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
+        <div style={{ maxWidth: '960px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)' }}>
           {[
-            { num: '200', label: 'Families already on their pathway', bg: 'var(--stage-1)', bold: 'var(--stage-1-bold)' },
-            { num: '5', label: 'Stages from age 4 to 16', bg: 'var(--stage-2)', bold: 'var(--stage-2-bold)' },
-            { num: '12', label: 'Daily situations covered with exact scripts', bg: 'var(--stage-3)', bold: 'var(--stage-3-bold)' },
-            { num: '2027', label: 'Social media ban coming. Preparation starts now.', bg: 'var(--stage-4)', bold: 'var(--stage-4-bold)' },
+            { num: '200',  label: 'Families on their pathway' },
+            { num: '5',    label: 'Stages from age 4 to 16' },
+            { num: '12',   label: 'Daily situations with scripts' },
+            { num: '2027', label: 'Social media ban. Start now.' },
           ].map((s, i) => (
-            <div key={i} style={{ background: s.bg, borderRadius: '20px', padding: '28px 20px', textAlign: 'center' }}>
-              <div style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 3.5vw, 2.8rem)', fontWeight: 900, color: 'var(--ink)', lineHeight: 1, marginBottom: '8px', letterSpacing: '-.04em' }}>
+            <div key={i} style={{ textAlign: 'center', padding: '32px 20px', borderRight: i < 3 ? '1px solid var(--border)' : 'none' }}>
+              <div style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 3.5vw, 2.8rem)', fontWeight: 900, color: 'var(--ink)', lineHeight: 1, marginBottom: '6px', letterSpacing: '-.04em' }}>
                 {s.num}
               </div>
-              <div style={{ fontSize: '.75rem', color: 'var(--ink-soft)', fontWeight: 600, lineHeight: 1.4 }}>
+              <div style={{ fontSize: '.74rem', color: 'var(--ink-muted)', fontWeight: 600, lineHeight: 1.4 }}>
                 {s.label}
               </div>
             </div>
