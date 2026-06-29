@@ -1,6 +1,19 @@
 'use client'
 import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
+
+function DigiAvatar({ size = 26 }: { size?: number }) {
+  return (
+    <Image
+      src="/digi-squad/Digi.png"
+      alt="DiGi"
+      width={size}
+      height={size}
+      style={{ width: size, height: size, objectFit: 'contain', flexShrink: 0 }}
+    />
+  )
+}
 
 interface Message {
   role: 'user' | 'assistant'
@@ -132,8 +145,8 @@ export default function DigiChat({
       <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)', background: 'var(--white)', flexShrink: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'var(--terracotta)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1rem', flexShrink: 0 }}>
-              🤖
+            <div style={{ width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <DigiAvatar size={36} />
             </div>
             <div>
               <p className="eyebrow" style={{ marginBottom: '1px', fontSize: 10 }}>Your AI advisor</p>
@@ -210,8 +223,8 @@ export default function DigiChat({
             }}
           >
             {msg.role === 'assistant' && (
-              <div style={{ width: 26, height: 26, borderRadius: '50%', background: 'var(--terracotta)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.65rem', flexShrink: 0, marginBottom: 2 }}>
-                🤖
+              <div style={{ marginBottom: 2 }}>
+                <DigiAvatar size={26} />
               </div>
             )}
             <div style={{
@@ -232,9 +245,7 @@ export default function DigiChat({
 
         {loading && (
           <div style={{ display: 'flex', justifyContent: 'flex-start', marginBottom: '12px', alignItems: 'flex-end', gap: 8 }}>
-            <div style={{ width: 26, height: 26, borderRadius: '50%', background: 'var(--terracotta)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.65rem', flexShrink: 0 }}>
-              🤖
-            </div>
+            <DigiAvatar size={26} />
             <div style={{ padding: '13px 16px', background: 'var(--white)', border: '1px solid var(--border)', borderRadius: '16px 16px 16px 4px', display: 'flex', gap: '5px', alignItems: 'center' }}>
               {[0, 1, 2].map(i => (
                 <div key={i} style={{ width: '7px', height: '7px', background: 'var(--ink-light)', borderRadius: '50%', animation: `bounce 1.2s ease-in-out ${i * 0.2}s infinite` }} />
