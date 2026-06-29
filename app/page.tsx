@@ -45,51 +45,6 @@ const STAGES = [
   },
 ]
 
-// ── DiGi Squad ───────────────────────────────────────────────────────────────
-
-const SQUAD = [
-  {
-    name: 'Oliver',
-    role: 'Screen Time Boss',
-    ages: 'Ages 7 to 11',
-    image: '/digi-squad/Oliver.png',
-    bg: 'var(--stage-3)',
-    bold: 'var(--stage-3-bold)',
-    quote: 'Your brain treats screens exactly like a REALLY exciting match. Let us find out why.',
-    desc: 'Teaches children to be the boss of their screens, not the other way round.',
-  },
-  {
-    name: 'Zara',
-    role: 'Truth Finder',
-    ages: 'Ages 8 to 13',
-    image: '/digi-squad/Zara.png',
-    bg: 'var(--stage-1)',
-    bold: 'var(--stage-1-bold)',
-    quote: 'We are going on a DETECTIVE mission to spot what is real online. Ready?',
-    desc: 'Spots the tricks, the fakes and the traps before anyone else.',
-  },
-  {
-    name: 'Sofia',
-    role: 'Safety Guardian',
-    ages: 'Ages 4 to 9',
-    image: '/digi-squad/Sofia.jpeg',
-    bg: 'var(--stage-2)',
-    bold: 'var(--stage-2-bold)',
-    quote: 'Today we are going to build YOUR privacy shield. Ready to be a guardian?',
-    desc: 'Keeps the whole squad safe. Knows what to keep private, always.',
-  },
-  {
-    name: 'DiGi',
-    role: 'Your Guide',
-    ages: 'All ages and stages',
-    image: '/digi-squad/DiGi-star.svg',
-    bg: 'var(--stage-5)',
-    bold: 'var(--stage-5-bold)',
-    quote: 'Ask me anything. I have read all the research. I am here at 11pm.',
-    desc: 'The most knowledgeable digital parenting advisor you can have, any time.',
-  },
-]
-
 // ── Flipping Placard data ────────────────────────────────────────────────────
 
 const PLACARDS = [
@@ -436,77 +391,6 @@ export default function HomePage() {
               </span>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* ================================================================
-          DIGI SQUAD — below hero
-          ================================================================ */}
-      <section style={{ padding: 'clamp(56px, 7vw, 88px) 32px', background: 'var(--cream)', borderTop: '1px solid var(--border)' }}>
-        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
-
-          <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-            <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>
-              Meet the team
-            </p>
-            <h2 className="fu" style={{ marginBottom: '14px' }}>
-              Your child's digital guides
-            </h2>
-            <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.8, maxWidth: '480px', margin: '0 auto' }}>
-              Oliver, Zara and Sofia make digital safety feel like an adventure. DiGi is always here for you.
-            </p>
-          </div>
-
-          <div className="squad-grid">
-            {SQUAD.map((s, i) => (
-              <div key={i} className="squad-card fu">
-                <div className="squad-card-header" style={{ background: s.bg }}>
-                  <Image
-                    src={s.image}
-                    alt={s.name}
-                    width={148}
-                    height={148}
-                    className="squad-card-img"
-                    style={{ objectFit: 'contain' }}
-                  />
-                </div>
-                <div className="squad-card-body">
-                  <p style={{
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: '.58rem',
-                    fontWeight: 700,
-                    letterSpacing: '.12em',
-                    textTransform: 'uppercase',
-                    color: 'var(--ink-muted)',
-                    marginBottom: '4px',
-                  }}>
-                    {s.role}
-                  </p>
-                  <h3 style={{ fontSize: '1.15rem', fontWeight: 800, letterSpacing: '-.03em', marginBottom: '3px' }}>
-                    {s.name}
-                  </h3>
-                  <p style={{ fontSize: '.72rem', color: 'var(--ink-muted)', marginBottom: '10px', fontWeight: 600 }}>
-                    {s.ages}
-                  </p>
-                  <p style={{
-                    fontFamily: 'var(--font-display)',
-                    fontSize: '.8rem',
-                    fontStyle: 'italic',
-                    color: 'var(--ink-soft)',
-                    lineHeight: 1.55,
-                    borderTop: '1px solid var(--border)',
-                    paddingTop: '10px',
-                  }}>
-                    "{s.quote}"
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <p style={{ textAlign: 'center', fontSize: '.78rem', color: 'var(--ink-muted)', marginTop: '24px' }}>
-            Children use the squad. Parents use DiGi. One platform for the whole family.
-          </p>
         </div>
       </section>
 
