@@ -238,15 +238,6 @@ const TESTIMONIALS = [
   { text: '"My daughter and I are actually talking about this stuff now. DiGi gave me the language and the pathway gave me the confidence."', by: 'Clare H.', stage: 'Stage 3', initials: 'CH' },
 ]
 
-const TICKER_ITEMS = [
-  ['Ages 4 to 16', 'one framework'],
-  ['12 behaviour issues', 'with scripts'],
-  ['8 digital literacy gaps', 'covered'],
-  ['Built on', 'Odgers · Orben · Przybylski'],
-  ['10 minutes', 'a week. That is all.'],
-  ['DiGi', 'AI advisor any time'],
-]
-
 // ─────────────────────────────────────────────────────────────────────────────
 
 export default function HomePage() {
@@ -435,67 +426,98 @@ export default function HomePage() {
       </section>
 
       {/* ================================================================
-          STATS STRIP
+          STATS — light pastel chips
           ================================================================ */}
-      <div style={{ background: 'var(--ink)' }}>
-        <div className="stats-strip" style={{ maxWidth: '1040px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)' }}>
+      <section style={{ background: '#fff', padding: '48px 32px 56px', borderTop: '1px solid var(--border)' }}>
+        <div style={{ maxWidth: '960px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
           {[
-            { num: '131', label: 'Families on their pathway' },
-            { num: '5', label: 'Stages from age 4 to 16' },
-            { num: '20', label: 'Issues covered with scripts' },
-            { num: '2027', label: 'Social media ban date. Preparation starts now.' },
-          ].map((s, i, arr) => (
-            <div key={i} style={{
-              padding: '28px',
-              textAlign: 'center',
-              borderRight: i < arr.length - 1 ? '1px solid rgba(255,255,255,.08)' : 'none',
-            }}>
-              <div style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(1.8rem, 3vw, 2.6rem)',
-                fontWeight: 900,
-                color: '#fff',
-                lineHeight: 1,
-                marginBottom: '6px',
-                letterSpacing: '-.04em',
-              }}>
+            { num: '131', label: 'Families already on their pathway', bg: 'var(--stage-1)', bold: 'var(--stage-1-bold)' },
+            { num: '5', label: 'Stages from age 4 to 16', bg: 'var(--stage-2)', bold: 'var(--stage-2-bold)' },
+            { num: '12', label: 'Daily situations covered with exact scripts', bg: 'var(--stage-3)', bold: 'var(--stage-3-bold)' },
+            { num: '2027', label: 'Social media ban coming. Preparation starts now.', bg: 'var(--stage-4)', bold: 'var(--stage-4-bold)' },
+          ].map((s, i) => (
+            <div key={i} style={{ background: s.bg, borderRadius: '20px', padding: '28px 20px', textAlign: 'center' }}>
+              <div style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 3.5vw, 2.8rem)', fontWeight: 900, color: 'var(--ink)', lineHeight: 1, marginBottom: '8px', letterSpacing: '-.04em' }}>
                 {s.num}
               </div>
-              <div style={{ fontSize: '.72rem', color: 'rgba(255,255,255,.5)', fontWeight: 500, lineHeight: 1.4 }}>
+              <div style={{ fontSize: '.75rem', color: 'var(--ink-soft)', fontWeight: 600, lineHeight: 1.4 }}>
                 {s.label}
               </div>
             </div>
           ))}
         </div>
-      </div>
+      </section>
 
-      {/* Ticker */}
-      <div style={{ background: 'var(--stage-2)', padding: '11px 0', overflow: 'hidden', whiteSpace: 'nowrap' }} aria-hidden="true">
-        <div className="ticker-track" style={{ display: 'inline-flex' }}>
-          {[...TICKER_ITEMS, ...TICKER_ITEMS].map(([strong, rest], i) => (
-            <span key={i} style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '14px',
-              padding: '0 28px',
-              fontSize: '.72rem',
-              fontWeight: 600,
-              color: 'var(--ink-soft)',
-              letterSpacing: '.04em',
-              textTransform: 'uppercase',
-            }}>
-              <strong style={{ color: 'var(--ink)' }}>{strong}</strong>
-              {rest}
-              <span style={{ width: '4px', height: '4px', borderRadius: '50%', background: 'var(--terracotta)', opacity: .7, display: 'inline-block', flexShrink: 0 }} />
-            </span>
-          ))}
+      {/* ================================================================
+          WHAT THIS COVERS — Apple-style problem rows
+          ================================================================ */}
+      <section style={{ background: 'var(--cream)', padding: 'clamp(80px, 11vw, 128px) 32px' }}>
+        <div style={{ maxWidth: '960px', margin: '0 auto' }}>
+
+          <div style={{ textAlign: 'center', marginBottom: '64px' }}>
+            <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '14px' }}>What this covers</p>
+            <h2 className="fu" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 900, letterSpacing: '-.04em', lineHeight: 1.05, marginBottom: '18px' }}>
+              The fights you have every day.<br />
+              <span style={{ color: 'var(--terracotta)' }}>Scripts for all of them.</span>
+            </h2>
+            <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.8, maxWidth: '480px', margin: '0 auto' }}>
+              Every situation below has a guide, an exact script and a structural fix. Not tomorrow. Tonight.
+            </p>
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
+            {[
+              { label: 'Every morning', problem: 'They will not get off their device to get ready for school.', fix: 'The routine starts tonight. Device outside the bedroom. Shoes first, screens second. Say it once, hold it every day.', bg: 'var(--stage-1)', bold: 'var(--stage-1-bold)', ages: 'Ages 4 to 13' },
+              { label: 'After school every day', problem: 'The TV goes on the second she is home. If I say no it is a meltdown.', fix: 'She is decompressing the only way she has been taught. A 20-minute wind-down routine with a script replaces the demand within two weeks.', bg: 'var(--stage-2)', bold: 'var(--stage-2-bold)', ages: 'Ages 8 to 10' },
+              { label: 'Mood after her phone', problem: 'She is flat, snappy and impossible to reach after she puts her phone down.', fix: 'The research tracks this signal specifically at ages 11 to 13. You get the check-in and the conversation before it becomes a pattern.', bg: 'var(--stage-3)', bold: 'var(--stage-3-bold)', ages: 'Ages 11 to 13 · Critical window', critical: true },
+              { label: 'Bedtime every night', problem: 'He will not hand over his phone at bedtime. Every night the same argument.', fix: 'One structural change. The phone charges in the hallway from tonight. Not a rule to enforce. A structure that removes the argument.', bg: 'var(--stage-4)', bold: 'var(--stage-4-bold)', ages: 'Ages 8 to 15' },
+              { label: 'TikTok at 13', problem: 'She is 13 and asking for TikTok. All her friends have it. I have no idea what to say.', fix: 'The answer is not yes or no. You get the conversation to have before she gets access. The conversation is the protection.', bg: 'var(--stage-5)', bold: 'var(--stage-5-bold)', ages: 'Ages 11 to 13' },
+            ].map((row, i) => (
+              <div key={i} className="fu" style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr',
+                borderRadius: i === 0 ? '24px 24px 0 0' : i === 4 ? '0 0 24px 24px' : '0',
+                overflow: 'hidden',
+                borderBottom: i < 4 ? '1px solid rgba(255,255,255,0.5)' : 'none',
+              }}>
+                <div style={{ background: row.bg, padding: '40px 36px' }}>
+                  <p style={{ fontFamily: 'var(--font-mono)', fontSize: '.58rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '14px' }}>
+                    {row.label}
+                  </p>
+                  <p style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(.95rem, 1.6vw, 1.12rem)', fontWeight: 700, fontStyle: 'italic', color: 'var(--ink)', lineHeight: 1.5 }}>
+                    &ldquo;{row.problem}&rdquo;
+                  </p>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '18px', flexWrap: 'wrap' }}>
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '.58rem', fontWeight: 700, color: 'var(--ink-muted)', letterSpacing: '.08em' }}>{row.ages}</span>
+                    {row.critical && <span style={{ fontFamily: 'var(--font-mono)', fontSize: '.55rem', fontWeight: 700, background: row.bold, color: '#fff', borderRadius: '100px', padding: '2px 9px', letterSpacing: '.06em' }}>Critical window</span>}
+                  </div>
+                </div>
+                <div style={{ background: '#fff', padding: '40px 36px', display: 'flex', alignItems: 'center' }}>
+                  <div>
+                    <p style={{ fontFamily: 'var(--font-mono)', fontSize: '.56rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '12px' }}>
+                      What Guided Childhood gives you
+                    </p>
+                    <p style={{ fontSize: '.92rem', color: 'var(--ink-soft)', lineHeight: 1.75 }}>
+                      {row.fix}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div style={{ textAlign: 'center', marginTop: '44px' }}>
+            <Link href="/starter-pack" className="btn btn-gold fu" style={{ fontSize: '14px', padding: '16px 36px' }}>
+              Get your free starter pack
+            </Link>
+          </div>
         </div>
-      </div>
+      </section>
 
       {/* ================================================================
           FLIPPING PLACARDS — daily moments
           ================================================================ */}
-      <section style={{ padding: 'clamp(64px, 9vw, 104px) 32px', background: '#fff' }}>
+      <section style={{ padding: 'clamp(88px, 11vw, 132px) 32px', background: '#fff' }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
 
           <div style={{ textAlign: 'center', marginBottom: '40px' }}>
@@ -519,7 +541,7 @@ export default function HomePage() {
       {/* ================================================================
           STAGE CARDS
           ================================================================ */}
-      <section id="stages" className="section-lg" style={{ background: 'var(--cream)', scrollMarginTop: '70px' }}>
+      <section id="stages" style={{ padding: 'clamp(88px, 11vw, 132px) 32px', background: 'var(--cream)', scrollMarginTop: '70px' }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
 
           <div style={{ textAlign: 'center', marginBottom: '44px' }}>
