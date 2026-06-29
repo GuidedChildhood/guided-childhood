@@ -1,70 +1,78 @@
-@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap');
 
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,600;1,600&family=Inter:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
 
 :root {
   /* ── NEUTRALS ── */
   --white:             #FFFFFF;
   --cream:             #F9F8F6;
-  --ink:               #1C1C2A;
-  --ink-soft:          #5A5A6A;
-  --ink-muted:         #8A8A9A;
-  --ink-light:         #B0B0BA;
-  --border:            #E4E2DC;
+  --ink:               #1A1A2E;
+  --ink-soft:          #52526A;
+  --ink-muted:         #8888A0;
+  --ink-light:         #AEAEC0;
+  --border:            #EAEAF0;
 
   /* ── ACCENT (calm slate blue) ── */
-  --terracotta:        #5B8FA8;   /* slate blue — all buttons, links, accents */
-  --terracotta-dark:   #3D739A;   /* deeper blue — button shadow, hover       */
-  --terracotta-lt:     #E3EEF7;   /* very light blue — card tints             */
+  --terracotta:        #5B8FA8;
+  --terracotta-dark:   #3D739A;
+  --terracotta-lt:     #E3EEF7;
 
-  /* ── STAGE PASTELS ── */
-  --stage-1:           #FBCAAE;   /* peach   — Ages 4–7  */
-  --stage-2:           #B8DECE;   /* soft mint — Ages 7–10 (muted) */
-  --stage-3:           #9ABCE0;   /* sky blue — Ages 10–13 */
-  --stage-4:           #C4B4E0;   /* lavender — Ages 13–16 */
-  --stage-5:           #F0DC98;   /* amber   — Ages 16+  */
+  /* ── STAGE PASTELS (card backgrounds, section tints) ── */
+  --stage-1:           #FFF4C2;   /* warm yellow  — Ages 4–7  */
+  --stage-2:           #BAE6FF;   /* sky blue     — Ages 8–10 */
+  --stage-3:           #FFD0C8;   /* coral        — Ages 11–13 */
+  --stage-4:           #FFD6E7;   /* pastel pink  — Ages 13–15 */
+  --stage-5:           #E4DFFF;   /* slate purple — Ages 16+  */
 
-  /* ── TINTS (light washes for cards / sections) ── */
+  /* ── STAGE BOLD (card header bands, character colours) ── */
+  --stage-1-bold:      #FFD700;
+  --stage-2-bold:      #38BDF8;
+  --stage-3-bold:      #FF7B63;
+  --stage-4-bold:      #F591C0;
+  --stage-5-bold:      #9B88F5;
+
+  /* ── STAGE TEXT (readable on bold band) ── */
+  --stage-1-text:      #6B4E00;
+  --stage-2-text:      #0C4A6E;
+  --stage-3-text:      #7F1D0D;
+  --stage-4-text:      #7D1750;
+  --stage-5-text:      #2E1065;
+
+  /* ── TINTS ── */
   --tint-blue:         #D8E8F8;
-  --tint-sage:         #E8F0EE;   /* desaturated, barely perceptible */
+  --tint-sage:         #E8F0EE;
   --tint-amber:        #F0E8D0;
-  --tint-green:        #E8F4EE;   /* very soft */
+  --tint-green:        #E8F4EE;
 
-  /* ── LEGACY ALIASES — keep old token names working ──
-     Background usage → stage pastels
-     Text/accent usage → --terracotta (slate blue, readable on white) */
+  /* ── LEGACY ALIASES ── */
   --warm:              var(--cream);
   --cream-2:           var(--cream);
   --cream-3:           var(--cream);
-
   --green:             var(--stage-2);
   --green-lt:          var(--stage-2);
   --green-dark:        var(--terracotta);
   --green-b:           var(--border);
-
   --coral:             var(--terracotta);
   --coral-lt:          var(--stage-1);
   --coral-b:           var(--border);
-
   --gold:              var(--stage-5);
   --gold-lt:           var(--stage-5);
   --gold-dark:         var(--terracotta-dark);
-
   --lav:               var(--stage-4);
   --lav-deep:          var(--terracotta-dark);
 
   /* ── FONTS ── */
-  --font-display: 'Fraunces', Georgia, serif;
-  --font-body:    'Inter', system-ui, sans-serif;
-  --font-mono:    'Inter', system-ui, sans-serif;
+  --font-display: 'Hanken Grotesk', system-ui, sans-serif;
+  --font-body:    'Hanken Grotesk', system-ui, sans-serif;
+  --font-mono:    'IBM Plex Mono', 'JetBrains Mono', monospace;
   --sans:         var(--font-body);
   --serif:        var(--font-display);
   --mono:         var(--font-mono);
 
   /* ── RADIUS ── */
   --radius-btn:   12px;
-  --radius-card:  20px;
-  --r:            20px;
+  --radius-card:  24px;
+  --r:            24px;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -81,13 +89,13 @@ body {
 
 h1, h2, h3, h4, h5 {
   font-family: var(--font-display);
-  font-weight: 600;
-  line-height: 1.2;
+  font-weight: 800;
+  line-height: 1.12;
   color: var(--ink);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.03em;
 }
-h1 { font-size: clamp(2.2rem, 5vw, 3.6rem); }
-h2 { font-size: clamp(1.7rem, 3.5vw, 2.6rem); }
+h1 { font-size: clamp(2.6rem, 6vw, 4.4rem); }
+h2 { font-size: clamp(1.9rem, 3.5vw, 2.8rem); }
 h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
 
 .eyebrow {
@@ -444,3 +452,162 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
   font-family: var(--font-body);
   font-size: 13px;
 }
+
+/* ── SQUAD SECTION ── */
+.squad-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+@media (max-width: 860px) { .squad-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; } }
+@media (max-width: 480px) { .squad-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } }
+
+.squad-card {
+  background: #fff;
+  border-radius: 24px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  box-shadow: 0 2px 32px rgba(26,26,46,0.05);
+  transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s;
+  cursor: default;
+}
+.squad-card:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 12px 48px rgba(26,26,46,0.1);
+}
+
+.squad-card-header {
+  height: 156px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.squad-card-img {
+  height: 148px;
+  width: auto;
+  object-fit: contain;
+  position: relative;
+  z-index: 1;
+}
+
+.squad-card-body {
+  padding: 18px 18px 20px;
+  border-top: 1px solid var(--border);
+}
+
+/* ── PLACARD FLIP CARDS ── */
+.placard-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+@media (max-width: 900px) { .placard-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 500px)  { .placard-grid { grid-template-columns: 1fr 1fr; gap: 10px; } }
+
+.placard-wrapper {
+  perspective: 1200px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+}
+.placard-wrapper:focus-visible { box-shadow: 0 0 0 3px var(--terracotta); border-radius: 20px; }
+
+.placard-inner {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  transform-style: preserve-3d;
+  transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.placard-inner.flipped { transform: rotateY(180deg); }
+
+.placard-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  padding: 22px 20px;
+  display: flex;
+  flex-direction: column;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.placard-back-face {
+  transform: rotateY(180deg);
+  background: var(--ink) !important;
+}
+
+@media (max-width: 600px) {
+  .placard-inner { height: 200px; }
+  .placard-face  { padding: 16px 14px; }
+}
+
+/* ── HERO BENEFIT CHECK ── */
+.hero-benefit-check {
+  color: var(--terracotta);
+  font-weight: 900;
+  font-size: .85rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* ── WALKTHROUGH ROW ── */
+.walkthrough-row {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  background: #fff;
+}
+@media (max-width: 680px) {
+  .walkthrough-row { grid-template-columns: 1fr; }
+  .walkthrough-row > *:first-child { border-right: none !important; border-bottom: 1px solid var(--border); }
+}
+
+/* ── TIME STATS ── */
+.time-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  margin-top: 32px;
+}
+@media (max-width: 640px) { .time-stats { grid-template-columns: repeat(2, 1fr); } }
+
+/* ── RISKS GRID ── */
+.risks-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+@media (max-width: 780px) { .risks-grid { grid-template-columns: 1fr; } }
+
+/* ── TWO COL ISSUES ── */
+.two-col-issues {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+@media (max-width: 680px) { .two-col-issues { grid-template-columns: 1fr; } }
+
+/* ── TWO COL WIDE ── */
+.two-col-wide {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 52px;
+  align-items: flex-start;
+}
+@media (max-width: 680px) { .two-col-wide { grid-template-columns: 1fr; gap: 24px; } }
+
+/* ── NAV LINKS ── */
+.nav-links-desktop {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+@media (max-width: 720px) { .nav-links-desktop { display: none; } }
