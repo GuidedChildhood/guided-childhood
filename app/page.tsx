@@ -316,7 +316,7 @@ export default function HomePage() {
         aria-label="Hero"
         style={{
           padding: 'clamp(72px, 10vw, 120px) 32px clamp(56px, 8vw, 96px)',
-          background: 'linear-gradient(160deg, #BAE6FF 0%, #E8F7FF 38%, #FFE8F4 68%, #FFD6E7 100%)',
+          background: '#fff',
           textAlign: 'center',
           position: 'relative',
         }}
@@ -409,14 +409,13 @@ export default function HomePage() {
           <div className="fu" style={{ marginTop: '32px', display: 'flex', alignItems: 'center', gap: '8px', justifyContent: 'center', flexWrap: 'wrap' }}>
             {['Online Safety Act 2023', 'DfE', 'Statutory RSE', 'Ofcom'].map(tag => (
               <span key={tag} style={{
-                background: 'rgba(255,255,255,0.65)',
-                border: '1px solid rgba(255,255,255,0.8)',
+                background: 'var(--cream)',
+                border: '1px solid var(--border)',
                 borderRadius: '100px',
                 padding: '5px 13px',
                 fontSize: '.69rem',
                 fontWeight: 700,
                 color: 'var(--ink-muted)',
-                backdropFilter: 'blur(8px)',
               }}>
                 {tag}
               </span>

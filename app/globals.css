@@ -18,11 +18,11 @@
   --terracotta-lt:     #E3EEF7;
 
   /* ── STAGE PASTELS (card backgrounds, section tints) ── */
-  --stage-1:           #FFF4C2;   /* warm yellow  — Ages 4–7  */
-  --stage-2:           #BAE6FF;   /* sky blue     — Ages 8–10 */
-  --stage-3:           #FFD0C8;   /* coral        — Ages 11–13 */
-  --stage-4:           #FFD6E7;   /* pastel pink  — Ages 13–15 */
-  --stage-5:           #E4DFFF;   /* slate purple — Ages 16+  */
+  --stage-1:           #FFFBEE;   /* barely-there warm yellow — Ages 4–7  */
+  --stage-2:           #F0F9FF;   /* barely-there sky blue    — Ages 8–10 */
+  --stage-3:           #FFF4F2;   /* barely-there coral/peach — Ages 11–13 */
+  --stage-4:           #FFF2F7;   /* barely-there pink        — Ages 13–15 */
+  --stage-5:           #F5F3FF;   /* barely-there lavender    — Ages 16+  */
 
   /* ── STAGE BOLD (card header bands, character colours) ── */
   --stage-1-bold:      #FFD700;
