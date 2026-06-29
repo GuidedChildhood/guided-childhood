@@ -49,68 +49,108 @@ const STAGES = [
 
 const PLACARDS = [
   {
-    frontLabel: 'Morning battle',
-    front: '"They will not get off their device to get ready for school. Every single morning is a fight."',
-    backLabel: 'What fixes this',
-    back: 'The morning routine starts the night before. Device goes in a charging dock outside the bedroom. No phone until shoes are on. One rule, stated once, held consistently.',
+    frontLabel: 'Every morning',
+    front: '"They will not get off their device to get ready for school. Every single morning is a fight and I am exhausted by 8am."',
+    backLabel: 'What actually fixes this',
+    back: 'You are not losing control. Willpower is lowest in the morning for everyone, including them. The fix is structural, not stricter. Tonight, move the device outside the bedroom. Say: "Screens start after shoes and bag are done. One week, then we review." The structure does the work so you do not have to argue.',
     bg: 'var(--stage-1)',
     stage: 'Stage 1 to 3 · Ages 4 to 13',
   },
   {
     frontLabel: 'After school',
-    front: '"She comes straight home and the TV goes on. I cannot break the cycle no matter what I try."',
-    backLabel: 'What fixes this',
-    back: 'Children use screens to decompress because nobody taught them another way. A 20-minute wind-down routine with a script, introduced once, breaks the pattern without a fight.',
+    front: '"She comes straight home and the TV goes on immediately. If I say no it is a meltdown. I cannot break this cycle no matter what I try."',
+    backLabel: 'What actually fixes this',
+    back: 'She is not being difficult. She is decompressing the only way she has been taught. Say: "Before the TV goes on, let us do the five things: shoes away, bag on hook, snack, five minutes outside, then TV." Say it once, warmly. Hold it the same way every day. The routine replaces the demand within two weeks.',
     bg: 'var(--stage-2)',
     stage: 'Stage 2 · Ages 8 to 10',
   },
   {
-    frontLabel: 'Homework battle',
-    front: '"He says he is doing homework. He is watching YouTube. Nothing gets done."',
-    backLabel: 'What fixes this',
-    back: 'Homework and devices cannot share the same environment. Phone in a different room, no exceptions. Five focused minutes is more productive than ninety distracted ones.',
+    frontLabel: 'Homework fight',
+    front: '"He says he is doing homework on his laptop. He is watching YouTube. Nothing gets done and he lies about it."',
+    backLabel: 'What actually fixes this',
+    back: 'He is not lazy. Every human brain chooses stimulating content over hard work when both are available. Homework and a device cannot share the same room. Say: "Homework goes in here. Phone goes on the kitchen counter. Thirty minutes focused, then it comes back." Phone out of sight. Not just face-down.',
     bg: 'var(--stage-3)',
     stage: 'Stage 2 to 3 · Ages 8 to 13',
   },
   {
     frontLabel: 'Dinner table',
-    front: '"Dinner is everyone on their phone. Nobody talks. I do not know how to change it."',
-    backLabel: 'What fixes this',
-    back: 'The family agreement starts here. No phones at the table is the one rule that protects mealtimes for every family that holds it. Decide it together. Write it down.',
+    front: '"Dinner is everyone on their phone. Nobody talks. I feel invisible in my own family and I do not know how to change it."',
+    backLabel: 'What actually fixes this',
+    back: 'You cannot ask your child to put their phone down while yours is on the table. The rule only holds when you follow it first. Say: "Dinner is phone-free for all of us, including me." Then do it. Every night for one month. Shared rules hold. Rules aimed only at children do not.',
     bg: 'var(--stage-4)',
     stage: 'All stages',
   },
   {
-    frontLabel: 'Mood signal',
-    front: '"Her mood after she comes off her phone is awful. Flat, snappy. I do not know if the phone is doing this."',
-    backLabel: 'What fixes this',
-    back: 'A mood drop after screens is a tracked signal in the research, particularly for girls aged 11 to 13. The weekly check-in measures it over time. Stage 3 gives you the conversation.',
+    frontLabel: 'Mood crash',
+    front: '"Her mood after she comes off her phone is awful. Flat, snappy, impossible to reach. I do not know if the phone is causing this or if it is just her."',
+    backLabel: 'What actually fixes this',
+    back: 'The research says yes, it is the phone. A mood drop after screens is a tracked signal, particularly for girls aged 11 to 13. The phone creates a contrast effect: real life feels flat after the stimulation. Say: "I notice you seem low after your phone time. I am not upset, I want to understand it with you." Track it for two weeks. The pattern becomes the conversation.',
     bg: 'var(--stage-5)',
-    stage: 'Stage 3 · Critical window',
+    stage: 'Stage 3 · Critical window · Ages 11 to 13',
   },
   {
-    frontLabel: 'Bedtime fight',
-    front: '"He will not hand over his phone at bedtime. Every night the same argument."',
-    backLabel: 'What fixes this',
-    back: 'The bedroom rule is the single highest-impact change in the research. Charging dock in the hallway, overnight, every night. This is a structural change, not a rule to enforce.',
+    frontLabel: 'Bedtime every night',
+    front: '"He will not hand over his phone at bedtime. Every single night the same argument. I dread it."',
+    backLabel: 'What actually fixes this',
+    back: 'You are not overreacting. Blue light delays sleep onset by 90 minutes and teenagers need 9 hours. The argument is not about the phone. It is about the bedroom. Say: "The phone charges in the hallway overnight. Not as punishment. This is the rule for the whole house including me." Make it structural tonight. There is no argument when there is no decision to make.',
     bg: 'var(--stage-1)',
     stage: 'Stage 2 to 4 · Ages 8 to 15',
   },
   {
-    frontLabel: 'Parent patience',
-    front: '"I keep shouting. I lose patience every time. I feel guilty. And tomorrow it starts again."',
-    backLabel: 'What fixes this',
-    back: 'Parent regulation comes first. DiGi has the exact words for the hard moments at your child\'s specific stage. Not general advice. The script for tonight, right now.',
+    frontLabel: 'I keep shouting',
+    front: '"I lose patience every time. I end up shouting. I feel guilty. And tomorrow the exact same thing happens again."',
+    backLabel: 'What actually fixes this',
+    back: 'You are not a bad parent. You are a parent without a script for a problem that did not exist when you were a child. Guilt after shouting means you care. Say nothing tonight except: "I am sorry I shouted earlier. Tomorrow we try again." Then use DiGi to get the exact words before the next moment happens. You do not lose patience when you already know what to say.',
     bg: 'var(--stage-2)',
     stage: 'All stages',
   },
   {
-    frontLabel: 'Social media ask',
-    front: '"She is 13 and asking for TikTok. All her friends have it. I have no idea what to say."',
-    backLabel: 'What fixes this',
-    back: 'The answer is not yes or no. The Stage 3 guide covers the social media conversation: what to say, what to offer instead, and how to hold the boundary without breaking the relationship.',
+    frontLabel: 'TikTok request',
+    front: '"She is 13 and asking for TikTok. All her friends have it. I have no idea what to say and I do not want to damage our relationship."',
+    backLabel: 'What actually fixes this',
+    back: 'The answer is not yes or no. It is a conversation you have before she gets access. Say: "Show me how it works. I want to understand what you want it for." Spend 20 minutes watching it together, not to judge but to understand. The conversation you have now is more protective than any parental control. Most harms come from platforms accessed in secret because this conversation never happened.',
     bg: 'var(--stage-3)',
     stage: 'Stage 3 · Ages 11 to 13',
+  },
+  {
+    frontLabel: 'Gaming meltdown',
+    front: '"When I turn off the game he screams and cries. He cannot regulate himself at all. I feel like I cannot win either way."',
+    backLabel: 'What actually fixes this',
+    back: 'He is not manipulating you. He is genuinely dysregulated. Games are engineered to maximise emotional investment at the exact moment you ask him to stop. Say: "Five more minutes, then we wind down." Give the warning before the moment, not during it. Then follow through the same way every time. Predictable endings end the meltdowns. Unpredictable endings create them.',
+    bg: 'var(--stage-1)',
+    stage: 'Stage 2 to 3 · Ages 7 to 12',
+  },
+  {
+    frontLabel: 'Bored immediately',
+    front: '"The second I take the screen away they say they are bored. Within two minutes. Every single time."',
+    backLabel: 'What actually fixes this',
+    back: 'That is not boredom. That is withdrawal. Their brain is calibrated to expect constant stimulation. Real boredom, the kind that leads to creativity, takes 20 minutes to kick in. Say: "I know it feels boring right now. That feeling passes and you do not need me to fix it." Then do not fix it. Tolerate the discomfort alongside them. The boredom itself is the skill being built.',
+    bg: 'var(--stage-2)',
+    stage: 'All stages · Ages 5 to 13',
+  },
+  {
+    frontLabel: 'Secret accounts',
+    front: '"I found apps on his phone I did not know about. I do not know whether to confront him or pretend I did not see."',
+    backLabel: 'What actually fixes this',
+    back: 'Confront it, but not as a police investigation. Secrecy is the real risk. The apps are the symptom. Say: "I found something on your phone. I am not angry. I want to understand." Ask what he uses it for before you react. How you handle this moment determines whether he tells you the next thing. Curiosity first. Consequences after you understand.',
+    bg: 'var(--stage-4)',
+    stage: 'Stage 3 to 4 · Ages 11 to 15',
+  },
+  {
+    frontLabel: 'Sleep ruined',
+    front: '"She is exhausted every morning. I think she is on her phone in bed but I cannot catch her doing it."',
+    backLabel: 'What actually fixes this',
+    back: 'You do not need to catch her. You need to remove the opportunity. The bedroom phone is the single highest-impact change in all the research on children and sleep. Say: "The phone charges in the hallway from tonight. Not because I do not trust you. Because sleep is not optional and this rule is not either." One structural change. More impact than any conversation or app timer.',
+    bg: 'var(--stage-5)',
+    stage: 'Stage 2 to 4 · Ages 8 to 15',
+  },
+  {
+    frontLabel: 'Body image worry',
+    front: '"I am worried about what she is seeing on Instagram. Her relationship with her body has changed since she got her phone."',
+    backLabel: 'What actually fixes this',
+    back: 'You are right to worry. Research shows Instagram use correlates with body dissatisfaction in girls aged 11 to 13 more than any other platform. The conversation to have is not about the app. It is about the algorithm. Say: "The app shows you things to keep you looking, not because they are true or normal. Let me show you how it actually works." Understanding the mechanic is more protective than removing the app.',
+    bg: 'var(--stage-3)',
+    stage: 'Stage 3 · Critical window · Ages 11 to 13',
   },
 ]
 
@@ -293,31 +333,31 @@ export default function HomePage() {
         <div style={{ maxWidth: '800px', margin: '0 auto' }}>
 
           <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '20px', letterSpacing: '.14em' }}>
-            Science-backed · Ages 4 to 16 · UK families
+            For UK parents · Ages 4 to 16 · Built on the research
           </p>
 
           <h1 className="fu" style={{
-            fontSize: 'clamp(3rem, 7vw, 5.2rem)',
+            fontSize: 'clamp(2.6rem, 7vw, 5.2rem)',
             fontWeight: 900,
             lineHeight: 1.0,
             letterSpacing: '-.04em',
             color: 'var(--ink)',
             marginBottom: '28px',
           }}>
-            From first screen<br />
-            to{' '}
-            <span style={{ color: 'var(--terracotta)' }}>fully ready.</span>
+            Raise a digitally<br />
+            healthy child.{' '}
+            <span style={{ color: 'var(--terracotta)' }}>At every stage.</span>
           </h1>
 
           <p className="fu" style={{
             fontSize: 'clamp(1rem, 1.8vw, 1.15rem)',
             color: 'var(--ink-soft)',
             lineHeight: 1.8,
-            maxWidth: '580px',
+            maxWidth: '600px',
             margin: '0 auto 40px',
             fontWeight: 400,
           }}>
-            A science-backed programme that starts at age 4 and builds your child's habits, skills and resilience all the way to 16. Every stage. Every issue. No cliff edge.
+            Screen time battles. Mood crashes after phones. Gaming meltdowns. TikTok at 13. No one prepared you for this and the generic advice does not work. Guided Childhood gives you the stage-by-stage guide, the exact scripts for the hard moments, and DiGi, an AI advisor who has read all the research and is available at 11pm. From your child's first device at age 4 to full digital independence at 16.
           </p>
 
           {/* DiGi star mascot */}
@@ -460,14 +500,14 @@ export default function HomePage() {
 
           <div style={{ textAlign: 'center', marginBottom: '40px' }}>
             <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>
-              Sound familiar?
+              Real moments. Real scripts.
             </p>
             <h2 className="fu" style={{ marginBottom: '14px' }}>
-              Every moment. Every stage.<br />
-              <span style={{ color: 'var(--terracotta)' }}>A fix for all of them.</span>
+              The situations every parent<br />
+              <span style={{ color: 'var(--terracotta)' }}>is dealing with right now.</span>
             </h2>
-            <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.8, maxWidth: '480px', margin: '0 auto' }}>
-              Tap any card to see what the platform gives you for that exact moment.
+            <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.8, maxWidth: '520px', margin: '0 auto' }}>
+              Tap any card to see the exact words to use, the structural change that works, and why it works. No generic advice. The script for your situation tonight.
             </p>
           </div>
 
@@ -484,9 +524,9 @@ export default function HomePage() {
 
           <div style={{ textAlign: 'center', marginBottom: '44px' }}>
             <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>The five stages</p>
-            <h2 className="fu" style={{ marginBottom: '14px' }}>Find your stage</h2>
-            <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.8, maxWidth: '500px', margin: '0 auto' }}>
-              One framework from first screen at age 4 to full independence at 16. Start where you are.
+            <h2 className="fu" style={{ marginBottom: '14px' }}>Where is your child right now?</h2>
+            <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.8, maxWidth: '520px', margin: '0 auto' }}>
+              Every stage has different risks, different conversations, and different boundaries. Start where your child is. The platform grows with them so you are never behind and never guessing.
             </p>
           </div>
 
@@ -625,11 +665,11 @@ export default function HomePage() {
           <div style={{ textAlign: 'center', marginBottom: '48px' }}>
             <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>How it works</p>
             <h2 className="fu" style={{ marginBottom: '14px' }}>
-              The problem.{' '}
-              <span style={{ color: 'var(--terracotta)' }}>Then what you do.</span>
+              Your situation.{' '}
+              <span style={{ color: 'var(--terracotta)' }}>The exact script. Tonight.</span>
             </h2>
-            <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.8, maxWidth: '500px', margin: '0 auto' }}>
-              Most parenting advice is a tip you forget by morning. This is a system. Here is what it looks like in real family life.
+            <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.8, maxWidth: '540px', margin: '0 auto' }}>
+              Generic screen time advice does not work because it ignores your child's age, stage and the specific thing that happened today. This is what it looks like when the platform gives you what you actually need.
             </p>
           </div>
 
@@ -696,23 +736,23 @@ export default function HomePage() {
 
             <div>
               <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '14px' }}>
-                Your 24/7 digital parenting advisor
+                Your AI digital parenting advisor
               </p>
               <h2 className="fu" style={{ marginBottom: '20px' }}>
-                Meet DiGi
+                DiGi has read every study.<br />Ask anything.
               </h2>
               <p className="fu" style={{ fontSize: '.94rem', color: 'var(--ink-soft)', lineHeight: 1.82, marginBottom: '12px' }}>
-                DiGi knows every stage, every issue and all the research. Ask it anything. TV demands the moment they walk in, gaming meltdowns, mood after screens, unknown accounts.
+                Most parents search Google at 10pm trying to work out what to do about a specific thing that happened today. DiGi replaces that. Tell it what happened, your child's age and stage, and it gives you the exact words and the structural change that will make a difference.
               </p>
               <p className="fu" style={{ fontSize: '.94rem', color: 'var(--ink-soft)', lineHeight: 1.82, marginBottom: '28px' }}>
-                It gives you the exact words for tonight. Not tomorrow. Tonight.
+                Not general advice. The script for tonight.
               </p>
               <ul className="fu" style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '28px' }}>
                 {[
-                  'Calibrated to your child\'s exact age and stage',
-                  'Covers all 20 issues, not just social media',
-                  'Available at 11pm when everything kicks off',
-                  'Like texting someone who has read all the research',
+                  'Knows your child\'s exact age and developmental stage',
+                  'Covers screen time, gaming, social media, mood, sleep and online safety',
+                  'Available at 11pm when the guilt spiral kicks in',
+                  'Built on Odgers, Orben, Przybylski, Livingstone and the NHS guidance',
                 ].map((item, i) => (
                   <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '.9rem', color: 'var(--ink-soft)' }}>
                     <span style={{ color: 'var(--terracotta)', fontWeight: 900, flexShrink: 0, marginTop: '2px' }}>✓</span>
@@ -721,7 +761,7 @@ export default function HomePage() {
                 ))}
               </ul>
               <Link href="/starter-pack" className="btn btn-gold fu" style={{ fontSize: '13px' }}>
-                Find your starting point
+                Ask DiGi your first question
               </Link>
             </div>
 
