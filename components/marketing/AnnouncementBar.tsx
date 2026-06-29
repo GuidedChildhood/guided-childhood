@@ -7,7 +7,7 @@ export default function AnnouncementBar() {
   if (!visible) return null
   return (
     <div style={{
-      background: '#FED7E8',
+      background: 'linear-gradient(90deg, #F9A8D4 0%, #FED7E8 60%, #FFF0F7 100%)',
       padding: '10px 20px',
       display: 'flex',
       alignItems: 'center',
