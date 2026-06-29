@@ -389,9 +389,9 @@ export default function HomePage() {
       </section>
 
       {/* ================================================================
-          STATS — clean numbers, no colour chips
+          STATS — dark navy strip, large white numbers
           ================================================================ */}
-      <section style={{ background: '#fff', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
+      <section style={{ background: '#1A1A2E' }}>
         <div style={{ maxWidth: '960px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)' }}>
           {[
             { num: '200',  label: 'Families on their pathway' },
@@ -399,11 +399,11 @@ export default function HomePage() {
             { num: '12',   label: 'Daily situations with scripts' },
             { num: '2027', label: 'Social media ban. Start now.' },
           ].map((s, i) => (
-            <div key={i} style={{ textAlign: 'center', padding: '32px 20px', borderRight: i < 3 ? '1px solid var(--border)' : 'none' }}>
-              <div style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 3.5vw, 2.8rem)', fontWeight: 900, color: 'var(--ink)', lineHeight: 1, marginBottom: '6px', letterSpacing: '-.04em' }}>
+            <div key={i} style={{ textAlign: 'center', padding: '36px 20px', borderRight: i < 3 ? '1px solid rgba(255,255,255,.1)' : 'none' }}>
+              <div style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.2rem, 3.8vw, 3.2rem)', fontWeight: 900, color: '#fff', lineHeight: 1, marginBottom: '8px', letterSpacing: '-.04em' }}>
                 {s.num}
               </div>
-              <div style={{ fontSize: '.74rem', color: 'var(--ink-muted)', fontWeight: 600, lineHeight: 1.4 }}>
+              <div style={{ fontSize: '.74rem', color: 'rgba(255,255,255,.55)', fontWeight: 600, lineHeight: 1.4, letterSpacing: '.04em', textTransform: 'uppercase' }}>
                 {s.label}
               </div>
             </div>
