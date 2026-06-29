@@ -5,6 +5,7 @@ const NAV_TABS = [
   { href: '/dashboard', label: 'Home', icon: '⌂' },
   { href: '/dashboard/digi', label: 'DiGi', icon: '◎' },
   { href: '/dashboard/scripts', label: 'Scripts', icon: '◻' },
+  { href: '/dashboard/ai-module', label: 'AI', icon: '✶' },
   { href: '/dashboard/tracker', label: 'Tracker', icon: '△' },
   { href: '/dashboard/upgrade', label: 'Upgrade', icon: '★' },
 ]
