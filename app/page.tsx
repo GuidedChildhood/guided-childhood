@@ -6,27 +6,30 @@ import FlipCards from '@/components/marketing/FlipCards'
 
 // ── Stage definitions ────────────────────────────────────────────────────────
 
+const YELLOW = '#FFD700'
+const YELLOW_DARK = '#A67C18'
+
 const STAGES = [
   {
     num: '01', name: 'Foundation', ks: 'EYFS and KS1', ages: 'Ages 4 to 7',
     device: 'Shared screen',
     tags: ['TV routines', 'Co-viewing', 'No solo device'],
     quote: '"I cannot get my four-year-old off the iPad. What am I doing wrong?"',
-    bg: 'var(--stage-1)', bold: 'var(--stage-1-bold)', text: 'var(--stage-1-text)',
+    bg: 'var(--stage-1)', bold: YELLOW, text: YELLOW_DARK,
   },
   {
     num: '02', name: 'First Steps', ks: 'KS2 · Yr 3 to 5', ages: 'Ages 8 to 10',
     device: 'Restricted phone',
     tags: ['After-school TV', 'Gaming time', 'Boredom'],
     quote: '"The moment he walks in from school it is TV or gaming. I cannot break the cycle."',
-    bg: 'var(--stage-2)', bold: 'var(--stage-2-bold)', text: 'var(--stage-2-text)',
+    bg: 'var(--stage-2)', bold: YELLOW, text: YELLOW_DARK,
   },
   {
     num: '03', name: 'Explorer', ks: 'KS2/KS3 · Yr 6 to 8', ages: 'Ages 11 to 13',
     device: 'Guided smartphone',
     tags: ['Mood after screens', 'Sleep rules', 'Workarounds'],
     quote: '"Her mood drops every time she puts her phone down. I am worried."',
-    bg: 'var(--stage-3)', bold: 'var(--stage-3-bold)', text: 'var(--stage-3-text)',
+    bg: 'var(--stage-3)', bold: YELLOW, text: YELLOW_DARK,
     critical: true,
   },
   {
@@ -34,14 +37,14 @@ const STAGES = [
     device: 'Monitored social',
     tags: ['VPNs', 'Unknown accounts', 'Reputation'],
     quote: '"He has accounts I do not know about. What do I do?"',
-    bg: 'var(--stage-4)', bold: 'var(--stage-4-bold)', text: 'var(--stage-4-text)',
+    bg: 'var(--stage-4)', bold: YELLOW, text: YELLOW_DARK,
   },
   {
     num: '05', name: 'Independent', ks: 'KS4/KS5 · Yr 11+', ages: 'Ages 16+',
     device: 'Trust-based',
     tags: ['Full access', 'AI literacy', 'Readiness'],
     quote: '"She is 16 next month. I have no idea if she is ready."',
-    bg: 'var(--stage-5)', bold: 'var(--stage-5-bold)', text: 'var(--stage-5-text)',
+    bg: 'var(--stage-5)', bold: YELLOW, text: YELLOW_DARK,
   },
 ]
 
@@ -400,7 +403,7 @@ export default function HomePage() {
             <div>
               <span style={{ color: 'var(--terracotta)', fontSize: '.9rem', letterSpacing: '2px' }}>★★★★★</span>
               <span style={{ fontSize: '.8rem', color: 'var(--ink-muted)', fontWeight: 600, marginLeft: '8px' }}>
-                131 parents already on their pathway
+                200 parents already on their pathway
               </span>
             </div>
           </div>
@@ -430,7 +433,7 @@ export default function HomePage() {
       <section style={{ background: '#fff', padding: '48px 32px 56px', borderTop: '1px solid var(--border)' }}>
         <div style={{ maxWidth: '960px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
           {[
-            { num: '131', label: 'Families already on their pathway', bg: 'var(--stage-1)', bold: 'var(--stage-1-bold)' },
+            { num: '200', label: 'Families already on their pathway', bg: 'var(--stage-1)', bold: 'var(--stage-1-bold)' },
             { num: '5', label: 'Stages from age 4 to 16', bg: 'var(--stage-2)', bold: 'var(--stage-2-bold)' },
             { num: '12', label: 'Daily situations covered with exact scripts', bg: 'var(--stage-3)', bold: 'var(--stage-3-bold)' },
             { num: '2027', label: 'Social media ban coming. Preparation starts now.', bg: 'var(--stage-4)', bold: 'var(--stage-4-bold)' },

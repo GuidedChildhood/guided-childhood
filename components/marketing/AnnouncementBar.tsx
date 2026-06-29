@@ -7,7 +7,7 @@ export default function AnnouncementBar() {
   if (!visible) return null
   return (
     <div style={{
-      background: 'var(--terracotta)',
+      background: '#FFD700',
       padding: '10px 20px',
       display: 'flex',
       alignItems: 'center',
@@ -20,7 +20,7 @@ export default function AnnouncementBar() {
         fontWeight: 600,
         letterSpacing: '.08em',
         textTransform: 'uppercase',
-        color: 'rgba(255,255,255,.85)',
+        color: 'var(--ink-soft)',
         flexShrink: 0,
       }}>
         New law
@@ -29,7 +29,7 @@ export default function AnnouncementBar() {
         fontFamily: 'var(--font-body)',
         fontSize: '.8rem',
         fontWeight: 600,
-        color: '#fff',
+        color: 'var(--ink)',
         flex: 1,
         minWidth: 0,
         textAlign: 'center',
@@ -40,8 +40,8 @@ export default function AnnouncementBar() {
       <Link
         href="/starter-pack"
         style={{
-          background: '#fff',
-          color: 'var(--terracotta)',
+          background: 'var(--ink)',
+          color: '#FFD700',
           fontFamily: 'var(--font-body)',
           fontWeight: 700,
           fontSize: '.72rem',
@@ -61,7 +61,7 @@ export default function AnnouncementBar() {
           border: 'none',
           fontSize: '1.1rem',
           cursor: 'pointer',
-          color: 'rgba(255,255,255,.7)',
+          color: 'var(--ink-muted)',
           padding: '0 2px',
           flexShrink: 0,
           lineHeight: 1,
