@@ -82,7 +82,7 @@ const SQUAD = [
     name: 'DiGi',
     role: 'Your Guide',
     ages: 'All ages and stages',
-    image: '/digi-squad/Digi.png',
+    image: '/digi-squad/DiGi-star.svg',
     bg: 'var(--stage-5)',
     bold: 'var(--stage-5-bold)',
     quote: 'Ask me anything. I have read all the research. I am here at 11pm.',
@@ -330,7 +330,7 @@ export default function HomePage() {
         aria-label="Hero"
         style={{
           padding: 'clamp(72px, 10vw, 120px) 32px clamp(56px, 8vw, 96px)',
-          background: '#fff',
+          background: 'linear-gradient(160deg, #BAE6FF 0%, #E8F7FF 38%, #FFE8F4 68%, #FFD6E7 100%)',
           textAlign: 'center',
           position: 'relative',
         }}
@@ -364,6 +364,18 @@ export default function HomePage() {
           }}>
             A science-backed programme that starts at age 4 and builds your child's habits, skills and resilience all the way to 16. Every stage. Every issue. No cliff edge.
           </p>
+
+          {/* DiGi star mascot */}
+          <div className="fu" style={{ display: 'flex', justifyContent: 'center', marginBottom: '8px' }}>
+            <Image
+              src="/digi-squad/DiGi-star.svg"
+              alt="DiGi"
+              width={140}
+              height={150}
+              style={{ filter: 'drop-shadow(0 8px 24px rgba(213,163,24,0.28))' }}
+              priority
+            />
+          </div>
 
           <div className="fu" style={{ display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '48px' }}>
             <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '15px', padding: '17px 36px' }}>
@@ -411,13 +423,14 @@ export default function HomePage() {
           <div className="fu" style={{ marginTop: '32px', display: 'flex', alignItems: 'center', gap: '8px', justifyContent: 'center', flexWrap: 'wrap' }}>
             {['Online Safety Act 2023', 'DfE', 'Statutory RSE', 'Ofcom'].map(tag => (
               <span key={tag} style={{
-                background: 'var(--cream)',
-                border: '1px solid var(--border)',
+                background: 'rgba(255,255,255,0.65)',
+                border: '1px solid rgba(255,255,255,0.8)',
                 borderRadius: '100px',
                 padding: '5px 13px',
                 fontSize: '.69rem',
                 fontWeight: 700,
                 color: 'var(--ink-muted)',
+                backdropFilter: 'blur(8px)',
               }}>
                 {tag}
               </span>
@@ -855,7 +868,7 @@ export default function HomePage() {
                     flexShrink: 0,
                     overflow: 'hidden',
                   }}>
-                    <Image src="/digi-squad/Digi.png" alt="DiGi" width={52} height={52} style={{ objectFit: 'contain' }} />
+                    <Image src="/digi-squad/DiGi-star.svg" alt="DiGi" width={52} height={52} style={{ objectFit: 'contain' }} />
                   </div>
                   <div style={{ flex: 1 }}>
                     <div style={{ fontFamily: 'var(--font-display)', fontSize: '1rem', fontWeight: 800, color: 'var(--ink)', letterSpacing: '-.02em' }}>DiGi</div>
