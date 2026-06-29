@@ -13,7 +13,7 @@ export default function AnnouncementBar() {
         fontWeight: 600,
         letterSpacing: '.08em',
         textTransform: 'uppercase',
-        color: '#0C4A6E',
+        color: 'rgba(255,255,255,.75)',
         flexShrink: 0,
       }}>
         New law
@@ -22,7 +22,7 @@ export default function AnnouncementBar() {
         fontFamily: 'var(--font-body)',
         fontSize: '.8rem',
         fontWeight: 600,
-        color: '#0C4A6E',
+        color: '#fff',
         flex: 1,
         minWidth: 0,
         textAlign: 'center',
@@ -34,7 +34,7 @@ export default function AnnouncementBar() {
         href="/starter-pack"
         className="ann-cta"
         style={{
-          background: '#0EA5E9',
+          background: 'rgba(255,255,255,.2)',
           color: '#fff',
           fontFamily: 'var(--font-body)',
           fontWeight: 700,
@@ -46,6 +46,7 @@ export default function AnnouncementBar() {
           flexShrink: 0,
           display: 'inline-flex',
           alignItems: 'center',
+          border: '1px solid rgba(255,255,255,.35)',
         }}
       >
         Start here
@@ -57,7 +58,7 @@ export default function AnnouncementBar() {
           border: 'none',
           fontSize: '1.1rem',
           cursor: 'pointer',
-          color: '#0C4A6E',
+          color: 'rgba(255,255,255,.7)',
           padding: '0 2px',
           flexShrink: 0,
           lineHeight: 1,
