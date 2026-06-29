@@ -6,30 +6,27 @@ import FlipCards from '@/components/marketing/FlipCards'
 
 // ── Stage definitions ────────────────────────────────────────────────────────
 
-const YELLOW = '#FFD700'
-const YELLOW_DARK = '#A67C18'
-
 const STAGES = [
   {
     num: '01', name: 'Foundation', ks: 'EYFS and KS1', ages: 'Ages 4 to 7',
     device: 'Shared screen',
     tags: ['TV routines', 'Co-viewing', 'No solo device'],
     quote: '"I cannot get my four-year-old off the iPad. What am I doing wrong?"',
-    bg: 'var(--stage-1)', bold: YELLOW, text: YELLOW_DARK,
+    bg: 'var(--stage-1)', bold: 'var(--stage-1-bold)', text: 'var(--stage-1-text)',
   },
   {
     num: '02', name: 'First Steps', ks: 'KS2 · Yr 3 to 5', ages: 'Ages 8 to 10',
     device: 'Restricted phone',
     tags: ['After-school TV', 'Gaming time', 'Boredom'],
     quote: '"The moment he walks in from school it is TV or gaming. I cannot break the cycle."',
-    bg: 'var(--stage-2)', bold: YELLOW, text: YELLOW_DARK,
+    bg: 'var(--stage-2)', bold: 'var(--stage-2-bold)', text: 'var(--stage-2-text)',
   },
   {
     num: '03', name: 'Explorer', ks: 'KS2/KS3 · Yr 6 to 8', ages: 'Ages 11 to 13',
     device: 'Guided smartphone',
     tags: ['Mood after screens', 'Sleep rules', 'Workarounds'],
     quote: '"Her mood drops every time she puts her phone down. I am worried."',
-    bg: 'var(--stage-3)', bold: YELLOW, text: YELLOW_DARK,
+    bg: 'var(--stage-3)', bold: 'var(--stage-3-bold)', text: 'var(--stage-3-text)',
     critical: true,
   },
   {
@@ -37,14 +34,14 @@ const STAGES = [
     device: 'Monitored social',
     tags: ['VPNs', 'Unknown accounts', 'Reputation'],
     quote: '"He has accounts I do not know about. What do I do?"',
-    bg: 'var(--stage-4)', bold: YELLOW, text: YELLOW_DARK,
+    bg: 'var(--stage-4)', bold: 'var(--stage-4-bold)', text: 'var(--stage-4-text)',
   },
   {
     num: '05', name: 'Independent', ks: 'KS4/KS5 · Yr 11+', ages: 'Ages 16+',
     device: 'Trust-based',
     tags: ['Full access', 'AI literacy', 'Readiness'],
     quote: '"She is 16 next month. I have no idea if she is ready."',
-    bg: 'var(--stage-5)', bold: YELLOW, text: YELLOW_DARK,
+    bg: 'var(--stage-5)', bold: 'var(--stage-5-bold)', text: 'var(--stage-5-text)',
   },
 ]
 
@@ -559,58 +556,78 @@ export default function HomePage() {
               <div key={s.num} className="fu" style={{
                 background: '#fff',
                 borderRadius: '20px',
-                border: '1px solid var(--border)',
                 overflow: 'hidden',
-                boxShadow: '0 2px 24px rgba(26,26,46,0.05)',
+                boxShadow: '0 4px 32px rgba(26,26,46,0.07)',
                 display: 'flex',
                 flexDirection: 'column',
-                transition: 'transform 0.18s, box-shadow 0.18s',
+                transition: 'transform 0.2s, box-shadow 0.2s',
               }}>
 
-                {/* Coloured top band */}
+                {/* Apple-style large coloured header */}
                 <div style={{
                   background: s.bold,
-                  height: '8px',
+                  padding: '28px 24px 22px',
+                  position: 'relative',
                   flexShrink: 0,
-                }} />
-
-                <div style={{ padding: '22px 18px 20px', display: 'flex', flexDirection: 'column', flex: 1 }}>
-
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
-                    <span style={{
-                      fontFamily: 'var(--font-mono)',
-                      fontSize: '.56rem',
-                      fontWeight: 700,
-                      letterSpacing: '.14em',
-                      textTransform: 'uppercase',
-                      color: 'var(--ink-muted)',
-                    }}>
-                      Stage {s.num}
-                    </span>
-                    {s.critical && (
-                      <span style={{
-                        background: 'var(--stage-3-bold)',
-                        borderRadius: '100px',
-                        padding: '2px 8px',
-                        fontSize: '.54rem',
-                        fontWeight: 700,
-                        color: '#fff',
-                        letterSpacing: '.04em',
-                      }}>
-                        Critical window
-                      </span>
-                    )}
-                  </div>
-
-                  <h3 style={{ fontSize: '1.05rem', fontWeight: 800, color: 'var(--ink)', marginBottom: '2px', letterSpacing: '-.02em' }}>
+                }}>
+                  <span style={{
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '.54rem',
+                    fontWeight: 700,
+                    letterSpacing: '.18em',
+                    textTransform: 'uppercase',
+                    color: s.text,
+                    opacity: 0.65,
+                    display: 'block',
+                    marginBottom: '8px',
+                  }}>
+                    Stage {s.num}
+                  </span>
+                  <h3 style={{
+                    fontSize: '1.5rem',
+                    fontWeight: 900,
+                    color: s.text,
+                    letterSpacing: '-.035em',
+                    lineHeight: 1.0,
+                    marginBottom: '6px',
+                  }}>
                     {s.name}
                   </h3>
-                  <div style={{ fontSize: '.75rem', fontWeight: 700, color: 'var(--ink)', marginBottom: '2px' }}>{s.ks}</div>
-                  <div style={{ fontSize: '.7rem', color: 'var(--ink-muted)', marginBottom: '12px' }}>{s.ages}</div>
+                  <div style={{
+                    fontSize: '.73rem',
+                    fontWeight: 600,
+                    color: s.text,
+                    opacity: 0.72,
+                  }}>
+                    {s.ages}
+                  </div>
+                  {s.critical && (
+                    <span style={{
+                      position: 'absolute',
+                      top: '18px',
+                      right: '16px',
+                      background: 'rgba(0,0,0,0.16)',
+                      borderRadius: '100px',
+                      padding: '3px 10px',
+                      fontSize: '.52rem',
+                      fontWeight: 700,
+                      color: s.text,
+                      letterSpacing: '.06em',
+                      textTransform: 'uppercase',
+                    }}>
+                      Critical
+                    </span>
+                  )}
+                </div>
+
+                {/* White body */}
+                <div style={{ padding: '20px 22px', display: 'flex', flexDirection: 'column', flex: 1 }}>
+
+                  <div style={{ fontSize: '.72rem', fontWeight: 700, color: 'var(--ink-soft)', marginBottom: '10px' }}>{s.ks}</div>
 
                   <span style={{
                     background: s.bg,
-                    color: 'var(--ink)',
+                    color: 'var(--ink-soft)',
                     display: 'inline-flex',
                     borderRadius: '100px',
                     padding: '3px 10px',
@@ -656,17 +673,16 @@ export default function HomePage() {
                     display: 'inline-flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    gap: '4px',
                     fontSize: '.72rem',
                     fontWeight: 700,
-                    color: s.critical ? '#fff' : 'var(--ink)',
-                    background: s.critical ? 'var(--stage-3-bold)' : s.bold,
-                    padding: '9px 14px',
+                    color: s.text,
+                    background: s.bold,
+                    padding: '10px 16px',
                     borderRadius: '10px',
                     fontFamily: 'var(--font-display)',
                     letterSpacing: '-.01em',
                     textDecoration: 'none',
-                    boxShadow: s.critical ? '0 3px 0 rgba(0,0,0,.15)' : '0 3px 0 rgba(0,0,0,.1)',
+                    boxShadow: '0 3px 0 rgba(0,0,0,.13)',
                   }}>
                     Start here
                   </Link>
