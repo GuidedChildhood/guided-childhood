@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The cigarette argument, and why it falls apart | Guided Childhood</title>
+<meta name="description" content="Our evidence review is full of numbers. This is the part the numbers do not capture: why the frontline and the data keep talking past each other, and what the feed has to do with both.">
+<meta name="theme-color" content="#F7F3EE">
+<meta property="og:title" content="Social media is the cigarette of our time. It is the most honest wrong thing we say.">
+<meta property="og:description" content="A standalone read alongside the Guided Childhood Independent Evidence Review. The chasm between the frontline and the data, the cigarette analogy, and the question underneath all of it: does the algorithm reflect how we act?">
+<meta property="og:type" content="article">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#F7F3EE; --warm:#FDFBF8; --ink:#1C1C1C; --ink-soft:#4A4A4A; --ink-muted:#6E6A62; --ink-light:#9B958A;
+  --green:#AFDCA2; --green-dark:#2E7D5A; --green-lt:#EEF7F2;
+  --coral:#D4600A; --coral-lt:#FEF3E8;
+  --gold:#F2C94C; --gold-lt:#FEFAE8; --gold-dark:#C9962A; --gold-hover:#E3B53A;
+  --lav:#E7ECF8; --lav-deep:#3D5BA9;
+  --border:#E4DFD7;
+  --sans:'Hanken Grotesk',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--cream);font-family:var(--sans);color:var(--ink);-webkit-font-smoothing:antialiased}
+.wrap{max-width:660px;margin:0 auto;padding:0 20px 80px}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;max-width:660px;margin:0 auto}
+.logo{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--ink)}
+.logo-mark{width:24px;height:24px;background:var(--green);border-radius:6px}
+.logo-name{font-weight:800;font-size:.95rem;letter-spacing:-.01em}
+.mono-tag{font-family:var(--mono);font-size:.6rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-muted)}
+
+.hero{padding:34px 0 28px;border-bottom:1px solid var(--border);margin-bottom:30px}
+.eye{display:inline-block;font-family:var(--mono);font-size:.6rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;background:var(--green-lt);color:var(--green-dark);padding:5px 12px;border-radius:8px;margin-bottom:18px}
+h1{font-size:clamp(1.9rem,5.8vw,2.6rem);font-weight:800;letter-spacing:-.03em;line-height:1.1;margin-bottom:16px}
+.hero-sub{font-size:1.08rem;color:var(--ink-soft);line-height:1.65;margin-bottom:22px;max-width:560px}
+.byline{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-light)}
+
+.section{margin-bottom:34px}
+.section-label{font-family:var(--mono);font-size:.6rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:14px;display:block}
+h2{font-size:1.45rem;font-weight:800;letter-spacing:-.02em;line-height:1.18;margin-bottom:14px}
+h3{font-size:1.02rem;font-weight:700;letter-spacing:-.01em;margin-bottom:6px;color:var(--ink)}
+p{line-height:1.78;color:var(--ink-soft);font-size:1rem;margin-bottom:16px}
+p:last-child{margin-bottom:0}
+.lead{font-size:1.12rem;color:var(--ink);line-height:1.7;font-weight:500}
+strong{color:var(--ink);font-weight:700}
+em{font-style:italic}
+a.inline{color:var(--green-dark);text-decoration:underline;text-underline-offset:2px;font-weight:600}
+
+.highlights{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px}
+@media(max-width:520px){.highlights{grid-template-columns:1fr}}
+.hl{background:var(--warm);border:1px solid var(--border);border-top:3px solid var(--green-dark);border-radius:14px;padding:16px 18px}
+.hl .n{font-family:var(--mono);font-size:1.3rem;font-weight:600;color:var(--green-dark);line-height:1;margin-bottom:8px}
+.hl p{font-size:.88rem;line-height:1.62;margin-bottom:0}
+
+.pull{background:var(--gold-lt);border-left:4px solid var(--gold-dark);border-radius:0 14px 14px 0;padding:18px 20px;margin:6px 0 22px}
+.pull p{font-size:1.12rem;font-weight:600;color:var(--ink);line-height:1.5;font-style:italic;margin-bottom:0}
+
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:8px;background:var(--warm)}
+@media(max-width:560px){.compare{grid-template-columns:1fr}}
+.compare .head{padding:13px 18px;font-family:var(--mono);font-size:.62rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
+.compare .head.cig{background:#fde8e8;color:#8b1a1a;border-bottom:1px solid var(--border)}
+.compare .head.feed{background:var(--green-lt);color:var(--green-dark);border-bottom:1px solid var(--border)}
+.compare .cell{padding:15px 18px;font-size:.9rem;line-height:1.6;color:var(--ink-soft);border-bottom:1px solid var(--border)}
+.compare .cell.cig{border-right:1px solid var(--border)}
+.compare .cell strong{display:block;color:var(--ink);font-weight:700;font-size:.82rem;margin-bottom:3px}
+@media(max-width:560px){
+  .compare .cell.cig{border-right:none}
+  .compare .head.cig{order:0}.compare .cell.cig{order:1}
+  .compare .head.feed{order:2;border-top:1px solid var(--border)}.compare .cell.feed{order:3}
+}
+
+.note{background:var(--lav);border:1px solid #cdd7ef;border-radius:14px;padding:16px 18px;margin-bottom:22px}
+.note p{font-size:.92rem;line-height:1.62;color:var(--lav-deep);margin-bottom:0}
+.note .tag{font-family:var(--mono);font-size:.58rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--lav-deep);display:block;margin-bottom:6px;opacity:.85}
+
+.mirror{background:var(--ink);border-radius:16px;padding:26px 24px;margin:8px 0 22px}
+.mirror .tag{font-family:var(--mono);font-size:.58rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.45);display:block;margin-bottom:12px}
+.mirror p{color:rgba(255,255,255,.82);font-size:1rem;line-height:1.74}
+.mirror p strong{color:#fff}
+.mirror .big{font-size:1.18rem;font-weight:700;color:#fff;line-height:1.45;font-style:italic;margin-bottom:14px}
+
+.cta-box{background:var(--green-dark);border-radius:16px;padding:28px 24px;text-align:center;margin:8px 0 30px}
+.cta-box h2{color:#fff;margin-bottom:8px;font-size:1.35rem}
+.cta-box p{color:rgba(255,255,255,.78);font-size:.92rem;margin-bottom:20px;max-width:440px;margin-left:auto;margin-right:auto}
+.btn{display:inline-flex;align-items:center;gap:6px;background:var(--gold);color:var(--ink);border:none;font-family:var(--mono);font-weight:600;font-size:.9rem;letter-spacing:.02em;cursor:pointer;padding:15px 28px;border-radius:16px;box-shadow:0 5px 0 var(--gold-hover);transition:transform .14s,box-shadow .14s;text-decoration:none;line-height:1}
+.btn:hover{transform:translateY(-1px);box-shadow:0 6px 0 var(--gold-hover)}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 var(--gold-hover)}
+.cta-box .btn-note{font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-top:14px}
+
+.author-block{display:flex;gap:14px;align-items:flex-start;background:var(--warm);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:30px}
+.author-icon{width:40px;height:40px;background:var(--green);border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.1rem;color:var(--green-dark);flex-shrink:0}
+.author-body h3{font-size:.95rem;font-weight:700;margin-bottom:2px;color:var(--ink)}
+.author-body p{font-size:.82rem;line-height:1.55;margin-bottom:0}
+
+.footer{border-top:1px solid var(--border);padding-top:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.footer p{font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-light)}
+.footer a{font-family:var(--mono);font-size:.7rem;font-weight:600;color:var(--green-dark);text-decoration:none}
+
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .55s ease,transform .55s ease}
+.reveal.in{opacity:1;transform:translateY(0)}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a class="logo" href="/"><span class="logo-mark"></span><span class="logo-name">Guided Childhood</span></a>
+  <span class="mono-tag">Evidence Review &middot; The Read</span>
+</div>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero reveal">
+    <span class="eye">A read alongside the evidence review</span>
+    <h1>Social media is the cigarette of our time. That is the most honest wrong thing we say about it.</h1>
+    <p class="hero-sub">Our review is full of numbers. This is the part the numbers do not capture. Why the people closest to the harm and the people closest to the data keep talking past each other, and what the feed itself has to do with both.</p>
+    <p class="byline">Justin Phillips &middot; Founder, Guided Childhood &middot; June 2026</p>
+  </div>
+
+  <!-- HIGHLIGHTS -->
+  <div class="section reveal">
+    <span class="section-label">First, the review in one breath</span>
+    <p>We spent three years reading the primary literature and wrote it up as an independent review. If you read nothing else, read this. The findings sit underneath everything that follows.</p>
+    <div class="highlights">
+      <div class="hl">
+        <div class="n">01</div>
+        <p><strong>The population effect is small.</strong> Across 355,000 adolescents, digital use explained under one percent of the variance in wellbeing. The size of the association sits near eating potatoes or wearing glasses.</p>
+      </div>
+      <div class="hl">
+        <div class="n">02</div>
+        <p><strong>The harm is concentrated, not universal.</strong> Most children are not measurably harmed. A vulnerable minority is, and that harm is real, documented, and serious.</p>
+      </div>
+      <div class="hl">
+        <div class="n">03</div>
+        <p><strong>The platforms are not one thing.</strong> A social comparison feed, a duration algorithm, a search library, and private messaging are different products with different evidence.</p>
+      </div>
+      <div class="hl">
+        <div class="n">04</div>
+        <p><strong>The ban does not reach the mechanics.</strong> Infinite scroll, engagement ranking, sleep hour notifications. A login restriction leaves every one of them in place, waiting at 16.</p>
+      </div>
+      <div class="hl" style="grid-column:1 / -1">
+        <div class="n">05</div>
+        <p><strong>The evidence points at design, not access.</strong> Regulate the feed, enforce the Children's Code, and prepare the child. A blanket access ban does none of these, and the preparation curriculum does not yet exist at scale.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- THE CHASM -->
+  <div class="section reveal">
+    <span class="section-label">The chasm</span>
+    <h2>What CAMHS sees, and what the data shows, are not the same picture</h2>
+    <p>Here is the part the review does not say out loud, because a review is not allowed to.</p>
+    <p>Walk into a CAMHS waiting room. Sit with a head of year who has watched the same bright child go quiet over an autumn term. Talk to the clinicians who hold the children in crisis. Almost every one of them will tell you the same thing, with the certainty of someone who is in the room when it happens. <strong>It is the phones. It is social media. We see it every single day.</strong></p>
+    <p>That certainty is not stupidity, and it is not panic. It is the certainty of a doctor in 1960 watching the lung ward fill up. It is what the frontline sees. And it deserves a far better answer than a statistic.</p>
+    <p>So they reach for the analogy that fits the feeling. Social media is the cigarette of our time. A thing we let our children inhale before we understood what it did. It is a powerful frame. It is the frame most of the public conversation now runs on. And it is wrong in ways that matter enormously for what we do next.</p>
+  </div>
+
+  <!-- WHY THE CIGARETTE FAILS -->
+  <div class="section reveal">
+    <span class="section-label">Why the cigarette analogy falls apart</span>
+    <h2>Six differences, and every one of them changes the policy</h2>
+    <p>The analogy is not a small simplification. It points the entire response in the wrong direction. Here is where it breaks.</p>
+
+    <div class="compare">
+      <div class="head cig">The cigarette</div>
+      <div class="head feed">The feed</div>
+
+      <div class="cell cig"><strong>Harms everyone</strong>Every cigarette does measurable damage to every lung. The harm is universal and built into the product.</div>
+      <div class="cell feed"><strong>Harms a minority</strong>Most children show no measurable effect. The serious harm concentrates in those already vulnerable. The average and the casualty are different children.</div>
+
+      <div class="cell cig"><strong>Clean dose response</strong>More cigarettes, more damage, in a straight predictable line. You can measure it per pack.</div>
+      <div class="cell feed"><strong>A tiny average signal</strong>At population scale the effect is the size of eating potatoes. The strong effects live in specific people doing specific things, not in screen time as a number.</div>
+
+      <div class="cell cig"><strong>No upside</strong>There is no healthy way to smoke. Nothing of value is lost by removing it entirely.</div>
+      <div class="cell feed"><strong>A safe room for some</strong>For an LGBTQ+ teen in a hostile house, a disabled child, a rural kid, the connection may be the only safe social space they have. Removing it is not neutral.</div>
+
+      <div class="cell cig"><strong>The harm is the substance</strong>Tar and nicotine. You cannot redesign a cigarette into a safe one. The product is the problem.</div>
+      <div class="cell feed"><strong>The harm is the design</strong>The ranking, the infinite scroll, the sleep hour push. These are choices. They can change without removing the child.</div>
+
+      <div class="cell cig"><strong>Abstinence protects</strong>A person who never smokes is genuinely protected for life. Not starting is the whole game.</div>
+      <div class="cell feed"><strong>Abstinence only delays</strong>A child kept off until 16, then handed full access with no preparation, is not protected. They are delayed, and they meet the same mechanics unready.</div>
+
+      <div class="cell cig"><strong>You see the smoker</strong>The harm is visible in anyone who uses it. There is no hidden healthy majority.</div>
+      <div class="cell feed"><strong>You only see the casualties</strong>The clinician never meets the millions of children who are fine. Their whole sample is the harmed tail. That is what makes the certainty feel total.</div>
+    </div>
+    <p style="font-size:.82rem;color:var(--ink-light);font-family:var(--mono);letter-spacing:.04em;margin-top:14px">Full evidence basis for each claim is in the review.</p>
+  </div>
+
+  <!-- THE LAST ROW IS THE WHOLE THING -->
+  <div class="section reveal">
+    <span class="section-label">The selection effect</span>
+    <p>That last row is the one that resolves the argument, so it is worth slowing down on.</p>
+    <p>The researcher and the clinician are not disagreeing about the facts. They are looking at different ends of the same animal. The researcher measures the whole population and finds a faint signal, because most children really are fine. The clinician sees only the children who were sent to them, and every one is in crisis. <strong>Neither is lying. They are describing different samples.</strong></p>
+    <div class="pull"><p>The frontline is not wrong about what it sees. It is seeing the tail of the distribution and reporting it as the shape of the whole.</p></div>
+    <p>Both truths have to survive the policy. A response that protects the average child by ignoring the tail is cruel. A response that treats every child as the tail does real harm to the many to chase the few, and still leaves the few exposed to the mechanics that hurt them. The review argues for the version that does neither.</p>
+  </div>
+
+  <!-- THE HARM OF PITTING ONE AGAINST THE OTHER -->
+  <div class="section reveal">
+    <span class="section-label">The cost of the fight</span>
+    <h2>Putting the research against the frontline does damage of its own</h2>
+    <p>There is a habit in this debate that needs naming, because we have been guilty of it too. When a clinician or a grieving parent says <em>it was the phone</em>, someone reaches for the effect size. The correlation is 0.04. The largest study found almost nothing. As if a number could answer a person holding a child.</p>
+    <p>It cannot, and the attempt costs us three things at once.</p>
+    <div class="note">
+      <span class="tag">What we lose when we win the argument</span>
+      <p>You lose the person. Hand a population statistic to someone who watched it happen, and you have not corrected them, you have told them their own eyes are lying. You lose the frontline. Do it often enough and clinicians and teachers stop trusting the evidence entirely, which is a catastrophe, because we need them reading it. And you lose the tail. The vulnerable minority who genuinely are being harmed get averaged into a reassuring number and quietly dropped from the policy.</p>
+    </div>
+    <p>The honest move is not to win. It is to say both things in the same breath. The average child is more resilient than the headlines claim. <strong>And</strong> a specific, identifiable group of children is being harmed by specific, identifiable design choices, and that harm is exactly as serious as the frontline says it is. Hold both, or you are not describing reality. You are picking a side in a fight that should never have been framed as a fight.</p>
+  </div>
+
+  <!-- HOW THIS PLAYS OUT IN SOCIAL MEDIA -->
+  <div class="section reveal">
+    <span class="section-label">The irony nobody mentions</span>
+    <h2>This is also exactly how social media behaves</h2>
+    <p>Look at the shape of the public argument for a moment. One vivid, devastating case travels further than a thousand quiet ordinary childhoods. The tragedy gets the front page. The faint reassuring signal gets a footnote. The story that makes you afraid outruns the story that makes you think.</p>
+    <p>That is not a flaw in the debate. <strong>It is the feed.</strong> It is the exact logic of the algorithms we are arguing about. Vivid beats true. Emotional beats representative. The casualty beats the average, every time, by design.</p>
+    <p>So the conversation about social media is being conducted according to social media's own rules. We are using the mechanism to judge the mechanism, and then wondering why the verdict feels so certain and so afraid.</p>
+  </div>
+
+  <!-- THE ALGORITHM AS MIRROR -->
+  <div class="section reveal">
+    <span class="section-label">The question underneath</span>
+    <div class="mirror">
+      <span class="tag">Does the algorithm reflect how we act?</span>
+      <p class="big">The algorithm did not invent any of this. It learned it from us.</p>
+      <p>It did not teach a teenager to compare herself to a stranger. It did not invent the pull of the worst story, the hunger for the next thing, the relief of a number going up. Those were already in us, axon by axon, long before there was a feed to host them. The recommendation engine is trained on what we click. And we click the cigarette story. We click the comparison. We linger on the thing that makes us anxious. The model is a faithful student of our reward wiring.</p>
+      <p>So the feed is a mirror with a gain knob. <strong>It reflects how we already act, then turns up the volume, at a speed our self regulation never evolved to handle.</strong> The internet in general does the same thing. It is not an alien force acting on human nature. It is human nature, amplified and accelerated and sold back to us.</p>
+      <p>Which is why banning the mirror does not change the face. The child kept off the platform still carries the same wiring, and meets the same amplified reflection the day the restriction lifts. If the reflection is the problem, you have two honest moves. <strong>Turn down the gain</strong>, by regulating the design that does the amplifying. And <strong>teach the child to recognise the reflection</strong>, by building the preparation before the highest risk years, not after them.</p>
+      <p>A blanket access ban does neither. It covers the mirror with a sheet until the child turns 16, then pulls the sheet off and calls it protection.</p>
+    </div>
+  </div>
+
+  <!-- CLOSE / CTA -->
+  <div class="section reveal">
+    <span class="section-label">Where this leaves us</span>
+    <p>None of this is an argument for doing nothing. The review calls for more from the platforms than the ban does, not less. Compelled algorithmic audits. A curfew on sleep hour delivery to under 16 accounts. Civil liability where a company held its own harm research and kept the mechanic running. Enforcement of a Children's Code that already exists. And a preparation curriculum, built in the gap before the ban goes live in Spring 2027, because the preparation matters more than the restriction.</p>
+    <p>The frontline is right that something is hurting children. The data is right that it is not the simple universal story the cigarette frame implies. Both of those are true at once, and a child protection policy that cannot hold both will protect no one well. That is the whole argument. The full review shows the working.</p>
+  </div>
+
+  <div class="cta-box reveal">
+    <h2>Read the full evidence review</h2>
+    <p>Every claim cited. Platform by platform verdicts. The objections answered in full. Written for parents, school leaders, clinicians, journalists and policymakers.</p>
+    <a class="btn" href="/evidence">Get the review &rarr;</a>
+    <p class="btn-note">Free &middot; Fully cited &middot; No newsletter, just the paper</p>
+  </div>
+
+  <!-- AUTHOR -->
+  <div class="author-block reveal">
+    <div class="author-icon">J</div>
+    <div class="author-body">
+      <h3>Justin Phillips &nbsp;&middot;&nbsp; Founder, Guided Childhood</h3>
+      <p>Father of three. Guided Childhood is the fourth. Three years reading the primary peer reviewed literature on children and digital life. No commercial relationship with any platform discussed. This is a public interest contribution to the policy debate, and the position in it predates the current debate and would survive any change in it.</p>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <p>&copy; 2026 Guided Childhood &middot; guidedchildhood.com</p>
+    <div style="display:flex;gap:16px">
+      <a href="/">Home</a>
+      <a href="/evidence">The Review</a>
+      <a href="/schools">Schools</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  var els = document.querySelectorAll('.reveal');
+  if(!('IntersectionObserver' in window)){
+    els.forEach(function(el){el.classList.add('in')});
+    return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}
+    });
+  },{threshold:0.12,rootMargin:'0px 0px -40px 0px'});
+  els.forEach(function(el){io.observe(el)});
+})();
+</script>
+
+</body>
+</html>

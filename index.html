@@ -22,58 +22,45 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"WebApplication","name":"Guided Childhood","description":"The UK platform guiding children through every stage of digital life from age 4 to 16","url":"https://guidedchildhood.co.uk","applicationCategory":"LifestyleApplication","offers":{"@type":"Offer","price":"12.99","priceCurrency":"GBP"},"author":{"@type":"Person","name":"Justin Phillips","worksFor":{"@type":"Organization","name":"The Social Billboard"}}}
 </script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,600;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --white: #FFFFFF;
-  --cream: #F9F8F6;
-  --ink: #1C1C2A;
-  --ink-soft: #5A5A6A;
-  --ink-muted: #8A8A9A;
-  --border: #E4E2DC;
+  /* Checker-aligned design system — one product, one look */
+  --cream:    #F7F3EE;   /* main bg — checker cream */
+  --cream-2:  #FDFBF8;   /* section alt — checker warm */
+  --cream-3:  #EFE9DF;   /* card surfaces */
+  --white:    #FDFBF8;
 
-  /* Accent — warm sage, replaces dark coral */
-  --terracotta: #5A8A6A;
-  --terracotta-dark: #3D6A50;
-  --terracotta-lt: #DFF0E4;
+  --ink:      #1C1C1C;
+  --ink-soft: #4A4A4A;
+  --ink-muted:#6E6A62;
+  --ink-light:#9B958A;
 
-  /* Stage pastels — Good Inside palette */
-  --stage-1: #FBCAAE;
-  --stage-2: #9ED8B2;
-  --stage-3: #9ABCE0;
-  --stage-4: #C4B4E0;
-  --stage-5: #F0DC98;
+  --green:    #AFDCA2;   /* checker green-block */
+  --green-dark:#2E7D5A;  /* checker green-deep */
+  --green-lt: #EEF7F2;
+  --green-b:  #D3ECD9;
 
-  /* Keep old token names as aliases so nothing breaks */
-  --tint-blue: #D8E8F8;
-  --tint-sage: #D8EEE0;
-  --tint-amber: #F0E8D0;
-  --tint-green: #D8F0E0;
+  --coral:    #D4600A;   /* checker high */
+  --coral-lt: #FEF3E8;
+  --coral-b:  rgba(212,96,10,0.25);
+  --coral-dark:#C0392B;  /* checker critical */
 
-  --font-display: 'Fraunces', Georgia, serif;
-  --font-body: 'Inter', system-ui, sans-serif;
-  --font-mono: 'Inter', system-ui, sans-serif;
+  --gold:     #F2C94C;   /* checker yellow — primary CTA */
+  --gold-lt:  #FEFAE8;
+  --gold-b:   rgba(242,201,76,0.35);
+  --gold-dark:#C9962A;
+  --gold-hover:#E3B53A;  /* checker yellow-deep */
 
-  /* Legacy aliases — keep old token names pointing at new pastel palette */
-  --green:       var(--stage-2);
-  --green-lt:    var(--stage-2);
-  --green-dark:  var(--terracotta-dark);
-  --green-b:     var(--border);
-  --coral:       var(--terracotta);
-  --coral-lt:    var(--terracotta-lt);
-  --coral-b:     var(--border);
-  --gold:        var(--stage-5);
-  --gold-lt:     var(--stage-5);
-  --gold-dark:   var(--terracotta-dark);
-  --lav:         var(--stage-4);
-  --lav-deep:    var(--terracotta-dark);
-  --cream-2:     var(--cream);
-  --cream-3:     var(--cream);
-  --sans:        var(--font-body);
-  --serif:       var(--font-display);
-  --mono:        var(--font-mono);
+  --lav:      #E7ECF8;   /* checker lavender */
+  --lav-line: #D3DCF1;
+  --lav-deep: #3D5BA9;
+
+  --border:   #E4DFD7;
+
+  --serif:    'Hanken Grotesk',system-ui,sans-serif;
+  --sans:     'Hanken Grotesk',system-ui,sans-serif;
+  --mono:     'IBM Plex Mono',ui-monospace,monospace;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -81,7 +68,7 @@ section[id]{scroll-margin-top:90px}
 .sc-ks{display:block;font-family:var(--sans);font-weight:800;font-size:1.05rem;color:var(--ink);letter-spacing:-0.01em;line-height:1.3}
 .sc-age{display:inline-block;font-size:.82rem;color:var(--ink-soft);font-weight:500;margin-top:2px}
 .sc-us{display:inline-block;font-size:.65rem;color:var(--ink-light);margin-left:6px}
-body{background:#fff;color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.65;overflow-x:hidden}
+body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.65;overflow-x:hidden}
 
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
@@ -93,23 +80,24 @@ body{background:#fff;color:var(--ink);font-family:var(--font-body);font-size:16p
 .d1{animation-delay:.05s}.d2{animation-delay:.1s}.d3{animation-delay:.15s}.d4{animation-delay:.2s}.d5{animation-delay:.25s}
 
 /* NAV — offset accounts for announcement bar (~44px) */
-nav{position:fixed;top:44px;left:0;right:0;z-index:300;height:64px;padding:0 32px;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.97);backdrop-filter:blur(24px);border-bottom:1px solid var(--border)}
+nav{position:fixed;top:44px;left:0;right:0;z-index:300;height:64px;padding:0 32px;display:flex;align-items:center;justify-content:space-between;background:rgba(245,239,224,.97);backdrop-filter:blur(24px);border-bottom:1px solid var(--border)}
 .logo{display:flex;align-items:center;gap:9px;text-decoration:none}
-.logo-mark{width:32px;height:32px;background:var(--terracotta);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.logo-mark{width:32px;height:32px;background:var(--green);border-radius:8px;display:flex;align-items:center;justify-content:center}
 .bars{display:flex;align-items:flex-end;gap:2.5px;height:15px}
 .bar{background:var(--ink);border-radius:1.5px;opacity:.7}
 .b1{width:3px;height:5px}.b2{width:3px;height:9px}.b3{width:3px;height:13px}.b4{width:3px;height:7px}
-.logo-name{font-family:var(--font-display);font-size:.95rem;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+.logo-name{font-family:var(--serif);font-size:.95rem;font-weight:700;color:var(--ink);letter-spacing:-.01em}
 .nav-links{display:flex;gap:2px}
-.nav-btn{background:none;border:none;font-family:var(--font-body);font-weight:500;color:var(--ink);cursor:pointer;font-size:15px;padding:8px 12px;transition:color .15s}
-.nav-btn:hover{color:var(--terracotta)}
-.nav-dropdown.open .nav-dropdown-menu{display:block !important}
+.nav-btn{background:none;border:none;font-family:var(--sans);font-size:.82rem;font-weight:500;color:var(--ink-soft);cursor:pointer;padding:6px 13px;border-radius:100px;transition:all .15s}
+.nav-btn:hover{background:var(--cream-2);color:var(--ink)}
 .nav-r{display:flex;gap:8px;align-items:center}
+.btn-nav{background:var(--green);color:var(--ink);border:none;font-family:var(--sans);font-size:.82rem;font-weight:700;cursor:pointer;padding:9px 22px;border-radius:100px;transition:all .18s}
+.btn-nav:hover{background:var(--green-dark);color:#fff;transform:translateY(-1px)}
 
 /* TABS */
-.tab-bar{background:var(--cream);border-bottom:1px solid var(--border);padding:0 32px;display:flex;align-items:center;justify-content:center;gap:4px;height:48px;margin-top:108px}
-.tab{background:none;border:none;font-family:var(--font-body);font-size:.82rem;font-weight:600;color:var(--ink-muted);cursor:pointer;padding:8px 20px;border-radius:100px;transition:all .18s}
-.tab.on{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(28,26,20,.1)}
+.tab-bar{background:var(--cream-2);border-bottom:1px solid var(--border);padding:0 32px;display:flex;align-items:center;justify-content:center;gap:4px;height:48px;margin-top:108px}
+.tab{background:none;border:none;font-family:var(--sans);font-size:.82rem;font-weight:600;color:var(--ink-muted);cursor:pointer;padding:8px 20px;border-radius:100px;transition:all .18s}
+.tab.on{background:var(--white);color:var(--ink);box-shadow:0 1px 4px rgba(28,26,20,.1)}
 .tab:hover:not(.on){color:var(--ink-soft);background:rgba(255,255,255,.5)}
 .panel{display:none}
 .panel.on{display:block;animation:tab-in .3s ease both}
@@ -117,35 +105,38 @@ nav{position:fixed;top:44px;left:0;right:0;z-index:300;height:64px;padding:0 32p
 /* SECTIONS */
 .sec{padding:80px 32px}
 .inner{max-width:1040px;margin:0 auto}
-.sec-alt{background:#F9F8F6}
+.sec-alt{background:var(--cream-2)}
+.sec-green{background:var(--green)}
 .tc{text-align:center}
 
 /* TYPE */
-.eye{display:inline-block;font-family:var(--font-body);font-size:.7rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;margin-bottom:12px}
+.eye{display:inline-block;font-family:var(--mono);font-size:.7rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;margin-bottom:12px}
 .eye-g{color:var(--green-dark)}.eye-c{color:var(--coral)}.eye-gold{color:var(--gold)}
-h1,h2,h3,h4{font-family:var(--font-display)}
+h1,h2,h3,h4{font-family:var(--serif)}
 .h1{font-size:clamp(2.6rem,5vw,4.6rem);font-weight:800;line-height:1.04;letter-spacing:-.04em;color:var(--ink)}
-.h1 em,.h2 em{font-style:italic;font-weight:300;color:var(--terracotta)}
+.h1 em,.h2 em{font-style:italic;font-weight:300;color:var(--coral)}
 .h2{font-size:clamp(1.9rem,2.8vw,2.9rem);font-weight:800;line-height:1.1;letter-spacing:-.03em;color:var(--ink);margin-bottom:14px}
 .lead{font-size:1rem;color:var(--ink-soft);line-height:1.8;max-width:500px}
 
 /* BUTTONS */
-.btn{display:inline-flex;align-items:center;gap:6px;background:var(--terracotta);color:#fff;font-family:var(--font-body);font-weight:600;font-size:15px;padding:14px 28px;border-radius:10px;border:none;box-shadow:0 4px 0 var(--terracotta-dark);cursor:pointer;text-decoration:none;transition:transform 0.1s,box-shadow 0.1s;letter-spacing:.01em}
-.btn:hover{transform:translateY(-1px);box-shadow:0 5px 0 var(--terracotta-dark)}
-.btn:active{transform:translateY(2px);box-shadow:0 2px 0 var(--terracotta-dark)}
-.btn-outline{background:transparent;color:var(--terracotta);border:1.5px solid var(--terracotta);box-shadow:none;font-family:var(--font-body);font-weight:600;font-size:15px;padding:13px 27px;border-radius:10px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.btn{background:var(--gold);color:var(--ink);border:none;font-family:var(--mono);font-weight:600;font-size:.9rem;letter-spacing:.02em;cursor:pointer;padding:15px 28px;border-radius:16px;box-shadow:0 5px 0 var(--gold-hover);transition:transform .14s ease,box-shadow .14s ease;display:inline-flex;align-items:center;gap:6px;line-height:1}
+.btn:hover{background:var(--green-dark);color:#fff;transform:translateY(-2px);box-shadow:0 6px 20px rgba(143,191,159,.4)}
+.btn-c{background:var(--coral);color:#fff;box-shadow:0 5px 0 var(--coral-dark)}
+.btn-c:hover{background:var(--coral-dark);transform:translateY(-2px);box-shadow:none}
+.btn-out{background:transparent;color:var(--ink);border:none;box-shadow:inset 0 0 0 2px var(--ink);font-family:var(--mono);font-weight:600;font-size:.85rem;letter-spacing:.02em;cursor:pointer;padding:14px 26px;border-radius:16px;transition:all .2s}
+.btn-out:hover{border-color:var(--ink)}
 
 /* HERO */
-.hero{min-height:92vh;padding:60px 32px 80px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:#fff;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;inset:0;pointer-events:none;background:none}
-.hero-pill{display:inline-flex;align-items:center;gap:7px;background:var(--stage-2);border:none;border-radius:100px;padding:5px 14px;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);margin-bottom:24px}
-.pill-dot{width:6px;height:6px;border-radius:50%;background:var(--terracotta);animation:pulse 2s infinite}
+.hero{min-height:92vh;padding:60px 32px 80px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:var(--cream);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 40% at 15% 85%,rgba(143,191,159,.05) 0%,transparent 55%),radial-gradient(ellipse 50% 35% at 85% 15%,rgba(212,168,67,.06) 0%,transparent 55%)}
+.hero-pill{display:inline-flex;align-items:center;gap:7px;background:var(--green-lt);border:1px solid var(--green-b);border-radius:100px;padding:5px 14px;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--green-dark);margin-bottom:24px}
+.pill-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
 .hero-sub{font-size:clamp(.92rem,1.5vw,1.1rem);color:var(--ink-soft);line-height:1.82;max-width:500px;margin:0 auto 32px}
 .hero-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:12px}
 .hero-note{font-size:.74rem;color:var(--ink-muted);margin-bottom:16px}
 /* Guarantee in hero */
 .hero-guarantee{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.6);border:1px solid var(--border);border-radius:100px;padding:6px 14px;font-size:.72rem;font-weight:600;color:var(--ink-soft);margin-bottom:40px}
-.hero-guarantee::before{content:'✓';color:var(--terracotta);font-weight:900}
+.hero-guarantee::before{content:'✓';color:var(--green-dark);font-weight:900}
 /* Press strip */
 .press-strip{display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:48px;flex-wrap:wrap}
 .press-label{font-size:.67rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-muted);margin-right:8px}
@@ -154,7 +145,7 @@ h1,h2,h3,h4{font-family:var(--font-display)}
 .faces{display:flex}
 .face{width:32px;height:32px;border-radius:50%;border:3px solid var(--cream);margin-left:-9px;font-size:.58rem;font-weight:800;color:#fff;display:flex;align-items:center;justify-content:center}
 .face:first-child{margin-left:0}
-.f1{background:var(--stage-1)}.f2{background:var(--stage-2)}.f3{background:var(--stage-3)}.f4{background:var(--stage-4)}.f5{background:var(--stage-5)}.f6{background:var(--stage-1)}
+.f1{background:var(--green)}.f2{background:var(--coral)}.f3{background:var(--gold)}.f4{background:var(--lav-deep)}.f5{background:var(--green-dark)}.f6{background:var(--coral)}
 .proof{display:flex;align-items:center;gap:11px;justify-content:center;margin-bottom:48px}
 .proof-txt{font-size:.82rem;color:var(--ink-soft)}
 .proof-txt strong{color:var(--ink)}
@@ -181,29 +172,38 @@ h1,h2,h3,h4{font-family:var(--font-display)}
 
 
 /* TICKER */
-.ticker{background:var(--cream);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:11px 0;overflow:hidden;white-space:nowrap}
+.ticker{background:var(--green);padding:11px 0;overflow:hidden;white-space:nowrap}
 .ticker-inner{display:inline-flex;animation:ticker 32s linear infinite}
 .ti{display:inline-flex;align-items:center;gap:14px;padding:0 28px;font-size:.72rem;font-weight:600;color:var(--ink-soft);letter-spacing:.04em;text-transform:uppercase}
 .ti strong{color:var(--ink)}
-.tid{width:4px;height:4px;border-radius:50%;background:var(--terracotta);opacity:.7;flex-shrink:0}
+.tid{width:4px;height:4px;border-radius:50%;background:var(--coral);opacity:.7;flex-shrink:0}
 
 /* STAGE CARDS — Good Inside "find your stage" */
 .stage-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:11px}
-.sc{border:none;border-radius:20px;padding:24px 18px 20px;cursor:pointer;transition:all .22s;position:relative;overflow:hidden;display:flex;flex-direction:column}
-.sc:hover{transform:translateY(-5px);box-shadow:0 8px 32px rgba(28,28,42,0.13)}
-.sc1{background:var(--stage-1)}
-.sc2{background:var(--stage-2)}
-.sc3{background:var(--stage-3)}
-.sc4{background:var(--stage-4)}
-.sc5{background:var(--stage-5)}
-.sc-num{font-family:var(--font-body);font-size:.6rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(28,28,42,.5);margin-bottom:7px}
-.sc-name{font-family:var(--font-display);font-size:1.1rem;font-weight:700;color:var(--ink);margin-bottom:3px}
-.sc-ages{font-size:.73rem;color:rgba(28,28,42,.6);margin-bottom:11px}
+.sc{background:#fff;border:1px solid var(--border);border-radius:var(--rl);padding:24px 18px 20px;cursor:pointer;transition:all .22s;position:relative;overflow:hidden;display:flex;flex-direction:column}
+.sc::before{content:'';position:absolute;top:0;left:0;right:0;height:4px}
+.sc1::before{background:var(--green)}.sc2::before{background:var(--lav-deep)}
+.sc3::before{background:var(--coral)}.sc4::before{background:var(--gold)}
+.sc5::before{background:var(--green)}
+.sc:hover{transform:translateY(-4px);box-shadow:var(--sh-lg)}
+.sc3{border-color:var(--coral-b);background:var(--coral-lt)}
+.sc-num{font-family:var(--mono);font-size:.6rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:7px}
+.sc-crit{display:inline-flex;background:var(--coral-lt);border:1px solid var(--coral-b);border-radius:100px;padding:2px 7px;font-size:.58rem;font-weight:700;color:var(--coral);margin-bottom:5px}
+.sc-name{font-family:var(--serif);font-size:1.1rem;font-weight:700;color:var(--ink);margin-bottom:3px}
+.sc-ages{font-size:.73rem;color:var(--ink-muted);margin-bottom:11px}
+.sc-device{display:inline-flex;border-radius:100px;padding:2px 9px;font-size:.6rem;font-weight:700;margin-bottom:12px}
+.sd1{background:var(--green-lt);color:var(--green-dark)}
+.sd2{background:var(--lav);color:var(--lav-deep)}
+.sd3{background:var(--coral-lt);color:var(--coral)}
+.sd4{background:var(--gold-lt);color:var(--gold-dark)}
+.sd5{background:var(--green-lt);color:var(--green-dark)}
 .sc-tags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:14px}
-.sc-tag{background:rgba(255,255,255,.55);border:none;border-radius:100px;padding:3px 9px;font-size:.62rem;color:var(--ink);font-weight:600}
-.sc-quote{font-family:var(--font-display);font-size:.85rem;font-style:italic;color:var(--ink);line-height:1.55;margin-top:auto;padding-top:12px;border-top:1px solid rgba(28,28,42,.12)}
-.sc-btn{display:inline-flex;align-items:center;gap:4px;margin-top:11px;font-size:.72rem;font-weight:700;color:var(--ink);background:rgba(255,255,255,.7);border:none;padding:5px 12px;border-radius:100px;cursor:pointer;font-family:var(--font-body);text-decoration:none}
-.sc-btn:hover{background:rgba(255,255,255,.9)}
+.sc-tag{background:var(--cream-2);border:1px solid var(--border);border-radius:100px;padding:2px 8px;font-size:.62rem;color:var(--ink-soft);font-weight:600}
+/* The parent quote — this is what Good Inside gets right */
+.sc-quote{font-family:var(--serif);font-size:.85rem;font-style:italic;color:var(--ink);line-height:1.55;margin-top:auto;padding-top:12px;border-top:1px solid var(--border)}
+.sc-btn{display:inline-flex;align-items:center;gap:4px;margin-top:11px;font-size:.72rem;font-weight:600;color:var(--ink);background:var(--green);border:none;padding:7px 14px;border-radius:10px;cursor:pointer;font-family:var(--mono);letter-spacing:.02em;transition:all .15s}
+.sc3 .sc-btn{background:var(--coral);color:#fff}
+.sc-btn:hover{opacity:.85}
 
 /* METHOD STEPS */
 .method-row{display:flex;justify-content:center;gap:0;flex-wrap:wrap;margin-top:44px}
@@ -211,12 +211,12 @@ h1,h2,h3,h4{font-family:var(--font-display)}
 .ms::after{content:'\2192';position:absolute;right:-12px;top:28px;font-size:1rem;color:var(--ink-light)}
 .ms:last-child::after{display:none}
 .ms-circle{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 13px}
-.ms-letter{font-family:var(--font-display);font-size:1.5rem;font-weight:900;line-height:1}
-.c1{background:var(--stage-1)}.c1 .ms-letter{color:var(--ink)}
-.c2{background:var(--stage-2)}.c2 .ms-letter{color:var(--ink)}
-.c3{background:var(--stage-3)}.c3 .ms-letter{color:var(--ink)}
-.c4{background:var(--stage-4)}.c4 .ms-letter{color:var(--ink)}
-.c5{background:var(--stage-5)}.c5 .ms-letter{color:var(--ink)}
+.ms-letter{font-family:var(--serif);font-size:1.5rem;font-weight:900;line-height:1}
+.c1{background:var(--green-lt)}.c1 .ms-letter{color:var(--green-dark)}
+.c2{background:var(--coral-lt)}.c2 .ms-letter{color:var(--coral)}
+.c3{background:var(--gold-lt)}.c3 .ms-letter{color:var(--gold)}
+.c4{background:var(--gold-lt)}.c4 .ms-letter{color:var(--gold-dark)}
+.c5{background:var(--lav)}.c5 .ms-letter{color:var(--lav-deep)}
 .ms-word{font-size:.7rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink);margin-bottom:6px}
 .ms-desc{font-size:.76rem;color:var(--ink-soft);line-height:1.6}
 
@@ -226,159 +226,159 @@ h1,h2,h3,h4{font-family:var(--font-display)}
 .fi{display:flex;gap:15px;align-items:flex-start}
 .fi-icon{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .fi-line{width:2px;height:20px;border-radius:1px}
-.fi1{background:var(--stage-1)}.fi1 .fi-line{background:var(--terracotta)}
-.fi2{background:var(--stage-2)}.fi2 .fi-line{background:var(--terracotta)}
-.fi3{background:var(--stage-3)}.fi3 .fi-line{background:var(--terracotta)}
-.fi4{background:var(--stage-4)}.fi4 .fi-line{background:var(--terracotta)}
-.fi5{background:var(--stage-5)}.fi5 .fi-line{background:var(--terracotta)}
-.fi-text h3{font-family:var(--font-display);font-size:.95rem;font-weight:700;color:var(--ink);margin-bottom:4px}
+.fi1{background:var(--green-lt)}.fi1 .fi-line{background:var(--green-dark)}
+.fi2{background:var(--coral-lt)}.fi2 .fi-line{background:var(--coral)}
+.fi3{background:var(--gold-lt)}.fi3 .fi-line{background:var(--gold)}
+.fi4{background:var(--gold-lt)}.fi4 .fi-line{background:var(--gold-dark)}
+.fi5{background:var(--lav)}.fi5 .fi-line{background:var(--lav-deep)}
+.fi-text h3{font-family:var(--serif);font-size:.95rem;font-weight:700;color:var(--ink);margin-bottom:4px}
 .fi-text p{font-size:.82rem;color:var(--ink-soft);line-height:1.65}
 
 /* WHAT CHANGES — Good Inside 3-step outcome */
 .outcomes{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:44px}
-.oc{background:#fff;border-radius:16px;padding:32px 26px;border:1px solid var(--border)}
-.oc-num{font-family:var(--font-display);font-size:3.2rem;font-weight:900;line-height:1;margin-bottom:14px}
-.n1{color:var(--stage-1)}.n2{color:var(--stage-2)}.n3{color:var(--stage-3)}
+.oc{background:#fff;border-radius:var(--rl);padding:32px 26px;border:1px solid var(--border)}
+.oc-num{font-family:var(--serif);font-size:3.2rem;font-weight:900;line-height:1;margin-bottom:14px}
+.n1{color:var(--green-lt)}.n2{color:var(--coral-lt)}.n3{color:var(--cream-3)}
 .oc-stage{font-size:.64rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:9px}
-.oc h3{font-family:var(--font-display);font-size:1.1rem;font-weight:700;color:var(--ink);margin-bottom:10px;line-height:1.3}
+.oc h3{font-family:var(--serif);font-size:1.1rem;font-weight:700;color:var(--ink);margin-bottom:10px;line-height:1.3}
 .oc p{font-size:.83rem;color:var(--ink-soft);line-height:1.72}
 .oc-tag{display:inline-flex;border-radius:100px;padding:3px 10px;font-size:.63rem;font-weight:700;margin-top:14px}
-.ot1{background:var(--stage-2);color:var(--ink)}
-.ot2{background:var(--stage-3);color:var(--ink)}
-.ot3{background:var(--stage-5);color:var(--ink)}
+.ot1{background:var(--green-lt);color:var(--green-dark)}
+.ot2{background:var(--coral-lt);color:var(--coral)}
+.ot3{background:var(--gold-lt);color:var(--gold)}
 
 /* DIGI CHAT */
-.chat{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(43,43,43,0.1);border:1px solid var(--border)}
-.chat-head{background:var(--terracotta);padding:14px 16px;display:flex;align-items:center;gap:10px}
-.chat-av{width:34px;height:34px;background:rgba(255,255,255,0.2);border:2px solid rgba(255,255,255,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:.88rem;font-weight:700;color:#fff}
-.chat-name{font-family:var(--font-display);font-size:.88rem;font-weight:700;color:#fff}
-.chat-status{display:flex;align-items:center;gap:4px;font-size:.65rem;color:rgba(255,255,255,.75);font-weight:600}
-.chat-dot{width:5px;height:5px;border-radius:50%;background:#fff;animation:pulse 2s infinite}
+.chat{background:#fff;border-radius:var(--rl);overflow:hidden;box-shadow:var(--sh-lg);border:1px solid var(--border)}
+.chat-head{background:var(--green);padding:14px 16px;display:flex;align-items:center;gap:10px}
+.chat-av{width:34px;height:34px;background:rgba(28,26,20,.12);border:2px solid rgba(28,26,20,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:.88rem;font-weight:700;color:var(--ink)}
+.chat-name{font-family:var(--serif);font-size:.88rem;font-weight:700;color:var(--ink)}
+.chat-status{display:flex;align-items:center;gap:4px;font-size:.65rem;color:rgba(28,26,20,.6);font-weight:600}
+.chat-dot{width:5px;height:5px;border-radius:50%;background:var(--green-dark);animation:pulse 2s infinite}
 .chat-body{padding:16px;display:flex;flex-direction:column;gap:9px;min-height:220px}
 .msg{max-width:90%;padding:9px 13px;border-radius:11px;font-size:.8rem;line-height:1.6}
-.msg-d{background:var(--tint-sage);color:var(--ink-soft);border-bottom-left-radius:3px;border:1px solid var(--border);align-self:flex-start}
-.msg-u{background:var(--terracotta);color:#fff;font-weight:600;border-bottom-right-radius:3px;align-self:flex-end}
+.msg-d{background:var(--green-lt);color:var(--ink-soft);border-bottom-left-radius:3px;border:1px solid var(--green-b);align-self:flex-start}
+.msg-u{background:var(--coral);color:#fff;font-weight:600;border-bottom-right-radius:3px;align-self:flex-end}
 .chat-foot{padding:12px 16px;border-top:1px solid var(--border);display:flex;gap:8px}
-.chat-input{flex:1;background:var(--cream);border:1.5px solid var(--border);border-radius:100px;padding:8px 14px;font-family:var(--font-body);font-size:.78rem;color:var(--ink-muted)}
-.chat-send{background:var(--terracotta);color:#fff;border:none;width:32px;height:32px;border-radius:50%;cursor:pointer;font-weight:900;transition:background .15s}
-.chat-send:hover{background:var(--terracotta-dark);color:#fff}
+.chat-input{flex:1;background:var(--cream-2);border:1.5px solid var(--border);border-radius:100px;padding:8px 14px;font-family:var(--sans);font-size:.78rem;color:var(--ink-light)}
+.chat-send{background:var(--green);color:var(--ink);border:none;width:32px;height:32px;border-radius:50%;cursor:pointer;font-weight:900;transition:background .15s}
+.chat-send:hover{background:var(--green-dark);color:#fff}
 
 /* TESTIMONIALS */
 .testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.testi{background:#fff;border:1px solid var(--border);border-radius:12px;padding:24px}
-.stars{color:var(--terracotta);font-size:.85rem;margin-bottom:12px;letter-spacing:2px}
-.testi-txt{font-family:var(--font-display);font-size:.92rem;font-style:italic;color:var(--ink);line-height:1.65;margin-bottom:14px}
+.testi{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:24px}
+.stars{color:var(--coral);font-size:.85rem;margin-bottom:12px;letter-spacing:2px}
+.testi-txt{font-family:var(--serif);font-size:.92rem;font-style:italic;color:var(--ink);line-height:1.65;margin-bottom:14px}
 .testi-by{font-size:.7rem;font-weight:700;color:var(--ink-muted);text-transform:uppercase;letter-spacing:.05em}
-.stage-pill{font-size:.62rem;font-weight:700;color:var(--terracotta);background:var(--terracotta-lt);padding:2px 7px;border-radius:100px;margin-left:7px}
+.stage-pill{font-size:.62rem;font-weight:700;color:var(--green-dark);background:var(--green-lt);padding:2px 7px;border-radius:100px;margin-left:7px}
 
 /* SHARE MOMENT — post-testimonial */
-.share-moment{background:var(--cream);border-radius:16px;padding:28px 32px;margin-top:44px;text-align:center}
-.share-moment p{font-family:var(--font-display);font-size:1.05rem;font-weight:700;color:var(--ink);margin-bottom:16px}
+.share-moment{background:var(--cream-3);border-radius:var(--rl);padding:28px 32px;margin-top:44px;text-align:center}
+.share-moment p{font-family:var(--serif);font-size:1.05rem;font-weight:700;color:var(--ink);margin-bottom:16px}
 .share-btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
-.share-btn{background:#fff;border:1px solid var(--border);color:var(--ink-soft);font-family:var(--font-body);font-size:.78rem;font-weight:600;cursor:pointer;padding:8px 16px;border-radius:100px;transition:all .15s;display:inline-flex;align-items:center;gap:6px}
-.share-btn:hover{border-color:var(--terracotta);color:var(--terracotta);background:var(--terracotta-lt)}
+.share-btn{background:#fff;border:1px solid var(--border);color:var(--ink-soft);font-family:var(--sans);font-size:.78rem;font-weight:600;cursor:pointer;padding:8px 16px;border-radius:100px;transition:all .15s;display:inline-flex;align-items:center;gap:6px}
+.share-btn:hover{border-color:var(--green);color:var(--green-dark);background:var(--green-lt)}
 
 /* RESEARCH */
 .res-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin-bottom:22px}
-.rc{background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px}
-.rc h4{font-family:var(--font-display);font-size:.9rem;font-weight:700;color:var(--ink);margin-bottom:3px}
-.rc-uni{font-size:.66rem;font-weight:700;color:var(--terracotta);margin-bottom:8px}
+.rc{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:18px}
+.rc h4{font-family:var(--serif);font-size:.9rem;font-weight:700;color:var(--ink);margin-bottom:3px}
+.rc-uni{font-size:.66rem;font-weight:700;color:var(--green-dark);margin-bottom:8px}
 .rc p{font-size:.76rem;color:var(--ink-soft);line-height:1.65}
-.thesis{background:var(--tint-sage);border:1px solid var(--border);border-radius:12px;padding:26px 28px}
-.thesis h3{font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--terracotta);margin-bottom:14px}
+.thesis{background:var(--green-lt);border:1px solid var(--green-b);border-radius:var(--r);padding:26px 28px}
+.thesis h3{font-family:var(--serif);font-size:1rem;font-weight:700;color:var(--green-dark);margin-bottom:14px}
 .thesis-pts{display:grid;grid-template-columns:1fr 1fr;gap:11px}
 .tp{display:flex;gap:8px;font-size:.82rem;color:var(--ink-soft);line-height:1.6}
-.tp::before{content:'\2022';color:var(--terracotta);font-weight:700;flex-shrink:0}
+.tp::before{content:'\2022';color:var(--green-dark);font-weight:700;flex-shrink:0}
 
 /* ABOUT — Good Inside founder style */
 .about-wrap{display:grid;grid-template-columns:200px 1fr;gap:56px;align-items:center}
-.about-photo{width:120px;height:120px;border-radius:50%;background:var(--terracotta);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:2.4rem;font-weight:700;color:#fff;margin:0 auto;box-shadow:0 6px 28px rgba(200,100,60,.3)}
-.about-text h2{font-family:var(--font-display);font-size:clamp(1.6rem,2.3vw,2.2rem);font-weight:700;color:var(--ink);line-height:1.2;margin-bottom:15px}
-.about-text h2 em{font-style:italic;font-weight:300;color:var(--terracotta)}
+.about-photo{width:120px;height:120px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:2.4rem;font-weight:700;color:var(--ink);margin:0 auto;box-shadow:0 6px 28px rgba(143,191,159,.3)}
+.about-text h2{font-family:var(--serif);font-size:clamp(1.6rem,2.3vw,2.2rem);font-weight:700;color:var(--ink);line-height:1.2;margin-bottom:15px}
+.about-text h2 em{font-style:italic;font-weight:300;color:var(--coral)}
 .about-text p{font-size:.9rem;color:var(--ink-soft);line-height:1.82;margin-bottom:12px}
 
 /* POLICY STRIP */
-.policy-strip{background:var(--cream);padding:16px 32px;display:flex;align-items:center;justify-content:center;gap:0;flex-wrap:wrap}
+.policy-strip{background:var(--cream-3);padding:16px 32px;display:flex;align-items:center;justify-content:center;gap:0;flex-wrap:wrap}
 .pb{display:flex;align-items:center;gap:7px;padding:7px 18px;font-size:.72rem;font-weight:600;color:var(--ink-soft);border-right:1px solid var(--border)}
 .pb:last-child{border-right:none}
-.pb-dot{width:6px;height:6px;border-radius:50%;background:var(--terracotta);flex-shrink:0}
+.pb-dot{width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0}
 
 /* FAQ — Good Inside style */
 .faq-wrap{max-width:680px;margin:0 auto;display:flex;flex-direction:column;gap:3px}
-.faq-item{border:1px solid var(--border);border-radius:12px;overflow:hidden}
-.faq-q{background:#fff;padding:18px 22px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:14px;font-family:var(--font-display);font-size:.96rem;font-weight:700;color:var(--ink);transition:background .15s;border:none;width:100%;text-align:left}
+.faq-item{border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.faq-q{background:#fff;padding:18px 22px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:14px;font-family:var(--serif);font-size:.96rem;font-weight:700;color:var(--ink);transition:background .15s;border:none;width:100%;text-align:left}
 .faq-q:hover{background:var(--cream)}
 .faq-arrow{font-size:.76rem;color:var(--ink-muted);transition:transform .25s;flex-shrink:0}
 .faq-a{background:var(--cream);padding:0 22px;max-height:0;overflow:hidden;transition:all .3s;font-size:.84rem;color:var(--ink-soft);line-height:1.78}
 .faq-item.open .faq-a{max-height:320px;padding:14px 22px 18px}
-.faq-item.open .faq-arrow{transform:rotate(180deg);color:var(--terracotta)}
-.faq-item.open .faq-q{color:var(--terracotta)}
+.faq-item.open .faq-arrow{transform:rotate(180deg);color:var(--green-dark)}
+.faq-item.open .faq-q{color:var(--green-dark)}
 
 /* PRICING */
 .price-grid{display:grid;grid-template-columns:1fr 1.08fr 1fr;gap:12px}
-.price-card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:26px;transition:all .2s}
-.price-card:hover{box-shadow:0 2px 12px rgba(43,43,43,0.06)}
-.price-feat{background:var(--cream);border-color:var(--border);transform:scale(1.025)}
+.price-card{background:#fff;border:1px solid var(--border);border-radius:var(--rl);padding:26px;transition:all .2s}
+.price-card:hover{box-shadow:var(--sh)}
+.price-feat{background:var(--cream-3);border-color:var(--coral-b);transform:scale(1.025)}
 .price-tier{font-size:.61rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:5px}
-.price-name{font-family:var(--font-display);font-size:1.1rem;font-weight:700;color:var(--ink);margin-bottom:14px}
+.price-name{font-family:var(--serif);font-size:1.1rem;font-weight:700;color:var(--ink);margin-bottom:14px}
 .price-amt{display:flex;align-items:baseline;gap:2px;margin-bottom:4px}
 .price-sym{font-size:.9rem;font-weight:700;color:var(--ink)}
-.price-num{font-family:var(--font-display);font-size:2.5rem;font-weight:700;color:var(--ink);line-height:1}
+.price-num{font-family:var(--serif);font-size:2.5rem;font-weight:700;color:var(--ink);line-height:1}
 .price-per{font-size:.76rem;color:var(--ink-muted)}
-.price-save{font-size:.71rem;color:var(--terracotta);font-weight:700;margin-bottom:18px;min-height:16px}
+.price-save{font-size:.71rem;color:var(--green-dark);font-weight:700;margin-bottom:18px;min-height:16px}
 .price-div{height:1px;background:var(--border);margin:16px 0}
 .price-feats{list-style:none;display:flex;flex-direction:column;gap:8px;margin-bottom:22px}
 .price-feats li{display:flex;gap:8px;font-size:.8rem;color:var(--ink-soft);align-items:flex-start}
 .pfc{font-weight:900;font-size:.73rem;margin-top:2px;flex-shrink:0}
-.pfc-g{color:var(--terracotta)}.pfc-c{color:var(--terracotta)}
-.btn-price{width:100%;padding:11px;border-radius:100px;font-family:var(--font-body);font-weight:700;font-size:.82rem;cursor:pointer;transition:all .18s;border:none}
+.pfc-g{color:var(--green-dark)}.pfc-c{color:var(--coral)}
+.btn-price{width:100%;padding:11px;border-radius:100px;font-family:var(--sans);font-weight:700;font-size:.82rem;cursor:pointer;transition:all .18s;border:none}
 .bp-out{background:transparent;color:var(--ink);border:2px solid var(--border)}
-.bp-out:hover{border-color:var(--terracotta);color:var(--terracotta)}
-.bp-coral{background:var(--terracotta);color:#fff}
-.bp-coral:hover{background:var(--terracotta-dark)}
-.bp-green{background:var(--terracotta);color:#fff}
-.bp-green:hover{background:var(--terracotta-dark);color:#fff}
-.founder-bar{background:var(--terracotta-lt);border:1px solid var(--border);border-radius:12px;padding:18px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:14px;flex-wrap:wrap}
-.founder-bar h4{font-family:var(--font-display);font-size:.95rem;font-weight:700;color:var(--ink);margin-bottom:2px}
+.bp-out:hover{border-color:var(--green-dark);color:var(--green-dark)}
+.bp-coral{background:var(--coral);color:#fff}
+.bp-coral:hover{background:var(--coral-dark)}
+.bp-green{background:var(--green);color:var(--ink)}
+.bp-green:hover{background:var(--green-dark);color:#fff}
+.founder-bar{background:var(--coral-lt);border:1px solid var(--coral-b);border-radius:var(--r);padding:18px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:14px;flex-wrap:wrap}
+.founder-bar h4{font-family:var(--serif);font-size:.95rem;font-weight:700;color:var(--ink);margin-bottom:2px}
 .founder-bar p{font-size:.8rem;color:var(--ink-soft)}
-.btn-founder{background:var(--terracotta);color:#fff;border:none;font-family:var(--font-body);font-weight:700;font-size:.8rem;padding:10px 22px;border-radius:100px;cursor:pointer;transition:all .18s;white-space:nowrap}
-.btn-founder:hover{background:var(--terracotta-dark)}
+.btn-founder{background:var(--coral);color:#fff;border:none;font-family:var(--sans);font-weight:700;font-size:.8rem;padding:10px 22px;border-radius:100px;cursor:pointer;transition:all .18s;white-space:nowrap}
+.btn-founder:hover{background:var(--coral-dark)}
 
 /* SCHOOL */
 .school-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
 .school-card{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:22px}
-.school-card h3{font-family:var(--font-display);font-size:.95rem;font-weight:700;color:var(--ink);margin-bottom:7px}
+.school-card h3{font-family:var(--serif);font-size:.95rem;font-weight:700;color:var(--ink);margin-bottom:7px}
 .school-card p{font-size:.82rem;color:var(--ink-soft);line-height:1.7;margin-bottom:13px}
 .sl{list-style:none;display:flex;flex-direction:column;gap:5px}
 .sl li{font-size:.79rem;color:var(--ink-soft);display:flex;gap:7px}
-.sl li::before{content:'\2022';color:var(--terracotta);font-weight:700;flex-shrink:0}
-.school-bar{background:var(--cream);border:1px solid var(--border);border-radius:12px;padding:20px 24px;margin-top:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px}
-.school-bar h4{font-family:var(--font-display);font-size:.95rem;font-weight:700;color:var(--ink);margin-bottom:2px}
+.sl li::before{content:'\2022';color:var(--green-dark);font-weight:700;flex-shrink:0}
+.school-bar{background:var(--green);border-radius:var(--r);padding:20px 24px;margin-top:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px}
+.school-bar h4{font-family:var(--serif);font-size:.95rem;font-weight:700;color:var(--ink);margin-bottom:2px}
 .school-bar p{font-size:.8rem;color:var(--ink-soft)}
-.btn-school{background:var(--terracotta);color:#fff;border:none;font-family:var(--font-body);font-weight:700;font-size:.81rem;padding:10px 22px;border-radius:100px;cursor:pointer;transition:all .18s}
-.btn-school:hover{background:var(--terracotta-dark)}
+.btn-school{background:#fff;color:var(--green-dark);border:none;font-family:var(--sans);font-weight:700;font-size:.81rem;padding:10px 22px;border-radius:100px;cursor:pointer;transition:all .18s}
+.btn-school:hover{background:var(--green-lt)}
 
 /* CTA SECTION */
-.cta-sec{text-align:center;padding:80px 32px;background:var(--stage-2);position:relative;overflow:hidden}
-.cta-sec::before{content:'';position:absolute;inset:0;pointer-events:none}
+.cta-sec{text-align:center;padding:80px 32px;background:var(--green);position:relative;overflow:hidden}
+.cta-sec::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 80% at 80% 20%,rgba(201,107,71,.1) 0%,transparent 60%)}
 .cta-inner{max-width:520px;margin:0 auto;position:relative}
-.cta-sec h2{font-family:var(--font-display);font-size:clamp(1.9rem,3.2vw,3.2rem);font-weight:700;color:var(--ink);letter-spacing:-.03em;margin-bottom:14px;line-height:1.1}
-.cta-sec h2 em{font-style:italic;font-weight:300;color:var(--terracotta)}
+.cta-sec h2{font-family:var(--serif);font-size:clamp(1.9rem,3.2vw,3.2rem);font-weight:700;color:var(--ink);letter-spacing:-.03em;margin-bottom:14px;line-height:1.1}
+.cta-sec h2 em{font-style:italic;font-weight:300;color:var(--ink-soft)}
 .cta-sec p{font-size:.97rem;color:var(--ink-soft);line-height:1.78;margin-bottom:28px}
 .cta-form{display:flex;gap:7px;max-width:400px;margin:0 auto 11px}
-.cta-input{flex:1;background:rgba(255,255,255,.9);border:1.5px solid rgba(255,255,255,.5);color:var(--ink);font-family:var(--font-body);font-size:.88rem;padding:11px 18px;border-radius:100px;outline:none}
+.cta-input{flex:1;background:rgba(255,255,255,.55);border:1.5px solid rgba(28,26,20,.14);color:var(--ink);font-family:var(--sans);font-size:.88rem;padding:11px 18px;border-radius:100px;outline:none}
 .cta-input::placeholder{color:var(--ink-muted)}
-.cta-input:focus{background:#fff;border-color:var(--terracotta)}
-.cta-submit{background:var(--terracotta);color:#fff;border:none;font-family:var(--font-body);font-weight:700;font-size:.82rem;padding:11px 20px;border-radius:100px;cursor:pointer;white-space:nowrap;transition:all .18s}
-.cta-submit:hover{background:var(--terracotta-dark)}
+.cta-input:focus{background:#fff;border-color:var(--ink-soft)}
+.cta-submit{background:var(--coral);color:#fff;border:none;font-family:var(--sans);font-weight:700;font-size:.82rem;padding:11px 20px;border-radius:100px;cursor:pointer;white-space:nowrap;transition:all .18s}
+.cta-submit:hover{background:var(--coral-dark)}
 .cta-fine{font-size:.71rem;color:var(--ink-muted)}
-.guarantee{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.7);border:1px solid rgba(0,0,0,.08);border-radius:100px;padding:6px 14px;font-size:.7rem;font-weight:600;color:var(--ink);margin-top:14px}
-.guarantee::before{content:'\2713';color:var(--terracotta);font-weight:900}
+.guarantee{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.4);border:1px solid rgba(28,26,20,.1);border-radius:100px;padding:6px 14px;font-size:.7rem;font-weight:600;color:var(--ink-soft);margin-top:14px}
+.guarantee::before{content:'\2713';color:var(--green-dark);font-weight:900}
 
 /* FOOTER */
-footer{background:#F9F8F6;border-top:1px solid var(--border);padding:36px 32px}
+footer{background:var(--cream-2);border-top:1px solid var(--border);padding:36px 32px}
 .foot-inner{max-width:1040px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:18px}
-.foot-brand{font-family:var(--font-display);font-size:.86rem;font-weight:700;color:var(--ink-muted)}
+.foot-brand{font-family:var(--serif);font-size:.86rem;font-weight:700;color:var(--ink-muted)}
 .foot-links{display:flex;gap:18px;flex-wrap:wrap}
 .foot-links a{font-size:.73rem;color:var(--ink-muted);text-decoration:none;transition:color .15s}
 .foot-links a:hover{color:var(--ink)}
@@ -413,10 +413,10 @@ footer{background:#F9F8F6;border-top:1px solid var(--border);padding:36px 32px}
 <body>
 
 <!-- ANNOUNCEMENT BAR — Good Inside urgency strip -->
-<div id="announce-bar" style="background:var(--cream);border-bottom:1px solid var(--border);padding:10px 24px;text-align:center;font-family:var(--font-body);font-size:14px;color:var(--ink-soft);position:relative;z-index:200">
-  The UK under-16 social media ban is coming. Spring 2027. Your child's preparation is yours to build.
-  <a href="/starter-pack" style="color:var(--terracotta);font-weight:600;margin-left:8px;text-decoration:none">Start here →</a>
-  <button onclick="document.getElementById('announce-bar').remove()" aria-label="Dismiss" style="position:absolute;right:16px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--ink-muted);cursor:pointer;font-size:18px;line-height:1;padding:4px">×</button>
+<div id="announce-bar" style="background:var(--green-lt);border-bottom:1px solid var(--green-b);padding:10px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;position:fixed;top:0;left:0;right:0;z-index:400;flex-wrap:wrap">
+  <span style="font-family:var(--sans);font-size:.78rem;font-weight:600;color:var(--ink-soft)">The UK social media ban has been rushed through. The cliff edge at 16 has not moved. <strong style="color:var(--ink)">Here is how you prepare your child before it arrives.</strong></span>
+  <button onclick="window.open('https://mailchi.mp/thesocialbillboard/parents','_blank')" style="background:var(--coral);color:#fff;border:none;font-family:var(--sans);font-weight:700;font-size:.74rem;padding:7px 16px;border-radius:100px;cursor:pointer;white-space:nowrap;flex-shrink:0">Join the Waitlist</button>
+  <button onclick="document.getElementById('announce-bar').style.display='none';adjustForBar()" style="background:none;border:none;font-size:1rem;cursor:pointer;color:var(--ink-muted);flex-shrink:0;padding:0 4px">&#215;</button>
 </div>
 
 <!-- NAV -->
@@ -428,19 +428,11 @@ footer{background:#F9F8F6;border-top:1px solid var(--border);padding:36px 32px}
   <div class="nav-links">
     <button class="nav-btn" onclick="go('stages')">Find Your Stage</button>
     <button class="nav-btn" onclick="go('how')">How It Works</button>
-    <div class="nav-dropdown" style="position:relative;display:inline-block">
-      <button class="nav-btn" onclick="this.parentElement.classList.toggle('open')">Tools ▾</button>
-      <div class="nav-dropdown-menu" style="display:none;position:absolute;top:calc(100% + 8px);left:0;background:#fff;border:1px solid var(--border);border-radius:12px;box-shadow:0 8px 24px rgba(43,43,43,0.1);min-width:220px;z-index:300;padding:8px 0">
-        <a href="/digitalwellbeing" style="display:block;padding:12px 18px;font-family:var(--font-body);font-size:14px;color:var(--ink);text-decoration:none;border-radius:8px">Mental Health Checker</a>
-        <a href="https://landingpage.thesocialbillboard.com/the-social-billboard-waitlist-parents/" style="display:block;padding:12px 18px;font-family:var(--font-body);font-size:14px;color:var(--ink);text-decoration:none">Safe YouTube Playlists</a>
-        <a href="/digital-literacy" style="display:block;padding:12px 18px;font-family:var(--font-body);font-size:14px;color:var(--ink);text-decoration:none">Why Digital Literacy Works</a>
-      </div>
-    </div>
-    <button class="nav-btn" onclick="window.location.href='/schools'">For Schools</button>
+    <button class="nav-btn" onclick="window.location.href='/schools'">Schools</button>
     <button class="nav-btn" onclick="go('pricing')">Pricing</button>
   </div>
   <div class="nav-r">
-    <button class="btn" onclick="window.location.href='/starter-pack'" style="padding:10px 22px;font-size:14px">Get started →</button>
+    <button class="btn-nav" onclick="window.open('https://mailchi.mp/thesocialbillboard/parents','_blank')">Join the Waitlist</button>
   </div>
 </nav>
 
@@ -456,7 +448,7 @@ footer{background:#F9F8F6;border-top:1px solid var(--border);padding:36px 32px}
 <!-- HERO — Good Inside model: eyebrow + headline + outcome bullets + single CTA + social proof + press -->
 <section class="hero" aria-label="Hero">
   <!-- Eyebrow — hyper specific audience, exactly like Good Inside -->
-  <div style="font-family:var(--font-body);font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:18px" class="fu d1">For parents of children aged 4 to 16</div>
+  <div style="font-family:var(--sans);font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:18px" class="fu d1">For parents of children aged 4 to 16</div>
 
   <h1 class="h1 fu d2">Parenting the digital world<br>gets a lot <em>clearer</em> from here.</h1>
 
@@ -464,20 +456,20 @@ footer{background:#F9F8F6;border-top:1px solid var(--border);padding:36px 32px}
 
   <!-- Outcome bullets — exactly like Good Inside's three-tick list -->
   <ul class="fu d3" style="list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:32px;text-align:left;max-width:380px">
-    <li style="display:flex;align-items:flex-start;gap:10px;font-size:.9rem;color:var(--ink-soft)"><span style="color:var(--terracotta);font-weight:900;font-size:1rem;margin-top:1px">&#10003;</span>Know exactly what to say when the hard moment happens</li>
-    <li style="display:flex;align-items:flex-start;gap:10px;font-size:.9rem;color:var(--ink-soft)"><span style="color:var(--terracotta);font-weight:900;font-size:1rem;margin-top:1px">&#10003;</span>Handle every stage with calm and confidence</li>
-    <li style="display:flex;align-items:flex-start;gap:10px;font-size:.9rem;color:var(--ink-soft)"><span style="color:var(--terracotta);font-weight:900;font-size:1rem;margin-top:1px">&#10003;</span>Prepare your child for full digital access at 16, not the cliff edge</li>
+    <li style="display:flex;align-items:flex-start;gap:10px;font-size:.9rem;color:var(--ink-soft)"><span style="color:var(--green-dark);font-weight:900;font-size:1rem;margin-top:1px">&#10003;</span>Know exactly what to say when the hard moment happens</li>
+    <li style="display:flex;align-items:flex-start;gap:10px;font-size:.9rem;color:var(--ink-soft)"><span style="color:var(--green-dark);font-weight:900;font-size:1rem;margin-top:1px">&#10003;</span>Handle every stage with calm and confidence</li>
+    <li style="display:flex;align-items:flex-start;gap:10px;font-size:.9rem;color:var(--ink-soft)"><span style="color:var(--green-dark);font-weight:900;font-size:1rem;margin-top:1px">&#10003;</span>Prepare your child for full digital access at 16, not the cliff edge</li>
   </ul>
 
   <!-- Single dominant CTA — Good Inside warm gold button, full width on mobile -->
   <div class="fu d4" style="width:100%;max-width:400px;margin-bottom:12px">
-    <button onclick="window.location.href='/starter-pack'" style="width:100%;background:var(--terracotta);color:#fff;border:none;font-family:var(--font-body);font-weight:600;font-size:1rem;padding:17px 32px;border-radius:10px;cursor:pointer;transition:all .2s;box-shadow:0 4px 0 var(--terracotta-dark)">Get started →</button>
+    <button onclick="window.open('https://mailchi.mp/thesocialbillboard/parents','_blank')" style="width:100%;background:var(--gold);color:var(--ink);border:none;font-family:var(--sans);font-weight:700;font-size:1rem;padding:17px 32px;border-radius:12px;cursor:pointer;transition:all .2s;letter-spacing:.01em">Join the Waitlist &#8594;</button>
   </div>
   <p class="hero-note fu d4">Get started in under 3 minutes &nbsp;&#183;&nbsp; Free to join &nbsp;&#183;&nbsp; Founder rate for first 50</p>
 
   <!-- Stars + review count — Good Inside has this directly under CTA -->
   <div class="fu d4" style="display:flex;align-items:center;gap:9px;margin-bottom:28px;justify-content:center">
-    <span style="color:var(--terracotta);font-size:.95rem;letter-spacing:2px">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+    <span style="color:var(--coral);font-size:.95rem;letter-spacing:2px">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
     <span style="font-size:.78rem;color:var(--ink-muted);font-weight:600">131 parents already on their pathway</span>
   </div>
 
@@ -485,10 +477,10 @@ footer{background:#F9F8F6;border-top:1px solid var(--border);padding:36px 32px}
   <div class="fu d5" style="margin-bottom:44px">
     <p style="font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-muted);text-align:center;margin-bottom:12px">Aligned with</p>
     <div style="display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap">
-      <span style="background:var(--cream);border:1px solid var(--border);border-radius:100px;padding:5px 13px;font-size:.71rem;font-weight:700;color:var(--ink-muted)">Online Safety Act 2023</span>
-      <span style="background:var(--cream);border:1px solid var(--border);border-radius:100px;padding:5px 13px;font-size:.71rem;font-weight:700;color:var(--ink-muted)">DfE</span>
-      <span style="background:var(--cream);border:1px solid var(--border);border-radius:100px;padding:5px 13px;font-size:.71rem;font-weight:700;color:var(--ink-muted)">Statutory RSE</span>
-      <span style="background:var(--cream);border:1px solid var(--border);border-radius:100px;padding:5px 13px;font-size:.71rem;font-weight:700;color:var(--ink-muted)">Ofcom</span>
+      <span style="background:var(--cream-2);border:1px solid var(--border);border-radius:100px;padding:5px 13px;font-size:.71rem;font-weight:700;color:var(--ink-muted)">Online Safety Act 2023</span>
+      <span style="background:var(--cream-2);border:1px solid var(--border);border-radius:100px;padding:5px 13px;font-size:.71rem;font-weight:700;color:var(--ink-muted)">DfE</span>
+      <span style="background:var(--cream-2);border:1px solid var(--border);border-radius:100px;padding:5px 13px;font-size:.71rem;font-weight:700;color:var(--ink-muted)">Statutory RSE</span>
+      <span style="background:var(--cream-2);border:1px solid var(--border);border-radius:100px;padding:5px 13px;font-size:.71rem;font-weight:700;color:var(--ink-muted)">Ofcom</span>
     </div>
   </div>
 
@@ -515,14 +507,14 @@ footer{background:#F9F8F6;border-top:1px solid var(--border);padding:36px 32px}
 <!-- DIGI COACH — Good Inside "Meet your 24/7 parenting coach" second screen -->
 <section style="background:var(--cream-2);padding:60px 32px;text-align:center">
   <div style="max-width:560px;margin:0 auto">
-    <div style="font-family:var(--font-body);font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:14px">Your 24/7 digital parenting advisor</div>
-    <h2 style="font-family:var(--font-display);font-size:clamp(1.8rem,3vw,2.6rem);font-weight:700;color:var(--ink);line-height:1.1;letter-spacing:-.03em;margin-bottom:20px">Meet DiGi</h2>
+    <div style="font-family:var(--sans);font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green-dark);margin-bottom:14px">Your 24/7 digital parenting advisor</div>
+    <h2 style="font-family:var(--serif);font-size:clamp(1.8rem,3vw,2.6rem);font-weight:700;color:var(--ink);line-height:1.1;letter-spacing:-.03em;margin-bottom:20px">Meet DiGi</h2>
     <ul style="list-style:none;display:flex;flex-direction:column;gap:12px;margin-bottom:28px;text-align:left;max-width:380px;margin-left:auto;margin-right:auto">
-      <li style="display:flex;align-items:flex-start;gap:10px;font-size:.92rem;color:var(--ink-soft)"><span style="color:var(--terracotta);font-weight:900;flex-shrink:0;margin-top:2px">&#10003;</span>Understand what your child is experiencing online</li>
-      <li style="display:flex;align-items:flex-start;gap:10px;font-size:.92rem;color:var(--ink-soft)"><span style="color:var(--terracotta);font-weight:900;flex-shrink:0;margin-top:2px">&#10003;</span>Get the exact words for any hard conversation</li>
-      <li style="display:flex;align-items:flex-start;gap:10px;font-size:.92rem;color:var(--ink-soft)"><span style="color:var(--terracotta);font-weight:900;flex-shrink:0;margin-top:2px">&#10003;</span>Available at 11pm when everything kicks off</li>
+      <li style="display:flex;align-items:flex-start;gap:10px;font-size:.92rem;color:var(--ink-soft)"><span style="color:var(--green-dark);font-weight:900;flex-shrink:0;margin-top:2px">&#10003;</span>Understand what your child is experiencing online</li>
+      <li style="display:flex;align-items:flex-start;gap:10px;font-size:.92rem;color:var(--ink-soft)"><span style="color:var(--green-dark);font-weight:900;flex-shrink:0;margin-top:2px">&#10003;</span>Get the exact words for any hard conversation</li>
+      <li style="display:flex;align-items:flex-start;gap:10px;font-size:.92rem;color:var(--ink-soft)"><span style="color:var(--green-dark);font-weight:900;flex-shrink:0;margin-top:2px">&#10003;</span>Available at 11pm when everything kicks off</li>
     </ul>
-    <button onclick="window.location.href='/starter-pack'" style="background:var(--terracotta);color:#fff;border:none;font-family:var(--font-body);font-weight:700;font-size:.95rem;padding:15px 36px;border-radius:10px;cursor:pointer;transition:all .2s;box-shadow:0 4px 0 var(--terracotta-dark);margin-bottom:10px">Get started →</button>
+    <button onclick="window.open('https://mailchi.mp/thesocialbillboard/parents','_blank')" style="background:var(--gold);color:var(--ink);border:none;font-family:var(--sans);font-weight:700;font-size:.95rem;padding:15px 36px;border-radius:12px;cursor:pointer;transition:all .2s;margin-bottom:10px">Join the Waitlist &#8594;</button>
     <p style="font-size:.72rem;color:var(--ink-muted)">Like texting someone who has read all the research</p>
   </div>
 </section>
@@ -539,43 +531,48 @@ footer{background:#F9F8F6;border-top:1px solid var(--border);padding:36px 32px}
       <div class="sc sc1">
         <div class="sc-num">Stage 01</div>
         <div class="sc-name">Foundation</div>
-        <div class="sc-ages"><span class="sc-age">Ages 4 to 7</span></div>
+        <div class="sc-ages"><span class="sc-ks">EYFS &amp; KS1  &middot;  Yr R&ndash;2</span><span class="sc-age">Ages 4&ndash;7</span><span class="sc-us">(US: K&ndash;2)</span></div>
+        <div class="sc-device sd1">Shared screen</div>
         <div class="sc-tags"><span class="sc-tag">Co-viewing</span><span class="sc-tag">No solo device</span><span class="sc-tag">No feeds</span></div>
         <div class="sc-quote">"I can't get my four-year-old off the iPad. What am I doing wrong?"</div>
-        <button class="sc-btn" onclick="window.location.href='/starter-pack'">Start here →</button>
+        <button class="sc-btn" onclick="window.open('https://mailchi.mp/thesocialbillboard/parents','_blank')">Start here &#8594;</button>
       </div>
       <div class="sc sc2">
         <div class="sc-num">Stage 02</div>
         <div class="sc-name">First Steps</div>
-        <div class="sc-ages"><span class="sc-age">Ages 8 to 10</span></div>
+        <div class="sc-ages"><span class="sc-ks">KS2  &middot;  Yr 3&ndash;5</span><span class="sc-age">Ages 8&ndash;10</span><span class="sc-us">(US: Gr 3&ndash;5)</span></div>
+        <div class="sc-device sd2">Restricted phone</div>
         <div class="sc-tags"><span class="sc-tag">Family contacts</span><span class="sc-tag">Privacy basics</span><span class="sc-tag">Algorithms</span></div>
         <div class="sc-quote">"How do I explain why their friends have phones and they don't?"</div>
-        <button class="sc-btn" onclick="window.location.href='/starter-pack'">Start here →</button>
+        <button class="sc-btn" onclick="window.open('https://mailchi.mp/thesocialbillboard/parents','_blank')">Start here &#8594;</button>
       </div>
       <div class="sc sc3">
         <div class="sc-num">Stage 03</div>
         <div class="sc-crit">Critical window</div>
         <div class="sc-name">Explorer</div>
-        <div class="sc-ages"><span class="sc-age">Ages 11 to 13</span></div>
+        <div class="sc-ages"><span class="sc-ks">KS2/KS3  &middot;  Yr 6&ndash;8</span><span class="sc-age">Ages 11&ndash;13</span><span class="sc-us">(US: Gr 6&ndash;8)</span></div>
+        <div class="sc-device sd3">Guided smartphone</div>
         <div class="sc-tags"><span class="sc-tag">No social media</span><span class="sc-tag">Comparison</span><span class="sc-tag">Orben research</span></div>
         <div class="sc-quote">"Her mood drops every time she puts her phone down. I'm worried."</div>
-        <button class="sc-btn" onclick="window.location.href='/starter-pack'">Start here →</button>
+        <button class="sc-btn" onclick="window.open('https://mailchi.mp/thesocialbillboard/parents','_blank')">Start here &#8594;</button>
       </div>
       <div class="sc sc4">
         <div class="sc-num">Stage 04</div>
         <div class="sc-name">Navigator</div>
-        <div class="sc-ages"><span class="sc-age">Ages 13 to 15</span></div>
+        <div class="sc-ages"><span class="sc-ks">KS3/KS4  &middot;  Yr 9&ndash;10</span><span class="sc-age">Ages 13&ndash;15</span><span class="sc-us">(US: Gr 8&ndash;10)</span></div>
+        <div class="sc-device sd4">Monitored social</div>
         <div class="sc-tags"><span class="sc-tag">Reputation</span><span class="sc-tag">Filter bubbles</span><span class="sc-tag">Readiness</span></div>
         <div class="sc-quote">"He has accounts I don't know about. What do I do?"</div>
-        <button class="sc-btn" onclick="window.location.href='/starter-pack'">Start here →</button>
+        <button class="sc-btn" onclick="window.open('https://mailchi.mp/thesocialbillboard/parents','_blank')">Start here &#8594;</button>
       </div>
       <div class="sc sc5">
         <div class="sc-num">Stage 05</div>
         <div class="sc-name">Independent</div>
-        <div class="sc-ages"><span class="sc-age">Ages 16+</span></div>
+        <div class="sc-ages"><span class="sc-ks">KS4/KS5 &middot; Yr 11+</span><span class="sc-age">Ages 16+</span><span class="sc-us">(US: Gr 11+)</span></div>
+        <div class="sc-device sd5">Trust-based</div>
         <div class="sc-tags"><span class="sc-tag">Full access</span><span class="sc-tag">AI literacy</span><span class="sc-tag">Vibe coding</span></div>
         <div class="sc-quote">"She's 16 next month. I have no idea if she's ready."</div>
-        <button class="sc-btn" onclick="window.location.href='/starter-pack'">Start here →</button>
+        <button class="sc-btn" onclick="window.open('https://mailchi.mp/thesocialbillboard/parents','_blank')">Start here &#8594;</button>
       </div>
     </div>
     <p style="text-align:center;font-size:.78rem;color:var(--ink-muted);margin-top:22px">Multiple children? It's all one Guided Childhood account.</p>
@@ -613,7 +610,7 @@ footer{background:#F9F8F6;border-top:1px solid var(--border);padding:36px 32px}
         <p>I am a dad of three. During COVID I let my daughter watch YouTube for hours because I needed to keep our business running. I told myself it was fine. It was easier than saying no.</p>
         <p>Then I noticed something changing in her. Her mood. Her attention. The way she reached for the screen the moment she was bored. I spent two years reading everything I could find. Professor Candace Odgers at UC Irvine. Dr Amy Orben at Cambridge. What they told me changed everything.</p>
         <p>It is not the phone. It is the pathway. And nobody had built one.</p>
-        <button class="btn" style="margin-top:8px" onclick="window.location.href='/starter-pack'">Get started →</button>
+        <button class="btn" style="margin-top:8px" onclick="window.open('https://mailchi.mp/thesocialbillboard/parents','_blank')">Join the Waitlist</button>
       </div>
     </div>
   </div>
@@ -624,10 +621,10 @@ footer{background:#F9F8F6;border-top:1px solid var(--border);padding:36px 32px}
   <div class="inner">
     <div class="feat-wrap">
       <div>
-        <span class="eye">Everything is included</span>
+        <span class="eye eye-c">Everything is included</span>
         <h2 class="h2">One membership.<br>Your child's whole<br><em>digital childhood.</em></h2>
         <p class="lead" style="margin-bottom:28px">One approach. No contradiction. No overwhelm. When the hard moment happens at 11pm, you already know what to do.</p>
-        <button class="btn" onclick="window.location.href='/starter-pack'">Get started →</button>
+        <button class="btn" onclick="window.open('https://mailchi.mp/thesocialbillboard/parents','_blank')">Join the Waitlist</button>
       </div>
       <div class="feat-list">
         <div class="fi"><div class="fi-icon fi1"><div class="fi-line"></div></div><div class="fi-text"><h3>Personalised weekly actions</h3><p>Three things every Monday, tailored to your child's exact stage. Each completable in under five minutes. Not homework. A habit.</p></div></div>
@@ -649,12 +646,12 @@ footer{background:#F9F8F6;border-top:1px solid var(--border);padding:36px 32px}
         <h2 class="h2">Your advisor,<br><em>always in your corner</em></h2>
         <p class="lead" style="margin-bottom:22px">Available 24/7. Trained on the research of Odgers, Orben, and Przybylski. Calm and evidence-based. Like texting someone who has read everything.</p>
         <ul style="list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:26px">
-          <li style="font-size:.84rem;color:var(--ink-soft);display:flex;gap:9px;align-items:flex-start"><span style="color:var(--terracotta);font-weight:700;flex-shrink:0">&#8227;</span>When should my child get Instagram?</li>
-          <li style="font-size:.84rem;color:var(--ink-soft);display:flex;gap:9px;align-items:flex-start"><span style="color:var(--terracotta);font-weight:700;flex-shrink:0">&#8227;</span>I think something is wrong online.</li>
-          <li style="font-size:.84rem;color:var(--ink-soft);display:flex;gap:9px;align-items:flex-start"><span style="color:var(--terracotta);font-weight:700;flex-shrink:0">&#8227;</span>Give me the exact words for tonight.</li>
-          <li style="font-size:.84rem;color:var(--ink-soft);display:flex;gap:9px;align-items:flex-start"><span style="color:var(--terracotta);font-weight:700;flex-shrink:0">&#8227;</span>What does the UK social media guidance mean for us?</li>
+          <li style="font-size:.84rem;color:var(--ink-soft);display:flex;gap:9px;align-items:flex-start"><span style="color:var(--green-dark);font-weight:700;flex-shrink:0">&#8227;</span>When should my child get Instagram?</li>
+          <li style="font-size:.84rem;color:var(--ink-soft);display:flex;gap:9px;align-items:flex-start"><span style="color:var(--coral);font-weight:700;flex-shrink:0">&#8227;</span>I think something is wrong online.</li>
+          <li style="font-size:.84rem;color:var(--ink-soft);display:flex;gap:9px;align-items:flex-start"><span style="color:var(--green-dark);font-weight:700;flex-shrink:0">&#8227;</span>Give me the exact words for tonight.</li>
+          <li style="font-size:.84rem;color:var(--ink-soft);display:flex;gap:9px;align-items:flex-start"><span style="color:var(--coral);font-weight:700;flex-shrink:0">&#8227;</span>What does the UK social media guidance mean for us?</li>
         </ul>
-        <button class="btn" onclick="window.location.href='/starter-pack'">Get started →</button>
+        <button class="btn" onclick="window.open('https://mailchi.mp/thesocialbillboard/parents','_blank')">Join the Waitlist</button>
       </div>
       <div class="chat">
         <div class="chat-head">
@@ -705,7 +702,7 @@ footer{background:#F9F8F6;border-top:1px solid var(--border);padding:36px 32px}
       </div>
     </div>
     <p style="font-family:var(--serif);font-size:.95rem;font-style:italic;color:var(--ink-soft);margin-top:36px">The challenges change as your child grows. Your approach doesn't.</p>
-    <div style="margin-top:24px"><button class="btn" onclick="window.location.href='/starter-pack'">Get started →</button></div>
+    <div style="margin-top:24px"><button class="btn btn-c" onclick="window.open('https://mailchi.mp/thesocialbillboard/parents','_blank')">Join the Waitlist</button></div>
   </div>
 </section>
 
@@ -736,48 +733,8 @@ footer{background:#F9F8F6;border-top:1px solid var(--border);padding:36px 32px}
     <div style="text-align:center;margin-top:48px">
       <p style="font-family:var(--serif);font-size:clamp(1.2rem,1.9vw,1.7rem);font-weight:700;color:var(--ink);margin-bottom:10px">And in case you are wondering: no, it is not too late.</p>
       <p style="font-size:.9rem;color:var(--ink-soft);max-width:420px;margin:0 auto 24px;line-height:1.78">There are more school pickups, more car journeys, more evenings ahead of you than behind you. The pathway starts from wherever you are.</p>
-      <button class="btn" onclick="window.location.href='/starter-pack'">Get started →</button>
+      <button class="btn" onclick="window.open('https://mailchi.mp/thesocialbillboard/parents','_blank')">Join the Waitlist</button>
       <p style="font-size:.72rem;color:var(--ink-muted);margin-top:10px">14-day money-back guarantee on launch &nbsp;&#183;&nbsp; Cancel any time</p>
-    </div>
-  </div>
-</section>
-
-<!-- TESTER QUOTE -->
-<section style="padding:80px 24px;background:var(--cream)">
-  <div style="max-width:720px;margin:0 auto;text-align:center">
-    <blockquote style="font-family:var(--font-display);font-size:clamp(1.15rem,2.2vw,1.5rem);font-weight:600;color:var(--ink);line-height:1.55;margin:0 0 24px;font-style:italic">
-      "Two of my three were constantly fighting over the controllers and wanting the TV on the second they woke up. We had tried everything. A month in and the change has been remarkable. It deals with the everyday stuff, and it actually adapts to each of them rather than treating them the same. That is what won me over."
-    </blockquote>
-    <p style="font-family:var(--font-body);font-size:14px;color:var(--ink-muted);margin:0">Jane L. · Parent tester, mum of three</p>
-  </div>
-</section>
-
-<!-- TOOLS -->
-<section id="tools" style="padding:80px 24px;background:#fff">
-  <div style="max-width:1100px;margin:0 auto">
-    <p style="font-family:var(--font-body);font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-muted);text-align:center;margin-bottom:12px">Tools</p>
-    <h2 style="font-family:var(--font-display);font-size:clamp(1.8rem,3vw,2.4rem);text-align:center;color:var(--ink);margin-bottom:48px">Three things you can use right now.</h2>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px">
-
-      <div style="background:var(--terracotta-lt);border:1px solid var(--border);border-radius:16px;padding:32px;box-shadow:0 2px 12px rgba(43,43,43,0.06)">
-        <h3 style="font-family:var(--font-display);font-size:1.3rem;font-weight:600;color:var(--ink);margin:0 0 12px">Mental Health Checker</h3>
-        <p style="font-family:var(--font-body);font-size:15px;color:var(--ink-soft);line-height:1.6;margin:0 0 24px">Something changed and you cannot explain it? Find out what the pattern is.</p>
-        <a href="/digitalwellbeing" style="color:var(--terracotta);font-family:var(--font-body);font-weight:600;font-size:14px;text-decoration:none">Check now →</a>
-      </div>
-
-      <div style="background:var(--tint-blue);border:1px solid var(--border);border-radius:16px;padding:32px;box-shadow:0 2px 12px rgba(43,43,43,0.06)">
-        <p style="font-family:var(--font-body);font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-muted);margin:0 0 8px">Coming soon</p>
-        <h3 style="font-family:var(--font-display);font-size:1.3rem;font-weight:600;color:var(--ink);margin:0 0 12px">Safe YouTube Playlists</h3>
-        <p style="font-family:var(--font-body);font-size:15px;color:var(--ink-soft);line-height:1.6;margin:0 0 24px">Hand-picked, values-first, no algorithm deciding what your child watches next.</p>
-        <a href="https://landingpage.thesocialbillboard.com/the-social-billboard-waitlist-parents/" style="color:var(--terracotta);font-family:var(--font-body);font-weight:600;font-size:14px;text-decoration:none">Join the waitlist →</a>
-      </div>
-
-      <div style="background:var(--tint-sage);border:1px solid var(--border);border-radius:16px;padding:32px;box-shadow:0 2px 12px rgba(43,43,43,0.06)">
-        <h3 style="font-family:var(--font-display);font-size:1.3rem;font-weight:600;color:var(--ink);margin:0 0 12px">Why Digital Literacy Works</h3>
-        <p style="font-family:var(--font-body);font-size:15px;color:var(--ink-soft);line-height:1.6;margin:0 0 24px">Real families, real change. See what preparation looks like instead of restriction.</p>
-        <a href="/digital-literacy" style="color:var(--terracotta);font-family:var(--font-body);font-weight:600;font-size:14px;text-decoration:none">Get the free guide →</a>
-      </div>
-
     </div>
   </div>
 </section>
@@ -854,7 +811,7 @@ footer{background:#F9F8F6;border-top:1px solid var(--border);padding:36px 32px}
           <li><span class="pfc pfc-g">&#10003;</span>Warning signs checklist</li>
           <li><span class="pfc pfc-g">&#10003;</span>Age restrictions guide</li>
         </ul>
-        <button class="btn-price bp-out" onclick="window.location.href='/starter-pack'">Get Free Pack</button>
+        <button class="btn-price bp-out" onclick="window.open('https://mailchi.mp/thesocialbillboard/parents','_blank')">Get Free Pack</button>
       </div>
       <div class="price-card price-feat">
         <div class="price-tier">Most popular</div>
@@ -871,7 +828,7 @@ footer{background:#F9F8F6;border-top:1px solid var(--border);padding:36px 32px}
           <li><span class="pfc pfc-c">&#10003;</span>DiGi AI advisor, unlimited</li>
           <li><span class="pfc pfc-c">&#10003;</span>School lesson packs included</li>
         </ul>
-        <button class="btn-price bp-coral" onclick="window.location.href='/starter-pack'">Reserve Your Spot</button>
+        <button class="btn-price bp-coral" onclick="window.open('https://mailchi.mp/thesocialbillboard/parents','_blank')">Reserve Your Spot</button>
       </div>
       <div class="price-card">
         <div class="price-tier">Best value</div>
@@ -885,7 +842,7 @@ footer{background:#F9F8F6;border-top:1px solid var(--border);padding:36px 32px}
           <li><span class="pfc pfc-g">&#10003;</span>Priority DiGi access</li>
           <li><span class="pfc pfc-g">&#10003;</span>School pack downloads</li>
         </ul>
-        <button class="btn-price bp-green" onclick="window.location.href='/starter-pack'">Reserve Your Spot</button>
+        <button class="btn-price bp-green" onclick="window.open('https://mailchi.mp/thesocialbillboard/parents','_blank')">Reserve Your Spot</button>
       </div>
     </div>
     <div class="founder-bar">
@@ -1154,35 +1111,35 @@ footer{background:#F9F8F6;border-top:1px solid var(--border);padding:36px 32px}
     <button onclick="closeModalDirect()" style="position:absolute;top:14px;right:16px;background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--ink-muted)">&#215;</button>
 
     <div id="modal-parent" style="display:none">
-      <div style="display:inline-flex;align-items:center;gap:7px;background:var(--terracotta-lt);border:1px solid var(--border);border-radius:100px;padding:4px 12px;font-size:.67rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--terracotta);margin-bottom:16px"><span style="width:5px;height:5px;border-radius:50%;background:var(--terracotta);display:inline-block"></span>Launching Soon</div>
-      <h3 style="font-family:var(--font-display);font-size:1.6rem;font-weight:700;color:var(--ink);margin-bottom:9px;line-height:1.2">Join the Guided Childhood waitlist</h3>
+      <div style="display:inline-flex;align-items:center;gap:7px;background:var(--green-lt);border:1px solid var(--green-b);border-radius:100px;padding:4px 12px;font-size:.67rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--green-dark);margin-bottom:16px"><span style="width:5px;height:5px;border-radius:50%;background:var(--green);display:inline-block"></span>Launching Soon</div>
+      <h3 style="font-family:var(--serif);font-size:1.6rem;font-weight:700;color:var(--ink);margin-bottom:9px;line-height:1.2">Join the Guided Childhood waitlist</h3>
       <p style="font-size:.86rem;color:var(--ink-soft);line-height:1.72;margin-bottom:20px">Free starter pack arrives immediately. Founder rate (£7.99/month for life) offered to the first 50. You get 48-hour advance access before public launch.</p>
-      <input type="email" id="modal-email" placeholder="Your email address" style="width:100%;background:var(--cream);border:1.5px solid var(--border);border-radius:100px;padding:11px 16px;font-family:var(--font-body);font-size:.88rem;color:var(--ink);margin-bottom:9px;outline:none;display:block" onkeydown="if(event.key==='Enter')submitModal('parent')">
-      <button onclick="submitModal('parent')" style="width:100%;background:var(--terracotta);color:#fff;border:none;font-family:var(--font-body);font-weight:700;font-size:.9rem;padding:12px;border-radius:100px;cursor:pointer">Get Early Access</button>
+      <input type="email" id="modal-email" placeholder="Your email address" style="width:100%;background:var(--cream-2);border:1.5px solid var(--border);border-radius:100px;padding:11px 16px;font-family:var(--sans);font-size:.88rem;color:var(--ink);margin-bottom:9px;outline:none;display:block" onkeydown="if(event.key==='Enter')submitModal('parent')">
+      <button onclick="submitModal('parent')" style="width:100%;background:var(--green);color:var(--ink);border:none;font-family:var(--sans);font-weight:700;font-size:.9rem;padding:12px;border-radius:100px;cursor:pointer">Get Early Access</button>
       <p id="modal-parent-msg" style="font-size:.73rem;color:var(--ink-muted);text-align:center;margin-top:9px">Free starter pack sent immediately. No card required.</p>
     </div>
 
     <div id="modal-founder" style="display:none">
-      <div style="display:inline-flex;align-items:center;gap:7px;background:var(--stage-1);border:none;border-radius:100px;padding:4px 12px;font-size:.67rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);margin-bottom:16px"><span style="width:5px;height:5px;border-radius:50%;background:var(--ink);display:inline-block"></span>First 50 Only</div>
+      <div style="display:inline-flex;align-items:center;gap:7px;background:var(--coral-lt);border:1px solid var(--coral-b);border-radius:100px;padding:4px 12px;font-size:.67rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--coral);margin-bottom:16px"><span style="width:5px;height:5px;border-radius:50%;background:var(--coral);display:inline-block"></span>First 50 Only</div>
       <h3 style="font-family:var(--serif);font-size:1.6rem;font-weight:700;color:var(--ink);margin-bottom:9px;line-height:1.2">Claim your Founder Rate</h3>
       <p style="font-size:.86rem;color:var(--ink-soft);line-height:1.72;margin-bottom:20px"><strong>£7.99/month locked for life.</strong> 48-hour exclusive access before public launch. Gone when 50 members claim it.</p>
-      <input type="email" id="modal-founder-email" placeholder="Your email address" style="width:100%;background:var(--cream);border:1.5px solid var(--border);border-radius:100px;padding:11px 16px;font-family:var(--font-body);font-size:.88rem;color:var(--ink);margin-bottom:9px;outline:none;display:block" onkeydown="if(event.key==='Enter')submitModal('founder')">
-      <button onclick="submitModal('founder')" style="width:100%;background:var(--terracotta);color:#fff;border:none;font-family:var(--font-body);font-weight:700;font-size:.9rem;padding:12px;border-radius:100px;cursor:pointer">Claim Founder Rate</button>
+      <input type="email" id="modal-founder-email" placeholder="Your email address" style="width:100%;background:var(--cream-2);border:1.5px solid var(--border);border-radius:100px;padding:11px 16px;font-family:var(--sans);font-size:.88rem;color:var(--ink);margin-bottom:9px;outline:none;display:block" onkeydown="if(event.key==='Enter')submitModal('founder')">
+      <button onclick="submitModal('founder')" style="width:100%;background:var(--coral);color:#fff;border:none;font-family:var(--sans);font-weight:700;font-size:.9rem;padding:12px;border-radius:100px;cursor:pointer">Claim Founder Rate</button>
       <p id="modal-founder-msg" style="font-size:.73rem;color:var(--ink-muted);text-align:center;margin-top:9px">You will hear from us 48 hours before public launch.</p>
     </div>
 
     <div id="modal-school" style="display:none">
-      <div style="display:inline-flex;align-items:center;gap:7px;background:var(--terracotta-lt);border:1px solid var(--border);border-radius:100px;padding:4px 12px;font-size:.67rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--terracotta);margin-bottom:16px"><span style="width:5px;height:5px;border-radius:50%;background:var(--terracotta);display:inline-block"></span>For Schools</div>
-      <h3 style="font-family:var(--font-display);font-size:1.6rem;font-weight:700;color:var(--ink);margin-bottom:9px;line-height:1.2">Get your free assembly pack</h3>
+      <div style="display:inline-flex;align-items:center;gap:7px;background:var(--green-lt);border:1px solid var(--green-b);border-radius:100px;padding:4px 12px;font-size:.67rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--green-dark);margin-bottom:16px"><span style="width:5px;height:5px;border-radius:50%;background:var(--green);display:inline-block"></span>For Schools</div>
+      <h3 style="font-family:var(--serif);font-size:1.6rem;font-weight:700;color:var(--ink);margin-bottom:9px;line-height:1.2">Get your free assembly pack</h3>
       <p style="font-size:.86rem;color:var(--ink-soft);line-height:1.72;margin-bottom:20px">A free 20-minute digital safety assembly, fully planned, no prep. Sent to your school email with no obligation.</p>
-      <input type="email" id="modal-school-email" placeholder="Your school email" style="width:100%;background:var(--cream);border:1.5px solid var(--border);border-radius:100px;padding:11px 16px;font-family:var(--font-body);font-size:.88rem;color:var(--ink);margin-bottom:9px;outline:none;display:block" onkeydown="if(event.key==='Enter')submitModal('school')">
-      <button onclick="submitModal('school')" style="width:100%;background:var(--terracotta);color:#fff;border:none;font-family:var(--font-body);font-weight:700;font-size:.9rem;padding:12px;border-radius:100px;cursor:pointer">Send Me the Pack</button>
+      <input type="email" id="modal-school-email" placeholder="Your school email" style="width:100%;background:var(--cream-2);border:1.5px solid var(--border);border-radius:100px;padding:11px 16px;font-family:var(--sans);font-size:.88rem;color:var(--ink);margin-bottom:9px;outline:none;display:block" onkeydown="if(event.key==='Enter')submitModal('school')">
+      <button onclick="submitModal('school')" style="width:100%;background:var(--green);color:var(--ink);border:none;font-family:var(--sans);font-weight:700;font-size:.9rem;padding:12px;border-radius:100px;cursor:pointer">Send Me the Pack</button>
       <p id="modal-school-msg" style="font-size:.73rem;color:var(--ink-muted);text-align:center;margin-top:9px">No commitment. School licence only if you want one.</p>
     </div>
 
     <div id="modal-success" style="display:none;text-align:center;padding:20px 0">
-      <div style="width:52px;height:52px;background:var(--terracotta-lt);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:1.4rem;color:var(--terracotta)">&#10003;</div>
-      <h3 style="font-family:var(--font-display);font-size:1.5rem;font-weight:700;color:var(--ink);margin-bottom:9px">You are on the pathway.</h3>
+      <div style="width:52px;height:52px;background:var(--green-lt);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:1.4rem;color:var(--green-dark)">&#10003;</div>
+      <h3 style="font-family:var(--serif);font-size:1.5rem;font-weight:700;color:var(--ink);margin-bottom:9px">You are on the pathway.</h3>
       <p style="font-size:.86rem;color:var(--ink-soft);line-height:1.72;margin-bottom:20px" id="modal-success-msg">Check your inbox. Your free starter pack is on its way.</p>
       <!-- Share inside success modal — highest-intent moment -->
       <p style="font-size:.8rem;font-weight:700;color:var(--ink-muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:.06em">Know a parent who needs this?</p>
@@ -1243,7 +1200,7 @@ function submitMailchimp(inputId, type) {
   const msg = document.getElementById(msgId);
   msg.textContent = 'Signing you up...';
   sendToMailchimp(email, type, () => {
-    msg.style.color = 'var(--terracotta)';
+    msg.style.color = 'var(--green-dark)';
     msg.textContent = type === 'school'
       ? 'Your free assembly pack is on its way.'
       : 'You are on the pathway. Check your inbox for your free starter pack.';
@@ -1301,7 +1258,7 @@ function adjustForBar() {
   var bar = document.getElementById('announce-bar');
   var nav = document.querySelector('nav');
   var tabs = document.querySelector('.tab-bar');
-  var h = bar ? bar.offsetHeight : 0;
+  var h = (bar && bar.style.display !== 'none') ? bar.offsetHeight : 0;
   if (nav) nav.style.top = h + 'px';
   if (tabs) tabs.style.marginTop = (h + 64) + 'px';
 }
