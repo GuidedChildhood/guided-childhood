@@ -237,7 +237,8 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
   left: 0;
   right: 0;
   height: 64px;
-  background: var(--white);
+  background: rgba(255,255,255,.96);
+  backdrop-filter: blur(20px);
   border-top: 1px solid var(--border);
   display: flex;
   align-items: center;
@@ -251,18 +252,19 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
+  gap: 3px;
   padding: 8px 12px;
   cursor: pointer;
   text-decoration: none;
   color: var(--ink-muted);
   font-family: var(--font-body);
   font-size: 9px;
-  font-weight: 500;
-  letter-spacing: 0.06em;
+  font-weight: 600;
+  letter-spacing: .05em;
   text-transform: uppercase;
   transition: color 0.15s;
   flex: 1;
+  border-radius: 12px;
 }
 .tab-item.active, .tab-item:hover { color: var(--terracotta); }
 .tab-item svg { width: 22px; height: 22px; }

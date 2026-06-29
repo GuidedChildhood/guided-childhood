@@ -20,19 +20,33 @@ export default async function DashboardLayout({ children }: { children: React.Re
   const isPaid = profile?.subscription_status === 'active'
 
   return (
-    <div style={{ minHeight: '100dvh', background: 'var(--cream)', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ minHeight: '100dvh', background: '#FAFAF8', display: 'flex', flexDirection: 'column' }}>
       {/* Desktop top nav */}
       <header style={{
         display: 'none',
         borderBottom: '1px solid var(--border)',
-        background: 'var(--white)',
+        background: 'rgba(255,255,255,.96)',
+        backdropFilter: 'blur(20px)',
         position: 'sticky',
         top: 0,
         zIndex: 50,
       }} className="desktop-nav">
-        <div style={{ maxWidth: '1080px', margin: '0 auto', padding: '0 24px', display: 'flex', alignItems: 'center', height: '60px', gap: '32px' }}>
-          <Link href="/" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)', textDecoration: 'none', flexShrink: 0 }}>
-            Guided Childhood
+        <div style={{ maxWidth: '1080px', margin: '0 auto', padding: '0 24px', display: 'flex', alignItems: 'center', height: '64px', gap: '32px' }}>
+          <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none', flexShrink: 0 }}>
+            <div style={{
+              width: '34px', height: '34px', background: 'var(--terracotta)', borderRadius: '9px',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              boxShadow: '0 3px 0 var(--terracotta-dark)', flexShrink: 0,
+            }}>
+              <div style={{ display: 'flex', alignItems: 'flex-end', gap: '2.5px', height: '16px' }}>
+                {[5, 9, 14, 8].map((h, i) => (
+                  <div key={i} style={{ width: '3px', height: `${h}px`, background: '#fff', borderRadius: '1.5px' }} />
+                ))}
+              </div>
+            </div>
+            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1rem', color: 'var(--ink)', letterSpacing: '-.03em' }}>
+              Guided Childhood
+            </span>
           </Link>
           <nav style={{ display: 'flex', gap: '4px', flex: 1 }}>
             {NAV_TABS.map(tab => (
@@ -40,15 +54,14 @@ export default async function DashboardLayout({ children }: { children: React.Re
                 key={tab.href}
                 href={tab.href}
                 style={{
-                  padding: '8px 16px',
-                  borderRadius: '10px',
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '12px',
-                  fontWeight: 500,
-                  letterSpacing: '0.05em',
-                  color: 'var(--ink-muted)',
+                  padding: '7px 14px',
+                  borderRadius: '100px',
+                  fontFamily: 'var(--font-body)',
+                  fontSize: '.84rem',
+                  fontWeight: 600,
+                  color: 'var(--ink-soft)',
                   textDecoration: 'none',
-                  transition: 'background 0.15s',
+                  transition: 'color .15s, background .15s',
                 }}
               >
                 {tab.label}
@@ -57,11 +70,11 @@ export default async function DashboardLayout({ children }: { children: React.Re
           </nav>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             {!isPaid && (
-              <Link href="/dashboard/upgrade" className="btn btn-gold" style={{ padding: '10px 20px', fontSize: '12px' }}>
+              <Link href="/dashboard/upgrade" className="btn" style={{ padding: '10px 20px', fontSize: '13px' }}>
                 Upgrade
               </Link>
             )}
-            <Link href="/dashboard/settings" style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--ink-muted)', textDecoration: 'none' }}>
+            <Link href="/dashboard/settings" style={{ fontFamily: 'var(--font-mono)', fontSize: '.72rem', fontWeight: 600, color: 'var(--ink-muted)', textDecoration: 'none', letterSpacing: '.04em' }}>
               {profile?.full_name ?? 'Account'}
             </Link>
           </div>
