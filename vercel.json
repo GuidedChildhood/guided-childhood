@@ -23,5 +23,10 @@
   ],
   "rewrites": [
     { "source": "/starter-pack", "destination": "/starter-pack" }
+  ],
+  "crons": [
+    { "path": "/api/push/cron", "schedule": "30 7 * * *" },
+    { "path": "/api/push/cron", "schedule": "30 15 * * *" },
+    { "path": "/api/push/cron", "schedule": "0 21 * * *" }
   ]
 }

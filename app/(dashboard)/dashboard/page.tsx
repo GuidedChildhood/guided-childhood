@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { getStageFromAgeBand, type AgeBand, STAGES } from '@/lib/content/stages'
 import type { Moment } from '@/components/cards/MomentCard'
 import MomentCard from '@/components/cards/MomentCard'
+import PushPrompt from '@/components/push/PushPrompt'
 
 const STAGE_COLORS = {
   1: { bg: 'var(--stage-1)', text: 'var(--ink)', border: 'var(--stage-1)' },
@@ -83,6 +84,11 @@ export default async function DashboardPage() {
         <h1 style={{ fontSize: 'clamp(1.5rem, 4vw, 2rem)', marginBottom: '0' }}>
           Hello, {firstName}
         </h1>
+      </div>
+
+      {/* Push notification opt-in */}
+      <div style={{ marginBottom: '20px' }}>
+        <PushPrompt userId={user.id} stage={`Stage ${stage.id}`} />
       </div>
 
       {/* Daily practice — primary CTA on every login */}
