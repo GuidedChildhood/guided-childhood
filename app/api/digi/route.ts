@@ -4,8 +4,23 @@ import { SOCIAL_MEDIA_LAW, banContextForDigi, BANNED_PLATFORMS, banIsActive } fr
 import { NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 import { getStageFromAgeBand, STAGES, type AgeBand } from '@/lib/content/stages'
+import { readFileSync } from 'fs'
+import { join } from 'path'
 
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+
+function loadBrainFile(filename: string): string {
+  try {
+    return readFileSync(join(process.cwd(), 'digi', filename), 'utf-8')
+  } catch {
+    return ''
+  }
+}
+
+// Load brain files once at module init (cached across requests)
+const BRAIN_SCIENTISTS = loadBrainFile('02-scientists.md')
+const BRAIN_VOICE = loadBrainFile('03-voice.md')
+const BRAIN_SCHOOL = loadBrainFile('05-school-thread.md')
 
 async function callDigi(params: Anthropic.MessageCreateParamsNonStreaming): Promise<Anthropic.Message> {
   const modelsToTry = [DIGI_MODEL, ...DIGI_MODEL_FALLBACKS.filter(m => m !== DIGI_MODEL)]
@@ -295,5 +310,6 @@ WHAT YOU NEVER DO:
 - Never recommend allow/deny.
 - Never store, share, or reference any data beyond what is in this conversation and the context above.
 
-Remember: you are talking to a parent who is doing their best. Every response should leave them feeling more capable, more specific, and one step closer to a better conversation with their child.`
+Remember: you are talking to a parent who is doing their best. Every response should leave them feeling more capable, more specific, and one step closer to a better conversation with their child.
+${BRAIN_SCIENTISTS ? `\n---\n\nRESEARCH BASE:\n${BRAIN_SCIENTISTS}` : ''}${BRAIN_VOICE ? `\n---\n\nVOICE AND LANGUAGE RULES:\n${BRAIN_VOICE}` : ''}${BRAIN_SCHOOL ? `\n---\n\nSCHOOL CURRICULUM ALIGNMENT:\n${BRAIN_SCHOOL}` : ''}`
 }
