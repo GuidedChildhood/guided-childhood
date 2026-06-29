@@ -16,11 +16,11 @@ import {
 type Step = 'q1' | 'q2' | 'q3' | 'result'
 
 const STAGE_COLORS: Record<number, { bg: string; text: string; border: string }> = {
-  1: { bg: 'var(--green-lt)', text: 'var(--green-dark)', border: 'var(--green)' },
-  2: { bg: 'var(--lav)', text: 'var(--lav-deep)', border: '#b8c8f0' },
-  3: { bg: 'var(--coral-lt)', text: 'var(--coral)', border: 'var(--coral)' },
-  4: { bg: 'var(--gold-lt)', text: 'var(--gold-dark)', border: 'var(--gold)' },
-  5: { bg: 'var(--warm)', text: 'var(--ink-soft)', border: 'var(--border)' },
+  1: { bg: 'var(--stage-1)', text: 'var(--ink)', border: 'var(--stage-1)' },
+  2: { bg: 'var(--stage-2)', text: 'var(--ink)', border: 'var(--stage-2)' },
+  3: { bg: 'var(--stage-3)', text: 'var(--ink)', border: 'var(--stage-3)' },
+  4: { bg: 'var(--stage-4)', text: 'var(--ink)', border: 'var(--stage-4)' },
+  5: { bg: 'var(--stage-5)', text: 'var(--ink)', border: 'var(--stage-5)' },
 }
 
 export default function StarterPackPage() {
@@ -63,7 +63,7 @@ export default function StarterPackPage() {
   return (
     <div style={{ minHeight: '100dvh', background: 'var(--cream)', padding: '0 0 80px' }}>
       {/* Top bar */}
-      <div style={{ padding: '20px 24px', borderBottom: '1px solid var(--border)', background: 'var(--warm)', position: 'sticky', top: 0, zIndex: 10 }}>
+      <div style={{ padding: '20px 24px', borderBottom: '1px solid var(--border)', background: 'var(--cream)', position: 'sticky', top: 0, zIndex: 10 }}>
         <div style={{ maxWidth: '600px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Link href="/" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)', textDecoration: 'none' }}>
             Guided Childhood
@@ -98,13 +98,13 @@ export default function StarterPackPage() {
                     alignItems: 'center',
                     justifyContent: 'space-between',
                     padding: '18px 22px',
-                    background: ageBand === opt.value ? 'var(--gold-lt)' : 'var(--warm)',
-                    border: `2px solid ${ageBand === opt.value ? 'var(--gold)' : 'var(--border)'}`,
+                    background: ageBand === opt.value ? 'var(--stage-5)' : 'var(--cream)',
+                    border: `2px solid ${ageBand === opt.value ? 'var(--stage-5)' : 'var(--border)'}`,
                     borderRadius: '14px',
                     cursor: 'pointer',
                     textAlign: 'left',
                     transition: 'all 0.15s',
-                    boxShadow: ageBand === opt.value ? '0 3px 0 var(--gold-hover)' : 'none',
+                    boxShadow: ageBand === opt.value ? '0 3px 0 var(--terracotta-dark)' : 'none',
                   }}
                 >
                   <div>
@@ -142,13 +142,13 @@ export default function StarterPackPage() {
                     flexDirection: 'column',
                     alignItems: 'flex-start',
                     padding: '18px 16px',
-                    background: challenge === opt.value ? 'var(--gold-lt)' : 'var(--warm)',
-                    border: `2px solid ${challenge === opt.value ? 'var(--gold)' : 'var(--border)'}`,
+                    background: challenge === opt.value ? 'var(--stage-5)' : 'var(--cream)',
+                    border: `2px solid ${challenge === opt.value ? 'var(--stage-5)' : 'var(--border)'}`,
                     borderRadius: '14px',
                     cursor: 'pointer',
                     textAlign: 'left',
                     transition: 'all 0.15s',
-                    boxShadow: challenge === opt.value ? '0 3px 0 var(--gold-hover)' : 'none',
+                    boxShadow: challenge === opt.value ? '0 3px 0 var(--terracotta-dark)' : 'none',
                   }}
                 >
                   <span style={{ fontSize: '24px', marginBottom: '10px' }}>{opt.icon}</span>
@@ -184,13 +184,13 @@ export default function StarterPackPage() {
                     alignItems: 'center',
                     justifyContent: 'space-between',
                     padding: '18px 22px',
-                    background: feeling === opt.value ? 'var(--gold-lt)' : 'var(--warm)',
-                    border: `2px solid ${feeling === opt.value ? 'var(--gold)' : 'var(--border)'}`,
+                    background: feeling === opt.value ? 'var(--stage-5)' : 'var(--cream)',
+                    border: `2px solid ${feeling === opt.value ? 'var(--stage-5)' : 'var(--border)'}`,
                     borderRadius: '14px',
                     cursor: 'pointer',
                     textAlign: 'left',
                     transition: 'all 0.15s',
-                    boxShadow: feeling === opt.value ? '0 3px 0 var(--gold-hover)' : 'none',
+                    boxShadow: feeling === opt.value ? '0 3px 0 var(--terracotta-dark)' : 'none',
                   }}
                 >
                   <div>
@@ -241,7 +241,7 @@ function ResultScreen({
 
   return (
     <div>
-      <p className="eyebrow" style={{ marginBottom: '16px', color: 'var(--green-dark)' }}>Your pathway</p>
+      <p className="eyebrow" style={{ marginBottom: '16px', color: 'var(--terracotta)' }}>Your pathway</p>
       <h1 style={{ fontSize: 'clamp(1.6rem, 4vw, 2.2rem)', marginBottom: '8px' }}>
         Here is where your family is.
       </h1>
@@ -279,7 +279,7 @@ function ResultScreen({
               fontWeight: 600,
               letterSpacing: '0.1em',
               textTransform: 'uppercase',
-              background: 'var(--coral)',
+              background: 'var(--terracotta)',
               color: '#fff',
               padding: '3px 8px',
               borderRadius: '100px',
@@ -302,13 +302,13 @@ function ResultScreen({
 
       {/* Action for tonight */}
       <div style={{
-        background: 'var(--gold-lt)',
-        border: '2px solid var(--gold)',
+        background: 'var(--stage-5)',
+        border: '2px solid var(--stage-5)',
         borderRadius: '14px',
         padding: '20px 22px',
         marginBottom: '20px',
       }}>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--gold-dark)', marginBottom: '10px' }}>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '10px' }}>
           One thing for tonight
         </div>
         <p style={{ fontSize: '15px', color: 'var(--ink)', lineHeight: 1.6 }}>
@@ -318,7 +318,7 @@ function ResultScreen({
 
       {/* Script block */}
       <div style={{
-        background: 'var(--warm)',
+        background: 'var(--cream)',
         border: '1px solid var(--border)',
         borderRadius: '14px',
         padding: '20px 22px',
@@ -329,7 +329,7 @@ function ResultScreen({
         </div>
 
         <div style={{ marginBottom: '14px' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--green-dark)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--terracotta)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
             Say this
           </div>
           <p style={{ fontSize: '15px', color: 'var(--ink)', lineHeight: 1.6, fontStyle: 'italic' }}>
@@ -338,7 +338,7 @@ function ResultScreen({
         </div>
 
         <div style={{ marginBottom: '14px' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--coral)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--terracotta)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
             Not this
           </div>
           <p style={{ fontSize: '14px', color: 'var(--ink-muted)', lineHeight: 1.6 }}>
@@ -346,8 +346,8 @@ function ResultScreen({
           </p>
         </div>
 
-        <div style={{ padding: '12px 14px', background: 'var(--green-lt)', borderRadius: '10px' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--green-dark)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
+        <div style={{ padding: '12px 14px', background: 'var(--stage-2)', borderRadius: '10px' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--terracotta)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
             Why it works
           </div>
           <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.6 }}>
@@ -358,7 +358,7 @@ function ResultScreen({
 
       {/* Warning signs */}
       <div style={{
-        background: 'var(--warm)',
+        background: 'var(--cream)',
         border: '1px solid var(--border)',
         borderRadius: '14px',
         padding: '20px 22px',
@@ -370,7 +370,7 @@ function ResultScreen({
         <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '10px' }}>
           {stage.warningSigns.map((sign, i) => (
             <li key={i} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
-              <span style={{ color: 'var(--coral)', fontSize: '14px', marginTop: '2px', flexShrink: 0 }}>•</span>
+              <span style={{ color: 'var(--terracotta)', fontSize: '14px', marginTop: '2px', flexShrink: 0 }}>•</span>
               <span style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.5 }}>{sign}</span>
             </li>
           ))}
@@ -378,7 +378,7 @@ function ResultScreen({
       </div>
 
       {/* Parent quote */}
-      <div style={{ padding: '20px 22px', borderLeft: '3px solid var(--green)', marginBottom: '32px' }}>
+      <div style={{ padding: '20px 22px', borderLeft: '3px solid var(--terracotta)', marginBottom: '32px' }}>
         <p style={{ fontSize: '15px', color: 'var(--ink-soft)', fontStyle: 'italic', lineHeight: 1.7 }}>
           {stage.parentQuote}
         </p>
@@ -427,7 +427,7 @@ function ResultScreen({
             'Stage 1 curriculum access',
           ].map((item, i) => (
             <div key={i} style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-              <span style={{ color: 'var(--green-dark)', fontSize: '14px' }}>✓</span>
+              <span style={{ color: 'var(--terracotta)', fontSize: '14px' }}>✓</span>
               <span style={{ fontSize: '14px', color: 'var(--ink-soft)' }}>{item}</span>
             </div>
           ))}

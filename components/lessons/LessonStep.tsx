@@ -8,17 +8,17 @@ const CHARACTER_EMOJI: Record<LessonCharacter, string> = {
 }
 
 const CHARACTER_COLOR: Record<LessonCharacter, string> = {
-  teo: 'var(--coral)',
-  olga: 'var(--gold-dark)',
-  alam: 'var(--green-dark)',
-  'digi-junior': 'var(--green-dark)',
+  teo: 'var(--terracotta)',
+  olga: 'var(--terracotta-dark)',
+  alam: 'var(--terracotta)',
+  'digi-junior': 'var(--terracotta)',
 }
 
 const CHARACTER_COLOR_LIGHT: Record<LessonCharacter, string> = {
-  teo: 'var(--coral-lt)',
-  olga: 'var(--gold-lt)',
-  alam: 'var(--green-lt)',
-  'digi-junior': 'var(--green-lt)',
+  teo: 'var(--stage-1)',
+  olga: 'var(--stage-5)',
+  alam: 'var(--stage-2)',
+  'digi-junior': 'var(--stage-3)',
 }
 
 const CHARACTER_NAME: Record<LessonCharacter, string> = {
@@ -101,7 +101,7 @@ export default function LessonStep({
 
         {/* Fun fact */}
         {funFact && (
-          <div style={{ borderTop: '1px solid var(--border)', padding: '16px 28px', background: 'var(--warm)', display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
+          <div style={{ borderTop: '1px solid var(--border)', padding: '16px 28px', background: 'var(--cream)', display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
             <span style={{ fontSize: '1.2rem', flexShrink: 0 }}>🧠</span>
             <p style={{ fontSize: '.85rem', lineHeight: 1.6, color: 'var(--ink-soft)', margin: 0 }}>
               <strong style={{ color: 'var(--ink)' }}>Brain fact: </strong>{funFact}

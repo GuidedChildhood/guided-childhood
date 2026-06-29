@@ -7,11 +7,11 @@ export const metadata = {
 }
 
 const STAGE_PALETTE = [
-  { bg: '#EEF7F2', border: '#C5E3D3', deep: '#2E7D5A', light: '#D3ECD9', tag: '#2E7D5A' },
-  { bg: '#E7ECF8', border: '#B8C8F0', deep: '#3D5BA9', light: '#C5D3F0', tag: '#3D5BA9' },
-  { bg: '#FEF3E8', border: 'rgba(212,96,10,.3)', deep: '#D4600A', light: '#FAD5B0', tag: '#D4600A' },
-  { bg: '#FEFAE8', border: 'rgba(242,201,76,.45)', deep: '#C9962A', light: '#F5E098', tag: '#C9962A' },
-  { bg: '#FDFBF8', border: '#E4DFD7', deep: '#4A4A4A', light: '#E8E3DC', tag: '#6E6A62' },
+  { bg: 'var(--stage-1)', border: 'var(--stage-1)', deep: 'var(--terracotta)', light: 'var(--terracotta-lt)', tag: 'var(--terracotta)' },
+  { bg: 'var(--stage-2)', border: 'var(--stage-2)', deep: 'var(--terracotta)', light: 'var(--terracotta-lt)', tag: 'var(--terracotta)' },
+  { bg: 'var(--stage-3)', border: 'var(--stage-3)', deep: 'var(--terracotta)', light: 'var(--terracotta-lt)', tag: 'var(--terracotta)' },
+  { bg: 'var(--stage-4)', border: 'var(--stage-4)', deep: 'var(--terracotta)', light: 'var(--terracotta-lt)', tag: 'var(--terracotta)' },
+  { bg: 'var(--stage-5)', border: 'var(--stage-5)', deep: 'var(--terracotta)', light: 'var(--terracotta-lt)', tag: 'var(--terracotta)' },
 ] as const
 
 const UNITS: Record<number, { title: string; preview: string; locked: boolean }[]> = {
@@ -71,7 +71,7 @@ export default function PathwayPage() {
       }}>
         <div style={{ maxWidth: '800px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '60px' }}>
           <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
-            <div style={{ width: '28px', height: '28px', background: 'var(--green-dark)', borderRadius: '7px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 3px 0 rgba(0,0,0,.18)' }}>
+            <div style={{ width: '28px', height: '28px', background: 'var(--terracotta)', borderRadius: '7px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 3px 0 rgba(0,0,0,.18)' }}>
               <div style={{ display: 'flex', alignItems: 'flex-end', gap: '2px', height: '13px' }}>
                 {[3, 7, 11, 6].map((h, i) => (
                   <div key={i} style={{ width: '2.5px', height: `${h}px`, background: '#fff', borderRadius: '1.5px' }} />
@@ -88,10 +88,10 @@ export default function PathwayPage() {
 
       {/* ── Hero ─────────────────────────────────────── */}
       <section style={{ padding: 'clamp(48px, 7vw, 80px) 24px 40px', maxWidth: '800px', margin: '0 auto' }}>
-        <p className="eyebrow" style={{ color: 'var(--green-dark)', marginBottom: '14px' }}>The complete programme</p>
+        <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '14px' }}>The complete programme</p>
         <h1 style={{ marginBottom: '20px', letterSpacing: '-.04em', lineHeight: 1.05 }}>
           Ages 4 to 16.<br />
-          <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--green-dark)' }}>Always a next step.</em>
+          <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--terracotta)' }}>Always a next step.</em>
         </h1>
         <p style={{ fontSize: '1.05rem', color: 'var(--ink-soft)', lineHeight: 1.85, maxWidth: '580px', marginBottom: '28px' }}>
           Five stages. Twenty units. Ten minutes each. Every conversation your child needs, at exactly the right moment. From first screens at four to genuine independence at sixteen.
@@ -171,7 +171,7 @@ export default function PathwayPage() {
                           Stage {stage.id} · {stage.ages}
                         </span>
                         {stage.isCritical && (
-                          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '.56rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: '#fff', background: 'var(--coral)', padding: '4px 10px', borderRadius: '8px' }}>
+                          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '.56rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: '#fff', background: 'var(--terracotta)', padding: '4px 10px', borderRadius: '8px' }}>
                             Critical window
                           </span>
                         )}
@@ -319,18 +319,18 @@ export default function PathwayPage() {
           padding: '40px 24px',
           marginBottom: '8px',
         }}>
-          <div style={{ width: '2px', height: '40px', background: 'linear-gradient(var(--green-dark), transparent)', margin: '0 auto 20px' }} />
+          <div style={{ width: '2px', height: '40px', background: 'linear-gradient(var(--terracotta), transparent)', margin: '0 auto 20px' }} />
           <div style={{
             display: 'inline-flex',
             alignItems: 'center',
             gap: '10px',
-            background: 'var(--green-lt)',
-            border: '1.5px solid #C5E3D3',
+            background: 'var(--stage-2)',
+            border: '1.5px solid var(--stage-2)',
             borderRadius: '100px',
             padding: '12px 24px',
           }}>
-            <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: 'var(--green-dark)', display: 'inline-block', flexShrink: 0 }} />
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '.7rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--green-dark)' }}>
+            <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: 'var(--terracotta)', display: 'inline-block', flexShrink: 0 }} />
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '.7rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>
               They reach 16 ready
             </span>
           </div>

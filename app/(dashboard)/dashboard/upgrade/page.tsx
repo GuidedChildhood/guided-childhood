@@ -38,7 +38,7 @@ export default async function UpgradePage() {
   return (
     <div style={{ maxWidth: '640px', margin: '0 auto', padding: '32px 20px' }}>
       <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-        <p className="eyebrow" style={{ marginBottom: '8px', color: 'var(--green-dark)' }}>Guided Childhood</p>
+        <p className="eyebrow" style={{ marginBottom: '8px', color: 'var(--terracotta)' }}>Guided Childhood</p>
         <h1 style={{ fontSize: 'clamp(1.8rem, 5vw, 2.5rem)', marginBottom: '12px' }}>
           Unlock the full pathway
         </h1>
@@ -48,8 +48,8 @@ export default async function UpgradePage() {
       </div>
 
       {/* Guarantee */}
-      <div style={{ background: 'var(--green-lt)', border: '1px solid var(--green)', borderRadius: '14px', padding: '14px 18px', marginBottom: '28px', textAlign: 'center' }}>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--green-dark)', letterSpacing: '0.08em' }}>
+      <div style={{ background: 'var(--stage-2)', border: '1px solid var(--stage-2)', borderRadius: '14px', padding: '14px 18px', marginBottom: '28px', textAlign: 'center' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--terracotta)', letterSpacing: '0.08em' }}>
           30-DAY MONEY-BACK GUARANTEE · NO QUESTIONS ASKED
         </span>
       </div>
@@ -117,7 +117,7 @@ export default async function UpgradePage() {
         )}
 
         {/* Standard monthly */}
-        <div style={{ background: 'var(--warm)', border: '2px solid var(--border)', borderRadius: '20px', padding: '24px' }}>
+        <div style={{ background: 'var(--cream)', border: '2px solid var(--border)', borderRadius: '20px', padding: '24px' }}>
           <p className="eyebrow" style={{ marginBottom: '10px' }}>Standard</p>
           <div style={{ marginBottom: '16px' }}>
             <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '2rem', color: 'var(--ink)' }}>£12.99</span>
@@ -133,7 +133,7 @@ export default async function UpgradePage() {
               'Cancel any time',
             ].map((item, i) => (
               <li key={i} style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                <span style={{ color: 'var(--green-dark)', fontSize: '14px' }}>✓</span>
+                <span style={{ color: 'var(--terracotta)', fontSize: '14px' }}>✓</span>
                 <span style={{ fontSize: '14px', color: 'var(--ink-soft)' }}>{item}</span>
               </li>
             ))}
@@ -147,13 +147,13 @@ export default async function UpgradePage() {
         </div>
 
         {/* Annual */}
-        <div style={{ background: 'var(--warm)', border: '2px solid var(--border)', borderRadius: '20px', padding: '24px', position: 'relative' }}>
+        <div style={{ background: 'var(--cream)', border: '2px solid var(--border)', borderRadius: '20px', padding: '24px', position: 'relative' }}>
           <div style={{
             position: 'absolute',
             top: '-12px',
             left: '50%',
             transform: 'translateX(-50%)',
-            background: 'var(--green-dark)',
+            background: 'var(--terracotta)',
             color: '#fff',
             fontFamily: 'var(--font-mono)',
             fontSize: '10px',
@@ -170,14 +170,14 @@ export default async function UpgradePage() {
           <div style={{ marginBottom: '16px' }}>
             <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '2rem', color: 'var(--ink)' }}>£99</span>
             <span style={{ color: 'var(--ink-muted)', fontSize: '14px' }}> / year</span>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--green-dark)', marginTop: '4px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--terracotta)', marginTop: '4px' }}>
               Equivalent to £8.25 / month
             </div>
           </div>
           <ul style={{ margin: '0 0 22px', padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {['Everything in Standard', 'One payment, full year', 'Best value'].map((item, i) => (
               <li key={i} style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                <span style={{ color: 'var(--green-dark)', fontSize: '14px' }}>✓</span>
+                <span style={{ color: 'var(--terracotta)', fontSize: '14px' }}>✓</span>
                 <span style={{ fontSize: '14px', color: 'var(--ink-soft)' }}>{item}</span>
               </li>
             ))}
@@ -213,7 +213,7 @@ export default async function UpgradePage() {
               a: 'No. The algorithm conversation is just as important after the phone as before it. Stage 3 and 4 parents are often the ones who see the fastest change.',
             },
           ].map((faq, i) => (
-            <div key={i} style={{ background: 'var(--warm)', border: '1px solid var(--border)', borderRadius: '14px', padding: '18px 20px' }}>
+            <div key={i} style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '14px', padding: '18px 20px' }}>
               <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '15px', marginBottom: '8px' }}>{faq.q}</div>
               <p style={{ fontSize: '14px', color: 'var(--ink-muted)', lineHeight: 1.6 }}>{faq.a}</p>
             </div>

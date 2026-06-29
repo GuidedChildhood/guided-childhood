@@ -93,15 +93,15 @@ export default function TrackerPage() {
                     flex: 1,
                     padding: '14px 4px',
                     borderRadius: '12px',
-                    border: `2px solid ${scores[q.id] === n ? 'var(--green-dark)' : 'var(--border)'}`,
-                    background: scores[q.id] === n ? 'var(--green-lt)' : 'var(--warm)',
+                    border: `2px solid ${scores[q.id] === n ? 'var(--terracotta)' : 'var(--border)'}`,
+                    background: scores[q.id] === n ? 'var(--stage-2)' : 'var(--cream)',
                     fontFamily: 'var(--font-display)',
                     fontWeight: 700,
                     fontSize: '18px',
-                    color: scores[q.id] === n ? 'var(--green-dark)' : 'var(--ink-light)',
+                    color: scores[q.id] === n ? 'var(--terracotta)' : 'var(--ink-light)',
                     cursor: 'pointer',
                     transition: 'all 0.15s',
-                    boxShadow: scores[q.id] === n ? '0 3px 0 var(--green)' : 'none',
+                    boxShadow: scores[q.id] === n ? '0 3px 0 var(--terracotta-dark)' : 'none',
                   }}
                 >
                   {n}

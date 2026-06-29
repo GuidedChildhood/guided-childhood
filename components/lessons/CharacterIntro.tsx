@@ -15,36 +15,36 @@ const CHARACTERS: Record<LessonCharacter, {
   teo: {
     name: 'Teo',
     emoji: '⚽',
-    color: 'var(--coral)',
-    colorLight: 'var(--coral-lt)',
-    colorDark: '#C0392B',
+    color: 'var(--terracotta)',
+    colorLight: 'var(--stage-1)',
+    colorDark: 'var(--terracotta-dark)',
     kit: 'Screen Time Captain',
     personality: 'confident and sporty',
   },
   olga: {
     name: 'Olga',
     emoji: '🔍',
-    color: 'var(--gold-dark)',
-    colorLight: 'var(--gold-lt)',
-    colorDark: '#A07820',
+    color: 'var(--terracotta-dark)',
+    colorLight: 'var(--stage-5)',
+    colorDark: 'var(--terracotta-dark)',
     kit: 'Online Smarts',
     personality: 'curious and sharp',
   },
   alam: {
     name: 'Alma',
     emoji: '🛡️',
-    color: 'var(--green-dark)',
-    colorLight: 'var(--green-lt)',
-    colorDark: '#1E5C3F',
+    color: 'var(--terracotta)',
+    colorLight: 'var(--stage-2)',
+    colorDark: 'var(--terracotta-dark)',
     kit: 'Privacy Guardian',
     personality: 'warm and brave',
   },
   'digi-junior': {
     name: 'DiGi Junior',
     emoji: '🤖',
-    color: 'var(--green-dark)',
-    colorLight: 'var(--green-lt)',
-    colorDark: '#1E5C3F',
+    color: 'var(--terracotta)',
+    colorLight: 'var(--stage-3)',
+    colorDark: 'var(--terracotta-dark)',
     kit: 'Your guide',
     personality: 'fun and helpful',
   },
@@ -75,7 +75,7 @@ export default function CharacterIntro({ character, greeting, lessonTitle, ageSt
       <div style={{ maxWidth: '560px', width: '100%', textAlign: 'center' }}>
 
         {/* Stage badge */}
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(175,220,162,.15)', border: '1px solid rgba(175,220,162,.3)', borderRadius: '100px', padding: '5px 14px', fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--green)', marginBottom: '32px' }}>
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(158,216,178,.2)', border: '1px solid rgba(158,216,178,.4)', borderRadius: '100px', padding: '5px 14px', fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--stage-2)', marginBottom: '32px' }}>
           {ageStage}
         </div>
 

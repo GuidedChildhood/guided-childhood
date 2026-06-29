@@ -2,13 +2,16 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { getStageFromAgeBand, type AgeBand, STAGES } from '@/lib/content/stages'
+import type { Moment } from '@/components/cards/MomentCard'
+import MomentCard from '@/components/cards/MomentCard'
+import PushPrompt from '@/components/push/PushPrompt'
 
 const STAGE_COLORS = {
-  1: { bg: 'var(--green-lt)', text: 'var(--green-dark)', border: 'var(--green)' },
-  2: { bg: 'var(--lav)', text: 'var(--lav-deep)', border: '#b8c8f0' },
-  3: { bg: 'var(--coral-lt)', text: 'var(--coral)', border: 'var(--coral)' },
-  4: { bg: 'var(--gold-lt)', text: 'var(--gold-dark)', border: 'var(--gold)' },
-  5: { bg: 'var(--warm)', text: 'var(--ink-soft)', border: 'var(--border)' },
+  1: { bg: 'var(--stage-1)', text: 'var(--ink)', border: 'var(--stage-1)' },
+  2: { bg: 'var(--stage-2)', text: 'var(--ink)', border: 'var(--stage-2)' },
+  3: { bg: 'var(--stage-3)', text: 'var(--ink)', border: 'var(--stage-3)' },
+  4: { bg: 'var(--stage-4)', text: 'var(--ink)', border: 'var(--stage-4)' },
+  5: { bg: 'var(--stage-5)', text: 'var(--ink)', border: 'var(--stage-5)' },
 } as const
 
 const WEEKLY_ACTIONS = [
@@ -30,12 +33,21 @@ export default async function DashboardPage() {
 
   if (!profile?.onboarding_complete) redirect('/onboarding')
 
-  const { data: child } = await supabase
-    .from('children')
-    .select('name, age_band, stage_id, streak_weeks, actions_this_week')
-    .eq('parent_id', user.id)
-    .eq('is_primary', true)
-    .single()
+  const today = new Date().toISOString().split('T')[0]
+
+  const [childResult, dailySessionResult, todayMomentsResult] = await Promise.all([
+    supabase.from('children').select('name, age_band, stage_id, streak_weeks, actions_this_week').eq('parent_id', user.id).eq('is_primary', true).single(),
+    supabase.from('daily_sessions').select('completed_at').eq('user_id', user.id).eq('session_date', today).maybeSingle(),
+    supabase.from('daily_moments').select('id, title, category, age_bands, icon, science_brief, digi_opener').eq('active', true).order('sort_order').limit(20),
+  ])
+
+  const child = childResult.data
+  const dailyDone = !!dailySessionResult.data?.completed_at
+
+  const allMoments: Moment[] = todayMomentsResult.data ?? []
+  const todayMoments = child?.age_band
+    ? allMoments.filter(m => m.age_bands.length === 0 || m.age_bands.includes(child.age_band as AgeBand)).slice(0, 3)
+    : allMoments.slice(0, 3)
 
   const stage = child?.age_band
     ? getStageFromAgeBand(child.age_band as AgeBand)
@@ -45,15 +57,85 @@ export default async function DashboardPage() {
   const isPaid = profile?.subscription_status === 'active'
   const firstName = profile?.full_name?.split(' ')[0] ?? 'there'
 
+  // Last completed script insight
+  const { data: lastCompletion } = await supabase
+    .from('script_completions')
+    .select('script_sort_order, completed_at')
+    .eq('user_id', user.id)
+    .order('completed_at', { ascending: false })
+    .limit(1)
+    .single()
+
+  let lastInsight: { title: string; why_it_works: string; sort_order: number; category: string | null } | null = null
+  if (lastCompletion) {
+    const { data: lastScript } = await supabase
+      .from('scripts')
+      .select('title, why_it_works, sort_order, category')
+      .eq('sort_order', lastCompletion.script_sort_order)
+      .single()
+    if (lastScript) lastInsight = lastScript
+  }
+
   return (
     <div style={{ maxWidth: '640px', margin: '0 auto', padding: '24px 20px' }}>
       {/* Welcome */}
-      <div style={{ marginBottom: '28px' }}>
+      <div style={{ marginBottom: '20px' }}>
         <p className="eyebrow" style={{ marginBottom: '4px' }}>Good to have you back</p>
         <h1 style={{ fontSize: 'clamp(1.5rem, 4vw, 2rem)', marginBottom: '0' }}>
           Hello, {firstName}
         </h1>
       </div>
+
+      {/* Push notification opt-in */}
+      <div style={{ marginBottom: '20px' }}>
+        <PushPrompt userId={user.id} stage={`Stage ${stage.id}`} />
+      </div>
+
+      {/* Daily practice — primary CTA on every login */}
+      <Link href="/dashboard/daily" style={{ textDecoration: 'none', display: 'block', marginBottom: '20px' }}>
+        <div style={{
+          background: dailyDone ? 'var(--stage-2)' : 'var(--ink)',
+          border: dailyDone ? '2px solid var(--stage-2)' : 'none',
+          borderRadius: '18px',
+          padding: '18px 22px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: '16px',
+        }}>
+          <div>
+            <div style={{
+              fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600,
+              letterSpacing: '0.1em', textTransform: 'uppercase',
+              color: dailyDone ? 'var(--ink)' : 'var(--gold)',
+              marginBottom: '5px',
+            }}>
+              {dailyDone ? 'Done today' : 'Daily practice'}
+            </div>
+            <div style={{
+              fontFamily: 'var(--font-display)', fontWeight: 800,
+              fontSize: '17px', letterSpacing: '-0.01em',
+              color: dailyDone ? 'var(--ink)' : '#fff',
+            }}>
+              {dailyDone ? 'Practice complete' : 'Start today\'s session'}
+            </div>
+            <div style={{
+              fontSize: '13px', marginTop: '3px',
+              color: dailyDone ? 'var(--ink-soft)' : 'rgba(255,255,255,0.6)',
+            }}>
+              {dailyDone ? 'See you tomorrow' : '5 cards · 2 minutes · builds the habit'}
+            </div>
+          </div>
+          <div style={{
+            width: '44px', height: '44px', borderRadius: '50%',
+            background: dailyDone ? 'var(--terracotta)' : 'rgba(255,255,255,0.1)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: '22px', flexShrink: 0,
+          }}>
+            {dailyDone ? '✓' : '▷'}
+          </div>
+        </div>
+      </Link>
 
       {/* Stage card */}
       <div style={{
@@ -85,7 +167,7 @@ export default async function DashboardPage() {
               fontWeight: 600,
               letterSpacing: '0.1em',
               textTransform: 'uppercase',
-              background: 'var(--coral)',
+              background: 'var(--terracotta)',
               color: '#fff',
               padding: '3px 8px',
               borderRadius: '100px',
@@ -116,8 +198,66 @@ export default async function DashboardPage() {
         )}
       </div>
 
+      {/* Moment cards section */}
+      {todayMoments.length > 0 && (
+        <div style={{ marginBottom: '20px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
+            <p className="eyebrow" style={{ margin: 0 }}>Moment cards</p>
+            <Link
+              href="/dashboard/moments"
+              style={{ fontFamily: 'var(--font-body)', fontSize: '12px', color: 'var(--terracotta)', textDecoration: 'none', fontWeight: 500 }}
+            >
+              Browse all →
+            </Link>
+          </div>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            gap: '10px',
+          }}>
+            {todayMoments.map(moment => (
+              <MomentCard
+                key={moment.id}
+                moment={moment}
+                childName={child?.name ?? undefined}
+                ageBand={child?.age_band ?? undefined}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Last script insight */}
+      {lastInsight && (
+        <div style={{
+          background: 'var(--stage-2)',
+          border: '1.5px solid var(--stage-2)',
+          borderRadius: '16px',
+          padding: '22px',
+          marginBottom: '20px',
+        }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '10px', gap: '12px', flexWrap: 'wrap' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>
+              Last script insight
+            </div>
+            <Link
+              href={`/dashboard/scripts/${lastInsight.sort_order}/deck`}
+              style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--terracotta)', textDecoration: 'none', letterSpacing: '0.06em' }}
+            >
+              Read again →
+            </Link>
+          </div>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '14px', color: 'var(--ink)', marginBottom: '8px' }}>
+            {lastInsight.title}
+          </div>
+          <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>
+            {lastInsight.why_it_works}
+          </p>
+        </div>
+      )}
+
       {/* This week's actions */}
-      <div style={{ background: 'var(--warm)', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '20px' }}>
+      <div style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '20px' }}>
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '16px' }}>
           This week's actions
         </div>
@@ -138,8 +278,8 @@ export default async function DashboardPage() {
           ))}
         </div>
 
-        <div style={{ marginTop: '16px', padding: '14px 16px', background: 'var(--gold-lt)', border: '1px solid var(--gold)', borderRadius: '10px' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--gold-dark)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
+        <div style={{ marginTop: '16px', padding: '14px 16px', background: 'var(--stage-5)', border: '1px solid var(--stage-5)', borderRadius: '10px' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--terracotta)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
             DiGi tip
           </div>
           <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
@@ -149,7 +289,7 @@ export default async function DashboardPage() {
               ? 'The algorithm conversation opens more than any rule will close. Curiosity, not alarm.'
               : 'The weekly check-in, same day same time, is your relationship maintenance. It does not have to be about screens.'}
           </p>
-          <Link href="/dashboard/digi" style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--gold-dark)', textDecoration: 'none', marginTop: '8px', display: 'block' }}>
+          <Link href="/dashboard/digi" style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--terracotta)', textDecoration: 'none', marginTop: '8px', display: 'block' }}>
             Ask DiGi →
           </Link>
         </div>
@@ -159,7 +299,7 @@ export default async function DashboardPage() {
       <div style={{ background: 'var(--ink)', borderRadius: '16px', padding: '22px', marginBottom: '20px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '14px' }}>
           <div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: '6px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-lt)', marginBottom: '6px' }}>
               DiGi
             </div>
             <h3 style={{ fontSize: '1.1rem', color: '#fff', marginBottom: '0' }}>
@@ -202,8 +342,8 @@ export default async function DashboardPage() {
 
       {/* Upgrade nudge for free users */}
       {!isPaid && (
-        <div style={{ border: '2px solid var(--gold)', borderRadius: '16px', padding: '20px 22px', background: 'var(--gold-lt)' }}>
-          <p className="eyebrow" style={{ color: 'var(--gold-dark)', marginBottom: '8px' }}>Founder rate — 50 places</p>
+        <div style={{ border: '2px solid var(--stage-5)', borderRadius: '16px', padding: '20px 22px', background: 'var(--stage-5)' }}>
+          <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '8px' }}>Founder rate — 50 places</p>
           <h3 style={{ fontSize: '1.1rem', marginBottom: '8px' }}>Unlock everything for £7.99 / month</h3>
           <p style={{ fontSize: '14px', color: 'var(--ink-muted)', marginBottom: '16px' }}>
             All 5 stages, unlimited DiGi, all 17 scripts, wellbeing tracker. First 50 members only.
