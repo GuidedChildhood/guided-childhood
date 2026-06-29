@@ -446,6 +446,14 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 
+/* ── FOOTER GRID ── */
+@media (max-width: 768px) {
+  footer .footer-grid { grid-template-columns: 1fr 1fr !important; }
+}
+@media (max-width: 480px) {
+  footer .footer-grid { grid-template-columns: 1fr !important; }
+}
+
 /* ── ANNOUNCEMENT BAR ── */
 .announcement-bar {
   background: #5B8FA8;

@@ -312,17 +312,20 @@ export default function HomePage() {
       {/* ================================================================
           HERO — Good Inside split: left text, right floating chips
           ================================================================ */}
-      <section aria-label="Hero" style={{ padding: 'clamp(56px, 7vw, 88px) 32px clamp(48px, 6vw, 80px)', background: '#F9F8F5' }}>
+      <section aria-label="Hero" style={{ padding: 'clamp(56px, 7vw, 88px) 32px clamp(48px, 6vw, 80px)', background: '#FFFBEE' }}>
         <div className="hero-grid" style={{ maxWidth: '1100px', margin: '0 auto' }}>
 
           {/* Left: text */}
           <div>
-            <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '18px' }}>
-              For UK parents · Ages 4 to 16 · Built on the research
-            </p>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'var(--terracotta)', borderRadius: '100px', padding: '6px 16px', marginBottom: '20px' }}>
+              <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#fff', flexShrink: 0 }} />
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '.65rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: '#fff' }}>
+                For UK parents · Ages 4 to 16
+              </span>
+            </div>
             <h1 className="fu" style={{ fontSize: 'clamp(2.4rem, 4.8vw, 3.9rem)', fontWeight: 900, lineHeight: 1.0, letterSpacing: '-.04em', color: 'var(--ink)', marginBottom: '22px' }}>
-              Raising kids<br />with screens is hard.<br />
-              <span style={{ color: 'var(--terracotta)' }}>We make it manageable.</span>
+              Raising kids<br />with screens<br />
+              <span style={{ color: 'var(--terracotta)' }}>is something you can learn.</span>
             </h1>
             <p className="fu" style={{ fontSize: '1.02rem', color: 'var(--ink-soft)', lineHeight: 1.78, maxWidth: '440px', marginBottom: '28px' }}>
               The stage by stage guide, exact scripts for the hard moments, and DiGi, your AI parenting advisor available at 11pm.
@@ -408,6 +411,35 @@ export default function HomePage() {
               </div>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* ================================================================
+          FEATURES — 3 cards on sage green
+          ================================================================ */}
+      <section style={{ background: '#F0FDF4', padding: 'clamp(72px, 9vw, 112px) 32px' }}>
+        <div style={{ maxWidth: '1040px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+            <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>What you get</p>
+            <h2 className="fu">
+              Our <span style={{ color: 'var(--terracotta)' }}>digital parenting</span> tools
+            </h2>
+          </div>
+          <div className="three-col">
+            {[
+              { icon: '🗺️', iconBg: 'var(--stage-1-bold)', title: 'Stage by Stage Guide', body: 'The right boundaries and conversations for your child\'s exact age. From first screen at 4 to full independence at 16. You never fall behind.' },
+              { icon: '🤖', iconBg: 'var(--stage-5-bold)', title: 'DiGi AI Advisor', body: 'Tell DiGi what happened today. Get the exact words and the structural fix. Available at 11pm when the guilt spiral hits. No generic advice.' },
+              { icon: '📋', iconBg: 'var(--stage-2-bold)', title: 'Weekly Scripts', body: 'Twelve real situations with exact scripts. The gaming fight, the phone at bedtime, TikTok at 13. Start using them tonight.' },
+            ].map((f, i) => (
+              <div key={i} className="fu" style={{ background: '#fff', borderRadius: '24px', padding: '36px 28px', boxShadow: '0 6px 32px rgba(26,26,46,.06)', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <div style={{ width: '60px', height: '60px', borderRadius: '18px', background: f.iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.7rem', flexShrink: 0 }}>
+                  {f.icon}
+                </div>
+                <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: 'var(--ink)', letterSpacing: '-.02em', lineHeight: 1.2 }}>{f.title}</h3>
+                <p style={{ fontSize: '.88rem', color: 'var(--ink-soft)', lineHeight: 1.75 }}>{f.body}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -504,7 +536,7 @@ export default function HomePage() {
       {/* ================================================================
           STAGE CARDS
           ================================================================ */}
-      <section id="stages" style={{ padding: 'clamp(88px, 11vw, 132px) 32px', background: 'var(--cream)', scrollMarginTop: '70px' }}>
+      <section id="stages" style={{ padding: 'clamp(88px, 11vw, 132px) 32px', background: '#F5F3FF', scrollMarginTop: '70px' }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
 
           <div style={{ textAlign: 'center', marginBottom: '44px' }}>
@@ -1511,60 +1543,105 @@ export default function HomePage() {
       </section>
 
       {/* ================================================================
-          FINAL CTA
+          FINAL CTA — bold centered panel
           ================================================================ */}
-      <section style={{ textAlign: 'center', padding: 'clamp(80px, 10vw, 120px) 32px', background: '#FBCFE8', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'relative', zIndex: 1, maxWidth: '600px', margin: '0 auto' }}>
-          <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '16px' }}>Ready to start</p>
-          <h2 className="fu" style={{ marginBottom: '20px' }}>
-            Your pathway starts<br />where your child is
+      <section style={{ textAlign: 'center', padding: 'clamp(80px, 10vw, 120px) 32px', background: '#FFFBEE' }}>
+        <div style={{ maxWidth: '620px', margin: '0 auto' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'var(--stage-1-bold)', borderRadius: '100px', padding: '6px 16px', marginBottom: '24px' }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '.65rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--stage-1-text)' }}>
+              Join 200 families already on their pathway
+            </span>
+          </div>
+          <h2 className="fu" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 900, letterSpacing: '-.04em', lineHeight: 1.05, marginBottom: '18px' }}>
+            Start your family's<br />
+            <span style={{ color: 'var(--terracotta)' }}>guided childhood today</span>
           </h2>
           <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.8, marginBottom: '36px' }}>
-            No setup. No waiting. Starter pack is free and arrives immediately. One account for all your children.
+            No setup. No waiting. The starter pack is free and arrives immediately. One account covers all your children.
           </p>
-          <Link href="/starter-pack" className="btn btn-gold fu" style={{ fontSize: '15px', padding: '17px 40px' }}>
-            Get the free starter pack
-          </Link>
-          <div style={{ fontSize: '.72rem', color: 'var(--ink-muted)', marginTop: '16px', marginBottom: '18px' }}>
-            No card. No catch. Start where you are.
+          <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '20px' }}>
+            <Link href="/starter-pack" className="btn btn-gold fu" style={{ fontSize: '15px', padding: '17px 40px' }}>
+              Get the free starter pack
+            </Link>
+            <Link href="/digitalwellbeing" style={{
+              display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: '15px', fontWeight: 700, padding: '17px 36px', borderRadius: 'var(--radius-btn)',
+              border: '2px solid var(--ink)', color: 'var(--ink)', textDecoration: 'none',
+              background: 'transparent', transition: 'background .15s',
+            }}>
+              Take the health check
+            </Link>
           </div>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', background: 'rgba(26,26,46,.05)', border: '1px solid rgba(26,26,46,.12)', borderRadius: '100px', padding: '7px 16px', fontSize: '.71rem', fontWeight: 600, color: 'var(--ink-soft)' }}>
-            ✓ 30-day money-back guarantee on launch
+          <div style={{ fontSize: '.72rem', color: 'var(--ink-muted)' }}>
+            No card required · 30-day money-back on launch
           </div>
         </div>
       </section>
 
       {/* ================================================================
-          FOOTER
+          FOOTER — dark navy with columns
           ================================================================ */}
-      <footer style={{ background: '#fff', borderTop: '1px solid var(--border)', padding: '40px 32px' }}>
-        <div style={{ maxWidth: '1040px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '20px' }}>
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '9px', marginBottom: '6px' }}>
-              <div style={{ width: '28px', height: '28px', background: 'var(--terracotta)', borderRadius: '7px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <div style={{ display: 'flex', alignItems: 'flex-end', gap: '2px', height: '13px' }}>
-                  {[4, 7, 11, 6].map((h, i) => (
-                    <div key={i} style={{ width: '2.5px', height: `${h}px`, background: '#fff', borderRadius: '1px' }} />
-                  ))}
+      <footer style={{ background: '#1A1A2E', padding: 'clamp(48px, 6vw, 72px) 32px 32px' }}>
+        <div style={{ maxWidth: '1040px', margin: '0 auto' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr 1fr 1fr', gap: '40px', marginBottom: '48px' }}>
+
+            {/* Brand */}
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '9px', marginBottom: '14px' }}>
+                <div style={{ width: '32px', height: '32px', background: 'var(--terracotta)', borderRadius: '9px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
+                  <div style={{ display: 'flex', alignItems: 'flex-end', gap: '2.5px', height: '15px' }}>
+                    {[5, 9, 14, 8].map((h, i) => (
+                      <div key={i} style={{ width: '3px', height: `${h}px`, background: '#fff', borderRadius: '1.5px' }} />
+                    ))}
+                  </div>
                 </div>
+                <span style={{ fontFamily: 'var(--font-display)', fontSize: '1rem', fontWeight: 800, color: '#fff', letterSpacing: '-.02em' }}>Guided Childhood</span>
               </div>
-              <span style={{ fontFamily: 'var(--font-display)', fontSize: '.9rem', fontWeight: 800, color: 'var(--ink)' }}>Guided Childhood</span>
+              <p style={{ fontSize: '.82rem', color: 'rgba(255,255,255,.5)', lineHeight: 1.7, maxWidth: '240px' }}>
+                The stage-by-stage digital parenting guide for UK families. Ages 4 to 16. Built on the research.
+              </p>
             </div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.65rem', color: 'var(--ink-light)' }}>
-              The OS for Modern Parenting
+
+            {/* Guides */}
+            <div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.62rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,.4)', marginBottom: '16px' }}>Guides</div>
+              {[['Stage 1 · Ages 4 to 7', '#stages'], ['Stage 2 · Ages 8 to 10', '#stages'], ['Stage 3 · Ages 11 to 13', '#stages'], ['Stage 4 · Ages 13 to 15', '#stages'], ['Stage 5 · Ages 16+', '#stages']].map(([label, href]) => (
+                <div key={label} style={{ marginBottom: '10px' }}>
+                  <Link href={href} style={{ fontSize: '.78rem', color: 'rgba(255,255,255,.6)', textDecoration: 'none', fontWeight: 500, lineHeight: 1.4 }}>{label}</Link>
+                </div>
+              ))}
+            </div>
+
+            {/* Tools */}
+            <div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.62rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,.4)', marginBottom: '16px' }}>Tools</div>
+              {[['Free Starter Pack', '/starter-pack'], ['Digital Health Check', '/digitalwellbeing'], ['Ask DiGi', '/starter-pack'], ['For Schools', '/schools'], ['Pricing', '#pricing']].map(([label, href]) => (
+                <div key={label} style={{ marginBottom: '10px' }}>
+                  <Link href={href} style={{ fontSize: '.78rem', color: 'rgba(255,255,255,.6)', textDecoration: 'none', fontWeight: 500 }}>{label}</Link>
+                </div>
+              ))}
+            </div>
+
+            {/* Company */}
+            <div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.62rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,.4)', marginBottom: '16px' }}>Company</div>
+              {[['About', '/'], ['Blog', '/'], ['Contact', '/'], ['Privacy', '/'], ['Terms', '/'], ['Login', '/login']].map(([label, href]) => (
+                <div key={label} style={{ marginBottom: '10px' }}>
+                  <Link href={href} style={{ fontSize: '.78rem', color: 'rgba(255,255,255,.6)', textDecoration: 'none', fontWeight: 500 }}>{label}</Link>
+                </div>
+              ))}
             </div>
           </div>
 
-          <nav style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
-            {[['Home', '/'], ['Find Your Stage', '#stages'], ['Schools', '/schools'], ['Pricing', '#pricing'], ['Health Check', '/digitalwellbeing'], ['Free Starter Pack', '/starter-pack'], ['Login', '/login']].map(([label, href]) => (
-              <Link key={href + label} href={href} style={{ fontSize: '.74rem', color: 'var(--ink-muted)', textDecoration: 'none', fontWeight: 500 }}>
-                {label}
-              </Link>
-            ))}
-          </nav>
-
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.68rem', color: 'var(--ink-light)' }}>
-            © 2026 The Social Billboard · Justin Phillips
+          <div style={{ borderTop: '1px solid rgba(255,255,255,.1)', paddingTop: '24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.64rem', color: 'rgba(255,255,255,.35)' }}>
+              © 2026 The Social Billboard · Justin Phillips
+            </div>
+            <div style={{ display: 'flex', gap: '16px' }}>
+              {['Online Safety Act 2023', 'DfE', 'Ofcom', 'Statutory RSE'].map(tag => (
+                <span key={tag} style={{ fontSize: '.64rem', color: 'rgba(255,255,255,.3)', fontWeight: 600 }}>{tag}</span>
+              ))}
+            </div>
           </div>
         </div>
       </footer>
