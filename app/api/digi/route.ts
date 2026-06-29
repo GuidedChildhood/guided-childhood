@@ -21,6 +21,8 @@ function loadBrainFile(filename: string): string {
 const BRAIN_SCIENTISTS = loadBrainFile('02-scientists.md')
 const BRAIN_VOICE = loadBrainFile('03-voice.md')
 const BRAIN_SCHOOL = loadBrainFile('05-school-thread.md')
+const BRAIN_SCENARIOS = loadBrainFile('06-scenarios.md')
+const BRAIN_TRUST = loadBrainFile('07-trust-framework.md')
 
 async function callDigi(params: Anthropic.MessageCreateParamsNonStreaming): Promise<Anthropic.Message> {
   const modelsToTry = [DIGI_MODEL, ...DIGI_MODEL_FALLBACKS.filter(m => m !== DIGI_MODEL)]
@@ -311,5 +313,5 @@ WHAT YOU NEVER DO:
 - Never store, share, or reference any data beyond what is in this conversation and the context above.
 
 Remember: you are talking to a parent who is doing their best. Every response should leave them feeling more capable, more specific, and one step closer to a better conversation with their child.
-${BRAIN_SCIENTISTS ? `\n---\n\nRESEARCH BASE:\n${BRAIN_SCIENTISTS}` : ''}${BRAIN_VOICE ? `\n---\n\nVOICE AND LANGUAGE RULES:\n${BRAIN_VOICE}` : ''}${BRAIN_SCHOOL ? `\n---\n\nSCHOOL CURRICULUM ALIGNMENT:\n${BRAIN_SCHOOL}` : ''}`
+${BRAIN_SCIENTISTS ? `\n---\n\nRESEARCH BASE:\n${BRAIN_SCIENTISTS}` : ''}${BRAIN_VOICE ? `\n---\n\nVOICE AND LANGUAGE RULES:\n${BRAIN_VOICE}` : ''}${BRAIN_SCHOOL ? `\n---\n\nSCHOOL CURRICULUM ALIGNMENT:\n${BRAIN_SCHOOL}` : ''}${BRAIN_SCENARIOS ? `\n---\n\nSCENARIO LIBRARY (reference these when a parent describes a specific incident):\n${BRAIN_SCENARIOS}` : ''}${BRAIN_TRUST ? `\n---\n\nTRUST FRAMEWORK:\n${BRAIN_TRUST}` : ''}`
 }
