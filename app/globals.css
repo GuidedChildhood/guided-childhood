@@ -12,10 +12,10 @@
   --ink-light:         #AEAEC0;
   --border:            #EAEAF0;
 
-  /* ── ACCENT (slate teal) ── */
-  --terracotta:        #5B8FA8;
-  --terracotta-dark:   #3D7A8A;
-  --terracotta-lt:     #EAF1F5;
+  /* ── ACCENT (sky blue) ── */
+  --terracotta:        #0EA5E9;
+  --terracotta-dark:   #0284C7;
+  --terracotta-lt:     #E0F2FE;
 
   /* ── STAGE PASTELS (card backgrounds, section tints) ── */
   --stage-1:           #FFFBEE;   /* barely-there warm yellow — Ages 4–7  */
@@ -117,8 +117,8 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
   align-items: center;
   justify-content: center;
   gap: 6px;
-  background: var(--terracotta);
-  color: #fff;
+  background: #BAE6FD;
+  color: #0C4A6E;
   font-family: var(--font-body);
   font-weight: 700;
   font-size: 15px;
@@ -126,28 +126,28 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
   padding: 14px 28px;
   border-radius: var(--radius-btn);
   border: none;
-  box-shadow: 0 4px 0 var(--terracotta-dark);
+  box-shadow: 0 4px 0 #7DD3FC;
   cursor: pointer;
   text-decoration: none;
   transition: transform 0.1s, box-shadow 0.1s;
   white-space: nowrap;
 }
-.btn:hover  { transform: translateY(-1px); box-shadow: 0 5px 0 var(--terracotta-dark); }
-.btn:active { transform: translateY(2px);  box-shadow: 0 2px 0 var(--terracotta-dark); }
+.btn:hover  { transform: translateY(-1px); box-shadow: 0 5px 0 #7DD3FC; }
+.btn:active { transform: translateY(2px);  box-shadow: 0 2px 0 #7DD3FC; }
 
-/* variant aliases — all teal */
+/* variant aliases — all pastel sky blue */
 .btn-gold, .btn-green, .btn-coral {
-  background: var(--terracotta);
-  color: #fff;
-  box-shadow: 0 4px 0 var(--terracotta-dark);
+  background: #BAE6FD;
+  color: #0C4A6E;
+  box-shadow: 0 4px 0 #7DD3FC;
 }
 .btn-gold:hover, .btn-green:hover, .btn-coral:hover {
   transform: translateY(-1px);
-  box-shadow: 0 5px 0 var(--terracotta-dark);
+  box-shadow: 0 5px 0 #7DD3FC;
 }
 .btn-gold:active, .btn-green:active, .btn-coral:active {
   transform: translateY(2px);
-  box-shadow: 0 2px 0 var(--terracotta-dark);
+  box-shadow: 0 2px 0 #7DD3FC;
 }
 
 /* dark ink button — kept for schools CTA */
@@ -445,6 +445,27 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
 /* ── SCROLLBAR ── */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+/* ── ANNOUNCEMENT BAR ── */
+.announcement-bar {
+  background: #BAE6FD;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+@media (max-width: 600px) {
+  .announcement-bar {
+    flex-wrap: wrap;
+    padding: 10px 14px;
+    gap: 6px;
+  }
+  .announcement-bar .ann-badge { display: none; }
+  .announcement-bar .ann-text  { flex: 1 1 100%; text-align: center; font-size: .76rem; }
+  .announcement-bar .ann-cta   { width: 100%; text-align: center; justify-content: center; }
+}
 
 /* ── TICKER ── */
 @keyframes ticker {
