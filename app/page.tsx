@@ -1513,7 +1513,7 @@ export default function HomePage() {
       {/* ================================================================
           FINAL CTA
           ================================================================ */}
-      <section style={{ textAlign: 'center', padding: 'clamp(80px, 10vw, 120px) 32px', background: 'linear-gradient(135deg, #F9A8D4 0%, #FDE8F5 45%, #FFF0F8 100%)', position: 'relative', overflow: 'hidden' }}>
+      <section style={{ textAlign: 'center', padding: 'clamp(80px, 10vw, 120px) 32px', background: '#FBCFE8', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'relative', zIndex: 1, maxWidth: '600px', margin: '0 auto' }}>
           <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '16px' }}>Ready to start</p>
           <h2 className="fu" style={{ marginBottom: '20px' }}>

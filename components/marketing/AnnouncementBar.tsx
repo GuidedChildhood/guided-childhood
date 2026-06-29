@@ -7,7 +7,7 @@ export default function AnnouncementBar() {
   if (!visible) return null
   return (
     <div style={{
-      background: 'linear-gradient(90deg, #F9A8D4 0%, #FED7E8 60%, #FFF0F7 100%)',
+      background: '#FBCFE8',
       padding: '10px 20px',
       display: 'flex',
       alignItems: 'center',
@@ -40,8 +40,8 @@ export default function AnnouncementBar() {
       <Link
         href="/starter-pack"
         style={{
-          background: '#BE185D',
-          color: '#fff',
+          background: '#BAE6FD',
+          color: '#0C4A6E',
           fontFamily: 'var(--font-body)',
           fontWeight: 700,
           fontSize: '.72rem',
@@ -61,7 +61,7 @@ export default function AnnouncementBar() {
           border: 'none',
           fontSize: '1.1rem',
           cursor: 'pointer',
-          color: '#BE185D',
+          color: '#831843',
           padding: '0 2px',
           flexShrink: 0,
           lineHeight: 1,

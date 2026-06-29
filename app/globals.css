@@ -25,18 +25,22 @@
   --stage-5:           #F5F3FF;   /* barely-there lavender    — Ages 16+  */
 
   /* ── STAGE BOLD (card header bands, character colours) ── */
-  --stage-1-bold:      #FFD700;
-  --stage-2-bold:      #38BDF8;
-  --stage-3-bold:      #FF7B63;
-  --stage-4-bold:      #F591C0;
-  --stage-5-bold:      #9B88F5;
+  --stage-1-bold:      #FEF08A;   /* light pastel yellow   */
+  --stage-2-bold:      #BAE6FD;   /* light pastel sky blue */
+  --stage-3-bold:      #FECDD3;   /* light pastel coral    */
+  --stage-4-bold:      #FBCFE8;   /* light pastel pink     */
+  --stage-5-bold:      #DDD6FE;   /* light pastel lavender */
 
   /* ── STAGE TEXT (readable on bold band) ── */
-  --stage-1-text:      #6B4E00;
-  --stage-2-text:      #0C4A6E;
-  --stage-3-text:      #7F1D0D;
-  --stage-4-text:      #7D1750;
-  --stage-5-text:      #2E1065;
+  --stage-1-text:      #713F12;   /* amber-900  */
+  --stage-2-text:      #0C4A6E;   /* sky-900    */
+  --stage-3-text:      #881337;   /* rose-900   */
+  --stage-4-text:      #831843;   /* pink-900   */
+  --stage-5-text:      #3B0764;   /* violet-950 */
+
+  /* ── PASTEL PINK (announcement bar, final CTA, accent) ── */
+  --pastel-pink:       #FBCFE8;
+  --pastel-pink-deep:  #F9A8D4;
 
   /* ── TINTS ── */
   --tint-blue:         #D8E8F8;
@@ -113,46 +117,55 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
   align-items: center;
   justify-content: center;
   gap: 6px;
-  background: var(--terracotta);
-  color: #fff;
+  background: #BAE6FD;
+  color: #0C4A6E;
   font-family: var(--font-body);
-  font-weight: 600;
+  font-weight: 700;
   font-size: 15px;
   letter-spacing: 0.01em;
   padding: 14px 28px;
   border-radius: var(--radius-btn);
   border: none;
-  box-shadow: 0 4px 0 var(--terracotta-dark);
+  box-shadow: 0 4px 0 #7DD3FC;
   cursor: pointer;
   text-decoration: none;
   transition: transform 0.1s, box-shadow 0.1s;
   white-space: nowrap;
 }
-.btn:hover  { transform: translateY(-1px); box-shadow: 0 5px 0 var(--terracotta-dark); }
-.btn:active { transform: translateY(2px);  box-shadow: 0 2px 0 var(--terracotta-dark); }
+.btn:hover  { transform: translateY(-1px); box-shadow: 0 5px 0 #7DD3FC; }
+.btn:active { transform: translateY(2px);  box-shadow: 0 2px 0 #7DD3FC; }
 
-/* all old button variant classes route to the single blue accent */
-.btn-gold, .btn-green, .btn-coral, .btn-ink {
-  background: var(--terracotta);
-  color: #fff;
-  box-shadow: 0 4px 0 var(--terracotta-dark);
+/* variant aliases — all pastel sky blue */
+.btn-gold, .btn-green, .btn-coral {
+  background: #BAE6FD;
+  color: #0C4A6E;
+  box-shadow: 0 4px 0 #7DD3FC;
 }
-.btn-gold:hover, .btn-green:hover, .btn-coral:hover, .btn-ink:hover {
+.btn-gold:hover, .btn-green:hover, .btn-coral:hover {
   transform: translateY(-1px);
-  box-shadow: 0 5px 0 var(--terracotta-dark);
+  box-shadow: 0 5px 0 #7DD3FC;
 }
-.btn-gold:active, .btn-green:active, .btn-coral:active, .btn-ink:active {
+.btn-gold:active, .btn-green:active, .btn-coral:active {
   transform: translateY(2px);
-  box-shadow: 0 2px 0 var(--terracotta-dark);
+  box-shadow: 0 2px 0 #7DD3FC;
 }
+
+/* dark ink button — kept for schools CTA */
+.btn-ink {
+  background: var(--ink);
+  color: #fff;
+  box-shadow: 0 4px 0 #0a0a1a;
+}
+.btn-ink:hover  { transform: translateY(-1px); box-shadow: 0 5px 0 #0a0a1a; }
+.btn-ink:active { transform: translateY(2px);  box-shadow: 0 2px 0 #0a0a1a; }
 
 .btn-outline {
   display: inline-flex;
   align-items: center;
   gap: 6px;
   background: transparent;
-  color: var(--terracotta);
-  border: 1.5px solid var(--terracotta);
+  color: #0C4A6E;
+  border: 1.5px solid #BAE6FD;
   font-family: var(--font-body);
   font-weight: 600;
   font-size: 15px;
@@ -164,7 +177,7 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
   transition: background 0.1s;
   white-space: nowrap;
 }
-.btn-outline:hover { background: var(--terracotta-lt); }
+.btn-outline:hover { background: #E0F2FE; }
 
 /* ── CARD ── */
 .card {
