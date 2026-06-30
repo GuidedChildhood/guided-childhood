@@ -3,15 +3,16 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 
 // Audience tiers, in reading order. The AI module is educational core content,
-// so it is available to every signed-in member, not gated behind membership.
-const AUDIENCE_META: Record<string, { label: string; color: string; bg: string }> = {
-  age_7:   { label: 'Age 7',    color: 'var(--green-dark)', bg: 'var(--green-lt)' },
-  age_9:   { label: 'Age 9',    color: 'var(--green-dark)', bg: 'var(--green-lt)' },
-  age_11:  { label: 'Age 11',   color: 'var(--lav-deep)',   bg: 'var(--lav)' },
-  age_13:  { label: 'Age 13',   color: 'var(--coral)',      bg: 'var(--coral-lt)' },
-  age_16:  { label: 'Age 16',   color: 'var(--coral)',      bg: 'var(--coral-lt)' },
-  parent:  { label: 'Parents',  color: 'var(--gold-dark)',  bg: 'var(--gold-lt)' },
-  teacher: { label: 'Teachers', color: 'var(--ink-soft)',   bg: 'var(--warm)' },
+// so it is open to every signed-in member. Backgrounds use the stage pastels
+// so it sits naturally beside the scripts and the rest of the dashboard.
+const AUDIENCE_META: Record<string, { label: string; bg: string }> = {
+  age_7:   { label: 'Age 7',    bg: 'var(--stage-1)' },
+  age_9:   { label: 'Age 9',    bg: 'var(--stage-1)' },
+  age_11:  { label: 'Age 11',   bg: 'var(--stage-2)' },
+  age_13:  { label: 'Age 13',   bg: 'var(--stage-3)' },
+  age_16:  { label: 'Age 16',   bg: 'var(--stage-4)' },
+  parent:  { label: 'Parents',  bg: 'var(--stage-5)' },
+  teacher: { label: 'Teachers', bg: 'var(--terracotta-lt)' },
 }
 const AUDIENCE_ORDER = ['age_7', 'age_9', 'age_11', 'age_13', 'age_16', 'parent', 'teacher']
 
@@ -44,7 +45,7 @@ export default async function AiModulePage() {
       </div>
 
       {groups.length === 0 && (
-        <div style={{ background: 'var(--warm)', border: '1px solid var(--border)', borderRadius: '14px', padding: '20px', color: 'var(--ink-muted)', fontSize: '14px' }}>
+        <div style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '14px', padding: '20px', color: 'var(--ink-muted)', fontSize: '14px' }}>
           The AI lessons are being prepared. Check back soon.
         </div>
       )}
@@ -55,30 +56,34 @@ export default async function AiModulePage() {
             <span style={{
               fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600,
               letterSpacing: '0.1em', textTransform: 'uppercase',
-              color: group.meta.color, background: group.meta.bg,
+              color: 'var(--ink)', background: group.meta.bg,
               padding: '4px 10px', borderRadius: '100px',
             }}>
               {group.meta.label}
             </span>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {group.items.map(lesson => (
               <Link
                 key={lesson.id}
                 href={`/dashboard/ai-module/${lesson.id}`}
                 style={{
-                  display: 'block', textDecoration: 'none',
-                  background: 'var(--warm)', border: '1px solid var(--border)',
-                  borderRadius: '14px', padding: '16px 18px',
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px',
+                  textDecoration: 'none',
+                  background: 'var(--cream)', border: '1px solid var(--border)',
+                  borderRadius: '14px', padding: '14px 16px',
                 }}
               >
-                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '16px', color: 'var(--ink)', marginBottom: '4px' }}>
-                  {lesson.title}
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '15px', color: 'var(--ink)', marginBottom: '3px' }}>
+                    {lesson.title}
+                  </div>
+                  <div style={{ fontSize: '12px', color: 'var(--ink-muted)', fontStyle: 'italic', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                    {lesson.key_message}
+                  </div>
                 </div>
-                <div style={{ fontSize: '13px', color: 'var(--ink-muted)', fontStyle: 'italic' }}>
-                  {lesson.key_message}
-                </div>
+                <span style={{ fontSize: '16px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>
               </Link>
             ))}
           </div>
