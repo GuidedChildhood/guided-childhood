@@ -128,24 +128,25 @@ export default async function DashboardPage() {
       {/* Continue Your Progress — primary hero card */}
       <Link href="/dashboard/daily" style={{ textDecoration: 'none', display: 'block', marginBottom: '20px' }}>
         <div style={{
-          background: 'var(--ink)',
+          background: stageColor.bg,
           borderRadius: '20px',
           overflow: 'hidden',
-          boxShadow: '0 4px 24px rgba(26,26,46,0.14)',
+          border: `1.5px solid ${stageColor.border}`,
+          boxShadow: '0 4px 24px rgba(26,26,46,0.08)',
         }}>
-          {/* Stage color top accent strip */}
-          <div style={{ background: stageColor.bg, height: '6px' }} />
+          {/* Stage color bold accent strip */}
+          <div style={{ background: stageColor.text, height: '5px' }} />
           <div style={{ padding: '22px 22px 20px' }}>
             <div style={{
               fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600,
               letterSpacing: '0.12em', textTransform: 'uppercase',
-              color: 'rgba(255,255,255,0.45)', marginBottom: '10px',
+              color: 'var(--ink-muted)', marginBottom: '10px',
             }}>
               {dailyDone ? 'Completed today' : 'Continue your progress'}
             </div>
             <div style={{
               fontFamily: 'var(--font-display)', fontWeight: 900,
-              fontSize: 'clamp(1.2rem, 4vw, 1.55rem)', color: '#fff',
+              fontSize: 'clamp(1.2rem, 4vw, 1.55rem)', color: 'var(--ink)',
               letterSpacing: '-0.025em', lineHeight: 1.15, marginBottom: '18px',
             }}>
               {dailyDone
@@ -153,16 +154,16 @@ export default async function DashboardPage() {
                 : `Today's practice${(child?.name && child.name !== 'Your child') ? ` for ${child.name}` : ''}`}
             </div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px' }}>
-              <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.5)' }}>
+              <div style={{ fontSize: '13px', color: 'var(--ink-muted)' }}>
                 {dailyDone ? 'Come back tomorrow' : '5 cards · 2 minutes'}
               </div>
               <div style={{
-                background: dailyDone ? 'rgba(255,255,255,0.1)' : 'var(--gold)',
-                color: dailyDone ? 'rgba(255,255,255,0.5)' : 'var(--ink)',
+                background: dailyDone ? 'var(--border)' : 'var(--terracotta)',
+                color: dailyDone ? 'var(--ink-muted)' : '#fff',
                 borderRadius: '16px', padding: '10px 20px',
                 fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
                 letterSpacing: '0.06em', textTransform: 'uppercase', flexShrink: 0,
-                boxShadow: dailyDone ? 'none' : '0 3px 0 var(--gold-dark)',
+                boxShadow: dailyDone ? 'none' : '0 3px 0 var(--terracotta-dark)',
               }}>
                 {dailyDone ? 'Done ✓' : 'Continue →'}
               </div>
@@ -174,7 +175,8 @@ export default async function DashboardPage() {
       {/* DiGi check-in — surfaces last reflective answer if the parent responded */}
       {lastFeedback && (
         <div style={{
-          background: 'var(--ink)',
+          background: 'var(--stage-5)',
+          border: '1.5px solid var(--border)',
           borderRadius: '16px',
           padding: '20px 22px',
           marginBottom: '20px',
@@ -189,27 +191,27 @@ export default async function DashboardPage() {
               <span style={{ fontSize: '.9rem', color: '#fff', lineHeight: 1 }}>◎</span>
             </div>
             <div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-lt)' }}>DiGi</div>
-              <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.45)' }}>Following up from {lastFeedback.feedback_date === today ? 'earlier today' : 'yesterday'}</div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>DiGi</div>
+              <div style={{ fontSize: '12px', color: 'var(--ink-muted)' }}>Following up from {lastFeedback.feedback_date === today ? 'earlier today' : 'yesterday'}</div>
             </div>
           </div>
 
           {lastFeedback.digi_insight ? (
-            <p style={{ fontSize: '14px', color: '#fff', lineHeight: 1.65, margin: 0 }}>
+            <p style={{ fontSize: '14px', color: 'var(--ink)', lineHeight: 1.65, margin: 0 }}>
               {lastFeedback.digi_insight}
             </p>
           ) : (
             <>
-              <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.45)', fontStyle: 'italic', marginBottom: '8px' }}>
+              <p style={{ fontSize: '12px', color: 'var(--ink-muted)', fontStyle: 'italic', marginBottom: '8px' }}>
                 You answered: &ldquo;{lastFeedback.parent_response!.length > 120 ? lastFeedback.parent_response!.slice(0, 117) + '...' : lastFeedback.parent_response}&rdquo;
               </p>
-              <p style={{ fontSize: '14px', color: '#fff', lineHeight: 1.65, margin: 0 }}>
+              <p style={{ fontSize: '14px', color: 'var(--ink)', lineHeight: 1.65, margin: 0 }}>
                 {buildDigiFollowup(stage.id, child?.name ?? null)}
               </p>
             </>
           )}
 
-          <Link href="/dashboard/digi" style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--terracotta-lt)', textDecoration: 'none', marginTop: '14px', display: 'inline-block' }}>
+          <Link href="/dashboard/digi" style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--terracotta)', textDecoration: 'none', marginTop: '14px', display: 'inline-block' }}>
             Continue with DiGi →
           </Link>
         </div>
@@ -347,18 +349,18 @@ export default async function DashboardPage() {
       </Link>
 
       {/* DiGi quick access */}
-      <div style={{ background: 'var(--ink)', borderRadius: '16px', padding: '22px', marginBottom: '20px' }}>
+      <div style={{ background: 'var(--stage-5)', border: '1.5px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '20px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '14px' }}>
           <div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-lt)', marginBottom: '6px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '6px' }}>
               DiGi
             </div>
-            <h3 style={{ fontSize: '1.1rem', color: '#fff', marginBottom: '0' }}>
-              Ask me anything about your child's digital world
+            <h3 style={{ fontSize: '1.1rem', color: 'var(--ink)', marginBottom: '0' }}>
+              Ask me anything about your child&apos;s digital world
             </h3>
           </div>
           {!isPaid && (
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'rgba(255,255,255,0.4)', whiteSpace: 'nowrap', marginLeft: '12px' }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--ink-muted)', whiteSpace: 'nowrap', marginLeft: '12px' }}>
               3 / day free
             </span>
           )}
@@ -372,11 +374,11 @@ export default async function DashboardPage() {
               style={{
                 display: 'block',
                 padding: '10px 14px',
-                background: 'rgba(255,255,255,0.06)',
-                border: '1px solid rgba(255,255,255,0.1)',
+                background: 'var(--cream)',
+                border: '1px solid var(--border)',
                 borderRadius: '10px',
                 fontSize: '13px',
-                color: 'rgba(255,255,255,0.8)',
+                color: 'var(--ink-soft)',
                 textDecoration: 'none',
                 lineHeight: 1.4,
               }}
