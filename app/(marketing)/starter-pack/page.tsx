@@ -15,6 +15,51 @@ import {
 
 type Step = 'q1' | 'q2' | 'q3' | 'result'
 
+const CHALLENGE_ICONS: Record<string, React.ReactNode> = {
+  screens_takeover: (
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="7" y="2" width="10" height="20" rx="2.5"/>
+      <circle cx="12" cy="18" r=".6" fill="currentColor" stroke="none"/>
+    </svg>
+  ),
+  mood_changes: (
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="9"/>
+      <path d="M9 15.5c.8-.8 1.4-1 3-1s2.2.2 3 1"/>
+      <line x1="9.5" y1="10.5" x2="9.5" y2="10.5" strokeWidth="2.5"/>
+      <line x1="14.5" y1="10.5" x2="14.5" y2="10.5" strokeWidth="2.5"/>
+    </svg>
+  ),
+  gaming: (
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M2 10.5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v3a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5v-3z"/>
+      <line x1="8" y1="11" x2="8" y2="13"/>
+      <line x1="7" y1="12" x2="9" y2="12"/>
+      <line x1="15.5" y1="11.5" x2="16.5" y2="11.5"/>
+      <line x1="15.5" y1="12.5" x2="16.5" y2="12.5"/>
+    </svg>
+  ),
+  online_safety: (
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 2l7 3v5c0 5-3.5 9-7 10C8.5 19 5 15 5 10V5l7-3z"/>
+      <path d="M9 12l2 2 4-4"/>
+    </svg>
+  ),
+  start_conversation: (
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+      <line x1="9" y1="10" x2="15" y2="10"/>
+      <line x1="9" y1="13" x2="13" y2="13"/>
+    </svg>
+  ),
+  asking_for_phone: (
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="7" y="2" width="10" height="20" rx="2.5"/>
+      <path d="M12 7v2m0 2v.5"/>
+    </svg>
+  ),
+}
+
 const STAGE_COLORS: Record<number, { bg: string; text: string; border: string }> = {
   1: { bg: 'var(--stage-1)', text: 'var(--ink)', border: 'var(--stage-1)' },
   2: { bg: 'var(--stage-2)', text: 'var(--ink)', border: 'var(--stage-2)' },
@@ -151,8 +196,16 @@ export default function StarterPackPage() {
                     boxShadow: challenge === opt.value ? '0 3px 0 var(--terracotta-dark)' : 'none',
                   }}
                 >
-                  <span style={{ fontSize: '24px', marginBottom: '10px' }}>{opt.icon}</span>
-                  <span style={{ fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: '14px', color: 'var(--ink)', lineHeight: 1.3 }}>
+                  <span style={{
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    width: 44, height: 44, borderRadius: '12px',
+                    background: challenge === opt.value ? 'rgba(255,255,255,0.6)' : 'var(--terracotta-lt)',
+                    color: 'var(--terracotta)', marginBottom: '12px',
+                    transition: 'background 0.15s',
+                  }}>
+                    {CHALLENGE_ICONS[opt.value] ?? opt.icon}
+                  </span>
+                  <span style={{ fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: '13px', color: 'var(--ink)', lineHeight: 1.3 }}>
                     {opt.label}
                   </span>
                 </button>
@@ -387,13 +440,13 @@ function ResultScreen({
         </p>
       </div>
 
-      {/* CTA */}
+      {/* Primary CTA — free account */}
       <div style={{
         background: 'var(--ink)',
         borderRadius: '20px',
         padding: '32px 24px',
         textAlign: 'center',
-        marginBottom: '16px',
+        marginBottom: '12px',
       }}>
         <p className="eyebrow" style={{ color: 'var(--gold)', marginBottom: '14px' }}>Free to start</p>
         <h2 style={{ fontSize: '1.5rem', color: '#fff', marginBottom: '12px', fontWeight: 800 }}>
@@ -412,6 +465,38 @@ function ResultScreen({
         <p style={{ marginTop: '14px', fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'rgba(255,255,255,0.4)' }}>
           Already have an account? <Link href="/login" style={{ color: 'var(--gold)', textDecoration: 'none' }}>Sign in</Link>
         </p>
+      </div>
+
+      {/* Secondary CTA — founder rate */}
+      <div style={{
+        border: '2px solid var(--border)',
+        borderRadius: '20px',
+        padding: '24px',
+        textAlign: 'center',
+        marginBottom: '16px',
+        background: 'var(--cream)',
+      }}>
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '10px' }}>
+          Founding members · 50 places
+        </p>
+        <p style={{ fontSize: '15px', color: 'var(--ink)', fontWeight: 600, marginBottom: '6px' }}>
+          Ready to unlock everything?
+        </p>
+        <p style={{ fontSize: '13px', color: 'var(--ink-muted)', marginBottom: '18px' }}>
+          Sign up then claim your founder rate. £7.99 a month for life. All 5 stages, unlimited DiGi, every script.
+        </p>
+        <Link
+          href="/signup?intent=founder"
+          style={{
+            display: 'inline-flex', alignItems: 'center', gap: '8px',
+            padding: '13px 28px', background: 'var(--terracotta)',
+            color: '#fff', borderRadius: '16px', textDecoration: 'none',
+            fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '14px',
+            boxShadow: '0 4px 0 var(--terracotta-dark)',
+          }}
+        >
+          Join as a founding member
+        </Link>
       </div>
 
       {/* What you get */}

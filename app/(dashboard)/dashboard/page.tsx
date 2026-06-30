@@ -86,6 +86,80 @@ export default async function DashboardPage() {
         </h1>
       </div>
 
+      {/* Stage card — shown first so parents always see their position */}
+      <div style={{
+        background: stageColor.bg,
+        border: `2px solid ${stageColor.border}`,
+        borderRadius: '16px',
+        padding: '22px',
+        marginBottom: '20px',
+        ...(stage.isCritical ? { borderLeftWidth: '5px' } : {}),
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
+          <span style={{
+            fontFamily: 'var(--font-mono)',
+            fontSize: '10px',
+            fontWeight: 600,
+            letterSpacing: '0.12em',
+            textTransform: 'uppercase',
+            background: stageColor.text,
+            color: stageColor.bg,
+            padding: '3px 10px',
+            borderRadius: '100px',
+          }}>
+            Stage {stage.id} · {stage.name}
+          </span>
+          {stage.isCritical && (
+            <span style={{
+              fontFamily: 'var(--font-mono)',
+              fontSize: '9px',
+              fontWeight: 600,
+              letterSpacing: '0.1em',
+              textTransform: 'uppercase',
+              background: 'var(--terracotta)',
+              color: '#fff',
+              padding: '3px 8px',
+              borderRadius: '100px',
+            }}>
+              Critical Window
+            </span>
+          )}
+        </div>
+
+        {child?.name && child.name !== 'Your child' && (
+          <div style={{ fontSize: '15px', color: 'var(--ink-muted)', marginBottom: '6px' }}>
+            {child.name}
+          </div>
+        )}
+
+        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '18px', color: 'var(--ink)', marginBottom: '2px' }}>
+          {stage.keyStage} · {stage.yearGroup}
+        </div>
+        <div style={{ fontSize: '13px', color: 'var(--ink-soft)', marginBottom: '12px' }}>{stage.ages}</div>
+        <div style={{ fontSize: '14px', color: 'var(--ink-muted)', fontStyle: 'italic', marginBottom: '14px' }}>{stage.focus}</div>
+
+        <Link href="/dashboard/tracker" style={{
+          display: 'inline-flex', alignItems: 'center', gap: '6px',
+          fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 600,
+          color: 'var(--ink-soft)', textDecoration: 'none', letterSpacing: '0.06em',
+          padding: '7px 12px', background: 'rgba(255,255,255,0.5)',
+          borderRadius: '100px', border: '1px solid rgba(0,0,0,0.08)',
+        }}>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+          </svg>
+          Wellbeing tracker
+        </Link>
+
+        {(child?.streak_weeks ?? 0) > 0 && (
+          <div style={{ marginTop: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: stageColor.text }}>
+              {child?.streak_weeks} week streak
+            </span>
+          </div>
+        )}
+      </div>
+
       {/* Push notification opt-in */}
       <div style={{ marginBottom: '20px' }}>
         <PushPrompt userId={user.id} stage={`Stage ${stage.id}`} />
@@ -136,67 +210,6 @@ export default async function DashboardPage() {
           </div>
         </div>
       </Link>
-
-      {/* Stage card */}
-      <div style={{
-        background: stageColor.bg,
-        border: `2px solid ${stageColor.border}`,
-        borderRadius: '16px',
-        padding: '22px',
-        marginBottom: '20px',
-        ...(stage.isCritical ? { borderLeftWidth: '5px' } : {}),
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
-          <span style={{
-            fontFamily: 'var(--font-mono)',
-            fontSize: '10px',
-            fontWeight: 600,
-            letterSpacing: '0.12em',
-            textTransform: 'uppercase',
-            background: stageColor.text,
-            color: stageColor.bg,
-            padding: '3px 10px',
-            borderRadius: '100px',
-          }}>
-            Stage {stage.id} · {stage.name}
-          </span>
-          {stage.isCritical && (
-            <span style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: '9px',
-              fontWeight: 600,
-              letterSpacing: '0.1em',
-              textTransform: 'uppercase',
-              background: 'var(--terracotta)',
-              color: '#fff',
-              padding: '3px 8px',
-              borderRadius: '100px',
-            }}>
-              Critical Window
-            </span>
-          )}
-        </div>
-
-        {child?.name && child.name !== 'Your child' && (
-          <div style={{ fontSize: '15px', color: 'var(--ink-muted)', marginBottom: '6px' }}>
-            {child.name}
-          </div>
-        )}
-
-        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '18px', color: 'var(--ink)', marginBottom: '2px' }}>
-          {stage.keyStage} · {stage.yearGroup}
-        </div>
-        <div style={{ fontSize: '13px', color: 'var(--ink-soft)', marginBottom: '12px' }}>{stage.ages}</div>
-        <div style={{ fontSize: '14px', color: 'var(--ink-muted)', fontStyle: 'italic' }}>{stage.focus}</div>
-
-        {(child?.streak_weeks ?? 0) > 0 && (
-          <div style={{ marginTop: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: stageColor.text }}>
-              {child?.streak_weeks} week streak
-            </span>
-          </div>
-        )}
-      </div>
 
       {/* Moment cards section */}
       {todayMoments.length > 0 && (

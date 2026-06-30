@@ -451,19 +451,18 @@ export default function OnboardingPage() {
             <div style={{
               width: 52,
               height: 52,
-              borderRadius: '50%',
+              borderRadius: '14px',
               background: 'var(--terracotta)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              fontSize: '1.4rem',
               flexShrink: 0,
-              boxShadow: '0 4px 12px rgba(0,0,0,0.12)',
+              boxShadow: '0 4px 0 var(--terracotta-dark)',
             }}>
-              🤖
+              <span style={{ fontSize: '1.4rem', lineHeight: 1, color: '#fff' }}>◎</span>
             </div>
             <div>
-              <div style={{ fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: 16, color: 'var(--ink)' }}>DiGi</div>
+              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 16, color: 'var(--ink)' }}>DiGi</div>
               <div style={{ fontFamily: 'var(--font-body)', fontSize: 12, color: 'var(--ink-muted)' }}>Your AI parenting advisor</div>
             </div>
           </div>
@@ -584,8 +583,8 @@ export default function OnboardingPage() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
               {/* DiGi question */}
               <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-                <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'var(--terracotta)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.9rem', flexShrink: 0 }}>
-                  🤖
+                <div style={{ width: 36, height: 36, borderRadius: '10px', background: 'var(--terracotta)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
+                  <span style={{ fontSize: '1rem', lineHeight: 1, color: '#fff' }}>◎</span>
                 </div>
                 <div style={{ ...CARD, flex: 1, padding: '16px 18px' }}>
                   <p style={{ fontFamily: 'var(--font-body)', fontSize: 15, lineHeight: 1.6, color: 'var(--ink)', margin: 0 }}>
