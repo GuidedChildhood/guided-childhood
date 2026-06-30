@@ -6,26 +6,19 @@ export default function AnnouncementBar() {
   const [visible, setVisible] = useState(true)
   if (!visible) return null
   return (
-    <div style={{
-      background: 'var(--coral)',
-      padding: '10px 20px',
-      display: 'flex',
-      alignItems: 'center',
-      gap: '12px',
-      justifyContent: 'center',
-    }}>
-      <span style={{
+    <div className="announcement-bar">
+      <span className="ann-badge" style={{
         fontFamily: 'var(--font-mono)',
         fontSize: '.68rem',
         fontWeight: 600,
         letterSpacing: '.08em',
         textTransform: 'uppercase',
-        color: 'rgba(255,255,255,.85)',
+        color: 'rgba(255,255,255,.75)',
         flexShrink: 0,
       }}>
         New law
       </span>
-      <span style={{
+      <span className="ann-text" style={{
         fontFamily: 'var(--font-body)',
         fontSize: '.8rem',
         fontWeight: 600,
@@ -39,9 +32,10 @@ export default function AnnouncementBar() {
       </span>
       <Link
         href="/starter-pack"
+        className="ann-cta"
         style={{
-          background: '#fff',
-          color: 'var(--coral)',
+          background: 'rgba(255,255,255,.2)',
+          color: '#fff',
           fontFamily: 'var(--font-body)',
           fontWeight: 700,
           fontSize: '.72rem',
@@ -50,6 +44,9 @@ export default function AnnouncementBar() {
           whiteSpace: 'nowrap',
           textDecoration: 'none',
           flexShrink: 0,
+          display: 'inline-flex',
+          alignItems: 'center',
+          border: '1px solid rgba(255,255,255,.35)',
         }}
       >
         Start here

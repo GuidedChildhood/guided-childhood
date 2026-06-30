@@ -20,29 +20,34 @@
   --border:#E4DFD7;
   --sans:'Hanken Grotesk',system-ui,sans-serif;
   --mono:'IBM Plex Mono',ui-monospace,monospace;
+  --stage-1:#FFF4C2; --stage-1-bold:#FFD700;
+  --stage-2:#BAE6FF; --stage-2-bold:#38BDF8;
+  --stage-3:#FFD0C8; --stage-3-bold:#FF7B63;
+  --stage-4:#FFD6E7; --stage-4-bold:#F591C0;
+  --stage-5:#E4DFFF; --stage-5-bold:#9B88F5;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{background:var(--cream);font-family:var(--sans);color:var(--ink);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
-nav{background:var(--green-dark);padding:0 32px;height:58px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+nav{background:rgba(255,255,255,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 32px;height:58px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
 .logo{display:flex;align-items:center;gap:9px;text-decoration:none}
 .logo-mark{width:28px;height:28px;background:var(--green);border-radius:7px;display:flex;align-items:center;justify-content:center}
 .logo-mark-inner{width:14px;height:14px;border-radius:3px;background:var(--green-dark)}
-.logo-name{font-family:var(--sans);font-weight:800;font-size:1rem;color:#fff;letter-spacing:-.01em}
+.logo-name{font-family:var(--sans);font-weight:800;font-size:1rem;color:var(--ink);letter-spacing:-.01em}
 .nav-right{display:flex;align-items:center;gap:16px}
-.nav-link{font-size:.82rem;color:var(--green);text-decoration:none;font-weight:600;font-family:var(--mono);letter-spacing:.04em}
+.nav-link{font-size:.82rem;color:var(--ink-soft);text-decoration:none;font-weight:600;font-family:var(--mono);letter-spacing:.04em}
 .nav-link:hover{color:#fff}
 .nav-btn{background:var(--gold);color:var(--ink);border:none;font-family:var(--mono);font-weight:700;font-size:.8rem;letter-spacing:.02em;padding:9px 18px;border-radius:16px;box-shadow:0 4px 0 var(--gold-hover);cursor:pointer;text-decoration:none;display:inline-block;transition:transform .12s,box-shadow .12s}
 .nav-btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--gold-hover)}
-.hero{background:#1C2E24;padding:56px 32px 52px;position:relative;overflow:hidden}
+.hero{background:#fff;border-bottom:1px solid var(--border);padding:56px 32px 52px;position:relative;overflow:hidden}
 .hero::before{content:'';position:absolute;top:-60px;right:-60px;width:360px;height:360px;border-radius:50%;background:var(--green-dark);opacity:.25;pointer-events:none}
 .hero-inner{max-width:900px;margin:0 auto;position:relative}
-.hero-eyebrow{font-family:var(--mono);font-size:.68rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--green);margin-bottom:14px;display:block}
-.hero h1{font-family:var(--sans);font-size:clamp(2.2rem,4vw,3.4rem);font-weight:800;color:#fff;line-height:1.08;letter-spacing:-.03em;margin-bottom:14px}
+.hero-eyebrow{font-family:var(--mono);font-size:.68rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--coral);margin-bottom:14px;display:block}
+.hero h1{font-family:var(--sans);font-size:clamp(2.2rem,4vw,3.4rem);font-weight:800;color:var(--ink);line-height:1.08;letter-spacing:-.03em;margin-bottom:14px}
 .hero h1 em{font-style:italic;font-weight:400;color:var(--green)}
-.hero-sub{font-size:1rem;color:rgba(255,255,255,.75);line-height:1.78;max-width:540px;margin-bottom:28px}
+.hero-sub{font-size:1rem;color:var(--ink-soft);line-height:1.78;max-width:540px;margin-bottom:28px}
 .module-pills{display:flex;gap:8px;flex-wrap:wrap}
-.mpill{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:100px;padding:5px 14px;font-family:var(--mono);font-size:.7rem;font-weight:600;color:rgba(255,255,255,.8);letter-spacing:.06em;text-transform:uppercase}
+.mpill{background:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.8);border-radius:100px;padding:5px 14px;font-family:var(--mono);font-size:.7rem;font-weight:600;color:var(--ink-soft);letter-spacing:.06em;text-transform:uppercase}
 .progress-bar{background:var(--warm);border-bottom:1px solid var(--border);padding:12px 32px}
 .progress-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px}
 .progress-inner p{font-family:var(--mono);font-size:.7rem;color:var(--ink-muted);letter-spacing:.06em;text-transform:uppercase}

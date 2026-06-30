@@ -8,11 +8,11 @@ export const metadata = {
 }
 
 const STAGE_COLORS = [
-  { bg: '#EEF7F2', border: '#C5E3D3', deep: '#2E7D5A', wash: '#D3ECD9' },
-  { bg: '#E7ECF8', border: '#B8C8F0', deep: '#3D5BA9', wash: '#C5D3F0' },
-  { bg: '#FEF3E8', border: 'rgba(212,96,10,.25)', deep: '#D4600A', wash: '#FAD5B0' },
-  { bg: '#FEFAE8', border: 'rgba(242,201,76,.4)', deep: '#C9962A', wash: '#F5E098' },
-  { bg: '#FDFBF8', border: '#E4DFD7', deep: '#4A4A4A', wash: '#E4DFD7' },
+  { bg: 'var(--stage-1)', border: 'var(--stage-1)', deep: 'var(--terracotta)', wash: 'var(--terracotta-lt)' },
+  { bg: 'var(--stage-2)', border: 'var(--stage-2)', deep: 'var(--terracotta)', wash: 'var(--terracotta-lt)' },
+  { bg: 'var(--stage-3)', border: 'var(--stage-3)', deep: 'var(--terracotta)', wash: 'var(--terracotta-lt)' },
+  { bg: 'var(--stage-4)', border: 'var(--stage-4)', deep: 'var(--terracotta)', wash: 'var(--terracotta-lt)' },
+  { bg: 'var(--stage-5)', border: 'var(--stage-5)', deep: 'var(--terracotta)', wash: 'var(--terracotta-lt)' },
 ]
 
 export default function ScriptsPage() {
@@ -31,7 +31,7 @@ export default function ScriptsPage() {
       }}>
         <div style={{ maxWidth: '760px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '60px' }}>
           <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
-            <div style={{ width: '28px', height: '28px', background: 'var(--green-dark)', borderRadius: '7px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 3px 0 rgba(0,0,0,.18)' }}>
+            <div style={{ width: '28px', height: '28px', background: 'var(--terracotta)', borderRadius: '7px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 3px 0 rgba(0,0,0,.18)' }}>
               <div style={{ display: 'flex', alignItems: 'flex-end', gap: '2px', height: '13px' }}>
                 {[3, 7, 11, 6].map((h, i) => (
                   <div key={i} style={{ width: '2.5px', height: `${h}px`, background: '#fff', borderRadius: '1.5px' }} />
@@ -51,10 +51,10 @@ export default function ScriptsPage() {
 
       {/* ── Hero ─────────────────────────────────────── */}
       <section style={{ padding: 'clamp(40px, 6vw, 72px) 24px 32px', maxWidth: '760px', margin: '0 auto' }}>
-        <p className="eyebrow" style={{ color: 'var(--lav-deep)', marginBottom: '14px' }}>Five stages · Ages 4 to 16</p>
+        <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '14px' }}>Five stages · Ages 4 to 16</p>
         <h1 style={{ marginBottom: '16px', letterSpacing: '-.04em' }}>
           The conversations<br />
-          <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--lav-deep)' }}>that change everything.</em>
+          <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--terracotta)' }}>that change everything.</em>
         </h1>
         <p style={{ fontSize: '1.05rem', color: 'var(--ink-soft)', lineHeight: 1.8, maxWidth: '560px', marginBottom: '12px' }}>
           One script per stage. Read it through in 10 minutes. Say it tonight.
@@ -111,7 +111,7 @@ export default function ScriptsPage() {
                           letterSpacing: '.1em',
                           textTransform: 'uppercase',
                           color: '#fff',
-                          background: 'var(--coral)',
+                          background: 'var(--terracotta)',
                           padding: '4px 10px',
                           borderRadius: '8px',
                         }}>
@@ -164,8 +164,8 @@ export default function ScriptsPage() {
 
                 {/* Not this */}
                 <div style={{
-                  background: 'var(--coral-lt)',
-                  border: '1px solid rgba(212,96,10,.2)',
+                  background: 'var(--stage-1)',
+                  border: '1px solid var(--stage-1)',
                   borderRadius: '14px',
                   padding: '16px 20px',
                   display: 'flex',
@@ -178,7 +178,7 @@ export default function ScriptsPage() {
                     fontWeight: 700,
                     letterSpacing: '.14em',
                     textTransform: 'uppercase',
-                    color: 'var(--coral)',
+                    color: 'var(--terracotta)',
                     whiteSpace: 'nowrap',
                     marginTop: '2px',
                     flexShrink: 0,
@@ -192,8 +192,8 @@ export default function ScriptsPage() {
 
                 {/* Why it works */}
                 <div style={{
-                  background: 'var(--gold-lt)',
-                  border: '1px solid rgba(242,201,76,.3)',
+                  background: 'var(--stage-5)',
+                  border: '1px solid var(--stage-5)',
                   borderRadius: '14px',
                   padding: '16px 20px',
                 }}>
@@ -203,7 +203,7 @@ export default function ScriptsPage() {
                     fontWeight: 700,
                     letterSpacing: '.14em',
                     textTransform: 'uppercase',
-                    color: 'var(--gold-dark)',
+                    color: 'var(--terracotta)',
                     marginBottom: '8px',
                   }}>
                     Why it works
@@ -215,8 +215,8 @@ export default function ScriptsPage() {
 
                 {/* Tonight's action */}
                 <div style={{
-                  background: 'var(--green-lt)',
-                  border: '1px solid #C5E3D3',
+                  background: 'var(--stage-2)',
+                  border: '1px solid var(--stage-2)',
                   borderRadius: '14px',
                   padding: '16px 20px',
                   display: 'flex',
@@ -229,7 +229,7 @@ export default function ScriptsPage() {
                     fontWeight: 700,
                     letterSpacing: '.14em',
                     textTransform: 'uppercase',
-                    color: 'var(--green-dark)',
+                    color: 'var(--terracotta)',
                     whiteSpace: 'nowrap',
                     marginTop: '2px',
                     flexShrink: 0,

@@ -1,88 +1,32 @@
 {
-  "framework": null,
-  "buildCommand": "",
-  "outputDirectory": ".",
-  "routes": [
-    { "handle": "filesystem" },
-    { "src": "/digitalwellbeing", "dest": "/digitalwellbeing/index.html" },
-    { "src": "/digitalwellbeing/", "dest": "/digitalwellbeing/index.html" },
-    { "src": "/agents", "dest": "/agents.html" },
-    { "src": "/agents/", "dest": "/agents.html" },
-    { "src": "/schools", "dest": "/schools.html" },
-    { "src": "/schools/", "dest": "/schools.html" },
-    { "src": "/teachers", "status": 301, "headers": { "Location": "/schools" } },
-    { "src": "/teachers/", "status": 301, "headers": { "Location": "/schools" } },
-    { "src": "/get-started", "dest": "/get-started.html" },
-    { "src": "/get-started/", "dest": "/get-started.html" },
-    { "src": "/school-pack", "dest": "/school-pack.html" },
-    { "src": "/school-pack/", "dest": "/school-pack.html" },
-    { "src": "/starter-pack", "dest": "/starter-pack.html" },
-    { "src": "/starter-pack/", "dest": "/starter-pack.html" },
-    { "src": "/scripts", "dest": "/scripts.html" },
-    { "src": "/scripts/", "dest": "/scripts.html" },
-    { "src": "/trust", "dest": "/trust.html" },
-    { "src": "/trust/", "dest": "/trust.html" },
-    { "src": "/evidence", "dest": "/evidence.html" },
-    { "src": "/evidence/", "dest": "/evidence.html" },
-    { "src": "/evidence-report", "dest": "/evidence-report.html" },
-    { "src": "/evidence-report/", "dest": "/evidence-report.html" },
-    { "src": "/join", "status": 302, "headers": { "Location": "https://mailchi.mp/thesocialbillboard/parents" } },
-    { "src": "/join/", "status": 302, "headers": { "Location": "https://mailchi.mp/thesocialbillboard/parents" } },
-    { "src": "/device-checklist", "dest": "/device-checklist.html" },
-    { "src": "/device-checklist/", "dest": "/device-checklist.html" },
-    { "src": "/pathway", "dest": "/pathway.html" },
-    { "src": "/pathway/", "dest": "/pathway.html" },
-    { "src": "/five-questions", "dest": "/five-questions.html" },
-    { "src": "/five-questions/", "dest": "/five-questions.html" },
-    { "src": "/GC-Module9-Worksheet", "dest": "/GC-Module9-Worksheet.html" },
-    { "src": "/GC-Module9-Worksheet/", "dest": "/GC-Module9-Worksheet.html" },
-    { "src": "/GC-Module9-TeacherNotes", "dest": "/GC-Module9-TeacherNotes.html" },
-    { "src": "/GC-Module9-TeacherNotes/", "dest": "/GC-Module9-TeacherNotes.html" },
-    { "src": "/GC-Module9-FeedbackSheet", "dest": "/GC-Module9-FeedbackSheet.html" },
-    { "src": "/GC-Module9-FeedbackSheet/", "dest": "/GC-Module9-FeedbackSheet.html" },
-    { "src": "/GC-Module9-SocialMediaBrain-KS3.pptx", "dest": "/GC-Module9-SocialMediaBrain-KS3.pptx" },
-    { "src": "/GC-Module9-DSLForm", "dest": "/dsl-form.html" },
-    { "src": "/GC-Module9-DSLForm/", "dest": "/dsl-form.html" },
-    { "src": "/stages", "status": 307, "headers": { "Location": "/#stages" } },
-    { "src": "/pricing", "status": 307, "headers": { "Location": "/#pricing" } },
-    { "src": "/how", "status": 307, "headers": { "Location": "/#how" } },
-    { "src": "/research", "status": 307, "headers": { "Location": "/#research" } },
-    { "src": "/digital-literacy", "dest": "/digital-literacy.html" },
-    { "src": "/digital-literacy/", "dest": "/digital-literacy.html" },
-    { "src": "/investor-deck", "dest": "/pitch-deck.html" },
-    { "src": "/investor-deck/", "dest": "/pitch-deck.html" },
-    { "src": "/investor-deck-print", "dest": "/pitch-deck-print.html" },
-    { "src": "/investor-deck-print/", "dest": "/pitch-deck-print.html" },
-    { "src": "/executive-summary", "dest": "/executive-summary.html" },
-    { "src": "/executive-summary/", "dest": "/executive-summary.html" },
-    { "src": "/financial-forecast", "dest": "/financial-forecast.html" },
-    { "src": "/financial-forecast/", "dest": "/financial-forecast.html" },
-    { "src": "/investor", "dest": "/investor.html" },
-    { "src": "/investor/", "dest": "/investor.html" },
-    { "src": "/(.*)", "dest": "/index.html" }
-  ],
+  "framework": "nextjs",
+  "buildCommand": "next build",
+  "outputDirectory": ".next",
+  "installCommand": "npm install",
+  "regions": ["lhr1"],
   "headers": [
-    {
-      "source": "/GC-Module9-SocialMediaBrain-KS3.pptx",
-      "headers": [
-        { "key": "Content-Type", "value": "application/vnd.openxmlformats-officedocument.presentationml.presentation" },
-        { "key": "Content-Disposition", "value": "attachment; filename=\"GC-Module9-SocialMediaBrain-KS3.pptx\"" }
-      ]
-    },
-    {
-      "source": "/evidence-paper.pdf",
-      "headers": [
-        { "key": "Content-Type", "value": "application/pdf" },
-        { "key": "Content-Disposition", "value": "attachment; filename=\"The-Social-Media-Ban-Evidence-Review-2026.pdf\"" }
-      ]
-    },
     {
       "source": "/(.*)",
       "headers": [
         { "key": "X-Content-Type-Options", "value": "nosniff" },
         { "key": "X-Frame-Options", "value": "DENY" },
-        { "key": "X-XSS-Protection", "value": "1; mode=block" }
+        { "key": "X-XSS-Protection", "value": "1; mode=block" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
+      ]
+    },
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-store" }
       ]
     }
+  ],
+  "rewrites": [
+    { "source": "/starter-pack", "destination": "/starter-pack" }
+  ],
+  "crons": [
+    { "path": "/api/push/cron", "schedule": "30 7 * * *" },
+    { "path": "/api/push/cron", "schedule": "30 15 * * *" },
+    { "path": "/api/push/cron", "schedule": "0 21 * * *" }
   ]
 }

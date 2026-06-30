@@ -12,9 +12,9 @@ const SQUAD = [
     age: 'Age 8',
     role: 'Screen Time Captain',
     power: 'Knows exactly when to play and when to stop. Teaches kids how to be the boss of the screen, not the other way around.',
-    color: 'var(--coral)',
-    colorLight: 'var(--coral-lt)',
-    colorDark: '#C0392B',
+    color: 'var(--stage-1)',
+    colorLight: 'var(--terracotta-lt)',
+    colorDark: 'var(--terracotta-dark)',
     kit: 'Orange football kit · Number 10',
     lessons: [
       'Why your brain wants more screen time even when you are tired',
@@ -30,9 +30,9 @@ const SQUAD = [
     age: 'Age 9',
     role: 'Online Smarts',
     power: 'Spots the tricks, the fakes and the traps before anyone else. Teaches kids to think before they tap.',
-    color: 'var(--gold-dark)',
-    colorLight: 'var(--gold-lt)',
-    colorDark: '#A07820',
+    color: 'var(--stage-5)',
+    colorLight: 'var(--stage-5)',
+    colorDark: 'var(--terracotta)',
     kit: 'Orange and yellow stripes · Blue dungarees',
     lessons: [
       'How to tell if something online is real or made up',
@@ -48,9 +48,9 @@ const SQUAD = [
     age: 'Age 6',
     role: 'Privacy Guardian',
     power: 'Keeps the whole squad safe. Teaches kids what information is theirs to keep and what to never share.',
-    color: 'var(--green-dark)',
-    colorLight: 'var(--green-lt)',
-    colorDark: '#1E5C3F',
+    color: 'var(--stage-2)',
+    colorLight: 'var(--stage-2)',
+    colorDark: 'var(--terracotta-dark)',
     kit: 'Pink tutu · Orange cape',
     lessons: [
       'Your five pieces of private information that stay private always',
@@ -126,7 +126,7 @@ export default function DigiSquadPage() {
 
       {/* Squad members */}
       {SQUAD.map((s, i) => (
-        <section key={s.name} className="section-lg" style={{ background: i % 2 === 0 ? 'var(--cream)' : 'var(--warm)', borderTop: '1px solid var(--border)' }}>
+        <section key={s.name} className="section-lg" style={{ background: 'var(--cream)', borderTop: '1px solid var(--border)' }}>
           <div className="container">
             <div className="two-col" style={{ gap: '64px' }}>
 
@@ -202,7 +202,7 @@ export default function DigiSquadPage() {
       </section>
 
       {/* How it works for kids */}
-      <section className="section-lg" style={{ background: 'var(--warm)', borderTop: '1px solid var(--border)' }}>
+      <section className="section-lg" style={{ background: 'var(--cream)', borderTop: '1px solid var(--border)' }}>
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: '48px' }}>
             <p className="eyebrow" style={{ marginBottom: '12px' }}>How it works</p>
@@ -213,9 +213,9 @@ export default function DigiSquadPage() {
           </div>
           <div className="three-col">
             {[
-              { step: '01', title: 'Watch together', desc: 'A short animated lesson with a squad character. Warm, funny, never preachy. Kids aged 5 upwards can follow it without help.', color: 'var(--green-dark)', bg: 'var(--green-lt)' },
-              { step: '02', title: 'Talk about it', desc: 'Each lesson ends with one question to ask at dinner or bedtime. Parents do not need to know the answer. The conversation is the point.', color: 'var(--lav-deep)', bg: 'var(--lav)' },
-              { step: '03', title: 'Do the mission', desc: 'A simple one-thing challenge for the week. Teo teaches kids to put the phone face-down at meals. Olga teaches them to think before they share.', color: 'var(--gold-dark)', bg: 'var(--gold-lt)' },
+              { step: '01', title: 'Watch together', desc: 'A short animated lesson with a squad character. Warm, funny, never preachy. Kids aged 5 upwards can follow it without help.', color: 'var(--terracotta)', bg: 'var(--stage-2)' },
+              { step: '02', title: 'Talk about it', desc: 'Each lesson ends with one question to ask at dinner or bedtime. Parents do not need to know the answer. The conversation is the point.', color: 'var(--terracotta)', bg: 'var(--stage-4)' },
+              { step: '03', title: 'Do the mission', desc: 'A simple one-thing challenge for the week. Teo teaches kids to put the phone face-down at meals. Olga teaches them to think before they share.', color: 'var(--terracotta)', bg: 'var(--stage-5)' },
             ].map((item) => (
               <div key={item.step} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '16px', padding: '28px', borderTop: `4px solid ${item.color}` }}>
                 <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: item.color, marginBottom: '12px', background: item.bg, display: 'inline-block', padding: '4px 10px', borderRadius: '100px' }}>
@@ -252,7 +252,7 @@ export default function DigiSquadPage() {
                 <div className="digi-avatar">D</div>
                 <div>
                   <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '.9rem', color: 'var(--ink)' }}>DiGi</div>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--green-dark)' }}>After Teo&rsquo;s lesson today</div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>After Teo&rsquo;s lesson today</div>
                 </div>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
@@ -268,8 +268,8 @@ export default function DigiSquadPage() {
                     Tonight you could ask: &ldquo;What did Teo say about why it is hard to stop?&rdquo; Just that. Let them explain it back to you.
                   </div>
                 </div>
-                <div style={{ background: 'var(--green-lt)', border: '1px solid #D3ECD9', borderRadius: '10px', padding: '14px 16px' }}>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--green-dark)', marginBottom: '8px' }}>Why this matters · Stage 3 · Ages 9 to 11</div>
+                <div style={{ background: 'var(--stage-2)', border: '1px solid var(--stage-2)', borderRadius: '10px', padding: '14px 16px' }}>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '8px' }}>Why this matters · Stage 3 · Ages 9 to 11</div>
                   <p style={{ fontSize: '.82rem', color: 'var(--ink)', lineHeight: 1.6, margin: 0 }}>
                     Children who can name what is happening in their brain are significantly better at self-regulating. Teo makes that naming feel like football tactics, not a lecture.
                   </p>
@@ -281,7 +281,7 @@ export default function DigiSquadPage() {
       </section>
 
       {/* Final CTA */}
-      <section style={{ background: 'var(--green-dark)', padding: 'clamp(64px, 9vw, 104px) 32px', position: 'relative', overflow: 'hidden' }}>
+      <section style={{ background: 'var(--terracotta-dark)', padding: 'clamp(64px, 9vw, 104px) 32px', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', top: '-60px', right: '-60px', width: '280px', height: '280px', borderRadius: '50%', background: 'rgba(255,255,255,.04)', pointerEvents: 'none' }} />
         <div className="container" style={{ textAlign: 'center', position: 'relative', zIndex: 1 }}>
           <p className="eyebrow" style={{ color: 'var(--green)', marginBottom: '16px' }}>The DiGi Squad</p>

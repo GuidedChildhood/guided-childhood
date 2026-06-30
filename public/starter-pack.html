@@ -18,12 +18,17 @@
   --border:#E4DFD7;
   --sans:'Hanken Grotesk',system-ui,sans-serif;
   --mono:'IBM Plex Mono',ui-monospace,monospace;
+  --stage-1:#FFF4C2; --stage-1-bold:#FFD700;
+  --stage-2:#BAE6FF; --stage-2-bold:#38BDF8;
+  --stage-3:#FFD0C8; --stage-3-bold:#FF7B63;
+  --stage-4:#FFD6E7; --stage-4-bold:#F591C0;
+  --stage-5:#E4DFFF; --stage-5-bold:#9B88F5;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{background:var(--cream);font-family:var(--sans);color:var(--ink);-webkit-font-smoothing:antialiased}
 .wrap{max-width:580px;margin:0 auto;padding:0 20px 80px}
-.topbar{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;max-width:960px;margin:0 auto}
+.topbar{background:#fff;border-bottom:1px solid var(--border);padding:18px 20px;display:flex;align-items:center;justify-content:space-between;}
 .logo{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--ink)}
 .logo-mark{width:24px;height:24px;background:var(--green);border-radius:6px}
 .logo-name{font-weight:800;font-size:.95rem;letter-spacing:-.01em}

@@ -1,6 +1,8 @@
 import { getFounderCount, FOUNDER_CAP } from '@/lib/stripe'
 import { NextResponse } from 'next/server'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
   try {
     const count = await getFounderCount()
