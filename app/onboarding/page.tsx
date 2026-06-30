@@ -129,11 +129,10 @@ export default function OnboardingPage() {
     const name = childName.trim() || 'Your child'
 
     const [, existingChildren] = await Promise.all([
-      supabase.from('profiles').upsert({
-        id: user.id,
+      supabase.from('profiles').update({
         onboarding_answers: { ageBand, challenge: challenges[0] ?? null, feeling: null },
         onboarding_complete: true,
-      }),
+      }).eq('id', user.id),
       supabase.from('children').select('id').eq('parent_id', user.id).limit(1),
     ])
 
@@ -430,13 +429,9 @@ export default function OnboardingPage() {
     const soldOut = founderSpots?.sold_out ?? false
 
     async function skipToApp() {
-      // Ensure onboarding_complete is saved before navigating away
       const { data: { user } } = await supabase.auth.getUser()
       if (user) {
-        await supabase.from('profiles').upsert({
-          id: user.id,
-          onboarding_complete: true,
-        })
+        await supabase.from('profiles').update({ onboarding_complete: true }).eq('id', user.id)
       }
       router.push('/dashboard')
     }
