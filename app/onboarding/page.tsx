@@ -178,8 +178,8 @@ export default function OnboardingPage() {
 
   if (screen === 'init') {
     return (
-      <div style={{ minHeight: '100dvh', background: 'var(--ink)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ width: 36, height: 36, border: '3px solid rgba(255,255,255,0.1)', borderTopColor: 'var(--terracotta)', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
+      <div style={{ minHeight: '100dvh', background: 'var(--cream)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ width: 36, height: 36, border: '3px solid var(--border)', borderTopColor: 'var(--terracotta)', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
         <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
       </div>
     )
@@ -189,16 +189,16 @@ export default function OnboardingPage() {
 
   if (screen === 'welcome') {
     return (
-      <div style={{ minHeight: '100dvh', background: 'var(--ink)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '32px 24px' }}>
+      <div style={{ minHeight: '100dvh', background: 'var(--cream)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '32px 24px' }}>
         <div style={{ maxWidth: 480, width: '100%', textAlign: 'center' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)', marginBottom: '24px' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '24px' }}>
             Ages 4 to 16 · One pathway
           </div>
-          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 5vw, 2.8rem)', fontWeight: 800, lineHeight: 1.15, letterSpacing: '-0.025em', color: '#fff', marginBottom: '18px' }}>
+          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 5vw, 2.8rem)', fontWeight: 800, lineHeight: 1.15, letterSpacing: '-0.025em', color: 'var(--ink)', marginBottom: '18px' }}>
             From their first screen to the moment they are ready for everything.
           </h1>
-          <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.52)', lineHeight: 1.6, marginBottom: '40px' }}>
-            Let's set this up around your child. Takes two minutes.
+          <p style={{ fontSize: '16px', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: '40px' }}>
+            Let&apos;s set this up around your child. Takes two minutes.
           </p>
           <button style={BTN} onClick={() => setScreen('name')}>
             Get started →
@@ -374,9 +374,9 @@ export default function OnboardingPage() {
 
   if (screen === 'loading') {
     return (
-      <div style={{ minHeight: '100dvh', background: 'var(--ink)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '20px' }}>
-        <div style={{ width: 40, height: 40, border: '3px solid rgba(255,255,255,0.1)', borderTopColor: 'var(--terracotta)', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
-        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'rgba(255,255,255,0.4)', letterSpacing: '0.08em' }}>Setting up your pathway...</p>
+      <div style={{ minHeight: '100dvh', background: 'var(--cream)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '20px' }}>
+        <div style={{ width: 40, height: 40, border: '3px solid var(--border)', borderTopColor: 'var(--terracotta)', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--ink-muted)', letterSpacing: '0.08em' }}>Setting up your pathway...</p>
         <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
       </div>
     )
@@ -386,7 +386,7 @@ export default function OnboardingPage() {
 
   if (screen === 'digi-intro') {
     return (
-      <div style={{ minHeight: '100dvh', background: 'var(--ink)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '32px 24px' }}>
+      <div style={{ minHeight: '100dvh', background: 'var(--cream)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '32px 24px' }}>
         <div style={{ maxWidth: 480, width: '100%' }}>
           {/* DiGi avatar row */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '28px' }}>
@@ -399,17 +399,18 @@ export default function OnboardingPage() {
               <span style={{ fontSize: '1.4rem', color: '#fff' }}>◎</span>
             </div>
             <div>
-              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '18px', color: '#fff', letterSpacing: '-0.01em' }}>DiGi</div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'rgba(255,255,255,0.4)', letterSpacing: '0.06em', marginTop: '2px' }}>Your digital parenting advisor</div>
+              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '18px', color: 'var(--ink)', letterSpacing: '-0.01em' }}>DiGi</div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-muted)', letterSpacing: '0.06em', marginTop: '2px' }}>Your digital parenting advisor</div>
             </div>
           </div>
 
           {/* Message */}
           <div style={{
-            background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)',
+            background: '#fff', border: '1px solid var(--border)',
             borderRadius: '20px', padding: '24px', marginBottom: '24px',
+            boxShadow: '0 2px 16px rgba(26,26,46,0.06)',
           }}>
-            <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.84)', lineHeight: 1.7, margin: 0 }}>
+            <p style={{ fontSize: '16px', color: 'var(--ink-soft)', lineHeight: 1.7, margin: 0 }}>
               {digiData?.intro ?? 'Loading...'}
             </p>
           </div>
@@ -428,34 +429,47 @@ export default function OnboardingPage() {
     const remaining = founderSpots?.remaining ?? null
     const soldOut = founderSpots?.sold_out ?? false
 
+    async function skipToApp() {
+      // Ensure onboarding_complete is saved before navigating away
+      const { data: { user } } = await supabase.auth.getUser()
+      if (user) {
+        await supabase.from('profiles').upsert({
+          id: user.id,
+          onboarding_complete: true,
+        })
+      }
+      router.push('/dashboard')
+    }
+
     return (
-      <div style={{ minHeight: '100dvh', background: 'var(--ink)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '32px 24px' }}>
+      <div style={{ minHeight: '100dvh', background: 'var(--cream)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '32px 24px' }}>
         <div style={{ maxWidth: 480, width: '100%' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)', marginBottom: '16px' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '16px' }}>
             Founding members · 50 places
           </div>
-          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.8rem, 4vw, 2.4rem)', fontWeight: 800, letterSpacing: '-0.025em', lineHeight: 1.15, color: '#fff', marginBottom: '28px' }}>
+          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.8rem, 4vw, 2.4rem)', fontWeight: 800, letterSpacing: '-0.025em', lineHeight: 1.15, color: 'var(--ink)', marginBottom: '28px' }}>
             Be one of the first 50.
           </h1>
 
           <div style={{
-            background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)',
+            background: '#fff', border: '1px solid var(--border)',
             borderRadius: '20px', padding: '28px 24px', marginBottom: '16px',
+            boxShadow: '0 2px 16px rgba(26,26,46,0.06)',
           }}>
             {!soldOut ? (
               <>
-                <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.72)', lineHeight: 1.65, marginBottom: '20px' }}>
+                <p style={{ fontSize: '16px', color: 'var(--ink-soft)', lineHeight: 1.65, marginBottom: '20px' }}>
                   Founding members lock in £7.99 a month for life. The price never rises for you, even as the platform grows.
                 </p>
 
                 {/* Counter */}
                 <div style={{
                   display: 'inline-flex', alignItems: 'center', gap: '8px',
-                  background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)',
+                  background: 'var(--stage-2)', border: '1px solid var(--border)',
                   borderRadius: '100px', padding: '6px 14px', marginBottom: '24px',
                 }}>
                   <div style={{ width: 7, height: 7, borderRadius: '50%', background: 'var(--terracotta)', flexShrink: 0 }} />
-                  <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 600, fontSize: '13px', color: 'rgba(255,255,255,0.7)' }}>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 600, fontSize: '13px', color: 'var(--ink-soft)' }}>
                     {remaining !== null ? `${remaining} of 50 places left` : 'Loading availability...'}
                   </span>
                 </div>
@@ -469,7 +483,7 @@ export default function OnboardingPage() {
               </>
             ) : (
               <>
-                <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.72)', lineHeight: 1.65, marginBottom: '20px' }}>
+                <p style={{ fontSize: '16px', color: 'var(--ink-soft)', lineHeight: 1.65, marginBottom: '20px' }}>
                   The 50 founding places have been claimed. You can still join at our standard rate.
                 </p>
                 <form action="/api/stripe/checkout" method="POST">
@@ -481,16 +495,17 @@ export default function OnboardingPage() {
           </div>
 
           <button
-            onClick={() => setScreen('first-task')}
+            type="button"
+            onClick={skipToApp}
             style={{
               display: 'block', width: '100%',
               background: 'none', border: 'none',
-              color: 'rgba(255,255,255,0.28)',
+              color: 'var(--ink-muted)',
               fontFamily: 'var(--font-mono)', fontSize: '12px', letterSpacing: '0.06em',
               cursor: 'pointer', textAlign: 'center', padding: '12px 0',
             }}
           >
-            Maybe later
+            Maybe later — take me to the platform
           </button>
         </div>
       </div>
