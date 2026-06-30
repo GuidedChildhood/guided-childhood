@@ -22,18 +22,40 @@ const CARD_ICONS: Record<string, string> = {
   complete: '✓',
 }
 
+const DAILY_MOMENTS = [
+  { key: 'morning', label: 'Morning routine', icon: '☀️' },
+  { key: 'teeth', label: 'Teeth brushing', icon: '🦷' },
+  { key: 'dressed', label: 'Getting dressed', icon: '👕' },
+  { key: 'bag', label: 'School bag', icon: '🎒' },
+  { key: 'lunch', label: 'Lunch / packed lunch', icon: '🥪' },
+  { key: 'dropoff', label: 'School drop off', icon: '🏫' },
+  { key: 'pickup', label: 'School pick up', icon: '🚗' },
+  { key: 'snacks', label: 'Snacks and food', icon: '🍎' },
+  { key: 'dinner', label: 'Choosing dinner', icon: '🍽️' },
+  { key: 'tv_eve', label: 'Evening TV', icon: '📺' },
+  { key: 'homework', label: 'Homework', icon: '📚' },
+  { key: 'clothes', label: 'Clothes in washing', icon: '🧺' },
+  { key: 'fighting', label: 'Sibling fighting', icon: '😤' },
+  { key: 'bedtime', label: 'Getting to bed', icon: '🌙' },
+  { key: 'sleep', label: 'Staying asleep', icon: '😴' },
+]
+
 export default function DailyDeckViewer({
   cards,
   alreadyDone,
+  yesterdayMoments,
 }: {
   cards: DailyCard[]
   alreadyDone: boolean
+  yesterdayMoments?: string[]
 }) {
   const router = useRouter()
   const [cardIndex, setCardIndex] = useState(0)
   const [done, setDone] = useState(alreadyDone)
   const [showComplete, setShowComplete] = useState(false)
   const [loggedTracker, setLoggedTracker] = useState(false)
+  const [selectedMoments, setSelectedMoments] = useState<string[]>([])
+  const [momentsSaved, setMomentsSaved] = useState(false)
   const [isExiting, setIsExiting] = useState(false)
   const [exitDir, setExitDir] = useState<'left' | 'right'>('left')
 
@@ -103,34 +125,51 @@ export default function DailyDeckViewer({
 
   // ── COMPLETION SCREEN ─────────────────────────────────────────────────────
   if (showComplete) {
+    const toggleMoment = (key: string) => {
+      setSelectedMoments(prev =>
+        prev.includes(key) ? prev.filter(k => k !== key) : [...prev, key]
+      )
+    }
+
+    const saveMoments = () => {
+      if (selectedMoments.length === 0) return
+      setMomentsSaved(true)
+      fetch('/api/daily/feedback', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ moments: selectedMoments }),
+      }).catch(() => {})
+    }
+
     return (
       <div style={{
-        minHeight: '60dvh', display: 'flex', flexDirection: 'column',
-        alignItems: 'center', justifyContent: 'center',
-        maxWidth: '480px', margin: '0 auto', padding: '40px 20px',
+        maxWidth: '480px', margin: '0 auto', padding: '40px 20px 60px',
       }}>
-        <div style={{
-          width: 72, height: 72, borderRadius: '50%',
-          background: 'var(--terracotta)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontSize: '28px', color: '#fff', marginBottom: '20px',
-          boxShadow: '0 6px 0 var(--terracotta-dark)',
-        }}>✓</div>
-        <h2 style={{
-          fontFamily: 'var(--font-display)', fontWeight: 900,
-          fontSize: '1.6rem', color: 'var(--ink)', marginBottom: '8px',
-          letterSpacing: '-0.03em', textAlign: 'center',
-        }}>
-          Done for today
-        </h2>
-        <p style={{ fontSize: '15px', color: 'var(--ink-soft)', textAlign: 'center', maxWidth: '280px', lineHeight: 1.6, marginBottom: '32px' }}>
-          Come back tomorrow and keep the streak going.
-        </p>
+        {/* Done header */}
+        <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+          <div style={{
+            width: 72, height: 72, borderRadius: '50%',
+            background: 'var(--terracotta)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: '28px', color: '#fff', margin: '0 auto 16px',
+            boxShadow: '0 6px 0 var(--terracotta-dark)',
+          }}>✓</div>
+          <h2 style={{
+            fontFamily: 'var(--font-display)', fontWeight: 900,
+            fontSize: '1.6rem', color: 'var(--ink)', marginBottom: '6px',
+            letterSpacing: '-0.03em',
+          }}>
+            Done for today
+          </h2>
+          <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.6, maxWidth: '260px', margin: '0 auto' }}>
+            Come back tomorrow and keep the streak going.
+          </p>
+        </div>
 
-        {/* Tracker prompt */}
+        {/* Tracker check-in */}
         {!loggedTracker ? (
           <div style={{
-            width: '100%', background: '#fff', border: '1.5px solid var(--border)',
+            background: '#fff', border: '1.5px solid var(--border)',
             borderRadius: '20px', padding: '22px', marginBottom: '16px',
           }}>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '10px' }}>
@@ -167,11 +206,76 @@ export default function DailyDeckViewer({
           </div>
         ) : (
           <div style={{
-            width: '100%', background: 'var(--stage-2)', border: '1.5px solid var(--border)',
-            borderRadius: '16px', padding: '16px 20px', marginBottom: '16px',
+            background: 'var(--stage-2)', border: '1.5px solid var(--border)',
+            borderRadius: '16px', padding: '14px 18px', marginBottom: '16px',
             fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--ink-soft)',
           }}>
             ✓ Added to your tracker
+          </div>
+        )}
+
+        {/* Daily moments feedback */}
+        {!momentsSaved ? (
+          <div style={{
+            background: '#fff', border: '1.5px solid var(--border)',
+            borderRadius: '20px', padding: '22px', marginBottom: '16px',
+          }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '8px' }}>
+              What came up today?
+            </div>
+            <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.55, marginBottom: '16px' }}>
+              Tap anything that happened. We will show you the right scripts tomorrow.
+            </p>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '16px' }}>
+              {DAILY_MOMENTS.map(m => {
+                const active = selectedMoments.includes(m.key)
+                return (
+                  <button
+                    key={m.key}
+                    onClick={() => toggleMoment(m.key)}
+                    style={{
+                      padding: '8px 14px',
+                      borderRadius: '100px',
+                      border: `1.5px solid ${active ? 'var(--stage-2)' : 'var(--border)'}`,
+                      background: active ? 'var(--stage-2)' : 'var(--cream)',
+                      fontFamily: 'var(--font-mono)', fontSize: '11px',
+                      fontWeight: active ? 700 : 500,
+                      color: active ? 'var(--ink)' : 'var(--ink-soft)',
+                      cursor: 'pointer', letterSpacing: '.04em',
+                      transition: 'all 0.15s ease',
+                      display: 'flex', alignItems: 'center', gap: '5px',
+                    }}
+                  >
+                    <span>{m.icon}</span>
+                    <span>{m.label}</span>
+                  </button>
+                )
+              })}
+            </div>
+            <button
+              onClick={saveMoments}
+              disabled={selectedMoments.length === 0}
+              style={{
+                width: '100%', padding: '12px',
+                background: selectedMoments.length > 0 ? 'var(--ink)' : 'var(--border)',
+                border: 'none', borderRadius: '12px',
+                fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
+                letterSpacing: '.08em', textTransform: 'uppercase',
+                color: selectedMoments.length > 0 ? '#fff' : 'var(--ink-light)',
+                cursor: selectedMoments.length > 0 ? 'pointer' : 'default',
+                transition: 'all 0.15s ease',
+              }}
+            >
+              {selectedMoments.length === 0 ? 'Nothing to flag today' : `Save ${selectedMoments.length} moment${selectedMoments.length > 1 ? 's' : ''}`}
+            </button>
+          </div>
+        ) : (
+          <div style={{
+            background: 'var(--stage-2)', border: '1.5px solid var(--border)',
+            borderRadius: '16px', padding: '14px 18px', marginBottom: '16px',
+            fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--ink-soft)',
+          }}>
+            ✓ Got it. Tomorrow we will cover what came up today.
           </div>
         )}
 
