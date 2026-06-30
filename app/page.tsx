@@ -1398,6 +1398,62 @@ export default function HomePage() {
           <p style={{ textAlign: 'center', fontSize: '.77rem', color: 'var(--ink-muted)', marginTop: '13px', fontStyle: 'italic' }}>
             Most parents spend ten minutes a week. That is genuinely all it takes.
           </p>
+
+          {/* Curriculum list + Home educator CTA */}
+          <div style={{ marginTop: '48px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px', alignItems: 'start' }}>
+            <div style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '20px', padding: '28px' }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.6rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '16px' }}>
+                What the lessons cover
+              </div>
+              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '10px', margin: 0, padding: 0 }}>
+                {[
+                  'Screen behaviour, routines, and emotional regulation',
+                  'Grooming, manipulation, consent, and online strangers',
+                  'Sextortion, radicalisation, and dark web awareness',
+                  'Misinformation, deepfakes, and AI-generated content',
+                  'Algorithms, social media, privacy, digital reputation',
+                  'AI literacy, data rights, full readiness at 16',
+                  'Parent note included with every single lesson',
+                ].map((item, i) => (
+                  <li key={i} style={{ display: 'flex', gap: '10px', fontSize: '.84rem', color: 'var(--ink-soft)', lineHeight: 1.55 }}>
+                    <span style={{ color: 'var(--terracotta)', fontWeight: 700, flexShrink: 0 }}>✓</span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div style={{ background: 'var(--stage-2)', border: '1px solid var(--border)', borderRadius: '20px', padding: '28px' }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.6rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '12px' }}>
+                Schools and home educators
+              </div>
+              <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', fontWeight: 800, color: 'var(--ink)', lineHeight: 1.35, marginBottom: '12px' }}>
+                Want to bring this into your school or use it at home?
+              </h3>
+              <p style={{ fontSize: '.84rem', color: 'var(--ink-soft)', lineHeight: 1.72, marginBottom: '20px' }}>
+                We work with schools across the UK and with families who home educate. Every lesson comes ready to use, mapped to RSE and the Online Safety Act, with a parent note included so the learning extends beyond the classroom.
+              </p>
+              <a href="mailto:hello@guidedchildhood.com?subject=School%20or%20Home%20Education%20Enquiry" style={{
+                display: 'inline-block',
+                background: 'var(--terracotta)',
+                color: '#fff',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '.72rem',
+                fontWeight: 700,
+                letterSpacing: '.06em',
+                textTransform: 'uppercase',
+                padding: '12px 22px',
+                borderRadius: '16px',
+                textDecoration: 'none',
+                boxShadow: '0 5px 0 var(--terracotta-dark)',
+              }}>
+                Contact us to find out more
+              </a>
+              <p style={{ fontSize: '.7rem', color: 'var(--ink-muted)', marginTop: '12px' }}>
+                We will reply within one working day.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -1766,22 +1822,18 @@ export default function HomePage() {
           <div className="two-col-wide">
             <div style={{ textAlign: 'center' }}>
               <div style={{
-                width: '128px',
-                height: '128px',
-                borderRadius: '50%',
-                background: 'linear-gradient(135deg, var(--stage-2) 0%, var(--terracotta) 100%)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontFamily: 'var(--font-display)',
-                fontSize: '2.6rem',
-                fontWeight: 900,
-                color: '#fff',
+                width: '160px',
+                height: '160px',
+                borderRadius: '24px',
+                overflow: 'hidden',
                 margin: '0 auto',
-                boxShadow: '0 8px 32px rgba(61,115,154,.25)',
-                letterSpacing: '-.03em',
+                boxShadow: '0 8px 32px rgba(61,115,154,.18)',
               }}>
-                JP
+                <img
+                  src="https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260630_110934_b98c5da7-a06d-414d-b320-72540a7cc384.png"
+                  alt="Justin Phillips, founder of Guided Childhood"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }}
+                />
               </div>
               <p style={{ fontFamily: 'var(--font-mono)', fontSize: '.65rem', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginTop: '14px' }}>
                 Justin Phillips

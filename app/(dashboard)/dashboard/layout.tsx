@@ -21,7 +21,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
   const isPaid = profile?.subscription_status === 'active'
 
   return (
-    <div style={{ minHeight: '100dvh', background: '#FAFAF8', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ minHeight: '100dvh', background: 'var(--cream)', display: 'flex', flexDirection: 'column' }}>
       {/* Desktop top nav */}
       <header style={{
         display: 'none',
@@ -71,7 +71,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
           </nav>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             {!isPaid && (
-              <Link href="/dashboard/upgrade" className="btn" style={{ padding: '10px 20px', fontSize: '13px' }}>
+              <Link href="/dashboard/upgrade" className="btn btn-gold" style={{ padding: '10px 20px', fontSize: '13px' }}>
                 Upgrade
               </Link>
             )}
