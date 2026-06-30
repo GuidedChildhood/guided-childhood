@@ -6,6 +6,7 @@ const NAV_TABS = [
   { href: '/dashboard/digi', label: 'DiGi', icon: '◎' },
   { href: '/dashboard/moments', label: 'Moments', icon: '✦' },
   { href: '/dashboard/scripts', label: 'Scripts', icon: '◻' },
+  { href: '/dashboard/ai-module', label: 'AI', icon: '✶' },
   { href: '/dashboard/tracker', label: 'Tracker', icon: '△' },
 ]
 

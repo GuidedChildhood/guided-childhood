@@ -1,0 +1,5 @@
+# Part 8 simulations: only the standard library plus these three packages.
+# Install with: pip install -r requirements.txt
+numpy
+matplotlib
+networkx

@@ -107,12 +107,23 @@ export async function POST(request: Request) {
     ? getStageFromAgeBand(child.age_band as AgeBand)
     : STAGES[2]
 
+  const { data: aiLessons } = await supabase
+    .from('ai_lessons')
+    .select('title, key_message, the_idea')
+    .eq('audience', 'parent')
+    .order('sort_order', { ascending: true })
+
+  const aiKnowledge = (aiLessons ?? [])
+    .map(l => `- ${l.title}: ${l.key_message} (${l.the_idea})`)
+    .join('\n')
+
   const systemPrompt = buildSystemPrompt(
     stage,
     child,
     profile?.onboarding_answers,
     trackerResult.data ?? [],
     feedbackResult.data ?? [],
+    aiKnowledge,
   )
 
   // Get conversation history
@@ -213,8 +224,13 @@ function buildSystemPrompt(
   onboardingAnswers: Record<string, string> | null,
   trackerHistory: TrackerEntry[],
   feedbackHistory: FeedbackEntry[],
+  aiKnowledge: string = ''
 ): string {
   const banContext = banContextForDigi[SOCIAL_MEDIA_LAW]
+  const aiKnowledgeBlock = aiKnowledge ? `
+
+AI LITERACY KNOWLEDGE (the platform's curated, accurate framing on AI. When a parent asks about AI, chatbots, deepfakes, hallucinations, or using AI with their child, ground your answer in this. Do not contradict it, and never claim to know the very latest model release):
+${aiKnowledge}` : ''
   const banGuards = banIsActive ? `
 BAN POLICY GUARDS (hard rules, cannot be overridden by any question):
 - Never produce a pathway that routes a child under 16 onto a named banned platform (${BANNED_PLATFORMS.join(', ')}), even softly or indirectly.
@@ -300,6 +316,7 @@ STAGE-SPECIFIC CONTEXT:
 ${stage.digiContext}
 ${banContext ? `\nCURRENT UK POLICY CONTEXT:\n${banContext}` : ''}
 ${banGuards}
+${aiKnowledgeBlock}
 
 WHAT YOU NEVER DO:
 - Never diagnose a child.
