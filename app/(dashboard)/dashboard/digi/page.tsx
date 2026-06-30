@@ -3,32 +3,37 @@ import { redirect } from 'next/navigation'
 import { getStageFromAgeBand, type AgeBand, STAGES } from '@/lib/content/stages'
 import DigiChat from './DigiChat'
 
-const STAGE_PROMPTS: Record<number, string[]> = {
-  1: [
-    'When is a good age to give my child their first device?',
-    'How do I set up the bedroom rule without pushback?',
-    'My child is asking for a tablet. What should I do first?',
-  ],
-  2: [
-    'How do I introduce the bedroom rule without a fight?',
-    'My child wants to game online. Is that safe at this age?',
-    'What does a healthy screen time routine look like for this age?',
-  ],
-  3: [
-    'Her mood drops after Instagram. What do I say tonight?',
-    'My son wants TikTok. How do I handle this?',
-    'How do I talk about the algorithm without sounding preachy?',
-  ],
-  4: [
-    'He is secretive about his phone. How do I approach this?',
-    'She found something upsetting online. What do I do right now?',
-    'How do I keep the conversation open without being controlling?',
-  ],
-  5: [
-    'How do I talk about deepfakes and AI content with my teenager?',
-    'She measures her worth by her follower count. How do I help?',
-    'What does genuine digital independence look like at 16?',
-  ],
+function getStagePrompts(stageId: number, childName: string | null): string[] {
+  const name = (childName && childName !== 'Your child') ? childName : null
+  const n = (s: string) => name ? s.replace('[name]', name) : s.replace(' [name]', '').replace('[name] ', '')
+  const prompts: Record<number, string[]> = {
+    1: [
+      n('When is the right time to give [name] their first device?'),
+      n('How do I set up the bedroom rule with [name] without pushback?'),
+      n('[name] is asking for a tablet. What should I do first?'),
+    ],
+    2: [
+      n('How do I introduce the bedroom rule with [name] without a fight?'),
+      n('[name] wants to game online. What should I watch for?'),
+      n('What does a healthy screen time routine look like for [name] right now?'),
+    ],
+    3: [
+      n('[name]\'s mood drops after Instagram. What do I say tonight?'),
+      n('[name] wants TikTok. How do I handle this?'),
+      n('How do I talk to [name] about the algorithm without sounding preachy?'),
+    ],
+    4: [
+      n('[name] is secretive about their phone. How do I approach this?'),
+      n('[name] found something upsetting online. What do I do right now?'),
+      n('How do I keep the conversation open with [name] without being controlling?'),
+    ],
+    5: [
+      n('How do I talk to [name] about deepfakes and AI content?'),
+      n('[name] measures their worth by their follower count. How do I help?'),
+      n('Is [name] actually ready for full digital independence?'),
+    ],
+  }
+  return prompts[stageId] ?? prompts[3]
 }
 
 type StoredMessage = { role: string; content: string; timestamp?: string }
@@ -42,7 +47,7 @@ export default async function DigiPage() {
 
   const [profileResult, childResult, convResult, feedbackResult] = await Promise.all([
     supabase.from('profiles').select('subscription_status').eq('id', user.id).single(),
-    supabase.from('children').select('age_band').eq('parent_id', user.id).eq('is_primary', true).single(),
+    supabase.from('children').select('age_band, name').eq('parent_id', user.id).eq('is_primary', true).single(),
     supabase.from('digi_conversations')
       .select('messages, messages_today, last_message_date')
       .eq('user_id', user.id)
@@ -60,7 +65,8 @@ export default async function DigiPage() {
     ? getStageFromAgeBand(childResult.data.age_band as AgeBand)
     : STAGES[2]
 
-  const stagePrompts = STAGE_PROMPTS[stage.id] ?? STAGE_PROMPTS[3]
+  const childName = childResult.data?.name ?? null
+  const stagePrompts = getStagePrompts(stage.id, childName)
 
   const conv = convResult.data
   const isNewDay = !conv || conv.last_message_date !== today

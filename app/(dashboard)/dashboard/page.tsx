@@ -82,87 +82,93 @@ export default async function DashboardPage() {
 
   return (
     <div style={{ maxWidth: '640px', margin: '0 auto', padding: '24px 20px' }}>
-      {/* Welcome */}
-      <div style={{ marginBottom: '20px' }}>
-        <p className="eyebrow" style={{ marginBottom: '4px' }}>Good to have you back</p>
-        <h1 style={{ fontSize: 'clamp(1.5rem, 4vw, 2rem)', marginBottom: '0' }}>
-          Hello, {firstName}
-        </h1>
-      </div>
-
-      {/* Stage card — shown first so parents always see their position */}
-      <div style={{
-        background: stageColor.bg,
-        border: `2px solid ${stageColor.border}`,
-        borderRadius: '16px',
-        padding: '22px',
-        marginBottom: '20px',
-        ...(stage.isCritical ? { borderLeftWidth: '5px' } : {}),
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
-          <span style={{
-            fontFamily: 'var(--font-mono)',
-            fontSize: '10px',
-            fontWeight: 600,
-            letterSpacing: '0.12em',
-            textTransform: 'uppercase',
-            background: stageColor.text,
-            color: stageColor.bg,
-            padding: '3px 10px',
-            borderRadius: '100px',
-          }}>
-            Stage {stage.id} · {stage.name}
-          </span>
-          {stage.isCritical && (
+      {/* Header — child name + stage + streak */}
+      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '22px', gap: '12px' }}>
+        <div>
+          <h1 style={{ fontSize: 'clamp(1.6rem, 5vw, 2.2rem)', fontWeight: 900, letterSpacing: '-0.035em', lineHeight: 1, marginBottom: '6px' }}>
+            {(child?.name && child.name !== 'Your child') ? child.name : firstName}
+          </h1>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
             <span style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: '9px',
-              fontWeight: 600,
-              letterSpacing: '0.1em',
-              textTransform: 'uppercase',
-              background: 'var(--terracotta)',
-              color: '#fff',
-              padding: '3px 8px',
-              borderRadius: '100px',
+              fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600,
+              letterSpacing: '0.1em', textTransform: 'uppercase',
+              background: stageColor.text, color: stageColor.bg,
+              padding: '3px 10px', borderRadius: '100px',
             }}>
-              Critical Window
+              Stage {stage.id} · {stage.name}
             </span>
-          )}
-        </div>
-
-        {child?.name && child.name !== 'Your child' && (
-          <div style={{ fontSize: '15px', color: 'var(--ink-muted)', marginBottom: '6px' }}>
-            {child.name}
+            {stage.isCritical && (
+              <span style={{
+                fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 600,
+                letterSpacing: '0.08em', textTransform: 'uppercase',
+                background: 'var(--terracotta)', color: '#fff',
+                padding: '3px 8px', borderRadius: '100px',
+              }}>
+                Critical window
+              </span>
+            )}
           </div>
-        )}
-
-        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '18px', color: 'var(--ink)', marginBottom: '2px' }}>
-          {stage.keyStage} · {stage.yearGroup}
         </div>
-        <div style={{ fontSize: '13px', color: 'var(--ink-soft)', marginBottom: '12px' }}>{stage.ages}</div>
-        <div style={{ fontSize: '14px', color: 'var(--ink-muted)', fontStyle: 'italic', marginBottom: '14px' }}>{stage.focus}</div>
-
-        <Link href="/dashboard/tracker" style={{
-          display: 'inline-flex', alignItems: 'center', gap: '6px',
-          fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 600,
-          color: 'var(--ink-soft)', textDecoration: 'none', letterSpacing: '0.06em',
-          padding: '7px 12px', background: 'rgba(255,255,255,0.5)',
-          borderRadius: '100px', border: '1px solid rgba(0,0,0,0.08)',
-        }}>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-            <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
-          </svg>
-          Wellbeing tracker
-        </Link>
-
         {(child?.streak_weeks ?? 0) > 0 && (
-          <div style={{ marginTop: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: stageColor.text }}>
-              {child?.streak_weeks} week streak
-            </span>
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: '6px', flexShrink: 0,
+            background: 'var(--cream)', border: '1.5px solid var(--border)',
+            borderRadius: '100px', padding: '8px 14px',
+          }}>
+            <span style={{ fontSize: '18px' }}>🔥</span>
+            <div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 800, color: 'var(--ink)', lineHeight: 1 }}>{child?.streak_weeks}</div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', color: 'var(--ink-muted)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>weeks</div>
+            </div>
           </div>
         )}
       </div>
+
+      {/* Continue Your Progress — primary hero card */}
+      <Link href="/dashboard/daily" style={{ textDecoration: 'none', display: 'block', marginBottom: '20px' }}>
+        <div style={{
+          background: 'var(--ink)',
+          borderRadius: '20px',
+          overflow: 'hidden',
+          boxShadow: '0 4px 24px rgba(26,26,46,0.14)',
+        }}>
+          {/* Stage color top accent strip */}
+          <div style={{ background: stageColor.bg, height: '6px' }} />
+          <div style={{ padding: '22px 22px 20px' }}>
+            <div style={{
+              fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600,
+              letterSpacing: '0.12em', textTransform: 'uppercase',
+              color: 'rgba(255,255,255,0.45)', marginBottom: '10px',
+            }}>
+              {dailyDone ? 'Completed today' : 'Continue your progress'}
+            </div>
+            <div style={{
+              fontFamily: 'var(--font-display)', fontWeight: 900,
+              fontSize: 'clamp(1.2rem, 4vw, 1.55rem)', color: '#fff',
+              letterSpacing: '-0.025em', lineHeight: 1.15, marginBottom: '18px',
+            }}>
+              {dailyDone
+                ? "Today's practice done"
+                : `Today's practice${(child?.name && child.name !== 'Your child') ? ` for ${child.name}` : ''}`}
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px' }}>
+              <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.5)' }}>
+                {dailyDone ? 'Come back tomorrow' : '5 cards · 2 minutes'}
+              </div>
+              <div style={{
+                background: dailyDone ? 'rgba(255,255,255,0.1)' : 'var(--gold)',
+                color: dailyDone ? 'rgba(255,255,255,0.5)' : 'var(--ink)',
+                borderRadius: '12px', padding: '10px 20px',
+                fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
+                letterSpacing: '0.06em', textTransform: 'uppercase', flexShrink: 0,
+                boxShadow: dailyDone ? 'none' : '0 3px 0 var(--gold-dark)',
+              }}>
+                {dailyDone ? 'Done ✓' : 'Continue →'}
+              </div>
+            </div>
+          </div>
+        </div>
+      </Link>
 
       {/* DiGi check-in — surfaces last reflective answer if the parent responded */}
       {lastFeedback && (
@@ -212,52 +218,6 @@ export default async function DashboardPage() {
       <div style={{ marginBottom: '20px' }}>
         <PushPrompt userId={user.id} stage={`Stage ${stage.id}`} />
       </div>
-
-      {/* Daily practice — primary CTA on every login */}
-      <Link href="/dashboard/daily" style={{ textDecoration: 'none', display: 'block', marginBottom: '20px' }}>
-        <div style={{
-          background: dailyDone ? 'var(--stage-2)' : 'var(--ink)',
-          border: dailyDone ? '2px solid var(--stage-2)' : 'none',
-          borderRadius: '18px',
-          padding: '18px 22px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          gap: '16px',
-        }}>
-          <div>
-            <div style={{
-              fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600,
-              letterSpacing: '0.1em', textTransform: 'uppercase',
-              color: dailyDone ? 'var(--ink)' : 'var(--gold)',
-              marginBottom: '5px',
-            }}>
-              {dailyDone ? 'Done today' : 'Daily practice'}
-            </div>
-            <div style={{
-              fontFamily: 'var(--font-display)', fontWeight: 800,
-              fontSize: '17px', letterSpacing: '-0.01em',
-              color: dailyDone ? 'var(--ink)' : '#fff',
-            }}>
-              {dailyDone ? 'Practice complete' : 'Start today\'s session'}
-            </div>
-            <div style={{
-              fontSize: '13px', marginTop: '3px',
-              color: dailyDone ? 'var(--ink-soft)' : 'rgba(255,255,255,0.6)',
-            }}>
-              {dailyDone ? 'See you tomorrow' : '5 cards · 2 minutes · builds the habit'}
-            </div>
-          </div>
-          <div style={{
-            width: '44px', height: '44px', borderRadius: '50%',
-            background: dailyDone ? 'var(--terracotta)' : 'rgba(255,255,255,0.1)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: '22px', flexShrink: 0,
-          }}>
-            {dailyDone ? '✓' : '▷'}
-          </div>
-        </div>
-      </Link>
 
       {/* Moment cards section */}
       {todayMoments.length > 0 && (
