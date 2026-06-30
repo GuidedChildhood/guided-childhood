@@ -35,14 +35,18 @@ export default async function DashboardPage() {
 
   const today = new Date().toISOString().split('T')[0]
 
-  const [childResult, dailySessionResult, todayMomentsResult] = await Promise.all([
+  const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+
+  const [childResult, dailySessionResult, todayMomentsResult, lastFeedbackResult] = await Promise.all([
     supabase.from('children').select('name, age_band, stage_id, streak_weeks, actions_this_week').eq('parent_id', user.id).eq('is_primary', true).single(),
     supabase.from('daily_sessions').select('completed_at').eq('user_id', user.id).eq('session_date', today).maybeSingle(),
     supabase.from('daily_moments').select('id, title, category, age_bands, icon, science_brief, digi_opener').eq('active', true).order('sort_order').limit(20),
+    supabase.from('digi_feedback').select('feedback_date, question, parent_response, digi_insight').eq('user_id', user.id).not('parent_response', 'is', null).gte('feedback_date', sevenDaysAgo).order('feedback_date', { ascending: false }).limit(1).maybeSingle(),
   ])
 
   const child = childResult.data
   const dailyDone = !!dailySessionResult.data?.completed_at
+  const lastFeedback = lastFeedbackResult.data
 
   const allMoments: Moment[] = todayMomentsResult.data ?? []
   const todayMoments = child?.age_band
@@ -159,6 +163,50 @@ export default async function DashboardPage() {
           </div>
         )}
       </div>
+
+      {/* DiGi check-in — surfaces last reflective answer if the parent responded */}
+      {lastFeedback && (
+        <div style={{
+          background: 'var(--ink)',
+          borderRadius: '16px',
+          padding: '20px 22px',
+          marginBottom: '20px',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px' }}>
+            <div style={{
+              width: 32, height: 32, borderRadius: '9px',
+              background: 'var(--terracotta)', flexShrink: 0,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              boxShadow: '0 2px 0 var(--terracotta-dark)',
+            }}>
+              <span style={{ fontSize: '.9rem', color: '#fff', lineHeight: 1 }}>◎</span>
+            </div>
+            <div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-lt)' }}>DiGi</div>
+              <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.45)' }}>Following up from {lastFeedback.feedback_date === today ? 'earlier today' : 'yesterday'}</div>
+            </div>
+          </div>
+
+          {lastFeedback.digi_insight ? (
+            <p style={{ fontSize: '14px', color: '#fff', lineHeight: 1.65, margin: 0 }}>
+              {lastFeedback.digi_insight}
+            </p>
+          ) : (
+            <>
+              <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.45)', fontStyle: 'italic', marginBottom: '8px' }}>
+                You answered: &ldquo;{lastFeedback.parent_response!.length > 120 ? lastFeedback.parent_response!.slice(0, 117) + '...' : lastFeedback.parent_response}&rdquo;
+              </p>
+              <p style={{ fontSize: '14px', color: '#fff', lineHeight: 1.65, margin: 0 }}>
+                {buildDigiFollowup(stage.id, child?.name ?? null)}
+              </p>
+            </>
+          )}
+
+          <Link href="/dashboard/digi" style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--terracotta-lt)', textDecoration: 'none', marginTop: '14px', display: 'inline-block' }}>
+            Continue with DiGi →
+          </Link>
+        </div>
+      )}
 
       {/* Push notification opt-in */}
       <div style={{ marginBottom: '20px' }}>
@@ -390,6 +438,18 @@ export default async function DashboardPage() {
       )}
     </div>
   )
+}
+
+function buildDigiFollowup(stageId: number, childName: string | null): string {
+  const name = (childName && childName !== 'Your child') ? childName : 'your child'
+  const messages: Record<number, string> = {
+    1: `The pattern you described is very common at this stage. ${name.charAt(0).toUpperCase() + name.slice(1)} is not being difficult. Structure does the work that willpower cannot. One consistent boundary this week is worth more than five conversations.`,
+    2: `What you noticed matters. At this stage the fix is almost always structural, not a new conversation. Think about the environment first: what needs to change before you say anything?`,
+    3: `The mood signal you picked up on is real and it matters. Tracking it for one more week will give you a clearer picture before you say anything to ${name}. Curiosity before action.`,
+    4: `Trust is the only currency at Stage 4. How you responded to what you noticed will shape whether ${name} comes to you with the next thing. Openness over interrogation.`,
+    5: `At this stage you are building the relationship that outlasts the rules. What you noticed is worth holding lightly. One open question today is better than ten closed ones.`,
+  }
+  return messages[stageId] ?? messages[3]
 }
 
 function getStagePrompts(stageId: number): string[] {
