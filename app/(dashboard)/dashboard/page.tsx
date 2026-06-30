@@ -308,6 +308,28 @@ export default async function DashboardPage() {
         </div>
       </div>
 
+      {/* AI module discovery */}
+      <Link href="/dashboard/ai-module" style={{ textDecoration: 'none', display: 'block', marginBottom: '20px' }}>
+        <div style={{
+          background: 'var(--stage-3)', border: '1.5px solid var(--stage-3)',
+          borderRadius: '16px', padding: '22px',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px',
+        }}>
+          <div>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '6px' }}>
+              New · AI literacy
+            </div>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)', marginBottom: '3px' }}>
+              Understand AI together
+            </div>
+            <div style={{ fontSize: '13px', color: 'var(--ink-soft)' }}>
+              Deepfakes, chatbots, and using it well. Calm lessons for every age.
+            </div>
+          </div>
+          <span style={{ fontSize: '18px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>
+        </div>
+      </Link>
+
       {/* DiGi quick access */}
       <div style={{ background: 'var(--ink)', borderRadius: '16px', padding: '22px', marginBottom: '20px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '14px' }}>
@@ -359,7 +381,7 @@ export default async function DashboardPage() {
           <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '8px' }}>Founder rate — 50 places</p>
           <h3 style={{ fontSize: '1.1rem', marginBottom: '8px' }}>Unlock everything for £7.99 / month</h3>
           <p style={{ fontSize: '14px', color: 'var(--ink-muted)', marginBottom: '16px' }}>
-            All 5 stages, unlimited DiGi, all 17 scripts, wellbeing tracker. First 50 members only.
+            All 5 stages, unlimited DiGi, 100 plus scripts, the AI module, wellbeing tracker. First 50 members only.
           </p>
           <Link href="/dashboard/upgrade" className="btn btn-gold" style={{ display: 'inline-flex' }}>
             Claim founder rate

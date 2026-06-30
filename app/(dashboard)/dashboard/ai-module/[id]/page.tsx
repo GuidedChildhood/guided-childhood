@@ -1,11 +1,25 @@
 import { createClient } from '@/lib/supabase/server'
-import { redirect } from 'next/navigation'
+import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
 
-const AUDIENCE_LABEL: Record<string, string> = {
-  age_7: 'Age 7', age_9: 'Age 9', age_11: 'Age 11', age_13: 'Age 13',
-  age_16: 'Age 16', parent: 'Parents', teacher: 'Teachers',
+const AUDIENCE_LABEL: Record<string, { label: string; bg: string }> = {
+  age_7:   { label: 'Age 7',    bg: 'var(--stage-1)' },
+  age_9:   { label: 'Age 9',    bg: 'var(--stage-1)' },
+  age_11:  { label: 'Age 11',   bg: 'var(--stage-2)' },
+  age_13:  { label: 'Age 13',   bg: 'var(--stage-3)' },
+  age_16:  { label: 'Age 16',   bg: 'var(--stage-4)' },
+  parent:  { label: 'Parents',  bg: 'var(--stage-5)' },
+  teacher: { label: 'Teachers', bg: 'var(--terracotta-lt)' },
 }
+
+// The four parts of every lesson, styled like the script steps so the AI module
+// reads as a sibling of the scripts, not a different product.
+const SECTIONS = [
+  { num: 1, key: 'the_idea',       label: 'The idea',       bg: 'var(--stage-2)' },
+  { num: 2, key: 'why_it_matters', label: 'Why it matters', bg: 'var(--stage-3)' },
+  { num: 3, key: 'try_this',       label: 'Try this',       bg: 'var(--stage-1)' },
+  { num: 4, key: 'key_message',    label: 'Remember',       bg: 'var(--stage-5)' },
+] as const
 
 type Lesson = {
   id: string
@@ -32,81 +46,97 @@ export default async function AiLessonPage({ params }: { params: Promise<{ id: s
     .maybeSingle()
 
   const lesson = data as Lesson | null
+  if (!lesson) notFound()
 
-  if (!lesson) {
-    return (
-      <div style={{ maxWidth: '620px', margin: '0 auto', padding: '24px 20px' }}>
-        <Link href="/dashboard/ai-module" style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)', textDecoration: 'none' }}>
-          Back to the AI module
-        </Link>
-        <p style={{ marginTop: '20px', color: 'var(--ink-muted)' }}>That lesson could not be found.</p>
-      </div>
-    )
-  }
+  const audience = AUDIENCE_LABEL[lesson.audience] ?? { label: lesson.audience, bg: 'var(--stage-2)' }
 
   return (
-    <div style={{ maxWidth: '620px', margin: '0 auto', padding: '24px 20px' }}>
-      <Link href="/dashboard/ai-module" style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)', textDecoration: 'none' }}>
-        Back to the AI module
-      </Link>
+    <div style={{ maxWidth: '680px', margin: '0 auto', padding: '24px 20px 48px' }}>
 
-      <div style={{ margin: '16px 0 8px' }}>
-        <span style={{
-          fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600,
-          letterSpacing: '0.1em', textTransform: 'uppercase',
-          color: 'var(--lav-deep)', background: 'var(--lav)', padding: '4px 10px', borderRadius: '100px',
-        }}>
-          {AUDIENCE_LABEL[lesson.audience] ?? lesson.audience}
-        </span>
+      {/* Back */}
+      <div style={{ marginBottom: '24px' }}>
+        <Link
+          href="/dashboard/ai-module"
+          style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '13px', color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}
+        >
+          ← All lessons
+        </Link>
       </div>
 
-      <h1 style={{ fontSize: 'clamp(1.4rem, 4vw, 1.9rem)', marginBottom: '20px' }}>{lesson.title}</h1>
-
-      <Section eyebrow="The idea">
-        <p style={{ fontSize: '16px', color: 'var(--ink-soft)', lineHeight: 1.7 }}>{lesson.the_idea}</p>
-      </Section>
-
-      <Section eyebrow="Why it matters">
-        <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.7 }}>{lesson.why_it_matters}</p>
-      </Section>
-
-      <div style={{ background: 'var(--green-lt)', border: '1px solid var(--green)', borderRadius: '16px', padding: '20px 22px', marginBottom: '14px' }}>
-        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--green-dark)', marginBottom: '10px' }}>
-          Try this
-        </p>
-        <p style={{ fontSize: '16px', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.6 }}>{lesson.try_this}</p>
+      {/* Header */}
+      <div style={{ marginBottom: '28px' }}>
+        <div style={{ marginBottom: '12px' }}>
+          <span style={{
+            fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 600,
+            letterSpacing: '0.1em', textTransform: 'uppercase',
+            color: 'var(--ink)', background: audience.bg,
+            padding: '4px 10px', borderRadius: '100px',
+          }}>
+            {audience.label}
+          </span>
+        </div>
+        <h1 style={{ fontSize: 'clamp(1.5rem, 4vw, 2rem)', lineHeight: 1.1, letterSpacing: '-0.02em' }}>
+          {lesson.title}
+        </h1>
       </div>
 
-      <div style={{ background: 'var(--gold-lt)', border: '1px solid var(--gold)', borderRadius: '16px', padding: '18px 22px', marginBottom: '20px' }}>
-        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--gold-dark)', marginBottom: '8px' }}>
-          Remember
-        </p>
-        <p style={{ fontSize: '16px', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.5 }}>{lesson.key_message}</p>
+      {/* Sections */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '28px' }}>
+        {SECTIONS.map(section => (
+          <div
+            key={section.num}
+            style={{ background: section.bg, border: `1.5px solid ${section.bg}`, borderRadius: '16px', padding: '22px', display: 'flex', gap: '18px' }}
+          >
+            <div style={{
+              width: '36px', height: '36px', borderRadius: '50%',
+              background: 'var(--terracotta)', color: '#fff',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: '16px', fontWeight: 800, flexShrink: 0, fontFamily: 'var(--font-display)',
+            }}>
+              {section.num}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '10px' }}>
+                {section.label}
+              </div>
+              <p style={{
+                fontSize: '15px', color: 'var(--ink)', lineHeight: 1.65,
+                ...(section.key === 'key_message' ? { fontWeight: 600 } : {}),
+              }}>
+                {lesson[section.key]}
+              </p>
+            </div>
+          </div>
+        ))}
       </div>
 
-      <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', justifyContent: 'center' }}>
+      {/* DiGi CTA */}
+      <div style={{ background: 'var(--ink)', borderRadius: '16px', padding: '22px', marginBottom: '24px', display: 'flex', gap: '16px', alignItems: 'center', flexWrap: 'wrap' }}>
+        <div style={{ flex: 1 }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--terracotta-lt)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '6px' }}>
+            DiGi
+          </div>
+          <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.7)', lineHeight: 1.5 }}>
+            Want to take this further? Ask DiGi.
+          </p>
+        </div>
         <Link
           href={`/dashboard/digi?q=${encodeURIComponent(lesson.digi_prompt)}`}
           className="btn btn-gold"
-          style={{ padding: '11px 22px', fontSize: '12px' }}
+          style={{ flexShrink: 0, padding: '11px 20px', fontSize: '12px' }}
         >
           Ask DiGi about this
         </Link>
-        <Link href="/dashboard/ai-module" className="btn btn-outline" style={{ padding: '11px 22px', fontSize: '12px' }}>
-          Back to all lessons
-        </Link>
       </div>
-    </div>
-  )
-}
 
-function Section({ eyebrow, children }: { eyebrow: string; children: React.ReactNode }) {
-  return (
-    <div style={{ marginBottom: '18px' }}>
-      <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-light)', marginBottom: '8px' }}>
-        {eyebrow}
-      </p>
-      {children}
+      {/* Back to all */}
+      <Link
+        href="/dashboard/ai-module"
+        style={{ display: 'flex', padding: '14px 18px', background: 'var(--stage-2)', border: '1px solid var(--stage-2)', borderRadius: '12px', textDecoration: 'none', flexDirection: 'column', gap: '4px', textAlign: 'center' }}
+      >
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>The AI module</span>
+        <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--terracotta)' }}>Back to all lessons</span>
+      </Link>
     </div>
   )
 }
