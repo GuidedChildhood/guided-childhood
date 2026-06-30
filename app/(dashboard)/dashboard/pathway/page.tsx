@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { STAGES } from '@/lib/content/stages'
+import DeviceSetupBanner from '@/components/device/DeviceSetupBanner'
 
 const STAGE_DISPLAY: Record<number, {
   displayName: string
@@ -206,7 +207,7 @@ export default async function PathwayPage() {
                     style={{
                       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                       background: display.color, color: '#fff',
-                      borderRadius: '12px', padding: '13px 16px',
+                      borderRadius: '16px', padding: '13px 16px',
                       fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600,
                       letterSpacing: '0.06em', textTransform: 'uppercase',
                       textDecoration: 'none', transition: 'opacity 0.15s',
@@ -228,6 +229,23 @@ export default async function PathwayPage() {
           swipe to explore
         </span>
       </div>
+
+      {/* Device setup banner for primary child's stage */}
+      {children.length > 0 && (() => {
+        const primaryChild = children[0]
+        const primaryStageNum = primaryChild.stage_id ? stageIdToNum[primaryChild.stage_id] ?? null : null
+        const primaryStage = primaryStageNum ? STAGES.find(s => s.id === primaryStageNum) : null
+        if (!primaryStage) return null
+        return (
+          <div style={{ padding: '0 20px', maxWidth: '720px', margin: '24px auto 0' }}>
+            <DeviceSetupBanner
+              stageId={primaryStage.id}
+              stageName={primaryStage.name}
+              childName={primaryChild.name}
+            />
+          </div>
+        )
+      })()}
 
       {/* Multiple children section */}
       <div style={{ padding: '0 20px', maxWidth: '720px', margin: '28px auto 0' }}>

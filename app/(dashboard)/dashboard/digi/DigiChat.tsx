@@ -26,18 +26,29 @@ export default function DigiChat({
   isPaid,
   stagePrompts,
   pendingReflection,
+  stageId,
+  stageName,
 }: {
   initialMessages: Message[]
   initialCount: number
   isPaid: boolean
   stagePrompts: string[]
   pendingReflection?: { question: string; answered: boolean } | null
+  stageId?: number
+  stageName?: string
 }) {
   const [messages, setMessages] = useState<Message[]>(initialMessages)
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [dailyCount, setDailyCount] = useState(initialCount)
+  const [deviceSetupDismissed, setDeviceSetupDismissed] = useState(true)
+
+  useEffect(() => {
+    if (stageId) {
+      setDeviceSetupDismissed(localStorage.getItem(`gc_device_setup_confirmed_${stageId}`) === '1')
+    }
+  }, [stageId])
 
   // Reflection state
   const [reflectionQuestion, setReflectionQuestion] = useState<string | null>(
@@ -175,12 +186,71 @@ export default function DigiChat({
           <div style={{ paddingTop: '8px' }}>
             <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: '16px', padding: '20px', marginBottom: '20px' }}>
               <p style={{ fontSize: '15px', color: 'var(--ink)', lineHeight: 1.7, marginBottom: '8px', fontWeight: 500 }}>
-                I'm DiGi, your digital parenting advisor.
+                I&apos;m DiGi, your digital parenting advisor.
               </p>
               <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>
-                I'm trained on the research and I get more useful the more you tell me. What's on your mind?
+                I&apos;m trained on the research and I get more useful the more you tell me. What&apos;s on your mind?
               </p>
             </div>
+
+            {stageId && stageName && !deviceSetupDismissed && (
+              <div style={{
+                background: 'var(--stage-2)',
+                border: '1.5px solid var(--border)',
+                borderRadius: '16px',
+                padding: '16px 18px',
+                marginBottom: '20px',
+                display: 'flex',
+                alignItems: 'flex-start',
+                gap: '12px',
+              }}>
+                <div style={{
+                  width: '32px', height: '32px', borderRadius: '8px',
+                  background: 'var(--terracotta)', flexShrink: 0,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  boxShadow: '0 2px 0 var(--terracotta-dark)',
+                }}>
+                  <span style={{ fontSize: '14px', color: '#fff' }}>⚙</span>
+                </div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{
+                    fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700,
+                    letterSpacing: '0.1em', textTransform: 'uppercase',
+                    color: 'var(--terracotta)', marginBottom: '4px',
+                  }}>
+                    Device setup · Stage {stageId}
+                  </div>
+                  <p style={{ fontSize: '13px', color: 'var(--ink)', lineHeight: 1.5, marginBottom: '10px' }}>
+                    Have you set the right device settings for {stageName}? I work better when the basics are in place.
+                  </p>
+                  <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                    <Link
+                      href={`/dashboard/pathway`}
+                      style={{
+                        fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700,
+                        color: 'var(--terracotta)', textDecoration: 'underline',
+                        letterSpacing: '0.04em',
+                      }}
+                    >
+                      Check setup →
+                    </Link>
+                    <button
+                      onClick={() => {
+                        if (stageId) localStorage.setItem(`gc_device_setup_confirmed_${stageId}`, '1')
+                        setDeviceSetupDismissed(true)
+                      }}
+                      style={{
+                        background: 'none', border: 'none', padding: 0, cursor: 'pointer',
+                        fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600,
+                        color: 'var(--ink-muted)', letterSpacing: '0.04em',
+                      }}
+                    >
+                      All set
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
 
             <p className="eyebrow" style={{ marginBottom: '12px', fontSize: 10 }}>Try asking</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '20px' }}>

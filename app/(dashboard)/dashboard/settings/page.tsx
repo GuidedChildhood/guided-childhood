@@ -128,7 +128,7 @@ export default function SettingsPage() {
       )}
 
       {/* Profile section */}
-      <section style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '16px' }}>
+      <section style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '16px' }}>
         <h2 style={{ fontSize: '1rem', marginBottom: '18px', color: 'var(--ink)' }}>Your profile</h2>
         <form onSubmit={saveProfile} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
           <div>
@@ -170,7 +170,7 @@ export default function SettingsPage() {
 
       {/* Child section */}
       {child && (
-        <section style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '16px' }}>
+        <section style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '16px' }}>
           <h2 style={{ fontSize: '1rem', marginBottom: '18px', color: 'var(--ink)' }}>Your child</h2>
           <form onSubmit={saveChild} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
             <div>
@@ -200,7 +200,7 @@ export default function SettingsPage() {
                       border: `2px solid ${ageBand === opt.value ? 'var(--terracotta)' : 'var(--border)'}`,
                       borderRadius: '10px',
                       cursor: 'pointer',
-                      background: ageBand === opt.value ? 'var(--terracotta-lt)' : '#fff',
+                      background: ageBand === opt.value ? 'var(--terracotta-lt)' : 'var(--cream)',
                       transition: 'border-color 0.15s, background 0.15s',
                     }}
                   >
@@ -233,7 +233,7 @@ export default function SettingsPage() {
       )}
 
       {/* Billing section */}
-      <section style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '16px' }}>
+      <section style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '16px' }}>
         <h2 style={{ fontSize: '1rem', marginBottom: '6px', color: 'var(--ink)' }}>Membership</h2>
 
         {isPaid ? (
@@ -272,7 +272,7 @@ export default function SettingsPage() {
       </section>
 
       {/* Sign out */}
-      <section style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px' }}>
+      <section style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px' }}>
         <h2 style={{ fontSize: '1rem', marginBottom: '6px', color: 'var(--ink)' }}>Sign out</h2>
         <p style={{ fontSize: '14px', color: 'var(--ink-muted)', marginBottom: '16px' }}>
           You will be signed out on this device.
@@ -282,7 +282,7 @@ export default function SettingsPage() {
           style={{
             background: 'none',
             border: '2px solid var(--border)',
-            borderRadius: '12px',
+            borderRadius: '16px',
             padding: '10px 24px',
             fontSize: '14px',
             fontFamily: 'var(--font-body)',

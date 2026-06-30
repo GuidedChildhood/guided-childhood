@@ -5,6 +5,7 @@ import { getStageFromAgeBand, type AgeBand, STAGES } from '@/lib/content/stages'
 import type { Moment } from '@/components/cards/MomentCard'
 import MomentCard from '@/components/cards/MomentCard'
 import PushPrompt from '@/components/push/PushPrompt'
+import DeviceSetupBanner from '@/components/device/DeviceSetupBanner'
 
 const STAGE_COLORS = {
   1: { bg: 'var(--stage-1)', text: 'var(--ink)', border: 'var(--stage-1)' },
@@ -158,7 +159,7 @@ export default async function DashboardPage() {
               <div style={{
                 background: dailyDone ? 'rgba(255,255,255,0.1)' : 'var(--gold)',
                 color: dailyDone ? 'rgba(255,255,255,0.5)' : 'var(--ink)',
-                borderRadius: '12px', padding: '10px 20px',
+                borderRadius: '16px', padding: '10px 20px',
                 fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
                 letterSpacing: '0.06em', textTransform: 'uppercase', flexShrink: 0,
                 boxShadow: dailyDone ? 'none' : '0 3px 0 var(--gold-dark)',
@@ -218,6 +219,13 @@ export default async function DashboardPage() {
       <div style={{ marginBottom: '20px' }}>
         <PushPrompt userId={user.id} stage={`Stage ${stage.id}`} />
       </div>
+
+      {/* Device setup prompt */}
+      <DeviceSetupBanner
+        stageId={stage.id}
+        stageName={stage.name}
+        childName={child?.name ?? null}
+      />
 
       {/* Moment cards section */}
       {todayMoments.length > 0 && (

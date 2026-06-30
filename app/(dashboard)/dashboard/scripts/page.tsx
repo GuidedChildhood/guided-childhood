@@ -77,7 +77,7 @@ export default async function ScriptsPage() {
       </div>
 
       {!isPaid && (
-        <div style={{ background: 'var(--stage-5)', border: '2px solid var(--stage-5)', borderRadius: '14px', padding: '16px 20px', marginBottom: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+        <div style={{ background: 'var(--stage-5)', border: '2px solid var(--stage-5)', borderRadius: '16px', padding: '16px 20px', marginBottom: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
           <div>
             <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--terracotta)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Free plan</span>
             <p style={{ fontSize: '14px', color: 'var(--ink-soft)', marginTop: '4px' }}>
@@ -117,7 +117,7 @@ export default async function ScriptsPage() {
                     display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                     textDecoration: 'none', gap: '12px',
                     background: 'var(--cream)', border: '1px solid var(--border)',
-                    borderRadius: '14px', padding: '14px 16px',
+                    borderRadius: '16px', padding: '14px 16px',
                     opacity: isLocked ? 0.7 : 1,
                   }}
                 >
@@ -144,7 +144,7 @@ export default async function ScriptsPage() {
       {!isPaid && (
         <div style={{
           background: 'var(--cream)', border: '2px dashed var(--border)',
-          borderRadius: '14px', padding: '24px 20px', textAlign: 'center',
+          borderRadius: '16px', padding: '24px 20px', textAlign: 'center',
         }}>
           <div style={{ fontSize: '24px', marginBottom: '12px' }}>🔒</div>
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '16px', marginBottom: '8px' }}>

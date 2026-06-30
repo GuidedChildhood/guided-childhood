@@ -89,6 +89,8 @@ export default async function DigiPage() {
       isPaid={isPaid}
       stagePrompts={stagePrompts}
       pendingReflection={pendingReflection}
+      stageId={stage.id}
+      stageName={stage.name}
     />
   )
 }
