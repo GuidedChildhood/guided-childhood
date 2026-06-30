@@ -656,3 +656,39 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
   gap: 4px;
 }
 @media (max-width: 720px) { .nav-links-desktop { display: none; } }
+
+/* ── PATHWAY GRID (stage walkthrough) ── */
+.pathway-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+}
+@media (max-width: 900px) {
+  .pathway-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+}
+@media (max-width: 560px) {
+  .pathway-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+}
+
+/* ── CATEGORY CARD GRID ── */
+.cat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+@media (max-width: 860px) {
+  .cat-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 540px) {
+  .cat-grid {
+    grid-template-columns: 1fr;
+  }
+}

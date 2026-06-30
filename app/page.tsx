@@ -1,8 +1,23 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import AnnouncementBar from '@/components/marketing/AnnouncementBar'
 import FaqAccordion from '@/components/marketing/FaqAccordion'
 import FlipCards from '@/components/marketing/FlipCards'
+
+export const metadata: Metadata = {
+  title: 'Guided Childhood — Screen Time and Digital Parenting Guide for UK Families · Ages 4 to 16',
+  description: 'Stop guessing what to say. Guided Childhood gives UK parents exact scripts for every screen time fight, a stage-by-stage pathway from age 4 to 16, and DiGi your AI parenting advisor available at 11pm. Built on the research.',
+  openGraph: {
+    title: 'Stop guessing what to say about screens. Get the exact words tonight.',
+    description: 'The stage-by-stage digital parenting guide for UK families. Exact scripts for screen time battles, gaming meltdowns, social media access, and bedtime fights. Ages 4 to 16. Free starter pack.',
+    url: 'https://www.guidedchildhood.co.uk',
+    type: 'website',
+  },
+  alternates: {
+    canonical: 'https://www.guidedchildhood.co.uk',
+  },
+}
 
 // ── Stage definitions ────────────────────────────────────────────────────────
 
@@ -246,6 +261,67 @@ export default function HomePage() {
 
       <AnnouncementBar />
 
+      {/* JSON-LD structured data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify([
+          {
+            '@context': 'https://schema.org',
+            '@type': 'Organization',
+            name: 'Guided Childhood',
+            description: 'The stage-by-stage digital parenting guide for UK families. Ages 4 to 16. Built on the research.',
+            url: 'https://www.guidedchildhood.co.uk',
+            foundingDate: '2024',
+            founder: { '@type': 'Person', name: 'Justin Phillips' },
+            areaServed: { '@type': 'Country', name: 'United Kingdom' },
+            knowsAbout: ['digital parenting', 'screen time', 'online safety', 'children social media', 'parental controls', 'digital wellbeing'],
+          },
+          {
+            '@context': 'https://schema.org',
+            '@type': 'WebSite',
+            name: 'Guided Childhood',
+            url: 'https://www.guidedchildhood.co.uk',
+            description: 'The stage-by-stage digital parenting guide for UK families.',
+            potentialAction: {
+              '@type': 'SearchAction',
+              target: 'https://www.guidedchildhood.co.uk/search?q={search_term_string}',
+              'query-input': 'required name=search_term_string',
+            },
+          },
+          {
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: [
+              {
+                '@type': 'Question',
+                name: 'At what age should my child get their first phone?',
+                acceptedAnswer: { '@type': 'Answer', text: 'There is no single right age. Guided Childhood uses a 5-stage pathway from ages 4 to 16. The right time depends on your child\'s stage of development, your family structure, and what boundaries you have in place. Stage 2 (ages 8 to 10) is typically when children get a restricted first device. Stage 3 (ages 11 to 13) is when smartphones become more common. The question is not when but how.' },
+              },
+              {
+                '@type': 'Question',
+                name: 'How do I deal with screen time arguments every day?',
+                acceptedAnswer: { '@type': 'Answer', text: 'Screen time arguments happen when limits are inconsistent or when structure is missing. Guided Childhood gives you the exact scripts for the most common daily battles including after-school TV demands, bedtime phone fights, and gaming meltdowns. The fix is structural, not stricter. One consistent routine replaces most daily arguments within two weeks.' },
+              },
+              {
+                '@type': 'Question',
+                name: 'When should children be allowed on social media?',
+                acceptedAnswer: { '@type': 'Answer', text: 'The UK minimum age for most platforms is 13. Research by Dr Amy Orben at Cambridge identifies ages 11 to 13 as the highest-sensitivity window, particularly for girls. Guided Childhood Stage 3 covers exactly this: the conversation to have before access, what to watch for during access, and the boundaries that protect without destroying trust.' },
+              },
+              {
+                '@type': 'Question',
+                name: 'Is screen time really harmful for children?',
+                acceptedAnswer: { '@type': 'Answer', text: 'The research is more nuanced than most headlines suggest. Professor Candace Odgers at UC Irvine and Professor Andrew Przybylski at Oxford both find that the effects depend heavily on context, vulnerability, and structure. Screen time is not uniformly harmful. Too much, too early, without structure, for already-vulnerable children is where risk concentrates. Guided Childhood is built on this nuanced research, not panic.' },
+              },
+              {
+                '@type': 'Question',
+                name: 'What is Guided Childhood and how does it work?',
+                acceptedAnswer: { '@type': 'Answer', text: 'Guided Childhood is a stage-by-stage digital parenting platform for UK families with children aged 4 to 16. You identify your child\'s stage, get the exact scripts for the situations you are facing right now, complete weekly check-ins and actions, and ask DiGi (your AI parenting advisor) for the specific words you need in any moment. It takes around 10 minutes a week.' },
+              },
+            ],
+          },
+        ]) }}
+      />
+
       {/* ================================================================
           NAV
           ================================================================ */}
@@ -351,43 +427,191 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Right: DiGi + floating problem chips */}
-          <div className="hero-chips" style={{ position: 'relative', height: '440px' }}>
-            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 1 }}>
-              <Image src="/digi-squad/DiGi-star.svg" alt="DiGi" width={130} height={140} style={{ filter: 'drop-shadow(0 12px 32px rgba(213,163,24,0.22))' }} priority />
-            </div>
-            {([
-              { text: 'Gaming meltdowns',    icon: '🎮', pos: { top: '6%',    left: '0%'   }, bg: 'var(--stage-1)' },
-              { text: 'Mood after phones',   icon: '📱', pos: { top: '2%',    right: '2%'  }, bg: 'var(--stage-3)' },
-              { text: 'Bedtime every night', icon: '🌙', pos: { top: '42%',   left: '-2%'  }, bg: 'var(--stage-2)' },
-              { text: 'TikTok at 13',        icon: '📲', pos: { top: '38%',   right: '0%'  }, bg: 'var(--stage-4)' },
-              { text: 'Secret accounts',     icon: '🔒', pos: { bottom: '8%', left: '10%'  }, bg: 'var(--stage-5)' },
-              { text: 'After school screens',icon: '📺', pos: { bottom: '14%',right: '2%'  }, bg: 'var(--stage-2)' },
-            ] as const).map((chip, i) => (
-              <div key={i} style={{
+          {/* Right: Two Edukids-style photo shape cards */}
+          <div className="hero-chips" style={{ position: 'relative', height: '480px' }}>
+
+            {/* Decorative dotted connector */}
+            <svg style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 0 }} viewBox="0 0 460 480" fill="none" aria-hidden="true">
+              <path d="M120 310 Q230 360 340 190" stroke="rgba(0,0,0,0.1)" strokeWidth="2.5" strokeDasharray="7 5" fill="none"/>
+              <circle cx="120" cy="310" r="5" fill="#A8D87C" opacity="0.8"/>
+              <circle cx="340" cy="190" r="5" fill="#FECDD3" opacity="0.8"/>
+            </svg>
+
+            {/* Card 1: Mum and daughter co-viewing, Ages 4 to 10 */}
+            <div style={{
+              position: 'absolute',
+              top: '0',
+              left: '0',
+              width: '215px',
+              height: '315px',
+              background: '#A8D87C',
+              borderRadius: '28px',
+              overflow: 'hidden',
+              boxShadow: '0 12px 52px rgba(0,0,0,0.16)',
+              zIndex: 1,
+            }}>
+              <Image
+                src="https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260630_084108_484031e7-fad8-4b2f-8cff-0b6816f84a8f.png"
+                alt="Mother and daughter co-viewing on a tablet"
+                fill
+                style={{ objectFit: 'cover', objectPosition: 'center top' }}
+                sizes="215px"
+              />
+              {/* Overlay gradient at bottom */}
+              <div style={{
                 position: 'absolute',
-                ...chip.pos,
-                background: '#fff',
-                border: '1.5px solid var(--border)',
-                borderRadius: '14px',
-                padding: '10px 14px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '10px',
-                boxShadow: '0 4px 20px rgba(26,26,46,.07)',
-                whiteSpace: 'nowrap',
-                zIndex: 2,
+                bottom: 0,
+                left: 0,
+                right: 0,
+                height: '100px',
+                background: 'linear-gradient(to top, rgba(168,216,124,0.92) 0%, transparent 100%)',
+              }} />
+              {/* Stage badge */}
+              <div style={{
+                position: 'absolute',
+                top: '14px',
+                left: '14px',
+                background: 'rgba(255,255,255,0.92)',
+                borderRadius: '100px',
+                padding: '5px 12px',
+                fontSize: '10px',
+                fontFamily: 'var(--font-mono)',
+                fontWeight: 700,
+                color: '#2D5016',
+                letterSpacing: '0.06em',
               }}>
-                <span style={{ width: '32px', height: '32px', background: chip.bg, borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '.85rem', flexShrink: 0 }}>
-                  {chip.icon}
-                </span>
-                <span style={{ fontSize: '.8rem', fontWeight: 700, color: 'var(--ink)', letterSpacing: '-.01em' }}>
-                  {chip.text}
-                </span>
+                Stage 1 and 2
               </div>
-            ))}
+              {/* Bottom label */}
+              <div style={{
+                position: 'absolute',
+                bottom: '18px',
+                left: '14px',
+                right: '14px',
+              }}>
+                <div style={{
+                  background: 'rgba(255,255,255,0.92)',
+                  borderRadius: '10px',
+                  padding: '7px 11px',
+                  fontSize: '10px',
+                  color: '#2D5016',
+                  fontWeight: 700,
+                  lineHeight: 1.4,
+                }}>
+                  Co-viewing · Ages 4 to 10
+                </div>
+              </div>
+            </div>
+
+            {/* Card 2: Teen girl on phone, Ages 11 to 16 */}
+            <div style={{
+              position: 'absolute',
+              top: '85px',
+              right: '0',
+              width: '215px',
+              height: '345px',
+              background: '#FECDD3',
+              borderRadius: '28px',
+              overflow: 'hidden',
+              boxShadow: '0 12px 52px rgba(0,0,0,0.16)',
+              zIndex: 2,
+            }}>
+              <Image
+                src="https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260630_084109_eb560b3a-3d67-4248-8488-fa78dfb4474f.png"
+                alt="Teenage girl scrolling on her smartphone"
+                fill
+                style={{ objectFit: 'cover', objectPosition: 'center top' }}
+                sizes="215px"
+              />
+              <div style={{
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+                right: 0,
+                height: '100px',
+                background: 'linear-gradient(to top, rgba(254,205,211,0.92) 0%, transparent 100%)',
+              }} />
+              <div style={{
+                position: 'absolute',
+                top: '14px',
+                left: '14px',
+                background: 'rgba(255,255,255,0.92)',
+                borderRadius: '100px',
+                padding: '5px 12px',
+                fontSize: '10px',
+                fontFamily: 'var(--font-mono)',
+                fontWeight: 700,
+                color: '#881337',
+                letterSpacing: '0.06em',
+              }}>
+                Stage 3 to 5
+              </div>
+              <div style={{
+                position: 'absolute',
+                bottom: '18px',
+                left: '14px',
+                right: '14px',
+              }}>
+                <div style={{
+                  background: 'rgba(255,255,255,0.92)',
+                  borderRadius: '10px',
+                  padding: '7px 11px',
+                  fontSize: '10px',
+                  color: '#881337',
+                  fontWeight: 700,
+                  lineHeight: 1.4,
+                }}>
+                  Social media · Ages 11 to 16
+                </div>
+              </div>
+            </div>
+
+            {/* Floating badge: Critical window */}
+            <div style={{
+              position: 'absolute',
+              bottom: '36px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              background: '#fff',
+              borderRadius: '16px',
+              padding: '12px 18px',
+              boxShadow: '0 4px 24px rgba(26,26,46,0.18)',
+              border: '1.5px solid var(--border)',
+              whiteSpace: 'nowrap',
+              zIndex: 3,
+            }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', color: 'var(--terracotta)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '3px' }}>
+                Critical window
+              </div>
+              <div style={{ fontSize: '13px', fontWeight: 700, color: 'var(--ink)' }}>
+                Stage 3 · Ages 11 to 13
+              </div>
+            </div>
           </div>
 
+        </div>
+      </section>
+
+      {/* ================================================================
+          AUTHORITY BAR — research institutions
+          ================================================================ */}
+      <section aria-label="Research foundations" style={{ background: '#fff', borderBottom: '1px solid var(--border)', padding: '18px 32px' }}>
+        <div style={{ maxWidth: '1040px', margin: '0 auto', display: 'flex', alignItems: 'center', gap: '20px', flexWrap: 'wrap', justifyContent: 'center' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '.6rem', fontWeight: 700, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--ink-muted)', flexShrink: 0 }}>
+            Built on research from
+          </span>
+          {[
+            'UC Irvine',
+            'Oxford Internet Institute',
+            'University of Cambridge MRC',
+            'LSE London',
+            'Prof. Sonia Livingstone',
+          ].map((inst, i, arr) => (
+            <div key={inst} style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+              <span style={{ fontSize: '.8rem', fontWeight: 700, color: 'var(--ink)', fontFamily: 'var(--font-display)', letterSpacing: '-.01em' }}>{inst}</span>
+              {i < arr.length - 1 && <span style={{ color: 'var(--border)', fontSize: '1rem', lineHeight: 1 }}>·</span>}
+            </div>
+          ))}
         </div>
       </section>
 
@@ -411,6 +635,176 @@ export default function HomePage() {
               </div>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* ================================================================
+          STAGE PATHWAY WALKTHROUGH — tree / journey visual
+          ================================================================ */}
+      <section style={{ padding: 'clamp(80px, 10vw, 120px) 32px', background: '#FFFBEE', borderTop: '1px solid var(--border)' }}>
+        <div style={{ maxWidth: '1120px', margin: '0 auto' }}>
+
+          <div style={{ textAlign: 'center', marginBottom: '56px' }}>
+            <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>The guided pathway</p>
+            <h2 style={{ marginBottom: '14px' }}>
+              From first screen to{' '}
+              <span style={{ color: 'var(--terracotta)' }}>digital independence</span>
+            </h2>
+            <p style={{ fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.8, maxWidth: '520px', margin: '0 auto' }}>
+              Each stage has different risks, different conversations, and different boundaries. You never skip ahead. You never fall behind. The platform grows with your child.
+            </p>
+          </div>
+
+          {/* Pathway cards — desktop: 5 columns, mobile: vertical scroll */}
+          <div style={{ position: 'relative' }}>
+
+            {/* Gradient connector line (desktop only) */}
+            <div style={{
+              position: 'absolute',
+              top: '88px',
+              left: 'calc(10% + 8px)',
+              right: 'calc(10% + 8px)',
+              height: '3px',
+              background: 'linear-gradient(90deg, var(--stage-1-bold), var(--stage-2-bold), var(--stage-3-bold), var(--stage-4-bold), var(--stage-5-bold))',
+              borderRadius: '2px',
+              zIndex: 0,
+            }} className="hide-mobile" />
+
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(5, 1fr)',
+              gap: '10px',
+              position: 'relative',
+              zIndex: 1,
+            }} className="pathway-grid">
+              {STAGES.map((s, i) => {
+                const STAGE_IMGS = [
+                  'hf_20260630_084110_ac9ec982-d093-403a-82c8-57c07d87cdcf.png',
+                  'hf_20260630_084111_92dd968e-fd25-43a1-9712-c3b37e73dbfc.png',
+                  'hf_20260630_084113_c8fcfab7-ac40-4486-88e1-4ae849574bf9.png',
+                  'hf_20260630_084114_b45f784f-0707-4323-9719-654a35ec847a.png',
+                  'hf_20260630_084115_570aea40-97a8-458c-b11b-accf13458643.png',
+                ]
+                const CDN = 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/'
+                return (
+                  <Link key={s.num} href="/starter-pack" style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column' }}>
+                    <div style={{
+                      background: '#fff',
+                      borderRadius: '20px',
+                      overflow: 'hidden',
+                      boxShadow: '0 4px 24px rgba(26,26,46,0.07)',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      height: '100%',
+                      border: '1px solid rgba(0,0,0,0.04)',
+                    }}>
+
+                      {/* Photo area */}
+                      <div style={{
+                        background: s.bold,
+                        height: '190px',
+                        position: 'relative',
+                        flexShrink: 0,
+                        overflow: 'hidden',
+                      }}>
+                        <Image
+                          src={`${CDN}${STAGE_IMGS[i]}`}
+                          alt={s.name}
+                          fill
+                          style={{ objectFit: 'cover', objectPosition: 'center top' }}
+                          sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 20vw"
+                        />
+                        {/* Stage number dot */}
+                        <div style={{
+                          position: 'absolute',
+                          top: '10px',
+                          right: '10px',
+                          width: '26px',
+                          height: '26px',
+                          background: 'rgba(255,255,255,0.82)',
+                          borderRadius: '50%',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontSize: '11px',
+                          fontWeight: 900,
+                          fontFamily: 'var(--font-display)',
+                          color: s.text,
+                          zIndex: 1,
+                        }}>
+                          {i + 1}
+                        </div>
+                        {s.critical && (
+                          <div style={{
+                            position: 'absolute',
+                            top: '10px',
+                            left: '10px',
+                            background: 'rgba(0,0,0,0.16)',
+                            borderRadius: '100px',
+                            padding: '3px 8px',
+                            fontSize: '8px',
+                            fontWeight: 700,
+                            color: s.text,
+                            letterSpacing: '0.06em',
+                            textTransform: 'uppercase',
+                            zIndex: 1,
+                          }}>
+                            Critical
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Good Inside card body: ages + name + parent quote + dotted rule + tags + full-width CTA */}
+                      <div style={{ padding: '13px 14px 0', display: 'flex', flexDirection: 'column', flex: 1 }}>
+                        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '2px' }}>
+                          {s.ages}
+                        </div>
+                        <div style={{ fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 800, color: 'var(--ink)', letterSpacing: '-0.02em', marginBottom: '7px' }}>
+                          {s.name}
+                        </div>
+                        <p style={{ fontFamily: 'var(--font-display)', fontSize: '11px', fontStyle: 'italic', color: 'var(--ink-soft)', lineHeight: 1.55, marginBottom: '10px', flex: 1 }}>
+                          {s.quote}
+                        </p>
+                        <div style={{ height: '0', borderTop: '1.5px dotted var(--border)', marginBottom: '8px' }} />
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '3px', marginBottom: '12px' }}>
+                          {s.tags.map(t => (
+                            <span key={t} style={{ background: s.bg, border: '1px solid rgba(0,0,0,0.06)', borderRadius: '100px', padding: '2px 7px', fontSize: '9px', color: 'var(--ink-soft)', fontWeight: 600 }}>
+                              {t}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                      <div style={{ padding: '0 14px 14px' }}>
+                        <div style={{
+                          background: s.bold,
+                          color: s.text,
+                          borderRadius: '10px',
+                          padding: '10px',
+                          fontSize: '11px',
+                          fontWeight: 800,
+                          fontFamily: 'var(--font-display)',
+                          letterSpacing: '-0.01em',
+                          textAlign: 'center',
+                          boxShadow: '0 3px 0 rgba(0,0,0,0.12)',
+                        }}>
+                          Start here
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                )
+              })}
+            </div>
+          </div>
+
+          <div style={{ textAlign: 'center', marginTop: '32px' }}>
+            <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '14px', padding: '15px 32px' }}>
+              Find your stage
+            </Link>
+            <p style={{ fontSize: '.76rem', color: 'var(--ink-muted)', marginTop: '12px' }}>
+              Multiple children at different stages? One account covers all of them.
+            </p>
+          </div>
         </div>
       </section>
 
@@ -719,6 +1113,221 @@ export default function HomePage() {
 
           <FlipCards cards={PLACARDS} />
 
+        </div>
+      </section>
+
+      {/* ================================================================
+          TRANSFORMATION TIMELINE — Good Inside DAY 1→27 pattern
+          ================================================================ */}
+      <section aria-label="What changes" style={{ padding: 'clamp(72px, 9vw, 104px) 32px', background: '#FFFBEE', borderTop: '1px solid var(--border)' }}>
+        <div style={{ maxWidth: '1040px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '52px' }}>
+            <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>What parents tell us</p>
+            <h2 className="fu" style={{ marginBottom: '14px' }}>
+              Here is what changes{' '}
+              <span style={{ color: 'var(--terracotta)' }}>and when</span>
+            </h2>
+          </div>
+
+          {/* Timeline connector row */}
+          <div style={{ position: 'relative' }}>
+            <div className="hide-mobile" style={{
+              position: 'absolute',
+              top: '20px',
+              left: 'calc(12.5% + 12px)',
+              right: 'calc(12.5% + 12px)',
+              height: '2px',
+              borderTop: '2.5px dashed var(--border)',
+              zIndex: 0,
+            }} />
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', position: 'relative', zIndex: 1 }}>
+              {[
+                {
+                  marker: 'After week 1',
+                  bg: 'var(--stage-1-bold)',
+                  text: 'var(--stage-1-text)',
+                  title: 'The fight is still there. But you know what to say.',
+                  quote: '"I used the transition script on day three. He pushed back, obviously. But I held it and I did not spiral. That had never happened before."',
+                  by: 'Parent of a 9-year-old',
+                },
+                {
+                  marker: 'After month 1',
+                  bg: 'var(--stage-2-bold)',
+                  text: 'var(--stage-2-text)',
+                  title: 'The routine is running itself.',
+                  quote: '"The bedtime thing is just done now. Phone in the hall, no argument, three weeks in a row. I did not think that was possible."',
+                  by: 'Parent of an 11-year-old',
+                },
+                {
+                  marker: 'After month 3',
+                  bg: 'var(--stage-3-bold)',
+                  text: 'var(--stage-3-text)',
+                  title: 'Your child came to you first.',
+                  quote: '"She actually showed me something that worried her online. She came to me. Six months ago that would not have happened."',
+                  by: 'Parent of a 13-year-old',
+                },
+                {
+                  marker: 'After month 6',
+                  bg: 'var(--stage-4-bold)',
+                  text: 'var(--stage-4-text)',
+                  title: 'You trust yourself as a parent again.',
+                  quote: '"I am not guessing any more. I know where we are, what we are building towards, and why. That is the whole thing."',
+                  by: 'Parent of a 15-year-old',
+                },
+              ].map((item, i) => (
+                <div key={i} className="fu" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                  {/* Marker pill */}
+                  <div style={{
+                    background: item.bg,
+                    color: item.text,
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '9px',
+                    fontWeight: 700,
+                    letterSpacing: '0.08em',
+                    textTransform: 'uppercase',
+                    padding: '5px 13px',
+                    borderRadius: '100px',
+                    marginBottom: '20px',
+                    whiteSpace: 'nowrap',
+                    boxShadow: '0 2px 8px rgba(26,26,46,0.08)',
+                  }}>
+                    {item.marker}
+                  </div>
+                  <div style={{ background: '#fff', borderRadius: '16px', padding: '20px', border: '1px solid var(--border)', boxShadow: '0 2px 16px rgba(26,26,46,0.05)', flex: 1, width: '100%' }}>
+                    <h3 style={{ fontSize: '13px', fontWeight: 800, color: 'var(--ink)', lineHeight: 1.3, marginBottom: '10px', letterSpacing: '-0.02em' }}>
+                      {item.title}
+                    </h3>
+                    <p style={{ fontFamily: 'var(--font-display)', fontSize: '11.5px', fontStyle: 'italic', color: 'var(--ink-soft)', lineHeight: 1.65, marginBottom: '10px' }}>
+                      {item.quote}
+                    </p>
+                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 600, color: 'var(--ink-muted)', letterSpacing: '0.06em' }}>
+                      {item.by}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div style={{ textAlign: 'center', marginTop: '36px' }}>
+            <Link href="/starter-pack" className="btn btn-gold fu" style={{ fontSize: '14px', padding: '15px 32px' }}>
+              Start your pathway today
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ================================================================
+          SCRIPT CATEGORIES — Edukids program card grid
+          ================================================================ */}
+      <section style={{ padding: 'clamp(80px, 10vw, 112px) 32px', background: 'var(--cream)' }}>
+        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+
+          <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+            <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>100 plus scripts</p>
+            <h2 style={{ marginBottom: '14px' }}>
+              What to say in{' '}
+              <span style={{ color: 'var(--terracotta)' }}>every situation</span>
+            </h2>
+            <p style={{ fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.8, maxWidth: '520px', margin: '0 auto' }}>
+              Each script has the exact words, what not to say, and why it works. Across six areas of digital life.
+            </p>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }} className="cat-grid">
+            {([
+              { label: 'First Device',  desc: 'Setting foundations before and after the first screen arrives.', bg: 'var(--stage-1-bold)', text: 'var(--stage-1-text)', img: 'hf_20260630_090926_be31491a-f70e-4b78-b481-978d61b05b02.png', count: '18 scripts', ks: 'Stage 1 and 2' },
+              { label: 'Social Media',  desc: 'Navigating platforms, algorithms, and identity with your child.', bg: 'var(--stage-3-bold)', text: 'var(--stage-3-text)', img: 'hf_20260630_090927_e0c1dba8-1d3c-4dcc-b618-0145397eee02.png', count: '22 scripts', ks: 'Stage 3 and 4' },
+              { label: 'Gaming',        desc: 'Healthy gaming conversations without the daily battle.', bg: 'var(--stage-2-bold)', text: 'var(--stage-2-text)', img: 'hf_20260630_090929_2fc13373-ba05-49c9-bda0-d6a8464a408a.png', count: '15 scripts', ks: 'All stages' },
+              { label: 'Safety',        desc: 'What to say when something goes wrong online.', bg: 'var(--stage-4-bold)', text: 'var(--stage-4-text)', img: 'hf_20260630_090930_5b54efb5-4116-4861-9645-ba2b549017ad.png', count: '20 scripts', ks: 'Stage 3 to 5' },
+              { label: 'Wellbeing',     desc: 'Mood, sleep, body image, and the digital connection.', bg: 'var(--stage-5-bold)', text: 'var(--stage-5-text)', img: 'hf_20260630_091332_d698fff0-f71a-4055-a6a9-06288831d67b.png', count: '16 scripts', ks: 'Stage 2 to 4' },
+              { label: 'AI and Tech',   desc: 'Deepfakes, AI tools, and what digital literacy looks like.', bg: 'var(--stage-1-bold)', text: 'var(--stage-1-text)', img: 'hf_20260630_090932_df3dd0ec-120d-4a28-92a1-753d85dc418b.png', count: '12 scripts', ks: 'Stage 4 and 5' },
+            ]).map((cat) => (
+              <Link key={cat.label} href="/starter-pack" style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column' }}>
+                <div style={{
+                  background: '#fff',
+                  borderRadius: '20px',
+                  overflow: 'hidden',
+                  boxShadow: '0 4px 24px rgba(26,26,46,0.06)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  height: '100%',
+                  border: '1px solid rgba(0,0,0,0.04)',
+                  transition: 'transform 0.2s, box-shadow 0.2s',
+                }}>
+
+                  {/* Photo area */}
+                  <div style={{
+                    background: cat.bg,
+                    height: '180px',
+                    position: 'relative',
+                    flexShrink: 0,
+                    overflow: 'hidden',
+                  }}>
+                    <Image
+                      src={`https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/${cat.img}`}
+                      alt={cat.label}
+                      fill
+                      style={{ objectFit: 'cover', objectPosition: 'center top' }}
+                      sizes="(max-width: 540px) 100vw, (max-width: 860px) 50vw, 33vw"
+                    />
+                    {/* Script count badge */}
+                    <div style={{
+                      position: 'absolute',
+                      top: '12px',
+                      right: '12px',
+                      background: 'rgba(255,255,255,0.88)',
+                      borderRadius: '100px',
+                      padding: '4px 10px',
+                      fontSize: '10px',
+                      fontFamily: 'var(--font-mono)',
+                      fontWeight: 700,
+                      color: cat.text,
+                      letterSpacing: '0.04em',
+                    }}>
+                      {cat.count}
+                    </div>
+                    {/* Stage badge */}
+                    <div style={{
+                      position: 'absolute',
+                      bottom: '12px',
+                      left: '12px',
+                      background: 'rgba(255,255,255,0.75)',
+                      borderRadius: '100px',
+                      padding: '3px 10px',
+                      fontSize: '9px',
+                      fontFamily: 'var(--font-mono)',
+                      fontWeight: 600,
+                      color: cat.text,
+                      letterSpacing: '0.06em',
+                      textTransform: 'uppercase',
+                    }}>
+                      {cat.ks}
+                    </div>
+                  </div>
+
+                  {/* Content */}
+                  <div style={{ padding: '18px 20px 22px', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                    <h3 style={{ fontSize: '15px', fontWeight: 800, color: 'var(--ink)', letterSpacing: '-0.02em', marginBottom: '6px' }}>
+                      {cat.label}
+                    </h3>
+                    <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.65, marginBottom: '14px', flex: 1 }}>
+                      {cat.desc}
+                    </p>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--terracotta)', fontSize: '12px', fontWeight: 700, fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}>
+                      Explore scripts →
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+
+          <div style={{ textAlign: 'center', marginTop: '36px' }}>
+            <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '14px', padding: '15px 32px' }}>
+              Get your free starter pack
+            </Link>
+          </div>
         </div>
       </section>
 
