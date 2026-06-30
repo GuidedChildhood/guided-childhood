@@ -1433,7 +1433,7 @@ export default function HomePage() {
               <p style={{ fontSize: '.84rem', color: 'var(--ink-soft)', lineHeight: 1.72, marginBottom: '20px' }}>
                 We work with schools across the UK and with families who home educate. Every lesson comes ready to use, mapped to RSE and the Online Safety Act, with a parent note included so the learning extends beyond the classroom.
               </p>
-              <a href="mailto:justin@guidedchildhood.co.uk?subject=School%20or%20Home%20Education%20Enquiry" style={{
+              <a href="mailto:hello@guidedchildhood.com?subject=School%20or%20Home%20Education%20Enquiry" style={{
                 display: 'inline-block',
                 background: 'var(--terracotta)',
                 color: '#fff',
