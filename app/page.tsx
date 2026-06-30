@@ -356,163 +356,150 @@ export default function HomePage() {
 
             {/* Decorative dotted connector */}
             <svg style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 0 }} viewBox="0 0 460 480" fill="none" aria-hidden="true">
-              <path d="M120 310 Q230 360 340 190" stroke="var(--border)" strokeWidth="2.5" strokeDasharray="7 5" fill="none" opacity="0.7"/>
-              <circle cx="120" cy="310" r="5" fill="var(--stage-1-bold)" opacity="0.9"/>
-              <circle cx="340" cy="190" r="5" fill="var(--stage-3-bold)" opacity="0.9"/>
+              <path d="M120 310 Q230 360 340 190" stroke="rgba(0,0,0,0.1)" strokeWidth="2.5" strokeDasharray="7 5" fill="none"/>
+              <circle cx="120" cy="310" r="5" fill="#A8D87C" opacity="0.8"/>
+              <circle cx="340" cy="190" r="5" fill="#FECDD3" opacity="0.8"/>
             </svg>
 
-            {/* Card 1: Parent and young child, Ages 4 to 10 */}
+            {/* Card 1: Mum and daughter co-viewing, Ages 4 to 10 */}
             <div style={{
               position: 'absolute',
               top: '0',
               left: '0',
-              width: '210px',
-              height: '310px',
-              background: 'var(--stage-1-bold)',
+              width: '215px',
+              height: '315px',
+              background: '#A8D87C',
               borderRadius: '28px',
               overflow: 'hidden',
-              boxShadow: '0 10px 48px rgba(0,0,0,0.13)',
+              boxShadow: '0 12px 52px rgba(0,0,0,0.16)',
               zIndex: 1,
             }}>
+              <Image
+                src="https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260630_084108_484031e7-fad8-4b2f-8cff-0b6816f84a8f.png"
+                alt="Mother and daughter co-viewing on a tablet"
+                fill
+                style={{ objectFit: 'cover', objectPosition: 'center top' }}
+                sizes="215px"
+              />
+              {/* Overlay gradient at bottom */}
               <div style={{
-                width: '100%',
-                height: '100%',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'flex-end',
-                padding: '0 20px 24px',
-              }}>
-                <div style={{ fontSize: '88px', lineHeight: 1, marginBottom: '16px', filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.10))' }}>
-                  👩‍👧
-                </div>
-                <div style={{
-                  background: 'rgba(255,255,255,0.88)',
-                  borderRadius: '100px',
-                  padding: '6px 14px',
-                  fontSize: '10px',
-                  fontFamily: 'var(--font-mono)',
-                  fontWeight: 700,
-                  letterSpacing: '0.08em',
-                  color: 'var(--stage-1-text)',
-                  textTransform: 'uppercase',
-                }}>
-                  Ages 4 to 10
-                </div>
-              </div>
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+                right: 0,
+                height: '100px',
+                background: 'linear-gradient(to top, rgba(168,216,124,0.92) 0%, transparent 100%)',
+              }} />
+              {/* Stage badge */}
               <div style={{
                 position: 'absolute',
                 top: '14px',
                 left: '14px',
-                background: 'rgba(255,255,255,0.88)',
+                background: 'rgba(255,255,255,0.92)',
                 borderRadius: '100px',
                 padding: '5px 12px',
                 fontSize: '10px',
                 fontFamily: 'var(--font-mono)',
                 fontWeight: 700,
-                color: 'var(--stage-1-text)',
+                color: '#2D5016',
                 letterSpacing: '0.06em',
               }}>
                 Stage 1 and 2
               </div>
+              {/* Bottom label */}
               <div style={{
                 position: 'absolute',
-                bottom: '72px',
+                bottom: '18px',
                 left: '14px',
                 right: '14px',
-                background: 'rgba(255,255,255,0.7)',
-                borderRadius: '12px',
-                padding: '8px 12px',
-                fontSize: '11px',
-                color: 'var(--stage-1-text)',
-                fontWeight: 600,
-                lineHeight: 1.4,
               }}>
-                Co-viewing · Shared screens · First routines
+                <div style={{
+                  background: 'rgba(255,255,255,0.92)',
+                  borderRadius: '10px',
+                  padding: '7px 11px',
+                  fontSize: '10px',
+                  color: '#2D5016',
+                  fontWeight: 700,
+                  lineHeight: 1.4,
+                }}>
+                  Co-viewing · Ages 4 to 10
+                </div>
               </div>
             </div>
 
-            {/* Card 2: Teen on phone, Ages 11 to 16 */}
+            {/* Card 2: Teen girl on phone, Ages 11 to 16 */}
             <div style={{
               position: 'absolute',
-              top: '90px',
+              top: '85px',
               right: '0',
-              width: '210px',
-              height: '340px',
-              background: 'var(--stage-3-bold)',
+              width: '215px',
+              height: '345px',
+              background: '#FECDD3',
               borderRadius: '28px',
               overflow: 'hidden',
-              boxShadow: '0 10px 48px rgba(0,0,0,0.13)',
+              boxShadow: '0 12px 52px rgba(0,0,0,0.16)',
               zIndex: 2,
             }}>
+              <Image
+                src="https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260630_084109_eb560b3a-3d67-4248-8488-fa78dfb4474f.png"
+                alt="Teenage girl scrolling on her smartphone"
+                fill
+                style={{ objectFit: 'cover', objectPosition: 'center top' }}
+                sizes="215px"
+              />
               <div style={{
-                width: '100%',
-                height: '100%',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'flex-end',
-                padding: '0 20px 24px',
-              }}>
-                <div style={{ fontSize: '88px', lineHeight: 1, marginBottom: '16px', filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.10))' }}>
-                  🧒‍♀️
-                </div>
-                <div style={{
-                  background: 'rgba(255,255,255,0.88)',
-                  borderRadius: '100px',
-                  padding: '6px 14px',
-                  fontSize: '10px',
-                  fontFamily: 'var(--font-mono)',
-                  fontWeight: 700,
-                  letterSpacing: '0.08em',
-                  color: 'var(--stage-3-text)',
-                  textTransform: 'uppercase',
-                }}>
-                  Ages 11 to 16
-                </div>
-              </div>
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+                right: 0,
+                height: '100px',
+                background: 'linear-gradient(to top, rgba(254,205,211,0.92) 0%, transparent 100%)',
+              }} />
               <div style={{
                 position: 'absolute',
                 top: '14px',
                 left: '14px',
-                background: 'rgba(255,255,255,0.88)',
+                background: 'rgba(255,255,255,0.92)',
                 borderRadius: '100px',
                 padding: '5px 12px',
                 fontSize: '10px',
                 fontFamily: 'var(--font-mono)',
                 fontWeight: 700,
-                color: 'var(--stage-3-text)',
+                color: '#881337',
                 letterSpacing: '0.06em',
               }}>
                 Stage 3 to 5
               </div>
               <div style={{
                 position: 'absolute',
-                bottom: '72px',
+                bottom: '18px',
                 left: '14px',
                 right: '14px',
-                background: 'rgba(255,255,255,0.7)',
-                borderRadius: '12px',
-                padding: '8px 12px',
-                fontSize: '11px',
-                color: 'var(--stage-3-text)',
-                fontWeight: 600,
-                lineHeight: 1.4,
               }}>
-                Social media · Digital identity · Trust building
+                <div style={{
+                  background: 'rgba(255,255,255,0.92)',
+                  borderRadius: '10px',
+                  padding: '7px 11px',
+                  fontSize: '10px',
+                  color: '#881337',
+                  fontWeight: 700,
+                  lineHeight: 1.4,
+                }}>
+                  Social media · Ages 11 to 16
+                </div>
               </div>
             </div>
 
             {/* Floating badge: Critical window */}
             <div style={{
               position: 'absolute',
-              bottom: '40px',
+              bottom: '36px',
               left: '50%',
               transform: 'translateX(-50%)',
               background: '#fff',
               borderRadius: '16px',
               padding: '12px 18px',
-              boxShadow: '0 4px 24px rgba(26,26,46,0.14)',
+              boxShadow: '0 4px 24px rgba(26,26,46,0.18)',
               border: '1.5px solid var(--border)',
               whiteSpace: 'nowrap',
               zIndex: 3,
@@ -592,7 +579,14 @@ export default function HomePage() {
               zIndex: 1,
             }} className="pathway-grid">
               {STAGES.map((s, i) => {
-                const ICONS = ['👩‍👧', '🎮', '📱', '🔍', '💻']
+                const STAGE_IMGS = [
+                  'hf_20260630_084110_ac9ec982-d093-403a-82c8-57c07d87cdcf.png',
+                  'hf_20260630_084111_92dd968e-fd25-43a1-9712-c3b37e73dbfc.png',
+                  'hf_20260630_084113_c8fcfab7-ac40-4486-88e1-4ae849574bf9.png',
+                  'hf_20260630_084114_b45f784f-0707-4323-9719-654a35ec847a.png',
+                  'hf_20260630_084115_570aea40-97a8-458c-b11b-accf13458643.png',
+                ]
+                const CDN = 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/'
                 return (
                   <Link key={s.num} href="/starter-pack" style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column' }}>
                     <div style={{
@@ -606,20 +600,21 @@ export default function HomePage() {
                       border: '1px solid rgba(0,0,0,0.04)',
                     }}>
 
-                      {/* Photo placeholder */}
+                      {/* Photo area */}
                       <div style={{
                         background: s.bold,
                         height: '132px',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'center',
                         position: 'relative',
                         flexShrink: 0,
+                        overflow: 'hidden',
                       }}>
-                        <div style={{ fontSize: '52px', lineHeight: 1, filter: 'drop-shadow(0 3px 8px rgba(0,0,0,0.08))' }}>
-                          {ICONS[i]}
-                        </div>
+                        <Image
+                          src={`${CDN}${STAGE_IMGS[i]}`}
+                          alt={s.name}
+                          fill
+                          style={{ objectFit: 'cover', objectPosition: 'center top' }}
+                          sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 20vw"
+                        />
                         {/* Stage number dot */}
                         <div style={{
                           position: 'absolute',
@@ -636,6 +631,7 @@ export default function HomePage() {
                           fontWeight: 900,
                           fontFamily: 'var(--font-display)',
                           color: s.text,
+                          zIndex: 1,
                         }}>
                           {i + 1}
                         </div>
@@ -652,6 +648,7 @@ export default function HomePage() {
                             color: s.text,
                             letterSpacing: '0.06em',
                             textTransform: 'uppercase',
+                            zIndex: 1,
                           }}>
                             Critical
                           </div>
