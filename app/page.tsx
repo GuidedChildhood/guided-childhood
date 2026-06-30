@@ -678,14 +678,14 @@ export default function HomePage() {
               zIndex: 1,
             }} className="pathway-grid">
               {STAGES.map((s, i) => {
+                // Real stock photos — one per stage, age-matched
                 const STAGE_IMGS = [
-                  'hf_20260630_084110_ac9ec982-d093-403a-82c8-57c07d87cdcf.png',
-                  'hf_20260630_084111_92dd968e-fd25-43a1-9712-c3b37e73dbfc.png',
-                  'hf_20260630_084113_c8fcfab7-ac40-4486-88e1-4ae849574bf9.png',
-                  'hf_20260630_084114_b45f784f-0707-4323-9719-654a35ec847a.png',
-                  'hf_20260630_084115_570aea40-97a8-458c-b11b-accf13458643.png',
+                  'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&w=600&q=80', // girl 4-7 with tablet
+                  'https://images.unsplash.com/photo-1560252811-2d6e2b79c7e3?auto=format&fit=crop&w=600&q=80', // child 8-10 with device
+                  'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=600&q=80', // preteen 11-13 with phone
+                  'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=600&q=80', // teen boy 13-15
+                  'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=600&q=80', // teen girl 16+
                 ]
-                const CDN = 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/'
                 return (
                   <Link key={s.num} href="/starter-pack" style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column' }}>
                     <div style={{
@@ -699,76 +699,82 @@ export default function HomePage() {
                       border: '1px solid rgba(0,0,0,0.04)',
                     }}>
 
-                      {/* Photo area */}
+                      {/* Photo area with device badge overlaid at bottom */}
                       <div style={{
-                        background: s.bold,
-                        height: '190px',
+                        height: '200px',
                         position: 'relative',
                         flexShrink: 0,
                         overflow: 'hidden',
                       }}>
                         <Image
-                          src={`${CDN}${STAGE_IMGS[i]}`}
-                          alt={s.name}
+                          src={STAGE_IMGS[i]}
+                          alt={`${s.name} stage — ${s.ages}`}
                           fill
                           style={{ objectFit: 'cover', objectPosition: 'center top' }}
                           sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 20vw"
                         />
-                        {/* Stage number dot */}
+                        {/* Gradient fade at bottom */}
+                        <div style={{
+                          position: 'absolute', inset: 0,
+                          background: 'linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.28) 100%)',
+                        }} />
+                        {/* Device policy badge overlaid on photo */}
                         <div style={{
                           position: 'absolute',
-                          top: '10px',
-                          right: '10px',
-                          width: '26px',
-                          height: '26px',
-                          background: 'rgba(255,255,255,0.82)',
-                          borderRadius: '50%',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          fontSize: '11px',
-                          fontWeight: 900,
-                          fontFamily: 'var(--font-display)',
+                          bottom: '10px',
+                          left: '12px',
+                          background: s.bg,
+                          borderRadius: '100px',
+                          padding: '4px 10px',
+                          fontSize: '9px',
+                          fontWeight: 700,
+                          fontFamily: 'var(--font-mono)',
+                          letterSpacing: '0.06em',
                           color: s.text,
                           zIndex: 1,
                         }}>
-                          {i + 1}
+                          {s.device}
                         </div>
                         {s.critical && (
                           <div style={{
                             position: 'absolute',
                             top: '10px',
-                            left: '10px',
-                            background: 'rgba(0,0,0,0.16)',
+                            left: '12px',
+                            background: 'var(--terracotta)',
                             borderRadius: '100px',
-                            padding: '3px 8px',
+                            padding: '3px 9px',
                             fontSize: '8px',
                             fontWeight: 700,
-                            color: s.text,
+                            fontFamily: 'var(--font-mono)',
+                            color: '#fff',
                             letterSpacing: '0.06em',
-                            textTransform: 'uppercase',
                             zIndex: 1,
                           }}>
-                            Critical
+                            Critical window
                           </div>
                         )}
                       </div>
 
-                      {/* Good Inside card body: ages + name + parent quote + dotted rule + tags + full-width CTA */}
-                      <div style={{ padding: '13px 14px 0', display: 'flex', flexDirection: 'column', flex: 1 }}>
-                        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '2px' }}>
-                          {s.ages}
+                      {/* Card body */}
+                      <div style={{ padding: '14px 14px 0', display: 'flex', flexDirection: 'column', flex: 1 }}>
+                        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: s.bold, marginBottom: '4px' }}>
+                          Stage {s.num}
                         </div>
-                        <div style={{ fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 800, color: 'var(--ink)', letterSpacing: '-0.02em', marginBottom: '7px' }}>
+                        <div style={{ fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 800, color: 'var(--ink)', letterSpacing: '-0.02em', marginBottom: '2px' }}>
                           {s.name}
+                        </div>
+                        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--ink-muted)', marginBottom: '6px' }}>
+                          {s.ks}
+                        </div>
+                        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', color: 'var(--ink-light)', marginBottom: '10px' }}>
+                          {s.ages}
                         </div>
                         <p style={{ fontFamily: 'var(--font-display)', fontSize: '11px', fontStyle: 'italic', color: 'var(--ink-soft)', lineHeight: 1.55, marginBottom: '10px', flex: 1 }}>
                           {s.quote}
                         </p>
-                        <div style={{ height: '0', borderTop: '1.5px dotted var(--border)', marginBottom: '8px' }} />
                         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '3px', marginBottom: '12px' }}>
                           {s.tags.map(t => (
-                            <span key={t} style={{ background: s.bg, border: '1px solid rgba(0,0,0,0.06)', borderRadius: '100px', padding: '2px 7px', fontSize: '9px', color: 'var(--ink-soft)', fontWeight: 600 }}>
+                            <span key={t} style={{ background: s.bg, borderRadius: '100px', padding: '3px 8px', fontSize: '9px', color: s.text, fontWeight: 600, fontFamily: 'var(--font-mono)' }}>
                               {t}
                             </span>
                           ))}
@@ -787,7 +793,7 @@ export default function HomePage() {
                           textAlign: 'center',
                           boxShadow: '0 3px 0 rgba(0,0,0,0.12)',
                         }}>
-                          Start here
+                          Start here →
                         </div>
                       </div>
                     </div>
