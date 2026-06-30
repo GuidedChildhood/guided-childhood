@@ -13,7 +13,7 @@ const STAGE_META: Record<string, { label: string; color: string; bg: string }> =
 
 const STEPS = [
   { num: 1, key: 'say_this',     label: 'Say this',      accent: 'var(--terracotta)', bg: 'var(--stage-2)',  border: 'var(--stage-2)' },
-  { num: 2, key: 'not_this',     label: 'Not this',      accent: 'var(--terracotta)', bg: 'var(--stage-1)', border: 'var(--stage-1)' },
+  { num: 2, key: 'not_this',     label: 'Not this',      accent: '#b91c1c',           bg: '#fef2f2',         border: '#fecaca' },
   { num: 3, key: 'why_it_works', label: 'Why it works',  accent: 'var(--terracotta)', bg: 'var(--stage-3)', border: 'var(--stage-3)' },
   { num: 4, key: 'tonight',      label: 'Tonight',       accent: 'var(--terracotta)', bg: 'var(--stage-5)',  border: 'var(--stage-5)' },
 ] as const
@@ -68,8 +68,10 @@ export default async function ScriptDetailPage({
   const stageMeta = STAGE_META[script.stage_id] ?? STAGE_META.foundation
   const showBanNote = script.law_flag !== 'none' && SOCIAL_MEDIA_LAW !== 'none'
 
-  const prev = sortOrder > 1 ? sortOrder - 1 : null
-  const next = null
+  const [{ data: prevScript }, { data: nextScript }] = await Promise.all([
+    supabase.from('scripts').select('sort_order, title').eq('sort_order', sortOrder - 1).maybeSingle(),
+    supabase.from('scripts').select('sort_order, title').eq('sort_order', sortOrder + 1).maybeSingle(),
+  ])
 
   return (
     <div style={{ maxWidth: '680px', margin: '0 auto', padding: '24px 20px 48px' }}>
@@ -156,7 +158,7 @@ export default async function ScriptDetailPage({
               {/* Number circle */}
               <div style={{
                 width: '36px', height: '36px', borderRadius: '50%',
-                background: step.accent, color: '#fff',
+                background: step.key === 'not_this' ? '#dc2626' : step.accent, color: '#fff',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 fontSize: '16px', fontWeight: 800, flexShrink: 0,
                 fontFamily: 'var(--font-display)',
@@ -172,14 +174,25 @@ export default async function ScriptDetailPage({
                 }}>
                   {step.label}
                 </div>
-                <p style={{
-                  fontSize: '15px', color: 'var(--ink)',
-                  lineHeight: 1.65,
-                  ...(step.key === 'say_this' ? { fontWeight: 500 } : {}),
-                  ...(step.key === 'not_this' ? { color: 'var(--ink-soft)', fontStyle: 'italic' } : {}),
-                }}>
-                  {step.key === 'say_this' ? `"${content}"` : content}
-                </p>
+                {step.key === 'say_this' ? (
+                  <p style={{
+                    fontSize: 'clamp(1.1rem, 3vw, 1.25rem)',
+                    fontWeight: 700,
+                    color: 'var(--ink)',
+                    lineHeight: 1.55,
+                    fontFamily: 'var(--font-display)',
+                  }}>
+                    &ldquo;{content}&rdquo;
+                  </p>
+                ) : step.key === 'not_this' ? (
+                  <p style={{ fontSize: '15px', color: '#991b1b', lineHeight: 1.65, fontStyle: 'italic' }}>
+                    &ldquo;{content}&rdquo;
+                  </p>
+                ) : (
+                  <p style={{ fontSize: '15px', color: 'var(--ink)', lineHeight: 1.65, ...(step.key === 'tonight' ? { fontWeight: 500 } : {}) }}>
+                    {content}
+                  </p>
+                )}
               </div>
             </div>
           )
@@ -209,24 +222,34 @@ export default async function ScriptDetailPage({
       </div>
 
       {/* Navigation */}
-      <div style={{ display: 'flex', gap: '12px', justifyContent: 'space-between' }}>
-        {prev ? (
+      <div style={{ display: 'flex', gap: '10px' }}>
+        {prevScript ? (
           <Link
-            href={`/dashboard/scripts/${prev}`}
-            style={{ flex: 1, padding: '14px 18px', background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '12px', textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: '4px' }}
+            href={`/dashboard/scripts/${prevScript.sort_order}`}
+            style={{ flex: 1, padding: '14px 16px', background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '12px', textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: '4px', minWidth: 0 }}
           >
             <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-light)' }}>← Previous</span>
-            <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--ink)' }}>Script #{prev}</span>
+            <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--ink)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{prevScript.title}</span>
           </Link>
-        ) : <div style={{ flex: 1 }} />}
+        ) : (
+          <Link
+            href="/dashboard/scripts"
+            style={{ flex: 1, padding: '14px 16px', background: 'var(--stage-2)', border: '1px solid var(--stage-2)', borderRadius: '12px', textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: '4px', minWidth: 0 }}
+          >
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>All topics</span>
+            <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--terracotta)' }}>Back to scripts</span>
+          </Link>
+        )}
 
-        <Link
-          href="/dashboard/scripts"
-          style={{ flex: 1, padding: '14px 18px', background: 'var(--stage-2)', border: '1px solid var(--stage-2)', borderRadius: '12px', textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: '4px', textAlign: 'right' }}
-        >
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>All topics</span>
-          <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--terracotta)' }}>Back to scripts</span>
-        </Link>
+        {nextScript && (
+          <Link
+            href={`/dashboard/scripts/${nextScript.sort_order}`}
+            style={{ flex: 1, padding: '14px 16px', background: 'var(--stage-2)', border: '1px solid var(--stage-2)', borderRadius: '12px', textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: '4px', textAlign: 'right', minWidth: 0 }}
+          >
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>Next →</span>
+            <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--terracotta)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{nextScript.title}</span>
+          </Link>
+        )}
       </div>
 
     </div>

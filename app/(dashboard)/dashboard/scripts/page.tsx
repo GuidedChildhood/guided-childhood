@@ -80,7 +80,7 @@ export default async function ScriptsPage() {
         <div style={{ background: 'var(--stage-5)', border: '2px solid var(--stage-5)', borderRadius: '16px', padding: '16px 20px', marginBottom: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
           <div>
             <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--terracotta)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Free plan</span>
-            <p style={{ fontSize: '14px', color: 'var(--ink-soft)', marginTop: '4px' }}>
+            <p style={{ fontSize: '14px', color: 'var(--ink)', marginTop: '4px' }}>
               You have {freeCount} free scripts. Membership unlocks the full library of 100 plus, every stage from 4 to 16.
             </p>
           </div>
@@ -150,7 +150,7 @@ export default async function ScriptsPage() {
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '16px', marginBottom: '8px' }}>
             The full library of 100 plus scripts is unlocked with membership
           </div>
-          <p style={{ fontSize: '14px', color: 'var(--ink-muted)', marginBottom: '16px' }}>
+          <p style={{ fontSize: '14px', color: 'var(--ink)', marginBottom: '16px' }}>
             Every stage from 4 to 16. Gaming, safety, social media, AI, body image, sleep, and the hard moments in between.
           </p>
           <Link href="/dashboard/upgrade" className="btn btn-gold" style={{ display: 'inline-flex' }}>
