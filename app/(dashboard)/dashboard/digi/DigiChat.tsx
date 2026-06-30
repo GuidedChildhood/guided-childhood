@@ -2,17 +2,10 @@
 import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import DigiCharacter, { type DigiMood } from '@/components/digi/DigiCharacter'
 
-function DigiAvatar({ size = 26 }: { size?: number }) {
-  return (
-    <Image
-      src="/digi-squad/Digi.png"
-      alt="DiGi"
-      width={size}
-      height={size}
-      style={{ width: size, height: size, objectFit: 'contain', flexShrink: 0 }}
-    />
-  )
+function DigiAvatar({ size = 26, mood = 'idle' }: { size?: number; mood?: DigiMood }) {
+  return <DigiCharacter size={size} mood={mood} />
 }
 
 interface Message {
@@ -157,7 +150,7 @@ export default function DigiChat({
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <div style={{ width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-              <DigiAvatar size={36} />
+              <DigiAvatar size={36} mood="wave" />
             </div>
             <div>
               <p className="eyebrow" style={{ marginBottom: '1px', fontSize: 10 }}>Your AI advisor</p>
@@ -315,7 +308,7 @@ export default function DigiChat({
 
         {loading && (
           <div style={{ display: 'flex', justifyContent: 'flex-start', marginBottom: '12px', alignItems: 'flex-end', gap: 8 }}>
-            <DigiAvatar size={26} />
+            <DigiAvatar size={26} mood="thinking" />
             <div style={{ padding: '13px 16px', background: 'var(--white)', border: '1px solid var(--border)', borderRadius: '16px 16px 16px 4px', display: 'flex', gap: '5px', alignItems: 'center' }}>
               {[0, 1, 2].map(i => (
                 <div key={i} style={{ width: '7px', height: '7px', background: 'var(--ink-light)', borderRadius: '50%', animation: `bounce 1.2s ease-in-out ${i * 0.2}s infinite` }} />

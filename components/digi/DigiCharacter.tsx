@@ -84,7 +84,7 @@ export default function DigiCharacter({
       }}
     >
       <Image
-        src="/digi-squad/Digi.png"
+        src="https://d2ol7oe51mr4n9.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/0ee4f7a9-28d2-4318-9fb8-309e58e05933.png"
         alt="DiGi your AI parenting advisor"
         width={size}
         height={size}
