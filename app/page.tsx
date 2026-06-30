@@ -1822,22 +1822,18 @@ export default function HomePage() {
           <div className="two-col-wide">
             <div style={{ textAlign: 'center' }}>
               <div style={{
-                width: '128px',
-                height: '128px',
-                borderRadius: '50%',
-                background: 'linear-gradient(135deg, var(--stage-2) 0%, var(--terracotta) 100%)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontFamily: 'var(--font-display)',
-                fontSize: '2.6rem',
-                fontWeight: 900,
-                color: '#fff',
+                width: '160px',
+                height: '160px',
+                borderRadius: '24px',
+                overflow: 'hidden',
                 margin: '0 auto',
-                boxShadow: '0 8px 32px rgba(61,115,154,.25)',
-                letterSpacing: '-.03em',
+                boxShadow: '0 8px 32px rgba(61,115,154,.18)',
               }}>
-                JP
+                <img
+                  src="https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260630_110934_b98c5da7-a06d-414d-b320-72540a7cc384.png"
+                  alt="Justin Phillips, founder of Guided Childhood"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }}
+                />
               </div>
               <p style={{ fontFamily: 'var(--font-mono)', fontSize: '.65rem', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginTop: '14px' }}>
                 Justin Phillips
