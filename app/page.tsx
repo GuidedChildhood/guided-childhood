@@ -351,41 +351,179 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Right: DiGi + floating problem chips */}
-          <div className="hero-chips" style={{ position: 'relative', height: '440px' }}>
-            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 1 }}>
-              <Image src="/digi-squad/DiGi-star.svg" alt="DiGi" width={130} height={140} style={{ filter: 'drop-shadow(0 12px 32px rgba(213,163,24,0.22))' }} priority />
-            </div>
-            {([
-              { text: 'Gaming meltdowns',    icon: '🎮', pos: { top: '6%',    left: '0%'   }, bg: 'var(--stage-1)' },
-              { text: 'Mood after phones',   icon: '📱', pos: { top: '2%',    right: '2%'  }, bg: 'var(--stage-3)' },
-              { text: 'Bedtime every night', icon: '🌙', pos: { top: '42%',   left: '-2%'  }, bg: 'var(--stage-2)' },
-              { text: 'TikTok at 13',        icon: '📲', pos: { top: '38%',   right: '0%'  }, bg: 'var(--stage-4)' },
-              { text: 'Secret accounts',     icon: '🔒', pos: { bottom: '8%', left: '10%'  }, bg: 'var(--stage-5)' },
-              { text: 'After school screens',icon: '📺', pos: { bottom: '14%',right: '2%'  }, bg: 'var(--stage-2)' },
-            ] as const).map((chip, i) => (
-              <div key={i} style={{
-                position: 'absolute',
-                ...chip.pos,
-                background: '#fff',
-                border: '1.5px solid var(--border)',
-                borderRadius: '14px',
-                padding: '10px 14px',
+          {/* Right: Two Edukids-style photo shape cards */}
+          <div className="hero-chips" style={{ position: 'relative', height: '480px' }}>
+
+            {/* Decorative dotted connector */}
+            <svg style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 0 }} viewBox="0 0 460 480" fill="none" aria-hidden="true">
+              <path d="M120 310 Q230 360 340 190" stroke="var(--border)" strokeWidth="2.5" strokeDasharray="7 5" fill="none" opacity="0.7"/>
+              <circle cx="120" cy="310" r="5" fill="var(--stage-1-bold)" opacity="0.9"/>
+              <circle cx="340" cy="190" r="5" fill="var(--stage-3-bold)" opacity="0.9"/>
+            </svg>
+
+            {/* Card 1: Parent and young child, Ages 4 to 10 */}
+            <div style={{
+              position: 'absolute',
+              top: '0',
+              left: '0',
+              width: '210px',
+              height: '310px',
+              background: 'var(--stage-1-bold)',
+              borderRadius: '28px',
+              overflow: 'hidden',
+              boxShadow: '0 10px 48px rgba(0,0,0,0.13)',
+              zIndex: 1,
+            }}>
+              <div style={{
+                width: '100%',
+                height: '100%',
                 display: 'flex',
+                flexDirection: 'column',
                 alignItems: 'center',
-                gap: '10px',
-                boxShadow: '0 4px 20px rgba(26,26,46,.07)',
-                whiteSpace: 'nowrap',
-                zIndex: 2,
+                justifyContent: 'flex-end',
+                padding: '0 20px 24px',
               }}>
-                <span style={{ width: '32px', height: '32px', background: chip.bg, borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '.85rem', flexShrink: 0 }}>
-                  {chip.icon}
-                </span>
-                <span style={{ fontSize: '.8rem', fontWeight: 700, color: 'var(--ink)', letterSpacing: '-.01em' }}>
-                  {chip.text}
-                </span>
+                <div style={{ fontSize: '88px', lineHeight: 1, marginBottom: '16px', filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.10))' }}>
+                  👩‍👧
+                </div>
+                <div style={{
+                  background: 'rgba(255,255,255,0.88)',
+                  borderRadius: '100px',
+                  padding: '6px 14px',
+                  fontSize: '10px',
+                  fontFamily: 'var(--font-mono)',
+                  fontWeight: 700,
+                  letterSpacing: '0.08em',
+                  color: 'var(--stage-1-text)',
+                  textTransform: 'uppercase',
+                }}>
+                  Ages 4 to 10
+                </div>
               </div>
-            ))}
+              <div style={{
+                position: 'absolute',
+                top: '14px',
+                left: '14px',
+                background: 'rgba(255,255,255,0.88)',
+                borderRadius: '100px',
+                padding: '5px 12px',
+                fontSize: '10px',
+                fontFamily: 'var(--font-mono)',
+                fontWeight: 700,
+                color: 'var(--stage-1-text)',
+                letterSpacing: '0.06em',
+              }}>
+                Stage 1 and 2
+              </div>
+              <div style={{
+                position: 'absolute',
+                bottom: '72px',
+                left: '14px',
+                right: '14px',
+                background: 'rgba(255,255,255,0.7)',
+                borderRadius: '12px',
+                padding: '8px 12px',
+                fontSize: '11px',
+                color: 'var(--stage-1-text)',
+                fontWeight: 600,
+                lineHeight: 1.4,
+              }}>
+                Co-viewing · Shared screens · First routines
+              </div>
+            </div>
+
+            {/* Card 2: Teen on phone, Ages 11 to 16 */}
+            <div style={{
+              position: 'absolute',
+              top: '90px',
+              right: '0',
+              width: '210px',
+              height: '340px',
+              background: 'var(--stage-3-bold)',
+              borderRadius: '28px',
+              overflow: 'hidden',
+              boxShadow: '0 10px 48px rgba(0,0,0,0.13)',
+              zIndex: 2,
+            }}>
+              <div style={{
+                width: '100%',
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'flex-end',
+                padding: '0 20px 24px',
+              }}>
+                <div style={{ fontSize: '88px', lineHeight: 1, marginBottom: '16px', filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.10))' }}>
+                  🧒‍♀️
+                </div>
+                <div style={{
+                  background: 'rgba(255,255,255,0.88)',
+                  borderRadius: '100px',
+                  padding: '6px 14px',
+                  fontSize: '10px',
+                  fontFamily: 'var(--font-mono)',
+                  fontWeight: 700,
+                  letterSpacing: '0.08em',
+                  color: 'var(--stage-3-text)',
+                  textTransform: 'uppercase',
+                }}>
+                  Ages 11 to 16
+                </div>
+              </div>
+              <div style={{
+                position: 'absolute',
+                top: '14px',
+                left: '14px',
+                background: 'rgba(255,255,255,0.88)',
+                borderRadius: '100px',
+                padding: '5px 12px',
+                fontSize: '10px',
+                fontFamily: 'var(--font-mono)',
+                fontWeight: 700,
+                color: 'var(--stage-3-text)',
+                letterSpacing: '0.06em',
+              }}>
+                Stage 3 to 5
+              </div>
+              <div style={{
+                position: 'absolute',
+                bottom: '72px',
+                left: '14px',
+                right: '14px',
+                background: 'rgba(255,255,255,0.7)',
+                borderRadius: '12px',
+                padding: '8px 12px',
+                fontSize: '11px',
+                color: 'var(--stage-3-text)',
+                fontWeight: 600,
+                lineHeight: 1.4,
+              }}>
+                Social media · Digital identity · Trust building
+              </div>
+            </div>
+
+            {/* Floating badge: Critical window */}
+            <div style={{
+              position: 'absolute',
+              bottom: '40px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              background: '#fff',
+              borderRadius: '16px',
+              padding: '12px 18px',
+              boxShadow: '0 4px 24px rgba(26,26,46,0.14)',
+              border: '1.5px solid var(--border)',
+              whiteSpace: 'nowrap',
+              zIndex: 3,
+            }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', color: 'var(--terracotta)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '3px' }}>
+                Critical window
+              </div>
+              <div style={{ fontSize: '13px', fontWeight: 700, color: 'var(--ink)' }}>
+                Stage 3 · Ages 11 to 13
+              </div>
+            </div>
           </div>
 
         </div>
@@ -411,6 +549,149 @@ export default function HomePage() {
               </div>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* ================================================================
+          STAGE PATHWAY WALKTHROUGH — tree / journey visual
+          ================================================================ */}
+      <section style={{ padding: 'clamp(80px, 10vw, 120px) 32px', background: '#FFFBEE', borderTop: '1px solid var(--border)' }}>
+        <div style={{ maxWidth: '1120px', margin: '0 auto' }}>
+
+          <div style={{ textAlign: 'center', marginBottom: '56px' }}>
+            <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>The guided pathway</p>
+            <h2 style={{ marginBottom: '14px' }}>
+              From first screen to{' '}
+              <span style={{ color: 'var(--terracotta)' }}>digital independence</span>
+            </h2>
+            <p style={{ fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.8, maxWidth: '520px', margin: '0 auto' }}>
+              Each stage has different risks, different conversations, and different boundaries. You never skip ahead. You never fall behind. The platform grows with your child.
+            </p>
+          </div>
+
+          {/* Pathway cards — desktop: 5 columns, mobile: vertical scroll */}
+          <div style={{ position: 'relative' }}>
+
+            {/* Gradient connector line (desktop only) */}
+            <div style={{
+              position: 'absolute',
+              top: '88px',
+              left: 'calc(10% + 8px)',
+              right: 'calc(10% + 8px)',
+              height: '3px',
+              background: 'linear-gradient(90deg, var(--stage-1-bold), var(--stage-2-bold), var(--stage-3-bold), var(--stage-4-bold), var(--stage-5-bold))',
+              borderRadius: '2px',
+              zIndex: 0,
+            }} className="hide-mobile" />
+
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(5, 1fr)',
+              gap: '10px',
+              position: 'relative',
+              zIndex: 1,
+            }} className="pathway-grid">
+              {STAGES.map((s, i) => {
+                const ICONS = ['👩‍👧', '🎮', '📱', '🔍', '💻']
+                return (
+                  <Link key={s.num} href="/starter-pack" style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column' }}>
+                    <div style={{
+                      background: '#fff',
+                      borderRadius: '20px',
+                      overflow: 'hidden',
+                      boxShadow: '0 4px 24px rgba(26,26,46,0.07)',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      height: '100%',
+                      border: '1px solid rgba(0,0,0,0.04)',
+                    }}>
+
+                      {/* Photo placeholder */}
+                      <div style={{
+                        background: s.bold,
+                        height: '132px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        position: 'relative',
+                        flexShrink: 0,
+                      }}>
+                        <div style={{ fontSize: '52px', lineHeight: 1, filter: 'drop-shadow(0 3px 8px rgba(0,0,0,0.08))' }}>
+                          {ICONS[i]}
+                        </div>
+                        {/* Stage number dot */}
+                        <div style={{
+                          position: 'absolute',
+                          top: '10px',
+                          right: '10px',
+                          width: '26px',
+                          height: '26px',
+                          background: 'rgba(255,255,255,0.82)',
+                          borderRadius: '50%',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontSize: '11px',
+                          fontWeight: 900,
+                          fontFamily: 'var(--font-display)',
+                          color: s.text,
+                        }}>
+                          {i + 1}
+                        </div>
+                        {s.critical && (
+                          <div style={{
+                            position: 'absolute',
+                            top: '10px',
+                            left: '10px',
+                            background: 'rgba(0,0,0,0.16)',
+                            borderRadius: '100px',
+                            padding: '3px 8px',
+                            fontSize: '8px',
+                            fontWeight: 700,
+                            color: s.text,
+                            letterSpacing: '0.06em',
+                            textTransform: 'uppercase',
+                          }}>
+                            Critical
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Card content */}
+                      <div style={{ padding: '14px 14px 18px', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '3px' }}>
+                          {s.ages}
+                        </div>
+                        <div style={{ fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 800, color: 'var(--ink)', letterSpacing: '-0.02em', marginBottom: '6px' }}>
+                          {s.name}
+                        </div>
+                        <span style={{ display: 'inline-block', background: s.bg, color: 'var(--ink-soft)', borderRadius: '100px', padding: '2px 8px', fontSize: '10px', fontWeight: 600, marginBottom: '8px', alignSelf: 'flex-start' }}>
+                          {s.device}
+                        </span>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '3px', marginTop: 'auto' }}>
+                          {s.tags.slice(0, 2).map(t => (
+                            <span key={t} style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '100px', padding: '2px 7px', fontSize: '9px', color: 'var(--ink-soft)', fontWeight: 600 }}>
+                              {t}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                )
+              })}
+            </div>
+          </div>
+
+          <div style={{ textAlign: 'center', marginTop: '32px' }}>
+            <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '14px', padding: '15px 32px' }}>
+              Find your stage
+            </Link>
+            <p style={{ fontSize: '.76rem', color: 'var(--ink-muted)', marginTop: '12px' }}>
+              Multiple children at different stages? One account covers all of them.
+            </p>
+          </div>
         </div>
       </section>
 
@@ -719,6 +1000,120 @@ export default function HomePage() {
 
           <FlipCards cards={PLACARDS} />
 
+        </div>
+      </section>
+
+      {/* ================================================================
+          SCRIPT CATEGORIES — Edukids program card grid
+          ================================================================ */}
+      <section style={{ padding: 'clamp(80px, 10vw, 112px) 32px', background: 'var(--cream)' }}>
+        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+
+          <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+            <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>100 plus scripts</p>
+            <h2 style={{ marginBottom: '14px' }}>
+              What to say in{' '}
+              <span style={{ color: 'var(--terracotta)' }}>every situation</span>
+            </h2>
+            <p style={{ fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.8, maxWidth: '520px', margin: '0 auto' }}>
+              Each script has the exact words, what not to say, and why it works. Across six areas of digital life.
+            </p>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }} className="cat-grid">
+            {([
+              { label: 'First Device',  desc: 'Setting foundations before and after the first screen arrives.', bg: 'var(--stage-1-bold)', text: 'var(--stage-1-text)', icon: '📱', count: '18 scripts', ks: 'Stage 1 and 2' },
+              { label: 'Social Media',  desc: 'Navigating platforms, algorithms, and identity with your child.', bg: 'var(--stage-3-bold)', text: 'var(--stage-3-text)', icon: '📸', count: '22 scripts', ks: 'Stage 3 and 4' },
+              { label: 'Gaming',        desc: 'Healthy gaming conversations without the daily battle.', bg: 'var(--stage-2-bold)', text: 'var(--stage-2-text)', icon: '🎮', count: '15 scripts', ks: 'All stages' },
+              { label: 'Safety',        desc: 'What to say when something goes wrong online.', bg: 'var(--stage-4-bold)', text: 'var(--stage-4-text)', icon: '🛡️', count: '20 scripts', ks: 'Stage 3 to 5' },
+              { label: 'Wellbeing',     desc: 'Mood, sleep, body image, and the digital connection.', bg: 'var(--stage-5-bold)', text: 'var(--stage-5-text)', icon: '🌱', count: '16 scripts', ks: 'Stage 2 to 4' },
+              { label: 'AI and Tech',   desc: 'Deepfakes, AI tools, and what digital literacy looks like.', bg: 'var(--stage-1-bold)', text: 'var(--stage-1-text)', icon: '🤖', count: '12 scripts', ks: 'Stage 4 and 5' },
+            ] as const).map((cat) => (
+              <Link key={cat.label} href="/starter-pack" style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column' }}>
+                <div style={{
+                  background: '#fff',
+                  borderRadius: '20px',
+                  overflow: 'hidden',
+                  boxShadow: '0 4px 24px rgba(26,26,46,0.06)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  height: '100%',
+                  border: '1px solid rgba(0,0,0,0.04)',
+                  transition: 'transform 0.2s, box-shadow 0.2s',
+                }}>
+
+                  {/* Photo area */}
+                  <div style={{
+                    background: cat.bg,
+                    height: '160px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    position: 'relative',
+                    padding: '20px',
+                    flexShrink: 0,
+                  }}>
+                    <div style={{ fontSize: '60px', lineHeight: 1, filter: 'drop-shadow(0 3px 10px rgba(0,0,0,0.08))' }}>
+                      {cat.icon}
+                    </div>
+                    {/* Script count badge */}
+                    <div style={{
+                      position: 'absolute',
+                      top: '12px',
+                      right: '12px',
+                      background: 'rgba(255,255,255,0.88)',
+                      borderRadius: '100px',
+                      padding: '4px 10px',
+                      fontSize: '10px',
+                      fontFamily: 'var(--font-mono)',
+                      fontWeight: 700,
+                      color: cat.text,
+                      letterSpacing: '0.04em',
+                    }}>
+                      {cat.count}
+                    </div>
+                    {/* Stage badge */}
+                    <div style={{
+                      position: 'absolute',
+                      bottom: '12px',
+                      left: '12px',
+                      background: 'rgba(255,255,255,0.75)',
+                      borderRadius: '100px',
+                      padding: '3px 10px',
+                      fontSize: '9px',
+                      fontFamily: 'var(--font-mono)',
+                      fontWeight: 600,
+                      color: cat.text,
+                      letterSpacing: '0.06em',
+                      textTransform: 'uppercase',
+                    }}>
+                      {cat.ks}
+                    </div>
+                  </div>
+
+                  {/* Content */}
+                  <div style={{ padding: '18px 20px 22px', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                    <h3 style={{ fontSize: '15px', fontWeight: 800, color: 'var(--ink)', letterSpacing: '-0.02em', marginBottom: '6px' }}>
+                      {cat.label}
+                    </h3>
+                    <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.65, marginBottom: '14px', flex: 1 }}>
+                      {cat.desc}
+                    </p>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--terracotta)', fontSize: '12px', fontWeight: 700, fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}>
+                      Explore scripts →
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+
+          <div style={{ textAlign: 'center', marginTop: '36px' }}>
+            <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '14px', padding: '15px 32px' }}>
+              Get your free starter pack
+            </Link>
+          </div>
         </div>
       </section>
 
