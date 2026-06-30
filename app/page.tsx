@@ -451,8 +451,8 @@ export default function HomePage() {
               zIndex: 1,
             }}>
               <Image
-                src="https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260630_084108_484031e7-fad8-4b2f-8cff-0b6816f84a8f.png"
-                alt="Mother and daughter co-viewing on a tablet"
+                src="https://images.unsplash.com/photo-1516627145497-ae6968895b74?auto=format&fit=crop&w=430&q=80"
+                alt="Mother and young daughter co-viewing on a tablet together"
                 fill
                 style={{ objectFit: 'cover', objectPosition: 'center top' }}
                 sizes="215px"
@@ -517,7 +517,7 @@ export default function HomePage() {
               zIndex: 2,
             }}>
               <Image
-                src="https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260630_084109_eb560b3a-3d67-4248-8488-fa78dfb4474f.png"
+                src="https://images.unsplash.com/photo-1524592094714-0f0654e359cf?auto=format&fit=crop&w=430&q=80"
                 alt="Teenage girl scrolling on her smartphone"
                 fill
                 style={{ objectFit: 'cover', objectPosition: 'center top' }}
@@ -680,11 +680,11 @@ export default function HomePage() {
               {STAGES.map((s, i) => {
                 // Real stock photos — one per stage, age-matched
                 const STAGE_IMGS = [
-                  'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&w=600&q=80', // girl 4-7 with tablet
-                  'https://images.unsplash.com/photo-1560252811-2d6e2b79c7e3?auto=format&fit=crop&w=600&q=80', // child 8-10 with device
-                  'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=600&q=80', // preteen 11-13 with phone
-                  'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=600&q=80', // teen boy 13-15
-                  'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=600&q=80', // teen girl 16+
+                  'https://images.unsplash.com/photo-1516627145497-ae6968895b74?auto=format&fit=crop&w=600&q=80', // parent+young child co-viewing stage 1
+                  'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&w=600&q=80', // child with device stage 2
+                  'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=600&q=80', // friends with phone stage 3
+                  'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=600&q=80', // teen stage 4
+                  'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=600&q=80', // older teen stage 5
                 ]
                 return (
                   <Link key={s.num} href="/starter-pack" style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column' }}>
