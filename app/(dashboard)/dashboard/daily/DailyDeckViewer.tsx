@@ -14,6 +14,14 @@ export type DailyCard = {
   icon: string
 }
 
+const CARD_ICONS: Record<string, string> = {
+  review: '◎',
+  focus: '✦',
+  watchfor: '△',
+  question: '?',
+  complete: '✓',
+}
+
 export default function DailyDeckViewer({
   cards,
   alreadyDone,
@@ -24,7 +32,8 @@ export default function DailyDeckViewer({
   const router = useRouter()
   const [cardIndex, setCardIndex] = useState(0)
   const [done, setDone] = useState(alreadyDone)
-  const [showCelebration, setShowCelebration] = useState(false)
+  const [showComplete, setShowComplete] = useState(false)
+  const [loggedTracker, setLoggedTracker] = useState(false)
   const [isExiting, setIsExiting] = useState(false)
   const [exitDir, setExitDir] = useState<'left' | 'right'>('left')
 
@@ -47,18 +56,14 @@ export default function DailyDeckViewer({
     setIsExiting(true)
     setExitDir(dir === 'next' ? 'left' : 'right')
 
-    await new Promise(r => setTimeout(r, 200))
+    await new Promise(r => setTimeout(r, 180))
 
     if (dir === 'next') {
       if (!isLast) {
         setCardIndex(i => i + 1)
       } else if (!done) {
         setDone(true)
-        setShowCelebration(true)
-        setTimeout(() => {
-          setShowCelebration(false)
-          router.push('/dashboard')
-        }, 2000)
+        setShowComplete(true)
         try {
           await fetch('/api/daily/complete', { method: 'POST' })
         } catch { /* non-blocking */ }
@@ -96,215 +101,237 @@ export default function DailyDeckViewer({
 
   if (!card) return null
 
+  // ── COMPLETION SCREEN ─────────────────────────────────────────────────────
+  if (showComplete) {
+    return (
+      <div style={{
+        minHeight: '60dvh', display: 'flex', flexDirection: 'column',
+        alignItems: 'center', justifyContent: 'center',
+        maxWidth: '480px', margin: '0 auto', padding: '40px 20px',
+      }}>
+        <div style={{
+          width: 72, height: 72, borderRadius: '50%',
+          background: 'var(--terracotta)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          fontSize: '28px', color: '#fff', marginBottom: '20px',
+          boxShadow: '0 6px 0 var(--terracotta-dark)',
+        }}>✓</div>
+        <h2 style={{
+          fontFamily: 'var(--font-display)', fontWeight: 900,
+          fontSize: '1.6rem', color: 'var(--ink)', marginBottom: '8px',
+          letterSpacing: '-0.03em', textAlign: 'center',
+        }}>
+          Done for today
+        </h2>
+        <p style={{ fontSize: '15px', color: 'var(--ink-soft)', textAlign: 'center', maxWidth: '280px', lineHeight: 1.6, marginBottom: '32px' }}>
+          Come back tomorrow and keep the streak going.
+        </p>
+
+        {/* Tracker prompt */}
+        {!loggedTracker ? (
+          <div style={{
+            width: '100%', background: '#fff', border: '1.5px solid var(--border)',
+            borderRadius: '20px', padding: '22px', marginBottom: '16px',
+          }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '10px' }}>
+              Quick tracker check-in
+            </div>
+            <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: '16px' }}>
+              How is your child doing with screens this week?
+            </p>
+            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+              {['Really well', 'Doing ok', 'Bit of a battle', 'Struggling'].map((label, i) => (
+                <button
+                  key={i}
+                  onClick={() => {
+                    setLoggedTracker(true)
+                    fetch('/api/tracker/quick', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ rating: 4 - i, label }),
+                    }).catch(() => {})
+                  }}
+                  style={{
+                    padding: '9px 14px', borderRadius: '100px',
+                    border: '1.5px solid var(--border)',
+                    background: 'var(--cream)',
+                    fontFamily: 'var(--font-mono)', fontSize: '11px',
+                    fontWeight: 600, color: 'var(--ink-soft)',
+                    cursor: 'pointer', letterSpacing: '.04em',
+                  }}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <div style={{
+            width: '100%', background: 'var(--stage-2)', border: '1.5px solid var(--border)',
+            borderRadius: '16px', padding: '16px 20px', marginBottom: '16px',
+            fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--ink-soft)',
+          }}>
+            ✓ Added to your tracker
+          </div>
+        )}
+
+        <button
+          onClick={() => router.push('/dashboard')}
+          style={{
+            width: '100%', padding: '16px', background: 'var(--terracotta)',
+            border: 'none', borderRadius: '16px',
+            fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700,
+            letterSpacing: '.08em', textTransform: 'uppercase',
+            color: '#fff', cursor: 'pointer',
+            boxShadow: '0 5px 0 var(--terracotta-dark)',
+          }}
+        >
+          Back to home
+        </button>
+      </div>
+    )
+  }
+
+  // ── CARD DECK ─────────────────────────────────────────────────────────────
   return (
     <div
-      style={{
-        minHeight: '100dvh',
-        background: card.bg,
-        transition: 'background 0.35s ease',
-        display: 'flex',
-        flexDirection: 'column',
-        position: 'relative',
-        userSelect: 'none',
-      }}
+      style={{ maxWidth: '480px', margin: '0 auto', padding: '16px 16px 48px', minHeight: '70dvh' }}
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
     >
-      {/* Progress bar — thin, at very top */}
-      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: 'rgba(0,0,0,0.10)' }}>
-        <div style={{
-          height: '100%',
-          background: 'rgba(255,255,255,0.6)',
-          width: `${((cardIndex + 1) / cards.length) * 100}%`,
-          transition: 'width 0.3s ease',
-        }} />
-      </div>
-
-      {/* Top controls */}
-      <div style={{
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: '20px 20px 0', position: 'relative', zIndex: 1,
-      }}>
+      {/* Top bar */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
         <button
           onClick={() => router.push('/dashboard')}
-          aria-label="Close"
           style={{
-            width: 38, height: 38, borderRadius: '50%',
-            background: 'rgba(0,0,0,0.15)',
-            border: 'none', cursor: 'pointer',
+            width: 36, height: 36, borderRadius: '50%',
+            background: 'var(--border)', border: 'none', cursor: 'pointer',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: '20px', color: 'rgba(0,0,0,0.55)',
-            lineHeight: 1,
+            fontSize: '18px', color: 'var(--ink-muted)',
           }}
         >
           ×
         </button>
-        <div style={{
-          fontFamily: 'var(--font-mono)', fontSize: '11px',
-          color: 'rgba(0,0,0,0.38)', letterSpacing: '0.08em',
-        }}>
-          {cardIndex + 1} / {cards.length}
+
+        {/* Progress dots */}
+        <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+          {cards.map((_, i) => (
+            <div key={i} style={{
+              width: i === cardIndex ? 20 : 7,
+              height: 7, borderRadius: '100px',
+              background: i <= cardIndex ? 'var(--stage-2-bold, #3D88C5)' : 'var(--border)',
+              transition: 'width 0.25s ease, background 0.25s ease',
+            }} />
+          ))}
+        </div>
+
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-muted)', minWidth: 36, textAlign: 'right' }}>
+          {cardIndex + 1}/{cards.length}
         </div>
       </div>
 
-      {/* Card */}
+      {/* Card tile */}
       <div
-        style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: '14px 16px 0' }}
         onClick={() => !isLast && navigate('next')}
-      >
-        <div style={{
-          flex: 1,
+        style={{
           background: '#fff',
-          borderRadius: '28px 28px 0 0',
+          borderRadius: '24px',
           overflow: 'hidden',
-          boxShadow: '0 12px 48px rgba(0,0,0,0.16), 0 2px 8px rgba(0,0,0,0.07)',
-          display: 'flex',
-          flexDirection: 'column',
+          boxShadow: '0 4px 24px rgba(26,26,46,0.10), 0 1px 4px rgba(26,26,46,0.06)',
+          border: '1px solid var(--border)',
+          cursor: isLast ? 'default' : 'pointer',
           opacity: isExiting ? 0 : 1,
           transform: isExiting
-            ? `translateX(${exitDir === 'left' ? '-24px' : '24px'}) scale(0.97)`
+            ? `translateX(${exitDir === 'left' ? '-28px' : '28px'}) scale(0.97)`
             : 'translateX(0) scale(1)',
-          transition: 'opacity 0.2s ease, transform 0.2s ease',
-          cursor: isLast ? 'default' : 'pointer',
+          transition: 'opacity 0.18s ease, transform 0.18s ease',
+          marginBottom: '20px',
+          userSelect: 'none',
+        }}
+      >
+        {/* Sky blue header band */}
+        <div style={{
+          background: 'var(--stage-2)',
+          padding: '20px 24px 16px',
         }}>
-          {/* Coloured header band */}
           <div style={{
-            background: card.accent,
-            padding: '22px 26px 18px',
-            flexShrink: 0,
+            fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700,
+            letterSpacing: '.18em', textTransform: 'uppercase',
+            color: 'rgba(255,255,255,.65)', marginBottom: '6px',
           }}>
-            <div style={{
-              fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700,
-              letterSpacing: '0.18em', textTransform: 'uppercase',
-              color: 'rgba(255,255,255,0.6)', marginBottom: '6px',
-            }}>
-              {card.eyebrow}
-            </div>
-            <div style={{
-              fontFamily: 'var(--font-display)', fontSize: '19px', fontWeight: 800,
-              color: '#fff', letterSpacing: '-0.02em', lineHeight: 1.2,
-            }}>
-              {card.headline}
-            </div>
+            {card.eyebrow}
           </div>
-
-          {/* Card body */}
           <div style={{
-            flex: 1, padding: '30px 26px 36px',
-            overflowY: 'auto',
-            display: 'flex', flexDirection: 'column',
+            fontFamily: 'var(--font-display)', fontWeight: 800,
+            fontSize: 'clamp(1rem, 3.5vw, 1.25rem)',
+            color: '#fff', lineHeight: 1.2, letterSpacing: '-0.02em',
           }}>
-            <p style={{
-              fontSize: 'clamp(17px, 4.2vw, 22px)',
-              lineHeight: 1.68,
-              color: 'var(--ink)',
-              margin: 0,
-              fontFamily: card.type === 'question' ? 'var(--font-display)' : 'inherit',
-              fontWeight: card.type === 'question' ? 700 : 400,
-              fontStyle: card.type === 'review' ? 'italic' : 'normal',
-              textAlign: card.type === 'complete' ? 'center' : 'left',
-            }}>
-              {card.body}
-            </p>
-            {isLast && !done && (
-              <button
-                onClick={(e) => { e.stopPropagation(); navigate('next') }}
-                style={{
-                  marginTop: '32px', padding: '18px 28px',
-                  background: 'var(--terracotta)',
-                  border: 'none', borderRadius: '16px',
-                  fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700,
-                  letterSpacing: '0.08em', textTransform: 'uppercase',
-                  color: '#fff', cursor: 'pointer',
-                  boxShadow: '0 4px 0 var(--terracotta-dark)',
-                  width: '100%',
-                }}
-              >
-                Done for today
-              </button>
-            )}
-            {isLast && done && (
-              <button
-                onClick={(e) => { e.stopPropagation(); router.push('/dashboard') }}
-                style={{
-                  marginTop: '32px', padding: '18px 28px',
-                  background: 'var(--terracotta)',
-                  border: 'none', borderRadius: '16px',
-                  fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700,
-                  letterSpacing: '0.08em', textTransform: 'uppercase',
-                  color: '#fff', cursor: 'pointer',
-                  boxShadow: '0 4px 0 var(--terracotta-dark)',
-                  width: '100%',
-                }}
-              >
-                Back to home
-              </button>
-            )}
+            {card.headline}
           </div>
         </div>
-      </div>
 
-      {/* Bottom — previous card */}
-      <div style={{
-        padding: '16px 16px 36px',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        minHeight: '72px',
-      }}>
-        {cardIndex > 0 ? (
-          <button
-            onClick={() => navigate('back')}
-            style={{
-              display: 'flex', alignItems: 'center', gap: '8px',
-              background: 'none', border: 'none', cursor: 'pointer',
-              fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 600,
-              letterSpacing: '0.1em', textTransform: 'uppercase',
-              color: 'rgba(0,0,0,0.38)', padding: '8px 16px',
-            }}
-          >
-            ↩ Previous card
-          </button>
-        ) : (
-          <div style={{
-            fontFamily: 'var(--font-mono)', fontSize: '10px',
-            color: 'rgba(0,0,0,0.3)', letterSpacing: '0.08em',
+        {/* Card body */}
+        <div style={{ padding: '26px 24px 30px' }}>
+          <p style={{
+            fontSize: 'clamp(15px, 3.8vw, 18px)',
+            lineHeight: 1.72,
+            color: card.type === 'question' ? 'var(--ink)' : 'var(--ink-soft)',
+            margin: 0,
+            fontFamily: card.type === 'question' ? 'var(--font-display)' : 'inherit',
+            fontWeight: card.type === 'question' ? 700 : 400,
           }}>
-            Tap card to continue
+            {card.body}
+          </p>
+        </div>
+
+        {/* Tap hint strip — only on non-last cards */}
+        {!isLast && (
+          <div style={{
+            background: 'var(--cream)', borderTop: '1px solid var(--border)',
+            padding: '10px 24px',
+            fontFamily: 'var(--font-mono)', fontSize: '10px',
+            color: 'var(--ink-muted)', letterSpacing: '.08em',
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          }}>
+            <span>Tap card or swipe left</span>
+            <span>Next →</span>
           </div>
         )}
       </div>
 
-      {showCelebration && (
-        <div style={{
-          position: 'fixed', inset: 0,
-          background: 'rgba(26,26,46,0.95)',
-          display: 'flex', flexDirection: 'column',
-          alignItems: 'center', justifyContent: 'center',
-          zIndex: 100,
-        }}>
-          <div style={{
-            width: 72, height: 72, borderRadius: '50%',
-            background: 'var(--terracotta)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: '32px', marginBottom: '24px',
-            boxShadow: '0 6px 0 var(--terracotta-dark)',
-          }}>
-            ✓
-          </div>
-          <div style={{
-            fontFamily: 'var(--font-display)', fontWeight: 900,
-            fontSize: '28px', color: '#fff', marginBottom: '10px',
-            letterSpacing: '-0.03em',
-          }}>
-            Done for today
-          </div>
-          <p style={{
-            fontSize: '15px', color: 'rgba(255,255,255,0.6)',
-            textAlign: 'center', maxWidth: '260px', lineHeight: 1.6,
-          }}>
-            Come back tomorrow and keep the streak going.
-          </p>
-        </div>
-      )}
+      {/* Navigation buttons */}
+      <div style={{ display: 'flex', gap: '10px' }}>
+        {cardIndex > 0 && (
+          <button
+            onClick={() => navigate('back')}
+            style={{
+              padding: '14px 18px', background: 'var(--cream)',
+              border: '1.5px solid var(--border)', borderRadius: '14px',
+              fontFamily: 'var(--font-mono)', fontSize: '12px',
+              letterSpacing: '.06em', color: 'var(--ink-muted)',
+              cursor: 'pointer', flexShrink: 0,
+            }}
+          >
+            ← Back
+          </button>
+        )}
+        <button
+          onClick={() => navigate('next')}
+          style={{
+            flex: 1, padding: '15px 20px',
+            background: isLast ? 'var(--terracotta)' : 'var(--stage-2)',
+            border: 'none', borderRadius: '14px',
+            fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700,
+            letterSpacing: '.08em', textTransform: 'uppercase',
+            color: '#fff', cursor: 'pointer',
+            boxShadow: isLast
+              ? '0 5px 0 var(--terracotta-dark)'
+              : '0 4px 0 rgba(0,0,0,0.15)',
+          }}
+        >
+          {isLast && done ? 'Back to home' : isLast ? 'Done for today ✓' : 'Next →'}
+        </button>
+      </div>
     </div>
   )
 }
