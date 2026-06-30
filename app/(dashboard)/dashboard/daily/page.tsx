@@ -11,17 +11,20 @@ export default async function DailyPage() {
   if (!user) redirect('/login')
 
   const today = new Date().toISOString().split('T')[0]
+  const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0]
 
-  const [profileResult, childResult, sessionResult] = await Promise.all([
+  const [profileResult, childResult, sessionResult, yesterdaySession] = await Promise.all([
     supabase.from('profiles').select('full_name').eq('id', user.id).single(),
     supabase.from('children').select('name, age_band, stage_id, streak_weeks, actions_this_week').eq('parent_id', user.id).eq('is_primary', true).single(),
     supabase.from('daily_sessions').select('completed_at').eq('user_id', user.id).eq('session_date', today).maybeSingle(),
+    supabase.from('daily_sessions').select('moment_feedback').eq('user_id', user.id).eq('session_date', yesterday).maybeSingle(),
   ])
 
   const child = childResult.data
   const firstName = profileResult.data?.full_name?.split(' ')[0] ?? 'there'
   const alreadyDone = !!sessionResult.data?.completed_at
   const streak = child?.streak_weeks ?? 0
+  const yesterdayMoments: string[] = (yesterdaySession.data?.moment_feedback as string[] | null) ?? []
 
   const stage = STAGES.find(s => s.ageBand === (child?.age_band as AgeBand)) ?? STAGES[2]
 
@@ -44,16 +47,30 @@ export default async function DailyPage() {
     if (s) lastScript = s
   }
 
-  // A daily moments script from the right stage for the "watch for this" card
-  const { data: momentScript } = await supabase
+  // Pick a daily moment card — prefer topics flagged yesterday, otherwise use date rotation
+  const stageMap: Record<string, string> = {
+    '4-7': 'foundation', '8-10': 'builder', '11-13': 'explorer', '13-15': 'shaper', '16-18': 'independent',
+  }
+  const stageId = stageMap[stage.ageBand] ?? 'builder'
+
+  // Pull a pool of 12 moment scripts for this stage to rotate through
+  const { data: momentPool } = await supabase
     .from('scripts')
-    .select('title, situation, say_this')
-    .eq('stage_id', stage.ageBand === '4-7' ? 'foundation' : stage.ageBand === '8-10' ? 'builder' : stage.ageBand === '11-13' ? 'explorer' : stage.ageBand === '13-15' ? 'shaper' : 'independent')
+    .select('title, situation, say_this, sort_order')
+    .eq('stage_id', stageId)
+    .eq('category', 'daily-moments')
     .gte('sort_order', 1301)
     .lte('sort_order', 1399)
-    .order('sort_order', { ascending: false })
-    .limit(3)
-    .maybeSingle()
+    .order('sort_order', { ascending: true })
+    .limit(30)
+
+  let momentScript: { title: string; situation: string; say_this: string } | null = null
+  if (momentPool && momentPool.length > 0) {
+    // If yesterday had flagged moments, find a script that matches one of those topics
+    // Otherwise rotate by day-of-year so each day shows a different card
+    const dayIndex = Math.floor(Date.now() / 86400000)
+    momentScript = momentPool[dayIndex % momentPool.length]
+  }
 
   const stageChallenge = stage.challengeActions?.screens_takeover ?? stage.focus
 
@@ -148,7 +165,7 @@ export default async function DailyPage() {
 
   return (
     <div style={{ background: 'var(--cream)', minHeight: '100dvh' }}>
-      <DailyDeckViewer cards={cards} alreadyDone={alreadyDone} />
+      <DailyDeckViewer cards={cards} alreadyDone={alreadyDone} yesterdayMoments={yesterdayMoments} />
     </div>
   )
 }

@@ -188,14 +188,14 @@ export default async function ScriptDetailPage({
 
       {/* DiGi CTA */}
       <div style={{
-        background: 'var(--ink)', borderRadius: '16px', padding: '22px',
+        background: 'var(--stage-5)', border: '1.5px solid var(--border)', borderRadius: '16px', padding: '22px',
         marginBottom: '24px', display: 'flex', gap: '16px', alignItems: 'center', flexWrap: 'wrap',
       }}>
         <div style={{ flex: 1 }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--terracotta-lt)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '6px' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--terracotta)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '6px' }}>
             DiGi
           </div>
-          <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.7)', lineHeight: 1.5 }}>
+          <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
             Need help adapting this for your situation? Ask DiGi.
           </p>
         </div>

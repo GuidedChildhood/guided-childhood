@@ -20,32 +20,32 @@ const CARDS = [
     key: 'say_this' as const,
     label: 'Say this',
     step: 1,
-    accent: 'var(--terracotta)',
-    bg: 'var(--stage-2)',
+    accent: 'var(--stage-2)',
+    bg: '#fff',
     tip: 'Use these words tonight',
   },
   {
     key: 'not_this' as const,
     label: 'Not this',
     step: 2,
-    accent: 'var(--terracotta)',
-    bg: 'var(--stage-1)',
+    accent: 'var(--stage-2)',
+    bg: '#fff',
     tip: 'Easy to say, hard to come back from',
   },
   {
     key: 'why_it_works' as const,
     label: 'Why it works',
     step: 3,
-    accent: 'var(--terracotta)',
-    bg: 'var(--stage-3)',
+    accent: 'var(--stage-2)',
+    bg: '#fff',
     tip: 'The reason behind the approach',
   },
   {
     key: 'tonight' as const,
     label: 'Tonight',
     step: 4,
-    accent: 'var(--terracotta)',
-    bg: 'var(--stage-5)',
+    accent: 'var(--stage-2)',
+    bg: '#fff',
     tip: 'One thing to do right now',
   },
 ]
@@ -159,32 +159,19 @@ export default function DeckViewer({
         </p>
       </div>
 
-      {/* Progress bar */}
-      <div style={{ marginBottom: '24px' }}>
-        <div style={{ display: 'flex', gap: '6px', marginBottom: '8px' }}>
-          {CARDS.map((c, i) => (
-            <div
-              key={i}
-              style={{
-                flex: 1,
-                height: '4px',
-                borderRadius: '2px',
-                background: i <= cardIndex ? c.accent : 'var(--border)',
-                transition: 'background 0.3s ease',
-              }}
-            />
-          ))}
-        </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--ink-light)', letterSpacing: '0.06em' }}>
-            {isCompletionCard ? 'Complete' : `${cardIndex + 1} of ${CARDS.length}`}
-          </span>
-          {completed && !isCompletionCard && (
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--terracotta)', letterSpacing: '0.06em' }}>
-              Done
-            </span>
-          )}
-        </div>
+      {/* Progress dots */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', marginBottom: '24px' }}>
+        {CARDS.map((_, i) => (
+          <div key={i} style={{
+            width: i === cardIndex ? 20 : 7,
+            height: 7, borderRadius: '100px',
+            background: i <= cardIndex ? 'var(--stage-2)' : 'var(--border)',
+            transition: 'width 0.25s ease, background 0.25s ease',
+          }} />
+        ))}
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--ink-muted)', marginLeft: '8px', letterSpacing: '0.06em' }}>
+          {isCompletionCard ? '✓ Done' : `${cardIndex + 1} of ${CARDS.length}`}
+        </span>
       </div>
 
       {/* Card area */}
@@ -203,26 +190,28 @@ export default function DeckViewer({
               : 'translateX(0)',
             transition: 'opacity 0.22s ease, transform 0.22s ease',
           }}>
-            <div style={{
-              background: '#fff',
-              borderRadius: '22px',
-              overflow: 'hidden',
-              boxShadow: '0 2px 24px rgba(0,0,0,0.09)',
-              border: '1px solid rgba(0,0,0,0.04)',
-            }}>
-              {/* Colored tab header */}
+            <div
+              style={{
+                background: '#fff',
+                borderRadius: '24px',
+                overflow: 'hidden',
+                boxShadow: '0 4px 24px rgba(26,26,46,0.10), 0 1px 4px rgba(26,26,46,0.06)',
+                border: '1px solid var(--border)',
+                cursor: 'pointer',
+              }}
+              onClick={() => !isCompletionCard && navigate('next')}
+            >
+              {/* Sky blue header band */}
               <div style={{
                 background: card.accent,
-                padding: '16px 24px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '14px',
+                padding: '18px 24px 14px',
+                display: 'flex', alignItems: 'center', gap: '12px',
               }}>
                 <div style={{
-                  width: '32px', height: '32px', borderRadius: '50%',
+                  width: '30px', height: '30px', borderRadius: '50%',
                   background: 'rgba(255,255,255,0.2)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: '15px', fontWeight: 800, color: '#fff',
+                  fontSize: '14px', fontWeight: 800, color: '#fff',
                   fontFamily: 'var(--font-display)', flexShrink: 0,
                 }}>
                   {card.step}
@@ -231,17 +220,17 @@ export default function DeckViewer({
                   <div style={{ color: '#fff', fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
                     {card.label}
                   </div>
-                  <div style={{ color: 'rgba(255,255,255,0.7)', fontFamily: 'var(--font-mono)', fontSize: '9px', letterSpacing: '0.06em', marginTop: '2px' }}>
+                  <div style={{ color: 'rgba(255,255,255,0.65)', fontFamily: 'var(--font-mono)', fontSize: '9px', letterSpacing: '0.06em', marginTop: '2px' }}>
                     {card.tip}
                   </div>
                 </div>
               </div>
 
               {/* Card body */}
-              <div style={{ padding: '28px 24px 32px', background: card.bg }}>
+              <div style={{ padding: '26px 24px 28px' }}>
                 <p style={{
                   fontSize: 'clamp(15px, 3.5vw, 18px)',
-                  lineHeight: 1.65,
+                  lineHeight: 1.68,
                   color: 'var(--ink)',
                   margin: 0,
                   ...(card.key === 'say_this' ? { fontWeight: 500 } : {}),
@@ -249,6 +238,18 @@ export default function DeckViewer({
                 }}>
                   {card.key === 'say_this' ? `"${script[card.key]}"` : script[card.key]}
                 </p>
+              </div>
+
+              {/* Tap hint */}
+              <div style={{
+                background: 'var(--cream)', borderTop: '1px solid var(--border)',
+                padding: '9px 24px',
+                fontFamily: 'var(--font-mono)', fontSize: '10px',
+                color: 'var(--ink-muted)', letterSpacing: '.08em',
+                display: 'flex', justifyContent: 'space-between',
+              }}>
+                <span>Tap card or swipe</span>
+                <span>Next →</span>
               </div>
             </div>
           </div>
