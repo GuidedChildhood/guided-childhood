@@ -1,10 +1,8 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
+import AiCheckinCard, { type CheckinLesson } from './AiCheckinCard'
 
-// Audience tiers, in reading order. The AI module is educational core content,
-// so it is open to every signed-in member. Backgrounds use the stage pastels
-// so it sits naturally beside the scripts and the rest of the dashboard.
 const AUDIENCE_META: Record<string, { label: string; bg: string }> = {
   age_7:   { label: 'Age 7',    bg: 'var(--stage-1)' },
   age_9:   { label: 'Age 9',    bg: 'var(--stage-1)' },
@@ -16,23 +14,43 @@ const AUDIENCE_META: Record<string, { label: string; bg: string }> = {
 }
 const AUDIENCE_ORDER = ['age_7', 'age_9', 'age_11', 'age_13', 'age_16', 'parent', 'teacher']
 
-type Lesson = { id: string; audience: string; title: string; key_message: string; sort_order: number }
+type Lesson = { id: string; audience: string; category: string; title: string; key_message: string; sort_order: number }
 
 export default async function AiModulePage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const { data } = await supabase
-    .from('ai_lessons')
-    .select('id, audience, title, key_message, sort_order')
-    .order('sort_order', { ascending: true })
+  const [
+    { data: lessonsData },
+    { data: profileData },
+    { data: checkinData },
+  ] = await Promise.all([
+    supabase
+      .from('ai_lessons')
+      .select('id, audience, category, title, key_message, sort_order')
+      .order('sort_order', { ascending: true }),
+    supabase
+      .from('profiles')
+      .select('onboarding_answers')
+      .eq('id', user.id)
+      .single(),
+    supabase
+      .from('ai_literacy_checkins')
+      .select('answers')
+      .eq('user_id', user.id)
+      .maybeSingle(),
+  ])
 
-  const lessons = (data ?? []) as Lesson[]
+  const lessons = (lessonsData ?? []) as Lesson[]
 
   const groups = AUDIENCE_ORDER
     .map(aud => ({ aud, meta: AUDIENCE_META[aud], items: lessons.filter(l => l.audience === aud) }))
     .filter(g => g.items.length > 0)
+
+  const ageBand = (profileData?.onboarding_answers as Record<string, string> | null)?.ageBand
+  const showCheckin = ageBand === '11-13' || ageBand === '13-15' || ageBand === '16+'
+  const savedAnswers = (checkinData?.answers as Record<string, string>) ?? null
 
   return (
     <div style={{ maxWidth: '720px', margin: '0 auto', padding: '24px 20px' }}>
@@ -43,6 +61,14 @@ export default async function AiModulePage() {
           How AI really works, and how to use it wisely. Calm, plain explanations for every age, plus you and the classroom.
         </p>
       </div>
+
+      {showCheckin && (
+        <AiCheckinCard
+          ageBand={ageBand!}
+          lessons={lessons as CheckinLesson[]}
+          savedAnswers={savedAnswers}
+        />
+      )}
 
       {groups.length === 0 && (
         <div style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '14px', padding: '20px', color: 'var(--ink-muted)', fontSize: '14px' }}>
