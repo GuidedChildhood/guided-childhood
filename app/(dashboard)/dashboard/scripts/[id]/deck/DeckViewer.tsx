@@ -348,6 +348,17 @@ function CompletionCard({
   script: ScriptData
   backHref: string
 }) {
+  const [worked, setWorked] = useState<'yes' | 'somewhat' | 'no' | null>(null)
+
+  const sendWorked = (value: 'yes' | 'somewhat' | 'no') => {
+    setWorked(value)
+    fetch('/api/completions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sort_order: script.sort_order, worked: value }),
+    }).catch(() => {})
+  }
+
   return (
     <div>
       <div style={{
@@ -376,6 +387,41 @@ function CompletionCard({
             {script.why_it_works}
           </p>
         </div>
+      </div>
+
+      {/* Did this work feedback — feeds DiGi so it knows what has actually helped */}
+      <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '16px', padding: '18px 20px', marginBottom: '16px' }}>
+        {worked ? (
+          <div style={{ fontSize: '13px', color: 'var(--ink)', fontWeight: 600 }}>
+            ✓ Thanks, saved. DiGi will remember this next time.
+          </div>
+        ) : (
+          <>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '10px' }}>
+              Did this work for you?
+            </div>
+            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+              {([
+                { value: 'yes' as const, label: 'Yes, it helped' },
+                { value: 'somewhat' as const, label: 'Somewhat' },
+                { value: 'no' as const, label: 'Not really' },
+              ]).map(opt => (
+                <button
+                  key={opt.value}
+                  onClick={() => sendWorked(opt.value)}
+                  style={{
+                    padding: '9px 14px', borderRadius: '100px',
+                    border: '1.5px solid var(--border)', background: 'var(--cream)',
+                    fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 600,
+                    color: 'var(--ink)', cursor: 'pointer', letterSpacing: '.02em',
+                  }}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          </>
+        )}
       </div>
 
       <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>

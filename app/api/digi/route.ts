@@ -87,7 +87,7 @@ export async function POST(request: Request) {
     .eq('is_primary', true)
     .single()
 
-  const [trackerResult, feedbackResult] = await Promise.all([
+  const [trackerResult, feedbackResult, scriptFeedbackResult] = await Promise.all([
     supabase
       .from('wellbeing_checks')
       .select('week_start, mood_score, sleep_score, social_score, screen_mood_score, open_communication, concern_level, notes')
@@ -100,6 +100,13 @@ export async function POST(request: Request) {
       .eq('user_id', user.id)
       .not('parent_response', 'is', null)
       .order('feedback_date', { ascending: false })
+      .limit(10),
+    supabase
+      .from('script_completions')
+      .select('script_sort_order, worked, completed_at')
+      .eq('user_id', user.id)
+      .not('worked', 'is', null)
+      .order('completed_at', { ascending: false })
       .limit(10),
   ])
 
@@ -116,6 +123,18 @@ export async function POST(request: Request) {
   const aiKnowledge = (aiLessons ?? [])
     .map(l => `- ${l.title}: ${l.key_message} (${l.the_idea})`)
     .join('\n')
+
+  const scriptFeedback = scriptFeedbackResult.data ?? []
+  let scriptFeedbackKnowledge = ''
+  if (scriptFeedback.length > 0) {
+    const { data: matchingScripts } = await supabase
+      .from('scripts')
+      .select('sort_order, title')
+      .in('sort_order', scriptFeedback.map(f => f.script_sort_order))
+    const titleFor = (sortOrder: number) => matchingScripts?.find(s => s.sort_order === sortOrder)?.title ?? `script ${sortOrder}`
+    scriptFeedbackKnowledge = `\n\nSCRIPTS THIS PARENT HAS TRIED, AND WHETHER THEY WORKED (use this, do not suggest a script that already failed without acknowledging it first, and lean on ones that worked):\n` +
+      scriptFeedback.map(f => `- "${titleFor(f.script_sort_order)}": ${f.worked === 'yes' ? 'worked well' : f.worked === 'somewhat' ? 'partly worked' : 'did not work'}`).join('\n')
+  }
 
   let deviceGuideKnowledge = ''
   if (device_key && typeof device_key === 'string') {
@@ -141,7 +160,7 @@ export async function POST(request: Request) {
     trackerResult.data ?? [],
     feedbackResult.data ?? [],
     aiKnowledge,
-    deviceGuideKnowledge,
+    deviceGuideKnowledge + scriptFeedbackKnowledge,
   )
 
   // Get conversation history
