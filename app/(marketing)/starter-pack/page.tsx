@@ -473,8 +473,8 @@ function ResultScreen({
               <p style={{ fontSize: 'clamp(15px, 3.5vw, 17px)', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.55, margin: 0, letterSpacing: '-0.01em' }}>"{stage.script.sayThis}"</p>
             </div>
             <div style={{ marginBottom: '16px' }}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: '#991b1b', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>Not this</div>
-              <p style={{ fontSize: '14px', color: '#991b1b', fontStyle: 'italic', lineHeight: 1.6, margin: 0 }}>{stage.script.notThis}</p>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--danger)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>Not this</div>
+              <p style={{ fontSize: '14px', color: 'var(--danger)', fontStyle: 'italic', lineHeight: 1.6, margin: 0 }}>{stage.script.notThis}</p>
             </div>
             <div style={{ padding: '14px 16px', background: 'var(--terracotta-lt)', borderRadius: '12px' }}>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--terracotta)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>Why it works</div>

@@ -13,7 +13,7 @@ const STAGE_META: Record<string, { label: string; color: string; bg: string }> =
 
 const STEPS = [
   { num: 1, key: 'say_this',     label: 'Say this',      accent: 'var(--terracotta)', bg: 'var(--stage-2)',  border: 'var(--stage-2)' },
-  { num: 2, key: 'not_this',     label: 'Not this',      accent: '#b91c1c',           bg: '#fef2f2',         border: '#fecaca' },
+  { num: 2, key: 'not_this',     label: 'Not this',      accent: 'var(--danger)',           bg: 'var(--danger-bg)',         border: 'var(--danger-border)' },
   { num: 3, key: 'why_it_works', label: 'Why it works',  accent: 'var(--terracotta)', bg: 'var(--stage-3)', border: 'var(--stage-3)' },
   { num: 4, key: 'tonight',      label: 'Tonight',       accent: 'var(--terracotta)', bg: 'var(--stage-5)',  border: 'var(--stage-5)' },
 ] as const
@@ -158,7 +158,7 @@ export default async function ScriptDetailPage({
               {/* Number circle */}
               <div style={{
                 width: '36px', height: '36px', borderRadius: '50%',
-                background: step.key === 'not_this' ? '#dc2626' : step.accent, color: '#fff',
+                background: step.key === 'not_this' ? 'var(--danger)' : step.accent, color: '#fff',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 fontSize: '16px', fontWeight: 800, flexShrink: 0,
                 fontFamily: 'var(--font-display)',
@@ -185,7 +185,7 @@ export default async function ScriptDetailPage({
                     &ldquo;{content}&rdquo;
                   </p>
                 ) : step.key === 'not_this' ? (
-                  <p style={{ fontSize: '15px', color: '#991b1b', lineHeight: 1.65, fontStyle: 'italic' }}>
+                  <p style={{ fontSize: '15px', color: 'var(--danger)', lineHeight: 1.65, fontStyle: 'italic' }}>
                     &ldquo;{content}&rdquo;
                   </p>
                 ) : (

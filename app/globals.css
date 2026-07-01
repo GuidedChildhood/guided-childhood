@@ -43,6 +43,11 @@
   --pastel-pink:       #FBCFE8;
   --pastel-pink-deep:  #F9A8D4;
 
+  /* ── DANGER (the "not this" side of scripts, destructive actions) ── */
+  --danger:            #991B1B;
+  --danger-bg:         #FEF2F2;
+  --danger-border:     #FECACA;
+
   /* ── TINTS ── */
   --tint-blue:         #D8E8F8;
   --tint-sage:         #E8F0EE;
@@ -60,7 +65,7 @@
   --coral:             var(--terracotta);
   --coral-lt:          var(--stage-1);
   --coral-b:           var(--border);
-  --gold:              var(--stage-5);
+  --gold:              var(--stage-1-bold);
   --gold-lt:           var(--stage-5);
   --gold-dark:         var(--terracotta-dark);
   --lav:               var(--stage-4);
@@ -75,7 +80,7 @@
   --mono:         var(--font-mono);
 
   /* ── RADIUS ── */
-  --radius-btn:   12px;
+  --radius-btn:   16px;
   --radius-card:  24px;
   --r:            24px;
 }
@@ -104,7 +109,7 @@ h2 { font-size: clamp(1.9rem, 3.5vw, 2.8rem); }
 h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
 
 .eyebrow {
-  font-family: var(--font-body);
+  font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -127,7 +132,7 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
   padding: 14px 28px;
   border-radius: var(--radius-btn);
   border: none;
-  box-shadow: 0 4px 0 var(--terracotta-dark);
+  box-shadow: 0 5px 0 var(--terracotta-dark);
   cursor: pointer;
   text-decoration: none;
   transition: transform 0.1s, box-shadow 0.1s;
@@ -140,7 +145,7 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
 .btn-gold, .btn-green, .btn-coral {
   background: var(--terracotta);
   color: #fff;
-  box-shadow: 0 4px 0 var(--terracotta-dark);
+  box-shadow: 0 5px 0 var(--terracotta-dark);
 }
 .btn-gold:hover, .btn-green:hover, .btn-coral:hover {
   transform: translateY(-1px);
@@ -155,7 +160,7 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
 .btn-ink {
   background: var(--deep-teal);
   color: #fff;
-  box-shadow: 0 4px 0 #0a2830;
+  box-shadow: 0 5px 0 #0a2830;
 }
 .btn-ink:hover  { transform: translateY(-1px); box-shadow: 0 5px 0 #0a2830; }
 .btn-ink:active { transform: translateY(2px);  box-shadow: 0 2px 0 #0a2830; }
@@ -423,6 +428,10 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
 }
 @media (max-width: 900px) { .four-col { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 480px) { .four-col { grid-template-columns: 1fr; } }
+
+/* Schools curriculum rows: stage label panel beside content, stacked on phones */
+.curriculum-row { grid-template-columns: 200px 1fr; }
+@media (max-width: 560px) { .curriculum-row { grid-template-columns: 1fr; } }
 
 .price-grid {
   display: grid;

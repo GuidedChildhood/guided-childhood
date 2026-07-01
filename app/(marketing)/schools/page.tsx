@@ -62,13 +62,13 @@ export default function SchoolsPage() {
       </section>
 
       {/* 4-step how it works */}
-      <section style={{ padding: 'clamp(60px, 8vw, 80px) 32px', background: '#FDFBF8' }}>
+      <section style={{ padding: 'clamp(60px, 8vw, 80px) 32px', background: 'var(--cream)' }}>
         <div style={{ maxWidth: '1040px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '44px' }}>
             <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>How it works</p>
             <h2>Up and running in 48 hours.</h2>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0' }}>
+          <div className="four-col" style={{ display: 'grid', gap: '0' }}>
             {[
               { num: '01', title: 'School takes a licence', body: 'Annual licence. Immediate access for all teaching staff. No per-seat pricing, no login complications.' },
               { num: '02', title: 'Teachers log in', body: 'Every teacher has a dashboard. Lessons assigned by year group. Download or present directly. Zero prep.' },
@@ -97,7 +97,7 @@ export default function SchoolsPage() {
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {CURRICULUM.map((stage, i) => (
-              <div key={i} style={{ display: 'grid', gridTemplateColumns: '200px 1fr', background: '#fff', border: '1px solid var(--border)', borderRadius: '14px', overflow: 'hidden' }}>
+              <div key={i} className="curriculum-row" style={{ display: 'grid', background: '#fff', border: '1px solid var(--border)', borderRadius: '14px', overflow: 'hidden' }}>
                 <div style={{ background: stage.color, padding: '24px 20px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                   <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.6rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: stage.text, marginBottom: '6px' }}>{stage.stage}</div>
                   <div style={{ fontFamily: 'var(--font-display)', fontSize: '.9rem', fontWeight: 700, color: 'var(--ink)', marginBottom: '4px' }}>{stage.years}</div>
@@ -105,7 +105,7 @@ export default function SchoolsPage() {
                 </div>
                 <div style={{ padding: '24px 26px', display: 'flex', flexWrap: 'wrap', gap: '8px', alignContent: 'center' }}>
                   {stage.topics.map((topic, j) => (
-                    <span key={j} style={{ background: '#FDFBF8', border: '1px solid var(--border)', borderRadius: '100px', padding: '5px 14px', fontSize: '.78rem', color: 'var(--ink-soft)', fontWeight: 500 }}>{topic}</span>
+                    <span key={j} style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '100px', padding: '5px 14px', fontSize: '.78rem', color: 'var(--ink-soft)', fontWeight: 500 }}>{topic}</span>
                   ))}
                 </div>
               </div>
@@ -119,8 +119,8 @@ export default function SchoolsPage() {
       </section>
 
       {/* CPD + DiGi */}
-      <section style={{ padding: 'clamp(60px, 8vw, 80px) 32px', background: '#FDFBF8' }}>
-        <div style={{ maxWidth: '1040px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
+      <section style={{ padding: 'clamp(60px, 8vw, 80px) 32px', background: 'var(--cream)' }}>
+        <div className="two-col" style={{ maxWidth: '1040px', margin: '0 auto', gap: '24px' }}>
           <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '16px', padding: '32px' }}>
             <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>Staff CPD</p>
             <h3 style={{ fontSize: '1.3rem', marginBottom: '14px' }}>2-hour CPD module for DSLs and PSHE leads</h3>
@@ -172,7 +172,7 @@ export default function SchoolsPage() {
             <h2 style={{ marginBottom: '12px' }}>Covers everything Ofsted will ask about</h2>
             <p style={{ fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.8, maxWidth: '500px', margin: '0 auto' }}>Your DSL gets a full alignment document showing exactly how each module maps to statutory requirements. No gaps. No guesswork.</p>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px' }}>
+          <div className="four-col" style={{ display: 'grid', gap: '12px' }}>
             {[
               { label: 'Online Safety Act 2023', desc: 'Platform duties and education requirements for under-18s.', color: 'var(--stage-2)', text: 'var(--terracotta)' },
               { label: 'Statutory RSE and RSHE', desc: 'Healthy relationships online, age-appropriate sex and relationships education.', color: 'var(--stage-4)', text: 'var(--terracotta)' },
@@ -193,14 +193,14 @@ export default function SchoolsPage() {
       </section>
 
       {/* Pricing */}
-      <section id="pricing" style={{ padding: 'clamp(60px, 8vw, 80px) 32px', background: '#FDFBF8', scrollMarginTop: '70px' }}>
+      <section id="pricing" style={{ padding: 'clamp(60px, 8vw, 80px) 32px', background: 'var(--cream)', scrollMarginTop: '70px' }}>
         <div style={{ maxWidth: '1040px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '36px' }}>
             <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>School pricing</p>
             <h2 style={{ marginBottom: '12px' }}>Simple annual licences</h2>
             <p style={{ fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.8, maxWidth: '500px', margin: '0 auto' }}>One licence covers all your teachers, all year groups, all 21 modules. No per-seat fees. No per-lesson charges.</p>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
+          <div className="three-col" style={{ display: 'grid', gap: '12px' }}>
             {PRICING.map((plan, i) => (
               <div key={i} style={{ background: plan.featured ? 'var(--stage-2)' : '#fff', border: `2px solid ${plan.featured ? 'var(--terracotta)' : 'var(--border)'}`, borderRadius: '16px', padding: '28px', display: 'flex', flexDirection: 'column', ...(plan.featured ? { transform: 'scale(1.025)' } : {}) }}>
                 <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.6rem', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '5px' }}>{plan.tier}</div>
@@ -247,7 +247,7 @@ export default function SchoolsPage() {
       </section>
 
       {/* Footer */}
-      <footer style={{ background: '#FDFBF8', borderTop: '1px solid var(--border)', padding: '28px 32px' }}>
+      <footer style={{ background: 'var(--cream)', borderTop: '1px solid var(--border)', padding: '28px 32px' }}>
         <div style={{ maxWidth: '1040px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
           <Link href="/" style={{ fontFamily: 'var(--font-display)', fontSize: '.86rem', fontWeight: 700, color: 'var(--ink-muted)', textDecoration: 'none' }}>← Guided Childhood</Link>
           <p style={{ fontFamily: 'var(--font-mono)', fontSize: '.7rem', color: 'var(--ink-light)' }}>© 2026 The Social Billboard · Justin Phillips</p>

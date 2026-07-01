@@ -2,6 +2,8 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
 import MarkLessonDone from '@/components/lessons/MarkLessonDone'
+import LessonPlayer from '@/components/lessons/LessonPlayer'
+import { parseSlides } from '@/lib/content/lesson-slides'
 
 const STAGE_LABEL: Record<string, { label: string; bg: string }> = {
   foundation:  { label: 'Foundation · Ages 4 to 7',        bg: 'var(--stage-1)' },
@@ -28,6 +30,7 @@ type Lesson = {
   try_this: string
   key_message: string
   digi_prompt: string
+  slides: unknown
 }
 
 export default async function LessonDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -38,12 +41,14 @@ export default async function LessonDetailPage({ params }: { params: Promise<{ i
 
   const { data } = await supabase
     .from('lessons')
-    .select('id, stage_id, category, title, the_idea, why_it_matters, try_this, key_message, digi_prompt')
+    .select('id, stage_id, category, title, the_idea, why_it_matters, try_this, key_message, digi_prompt, slides')
     .eq('id', id)
     .maybeSingle()
 
   const lesson = data as Lesson | null
   if (!lesson) notFound()
+
+  const slides = parseSlides(lesson.slides)
 
   const { data: completion } = await supabase
     .from('lesson_completions')
@@ -54,6 +59,30 @@ export default async function LessonDetailPage({ params }: { params: Promise<{ i
     .maybeSingle()
 
   const stage = STAGE_LABEL[lesson.stage_id] ?? STAGE_LABEL.foundation
+
+  // Slide lessons render in the interactive player. The four section text
+  // layout below stays as the fallback for lessons without slides yet.
+  if (slides) {
+    return (
+      <div style={{ maxWidth: '620px', margin: '0 auto', padding: '24px 20px 48px' }}>
+        <div style={{ marginBottom: '20px' }}>
+          <Link
+            href="/dashboard/lessons"
+            style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '13px', color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}
+          >
+            ← All lessons
+          </Link>
+        </div>
+        <LessonPlayer
+          lessonId={lesson.id}
+          lessonSource="lesson"
+          slides={slides}
+          backHref="/dashboard/lessons"
+          digiPrompt={lesson.digi_prompt}
+        />
+      </div>
+    )
+  }
 
   return (
     <div style={{ maxWidth: '680px', margin: '0 auto', padding: '24px 20px 48px' }}>

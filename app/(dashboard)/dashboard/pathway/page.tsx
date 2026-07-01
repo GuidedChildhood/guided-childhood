@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { STAGES } from '@/lib/content/stages'
 import DeviceSetupBanner from '@/components/device/DeviceSetupBanner'
+import PathwayMap from '@/components/pathway/PathwayMap'
 import { getStageProgress, type StageId as ProgressStageId } from '@/lib/pathway/progress'
 
 const STAGE_DISPLAY: Record<number, {
@@ -98,49 +99,13 @@ export default async function PathwayPage() {
         )}
       </div>
 
-      {/* Path strip — the journey, node per stage, current position marked */}
+      {/* The trail — DiGi walks the winding path to where this family stands */}
       {currentStageNum && (
-        <div style={{ padding: '0 20px', maxWidth: '1100px', margin: '0 auto 32px' }}>
-          <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <div style={{ position: 'absolute', left: '18px', right: '18px', top: '50%', height: '3px', background: 'var(--border)', transform: 'translateY(-50%)', zIndex: 0 }} />
-            <div style={{
-              position: 'absolute', left: '18px', top: '50%', height: '3px',
-              width: `calc((100% - 36px) * ${(currentStageNum - 1) / 4})`,
-              background: 'var(--terracotta)', transform: 'translateY(-50%)', zIndex: 1,
-              transition: 'width 0.3s ease',
-            }} />
-            {[1, 2, 3, 4, 5].map(num => {
-              const done = num < currentStageNum
-              const isCurrent = num === currentStageNum
-              return (
-                <div key={num} style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px' }}>
-                  <div style={{
-                    width: isCurrent ? '40px' : '32px', height: isCurrent ? '40px' : '32px',
-                    borderRadius: '50%',
-                    background: done || isCurrent ? 'var(--terracotta)' : '#fff',
-                    border: done || isCurrent ? 'none' : '2.5px solid var(--border)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    color: done || isCurrent ? '#fff' : 'var(--ink-light)',
-                    fontFamily: 'var(--font-display)', fontWeight: 800,
-                    fontSize: isCurrent ? '16px' : '13px',
-                    boxShadow: isCurrent ? '0 4px 0 var(--terracotta-dark)' : 'none',
-                    transition: 'all 0.2s ease',
-                  }}>
-                    {done ? '✓' : num}
-                  </div>
-                  {isCurrent && (
-                    <span style={{
-                      fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700,
-                      letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--terracotta)',
-                      whiteSpace: 'nowrap',
-                    }}>
-                      You are here
-                    </span>
-                  )}
-                </div>
-              )
-            })}
-          </div>
+        <div style={{ padding: '0 20px', margin: '0 auto 36px' }}>
+          <PathwayMap
+            currentStageNum={currentStageNum}
+            progressPct={currentStageProgress?.overallPct ?? 0}
+          />
         </div>
       )}
 
