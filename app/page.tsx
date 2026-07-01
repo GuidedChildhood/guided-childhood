@@ -4,15 +4,29 @@ import Image from 'next/image'
 import AnnouncementBar from '@/components/marketing/AnnouncementBar'
 import FaqAccordion from '@/components/marketing/FaqAccordion'
 import FlipCards from '@/components/marketing/FlipCards'
+import DigiWalker from '@/components/marketing/DigiWalker'
+import DigiCharacter from '@/components/digi/DigiCharacter'
 
 export const metadata: Metadata = {
-  title: 'Guided Childhood, Screen Time and Digital Parenting Guide for UK Families · Ages 4 to 16',
-  description: 'Stop guessing what to say. Guided Childhood gives UK parents exact scripts for every screen time fight, a stage-by-stage pathway from age 4 to 16, and DiGi your AI parenting advisor available at 11pm. Built on the research.',
+  title: 'Guided Childhood, Screen Time and Digital Literacy Guide for UK Families · Ages 4 to 16',
+  description: 'Stop guessing what to say. Guided Childhood gives UK parents exact scripts for every screen time fight, a stage-by-stage digital literacy pathway from age 4 to 16, and DiGi your AI parenting advisor available at 11pm. Built on the research, not a ban.',
+  keywords: [
+    'digital parenting UK', 'screen time scripts', 'digital literacy for children',
+    'child screen time advice', 'social media age UK', 'digital parenting pathway',
+    'AI parenting advisor', 'screen time arguments', 'digital literacy divide',
+    'online safety for children UK',
+  ],
   openGraph: {
     title: 'Stop guessing what to say about screens. Get the exact words tonight.',
-    description: 'The stage-by-stage digital parenting guide for UK families. Exact scripts for screen time battles, gaming meltdowns, social media access, and bedtime fights. Ages 4 to 16. Free starter pack.',
+    description: 'The stage-by-stage digital literacy guide for UK families. Exact scripts for screen time battles, gaming meltdowns, social media access, and bedtime fights. Ages 4 to 16. Free starter pack.',
     url: 'https://www.guidedchildhood.co.uk',
     type: 'website',
+    locale: 'en_GB',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Stop guessing what to say about screens. Get the exact words tonight.',
+    description: 'The stage-by-stage digital literacy guide for UK families. Ages 4 to 16. Free starter pack.',
   },
   alternates: {
     canonical: 'https://www.guidedchildhood.co.uk',
@@ -317,7 +331,21 @@ export default function HomePage() {
                 name: 'What is Guided Childhood and how does it work?',
                 acceptedAnswer: { '@type': 'Answer', text: 'Guided Childhood is a stage-by-stage digital parenting platform for UK families with children aged 4 to 16. You identify your child\'s stage, get the exact scripts for the situations you are facing right now, complete weekly check-ins and actions, and ask DiGi (your AI parenting advisor) for the specific words you need in any moment. It takes around 10 minutes a week.' },
               },
+              {
+                '@type': 'Question',
+                name: 'Is banning devices better than teaching digital literacy?',
+                acceptedAnswer: { '@type': 'Answer', text: 'OECD research finds device access among UK teenagers is now nearly universal, so the gap that remains is not who owns a device but who is taught to use one well. LSE research describes this as a second digital divide, with children in poorer schools significantly more likely to be taught by someone unsure with the technology. A ban does not close that gap. It removes the deep end from the child who was never taught, while the child already getting lessons is unaffected. Guided Childhood teaches digital literacy in stages instead, the same way children are taught to swim.' },
+              },
             ],
+          },
+          {
+            '@context': 'https://schema.org',
+            '@type': 'Article',
+            headline: 'Every child has a device now. That was never the hard part.',
+            description: 'Access to devices has closed among UK teenagers. What has not closed is who gets taught to use them well. A look at the second digital divide, and why teaching beats banning.',
+            author: { '@type': 'Person', name: 'Justin Phillips' },
+            publisher: { '@type': 'Organization', name: 'Guided Childhood' },
+            mainEntityOfPage: 'https://www.guidedchildhood.co.uk',
           },
         ]) }}
       />
@@ -485,7 +513,7 @@ export default function HomePage() {
 
               {/* Ask DiGi row */}
               <div style={{ padding: '11px 18px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <Image src="/digi-squad/DiGi-star.svg" alt="DiGi" width={30} height={30} className="digi-float" style={{ flexShrink: 0, width: '30px', height: '30px' }} />
+                <DigiCharacter mood="idle" size={30} />
                 <div style={{ fontFamily: 'var(--font-display)', fontSize: '11px', fontWeight: 700, color: 'var(--ink)' }}>Ask DiGi about this situation</div>
                 <div style={{ marginLeft: 'auto', fontFamily: 'var(--font-mono)', fontSize: '8px', fontWeight: 700, color: 'var(--terracotta)' }}>Ask →</div>
               </div>
@@ -571,6 +599,95 @@ export default function HomePage() {
               </div>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* ================================================================
+          THE REAL DIVIDE — digital literacy narrative, deep water reframe
+          ================================================================ */}
+      <section aria-label="The digital literacy divide" style={{ padding: 'clamp(80px, 10vw, 120px) 32px', background: '#fff', borderTop: '1px solid var(--border)' }}>
+        <div style={{ maxWidth: '1040px', margin: '0 auto' }}>
+
+          <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+            <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '14px' }}>The real divide</p>
+            <h2 className="fu" style={{ marginBottom: '22px' }}>
+              Every child has a device now.<br />
+              <span style={{ color: 'var(--terracotta)' }}>That was never the hard part.</span>
+            </h2>
+            <div style={{ maxWidth: '660px', margin: '0 auto', textAlign: 'left' }}>
+              <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink)', lineHeight: 1.85, marginBottom: '16px' }}>
+                The OECD looked at teenagers across the developed world and found something that should stop every parent scrolling. Access is not the problem anymore. Almost every UK teenager already has a tablet. Nearly all have a smartphone. The gap in who owns a device has basically closed.
+              </p>
+              <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink)', lineHeight: 1.85 }}>
+                Then they looked at what children actually did with them. Teenagers from higher income homes used their devices to learn far more often than teenagers from lower income homes. Same phone. Same wifi. Different childhood. The gap did not close. It moved. It stopped being about who owns a device and became about who gets taught to use one.
+              </p>
+            </div>
+          </div>
+
+          {/* Stat row: data forward, mono labels, large numbers */}
+          <div className="fu divide-stat-row" style={{ display: 'grid', gap: '1px', background: 'var(--border)', borderRadius: '20px', overflow: 'hidden', marginBottom: '64px' }}>
+            {[
+              { num: 'Nearly universal', label: 'UK teenagers who already own a smartphone or tablet, per OECD' },
+              { num: '6 points', label: 'How much more likely a child in a poorer school is taught by someone unsure with the technology, per LSE' },
+              { num: '4 in 10 vs 8 in 10', label: 'Children from the least affluent homes who can swim 25 metres unaided, against the wealthiest. Cost rations the lesson, not the water' },
+            ].map((s, i) => (
+              <div key={i} style={{ background: '#fff', padding: 'clamp(24px, 3vw, 32px) clamp(20px, 2.5vw, 28px)' }}>
+                <div style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.3rem, 2.4vw, 1.7rem)', fontWeight: 900, color: 'var(--terracotta)', lineHeight: 1.1, marginBottom: '10px', letterSpacing: '-.02em' }}>
+                  {s.num}
+                </div>
+                <div style={{ fontSize: '.82rem', color: 'var(--ink-soft)', lineHeight: 1.6 }}>
+                  {s.label}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <p className="fu" style={{ textAlign: 'center', fontFamily: 'var(--font-display)', fontSize: 'clamp(1.1rem, 1.8vw, 1.35rem)', fontWeight: 800, color: 'var(--ink)', marginBottom: '48px' }}>
+            We have met this exact shape before. Deep water.
+          </p>
+
+          {/* Deep water reframe, DiGi walks across it as you scroll */}
+          <DigiWalker>
+            <div className="two-col fu">
+              <div style={{ background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: '20px', padding: 'clamp(24px, 3vw, 32px)' }}>
+                <p style={{ fontFamily: 'var(--font-mono)', fontSize: '.7rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '14px' }}>
+                  How we handle deep water
+                </p>
+                <p style={{ fontSize: '.95rem', color: 'var(--ink)', lineHeight: 1.8 }}>
+                  We do not ban children from water. We teach them to swim. In stages. A parent in the water. A hand held at the edge. Lying back on your arm. Floating on their front while you let go for one second, then two, until one day they swim the length alone and you are stood at the side, not in the water, because they no longer need you there. That is not permissiveness. It is the most responsible thing a parent does.
+                </p>
+              </div>
+              <div style={{ background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: '20px', padding: 'clamp(24px, 3vw, 32px)' }}>
+                <p style={{ fontFamily: 'var(--font-mono)', fontSize: '.7rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '14px' }}>
+                  Now read that again. About screens.
+                </p>
+                <p style={{ fontSize: '.95rem', color: 'var(--ink)', lineHeight: 1.8 }}>
+                  A ban keeps the child who was never taught out of the water and calls it safety. The child already having lessons is untouched by it. They keep learning while the rule takes the deep end away from the child who never had a hand held at the edge, then leaves them to meet it alone the day the rule stops applying. Guardrails you teach outlast gates you lock.
+                </p>
+              </div>
+            </div>
+          </DigiWalker>
+
+          <div style={{ textAlign: 'center', marginTop: '56px' }}>
+            <p className="fu" style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.5rem, 2.6vw, 2rem)', fontWeight: 900, color: 'var(--ink)', letterSpacing: '-.03em', lineHeight: 1.2, marginBottom: '14px' }}>
+              Guardrails you teach. Not gates you lock.
+            </p>
+            <p className="fu" style={{ fontSize: '.95rem', color: 'var(--ink)', lineHeight: 1.8, maxWidth: '540px', margin: '0 auto 28px' }}>
+              That is the whole pathway. Five stages, from the first shared screen at four to full independence at sixteen. Guided the entire way. Never handed the deep end with no warning.
+            </p>
+            <div className="fu" style={{ display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap', alignItems: 'center' }}>
+              <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '14px', padding: '15px 30px' }}>
+                Start your pathway free
+              </Link>
+              <Link href="/schools" style={{ fontFamily: 'var(--font-mono)', fontSize: '.8rem', fontWeight: 700, color: 'var(--terracotta)', textDecoration: 'none' }}>
+                See what we built for schools →
+              </Link>
+            </div>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '.68rem', color: 'var(--ink-light)', marginTop: '24px', letterSpacing: '.02em' }}>
+              Sources: OECD digital equity findings, LSE second digital divide research, Swim England participation data
+            </p>
+          </div>
+
         </div>
       </section>
 
@@ -751,7 +868,7 @@ export default function HomePage() {
           {/* DiGi pathway guide */}
           <div style={{ marginTop: '56px', paddingTop: '48px', borderTop: '2px dashed var(--border)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
             <div style={{ position: 'relative', display: 'inline-block' }}>
-              <Image src="/digi-squad/DiGi-star.svg" alt="DiGi" width={88} height={88} className="digi-float" style={{ width: '88px', height: '88px' }} />
+              <DigiCharacter mood="wave" size={88} />
               {/* Speech bubble */}
               <div className="digi-pop-in" style={{
                 position: 'absolute',
@@ -976,7 +1093,7 @@ export default function HomePage() {
                 title: 'DiGi AI Advisor',
                 body: 'Tell DiGi what happened today. Get the exact words and the structural fix. Available at 11pm when the guilt spiral hits. No generic advice.',
                 svg: (
-                  <Image src="/digi-squad/DiGi-star.svg" alt="DiGi" width={36} height={36} style={{ width: '36px', height: '36px' }} />
+                  <DigiCharacter mood="idle" size={36} />
                 ),
               },
               {
@@ -1489,7 +1606,7 @@ export default function HomePage() {
               </p>
               <h2 className="fu" style={{ marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
                 <span>DiGi has read every study.<br />Ask anything.</span>
-                <Image src="/digi-squad/DiGi-star.svg" alt="DiGi" width={56} height={56} className="digi-float" style={{ flexShrink: 0, width: '56px', height: '56px' }} />
+                <DigiCharacter mood="wave" size={56} />
               </h2>
               <p className="fu" style={{ fontSize: '.94rem', color: 'var(--ink)', lineHeight: 1.82, marginBottom: '12px' }}>
                 Most parents search Google at 10pm trying to work out what to do about a specific thing that happened today. DiGi replaces that. Tell it what happened, your child's age and stage, and it gives you the exact words and the structural change that will make a difference.
@@ -1542,7 +1659,7 @@ export default function HomePage() {
                     flexShrink: 0,
                     overflow: 'hidden',
                   }}>
-                    <Image src="/digi-squad/DiGi-star.svg" alt="DiGi" width={52} height={52} style={{ objectFit: 'contain', width: '52px', height: '52px' }} />
+                    <DigiCharacter mood="speak" size={52} />
                   </div>
                   <div style={{ flex: 1 }}>
                     <div style={{ fontFamily: 'var(--font-display)', fontSize: '1rem', fontWeight: 800, color: 'var(--ink)', letterSpacing: '-.02em' }}>DiGi</div>

@@ -662,6 +662,13 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
   .stats-strip > *:nth-child(2) { border-bottom: 1px solid var(--border); }
 }
 
+.divide-stat-row {
+  grid-template-columns: repeat(3, 1fr);
+}
+@media (max-width: 700px) {
+  .divide-stat-row { grid-template-columns: 1fr; }
+}
+
 /* ── FOOTER GRID ── */
 @media (max-width: 720px) { .footer-grid { grid-template-columns: 1fr 1fr !important; gap: 28px !important; } }
 @media (max-width: 460px) { .footer-grid { grid-template-columns: 1fr !important; gap: 28px !important; } }
