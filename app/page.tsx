@@ -6,7 +6,7 @@ import FaqAccordion from '@/components/marketing/FaqAccordion'
 import FlipCards from '@/components/marketing/FlipCards'
 
 export const metadata: Metadata = {
-  title: 'Guided Childhood — Screen Time and Digital Parenting Guide for UK Families · Ages 4 to 16',
+  title: 'Guided Childhood, Screen Time and Digital Parenting Guide for UK Families · Ages 4 to 16',
   description: 'Stop guessing what to say. Guided Childhood gives UK parents exact scripts for every screen time fight, a stage-by-stage pathway from age 4 to 16, and DiGi your AI parenting advisor available at 11pm. Built on the research.',
   openGraph: {
     title: 'Stop guessing what to say about screens. Get the exact words tonight.',
@@ -644,7 +644,7 @@ export default function HomePage() {
                       }}>
                         <Image
                           src={STAGE_IMGS[i]}
-                          alt={`${s.name} stage — ${s.ages}`}
+                          alt={`${s.name} stage, ${s.ages}`}
                           fill
                           style={{ objectFit: 'cover', objectPosition: 'center top' }}
                           sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 20vw"
@@ -1778,7 +1778,7 @@ export default function HomePage() {
                 {col.items.map(([title, body], ii) => (
                   <div key={ii} style={{ fontSize: '.8rem', color: 'var(--ink-soft)', display: 'flex', gap: '7px', alignItems: 'flex-start', marginBottom: ii < col.items.length - 1 ? '10px' : 0, lineHeight: 1.55 }}>
                     <span style={{ color: col.color, fontWeight: 700, flexShrink: 0, marginTop: '1px' }}>›</span>
-                    <span><strong style={{ color: 'var(--ink)' }}>{title}</strong> — {body}</span>
+                    <span><strong style={{ color: 'var(--ink)' }}>{title}:</strong> {body}</span>
                   </div>
                 ))}
               </div>

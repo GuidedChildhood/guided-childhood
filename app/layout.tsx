@@ -4,7 +4,7 @@ import PwaRegister from '@/components/PwaRegister'
 
 export const metadata: Metadata = {
   title: {
-    default: 'Guided Childhood — Screen Time and Digital Parenting Guide for UK Families',
+    default: 'Guided Childhood, Screen Time and Digital Parenting Guide for UK Families',
     template: '%s | Guided Childhood',
   },
   description: 'Stop guessing what to say. Guided Childhood gives UK parents the exact scripts for screen time fights, gaming meltdowns, social media access, and bedtime battles. Stage by stage from age 4 to 16.',
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   creator: 'Guided Childhood',
   publisher: 'Guided Childhood',
   openGraph: {
-    title: 'Guided Childhood — The Stage-by-Stage Digital Parenting Guide',
+    title: 'Guided Childhood, The Stage-by-Stage Digital Parenting Guide',
     description: 'From first screen at age 4 to full independence at 16. Exact scripts for every hard moment. DiGi your AI parenting advisor. For UK families.',
     type: 'website',
     locale: 'en_GB',
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Guided Childhood — Digital Parenting for UK Families',
+    title: 'Guided Childhood, Digital Parenting for UK Families',
     description: 'The stage-by-stage guide to raising children with screens. Ages 4 to 16. Built on the research.',
   },
   robots: {

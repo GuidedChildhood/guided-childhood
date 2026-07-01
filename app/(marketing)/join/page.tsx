@@ -36,8 +36,8 @@ const FEATURES = [
   },
   {
     icon: '◻',
-    title: '17 conversation scripts',
-    desc: 'Say this, not this, and why it works. Social media, TV rules, bedtime battles, gaming, the boredom fight, mood after screens. Every difficult moment covered.',
+    title: '100 plus expert scripts',
+    desc: 'Say this, not this, and why it works, grounded in the research, not guesswork. Social media, TV rules, bedtime battles, gaming, the boredom fight, mood after screens. Every daily problem covered.',
     tag: 'For every hard moment',
     tagColor: 'var(--terracotta)',
     tagBg: 'var(--stage-4)',
@@ -174,12 +174,12 @@ export default async function JoinPage() {
 
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '20px' }}>
             <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '15px', padding: '17px 36px' }}>
-              Find your child's stage — it is free →
+              Find your child's stage, it is free →
             </Link>
           </div>
 
           <p style={{ fontFamily: 'var(--font-mono)', fontSize: '.72rem', color: 'var(--ink-light)', letterSpacing: '.06em' }}>
-            Three questions. No account needed. Your pathway is waiting.
+            Four questions. No account needed. Your pathway is waiting.
           </p>
 
           {/* Social proof row */}
@@ -595,7 +595,7 @@ export default async function JoinPage() {
               {/* Progress bar */}
               <div style={{ marginBottom: '24px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                  <p className="eyebrow" style={{ color: 'var(--gold)' }}>Founder rate — first 50 members</p>
+                  <p className="eyebrow" style={{ color: 'var(--gold)' }}>Founder rate, first 50 members</p>
                   <span style={{ fontFamily: 'var(--font-mono)', fontSize: '.68rem', color: 'rgba(255,255,255,.5)' }}>{taken} taken</span>
                 </div>
                 <div style={{ height: '6px', background: 'rgba(255,255,255,.1)', borderRadius: '100px', overflow: 'hidden' }}>
@@ -617,7 +617,7 @@ export default async function JoinPage() {
                 {[
                   'All 5 stages, for life',
                   'Unlimited DiGi conversations',
-                  'All 17 conversation scripts',
+                  '100 plus expert scripts',
                   'Wellbeing tracker',
                   'Family agreement builder',
                   'Monthly live Pathway Sessions',
@@ -630,7 +630,7 @@ export default async function JoinPage() {
               </div>
 
               <Link href="/starter-pack" className="btn btn-gold" style={{ width: '100%', display: 'flex', justifyContent: 'center', fontSize: '14px', padding: '17px' }}>
-                Start with the free check — then claim your place →
+                Start with the free check, then claim your place →
               </Link>
             </div>
           )}
@@ -645,7 +645,7 @@ export default async function JoinPage() {
                 <span style={{ color: 'var(--ink-muted)', fontSize: '.82rem' }}> / month</span>
               </div>
               <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '9px', marginBottom: '24px' }}>
-                {['All 5 stages', 'Unlimited DiGi', 'All 17 scripts', 'Wellbeing tracker', 'Cancel any time'].map((f, i) => (
+                {['All 5 stages', 'Unlimited DiGi', '100 plus expert scripts', 'Wellbeing tracker', 'Cancel any time'].map((f, i) => (
                   <li key={i} style={{ display: 'flex', gap: '9px', alignItems: 'center', fontSize: '.84rem', color: 'var(--ink-soft)' }}>
                     <span style={{ color: 'var(--terracotta)', fontWeight: 700, flexShrink: 0 }}>✓</span>
                     {f}
@@ -706,16 +706,16 @@ export default async function JoinPage() {
         <div aria-hidden="true" style={{ position: 'absolute', top: '-80px', left: '50%', transform: 'translateX(-50%)', width: '500px', height: '500px', borderRadius: '50%', background: 'rgba(255,255,255,.04)', pointerEvents: 'none' }} />
 
         <div style={{ maxWidth: '540px', margin: '0 auto', position: 'relative' }}>
-          <p className="eyebrow" style={{ color: 'var(--terracotta-lt)', marginBottom: '18px' }}>Your starting point is three questions away</p>
+          <p className="eyebrow" style={{ color: 'var(--terracotta-lt)', marginBottom: '18px' }}>Your starting point is four questions away</p>
           <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3.2rem)', fontWeight: 800, color: '#fff', marginBottom: '18px', letterSpacing: '-.04em', lineHeight: 1.06 }}>
             Find your child's stage.<br />
             <em style={{ fontStyle: 'italic', fontWeight: 300 }}>Free.</em>
           </h2>
           <p style={{ color: 'rgba(255,255,255,.7)', fontSize: '.97rem', lineHeight: 1.85, marginBottom: '32px' }}>
-            Age, main challenge, how you are feeling. Three questions. Your personalised pathway is waiting on the other side.
+            Age, main challenge, how you are feeling, and how much time you have. Four questions. Your personalised pathway is waiting on the other side.
           </p>
           <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '15px', padding: '17px 36px', display: 'inline-flex' }}>
-            Start the check — it is free →
+            Start the check, it is free →
           </Link>
           <p style={{ marginTop: '16px', fontFamily: 'var(--font-mono)', fontSize: '.68rem', color: 'rgba(255,255,255,.4)', letterSpacing: '.04em' }}>
             No account needed. No card. Your pathway is yours from the first question.

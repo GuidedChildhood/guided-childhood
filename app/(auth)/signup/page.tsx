@@ -77,7 +77,7 @@ export default function SignupPage() {
                   We found your account.
                 </p>
                 <p style={{ fontSize: 14, color: '#6b7280', lineHeight: 1.6, margin: 0 }}>
-                  {email} already has an account. Sign in to continue — your pathway is saved and waiting for you.
+                  {email} already has an account. Sign in to continue, your pathway is saved and waiting for you.
                 </p>
               </div>
               <Link

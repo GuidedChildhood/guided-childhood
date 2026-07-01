@@ -593,7 +593,7 @@ export default function OnboardingPage() {
             onClick={skipToApp}
             style={BACK_BTN}
           >
-            Maybe later — take me to the platform
+            Maybe later, take me to the platform
           </button>
         </div>
       </div>

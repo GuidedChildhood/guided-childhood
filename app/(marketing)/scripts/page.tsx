@@ -60,7 +60,7 @@ export default function ScriptsPage() {
           One script per stage. Read it through in 10 minutes. Say it tonight.
         </p>
         <p style={{ fontFamily: 'var(--font-mono)', fontSize: '.68rem', color: 'var(--ink-muted)', letterSpacing: '.06em' }}>
-          The full library has 17 scripts. Available to members.
+          The full library has 100 plus scripts, grounded in the research. Available to members.
         </p>
       </section>
 
@@ -260,7 +260,7 @@ export default function ScriptsPage() {
           <div aria-hidden="true" style={{ position: 'absolute', top: '-60px', right: '-60px', width: '200px', height: '200px', borderRadius: '50%', background: 'rgba(231,236,248,.06)', pointerEvents: 'none' }} />
           <p className="eyebrow" style={{ color: 'rgba(175,220,162,.8)', marginBottom: '12px' }}>Full library</p>
           <h2 style={{ color: '#fff', marginBottom: '12px', fontSize: 'clamp(1.4rem, 3vw, 2rem)' }}>
-            17 scripts. Every hard moment.
+            100 plus expert scripts. Every hard moment.
           </h2>
           <p style={{ color: 'rgba(255,255,255,.7)', fontSize: '.95rem', lineHeight: 1.8, marginBottom: '24px', maxWidth: '440px', margin: '0 auto 24px' }}>
             Screen time endings, mood after phones, the social media ask, the bedroom rule fight, online safety, gaming, and everything in between. All staged by age.

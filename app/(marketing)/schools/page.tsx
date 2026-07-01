@@ -34,7 +34,7 @@ export default function SchoolsPage() {
             <Link key={label} href={href} style={{ fontFamily: 'var(--font-body)', fontSize: '.82rem', fontWeight: 500, color: 'var(--ink-soft)', padding: '6px 13px', borderRadius: '100px', textDecoration: 'none' }}>{label}</Link>
           ))}
         </nav>
-        <a href={MAILCHIMP_ENQUIRY} target="_blank" rel="noopener noreferrer" style={{ background: 'var(--terracotta)', color: '#fff', fontFamily: 'var(--font-body)', fontSize: '.82rem', fontWeight: 700, padding: '9px 22px', borderRadius: '100px', textDecoration: 'none' }}>
+        <a href={MAILCHIMP_ENQUIRY} target="_blank" rel="noopener noreferrer" className="btn btn-gold" style={{ padding: '9px 22px', fontSize: '.82rem' }}>
           Enquire
         </a>
       </header>
@@ -50,10 +50,10 @@ export default function SchoolsPage() {
             21 modules. EYFS to Sixth Form. Every lesson with a teacher plan, pupil worksheet, slides, and parent note. Zero prep. Full statutory alignment. Ofsted ready.
           </p>
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <a href={MAILCHIMP_ENQUIRY} target="_blank" rel="noopener noreferrer" style={{ background: 'var(--terracotta)', color: '#fff', fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '1rem', padding: '16px 32px', borderRadius: '12px', textDecoration: 'none', boxShadow: '0 5px 0 var(--terracotta-dark)' }}>
+            <a href={MAILCHIMP_ENQUIRY} target="_blank" rel="noopener noreferrer" className="btn btn-gold" style={{ fontSize: '1rem', padding: '16px 32px' }}>
               Request a free pilot →
             </a>
-            <Link href="#curriculum" style={{ background: '#fff', border: '2px solid var(--border)', color: 'var(--ink)', fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '1rem', padding: '16px 32px', borderRadius: '12px', textDecoration: 'none' }}>
+            <Link href="#curriculum" className="btn btn-outline" style={{ fontSize: '1rem', padding: '16px 32px' }}>
               See the curriculum
             </Link>
           </div>

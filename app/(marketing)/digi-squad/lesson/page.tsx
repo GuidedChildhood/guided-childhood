@@ -16,8 +16,8 @@ const LESSON = {
     {
       type: 'learn' as const,
       heading: 'Your brain has a cheer squad',
-      body: 'Every time something exciting happens on a screen — a notification, a goal, a new level — your brain releases a chemical called dopamine. It is like your brain\'s own crowd going wild. That burst of excitement feels amazing.',
-      characterSays: 'It is exactly like scoring a goal! That rush you feel? That is real. Your brain made it happen. And here is the thing about brains — they always want to feel that rush again.',
+      body: 'Every time something exciting happens on a screen, a notification, a goal, a new level, your brain releases a chemical called dopamine. It is like your brain\'s own crowd going wild. That burst of excitement feels amazing.',
+      characterSays: 'It is exactly like scoring a goal! That rush you feel? That is real. Your brain made it happen. And here is the thing about brains, they always want to feel that rush again.',
       funFact: 'A notification sound triggers nearly the same dopamine response as scoring a point in a game. Your brain cannot always tell the difference.',
     },
     {
