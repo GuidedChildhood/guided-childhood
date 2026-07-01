@@ -11,6 +11,7 @@ This folder is the single source of truth for all DiGi Squad characters. Read it
 - **Design**: A friendly golden star with a warm smiling face (public/digi-squad/DiGi-star.svg). Confirmed by Justin: DiGi IS the star. The green robot (Digi.png, job `62f19158`) and the owl (job `a195409b`) are both legacy designs, superseded.
 - **Where used**: Homepage DiGi card, /join chat preview, DiGi advisor throughout the platform, animated via components/digi/DigiCharacter.tsx
 - **Voice**: Warm, calm, knowledgeable. Speaks to parents. Never preachy.
+- **Classroom lesson video**: `2052451b` (8s, HOW THE ALGORITHM WORKS, https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260701_205017_2052451b-a1d7-4932-9839-fd875b134903.mp4), wired into the exemplar Explorer lesson in migration 017
 
 ### DiGi Junior — The Pause Guide
 - **Role**: Mid-lesson pause beats, breathing moments, check-ins between steps (like Jigsaw's Jerrie Cat)
@@ -33,7 +34,7 @@ This folder is the single source of truth for all DiGi Squad characters. Read it
 - **Lesson topics**: Screen time routines, dopamine loops, wind-down strategies, sleep
 - **Stage**: 2 to 3 · Ages 7 to 11
 - **Intro speech**: "Hi! I'm Oliver and I'm here to help you today! You know how I love football? Well today we're going to find out why your brain treats screens exactly like a REALLY exciting match. Ready? Let's kick off!"
-- **Higgsfield job IDs**: `5019bb19` (still image, 1:1 avatar), `a28311bc` (5s video: kicking football)
+- **Higgsfield job IDs**: `5019bb19` (still image, 1:1 avatar), `a28311bc` (5s video: kicking football), `73a1ddee` (8s classroom lesson video: BE THE BOSS OF YOUR SCREEN, https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260701_210302_73a1ddee-7a31-429c-b382-339dd740fdc9.mp4)
 
 ### Zara — Truth Finder
 - **Age**: 9
@@ -45,7 +46,7 @@ This folder is the single source of truth for all DiGi Squad characters. Read it
 - **Lesson topics**: Fake news, stranger danger, passwords, what to do when something feels wrong
 - **Stage**: 2 to 4 · Ages 8 to 13
 - **Intro speech**: "Hi! I'm Zara and I'm here to help you today! Today we're going on a DETECTIVE mission to spot what's real online. Put your thinking hat on and let's go!"
-- **Higgsfield job IDs**: `e29b139c` (still image, 1:1 avatar), `4641ac49` (5s video: celebration leap)
+- **Higgsfield job IDs**: `e29b139c` (still image, 1:1 avatar), `4641ac49` (5s video: celebration leap), `08e5094c` (8s classroom lesson video: REAL OR FAKE, https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260701_210314_08e5094c-a1ad-42bc-aed4-ca3f2df62cde.mp4)
 
 ### Sofia — Safety Guardian
 - **Age**: 6
@@ -57,7 +58,7 @@ This folder is the single source of truth for all DiGi Squad characters. Read it
 - **Lesson topics**: Personal information, photo sharing, who to talk to, what to do if someone asks for your info
 - **Stage**: 1 to 2 · Ages 4 to 9
 - **Intro speech**: "Hi! I'm Sofia and I'm here to help you today! Today we're going to build YOUR privacy shield. Ready to be a guardian?"
-- **Higgsfield job IDs**: `9a93adee` (still image, 1:1 avatar), `457b92ac` (5s video: spinning with sparkles)
+- **Higgsfield job IDs**: `9a93adee` (still image, 1:1 avatar), `457b92ac` (5s video: spinning with sparkles), `95e07492` (8s classroom lesson video: MY PRIVACY SHIELD, https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260701_210333_95e07492-9204-4682-99e3-fdbfb8effd35.mp4)
 
 ---
 
