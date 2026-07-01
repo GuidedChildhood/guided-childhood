@@ -1,6 +1,7 @@
 'use client'
 
 import { useMemo, useState } from 'react'
+import Link from 'next/link'
 
 export type DeviceGuide = {
   device_key: string
@@ -194,14 +195,23 @@ export default function DeviceList({
                     {d.note}
                   </div>
 
-                  <button
-                    onClick={() => toggleComplete(d.device_key)}
-                    disabled={pending === d.device_key}
-                    className={isDone ? 'btn btn-outline' : 'btn btn-gold'}
-                    style={{ width: '100%', justifyContent: 'center', fontSize: '13px' }}
-                  >
-                    {isDone ? 'Marked as set up ✓' : 'Mark as set up'}
-                  </button>
+                  <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                    <button
+                      onClick={() => toggleComplete(d.device_key)}
+                      disabled={pending === d.device_key}
+                      className={isDone ? 'btn btn-outline' : 'btn btn-gold'}
+                      style={{ flex: 1, minWidth: '140px', justifyContent: 'center', fontSize: '13px' }}
+                    >
+                      {isDone ? 'Marked as set up ✓' : 'Mark as set up'}
+                    </button>
+                    <Link
+                      href={`/dashboard/digi?device=${d.device_key}&q=${encodeURIComponent(`Can you walk me through setting up ${d.name} step by step?`)}`}
+                      className="btn btn-outline"
+                      style={{ flex: 1, minWidth: '140px', justifyContent: 'center', fontSize: '13px' }}
+                    >
+                      Ask DiGi to walk me through it
+                    </Link>
+                  </div>
                 </div>
               )}
             </div>
