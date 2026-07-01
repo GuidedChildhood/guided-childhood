@@ -649,6 +649,18 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
 }
 @media (max-width: 680px) { .two-col-wide { grid-template-columns: 1fr; gap: 24px; } }
 
+/* ── STATS STRIP ── */
+.stats-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+@media (max-width: 560px) {
+  .stats-strip { grid-template-columns: repeat(2, 1fr); }
+  .stats-strip > *:nth-child(2) { border-right: none !important; }
+  .stats-strip > *:nth-child(1),
+  .stats-strip > *:nth-child(2) { border-bottom: 1px solid var(--border); }
+}
+
 /* ── NAV LINKS ── */
 .nav-links-desktop {
   display: flex;

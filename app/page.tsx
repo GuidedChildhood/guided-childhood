@@ -370,7 +370,7 @@ export default function HomePage() {
               fontFamily: 'var(--font-body)',
               fontSize: '.84rem',
               fontWeight: 600,
-              color: 'var(--ink-soft)',
+              color: 'var(--ink)',
               padding: '7px 14px',
               borderRadius: '100px',
               transition: 'color .15s, background .15s',
@@ -403,7 +403,7 @@ export default function HomePage() {
               Raising kids<br />with screens<br />
               <span style={{ color: 'var(--terracotta)' }}>is something you can learn.</span>
             </h1>
-            <p className="fu" style={{ fontSize: '1.02rem', color: 'var(--ink-soft)', lineHeight: 1.78, maxWidth: '440px', marginBottom: '28px' }}>
+            <p className="fu" style={{ fontSize: '1.02rem', color: 'var(--ink)', lineHeight: 1.78, maxWidth: '440px', marginBottom: '28px' }}>
               The stage by stage guide, exact scripts for the hard moments, and DiGi, your AI parenting advisor available at 11pm.
             </p>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '28px', flexWrap: 'wrap' }}>
@@ -451,7 +451,7 @@ export default function HomePage() {
               zIndex: 1,
             }}>
               <Image
-                src="https://images.unsplash.com/photo-1516627145497-ae6968895b74?auto=format&fit=crop&w=430&q=80"
+                src="https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260701_081924_53c6eee8-adc9-4ddc-a990-17d0badb90c6.png"
                 alt="Mother and young daughter co-viewing on a tablet together"
                 fill
                 style={{ objectFit: 'cover', objectPosition: 'center top' }}
@@ -517,7 +517,7 @@ export default function HomePage() {
               zIndex: 2,
             }}>
               <Image
-                src="https://images.unsplash.com/photo-1524592094714-0f0654e359cf?auto=format&fit=crop&w=430&q=80"
+                src="https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260701_081925_0f521394-d498-4194-ad84-d8843544c19c.png"
                 alt="Teenage girl scrolling on her smartphone"
                 fill
                 style={{ objectFit: 'cover', objectPosition: 'center top' }}
@@ -616,21 +616,21 @@ export default function HomePage() {
       </section>
 
       {/* ================================================================
-          STATS — dark navy strip, large white numbers
+          STATS — warm cream strip, large terracotta numbers
           ================================================================ */}
-      <section style={{ background: '#1A1A2E' }}>
-        <div style={{ maxWidth: '960px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)' }}>
+      <section style={{ background: 'var(--cream)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
+        <div className="stats-strip" style={{ maxWidth: '960px', margin: '0 auto' }}>
           {[
             { num: '200',  label: 'Families on their pathway' },
             { num: '5',    label: 'Stages from age 4 to 16' },
             { num: '12',   label: 'Daily situations with scripts' },
             { num: '2027', label: 'Social media ban. Start now.' },
           ].map((s, i) => (
-            <div key={i} style={{ textAlign: 'center', padding: '36px 20px', borderRight: i < 3 ? '1px solid rgba(255,255,255,.1)' : 'none' }}>
-              <div style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.2rem, 3.8vw, 3.2rem)', fontWeight: 900, color: '#fff', lineHeight: 1, marginBottom: '8px', letterSpacing: '-.04em' }}>
+            <div key={i} style={{ textAlign: 'center', padding: '36px 20px', borderRight: i < 3 ? '1px solid var(--border)' : 'none' }}>
+              <div style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.2rem, 3.8vw, 3.2rem)', fontWeight: 900, color: 'var(--terracotta)', lineHeight: 1, marginBottom: '8px', letterSpacing: '-.04em' }}>
                 {s.num}
               </div>
-              <div style={{ fontSize: '.74rem', color: 'rgba(255,255,255,.55)', fontWeight: 600, lineHeight: 1.4, letterSpacing: '.04em', textTransform: 'uppercase' }}>
+              <div style={{ fontSize: '.74rem', color: 'var(--ink)', fontWeight: 600, lineHeight: 1.4, letterSpacing: '.04em', textTransform: 'uppercase' }}>
                 {s.label}
               </div>
             </div>
@@ -650,7 +650,7 @@ export default function HomePage() {
               From first screen to{' '}
               <span style={{ color: 'var(--terracotta)' }}>digital independence</span>
             </h2>
-            <p style={{ fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.8, maxWidth: '520px', margin: '0 auto' }}>
+            <p style={{ fontSize: '1rem', color: 'var(--ink)', lineHeight: 1.8, maxWidth: '520px', margin: '0 auto' }}>
               Each stage has different risks, different conversations, and different boundaries. You never skip ahead. You never fall behind. The platform grows with your child.
             </p>
           </div>
@@ -680,11 +680,11 @@ export default function HomePage() {
               {STAGES.map((s, i) => {
                 // Real stock photos — one per stage, age-matched
                 const STAGE_IMGS = [
-                  'https://images.unsplash.com/photo-1516627145497-ae6968895b74?auto=format&fit=crop&w=600&q=80', // parent+young child co-viewing stage 1
-                  'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&w=600&q=80', // child with device stage 2
-                  'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=600&q=80', // friends with phone stage 3
-                  'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=600&q=80', // teen stage 4
-                  'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=600&q=80', // older teen stage 5
+                  'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260701_081926_eace355f-0905-46ee-9fbe-0e374e1283be.png', // parent+young child co-viewing stage 1
+                  'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260701_081927_8d393f79-a5a6-4edd-bd32-0de9b6f3ee25.png', // child with laptop stage 2
+                  'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260701_081928_d5e7d499-fcb6-4fbd-aa01-89c0afa69472.png', // pre-teen friends with phone stage 3
+                  'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260701_081930_6eb446ac-068f-459b-b3b7-8d821fdd9523.png', // teen studying stage 4
+                  'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260701_081932_8bcc0ecc-d6df-43b7-b98d-05677db4296c.png', // independent young person stage 5
                 ]
                 return (
                   <Link key={s.num} href="/starter-pack" style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column' }}>
@@ -769,7 +769,7 @@ export default function HomePage() {
                         <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', color: 'var(--ink-light)', marginBottom: '10px' }}>
                           {s.ages}
                         </div>
-                        <p style={{ fontFamily: 'var(--font-display)', fontSize: '11px', fontStyle: 'italic', color: 'var(--ink-soft)', lineHeight: 1.55, marginBottom: '10px', flex: 1 }}>
+                        <p style={{ fontFamily: 'var(--font-display)', fontSize: '11px', fontStyle: 'italic', color: 'var(--ink)', lineHeight: 1.55, marginBottom: '10px', flex: 1 }}>
                           {s.quote}
                         </p>
                         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '3px', marginBottom: '12px' }}>
@@ -823,7 +823,7 @@ export default function HomePage() {
           <div style={{ textAlign: 'center', marginBottom: '44px' }}>
             <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>The five stages</p>
             <h2 className="fu" style={{ marginBottom: '14px' }}>Where is your child right now?</h2>
-            <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.8, maxWidth: '520px', margin: '0 auto' }}>
+            <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink)', lineHeight: 1.8, maxWidth: '520px', margin: '0 auto' }}>
               Every stage has different risks, different conversations, and different boundaries. Start where your child is. The platform grows with them so you are never behind and never guessing.
             </p>
           </div>
@@ -1025,7 +1025,7 @@ export default function HomePage() {
                   {f.svg}
                 </div>
                 <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: 'var(--ink)', letterSpacing: '-.02em', lineHeight: 1.2 }}>{f.title}</h3>
-                <p style={{ fontSize: '.88rem', color: 'var(--ink-soft)', lineHeight: 1.75 }}>{f.body}</p>
+                <p style={{ fontSize: '.88rem', color: 'var(--ink)', lineHeight: 1.75 }}>{f.body}</p>
               </div>
             ))}
           </div>
@@ -1044,7 +1044,7 @@ export default function HomePage() {
               The fights you have every day.<br />
               <span style={{ color: 'var(--terracotta)' }}>Scripts for all of them.</span>
             </h2>
-            <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.8, maxWidth: '480px', margin: '0 auto' }}>
+            <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink)', lineHeight: 1.8, maxWidth: '480px', margin: '0 auto' }}>
               Every situation below has a guide, an exact script and a structural fix. Not tomorrow. Tonight.
             </p>
           </div>
@@ -1081,7 +1081,7 @@ export default function HomePage() {
                     <p style={{ fontFamily: 'var(--font-mono)', fontSize: '.56rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '12px' }}>
                       What Guided Childhood gives you
                     </p>
-                    <p style={{ fontSize: '.92rem', color: 'var(--ink-soft)', lineHeight: 1.75 }}>
+                    <p style={{ fontSize: '.92rem', color: 'var(--ink)', lineHeight: 1.75 }}>
                       {row.fix}
                     </p>
                   </div>
@@ -1112,7 +1112,7 @@ export default function HomePage() {
               The situations every parent<br />
               <span style={{ color: 'var(--terracotta)' }}>is dealing with right now.</span>
             </h2>
-            <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.8, maxWidth: '520px', margin: '0 auto' }}>
+            <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink)', lineHeight: 1.8, maxWidth: '520px', margin: '0 auto' }}>
               Tap any card to see the exact words to use, the structural change that works, and why it works. No generic advice. The script for your situation tonight.
             </p>
           </div>
@@ -1235,7 +1235,7 @@ export default function HomePage() {
               What to say in{' '}
               <span style={{ color: 'var(--terracotta)' }}>every situation</span>
             </h2>
-            <p style={{ fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.8, maxWidth: '520px', margin: '0 auto' }}>
+            <p style={{ fontSize: '1rem', color: 'var(--ink)', lineHeight: 1.8, maxWidth: '520px', margin: '0 auto' }}>
               Each script has the exact words, what not to say, and why it works. Across six areas of digital life.
             </p>
           </div>
@@ -1348,7 +1348,7 @@ export default function HomePage() {
               Your situation.{' '}
               <span style={{ color: 'var(--terracotta)' }}>The exact script. Tonight.</span>
             </h2>
-            <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.8, maxWidth: '540px', margin: '0 auto' }}>
+            <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink)', lineHeight: 1.8, maxWidth: '540px', margin: '0 auto' }}>
               Generic screen time advice does not work because it ignores your child's age, stage and the specific thing that happened today. This is what it looks like when the platform gives you what you actually need.
             </p>
           </div>
@@ -1477,10 +1477,10 @@ export default function HomePage() {
               <h2 className="fu" style={{ marginBottom: '20px' }}>
                 DiGi has read every study.<br />Ask anything.
               </h2>
-              <p className="fu" style={{ fontSize: '.94rem', color: 'var(--ink-soft)', lineHeight: 1.82, marginBottom: '12px' }}>
+              <p className="fu" style={{ fontSize: '.94rem', color: 'var(--ink)', lineHeight: 1.82, marginBottom: '12px' }}>
                 Most parents search Google at 10pm trying to work out what to do about a specific thing that happened today. DiGi replaces that. Tell it what happened, your child's age and stage, and it gives you the exact words and the structural change that will make a difference.
               </p>
-              <p className="fu" style={{ fontSize: '.94rem', color: 'var(--ink-soft)', lineHeight: 1.82, marginBottom: '28px' }}>
+              <p className="fu" style={{ fontSize: '.94rem', color: 'var(--ink)', lineHeight: 1.82, marginBottom: '28px' }}>
                 Not general advice. The script for tonight.
               </p>
               <ul className="fu" style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '28px' }}>
@@ -1616,7 +1616,7 @@ export default function HomePage() {
             <h2 className="fu" style={{ marginBottom: '14px' }}>
               Twenty things showing up<br />in homes right now
             </h2>
-            <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.8, maxWidth: '500px', margin: '0 auto' }}>
+            <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink)', lineHeight: 1.8, maxWidth: '500px', margin: '0 auto' }}>
               Most platforms pick one. Guided Childhood covers all twenty. Scripts, weekly actions, and DiGi support for every item on both lists.
             </p>
           </div>
@@ -1674,7 +1674,7 @@ export default function HomePage() {
               What the research says to{' '}
               <span style={{ color: 'var(--terracotta)' }}>pay attention to</span>
             </h2>
-            <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.8, maxWidth: '500px', margin: '0 auto' }}>
+            <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink)', lineHeight: 1.8, maxWidth: '500px', margin: '0 auto' }}>
               Not a scare list. These are signals. The earlier you spot them, the simpler the response.
             </p>
           </div>
@@ -1734,7 +1734,7 @@ export default function HomePage() {
               Every major online risk.{' '}
               <span style={{ color: 'var(--terracotta)' }}>What it is. What you do.</span>
             </h2>
-            <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.8, maxWidth: '500px', margin: '0 auto' }}>
+            <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink)', lineHeight: 1.8, maxWidth: '500px', margin: '0 auto' }}>
               Each risk is covered at the right stage, in the right way. Not all at once.
             </p>
           </div>
@@ -1784,7 +1784,7 @@ export default function HomePage() {
               One framework that{' '}
               <span style={{ color: 'var(--terracotta)' }}>runs the lot</span>
             </h2>
-            <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.8, maxWidth: '500px', margin: '0 auto' }}>
+            <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink)', lineHeight: 1.8, maxWidth: '500px', margin: '0 auto' }}>
               TRUST runs through every action, script, and lesson from age 4 to 16. Not a tip sheet. A system.
             </p>
           </div>
@@ -1853,10 +1853,10 @@ export default function HomePage() {
                 <span style={{ color: 'var(--terracotta)' }}>three hours</span>{' '}
                 and realised the conversation I was missing
               </h2>
-              <p className="fu" style={{ fontSize: '.92rem', color: 'var(--ink-soft)', lineHeight: 1.85, marginBottom: '14px' }}>
+              <p className="fu" style={{ fontSize: '.92rem', color: 'var(--ink)', lineHeight: 1.85, marginBottom: '14px' }}>
                 I am Justin Phillips, founder of The Social Billboard and Guided Childhood. I am not a researcher. I read the researchers. Then I built a platform that translates what they found into something parents can actually use this week.
               </p>
-              <p className="fu" style={{ fontSize: '.92rem', color: 'var(--ink-soft)', lineHeight: 1.85, marginBottom: '28px' }}>
+              <p className="fu" style={{ fontSize: '.92rem', color: 'var(--ink)', lineHeight: 1.85, marginBottom: '28px' }}>
                 The problem is not the phone. The problem is nobody gave parents a map. A law about social media does not give you one. Guided Childhood does.
               </p>
               <Link href="/starter-pack" className="btn btn-gold fu" style={{ fontSize: '13px' }}>
@@ -1877,7 +1877,7 @@ export default function HomePage() {
             How this shows up{' '}
             <span style={{ color: 'var(--terracotta)' }}>in your home</span>
           </h2>
-          <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.8, maxWidth: '500px', margin: '0 auto 48px' }}>
+          <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink)', lineHeight: 1.8, maxWidth: '500px', margin: '0 auto 48px' }}>
             You are solving today's problem in a way that builds capacity for tomorrow.
           </p>
 
@@ -1976,7 +1976,7 @@ export default function HomePage() {
             <p style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.3rem, 2vw, 1.8rem)', fontWeight: 800, color: 'var(--ink)', marginBottom: '12px', letterSpacing: '-.03em' }}>
               No, it is not too late.
             </p>
-            <p style={{ fontSize: '.92rem', color: 'var(--ink-soft)', maxWidth: '420px', margin: '0 auto 26px', lineHeight: 1.8 }}>
+            <p style={{ fontSize: '.92rem', color: 'var(--ink)', maxWidth: '420px', margin: '0 auto 26px', lineHeight: 1.8 }}>
               There are more school pickups, more car journeys, more evenings ahead of you than behind you. The pathway starts from wherever you are.
             </p>
             <Link href="/starter-pack" className="btn btn-gold">Find my starting point</Link>
@@ -1995,7 +1995,7 @@ export default function HomePage() {
               Built on evidence,{' '}
               <span style={{ color: 'var(--terracotta)' }}>not panic</span>
             </h2>
-            <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.8, maxWidth: '500px', margin: '0 auto' }}>
+            <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink)', lineHeight: 1.8, maxWidth: '500px', margin: '0 auto' }}>
               Every child benefits from a guided digital childhood. The research tells us which children need it most urgently.
             </p>
           </div>
@@ -2036,7 +2036,7 @@ export default function HomePage() {
             <h3 style={{ fontSize: 'clamp(1.2rem, 2vw, 1.5rem)', fontWeight: 800, color: 'var(--ink)', letterSpacing: '-.02em', marginBottom: '10px' }}>
               Not sure where to start? The tool will tell you.
             </h3>
-            <p style={{ fontSize: '.88rem', color: 'var(--ink-soft)', lineHeight: 1.75, maxWidth: '500px', margin: '0 auto 20px' }}>
+            <p style={{ fontSize: '.88rem', color: 'var(--ink)', lineHeight: 1.75, maxWidth: '500px', margin: '0 auto 20px' }}>
               Answer questions about what is happening at home. TV routines, gaming, sleep, mood, social media access. The Digital Health Check shows you where the gaps are and gives you a personalised starting point.
             </p>
             <Link href="/digitalwellbeing" className="btn btn-gold">Take the free Digital Health Check</Link>
@@ -2066,10 +2066,10 @@ export default function HomePage() {
                 Not just safety.<br />
                 <span style={{ color: 'var(--terracotta)' }}>Full digital education.</span>
               </h2>
-              <p className="fu" style={{ fontSize: '.92rem', color: 'var(--ink-soft)', lineHeight: 1.82, marginBottom: '14px' }}>
+              <p className="fu" style={{ fontSize: '.92rem', color: 'var(--ink)', lineHeight: 1.82, marginBottom: '14px' }}>
                 Most school programmes cover what to do when something goes wrong. Guided Childhood covers everything before that moment and everything that comes after.
               </p>
-              <p className="fu" style={{ fontSize: '.92rem', color: 'var(--ink-soft)', lineHeight: 1.82, marginBottom: '28px' }}>
+              <p className="fu" style={{ fontSize: '.92rem', color: 'var(--ink)', lineHeight: 1.82, marginBottom: '28px' }}>
                 Screen behaviour, routines, every online risk, digital literacy, AI, and full readiness at 16. EYFS to Sixth Form. Every lesson comes with a parent note so school work extends into the home.
               </p>
               <Link href="/schools" className="btn btn-ink fu" style={{ fontSize: '13px' }}>
@@ -2252,7 +2252,7 @@ export default function HomePage() {
             Start your family's<br />
             <span style={{ color: 'var(--terracotta)' }}>guided childhood today</span>
           </h2>
-          <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.8, marginBottom: '36px' }}>
+          <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink)', lineHeight: 1.8, marginBottom: '36px' }}>
             No setup. No waiting. The starter pack is free and arrives immediately. One account covers all your children.
           </p>
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '20px' }}>
