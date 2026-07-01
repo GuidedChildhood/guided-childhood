@@ -3,7 +3,9 @@ import { DIGI_MODEL, DIGI_MODEL_FALLBACKS } from '@/lib/config/digi'
 import { SOCIAL_MEDIA_LAW, banContextForDigi, BANNED_PLATFORMS, banIsActive } from '@/lib/config/social-media-law'
 import { NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
-import { getStageFromAgeBand, STAGES, type AgeBand } from '@/lib/content/stages'
+import { getStageFromAgeBand, STAGES, type AgeBand, type ChallengeId } from '@/lib/content/stages'
+import { getRecommendedScript } from '@/lib/pathway/recommend'
+import type { StageId } from '@/lib/pathway/progress'
 import { readFileSync } from 'fs'
 import { join } from 'path'
 
@@ -124,6 +126,15 @@ export async function POST(request: Request) {
     .map(l => `- ${l.title}: ${l.key_message} (${l.the_idea})`)
     .join('\n')
 
+  let nextStepKnowledge = ''
+  if (child?.stage_id) {
+    const parentChallenge = (profile?.onboarding_answers as Record<string, string> | null)?.challenge as ChallengeId | undefined
+    const recommended = await getRecommendedScript(supabase, user.id, child.stage_id as StageId, parentChallenge ?? null)
+    if (recommended) {
+      nextStepKnowledge = `\n\nRECOMMENDED NEXT STEP ON THE PATHWAY: The next script this parent has not yet completed is "${recommended.title}" (${recommended.situation}). ${recommended.matchesChallenge ? 'This directly matches the main concern they told us about at signup.' : ''} If the conversation naturally allows it, or if they ask what to do next, mention this specific script by name as the next concrete step, do not just give generic advice when a specific next step already exists.`
+    }
+  }
+
   const scriptFeedback = scriptFeedbackResult.data ?? []
   let scriptFeedbackKnowledge = ''
   if (scriptFeedback.length > 0) {
@@ -160,7 +171,7 @@ export async function POST(request: Request) {
     trackerResult.data ?? [],
     feedbackResult.data ?? [],
     aiKnowledge,
-    deviceGuideKnowledge + scriptFeedbackKnowledge,
+    deviceGuideKnowledge + scriptFeedbackKnowledge + nextStepKnowledge,
   )
 
   // Get conversation history
