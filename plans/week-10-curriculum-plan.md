@@ -35,6 +35,62 @@ AI content dates in months, not years. Three design rules keep it current withou
 
 Nine strands, five stages, two lessons per strand per stage where age appropriate: roughly 80 lessons full build. This week writes the complete matrix plus the first three stages of lessons; the remaining stages follow the same recipe.
 
+## Two versions of every lesson
+
+Every topic ships in two voices, using the audience column the lessons table already has:
+
+- **Home version (audience parent).** For parents and home educators. Ten minutes at the kitchen table. The child watches the character video and does the quick check; the parent gets the say this tonight script and the try it experiment. For home schooling families this IS the lesson delivery, so it carries a light plan: what to say to open, what the child should be able to say back at the end, and the family question to leave hanging.
+- **School version (audience teacher).** Twenty five to thirty minutes, teacher led. Same video, same core slides, plus the materials layer below. This is the schools licence product.
+
+One topic, one video, two slide sets. The Day 2 matrix generates stubs for both audiences.
+
+## Materials per lesson: Jigsaw's package, modernised
+
+What Jigsaw ships per lesson, and what ours is instead:
+
+| Jigsaw ships | We ship | Why ours is better |
+|---|---|---|
+| PowerPoint deck | The interactive slide player | Self advancing, checks built in, completion is data not a worksheet pile |
+| Mascot soft toy moment | The character video beat | The mascot actually teaches, in motion, matched to topic and age |
+| Calm Me chime time | DiGi Junior pause beat (already built) | Same regulation moment, no chime bar to buy |
+| Jigsaw Families parent leaflet | The say this tonight script plus the printable fridge sheet | One page auto generated from the lesson's own slides JSON: key message, family question, try it |
+| Teacher lesson plan booklet | Teacher notes block on the school version | Learning objective, statutory RSHE and Computing bullet tags, timing guide, discussion prompts, differentiation note |
+| Assessment maps and evidence files | Completion data per pupil cohort plus the Ofsted alignment doc | The schools page already promises evidence ready for Ofsted; here it is generated, not filed |
+| Celebration certificates | Printable stage certificate with DiGi | Earned from real completion data |
+
+The fridge sheet and certificate are small generator routes (print stylesheet over lesson JSON), built on Day 6 alongside the video line.
+
+## Scripting the animations
+
+The production recipe for every video beat, so scripts are written once and rendered mechanically:
+
+**The script template.** Each video beat is a mini screenplay stored with the lesson in the production doc:
+
+```
+CHARACTER: Oliver
+SETTING:   classroom, ball under foot
+BOARD:     BE THE BOSS OF YOUR SCREEN
+MOOD:      joyful, sporty
+SHOT 1 (0 to 4s)
+  ACTION:  Oliver flicks the ball up, catches it, grins at the class
+  LINE:    "You know how I love football? Your brain treats screens like a REALLY exciting match!"
+SHOT 2 (4 to 8s)
+  ACTION:  kids lean in laughing, board reveal behind him
+  LINE:    "Today we learn the cool down lap. Ready? Kick off!"
+```
+
+**The rules that make scripts work:**
+1. Character voice rules from the squad reference are law: Oliver speaks in football, Zara in detective, Sofia in shield and guardian, DiGi warm and calm. The intro speeches in the reference doc are the canonical opening lines.
+2. Jigsaw's distancing technique, kept: the character voices the struggle ("Oliver finds it SO hard to stop mid match, do you know that feeling?") so the child agrees with the character instead of being challenged.
+3. One idea per beat, one line per shot, maximum two shots per beat. If a script needs a third shot it is two beats with a slide between them.
+4. The board text is the lesson title in the child's language. It does the remembering.
+
+**The render pipeline:**
+- Scene setter beats (no dialogue): kling3_0_turbo, exactly like the four rendered today.
+- Dialogue beats: kling3_0, which supports multi shot and audio, fed the two shot script directly.
+- Character voices: one voice per squad member created once in Higgsfield (create_voice), used for every lesson so Oliver always sounds like Oliver. Voice over can also be generated separately (generate_audio) and laid over a silent beat, which is the cheaper refresh path when only words change.
+- Identity consistency when it matters: seedance with the character's reference still as start image.
+
 ## The week, step by step
 
 **Day 1 (today, done):** slide player, video slide type, daily task trail, DiGi star correction, pilot classroom video rendered and wired into the exemplar lesson.
