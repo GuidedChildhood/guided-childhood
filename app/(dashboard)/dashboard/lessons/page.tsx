@@ -34,7 +34,6 @@ type LessonRow = {
   category: string
   title: string
   key_message: string
-  video_url: string | null
   sort_order: number
   source: 'lesson' | 'ai'
 }
@@ -53,7 +52,7 @@ export default async function LessonsPage() {
   const [{ data: lessonsData }, { data: aiLessonsData }] = await Promise.all([
     supabase
       .from('lessons')
-      .select('id, stage_id, category, title, key_message, video_url, sort_order')
+      .select('id, stage_id, category, title, key_message, sort_order')
       .eq('audience', 'parent')
       .order('sort_order', { ascending: true }),
     supabase
@@ -70,7 +69,6 @@ export default async function LessonsPage() {
     category: 'ai_safety',
     title: l.title,
     key_message: l.key_message,
-    video_url: null,
     sort_order: l.sort_order,
     source: 'ai' as const,
   }))
@@ -153,7 +151,6 @@ export default async function LessonsPage() {
                     <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 600, color: 'var(--terracotta)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
                       {CATEGORY_LABEL[lesson.category] ?? lesson.category}
                     </span>
-                    {lesson.video_url && <span style={{ fontSize: '11px' }} aria-label="Includes video">▶</span>}
                   </div>
                   <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '15px', color: 'var(--ink)', marginBottom: '3px' }}>
                     {lesson.title}

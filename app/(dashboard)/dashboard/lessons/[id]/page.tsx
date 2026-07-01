@@ -27,12 +27,6 @@ type Lesson = {
   try_this: string
   key_message: string
   digi_prompt: string
-  video_url: string | null
-}
-
-function youtubeEmbedUrl(url: string): string | null {
-  const match = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([\w-]{11})/)
-  return match ? `https://www.youtube-nocookie.com/embed/${match[1]}` : null
 }
 
 export default async function LessonDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -43,7 +37,7 @@ export default async function LessonDetailPage({ params }: { params: Promise<{ i
 
   const { data } = await supabase
     .from('lessons')
-    .select('id, stage_id, category, title, the_idea, why_it_matters, try_this, key_message, digi_prompt, video_url')
+    .select('id, stage_id, category, title, the_idea, why_it_matters, try_this, key_message, digi_prompt')
     .eq('id', id)
     .maybeSingle()
 
@@ -51,7 +45,6 @@ export default async function LessonDetailPage({ params }: { params: Promise<{ i
   if (!lesson) notFound()
 
   const stage = STAGE_LABEL[lesson.stage_id] ?? STAGE_LABEL.foundation
-  const embedUrl = lesson.video_url ? youtubeEmbedUrl(lesson.video_url) : null
 
   return (
     <div style={{ maxWidth: '680px', margin: '0 auto', padding: '24px 20px 48px' }}>
@@ -82,19 +75,6 @@ export default async function LessonDetailPage({ params }: { params: Promise<{ i
           {lesson.title}
         </h1>
       </div>
-
-      {/* Video */}
-      {embedUrl && (
-        <div style={{ marginBottom: '28px', borderRadius: '16px', overflow: 'hidden', border: '1px solid var(--border)', position: 'relative', paddingBottom: '56.25%', height: 0 }}>
-          <iframe
-            src={embedUrl}
-            title={lesson.title}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none' }}
-          />
-        </div>
-      )}
 
       {/* Sections */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '28px' }}>

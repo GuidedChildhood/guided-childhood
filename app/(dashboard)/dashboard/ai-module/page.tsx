@@ -55,12 +55,6 @@ export default async function AiModulePage() {
   return (
     <div style={{ maxWidth: '720px', margin: '0 auto', padding: '24px 20px' }}>
       <div style={{ marginBottom: '24px' }}>
-        <Link
-          href="/dashboard/lessons"
-          style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '13px', color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em', marginBottom: '14px' }}
-        >
-          ← All lessons
-        </Link>
         <p className="eyebrow" style={{ marginBottom: '4px' }}>Understanding AI</p>
         <h1 style={{ fontSize: 'clamp(1.5rem, 4vw, 2rem)', marginBottom: '8px' }}>The AI Module</h1>
         <p style={{ color: 'var(--ink-muted)', fontSize: '15px' }}>

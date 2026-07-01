@@ -326,8 +326,8 @@ export default async function DashboardPage() {
         </div>
       </div>
 
-      {/* Lessons hub discovery */}
-      <Link href="/dashboard/lessons" style={{ textDecoration: 'none', display: 'block', marginBottom: '12px' }}>
+      {/* AI module discovery */}
+      <Link href="/dashboard/ai-module" style={{ textDecoration: 'none', display: 'block', marginBottom: '12px' }}>
         <div style={{
           background: 'var(--stage-3)', border: '1.5px solid var(--stage-3)',
           borderRadius: '16px', padding: '22px',
@@ -335,13 +335,13 @@ export default async function DashboardPage() {
         }}>
           <div>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '6px' }}>
-              New · Lessons
+              New · AI literacy
             </div>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)', marginBottom: '3px' }}>
-              Screen habits, safety, wellbeing and AI
+              Understand AI together
             </div>
             <div style={{ fontSize: '13px', color: 'var(--ink)' }}>
-              Mapped to every stage and the school curriculum, including the full AI safety and literacy pack.
+              Deepfakes, chatbots, and using it well. Calm lessons for every age.
             </div>
           </div>
           <span style={{ fontSize: '18px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>

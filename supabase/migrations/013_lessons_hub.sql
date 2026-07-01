@@ -1,8 +1,10 @@
--- Guided Childhood: Lessons Hub
+-- Guided Childhood: Lessons Hub (not yet linked in the app)
 -- Run AFTER 012_ai_checkin.sql.
 -- General digital parenting curriculum content, organized by stage, separate
--- from ai_lessons (which stays AI-literacy specific). The Lessons hub UI
--- surfaces both tables together so parents see everything in one place.
+-- from ai_lessons (which stays AI-literacy specific). The /dashboard/lessons
+-- pages exist but are not linked from navigation yet. Real content will be
+-- teaching modules with slides, matching the format built for schools. This
+-- table and its seed rows are a placeholder until that format lands.
 --
 -- audience of 'parent' or 'teacher' lets the same topic exist in two voices,
 -- parent facing and school facing, without a rewrite of the schema. This
@@ -21,7 +23,6 @@ create table if not exists public.lessons (
   try_this       text not null,
   key_message    text not null,
   digi_prompt    text not null,
-  video_url      text, -- optional YouTube link, added directly in Supabase
   sort_order     int not null default 0,
   created_at     timestamptz not null default now()
 );
@@ -41,8 +42,8 @@ create index if not exists lessons_stage_idx on public.lessons (stage_id, audien
 
 -- ─────────────────────────────────────────────
 -- Seed: 2 parent-facing lessons per stage, plus one teacher-facing lesson
--- to prove out the school-facing variant. Justin adds more content and
--- video links directly in Supabase.
+-- to prove out the school-facing variant. This is placeholder content until
+-- the slide based lesson format (matching the schools build) replaces it.
 -- ─────────────────────────────────────────────
 insert into public.lessons (stage_id, audience, category, title, the_idea, why_it_matters, try_this, key_message, digi_prompt, sort_order) values
 
