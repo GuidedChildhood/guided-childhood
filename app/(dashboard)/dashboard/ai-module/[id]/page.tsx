@@ -127,7 +127,7 @@ export default async function AiLessonPage({ params }: { params: Promise<{ id: s
           >
             <div style={{
               width: '36px', height: '36px', borderRadius: '50%',
-              background: 'var(--terracotta)', color: '#fff',
+              background: 'var(--terracotta)', color: 'var(--ink)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               fontSize: '16px', fontWeight: 800, flexShrink: 0, fontFamily: 'var(--font-display)',
             }}>

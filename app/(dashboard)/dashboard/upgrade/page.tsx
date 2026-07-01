@@ -154,7 +154,7 @@ export default async function UpgradePage() {
             left: '50%',
             transform: 'translateX(-50%)',
             background: 'var(--terracotta)',
-            color: '#fff',
+            color: 'var(--ink)',
             fontFamily: 'var(--font-mono)',
             fontSize: '10px',
             fontWeight: 600,

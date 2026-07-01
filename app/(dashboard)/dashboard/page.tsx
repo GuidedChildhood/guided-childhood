@@ -102,7 +102,7 @@ export default async function DashboardPage() {
               <span style={{
                 fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 600,
                 letterSpacing: '0.08em', textTransform: 'uppercase',
-                background: 'var(--terracotta)', color: '#fff',
+                background: 'var(--terracotta)', color: 'var(--ink)',
                 padding: '3px 8px', borderRadius: '100px',
               }}>
                 Critical window

@@ -477,7 +477,7 @@ export default function HomePage() {
                   <div style={{ fontFamily: 'var(--font-mono)', fontSize: '8px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '2px' }}>Stage 3 · Ages 11 to 13</div>
                   <div style={{ fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 800, color: 'var(--ink)' }}>Your dashboard today</div>
                 </div>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, background: 'var(--terracotta)', color: '#fff', borderRadius: '100px', padding: '5px 11px', letterSpacing: '0.06em', flexShrink: 0 }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '100px', padding: '5px 11px', letterSpacing: '0.06em', flexShrink: 0 }}>
                   10 min
                 </div>
               </div>
@@ -799,7 +799,7 @@ export default function HomePage() {
                             fontSize: '8px',
                             fontWeight: 700,
                             fontFamily: 'var(--font-mono)',
-                            color: '#fff',
+                            color: 'var(--ink)',
                             letterSpacing: '0.06em',
                             zIndex: 1,
                           }}>
@@ -1572,7 +1572,7 @@ export default function HomePage() {
               <a href="mailto:hello@guidedchildhood.com?subject=School%20or%20Home%20Education%20Enquiry" style={{
                 display: 'inline-block',
                 background: 'var(--terracotta)',
-                color: '#fff',
+                color: 'var(--ink)',
                 fontFamily: 'var(--font-mono)',
                 fontSize: '.72rem',
                 fontWeight: 700,
@@ -1716,7 +1716,7 @@ export default function HomePage() {
                   </div>
                   <Link href="/starter-pack" style={{
                     background: 'var(--terracotta)',
-                    color: '#fff',
+                    color: 'var(--ink)',
                     width: '36px',
                     height: '36px',
                     borderRadius: '50%',

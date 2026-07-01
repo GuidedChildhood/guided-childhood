@@ -158,7 +158,7 @@ export default function SchoolsPage() {
             <h3 style={{ fontSize: '1.3rem', marginBottom: '8px' }}>Free assembly pack for any school</h3>
             <p style={{ fontSize: '.88rem', color: 'var(--ink-soft)', maxWidth: '480px', lineHeight: 1.7 }}>A complete 45-minute assembly on digital life today, with slides, speaker notes, and a pupil handout. Works from Year 5 upward. No Guided Childhood licence needed.</p>
           </div>
-          <a href={MAILCHIMP_ENQUIRY} target="_blank" rel="noopener noreferrer" style={{ background: 'var(--terracotta)', color: '#fff', fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '.88rem', padding: '14px 28px', borderRadius: '12px', textDecoration: 'none', boxShadow: '0 5px 0 var(--terracotta-dark)', whiteSpace: 'nowrap' }}>
+          <a href={MAILCHIMP_ENQUIRY} target="_blank" rel="noopener noreferrer" style={{ background: 'var(--terracotta)', color: 'var(--ink)', fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '.88rem', padding: '14px 28px', borderRadius: '12px', textDecoration: 'none', boxShadow: '0 5px 0 var(--terracotta-dark)', whiteSpace: 'nowrap' }}>
             Get the free assembly pack →
           </a>
         </div>
@@ -218,7 +218,7 @@ export default function SchoolsPage() {
                     </li>
                   ))}
                 </ul>
-                <a href={MAILCHIMP_ENQUIRY} target="_blank" rel="noopener noreferrer" style={{ width: '100%', padding: '14px', borderRadius: '12px', fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '.85rem', textDecoration: 'none', display: 'block', textAlign: 'center', ...(plan.featured ? { background: 'var(--terracotta)', color: '#fff' } : { background: 'transparent', color: 'var(--ink)', border: '2px solid var(--border)' }) }}>
+                <a href={MAILCHIMP_ENQUIRY} target="_blank" rel="noopener noreferrer" style={{ width: '100%', padding: '14px', borderRadius: '12px', fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '.85rem', textDecoration: 'none', display: 'block', textAlign: 'center', ...(plan.featured ? { background: 'var(--terracotta)', color: 'var(--ink)' } : { background: 'transparent', color: 'var(--ink)', border: '2px solid var(--border)' }) }}>
                   {plan.cta}
                 </a>
               </div>

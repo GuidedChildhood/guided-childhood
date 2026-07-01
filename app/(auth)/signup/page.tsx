@@ -85,7 +85,7 @@ export default function SignupPage() {
                 style={{
                   display: 'block', textAlign: 'center', width: '100%',
                   padding: '16px 28px',
-                  background: 'var(--terracotta)', color: '#fff',
+                  background: 'var(--terracotta)', color: 'var(--ink)',
                   borderRadius: 16, textDecoration: 'none',
                   fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 13,
                   letterSpacing: '0.08em', textTransform: 'uppercase',

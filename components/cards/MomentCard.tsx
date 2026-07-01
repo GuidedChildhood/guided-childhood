@@ -306,7 +306,7 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
                 flex: 1,
                 padding: '9px 12px',
                 background: 'var(--terracotta)',
-                color: '#fff',
+                color: 'var(--ink)',
                 borderRadius: '10px',
                 fontFamily: 'var(--font-body)',
                 fontSize: '12px',

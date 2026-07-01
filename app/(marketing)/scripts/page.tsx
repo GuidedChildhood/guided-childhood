@@ -110,7 +110,7 @@ export default function ScriptsPage() {
                           fontWeight: 700,
                           letterSpacing: '.1em',
                           textTransform: 'uppercase',
-                          color: '#fff',
+                          color: 'var(--ink)',
                           background: 'var(--terracotta)',
                           padding: '4px 10px',
                           borderRadius: '8px',

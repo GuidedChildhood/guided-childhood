@@ -173,7 +173,7 @@ export default function PathwayMap({
       >
         <div style={{
           position: 'absolute', top: '-24px', left: '50%', transform: 'translateX(-50%)',
-          background: 'var(--terracotta)', color: '#fff', borderRadius: '100px',
+          background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '100px',
           padding: '3px 10px', fontFamily: 'var(--font-mono)', fontSize: '10px',
           fontWeight: 700, letterSpacing: '0.06em', whiteSpace: 'nowrap',
           boxShadow: '0 3px 0 var(--terracotta-dark)',

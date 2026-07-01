@@ -316,7 +316,7 @@ export default function BanWorkaroundsPage() {
           <div className="two-col-issues" style={{ maxWidth: '860px', margin: '0 auto' }}>
             {PARENT_SIGNALS.map((s, i) => (
               <div key={i} style={{ display: 'flex', gap: '14px', alignItems: 'flex-start', background: 'rgba(255,255,255,.05)', border: '1px solid rgba(255,255,255,.1)', borderRadius: '10px', padding: '16px' }}>
-                <span style={{ width: '26px', height: '26px', borderRadius: '50%', background: 'var(--terracotta)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 800, fontSize: '.72rem', flexShrink: 0, marginTop: '1px' }}>
+                <span style={{ width: '26px', height: '26px', borderRadius: '50%', background: 'var(--terracotta)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--ink)', fontWeight: 800, fontSize: '.72rem', flexShrink: 0, marginTop: '1px' }}>
                   {i + 1}
                 </span>
                 <p style={{ color: 'rgba(255,255,255,.82)', fontSize: '.9rem', lineHeight: 1.6, margin: 0 }}>{s}</p>

@@ -64,7 +64,7 @@ export default function DigiJuniorPause({ message, onContinue }: DigiJuniorPause
           onClick={handleBreath}
           style={{
             background: 'var(--terracotta)',
-            color: '#fff',
+            color: 'var(--ink)',
             border: 'none',
             borderRadius: '100px',
             padding: '10px 20px',

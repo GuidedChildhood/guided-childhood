@@ -561,7 +561,7 @@ function ResultScreen({
             style={{
               display: 'inline-flex', alignItems: 'center',
               padding: '16px 36px', background: 'var(--terracotta)',
-              color: '#fff', borderRadius: '16px', textDecoration: 'none',
+              color: 'var(--ink)', borderRadius: '16px', textDecoration: 'none',
               fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: '13px',
               letterSpacing: '0.08em', textTransform: 'uppercase',
               boxShadow: '0 5px 0 var(--terracotta-dark)',
@@ -591,7 +591,7 @@ function ResultScreen({
             style={{
               display: 'inline-flex', alignItems: 'center',
               padding: '13px 28px', background: 'var(--terracotta)',
-              color: '#fff', borderRadius: '16px', textDecoration: 'none',
+              color: 'var(--ink)', borderRadius: '16px', textDecoration: 'none',
               fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '14px',
               boxShadow: '0 5px 0 var(--terracotta-dark)',
             }}

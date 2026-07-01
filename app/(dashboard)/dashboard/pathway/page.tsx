@@ -53,7 +53,7 @@ const STAGE_DISPLAY: Record<number, {
     displayName: 'Independent',
     subtitle: null,
     concepts: ['Trust-based', 'Full access', 'AI literacy', 'Vibe coding'],
-    color: 'var(--ink)',
+    color: 'var(--terracotta)',
     bg: 'var(--stage-5)',
     numColor: 'var(--ink-muted)',
   },
@@ -152,7 +152,7 @@ export default async function PathwayPage() {
                 {isMyStage && (
                   <div style={{
                     position: 'absolute', top: '12px', right: '12px',
-                    background: display.color, color: '#fff',
+                    background: display.color, color: 'var(--ink)',
                     fontFamily: 'var(--font-mono)', fontSize: '9px',
                     fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase',
                     padding: '3px 8px', borderRadius: '100px',
@@ -257,7 +257,7 @@ export default async function PathwayPage() {
                     href={`/dashboard/scripts?stage=${stageId}`}
                     style={{
                       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                      background: display.color, color: '#fff',
+                      background: display.color, color: 'var(--ink)',
                       borderRadius: '16px', padding: '13px 16px',
                       fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600,
                       letterSpacing: '0.06em', textTransform: 'uppercase',

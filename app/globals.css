@@ -12,11 +12,11 @@
   --ink-light:         #AEAEC0;
   --border:            #EAEAF0;
 
-  /* ── ACCENT (slate teal) ── */
-  --terracotta:        #5B8FA8;
-  --terracotta-dark:   #3D7A8A;
-  --terracotta-lt:     #EAF1F5;
-  --deep-teal:         #173C46;   /* dark sections (footer, CTA) — brand teal, never black */
+  /* ── ACCENT (butter gold) ── */
+  --terracotta:        #E9B949;
+  --terracotta-dark:   #C29018;
+  --terracotta-lt:     #FEF7E0;
+  --deep-teal:         #2E2818;   /* dark sections (footer, CTA) — deep warm espresso, never black, never teal */
 
   /* ── STAGE PASTELS (card backgrounds, section tints) ── */
   --stage-1:           #FFFBEE;   /* barely-there warm yellow — Ages 4–7  */
@@ -124,7 +124,7 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
   justify-content: center;
   gap: 6px;
   background: var(--terracotta);
-  color: #fff;
+  color: var(--ink);
   font-family: var(--font-body);
   font-weight: 700;
   font-size: 15px;
@@ -141,10 +141,10 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
 .btn:hover  { transform: translateY(-1px); box-shadow: 0 5px 0 var(--terracotta-dark); }
 .btn:active { transform: translateY(2px);  box-shadow: 0 2px 0 var(--terracotta-dark); }
 
-/* variant aliases — all teal */
+/* variant aliases — all butter gold */
 .btn-gold, .btn-green, .btn-coral {
   background: var(--terracotta);
-  color: #fff;
+  color: var(--ink);
   box-shadow: 0 5px 0 var(--terracotta-dark);
 }
 .btn-gold:hover, .btn-green:hover, .btn-coral:hover {
@@ -156,14 +156,14 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
   box-shadow: 0 2px 0 var(--terracotta-dark);
 }
 
-/* dark teal button — kept for schools CTA */
+/* dark espresso button — kept for schools CTA */
 .btn-ink {
   background: var(--deep-teal);
   color: #fff;
-  box-shadow: 0 5px 0 #0a2830;
+  box-shadow: 0 5px 0 #171307;
 }
-.btn-ink:hover  { transform: translateY(-1px); box-shadow: 0 5px 0 #0a2830; }
-.btn-ink:active { transform: translateY(2px);  box-shadow: 0 2px 0 #0a2830; }
+.btn-ink:hover  { transform: translateY(-1px); box-shadow: 0 5px 0 #171307; }
+.btn-ink:active { transform: translateY(2px);  box-shadow: 0 2px 0 #171307; }
 
 .btn-outline {
   display: inline-flex;
@@ -290,7 +290,7 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
   height: 48px;
   border-radius: 50%;
   background: var(--terracotta);
-  color: #fff;
+  color: var(--ink);
   font-family: var(--font-display);
   font-weight: 600;
   font-size: 1.1rem;
@@ -306,7 +306,7 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
   height: 30px;
   border-radius: 50%;
   background: var(--terracotta);
-  color: #fff;
+  color: var(--ink);
   font-family: var(--font-display);
   font-weight: 600;
   font-size: .75rem;
@@ -468,7 +468,7 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
 
 /* ── ANNOUNCEMENT BAR ── */
 .announcement-bar {
-  background: #5B8FA8;
+  background: var(--deep-teal);
   padding: 10px 20px;
   display: flex;
   align-items: center;
