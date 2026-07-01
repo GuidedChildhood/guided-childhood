@@ -144,6 +144,7 @@ export default function OnboardingPage() {
   const [childName, setChildName] = useState('')
   const [ageBand, setAgeBand] = useState<AgeBand>('8-10')
   const [challenges, setChallenges] = useState<string[]>([])
+  const [timeCommitment, setTimeCommitment] = useState<StarterAnswers['timeCommitment']>(undefined)
   const [digiData, setDigiData] = useState<DigiData | null>(null)
   const [founderSpots, setFounderSpots] = useState<FounderSpots | null>(null)
   const [saving, setSaving] = useState(false)
@@ -168,6 +169,7 @@ export default function OnboardingPage() {
             const mapped = OLD_TO_NEW_CHALLENGE[answers.challenge]
             if (mapped) setChallenges([mapped])
           }
+          if (answers.timeCommitment) setTimeCommitment(answers.timeCommitment)
         }
       } catch {}
 
@@ -197,7 +199,7 @@ export default function OnboardingPage() {
 
     const [, existingChildren] = await Promise.all([
       supabase.from('profiles').update({
-        onboarding_answers: { ageBand, challenge: challenges[0] ?? null, feeling: null },
+        onboarding_answers: { ageBand, challenge: challenges[0] ?? null, feeling: null, timeCommitment: timeCommitment ?? null },
         onboarding_complete: true,
       }).eq('id', user.id),
       supabase.from('children').select('id').eq('parent_id', user.id).limit(1),

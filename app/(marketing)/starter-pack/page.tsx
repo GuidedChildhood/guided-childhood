@@ -5,14 +5,16 @@ import {
   AGE_BAND_OPTIONS,
   CHALLENGE_OPTIONS,
   FEELING_OPTIONS,
+  TIME_COMMITMENT_OPTIONS,
   getStageFromAgeBand,
   type AgeBand,
   type ChallengeId,
   type FeelingId,
+  type TimeCommitmentId,
   type StarterAnswers,
 } from '@/lib/content/stages'
 
-type Step = 'q1' | 'q2' | 'q3' | 'result'
+type Step = 'q1' | 'q2' | 'q3' | 'q4' | 'result'
 
 const CHALLENGE_ICONS: Record<string, React.ReactNode> = {
   screens_takeover: (
@@ -72,6 +74,7 @@ export default function StarterPackPage() {
   const [ageBand, setAgeBand] = useState<AgeBand | null>(null)
   const [challenge, setChallenge] = useState<ChallengeId | null>(null)
   const [feeling, setFeeling] = useState<FeelingId | null>(null)
+  const [timeCommitment, setTimeCommitment] = useState<TimeCommitmentId | null>(null)
   const [restored, setRestored] = useState(false)
 
   const stage = ageBand ? getStageFromAgeBand(ageBand) : null
@@ -82,10 +85,11 @@ export default function StarterPackPage() {
     try {
       const saved = localStorage.getItem('gc_starter_progress')
       if (saved) {
-        const parsed = JSON.parse(saved) as { step: Step; ageBand: AgeBand | null; challenge: ChallengeId | null; feeling: FeelingId | null }
+        const parsed = JSON.parse(saved) as { step: Step; ageBand: AgeBand | null; challenge: ChallengeId | null; feeling: FeelingId | null; timeCommitment: TimeCommitmentId | null }
         if (parsed.ageBand) setAgeBand(parsed.ageBand)
         if (parsed.challenge) setChallenge(parsed.challenge)
         if (parsed.feeling) setFeeling(parsed.feeling)
+        if (parsed.timeCommitment) setTimeCommitment(parsed.timeCommitment)
         if (parsed.step && parsed.step !== 'result') setStep(parsed.step)
       }
     } catch {}
@@ -97,19 +101,19 @@ export default function StarterPackPage() {
   useEffect(() => {
     if (!restored) return
     try {
-      localStorage.setItem('gc_starter_progress', JSON.stringify({ step, ageBand, challenge, feeling }))
+      localStorage.setItem('gc_starter_progress', JSON.stringify({ step, ageBand, challenge, feeling, timeCommitment }))
     } catch {}
-  }, [restored, step, ageBand, challenge, feeling])
+  }, [restored, step, ageBand, challenge, feeling, timeCommitment])
 
   useEffect(() => {
-    if (step === 'result' && ageBand && challenge && feeling) {
-      const answers: StarterAnswers = { ageBand, challenge, feeling }
+    if (step === 'result' && ageBand && challenge && feeling && timeCommitment) {
+      const answers: StarterAnswers = { ageBand, challenge, feeling, timeCommitment }
       try {
         localStorage.setItem('gc_starter_answers', JSON.stringify(answers))
         localStorage.removeItem('gc_starter_progress')
       } catch {}
     }
-  }, [step, ageBand, challenge, feeling])
+  }, [step, ageBand, challenge, feeling, timeCommitment])
 
   function selectAge(band: AgeBand) {
     setAgeBand(band)
@@ -121,10 +125,14 @@ export default function StarterPackPage() {
   }
   function selectFeeling(f: FeelingId) {
     setFeeling(f)
+    setTimeout(() => setStep('q4'), 280)
+  }
+  function selectTimeCommitment(t: TimeCommitmentId) {
+    setTimeCommitment(t)
     setTimeout(() => setStep('result'), 280)
   }
 
-  const progress = step === 'q1' ? 1 : step === 'q2' ? 2 : 3
+  const progress = step === 'q1' ? 1 : step === 'q2' ? 2 : step === 'q3' ? 3 : 4
 
   if (step === 'result' && stage && ageBand && challenge) {
     return (
@@ -143,7 +151,7 @@ export default function StarterPackPage() {
       <div style={{ height: '4px', background: 'var(--border)', flexShrink: 0 }}>
         <div style={{
           height: '100%', background: 'var(--terracotta)',
-          width: `${(progress / 3) * 100}%`, transition: 'width 0.35s ease',
+          width: `${(progress / 4) * 100}%`, transition: 'width 0.35s ease',
         }} />
       </div>
 
@@ -156,7 +164,7 @@ export default function StarterPackPage() {
           letterSpacing: '0.18em', textTransform: 'uppercase',
           color: 'var(--ink-muted)', marginBottom: '36px',
         }}>
-          Step {progress} of 3
+          Step {progress} of 4
         </div>
 
         {/* Q1 — Age */}
@@ -291,6 +299,51 @@ export default function StarterPackPage() {
               ))}
             </div>
             <button onClick={() => setStep('q2')} style={{ marginTop: '24px', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-muted)', letterSpacing: '0.06em', padding: '8px 0', textAlign: 'left' }}>
+              ← Back
+            </button>
+          </>
+        )}
+
+        {/* Q4 — Time commitment */}
+        {step === 'q4' && (
+          <>
+            <h1 style={{
+              fontFamily: 'var(--font-display)', fontSize: 'clamp(1.7rem, 4.5vw, 2.4rem)',
+              fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1.15,
+              color: 'var(--ink)', marginBottom: '10px',
+            }}>
+              How much time can you give this each day?
+            </h1>
+            <p style={{ color: 'var(--ink)', fontSize: '15px', marginBottom: '32px', lineHeight: 1.55 }}>
+              We will match your daily practice to this. You can change it any time.
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              {TIME_COMMITMENT_OPTIONS.map(opt => (
+                <button
+                  key={opt.value}
+                  onClick={() => selectTimeCommitment(opt.value)}
+                  style={{
+                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                    padding: '16px 20px',
+                    background: timeCommitment === opt.value ? 'var(--terracotta)' : 'var(--cream)',
+                    border: `1.5px solid ${timeCommitment === opt.value ? 'var(--terracotta)' : 'var(--border)'}`,
+                    borderRadius: '14px', cursor: 'pointer', textAlign: 'left', transition: 'all 0.15s',
+                    boxShadow: timeCommitment === opt.value ? '0 5px 0 var(--terracotta-dark)' : 'none',
+                  }}
+                >
+                  <div>
+                    <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '16px', color: timeCommitment === opt.value ? '#fff' : 'var(--ink)' }}>
+                      {opt.label}
+                    </div>
+                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: timeCommitment === opt.value ? 'rgba(255,255,255,0.75)' : 'var(--ink-muted)', marginTop: '3px', letterSpacing: '0.08em' }}>
+                      {opt.sub}
+                    </div>
+                  </div>
+                  <div style={{ color: timeCommitment === opt.value ? '#fff' : 'var(--ink-light)', fontSize: '16px' }}>→</div>
+                </button>
+              ))}
+            </div>
+            <button onClick={() => setStep('q3')} style={{ marginTop: '24px', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-muted)', letterSpacing: '0.06em', padding: '8px 0', textAlign: 'left' }}>
               ← Back
             </button>
           </>
