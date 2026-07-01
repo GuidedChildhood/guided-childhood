@@ -1221,12 +1221,12 @@ export default function HomePage() {
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }} className="cat-grid">
             {([
-              { label: 'First Device',  desc: 'Setting foundations before and after the first screen arrives.', bg: 'var(--stage-1-bold)', text: 'var(--stage-1-text)', quote: 'We have a family rule about screens. When the timer goes off, screens go down. Every time, no exceptions.', count: '18 scripts', ks: 'Stage 1 and 2' },
-              { label: 'Social Media',  desc: 'Navigating platforms, algorithms, and identity with your child.', bg: 'var(--stage-3-bold)', text: 'var(--stage-3-text)', quote: 'Did you know your phone is learning what you like? Let me show you something. Open your feed and we will look at it together.', count: '22 scripts', ks: 'Stage 3 and 4' },
-              { label: 'Gaming',        desc: 'Healthy gaming conversations without the daily battle.', bg: 'var(--stage-2-bold)', text: 'var(--stage-2-text)', quote: 'Show me how this works. I want to understand what you like about it before we talk about limits.', count: '15 scripts', ks: 'All stages' },
-              { label: 'Safety',        desc: 'What to say when something goes wrong online.', bg: 'var(--stage-4-bold)', text: 'var(--stage-4-text)', quote: 'If anyone online ever makes you uncomfortable, or asks you to keep something secret, you tell me immediately. I will help first and ask questions later.', count: '20 scripts', ks: 'Stage 3 to 5' },
-              { label: 'Wellbeing',     desc: 'Mood, sleep, body image, and the digital connection.', bg: 'var(--stage-5-bold)', text: 'var(--stage-5-text)', quote: 'I have noticed your mood sometimes changes after being on your phone. Have you noticed that too?', count: '16 scripts', ks: 'Stage 2 to 4' },
-              { label: 'AI and Tech',   desc: 'Deepfakes, AI tools, and what digital literacy looks like.', bg: 'var(--stage-1-bold)', text: 'var(--stage-1-text)', quote: 'This looks real, but I want to show you how to check whether it might be AI generated.', count: '12 scripts', ks: 'Stage 4 and 5' },
+              { label: 'First Device',  desc: 'Setting foundations before and after the first screen arrives.', bg: 'var(--stage-1-bold)', text: 'var(--stage-1-text)', img: 'hf_20260701_114000_83af1d7a-f4d0-42b1-bbbb-50189bb257ec.png', count: '18 scripts', ks: 'Stage 1 and 2' },
+              { label: 'Social Media',  desc: 'Navigating platforms, algorithms, and identity with your child.', bg: 'var(--stage-3-bold)', text: 'var(--stage-3-text)', img: 'hf_20260701_114002_8859c51a-5549-455b-abb9-7ef0ea4b235b.png', count: '22 scripts', ks: 'Stage 3 and 4' },
+              { label: 'Gaming',        desc: 'Healthy gaming conversations without the daily battle.', bg: 'var(--stage-2-bold)', text: 'var(--stage-2-text)', img: 'hf_20260701_111842_c658f4e6-31f2-4b4e-98df-4517281cb6d7.png', count: '15 scripts', ks: 'All stages' },
+              { label: 'Safety',        desc: 'What to say when something goes wrong online.', bg: 'var(--stage-4-bold)', text: 'var(--stage-4-text)', img: 'hf_20260701_114003_bc2f938b-e551-415c-9aff-09e57ac8cb6c.png', count: '20 scripts', ks: 'Stage 3 to 5' },
+              { label: 'Wellbeing',     desc: 'Mood, sleep, body image, and the digital connection.', bg: 'var(--stage-5-bold)', text: 'var(--stage-5-text)', img: 'hf_20260701_115127_7be715f0-bf0b-4ac1-b3ff-38c243b04b36.png', count: '16 scripts', ks: 'Stage 2 to 4' },
+              { label: 'AI and Tech',   desc: 'Deepfakes, AI tools, and what digital literacy looks like.', bg: 'var(--stage-1-bold)', text: 'var(--stage-1-text)', img: 'hf_20260701_114006_5fcc7cc3-35eb-4ce5-ac24-bea685ae33e6.png', count: '12 scripts', ks: 'Stage 4 and 5' },
             ]).map((cat) => (
               <Link key={cat.label} href="/starter-pack" style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column' }}>
                 <div style={{
@@ -1241,32 +1241,40 @@ export default function HomePage() {
                   transition: 'transform 0.2s, box-shadow 0.2s',
                 }}>
 
-                  {/* Quote area */}
+                  {/* Photo area */}
                   <div style={{
                     background: cat.bg,
-                    padding: '22px 20px',
+                    height: '180px',
                     position: 'relative',
                     flexShrink: 0,
+                    overflow: 'hidden',
                   }}>
-                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: cat.text, marginBottom: '10px' }}>
-                      Say this
+                    <Image
+                      src={`https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/${cat.img}`}
+                      alt={cat.label}
+                      fill
+                      style={{ objectFit: 'cover', objectPosition: 'center top' }}
+                      sizes="(max-width: 540px) 100vw, (max-width: 860px) 50vw, 33vw"
+                    />
+                    <div style={{
+                      position: 'absolute',
+                      top: '12px', right: '12px',
+                      background: 'rgba(255,255,255,0.9)',
+                      borderRadius: '100px', padding: '4px 10px',
+                      fontSize: '10px', fontFamily: 'var(--font-mono)', fontWeight: 700,
+                      color: cat.text, letterSpacing: '0.04em',
+                    }}>
+                      {cat.count}
                     </div>
-                    <p style={{ fontFamily: 'var(--font-display)', fontSize: '14px', fontStyle: 'italic', fontWeight: 600, color: cat.text, lineHeight: 1.5, margin: 0 }}>
-                      &ldquo;{cat.quote}&rdquo;
-                    </p>
-                    <div style={{ display: 'flex', gap: '6px', marginTop: '14px', flexWrap: 'wrap' }}>
-                      <span style={{
-                        background: 'rgba(255,255,255,0.7)', borderRadius: '100px', padding: '3px 10px',
-                        fontSize: '9px', fontFamily: 'var(--font-mono)', fontWeight: 700, color: cat.text, letterSpacing: '0.04em',
-                      }}>
-                        {cat.count}
-                      </span>
-                      <span style={{
-                        background: 'rgba(255,255,255,0.7)', borderRadius: '100px', padding: '3px 10px',
-                        fontSize: '9px', fontFamily: 'var(--font-mono)', fontWeight: 600, color: cat.text, letterSpacing: '0.06em', textTransform: 'uppercase',
-                      }}>
-                        {cat.ks}
-                      </span>
+                    <div style={{
+                      position: 'absolute',
+                      bottom: '12px', left: '12px',
+                      background: cat.bg,
+                      borderRadius: '100px', padding: '3px 10px',
+                      fontSize: '9px', fontFamily: 'var(--font-mono)', fontWeight: 600,
+                      color: cat.text, letterSpacing: '0.06em', textTransform: 'uppercase',
+                    }}>
+                      {cat.ks}
                     </div>
                   </div>
 
@@ -1291,6 +1299,53 @@ export default function HomePage() {
             <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '14px', padding: '15px 32px' }}>
               Get your free starter pack
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ================================================================
+          BALANCE — devices used well encourage the outdoor life too
+          ================================================================ */}
+      <section style={{ background: '#fff', padding: 'clamp(80px, 10vw, 112px) 32px' }}>
+        <div style={{ maxWidth: '1040px', margin: '0 auto' }}>
+          <div className="two-col" style={{ alignItems: 'center' }}>
+            <div style={{
+              position: 'relative', height: 'clamp(260px, 32vw, 380px)',
+              borderRadius: '24px', overflow: 'hidden',
+              boxShadow: '0 12px 44px rgba(26,26,46,0.12)',
+            }}>
+              <Image
+                src="https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260701_112019_dc9be7a5-36d2-4c6c-92fc-fbb75515e423.png"
+                alt="Children running and playing together outdoors"
+                fill
+                style={{ objectFit: 'cover' }}
+                sizes="(max-width: 800px) 100vw, 50vw"
+              />
+            </div>
+            <div>
+              <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>Not screens or outdoors</p>
+              <h2 style={{ marginBottom: '18px' }}>
+                Both, done <span style={{ color: 'var(--terracotta)' }}>well</span>
+              </h2>
+              <p style={{ fontSize: '1rem', color: 'var(--ink)', lineHeight: 1.8, marginBottom: '16px' }}>
+                A device set up well makes more room for real life, not less. Every stage on the pathway includes the boundary that protects outdoor play, unstructured time, and face to face connection, alongside the digital safety and AI literacy your child actually needs.
+              </p>
+              <p style={{ fontSize: '1rem', color: 'var(--ink)', lineHeight: 1.8, marginBottom: '24px' }}>
+                The goal is a child who is genuinely ready for the digital world ahead of them, including AI, and who still runs outside, still plays, and still talks to you. One does not come at the cost of the other when the structure is right.
+              </p>
+              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                {[
+                  'Screen time structures built to protect time outside, not compete with it',
+                  'Conversations that build real connection, not just device rules',
+                  'AI literacy and digital safety taught alongside healthy offline habits',
+                ].map((item, i) => (
+                  <li key={i} style={{ display: 'flex', gap: '10px', fontSize: '.95rem', color: 'var(--ink)', lineHeight: 1.5 }}>
+                    <span style={{ color: 'var(--terracotta)', fontWeight: 700, flexShrink: 0 }}>✓</span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </section>

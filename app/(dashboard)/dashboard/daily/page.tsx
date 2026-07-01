@@ -48,10 +48,10 @@ export default async function DailyPage() {
   }
 
   // Pick a daily moment card — prefer topics flagged yesterday, otherwise use date rotation
-  const stageMap: Record<string, string> = {
-    '4-7': 'foundation', '8-10': 'builder', '11-13': 'explorer', '13-15': 'shaper', '16-18': 'independent',
-  }
-  const stageId = stageMap[stage.ageBand] ?? 'builder'
+  // stage.name matches the scripts table's stage_id slugs exactly once lowercased
+  // (foundation/builder/explorer/shaper/independent), so no separate map to maintain
+  // or get out of sync with the real AgeBand values in lib/content/stages.ts.
+  const stageId = stage.name.toLowerCase()
 
   // Pull a pool of 12 moment scripts for this stage to rotate through
   const { data: momentPool } = await supabase
