@@ -412,7 +412,7 @@ export default function HomePage() {
             </div>
             <div className="fu" style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center', marginBottom: '28px' }}>
               <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '15px', padding: '16px 36px' }}>
-                Get free starter pack
+                Start my pathway free
               </Link>
               <Link href="#stages" style={{ fontSize: '.88rem', fontWeight: 600, color: 'var(--ink-soft)', textDecoration: 'none' }}>
                 Find your stage →
@@ -1064,7 +1064,7 @@ export default function HomePage() {
 
           <div style={{ textAlign: 'center', marginTop: '44px' }}>
             <Link href="/starter-pack" className="btn btn-gold fu" style={{ fontSize: '14px', padding: '16px 36px' }}>
-              Get your free starter pack
+              Start my pathway free
             </Link>
           </div>
         </div>
@@ -1297,7 +1297,7 @@ export default function HomePage() {
 
           <div style={{ textAlign: 'center', marginTop: '36px' }}>
             <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '14px', padding: '15px 32px' }}>
-              Get your free starter pack
+              Start my pathway free
             </Link>
           </div>
         </div>
@@ -2271,7 +2271,7 @@ export default function HomePage() {
           </p>
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '20px' }}>
             <Link href="/starter-pack" className="btn btn-gold fu" style={{ fontSize: '15px', padding: '17px 40px' }}>
-              Get the free starter pack
+              Start my pathway free
             </Link>
             <Link href="https://wellbeing.guidedchildhood.com/" target="_blank" rel="noopener noreferrer" style={{
               display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
