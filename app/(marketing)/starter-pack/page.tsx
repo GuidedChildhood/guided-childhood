@@ -109,9 +109,9 @@ export default function StarterPackPage() {
   }
 
   return (
-    <div style={{ minHeight: '100dvh', background: 'var(--deep-teal)', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ minHeight: '100dvh', background: '#fff', display: 'flex', flexDirection: 'column' }}>
       {/* Thin progress bar at very top */}
-      <div style={{ height: '3px', background: 'rgba(255,255,255,0.08)', flexShrink: 0 }}>
+      <div style={{ height: '4px', background: 'var(--border)', flexShrink: 0 }}>
         <div style={{
           height: '100%', background: 'var(--terracotta)',
           width: `${(progress / 3) * 100}%`, transition: 'width 0.35s ease',
@@ -125,7 +125,7 @@ export default function StarterPackPage() {
         <div style={{
           fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700,
           letterSpacing: '0.18em', textTransform: 'uppercase',
-          color: 'rgba(255,255,255,0.28)', marginBottom: '36px',
+          color: 'var(--ink-muted)', marginBottom: '36px',
         }}>
           Step {progress} of 3
         </div>
@@ -135,12 +135,12 @@ export default function StarterPackPage() {
           <>
             <h1 style={{
               fontFamily: 'var(--font-display)', fontSize: 'clamp(1.7rem, 4.5vw, 2.4rem)',
-              fontWeight: 800, letterSpacing: '-0.025em', lineHeight: 1.15,
-              color: '#fff', marginBottom: '10px',
+              fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1.15,
+              color: 'var(--ink)', marginBottom: '10px',
             }}>
               How old is your child?
             </h1>
-            <p style={{ color: 'rgba(255,255,255,0.48)', fontSize: '15px', marginBottom: '32px', lineHeight: 1.55 }}>
+            <p style={{ color: 'var(--ink)', fontSize: '15px', marginBottom: '32px', lineHeight: 1.55 }}>
               This maps to your stage and personalises everything that follows.
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -151,21 +151,21 @@ export default function StarterPackPage() {
                   style={{
                     display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                     padding: '16px 20px',
-                    background: ageBand === opt.value ? 'var(--terracotta)' : 'rgba(255,255,255,0.05)',
-                    border: `1.5px solid ${ageBand === opt.value ? 'var(--terracotta)' : 'rgba(255,255,255,0.1)'}`,
+                    background: ageBand === opt.value ? 'var(--terracotta)' : 'var(--cream)',
+                    border: `1.5px solid ${ageBand === opt.value ? 'var(--terracotta)' : 'var(--border)'}`,
                     borderRadius: '14px', cursor: 'pointer', textAlign: 'left', transition: 'all 0.15s',
                     boxShadow: ageBand === opt.value ? '0 5px 0 var(--terracotta-dark)' : 'none',
                   }}
                 >
                   <div>
-                    <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '16px', color: ageBand === opt.value ? '#fff' : 'rgba(255,255,255,0.88)' }}>
+                    <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '16px', color: ageBand === opt.value ? '#fff' : 'var(--ink)' }}>
                       {opt.label}
                     </div>
-                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: ageBand === opt.value ? 'rgba(255,255,255,0.65)' : 'rgba(255,255,255,0.35)', marginTop: '3px', letterSpacing: '0.08em' }}>
+                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: ageBand === opt.value ? 'rgba(255,255,255,0.75)' : 'var(--ink-muted)', marginTop: '3px', letterSpacing: '0.08em' }}>
                       {opt.sub}
                     </div>
                   </div>
-                  <div style={{ color: ageBand === opt.value ? '#fff' : 'rgba(255,255,255,0.22)', fontSize: '16px' }}>→</div>
+                  <div style={{ color: ageBand === opt.value ? '#fff' : 'var(--ink-light)', fontSize: '16px' }}>→</div>
                 </button>
               ))}
             </div>
@@ -177,12 +177,12 @@ export default function StarterPackPage() {
           <>
             <h1 style={{
               fontFamily: 'var(--font-display)', fontSize: 'clamp(1.7rem, 4.5vw, 2.4rem)',
-              fontWeight: 800, letterSpacing: '-0.025em', lineHeight: 1.15,
-              color: '#fff', marginBottom: '10px',
+              fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1.15,
+              color: 'var(--ink)', marginBottom: '10px',
             }}>
               What is your main concern right now?
             </h1>
-            <p style={{ color: 'rgba(255,255,255,0.48)', fontSize: '15px', marginBottom: '32px', lineHeight: 1.55 }}>
+            <p style={{ color: 'var(--ink)', fontSize: '15px', marginBottom: '32px', lineHeight: 1.55 }}>
               Pick the one that feels most urgent.
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
@@ -195,8 +195,8 @@ export default function StarterPackPage() {
                     style={{
                       display: 'flex', flexDirection: 'column', alignItems: 'flex-start',
                       padding: '16px 14px',
-                      background: sel ? 'var(--terracotta)' : 'rgba(255,255,255,0.05)',
-                      border: `1.5px solid ${sel ? 'var(--terracotta)' : 'rgba(255,255,255,0.1)'}`,
+                      background: sel ? 'var(--terracotta)' : 'var(--cream)',
+                      border: `1.5px solid ${sel ? 'var(--terracotta)' : 'var(--border)'}`,
                       borderRadius: '14px', cursor: 'pointer', textAlign: 'left', transition: 'all 0.15s',
                       boxShadow: sel ? '0 5px 0 var(--terracotta-dark)' : 'none',
                     }}
@@ -204,19 +204,19 @@ export default function StarterPackPage() {
                     <span style={{
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                       width: 36, height: 36, borderRadius: '10px',
-                      background: sel ? 'rgba(255,255,255,0.18)' : 'rgba(255,255,255,0.08)',
-                      color: sel ? '#fff' : 'rgba(255,255,255,0.55)', marginBottom: '10px',
+                      background: sel ? 'rgba(255,255,255,0.2)' : 'var(--stage-2)',
+                      color: sel ? '#fff' : 'var(--terracotta)', marginBottom: '10px',
                     }}>
                       {CHALLENGE_ICONS[opt.value] ?? opt.icon}
                     </span>
-                    <span style={{ fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: '13px', color: sel ? '#fff' : 'rgba(255,255,255,0.82)', lineHeight: 1.3 }}>
+                    <span style={{ fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: '13px', color: sel ? '#fff' : 'var(--ink)', lineHeight: 1.3 }}>
                       {opt.label}
                     </span>
                   </button>
                 )
               })}
             </div>
-            <button onClick={() => setStep('q1')} style={{ marginTop: '24px', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'rgba(255,255,255,0.28)', letterSpacing: '0.06em', padding: '8px 0', textAlign: 'left' }}>
+            <button onClick={() => setStep('q1')} style={{ marginTop: '24px', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-muted)', letterSpacing: '0.06em', padding: '8px 0', textAlign: 'left' }}>
               ← Back
             </button>
           </>
@@ -227,12 +227,12 @@ export default function StarterPackPage() {
           <>
             <h1 style={{
               fontFamily: 'var(--font-display)', fontSize: 'clamp(1.7rem, 4.5vw, 2.4rem)',
-              fontWeight: 800, letterSpacing: '-0.025em', lineHeight: 1.15,
-              color: '#fff', marginBottom: '10px',
+              fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1.15,
+              color: 'var(--ink)', marginBottom: '10px',
             }}>
               How are you feeling about it?
             </h1>
-            <p style={{ color: 'rgba(255,255,255,0.48)', fontSize: '15px', marginBottom: '32px', lineHeight: 1.55 }}>
+            <p style={{ color: 'var(--ink)', fontSize: '15px', marginBottom: '32px', lineHeight: 1.55 }}>
               There is no wrong answer. This shapes how we frame what comes next.
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -243,25 +243,25 @@ export default function StarterPackPage() {
                   style={{
                     display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                     padding: '16px 20px',
-                    background: feeling === opt.value ? 'var(--terracotta)' : 'rgba(255,255,255,0.05)',
-                    border: `1.5px solid ${feeling === opt.value ? 'var(--terracotta)' : 'rgba(255,255,255,0.1)'}`,
+                    background: feeling === opt.value ? 'var(--terracotta)' : 'var(--cream)',
+                    border: `1.5px solid ${feeling === opt.value ? 'var(--terracotta)' : 'var(--border)'}`,
                     borderRadius: '14px', cursor: 'pointer', textAlign: 'left', transition: 'all 0.15s',
                     boxShadow: feeling === opt.value ? '0 5px 0 var(--terracotta-dark)' : 'none',
                   }}
                 >
                   <div>
-                    <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '16px', color: feeling === opt.value ? '#fff' : 'rgba(255,255,255,0.88)' }}>
+                    <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '16px', color: feeling === opt.value ? '#fff' : 'var(--ink)' }}>
                       {opt.label}
                     </div>
-                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: feeling === opt.value ? 'rgba(255,255,255,0.65)' : 'rgba(255,255,255,0.35)', marginTop: '3px', letterSpacing: '0.08em' }}>
+                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: feeling === opt.value ? 'rgba(255,255,255,0.75)' : 'var(--ink-muted)', marginTop: '3px', letterSpacing: '0.08em' }}>
                       {opt.sub}
                     </div>
                   </div>
-                  <div style={{ color: feeling === opt.value ? '#fff' : 'rgba(255,255,255,0.22)', fontSize: '16px' }}>→</div>
+                  <div style={{ color: feeling === opt.value ? '#fff' : 'var(--ink-light)', fontSize: '16px' }}>→</div>
                 </button>
               ))}
             </div>
-            <button onClick={() => setStep('q2')} style={{ marginTop: '24px', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'rgba(255,255,255,0.28)', letterSpacing: '0.06em', padding: '8px 0', textAlign: 'left' }}>
+            <button onClick={() => setStep('q2')} style={{ marginTop: '24px', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-muted)', letterSpacing: '0.06em', padding: '8px 0', textAlign: 'left' }}>
               ← Back
             </button>
           </>
