@@ -326,8 +326,8 @@ export default async function DashboardPage() {
         </div>
       </div>
 
-      {/* AI module discovery */}
-      <Link href="/dashboard/ai-module" style={{ textDecoration: 'none', display: 'block', marginBottom: '20px' }}>
+      {/* Lessons hub discovery */}
+      <Link href="/dashboard/lessons" style={{ textDecoration: 'none', display: 'block', marginBottom: '12px' }}>
         <div style={{
           background: 'var(--stage-3)', border: '1.5px solid var(--stage-3)',
           borderRadius: '16px', padding: '22px',
@@ -335,13 +335,32 @@ export default async function DashboardPage() {
         }}>
           <div>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '6px' }}>
-              New · AI literacy
+              New · Lessons
             </div>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)', marginBottom: '3px' }}>
-              Understand AI together
+              Screen habits, safety, wellbeing and AI
             </div>
-            <div style={{ fontSize: '13px', color: 'var(--ink-soft)' }}>
-              Deepfakes, chatbots, and using it well. Calm lessons for every age.
+            <div style={{ fontSize: '13px', color: 'var(--ink)' }}>
+              Mapped to every stage and the school curriculum, including the full AI safety and literacy pack.
+            </div>
+          </div>
+          <span style={{ fontSize: '18px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>
+        </div>
+      </Link>
+
+      {/* Digital Health Check discovery */}
+      <Link href="/digitalwellbeing" style={{ textDecoration: 'none', display: 'block', marginBottom: '20px' }}>
+        <div style={{
+          background: 'var(--stage-2)', border: '1.5px solid var(--stage-2)',
+          borderRadius: '16px', padding: '18px 22px',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px',
+        }}>
+          <div>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '6px' }}>
+              5 minutes, no signup
+            </div>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)' }}>
+              Take the free Digital Health Check
             </div>
           </div>
           <span style={{ fontSize: '18px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>
