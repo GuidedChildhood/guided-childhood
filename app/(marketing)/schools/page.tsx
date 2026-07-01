@@ -134,7 +134,7 @@ export default function SchoolsPage() {
               ))}
             </ul>
           </div>
-          <div style={{ background: 'var(--ink)', border: '1px solid var(--border)', borderRadius: '16px', padding: '32px' }}>
+          <div style={{ background: 'var(--deep-teal)', border: '1px solid var(--border)', borderRadius: '16px', padding: '32px' }}>
             <p className="eyebrow" style={{ color: 'var(--gold)', marginBottom: '12px' }}>School DiGi</p>
             <h3 style={{ fontSize: '1.3rem', color: '#fff', marginBottom: '14px' }}>Your school safeguarding AI advisor</h3>
             <p style={{ fontSize: '.88rem', color: 'rgba(255,255,255,.65)', lineHeight: 1.78, marginBottom: '16px' }}>School DiGi gives DSLs, PSHE leads, and teachers an instant reference for any digital safeguarding question. GDPR compliant. No student data. Available on any device.</p>

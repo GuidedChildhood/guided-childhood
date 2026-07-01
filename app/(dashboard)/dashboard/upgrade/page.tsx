@@ -60,7 +60,7 @@ export default async function UpgradePage() {
         {/* Founder rate */}
         {founderAvailable && (
           <div style={{
-            background: 'var(--ink)',
+            background: 'var(--deep-teal)',
             borderRadius: '20px',
             padding: '28px 24px',
             position: 'relative',

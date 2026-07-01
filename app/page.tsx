@@ -427,165 +427,101 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Right: Two Edukids-style photo shape cards */}
+          {/* Right: Daily digest app preview */}
           <div className="hero-chips" style={{ position: 'relative', height: '480px' }}>
 
-            {/* Decorative dotted connector */}
-            <svg style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 0 }} viewBox="0 0 460 480" fill="none" aria-hidden="true">
-              <path d="M120 310 Q230 360 340 190" stroke="rgba(0,0,0,0.1)" strokeWidth="2.5" strokeDasharray="7 5" fill="none"/>
-              <circle cx="120" cy="310" r="5" fill="#A8D87C" opacity="0.8"/>
-              <circle cx="340" cy="190" r="5" fill="#FECDD3" opacity="0.8"/>
-            </svg>
-
-            {/* Card 1: Mum and daughter co-viewing, Ages 4 to 10 */}
+            {/* Main app preview card */}
             <div style={{
               position: 'absolute',
-              top: '0',
-              left: '0',
-              width: '215px',
-              height: '315px',
-              background: '#A8D87C',
-              borderRadius: '28px',
+              top: 0,
+              left: '10px',
+              right: '10px',
+              background: '#fff',
+              borderRadius: '24px',
+              boxShadow: '0 16px 60px rgba(26,26,46,0.13)',
+              border: '1px solid rgba(0,0,0,0.05)',
               overflow: 'hidden',
-              boxShadow: '0 12px 52px rgba(0,0,0,0.16)',
               zIndex: 1,
             }}>
-              <Image
-                src="https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260701_081924_53c6eee8-adc9-4ddc-a990-17d0badb90c6.png"
-                alt="Mother and young daughter co-viewing on a tablet together"
-                fill
-                style={{ objectFit: 'cover', objectPosition: 'center top' }}
-                sizes="215px"
-              />
-              {/* Overlay gradient at bottom */}
-              <div style={{
-                position: 'absolute',
-                bottom: 0,
-                left: 0,
-                right: 0,
-                height: '100px',
-                background: 'linear-gradient(to top, rgba(168,216,124,0.92) 0%, transparent 100%)',
-              }} />
-              {/* Stage badge */}
-              <div style={{
-                position: 'absolute',
-                top: '14px',
-                left: '14px',
-                background: 'rgba(255,255,255,0.92)',
-                borderRadius: '100px',
-                padding: '5px 12px',
-                fontSize: '10px',
-                fontFamily: 'var(--font-mono)',
-                fontWeight: 700,
-                color: '#2D5016',
-                letterSpacing: '0.06em',
-              }}>
-                Stage 1 and 2
-              </div>
-              {/* Bottom label */}
-              <div style={{
-                position: 'absolute',
-                bottom: '18px',
-                left: '14px',
-                right: '14px',
-              }}>
-                <div style={{
-                  background: 'rgba(255,255,255,0.92)',
-                  borderRadius: '10px',
-                  padding: '7px 11px',
-                  fontSize: '10px',
-                  color: '#2D5016',
-                  fontWeight: 700,
-                  lineHeight: 1.4,
-                }}>
-                  Co-viewing · Ages 4 to 10
+              {/* Card header */}
+              <div style={{ background: 'var(--stage-3)', padding: '14px 18px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '8px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '2px' }}>Stage 3 · Ages 11 to 13</div>
+                  <div style={{ fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 800, color: 'var(--ink)' }}>Your dashboard today</div>
                 </div>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, background: 'var(--terracotta)', color: '#fff', borderRadius: '100px', padding: '5px 11px', letterSpacing: '0.06em', flexShrink: 0 }}>
+                  10 min
+                </div>
+              </div>
+
+              {/* Tonight's script */}
+              <div style={{ padding: '14px 18px', borderBottom: '1px solid var(--border)' }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '8px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '7px' }}>Tonight&apos;s script</div>
+                <div style={{ fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 700, color: 'var(--ink)', marginBottom: '6px' }}>Screen time shutdown</div>
+                <div style={{ background: 'var(--stage-2)', borderRadius: '10px', padding: '9px 12px', fontSize: '11px', color: 'var(--ink)', lineHeight: 1.5, fontStyle: 'italic' }}>
+                  &ldquo;Let&apos;s do a 5 minute warning from now on, so it never feels like a surprise.&rdquo;
+                </div>
+              </div>
+
+              {/* Device tip row */}
+              <div style={{ padding: '11px 18px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <div style={{ width: '30px', height: '30px', background: 'var(--stage-1)', borderRadius: '9px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: '13px' }}>📱</div>
+                <div>
+                  <div style={{ fontFamily: 'var(--font-display)', fontSize: '11px', fontWeight: 700, color: 'var(--ink)' }}>iOS Screen Time</div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '8px', color: 'var(--ink-muted)', marginTop: '1px' }}>2 steps · App limits for Instagram</div>
+                </div>
+                <div style={{ marginLeft: 'auto', fontFamily: 'var(--font-mono)', fontSize: '8px', fontWeight: 700, color: 'var(--terracotta)' }}>Settings →</div>
+              </div>
+
+              {/* AI literacy row */}
+              <div style={{ padding: '11px 18px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <div style={{ width: '30px', height: '30px', background: 'var(--stage-5)', borderRadius: '9px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: '13px' }}>🤖</div>
+                <div>
+                  <div style={{ fontFamily: 'var(--font-display)', fontSize: '11px', fontWeight: 700, color: 'var(--ink)' }}>AI literacy · Lesson 3</div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '8px', color: 'var(--ink-muted)', marginTop: '1px' }}>Mapped to RSE · 8 minutes</div>
+                </div>
+                <div style={{ marginLeft: 'auto', fontFamily: 'var(--font-mono)', fontSize: '8px', fontWeight: 700, color: 'var(--terracotta)' }}>Start →</div>
+              </div>
+
+              {/* Ask DiGi row */}
+              <div style={{ padding: '11px 18px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <Image src="/digi-squad/DiGi-star.svg" alt="DiGi" width={30} height={30} className="digi-float" style={{ flexShrink: 0, width: '30px', height: '30px' }} />
+                <div style={{ fontFamily: 'var(--font-display)', fontSize: '11px', fontWeight: 700, color: 'var(--ink)' }}>Ask DiGi about this situation</div>
+                <div style={{ marginLeft: 'auto', fontFamily: 'var(--font-mono)', fontSize: '8px', fontWeight: 700, color: 'var(--terracotta)' }}>Ask →</div>
               </div>
             </div>
 
-            {/* Card 2: Teen girl on phone, Ages 11 to 16 */}
-            <div style={{
+            {/* Floating: progress badge top right */}
+            <div className="digi-pop-in" style={{
               position: 'absolute',
-              top: '85px',
-              right: '0',
-              width: '215px',
-              height: '345px',
-              background: '#FECDD3',
-              borderRadius: '28px',
-              overflow: 'hidden',
-              boxShadow: '0 12px 52px rgba(0,0,0,0.16)',
-              zIndex: 2,
-            }}>
-              <Image
-                src="https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260701_081925_0f521394-d498-4194-ad84-d8843544c19c.png"
-                alt="Teenage girl scrolling on her smartphone"
-                fill
-                style={{ objectFit: 'cover', objectPosition: 'center top' }}
-                sizes="215px"
-              />
-              <div style={{
-                position: 'absolute',
-                bottom: 0,
-                left: 0,
-                right: 0,
-                height: '100px',
-                background: 'linear-gradient(to top, rgba(254,205,211,0.92) 0%, transparent 100%)',
-              }} />
-              <div style={{
-                position: 'absolute',
-                top: '14px',
-                left: '14px',
-                background: 'rgba(255,255,255,0.92)',
-                borderRadius: '100px',
-                padding: '5px 12px',
-                fontSize: '10px',
-                fontFamily: 'var(--font-mono)',
-                fontWeight: 700,
-                color: '#881337',
-                letterSpacing: '0.06em',
-              }}>
-                Stage 3 to 5
-              </div>
-              <div style={{
-                position: 'absolute',
-                bottom: '18px',
-                left: '14px',
-                right: '14px',
-              }}>
-                <div style={{
-                  background: 'rgba(255,255,255,0.92)',
-                  borderRadius: '10px',
-                  padding: '7px 11px',
-                  fontSize: '10px',
-                  color: '#881337',
-                  fontWeight: 700,
-                  lineHeight: 1.4,
-                }}>
-                  Social media · Ages 11 to 16
-                </div>
-              </div>
-            </div>
-
-            {/* Floating badge: Critical window */}
-            <div style={{
-              position: 'absolute',
-              bottom: '36px',
-              left: '50%',
-              transform: 'translateX(-50%)',
+              top: '-26px',
+              right: '20px',
               background: '#fff',
-              borderRadius: '16px',
-              padding: '12px 18px',
-              boxShadow: '0 4px 24px rgba(26,26,46,0.18)',
+              borderRadius: '14px',
+              padding: '9px 14px',
+              boxShadow: '0 6px 28px rgba(26,26,46,0.14)',
               border: '1.5px solid var(--border)',
-              whiteSpace: 'nowrap',
+              textAlign: 'center',
               zIndex: 3,
+              animationDelay: '0.8s',
             }}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', color: 'var(--terracotta)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '3px' }}>
-                Critical window
-              </div>
-              <div style={{ fontSize: '13px', fontWeight: 700, color: 'var(--ink)' }}>
-                Stage 3 · Ages 11 to 13
-              </div>
+              <div style={{ fontFamily: 'var(--font-display)', fontSize: '18px', fontWeight: 900, color: 'var(--terracotta)', lineHeight: 1 }}>4→16</div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '7px', color: 'var(--ink-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginTop: '2px' }}>Every stage</div>
+            </div>
+
+            {/* Floating: age-safe chip */}
+            <div className="digi-pop-in" style={{
+              position: 'absolute',
+              bottom: '24px',
+              right: '-8px',
+              background: 'var(--stage-2)',
+              borderRadius: '100px',
+              padding: '7px 14px',
+              boxShadow: '0 4px 18px rgba(0,0,0,0.1)',
+              zIndex: 3,
+              animationDelay: '1.1s',
+            }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, color: '#2D5016', letterSpacing: '0.06em' }}>Age-safe · School-aligned · AI-ready</div>
             </div>
           </div>
 
@@ -681,9 +617,9 @@ export default function HomePage() {
                 // Real stock photos — one per stage, age-matched
                 const STAGE_IMGS = [
                   'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260701_081926_eace355f-0905-46ee-9fbe-0e374e1283be.png', // parent+young child co-viewing stage 1
-                  'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260701_081927_8d393f79-a5a6-4edd-bd32-0de9b6f3ee25.png', // child with laptop stage 2
+                  'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260701_084000_16cf13f2-fce4-4488-b8b7-25c7b85b6b60.png', // child aged 8-9 at kitchen table with tablet stage 2
                   'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260701_081928_d5e7d499-fcb6-4fbd-aa01-89c0afa69472.png', // pre-teen friends with phone stage 3
-                  'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260701_081930_6eb446ac-068f-459b-b3b7-8d821fdd9523.png', // teen studying stage 4
+                  'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260701_084001_49386d86-1418-4b32-ac2e-8d812b7d4c80.png', // teen aged 13-14 with phone stage 4
                   'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260701_081932_8bcc0ecc-d6df-43b7-b98d-05677db4296c.png', // independent young person stage 5
                 ]
                 return (
@@ -810,6 +746,42 @@ export default function HomePage() {
             <p style={{ fontSize: '.76rem', color: 'var(--ink-muted)', marginTop: '12px' }}>
               Multiple children at different stages? One account covers all of them.
             </p>
+          </div>
+
+          {/* DiGi pathway guide */}
+          <div style={{ marginTop: '56px', paddingTop: '48px', borderTop: '2px dashed var(--border)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
+            <div style={{ position: 'relative', display: 'inline-block' }}>
+              <Image src="/digi-squad/DiGi-star.svg" alt="DiGi" width={88} height={88} className="digi-float" style={{ width: '88px', height: '88px' }} />
+              {/* Speech bubble */}
+              <div className="digi-pop-in" style={{
+                position: 'absolute',
+                top: '4px',
+                left: '100px',
+                background: '#fff',
+                borderRadius: '16px 16px 16px 4px',
+                padding: '12px 16px',
+                boxShadow: '0 4px 20px rgba(26,26,46,0.1)',
+                border: '1.5px solid var(--border)',
+                width: '200px',
+                fontSize: '12px',
+                fontWeight: 600,
+                color: 'var(--ink)',
+                lineHeight: 1.45,
+              }}>
+                I have every step from 4 to 16 covered. Ask me anything.
+                <div style={{ position: 'absolute', left: '-10px', top: '14px', width: 0, height: 0, borderTop: '8px solid transparent', borderBottom: '8px solid transparent', borderRight: '10px solid var(--border)' }} />
+                <div style={{ position: 'absolute', left: '-8px', top: '14px', width: 0, height: 0, borderTop: '8px solid transparent', borderBottom: '8px solid transparent', borderRight: '10px solid #fff' }} />
+              </div>
+            </div>
+            <div style={{ fontFamily: 'var(--font-display)', fontSize: '17px', fontWeight: 800, color: 'var(--ink)', textAlign: 'center', marginTop: '4px' }}>
+              DiGi guides you through every stage
+            </div>
+            <p style={{ fontSize: '13px', color: 'var(--ink)', lineHeight: 1.6, maxWidth: '380px', textAlign: 'center' }}>
+              Tell DiGi what is happening. Get the exact words for tonight. Available at 11pm when you need it most.
+            </p>
+            <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '12px', padding: '11px 24px', marginTop: '4px' }}>
+              Ask DiGi your first question
+            </Link>
           </div>
         </div>
       </section>
@@ -1474,8 +1446,9 @@ export default function HomePage() {
               <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '14px' }}>
                 Your AI digital parenting advisor
               </p>
-              <h2 className="fu" style={{ marginBottom: '20px' }}>
-                DiGi has read every study.<br />Ask anything.
+              <h2 className="fu" style={{ marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+                <span>DiGi has read every study.<br />Ask anything.</span>
+                <Image src="/digi-squad/DiGi-star.svg" alt="DiGi" width={56} height={56} className="digi-float" style={{ flexShrink: 0, width: '56px', height: '56px' }} />
               </h2>
               <p className="fu" style={{ fontSize: '.94rem', color: 'var(--ink)', lineHeight: 1.82, marginBottom: '12px' }}>
                 Most parents search Google at 10pm trying to work out what to do about a specific thing that happened today. DiGi replaces that. Tell it what happened, your child's age and stage, and it gives you the exact words and the structural change that will make a difference.
@@ -1528,7 +1501,7 @@ export default function HomePage() {
                     flexShrink: 0,
                     overflow: 'hidden',
                   }}>
-                    <Image src="/digi-squad/DiGi-star.svg" alt="DiGi" width={52} height={52} style={{ objectFit: 'contain' }} />
+                    <Image src="/digi-squad/DiGi-star.svg" alt="DiGi" width={52} height={52} style={{ objectFit: 'contain', width: '52px', height: '52px' }} />
                   </div>
                   <div style={{ flex: 1 }}>
                     <div style={{ fontFamily: 'var(--font-display)', fontSize: '1rem', fontWeight: 800, color: 'var(--ink)', letterSpacing: '-.02em' }}>DiGi</div>
@@ -2277,9 +2250,9 @@ export default function HomePage() {
       {/* ================================================================
           FOOTER — dark navy with columns
           ================================================================ */}
-      <footer style={{ background: '#1A1A2E', padding: 'clamp(48px, 6vw, 72px) 32px 32px' }}>
+      <footer style={{ background: 'var(--deep-teal)', padding: 'clamp(48px, 6vw, 72px) 32px 32px' }}>
         <div style={{ maxWidth: '1040px', margin: '0 auto' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr 1fr 1fr', gap: '40px', marginBottom: '48px' }}>
+          <div className="footer-grid" style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr 1fr 1fr', gap: '40px', marginBottom: '48px' }}>
 
             {/* Brand */}
             <div>

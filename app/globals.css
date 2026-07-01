@@ -16,6 +16,7 @@
   --terracotta:        #5B8FA8;
   --terracotta-dark:   #3D7A8A;
   --terracotta-lt:     #EAF1F5;
+  --deep-teal:         #173C46;   /* dark sections (footer, CTA) — brand teal, never black */
 
   /* ── STAGE PASTELS (card backgrounds, section tints) ── */
   --stage-1:           #FFFBEE;   /* barely-there warm yellow — Ages 4–7  */
@@ -150,14 +151,14 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
   box-shadow: 0 2px 0 var(--terracotta-dark);
 }
 
-/* dark ink button — kept for schools CTA */
+/* dark teal button — kept for schools CTA */
 .btn-ink {
-  background: var(--ink);
+  background: var(--deep-teal);
   color: #fff;
-  box-shadow: 0 4px 0 #0a0a1a;
+  box-shadow: 0 4px 0 #0a2830;
 }
-.btn-ink:hover  { transform: translateY(-1px); box-shadow: 0 5px 0 #0a0a1a; }
-.btn-ink:active { transform: translateY(2px);  box-shadow: 0 2px 0 #0a0a1a; }
+.btn-ink:hover  { transform: translateY(-1px); box-shadow: 0 5px 0 #0a2830; }
+.btn-ink:active { transform: translateY(2px);  box-shadow: 0 2px 0 #0a2830; }
 
 .btn-outline {
   display: inline-flex;
@@ -581,7 +582,7 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
 }
 .placard-back-face {
   transform: rotateY(180deg);
-  background: var(--ink) !important;
+  background: var(--deep-teal) !important;
 }
 
 @media (max-width: 600px) {
@@ -659,6 +660,29 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
   .stats-strip > *:nth-child(2) { border-right: none !important; }
   .stats-strip > *:nth-child(1),
   .stats-strip > *:nth-child(2) { border-bottom: 1px solid var(--border); }
+}
+
+/* ── FOOTER GRID ── */
+@media (max-width: 720px) { .footer-grid { grid-template-columns: 1fr 1fr !important; gap: 28px !important; } }
+@media (max-width: 460px) { .footer-grid { grid-template-columns: 1fr !important; gap: 28px !important; } }
+
+/* ── DIGI ANIMATIONS ── */
+@keyframes digi-float {
+  0%, 100% { transform: translateY(0px) rotate(-2deg); }
+  50%       { transform: translateY(-10px) rotate(2deg); }
+}
+@keyframes digi-pop-in {
+  0%   { transform: scale(0.6) translateX(-6px); opacity: 0; }
+  70%  { transform: scale(1.06) translateX(0); opacity: 1; }
+  100% { transform: scale(1) translateX(0); opacity: 1; }
+}
+.digi-float {
+  animation: digi-float 3s ease-in-out infinite;
+  will-change: transform;
+  transform-origin: center;
+}
+.digi-pop-in {
+  animation: digi-pop-in 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.6s both;
 }
 
 /* ── NAV LINKS ── */

@@ -109,7 +109,7 @@ export default function StarterPackPage() {
   }
 
   return (
-    <div style={{ minHeight: '100dvh', background: 'var(--ink)', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ minHeight: '100dvh', background: 'var(--deep-teal)', display: 'flex', flexDirection: 'column' }}>
       {/* Thin progress bar at very top */}
       <div style={{ height: '3px', background: 'rgba(255,255,255,0.08)', flexShrink: 0 }}>
         <div style={{
@@ -317,7 +317,7 @@ function ResultScreen({
               <span style={{
                 fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700,
                 letterSpacing: '0.1em', textTransform: 'uppercase',
-                background: 'var(--ink)', color: '#fff',
+                background: 'var(--deep-teal)', color: '#fff',
                 padding: '3px 8px', borderRadius: '100px',
               }}>
                 Critical window
@@ -336,7 +336,7 @@ function ResultScreen({
         </div>
 
         {/* Tonight */}
-        <div style={{ background: 'var(--ink)', borderRadius: '16px', padding: '22px', marginBottom: '14px' }}>
+        <div style={{ background: 'var(--deep-teal)', borderRadius: '16px', padding: '22px', marginBottom: '14px' }}>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '10px' }}>
             One thing for tonight
           </div>
@@ -390,7 +390,7 @@ function ResultScreen({
         </div>
 
         {/* Primary CTA */}
-        <div style={{ background: 'var(--ink)', borderRadius: '20px', padding: '32px 24px', textAlign: 'center', marginBottom: '12px' }}>
+        <div style={{ background: 'var(--deep-teal)', borderRadius: '20px', padding: '32px 24px', textAlign: 'center', marginBottom: '12px' }}>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '14px' }}>
             Free to start
           </div>

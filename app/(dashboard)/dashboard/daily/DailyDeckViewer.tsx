@@ -257,7 +257,7 @@ export default function DailyDeckViewer({
               disabled={selectedMoments.length === 0}
               style={{
                 width: '100%', padding: '12px',
-                background: selectedMoments.length > 0 ? 'var(--ink)' : 'var(--border)',
+                background: selectedMoments.length > 0 ? 'var(--deep-teal)' : 'var(--border)',
                 border: 'none', borderRadius: '12px',
                 fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
                 letterSpacing: '.08em', textTransform: 'uppercase',

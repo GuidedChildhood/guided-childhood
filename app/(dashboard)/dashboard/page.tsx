@@ -327,7 +327,7 @@ export default async function DashboardPage() {
       </div>
 
       {/* AI module discovery */}
-      <Link href="/dashboard/ai-module" style={{ textDecoration: 'none', display: 'block', marginBottom: '20px' }}>
+      <Link href="/dashboard/ai-module" style={{ textDecoration: 'none', display: 'block', marginBottom: '12px' }}>
         <div style={{
           background: 'var(--stage-3)', border: '1.5px solid var(--stage-3)',
           borderRadius: '16px', padding: '22px',
@@ -340,8 +340,27 @@ export default async function DashboardPage() {
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)', marginBottom: '3px' }}>
               Understand AI together
             </div>
-            <div style={{ fontSize: '13px', color: 'var(--ink-soft)' }}>
+            <div style={{ fontSize: '13px', color: 'var(--ink)' }}>
               Deepfakes, chatbots, and using it well. Calm lessons for every age.
+            </div>
+          </div>
+          <span style={{ fontSize: '18px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>
+        </div>
+      </Link>
+
+      {/* Digital Health Check discovery */}
+      <Link href="/digitalwellbeing" style={{ textDecoration: 'none', display: 'block', marginBottom: '20px' }}>
+        <div style={{
+          background: 'var(--stage-2)', border: '1.5px solid var(--stage-2)',
+          borderRadius: '16px', padding: '18px 22px',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px',
+        }}>
+          <div>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '6px' }}>
+              5 minutes, no signup
+            </div>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)' }}>
+              Take the free Digital Health Check
             </div>
           </div>
           <span style={{ fontSize: '18px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>
