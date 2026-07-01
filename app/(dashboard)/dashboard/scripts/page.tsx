@@ -1,6 +1,9 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
+import { CHALLENGE_TO_CATEGORY } from '@/lib/content/challenge-map'
+import { getRecommendedScript } from '@/lib/pathway/recommend'
+import type { ChallengeId } from '@/lib/content/stages'
 
 export const CATEGORY_META: Record<string, {
   label: string
@@ -34,6 +37,7 @@ type ScriptRow = {
   stage_id: StageId
   title: string
   situation: string
+  category: string
   is_free: boolean
   sort_order: number
 }
@@ -43,26 +47,38 @@ export default async function ScriptsPage() {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('subscription_status')
-    .eq('id', user.id)
-    .single()
+  const [{ data: profile }, { data: child }, { data: scriptsData }, { data: completions }] = await Promise.all([
+    supabase.from('profiles').select('subscription_status, onboarding_answers').eq('id', user.id).single(),
+    supabase.from('children').select('stage_id').eq('parent_id', user.id).eq('is_primary', true).maybeSingle(),
+    supabase.from('scripts').select('id, stage_id, title, situation, category, is_free, sort_order').order('sort_order', { ascending: true }),
+    supabase.from('script_completions').select('script_sort_order').eq('user_id', user.id),
+  ])
 
   const isPaid = profile?.subscription_status === 'active'
-
-  const { data: scriptsData } = await supabase
-    .from('scripts')
-    .select('id, stage_id, title, situation, is_free, sort_order')
-    .order('sort_order', { ascending: true })
-
   const scripts = (scriptsData ?? []) as ScriptRow[]
+  const completedOrders = new Set((completions ?? []).map(c => c.script_sort_order))
+  const challenge = (profile?.onboarding_answers as Record<string, string> | null)?.challenge as ChallengeId | undefined
+  const matchCategory = challenge ? CHALLENGE_TO_CATEGORY[challenge] : null
+  const currentStageId = (child?.stage_id as StageId) ?? null
 
-  const byStage = (Object.keys(STAGE_META) as StageId[]).map(stageId => ({
-    stageId,
-    meta: STAGE_META[stageId],
-    items: scripts.filter(s => s.stage_id === stageId),
-  })).filter(group => group.items.length > 0)
+  const recommended = currentStageId
+    ? await getRecommendedScript(supabase, user.id, currentStageId, challenge ?? null)
+    : null
+
+  const byStage = (Object.keys(STAGE_META) as StageId[]).map(stageId => {
+    const items = scripts.filter(s => s.stage_id === stageId)
+    // Scripts matching what this parent told us their main concern was
+    // surface first within the stage, so that answer stays useful instead
+    // of being read once at signup and forgotten.
+    const sorted = matchCategory
+      ? [...items].sort((a, b) => {
+          const aMatch = a.category === matchCategory ? 0 : 1
+          const bMatch = b.category === matchCategory ? 0 : 1
+          return aMatch - bMatch || a.sort_order - b.sort_order
+        })
+      : items
+    return { stageId, meta: STAGE_META[stageId], items: sorted }
+  }).filter(group => group.items.length > 0)
 
   const freeCount = scripts.filter(s => s.is_free).length
 
@@ -75,6 +91,25 @@ export default async function ScriptsPage() {
           What to say, what not to say, and why it works. Scripts for real moments, not perfect families.
         </p>
       </div>
+
+      {recommended && (
+        <Link
+          href={`/dashboard/scripts/${recommended.sort_order}`}
+          style={{ textDecoration: 'none', display: 'block', marginBottom: '20px' }}
+        >
+          <div style={{ background: 'var(--terracotta)', borderRadius: '16px', padding: '18px 20px', boxShadow: '0 5px 0 var(--terracotta-dark)' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.85)', marginBottom: '6px' }}>
+              {recommended.matchesChallenge ? 'Recommended next, matches what you told us' : 'Recommended next'}
+            </div>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: '#fff', marginBottom: '4px' }}>
+              {recommended.title}
+            </div>
+            <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.8)', fontStyle: 'italic' }}>
+              {recommended.situation}
+            </div>
+          </div>
+        </Link>
+      )}
 
       {!isPaid && (
         <div style={{ background: 'var(--stage-5)', border: '2px solid var(--stage-5)', borderRadius: '16px', padding: '16px 20px', marginBottom: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
@@ -109,6 +144,8 @@ export default async function ScriptsPage() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {group.items.map(script => {
               const isLocked = !isPaid && !script.is_free
+              const isDone = completedOrders.has(script.sort_order)
+              const isMatch = matchCategory === script.category
               return (
                 <Link
                   key={script.id}
@@ -116,14 +153,18 @@ export default async function ScriptsPage() {
                   style={{
                     display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                     textDecoration: 'none', gap: '12px',
-                    background: 'var(--cream)', border: '1px solid var(--border)',
+                    background: 'var(--cream)',
+                    border: `1px solid ${isMatch ? 'var(--terracotta)' : 'var(--border)'}`,
                     borderRadius: '16px', padding: '14px 16px',
                     opacity: isLocked ? 0.7 : 1,
                   }}
                 >
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '15px', color: 'var(--ink)', marginBottom: '3px' }}>
-                      {script.title}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '3px' }}>
+                      {isDone && <span style={{ fontSize: '12px', color: 'var(--terracotta)', flexShrink: 0 }}>✓</span>}
+                      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '15px', color: 'var(--ink)' }}>
+                        {script.title}
+                      </div>
                     </div>
                     <div style={{ fontSize: '12px', color: 'var(--ink-muted)', fontStyle: 'italic', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                       {script.situation}

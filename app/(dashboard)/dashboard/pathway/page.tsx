@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { STAGES } from '@/lib/content/stages'
 import DeviceSetupBanner from '@/components/device/DeviceSetupBanner'
+import { getStageProgress, type StageId as ProgressStageId } from '@/lib/pathway/progress'
 
 const STAGE_DISPLAY: Record<number, {
   displayName: string
@@ -54,7 +55,7 @@ const STAGE_DISPLAY: Record<number, {
   },
 }
 
-type Child = { id: string; name: string; age_band: string | null; stage_id: string | null; is_primary: boolean }
+type Child = { id: string; name: string; age_band: string | null; stage_id: string | null; is_primary: boolean; streak_weeks: number | null }
 
 export default async function PathwayPage() {
   const supabase = await createClient()
@@ -63,7 +64,7 @@ export default async function PathwayPage() {
 
   const [profileResult, childrenResult] = await Promise.all([
     supabase.from('profiles').select('subscription_status').eq('id', user.id).single(),
-    supabase.from('children').select('id, name, age_band, stage_id, is_primary').eq('parent_id', user.id).order('is_primary', { ascending: false }),
+    supabase.from('children').select('id, name, age_band, stage_id, is_primary, streak_weeks').eq('parent_id', user.id).order('is_primary', { ascending: false }),
   ])
 
   const isPaid = profileResult.data?.subscription_status === 'active'
@@ -74,7 +75,12 @@ export default async function PathwayPage() {
   }
 
   const childStageNums = new Set(children.map(c => c.stage_id ? stageIdToNum[c.stage_id] ?? null : null).filter(Boolean))
-  const currentStageNum = children[0]?.stage_id ? stageIdToNum[children[0].stage_id!] ?? null : null
+  const primaryChild = children[0]
+  const currentStageNum = primaryChild?.stage_id ? stageIdToNum[primaryChild.stage_id] ?? null : null
+
+  const currentStageProgress = primaryChild?.stage_id
+    ? await getStageProgress(supabase, user.id, primaryChild.stage_id as ProgressStageId, primaryChild.streak_weeks ?? 0)
+    : null
 
   return (
     <div style={{ padding: '24px 0 32px' }}>
@@ -170,6 +176,22 @@ export default async function PathwayPage() {
                     padding: '3px 8px', borderRadius: '100px',
                   }}>
                     Your stage
+                  </div>
+                )}
+
+                {stage.id === currentStageNum && currentStageProgress && (
+                  <div style={{ padding: '16px 22px 0' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px' }}>
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: display.color }}>
+                        Progress
+                      </span>
+                      <span style={{ fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 800, color: 'var(--ink)' }}>
+                        {currentStageProgress.overallPct}%
+                      </span>
+                    </div>
+                    <div style={{ height: '6px', background: 'rgba(255,255,255,0.6)', borderRadius: '100px', overflow: 'hidden' }}>
+                      <div style={{ width: `${currentStageProgress.overallPct}%`, height: '100%', background: display.color, borderRadius: '100px', transition: 'width 0.3s ease' }} />
+                    </div>
                   </div>
                 )}
 

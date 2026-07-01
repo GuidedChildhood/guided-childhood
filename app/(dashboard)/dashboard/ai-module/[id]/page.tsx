@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
+import MarkLessonDone from '@/components/lessons/MarkLessonDone'
 
 const AUDIENCE_LABEL: Record<string, { label: string; bg: string }> = {
   age_7:   { label: 'Age 7',    bg: 'var(--stage-1)' },
@@ -47,6 +48,14 @@ export default async function AiLessonPage({ params }: { params: Promise<{ id: s
 
   const lesson = data as Lesson | null
   if (!lesson) notFound()
+
+  const { data: completion } = await supabase
+    .from('lesson_completions')
+    .select('lesson_id')
+    .eq('user_id', user.id)
+    .eq('lesson_id', lesson.id)
+    .eq('lesson_source', 'ai_lesson')
+    .maybeSingle()
 
   const audience = AUDIENCE_LABEL[lesson.audience] ?? { label: lesson.audience, bg: 'var(--stage-2)' }
 
@@ -109,6 +118,8 @@ export default async function AiLessonPage({ params }: { params: Promise<{ id: s
           </div>
         ))}
       </div>
+
+      <MarkLessonDone lessonId={lesson.id} lessonSource="ai_lesson" initialDone={!!completion} />
 
       {/* DiGi CTA */}
       <div style={{ background: 'var(--stage-5)', border: '1.5px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '24px', display: 'flex', gap: '16px', alignItems: 'center', flexWrap: 'wrap' }}>
