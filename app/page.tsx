@@ -485,7 +485,7 @@ export default function HomePage() {
 
               {/* Ask DiGi row */}
               <div style={{ padding: '11px 18px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <Image src="/digi-squad/DiGi-star.svg" alt="DiGi" width={30} height={30} className="digi-float" style={{ flexShrink: 0 }} />
+                <Image src="/digi-squad/DiGi-star.svg" alt="DiGi" width={30} height={30} className="digi-float" style={{ flexShrink: 0, width: '30px', height: '30px' }} />
                 <div style={{ fontFamily: 'var(--font-display)', fontSize: '11px', fontWeight: 700, color: 'var(--ink)' }}>Ask DiGi about this situation</div>
                 <div style={{ marginLeft: 'auto', fontFamily: 'var(--font-mono)', fontSize: '8px', fontWeight: 700, color: 'var(--terracotta)' }}>Ask →</div>
               </div>
@@ -494,8 +494,8 @@ export default function HomePage() {
             {/* Floating: progress badge top right */}
             <div className="digi-pop-in" style={{
               position: 'absolute',
-              top: '16px',
-              right: '-12px',
+              top: '-26px',
+              right: '20px',
               background: '#fff',
               borderRadius: '14px',
               padding: '9px 14px',
@@ -751,7 +751,7 @@ export default function HomePage() {
           {/* DiGi pathway guide */}
           <div style={{ marginTop: '56px', paddingTop: '48px', borderTop: '2px dashed var(--border)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
             <div style={{ position: 'relative', display: 'inline-block' }}>
-              <Image src="/digi-squad/DiGi-star.svg" alt="DiGi" width={88} height={88} className="digi-float" />
+              <Image src="/digi-squad/DiGi-star.svg" alt="DiGi" width={88} height={88} className="digi-float" style={{ width: '88px', height: '88px' }} />
               {/* Speech bubble */}
               <div className="digi-pop-in" style={{
                 position: 'absolute',
@@ -1448,7 +1448,7 @@ export default function HomePage() {
               </p>
               <h2 className="fu" style={{ marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
                 <span>DiGi has read every study.<br />Ask anything.</span>
-                <Image src="/digi-squad/DiGi-star.svg" alt="DiGi" width={56} height={56} className="digi-float" style={{ flexShrink: 0 }} />
+                <Image src="/digi-squad/DiGi-star.svg" alt="DiGi" width={56} height={56} className="digi-float" style={{ flexShrink: 0, width: '56px', height: '56px' }} />
               </h2>
               <p className="fu" style={{ fontSize: '.94rem', color: 'var(--ink)', lineHeight: 1.82, marginBottom: '12px' }}>
                 Most parents search Google at 10pm trying to work out what to do about a specific thing that happened today. DiGi replaces that. Tell it what happened, your child's age and stage, and it gives you the exact words and the structural change that will make a difference.
@@ -1501,7 +1501,7 @@ export default function HomePage() {
                     flexShrink: 0,
                     overflow: 'hidden',
                   }}>
-                    <Image src="/digi-squad/DiGi-star.svg" alt="DiGi" width={52} height={52} style={{ objectFit: 'contain' }} />
+                    <Image src="/digi-squad/DiGi-star.svg" alt="DiGi" width={52} height={52} style={{ objectFit: 'contain', width: '52px', height: '52px' }} />
                   </div>
                   <div style={{ flex: 1 }}>
                     <div style={{ fontFamily: 'var(--font-display)', fontSize: '1rem', fontWeight: 800, color: 'var(--ink)', letterSpacing: '-.02em' }}>DiGi</div>
@@ -2252,7 +2252,7 @@ export default function HomePage() {
           ================================================================ */}
       <footer style={{ background: 'var(--deep-teal)', padding: 'clamp(48px, 6vw, 72px) 32px 32px' }}>
         <div style={{ maxWidth: '1040px', margin: '0 auto' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr 1fr 1fr', gap: '40px', marginBottom: '48px' }}>
+          <div className="footer-grid" style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr 1fr 1fr', gap: '40px', marginBottom: '48px' }}>
 
             {/* Brand */}
             <div>
