@@ -118,7 +118,6 @@ export default async function DailyPage() {
       headline: lastScript.title,
       body: lastScript.why_it_works,
       accent: 'var(--terracotta)',
-      bg: 'var(--stage-3)',
       icon: '↩',
     })
   } else {
@@ -129,7 +128,6 @@ export default async function DailyPage() {
       headline: `Stage ${stage.id}: ${stage.name}`,
       body: stage.focus,
       accent: 'var(--terracotta)',
-      bg: 'var(--stage-3)',
       icon: '◎',
     })
   }
@@ -142,7 +140,6 @@ export default async function DailyPage() {
     headline: 'What matters right now',
     body: stageChallenge,
     accent: 'var(--terracotta)',
-    bg: 'var(--stage-2)',
     icon: '◈',
   })
 
@@ -155,7 +152,6 @@ export default async function DailyPage() {
       headline: momentScript.title,
       body: `${momentScript.situation}\n\nIf this happens, try: "${momentScript.say_this}"`,
       accent: 'var(--terracotta)',
-      bg: 'var(--stage-5)',
       icon: '△',
     })
   }
@@ -176,7 +172,6 @@ export default async function DailyPage() {
     headline: 'Just one thing to notice',
     body: questions[stage.id] ?? questions[3],
     accent: 'var(--terracotta)',
-    bg: 'var(--stage-1)',
     icon: '?',
   })
 
@@ -192,7 +187,6 @@ export default async function DailyPage() {
       ? `${streak} week streak and counting. See you tomorrow.`
       : 'Practice done. Come back tomorrow and build the habit.',
     accent: 'var(--terracotta)',
-    bg: 'var(--stage-2)',
     icon: '✓',
   })
 

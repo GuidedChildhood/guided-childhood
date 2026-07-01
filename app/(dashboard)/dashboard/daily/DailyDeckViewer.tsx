@@ -10,7 +10,6 @@ export type DailyCard = {
   headline: string
   body: string
   accent: string
-  bg: string
   icon: string
 }
 
@@ -76,7 +75,7 @@ export default function DailyDeckViewer({
     setIsExiting(true)
     setExitDir(dir === 'next' ? 'left' : 'right')
 
-    await new Promise(r => setTimeout(r, 180))
+    await new Promise(r => setTimeout(r, 320))
 
     if (dir === 'next') {
       if (!isLast) {
@@ -336,24 +335,27 @@ export default function DailyDeckViewer({
         onClick={() => !isLast && navigate('next')}
         style={{
           background: '#fff',
-          borderRadius: '24px',
+          borderRadius: '28px',
           overflow: 'hidden',
-          boxShadow: '0 4px 24px rgba(26,26,46,0.10), 0 1px 4px rgba(26,26,46,0.06)',
+          boxShadow: '0 10px 40px rgba(26,26,46,0.14), 0 2px 8px rgba(26,26,46,0.08)',
           border: '1px solid var(--border)',
           cursor: isLast ? 'default' : 'pointer',
           opacity: isExiting ? 0 : 1,
           transform: isExiting
-            ? `translateX(${exitDir === 'left' ? '-28px' : '28px'}) scale(0.97)`
-            : 'translateX(0) scale(1)',
-          transition: 'opacity 0.18s ease, transform 0.18s ease',
+            ? `translateX(${exitDir === 'left' ? '-130%' : '130%'}) rotate(${exitDir === 'left' ? '-12deg' : '12deg'})`
+            : 'translateX(0) rotate(0deg)',
+          transition: isExiting
+            ? 'opacity 0.3s ease, transform 0.32s cubic-bezier(0.4, 0, 0.6, 1)'
+            : 'opacity 0.25s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)',
           marginBottom: '20px',
           userSelect: 'none',
         }}
       >
-        {/* Terracotta header band */}
+        {/* Curved terracotta header band */}
         <div style={{
           background: 'var(--terracotta)',
-          padding: '20px 24px 16px',
+          padding: '22px 24px 26px',
+          borderRadius: '0 0 32px 32px',
         }}>
           <div style={{
             fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700,
@@ -364,22 +366,23 @@ export default function DailyDeckViewer({
           </div>
           <div style={{
             fontFamily: 'var(--font-display)', fontWeight: 800,
-            fontSize: 'clamp(1rem, 3.5vw, 1.25rem)',
-            color: '#fff', lineHeight: 1.2, letterSpacing: '-0.02em',
+            fontSize: 'clamp(1.15rem, 4vw, 1.5rem)',
+            color: '#fff', lineHeight: 1.15, letterSpacing: '-0.02em',
           }}>
             {card.headline}
           </div>
         </div>
 
         {/* Card body */}
-        <div style={{ padding: '26px 24px 30px' }}>
+        <div style={{ padding: '28px 24px 30px', background: 'var(--terracotta-lt)' }}>
           <p style={{
-            fontSize: 'clamp(15px, 3.8vw, 18px)',
-            lineHeight: 1.72,
+            fontSize: 'clamp(16px, 4vw, 20px)',
+            lineHeight: 1.55,
             color: 'var(--ink)',
             margin: 0,
-            fontFamily: card.type === 'question' ? 'var(--font-display)' : 'inherit',
-            fontWeight: card.type === 'question' ? 700 : 400,
+            fontWeight: 700,
+            letterSpacing: '-0.01em',
+            fontFamily: 'var(--font-display)',
           }}>
             {card.body}
           </p>
