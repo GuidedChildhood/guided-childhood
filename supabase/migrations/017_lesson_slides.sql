@@ -37,6 +37,11 @@ insert into public.lessons (stage_id, audience, category, title, the_idea, why_i
      "body": "Two minutes, one experiment to run together tonight. What every parent should know before the TikTok conversation."
    },
    {
+     "type": "video",
+     "src": "https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260701_205017_2052451b-a1d7-4932-9839-fd875b134903.mp4",
+     "caption": "DiGi explains the algorithm to the class"
+   },
+   {
      "type": "concept",
      "emoji": "🔬",
      "heading": "It is not a feed. It is a test.",
