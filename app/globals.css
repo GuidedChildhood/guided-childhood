@@ -661,6 +661,25 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
   .stats-strip > *:nth-child(2) { border-bottom: 1px solid var(--border); }
 }
 
+/* ── DIGI ANIMATIONS ── */
+@keyframes digi-float {
+  0%, 100% { transform: translateY(0px) rotate(-2deg); }
+  50%       { transform: translateY(-10px) rotate(2deg); }
+}
+@keyframes digi-pop-in {
+  0%   { transform: scale(0.6) translateX(-6px); opacity: 0; }
+  70%  { transform: scale(1.06) translateX(0); opacity: 1; }
+  100% { transform: scale(1) translateX(0); opacity: 1; }
+}
+.digi-float {
+  animation: digi-float 3s ease-in-out infinite;
+  will-change: transform;
+  transform-origin: center;
+}
+.digi-pop-in {
+  animation: digi-pop-in 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.6s both;
+}
+
 /* ── NAV LINKS ── */
 .nav-links-desktop {
   display: flex;
