@@ -289,22 +289,26 @@ export default async function DashboardPage() {
 
       {/* This week's actions */}
       <div style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '20px' }}>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '16px' }}>
-          This week's actions
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
+            This week's actions
+          </div>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--terracotta)' }}>
+            {child?.actions_this_week ?? 0} done from daily practice
+          </div>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           {WEEKLY_ACTIONS.map((action, i) => (
             <div key={i} style={{ display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
               <div style={{
-                width: '24px',
-                height: '24px',
-                border: '2px solid var(--border)',
-                borderRadius: '6px',
+                width: '8px',
+                height: '8px',
+                borderRadius: '50%',
+                background: 'var(--terracotta)',
                 flexShrink: 0,
-                marginTop: '1px',
-                background: 'var(--cream)',
+                marginTop: '7px',
               }} />
-              <span style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.5 }}>{action}</span>
+              <span style={{ fontSize: '14px', color: 'var(--ink)', lineHeight: 1.5 }}>{action}</span>
             </div>
           ))}
         </div>
