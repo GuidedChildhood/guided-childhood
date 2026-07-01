@@ -419,7 +419,7 @@ export default async function DashboardPage() {
       {/* Upgrade nudge for free users */}
       {!isPaid && (
         <div style={{ border: '2px solid var(--stage-5)', borderRadius: '16px', padding: '20px 22px', background: 'var(--stage-5)' }}>
-          <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '8px' }}>Founder rate — 50 places</p>
+          <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '8px' }}>Founder rate, 50 places</p>
           <h3 style={{ fontSize: '1.1rem', marginBottom: '8px' }}>Unlock everything for £7.99 / month</h3>
           <p style={{ fontSize: '14px', color: 'var(--ink-muted)', marginBottom: '16px' }}>
             All 5 stages, unlimited DiGi, 100 plus scripts, the AI module, wellbeing tracker. First 50 members only.
@@ -454,22 +454,22 @@ function getStagePrompts(stageId: number): string[] {
     ],
     2: [
       'How do I introduce the bedroom rule without a fight?',
-      'My child wants to play games online — is that safe?',
+      'My child wants to play games online, is that safe?',
       'What does a good screen time routine look like at this age?',
     ],
     3: [
-      'Her mood drops after Instagram — what do I say tonight?',
-      'My son wants TikTok — how do I handle this?',
+      'Her mood drops after Instagram, what do I say tonight?',
+      'My son wants TikTok, how do I handle this?',
       'How do I have the algorithm conversation?',
     ],
     4: [
-      'He is secretive about his phone — how do I approach this?',
-      'She found something upsetting online — what do I do?',
+      'He is secretive about his phone, how do I approach this?',
+      'She found something upsetting online, what do I do?',
       'How do I keep the conversation open without being controlling?',
     ],
     5: [
       'How do I talk about deepfakes and AI content?',
-      'She defines her worth by her follower count — how do I help?',
+      'She defines her worth by her follower count, how do I help?',
       'What does genuine digital independence look like at 16?',
     ],
   }

@@ -73,7 +73,7 @@ Stage context: ${name} is Stage ${stage.id} (${stage.name}, ${stage.ages}). ${st
     parsed = JSON.parse(jsonMatch?.[0] ?? raw)
   } catch {
     parsed = {
-      intro: `Hi, I'm DiGi. You mentioned ${primaryChallenge} with ${name} — that's one of the most common challenges at this stage, and it is very fixable. I will give you the exact words, not just theory.`,
+      intro: `Hi, I'm DiGi. You mentioned ${primaryChallenge} with ${name}, that is one of the most common challenges at this stage, and it is very fixable. I will give you the exact words, not just theory.`,
       taskQuestion: `Does ${name} usually push back immediately when you mention putting the device down?`,
       taskAction: `Give ${name} a five-minute warning before asking them to stop. Say it once, calmly, then follow through.`,
       taskScript: `"Five more minutes, then we're done." Say it once. Do not negotiate. The firmness is the message.`,

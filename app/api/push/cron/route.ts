@@ -17,7 +17,7 @@ const CHECK_INS = [
   {
     hour: 21,
     title: 'Evening wind-down',
-    body: 'Bedtime and the phone — how did it go? Log the moment and DiGi will help you prepare for tomorrow.',
+    body: 'Bedtime and the phone, how did it go? Log the moment and DiGi will help you prepare for tomorrow.',
   },
 ]
 

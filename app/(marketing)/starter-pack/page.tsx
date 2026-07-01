@@ -5,14 +5,16 @@ import {
   AGE_BAND_OPTIONS,
   CHALLENGE_OPTIONS,
   FEELING_OPTIONS,
+  TIME_COMMITMENT_OPTIONS,
   getStageFromAgeBand,
   type AgeBand,
   type ChallengeId,
   type FeelingId,
+  type TimeCommitmentId,
   type StarterAnswers,
 } from '@/lib/content/stages'
 
-type Step = 'q1' | 'q2' | 'q3' | 'result'
+type Step = 'q1' | 'q2' | 'q3' | 'q4' | 'result'
 
 const CHALLENGE_ICONS: Record<string, React.ReactNode> = {
   screens_takeover: (
@@ -72,15 +74,46 @@ export default function StarterPackPage() {
   const [ageBand, setAgeBand] = useState<AgeBand | null>(null)
   const [challenge, setChallenge] = useState<ChallengeId | null>(null)
   const [feeling, setFeeling] = useState<FeelingId | null>(null)
+  const [timeCommitment, setTimeCommitment] = useState<TimeCommitmentId | null>(null)
+  const [restored, setRestored] = useState(false)
 
   const stage = ageBand ? getStageFromAgeBand(ageBand) : null
 
+  // Resume mid-quiz progress on refresh or return visit, instead of losing
+  // everything and starting over at Q1.
   useEffect(() => {
-    if (step === 'result' && ageBand && challenge && feeling) {
-      const answers: StarterAnswers = { ageBand, challenge, feeling }
-      try { localStorage.setItem('gc_starter_answers', JSON.stringify(answers)) } catch {}
+    try {
+      const saved = localStorage.getItem('gc_starter_progress')
+      if (saved) {
+        const parsed = JSON.parse(saved) as { step: Step; ageBand: AgeBand | null; challenge: ChallengeId | null; feeling: FeelingId | null; timeCommitment: TimeCommitmentId | null }
+        if (parsed.ageBand) setAgeBand(parsed.ageBand)
+        if (parsed.challenge) setChallenge(parsed.challenge)
+        if (parsed.feeling) setFeeling(parsed.feeling)
+        if (parsed.timeCommitment) setTimeCommitment(parsed.timeCommitment)
+        if (parsed.step && parsed.step !== 'result') setStep(parsed.step)
+      }
+    } catch {}
+    setRestored(true)
+  }, [])
+
+  // Save progress after every answer, not just at the end, so a refresh or
+  // an accidental close does not throw away answers already given.
+  useEffect(() => {
+    if (!restored) return
+    try {
+      localStorage.setItem('gc_starter_progress', JSON.stringify({ step, ageBand, challenge, feeling, timeCommitment }))
+    } catch {}
+  }, [restored, step, ageBand, challenge, feeling, timeCommitment])
+
+  useEffect(() => {
+    if (step === 'result' && ageBand && challenge && feeling && timeCommitment) {
+      const answers: StarterAnswers = { ageBand, challenge, feeling, timeCommitment }
+      try {
+        localStorage.setItem('gc_starter_answers', JSON.stringify(answers))
+        localStorage.removeItem('gc_starter_progress')
+      } catch {}
     }
-  }, [step, ageBand, challenge, feeling])
+  }, [step, ageBand, challenge, feeling, timeCommitment])
 
   function selectAge(band: AgeBand) {
     setAgeBand(band)
@@ -92,10 +125,14 @@ export default function StarterPackPage() {
   }
   function selectFeeling(f: FeelingId) {
     setFeeling(f)
+    setTimeout(() => setStep('q4'), 280)
+  }
+  function selectTimeCommitment(t: TimeCommitmentId) {
+    setTimeCommitment(t)
     setTimeout(() => setStep('result'), 280)
   }
 
-  const progress = step === 'q1' ? 1 : step === 'q2' ? 2 : 3
+  const progress = step === 'q1' ? 1 : step === 'q2' ? 2 : step === 'q3' ? 3 : 4
 
   if (step === 'result' && stage && ageBand && challenge) {
     return (
@@ -114,7 +151,7 @@ export default function StarterPackPage() {
       <div style={{ height: '4px', background: 'var(--border)', flexShrink: 0 }}>
         <div style={{
           height: '100%', background: 'var(--terracotta)',
-          width: `${(progress / 3) * 100}%`, transition: 'width 0.35s ease',
+          width: `${(progress / 4) * 100}%`, transition: 'width 0.35s ease',
         }} />
       </div>
 
@@ -127,7 +164,7 @@ export default function StarterPackPage() {
           letterSpacing: '0.18em', textTransform: 'uppercase',
           color: 'var(--ink-muted)', marginBottom: '36px',
         }}>
-          Step {progress} of 3
+          Step {progress} of 4
         </div>
 
         {/* Q1 — Age */}
@@ -266,6 +303,51 @@ export default function StarterPackPage() {
             </button>
           </>
         )}
+
+        {/* Q4 — Time commitment */}
+        {step === 'q4' && (
+          <>
+            <h1 style={{
+              fontFamily: 'var(--font-display)', fontSize: 'clamp(1.7rem, 4.5vw, 2.4rem)',
+              fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1.15,
+              color: 'var(--ink)', marginBottom: '10px',
+            }}>
+              How much time can you give this each day?
+            </h1>
+            <p style={{ color: 'var(--ink)', fontSize: '15px', marginBottom: '32px', lineHeight: 1.55 }}>
+              We will match your daily practice to this. You can change it any time.
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              {TIME_COMMITMENT_OPTIONS.map(opt => (
+                <button
+                  key={opt.value}
+                  onClick={() => selectTimeCommitment(opt.value)}
+                  style={{
+                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                    padding: '16px 20px',
+                    background: timeCommitment === opt.value ? 'var(--terracotta)' : 'var(--cream)',
+                    border: `1.5px solid ${timeCommitment === opt.value ? 'var(--terracotta)' : 'var(--border)'}`,
+                    borderRadius: '14px', cursor: 'pointer', textAlign: 'left', transition: 'all 0.15s',
+                    boxShadow: timeCommitment === opt.value ? '0 5px 0 var(--terracotta-dark)' : 'none',
+                  }}
+                >
+                  <div>
+                    <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '16px', color: timeCommitment === opt.value ? '#fff' : 'var(--ink)' }}>
+                      {opt.label}
+                    </div>
+                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: timeCommitment === opt.value ? 'rgba(255,255,255,0.75)' : 'var(--ink-muted)', marginTop: '3px', letterSpacing: '0.08em' }}>
+                      {opt.sub}
+                    </div>
+                  </div>
+                  <div style={{ color: timeCommitment === opt.value ? '#fff' : 'var(--ink-light)', fontSize: '16px' }}>→</div>
+                </button>
+              ))}
+            </div>
+            <button onClick={() => setStep('q3')} style={{ marginTop: '24px', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-muted)', letterSpacing: '0.06em', padding: '8px 0', textAlign: 'left' }}>
+              ← Back
+            </button>
+          </>
+        )}
       </div>
     </div>
   )
@@ -280,6 +362,7 @@ function ResultScreen({
   feeling: FeelingId
 }) {
   const challengeAction = stage.challengeActions[challenge] ?? stage.action
+  const challengeLabel = CHALLENGE_OPTIONS.find(c => c.value === challenge)?.label ?? 'what you told us'
 
   return (
     <div style={{ minHeight: '100dvh', background: 'var(--cream)', padding: '0 0 80px' }}>
@@ -291,9 +374,31 @@ function ResultScreen({
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '10px' }}>
           Your pathway
         </div>
-        <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.6rem, 4vw, 2.2rem)', fontWeight: 800, letterSpacing: '-0.025em', color: 'var(--ink)', lineHeight: 1.15, marginBottom: '28px' }}>
+        <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.6rem, 4vw, 2.2rem)', fontWeight: 800, letterSpacing: '-0.025em', color: 'var(--ink)', lineHeight: 1.15, marginBottom: '16px' }}>
           Here is where your family is.
         </h1>
+
+        {/* Mission statement */}
+        <p style={{ fontSize: '15px', color: 'var(--ink)', lineHeight: 1.7, marginBottom: '28px' }}>
+          Whatever age your child is now, this is how we keep them safe: the exact words for tonight, a daily fix for the moment that keeps coming back, and a clear pathway from their first screen to full independence at 16.
+        </p>
+
+        {/* Problem recognition — names what they told us before offering the fix */}
+        <div style={{ background: '#fff', borderRadius: '20px', overflow: 'hidden', boxShadow: '0 10px 32px rgba(26,26,46,0.10)', marginBottom: '14px' }}>
+          <div style={{ background: 'var(--deep-teal)', padding: '18px 22px 22px', borderRadius: '0 0 28px 28px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)', marginBottom: '6px' }}>
+              Sound familiar?
+            </div>
+            <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.3rem', fontWeight: 800, color: '#fff', letterSpacing: '-0.01em', lineHeight: 1.2 }}>
+              {challengeLabel}
+            </div>
+          </div>
+          <div style={{ padding: '18px 22px', background: 'var(--terracotta-lt)' }}>
+            <p style={{ fontSize: '14px', color: 'var(--ink)', lineHeight: 1.65, margin: 0 }}>
+              This is one of the most common things parents raise at Stage {stage.id}. It is not a sign you are behind. It is the next thing to fix, and there is a clear next step.
+            </p>
+          </div>
+        </div>
 
         {/* Stage card */}
         <div style={{
@@ -335,32 +440,46 @@ function ResultScreen({
           </div>
         </div>
 
-        {/* Tonight */}
-        <div style={{ background: 'var(--deep-teal)', borderRadius: '16px', padding: '22px', marginBottom: '14px' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '10px' }}>
-            One thing for tonight
+        {/* Tonight — Good Inside style curved card */}
+        <div style={{ background: '#fff', borderRadius: '20px', overflow: 'hidden', boxShadow: '0 10px 32px rgba(26,26,46,0.10)', marginBottom: '14px' }}>
+          <div style={{ background: 'var(--terracotta)', padding: '18px 22px 22px', borderRadius: '0 0 28px 28px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.85)', marginBottom: '6px' }}>
+              Your fix for tonight
+            </div>
+            <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', fontWeight: 800, color: '#fff', letterSpacing: '-0.01em', lineHeight: 1.2 }}>
+              One thing to try
+            </div>
           </div>
-          <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.84)', lineHeight: 1.65, margin: 0 }}>
-            {challengeAction}
-          </p>
+          <div style={{ padding: '20px 22px', background: 'var(--terracotta-lt)' }}>
+            <p style={{ fontSize: 'clamp(15px, 3.5vw, 17px)', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.55, margin: 0, letterSpacing: '-0.01em' }}>
+              {challengeAction}
+            </p>
+          </div>
         </div>
 
-        {/* Script */}
-        <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '14px', boxShadow: '0 2px 12px rgba(26,26,46,0.05)' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '16px' }}>
-            Script: {stage.script.title}
+        {/* Script — Good Inside style curved card */}
+        <div style={{ background: '#fff', borderRadius: '20px', overflow: 'hidden', boxShadow: '0 10px 32px rgba(26,26,46,0.10)', marginBottom: '14px' }}>
+          <div style={{ background: 'var(--deep-teal)', padding: '18px 22px 22px', borderRadius: '0 0 28px 28px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)', marginBottom: '6px' }}>
+              The full script
+            </div>
+            <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', fontWeight: 800, color: '#fff', letterSpacing: '-0.01em', lineHeight: 1.2 }}>
+              {stage.script.title}
+            </div>
           </div>
-          <div style={{ marginBottom: '14px' }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--terracotta)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>Say this</div>
-            <p style={{ fontSize: '15px', color: 'var(--ink)', lineHeight: 1.65, fontStyle: 'italic', margin: 0 }}>"{stage.script.sayThis}"</p>
-          </div>
-          <div style={{ marginBottom: '14px' }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--ink-muted)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>Not this</div>
-            <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>{stage.script.notThis}</p>
-          </div>
-          <div style={{ padding: '12px 14px', background: 'var(--terracotta-lt)', borderRadius: '10px' }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--terracotta)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>Why it works</div>
-            <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>{stage.script.why}</p>
+          <div style={{ padding: '20px 22px' }}>
+            <div style={{ marginBottom: '16px' }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--terracotta)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>Say this</div>
+              <p style={{ fontSize: 'clamp(15px, 3.5vw, 17px)', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.55, margin: 0, letterSpacing: '-0.01em' }}>"{stage.script.sayThis}"</p>
+            </div>
+            <div style={{ marginBottom: '16px' }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: '#991b1b', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>Not this</div>
+              <p style={{ fontSize: '14px', color: '#991b1b', fontStyle: 'italic', lineHeight: 1.6, margin: 0 }}>{stage.script.notThis}</p>
+            </div>
+            <div style={{ padding: '14px 16px', background: 'var(--terracotta-lt)', borderRadius: '12px' }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--terracotta)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>Why it works</div>
+              <p style={{ fontSize: '13px', color: 'var(--ink)', lineHeight: 1.6, margin: 0 }}>{stage.script.why}</p>
+            </div>
           </div>
         </div>
 
@@ -373,10 +492,47 @@ function ResultScreen({
             {stage.warningSigns.map((sign, i) => (
               <li key={i} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
                 <span style={{ color: 'var(--terracotta)', fontSize: '14px', marginTop: '2px', flexShrink: 0 }}>•</span>
-                <span style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.5 }}>{sign}</span>
+                <span style={{ fontSize: '14px', color: 'var(--ink)', lineHeight: 1.5 }}>{sign}</span>
               </li>
             ))}
           </ul>
+        </div>
+
+        {/* Mini pathway — every stage, current one marked */}
+        <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '14px' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '18px' }}>
+            Every stage is covered, ages 4 to 16
+          </div>
+          <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
+            <div style={{ position: 'absolute', left: '16px', right: '16px', top: '50%', height: '3px', background: 'var(--border)', transform: 'translateY(-50%)', zIndex: 0 }} />
+            <div style={{
+              position: 'absolute', left: '16px', top: '50%', height: '3px',
+              width: `calc((100% - 32px) * ${(stage.id - 1) / 4})`,
+              background: 'var(--terracotta)', transform: 'translateY(-50%)', zIndex: 1,
+            }} />
+            {[1, 2, 3, 4, 5].map(num => {
+              const done = num < stage.id
+              const isCurrent = num === stage.id
+              return (
+                <div key={num} style={{
+                  position: 'relative', zIndex: 2,
+                  width: isCurrent ? '34px' : '26px', height: isCurrent ? '34px' : '26px',
+                  borderRadius: '50%',
+                  background: done || isCurrent ? 'var(--terracotta)' : '#fff',
+                  border: done || isCurrent ? 'none' : '2px solid var(--border)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  color: done || isCurrent ? '#fff' : 'var(--ink-light)',
+                  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: isCurrent ? '13px' : '11px',
+                  boxShadow: isCurrent ? '0 3px 0 var(--terracotta-dark)' : 'none',
+                }}>
+                  {done ? '✓' : num}
+                </div>
+              )
+            })}
+          </div>
+          <Link href="/pathway" style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--terracotta)', letterSpacing: '0.06em', textDecoration: 'none' }}>
+            See what every stage covers →
+          </Link>
         </div>
 
         {/* Parent quote */}

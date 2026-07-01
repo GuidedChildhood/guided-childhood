@@ -43,7 +43,7 @@ export default async function UpgradePage() {
           Unlock the full pathway
         </h1>
         <p style={{ color: 'var(--ink-muted)', fontSize: '16px', maxWidth: '440px', margin: '0 auto' }}>
-          All five stages, unlimited DiGi, all 17 scripts, the wellbeing tracker, and the family agreement builder.
+          All five stages, unlimited DiGi, 100 plus expert scripts grounded in the research, the wellbeing tracker, and the family agreement builder.
         </p>
       </div>
 
@@ -88,7 +88,7 @@ export default async function UpgradePage() {
               <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '2.5rem', color: '#fff' }}>£7.99</span>
               <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: '14px' }}> / month</span>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--gold)', marginTop: '4px' }}>
-                Locked for life — never increases
+                Locked for life, never increases
               </div>
             </div>
             <ul style={{ margin: '0 0 22px', padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -96,7 +96,7 @@ export default async function UpgradePage() {
                 'Everything in the platform, for life at this rate',
                 'All 5 stages as your child grows',
                 'Unlimited DiGi conversations',
-                'All 17 conversation scripts',
+                '100 plus expert scripts',
                 'Wellbeing tracker with trend chart',
                 'Family agreement builder',
                 'Monthly live Pathway Session with Justin (starts at member 50)',
@@ -110,7 +110,7 @@ export default async function UpgradePage() {
             <form action="/api/stripe/checkout" method="POST">
               <input type="hidden" name="tier" value="founder" />
               <button type="submit" className="btn btn-gold" style={{ width: '100%', justifyContent: 'center', fontSize: '15px', padding: '16px' }}>
-                Claim founder rate — £7.99 / month
+                Claim founder rate, £7.99 a month
               </button>
             </form>
           </div>
@@ -127,7 +127,7 @@ export default async function UpgradePage() {
             {[
               'All 5 stages',
               'Unlimited DiGi',
-              'All 17 scripts',
+              '100 plus expert scripts',
               'Wellbeing tracker',
               'Family agreement builder',
               'Cancel any time',
@@ -141,7 +141,7 @@ export default async function UpgradePage() {
           <form action="/api/stripe/checkout" method="POST">
             <input type="hidden" name="tier" value="standard" />
             <button type="submit" className="btn btn-ink" style={{ width: '100%', justifyContent: 'center' }}>
-              Start standard — £12.99 / month
+              Start standard, £12.99 a month
             </button>
           </form>
         </div>
@@ -185,7 +185,7 @@ export default async function UpgradePage() {
           <form action="/api/stripe/checkout" method="POST">
             <input type="hidden" name="tier" value="annual" />
             <button type="submit" className="btn btn-green" style={{ width: '100%', justifyContent: 'center' }}>
-              Start annual — £99 / year
+              Start annual, £99 a year
             </button>
           </form>
         </div>

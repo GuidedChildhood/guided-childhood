@@ -243,7 +243,7 @@ export default function DigiSquadPage() {
                 You do not need to have watched the lesson. DiGi bridges the gap so the learning does not stop when the screen turns off.
               </p>
               <Link href="/starter-pack" className="btn btn-gold">
-                Get the free starter pack
+                Start my pathway free
               </Link>
             </div>
 
@@ -293,7 +293,7 @@ export default function DigiSquadPage() {
           </p>
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link href="/starter-pack" className="btn btn-gold">
-              Get the free starter pack
+              Start my pathway free
             </Link>
             <Link href="/join" className="btn btn-outline" style={{ color: '#fff', borderColor: 'rgba(255,255,255,.35)' }}>
               Full membership

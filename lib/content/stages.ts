@@ -1,6 +1,7 @@
 export type AgeBand = '4-7' | '8-10' | '11-13' | '13-15' | '16+'
 export type ChallengeId = 'screens_takeover' | 'mood_changes' | 'gaming' | 'online_safety' | 'start_conversation' | 'asking_for_phone'
 export type FeelingId = 'anxious' | 'unsure' | 'ready'
+export type TimeCommitmentId = '5min' | '10min' | '15plus'
 
 export interface Stage {
   id: 1 | 2 | 3 | 4 | 5
@@ -259,8 +260,15 @@ export const FEELING_OPTIONS: { label: string; value: FeelingId; sub: string }[]
   { label: 'Worried but ready to act', value: 'ready', sub: 'I just need the right tools' },
 ]
 
+export const TIME_COMMITMENT_OPTIONS: { label: string; value: TimeCommitmentId; sub: string }[] = [
+  { label: '5 minutes', value: '5min', sub: 'Quick daily check ins' },
+  { label: '10 minutes', value: '10min', sub: 'The pace most families use' },
+  { label: '15 minutes or more', value: '15plus', sub: 'I want to go deeper' },
+]
+
 export interface StarterAnswers {
   ageBand: AgeBand
   challenge: ChallengeId
   feeling: FeelingId
+  timeCommitment?: TimeCommitmentId
 }

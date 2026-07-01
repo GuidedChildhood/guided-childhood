@@ -331,6 +331,7 @@ THE CHILD'S CONTEXT:
 - Stage: ${stage.id} (${stage.name}, ${stage.ages})
 - Key Stage: ${stage.keyStage}, ${stage.yearGroup}
 - Main challenge at onboarding: ${onboardingAnswers?.challenge ?? 'not specified'}
+- Daily time this parent committed to at signup: ${onboardingAnswers?.timeCommitment ?? 'not specified'}. Keep advice and suggested actions within this budget, do not casually suggest things that need more time than they said they have.
 - Streak: ${(child?.streak_weeks as number | null) ?? 0} weeks on the pathway
 ${trackerContext}
 ${feedbackContext}

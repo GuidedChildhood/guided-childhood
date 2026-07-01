@@ -6,7 +6,7 @@ import FaqAccordion from '@/components/marketing/FaqAccordion'
 import FlipCards from '@/components/marketing/FlipCards'
 
 export const metadata: Metadata = {
-  title: 'Guided Childhood — Screen Time and Digital Parenting Guide for UK Families · Ages 4 to 16',
+  title: 'Guided Childhood, Screen Time and Digital Parenting Guide for UK Families · Ages 4 to 16',
   description: 'Stop guessing what to say. Guided Childhood gives UK parents exact scripts for every screen time fight, a stage-by-stage pathway from age 4 to 16, and DiGi your AI parenting advisor available at 11pm. Built on the research.',
   openGraph: {
     title: 'Stop guessing what to say about screens. Get the exact words tonight.',
@@ -412,7 +412,7 @@ export default function HomePage() {
             </div>
             <div className="fu" style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center', marginBottom: '28px' }}>
               <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '15px', padding: '16px 36px' }}>
-                Get free starter pack
+                Start my pathway free
               </Link>
               <Link href="#stages" style={{ fontSize: '.88rem', fontWeight: 600, color: 'var(--ink-soft)', textDecoration: 'none' }}>
                 Find your stage →
@@ -644,7 +644,7 @@ export default function HomePage() {
                       }}>
                         <Image
                           src={STAGE_IMGS[i]}
-                          alt={`${s.name} stage — ${s.ages}`}
+                          alt={`${s.name} stage, ${s.ages}`}
                           fill
                           style={{ objectFit: 'cover', objectPosition: 'center top' }}
                           sizes="(max-width: 560px) 50vw, (max-width: 900px) 33vw, 20vw"
@@ -1064,7 +1064,7 @@ export default function HomePage() {
 
           <div style={{ textAlign: 'center', marginTop: '44px' }}>
             <Link href="/starter-pack" className="btn btn-gold fu" style={{ fontSize: '14px', padding: '16px 36px' }}>
-              Get your free starter pack
+              Start my pathway free
             </Link>
           </div>
         </div>
@@ -1297,7 +1297,7 @@ export default function HomePage() {
 
           <div style={{ textAlign: 'center', marginTop: '36px' }}>
             <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '14px', padding: '15px 32px' }}>
-              Get your free starter pack
+              Start my pathway free
             </Link>
           </div>
         </div>
@@ -1778,7 +1778,7 @@ export default function HomePage() {
                 {col.items.map(([title, body], ii) => (
                   <div key={ii} style={{ fontSize: '.8rem', color: 'var(--ink-soft)', display: 'flex', gap: '7px', alignItems: 'flex-start', marginBottom: ii < col.items.length - 1 ? '10px' : 0, lineHeight: 1.55 }}>
                     <span style={{ color: col.color, fontWeight: 700, flexShrink: 0, marginTop: '1px' }}>›</span>
-                    <span><strong style={{ color: 'var(--ink)' }}>{title}</strong> — {body}</span>
+                    <span><strong style={{ color: 'var(--ink)' }}>{title}:</strong> {body}</span>
                   </div>
                 ))}
               </div>
@@ -2271,7 +2271,7 @@ export default function HomePage() {
           </p>
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '20px' }}>
             <Link href="/starter-pack" className="btn btn-gold fu" style={{ fontSize: '15px', padding: '17px 40px' }}>
-              Get the free starter pack
+              Start my pathway free
             </Link>
             <Link href="https://wellbeing.guidedchildhood.com/" target="_blank" rel="noopener noreferrer" style={{
               display: 'inline-flex', alignItems: 'center', justifyContent: 'center',

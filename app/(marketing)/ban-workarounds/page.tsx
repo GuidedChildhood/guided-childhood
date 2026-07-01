@@ -224,7 +224,7 @@ export default function BanWorkaroundsPage() {
             The Children&rsquo;s Wellbeing and Schools Act 2026 bans under-16s from social media in Spring 2027. Children are already learning how to get around it. Here is what that looks like, why it is dangerous, and exactly what to do.
           </p>
           <Link href="/starter-pack" className="btn btn-gold">
-            Get the free starter pack
+            Start my pathway free
           </Link>
         </div>
       </section>
@@ -379,7 +379,7 @@ export default function BanWorkaroundsPage() {
                 Guided Childhood gives you that script. Stage 4 (ages 13 to 16) includes a full workaround conversation guide written for parents, not for Ofsted inspectors.
               </p>
               <Link href="/starter-pack" className="btn btn-gold">
-                Get the free starter pack
+                Start my pathway free
               </Link>
             </div>
 
@@ -463,7 +463,7 @@ export default function BanWorkaroundsPage() {
           </p>
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link href="/starter-pack" className="btn btn-gold">
-              Get the free starter pack
+              Start my pathway free
             </Link>
             <Link href="/join" className="btn btn-outline" style={{ color: '#fff', borderColor: 'rgba(255,255,255,.35)' }}>
               See full membership

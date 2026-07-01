@@ -22,7 +22,7 @@ export default function DigitalWellbeingPage() {
       {/* Nav */}
       <header style={{ position: 'sticky', top: 0, zIndex: 300, height: '60px', padding: '0 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(247,243,238,.97)', backdropFilter: 'blur(20px)', borderBottom: '1px solid var(--border)' }}>
         <Link href="/" style={{ fontFamily: 'var(--font-display)', fontSize: '.95rem', fontWeight: 700, color: 'var(--ink)', textDecoration: 'none' }}>Guided Childhood</Link>
-        <Link href="/starter-pack" style={{ background: 'var(--stage-5)', color: 'var(--ink)', fontFamily: 'var(--font-body)', fontSize: '.82rem', fontWeight: 700, padding: '9px 22px', borderRadius: '100px', textDecoration: 'none', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
+        <Link href="/starter-pack" className="btn btn-gold" style={{ padding: '9px 22px', fontSize: '.82rem' }}>
           Get Started
         </Link>
       </header>

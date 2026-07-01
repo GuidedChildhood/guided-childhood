@@ -363,7 +363,7 @@ export default function PathwayPage() {
             </p>
 
             <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '16px' }}>
-              {['All 20 units', '17 conversation scripts', 'DiGi AI advisor', 'Wellbeing tracker', 'Family agreement builder'].map((f, i) => (
+              {['All 20 units', '100 plus expert scripts', 'DiGi AI advisor', 'Wellbeing tracker', 'Family agreement builder'].map((f, i) => (
                 <span key={i} style={{ fontFamily: 'var(--font-mono)', fontSize: '.62rem', fontWeight: 600, letterSpacing: '.04em', color: 'rgba(255,255,255,.8)', background: 'rgba(255,255,255,.08)', padding: '5px 11px', borderRadius: '8px' }}>
                   {f}
                 </span>

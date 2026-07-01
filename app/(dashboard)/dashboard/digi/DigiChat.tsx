@@ -417,7 +417,7 @@ export default function DigiChat({
         {reflectionDone && (
           <div style={{ textAlign: 'center', padding: '12px 0 8px', marginBottom: 8 }}>
             <p style={{ fontFamily: 'var(--font-body)', fontSize: 12, color: 'var(--ink-muted)' }}>
-              ✓ Reflection saved — DiGi will use this tomorrow
+              ✓ Reflection saved. DiGi will use this tomorrow
             </p>
           </div>
         )}
