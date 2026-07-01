@@ -56,10 +56,14 @@ export default function DigiChat({
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const FREE_LIMIT = 3
 
+  const [deviceKey, setDeviceKey] = useState<string | null>(null)
+
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search)
     const q = searchParams.get('q')
     if (q) setInput(q)
+    const device = searchParams.get('device')
+    if (device) setDeviceKey(device)
   }, [])
 
   useEffect(() => {
@@ -79,7 +83,7 @@ export default function DigiChat({
       const res = await fetch('/api/digi', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: messageText }),
+        body: JSON.stringify({ message: messageText, device_key: deviceKey }),
       })
 
       const data = await res.json()

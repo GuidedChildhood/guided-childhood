@@ -10,7 +10,6 @@ export type DailyCard = {
   headline: string
   body: string
   accent: string
-  bg: string
   icon: string
 }
 
@@ -43,11 +42,9 @@ const DAILY_MOMENTS = [
 export default function DailyDeckViewer({
   cards,
   alreadyDone,
-  yesterdayMoments,
 }: {
   cards: DailyCard[]
   alreadyDone: boolean
-  yesterdayMoments?: string[]
 }) {
   const router = useRouter()
   const [cardIndex, setCardIndex] = useState(0)
@@ -78,7 +75,7 @@ export default function DailyDeckViewer({
     setIsExiting(true)
     setExitDir(dir === 'next' ? 'left' : 'right')
 
-    await new Promise(r => setTimeout(r, 180))
+    await new Promise(r => setTimeout(r, 320))
 
     if (dir === 'next') {
       if (!isLast) {
@@ -132,7 +129,6 @@ export default function DailyDeckViewer({
     }
 
     const saveMoments = () => {
-      if (selectedMoments.length === 0) return
       setMomentsSaved(true)
       fetch('/api/daily/feedback', {
         method: 'POST',
@@ -254,15 +250,15 @@ export default function DailyDeckViewer({
             </div>
             <button
               onClick={saveMoments}
-              disabled={selectedMoments.length === 0}
               style={{
                 width: '100%', padding: '12px',
-                background: selectedMoments.length > 0 ? 'var(--deep-teal)' : 'var(--border)',
-                border: 'none', borderRadius: '12px',
+                background: selectedMoments.length > 0 ? 'var(--deep-teal)' : 'var(--cream)',
+                border: selectedMoments.length > 0 ? 'none' : '1.5px solid var(--border)',
+                borderRadius: '12px',
                 fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
                 letterSpacing: '.08em', textTransform: 'uppercase',
-                color: selectedMoments.length > 0 ? '#fff' : 'var(--ink-light)',
-                cursor: selectedMoments.length > 0 ? 'pointer' : 'default',
+                color: selectedMoments.length > 0 ? '#fff' : 'var(--ink)',
+                cursor: 'pointer',
                 transition: 'all 0.15s ease',
               }}
             >
@@ -311,7 +307,7 @@ export default function DailyDeckViewer({
             width: 36, height: 36, borderRadius: '50%',
             background: 'var(--border)', border: 'none', cursor: 'pointer',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: '18px', color: 'var(--ink-muted)',
+            fontSize: '18px', color: 'var(--ink)',
           }}
         >
           ×
@@ -323,7 +319,7 @@ export default function DailyDeckViewer({
             <div key={i} style={{
               width: i === cardIndex ? 20 : 7,
               height: 7, borderRadius: '100px',
-              background: i <= cardIndex ? 'var(--stage-2-bold, #3D88C5)' : 'var(--border)',
+              background: i <= cardIndex ? 'var(--terracotta)' : 'var(--border)',
               transition: 'width 0.25s ease, background 0.25s ease',
             }} />
           ))}
@@ -339,50 +335,54 @@ export default function DailyDeckViewer({
         onClick={() => !isLast && navigate('next')}
         style={{
           background: '#fff',
-          borderRadius: '24px',
+          borderRadius: '28px',
           overflow: 'hidden',
-          boxShadow: '0 4px 24px rgba(26,26,46,0.10), 0 1px 4px rgba(26,26,46,0.06)',
+          boxShadow: '0 10px 40px rgba(26,26,46,0.14), 0 2px 8px rgba(26,26,46,0.08)',
           border: '1px solid var(--border)',
           cursor: isLast ? 'default' : 'pointer',
           opacity: isExiting ? 0 : 1,
           transform: isExiting
-            ? `translateX(${exitDir === 'left' ? '-28px' : '28px'}) scale(0.97)`
-            : 'translateX(0) scale(1)',
-          transition: 'opacity 0.18s ease, transform 0.18s ease',
+            ? `translateX(${exitDir === 'left' ? '-130%' : '130%'}) rotate(${exitDir === 'left' ? '-12deg' : '12deg'})`
+            : 'translateX(0) rotate(0deg)',
+          transition: isExiting
+            ? 'opacity 0.3s ease, transform 0.32s cubic-bezier(0.4, 0, 0.6, 1)'
+            : 'opacity 0.25s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)',
           marginBottom: '20px',
           userSelect: 'none',
         }}
       >
-        {/* Sky blue header band */}
+        {/* Curved terracotta header band */}
         <div style={{
-          background: 'var(--stage-2)',
-          padding: '20px 24px 16px',
+          background: 'var(--terracotta)',
+          padding: '22px 24px 26px',
+          borderRadius: '0 0 32px 32px',
         }}>
           <div style={{
             fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700,
             letterSpacing: '.18em', textTransform: 'uppercase',
-            color: 'rgba(255,255,255,.65)', marginBottom: '6px',
+            color: 'rgba(255,255,255,.9)', marginBottom: '6px',
           }}>
             {card.eyebrow}
           </div>
           <div style={{
             fontFamily: 'var(--font-display)', fontWeight: 800,
-            fontSize: 'clamp(1rem, 3.5vw, 1.25rem)',
-            color: '#fff', lineHeight: 1.2, letterSpacing: '-0.02em',
+            fontSize: 'clamp(1.15rem, 4vw, 1.5rem)',
+            color: '#fff', lineHeight: 1.15, letterSpacing: '-0.02em',
           }}>
             {card.headline}
           </div>
         </div>
 
         {/* Card body */}
-        <div style={{ padding: '26px 24px 30px' }}>
+        <div style={{ padding: '28px 24px 30px', background: 'var(--terracotta-lt)' }}>
           <p style={{
-            fontSize: 'clamp(15px, 3.8vw, 18px)',
-            lineHeight: 1.72,
-            color: card.type === 'question' ? 'var(--ink)' : 'var(--ink-soft)',
+            fontSize: 'clamp(16px, 4vw, 20px)',
+            lineHeight: 1.55,
+            color: 'var(--ink)',
             margin: 0,
-            fontFamily: card.type === 'question' ? 'var(--font-display)' : 'inherit',
-            fontWeight: card.type === 'question' ? 700 : 400,
+            fontWeight: 700,
+            letterSpacing: '-0.01em',
+            fontFamily: 'var(--font-display)',
           }}>
             {card.body}
           </p>
@@ -393,8 +393,8 @@ export default function DailyDeckViewer({
           <div style={{
             background: 'var(--cream)', borderTop: '1px solid var(--border)',
             padding: '10px 24px',
-            fontFamily: 'var(--font-mono)', fontSize: '10px',
-            color: 'var(--ink-muted)', letterSpacing: '.08em',
+            fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600,
+            color: 'var(--ink)', letterSpacing: '.08em',
             display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           }}>
             <span>Tap card or swipe left</span>
@@ -411,8 +411,8 @@ export default function DailyDeckViewer({
             style={{
               padding: '14px 18px', background: 'var(--cream)',
               border: '1.5px solid var(--border)', borderRadius: '14px',
-              fontFamily: 'var(--font-mono)', fontSize: '12px',
-              letterSpacing: '.06em', color: 'var(--ink-muted)',
+              fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600,
+              letterSpacing: '.06em', color: 'var(--ink)',
               cursor: 'pointer', flexShrink: 0,
             }}
           >
@@ -423,14 +423,12 @@ export default function DailyDeckViewer({
           onClick={() => navigate('next')}
           style={{
             flex: 1, padding: '15px 20px',
-            background: isLast ? 'var(--terracotta)' : 'var(--stage-2)',
+            background: 'var(--terracotta)',
             border: 'none', borderRadius: '14px',
             fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700,
             letterSpacing: '.08em', textTransform: 'uppercase',
             color: '#fff', cursor: 'pointer',
-            boxShadow: isLast
-              ? '0 5px 0 var(--terracotta-dark)'
-              : '0 4px 0 rgba(0,0,0,0.15)',
+            boxShadow: '0 4px 0 var(--terracotta-dark)',
           }}
         >
           {isLast && done ? 'Back to home' : isLast ? 'Done for today ✓' : 'Next →'}

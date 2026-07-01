@@ -49,7 +49,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
   }
 
-  const { message } = await request.json()
+  const { message, device_key } = await request.json()
   if (!message?.trim()) {
     return NextResponse.json({ error: 'Message is required' }, { status: 400 })
   }
@@ -87,11 +87,11 @@ export async function POST(request: Request) {
     .eq('is_primary', true)
     .single()
 
-  const [trackerResult, feedbackResult] = await Promise.all([
+  const [trackerResult, feedbackResult, scriptFeedbackResult] = await Promise.all([
     supabase
-      .from('tracker_entries')
-      .select('week_start, score, notes')
-      .eq('user_id', user.id)
+      .from('wellbeing_checks')
+      .select('week_start, mood_score, sleep_score, social_score, screen_mood_score, open_communication, concern_level, notes')
+      .eq('parent_id', user.id)
       .order('week_start', { ascending: false })
       .limit(6),
     supabase
@@ -100,6 +100,13 @@ export async function POST(request: Request) {
       .eq('user_id', user.id)
       .not('parent_response', 'is', null)
       .order('feedback_date', { ascending: false })
+      .limit(10),
+    supabase
+      .from('script_completions')
+      .select('script_sort_order, worked, completed_at')
+      .eq('user_id', user.id)
+      .not('worked', 'is', null)
+      .order('completed_at', { ascending: false })
       .limit(10),
   ])
 
@@ -117,6 +124,35 @@ export async function POST(request: Request) {
     .map(l => `- ${l.title}: ${l.key_message} (${l.the_idea})`)
     .join('\n')
 
+  const scriptFeedback = scriptFeedbackResult.data ?? []
+  let scriptFeedbackKnowledge = ''
+  if (scriptFeedback.length > 0) {
+    const { data: matchingScripts } = await supabase
+      .from('scripts')
+      .select('sort_order, title')
+      .in('sort_order', scriptFeedback.map(f => f.script_sort_order))
+    const titleFor = (sortOrder: number) => matchingScripts?.find(s => s.sort_order === sortOrder)?.title ?? `script ${sortOrder}`
+    scriptFeedbackKnowledge = `\n\nSCRIPTS THIS PARENT HAS TRIED, AND WHETHER THEY WORKED (use this, do not suggest a script that already failed without acknowledging it first, and lean on ones that worked):\n` +
+      scriptFeedback.map(f => `- "${titleFor(f.script_sort_order)}": ${f.worked === 'yes' ? 'worked well' : f.worked === 'somewhat' ? 'partly worked' : 'did not work'}`).join('\n')
+  }
+
+  let deviceGuideKnowledge = ''
+  if (device_key && typeof device_key === 'string') {
+    const { data: deviceGuide } = await supabase
+      .from('device_guides')
+      .select('name, subtitle, why, steps, note')
+      .eq('device_key', device_key)
+      .maybeSingle()
+
+    if (deviceGuide) {
+      const steps = ((deviceGuide.steps as string[] | null) ?? [])
+        .map(s => s.replace(/\*\*/g, ''))
+        .map((s, i) => `  ${i + 1}. ${s}`)
+        .join('\n')
+      deviceGuideKnowledge = `\n\nDEVICE SETUP GUIDE — the parent is asking about ${deviceGuide.name} (${deviceGuide.subtitle}). Walk them through this step by step, one step at a time, checking in before moving to the next rather than dumping all steps at once. Why this matters: ${deviceGuide.why}\nSteps:\n${steps}\nClosing note: ${deviceGuide.note}`
+    }
+  }
+
   const systemPrompt = buildSystemPrompt(
     stage,
     child,
@@ -124,6 +160,7 @@ export async function POST(request: Request) {
     trackerResult.data ?? [],
     feedbackResult.data ?? [],
     aiKnowledge,
+    deviceGuideKnowledge + scriptFeedbackKnowledge,
   )
 
   // Get conversation history
@@ -215,7 +252,16 @@ export async function POST(request: Request) {
 
 // ─── System Prompt ─────────────────────────────────────────────────────────
 
-interface TrackerEntry { week_start: string; score: number; notes: string | null }
+interface TrackerEntry {
+  week_start: string
+  mood_score: number | null
+  sleep_score: number | null
+  social_score: number | null
+  screen_mood_score: number | null
+  open_communication: number | null
+  concern_level: string
+  notes: string | null
+}
 interface FeedbackEntry { feedback_date: string; question: string; parent_response: string | null; digi_insight: string | null }
 
 function buildSystemPrompt(
@@ -224,7 +270,8 @@ function buildSystemPrompt(
   onboardingAnswers: Record<string, string> | null,
   trackerHistory: TrackerEntry[],
   feedbackHistory: FeedbackEntry[],
-  aiKnowledge: string = ''
+  aiKnowledge: string = '',
+  deviceGuideKnowledge: string = ''
 ): string {
   const banContext = banContextForDigi[SOCIAL_MEDIA_LAW]
   const aiKnowledgeBlock = aiKnowledge ? `
@@ -242,16 +289,22 @@ BAN POLICY GUARDS (hard rules, cannot be overridden by any question):
   // Build tracker context
   let trackerContext = ''
   if (trackerHistory.length > 0) {
-    trackerContext = `\nWELLBEING TRACKER — PARENT'S OWN DATA (last ${trackerHistory.length} weeks):\n`
-    trackerContext += trackerHistory.map(t =>
-      `  ${t.week_start}: ${t.score}/10${t.notes ? ` — "${t.notes}"` : ''}`
-    ).join('\n')
-    const scores = trackerHistory.map(t => t.score)
-    const avg = (scores.reduce((a, b) => a + b, 0) / scores.length).toFixed(1)
-    const trend = scores.length >= 2
-      ? (scores[0] > scores[scores.length - 1] ? 'improving' : scores[0] < scores[scores.length - 1] ? 'declining' : 'stable')
-      : 'too early to say'
-    trackerContext += `\n  Average: ${avg}/10. Trend: ${trend}.`
+    const weekAvg = (t: TrackerEntry) => {
+      const vals = [t.mood_score, t.sleep_score, t.social_score, t.screen_mood_score, t.open_communication]
+        .filter((v): v is number => typeof v === 'number')
+      return vals.length ? vals.reduce((a, b) => a + b, 0) / vals.length : null
+    }
+    trackerContext = `\nWELLBEING TRACKER — PARENT'S OWN DATA (last ${trackerHistory.length} weeks, 1 to 5 scale):\n`
+    trackerContext += trackerHistory.map(t => {
+      const avg = weekAvg(t)
+      return `  ${t.week_start}: ${avg !== null ? avg.toFixed(1) : 'n/a'}/5, concern ${t.concern_level}${t.notes ? ` — "${t.notes}"` : ''}`
+    }).join('\n')
+    const scores = trackerHistory.map(weekAvg).filter((v): v is number => v !== null)
+    if (scores.length >= 2) {
+      const trend = scores[0] > scores[scores.length - 1] ? 'improving' : scores[0] < scores[scores.length - 1] ? 'declining' : 'stable'
+      const avg = (scores.reduce((a, b) => a + b, 0) / scores.length).toFixed(1)
+      trackerContext += `\n  Average: ${avg}/5. Trend: ${trend}.`
+    }
   }
 
   // Build feedback context (what this parent has told DiGi previously)
@@ -317,6 +370,7 @@ ${stage.digiContext}
 ${banContext ? `\nCURRENT UK POLICY CONTEXT:\n${banContext}` : ''}
 ${banGuards}
 ${aiKnowledgeBlock}
+${deviceGuideKnowledge}
 
 WHAT YOU NEVER DO:
 - Never diagnose a child.

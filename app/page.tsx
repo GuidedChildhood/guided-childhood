@@ -976,7 +976,7 @@ export default function HomePage() {
                 title: 'DiGi AI Advisor',
                 body: 'Tell DiGi what happened today. Get the exact words and the structural fix. Available at 11pm when the guilt spiral hits. No generic advice.',
                 svg: (
-                  <span style={{ fontSize: '1.6rem', color: '#fff', lineHeight: 1, fontFamily: 'var(--font-display)', fontWeight: 800 }}>◎</span>
+                  <Image src="/digi-squad/DiGi-star.svg" alt="DiGi" width={36} height={36} style={{ width: '36px', height: '36px' }} />
                 ),
               },
               {
@@ -1201,7 +1201,7 @@ export default function HomePage() {
       <section style={{ padding: 'clamp(80px, 10vw, 112px) 32px', background: 'var(--cream)' }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
 
-          <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+          <div style={{ textAlign: 'center', marginBottom: '32px' }}>
             <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>100 plus scripts</p>
             <h2 style={{ marginBottom: '14px' }}>
               What to say in{' '}
@@ -1212,14 +1212,21 @@ export default function HomePage() {
             </p>
           </div>
 
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'var(--stage-2)', border: '1px solid var(--stage-2)', borderRadius: '100px', padding: '8px 18px', marginBottom: '40px' }}>
+            <span style={{ fontSize: '13px' }}>🔬</span>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 600, color: 'var(--ink)', letterSpacing: '0.02em' }}>
+              Every script is grounded in the research and tested to get the best real response, not just something to say.
+            </span>
+          </div>
+
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }} className="cat-grid">
             {([
-              { label: 'First Device',  desc: 'Setting foundations before and after the first screen arrives.', bg: 'var(--stage-1-bold)', text: 'var(--stage-1-text)', img: 'hf_20260630_090926_be31491a-f70e-4b78-b481-978d61b05b02.png', count: '18 scripts', ks: 'Stage 1 and 2' },
-              { label: 'Social Media',  desc: 'Navigating platforms, algorithms, and identity with your child.', bg: 'var(--stage-3-bold)', text: 'var(--stage-3-text)', img: 'hf_20260630_090927_e0c1dba8-1d3c-4dcc-b618-0145397eee02.png', count: '22 scripts', ks: 'Stage 3 and 4' },
-              { label: 'Gaming',        desc: 'Healthy gaming conversations without the daily battle.', bg: 'var(--stage-2-bold)', text: 'var(--stage-2-text)', img: 'hf_20260630_090929_2fc13373-ba05-49c9-bda0-d6a8464a408a.png', count: '15 scripts', ks: 'All stages' },
-              { label: 'Safety',        desc: 'What to say when something goes wrong online.', bg: 'var(--stage-4-bold)', text: 'var(--stage-4-text)', img: 'hf_20260630_090930_5b54efb5-4116-4861-9645-ba2b549017ad.png', count: '20 scripts', ks: 'Stage 3 to 5' },
-              { label: 'Wellbeing',     desc: 'Mood, sleep, body image, and the digital connection.', bg: 'var(--stage-5-bold)', text: 'var(--stage-5-text)', img: 'hf_20260630_091332_d698fff0-f71a-4055-a6a9-06288831d67b.png', count: '16 scripts', ks: 'Stage 2 to 4' },
-              { label: 'AI and Tech',   desc: 'Deepfakes, AI tools, and what digital literacy looks like.', bg: 'var(--stage-1-bold)', text: 'var(--stage-1-text)', img: 'hf_20260630_090932_df3dd0ec-120d-4a28-92a1-753d85dc418b.png', count: '12 scripts', ks: 'Stage 4 and 5' },
+              { label: 'First Device',  desc: 'Setting foundations before and after the first screen arrives.', bg: 'var(--stage-1-bold)', text: 'var(--stage-1-text)', quote: 'We have a family rule about screens. When the timer goes off, screens go down. Every time, no exceptions.', count: '18 scripts', ks: 'Stage 1 and 2' },
+              { label: 'Social Media',  desc: 'Navigating platforms, algorithms, and identity with your child.', bg: 'var(--stage-3-bold)', text: 'var(--stage-3-text)', quote: 'Did you know your phone is learning what you like? Let me show you something. Open your feed and we will look at it together.', count: '22 scripts', ks: 'Stage 3 and 4' },
+              { label: 'Gaming',        desc: 'Healthy gaming conversations without the daily battle.', bg: 'var(--stage-2-bold)', text: 'var(--stage-2-text)', quote: 'Show me how this works. I want to understand what you like about it before we talk about limits.', count: '15 scripts', ks: 'All stages' },
+              { label: 'Safety',        desc: 'What to say when something goes wrong online.', bg: 'var(--stage-4-bold)', text: 'var(--stage-4-text)', quote: 'If anyone online ever makes you uncomfortable, or asks you to keep something secret, you tell me immediately. I will help first and ask questions later.', count: '20 scripts', ks: 'Stage 3 to 5' },
+              { label: 'Wellbeing',     desc: 'Mood, sleep, body image, and the digital connection.', bg: 'var(--stage-5-bold)', text: 'var(--stage-5-text)', quote: 'I have noticed your mood sometimes changes after being on your phone. Have you noticed that too?', count: '16 scripts', ks: 'Stage 2 to 4' },
+              { label: 'AI and Tech',   desc: 'Deepfakes, AI tools, and what digital literacy looks like.', bg: 'var(--stage-1-bold)', text: 'var(--stage-1-text)', quote: 'This looks real, but I want to show you how to check whether it might be AI generated.', count: '12 scripts', ks: 'Stage 4 and 5' },
             ]).map((cat) => (
               <Link key={cat.label} href="/starter-pack" style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column' }}>
                 <div style={{
@@ -1234,53 +1241,32 @@ export default function HomePage() {
                   transition: 'transform 0.2s, box-shadow 0.2s',
                 }}>
 
-                  {/* Photo area */}
+                  {/* Quote area */}
                   <div style={{
                     background: cat.bg,
-                    height: '180px',
+                    padding: '22px 20px',
                     position: 'relative',
                     flexShrink: 0,
-                    overflow: 'hidden',
                   }}>
-                    <Image
-                      src={`https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/${cat.img}`}
-                      alt={cat.label}
-                      fill
-                      style={{ objectFit: 'cover', objectPosition: 'center top' }}
-                      sizes="(max-width: 540px) 100vw, (max-width: 860px) 50vw, 33vw"
-                    />
-                    {/* Script count badge */}
-                    <div style={{
-                      position: 'absolute',
-                      top: '12px',
-                      right: '12px',
-                      background: 'rgba(255,255,255,0.88)',
-                      borderRadius: '100px',
-                      padding: '4px 10px',
-                      fontSize: '10px',
-                      fontFamily: 'var(--font-mono)',
-                      fontWeight: 700,
-                      color: cat.text,
-                      letterSpacing: '0.04em',
-                    }}>
-                      {cat.count}
+                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: cat.text, marginBottom: '10px' }}>
+                      Say this
                     </div>
-                    {/* Stage badge */}
-                    <div style={{
-                      position: 'absolute',
-                      bottom: '12px',
-                      left: '12px',
-                      background: 'rgba(255,255,255,0.75)',
-                      borderRadius: '100px',
-                      padding: '3px 10px',
-                      fontSize: '9px',
-                      fontFamily: 'var(--font-mono)',
-                      fontWeight: 600,
-                      color: cat.text,
-                      letterSpacing: '0.06em',
-                      textTransform: 'uppercase',
-                    }}>
-                      {cat.ks}
+                    <p style={{ fontFamily: 'var(--font-display)', fontSize: '14px', fontStyle: 'italic', fontWeight: 600, color: cat.text, lineHeight: 1.5, margin: 0 }}>
+                      &ldquo;{cat.quote}&rdquo;
+                    </p>
+                    <div style={{ display: 'flex', gap: '6px', marginTop: '14px', flexWrap: 'wrap' }}>
+                      <span style={{
+                        background: 'rgba(255,255,255,0.7)', borderRadius: '100px', padding: '3px 10px',
+                        fontSize: '9px', fontFamily: 'var(--font-mono)', fontWeight: 700, color: cat.text, letterSpacing: '0.04em',
+                      }}>
+                        {cat.count}
+                      </span>
+                      <span style={{
+                        background: 'rgba(255,255,255,0.7)', borderRadius: '100px', padding: '3px 10px',
+                        fontSize: '9px', fontFamily: 'var(--font-mono)', fontWeight: 600, color: cat.text, letterSpacing: '0.06em', textTransform: 'uppercase',
+                      }}>
+                        {cat.ks}
+                      </span>
                     </div>
                   </div>
 
@@ -1687,9 +1673,9 @@ export default function HomePage() {
           <div style={{ background: 'var(--stage-5)', border: '1px solid var(--border)', borderRadius: '14px', padding: '18px 22px', marginTop: '18px', maxWidth: '880px', marginLeft: 'auto', marginRight: 'auto', display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
             <span style={{ color: 'var(--stage-5-text)', fontSize: '1rem', flexShrink: 0, marginTop: '2px' }}>⚑</span>
             <p style={{ fontSize: '.83rem', color: 'var(--ink-soft)', lineHeight: 1.65 }}>
-              These signals do not mean something is wrong. They mean something is worth paying attention to. The Digital Health Check takes 5 minutes and gives you a personalised read.{' '}
-              <Link href="/digitalwellbeing" style={{ color: 'var(--terracotta-dark)', fontWeight: 700, textDecoration: 'underline' }}>
-                Take it free here.
+              These signals do not mean something is wrong. They mean something is worth paying attention to. The Digital Health Report reads the real patterns in under 10 minutes. Serious flags are always shown free.{' '}
+              <Link href="https://wellbeing.guidedchildhood.com/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--terracotta-dark)', fontWeight: 700, textDecoration: 'underline' }}>
+                Run a report here.
               </Link>
             </p>
           </div>
@@ -2010,9 +1996,9 @@ export default function HomePage() {
               Not sure where to start? The tool will tell you.
             </h3>
             <p style={{ fontSize: '.88rem', color: 'var(--ink)', lineHeight: 1.75, maxWidth: '500px', margin: '0 auto 20px' }}>
-              Answer questions about what is happening at home. TV routines, gaming, sleep, mood, social media access. The Digital Health Check shows you where the gaps are and gives you a personalised starting point.
+              Upload their data from YouTube, TikTok, Instagram, Facebook or their browser history. No logins needed. The Digital Health Report shows you the patterns underneath, and where to start.
             </p>
-            <Link href="/digitalwellbeing" className="btn btn-gold">Take the free Digital Health Check</Link>
+            <Link href="https://wellbeing.guidedchildhood.com/" target="_blank" rel="noopener noreferrer" className="btn btn-gold">Get your child&apos;s Digital Health Report</Link>
           </div>
         </div>
       </section>
@@ -2232,13 +2218,13 @@ export default function HomePage() {
             <Link href="/starter-pack" className="btn btn-gold fu" style={{ fontSize: '15px', padding: '17px 40px' }}>
               Get the free starter pack
             </Link>
-            <Link href="/digitalwellbeing" style={{
+            <Link href="https://wellbeing.guidedchildhood.com/" target="_blank" rel="noopener noreferrer" style={{
               display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
               fontSize: '15px', fontWeight: 700, padding: '17px 36px', borderRadius: 'var(--radius-btn)',
               border: '2px solid var(--ink)', color: 'var(--ink)', textDecoration: 'none',
               background: 'transparent', transition: 'background .15s',
             }}>
-              Take the health check
+              Get the health report
             </Link>
           </div>
           <div style={{ fontSize: '.72rem', color: 'var(--ink-muted)' }}>
@@ -2284,9 +2270,13 @@ export default function HomePage() {
             {/* Tools */}
             <div>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.62rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,.4)', marginBottom: '16px' }}>Tools</div>
-              {[['Free Starter Pack', '/starter-pack'], ['Digital Health Check', '/digitalwellbeing'], ['Ask DiGi', '/starter-pack'], ['For Schools', '/schools'], ['Pricing', '#pricing']].map(([label, href]) => (
+              {[['Free Starter Pack', '/starter-pack'], ['Digital Health Check', 'https://wellbeing.guidedchildhood.com/'], ['Ask DiGi', '/starter-pack'], ['For Schools', '/schools'], ['Pricing', '#pricing']].map(([label, href]) => (
                 <div key={label} style={{ marginBottom: '10px' }}>
-                  <Link href={href} style={{ fontSize: '.78rem', color: 'rgba(255,255,255,.6)', textDecoration: 'none', fontWeight: 500 }}>{label}</Link>
+                  <Link
+                    href={href}
+                    {...(href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                    style={{ fontSize: '.78rem', color: 'rgba(255,255,255,.6)', textDecoration: 'none', fontWeight: 500 }}
+                  >{label}</Link>
                 </div>
               ))}
             </div>

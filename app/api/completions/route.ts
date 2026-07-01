@@ -2,9 +2,12 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 
 export async function POST(req: NextRequest) {
-  const { sort_order } = await req.json()
+  const { sort_order, worked } = await req.json()
   if (!sort_order || typeof sort_order !== 'number') {
     return NextResponse.json({ error: 'missing sort_order' }, { status: 400 })
+  }
+  if (worked !== undefined && !['yes', 'somewhat', 'no'].includes(worked)) {
+    return NextResponse.json({ error: 'invalid worked value' }, { status: 400 })
   }
 
   const supabase = await createClient()
@@ -14,7 +17,7 @@ export async function POST(req: NextRequest) {
   const { error } = await supabase
     .from('script_completions')
     .upsert(
-      { user_id: user.id, script_sort_order: sort_order },
+      { user_id: user.id, script_sort_order: sort_order, ...(worked ? { worked } : {}) },
       { onConflict: 'user_id,script_sort_order' }
     )
 

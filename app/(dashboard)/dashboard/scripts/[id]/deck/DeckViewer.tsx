@@ -20,32 +20,32 @@ const CARDS = [
     key: 'say_this' as const,
     label: 'Say this',
     step: 1,
-    accent: 'var(--stage-2)',
-    bg: '#fff',
+    accent: 'var(--terracotta)',
+    bg: 'var(--terracotta-lt)',
     tip: 'Use these words tonight',
   },
   {
     key: 'not_this' as const,
     label: 'Not this',
     step: 2,
-    accent: 'var(--stage-2)',
-    bg: '#fff',
+    accent: 'var(--terracotta)',
+    bg: 'var(--terracotta-lt)',
     tip: 'Easy to say, hard to come back from',
   },
   {
     key: 'why_it_works' as const,
     label: 'Why it works',
     step: 3,
-    accent: 'var(--stage-2)',
-    bg: '#fff',
+    accent: 'var(--terracotta)',
+    bg: 'var(--terracotta-lt)',
     tip: 'The reason behind the approach',
   },
   {
     key: 'tonight' as const,
     label: 'Tonight',
     step: 4,
-    accent: 'var(--stage-2)',
-    bg: '#fff',
+    accent: 'var(--terracotta)',
+    bg: 'var(--terracotta-lt)',
     tip: 'One thing to do right now',
   },
 ]
@@ -105,7 +105,7 @@ export default function DeckViewer({
       }
       setIsExiting(false)
       animating.current = false
-    }, 220)
+    }, 320)
   }, [cardIndex, completed, script.sort_order])
 
   useEffect(() => {
@@ -165,7 +165,7 @@ export default function DeckViewer({
           <div key={i} style={{
             width: i === cardIndex ? 20 : 7,
             height: 7, borderRadius: '100px',
-            background: i <= cardIndex ? 'var(--stage-2)' : 'var(--border)',
+            background: i <= cardIndex ? 'var(--terracotta)' : 'var(--border)',
             transition: 'width 0.25s ease, background 0.25s ease',
           }} />
         ))}
@@ -186,55 +186,50 @@ export default function DeckViewer({
           <div style={{
             opacity: isExiting ? 0 : 1,
             transform: isExiting
-              ? `translateX(${exitDir === 'left' ? '-28px' : '28px'})`
-              : 'translateX(0)',
-            transition: 'opacity 0.22s ease, transform 0.22s ease',
+              ? `translateX(${exitDir === 'left' ? '-130%' : '130%'}) rotate(${exitDir === 'left' ? '-12deg' : '12deg'})`
+              : 'translateX(0) rotate(0deg)',
+            transition: isExiting
+              ? 'opacity 0.3s ease, transform 0.32s cubic-bezier(0.4, 0, 0.6, 1)'
+              : 'opacity 0.25s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)',
           }}>
             <div
               style={{
                 background: '#fff',
-                borderRadius: '24px',
+                borderRadius: '28px',
                 overflow: 'hidden',
-                boxShadow: '0 4px 24px rgba(26,26,46,0.10), 0 1px 4px rgba(26,26,46,0.06)',
+                boxShadow: '0 10px 40px rgba(26,26,46,0.14), 0 2px 8px rgba(26,26,46,0.08)',
                 border: '1px solid var(--border)',
                 cursor: 'pointer',
               }}
               onClick={() => !isCompletionCard && navigate('next')}
             >
-              {/* Sky blue header band */}
+              {/* Curved header band */}
               <div style={{
                 background: card.accent,
-                padding: '18px 24px 14px',
-                display: 'flex', alignItems: 'center', gap: '12px',
+                padding: '22px 26px 26px',
+                borderRadius: '0 0 32px 32px',
               }}>
-                <div style={{
-                  width: '30px', height: '30px', borderRadius: '50%',
-                  background: 'rgba(255,255,255,0.2)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: '14px', fontWeight: 800, color: '#fff',
-                  fontFamily: 'var(--font-display)', flexShrink: 0,
-                }}>
-                  {card.step}
+                <div style={{ color: 'rgba(255,255,255,0.85)', fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: '6px' }}>
+                  Step {card.step} of {CARDS.length}
                 </div>
-                <div>
-                  <div style={{ color: '#fff', fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
-                    {card.label}
-                  </div>
-                  <div style={{ color: 'rgba(255,255,255,0.65)', fontFamily: 'var(--font-mono)', fontSize: '9px', letterSpacing: '0.06em', marginTop: '2px' }}>
-                    {card.tip}
-                  </div>
+                <div style={{ color: '#fff', fontFamily: 'var(--font-display)', fontSize: '1.6rem', fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1.1, marginBottom: '4px' }}>
+                  {card.label}
+                </div>
+                <div style={{ color: 'rgba(255,255,255,0.9)', fontFamily: 'var(--font-body)', fontSize: '13px', fontWeight: 600 }}>
+                  {card.tip}
                 </div>
               </div>
 
               {/* Card body */}
-              <div style={{ padding: '26px 24px 28px' }}>
+              <div style={{ padding: '30px 26px 30px', background: card.bg }}>
                 <p style={{
-                  fontSize: 'clamp(15px, 3.5vw, 18px)',
-                  lineHeight: 1.68,
+                  fontSize: 'clamp(17px, 4vw, 21px)',
+                  fontWeight: 700,
+                  lineHeight: 1.5,
                   color: 'var(--ink)',
                   margin: 0,
-                  ...(card.key === 'say_this' ? { fontWeight: 500 } : {}),
-                  ...(card.key === 'not_this' ? { color: 'var(--ink-soft)', fontStyle: 'italic' } : {}),
+                  letterSpacing: '-0.01em',
+                  ...(card.key === 'not_this' ? { color: '#991b1b', fontStyle: 'italic' } : {}),
                 }}>
                   {card.key === 'say_this' ? `"${script[card.key]}"` : script[card.key]}
                 </p>
@@ -244,8 +239,8 @@ export default function DeckViewer({
               <div style={{
                 background: 'var(--cream)', borderTop: '1px solid var(--border)',
                 padding: '9px 24px',
-                fontFamily: 'var(--font-mono)', fontSize: '10px',
-                color: 'var(--ink-muted)', letterSpacing: '.08em',
+                fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600,
+                color: 'var(--ink)', letterSpacing: '.08em',
                 display: 'flex', justifyContent: 'space-between',
               }}>
                 <span>Tap card or swipe</span>
@@ -269,8 +264,9 @@ export default function DeckViewer({
                 borderRadius: '14px',
                 fontFamily: 'var(--font-mono)',
                 fontSize: '12px',
+                fontWeight: 600,
                 letterSpacing: '0.06em',
-                color: 'var(--ink-muted)',
+                color: 'var(--ink)',
                 cursor: 'pointer',
                 flexShrink: 0,
               }}
@@ -306,7 +302,7 @@ export default function DeckViewer({
       {/* Swipe hint on first card (mobile only) */}
       {cardIndex === 0 && !isExiting && (
         <div style={{ textAlign: 'center', marginTop: '12px' }}>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--ink-light)', letterSpacing: '0.06em' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--ink-muted)', letterSpacing: '0.06em' }}>
             swipe to navigate
           </span>
         </div>
@@ -352,34 +348,80 @@ function CompletionCard({
   script: ScriptData
   backHref: string
 }) {
+  const [worked, setWorked] = useState<'yes' | 'somewhat' | 'no' | null>(null)
+
+  const sendWorked = (value: 'yes' | 'somewhat' | 'no') => {
+    setWorked(value)
+    fetch('/api/completions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sort_order: script.sort_order, worked: value }),
+    }).catch(() => {})
+  }
+
   return (
     <div>
       <div style={{
         background: '#fff',
-        borderRadius: '22px',
+        borderRadius: '28px',
         overflow: 'hidden',
-        boxShadow: '0 2px 24px rgba(0,0,0,0.09)',
+        boxShadow: '0 10px 40px rgba(26,26,46,0.14), 0 2px 8px rgba(26,26,46,0.08)',
         marginBottom: '16px',
       }}>
-        <div style={{ background: 'var(--terracotta)', padding: '16px 24px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <div style={{ background: 'var(--terracotta)', padding: '22px 26px 26px', borderRadius: '0 0 32px 32px', display: 'flex', alignItems: 'center', gap: '12px' }}>
           <div style={{
-            width: '32px', height: '32px', borderRadius: '50%',
+            width: '36px', height: '36px', borderRadius: '50%',
             background: 'rgba(255,255,255,0.2)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             fontSize: '18px',
           }}>✓</div>
-          <div style={{ color: '#fff', fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
+          <div style={{ color: '#fff', fontFamily: 'var(--font-display)', fontSize: '1.4rem', fontWeight: 800, letterSpacing: '-0.02em' }}>
             Script complete
           </div>
         </div>
-        <div style={{ padding: '24px', background: 'var(--stage-2)' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--terracotta)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '10px' }}>
+        <div style={{ padding: '30px 26px', background: 'var(--terracotta-lt)' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--terracotta)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '10px', fontWeight: 700 }}>
             Keep this in mind
           </div>
-          <p style={{ fontSize: '15px', lineHeight: 1.65, color: 'var(--ink)', margin: 0 }}>
+          <p style={{ fontSize: 'clamp(17px, 4vw, 20px)', fontWeight: 700, lineHeight: 1.5, color: 'var(--ink)', margin: 0, letterSpacing: '-0.01em' }}>
             {script.why_it_works}
           </p>
         </div>
+      </div>
+
+      {/* Did this work feedback — feeds DiGi so it knows what has actually helped */}
+      <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '16px', padding: '18px 20px', marginBottom: '16px' }}>
+        {worked ? (
+          <div style={{ fontSize: '13px', color: 'var(--ink)', fontWeight: 600 }}>
+            ✓ Thanks, saved. DiGi will remember this next time.
+          </div>
+        ) : (
+          <>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '10px' }}>
+              Did this work for you?
+            </div>
+            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+              {([
+                { value: 'yes' as const, label: 'Yes, it helped' },
+                { value: 'somewhat' as const, label: 'Somewhat' },
+                { value: 'no' as const, label: 'Not really' },
+              ]).map(opt => (
+                <button
+                  key={opt.value}
+                  onClick={() => sendWorked(opt.value)}
+                  style={{
+                    padding: '9px 14px', borderRadius: '100px',
+                    border: '1.5px solid var(--border)', background: 'var(--cream)',
+                    fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 600,
+                    color: 'var(--ink)', cursor: 'pointer', letterSpacing: '.02em',
+                  }}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          </>
+        )}
       </div>
 
       <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>

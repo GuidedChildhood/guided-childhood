@@ -64,12 +64,45 @@ export default async function DailyPage() {
     .order('sort_order', { ascending: true })
     .limit(30)
 
+  // Each daily-moments script is written about one specific routine moment, so a
+  // moment flagged yesterday (see components/cards/MomentCard.tsx) can be matched
+  // back to a script by keyword, closing the loop the app promises the parent.
+  const MOMENT_KEYWORDS: Record<string, string[]> = {
+    morning: ['morning'],
+    teeth: ['teeth'],
+    dressed: ['dressed'],
+    bag: ['bag'],
+    lunch: ['lunch'],
+    dropoff: ['drop off', 'dropoff'],
+    pickup: ['pickup', 'pick up'],
+    snacks: ['snack'],
+    dinner: ['dinner'],
+    tv_eve: ['tv'],
+    homework: ['homework'],
+    clothes: ['clothes', 'washing'],
+    fighting: ['fighting', 'sibling'],
+    bedtime: ['bedtime', 'bed'],
+    sleep: ['sleep', 'asleep'],
+  }
+
+  const dayIndex = Math.floor(Date.now() / 86400000)
   let momentScript: { title: string; situation: string; say_this: string } | null = null
+  let momentMatchedYesterday = false
+
   if (momentPool && momentPool.length > 0) {
-    // If yesterday had flagged moments, find a script that matches one of those topics
-    // Otherwise rotate by day-of-year so each day shows a different card
-    const dayIndex = Math.floor(Date.now() / 86400000)
-    momentScript = momentPool[dayIndex % momentPool.length]
+    if (yesterdayMoments.length > 0) {
+      const keywords = yesterdayMoments.flatMap(m => MOMENT_KEYWORDS[m] ?? [])
+      const matches = momentPool.filter(s =>
+        keywords.some(kw => s.title.toLowerCase().includes(kw) || s.situation.toLowerCase().includes(kw))
+      )
+      if (matches.length > 0) {
+        momentScript = matches[dayIndex % matches.length]
+        momentMatchedYesterday = true
+      }
+    }
+    if (!momentScript) {
+      momentScript = momentPool[dayIndex % momentPool.length]
+    }
   }
 
   const stageChallenge = stage.challengeActions?.screens_takeover ?? stage.focus
@@ -85,7 +118,6 @@ export default async function DailyPage() {
       headline: lastScript.title,
       body: lastScript.why_it_works,
       accent: 'var(--terracotta)',
-      bg: 'var(--stage-3)',
       icon: '↩',
     })
   } else {
@@ -96,7 +128,6 @@ export default async function DailyPage() {
       headline: `Stage ${stage.id}: ${stage.name}`,
       body: stage.focus,
       accent: 'var(--terracotta)',
-      bg: 'var(--stage-3)',
       icon: '◎',
     })
   }
@@ -109,7 +140,6 @@ export default async function DailyPage() {
     headline: 'What matters right now',
     body: stageChallenge,
     accent: 'var(--terracotta)',
-    bg: 'var(--stage-2)',
     icon: '◈',
   })
 
@@ -118,11 +148,10 @@ export default async function DailyPage() {
     cards.push({
       id: 'watchfor',
       type: 'watchfor',
-      eyebrow: 'Watch for this today',
+      eyebrow: momentMatchedYesterday ? 'Because you flagged this yesterday' : 'Watch for this today',
       headline: momentScript.title,
       body: `${momentScript.situation}\n\nIf this happens, try: "${momentScript.say_this}"`,
       accent: 'var(--terracotta)',
-      bg: 'var(--stage-5)',
       icon: '△',
     })
   }
@@ -143,7 +172,6 @@ export default async function DailyPage() {
     headline: 'Just one thing to notice',
     body: questions[stage.id] ?? questions[3],
     accent: 'var(--terracotta)',
-    bg: 'var(--stage-1)',
     icon: '?',
   })
 
@@ -159,13 +187,12 @@ export default async function DailyPage() {
       ? `${streak} week streak and counting. See you tomorrow.`
       : 'Practice done. Come back tomorrow and build the habit.',
     accent: 'var(--terracotta)',
-    bg: 'var(--stage-2)',
     icon: '✓',
   })
 
   return (
     <div style={{ background: 'var(--cream)', minHeight: '100dvh' }}>
-      <DailyDeckViewer cards={cards} alreadyDone={alreadyDone} yesterdayMoments={yesterdayMoments} />
+      <DailyDeckViewer cards={cards} alreadyDone={alreadyDone} />
     </div>
   )
 }

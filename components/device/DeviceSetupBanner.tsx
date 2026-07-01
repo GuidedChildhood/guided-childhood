@@ -7,7 +7,6 @@ const STAGE_DEVICE_DATA: Record<number, {
   headline: string
   iosSettings: string[]
   recommendedApps: { name: string; note: string }[]
-  toolsPath: string
 }> = {
   1: {
     device: 'Shared screens and tablets',
@@ -22,7 +21,6 @@ const STAGE_DEVICE_DATA: Record<number, {
       { name: 'BBC Bitesize', note: 'educational content, no feeds' },
       { name: 'Apple Screen Time', note: 'built into iOS, free' },
     ],
-    toolsPath: '/stage-1',
   },
   2: {
     device: 'First restricted device',
@@ -37,7 +35,6 @@ const STAGE_DEVICE_DATA: Record<number, {
       { name: 'Apple Screen Time', note: 'built into iOS, free' },
       { name: 'Bark', note: 'monitors content without reading messages' },
     ],
-    toolsPath: '/stage-2',
   },
   3: {
     device: 'Guided smartphone',
@@ -52,7 +49,6 @@ const STAGE_DEVICE_DATA: Record<number, {
       { name: 'Circle', note: 'router-based filtering for home network' },
       { name: 'iOS Screen Time', note: 'built in, start here before paid tools' },
     ],
-    toolsPath: '/stage-3',
   },
   4: {
     device: 'Monitored social media access',
@@ -67,7 +63,6 @@ const STAGE_DEVICE_DATA: Record<number, {
       { name: 'Instagram Supervision', note: 'built into Instagram, free' },
       { name: 'Meta Family Centre', note: 'covers Facebook and Instagram' },
     ],
-    toolsPath: '/stage-4',
   },
   5: {
     device: 'Full access, trust-based',
@@ -82,7 +77,6 @@ const STAGE_DEVICE_DATA: Record<number, {
       { name: 'iOS Screen Distance', note: 'eye health reminders, built in' },
       { name: 'BeReal', note: 'lower-pressure social format worth understanding' },
     ],
-    toolsPath: '/stage-5',
   },
 }
 
@@ -264,9 +258,7 @@ export default function DeviceSetupBanner({ stageId, stageName, childName }: Pro
             Done, all set
           </button>
           <Link
-            href={`https://tools.guidedchildhood.com${data.toolsPath}`}
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/dashboard/devices"
             style={{
               fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 600,
               color: colors.text, textDecoration: 'underline',
