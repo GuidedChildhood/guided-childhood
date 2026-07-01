@@ -72,13 +72,42 @@ export default function StarterPackPage() {
   const [ageBand, setAgeBand] = useState<AgeBand | null>(null)
   const [challenge, setChallenge] = useState<ChallengeId | null>(null)
   const [feeling, setFeeling] = useState<FeelingId | null>(null)
+  const [restored, setRestored] = useState(false)
 
   const stage = ageBand ? getStageFromAgeBand(ageBand) : null
+
+  // Resume mid-quiz progress on refresh or return visit, instead of losing
+  // everything and starting over at Q1.
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('gc_starter_progress')
+      if (saved) {
+        const parsed = JSON.parse(saved) as { step: Step; ageBand: AgeBand | null; challenge: ChallengeId | null; feeling: FeelingId | null }
+        if (parsed.ageBand) setAgeBand(parsed.ageBand)
+        if (parsed.challenge) setChallenge(parsed.challenge)
+        if (parsed.feeling) setFeeling(parsed.feeling)
+        if (parsed.step && parsed.step !== 'result') setStep(parsed.step)
+      }
+    } catch {}
+    setRestored(true)
+  }, [])
+
+  // Save progress after every answer, not just at the end, so a refresh or
+  // an accidental close does not throw away answers already given.
+  useEffect(() => {
+    if (!restored) return
+    try {
+      localStorage.setItem('gc_starter_progress', JSON.stringify({ step, ageBand, challenge, feeling }))
+    } catch {}
+  }, [restored, step, ageBand, challenge, feeling])
 
   useEffect(() => {
     if (step === 'result' && ageBand && challenge && feeling) {
       const answers: StarterAnswers = { ageBand, challenge, feeling }
-      try { localStorage.setItem('gc_starter_answers', JSON.stringify(answers)) } catch {}
+      try {
+        localStorage.setItem('gc_starter_answers', JSON.stringify(answers))
+        localStorage.removeItem('gc_starter_progress')
+      } catch {}
     }
   }, [step, ageBand, challenge, feeling])
 
