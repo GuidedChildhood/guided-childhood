@@ -730,8 +730,12 @@ export default async function JoinPage() {
             Guided Childhood
           </Link>
           <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
-            {[['Home', '/'], ['Schools', '/schools'], ['Health Check', '/digitalwellbeing'], ['Login', '/login']].map(([label, href]) => (
-              <Link key={href} href={href} style={{ fontFamily: 'var(--font-mono)', fontSize: '.7rem', color: 'var(--ink-muted)', textDecoration: 'none' }}>{label}</Link>
+            {[['Home', '/'], ['Schools', '/schools'], ['Health Check', 'https://wellbeing.guidedchildhood.com/'], ['Login', '/login']].map(([label, href]) => (
+              <Link
+                key={href} href={href}
+                {...(href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                style={{ fontFamily: 'var(--font-mono)', fontSize: '.7rem', color: 'var(--ink-muted)', textDecoration: 'none' }}
+              >{label}</Link>
             ))}
           </div>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.68rem', color: 'var(--ink-light)' }}>© 2026 The Social Billboard</div>

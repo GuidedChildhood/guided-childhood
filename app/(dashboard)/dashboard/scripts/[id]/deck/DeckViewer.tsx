@@ -20,7 +20,7 @@ const CARDS = [
     key: 'say_this' as const,
     label: 'Say this',
     step: 1,
-    accent: 'var(--stage-2)',
+    accent: 'var(--terracotta)',
     bg: '#fff',
     tip: 'Use these words tonight',
   },
@@ -28,7 +28,7 @@ const CARDS = [
     key: 'not_this' as const,
     label: 'Not this',
     step: 2,
-    accent: 'var(--stage-2)',
+    accent: 'var(--terracotta)',
     bg: '#fff',
     tip: 'Easy to say, hard to come back from',
   },
@@ -36,7 +36,7 @@ const CARDS = [
     key: 'why_it_works' as const,
     label: 'Why it works',
     step: 3,
-    accent: 'var(--stage-2)',
+    accent: 'var(--terracotta)',
     bg: '#fff',
     tip: 'The reason behind the approach',
   },
@@ -44,7 +44,7 @@ const CARDS = [
     key: 'tonight' as const,
     label: 'Tonight',
     step: 4,
-    accent: 'var(--stage-2)',
+    accent: 'var(--terracotta)',
     bg: '#fff',
     tip: 'One thing to do right now',
   },
@@ -165,7 +165,7 @@ export default function DeckViewer({
           <div key={i} style={{
             width: i === cardIndex ? 20 : 7,
             height: 7, borderRadius: '100px',
-            background: i <= cardIndex ? 'var(--stage-2)' : 'var(--border)',
+            background: i <= cardIndex ? 'var(--terracotta)' : 'var(--border)',
             transition: 'width 0.25s ease, background 0.25s ease',
           }} />
         ))}
@@ -220,7 +220,7 @@ export default function DeckViewer({
                   <div style={{ color: '#fff', fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
                     {card.label}
                   </div>
-                  <div style={{ color: 'rgba(255,255,255,0.65)', fontFamily: 'var(--font-mono)', fontSize: '9px', letterSpacing: '0.06em', marginTop: '2px' }}>
+                  <div style={{ color: 'rgba(255,255,255,0.9)', fontFamily: 'var(--font-mono)', fontSize: '9px', letterSpacing: '0.06em', marginTop: '2px' }}>
                     {card.tip}
                   </div>
                 </div>
@@ -234,7 +234,7 @@ export default function DeckViewer({
                   color: 'var(--ink)',
                   margin: 0,
                   ...(card.key === 'say_this' ? { fontWeight: 500 } : {}),
-                  ...(card.key === 'not_this' ? { color: 'var(--ink-soft)', fontStyle: 'italic' } : {}),
+                  ...(card.key === 'not_this' ? { color: '#991b1b', fontStyle: 'italic' } : {}),
                 }}>
                   {card.key === 'say_this' ? `"${script[card.key]}"` : script[card.key]}
                 </p>
@@ -244,8 +244,8 @@ export default function DeckViewer({
               <div style={{
                 background: 'var(--cream)', borderTop: '1px solid var(--border)',
                 padding: '9px 24px',
-                fontFamily: 'var(--font-mono)', fontSize: '10px',
-                color: 'var(--ink-muted)', letterSpacing: '.08em',
+                fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600,
+                color: 'var(--ink)', letterSpacing: '.08em',
                 display: 'flex', justifyContent: 'space-between',
               }}>
                 <span>Tap card or swipe</span>
@@ -269,8 +269,9 @@ export default function DeckViewer({
                 borderRadius: '14px',
                 fontFamily: 'var(--font-mono)',
                 fontSize: '12px',
+                fontWeight: 600,
                 letterSpacing: '0.06em',
-                color: 'var(--ink-muted)',
+                color: 'var(--ink)',
                 cursor: 'pointer',
                 flexShrink: 0,
               }}
@@ -306,7 +307,7 @@ export default function DeckViewer({
       {/* Swipe hint on first card (mobile only) */}
       {cardIndex === 0 && !isExiting && (
         <div style={{ textAlign: 'center', marginTop: '12px' }}>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--ink-light)', letterSpacing: '0.06em' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--ink-muted)', letterSpacing: '0.06em' }}>
             swipe to navigate
           </span>
         </div>

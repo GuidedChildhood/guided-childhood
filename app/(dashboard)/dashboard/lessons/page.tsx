@@ -94,7 +94,7 @@ export default async function LessonsPage() {
       </div>
 
       {/* Digital Health Check card */}
-      <Link href="/digitalwellbeing" style={{ textDecoration: 'none', display: 'block', marginBottom: '24px' }}>
+      <Link href="https://wellbeing.guidedchildhood.com/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', display: 'block', marginBottom: '24px' }}>
         <div style={{
           background: 'var(--stage-5)', border: '1.5px solid var(--stage-5)',
           borderRadius: '16px', padding: '18px 20px',
@@ -102,10 +102,10 @@ export default async function LessonsPage() {
         }}>
           <div>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '4px' }}>
-              5 minutes, no signup
+              Under 10 minutes, no login
             </div>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)' }}>
-              Take the free Digital Health Check
+              Get your child&apos;s Digital Health Report
             </div>
           </div>
           <span style={{ fontSize: '18px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>
