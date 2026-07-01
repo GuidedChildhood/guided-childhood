@@ -976,7 +976,7 @@ export default function HomePage() {
                 title: 'DiGi AI Advisor',
                 body: 'Tell DiGi what happened today. Get the exact words and the structural fix. Available at 11pm when the guilt spiral hits. No generic advice.',
                 svg: (
-                  <span style={{ fontSize: '1.6rem', color: '#fff', lineHeight: 1, fontFamily: 'var(--font-display)', fontWeight: 800 }}>◎</span>
+                  <Image src="/digi-squad/DiGi-star.svg" alt="DiGi" width={36} height={36} style={{ width: '36px', height: '36px' }} />
                 ),
               },
               {
