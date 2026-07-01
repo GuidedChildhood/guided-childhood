@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
+import MarkLessonDone from '@/components/lessons/MarkLessonDone'
 
 const STAGE_LABEL: Record<string, { label: string; bg: string }> = {
   foundation:  { label: 'Foundation · Ages 4 to 7',        bg: 'var(--stage-1)' },
@@ -43,6 +44,14 @@ export default async function LessonDetailPage({ params }: { params: Promise<{ i
 
   const lesson = data as Lesson | null
   if (!lesson) notFound()
+
+  const { data: completion } = await supabase
+    .from('lesson_completions')
+    .select('lesson_id')
+    .eq('user_id', user.id)
+    .eq('lesson_id', lesson.id)
+    .eq('lesson_source', 'lesson')
+    .maybeSingle()
 
   const stage = STAGE_LABEL[lesson.stage_id] ?? STAGE_LABEL.foundation
 
@@ -105,6 +114,8 @@ export default async function LessonDetailPage({ params }: { params: Promise<{ i
           </div>
         ))}
       </div>
+
+      <MarkLessonDone lessonId={lesson.id} lessonSource="lesson" initialDone={!!completion} />
 
       {/* DiGi CTA */}
       <div style={{ background: 'var(--stage-5)', border: '1.5px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '24px', display: 'flex', gap: '16px', alignItems: 'center', flexWrap: 'wrap' }}>

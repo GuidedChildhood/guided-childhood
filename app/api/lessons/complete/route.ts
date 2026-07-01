@@ -21,3 +21,24 @@ export async function POST(req: NextRequest) {
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
   return NextResponse.json({ ok: true })
 }
+
+export async function DELETE(req: NextRequest) {
+  const { lesson_id, lesson_source } = await req.json()
+  if (!lesson_id || !['lesson', 'ai_lesson'].includes(lesson_source)) {
+    return NextResponse.json({ error: 'missing or invalid lesson_id / lesson_source' }, { status: 400 })
+  }
+
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
+
+  const { error } = await supabase
+    .from('lesson_completions')
+    .delete()
+    .eq('user_id', user.id)
+    .eq('lesson_id', lesson_id)
+    .eq('lesson_source', lesson_source)
+
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+  return NextResponse.json({ ok: true })
+}
