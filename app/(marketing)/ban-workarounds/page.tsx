@@ -304,7 +304,7 @@ export default function BanWorkaroundsPage() {
       </section>
 
       {/* Warning signs at home */}
-      <section className="section-lg" style={{ background: 'var(--ink)' }}>
+      <section className="section-lg" style={{ background: 'var(--deep-teal)' }}>
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: '48px' }}>
             <p className="eyebrow" style={{ color: 'var(--green)', marginBottom: '12px' }}>For parents at home</p>

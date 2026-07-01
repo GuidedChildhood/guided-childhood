@@ -2250,7 +2250,7 @@ export default function HomePage() {
       {/* ================================================================
           FOOTER — dark navy with columns
           ================================================================ */}
-      <footer style={{ background: '#1A1A2E', padding: 'clamp(48px, 6vw, 72px) 32px 32px' }}>
+      <footer style={{ background: 'var(--deep-teal)', padding: 'clamp(48px, 6vw, 72px) 32px 32px' }}>
         <div style={{ maxWidth: '1040px', margin: '0 auto' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr 1fr 1fr', gap: '40px', marginBottom: '48px' }}>
 

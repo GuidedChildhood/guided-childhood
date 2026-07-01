@@ -486,7 +486,7 @@ export default async function JoinPage() {
       {/* ================================================================
           OUTCOME NARRATIVE
           ================================================================ */}
-      <section className="section-lg" style={{ background: 'var(--ink)' }}>
+      <section className="section-lg" style={{ background: 'var(--deep-teal)' }}>
         <div style={{ maxWidth: '820px', margin: '0 auto', textAlign: 'center' }}>
           <p className="eyebrow" style={{ color: 'var(--gold)', marginBottom: '14px' }}>How this shows up in your home</p>
           <h2 style={{ color: '#fff', marginBottom: '44px', fontSize: 'clamp(1.6rem, 3vw, 2.4rem)', letterSpacing: '-.03em' }}>
@@ -578,7 +578,7 @@ export default async function JoinPage() {
           {/* Founder rate — dark card */}
           {available && (
             <div style={{
-              background: 'var(--ink)',
+              background: 'var(--deep-teal)',
               borderRadius: '20px',
               padding: 'clamp(28px, 4vw, 40px)',
               marginBottom: '20px',

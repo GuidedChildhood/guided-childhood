@@ -250,7 +250,7 @@ export default function ScriptsPage() {
       {/* ── Upsell ───────────────────────────────────── */}
       <section className="no-print" style={{ maxWidth: '760px', margin: '40px auto 0', padding: '0 24px 80px' }}>
         <div style={{
-          background: 'var(--ink)',
+          background: 'var(--deep-teal)',
           borderRadius: '20px',
           padding: 'clamp(28px, 5vw, 40px)',
           textAlign: 'center',

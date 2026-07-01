@@ -344,7 +344,7 @@ export default function PathwayPage() {
       {/* ── Founder CTA ──────────────────────────────── */}
       <section style={{ maxWidth: '800px', margin: '0 auto', padding: '0 24px 80px' }}>
         <div style={{
-          background: 'var(--ink)',
+          background: 'var(--deep-teal)',
           borderRadius: '20px',
           padding: 'clamp(32px, 5vw, 48px)',
           position: 'relative',
