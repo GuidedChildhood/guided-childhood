@@ -4,7 +4,10 @@ import Link from 'next/link'
 import { STAGES } from '@/lib/content/stages'
 import DeviceSetupBanner from '@/components/device/DeviceSetupBanner'
 import PathwayMap from '@/components/pathway/PathwayMap'
+import DailyTrail from '@/components/pathway/DailyTrail'
 import { getStageProgress, type StageId as ProgressStageId } from '@/lib/pathway/progress'
+import { getDailyTasks } from '@/lib/pathway/daily-tasks'
+import type { ChallengeId } from '@/lib/content/stages'
 
 const STAGE_DISPLAY: Record<number, {
   displayName: string
@@ -64,7 +67,7 @@ export default async function PathwayPage() {
   if (!user) redirect('/login')
 
   const [profileResult, childrenResult] = await Promise.all([
-    supabase.from('profiles').select('subscription_status').eq('id', user.id).single(),
+    supabase.from('profiles').select('subscription_status, onboarding_answers').eq('id', user.id).single(),
     supabase.from('children').select('id, name, age_band, stage_id, is_primary, streak_weeks').eq('parent_id', user.id).order('is_primary', { ascending: false }),
   ])
 
@@ -79,9 +82,14 @@ export default async function PathwayPage() {
   const primaryChild = children[0]
   const currentStageNum = primaryChild?.stage_id ? stageIdToNum[primaryChild.stage_id] ?? null : null
 
-  const currentStageProgress = primaryChild?.stage_id
-    ? await getStageProgress(supabase, user.id, primaryChild.stage_id as ProgressStageId, primaryChild.streak_weeks ?? 0)
-    : null
+  const challenge = ((profileResult.data?.onboarding_answers as Record<string, string> | null)?.challenge ?? null) as ChallengeId | null
+
+  const [currentStageProgress, dailyTasks] = primaryChild?.stage_id
+    ? await Promise.all([
+        getStageProgress(supabase, user.id, primaryChild.stage_id as ProgressStageId, primaryChild.streak_weeks ?? 0),
+        getDailyTasks(supabase, user.id, primaryChild.id, primaryChild.stage_id as ProgressStageId, challenge),
+      ])
+    : [null, null]
 
   return (
     <div style={{ padding: '24px 0 32px' }}>
@@ -99,9 +107,18 @@ export default async function PathwayPage() {
         )}
       </div>
 
-      {/* The trail — DiGi walks the winding path to where this family stands */}
+      {/* Today: the real tasks for this family, DiGi leading to the next one */}
+      {dailyTasks && (
+        <div style={{ padding: '0 20px', maxWidth: '720px', margin: '0 auto 40px' }}>
+          <p className="eyebrow" style={{ textAlign: 'center', color: 'var(--terracotta)', marginBottom: '12px' }}>Today</p>
+          <DailyTrail tasks={dailyTasks} />
+        </div>
+      )}
+
+      {/* The full journey: DiGi on the 4 to 16 overview trail */}
       {currentStageNum && (
         <div style={{ padding: '0 20px', margin: '0 auto 36px' }}>
+          <p className="eyebrow" style={{ textAlign: 'center', color: 'var(--ink-muted)', marginBottom: '12px' }}>The full journey, 4 to 16</p>
           <PathwayMap
             currentStageNum={currentStageNum}
             progressPct={currentStageProgress?.overallPct ?? 0}

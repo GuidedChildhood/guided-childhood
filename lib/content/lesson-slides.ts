@@ -47,6 +47,15 @@ export type RecapSlide = {
   points: string[]
 }
 
+// A DiGi Squad video beat: the character explains the idea to a class,
+// produced in Higgsfield, hosted at a plain mp4 URL.
+export type VideoSlide = {
+  type: 'video'
+  src: string
+  caption?: string
+  poster?: string
+}
+
 export type LessonSlide =
   | TitleSlide
   | ConceptSlide
@@ -54,8 +63,9 @@ export type LessonSlide =
   | ChoiceSlide
   | TryItSlide
   | RecapSlide
+  | VideoSlide
 
-const SLIDE_TYPES = new Set(['title', 'concept', 'quote', 'choice', 'tryit', 'recap'])
+const SLIDE_TYPES = new Set(['title', 'concept', 'quote', 'choice', 'tryit', 'recap', 'video'])
 
 // Defensive parse: slides come from a JSONB column, so a malformed row should
 // fall back to the text layout rather than crash the page.

@@ -35,7 +35,24 @@ The deferred feature from the pathway spine work. Age appropriate negotiated agr
 ## Day 4 to 5: Full lesson curriculum and the production pipeline
 
 - Complete the stage by stage lesson curriculum (the AI module and Lessons hub currently have scaffolding, not a full syllabus).
-- Decide and build the production method for lesson content. The earlier decision was slide based teaching, not video embeds, so the default path is animated in app slides built as React and GSAP, which stay on brand and do not depend on external video hosting. If Justin wants an actual video output as well (for marketing or for parents who prefer to watch), that becomes a separate export step on top of the same slide content, not a second content system to maintain.
+- The slide player shipped early (migration 017 plus LessonPlayer). Remaining work is writing the curriculum's worth of slides.
+
+### Lesson structure: Jigsaw PSHE as the reference, then better
+
+Jigsaw's per lesson rhythm is the proven UK classroom model (Connect us, Calm me, Open my mind, Tell me, Let me learn, Help me reflect, with a mascot carrying continuity). Our slide types already map onto it, deliberately better in three ways: interactive checks instead of passive listening, a real script to say tonight instead of a worksheet, and completion data feeding the pathway.
+
+Per lesson slide rhythm:
+1. title — the hook (Jigsaw: Connect us)
+2. video — DiGi Squad character explains to a class (Jigsaw: Tell me / show me, their mascot beat)
+3. concept — the idea in plain words (Open my mind)
+4. choice — quick check with reactive feedback (Let me learn, made interactive)
+5. quote — say this tonight, the script (our upgrade, Jigsaw has no home script)
+6. tryit — the experiment to run at home (Let me learn at home)
+7. recap — what to remember (Help me reflect)
+
+### Video pipeline (Higgsfield)
+
+One short video per lesson, DiGi Squad character explaining to a class. DiGi IS the golden star (confirmed by Justin, robot and owl designs are legacy). Squad members carry their existing designs: Oliver (screen time), Zara (truth finder), Sofia (safety), matched to lesson topic and age. Produced in Higgsfield (kling for text to video, seedance with character reference images for identity consistency), hosted as plain mp4, dropped into the lesson's slides JSON as a video slide, which the player already renders. Pilot video generated for the Explorer algorithm lesson.
 
 ## Non-negotiables carried over
 

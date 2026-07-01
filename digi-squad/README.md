@@ -8,11 +8,9 @@ This folder is the single source of truth for all DiGi Squad characters. Read it
 
 ### DiGi — The Guide
 - **Role**: Coach and wise guide for parents and children across all stages
-- **Design**: Compact rounded robot, green body (#2E7D5A), mint screen face (#AFDCA2), gold antenna (#F2C94C). WALL-E meets Baymax but small and friendly.
-- **Where used**: Homepage DiGi card, /join chat preview, DiGi advisor throughout the platform
+- **Design**: A friendly golden star with a warm smiling face (public/digi-squad/DiGi-star.svg). Confirmed by Justin: DiGi IS the star. The green robot (Digi.png, job `62f19158`) and the owl (job `a195409b`) are both legacy designs, superseded.
+- **Where used**: Homepage DiGi card, /join chat preview, DiGi advisor throughout the platform, animated via components/digi/DigiCharacter.tsx
 - **Voice**: Warm, calm, knowledgeable. Speaks to parents. Never preachy.
-- **Note**: DiGi is a cute robot, NOT an owl. All owl references are legacy and should be removed.
-- **Higgsfield job IDs**: `a195409b` (legacy owl image — superseded), `62f19158` (robot image)
 
 ### DiGi Junior — The Pause Guide
 - **Role**: Mid-lesson pause beats, breathing moments, check-ins between steps (like Jigsaw's Jerrie Cat)

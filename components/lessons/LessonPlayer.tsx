@@ -112,6 +112,23 @@ function SlideBody({ slide, onAnswered }: { slide: LessonSlide; onAnswered: (cor
       )
     case 'choice':
       return <ChoiceBlock slide={slide} onAnswered={onAnswered} />
+    case 'video':
+      return (
+        <div>
+          <video
+            src={slide.src}
+            poster={slide.poster}
+            controls
+            playsInline
+            style={{ width: '100%', borderRadius: '20px', background: 'var(--ink)', display: 'block' }}
+          />
+          {slide.caption && (
+            <p style={{ fontSize: '12.5px', color: 'var(--ink-muted)', marginTop: '10px', textAlign: 'center' }}>
+              {slide.caption}
+            </p>
+          )}
+        </div>
+      )
     case 'tryit':
       return (
         <div style={{ background: 'var(--stage-1)', borderRadius: '20px', padding: 'clamp(22px, 4vw, 30px)', border: '1.5px solid var(--stage-1-bold)' }}>
