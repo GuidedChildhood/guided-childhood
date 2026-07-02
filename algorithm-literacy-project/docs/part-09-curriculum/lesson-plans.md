@@ -1,6 +1,6 @@
 # Lesson Plans
 
-Eight full lesson plans spanning Key Stage 1 to Key Stage 4. Each one is self-contained. Read the linked Part 4 file the night before, print the named worksheet, and you are ready.
+Nine full lesson plans spanning Key Stage 1 to Key Stage 4. Each one is self-contained. Read the linked Part 4 file the night before, print the named worksheet, and you are ready.
 
 Every plan follows the same shape: title, Key Stage and age, duration, objectives, materials, starter, main activity, plenary, differentiation, and a link to a Part 8 simulation or a Part 4 concept. Timings are guides, not gospel.
 
@@ -226,7 +226,63 @@ Use invented, low-stakes example posts. Do not surface real divisive political o
 
 ---
 
-## Lesson 8 (KS4): Design a kinder feed
+## Lesson 8 (KS3): Audit your own feed
+
+**Key Stage / age:** KS3, Year 9, ages 13 to 14
+**Duration:** 60 minutes, plus an optional private home experiment
+**Links to:** Part 4 `age-13.md` (the vending machine) and `age-16.md` (the audit levers). Pairs with Worksheet G and **The Mystery Feed** game (rules in `games-and-experiments.md`). This is the KS3 capstone: it assumes the signal work of Lesson 6 and the spread work of Lesson 7. **Read the safeguarding note below and in `teacher-guides.md` first.**
+
+### Learning objectives
+- I can read a feed backwards: from what it serves, work out the signals that trained it.
+- I can judge a feed against a human question: is this serving this person, or just holding them?
+- I can name the three reset actions and turn them into a specific plan.
+
+### Materials
+- One **Mystery Feed pack** per group of three or four (full contents and rules in `games-and-experiments.md`): twelve invented feed cards for one persona, a goal card, and a sealed history card. All invented, all platform-neutral. **Make one group's pack the success story persona** (a feed already trained into an asset, so the audit is not only a hunt for problems) **and one the new arrival** (a just-turned-16 first social media account, where week one signals decide everything). Both are specified in the game rules.
+- Worksheet G printed per student.
+- Board space for the three reset actions.
+- No devices. This lesson is deliberately unplugged: nobody opens a real feed in class.
+
+### Starter (10 minutes)
+Recall the vending machine from `age-13.md`: it watches you and rearranges overnight, your row sliding to eye level. Then write up the line this lesson hangs on: **the top of a feed is the machine's bet about who you are.** Read out the first five items of an invented feed (the sample on Worksheet G works). Ask: "What is the machine betting about this person? What do you think they did to train it?" Take guesses, confirm nothing yet. Then tell them what they just did: they read a feed backwards to the signals behind it. That skill has a name, an audit, and by the end of the hour they will be good at it.
+
+### Main activity (35 minutes)
+Three phases: audit, diagnose, reset. Worksheet G walks the same three.
+
+1. **Audit (12 min).** Groups take their Mystery Feed pack and study the twelve cards. For each dominant card type, the detective question from Lesson 6: what signal put this here? Watched to the end? Rewatched? Searched? Followed? Lingered by accident? They write the machine's bet in one sentence: "The machine thinks this person is ____." Then they open the sealed history card and check their deduction against the signals the persona actually sent. The gap between the two is where the accidental treats live.
+
+2. **Diagnose (10 min).** Read the persona's goal card aloud ("I want to get better at drawing", "I want to get to sleep earlier"). Sort the twelve cards into two piles against that goal: **serving them** or **just holding them**. This is the age 13 split made physical: keeping you watching is not the same as helping you, and now the split is sitting on the table in two piles they made themselves. The success story group will find their piles lopsided the good way. Surface that loudly: this persona trained their feed on purpose and it became an asset, proof that the audit sometimes ends in "keep going, this is working", not always in a telling off.
+
+3. **Reset (13 min).** Groups write the persona a reset prescription on Worksheet G, one line per reset action. Keep the wording exactly as the parent workshops use it, so home and school agree:
+   - **Clear the bad signals.** Stop lingering on what you do not want. Use "not interested". Unfollow what leaves you flat.
+   - **Search and finish good content.** Train it on purpose. Watch time and search are the strongest levers you have, so point them at what you actually want more of.
+   - **Follow variety.** Force the exploration the machine under-prioritises. One deliberate out-of-lane follow or finish keeps the bubble loose.
+
+   Push for specifics. "Search three drawing tutorials and finish them" is a prescription. "Use it less" is not.
+
+### The home experiment (optional and private)
+The back page of Worksheet G is a take-home version of the same audit for their own feed, if they have one. Set it as an invitation, never as homework to hand in: nobody collects it, nobody shares it, and any recommender counts, a video app, a music app, a games store, a shopping site. Three days, three moves: look at your eye level and ask if it is what you want to be known for, run the three reset actions, look again and see what shifted. Doing it alongside a parent is worth suggesting out loud: Workshop 2 in `parent-workshops.md` teaches parents the same three reset actions and how to co-view without inspecting, so a family that wants to can run the audit side by side, each on their own feed. For a class that can take it, add the `age-16.md` framing: change exactly one behaviour and watch retrieval and ranking respond.
+
+### Plenary (15 minutes)
+Each group presents their persona's prescription in sixty seconds: the machine's bet, the split, the three resets. Then close on the Year 9 sentence from the outcomes ladder, which is this whole lesson in one line: "I checked what mine was feeding me, cleared the bad signals, and trained it on what I want." Land the final word as power, not panic: you do not write the rule, but every signal the machine reads comes from you, so the wheel was in your hands all along.
+
+### Where the skill goes next (two minutes, worth saying every time)
+Name the transfer before they leave the room, and give it two horizons.
+
+The near one is social media. Under current UK policy, access to the named platforms begins at 16, which for a Year 9 class is close enough to touch. Say it straight: a brand-new social media account learns fastest, so the first week decides what the feed becomes. Everything rehearsed today on paper personas is exactly what they will do for real in that first week: set the account up deliberately, send strong signals on purpose, audit at the end of week one. They are not being kept away from social media. They are being trained to arrive well, and the ones who arrive with these habits get the good version: the communities, the craft, the creators building real things.
+
+The far one is AI. The moves they just practised, read a system's objective, send deliberate signals, judge the output against your own goal, are exactly how people direct AI tools: briefing an assistant clearly, checking an answer instead of swallowing it, steering an AI agent through a task, and noticing when "the tool is holding my attention" has replaced "the tool is helping me learn". Some people their age have trained a feed around a craft until it taught them, then used AI tools to build and sell what they made. Keep it invented and platform-neutral like everything else, but say it plainly: this lesson was not only about protecting yourself from a machine. It was the first lesson in running one.
+
+### Differentiation
+- **Support:** provide pre-written signal cards to match against feed cards instead of free deduction, and prescription sentence starters ("Stop lingering on...", "Search and finish...", "Follow one...").
+- **Stretch:** rank the reset actions by strength using the `age-16.md` levers (watch time and search beat "not interested", and why). Then the sharpest question in the file: the machine measures when you stop, so which signal do you control completely?
+
+### Safeguarding note
+Nobody opens, shows, or reports on a real feed in class, ever. The audit skill is taught on invented personas precisely so that no child's actual feed becomes classroom material. Under current UK policy many Year 9 pupils will have no social media feeds at all: teach the skill as applying to any recommender, never assume access, and never imply anyone should get around a restriction. The home page of Worksheet G is private and optional. If the lesson prompts a disclosure about something a child has been served, follow your school's safeguarding policy. Frame every recognition as power, never as a failing. See `teacher-guides.md`.
+
+---
+
+## Lesson 9 (KS4): Design a kinder feed
 
 **Key Stage / age:** KS4, Years 10 to 11, ages 14 to 16
 **Duration:** 90 minutes (one double, or two singles)
@@ -257,11 +313,11 @@ Each group pitches their kinder feed in sixty seconds: the objective, the metric
 
 ## Reusing these plans for the other units
 
-The eighteen-unit scope and sequence in `README.md` lists ten units not written up in full. Each one reuses a plan above:
+The eighteen-unit scope and sequence in `README.md` lists nine units not written up in full. Each one reuses a plan above:
 
 - KS1 Units 1.1 to 1.3 follow Lessons 1 and 2.
 - KS2 Units 2.1 to 2.5 follow Lessons 3, 4, and 5.
-- KS3 Units 3.1 to 3.5 follow Lessons 6 and 7, plus the audit work folded into Worksheet D and the games file.
-- KS4 Units 4.1 to 4.5 follow Lesson 8, broken into its phases across several lessons.
+- KS3 Units 3.1 to 3.4 follow Lessons 6 and 7. Unit 3.5 is written up in full as Lesson 8.
+- KS4 Units 4.1 to 4.5 follow Lesson 9, broken into its phases across several lessons.
 
 To build a missing unit, take the nearest plan, swap the starter hook, and point the main activity at the named Part 4 file, Part 5 code, or Part 8 simulation in the scope-and-sequence table.
