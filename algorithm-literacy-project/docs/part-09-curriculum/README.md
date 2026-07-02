@@ -24,11 +24,12 @@ These aims sit on top of, not instead of, ordinary online safety teaching. Safet
 
 ## Our stance, carried into the classroom
 
-We keep the three rules from Part 4 in every lesson.
+We keep the three rules from Part 4 in every lesson, plus a fourth this part adds.
 
 - **Systems, not villains.** Apps are built to keep people watching because that is how they earn. That is an incentive, not a plot. We explain the machine. We do not demonise the people who built it.
 - **Power, not panic.** Every lesson ends with the child more capable, not more frightened. The point is agency.
 - **True, but right-sized.** A Year 2 child gets a smaller true picture. A Year 11 student gets close to the real engineering. Nobody has to unlearn what we taught them earlier.
+- **Capability, not just defence.** The programme models the upside as deliberately as the risk. Lessons include success stories (invented, realistic, platform-neutral): a feed trained into a genuine asset, a young person who learned a craft or started something because they steered instead of drifted. Children copy what they see celebrated, so we celebrate steering well, not just avoiding harm.
 
 Teachers should stay neutral about platforms. Name a behaviour ("watching to the end") rather than a brand. This keeps the lesson legal-safe, future-proof, and fair to children who use different apps or, under current UK policy, none of the named platforms at all.
 
@@ -118,6 +119,18 @@ One page. Read top to bottom as a child grows. Each rung assumes the one below i
 | **Year 11 (age 16)** | Describe retrieval, ranking, and the objective function; argue for an alternative objective and name its trade-off | "It maximises an objective. Change the objective and you change the feed, but every kinder metric is harder to measure and costs engagement." |
 
 A child who reaches the top rung is not cynical and not frightened. They understand a system, they can steer it, and they can hold an honest opinion about how it should be built. That is the whole aim.
+
+---
+
+## From steering feeds to steering AI
+
+The audit skill is not just self-defence. It is the entry-level version of the defining work skill of these children's adulthood: directing AI systems on purpose.
+
+A recommender and an AI assistant are the same family of machine. Each has an objective, reads the signals you send, and produces output you must judge against your own goal, not the system's. A young person who can read a feed's objective, send deliberate signals, and ask "is this serving me or just holding me" already has the core moves for working with AI: writing a clear brief for an assistant, checking an answer instead of swallowing it, steering an AI agent through a task, and noticing when the tool's easy path and their real goal have quietly split (using AI to learn versus using it to avoid learning is the same serving-or-holding question in new clothes).
+
+The curriculum carries this forward layer in three places. The KS3 audit lesson (Unit 3.5) names the transfer out loud in its closing beat. The KS4 block goes further: a student who can design an objective function and break their own metric (Unit 4.4) is doing, at sixteen, the actual work of AI product design. And the success stories woven through the programme include young builders: people who trained a feed around a craft until it taught them, then used AI tools to make and sell what they learned. That path, creator, builder, AI-fluent entrepreneur, is a legitimate ambition this programme treats as discussable in a classroom, with the same honesty as everything else: named as possible, never promised as easy.
+
+None of this needs new hardware or a coding unit. It is a framing carried by teachers: every time a child steers a system instead of being steered, say so. That habit of mind is the future AI skill, and it is teachable at nine.
 
 ---
 

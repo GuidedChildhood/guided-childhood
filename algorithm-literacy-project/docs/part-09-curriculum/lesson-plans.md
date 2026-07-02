@@ -238,7 +238,7 @@ Use invented, low-stakes example posts. Do not surface real divisive political o
 - I can name the three reset actions and turn them into a specific plan.
 
 ### Materials
-- One **Mystery Feed pack** per group of three or four (full contents and rules in `games-and-experiments.md`): twelve invented feed cards for one persona, a goal card, and a sealed history card. All invented, all platform-neutral.
+- One **Mystery Feed pack** per group of three or four (full contents and rules in `games-and-experiments.md`): twelve invented feed cards for one persona, a goal card, and a sealed history card. All invented, all platform-neutral. **Make one group's pack the success story persona** (see the game rules): a feed already trained into an asset, so the audit is not only a hunt for problems.
 - Worksheet G printed per student.
 - Board space for the three reset actions.
 - No devices. This lesson is deliberately unplugged: nobody opens a real feed in class.
@@ -251,7 +251,7 @@ Three phases: audit, diagnose, reset. Worksheet G walks the same three.
 
 1. **Audit (12 min).** Groups take their Mystery Feed pack and study the twelve cards. For each dominant card type, the detective question from Lesson 6: what signal put this here? Watched to the end? Rewatched? Searched? Followed? Lingered by accident? They write the machine's bet in one sentence: "The machine thinks this person is ____." Then they open the sealed history card and check their deduction against the signals the persona actually sent. The gap between the two is where the accidental treats live.
 
-2. **Diagnose (10 min).** Read the persona's goal card aloud ("I want to get better at drawing", "I want to get to sleep earlier"). Sort the twelve cards into two piles against that goal: **serving them** or **just holding them**. This is the age 13 split made physical: keeping you watching is not the same as helping you, and now the split is sitting on the table in two piles they made themselves.
+2. **Diagnose (10 min).** Read the persona's goal card aloud ("I want to get better at drawing", "I want to get to sleep earlier"). Sort the twelve cards into two piles against that goal: **serving them** or **just holding them**. This is the age 13 split made physical: keeping you watching is not the same as helping you, and now the split is sitting on the table in two piles they made themselves. The success story group will find their piles lopsided the good way. Surface that loudly: this persona trained their feed on purpose and it became an asset, proof that the audit sometimes ends in "keep going, this is working", not always in a telling off.
 
 3. **Reset (13 min).** Groups write the persona a reset prescription on Worksheet G, one line per reset action. Keep the wording exactly as the parent workshops use it, so home and school agree:
    - **Clear the bad signals.** Stop lingering on what you do not want. Use "not interested". Unfollow what leaves you flat.
@@ -261,10 +261,13 @@ Three phases: audit, diagnose, reset. Worksheet G walks the same three.
    Push for specifics. "Search three drawing tutorials and finish them" is a prescription. "Use it less" is not.
 
 ### The home experiment (optional and private)
-The back page of Worksheet G is a take-home version of the same audit for their own feed, if they have one. Set it as an invitation, never as homework to hand in: nobody collects it, nobody shares it, and any recommender counts, a video app, a music app, a games store, a shopping site. Three days, three moves: look at your eye level and ask if it is what you want to be known for, run the three reset actions, look again and see what shifted. For a class that can take it, add the `age-16.md` framing: change exactly one behaviour and watch retrieval and ranking respond.
+The back page of Worksheet G is a take-home version of the same audit for their own feed, if they have one. Set it as an invitation, never as homework to hand in: nobody collects it, nobody shares it, and any recommender counts, a video app, a music app, a games store, a shopping site. Three days, three moves: look at your eye level and ask if it is what you want to be known for, run the three reset actions, look again and see what shifted. Doing it alongside a parent is worth suggesting out loud: Workshop 2 in `parent-workshops.md` teaches parents the same three reset actions and how to co-view without inspecting, so a family that wants to can run the audit side by side, each on their own feed. For a class that can take it, add the `age-16.md` framing: change exactly one behaviour and watch retrieval and ranking respond.
 
 ### Plenary (15 minutes)
 Each group presents their persona's prescription in sixty seconds: the machine's bet, the split, the three resets. Then close on the Year 9 sentence from the outcomes ladder, which is this whole lesson in one line: "I checked what mine was feeding me, cleared the bad signals, and trained it on what I want." Land the final word as power, not panic: you do not write the rule, but every signal the machine reads comes from you, so the wheel was in your hands all along.
+
+### Where the skill goes next (one minute, worth saying every time)
+Name the transfer before they leave the room. The moves they just practised, read a system's objective, send deliberate signals, judge the output against your own goal, are exactly how people direct AI tools: briefing an assistant clearly, checking an answer instead of swallowing it, steering an AI agent through a task, and noticing when "the tool is holding my attention" has replaced "the tool is helping me learn". Some people their age have trained a feed around a craft until it taught them, then used AI tools to build and sell what they made. Keep it invented and platform-neutral like everything else, but say it plainly: this lesson was not only about protecting yourself from a machine. It was the first lesson in running one.
 
 ### Differentiation
 - **Support:** provide pre-written signal cards to match against feed cards instead of free deduction, and prescription sentence starters ("Stop lingering on...", "Search and finish...", "Follow one...").

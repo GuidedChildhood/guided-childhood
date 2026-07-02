@@ -103,7 +103,7 @@ Every game stays neutral about platforms. Cards say "a cooking video" or "a foot
 - **One goal card** stating what the persona actually wants ("I want to get better at drawing", "I want to get to sleep earlier").
 - **One sealed history card** listing the six signals the persona really sent: three deliberate (searched, followed, finished on purpose) and at least one accidental (lingered on something they did not even like).
 
-Make three or four different personas so groups can compare feeds at the end. All invented, all low-stakes.
+Make three or four different personas so groups can compare feeds at the end. All invented, all low-stakes. **Make one pack the success story.** One persona whose feed genuinely serves their goal: they searched and finished on purpose, followed variety, and their feed became an asset (a persona who trained everything toward animation and is now visibly getting better at it, say). Their history card shows mostly deliberate signals. The audit skill has to work in both directions, and the class needs to see a feed that is working, not only feeds that have drifted.
 
 **Rules:**
 1. Groups study the twelve feed cards. The detective question for each dominant card type: what signal put this here? Watched to the end, rewatched, searched, followed, or lingered by accident?
@@ -112,7 +112,7 @@ Make three or four different personas so groups can compare feeds at the end. Al
 4. Read the goal card. Sort all twelve cards into two piles: **serving them** or **just holding them**.
 5. Write the persona a three-line reset prescription: clear the bad signals, search and finish good content, follow variety.
 
-**The reveal:** the feed was never a mystery. It was a record. A group of strangers just reconstructed most of someone's behaviour from twelve cards, which is exactly what the machine does, at scale, with millions of cards. And the deductions that were wrong matter too: the machine guesses wrong the same way, because it reads behaviour, not minds. The fix is not to out-think it, it is to send better signals on purpose.
+**The reveal:** the feed was never a mystery. It was a record. A group of strangers just reconstructed most of someone's behaviour from twelve cards, which is exactly what the machine does, at scale, with millions of cards. And the deductions that were wrong matter too: the machine guesses wrong the same way, because it reads behaviour, not minds. The fix is not to out-think it, it is to send better signals on purpose. The success story pack carries the second half of the message: the same machine, sent deliberate signals, becomes a tutor instead of a trap. Steering well is a real skill with a real payoff, and this persona has it.
 
 **Why personas and not real feeds:** no child's actual feed should ever be classroom material. The persona gives everyone safe distance: a pupil can say "she lingered on junk and trained it by accident" out loud in a way nobody could say about themselves. The private take-home page on Worksheet G is where the skill becomes personal, by choice, at home.
 

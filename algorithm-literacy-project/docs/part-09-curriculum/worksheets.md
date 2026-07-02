@@ -219,11 +219,15 @@ Clear the bad signals: ____________________________
 Search and finish good content: ____________________________
 Follow variety: ____________________________
 
+**6. The upside.** A deliberately trained feed can become a free tutor. Write one thing this persona could get genuinely good at if they trained their feed toward their goal for a month.
+
+____________________________________________
+
 ---
 
 **The private page: your own audit. Optional. Take it home. Nobody collects this.**
 
-If you use anything with a feed (videos, music, games, shopping), try this over three days.
+If you use anything with a feed (videos, music, games, shopping), try this over three days. If you want company, invite a parent or carer to run it alongside you, each of you on your own feed. They audit theirs, you audit yours, and you compare notes only if you both want to. Nobody grabs anybody's phone.
 
 **Day 1, eye level.** Open your most used app and look at the first five things. That is the machine's bet about you. Is it what you want to be known for? You do not have to write anything down.
 
@@ -231,4 +235,6 @@ If you use anything with a feed (videos, music, games, shopping), try this over 
 
 **Day 3, look again.** What shifted? What does that tell you about whose hands are on the wheel?
 
-> **Teacher answer note.** Q1 to Q3 mark against the pack's history card, but reward reasoned wrong guesses: the skill being taught is inference from behaviour, and the machine itself guesses wrong the same way. Q4 counts vary by pack; what matters is that the split exists and students can defend their sort. Q5: a strong prescription is specific and reaches for the strong signals (search, watch time), not just avoidance. The private page is never collected, never discussed unless a pupil volunteers, and never set as assessed homework. That deal is what makes it safe, keep it.
+**And one more thing.** The skill you just used, working out what a system is optimising for and steering it toward your goal instead, is the same skill people use to get good work out of AI tools. You will use it for the rest of your life. This was practice.
+
+> **Teacher answer note.** Q1 to Q3 mark against the pack's history card, but reward reasoned wrong guesses: the skill being taught is inference from behaviour, and the machine itself guesses wrong the same way. Q4 counts vary by pack; what matters is that the split exists and students can defend their sort. Q5: a strong prescription is specific and reaches for the strong signals (search, watch time), not just avoidance. Q6 is the positivity check: accept any concrete capability (a craft, a language, a sport skill, a school subject), and push back gently on vague answers like "be happier"; a trained feed teaches things, name the thing. The private page is never collected, never discussed unless a pupil volunteers, and never set as assessed homework. That deal is what makes it safe, keep it.
