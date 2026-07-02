@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What to post on LinkedIn for parent and school sign ups · Guided Childhood Research Briefing</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root{
+  --cream:      #F7F3EE;
+  --warm:       #FDFBF8;
+  --ink:        #1C1C1C;
+  --ink-soft:   #4A4A4A;
+  --ink-muted:  #6E6A62;
+  --ink-light:  #9B958A;
+  --green:      #AFDCA2;
+  --green-dark: #2E7D5A;
+  --green-lt:   #EEF7F2;
+  --coral:      #D4600A;
+  --coral-lt:   #FEF3E8;
+  --coral-dark: #C0392B;
+  --gold:       #F2C94C;
+  --gold-lt:    #FEFAE8;
+  --gold-dark:  #C9962A;
+  --gold-hover: #E3B53A;
+  --lav:        #E7ECF8;
+  --lav-deep:   #3D5BA9;
+  --border:     #E4DFD7;
+  --font-display: 'Hanken Grotesk', system-ui, sans-serif;
+  --font-body:    'Hanken Grotesk', system-ui, sans-serif;
+  --font-mono:    'IBM Plex Mono', monospace;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--cream);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.65}
+.wrap{max-width:860px;margin:0 auto;padding:48px 24px 96px}
+
+.eyebrow{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-muted)}
+
+header.brief-head{padding:40px 0 32px;border-bottom:1px solid var(--border)}
+header.brief-head h1{font-weight:800;font-size:clamp(2rem,5vw,3rem);line-height:1.12;letter-spacing:-0.02em;margin:12px 0 16px}
+.meta-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{font-family:var(--font-mono);font-size:12px;font-weight:500;padding:5px 12px;border-radius:999px;background:var(--warm);border:1px solid var(--border);color:var(--ink-soft)}
+.chip.version{background:var(--gold-lt);border-color:var(--gold);color:var(--gold-dark);font-weight:600}
+
+section{margin-top:56px}
+section > h2{font-weight:800;font-size:clamp(1.4rem,3vw,1.9rem);letter-spacing:-0.01em;margin:10px 0 20px}
+section > .eyebrow{display:block}
+
+.summary-card{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:28px 30px;font-size:17px;color:var(--ink-soft)}
+.summary-card p+p{margin-top:12px}
+
+.finding{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:24px 26px;margin-bottom:16px}
+.finding-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.finding h3{font-weight:700;font-size:1.15rem;line-height:1.35;max-width:560px}
+.reliability{font-family:var(--font-mono);font-size:12px;font-weight:600;white-space:nowrap;padding:6px 12px;border-radius:12px}
+.reliability.high{background:var(--green-lt);color:var(--green-dark)}
+.reliability.medium{background:var(--gold-lt);color:var(--gold-dark)}
+.reliability.low{background:var(--coral-lt);color:var(--coral-dark)}
+.finding p{color:var(--ink-soft);margin-top:10px}
+.lens-tags{margin-top:14px;font-family:var(--font-mono);font-size:12px}
+.lens-tags .supported{color:var(--green-dark)}
+.lens-tags .challenged{color:var(--coral-dark)}
+.lens-tags span.sep{color:var(--ink-light);margin:0 8px}
+.finding .cite{font-family:var(--font-mono);font-size:12px;color:var(--ink-light);margin-top:10px}
+
+table.contra{width:100%;border-collapse:collapse;background:var(--warm);border:1px solid var(--border);border-radius:20px;overflow:hidden}
+table.contra th{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;text-align:left;color:var(--ink-muted);padding:14px 18px;border-bottom:1px solid var(--border);background:var(--cream)}
+table.contra td{padding:14px 18px;border-bottom:1px solid var(--border);color:var(--ink-soft);font-size:15px;vertical-align:top}
+table.contra tr:last-child td{border-bottom:none}
+td.leans{font-family:var(--font-mono);font-size:13px;font-weight:600;white-space:nowrap}
+td.leans.green{color:var(--green-dark)}
+td.leans.coral{color:var(--coral-dark)}
+
+.lens-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px}
+.lens-panel{border:1px solid var(--border);border-radius:20px;padding:22px 24px;background:var(--warm)}
+.lens-panel .eyebrow{margin-bottom:8px}
+.lens-panel h3{font-weight:700;font-size:1.05rem;margin-bottom:8px}
+.lens-panel p{color:var(--ink-soft);font-size:15px}
+.lens-panel.clinician{background:var(--green-lt)}
+.lens-panel.academic{background:var(--lav)}
+.lens-panel.skeptic{background:var(--coral-lt)}
+.lens-panel.economist{background:var(--gold-lt)}
+.lens-panel.historian{background:var(--warm)}
+.lens-panel.child{background:var(--cream);border-color:var(--green)}
+
+.gc-card{background:var(--green-lt);border:1px solid var(--green);border-radius:20px;padding:28px 30px}
+.gc-card ul{list-style:none;margin-top:4px}
+.gc-card li{padding:12px 0;border-bottom:1px solid var(--border);color:var(--ink-soft)}
+.gc-card li:last-child{border-bottom:none}
+.gc-card li strong{color:var(--ink);font-weight:700}
+.gc-card .tag{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--green-dark);display:block;margin-bottom:2px}
+
+.assump-card{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:26px 28px}
+.assump-card h3{font-weight:700;font-size:1.05rem;margin-bottom:8px}
+.assump-card p{color:var(--ink-soft)}
+.assump-card .missing{margin-top:20px;padding-top:20px;border-top:1px solid var(--border)}
+.assump-card .missing h3{color:var(--coral-dark)}
+
+.ledger{background:var(--warm);border:1px solid var(--border);border-radius:20px;overflow:hidden}
+.ledger-row{display:flex;gap:16px;align-items:flex-start;padding:16px 20px;border-bottom:1px solid var(--border)}
+.ledger-row:last-child{border-bottom:none}
+.verdict{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;padding:5px 10px;border-radius:10px;white-space:nowrap;margin-top:2px}
+.verdict.confirmed{background:var(--green-lt);color:var(--green-dark)}
+.verdict.corrected{background:var(--gold-lt);color:var(--gold-dark)}
+.verdict.demoted{background:var(--coral-lt);color:var(--coral-dark)}
+.ledger-row .src{font-size:14px;color:var(--ink-soft)}
+.ledger-row .src a{color:var(--lav-deep);text-decoration:none;border-bottom:1px solid var(--lav)}
+.ledger-row .src .note{display:block;font-family:var(--font-mono);font-size:12px;color:var(--ink-light);margin-top:4px}
+
+footer.brief-foot{margin-top:72px;padding-top:24px;border-top:1px solid var(--border);font-family:var(--font-mono);font-size:12px;color:var(--ink-light)}
+
+@media (max-width:600px){
+  .wrap{padding:24px 16px 64px}
+  .finding-top{flex-direction:column}
+  table.contra{display:block;overflow-x:auto}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="brief-head">
+    <span class="eyebrow">Guided Childhood Research Briefing</span>
+    <h1>What should you post on LinkedIn to win parents and schools?</h1>
+    <p style="color:var(--ink-soft);max-width:640px">You asked which subjects convert LinkedIn into parent subscriptions and school pilot sign ups. Six lenses researched it, and one of them attacked the question itself. The answer changed shape because of it.</p>
+    <div class="meta-row">
+      <span class="chip version">V1 · Verification running</span>
+      <span class="chip">1 July 2026</span>
+      <span class="chip">The Practitioner</span>
+      <span class="chip">The Academic</span>
+      <span class="chip">The Skeptic</span>
+      <span class="chip">The Economist</span>
+      <span class="chip">The Historian</span>
+      <span class="chip">The Audience</span>
+    </div>
+  </header>
+
+  <section id="summary">
+    <span class="eyebrow">Read this first</span>
+    <h2>60 Second Summary</h2>
+    <div class="summary-card">
+      <p>The skeptic lens landed the most important punch: LinkedIn is not really a parent channel. The regulator measures only about one in five UK adults using it, for under an hour a month, and parents seek parenting help on Facebook, WhatsApp and Mumsnet. But headteachers are the educator group most likely to use LinkedIn for work, and thought leadership measurably opens school doors: 86% of institutional buyers say it gets a company invited into procurement. So the strategy is one profile, two lanes: write primarily for school decision makers, and let professional parents convert as spillover.</p>
+      <p>Your subject matter almost picks itself. The under 16 ban is a nine month scheduled demand calendar with parent support somewhere between 69% and 9 in 10 depending on who you ask, and Australia's precedent shows the ban leaks, which makes the winning angle "the ban will not parent for you, here is what to do instead." Fear only converts when paired with a concrete pathway, which happens to be exactly what Guided Childhood sells. Every parenting brand that scaled did it by repeating one named, actionable concept, and every school win came from peer recommendation and workload relief, not adverts.</p>
+      <p>The pillars: ban countdown explainers pegged to each legislative milestone, words to use scripts as forwardable carousels, DSL and PSHE workload relief for the school lane, and your own founder story as the fellow parent who did the homework. Keep direct selling to roughly one post in five, because the algorithm cuts promotional reach by up to 70%.</p>
+    </div>
+  </section>
+
+  <section id="findings">
+    <span class="eyebrow">Ranked by reliability</span>
+    <h2>Key Findings</h2>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>The ban is a scheduled demand calendar, and "what to do instead" is the open lane.</h3>
+        <span class="reliability high">Reliability 9/10</span>
+      </div>
+      <p>Announced 15 June 2026, regulations by end of 2026, live Spring 2027. Parent support ranges from 69% (Deloitte) through 77% (YouGov) to 9 in 10 (the government's own consultation of 116,000 responses). Each legislative milestone is a predictable engagement spike you can pre write posts for. Australia's ban shows the vacuum that follows: 61% of banned age children still had access months later, downloads of alternatives spiked but usage did not, and the question parents were left holding was "what does my child do instead." Nobody in the UK owns that answer yet.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: all six lenses</span>
+      </div>
+      <div class="cite">Sources: S1, S2, S3, S4</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Post from your personal profile. The company page is a filing cabinet.</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>Personal profiles earn roughly 5 to 8x the engagement of company pages, users are about 3x more likely to engage with founder content, and company page reach has fallen 60 to 66% since 2024, with pages reaching under 2% of their own followers. Every lens agreed on this one. The multipliers come from vendor datasets, so treat the exact numbers loosely, but the direction is unanimous.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Practitioner, Academic, Economist, Audience</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: Skeptic notes the absolute baseline is shrinking either way</span>
+      </div>
+      <div class="cite">Sources: S5, S6</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>LinkedIn is a school leader channel. Parents are the spillover, not the target.</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>Ofcom measures LinkedIn use at 25% of UK men and 18% of UK women, and average time on the platform is under an hour a month against roughly 17 hours for Facebook. Parents seeking parenting help go to Facebook groups, WhatsApp and Mumsnet; no case study exists of a UK parenting subscription built on LinkedIn. But headteachers are the educator segment most likely to use LinkedIn for work, and school buyers silently vet vendor credibility there for months before ever talking to you. Write for the head and the PSHE lead; the professional parent reading over their shoulder is a bonus conversion.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Skeptic, Economist</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: Practitioner notes parent age professionals are the platform's core demographic</span>
+      </div>
+      <div class="cite">Sources: S7, S8, S9, S10</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Thought leadership genuinely opens school procurement doors, but the bar is high.</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>In the Edelman and LinkedIn studies of B2B decision makers, 75% researched a product they had not considered after reading good thought leadership, 86% would invite a company into a tender because of it, 60% would pay a premium, and 9 in 10 are more receptive to outreach from consistent publishers. What they value: strong research and data (55%), help understanding their own challenges (44%), concrete case studies (43%). The catch: 71% say most of what they read is worthless. Generic hot takes about the ban will be discounted; original data and named school stories will not.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Academic, Practitioner, Economist</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: Skeptic notes these are self reported survey answers, not observed purchases</span>
+      </div>
+      <div class="cite">Sources: S11, S12</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Name the worry, sell the pathway. Fear without efficacy does not convert.</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>The definitive meta analysis of fear appeals (248 samples, 27,372 participants) found fear works on average (d = 0.29) and rarely backfires, but effectiveness jumps only when the threat is paired with a doable action the reader believes works. Protection Motivation Theory says the "you can do this" half matters more than the threat half. And the DSL audience specifically treats scare based e safety as a mark of an unsophisticated vendor. Every post formula: real worry, named plainly, then the concrete next step.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Academic, Audience, Historian</span>
+      </div>
+      <div class="cite">Sources: S13, S14</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Scaled parenting brands repeat one named concept. Yours is the calibrated pathway.</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>Dr Becky built Good Inside to 100,000+ subscribers and $34M revenue on repeated, concrete "here is exactly what to say to your kid" content and a small set of named concepts (repair, sturdy leadership) that even crossed over to professional audiences as leadership content. Big Life Journal grew on one named concept (growth mindset) given away as printables. Smartphone Free Childhood mobilised 140,000 parents from 13,500 schools with a single forwardable pact. The historical pattern is repetition of one ownable idea, not content variety. Baby Einstein is the cautionary tale: overclaim developmental outcomes to anxious parents and the backlash is existential.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Historian, Practitioner, Audience</span>
+      </div>
+      <div class="cite">Sources: S15, S16, S17, S18</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Schools buy risk reduction and workload relief, on peer recommendation, with no money.</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>DfE research finds 38 to 41% of schools consult teachers in nearby schools before buying edtech, and safeguarding leads name workload as their biggest pressure. School budgets are dire: 76% of primaries and 94% of secondaries cannot afford next year's costs. Free online safety content is already being given away (Twinkl gave every UK primary a year of Natterhub). So school lane posts should lead with statutory pressure relief and free entry, be written to be forwarded from one head to another, and name real pilot schools as soon as you have them. The post is an artifact for word of mouth, not an advert.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Audience, Economist, Historian, Practitioner</span>
+      </div>
+      <div class="cite">Sources: S19, S20, S21, S22</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Parents of 9 year olds and parents of 14 year olds need different posts.</h3>
+        <span class="reliability medium">Reliability 7/10</span>
+      </div>
+      <p>Parentkind polling found 77% of primary parents supported an under 16 smartphone ban against just 16% of secondary parents, whose children are already inside the platforms. Parental worry peaks at ages 10 to 12 (79% worry about screen time). Prevention framing works for the primary parent; the secondary parent needs "no shame, here is how to renegotiate" content. One tone does not fit both, and the ban countdown makes the split sharper, not softer.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Audience</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: verification should check the 16% figure, it is strikingly low</span>
+      </div>
+      <div class="cite">Sources: S23, S24</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Keep selling to one post in five, and use document carousels as the workhorse.</h3>
+        <span class="reliability medium">Reliability 6/10</span>
+      </div>
+      <p>The largest practitioner dataset says posts detected as promotional lose up to 70% of reach, and recommends roughly 40% topical commentary, 40% original insight and scripts, 20% direct ask. Document carousels are the top performing format and map perfectly onto scripts and checklists. These are industry numbers, not peer reviewed, but they set a sensible operating rhythm: the algorithm rewards the consistent, on topic voice and punishes the pitch.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Practitioner</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: Academic flags the evidence tier</span>
+      </div>
+      <div class="cite">Sources: S5, S25</div>
+    </article>
+
+  </section>
+
+  <section id="contradictions">
+    <span class="eyebrow">Where the lenses disagree</span>
+    <h2>Contradiction Map</h2>
+    <table class="contra">
+      <thead>
+        <tr><th>Disagreement</th><th>Position A</th><th>Position B</th><th>Evidence leans</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Can LinkedIn drive parent subscriptions at all?</td>
+          <td>Parent age professionals are the core demographic and Good Inside proves social converts to paid (Practitioner)</td>
+          <td>Regulator data shows one in five adults, under an hour a month, and Good Inside grew on Instagram, not LinkedIn (Skeptic)</td>
+          <td class="leans coral">Skeptic, for parents</td>
+        </tr>
+        <tr>
+          <td>Do headteachers procure via LinkedIn?</td>
+          <td>Heads are the most LinkedIn active educator group and vet vendors silently there (Practitioner)</td>
+          <td>Procurement runs on peer recommendation, newsletters and TES; US leaders prefer Facebook (Skeptic)</td>
+          <td class="leans green">Credibility layer, not sales channel</td>
+        </tr>
+        <tr>
+          <td>How much parent support does the ban have?</td>
+          <td>9 in 10, per the government consultation (Practitioner, Economist)</td>
+          <td>69% per Deloitte, 77% per YouGov, and just 16% of secondary parents for a phone ban (Audience, Skeptic)</td>
+          <td class="leans green">Strong but not 9 in 10; sent to verification</td>
+        </tr>
+        <tr>
+          <td>Should fear feature in the content at all?</td>
+          <td>Fear appeals work, d = 0.29, and rarely backfire (Academic)</td>
+          <td>Haidt won by naming the fear; Baby Einstein died by overclaiming; DSLs discount scare content (Historian, Audience)</td>
+          <td class="leans green">Name the worry, sell the pathway</td>
+        </tr>
+        <tr>
+          <td>Is teacher social media data still valid?</td>
+          <td>Heads on LinkedIn per the 5,000 educator survey (Practitioner)</td>
+          <td>That survey is from 2022, before the X exodus; habits have migrated to WhatsApp and podcasts (Skeptic)</td>
+          <td class="leans coral">Data is stale, direction uncertain</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="lenses">
+    <span class="eyebrow">Six perspectives</span>
+    <h2>Lens Panels</h2>
+    <div class="lens-grid">
+      <div class="lens-panel clinician">
+        <span class="eyebrow">The Practitioner</span>
+        <h3>Ride the ban, 40/40/20, carousels of scripts</h3>
+        <p>The audience, the buyer and the news hook are pre aligned. Post ban commentary within the hour, original scripts and data weekly, direct ask once in five posts, all from your personal profile.</p>
+      </div>
+      <div class="lens-panel academic">
+        <span class="eyebrow">The Academic</span>
+        <h3>Efficacy first content is the evidence backed play</h3>
+        <p>Threat plus doable pathway converts; threat alone does not. Warmth and competence must both show in the feed. And borrow credibility: teachers and researchers are trusted, business founders are not.</p>
+      </div>
+      <div class="lens-panel skeptic">
+        <span class="eyebrow">The Skeptic</span>
+        <h3>The channel question comes before the content question</h3>
+        <p>Parents are not on LinkedIn in buying mode, and nobody has ever built a parenting subscription there. Use LinkedIn for school credibility only, and put parent acquisition hours into search, referral and the class WhatsApp.</p>
+      </div>
+      <div class="lens-panel economist">
+        <span class="eyebrow">The Economist</span>
+        <h3>Founder content is nearly the only CAC that pencils</h3>
+        <p>At your price point, paid ads are arithmetically underwater. One founder hour of school facing content also reaches professional parents, and the school sales cycle means posts planted now land in the 2026/27 procurement windows.</p>
+      </div>
+      <div class="lens-panel historian">
+        <span class="eyebrow">The Historian</span>
+        <h3>One named concept, repeated for years</h3>
+        <p>Repair built Dr Becky. Growth mindset built Big Life Journal. The pact built Smartphone Free Childhood. Own "the calibrated pathway" and repeat it until people say it back to you. And never overclaim outcomes to anxious parents.</p>
+      </div>
+      <div class="lens-panel child">
+        <span class="eyebrow">The Audience</span>
+        <h3>I stop for my exact worry and forward what is useful</h3>
+        <p>As a parent I stop for my child's age, my specific fear, and words I can use tonight. As a head I stop for anything that shortens my Monday and keeps Ofsted off my back. Neither of us stops for your product news.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="guided-childhood">
+    <span class="eyebrow">So what do we do</span>
+    <h2>What This Means for Guided Childhood</h2>
+    <div class="gc-card">
+      <ul>
+        <li>
+          <span class="tag">Marketing</span>
+          <strong>Run two lanes from one personal profile.</strong> A school lane (DSL and PSHE workload relief, statutory pressure, pilot evidence) and a parent lane (scripts, ban countdown, age specific worries). Roughly 40% ban and news commentary, 40% original scripts and data, 20% direct ask routed to /starter-pack.
+        </li>
+        <li>
+          <span class="tag">Ban readiness</span>
+          <strong>Pre write the milestone posts now.</strong> Bill publication, committee stage, Ofcom guidance, commencement. Each one gets a same day "what this actually means for your family / your school" post. The Australia data (61% still had access) is your honest credibility card: the ban will leak, and that is exactly why families need a pathway.
+        </li>
+        <li>
+          <span class="tag">Scripts</span>
+          <strong>Turn the scripts library into forwardable PDF carousels.</strong> One script per week, 8 to 10 slides, worded so a parent can forward it to the class WhatsApp and a head can forward it to another head. The scripts are your growth mindset, your repair. They already live in the database; now they do marketing duty.
+        </li>
+        <li>
+          <span class="tag">Schools</span>
+          <strong>Lead the school offer with free entry and name your pilots.</strong> Budgets are catastrophic and free competitors exist, so the pilot is the product on LinkedIn. As soon as a school completes a pilot, the named case study post becomes your highest value asset: 86% of buyers invite vendors to tender off exactly that.
+        </li>
+        <li>
+          <span class="tag">Copy</span>
+          <strong>Split parent content by stage, and never overclaim.</strong> Prevention voice for parents of Stage 1 to 2 children, no shame renegotiation voice for Stage 3 to 4. Claim calibrated pathways and calmer homes, never developmental outcomes. That is the Baby Einstein line you do not cross, and it matches non negotiable rule one.
+        </li>
+        <li>
+          <span class="tag">Channels</span>
+          <strong>Do not make LinkedIn carry parent acquisition alone.</strong> The parent engine at scale is search, referral and school gate WhatsApp forwarding, with schools themselves as distribution (the Bark pattern: free for schools, parents convert downstream). LinkedIn's job is school credibility and the professional parent minority.
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="assumptions">
+    <span class="eyebrow">Honest limits</span>
+    <h2>Assumptions and the Missing Lens</h2>
+    <div class="assump-card">
+      <h3>This briefing rests on</h3>
+      <p>The engagement multipliers and the 40/40/20 rhythm come from vendor datasets, not peer review. The Edelman thought leadership numbers are self reported buyer surveys. The teacher social media data predates the X exodus and may understate LinkedIn's current share of school leaders. And the ban support figures disagree with each other by 20 points depending on pollster and question wording, so treat "9 in 10" as a government talking point rather than a fact.</p>
+      <div class="missing">
+        <h3>The missing seventh lens</h3>
+        <p>The competitor. Nobody mapped who else is racing to own "what to do instead" before Spring 2027: Internet Matters, Natterhub, Smartphone Free Childhood's next move, the parental control apps, Good Inside itself if it crosses the Atlantic. Whether the lane is genuinely open decides how fast you need to move. Say the word and V3 runs the competitor lens.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="sources">
+    <span class="eyebrow">Every citation checked against its primary source</span>
+    <h2>Source Ledger</h2>
+    <div class="ledger">
+      <div class="ledger-row">
+        <span class="verdict corrected">Checking</span>
+        <div class="src"><a href="https://www.gov.uk/government/news/social-media-to-be-banned-for-under-16s-in-landmark-government-move-to-givekids-their-childhood-back">S1 · Social media to be banned for under 16s</a> · GOV.UK, June 2026<span class="note">Announced 15 June 2026; 9 in 10 parents back ban per consultation; live Spring 2027</span></div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Checking</span>
+        <div class="src"><a href="https://commonslibrary.parliament.uk/research-briefings/cbp-10468/">S2 · Proposals to ban social media for children</a> · Commons Library CBP 10468, 2026<span class="note">116,000 consultation responses; YouGov support at 77%</span></div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Checking</span>
+        <div class="src"><a href="https://www.deloitte.com/uk/en/about/press-room/uk-consumers-in-favour-of-a-social-media-ban-for-under-16s.html">S3 · Deloitte Digital Consumer Trends</a> · Deloitte, 2026<span class="note">69% of UK adults back the ban; 52% of Gen Z; 38% of 10 year olds own a smartphone</span></div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Checking</span>
+        <div class="src"><a href="https://mollyrosefoundation.org/more-than-60-of-australian-children-still-using-social-media-despite-ban-for-under-16s-research-shows/">S4 · Australian ban circumvention research</a> · Molly Rose Foundation, April 2026<span class="note">61% of 12 to 15s who had accounts still have access; eSafety found download spikes without usage spikes</span></div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Checking</span>
+        <div class="src"><a href="https://authoredup.com/blog/linkedin-algorithm">S5 · Algorithm InSights 2025 summaries</a> · van der Blom via AuthoredUp, 2025<span class="note">Promotional posts lose up to 70% reach; 40/40/20 mix; document carousels top format</span></div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Checking</span>
+        <div class="src"><a href="https://www.refinelabs.com/article/personal-linkedin-engagement-vs-company-page">S6 · Personal profiles vs company pages</a> · Refine Labs and others, 2024 to 2026<span class="note">Roughly 5 to 8x engagement for personal profiles; page reach down 60 to 66%</span></div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Checking</span>
+        <div class="src"><a href="https://www.ofcom.org.uk/siteassets/resources/documents/research-and-data/online-research/online-nation/2025/online-nations-report-2025.pdf">S7 · Online Nation 2025</a> · Ofcom, December 2025<span class="note">LinkedIn used by 25% of UK men, 18% of UK women; Facebook 93%, WhatsApp 90%</span></div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Checking</span>
+        <div class="src"><a href="https://www.blankspaces.app/blog/linkedin-screen-time-statistics">S8 · LinkedIn screen time statistics</a> · DataReportal via blankspaces, 2026<span class="note">Average LinkedIn user spends roughly 46 to 51 minutes per month on the platform</span></div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Checking</span>
+        <div class="src"><a href="https://www.edge.co.uk/documents/365/Teachers_media_habits_report_FINAL.pdf">S9 · The Social Media Habits of Teachers</a> · Edge Foundation, 2022 era<span class="note">Headteachers the educator group most likely to use LinkedIn for work; only 6% of heads use no work social media</span></div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Checking</span>
+        <div class="src"><a href="https://marketbrief.edweek.org/sales-marketing/the-social-media-platforms-district-and-school-leaders-use-to-get-their-jobs-done/2024/01">S10 · Platforms school leaders use</a> · EdWeek MarketBrief, 2024<span class="note">US leaders prefer Facebook 27%, YouTube 18%; LinkedIn not top four. US sample</span></div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Checking</span>
+        <div class="src"><a href="https://www.edelman.com/expertise/Business-Marketing/2025-b2b-thought-leadership-report">S11 · B2B Thought Leadership Impact Report 2025</a> · Edelman and LinkedIn<span class="note">75% researched unconsidered products; 90% more receptive; 60% pay premium; 71% say most is worthless</span></div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Checking</span>
+        <div class="src"><a href="https://www.edelman.com/expertise/Business-Marketing/2024-b2b-thought-leadership-report">S12 · B2B Thought Leadership Impact Report 2024</a> · Edelman and LinkedIn<span class="note">86% would invite a company to RFP off its thought leadership; 73% trust it over marketing materials</span></div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Checking</span>
+        <div class="src"><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5789790/">S13 · Appealing to Fear meta analysis</a> · Tannenbaum et al., Psychological Bulletin, 2015<span class="note">d = 0.29 across 248 samples, N = 27,372; strongest with efficacy statements; no backfire conditions found</span></div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Checking</span>
+        <div class="src"><a href="https://www.sciencedirect.com/science/article/abs/pii/0022103183900239">S14 · Protection motivation and self efficacy</a> · Maddux and Rogers, JESP, 1983<span class="note">Self efficacy a stronger driver of protective intention than threat information</span></div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Checking</span>
+        <div class="src"><a href="https://fortune.com/2026/02/27/dr-becky-kennedy-good-inside-revenue-leadership-playbook-for-parenting-34-million-a-year-business/">S15 · Good Inside revenue and playbook</a> · Fortune, 2026<span class="note">100,000+ subscribers, $34M revenue, scripts style content, concepts crossing to leadership audiences</span></div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Checking</span>
+        <div class="src"><a href="https://www.shopify.com/blog/big-life-journal-printables">S16 · Big Life Journal case study</a> · Shopify<span class="note">Free growth mindset printables built a 200,000+ email list of parents and teachers</span></div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Checking</span>
+        <div class="src"><a href="https://en.wikipedia.org/wiki/Smartphone_Free_Childhood">S17 · Smartphone Free Childhood</a> · Wikipedia and ITV News, 2024 to 2026<span class="note">140,000+ parents from 13,500 schools signed the pact; grew via school WhatsApp groups</span></div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Checking</span>
+        <div class="src"><a href="https://slate.com/technology/2017/12/the-rise-and-fall-of-baby-einstein.html">S18 · The rise and fall of Baby Einstein</a> · Slate, 2017<span class="note">Overclaimed developmental benefits to anxious parents; FTC complaint; refunds; brand collapse</span></div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Checking</span>
+        <div class="src"><a href="https://assets.publishing.service.gov.uk/media/636e7717e90e07186280f7cf/Edtech_market_in_England_Nov_2022.pdf">S19 · The edtech market in England</a> · DfE research report, 2022<span class="note">38% of primary and 41% of secondary schools consult local schools before buying</span></div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Checking</span>
+        <div class="src"><a href="https://schoolsweek.co.uk/safeguarding-pressures-on-designated-leads-is-alarming/">S20 · Safeguarding lead pressures</a> · Schools Week, 2025<span class="note">Workload the biggest challenge for designated safeguarding leads</span></div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Checking</span>
+        <div class="src"><a href="https://neu.org.uk/latest/press-releases/vast-majority-schools-face-funding-cuts-next-year">S21 · School funding shortfalls</a> · NEU School Cuts, 2025<span class="note">76% of primaries and 94% of secondaries cannot afford next year's costs</span></div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Checking</span>
+        <div class="src"><a href="https://www.edtechinnovationhub.com/news/twinkl-to-offer-free-uk-access-to-natterhub-as-schools-tackle-online-safety-pressures">S22 · Twinkl gives Natterhub free to UK primaries</a> · EdTech Innovation Hub<span class="note">Free online safety content sets the school price floor at zero</span></div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Checking</span>
+        <div class="src"><a href="https://www.parentkind.org.uk/research-and-policy/parent-research/research-library/school-education-policies/parent-poll-on-smartphones-march-2024">S23 · Parent poll on smartphones</a> · Parentkind, March 2024<span class="note">83% call smartphones harmful; 77% primary vs 16% secondary parents back an under 16 ban. The 16% needs checking</span></div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Checking</span>
+        <div class="src"><a href="https://www.ofcom.org.uk/media-use-and-attitudes/media-habits-children/children-and-parents-media-use-and-attitudes-report-2025">S24 · Children and Parents Media Use 2025</a> · Ofcom<span class="note">79% of parents of 10 to 12s worry about screen time; 40% of under 13s have a social profile</span></div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Checking</span>
+        <div class="src"><a href="https://www.bark.us/blog/parent-portal/">S25 · Bark for Schools Parent Portal</a> · Bark<span class="note">Free for schools; school trust converts to paid family subscriptions downstream</span></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="brief-foot">
+    Guided Childhood · Kids Research Briefing · Six lenses, adversarially verified · 1 July 2026
+  </footer>
+
+</div>
+</body>
+</html>
