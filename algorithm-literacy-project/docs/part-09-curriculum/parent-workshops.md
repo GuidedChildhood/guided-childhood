@@ -97,6 +97,7 @@ Close the segment on the upside, not the threat: a co-view is also where you wil
 2. **Adopt the three share questions as a family.** Put them on the fridge: is it true, who gains, am I sharing because it is right or because I am fired up.
 3. **Have the kinder-feed conversation.** Ask your teenager: "If you could set the feed to help you with one thing, what would it be, and how would the app even know it was working?" It is the same question they tackle in the KS4 lesson, and it is a brilliant dinner-table debate.
 4. **Catch them steering well.** Once this month, notice something their feed is teaching them, a skill, a craft, an interest going deep, and say so out loud. Steering well should get more airtime at home than drifting gets.
+5. **Plan the arrival, if 16 is on the horizon.** Under current UK policy, social media access begins at 16, and a brand-new account learns fastest, so the first week decides what the feed becomes. Agree the plan before the birthday, together: set the account up deliberately, send strong signals toward what they actually want from it, then run a co-viewed audit at the end of week one, using the five rules. A teenager who arrives with habits gets the good version of social media. Arriving with habits beats arriving with rules.
 
 Optional further reading on the card: Part 4 `for-parents.md` and Part 7 overview.
 

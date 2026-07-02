@@ -235,6 +235,8 @@ If you use anything with a feed (videos, music, games, shopping), try this over 
 
 **Day 3, look again.** What shifted? What does that tell you about whose hands are on the wheel?
 
+**And file this for later.** The best time to run an audit is the first week on any new app, because a fresh feed learns fastest and week one decides what it becomes. When social media opens up for you at 16, that first-week audit is the single most useful thing you will know how to do: set the account up on purpose, send strong signals toward what you actually want, and check at the end of the week what you trained. Arriving with habits beats arriving blank.
+
 **And one more thing.** The skill you just used, working out what a system is optimising for and steering it toward your goal instead, is the same skill people use to get good work out of AI tools. You will use it for the rest of your life. This was practice.
 
 > **Teacher answer note.** Q1 to Q3 mark against the pack's history card, but reward reasoned wrong guesses: the skill being taught is inference from behaviour, and the machine itself guesses wrong the same way. Q4 counts vary by pack; what matters is that the split exists and students can defend their sort. Q5: a strong prescription is specific and reaches for the strong signals (search, watch time), not just avoidance. Q6 is the positivity check: accept any concrete capability (a craft, a language, a sport skill, a school subject), and push back gently on vague answers like "be happier"; a trained feed teaches things, name the thing. The private page is never collected, never discussed unless a pupil volunteers, and never set as assessed homework. That deal is what makes it safe, keep it.

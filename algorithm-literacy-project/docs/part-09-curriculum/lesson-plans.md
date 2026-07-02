@@ -238,7 +238,7 @@ Use invented, low-stakes example posts. Do not surface real divisive political o
 - I can name the three reset actions and turn them into a specific plan.
 
 ### Materials
-- One **Mystery Feed pack** per group of three or four (full contents and rules in `games-and-experiments.md`): twelve invented feed cards for one persona, a goal card, and a sealed history card. All invented, all platform-neutral. **Make one group's pack the success story persona** (see the game rules): a feed already trained into an asset, so the audit is not only a hunt for problems.
+- One **Mystery Feed pack** per group of three or four (full contents and rules in `games-and-experiments.md`): twelve invented feed cards for one persona, a goal card, and a sealed history card. All invented, all platform-neutral. **Make one group's pack the success story persona** (a feed already trained into an asset, so the audit is not only a hunt for problems) **and one the new arrival** (a just-turned-16 first social media account, where week one signals decide everything). Both are specified in the game rules.
 - Worksheet G printed per student.
 - Board space for the three reset actions.
 - No devices. This lesson is deliberately unplugged: nobody opens a real feed in class.
@@ -266,8 +266,12 @@ The back page of Worksheet G is a take-home version of the same audit for their 
 ### Plenary (15 minutes)
 Each group presents their persona's prescription in sixty seconds: the machine's bet, the split, the three resets. Then close on the Year 9 sentence from the outcomes ladder, which is this whole lesson in one line: "I checked what mine was feeding me, cleared the bad signals, and trained it on what I want." Land the final word as power, not panic: you do not write the rule, but every signal the machine reads comes from you, so the wheel was in your hands all along.
 
-### Where the skill goes next (one minute, worth saying every time)
-Name the transfer before they leave the room. The moves they just practised, read a system's objective, send deliberate signals, judge the output against your own goal, are exactly how people direct AI tools: briefing an assistant clearly, checking an answer instead of swallowing it, steering an AI agent through a task, and noticing when "the tool is holding my attention" has replaced "the tool is helping me learn". Some people their age have trained a feed around a craft until it taught them, then used AI tools to build and sell what they made. Keep it invented and platform-neutral like everything else, but say it plainly: this lesson was not only about protecting yourself from a machine. It was the first lesson in running one.
+### Where the skill goes next (two minutes, worth saying every time)
+Name the transfer before they leave the room, and give it two horizons.
+
+The near one is social media. Under current UK policy, access to the named platforms begins at 16, which for a Year 9 class is close enough to touch. Say it straight: a brand-new social media account learns fastest, so the first week decides what the feed becomes. Everything rehearsed today on paper personas is exactly what they will do for real in that first week: set the account up deliberately, send strong signals on purpose, audit at the end of week one. They are not being kept away from social media. They are being trained to arrive well, and the ones who arrive with these habits get the good version: the communities, the craft, the creators building real things.
+
+The far one is AI. The moves they just practised, read a system's objective, send deliberate signals, judge the output against your own goal, are exactly how people direct AI tools: briefing an assistant clearly, checking an answer instead of swallowing it, steering an AI agent through a task, and noticing when "the tool is holding my attention" has replaced "the tool is helping me learn". Some people their age have trained a feed around a craft until it taught them, then used AI tools to build and sell what they made. Keep it invented and platform-neutral like everything else, but say it plainly: this lesson was not only about protecting yourself from a machine. It was the first lesson in running one.
 
 ### Differentiation
 - **Support:** provide pre-written signal cards to match against feed cards instead of free deduction, and prescription sentence starters ("Stop lingering on...", "Search and finish...", "Follow one...").

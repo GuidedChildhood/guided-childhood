@@ -134,6 +134,16 @@ None of this needs new hardware or a coding unit. It is a framing carried by tea
 
 ---
 
+## Social media, and the arrival at 16
+
+Under current UK policy, access to the named social media platforms begins at 16. The programme treats that as the reason to teach social media early, not the reason to skip it. Every mechanism in this curriculum, chosen feeds, signals, the loop, bubbles, virality, is exactly how social media works, taught on neutral ground years before the doors open, and never in a way that assumes access or implies getting around the rules.
+
+That gives the spiral a destination you can say out loud to a Year 9 class: the arrival. A fresh social media account learns fastest, so the first week decides what the feed becomes, and a young person who has walked this spiral arrives at 16 with trained habits instead of a blank stare: they set the account up deliberately, run an audit at the end of week one, and already know the difference between a feed serving them and holding them. The KS3 audit lesson (Unit 3.5) names the arrival explicitly, the Mystery Feed game includes a brand-new-account persona to rehearse it, and Workshop 2 gives parents the arrival conversation for home.
+
+Social media's upside gets the same honesty as its risks, in line with the capability stance: communities that welcome a niche interest, crafts learned in public, creators who built real audiences and real businesses around what they make. All of it is reachable by a person who steers, which is who this programme graduates.
+
+---
+
 ## Files in this part
 
 - `README.md`: this overview.
