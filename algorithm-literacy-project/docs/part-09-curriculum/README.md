@@ -75,7 +75,7 @@ The programme is eighteen taught units. A school can run the whole spiral across
 | 4.4 | KS4 | Y11 | Design a kinder feed | Alternative objectives | Part 6, Part 7 |
 | 4.5 | KS4 | Y11 | Can we change the algorithms? | Feasibility and ethics | Part 7 |
 
-Eight of these units are written up in full in `lesson-plans.md`. The rest share their structure and can be built from the same template; the lesson plans file flags which ones reuse which design.
+Nine of these units are written up in full in `lesson-plans.md`, including Unit 3.5, the KS3 capstone audit lesson. The rest share their structure and can be built from the same template; the lesson plans file flags which ones reuse which design.
 
 ---
 
@@ -124,11 +124,11 @@ A child who reaches the top rung is not cynical and not frightened. They underst
 ## Files in this part
 
 - `README.md`: this overview.
-- `lesson-plans.md`: eight full lesson plans, KS1 to KS4.
+- `lesson-plans.md`: nine full lesson plans, KS1 to KS4.
 - `teacher-guides.md`: subject primer, misconceptions, safeguarding, tricky questions.
 - `parent-workshops.md`: two ready-to-run 60 minute workshops.
-- `games-and-experiments.md`: six unplugged and plugged-in activities.
-- `worksheets.md`: six printable worksheets with answer notes.
+- `games-and-experiments.md`: seven unplugged and plugged-in activities.
+- `worksheets.md`: seven printable worksheets with answer notes.
 - `assessment.md`: a 30+ question bank by Key Stage and Bloom level, plus an end-of-unit project rubric.
 - `animation-briefs.md`: five short explainer animation briefs.
 

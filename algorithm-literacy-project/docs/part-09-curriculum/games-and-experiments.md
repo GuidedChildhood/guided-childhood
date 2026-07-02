@@ -1,6 +1,6 @@
 # Games and Experiments
 
-Six activities, unplugged and plugged-in, that make the ideas physical. Each gives materials, rules, and the one learning point it exists to teach. Mix them into the lesson plans, or run a whole "algorithm games" enrichment session from this file alone.
+Seven activities, unplugged and plugged-in, that make the ideas physical. Each gives materials, rules, and the one learning point it exists to teach. Mix them into the lesson plans, or run a whole "algorithm games" enrichment session from this file alone.
 
 Every game stays neutral about platforms. Cards say "a cooking video" or "a football clip", never a brand.
 
@@ -94,7 +94,31 @@ Every game stays neutral about platforms. Cards say "a cooking video" or "a foot
 
 ---
 
-## 6. The Class Echo-Chamber Experiment (Part 8 simulation): KS2 to KS4
+## 6. The Mystery Feed (audit game): KS3
+
+**Learning point:** a feed can be read backwards: what it serves is a record of the signals its owner sent, including the accidental ones. This is the in-class engine of the "Audit your own feed" lesson (Lesson 8).
+
+**Materials:** one pack per group of three or four. Each pack contains, for one invented persona:
+- **Twelve feed cards.** Let one or two topics dominate (the persona's trained lane), include one or two strays that arrived from an accidental linger, and one card that is the machine exploring. Cards say "a drawing tutorial" or "a late-night gaming stream", never a brand.
+- **One goal card** stating what the persona actually wants ("I want to get better at drawing", "I want to get to sleep earlier").
+- **One sealed history card** listing the six signals the persona really sent: three deliberate (searched, followed, finished on purpose) and at least one accidental (lingered on something they did not even like).
+
+Make three or four different personas so groups can compare feeds at the end. All invented, all low-stakes.
+
+**Rules:**
+1. Groups study the twelve feed cards. The detective question for each dominant card type: what signal put this here? Watched to the end, rewatched, searched, followed, or lingered by accident?
+2. They write the machine's bet in one sentence: "The machine thinks this person is ____."
+3. Open the sealed history card. Score the deductions, and find the card that came from the accidental signal.
+4. Read the goal card. Sort all twelve cards into two piles: **serving them** or **just holding them**.
+5. Write the persona a three-line reset prescription: clear the bad signals, search and finish good content, follow variety.
+
+**The reveal:** the feed was never a mystery. It was a record. A group of strangers just reconstructed most of someone's behaviour from twelve cards, which is exactly what the machine does, at scale, with millions of cards. And the deductions that were wrong matter too: the machine guesses wrong the same way, because it reads behaviour, not minds. The fix is not to out-think it, it is to send better signals on purpose.
+
+**Why personas and not real feeds:** no child's actual feed should ever be classroom material. The persona gives everyone safe distance: a pupil can say "she lingered on junk and trained it by accident" out loud in a way nobody could say about themselves. The private take-home page on Worksheet G is where the skill becomes personal, by choice, at home.
+
+---
+
+## 7. The Class Echo-Chamber Experiment (Part 8 simulation): KS2 to KS4
 
 **Learning point:** a feedback loop with a slight preference, left alone, produces a strong bubble, and a small design change can prevent it. A real experiment, with a prediction and a result.
 
