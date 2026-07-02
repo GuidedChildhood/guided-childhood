@@ -76,13 +76,25 @@ export async function POST(req: NextRequest) {
     detail: i.detail?.slice(0, 300) ?? null, due_date: i.due_date || null,
   })))
 
+  const promptTitle = valid.length === 1 ? valid[0].title : `${valid.length} things from ${conn.school_name}`
   await supabase.from('digi_prompts').insert({
     user_id: conn.user_id,
     kind: 'school',
-    title: valid.length === 1 ? valid[0].title : `${valid.length} things from ${conn.school_name}`,
+    title: promptTitle,
     body: valid.map(i => `${i.title}${i.due_date ? ` (by ${i.due_date})` : ''}`).join('. ') + '.',
     reason: `School email: ${subject.slice(0, 100)}`,
   })
+
+  // The Duolingo moment: the parent's phone buzzes while they are away,
+  // not when they next happen to open the dashboard.
+  try {
+    const origin = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.guidedchildhood.co.uk'
+    await fetch(`${origin}/api/push/send`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.CRON_SECRET}` },
+      body: JSON.stringify({ userId: conn.user_id, title: `DiGi caught a school email`, body: promptTitle, url: '/dashboard' }),
+    })
+  } catch { /* push is best effort */ }
 
   return NextResponse.json({ ok: true, actions: valid.length })
 }
