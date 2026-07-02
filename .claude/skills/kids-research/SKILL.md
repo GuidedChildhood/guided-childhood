@@ -76,6 +76,12 @@ Never deliver a briefing that skipped verification. If verification finds nothin
 
 Send the V2 HTML file to Justin. In chat, give him: the one sentence headline finding, the biggest thing verification changed, and the single most actionable move for Guided Childhood. Offer to spin up the missing seventh lens as a V3 if the assumptions section surfaced one worth running.
 
+**LinkedIn post pack.** If the topic relates to marketing, audience growth, or content, or if Justin asks, draft 3 to 5 LinkedIn posts from the verified findings after delivering the briefing. Justin's voice: warm, plain, direct, no AI isms, no hype, no dashes. Each post leads with a hook from a confirmed finding, cites the real number, and ends with one soft line pointing at Guided Childhood. Never build a post on a demoted source.
+
+## Lens flexing
+
+The six default lenses fit kids mental health and device topics. When the topic is adjacent (marketing, school sales, content strategy, product formats), keep the STORM structure and swap personas to fit: always six lenses, always including a skeptic whose job is to kill weak claims, and always including the person on the receiving end (the child, the pupil, the parent scrolling, the teacher delivering). Name the lenses honestly in the report chips.
+
 ## Hard rules
 
 - No dashes anywhere in report copy. Not in headings, buttons, body text, or lens names. Restructure the sentence instead.

@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Should you animate your best LinkedIn posts? · Guided Childhood Research Briefing</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root{
+  --cream:      #F7F3EE;
+  --warm:       #FDFBF8;
+  --ink:        #1C1C1C;
+  --ink-soft:   #4A4A4A;
+  --ink-muted:  #6E6A62;
+  --ink-light:  #9B958A;
+  --green:      #AFDCA2;
+  --green-dark: #2E7D5A;
+  --green-lt:   #EEF7F2;
+  --coral:      #D4600A;
+  --coral-lt:   #FEF3E8;
+  --coral-dark: #C0392B;
+  --gold:       #F2C94C;
+  --gold-lt:    #FEFAE8;
+  --gold-dark:  #C9962A;
+  --gold-hover: #E3B53A;
+  --lav:        #E7ECF8;
+  --lav-deep:   #3D5BA9;
+  --border:     #E4DFD7;
+  --font-display: 'Hanken Grotesk', system-ui, sans-serif;
+  --font-body:    'Hanken Grotesk', system-ui, sans-serif;
+  --font-mono:    'IBM Plex Mono', monospace;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--cream);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.65}
+.wrap{max-width:860px;margin:0 auto;padding:48px 24px 96px}
+
+.eyebrow{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-muted)}
+
+header.brief-head{padding:40px 0 32px;border-bottom:1px solid var(--border)}
+header.brief-head h1{font-weight:800;font-size:clamp(2rem,5vw,3rem);line-height:1.12;letter-spacing:-0.02em;margin:12px 0 16px}
+.meta-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{font-family:var(--font-mono);font-size:12px;font-weight:500;padding:5px 12px;border-radius:999px;background:var(--warm);border:1px solid var(--border);color:var(--ink-soft)}
+.chip.version{background:var(--gold-lt);border-color:var(--gold);color:var(--gold-dark);font-weight:600}
+
+section{margin-top:56px}
+section > h2{font-weight:800;font-size:clamp(1.4rem,3vw,1.9rem);letter-spacing:-0.01em;margin:10px 0 20px}
+section > .eyebrow{display:block}
+
+.summary-card{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:28px 30px;font-size:17px;color:var(--ink-soft)}
+.summary-card p+p{margin-top:12px}
+
+.finding{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:24px 26px;margin-bottom:16px}
+.finding-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.finding h3{font-weight:700;font-size:1.15rem;line-height:1.35;max-width:560px}
+.reliability{font-family:var(--font-mono);font-size:12px;font-weight:600;white-space:nowrap;padding:6px 12px;border-radius:12px}
+.reliability.high{background:var(--green-lt);color:var(--green-dark)}
+.reliability.medium{background:var(--gold-lt);color:var(--gold-dark)}
+.reliability.low{background:var(--coral-lt);color:var(--coral-dark)}
+.finding p{color:var(--ink-soft);margin-top:10px}
+.lens-tags{margin-top:14px;font-family:var(--font-mono);font-size:12px}
+.lens-tags .supported{color:var(--green-dark)}
+.lens-tags .challenged{color:var(--coral-dark)}
+.lens-tags span.sep{color:var(--ink-light);margin:0 8px}
+.finding .cite{font-family:var(--font-mono);font-size:12px;color:var(--ink-light);margin-top:10px}
+
+table.contra{width:100%;border-collapse:collapse;background:var(--warm);border:1px solid var(--border);border-radius:20px;overflow:hidden}
+table.contra th{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;text-align:left;color:var(--ink-muted);padding:14px 18px;border-bottom:1px solid var(--border);background:var(--cream)}
+table.contra td{padding:14px 18px;border-bottom:1px solid var(--border);color:var(--ink-soft);font-size:15px;vertical-align:top}
+table.contra tr:last-child td{border-bottom:none}
+td.leans{font-family:var(--font-mono);font-size:13px;font-weight:600;white-space:nowrap}
+td.leans.green{color:var(--green-dark)}
+td.leans.coral{color:var(--coral-dark)}
+
+.lens-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px}
+.lens-panel{border:1px solid var(--border);border-radius:20px;padding:22px 24px;background:var(--warm)}
+.lens-panel .eyebrow{margin-bottom:8px}
+.lens-panel h3{font-weight:700;font-size:1.05rem;margin-bottom:8px}
+.lens-panel p{color:var(--ink-soft);font-size:15px}
+.lens-panel.clinician{background:var(--green-lt)}
+.lens-panel.academic{background:var(--lav)}
+.lens-panel.skeptic{background:var(--coral-lt)}
+.lens-panel.economist{background:var(--gold-lt)}
+.lens-panel.historian{background:var(--warm)}
+.lens-panel.child{background:var(--cream);border-color:var(--green)}
+
+.gc-card{background:var(--green-lt);border:1px solid var(--green);border-radius:20px;padding:28px 30px}
+.gc-card ul{list-style:none;margin-top:4px}
+.gc-card li{padding:12px 0;border-bottom:1px solid var(--border);color:var(--ink-soft)}
+.gc-card li:last-child{border-bottom:none}
+.gc-card li strong{color:var(--ink);font-weight:700}
+.gc-card .tag{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--green-dark);display:block;margin-bottom:2px}
+
+.assump-card{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:26px 28px}
+.assump-card h3{font-weight:700;font-size:1.05rem;margin-bottom:8px}
+.assump-card p{color:var(--ink-soft)}
+.assump-card .missing{margin-top:20px;padding-top:20px;border-top:1px solid var(--border)}
+.assump-card .missing h3{color:var(--coral-dark)}
+
+.ledger{background:var(--warm);border:1px solid var(--border);border-radius:20px;overflow:hidden}
+.ledger-row{display:flex;gap:16px;align-items:flex-start;padding:16px 20px;border-bottom:1px solid var(--border)}
+.ledger-row:last-child{border-bottom:none}
+.verdict{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;padding:5px 10px;border-radius:10px;white-space:nowrap;margin-top:2px}
+.verdict.confirmed{background:var(--green-lt);color:var(--green-dark)}
+.verdict.corrected{background:var(--gold-lt);color:var(--gold-dark)}
+.verdict.demoted{background:var(--coral-lt);color:var(--coral-dark)}
+.ledger-row .src{font-size:14px;color:var(--ink-soft)}
+.ledger-row .src a{color:var(--lav-deep);text-decoration:none;border-bottom:1px solid var(--lav)}
+.ledger-row .src .note{display:block;font-family:var(--font-mono);font-size:12px;color:var(--ink-light);margin-top:4px}
+
+footer.brief-foot{margin-top:72px;padding-top:24px;border-top:1px solid var(--border);font-family:var(--font-mono);font-size:12px;color:var(--ink-light)}
+
+@media (max-width:600px){
+  .wrap{padding:24px 16px 64px}
+  .finding-top{flex-direction:column}
+  table.contra{display:block;overflow-x:auto}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="brief-head">
+    <span class="eyebrow">Guided Childhood Research Briefing</span>
+    <h1>Should you turn your best LinkedIn posts into animated videos?</h1>
+    <p style="color:var(--ink-soft);max-width:640px">You asked whether animating each of your high performing LinkedIn posts is a good idea. Six lenses researched it independently. The short answer: not as animations, and not as replacements. Here is the evidence.</p>
+    <div class="meta-row">
+      <span class="chip version">V1 · Verification running</span>
+      <span class="chip">1 July 2026</span>
+      <span class="chip">The Practitioner</span>
+      <span class="chip">The Academic</span>
+      <span class="chip">The Skeptic</span>
+      <span class="chip">The Economist</span>
+      <span class="chip">The Historian</span>
+      <span class="chip">The Audience</span>
+    </div>
+  </header>
+
+  <section id="summary">
+    <span class="eyebrow">Read this first</span>
+    <h2>60 Second Summary</h2>
+    <div class="summary-card">
+      <p>Animating your top posts would trade your strongest asset for the weakest video format. Every independent 2025 and 2026 dataset agrees that posts showing a real face earn far more reach and engagement on LinkedIn, while faceless produced video is the one style that consistently underperforms. LinkedIn itself declared war on AI looking content in late 2025, and 83% of consumers now say they can spot AI video, with a third saying it lowers their trust in the brand. For a founder selling trust about other people's children, that is a bad trade.</p>
+      <p>The deeper problem is that video is not even LinkedIn's best format. Document and carousel posts beat video on engagement and, crucially, on the clicks that feed your starter pack page. The platform's video boom of 2024 has already corrected: independent trackers measured video views down 36% year on year, and your audience watches with the sound off for roughly 15 seconds. Peer reviewed studies add that animation shows no communication advantage over a person talking, and video adds surprisingly little persuasion over text.</p>
+      <p>The move the evidence supports: keep your winning posts as text, repurpose the best ones into PDF carousels, and add a parallel track of short captioned videos of your own face, filmed on your phone. Save the animation budget for DiGi and the product, where characters belong.</p>
+    </div>
+  </section>
+
+  <section id="findings">
+    <span class="eyebrow">Ranked by reliability</span>
+    <h2>Key Findings</h2>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Your face is the asset. Animation deletes it.</h3>
+        <span class="reliability high">Reliability 9/10</span>
+      </div>
+      <p>Posts showing real people earn up to 50% more engagement, and photos with the author in them gain up to 60% more reach. A study of 1.1 million images found faces attract 38% more likes and 32% more comments. Parents researching child related services literally use the visible face as their trust test, and paid benchmarks show ads fronted by a real person cost roughly 77% less per click than polished creative. Animating your posts removes the one variable with the strongest documented effect.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: all six lenses</span>
+      </div>
+      <div class="cite">Sources: S2, S6, S14, S15, S20</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Video is not LinkedIn's top format. Documents and carousels are.</h3>
+        <span class="reliability high">Reliability 9/10</span>
+      </div>
+      <p>Across the largest independent datasets, document and multi image posts beat video on engagement (6.1 to 6.6% vs 5.6% by impressions; Buffer's 52 million post study puts carousels at roughly 3x video's median engagement). Video earns impressions but few clicks, and clicks are what move people to /starter-pack. If you want a visual upgrade of your best text posts, the durable path is a PDF carousel of 8 to 10 slides, not a video.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Skeptic, Historian, Academic, Economist, Practitioner</span>
+      </div>
+      <div class="cite">Sources: S1, S2, S3</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>The LinkedIn video boom already corrected. You would be arriving late.</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>LinkedIn pushed video hard through 2024 and early 2025, then quietly cut it: independent trackers measured video views down 36% year on year across every page size, named creators fell from tens of thousands of views to a few thousand, and the dedicated video feed was pulled in several regions. Every LinkedIn format wave since 2017 has followed this arc, and the promotional subsidy for video has already been withdrawn. Starting an animation pipeline in mid 2026 is a late adopter bet on a corrected format.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Historian, Skeptic, Practitioner, Audience</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: LinkedIn's own published figures</span>
+      </div>
+      <div class="cite">Sources: S1, S9, S10, S11</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Your reader watches 15 silent seconds on a phone.</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>Roughly 80% of LinkedIn video plays with the sound off, and creators report average watch times around 15 seconds. Completion falls below 20% for videos over a minute. A 700 word post that worked because people read the whole argument will not survive conversion into a 90 second animation that most people abandon at the hook. A LinkedIn video view is also counted at just 2 seconds on autoplay, so view counts on any remake would flatter the experiment.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Audience, Skeptic</span>
+      </div>
+      <div class="cite">Sources: S10, S16, S21</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Peer reviewed evidence gives animation no edge over a person talking.</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>The only recent head to head experiment found animated and talking head videos performed the same on knowledge transfer and evaluation, and a pair of large randomized experiments found video's persuasive advantage over text is minimal for attitudes and behaviour. Animation genuinely beats static content for explaining complex processes, which matters for your product, but it does not beat your face on a feed. One important nuance: voice carries the humanizing signal, so anything animated should at least be narrated by you.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Academic, Skeptic, Audience</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: patient education meta analysis shows animation beats static, d = 0.35</span>
+      </div>
+      <div class="cite">Sources: S4, S5, S7, S8</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>In 2026, polished animation reads as AI slop.</h3>
+        <span class="reliability medium">Reliability 7/10</span>
+      </div>
+      <p>LinkedIn announced suppression of generic AI generated content and attention bait video in late 2025. Survey data says 83% of consumers believe they can spot AI video and 36% say it lowers their trust in the brand. The meaning of animation changed underneath the format: what read as premium explainer content in 2018 now pattern matches to machine made filler. On a children's wellbeing topic, one video that reads as AI made can tax the credibility of everything around it.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Practitioner, Historian, Audience</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: Economist notes warm character animation is category congruent for a kids brand</span>
+      </div>
+      <div class="cite">Sources: S12, S13</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>The cash cost collapsed. Your hours did not.</h3>
+        <span class="reliability medium">Reliability 7/10</span>
+      </div>
+      <p>UK agency animation runs £2,000 to £5,000 per 60 second video on 6 to 8 week timelines, which cannot clear break even at your £7.99 to £12.99 price point. AI tools collapse that to roughly £20 a month, where one retained subscriber covers a video. But the real cost is founder hours: roughly 3 to 8 hours per video against 30 minutes for the text post it copies, and the ban news cycle rewards a fast plain reaction post over anything with a production pipeline.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Economist</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: Audience flags the trust externality no cost model captures</span>
+      </div>
+      <div class="cite">Sources: S17, S18</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Remaking old posts may or may not dodge the repeat penalty.</h3>
+        <span class="reliability low">Reliability 4/10</span>
+      </div>
+      <p>One practitioner source claims a format change resets LinkedIn's duplicate penalty and cites a reworked post going from 243 to 36,000 impressions. Another claims a remake cannibalizes up to half the original's views. Both are weakly sourced blog claims and they point in opposite directions. Treat this as unknown, and remember your best posts are selected outliers: remakes face regression to the mean regardless.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Practitioner</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: Skeptic</span>
+      </div>
+      <div class="cite">Sources: S19, S22</div>
+    </article>
+
+  </section>
+
+  <section id="contradictions">
+    <span class="eyebrow">Where the lenses disagree</span>
+    <h2>Contradiction Map</h2>
+    <table class="contra">
+      <thead>
+        <tr><th>Disagreement</th><th>Position A</th><th>Position B</th><th>Evidence leans</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Is LinkedIn video booming or declining?</td>
+          <td>LinkedIn's own figures: viewership up 36%, uploads up 34% (Practitioner cites platform data)</td>
+          <td>Independent trackers: video views down 36% year on year, creators reporting collapses (Skeptic, Historian)</td>
+          <td class="leans green">Independent data</td>
+        </tr>
+        <tr>
+          <td>Does a remake refresh or cannibalize?</td>
+          <td>Format change resets the repeat penalty and counts as fresh content (Practitioner)</td>
+          <td>Remakes cannibalize up to 50% of the original post's views (Skeptic)</td>
+          <td class="leans coral">Unresolved, both weak</td>
+        </tr>
+        <tr>
+          <td>Does animation communicate better?</td>
+          <td>Animation improves knowledge transfer vs static content, d = 0.35 (Academic)</td>
+          <td>No advantage over a talking head in the only direct experiment (Skeptic, Audience)</td>
+          <td class="leans green">Beats static, not faces</td>
+        </tr>
+        <tr>
+          <td>Is cheap AI animation worth trying?</td>
+          <td>Break even is one subscriber per video with AI tools (Economist)</td>
+          <td>One AI looking video on a children's topic taxes trust across the whole feed (Audience)</td>
+          <td class="leans green">Trust risk wins here</td>
+        </tr>
+        <tr>
+          <td>What did the animation experiment find on sharing?</td>
+          <td>Animated videos were shared more often (Audience)</td>
+          <td>No significant difference on sharing (Skeptic)</td>
+          <td class="leans coral">Sent to verification</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="lenses">
+    <span class="eyebrow">Six perspectives</span>
+    <h2>Lens Panels</h2>
+    <div class="lens-grid">
+      <div class="lens-panel clinician">
+        <span class="eyebrow">The Practitioner</span>
+        <h3>Keep the text, add your face</h3>
+        <p>Every dataset I trust converges: founder face video outperforms, faceless animation underperforms, and format changed repurposing is cheap. Run face video as a parallel track. Do not replace winning text.</p>
+      </div>
+      <div class="lens-panel academic">
+        <span class="eyebrow">The Academic</span>
+        <h3>The animation advantage is a myth with one exception</h3>
+        <p>Controlled experiments show video barely out persuades text and animation does not beat a talking head. The exception: animation beats static content for explaining complex processes. And voice, not face, carries the humanizing signal, so narrate anything yourself.</p>
+      </div>
+      <div class="lens-panel skeptic">
+        <span class="eyebrow">The Skeptic</span>
+        <h3>You would be optimizing an inflated metric</h3>
+        <p>A view is 2 autoplay seconds. Video has the lowest click through of any format. Only about 3% of LinkedIn engagement comes from people who could actually buy. Your best posts are outliers that will regress. The certain cost buys an unmeasured benefit.</p>
+      </div>
+      <div class="lens-panel economist">
+        <span class="eyebrow">The Economist</span>
+        <h3>The decision turns on your hours, not cash</h3>
+        <p>Agency animation can never pay back at your price point. AI animation breaks even at one subscriber, so the cash argument is dead. What is scarce is your time: 3 to 8 hours per video, and video is weakest at the link clicks your funnel needs.</p>
+      </div>
+      <div class="lens-panel historian">
+        <span class="eyebrow">The Historian</span>
+        <h3>Every format wave pays early adopters and taxes late ones</h3>
+        <p>Native video 2017, carousels 2022, the video feed 2024: the subsidy lasts 12 to 24 months, then the correction. Video corrected in 2025. The quiet survivor of every wave is the PDF document post, and owned distribution outlives every feed format.</p>
+      </div>
+      <div class="lens-panel child">
+        <span class="eyebrow">The Audience</span>
+        <h3>I stop for a person, silently, for 15 seconds</h3>
+        <p>I watch sound off on a train. I trust a named face talking plainly about my kid's world. In 2026 slick animation makes me wonder if a machine made it, and I am already drowning in content I do not trust. Show me the person who did the homework.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="guided-childhood">
+    <span class="eyebrow">So what do we do</span>
+    <h2>What This Means for Guided Childhood</h2>
+    <div class="gc-card">
+      <ul>
+        <li>
+          <span class="tag">Marketing</span>
+          <strong>Do not animate your top posts. Keep them as text and repurpose the best into PDF carousels.</strong> Documents are the top format for engagement and clicks, and an 8 to 10 slide carousel of a winning post (scripts, checklists, stage guides) is a two hour job with the strongest measured upside.
+        </li>
+        <li>
+          <span class="tag">Marketing</span>
+          <strong>Add a face track: short captioned phone videos of you, under 60 seconds.</strong> Face content carries the trust premium with parents and heads, costs nothing, and is the one video style the platform still rewards. Caption everything, because 80% of viewers are on mute.
+        </li>
+        <li>
+          <span class="tag">DiGi and brand</span>
+          <strong>Spend the animation energy on the product, not the feed.</strong> Teo, Olga, Alma and DiGi Junior belong in lessons and onboarding where animation demonstrably beats static explanation. On LinkedIn, use characters only as brief inserts inside a video fronted and voiced by you.
+        </li>
+        <li>
+          <span class="tag">Ban readiness</span>
+          <strong>Protect your speed through the ban news cycle.</strong> Regulations land end of 2026 and the ban goes live Spring 2027. Each milestone is a same day text post opportunity. A production pipeline between you and publishing is a strategic cost, not just a financial one.
+        </li>
+        <li>
+          <span class="tag">Founder time</span>
+          <strong>If you test animation anyway, time box it.</strong> AI tools at roughly £20 a month, two posts, narrated in your own voice, measured on profile visits and starter pack clicks rather than views. Kill it if it does not beat your text baseline in four weeks.
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="assumptions">
+    <span class="eyebrow">Honest limits</span>
+    <h2>Assumptions and the Missing Lens</h2>
+    <div class="assump-card">
+      <h3>This briefing rests on</h3>
+      <p>Most reach and engagement numbers come from large industry datasets (Socialinsider, van der Blom, Buffer, AuthoredUp) that are directionally consistent but not peer reviewed, and several key benchmarks are B2B figures extrapolated to a parent audience. It also assumes your goal is conversions to /starter-pack and school pilots rather than raw reach, and that your posting engine is your personal profile, not a company page.</p>
+      <div class="missing">
+        <h3>The missing seventh lens</h3>
+        <p>Your own analytics. Nobody in this briefing looked at your actual LinkedIn data: who follows you, which of your high performers earned clicks rather than likes, and how many engagers are parents or school leaders. Before any format experiment, that audit is the highest value hour available. Say the word and a V3 can include it.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="sources">
+    <span class="eyebrow">Every citation checked against its primary source</span>
+    <h2>Source Ledger</h2>
+    <div class="ledger">
+      <div class="ledger-row">
+        <span class="verdict corrected">Checking</span>
+        <div class="src"><a href="https://www.socialinsider.io/social-media-benchmarks/linkedin">S1 · LinkedIn Organic Benchmarks</a> · Socialinsider, 2026<span class="note">Video 5.60% vs multi image 6.60%, documents 6.10%; video views down 36% YoY</span></div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Checking</span>
+        <div class="src"><a href="https://www.scribd.com/document/984921783/Algorithm-Insights-Report-2025-chapter-1-Richard-Van-der-Blom">S2 · Algorithm InSights Report 2025</a> · Richard van der Blom, 2025<span class="note">1.8M posts; reach down 50%; faces up to +50/60%; video 0.86x on personal profiles</span></div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Checking</span>
+        <div class="src"><a href="https://buffer.com/resources/state-of-social-media-engagement-2026/">S3 · State of Social Media Engagement</a> · Buffer, 2026<span class="note">52M posts; carousel 21.77% vs video 7.35% vs text 3.18% median engagement</span></div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Checking</span>
+        <div class="src"><a href="https://bpspsychub.onlinelibrary.wiley.com/doi/full/10.1111/bjhp.12786">S4 · Animated vs talking head videos in science communication</a> · Marx et al., British Journal of Health Psychology, 2025<span class="note">No format difference on knowledge transfer; sharing result disputed between lenses</span></div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Checking</span>
+        <div class="src"><a href="https://www.pnas.org/doi/10.1073/pnas.2114388118">S5 · The minimal persuasive advantage of video over text</a> · Wittenberg et al., PNAS, 2021<span class="note">Around 7,600 participants; small effects on attitudes and behaviour</span></div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Checking</span>
+        <div class="src"><a href="https://dl.acm.org/doi/10.1145/2556288.2557403">S6 · Faces engage us</a> · Bakhshi, Shamma and Gilbert, ACM CHI, 2014<span class="note">1.1M photos; faces +38% likes, +32% comments</span></div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Checking</span>
+        <div class="src"><a href="https://journals.sagepub.com/doi/abs/10.1177/0956797617713798">S7 · The Humanizing Voice</a> · Schroeder, Kardas and Epley, Psychological Science, 2017<span class="note">Hearing someone speak makes them seem more thoughtful than reading the same words</span></div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Checking</span>
+        <div class="src"><a href="https://pubmed.ncbi.nlm.nih.gov/35950326/">S8 · Animated videos and patient knowledge, meta analysis</a> · Patient Education and Counseling, 2022<span class="note">21 studies; d = 0.35 for animation vs standard materials</span></div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Checking</span>
+        <div class="src"><a href="https://techcrunch.com/2025/02/04/linkedin-amps-up-vertical-video-tools-as-uploads-jump-36/">S9 · LinkedIn amps up vertical video tools</a> · TechCrunch, 2025<span class="note">Platform side: viewership +36%, uploads +34%</span></div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Checking</span>
+        <div class="src"><a href="https://digiday.com/media/why-linkedin-is-spotlighting-the-average-watch-time-metric-to-support-its-video-push/">S10 · LinkedIn spotlights average watch time</a> · Digiday, 2025<span class="note">Creators report roughly 15 second average watch times</span></div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Checking</span>
+        <div class="src"><a href="https://www.thestateofbrand.com/news/linkedin-killing-video-reach">S11 · LinkedIn is quietly killing video reach</a> · The State of Brand, 2026<span class="note">Video views down 36% YoY across page sizes, per Socialinsider benchmarks</span></div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Checking</span>
+        <div class="src"><a href="https://www.fastcompany.com/91545007/linkedin-declares-war-on-ai-slop">S12 · LinkedIn declares war on AI slop</a> · Fast Company, 2025<span class="note">Platform suppression of generic AI content and attention bait video</span></div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Checking</span>
+        <div class="src"><a href="https://www.businesswire.com/news/home/20260121875037/en/83-of-Consumers-Can-Spot-AI-Videos-36-Say-It-Lowers-Brand-Trust-According-to-Animotos-New-Report">S13 · 83% of consumers can spot AI videos</a> · Animoto via Businesswire, 2026<span class="note">36% say AI video lowers brand trust</span></div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Checking</span>
+        <div class="src"><a href="https://pettauer.net/en/european-linkedin-ad-benchmarks-2025-2026/">S14 · European LinkedIn Ad Benchmarks</a> · pettauer.net, 2025 to 2026<span class="note">Thought leader ads with a real person roughly 77% cheaper per click</span></div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Checking</span>
+        <div class="src"><a href="https://news.ku.edu/news/article/study-finds-parents-relying-on-chatgpt-for-health-guidance-about-children">S15 · Parents and source identity</a> · Journal of Pediatric Psychology via KU, 2024<span class="note">Parents could not judge quality without knowing the source; the named human is the credibility layer</span></div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Checking</span>
+        <div class="src"><a href="https://www.linkedin.com/help/lms/answer/a426666">S16 · Video metrics in Campaign Manager</a> · LinkedIn Help, 2025<span class="note">A view counts at 2 continuous seconds, 50% on screen, autoplay included</span></div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Checking</span>
+        <div class="src"><a href="https://www.mooviemakers.co.uk/explainer-video-cost-uk/">S17 · Explainer video cost in the UK</a> · MoovieMakers, 2025<span class="note">£2,000 to £5,000 typical per 60 seconds, 6 to 8 week timelines</span></div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Checking</span>
+        <div class="src"><a href="https://blog.laozhang.ai/en/posts/how-much-does-ai-video-generator-cost">S18 · AI video generator costs</a> · LaoZhang AI, 2026<span class="note">Subscription tools from roughly £10 to £100 a month</span></div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Checking</span>
+        <div class="src"><a href="https://blog.closelyhq.com/linkedin-content-recycling-repost-old-content-without-penalties/">S19 · LinkedIn content recycling</a> · Closely blog, 2025<span class="note">Claims format change resets repeat penalty; 243 to 36,000 impressions example</span></div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Checking</span>
+        <div class="src"><a href="https://www.chesterstandard.co.uk/news/national/25540346.third-parents-relying-social-media-find-parenting-tips---survey/">S20 · DfE parent survey</a> · Censuswide via PA Media, 2025<span class="note">2,511 UK parents; 68% see conflicting advice they struggle to trust</span></div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Checking</span>
+        <div class="src"><a href="https://www.linkedin.com/business/marketing/blog/content-marketing/breaking-the-sound-barrier-for-b2b-video-content">S21 · Breaking the sound barrier</a> · LinkedIn Marketing Blog<span class="note">About 80% of LinkedIn video viewed with sound off</span></div>
+      </div>
+      <div class="ledger-row">
+        <span class="verdict corrected">Checking</span>
+        <div class="src"><a href="https://www.thinklikeapublisher.com/linkedin-algorithm-secrets-the-archive/">S22 · LinkedIn algorithm secrets archive</a> · ThinkLikeAPublisher, 2023<span class="note">Claims remakes cannibalize up to 50% of the original post's views</span></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="brief-foot">
+    Guided Childhood · Kids Research Briefing · Six lenses, adversarially verified · 1 July 2026
+  </footer>
+
+</div>
+</body>
+</html>
