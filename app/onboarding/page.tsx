@@ -39,7 +39,7 @@ const OLD_TO_NEW_CHALLENGE: Record<string, string> = {
 const BTN: React.CSSProperties = {
   display: 'block', width: '100%',
   padding: '17px 28px',
-  background: 'var(--terracotta)', color: '#fff',
+  background: 'var(--terracotta)', color: 'var(--ink)',
   border: 'none', borderRadius: 16,
   fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 13,
   letterSpacing: '0.08em', textTransform: 'uppercase' as const,

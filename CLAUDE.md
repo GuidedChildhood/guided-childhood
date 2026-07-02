@@ -37,7 +37,7 @@ Re-read it after any compaction. Never rely on plan mode's disposable global fil
 
 ## DESIGN SYSTEM
 
-Fonts: Hanken Grotesk (700-800 display, 400-600 body) + IBM Plex Mono (labels, eyebrows)
+Fonts: Nunito (700-900 display, 400-600 body) + IBM Plex Mono (labels, eyebrows)
 Colours: see README.md colour token block
 Buttons: border-radius 16px, box-shadow 0 5px 0 <shadow-colour>, chunky
 Motion: GSAP only — subtle fade-ups, staggered reveals, no Three.js

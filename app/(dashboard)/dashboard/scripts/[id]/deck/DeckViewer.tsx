@@ -229,7 +229,7 @@ export default function DeckViewer({
                   color: 'var(--ink)',
                   margin: 0,
                   letterSpacing: '-0.01em',
-                  ...(card.key === 'not_this' ? { color: '#991b1b', fontStyle: 'italic' } : {}),
+                  ...(card.key === 'not_this' ? { color: 'var(--danger)', fontStyle: 'italic' } : {}),
                 }}>
                   {card.key === 'say_this' ? `"${script[card.key]}"` : script[card.key]}
                 </p>

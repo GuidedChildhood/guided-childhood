@@ -85,7 +85,7 @@ export default function SignupPage() {
                 style={{
                   display: 'block', textAlign: 'center', width: '100%',
                   padding: '16px 28px',
-                  background: 'var(--terracotta)', color: '#fff',
+                  background: 'var(--terracotta)', color: 'var(--ink)',
                   borderRadius: 16, textDecoration: 'none',
                   fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 13,
                   letterSpacing: '0.08em', textTransform: 'uppercase',
@@ -127,7 +127,7 @@ export default function SignupPage() {
               </div>
 
               {error && (
-                <div style={{ padding: '12px 16px', background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '10px', color: '#991b1b', fontFamily: 'var(--font-mono)', fontSize: '12px' }}>
+                <div style={{ padding: '12px 16px', background: 'var(--danger-bg)', border: '1px solid var(--danger-border)', borderRadius: '10px', color: 'var(--danger)', fontFamily: 'var(--font-mono)', fontSize: '12px' }}>
                   {error}
                 </div>
               )}

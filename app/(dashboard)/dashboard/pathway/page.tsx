@@ -3,7 +3,11 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { STAGES } from '@/lib/content/stages'
 import DeviceSetupBanner from '@/components/device/DeviceSetupBanner'
+import PathwayMap from '@/components/pathway/PathwayMap'
+import DailyTrail from '@/components/pathway/DailyTrail'
 import { getStageProgress, type StageId as ProgressStageId } from '@/lib/pathway/progress'
+import { getDailyTasks } from '@/lib/pathway/daily-tasks'
+import type { ChallengeId } from '@/lib/content/stages'
 
 const STAGE_DISPLAY: Record<number, {
   displayName: string
@@ -49,7 +53,7 @@ const STAGE_DISPLAY: Record<number, {
     displayName: 'Independent',
     subtitle: null,
     concepts: ['Trust-based', 'Full access', 'AI literacy', 'Vibe coding'],
-    color: 'var(--ink)',
+    color: 'var(--terracotta)',
     bg: 'var(--stage-5)',
     numColor: 'var(--ink-muted)',
   },
@@ -63,7 +67,7 @@ export default async function PathwayPage() {
   if (!user) redirect('/login')
 
   const [profileResult, childrenResult] = await Promise.all([
-    supabase.from('profiles').select('subscription_status').eq('id', user.id).single(),
+    supabase.from('profiles').select('subscription_status, onboarding_answers').eq('id', user.id).single(),
     supabase.from('children').select('id, name, age_band, stage_id, is_primary, streak_weeks').eq('parent_id', user.id).order('is_primary', { ascending: false }),
   ])
 
@@ -78,9 +82,14 @@ export default async function PathwayPage() {
   const primaryChild = children[0]
   const currentStageNum = primaryChild?.stage_id ? stageIdToNum[primaryChild.stage_id] ?? null : null
 
-  const currentStageProgress = primaryChild?.stage_id
-    ? await getStageProgress(supabase, user.id, primaryChild.stage_id as ProgressStageId, primaryChild.streak_weeks ?? 0)
-    : null
+  const challenge = ((profileResult.data?.onboarding_answers as Record<string, string> | null)?.challenge ?? null) as ChallengeId | null
+
+  const [currentStageProgress, dailyTasks] = primaryChild?.stage_id
+    ? await Promise.all([
+        getStageProgress(supabase, user.id, primaryChild.stage_id as ProgressStageId, primaryChild.streak_weeks ?? 0),
+        getDailyTasks(supabase, user.id, primaryChild.id, primaryChild.stage_id as ProgressStageId, challenge),
+      ])
+    : [null, null]
 
   return (
     <div style={{ padding: '24px 0 32px' }}>
@@ -98,49 +107,22 @@ export default async function PathwayPage() {
         )}
       </div>
 
-      {/* Path strip — the journey, node per stage, current position marked */}
+      {/* Today: the real tasks for this family, DiGi leading to the next one */}
+      {dailyTasks && (
+        <div style={{ padding: '0 20px', maxWidth: '720px', margin: '0 auto 40px' }}>
+          <p className="eyebrow" style={{ textAlign: 'center', color: 'var(--terracotta)', marginBottom: '12px' }}>Today</p>
+          <DailyTrail tasks={dailyTasks} />
+        </div>
+      )}
+
+      {/* The full journey: DiGi on the 4 to 16 overview trail */}
       {currentStageNum && (
-        <div style={{ padding: '0 20px', maxWidth: '1100px', margin: '0 auto 32px' }}>
-          <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <div style={{ position: 'absolute', left: '18px', right: '18px', top: '50%', height: '3px', background: 'var(--border)', transform: 'translateY(-50%)', zIndex: 0 }} />
-            <div style={{
-              position: 'absolute', left: '18px', top: '50%', height: '3px',
-              width: `calc((100% - 36px) * ${(currentStageNum - 1) / 4})`,
-              background: 'var(--terracotta)', transform: 'translateY(-50%)', zIndex: 1,
-              transition: 'width 0.3s ease',
-            }} />
-            {[1, 2, 3, 4, 5].map(num => {
-              const done = num < currentStageNum
-              const isCurrent = num === currentStageNum
-              return (
-                <div key={num} style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px' }}>
-                  <div style={{
-                    width: isCurrent ? '40px' : '32px', height: isCurrent ? '40px' : '32px',
-                    borderRadius: '50%',
-                    background: done || isCurrent ? 'var(--terracotta)' : '#fff',
-                    border: done || isCurrent ? 'none' : '2.5px solid var(--border)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    color: done || isCurrent ? '#fff' : 'var(--ink-light)',
-                    fontFamily: 'var(--font-display)', fontWeight: 800,
-                    fontSize: isCurrent ? '16px' : '13px',
-                    boxShadow: isCurrent ? '0 4px 0 var(--terracotta-dark)' : 'none',
-                    transition: 'all 0.2s ease',
-                  }}>
-                    {done ? '✓' : num}
-                  </div>
-                  {isCurrent && (
-                    <span style={{
-                      fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700,
-                      letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--terracotta)',
-                      whiteSpace: 'nowrap',
-                    }}>
-                      You are here
-                    </span>
-                  )}
-                </div>
-              )
-            })}
-          </div>
+        <div style={{ padding: '0 20px', margin: '0 auto 36px' }}>
+          <p className="eyebrow" style={{ textAlign: 'center', color: 'var(--ink-muted)', marginBottom: '12px' }}>The full journey, 4 to 16</p>
+          <PathwayMap
+            currentStageNum={currentStageNum}
+            progressPct={currentStageProgress?.overallPct ?? 0}
+          />
         </div>
       )}
 
@@ -170,7 +152,7 @@ export default async function PathwayPage() {
                 {isMyStage && (
                   <div style={{
                     position: 'absolute', top: '12px', right: '12px',
-                    background: display.color, color: '#fff',
+                    background: display.color, color: 'var(--ink)',
                     fontFamily: 'var(--font-mono)', fontSize: '9px',
                     fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase',
                     padding: '3px 8px', borderRadius: '100px',
@@ -275,7 +257,7 @@ export default async function PathwayPage() {
                     href={`/dashboard/scripts?stage=${stageId}`}
                     style={{
                       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                      background: display.color, color: '#fff',
+                      background: display.color, color: 'var(--ink)',
                       borderRadius: '16px', padding: '13px 16px',
                       fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600,
                       letterSpacing: '0.06em', textTransform: 'uppercase',
