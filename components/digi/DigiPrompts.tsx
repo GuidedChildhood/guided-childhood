@@ -12,6 +12,7 @@ const KIND_LABEL: Record<string, string> = {
   parent_care: 'For you, not the kids',
   new_research: 'New research',
   celebration: 'Worth celebrating',
+  school: 'From school',
 }
 
 // DiGi leads: proactive prompts generated from this family's own data and
