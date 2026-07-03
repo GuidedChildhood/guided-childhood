@@ -418,56 +418,63 @@ export default function HomePage() {
       {/* ================================================================
           HERO — Good Inside split: left text, right floating chips
           ================================================================ */}
-      <section id="hero" aria-label="Hero" style={{ padding: 'clamp(56px, 7vw, 88px) 32px clamp(48px, 6vw, 80px)', background: '#FFFBEE' }}>
+      <section id="hero" aria-label="Hero" style={{ padding: 'clamp(56px, 7vw, 88px) 32px clamp(48px, 6vw, 80px)', background: '#FFFBEE', overflow: 'hidden' }}>
         <div className="hero-grid" style={{ maxWidth: '1100px', margin: '0 auto' }}>
 
           {/* Left: text */}
           <div>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'var(--terracotta)', borderRadius: '100px', padding: '6px 16px', marginBottom: '20px' }}>
-              <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#fff', flexShrink: 0 }} />
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '.65rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: '#fff' }}>
-                For UK parents · Ages 4 to 16
-              </span>
-            </div>
-            <h1 className="fu" style={{ fontSize: 'clamp(2.4rem, 4.8vw, 3.9rem)', fontWeight: 900, lineHeight: 1.0, letterSpacing: '-.04em', color: 'var(--ink)', marginBottom: '22px' }}>
-              Raising kids<br />with screens<br />
-              <span style={{ color: 'var(--terracotta)' }}>is something you can learn.</span>
+            <p className="fu eyebrow" style={{ marginBottom: '18px' }}>
+              For UK parents · Ages 4 to 16
+            </p>
+            <h1 className="fu" style={{ fontSize: 'clamp(2.1rem, 3.4vw, 2.9rem)', fontWeight: 800, lineHeight: 1.12, letterSpacing: '-.028em', color: 'var(--ink)', maxWidth: '560px', marginBottom: '20px' }}>
+              Raising kids with screens is something you can learn.
             </h1>
-            <p className="fu" style={{ fontSize: '1.02rem', color: 'var(--ink)', lineHeight: 1.78, maxWidth: '440px', marginBottom: '28px' }}>
+            <p className="fu" style={{ fontSize: '1.05rem', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '430px', marginBottom: '30px' }}>
               The stage by stage guide, exact scripts for the hard moments, and DiGi, your AI parenting advisor available at 11pm.
             </p>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '28px', flexWrap: 'wrap' }}>
-              <span style={{ fontSize: '.8rem', color: 'var(--ink-muted)', fontWeight: 600 }}>Free starter pack · No card needed · Built on the research</span>
-            </div>
-            <div className="fu" style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center', marginBottom: '28px' }}>
+            <div className="fu" style={{ display: 'flex', gap: '18px', flexWrap: 'wrap', alignItems: 'center', marginBottom: '14px' }}>
               <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '15px', padding: '16px 36px' }}>
                 Start my pathway free
               </Link>
-              <Link href="#stages" style={{ fontSize: '.88rem', fontWeight: 600, color: 'var(--ink-soft)', textDecoration: 'none' }}>
+              <Link href="#stages" style={{ fontSize: '.9rem', fontWeight: 600, color: 'var(--ink-soft)', textDecoration: 'none' }}>
                 Find your stage →
               </Link>
             </div>
-            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-              {['Online Safety Act 2023', 'DfE', 'Statutory RSE', 'Ofcom'].map(tag => (
-                <span key={tag} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '100px', padding: '4px 12px', fontSize: '.66rem', fontWeight: 700, color: 'var(--ink-muted)' }}>
-                  {tag}
-                </span>
-              ))}
-            </div>
+            <p className="fu" style={{ fontSize: '.82rem', color: 'var(--ink-muted)', fontWeight: 600, marginBottom: '34px' }}>
+              Free starter pack · No card needed · Built on the research
+            </p>
+            <p className="fu" style={{ fontFamily: 'var(--font-mono)', fontSize: '.68rem', fontWeight: 600, letterSpacing: '.06em', color: 'var(--ink-light)' }}>
+              Online Safety Act 2023 · DfE · Statutory RSE · Ofcom
+            </p>
           </div>
 
-          {/* Right: Daily digest app preview */}
+          {/* Right: Daily digest app preview over the butter circle */}
           <div className="hero-chips" style={{ position: 'relative', height: '480px' }}>
+
+            {/* The one bold graphic gesture: a big butter circle bleeding off the page edge */}
+            <div aria-hidden style={{
+              position: 'absolute',
+              top: '50%',
+              right: 'max(-180px, -14vw)',
+              transform: 'translateY(-50%)',
+              width: 'min(620px, 52vw)',
+              height: 'min(620px, 52vw)',
+              minWidth: '420px',
+              minHeight: '420px',
+              borderRadius: '50%',
+              background: 'var(--terracotta)',
+              zIndex: 0,
+            }} />
 
             {/* Main app preview card */}
             <div style={{
               position: 'absolute',
-              top: 0,
-              left: '10px',
-              right: '10px',
+              top: '24px',
+              left: '30px',
+              right: '30px',
               background: '#fff',
               borderRadius: '24px',
-              boxShadow: '0 16px 60px rgba(26,26,46,0.13)',
+              boxShadow: '0 30px 80px rgba(26,26,46,0.18)',
               border: '1px solid rgba(0,0,0,0.05)',
               overflow: 'hidden',
               zIndex: 1,
@@ -520,38 +527,6 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Floating: progress badge top right */}
-            <div className="digi-pop-in" style={{
-              position: 'absolute',
-              top: '-26px',
-              right: '20px',
-              background: '#fff',
-              borderRadius: '14px',
-              padding: '9px 14px',
-              boxShadow: '0 6px 28px rgba(26,26,46,0.14)',
-              border: '1.5px solid var(--border)',
-              textAlign: 'center',
-              zIndex: 3,
-              animationDelay: '0.8s',
-            }}>
-              <div style={{ fontFamily: 'var(--font-display)', fontSize: '18px', fontWeight: 900, color: 'var(--terracotta)', lineHeight: 1 }}>4→16</div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '7px', color: 'var(--ink-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginTop: '2px' }}>Every stage</div>
-            </div>
-
-            {/* Floating: age-safe chip */}
-            <div className="digi-pop-in" style={{
-              position: 'absolute',
-              bottom: '24px',
-              right: '-8px',
-              background: 'var(--stage-2)',
-              borderRadius: '100px',
-              padding: '7px 14px',
-              boxShadow: '0 4px 18px rgba(0,0,0,0.1)',
-              zIndex: 3,
-              animationDelay: '1.1s',
-            }}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, color: '#2D5016', letterSpacing: '0.06em' }}>Age-safe · School-aligned · AI-ready</div>
-            </div>
           </div>
 
         </div>
@@ -1129,7 +1104,7 @@ export default function HomePage() {
 
           <div style={{ textAlign: 'center', marginBottom: '64px' }}>
             <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '14px' }}>What this covers</p>
-            <h2 className="fu" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 900, letterSpacing: '-.04em', lineHeight: 1.05, marginBottom: '18px' }}>
+            <h2 className="fu" style={{ fontSize: 'clamp(1.9rem, 3vw, 2.5rem)', fontWeight: 800, letterSpacing: '-.025em', lineHeight: 1.1, marginBottom: '18px' }}>
               The fights you have every day.<br />
               <span style={{ color: 'var(--terracotta)' }}>Scripts for all of them.</span>
             </h2>
@@ -2378,7 +2353,7 @@ export default function HomePage() {
               Your family's pathway starts free today
             </span>
           </div>
-          <h2 className="fu" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 900, letterSpacing: '-.04em', lineHeight: 1.05, marginBottom: '18px' }}>
+          <h2 className="fu" style={{ fontSize: 'clamp(1.9rem, 3vw, 2.5rem)', fontWeight: 800, letterSpacing: '-.025em', lineHeight: 1.1, marginBottom: '18px' }}>
             Start your family's<br />
             <span style={{ color: 'var(--terracotta)' }}>guided childhood today</span>
           </h2>
