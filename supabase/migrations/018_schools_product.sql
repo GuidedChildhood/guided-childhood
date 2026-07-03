@@ -295,7 +295,7 @@ values (
         { "text": "None, it might still be true", "correct": false, "feedback": "It might be true. But a claim with no source has failed a check, and that means pause, not share." }
       ] },
     { "type": "video",
-      "src": "https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260703_061810_8be302c2-6b58-4a51-b413-bb1a6ff9a774.mp4",
+      "src": "https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260703_123550_bc3337b7-0b24-4d82-b1e3-965955dd3d1c.mp4",
       "caption": "DiGi Junior half time check in" },
     { "type": "tryit",
       "heading": "Detective practice, on paper",
@@ -331,7 +331,7 @@ values (
   '[
     { "beat": "intro",   "character": "zara",        "seconds": 12, "board_text": "REAL OR MADE?",         "model": "kling3_0", "job_id": "459b1662-1742-4e83-97af-e26c2b0e1688" },
     { "beat": "concept", "character": "zara",        "seconds": 10, "board_text": "THE THREE CHECKS",      "model": "kling3_0", "job_id": "66e88fe5-67c2-47ef-aa10-ebbf022ea96a" },
-    { "beat": "pause",   "character": "digi_junior", "seconds": 8,  "reuse_library": true,                  "model": "kling3_0", "job_id": "8be302c2-6b58-4a51-b413-bb1a6ff9a774" },
+    { "beat": "pause",   "character": "digi_junior", "seconds": 8,  "reuse_library": true,                  "model": "kling3_0", "job_id": "bc3337b7-0b24-4d82-b1e3-965955dd3d1c" },
     { "beat": "mission", "character": "zara",        "seconds": 8,  "board_text": "CHECK BEFORE YOU SHARE", "model": "kling3_0", "job_id": "129f9d14-d174-4444-8de3-e080bdbd52cb" }
   ]'::jsonb,
   '{

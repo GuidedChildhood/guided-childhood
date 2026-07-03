@@ -15,9 +15,9 @@ This folder is the single source of truth for all DiGi Squad characters. Read it
 
 ### DiGi Junior — The Pause Guide
 - **Role**: Mid-lesson pause beats, breathing moments, check-ins between steps (like Jigsaw's Jerrie Cat)
-- **Design**: Same robot design as DiGi but shown at child-friendly scale. Bounces and waves.
+- **Design**: DiGi IS the star, so DiGi Junior is the same friendly golden star with the warm smiling face, shown small and child-friendly. Bobs, waves and twirls with a soft sparkle trail. Confirmed by Justin 3 Jul 2026: never render DiGi or DiGi Junior as the robot or the owl, both are legacy designs.
 - **Voice**: Fun, playful, "BEEP BOOP!" energy. Speaks directly to children.
-- **Higgsfield job IDs**: `62f19158` (robot image), `8be302c2` (8s classroom pause beat: half time check in, kling3_0, hf_20260703_061810, first clip of the reusable pause library)
+- **Higgsfield job IDs**: `bc3337b7` (8s classroom pause beat: half time check in, golden star design, kling3_0, first clip of the reusable pause library). Legacy, do not reuse: `62f19158` (old robot image), `8be302c2` (robot version of the pause beat, superseded)
 - **Component**: `components/lessons/DigiJuniorPause.tsx`
 
 ---
@@ -72,11 +72,10 @@ This folder is the single source of truth for all DiGi Squad characters. Read it
 
 ## UK Animal Stage Guides
 
-Each developmental stage has a UK animal guide. DiGi the owl coaches the whole squad.
+Each developmental stage has a UK animal guide. DiGi (the golden star, never the owl) coaches the whole squad.
 
 | Animal | Name | Stage | Ages | Personality |
 |--------|------|-------|------|-------------|
-| Owl | DiGi | All | 0 to 16 | Wise guide |
 | Hedgehog | Hog | Stage 1 | 0 to 3 | Curious, needs protection |
 | Robin | Robin | Stage 2 | 4 to 6 | Friendly, trusting |
 | Red Squirrel | Scout | Stage 3 | 7 to 9 | Energetic, exploratory |
