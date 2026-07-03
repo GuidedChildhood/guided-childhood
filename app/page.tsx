@@ -5,11 +5,12 @@ import AnnouncementBar from '@/components/marketing/AnnouncementBar'
 import FaqAccordion from '@/components/marketing/FaqAccordion'
 import FlipCards from '@/components/marketing/FlipCards'
 import DigiWalker from '@/components/marketing/DigiWalker'
+import HomeReveals from '@/components/marketing/HomeReveals'
 import DigiCharacter from '@/components/digi/DigiCharacter'
 
 export const metadata: Metadata = {
   title: 'Guided Childhood, Screen Time and Digital Literacy Guide for UK Families · Ages 4 to 16',
-  description: 'Stop guessing what to say. Guided Childhood gives UK parents exact scripts for every screen time fight, a stage-by-stage digital literacy pathway from age 4 to 16, and DiGi your AI parenting advisor available at 11pm. Built on the research, not a ban.',
+  description: 'The UK ban delays social media until 16, it does not prepare your child for it. Guided Childhood gives UK parents a stage by stage digital literacy pathway from age 4 to 16, exact scripts for every screen time fight, and DiGi your AI parenting advisor available at 11pm.',
   keywords: [
     'digital parenting UK', 'screen time scripts', 'digital literacy for children',
     'child screen time advice', 'social media age UK', 'digital parenting pathway',
@@ -17,16 +18,16 @@ export const metadata: Metadata = {
     'online safety for children UK',
   ],
   openGraph: {
-    title: 'Stop guessing what to say about screens. Get the exact words tonight.',
-    description: 'The stage-by-stage digital literacy guide for UK families. Exact scripts for screen time battles, gaming meltdowns, social media access, and bedtime fights. Ages 4 to 16. Free starter pack.',
+    title: 'Social media arrives at 16. Ready is built from age 4.',
+    description: 'The ban delays the apps, it does not prepare your child for them. The stage by stage digital literacy pathway for UK families: exact scripts for screen time battles, gaming meltdowns and bedtime fights. Ages 4 to 16. Free starter pack.',
     url: 'https://www.guidedchildhood.co.uk',
     type: 'website',
     locale: 'en_GB',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Stop guessing what to say about screens. Get the exact words tonight.',
-    description: 'The stage-by-stage digital literacy guide for UK families. Ages 4 to 16. Free starter pack.',
+    title: 'Social media arrives at 16. Ready is built from age 4.',
+    description: 'The ban delays the apps, it does not prepare your child for them. The stage by stage digital literacy pathway for UK families. Ages 4 to 16. Free starter pack.',
   },
   alternates: {
     canonical: 'https://www.guidedchildhood.co.uk',
@@ -274,6 +275,7 @@ export default function HomePage() {
     <div style={{ background: '#fff', overflowX: 'hidden' }}>
 
       <AnnouncementBar />
+      <HomeReveals />
 
       {/* JSON-LD structured data */}
       <script
@@ -416,57 +418,48 @@ export default function HomePage() {
       {/* ================================================================
           HERO — Good Inside split: left text, right floating chips
           ================================================================ */}
-      <section aria-label="Hero" style={{ padding: 'clamp(56px, 7vw, 88px) 32px clamp(48px, 6vw, 80px)', background: '#FFFBEE' }}>
+      <section id="hero" aria-label="Hero" style={{ padding: 'clamp(56px, 7vw, 88px) 32px clamp(48px, 6vw, 80px)', background: 'radial-gradient(ellipse 90% 130% at 88% 45%, #FAEDC2 0%, #FDF6DE 42%, #FFFBEE 72%)', overflow: 'hidden' }}>
         <div className="hero-grid" style={{ maxWidth: '1100px', margin: '0 auto' }}>
 
           {/* Left: text */}
           <div>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'var(--terracotta)', borderRadius: '100px', padding: '6px 16px', marginBottom: '20px' }}>
-              <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#fff', flexShrink: 0 }} />
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '.65rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: '#fff' }}>
-                For UK parents · Ages 4 to 16
-              </span>
-            </div>
-            <h1 className="fu" style={{ fontSize: 'clamp(2.4rem, 4.8vw, 3.9rem)', fontWeight: 900, lineHeight: 1.0, letterSpacing: '-.04em', color: 'var(--ink)', marginBottom: '22px' }}>
-              Raising kids<br />with screens<br />
-              <span style={{ color: 'var(--terracotta)' }}>is something you can learn.</span>
-            </h1>
-            <p className="fu" style={{ fontSize: '1.02rem', color: 'var(--ink)', lineHeight: 1.78, maxWidth: '440px', marginBottom: '28px' }}>
-              The stage by stage guide, exact scripts for the hard moments, and DiGi, your AI parenting advisor available at 11pm.
+            <p className="fu eyebrow" style={{ marginBottom: '18px' }}>
+              From age 4 through 16
             </p>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '28px', flexWrap: 'wrap' }}>
-              <span style={{ color: '#F59E0B', letterSpacing: '2px', fontSize: '.95rem' }}>★★★★★</span>
-              <span style={{ fontSize: '.8rem', color: 'var(--ink-muted)', fontWeight: 600 }}>200 parents already on their pathway</span>
-            </div>
-            <div className="fu" style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center', marginBottom: '28px' }}>
+            <h1 className="fu" style={{ fontSize: 'clamp(2.1rem, 3.4vw, 2.9rem)', fontWeight: 800, lineHeight: 1.12, letterSpacing: '-.028em', color: 'var(--ink)', maxWidth: '560px', marginBottom: '20px' }}>
+              Raising kids with screens gets a lot clearer from here.
+            </h1>
+            <p className="fu" style={{ fontSize: '1.05rem', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '470px', marginBottom: '30px' }}>
+              The only parenting platform built on one consistent, science backed approach, not random tips. Every device and every app, from age 4 through the teen years: what to teach, what to say in the moment, how to put things right, and how to keep your child safe.
+            </p>
+            <div className="fu" style={{ display: 'flex', gap: '18px', flexWrap: 'wrap', alignItems: 'center', marginBottom: '14px' }}>
               <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '15px', padding: '16px 36px' }}>
                 Start my pathway free
               </Link>
-              <Link href="#stages" style={{ fontSize: '.88rem', fontWeight: 600, color: 'var(--ink-soft)', textDecoration: 'none' }}>
+              <Link href="#stages" style={{ fontSize: '.9rem', fontWeight: 600, color: 'var(--ink-soft)', textDecoration: 'none' }}>
                 Find your stage →
               </Link>
             </div>
-            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-              {['Online Safety Act 2023', 'DfE', 'Statutory RSE', 'Ofcom'].map(tag => (
-                <span key={tag} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '100px', padding: '4px 12px', fontSize: '.66rem', fontWeight: 700, color: 'var(--ink-muted)' }}>
-                  {tag}
-                </span>
-              ))}
-            </div>
+            <p className="fu" style={{ fontSize: '.82rem', color: 'var(--ink-muted)', fontWeight: 600, marginBottom: '34px' }}>
+              Free starter pack · No card needed · Built on the research
+            </p>
+            <p className="fu" style={{ fontFamily: 'var(--font-mono)', fontSize: '.68rem', fontWeight: 600, letterSpacing: '.06em', color: 'var(--ink-light)' }}>
+              Online Safety Act 2023 · DfE · Statutory RSE · Ofcom
+            </p>
           </div>
 
-          {/* Right: Daily digest app preview */}
+          {/* Right: Daily digest app preview over the butter circle */}
           <div className="hero-chips" style={{ position: 'relative', height: '480px' }}>
 
             {/* Main app preview card */}
             <div style={{
               position: 'absolute',
-              top: 0,
-              left: '10px',
-              right: '10px',
+              top: '24px',
+              left: '30px',
+              right: '30px',
               background: '#fff',
               borderRadius: '24px',
-              boxShadow: '0 16px 60px rgba(26,26,46,0.13)',
+              boxShadow: '0 24px 70px rgba(26,26,46,0.14)',
               border: '1px solid rgba(0,0,0,0.05)',
               overflow: 'hidden',
               zIndex: 1,
@@ -519,38 +512,6 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Floating: progress badge top right */}
-            <div className="digi-pop-in" style={{
-              position: 'absolute',
-              top: '-26px',
-              right: '20px',
-              background: '#fff',
-              borderRadius: '14px',
-              padding: '9px 14px',
-              boxShadow: '0 6px 28px rgba(26,26,46,0.14)',
-              border: '1.5px solid var(--border)',
-              textAlign: 'center',
-              zIndex: 3,
-              animationDelay: '0.8s',
-            }}>
-              <div style={{ fontFamily: 'var(--font-display)', fontSize: '18px', fontWeight: 900, color: 'var(--terracotta)', lineHeight: 1 }}>4→16</div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '7px', color: 'var(--ink-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginTop: '2px' }}>Every stage</div>
-            </div>
-
-            {/* Floating: age-safe chip */}
-            <div className="digi-pop-in" style={{
-              position: 'absolute',
-              bottom: '24px',
-              right: '-8px',
-              background: 'var(--stage-2)',
-              borderRadius: '100px',
-              padding: '7px 14px',
-              boxShadow: '0 4px 18px rgba(0,0,0,0.1)',
-              zIndex: 3,
-              animationDelay: '1.1s',
-            }}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, color: '#2D5016', letterSpacing: '0.06em' }}>Age-safe · School-aligned · AI-ready</div>
-            </div>
           </div>
 
         </div>
@@ -919,14 +880,13 @@ export default function HomePage() {
 
           <div className="stages-grid">
             {STAGES.map(s => (
-              <div key={s.num} className="fu" style={{
+              <div key={s.num} className="fu lift" style={{
                 background: '#fff',
                 borderRadius: '20px',
                 overflow: 'hidden',
                 boxShadow: '0 4px 32px rgba(26,26,46,0.07)',
                 display: 'flex',
                 flexDirection: 'column',
-                transition: 'transform 0.2s, box-shadow 0.2s',
               }}>
 
                 {/* Apple-style large coloured header */}
@@ -1109,7 +1069,7 @@ export default function HomePage() {
                 ),
               },
             ] as const).map((f, i) => (
-              <div key={i} className="fu" style={{ background: '#fff', borderRadius: '24px', padding: '36px 28px', boxShadow: '0 6px 32px rgba(26,26,46,.06)', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <div key={i} className="fu lift" style={{ background: '#fff', borderRadius: '24px', padding: '36px 28px', boxShadow: '0 6px 32px rgba(26,26,46,.06)', display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 <div style={{ width: '60px', height: '60px', borderRadius: '18px', background: f.iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow: '0 4px 0 rgba(0,0,0,0.15)' }}>
                   {f.svg}
                 </div>
@@ -1129,7 +1089,7 @@ export default function HomePage() {
 
           <div style={{ textAlign: 'center', marginBottom: '64px' }}>
             <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '14px' }}>What this covers</p>
-            <h2 className="fu" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 900, letterSpacing: '-.04em', lineHeight: 1.05, marginBottom: '18px' }}>
+            <h2 className="fu" style={{ fontSize: 'clamp(1.9rem, 3vw, 2.5rem)', fontWeight: 800, letterSpacing: '-.025em', lineHeight: 1.1, marginBottom: '18px' }}>
               The fights you have every day.<br />
               <span style={{ color: 'var(--terracotta)' }}>Scripts for all of them.</span>
             </h2>
@@ -2283,8 +2243,8 @@ export default function HomePage() {
                 cardStyle: {},
               },
               {
-                tier: 'Most popular', name: 'Guided Childhood OS', price: '£12.99', period: '/month',
-                save: 'First 50: lock in £7.99/month for life.',
+                tier: 'Best value', name: 'Annual OS', price: '£99', period: '/year',
+                save: 'Save £57. Two months free.',
                 features: [
                   ['✓', 'Full 5-stage dashboard'],
                   ['✓', 'Weekly 3-action plan'],
@@ -2299,13 +2259,12 @@ export default function HomePage() {
                 cardStyle: { background: 'var(--stage-1)', border: '2px solid rgba(61,115,154,.25)', transform: 'scale(1.025)' },
               },
               {
-                tier: 'Best value', name: 'Annual OS', price: '£99', period: '/year',
-                save: 'Save £57. Two months free.',
+                tier: 'Monthly', name: 'Guided Childhood OS', price: '£12.99', period: '/month',
+                save: 'First 50: lock in £7.99/month for life.',
                 features: [
-                  ['✓', 'Everything in monthly'],
-                  ['✓', 'Multi-child profiles'],
-                  ['✓', 'Priority DiGi access'],
-                  ['✓', 'School pack downloads'],
+                  ['✓', 'Everything in annual'],
+                  ['✓', 'Pay month to month'],
+                  ['✓', 'Cancel any time'],
                 ],
                 cta: 'Start now', href: '/join',
                 ctaBg: 'var(--terracotta)', ctaColor: '#fff', ctaBorder: 'none', ctaShadow: '0 5px 0 var(--terracotta-dark)',
@@ -2376,10 +2335,10 @@ export default function HomePage() {
         <div style={{ maxWidth: '620px', margin: '0 auto' }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'var(--stage-1-bold)', borderRadius: '100px', padding: '6px 16px', marginBottom: '24px' }}>
             <span style={{ fontFamily: 'var(--font-mono)', fontSize: '.65rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--stage-1-text)' }}>
-              Join 200 families already on their pathway
+              Your family's pathway starts free today
             </span>
           </div>
-          <h2 className="fu" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 900, letterSpacing: '-.04em', lineHeight: 1.05, marginBottom: '18px' }}>
+          <h2 className="fu" style={{ fontSize: 'clamp(1.9rem, 3vw, 2.5rem)', fontWeight: 800, letterSpacing: '-.025em', lineHeight: 1.1, marginBottom: '18px' }}>
             Start your family's<br />
             <span style={{ color: 'var(--terracotta)' }}>guided childhood today</span>
           </h2>

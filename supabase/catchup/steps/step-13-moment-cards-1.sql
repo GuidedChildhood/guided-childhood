@@ -1,3 +1,6 @@
+-- GUIDED CHILDHOOD CATCH UP · STEP 13 · moment-cards-1
+-- Paste into a NEW query tab, Run, look for the COMPLETE message.
+
 -- 009_daily_moments_seed.sql
 -- 60+ research-backed moment cards covering every key daily scenario
 -- science_brief: single sentence grounded in child development research
@@ -535,4 +538,6 @@ INSERT INTO public.daily_moments (title, category, age_bands, icon, science_brie
  'How long has the sleep been disrupted, and is it one child waking, or the general exhaustion of the day catching up?',
  '["If a child over 3 is waking regularly without a medical cause, sleep training or the use of a sleep consultant is evidence-based and not unkind.", "''I can''t be the parent I want to be when I''m running on empty.'' Protecting your own sleep is parenting.", "If it''s burnout rather than night waking: one hour of protected time per week for each parent has measurable wellbeing effects in the research."]',
  NULL,
- 88);
+ 88)
+on conflict (title) do nothing;
+select 'STEP 13 COMPLETE · moment-cards-1' as status;

@@ -1,6 +1,9 @@
 import { createClient } from '@/lib/supabase/server'
+import { createClient as createServiceClient } from '@supabase/supabase-js'
 import { DIGI_MODEL, DIGI_MODEL_FALLBACKS } from '@/lib/config/digi'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
+import { sendEmail, emailConfigured, unsubscribeUrl } from '@/lib/email'
+import { welcomeEmail } from '@/lib/email/templates'
 import { NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 
@@ -98,6 +101,41 @@ Stage context: ${name} is Stage ${stage.id} (${stage.name}, ${stage.ages}). ${st
     })
   } catch {
     // Best-effort — do not block the response
+  }
+
+  // Welcome email with the first script, once ever per account. The
+  // email_log unique key makes retries safe; the service client is
+  // needed because email_log writes are service role only.
+  if (emailConfigured() && process.env.SUPABASE_SERVICE_KEY) {
+    try {
+      const service = createServiceClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.SUPABASE_SERVICE_KEY
+      )
+      const { error: logError } = await service
+        .from('email_log')
+        .insert({ user_id: user.id, email_key: 'welcome' })
+      if (!logError) {
+        const { data: profile } = await service
+          .from('profiles')
+          .select('email, full_name, email_opt_out')
+          .eq('id', user.id)
+          .single()
+        if (profile?.email && !profile.email_opt_out) {
+          const content = welcomeEmail({
+            parentName: profile.full_name?.split(' ')[0] ?? 'there',
+            childName: name === 'your child' ? 'your child' : name,
+            unsubscribe: unsubscribeUrl(user.id),
+          })
+          const sent = await sendEmail({ to: profile.email, subject: content.subject, html: content.html })
+          if (!sent.ok) {
+            await service.from('email_log').delete().eq('user_id', user.id).eq('email_key', 'welcome')
+          }
+        }
+      }
+    } catch {
+      // Never block onboarding on email delivery
+    }
   }
 
   return NextResponse.json(parsed)

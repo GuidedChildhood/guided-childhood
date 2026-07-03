@@ -1,3 +1,6 @@
+-- GUIDED CHILDHOOD CATCH UP · STEP 02 · lessons-hub
+-- Paste into a NEW query tab, Run, look for the COMPLETE message.
+
 -- Guided Childhood: Lessons Hub (not yet linked in the app)
 -- Run AFTER 012_ai_checkin.sql.
 -- General digital parenting curriculum content, organized by stage, separate
@@ -125,3 +128,5 @@ insert into public.lessons (stage_id, audience, category, title, the_idea, why_i
  'Specific, repeated, and factual. That is what makes a home note useful.',
  'What should I include in a note home about a pattern of mood change I have noticed at school?', 10)
 ;
+
+select 'STEP 02 COMPLETE · lessons-hub' as status;

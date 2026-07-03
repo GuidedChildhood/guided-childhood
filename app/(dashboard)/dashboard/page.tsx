@@ -356,6 +356,28 @@ export default async function DashboardPage() {
         </div>
       </Link>
 
+      {/* Family agreement discovery */}
+      <Link href="/dashboard/agreement" style={{ textDecoration: 'none', display: 'block', marginBottom: '12px' }}>
+        <div style={{
+          background: 'var(--stage-1)', border: '1.5px solid var(--stage-1)',
+          borderRadius: '16px', padding: '22px',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px',
+        }}>
+          <div>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '6px' }}>
+              Made together
+            </div>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)', marginBottom: '3px' }}>
+              Build your family agreement
+            </div>
+            <div style={{ fontSize: '13px', color: 'var(--ink)' }}>
+              Five conversations, one signed agreement, printed for the fridge.
+            </div>
+          </div>
+          <span style={{ fontSize: '18px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>
+        </div>
+      </Link>
+
       {/* Digital Health Check discovery */}
       <Link href="https://wellbeing.guidedchildhood.com/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', display: 'block', marginBottom: '20px' }}>
         <div style={{

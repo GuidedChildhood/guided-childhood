@@ -1,3 +1,6 @@
+-- GUIDED CHILDHOOD CATCH UP · STEP 05 · digi-brain-school-agreements-email
+-- Paste into a NEW query tab, Run, look for the COMPLETE message.
+
 -- Guided Childhood: DiGi's brain
 -- Run AFTER 018_curriculum_matrix.sql.
 -- Three tables: the expert knowledge corpus DiGi cites (researchers, clinical
@@ -77,3 +80,115 @@ insert into public.expert_knowledge (source_type, source_name, finding, age_band
 ('association', 'NHS and RCPCH guidance', 'Device free bedrooms are the single highest impact household rule for childrens sleep and mood, and the evidence is strongest here of any screen intervention.', '{4-7,8-10,11-13,13-15,16+}', '{sleep,routines,mood}'),
 ('association', 'MindEd and NHS guidance', 'Parent mental health is child mental health: parental stress and burnout transmit directly to children. A regulated parent is the intervention, parents caring for their own sleep, support and downtime is not selfish, it is protective.', '{4-7,8-10,11-13,13-15,16+}', '{parent_wellbeing,mood,routines}'),
 ('association', 'UK crisis signposting', 'Red flags need humans, not apps: self harm, suicidal talk, disclosure of abuse or grooming. Same day GP or NHS 111, CAMHS via GP referral, Childline 0800 1111 for the child, Samaritans 116 123 for anyone, CEOP for online exploitation reports.', '{4-7,8-10,11-13,13-15,16+}', '{safety,trauma,anxiety,crisis}');
+
+-- Guided Childhood: the school link
+-- Run AFTER 019_digi_brain.sql.
+-- Parents forward school emails to a private per family DiGi address (one
+-- time forwarding rule filtered by the school's sender, works with Gmail,
+-- Outlook or anything else, no OAuth needed). An inbound webhook extracts
+-- the actionable items (kit reminders, payments, homework, trips, deadlines)
+-- into school_actions and surfaces them through the existing digi_prompts
+-- dashboard cards. Raw email bodies are not retained, only the extracted
+-- actions, which keeps the child data footprint minimal.
+
+create table if not exists public.school_connections (
+  id               uuid primary key default uuid_generate_v4(),
+  user_id          uuid not null references auth.users(id) on delete cascade,
+  school_name      text not null,
+  sender_addresses text[] not null default '{}',
+  forward_token    text not null unique,
+  active           boolean not null default true,
+  created_at       timestamptz not null default now()
+);
+alter table public.school_connections enable row level security;
+create policy "Users manage own school connections" on public.school_connections for all
+  using (auth.uid() = user_id) with check (auth.uid() = user_id);
+
+create table if not exists public.school_actions (
+  id          uuid primary key default uuid_generate_v4(),
+  user_id     uuid not null references auth.users(id) on delete cascade,
+  kind        text not null check (kind in ('kit','payment','homework','event','deadline','notice')),
+  title       text not null,
+  detail      text,
+  due_date    date,
+  status      text not null default 'open' check (status in ('open','done','dismissed')),
+  created_at  timestamptz not null default now()
+);
+create index if not exists idx_school_actions_user on public.school_actions(user_id, status, due_date);
+alter table public.school_actions enable row level security;
+create policy "Users manage own school actions" on public.school_actions for all
+  using (auth.uid() = user_id) with check (auth.uid() = user_id);
+
+-- The dashboard prompt cards gain a school kind.
+alter table public.digi_prompts drop constraint if exists digi_prompts_kind_check;
+alter table public.digi_prompts add constraint digi_prompts_kind_check
+  check (kind in ('watch_for','tip','parent_care','new_research','celebration','school'));
+
+-- Guided Childhood — Migration 021
+-- The family agreement builder. One living agreement per account,
+-- negotiated per stage, signed by parent and child, with a review date
+-- so the agreement gets revisited each term instead of going stale.
+-- Version counts how many times the family has re agreed it.
+
+create table if not exists public.family_agreements (
+  id                    uuid        primary key default uuid_generate_v4(),
+  user_id               uuid        not null references auth.users(id) on delete cascade,
+  version               int         not null default 1,
+  stage_id              text,
+  agreed_date           date,
+  review_date           date,
+
+  -- Agreement sections, filled in by the family together
+  family_values         text,
+  bedroom_rule_time     text,
+  bedroom_rule_location text,
+  social_media_terms    text,
+  when_things_go_wrong  text,
+  extra_agreements      text,
+
+  signed_by_parent      boolean     not null default false,
+  signed_by_child       boolean     not null default false,
+
+  created_at            timestamptz not null default now(),
+  updated_at            timestamptz not null default now(),
+  unique(user_id)
+);
+
+alter table public.family_agreements enable row level security;
+
+create policy "Users can manage their own family agreement"
+  on public.family_agreements
+  for all
+  using  (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
+-- Guided Childhood — Migration 022
+-- Email system support. email_log makes every lifecycle send idempotent:
+-- one row per user per email key, so the daily cron can never double
+-- send. Weekly digests use a dated key (digest-2026-28). email_opt_out
+-- on profiles is the one switch the unsubscribe link flips.
+
+create table if not exists public.email_log (
+  id         uuid        primary key default uuid_generate_v4(),
+  user_id    uuid        not null references auth.users(id) on delete cascade,
+  email_key  text        not null,
+  sent_at    timestamptz not null default now(),
+  unique(user_id, email_key)
+);
+
+create index if not exists idx_email_log_user
+  on public.email_log(user_id);
+
+alter table public.email_log enable row level security;
+
+-- Written only by the service role (cron and server routes). Users can
+-- see their own send history, nothing else.
+create policy "Users can view their own email log"
+  on public.email_log
+  for select
+  using (auth.uid() = user_id);
+
+alter table public.profiles
+  add column if not exists email_opt_out boolean not null default false;
+
+select 'STEP 05 COMPLETE · digi-brain-school-agreements-email' as status;
