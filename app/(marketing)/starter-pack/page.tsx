@@ -14,7 +14,7 @@ import {
   type StarterAnswers,
 } from '@/lib/content/stages'
 
-type Step = 'q1' | 'q2' | 'q3' | 'q4' | 'result'
+type Step = 'intro' | 'q1' | 'q2' | 'q3' | 'q4' | 'reassure' | 'result'
 
 const CHALLENGE_ICONS: Record<string, React.ReactNode> = {
   screens_takeover: (
@@ -70,7 +70,7 @@ const STAGE_ACCENT: Record<number, { bold: string; text: string }> = {
 }
 
 export default function StarterPackPage() {
-  const [step, setStep] = useState<Step>('q1')
+  const [step, setStep] = useState<Step>('intro')
   const [ageBand, setAgeBand] = useState<AgeBand | null>(null)
   const [challenge, setChallenge] = useState<ChallengeId | null>(null)
   const [feeling, setFeeling] = useState<FeelingId | null>(null)
@@ -90,7 +90,7 @@ export default function StarterPackPage() {
         if (parsed.challenge) setChallenge(parsed.challenge)
         if (parsed.feeling) setFeeling(parsed.feeling)
         if (parsed.timeCommitment) setTimeCommitment(parsed.timeCommitment)
-        if (parsed.step && parsed.step !== 'result') setStep(parsed.step)
+        if (parsed.step && parsed.step !== 'result' && parsed.step !== 'reassure') setStep(parsed.step)
       }
     } catch {}
     setRestored(true)
@@ -115,6 +115,12 @@ export default function StarterPackPage() {
     }
   }, [step, ageBand, challenge, feeling, timeCommitment])
 
+  useEffect(() => {
+    if (step !== 'reassure') return
+    const t = setTimeout(() => setStep('result'), 2100)
+    return () => clearTimeout(t)
+  }, [step])
+
   function selectAge(band: AgeBand) {
     setAgeBand(band)
     setTimeout(() => setStep('q2'), 280)
@@ -129,10 +135,10 @@ export default function StarterPackPage() {
   }
   function selectTimeCommitment(t: TimeCommitmentId) {
     setTimeCommitment(t)
-    setTimeout(() => setStep('result'), 280)
+    setTimeout(() => setStep('reassure'), 280)
   }
 
-  const progress = step === 'q1' ? 1 : step === 'q2' ? 2 : step === 'q3' ? 3 : 4
+  const progress = step === 'intro' ? 0 : step === 'q1' ? 1 : step === 'q2' ? 2 : step === 'q3' ? 3 : 4
 
   if (step === 'result' && stage && ageBand && challenge) {
     return (
@@ -159,13 +165,94 @@ export default function StarterPackPage() {
         flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center',
         padding: '32px 24px 48px', maxWidth: '520px', margin: '0 auto', width: '100%',
       }}>
-        <div style={{
-          fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700,
-          letterSpacing: '0.18em', textTransform: 'uppercase',
-          color: 'var(--ink-muted)', marginBottom: '36px',
-        }}>
-          Step {progress} of 4
-        </div>
+        <style>{`
+          @keyframes stepIn {
+            from { opacity: 0; transform: translateY(16px); }
+            to   { opacity: 1; transform: translateY(0); }
+          }
+          @keyframes gentleFloat {
+            0%, 100% { transform: translateY(0); }
+            50%      { transform: translateY(-8px); }
+          }
+        `}</style>
+        {progress > 0 && (
+          <div style={{
+            fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700,
+            letterSpacing: '0.18em', textTransform: 'uppercase',
+            color: 'var(--ink-muted)', marginBottom: '36px',
+            animation: 'stepIn 0.45s ease both',
+          }}>
+            Question {progress} of 4
+          </div>
+        )}
+        <div key={step} style={{ animation: 'stepIn 0.45s ease both' }}>
+
+        {/* Intro — the story of what happens */}
+        {step === 'intro' && (
+          <>
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+              <img src="/digi-squad/DiGi-star.svg" alt="" width={72} height={72} style={{ animation: 'gentleFloat 3.5s ease-in-out infinite' }} />
+            </div>
+            <h1 style={{
+              fontFamily: 'var(--font-display)', fontSize: 'clamp(1.8rem, 4.5vw, 2.4rem)',
+              fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1.15,
+              color: 'var(--ink)', marginBottom: '10px', textAlign: 'center',
+            }}>
+              Let us build your child&apos;s pathway.
+            </h1>
+            <p style={{ color: 'var(--ink-soft)', fontSize: '15px', marginBottom: '30px', lineHeight: 1.6, textAlign: 'center' }}>
+              Four quick questions. Two minutes. Free.
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '30px' }}>
+              {[
+                { n: '1', title: 'Tell us about your child', sub: 'Their age and the screen struggle you are facing right now' },
+                { n: '2', title: 'We build their pathway', sub: 'Matched to their exact stage, from first screens to 16' },
+                { n: '3', title: 'Your starter pack arrives tonight', sub: 'The exact words for tonight, free, straight to your inbox' },
+              ].map(item => (
+                <div key={item.n} style={{ display: 'flex', gap: '14px', alignItems: 'flex-start', background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: '14px', padding: '16px 18px' }}>
+                  <div style={{ width: '26px', height: '26px', borderRadius: '50%', background: 'var(--terracotta)', color: 'var(--ink)', fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '1px' }}>{item.n}</div>
+                  <div>
+                    <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '15px', color: 'var(--ink)' }}>{item.title}</div>
+                    <div style={{ fontSize: '13px', color: 'var(--ink-muted)', marginTop: '2px', lineHeight: 1.5 }}>{item.sub}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <button
+              onClick={() => setStep('q1')}
+              className="btn btn-gold"
+              style={{ width: '100%', justifyContent: 'center', fontSize: '15px', padding: '17px' }}
+            >
+              Start, it is free
+            </button>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--ink-light)', textAlign: 'center', marginTop: '14px', letterSpacing: '0.06em' }}>
+              No card. No commitment. Built on the research.
+            </p>
+          </>
+        )}
+
+        {/* Reassurance beat before the result */}
+        {step === 'reassure' && (
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '22px' }}>
+              <img src="/digi-squad/DiGi-star.svg" alt="" width={72} height={72} style={{ animation: 'gentleFloat 2.5s ease-in-out infinite' }} />
+            </div>
+            <h1 style={{
+              fontFamily: 'var(--font-display)', fontSize: 'clamp(1.8rem, 4.5vw, 2.3rem)',
+              fontWeight: 800, letterSpacing: '-0.02em', color: 'var(--ink)', marginBottom: '12px',
+            }}>
+              You are in the right place.
+            </h1>
+            <p style={{ color: 'var(--ink-soft)', fontSize: '15px', lineHeight: 1.6, maxWidth: '380px', margin: '0 auto' }}>
+              {challenge === 'screens_takeover' ? 'Thousands of families fight the same screen battles. There is a calm way through, and we are building yours now.'
+                : challenge === 'mood_changes' ? 'You noticed the mood changes. That noticing is the skill. We are building your pathway now.'
+                : challenge === 'gaming' ? 'Gaming battles have an ending. We are building your family\'s way there now.'
+                : challenge === 'online_safety' ? 'Safety comes from readiness, not luck. We are building your child\'s pathway now.'
+                : challenge === 'start_conversation' ? 'The first conversation is the hardest one. We are writing yours now.'
+                : 'The phone question has a right answer for your family. We are building it now.'}
+            </p>
+          </div>
+        )}
 
         {/* Q1 — Age */}
         {step === 'q1' && (
@@ -348,6 +435,7 @@ export default function StarterPackPage() {
             </button>
           </>
         )}
+        </div>
       </div>
     </div>
   )
