@@ -570,6 +570,7 @@ export default function OnboardingPage() {
 
                 <form action="/api/stripe/checkout" method="POST">
                   <input type="hidden" name="tier" value="founder" />
+                  <input type="hidden" name="from" value="onboarding" />
                   <button type="submit" style={BTN}>
                     Claim my founding place. £7.99 per month for life.
                   </button>
@@ -582,6 +583,7 @@ export default function OnboardingPage() {
                 </p>
                 <form action="/api/stripe/checkout" method="POST">
                   <input type="hidden" name="tier" value="standard" />
+                  <input type="hidden" name="from" value="onboarding" />
                   <button type="submit" style={BTN}>Join now</button>
                 </form>
               </>

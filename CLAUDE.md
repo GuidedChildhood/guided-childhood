@@ -22,6 +22,33 @@ Re-read /plans/decisions.md after any compaction.
 Write every plan to /plans/<week>-plan.md INSIDE this repo before building.
 Re-read it after any compaction. Never rely on plan mode's disposable global file.
 
+## MULTI-SESSION SYNC — read before claiming any work
+
+Several Claude sessions can run against this repo on the same day. In-flight
+work is invisible until it merges, so these rules stop two sessions building
+the same thing (it happened: PR 55 and PR 56 built the same Phase 2 twice on
+3 July 2026).
+
+1. **Check before claiming.** At session start: `git fetch origin main`, read
+   the roadmap and decisions.md FROM origin/main (the clone snapshot may be
+   hours stale), then list OPEN pull requests and branches pushed in the last
+   7 days. Any roadmap box or feature named by an open PR is claimed. Skip it
+   and take the next free box.
+2. **Claim early and visibly.** The moment you pick your work, push the branch
+   and open the draft PR immediately, naming the claimed roadmap boxes in the
+   title. The draft PR is the lock other sessions check. Fill in the real diff
+   later.
+3. **Migration numbers are claimed the same way.** Before creating a migration,
+   check the highest number on origin/main AND in every open PR. Name your
+   number in the draft PR at claim time.
+4. **One lane per concurrent session.** If sessions run in parallel, each gets
+   an explicit lane (platform code, curriculum content, marketing, schools).
+   An open ended prompt like "continue the build" must only ever be live in
+   one session at a time.
+5. **Merge or close the same day.** Long lived branches are the duplication
+   window. Small PRs, fast merges. decisions.md is append only; on conflict
+   keep both entries.
+
 ## NON-NEGOTIABLES
 
 1. Never allow/deny. DiGi always returns a calibrated pathway.

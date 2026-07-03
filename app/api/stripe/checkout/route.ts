@@ -14,7 +14,7 @@ export async function POST(request: Request) {
 
   const formData = await request.formData().catch(() => null)
   const body = formData
-    ? { tier: formData.get('tier') as string }
+    ? { tier: formData.get('tier') as string, from: formData.get('from') as string | null }
     : await request.json().catch(() => ({ tier: 'annual' }))
 
   const tier = body.tier as keyof typeof STRIPE_PRICES
@@ -57,11 +57,19 @@ export async function POST(request: Request) {
 
   const origin = process.env.NEXT_PUBLIC_APP_URL ?? 'https://guidedchildhood.com'
 
+  // A payer coming straight from onboarding lands in their first script
+  // (the activation moment), same as the free path, instead of the
+  // dashboard. The recommended redirect prefers free scripts for accounts
+  // the webhook has not upgraded yet, so this can never hit the paywall.
+  const successUrl = body.from === 'onboarding'
+    ? `${origin}/dashboard/scripts/recommended?upgraded=1`
+    : `${origin}/dashboard?upgraded=1`
+
   const session = await stripe.checkout.sessions.create({
     customer: customerId,
     mode: 'subscription',
     line_items: [{ price: STRIPE_PRICES[tier], quantity: 1 }],
-    success_url: `${origin}/dashboard?upgraded=1`,
+    success_url: successUrl,
     cancel_url: `${origin}/dashboard/upgrade`,
     metadata: { tier, user_id: user.id },
     subscription_data: {
