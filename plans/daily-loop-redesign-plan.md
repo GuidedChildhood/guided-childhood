@@ -24,6 +24,7 @@ Parents will hesitate to forward school emails. The design already earns trust, 
 3. We keep the actions, not the email. DiGi reads it once, pulls out the dates, kit, payments and homework, and the original email is deleted straight away. It is never stored.
 4. Everything stays in your account. Nothing is shared, nothing is sold, delete it all any time.
 5. Switching off is instant: delete the forwarding rule in your email and it is over. Your private address is useless to anyone else.
+6. Your inbox does not change. Forwarding sends us a copy: the school's email still lands in your inbox exactly as it does today, nothing moved, nothing missed. Setup instructions explicitly say to leave Gmail's "skip the inbox" and archive options unticked.
 
 **Setup friction, solved in the flow:**
 - Start with ONE sender (the school office address). More can be added later, never demand completeness up front.
