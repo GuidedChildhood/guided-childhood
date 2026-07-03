@@ -15,9 +15,9 @@ This folder is the single source of truth for all DiGi Squad characters. Read it
 
 ### DiGi Junior — The Pause Guide
 - **Role**: Mid-lesson pause beats, breathing moments, check-ins between steps (like Jigsaw's Jerrie Cat)
-- **Design**: Same robot design as DiGi but shown at child-friendly scale. Bounces and waves.
+- **Design**: DiGi IS the star, so DiGi Junior is the same friendly golden star with the warm smiling face, shown small and child-friendly. Bobs, waves and twirls with a soft sparkle trail. Confirmed by Justin 3 Jul 2026: never render DiGi or DiGi Junior as the robot or the owl, both are legacy designs.
 - **Voice**: Fun, playful, "BEEP BOOP!" energy. Speaks directly to children.
-- **Higgsfield job IDs**: `62f19158` (robot image)
+- **Higgsfield job IDs**: `bc3337b7` (8s classroom pause beat: half time check in, golden star design, kling3_0, first clip of the reusable pause library). Legacy, do not reuse: `62f19158` (old robot image), `8be302c2` (robot version of the pause beat, superseded)
 - **Component**: `components/lessons/DigiJuniorPause.tsx`
 
 ---
@@ -47,6 +47,7 @@ This folder is the single source of truth for all DiGi Squad characters. Read it
 - **Stage**: 2 to 4 · Ages 8 to 13
 - **Intro speech**: "Hi! I'm Zara and I'm here to help you today! Today we're going on a DETECTIVE mission to spot what's real online. Put your thinking hat on and let's go!"
 - **Higgsfield job IDs**: `e29b139c` (still image, 1:1 avatar), `4641ac49` (5s video: celebration leap), `08e5094c` (8s classroom lesson video: REAL OR FAKE, https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260701_210314_08e5094c-a1ad-42bc-aed4-ca3f2df62cde.mp4)
+- **Schools reference lesson beats (KS3 module 12, migration 018, kling3_0, secondary classroom staging)**: `459b1662` (12s intro: REAL OR MADE?, hf_20260703_061752), `66e88fe5` (10s concept: THE THREE CHECKS, hf_20260703_061754), `129f9d14` (8s mission: CHECK BEFORE YOU SHARE, hf_20260703_061806)
 
 ### Sofia — Safety Guardian
 - **Age**: 6
@@ -71,11 +72,10 @@ This folder is the single source of truth for all DiGi Squad characters. Read it
 
 ## UK Animal Stage Guides
 
-Each developmental stage has a UK animal guide. DiGi the owl coaches the whole squad.
+Each developmental stage has a UK animal guide. DiGi (the golden star, never the owl) coaches the whole squad.
 
 | Animal | Name | Stage | Ages | Personality |
 |--------|------|-------|------|-------------|
-| Owl | DiGi | All | 0 to 16 | Wise guide |
 | Hedgehog | Hog | Stage 1 | 0 to 3 | Curious, needs protection |
 | Robin | Robin | Stage 2 | 4 to 6 | Friendly, trusting |
 | Red Squirrel | Scout | Stage 3 | 7 to 9 | Energetic, exploratory |

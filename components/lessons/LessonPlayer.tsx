@@ -168,7 +168,7 @@ export default function LessonPlayer({
   digiPrompt,
 }: {
   lessonId: string
-  lessonSource: 'lesson' | 'ai_lesson'
+  lessonSource: 'lesson' | 'ai_lesson' | 'school_lesson'
   slides: LessonSlide[]
   backHref: string
   digiPrompt?: string
