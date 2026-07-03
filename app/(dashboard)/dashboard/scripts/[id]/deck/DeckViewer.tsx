@@ -15,40 +15,134 @@ type ScriptData = {
   stage_id: string
 }
 
+// Card tints rotate through the Good Inside blue and green pastels.
+// Butter stays reserved for the primary action button.
 const CARDS = [
   {
     key: 'say_this' as const,
     label: 'Say this',
     step: 1,
-    accent: 'var(--terracotta)',
-    bg: 'var(--terracotta-lt)',
+    header: 'var(--stage-2-bold)',
+    bg: 'var(--stage-2)',
+    text: 'var(--stage-2-text)',
     tip: 'Use these words tonight',
   },
   {
     key: 'not_this' as const,
     label: 'Not this',
     step: 2,
-    accent: 'var(--terracotta)',
-    bg: 'var(--terracotta-lt)',
+    header: 'var(--tint-blue)',
+    bg: 'var(--tint-sage)',
+    text: 'var(--stage-2-text)',
     tip: 'Easy to say, hard to come back from',
   },
   {
     key: 'why_it_works' as const,
     label: 'Why it works',
     step: 3,
-    accent: 'var(--terracotta)',
-    bg: 'var(--terracotta-lt)',
+    header: 'var(--stage-2-bold)',
+    bg: 'var(--tint-green)',
+    text: 'var(--stage-2-text)',
     tip: 'The reason behind the approach',
   },
   {
     key: 'tonight' as const,
     label: 'Tonight',
     step: 4,
-    accent: 'var(--terracotta)',
-    bg: 'var(--terracotta-lt)',
+    header: 'var(--tint-blue)',
+    bg: 'var(--stage-2)',
+    text: 'var(--stage-2-text)',
     tip: 'One thing to do right now',
   },
 ]
+
+type CardDef = typeof CARDS[number]
+
+// ── DECK MOTION ──────────────────────────────────────────────────────────────
+// Advancing a card: slow 3D flip to a green Done face, a beat to read it,
+// then the card slides away revealing the next card already waiting beneath.
+// Nothing runs under half a second. Reduced motion skips it all.
+const FLIP_MS = 700
+const HOLD_MS = 400
+const SLIDE_MS = 600
+const BACK_MS = 500
+
+type Phase = 'rest' | 'flip' | 'slide' | 'back'
+
+const sleep = (ms: number) => new Promise(r => setTimeout(r, ms))
+
+const CARD_SHADOW = '0 10px 40px rgba(26,26,46,0.14), 0 2px 8px rgba(26,26,46,0.08)'
+
+function ScriptCardFace({ card, script }: { card: CardDef; script: ScriptData }) {
+  return (
+    <div style={{
+      background: card.bg,
+      borderRadius: '28px',
+      overflow: 'hidden',
+      boxShadow: CARD_SHADOW,
+      border: '1px solid var(--border)',
+    }}>
+      {/* Curved header band */}
+      <div style={{
+        background: card.header,
+        padding: '22px 26px 26px',
+        borderRadius: '0 0 32px 32px',
+      }}>
+        <div style={{ color: card.text, opacity: 0.75, fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: '6px' }}>
+          Step {card.step} of {CARDS.length}
+        </div>
+        <div style={{ color: card.text, fontFamily: 'var(--font-display)', fontSize: '1.6rem', fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1.1, marginBottom: '4px' }}>
+          {card.label}
+        </div>
+        <div style={{ color: card.text, opacity: 0.85, fontFamily: 'var(--font-body)', fontSize: '13px', fontWeight: 600 }}>
+          {card.tip}
+        </div>
+      </div>
+
+      {/* Card body */}
+      <div style={{ padding: '30px 26px 34px', background: card.bg }}>
+        <p style={{
+          fontSize: 'clamp(16px, 3.8vw, 19px)',
+          fontWeight: 500,
+          lineHeight: 1.6,
+          color: 'var(--ink)',
+          margin: 0,
+          fontFamily: 'var(--font-body)',
+          ...(card.key === 'not_this' ? { color: 'var(--danger)', fontStyle: 'italic' } : {}),
+        }}>
+          {card.key === 'say_this' ? `"${script[card.key]}"` : script[card.key]}
+        </p>
+      </div>
+    </div>
+  )
+}
+
+function DoneFace() {
+  return (
+    <div style={{
+      height: '100%',
+      background: 'var(--tint-green)',
+      border: '1px solid var(--border)',
+      borderRadius: '28px',
+      boxShadow: CARD_SHADOW,
+      display: 'flex', flexDirection: 'column',
+      alignItems: 'center', justifyContent: 'center', gap: '14px',
+    }}>
+      <div style={{
+        width: 76, height: 76, borderRadius: '50%',
+        background: 'var(--tint-sage)', border: '1.5px solid var(--border)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        fontSize: '34px', color: 'var(--ink)',
+      }}>✓</div>
+      <div style={{
+        fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700,
+        letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--ink-soft)',
+      }}>
+        Done
+      </div>
+    </div>
+  )
+}
 
 export default function DeckViewer({
   script,
@@ -62,50 +156,70 @@ export default function DeckViewer({
   const [cardIndex, setCardIndex] = useState(0)
   const [completed, setCompleted] = useState(initialCompleted)
   const [showCelebration, setShowCelebration] = useState(false)
-  const [isExiting, setIsExiting] = useState(false)
-  const [exitDir, setExitDir] = useState<'left' | 'right'>('left')
+  const [phase, setPhase] = useState<Phase>('rest')
 
   const touchStartX = useRef<number | null>(null)
   const touchStartY = useRef<number | null>(null)
   const animating = useRef(false)
+  const reducedMotion = useRef(false)
 
-  const navigate = useCallback((dir: 'next' | 'back') => {
+  useEffect(() => {
+    reducedMotion.current = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  }, [])
+
+  const navigate = useCallback(async (dir: 'next' | 'back') => {
     if (animating.current) return
-
     if (dir === 'back' && cardIndex === 0) return
     if (dir === 'next' && cardIndex >= CARDS.length) return
 
-    animating.current = true
-    setIsExiting(true)
-    setExitDir(dir === 'next' ? 'left' : 'right')
+    // Leaving the completion view back to the last card is a plain swap
+    if (dir === 'back' && cardIndex === CARDS.length) {
+      setCardIndex(CARDS.length - 1)
+      return
+    }
 
-    setTimeout(async () => {
-      if (dir === 'next') {
-        if (cardIndex < CARDS.length - 1) {
-          setCardIndex(i => i + 1)
-        } else if (!completed) {
+    animating.current = true
+
+    const commitNext = () => {
+      if (cardIndex < CARDS.length - 1) {
+        setCardIndex(i => i + 1)
+      } else {
+        setCardIndex(CARDS.length)
+        if (!completed) {
           setCompleted(true)
-          setCardIndex(CARDS.length)
           setShowCelebration(true)
           setTimeout(() => setShowCelebration(false), 2800)
-          try {
-            await fetch('/api/completions', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ sort_order: script.sort_order }),
-            })
-          } catch { /* non-blocking */ }
-        }
-      } else {
-        if (cardIndex === CARDS.length) {
-          setCardIndex(CARDS.length - 1)
-        } else {
-          setCardIndex(i => i - 1)
+          fetch('/api/completions', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ sort_order: script.sort_order }),
+          }).catch(() => {})
         }
       }
-      setIsExiting(false)
+    }
+
+    if (reducedMotion.current) {
+      if (dir === 'next') commitNext()
+      else setCardIndex(i => i - 1)
       animating.current = false
-    }, 320)
+      return
+    }
+
+    if (dir === 'next') {
+      setPhase('flip')
+      await sleep(FLIP_MS + HOLD_MS)
+      setPhase('slide')
+      await sleep(SLIDE_MS)
+      commitNext()
+      setPhase('rest')
+    } else {
+      setPhase('back')
+      await sleep(BACK_MS)
+      setCardIndex(i => i - 1)
+      setPhase('rest')
+    }
+
+    animating.current = false
   }, [cardIndex, completed, script.sort_order])
 
   useEffect(() => {
@@ -139,6 +253,12 @@ export default function DeckViewer({
     ? `/dashboard/scripts/category/${categorySlug}`
     : '/dashboard/scripts'
 
+  const underCard = phase === 'back'
+    ? (cardIndex > 0 ? CARDS[cardIndex - 1] : undefined)
+    : (cardIndex < CARDS.length - 1 ? CARDS[cardIndex + 1] : undefined)
+  const underRaised = phase === 'slide' || phase === 'back'
+  const exitMs = phase === 'back' ? BACK_MS : SLIDE_MS
+
   return (
     <div style={{ maxWidth: '480px', margin: '0 auto', padding: '20px 16px 48px', minHeight: '100dvh', display: 'flex', flexDirection: 'column' }}>
 
@@ -165,8 +285,8 @@ export default function DeckViewer({
           <div key={i} style={{
             width: i === cardIndex ? 20 : 7,
             height: 7, borderRadius: '100px',
-            background: i <= cardIndex ? 'var(--terracotta)' : 'var(--border)',
-            transition: 'width 0.25s ease, background 0.25s ease',
+            background: i <= cardIndex ? 'var(--stage-2-text)' : 'var(--border)',
+            transition: 'width 0.5s ease, background 0.5s ease',
           }} />
         ))}
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--ink-muted)', marginLeft: '8px', letterSpacing: '0.06em' }}>
@@ -183,75 +303,68 @@ export default function DeckViewer({
         {isCompletionCard ? (
           <CompletionCard script={script} backHref={backHref} />
         ) : (
-          <div style={{
-            opacity: isExiting ? 0 : 1,
-            transform: isExiting
-              ? `translateX(${exitDir === 'left' ? '-130%' : '130%'}) rotate(${exitDir === 'left' ? '-12deg' : '12deg'})`
-              : 'translateX(0) rotate(0deg)',
-            transition: isExiting
-              ? 'opacity 0.3s ease, transform 0.32s cubic-bezier(0.4, 0, 0.6, 1)'
-              : 'opacity 0.25s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)',
-          }}>
-            <div
-              style={{
-                background: '#fff',
-                borderRadius: '28px',
-                overflow: 'hidden',
-                boxShadow: '0 10px 40px rgba(26,26,46,0.14), 0 2px 8px rgba(26,26,46,0.08)',
-                border: '1px solid var(--border)',
-                cursor: 'pointer',
-              }}
-              onClick={() => !isCompletionCard && navigate('next')}
-            >
-              {/* Curved header band */}
-              <div style={{
-                background: card.accent,
-                padding: '22px 26px 26px',
-                borderRadius: '0 0 32px 32px',
-              }}>
-                <div style={{ color: 'rgba(255,255,255,0.85)', fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: '6px' }}>
-                  Step {card.step} of {CARDS.length}
-                </div>
-                <div style={{ color: '#fff', fontFamily: 'var(--font-display)', fontSize: '1.6rem', fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1.1, marginBottom: '4px' }}>
-                  {card.label}
-                </div>
-                <div style={{ color: 'rgba(255,255,255,0.9)', fontFamily: 'var(--font-body)', fontSize: '13px', fontWeight: 600 }}>
-                  {card.tip}
-                </div>
+          <div style={{ position: 'relative' }}>
+            {/* Card stack: the next card waits visibly beneath the current one */}
+            {underCard && (
+              <div
+                aria-hidden
+                style={{
+                  position: 'absolute', inset: 0, zIndex: 1,
+                  transform: underRaised ? 'translateY(0) scale(1)' : 'translateY(26px) scale(0.965)',
+                  transformOrigin: 'top center',
+                  transition: underRaised ? `transform ${exitMs}ms cubic-bezier(0.22, 1, 0.36, 1)` : 'none',
+                  overflow: 'hidden', borderRadius: '28px',
+                }}
+              >
+                <ScriptCardFace card={underCard} script={script} />
               </div>
+            )}
 
-              {/* Card body */}
-              <div style={{ padding: '30px 26px 30px', background: card.bg }}>
-                <p style={{
-                  fontSize: 'clamp(17px, 4vw, 21px)',
-                  fontWeight: 700,
-                  lineHeight: 1.5,
-                  color: 'var(--ink)',
-                  margin: 0,
-                  letterSpacing: '-0.01em',
-                  ...(card.key === 'not_this' ? { color: 'var(--danger)', fontStyle: 'italic' } : {}),
+            {/* Top card: flips to its Done face, then slides away */}
+            <div style={{
+              position: 'relative', zIndex: 2,
+              perspective: '1400px',
+              transform: phase === 'slide'
+                ? 'translateX(-115%) rotate(-10deg)'
+                : phase === 'back'
+                  ? 'translateX(115%) rotate(10deg)'
+                  : 'none',
+              opacity: phase === 'slide' || phase === 'back' ? 0 : 1,
+              transition: phase === 'slide' || phase === 'back'
+                ? `transform ${exitMs}ms cubic-bezier(0.55, 0, 0.68, 0.35), opacity ${exitMs}ms ease`
+                : 'none',
+              marginBottom: '16px',
+            }}>
+              <div
+                onClick={() => navigate('next')}
+                style={{
+                  position: 'relative',
+                  transformStyle: 'preserve-3d',
+                  transform: phase === 'flip' || phase === 'slide' ? 'rotateY(180deg)' : 'rotateY(0deg)',
+                  transition: phase === 'flip'
+                    ? `transform ${FLIP_MS}ms cubic-bezier(0.45, 0, 0.55, 1)`
+                    : 'none',
+                  cursor: 'pointer',
+                  userSelect: 'none',
+                }}
+              >
+                <div style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }}>
+                  <ScriptCardFace card={card} script={script} />
+                </div>
+                <div style={{
+                  position: 'absolute', inset: 0,
+                  transform: 'rotateY(180deg)',
+                  backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden',
                 }}>
-                  {card.key === 'say_this' ? `"${script[card.key]}"` : script[card.key]}
-                </p>
-              </div>
-
-              {/* Tap hint */}
-              <div style={{
-                background: 'var(--cream)', borderTop: '1px solid var(--border)',
-                padding: '9px 24px',
-                fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600,
-                color: 'var(--ink)', letterSpacing: '.08em',
-                display: 'flex', justifyContent: 'space-between',
-              }}>
-                <span>Tap card or swipe</span>
-                <span>Next →</span>
+                  <DoneFace />
+                </div>
               </div>
             </div>
           </div>
         )}
       </div>
 
-      {/* Navigation buttons */}
+      {/* Navigation: one Next affordance, the single big butter button */}
       {!isCompletionCard && (
         <div style={{ display: 'flex', gap: '10px', marginTop: '24px' }}>
           {cardIndex > 0 && (
@@ -261,7 +374,7 @@ export default function DeckViewer({
                 padding: '14px 20px',
                 background: 'var(--cream)',
                 border: '1.5px solid var(--border)',
-                borderRadius: '14px',
+                borderRadius: 'var(--radius-btn)',
                 fontFamily: 'var(--font-mono)',
                 fontSize: '12px',
                 fontWeight: 600,
@@ -279,32 +392,23 @@ export default function DeckViewer({
             style={{
               flex: 1,
               padding: '14px 20px',
-              background: cardIndex === CARDS.length - 1 && !completed ? 'var(--terracotta)' : card.accent,
+              background: 'var(--terracotta)',
               border: 'none',
-              borderRadius: '14px',
+              borderRadius: 'var(--radius-btn)',
               fontFamily: 'var(--font-mono)',
               fontSize: '12px',
-              fontWeight: 600,
+              fontWeight: 700,
               letterSpacing: '0.08em',
               textTransform: 'uppercase',
-              color: '#fff',
+              color: 'var(--ink)',
               cursor: 'pointer',
-              boxShadow: cardIndex === CARDS.length - 1 && !completed ? '0 4px 0 var(--terracotta-dark)' : 'none',
+              boxShadow: '0 5px 0 var(--terracotta-dark)',
             }}
           >
             {cardIndex === CARDS.length - 1
-              ? (completed ? 'Read again →' : 'Done →')
+              ? (completed ? 'Finish →' : 'Done →')
               : 'Next →'}
           </button>
-        </div>
-      )}
-
-      {/* Swipe hint on first card (mobile only) */}
-      {cardIndex === 0 && !isExiting && (
-        <div style={{ textAlign: 'center', marginTop: '12px' }}>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--ink-muted)', letterSpacing: '0.06em' }}>
-            swipe to navigate
-          </span>
         </div>
       )}
 
@@ -319,7 +423,7 @@ export default function DeckViewer({
           alignItems: 'center',
           justifyContent: 'center',
           zIndex: 100,
-          animation: 'fadeInUp 0.4s ease',
+          animation: 'fadeInUp 0.5s ease',
         }}>
           <div style={{ fontSize: '56px', marginBottom: '16px' }}>✓</div>
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '28px', color: '#fff', marginBottom: '8px', letterSpacing: '-0.02em' }}>
@@ -360,27 +464,39 @@ function CompletionCard({
   }
 
   return (
-    <div>
+    <div style={{ animation: 'gcCompletionIn 0.5s ease' }}>
+      <style>{`
+        @keyframes gcCompletionIn {
+          from { opacity: 0; transform: translateY(16px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          @keyframes gcCompletionIn {
+            from { opacity: 1; transform: none; }
+            to   { opacity: 1; transform: none; }
+          }
+        }
+      `}</style>
       <div style={{
-        background: '#fff',
+        background: 'var(--tint-sage)',
         borderRadius: '28px',
         overflow: 'hidden',
-        boxShadow: '0 10px 40px rgba(26,26,46,0.14), 0 2px 8px rgba(26,26,46,0.08)',
+        boxShadow: CARD_SHADOW,
         marginBottom: '16px',
       }}>
-        <div style={{ background: 'var(--terracotta)', padding: '22px 26px 26px', borderRadius: '0 0 32px 32px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <div style={{ background: 'var(--tint-green)', padding: '22px 26px 26px', borderRadius: '0 0 32px 32px', display: 'flex', alignItems: 'center', gap: '12px' }}>
           <div style={{
             width: '36px', height: '36px', borderRadius: '50%',
-            background: 'rgba(255,255,255,0.2)',
+            background: 'var(--tint-sage)', border: '1.5px solid var(--border)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: '18px',
+            fontSize: '18px', color: 'var(--ink)',
           }}>✓</div>
-          <div style={{ color: '#fff', fontFamily: 'var(--font-display)', fontSize: '1.4rem', fontWeight: 800, letterSpacing: '-0.02em' }}>
+          <div style={{ color: 'var(--ink)', fontFamily: 'var(--font-display)', fontSize: '1.4rem', fontWeight: 800, letterSpacing: '-0.02em' }}>
             Script complete
           </div>
         </div>
-        <div style={{ padding: '30px 26px', background: 'var(--terracotta-lt)' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--terracotta)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '10px', fontWeight: 700 }}>
+        <div style={{ padding: '30px 26px', background: 'var(--tint-sage)' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--stage-2-text)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '10px', fontWeight: 700 }}>
             Keep this in mind
           </div>
           <p style={{ fontSize: 'clamp(17px, 4vw, 20px)', fontWeight: 700, lineHeight: 1.5, color: 'var(--ink)', margin: 0, letterSpacing: '-0.01em' }}>

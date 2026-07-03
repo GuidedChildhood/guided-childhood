@@ -13,14 +13,6 @@ export type DailyCard = {
   icon: string
 }
 
-const CARD_ICONS: Record<string, string> = {
-  review: '◎',
-  focus: '✦',
-  watchfor: '△',
-  question: '?',
-  complete: '✓',
-}
-
 const DAILY_MOMENTS = [
   { key: 'morning', label: 'Morning routine', icon: '☀️' },
   { key: 'teeth', label: 'Teeth brushing', icon: '🦷' },
@@ -39,6 +31,118 @@ const DAILY_MOMENTS = [
   { key: 'sleep', label: 'Staying asleep', icon: '😴' },
 ]
 
+// ── DECK MOTION ──────────────────────────────────────────────────────────────
+// Completing a card: slow 3D flip to a green Done face, a beat to read it,
+// then the card slides away revealing the next card already waiting beneath.
+// Nothing runs under half a second. Reduced motion skips it all.
+const FLIP_MS = 700
+const HOLD_MS = 400
+const SLIDE_MS = 600
+const BACK_MS = 500
+
+type Phase = 'rest' | 'flip' | 'slide' | 'back'
+
+const sleep = (ms: number) => new Promise(r => setTimeout(r, ms))
+
+// Card tints rotate through the Good Inside blue and green pastels.
+// Butter stays reserved for the primary action button and the focus card.
+type Palette = { header: string; body: string; text: string }
+
+const BUTTER: Palette = {
+  header: 'var(--tint-amber)',
+  body: 'var(--terracotta-lt)',
+  text: 'var(--ink)',
+}
+
+const PALETTES: Palette[] = [
+  { header: 'var(--stage-2-bold)', body: 'var(--stage-2)', text: 'var(--stage-2-text)' },
+  { header: 'var(--tint-blue)', body: 'var(--tint-sage)', text: 'var(--stage-2-text)' },
+  { header: 'var(--stage-2-bold)', body: 'var(--tint-green)', text: 'var(--stage-2-text)' },
+  { header: 'var(--tint-blue)', body: 'var(--stage-2)', text: 'var(--stage-2-text)' },
+]
+
+function paletteFor(card: DailyCard, index: number): Palette {
+  if (card.type === 'focus') return BUTTER
+  return PALETTES[index % PALETTES.length]
+}
+
+const CARD_SHADOW = '0 10px 40px rgba(26,26,46,0.14), 0 2px 8px rgba(26,26,46,0.08)'
+
+function CardFace({ card, palette }: { card: DailyCard; palette: Palette }) {
+  return (
+    <div style={{
+      background: palette.body,
+      borderRadius: '28px',
+      overflow: 'hidden',
+      boxShadow: CARD_SHADOW,
+      border: '1px solid var(--border)',
+    }}>
+      {/* Curved header band */}
+      <div style={{
+        background: palette.header,
+        padding: '22px 24px 26px',
+        borderRadius: '0 0 32px 32px',
+      }}>
+        <div style={{
+          fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700,
+          letterSpacing: '.18em', textTransform: 'uppercase',
+          color: palette.text, opacity: 0.75, marginBottom: '6px',
+        }}>
+          {card.eyebrow}
+        </div>
+        <div style={{
+          fontFamily: 'var(--font-display)', fontWeight: 800,
+          fontSize: 'clamp(1.15rem, 4vw, 1.5rem)',
+          color: palette.text, lineHeight: 1.15, letterSpacing: '-0.02em',
+        }}>
+          {card.headline}
+        </div>
+      </div>
+
+      {/* Card body */}
+      <div style={{ padding: '28px 24px 34px', background: palette.body }}>
+        <p style={{
+          fontSize: 'clamp(15.5px, 3.8vw, 18px)',
+          lineHeight: 1.6,
+          color: 'var(--ink)',
+          margin: 0,
+          fontWeight: 500,
+          fontFamily: 'var(--font-body)',
+        }}>
+          {card.body}
+        </p>
+      </div>
+    </div>
+  )
+}
+
+function DoneFace() {
+  return (
+    <div style={{
+      height: '100%',
+      background: 'var(--tint-green)',
+      border: '1px solid var(--border)',
+      borderRadius: '28px',
+      boxShadow: CARD_SHADOW,
+      display: 'flex', flexDirection: 'column',
+      alignItems: 'center', justifyContent: 'center', gap: '14px',
+    }}>
+      <div style={{
+        width: 76, height: 76, borderRadius: '50%',
+        background: 'var(--tint-sage)', border: '1.5px solid var(--border)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        fontSize: '34px', color: 'var(--ink)',
+      }}>✓</div>
+      <div style={{
+        fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700,
+        letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--ink-soft)',
+      }}>
+        Done
+      </div>
+    </div>
+  )
+}
+
 export default function DailyDeckViewer({
   cards,
   alreadyDone,
@@ -53,12 +157,16 @@ export default function DailyDeckViewer({
   const [loggedTracker, setLoggedTracker] = useState(false)
   const [selectedMoments, setSelectedMoments] = useState<string[]>([])
   const [momentsSaved, setMomentsSaved] = useState(false)
-  const [isExiting, setIsExiting] = useState(false)
-  const [exitDir, setExitDir] = useState<'left' | 'right'>('left')
+  const [phase, setPhase] = useState<Phase>('rest')
 
   const touchStartX = useRef<number | null>(null)
   const touchStartY = useRef<number | null>(null)
   const animating = useRef(false)
+  const reducedMotion = useRef(false)
+
+  useEffect(() => {
+    reducedMotion.current = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  }, [])
 
   const isLast = cardIndex === cards.length - 1
   const card = cards[cardIndex]
@@ -72,26 +180,38 @@ export default function DailyDeckViewer({
     }
 
     animating.current = true
-    setIsExiting(true)
-    setExitDir(dir === 'next' ? 'left' : 'right')
 
-    await new Promise(r => setTimeout(r, 320))
-
-    if (dir === 'next') {
+    const commitNext = () => {
       if (!isLast) {
         setCardIndex(i => i + 1)
       } else if (!done) {
         setDone(true)
         setShowComplete(true)
-        try {
-          await fetch('/api/daily/complete', { method: 'POST' })
-        } catch { /* non-blocking */ }
+        fetch('/api/daily/complete', { method: 'POST' }).catch(() => {})
       }
-    } else {
-      setCardIndex(i => i - 1)
     }
 
-    setIsExiting(false)
+    if (reducedMotion.current) {
+      if (dir === 'next') commitNext()
+      else setCardIndex(i => i - 1)
+      animating.current = false
+      return
+    }
+
+    if (dir === 'next') {
+      setPhase('flip')
+      await sleep(FLIP_MS + HOLD_MS)
+      setPhase('slide')
+      await sleep(SLIDE_MS)
+      commitNext()
+      setPhase('rest')
+    } else {
+      setPhase('back')
+      await sleep(BACK_MS)
+      setCardIndex(i => i - 1)
+      setPhase('rest')
+    }
+
     animating.current = false
   }, [cardIndex, isLast, done, router])
 
@@ -145,10 +265,10 @@ export default function DailyDeckViewer({
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
           <div style={{
             width: 72, height: 72, borderRadius: '50%',
-            background: 'var(--terracotta)',
+            background: 'var(--tint-green)',
+            border: '1.5px solid var(--border)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             fontSize: '28px', color: 'var(--ink)', margin: '0 auto 16px',
-            boxShadow: '0 6px 0 var(--terracotta-dark)',
           }}>✓</div>
           <h2 style={{
             fontFamily: 'var(--font-display)', fontWeight: 900,
@@ -162,14 +282,14 @@ export default function DailyDeckViewer({
           </p>
         </div>
 
-        {/* Tracker check-in */}
+        {/* Tracker check in */}
         {!loggedTracker ? (
           <div style={{
             background: '#fff', border: '1.5px solid var(--border)',
             borderRadius: '20px', padding: '22px', marginBottom: '16px',
           }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '10px' }}>
-              Quick tracker check-in
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--stage-2-text)', marginBottom: '10px' }}>
+              Quick tracker check in
             </div>
             <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: '16px' }}>
               How is your child doing with screens this week?
@@ -216,7 +336,7 @@ export default function DailyDeckViewer({
             background: '#fff', border: '1.5px solid var(--border)',
             borderRadius: '20px', padding: '22px', marginBottom: '16px',
           }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '8px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--stage-2-text)', marginBottom: '8px' }}>
               What came up today?
             </div>
             <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.55, marginBottom: '16px' }}>
@@ -232,13 +352,13 @@ export default function DailyDeckViewer({
                     style={{
                       padding: '8px 14px',
                       borderRadius: '100px',
-                      border: `1.5px solid ${active ? 'var(--stage-2)' : 'var(--border)'}`,
+                      border: `1.5px solid ${active ? 'var(--tint-blue)' : 'var(--border)'}`,
                       background: active ? 'var(--stage-2)' : 'var(--cream)',
                       fontFamily: 'var(--font-mono)', fontSize: '11px',
                       fontWeight: active ? 700 : 500,
                       color: active ? 'var(--ink)' : 'var(--ink-soft)',
                       cursor: 'pointer', letterSpacing: '.04em',
-                      transition: 'all 0.15s ease',
+                      transition: 'all 0.5s ease',
                       display: 'flex', alignItems: 'center', gap: '5px',
                     }}
                   >
@@ -259,7 +379,7 @@ export default function DailyDeckViewer({
                 letterSpacing: '.08em', textTransform: 'uppercase',
                 color: selectedMoments.length > 0 ? '#fff' : 'var(--ink)',
                 cursor: 'pointer',
-                transition: 'all 0.15s ease',
+                transition: 'all 0.5s ease',
               }}
             >
               {selectedMoments.length === 0 ? 'Nothing to flag today' : `Save ${selectedMoments.length} moment${selectedMoments.length > 1 ? 's' : ''}`}
@@ -279,7 +399,7 @@ export default function DailyDeckViewer({
           onClick={() => router.push('/dashboard')}
           style={{
             width: '100%', padding: '16px', background: 'var(--terracotta)',
-            border: 'none', borderRadius: '16px',
+            border: 'none', borderRadius: 'var(--radius-btn)',
             fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700,
             letterSpacing: '.08em', textTransform: 'uppercase',
             color: 'var(--ink)', cursor: 'pointer',
@@ -293,9 +413,16 @@ export default function DailyDeckViewer({
   }
 
   // ── CARD DECK ─────────────────────────────────────────────────────────────
+  const underCard = phase === 'back'
+    ? (cardIndex > 0 ? cards[cardIndex - 1] : undefined)
+    : (cardIndex < cards.length - 1 ? cards[cardIndex + 1] : undefined)
+  const underIndex = phase === 'back' ? cardIndex - 1 : cardIndex + 1
+  const underRaised = phase === 'slide' || phase === 'back'
+  const exitMs = phase === 'back' ? BACK_MS : SLIDE_MS
+
   return (
     <div
-      style={{ maxWidth: '480px', margin: '0 auto', padding: '16px 16px 48px', minHeight: '70dvh' }}
+      style={{ maxWidth: '480px', margin: '0 auto', padding: '16px 16px 48px', minHeight: '84dvh', display: 'flex', flexDirection: 'column' }}
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
     >
@@ -319,8 +446,8 @@ export default function DailyDeckViewer({
             <div key={i} style={{
               width: i === cardIndex ? 20 : 7,
               height: 7, borderRadius: '100px',
-              background: i <= cardIndex ? 'var(--terracotta)' : 'var(--border)',
-              transition: 'width 0.25s ease, background 0.25s ease',
+              background: i <= cardIndex ? 'var(--stage-2-text)' : 'var(--border)',
+              transition: 'width 0.5s ease, background 0.5s ease',
             }} />
           ))}
         </div>
@@ -330,87 +457,75 @@ export default function DailyDeckViewer({
         </div>
       </div>
 
-      {/* Card tile */}
-      <div
-        onClick={() => !isLast && navigate('next')}
-        style={{
-          background: '#fff',
-          borderRadius: '28px',
-          overflow: 'hidden',
-          boxShadow: '0 10px 40px rgba(26,26,46,0.14), 0 2px 8px rgba(26,26,46,0.08)',
-          border: '1px solid var(--border)',
-          cursor: isLast ? 'default' : 'pointer',
-          opacity: isExiting ? 0 : 1,
-          transform: isExiting
-            ? `translateX(${exitDir === 'left' ? '-130%' : '130%'}) rotate(${exitDir === 'left' ? '-12deg' : '12deg'})`
-            : 'translateX(0) rotate(0deg)',
-          transition: isExiting
-            ? 'opacity 0.3s ease, transform 0.32s cubic-bezier(0.4, 0, 0.6, 1)'
-            : 'opacity 0.25s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)',
-          marginBottom: '20px',
-          userSelect: 'none',
-        }}
-      >
-        {/* Curved terracotta header band */}
-        <div style={{
-          background: 'var(--terracotta)',
-          padding: '22px 24px 26px',
-          borderRadius: '0 0 32px 32px',
-        }}>
-          <div style={{
-            fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700,
-            letterSpacing: '.18em', textTransform: 'uppercase',
-            color: 'rgba(255,255,255,.9)', marginBottom: '6px',
-          }}>
-            {card.eyebrow}
-          </div>
-          <div style={{
-            fontFamily: 'var(--font-display)', fontWeight: 800,
-            fontSize: 'clamp(1.15rem, 4vw, 1.5rem)',
-            color: '#fff', lineHeight: 1.15, letterSpacing: '-0.02em',
-          }}>
-            {card.headline}
-          </div>
-        </div>
+      {/* Card group sits centred in the space below the top bar */}
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
 
-        {/* Card body */}
-        <div style={{ padding: '28px 24px 30px', background: 'var(--terracotta-lt)' }}>
-          <p style={{
-            fontSize: 'clamp(16px, 4vw, 20px)',
-            lineHeight: 1.55,
-            color: 'var(--ink)',
-            margin: 0,
-            fontWeight: 700,
-            letterSpacing: '-0.01em',
-            fontFamily: 'var(--font-display)',
-          }}>
-            {card.body}
-          </p>
-        </div>
-
-        {/* Tap hint strip — only on non-last cards */}
-        {!isLast && (
-          <div style={{
-            background: 'var(--cream)', borderTop: '1px solid var(--border)',
-            padding: '10px 24px',
-            fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600,
-            color: 'var(--ink)', letterSpacing: '.08em',
-            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          }}>
-            <span>Tap card or swipe left</span>
-            <span>Next →</span>
+      {/* Card stack: the next card waits visibly beneath the current one */}
+      <div style={{ position: 'relative', marginBottom: '36px' }}>
+        {underCard && (
+          <div
+            aria-hidden
+            style={{
+              position: 'absolute', inset: 0, zIndex: 1,
+              transform: underRaised ? 'translateY(0) scale(1)' : 'translateY(26px) scale(0.965)',
+              transformOrigin: 'top center',
+              transition: underRaised ? `transform ${exitMs}ms cubic-bezier(0.22, 1, 0.36, 1)` : 'none',
+              overflow: 'hidden', borderRadius: '28px',
+            }}
+          >
+            <CardFace card={underCard} palette={paletteFor(underCard, underIndex)} />
           </div>
         )}
+
+        {/* Top card: flips to its Done face, then slides away */}
+        <div style={{
+          position: 'relative', zIndex: 2,
+          perspective: '1400px',
+          transform: phase === 'slide'
+            ? 'translateX(-115%) rotate(-10deg)'
+            : phase === 'back'
+              ? 'translateX(115%) rotate(10deg)'
+              : 'none',
+          opacity: phase === 'slide' || phase === 'back' ? 0 : 1,
+          transition: phase === 'slide' || phase === 'back'
+            ? `transform ${exitMs}ms cubic-bezier(0.55, 0, 0.68, 0.35), opacity ${exitMs}ms ease`
+            : 'none',
+        }}>
+          <div
+            onClick={() => !isLast && navigate('next')}
+            style={{
+              position: 'relative',
+              transformStyle: 'preserve-3d',
+              transform: phase === 'flip' || phase === 'slide' ? 'rotateY(180deg)' : 'rotateY(0deg)',
+              transition: phase === 'flip'
+                ? `transform ${FLIP_MS}ms cubic-bezier(0.45, 0, 0.55, 1)`
+                : 'none',
+              cursor: isLast ? 'default' : 'pointer',
+              userSelect: 'none',
+            }}
+          >
+            <div style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }}>
+              <CardFace card={card} palette={paletteFor(card, cardIndex)} />
+            </div>
+            <div style={{
+              position: 'absolute', inset: 0,
+              transform: 'rotateY(180deg)',
+              backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden',
+            }}>
+              <DoneFace />
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* Navigation buttons */}
+      {/* Navigation: one Next affordance, the single big button */}
       <div style={{ display: 'flex', gap: '10px' }}>
         {cardIndex > 0 && (
           <button
             onClick={() => navigate('back')}
             style={{
               padding: '14px 18px', background: 'var(--cream)',
-              border: '1.5px solid var(--border)', borderRadius: '14px',
+              border: '1.5px solid var(--border)', borderRadius: 'var(--radius-btn)',
               fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600,
               letterSpacing: '.06em', color: 'var(--ink)',
               cursor: 'pointer', flexShrink: 0,
@@ -424,15 +539,17 @@ export default function DailyDeckViewer({
           style={{
             flex: 1, padding: '15px 20px',
             background: 'var(--terracotta)',
-            border: 'none', borderRadius: '14px',
+            border: 'none', borderRadius: 'var(--radius-btn)',
             fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700,
             letterSpacing: '.08em', textTransform: 'uppercase',
             color: 'var(--ink)', cursor: 'pointer',
-            boxShadow: '0 4px 0 var(--terracotta-dark)',
+            boxShadow: '0 5px 0 var(--terracotta-dark)',
           }}
         >
           {isLast && done ? 'Back to home' : isLast ? 'Done for today ✓' : 'Next →'}
         </button>
+      </div>
+
       </div>
     </div>
   )
