@@ -13,14 +13,16 @@ const KIND_LABEL: Record<string, string> = {
   new_research: 'New research',
   celebration: 'Worth celebrating',
   school: 'From school',
+  evening: 'Tonight, five minutes',
 }
 
 // DiGi leads: proactive prompts generated from this family's own data and
 // the expert knowledge base, surfaced before the parent asks anything.
-export default function DigiPrompts() {
-  const [prompts, setPrompts] = useState<Prompt[]>([])
+export default function DigiPrompts({ initialPrompts }: { initialPrompts?: Prompt[] } = {}) {
+  const [prompts, setPrompts] = useState<Prompt[]>(initialPrompts ?? [])
 
   useEffect(() => {
+    if (initialPrompts) return
     fetch('/api/digi/prompts')
       .then(r => r.json())
       .then(d => setPrompts(d.prompts ?? []))
