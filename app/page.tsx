@@ -6,7 +6,7 @@ import FaqAccordion from '@/components/marketing/FaqAccordion'
 import FlipCards from '@/components/marketing/FlipCards'
 import DigiWalker from '@/components/marketing/DigiWalker'
 import DigiLive from '@/components/marketing/DigiLive'
-import SchoolMailDemo from '@/components/marketing/SchoolMailDemo'
+import DayWithDigi from '@/components/marketing/DayWithDigi'
 import DigiCharacter from '@/components/digi/DigiCharacter'
 
 export const metadata: Metadata = {
@@ -702,13 +702,13 @@ export default function HomePage() {
           <div style={{ textAlign: 'center', marginBottom: '40px' }}>
             <p className="eyebrow fu" style={{ color: 'var(--terracotta-dark)', marginBottom: '12px' }}>Watch DiGi work</p>
             <h2 className="fu" style={{ marginBottom: '14px' }}>
-              DiGi reads the school emails<br />so you do not have to.
+              One day, with DiGi<br />on your shoulder.
             </h2>
             <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink)', lineHeight: 1.8, maxWidth: '520px', margin: '0 auto' }}>
-              Forward the school's emails once. DiGi catches the PE kit reminders, the trip forms and the payment deadlines, and taps you on the shoulder before the morning scramble. Your inbox stays yours.
+              Keep scrolling and watch a school day go right: the sorted morning, the school email caught, the evening reset, the bedtime script. Every nudge lands on your phone at the moment it matters.
             </p>
           </div>
-          <SchoolMailDemo />
+          <DayWithDigi />
           <div style={{ textAlign: 'center', marginTop: '36px' }}>
             <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '14px', padding: '15px 30px' }}>
               Let DiGi carry it

@@ -215,6 +215,8 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
   transition: border-color 0.15s;
 }
 .input:focus { border-color: var(--terracotta); }
+/* Phones zoom into inputs under 16px; never let that happen */
+@media (max-width: 600px) { .input, input.input { font-size: 16px !important; } }
 .input::placeholder { color: var(--ink-light); }
 
 /* ── STAGE BADGE ── */
