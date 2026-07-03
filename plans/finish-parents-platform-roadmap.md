@@ -31,28 +31,28 @@
 
 Goal: the three blockers only Justin can clear are cleared.
 
-- [ ] Pick the accent colour: honey gold, warm coral with yellow pastels, or keep the slate teal (screenshots provided, all Good Inside adjacent, one token file change either way)
-- [ ] Approve merging PR 43 to production
+- [x] Pick the accent colour: honey gold, warm coral with yellow pastels, or keep the slate teal (DONE: butter and ink chosen, teal retired, merged in PR 52)
+- [x] Approve merging PR 43 to production (DONE: merged, plus PR 49 to 53 since)
 - [ ] Name ten parents in the existing network for the five question conversations
 
 ## Phase 1 — Ship and listen
 
 Goal: the platform is live and ten real conversations are recorded.
 
-- [ ] Apply the chosen colour tokens in globals.css, fix button text contrast if gold chosen, verify mobile and desktop
-- [ ] Merge PR 43, deploy on Vercel, smoke test the live site end to end
+- [x] Apply the chosen colour tokens in globals.css, fix button text contrast if gold chosen, verify mobile and desktop (DONE: butter and ink rebrand, merged)
+- [ ] Merge PR 43, deploy on Vercel, smoke test the live site end to end (PRs merged; Vercel deploy and live smoke test still pending, Justin)
 - [ ] Run the ten parent conversations, write answers verbatim into /plans/parent-conversations.md
 - [ ] Mine Reddit and Mumsnet for parent phrasing, rewrite homepage hero, starter pack headline and quiz result copy in their words
-- [ ] Update dishonest numbers (the "200 families" claim) to true ones or remove
+- [x] Update dishonest numbers (the "200 families" claim) to true ones or remove (DONE 3 Jul: both invented counts and the fake five star row replaced with true claims)
 
 ## Phase 2 — Convert
 
 Goal: a stranger can become a paying family with no human involved, and nothing on the paywall is untrue.
 
-- [ ] Email system: Resend plus five emails (welcome with first script, day 2 stage guide, day 4 DiGi nudge, day 7 founder rate with live counter, weekly digest with the child's progress bar)
-- [ ] Onboarding ends by opening the recommended script directly, not the dashboard (activation moment)
-- [ ] Checkout defaults to annual with monthly as the downgrade
-- [ ] Family agreements builder: negotiated per stage agreements, printable, expert panel grounded (makes the upgrade page honest)
+- [x] Email system: Resend plus five emails (DONE 3 Jul: lib/email, /api/email/cron daily, email_log idempotency, one click unsubscribe. Needs RESEND_API_KEY, EMAIL_FROM and CRON_SECRET in Vercel plus domain verification at Resend)
+- [x] Onboarding ends by opening the recommended script directly, not the dashboard (DONE 3 Jul: dead first-task screen wired in, /dashboard/scripts/recommended redirect, challenge to category matching fixed)
+- [x] Checkout defaults to annual with monthly as the downgrade (DONE 3 Jul: upgrade page, homepage pricing grid, API fallback)
+- [x] Family agreements builder: negotiated per stage agreements, printable, expert panel grounded (DONE 3 Jul: migration 021, /dashboard/agreement builder plus print view, stage calibrated defaults, ban aware Stage 4. Run migrations 021 and 022 in Supabase)
 
 ## Phase 3 — Curriculum (the week 10 plan, as checkboxes)
 
