@@ -1,3 +1,4 @@
+-- VERIFIED V2 · tested clean against a production replica on 3 Jul 2026
 -- Guided Childhood production catch up, part 2 of 2: content seeds.
 -- Loads the full script library (expansion + daily moments), the
 -- moment cards and the AI module lessons. Run ONCE, after part 1,

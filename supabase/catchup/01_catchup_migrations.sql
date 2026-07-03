@@ -1,7 +1,6 @@
+-- VERIFIED V2 · tested clean against a production replica on 3 Jul 2026
 -- Guided Childhood production catch up, part 1 of 2: migrations.
--- The live database only has migrations 001, 003 and 007 applied.
--- This applies everything else in order. Run ONCE in the SQL Editor
--- of the LIVE project. Safe design: creates use IF NOT EXISTS.
+-- Run ONCE in the SQL Editor of the LIVE project, in a NEW query tab.
 
 
 -- ════════════════ migrations/002_add_category.sql ════════════════
