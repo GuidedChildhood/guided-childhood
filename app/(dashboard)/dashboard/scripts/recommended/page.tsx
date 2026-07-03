@@ -15,15 +15,20 @@ export default async function RecommendedScriptRedirect() {
   if (!user) redirect('/login')
 
   const [{ data: profile }, { data: child }] = await Promise.all([
-    supabase.from('profiles').select('onboarding_answers').eq('id', user.id).single(),
+    supabase.from('profiles').select('onboarding_answers, subscription_status').eq('id', user.id).single(),
     supabase.from('children').select('stage_id').eq('parent_id', user.id).eq('is_primary', true).maybeSingle(),
   ])
 
   const stageId = (child?.stage_id ?? null) as StageId | null
   const challenge = (profile?.onboarding_answers as Record<string, string> | null)?.challenge as ChallengeId | undefined
 
+  // Unpaid parents (including fresh payers whose webhook has not landed
+  // yet) get a free script, so this redirect can never dead end on the
+  // script reader's upgrade wall.
   const recommended = stageId
-    ? await getRecommendedScript(supabase, user.id, stageId, challenge ?? null)
+    ? await getRecommendedScript(supabase, user.id, stageId, challenge ?? null, {
+        preferFree: profile?.subscription_status !== 'active',
+      })
     : null
 
   redirect(recommended ? `/dashboard/scripts/${recommended.sort_order}` : '/dashboard/scripts')
