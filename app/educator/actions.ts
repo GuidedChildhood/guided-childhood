@@ -24,16 +24,19 @@ export async function createSchool(formData: FormData) {
   const phase = String(formData.get('phase') ?? 'primary')
   if (!name) return
 
-  const { data: school, error } = await supabase
+  // Generate the id here instead of asking the insert to return it: the
+  // select policy on school_accounts requires an educators row, which does
+  // not exist until the second insert below. RETURNING would fail RLS.
+  const schoolId = crypto.randomUUID()
+
+  const { error } = await supabase
     .from('school_accounts')
-    .insert({ name, phase, licence_tier: 'pilot' })
-    .select('id')
-    .single()
-  if (error || !school) throw new Error(error?.message ?? 'could not create school')
+    .insert({ id: schoolId, name, phase, licence_tier: 'pilot' })
+  if (error) throw new Error(error.message)
 
   const { error: eduError } = await supabase
     .from('school_educators')
-    .insert({ school_id: school.id, user_id: user.id, role: 'lead' })
+    .insert({ school_id: schoolId, user_id: user.id, role: 'lead' })
   if (eduError) throw new Error(eduError.message)
 
   revalidatePath('/educator')
