@@ -33,3 +33,6 @@ Parents will hesitate to forward school emails. The design already earns trust, 
 - IMPLEMENTATION NOTE: Gmail requires verifying a forwarding address with a confirmation code it emails to that address. The inbound webhook must catch Google's verification email and surface the code on the setup screen so the parent can complete the Gmail step without leaving the flow.
 
 **The lifecycle email introducing it** leads with the problem (the buried PE kit email, the missed trip deadline), then the letterbox line, then one button: Set it up in three minutes.
+
+### 18. Native app question (Justin, 3 Jul): decided, not yet
+The PWA already delivers push notifications on both platforms. A basic native app would be a Capacitor wrapper around the same platform plus APNs/FCM push: one to two sprints plus Apple fees and store review upkeep. Decision: build behind demand. Triggers that change the answer: parents in real conversations looking for it in the App Store, measurable install drop off at the Add to Home Screen step, or home screen widgets being prioritised. Until then, the daily loop sprint ships a guided install moment (20 second walkthrough with illustrated iPhone steps) which closes most of the same gap for free.
