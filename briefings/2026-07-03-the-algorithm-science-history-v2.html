@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The algorithm: science, history and your child’s mind · Guided Childhood Research Briefing</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root{
+  --cream:      #F7F3EE;
+  --warm:       #FDFBF8;
+  --ink:        #1C1C1C;
+  --ink-soft:   #4A4A4A;
+  --ink-muted:  #6E6A62;
+  --ink-light:  #9B958A;
+  --green:      #AFDCA2;
+  --green-dark: #2E7D5A;
+  --green-lt:   #EEF7F2;
+  --coral:      #D4600A;
+  --coral-lt:   #FEF3E8;
+  --coral-dark: #C0392B;
+  --gold:       #F2C94C;
+  --gold-lt:    #FEFAE8;
+  --gold-dark:  #C9962A;
+  --gold-hover: #E3B53A;
+  --lav:        #E7ECF8;
+  --lav-deep:   #3D5BA9;
+  --border:     #E4DFD7;
+  --font-display: 'Hanken Grotesk', system-ui, sans-serif;
+  --font-body:    'Hanken Grotesk', system-ui, sans-serif;
+  --font-mono:    'IBM Plex Mono', monospace;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--cream);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.65}
+.wrap{max-width:860px;margin:0 auto;padding:48px 24px 96px}
+
+.eyebrow{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-muted)}
+
+header.brief-head{padding:40px 0 32px;border-bottom:1px solid var(--border)}
+header.brief-head h1{font-weight:800;font-size:clamp(2rem,5vw,3rem);line-height:1.12;letter-spacing:-0.02em;margin:12px 0 16px}
+.meta-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{font-family:var(--font-mono);font-size:12px;font-weight:500;padding:5px 12px;border-radius:999px;background:var(--warm);border:1px solid var(--border);color:var(--ink-soft)}
+.chip.version{background:var(--gold-lt);border-color:var(--gold);color:var(--gold-dark);font-weight:600}
+
+section{margin-top:56px}
+section > h2{font-weight:800;font-size:clamp(1.4rem,3vw,1.9rem);letter-spacing:-0.01em;margin:10px 0 20px}
+section > .eyebrow{display:block}
+
+.summary-card{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:28px 30px;font-size:17px;color:var(--ink-soft)}
+.summary-card p+p{margin-top:12px}
+
+.finding{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:24px 26px;margin-bottom:16px}
+.finding-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.finding h3{font-weight:700;font-size:1.15rem;line-height:1.35;max-width:560px}
+.reliability{font-family:var(--font-mono);font-size:12px;font-weight:600;white-space:nowrap;padding:6px 12px;border-radius:12px}
+.reliability.high{background:var(--green-lt);color:var(--green-dark)}
+.reliability.medium{background:var(--gold-lt);color:var(--gold-dark)}
+.reliability.low{background:var(--coral-lt);color:var(--coral-dark)}
+.finding p{color:var(--ink-soft);margin-top:10px}
+.lens-tags{margin-top:14px;font-family:var(--font-mono);font-size:12px}
+.lens-tags .supported{color:var(--green-dark)}
+.lens-tags .challenged{color:var(--coral-dark)}
+.lens-tags span.sep{color:var(--ink-light);margin:0 8px}
+.finding .cite{font-family:var(--font-mono);font-size:12px;color:var(--ink-light);margin-top:10px}
+
+table.contra{width:100%;border-collapse:collapse;background:var(--warm);border:1px solid var(--border);border-radius:20px;overflow:hidden}
+table.contra th{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;text-align:left;color:var(--ink-muted);padding:14px 18px;border-bottom:1px solid var(--border);background:var(--cream)}
+table.contra td{padding:14px 18px;border-bottom:1px solid var(--border);color:var(--ink-soft);font-size:15px;vertical-align:top}
+table.contra tr:last-child td{border-bottom:none}
+td.leans{font-family:var(--font-mono);font-size:13px;font-weight:600;white-space:nowrap}
+td.leans.green{color:var(--green-dark)}
+td.leans.coral{color:var(--coral-dark)}
+
+.lens-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px}
+.lens-panel{border:1px solid var(--border);border-radius:20px;padding:22px 24px;background:var(--warm)}
+.lens-panel .eyebrow{margin-bottom:8px}
+.lens-panel h3{font-weight:700;font-size:1.05rem;margin-bottom:8px}
+.lens-panel p{color:var(--ink-soft);font-size:15px}
+.lens-panel.clinician{background:var(--green-lt)}
+.lens-panel.academic{background:var(--lav)}
+.lens-panel.skeptic{background:var(--coral-lt)}
+.lens-panel.economist{background:var(--gold-lt)}
+.lens-panel.historian{background:var(--warm)}
+.lens-panel.child{background:var(--cream);border-color:var(--green)}
+
+.gc-card{background:var(--green-lt);border:1px solid var(--green);border-radius:20px;padding:28px 30px}
+.gc-card ul{list-style:none;margin-top:4px}
+.gc-card li{padding:12px 0;border-bottom:1px solid var(--border);color:var(--ink-soft)}
+.gc-card li:last-child{border-bottom:none}
+.gc-card li strong{color:var(--ink);font-weight:700}
+.gc-card .tag{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--green-dark);display:block;margin-bottom:2px}
+
+.assump-card{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:26px 28px}
+.assump-card h3{font-weight:700;font-size:1.05rem;margin-bottom:8px}
+.assump-card p{color:var(--ink-soft)}
+.assump-card .missing{margin-top:20px;padding-top:20px;border-top:1px solid var(--border)}
+.assump-card .missing h3{color:var(--coral-dark)}
+
+.ledger{background:var(--warm);border:1px solid var(--border);border-radius:20px;overflow:hidden}
+.ledger-row{display:flex;gap:16px;align-items:flex-start;padding:16px 20px;border-bottom:1px solid var(--border)}
+.ledger-row:last-child{border-bottom:none}
+.verdict{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;padding:5px 10px;border-radius:10px;white-space:nowrap;margin-top:2px}
+.verdict.confirmed{background:var(--green-lt);color:var(--green-dark)}
+.verdict.corrected{background:var(--gold-lt);color:var(--gold-dark)}
+.verdict.demoted{background:var(--coral-lt);color:var(--coral-dark)}
+.ledger-row .src{font-size:14px;color:var(--ink-soft)}
+.ledger-row .src a{color:var(--lav-deep);text-decoration:none;border-bottom:1px solid var(--lav)}
+.ledger-row .src .note{display:block;font-family:var(--font-mono);font-size:12px;color:var(--ink-light);margin-top:4px}
+
+footer.brief-foot{margin-top:72px;padding-top:24px;border-top:1px solid var(--border);font-family:var(--font-mono);font-size:12px;color:var(--ink-light)}
+
+@media (max-width:600px){
+  .wrap{padding:24px 16px 64px}
+  .finding-top{flex-direction:column}
+  table.contra{display:block;overflow-x:auto}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="brief-head">
+    <span class="eyebrow">Guided Childhood Research Briefing</span>
+    <h1>The algorithm: the science, the history, and your child's mind</h1>
+    <p style="color:var(--ink-soft);max-width:640px">You asked for the science of the recommendation algorithm, the history of how it came about, what drove it, and how it hooks into human behaviour. Six lenses researched it independently, and they disagree in exactly the places that matter. This is the material for your scientific LinkedIn post and newsletter.</p>
+    <div class="meta-row">
+      <span class="chip version">V2 · Verified</span>
+      <span class="chip">3 July 2026</span>
+      <span class="chip">The Clinician</span>
+      <span class="chip">The Academic</span>
+      <span class="chip">The Skeptic</span>
+      <span class="chip">The Economist</span>
+      <span class="chip">The Historian</span>
+      <span class="chip">The Child</span>
+    </div>
+  </header>
+
+  <section id="summary">
+    <span class="eyebrow">Read this first</span>
+    <h2>60 Second Summary</h2>
+    <div class="summary-card">
+      <p>The recommendation algorithm was not discovered. It was assembled, step by dated step, out of behavioural science that predates the internet. Skinner showed in the 1950s that unpredictable rewards produce the most compulsive behaviour ever measured in a lab. Schultz showed in 1997 that dopamine neurons fire for surprise, not pleasure. A Stanford lab spent the 2000s teaching designers to combine those findings with well timed triggers; its students went on to build Instagram, and its orbit produced the industry's habit playbook. The feed you scroll is that science, aimed by machine learning at whatever keeps you there longest.</p>
+      <p>The money explains the aim. Time on feed is revenue: an internal Meta email values a 13 year old at roughly $270 of lifetime revenue, a peer reviewed model puts US ad revenue from under 18s at about $11 billion a year, and a randomised experiment in Science showed chronological feeds cut time on platform, which is why no platform volunteers one. The people who built the Like button, infinite scroll and the social validation loop have all said, on the record, that they understood the psychology they were exploiting.</p>
+      <p>Then the honesty that will make your post credible: the population level evidence that algorithms cause the teen mental health crisis is weak, and the famous "1 in 3 teen girls" statistic is a subgroup misread. What the evidence does support is sharper and scarier: feeds measurably spiral vulnerable children into harmful content at roughly ten times the normal rate, a UK coroner has ruled algorithmically recommended content contributed to a child's death, and children themselves describe the defining experience as awareness without control. They know the machine is engineered to hold them. They cannot steer it. That gap is exactly where a calibrated pathway lives.</p>
+    </div>
+  </section>
+
+  <section id="findings">
+    <span class="eyebrow">Ranked by reliability</span>
+    <h2>Key Findings</h2>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>The mechanism is dated, named, peer reviewed science.</h3>
+        <span class="reliability high">Reliability 9/10</span>
+      </div>
+      <p>Ferster and Skinner (1957): variable ratio reinforcement, reward after an unpredictable number of actions, produces the highest and most extinction resistant response rates of any schedule. Schultz, Dayan and Montague (Science, 1997): dopamine neurons encode reward prediction error, firing for unpredicted rewards and going quiet for expected ones, so unpredictability itself is the active ingredient. Fogg (Stanford, model published 2009): behaviour happens when motivation, ability and a well timed trigger converge, which is what a notification is. Pull to refresh and the unpredictable like count are these three findings, shipped.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Academic, Historian, Clinician</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: Skeptic, on pop dopamine framing only</span>
+      </div>
+      <div class="cite">Sources: A1, A2, A3</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>The feed has a build history, and its builders confessed.</h3>
+        <span class="reliability high">Reliability 9/10</span>
+      </div>
+      <p>GroupLens builds one of the first automated collaborative filtering systems, for Usenet (1994). Amazon industrialises it (paper 2003). Facebook launches the algorithmic News Feed (5 September 2006) and hundreds of thousands protest within days (estimates run to a million), then stay. The Like button ships (9 February 2009). EdgeRank's human readable formula is replaced by machine learning with roughly 100,000 weighting factors (by 2013). YouTube switches its target from clicks to watch time (October 2012). TikTok's For You page completes the arc (2018): a feed built on your behaviour, not your friends. Then the confessions: Sean Parker ("exploiting a vulnerability in human psychology... we did it anyway... God only knows what it's doing to our children's brains", 2017), Justin Rosenstein on Likes as "bright dings of pseudo pleasure" (2017), Aza Raskin on his infinite scroll as "behavioural cocaine" (2018), Chamath Palihapitiya on "dopamine driven feedback loops... destroying how society works" (2017).</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Historian, Economist, Academic</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: Skeptic notes insider regret is design intent evidence, not harm evidence</span>
+      </div>
+      <div class="cite">Sources: A4, A5, A6, A7, A8, A9, A10</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>The economics made engagement optimisation inevitable.</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>Herbert Simon named it in 1971: a wealth of information creates a poverty of attention. Attention converts to revenue at published rates (Meta earned roughly $233 of revenue per North American user in 2024), an internal Meta email surfaced in the 2023 attorneys general lawsuit values a 13 year old at roughly $270 of lifetime revenue, and a peer reviewed model estimates US platforms earned about $11 billion from under 18s in 2022, with Snapchat and TikTok drawing a third or more of their US ad revenue from minors. The control experiment exists: in the landmark Science study, users switched to chronological feeds spent substantially less time on platform. The engagement ranked feed is the profitable feed, by the companies' own numbers. TikTok's internal research even quantified onset: a lasting usage habit forms after roughly 260 videos, under 35 minutes.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Economist, Historian</span>
+      </div>
+      <div class="cite">Sources: A11, A12, A13, A14, A15, A16</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Children inherited machinery never calibrated for them.</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>Every system in the build history was designed and tuned on adult engagement data. Meanwhile the adolescent brain is structurally more sensitive to exactly what feeds serve: in Sherman's fMRI work, teens viewing their own photos with many likes showed heightened activation in the brain's reward hub, and were more likely to like content simply because it was already popular. Developmental reviews (Somerville, Blakemore, Crone) converge: peer approval sensitivity peaks in adolescence while the prefrontal control system is still maturing. The mismatch is the vulnerability, and possible sensitivity windows around ages 11 to 13 for girls and 14 to 15 for boys mean population averages hide the exposed groups.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Academic, Clinician</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: Skeptic notes subgroup findings cut both ways</span>
+      </div>
+      <div class="cite">Sources: A17, A18, A19</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>The harm evidence splits in two, and your post must respect the split.</h3>
+        <span class="reliability high">Reliability 9/10</span>
+      </div>
+      <p>Strong: design intent (the confessions, the internal documents), and amplification at the vulnerable tail. A UK coroner ruled in 2022 that algorithmically recommended content contributed to the death of 14 year old Molly Russell, the only finding in this field with legal weight; audits found feeds of teens signalling distress fill with harmful content at roughly ten times the normal rate, within hours. Weak: population level causation. Digital technology use explains at most 0.4% of variance in adolescent wellbeing, six week deactivation experiments improve mood by only 0.04 to 0.06 standard deviations, the strongest causal study predates recommendation algorithms entirely, and switching users to chronological feeds did not improve wellbeing or reduce polarisation. The scientifically honest claim: the machinery demonstrably exploits attention, and it demonstrably concentrates harm on already struggling children, but "algorithms caused the teen mental health crisis" outruns the data.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Skeptic, Academic, Clinician converge on the split</span>
+      </div>
+      <div class="cite">Sources: A20, A21, A22, A23, A24, A25</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Retire the "1 in 3 teen girls" statistic.</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>The most quoted number from the Facebook Files is a misread. The internal slide said Instagram made body image worse for 1 in 3 of the teen girls who already felt bad about their bodies, a subgroup, not all teen girls, and within that same subgroup 22% said Instagram made them feel better. The survey behind it had around 2,500 respondents, the qualitative decks were small, and none of it was peer reviewed either way; Slate's own framing is that the findings stay damning despite the subgroup caveat. Using the misread version in a post invites a fact check that discredits everything around it. The replacement facts are stronger anyway: Meta's researchers documented the problem and the company kept optimising, and 60% of youth with depressive symptoms report feed content making them feel worse about their looks against 25% of those without.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Skeptic</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: Clinician and Economist quoted the popular version</span>
+      </div>
+      <div class="cite">Sources: A20, A26</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Kids know, and kids cannot steer. Awareness without control.</h3>
+        <span class="reliability high">Reliability 9/10</span>
+      </div>
+      <p>63% of UK 8 to 17s know platforms use algorithms to direct content at them, rising to 81% of 16 to 17s, with a class gap (75% awareness in the wealthiest households against about 60% elsewhere). Harm arrives unbidden: of the nearly three quarters of 11 to 17s who saw harmful content, 35% met it while scrolling and 1% by searching. Teens build folk theories and actively try to retrain their feeds, and the research shows it mostly fails: one stray search can dominate a feed for weeks, and "not interested" buttons feel dead. Their own verdict is turning fast: 48% of teens now say social media is mostly negative for people their age, up from 32% three years earlier, and young people quoted the spiral precisely: "even if you don't like it, it gets bumped to you... it delayed my recovery."</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: The Child, Clinician, Academic</span>
+      </div>
+      <div class="cite">Sources: A27, A28, A29, A30, A31, A32</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Regulation has shifted from screen time to design, and so should you.</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>The clinical and regulatory world has stopped asking "how long" and started asking "what does the feed do". The American Academy of Pediatrics says the ecosystem "can no longer be thought of as screen time for families to manage". WHO data shows 11% of adolescents across 44 countries meet problematic use criteria, up from 7% in 2018. Ofcom's children's codes (in force July 2025) legally require recommenders to filter suicide, self harm and eating disorder content out of children's feeds, and the EU has preliminarily found TikTok's addictive design in breach of the DSA, having already forced TikTok Lite's rewards scheme off the market, the first proof that regulating design, not content, moves platforms. Note before quoting: the EU finding is preliminary.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Clinician, Economist</span>
+      </div>
+      <div class="cite">Sources: A33, A34, A35, A36</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>What actually helps families is narrow, specific and doable.</h3>
+        <span class="reliability medium">Reliability 7/10</span>
+      </div>
+      <p>A randomised trial found capping social media at one hour a day for three weeks improved appearance and weight esteem in distressed young people: reduction works, abstinence is not required. Phones out of the bedroom remains the highest value single move (sleep is the most measurable and reversible harm pathway, and 50% of teen girls say social media costs them sleep). NICE now instructs clinicians to ask about the feed as part of self harm assessment. And the frame that lands with adolescents is autonomy, not protection: the platforms are engineered to hold you, and seeing the machinery is power.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Clinician, The Child, Academic</span>
+      </div>
+      <div class="cite">Sources: A29, A37, A38, A39</div>
+    </article>
+
+  </section>
+
+  <section id="contradictions">
+    <span class="eyebrow">Where the lenses disagree</span>
+    <h2>Contradiction Map</h2>
+    <table class="contra">
+      <thead>
+        <tr><th>Disagreement</th><th>Position A</th><th>Position B</th><th>Evidence leans</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Is "dopamine hit" language science or slop?</td>
+          <td>Dopamine prediction error is real, foundational neuroscience (Academic)</td>
+          <td>Dopamine encodes wanting, not pleasure; the pop framing and Parker's quote are folk neuroscience (Skeptic)</td>
+          <td class="leans green">Mechanism real, pop framing wrong. Say prediction error, never dopamine hits</td>
+        </tr>
+        <tr>
+          <td>Did the algorithm cause the teen mental health crisis?</td>
+          <td>Inquest ruling, internal documents, tenfold spirals for vulnerable kids (Clinician, Economist)</td>
+          <td>0.4% of variance, tiny deactivation effects, feed swap experiments null on wellbeing (Skeptic)</td>
+          <td class="leans coral">Split verdict: strong on design and the vulnerable tail, weak on population causation</td>
+        </tr>
+        <tr>
+          <td>Is "1 in 3 teen girls" usable?</td>
+          <td>Quoted by two lenses as headline harm evidence</td>
+          <td>Subgroup misread of a small internal deck (Skeptic)</td>
+          <td class="leans coral">Retire it. Sent to verification</td>
+        </tr>
+        <tr>
+          <td>Is engagement revealed preference?</td>
+          <td>Users choose what they watch; the market serves demand (Economist framing)</td>
+          <td>Watching is not wanting: distress signals get read as appetite, and teen prefrontal control is still maturing (The Child, Academic)</td>
+          <td class="leans green">The Child. A depressed 14 year old's engagement is a symptom, not a preference</td>
+        </tr>
+        <tr>
+          <td>Is this just another moral panic?</td>
+          <td>Comics, TV and video games all produced the same fears (Historian's precedents)</td>
+          <td>No previous medium profiled each child individually and re optimised itself against that child's disengagement in real time (all six lenses converge)</td>
+          <td class="leans green">Genuinely novel, and the panic history still counsels humility on outcomes</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="lenses">
+    <span class="eyebrow">Six perspectives</span>
+    <h2>Lens Panels</h2>
+    <div class="lens-grid">
+      <div class="lens-panel clinician">
+        <span class="eyebrow">The Clinician</span>
+        <h3>The only legal finding of fact in this field</h3>
+        <p>A coroner ruled algorithmic recommendation contributed to Molly Russell's death. Averages are the wrong statistic for a clinic: the 11% with compulsive use and the distressed child whose feed converges on harm are my patients. Sleep is where I start with every family.</p>
+      </div>
+      <div class="lens-panel academic">
+        <span class="eyebrow">The Academic</span>
+        <h3>Separate the mechanism from the outcome</h3>
+        <p>The machinery is proven: variable reward, prediction error, engineered triggers, aimed at a developmentally hypersensitive reward system. Aggregate harm is small and contested. A scientifically honest post makes both statements in the same breath.</p>
+      </div>
+      <div class="lens-panel skeptic">
+        <span class="eyebrow">The Skeptic</span>
+        <h3>Never claim the algorithm is the proven culprit</h3>
+        <p>Technology use explains at most 0.4% of wellbeing variance. The feed swap experiment did not help anyone. The famous teen girls statistic is a misread. Say design exploits attention, say harm concentrates on the vulnerable, and stop there, or a researcher will take the post apart.</p>
+      </div>
+      <div class="lens-panel economist">
+        <span class="eyebrow">The Economist</span>
+        <h3>A 13 year old is worth $270. Everything follows.</h3>
+        <p>Attention is revenue, children are inventory, chronological feeds lose money, and fines to date are rounding errors. Only design regulation has ever moved a platform. You cannot therapy your way out of an incentive.</p>
+      </div>
+      <div class="lens-panel historian">
+        <span class="eyebrow">The Historian</span>
+        <h3>Assembled step by step, regretted on the record</h3>
+        <p>1994 collaborative filtering, 2006 the ranked feed, 2009 the Like, 2012 watch time, 2018 the interest graph. The people who built the compulsive parts have named what they did. And nothing in the panic archive resembles a machine that learns each child individually.</p>
+      </div>
+      <div class="lens-panel child">
+        <span class="eyebrow">The Child</span>
+        <h3>I know it's engineered. I still can't steer it.</h3>
+        <p>Most of us know the feed is built to hold us. One sad video and my whole feed is Sadtok for weeks, whatever buttons I press. Harm finds me while I scroll; I almost never go looking. Don't teach me the feed is curated. I know. Give me control, or teach me where the exits are.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="guided-childhood">
+    <span class="eyebrow">So what do we do</span>
+    <h2>What This Means for Guided Childhood</h2>
+    <div class="gc-card">
+      <ul>
+        <li>
+          <span class="tag">Marketing</span>
+          <strong>Your scientific LinkedIn post writes itself from the split.</strong> Hook with the build history and the $270 email, walk the mechanism chain with named researchers and dates, then do the thing nobody else does: state honestly that population harm evidence is small while vulnerable tail amplification is proven. The honesty is the differentiator, and it is fact check proof.
+        </li>
+        <li>
+          <span class="tag">Curriculum</span>
+          <strong>Teach awareness without control as the lesson frame.</strong> Kids already know feeds are curated, so a lesson announcing that is dead on arrival. The gap is control and the business model behind it. Use the autonomy reframe the evidence supports: the platforms are engineered to hold you, and seeing the machinery is power. This slots straight into the algorithm literacy project and Stages 3 and 4.
+        </li>
+        <li>
+          <span class="tag">Scripts</span>
+          <strong>Ship a Sadtok script.</strong> The spiral has a name in kids' own words. A parent script for "what does your feed think of you at the moment", a feed reset ritual done together, and phones out of the bedroom as the one non negotiable. Reduction, not abstinence: the trial evidence supports an hour cap, which is a calibrated pathway, not an allow or deny.
+        </li>
+        <li>
+          <span class="tag">Ban readiness</span>
+          <strong>The ban removes platforms, not mechanics.</strong> Variable reward and engineered triggers live on in gaming and in whatever fills the vacuum, and Australia shows the leak. Your line for the next nine months: the ban buys time, it does not retrain anyone. That is why a pathway matters, and it is honest enough to survive contact with pupils who know the workarounds.
+        </li>
+        <li>
+          <span class="tag">DiGi</span>
+          <strong>Give DiGi the split brain.</strong> When parents ask "is the algorithm harming my child", DiGi should hold both truths: the design exploits attention by intent, the average child is probably fine, and the struggling child's feed makes struggling worse. Then route to the sleep question first, because it is the most measurable and most reversible pathway.
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="assumptions">
+    <span class="eyebrow">Honest limits</span>
+    <h2>Assumptions and the Missing Lens</h2>
+    <div class="assump-card">
+      <h3>This briefing rests on</h3>
+      <p>The amplification audits (Amnesty, CCDH, 5Rights) use simulated accounts and are not peer reviewed, though their findings are consistent across organisations and years. The internal company documents are leaked or litigated material, strong on intent, unaudited on method. The EU's addictive design finding is preliminary. And nearly all the causal experiments study adults or all ages platforms, because nobody has yet run a randomised trial isolating recommendation algorithms in children, which is the largest single hole in the field.</p>
+      <div class="missing">
+        <h3>The missing seventh lens</h3>
+        <p>The engineer. Nobody in this briefing has actually built a ranking system. An engineer's lens would answer the questions the others cannot: why "not interested" signals barely work, what controls are technically feasible tomorrow, and what a child safe recommender would actually optimise. That lens would turn your critique into a proposal, and it is a V3 worth running before the school version teaches this.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="sources">
+    <span class="eyebrow">Every citation checked against its primary source</span>
+    <h2>Source Ledger</h2>
+    <div class="ledger">
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://en.wikipedia.org/wiki/Schedules_of_reinforcement">A1 · Schedules of Reinforcement</a> · Ferster and Skinner, 1957<span class="note">Verified: variable ratio schedules yield the highest, most extinction resistant response rates</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.science.org/doi/10.1126/science.275.5306.1593">A2 · A Neural Substrate of Prediction and Reward</a> · Schultz, Dayan and Montague, Science, 1997<span class="note">Verified: dopamine neurons fire to unpredicted reward, flat when predicted, dip when omitted</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://dl.acm.org/doi/10.1145/1541948.1541999">A3 · A Behavior Model for Persuasive Design</a> · BJ Fogg, Persuasive, 2009<span class="note">Verified; caveat: Mike Krieger was a student, Nir Eyal attended lectures rather than being a formal student</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="http://ccs.mit.edu/papers/ccswp165.html">A4 · GroupLens</a> · ACM CSCW, 1994<span class="note">Verified: CSCW October 1994; safest phrasing is one of the first automated collaborative filtering systems (Ringo was contemporaneous)</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://dl.acm.org/doi/10.1109/MIC.2003.1167344">A5 · Amazon item to item collaborative filtering</a> · IEEE Internet Computing, 2003<span class="note">Verified: IEEE Internet Computing 2003; selected as the journal test of time paper in 2017</span></div></div>
+      <div class="ledger-row"><span class="verdict demoted">Demoted</span><div class="src"><a href="https://fortune.com/2016/09/06/facebook-news-feed-anniversary/">A6 · News Feed launch and revolt</a> · Fortune, 2016<span class="note">Launch date and rising engagement verified, but protest figures vary from 284,000 in a day to about a million total; the 700,000 in a day figure could not be confirmed</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://www.theguardian.com/technology/2017/oct/05/smartphone-addiction-silicon-valley-dystopia">A7 · Like button creators recant</a> · The Guardian, 2017<span class="note">The Rosenstein quote is verified in this piece; the 9 February 2009 ship date is accurate but comes from Facebook and Fast Company histories, not this article</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.bbc.co.uk/news/technology-44640959">A8 · Raskin on infinite scroll</a> · BBC, 2018<span class="note">Verified: infinite scroll 2006; behavioural cocaine quote verbatim from the July 2018 BBC Panorama coverage</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://techcrunch.com/2012/10/12/youtube-changes-its-search-ranking-algorithm-to-focus-on-engagement-not-just-clicks/">A9 · YouTube switches to watch time</a> · TechCrunch, 2012<span class="note">Verified: October 2012 search ranking change to watch time; the wider objective shift rolled out across 2012</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.axios.com/2017/12/15/sean-parker-unloads-on-facebook-god-only-knows-what-its-doing-to-our-childrens-brains-1513306792">A10 · Parker and Palihapitiya confessions</a> · Axios and Washington Post, 2017<span class="note">Verified verbatim: Parker via Axios, November 2017; Palihapitiya quote is from his Stanford GSB talk the same month, a separate source</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://en.wikipedia.org/wiki/Attention_economy">A11 · Designing Organizations for an Information Rich World</a> · Herbert Simon, 1971<span class="note">Verified: exact formulation in Simon 1971, Johns Hopkins Press</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://s21.q4cdn.com/399680738/files/doc_financials/2024/q4/Earnings-Presentation-Q4-2024.pdf">A12 · Meta Q4 2024 earnings</a> · Meta Investor Relations<span class="note">Verified: Q4 ad revenue $46.8bn; the $233 is Meta reported revenue per person for US and Canada, roughly 98% of which is advertising</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.mass.gov/news/ag-campbell-files-lawsuit-against-meta-instagram-for-unfair-and-deceptive-practices-that-harm-young-people">A13 · State AGs v Meta</a> · Massachusetts AG, 2023<span class="note">Verified: the $270 email is quoted in the Massachusetts complaint, part of the October 2023 coordinated action by 42 attorneys general</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10752512/">A14 · Ad revenue from US youth</a> · Raffoul et al., PLOS ONE, 2023<span class="note">Verified: nearly $11bn from under 18s in 2022, about $2.1bn from ages 12 and under; Snapchat 41%, TikTok 35%; explicitly a simulated model</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.science.org/doi/10.1126/science.abp9364">A15 · Chronological feed experiment</a> · Guess et al., Science, 2023<span class="note">Verified: chronological feeds substantially cut time on both platforms; no significant change in polarisation or attitudes</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.npr.org/2024/10/11/nx-s1-5150088/the-biggest-findings-from-uncensored-tiktok-lawsuit-documents">A16 · TikTok internal habit research</a> · NPR via Kentucky AG filing, 2024<span class="note">Verified: 260 videos, under 35 minutes; teen tool judged on public trust; usage fell 108.5 to about 107 minutes a day</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://journals.sagepub.com/doi/10.1177/0956797616645673">A17 · The Power of the Like in Adolescence</a> · Sherman et al., Psychological Science, 2016<span class="note">Verified: N=32, ages 13 to 18; nucleus accumbens activation and conformity to like counts</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://journals.sagepub.com/doi/10.1177/0963721413476512">A18 · The Teenage Brain: Sensitivity to Social Evaluation</a> · Somerville, 2013<span class="note">Verified: heightened social evaluation sensitivity in adolescence; reward circuitry matures ahead of prefrontal control</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.nature.com/articles/s41467-022-29296-3">A19 · Windows of developmental sensitivity</a> · Orben et al., Nature Communications, 2022<span class="note">Verified: n=17,409; windows at 11 to 13 for girls, 14 to 15 for boys, around 19 for both</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://en.wikipedia.org/wiki/Death_of_Molly_Russell">A20 · Molly Russell inquest</a> · North London Coroner's Court, 2022<span class="note">Verified: coroner conclusion verbatim; 2,100 of 16,300 pieces related to depression, self harm or suicide; some pushed unrequested</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.amnesty.org/en/latest/news/2023/11/tiktok-risks-pushing-children-towards-harmful-content/">A21 · Driven into the Darkness and 2025 follow up</a> · Amnesty International, 2023 and 2025<span class="note">Verified: majority harmful feeds within about 20 minutes, near half after 5 to 6 hours, roughly 10x controls; 2025 French follow up found suicide romanticising content within 3 to 4 hours</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://counterhate.com/research/deadly-by-design/">A22 · Deadly by Design</a> · CCDH, 2022<span class="note">Verified: 2.6 minutes to suicide content, 8 minutes to eating disorder content, 12x for vulnerable accounts; NGO audit, not peer reviewed</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.nature.com/articles/s41562-018-0506-1">A23 · Digital technology and adolescent wellbeing</a> · Orben and Przybylski, Nature Human Behaviour, 2019<span class="note">Verified: n=355,358 across three datasets; at most 0.4% of variance</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.nber.org/papers/w33697">A24 · Deactivation experiments</a> · Allcott, Gentzkow et al., 2024 and 2025<span class="note">Verified: 0.060 SD Facebook, 0.041 SD Instagram over six weeks pre election</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.aeaweb.org/articles?id=10.1257/aer.20211218">A25 · Facebook college rollout</a> · Braghieri, Levy and Makarin, AER, 2022<span class="note">Verified: 775 colleges, +7% severe depression, +20% anxiety; News Feed launched at the very tail of the window, so the platform studied was essentially pre algorithmic</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://slate.com/technology/2021/09/instagram-facebook-body-image-documents-wall-street-journal.html">A26 · The 1 in 3 slide in context</a> · Slate and WSJ Facebook Files, 2021<span class="note">Verified: 32% of girls already feeling bad about their bodies; 22% of the same subgroup felt better, about 45% neither; survey n around 2,503, qualitative decks small, not peer reviewed</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.ofcom.org.uk/siteassets/resources/documents/research-and-data/media-literacy-research/children/childrens-media-use-and-attitudes-report-2025/childrens-media-literacy-report-2025.pdf">A27 · Children's media literacy</a> · Ofcom, 2025<span class="note">Verified: 63% overall, 44% to 81% by age; the exact class split figures sit in the data tables, treat as approximate</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://ineqe.com/2026/05/22/childrens-online-experiences-ofcom-2026/">A28 · Children's online experiences</a> · Ofcom, 2026<span class="note">Verified: about 73% of 11 to 17s saw harmful content; 35% met it scrolling vs 1% searching; Ofcom research published 21 May 2026</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.pewresearch.org/internet/2025/04/22/teens-social-media-and-mental-health/">A29 · Teens, social media and mental health</a> · Pew Research, April 2025<span class="note">Verified: all figures match the April 2025 Pew report (1,391 US teens); girls sleep figure 50% vs 40% for boys</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://dl.acm.org/doi/10.1145/3476046">A30 · Algorithmic folk theories and identity</a> · Karizat et al., CSCW, 2021<span class="note">Verified: 15 interviews; resistance framed around countering perceived identity suppression</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://dl.acm.org/doi/10.1145/3706598.3713666">A31 · Controlling unwanted content on the For You page</a> · Vera and Ghosh, CHI, 2025<span class="note">Verified: 14 accounts; a single search dominates feeds for weeks or months; scrolling away fast is the main tactic</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://www.childrenscommissioner.gov.uk/news-and-blogs/growing-up-online-the-good-the-bad-and-the-potential-ban-childrens-commissioners-youth-ambassadors-speak-to-lord-nash/">A32 · Youth Ambassadors on the algorithm</a> · Children's Commissioner, 2025/26<span class="note">The quote belongs to filmmaker Fabio D’Andrea in the same Children’s Commissioner conversation, not the Youth Ambassadors; the autoplay and infinite scroll restrictions are the Commissioner’s policy position</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://publications.aap.org/pediatrics/article/157/2/e2025075320/206129/Digital-Ecosystems-Children-and-Adolescents-Policy">A33 · AAP digital ecosystems policy</a> · Pediatrics, 2025/26<span class="note">Verified verbatim; cite as Pediatrics February 2026 issue</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.who.int/europe/news/item/25-09-2024-teens--screens-and-mental-health">A34 · Teens, screens and mental health</a> · WHO Europe / HBSC, 2024<span class="note">Verified: about 280,000 young people, 44 countries; 11% problematic use, up from 7%; girls 13%, boys 9%</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.whitecase.com/insight-alert/uk-online-safety-act-protection-children-codes-come-force">A35 · Ofcom protection of children codes</a> · via White and Case, 2025<span class="note">Verified: measures apply from 25 July 2025; fines up to £18m or 10% of qualifying worldwide revenue, whichever is greater</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://digital-strategy.ec.europa.eu/en/news/commission-preliminarily-finds-tiktoks-addictive-design-breach-digital-services-act">A36 · EU DSA preliminary finding on TikTok</a> · European Commission, 2026<span class="note">Verified: preliminary finding 6 February 2026; TikTok Lite rewards withdrawal made binding August 2024; fines to 6% of global turnover</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://psycnet.apa.org/doiLanding?doi=10.1037%2Fppm0000460">A37 · Social media reduction RCT</a> · Thai et al., Psychology of Popular Media, 2023<span class="note">Verified: n=220, ages 17 to 25, one hour cap for three weeks improved appearance and weight esteem vs controls</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.nice.org.uk/guidance/ng225/resources/selfharm-assessment-management-and-preventing-recurrence-pdf-66143837346757">A38 · NICE NG225 self harm guideline</a> · NICE, 2022<span class="note">Verified: NG225 requires asking about social media and internet use and their effects in self harm assessment</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://journals.sagepub.com/doi/10.1177/1745691617722620">A39 · Why adolescent interventions fail</a> · Yeager, Dahl and Dweck, 2018<span class="note">Verified: status, respect and autonomy framing; Bryan et al. 2016 RCT supports the values aligned reframe</span></div></div>
+    </div>
+  </section>
+
+  <footer class="brief-foot">
+    Guided Childhood · Kids Research Briefing · Six lenses, adversarially verified · 3 July 2026
+  </footer>
+
+</div>
+</body>
+</html>

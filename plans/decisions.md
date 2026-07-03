@@ -127,6 +127,23 @@ Append-only. Read at session start. Updated at session end.
 
 ---
 
+## 2026-07-03 — Algorithm briefing, content pack, weekly drop
+
+**Algorithm briefing verified to V2:** 36 of 39 sources confirmed, 2 corrected, 1 demoted. Core editorial rules baked into all content: say prediction error never dopamine hits, never claim the algorithm is the proven cause of the teen mental health crisis, use the 1 in 3 teen girls stat only in subgroup corrected form, strong claims limited to design intent and vulnerable tail amplification. The framing concept: awareness without control.
+
+**First content pack shipped:** content/packs/2026-07-03-the-algorithm/ (5 LinkedIn posts + Substack issue), all claims mapped to briefing ledger IDs. Uploaded to Google Drive folder "Guided Childhood Research" as Google Docs.
+
+**New skill:** .claude/skills/weekly-research — the Monday drop. Chains kids-research into content-engine and uploads the briefing plus content pack to the Drive folder (id 16LRxCM678a8HhzNtbZMyz7G4DMCGsn2W). Trigger: "run the weekly research".
+
+---
+
+## 2026-07-03 (later) — Positive pathway doctrine and pack V2
+
+**Justin's standing editorial brief baked into content-engine:** positive, educate a digital pathway in every post, never scare. Researcher canon: Odgers, Orben, Przybylski, Vuorre, Ferguson (with contest caution). Standing frame: small average effects, concentrated risks, regulate design, teach the machinery. Platforms treated as different machines, never one algorithm. Channel variants now standard: Mumsnet, Reddit (r/ScienceBasedParenting), Facebook groups, plus an audience guide per pack.
+
+**Canon files:** briefings/notes/positive-canon.md and platform-differences.md, verified, reusable by every future pack.
+
+**Pack V2 shipped:** rewritten five LinkedIn posts (new platform differences carousel is the depth moat piece), Substack issue rebalanced toward living with it well, plus Mumsnet, Reddit, Facebook versions and the audience guide.
 ## 2026-07-03 — Phase 1 and 2 of the finish roadmap built
 
 **Invented social proof removed:** The homepage "Join 200 families" badge, the "200 parents already on their pathway" line and the fake five star row are gone, replaced with claims that are true today (free starter pack, no card needed, built on the research). Roadmap rule stands: no number in marketing copy that does not come from real data.
@@ -198,3 +215,9 @@ Append-only. Read at session start. Updated at session end.
 ## 2026-07-03 — Lesson branch merged with main, schools migrations renumbered
 
 **Migration collision resolved per the main rule:** the lesson branch took 018/019 while main took 018 to 022. Schools migrations renumbered: 018_schools_product.sql is now 023_schools_product.sql, 019_schools_onboarding.sql is now 024_schools_onboarding.sql. They run AFTER 022_email_log.sql. Anyone who already ran the old 018/019 files can safely run 023/024, everything is create-if-not-exists. decisions.md conflict resolved by keeping all sections in date order, nothing dropped, per the append only rule.
+
+---
+
+## 2026-07-03 — decisions.md conflict resolution (research branch merge)
+
+The research branch (kids-mental-health-researcher) and main both appended 3 July sections. Resolved per the append only rule: both sides kept in full, research branch entries (algorithm briefing, positive pathway doctrine) precede main's build entries. Nothing dropped.
