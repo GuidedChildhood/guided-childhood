@@ -5,6 +5,7 @@ import AnnouncementBar from '@/components/marketing/AnnouncementBar'
 import FaqAccordion from '@/components/marketing/FaqAccordion'
 import FlipCards from '@/components/marketing/FlipCards'
 import DigiWalker from '@/components/marketing/DigiWalker'
+import HomeReveals from '@/components/marketing/HomeReveals'
 import DigiCharacter from '@/components/digi/DigiCharacter'
 
 export const metadata: Metadata = {
@@ -274,6 +275,7 @@ export default function HomePage() {
     <div style={{ background: '#fff', overflowX: 'hidden' }}>
 
       <AnnouncementBar />
+      <HomeReveals />
 
       {/* JSON-LD structured data */}
       <script
@@ -416,7 +418,7 @@ export default function HomePage() {
       {/* ================================================================
           HERO — Good Inside split: left text, right floating chips
           ================================================================ */}
-      <section aria-label="Hero" style={{ padding: 'clamp(56px, 7vw, 88px) 32px clamp(48px, 6vw, 80px)', background: '#FFFBEE' }}>
+      <section id="hero" aria-label="Hero" style={{ padding: 'clamp(56px, 7vw, 88px) 32px clamp(48px, 6vw, 80px)', background: '#FFFBEE' }}>
         <div className="hero-grid" style={{ maxWidth: '1100px', margin: '0 auto' }}>
 
           {/* Left: text */}
@@ -918,14 +920,13 @@ export default function HomePage() {
 
           <div className="stages-grid">
             {STAGES.map(s => (
-              <div key={s.num} className="fu" style={{
+              <div key={s.num} className="fu lift" style={{
                 background: '#fff',
                 borderRadius: '20px',
                 overflow: 'hidden',
                 boxShadow: '0 4px 32px rgba(26,26,46,0.07)',
                 display: 'flex',
                 flexDirection: 'column',
-                transition: 'transform 0.2s, box-shadow 0.2s',
               }}>
 
                 {/* Apple-style large coloured header */}
@@ -1108,7 +1109,7 @@ export default function HomePage() {
                 ),
               },
             ] as const).map((f, i) => (
-              <div key={i} className="fu" style={{ background: '#fff', borderRadius: '24px', padding: '36px 28px', boxShadow: '0 6px 32px rgba(26,26,46,.06)', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <div key={i} className="fu lift" style={{ background: '#fff', borderRadius: '24px', padding: '36px 28px', boxShadow: '0 6px 32px rgba(26,26,46,.06)', display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 <div style={{ width: '60px', height: '60px', borderRadius: '18px', background: f.iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow: '0 4px 0 rgba(0,0,0,0.15)' }}>
                   {f.svg}
                 </div>

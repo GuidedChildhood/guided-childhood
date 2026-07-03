@@ -454,6 +454,25 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
 /* ── GSAP ── */
 .fu { will-change: transform, opacity; }
 
+/* ── POLISH PRIMITIVES ── */
+::selection { background: var(--terracotta-lt); color: var(--ink); }
+
+h1, h2, h3 { text-wrap: balance; }
+
+/* Cards that respond to the cursor: gentle lift, warm deepened shadow */
+.lift {
+  transition: transform 0.28s cubic-bezier(0.2, 0.6, 0.2, 1), box-shadow 0.28s cubic-bezier(0.2, 0.6, 0.2, 1);
+}
+.lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(26, 26, 46, 0.12);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .lift, .lift:hover { transition: none; transform: none; }
+}
+
 /* ── SCROLLBAR ── */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
