@@ -1,5 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
+import SchoolLink from '@/components/digi/SchoolLink'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { AGE_BAND_OPTIONS, getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
@@ -293,6 +294,10 @@ export default function SettingsPage() {
         >
           Sign out
         </button>
+      </section>
+
+      <section style={{ marginTop: '24px' }}>
+        <SchoolLink />
       </section>
     </div>
   )

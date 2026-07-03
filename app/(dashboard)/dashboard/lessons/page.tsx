@@ -54,6 +54,7 @@ export default async function LessonsPage() {
       .from('lessons')
       .select('id, stage_id, category, title, key_message, sort_order')
       .eq('audience', 'parent')
+      .neq('status', 'stub')
       .order('sort_order', { ascending: true }),
     supabase
       .from('ai_lessons')
