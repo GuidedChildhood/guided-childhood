@@ -424,13 +424,13 @@ export default function HomePage() {
           {/* Left: text */}
           <div>
             <p className="fu eyebrow" style={{ marginBottom: '18px' }}>
-              For UK parents · Ages 4 to 16
+              From age 4 through 16
             </p>
             <h1 className="fu" style={{ fontSize: 'clamp(2.1rem, 3.4vw, 2.9rem)', fontWeight: 800, lineHeight: 1.12, letterSpacing: '-.028em', color: 'var(--ink)', maxWidth: '560px', marginBottom: '20px' }}>
-              Social media arrives at 16. Ready is built from age 4.
+              Raising kids with screens gets a lot clearer from here.
             </h1>
-            <p className="fu" style={{ fontSize: '1.05rem', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '460px', marginBottom: '30px' }}>
-              The ban delays the apps. It does not prepare your child for them. This pathway does: school level digital literacy taught at home, exact scripts for the everyday screen struggles, and DiGi, your AI parenting advisor available at 11pm.
+            <p className="fu" style={{ fontSize: '1.05rem', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '470px', marginBottom: '30px' }}>
+              The only parenting platform built on one consistent, science backed approach, not random tips. Every device and every app, from age 4 through the teen years: what to teach, what to say in the moment, how to put things right, and how to keep your child safe.
             </p>
             <div className="fu" style={{ display: 'flex', gap: '18px', flexWrap: 'wrap', alignItems: 'center', marginBottom: '14px' }}>
               <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '15px', padding: '16px 36px' }}>
