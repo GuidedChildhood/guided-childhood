@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
+import NavTabs from '@/components/dashboard/NavTabs'
 
 const NAV_TABS = [
   { href: '/dashboard', label: 'Home', icon: '⌂' },
@@ -49,26 +50,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
               Guided Childhood
             </span>
           </Link>
-          <nav style={{ display: 'flex', gap: '4px', flex: 1 }}>
-            {NAV_TABS.map(tab => (
-              <Link
-                key={tab.href}
-                href={tab.href}
-                style={{
-                  padding: '7px 14px',
-                  borderRadius: '100px',
-                  fontFamily: 'var(--font-body)',
-                  fontSize: '.84rem',
-                  fontWeight: 600,
-                  color: 'var(--ink-soft)',
-                  textDecoration: 'none',
-                  transition: 'color .15s, background .15s',
-                }}
-              >
-                {tab.label}
-              </Link>
-            ))}
-          </nav>
+          <NavTabs />
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             {!isPaid && (
               <Link href="/dashboard/upgrade" className="btn btn-gold" style={{ padding: '10px 20px', fontSize: '13px' }}>

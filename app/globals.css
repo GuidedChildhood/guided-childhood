@@ -454,6 +454,24 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
 /* ── GSAP ── */
 .fu { will-change: transform, opacity; }
 
+/* ── SEGMENTED PILL NAV ── */
+.nav-pill {
+  padding: 8px 16px;
+  border-radius: 100px;
+  font-family: var(--font-body);
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  text-decoration: none;
+  transition: background 0.18s ease, color 0.18s ease;
+  white-space: nowrap;
+}
+.nav-pill:hover { background: #fff; color: var(--ink); }
+.nav-pill-active, .nav-pill-active:hover {
+  background: var(--deep-teal);
+  color: #fff;
+}
+
 /* ── POLISH PRIMITIVES ── */
 ::selection { background: var(--terracotta-lt); color: var(--ink); }
 
