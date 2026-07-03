@@ -7,6 +7,10 @@ import MomentCard from '@/components/cards/MomentCard'
 import PushPrompt from '@/components/push/PushPrompt'
 import DeviceSetupBanner from '@/components/device/DeviceSetupBanner'
 import DigiPrompts from '@/components/digi/DigiPrompts'
+import DailyTrail from '@/components/pathway/DailyTrail'
+import { getDailyTasks } from '@/lib/pathway/daily-tasks'
+import type { StageId as ProgressStageId } from '@/lib/pathway/progress'
+import type { ChallengeId } from '@/lib/content/stages'
 
 const STAGE_COLORS = {
   1: { bg: 'var(--stage-1)', bold: 'var(--stage-1-bold)', text: 'var(--stage-1-text)', border: 'var(--stage-1)' },
@@ -29,7 +33,7 @@ export default async function DashboardPage() {
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('full_name, onboarding_complete, subscription_status')
+    .select('full_name, onboarding_complete, subscription_status, onboarding_answers')
     .eq('id', user.id)
     .single()
 
@@ -40,7 +44,7 @@ export default async function DashboardPage() {
   const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
 
   const [childResult, dailySessionResult, todayMomentsResult, lastFeedbackResult] = await Promise.all([
-    supabase.from('children').select('name, age_band, stage_id, streak_weeks, actions_this_week').eq('parent_id', user.id).eq('is_primary', true).single(),
+    supabase.from('children').select('id, name, age_band, stage_id, streak_weeks, actions_this_week').eq('parent_id', user.id).eq('is_primary', true).single(),
     supabase.from('daily_sessions').select('completed_at').eq('user_id', user.id).eq('session_date', today).maybeSingle(),
     supabase.from('daily_moments').select('id, title, category, age_bands, icon, science_brief, digi_opener').eq('active', true).order('sort_order').limit(20),
     supabase.from('digi_feedback').select('feedback_date, question, parent_response, digi_insight').eq('user_id', user.id).not('parent_response', 'is', null).gte('feedback_date', sevenDaysAgo).order('feedback_date', { ascending: false }).limit(1).maybeSingle(),
@@ -58,6 +62,11 @@ export default async function DashboardPage() {
   const stage = child?.age_band
     ? getStageFromAgeBand(child.age_band as AgeBand)
     : STAGES[0]
+
+  const challenge = ((profile?.onboarding_answers as Record<string, string> | null)?.challenge ?? null) as ChallengeId | null
+  const dailyTasks = child?.stage_id
+    ? await getDailyTasks(supabase, user.id, child.id, child.stage_id as ProgressStageId, challenge)
+    : null
 
   const stageColor = STAGE_COLORS[stage.id as keyof typeof STAGE_COLORS]
   const isPaid = profile?.subscription_status === 'active'
@@ -129,7 +138,16 @@ export default async function DashboardPage() {
       {/* DiGi leads: proactive watch fors, tips and parent care */}
       <DigiPrompts />
 
-      {/* Continue Your Progress — primary hero card */}
+      {/* The track: today's five steps, DiGi standing on the next one */}
+      {dailyTasks && (
+        <div style={{ marginBottom: '26px' }}>
+          <p className="eyebrow" style={{ textAlign: 'center', color: 'var(--terracotta-dark)', marginBottom: '10px' }}>Today</p>
+          <DailyTrail tasks={dailyTasks} />
+        </div>
+      )}
+
+      {/* Continue Your Progress — fallback hero card when the trail has no stage yet */}
+      {!dailyTasks && (
       <Link href="/dashboard/daily" style={{ textDecoration: 'none', display: 'block', marginBottom: '20px' }}>
         <div style={{
           background: stageColor.bg,
@@ -175,6 +193,7 @@ export default async function DashboardPage() {
           </div>
         </div>
       </Link>
+      )}
 
       {/* DiGi check-in — surfaces last reflective answer if the parent responded */}
       {lastFeedback && (
