@@ -15,7 +15,7 @@ export async function POST(request: Request) {
   const formData = await request.formData().catch(() => null)
   const body = formData
     ? { tier: formData.get('tier') as string }
-    : await request.json().catch(() => ({ tier: 'standard' }))
+    : await request.json().catch(() => ({ tier: 'annual' }))
 
   const tier = body.tier as keyof typeof STRIPE_PRICES
   if (!STRIPE_PRICES[tier]) {
@@ -59,7 +59,7 @@ export async function POST(request: Request) {
 
   const session = await stripe.checkout.sessions.create({
     customer: customerId,
-    mode: tier === 'annual' ? 'subscription' : 'subscription',
+    mode: 'subscription',
     line_items: [{ price: STRIPE_PRICES[tier], quantity: 1 }],
     success_url: `${origin}/dashboard?upgraded=1`,
     cancel_url: `${origin}/dashboard/upgrade`,

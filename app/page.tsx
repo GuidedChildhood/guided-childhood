@@ -2282,8 +2282,8 @@ export default function HomePage() {
                 cardStyle: {},
               },
               {
-                tier: 'Most popular', name: 'Guided Childhood OS', price: '£12.99', period: '/month',
-                save: 'First 50: lock in £7.99/month for life.',
+                tier: 'Best value', name: 'Annual OS', price: '£99', period: '/year',
+                save: 'Save £57. Two months free.',
                 features: [
                   ['✓', 'Full 5-stage dashboard'],
                   ['✓', 'Weekly 3-action plan'],
@@ -2298,13 +2298,12 @@ export default function HomePage() {
                 cardStyle: { background: 'var(--stage-1)', border: '2px solid rgba(61,115,154,.25)', transform: 'scale(1.025)' },
               },
               {
-                tier: 'Best value', name: 'Annual OS', price: '£99', period: '/year',
-                save: 'Save £57. Two months free.',
+                tier: 'Monthly', name: 'Guided Childhood OS', price: '£12.99', period: '/month',
+                save: 'First 50: lock in £7.99/month for life.',
                 features: [
-                  ['✓', 'Everything in monthly'],
-                  ['✓', 'Multi-child profiles'],
-                  ['✓', 'Priority DiGi access'],
-                  ['✓', 'School pack downloads'],
+                  ['✓', 'Everything in annual'],
+                  ['✓', 'Pay month to month'],
+                  ['✓', 'Cancel any time'],
                 ],
                 cta: 'Start now', href: '/join',
                 ctaBg: 'var(--terracotta)', ctaColor: '#fff', ctaBorder: 'none', ctaShadow: '0 5px 0 var(--terracotta-dark)',
