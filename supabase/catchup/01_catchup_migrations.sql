@@ -342,7 +342,7 @@ insert into public.lessons (stage_id, audience, category, title, the_idea, why_i
  'Mood tracking without judgment gives you real evidence before you say anything, instead of a hunch you cannot explain to your child.',
  'For one week, note mood before and after phone use, just a word or two. Share it as an observation, not a conclusion: I noticed this, does it feel true to you?',
  'Track for a week before you speak. Evidence lands better than instinct.',
- 'How do I know if my child\'s mood changes are actually linked to phone use?', 20),
+ 'How do I know if my child''s mood changes are actually linked to phone use?', 20),
 
 -- Shaper (ages 13 to 15)
 ('shaper', 'parent', 'safety', 'Keeping the door open when something goes wrong',
