@@ -49,6 +49,8 @@ Goal: the platform is live and ten real conversations are recorded.
 
 Goal: a stranger can become a paying family with no human involved, and nothing on the paywall is untrue.
 
+- [ ] The Evening Reset: 7pm DiGi push per family with tomorrow's kit per child (weekly timetable), lunches booked check, school email flags, bags and water checklist. Top validated feature from Conversation 1 (plans/parent-conversations.md): every system this parent tried failed because nothing prompted at the moment of action
+- [ ] Kid facing routine checklists (after school five things, night before reset), printable plus in app, tied into family agreements so jobs are agreed not threatened
 - [ ] Email system: Resend plus five emails (welcome with first script, day 2 stage guide, day 4 DiGi nudge, day 7 founder rate with live counter, weekly digest with the child's progress bar)
 - [ ] Onboarding ends by opening the recommended script directly, not the dashboard (activation moment)
 - [ ] Checkout defaults to annual with monthly as the downgrade
