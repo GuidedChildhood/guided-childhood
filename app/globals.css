@@ -13,8 +13,8 @@
   --border:            #EAEAF0;
 
   /* ── ACCENT (butter gold) ── */
-  --terracotta:        #E9B949;
-  --terracotta-dark:   #C29018;
+  --terracotta:        #EDC35F;   /* butter, softened a step toward pastel (was #E9B949) */
+  --terracotta-dark:   #C99A28;
   --terracotta-lt:     #FEF7E0;
   --deep-teal:         #2E2818;   /* dark sections (footer, CTA) — deep warm espresso, never black, never teal */
 

@@ -418,7 +418,7 @@ export default function HomePage() {
       {/* ================================================================
           HERO — Good Inside split: left text, right floating chips
           ================================================================ */}
-      <section id="hero" aria-label="Hero" style={{ padding: 'clamp(56px, 7vw, 88px) 32px clamp(48px, 6vw, 80px)', background: '#FFFBEE', overflow: 'hidden' }}>
+      <section id="hero" aria-label="Hero" style={{ padding: 'clamp(56px, 7vw, 88px) 32px clamp(48px, 6vw, 80px)', background: 'radial-gradient(ellipse 90% 130% at 88% 45%, #FAEDC2 0%, #FDF6DE 42%, #FFFBEE 72%)', overflow: 'hidden' }}>
         <div className="hero-grid" style={{ maxWidth: '1100px', margin: '0 auto' }}>
 
           {/* Left: text */}
@@ -451,21 +451,6 @@ export default function HomePage() {
           {/* Right: Daily digest app preview over the butter circle */}
           <div className="hero-chips" style={{ position: 'relative', height: '480px' }}>
 
-            {/* The one bold graphic gesture: a big butter circle bleeding off the page edge */}
-            <div aria-hidden style={{
-              position: 'absolute',
-              top: '50%',
-              right: 'max(-180px, -14vw)',
-              transform: 'translateY(-50%)',
-              width: 'min(620px, 52vw)',
-              height: 'min(620px, 52vw)',
-              minWidth: '420px',
-              minHeight: '420px',
-              borderRadius: '50%',
-              background: 'var(--terracotta)',
-              zIndex: 0,
-            }} />
-
             {/* Main app preview card */}
             <div style={{
               position: 'absolute',
@@ -474,7 +459,7 @@ export default function HomePage() {
               right: '30px',
               background: '#fff',
               borderRadius: '24px',
-              boxShadow: '0 30px 80px rgba(26,26,46,0.18)',
+              boxShadow: '0 24px 70px rgba(26,26,46,0.14)',
               border: '1px solid rgba(0,0,0,0.05)',
               overflow: 'hidden',
               zIndex: 1,
