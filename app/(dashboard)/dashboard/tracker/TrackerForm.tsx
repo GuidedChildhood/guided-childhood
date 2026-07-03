@@ -22,7 +22,7 @@ const CONCERN_COLOR: Record<string, string> = {
   none: 'var(--terracotta)',
   low: 'var(--stage-2-bold)',
   medium: 'var(--stage-5-bold)',
-  high: '#dc2626',
+  high: 'var(--danger)',
 }
 
 export type WellbeingCheck = {

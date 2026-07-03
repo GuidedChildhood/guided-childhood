@@ -147,7 +147,7 @@ export default function DailyDeckViewer({
             width: 72, height: 72, borderRadius: '50%',
             background: 'var(--terracotta)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: '28px', color: '#fff', margin: '0 auto 16px',
+            fontSize: '28px', color: 'var(--ink)', margin: '0 auto 16px',
             boxShadow: '0 6px 0 var(--terracotta-dark)',
           }}>✓</div>
           <h2 style={{
@@ -282,7 +282,7 @@ export default function DailyDeckViewer({
             border: 'none', borderRadius: '16px',
             fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700,
             letterSpacing: '.08em', textTransform: 'uppercase',
-            color: '#fff', cursor: 'pointer',
+            color: 'var(--ink)', cursor: 'pointer',
             boxShadow: '0 5px 0 var(--terracotta-dark)',
           }}
         >
@@ -427,7 +427,7 @@ export default function DailyDeckViewer({
             border: 'none', borderRadius: '14px',
             fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700,
             letterSpacing: '.08em', textTransform: 'uppercase',
-            color: '#fff', cursor: 'pointer',
+            color: 'var(--ink)', cursor: 'pointer',
             boxShadow: '0 4px 0 var(--terracotta-dark)',
           }}
         >

@@ -171,7 +171,7 @@ export default function PathwayPage() {
                           Stage {stage.id} · {stage.ages}
                         </span>
                         {stage.isCritical && (
-                          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '.56rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: '#fff', background: 'var(--terracotta)', padding: '4px 10px', borderRadius: '8px' }}>
+                          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '.56rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--ink)', background: 'var(--terracotta)', padding: '4px 10px', borderRadius: '8px' }}>
                             Critical window
                           </span>
                         )}

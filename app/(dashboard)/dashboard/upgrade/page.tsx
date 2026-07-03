@@ -50,7 +50,7 @@ export default async function UpgradePage() {
       {/* Guarantee */}
       <div style={{ background: 'var(--stage-2)', border: '1px solid var(--stage-2)', borderRadius: '14px', padding: '14px 18px', marginBottom: '28px', textAlign: 'center' }}>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--terracotta)', letterSpacing: '0.08em' }}>
-          30-DAY MONEY-BACK GUARANTEE · NO QUESTIONS ASKED
+          30 DAY MONEY BACK GUARANTEE · NO QUESTIONS ASKED
         </span>
       </div>
 
@@ -116,20 +116,68 @@ export default async function UpgradePage() {
           </div>
         )}
 
-        {/* Standard monthly */}
+        {/* Annual — the default choice */}
+        <div style={{ background: 'var(--cream)', border: '3px solid var(--terracotta)', borderRadius: '20px', padding: '24px', position: 'relative' }}>
+          <div style={{
+            position: 'absolute',
+            top: '-12px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            background: 'var(--terracotta)',
+            color: 'var(--ink)',
+            fontFamily: 'var(--font-mono)',
+            fontSize: '10px',
+            fontWeight: 600,
+            letterSpacing: '0.1em',
+            textTransform: 'uppercase',
+            padding: '5px 16px',
+            borderRadius: '100px',
+            whiteSpace: 'nowrap',
+          }}>
+            Best value · Save £57 a year
+          </div>
+          <p className="eyebrow" style={{ marginBottom: '10px', marginTop: '4px' }}>Annual</p>
+          <div style={{ marginBottom: '16px' }}>
+            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '2.5rem', color: 'var(--ink)' }}>£99</span>
+            <span style={{ color: 'var(--ink-muted)', fontSize: '14px' }}> / year</span>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--terracotta)', marginTop: '4px' }}>
+              Works out at £8.25 a month
+            </div>
+          </div>
+          <ul style={{ margin: '0 0 22px', padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            {[
+              'All 5 stages as your child grows',
+              'Unlimited DiGi conversations',
+              '100 plus expert scripts',
+              'Wellbeing tracker with trend chart',
+              'Family agreement builder',
+              'One payment, a full year of the pathway',
+            ].map((item, i) => (
+              <li key={i} style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                <span style={{ color: 'var(--terracotta)', fontSize: '14px' }}>✓</span>
+                <span style={{ fontSize: '14px', color: 'var(--ink-soft)' }}>{item}</span>
+              </li>
+            ))}
+          </ul>
+          <form action="/api/stripe/checkout" method="POST">
+            <input type="hidden" name="tier" value="annual" />
+            <button type="submit" className="btn btn-gold" style={{ width: '100%', justifyContent: 'center', fontSize: '15px', padding: '16px' }}>
+              Start annual, £99 a year
+            </button>
+          </form>
+        </div>
+
+        {/* Monthly — the downgrade option */}
         <div style={{ background: 'var(--cream)', border: '2px solid var(--border)', borderRadius: '20px', padding: '24px' }}>
-          <p className="eyebrow" style={{ marginBottom: '10px' }}>Standard</p>
+          <p className="eyebrow" style={{ marginBottom: '10px' }}>Monthly</p>
           <div style={{ marginBottom: '16px' }}>
             <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '2rem', color: 'var(--ink)' }}>£12.99</span>
             <span style={{ color: 'var(--ink-muted)', fontSize: '14px' }}> / month</span>
           </div>
           <ul style={{ margin: '0 0 22px', padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {[
-              'All 5 stages',
-              'Unlimited DiGi',
-              '100 plus expert scripts',
-              'Wellbeing tracker',
-              'Family agreement builder',
+              'Everything in Annual',
+              'Pay month to month',
               'Cancel any time',
             ].map((item, i) => (
               <li key={i} style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
@@ -141,51 +189,7 @@ export default async function UpgradePage() {
           <form action="/api/stripe/checkout" method="POST">
             <input type="hidden" name="tier" value="standard" />
             <button type="submit" className="btn btn-ink" style={{ width: '100%', justifyContent: 'center' }}>
-              Start standard, £12.99 a month
-            </button>
-          </form>
-        </div>
-
-        {/* Annual */}
-        <div style={{ background: 'var(--cream)', border: '2px solid var(--border)', borderRadius: '20px', padding: '24px', position: 'relative' }}>
-          <div style={{
-            position: 'absolute',
-            top: '-12px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            background: 'var(--terracotta)',
-            color: '#fff',
-            fontFamily: 'var(--font-mono)',
-            fontSize: '10px',
-            fontWeight: 600,
-            letterSpacing: '0.1em',
-            textTransform: 'uppercase',
-            padding: '5px 16px',
-            borderRadius: '100px',
-            whiteSpace: 'nowrap',
-          }}>
-            Save £57 a year
-          </div>
-          <p className="eyebrow" style={{ marginBottom: '10px', marginTop: '4px' }}>Annual</p>
-          <div style={{ marginBottom: '16px' }}>
-            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '2rem', color: 'var(--ink)' }}>£99</span>
-            <span style={{ color: 'var(--ink-muted)', fontSize: '14px' }}> / year</span>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--terracotta)', marginTop: '4px' }}>
-              Equivalent to £8.25 / month
-            </div>
-          </div>
-          <ul style={{ margin: '0 0 22px', padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            {['Everything in Standard', 'One payment, full year', 'Best value'].map((item, i) => (
-              <li key={i} style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                <span style={{ color: 'var(--terracotta)', fontSize: '14px' }}>✓</span>
-                <span style={{ fontSize: '14px', color: 'var(--ink-soft)' }}>{item}</span>
-              </li>
-            ))}
-          </ul>
-          <form action="/api/stripe/checkout" method="POST">
-            <input type="hidden" name="tier" value="annual" />
-            <button type="submit" className="btn btn-green" style={{ width: '100%', justifyContent: 'center' }}>
-              Start annual, £99 a year
+              Prefer monthly? £12.99 a month
             </button>
           </form>
         </div>

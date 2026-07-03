@@ -16,16 +16,20 @@ export interface RecommendedScript {
 // scripts in the category matching what they told us their main concern
 // was at signup, skips anything already completed, falls back to sort
 // order within the stage if everything matching is already done.
+// With preferFree set, free scripts win over paid ones at every step, so
+// an unpaid parent following "open my recommended script" is never routed
+// into the script reader's paywall redirect.
 export async function getRecommendedScript(
   supabase: SupabaseClient,
   userId: string,
   stageId: StageId,
-  challenge: ChallengeId | null | undefined
+  challenge: ChallengeId | null | undefined,
+  opts?: { preferFree?: boolean }
 ): Promise<RecommendedScript | null> {
   const [{ data: scripts }, { data: completions }] = await Promise.all([
     supabase
       .from('scripts')
-      .select('sort_order, title, situation, category')
+      .select('sort_order, title, situation, category, is_free')
       .eq('stage_id', stageId)
       .order('sort_order', { ascending: true }),
     supabase
@@ -43,11 +47,20 @@ export async function getRecommendedScript(
   const matchCategory = challenge ? CHALLENGE_TO_CATEGORY[challenge] : null
   const matching = matchCategory ? notDone.filter(s => s.category === matchCategory) : []
 
-  const chosen = matching[0] ?? notDone[0]
+  const pick = (pool: typeof notDone) =>
+    opts?.preferFree ? (pool.find(s => s.is_free) ?? pool[0]) : pool[0]
+
+  let chosen = matching.length > 0 ? pick(matching) : pick(notDone)
+  if (opts?.preferFree && !chosen.is_free) {
+    // Nothing free matched the challenge: any free script in the stage
+    // beats a paid one the parent cannot open yet.
+    chosen = pick(notDone)
+  }
+
   return {
     sort_order: chosen.sort_order,
     title: chosen.title,
     situation: chosen.situation,
-    matchesChallenge: matching.length > 0 && chosen === matching[0],
+    matchesChallenge: matching.some(s => s.sort_order === chosen.sort_order),
   }
 }

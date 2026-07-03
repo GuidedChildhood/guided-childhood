@@ -2,6 +2,8 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
 import MarkLessonDone from '@/components/lessons/MarkLessonDone'
+import LessonPlayer from '@/components/lessons/LessonPlayer'
+import { parseSlides } from '@/lib/content/lesson-slides'
 
 const AUDIENCE_LABEL: Record<string, { label: string; bg: string }> = {
   age_7:   { label: 'Age 7',    bg: 'var(--stage-1)' },
@@ -32,6 +34,7 @@ type Lesson = {
   try_this: string
   key_message: string
   digi_prompt: string
+  slides: unknown
 }
 
 export default async function AiLessonPage({ params }: { params: Promise<{ id: string }> }) {
@@ -42,12 +45,38 @@ export default async function AiLessonPage({ params }: { params: Promise<{ id: s
 
   const { data } = await supabase
     .from('ai_lessons')
-    .select('id, audience, category, title, the_idea, why_it_matters, try_this, key_message, digi_prompt')
+    .select('id, audience, category, title, the_idea, why_it_matters, try_this, key_message, digi_prompt, slides')
     .eq('id', id)
     .maybeSingle()
 
   const lesson = data as Lesson | null
   if (!lesson) notFound()
+
+  const slides = parseSlides(lesson.slides)
+
+  // Slide lessons render in the interactive player; the four section layout
+  // below remains the fallback for lessons without slides yet.
+  if (slides) {
+    return (
+      <div style={{ maxWidth: '620px', margin: '0 auto', padding: '24px 20px 48px' }}>
+        <div style={{ marginBottom: '20px' }}>
+          <Link
+            href="/dashboard/ai-module"
+            style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '13px', color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}
+          >
+            ← All lessons
+          </Link>
+        </div>
+        <LessonPlayer
+          lessonId={lesson.id}
+          lessonSource="ai_lesson"
+          slides={slides}
+          backHref="/dashboard/ai-module"
+          digiPrompt={lesson.digi_prompt}
+        />
+      </div>
+    )
+  }
 
   const { data: completion } = await supabase
     .from('lesson_completions')
@@ -98,7 +127,7 @@ export default async function AiLessonPage({ params }: { params: Promise<{ id: s
           >
             <div style={{
               width: '36px', height: '36px', borderRadius: '50%',
-              background: 'var(--terracotta)', color: '#fff',
+              background: 'var(--terracotta)', color: 'var(--ink)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               fontSize: '16px', fontWeight: 800, flexShrink: 0, fontFamily: 'var(--font-display)',
             }}>

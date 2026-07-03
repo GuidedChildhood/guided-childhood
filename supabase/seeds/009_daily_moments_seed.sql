@@ -428,7 +428,7 @@ INSERT INTO public.daily_moments (title, category, age_bands, icon, science_brie
 ('Guilt and shame responses',
  'Emotions', ARRAY['4-7','8-11','12-15'],
  '😞',
- 'Shame (''I am bad'') is destructive to self-concept; guilt (''I did something bad'') is functional and motivates repair — parental language shapes which response children develop.',
+ 'Shame (''I am bad'') is destructive to self-concept, guilt (''I did something bad'') is functional and motivates repair — parental language shapes which response children develop.',
  'When something goes wrong, do they tend to go very quiet and withdraw, or do they lash out, or is it a mix?',
  '["Focus language on the behaviour, never the person: ''That was unkind'' not ''you are unkind.''", "When they do something wrong, model repair rather than punishment: ''What do you think would make this right?''", "Excessive guilt and shame in children can flag perfectionism or anxiety — watch whether it generalises beyond specific incidents."]',
  NULL,

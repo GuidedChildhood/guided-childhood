@@ -6,13 +6,14 @@ import type { Moment } from '@/components/cards/MomentCard'
 import MomentCard from '@/components/cards/MomentCard'
 import PushPrompt from '@/components/push/PushPrompt'
 import DeviceSetupBanner from '@/components/device/DeviceSetupBanner'
+import DigiPrompts from '@/components/digi/DigiPrompts'
 
 const STAGE_COLORS = {
-  1: { bg: 'var(--stage-1)', text: 'var(--ink)', border: 'var(--stage-1)' },
-  2: { bg: 'var(--stage-2)', text: 'var(--ink)', border: 'var(--stage-2)' },
-  3: { bg: 'var(--stage-3)', text: 'var(--ink)', border: 'var(--stage-3)' },
-  4: { bg: 'var(--stage-4)', text: 'var(--ink)', border: 'var(--stage-4)' },
-  5: { bg: 'var(--stage-5)', text: 'var(--ink)', border: 'var(--stage-5)' },
+  1: { bg: 'var(--stage-1)', bold: 'var(--stage-1-bold)', text: 'var(--stage-1-text)', border: 'var(--stage-1)' },
+  2: { bg: 'var(--stage-2)', bold: 'var(--stage-2-bold)', text: 'var(--stage-2-text)', border: 'var(--stage-2)' },
+  3: { bg: 'var(--stage-3)', bold: 'var(--stage-3-bold)', text: 'var(--stage-3-text)', border: 'var(--stage-3)' },
+  4: { bg: 'var(--stage-4)', bold: 'var(--stage-4-bold)', text: 'var(--stage-4-text)', border: 'var(--stage-4)' },
+  5: { bg: 'var(--stage-5)', bold: 'var(--stage-5-bold)', text: 'var(--stage-5-text)', border: 'var(--stage-5)' },
 } as const
 
 const WEEKLY_ACTIONS = [
@@ -93,7 +94,7 @@ export default async function DashboardPage() {
             <span style={{
               fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600,
               letterSpacing: '0.1em', textTransform: 'uppercase',
-              background: stageColor.text, color: stageColor.bg,
+              background: stageColor.bold, color: stageColor.text,
               padding: '3px 10px', borderRadius: '100px',
             }}>
               Stage {stage.id} · {stage.name}
@@ -102,7 +103,7 @@ export default async function DashboardPage() {
               <span style={{
                 fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 600,
                 letterSpacing: '0.08em', textTransform: 'uppercase',
-                background: 'var(--terracotta)', color: '#fff',
+                background: 'var(--terracotta)', color: 'var(--ink)',
                 padding: '3px 8px', borderRadius: '100px',
               }}>
                 Critical window
@@ -124,6 +125,9 @@ export default async function DashboardPage() {
           </div>
         )}
       </div>
+
+      {/* DiGi leads: proactive watch fors, tips and parent care */}
+      <DigiPrompts />
 
       {/* Continue Your Progress — primary hero card */}
       <Link href="/dashboard/daily" style={{ textDecoration: 'none', display: 'block', marginBottom: '20px' }}>
@@ -346,6 +350,28 @@ export default async function DashboardPage() {
             </div>
             <div style={{ fontSize: '13px', color: 'var(--ink)' }}>
               Deepfakes, chatbots, and using it well. Calm lessons for every age.
+            </div>
+          </div>
+          <span style={{ fontSize: '18px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>
+        </div>
+      </Link>
+
+      {/* Family agreement discovery */}
+      <Link href="/dashboard/agreement" style={{ textDecoration: 'none', display: 'block', marginBottom: '12px' }}>
+        <div style={{
+          background: 'var(--stage-1)', border: '1.5px solid var(--stage-1)',
+          borderRadius: '16px', padding: '22px',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px',
+        }}>
+          <div>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '6px' }}>
+              Made together
+            </div>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)', marginBottom: '3px' }}>
+              Build your family agreement
+            </div>
+            <div style={{ fontSize: '13px', color: 'var(--ink)' }}>
+              Five conversations, one signed agreement, printed for the fridge.
             </div>
           </div>
           <span style={{ fontSize: '18px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>

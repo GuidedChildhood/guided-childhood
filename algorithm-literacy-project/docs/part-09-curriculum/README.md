@@ -24,11 +24,12 @@ These aims sit on top of, not instead of, ordinary online safety teaching. Safet
 
 ## Our stance, carried into the classroom
 
-We keep the three rules from Part 4 in every lesson.
+We keep the three rules from Part 4 in every lesson, plus a fourth this part adds.
 
 - **Systems, not villains.** Apps are built to keep people watching because that is how they earn. That is an incentive, not a plot. We explain the machine. We do not demonise the people who built it.
 - **Power, not panic.** Every lesson ends with the child more capable, not more frightened. The point is agency.
 - **True, but right-sized.** A Year 2 child gets a smaller true picture. A Year 11 student gets close to the real engineering. Nobody has to unlearn what we taught them earlier.
+- **Capability, not just defence.** The programme models the upside as deliberately as the risk. Lessons include success stories (invented, realistic, platform-neutral): a feed trained into a genuine asset, a young person who learned a craft or started something because they steered instead of drifted. Children copy what they see celebrated, so we celebrate steering well, not just avoiding harm.
 
 Teachers should stay neutral about platforms. Name a behaviour ("watching to the end") rather than a brand. This keeps the lesson legal-safe, future-proof, and fair to children who use different apps or, under current UK policy, none of the named platforms at all.
 
@@ -75,7 +76,7 @@ The programme is eighteen taught units. A school can run the whole spiral across
 | 4.4 | KS4 | Y11 | Design a kinder feed | Alternative objectives | Part 6, Part 7 |
 | 4.5 | KS4 | Y11 | Can we change the algorithms? | Feasibility and ethics | Part 7 |
 
-Eight of these units are written up in full in `lesson-plans.md`. The rest share their structure and can be built from the same template; the lesson plans file flags which ones reuse which design.
+Nine of these units are written up in full in `lesson-plans.md`, including Unit 3.5, the KS3 capstone audit lesson. The rest share their structure and can be built from the same template; the lesson plans file flags which ones reuse which design.
 
 ---
 
@@ -121,14 +122,36 @@ A child who reaches the top rung is not cynical and not frightened. They underst
 
 ---
 
+## From steering feeds to steering AI
+
+The audit skill is not just self-defence. It is the entry-level version of the defining work skill of these children's adulthood: directing AI systems on purpose.
+
+A recommender and an AI assistant are the same family of machine. Each has an objective, reads the signals you send, and produces output you must judge against your own goal, not the system's. A young person who can read a feed's objective, send deliberate signals, and ask "is this serving me or just holding me" already has the core moves for working with AI: writing a clear brief for an assistant, checking an answer instead of swallowing it, steering an AI agent through a task, and noticing when the tool's easy path and their real goal have quietly split (using AI to learn versus using it to avoid learning is the same serving-or-holding question in new clothes).
+
+The curriculum carries this forward layer in three places. The KS3 audit lesson (Unit 3.5) names the transfer out loud in its closing beat. The KS4 block goes further: a student who can design an objective function and break their own metric (Unit 4.4) is doing, at sixteen, the actual work of AI product design. And the success stories woven through the programme include young builders: people who trained a feed around a craft until it taught them, then used AI tools to make and sell what they learned. That path, creator, builder, AI-fluent entrepreneur, is a legitimate ambition this programme treats as discussable in a classroom, with the same honesty as everything else: named as possible, never promised as easy.
+
+None of this needs new hardware or a coding unit. It is a framing carried by teachers: every time a child steers a system instead of being steered, say so. That habit of mind is the future AI skill, and it is teachable at nine.
+
+---
+
+## Social media, and the arrival at 16
+
+Under current UK policy, access to the named social media platforms begins at 16. The programme treats that as the reason to teach social media early, not the reason to skip it. Every mechanism in this curriculum, chosen feeds, signals, the loop, bubbles, virality, is exactly how social media works, taught on neutral ground years before the doors open, and never in a way that assumes access or implies getting around the rules.
+
+That gives the spiral a destination you can say out loud to a Year 9 class: the arrival. A fresh social media account learns fastest, so the first week decides what the feed becomes, and a young person who has walked this spiral arrives at 16 with trained habits instead of a blank stare: they set the account up deliberately, run an audit at the end of week one, and already know the difference between a feed serving them and holding them. The KS3 audit lesson (Unit 3.5) names the arrival explicitly, the Mystery Feed game includes a brand-new-account persona to rehearse it, and Workshop 2 gives parents the arrival conversation for home.
+
+Social media's upside gets the same honesty as its risks, in line with the capability stance: communities that welcome a niche interest, crafts learned in public, creators who built real audiences and real businesses around what they make. All of it is reachable by a person who steers, which is who this programme graduates.
+
+---
+
 ## Files in this part
 
 - `README.md`: this overview.
-- `lesson-plans.md`: eight full lesson plans, KS1 to KS4.
+- `lesson-plans.md`: nine full lesson plans, KS1 to KS4.
 - `teacher-guides.md`: subject primer, misconceptions, safeguarding, tricky questions.
 - `parent-workshops.md`: two ready-to-run 60 minute workshops.
-- `games-and-experiments.md`: six unplugged and plugged-in activities.
-- `worksheets.md`: six printable worksheets with answer notes.
+- `games-and-experiments.md`: seven unplugged and plugged-in activities.
+- `worksheets.md`: seven printable worksheets with answer notes.
 - `assessment.md`: a 30+ question bank by Key Stage and Bloom level, plus an end-of-unit project rubric.
 - `animation-briefs.md`: five short explainer animation briefs.
 

@@ -185,9 +185,9 @@ export default async function JoinPage() {
           {/* Social proof row */}
           <div style={{ display: 'flex', gap: '24px', justifyContent: 'center', flexWrap: 'wrap', marginTop: '40px', paddingTop: '32px', borderTop: '1px solid var(--border)' }}>
             {[
-              { num: '131', label: 'Families on the pathway' },
+              { num: '100+', label: 'Science based expert scripts' },
               { num: '5', label: 'Stages · Ages 4 to 16' },
-              { num: '17', label: 'Conversation scripts' },
+              { num: '10 min', label: 'A week is all it takes' },
               { num: '20', label: 'Issues covered' },
             ].map((s, i) => (
               <div key={i} style={{ textAlign: 'center' }}>
@@ -203,7 +203,7 @@ export default async function JoinPage() {
       <div style={{ background: 'var(--stage-2)', borderTop: '1px solid var(--stage-2)', borderBottom: '1px solid var(--stage-2)', padding: '14px 32px', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '28px', flexWrap: 'wrap' }}>
         {['30 day money back guarantee', 'Cancel any time', 'No lock-in'].map((item, i) => (
           <span key={i} style={{ display: 'flex', alignItems: 'center', gap: '7px', fontFamily: 'var(--font-mono)', fontSize: '.68rem', fontWeight: 600, letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>
-            <span style={{ width: '16px', height: '16px', borderRadius: '50%', background: 'var(--terracotta)', color: '#fff', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: '.6rem', flexShrink: 0 }}>✓</span>
+            <span style={{ width: '16px', height: '16px', borderRadius: '50%', background: 'var(--terracotta)', color: 'var(--ink)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: '.6rem', flexShrink: 0 }}>✓</span>
             {item}
           </span>
         ))}
@@ -212,7 +212,7 @@ export default async function JoinPage() {
       {/* ================================================================
           STAGE CARDS
           ================================================================ */}
-      <section className="section-lg" style={{ background: '#FDFBF8' }}>
+      <section className="section-lg" style={{ background: 'var(--cream)' }}>
         <div style={{ maxWidth: '1080px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '44px' }}>
             <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>Five stages</p>
@@ -240,7 +240,7 @@ export default async function JoinPage() {
                   <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: color.accent }} />
 
                   {stage.isCritical && (
-                    <span style={{ display: 'inline-flex', alignSelf: 'flex-start', background: 'var(--terracotta)', color: '#fff', fontFamily: 'var(--font-mono)', fontSize: '.58rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', padding: '3px 8px', borderRadius: '100px', marginBottom: '8px' }}>
+                    <span style={{ display: 'inline-flex', alignSelf: 'flex-start', background: 'var(--terracotta)', color: 'var(--ink)', fontFamily: 'var(--font-mono)', fontSize: '.58rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', padding: '3px 8px', borderRadius: '100px', marginBottom: '8px' }}>
                       Critical window
                     </span>
                   )}
@@ -267,14 +267,14 @@ export default async function JoinPage() {
                     marginTop: '12px',
                     fontSize: '.72rem',
                     fontWeight: 700,
-                    color: stage.isCritical ? '#fff' : 'var(--ink)',
-                    background: stage.isCritical ? 'var(--terracotta)' : color.accent,
+                    color: 'var(--ink)',
+                    background: 'var(--terracotta)',
                     padding: '8px 14px',
                     borderRadius: '10px',
                     fontFamily: 'var(--font-mono)',
                     letterSpacing: '.02em',
                     textDecoration: 'none',
-                    boxShadow: stage.isCritical ? '0 3px 0 rgba(192,57,43,.4)' : `0 3px 0 ${color.text}44`,
+                    boxShadow: '0 3px 0 var(--terracotta-dark)',
                   }}>
                     Start here →
                   </Link>
@@ -357,14 +357,14 @@ export default async function JoinPage() {
               width: '72px',
               height: '72px',
               borderRadius: '50%',
-              background: 'linear-gradient(135deg, var(--green) 0%, rgba(175,220,162,.4) 100%)',
+              background: 'var(--terracotta)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               fontFamily: 'var(--font-display)',
               fontWeight: 800,
               fontSize: '1.4rem',
-              color: '#fff',
+              color: 'var(--ink)',
               flexShrink: 0,
               boxShadow: '0 6px 24px rgba(0,0,0,.2)',
               letterSpacing: '-.02em',
@@ -408,7 +408,7 @@ export default async function JoinPage() {
       {/* ================================================================
           EXPERT BENCH
           ================================================================ */}
-      <section className="section-lg" style={{ background: '#FDFBF8' }}>
+      <section className="section-lg" style={{ background: 'var(--cream)' }}>
         <div style={{ maxWidth: '920px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '40px' }}>
             <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>The research bench</p>
@@ -513,7 +513,7 @@ export default async function JoinPage() {
       {/* ================================================================
           TESTIMONIALS
           ================================================================ */}
-      <section className="section-lg" style={{ background: '#FDFBF8' }}>
+      <section className="section-lg" style={{ background: 'var(--cream)' }}>
         <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '44px' }}>
             <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>What parents say</p>
@@ -638,7 +638,7 @@ export default async function JoinPage() {
           {/* Standard + Annual */}
           <div className="two-col-issues" style={{ gap: '16px' }}>
             {/* Standard */}
-            <div style={{ background: '#FDFBF8', border: '1.5px solid var(--border)', borderRadius: '20px', padding: '28px' }}>
+            <div style={{ background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: '20px', padding: '28px' }}>
               <p className="eyebrow" style={{ marginBottom: '12px' }}>Standard</p>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: '3px', marginBottom: '20px' }}>
                 <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '2.4rem', color: 'var(--ink)', lineHeight: 1, letterSpacing: '-.03em' }}>£12.99</span>
@@ -659,7 +659,7 @@ export default async function JoinPage() {
 
             {/* Annual */}
             <div style={{ background: 'var(--stage-2)', border: '2px solid var(--terracotta)', borderRadius: '20px', padding: '28px', position: 'relative' }}>
-              <div style={{ position: 'absolute', top: '-13px', left: '50%', transform: 'translateX(-50%)', background: 'var(--terracotta)', color: '#fff', fontFamily: 'var(--font-mono)', fontSize: '.68rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', padding: '6px 16px', borderRadius: '100px', whiteSpace: 'nowrap' }}>
+              <div style={{ position: 'absolute', top: '-13px', left: '50%', transform: 'translateX(-50%)', background: 'var(--terracotta)', color: 'var(--ink)', fontFamily: 'var(--font-mono)', fontSize: '.68rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', padding: '6px 16px', borderRadius: '100px', whiteSpace: 'nowrap' }}>
                 Save £57
               </div>
               <p className="eyebrow" style={{ marginBottom: '12px', marginTop: '8px', color: 'var(--terracotta)' }}>Annual</p>
@@ -689,7 +689,7 @@ export default async function JoinPage() {
       {/* ================================================================
           FAQ
           ================================================================ */}
-      <section className="section-lg" style={{ background: '#FDFBF8' }}>
+      <section className="section-lg" style={{ background: 'var(--cream)' }}>
         <div style={{ maxWidth: '700px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '36px' }}>
             <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>Questions</p>
@@ -724,7 +724,7 @@ export default async function JoinPage() {
       </section>
 
       {/* Footer */}
-      <footer style={{ borderTop: '1px solid var(--border)', padding: '36px 32px', background: '#FDFBF8' }}>
+      <footer style={{ borderTop: '1px solid var(--border)', padding: '36px 32px', background: 'var(--cream)' }}>
         <div style={{ maxWidth: '1080px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '18px', alignItems: 'center' }}>
           <Link href="/" style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '.92rem', color: 'var(--ink)', textDecoration: 'none' }}>
             Guided Childhood

@@ -1,6 +1,6 @@
 # Worksheets
 
-Six printable worksheets, varied by Key Stage. Plain markdown, so they print or photocopy cleanly. Teacher answer notes are marked clearly and are for you, not the pupil, so cut them off before copying, or copy only the pupil section above the line.
+Seven printable worksheets, varied by Key Stage. Plain markdown, so they print or photocopy cleanly. Teacher answer notes are marked clearly and are for you, not the pupil, so cut them off before copying, or copy only the pupil section above the line.
 
 All examples are invented and platform-neutral. Children write about "a feed" or "an app", never a brand.
 
@@ -184,3 +184,59 @@ ____________________________________________
 ____________________________________________
 
 > **Teacher answer note.** There is no single right answer, this is evaluate-and-create level. Strong responses: Q2 honestly transcribes Part 7 scores (sleep, learning, physical activity, family time score better; empathy, confidence, wellbeing score worse). Q3 names a concrete, observable signal and admits its noise. Q4 shows real Goodhart thinking (optimise quiz scores, feed floods trivially easy quizzes; optimise sleep, feed just nags at bedtime). Q5 connects to the advertising business model and lost engagement. Q6 wrestles honestly with consent and who decides, with no tidy answer. Reward honesty about trade-offs over slick utopian pitches.
+
+---
+
+## Worksheet G (KS3): Audit the Feed
+
+*Name: ____________________    Class: __________*
+
+A feed can be read backwards. What it serves is a record of the signals someone sent, including the accidental ones. Today you audit a mystery feed. The back page is a private version for your own, only if you choose.
+
+**Sample feed for the starter (teacher reads aloud):** a gaming clip watched to the end · another clip from the same game · a third, longer one · a prank video · a phone unboxing. *(What is the machine betting? Probably: searched the game once, finished everything it sent, lingered on the prank by accident, and the unboxing is the machine exploring.)*
+
+**1. The detective work.** Look at your group's twelve feed cards. Pick the three kinds of card the feed serves most. For each, name the signal you think put it there: watched to the end / rewatched / searched / followed / lingered by accident.
+
+| What the feed keeps serving | The signal that probably trained it |
+|---|---|
+| | |
+| | |
+| | |
+
+**2. The machine's bet.** One sentence: "The machine thinks this person is ____________________."
+
+**3. Open the history card.** Which of your guesses were right? Which card in the feed came from an accidental signal?
+
+____________________________________________
+
+**4. Serving or holding?** Read the persona's goal card, then sort all twelve cards against it.
+
+Cards serving their goal: ____   Cards just holding their attention: ____
+
+**5. The reset prescription.** Write the persona one specific instruction for each reset action. Be concrete: "search three drawing tutorials and finish them" is a prescription, "use it less" is not.
+
+Clear the bad signals: ____________________________
+Search and finish good content: ____________________________
+Follow variety: ____________________________
+
+**6. The upside.** A deliberately trained feed can become a free tutor. Write one thing this persona could get genuinely good at if they trained their feed toward their goal for a month.
+
+____________________________________________
+
+---
+
+**The private page: your own audit. Optional. Take it home. Nobody collects this.**
+
+If you use anything with a feed (videos, music, games, shopping), try this over three days. If you want company, invite a parent or carer to run it alongside you, each of you on your own feed. They audit theirs, you audit yours, and you compare notes only if you both want to. Nobody grabs anybody's phone.
+
+**Day 1, eye level.** Open your most used app and look at the first five things. That is the machine's bet about you. Is it what you want to be known for? You do not have to write anything down.
+
+**Day 2, reset.** Run your own prescription: clear the bad signals (use "not interested", unfollow two things that leave you flat), search and finish three things you actually want more of, follow one thing outside your usual lane.
+
+**Day 3, look again.** What shifted? What does that tell you about whose hands are on the wheel?
+
+**And file this for later.** The best time to run an audit is the first week on any new app, because a fresh feed learns fastest and week one decides what it becomes. When social media opens up for you at 16, that first-week audit is the single most useful thing you will know how to do: set the account up on purpose, send strong signals toward what you actually want, and check at the end of the week what you trained. Arriving with habits beats arriving blank.
+
+**And one more thing.** The skill you just used, working out what a system is optimising for and steering it toward your goal instead, is the same skill people use to get good work out of AI tools. You will use it for the rest of your life. This was practice.
+
+> **Teacher answer note.** Q1 to Q3 mark against the pack's history card, but reward reasoned wrong guesses: the skill being taught is inference from behaviour, and the machine itself guesses wrong the same way. Q4 counts vary by pack; what matters is that the split exists and students can defend their sort. Q5: a strong prescription is specific and reaches for the strong signals (search, watch time), not just avoidance. Q6 is the positivity check: accept any concrete capability (a craft, a language, a sport skill, a school subject), and push back gently on vague answers like "be happier"; a trained feed teaches things, name the thing. The private page is never collected, never discussed unless a pupil volunteers, and never set as assessed homework. That deal is what makes it safe, keep it.

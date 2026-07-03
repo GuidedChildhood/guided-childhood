@@ -12,11 +12,11 @@
   --ink-light:         #AEAEC0;
   --border:            #EAEAF0;
 
-  /* ── ACCENT (slate teal) ── */
-  --terracotta:        #5B8FA8;
-  --terracotta-dark:   #3D7A8A;
-  --terracotta-lt:     #EAF1F5;
-  --deep-teal:         #173C46;   /* dark sections (footer, CTA) — brand teal, never black */
+  /* ── ACCENT (butter gold) ── */
+  --terracotta:        #EDC35F;   /* butter, softened a step toward pastel (was #E9B949) */
+  --terracotta-dark:   #C99A28;
+  --terracotta-lt:     #FEF7E0;
+  --deep-teal:         #2E2818;   /* dark sections (footer, CTA) — deep warm espresso, never black, never teal */
 
   /* ── STAGE PASTELS (card backgrounds, section tints) ── */
   --stage-1:           #FFFBEE;   /* barely-there warm yellow — Ages 4–7  */
@@ -43,6 +43,11 @@
   --pastel-pink:       #FBCFE8;
   --pastel-pink-deep:  #F9A8D4;
 
+  /* ── DANGER (the "not this" side of scripts, destructive actions) ── */
+  --danger:            #991B1B;
+  --danger-bg:         #FEF2F2;
+  --danger-border:     #FECACA;
+
   /* ── TINTS ── */
   --tint-blue:         #D8E8F8;
   --tint-sage:         #E8F0EE;
@@ -60,7 +65,7 @@
   --coral:             var(--terracotta);
   --coral-lt:          var(--stage-1);
   --coral-b:           var(--border);
-  --gold:              var(--stage-5);
+  --gold:              var(--stage-1-bold);
   --gold-lt:           var(--stage-5);
   --gold-dark:         var(--terracotta-dark);
   --lav:               var(--stage-4);
@@ -75,7 +80,7 @@
   --mono:         var(--font-mono);
 
   /* ── RADIUS ── */
-  --radius-btn:   12px;
+  --radius-btn:   16px;
   --radius-card:  24px;
   --r:            24px;
 }
@@ -104,7 +109,7 @@ h2 { font-size: clamp(1.9rem, 3.5vw, 2.8rem); }
 h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
 
 .eyebrow {
-  font-family: var(--font-body);
+  font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -119,7 +124,7 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
   justify-content: center;
   gap: 6px;
   background: var(--terracotta);
-  color: #fff;
+  color: var(--ink);
   font-family: var(--font-body);
   font-weight: 700;
   font-size: 15px;
@@ -127,7 +132,7 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
   padding: 14px 28px;
   border-radius: var(--radius-btn);
   border: none;
-  box-shadow: 0 4px 0 var(--terracotta-dark);
+  box-shadow: 0 5px 0 var(--terracotta-dark);
   cursor: pointer;
   text-decoration: none;
   transition: transform 0.1s, box-shadow 0.1s;
@@ -136,11 +141,11 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
 .btn:hover  { transform: translateY(-1px); box-shadow: 0 5px 0 var(--terracotta-dark); }
 .btn:active { transform: translateY(2px);  box-shadow: 0 2px 0 var(--terracotta-dark); }
 
-/* variant aliases — all teal */
+/* variant aliases — all butter gold */
 .btn-gold, .btn-green, .btn-coral {
   background: var(--terracotta);
-  color: #fff;
-  box-shadow: 0 4px 0 var(--terracotta-dark);
+  color: var(--ink);
+  box-shadow: 0 5px 0 var(--terracotta-dark);
 }
 .btn-gold:hover, .btn-green:hover, .btn-coral:hover {
   transform: translateY(-1px);
@@ -151,14 +156,14 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
   box-shadow: 0 2px 0 var(--terracotta-dark);
 }
 
-/* dark teal button — kept for schools CTA */
+/* dark espresso button — kept for schools CTA */
 .btn-ink {
   background: var(--deep-teal);
   color: #fff;
-  box-shadow: 0 4px 0 #0a2830;
+  box-shadow: 0 5px 0 #171307;
 }
-.btn-ink:hover  { transform: translateY(-1px); box-shadow: 0 5px 0 #0a2830; }
-.btn-ink:active { transform: translateY(2px);  box-shadow: 0 2px 0 #0a2830; }
+.btn-ink:hover  { transform: translateY(-1px); box-shadow: 0 5px 0 #171307; }
+.btn-ink:active { transform: translateY(2px);  box-shadow: 0 2px 0 #171307; }
 
 .btn-outline {
   display: inline-flex;
@@ -285,7 +290,7 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
   height: 48px;
   border-radius: 50%;
   background: var(--terracotta);
-  color: #fff;
+  color: var(--ink);
   font-family: var(--font-display);
   font-weight: 600;
   font-size: 1.1rem;
@@ -301,7 +306,7 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
   height: 30px;
   border-radius: 50%;
   background: var(--terracotta);
-  color: #fff;
+  color: var(--ink);
   font-family: var(--font-display);
   font-weight: 600;
   font-size: .75rem;
@@ -424,6 +429,10 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
 @media (max-width: 900px) { .four-col { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 480px) { .four-col { grid-template-columns: 1fr; } }
 
+/* Schools curriculum rows: stage label panel beside content, stacked on phones */
+.curriculum-row { grid-template-columns: 200px 1fr; }
+@media (max-width: 560px) { .curriculum-row { grid-template-columns: 1fr; } }
+
 .price-grid {
   display: grid;
   grid-template-columns: 1fr 1.08fr 1fr;
@@ -445,6 +454,43 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
 /* ── GSAP ── */
 .fu { will-change: transform, opacity; }
 
+/* ── SEGMENTED PILL NAV ── */
+.nav-pill {
+  padding: 8px 16px;
+  border-radius: 100px;
+  font-family: var(--font-body);
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  text-decoration: none;
+  transition: background 0.18s ease, color 0.18s ease;
+  white-space: nowrap;
+}
+.nav-pill:hover { background: #fff; color: var(--ink); }
+.nav-pill-active, .nav-pill-active:hover {
+  background: var(--deep-teal);
+  color: #fff;
+}
+
+/* ── POLISH PRIMITIVES ── */
+::selection { background: var(--terracotta-lt); color: var(--ink); }
+
+h1, h2, h3 { text-wrap: balance; }
+
+/* Cards that respond to the cursor: gentle lift, warm deepened shadow */
+.lift {
+  transition: transform 0.28s cubic-bezier(0.2, 0.6, 0.2, 1), box-shadow 0.28s cubic-bezier(0.2, 0.6, 0.2, 1);
+}
+.lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(26, 26, 46, 0.12);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .lift, .lift:hover { transition: none; transform: none; }
+}
+
 /* ── SCROLLBAR ── */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
@@ -459,7 +505,7 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
 
 /* ── ANNOUNCEMENT BAR ── */
 .announcement-bar {
-  background: #5B8FA8;
+  background: var(--deep-teal);
   padding: 10px 20px;
   display: flex;
   align-items: center;

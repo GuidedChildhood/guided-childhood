@@ -3,7 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 
 export async function POST(req: NextRequest) {
   const { lesson_id, lesson_source } = await req.json()
-  if (!lesson_id || !['lesson', 'ai_lesson'].includes(lesson_source)) {
+  if (!lesson_id || !['lesson', 'ai_lesson', 'school_lesson'].includes(lesson_source)) {
     return NextResponse.json({ error: 'missing or invalid lesson_id / lesson_source' }, { status: 400 })
   }
 
@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   const { lesson_id, lesson_source } = await req.json()
-  if (!lesson_id || !['lesson', 'ai_lesson'].includes(lesson_source)) {
+  if (!lesson_id || !['lesson', 'ai_lesson', 'school_lesson'].includes(lesson_source)) {
     return NextResponse.json({ error: 'missing or invalid lesson_id / lesson_source' }, { status: 400 })
   }
 
