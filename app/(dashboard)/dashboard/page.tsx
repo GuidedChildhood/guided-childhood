@@ -356,6 +356,28 @@ export default async function DashboardPage() {
         </div>
       </Link>
 
+      {/* Family agreement discovery */}
+      <Link href="/dashboard/agreements" style={{ textDecoration: 'none', display: 'block', marginBottom: '12px' }}>
+        <div style={{
+          background: 'var(--stage-1)', border: '1.5px solid var(--stage-1)',
+          borderRadius: '16px', padding: '22px',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px',
+        }}>
+          <div>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '6px' }}>
+              Family agreement
+            </div>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)', marginBottom: '3px' }}>
+              One agreement, both sides signed
+            </div>
+            <div style={{ fontSize: '13px', color: 'var(--ink)' }}>
+              Negotiate it together, print it for the fridge. Promises on both sides.
+            </div>
+          </div>
+          <span style={{ fontSize: '18px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>
+        </div>
+      </Link>
+
       {/* Digital Health Check discovery */}
       <Link href="https://wellbeing.guidedchildhood.com/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', display: 'block', marginBottom: '20px' }}>
         <div style={{

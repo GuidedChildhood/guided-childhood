@@ -124,3 +124,25 @@ Append-only. Read at session start. Updated at session end.
 3. School lesson module format: editable slides plus scripted teacher notes plus starter and exit quiz plus worksheet, full hour and 15 minute variants, scripted discussion not scripted lecture, sell the evidence trail not the lessons, £300 to £800 whole school licence, DiGi Squad characters as the distancing technique.
 
 **Queued when usage limit resets (3:20am UTC):** verification passes for all three briefings (V2), then kids-research on the science and history of recommendation algorithms and kids mental health, then content-engine pack including the scientific LinkedIn post.
+
+---
+
+## 2026-07-03 — Phase 2 of the finish roadmap: convert
+
+**Roadmap sync:** finish-parents-platform-roadmap.md checkboxes brought in line with reality. Phase 0 colour decision (butter and ink) and the merge to main (PR 53) were done but unticked. Phase 1 and Phase 2 build boxes now ticked with dates.
+
+**Honest numbers:** the fabricated "200 parents/families on their pathway" social proof (fake five stars included) removed from the homepage hero and final CTA. Replaced with true claims: 100 plus scripts, founding places capped at 50.
+
+**Activation moment:** onboarding now ends inside the parent's first recommended script, not on the dashboard. Both exits wired: the skip path fetches /api/onboarding/first-script, and the Stripe checkout success URL resolves the script server side when the form carries from=onboarding. Free scripts are preferred for unpaid users so the paywall redirect on the script reader can never bounce a brand new parent. The script reader shows a one time DiGi welcome strip when ?from=onboarding.
+
+**Challenge matching was silently dead:** CHALLENGE_TO_CATEGORY mapped to categories that do not exist in the scripts table (screen-habits, wellbeing, safety), and it only knew the old quiz ids while onboarding stores new ids (morning_tv, controller_fights...). Rebuilt against the real category vocabulary (family-rules, mental-health, gaming, cyberbullying, relationships, first-device) covering both id generations. getRecommendedScript now takes any challenge string plus a preferFree option.
+
+**Checkout defaults to annual:** upgrade page order is founder (while spots last), then annual as the bordered default card ("Most families choose this"), then monthly reframed as the downgrade ("Prefer monthly"). Dash violation in the guarantee strip fixed.
+
+**Family agreements builder shipped:** /dashboard/agreements, migration 021 (family_agreements, one per child, RLS). Clause library per stage in lib/content/agreements.ts grounded in the expert panel: both sides make promises (Dr Becky sturdy leadership), telling is always safe even after a broken rule (Knibbs), clauses that hold at 7pm on a Tuesday (Atkins). Repair plan instead of punishments, review date, print sheet with signature lines via @media print. Paid feature with a locked preview for free users; discovery card on dashboard home. The upgrade page stops selling something that does not exist.
+
+**Email system live in code (Resend):** lib/email/send.ts posts to the Resend REST API with no SDK, logged no-op without RESEND_API_KEY. The five Mailchimp drafts ported to lib/email/templates.ts with live data slots (first script, founder counter, real progress bar). Welcome fires from onboarding via /api/email/welcome; /api/email/cron (Vercel Cron daily 8am UTC) walks day 2, 4, 7 and the Monday digest. email_sends table (migration 022) makes every step idempotent; backfilled accounts get only the newest due step, never the whole sequence. Day 7 founder pitch skips paid users and stops when the 50 are gone. NEEDS IN VERCEL: RESEND_API_KEY, EMAIL_FROM, CRON_SECRET. Do not run the Mailchimp journey at the same time.
+
+**Service key env var split found:** four routes (including the Stripe webhook) read SUPABASE_SERVICE_KEY, the school inbound route read SUPABASE_SERVICE_ROLE_KEY. Whichever name is missing in Vercel silently breaks its routes. New lib/supabase/admin.ts accepts either name; the school route and both email routes now go through it. Check which name Vercel actually has when configuring.
+
+**Verified:** next build green (all routes compile, TypeScript clean). Homepage checked in the browser at 390px and 1440px, copy changes confirmed rendered. Authed pages could not be browser checked in this environment (no Supabase credentials); verify /dashboard/agreements and the onboarding exit on the Vercel preview before merging.

@@ -34,10 +34,14 @@ type ScriptRow = {
 
 export default async function ScriptDetailPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ id: string }>
+  searchParams: Promise<{ from?: string }>
 }) {
   const { id } = await params
+  const { from } = await searchParams
+  const fromOnboarding = from === 'onboarding'
   const sortOrder = parseInt(id, 10)
   if (isNaN(sortOrder) || sortOrder < 1) notFound()
 
@@ -75,6 +79,21 @@ export default async function ScriptDetailPage({
 
   return (
     <div style={{ maxWidth: '680px', margin: '0 auto', padding: '24px 20px 48px' }}>
+
+      {/* First script welcome, shown once when onboarding lands here */}
+      {fromOnboarding && (
+        <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', background: 'var(--terracotta-lt)', border: '1.5px solid var(--border)', borderRadius: '16px', padding: '16px 18px', marginBottom: '24px' }}>
+          <img src="/digi-squad/DiGi-star.svg" alt="" width={40} height={40} style={{ flexShrink: 0 }} />
+          <div>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '6px' }}>
+              Your first script
+            </div>
+            <p style={{ fontSize: '14px', color: 'var(--ink)', lineHeight: 1.6, margin: 0 }}>
+              Picked from what you just told me. Read it once now, then use it tonight. Everything else can wait.
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* Back */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px', flexWrap: 'wrap', gap: '8px' }}>

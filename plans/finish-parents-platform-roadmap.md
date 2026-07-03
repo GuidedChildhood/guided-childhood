@@ -31,34 +31,34 @@
 
 Goal: the three blockers only Justin can clear are cleared.
 
-- [ ] Pick the accent colour: honey gold, warm coral with yellow pastels, or keep the slate teal (screenshots provided, all Good Inside adjacent, one token file change either way)
-- [ ] Approve merging PR 43 to production
+- [x] Pick the accent colour: butter and ink chosen, teal fully retired (rebrand landed 2026-07-01)
+- [x] Approve merging PR 43 to production (platform branch merged to main in PR 53, 2026-07-03)
 - [ ] Name ten parents in the existing network for the five question conversations
 
 ## Phase 1 — Ship and listen
 
 Goal: the platform is live and ten real conversations are recorded.
 
-- [ ] Apply the chosen colour tokens in globals.css, fix button text contrast if gold chosen, verify mobile and desktop
-- [ ] Merge PR 43, deploy on Vercel, smoke test the live site end to end
+- [x] Apply the chosen colour tokens in globals.css, fix button text contrast if gold chosen, verify mobile and desktop (butter and ink rebrand, 2026-07-01)
+- [x] Merge PR 43, deploy on Vercel, smoke test the live site end to end (merged as PR 53, 2026-07-03; Vercel deploys from main)
 - [ ] Run the ten parent conversations, write answers verbatim into /plans/parent-conversations.md
 - [ ] Mine Reddit and Mumsnet for parent phrasing, rewrite homepage hero, starter pack headline and quiz result copy in their words
-- [ ] Update dishonest numbers (the "200 families" claim) to true ones or remove
+- [x] Update dishonest numbers (the "200 families" claim) to true ones or remove (hero star strip and final CTA badge now state the real 50 cap and script count, 2026-07-03)
 
 ## Phase 2 — Convert
 
 Goal: a stranger can become a paying family with no human involved, and nothing on the paywall is untrue.
 
-- [ ] Email system: Resend plus five emails (welcome with first script, day 2 stage guide, day 4 DiGi nudge, day 7 founder rate with live counter, weekly digest with the child's progress bar)
-- [ ] Onboarding ends by opening the recommended script directly, not the dashboard (activation moment)
-- [ ] Checkout defaults to annual with monthly as the downgrade
-- [ ] Family agreements builder: negotiated per stage agreements, printable, expert panel grounded (makes the upgrade page honest)
+- [x] Email system: Resend plus five emails (welcome with first script, day 2 stage guide, day 4 DiGi nudge, day 7 founder rate with live counter, weekly digest with the child's progress bar) (lib/email, /api/email/welcome, /api/email/cron, migration 022, 2026-07-03. Needs RESEND_API_KEY and CRON_SECRET in Vercel to go live)
+- [x] Onboarding ends by opening the recommended script directly, not the dashboard (activation moment) (both exits: skip path and Stripe success URL, free script preferred so nobody bounces into the paywall, 2026-07-03)
+- [x] Checkout defaults to annual with monthly as the downgrade (upgrade page reordered and reframed, 2026-07-03)
+- [x] Family agreements builder: negotiated per stage agreements, printable, expert panel grounded (makes the upgrade page honest) (/dashboard/agreements, migration 021, clause library per stage, print sheet with signatures, 2026-07-03)
 
 ## Phase 3 — Curriculum (the week 10 plan, as checkboxes)
 
 Goal: every stage has real lessons in both voices and the lessons progress signal means something.
 
-- [ ] Curriculum matrix: 9 strands by 5 stages, both audiences, seeded as stubs plus the human readable map
+- [x] Curriculum matrix: 9 strands by 5 stages, both audiences, seeded as stubs plus the human readable map (migration 018 plus plans/curriculum-matrix.md, 2026-07-02)
 - [ ] Expert audit: scripts and lesson copy against Dr Becky, Knibbs, Atkins, Byron
 - [ ] Foundation and Builder slide sets written and seeded
 - [ ] Explorer, Shaper, Independent slide sets plus the AI safety strand

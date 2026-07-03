@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
-import { createClient as createServiceClient } from '@supabase/supabase-js'
+import { createAdminClient } from '@/lib/supabase/admin'
 import { DIGI_MODEL, DIGI_MODEL_FALLBACKS } from '@/lib/config/digi'
 
 // Inbound school email webhook. The email provider (Resend Inbound or
@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
   const token = to.split('@')[0]?.replace(/^school\+/, '').trim()
   if (!token) return NextResponse.json({ ok: true, skipped: 'no token' })
 
-  const supabase = createServiceClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!)
+  const supabase = createAdminClient()
   const { data: conn } = await supabase
     .from('school_connections')
     .select('user_id, school_name, sender_addresses')

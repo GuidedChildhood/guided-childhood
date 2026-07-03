@@ -435,8 +435,7 @@ export default function HomePage() {
               The stage by stage guide, exact scripts for the hard moments, and DiGi, your AI parenting advisor available at 11pm.
             </p>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '28px', flexWrap: 'wrap' }}>
-              <span style={{ color: '#F59E0B', letterSpacing: '2px', fontSize: '.95rem' }}>★★★★★</span>
-              <span style={{ fontSize: '.8rem', color: 'var(--ink-muted)', fontWeight: 600 }}>200 parents already on their pathway</span>
+              <span style={{ fontSize: '.8rem', color: 'var(--ink-muted)', fontWeight: 600 }}>100 plus expert scripts inside · Founding places capped at 50</span>
             </div>
             <div className="fu" style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center', marginBottom: '28px' }}>
               <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '15px', padding: '16px 36px' }}>
@@ -2376,7 +2375,7 @@ export default function HomePage() {
         <div style={{ maxWidth: '620px', margin: '0 auto' }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'var(--stage-1-bold)', borderRadius: '100px', padding: '6px 16px', marginBottom: '24px' }}>
             <span style={{ fontFamily: 'var(--font-mono)', fontSize: '.65rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--stage-1-text)' }}>
-              Join 200 families already on their pathway
+              Be one of the first 50 founding families
             </span>
           </div>
           <h2 className="fu" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 900, letterSpacing: '-.04em', lineHeight: 1.05, marginBottom: '18px' }}>

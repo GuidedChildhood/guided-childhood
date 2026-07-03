@@ -50,7 +50,7 @@ export default async function UpgradePage() {
       {/* Guarantee */}
       <div style={{ background: 'var(--stage-2)', border: '1px solid var(--stage-2)', borderRadius: '14px', padding: '14px 18px', marginBottom: '28px', textAlign: 'center' }}>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--terracotta)', letterSpacing: '0.08em' }}>
-          30-DAY MONEY-BACK GUARANTEE · NO QUESTIONS ASKED
+          30 DAY MONEY BACK GUARANTEE · NO QUESTIONS ASKED
         </span>
       </div>
 
@@ -116,38 +116,8 @@ export default async function UpgradePage() {
           </div>
         )}
 
-        {/* Standard monthly */}
-        <div style={{ background: 'var(--cream)', border: '2px solid var(--border)', borderRadius: '20px', padding: '24px' }}>
-          <p className="eyebrow" style={{ marginBottom: '10px' }}>Standard</p>
-          <div style={{ marginBottom: '16px' }}>
-            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '2rem', color: 'var(--ink)' }}>£12.99</span>
-            <span style={{ color: 'var(--ink-muted)', fontSize: '14px' }}> / month</span>
-          </div>
-          <ul style={{ margin: '0 0 22px', padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            {[
-              'All 5 stages',
-              'Unlimited DiGi',
-              '100 plus expert scripts',
-              'Wellbeing tracker',
-              'Family agreement builder',
-              'Cancel any time',
-            ].map((item, i) => (
-              <li key={i} style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                <span style={{ color: 'var(--terracotta)', fontSize: '14px' }}>✓</span>
-                <span style={{ fontSize: '14px', color: 'var(--ink-soft)' }}>{item}</span>
-              </li>
-            ))}
-          </ul>
-          <form action="/api/stripe/checkout" method="POST">
-            <input type="hidden" name="tier" value="standard" />
-            <button type="submit" className="btn btn-ink" style={{ width: '100%', justifyContent: 'center' }}>
-              Start standard, £12.99 a month
-            </button>
-          </form>
-        </div>
-
-        {/* Annual */}
-        <div style={{ background: 'var(--cream)', border: '2px solid var(--border)', borderRadius: '20px', padding: '24px', position: 'relative' }}>
+        {/* Annual, the default choice */}
+        <div style={{ background: 'var(--cream)', border: '2.5px solid var(--terracotta)', borderRadius: '20px', padding: '24px', position: 'relative' }}>
           <div style={{
             position: 'absolute',
             top: '-12px',
@@ -164,7 +134,7 @@ export default async function UpgradePage() {
             borderRadius: '100px',
             whiteSpace: 'nowrap',
           }}>
-            Save £57 a year
+            Most families choose this · Save £57
           </div>
           <p className="eyebrow" style={{ marginBottom: '10px', marginTop: '4px' }}>Annual</p>
           <div style={{ marginBottom: '16px' }}>
@@ -175,7 +145,14 @@ export default async function UpgradePage() {
             </div>
           </div>
           <ul style={{ margin: '0 0 22px', padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            {['Everything in Standard', 'One payment, full year', 'Best value'].map((item, i) => (
+            {[
+              'All 5 stages',
+              'Unlimited DiGi',
+              '100 plus expert scripts',
+              'Wellbeing tracker',
+              'Family agreement builder',
+              'One payment, full year',
+            ].map((item, i) => (
               <li key={i} style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
                 <span style={{ color: 'var(--terracotta)', fontSize: '14px' }}>✓</span>
                 <span style={{ fontSize: '14px', color: 'var(--ink-soft)' }}>{item}</span>
@@ -184,8 +161,31 @@ export default async function UpgradePage() {
           </ul>
           <form action="/api/stripe/checkout" method="POST">
             <input type="hidden" name="tier" value="annual" />
-            <button type="submit" className="btn btn-green" style={{ width: '100%', justifyContent: 'center' }}>
+            <button type="submit" className="btn btn-gold" style={{ width: '100%', justifyContent: 'center' }}>
               Start annual, £99 a year
+            </button>
+          </form>
+        </div>
+
+        {/* Monthly, the downgrade */}
+        <div style={{ background: 'var(--cream)', border: '2px solid var(--border)', borderRadius: '20px', padding: '24px' }}>
+          <p className="eyebrow" style={{ marginBottom: '10px' }}>Monthly</p>
+          <div style={{ marginBottom: '16px' }}>
+            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '2rem', color: 'var(--ink)' }}>£12.99</span>
+            <span style={{ color: 'var(--ink-muted)', fontSize: '14px' }}> / month</span>
+          </div>
+          <ul style={{ margin: '0 0 22px', padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            {['Everything in Annual', 'Pay month to month', 'Cancel any time'].map((item, i) => (
+              <li key={i} style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                <span style={{ color: 'var(--terracotta)', fontSize: '14px' }}>✓</span>
+                <span style={{ fontSize: '14px', color: 'var(--ink-soft)' }}>{item}</span>
+              </li>
+            ))}
+          </ul>
+          <form action="/api/stripe/checkout" method="POST">
+            <input type="hidden" name="tier" value="standard" />
+            <button type="submit" className="btn btn-ink" style={{ width: '100%', justifyContent: 'center' }}>
+              Prefer monthly, £12.99 a month
             </button>
           </form>
         </div>

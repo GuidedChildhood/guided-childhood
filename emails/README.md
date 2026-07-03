@@ -5,7 +5,19 @@ style structure (bold centered heading, yellow underline rule, single white
 card, chunky yellow CTA). Merge tags in 05 (*|CHILD_NAME|* etc.) map to
 Mailchimp merge fields.
 
-## Trigger: Supabase registration into Mailchimp
+## The app now sends these itself (Resend)
+
+As of July 2026 the platform sends this whole series directly: templates
+live in lib/email/templates.ts, sending in lib/email/send.ts (Resend REST,
+a logged no-op without RESEND_API_KEY), the welcome fires from onboarding
+via /api/email/welcome, and /api/email/cron (daily, Vercel Cron) walks the
+day 2, 4 and 7 steps plus the Monday digest with real per family data. The
+email_sends table stops double sends. The files in this folder remain the
+Mailchimp fallback and the canonical copy reference. Do not run the
+Mailchimp journey and the app sender at the same time or families get
+everything twice.
+
+## Fallback trigger: Supabase registration into Mailchimp
 
 Better than polling: a Supabase Database Webhook.
 1. Supabase dashboard, Database, Webhooks: create webhook on INSERT into

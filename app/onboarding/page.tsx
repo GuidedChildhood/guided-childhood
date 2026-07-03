@@ -216,6 +216,10 @@ export default function OnboardingPage() {
 
     localStorage.removeItem('gc_starter_answers')
 
+    // Welcome email with the first script. Fire and forget: the email
+    // cron is the backstop if this never lands.
+    fetch('/api/email/welcome', { method: 'POST' }).catch(() => {})
+
     try {
       const res = await fetch('/api/onboarding/digi', {
         method: 'POST',
@@ -529,6 +533,16 @@ export default function OnboardingPage() {
       if (user) {
         await supabase.from('profiles').update({ onboarding_complete: true }).eq('id', user.id)
       }
+      // The activation moment: land in the first recommended script,
+      // not on a dashboard of tiles.
+      try {
+        const res = await fetch('/api/onboarding/first-script')
+        const data = await res.json()
+        if (data?.sort_order) {
+          router.push(`/dashboard/scripts/${data.sort_order}?from=onboarding`)
+          return
+        }
+      } catch {}
       router.push('/dashboard')
     }
 
@@ -570,6 +584,7 @@ export default function OnboardingPage() {
 
                 <form action="/api/stripe/checkout" method="POST">
                   <input type="hidden" name="tier" value="founder" />
+                  <input type="hidden" name="from" value="onboarding" />
                   <button type="submit" style={BTN}>
                     Claim my founding place. £7.99 per month for life.
                   </button>
@@ -582,6 +597,7 @@ export default function OnboardingPage() {
                 </p>
                 <form action="/api/stripe/checkout" method="POST">
                   <input type="hidden" name="tier" value="standard" />
+                  <input type="hidden" name="from" value="onboarding" />
                   <button type="submit" style={BTN}>Join now</button>
                 </form>
               </>
@@ -593,7 +609,7 @@ export default function OnboardingPage() {
             onClick={skipToApp}
             style={BACK_BTN}
           >
-            Maybe later, take me to the platform
+            Maybe later, show me my first script
           </button>
         </div>
       </div>
