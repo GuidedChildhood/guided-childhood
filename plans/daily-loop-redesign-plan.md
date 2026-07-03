@@ -12,3 +12,23 @@ Two additions from the first live walkthrough:
 3. **Feature education email chain:** extend the lifecycle emails so each feature gets its own short email over the first weeks: the tracker, the agreement, devices, moments, the curriculum and lessons, the AI module. One feature per email, one action each.
 4. **Tracker rebuilt around daily goals and streaks:** daily goals with achieved or not, a Duolingo style streak (current streak, longest, freeze rule to forgive one missed day), PWA push tied to the streak state. The weekly wellbeing check stays as the Friday ritual; the daily layer sits on top. Device follow ups feed it: the devices the family registered generate daily tasks when issues arise.
 5. **Lessons tab as digital home schooling:** link the built but hidden lessons hub into the nav as the home of the monthly curriculum, and start filling content from the week 10 plan. The animation section (squad video beats) starts here.
+
+### 17. School email trust, copy and setup UX (Justin, 3 Jul)
+Parents will hesitate to forward school emails. The design already earns trust, the copy must carry it:
+
+**The letterbox line (use everywhere):** "You are giving us a letterbox, not a key. We never see your inbox. You choose exactly which senders get forwarded, and we keep the actions, never the email."
+
+**The five reassurances, in order:**
+1. We never access your inbox. No login, no password, no permissions. Forwarding happens inside your own email account, under your control.
+2. You choose the senders. Only the addresses you pick ever reach us.
+3. We keep the actions, not the email. DiGi reads it once, pulls out the dates, kit, payments and homework, and the original email is deleted straight away. It is never stored.
+4. Everything stays in your account. Nothing is shared, nothing is sold, delete it all any time.
+5. Switching off is instant: delete the forwarding rule in your email and it is over. Your private address is useless to anyone else.
+
+**Setup friction, solved in the flow:**
+- Start with ONE sender (the school office address). More can be added later, never demand completeness up front.
+- Provider picker (Gmail / Outlook / other) with step by step screenshots per provider.
+- Gmail allows one filter to cover several senders (from a OR from b), so one rule per source, not per address. The setup screen generates the exact filter text to copy and paste.
+- IMPLEMENTATION NOTE: Gmail requires verifying a forwarding address with a confirmation code it emails to that address. The inbound webhook must catch Google's verification email and surface the code on the setup screen so the parent can complete the Gmail step without leaving the flow.
+
+**The lifecycle email introducing it** leads with the problem (the buried PE kit email, the missed trip deadline), then the letterbox line, then one button: Set it up in three minutes.
