@@ -1,5 +1,13 @@
 # Guided Childhood — Claude Code Instructions
 
+## THE MISSION (test every feature against this)
+
+Keep children SAFE in their digital interactions, through a guided pathway
+that EDUCATES rather than bans, shapes each day into the right BALANCE of
+devices, digital and everything else, and raises children who are truly
+DIGITALLY LITERATE by 16. Safety, balance, literacy. A feature that serves
+none of these does not belong.
+
 Read guided-childhood-build/README.md at the start of every session.
 Re-read /plans/decisions.md after any compaction.
 
