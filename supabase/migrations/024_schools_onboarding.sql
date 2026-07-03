@@ -1,5 +1,5 @@
 -- Guided Childhood Schools: Phase 2 onboarding policies
--- Run AFTER 018_schools_product.sql.
+-- Run AFTER 023_schools_product.sql. (Renumbered from 019.)
 -- 018 gave educators read/manage access to existing school data but no way
 -- to create a school in the first place. Phase 2's educator workspace needs:
 --  - any signed in user can create a school account (they become its first

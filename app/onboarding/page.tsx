@@ -529,7 +529,7 @@ export default function OnboardingPage() {
       if (user) {
         await supabase.from('profiles').update({ onboarding_complete: true }).eq('id', user.id)
       }
-      router.push('/dashboard')
+      setScreen('first-task')
     }
 
     return (
@@ -570,6 +570,7 @@ export default function OnboardingPage() {
 
                 <form action="/api/stripe/checkout" method="POST">
                   <input type="hidden" name="tier" value="founder" />
+                  <input type="hidden" name="from" value="onboarding" />
                   <button type="submit" style={BTN}>
                     Claim my founding place. £7.99 per month for life.
                   </button>
@@ -582,6 +583,7 @@ export default function OnboardingPage() {
                 </p>
                 <form action="/api/stripe/checkout" method="POST">
                   <input type="hidden" name="tier" value="standard" />
+                  <input type="hidden" name="from" value="onboarding" />
                   <button type="submit" style={BTN}>Join now</button>
                 </form>
               </>
@@ -651,12 +653,15 @@ export default function OnboardingPage() {
             </div>
           )}
 
-          <button style={{ ...BTN, marginTop: '28px' }} onClick={() => router.push('/dashboard')}>
-            You are set for tomorrow
+          <button style={{ ...BTN, marginTop: '28px' }} onClick={() => router.push('/dashboard/scripts/recommended')}>
+            Open my first script
           </button>
           <p style={{ fontSize: 13, color: '#9ca3af', textAlign: 'center', marginTop: 14, lineHeight: 1.5 }}>
-            DiGi will be there whenever you need it.
+            DiGi picked it from what you told us. Two minutes, the exact words for tonight.
           </p>
+          <button type="button" onClick={() => router.push('/dashboard')} style={BACK_BTN}>
+            Take me to my dashboard instead
+          </button>
         </div>
       </div>
     )

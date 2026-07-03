@@ -53,7 +53,7 @@ export async function getStageProgress(
     supabase.from('script_completions').select('script_sort_order').eq('user_id', userId),
     supabase.from('device_guides').select('device_key, min_age'),
     supabase.from('device_setup_progress').select('device_key').eq('user_id', userId),
-    supabase.from('lessons').select('id').eq('stage_id', stageId).eq('audience', 'parent'),
+    supabase.from('lessons').select('id').eq('stage_id', stageId).eq('audience', 'parent').neq('status', 'stub'),
     supabase.from('ai_lessons').select('id, audience').in('audience', ['age_7', 'age_9', 'age_11', 'age_13', 'age_16']),
     supabase.from('lesson_completions').select('lesson_id, lesson_source').eq('user_id', userId),
   ])

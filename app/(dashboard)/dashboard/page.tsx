@@ -6,6 +6,7 @@ import type { Moment } from '@/components/cards/MomentCard'
 import MomentCard from '@/components/cards/MomentCard'
 import PushPrompt from '@/components/push/PushPrompt'
 import DeviceSetupBanner from '@/components/device/DeviceSetupBanner'
+import DigiPrompts from '@/components/digi/DigiPrompts'
 
 const STAGE_COLORS = {
   1: { bg: 'var(--stage-1)', bold: 'var(--stage-1-bold)', text: 'var(--stage-1-text)', border: 'var(--stage-1)' },
@@ -124,6 +125,9 @@ export default async function DashboardPage() {
           </div>
         )}
       </div>
+
+      {/* DiGi leads: proactive watch fors, tips and parent care */}
+      <DigiPrompts />
 
       {/* Continue Your Progress — primary hero card */}
       <Link href="/dashboard/daily" style={{ textDecoration: 'none', display: 'block', marginBottom: '20px' }}>
@@ -346,6 +350,28 @@ export default async function DashboardPage() {
             </div>
             <div style={{ fontSize: '13px', color: 'var(--ink)' }}>
               Deepfakes, chatbots, and using it well. Calm lessons for every age.
+            </div>
+          </div>
+          <span style={{ fontSize: '18px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>
+        </div>
+      </Link>
+
+      {/* Family agreement discovery */}
+      <Link href="/dashboard/agreement" style={{ textDecoration: 'none', display: 'block', marginBottom: '12px' }}>
+        <div style={{
+          background: 'var(--stage-1)', border: '1.5px solid var(--stage-1)',
+          borderRadius: '16px', padding: '22px',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px',
+        }}>
+          <div>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '6px' }}>
+              Made together
+            </div>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)', marginBottom: '3px' }}>
+              Build your family agreement
+            </div>
+            <div style={{ fontSize: '13px', color: 'var(--ink)' }}>
+              Five conversations, one signed agreement, printed for the fridge.
             </div>
           </div>
           <span style={{ fontSize: '18px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>

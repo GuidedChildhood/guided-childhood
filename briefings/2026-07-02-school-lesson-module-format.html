@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How to format school lesson modules · Guided Childhood Research Briefing</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root{
+  --cream:      #F7F3EE;
+  --warm:       #FDFBF8;
+  --ink:        #1C1C1C;
+  --ink-soft:   #4A4A4A;
+  --ink-muted:  #6E6A62;
+  --ink-light:  #9B958A;
+  --green:      #AFDCA2;
+  --green-dark: #2E7D5A;
+  --green-lt:   #EEF7F2;
+  --coral:      #D4600A;
+  --coral-lt:   #FEF3E8;
+  --coral-dark: #C0392B;
+  --gold:       #F2C94C;
+  --gold-lt:    #FEFAE8;
+  --gold-dark:  #C9962A;
+  --gold-hover: #E3B53A;
+  --lav:        #E7ECF8;
+  --lav-deep:   #3D5BA9;
+  --border:     #E4DFD7;
+  --font-display: 'Hanken Grotesk', system-ui, sans-serif;
+  --font-body:    'Hanken Grotesk', system-ui, sans-serif;
+  --font-mono:    'IBM Plex Mono', monospace;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--cream);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.65}
+.wrap{max-width:860px;margin:0 auto;padding:48px 24px 96px}
+
+.eyebrow{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-muted)}
+
+header.brief-head{padding:40px 0 32px;border-bottom:1px solid var(--border)}
+header.brief-head h1{font-weight:800;font-size:clamp(2rem,5vw,3rem);line-height:1.12;letter-spacing:-0.02em;margin:12px 0 16px}
+.meta-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{font-family:var(--font-mono);font-size:12px;font-weight:500;padding:5px 12px;border-radius:999px;background:var(--warm);border:1px solid var(--border);color:var(--ink-soft)}
+.chip.version{background:var(--gold-lt);border-color:var(--gold);color:var(--gold-dark);font-weight:600}
+
+section{margin-top:56px}
+section > h2{font-weight:800;font-size:clamp(1.4rem,3vw,1.9rem);letter-spacing:-0.01em;margin:10px 0 20px}
+section > .eyebrow{display:block}
+
+.summary-card{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:28px 30px;font-size:17px;color:var(--ink-soft)}
+.summary-card p+p{margin-top:12px}
+
+.finding{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:24px 26px;margin-bottom:16px}
+.finding-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.finding h3{font-weight:700;font-size:1.15rem;line-height:1.35;max-width:560px}
+.reliability{font-family:var(--font-mono);font-size:12px;font-weight:600;white-space:nowrap;padding:6px 12px;border-radius:12px}
+.reliability.high{background:var(--green-lt);color:var(--green-dark)}
+.reliability.medium{background:var(--gold-lt);color:var(--gold-dark)}
+.reliability.low{background:var(--coral-lt);color:var(--coral-dark)}
+.finding p{color:var(--ink-soft);margin-top:10px}
+.lens-tags{margin-top:14px;font-family:var(--font-mono);font-size:12px}
+.lens-tags .supported{color:var(--green-dark)}
+.lens-tags .challenged{color:var(--coral-dark)}
+.lens-tags span.sep{color:var(--ink-light);margin:0 8px}
+.finding .cite{font-family:var(--font-mono);font-size:12px;color:var(--ink-light);margin-top:10px}
+
+table.contra{width:100%;border-collapse:collapse;background:var(--warm);border:1px solid var(--border);border-radius:20px;overflow:hidden}
+table.contra th{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;text-align:left;color:var(--ink-muted);padding:14px 18px;border-bottom:1px solid var(--border);background:var(--cream)}
+table.contra td{padding:14px 18px;border-bottom:1px solid var(--border);color:var(--ink-soft);font-size:15px;vertical-align:top}
+table.contra tr:last-child td{border-bottom:none}
+td.leans{font-family:var(--font-mono);font-size:13px;font-weight:600;white-space:nowrap}
+td.leans.green{color:var(--green-dark)}
+td.leans.coral{color:var(--coral-dark)}
+
+.lens-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px}
+.lens-panel{border:1px solid var(--border);border-radius:20px;padding:22px 24px;background:var(--warm)}
+.lens-panel .eyebrow{margin-bottom:8px}
+.lens-panel h3{font-weight:700;font-size:1.05rem;margin-bottom:8px}
+.lens-panel p{color:var(--ink-soft);font-size:15px}
+.lens-panel.clinician{background:var(--green-lt)}
+.lens-panel.academic{background:var(--lav)}
+.lens-panel.skeptic{background:var(--coral-lt)}
+.lens-panel.economist{background:var(--gold-lt)}
+.lens-panel.historian{background:var(--warm)}
+.lens-panel.child{background:var(--cream);border-color:var(--green)}
+
+.gc-card{background:var(--green-lt);border:1px solid var(--green);border-radius:20px;padding:28px 30px}
+.gc-card ul{list-style:none;margin-top:4px}
+.gc-card li{padding:12px 0;border-bottom:1px solid var(--border);color:var(--ink-soft)}
+.gc-card li:last-child{border-bottom:none}
+.gc-card li strong{color:var(--ink);font-weight:700}
+.gc-card .tag{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--green-dark);display:block;margin-bottom:2px}
+
+.assump-card{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:26px 28px}
+.assump-card h3{font-weight:700;font-size:1.05rem;margin-bottom:8px}
+.assump-card p{color:var(--ink-soft)}
+.assump-card .missing{margin-top:20px;padding-top:20px;border-top:1px solid var(--border)}
+.assump-card .missing h3{color:var(--coral-dark)}
+
+.ledger{background:var(--warm);border:1px solid var(--border);border-radius:20px;overflow:hidden}
+.ledger-row{display:flex;gap:16px;align-items:flex-start;padding:16px 20px;border-bottom:1px solid var(--border)}
+.ledger-row:last-child{border-bottom:none}
+.verdict{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;padding:5px 10px;border-radius:10px;white-space:nowrap;margin-top:2px}
+.verdict.confirmed{background:var(--green-lt);color:var(--green-dark)}
+.verdict.corrected{background:var(--gold-lt);color:var(--gold-dark)}
+.verdict.demoted{background:var(--coral-lt);color:var(--coral-dark)}
+.ledger-row .src{font-size:14px;color:var(--ink-soft)}
+.ledger-row .src a{color:var(--lav-deep);text-decoration:none;border-bottom:1px solid var(--lav)}
+.ledger-row .src .note{display:block;font-family:var(--font-mono);font-size:12px;color:var(--ink-light);margin-top:4px}
+
+footer.brief-foot{margin-top:72px;padding-top:24px;border-top:1px solid var(--border);font-family:var(--font-mono);font-size:12px;color:var(--ink-light)}
+
+@media (max-width:600px){
+  .wrap{padding:24px 16px 64px}
+  .finding-top{flex-direction:column}
+  table.contra{display:block;overflow-x:auto}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="brief-head">
+    <span class="eyebrow">Guided Childhood Research Briefing</span>
+    <h1>How should you format the school lesson modules?</h1>
+    <p style="color:var(--ink-soft);max-width:640px">You asked how to format lesson modules so schools adopt them and actually teach them. Six lenses researched it: a PSHE lead, a pedagogy researcher, a skeptic, an economist, a resource format historian, and the pupil in the room.</p>
+    <div class="meta-row">
+      <span class="chip version">V1 · Verification queued</span>
+      <span class="chip">2 July 2026</span>
+      <span class="chip">The Teacher</span>
+      <span class="chip">The Academic</span>
+      <span class="chip">The Skeptic</span>
+      <span class="chip">The Economist</span>
+      <span class="chip">The Historian</span>
+      <span class="chip">The Pupil</span>
+    </div>
+  </header>
+
+  <section id="summary">
+    <span class="eyebrow">Read this first</span>
+    <h2>60 Second Summary</h2>
+    <div class="summary-card">
+      <p>The format that gets taught, rather than shelved, is designed for the least confident person in the building: a never trained form tutor with somewhere between 15 and 60 minutes. Over half of secondary teachers name confidence as the main barrier to PSHE, a third have never been trained, and Ofsted found untrained deliverers in half of schools. Every UK scheme that became a default (Jigsaw, SCARF, Oak's lesson unit) shipped complete, editable, scripted lessons a non specialist could deliver cold. Every framework without a lesson layer died.</p>
+      <p>The pedagogy evidence points the same way with one twist: scripted must not mean lecture. Interactive discussion based delivery beats teacher talk by roughly five to one on behaviour outcomes, one off assemblies and scare tactics reliably fail, and the flagship Google digital citizenship curriculum improved knowledge but changed zero behaviour in its only randomised trial. So the winning unit is scripted discussion: scenario cards, debate prompts and rehearsed skills, with the sensitive wording already written for the nervous teacher.</p>
+      <p>The economics seal it. Slides plus notes cost a fraction of filmed content to produce, and only text formats can absorb the July 2025 RSHE guidance (compulsory September 2026) and the ban stages with edits rather than reshoots. Oak now gives away a free RSHE curriculum, so the sellable layer is not lessons: it is compliance mapping, assessment evidence, DSL reporting and parent transparency. Price the whole school licence between £300 and £800, under the threshold a PSHE lead can sign off alone.</p>
+    </div>
+  </section>
+
+  <section id="findings">
+    <span class="eyebrow">Ranked by reliability</span>
+    <h2>Key Findings</h2>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Design for the never trained form tutor, or the module never gets taught.</h3>
+        <span class="reliability high">Reliability 9/10</span>
+      </div>
+      <p>55% of secondary teachers cite confidence and expertise as the main PSHE barrier, 31% delivering it have never had any training, and Ofsted found untrained RSHE deliverers in around half of schools visited. Real delivery slots are often 15 to 30 minute tutor times. The unit that survives contact with a school: a full hour lesson plus a short tutor time variant, editable slides with a scripted teacher voice track, anticipated questions answered in the notes, and per lesson SEND adaptations built in rather than bolted on.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Teacher, Skeptic, Economist, Historian</span>
+      </div>
+      <div class="cite">Sources: S1, S2, S3, S4</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Sequenced and spaced beats one off, every time it has been measured.</h3>
+        <span class="reliability high">Reliability 9/10</span>
+      </div>
+      <p>The 213 study SEL meta analysis found programmes work when they are sequenced, active, focused and explicit. Spaced delivery beats massed delivery (d = 0.54). Pupils who get regular online safety lessons rate them far more useful than those who get assemblies, and official UK guidance explicitly lists drop down days and one off assemblies as markers of ineffective provision. Weekly spiral modules, each lesson building on the last, are the only defensible architecture, which is exactly what your five stage pathway already is.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Academic, Pupil, Teacher</span>
+      </div>
+      <div class="cite">Sources: S5, S6, S7, S8</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Scripted discussion, not scripted lecture. The interaction is the active ingredient.</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>Interactive school prevention programmes cut target behaviours roughly 21% against 4% for lecture formats. But the teachers delivering PSHE are exactly the ones who fear open discussion. The resolution: script the discussion itself. Scenario cards using fictional characters (the distancing technique the PSHE Association requires anyway), structured debate prompts, and skill rehearsal with the wording pre written. A pedagogically weaker lesson that runs itself beats a stronger one needing 40 minutes of prep, so build the interaction inside the script.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Academic, Teacher</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: Pupil notes discussion formats fail if the teacher visibly cannot facilitate</span>
+      </div>
+      <div class="cite">Sources: S6, S9</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Knowledge transfer is not behaviour change. Nobody in this market has proven the latter.</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>The only cluster randomised trial of Google's flagship digital citizenship curriculum (1,072 pupils) improved knowledge and confidence but changed no measured behaviour. The leading research group concluded youth internet safety education has proliferated with almost no rigorous evaluation. And more components made media literacy interventions worse, not better. This is both a warning (do not overclaim outcomes) and the single biggest opening: nobody has a rigorously evaluated UK offer. Bake baseline and endpoint measurement into the format and you can be first.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Academic, Skeptic</span>
+      </div>
+      <div class="cite">Sources: S10, S11, S12</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>The Oak lesson unit is the format standard. Oak itself is now your free competitor.</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>Oak's four artefact unit (editable slides, starter quiz, exit quiz, worksheet) is what "school ready" means to English teachers, and its users report saving around 4 hours a week. But only 11 to 13% of teachers actually use Oak resources, its remit is under judicial review, and it has launched a free RSHE curriculum aligned to the September 2026 guidance, in your exact category. Copy the unit shape because teachers recognise it. Do not lean on "Oak aligned" as the pitch, and do not try to out free a state funded competitor.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Historian, Teacher</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: Skeptic, on both Oak's reach claims and the badge's value</span>
+      </div>
+      <div class="cite">Sources: S13, S14, S15, S16</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Sell what free content cannot do: evidence, reporting and compliance mapping.</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>Free sets the price floor: Oak's RSHE curriculum, Twinkl giving every UK primary a year of Natterhub, ThinkUKnow, Be Internet Legends. Meanwhile 76% of primaries and 94% of secondaries cannot afford next year's costs, and what schools demonstrably buy is risk reduction: safeguarding evidence for Ofsted, DSL reporting, progression tracking, and mapping to the statutory guidance. The lessons are the delivery vehicle; the paid product is the evidence trail around them. Whole school licence at £300 to £800 sits inside the low value procurement threshold a PSHE lead can sign off without governors.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Economist, Skeptic, Historian</span>
+      </div>
+      <div class="cite">Sources: S15, S17, S18, S19</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Regulation will keep changing. Only editable text formats survive that cheaply.</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>The July 2025 RSHE guidance (compulsory 1 September 2026) forces every provider to reissue materials, and the ban stages will do it again through 2027. Slides and notes absorb that with text edits; filmed lessons need reshoots; interactive formats cost up to an order of magnitude more per finished hour. The same guidance also requires parents to be able to view all materials, which kills anything locked inside an app login, the way whiteboard flipcharts died with their hardware. Open, exportable, inspectable files are both the cheap option and the compliant one. Your scripts in the database with the law flag column are already the right architecture.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Economist, Historian, Teacher</span>
+      </div>
+      <div class="cite">Sources: S20, S21, S22</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Pupils will arrive knowing the ban leaks. Format ban content as honest debate.</h3>
+        <span class="reliability medium">Reliability 7/10</span>
+      </div>
+      <p>In Australia, 61% of banned age children still had access months after their ban, and pupils openly swap workarounds. Yet two thirds of UK young people backed restricting at least some platforms in the national consultation. So the room is split, informed and allergic to being lied to. Any lesson framed as "the ban has fixed this" is discredited on contact. Format ban lessons as structured debate plus the autonomy frame that works with adolescents: the platforms are engineered to exploit you, and seeing through that is power. Never scare tactics, which at best do nothing and at worst backfire with the highest risk pupils.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Pupil, Academic</span>
+      </div>
+      <div class="cite">Sources: S23, S24, S25</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Bought does not mean taught. Design the pilot to produce usage evidence.</h3>
+        <span class="reliability medium">Reliability 6/10</span>
+      </div>
+      <p>Two thirds of school software licences go unused, and edtech pilots routinely succeed technically while failing institutionally. But edtech trials that are structured convert around 24.8% to paid, and the most trusted purchase input is a recommendation from a teacher in the buyer's own network. So the pilot format matters as much as the lesson format: a named champion, usage visible to the DSL, a baseline and endpoint measure, and a case study the head can forward. The pilot's product is the story another school believes.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Economist</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: Skeptic, US shelfware data may overstate the UK problem</span>
+      </div>
+      <div class="cite">Sources: S26, S27, S28</div>
+    </article>
+
+  </section>
+
+  <section id="contradictions">
+    <span class="eyebrow">Where the lenses disagree</span>
+    <h2>Contradiction Map</h2>
+    <table class="contra">
+      <thead>
+        <tr><th>Disagreement</th><th>Position A</th><th>Position B</th><th>Evidence leans</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Scripted or interactive?</td>
+          <td>Fully scripted zero prep lessons are what get taught (Teacher, Economist)</td>
+          <td>Didactic delivery is the format that fails; interaction drives the effect (Academic)</td>
+          <td class="leans green">Both: scripted discussion</td>
+        </tr>
+        <tr>
+          <td>Is Oak alignment a selling point?</td>
+          <td>Oak's unit shape defines school ready and signals trust (Historian)</td>
+          <td>Only 11 to 13% of teachers use Oak, and Oak now competes with you for free (Skeptic)</td>
+          <td class="leans green">Copy the shape, drop the badge</td>
+        </tr>
+        <tr>
+          <td>Does evidence drive adoption?</td>
+          <td>Schools buy compliance mapping and packaging; SEAL hit 90% of schools with no efficacy data (Historian)</td>
+          <td>Efficacy design still matters because behaviour change is the promise (Academic)</td>
+          <td class="leans green">Build SAFE inside, sell compliance outside</td>
+        </tr>
+        <tr>
+          <td>Rich media or plain slides?</td>
+          <td>Pupils rate video and interactive formats; engagement gates everything (Pupil)</td>
+          <td>Filmed content cannot absorb regulatory change and costs 4 to 15x more (Economist)</td>
+          <td class="leans green">Editable slides plus short reusable video inserts</td>
+        </tr>
+        <tr>
+          <td>Are free pilots a trap?</td>
+          <td>Pilots are shelfware generators that fail institutionally (Skeptic)</td>
+          <td>Structured pilots convert about 1 in 4 and mint the case studies that sell (Economist)</td>
+          <td class="leans coral">Depends entirely on pilot design</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="lenses">
+    <span class="eyebrow">Six perspectives</span>
+    <h2>Lens Panels</h2>
+    <div class="lens-grid">
+      <div class="lens-panel clinician">
+        <span class="eyebrow">The Teacher</span>
+        <h3>Pick up and teach, but still editable</h3>
+        <p>I have 20 minutes, no training, and a room that knows these platforms better than me. Give me the slides, the exact words for the hard moments, the answers to the questions I dread, and the SEND notes on the same page.</p>
+      </div>
+      <div class="lens-panel academic">
+        <span class="eyebrow">The Academic</span>
+        <h3>Sequenced, active, focused, explicit</h3>
+        <p>One offs and fear fail. Knowledge gains without behaviour change are the norm, not the win. Space the lessons, rehearse the skills, revisit the baseline, and measure. Nobody in the UK has done this rigorously yet. Be first.</p>
+      </div>
+      <div class="lens-panel skeptic">
+        <span class="eyebrow">The Skeptic</span>
+        <h3>Purchased is not taught, and free is your rival</h3>
+        <p>Two thirds of school software goes unused, Oak gives your category away, and no format has proven behaviour change. Sell the evidence trail and the workload saved, because the lessons themselves now cost zero next door.</p>
+      </div>
+      <div class="lens-panel economist">
+        <span class="eyebrow">The Economist</span>
+        <h3>£300 to £800, zero prep, text first</h3>
+        <p>Price under the sign off threshold. Every prep hour you remove is worth £30 to the school. And build in text, because you alone must absorb every guidance change between now and 2027 without a film crew.</p>
+      </div>
+      <div class="lens-panel historian">
+        <span class="eyebrow">The Historian</span>
+        <h3>Complete schemes survive, frameworks die</h3>
+        <p>Jigsaw and SCARF won by shipping everything, weekly, scripted. SEAL reached 90% of schools and evaporated because it was a philosophy without lessons. And platform locked content is always one policy change from worthless.</p>
+      </div>
+      <div class="lens-panel child">
+        <span class="eyebrow">The Pupil</span>
+        <h3>Stop repeating yourself and do not lie to me</h3>
+        <p>I have had the stranger danger assembly nine times. I know the ban leaks because my cousin in Sydney is still on TikTok. Give me real scenarios, let us argue about it, and treat me like I am capable of seeing through the platforms myself.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="guided-childhood">
+    <span class="eyebrow">So what do we do</span>
+    <h2>What This Means for Guided Childhood</h2>
+    <div class="gc-card">
+      <ul>
+        <li>
+          <span class="tag">Schools</span>
+          <strong>Ship the recognisable unit: editable slides, scripted teacher notes, starter and exit quiz, worksheet.</strong> Full hour version plus a 15 minute tutor time variant of every lesson. Export to PowerPoint and PDF so nothing is locked behind a login, which the 2026 guidance effectively requires anyway.
+        </li>
+        <li>
+          <span class="tag">Digi Squad</span>
+          <strong>Teo, Olga, Alma and DiGi Junior are your distancing technique.</strong> The PSHE Association requires scenarios about fictional characters rather than pupils' own lives. You already have the characters. Every scenario card, debate prompt and script runs through them, which no free competitor can copy.
+        </li>
+        <li>
+          <span class="tag">Product</span>
+          <strong>The paid layer is the evidence trail, not the lessons.</strong> Baseline and endpoint measures per module (the wellbeing tracker already exists), progression reporting for the PSHE lead, a DSL dashboard view, and mapping to the September 2026 RSHE guidance. That is what a school with no money still buys.
+        </li>
+        <li>
+          <span class="tag">Ban readiness</span>
+          <strong>Format ban lessons as debate with the autonomy frame.</strong> Two thirds of pupils back some restriction, and all of them know it leaks. "The platforms are engineered to hold you, here is how to see it" fits non negotiable rule one: never allow or deny, always a calibrated pathway. The social media law flag already drives this content without a rewrite.
+        </li>
+        <li>
+          <span class="tag">Pricing</span>
+          <strong>Whole school licence, £300 to £800 by size, free structured pilot.</strong> Pilot design: named champion teacher, usage visible weekly, baseline and endpoint measured, ending in a named case study the head forwards to another head. Budget for roughly one in four pilots converting.
+        </li>
+        <li>
+          <span class="tag">Positioning</span>
+          <strong>Become the first rigorously evaluated UK offer.</strong> The evidence vacuum is documented in the literature. Publish your measurement framework, run the evaluation through the pilots, and every future school post, tender and journalist conversation inherits it.
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="assumptions">
+    <span class="eyebrow">Honest limits</span>
+    <h2>Assumptions and the Missing Lens</h2>
+    <div class="assump-card">
+      <h3>This briefing rests on</h3>
+      <p>The shelfware and pilot conversion figures are US datasets applied to the UK. The behaviour change evidence base is imported from SEL and drug prevention research because no UK online safety RCT exists. Vendor school counts (Jigsaw, SCARF, Oak) are self reported and likely inflated. And the pedagogy findings assume lessons are delivered roughly as designed, which the delivery reality data itself undermines.</p>
+      <div class="missing">
+        <h3>The missing seventh lens</h3>
+        <p>The parent. The 2025 guidance makes every slide parent inspectable, parents increasingly drive school reputation on exactly this topic, and your parent platform means a school module could hand each family a linked home conversation. Nobody researched the parent as the module's second audience and your bridge from school sales to parent subscriptions. That is a V3 worth running.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="sources">
+    <span class="eyebrow">Every citation checked against its primary source</span>
+    <h2>Source Ledger</h2>
+    <div class="ledger">
+      <div class="ledger-row"><span class="verdict corrected">Queued</span><div class="src"><a href="https://committees.parliament.uk/writtenevidence/137849/pdf/">S1 · Teacher Tapp survey via Youth Endowment Fund evidence</a> · 2025<span class="note">55% cite confidence as main barrier; 31% never trained</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Queued</span><div class="src"><a href="https://www.gov.uk/government/publications/review-of-sexual-abuse-in-schools-and-colleges/review-of-sexual-abuse-in-schools-and-colleges">S2 · Review of sexual abuse in schools</a> · Ofsted, 2021<span class="note">Around half of schools had untrained RSHE deliverers; provision "too little, too late"</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Queued</span><div class="src"><a href="https://pshe-association.org.uk/guidance/ks3-5/models-of-delivery">S3 · Models of delivery</a> · PSHE Association<span class="note">Tutor time 15 to 30 minutes; drop down days flagged ineffective; hour a week recommended</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Queued</span><div class="src"><a href="https://pshe-association.org.uk/resource/planning-framework-pupils-with-send">S4 · SEND planning framework</a> · PSHE Association, 2020<span class="note">Per lesson SEND adaptation is the expected standard</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Queued</span><div class="src"><a href="https://srcd.onlinelibrary.wiley.com/doi/10.1111/j.1467-8624.2010.01564.x">S5 · Durlak et al. SEL meta analysis</a> · Child Development, 2011<span class="note">213 programmes; SAFE design; effects 0.22 to 0.57</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Queued</span><div class="src"><a href="https://link.springer.com/article/10.1023/A:1021314704811">S6 · Tobler et al. prevention meta analysis</a> · Journal of Primary Prevention, 2000<span class="note">Interactive roughly 21% vs 4% for didactic formats</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Queued</span><div class="src"><a href="https://www.mdpi.com/2076-328X/15/6/771">S7 · Distributed practice meta analysis</a> · Behavioral Sciences, 2025<span class="note">d = 0.54 for spaced vs massed classroom delivery</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Queued</span><div class="src"><a href="https://www.ofcom.org.uk/siteassets/resources/documents/research-and-data/media-literacy-research/children/childrens-media-use-and-attitudes-report-2025/childrens-media-literacy-report-2025.pdf">S8 · Children and Parents Media Use 2025</a> · Ofcom<span class="note">92% recall online safety lessons; only 45% found them very useful; regular lessons rate higher</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Queued</span><div class="src"><a href="https://pshe-association.org.uk/guidance/ks1-5/handling-complex-issues-safely-classroom">S9 · Handling complex issues safely</a> · PSHE Association<span class="note">Ground rules, baseline, distancing techniques, plenary revisit, signposting</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Queued</span><div class="src"><a href="https://link.springer.com/article/10.1007/s40688-023-00465-5">S10 · Be Internet Awesome cluster RCT</a> · Contemporary School Psychology, 2023<span class="note">1,072 pupils; knowledge and self efficacy up, behaviour unchanged</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Queued</span><div class="src"><a href="https://journals.sagepub.com/doi/10.1177/1524838020916257">S11 · Youth internet safety education review</a> · Finkelhor et al., 2021<span class="note">No rigorous evaluation of most programmes; core messages lack evidence rationale</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Queued</span><div class="src"><a href="https://academic.oup.com/joc/article-abstract/62/3/454/4085797">S12 · Media literacy meta analysis</a> · Jeong et al., Journal of Communication, 2012<span class="note">d = 0.37 overall; more sessions better, more components worse</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Queued</span><div class="src"><a href="https://www.thenational.academy/blog/our-approach-to-curriculum">S13 · Oak curriculum approach</a> · Oak National Academy<span class="note">Slides, starter quiz, exit quiz, worksheet; Rosenshine, cognitive load, Mayer principles</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Queued</span><div class="src"><a href="https://www.tes.com/magazine/news/general/most-secondary-teachers-make-their-own-curriculum-resources">S14 · DfE teacher survey on Oak use</a> · Tes<span class="note">Only 13% secondary and 11% primary teachers use Oak; about 90% make own resources</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Queued</span><div class="src"><a href="https://www.thenational.academy/blog/a-complete-trusted-rshe-pshe-curriculum-designed-to-help-schools-meet-statutory-expectations">S15 · Oak free RSHE curriculum</a> · Oak National Academy, 2025<span class="note">Free, Y1 to Y11, aligned to September 2026 statutory guidance</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Queued</span><div class="src"><a href="https://www.thenational.academy/blog/impact-report-2023-2024">S16 · Oak impact report</a> · 2024<span class="note">73% report time saved, median 4 hours a week; earlier evaluation found 54% no workload change</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://neu.org.uk/latest/press-releases/vast-majority-schools-face-funding-cuts-next-year">S17 · School funding shortfalls</a> · NEU School Cuts, 2025<span class="note">Verified: 76% of primaries and 94% of secondaries cannot afford next year’s costs, following the 2.8% unfunded pay recommendation</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.edtechinnovationhub.com/news/twinkl-to-offer-free-uk-access-to-natterhub-as-schools-tackle-online-safety-pressures">S18 · Twinkl and Natterhub giveaway</a> · EdTech Innovation Hub<span class="note">Verified with one caveat: it was an opt in offer requiring registration by 30 April 2025, not automatic provisioning</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.gov.uk/guidance/buying-procedures-and-procurement-law-for-schools">S19 · Buying for schools</a> · GOV.UK<span class="note">Verified: purchases generally under £10,000 are low value; DfE Route 3 asks for around 3 supplier quotes; schools check their own policy for exact thresholds</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.nga.org.uk/news-views/directory/rshe-2026-statutory-changes-you-need-to-know/">S20 · RSHE 2026 statutory changes</a> · National Governance Association<span class="note">Verified: guidance published July 2025, compulsory 1 September 2026, first update since 2019, naming deepfakes, sextortion, misogynistic cultures and AI content</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://educationhub.blog.gov.uk/2025/07/new-rshe-guidance-what-parents-need-to-know/">S21 · New RSHE guidance for parents</a> · DfE Education Hub, 2025<span class="note">Verified: parents can view all curriculum materials on request, and contractual clauses blocking that are void and unenforceable</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Queued</span><div class="src"><a href="https://cognota.com/blog/how-long-does-it-take-instructional-designers-to-create-one-hour-of-learning/">S22 · Chapman Alliance production benchmarks</a> · via Cognota<span class="note">Slide formats 49 to 79 dev hours per finished hour; interactive up to 716</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Queued</span><div class="src"><a href="https://mollyrosefoundation.org/more-than-60-of-australian-children-still-using-social-media-despite-ban-for-under-16s-research-shows/">S23 · Australian ban circumvention</a> · Molly Rose Foundation, April 2026<span class="note">61% of 12 to 15s who had accounts still have access; 51% say nothing changed</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Queued</span><div class="src"><a href="https://assets.publishing.service.gov.uk/media/69a494a6286b6fdc85daeb1c/growing_up_in_the_online_world-national-conversation.pdf">S24 · Growing up in the online world</a> · GOV.UK consultation, 2026<span class="note">Two thirds of young people back restricting at least some platforms for under 16s</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Queued</span><div class="src"><a href="https://journals.sagepub.com/doi/10.1177/1745691617722620">S25 · Why adolescent interventions fail</a> · Yeager, Dahl and Dweck, 2018<span class="note">Status and autonomy framing; exploitation reframe produces internalised change</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Queued</span><div class="src"><a href="https://www.globenewswire.com/news-release/2019/05/15/1825260/0/en/Glimpse-K12-Analysis-of-School-Spending-Shows-that-Two-Thirds-of-Software-License-Purchases-Go-Unused.html">S26 · Glimpse K12 licence usage analysis</a> · 2019<span class="note">67% of school software licences unused. US data</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Queued</span><div class="src"><a href="https://flairrepublic.co.uk/education-edtech-marketing-playbook/">S27 · Education marketing playbook</a> · FlairRepublic, 2026<span class="note">Edtech trial to paid around 24.8%; sales cycles 6 to 18 months</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Queued</span><div class="src"><a href="https://education-forum.co.uk/teacher-edtech-recommendations-best-says-besa-survey/">S28 · BESA ICT surveys</a> · BESA<span class="note">In school teacher recommendation the most trusted purchase input, 44 to 46%</span></div></div>
+    </div>
+  </section>
+
+  <footer class="brief-foot">
+    Guided Childhood · Kids Research Briefing · Six lenses, adversarially verified · 2 July 2026
+  </footer>
+
+</div>
+</body>
+</html>

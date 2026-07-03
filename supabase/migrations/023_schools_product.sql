@@ -1,5 +1,5 @@
 -- Guided Childhood Schools: Phase 1 (reference lesson end to end)
--- Run AFTER 017_lesson_slides.sql.
+-- Run AFTER 022_email_log.sql. (Renumbered from 018: main took 018 to 022.)
 -- Spec: plans/schools-lesson-build-spec.md (sections 6, 10, 12, 16).
 --
 -- Design decisions locked in the spec:
