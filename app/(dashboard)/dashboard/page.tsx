@@ -6,6 +6,7 @@ import type { Moment } from '@/components/cards/MomentCard'
 import MomentCard from '@/components/cards/MomentCard'
 import PushPrompt from '@/components/push/PushPrompt'
 import DeviceSetupBanner from '@/components/device/DeviceSetupBanner'
+import DigiPrompts from '@/components/digi/DigiPrompts'
 
 const STAGE_COLORS = {
   1: { bg: 'var(--stage-1)', bold: 'var(--stage-1-bold)', text: 'var(--stage-1-text)', border: 'var(--stage-1)' },
@@ -124,6 +125,9 @@ export default async function DashboardPage() {
           </div>
         )}
       </div>
+
+      {/* DiGi leads: proactive watch fors, tips and parent care */}
+      <DigiPrompts />
 
       {/* Continue Your Progress — primary hero card */}
       <Link href="/dashboard/daily" style={{ textDecoration: 'none', display: 'block', marginBottom: '20px' }}>

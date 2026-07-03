@@ -60,7 +60,7 @@ export async function getDailyTasks(
     supabase.from('daily_sessions').select('completed_at, cards_completed').eq('user_id', userId).eq('session_date', today).maybeSingle(),
     getRecommendedScript(supabase, userId, stageId, challenge),
     supabase.from('script_completions').select('id').eq('user_id', userId).gte('completed_at', `${today}T00:00:00Z`).limit(1),
-    supabase.from('lessons').select('id, title').eq('stage_id', stageId).eq('audience', 'parent').order('sort_order', { ascending: true }),
+    supabase.from('lessons').select('id, title').eq('stage_id', stageId).eq('audience', 'parent').neq('status', 'stub').order('sort_order', { ascending: true }),
     supabase.from('ai_lessons').select('id, title').eq('audience', STAGE_TO_AUDIENCE[stageId]),
     supabase.from('lesson_completions').select('lesson_id, lesson_source').eq('user_id', userId),
     supabase.from('device_guides').select('device_key, name, min_age').lte('min_age', STAGE_DEVICE_MAX_AGE[stageId]).order('min_age', { ascending: true }),

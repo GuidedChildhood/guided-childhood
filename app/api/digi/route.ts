@@ -6,6 +6,7 @@ import Anthropic from '@anthropic-ai/sdk'
 import { getStageFromAgeBand, STAGES, type AgeBand, type ChallengeId } from '@/lib/content/stages'
 import { getRecommendedScript } from '@/lib/pathway/recommend'
 import type { StageId } from '@/lib/pathway/progress'
+import { getExpertKnowledge, getFamilyMemory } from '@/lib/digi/brain'
 import { readFileSync } from 'fs'
 import { join } from 'path'
 
@@ -164,6 +165,11 @@ export async function POST(request: Request) {
     }
   }
 
+  const [expertKnowledge, familyMemory] = await Promise.all([
+    getExpertKnowledge(supabase, child?.age_band ?? null, message),
+    getFamilyMemory(supabase, user.id),
+  ])
+
   const systemPrompt = buildSystemPrompt(
     stage,
     child,
@@ -171,7 +177,7 @@ export async function POST(request: Request) {
     trackerResult.data ?? [],
     feedbackResult.data ?? [],
     aiKnowledge,
-    deviceGuideKnowledge + scriptFeedbackKnowledge + nextStepKnowledge,
+    deviceGuideKnowledge + scriptFeedbackKnowledge + nextStepKnowledge + expertKnowledge + familyMemory,
   )
 
   // Get conversation history
@@ -231,6 +237,32 @@ export async function POST(request: Request) {
       last_message_date: today,
     })
   }
+
+  // DiGi learns: extract one durable memory from the exchange when there is
+  // one worth keeping, so future conversations start from what is known.
+  try {
+    const extraction = await callDigi({
+      model: DIGI_MODEL,
+      max_tokens: 200,
+      messages: [{
+        role: 'user',
+        content: `From this parent coaching exchange, extract at most ONE durable fact worth remembering for future conversations (a concern, a win, a preference, or lasting context about the child or family). Skip small talk and one off logistics. If nothing durable, reply exactly NONE.\n\nParent: ${message}\nAdvisor: ${mainResponse.slice(0, 600)}\n\nReply as JSON only: {"kind":"observation|concern|win|preference|context","content":"one sentence, third person"} or NONE`,
+      }],
+    })
+    const memText = extraction.content[0]?.type === 'text' ? extraction.content[0].text.trim() : 'NONE'
+    if (memText !== 'NONE') {
+      const memMatch = memText.match(/\{[\s\S]*\}/)
+      if (memMatch) {
+        const mem = JSON.parse(memMatch[0]) as { kind: string; content: string }
+        if (['observation', 'concern', 'win', 'preference', 'context'].includes(mem.kind) && mem.content) {
+          await supabase.from('digi_memory').insert({
+            user_id: user.id, child_id: child?.id ?? null,
+            kind: mem.kind, content: mem.content.slice(0, 400), source: 'chat',
+          })
+        }
+      }
+    }
+  } catch { /* memory is best effort, never blocks the reply */ }
 
   try {
     await supabase.from('digi_questions').insert({
