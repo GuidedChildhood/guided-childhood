@@ -221,3 +221,11 @@ Append-only. Read at session start. Updated at session end.
 ## 2026-07-03 — decisions.md conflict resolution (research branch merge)
 
 The research branch (kids-mental-health-researcher) and main both appended 3 July sections. Resolved per the append only rule: both sides kept in full, research branch entries (algorithm briefing, positive pathway doctrine) precede main's build entries. Nothing dropped.
+
+---
+
+## 2026-07-03 — Viral post anatomy locked into content-engine
+
+**Justin's two proven viral posts saved as the voice bible** (content/voice-samples/viral-posts.md, 73,911 and 9,879 impressions) and their anatomy codified in content-engine: cold open on a precise number, fill the 3,000 character limit, stacked institutions, the honest pivot mid post, one ratio or two children contrast, series branding (The Wrong Villain continues; One Phone Four Machines launched), PATHWAY comment mechanic, principled repost ask, follow line, closing question, prepared author first comment per post. Standing rules added: never relitigate the ban in either direction; positioning is the voice of children's mental health teaching digital and AI devices via an incremental age based pathway.
+
+**LinkedIn pack V3 shipped** in that structure, 2,700 to 2,900 characters per post, zero ban content, uploaded to Drive. Note: the PATHWAY mechanic promises a link on comment; the destination asset must be live before Post 1 publishes.
