@@ -28,6 +28,7 @@
     { "path": "/api/push/cron", "schedule": "30 7 * * *" },
     { "path": "/api/push/cron", "schedule": "30 15 * * *" },
     { "path": "/api/push/cron", "schedule": "0 21 * * *" },
-    { "path": "/api/digi/proactive-cron", "schedule": "0 8 * * *" }
+    { "path": "/api/digi/proactive-cron", "schedule": "0 8 * * *" },
+    { "path": "/api/digi/evening-reset", "schedule": "0 18 * * *" }
   ]
 }
