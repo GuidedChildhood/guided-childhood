@@ -5,6 +5,8 @@ import AnnouncementBar from '@/components/marketing/AnnouncementBar'
 import FaqAccordion from '@/components/marketing/FaqAccordion'
 import FlipCards from '@/components/marketing/FlipCards'
 import DigiWalker from '@/components/marketing/DigiWalker'
+import DigiLive from '@/components/marketing/DigiLive'
+import SchoolMailDemo from '@/components/marketing/SchoolMailDemo'
 import DigiCharacter from '@/components/digi/DigiCharacter'
 
 export const metadata: Metadata = {
@@ -271,9 +273,10 @@ const TESTIMONIALS = [
 
 export default function HomePage() {
   return (
-    <div style={{ background: '#fff', overflowX: 'hidden' }}>
+    <div className="serif-heads" style={{ background: '#fff', overflowX: 'hidden' }}>
 
       <AnnouncementBar />
+      <DigiLive />
 
       {/* JSON-LD structured data */}
       <script
@@ -427,12 +430,12 @@ export default function HomePage() {
                 For UK parents · Ages 4 to 16
               </span>
             </div>
-            <h1 className="fu" style={{ fontSize: 'clamp(2.4rem, 4.8vw, 3.9rem)', fontWeight: 900, lineHeight: 1.0, letterSpacing: '-.04em', color: 'var(--ink)', marginBottom: '22px' }}>
-              Raising kids<br />with screens<br />
-              <span style={{ color: 'var(--terracotta)' }}>is something you can learn.</span>
+            <h1 className="fu" style={{ fontSize: 'clamp(2.5rem, 5vw, 4.1rem)', fontWeight: 600, lineHeight: 1.04, letterSpacing: '-.02em', color: 'var(--ink)', marginBottom: '22px' }}>
+              End the screen<br />time fights.<br />
+              <span style={{ color: 'var(--terracotta-dark)', fontStyle: 'italic' }}>Starting tonight.</span>
             </h1>
             <p className="fu" style={{ fontSize: '1.02rem', color: 'var(--ink)', lineHeight: 1.78, maxWidth: '440px', marginBottom: '28px' }}>
-              The stage by stage guide, exact scripts for the hard moments, and DiGi, your AI parenting advisor available at 11pm.
+              The exact words for every screen battle, a pathway from 4 to 16, and DiGi, who watches for what matters and tells you before it becomes a fight.
             </p>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '28px', flexWrap: 'wrap' }}>
               <span style={{ color: '#F59E0B', letterSpacing: '2px', fontSize: '.95rem' }}>★★★★★</span>
@@ -688,6 +691,29 @@ export default function HomePage() {
             </p>
           </div>
 
+        </div>
+      </section>
+
+      {/* ================================================================
+          DIGI SCHOOL MAIL DEMO — the live demonstration
+          ================================================================ */}
+      <section aria-label="DiGi reads the school emails" style={{ padding: 'clamp(72px, 9vw, 110px) 32px', background: 'var(--terracotta-lt)', borderTop: '1px solid var(--border)' }}>
+        <div style={{ maxWidth: '1040px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+            <p className="eyebrow fu" style={{ color: 'var(--terracotta-dark)', marginBottom: '12px' }}>Watch DiGi work</p>
+            <h2 className="fu" style={{ marginBottom: '14px' }}>
+              DiGi reads the school emails<br />so you do not have to.
+            </h2>
+            <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink)', lineHeight: 1.8, maxWidth: '520px', margin: '0 auto' }}>
+              Forward the school's emails once. DiGi catches the PE kit reminders, the trip forms and the payment deadlines, and taps you on the shoulder before the morning scramble. Your inbox stays yours.
+            </p>
+          </div>
+          <SchoolMailDemo />
+          <div style={{ textAlign: 'center', marginTop: '36px' }}>
+            <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '14px', padding: '15px 30px' }}>
+              Let DiGi carry it
+            </Link>
+          </div>
         </div>
       </section>
 
