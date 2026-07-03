@@ -10,7 +10,7 @@ import DigiCharacter from '@/components/digi/DigiCharacter'
 
 export const metadata: Metadata = {
   title: 'Guided Childhood, Screen Time and Digital Literacy Guide for UK Families · Ages 4 to 16',
-  description: 'Stop guessing what to say. Guided Childhood gives UK parents exact scripts for every screen time fight, a stage-by-stage digital literacy pathway from age 4 to 16, and DiGi your AI parenting advisor available at 11pm. Built on the research, not a ban.',
+  description: 'The UK ban delays social media until 16, it does not prepare your child for it. Guided Childhood gives UK parents a stage by stage digital literacy pathway from age 4 to 16, exact scripts for every screen time fight, and DiGi your AI parenting advisor available at 11pm.',
   keywords: [
     'digital parenting UK', 'screen time scripts', 'digital literacy for children',
     'child screen time advice', 'social media age UK', 'digital parenting pathway',
@@ -18,16 +18,16 @@ export const metadata: Metadata = {
     'online safety for children UK',
   ],
   openGraph: {
-    title: 'Stop guessing what to say about screens. Get the exact words tonight.',
-    description: 'The stage-by-stage digital literacy guide for UK families. Exact scripts for screen time battles, gaming meltdowns, social media access, and bedtime fights. Ages 4 to 16. Free starter pack.',
+    title: 'Social media arrives at 16. Ready is built from age 4.',
+    description: 'The ban delays the apps, it does not prepare your child for them. The stage by stage digital literacy pathway for UK families: exact scripts for screen time battles, gaming meltdowns and bedtime fights. Ages 4 to 16. Free starter pack.',
     url: 'https://www.guidedchildhood.co.uk',
     type: 'website',
     locale: 'en_GB',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Stop guessing what to say about screens. Get the exact words tonight.',
-    description: 'The stage-by-stage digital literacy guide for UK families. Ages 4 to 16. Free starter pack.',
+    title: 'Social media arrives at 16. Ready is built from age 4.',
+    description: 'The ban delays the apps, it does not prepare your child for them. The stage by stage digital literacy pathway for UK families. Ages 4 to 16. Free starter pack.',
   },
   alternates: {
     canonical: 'https://www.guidedchildhood.co.uk',
@@ -427,10 +427,10 @@ export default function HomePage() {
               For UK parents · Ages 4 to 16
             </p>
             <h1 className="fu" style={{ fontSize: 'clamp(2.1rem, 3.4vw, 2.9rem)', fontWeight: 800, lineHeight: 1.12, letterSpacing: '-.028em', color: 'var(--ink)', maxWidth: '560px', marginBottom: '20px' }}>
-              Raising kids with screens is something you can learn.
+              Social media arrives at 16. Ready is built from age 4.
             </h1>
-            <p className="fu" style={{ fontSize: '1.05rem', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '430px', marginBottom: '30px' }}>
-              The stage by stage guide, exact scripts for the hard moments, and DiGi, your AI parenting advisor available at 11pm.
+            <p className="fu" style={{ fontSize: '1.05rem', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '460px', marginBottom: '30px' }}>
+              The ban delays the apps. It does not prepare your child for them. This pathway does: school level digital literacy taught at home, exact scripts for the everyday screen struggles, and DiGi, your AI parenting advisor available at 11pm.
             </p>
             <div className="fu" style={{ display: 'flex', gap: '18px', flexWrap: 'wrap', alignItems: 'center', marginBottom: '14px' }}>
               <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '15px', padding: '16px 36px' }}>
