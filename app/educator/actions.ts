@@ -32,14 +32,15 @@ export async function createSchool(formData: FormData) {
   const { error } = await supabase
     .from('school_accounts')
     .insert({ id: schoolId, name, phase, licence_tier: 'pilot' })
-  if (error) throw new Error(error.message)
+  if (error) redirect(`/educator?error=${encodeURIComponent(`Creating the school failed: ${error.message} (code ${error.code ?? 'unknown'})`)}`)
 
   const { error: eduError } = await supabase
     .from('school_educators')
     .insert({ school_id: schoolId, user_id: user.id, role: 'lead' })
-  if (eduError) throw new Error(eduError.message)
+  if (eduError) redirect(`/educator?error=${encodeURIComponent(`Joining you to the school failed: ${eduError.message} (code ${eduError.code ?? 'unknown'})`)}`)
 
   revalidatePath('/educator')
+  redirect('/educator')
 }
 
 export async function createClass(formData: FormData) {
