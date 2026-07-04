@@ -27,17 +27,36 @@ const chunkyButton: React.CSSProperties = {
   fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
 }
 
-export default async function EducatorHome() {
+function ErrorBox({ message }: { message?: string }) {
+  if (!message) return null
+  return (
+    <div style={{
+      background: 'var(--coral-lt)', border: '2px solid var(--coral)', borderRadius: '16px',
+      padding: '14px 18px', marginBottom: '20px', fontFamily: 'var(--font-body)',
+      fontSize: '14px', color: 'var(--coral-dark)', lineHeight: 1.6, overflowWrap: 'anywhere',
+    }}>
+      <strong style={{ display: 'block', marginBottom: '4px' }}>Something went wrong</strong>
+      {message}
+    </div>
+  )
+}
+
+export default async function EducatorHome({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const { data: membership } = await supabase
+  const { error: errorMessage } = await searchParams
+
+  const { data: membership, error: membershipError } = await supabase
     .from('school_educators')
     .select('school_id, role, school_accounts(name, phase, licence_tier)')
     .eq('user_id', user.id)
     .limit(1)
     .maybeSingle()
+
+  const combinedError = [errorMessage, membershipError ? `Loading your school failed: ${membershipError.message}` : null]
+    .filter(Boolean).join(' · ')
 
   if (!membership) {
     return (
@@ -50,6 +69,7 @@ export default async function EducatorHome() {
           <p style={{ fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: '24px' }}>
             Two fields and you are in. You become the school lead; colleagues can be added later.
           </p>
+          <ErrorBox message={combinedError || undefined} />
           <form action={createSchool} style={{ ...card, display: 'flex', flexDirection: 'column', gap: '14px' }}>
             <label style={{ fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '13.5px', color: 'var(--ink)' }}>
               School name
@@ -86,6 +106,7 @@ export default async function EducatorHome() {
         <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.6rem, 5vw, 2.2rem)', color: 'var(--ink)', letterSpacing: '-0.01em', margin: '8px 0 28px' }}>
           {school.name}
         </h1>
+        <ErrorBox message={combinedError || undefined} />
 
         <section style={{ marginBottom: '36px' }}>
           <div style={{ ...eyebrow, color: 'var(--green-dark)', marginBottom: '12px' }}>Your classes</div>

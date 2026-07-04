@@ -13,11 +13,21 @@ export default async function DailyPage() {
   const today = new Date().toISOString().split('T')[0]
   const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0]
 
-  const [profileResult, childResult, sessionResult, yesterdaySession] = await Promise.all([
+  const [profileResult, childResult, sessionResult, yesterdaySession, concernsResult] = await Promise.all([
     supabase.from('profiles').select('full_name').eq('id', user.id).single(),
     supabase.from('children').select('name, age_band, stage_id, streak_weeks, actions_this_week').eq('parent_id', user.id).eq('is_primary', true).single(),
     supabase.from('daily_sessions').select('completed_at').eq('user_id', user.id).eq('session_date', today).maybeSingle(),
     supabase.from('daily_sessions').select('moment_feedback').eq('user_id', user.id).eq('session_date', yesterday).maybeSingle(),
+    // Live concerns flagged before today and not yet checked today: these
+    // become the one tap check in card above the moments tagger.
+    supabase.from('concerns')
+      .select('slug, label')
+      .eq('user_id', user.id)
+      .in('status', ['open', 'improving'])
+      .lt('last_flagged_at', today)
+      .or(`last_checked_at.is.null,last_checked_at.lt.${today}`)
+      .order('last_flagged_at', { ascending: false })
+      .limit(5),
   ])
 
   const child = childResult.data
@@ -25,6 +35,7 @@ export default async function DailyPage() {
   const alreadyDone = !!sessionResult.data?.completed_at
   const streak = child?.streak_weeks ?? 0
   const yesterdayMoments: string[] = (yesterdaySession.data?.moment_feedback as string[] | null) ?? []
+  const checkIns = (concernsResult.data ?? []) as { slug: string; label: string }[]
 
   const stage = STAGES.find(s => s.ageBand === (child?.age_band as AgeBand)) ?? STAGES[2]
 
@@ -192,7 +203,7 @@ export default async function DailyPage() {
 
   return (
     <div style={{ background: 'var(--cream)', minHeight: '100dvh' }}>
-      <DailyDeckViewer cards={cards} alreadyDone={alreadyDone} />
+      <DailyDeckViewer cards={cards} alreadyDone={alreadyDone} checkIns={checkIns} />
     </div>
   )
 }

@@ -33,6 +33,7 @@ export default function DigiChat({
   const [messages, setMessages] = useState<Message[]>(initialMessages)
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
+  const [streamingReply, setStreamingReply] = useState(false)
   const [error, setError] = useState('')
   const [dailyCount, setDailyCount] = useState(initialCount)
   const [deviceSetupDismissed, setDeviceSetupDismissed] = useState(true)
@@ -79,35 +80,91 @@ export default function DigiChat({
     setLoading(true)
     setError('')
 
+    // The reply streams in as plain text. The reflective question travels in
+    // the same stream after a --- marker line and is split out client side.
+    const REFLECTION_MARKER = /\n\s*---\s*\n/
+    let replyStarted = false
+
     try {
+      const controller = new AbortController()
+      const timeout = setTimeout(() => controller.abort(), 65_000)
       const res = await fetch('/api/digi', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: messageText, device_key: deviceKey }),
+        signal: controller.signal,
       })
 
-      const data = await res.json()
-
       if (!res.ok) {
+        clearTimeout(timeout)
+        const data = await res.json().catch(() => ({} as { error?: string }))
         if (res.status === 429) {
           setError('You have used your 3 free DiGi messages for today. Upgrade for unlimited access.')
         } else {
           setError(data.error ?? 'Something went wrong. Please try again.')
         }
         setMessages(prev => prev.slice(0, -1))
-      } else {
-        setMessages(prev => [...prev, { role: 'assistant', content: data.response }])
-        setDailyCount(data.messagesUsedToday ?? dailyCount + 1)
-        // Surface reflective question if new (and not already showing one)
-        if (data.reflectiveQuestion && !reflectionQuestion && !reflectionDone) {
-          setReflectionQuestion(data.reflectiveQuestion)
+        return
+      }
+
+      if (!res.body) throw new Error('No response stream')
+
+      const usedToday = Number(res.headers.get('X-Messages-Used-Today'))
+      const reader = res.body.getReader()
+      const decoder = new TextDecoder()
+      let fullText = ''
+
+      const showReply = (content: string) => {
+        if (!replyStarted) {
+          replyStarted = true
+          setStreamingReply(true)
+          setMessages(prev => [...prev, { role: 'assistant', content }])
+        } else {
+          setMessages(prev => {
+            const next = [...prev]
+            next[next.length - 1] = { role: 'assistant', content }
+            return next
+          })
         }
       }
+
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+        fullText += decoder.decode(value, { stream: true })
+        // Hide a partially streamed marker line so it never flashes on screen
+        const visible = fullText.split(REFLECTION_MARKER)[0].replace(/\n\s*-{1,3}\s*$/, '')
+        if (visible.trim()) showReply(visible)
+      }
+      fullText += decoder.decode()
+      clearTimeout(timeout)
+
+      const parts = fullText.split(REFLECTION_MARKER)
+      const mainResponse = parts[0]?.trim() ?? fullText.trim()
+      const reflective = parts[1]?.trim() || null
+
+      if (!mainResponse) {
+        setError('DiGi took too long to answer. Your message was not lost, try sending it again.')
+        setMessages(prev => prev.slice(0, -1))
+        return
+      }
+
+      showReply(mainResponse)
+      setDailyCount(Number.isFinite(usedToday) && usedToday > 0 ? usedToday : dailyCount + 1)
+      // Surface reflective question if new (and not already showing one)
+      if (reflective && !reflectionQuestion && !reflectionDone) {
+        setReflectionQuestion(reflective)
+      }
     } catch {
-      setError('Could not reach DiGi. Please check your connection and try again.')
+      if (replyStarted) {
+        // Keep whatever DiGi managed to say before the connection dropped
+        return
+      }
+      setError('DiGi took too long to answer. Your message was not lost, try sending it again.')
       setMessages(prev => prev.slice(0, -1))
     } finally {
       setLoading(false)
+      setStreamingReply(false)
     }
   }
 
@@ -310,7 +367,7 @@ export default function DigiChat({
           </div>
         ))}
 
-        {loading && (
+        {loading && !streamingReply && (
           <div style={{ display: 'flex', justifyContent: 'flex-start', marginBottom: '12px', alignItems: 'flex-end', gap: 8 }}>
             <DigiAvatar size={26} mood="thinking" />
             <div style={{ padding: '13px 16px', background: 'var(--white)', border: '1px solid var(--border)', borderRadius: '16px 16px 16px 4px', display: 'flex', gap: '5px', alignItems: 'center' }}>

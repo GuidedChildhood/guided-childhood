@@ -207,10 +207,10 @@ export default function OnboardingPage() {
 
     if (!existingChildren.data || existingChildren.data.length === 0) {
       await supabase.from('children').insert({
-        parent_id: user.id, name, age_band: ageBand, stage_id: stage.id, is_primary: true,
+        parent_id: user.id, name, age_band: ageBand, stage_id: stage.name.toLowerCase(), is_primary: true,
       })
     } else {
-      await supabase.from('children').update({ name, age_band: ageBand, stage_id: stage.id })
+      await supabase.from('children').update({ name, age_band: ageBand, stage_id: stage.name.toLowerCase() })
         .eq('id', existingChildren.data[0].id)
     }
 

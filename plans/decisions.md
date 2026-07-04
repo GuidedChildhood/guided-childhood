@@ -241,3 +241,26 @@ The research branch (kids-mental-health-researcher) and main both appended 3 Jul
 ## 2026-07-04 — "Not fully developed" briefing (verified V2)
 
 **Research complete: 26 confirmed, 3 corrected, 1 demoted of 30 sources.** The strongest evidence base for the pathway yet: the "not developed until 25" line is an artefact of old sample caps (no cliff; Cambridge 2025 puts the era at 9 to 32), the load bearing fact is cold cognition matures around 16 and hot cognition into the twenties (Icenogle 2019), capability grows through supervised practice not waiting (Greenough), the law already grades by understanding (Article 5 evolving capacities, Gillick 1985), and every risky domain runs a ladder (graduated driving licences cut crashes ~22%). Corrections applied: Article 12 is age AND maturity (not "not age"); the UN consultation was 709 children in 27 countries; the Australian "70 to 9" youth opposition ratio was DEMOTED and removed (majority opposed direction holds, exact ratio unsourced). Counter case named honestly: alcohol graduated supply increased harm, so the ladder works for skill domains not consumption domains. Standing copy rule added: retire "not fully developed" from all Guided Childhood copy; use the evolving capacities frame (capable now, growing still).
+## 2026-07-04 — School email switch on (setup flow, Resend inbound, Things you need to know)
+
+**The parent surface for the school link exists (this was section 25's gap):** /dashboard/school carries the whole flow: the letterbox pitch with the six reassurances from plan section 17 verbatim, one sender to start (never demand completeness), the private forwarding address big and copyable, Gmail steps with the generated filter text (from:(sender OR sender)) and the explicit "leave Skip the Inbox unticked" instruction, plus plain Outlook/other rule steps. Manage view has the active toggle, sender add/remove and delete.
+
+**Gmail verification never leaves the flow:** migration 028 adds verification_code, verification_link, verification_received_at to school_connections. The inbound webhook catches Google's confirmation email (forwarding-noreply@google.com), stores the code and one tap link, and the setup screen polls /api/school/connect every five seconds and shows the code the moment it lands.
+
+**Resend inbound is verified without a new dependency:** Resend signs webhooks per the svix spec, so the inbound route does manual HMAC SHA256 over id.timestamp.rawBody with RESEND_INBOUND_SIGNING_SECRET (whsec_ value), five minute timestamp tolerance, constant time comparison, checked against the published svix test vector. The x-inbound-secret header path stays as the fallback for any non svix provider. Resend's { type: 'email.received', data: {...} } shape and the flat shape are both normalised.
+
+**The forwarding address format is school+<token>@<domain>:** domain from SCHOOL_INBOUND_DOMAIN (default in.guidedchildhood.com, the connect API is the single source of truth for it), matching the existing token parser. Env vars the deploy needs: SCHOOL_INBOUND_DOMAIN, RESEND_INBOUND_SIGNING_SECRET, and the existing SCHOOL_INBOUND_SECRET as fallback. Webhook URL for the Resend dashboard: https://guided-childhood-app.vercel.app/api/school/inbound (the app deployment, not the marketing domain).
+
+**Things you need to know is live on the dashboard:** open school_actions render above the moment cards with kind chips, due labels (Overdue/Today/Tomorrow/By day), Done and Dismiss posting to /api/school/actions. A dismissible promo card (letterbox line, "Set it up in three minutes", localStorage dismissal per device) shows while no active connection exists.
+
+---
+
+## 2026-07-04 — App notification emails become check the app reminders
+
+ClassDojo, Tapestry, Seesaw, Arbor and similar apps often email only "a message is waiting, log in to read it" with no content. DiGi now turns those into a single notice ("Check ClassDojo message from Miss Smith") instead of skipping them as no action, so nothing a school sends through an app silently disappears. Requested by Justin after asking whether ClassDojo updates could reach the dashboard: they can, via the same forwarding letterbox, by adding the app's sender address to the allowed senders and the Gmail filter.
+
+---
+
+## 2026-07-04 — decisions.md conflict resolution (research branch, second merge)
+
+Research branch (Haidt and Not Fully Developed briefings, viral post anatomy) and main (school email switch on, app notification emails) both appended 4 July sections. Resolved per the append only rule: both kept in full, research entries first, then main's build entries. Nothing dropped.
