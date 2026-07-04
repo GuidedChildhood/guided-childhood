@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Haidt phenomenon · Guided Childhood Research Briefing</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root{
+  --cream:      #F7F3EE;
+  --warm:       #FDFBF8;
+  --ink:        #1C1C1C;
+  --ink-soft:   #4A4A4A;
+  --ink-muted:  #6E6A62;
+  --ink-light:  #9B958A;
+  --green:      #AFDCA2;
+  --green-dark: #2E7D5A;
+  --green-lt:   #EEF7F2;
+  --coral:      #D4600A;
+  --coral-lt:   #FEF3E8;
+  --coral-dark: #C0392B;
+  --gold:       #F2C94C;
+  --gold-lt:    #FEFAE8;
+  --gold-dark:  #C9962A;
+  --gold-hover: #E3B53A;
+  --lav:        #E7ECF8;
+  --lav-deep:   #3D5BA9;
+  --border:     #E4DFD7;
+  --font-display: 'Hanken Grotesk', system-ui, sans-serif;
+  --font-body:    'Hanken Grotesk', system-ui, sans-serif;
+  --font-mono:    'IBM Plex Mono', monospace;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--cream);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.65}
+.wrap{max-width:860px;margin:0 auto;padding:48px 24px 96px}
+
+.eyebrow{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-muted)}
+
+header.brief-head{padding:40px 0 32px;border-bottom:1px solid var(--border)}
+header.brief-head h1{font-weight:800;font-size:clamp(2rem,5vw,3rem);line-height:1.12;letter-spacing:-0.02em;margin:12px 0 16px}
+.meta-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{font-family:var(--font-mono);font-size:12px;font-weight:500;padding:5px 12px;border-radius:999px;background:var(--warm);border:1px solid var(--border);color:var(--ink-soft)}
+.chip.version{background:var(--gold-lt);border-color:var(--gold);color:var(--gold-dark);font-weight:600}
+
+section{margin-top:56px}
+section > h2{font-weight:800;font-size:clamp(1.4rem,3vw,1.9rem);letter-spacing:-0.01em;margin:10px 0 20px}
+section > .eyebrow{display:block}
+
+.summary-card{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:28px 30px;font-size:17px;color:var(--ink-soft)}
+.summary-card p+p{margin-top:12px}
+
+.finding{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:24px 26px;margin-bottom:16px}
+.finding-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.finding h3{font-weight:700;font-size:1.15rem;line-height:1.35;max-width:560px}
+.reliability{font-family:var(--font-mono);font-size:12px;font-weight:600;white-space:nowrap;padding:6px 12px;border-radius:12px}
+.reliability.high{background:var(--green-lt);color:var(--green-dark)}
+.reliability.medium{background:var(--gold-lt);color:var(--gold-dark)}
+.reliability.low{background:var(--coral-lt);color:var(--coral-dark)}
+.finding p{color:var(--ink-soft);margin-top:10px}
+.lens-tags{margin-top:14px;font-family:var(--font-mono);font-size:12px}
+.lens-tags .supported{color:var(--green-dark)}
+.lens-tags .challenged{color:var(--coral-dark)}
+.lens-tags span.sep{color:var(--ink-light);margin:0 8px}
+.finding .cite{font-family:var(--font-mono);font-size:12px;color:var(--ink-light);margin-top:10px}
+
+table.contra{width:100%;border-collapse:collapse;background:var(--warm);border:1px solid var(--border);border-radius:20px;overflow:hidden}
+table.contra th{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;text-align:left;color:var(--ink-muted);padding:14px 18px;border-bottom:1px solid var(--border);background:var(--cream)}
+table.contra td{padding:14px 18px;border-bottom:1px solid var(--border);color:var(--ink-soft);font-size:15px;vertical-align:top}
+table.contra tr:last-child td{border-bottom:none}
+td.leans{font-family:var(--font-mono);font-size:13px;font-weight:600;white-space:nowrap}
+td.leans.green{color:var(--green-dark)}
+td.leans.coral{color:var(--coral-dark)}
+
+.lens-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px}
+.lens-panel{border:1px solid var(--border);border-radius:20px;padding:22px 24px;background:var(--warm)}
+.lens-panel .eyebrow{margin-bottom:8px}
+.lens-panel h3{font-weight:700;font-size:1.05rem;margin-bottom:8px}
+.lens-panel p{color:var(--ink-soft);font-size:15px}
+.lens-panel.clinician{background:var(--green-lt)}
+.lens-panel.academic{background:var(--lav)}
+.lens-panel.skeptic{background:var(--coral-lt)}
+.lens-panel.economist{background:var(--gold-lt)}
+.lens-panel.historian{background:var(--warm)}
+.lens-panel.child{background:var(--cream);border-color:var(--green)}
+
+.gc-card{background:var(--green-lt);border:1px solid var(--green);border-radius:20px;padding:28px 30px}
+.gc-card ul{list-style:none;margin-top:4px}
+.gc-card li{padding:12px 0;border-bottom:1px solid var(--border);color:var(--ink-soft)}
+.gc-card li:last-child{border-bottom:none}
+.gc-card li strong{color:var(--ink);font-weight:700}
+.gc-card .tag{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--green-dark);display:block;margin-bottom:2px}
+
+.assump-card{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:26px 28px}
+.assump-card h3{font-weight:700;font-size:1.05rem;margin-bottom:8px}
+.assump-card p{color:var(--ink-soft)}
+.assump-card .missing{margin-top:20px;padding-top:20px;border-top:1px solid var(--border)}
+.assump-card .missing h3{color:var(--coral-dark)}
+
+.ledger{background:var(--warm);border:1px solid var(--border);border-radius:20px;overflow:hidden}
+.ledger-row{display:flex;gap:16px;align-items:flex-start;padding:16px 20px;border-bottom:1px solid var(--border)}
+.ledger-row:last-child{border-bottom:none}
+.verdict{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;padding:5px 10px;border-radius:10px;white-space:nowrap;margin-top:2px}
+.verdict.confirmed{background:var(--green-lt);color:var(--green-dark)}
+.verdict.corrected{background:var(--gold-lt);color:var(--gold-dark)}
+.verdict.demoted{background:var(--coral-lt);color:var(--coral-dark)}
+.ledger-row .src{font-size:14px;color:var(--ink-soft)}
+.ledger-row .src a{color:var(--lav-deep);text-decoration:none;border-bottom:1px solid var(--lav)}
+.ledger-row .src .note{display:block;font-family:var(--font-mono);font-size:12px;color:var(--ink-light);margin-top:4px}
+
+footer.brief-foot{margin-top:72px;padding-top:24px;border-top:1px solid var(--border);font-family:var(--font-mono);font-size:12px;color:var(--ink-light)}
+
+@media (max-width:600px){
+  .wrap{padding:24px 16px 64px}
+  .finding-top{flex-direction:column}
+  table.contra{display:block;overflow-x:auto}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="brief-head">
+    <span class="eyebrow">Guided Childhood Research Briefing</span>
+    <h1>The Haidt phenomenon: what is right, what is wrong, and what is driving it</h1>
+    <p style="color:var(--ink-soft);max-width:640px">You asked why The Anxious Generation became a phenomenon, what is right and wrong in his mission, what is driving it, what his interviews reveal, and whether the money explains more than the mission. Six lenses researched it. The answer is more useful than a takedown.</p>
+    <div class="meta-row">
+      <span class="chip version">V1 · Verification running</span>
+      <span class="chip">4 July 2026</span>
+      <span class="chip">The Historian</span>
+      <span class="chip">The Methodologist</span>
+      <span class="chip">The Steelman</span>
+      <span class="chip">The Economist</span>
+      <span class="chip">The Interview Analyst</span>
+      <span class="chip">The Critic Corpus</span>
+    </div>
+  </header>
+
+  <section id="summary">
+    <span class="eyebrow">Read this first</span>
+    <h2>60 Second Summary</h2>
+    <div class="summary-card">
+      <p>The Anxious Generation was disputed in Nature within three days of publication and it did not matter commercially: two million plus copies, 111 straight weeks on the bestseller list, statutes in 35 US states and the world's first national under 16 platform law. It won because Haidt spent two years pre building distribution and packaged a contested claim as four norms parents could execute without waiting for the science. The policy window was already open (UNESCO called for school phone limits eight months before the book; the parent movements predate it). He supplied the door handle, not the door.</p>
+      <p>The science splits exactly where your Wrong Villain series already stands. His causal epidemic claim is contested by the strongest researchers in the field, but "no evidence" is false and he can flatly refute it, and his four norms increasingly stand on evidence independent of his thesis. The genuinely documentable pattern is venue dependent certainty: under challenge he concedes the correlation is about 0.17 and that the timing evidence does not prove causation; on friendly platforms, which outnumber adversarial ones roughly six to one, it becomes "caused a mental health pandemic." The money is documented (bureau listed fees to $200,000, no public pledge of book royalties, a Substack pledge he honoured with published receipts) but motive is not knowable and must never be asserted.</p>
+      <p>The strongest safe story is structural, and it is already yours: panic pays better than nuance, the panic economy is measurable (Yondr's contracts, the consultant market), and the certainty is crowding out both the bigger drivers of the crisis and the preparation children actually need. Haidt owns restriction. Nobody owns preparation. That is the lane.</p>
+    </div>
+  </section>
+
+  <section id="findings">
+    <span class="eyebrow">Ranked by reliability</span>
+    <h2>Key Findings</h2>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>The phenomenon was engineered distribution meeting ready demand.</h3>
+        <span class="reliability high">Reliability 9/10</span>
+      </div>
+      <p>Published 26 March 2024, number one debut, two million plus copies, roughly 111 consecutive weeks on the NYT list. The machinery: Twenge's 2017 Atlantic thesis, Coddling 2018, the collaborative review docs from 2019, the After Babel Substack from 2022 (190,000 plus subscribers), then a saturation launch (Atlantic cover, GMA, CNN, Oprah, endorsements from Obama to Sarah Huckabee Sanders). The four norms turned a contested literature into a checklist, and a 501(c)(3) movement structure turned the checklist into pledges and statutes. Causal humility matters: UNESCO called for school phone limits in July 2023, France banned school phones in 2018, and Wait Until 8th (2017) and Smartphone Free Childhood (February 2024) predate the book. The wave was coming; he named it and surfed it best.</p>
+      <div class="lens-tags"><span class="supported">Supported: Historian, Economist</span></div>
+      <div class="cite">Sources: H1, H2, H3, H4, H5, H6</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>The science splits: the epidemic claim is contested, but "no evidence" is false.</h3>
+        <span class="reliability high">Reliability 9/10</span>
+      </div>
+      <p>Odgers in Nature: the rewiring and epidemic claim "is not supported by science", and hundreds of researchers searching for large effects found "a mix of no, small and mixed associations." The cross national tests mostly fail to convict (2.4 million people, 168 countries, small and inconsistent changes). But the counter case is real: unblending the data gives roughly r = 0.17 for girls and social media, Haidt catalogues genuine experiments and quasi experiments, and his critics' own null evidence is also compromised (Ferguson's meta analysis contains documented extraction errors; the global datasets start at age 15). The honest verdict is an unresolved standoff where each camp accuses the other of the same sins, and anyone who says "no evidence" or "proven cause" is overclaiming in their chosen direction.</p>
+      <div class="lens-tags"><span class="supported">Supported: Methodologist, Critic Corpus</span><span class="sep">·</span><span class="challenged">Challenged: Steelman on the experiments' weight</span></div>
+      <div class="cite">Sources: H7, H8, H9, H10, H11, H12</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>The documentable pattern: certainty depends on the venue.</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>Under challenge, he concedes. To NBC: the correlation is "around 0.17" and the historical timing "does not prove causation." Pressed by Tyler Cowen, he engaged the critics by name and accepted the small correlation. In the live debate with Odgers at UVA (October 2024, on the record, so never claim he ducks debates) he acknowledged her command of the literature. In friendly venues, which outnumber adversarial ones roughly six to one (Rogan, GMA, Huberman, Bari Weiss, Davos, Diary of a CEO), the hedges vanish: "clear evidence" that smartphones "caused a mental health pandemic." Within days of the Nature review his own framing moved from "the major cause" to "a major contributing factor" and back again by Davos. This pattern requires no mind reading. It is quotable, dated and sourced.</p>
+      <div class="lens-tags"><span class="supported">Supported: Interview Analyst</span></div>
+      <div class="cite">Sources: H13, H14, H15, H16</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>The money is documented. The motive is not, and must never be asserted.</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>Documented: two million plus copies (publisher figure), speaker bureau listings from $20,000 to $200,000 per keynote (ranges conflict five fold; never quote one as "his fee"), a movement structured as a philanthropy funded 501(c)(3), and a Substack profits pledge he honoured beyond its terms, donating $30,000 against roughly $91,200 of year one revenue and publishing the receipts. Not found anywhere: a pledge of book royalties. Cutting the other way: Let Grow predates the book by seven years, the curricula are free, and his transparency on the Substack money is real. The publishable frame is the incentive structure, not the man's heart, and the one published piece that does make the profit argument directly should be cited by name if used, so the claim is theirs, not yours.</p>
+      <div class="lens-tags"><span class="supported">Supported: Economist</span><span class="sep">·</span><span class="challenged">Challenged: Steelman documents the sincerity signals</span></div>
+      <div class="cite">Sources: H17, H18, H19, H20</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>What he gets right survives his critics, so never attack the norms.</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>The free play half of the book (Peter Gray's evidence base) is essentially unattacked. Phone free schools have the strongest independent support in the whole debate: Norway's quasi experiment (about 60% fewer psychological referrals for girls, 46% less bullying, biggest gains for disadvantaged girls) and the Dutch national evaluation (75% of schools report better focus). A top economics journal validated the collective trap: most young users would pay for the platforms not to exist, which justifies coordinated norms regardless of the mental illness effect sizes. Even Odgers writes that many of his solutions are reasonable. The vulnerable ground is the certainty and the crowding out, never the norms themselves.</p>
+      <div class="lens-tags"><span class="supported">Supported: Steelman</span><span class="sep">·</span><span class="challenged">Challenged: SMART Schools found no wellbeing difference from school bans, which cuts against norm three</span></div>
+      <div class="cite">Sources: H21, H22, H23, H24, H25</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>The unlitigated alternative: the crisis inside the household.</h3>
+        <span class="reliability medium">Reliability 6/10</span>
+      </div>
+      <p>Mike Males' data case, built on CDC's own surveys: teen reported emotional abuse by household adults roughly quadrupled across the exact window of rising teen depression, a parent aged 30 to 64 is ten times more likely than their teenager to die of an overdose, and rising teen suicide concentrates in rural areas where social media use is lowest. Neither Haidt nor the Odgers camp engages this seriously, which makes it the most genuinely open question in the debate. Handle with care: Males is self published, his headline associations come from one pandemic year survey, his "social media is protective" claim commits the same inferential sin he attacks, and his innuendo posts about Haidt (including the note that prompted this briefing) are ad hominem that would taint anything citing them. Use his CDC numbers, never his insinuations.</p>
+      <div class="lens-tags"><span class="supported">Supported: Critic Corpus</span><span class="sep">·</span><span class="challenged">Challenged: quality flags on the source</span></div>
+      <div class="cite">Sources: H26, H27</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>The panic is running ahead of its own evidence.</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>Orben's peer reviewed panic cycle paper (2020, written before the book existed) predicted the shape: concern, political pressure, rushed research, policy that outruns the science. It is happening on schedule: 35 states legislated, Australia banned, yet the first major test of the policy both camps endorse (SMART Schools, Lancet regional journal, 1,227 pupils) found no wellbeing difference between restrictive and permissive schools, and the panic economy is measurable: Yondr's government contract revenue went from $174,000 to $5 million in three quarters, and screen consultants charge up to $250 an hour. Meanwhile the drivers with the largest documented associations (poverty, adversity, parental mental health) hold the underfunded end of the ratio your Wrong Villain post made famous.</p>
+      <div class="lens-tags"><span class="supported">Supported: Historian, Economist, Methodologist</span></div>
+      <div class="cite">Sources: H28, H29, H30, H25</div>
+    </article>
+
+  </section>
+
+  <section id="contradictions">
+    <span class="eyebrow">Where the lenses disagree</span>
+    <h2>Contradiction Map</h2>
+    <table class="contra">
+      <thead><tr><th>Disagreement</th><th>Position A</th><th>Position B</th><th>Evidence leans</th></tr></thead>
+      <tbody>
+        <tr><td>Is the teen mental health epidemic even real?</td><td>Real and phone caused (Haidt); real but adult caused (Males)</td><td>Substantially a measurement artifact of screening and coding changes (Wallace Wells)</td><td class="leans coral">Real distress, contested attribution; the critics contradict each other</td></tr>
+        <tr><td>Does r = 0.17 matter?</td><td>Potato territory, smaller than wearing glasses (Przybylski)</td><td>You would never let your child do something four hours a day correlated 0.17 with depression (Haidt)</td><td class="leans coral">A values dispute wearing a statistics costume; no number resolves it</td></tr>
+        <tr><td>Do the experiments show causation?</td><td>22 experiments, 16 finding harm (Haidt's catalogue)</td><td>Pooled effect indistinguishable from zero (Ferguson)</td><td class="leans coral">Both syntheses contain documented flaws; genuinely unresolved</td></tr>
+        <tr><td>Is he sincere?</td><td>Venue dependent certainty, no book royalty pledge, $200,000 keynote listings</td><td>Let Grow since 2017, free curricula, honoured Substack pledge with receipts</td><td class="leans green">Unknowable; publish the incentive structure, never the motive</td></tr>
+        <tr><td>Did the book cause the policy wave?</td><td>Reuters called it the catalyst for Australia's law</td><td>UNESCO, France and the parent movements predate it</td><td class="leans green">The window was open; he supplied the door handle</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="lenses">
+    <span class="eyebrow">Six perspectives</span>
+    <h2>Lens Panels</h2>
+    <div class="lens-grid">
+      <div class="lens-panel historian"><span class="eyebrow">The Historian</span><h3>Two years of distribution, four executable norms</h3><p>Disputed in Nature in three days, unstoppable anyway. The panic cycle Orben mapped in 2020 ran on schedule, except this boulder had a Substack, an Oprah panel and a 501(c)(3).</p></div>
+      <div class="lens-panel academic"><span class="eyebrow">The Methodologist</span><h3>An unresolved standoff, compromised on both sides</h3><p>His causal claim outruns the data. His critics' null claims outrun theirs. Anyone speaking with certainty in either direction is doing rhetoric, not science. That includes the people on our side.</p></div>
+      <div class="lens-panel skeptic"><span class="eyebrow">The Steelman</span><h3>The norms survive even if the thesis falls</h3><p>Norway, the Netherlands, the collective trap economics and Peter Gray do not need the epidemic claim. Attack the norms and you lose to the evidence. Attack the certainty and the crowding out, and you stand on it.</p></div>
+      <div class="lens-panel economist"><span class="eyebrow">The Economist</span><h3>Panic pays better than nuance, structurally</h3><p>Two million books, six figure keynote listings, a pouch company at $5 million in three quarters, consultants at $250 an hour. No motive needed: there is simply no bestseller market for "the evidence is mixed."</p></div>
+      <div class="lens-panel historian"><span class="eyebrow">The Interview Analyst</span><h3>He concedes under pressure and reclaims certainty on friendly ground</h3><p>0.17 and "does not prove causation" to NBC and Cowen; "caused a mental health pandemic" at Davos. Six friendly venues for every adversarial one. Dated, sourced, quotable. And he did debate Odgers, so never say he hides.</p></div>
+      <div class="lens-panel child"><span class="eyebrow">The Critic Corpus</span><h3>Stand on the published critics, never originate</h3><p>Odgers in Nature is the safest sentence in the field. Jané and Brown for methods. Wallace Wells for the artifact. Males for the household data only. Skip Ferguson's headline number, the podcast polemics and every insinuation about Epstein and Davos.</p></div>
+    </div>
+  </section>
+
+  <section id="guided-childhood">
+    <span class="eyebrow">So what do we do</span>
+    <h2>What This Means for Guided Childhood</h2>
+    <div class="gc-card">
+      <ul>
+        <li><span class="tag">The lane</span><strong>Haidt owns restriction. Nobody owns preparation. Take the empty seat.</strong> His own concession is your opening: if a child is not ready at 15 years and 364 days, what changes overnight? Every post answers with the pathway: incremental, age based capability, built before access arrives. You never need to beat him; you need to answer the question he leaves open.</li>
+        <li><span class="tag">The safe attack</span><strong>Publish the venue pattern and the panic economy, never the motive.</strong> Quotable and dated: 0.17 under challenge, "pandemic" at Davos. Structural and sourced: the bureau listings, Yondr's contracts, the consultant market, Orben's panic cycle. Frame: this is what the attention market does to a true believer, and it is why the 32% problem stays invisible.</li>
+        <li><span class="tag">Never say</span><strong>The lines that would hand him the win:</strong> "no evidence" (falsifiable), "he refuses to debate" (he debated Odgers), "he pockets it all" (unknowable; his Substack receipts are real), Ferguson's null number without the dispute attached, the 0.4% potato line without Orben's own 0.10 to 0.15 update, and anything from Males' innuendo posts including the note that started this briefing.</li>
+        <li><span class="tag">Credit first</span><strong>Open any Haidt content by crediting what he got right.</strong> The collective action insight, the sleep evidence, free play. Your readers include parents the book genuinely helped; attack the book and you attack their identity. Credit, then complicate, then offer the missing piece. That is also simply the honest reading.</li>
+        <li><span class="tag">Series</span><strong>This slots straight into The Wrong Villain.</strong> The story is not "Haidt is wrong." It is "certainty became a product, and the certainty is aimed at the 3% problem." One centrepiece post, his own venue pattern as the spine, ending on the pathway. Say the word and the content engine drafts it in the viral structure.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="assumptions">
+    <span class="eyebrow">Honest limits</span>
+    <h2>Assumptions and the Missing Lens</h2>
+    <div class="assump-card">
+      <h3>This briefing rests on</h3>
+      <p>Several quotes travelled through paywalled or proxy blocked pages (Chronicle, Platformer, the Cowen transcript, After Babel's money posts) and were reconstructed from search indexes; verification is checking the load bearing ones now. The interview softball tally is our count, not a published figure. The Norway study is a working paper and the Dutch evaluation is uncontrolled self report. And the money picture is bounded by what is public: no royalty figure exists, and none should ever be implied.</p>
+      <div class="missing"><h3>The missing seventh lens</h3><p>The helped parent. Millions of people feel the book gave them permission and a plan, and no lens sat in their seat. Before publishing anything, the test is: does this make that parent feel foolish, or does it hand them the next step? Content that fails that test loses the exact audience you serve.</p></div>
+    </div>
+  </section>
+
+  <section id="sources">
+    <span class="eyebrow">Every citation checked against its primary source</span>
+    <h2>Source Ledger</h2>
+    <div class="ledger">
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://en.wikipedia.org/wiki/The_Anxious_Generation">H1 · The Anxious Generation publication and bestseller run</a> · Penguin/NYT via Wikipedia<span class="note">26 March 2024; 2M+ copies (publisher); ~111 consecutive NYT weeks by June 2026</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://www.afterbabel.com/about">H2 · After Babel Substack</a> · Haidt<span class="note">Launched 2022; 190,000+ subscribers; serialised the book's arguments pre publication</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://www.anxiousgeneration.com/take-action">H3 · The movement structure</a> · anxiousgeneration.com<span class="note">Fiscally sponsored 501(c)(3), philanthropy funded, four norms, pledge apparatus, Let Grow (2017)</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://news.ballotpedia.org/2025/08/08/twenty-two-states-enacted-k-12-cellphone-bans-so-far-in-2025/">H4 · US policy wave</a> · Ballotpedia, 2025<span class="note">35 states plus DC by December 2025; 22 in 2025 alone; 18 plus DC bell to bell</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://en.wikipedia.org/wiki/Online_Safety_Amendment_(Social_Media_Minimum_Age)_Act_2024">H5 · Australia's law and the book's role</a> · legislative record, Reuters, CBS<span class="note">Passed November 2024, effective 10 December 2025; Malinauskas anecdote; Reuters called the book the catalyst</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://www.unesco.org/en/articles/smartphones-school-only-when-they-clearly-support-learning">H6 · The window was already open</a> · UNESCO GEM 2023<span class="note">UNESCO call July 2023, eight months pre book; ~79 systems already restricting; France 2018</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://www.nature.com/articles/d41586-024-00902-2">H7 · Odgers in Nature</a> · 29 March 2024<span class="note">"Not supported by science"; hundreds of researchers, mixed small and null; real causes list</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://www.sciencedirect.com/science/article/pii/S0001691822000270">H8 · Twenge and Haidt reanalysis</a> · Acta Psychologica, 2022<span class="note">Girls and social media roughly r = 0.17; the unblending argument against the 0.4% figure</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://journals.sagepub.com/doi/10.1177/21677026231207791">H9 · Global wellbeing and the internet age</a> · Vuorre and Przybylski, 2024<span class="note">2.4M people, 168 countries: small inconsistent changes; caveat: Gallup starts at 15</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://christopherjferguson.com/Social%20Media%20Meta.pdf">H10 · Ferguson meta analysis and the error dispute</a> · Psychology of Popular Media plus SSRN audit<span class="note">Pooled d = 0.088; Rausch and Haidt document extraction errors; Jané faults both sides</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://reason.com/2023/03/29/the-statistically-flawed-evidence-that-social-media-is-causing-the-teen-mental-health-crisis/">H11 · Aaron Brown citation audit</a> · Reason, 2023/2024<span class="note">Of 29 supporting longitudinal studies, only 3 free of major errors; the 22 of 476 book audit</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://www.afterbabel.com/p/phone-based-childhood-cause-epidemic">H12 · Haidt's rebuttal architecture</a> · After Babel, 2024<span class="note">22 experiments 16 harm; 13 alternative explanations post; the 2026 peer reviewed commentary on Vuorre</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://www.nbcnews.com/tech/social-media/smartphones-youth-mental-health-jonathan-haidt-book-debate-rcna145928">H13 · The on record concessions</a> · NBC News, 2024<span class="note">"Around 0.17" and the timing "does not prove causation"; the not trivial reframe</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://conversationswithtyler.com/episodes/jonathan-haidt-anxious-generation/">H14 · The Cowen exchange</a> · April 2024<span class="note">Engages critics by name; concedes r = 0.10 to 0.15, girls 0.15 to 0.2; Cowen titled it contentious</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://www.youtube.com/watch?v=Ewxe4pWOH-I">H15 · The Odgers debate</a> · UVA TYDE, 8 October 2024<span class="note">Live debate happened; never claim he refuses; Techdirt writeup is hostile, use the video</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://www.weforum.org/stories/2025/01/jonathan-haidt-digital-technology-social-media-childhood/">H16 · The Davos framing</a> · WEF, January 2025<span class="note">"Clear evidence" that smartphones and addictive social media "caused a mental health pandemic"</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://www.aaespeakers.com/keynote-speakers/jonathan-haidt">H17 · Speaker bureau listings</a> · AAE and others<span class="note">$100k to $200k live (AAE); other bureaus list $20k to $100k; ranges conflict five fold</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://www.afterbabel.com/p/welcome-to-the-after-babel-substack">H18 · The Substack pledge and receipts</a> · Haidt's own posts<span class="note">~$91,200 year one revenue; $10,000 x 3 donated; Stripe documentation published; reconstructed via search index, re verify</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://www.penguinrandomhouse.com/books/729231/the-anxious-generation-by-jonathan-haidt/">H19 · No book royalty pledge found</a> · absence finding<span class="note">Multiple searches; only the Substack pledge exists; never imply a royalty figure</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://adultsintheroom.substack.com/p/what-do-the-anxious-generation-and">H20 · Critics who made the money argument</a> · Adults in the Room, User Mag<span class="note">Cite them by name if used so the claim is theirs; Odgers attacked the science, not his income</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4735240">H21 · Norway phone ban working paper</a> · Abrahamsson, NHH, 2024<span class="note">~60% fewer psychological referrals for girls; 46% less bullying; largest for low SES girls; working paper</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://www.japantimes.co.jp/news/2025/07/05/world/dutch-survey-phone-ban-focus/">H22 · Dutch national evaluation</a> · July 2025<span class="note">75% of 317 secondary schools report improved focus; self report, no control group</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://www.aeaweb.org/articles?id=10.1257%2Faer.20231468">H23 · The collective trap</a> · Bursztyn et al., AER, 2025<span class="note">Users would pay for the platforms not to exist; validates coordinated norms independent of harm sizes</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://www.jpeds.com/article/S0022-3476(23)00111-7/abstract">H24 · The free play evidence base</a> · Gray, Lancy, Bjorklund, 2023<span class="note">Independence decline as a cause of declining wellbeing; essentially unattacked by critics</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://www.thelancet.com/journals/lanepe/article/PIIS2666-7762(25)00003-1/fulltext">H25 · SMART Schools</a> · Lancet Regional Health Europe, 2025<span class="note">No wellbeing difference between restrictive and permissive schools; cross sectional; After Babel published a rebuttal</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://mikemales.substack.com/p/alarming-new-analysis-shows-parents">H26 · Males' household adversity case</a> · CDC ABES/YRBS via Males<span class="note">Emotional abuse by household adults roughly quadrupled 2008 to 2021; parent overdose 10x; rural suicide pattern; self published, pandemic year data</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://mikemales.substack.com/p/jonathan-haidt-globally-acclaimed">H27 · Males' ad hominem vein</a> · including the linked note<span class="note">The Epstein and Davos innuendo; never cite; use his data posts only</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://journals.sagepub.com/doi/10.1177/1745691620919372">H28 · The Sisyphean panic cycle</a> · Orben, 2020<span class="note">Peer reviewed, pre dates the book; the frame for the whole phenomenon</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://www.the74million.org/article/exclusive-sales-skyrocket-for-phone-pouch-company-as-in-school-bans-spread/">H29 · The panic economy: Yondr</a> · The 74, NBC, Forbes<span class="note">$174k (2021) to $5M in three quarters of 2024; LAUSD $5.2M; $25 to $30 per pupil</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://www.insidehook.com/daily_brief/news-opinion/parents-are-hiring-screen-consultants-to-help-them-raise-phone-free-kids">H30 · The panic economy: consultants</a> · InsideHook<span class="note">$80 to $250 an hour; thin single source lineage, use lightly</span></div></div>
+    </div>
+  </section>
+
+  <footer class="brief-foot">Guided Childhood · Kids Research Briefing · Six lenses, adversarially verified · 4 July 2026</footer>
+
+</div>
+</body>
+</html>
