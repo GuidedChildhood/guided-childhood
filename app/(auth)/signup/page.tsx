@@ -137,8 +137,7 @@ export default function SignupPage() {
               </button>
 
               <p style={{ textAlign: 'center', fontSize: '12px', color: 'var(--ink-muted)' }}>
-                By signing up you agree to our{' '}
-                <Link href="/privacy" style={{ color: 'var(--terracotta)' }}>privacy policy</Link>.
+                By signing up you agree to our privacy policy.
                 No card required.
               </p>
             </form>

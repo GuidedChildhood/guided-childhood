@@ -5,13 +5,14 @@ import { useEffect, useState } from 'react'
 // The school link setup: parent names the school and its sender addresses,
 // gets a private DiGi address, and sets a one time forwarding rule in their
 // own email. Works with Gmail, Outlook, anything. No inbox access needed.
-
-const INBOUND_DOMAIN = process.env.NEXT_PUBLIC_SCHOOL_INBOUND_DOMAIN ?? 'in.guidedchildhood.co.uk'
+// The address itself always comes from the connect API so the server is the
+// single source of truth for the inbound domain.
 
 export default function SchoolLink() {
   const [schoolName, setSchoolName] = useState('')
   const [senders, setSenders] = useState('')
   const [token, setToken] = useState<string | null>(null)
+  const [address, setAddress] = useState<string | null>(null)
   const [saving, setSaving] = useState(false)
 
   useEffect(() => {
@@ -22,6 +23,7 @@ export default function SchoolLink() {
           setSchoolName(d.connection.school_name ?? '')
           setSenders((d.connection.sender_addresses ?? []).join(', '))
           setToken(d.connection.forward_token ?? null)
+          setAddress(d.connection.forward_address ?? null)
         }
       })
       .catch(() => {})
@@ -37,11 +39,10 @@ export default function SchoolLink() {
       })
       const d = await res.json()
       if (d.forward_token) setToken(d.forward_token)
+      if (d.forward_address) setAddress(d.forward_address)
     } catch { /* non-blocking */ }
     setSaving(false)
   }
-
-  const address = token ? `school+${token}@${INBOUND_DOMAIN}` : null
 
   return (
     <div style={{ background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: '16px', padding: '20px' }}>
@@ -65,7 +66,7 @@ export default function SchoolLink() {
             {address}
           </div>
           <p style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>
-            One time setup in your email: create a forwarding rule for messages from your school to this address. In Gmail: Settings, Forwarding, add this address, then a filter for the school sender. Or simply forward any school email here manually and DiGi handles it.
+            One time setup in your email: create a forwarding rule for messages from your school to this address. The step by step walkthrough lives at <a href="/dashboard/school" style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>School link setup</a>. Or simply forward any school email here manually and DiGi handles it.
           </p>
         </div>
       )}

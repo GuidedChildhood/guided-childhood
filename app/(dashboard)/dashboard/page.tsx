@@ -1,12 +1,19 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import { getStageFromAgeBand, type AgeBand, STAGES } from '@/lib/content/stages'
+import { getStageFromAgeBand, type AgeBand, type ChallengeId, STAGES } from '@/lib/content/stages'
 import type { Moment } from '@/components/cards/MomentCard'
 import MomentCard from '@/components/cards/MomentCard'
 import PushPrompt from '@/components/push/PushPrompt'
 import DeviceSetupBanner from '@/components/device/DeviceSetupBanner'
 import DigiPrompts from '@/components/digi/DigiPrompts'
+import StreakFlame from '@/components/daily/StreakFlame'
+import SchoolActionsCard, { type SchoolAction } from '@/components/school/SchoolActionsCard'
+import SchoolPromoCard from '@/components/school/SchoolPromoCard'
+import TodayPathStrip from '@/components/daily/TodayPathStrip'
+import { getDailyStreak } from '@/lib/pathway/streak'
+import { getTodayLoop } from '@/lib/pathway/daily-tasks'
+import type { StageId as PathwayStageId } from '@/lib/pathway/progress'
 
 const STAGE_COLORS = {
   1: { bg: 'var(--stage-1)', bold: 'var(--stage-1-bold)', text: 'var(--stage-1-text)', border: 'var(--stage-1)' },
@@ -29,7 +36,7 @@ export default async function DashboardPage() {
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('full_name, onboarding_complete, subscription_status')
+    .select('full_name, onboarding_complete, subscription_status, onboarding_answers')
     .eq('id', user.id)
     .single()
 
@@ -39,16 +46,20 @@ export default async function DashboardPage() {
 
   const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
 
-  const [childResult, dailySessionResult, todayMomentsResult, lastFeedbackResult] = await Promise.all([
+  const [childResult, dailySessionResult, todayMomentsResult, lastFeedbackResult, schoolActionsResult, schoolConnectionResult] = await Promise.all([
     supabase.from('children').select('name, age_band, stage_id, streak_weeks, actions_this_week').eq('parent_id', user.id).eq('is_primary', true).single(),
     supabase.from('daily_sessions').select('completed_at').eq('user_id', user.id).eq('session_date', today).maybeSingle(),
     supabase.from('daily_moments').select('id, title, category, age_bands, icon, science_brief, digi_opener').eq('active', true).order('sort_order').limit(20),
     supabase.from('digi_feedback').select('feedback_date, question, parent_response, digi_insight').eq('user_id', user.id).not('parent_response', 'is', null).gte('feedback_date', sevenDaysAgo).order('feedback_date', { ascending: false }).limit(1).maybeSingle(),
+    supabase.from('school_actions').select('id, kind, title, detail, due_date').eq('user_id', user.id).eq('status', 'open').order('due_date', { ascending: true, nullsFirst: false }).limit(12),
+    supabase.from('school_connections').select('id').eq('user_id', user.id).eq('active', true).maybeSingle(),
   ])
 
   const child = childResult.data
   const dailyDone = !!dailySessionResult.data?.completed_at
   const lastFeedback = lastFeedbackResult.data
+  const schoolActions: SchoolAction[] = schoolActionsResult.data ?? []
+  const hasSchoolConnection = !!schoolConnectionResult.data
 
   const allMoments: Moment[] = todayMomentsResult.data ?? []
   const todayMoments = child?.age_band
@@ -62,6 +73,17 @@ export default async function DashboardPage() {
   const stageColor = STAGE_COLORS[stage.id as keyof typeof STAGE_COLORS]
   const isPaid = profile?.subscription_status === 'active'
   const firstName = profile?.full_name?.split(' ')[0] ?? 'there'
+
+  // Today's loop and the daily streak, both resolved server side.
+  // stage.name lowercased matches the pathway stage slugs exactly
+  // (foundation/builder/explorer/shaper/independent), same rule the
+  // daily deck relies on.
+  const stageSlug = stage.name.toLowerCase() as PathwayStageId
+  const challenge = ((profile?.onboarding_answers as Record<string, string> | null)?.challenge ?? null) as ChallengeId | null
+  const [streak, todayLoop] = await Promise.all([
+    getDailyStreak(supabase, user.id),
+    getTodayLoop(supabase, user.id, stageSlug, challenge),
+  ])
 
   // Last completed script insight
   const { data: lastCompletion } = await supabase
@@ -111,23 +133,14 @@ export default async function DashboardPage() {
             )}
           </div>
         </div>
-        {(child?.streak_weeks ?? 0) > 0 && (
-          <div style={{
-            display: 'flex', alignItems: 'center', gap: '6px', flexShrink: 0,
-            background: 'var(--cream)', border: '1.5px solid var(--border)',
-            borderRadius: '100px', padding: '8px 14px',
-          }}>
-            <span style={{ fontSize: '18px' }}>🔥</span>
-            <div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 800, color: 'var(--ink)', lineHeight: 1 }}>{child?.streak_weeks}</div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', color: 'var(--ink-muted)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>weeks</div>
-            </div>
-          </div>
-        )}
+        <StreakFlame count={streak.count} aliveToday={streak.aliveToday} />
       </div>
 
       {/* DiGi leads: proactive watch fors, tips and parent care */}
       <DigiPrompts />
+
+      {/* Today's path: the day's loop as five nodes, DiGi on the next step */}
+      <TodayPathStrip tasks={todayLoop} />
 
       {/* Continue Your Progress — primary hero card */}
       <Link href="/dashboard/daily" style={{ textDecoration: 'none', display: 'block', marginBottom: '20px' }}>
@@ -233,6 +246,12 @@ export default async function DashboardPage() {
         childName={child?.name ?? null}
       />
 
+      {/* Things you need to know: open school actions from forwarded school emails */}
+      <SchoolActionsCard actions={schoolActions} />
+
+      {/* School email promo until a connection is active, dismissible per device */}
+      {!hasSchoolConnection && <SchoolPromoCard />}
+
       {/* Moment cards section */}
       {todayMoments.length > 0 && (
         <div style={{ marginBottom: '20px' }}>
@@ -333,6 +352,28 @@ export default async function DashboardPage() {
           </Link>
         </div>
       </div>
+
+      {/* Pathway discovery: Pathway left the mobile tab bar for the Right Now button, this card is its home on mobile */}
+      <Link href="/dashboard/pathway" style={{ textDecoration: 'none', display: 'block', marginBottom: '12px' }}>
+        <div style={{
+          background: 'var(--tint-blue)', border: '1.5px solid var(--tint-blue)',
+          borderRadius: '16px', padding: '22px',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px',
+        }}>
+          <div>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '6px' }}>
+              Your journey
+            </div>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)', marginBottom: '3px' }}>
+              See your pathway
+            </div>
+            <div style={{ fontSize: '13px', color: 'var(--ink)' }}>
+              Every step from first device to independence, mapped to your child&apos;s stage.
+            </div>
+          </div>
+          <span style={{ fontSize: '18px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>
+        </div>
+      </Link>
 
       {/* AI module discovery */}
       <Link href="/dashboard/ai-module" style={{ textDecoration: 'none', display: 'block', marginBottom: '12px' }}>
