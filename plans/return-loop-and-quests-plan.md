@@ -108,3 +108,30 @@ by screen:
 3. Tracker redesign (section 3) and dashboard home order (section 4).
 4. Pathway page as the map.
 5. Then STOP BUILDING and put a price in front of strangers (founder 50).
+
+## 6. The Device Pathway matrix (LOCKED, Justin 4 July evening)
+
+The pathway map must answer, for every age band, the question parents
+actually arrive with: what is my child allowed at this age. One matrix,
+stage by stage, device by device (TV, tablet, console, smartwatch, laptop,
+smartphone, social accounts, AI tools). Each cell is one of three states:
+
+- Yes, with the settings pack for that age (from the device safety data)
+- Co viewing only: shared screen, parent present, what to watch together
+- Not yet: a clear cross, warm copy underneath (why, what instead, and
+  when it changes). The smartphone gets the flagship treatment: the
+  cross stays up through the early stages with alternatives named
+  (brick phone, watch, family tablet in the kitchen) and a readiness
+  checklist, not just a birthday, deciding when it flips.
+
+Every Yes cell links three things: the settings walkthrough for that
+device at that age, the scripts for introducing it, and the parent
+behaviour modelling guide (your phone at dinner teaches more than any
+rule: what the parent models at each stage, phones down at meals, no
+scrolling during pickup, narrating your own device choices out loud).
+Plus what to watch: the age specific warning signs from the risks data.
+
+This IS the product spine: safety through settings, smartphone education
+starting with the parent's own settings and behaviour, use widening year
+by year, check ins catching issues. The matrix makes the whole promise
+visible on one screen.
