@@ -86,7 +86,8 @@ export async function POST(request: Request) {
 
   // Gather all independent context in one parallel round trip: profile,
   // conversation (rate limit + history), child, tracker history, reflection
-  // feedback, script feedback, AI lessons, device guide, family memory.
+  // feedback, script feedback, AI lessons, device guide, live concerns,
+  // family memory.
   const [
     profileResult,
     convResult,
@@ -96,6 +97,7 @@ export async function POST(request: Request) {
     scriptFeedbackResult,
     aiLessonsResult,
     deviceGuideResult,
+    concernsResult,
     familyMemory,
   ] = await Promise.all([
     supabase
@@ -146,6 +148,13 @@ export async function POST(request: Request) {
           .eq('device_key', device_key)
           .maybeSingle()
       : Promise.resolve({ data: null }),
+    supabase
+      .from('concerns')
+      .select('label, status, times_flagged')
+      .eq('user_id', user.id)
+      .in('status', ['open', 'improving'])
+      .order('last_flagged_at', { ascending: false })
+      .limit(6),
     getFamilyMemory(supabase, user.id),
   ])
 
@@ -212,6 +221,14 @@ export async function POST(request: Request) {
     deviceGuideKnowledge = `\n\nDEVICE SETUP GUIDE — the parent is asking about ${deviceGuide.name} (${deviceGuide.subtitle}). Walk them through this step by step, one step at a time, checking in before moving to the next rather than dumping all steps at once. Why this matters: ${deviceGuide.why}\nSteps:\n${steps}\nClosing note: ${deviceGuide.note}`
   }
 
+  let concernsKnowledge = ''
+  const liveConcerns = concernsResult.data ?? []
+  if (liveConcerns.length > 0) {
+    concernsKnowledge = `\n\nLIVE CONCERNS THIS FAMILY HAS FLAGGED (from daily check ins and flagged moments, most recent first):\n` +
+      liveConcerns.map(c => `- ${c.label}: ${c.status}, flagged ${c.times_flagged} time${c.times_flagged === 1 ? '' : 's'}`).join('\n') +
+      `\nWhen the conversation touches one of these, acknowledge it with empathy as something you know has been coming up for them, and move them to the NEXT practical step rather than repeating what they have already tried. A concern that keeps returning means the approach needs adjusting, never that the parent is failing. No guilt, ever.`
+  }
+
   const systemPrompt = buildSystemPrompt(
     stage,
     child,
@@ -219,7 +236,7 @@ export async function POST(request: Request) {
     trackerResult.data ?? [],
     feedbackResult.data ?? [],
     aiKnowledge,
-    deviceGuideKnowledge + scriptFeedbackKnowledge + nextStepKnowledge + expertKnowledge + familyMemory,
+    deviceGuideKnowledge + scriptFeedbackKnowledge + nextStepKnowledge + concernsKnowledge + expertKnowledge + familyMemory,
   )
 
   const history = (convData?.messages ?? []).slice(-12) as Array<{ role: string; content: string }>

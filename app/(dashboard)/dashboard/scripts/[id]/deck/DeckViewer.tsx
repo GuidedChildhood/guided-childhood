@@ -249,9 +249,8 @@ export default function DeckViewer({
 
   const card = CARDS[Math.min(cardIndex, CARDS.length - 1)]
   const isCompletionCard = cardIndex === CARDS.length
-  const backHref = categorySlug
-    ? `/dashboard/scripts/category/${categorySlug}`
-    : '/dashboard/scripts'
+  // Most seeded categories have no category page, so Back always goes to the list.
+  const backHref = '/dashboard/scripts'
 
   const underCard = phase === 'back'
     ? (cardIndex > 0 ? CARDS[cardIndex - 1] : undefined)
