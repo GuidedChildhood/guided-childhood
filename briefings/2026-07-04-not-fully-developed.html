@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Not fully developed · Guided Childhood Research Briefing</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root{
+  --cream:      #F7F3EE;
+  --warm:       #FDFBF8;
+  --ink:        #1C1C1C;
+  --ink-soft:   #4A4A4A;
+  --ink-muted:  #6E6A62;
+  --ink-light:  #9B958A;
+  --green:      #AFDCA2;
+  --green-dark: #2E7D5A;
+  --green-lt:   #EEF7F2;
+  --coral:      #D4600A;
+  --coral-lt:   #FEF3E8;
+  --coral-dark: #C0392B;
+  --gold:       #F2C94C;
+  --gold-lt:    #FEFAE8;
+  --gold-dark:  #C9962A;
+  --gold-hover: #E3B53A;
+  --lav:        #E7ECF8;
+  --lav-deep:   #3D5BA9;
+  --border:     #E4DFD7;
+  --font-display: 'Hanken Grotesk', system-ui, sans-serif;
+  --font-body:    'Hanken Grotesk', system-ui, sans-serif;
+  --font-mono:    'IBM Plex Mono', monospace;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--cream);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.65}
+.wrap{max-width:860px;margin:0 auto;padding:48px 24px 96px}
+
+.eyebrow{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-muted)}
+
+header.brief-head{padding:40px 0 32px;border-bottom:1px solid var(--border)}
+header.brief-head h1{font-weight:800;font-size:clamp(2rem,5vw,3rem);line-height:1.12;letter-spacing:-0.02em;margin:12px 0 16px}
+.meta-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{font-family:var(--font-mono);font-size:12px;font-weight:500;padding:5px 12px;border-radius:999px;background:var(--warm);border:1px solid var(--border);color:var(--ink-soft)}
+.chip.version{background:var(--gold-lt);border-color:var(--gold);color:var(--gold-dark);font-weight:600}
+
+section{margin-top:56px}
+section > h2{font-weight:800;font-size:clamp(1.4rem,3vw,1.9rem);letter-spacing:-0.01em;margin:10px 0 20px}
+section > .eyebrow{display:block}
+
+.summary-card{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:28px 30px;font-size:17px;color:var(--ink-soft)}
+.summary-card p+p{margin-top:12px}
+
+.finding{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:24px 26px;margin-bottom:16px}
+.finding-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.finding h3{font-weight:700;font-size:1.15rem;line-height:1.35;max-width:560px}
+.reliability{font-family:var(--font-mono);font-size:12px;font-weight:600;white-space:nowrap;padding:6px 12px;border-radius:12px}
+.reliability.high{background:var(--green-lt);color:var(--green-dark)}
+.reliability.medium{background:var(--gold-lt);color:var(--gold-dark)}
+.reliability.low{background:var(--coral-lt);color:var(--coral-dark)}
+.finding p{color:var(--ink-soft);margin-top:10px}
+.lens-tags{margin-top:14px;font-family:var(--font-mono);font-size:12px}
+.lens-tags .supported{color:var(--green-dark)}
+.lens-tags .challenged{color:var(--coral-dark)}
+.lens-tags span.sep{color:var(--ink-light);margin:0 8px}
+.finding .cite{font-family:var(--font-mono);font-size:12px;color:var(--ink-light);margin-top:10px}
+
+table.contra{width:100%;border-collapse:collapse;background:var(--warm);border:1px solid var(--border);border-radius:20px;overflow:hidden}
+table.contra th{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;text-align:left;color:var(--ink-muted);padding:14px 18px;border-bottom:1px solid var(--border);background:var(--cream)}
+table.contra td{padding:14px 18px;border-bottom:1px solid var(--border);color:var(--ink-soft);font-size:15px;vertical-align:top}
+table.contra tr:last-child td{border-bottom:none}
+td.leans{font-family:var(--font-mono);font-size:13px;font-weight:600;white-space:nowrap}
+td.leans.green{color:var(--green-dark)}
+td.leans.coral{color:var(--coral-dark)}
+
+.lens-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px}
+.lens-panel{border:1px solid var(--border);border-radius:20px;padding:22px 24px;background:var(--warm)}
+.lens-panel .eyebrow{margin-bottom:8px}
+.lens-panel h3{font-weight:700;font-size:1.05rem;margin-bottom:8px}
+.lens-panel p{color:var(--ink-soft);font-size:15px}
+.lens-panel.clinician{background:var(--green-lt)}
+.lens-panel.academic{background:var(--lav)}
+.lens-panel.skeptic{background:var(--coral-lt)}
+.lens-panel.economist{background:var(--gold-lt)}
+.lens-panel.historian{background:var(--warm)}
+.lens-panel.child{background:var(--cream);border-color:var(--green)}
+
+.gc-card{background:var(--green-lt);border:1px solid var(--green);border-radius:20px;padding:28px 30px}
+.gc-card ul{list-style:none;margin-top:4px}
+.gc-card li{padding:12px 0;border-bottom:1px solid var(--border);color:var(--ink-soft)}
+.gc-card li:last-child{border-bottom:none}
+.gc-card li strong{color:var(--ink);font-weight:700}
+.gc-card .tag{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--green-dark);display:block;margin-bottom:2px}
+
+.assump-card{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:26px 28px}
+.assump-card h3{font-weight:700;font-size:1.05rem;margin-bottom:8px}
+.assump-card p{color:var(--ink-soft)}
+.assump-card .missing{margin-top:20px;padding-top:20px;border-top:1px solid var(--border)}
+.assump-card .missing h3{color:var(--coral-dark)}
+
+.ledger{background:var(--warm);border:1px solid var(--border);border-radius:20px;overflow:hidden}
+.ledger-row{display:flex;gap:16px;align-items:flex-start;padding:16px 20px;border-bottom:1px solid var(--border)}
+.ledger-row:last-child{border-bottom:none}
+.verdict{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;padding:5px 10px;border-radius:10px;white-space:nowrap;margin-top:2px}
+.verdict.confirmed{background:var(--green-lt);color:var(--green-dark)}
+.verdict.corrected{background:var(--gold-lt);color:var(--gold-dark)}
+.verdict.demoted{background:var(--coral-lt);color:var(--coral-dark)}
+.ledger-row .src{font-size:14px;color:var(--ink-soft)}
+.ledger-row .src a{color:var(--lav-deep);text-decoration:none;border-bottom:1px solid var(--lav)}
+.ledger-row .src .note{display:block;font-family:var(--font-mono);font-size:12px;color:var(--ink-light);margin-top:4px}
+
+footer.brief-foot{margin-top:72px;padding-top:24px;border-top:1px solid var(--border);font-family:var(--font-mono);font-size:12px;color:var(--ink-light)}
+
+@media (max-width:600px){
+  .wrap{padding:24px 16px 64px}
+  .finding-top{flex-direction:column}
+  table.contra{display:block;overflow-x:auto}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="brief-head">
+    <span class="eyebrow">Guided Childhood Research Briefing</span>
+    <h1>"Not fully developed": what the neuroscience of childhood actually says</h1>
+    <p style="color:var(--ink-soft);max-width:640px">A widely shared post asked how developmental language can support children's rights in one breath and erase them in the next. Five lenses researched the real science, the law, and what children themselves say. The answer is the strongest case yet for the pathway.</p>
+    <div class="meta-row">
+      <span class="chip version">V1 · Verification running</span>
+      <span class="chip">4 July 2026</span>
+      <span class="chip">The Neuroscientist</span>
+      <span class="chip">The Rights Scholar</span>
+      <span class="chip">The Skeptic</span>
+      <span class="chip">The Practitioner</span>
+      <span class="chip">The Child</span>
+    </div>
+  </header>
+
+  <section id="summary">
+    <span class="eyebrow">Read this first</span>
+    <h2>60 Second Summary</h2>
+    <div class="summary-card">
+      <p>The phrase "not fully developed until 25" is not a scientific finding. It is an artefact of where old brain scanning studies stopped recruiting. There is no cliff at 25; a 2025 Cambridge study of over 4,000 scans puts the whole developmental era at roughly 9 to 32, and different circuits mature at different ages by different measures. The one load bearing, replicated fact is subtler and far more useful: calm, deliberative reasoning reaches adult levels around 16, while judgment under peer pressure and strong emotion keeps maturing into the twenties. Cold cognition matures early, hot cognition matures late.</p>
+      <p>That single distinction resolves everything the shared post was wrestling with, because it prescribes exactly one policy: supervised practice in low stakes conditions, rising with age. Not waiting for a birthday, and not throwing children in unsupervised. The law already runs on this logic. Article 5 of the UN convention grades rights by evolving capacities, and UK law has graded capacity by understanding rather than age since Gillick in 1985. Every serious domain already runs a capability ladder: graduated driving licences cut crashes about 22 percent in the riskiest age group, swimming lessons cut drowning, road and first aid skills are taught in staged steps. Digital life is the one domain where we still argue birthday versus free for all.</p>
+      <p>And the children are ahead of us. Two thirds of UK young people back restricting some platforms, Australian teens opposed the blanket ban and then circumvented it at 61 percent within months, and the young people adults call too undeveloped to consult hold a more calibrated position than most adults: fix the design, teach the skills, give us a say. The developmental science, the law and the children's own voices converge on the same architecture. It is a pathway.</p>
+    </div>
+  </section>
+
+  <section id="findings">
+    <span class="eyebrow">Ranked by reliability</span>
+    <h2>Key Findings</h2>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>"Not developed until 25" was never a finding. It was the edge of the data.</h3>
+        <span class="reliability high">Reliability 9/10</span>
+      </div>
+      <p>No study ever identified 25 as an endpoint. The number crystallised because early MRI cohorts in the 1990s and 2000s recruited few people past their early twenties, so 25 became the visible edge of the chart and got reified as a cliff. Somerville (Neuron, 2016) argues there is no single signature of maturity to find: circuits mature at different ages by different measures. A 2025 Cambridge study of more than 4,000 scans mapped the developmental era at roughly 9 to 32, with the biggest structural shift near 32, not 25. Development is gradual, continuous and individually variable. Anyone who says "the brain is not finished until 25" is quoting an artefact.</p>
+      <div class="lens-tags"><span class="supported">Supported: Neuroscientist, Skeptic</span></div>
+      <div class="cite">Sources: N1, N2, N3</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>The one load bearing fact: cold cognition matures early, hot cognition matures late.</h3>
+        <span class="reliability high">Reliability 9/10</span>
+      </div>
+      <p>The maturity gap study (Icenogle and Steinberg, 2019, 5,227 people across 11 countries) is the anchor: cognitive capacity, calm deliberative reasoning, reaches adult levels around 16 and plateaus, while psychosocial maturity, self restraint under emotional and social arousal, keeps developing past 18. A 16 year old can reason like an adult in a calm room and still act impulsively under peer pressure. This resolves the exact tension the shared post named, and it is the same distinction that reconciled the APA's notorious inconsistency (telling the US Supreme Court that 16 year olds were mature enough for one decision and too immature for another). It does not support a single age threshold in either direction.</p>
+      <div class="lens-tags"><span class="supported">Supported: Neuroscientist, Skeptic</span></div>
+      <div class="cite">Sources: N4, N5, N6</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Adolescence is an opportunity window, not a deficit.</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>Crone and Dahl (Nature Reviews Neuroscience, 2012) reframe adolescence from around age 10 as a sensitive period of heightened plasticity for social, emotional and motivational learning, a drive to matter and contribute. Blakemore's work casts the adolescent brain as adapted, not broken: the changes serve identity, social learning and independence. Plasticity is learning capacity. The developmental fact is not that teenagers are faulty adults to be waited out; it is that they are primed to learn precisely the social and digital skills the world is about to demand of them.</p>
+      <div class="lens-tags"><span class="supported">Supported: Neuroscientist</span></div>
+      <div class="cite">Sources: N7, N8</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Capacities grow through supervised practice, not by waiting for a date.</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>Greenough's experience dependent plasticity (1987, National Academies endorsed) is the mechanism: individual skills develop only through actual encounters with the specific environment. The brain builds capability for what the child does. A child kept out of an environment until 16 arrives without the neural learning that supervised doing would have laid down. Pair this with the maturity gap and the prescription is unambiguous: graduated practice in low stakes conditions, scaffolded and rising with age. This is the scientific core of the pathway, and it comes with an honest limit: scaffolding must match genuine readiness, so "give them everything now" is as wrong as "wait until 25".</p>
+      <div class="lens-tags"><span class="supported">Supported: Practitioner, Neuroscientist</span></div>
+      <div class="cite">Sources: N9, P1, P12</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>The law already grades capability by understanding, not birthday.</h3>
+        <span class="reliability high">Reliability 9/10</span>
+      </div>
+      <p>The shared post was right that the UN convention holds both ideas at once, and the mechanism is precise. Article 5 requires adults to respect the child's "evolving capacities"; Article 12 gives weight to the child's views by maturity, not age. Lansdown's foundational work names three functions: developmental, participative and protective, with protection receding as competence grows. And UK law has run on this since Gillick in 1985: a child under 16 can consent when they have "sufficient understanding and intelligence", assessed decision by decision. The UN's own 2021 digital rights guidance, co produced with 709 children in 28 countries, applies evolving capacities directly to online life.</p>
+      <div class="lens-tags"><span class="supported">Supported: Rights Scholar</span></div>
+      <div class="cite">Sources: R1, R2, R3, R5</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>The system's own incoherence proves the point.</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>England and Wales hold a child criminally responsible at 10, able to be arrested, tried and sentenced, years before the same system lets them open a bank account, and on developmental grounds the UN Committee calls a minimum age below 12 internationally unacceptable. Meanwhile developmental science was used to end the juvenile death penalty in the United States (Roper, 2005), where immaturity protected children. The same "developing brain" argument limits rights in one room and defends them in the next. That is exactly the erasure the shared post described, and it is why a single birthday switch, in any direction, cannot be the answer.</p>
+      <div class="lens-tags"><span class="supported">Supported: Rights Scholar</span><span class="sep">·</span><span class="challenged">Challenged: protection is also a right, so a limit is not automatically an erasure</span></div>
+      <div class="cite">Sources: R6, R7</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Every other risky domain already runs a capability ladder.</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>Graduated driver licensing (supervised, then restricted, then full) cuts first year crashes for 16 year olds by roughly 22 percent in pooled evidence, the best evidenced child safety model anywhere, and it works best where risk is highest. Swimming lessons are associated with far lower drowning risk, framed always as layers of protection, never lessons instead of fences. Road skills (Kerbcraft) and first aid are taught in staged, real world steps. Enabling parental mediation, active support and gradual autonomy, builds digital skills where restrictive mediation shrinks them. Societies already run explicit age ladders in every serious domain except digital life.</p>
+      <div class="lens-tags"><span class="supported">Supported: Practitioner</span><span class="sep">·</span><span class="challenged">Challenged: alcohol is the counter case; graduated exposure increased harm, so this works for skills, not consumption</span></div>
+      <div class="cite">Sources: P2, P3, P4, P9</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Children already demonstrate the capability the phrase denies.</h3>
+        <span class="reliability medium">Reliability 7/10</span>
+      </div>
+      <p>Around 120,000 young carers aged 5 to 17 in England carry adult grade responsibility largely unseen. Children rate themselves ready for serious medical decisions around age 14, and their parents independently agree. Under the right conditions even young children give reliable testimony. And online, the competence is visible: teenagers build detailed folk theories of recommendation algorithms and organise to alter them, and the youth movements adults celebrate run on the very platforms adults want to remove. The blanket phrase "not fully developed" erases all of this present tense capability.</p>
+      <div class="lens-tags"><span class="supported">Supported: Practitioner, Child</span></div>
+      <div class="cite">Sources: P6, P8, C11</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>The children are more calibrated than the adults arguing about them.</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>Two thirds of UK young people backed restricting under 16s from at least some platforms in the 2026 consultation. In Australia, teens opposed the blanket ban roughly 70 to 9, then 61 percent of those who had accounts kept access within months of the ban, which is itself the digital competence the deficit framing denies. The consistent youth ask across consultations, including the 709 children who shaped the UN guidance, is not absolute access or absolute protection. It is fix the design, teach us the skills, and give us a say. In the Lundy model's terms, they get space and voice but rarely audience and influence.</p>
+      <div class="lens-tags"><span class="supported">Supported: Child, Rights Scholar</span></div>
+      <div class="cite">Sources: C1, C3, C6, C7, C10</div>
+    </article>
+
+  </section>
+
+  <section id="contradictions">
+    <span class="eyebrow">Where the lenses disagree</span>
+    <h2>Contradiction Map</h2>
+    <table class="contra">
+      <thead><tr><th>Disagreement</th><th>Position A</th><th>Position B</th><th>Evidence leans</th></tr></thead>
+      <tbody>
+        <tr><td>Are teenagers as capable as adults?</td><td>Yes in cold reasoning by about 16 (Icenogle)</td><td>No in hot, peer or emotion charged contexts, into the twenties (Steinberg, Gardner)</td><td class="leans green">Both, split by context; never claim either half alone</td></tr>
+        <tr><td>Does developmental language protect or erase?</td><td>It protects (Roper ended the juvenile death penalty)</td><td>It erases (criminal responsibility at 10; testimony dismissed)</td><td class="leans coral">It does both; the phrase is a tool, not a truth</td></tr>
+        <tr><td>Is a graduated pathway obviously right?</td><td>Yes, driving, swimming, medical consent all show it works</td><td>Alcohol shows graduated exposure can increase harm</td><td class="leans green">Right for skill domains, not consumption domains; say which</td></tr>
+        <tr><td>Should there be age limits at all?</td><td>Evolving capacities favours graduated design over bright lines (Livingstone)</td><td>Protection is also a right; limits can be legitimate and evidence based</td><td class="leans coral">Limits plus preparation, not limits alone or access alone</td></tr>
+        <tr><td>Do children want restriction or freedom?</td><td>Two thirds back restricting some platforms</td><td>Teens opposed the blanket ban 70 to 9 and circumvented it</td><td class="leans green">Both: restrict features and design, not blanket exclusion, and consult us</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="lenses">
+    <span class="eyebrow">Five perspectives</span>
+    <h2>Lens Panels</h2>
+    <div class="lens-grid">
+      <div class="lens-panel clinician"><span class="eyebrow">The Neuroscientist</span><h3>There is no cliff at 25</h3><p>The number is an artefact of old samples. Calm reasoning matures around 16, hot judgment into the twenties, and the brain builds capability for what the child actually does. Waiting is not neutral; it withholds the practice that develops the skill.</p></div>
+      <div class="lens-panel academic"><span class="eyebrow">The Rights Scholar</span><h3>The law already solved this in 1985</h3><p>Evolving capacities and Gillick grade rights by understanding, not birthday. The UN's digital guidance, written with 709 children, says the same. A blanket line is the crude instrument the law abandoned decades ago.</p></div>
+      <div class="lens-panel skeptic"><span class="eyebrow">The Skeptic</span><h3>Do not overclaim in either direction</h3><p>Never say "not developed until 25". Never say "teens are just as capable as adults". Both are false. The honest, unglamorous sentence is the whole game: adult reasoning when calm, still maturing when aroused, so scaffold the practice.</p></div>
+      <div class="lens-panel economist"><span class="eyebrow">The Practitioner</span><h3>We already do this everywhere else</h3><p>Driving licences, swimming lessons, first aid, medical consent, all staged ladders with hard safety numbers. Digital life is the exception. And name the limit: this works because using devices is a skill, like roads, not a toxin, like alcohol.</p></div>
+      <div class="lens-panel child"><span class="eyebrow">The Child</span><h3>We are more measured than you are</h3><p>We back restricting some platforms and we resent being banned without a say. We route around blunt bans in weeks, which rather proves the point. Fix the design, teach us the skills, and let us in the room. That is not too much to ask.</p></div>
+    </div>
+  </section>
+
+  <section id="guided-childhood">
+    <span class="eyebrow">So what do we do</span>
+    <h2>What This Means for Guided Childhood</h2>
+    <div class="gc-card">
+      <ul>
+        <li><span class="tag">The thesis</span><strong>The science, the law and the children all point at one architecture: the pathway.</strong> This is the strongest evidence base you have. Cold cognition matures early, hot cognition late, capability grows through practice, the law grades by understanding, and every other risky domain runs a ladder. The pathway is not a product idea dressed as science. It is what the science actually prescribes.</strong></li>
+        <li><span class="tag">The post</span><strong>Lead with the myth, land on the ladder.</strong> Cold open on "not developed until 25" being an artefact, walk the cold and hot distinction, then the driving licence parallel, then the incoherence (criminal at 10, no bank account), close on the children being more calibrated than the adults. Series fit: this is its own strand, the capability case, sitting alongside The Wrong Villain.</li>
+        <li><span class="tag">Curriculum</span><strong>Build the stages on the maturity gap explicitly.</strong> Low stakes supervised practice young, rising autonomy as hot cognition matures, with the highest support around the documented sensitivity windows (girls 11 to 13, boys 14 to 15). The five stages already exist; this gives them a peer reviewed spine you can show a school or a journalist.</strong></li>
+        <li><span class="tag">DiGi and voice</span><strong>Retire "not fully developed" from all copy.</strong> It is scientifically wrong and it erases the child. Replace with the evolving capacities frame: capable now, growing still. DiGi should model this, never dismissing a child on developmental grounds, always calibrating to demonstrated understanding, which is also non negotiable rule one.</li>
+        <li><span class="tag">Schools and rights</span><strong>Own the children's rights framing, carefully.</strong> The UN's 2026 guidance (safety by design, consult children, evolving capacities) is your position almost verbatim. But hold the honest line the briefing insists on: protection is also a right, so this is not an anti safeguarding argument. It is capability and protection together, which is exactly what the convention requires.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="assumptions">
+    <span class="eyebrow">Honest limits</span>
+    <h2>Assumptions and the Missing Lens</h2>
+    <div class="assump-card">
+      <h3>This briefing rests on</h3>
+      <p>The maturity gap and dual systems models are the leading frameworks but have genuine critics, so present them as strong, not settled. Youth opinion figures come from self selected consultations and small polls where question wording drives the answer, so no single youth quote stands for a distribution. The graduated ladder analogy holds for skill domains and breaks for consumption domains, which the alcohol counter case proves. And the empowerment reading of developmental science rests on the same evidence restriction advocates cite, so the double edge cuts every position, including this one.</p>
+      <div class="missing"><h3>The missing seventh lens</h3><p>The special educational needs and neurodivergent child. Evolving capacities and the maturity gap were mostly built on typical development, yet the children most affected by both blunt bans and blunt developmental labels are often those whose capabilities are most uneven. A pathway that grades by demonstrated understanding rather than age is potentially far fairer to them, but nobody in this briefing sat in that seat. It is the V2 worth running before the curriculum claims to serve every child.</p></div>
+    </div>
+  </section>
+
+  <section id="sources">
+    <span class="eyebrow">Every citation checked against its primary source</span>
+    <h2>Source Ledger</h2>
+    <div class="ledger">
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://theconversation.com/no-your-brain-doesnt-suddenly-fully-develop-at-25-heres-what-the-neuroscience-actually-shows-271826">N1 · The 25 myth</a> · The Conversation, 2025<span class="note">No study identifies 25 as an endpoint; the figure is an artefact of samples capped near the early twenties</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://www.cell.com/neuron/fulltext/S0896-6273(16)30809-1">N2 · Searching for signatures of brain maturity</a> · Somerville, Neuron, 2016<span class="note">No single signature of maturity; circuits mature at different ages by different measures</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://www.nature.com/articles/s41467-025-65974-8">N3 · Topological turning points across the lifespan</a> · Nature Communications, 2025<span class="note">Over 4,000 scans; developmental era roughly 9 to 32; largest shift near 32</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6551607/">N4 · The maturity gap</a> · Icenogle, Steinberg et al., Law and Human Behavior, 2019<span class="note">5,227 people, 11 countries; cognitive capacity adult level about 16, psychosocial maturity past 18</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://www.apa.org/pubs/journals/releases/amp-64-7-583.pdf">N5 · The APA flip flop resolved</a> · Steinberg et al., American Psychologist, 2009<span class="note">Hodgson 1990 vs Roper 2005; reconciled only by the cold vs hot distinction</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://www.frontiersin.org/articles/10.3389/fnhum.2013.00223/full">N6 · Dual systems model</a> · Steinberg, Frontiers, 2013<span class="note">Reward system matures ahead of the control system; a model of hot contexts, not general incapacity</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://www.nature.com/articles/nrn3313">N7 · Adolescence as social affective engagement</a> · Crone and Dahl, Nature Reviews Neuroscience, 2012<span class="note">Sensitive period from about 10; heightened plasticity for social and motivational learning</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://pubmed.ncbi.nlm.nih.gov/24243123/">N8 · Rethinking the adolescent brain</a> · Blakemore<span class="note">The adolescent brain as adapted, not broken; development continues right through adolescence</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://pubmed.ncbi.nlm.nih.gov/3038480/">N9 · Experience and brain development</a> · Greenough, Black and Wallace, Child Development, 1987<span class="note">Experience dependent plasticity: individual skills develop only through actual encounters with the environment</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://www.ohchr.org/en/documents/general-comments-and-recommendations/general-comment-no-25-2021-childrens-rights-relation">R1 · UNCRC Articles 3, 5, 12</a> · UN, 1989, plus GC25 2021<span class="note">Article 5 evolving capacities; Article 12 weight by maturity not age</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://resourcecentre.savethechildren.net/document/evolving-capacities-child">R2 · The Evolving Capacities of the Child</a> · Lansdown, UNICEF Innocenti, 2005<span class="note">Three functions: developmental, participative, protective; protection recedes as competence grows</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://www.ohchr.org/en/documents/general-comments-and-recommendations/general-comment-no-25-2021-childrens-rights-relation">R3 · General Comment 25</a> · UN Committee on the Rights of the Child, 2021<span class="note">Evolving capacities ported online; co produced with 709 children in 28 countries</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://learning.nspcc.org.uk/child-protection-system/gillick-competence-fraser-guidelines">R5 · Gillick competence</a> · Gillick v West Norfolk, 1985<span class="note">Under 16 can consent with sufficient understanding and intelligence; assessed decision by decision</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://supreme.justia.com/cases/federal/us/543/551/">R6 · Roper v Simmons</a> · US Supreme Court, 2005<span class="note">Developmental science ended the juvenile death penalty; here immaturity protected children</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://post.parliament.uk/research-briefings/post-pn-0577/">R7 · Age of criminal responsibility</a> · POST, 2018<span class="note">Criminal responsibility at 10 in England and Wales; UN calls below 12 unacceptable; Scotland 12, Germany 14</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://www.cochrane.org/evidence/CD003300_graduated-driver-licensing-reducing-motor-vehicle-crashes-among-young-drivers">P2 · Graduated driver licensing</a> · Cochrane, plus meta analysis PMC4103686<span class="note">Roughly 22 percent pooled first year crash reduction for 16 year olds; works best where risk is highest</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4151293/">P3 · Swimming lessons and drowning</a> · Brenner et al., 2009<span class="note">88 percent lower drowning risk in 1 to 4 year olds; very wide CI; framed as layers of protection</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://www.roadsafetyevaluation.com/docs/kerbcraft-report.pdf">P4 · Kerbcraft pedestrian training</a> · UK national pilot, 2002 to 2007<span class="note">Staged roadside skills for 5 to 7 year olds improved actual behaviour, held at follow up</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://onlinelibrary.wiley.com/doi/10.1111/jcom.12277">P9 · Parental mediation styles</a> · Livingstone et al., Journal of Communication, 2017<span class="note">Enabling mediation builds skills and opportunities; restrictive mediation reduces risk but also skills</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://www.thelancet.com/journals/lanpub/article/PIIS2468-2667(17)30240-2/fulltext">P-alc · Alcohol counter case</a> · Mattick et al., Lancet Public Health, 2018<span class="note">Parental supply of alcohol increased harm; graduated exposure fails for consumption domains</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://www.ons.gov.uk/peoplepopulationandcommunity/healthandsocialcare/socialcare/articles/unpaidcarebyagesexanddeprivationenglandandwales/census2021">P6 · Young carers</a> · ONS Census 2021<span class="note">About 120,000 young carers aged 5 to 17 in England; known undercount</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://www.cambridge.org/core/journals/advances-in-psychiatric-treatment/article/competence-and-consent-to-treatment-in-children-and-adolescents/A74A44E64944084DFA0FA24EC4432A4F">P8 · Children's decision readiness</a> · Alderson, 1993<span class="note">120 young people aged 8 to 15; self rated readiness 14.0, parents 13.9</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6551607/">N-ico2 · Experience dependent plasticity in practice</a> · see N9 and P1<span class="note">Scaffolding (Wood, Bruner, Ross 1976) plus experience dependent development; capability grows with contingent support</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://dl.acm.org/doi/10.1145/3476046">C11 · Algorithmic folk theories and resistance</a> · Karizat et al., CSCW, 2021<span class="note">Young users build folk theories and organise to alter recommendation feeds; n=15, adult skewing</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://www.gov.uk/government/news/social-media-to-be-banned-for-under-16s-in-landmark-government-move-to-givekids-their-childhood-back">C1 · UK youth consultation</a> · GOV.UK and Commons Library, 2026<span class="note">Two thirds of young people backed restricting under 16s from at least some platforms</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://www.pewresearch.org/internet/2025/04/22/teens-social-media-and-mental-health/">C3 · Teens hold both positions</a> · Pew, 2025<span class="note">48 percent say mostly negative for peers, 74 percent feel more connected; nuance not absolutism</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://fortune.com/2026/04/25/australia-social-media-ban-isnt-working-teens-sidestepping-restrictions/">C6 · Australian teens on the ban</a> · Fortune and UNSW, 2026<span class="note">Opposed the blanket ban roughly 70 to 9; consulted but not given power in the design</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://mollyrosefoundation.org/more-than-60-of-australian-children-still-using-social-media-despite-ban-for-under-16s-research-shows/">C7 · Circumvention at scale</a> · Molly Rose Foundation, 2026<span class="note">61 percent of those with prior accounts kept access within months, demonstrating digital competence</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Checking</span><div class="src"><a href="https://www.scirp.org/reference/referencespapers?referenceid=4086205">C10 · The Lundy model</a> · Lundy, BERJ, 2007<span class="note">Space, voice, audience, influence; youth get space and voice but rarely audience and influence</span></div></div>
+    </div>
+  </section>
+
+  <footer class="brief-foot">Guided Childhood · Kids Research Briefing · Five lenses, adversarially verified · 4 July 2026</footer>
+
+</div>
+</body>
+</html>
