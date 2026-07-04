@@ -119,10 +119,15 @@ smartphone, social accounts, AI tools). Each cell is one of three states:
 - Yes, with the settings pack for that age (from the device safety data)
 - Co viewing only: shared screen, parent present, what to watch together
 - Not yet: a clear cross, warm copy underneath (why, what instead, and
-  when it changes). The smartphone gets the flagship treatment: the
-  cross stays up through the early stages with alternatives named
-  (brick phone, watch, family tablet in the kitchen) and a readiness
-  checklist, not just a birthday, deciding when it flips.
+  when it changes). The smartphone gets the flagship treatment, and the
+  philosophy is LOCKED (Justin, no brick phones, we do not believe in
+  them): when the phone arrives it is a real iPhone set to brick phone
+  settings. Calls, messages, camera, maps, nothing else: no browser, no
+  App Store, no feeds, downtime on, contacts limited. Then the SETTINGS
+  widen year by year along the pathway while the device stays the same.
+  The child learns the actual device they will live on, inside walls the
+  parent lowers deliberately, and a readiness checklist, not a birthday,
+  decides each widening step.
 
 Every Yes cell links three things: the settings walkthrough for that
 device at that age, the scripts for introducing it, and the parent
