@@ -185,7 +185,7 @@ export async function POST(req: NextRequest) {
   // The Duolingo moment: the parent's phone buzzes while they are away,
   // not when they next happen to open the dashboard.
   try {
-    const origin = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.guidedchildhood.co.uk'
+    const origin = process.env.NEXT_PUBLIC_APP_URL ?? process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.guidedchildhood.co.uk'
     await fetch(`${origin}/api/push/send`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.CRON_SECRET}` },

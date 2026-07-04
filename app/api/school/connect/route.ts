@@ -7,7 +7,7 @@ import { createClient } from '@/lib/supabase/server'
 // GET also returns any Gmail forwarding verification code the inbound
 // webhook has caught, so the setup screen can poll and display it in flow.
 
-const INBOUND_DOMAIN = process.env.SCHOOL_INBOUND_DOMAIN ?? 'inbound.guidedchildhood.co.uk'
+const INBOUND_DOMAIN = process.env.SCHOOL_INBOUND_DOMAIN ?? 'in.guidedchildhood.com'
 const forwardAddress = (token: string) => `school+${token}@${INBOUND_DOMAIN}`
 
 export async function GET() {
