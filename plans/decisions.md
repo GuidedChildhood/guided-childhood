@@ -235,3 +235,9 @@ The research branch (kids-mental-health-researcher) and main both appended 3 Jul
 **The forwarding address format is school+<token>@<domain>:** domain from SCHOOL_INBOUND_DOMAIN (default in.guidedchildhood.com, the connect API is the single source of truth for it), matching the existing token parser. Env vars the deploy needs: SCHOOL_INBOUND_DOMAIN, RESEND_INBOUND_SIGNING_SECRET, and the existing SCHOOL_INBOUND_SECRET as fallback. Webhook URL for the Resend dashboard: https://guided-childhood-app.vercel.app/api/school/inbound (the app deployment, not the marketing domain).
 
 **Things you need to know is live on the dashboard:** open school_actions render above the moment cards with kind chips, due labels (Overdue/Today/Tomorrow/By day), Done and Dismiss posting to /api/school/actions. A dismissible promo card (letterbox line, "Set it up in three minutes", localStorage dismissal per device) shows while no active connection exists.
+
+---
+
+## 2026-07-04 — App notification emails become check the app reminders
+
+ClassDojo, Tapestry, Seesaw, Arbor and similar apps often email only "a message is waiting, log in to read it" with no content. DiGi now turns those into a single notice ("Check ClassDojo message from Miss Smith") instead of skipping them as no action, so nothing a school sends through an app silently disappears. Requested by Justin after asking whether ClassDojo updates could reach the dashboard: they can, via the same forwarding letterbox, by adding the app's sender address to the allowed senders and the Gmail filter.
