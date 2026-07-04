@@ -40,7 +40,10 @@ export default function JudgementGrid({
               return (
                 <button
                   key={l.key}
-                  onClick={() => startTransition(() => setJudgement(deliveryId, row.pupilId, l.key))}
+                  onClick={() => startTransition(async () => {
+                    const result = await setJudgement(deliveryId, row.pupilId, l.key)
+                    if (result?.error) alert(result.error)
+                  })}
                   style={{
                     padding: '7px 12px', borderRadius: '10px', cursor: 'pointer',
                     fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '12px',
