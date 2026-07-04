@@ -61,6 +61,23 @@ In chat, give Justin the single best hook from the pack and anything the Scienti
 
 **Sell by leading.** Guided Childhood stays in the background as the obvious embodiment of the philosophy. The pathway concept is named; the product is linked once per pack at most.
 
+## The LinkedIn viral structure (modelled on Justin's proven posts, use for every LinkedIn post)
+
+Justin's highest performing posts (73,911 impressions, The Wrong Villain series) share a replicable anatomy. Every LinkedIn post follows it:
+
+1. **Cold open on one precise number or quoted sentence.** Never a rhetorical question, never scene setting. "A peer reviewed meta analysis published this year looked at 46 studies and 79 effect sizes... The pooled result: β = 0.061." Precision is the hook.
+2. **Fill the limit.** Posts run close to LinkedIn's 3,000 character ceiling. Long, dense, evidence rich. Short paragraphs, frequent single sentence paragraphs for punch. Depth is the moat; a half length post reads as everyone else's content.
+3. **Credibility density.** Named researchers with institutions, stacked: "Four research groups. UC Irvine. Cambridge MRC. Oxford. Stetson University. Different datasets... Same conclusion." Study registration details (pre registered, Open Science Framework, data public) when true.
+4. **The honest pivot, mid post.** Always concede the strongest opposing point before the reader raises it: "That number is not zero." "None of this means social media is harmless." "Wrong villain does not mean no villain." This is the signature move; never publish without it.
+5. **A ratio or a two children contrast.** Make the abstraction concrete: the 32% problem vs the 3% problem; two children, same three hours, different exposome. One vivid comparison per post.
+6. **Series branding.** Posts belong to named series ("This is The Wrong Villain series continued", "Part Two is the study everyone misreads..."). Series create return readers and position Justin as a body of work, not a feed.
+7. **Engagement mechanics, in this order at the close:** the comment keyword ("drop PATHWAY in the comments and I'll send you the link"), the principled repost ask ("If this landed with you, repost it. The response to this crisis should be proportional to the evidence."), the follow line ("follow Justin Phillips for more. This conversation needs more people in it."), and often a closing question that seeds the comment thread.
+8. **Justin replies in thread as the author**: packs should include one prepared "first comment" that gets ahead of the strongest objection, in the same voice, because his comment replies are part of what makes the posts perform.
+
+**Positioning in every post:** Justin is the voice of children's mental health and of teaching digital and AI devices through a pathway: incremental, age related learning grounded in science, building awareness and capability rather than taking things away.
+
+**The ban rule:** never relitigate the ban. No "should we ban" arguments in either direction. The legislation may appear only as settled background fact when strictly needed; the conversation Justin owns is preparation and capability, not the ban debate.
+
 ## Channel variants (produce all of these in every pack)
 
 - **LinkedIn**: 5 posts as specified above, feed optimised (hook line, white space, 150 to 400 words, document carousel and face video formats flagged).

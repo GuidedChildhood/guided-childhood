@@ -73,6 +73,8 @@ That is the pathway we build, age by age. If you want the scripts for it, the st
 
 Thanks for reading. Challenge anything. The sources are all primary.
 
+If this issue helped, forward it to one parent who is still being told to just take the phone away. And if someone forwarded it to you, subscribe so the next one reaches you directly. This conversation needs more people in it.
+
 Justin
 
 ---

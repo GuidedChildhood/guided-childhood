@@ -1,140 +1,227 @@
-# Content Pack V2 · The Algorithm · Revised under the positive doctrine
-Source: briefings/2026-07-03-the-algorithm-science-history-v2.html (verified V2) plus verified research sets PC (positive canon) and PD (platform differences). Every statistic maps to a ledger ID. One CTA in the whole pack, in the Substack close.
+# Content Pack V3 · The Algorithm · LinkedIn Posts
+Source: briefings/2026-07-03-the-algorithm-science-history-v2.html (verified ledger, A#) plus briefings/notes/positive-canon.md (PC#) and briefings/notes/platform-differences.md (PD#). Modelled line by line on the proven viral anatomy in content/voice-samples/viral-posts.md. Every statistic maps to a ledger ID in the claims line under each post. No product mention anywhere in the pack; the PATHWAY comment mechanic carries the funnel. Body lengths: 2,706 to 2,876 characters, all inside the 3,000 limit with line breaks counted.
 
-Suggested sequence: Post 1 Tuesday, Substack Wednesday, Post 2 Thursday, Post 4 Sunday evening, Post 5 Monday, Post 3 (carousel) the following Tuesday. Mumsnet, Reddit and Facebook any time after the Substack ships, spaced by at least a day.
+Suggested sequence: Post 1 Tuesday, Post 2 Thursday, Post 3 the following Tuesday, Post 4 that Sunday evening, Post 5 the Monday after.
 
 ---
 
-## LINKEDIN POSTS
-
-### Post 1 · The scientific research post (centrepiece)
-Format: text post, line broken for feed reading. Optional: attach the research briefing as a document in a first comment.
+## Post 1 · The machinery and the honest split (centrepiece, The Wrong Villain series continued)
+Format: full length text post, line broken for feed reading.
 Best moment: Tuesday, 8:00am UK.
 
-TikTok's own researchers worked out how long it takes a new user to form a lasting habit.
+TikTok's own researchers timed how long it takes to hook a new user.
 
-Roughly 260 videos. Under 35 minutes.
+260 videos. Under 35 minutes.
 
-I am not sharing that to frighten you. I am sharing it because a parent who understands the machine can teach a child to see it. That is the whole game.
+That figure comes from the company's internal research, surfaced in a 2024 state legal filing. Less time than one episode of a cartoon, and the habit loop is set.
 
-The machinery is real and it is dated. 1957, Ferster and Skinner: rewards arriving after an unpredictable number of actions produce the most persistent behaviour ever measured in a lab. 1997, Schultz, Dayan and Montague in Science: dopamine neurons fire for surprise, not pleasure. 2016, Sherman's brain imaging: teenagers viewing their own photos with lots of likes light up the brain's reward hub. Old science, shipped into the feed.
+The machinery behind it is old science. 1957, Ferster and Skinner: rewards that arrive after an unpredictable number of actions produce the most persistent behaviour ever measured in a laboratory. 1997, Schultz, Dayan and Montague in Science: dopamine neurons fire for surprise, not for pleasure. 2009, BJ Fogg at Stanford codifies persuasive design; Mike Krieger, who went on to build Instagram, was one of his students. 2016, Sherman's brain imaging at UCLA: teenagers viewing their own photos stacked with likes show the brain's reward hub lighting up.
 
-Now the part almost nobody posts.
+Every piece of that is real. Now the part almost nobody puts in the same post.
 
-The researchers who actually study children and technology keep finding the same thing. Orben and Przybylski, across 355,000 adolescents: technology use explains at most 0.4 percent of the variance in wellbeing. Vuorre and Przybylski tracked 946,798 people across 72 countries as Facebook arrived: no evidence wellbeing fell, and the tilt, if anything, was slightly positive. Ferguson's meta analyses put the pooled effects below the level researchers call practically meaningful. His figures are contested by the other camp, so hold him as one credentialed voice among several, but the direction matches. And Candice Odgers, reviewing the "rewiring childhood" claim in Nature, called it not supported by science.
+When researchers measure what all this machinery does to children at population level, the effect is small. Orben and Przybylski, across 355,358 adolescents: technology use explains at most 0.4 percent of the variance in wellbeing. Four research groups keep converging on the same shape. UC Irvine. Cambridge. Oxford. Stetson. Different datasets, different methods, same conclusion: real, measurable, small on average.
 
-So is everything fine? No. This is the sentence that matters.
+Hold both facts at once, because their resolution is the most important sentence in this field.
 
-The average is small because harm is concentrated, not because it is absent. Adolescence has sensitivity windows, around 11 to 13 for girls and 14 to 15 for boys. And a feed cannot tell distress from appetite. Audits keep finding that the feeds of teens showing distress fill with harmful content at roughly ten times the normal rate. In 2022 a UK coroner ruled that algorithmically recommended content contributed to the death of 14 year old Molly Russell.
+The average is small because the harm is concentrated, not because it is absent.
 
-Small on average. Serious at the vulnerable tail. Fixable by design.
+Adolescence has sensitivity windows: roughly 11 to 13 for girls, 14 to 15 for boys, mapped by Orben's team in Nature Communications in 2022 across 17,409 young people. And a feed cannot tell distress from appetite. It reads a child lingering on dark content the same way it reads a child lingering on football. Independent audits keep finding accounts showing signs of distress served harmful content at around ten times the rate of controls.
 
-Amy Orben has traced the same panic cycle through novels, radio, comics, television and video games. Each time, the panic ate the energy that should have gone into teaching.
+The machine is not malicious. It is indifferent, and indifference scales.
 
-Our children will live their whole lives with recommendation systems. The job is not to remove the machine. It is to raise children who can see it, steer it, and use the good in it.
+So the job is not to win an argument about averages. It is to raise children who can see the machinery. What variable rewards are. What the feed reads. Where the exits sit. Taught in steps, age by age, the way we teach roads. Not fear. Capability.
 
-Start tonight with one question: what does your feed think of you at the moment?
+This is The Wrong Villain series continued.
 
-Claims: 260 videos A16 · Skinner A1 · Schultz A2 · Sherman A17 · 0.4% A23, PC6 · Vuorre PC4 (adult skewed, correlational, stated as "hold it loosely" via "if anything") · Ferguson PC1 with contest caution · Odgers rewiring PC8 · sensitivity windows A19 · 10x amplification A21, A22 · inquest A20 · panic cycle PC12
+The machinery lessons are mapped into an age by age guide. Drop PATHWAY in the comments and I'll send it to you.
+
+If this landed with you, repost it. Parents deserve the mechanism and the evidence in the same breath, because getting half the picture is how we ended up with a panic instead of a plan.
+
+And if you want this conversation to keep going, follow Justin Phillips. It needs more people in it.
+
+One question for the kitchen table tonight: does your child know what their feed is optimising for?
+
+**Prepared author first comment:**
+The objection worth getting ahead of, because it is the right one to raise. I have quoted TikTok's own leaked habit research and then told you population harm is small. Which is it? Both, because they measure different things. The 260 videos figure describes the mechanism: how fast the system can set a habit loop. The 0.4 percent figure describes the outcome: how much all that machinery moves wellbeing across a whole population. A powerful mechanism with a small average outcome is exactly what you would expect when most children absorb it fine and a vulnerable minority absorb it badly. The average hides the tail. The mechanism finds the tail. Which is why the answer is teaching every child to see the machinery, and pointing the serious protective effort at the part of the distribution where risk actually concentrates.
+
+Claims: 260 videos, under 35 minutes A16 · Skinner variable ratio A1 · Schultz, Dayan, Montague A2 · Fogg and Krieger (Krieger verified as student, Eyal not claimed) A3 · Sherman like counts A17 · 0.4% of variance, n=355,358 A23, PC6 · four group convergence PC1, PC4, PC6, PC8 · sensitivity windows, n=17,409 A19 · roughly 10x amplification for distressed accounts A21, A22
 
 ---
 
-### Post 2 · The $270 email
-Format: short text post, no image.
+## Post 2 · The $270 email (economics, Follow the Money entry in The Wrong Villain series)
+Format: full length text post, no image.
 Best moment: Thursday, 8:00am UK, same week as Post 1.
 
-Somewhere inside Meta, someone put a value on a 13 year old.
+$270.
 
-Roughly $270 of lifetime revenue. The figure comes from an internal email, quoted in the 2023 lawsuit brought by 42 US attorneys general.
+That is the lifetime value an internal Meta email placed on each young teenage user. The email surfaced in the 2023 lawsuit brought by 42 US attorneys general.
 
-It is not an outlier. A peer reviewed model puts US ad revenue from under 18s at about $11 billion in 2022. For Snapchat that was 41 percent of US ad revenue. For TikTok, 35 percent.
+It is not an outlier and it was not a rogue employee. A peer reviewed model from Raffoul and colleagues at the Harvard Chan School, published in PLOS ONE in 2023, put US social media ad revenue from under 18s at roughly 11 billion dollars in 2022. For Snapchat, revenue from minors was an estimated 41 percent of US ad revenue. For TikTok, 35 percent.
 
-Herbert Simon saw it coming in 1971: a wealth of information creates a poverty of attention. Attention became the product. Children hold a lot of it.
+Herbert Simon described the whole game in 1971, before any of these companies existed: a wealth of information creates a poverty of attention. Whatever consumes attention becomes scarce, and scarce things get harvested. Children hold an enormous share of the crop.
 
-Which explains the feed. In a landmark Science experiment, users switched to a chronological feed spent substantially less time on platform. Time is revenue. So no platform volunteers a chronological feed. The ranked feed is not a technical choice. It is the business model.
+That one incentive explains the product better than any whistleblower. In 2023, a landmark experiment published in Science switched thousands of users onto a simple chronological feed. Time on platform fell substantially. Which answers the question parents ask me most: why is there no simple off switch for the ranking? Because the ranking is not a feature. The ranking is the revenue.
 
-Here is what I do with that, and it is not outrage.
+Now the honest part, because outrage is cheap and I am not selling it.
 
-I teach it. The business model is the single most useful thing a child can know about their phone, because it explains everything else. Why the feed never ends. Why the notifications are timed. Why "not interested" feels weak. A child who knows they are the inventory has a question to ask the machine: what do you want from me right now?
+None of this is a conspiracy. It is a lawful advertising business maximising the metric it gets paid on, the same as every advertising business before it. Being angry at an incentive changes nothing about the incentive. Regulation is slowly rewriting the rules of design, and it should.
 
-Amy Orben's ask of government is safety by design: build platforms around children's wellbeing rather than expecting families to compensate. I back that. And while regulation does its slow work, the business model lesson costs nothing and takes ten minutes at the kitchen table.
+But there is one thing a family can do this week, and it costs nothing.
 
-You cannot therapy your way out of an incentive. You can teach a child to see one.
+Teach the business model. It is the single most teachable fact about a phone, because it explains everything else a child has already noticed. Why the feed never ends. Why notifications arrive when they do. Why the app seems to sulk when you leave. A child who understands they are the inventory stops asking why they cannot stop scrolling and starts asking a far better question: what does this machine want from me right now?
 
-Claims: $270 A13 · $11bn, 41%, 35% A14 · Simon A11 · chronological feed experiment A15 · safety by design PC10
+That question is the difference between being farmed and being aware. It takes ten minutes at a kitchen table, and it transfers straight into the AI feeds and assistants arriving next.
+
+This is Follow the Money, a new lane in The Wrong Villain series.
+
+The kitchen table version, worded for each age, is in the pathway guide. Drop PATHWAY in the comments and I'll send it over.
+
+If this landed, repost it. Every parent deserves to know the quiet end of the deal, because their child is standing on the loud end.
+
+Follow Justin Phillips for the rest of the series. This conversation needs more people in it.
+
+And a question for the comments: at what age should a child be told they are the product?
+
+**Prepared author first comment:**
+The objection I want to meet head on: am I saying it is fine that these companies profit from children? No. Lawful is a description, not a defence. There are two tracks here and they do not compete. Regulation's job is the design: the UK's children's codes now legally require recommender systems to filter the worst content out of children's feeds, and fines run to 10 percent of worldwide revenue. That track is moving, slowly, as regulation does. The family's track is faster and it is the one nobody can take away: a child who understands the business model today is harder to farm today. I refuse the version of this argument where we pick one track and shout at the other.
+
+Claims: $270 email, 42 attorneys general A13 · $11bn under 18 ad revenue, Snapchat 41%, TikTok 35% (explicitly a simulated model) A14 · Simon 1971 A11 · chronological feed experiment, Science 2023 A15 · children's codes and fines in first comment A35
 
 ---
 
-### Post 3 · One phone, four machines (the platform differences carousel)
-Format: PDF carousel, 10 slides, plus caption. Strategist note: this is the depth moat post of the pack; consider pinning it.
+## Post 3 · One Phone, Four Machines, part one (platform differences, new series launch)
+Format: full length text post. Strategist note: the depth moat post of the pack; consider pinning it, and it adapts naturally into a 10 slide carousel later.
 Best moment: Tuesday, 7:30am UK, the following week.
 
-Slides:
-1. "The algorithm" is not one thing. One phone, four machines. Each one can be steered, once you know how it thinks.
-2. TikTok thinks in behaviour. A leaked internal document confirms it optimises retention plus time spent. Its own engineering paper shows the model retrains on you within minutes.
-3. In one newspaper's bot experiment, TikTok pinned a user's interests in under two hours. Some in about 40 minutes. From one signal: lingering.
-4. The flip side: fastest to retrain. Full feed reset in settings, watch differently, and the feed visibly reshapes within a session or two. The TikTok conversation: reset it together.
-5. Instagram thinks in relationships plus behaviour. Separate ranking systems for Feed, Stories, Reels and Explore. Stories ranks on closeness. Reels on watch time, likes and sends. The Instagram conversation: who, not what.
-6. YouTube thinks in watch time. Its stated target is now "valued watch time", checked against satisfaction surveys. The structural lever is autoplay: in a supervised account a parent can switch it off so the child cannot switch it back on. Shorts limits can go to zero.
-7. Snapchat barely ranks friend content at all. Friend Stories order on how often and how recently you talk. A friendship graph, not a content graph. The mechanic to watch is Snapstreaks: obligation and loss aversion, associated in research with problematic use. The Snapchat conversation: a streak is a tap, not a friendship.
-8. Why the differences matter. Ofcom measured harmful content reaching secondary age children within four weeks: TikTok 53%, YouTube 36%, Instagram 34%, Facebook 31%. Different machines, different exposure.
-9. Controls exist and UK law now requires recommender filtering. Hold the tools lightly though: independent testing of Instagram's Teen Accounts found most safety features fell short of their promises. Tools help. Understanding is the layer that travels.
-10. Teach the machine, not the fear. A child who knows how each feed thinks can steer all of them. That is a skill they keep for life.
+Ofcom measured how much harmful content reached secondary age children in four weeks.
 
-Caption:
-"The algorithm" is not one thing. Your child's phone runs four different machines, and each one steers differently. Ten slides on how TikTok, Instagram, YouTube and Snapchat actually rank, drawn from their own papers, leaked documents and executives on the record, plus the conversation that fits each one. Knowing the machine is the difference between a rule that gets resented and a skill that gets used.
+On TikTok, it reached 53 percent of them. On Facebook, 31 percent.
 
-Claims: TikTok retention A16 context, PD1 · Monolith retraining PD2 · bot experiment PD3 · feed reset PD2, PD9 · Instagram surfaces and signals PD4 (ranked list only, no multipliers) · YouTube valued watch time and autoplay lock, Shorts zero PD5 · Snapchat friendship graph and streaks PD6 (phrased as association) · Ofcom exposure and codes PD11 · Teen Accounts red team PD10
+Same children. Same month. Same phone. Different machines.
+
+That gap is one of the most useful facts in digital parenting, because "the algorithm" is not one thing. A child's phone runs four different ranking systems, and each one thinks differently.
+
+TikTok thinks in behaviour. A leaked internal document, authenticated in 2021 reporting, states what it optimises: retention and time spent. Its own engineering paper on Monolith, its ranking system, shows the model retraining on your behaviour within minutes. In the Wall Street Journal's bot experiment, the feed pinned an account's interests inside two hours. Some inside about 40 minutes. From nothing but lingering.
+
+Instagram thinks in relationships plus behaviour. Adam Mosseri has said it plainly: there is no single algorithm. Feed, Stories, Reels and Explore each run their own ranking. Stories ranks on closeness to the people you interact with. Reels ranks on watching and sending.
+
+YouTube thinks in watch time. Its engineers published the design in 2016: rank on expected watch time, not clicks. The structural lever is autoplay, which exists to remove the moment where continuing becomes a decision.
+
+Snapchat barely ranks friend content at all. Friend Stories order on how often and how recently you talk. It is a friendship graph, not a content graph, and its signature mechanic is the streak: reciprocity on a 24 hour clock, associated in peer reviewed work with feelings of obligation.
+
+Four machines. Four different levers. Which is why one generic rule fits none of them.
+
+Now the honest pivot. Safety settings exist for all four, and they mostly underdeliver. When Fairplay and the Molly Rose Foundation tested 47 of Instagram's teen safety features, they judged 17 percent to be working as promised. Use the tools. Just do not mistake them for the lesson.
+
+The lesson is how each machine thinks. A child who knows TikTok reads lingering, Instagram reads relationships, YouTube reads watch time and Snapchat reads obligation can steer all four. And that same skill lands exactly where the next decade is going: AI feeds and assistants that read behaviour the same way.
+
+This is One Phone, Four Machines, part one.
+
+The platform by platform conversations, matched to age, are in the pathway guide. Drop PATHWAY in the comments and I'll send it to you.
+
+If this landed, repost it for one parent who still says "the algorithm" as if it were one thing.
+
+Follow Justin Phillips for part two. This conversation needs more people in it.
+
+Question for the thread: which of the four machines does your child spend the most time inside?
+
+**Prepared author first comment:**
+The fair pushback: these systems change constantly, so will any of this be true in a year? The signals get retuned, yes. The logic underneath has been stable for over a decade. YouTube moved to watch time in 2012 and has refined it, not replaced it. TikTok has optimised retention and time spent since before the leak. Instagram has ranked on relationships since Mosseri started explaining it. So teach the logic, not the settings menu: what does this app get paid for, and what behaviour does it read to earn it? A child who can ask those two questions can decode a platform that does not exist yet. That is precisely why this beats a printed list of parental controls that dates in six months.
+
+Claims: Ofcom four week exposure, TikTok 53%, Facebook 31% PD11 · leaked optimisation doc PD1 · Monolith retrains in minutes PD2 · WSJ bot test, under 2 hours, some about 40 minutes (phrased as the WSJ's test) PD3 · Mosseri separate systems per surface, Stories closeness, Reels watch and send (ranked list only, no multipliers) PD4 · YouTube expected watch time 2016, autoplay lever PD5 · Snapchat friendship graph, streaks (phrased as association) PD6 · Fairplay/Molly Rose 47 features, 17% working as promised PD10 · YouTube 2012 watch time shift in first comment A9
 
 ---
 
-### Post 4 · Sadtok: the parent script
-Format: 60 second face video, single take, captioned; post the script text in the caption for sound off viewers.
-Best moment: Sunday, 7:00pm UK.
+## Post 4 · Sadtok, the parent practice (One Phone, Four Machines, part two)
+Format: full length text post. Works read aloud as a face to camera script if wanted later, but ships as text.
+Best moment: Sunday, 7:00pm UK, end of the same week as Post 3.
 
-Script (about 150 words spoken):
+Kids have a name for the grey version of TikTok. Sadtok.
 
-(0 to 8s) Kids have a name for it. Sadtok. One low evening, one sad video watched to the end, and the whole feed turns grey.
+Here is the number underneath it. TikTok's own engineering paper on Monolith, its ranking system, shows the model retraining on new behaviour within minutes. Not overnight. Minutes.
 
-(8 to 20s) That is real. TikTok's own engineering paper shows the model retrains on your behaviour within minutes. It reads lingering as interest. But that speed cuts both ways, and this is the good news.
+So one low evening is enough. A child feels flat, watches one sad video to the end, and the machine logs the only thing it can see: appetite. It cannot read distress. It reads dwell time. Independent audits have documented where that logic ends up: accounts presenting as vulnerable teens were served harmful content at roughly ten times the rate of control accounts.
 
-(20 to 40s) Because it learns fast, it relearns fast. In settings there is a full feed reset. Do it with your child, side by side. Then search the things they actually love and watch them properly. The feed visibly reshapes within a session or two. Fastest of any platform.
+Picture two children, same three hours on the same app. One spent last week laughing, so the feed serves football, sketches and a baking rabbit hole. The other had one bad Tuesday, and the feed has quietly become a mirror that only shows the bruise. Same dose. Different feed. The stopwatch tells you nothing.
 
-(40 to 55s) Two more moves. The phone charges outside the bedroom, because sleep has the clearest evidence in this whole field. And aim for less, not zero. A randomised trial found an hour a day cap helped distressed young people feel better about their appearance.
+Here is the practice, and it works for the same reason the problem exists: speed.
 
-(55 to 60s) Ask them tonight: what does your feed think of you? You are not fighting your child. You are teaching them to drive the machine.
+Start with one question, asked with genuine curiosity. What does your feed think of you at the moment? Not an accusation. A diagnostic. Children answer it with startling precision.
 
-Claims: Monolith retraining speed PD2 · feed reset PD9 · reshapes within a session or two PD2 · sleep A29 · one hour trial A37 · distress feeds context A21, A22 (implicit in Sadtok, no figures claimed)
+Then the reset, side by side. TikTok has a full feed refresh in its settings. Do it together, then deliberately search and properly watch the things your child actually loves. Because Monolith retrains in minutes, the feed visibly reshapes within a session or two, faster than any other platform. Watching the machine obey is the real lesson: you are not stuck with the mirror.
+
+Then the boundary with the strongest evidence in this whole field: the phone charges outside the bedroom. Sleep is where the research is least ambiguous, and in Pew's 2025 survey half of teenage girls said social media hurts their sleep.
+
+And aim for less, not zero. In a randomised trial by Thai and colleagues, young people carrying distress who capped use at an hour a day for three weeks reported feeling better about their appearance than controls did.
+
+Now the honest bit. None of this is a cure. The sleep evidence is strong. The evidence for parent rituals like the reset is thinner, and I will not pretend otherwise. What the reset teaches is not wellbeing. It is steering, demonstrated live, on the platform where steering shows results fastest.
+
+And steering is one rung. There is a rung like it for every age from four to sixteen.
+
+This is One Phone, Four Machines, part two: the practice.
+
+The full age by age ladder is in the pathway guide. Drop PATHWAY in the comments and I'll send it to you.
+
+If this landed, repost it for the parent whose child's feed has gone grey.
+
+Follow Justin Phillips for the rest of the series. This conversation needs more people in it.
+
+Tonight's question, for them and for you: what does your feed think of you at the moment?
+
+**Prepared author first comment:**
+The objection I take most seriously: this asks families to clean up a feed the company built, so am I shifting the burden onto parents? Partly, and I want to be straight about it. Design is the company's responsibility, and UK regulation now legally requires recommender systems to filter suicide, self harm and eating disorder content out of children's feeds. That enforcement matters and I back it fully. But a child's bad Tuesday does not wait for an enforcement cycle. The reset, the question and the bedroom rule are not a substitute for regulation. They are what a family controls tonight, while regulation does its slower, larger work. Both hands on the wheel.
+
+Claims: Monolith retrains in minutes PD2 · roughly 10x for distressed accounts A21, A22 · feed refresh control PD9 · reshapes within a session or two, fastest platform PD2, PD9 · Pew 2025, half of teen girls on sleep A29 · Thai RCT, n=220 ages 17 to 25, one hour cap, appearance esteem (reported of trial participants, no outcome claimed for readers' children) A37 · children's codes filtering in first comment A35, PD11
 
 ---
 
-### Post 5 · What schools should teach instead
-Format: text post. School lane; heads and DSLs.
-Best moment: Monday, 8:00am UK.
+## Post 5 · The awareness paradox (education post, parents and educators, The Wrong Villain series continued)
+Format: full length text post. School lane and parent lane together; no products named.
+Best moment: Monday, 8:00am UK, the following week.
 
-The best test yet of school phone bans arrived, and it found nothing.
+63 percent of UK children aged 8 to 17 know that platforms use algorithms to steer what they see.
 
-The SMART Schools study, published in the Lancet's regional journal in 2025, compared 1,227 pupils across 30 English schools. Pupils in schools with restrictive phone policies were no better off on wellbeing than pupils in permissive ones. More total phone time did track with worse outcomes. So the honest reading is not that phones are harmless. It is that bans are insufficient.
+By 16 to 17 it is 81 percent, on Ofcom's 2025 media literacy data.
 
-Which raises the real question. If restriction is not the lesson, what is?
+So the awareness lesson has landed. Tell a class of sixteen year olds the feed is curated and four out of five already know.
 
-Not awareness. Children have that. 63 percent of UK 8 to 17s know platforms use algorithms to steer what they see. Among 16 to 17s it is 81 percent. A lesson announcing "the feed is curated" tells four in five of the room something they already know.
+Now put a second finding next to it. In a CHI paper published in 2025, researchers studied people trying to control TikTok's For You page. One stray search could dominate a feed for weeks or months afterwards. And the most effective tactic users found was not any official control. It was scrolling away fast, so the machine logs no appetite. The buttons built for the job barely register.
 
-What they lack is control, and the knowledge control needs.
+Hold those two findings together and you get the real problem.
 
-The business model. Attention is revenue, and their attention is the product.
+Knowing is not steering.
+
+We have raised the most algorithm aware generation in history and given them almost no instruction in the controls. That gap is a curriculum. Not a warning assembly. A taught, sequenced subject, built the way we teach road safety: incrementally, age by age, matched to what a child can actually use.
+
+Four layers.
+
+The business model. Attention is revenue and the user is the inventory. One internal email valued a teenage user at 270 dollars of lifetime revenue. That single fact explains the design of everything a child touches.
+
 The mechanics, platform by platform. TikTok ranks on behaviour. Instagram on relationships plus behaviour. YouTube on watch time. Snapchat on how often you message. Different machine, different steering.
-The exits. Feed resets, autoplay off, and the sleep boundary.
 
-There is promising evidence for teaching the manipulation itself. In inoculation trials published in Science Advances, short videos explaining manipulation techniques improved people's ability to spot them, at a cost of pennies per view. The trials ran on adults and measured recognition rather than wellbeing, so call it promising, not proven. But it points the right way: capability, not fear.
+The exits. Feed resets. Autoplay off. The bedroom boundary, because sleep carries the clearest evidence in the field.
 
-And Candice Odgers, one of the researchers this field should listen to most, adds the piece schools already understand: invest in the adults around children. Digital literacy, drop in support, staff with time to notice. Her warning about bans is blunt. They let the companies off the hook.
+And practice at spotting the pull. In inoculation trials published in Science Advances, short videos teaching manipulation techniques improved detection across six randomised trials and a field test on five million YouTube users, at pennies per view. Those trials ran on adults and measured recognition rather than wellbeing, so call it promising, not proven. But it points one way: this can be taught.
 
-Since 25 July 2025, Ofcom's children's codes legally require recommender systems to filter suicide, self harm and eating disorder content out of children's feeds. Regulation is finally doing its part on design. The classroom's part is the rest: children who can see the machinery, name the business model, and steer.
+Candice Odgers at UC Irvine has argued for years that the evidence based investment is the adults around children: fund digital literacy, fund staff with time to notice. She is right. This is what those adults would teach.
 
-That is a curriculum, not a confiscation policy.
+One honest limit. Nobody has yet run the trial showing this curriculum moves wellbeing. What is proven is the gap it fills.
 
-Claims: SMART Schools PC13 · awareness A27 · platform mechanics PD1, PD4, PD5, PD6 · inoculation PC11 with adult and recognition cautions stated · Odgers investment and bans quote PC9 · Ofcom codes A35, PD11
+This is The Wrong Villain series continued. The villain was never awareness. It is the space between knowing and steering.
+
+I have mapped the four layers into an age by age pathway, for kitchen tables and classrooms. Drop PATHWAY in the comments and I'll send it to you.
+
+If this landed, repost it for a teacher or a head planning next year's PSHE right now.
+
+Follow Justin Phillips for more. This conversation needs more people in it.
+
+A question for both rooms: who taught you how a feed works, and who is teaching your child?
+
+**Prepared author first comment:**
+The objection every teacher reading this has already typed: schools are stretched to breaking, and another curriculum ask is fantasy. Agreed, if it were a new subject. It is not. The four layers fit inside the PSHE and computing time schools already timetable; the business model is one lesson, the platform mechanics are one more, and the exits take twenty minutes of them. Road safety was never a GCSE either. It was a small number of hours, repeated at the right ages, and it stuck because it taught children to read the road rather than fear the cars. And half of this curriculum does not need a school at all. It needs a kitchen table and one honest question. Parents carry the other half, which is exactly why this post is addressed to both rooms.
+
+Claims: 63% awareness, 81% by 16 to 17 A27 · CHI 2025 For You page control study, single search dominates for weeks or months, scrolling away as main tactic A31 · $270 email A13 · platform mechanics one line each PD1, PD4, PD5, PD6 · feed resets and autoplay PD9, PD5 · sleep evidence A29 · inoculation trials, 6 RCTs plus 5M user field test (adults, recognition, promising not proven stated in post) PC11 · Odgers investment case (bans quote deliberately omitted per the ban rule) PC9
 
 ---
 
+Pack notes for the pipeline: the ban appears nowhere in any post or comment, per the brief. No dashes of any kind anywhere (verified by scan). One PATHWAY mechanic per post carries the funnel; zero direct product mentions. Body character counts: Post 1: 2,787 · Post 2: 2,706 · Post 3: 2,725 · Post 4: 2,805 · Post 5: 2,876. Every honest pivot is present: mechanism vs outcome (1), lawful not conspiracy (2), tools underdeliver (3), not a cure and thinner ritual evidence (4), promising not proven plus the untested curriculum admission (5).
