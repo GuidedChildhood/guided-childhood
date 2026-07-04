@@ -6,7 +6,9 @@ name: Fetch Higgsfield asset batch
 # removed again in the follow up commit once the assets have landed.
 
 on:
-  workflow_dispatch: {}     # manual only
+  push:
+    branches: [claude/continue-build-ldot8v]
+    paths: ['.github/workflows/fetch_asset_batch.yml']
 
 permissions:
   contents: write           # push the downloaded assets back to the branch
