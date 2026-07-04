@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { DIGI_MODEL, DIGI_MODEL_FALLBACKS } from '@/lib/config/digi'
 import { SOCIAL_MEDIA_LAW, banContextForDigi, BANNED_PLATFORMS, banIsActive } from '@/lib/config/social-media-law'
-import { NextResponse } from 'next/server'
+import { NextResponse, after } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 import { getStageFromAgeBand, STAGES, type AgeBand, type ChallengeId } from '@/lib/content/stages'
 import { getRecommendedScript } from '@/lib/pathway/recommend'
@@ -31,12 +31,32 @@ const BRAIN_SCHOOL = loadBrainFile('05-school-thread.md')
 const BRAIN_SCENARIOS = loadBrainFile('06-scenarios.md')
 const BRAIN_TRUST = loadBrainFile('07-trust-framework.md')
 
+const WARM_ERROR = 'DiGi took too long to think just then. Ask again, your message was not lost.'
+
 async function callDigi(params: Anthropic.MessageCreateParamsNonStreaming): Promise<Anthropic.Message> {
   const modelsToTry = [DIGI_MODEL, ...DIGI_MODEL_FALLBACKS.filter(m => m !== DIGI_MODEL)]
   let lastError: unknown
   for (const model of modelsToTry) {
     try {
       return await anthropic.messages.create({ ...params, model })
+    } catch (err) {
+      const isModelError = err instanceof Anthropic.APIError && (err.status === 404 || err.status === 400)
+      if (!isModelError) throw err
+      lastError = err
+    }
+  }
+  throw lastError
+}
+
+// Streaming variant of callDigi with the same model fallback chain. The await
+// resolves once response headers arrive, so 404/400 model errors throw here
+// and the next model is tried before any text has been sent to the client.
+async function callDigiStream(params: Omit<Anthropic.MessageCreateParamsStreaming, 'stream'>) {
+  const modelsToTry = [DIGI_MODEL, ...DIGI_MODEL_FALLBACKS.filter(m => m !== DIGI_MODEL)]
+  let lastError: unknown
+  for (const model of modelsToTry) {
+    try {
+      return await anthropic.messages.create({ ...params, model, stream: true })
     } catch (err) {
       const isModelError = err instanceof Anthropic.APIError && (err.status === 404 || err.status === 400)
       if (!isModelError) throw err
@@ -64,40 +84,36 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Message is required' }, { status: 400 })
   }
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('subscription_status, onboarding_answers')
-    .eq('id', user.id)
-    .single()
-
-  const isPaid = profile?.subscription_status === 'active'
-
-  // Rate limiting for free tier
-  if (!isPaid) {
-    const today = new Date().toISOString().split('T')[0]
-    const { data: conv } = await supabase
+  // Gather all independent context in one parallel round trip: profile,
+  // conversation (rate limit + history), child, tracker history, reflection
+  // feedback, script feedback, AI lessons, device guide, family memory.
+  const [
+    profileResult,
+    convResult,
+    childResult,
+    trackerResult,
+    feedbackResult,
+    scriptFeedbackResult,
+    aiLessonsResult,
+    deviceGuideResult,
+    familyMemory,
+  ] = await Promise.all([
+    supabase
+      .from('profiles')
+      .select('subscription_status, onboarding_answers')
+      .eq('id', user.id)
+      .single(),
+    supabase
       .from('digi_conversations')
-      .select('messages_today, last_message_date')
+      .select('messages, messages_today, last_message_date')
       .eq('user_id', user.id)
-      .single()
-
-    const isNewDay = !conv || conv.last_message_date !== today
-    const currentCount = isNewDay ? 0 : (conv?.messages_today ?? 0)
-
-    if (currentCount >= FREE_DAILY_LIMIT) {
-      return NextResponse.json({ error: 'Daily limit reached', messagesUsedToday: currentCount }, { status: 429 })
-    }
-  }
-
-  // Fetch child context, tracker history, and feedback history in parallel
-  const { data: child } = await supabase
-    .from('children')
-    .select('id, name, age_band, stage_id, streak_weeks, actions_this_week')
-    .eq('parent_id', user.id)
-    .eq('is_primary', true)
-    .single()
-
-  const [trackerResult, feedbackResult, scriptFeedbackResult] = await Promise.all([
+      .single(),
+    supabase
+      .from('children')
+      .select('id, name, age_band, stage_id, streak_weeks, actions_this_week')
+      .eq('parent_id', user.id)
+      .eq('is_primary', true)
+      .single(),
     supabase
       .from('wellbeing_checks')
       .select('week_start, mood_score, sleep_score, social_score, screen_mood_score, open_communication, concern_level, notes')
@@ -118,64 +134,83 @@ export async function POST(request: Request) {
       .not('worked', 'is', null)
       .order('completed_at', { ascending: false })
       .limit(10),
+    supabase
+      .from('ai_lessons')
+      .select('title, key_message, the_idea')
+      .eq('audience', 'parent')
+      .order('sort_order', { ascending: true }),
+    device_key && typeof device_key === 'string'
+      ? supabase
+          .from('device_guides')
+          .select('name, subtitle, why, steps, note')
+          .eq('device_key', device_key)
+          .maybeSingle()
+      : Promise.resolve({ data: null }),
+    getFamilyMemory(supabase, user.id),
   ])
+
+  const profile = profileResult.data
+  const convData = convResult.data
+  const child = childResult.data
+
+  const isPaid = profile?.subscription_status === 'active'
+
+  const today = new Date().toISOString().split('T')[0]
+  const isNewDay = !convData || convData.last_message_date !== today
+  const currentCount = isNewDay ? 0 : (convData?.messages_today ?? 0)
+
+  // Rate limiting for free tier — checked before any streaming starts
+  if (!isPaid && currentCount >= FREE_DAILY_LIMIT) {
+    return NextResponse.json({ error: 'Daily limit reached', messagesUsedToday: currentCount }, { status: 429 })
+  }
 
   const stage = child?.age_band
     ? getStageFromAgeBand(child.age_band as AgeBand)
     : STAGES[2]
 
-  const { data: aiLessons } = await supabase
-    .from('ai_lessons')
-    .select('title, key_message, the_idea')
-    .eq('audience', 'parent')
-    .order('sort_order', { ascending: true })
-
-  const aiKnowledge = (aiLessons ?? [])
+  const aiKnowledge = (aiLessonsResult.data ?? [])
     .map(l => `- ${l.title}: ${l.key_message} (${l.the_idea})`)
     .join('\n')
 
+  const scriptFeedback = scriptFeedbackResult.data ?? []
+  const parentChallenge = (profile?.onboarding_answers as Record<string, string> | null)?.challenge as ChallengeId | undefined
+
+  // Second parallel round trip for the queries that depend on the first
+  const [expertKnowledge, recommended, matchingScriptsResult] = await Promise.all([
+    getExpertKnowledge(supabase, child?.age_band ?? null, message),
+    child?.stage_id
+      ? getRecommendedScript(supabase, user.id, child.stage_id as StageId, parentChallenge ?? null)
+      : Promise.resolve(null),
+    scriptFeedback.length > 0
+      ? supabase
+          .from('scripts')
+          .select('sort_order, title')
+          .in('sort_order', scriptFeedback.map(f => f.script_sort_order))
+      : Promise.resolve({ data: null }),
+  ])
+
   let nextStepKnowledge = ''
-  if (child?.stage_id) {
-    const parentChallenge = (profile?.onboarding_answers as Record<string, string> | null)?.challenge as ChallengeId | undefined
-    const recommended = await getRecommendedScript(supabase, user.id, child.stage_id as StageId, parentChallenge ?? null)
-    if (recommended) {
-      nextStepKnowledge = `\n\nRECOMMENDED NEXT STEP ON THE PATHWAY: The next script this parent has not yet completed is "${recommended.title}" (${recommended.situation}). ${recommended.matchesChallenge ? 'This directly matches the main concern they told us about at signup.' : ''} If the conversation naturally allows it, or if they ask what to do next, mention this specific script by name as the next concrete step, do not just give generic advice when a specific next step already exists.`
-    }
+  if (recommended) {
+    nextStepKnowledge = `\n\nRECOMMENDED NEXT STEP ON THE PATHWAY: The next script this parent has not yet completed is "${recommended.title}" (${recommended.situation}). ${recommended.matchesChallenge ? 'This directly matches the main concern they told us about at signup.' : ''} If the conversation naturally allows it, or if they ask what to do next, mention this specific script by name as the next concrete step, do not just give generic advice when a specific next step already exists.`
   }
 
-  const scriptFeedback = scriptFeedbackResult.data ?? []
   let scriptFeedbackKnowledge = ''
   if (scriptFeedback.length > 0) {
-    const { data: matchingScripts } = await supabase
-      .from('scripts')
-      .select('sort_order, title')
-      .in('sort_order', scriptFeedback.map(f => f.script_sort_order))
+    const matchingScripts = matchingScriptsResult.data
     const titleFor = (sortOrder: number) => matchingScripts?.find(s => s.sort_order === sortOrder)?.title ?? `script ${sortOrder}`
     scriptFeedbackKnowledge = `\n\nSCRIPTS THIS PARENT HAS TRIED, AND WHETHER THEY WORKED (use this, do not suggest a script that already failed without acknowledging it first, and lean on ones that worked):\n` +
       scriptFeedback.map(f => `- "${titleFor(f.script_sort_order)}": ${f.worked === 'yes' ? 'worked well' : f.worked === 'somewhat' ? 'partly worked' : 'did not work'}`).join('\n')
   }
 
   let deviceGuideKnowledge = ''
-  if (device_key && typeof device_key === 'string') {
-    const { data: deviceGuide } = await supabase
-      .from('device_guides')
-      .select('name, subtitle, why, steps, note')
-      .eq('device_key', device_key)
-      .maybeSingle()
-
-    if (deviceGuide) {
-      const steps = ((deviceGuide.steps as string[] | null) ?? [])
-        .map(s => s.replace(/\*\*/g, ''))
-        .map((s, i) => `  ${i + 1}. ${s}`)
-        .join('\n')
-      deviceGuideKnowledge = `\n\nDEVICE SETUP GUIDE — the parent is asking about ${deviceGuide.name} (${deviceGuide.subtitle}). Walk them through this step by step, one step at a time, checking in before moving to the next rather than dumping all steps at once. Why this matters: ${deviceGuide.why}\nSteps:\n${steps}\nClosing note: ${deviceGuide.note}`
-    }
+  const deviceGuide = deviceGuideResult.data
+  if (deviceGuide) {
+    const steps = ((deviceGuide.steps as string[] | null) ?? [])
+      .map(s => s.replace(/\*\*/g, ''))
+      .map((s, i) => `  ${i + 1}. ${s}`)
+      .join('\n')
+    deviceGuideKnowledge = `\n\nDEVICE SETUP GUIDE — the parent is asking about ${deviceGuide.name} (${deviceGuide.subtitle}). Walk them through this step by step, one step at a time, checking in before moving to the next rather than dumping all steps at once. Why this matters: ${deviceGuide.why}\nSteps:\n${steps}\nClosing note: ${deviceGuide.note}`
   }
-
-  const [expertKnowledge, familyMemory] = await Promise.all([
-    getExpertKnowledge(supabase, child?.age_band ?? null, message),
-    getFamilyMemory(supabase, user.id),
-  ])
 
   const systemPrompt = buildSystemPrompt(
     stage,
@@ -187,17 +222,6 @@ export async function POST(request: Request) {
     deviceGuideKnowledge + scriptFeedbackKnowledge + nextStepKnowledge + expertKnowledge + familyMemory,
   )
 
-  // Get conversation history
-  const { data: convData } = await supabase
-    .from('digi_conversations')
-    .select('messages, messages_today, last_message_date')
-    .eq('user_id', user.id)
-    .single()
-
-  const today = new Date().toISOString().split('T')[0]
-  const isNewDay = !convData || convData.last_message_date !== today
-  const currentCount = isNewDay ? 0 : (convData?.messages_today ?? 0)
-
   const history = (convData?.messages ?? []).slice(-12) as Array<{ role: string; content: string }>
 
   const messages = [
@@ -205,106 +229,144 @@ export async function POST(request: Request) {
     { role: 'user' as const, content: message },
   ]
 
-  let response: Anthropic.Message
+  const newCount = currentCount + 1
+
+  // Open the model stream. Failures here happen before any bytes reach the
+  // client, so the warm error can still go out as JSON like before.
+  let modelStream: Awaited<ReturnType<typeof callDigiStream>>
   try {
-    response = await callDigi({
+    modelStream = await callDigiStream({
       model: DIGI_MODEL,
       max_tokens: 700,
       system: systemPrompt,
       messages,
     })
   } catch {
-    return NextResponse.json(
-      { error: 'DiGi took too long to think just then. Ask again, your message was not lost.' },
-      { status: 503 }
-    )
+    return NextResponse.json({ error: WARM_ERROR }, { status: 503 })
   }
 
-  const responseText = response.content[0].type === 'text' ? response.content[0].text : ''
+  // The post-response work (saving the conversation, memory extraction, the
+  // reflective question) runs after the stream completes, once the full text
+  // has been collected. `after` keeps the serverless function alive for it.
+  let resolveDone: (fullText: string) => void = () => {}
+  const donePromise = new Promise<string>(resolve => { resolveDone = resolve })
 
-  // Extract the reflective question from the response (after the marker line)
-  const reflectiveSplit = responseText.split(/\n\s*---\s*\n/)
-  const mainResponse = reflectiveSplit[0]?.trim() ?? responseText
-  const reflectiveQuestion = reflectiveSplit[1]?.trim() ?? null
+  after(async () => {
+    const responseText = await donePromise
+    if (!responseText.trim()) return
 
-  const updatedMessages = [
-    ...history,
-    { role: 'user', content: message, timestamp: new Date().toISOString() },
-    { role: 'assistant', content: responseText, timestamp: new Date().toISOString() },
-  ]
+    // Extract the reflective question from the response (after the marker line)
+    const reflectiveSplit = responseText.split(/\n\s*---\s*\n/)
+    const mainResponse = reflectiveSplit[0]?.trim() ?? responseText
+    const reflectiveQuestion = reflectiveSplit[1]?.trim() ?? null
 
-  const newCount = currentCount + 1
+    const updatedMessages = [
+      ...history,
+      { role: 'user', content: message, timestamp: new Date().toISOString() },
+      { role: 'assistant', content: responseText, timestamp: new Date().toISOString() },
+    ]
 
-  if (convData) {
-    await supabase.from('digi_conversations').update({
-      messages: updatedMessages,
-      message_count: Math.floor(updatedMessages.length / 2),
-      messages_today: newCount,
-      last_message_date: today,
-      updated_at: new Date().toISOString(),
-    }).eq('user_id', user.id)
-  } else {
-    await supabase.from('digi_conversations').insert({
-      user_id: user.id,
-      messages: updatedMessages,
-      message_count: 1,
-      messages_today: newCount,
-      last_message_date: today,
-    })
-  }
+    if (convData) {
+      await supabase.from('digi_conversations').update({
+        messages: updatedMessages,
+        message_count: Math.floor(updatedMessages.length / 2),
+        messages_today: newCount,
+        last_message_date: today,
+        updated_at: new Date().toISOString(),
+      }).eq('user_id', user.id)
+    } else {
+      await supabase.from('digi_conversations').insert({
+        user_id: user.id,
+        messages: updatedMessages,
+        message_count: 1,
+        messages_today: newCount,
+        last_message_date: today,
+      })
+    }
 
-  // DiGi learns: extract one durable memory from the exchange when there is
-  // one worth keeping, so future conversations start from what is known.
-  try {
-    const extraction = await callDigi({
-      model: DIGI_MODEL,
-      max_tokens: 200,
-      messages: [{
-        role: 'user',
-        content: `From this parent coaching exchange, extract at most ONE durable fact worth remembering for future conversations (a concern, a win, a preference, or lasting context about the child or family). Skip small talk and one off logistics. If nothing durable, reply exactly NONE.\n\nParent: ${message}\nAdvisor: ${mainResponse.slice(0, 600)}\n\nReply as JSON only: {"kind":"observation|concern|win|preference|context","content":"one sentence, third person"} or NONE`,
-      }],
-    })
-    const memText = extraction.content[0]?.type === 'text' ? extraction.content[0].text.trim() : 'NONE'
-    if (memText !== 'NONE') {
-      const memMatch = memText.match(/\{[\s\S]*\}/)
-      if (memMatch) {
-        const mem = JSON.parse(memMatch[0]) as { kind: string; content: string }
-        if (['observation', 'concern', 'win', 'preference', 'context'].includes(mem.kind) && mem.content) {
-          await supabase.from('digi_memory').insert({
-            user_id: user.id, child_id: child?.id ?? null,
-            kind: mem.kind, content: mem.content.slice(0, 400), source: 'chat',
-          })
+    // DiGi learns: extract one durable memory from the exchange when there is
+    // one worth keeping, so future conversations start from what is known.
+    try {
+      const extraction = await callDigi({
+        model: DIGI_MODEL,
+        max_tokens: 200,
+        messages: [{
+          role: 'user',
+          content: `From this parent coaching exchange, extract at most ONE durable fact worth remembering for future conversations (a concern, a win, a preference, or lasting context about the child or family). Skip small talk and one off logistics. If nothing durable, reply exactly NONE.\n\nParent: ${message}\nAdvisor: ${mainResponse.slice(0, 600)}\n\nReply as JSON only: {"kind":"observation|concern|win|preference|context","content":"one sentence, third person"} or NONE`,
+        }],
+      })
+      const memText = extraction.content[0]?.type === 'text' ? extraction.content[0].text.trim() : 'NONE'
+      if (memText !== 'NONE') {
+        const memMatch = memText.match(/\{[\s\S]*\}/)
+        if (memMatch) {
+          const mem = JSON.parse(memMatch[0]) as { kind: string; content: string }
+          if (['observation', 'concern', 'win', 'preference', 'context'].includes(mem.kind) && mem.content) {
+            await supabase.from('digi_memory').insert({
+              user_id: user.id, child_id: child?.id ?? null,
+              kind: mem.kind, content: mem.content.slice(0, 400), source: 'chat',
+            })
+          }
         }
       }
-    }
-  } catch { /* memory is best effort, never blocks the reply */ }
+    } catch { /* memory is best effort, never blocks the reply */ }
 
-  try {
-    await supabase.from('digi_questions').insert({
-      user_id: user.id,
-      child_id: child?.id ?? null,
-      stage_id: stage.id,
-      question: message,
-      response: mainResponse,
-    })
-  } catch { /* best-effort */ }
-
-  // Save the reflective question for today (upsert — only keeps the latest per day)
-  if (reflectiveQuestion) {
     try {
-      await supabase.from('digi_feedback').upsert({
+      await supabase.from('digi_questions').insert({
         user_id: user.id,
         child_id: child?.id ?? null,
-        feedback_date: today,
-        question: reflectiveQuestion,
-      }, { onConflict: 'user_id,feedback_date', ignoreDuplicates: true })
+        stage_id: stage.id,
+        question: message,
+        response: mainResponse,
+      })
     } catch { /* best-effort */ }
-  }
 
-  return NextResponse.json({
-    response: mainResponse,
-    reflectiveQuestion,
-    messagesUsedToday: newCount,
+    // Save the reflective question for today (upsert — only keeps the latest per day)
+    if (reflectiveQuestion) {
+      try {
+        await supabase.from('digi_feedback').upsert({
+          user_id: user.id,
+          child_id: child?.id ?? null,
+          feedback_date: today,
+          question: reflectiveQuestion,
+        }, { onConflict: 'user_id,feedback_date', ignoreDuplicates: true })
+      } catch { /* best-effort */ }
+    }
+  })
+
+  // Stream the reply to the client as plain text. The reflective question
+  // travels inside the stream after the --- marker and the client splits on
+  // it, exactly as the model writes it.
+  const encoder = new TextEncoder()
+  const body = new ReadableStream<Uint8Array>({
+    async start(controller) {
+      let fullText = ''
+      try {
+        for await (const event of modelStream) {
+          if (event.type === 'content_block_delta' && event.delta.type === 'text_delta') {
+            fullText += event.delta.text
+            controller.enqueue(encoder.encode(event.delta.text))
+          }
+        }
+      } catch {
+        // Stream failed. If nothing reached the client yet, send the warm
+        // apology as the reply. Partial replies are kept and not saved.
+        if (!fullText) {
+          try { controller.enqueue(encoder.encode(WARM_ERROR)) } catch { /* client gone */ }
+        }
+        fullText = ''
+      } finally {
+        resolveDone(fullText)
+        try { controller.close() } catch { /* already closed */ }
+      }
+    },
+  })
+
+  return new Response(body, {
+    headers: {
+      'Content-Type': 'text/plain; charset=utf-8',
+      'Cache-Control': 'no-store',
+      'X-Messages-Used-Today': String(newCount),
+    },
   })
 }
 
