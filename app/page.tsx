@@ -6,6 +6,7 @@ import FaqAccordion from '@/components/marketing/FaqAccordion'
 import FlipCards from '@/components/marketing/FlipCards'
 import DigiWalker from '@/components/marketing/DigiWalker'
 import HomeReveals from '@/components/marketing/HomeReveals'
+import MarketingNav from '@/components/marketing/MarketingNav'
 import DigiCharacter from '@/components/digi/DigiCharacter'
 
 export const metadata: Metadata = {
@@ -190,26 +191,26 @@ const WALKTHROUGHS = [
   {
     stage: 'Stage 2 · Ages 8 to 10',
     problem: '"He walks in from school and the TV has to go on immediately. Every single day. If I say no, it is a meltdown."',
-    solution: 'Children use screens to decompress because they have not learned another way to transition. The fix is not a ban. It is a 20-minute wind-down routine you introduce once, with a script, so it does not become a fight every evening.',
-    tags: ['Transition script', 'Weekly action', 'DiGi support'],
+    solution: 'Children use screens to decompress because they have not learned another way to transition. The fix is not a ban. It is a 20 minute wind down routine you introduce once, with the exact words, so it does not become a fight every evening. The after school moment walks you through it, and what your child is learning from it.',
+    tags: ['Daily moment', 'Exact script', 'DiGi support'],
   },
   {
     stage: 'Stage 3 · Ages 11 to 13',
     problem: '"Her mood after she comes off her phone is awful. Flat, she snaps. I do not know if the phone is doing this or if it is just her."',
-    solution: 'Research identifies ages 11 to 13 as the peak sensitivity window for girls. The mood drop is a real signal, not just teenage behaviour. The weekly check-in tracks it. The Stage 3 guide gives you the conversation to have before it becomes a pattern.',
-    tags: ['Mood tracker', 'Stage 3 guide', 'Research context'],
+    solution: 'Research identifies ages 11 to 13 as the peak sensitivity window for girls. The mood drop is a real signal, not just teenage behaviour. The wellbeing tracker and its weekly check in pick up the pattern. The Stage 3 guide gives you the conversation to have before it becomes one.',
+    tags: ['Wellbeing tracker', 'Stage 3 guide', 'Research context'],
   },
   {
     stage: 'Stage 4 · Ages 13 to 15',
     problem: '"I found out he has been using a VPN to get around the parental controls. I do not know where to start."',
-    solution: 'A workaround is not a technology problem. It is a trust conversation. The Stage 4 script walks you through how to respond without destroying the relationship or ignoring the behaviour, so you address the breach without making secrecy the new normal.',
-    tags: ['Trust script', 'Stage 4 guide'],
+    solution: 'A workaround is not a technology problem. It is a trust conversation. The Stage 4 script walks you through how to respond without destroying the relationship or ignoring the behaviour, and the device checklist shows you exactly what to set tonight so the workaround is closed, not just discovered.',
+    tags: ['Trust script', 'Device checklist'],
   },
   {
     stage: 'Stage 5 · Age 16',
     problem: '"She turns 16 in two months. She will have full access to everything. I have no idea if she is actually ready."',
-    solution: 'If you have been on the pathway since Stage 1 or 2, the readiness checklist at Stage 5 is a confirmation, not a starting point. If you are starting now, Stage 5 builds the specific skills needed in the months before full access. No cliff edge.',
-    tags: ['Readiness checklist', 'The 16 conversation'],
+    solution: 'If you have been on the pathway since Stage 1 or 2, the readiness checklist at Stage 5 is a confirmation, not a starting point. If you are starting now, Stage 5 builds the specific skills needed in the months before full access, and the family agreement puts the terms on paper, signed by both of you. No cliff edge.',
+    tags: ['Readiness checklist', 'Family agreement', 'The 16 conversation'],
   },
 ]
 
@@ -331,7 +332,7 @@ export default function HomePage() {
               {
                 '@type': 'Question',
                 name: 'What is Guided Childhood and how does it work?',
-                acceptedAnswer: { '@type': 'Answer', text: 'Guided Childhood is a stage-by-stage digital parenting platform for UK families with children aged 4 to 16. You identify your child\'s stage, get the exact scripts for the situations you are facing right now, complete weekly check-ins and actions, and ask DiGi (your AI parenting advisor) for the specific words you need in any moment. It takes around 10 minutes a week.' },
+                acceptedAnswer: { '@type': 'Answer', text: 'Guided Childhood is a stage by stage digital parenting platform for UK families with children aged 4 to 16. You identify your child\'s stage, then get daily moments with the exact words for the friction points of the day, 160 scripts for the hard conversations, device setting checklists, a wellbeing tracker with weekly check ins, a family agreement builder, 100 lessons you can teach at home, and DiGi, your AI parenting advisor, whenever you need the specific words. It takes around five minutes a day.' },
               },
               {
                 '@type': 'Question',
@@ -393,22 +394,7 @@ export default function HomePage() {
           </span>
         </Link>
 
-        <nav className="nav-links-desktop">
-          {[['Find Your Stage', '#stages'], ['How It Works', '#how-it-works'], ['For Schools', '/schools'], ['Pricing', '#pricing']].map(([label, href]) => (
-            <Link key={href} href={href} style={{
-              textDecoration: 'none',
-              fontFamily: 'var(--font-body)',
-              fontSize: '.84rem',
-              fontWeight: 600,
-              color: 'var(--ink)',
-              padding: '7px 14px',
-              borderRadius: '100px',
-              transition: 'color .15s, background .15s',
-            }}>
-              {label}
-            </Link>
-          ))}
-        </nav>
+        <MarketingNav />
 
         <Link href="/starter-pack" className="btn btn-green" style={{ fontSize: '13px', padding: '10px 22px', flexShrink: 0 }}>
           Get Started
@@ -1038,8 +1024,8 @@ export default function HomePage() {
             {([
               {
                 iconBg: 'var(--stage-1-bold)',
-                title: 'Stage by Stage Guide',
-                body: 'The right boundaries and conversations for your child\'s exact age. From first screen at 4 to full independence at 16. You never fall behind.',
+                title: 'The Stage Pathway',
+                body: 'Digital literacy from age 4 to 16, built for the moment social media arrives at 16. The right boundaries and conversations at every age. No cliff edge.',
                 svg: (
                   <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M3 7l6-4 6 4 6-4v14l-6 4-6-4-6 4V7z"/>
@@ -1049,22 +1035,96 @@ export default function HomePage() {
                 ),
               },
               {
-                iconBg: 'var(--terracotta)',
-                title: 'DiGi AI Advisor',
-                body: 'Tell DiGi what happened today. Get the exact words and the structural fix. Available at 11pm when the guilt spiral hits. No generic advice.',
+                iconBg: 'var(--stage-2-bold)',
+                title: 'Daily Moments',
+                body: 'The friction points of the day: the morning routine, homework, the gaming handover, bedtime. The exact words for each one, and what your child is learning from the moment.',
                 svg: (
-                  <DigiCharacter mood="idle" size={36} />
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="4"/>
+                    <line x1="12" y1="2" x2="12" y2="5"/>
+                    <line x1="12" y1="19" x2="12" y2="22"/>
+                    <line x1="2" y1="12" x2="5" y2="12"/>
+                    <line x1="19" y1="12" x2="22" y2="12"/>
+                    <line x1="4.9" y1="4.9" x2="7" y2="7"/>
+                    <line x1="17" y1="17" x2="19.1" y2="19.1"/>
+                  </svg>
                 ),
               },
               {
-                iconBg: 'var(--stage-2-bold)',
-                title: 'Weekly Scripts',
-                body: 'Twelve real situations with exact scripts. The gaming fight, the phone at bedtime, TikTok at 13. Start using them tonight.',
+                iconBg: 'var(--stage-3-bold)',
+                title: '160 Exact Scripts',
+                body: 'The hard conversations, written out. What to say, what not to say, and why it works. From the first tablet to the TikTok request at 13.',
                 svg: (
                   <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
                     <line x1="9" y1="9" x2="15" y2="9"/>
                     <line x1="9" y1="13" x2="13" y2="13"/>
+                  </svg>
+                ),
+              },
+              {
+                iconBg: 'var(--terracotta)',
+                title: 'DiGi AI Advisor',
+                body: 'Trained on the research. Tell DiGi what happened today and get the exact words and the structural fix. Available at 11pm when the guilt spiral hits.',
+                svg: (
+                  <DigiCharacter mood="idle" size={36} />
+                ),
+              },
+              {
+                iconBg: 'var(--stage-4-bold)',
+                title: 'Device Settings First',
+                body: 'Per device, per age checklists, iPhone first. What to set tonight, before the device gets anywhere near your child. Ten minutes of setup saves months of arguments.',
+                svg: (
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    <path d="M9 12l2 2 4-4"/>
+                  </svg>
+                ),
+              },
+              {
+                iconBg: 'var(--stage-5-bold)',
+                title: 'The Wellbeing Tracker',
+                body: 'A weekly check in that takes two minutes. Patterns emerge over the weeks, so you spot a mood shift before it becomes a problem.',
+                svg: (
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="6" y1="20" x2="6" y2="14"/>
+                    <line x1="12" y1="20" x2="12" y2="8"/>
+                    <line x1="18" y1="20" x2="18" y2="11"/>
+                    <path d="M4 4l4 3 4-4 4 3 4-2"/>
+                  </svg>
+                ),
+              },
+              {
+                iconBg: 'var(--stage-1-bold)',
+                title: 'Family Agreement Builder',
+                body: 'Built together, printed, and signed by both of you. Agreed rules hold. Imposed rules do not.',
+                svg: (
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/>
+                    <path d="M14 2v6h6"/>
+                    <path d="M9 15l2 2 4-4"/>
+                  </svg>
+                ),
+              },
+              {
+                iconBg: 'var(--stage-2-bold)',
+                title: 'The Lesson Library',
+                body: '100 lessons for digital home schooling, written to be taught at the kitchen table. Algorithms, group chats, AI, all of it, each at the right age.',
+                svg: (
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M2 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H2V4z"/>
+                    <path d="M22 4h-7a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h8V4z"/>
+                  </svg>
+                ),
+              },
+              {
+                iconBg: 'var(--stage-3-bold)',
+                title: 'Weekly Advice Emails',
+                body: 'One genuinely useful email a week, written like a parent, not a robot. What to try, what to say, and what is coming at the next stage.',
+                svg: (
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="2" y="4" width="20" height="16" rx="2"/>
+                    <path d="M22 7l-10 6L2 7"/>
                   </svg>
                 ),
               },
@@ -1094,17 +1154,17 @@ export default function HomePage() {
               <span style={{ color: 'var(--terracotta)' }}>Scripts for all of them.</span>
             </h2>
             <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink)', lineHeight: 1.8, maxWidth: '480px', margin: '0 auto' }}>
-              Every situation below has a guide, an exact script and a structural fix. Not tomorrow. Tonight.
+              Each one is a daily moment inside the platform: the exact words, the structural fix, and what your child is learning from it. Not tomorrow. Tonight.
             </p>
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
             {[
-              { label: 'Every morning', problem: 'They will not get off their device to get ready for school.', fix: 'The routine starts tonight. Device outside the bedroom. Shoes first, screens second. Say it once, hold it every day.', bg: 'var(--stage-1)', bold: 'var(--stage-1-bold)', ages: 'Ages 4 to 13' },
-              { label: 'After school every day', problem: 'The TV goes on the second she is home. If I say no it is a meltdown.', fix: 'She is decompressing the only way she has been taught. A 20-minute wind-down routine with a script replaces the demand within two weeks.', bg: 'var(--stage-2)', bold: 'var(--stage-2-bold)', ages: 'Ages 8 to 10' },
-              { label: 'Mood after her phone', problem: 'She is flat, snappy and impossible to reach after she puts her phone down.', fix: 'The research tracks this signal specifically at ages 11 to 13. You get the check-in and the conversation before it becomes a pattern.', bg: 'var(--stage-3)', bold: 'var(--stage-3-bold)', ages: 'Ages 11 to 13 · Critical window', critical: true },
-              { label: 'Bedtime every night', problem: 'He will not hand over his phone at bedtime. Every night the same argument.', fix: 'One structural change. The phone charges in the hallway from tonight. Not a rule to enforce. A structure that removes the argument.', bg: 'var(--stage-4)', bold: 'var(--stage-4-bold)', ages: 'Ages 8 to 15' },
-              { label: 'TikTok at 13', problem: 'She is 13 and asking for TikTok. All her friends have it. I have no idea what to say.', fix: 'The answer is not yes or no. You get the conversation to have before she gets access. The conversation is the protection.', bg: 'var(--stage-5)', bold: 'var(--stage-5-bold)', ages: 'Ages 11 to 13' },
+              { label: 'Every morning', problem: 'They will not get off their device to get ready for school.', fix: 'The morning moment gives you the words and the structure: device outside the bedroom, screens after shoes and bag. Your child learns to start the day without a screen, and you stop repeating yourself by 8am.', bg: 'var(--stage-1)', bold: 'var(--stage-1-bold)', ages: 'Ages 4 to 13' },
+              { label: 'Homework time', problem: 'He says he is doing homework on his laptop. He is watching YouTube.', fix: 'The homework moment separates the work from the device: phone on the kitchen counter, thirty minutes focused, then it comes back. Your child learns that effort comes before reward, not instead of it.', bg: 'var(--stage-2)', bold: 'var(--stage-2-bold)', ages: 'Ages 8 to 13' },
+              { label: 'The gaming handover', problem: 'When I turn the game off he screams. Every handover ends in a meltdown.', fix: 'The gaming moment gives you the warning script before the moment, not during it. Predictable endings end the meltdowns. Your child learns to stop, which is the exact skill the game is built to prevent.', bg: 'var(--stage-3)', bold: 'var(--stage-3-bold)', ages: 'Ages 7 to 12' },
+              { label: 'Bedtime every night', problem: 'He will not hand over his phone at bedtime. Every night the same argument.', fix: 'One structural change, with the words to introduce it: the phone charges in the hallway from tonight, for the whole house. Your child learns that sleep is protected, not negotiated.', bg: 'var(--stage-4)', bold: 'var(--stage-4-bold)', ages: 'Ages 8 to 15' },
+              { label: 'TikTok at 13', problem: 'She is 13 and asking for TikTok. All her friends have it. I have no idea what to say.', fix: 'The answer is not yes or no. One of the 160 scripts walks you through the conversation to have before she gets access. The conversation is the protection.', bg: 'var(--stage-5)', bold: 'var(--stage-5-bold)', ages: 'Ages 11 to 13 · Critical window', critical: true },
             ].map((row, i) => (
               <div key={i} className="fu" style={{
                 display: 'grid',
@@ -1279,13 +1339,13 @@ export default function HomePage() {
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
 
           <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-            <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>100 plus scripts</p>
+            <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>160 exact scripts</p>
             <h2 style={{ marginBottom: '14px' }}>
               What to say in{' '}
               <span style={{ color: 'var(--terracotta)' }}>every situation</span>
             </h2>
             <p style={{ fontSize: '1rem', color: 'var(--ink)', lineHeight: 1.8, maxWidth: '520px', margin: '0 auto' }}>
-              Each script has the exact words, what not to say, and why it works. Across six areas of digital life.
+              160 scripts for the hard conversations. Each one has the exact words, what not to say, and why it works. Across six areas of digital life.
             </p>
           </div>
 
@@ -1298,12 +1358,12 @@ export default function HomePage() {
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }} className="cat-grid">
             {([
-              { label: 'First Device',  desc: 'Setting foundations before and after the first screen arrives.', bg: 'var(--stage-1-bold)', text: 'var(--stage-1-text)', img: 'hf_20260701_114000_83af1d7a-f4d0-42b1-bbbb-50189bb257ec.png', count: '18 scripts', ks: 'Stage 1 and 2' },
-              { label: 'Social Media',  desc: 'Navigating platforms, algorithms, and identity with your child.', bg: 'var(--stage-3-bold)', text: 'var(--stage-3-text)', img: 'hf_20260701_114002_8859c51a-5549-455b-abb9-7ef0ea4b235b.png', count: '22 scripts', ks: 'Stage 3 and 4' },
-              { label: 'Gaming',        desc: 'Healthy gaming conversations without the daily battle.', bg: 'var(--stage-2-bold)', text: 'var(--stage-2-text)', img: 'hf_20260701_111842_c658f4e6-31f2-4b4e-98df-4517281cb6d7.png', count: '15 scripts', ks: 'All stages' },
-              { label: 'Safety',        desc: 'What to say when something goes wrong online.', bg: 'var(--stage-4-bold)', text: 'var(--stage-4-text)', img: 'hf_20260701_114003_bc2f938b-e551-415c-9aff-09e57ac8cb6c.png', count: '20 scripts', ks: 'Stage 3 to 5' },
-              { label: 'Wellbeing',     desc: 'Mood, sleep, body image, and the digital connection.', bg: 'var(--stage-5-bold)', text: 'var(--stage-5-text)', img: 'hf_20260701_115127_7be715f0-bf0b-4ac1-b3ff-38c243b04b36.png', count: '16 scripts', ks: 'Stage 2 to 4' },
-              { label: 'AI and Tech',   desc: 'Deepfakes, AI tools, and what digital literacy looks like.', bg: 'var(--stage-1-bold)', text: 'var(--stage-1-text)', img: 'hf_20260701_114006_5fcc7cc3-35eb-4ce5-ac24-bea685ae33e6.png', count: '12 scripts', ks: 'Stage 4 and 5' },
+              { label: 'First Device',  desc: 'Setting foundations before and after the first screen arrives.', bg: 'var(--stage-1-bold)', text: 'var(--stage-1-text)', img: 'hf_20260701_114000_83af1d7a-f4d0-42b1-bbbb-50189bb257ec.png', count: 'Exact scripts', ks: 'Stage 1 and 2' },
+              { label: 'Social Media',  desc: 'Navigating platforms, algorithms, and identity with your child.', bg: 'var(--stage-3-bold)', text: 'var(--stage-3-text)', img: 'hf_20260701_114002_8859c51a-5549-455b-abb9-7ef0ea4b235b.png', count: 'Exact scripts', ks: 'Stage 3 and 4' },
+              { label: 'Gaming',        desc: 'Healthy gaming conversations without the daily battle.', bg: 'var(--stage-2-bold)', text: 'var(--stage-2-text)', img: 'hf_20260701_111842_c658f4e6-31f2-4b4e-98df-4517281cb6d7.png', count: 'Exact scripts', ks: 'All stages' },
+              { label: 'Safety',        desc: 'What to say when something goes wrong online.', bg: 'var(--stage-4-bold)', text: 'var(--stage-4-text)', img: 'hf_20260701_114003_bc2f938b-e551-415c-9aff-09e57ac8cb6c.png', count: 'Exact scripts', ks: 'Stage 3 to 5' },
+              { label: 'Wellbeing',     desc: 'Mood, sleep, body image, and the digital connection.', bg: 'var(--stage-5-bold)', text: 'var(--stage-5-text)', img: 'hf_20260701_115127_7be715f0-bf0b-4ac1-b3ff-38c243b04b36.png', count: 'Exact scripts', ks: 'Stage 2 to 4' },
+              { label: 'AI and Tech',   desc: 'Deepfakes, AI tools, and what digital literacy looks like.', bg: 'var(--stage-1-bold)', text: 'var(--stage-1-text)', img: 'hf_20260701_114006_5fcc7cc3-35eb-4ce5-ac24-bea685ae33e6.png', count: 'Exact scripts', ks: 'Stage 4 and 5' },
             ]).map((cat) => (
               <Link key={cat.label} href="/starter-pack" style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column' }}>
                 <div style={{
@@ -1482,7 +1542,7 @@ export default function HomePage() {
           </div>
 
           <div className="time-stats">
-            {[['2 min', 'Weekly check-in'], ['3', 'Actions per week'], ['5 min', 'Each action'], ['24/7', 'DiGi available']].map(([num, label], i) => (
+            {[['5 min', 'A daily moment'], ['160', 'Exact scripts'], ['100', 'Lessons in the library'], ['24/7', 'DiGi available']].map(([num, label], i) => (
               <div key={i} style={{ textAlign: 'center', padding: '22px 12px', borderRight: i < 3 ? '1px solid var(--border)' : 'none' }}>
                 <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.8rem', fontWeight: 900, color: 'var(--terracotta)', lineHeight: 1, marginBottom: '5px', letterSpacing: '-.03em' }}>
                   {num}
@@ -1492,21 +1552,21 @@ export default function HomePage() {
             ))}
           </div>
           <p style={{ textAlign: 'center', fontSize: '.77rem', color: 'var(--ink-muted)', marginTop: '13px', fontStyle: 'italic' }}>
-            Most parents spend ten minutes a week. That is genuinely all it takes.
+            Five minutes a day, a two minute check in each week. That is genuinely all it takes.
           </p>
 
           {/* Curriculum list + Home educator CTA */}
           <div style={{ marginTop: '48px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px', alignItems: 'start' }}>
             <div style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '20px', padding: '28px' }}>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.6rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '16px' }}>
-                What the lessons cover
+                What the 100 lessons cover
               </div>
               <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '10px', margin: 0, padding: 0 }}>
                 {[
                   'Screen behaviour, routines, and emotional regulation',
                   'Grooming, manipulation, consent, and online strangers',
                   'Sextortion, radicalisation, and dark web awareness',
-                  'Misinformation, deepfakes, and AI-generated content',
+                  'Misinformation, deepfakes, and AI generated content',
                   'Algorithms, social media, privacy, digital reputation',
                   'AI literacy, data rights, full readiness at 16',
                   'Parent note included with every single lesson',

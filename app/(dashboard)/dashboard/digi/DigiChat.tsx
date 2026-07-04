@@ -80,11 +80,15 @@ export default function DigiChat({
     setError('')
 
     try {
+      const controller = new AbortController()
+      const timeout = setTimeout(() => controller.abort(), 65_000)
       const res = await fetch('/api/digi', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: messageText, device_key: deviceKey }),
+        signal: controller.signal,
       })
+      clearTimeout(timeout)
 
       const data = await res.json()
 
@@ -104,7 +108,7 @@ export default function DigiChat({
         }
       }
     } catch {
-      setError('Could not reach DiGi. Please check your connection and try again.')
+      setError('DiGi took too long to answer. Your message was not lost, try sending it again.')
       setMessages(prev => prev.slice(0, -1))
     } finally {
       setLoading(false)
