@@ -92,7 +92,26 @@ export default async function EducatorHome({ searchParams }: { searchParams: Pro
     )
   }
 
-  const school = membership.school_accounts as unknown as { name: string; phase: string; licence_tier: string }
+  // The embed can be an object, an array, or null (null when the read
+  // policy on school_accounts is missing, the half-installed database
+  // case). Never crash on it: normalise and fall back to a repair notice.
+  const rawSchool = membership.school_accounts as unknown
+  const school = (Array.isArray(rawSchool) ? rawSchool[0] : rawSchool) as
+    { name: string; phase: string; licence_tier: string } | null | undefined
+
+  if (!school) {
+    return (
+      <main style={{ minHeight: '100vh', background: 'var(--cream)', padding: '48px 20px' }}>
+        <div style={{ maxWidth: '520px', margin: '0 auto' }}>
+          <div style={eyebrow}>Guided Childhood Schools</div>
+          <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.4rem, 4.5vw, 1.9rem)', color: 'var(--ink)', margin: '8px 0 12px' }}>
+            Your school exists but cannot be read
+          </h1>
+          <ErrorBox message={combinedError || 'Your educator record was found but the school row could not be read. This means the database security rules are only partially installed. Run the repair migration 026_schools_repair.sql in the Supabase SQL Editor, then reload this page.'} />
+        </div>
+      </main>
+    )
+  }
 
   const [{ data: classes }, { data: lessons }] = await Promise.all([
     supabase.from('school_classes').select('id, name, year_group, class_code').eq('school_id', membership.school_id).order('created_at'),
