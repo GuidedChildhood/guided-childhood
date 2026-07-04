@@ -44,7 +44,7 @@ export default function SchoolPromoCard() {
             boxShadow: '0 4px 0 var(--terracotta-dark)',
           }}
         >
-          Set it up in three minutes
+          Set it up in one minute
         </Link>
         <button
           onClick={() => { localStorage.setItem(STORAGE_KEY, '1'); setVisible(false) }}
