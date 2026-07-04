@@ -23,6 +23,19 @@ The loop a parent lives daily, each step feeding the next:
 Every screen must answer: where am I on the path to 16, and what is the one
 thing right now. If a screen answers neither, it does not belong.
 
+### The session shape (LOCKED, Justin 4 July)
+
+Login shows the flow up front: a session strip at the top of Home reading
+"Your 10 minutes today" with the day's steps as path nodes (concern follow
+up, school items and quest approvals, today's moment card, tracker close).
+The minutes come from the time commitment stored at onboarding, and the
+node count scales to it. Progress fills as they move. The LAST node every
+day is the tracker: a thirty second touch (how was today, one tap, plus a
+yes/no on any open concern), expanding to the full five minute check in on
+Fridays. The tracker is the session's finish line, not a page you have to
+remember to visit; that is what keeps its data live. Then the close: your
+minutes are done, streak shown, tomorrow teased.
+
 ## 2. Family Quests (what the wife would pay for) — DECISIONS LOCKED
 
 - Reach the kid BY AGE: ages 4 to 8 printable quest cards plus a handover
