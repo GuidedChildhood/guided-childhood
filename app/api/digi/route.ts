@@ -10,7 +10,11 @@ import { getExpertKnowledge, getFamilyMemory } from '@/lib/digi/brain'
 import { readFileSync } from 'fs'
 import { join } from 'path'
 
-const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+const anthropic = new Anthropic({
+  apiKey: process.env.ANTHROPIC_API_KEY,
+  timeout: 45_000,
+  maxRetries: 1,
+})
 
 function loadBrainFile(filename: string): string {
   try {
@@ -41,6 +45,9 @@ async function callDigi(params: Anthropic.MessageCreateParamsNonStreaming): Prom
   }
   throw lastError
 }
+
+export const maxDuration = 60
+export const dynamic = 'force-dynamic'
 
 const FREE_DAILY_LIMIT = 3
 
@@ -198,12 +205,20 @@ export async function POST(request: Request) {
     { role: 'user' as const, content: message },
   ]
 
-  const response = await callDigi({
-    model: DIGI_MODEL,
-    max_tokens: 700,
-    system: systemPrompt,
-    messages,
-  })
+  let response: Anthropic.Message
+  try {
+    response = await callDigi({
+      model: DIGI_MODEL,
+      max_tokens: 700,
+      system: systemPrompt,
+      messages,
+    })
+  } catch {
+    return NextResponse.json(
+      { error: 'DiGi took too long to think just then. Ask again, your message was not lost.' },
+      { status: 503 }
+    )
+  }
 
   const responseText = response.content[0].type === 'text' ? response.content[0].text : ''
 
@@ -426,6 +441,8 @@ WHAT YOU NEVER DO:
 - Never make a parent feel they have failed.
 - Never recommend allow/deny.
 - Never store, share, or reference any data beyond what is in this conversation and the context above.
+
+GENTLE NUDGES: every few exchanges, when it fits naturally at the end of a reply, add ONE small practical nudge drawn from the family context above: a device guide not yet completed, tomorrow's school item, the weekly check in if it is Friday. One line, never more than one nudge per reply, framed as a helpful aside, never guilt. Skip it entirely when the parent is discussing something emotional or serious.
 
 Remember: you are talking to a parent who is doing their best. Every response should leave them feeling more capable, more specific, and one step closer to a better conversation with their child.
 ${BRAIN_SCIENTISTS ? `\n---\n\nRESEARCH BASE:\n${BRAIN_SCIENTISTS}` : ''}${BRAIN_VOICE ? `\n---\n\nVOICE AND LANGUAGE RULES:\n${BRAIN_VOICE}` : ''}${BRAIN_SCHOOL ? `\n---\n\nSCHOOL CURRICULUM ALIGNMENT:\n${BRAIN_SCHOOL}` : ''}${BRAIN_SCENARIOS ? `\n---\n\nSCENARIO LIBRARY (reference these when a parent describes a specific incident):\n${BRAIN_SCENARIOS}` : ''}${BRAIN_TRUST ? `\n---\n\nTRUST FRAMEWORK:\n${BRAIN_TRUST}` : ''}`
