@@ -6,6 +6,7 @@ import FaqAccordion from '@/components/marketing/FaqAccordion'
 import FlipCards from '@/components/marketing/FlipCards'
 import DigiWalker from '@/components/marketing/DigiWalker'
 import HomeReveals from '@/components/marketing/HomeReveals'
+import MarketingNav from '@/components/marketing/MarketingNav'
 import DigiCharacter from '@/components/digi/DigiCharacter'
 
 export const metadata: Metadata = {
@@ -393,22 +394,7 @@ export default function HomePage() {
           </span>
         </Link>
 
-        <nav className="nav-links-desktop">
-          {[['Find Your Stage', '#stages'], ['How It Works', '#how-it-works'], ['For Schools', '/schools'], ['Pricing', '#pricing']].map(([label, href]) => (
-            <Link key={href} href={href} style={{
-              textDecoration: 'none',
-              fontFamily: 'var(--font-body)',
-              fontSize: '.84rem',
-              fontWeight: 600,
-              color: 'var(--ink)',
-              padding: '7px 14px',
-              borderRadius: '100px',
-              transition: 'color .15s, background .15s',
-            }}>
-              {label}
-            </Link>
-          ))}
-        </nav>
+        <MarketingNav />
 
         <Link href="/starter-pack" className="btn btn-green" style={{ fontSize: '13px', padding: '10px 22px', flexShrink: 0 }}>
           Get Started
