@@ -8,6 +8,8 @@ import PushPrompt from '@/components/push/PushPrompt'
 import DeviceSetupBanner from '@/components/device/DeviceSetupBanner'
 import DigiPrompts from '@/components/digi/DigiPrompts'
 import StreakFlame from '@/components/daily/StreakFlame'
+import SchoolActionsCard, { type SchoolAction } from '@/components/school/SchoolActionsCard'
+import SchoolPromoCard from '@/components/school/SchoolPromoCard'
 import TodayPathStrip from '@/components/daily/TodayPathStrip'
 import { getDailyStreak } from '@/lib/pathway/streak'
 import { getTodayLoop } from '@/lib/pathway/daily-tasks'
@@ -44,16 +46,20 @@ export default async function DashboardPage() {
 
   const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
 
-  const [childResult, dailySessionResult, todayMomentsResult, lastFeedbackResult] = await Promise.all([
+  const [childResult, dailySessionResult, todayMomentsResult, lastFeedbackResult, schoolActionsResult, schoolConnectionResult] = await Promise.all([
     supabase.from('children').select('name, age_band, stage_id, streak_weeks, actions_this_week').eq('parent_id', user.id).eq('is_primary', true).single(),
     supabase.from('daily_sessions').select('completed_at').eq('user_id', user.id).eq('session_date', today).maybeSingle(),
     supabase.from('daily_moments').select('id, title, category, age_bands, icon, science_brief, digi_opener').eq('active', true).order('sort_order').limit(20),
     supabase.from('digi_feedback').select('feedback_date, question, parent_response, digi_insight').eq('user_id', user.id).not('parent_response', 'is', null).gte('feedback_date', sevenDaysAgo).order('feedback_date', { ascending: false }).limit(1).maybeSingle(),
+    supabase.from('school_actions').select('id, kind, title, detail, due_date').eq('user_id', user.id).eq('status', 'open').order('due_date', { ascending: true, nullsFirst: false }).limit(12),
+    supabase.from('school_connections').select('id').eq('user_id', user.id).eq('active', true).maybeSingle(),
   ])
 
   const child = childResult.data
   const dailyDone = !!dailySessionResult.data?.completed_at
   const lastFeedback = lastFeedbackResult.data
+  const schoolActions: SchoolAction[] = schoolActionsResult.data ?? []
+  const hasSchoolConnection = !!schoolConnectionResult.data
 
   const allMoments: Moment[] = todayMomentsResult.data ?? []
   const todayMoments = child?.age_band
@@ -239,6 +245,12 @@ export default async function DashboardPage() {
         stageName={stage.name}
         childName={child?.name ?? null}
       />
+
+      {/* Things you need to know: open school actions from forwarded school emails */}
+      <SchoolActionsCard actions={schoolActions} />
+
+      {/* School email promo until a connection is active, dismissible per device */}
+      {!hasSchoolConnection && <SchoolPromoCard />}
 
       {/* Moment cards section */}
       {todayMoments.length > 0 && (
