@@ -47,6 +47,29 @@ Write to `content/packs/<yyyy-mm-dd>-<slug>/`:
 
 In chat, give Justin the single best hook from the pack and anything the Scientist could not verify.
 
+## Editorial doctrine (Justin's standing brief, bake into every pack)
+
+**Positive, never panic.** Every post educates toward a digital pathway. The reader should finish feeling more capable, not more frightened. Fear appears only as a named worry we immediately equip them for. We are the calm, evidence literate voice in a panicked space; that is the differentiation.
+
+**The researcher canon.** Lead with the scientists whose work actually survives scrutiny and who our position rests on: Candice Odgers, Amy Orben, Andrew Przybylski, Matti Vuorre, Chris Ferguson. Their shared finding is our spine: population level harm is small, harm is concentrated in already vulnerable children, and the moral panic pattern has repeated for every new medium. Always explain WHY harm concentrates (developmental sensitivity windows, distress signals read as appetite, the vulnerable tail) rather than just asserting the average is fine.
+
+**Educate to live with it, not to remove it.** The story is never "protect children from technology". It is "children will live their whole lives with recommendation systems; here is how they learn to see the machinery, steer it, and use it well". Include the genuine positives (connection, identity, learning) whenever honest. Holistic, whole childhood framing, not single villain framing.
+
+**Platforms are different.** Never say "the algorithm" as one monolith when the difference matters: TikTok ranks on your behaviour (interest graph), Instagram and Facebook on your relationships plus behaviour, YouTube on watch time, Snapchat on streak reciprocity. Teaching the differences is exactly the beyond everyone else depth we trade on.
+
+**Depth is the moat.** Every pack should contain at least one finding, researcher or mechanism that a reader has never seen in their feed before, sourced from the verified briefing.
+
+**Sell by leading.** Guided Childhood stays in the background as the obvious embodiment of the philosophy. The pathway concept is named; the product is linked once per pack at most.
+
+## Channel variants (produce all of these in every pack)
+
+- **LinkedIn**: 5 posts as specified above, feed optimised (hook line, white space, 150 to 400 words, document carousel and face video formats flagged).
+- **Substack**: one full issue, story led, 800 to 1,200 words, subject line options.
+- **Mumsnet**: one post written as a genuine forum contribution: humble, practical, first person parent voice, no marketing scent, no links unless asked, invites discussion. Mumsnet detects and destroys astroturf, so it must read as a parent sharing what they learned.
+- **Reddit**: one post for a relevant subreddit (r/Parenting, r/ScienceBasedParenting, r/Teachers): evidence first, citations linked inline, neutral professional tone, zero promotion, structured for comment discussion. On r/ScienceBasedParenting every claim needs its study link.
+- **Facebook**: one post for parent groups: warm, shorter sentences, one idea, shareable, ends with a question that invites parents to answer.
+- **Audience guide**: a short "how to use this pack" note mapping each piece to its audience (parents, teachers, heads, DSLs) with when to post and what response to expect.
+
 ## Hard rules
 
 - No dashes anywhere. Not in posts, headings, subject lines or captions. Restructure the sentence instead.

@@ -127,6 +127,23 @@ Append-only. Read at session start. Updated at session end.
 
 ---
 
+## 2026-07-03 — Algorithm briefing, content pack, weekly drop
+
+**Algorithm briefing verified to V2:** 36 of 39 sources confirmed, 2 corrected, 1 demoted. Core editorial rules baked into all content: say prediction error never dopamine hits, never claim the algorithm is the proven cause of the teen mental health crisis, use the 1 in 3 teen girls stat only in subgroup corrected form, strong claims limited to design intent and vulnerable tail amplification. The framing concept: awareness without control.
+
+**First content pack shipped:** content/packs/2026-07-03-the-algorithm/ (5 LinkedIn posts + Substack issue), all claims mapped to briefing ledger IDs. Uploaded to Google Drive folder "Guided Childhood Research" as Google Docs.
+
+**New skill:** .claude/skills/weekly-research — the Monday drop. Chains kids-research into content-engine and uploads the briefing plus content pack to the Drive folder (id 16LRxCM678a8HhzNtbZMyz7G4DMCGsn2W). Trigger: "run the weekly research".
+
+---
+
+## 2026-07-03 (later) — Positive pathway doctrine and pack V2
+
+**Justin's standing editorial brief baked into content-engine:** positive, educate a digital pathway in every post, never scare. Researcher canon: Odgers, Orben, Przybylski, Vuorre, Ferguson (with contest caution). Standing frame: small average effects, concentrated risks, regulate design, teach the machinery. Platforms treated as different machines, never one algorithm. Channel variants now standard: Mumsnet, Reddit (r/ScienceBasedParenting), Facebook groups, plus an audience guide per pack.
+
+**Canon files:** briefings/notes/positive-canon.md and platform-differences.md, verified, reusable by every future pack.
+
+**Pack V2 shipped:** rewritten five LinkedIn posts (new platform differences carousel is the depth moat piece), Substack issue rebalanced toward living with it well, plus Mumsnet, Reddit, Facebook versions and the audience guide.
 ## 2026-07-03 — Phase 1 and 2 of the finish roadmap built
 
 **Invented social proof removed:** The homepage "Join 200 families" badge, the "200 parents already on their pathway" line and the fake five star row are gone, replaced with claims that are true today (free starter pack, no card needed, built on the research). Roadmap rule stands: no number in marketing copy that does not come from real data.
@@ -201,6 +218,12 @@ Append-only. Read at session start. Updated at session end.
 
 ---
 
+## 2026-07-03 — decisions.md conflict resolution (research branch merge)
+
+The research branch (kids-mental-health-researcher) and main both appended 3 July sections. Resolved per the append only rule: both sides kept in full, research branch entries (algorithm briefing, positive pathway doctrine) precede main's build entries. Nothing dropped.
+
+---
+
 ## 2026-07-04 — School email switch on (setup flow, Resend inbound, Things you need to know)
 
 **The parent surface for the school link exists (this was section 25's gap):** /dashboard/school carries the whole flow: the letterbox pitch with the six reassurances from plan section 17 verbatim, one sender to start (never demand completeness), the private forwarding address big and copyable, Gmail steps with the generated filter text (from:(sender OR sender)) and the explicit "leave Skip the Inbox unticked" instruction, plus plain Outlook/other rule steps. Manage view has the active toggle, sender add/remove and delete.
@@ -209,6 +232,6 @@ Append-only. Read at session start. Updated at session end.
 
 **Resend inbound is verified without a new dependency:** Resend signs webhooks per the svix spec, so the inbound route does manual HMAC SHA256 over id.timestamp.rawBody with RESEND_INBOUND_SIGNING_SECRET (whsec_ value), five minute timestamp tolerance, constant time comparison, checked against the published svix test vector. The x-inbound-secret header path stays as the fallback for any non svix provider. Resend's { type: 'email.received', data: {...} } shape and the flat shape are both normalised.
 
-**The forwarding address format is school+<token>@<domain>:** domain from SCHOOL_INBOUND_DOMAIN (default inbound.guidedchildhood.co.uk), matching the existing token parser. Env vars the deploy needs: SCHOOL_INBOUND_DOMAIN, RESEND_INBOUND_SIGNING_SECRET, and the existing SCHOOL_INBOUND_SECRET as fallback. Webhook URL for the Resend dashboard: https://www.guidedchildhood.co.uk/api/school/inbound.
+**The forwarding address format is school+<token>@<domain>:** domain from SCHOOL_INBOUND_DOMAIN (default in.guidedchildhood.com, the connect API is the single source of truth for it), matching the existing token parser. Env vars the deploy needs: SCHOOL_INBOUND_DOMAIN, RESEND_INBOUND_SIGNING_SECRET, and the existing SCHOOL_INBOUND_SECRET as fallback. Webhook URL for the Resend dashboard: https://guided-childhood-app.vercel.app/api/school/inbound (the app deployment, not the marketing domain).
 
 **Things you need to know is live on the dashboard:** open school_actions render above the moment cards with kind chips, due labels (Overdue/Today/Tomorrow/By day), Done and Dismiss posting to /api/school/actions. A dismissible promo card (letterbox line, "Set it up in three minutes", localStorage dismissal per device) shows while no active connection exists.

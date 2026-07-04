@@ -35,10 +35,14 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url)
   }
 
-  // Redirect authed users away from auth pages
+  // Redirect authed users away from auth pages, honouring the next param
+  // (an educator sent to /login?next=/educator must land on /educator,
+  // not the parent dashboard).
   if (user && (pathname === '/login' || pathname === '/signup')) {
     const url = request.nextUrl.clone()
-    url.pathname = '/dashboard'
+    const next = url.searchParams.get('next')
+    url.pathname = next && next.startsWith('/') && !next.startsWith('//') ? next : '/dashboard'
+    url.searchParams.delete('next')
     return NextResponse.redirect(url)
   }
 
