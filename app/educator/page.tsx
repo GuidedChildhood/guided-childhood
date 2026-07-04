@@ -175,9 +175,14 @@ export default async function EducatorHome({ searchParams }: { searchParams: Pro
                 <div style={{ ...eyebrow, marginBottom: '6px' }}>{l.key_stage} · {l.year_band}</div>
                 <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)', marginBottom: '6px' }}>{l.title}</div>
                 <div style={{ fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.55, marginBottom: '12px' }}>{l.single_action_outcome}</div>
-                <Link href="/educator/preview" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--green-dark)', textDecoration: 'none' }}>
-                  Preview the lesson →
-                </Link>
+                <span style={{ display: 'flex', gap: '18px' }}>
+                  <Link href="/educator/preview" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--green-dark)', textDecoration: 'none' }}>
+                    Preview the lesson →
+                  </Link>
+                  <Link href={`/educator/print/${l.module_id}`} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--gold-dark)', textDecoration: 'none' }}>
+                    Print the paper pack →
+                  </Link>
+                </span>
               </div>
             ))}
           </div>

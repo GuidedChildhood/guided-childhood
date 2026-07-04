@@ -31,7 +31,7 @@ export default async function ClassPage({ params }: { params: Promise<{ id: stri
 
   const [{ data: pupils }, { data: lessons }, { data: deliveries }] = await Promise.all([
     supabase.from('pupils').select('id, display_name').eq('class_id', id).order('display_name'),
-    supabase.from('school_lessons').select('id, title, key_stage').order('sort_order'),
+    supabase.from('school_lessons').select('id, module_id, title, key_stage').order('sort_order'),
     supabase.from('lesson_deliveries').select('id, lesson_id, taught_at, school_lessons(title)').eq('class_id', id).order('taught_at', { ascending: false }),
   ])
 
@@ -58,6 +58,9 @@ export default async function ClassPage({ params }: { params: Promise<{ id: stri
                 <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
                   <Link href="/educator/preview" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: 'var(--green-dark)', textDecoration: 'none' }}>
                     Open lesson
+                  </Link>
+                  <Link href={`/educator/print/${l.module_id}`} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: 'var(--gold-dark)', textDecoration: 'none' }}>
+                    Paper pack
                   </Link>
                   <form action={recordDelivery}>
                     <input type="hidden" name="class_id" value={cls.id} />
