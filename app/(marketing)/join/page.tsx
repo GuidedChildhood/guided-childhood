@@ -27,52 +27,76 @@ async function getFounderData() {
 
 const FEATURES = [
   {
-    icon: '◎',
-    title: 'DiGi AI advisor',
-    desc: 'Stage-specific. Research-grounded. Available at 11pm when you need it. Ask about social media, TV battles, gaming, mood changes, workarounds. Always a calibrated next step.',
-    tag: 'Available 24/7',
-    tagColor: 'var(--terracotta)',
-    tagBg: 'var(--stage-2)',
-  },
-  {
-    icon: '◻',
-    title: '100 plus expert scripts',
-    desc: 'Say this, not this, and why it works, grounded in the research, not guesswork. Social media, TV rules, bedtime battles, gaming, the boredom fight, mood after screens. Every daily problem covered.',
-    tag: 'For every hard moment',
-    tagColor: 'var(--terracotta)',
-    tagBg: 'var(--stage-4)',
-  },
-  {
-    icon: '△',
-    title: 'Weekly wellbeing tracker',
-    desc: 'Five questions, once a week. Over time, patterns emerge. DiGi responds to what you find. You spot things before they become problems.',
-    tag: 'Patterns not panic',
-    tagColor: 'var(--terracotta)',
-    tagBg: 'var(--stage-5)',
-  },
-  {
     icon: '⌂',
-    title: 'Five developmental stages',
-    desc: 'Age 4 to 16. Each stage has different risks, different conversations, and a different device recommendation. The pathway meets your child where they are.',
+    title: 'The stage pathway',
+    desc: 'Digital literacy from age 4 to 16, built for the moment social media arrives at 16. Each stage has different risks, different conversations, and a different device recommendation. No cliff edge.',
     tag: 'Ages 4 to 16',
     tagColor: 'var(--terracotta)',
     tagBg: 'var(--stage-1)',
   },
   {
+    icon: '◔',
+    title: 'Daily moments',
+    desc: 'The friction points of the day: the morning routine, homework, the gaming handover, bedtime. The exact words for each one, and what your child is learning from the moment.',
+    tag: 'Five minutes a day',
+    tagColor: 'var(--terracotta)',
+    tagBg: 'var(--stage-2)',
+  },
+  {
+    icon: '◻',
+    title: '160 exact scripts',
+    desc: 'Say this, not this, and why it works, grounded in the research, not guesswork. From the first tablet to the TikTok request at 13. Every hard conversation covered.',
+    tag: 'For every hard moment',
+    tagColor: 'var(--terracotta)',
+    tagBg: 'var(--stage-4)',
+  },
+  {
+    icon: '◎',
+    title: 'DiGi AI advisor',
+    desc: 'Trained on the research. Tell DiGi what happened today and get the exact words and the structural fix. Available at 11pm when the guilt spiral hits. Always a calibrated next step.',
+    tag: 'Available 24/7',
+    tagColor: 'var(--terracotta)',
+    tagBg: 'var(--stage-2)',
+  },
+  {
+    icon: '▣',
+    title: 'Device settings before you start',
+    desc: 'Per device, per age checklists, iPhone first. What to set tonight, before the device reaches your child. Ten minutes of setup saves months of arguments.',
+    tag: 'What to set tonight',
+    tagColor: 'var(--terracotta)',
+    tagBg: 'var(--stage-5)',
+  },
+  {
+    icon: '△',
+    title: 'Wellbeing tracker',
+    desc: 'A weekly check in that takes two minutes. Over the weeks, patterns emerge. DiGi responds to what you find. You spot things before they become problems.',
+    tag: 'Patterns not panic',
+    tagColor: 'var(--terracotta)',
+    tagBg: 'var(--stage-5)',
+  },
+  {
     icon: '◈',
     title: 'Family agreement builder',
-    desc: 'A document your whole family creates together. Agreed, not imposed. Reviewed each term. Changes the dynamic from rules to relationship.',
+    desc: 'A document your whole family creates together, prints, and signs. Agreed, not imposed. Reviewed each term. Changes the dynamic from rules to relationship.',
     tag: 'Agreed not imposed',
     tagColor: 'var(--terracotta)',
     tagBg: 'var(--stage-2)',
   },
   {
     icon: '◉',
-    title: 'Stage curriculum',
-    desc: 'Units 1 to 4 per stage. Practical, parent-led. Covers devices, social media, gaming, AI, and wellbeing. Structured so you always know what comes next.',
-    tag: 'Structured pathway',
+    title: 'The lesson library',
+    desc: '100 lessons for digital home schooling, written to be taught at the kitchen table. Algorithms, group chats, gaming, AI and wellbeing, each at the right age.',
+    tag: '100 lessons',
     tagColor: 'var(--terracotta)',
     tagBg: 'var(--stage-4)',
+  },
+  {
+    icon: '▤',
+    title: 'Weekly advice emails',
+    desc: 'One genuinely useful email a week, written like a parent, not a robot. What to try, what to say, and what is coming at the next stage.',
+    tag: 'Every week',
+    tagColor: 'var(--terracotta)',
+    tagBg: 'var(--stage-1)',
   },
 ]
 
@@ -169,7 +193,7 @@ export default async function JoinPage() {
           </h1>
 
           <p style={{ fontSize: 'clamp(.98rem, 1.6vw, 1.12rem)', color: 'var(--ink-soft)', lineHeight: 1.88, maxWidth: '620px', margin: '0 auto 36px' }}>
-            A science-backed digital parenting membership. A pathway from age 4 to 16 covering social media, TV, gaming, bedtime, behaviour and everything in between. Scripts for every hard moment. DiGi available when you need it.
+            A digital parenting membership built on the research. A pathway from age 4 to 16, daily moments with the exact words for the friction points of the day, 160 scripts for the hard conversations, and DiGi available at 11pm when you need it.
           </p>
 
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '20px' }}>
@@ -185,10 +209,10 @@ export default async function JoinPage() {
           {/* Social proof row */}
           <div style={{ display: 'flex', gap: '24px', justifyContent: 'center', flexWrap: 'wrap', marginTop: '40px', paddingTop: '32px', borderTop: '1px solid var(--border)' }}>
             {[
-              { num: '100+', label: 'Science based expert scripts' },
+              { num: '160', label: 'Exact scripts' },
               { num: '5', label: 'Stages · Ages 4 to 16' },
-              { num: '10 min', label: 'A week is all it takes' },
-              { num: '20', label: 'Issues covered' },
+              { num: '100', label: 'Lessons in the library' },
+              { num: '5 min', label: 'A day is all it takes' },
             ].map((s, i) => (
               <div key={i} style={{ textAlign: 'center' }}>
                 <div style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.6rem, 3vw, 2.2rem)', fontWeight: 800, color: 'var(--ink)', lineHeight: 1, letterSpacing: '-.03em' }}>{s.num}</div>
@@ -617,10 +641,10 @@ export default async function JoinPage() {
                 {[
                   'All 5 stages, for life',
                   'Unlimited DiGi conversations',
-                  '100 plus expert scripts',
-                  'Wellbeing tracker',
+                  '160 exact scripts',
+                  'Wellbeing tracker with weekly check ins',
                   'Family agreement builder',
-                  'Monthly live Pathway Sessions',
+                  '100 lesson library',
                 ].map((item, i) => (
                   <div key={i} style={{ display: 'flex', gap: '9px', alignItems: 'center' }}>
                     <span style={{ color: 'var(--gold)', fontWeight: 700, flexShrink: 0 }}>✓</span>
@@ -645,7 +669,7 @@ export default async function JoinPage() {
                 <span style={{ color: 'var(--ink-muted)', fontSize: '.82rem' }}> / month</span>
               </div>
               <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '9px', marginBottom: '24px' }}>
-                {['All 5 stages', 'Unlimited DiGi', '100 plus expert scripts', 'Wellbeing tracker', 'Cancel any time'].map((f, i) => (
+                {['All 5 stages', 'Unlimited DiGi', '160 exact scripts', 'Wellbeing tracker', 'Cancel any time'].map((f, i) => (
                   <li key={i} style={{ display: 'flex', gap: '9px', alignItems: 'center', fontSize: '.84rem', color: 'var(--ink-soft)' }}>
                     <span style={{ color: 'var(--terracotta)', fontWeight: 700, flexShrink: 0 }}>✓</span>
                     {f}

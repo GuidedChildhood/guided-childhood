@@ -3,12 +3,16 @@ import { useState } from 'react'
 
 const FAQS = [
   {
+    q: 'What exactly do I get?',
+    a: 'The stage pathway from age 4 to 16, built for the moment social media arrives at 16. Daily moments with the exact words for the friction points of the day: the morning routine, homework, the gaming handover, bedtime. 160 scripts for the hard conversations. DiGi, the AI parenting advisor trained on the research, available at 11pm. Device setting checklists, per device and per age, iPhone first. The wellbeing tracker with weekly check ins. The family agreement builder you print and both sign. 100 lessons for digital home schooling. And a weekly advice email written like a parent, not a robot. School reminders, where you forward the school\'s emails and the dates appear as alerts, are coming soon.',
+  },
+  {
     q: 'Is this just about social media?',
     a: 'No. Social media is one of twelve behaviour issues and eight digital literacy gaps that show up in family life. Guided Childhood covers all twenty. Gaming, sleep, mood, the TV demand at 6pm, AI literacy, online risks. The lot.',
   },
   {
     q: 'How much time does it actually take?',
-    a: 'Three actions per week, each under five minutes. The weekly check-in takes two minutes. DiGi answers in seconds. Most parents spend ten minutes a week. That is genuinely all.',
+    a: 'One daily moment takes about five minutes. The weekly check in takes two. DiGi answers in seconds. If all you do this week is read one script before a hard conversation, that still counts.',
   },
   {
     q: 'Is this about banning phones at home?',

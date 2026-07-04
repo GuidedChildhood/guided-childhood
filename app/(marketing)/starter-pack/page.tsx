@@ -473,8 +473,23 @@ const RESULT_H2: React.CSSProperties = {
 
 const FEATURES: { title: string; body: string; comingSoon?: boolean; lessons?: boolean; icon: React.ReactNode }[] = [
   {
-    title: '100 plus scripts',
-    body: 'The exact words for every hard moment, from first tablet to first phone.',
+    title: 'Daily moments',
+    body: 'The morning routine, homework, the gaming handover, bedtime. The exact words for each, and what your child learns from it.',
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="4"/>
+        <line x1="12" y1="2" x2="12" y2="5"/>
+        <line x1="12" y1="19" x2="12" y2="22"/>
+        <line x1="2" y1="12" x2="5" y2="12"/>
+        <line x1="19" y1="12" x2="22" y2="12"/>
+        <line x1="4.9" y1="4.9" x2="7" y2="7"/>
+        <line x1="17" y1="17" x2="19.1" y2="19.1"/>
+      </svg>
+    ),
+  },
+  {
+    title: '160 exact scripts',
+    body: 'The exact words for the hard conversations, from first tablet to first phone.',
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
@@ -484,8 +499,27 @@ const FEATURES: { title: string; body: string; comingSoon?: boolean; lessons?: b
     ),
   },
   {
+    title: 'DiGi, always on',
+    body: 'Trained on the research. A real answer at 11pm, calibrated to your child. Never a flat yes or no.',
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 2l2.4 6.2L21 9l-5 4.2 1.6 6.8L12 16.5 6.4 20l1.6-6.8L3 9l6.6-.8L12 2z"/>
+      </svg>
+    ),
+  },
+  {
+    title: 'Device settings, sorted',
+    body: 'Per device, per age checklists, iPhone first. What to set tonight, before anything else.',
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        <path d="M9 12l2 2 4-4"/>
+      </svg>
+    ),
+  },
+  {
     title: 'The wellbeing tracker',
-    body: 'One tap a day. Streaks that keep you going and patterns you can act on.',
+    body: 'One tap a day, a check in each week. Patterns you can act on before they become problems.',
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
         <line x1="6" y1="20" x2="6" y2="14"/>
@@ -496,28 +530,8 @@ const FEATURES: { title: string; body: string; comingSoon?: boolean; lessons?: b
     ),
   },
   {
-    title: 'DiGi, always on',
-    body: 'A real answer at 11pm, calibrated to your child. Never a flat yes or no.',
-    icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 2l2.4 6.2L21 9l-5 4.2 1.6 6.8L12 16.5 6.4 20l1.6-6.8L3 9l6.6-.8L12 2z"/>
-      </svg>
-    ),
-  },
-  {
-    title: 'Monthly lessons',
-    body: 'Digital homeschooling for the things school never quite covers.',
-    lessons: true,
-    icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M2 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H2V4z"/>
-        <path d="M22 4h-7a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h8V4z"/>
-      </svg>
-    ),
-  },
-  {
     title: 'The family agreement',
-    body: 'One page you all sign. Agreed together, so it actually holds.',
+    body: 'One page you build together, print, and both sign. Agreed, so it actually holds.',
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/>
@@ -527,13 +541,13 @@ const FEATURES: { title: string; body: string; comingSoon?: boolean; lessons?: b
     ),
   },
   {
-    title: 'School reminders',
-    body: 'Never miss a PE kit day, a scouts trip or lunch money again.',
-    comingSoon: true,
+    title: 'The lesson library',
+    body: '100 lessons for digital home schooling, written to be taught at the kitchen table.',
+    lessons: true,
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/>
-        <path d="M13.7 21a2 2 0 0 1-3.4 0"/>
+        <path d="M2 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H2V4z"/>
+        <path d="M22 4h-7a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h8V4z"/>
       </svg>
     ),
   },
@@ -544,6 +558,17 @@ const FEATURES: { title: string; body: string; comingSoon?: boolean; lessons?: b
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
         <rect x="2" y="4" width="20" height="16" rx="2"/>
         <path d="M22 7l-10 6L2 7"/>
+      </svg>
+    ),
+  },
+  {
+    title: 'School reminders',
+    body: 'Forward the school\'s emails and the dates and tasks appear as alerts. Never miss a PE kit day again.',
+    comingSoon: true,
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/>
+        <path d="M13.7 21a2 2 0 0 1-3.4 0"/>
       </svg>
     ),
   },
@@ -955,10 +980,12 @@ function ResultScreen({
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', maxWidth: '300px', margin: '0 auto', textAlign: 'left' }}>
             {[
-              'Your Stage card, saved and ready',
-              '3 DiGi conversations per day',
-              '3 conversation scripts',
-              'Stage 1 curriculum access',
+              'Your stage pathway, saved and ready',
+              'Daily moments with the exact words',
+              '3 DiGi conversations a day',
+              '5 free scripts to start with',
+              'The wellbeing tracker',
+              'Device setting checklists',
             ].map((item, i) => (
               <div key={i} style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
                 <span style={{ color: 'var(--terracotta-dark)', fontSize: '14px', flexShrink: 0 }}>✓</span>
