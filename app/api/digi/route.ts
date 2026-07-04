@@ -239,7 +239,12 @@ export async function POST(request: Request) {
     deviceGuideKnowledge + scriptFeedbackKnowledge + nextStepKnowledge + concernsKnowledge + expertKnowledge + familyMemory,
   )
 
-  const history = (convData?.messages ?? []).slice(-12) as Array<{ role: string; content: string }>
+  // Drop any malformed or empty entries before the history reaches the model:
+  // the API rejects a conversation containing an empty message, so one bad
+  // saved row would otherwise poison every future call.
+  const history = ((convData?.messages ?? []) as Array<{ role: string; content: string }>)
+    .filter(m => (m.role === 'user' || m.role === 'assistant') && typeof m.content === 'string' && m.content.trim())
+    .slice(-12)
 
   const messages = [
     ...history.map(m => ({ role: m.role as 'user' | 'assistant', content: m.content })),
@@ -277,10 +282,12 @@ export async function POST(request: Request) {
     const mainResponse = reflectiveSplit[0]?.trim() ?? responseText
     const reflectiveQuestion = reflectiveSplit[1]?.trim() ?? null
 
+    // Save the main reply only. The reflective question lives in digi_feedback,
+    // and saving the filtered history heals any poisoned rows already stored.
     const updatedMessages = [
       ...history,
       { role: 'user', content: message, timestamp: new Date().toISOString() },
-      { role: 'assistant', content: responseText, timestamp: new Date().toISOString() },
+      { role: 'assistant', content: mainResponse || responseText, timestamp: new Date().toISOString() },
     ]
 
     if (convData) {
