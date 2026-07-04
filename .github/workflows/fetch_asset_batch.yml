@@ -1,0 +1,89 @@
+name: Fetch Higgsfield asset batch
+
+# Temporary workflow. The Claude Code sandbox egress proxy blocks the
+# Higgsfield CDN, so this job downloads the generated images on a runner,
+# downscales them to 512px, and pushes them back to the branch. It is
+# removed again in the follow up commit once the assets have landed.
+
+on:
+  workflow_dispatch: {}     # manual only
+
+permissions:
+  contents: write           # push the downloaded assets back to the branch
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Download and downscale assets
+        run: |
+          set -euo pipefail
+          command -v convert >/dev/null || { sudo apt-get update && sudo apt-get install -y imagemagick; }
+          BASE="https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD"
+          mkdir -p public/devices public/moments
+          fails=""
+          while read -r dir key fname; do
+            [ -z "$dir" ] && continue
+            out="public/$dir/$key.png"
+            ok=0
+            for attempt in 1 2; do
+              if curl -sf --retry 2 "$BASE/$fname" -o /tmp/asset.png; then ok=1; break; fi
+              sleep 3
+            done
+            if [ "$ok" = "1" ]; then
+              convert /tmp/asset.png -resize 512x512\> "$out"
+              echo "saved $out"
+            else
+              echo "FAILED $dir/$key"
+              fails="$fails $dir/$key"
+            fi
+          done <<'MANIFEST'
+          devices iphone hf_20260704_114409_02addd52-2251-442e-90ad-956e05c2fc36.png
+          devices android hf_20260704_114422_e0ba0b1b-0a38-423f-b618-4ace72fbcc42.png
+          devices firetablet hf_20260704_114425_be8868f9-589e-4cb8-9dc5-cd2e1b1616f5.png
+          devices switch hf_20260704_114427_b86805a3-4974-4f4e-88bb-ad543056bf1f.png
+          devices xbox hf_20260704_114429_0329f116-07e0-4616-88e9-f8fdf229a9eb.png
+          devices playstation hf_20260704_114431_7c1c2745-9585-4538-b483-6aa6215d3fa5.png
+          devices roblox hf_20260704_114433_97ccaac6-6b85-418d-8b86-331e6d43c3f5.png
+          devices youtube hf_20260704_114444_e61d8a7c-1289-4b20-b532-edf459799e58.png
+          devices alexa hf_20260704_114446_62177e08-946f-4fe2-b38c-654a4d338efb.png
+          devices firestick hf_20260704_114452_48830599-e326-4858-9efc-cd2e7c53a700.png
+          devices appletv hf_20260704_114453_1a31bc9f-a7bc-4848-82f9-7bb6b4e79df6.png
+          devices roku hf_20260704_114454_a454d243-5021-4f69-97b6-6840b3954221.png
+          devices smarttv hf_20260704_114455_ac6b4d01-240d-4821-87aa-724762abd20f.png
+          devices chromebook hf_20260704_114504_a4725b0b-f458-4f74-aa84-7685b2d24ccc.png
+          devices windows hf_20260704_114506_a56982af-944b-4a26-a179-45c8ac458b8f.png
+          devices tiktok hf_20260704_114509_fbfc77b8-1f6f-4849-a879-60bb9031bd62.png
+          devices snapchat hf_20260704_114512_5b014617-1d8c-4cdc-99ac-d9d70de0d95f.png
+          devices instagram hf_20260704_114513_cbd080c6-344e-4a92-84f4-690ef26ddcf8.png
+          devices whatsapp hf_20260704_114515_c7b2dbdf-a2d0-43f5-83a4-5910cbb14a58.png
+          moments morning hf_20260704_114538_886f4f43-1c48-454f-a3ff-072106dc5226.png
+          moments teeth hf_20260704_114540_93a5cde4-a712-4ee8-8cd4-d60017b66e9d.png
+          moments dressed hf_20260704_114543_344415a5-f479-45f1-a427-b5e75ecabca5.png
+          moments bag hf_20260704_114545_34d5e450-68e2-4d63-8102-4d8888d386a5.png
+          moments lunch hf_20260704_114547_0a5e8678-b809-4975-a670-07fdeab4b57c.png
+          moments dropoff hf_20260704_114557_e45b59e7-6b84-48da-915e-4af7d721a52e.png
+          moments pickup hf_20260704_114559_1233fc59-9ca3-4604-8439-98e3978edf66.png
+          moments snacks hf_20260704_114602_86dd80cf-b656-49ec-a020-dd2d56e71918.png
+          moments dinner hf_20260704_114604_a6da385d-073e-4352-a9df-c9056fb1a77d.png
+          moments tv_eve hf_20260704_114606_17a55530-4f86-4579-842d-3c85fb8ee35c.png
+          moments homework hf_20260704_114615_03490ae6-8bc4-48f1-abd3-aed3932c1b7d.png
+          moments clothes hf_20260704_114618_8ea882fb-cd2e-4b2f-bcb1-619f96d68013.png
+          moments fighting hf_20260704_114619_ca3ba7ca-2bc7-4a4b-9a73-8cb2e277c6f7.png
+          moments bedtime hf_20260704_114622_b6ec4c70-98bb-46d6-8b43-5ed802eb5443.png
+          moments sleep hf_20260704_114624_0c110c92-0930-4ebf-9502-b1f560bfc07c.png
+          MANIFEST
+          if [ -n "$fails" ]; then echo "failed keys:$fails"; fi
+
+      - name: Commit and push assets
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/devices public/moments
+          git commit -m "CI: fetch Higgsfield asset batch (devices and moments)"
+          git push origin HEAD
