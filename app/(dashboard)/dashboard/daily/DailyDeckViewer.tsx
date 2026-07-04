@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import { DAILY_MOMENTS } from '@/lib/content/daily-moments'
 
 export type DailyCard = {
   id: string
@@ -12,24 +13,6 @@ export type DailyCard = {
   accent: string
   icon: string
 }
-
-const DAILY_MOMENTS = [
-  { key: 'morning', label: 'Morning routine', icon: '☀️' },
-  { key: 'teeth', label: 'Teeth brushing', icon: '🦷' },
-  { key: 'dressed', label: 'Getting dressed', icon: '👕' },
-  { key: 'bag', label: 'School bag', icon: '🎒' },
-  { key: 'lunch', label: 'Lunch / packed lunch', icon: '🥪' },
-  { key: 'dropoff', label: 'School drop off', icon: '🏫' },
-  { key: 'pickup', label: 'School pick up', icon: '🚗' },
-  { key: 'snacks', label: 'Snacks and food', icon: '🍎' },
-  { key: 'dinner', label: 'Choosing dinner', icon: '🍽️' },
-  { key: 'tv_eve', label: 'Evening TV', icon: '📺' },
-  { key: 'homework', label: 'Homework', icon: '📚' },
-  { key: 'clothes', label: 'Clothes in washing', icon: '🧺' },
-  { key: 'fighting', label: 'Sibling fighting', icon: '😤' },
-  { key: 'bedtime', label: 'Getting to bed', icon: '🌙' },
-  { key: 'sleep', label: 'Staying asleep', icon: '😴' },
-]
 
 // ── DECK MOTION ──────────────────────────────────────────────────────────────
 // Completing a card: slow 3D flip to a green Done face, a beat to read it,
