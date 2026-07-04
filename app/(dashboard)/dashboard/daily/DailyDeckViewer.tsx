@@ -2,7 +2,9 @@
 
 import { useState, useCallback, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { DAILY_MOMENTS } from '@/lib/content/daily-moments'
+import MomentTimeline from '@/components/daily/MomentTimeline'
+import ConcernCheckIn from '@/components/daily/ConcernCheckIn'
+import type { ConcernCheckItem } from '@/components/daily/ConcernCheckIn'
 
 export type DailyCard = {
   id: string
@@ -129,9 +131,11 @@ function DoneFace() {
 export default function DailyDeckViewer({
   cards,
   alreadyDone,
+  checkIns = [],
 }: {
   cards: DailyCard[]
   alreadyDone: boolean
+  checkIns?: ConcernCheckItem[]
 }) {
   const router = useRouter()
   const [cardIndex, setCardIndex] = useState(0)
@@ -313,7 +317,10 @@ export default function DailyDeckViewer({
           </div>
         )}
 
-        {/* Daily moments feedback */}
+        {/* Yesterday's concerns, checked before today's flags */}
+        {checkIns.length > 0 && <ConcernCheckIn concerns={checkIns} />}
+
+        {/* Daily moments feedback: the day as a timeline of picture tiles */}
         {!momentsSaved ? (
           <div style={{
             background: '#fff', border: '1.5px solid var(--border)',
@@ -322,34 +329,11 @@ export default function DailyDeckViewer({
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--stage-2-text)', marginBottom: '8px' }}>
               What came up today?
             </div>
-            <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.55, marginBottom: '16px' }}>
+            <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.55, marginBottom: '18px' }}>
               Tap anything that happened. We will show you the right scripts tomorrow.
             </p>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '16px' }}>
-              {DAILY_MOMENTS.map(m => {
-                const active = selectedMoments.includes(m.key)
-                return (
-                  <button
-                    key={m.key}
-                    onClick={() => toggleMoment(m.key)}
-                    style={{
-                      padding: '8px 14px',
-                      borderRadius: '100px',
-                      border: `1.5px solid ${active ? 'var(--tint-blue)' : 'var(--border)'}`,
-                      background: active ? 'var(--stage-2)' : 'var(--cream)',
-                      fontFamily: 'var(--font-mono)', fontSize: '11px',
-                      fontWeight: active ? 700 : 500,
-                      color: active ? 'var(--ink)' : 'var(--ink-soft)',
-                      cursor: 'pointer', letterSpacing: '.04em',
-                      transition: 'all 0.5s ease',
-                      display: 'flex', alignItems: 'center', gap: '5px',
-                    }}
-                  >
-                    <span>{m.icon}</span>
-                    <span>{m.label}</span>
-                  </button>
-                )
-              })}
+            <div style={{ marginBottom: '18px' }}>
+              <MomentTimeline selected={selectedMoments} onToggle={toggleMoment} />
             </div>
             <button
               onClick={saveMoments}

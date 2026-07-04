@@ -13,6 +13,86 @@ export interface DailyTask {
   done: boolean
 }
 
+export interface TodayLoopTask {
+  key: 'checkin' | 'moment' | 'script' | 'digi' | 'done'
+  label: string
+  href: string
+  done: boolean
+}
+
+// Today's loop for the home path strip: the five nodes of the daily
+// rhythm (check in, moment, script, DiGi, done), each resolved against
+// real completion data for TODAY only. This is the seed of the full
+// node path home: same shape, one day's slice.
+export async function getTodayLoop(
+  supabase: SupabaseClient,
+  userId: string,
+  stageId: StageId,
+  challenge: ChallengeId | null
+): Promise<TodayLoopTask[]> {
+  const today = new Date().toISOString().slice(0, 10)
+
+  const [
+    { data: pendingConcerns },
+    { data: session },
+    recommended,
+    { data: scriptToday },
+    { data: digiToday },
+  ] = await Promise.all([
+    // Concerns flagged before today that have not been checked today:
+    // the same query the daily deck uses to build its check in card.
+    supabase.from('concerns')
+      .select('slug')
+      .eq('user_id', userId)
+      .in('status', ['open', 'improving'])
+      .lt('last_flagged_at', today)
+      .or(`last_checked_at.is.null,last_checked_at.lt.${today}`)
+      .limit(1),
+    supabase.from('daily_sessions').select('completed_at, cards_completed').eq('user_id', userId).eq('session_date', today).maybeSingle(),
+    getRecommendedScript(supabase, userId, stageId, challenge),
+    supabase.from('script_completions').select('id').eq('user_id', userId).gte('completed_at', `${today}T00:00:00Z`).limit(1),
+    supabase.from('digi_questions').select('id').eq('user_id', userId).gte('created_at', `${today}T00:00:00Z`).limit(1),
+  ])
+
+  const momentDone = !!session && (session.completed_at !== null || (session.cards_completed ?? 0) > 0)
+
+  const tasks: TodayLoopTask[] = [
+    {
+      key: 'checkin',
+      label: 'Check in',
+      href: '/dashboard/daily',
+      done: (pendingConcerns ?? []).length === 0,
+    },
+    {
+      key: 'moment',
+      label: 'Moment',
+      href: '/dashboard/daily',
+      done: momentDone,
+    },
+    {
+      key: 'script',
+      label: 'Script',
+      href: recommended ? `/dashboard/scripts/${recommended.sort_order}` : '/dashboard/scripts',
+      done: (scriptToday ?? []).length > 0,
+    },
+    {
+      key: 'digi',
+      label: 'DiGi',
+      href: '/dashboard/digi',
+      done: (digiToday ?? []).length > 0,
+    },
+  ]
+
+  tasks.push({
+    key: 'done',
+    label: 'Done',
+    href: '/dashboard/pathway',
+    done: tasks.every(t => t.done),
+  })
+
+  return tasks
+}
+
 const STAGE_TO_AUDIENCE: Record<StageId, string> = {
   foundation: 'age_7',
   builder: 'age_9',

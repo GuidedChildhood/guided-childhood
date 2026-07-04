@@ -23,3 +23,20 @@ export const DAILY_MOMENTS = [
 export function dailyMomentLabel(key: string): string | null {
   return DAILY_MOMENTS.find(m => m.key === key)?.label ?? null
 }
+
+// The day timeline groups the tagger renders. Keys reference DAILY_MOMENTS,
+// which stays the single source of truth for labels and the feedback API.
+export type DailyMomentGroup = {
+  name: string
+  time: string
+  keys: readonly string[]
+}
+
+export const DAILY_MOMENT_GROUPS: readonly DailyMomentGroup[] = [
+  { name: 'Morning', time: '7am', keys: ['morning', 'teeth', 'dressed', 'bag', 'lunch'] },
+  { name: 'School', time: '9am', keys: ['dropoff', 'pickup'] },
+  { name: 'After school', time: '3pm', keys: ['snacks', 'homework'] },
+  { name: 'Evening', time: '6pm', keys: ['dinner', 'tv_eve', 'clothes', 'fighting'] },
+  { name: 'Bed', time: '8pm', keys: ['bedtime', 'sleep'] },
+] as const
+

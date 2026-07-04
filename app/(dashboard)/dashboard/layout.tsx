@@ -1,13 +1,17 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import NavTabs from '@/components/dashboard/NavTabs'
+import RightNowButton from '@/components/rightnow/RightNowButton'
 
-const NAV_TABS = [
+// Mobile bottom bar: four tabs plus the raised Now button in the centre.
+// Pathway and AI left the mobile bar (both stay in the desktop nav and are
+// reachable from cards on Home) so the centre slot could become Right Now.
+const NAV_TABS_LEFT = [
   { href: '/dashboard', label: 'Home', icon: '⌂' },
   { href: '/dashboard/digi', label: 'DiGi', icon: '◎' },
-  { href: '/dashboard/pathway', label: 'Pathway', icon: '◈' },
+]
+const NAV_TABS_RIGHT = [
   { href: '/dashboard/scripts', label: 'Scripts', icon: '◻' },
-  { href: '/dashboard/ai-module', label: 'AI', icon: '✶' },
   { href: '/dashboard/tracker', label: 'Tracker', icon: '△' },
 ]
 
@@ -69,9 +73,16 @@ export default async function DashboardLayout({ children }: { children: React.Re
         {children}
       </main>
 
-      {/* Mobile bottom tab bar */}
+      {/* Mobile bottom tab bar: Home, DiGi, [Now], Scripts, Tracker */}
       <nav className="bottom-tab-bar">
-        {NAV_TABS.map(tab => (
+        {NAV_TABS_LEFT.map(tab => (
+          <Link key={tab.href} href={tab.href} className="tab-item" style={{ textDecoration: 'none' }}>
+            <span style={{ fontSize: '20px', lineHeight: 1 }}>{tab.icon}</span>
+            <span>{tab.label}</span>
+          </Link>
+        ))}
+        <RightNowButton />
+        {NAV_TABS_RIGHT.map(tab => (
           <Link key={tab.href} href={tab.href} className="tab-item" style={{ textDecoration: 'none' }}>
             <span style={{ fontSize: '20px', lineHeight: 1 }}>{tab.icon}</span>
             <span>{tab.label}</span>
