@@ -315,7 +315,7 @@ export default function StarterPackPage() {
               What is your main concern right now?
             </h1>
             <p style={{ color: 'var(--ink)', fontSize: '15px', marginBottom: '32px', lineHeight: 1.55 }}>
-              Pick the one that feels most urgent.
+              Pick the one that feels most urgent. This only chooses where we start: the pathway covers all of it, and you can change focus any time.
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
               {CHALLENGE_OPTIONS.map(opt => {
