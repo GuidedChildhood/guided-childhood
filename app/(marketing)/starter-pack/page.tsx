@@ -1,7 +1,11 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import DigiCharacter from '@/components/digi/DigiCharacter'
 import {
+  STAGES,
   AGE_BAND_OPTIONS,
   CHALLENGE_OPTIONS,
   FEELING_OPTIONS,
@@ -13,6 +17,10 @@ import {
   type TimeCommitmentId,
   type StarterAnswers,
 } from '@/lib/content/stages'
+
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger)
+}
 
 type Step = 'intro' | 'q1' | 'q2' | 'q3' | 'q4' | 'reassure' | 'result'
 
@@ -441,6 +449,112 @@ export default function StarterPackPage() {
   )
 }
 
+/* ────────────────────────────────────────────────────────────────
+   Result screen. The wow page. Five beats, in order:
+   1. Reassure and name it (dark Sound familiar card + stage card)
+   2. Your first week with us (day strip on a dotted path, DiGi walks it)
+   3. What you get (feature flash cards)
+   4. The pathway simulation (five stages, DiGi walks as you scroll)
+   5. Save CTA (dark card, the one primary CTA)
+   Spec: /plans/starter-result-wow-spec.md
+──────────────────────────────────────────────────────────────── */
+
+const RESULT_EYEBROW: React.CSSProperties = {
+  fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700,
+  letterSpacing: '0.16em', textTransform: 'uppercase',
+  color: 'var(--ink-muted)', marginBottom: '10px',
+}
+
+const RESULT_H2: React.CSSProperties = {
+  fontFamily: 'var(--font-display)', fontSize: 'clamp(1.4rem, 4vw, 1.9rem)',
+  fontWeight: 800, letterSpacing: '-0.02em', color: 'var(--ink)',
+  lineHeight: 1.18, marginBottom: '10px',
+}
+
+const FEATURES: { title: string; body: string; comingSoon?: boolean; lessons?: boolean; icon: React.ReactNode }[] = [
+  {
+    title: '100 plus scripts',
+    body: 'The exact words for every hard moment, from first tablet to first phone.',
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        <line x1="9" y1="9" x2="15" y2="9"/>
+        <line x1="9" y1="13" x2="13" y2="13"/>
+      </svg>
+    ),
+  },
+  {
+    title: 'The wellbeing tracker',
+    body: 'One tap a day. Streaks that keep you going and patterns you can act on.',
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <line x1="6" y1="20" x2="6" y2="14"/>
+        <line x1="12" y1="20" x2="12" y2="8"/>
+        <line x1="18" y1="20" x2="18" y2="11"/>
+        <path d="M4 4l4 3 4-4 4 3 4-2"/>
+      </svg>
+    ),
+  },
+  {
+    title: 'DiGi, always on',
+    body: 'A real answer at 11pm, calibrated to your child. Never a flat yes or no.',
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 2l2.4 6.2L21 9l-5 4.2 1.6 6.8L12 16.5 6.4 20l1.6-6.8L3 9l6.6-.8L12 2z"/>
+      </svg>
+    ),
+  },
+  {
+    title: 'Monthly lessons',
+    body: 'Digital homeschooling for the things school never quite covers.',
+    lessons: true,
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M2 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H2V4z"/>
+        <path d="M22 4h-7a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h8V4z"/>
+      </svg>
+    ),
+  },
+  {
+    title: 'The family agreement',
+    body: 'One page you all sign. Agreed together, so it actually holds.',
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/>
+        <path d="M14 2v6h6"/>
+        <path d="M9 15l2 2 4-4"/>
+      </svg>
+    ),
+  },
+  {
+    title: 'School reminders',
+    body: 'Never miss a PE kit day, a scouts trip or lunch money again.',
+    comingSoon: true,
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/>
+        <path d="M13.7 21a2 2 0 0 1-3.4 0"/>
+      </svg>
+    ),
+  },
+  {
+    title: 'Weekly advice emails',
+    body: 'Written by a parent, not a robot. One genuinely useful thing each week.',
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="2" y="4" width="20" height="16" rx="2"/>
+        <path d="M22 7l-10 6L2 7"/>
+      </svg>
+    ),
+  },
+]
+
+const LESSON_THUMBS = [
+  { band: 'var(--stage-2-bold)', tilt: '-2deg', label: 'The algorithm' },
+  { band: 'var(--stage-3-bold)', tilt: '1.5deg', label: 'Group chats' },
+  { band: 'var(--stage-5-bold)', tilt: '-1deg', label: 'AI and you' },
+]
+
 function ResultScreen({
   stage, accent, challenge, feeling,
 }: {
@@ -452,27 +566,119 @@ function ResultScreen({
   const challengeAction = stage.challengeActions[challenge] ?? stage.action
   const challengeLabel = CHALLENGE_OPTIONS.find(c => c.value === challenge)?.label ?? 'what you told us'
 
+  const rootRef = useRef<HTMLDivElement>(null)
+  const weekPathRef = useRef<HTMLDivElement>(null)
+  const weekDigiRef = useRef<HTMLDivElement>(null)
+  const pathwayRef = useRef<HTMLDivElement>(null)
+  const pathwayDigiRef = useRef<HTMLDivElement>(null)
+
+  const feelingLine =
+    feeling === 'anxious' ? 'You said this feels like a lot right now. That is exactly what your first week is built to fix.'
+    : feeling === 'unsure' ? 'You said you were not sure where to start. Day 1 is the start.'
+    : 'You said you were ready to act. Good. Here is the plan.'
+
+  const week: { label: string; tint: string; dot: string; title: string; body: string; script?: string }[] = [
+    { label: 'Day 1', tint: 'var(--stage-1)', dot: 'var(--stage-1-bold)', title: 'The 5pm meltdown, handled', body: challengeAction, script: stage.script.sayThis },
+    { label: 'Day 2', tint: 'var(--stage-2)', dot: 'var(--stage-2-bold)', title: 'One tap on the tracker', body: 'How did the evening go? Tap once. The tracker starts spotting the patterns you are too close to see.' },
+    { label: 'Day 3', tint: 'var(--stage-3)', dot: 'var(--stage-3-bold)', title: '11pm, and you have a question', body: 'You ask DiGi. You get a real answer for your child and your stage, not a lecture and not a list of links.' },
+    { label: 'Every day', tint: 'var(--stage-4)', dot: 'var(--stage-4-bold)', title: 'Five minutes, no more', body: 'Each day asks five minutes of you. Small enough to keep. Big enough to change the week.' },
+    { label: 'Friday', tint: 'var(--stage-5)', dot: 'var(--stage-5-bold)', title: 'The Friday check in', body: 'You look back at the week and plan the next one together. You always know your next step.' },
+  ]
+
+  // GSAP: gentle staggered reveals for every beat, DiGi scrubbing down the
+  // week path and across the five stage pathway. All of it switches off for
+  // reduced motion, and content is fully visible without JavaScript because
+  // hiding only ever happens in here.
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+    const ctx = gsap.context(() => {
+      const fus = gsap.utils.toArray<HTMLElement>('.wow-fu', rootRef.current)
+      if (fus.length) {
+        gsap.set(fus, { opacity: 0, y: 24 })
+        ScrollTrigger.batch(fus, {
+          start: 'top 88%',
+          once: true,
+          onEnter: batch => gsap.to(batch, { opacity: 1, y: 0, duration: 0.65, ease: 'power3.out', stagger: 0.1, clearProps: 'transform,opacity' }),
+        })
+      }
+
+      const days = gsap.utils.toArray<HTMLElement>('.wow-day', rootRef.current)
+      if (days.length) {
+        gsap.set(days, { opacity: 0, x: -18 })
+        ScrollTrigger.batch(days, {
+          start: 'top 85%',
+          once: true,
+          onEnter: batch => gsap.to(batch, { opacity: 1, x: 0, duration: 0.6, ease: 'power3.out', stagger: 0.12, clearProps: 'transform,opacity' }),
+        })
+      }
+
+      // DiGi slides down the dotted line beside the week cards as you read.
+      if (weekPathRef.current && weekDigiRef.current) {
+        gsap.to(weekDigiRef.current, {
+          top: 'calc(100% - 44px)',
+          ease: 'none',
+          scrollTrigger: {
+            trigger: weekPathRef.current,
+            start: 'top 62%',
+            end: 'bottom 72%',
+            scrub: 0.6,
+          },
+        })
+      }
+
+      // DiGi walks the five stage pathway, lighting each dot its pastel.
+      if (pathwayRef.current && pathwayDigiRef.current) {
+        const rootStyles = getComputedStyle(document.documentElement)
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: pathwayRef.current,
+            start: 'top 80%',
+            end: 'bottom 35%',
+            scrub: 0.6,
+          },
+        })
+        tl.to(pathwayDigiRef.current, { left: 'calc(90% - 22px)', ease: 'none', duration: 5 }, 0)
+        const dots = gsap.utils.toArray<HTMLElement>('.wow-stage-dot', pathwayRef.current)
+        dots.forEach((dot, i) => {
+          const bold = rootStyles.getPropertyValue(`--stage-${i + 1}-bold`).trim() || '#FEF08A'
+          const text = rootStyles.getPropertyValue(`--stage-${i + 1}-text`).trim() || '#713F12'
+          tl.to(dot, { backgroundColor: bold, borderColor: bold, color: text, scale: 1.12, duration: 0.4 }, Math.min(i * 1.25, 4.6))
+        })
+      }
+    }, rootRef)
+
+    return () => ctx.revert()
+  }, [])
+
   return (
-    <div style={{ minHeight: '100dvh', background: 'var(--cream)', padding: '0 0 80px' }}>
+    <div ref={rootRef} style={{ minHeight: '100dvh', background: 'var(--cream)', padding: '0 0 80px' }}>
       {/* Stage accent strip at top */}
       <div style={{ height: '5px', background: accent.bold }} />
 
-      <div style={{ maxWidth: '560px', margin: '0 auto', padding: '32px 24px 0' }}>
+      <div style={{ maxWidth: '620px', margin: '0 auto', padding: '32px 24px 0' }}>
 
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '10px' }}>
-          Your pathway
-        </div>
-        <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.6rem, 4vw, 2.2rem)', fontWeight: 800, letterSpacing: '-0.025em', color: 'var(--ink)', lineHeight: 1.15, marginBottom: '16px' }}>
+        {/*
+          Higgsfield intro slot: an 8 second DiGi welcome clip will sit here
+          when it is ready. 16:9, autoplay, muted, no controls, poster frame
+          from the clip itself. Do not block launch on it.
+          <div style={{ borderRadius: '20px', overflow: 'hidden', marginBottom: '20px' }}>
+            <video src="/video/digi-welcome.mp4" autoPlay muted playsInline poster="/video/digi-welcome-poster.jpg" style={{ width: '100%', display: 'block' }} />
+          </div>
+        */}
+
+        {/* ── Beat 1: reassure and name it ─────────────────────── */}
+        <div className="wow-fu" style={RESULT_EYEBROW}>Your pathway</div>
+        <h1 className="wow-fu" style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.6rem, 4vw, 2.2rem)', fontWeight: 800, letterSpacing: '-0.025em', color: 'var(--ink)', lineHeight: 1.15, marginBottom: '16px' }}>
           Here is where your family is.
         </h1>
 
-        {/* Mission statement */}
-        <p style={{ fontSize: '15px', color: 'var(--ink)', lineHeight: 1.7, marginBottom: '28px' }}>
+        <p className="wow-fu" style={{ fontSize: '15px', color: 'var(--ink)', lineHeight: 1.7, marginBottom: '28px' }}>
           Whatever age your child is now, this is how we keep them safe: the exact words for tonight, a daily fix for the moment that keeps coming back, and a clear pathway from their first screen to full independence at 16.
         </p>
 
-        {/* Problem recognition — names what they told us before offering the fix */}
-        <div style={{ background: '#fff', borderRadius: '20px', overflow: 'hidden', boxShadow: '0 10px 32px rgba(26,26,46,0.10)', marginBottom: '14px' }}>
+        {/* Problem recognition. Names what they told us before offering the fix. */}
+        <div className="wow-fu" style={{ background: '#fff', borderRadius: '20px', overflow: 'hidden', boxShadow: '0 10px 32px rgba(26,26,46,0.10)', marginBottom: '14px' }}>
           <div style={{ background: 'var(--deep-teal)', padding: '18px 22px 22px', borderRadius: '0 0 28px 28px' }}>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)', marginBottom: '6px' }}>
               Sound familiar?
@@ -489,12 +695,11 @@ function ResultScreen({
         </div>
 
         {/* Stage card */}
-        <div style={{
+        <div className="wow-fu" style={{
           background: '#fff', borderRadius: '16px',
-          borderTop: `4px solid ${accent.bold}`,
           border: '1px solid var(--border)',
           borderTopWidth: '4px', borderTopColor: accent.bold,
-          padding: '22px', marginBottom: '14px',
+          padding: '22px',
           boxShadow: '0 2px 16px rgba(26,26,46,0.06)',
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', marginBottom: '14px' }}>
@@ -523,125 +728,205 @@ function ResultScreen({
           <div style={{ fontSize: '13px', color: 'var(--ink-soft)', marginBottom: '2px' }}>{stage.ages}</div>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--ink-light)', marginBottom: '12px' }}>{stage.usGrade}</div>
           <div style={{ fontSize: '14px', color: 'var(--ink-soft)', fontStyle: 'italic', lineHeight: 1.6, marginBottom: '12px' }}>{stage.focus}</div>
-          <div style={{ padding: '10px 14px', background: 'var(--terracotta-lt)', borderRadius: '10px', fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--terracotta)', letterSpacing: '0.04em' }}>
+          <div style={{ padding: '10px 14px', background: 'var(--terracotta-lt)', borderRadius: '10px', fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--ink-soft)', letterSpacing: '0.04em' }}>
             Recommended: {stage.device}
           </div>
         </div>
 
-        {/* Tonight — Good Inside style curved card */}
-        <div style={{ background: '#fff', borderRadius: '20px', overflow: 'hidden', boxShadow: '0 10px 32px rgba(26,26,46,0.10)', marginBottom: '14px' }}>
-          <div style={{ background: 'var(--terracotta)', padding: '18px 22px 22px', borderRadius: '0 0 28px 28px' }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.85)', marginBottom: '6px' }}>
-              Your fix for tonight
-            </div>
-            <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', fontWeight: 800, color: '#fff', letterSpacing: '-0.01em', lineHeight: 1.2 }}>
-              One thing to try
-            </div>
-          </div>
-          <div style={{ padding: '20px 22px', background: 'var(--terracotta-lt)' }}>
-            <p style={{ fontSize: 'clamp(15px, 3.5vw, 17px)', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.55, margin: 0, letterSpacing: '-0.01em' }}>
-              {challengeAction}
-            </p>
-          </div>
-        </div>
+        {/* ── Beat 2: your first week with us ──────────────────── */}
+        <section style={{ marginTop: 'clamp(64px, 10vw, 96px)' }}>
+          <div className="wow-fu" style={RESULT_EYEBROW}>Your first week</div>
+          <h2 className="wow-fu" style={RESULT_H2}>Here is how week one goes.</h2>
+          <p className="wow-fu" style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.65, marginBottom: '24px' }}>
+            {feelingLine}
+          </p>
 
-        {/* Script — Good Inside style curved card */}
-        <div style={{ background: '#fff', borderRadius: '20px', overflow: 'hidden', boxShadow: '0 10px 32px rgba(26,26,46,0.10)', marginBottom: '14px' }}>
-          <div style={{ background: 'var(--deep-teal)', padding: '18px 22px 22px', borderRadius: '0 0 28px 28px' }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)', marginBottom: '6px' }}>
-              The full script
+          <div ref={weekPathRef} style={{ position: 'relative', paddingLeft: '44px' }}>
+            {/* Dotted path down the left, DiGi rides it as you scroll */}
+            <div style={{ position: 'absolute', left: '15px', top: '20px', bottom: '20px', width: 0, borderLeft: '3px dotted var(--ink-light)' }} />
+            <div ref={weekDigiRef} style={{ position: 'absolute', left: '-2px', top: '4px', zIndex: 2 }}>
+              <DigiCharacter mood="idle" size={36} />
             </div>
-            <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', fontWeight: 800, color: '#fff', letterSpacing: '-0.01em', lineHeight: 1.2 }}>
-              {stage.script.title}
-            </div>
-          </div>
-          <div style={{ padding: '20px 22px' }}>
-            <div style={{ marginBottom: '16px' }}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--terracotta)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>Say this</div>
-              <p style={{ fontSize: 'clamp(15px, 3.5vw, 17px)', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.55, margin: 0, letterSpacing: '-0.01em' }}>"{stage.script.sayThis}"</p>
-            </div>
-            <div style={{ marginBottom: '16px' }}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--danger)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>Not this</div>
-              <p style={{ fontSize: '14px', color: 'var(--danger)', fontStyle: 'italic', lineHeight: 1.6, margin: 0 }}>{stage.script.notThis}</p>
-            </div>
-            <div style={{ padding: '14px 16px', background: 'var(--terracotta-lt)', borderRadius: '12px' }}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--terracotta)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>Why it works</div>
-              <p style={{ fontSize: '13px', color: 'var(--ink)', lineHeight: 1.6, margin: 0 }}>{stage.script.why}</p>
-            </div>
-          </div>
-        </div>
 
-        {/* Watch for */}
-        <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '14px', boxShadow: '0 2px 12px rgba(26,26,46,0.05)' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '12px' }}>
-            Watch for these signs
-          </div>
-          <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-            {stage.warningSigns.map((sign, i) => (
-              <li key={i} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
-                <span style={{ color: 'var(--terracotta)', fontSize: '14px', marginTop: '2px', flexShrink: 0 }}>•</span>
-                <span style={{ fontSize: '14px', color: 'var(--ink)', lineHeight: 1.5 }}>{sign}</span>
-              </li>
+            {week.map((day, i) => (
+              <div key={i} className="wow-day" style={{ position: 'relative', marginBottom: '12px' }}>
+                <span style={{
+                  position: 'absolute', left: '-35px', top: '22px',
+                  width: '13px', height: '13px', borderRadius: '50%',
+                  background: day.dot, border: '2.5px solid #fff',
+                  boxShadow: '0 0 0 1.5px var(--border)', zIndex: 1,
+                }} />
+                <div style={{ background: day.tint, border: '1px solid var(--border)', borderRadius: '16px', padding: '18px 20px' }}>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '6px' }}>
+                    {day.label}
+                  </div>
+                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px', color: 'var(--ink)', marginBottom: '5px', letterSpacing: '-0.01em' }}>
+                    {day.title}
+                  </div>
+                  <p style={{ fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>
+                    {day.body}
+                  </p>
+                  {day.script && (
+                    <div style={{ marginTop: '12px', background: '#fff', border: '1px solid var(--border)', borderRadius: '12px', padding: '13px 15px' }}>
+                      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '5px' }}>
+                        The exact script
+                      </div>
+                      <p style={{ fontSize: '13.5px', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>
+                        &ldquo;{day.script}&rdquo;
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
             ))}
-          </ul>
-        </div>
-
-        {/* Mini pathway — every stage, current one marked */}
-        <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '14px' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '18px' }}>
-            Every stage is covered, ages 4 to 16
           </div>
-          <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
-            <div style={{ position: 'absolute', left: '16px', right: '16px', top: '50%', height: '3px', background: 'var(--border)', transform: 'translateY(-50%)', zIndex: 0 }} />
-            <div style={{
-              position: 'absolute', left: '16px', top: '50%', height: '3px',
-              width: `calc((100% - 32px) * ${(stage.id - 1) / 4})`,
-              background: 'var(--terracotta)', transform: 'translateY(-50%)', zIndex: 1,
-            }} />
-            {[1, 2, 3, 4, 5].map(num => {
-              const done = num < stage.id
-              const isCurrent = num === stage.id
+        </section>
+
+        {/* ── Beat 3: what you get ─────────────────────────────── */}
+        <section style={{ marginTop: 'clamp(64px, 10vw, 96px)' }}>
+          <div className="wow-fu" style={RESULT_EYEBROW}>What you get</div>
+          <h2 className="wow-fu" style={RESULT_H2}>Everything waiting inside.</h2>
+          <p className="wow-fu" style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.65, marginBottom: '20px' }}>
+            Built for real families with school runs and short evenings. Every piece earns its place.
+          </p>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '12px' }}>
+            {FEATURES.map((f, i) => {
+              const n = (i % 5) + 1
               return (
-                <div key={num} style={{
-                  position: 'relative', zIndex: 2,
-                  width: isCurrent ? '34px' : '26px', height: isCurrent ? '34px' : '26px',
-                  borderRadius: '50%',
-                  background: done || isCurrent ? 'var(--terracotta)' : '#fff',
-                  border: done || isCurrent ? 'none' : '2px solid var(--border)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  color: done || isCurrent ? '#fff' : 'var(--ink-light)',
-                  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: isCurrent ? '13px' : '11px',
-                  boxShadow: isCurrent ? '0 3px 0 var(--terracotta-dark)' : 'none',
-                }}>
-                  {done ? '✓' : num}
+                <div key={f.title} className="wow-fu lift" style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '16px', padding: '18px', boxShadow: '0 2px 12px rgba(26,26,46,0.05)' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
+                    <span style={{
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      width: '34px', height: '34px', borderRadius: '10px', flexShrink: 0,
+                      background: `var(--stage-${n}-bold)`, color: `var(--stage-${n}-text)`,
+                    }}>
+                      {f.icon}
+                    </span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                      <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
+                        {f.title}
+                      </span>
+                      {f.comingSoon && (
+                        <span style={{
+                          fontFamily: 'var(--font-mono)', fontSize: '8px', fontWeight: 700,
+                          letterSpacing: '0.1em', textTransform: 'uppercase',
+                          background: 'var(--deep-teal)', color: '#fff',
+                          padding: '3px 8px', borderRadius: '100px',
+                        }}>
+                          Coming soon
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>
+                    {f.body}
+                  </p>
+                  {f.lessons && (
+                    <div style={{ display: 'flex', gap: '9px', marginTop: '14px' }}>
+                      {LESSON_THUMBS.map(t => (
+                        <div key={t.label} style={{
+                          width: '76px', borderRadius: '8px', overflow: 'hidden',
+                          border: '1px solid var(--border)', background: '#fff',
+                          transform: `rotate(${t.tilt})`,
+                          boxShadow: '0 3px 10px rgba(26,26,46,0.08)',
+                        }}>
+                          <div style={{ height: '9px', background: t.band }} />
+                          <div style={{ padding: '7px 7px 8px' }}>
+                            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '7px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '5px', whiteSpace: 'nowrap' }}>
+                              {t.label}
+                            </div>
+                            <div style={{ height: '3px', background: 'var(--border)', borderRadius: '2px', marginBottom: '3px' }} />
+                            <div style={{ height: '3px', background: 'var(--border)', borderRadius: '2px', width: '70%' }} />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               )
             })}
           </div>
-          <Link href="/pathway" style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--terracotta)', letterSpacing: '0.06em', textDecoration: 'none' }}>
-            See what every stage covers →
-          </Link>
-        </div>
+        </section>
 
-        {/* Parent quote */}
-        <div style={{ padding: '18px 22px', borderLeft: '3px solid var(--terracotta)', background: 'var(--terracotta-lt)', borderRadius: '0 12px 12px 0', marginBottom: '32px' }}>
+        {/* ── Beat 4: the pathway simulation ───────────────────── */}
+        <section style={{ marginTop: 'clamp(64px, 10vw, 96px)' }}>
+          <div className="wow-fu" style={RESULT_EYEBROW}>The road ahead</div>
+          <h2 className="wow-fu" style={RESULT_H2}>One pathway, ages 4 to 16.</h2>
+          <p className="wow-fu" style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.65, marginBottom: '20px' }}>
+            Stage {stage.id} is where you start, not where it ends. The whole road is already mapped, and DiGi walks it with you.
+          </p>
+
+          <div ref={pathwayRef} className="wow-fu" style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '20px', padding: '22px 14px 20px', boxShadow: '0 2px 16px rgba(26,26,46,0.06)' }}>
+            <div style={{ position: 'relative', height: '52px' }}>
+              <div ref={pathwayDigiRef} style={{ position: 'absolute', left: 'calc(10% - 22px)', bottom: '-8px', zIndex: 2 }}>
+                <DigiCharacter mood="idle" size={44} />
+              </div>
+            </div>
+            <div style={{ position: 'relative' }}>
+              <div style={{ position: 'absolute', left: '10%', right: '10%', top: '11px', borderTop: '3px dotted var(--ink-light)' }} />
+              <div style={{ display: 'flex', position: 'relative' }}>
+                {STAGES.map(s => {
+                  const isCurrent = s.id === stage.id
+                  const ages = s.ageBand === '16+' ? '16 plus' : s.ageBand.replace('-', ' to ')
+                  return (
+                    <div key={s.id} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', minWidth: 0 }}>
+                      <div className="wow-stage-dot" style={{
+                        width: '24px', height: '24px', borderRadius: '50%',
+                        background: '#fff', border: '2px solid var(--border)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '11px',
+                        color: 'var(--ink-light)', position: 'relative', zIndex: 1,
+                        boxShadow: isCurrent ? `0 0 0 3px ${accent.bold}` : 'none',
+                      }}>
+                        {s.id}
+                      </div>
+                      <div style={{ textAlign: 'center' }}>
+                        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '8px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
+                          {s.name}
+                        </div>
+                        <div style={{ fontFamily: 'var(--font-display)', fontSize: '10px', fontWeight: 700, color: 'var(--ink-soft)' }}>
+                          {ages}
+                        </div>
+                        {isCurrent && (
+                          <div style={{
+                            display: 'inline-block', marginTop: '4px',
+                            fontFamily: 'var(--font-mono)', fontSize: '7.5px', fontWeight: 700,
+                            letterSpacing: '0.08em', textTransform: 'uppercase',
+                            background: accent.bold, color: accent.text,
+                            padding: '2px 7px', borderRadius: '100px', whiteSpace: 'nowrap',
+                          }}>
+                            You are here
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Parent quote, warm texture before the ask */}
+        <div className="wow-fu" style={{ padding: '18px 22px', borderLeft: '3px solid var(--terracotta)', background: 'var(--terracotta-lt)', borderRadius: '0 12px 12px 0', margin: 'clamp(56px, 9vw, 80px) 0 40px' }}>
           <p style={{ fontSize: '15px', color: 'var(--ink-soft)', fontStyle: 'italic', lineHeight: 1.7, margin: 0 }}>
             {stage.parentQuote}
           </p>
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--terracotta)', marginTop: '8px', letterSpacing: '0.04em' }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-muted)', marginTop: '8px', letterSpacing: '0.04em' }}>
             Parent, Stage {stage.id}
           </p>
         </div>
 
-        {/* Primary CTA */}
-        <div style={{ background: 'var(--deep-teal)', borderRadius: '20px', padding: '32px 24px', textAlign: 'center', marginBottom: '12px' }}>
+        {/* ── Beat 5: save CTA, the one primary CTA on the page ── */}
+        <div className="wow-fu" style={{ background: 'var(--deep-teal)', borderRadius: '20px', padding: '40px 28px', textAlign: 'center', marginBottom: '12px' }}>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '14px' }}>
             Free to start
           </div>
           <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', color: '#fff', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '12px' }}>
-            Save your child's pathway
+            Save your child&apos;s pathway
           </h2>
-          <p style={{ color: 'rgba(255,255,255,0.58)', fontSize: '14px', lineHeight: 1.6, maxWidth: '340px', margin: '0 auto 24px' }}>
+          <p style={{ color: 'rgba(255,255,255,0.78)', fontSize: '14px', lineHeight: 1.6, maxWidth: '340px', margin: '0 auto 24px' }}>
             Create your free account and your Stage {stage.id} pathway is saved. No card required.
           </p>
           <Link
@@ -650,46 +935,21 @@ function ResultScreen({
               display: 'inline-flex', alignItems: 'center',
               padding: '16px 36px', background: 'var(--terracotta)',
               color: 'var(--ink)', borderRadius: '16px', textDecoration: 'none',
-              fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: '13px',
-              letterSpacing: '0.08em', textTransform: 'uppercase',
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px',
+              letterSpacing: '-0.01em',
               boxShadow: '0 5px 0 var(--terracotta-dark)',
             }}
           >
-            Save my pathway. It is free.
+            Save my pathway, it is free
           </Link>
-          <p style={{ marginTop: '14px', fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'rgba(255,255,255,0.32)' }}>
+          <p style={{ marginTop: '14px', fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'rgba(255,255,255,0.6)' }}>
             Already have an account?{' '}
             <Link href="/login" style={{ color: 'var(--terracotta)', textDecoration: 'none' }}>Sign in</Link>
           </p>
         </div>
 
-        {/* Founder CTA */}
-        <div style={{ border: '1px solid var(--border)', borderRadius: '20px', padding: '24px', textAlign: 'center', marginBottom: '16px', background: '#fff' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '10px' }}>
-            Founding members · 50 places
-          </div>
-          <p style={{ fontFamily: 'var(--font-display)', fontSize: '15px', color: 'var(--ink)', fontWeight: 700, marginBottom: '6px' }}>
-            Ready to unlock everything?
-          </p>
-          <p style={{ fontSize: '13px', color: 'var(--ink-muted)', lineHeight: 1.6, marginBottom: '18px' }}>
-            £7.99 a month for life. All 5 stages, unlimited DiGi, every script.
-          </p>
-          <Link
-            href="/signup?intent=founder"
-            style={{
-              display: 'inline-flex', alignItems: 'center',
-              padding: '13px 28px', background: 'var(--terracotta)',
-              color: 'var(--ink)', borderRadius: '16px', textDecoration: 'none',
-              fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '14px',
-              boxShadow: '0 5px 0 var(--terracotta-dark)',
-            }}
-          >
-            Join as a founding member
-          </Link>
-        </div>
-
         {/* Free includes */}
-        <div style={{ padding: '24px', textAlign: 'center' }}>
+        <div className="wow-fu" style={{ padding: '24px', textAlign: 'center' }}>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '16px' }}>
             Free account includes
           </div>
@@ -701,7 +961,7 @@ function ResultScreen({
               'Stage 1 curriculum access',
             ].map((item, i) => (
               <div key={i} style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                <span style={{ color: 'var(--terracotta)', fontSize: '14px', flexShrink: 0 }}>✓</span>
+                <span style={{ color: 'var(--terracotta-dark)', fontSize: '14px', flexShrink: 0 }}>✓</span>
                 <span style={{ fontSize: '14px', color: 'var(--ink-soft)' }}>{item}</span>
               </div>
             ))}
