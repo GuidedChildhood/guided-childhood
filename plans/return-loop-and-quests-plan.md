@@ -208,3 +208,36 @@ Two things were half conflated and are now separate:
   quest stars this week, concerns improving or open, devices unlocked.
   The check in FEEDS this page; it is not the page. Section 3's redesign
   applies to Progress.
+
+## 10. Milestones, recurring settings, watch time allocation, literacy crafts (Justin, 5 July)
+
+Launch date relaxed: done properly with all kids lessons beats Wednesday.
+
+DIGITAL MILESTONES on the Progress page: at each age, three columns of
+expectations: Using (what they should be doing digitally), Understanding
+(concepts they should grasp), Behaviour (habits and warning signs). Each
+row is monitored by what we already track: lessons covered, settings
+applied on age related devices, check in signals. When an age unlocks,
+new rows appear plus a "three new things arrive at age N" briefing.
+
+SMARTPHONE JOURNEY additions: each age band on the device matrix names
+the known behaviour issues that arrive with it (from the risks data:
+group chat drama at 9, comparison dip 11 to 13, secrecy at 14) and
+settings check ins RECUR: age tick over reopens the walkthrough with
+what changed.
+
+QUESTS additions: approval allocates the agreed watch time automatically
+per the agreement exchange rate, shown on both sides ("You earned your
+45 minutes of Saturday Minecraft"). Under phone age children get the
+daily printable tick sheet, parent keeps the alert rhythm.
+
+LITERACY CRAFT PACKS (printable, screen free, star earning, tied to the
+lesson curriculum): 4 to 7 Robot Parent programming cards, Real or
+Pretend sorting, My Screen Rules colour in door poster, build a paper
+turn timer. 8 to 10 Password Monster (silly name becomes the real
+passphrase), Advert Detective bingo, The Feed snakes and ladders with
+choice ladders and trap snakes. 11 to 13 Algorithm Architect (design a
+feed to hook someone, reverse engineering as vaccine), Deepfake or Real
+family quiz pack, phishing escape room. Family: device free dinner cards,
+weekly Family Tech Quiz. Every craft doubles as a quest and maps to a
+lesson so the curriculum, the chores and the fun are one system.
