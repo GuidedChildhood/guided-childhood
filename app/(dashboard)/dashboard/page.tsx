@@ -10,6 +10,7 @@ import DigiPrompts from '@/components/digi/DigiPrompts'
 import StreakFlame from '@/components/daily/StreakFlame'
 import SchoolActionsCard, { type SchoolAction } from '@/components/school/SchoolActionsCard'
 import SchoolPromoCard from '@/components/school/SchoolPromoCard'
+import QuestBoard from '@/components/quests/QuestBoard'
 import TodayPathStrip from '@/components/daily/TodayPathStrip'
 import { getDailyStreak } from '@/lib/pathway/streak'
 import { getTodayLoop } from '@/lib/pathway/daily-tasks'
@@ -248,6 +249,9 @@ export default async function DashboardPage() {
 
       {/* Things you need to know: open school actions from forwarded school emails */}
       <SchoolActionsCard actions={schoolActions} />
+
+      {/* Family quests: approve queue and each child's week */}
+      <QuestBoard />
 
       {/* School email promo until a connection is active, dismissible per device */}
       {!hasSchoolConnection && <SchoolPromoCard />}

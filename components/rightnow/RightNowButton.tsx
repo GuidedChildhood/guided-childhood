@@ -46,6 +46,7 @@ function BoltIcon() {
 export default function RightNowButton() {
   const [open, setOpen] = useState(false)
   const [entered, setEntered] = useState(false)
+  const [showHint, setShowHint] = useState(false)
   const [picked, setPicked] = useState<SituationKey | null>(null)
   const [pickedLabel, setPickedLabel] = useState('')
   const [script, setScript] = useState<ScriptResult | null>(null)
@@ -69,7 +70,21 @@ export default function RightNowButton() {
     setEntered(false)
   }, [open])
 
+  // One time coach mark: explain the button before its first ever use.
+  useEffect(() => {
+    if (localStorage.getItem('gc_now_hint_seen') !== '1') {
+      const id = setTimeout(() => setShowHint(true), 1200)
+      return () => clearTimeout(id)
+    }
+  }, [])
+
+  function dismissHint() {
+    localStorage.setItem('gc_now_hint_seen', '1')
+    setShowHint(false)
+  }
+
   function openSheet() {
+    dismissHint()
     setPicked(null)
     setPickedLabel('')
     setScript(null)
@@ -107,6 +122,32 @@ export default function RightNowButton() {
 
   return (
     <>
+      {/* One time coach mark above the button */}
+      {showHint && createPortal(
+        <div
+          onClick={dismissHint}
+          style={{
+            position: 'fixed', bottom: '92px', left: '50%', transform: 'translateX(-50%)',
+            zIndex: 90, width: 'min(86vw, 300px)',
+            background: 'var(--deep-teal)', color: '#fff',
+            borderRadius: '16px', padding: '14px 16px', cursor: 'pointer',
+            boxShadow: '0 8px 30px rgba(23,60,70,0.4)',
+          }}
+        >
+          <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', margin: '0 0 4px' }}>
+            Mid meltdown? This button.
+          </p>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: '12.5px', lineHeight: 1.5, margin: 0, color: 'rgba(255,255,255,0.85)' }}>
+            When a hard moment is happening, tap Now, pick the situation, and the calm words appear. Two taps, no searching.
+          </p>
+          <div style={{
+            position: 'absolute', bottom: '-7px', left: '50%', transform: 'translateX(-50%) rotate(45deg)',
+            width: '14px', height: '14px', background: 'var(--deep-teal)',
+          }} />
+        </div>,
+        document.body
+      )}
+
       {/* The raised butter circle in the centre of the tab bar */}
       <button
         type="button"
@@ -196,8 +237,8 @@ export default function RightNowButton() {
                 <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '26px', color: 'var(--ink)', letterSpacing: '-.02em', margin: '6px 0 4px' }}>
                   What is happening right now?
                 </h2>
-                <p style={{ fontSize: '14px', color: 'var(--ink-soft)', marginBottom: '20px' }}>
-                  One tap and the words are on your screen.
+                <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: '20px' }}>
+                  Pick the moment and the calm words appear: what to say, what not to say. It gets remembered too, so tomorrow we ask how it went and DiGi knows the story.
                 </p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                   {SITUATIONS.map(s => (
