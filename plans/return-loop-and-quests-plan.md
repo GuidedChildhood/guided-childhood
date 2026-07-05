@@ -140,3 +140,32 @@ This IS the product spine: safety through settings, smartphone education
 starting with the parent's own settings and behaviour, use widening year
 by year, check ins catching issues. The matrix makes the whole promise
 visible on one screen.
+
+## 7. The promise audit (4 July, against the live marketing page)
+
+Delivered and true: scripts for the hard moment, Right Now, DiGi any
+time (once the cache fix deploys), the five stages, starter pack,
+founder cap.
+
+Gaps to close or trim before strangers arrive:
+- Monday ritual is promised but nothing arrives on Monday. Build: Monday
+  morning push and email with the three personalised actions (stage plus
+  open concerns). Cheapest promise to make true.
+- Tracker "optional uploads: browsing data, AI usage, sleep" does not
+  exist. Trim from the page until built.
+- "Full curriculum: home and school" is the lessons engine, not the
+  current app. Mark rolling out or trim until the engine ships.
+- Verify 131 parents and the three named testimonials are real. Honest
+  numbers is a non negotiable; smaller true numbers beat big soft ones.
+- Waitlist copy vs live signups: pick one mode.
+
+## 8. The daily literacy card (the FEEL of daily support, per age)
+
+One two minute card per day in the session strip, age specific, one
+literacy idea per card (algorithms, deepfakes, comparison, AI, dark
+patterns), swipeable like the moment deck. Progress counter makes the
+pathway tangible: Literacy skill N of 160 on the road to 16. Content
+seeds from the ai_lessons table and the evidence bank now; when the
+lessons engine lands, every lesson renders three ways: daily drip cards,
+home sofa lesson, school classroom lesson. This is the bridge that makes
+"digital literacy support every day at every age" true, not implied.
