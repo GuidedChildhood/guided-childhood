@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import DigiCharacter, { type DigiMood } from '@/components/digi/DigiCharacter'
 import { momentImageForTitle } from '@/lib/content/moment-images'
+import { momentLook } from '@/lib/content/moment-look'
 
 export interface Moment {
   id: string
@@ -39,9 +40,25 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
   const [digiMood, setDigiMood] = useState<DigiMood>('speak')
   const [digiResponse, setDigiResponse] = useState<{ digiQuestion: string; science: string; solutions: string[]; script: string } | null>(null)
   const [loading, setLoading] = useState(false)
+  const [shared, setShared] = useState(false)
 
   const accentColor = CATEGORY_COLORS[moment.category] ?? 'var(--stage-1)'
   const imageSrc = momentImageForTitle(moment.title)
+  const look = momentLook(moment.category)
+
+  async function handleShare() {
+    const url = `${window.location.origin}/m/${moment.id}`
+    const payload = { title: moment.title, text: moment.science_brief.slice(0, 140), url }
+    try {
+      if (navigator.share) {
+        await navigator.share(payload)
+      } else {
+        await navigator.clipboard.writeText(url)
+        setShared(true)
+        setTimeout(() => setShared(false), 2000)
+      }
+    } catch { /* user cancelled the share sheet */ }
+  }
 
   function handleOpen() {
     setOpen(true)
@@ -156,50 +173,61 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
         </div>
       </div>
 
-      {/* ── DiGi sheet: full size, readable, never cut off ── */}
+      {/* ── Full screen deck card: tinted backdrop, curved band header ── */}
       {open && (
         <div
-          onClick={() => setOpen(false)}
           style={{
             position: 'fixed', inset: 0, zIndex: 120,
-            background: 'rgba(26,26,46,0.45)',
-            display: 'flex', alignItems: 'flex-end', justifyContent: 'center',
+            background: 'var(--deep-teal)',
+            display: 'flex', alignItems: 'stretch', justifyContent: 'center',
+            padding: 'max(14px, env(safe-area-inset-top)) 14px max(14px, env(safe-area-inset-bottom))',
           }}
         >
           <div
-            onClick={e => e.stopPropagation()}
             style={{
-              width: 'min(100%, 480px)',
-              maxHeight: '86dvh',
-              background: 'var(--white)',
-              borderRadius: '24px 24px 0 0',
+              width: 'min(100%, 520px)',
+              background: look.tint,
+              borderRadius: '26px',
               display: 'flex', flexDirection: 'column',
               overflow: 'hidden',
-              boxShadow: '0 -8px 40px rgba(26,26,46,0.25)',
+              boxShadow: '0 12px 48px rgba(0,0,0,0.35)',
             }}
           >
-            {/* Header */}
+            {/* Curved band header */}
             <div style={{
-              background: 'var(--terracotta-lt)',
-              padding: '16px 20px 14px',
-              borderBottom: '1px solid var(--border)',
-              display: 'flex', alignItems: 'center', gap: 14, flexShrink: 0,
+              background: look.band,
+              padding: '18px 20px 26px',
+              borderRadius: '0 0 50% 50% / 0 0 26px 26px',
+              display: 'flex', alignItems: 'flex-start', gap: 12, flexShrink: 0,
             }}>
-              <DigiCharacter mood={digiMood} size={54} />
               <div style={{ flex: 1, minWidth: 0 }}>
-                <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: 3 }}>
-                  {moment.category} moment
+                <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.85)', marginBottom: 3 }}>
+                  Moment
                 </p>
-                <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.05rem', color: 'var(--ink)', lineHeight: 1.25, margin: 0 }}>
-                  {moment.title}
+                <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.15rem', color: '#fff', lineHeight: 1.2, margin: 0 }}>
+                  {moment.category}
                 </p>
               </div>
+              <button
+                onClick={handleShare}
+                aria-label="Share this card"
+                style={{
+                  width: 38, height: 38, borderRadius: '50%',
+                  border: '1.5px solid rgba(255,255,255,0.7)', background: 'transparent',
+                  cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+                }}
+              >
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M12 3v12M12 3l-4.5 4.5M12 3l4.5 4.5M5 13v6h14v-6" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
               <button
                 onClick={() => setOpen(false)}
                 aria-label="Close"
                 style={{
-                  width: 34, height: 34, borderRadius: '50%', border: '1px solid var(--border)',
-                  background: '#fff', cursor: 'pointer', fontSize: '15px', color: 'var(--ink-soft)',
+                  width: 38, height: 38, borderRadius: '50%',
+                  border: '1.5px solid rgba(255,255,255,0.7)', background: 'transparent',
+                  cursor: 'pointer', fontSize: '16px', color: '#fff',
                   display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
                 }}
               >
@@ -207,20 +235,39 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
               </button>
             </div>
 
-            {/* Body */}
-            <div style={{ flex: 1, overflowY: 'auto', padding: '18px 20px', display: 'flex', flexDirection: 'column', gap: 14 }}>
-              <p style={{
-                fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink)',
-                lineHeight: 1.6, fontWeight: 500, margin: 0,
+            {shared && (
+              <div style={{ padding: '8px 20px 0', flexShrink: 0 }}>
+                <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: look.band, margin: 0 }}>
+                  Link copied, paste it anywhere ✓
+                </p>
+              </div>
+            )}
+
+            {/* Body: big display type, deck style */}
+            <div style={{ flex: 1, overflowY: 'auto', padding: '22px 22px 18px', display: 'flex', flexDirection: 'column', gap: 16 }}>
+              <h2 style={{
+                fontFamily: 'var(--font-display)', fontWeight: 900,
+                fontSize: 'clamp(1.5rem, 6.5vw, 2rem)', color: 'var(--ink)',
+                letterSpacing: '-0.02em', lineHeight: 1.12, margin: 0,
               }}>
-                {loading ? 'DiGi is thinking...' : digiResponse?.digiQuestion ?? moment.digi_opener}
-              </p>
+                {moment.title}
+              </h2>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <DigiCharacter mood={digiMood} size={44} />
+                <p style={{
+                  fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink)',
+                  lineHeight: 1.55, fontWeight: 500, margin: 0, flex: 1,
+                }}>
+                  {loading ? 'DiGi is thinking...' : digiResponse?.digiQuestion ?? moment.digi_opener}
+                </p>
+              </div>
 
               <div style={{
-                background: 'var(--cream)', borderRadius: '14px', padding: '14px 16px',
-                borderLeft: '3px solid var(--terracotta)',
+                background: 'rgba(255,255,255,0.65)', borderRadius: '14px', padding: '14px 16px',
+                borderLeft: `3px solid ${look.band}`,
               }}>
-                <p style={{ fontFamily: 'var(--font-body)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: 6 }}>
+                <p style={{ fontFamily: 'var(--font-body)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: look.band, marginBottom: 6 }}>
                   The science
                 </p>
                 <p style={{ fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--ink)', lineHeight: 1.6, margin: 0 }}>
@@ -245,7 +292,7 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
               )}
 
               {digiResponse?.script && (
-                <div style={{ background: 'var(--stage-2)', borderRadius: '14px', padding: '14px 16px' }}>
+                <div style={{ background: 'rgba(255,255,255,0.65)', borderRadius: '14px', padding: '14px 16px' }}>
                   <p style={{ fontFamily: 'var(--font-body)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-soft)', marginBottom: 6 }}>
                     Say tonight
                   </p>
@@ -259,8 +306,8 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
             {/* Footer */}
             <div style={{
               padding: '12px 20px calc(12px + env(safe-area-inset-bottom))',
-              borderTop: '1px solid var(--border)',
-              display: 'flex', gap: 10, flexShrink: 0, background: '#fff',
+              borderTop: '1px solid rgba(26,26,46,0.08)',
+              display: 'flex', gap: 10, flexShrink: 0,
             }}>
               <a
                 href={`/dashboard/digi?q=${encodeURIComponent(moment.title)}`}
