@@ -1,6 +1,8 @@
 'use client'
-import { useState, useRef, useEffect } from 'react'
+import { useState, useEffect } from 'react'
+import Image from 'next/image'
 import DigiCharacter, { type DigiMood } from '@/components/digi/DigiCharacter'
+import { momentImageForTitle } from '@/lib/content/moment-images'
 
 export interface Moment {
   id: string
@@ -29,37 +31,22 @@ const CATEGORY_COLORS: Record<string, string> = {
   Emotions:    '#F5E8EE',
 }
 
+// The card front stays small in the grid; DiGi's answer opens as a full
+// sheet so it is never squeezed into a tiny flipped card (the cut off
+// reply from the 5 July red pen).
 export default function MomentCard({ moment, childName, ageBand, onFlip }: MomentCardProps) {
-  const [flipped, setFlipped] = useState(false)
-  const [digiVisible, setDigiVisible] = useState(false)
-  const [digiMood, setDigiMood] = useState<DigiMood>('idle')
+  const [open, setOpen] = useState(false)
+  const [digiMood, setDigiMood] = useState<DigiMood>('speak')
   const [digiResponse, setDigiResponse] = useState<{ digiQuestion: string; science: string; solutions: string[]; script: string } | null>(null)
   const [loading, setLoading] = useState(false)
-  const flipTimeout = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const accentColor = CATEGORY_COLORS[moment.category] ?? 'var(--stage-1)'
+  const imageSrc = momentImageForTitle(moment.title)
 
-  function handleFlip() {
-    if (flipped) {
-      setFlipped(false)
-      setDigiVisible(false)
-      setDigiMood('idle')
-      return
-    }
-
-    setFlipped(true)
+  function handleOpen() {
+    setOpen(true)
     onFlip?.(moment.id)
-
-    // DiGi animates in after flip completes
-    flipTimeout.current = setTimeout(() => {
-      setDigiVisible(true)
-      setDigiMood('speak')
-    }, 420)
-
-    // Fetch DiGi response if not cached
-    if (!digiResponse) {
-      fetchDigiMoment()
-    }
+    if (!digiResponse) fetchDigiMoment()
   }
 
   async function fetchDigiMoment() {
@@ -83,41 +70,28 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
     }
   }
 
-  useEffect(() => () => { if (flipTimeout.current) clearTimeout(flipTimeout.current) }, [])
+  // Lock page scroll while the sheet is open
+  useEffect(() => {
+    if (!open) return
+    const prev = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => { document.body.style.overflow = prev }
+  }, [open])
 
   return (
-    <div
-      onClick={handleFlip}
-      role="button"
-      tabIndex={0}
-      onKeyDown={e => e.key === 'Enter' && handleFlip()}
-      style={{
-        perspective: '1000px',
-        cursor: 'pointer',
-        width: '100%',
-        aspectRatio: '3 / 4',
-        position: 'relative',
-        userSelect: 'none',
-        WebkitTapHighlightColor: 'transparent',
-        outline: 'none',
-      }}
-      aria-label={`${moment.title} — tap to flip`}
-    >
-      <div style={{
-        position: 'relative',
-        width: '100%',
-        height: '100%',
-        transformStyle: 'preserve-3d',
-        transition: 'transform 0.55s cubic-bezier(0.4, 0, 0.2, 1)',
-        transform: flipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
-      }}>
-
-        {/* ── FRONT ── */}
-        <div style={{
-          position: 'absolute',
-          inset: 0,
-          backfaceVisibility: 'hidden',
-          WebkitBackfaceVisibility: 'hidden',
+    <>
+      <div
+        onClick={handleOpen}
+        role="button"
+        tabIndex={0}
+        onKeyDown={e => e.key === 'Enter' && handleOpen()}
+        aria-label={`${moment.title} — tap for DiGi`}
+        style={{
+          cursor: 'pointer',
+          width: '100%',
+          userSelect: 'none',
+          WebkitTapHighlightColor: 'transparent',
+          outline: 'none',
           borderRadius: '20px',
           background: 'var(--white)',
           border: '1px solid var(--border)',
@@ -125,217 +99,197 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
           display: 'flex',
           flexDirection: 'column',
           overflow: 'hidden',
-        }}>
-          {/* Category stripe */}
-          <div style={{ height: '6px', background: accentColor, flexShrink: 0 }} />
+        }}
+      >
+        {/* Category stripe */}
+        <div style={{ height: '6px', background: accentColor, flexShrink: 0 }} />
 
-          {/* Icon area */}
-          <div style={{
-            flex: 1,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '24px 20px 16px',
-            gap: 12,
-          }}>
+        {/* Tile art (Higgsfield) with emoji fallback */}
+        <div style={{
+          display: 'flex', flexDirection: 'column', alignItems: 'center',
+          padding: '18px 14px 12px', gap: 10,
+        }}>
+          {imageSrc ? (
+            <Image
+              src={imageSrc}
+              alt=""
+              width={84}
+              height={84}
+              style={{ borderRadius: '18px', display: 'block' }}
+            />
+          ) : (
             <div style={{
-              width: 72,
-              height: 72,
-              borderRadius: '20px',
+              width: 84, height: 84, borderRadius: '18px',
               background: accentColor,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '2rem',
-              flexShrink: 0,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: '2rem', flexShrink: 0,
             }}>
               {moment.icon}
             </div>
-            <div style={{ textAlign: 'center' }}>
-              <p style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1rem', color: 'var(--ink)', lineHeight: 1.3, marginBottom: 6 }}>
-                {moment.title}
-              </p>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: '11px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
-                {moment.category}
-              </p>
-            </div>
-          </div>
-
-          {/* Age tags */}
-          <div style={{ padding: '0 16px 14px', display: 'flex', flexWrap: 'wrap', gap: 4, justifyContent: 'center' }}>
-            {moment.age_bands.map(band => (
-              <span key={band} style={{
-                fontFamily: 'var(--font-body)',
-                fontSize: '10px',
-                fontWeight: 600,
-                color: 'var(--ink-soft)',
-                background: 'var(--cream)',
-                border: '1px solid var(--border)',
-                borderRadius: '100px',
-                padding: '2px 8px',
-              }}>
-                {band}
-              </span>
-            ))}
-          </div>
-
-          {/* Flip hint */}
-          <div style={{
-            padding: '10px 16px',
-            borderTop: '1px solid var(--border)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: 6,
-            background: 'var(--cream)',
-          }}>
-            <span style={{ fontSize: '0.7rem' }}>✨</span>
-            <span style={{ fontFamily: 'var(--font-body)', fontSize: '11px', color: 'var(--ink-muted)', fontWeight: 500 }}>
-              Flip for DiGi
-            </span>
-          </div>
-        </div>
-
-        {/* ── BACK ── */}
-        <div style={{
-          position: 'absolute',
-          inset: 0,
-          backfaceVisibility: 'hidden',
-          WebkitBackfaceVisibility: 'hidden',
-          transform: 'rotateY(180deg)',
-          borderRadius: '20px',
-          background: 'var(--white)',
-          border: '1px solid var(--border)',
-          boxShadow: '0 4px 24px rgba(61,115,154,0.12)',
-          display: 'flex',
-          flexDirection: 'column',
-          overflow: 'hidden',
-        }}>
-          {/* Accent stripe */}
-          <div style={{ height: '6px', background: 'var(--terracotta)', flexShrink: 0 }} />
-
-          {/* DiGi section */}
-          <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            padding: '16px 16px 10px',
-            background: 'var(--terracotta-lt)',
-            borderBottom: '1px solid var(--border)',
-            flexShrink: 0,
-          }}>
-            <div style={{
-              transition: 'opacity 0.4s ease, transform 0.4s ease',
-              opacity: digiVisible ? 1 : 0,
-              transform: digiVisible ? 'scale(1) translateY(0)' : 'scale(0.7) translateY(10px)',
-            }}>
-              <DigiCharacter mood={digiMood} size={72} />
-            </div>
+          )}
+          <div style={{ textAlign: 'center' }}>
             <p style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: '13px',
-              color: 'var(--ink)',
-              textAlign: 'center',
-              lineHeight: 1.5,
-              marginTop: 8,
-              fontWeight: 500,
-              minHeight: '2.5em',
+              fontFamily: 'var(--font-display)', fontWeight: 700,
+              fontSize: '0.92rem', color: 'var(--ink)', lineHeight: 1.3,
+              marginBottom: 4,
+              display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical',
+              overflow: 'hidden',
             }}>
-              {loading
-                ? 'DiGi is thinking...'
-                : digiResponse?.digiQuestion ?? moment.digi_opener}
+              {moment.title}
+            </p>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
+              {moment.category}
             </p>
           </div>
+        </div>
 
-          {/* Science brief */}
-          <div style={{ flex: 1, overflowY: 'auto', padding: '12px 16px', display: 'flex', flexDirection: 'column', gap: 10 }}>
-            <div style={{
-              background: 'var(--cream)',
-              borderRadius: '12px',
-              padding: '10px 12px',
-              borderLeft: '3px solid var(--terracotta)',
-            }}>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: 4 }}>
-                The science
-              </p>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: '12px', color: 'var(--ink)', lineHeight: 1.55 }}>
-                {digiResponse?.science ?? moment.science_brief}
-              </p>
-            </div>
-
-            {digiResponse?.solutions && digiResponse.solutions.length > 0 && (
-              <div>
-                <p style={{ fontFamily: 'var(--font-body)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 6 }}>
-                  Try this
-                </p>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-                  {digiResponse.solutions.slice(0, 3).map((sol, i) => (
-                    <div key={i} style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
-                      <span style={{ fontFamily: 'var(--font-body)', fontSize: '11px', fontWeight: 700, color: 'var(--terracotta)', flexShrink: 0, marginTop: 1 }}>{i + 1}.</span>
-                      <p style={{ fontFamily: 'var(--font-body)', fontSize: '12px', color: 'var(--ink)', lineHeight: 1.5 }}>{sol}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {digiResponse?.script && (
-              <div style={{ background: 'var(--stage-2)', borderRadius: '10px', padding: '10px 12px' }}>
-                <p style={{ fontFamily: 'var(--font-body)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-soft)', marginBottom: 4 }}>
-                  Say tonight
-                </p>
-                <p style={{ fontFamily: 'var(--font-body)', fontSize: '12px', color: 'var(--ink)', lineHeight: 1.55, fontStyle: 'italic' }}>
-                  &ldquo;{digiResponse.script}&rdquo;
-                </p>
-              </div>
-            )}
-          </div>
-
-          {/* Ask DiGi link */}
-          <div style={{
-            padding: '10px 16px',
-            borderTop: '1px solid var(--border)',
-            display: 'flex',
-            gap: 8,
-          }}>
-            <a
-              href={`/dashboard/digi?q=${encodeURIComponent(moment.title)}`}
-              onClick={e => e.stopPropagation()}
-              style={{
-                flex: 1,
-                padding: '9px 12px',
-                background: 'var(--terracotta)',
-                color: 'var(--ink)',
-                borderRadius: '10px',
-                fontFamily: 'var(--font-body)',
-                fontSize: '12px',
-                fontWeight: 600,
-                textAlign: 'center',
-                textDecoration: 'none',
-                display: 'block',
-              }}
-            >
-              Ask DiGi more
-            </a>
-            <button
-              onClick={e => { e.stopPropagation(); handleFlip() }}
-              style={{
-                padding: '9px 12px',
-                background: 'none',
-                border: '1px solid var(--border)',
-                borderRadius: '10px',
-                fontFamily: 'var(--font-body)',
-                fontSize: '12px',
-                color: 'var(--ink-muted)',
-                cursor: 'pointer',
-              }}
-            >
-              Flip back
-            </button>
-          </div>
+        {/* Hint */}
+        <div style={{
+          padding: '9px 12px', borderTop: '1px solid var(--border)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+          background: 'var(--cream)', marginTop: 'auto',
+        }}>
+          <span style={{ fontSize: '0.7rem' }}>✨</span>
+          <span style={{ fontFamily: 'var(--font-body)', fontSize: '11px', color: 'var(--ink-muted)', fontWeight: 500 }}>
+            Tap for DiGi
+          </span>
         </div>
       </div>
-    </div>
+
+      {/* ── DiGi sheet: full size, readable, never cut off ── */}
+      {open && (
+        <div
+          onClick={() => setOpen(false)}
+          style={{
+            position: 'fixed', inset: 0, zIndex: 120,
+            background: 'rgba(26,26,46,0.45)',
+            display: 'flex', alignItems: 'flex-end', justifyContent: 'center',
+          }}
+        >
+          <div
+            onClick={e => e.stopPropagation()}
+            style={{
+              width: 'min(100%, 480px)',
+              maxHeight: '86dvh',
+              background: 'var(--white)',
+              borderRadius: '24px 24px 0 0',
+              display: 'flex', flexDirection: 'column',
+              overflow: 'hidden',
+              boxShadow: '0 -8px 40px rgba(26,26,46,0.25)',
+            }}
+          >
+            {/* Header */}
+            <div style={{
+              background: 'var(--terracotta-lt)',
+              padding: '16px 20px 14px',
+              borderBottom: '1px solid var(--border)',
+              display: 'flex', alignItems: 'center', gap: 14, flexShrink: 0,
+            }}>
+              <DigiCharacter mood={digiMood} size={54} />
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: 3 }}>
+                  {moment.category} moment
+                </p>
+                <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.05rem', color: 'var(--ink)', lineHeight: 1.25, margin: 0 }}>
+                  {moment.title}
+                </p>
+              </div>
+              <button
+                onClick={() => setOpen(false)}
+                aria-label="Close"
+                style={{
+                  width: 34, height: 34, borderRadius: '50%', border: '1px solid var(--border)',
+                  background: '#fff', cursor: 'pointer', fontSize: '15px', color: 'var(--ink-soft)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+                }}
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Body */}
+            <div style={{ flex: 1, overflowY: 'auto', padding: '18px 20px', display: 'flex', flexDirection: 'column', gap: 14 }}>
+              <p style={{
+                fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink)',
+                lineHeight: 1.6, fontWeight: 500, margin: 0,
+              }}>
+                {loading ? 'DiGi is thinking...' : digiResponse?.digiQuestion ?? moment.digi_opener}
+              </p>
+
+              <div style={{
+                background: 'var(--cream)', borderRadius: '14px', padding: '14px 16px',
+                borderLeft: '3px solid var(--terracotta)',
+              }}>
+                <p style={{ fontFamily: 'var(--font-body)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: 6 }}>
+                  The science
+                </p>
+                <p style={{ fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--ink)', lineHeight: 1.6, margin: 0 }}>
+                  {digiResponse?.science ?? moment.science_brief}
+                </p>
+              </div>
+
+              {digiResponse?.solutions && digiResponse.solutions.length > 0 && (
+                <div>
+                  <p style={{ fontFamily: 'var(--font-body)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 8 }}>
+                    Try this
+                  </p>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    {digiResponse.solutions.slice(0, 3).map((sol, i) => (
+                      <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+                        <span style={{ fontFamily: 'var(--font-body)', fontSize: '13px', fontWeight: 700, color: 'var(--terracotta)', flexShrink: 0, marginTop: 1 }}>{i + 1}.</span>
+                        <p style={{ fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>{sol}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {digiResponse?.script && (
+                <div style={{ background: 'var(--stage-2)', borderRadius: '14px', padding: '14px 16px' }}>
+                  <p style={{ fontFamily: 'var(--font-body)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-soft)', marginBottom: 6 }}>
+                    Say tonight
+                  </p>
+                  <p style={{ fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--ink)', lineHeight: 1.6, fontStyle: 'italic', margin: 0 }}>
+                    &ldquo;{digiResponse.script}&rdquo;
+                  </p>
+                </div>
+              )}
+            </div>
+
+            {/* Footer */}
+            <div style={{
+              padding: '12px 20px calc(12px + env(safe-area-inset-bottom))',
+              borderTop: '1px solid var(--border)',
+              display: 'flex', gap: 10, flexShrink: 0, background: '#fff',
+            }}>
+              <a
+                href={`/dashboard/digi?q=${encodeURIComponent(moment.title)}`}
+                style={{
+                  flex: 1, padding: '12px 14px',
+                  background: 'var(--terracotta)', color: 'var(--ink)',
+                  borderRadius: '14px', fontFamily: 'var(--font-display)',
+                  fontSize: '14px', fontWeight: 800, textAlign: 'center',
+                  textDecoration: 'none', display: 'block',
+                  boxShadow: '0 3px 0 var(--terracotta-dark)',
+                }}
+              >
+                Ask DiGi more
+              </a>
+              <button
+                onClick={() => setOpen(false)}
+                style={{
+                  padding: '12px 16px', background: 'none',
+                  border: '1.5px solid var(--border)', borderRadius: '14px',
+                  fontFamily: 'var(--font-body)', fontSize: '13px',
+                  color: 'var(--ink-muted)', cursor: 'pointer',
+                }}
+              >
+                Back to moments
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   )
 }
