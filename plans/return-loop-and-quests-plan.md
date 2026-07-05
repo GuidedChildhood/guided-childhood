@@ -269,3 +269,12 @@ edit before sending. For younger children the dispatch converts to a
 Personalisation: age, devices owned, agreement contents, open concerns.
 This also seeds the research watch requirement: dispatches must stay
 current to stay credible.
+
+### Weekend morning trigger (Justin, 5 July)
+
+Saturday and Sunday around 7.30am is the prime quest notification: alert
+the parent to print the day's quest sheet (little ones) or push the list
+to the kids' phones (older ones) BEFORE any TV or device is earned. The
+deal is set while the leverage exists; once the screen is on, the
+negotiation is lost. Weekday variant fires for after school. The kid
+link shows "today's quests arrived" the moment the parent sends them.
