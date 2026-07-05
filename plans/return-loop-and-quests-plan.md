@@ -241,3 +241,31 @@ feed to hook someone, reverse engineering as vaccine), Deepfake or Real
 family quiz pack, phishing escape room. Family: device free dinner cards,
 weekly Family Tech Quiz. Every craft doubles as a quest and maps to a
 lesson so the curriculum, the chores and the fun are one system.
+
+## 11. The DiGi dispatch: something to send the child (Justin, 5 July)
+
+A regular DiGi child insight the parent can forward straight to their
+teenager (or use age appropriately for any child with message access).
+One card in the session strip: "Worth sending to Alfie this week", with
+a ready to send message and one tap share (WhatsApp, iMessage, copy).
+
+Four types, rotated and personalised:
+- Check a setting: "New Snapchat update reset some privacy settings,
+  worth 30 seconds: Settings then Privacy then Contact Me set to
+  Friends" written so the teen can do it themselves.
+- Watch out for: current scams and trends from the research watch (the
+  WhatsApp job scam going round, the new group chat pile on pattern),
+  fresh and specific, never vague fearmongering.
+- Agreement nudge: gentle reminder tied to THEIR family agreement
+  ("remember our 9pm group chat deal, you chose it") referencing what
+  they signed, not a new rule.
+- Worth knowing: a cool fact or skill that credits their intelligence
+  (how the feed decides what you see, how to spot an AI image).
+
+TONE RULES for teen dispatches: short, zero lecture, assumes they are
+smart, sounds like a heads up from someone on their side. The parent can
+edit before sending. For younger children the dispatch converts to a
+"say this at dinner" conversation starter instead of a message.
+Personalisation: age, devices owned, agreement contents, open concerns.
+This also seeds the research watch requirement: dispatches must stay
+current to stay credible.
