@@ -196,3 +196,15 @@ paid service. So the fix is a bridge, not a trim:
 - Pricing decision for Justin: is a report included with membership
   (founder perk, one per year?) or always a separate purchase. Decide
   before the founder 50 push so the pricing table can say it plainly.
+
+### Tracker untangled (Justin, 5 July)
+
+Two things were half conflated and are now separate:
+- The WELLBEING CHECK IN is a ritual, not a destination: thirty second
+  touch at the end of every daily session, full five minute version on
+  Fridays. It loses its nav tab.
+- PROGRESS is the page (nav tab renamed from Tracker to Progress): the
+  child's position on the pathway to 16, streak, literacy skills done,
+  quest stars this week, concerns improving or open, devices unlocked.
+  The check in FEEDS this page; it is not the page. Section 3's redesign
+  applies to Progress.
