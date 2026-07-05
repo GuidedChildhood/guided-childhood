@@ -38,7 +38,13 @@ const CATEGORY_COLORS: Record<string, string> = {
 export default function MomentCard({ moment, childName, ageBand, onFlip }: MomentCardProps) {
   const [open, setOpen] = useState(false)
   const [digiMood, setDigiMood] = useState<DigiMood>('speak')
-  const [digiResponse, setDigiResponse] = useState<{ digiQuestion: string; science: string; solutions: string[]; script: string } | null>(null)
+  const [digiResponse, setDigiResponse] = useState<{
+    digiQuestion: string
+    science: string
+    technique?: { name: string; steps: string[]; why: string | null } | null
+    solutions: string[]
+    script: string
+  } | null>(null)
   const [loading, setLoading] = useState(false)
   const [shared, setShared] = useState(false)
 
@@ -274,6 +280,37 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
                   {digiResponse?.science ?? moment.science_brief}
                 </p>
               </div>
+
+              {digiResponse?.technique && (
+                <div style={{
+                  background: look.band, borderRadius: '16px', padding: '16px 18px',
+                }}>
+                  <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.8)', marginBottom: 4 }}>
+                    The technique
+                  </p>
+                  <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.05rem', color: '#fff', lineHeight: 1.25, marginBottom: 10 }}>
+                    {digiResponse.technique.name}
+                  </p>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
+                    {digiResponse.technique.steps.map((step, i) => (
+                      <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+                        <span style={{
+                          width: 20, height: 20, borderRadius: '50%', flexShrink: 0,
+                          background: 'rgba(255,255,255,0.25)', color: '#fff',
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, marginTop: 1,
+                        }}>{i + 1}</span>
+                        <p style={{ fontFamily: 'var(--font-body)', fontSize: '14px', color: '#fff', lineHeight: 1.5, margin: 0 }}>{step}</p>
+                      </div>
+                    ))}
+                  </div>
+                  {digiResponse.technique.why && (
+                    <p style={{ fontFamily: 'var(--font-body)', fontSize: '12.5px', color: 'rgba(255,255,255,0.85)', lineHeight: 1.55, margin: '10px 0 0', fontStyle: 'italic' }}>
+                      Why it works: {digiResponse.technique.why}
+                    </p>
+                  )}
+                </div>
+              )}
 
               {digiResponse?.solutions && digiResponse.solutions.length > 0 && (
                 <div>
