@@ -44,3 +44,24 @@ per rendering.
    AI intro animation as the opener).
 3. Convert the KS3 reference lesson to prove school to parent conversion.
 4. Then batch: Higgsfield image set per lesson, age variants.
+
+## Teacher layer (Justin, 5 July: one engine runs home AND school)
+
+Confirmed: the same slide decks and animation beats run everywhere. The
+school rendering adds a teacher layer on top of the shared spine:
+
+- Presenter mode: class screen shows the slide, teacher screen shows the
+  per slide script, timing guidance, discussion pointers, expected
+  answers and misconception warnings, safeguarding notes where a topic
+  can surface disclosures.
+- Resource pack per lesson: printable worksheets and activity sheets,
+  generated from the same lesson data, plus the register and class code
+  tie in from the schools product.
+- Parent rendering stays the sofa version: shorter, parent notes,
+  settings gate, do it together activities.
+- Third rendering: every lesson also breaks into the daily two minute
+  literacy cards for the session strip.
+
+Edit the master once and all renderings update: no drift between what
+schools teach and what parents reinforce. That consistency IS the school
+to home sales story.
