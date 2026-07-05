@@ -266,7 +266,7 @@ export default async function DashboardPage() {
           </div>
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
             gap: '10px',
           }}>
             {todayMoments.map(moment => (

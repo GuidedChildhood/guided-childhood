@@ -5,9 +5,11 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 // The school email switch on flow. Four screens:
 // pitch  → the letterbox promise and the six reassurances
 // form   → school or club name plus one sender address to start
-// steps  → the private forwarding address, provider steps, and the Gmail
-//          verification code surfaced live (the inbound webhook catches
-//          Google's confirmation email and we poll it here)
+// steps  → the private forwarding address. The default path is the easy
+//          one: save the address and forward school emails by hand, which
+//          needs no rules and no verification. The automatic rule (with
+//          the Gmail verification code surfaced live via polling) sits
+//          behind an optional toggle for parents who want set and forget.
 // manage → the connection with active toggle, senders, and delete
 
 type Connection = {
@@ -109,6 +111,7 @@ export default function SchoolSetup() {
   const [saving, setSaving] = useState(false)
   const [errorMsg, setErrorMsg] = useState<string | null>(null)
   const [provider, setProvider] = useState<'gmail' | 'other'>('gmail')
+  const [showAuto, setShowAuto] = useState(false)
   const [confirmDelete, setConfirmDelete] = useState(false)
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
@@ -256,7 +259,7 @@ export default function SchoolSetup() {
         </div>
 
         <button onClick={() => setScreen('form')} style={{ ...primaryBtn, width: '100%' }}>
-          Set it up in three minutes
+          Get my private address
         </button>
       </div>
     )
@@ -327,7 +330,7 @@ export default function SchoolSetup() {
           Your private forwarding address
         </h1>
         <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: '18px' }}>
-          This address belongs to your family alone. Now tell your email to send {connection.school_name}&apos;s messages to it.
+          This address belongs to your family alone. Anything you forward to it gets read once for the actions, then deleted.
         </p>
 
         <div style={{
@@ -343,7 +346,37 @@ export default function SchoolSetup() {
           <CopyButton value={connection.forward_address} label="Copy address" />
         </div>
 
-        {/* Provider picker */}
+        {/* The easy way: no rules, no codes, works straight away */}
+        <div style={card}>
+          <div style={eyebrow}>The easy way, start here</div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginTop: '8px' }}>
+            <StepRow n={1}>Copy your private address above and save it in your phone&apos;s contacts as <strong>DiGi School</strong>.</StepRow>
+            <StepRow n={2}>When a school email lands, tap <strong>Forward</strong> and send it to DiGi, exactly like forwarding it to a friend.</StepRow>
+            <StepRow n={3}>That is the whole setup. The actions appear under <strong>Things you need to know</strong> and your phone buzzes.</StepRow>
+          </div>
+          <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.6, marginTop: '14px', marginBottom: 0 }}>
+            Try it now: forward the last email {connection.school_name} sent you and watch your dashboard.
+          </p>
+        </div>
+
+        {/* The automatic rule, for parents who want set and forget */}
+        {!showAuto ? (
+          <button
+            onClick={() => setShowAuto(true)}
+            style={{ ...card, width: '100%', textAlign: 'left', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px' }}
+          >
+            <span>
+              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)', marginBottom: '4px' }}>
+                Want it fully automatic?
+              </span>
+              <span style={{ display: 'block', fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
+                A one time rule in your email forwards the school for you, so you never even press Forward. Takes about three minutes, and you can come back for this any time.
+              </span>
+            </span>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '18px', color: 'var(--terracotta-dark)', flexShrink: 0 }}>→</span>
+          </button>
+        ) : (
+          <>
         <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
           {([['gmail', 'Gmail'], ['other', 'Outlook and others']] as const).map(([key, label]) => (
             <button
@@ -451,6 +484,8 @@ export default function SchoolSetup() {
               </div>
             )}
           </div>
+        )}
+          </>
         )}
 
         <div style={{ ...card, background: 'var(--stage-2)', border: '1.5px solid var(--stage-2)' }}>

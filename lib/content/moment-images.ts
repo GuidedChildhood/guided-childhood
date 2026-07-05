@@ -25,6 +25,29 @@ export function momentImageSrc(slug: string): string | null {
   return MOMENT_IMAGE_SLUGS.includes(slug) ? `/moments/${slug}.png` : null
 }
 
+// Database moments carry a title, not a slug. Match the title to a tile by
+// keyword; null (emoji fallback) when no confident match exists.
+const TITLE_TO_SLUG: [RegExp, string][] = [
+  [/teeth/i, 'teeth'],
+  [/dress|clothes|uniform/i, 'clothes'],
+  [/homework/i, 'homework'],
+  [/dinner|meal|table/i, 'dinner'],
+  [/snack/i, 'snacks'],
+  [/lunch/i, 'lunch'],
+  [/fight|sibling|argu/i, 'fighting'],
+  [/pick\s?up/i, 'pickup'],
+  [/drop\s?off/i, 'dropoff'],
+  [/bag|pack/i, 'bag'],
+  [/bed|sleep|night/i, 'bedtime'],
+  [/tv|screen|film|watch/i, 'tv_eve'],
+  [/morning|before school|school run|phone/i, 'morning'],
+]
+
+export function momentImageForTitle(title: string): string | null {
+  const hit = TITLE_TO_SLUG.find(([re]) => re.test(title))
+  return hit ? momentImageSrc(hit[1]) : null
+}
+
 // Device keys mirror device_guides.device_key from migration 014.
 export const DEVICE_IMAGE_KEYS: string[] = [
   'iphone',

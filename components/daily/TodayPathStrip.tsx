@@ -186,6 +186,34 @@ export default function TodayPathStrip({ tasks }: { tasks: TodayLoopTask[] }) {
           })}
         </div>
       </div>
+
+      {/* What finishes the day: the next step named, one tap away */}
+      {!allDone ? (
+        <Link
+          href={tasks[currentIndex].href}
+          style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px',
+            marginTop: '14px', padding: '11px 14px',
+            background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
+            borderRadius: '14px', textDecoration: 'none',
+          }}
+        >
+          <span style={{ fontFamily: 'var(--font-body)', fontSize: '13px', fontWeight: 600, color: 'var(--ink)' }}>
+            Next: {tasks[currentIndex].label}
+            <span style={{ color: 'var(--ink-muted)', fontWeight: 500 }}>
+              {' '}· {tasks.length - doneCount} step{tasks.length - doneCount === 1 ? '' : 's'} to finish today
+            </span>
+          </span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--terracotta-dark)', flexShrink: 0 }}>→</span>
+        </Link>
+      ) : (
+        <p style={{
+          marginTop: '14px', marginBottom: 0, textAlign: 'center',
+          fontFamily: 'var(--font-body)', fontSize: '13px', color: 'var(--ink-soft)',
+        }}>
+          Day complete. Your streak is safe, see you tomorrow.
+        </p>
+      )}
     </div>
   )
 }

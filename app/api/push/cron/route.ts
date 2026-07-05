@@ -1,7 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-// Called by Vercel Cron — see vercel.json for schedule
-// Three times daily: 7:30am, 3:30pm, 9:00pm UK time
+// Called by Vercel Cron — see vercel.json for schedule.
+// Three times daily, aimed at 7:30am, 3:30pm and 9:00pm UK time.
+//
+// Vercel cron schedules run in UTC while these check ins are defined in UK
+// hours, and UK time is UTC+1 all summer. The old exact hour match meant
+// every firing missed its check in from late March to late October and
+// silently sent nothing. The check in is now picked by NEAREST hour, so
+// whichever side of a clock change we are on, the right message goes out.
 
 const CHECK_INS = [
   {
@@ -27,20 +33,15 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  // Work out which check-in to send based on UK time
   const ukHour = new Date(
     new Date().toLocaleString('en-GB', { timeZone: 'Europe/London' })
   ).getHours()
 
-  const checkin = CHECK_INS.find(c => c.hour === ukHour)
-  if (!checkin) {
-    return NextResponse.json({ skipped: true, hour: ukHour })
-  }
+  const checkin = CHECK_INS.reduce((best, c) =>
+    Math.abs(c.hour - ukHour) < Math.abs(best.hour - ukHour) ? c : best
+  )
 
-  const base = process.env.NEXT_PUBLIC_SUPABASE_URL?.replace('supabase.co', 'vercel.app') ?? ''
-  const sendUrl = `${req.nextUrl.origin}/api/push/send`
-
-  const res = await fetch(sendUrl, {
+  const res = await fetch(`${req.nextUrl.origin}/api/push/send`, {
     method: 'POST',
     headers: {
       'content-type': 'application/json',
@@ -50,5 +51,5 @@ export async function GET(req: NextRequest) {
   })
 
   const result = await res.json()
-  return NextResponse.json({ checkin: checkin.title, ...result })
+  return NextResponse.json({ checkin: checkin.title, ukHour, ...result })
 }

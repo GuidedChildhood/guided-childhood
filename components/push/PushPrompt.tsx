@@ -15,6 +15,21 @@ function urlBase64ToUint8Array(base64String: string) {
 
 export default function PushPrompt({ userId, stage }: Props) {
   const [status, setStatus] = useState<'idle' | 'asking' | 'granted' | 'denied' | 'unsupported'>('idle')
+  const [testResult, setTestResult] = useState<string | null>(null)
+
+  async function sendTest() {
+    setTestResult('Sending...')
+    try {
+      const res = await fetch('/api/push/test', { method: 'POST' })
+      const data = await res.json()
+      if (data.sent > 0) setTestResult('Sent. It should appear on this device within seconds.')
+      else if (data.reason) setTestResult('No subscription found for this account on any device yet. Tap Turn on check-ins first, inside the installed app.')
+      else if (data.errors?.length) setTestResult(`The push service refused (code ${data.errors[0]}). Tell Claude this code.`)
+      else setTestResult(data.error ?? 'Something went wrong, try again.')
+    } catch {
+      setTestResult('Could not reach the server, try again.')
+    }
+  }
 
   useEffect(() => {
     if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
@@ -56,15 +71,29 @@ export default function PushPrompt({ userId, stage }: Props) {
         background: 'var(--stage-2)',
         borderRadius: '14px',
         padding: '14px 18px',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '10px',
         fontSize: '.82rem',
         color: 'var(--ink-soft)',
         fontWeight: 600,
       }}>
-        <span style={{ fontSize: '1rem' }}>✓</span>
-        Check-ins are on. We will nudge you at 7:30am, 3:30pm and 9pm.
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+          <span style={{ fontSize: '1rem' }}>✓</span>
+          <span style={{ flex: 1, minWidth: '180px' }}>Check-ins are on. We will nudge you at 7:30am, 3:30pm and 9pm.</span>
+          <button
+            onClick={sendTest}
+            style={{
+              background: 'none', border: '1.5px solid var(--border)', borderRadius: '10px',
+              padding: '7px 14px', cursor: 'pointer', flexShrink: 0,
+              fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--ink-soft)',
+            }}
+          >
+            Send a test
+          </button>
+        </div>
+        {testResult && (
+          <p style={{ margin: '10px 0 0', fontSize: '.78rem', fontWeight: 500, color: 'var(--ink-soft)', lineHeight: 1.5 }}>
+            {testResult}
+          </p>
+        )}
       </div>
     )
   }
