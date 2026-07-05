@@ -169,3 +169,15 @@ seeds from the ai_lessons table and the evidence bank now; when the
 lessons engine lands, every lesson renders three ways: daily drip cards,
 home sofa lesson, school classroom lesson. This is the bridge that makes
 "digital literacy support every day at every age" true, not implied.
+
+## 9. The moment flash (Justin, 4 July night)
+
+On login the most likely moment for RIGHT NOW flashes up top, before any
+scrolling: time of day picks the candidate (7.30am morning TV battle or
+phone before school, 4pm after school decompress, 7.45pm bedtime), and
+the concerns ledger overrides it (bedtime flagged twice this week means
+bedtime flashes first tonight regardless of clock). One big card, the
+problem named in the headline, the words one tap away, dismiss slides it
+into the normal deck. The app should feel like it already knows what is
+happening in the kitchen. Slots into the dashboard reorder as the Today's
+one thing position when a moment is live.
