@@ -18,7 +18,7 @@ const SQUAD = [
     kit: 'Orange football kit · Number 10',
     lessons: [
       'Why your brain wants more screen time even when you are tired',
-      'The 20 minute wind-down trick that actually works',
+      'The 20 minute wind down trick that actually works',
       'How to make a screen routine your whole family agrees on',
       'What to do when you REALLY want to keep playing',
     ],

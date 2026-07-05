@@ -291,3 +291,30 @@ is a card in the session strip, completing it earns bonus stars for the
 child and keeps the streak meaningful: the number is the key, the
 mission is what it opens. Missions recorded per family so DiGi can
 reference them ("you two did the algorithm lesson last week").
+
+## 13. The free line (Justin, 5 July: how much do we give before subscribe)
+
+Principle from the market evidence: free must deliver one real win in the
+first session (the aha that spreads), paid unlocks depth and convenience.
+Recommended split:
+
+FREE, forever: the starter pack (roadmap, agreement template, 5 scripts,
+checklists), the daily loop lite (one moment card a day with the full
+technique, daily check in, streak), DiGi 3 messages a day, the agreements
+builder including print, Quests up to 3 quests per child WITH the kid
+link (the whole family gets hooked on the loop, both kid and parent
+return daily, and the paywall never blocks a child's tick).
+
+PAID £12.99: all 160 scripts, unlimited DiGi, unlimited quests plus the
+printable game packs and craft packs, the school email catcher, lessons,
+full device walkthroughs, the Progress deep view, the DiGi dispatch.
+
+The converter mechanic: the school catcher runs free for the first five
+caught emails, then keeps catching but shows only counts ("DiGi caught 3
+more things from Burrington this week"), full items behind the upgrade.
+The product itself demonstrates the value it is withholding, which beats
+any pricing page. Same pattern for scripts: every locked script shows
+its situation line and the first sentence of say this.
+
+Nothing in the free tier ever expires or degrades: the churn research
+says surprise removal is the number one trust killer.

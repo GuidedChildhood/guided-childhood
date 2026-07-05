@@ -23,7 +23,7 @@ export default function PushPrompt({ userId, stage }: Props) {
       const res = await fetch('/api/push/test', { method: 'POST' })
       const data = await res.json()
       if (data.sent > 0) setTestResult('Sent. It should appear on this device within seconds.')
-      else if (data.reason) setTestResult('No subscription found for this account on any device yet. Tap Turn on check-ins first, inside the installed app.')
+      else if (data.reason) setTestResult('No subscription found for this account on any device yet. Tap Turn on check ins first, inside the installed app.')
       else if (data.errors?.length) setTestResult(`The push service refused (code ${data.errors[0]}). Tell Claude this code.`)
       else setTestResult(data.error ?? 'Something went wrong, try again.')
     } catch {
@@ -77,7 +77,7 @@ export default function PushPrompt({ userId, stage }: Props) {
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
           <span style={{ fontSize: '1rem' }}>✓</span>
-          <span style={{ flex: 1, minWidth: '180px' }}>Check-ins are on. We will nudge you at 7:30am, 3:30pm and 9pm.</span>
+          <span style={{ flex: 1, minWidth: '180px' }}>Check ins are on. We will nudge you at 7:30am, 3:30pm and 9pm.</span>
           <button
             onClick={sendTest}
             style={{
@@ -114,7 +114,7 @@ export default function PushPrompt({ userId, stage }: Props) {
         color: 'var(--ink)',
         marginBottom: '6px',
       }}>
-        Get your daily check-ins
+        Get your daily check ins
       </p>
       <p style={{
         fontSize: '.8rem',
@@ -140,7 +140,7 @@ export default function PushPrompt({ userId, stage }: Props) {
           boxShadow: '0 3px 0 rgba(0,0,0,0.12)',
         }}
       >
-        {status === 'asking' ? 'Turning on...' : 'Turn on check-ins'}
+        {status === 'asking' ? 'Turning on...' : 'Turn on check ins'}
       </button>
     </div>
   )

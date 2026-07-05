@@ -28,7 +28,7 @@ const LESSON = {
     },
     {
       type: 'discover' as const,
-      heading: 'The 20-minute wind-down secret',
+      heading: 'The 20-minute wind down secret',
       body: 'Your brain needs about 20 minutes to calm down after screen time. During that time it is still excited, still looking for the next thing. If you go straight to sleep or homework during those 20 minutes, everything feels harder than it needs to.',
       characterSays: 'I call it the cool-down lap. Footballers do not sprint off the pitch and collapse straight away. They do a cool-down lap. Now I do one after screen time too. Works every time.',
       funFact: 'Children who have a 20-minute gap between screens and sleep fall asleep 35% faster on average, according to University of Auckland research.',

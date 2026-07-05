@@ -190,7 +190,7 @@ export default async function DashboardPage() {
         </div>
       </Link>
 
-      {/* DiGi check-in — surfaces last reflective answer if the parent responded */}
+      {/* DiGi check in — surfaces last reflective answer if the parent responded */}
       {lastFeedback && (
         <div style={{
           background: 'var(--stage-5)',
@@ -349,7 +349,7 @@ export default async function DashboardPage() {
               ? 'The bedroom rule is the single most effective structural protection at this stage. If it is not in place, this is the week.'
               : stage.id === 3
               ? 'The algorithm conversation opens more than any rule will close. Curiosity, not alarm.'
-              : 'The weekly check-in, same day same time, is your relationship maintenance. It does not have to be about screens.'}
+              : 'The weekly check in, same day same time, is your relationship maintenance. It does not have to be about screens.'}
           </p>
           <Link href="/dashboard/digi" style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--terracotta)', textDecoration: 'none', marginTop: '8px', display: 'block' }}>
             Ask DiGi →

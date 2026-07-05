@@ -187,7 +187,7 @@ export default function RightNowButton() {
           textTransform: 'uppercase',
           color: 'var(--terracotta-dark)',
         }}>
-          Now
+          Help now
         </span>
       </button>
 
