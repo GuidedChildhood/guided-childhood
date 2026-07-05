@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Five frameworks, real sources · Guided Childhood Research Briefing</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root{
+  --cream:      #F7F3EE;
+  --warm:       #FDFBF8;
+  --ink:        #1C1C1C;
+  --ink-soft:   #4A4A4A;
+  --ink-muted:  #6E6A62;
+  --ink-light:  #9B958A;
+  --green:      #AFDCA2;
+  --green-dark: #2E7D5A;
+  --green-lt:   #EEF7F2;
+  --coral:      #D4600A;
+  --coral-lt:   #FEF3E8;
+  --coral-dark: #C0392B;
+  --gold:       #F2C94C;
+  --gold-lt:    #FEFAE8;
+  --gold-dark:  #C9962A;
+  --gold-hover: #E3B53A;
+  --lav:        #E7ECF8;
+  --lav-deep:   #3D5BA9;
+  --border:     #E4DFD7;
+  --font-display: 'Hanken Grotesk', system-ui, sans-serif;
+  --font-body:    'Hanken Grotesk', system-ui, sans-serif;
+  --font-mono:    'IBM Plex Mono', monospace;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--cream);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.65}
+.wrap{max-width:860px;margin:0 auto;padding:48px 24px 96px}
+
+.eyebrow{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-muted)}
+
+header.brief-head{padding:40px 0 32px;border-bottom:1px solid var(--border)}
+header.brief-head h1{font-weight:800;font-size:clamp(2rem,5vw,3rem);line-height:1.12;letter-spacing:-0.02em;margin:12px 0 16px}
+.meta-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{font-family:var(--font-mono);font-size:12px;font-weight:500;padding:5px 12px;border-radius:999px;background:var(--warm);border:1px solid var(--border);color:var(--ink-soft)}
+.chip.version{background:var(--gold-lt);border-color:var(--gold);color:var(--gold-dark);font-weight:600}
+
+section{margin-top:56px}
+section > h2{font-weight:800;font-size:clamp(1.4rem,3vw,1.9rem);letter-spacing:-0.01em;margin:10px 0 20px}
+section > .eyebrow{display:block}
+
+.summary-card{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:28px 30px;font-size:17px;color:var(--ink-soft)}
+.summary-card p+p{margin-top:12px}
+
+.finding{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:24px 26px;margin-bottom:16px}
+.finding-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.finding h3{font-weight:700;font-size:1.15rem;line-height:1.35;max-width:560px}
+.reliability{font-family:var(--font-mono);font-size:12px;font-weight:600;white-space:nowrap;padding:6px 12px;border-radius:12px}
+.reliability.high{background:var(--green-lt);color:var(--green-dark)}
+.reliability.medium{background:var(--gold-lt);color:var(--gold-dark)}
+.reliability.low{background:var(--coral-lt);color:var(--coral-dark)}
+.finding p{color:var(--ink-soft);margin-top:10px}
+.lens-tags{margin-top:14px;font-family:var(--font-mono);font-size:12px}
+.lens-tags .supported{color:var(--green-dark)}
+.lens-tags .challenged{color:var(--coral-dark)}
+.lens-tags span.sep{color:var(--ink-light);margin:0 8px}
+.finding .cite{font-family:var(--font-mono);font-size:12px;color:var(--ink-light);margin-top:10px}
+
+table.contra{width:100%;border-collapse:collapse;background:var(--warm);border:1px solid var(--border);border-radius:20px;overflow:hidden}
+table.contra th{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;text-align:left;color:var(--ink-muted);padding:14px 18px;border-bottom:1px solid var(--border);background:var(--cream)}
+table.contra td{padding:14px 18px;border-bottom:1px solid var(--border);color:var(--ink-soft);font-size:15px;vertical-align:top}
+table.contra tr:last-child td{border-bottom:none}
+td.leans{font-family:var(--font-mono);font-size:13px;font-weight:600;white-space:nowrap}
+td.leans.green{color:var(--green-dark)}
+td.leans.coral{color:var(--coral-dark)}
+
+.lens-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px}
+.lens-panel{border:1px solid var(--border);border-radius:20px;padding:22px 24px;background:var(--warm)}
+.lens-panel .eyebrow{margin-bottom:8px}
+.lens-panel h3{font-weight:700;font-size:1.05rem;margin-bottom:8px}
+.lens-panel p{color:var(--ink-soft);font-size:15px}
+.lens-panel.clinician{background:var(--green-lt)}
+.lens-panel.academic{background:var(--lav)}
+.lens-panel.skeptic{background:var(--coral-lt)}
+.lens-panel.economist{background:var(--gold-lt)}
+.lens-panel.historian{background:var(--warm)}
+.lens-panel.child{background:var(--cream);border-color:var(--green)}
+
+.gc-card{background:var(--green-lt);border:1px solid var(--green);border-radius:20px;padding:28px 30px}
+.gc-card ul{list-style:none;margin-top:4px}
+.gc-card li{padding:12px 0;border-bottom:1px solid var(--border);color:var(--ink-soft)}
+.gc-card li:last-child{border-bottom:none}
+.gc-card li strong{color:var(--ink);font-weight:700}
+.gc-card .tag{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--green-dark);display:block;margin-bottom:2px}
+
+.assump-card{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:26px 28px}
+.assump-card h3{font-weight:700;font-size:1.05rem;margin-bottom:8px}
+.assump-card p{color:var(--ink-soft)}
+.assump-card .missing{margin-top:20px;padding-top:20px;border-top:1px solid var(--border)}
+.assump-card .missing h3{color:var(--coral-dark)}
+
+.ledger{background:var(--warm);border:1px solid var(--border);border-radius:20px;overflow:hidden}
+.ledger-row{display:flex;gap:16px;align-items:flex-start;padding:16px 20px;border-bottom:1px solid var(--border)}
+.ledger-row:last-child{border-bottom:none}
+.verdict{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;padding:5px 10px;border-radius:10px;white-space:nowrap;margin-top:2px}
+.verdict.confirmed{background:var(--green-lt);color:var(--green-dark)}
+.verdict.corrected{background:var(--gold-lt);color:var(--gold-dark)}
+.verdict.demoted{background:var(--coral-lt);color:var(--coral-dark)}
+.ledger-row .src{font-size:14px;color:var(--ink-soft)}
+.ledger-row .src a{color:var(--lav-deep);text-decoration:none;border-bottom:1px solid var(--lav)}
+.ledger-row .src .note{display:block;font-family:var(--font-mono);font-size:12px;color:var(--ink-light);margin-top:4px}
+
+footer.brief-foot{margin-top:72px;padding-top:24px;border-top:1px solid var(--border);font-family:var(--font-mono);font-size:12px;color:var(--ink-light)}
+
+@media (max-width:600px){
+  .wrap{padding:24px 16px 64px}
+  .finding-top{flex-direction:column}
+  table.contra{display:block;overflow-x:auto}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="brief-head">
+    <span class="eyebrow">Guided Childhood Research Briefing</span>
+    <h1>Awareness, harm reduction, first aid, dependency, the online self: the real sources</h1>
+    <p style="color:var(--ink-soft);max-width:640px">A LinkedIn account (SMRI) claims to have invented five social media concepts and asks the world to credit it. The concepts are useful. The attribution is not safe. Five lenses found the genuine, peer reviewed frameworks underneath each one, so Guided Childhood can teach the real thing from the real originators.</p>
+    <div class="meta-row">
+      <span class="chip version">V2 · 22 confirmed, 4 corrected</span>
+      <span class="chip">4 July 2026</span>
+      <span class="chip">Due diligence</span>
+      <span class="chip">Harm reduction</span>
+      <span class="chip">Digital first aid</span>
+      <span class="chip">Problematic use</span>
+      <span class="chip">The online self</span>
+    </div>
+  </header>
+
+  <section id="summary">
+    <span class="eyebrow">Read this first</span>
+    <h2>60 Second Summary</h2>
+    <div class="summary-card">
+      <p>Do not cite SMRI. It is a one founder, for profit personal brand (Jonathan Bertrand, a public relations background, no clinical or research credential), with no peer reviewed publications, no university, and no disclosed funding. Its five "foundational concepts" are self coined trademarks, not established science. Two are outright hazards to repeat: "Social Media Dependency Disorder" is not a diagnosis in any manual, and "Triple Conscious Theory" borrows an academic term that already means something else. There is even a dangerous name clash with the real Texas Social Media Research Institute at a university. Borrowing from SMRI would undercut the exact evidence voice you have built.</p>
+      <p>But every idea underneath their branding is real and teachable from proper roots, and together they map almost perfectly onto your five stage pathway. Harm reduction is a serious public health field (needle exchange, the Ottawa Charter, meet people where they are), and applied to screens it becomes reduction not abstinence, proven in a real trial. Mental Health First Aid and Psychological First Aid are genuine, evaluated programmes, and the UK has real digital first response tools like Report Remove. Problematic use is the accurate term (about 1 in 9 teens, WHO), with the honest note that heavy use is not a disease. And the curated online self has a gold standard lineage: Du Bois, Goffman, Suler, Festinger.</p>
+      <p>The gift here is not SMRI's post. It is that you can now teach five things parents are drowning in half truths about, each from the person who actually originated it, calibrated by age. That is the difference between an evidence institute and a LinkedIn account trademarking common phrases.</p>
+    </div>
+  </section>
+
+  <section id="findings">
+    <span class="eyebrow">Ranked by usefulness to the pathway</span>
+    <h2>Key Findings</h2>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Do not cite SMRI. Build on the real originators instead.</h3>
+        <span class="reliability high">Reliability 9/10</span>
+      </div>
+      <p>SMRI (smri.world) is a for profit personal brand, not a research institute: no peer reviewed output, no university affiliation, no disclosed board or funding, and a founder whose background is PR and marketing. The five concepts are self coined, several trademarked. The country and date list is unverifiable and the concept dates predate the institute's own 2020 founding. Critically, do not confuse it with the legitimate Texas Social Media Research Institute (Tarleton State University), which publishes a real journal. Mention SMRI only descriptively if at all, never as scientific backing.</p>
+      <div class="lens-tags"><span class="supported">Supported: Due diligence lens</span></div>
+      <div class="cite">Sources: D1, D2, D3</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Harm reduction is real, and applied to screens it means reduce, not remove.</h3>
+        <span class="reliability high">Reliability 9/10</span>
+      </div>
+      <p>Harm reduction is an established public health philosophy, defined by peak bodies, born in 1980s needle exchange (Amsterdam 1984, the Liverpool Mersey Model) and sitting inside the WHO Ottawa Charter (1986): meet people where they are, reduce harm not necessarily use, dignity over moralising. Applied to young people it is not a slogan but a trial result: capping social media to one hour a day for three weeks measurably improved body image in distressed teens (Thai 2023, RCT, n=220). The RCPCH already refuses a universal screen time limit and prescribes negotiated limits per child, which is harm reduction by another name. This is the public health backbone of your pathway.</p>
+      <div class="lens-tags"><span class="supported">Supported: Harm reduction lens</span></div>
+      <div class="cite">Sources: H1, H2, H3, H4, H5</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>"Digital first aid" is teachable as the exact first moves, honestly framed.</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>Mental Health First Aid (Kitchener and Jorm, 2000, the ALGEE plan) and Psychological First Aid (WHO, Look Listen Link) are genuine programmes, and teen MHFA has strong school trials. The honest limit, from the Cochrane review, is that these courses lift knowledge and confidence more than downstream outcomes, so never promise safety, teach the moves. And the moves that hold up are operational UK fact, not contested trials: do not panic, do not delete (screenshot and preserve), do not pay, block, report, tell a trusted adult. Real tools back this: Report Remove (IWF and Childline) can take a child's nude image down in hours, Report Harmful Content and CEOP exist, and the NCA has a specific first hour script for sextortion.</p>
+      <div class="lens-tags"><span class="supported">Supported: First aid lens</span><span class="sep">·</span><span class="challenged">Challenged: Cochrane rates MHFA outcome evidence very low; frame as skill, not cure</span></div>
+      <div class="cite">Sources: F1, F2, F3, F4, F5</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>There is no "Social Media Dependency Disorder". The accurate story is stronger.</h3>
+        <span class="reliability high">Reliability 9/10</span>
+      </div>
+      <p>The only recognised behavioural technology diagnosis is Gaming Disorder (ICD-11, 2019). Social media addiction is in no manual; DSM-5 lists only Internet Gaming Disorder, and only for further study. The accepted term is problematic use, defined by loss of control and real life harm, not hours, and about 1 in 9 teens show it (WHO HBSC 2024, 11% up from 7%, girls 13% boys 9%). Leading scholars warn against overpathologising ordinary use (Billieux 2015). So the teachable line is more accurate than the fear content parents are drowning in: it is not a disease, it is a designed reward schedule (variable reward, Skinner and Schultz), and you can change the schedule.</p>
+      <div class="lens-tags"><span class="supported">Supported: Problematic use lens</span></div>
+      <div class="cite">Sources: P1, P2, P3, P4</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>The curated online self has a gold standard lineage. Teach that, not the coined term.</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>"Triple Conscious Theory" is self coined and clashes with a real, separate Black feminist concept. Skip it. The genuine intuition (we run a public self, a private self, and a curated online self) is covered rigorously by four canonical sources, and they make a beautiful lesson arc. Du Bois (1903): the strain of seeing yourself through others' eyes. Goffman (1959): the profile is a front stage performance, everyone has a backstage the feed never shows. Suler (2004): the online disinhibition effect explains cruelty and oversharing. Festinger (1954) plus recent reviews: upward comparison against edited images predicts worse body image. Feel it, see the stagecraft, understand the shift, catch the comparison, act.</p>
+      <div class="lens-tags"><span class="supported">Supported: Online self lens</span></div>
+      <div class="cite">Sources: O1, O2, O3, O4</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>"Awareness" is media and algorithm literacy, and it has a design rule.</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>Media literacy education measurably works: d = 0.37 across 51 interventions (Jeong 2012), with two moderators that should shape your curriculum directly, more sessions help and more components hurt. So teach short, repeated, focused lessons, never one big workshop. Inoculation (prebunking) is the strongest modern layer: short videos teaching manipulation techniques improved detection in a real YouTube field trial (Roozenbeek 2022). And the UK gives you ready scaffolding schools trust: Ofcom's statutory media literacy remit and the Education for a Connected World framework's eight strands.</p>
+      <div class="lens-tags"><span class="supported">Supported: Online self lens</span></div>
+      <div class="cite">Sources: O5, O6, O7</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>The honest guardrail: harm reduction stops at the alcohol line.</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>This is the finding that keeps your pathway credible rather than permissive. Harm reduction assumes a behaviour is happening and hard to stop. Where a behaviour is still optional and deferrable, delay beats harm reduction. The proof is the alcohol counter case: parents who supplied alcohol early, the classic "let them do it safely at home", made things worse, more binge drinking and more harm, not less (Mattick, Lancet Public Health 2018, six year cohort). So the pathway is prevention and delay early, negotiated reduction and skills later. Never "hand the young child the phone so they learn to cope". Different tools for different ages.</p>
+      <div class="lens-tags"><span class="supported">Supported: Harm reduction lens</span></div>
+      <div class="cite">Sources: H6, H7</div>
+    </article>
+
+  </section>
+
+  <section id="contradictions">
+    <span class="eyebrow">Where the frameworks pull against each other</span>
+    <h2>Tension Map</h2>
+    <table class="contra">
+      <thead><tr><th>Tension</th><th>One pull</th><th>The other pull</th><th>Resolution for the pathway</th></tr></thead>
+      <tbody>
+        <tr><td>Reduce or delay?</td><td>Harm reduction: reduce, meet them where they are</td><td>Prevention: delay optional behaviours entirely</td><td class="leans green">Delay early, reduce later; the alcohol line marks the switch</td></tr>
+        <tr><td>Is it addiction?</td><td>Compulsive use is real for a minority</td><td>Overpathologising normal use is a documented error</td><td class="leans green">Loss of control, not hours; designed schedule, not disease</td></tr>
+        <tr><td>Does first aid work?</td><td>Real programmes, strong teen school trials</td><td>Cochrane: very low certainty on outcomes</td><td class="leans coral">Teach the moves, never promise the cure</td></tr>
+        <tr><td>Awareness alone?</td><td>Media literacy works, d = 0.37</td><td>Awareness without control fails (our algorithm briefing)</td><td class="leans green">Literacy plus the exits and the reset, not knowing alone</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="lenses">
+    <span class="eyebrow">The five lenses</span>
+    <h2>Lens Panels</h2>
+    <div class="lens-grid">
+      <div class="lens-panel skeptic"><span class="eyebrow">Due diligence</span><h3>A trademark is not a discovery</h3><p>One founder, a PR background, no peer review, no university, unverifiable claims, and a name that clashes with a real institute. Take the ideas, cite the real originators, never the brand.</p></div>
+      <div class="lens-panel economist"><span class="eyebrow">Harm reduction</span><h3>Reduce, do not just remove</h3><p>A real public health field with an RCT behind it: one hour a day beat unrestricted for distressed teens. The RCPCH already negotiates rather than bans. This is your pathway in health language.</p></div>
+      <div class="lens-panel clinician"><span class="eyebrow">Digital first aid</span><h3>There is a first hour that matters</h3><p>Screenshot, do not pay, block, report, tell someone. Real UK tools, not theatre. And honest: first aid courses lift knowledge more than outcomes, so we teach the moves that hold.</p></div>
+      <div class="lens-panel academic"><span class="eyebrow">Problematic use</span><h3>Not a disease, a designed schedule</h3><p>No such diagnosis as dependency disorder. The accurate story, problematic use in about 1 in 9, a variable reward you can change, is more useful and more true than the fear.</p></div>
+      <div class="lens-panel child"><span class="eyebrow">The online self</span><h3>Du Bois to Goffman, not a coined term</h3><p>Feel the strain, see the front stage performance, understand the disinhibition, catch the comparison, act. Four canonical thinkers make the lesson the trademark never could.</p></div>
+    </div>
+  </section>
+
+  <section id="guided-childhood">
+    <span class="eyebrow">So what do we do</span>
+    <h2>What This Means for Guided Childhood</h2>
+    <div class="gc-card">
+      <ul>
+        <li><span class="tag">Position</span><strong>Do not cite or associate with SMRI.</strong> Take the five ideas, teach each from its real originator. That is exactly the standard that separates your evidence institute from a LinkedIn brand, and it is a quiet competitive moat: anyone can retweet a trademark, almost nobody sources it properly.</li>
+        <li><span class="tag">Curriculum</span><strong>Map the four real frameworks onto the five stages.</strong> Stage 1 (4 to 7): delay and co-use, name feelings, one first aid rule ("tell me, you won't be in trouble"). Stage 2 (7 to 10): the 4Cs, negotiated limits begin. Stage 3 (10 to 13): problematic use self check, the online self arc (Du Bois to Festinger), full first aid moves. Stage 4 (13 to 16): harm reduction proper, a personal safety plan, media and algorithm literacy. Each stage teaches the same ideas at rising sophistication.</li>
+        <li><span class="tag">Scripts</span><strong>Build a Digital First Aid card and a Reduce Not Remove card.</strong> The first aid one is a memorable action plan (screenshot, don't pay, block, report, tell) in the DiGi Squad style, genuinely useful the day a family needs it. The reduction one gives the one hour target and the negotiation, not confiscation, framing. Both are database scripts, both stage calibrated.</li>
+        <li><span class="tag">DiGi</span><strong>Bake the accuracy in.</strong> DiGi never says "you're addicted" (a label) or "it's fine" (an allow), it names the reward schedule and runs the self check. It never repeats "dependency disorder". It teaches the first hour moves and the real tools (Report Remove, CEOP). This is non negotiable rule one, in evidence form.</li>
+        <li><span class="tag">Posts</span><strong>Three posts almost write themselves, all myth busting generously.</strong> One: there is no such thing as Social Media Dependency Disorder, here is what is real. Two: the first hour that matters, the professional response to a shared image. Three: the trial no parent has heard of, one hour a day beat unrestricted. Each corrects a half truth without sneering, which is your whole brand.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="assumptions">
+    <span class="eyebrow">Honest limits</span>
+    <h2>Assumptions and the Missing Lens</h2>
+    <div class="assump-card">
+      <h3>This briefing rests on</h3>
+      <p>SMRI's own site blocked automated reading, so its self descriptions came from cached search excerpts and third party pages, which is enough to say do not cite but not a full first party read. The first aid programmes lift knowledge more than proven outcomes, so the framework is taught as a skill, not a cure. Every ledger citation has now been checked against its primary source by an adversarial verifier: twenty two confirmed, four corrected (the Tarleton unit name and journal status, the MHFA RCT year, the Report Remove removal time attributed to Childline not IWF, and Gaming Disorder qualified as the only screen use behavioural addiction alongside Gambling Disorder). The Thai trial appearance and weight esteem gains verified. Publisher full text pages blocked automated fetch, so two definitions (Harm Reduction International and the Ottawa Charter) rest on official text surfaced through search rather than a first hand read of the primary URL.</p>
+      <div class="missing"><h3>The missing seventh lens</h3><p>The school buyer. This briefing built the curriculum spine but did not test how a PSHE lead or DSL would receive a "digital first aid" module against what they already run. Given the earlier lesson module briefing (they buy the evidence trail and the compliance mapping), the next step is packaging these four frameworks against the Education for a Connected World strands so a school sees instant alignment. That is the V2 before the schools build uses this.</p></div>
+    </div>
+  </section>
+
+  <section id="sources">
+    <span class="eyebrow">Every citation checked against its primary source</span>
+    <h2>Source Ledger</h2>
+    <div class="ledger">
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.smri.world">D1 · SMRI is a for profit personal brand</a> · due diligence, 2026<span class="note">Founder PR background, no peer review, no university, unverifiable country list, concept dates predate 2020 founding</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://www.tarleton.edu/tsmri/">D2 · Name clash with a real institute</a> · Texas Social Media Research Institute, Tarleton State University<span class="note">A legitimate academic unit that published a peer reviewed journal (ceased 2026); do not conflate with smri.world</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.who.int/standards/classifications/frequently-asked-questions/gaming-disorder">D3 · Dependency disorder is not a diagnosis</a> · WHO ICD-11 and DSM-5-TR<span class="note">Only Gaming Disorder is recognised; social media addiction is in no manual</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://hri.global/what-is-harm-reduction/">H1 · What is harm reduction</a> · Harm Reduction International<span class="note">Reduce harm not necessarily use; meet people where they are; peak body definition</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.sciencedirect.com/science/article/abs/pii/S0955395907000047">H2 · Origins, Amsterdam 1984 and the Mersey Model</a> · Int J Drug Policy, 2007<span class="note">First needle exchange 1984; UK Liverpool harm reduction mid 1980s driven by HIV</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.who.int/publications-detail-redirect/ottawa-charter-for-health-promotion">H3 · Ottawa Charter</a> · WHO, 1986<span class="note">Health promotion as enabling control and developing personal skills; harm reduction sits inside it</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://doi.org/10.1037/ppm0000460">H4 · Reduction not abstinence RCT</a> · Thai et al., Psychology of Popular Media, 2023<span class="note">n=220; one hour a day cap for three weeks improved appearance and weight esteem</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.rcpch.ac.uk/resources/screen-time-online-harms-resources-members">H5 · Negotiated limits, not a universal threshold</a> · RCPCH, 2019<span class="note">No universal screen time cut off; negotiate per child and monitor displacement</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.thelancet.com/journals/lanpub/article/PIIS2468-2667(17)30240-2/fulltext">H6 · The alcohol counter case</a> · Mattick et al., Lancet Public Health, 2018<span class="note">n=1,927 over six years; parental supply increased harm; delay beats harm reduction for optional behaviours</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://core-evidence.eu/posts/4-cs-of-online-risk">H7 · The 4Cs risk taxonomy</a> · Livingstone and Stoilova, CO:RE, 2021<span class="note">Content, Contact, Conduct, Contract; the constant risk scaffold across ages</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC526774/">F1 · Mental Health First Aid and ALGEE</a> · Kitchener and Jorm, 2004 RCT<span class="note">Genuine programme, five step ALGEE plan; the 2004 workplace RCT showed knowledge, confidence, reduced stigma gains</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10444982/">F2 · The Cochrane honesty limit</a> · Cochrane, 2023<span class="note">21 studies, 22,604 participants; very low certainty MHFA improves recipient outcomes; teach as skill</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6039867/">F3 · teen MHFA school trial</a> · Hart et al., 2018<span class="note">1,942 Year 10 students, active controlled; improved intentions to help a struggling peer</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://www.iwf.org.uk/our-technology/report-remove/">F4 · Report Remove</a> · IWF and Childline<span class="note">UK under 18s can get a nude image hashed and blocked; Childline states UK hosted content is often gone in 2 to 3 hours (a service figure, not an IWF statistic)</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.nationalcrimeagency.gov.uk/what-we-do/crime-threats/kidnap-and-extortion/sextortion">F5 · NCA sextortion first hour</a> · National Crime Agency<span class="note">Do not pay, stop contact, do not delete, screenshot, tell an adult, report; child is the victim</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://icd.who.int/browse11/l-m/en#/http://id.who.int/icd/entity/1448597234">P1 · Gaming Disorder is the only recognised diagnosis</a> · WHO ICD-11, 2019<span class="note">Code 6C51, the only screen or internet use behavioural addiction recognised (Gambling Disorder 6C50 is the other behavioural addiction); social media addiction is in neither ICD-11 nor DSM-5-TR</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.who.int/europe/news/item/25-09-2024-teens--screens-and-mental-health">P2 · Problematic use prevalence</a> · WHO HBSC, 2024<span class="note">11% of adolescents show problematic use, up from 7% in 2018; girls 13%, boys 9%</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.sciencedirect.com/science/article/pii/S0747563216302059">P3 · Social Media Disorder Scale</a> · van den Eijnden et al., 2016<span class="note">Nine item scale, five of nine threshold; loss of control criteria, not hours</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://akjournals.com/view/journals/2006/4/3/article-p119.xml">P4 · Overpathologising critique</a> · Billieux et al., 2015<span class="note">Confirmatory scale building risks turning any frequent behaviour into an addiction</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.gutenberg.org/files/408/408-h/408-h.htm">O1 · Double consciousness</a> · Du Bois, The Souls of Black Folk, 1903<span class="note">Seeing oneself through the eyes of others; the emotional anchor for the online self</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://monoskop.org/images/1/19/Goffman_Erving_The_Presentation_of_Self_in_Everyday_Life.pdf">O2 · Presentation of self</a> · Goffman, 1959<span class="note">Front stage and back stage; the profile is impression management, not the whole person</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://pubmed.ncbi.nlm.nih.gov/15257832/">O3 · Online disinhibition effect</a> · Suler, 2004<span class="note">Six mechanisms; benign and toxic disinhibition explain oversharing and cruelty</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://journals.sagepub.com/doi/10.1177/001872675400700202">O4 · Social comparison theory</a> · Festinger, 1954, plus 2022 to 2024 reviews<span class="note">Upward comparison against idealised images predicts worse body image, amplified by feeds</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://onlinelibrary.wiley.com/doi/10.1111/j.1460-2466.2012.01643.x">O5 · Media literacy meta analysis</a> · Jeong, Cho and Hwang, 2012<span class="note">d = 0.37 across 51 interventions; more sessions help, more components hurt</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.science.org/doi/10.1126/sciadv.abo6254">O6 · Inoculation field trial</a> · Roozenbeek et al., Science Advances, 2022<span class="note">Short videos teaching manipulation techniques improved detection on real YouTube users</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.gov.uk/government/publications/education-for-a-connected-world">O7 · Education for a Connected World</a> · UKCIS, 2018 and 2020<span class="note">Eight strands mapped by age; the UK curriculum spine schools already trust</span></div></div>
+    </div>
+  </section>
+
+  <footer class="brief-foot">Guided Childhood · Kids Research Briefing · Five lenses, adversarially verified · 4 July 2026</footer>
+
+</div>
+</body>
+</html>
