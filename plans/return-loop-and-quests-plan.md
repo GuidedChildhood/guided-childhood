@@ -278,3 +278,16 @@ to the kids' phones (older ones) BEFORE any TV or device is earned. The
 deal is set while the leverage exists; once the screen is on, the
 negotiation is lost. Weekday variant fires for after school. The kid
 link shows "today's quests arrived" the moment the parent sends them.
+
+## 12. Streak missions (Justin, 5 July evening)
+
+The streak must not just count, it must UNLOCK. Milestones become
+missions: at a 5 day streak the platform sets the first mission, do an
+age related lesson together this week (age matched from the lessons
+engine). Further milestones: 3 days a printable game from the craft
+pack, 7 days the family tech quiz night, 14 days review one device's
+settings together, 30 days the agreement refresh ritual. Each mission
+is a card in the session strip, completing it earns bonus stars for the
+child and keeps the streak meaningful: the number is the key, the
+mission is what it opens. Missions recorded per family so DiGi can
+reference them ("you two did the algorithm lesson last week").
