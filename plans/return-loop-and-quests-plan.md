@@ -181,3 +181,18 @@ problem named in the headline, the words one tap away, dismiss slides it
 into the normal deck. The app should feel like it already knows what is
 happening in the kitchen. Slots into the dashboard reorder as the Today's
 one thing position when a moment is live.
+
+### Correction to the promise audit item 2 (Justin, 4 July night)
+
+The tracker uploads promise (browsing data, AI usage, sleep) IS real: it
+is the Digital Health Report at wellbeing.guidedchildhood.com, a separate
+paid service. So the fix is a bridge, not a trim:
+- Homepage tracker bullet reworded to name it: weekly check in included,
+  the deep dive (browsing data, AI usage, sleep analysis) is the Digital
+  Health Report, one tap away.
+- Product bridge to build: report results feed back into the platform
+  (tracker trend and DiGi context), so the loop reads: the report finds
+  the problem, the platform fixes it, the tracker proves it.
+- Pricing decision for Justin: is a report included with membership
+  (founder perk, one per year?) or always a separate purchase. Decide
+  before the founder 50 push so the pricing table can say it plainly.
