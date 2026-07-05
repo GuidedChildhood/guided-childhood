@@ -65,13 +65,13 @@ export async function createClass(formData: FormData) {
     .insert({ school_id: schoolId, year_group: yearGroup, name, class_code: makeClassCode() })
     .select('id')
     .single()
-  if (error || !cls) throw new Error(error?.message ?? 'could not create class')
+  if (error || !cls) redirect(`/educator?error=${encodeURIComponent(`Creating the class failed: ${error?.message ?? 'the new class could not be read back'} (code ${error?.code ?? 'unknown'})`)}`)
 
   if (pupilLines.length > 0) {
     const { error: pupilError } = await supabase
       .from('pupils')
       .insert(pupilLines.map(display_name => ({ class_id: cls.id, display_name })))
-    if (pupilError) throw new Error(pupilError.message)
+    if (pupilError) redirect(`/educator?error=${encodeURIComponent(`Adding pupils failed: ${pupilError.message} (code ${pupilError.code ?? 'unknown'})`)}`)
   }
 
   revalidatePath('/educator')
@@ -94,7 +94,7 @@ export async function recordDelivery(formData: FormData) {
     .insert({ class_id: classId, lesson_id: lessonId, teacher_id: user.id, mode: 'class' })
     .select('id')
     .single()
-  if (error || !delivery) throw new Error(error?.message ?? 'could not record delivery')
+  if (error || !delivery) redirect(`/educator?error=${encodeURIComponent(`Recording the lesson failed: ${error?.message ?? 'the delivery could not be read back'} (code ${error?.code ?? 'unknown'})`)}`)
 
   const { data: pupils } = await supabase
     .from('pupils').select('id').eq('class_id', classId)
@@ -115,6 +115,7 @@ export async function setJudgement(deliveryId: string, pupilId: string, level: '
   const { error } = await supabase
     .from('teacher_judgements')
     .upsert({ delivery_id: deliveryId, pupil_id: pupilId, level }, { onConflict: 'delivery_id,pupil_id' })
-  if (error) throw new Error(error.message)
+  if (error) return { error: `Saving the judgement failed: ${error.message}` }
   revalidatePath(`/educator/deliveries/${deliveryId}`)
+  return { error: null }
 }

@@ -72,10 +72,15 @@ export default async function DigiPage() {
   const isNewDay = !conv || conv.last_message_date !== today
   const initialCount = isNewDay ? 0 : (conv?.messages_today ?? 0)
 
+  // Empty entries (saved by a failed stream) render as blank bubbles and the
+  // reflective marker is a separate card, so both are stripped for display.
   const rawMessages: StoredMessage[] = (conv?.messages ?? []).slice(-20)
   const initialMessages = rawMessages
-    .filter(m => m.role === 'user' || m.role === 'assistant')
-    .map(m => ({ role: m.role as 'user' | 'assistant', content: m.content }))
+    .filter(m => (m.role === 'user' || m.role === 'assistant') && typeof m.content === 'string' && m.content.trim())
+    .map(m => ({
+      role: m.role as 'user' | 'assistant',
+      content: m.role === 'assistant' ? (m.content.split(/\n\s*---\s*\n/)[0]?.trim() || m.content) : m.content,
+    }))
 
   const todayFeedback = feedbackResult.data
   const pendingReflection = todayFeedback
