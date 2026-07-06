@@ -298,3 +298,18 @@ Research branch (Haidt and Not Fully Developed briefings, viral post anatomy) an
 ## 2026-07-06 — The pupil booklet is the colour first exception
 
 **JP directive:** teacher and admin print stays clean and ink light, but the pupil booklet is deliberately the most colourful, comprehensive lesson companion a kid could imagine, age banded (picture world at EYFS/KS1, squad adventure at KS2, detective dossier at KS3, field notebook at KS5), beautiful on screen as a digital artefact AND printing in full colour, with the eco mono twin still generated from the same data. Character art on covers and headers from the canonical stills. The bar: a child should want to keep it. Spec: print-design-system.md 4.8. Build: v2 pass, needs Higgsfield credits for the art.
+
+---
+
+## 2026-07-06 — Lesson v2: the proper lesson pass (scripts, scenarios, diagrams, DiGi closing)
+
+**JP feedback:** "this still looks very corporate, make it look like a proper lesson with scripts and diagrams inserted." The slide contract and player gained five slide types and a script channel:
+
+- **Every slide carries `script`**: the teacher's word for word script for that moment, shown in a collapsible teacher script panel in the player (teacherView prop, on for /educator routes, never for pupils or parents).
+- **`objective`**: the purpose slide. Pupil voice outcome, why the lesson exists, and what pupils gain as ticks. This is the Ofsted deep dive answer rendered on screen at minute two.
+- **`keywords`**: tier 2/3 vocabulary cards with pupil friendly definitions (Oak convention, under 200 chars).
+- **`scenario`**: a realistic feed post or voice message rendered as a phone card (handle, avatar, engagement counts). The evidence pupils run checks against. Deliberately convincing, that is the point.
+- **`diagram`**: animated flow built from steps with GSAP staggered reveal, verdict chips pop at the end. No images, photocopies cleanly.
+- **`digi`**: the animated closing. DiGi the golden star speaks the lesson home, speech bubbles appearing one at a time. Pure CSS and GSAP, zero render pipeline, so the animated speaking closing ships NOW and does not wait on Higgsfield credits (the video beat upgrade still lands when credits are topped up).
+
+Migration 031 reseeds ks3-12-misinfo-deepfakes with the full v2 deck: 23 slides, 23 scripts, three evidence items (footballer deepfake post, wellness scare post, trusted friend voice note), two diagrams (the three checks, how a fake travels), objective, keywords, and the DiGi closing. Same deck teaches the 60 minute rhythm: vote on evidence one, pair talk on evidence two, worksheet at minute 30, two exit checks, chant, mission, close.

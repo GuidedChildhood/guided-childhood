@@ -62,12 +62,15 @@ export default async function EducatorPreviewPage() {
           {lesson.character_cast ? ` · Character: ${lesson.character_cast}` : ''}
         </p>
       </div>
-      <LessonPlayer
-        lessonId={lesson.id}
-        lessonSource="school_lesson"
-        slides={slides}
-        backHref="/educator/preview"
-      />
+      <div style={{ maxWidth: '720px', margin: '0 auto', padding: '0 20px 80px' }}>
+        <LessonPlayer
+          lessonId={lesson.id}
+          lessonSource="school_lesson"
+          slides={slides}
+          backHref="/educator/preview"
+          teacherView
+        />
+      </div>
     </main>
   )
 }
