@@ -754,7 +754,7 @@ export default async function JoinPage() {
             Guided Childhood
           </Link>
           <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
-            {[['Home', '/'], ['Schools', '/schools'], ['Health Check', 'https://wellbeing.guidedchildhood.com/'], ['Login', '/login']].map(([label, href]) => (
+            {[['Home', '/'], ['Schools', '/schools'], ['Health Check', 'https://www.guidedchildhood.com/digitalwellbeing'], ['Login', '/login']].map(([label, href]) => (
               <Link
                 key={href} href={href}
                 {...(href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}

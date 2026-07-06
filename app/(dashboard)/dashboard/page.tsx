@@ -62,10 +62,24 @@ export default async function DashboardPage() {
   const schoolActions: SchoolAction[] = schoolActionsResult.data ?? []
   const hasSchoolConnection = !!schoolConnectionResult.data
 
+  // Most applicable first: filter to the child's age, then lead with the
+  // categories most likely happening at this hour (UK time), so the grid
+  // greets the parent with their probable right now.
+  const ukHour = Number(new Date().toLocaleString('en-GB', { timeZone: 'Europe/London', hour: 'numeric', hour12: false }))
+  const slotOrder: string[] =
+    ukHour < 12 ? ['Morning', 'Transitions', 'Digital', 'School', 'Food', 'Emotions', 'Evening']
+    : ukHour < 15 ? ['School', 'Food', 'Digital', 'Transitions', 'Emotions', 'Morning', 'Evening']
+    : ukHour < 18 ? ['Transitions', 'Digital', 'Food', 'School', 'Emotions', 'Evening', 'Morning']
+    : ['Evening', 'Digital', 'Emotions', 'Food', 'Transitions', 'School', 'Morning']
+  const slotRank = (m: Moment) => {
+    const i = slotOrder.indexOf(m.category)
+    return i === -1 ? slotOrder.length : i
+  }
   const allMoments: Moment[] = todayMomentsResult.data ?? []
-  const todayMoments = child?.age_band
-    ? allMoments.filter(m => m.age_bands.length === 0 || m.age_bands.includes(child.age_band as AgeBand)).slice(0, 3)
-    : allMoments.slice(0, 3)
+  const ageMoments = child?.age_band
+    ? allMoments.filter(m => m.age_bands.length === 0 || m.age_bands.includes(child.age_band as AgeBand))
+    : allMoments
+  const todayMoments = [...ageMoments].sort((a, b) => slotRank(a) - slotRank(b)).slice(0, 5)
 
   const stage = child?.age_band
     ? getStageFromAgeBand(child.age_band as AgeBand)
@@ -281,6 +295,26 @@ export default async function DashboardPage() {
                 ageBand={child?.age_band ?? undefined}
               />
             ))}
+            {/* The grid always closes with quick help to every moment */}
+            <Link href="/dashboard/moments" style={{ textDecoration: 'none' }}>
+              <div style={{
+                height: '100%', minHeight: '170px',
+                background: 'var(--deep-teal)', borderRadius: '20px',
+                display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+                gap: '10px', padding: '18px 14px', textAlign: 'center',
+              }}>
+                <span style={{
+                  width: 56, height: 56, borderRadius: '16px', background: 'rgba(255,255,255,0.14)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px',
+                }}>✨</span>
+                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '0.95rem', color: '#fff', lineHeight: 1.25 }}>
+                  All moments
+                </span>
+                <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.75)', lineHeight: 1.4 }}>
+                  Quick help for any battle, any time of day
+                </span>
+              </div>
+            </Link>
           </div>
         </div>
       )}
@@ -424,7 +458,7 @@ export default async function DashboardPage() {
       </Link>
 
       {/* Digital Health Check discovery */}
-      <Link href="https://wellbeing.guidedchildhood.com/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', display: 'block', marginBottom: '20px' }}>
+      <Link href="https://www.guidedchildhood.com/digitalwellbeing" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', display: 'block', marginBottom: '20px' }}>
         <div style={{
           background: 'var(--stage-2)', border: '1.5px solid var(--stage-2)',
           borderRadius: '16px', padding: '18px 22px',
@@ -436,6 +470,9 @@ export default async function DashboardPage() {
             </div>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)' }}>
               Get your child&apos;s Digital Health Report
+            </div>
+            <div style={{ fontSize: '12px', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '4px' }}>
+              Your membership includes one free report. Your code arrives by email.
             </div>
           </div>
           <span style={{ fontSize: '18px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>

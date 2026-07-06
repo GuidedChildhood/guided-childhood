@@ -479,7 +479,7 @@ export default function BanWorkaroundsPage() {
       <footer style={{ padding: '32px 24px', borderTop: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
         <Link href="/" style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '.88rem', color: 'var(--ink)', textDecoration: 'none' }}>Guided Childhood</Link>
         <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
-          {[['Home', '/'], ['For schools', '/schools'], ['Join', '/join'], ['Digital wellbeing', 'https://wellbeing.guidedchildhood.com/']].map(([label, href]) => (
+          {[['Home', '/'], ['For schools', '/schools'], ['Join', '/join'], ['Digital wellbeing', 'https://www.guidedchildhood.com/digitalwellbeing']].map(([label, href]) => (
             <Link
               key={label} href={href}
               {...(href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}

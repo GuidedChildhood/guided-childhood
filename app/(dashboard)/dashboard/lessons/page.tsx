@@ -123,7 +123,7 @@ export default async function LessonsPage() {
       </Link>
 
       {/* Digital Health Check card */}
-      <Link href="https://wellbeing.guidedchildhood.com/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', display: 'block', marginBottom: '24px' }}>
+      <Link href="https://www.guidedchildhood.com/digitalwellbeing" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', display: 'block', marginBottom: '24px' }}>
         <div style={{
           background: 'var(--stage-5)', border: '1.5px solid var(--stage-5)',
           borderRadius: '16px', padding: '18px 20px',
@@ -135,6 +135,9 @@ export default async function LessonsPage() {
             </div>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)' }}>
               Get your child&apos;s Digital Health Report
+            </div>
+            <div style={{ fontSize: '12px', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '4px' }}>
+              Your membership includes one free report. Your code arrives by email.
             </div>
           </div>
           <span style={{ fontSize: '18px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>
