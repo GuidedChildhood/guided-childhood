@@ -43,7 +43,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       .eq('status', 'approved')
       .gte('tick_date', weekAgo),
     supabase.from('star_goals')
-      .select('title, stars_needed, achieved_at')
+      .select('*')
       .eq('child_id', link.child_id)
       .maybeSingle(),
     supabase.from('quest_ticks')

@@ -313,3 +313,14 @@ Research branch (Haidt and Not Fully Developed briefings, viral post anatomy) an
 - **`digi`**: the animated closing. DiGi the golden star speaks the lesson home, speech bubbles appearing one at a time. Pure CSS and GSAP, zero render pipeline, so the animated speaking closing ships NOW and does not wait on Higgsfield credits (the video beat upgrade still lands when credits are topped up).
 
 Migration 031 reseeds ks3-12-misinfo-deepfakes with the full v2 deck: 23 slides, 23 scripts, three evidence items (footballer deepfake post, wellness scare post, trusted friend voice note), two diagrams (the three checks, how a fake travels), objective, keywords, and the DiGi closing. Same deck teaches the 60 minute rhythm: vote on evidence one, pair talk on evidence two, worksheet at minute 30, two exit checks, chant, mission, close.
+
+---
+
+## 2026-07-06 — Scripts get a deeper half, the kid channel gets a voice
+
+**JP directives:** scripts longer and shareable to the child; more goals so enough stars in one day completes the day; and a way to ping the kids that have phones with scripts and vital alerts.
+
+- **Script depth (migration 032):** three new fields on the scripts table, `if_they_push_back`, `check_back`, `for_your_child`. Generated ONCE per script by DiGi at first view via /api/scripts/expand, then stored back on the row, so scripts stay in the database and the model is called once per script ever. The detail page now runs six steps plus a deep teal note card written for the child.
+- **The child note never leaves through us.** "Text it to Alma" opens the parent's own Messages app with the note prefilled. Young stages get the lunchbox line instead. Standing rule holds: we never message a child directly.
+- **Daily star goal (migration 033):** `star_goals.daily_stars`. Hit it and the kid page flips to "Day complete!", the Home quest board shows a Day goal chip per child. Weekly prize and daily target now live side by side.
+- **Parent ping (/api/quests/ping):** one tap in the quest manager buzzes the child's phone through their quest page push subscription: quest check, come off the screen, dinner in ten. Parent auth, own child only, capped at 140 chars.
