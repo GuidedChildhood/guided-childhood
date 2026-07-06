@@ -11,6 +11,7 @@ import StreakFlame from '@/components/daily/StreakFlame'
 import SchoolActionsCard, { type SchoolAction } from '@/components/school/SchoolActionsCard'
 import SchoolPromoCard from '@/components/school/SchoolPromoCard'
 import QuestBoard from '@/components/quests/QuestBoard'
+import SetupPath from '@/components/setup/SetupPath'
 import TodayPathStrip from '@/components/daily/TodayPathStrip'
 import { getDailyStreak } from '@/lib/pathway/streak'
 import { getTodayLoop } from '@/lib/pathway/daily-tasks'
@@ -47,13 +48,17 @@ export default async function DashboardPage() {
 
   const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
 
-  const [childResult, dailySessionResult, todayMomentsResult, lastFeedbackResult, schoolActionsResult, schoolConnectionResult] = await Promise.all([
+  const [childResult, dailySessionResult, todayMomentsResult, lastFeedbackResult, schoolActionsResult, schoolConnectionResult, agreementResult, questsCountResult, pushSubResult, anySessionResult] = await Promise.all([
     supabase.from('children').select('name, age_band, stage_id, streak_weeks, actions_this_week').eq('parent_id', user.id).eq('is_primary', true).single(),
     supabase.from('daily_sessions').select('completed_at').eq('user_id', user.id).eq('session_date', today).maybeSingle(),
     supabase.from('daily_moments').select('id, title, category, age_bands, icon, science_brief, digi_opener').eq('active', true).order('sort_order').limit(20),
     supabase.from('digi_feedback').select('feedback_date, question, parent_response, digi_insight').eq('user_id', user.id).not('parent_response', 'is', null).gte('feedback_date', sevenDaysAgo).order('feedback_date', { ascending: false }).limit(1).maybeSingle(),
     supabase.from('school_actions').select('id, kind, title, detail, due_date').eq('user_id', user.id).eq('status', 'open').order('due_date', { ascending: true, nullsFirst: false }).limit(12),
     supabase.from('school_connections').select('id').eq('user_id', user.id).eq('active', true).maybeSingle(),
+    supabase.from('family_agreements').select('id').eq('user_id', user.id).limit(1).maybeSingle(),
+    supabase.from('family_quests').select('id', { count: 'exact', head: true }).eq('user_id', user.id).eq('active', true),
+    supabase.from('push_subscriptions').select('endpoint').eq('user_id', user.id).limit(1).maybeSingle(),
+    supabase.from('daily_sessions').select('id').eq('user_id', user.id).limit(1).maybeSingle(),
   ])
 
   const child = childResult.data
@@ -61,6 +66,13 @@ export default async function DashboardPage() {
   const lastFeedback = lastFeedbackResult.data
   const schoolActions: SchoolAction[] = schoolActionsResult.data ?? []
   const hasSchoolConnection = !!schoolConnectionResult.data
+  const setupFlags = {
+    agreement: !!agreementResult.data,
+    quests: (questsCountResult.count ?? 0) > 0,
+    school: hasSchoolConnection,
+    push: !!pushSubResult.data,
+    daily: !!anySessionResult.data,
+  }
 
   // Most applicable first: filter to the child's age, then lead with the
   // categories most likely happening at this hour (UK time), so the grid
@@ -150,6 +162,9 @@ export default async function DashboardPage() {
         </div>
         <StreakFlame count={streak.count} aliveToday={streak.aliveToday} />
       </div>
+
+      {/* The setup path: every service visible as a step, foundations first */}
+      <SetupPath flags={setupFlags} />
 
       {/* DiGi leads: proactive watch fors, tips and parent care */}
       <DigiPrompts />
