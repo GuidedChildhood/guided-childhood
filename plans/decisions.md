@@ -313,3 +313,9 @@ Research branch (Haidt and Not Fully Developed briefings, viral post anatomy) an
 - **`digi`**: the animated closing. DiGi the golden star speaks the lesson home, speech bubbles appearing one at a time. Pure CSS and GSAP, zero render pipeline, so the animated speaking closing ships NOW and does not wait on Higgsfield credits (the video beat upgrade still lands when credits are topped up).
 
 Migration 031 reseeds ks3-12-misinfo-deepfakes with the full v2 deck: 23 slides, 23 scripts, three evidence items (footballer deepfake post, wellness scare post, trusted friend voice note), two diagrams (the three checks, how a fake travels), objective, keywords, and the DiGi closing. Same deck teaches the 60 minute rhythm: vote on evidence one, pair talk on evidence two, worksheet at minute 30, two exit checks, chant, mission, close.
+
+---
+
+## 2026-07-06 — The curriculum map: the shop window that beats Jigsaw
+
+Jigsaw's strength is showing a whole colourful programme at a glance, ours was a list. New screen `/educator/curriculum`: all 21 modules from the build spec section 5 as character colour coded cards (Sofia green, Zara gold, Oliver coral, DiGi star gold, Vix russet, Brock slate), grouped by key stage with straplines, DSL and crown module chips, and a live coverage ring per card that fills as the school's classes are taught. Live modules link to the player, the rest show in production. The manifest lives in lib/content/schools-curriculum.ts (display layer only, playable content stays in school_lessons rows, module ids match the DB convention). Character emblems are emoji stand ins until the Higgsfield character stills land. Workspace home links to the map with a gold card.

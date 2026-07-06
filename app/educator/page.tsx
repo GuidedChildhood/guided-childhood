@@ -175,8 +175,26 @@ export default async function EducatorHome({ searchParams }: { searchParams: Pro
           </details>
         </section>
 
+        <section style={{ marginBottom: '36px' }}>
+          <Link href="/educator/curriculum" style={{
+            ...card, textDecoration: 'none', display: 'flex', justifyContent: 'space-between',
+            alignItems: 'center', gap: '14px', borderColor: 'var(--gold)', borderWidth: '2px',
+            boxShadow: '0 5px 0 var(--gold-hover)',
+          }}>
+            <span>
+              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '17px', color: 'var(--ink)', marginBottom: '4px' }}>
+                The curriculum map
+              </span>
+              <span style={{ fontFamily: 'var(--font-body)', fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
+                All 21 modules, Reception to Year 13, with live coverage rings for your classes.
+              </span>
+            </span>
+            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '20px', color: 'var(--gold-dark)', flexShrink: 0 }}>→</span>
+          </Link>
+        </section>
+
         <section>
-          <div style={{ ...eyebrow, color: 'var(--green-dark)', marginBottom: '12px' }}>The scheme of work</div>
+          <div style={{ ...eyebrow, color: 'var(--green-dark)', marginBottom: '12px' }}>Live in the pilot</div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {(lessons ?? []).map(l => (
               <div key={l.id} style={card}>
@@ -195,7 +213,7 @@ export default async function EducatorHome({ searchParams }: { searchParams: Pro
             ))}
           </div>
           <p style={{ fontFamily: 'var(--font-body)', fontSize: '13px', color: 'var(--ink-light)', marginTop: '16px', lineHeight: 1.6 }}>
-            One module live in the pilot preview. The full scheme (21 modules, EYFS to Year 13) lands after the reference lesson is approved.
+            The reference lesson is live end to end. The remaining modules are on the curriculum map above, marked in production, and light up here as each one ships.
           </p>
         </section>
       </div>
