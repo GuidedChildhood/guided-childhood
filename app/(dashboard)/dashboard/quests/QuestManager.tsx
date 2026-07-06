@@ -560,6 +560,18 @@ export default function QuestManager() {
               >
                 Print the sheet
               </Link>
+              <Link
+                href="/dashboard/quests/crafts"
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: '6px',
+                  background: 'var(--butter, #EDC35F)', color: 'var(--ink)', borderRadius: '14px',
+                  padding: '12px 20px', textDecoration: 'none',
+                  fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 800,
+                  boxShadow: '0 3px 0 rgba(0,0,0,0.2)',
+                }}
+              >
+                🎲 The Game Pack
+              </Link>
             </div>
 
             {/* Their phone number: quests, agreements and sheets go straight
