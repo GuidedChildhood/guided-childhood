@@ -67,6 +67,16 @@ Jigsaw leaflet + Common Sense Family Tips blend, one page: what we taught (2 sen
 ### 4.7 Certificate (landscape A4 + 2 up A5 variant)
 Element order: DiGi star top centre → award title (largest type) → "This is to certify that" → **name line, the most prominent element (28 to 40pt)** → "for..." reason rule → Signed ___ and Date ___ side by side → decorative border inside 8 to 10mm margins (the one artefact where a full frame is expected). Three tier variants map to working towards/met/exceeded colourways.
 
+### 4.8 The pupil booklet exception: colour first (JP directive, 6 Jul 2026)
+
+The ink light stance governs teacher and admin materials. The PUPIL BOOKLET is the deliberate exception: it is the artefact in a child's hands, and it must be the most colourful, most exciting lesson companion a kid could imagine, per age band. Rules:
+
+- **Colour first, twice over:** designed to look beautiful on screen (the booklet route renders as a full colour digital artefact, viewable on any device, before it is ever printed) AND to print in full colour on a colour printer (print-color-adjust exact on colour bands, character panels and sticker style badges). The eco mono line art twin still ships from the same data for mono photocopier schools, per section 3.
+- **Age banded worlds:** EYFS/KS1 booklets are the character's picture world (Sofia's garden, big art, minimal words); KS2 is the full squad adventure register (capes, badges, case file styling, collect the stamps); KS3 cools into the detective dossier register (case file aesthetic, character as emblem not narrator, sharper type per the kids player brief); KS5 drops characters for a clean field notebook.
+- **Comprehensive, not a leaflet:** the booklet carries the whole lesson journey: cover with name line, the rundown, keyword cards, the follow along case file, the interactive moments' paper twins, the mission, the family question, and a back cover progress/stamp spot per lesson so booklets collect across the year.
+- **Character art:** each booklet cover and section headers carry rendered character art (Higgsfield stills, background removed), the same canonical designs as the video beats. Requires credits and a one off art pass per character per band.
+- **The bar:** a child should want to keep it. If it would not survive on a fridge or in a keepsake box, it is not done.
+
 ## 5. Colour system for print
 
 One accent per artefact, drawn from the character/stage tokens (Zara gold, Oliver coral, Sofia green, DiGi star gold), used for: header band, circled question numbers, speech bubble strokes, teacher version answers. Everything else ink. Common Sense proves topic colour coding works (their six body part characters = six topic colours); ours is character colour = module presenter, consistent between screen and paper.

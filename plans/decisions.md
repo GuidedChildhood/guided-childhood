@@ -292,3 +292,9 @@ Research branch (Haidt and Not Fully Developed briefings, viral post anatomy) an
 **Pupil booklet added (JP brief):** /educator/print/[module]/booklet, the little companion each child holds before and during the lesson: cover with the character and name line, the rundown of what today is about, the case file verdict pages, the mission and family question page. Generated per lesson from the row.
 
 **Personalised named quizzes added (JP brief):** /educator/print/[module]/quiz/[classId] prints the end of lesson quiz one page per pupil with names pre filled from the class list, Oak tick box conventions, commitment line. Teacher prints once, hands out, per child evidence with zero name writing. Both linked from the class page.
+
+---
+
+## 2026-07-06 — The pupil booklet is the colour first exception
+
+**JP directive:** teacher and admin print stays clean and ink light, but the pupil booklet is deliberately the most colourful, comprehensive lesson companion a kid could imagine, age banded (picture world at EYFS/KS1, squad adventure at KS2, detective dossier at KS3, field notebook at KS5), beautiful on screen as a digital artefact AND printing in full colour, with the eco mono twin still generated from the same data. Character art on covers and headers from the canonical stills. The bar: a child should want to keep it. Spec: print-design-system.md 4.8. Build: v2 pass, needs Higgsfield credits for the art.
