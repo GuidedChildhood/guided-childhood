@@ -8,6 +8,7 @@ const LINKS = [
   { label: 'How It Works', href: '#how-it-works', section: 'how-it-works' },
   { label: 'For Schools', href: '/schools', section: null },
   { label: 'Pricing', href: '#pricing', section: 'pricing' },
+  { label: 'Log in', href: '/login', section: null },
 ]
 
 // Marketing header nav in the same segmented pill language as the
