@@ -49,22 +49,42 @@ export default async function QuestPrintPage() {
         const goal = goals.find(g => g.child_id === child.id)
         return (
           <div key={child.id} className="quest-sheet" style={{
-            background: '#fff', border: '1.5px solid var(--border)', borderRadius: '20px',
-            padding: '26px 28px', marginBottom: '24px',
+            background: '#fff', border: '3px solid var(--ink)', borderRadius: '20px',
+            padding: '24px 26px', marginBottom: '24px',
           }}>
-            <div style={{ textAlign: 'center', marginBottom: '18px' }}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '4px' }}>
-                Quest sheet
+            {/* Board banner */}
+            <div style={{
+              textAlign: 'center', marginBottom: '14px',
+              border: '2.5px solid var(--ink)', borderRadius: '16px',
+              padding: '14px 16px 12px', position: 'relative',
+              background: 'var(--terracotta-lt)',
+            }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '2px' }}>
+                ⭐ Quest board ⭐
               </div>
-              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.7rem', color: 'var(--ink)', letterSpacing: '-0.02em' }}>
+              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.9rem', color: 'var(--ink)', letterSpacing: '-0.02em', lineHeight: 1.05 }}>
                 {child.name}&apos;s week
               </div>
-              {goal && (
-                <div style={{ fontSize: '13px', color: 'var(--ink-soft)', marginTop: '4px' }}>
-                  Saving for: <strong>{goal.title}</strong> (⭐ {goal.stars_needed})
-                </div>
-              )}
             </div>
+
+            {/* The prize and the star track to colour in */}
+            {goal && (
+              <div style={{
+                border: '2px dashed var(--terracotta-dark)', borderRadius: '14px',
+                padding: '12px 16px', marginBottom: '16px', textAlign: 'center',
+              }}>
+                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)', marginBottom: '6px' }}>
+                  The prize: {goal.title}
+                </div>
+                <div style={{ fontSize: '19px', letterSpacing: '3px', lineHeight: 1.5, wordBreak: 'break-all' }}>
+                  {Array.from({ length: Math.min(goal.stars_needed, 30) }).map((_, i) => '☆').join('')}
+                  {goal.stars_needed > 30 ? ' …' : ''}
+                </div>
+                <div style={{ fontSize: '11.5px', color: 'var(--ink-soft)', marginTop: '4px' }}>
+                  Colour a star every time a grown up approves a quest. Fill them all and the prize is yours.
+                </div>
+              </div>
+            )}
 
             <table style={{ width: '100%', borderCollapse: 'collapse' }}>
               <thead>
@@ -108,7 +128,22 @@ export default async function QuestPrintPage() {
               </tbody>
             </table>
 
-            <p style={{ textAlign: 'center', fontSize: '12px', color: 'var(--ink-soft)', marginTop: '16px', marginBottom: 0 }}>
+            {/* Weekend family bonus */}
+            <div style={{
+              marginTop: '14px', border: '2px solid var(--ink)', borderRadius: '14px',
+              padding: '10px 14px', display: 'flex', alignItems: 'center', gap: '12px',
+              background: 'var(--tint-sage)',
+            }}>
+              <span style={{ fontSize: '1.4rem' }}>🎲</span>
+              <span style={{ flex: 1, fontSize: '13px', color: 'var(--ink)', lineHeight: 1.45 }}>
+                <strong>Family bonus:</strong> play one game together this weekend, screens off. Worth ⭐⭐⭐ extra.
+              </span>
+              <span style={{
+                width: '26px', height: '26px', border: '2.5px solid var(--ink)', borderRadius: '8px', flexShrink: 0,
+              }} />
+            </div>
+
+            <p style={{ textAlign: 'center', fontSize: '12px', color: 'var(--ink-soft)', marginTop: '14px', marginBottom: 0 }}>
               Tick the box when it is done, then show a grown up. Stars land when they approve. ⭐
             </p>
           </div>
