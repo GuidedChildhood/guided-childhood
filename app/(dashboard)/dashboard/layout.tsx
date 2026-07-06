@@ -13,7 +13,7 @@ const NAV_TABS_LEFT = [
 ]
 const NAV_TABS_RIGHT = [
   { href: '/dashboard/scripts', label: 'Scripts', icon: '◻' },
-  { href: '/dashboard/tracker', label: 'Tracker', icon: '△' },
+  { href: '/dashboard/tracker', label: 'Progress', icon: '△' },
 ]
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
