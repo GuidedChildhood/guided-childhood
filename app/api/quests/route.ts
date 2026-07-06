@@ -118,6 +118,27 @@ export async function POST(req: NextRequest) {
   return NextResponse.json({ quest: data })
 }
 
+// Edit a quest in place: title, stars, schedule.
+export async function PATCH(req: NextRequest) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
+
+  const { quest_id, title, stars, schedule } = await req.json()
+  if (!quest_id) return NextResponse.json({ error: 'quest_id required' }, { status: 400 })
+
+  const patch: Record<string, unknown> = {}
+  if (typeof title === 'string' && title.trim()) patch.title = title.trim().slice(0, 120)
+  if (stars !== undefined) patch.stars = Math.min(10, Math.max(1, Number(stars) || 1))
+  if (['daily', 'weekdays', 'weekend', 'once'].includes(schedule)) patch.schedule = schedule
+  if (Object.keys(patch).length === 0) return NextResponse.json({ error: 'nothing to update' }, { status: 400 })
+
+  const { error } = await supabase
+    .from('family_quests').update(patch).eq('id', quest_id).eq('user_id', user.id)
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+  return NextResponse.json({ ok: true })
+}
+
 export async function DELETE(req: NextRequest) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()

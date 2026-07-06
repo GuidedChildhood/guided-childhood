@@ -52,19 +52,26 @@ export default async function QuestPrintPage() {
             background: '#fff', border: '3px solid var(--ink)', borderRadius: '20px',
             padding: '24px 26px', marginBottom: '24px',
           }}>
-            {/* Board banner */}
+            {/* Board banner, DiGi presiding */}
             <div style={{
               textAlign: 'center', marginBottom: '14px',
               border: '2.5px solid var(--ink)', borderRadius: '16px',
               padding: '14px 16px 12px', position: 'relative',
               background: 'var(--terracotta-lt)',
+              display: 'flex', alignItems: 'center', gap: '14px', justifyContent: 'center',
             }}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '2px' }}>
-                ⭐ Quest board ⭐
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/digi-squad/DiGi-star.svg" alt="" width={62} height={62} style={{ flexShrink: 0 }} />
+              <div>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '2px' }}>
+                  ⭐ DiGi&apos;s quest board ⭐
+                </div>
+                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.9rem', color: 'var(--ink)', letterSpacing: '-0.02em', lineHeight: 1.05 }}>
+                  {child.name}&apos;s week
+                </div>
               </div>
-              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.9rem', color: 'var(--ink)', letterSpacing: '-0.02em', lineHeight: 1.05 }}>
-                {child.name}&apos;s week
-              </div>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/digi-squad/DiGi-star.svg" alt="" width={62} height={62} style={{ flexShrink: 0, transform: 'scaleX(-1)' }} />
             </div>
 
             {/* The prize and the star track to colour in */}

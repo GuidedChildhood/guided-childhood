@@ -41,6 +41,49 @@ export default function QuestManager() {
   const [newChildAge, setNewChildAge] = useState<string | null>(null)
   const [phoneDraft, setPhoneDraft] = useState('')
   const [phoneSaved, setPhoneSaved] = useState(false)
+  const [editingId, setEditingId] = useState<string | null>(null)
+  const [ticked, setTicked] = useState<string | null>(null)
+  const [contactsSupported, setContactsSupported] = useState(false)
+
+  useEffect(() => {
+    setContactsSupported('contacts' in navigator)
+  }, [])
+
+  async function tickForThem(questId: string) {
+    setTicked(questId)
+    setTimeout(() => setTicked(null), 2000)
+    try {
+      await fetch('/api/quests/approve', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ quest_id: questId }),
+      })
+    } catch { /* refetch on next load */ }
+  }
+
+  async function editQuest(questId: string, patch: { stars?: number; schedule?: string }) {
+    setQuests(prev => prev.map(q => q.id === questId ? { ...q, ...patch } as Quest : q))
+    try {
+      await fetch('/api/quests', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ quest_id: questId, ...patch }),
+      })
+    } catch { load() }
+  }
+
+  async function pickContact() {
+    type ContactsNavigator = Navigator & {
+      contacts?: { select: (props: string[], opts?: { multiple: boolean }) => Promise<{ tel?: string[] }[]> }
+    }
+    const nav = navigator as ContactsNavigator
+    if (!nav.contacts) return
+    try {
+      const picked = await nav.contacts.select(['tel'], { multiple: false })
+      const tel = picked?.[0]?.tel?.[0]
+      if (tel) setPhoneDraft(tel)
+    } catch { /* cancelled */ }
+  }
 
   async function addChild() {
     if (!newChildName.trim() || !newChildAge) return
@@ -249,26 +292,80 @@ export default function QuestManager() {
               </p>
             )}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              {childQuests.map(q => (
-                <div key={q.id} style={{
-                  display: 'flex', alignItems: 'center', gap: '12px',
-                  padding: '11px 14px', borderRadius: '12px', background: 'var(--cream)', border: '1px solid var(--border)',
-                }}>
-                  <span style={{ fontSize: '1.3rem' }}>{q.emoji}</span>
-                  <span style={{ flex: 1, minWidth: 0 }}>
-                    <span style={{ display: 'block', fontSize: '14px', fontWeight: 700, color: 'var(--ink)' }}>{q.title}</span>
-                    <span style={{ fontSize: '11px', color: 'var(--ink-muted)' }}>
-                      {SCHEDULE_LABELS[q.schedule] ?? q.schedule} · ⭐ {q.stars}
-                    </span>
-                  </span>
-                  <button onClick={() => removeQuest(q.id)} style={{
-                    background: 'none', border: 'none', cursor: 'pointer',
-                    fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-muted)',
+              {childQuests.map(q => {
+                const editing = editingId === q.id
+                return (
+                  <div key={q.id} style={{
+                    borderRadius: '14px', background: '#fff', border: '1.5px solid var(--border)',
+                    padding: '12px 14px',
                   }}>
-                    Remove
-                  </button>
-                </div>
-              ))}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                      <span style={{ fontSize: '1.3rem', flexShrink: 0 }}>{q.emoji}</span>
+                      <span style={{ flex: 1, minWidth: 0 }}>
+                        <span style={{ display: 'block', fontSize: '14px', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.3 }}>{q.title}</span>
+                        <span style={{ fontSize: '11px', color: 'var(--ink-muted)' }}>
+                          {SCHEDULE_LABELS[q.schedule] ?? q.schedule} · ⭐ {q.stars}
+                        </span>
+                      </span>
+                      <button
+                        onClick={() => tickForThem(q.id)}
+                        title="They did it, tick it off and land the stars"
+                        style={{
+                          background: ticked === q.id ? 'var(--tint-sage)' : 'var(--terracotta-lt)',
+                          border: '1.5px solid var(--terracotta)', borderRadius: '10px',
+                          padding: '7px 12px', cursor: 'pointer', flexShrink: 0,
+                          fontFamily: 'var(--font-display)', fontSize: '12px', fontWeight: 800, color: 'var(--ink)',
+                        }}
+                      >
+                        {ticked === q.id ? 'Done ✓' : 'Done today'}
+                      </button>
+                      <button
+                        onClick={() => setEditingId(editing ? null : q.id)}
+                        style={{
+                          background: 'none', border: '1px solid var(--border)', borderRadius: '10px',
+                          padding: '7px 10px', cursor: 'pointer', flexShrink: 0,
+                          fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--ink-soft)',
+                        }}
+                      >
+                        {editing ? 'Close' : 'Edit'}
+                      </button>
+                    </div>
+
+                    {editing && (
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap', marginTop: '12px', paddingTop: '12px', borderTop: '1px solid var(--border)' }}>
+                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                          <button onClick={() => editQuest(q.id, { stars: q.stars - 1 })} disabled={q.stars <= 1} style={{ width: 30, height: 30, borderRadius: '9px', border: '1.5px solid var(--border)', background: '#fff', cursor: 'pointer', fontWeight: 800 }}>−</button>
+                          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, minWidth: '42px', textAlign: 'center' }}>⭐ {q.stars}</span>
+                          <button onClick={() => editQuest(q.id, { stars: q.stars + 1 })} disabled={q.stars >= 10} style={{ width: 30, height: 30, borderRadius: '9px', border: '1.5px solid var(--border)', background: '#fff', cursor: 'pointer', fontWeight: 800 }}>+</button>
+                        </span>
+                        <span style={{ display: 'inline-flex', gap: '6px', flexWrap: 'wrap' }}>
+                          {(['daily', 'weekdays', 'weekend', 'once'] as const).map(s => (
+                            <button
+                              key={s}
+                              onClick={() => editQuest(q.id, { schedule: s })}
+                              style={{
+                                padding: '6px 12px', borderRadius: '100px', cursor: 'pointer',
+                                border: '1.5px solid var(--border)',
+                                background: q.schedule === s ? 'var(--deep-teal)' : '#fff',
+                                color: q.schedule === s ? '#fff' : 'var(--ink-soft)',
+                                fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
+                              }}
+                            >
+                              {SCHEDULE_LABELS[s]}
+                            </button>
+                          ))}
+                        </span>
+                        <button onClick={() => removeQuest(q.id)} style={{
+                          marginLeft: 'auto', background: 'none', border: 'none', cursor: 'pointer',
+                          fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--danger)', fontWeight: 700,
+                        }}>
+                          Remove quest
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
             </div>
           </div>
 
@@ -432,6 +529,17 @@ export default function QuestManager() {
                   }}
                   maxLength={20}
                 />
+                {contactsSupported && (
+                  <button
+                    onClick={pickContact}
+                    style={{
+                      background: '#fff', border: '1.5px solid var(--border)', borderRadius: '12px',
+                      padding: '10px 14px', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, color: 'var(--ink-soft)',
+                    }}
+                  >
+                    From contacts
+                  </button>
+                )}
                 <button
                   onClick={savePhone}
                   style={{
