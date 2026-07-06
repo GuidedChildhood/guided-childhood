@@ -319,3 +319,19 @@ Migration 031 reseeds ks3-12-misinfo-deepfakes with the full v2 deck: 23 slides,
 ## 2026-07-06 — The curriculum map: the shop window that beats Jigsaw
 
 Jigsaw's strength is showing a whole colourful programme at a glance, ours was a list. New screen `/educator/curriculum`: all 21 modules from the build spec section 5 as character colour coded cards (Sofia green, Zara gold, Oliver coral, DiGi star gold, Vix russet, Brock slate), grouped by key stage with straplines, DSL and crown module chips, and a live coverage ring per card that fills as the school's classes are taught. Live modules link to the player, the rest show in production. The manifest lives in lib/content/schools-curriculum.ts (display layer only, playable content stays in school_lessons rows, module ids match the DB convention). Character emblems are emoji stand ins until the Higgsfield character stills land. Workspace home links to the map with a gold card.
+
+---
+
+## 2026-07-06 — THE FULL CURRICULUM SHIPS + lesson engine v3 + the teacher dashboard
+
+**JP directive:** do not stop until the full curriculum is in and the dashboard beats Twinkl, Oak and Jigsaw combined, and the slides were still not enough for a full lesson.
+
+**Lesson engine v3 (the full lesson fix):** every slide now carries a phase (starter, teach, practise, prove, close) and minutes, drawn as the phase strip in the player so the 60 minute arc is visible while teaching, with a slide counter and per slide timing chip. Two new slide types: discussion (timed talk task, the player runs the countdown, pairs/groups/class, with a "good answer sounds like" reveal) and stat (one big sourced number, honest evidence only). Migration 032 refits the reference lesson to 26 slides with the full arc.
+
+**THE FULL CURRICULUM (migration 033):** all 20 remaining modules drafted by 20 parallel sessions against a single style guide with the reference deck as exemplar, validated hard (strict JSON, no semicolons, no dashes, script on every slide, digi closing last, two prove checks that become the printed exit quiz, worksheet verdicts consistent) and assembled into one idempotent migration. Every module ships complete: v3 deck (12 to 25 slides by key stage register), full teacher notes (misconceptions, differentiation, paper fallback, keywords, the module tool for the bookmark, worksheet with 6 items, commitment stem), parent note, DSL note where flagged (modules 8, 14, 16, 17, 18), statutory hooks and EfCW strands from spec section 5. Stat slides only where the drafting session could name a real source (Ofcom, Orben and Przybylski, Children's Commissioner, NCA, WEF, Vosoughi et al); modules with no confident source carry no stat slide at all. No video slides yet: beats render when Higgsfield credits are topped up, and every deck works without them (the paper fallback principle).
+
+**The teacher dashboard:** shared educator layout with a sticky top bar (Home, Curriculum, Print room, school name, hidden on print). Home is now a dashboard: stat row (classes, pupils, lessons taught, modules covered), teach next pointer per class, the curriculum map card. New print room index lists every pack, booklet and named quiz set per module per class. The paper pack generalised: bookmark tool, worksheet title, directions, verdict options and commitment stem all come from teacher_notes per module (reference lesson fallbacks preserved).
+
+**Teach route:** /educator/teach/[module] plays any live module (teacher script panel on). /educator/preview now redirects to the reference module for old links. All teach links rewired.
+
+**Marketing /schools:** curriculum section now renders from the same manifest as the product (no drift), chips list real module titles, and the "every lesson includes" line names the real product: player with animated characters and scripts, auto marked checks, packs, booklets, named quizzes, one tap register.

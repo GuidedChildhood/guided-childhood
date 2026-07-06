@@ -167,7 +167,7 @@ export default async function CurriculumMapPage() {
 
                         <div style={{ marginTop: 'auto', paddingTop: '10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
                           {live ? (
-                            <Link href="/educator/preview" style={{
+                            <Link href={`/educator/teach/${m.moduleId}`} style={{
                               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px',
                               color: '#fff', background: ch.accent, borderRadius: '12px',
                               padding: '8px 14px', textDecoration: 'none',

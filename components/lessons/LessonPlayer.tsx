@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { gsap } from 'gsap'
 import DigiCharacter, { type DigiMood } from '@/components/digi/DigiCharacter'
-import type { LessonSlide, ChoiceSlide, ScenarioSlide, DiagramSlide, DigiSlide } from '@/lib/content/lesson-slides'
+import { PHASE_LABELS, PHASE_ORDER, type LessonPhase, type LessonSlide, type ChoiceSlide, type ScenarioSlide, type DiagramSlide, type DigiSlide, type DiscussionSlide, type StatSlide } from '@/lib/content/lesson-slides'
 
 // Duolingo mechanics, Guided Childhood skin: one slide at a time, a segmented
 // progress bar, an answer that reacts, DiGi responding to how it goes, and a
@@ -75,6 +75,78 @@ function ChoiceBlock({
           )
         })}
       </div>
+    </div>
+  )
+}
+
+// A timed talk task. The countdown runs in the player so the teacher never
+// watches a clock: start it, circulate, the chime state shows when time is up.
+function DiscussionBlock({ slide }: { slide: DiscussionSlide }) {
+  const total = slide.seconds ?? 60
+  const [left, setLeft] = useState(total)
+  const [running, setRunning] = useState(false)
+  const done = left === 0
+
+  useEffect(() => {
+    if (!running || left === 0) return
+    const t = setTimeout(() => setLeft(s => s - 1), 1000)
+    return () => clearTimeout(t)
+  }, [running, left])
+
+  const modeLabel = slide.mode === 'groups' ? 'In your groups' : slide.mode === 'class' ? 'Whole class' : 'Talk to your partner'
+
+  return (
+    <div style={{ textAlign: 'center' }}>
+      <div style={{ ...eyebrowStyle, color: 'var(--terracotta)', marginBottom: '12px' }}>
+        Talk task · {modeLabel}
+      </div>
+      <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.25rem, 3vw, 1.6rem)', fontWeight: 800, color: 'var(--ink)', lineHeight: 1.35, letterSpacing: '-0.02em', maxWidth: '480px', margin: '0 auto 22px' }}>
+        {slide.prompt}
+      </h2>
+      <div style={{
+        display: 'inline-flex', flexDirection: 'column', alignItems: 'center', gap: '10px',
+        background: done ? 'var(--stage-1)' : '#fff', border: `2px solid ${done ? 'var(--stage-1-bold)' : 'var(--border)'}`,
+        borderRadius: '20px', padding: '18px 34px',
+      }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: '38px', color: done ? 'var(--stage-1-text)' : 'var(--ink)', lineHeight: 1 }}>
+          {done ? 'Time!' : `${Math.floor(left / 60)}:${String(left % 60).padStart(2, '0')}`}
+        </span>
+        {!done && (
+          <button
+            onClick={() => setRunning(r => !r)}
+            style={{
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px',
+              background: 'var(--terracotta)', color: '#fff', border: 'none',
+              borderRadius: '12px', padding: '9px 20px', cursor: 'pointer',
+            }}
+          >
+            {running ? 'Pause' : left === total ? 'Start the timer' : 'Keep going'}
+          </button>
+        )}
+      </div>
+      {done && slide.lookFor && (
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--ink)', lineHeight: 1.6, maxWidth: '420px', margin: '18px auto 0' }}>
+          <strong>A good answer sounds like:</strong> {slide.lookFor}
+        </p>
+      )}
+    </div>
+  )
+}
+
+// One big number, always with its source. Evidence, never a scare tactic.
+function StatBlock({ slide }: { slide: StatSlide }) {
+  return (
+    <div style={{ textAlign: 'center', padding: '10px 0' }}>
+      <div style={{ ...eyebrowStyle, color: 'var(--terracotta)', marginBottom: '16px' }}>The evidence</div>
+      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(3rem, 9vw, 4.6rem)', color: 'var(--terracotta)', lineHeight: 1, letterSpacing: '-0.03em', marginBottom: '14px' }}>
+        {slide.figure}
+      </div>
+      <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'clamp(1.05rem, 2.6vw, 1.35rem)', color: 'var(--ink)', lineHeight: 1.45, maxWidth: '440px', margin: '0 auto 12px' }}>
+        {slide.claim}
+      </p>
+      <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 600, color: 'var(--ink-muted)', letterSpacing: '0.04em' }}>
+        Source: {slide.source}
+      </p>
     </div>
   )
 }
@@ -329,6 +401,10 @@ function SlideBody({ slide, onAnswered }: { slide: LessonSlide; onAnswered: (cor
       )
     case 'choice':
       return <ChoiceBlock slide={slide} onAnswered={onAnswered} />
+    case 'discussion':
+      return <DiscussionBlock slide={slide} />
+    case 'stat':
+      return <StatBlock slide={slide} />
     case 'scenario':
       return <ScenarioBlock slide={slide} />
     case 'diagram':
@@ -473,8 +549,38 @@ export default function LessonPlayer({
     )
   }
 
+  // The lesson's shape: which phases this deck uses, in order, with the
+  // current one lit. Old decks without phases skip the strip entirely.
+  const phasesInDeck = PHASE_ORDER.filter(p => slides.some(s => s.phase === p))
+  const currentPhase: LessonPhase | undefined = slide?.phase
+
   return (
     <div>
+      {/* Phase strip: the 60 minute arc at a glance */}
+      {phasesInDeck.length > 1 && (
+        <div style={{ display: 'flex', gap: '6px', marginBottom: '12px', flexWrap: 'wrap' }}>
+          {phasesInDeck.map(p => {
+            const active = p === currentPhase
+            return (
+              <span key={p} style={{
+                fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700,
+                letterSpacing: '0.1em', textTransform: 'uppercase',
+                color: active ? '#fff' : 'var(--ink-muted)',
+                background: active ? 'var(--terracotta)' : 'var(--warm, #fff)',
+                border: active ? '1.5px solid var(--terracotta)' : '1.5px solid var(--border)',
+                borderRadius: '100px', padding: '4px 12px',
+                transition: 'background 0.25s, color 0.25s',
+              }}>
+                {PHASE_LABELS[p]}
+              </span>
+            )
+          })}
+          <span style={{ marginLeft: 'auto', fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 600, color: 'var(--ink-muted)', alignSelf: 'center' }}>
+            Slide {index + 1} of {slides.length}{slide?.minutes ? ` · ~${slide.minutes} min` : ''}
+          </span>
+        </div>
+      )}
+
       {/* Segmented progress bar */}
       <div style={{ display: 'flex', gap: '5px', marginBottom: '28px' }}>
         {slides.map((_, i) => (

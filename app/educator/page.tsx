@@ -121,32 +121,74 @@ export default async function EducatorHome({ searchParams }: { searchParams: Pro
     )
   }
 
-  const [{ data: classes }, { data: lessons }] = await Promise.all([
+  const [{ data: classes }, { data: lessons }, { count: pupilCount }] = await Promise.all([
     supabase.from('school_classes').select('id, name, year_group, class_code').eq('school_id', membership.school_id).order('created_at'),
     supabase.from('school_lessons').select('id, module_id, title, key_stage, year_band, single_action_outcome').order('sort_order'),
+    supabase.from('pupils').select('id', { count: 'exact', head: true }),
   ])
 
+  const classIds = (classes ?? []).map(c => c.id)
+  const { data: deliveries } = classIds.length
+    ? await supabase.from('lesson_deliveries').select('lesson_id, class_id').in('class_id', classIds)
+    : { data: [] as { lesson_id: string; class_id: string }[] }
+
+  // Teach next: for each class, the first lesson in the scheme it has not
+  // been taught yet. The dashboard answers "what do I do now" at a glance.
+  const taughtByClass = new Map<string, Set<string>>()
+  for (const d of deliveries ?? []) {
+    if (!taughtByClass.has(d.class_id)) taughtByClass.set(d.class_id, new Set())
+    taughtByClass.get(d.class_id)!.add(d.lesson_id)
+  }
+  const nextLesson = (classId: string) =>
+    (lessons ?? []).find(l => !taughtByClass.get(classId)?.has(l.id))
+
+  const modulesTaught = new Set((deliveries ?? []).map(d => d.lesson_id)).size
+  const stats: { figure: string; label: string }[] = [
+    { figure: String((classes ?? []).length), label: (classes ?? []).length === 1 ? 'class' : 'classes' },
+    { figure: String(pupilCount ?? 0), label: 'pupils' },
+    { figure: String((deliveries ?? []).length), label: 'lessons taught' },
+    { figure: `${modulesTaught} of ${(lessons ?? []).length}`, label: 'modules covered' },
+  ]
+
   return (
-    <main style={{ minHeight: '100vh', background: 'var(--cream)', padding: '40px 20px 80px' }}>
+    <main style={{ minHeight: '100vh', background: 'var(--cream)', padding: '32px 20px 80px' }}>
       <div style={{ maxWidth: '760px', margin: '0 auto' }}>
         <div style={eyebrow}>Guided Childhood Schools · {school.licence_tier === 'pilot' ? 'Pilot' : 'Licensed'}</div>
-        <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.6rem, 5vw, 2.2rem)', color: 'var(--ink)', letterSpacing: '-0.01em', margin: '8px 0 28px' }}>
+        <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.6rem, 5vw, 2.2rem)', color: 'var(--ink)', letterSpacing: '-0.01em', margin: '8px 0 20px' }}>
           {school.name}
         </h1>
         <ErrorBox message={combinedError || undefined} />
 
+        {/* The at a glance row */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '10px', marginBottom: '30px' }}>
+          {stats.map(s => (
+            <div key={s.label} style={{ ...card, padding: '14px 16px', textAlign: 'center' }}>
+              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.5rem', color: 'var(--green-dark)', lineHeight: 1.15 }}>{s.figure}</div>
+              <div style={{ ...eyebrow, marginTop: '2px' }}>{s.label}</div>
+            </div>
+          ))}
+        </div>
+
         <section style={{ marginBottom: '36px' }}>
           <div style={{ ...eyebrow, color: 'var(--green-dark)', marginBottom: '12px' }}>Your classes</div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            {(classes ?? []).map(c => (
-              <Link key={c.id} href={`/educator/classes/${c.id}`} style={{ ...card, textDecoration: 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span>
-                  <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)' }}>{c.name}</span>
-                  <span style={{ fontFamily: 'var(--font-body)', fontSize: '13.5px', color: 'var(--ink-muted)', marginLeft: '10px' }}>{c.year_group}</span>
-                </span>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, color: 'var(--green-dark)', background: 'var(--green-lt)', padding: '4px 10px', borderRadius: '8px' }}>{c.class_code}</span>
-              </Link>
-            ))}
+            {(classes ?? []).map(c => {
+              const next = nextLesson(c.id)
+              return (
+                <Link key={c.id} href={`/educator/classes/${c.id}`} style={{ ...card, textDecoration: 'none' }}>
+                  <span style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+                    <span>
+                      <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)' }}>{c.name}</span>
+                      <span style={{ fontFamily: 'var(--font-body)', fontSize: '13.5px', color: 'var(--ink-muted)', marginLeft: '10px' }}>{c.year_group}</span>
+                    </span>
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, color: 'var(--green-dark)', background: 'var(--green-lt)', padding: '4px 10px', borderRadius: '8px' }}>{c.class_code}</span>
+                  </span>
+                  <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: '12.5px', color: next ? 'var(--ink-soft)' : 'var(--green-dark)', marginTop: '8px' }}>
+                    {next ? <>Teach next: <strong>{next.title}</strong></> : 'Every live module taught. New modules light up here as they ship.'}
+                  </span>
+                </Link>
+              )
+            })}
             {(classes ?? []).length === 0 && (
               <p style={{ fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--ink-muted)' }}>No classes yet. Add your first below.</p>
             )}
@@ -202,7 +244,7 @@ export default async function EducatorHome({ searchParams }: { searchParams: Pro
                 <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)', marginBottom: '6px' }}>{l.title}</div>
                 <div style={{ fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.55, marginBottom: '12px' }}>{l.single_action_outcome}</div>
                 <span style={{ display: 'flex', gap: '18px' }}>
-                  <Link href="/educator/preview" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--green-dark)', textDecoration: 'none' }}>
+                  <Link href={`/educator/teach/${l.module_id}`} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--green-dark)', textDecoration: 'none' }}>
                     Preview the lesson →
                   </Link>
                   <Link href={`/educator/print/${l.module_id}`} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--gold-dark)', textDecoration: 'none' }}>
