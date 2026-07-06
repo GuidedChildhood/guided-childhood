@@ -48,15 +48,28 @@ export default async function EducatorHome({ searchParams }: { searchParams: Pro
 
   const { error: errorMessage } = await searchParams
 
+  // Two plain queries instead of an embedded join: each one simple, each
+  // reporting its exact error, no policy interplay hiding behind an embed.
   const { data: membership, error: membershipError } = await supabase
     .from('school_educators')
-    .select('school_id, role, school_accounts(name, phase, licence_tier)')
+    .select('school_id, role')
     .eq('user_id', user.id)
     .limit(1)
     .maybeSingle()
 
-  const combinedError = [errorMessage, membershipError ? `Loading your school failed: ${membershipError.message}` : null]
-    .filter(Boolean).join(' · ')
+  const { data: schoolRow, error: schoolError } = membership
+    ? await supabase
+        .from('school_accounts')
+        .select('name, phase, licence_tier')
+        .eq('id', membership.school_id)
+        .maybeSingle()
+    : { data: null, error: null }
+
+  const combinedError = [
+    errorMessage,
+    membershipError ? `Loading your membership failed: ${membershipError.message}` : null,
+    schoolError ? `Loading your school failed: ${schoolError.message} (code ${schoolError.code ?? 'unknown'})` : null,
+  ].filter(Boolean).join(' · ')
 
   if (!membership) {
     return (
@@ -92,12 +105,7 @@ export default async function EducatorHome({ searchParams }: { searchParams: Pro
     )
   }
 
-  // The embed can be an object, an array, or null (null when the read
-  // policy on school_accounts is missing, the half-installed database
-  // case). Never crash on it: normalise and fall back to a repair notice.
-  const rawSchool = membership.school_accounts as unknown
-  const school = (Array.isArray(rawSchool) ? rawSchool[0] : rawSchool) as
-    { name: string; phase: string; licence_tier: string } | null | undefined
+  const school = schoolRow as { name: string; phase: string; licence_tier: string } | null
 
   if (!school) {
     return (
@@ -107,7 +115,7 @@ export default async function EducatorHome({ searchParams }: { searchParams: Pro
           <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.4rem, 4.5vw, 1.9rem)', color: 'var(--ink)', margin: '8px 0 12px' }}>
             Your school exists but cannot be read
           </h1>
-          <ErrorBox message={combinedError || 'Your educator record was found but the school row could not be read. This means the database security rules are only partially installed. Run the repair migration 026_schools_repair.sql in the Supabase SQL Editor, then reload this page.'} />
+          <ErrorBox message={combinedError || `Your educator record was found (school id ${membership.school_id}) but the school row came back empty with no error. Run migration 028_membership_functions.sql in the Supabase SQL Editor, then reload this page.`} />
         </div>
       </main>
     )
