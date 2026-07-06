@@ -16,7 +16,9 @@ export async function GET() {
   const weekAgo = new Date(Date.now() - 7 * 86400000).toISOString().slice(0, 10)
 
   const [childrenRes, questsRes, ticksRes, goalsRes, linksRes] = await Promise.all([
-    supabase.from('children').select('id, name, age_band').eq('parent_id', user.id).order('created_at'),
+    // select * so the optional phone column (migration 030) is included
+    // when present and its absence never breaks the whole board
+    supabase.from('children').select('*').eq('parent_id', user.id).order('created_at'),
     supabase.from('family_quests').select('*').eq('user_id', user.id).eq('active', true).order('created_at'),
     supabase.from('quest_ticks').select('*').eq('user_id', user.id).gte('tick_date', weekAgo),
     supabase.from('star_goals').select('*').eq('user_id', user.id),
@@ -38,6 +40,36 @@ export async function POST(req: NextRequest) {
   if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
 
   const body = await req.json()
+
+  // Add a child directly from the quest manager: no trip back through
+  // onboarding, and the door to multi child families.
+  if (body.action === 'child' && body.name && body.age_band) {
+    const AGE_TO_STAGE: Record<string, string> = {
+      '4-7': 'foundation', '8-10': 'builder', '11-13': 'explorer', '13-15': 'shaper', '16+': 'independent',
+    }
+    const stageId = AGE_TO_STAGE[body.age_band]
+    if (!stageId) return NextResponse.json({ error: 'bad age band' }, { status: 400 })
+    const { count } = await supabase
+      .from('children').select('id', { count: 'exact', head: true }).eq('parent_id', user.id)
+    const { data, error } = await supabase.from('children').insert({
+      parent_id: user.id,
+      name: String(body.name).slice(0, 60),
+      age_band: body.age_band,
+      stage_id: stageId,
+      is_primary: (count ?? 0) === 0,
+    }).select('id, name, age_band').single()
+    if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+    return NextResponse.json({ child: data })
+  }
+
+  // Save the child's phone number (optional, drives send to phone)
+  if (body.action === 'phone' && body.child_id) {
+    const phone = String(body.phone ?? '').replace(/[^0-9+ ]/g, '').slice(0, 20)
+    const { error } = await supabase
+      .from('children').update({ phone: phone || null }).eq('id', body.child_id).eq('parent_id', user.id)
+    if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+    return NextResponse.json({ ok: true })
+  }
 
   // Create the kid link for a child on demand
   if (body.action === 'link' && body.child_id) {

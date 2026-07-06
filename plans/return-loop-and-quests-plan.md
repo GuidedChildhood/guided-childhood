@@ -345,3 +345,18 @@ Two starting states, acknowledged in onboarding without judgement:
 Product touch points: onboarding asks fresh start or fixing things,
 the first session checklist orders itself accordingly, and DiGi knows
 which start the family made.
+
+## 15. The child phone channel (Justin, 6 July)
+
+Children table gains an optional phone number (migration 030). Sending
+always goes through the PARENT'S OWN Messages app via prefilled sms
+links: quests link, agreement, craft sheets. We never message a child
+directly, the parent presses send, which is both the safeguarding line
+and zero infrastructure. The flow overall: agreement is signed (verbal
+plus system), signing prompts "send the quest link and this week's
+crafts to their phone", child completes on their phone, tick pings the
+parent, approval releases the agreed reward automatically (already
+live), and the platform alerts the parent that the earned thing is due
+("Alfie has earned his Saturday film"). Add children directly in the
+quest manager, never a trip back through onboarding: first child or
+fifth, same two field form.
