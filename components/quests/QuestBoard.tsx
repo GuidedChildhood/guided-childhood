@@ -228,6 +228,13 @@ export default function QuestBoard() {
               {/* Expanded: tick today's quests right here */}
               {isOpen && (
                 <div style={{ padding: '0 16px 14px', display: 'flex', flexDirection: 'column', gap: '7px' }}>
+                  <Link href="/dashboard/quests" style={{
+                    alignSelf: 'flex-end', fontSize: '11.5px', fontWeight: 700,
+                    color: 'var(--terracotta-dark)', textDecoration: 'none',
+                    fontFamily: 'var(--font-mono)', letterSpacing: '0.04em',
+                  }}>
+                    + Add a quest for {c.name}
+                  </Link>
                   {dueToday.map(q => {
                     const done = doneIds.has(q.id)
                     return (

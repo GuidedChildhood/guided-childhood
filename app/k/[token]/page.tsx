@@ -66,6 +66,9 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   }
 
   const quests = (questsRes.data ?? []).filter(q => questDueToday(q.schedule))
+  const laterQuests = (questsRes.data ?? [])
+    .filter(q => !questDueToday(q.schedule))
+    .map(q => ({ title: q.title, emoji: q.emoji, schedule: q.schedule }))
   const starsByQuest = new Map((questsRes.data ?? []).map(q => [q.id, q.stars]))
   const weekStars = (weekTicksRes.data ?? []).reduce((sum, t) => sum + (starsByQuest.get(t.quest_id) ?? 1), 0)
 
@@ -78,6 +81,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       weekStars={weekStars}
       goal={goalRes.data ?? null}
       streakDays={streakDays}
+      laterQuests={laterQuests}
     />
   )
 }

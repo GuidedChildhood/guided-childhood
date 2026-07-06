@@ -20,7 +20,7 @@ type Tick = { quest_id: string; status: string }
 type Goal = { title: string; stars_needed: number; daily_stars: number | null; achieved_at: string | null } | null
 
 export default function KidQuestScreen({
-  token, childName, quests, todayTicks, weekStars, goal, streakDays = 0,
+  token, childName, quests, todayTicks, weekStars, goal, streakDays = 0, laterQuests = [],
 }: {
   token: string
   childName: string
@@ -29,14 +29,17 @@ export default function KidQuestScreen({
   weekStars: number
   goal: Goal
   streakDays?: number
+  laterQuests?: { title: string; emoji: string; schedule: string }[]
 }) {
   const [ticks, setTicks] = useState<Record<string, string>>(
     Object.fromEntries(todayTicks.map(t => [t.quest_id, t.status]))
   )
   const [burst, setBurst] = useState<string | null>(null)
-  const [remindState, setRemindState] = useState<'hidden' | 'offer' | 'on'>('hidden')
+  const [remindState, setRemindState] = useState<'hidden' | 'offer' | 'on' | 'ios'>('hidden')
+  const [showIosSteps, setShowIosSteps] = useState(false)
   const [showWelcome, setShowWelcome] = useState(false)
   const [toast, setToast] = useState<string | null>(null)
+  const [askedMore, setAskedMore] = useState(false)
 
   useEffect(() => {
     if (localStorage.getItem('gc_kid_welcome') !== '1') setShowWelcome(true)
@@ -48,13 +51,34 @@ export default function KidQuestScreen({
   }
 
   useEffect(() => {
-    if (!('serviceWorker' in navigator) || !('PushManager' in window)) return
+    if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+      // iPhone in plain Safari: Apple only allows reminders once the page
+      // lives on the Home Screen, so show the how to instead of nothing.
+      const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent)
+      const standalone = window.matchMedia('(display-mode: standalone)').matches
+        || (navigator as unknown as { standalone?: boolean }).standalone === true
+      if (isIos && !standalone) setRemindState('ios')
+      return
+    }
     if (localStorage.getItem('gc_kid_reminders') === '1' || Notification.permission === 'granted') {
       setRemindState(Notification.permission === 'granted' ? 'on' : 'offer')
       return
     }
     if (Notification.permission !== 'denied') setRemindState('offer')
   }, [])
+
+  async function askForMore() {
+    setAskedMore(true)
+    setToast('Asked! Your grown up just got a ping ⭐')
+    setTimeout(() => setToast(null), 3500)
+    try {
+      await fetch('/api/quests/more', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token }),
+      })
+    } catch { /* best effort */ }
+  }
 
   async function enableReminders() {
     try {
@@ -338,11 +362,42 @@ export default function KidQuestScreen({
         {allDone && (
           <div style={{ textAlign: 'center', marginTop: '24px' }}>
             <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.3rem', color: '#fff', margin: '0 0 4px' }}>
-              All quests done! 🎉
+              Today&apos;s list is done! 🎉
             </p>
-            <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.8)', margin: 0 }}>
+            <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.8)', margin: '0 0 14px' }}>
               Amazing work {childName}. Your grown up is approving your stars.
             </p>
+            <button
+              onClick={askForMore}
+              disabled={askedMore}
+              style={{
+                padding: '12px 22px', borderRadius: '14px', cursor: askedMore ? 'default' : 'pointer',
+                background: askedMore ? 'rgba(255,255,255,0.12)' : 'var(--terracotta)',
+                color: askedMore ? 'rgba(255,255,255,0.8)' : 'var(--ink)',
+                border: askedMore ? '1.5px solid rgba(255,255,255,0.3)' : 'none',
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px',
+                boxShadow: askedMore ? 'none' : '0 4px 0 var(--terracotta-dark)',
+              }}
+            >
+              {askedMore ? 'Asked ✓ watch this space' : 'Ask for more quests ⭐'}
+            </button>
+          </div>
+        )}
+
+        {/* Quests waiting on other days, so done today never reads as done forever */}
+        {laterQuests.length > 0 && (
+          <div style={{ marginTop: '22px', background: 'rgba(255,255,255,0.08)', borderRadius: '16px', padding: '14px 18px' }}>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)', margin: '0 0 8px' }}>
+              Coming up, not today
+            </p>
+            {laterQuests.map((q, i) => (
+              <p key={i} style={{ fontSize: '13px', color: 'rgba(255,255,255,0.8)', margin: '0 0 4px', lineHeight: 1.5 }}>
+                {q.emoji} {q.title}
+                <span style={{ color: 'rgba(255,255,255,0.5)' }}>
+                  {' '}· {q.schedule === 'weekdays' ? 'school days' : q.schedule === 'weekend' ? 'weekends' : q.schedule === 'once' ? 'one time' : 'every day'}
+                </span>
+              </p>
+            ))}
           </div>
         )}
 
@@ -364,8 +419,54 @@ export default function KidQuestScreen({
             🔔 Reminders on. Morning and after school nudges, never at bedtime.
           </p>
         )}
+        {remindState === 'ios' && (
+          <>
+            <button
+              onClick={() => setShowIosSteps(v => !v)}
+              style={{
+                width: '100%', marginTop: '20px', padding: '13px 16px',
+                background: 'rgba(255,255,255,0.12)', border: '1.5px solid rgba(255,255,255,0.35)',
+                borderRadius: '14px', cursor: 'pointer',
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: '#fff',
+              }}
+            >
+              🔔 Want quest reminders? Add me to your Home Screen
+            </button>
+            {showIosSteps && (
+              <div style={{ marginTop: '10px', background: '#fff', borderRadius: '16px', padding: '16px 18px' }}>
+                {[
+                  <>Tap the <strong>Share</strong> button at the bottom of Safari, the square with the arrow pointing up.</>,
+                  <>Scroll down and tap <strong>Add to Home Screen</strong>, then tap <strong>Add</strong>.</>,
+                  <>Open your quests from the <strong>new icon</strong> on your Home Screen.</>,
+                  <>Tap the <strong>🔔 Remind me</strong> button that appears, and you are set.</>,
+                ].map((step, i) => (
+                  <div key={i} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start', marginBottom: i < 3 ? '9px' : 0 }}>
+                    <span style={{
+                      width: 22, height: 22, borderRadius: '50%', flexShrink: 0,
+                      background: 'var(--terracotta)', color: 'var(--ink)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
+                    }}>{i + 1}</span>
+                    <span style={{ fontSize: '13.5px', color: 'var(--ink)', lineHeight: 1.5 }}>{step}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </>
+        )}
 
-        <p style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.08em', color: 'rgba(255,255,255,0.45)', marginTop: '32px' }}>
+        <button
+          onClick={() => { setShowWelcome(true); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
+          style={{
+            display: 'block', margin: '24px auto 0', background: 'none', border: 'none',
+            cursor: 'pointer', fontSize: '12.5px', fontWeight: 600,
+            color: 'rgba(255,255,255,0.65)', textDecoration: 'underline', fontFamily: 'var(--font-body)',
+          }}
+        >
+          How does this page work?
+        </button>
+
+        <p style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.08em', color: 'rgba(255,255,255,0.45)', marginTop: '14px' }}>
           GUIDED CHILDHOOD QUESTS
         </p>
       </div>
