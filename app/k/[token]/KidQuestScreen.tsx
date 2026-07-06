@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { STAR_MINUTES } from '@/lib/quests/templates'
 
 // The kid facing quest screen: joyful, huge tap targets, instant ticks,
 // stars that count up, and a goal bar. Pending ticks show as "waiting
@@ -12,7 +13,7 @@ type Tick = { quest_id: string; status: string }
 type Goal = { title: string; stars_needed: number; achieved_at: string | null } | null
 
 export default function KidQuestScreen({
-  token, childName, quests, todayTicks, weekStars, goal,
+  token, childName, quests, todayTicks, weekStars, goal, streakDays = 0,
 }: {
   token: string
   childName: string
@@ -20,6 +21,7 @@ export default function KidQuestScreen({
   todayTicks: Tick[]
   weekStars: number
   goal: Goal
+  streakDays?: number
 }) {
   const [ticks, setTicks] = useState<Record<string, string>>(
     Object.fromEntries(todayTicks.map(t => [t.quest_id, t.status]))
@@ -93,7 +95,7 @@ export default function KidQuestScreen({
           boxShadow: '0 5px 0 var(--terracotta-dark)', marginBottom: '16px',
           display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12,
         }}>
-          <div>
+          <div style={{ flex: 1 }}>
             <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink)', opacity: 0.7, margin: '0 0 2px' }}>
               Star bank this week
             </p>
@@ -103,7 +105,17 @@ export default function KidQuestScreen({
                 <span style={{ fontSize: '0.95rem', fontWeight: 700, opacity: 0.65 }}> +{pendingStars} waiting</span>
               )}
             </p>
+            <p style={{ fontSize: '12.5px', fontWeight: 700, color: 'var(--ink)', opacity: 0.75, margin: '2px 0 0' }}>
+              = {weekStars * STAR_MINUTES} minutes of screen time earned
+            </p>
           </div>
+          {streakDays > 0 && (
+            <div style={{ textAlign: 'center', flexShrink: 0 }}>
+              <div style={{ fontSize: '1.5rem', lineHeight: 1 }}>🔥</div>
+              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.1rem', color: 'var(--ink)' }}>{streakDays}</div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink)', opacity: 0.7 }}>day streak</div>
+            </div>
+          )}
         </div>
 
         {/* Goal bar */}

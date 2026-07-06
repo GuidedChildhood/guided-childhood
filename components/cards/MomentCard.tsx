@@ -47,6 +47,7 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
   } | null>(null)
   const [loading, setLoading] = useState(false)
   const [shared, setShared] = useState(false)
+  const [questMade, setQuestMade] = useState(false)
 
   const accentColor = CATEGORY_COLORS[moment.category] ?? 'var(--stage-1)'
   const imageSrc = momentImageForTitle(moment.title)
@@ -359,6 +360,27 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
               >
                 Ask DiGi more
               </a>
+              <button
+                onClick={async () => {
+                  if (questMade) return
+                  try {
+                    await fetch('/api/quests', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ title: moment.title, emoji: '⭐', stars: 2, schedule: 'daily' }),
+                    })
+                    setQuestMade(true)
+                  } catch { /* leave the button as is */ }
+                }}
+                style={{
+                  padding: '12px 14px', background: questMade ? 'var(--tint-sage)' : '#fff',
+                  border: `1.5px solid ${questMade ? look.band : 'var(--border)'}`, borderRadius: '14px',
+                  fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 700,
+                  color: 'var(--ink)', cursor: questMade ? 'default' : 'pointer',
+                }}
+              >
+                {questMade ? 'Quest made ✓' : 'Make it a quest'}
+              </button>
               <button
                 onClick={() => setOpen(false)}
                 style={{

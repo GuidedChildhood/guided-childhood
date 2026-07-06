@@ -25,7 +25,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   const today = new Date().toISOString().slice(0, 10)
   const weekAgo = new Date(Date.now() - 7 * 86400000).toISOString().slice(0, 10)
 
-  const [childRes, questsRes, todayTicksRes, weekTicksRes, goalRes] = await Promise.all([
+  const [childRes, questsRes, todayTicksRes, weekTicksRes, goalRes, streakTicksRes] = await Promise.all([
     supabase.from('children').select('name').eq('id', link.child_id).maybeSingle(),
     supabase.from('family_quests')
       .select('id, title, emoji, stars, schedule')
@@ -46,7 +46,24 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       .select('title, stars_needed, achieved_at')
       .eq('child_id', link.child_id)
       .maybeSingle(),
+    supabase.from('quest_ticks')
+      .select('tick_date')
+      .eq('child_id', link.child_id)
+      .in('status', ['approved', 'pending'])
+      .gte('tick_date', new Date(Date.now() - 60 * 86400000).toISOString().slice(0, 10))
+      .limit(400),
   ])
+
+  // The child's own streak: consecutive days with at least one quest
+  // ticked, ending today or yesterday. Pending counts, because the tick
+  // is the child's act; approval is the parent's.
+  const tickDays = new Set((streakTicksRes.data ?? []).map(t => String(t.tick_date)))
+  const dayStr = (o: number) => new Date(Date.now() - o * 86400000).toISOString().slice(0, 10)
+  let streakDays = 0
+  if (tickDays.has(dayStr(0)) || tickDays.has(dayStr(1))) {
+    let offset = tickDays.has(dayStr(0)) ? 0 : 1
+    while (tickDays.has(dayStr(offset))) { streakDays++; offset++ }
+  }
 
   const quests = (questsRes.data ?? []).filter(q => questDueToday(q.schedule))
   const starsByQuest = new Map((questsRes.data ?? []).map(q => [q.id, q.stars]))
@@ -60,6 +77,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       todayTicks={todayTicksRes.data ?? []}
       weekStars={weekStars}
       goal={goalRes.data ?? null}
+      streakDays={streakDays}
     />
   )
 }
