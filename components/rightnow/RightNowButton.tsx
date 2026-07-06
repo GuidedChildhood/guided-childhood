@@ -12,15 +12,30 @@ import Link from 'next/link'
 // renders optimistically with a soft pulse while the words arrive.
 
 const SITUATIONS = [
-  { key: 'tv-off',         label: 'TV or screen turned off' },
-  { key: 'phone-handover', label: 'Phone handover fight' },
-  { key: 'bedtime',        label: 'Bedtime battle' },
-  { key: 'sibling-fight',  label: 'Sibling fight over device' },
-  { key: 'homework',       label: 'Homework refusal' },
-  { key: 'something-else', label: 'Something else' },
+  { key: 'morning-tv',     label: 'Morning TV, will not get ready', image: '/moments/morning.png',  emoji: '🌅', slot: 'morning' },
+  { key: 'tv-off',         label: 'TV or screen turned off',        image: '/moments/tv_eve.png',   emoji: '📺', slot: 'any' },
+  { key: 'phone-handover', label: 'Phone handover fight',           image: '/devices/iphone.png',   emoji: '📱', slot: 'any' },
+  { key: 'bedtime',        label: 'Bedtime battle',                 image: '/moments/bedtime.png',  emoji: '🌙', slot: 'evening' },
+  { key: 'sibling-fight',  label: 'Sibling fight over device',      image: '/moments/fighting.png', emoji: '⚡', slot: 'any' },
+  { key: 'homework',       label: 'Homework refusal',               image: '/moments/homework.png', emoji: '✏️', slot: 'afternoon' },
+  { key: 'something-else', label: 'Something else',                 image: null,                    emoji: '✨', slot: 'any' },
 ] as const
 
 type SituationKey = (typeof SITUATIONS)[number]['key']
+
+// The situation most likely happening right now leads the grid: morning
+// puts the get ready battle first, after school leads with homework,
+// evening leads with bedtime. Something else always closes the list.
+function orderedSituations() {
+  const hour = new Date().getHours()
+  const lead = hour < 12 ? 'morning' : hour < 17 ? 'afternoon' : 'evening'
+  const rest = SITUATIONS.filter(s => s.key !== 'something-else')
+  return [
+    ...rest.filter(s => s.slot === lead),
+    ...rest.filter(s => s.slot !== lead),
+    SITUATIONS[SITUATIONS.length - 1],
+  ]
+}
 
 type ScriptResult = {
   title: string
@@ -195,6 +210,7 @@ export default function RightNowButton() {
           would otherwise trap this fixed sheet inside the 64px bar */}
       {open && createPortal(
         <div
+          className="rightnow-sheet"
           role="dialog"
           aria-modal="true"
           aria-label="Right now"
@@ -240,23 +256,31 @@ export default function RightNowButton() {
                 <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: '20px' }}>
                   Pick the moment and the calm words appear: what to say, what not to say. It gets remembered too, so tomorrow we ask how it went and DiGi knows the story.
                 </p>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                  {SITUATIONS.map(s => (
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px' }}>
+                  {orderedSituations().map(s => (
                     <button
                       key={s.key}
                       type="button"
                       onClick={() => pick(s.key, s.label)}
                       style={{
-                        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                        display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px',
                         background: 'var(--white)', border: '1.5px solid var(--border)',
-                        borderRadius: '16px', padding: '18px 20px', cursor: 'pointer',
-                        fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '16px',
-                        color: 'var(--ink)', textAlign: 'left',
+                        borderRadius: '18px', padding: '16px 12px 14px', cursor: 'pointer',
+                        fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '13.5px',
+                        color: 'var(--ink)', textAlign: 'center', lineHeight: 1.3,
                         boxShadow: '0 3px 0 var(--border)',
                       }}
                     >
+                      {s.image ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={s.image} alt="" width={64} height={64} style={{ borderRadius: '14px', display: 'block' }} />
+                      ) : (
+                        <span style={{
+                          width: 64, height: 64, borderRadius: '14px', background: 'var(--cream)',
+                          display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '26px',
+                        }}>{s.emoji}</span>
+                      )}
                       {s.label}
-                      <span aria-hidden="true" style={{ color: 'var(--ink-light)', fontSize: '18px' }}>→</span>
                     </button>
                   ))}
                 </div>
@@ -308,7 +332,41 @@ export default function RightNowButton() {
                   </>
                 )}
 
-                <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '10px', paddingBottom: '12px' }}>
+                <div className="no-print" style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '10px', paddingBottom: '12px' }}>
+                  {script && (
+                    <div style={{ display: 'flex', gap: '10px' }}>
+                      <button
+                        type="button"
+                        onClick={async () => {
+                          const text = `${script.title}\n\n"${script.say_this}"\n\nFrom our family pathway on Guided Childhood.`
+                          try {
+                            if (navigator.share) await navigator.share({ title: script.title, text })
+                            else await navigator.clipboard.writeText(text)
+                          } catch { /* cancelled */ }
+                        }}
+                        style={{
+                          flex: 1, background: 'var(--white)', border: '1.5px solid var(--border)',
+                          color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 700,
+                          fontSize: '13px', borderRadius: '14px', padding: '12px 10px',
+                          cursor: 'pointer', boxShadow: '0 3px 0 var(--border)',
+                        }}
+                      >
+                        Share with your child
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => window.print()}
+                        style={{
+                          flex: 1, background: 'var(--white)', border: '1.5px solid var(--border)',
+                          color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 700,
+                          fontSize: '13px', borderRadius: '14px', padding: '12px 10px',
+                          cursor: 'pointer', boxShadow: '0 3px 0 var(--border)',
+                        }}
+                      >
+                        Print the card
+                      </button>
+                    </div>
+                  )}
                   <Link
                     href={digiHref}
                     onClick={() => setOpen(false)}
@@ -343,6 +401,12 @@ export default function RightNowButton() {
             @keyframes rightnow-pulse {
               0%, 100% { opacity: 1; }
               50% { opacity: 0.55; }
+            }
+            @media print {
+              body * { visibility: hidden; }
+              .rightnow-sheet, .rightnow-sheet * { visibility: visible; }
+              .rightnow-sheet { position: absolute !important; inset: 0 !important; }
+              .rightnow-sheet .no-print { display: none !important; }
             }
           `}</style>
         </div>,
