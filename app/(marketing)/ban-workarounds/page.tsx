@@ -459,7 +459,7 @@ export default function BanWorkaroundsPage() {
             The settings buy you time.<br />The guide gives you the conversation.
           </h2>
           <p style={{ color: 'rgba(255,255,255,.75)', fontSize: '1.05rem', maxWidth: '520px', margin: '0 auto 36px', lineHeight: 1.65 }}>
-            The free starter pack includes your child&rsquo;s stage, the workaround script for their age, and a 10-minute weekly check-in to keep you ahead of what is happening.
+            The free starter pack includes your child&rsquo;s stage, the workaround script for their age, and a 10-minute weekly check in to keep you ahead of what is happening.
           </p>
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link href="/starter-pack" className="btn btn-gold">

@@ -291,3 +291,57 @@ is a card in the session strip, completing it earns bonus stars for the
 child and keeps the streak meaningful: the number is the key, the
 mission is what it opens. Missions recorded per family so DiGi can
 reference them ("you two did the algorithm lesson last week").
+
+## 13. The free line (Justin, 5 July: how much do we give before subscribe)
+
+Principle from the market evidence: free must deliver one real win in the
+first session (the aha that spreads), paid unlocks depth and convenience.
+Recommended split:
+
+FREE, forever: the starter pack (roadmap, agreement template, 5 scripts,
+checklists), the daily loop lite (one moment card a day with the full
+technique, daily check in, streak), DiGi 3 messages a day, the agreements
+builder including print, Quests up to 3 quests per child WITH the kid
+link (the whole family gets hooked on the loop, both kid and parent
+return daily, and the paywall never blocks a child's tick).
+
+PAID £12.99: all 160 scripts, unlimited DiGi, unlimited quests plus the
+printable game packs and craft packs, the school email catcher, lessons,
+full device walkthroughs, the Progress deep view, the DiGi dispatch.
+
+The converter mechanic: the school catcher runs free for the first five
+caught emails, then keeps catching but shows only counts ("DiGi caught 3
+more things from Burrington this week"), full items behind the upgrade.
+The product itself demonstrates the value it is withholding, which beats
+any pricing page. Same pattern for scripts: every locked script shows
+its situation line and the first sentence of say this.
+
+Nothing in the free tier ever expires or degrades: the churn research
+says surprise removal is the number one trust killer.
+
+## 14. Foundations first: the start sequence (Justin, 6 July)
+
+Acknowledge at pathway start that the ORDER makes it easy. The sequence:
+
+1. SETTINGS first: the age right device settings walkthrough. Structure
+   before conversation, because settings remove half the arguments
+   before they happen.
+2. THE AGREEMENT second, in two forms: the verbal one (the sit down
+   conversation, scripts provided) and the system one (built and signed
+   in the agreements builder, driving quests and stars). The agreement
+   sets the easy pathway: everything after it refers back to what the
+   family chose together.
+3. THEN following and assisting as they go: the daily loop, moments,
+   quests, check ins. The platform walks beside them from here.
+
+Two starting states, acknowledged in onboarding without judgement:
+- Starting fresh: the sequence above, clean.
+- Already broken (habits set, battles daily): we say plainly that this
+  is fixable and common. The repair variant starts with the reset
+  conversation (an amnesty script: new start, no blame for what was
+  allowed before), THEN settings, then the new agreement. The pathway
+  meets the family where they are, never shames where they have been.
+
+Product touch points: onboarding asks fresh start or fixing things,
+the first session checklist orders itself accordingly, and DiGi knows
+which start the family made.

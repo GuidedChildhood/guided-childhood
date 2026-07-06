@@ -12,17 +12,17 @@ import { NextRequest, NextResponse } from 'next/server'
 const CHECK_INS = [
   {
     hour: 7,
-    title: 'Morning check-in',
+    title: 'Morning check in',
     body: 'How did the first screen moment go today? DiGi is ready with the words if you need them.',
   },
   {
     hour: 15,
     title: 'School is out',
-    body: 'After-school screen time is one of the hardest moments. Your stage guide has the structure.',
+    body: 'After school screen time is one of the hardest moments. Your stage guide has the structure.',
   },
   {
     hour: 21,
-    title: 'Evening wind-down',
+    title: 'Evening wind down',
     body: 'Bedtime and the phone, how did it go? Log the moment and DiGi will help you prepare for tomorrow.',
   },
 ]

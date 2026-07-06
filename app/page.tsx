@@ -41,14 +41,14 @@ const STAGES = [
   {
     num: '01', name: 'Foundation', ks: 'EYFS and KS1', ages: 'Ages 4 to 7',
     device: 'Shared screen',
-    tags: ['TV routines', 'Co-viewing', 'No solo device'],
+    tags: ['TV routines', 'Co viewing', 'No solo device'],
     quote: '"I cannot get my four-year-old off the iPad. What am I doing wrong?"',
     bg: 'var(--stage-1)', bold: 'var(--stage-1-bold)', text: 'var(--stage-1-text)',
   },
   {
     num: '02', name: 'First Steps', ks: 'KS2 · Yr 3 to 5', ages: 'Ages 8 to 10',
     device: 'Restricted phone',
-    tags: ['After-school TV', 'Gaming time', 'Boredom'],
+    tags: ['After school TV', 'Gaming time', 'Boredom'],
     quote: '"The moment he walks in from school it is TV or gaming. I cannot break the cycle."',
     bg: 'var(--stage-2)', bold: 'var(--stage-2-bold)', text: 'var(--stage-2-text)',
   },
@@ -265,7 +265,7 @@ const RESEARCHERS = [
 
 const TESTIMONIALS = [
   { text: '"I used to spiral every time the phone conversation came up. Now I have the exact words. It changed how we talk about it completely."', by: 'Sarah M.', stage: 'Stage 3', initials: 'SM' },
-  { text: '"The weekly check-in is the thing I did not know I needed. I spotted something shifting in my son before it became a real problem."', by: 'Tom K.', stage: 'Stage 4', initials: 'TK' },
+  { text: '"The weekly check in is the thing I did not know I needed. I spotted something shifting in my son before it became a real problem."', by: 'Tom K.', stage: 'Stage 4', initials: 'TK' },
   { text: '"My daughter and I are actually talking about this stuff now. DiGi gave me the language and the pathway gave me the confidence."', by: 'Clare H.', stage: 'Stage 3', initials: 'CH' },
 ]
 
@@ -317,7 +317,7 @@ export default function HomePage() {
               {
                 '@type': 'Question',
                 name: 'How do I deal with screen time arguments every day?',
-                acceptedAnswer: { '@type': 'Answer', text: 'Screen time arguments happen when limits are inconsistent or when structure is missing. Guided Childhood gives you the exact scripts for the most common daily battles including after-school TV demands, bedtime phone fights, and gaming meltdowns. The fix is structural, not stricter. One consistent routine replaces most daily arguments within two weeks.' },
+                acceptedAnswer: { '@type': 'Answer', text: 'Screen time arguments happen when limits are inconsistent or when structure is missing. Guided Childhood gives you the exact scripts for the most common daily battles including after school TV demands, bedtime phone fights, and gaming meltdowns. The fix is structural, not stricter. One consistent routine replaces most daily arguments within two weeks.' },
               },
               {
                 '@type': 'Question',
@@ -680,7 +680,7 @@ export default function HomePage() {
               {STAGES.map((s, i) => {
                 // Real stock photos — one per stage, age-matched
                 const STAGE_IMGS = [
-                  'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260701_081926_eace355f-0905-46ee-9fbe-0e374e1283be.png', // parent+young child co-viewing stage 1
+                  'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260701_081926_eace355f-0905-46ee-9fbe-0e374e1283be.png', // parent+young child co viewing stage 1
                   'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260701_084000_16cf13f2-fce4-4488-b8b7-25c7b85b6b60.png', // child aged 8-9 at kitchen table with tablet stage 2
                   'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260701_081928_d5e7d499-fcb6-4fbd-aa01-89c0afa69472.png', // pre-teen friends with phone stage 3
                   'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260701_084001_49386d86-1418-4b32-ac2e-8d812b7d4c80.png', // teen aged 13-14 with phone stage 4
@@ -1706,7 +1706,7 @@ export default function HomePage() {
                   <div style={{ display: 'flex', gap: '9px', alignItems: 'flex-end' }}>
                     <div className="digi-avatar-sm">D</div>
                     <div className="bubble-digi">
-                      This is one of the most common patterns at Stage 2. The fix is a 20-minute wind-down routine with a script so it does not become a fight. Want the exact words for tonight?
+                      This is one of the most common patterns at Stage 2. The fix is a 20-minute wind down routine with a script so it does not become a fight. Want the exact words for tonight?
                     </div>
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -2292,7 +2292,7 @@ export default function HomePage() {
                 tier: 'Free forever', name: 'Starter Pack', price: 'Free', period: '',
                 save: 'Yours immediately on sign-up',
                 features: [
-                  ['✓', 'Age-stage roadmap'],
+                  ['✓', 'Age stage roadmap'],
                   ['✓', 'Family digital agreement template'],
                   ['✓', '5 conversation scripts'],
                   ['✓', 'Warning signs checklist'],
@@ -2419,7 +2419,7 @@ export default function HomePage() {
             </Link>
           </div>
           <div style={{ fontSize: '.72rem', color: 'var(--ink-muted)' }}>
-            No card required · 30-day money-back on launch
+            No card required · 30-day money back on launch
           </div>
         </div>
       </section>

@@ -11,6 +11,7 @@ import { NextResponse } from 'next/server'
 // for unpaid parents so the row they get is one they can open again later.
 
 type SituationKey =
+  | 'morning-tv'
   | 'tv-off'
   | 'phone-handover'
   | 'bedtime'
@@ -23,6 +24,7 @@ const SITUATIONS: Record<SituationKey, {
   category: string | null
   keywords: string[]
 }> = {
+  'morning-tv':     { label: 'Morning TV, will not get ready', category: 'screen-habits', keywords: ['morning', 'get dressed', 'dressed', 'uniform', 'ready', 'before school', 'tv', 'breakfast'] },
   'tv-off':         { label: 'TV or screen turned off',   category: 'screen-habits', keywords: ['turn off', 'turned off', 'switch off', 'tv', 'screen time', 'time is up', 'ending', 'transition'] },
   'phone-handover': { label: 'Phone handover fight',      category: 'screen-habits', keywords: ['phone', 'hand over', 'handover', 'hand it', 'give', 'put down', 'put it away', 'device away'] },
   'bedtime':        { label: 'Bedtime battle',            category: 'screen-habits', keywords: ['bedtime', 'bed', 'bedroom', 'sleep', 'night', 'evening'] },

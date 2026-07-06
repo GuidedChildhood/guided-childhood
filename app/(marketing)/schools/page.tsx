@@ -93,7 +93,7 @@ export default function SchoolsPage() {
           <div style={{ textAlign: 'center', marginBottom: '36px' }}>
             <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>The curriculum</p>
             <h2 style={{ marginBottom: '12px' }}>21 modules. EYFS to Sixth Form.</h2>
-            <p style={{ fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.8, maxWidth: '500px', margin: '0 auto' }}>One coherent programme that builds from first screens to full independence. Not a bolt-on. Not a one-off assembly. A proper scheme of work.</p>
+            <p style={{ fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.8, maxWidth: '500px', margin: '0 auto' }}>One coherent programme that builds from first screens to full independence. Not a bolt-on. Not a one off assembly. A proper scheme of work.</p>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {CURRICULUM.map((stage, i) => (

@@ -20,7 +20,7 @@ const STAGE_DISPLAY: Record<number, {
   1: {
     displayName: 'Foundation',
     subtitle: null,
-    concepts: ['Shared screen', 'Co-viewing', 'No solo device', 'No feeds'],
+    concepts: ['Shared screen', 'Co viewing', 'No solo device', 'No feeds'],
     color: 'var(--terracotta)',
     bg: 'var(--stage-1)',
     numColor: 'var(--terracotta)',

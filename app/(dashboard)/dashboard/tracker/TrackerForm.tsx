@@ -60,7 +60,7 @@ export default function TrackerForm({
   actionsThisWeek: number
 }) {
   const [scores, setScores] = useState<Scores>(() => checkToScores(currentWeekCheck))
-  const [notes, setNotes] = useState(currentWeekCheck?.notes && !currentWeekCheck.notes.startsWith('Quick check-in') ? currentWeekCheck.notes : '')
+  const [notes, setNotes] = useState(currentWeekCheck?.notes && !currentWeekCheck.notes.startsWith('Quick check in') ? currentWeekCheck.notes : '')
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
 
@@ -91,7 +91,7 @@ export default function TrackerForm({
     return (
       <div style={{ maxWidth: '560px', margin: '0 auto', padding: '40px 20px', textAlign: 'center' }}>
         <div style={{ fontSize: '40px', marginBottom: '16px' }}>✓</div>
-        <h2 style={{ fontSize: '1.5rem', marginBottom: '12px' }}>Check-in saved</h2>
+        <h2 style={{ fontSize: '1.5rem', marginBottom: '12px' }}>Check in saved</h2>
         <p style={{ color: 'var(--ink)', marginBottom: '24px', fontSize: '15px' }}>
           {avgScore && avgScore >= 4
             ? 'Scores are looking solid this week. Keep the rhythm going.'
@@ -116,7 +116,7 @@ export default function TrackerForm({
   return (
     <div style={{ maxWidth: '600px', margin: '0 auto', padding: '24px 20px' }}>
       <div style={{ marginBottom: '20px' }}>
-        <p className="eyebrow" style={{ marginBottom: '4px' }}>Weekly check-in</p>
+        <p className="eyebrow" style={{ marginBottom: '4px' }}>Weekly check in</p>
         <h1 style={{ fontSize: 'clamp(1.5rem, 4vw, 2rem)', marginBottom: '8px' }}>Wellbeing tracker</h1>
         <p style={{ color: 'var(--ink)', fontSize: '15px' }}>
           Five minutes, once a week. Over time this becomes the most useful thing in your dashboard.
@@ -224,7 +224,7 @@ export default function TrackerForm({
           className="btn btn-gold"
           style={{ opacity: allAnswered ? 1 : 0.5 }}
         >
-          {loading ? 'Saving...' : currentWeekCheck ? 'Update this week\'s check-in' : 'Save this week\'s check-in'}
+          {loading ? 'Saving...' : currentWeekCheck ? 'Update this week\'s check in' : 'Save this week\'s check in'}
         </button>
       </form>
     </div>

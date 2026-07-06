@@ -53,7 +53,20 @@ function paletteFor(card: DailyCard, index: number): Palette {
 
 const CARD_SHADOW = '0 10px 40px rgba(26,26,46,0.14), 0 2px 8px rgba(26,26,46,0.08)'
 
-function CardFace({ card, palette }: { card: DailyCard; palette: Palette }) {
+// blank renders the same card shape with its text invisible: the deck
+// shows the EDGE of the card waiting beneath, never its writing.
+function CardFace({ card, palette, blank = false }: { card: DailyCard; palette: Palette; blank?: boolean }) {
+  const hide: React.CSSProperties = blank ? { visibility: 'hidden' } : {}
+  async function shareCard(e: React.MouseEvent) {
+    e.stopPropagation()
+    const url = `${window.location.origin}/starter-pack`
+    const text = `${card.headline}\n\n${card.body}\n\nFrom Guided Childhood, the words that work: ${url}`
+    try {
+      if (navigator.share) await navigator.share({ title: card.headline, text, url })
+      else await navigator.clipboard.writeText(text)
+    } catch { /* cancelled */ }
+  }
+
   return (
     <div style={{
       background: palette.body,
@@ -61,38 +74,62 @@ function CardFace({ card, palette }: { card: DailyCard; palette: Palette }) {
       overflow: 'hidden',
       boxShadow: CARD_SHADOW,
       border: '1px solid var(--border)',
+      minHeight: 'min(56dvh, 540px)',
+      display: 'flex',
+      flexDirection: 'column',
     }}>
       {/* Curved header band */}
       <div style={{
         background: palette.header,
         padding: '22px 24px 26px',
         borderRadius: '0 0 32px 32px',
+        display: 'flex', alignItems: 'flex-start', gap: '12px',
       }}>
-        <div style={{
-          fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700,
-          letterSpacing: '.18em', textTransform: 'uppercase',
-          color: palette.text, opacity: 0.75, marginBottom: '6px',
-        }}>
-          {card.eyebrow}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{
+            fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700,
+            letterSpacing: '.18em', textTransform: 'uppercase',
+            color: palette.text, opacity: 0.75, marginBottom: '6px',
+            ...hide,
+          }}>
+            {card.eyebrow}
+          </div>
+          <div style={{
+            fontFamily: 'var(--font-display)', fontWeight: 800,
+            fontSize: 'clamp(1.15rem, 4vw, 1.5rem)',
+            color: palette.text, lineHeight: 1.15, letterSpacing: '-0.02em',
+            ...hide,
+          }}>
+            {card.headline}
+          </div>
         </div>
-        <div style={{
-          fontFamily: 'var(--font-display)', fontWeight: 800,
-          fontSize: 'clamp(1.15rem, 4vw, 1.5rem)',
-          color: palette.text, lineHeight: 1.15, letterSpacing: '-0.02em',
-        }}>
-          {card.headline}
-        </div>
+        <button
+          onClick={shareCard}
+          aria-label="Share this card"
+          style={{
+            width: 36, height: 36, borderRadius: '50%', flexShrink: 0,
+            border: `1.5px solid ${palette.text}`, opacity: 0.7,
+            background: 'transparent', cursor: 'pointer',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            ...hide,
+          }}
+        >
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 3v12M12 3l-4.5 4.5M12 3l4.5 4.5M5 13v6h14v-6" stroke={palette.text} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
       </div>
 
       {/* Card body */}
-      <div style={{ padding: '28px 24px 34px', background: palette.body }}>
+      <div style={{ padding: '28px 24px 34px', background: palette.body, flex: 1 }}>
         <p style={{
-          fontSize: 'clamp(15.5px, 3.8vw, 18px)',
-          lineHeight: 1.6,
+          fontSize: 'clamp(16px, 4vw, 19px)',
+          lineHeight: 1.65,
           color: 'var(--ink)',
           margin: 0,
           fontWeight: 500,
           fontFamily: 'var(--font-body)',
+          ...hide,
         }}>
           {card.body}
         </p>
@@ -375,6 +412,37 @@ export default function DailyDeckViewer({
         >
           Back to home
         </button>
+
+        {/* Done is not a dead end: issues do not respect the streak */}
+        <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+          <button
+            onClick={() => router.push('/dashboard/moments')}
+            style={{
+              flex: 1, padding: '13px', background: 'var(--white)',
+              border: '1.5px solid var(--border)', borderRadius: 'var(--radius-btn)',
+              fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
+              letterSpacing: '.06em', textTransform: 'uppercase',
+              color: 'var(--ink-soft)', cursor: 'pointer',
+            }}
+          >
+            Browse moments
+          </button>
+          <button
+            onClick={() => router.push('/dashboard/quests')}
+            style={{
+              flex: 1, padding: '13px', background: 'var(--white)',
+              border: '1.5px solid var(--border)', borderRadius: 'var(--radius-btn)',
+              fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
+              letterSpacing: '.06em', textTransform: 'uppercase',
+              color: 'var(--ink-soft)', cursor: 'pointer',
+            }}
+          >
+            Family quests
+          </button>
+        </div>
+        <p style={{ textAlign: 'center', fontSize: '12px', color: 'var(--ink-muted)', marginTop: '12px', marginBottom: 0 }}>
+          Something kicking off? The Help now button is always there, even after your day is done.
+        </p>
       </div>
     )
   }
@@ -440,7 +508,7 @@ export default function DailyDeckViewer({
               overflow: 'hidden', borderRadius: '28px',
             }}
           >
-            <CardFace card={underCard} palette={paletteFor(underCard, underIndex)} />
+            <CardFace card={underCard} palette={paletteFor(underCard, underIndex)} blank={!underRaised} />
           </div>
         )}
 
