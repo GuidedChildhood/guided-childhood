@@ -133,7 +133,11 @@ export default async function SharedMomentPage({ params }: { params: Promise<{ i
         >
           Get your free starter pack
         </Link>
-        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'rgba(255,255,255,0.55)', marginTop: '16px', letterSpacing: '0.06em' }}>
+        <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.75)', marginTop: '12px' }}>
+          Already a member?{' '}
+          <Link href="/login" style={{ color: '#fff', fontWeight: 700 }}>Log in</Link>
+        </p>
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'rgba(255,255,255,0.55)', marginTop: '14px', letterSpacing: '0.06em' }}>
           guidedchildhood.co.uk
         </p>
       </div>
