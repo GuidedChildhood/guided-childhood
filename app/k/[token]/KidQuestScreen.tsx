@@ -35,6 +35,17 @@ export default function KidQuestScreen({
   )
   const [burst, setBurst] = useState<string | null>(null)
   const [remindState, setRemindState] = useState<'hidden' | 'offer' | 'on'>('hidden')
+  const [showWelcome, setShowWelcome] = useState(false)
+  const [toast, setToast] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (localStorage.getItem('gc_kid_welcome') !== '1') setShowWelcome(true)
+  }, [])
+
+  function dismissWelcome() {
+    localStorage.setItem('gc_kid_welcome', '1')
+    setShowWelcome(false)
+  }
 
   useEffect(() => {
     if (!('serviceWorker' in navigator) || !('PushManager' in window)) return
@@ -80,6 +91,8 @@ export default function KidQuestScreen({
     if (!untick) {
       setBurst(quest.id)
       setTimeout(() => setBurst(null), 900)
+      setToast('Sent to your grown up! ⭐ Stars land when they tap approve.')
+      setTimeout(() => setToast(null), 3000)
     }
 
     try {
@@ -115,7 +128,65 @@ export default function KidQuestScreen({
         }
       `}</style>
 
+      {/* The sent it toast */}
+      {toast && (
+        <div style={{
+          position: 'fixed', top: 'max(16px, env(safe-area-inset-top))', left: '16px', right: '16px', zIndex: 50,
+          display: 'flex', justifyContent: 'center', pointerEvents: 'none',
+        }}>
+          <div style={{
+            background: 'var(--terracotta)', color: 'var(--ink)',
+            borderRadius: '14px', padding: '12px 18px', maxWidth: '420px',
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', textAlign: 'center',
+            boxShadow: '0 6px 24px rgba(0,0,0,0.35)',
+          }}>
+            {toast}
+          </div>
+        </div>
+      )}
+
       <div style={{ width: 'min(100%, 460px)' }}>
+        {/* First visit: how this works, in kid language */}
+        {showWelcome && (
+          <div style={{
+            background: '#fff', borderRadius: '20px', padding: '18px 20px', marginBottom: '16px',
+            boxShadow: '0 8px 30px rgba(0,0,0,0.25)',
+          }}>
+            <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.15rem', color: 'var(--ink)', margin: '0 0 10px' }}>
+              Hi {childName}! This page is yours. 👋
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '9px', marginBottom: '14px' }}>
+              {[
+                'Do a quest in real life, then tap it here. Your grown up gets told straight away.',
+                'When they tap approve, your stars land and count toward your prize.',
+                'Make it one tap from your Home Screen: in Safari tap Share (the square with the arrow), then Add to Home Screen.',
+                'Tap the 🔔 button below so I can remind you about your quests.',
+              ].map((step, i) => (
+                <div key={i} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
+                  <span style={{
+                    width: 22, height: 22, borderRadius: '50%', flexShrink: 0,
+                    background: 'var(--terracotta)', color: 'var(--ink)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
+                  }}>{i + 1}</span>
+                  <span style={{ fontSize: '13.5px', color: 'var(--ink)', lineHeight: 1.5 }}>{step}</span>
+                </div>
+              ))}
+            </div>
+            <button
+              onClick={dismissWelcome}
+              style={{
+                width: '100%', padding: '12px', background: 'var(--terracotta)', color: 'var(--ink)',
+                border: 'none', borderRadius: '12px', cursor: 'pointer',
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px',
+                boxShadow: '0 4px 0 var(--terracotta-dark)',
+              }}
+            >
+              Got it, let me at my quests
+            </button>
+          </div>
+        )}
+
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '18px' }}>
           <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)', marginBottom: 6 }}>
