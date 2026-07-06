@@ -55,31 +55,13 @@ export default async function ClassPage({ params }: { params: Promise<{ id: stri
                   <div style={{ ...eyebrow, marginBottom: '4px' }}>{l.key_stage}</div>
                   <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px', color: 'var(--ink)' }}>{l.title}</div>
                 </div>
-                <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                  <Link href="/educator/preview" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: 'var(--green-dark)', textDecoration: 'none' }}>
-                    Open lesson
-                  </Link>
-                  <Link href={`/educator/print/${l.module_id}`} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: 'var(--gold-dark)', textDecoration: 'none' }}>
-                    Paper pack
-                  </Link>
-                  <Link href={`/educator/print/${l.module_id}/booklet`} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: 'var(--gold-dark)', textDecoration: 'none' }}>
-                    Pupil booklet
-                  </Link>
-                  <Link href={`/educator/print/${l.module_id}/quiz/${cls.id}`} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: 'var(--gold-dark)', textDecoration: 'none' }}>
-                    Named quizzes
-                  </Link>
-                  <form action={recordDelivery}>
-                    <input type="hidden" name="class_id" value={cls.id} />
-                    <input type="hidden" name="lesson_id" value={l.id} />
-                    <button type="submit" style={{
-                      padding: '10px 16px', borderRadius: '16px', background: 'var(--gold)',
-                      color: 'var(--ink)', border: 'none', boxShadow: '0 5px 0 var(--gold-hover)',
-                      cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px',
-                    }}>
-                      Taught it, take the register
-                    </button>
-                  </form>
-                </div>
+                <Link href={`/educator/classes/${cls.id}/lesson/${l.module_id}`} style={{
+                  padding: '11px 20px', borderRadius: '16px', background: 'var(--gold)', color: 'var(--ink)',
+                  boxShadow: '0 5px 0 var(--gold-hover)', textDecoration: 'none',
+                  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', flexShrink: 0,
+                }}>
+                  Everything for this lesson →
+                </Link>
               </div>
             ))}
           </div>
