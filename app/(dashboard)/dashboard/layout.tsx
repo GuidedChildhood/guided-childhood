@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import NavTabs from '@/components/dashboard/NavTabs'
 import RightNowButton from '@/components/rightnow/RightNowButton'
+import InstallPrompt from '@/components/pwa/InstallPrompt'
 
 // Mobile bottom bar: four tabs plus the raised Now button in the centre.
 // Pathway and AI left the mobile bar (both stay in the desktop nav and are
@@ -72,6 +73,10 @@ export default async function DashboardLayout({ children }: { children: React.Re
       <main style={{ flex: 1, paddingBottom: '80px' }}>
         {children}
       </main>
+
+      {/* Install prompt: Android gets the real install event, iPhone gets
+          the guided two taps (Apple allows no automatic prompt) */}
+      <InstallPrompt />
 
       {/* Mobile bottom tab bar: Home, DiGi, [Now], Scripts, Tracker */}
       <nav className="bottom-tab-bar">
