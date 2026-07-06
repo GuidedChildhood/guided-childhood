@@ -131,12 +131,42 @@ What do you check first when someone tells you not to trust an expert?
 
 ---
 
-## 5. X THREAD OPENER
+## 5. X THREAD (full, 8 posts)
 
-Someone in my network sent me a sincere case this week: the scientists I cite take tech money, so do not trust them.
+Respectful register, sender never identifiable. No dashes.
+
+1/ Someone in my network sent me a sincere case this week: the scientists I cite take tech money, so do not trust them.
 
 I checked all of it. The honest answer is more useful than either side wants.
 
-A thread on what to actually do with experts. 1/
+A thread on what to actually do with experts.
 
-(Thread continues: 2/ what held up, 3/ what did not, 4/ follow the money cuts both ways, the book and the pouch industry, 5/ the real test is method not funder, disclosed, checkable, direction, 6/ the reconciliation, the clinician sees the tail the statistician measures the average, 7/ so judge experts by whether the work survives checking, including me.)
+2/ First, credit where it is due. Some of it held up.
+
+The funding ties are real. A foundation that funds one of these researchers does invest in education technology. An Oxford researcher advised Google and OpenAI panels. All of it disclosed, in their papers and on their university pages. The sender was right that the ties exist.
+
+3/ Some did not hold up.
+
+A researcher called a tech institute's research director actually holds that title at her public university, with only an unpaid advisory seat at the institute. A claimed funding link ran to a separate programme she is not part of. An app held up as proof of a screen agenda was a clinical trial of a depression therapy.
+
+4/ But here is the part that matters most.
+
+Follow the money and it cuts every way at once. The most famous voice warning that phones rewire childhood has sold more than two million books on that claim, and speaks for fees in the tens to low hundreds of thousands. The pouch company schools buy took millions in public contracts last year.
+
+5/ I am not accusing anyone of bad faith. That is the point.
+
+Interest sits on all sides, mine included. Which is exactly why the funder cannot decide who is right. If it could, the bestseller and the pouch industry would be disqualified first. So you need a better test than the logo on the grant.
+
+6/ The test I use, for anyone, including me.
+
+Is it disclosed. Can a hostile stranger download the data and re run it. Does the funding direction even make sense. These findings use public datasets, analysis plans registered before the results, and open code, and the critics reanalyse the same data in public. That is strength, not weakness.
+
+7/ And the reconciliation, which is the heart of it.
+
+The sender sees real harm in children every day, and I believe them. The science does not deny it. The average effect is small only because an average blends a large fine majority with a smaller hurt minority. A caseload of struggling children is that minority, the tail. The clinician and the statistician are describing the same reality from opposite ends.
+
+8/ So what do we do with experts. Ask everyone for their funding, then judge by whether the work is open, registered and survives a critic. Including me.
+
+If that is the conversation you want more of, follow Justin Phillips and drop PATHWAY for the long read.
+
+What do you check first when told not to trust an expert?
