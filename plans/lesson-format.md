@@ -48,7 +48,30 @@ Rules that keep it industry leading rather than generic:
 
 ## 3. The slide grammar (our own slide system)
 
-Seven slide types, all proven in the live player: `title`, `video`, `concept`, `choice` (auto marked check), `quote` (say it like the character), `tryit` (worksheet moment), `recap`. A lesson is 14 to 18 slides using only these. New slide types require a decisions.md entry, not an improvisation. The animation layer is beats referenced by the `video_beats` JSON (character, seconds, board text, model, Higgsfield job id) so any beat can be re rendered or voice swapped without touching the lesson.
+Seven slide types, all proven in the live player: `title`, `video`, `concept`, `choice` (auto marked check), `quote` (say it like the character), `tryit` (worksheet moment), `recap`. Plus the eighth, added for schools v2: `interactive` (below). A lesson is 14 to 18 slides using only these. New slide types require a decisions.md entry, not an improvisation. The animation layer is beats referenced by the `video_beats` JSON (character, seconds, board text, model, Higgsfield job id) so any beat can be re rendered or voice swapped without touching the lesson.
+
+### 3.1 The interactive layer (animated HTML components inside lessons)
+
+The eighth slide type: `{ "type": "interactive", "component": "<key>", "config": {...}, "caption": text }`. The lesson row names a component by key and passes config; the component code lives in the app at `components/lessons/interactives/`. This keeps rule 6 intact (content in the database, code in the app), keeps every animation GSAP only (no Three.js), and means a new interactive in one module is instantly available to all 21.
+
+Rules for every interactive:
+- **Teacher screen first.** Must work class paced on one projector with the teacher tapping (a show of hands becomes taps on the board). Pupil paced mode is a bonus, never a requirement.
+- **If it captures answers, it IS a check:** results write to `check_responses` exactly like a choice slide (class tally mode when there are no pupil devices).
+- **Paper twin required.** Every interactive has a described unplugged equivalent in the teacher notes (the equity rule), usually the cut out card version from the print pack.
+- **Reduced motion respected, 60fps or it ships simpler.** Subtle, purposeful motion; the animation teaches the mechanic, it never decorates.
+
+The v1 component set (built in the v2 pass, mapped to modules):
+
+| Key | What it does | Modules |
+|---|---|---|
+| `feed-loop` | The feedback loop drawn live: watch, signal, more of the same, watch more, circling with increasing speed until the loop closes into a bubble | 6, 10, 12 |
+| `verdict-sort` | Post cards the class flicks into piles (believe / pause / do not share, or serving / holding) with the DeckViewer flick away motion; tallies animate per pile | 6, 8, 12, 13, 15 |
+| `signal-meter` | Tap an action (like, comment, watch to end, rewatch), the signal strength bar animates; watch time visibly outweighs everything | 6, 12 |
+| `spread-race` | Two posts race across an animated network, the outrage one pulling ahead; then the class dampens the reaction weighting and re runs it | 12, 15 |
+| `class-tally` | The whole class check for no device rooms: teacher taps hands counted per option, bars animate, result saved as the class check response | every module |
+| `star-breath` | DiGi Junior golden star breathing pause, expanding and contracting with a 4 second cycle | every module (pause beat companion) |
+
+Source material: the algorithm literacy project in this repo already specifies the mechanics for feed-loop and spread-race (Parts 5 and 8: the paper algorithm, echo chamber and virality simulations); the interactives are their classroom grade GSAP ports.
 
 ## 4. Updates to authorities without rewrites
 
