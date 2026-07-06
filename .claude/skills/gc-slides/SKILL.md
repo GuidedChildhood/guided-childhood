@@ -39,6 +39,19 @@ There is no style discovery phase. Every deck uses the Guided Childhood system:
 ```
 
 - **Fonts:** Nunito (800 to 900 display, 400 to 600 body) + IBM Plex Mono (eyebrows, labels, counters), loaded from Google Fonts. Never Inter, never system fonts.
+
+### Typography for schools (brand law + the accessibility research, plans/print-design-system.md)
+
+School decks are read from the back of halls and classrooms by children, teachers and parents, and must satisfy the BDA/UKAAF rules our print research locked in:
+
+- **Sizes on the 1920x1080 stage.** Assemblies (pupil facing, school hall): headlines 96 to 120px Nunito 900, body 48 to 56px minimum, never more than about 20 words on a slide. CPD, parent evening and pitch decks (adults, classroom distance): headlines 72 to 88px, body 36 to 44px minimum, bullets capped at 6 per slide. Nothing pupil facing ever below 44px body.
+- **Heading tracking:** letter-spacing -0.01em maximum (Nunito reads cramped tighter, decisions.md 2026-07-01). Body tracking normal or slightly open, never negative.
+- **Line height 1.4 to 1.5 for any multi line text. Left aligned, ragged right, never justified, never centred paragraphs** (centred is allowed only for single line title slides and certificates).
+- **Emphasis is bold only. No italics, no underline, no block capitals in body text** (BDA: they slow or break reading). The uppercase IBM Plex Mono eyebrow is a short label, never a sentence: 6 words maximum.
+- **Sentence case everywhere,** including headlines. Board text inside character video beats is the one exception (REAL OR MADE? style, it is scenery, not body text).
+- **Contrast:** ink on cream passes; body text never in --ink-light; text on --deep-teal slides is cream or white at 700+ weight; never place text over the gold wash below 800 weight.
+- **Numbers and data:** IBM Plex Mono for figures and citations; every stat carries its source and year on the same slide at 28 to 32px, ink-muted.
+- **Dyslexia posture:** Nunito's rounded, evenly spaced letterforms pass BDA guidance; keep it, never substitute a decorative face for "variety". Meaning never by colour alone: pair every colour signal with an icon or label (one colour blind child in every classroom).
 - **Slide grammar:** cream background; quiet mono eyebrow top left; Nunito 800 headline in ink (yellow is a shape, never text); one accent per deck section; chunky 16px radius cards with the hard `0 5px 0` shadow for callouts; the DiGi golden star as the recurring brand mark.
 - **Characters:** cast per the spec 9.4 table (squad kids primary, Vix/Brock and DiGi secondary, DiGi only for sensitive topics). Character video beats embed as mp4 from the Higgsfield CDN; long form talking segments come from the Avatar pipeline. Never render DiGi as a robot or an owl.
 - **Copy rules:** no dashes as punctuation anywhere. Justin's voice: warm, plain, direct. Every stat cited from LANDSCAPE_CONFIG (lib/config/landscape.ts) with source and date. Evidence discipline: nothing a hostile expert could kill (the Odgers test). The honest line where relevant: the ban removes the apps, it does not raise the child.
