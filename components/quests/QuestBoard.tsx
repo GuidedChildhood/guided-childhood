@@ -14,7 +14,7 @@ import { STAR_MINUTES } from '@/lib/quests/templates'
 type Child = { id: string; name: string }
 type Quest = { id: string; title: string; emoji: string; stars: number; schedule: string; child_id: string | null }
 type Tick = { id: string; quest_id: string; child_id: string | null; tick_date: string; status: string }
-type Goal = { child_id: string; title: string; stars_needed: number }
+type Goal = { child_id: string; title: string; stars_needed: number; daily_stars: number | null }
 
 export default function QuestBoard() {
   const [children, setChildren] = useState<Child[]>([])
@@ -147,6 +147,10 @@ export default function QuestBoard() {
             .filter(t => t.status === 'approved' && (t.child_id === c.id || t.child_id === null))
             .reduce((sum, t) => sum + (questById.get(t.quest_id)?.stars ?? 1), 0)
           const goal = goals.find(g => g.child_id === c.id)
+          const todayStars = ticks
+            .filter(t => t.tick_date === today && t.status !== 'rejected' && (t.child_id === c.id || t.child_id === null))
+            .reduce((sum, t) => sum + (questById.get(t.quest_id)?.stars ?? 1), 0)
+          const dayGoalHit = !!goal?.daily_stars && todayStars >= goal.daily_stars
           const isOpen = openChild === c.id
           return (
             <div key={c.id} style={{
@@ -186,6 +190,18 @@ export default function QuestBoard() {
                     <span style={{ fontSize: '11.5px', color: 'var(--ink-muted)', marginLeft: '4px' }}>
                       {doneToday}/{dueToday.length} today
                     </span>
+                    {goal?.daily_stars ? (
+                      <span style={{
+                        fontSize: '10px', fontWeight: 800, marginLeft: '4px',
+                        fontFamily: 'var(--font-mono)', letterSpacing: '0.04em',
+                        color: dayGoalHit ? 'var(--ink)' : 'var(--ink-muted)',
+                        background: dayGoalHit ? 'var(--terracotta)' : 'var(--cream)',
+                        border: dayGoalHit ? 'none' : '1px solid var(--border)',
+                        borderRadius: '100px', padding: '3px 8px',
+                      }}>
+                        {dayGoalHit ? 'Day goal hit 🎉' : `Day goal ⭐ ${Math.min(todayStars, goal.daily_stars)}/${goal.daily_stars}`}
+                      </span>
+                    ) : null}
                   </span>
                   {/* Goal bar */}
                   {goal && (

@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
 import { SOCIAL_MEDIA_LAW } from '@/lib/config/social-media-law'
+import ScriptDepth from '@/components/scripts/ScriptDepth'
 
 const STAGE_META: Record<string, { label: string; color: string; bg: string }> = {
   foundation:  { label: 'Foundation · Ages 4 to 7',  color: 'var(--ink)', bg: 'var(--stage-1)' },
@@ -30,6 +31,9 @@ type ScriptRow = {
   law_flag: string
   is_free: boolean
   sort_order: number
+  if_they_push_back: string | null
+  check_back: string | null
+  for_your_child: string | null
 }
 
 export default async function ScriptDetailPage({
@@ -68,9 +72,10 @@ export default async function ScriptDetailPage({
   const stageMeta = STAGE_META[script.stage_id] ?? STAGE_META.foundation
   const showBanNote = script.law_flag !== 'none' && SOCIAL_MEDIA_LAW !== 'none'
 
-  const [{ data: prevScript }, { data: nextScript }] = await Promise.all([
+  const [{ data: prevScript }, { data: nextScript }, { data: primaryChild }] = await Promise.all([
     supabase.from('scripts').select('sort_order, title').eq('sort_order', sortOrder - 1).maybeSingle(),
     supabase.from('scripts').select('sort_order, title').eq('sort_order', sortOrder + 1).maybeSingle(),
+    supabase.from('children').select('name, phone').eq('parent_id', user.id).eq('is_primary', true).maybeSingle(),
   ])
 
   return (
@@ -198,6 +203,19 @@ export default async function ScriptDetailPage({
           )
         })}
       </div>
+
+      {/* The deeper half: push back, check back, and the note for the child */}
+      <ScriptDepth
+        sortOrder={sortOrder}
+        initial={{
+          ifTheyPushBack: script.if_they_push_back ?? undefined,
+          checkBack: script.check_back ?? undefined,
+          forYourChild: script.for_your_child ?? undefined,
+        }}
+        childName={primaryChild?.name ?? null}
+        childPhone={primaryChild?.phone ?? null}
+        stageId={script.stage_id}
+      />
 
       {/* DiGi CTA */}
       <div style={{

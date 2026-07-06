@@ -17,7 +17,7 @@ import { STAR_MINUTES } from '@/lib/quests/templates'
 
 type Quest = { id: string; title: string; emoji: string; stars: number; schedule: string }
 type Tick = { quest_id: string; status: string }
-type Goal = { title: string; stars_needed: number; achieved_at: string | null } | null
+type Goal = { title: string; stars_needed: number; daily_stars: number | null; achieved_at: string | null } | null
 
 export default function KidQuestScreen({
   token, childName, quests, todayTicks, weekStars, goal, streakDays = 0,
@@ -225,6 +225,39 @@ export default function KidQuestScreen({
             </div>
           )}
         </div>
+
+        {/* Today's goal: enough stars in one day completes the day */}
+        {goal?.daily_stars ? (() => {
+          const todayStars = quests.reduce((sum, q) => {
+            const st = ticks[q.id]
+            return st && st !== 'rejected' ? sum + q.stars : sum
+          }, 0)
+          const target = goal.daily_stars as number
+          const dayComplete = todayStars >= target
+          return (
+            <div style={{
+              background: dayComplete ? 'var(--terracotta)' : 'rgba(255,255,255,0.12)',
+              borderRadius: '16px', padding: '14px 18px', marginBottom: '12px',
+              boxShadow: dayComplete ? '0 5px 0 var(--terracotta-dark)' : 'none',
+            }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10, marginBottom: 8 }}>
+                <span style={{ fontSize: '13px', fontWeight: 700, color: dayComplete ? 'var(--ink)' : '#fff' }}>
+                  {dayComplete ? `Day complete! You hit today's goal 🎉` : `Today's goal`}
+                </span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, color: dayComplete ? 'var(--ink)' : 'rgba(255,255,255,0.85)' }}>
+                  ⭐ {Math.min(todayStars, target)}/{target}
+                </span>
+              </div>
+              <div style={{ height: '10px', borderRadius: '10px', background: dayComplete ? 'rgba(0,0,0,0.15)' : 'rgba(255,255,255,0.18)', overflow: 'hidden' }}>
+                <div style={{
+                  height: '100%', borderRadius: '10px', background: dayComplete ? '#fff' : 'var(--terracotta)',
+                  width: `${Math.min(100, (todayStars / Math.max(1, target)) * 100)}%`,
+                  transition: 'width 0.6s ease',
+                }} />
+              </div>
+            </div>
+          )
+        })() : null}
 
         {/* Goal bar */}
         {goal && (
