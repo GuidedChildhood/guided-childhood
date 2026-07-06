@@ -9,7 +9,9 @@ import { QUEST_TEMPLATES } from '@/lib/quests/templates'
 // quests over: share the kid link for older children or print the sheet
 // for little ones.
 
-type Child = { id: string; name: string; age_band: string | null }
+type Child = { id: string; name: string; age_band: string | null; phone?: string | null }
+
+const AGE_BANDS = ['4-7', '8-10', '11-13', '13-15', '16+'] as const
 type Quest = { id: string; title: string; emoji: string; stars: number; schedule: string; child_id: string | null }
 type Goal = { child_id: string; title: string; stars_needed: number }
 type KidLink = { child_id: string; token: string }
@@ -34,6 +36,40 @@ export default function QuestManager() {
   const [goalTitle, setGoalTitle] = useState('')
   const [goalStars, setGoalStars] = useState('20')
   const [copied, setCopied] = useState(false)
+  const [addingChild, setAddingChild] = useState(false)
+  const [newChildName, setNewChildName] = useState('')
+  const [newChildAge, setNewChildAge] = useState<string | null>(null)
+  const [phoneDraft, setPhoneDraft] = useState('')
+  const [phoneSaved, setPhoneSaved] = useState(false)
+
+  async function addChild() {
+    if (!newChildName.trim() || !newChildAge) return
+    const res = await fetch('/api/quests', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'child', name: newChildName.trim(), age_band: newChildAge }),
+    })
+    const data = await res.json()
+    if (data.child) {
+      setAddingChild(false)
+      setNewChildName('')
+      setNewChildAge(null)
+      setActiveChild(data.child.id)
+      await load()
+    }
+  }
+
+  async function savePhone() {
+    if (!activeChild) return
+    await fetch('/api/quests', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'phone', child_id: activeChild, phone: phoneDraft }),
+    })
+    setPhoneSaved(true)
+    setTimeout(() => setPhoneSaved(false), 2000)
+    await load()
+  }
 
   const load = useCallback(async () => {
     try {
@@ -123,32 +159,80 @@ export default function QuestManager() {
         Set the quests, agree what stars buy, and hand them over: their own link for older kids, a printed sheet for little ones. They tick, you approve, stars land.
       </p>
 
-      {/* Child picker */}
-      {children.length > 1 && (
-        <div style={{ display: 'flex', gap: '8px', marginBottom: '18px', flexWrap: 'wrap' }}>
-          {children.map(c => (
-            <button
-              key={c.id}
-              onClick={() => setActiveChild(c.id)}
-              style={{
-                padding: '9px 18px', borderRadius: '100px', cursor: 'pointer',
-                border: '1.5px solid var(--border)',
-                background: activeChild === c.id ? 'var(--deep-teal)' : '#fff',
-                color: activeChild === c.id ? '#fff' : 'var(--ink-soft)',
-                fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 700,
-              }}
-            >
-              {c.name}
-            </button>
-          ))}
-        </div>
-      )}
+      {/* Child picker plus add another, right here, never back to onboarding */}
+      <div style={{ display: 'flex', gap: '8px', marginBottom: '18px', flexWrap: 'wrap' }}>
+        {children.map(c => (
+          <button
+            key={c.id}
+            onClick={() => setActiveChild(c.id)}
+            style={{
+              padding: '9px 18px', borderRadius: '100px', cursor: 'pointer',
+              border: '1.5px solid var(--border)',
+              background: activeChild === c.id ? 'var(--deep-teal)' : '#fff',
+              color: activeChild === c.id ? '#fff' : 'var(--ink-soft)',
+              fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 700,
+            }}
+          >
+            {c.name}
+          </button>
+        ))}
+        <button
+          onClick={() => setAddingChild(v => !v)}
+          style={{
+            padding: '9px 18px', borderRadius: '100px', cursor: 'pointer',
+            border: '1.5px dashed var(--terracotta-dark)', background: 'var(--terracotta-lt)',
+            color: 'var(--ink)', fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 700,
+          }}
+        >
+          {children.length === 0 ? 'Add your child' : 'Add another child'} +
+        </button>
+      </div>
 
-      {children.length === 0 && (
+      {(addingChild || children.length === 0) && (
         <div style={card}>
-          <p style={{ fontSize: '14px', color: 'var(--ink-soft)', margin: 0 }}>
-            Add your child in onboarding first, then their quests live here.
-          </p>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '10px' }}>
+            {children.length === 0 ? 'First, who is this for?' : 'Add a child'}
+          </div>
+          <input
+            value={newChildName}
+            onChange={e => setNewChildName(e.target.value)}
+            placeholder="Their first name"
+            style={{
+              width: '100%', padding: '12px 15px', borderRadius: '12px', marginBottom: '12px',
+              border: '1.5px solid var(--border)', background: 'var(--cream)',
+              fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink)', outline: 'none',
+            }}
+            maxLength={60}
+          />
+          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '14px' }}>
+            {AGE_BANDS.map(band => (
+              <button
+                key={band}
+                onClick={() => setNewChildAge(band)}
+                style={{
+                  padding: '9px 16px', borderRadius: '100px', cursor: 'pointer',
+                  border: '1.5px solid var(--border)',
+                  background: newChildAge === band ? 'var(--deep-teal)' : '#fff',
+                  color: newChildAge === band ? '#fff' : 'var(--ink-soft)',
+                  fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
+                }}
+              >
+                {band === '16+' ? 'Ages 16 and up' : `Ages ${band.replace('-', ' to ')}`}
+              </button>
+            ))}
+          </div>
+          <button
+            onClick={addChild}
+            disabled={!newChildName.trim() || !newChildAge}
+            style={{
+              background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: '14px',
+              padding: '12px 22px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 800,
+              boxShadow: '0 4px 0 var(--terracotta-dark)',
+              opacity: (!newChildName.trim() || !newChildAge) ? 0.6 : 1,
+            }}
+          >
+            Add and start their quests
+          </button>
         </div>
       )}
 
@@ -326,6 +410,52 @@ export default function QuestManager() {
               >
                 Print the sheet
               </Link>
+            </div>
+
+            {/* Their phone number: quests, agreements and sheets go straight
+                to their Messages thread, sent from YOUR phone, nothing sent
+                by us directly */}
+            <div style={{ marginTop: '16px', paddingTop: '14px', borderTop: '1px solid var(--border)' }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
+                {child.name}&apos;s phone (optional)
+              </div>
+              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                <input
+                  value={phoneDraft || child.phone || ''}
+                  onChange={e => setPhoneDraft(e.target.value)}
+                  placeholder="07... their number"
+                  inputMode="tel"
+                  style={{
+                    flex: 1, minWidth: '150px', padding: '10px 14px', borderRadius: '12px',
+                    border: '1.5px solid var(--border)', background: '#fff',
+                    fontFamily: 'var(--font-mono)', fontSize: '14px', color: 'var(--ink)', outline: 'none',
+                  }}
+                  maxLength={20}
+                />
+                <button
+                  onClick={savePhone}
+                  style={{
+                    background: '#fff', border: '1.5px solid var(--border)', borderRadius: '12px',
+                    padding: '10px 16px', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, color: 'var(--ink-soft)',
+                  }}
+                >
+                  {phoneSaved ? 'Saved ✓' : 'Save'}
+                </button>
+                {link && (child.phone || phoneDraft) && (
+                  <a
+                    href={`sms:${(phoneDraft || child.phone || '').replace(/\s/g, '')}?&body=${encodeURIComponent(`Your quests are ready! Tick them off and earn your stars: ${typeof window !== 'undefined' ? window.location.origin : ''}/k/${link.token}`)}`}
+                    style={{
+                      display: 'inline-flex', alignItems: 'center',
+                      background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '12px',
+                      padding: '10px 16px', textDecoration: 'none',
+                      fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 800,
+                      boxShadow: '0 3px 0 var(--terracotta-dark)',
+                    }}
+                  >
+                    Text it to their phone
+                  </a>
+                )}
+              </div>
             </div>
           </div>
         </>

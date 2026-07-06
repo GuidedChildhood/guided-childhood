@@ -1866,7 +1866,7 @@ export default function HomePage() {
             <span style={{ color: 'var(--stage-5-text)', fontSize: '1rem', flexShrink: 0, marginTop: '2px' }}>⚑</span>
             <p style={{ fontSize: '.83rem', color: 'var(--ink-soft)', lineHeight: 1.65 }}>
               These signals do not mean something is wrong. They mean something is worth paying attention to. The Digital Health Report reads the real patterns in under 10 minutes. Serious flags are always shown free.{' '}
-              <Link href="https://wellbeing.guidedchildhood.com/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--terracotta-dark)', fontWeight: 700, textDecoration: 'underline' }}>
+              <Link href="https://www.guidedchildhood.com/digitalwellbeing" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--terracotta-dark)', fontWeight: 700, textDecoration: 'underline' }}>
                 Run a report here.
               </Link>
             </p>
@@ -2190,7 +2190,7 @@ export default function HomePage() {
             <p style={{ fontSize: '.88rem', color: 'var(--ink)', lineHeight: 1.75, maxWidth: '500px', margin: '0 auto 20px' }}>
               Upload their data from YouTube, TikTok, Instagram, Facebook or their browser history. No logins needed. The Digital Health Report shows you the patterns underneath, and where to start.
             </p>
-            <Link href="https://wellbeing.guidedchildhood.com/" target="_blank" rel="noopener noreferrer" className="btn btn-gold">Get your child&apos;s Digital Health Report</Link>
+            <Link href="https://www.guidedchildhood.com/digitalwellbeing" target="_blank" rel="noopener noreferrer" className="btn btn-gold">Get your child&apos;s Digital Health Report</Link>
           </div>
         </div>
       </section>
@@ -2409,7 +2409,7 @@ export default function HomePage() {
             <Link href="/starter-pack" className="btn btn-gold fu" style={{ fontSize: '15px', padding: '17px 40px' }}>
               Start my pathway free
             </Link>
-            <Link href="https://wellbeing.guidedchildhood.com/" target="_blank" rel="noopener noreferrer" style={{
+            <Link href="https://www.guidedchildhood.com/digitalwellbeing" target="_blank" rel="noopener noreferrer" style={{
               display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
               fontSize: '15px', fontWeight: 700, padding: '17px 36px', borderRadius: 'var(--radius-btn)',
               border: '2px solid var(--ink)', color: 'var(--ink)', textDecoration: 'none',
@@ -2461,7 +2461,7 @@ export default function HomePage() {
             {/* Tools */}
             <div>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.62rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,.4)', marginBottom: '16px' }}>Tools</div>
-              {[['Free Starter Pack', '/starter-pack'], ['Digital Health Check', 'https://wellbeing.guidedchildhood.com/'], ['Ask DiGi', '/starter-pack'], ['For Schools', '/schools'], ['Pricing', '#pricing']].map(([label, href]) => (
+              {[['Free Starter Pack', '/starter-pack'], ['Digital Health Check', 'https://www.guidedchildhood.com/digitalwellbeing'], ['Ask DiGi', '/starter-pack'], ['For Schools', '/schools'], ['Pricing', '#pricing']].map(([label, href]) => (
                 <div key={label} style={{ marginBottom: '10px' }}>
                   <Link
                     href={href}
