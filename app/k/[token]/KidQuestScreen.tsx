@@ -1,6 +1,13 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+
+function urlBase64ToUint8Array(base64String: string) {
+  const padding = '='.repeat((4 - (base64String.length % 4)) % 4)
+  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/')
+  const rawData = atob(base64)
+  return Uint8Array.from(rawData, c => c.charCodeAt(0))
+}
 import { STAR_MINUTES } from '@/lib/quests/templates'
 
 // The kid facing quest screen: joyful, huge tap targets, instant ticks,
@@ -27,6 +34,47 @@ export default function KidQuestScreen({
     Object.fromEntries(todayTicks.map(t => [t.quest_id, t.status]))
   )
   const [burst, setBurst] = useState<string | null>(null)
+  const [remindState, setRemindState] = useState<'hidden' | 'offer' | 'on'>('hidden')
+  const [showWelcome, setShowWelcome] = useState(false)
+  const [toast, setToast] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (localStorage.getItem('gc_kid_welcome') !== '1') setShowWelcome(true)
+  }, [])
+
+  function dismissWelcome() {
+    localStorage.setItem('gc_kid_welcome', '1')
+    setShowWelcome(false)
+  }
+
+  useEffect(() => {
+    if (!('serviceWorker' in navigator) || !('PushManager' in window)) return
+    if (localStorage.getItem('gc_kid_reminders') === '1' || Notification.permission === 'granted') {
+      setRemindState(Notification.permission === 'granted' ? 'on' : 'offer')
+      return
+    }
+    if (Notification.permission !== 'denied') setRemindState('offer')
+  }, [])
+
+  async function enableReminders() {
+    try {
+      const reg = await navigator.serviceWorker.register('/sw.js')
+      await navigator.serviceWorker.ready
+      const perm = await Notification.requestPermission()
+      if (perm !== 'granted') { setRemindState('hidden'); return }
+      const sub = await reg.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(process.env.NEXT_PUBLIC_VAPID_KEY!),
+      })
+      await fetch('/api/quests/push-subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token, subscription: sub.toJSON() }),
+      })
+      localStorage.setItem('gc_kid_reminders', '1')
+      setRemindState('on')
+    } catch { setRemindState('hidden') }
+  }
 
   async function toggle(quest: Quest) {
     const current = ticks[quest.id]
@@ -43,6 +91,8 @@ export default function KidQuestScreen({
     if (!untick) {
       setBurst(quest.id)
       setTimeout(() => setBurst(null), 900)
+      setToast('Sent to your grown up! ⭐ Stars land when they tap approve.')
+      setTimeout(() => setToast(null), 3000)
     }
 
     try {
@@ -78,7 +128,65 @@ export default function KidQuestScreen({
         }
       `}</style>
 
+      {/* The sent it toast */}
+      {toast && (
+        <div style={{
+          position: 'fixed', top: 'max(16px, env(safe-area-inset-top))', left: '16px', right: '16px', zIndex: 50,
+          display: 'flex', justifyContent: 'center', pointerEvents: 'none',
+        }}>
+          <div style={{
+            background: 'var(--terracotta)', color: 'var(--ink)',
+            borderRadius: '14px', padding: '12px 18px', maxWidth: '420px',
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', textAlign: 'center',
+            boxShadow: '0 6px 24px rgba(0,0,0,0.35)',
+          }}>
+            {toast}
+          </div>
+        </div>
+      )}
+
       <div style={{ width: 'min(100%, 460px)' }}>
+        {/* First visit: how this works, in kid language */}
+        {showWelcome && (
+          <div style={{
+            background: '#fff', borderRadius: '20px', padding: '18px 20px', marginBottom: '16px',
+            boxShadow: '0 8px 30px rgba(0,0,0,0.25)',
+          }}>
+            <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.15rem', color: 'var(--ink)', margin: '0 0 10px' }}>
+              Hi {childName}! This page is yours. 👋
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '9px', marginBottom: '14px' }}>
+              {[
+                'Do a quest in real life, then tap it here. Your grown up gets told straight away.',
+                'When they tap approve, your stars land and count toward your prize.',
+                'Make it one tap from your Home Screen: in Safari tap Share (the square with the arrow), then Add to Home Screen.',
+                'Tap the 🔔 button below so I can remind you about your quests.',
+              ].map((step, i) => (
+                <div key={i} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
+                  <span style={{
+                    width: 22, height: 22, borderRadius: '50%', flexShrink: 0,
+                    background: 'var(--terracotta)', color: 'var(--ink)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
+                  }}>{i + 1}</span>
+                  <span style={{ fontSize: '13.5px', color: 'var(--ink)', lineHeight: 1.5 }}>{step}</span>
+                </div>
+              ))}
+            </div>
+            <button
+              onClick={dismissWelcome}
+              style={{
+                width: '100%', padding: '12px', background: 'var(--terracotta)', color: 'var(--ink)',
+                border: 'none', borderRadius: '12px', cursor: 'pointer',
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px',
+                boxShadow: '0 4px 0 var(--terracotta-dark)',
+              }}
+            >
+              Got it, let me at my quests
+            </button>
+          </div>
+        )}
+
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '18px' }}>
           <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)', marginBottom: 6 }}>
@@ -203,6 +311,25 @@ export default function KidQuestScreen({
               Amazing work {childName}. Your grown up is approving your stars.
             </p>
           </div>
+        )}
+
+        {remindState === 'offer' && (
+          <button
+            onClick={enableReminders}
+            style={{
+              width: '100%', marginTop: '20px', padding: '13px 16px',
+              background: 'rgba(255,255,255,0.12)', border: '1.5px solid rgba(255,255,255,0.35)',
+              borderRadius: '14px', cursor: 'pointer',
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: '#fff',
+            }}
+          >
+            🔔 Remind me about my quests
+          </button>
+        )}
+        {remindState === 'on' && (
+          <p style={{ textAlign: 'center', fontSize: '12px', color: 'rgba(255,255,255,0.7)', marginTop: '18px' }}>
+            🔔 Reminders on. Morning and after school nudges, never at bedtime.
+          </p>
         )}
 
         <p style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.08em', color: 'rgba(255,255,255,0.45)', marginTop: '32px' }}>

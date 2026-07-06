@@ -172,6 +172,9 @@ export default async function DashboardPage() {
       {/* Today's path: the day's loop as five nodes, DiGi on the next step */}
       <TodayPathStrip tasks={todayLoop} />
 
+      {/* Family quests: prominent, every child at a glance, tickable here */}
+      <QuestBoard />
+
       {/* Continue Your Progress — primary hero card */}
       <Link href="/dashboard/daily" style={{ textDecoration: 'none', display: 'block', marginBottom: '20px' }}>
         <div style={{
@@ -278,9 +281,6 @@ export default async function DashboardPage() {
 
       {/* Things you need to know: open school actions from forwarded school emails */}
       <SchoolActionsCard actions={schoolActions} />
-
-      {/* Family quests: approve queue and each child's week */}
-      <QuestBoard />
 
       {/* School email promo until a connection is active, dismissible per device */}
       {!hasSchoolConnection && <SchoolPromoCard />}
