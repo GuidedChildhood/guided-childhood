@@ -263,7 +263,7 @@ export default function LessonPlayer({
 
       {/* Slide */}
       <div ref={slideRef} style={{ minHeight: '260px', marginBottom: '28px' }}>
-        <SlideBody slide={slide} onAnswered={onAnswered} />
+        <SlideBody key={index} slide={slide} onAnswered={onAnswered} />
       </div>
 
       {/* Controls */}
