@@ -282,3 +282,13 @@ Research branch (Haidt and Not Fully Developed briefings, viral post anatomy) an
 ## 2026-07-05 — The interactive slide type (eighth slide type)
 
 **`interactive` slide type approved for schools v2 (Justin request):** lesson JSON names a component key plus config; component code lives in components/lessons/interactives/; GSAP only; teacher screen first (class paced, teacher taps); answer capturing interactives write to check_responses like any check (class tally mode without devices); every interactive has a paper twin in teacher notes. V1 set: feed-loop, verdict-sort, signal-meter, spread-race, class-tally, star-breath. Mechanics ported from the algorithm literacy project Parts 5 and 8. Spec in plans/lesson-format.md 3.1.
+
+---
+
+## 2026-07-06 — Kid register brief and the personalised print layer
+
+**JP verdict on the reference lesson: too corporate.** The v2 design pass must deliver the fun kids version: the character animated and present through the lesson (not only in video beats), celebration moments on correct answers, kid facing register per key stage. Design research into Duolingo/Kahoot/Blooket and child evidence is running and feeds the pass.
+
+**Pupil booklet added (JP brief):** /educator/print/[module]/booklet, the little companion each child holds before and during the lesson: cover with the character and name line, the rundown of what today is about, the case file verdict pages, the mission and family question page. Generated per lesson from the row.
+
+**Personalised named quizzes added (JP brief):** /educator/print/[module]/quiz/[classId] prints the end of lesson quiz one page per pupil with names pre filled from the class list, Oak tick box conventions, commitment line. Teacher prints once, hands out, per child evidence with zero name writing. Both linked from the class page.
