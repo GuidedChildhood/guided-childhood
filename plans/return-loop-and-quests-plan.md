@@ -318,3 +318,30 @@ its situation line and the first sentence of say this.
 
 Nothing in the free tier ever expires or degrades: the churn research
 says surprise removal is the number one trust killer.
+
+## 14. Foundations first: the start sequence (Justin, 6 July)
+
+Acknowledge at pathway start that the ORDER makes it easy. The sequence:
+
+1. SETTINGS first: the age right device settings walkthrough. Structure
+   before conversation, because settings remove half the arguments
+   before they happen.
+2. THE AGREEMENT second, in two forms: the verbal one (the sit down
+   conversation, scripts provided) and the system one (built and signed
+   in the agreements builder, driving quests and stars). The agreement
+   sets the easy pathway: everything after it refers back to what the
+   family chose together.
+3. THEN following and assisting as they go: the daily loop, moments,
+   quests, check ins. The platform walks beside them from here.
+
+Two starting states, acknowledged in onboarding without judgement:
+- Starting fresh: the sequence above, clean.
+- Already broken (habits set, battles daily): we say plainly that this
+  is fixable and common. The repair variant starts with the reset
+  conversation (an amnesty script: new start, no blame for what was
+  allowed before), THEN settings, then the new agreement. The pathway
+  meets the family where they are, never shames where they have been.
+
+Product touch points: onboarding asks fresh start or fixing things,
+the first session checklist orders itself accordingly, and DiGi knows
+which start the family made.
