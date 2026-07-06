@@ -62,6 +62,12 @@ export default async function ClassPage({ params }: { params: Promise<{ id: stri
                   <Link href={`/educator/print/${l.module_id}`} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: 'var(--gold-dark)', textDecoration: 'none' }}>
                     Paper pack
                   </Link>
+                  <Link href={`/educator/print/${l.module_id}/booklet`} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: 'var(--gold-dark)', textDecoration: 'none' }}>
+                    Pupil booklet
+                  </Link>
+                  <Link href={`/educator/print/${l.module_id}/quiz/${cls.id}`} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: 'var(--gold-dark)', textDecoration: 'none' }}>
+                    Named quizzes
+                  </Link>
                   <form action={recordDelivery}>
                     <input type="hidden" name="class_id" value={cls.id} />
                     <input type="hidden" name="lesson_id" value={l.id} />
