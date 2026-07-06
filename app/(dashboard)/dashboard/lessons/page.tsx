@@ -94,6 +94,34 @@ export default async function LessonsPage() {
         </p>
       </div>
 
+      {/* Flagship playable lesson */}
+      <Link href="/dashboard/lessons/preview" style={{ textDecoration: 'none', display: 'block', marginBottom: '16px' }}>
+        <div style={{
+          background: '#DEF0E7', border: '1.5px solid #2F8F6B',
+          borderRadius: '20px', padding: '20px 22px',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '14px',
+        }}>
+          <div>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#2F8F6B', marginBottom: '4px' }}>
+              New · 15 minutes together · ages 11 to 15
+            </div>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.15rem', color: 'var(--ink)', marginBottom: '4px' }}>
+              Is That Real?
+            </div>
+            <div style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
+              The sofa lesson on fake images, made up stories and deepfakes. You lead, the slides support, and you both come out sharper than most adults.
+            </div>
+          </div>
+          <span style={{
+            background: 'var(--terracotta)', color: 'var(--ink)', flexShrink: 0,
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px',
+            borderRadius: '14px', padding: '11px 18px', boxShadow: '0 4px 0 var(--terracotta-dark)',
+          }}>
+            Start
+          </span>
+        </div>
+      </Link>
+
       {/* Digital Health Check card */}
       <Link href="https://wellbeing.guidedchildhood.com/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', display: 'block', marginBottom: '24px' }}>
         <div style={{
