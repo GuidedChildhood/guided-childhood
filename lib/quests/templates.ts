@@ -10,7 +10,14 @@ export type QuestTemplate = {
   schedule: 'daily' | 'weekdays' | 'weekend' | 'once'
 }
 
+// The family exchange rate: what one star is worth in screen minutes.
+// Shown wherever stars appear so the deal is always concrete. Becomes a
+// per family setting with the agreement integration.
+export const STAR_MINUTES = 5
+
 export const QUEST_TEMPLATES: QuestTemplate[] = [
+  { title: 'Shoes away in the hallway',   emoji: '👟', stars: 1, schedule: 'daily' },
+  { title: 'Homework out before the TV',  emoji: '📖', stars: 2, schedule: 'weekdays' },
   { title: 'Teeth brushed, no reminders', emoji: '🦷', stars: 1, schedule: 'daily' },
   { title: 'Dressed and ready on time',   emoji: '👕', stars: 1, schedule: 'weekdays' },
   { title: 'School bag packed tonight',   emoji: '🎒', stars: 1, schedule: 'weekdays' },

@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { questDueToday } from '@/lib/quests/due'
+import { STAR_MINUTES } from '@/lib/quests/templates'
 
 // The family progress board on dashboard home: the approve queue first
 // (kid ticked, one tap lands the stars), then each child's week at a
@@ -134,7 +135,7 @@ export default function QuestBoard() {
                 {c.name}
               </span>
               <span style={{ flex: 1, fontSize: '12px', color: 'var(--ink-muted)' }}>
-                {doneToday}/{dueToday.length} today · ⭐ {weekStars} this week
+                {doneToday}/{dueToday.length} today · ⭐ {weekStars} = {weekStars * STAR_MINUTES} min earned
                 {goal && <span> · saving for {goal.title}</span>}
               </span>
               {goal && (
