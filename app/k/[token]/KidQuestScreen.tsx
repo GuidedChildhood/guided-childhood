@@ -1,6 +1,13 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+
+function urlBase64ToUint8Array(base64String: string) {
+  const padding = '='.repeat((4 - (base64String.length % 4)) % 4)
+  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/')
+  const rawData = atob(base64)
+  return Uint8Array.from(rawData, c => c.charCodeAt(0))
+}
 import { STAR_MINUTES } from '@/lib/quests/templates'
 
 // The kid facing quest screen: joyful, huge tap targets, instant ticks,
@@ -27,6 +34,36 @@ export default function KidQuestScreen({
     Object.fromEntries(todayTicks.map(t => [t.quest_id, t.status]))
   )
   const [burst, setBurst] = useState<string | null>(null)
+  const [remindState, setRemindState] = useState<'hidden' | 'offer' | 'on'>('hidden')
+
+  useEffect(() => {
+    if (!('serviceWorker' in navigator) || !('PushManager' in window)) return
+    if (localStorage.getItem('gc_kid_reminders') === '1' || Notification.permission === 'granted') {
+      setRemindState(Notification.permission === 'granted' ? 'on' : 'offer')
+      return
+    }
+    if (Notification.permission !== 'denied') setRemindState('offer')
+  }, [])
+
+  async function enableReminders() {
+    try {
+      const reg = await navigator.serviceWorker.register('/sw.js')
+      await navigator.serviceWorker.ready
+      const perm = await Notification.requestPermission()
+      if (perm !== 'granted') { setRemindState('hidden'); return }
+      const sub = await reg.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(process.env.NEXT_PUBLIC_VAPID_KEY!),
+      })
+      await fetch('/api/quests/push-subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token, subscription: sub.toJSON() }),
+      })
+      localStorage.setItem('gc_kid_reminders', '1')
+      setRemindState('on')
+    } catch { setRemindState('hidden') }
+  }
 
   async function toggle(quest: Quest) {
     const current = ticks[quest.id]
@@ -203,6 +240,25 @@ export default function KidQuestScreen({
               Amazing work {childName}. Your grown up is approving your stars.
             </p>
           </div>
+        )}
+
+        {remindState === 'offer' && (
+          <button
+            onClick={enableReminders}
+            style={{
+              width: '100%', marginTop: '20px', padding: '13px 16px',
+              background: 'rgba(255,255,255,0.12)', border: '1.5px solid rgba(255,255,255,0.35)',
+              borderRadius: '14px', cursor: 'pointer',
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: '#fff',
+            }}
+          >
+            🔔 Remind me about my quests
+          </button>
+        )}
+        {remindState === 'on' && (
+          <p style={{ textAlign: 'center', fontSize: '12px', color: 'rgba(255,255,255,0.7)', marginTop: '18px' }}>
+            🔔 Reminders on. Morning and after school nudges, never at bedtime.
+          </p>
         )}
 
         <p style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.08em', color: 'rgba(255,255,255,0.45)', marginTop: '32px' }}>
