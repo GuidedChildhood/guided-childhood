@@ -781,3 +781,41 @@ h1, h2, h3 { text-wrap: balance; }
     grid-template-columns: 1fr;
   }
 }
+
+/* Help now on desktop: the mobile tab bar is hidden above 768px, so the
+   button gets a floating pill bottom right, portalled to body. */
+.rightnow-desktop { display: none; }
+@media (min-width: 768px) {
+  .rightnow-desktop {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    position: fixed;
+    right: 28px;
+    bottom: 28px;
+    z-index: 80;
+    background: var(--terracotta);
+    color: var(--ink);
+    border: 3px solid var(--white);
+    border-radius: 100px;
+    padding: 14px 22px;
+    cursor: pointer;
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    box-shadow: 0 5px 0 var(--terracotta-dark), 0 10px 30px rgba(0,0,0,0.15);
+  }
+  .rightnow-desktop:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--terracotta-dark); }
+  .rightnow-hint {
+    left: auto !important;
+    right: 28px !important;
+    transform: none !important;
+    bottom: 100px !important;
+  }
+  .rightnow-hint .rightnow-hint-arrow {
+    left: auto !important;
+    right: 40px !important;
+    transform: rotate(45deg) !important;
+  }
+}
