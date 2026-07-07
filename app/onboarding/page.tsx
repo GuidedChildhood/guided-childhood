@@ -174,10 +174,12 @@ export default function OnboardingPage() {
         if (saved) {
           const answers = JSON.parse(saved) as StarterAnswers
           if (answers.ageBand) setAgeBand(answers.ageBand)
-          if (answers.challenge) {
-            const mapped = OLD_TO_NEW_CHALLENGE[answers.challenge]
-            if (mapped) setChallenges([mapped])
-          }
+          // Carry through every concern the parent ticked in the starter
+          // quiz, most pressing first, mapped onto the onboarding ids and
+          // de duped (several starter concerns can map to something_else).
+          const fromStarter = answers.concerns?.length ? answers.concerns : answers.challenge ? [answers.challenge] : []
+          const mappedAll = Array.from(new Set(fromStarter.map(c => OLD_TO_NEW_CHALLENGE[c]).filter(Boolean)))
+          if (mappedAll.length) setChallenges(mappedAll)
           if (answers.timeCommitment) setTimeCommitment(answers.timeCommitment)
         }
       } catch {}
