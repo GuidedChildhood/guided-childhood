@@ -1,27 +1,30 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-// Called by Vercel Cron — see vercel.json for schedule.
-// Three times daily, aimed at 7:30am, 3:30pm and 9:00pm UK time.
-//
-// Vercel cron schedules run in UTC while these check ins are defined in UK
-// hours, and UK time is UTC+1 all summer. The old exact hour match meant
-// every firing missed its check in from late March to late October and
-// silently sent nothing. The check in is now picked by NEAREST hour, so
-// whichever side of a clock change we are on, the right message goes out.
+// Called by Vercel Cron every 30 minutes — see vercel.json. Vercel cron
+// schedules are fixed UTC, but the promise shown in Settings is a UK
+// WALL CLOCK time (7:30am, 3:30pm, 9pm), and UK time is UTC+1 all
+// summer. A fixed UTC schedule drifts an hour off its own promise for
+// more than half the year. So instead of firing at a few exact UTC
+// moments, this runs every half hour and only actually sends when the
+// UK LOCAL clock, computed fresh each run, is within the window below
+// of one of the three targets. No seasonal edits, ever: the correct
+// side of the clock change is worked out live on every single run.
+
+const WINDOW_MINUTES = 10
 
 const CHECK_INS = [
   {
-    hour: 7,
+    hour: 7, minute: 30,
     title: 'Morning check in',
     body: 'How did the first screen moment go today? DiGi is ready with the words if you need them.',
   },
   {
-    hour: 15,
+    hour: 15, minute: 30,
     title: 'School is out',
     body: 'After school screen time is one of the hardest moments. Your stage guide has the structure.',
   },
   {
-    hour: 21,
+    hour: 21, minute: 0,
     title: 'Evening wind down',
     body: 'Bedtime and the phone, how did it go? Log the moment and DiGi will help you prepare for tomorrow.',
   },
@@ -33,13 +36,20 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const ukHour = new Date(
-    new Date().toLocaleString('en-GB', { timeZone: 'Europe/London' })
-  ).getHours()
+  const ukNow = new Date(new Date().toLocaleString('en-GB', { timeZone: 'Europe/London' }))
+  const ukHour = ukNow.getHours()
+  const nowMinutes = ukHour * 60 + ukNow.getMinutes()
 
-  const checkin = CHECK_INS.reduce((best, c) =>
-    Math.abs(c.hour - ukHour) < Math.abs(best.hour - ukHour) ? c : best
-  )
+  const checkin = CHECK_INS.reduce((best, c) => {
+    const dist = Math.abs(c.hour * 60 + c.minute - nowMinutes)
+    const bestDist = Math.abs(best.hour * 60 + best.minute - nowMinutes)
+    return dist < bestDist ? c : best
+  })
+  const distanceMinutes = Math.abs(checkin.hour * 60 + checkin.minute - nowMinutes)
+
+  if (distanceMinutes > WINDOW_MINUTES) {
+    return NextResponse.json({ skipped: true, reason: 'outside check in window', ukHour, nowMinutes })
+  }
 
   const res = await fetch(`${req.nextUrl.origin}/api/push/send`, {
     method: 'POST',
