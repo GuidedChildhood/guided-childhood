@@ -1,13 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
+import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_KEY!
-)
+// Build the client lazily, inside the handler, so a missing env var at
+// build time (for example on the marketing Vercel project, which has no
+// Supabase keys) never crashes the whole build. If the keys are absent at
+// runtime the route returns a clean 503 instead of a page data failure.
+function getSupabase(): SupabaseClient | null {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const key = process.env.SUPABASE_SERVICE_KEY
+  if (!url || !key) return null
+  return createClient(url, key)
+}
 
 export async function POST(req: NextRequest) {
   try {
+    const supabase = getSupabase()
+    if (!supabase) return NextResponse.json({ error: 'Push not configured' }, { status: 503 })
+
     const { subscription, userId, stage } = await req.json()
 
     if (!subscription?.endpoint || !subscription?.keys?.p256dh || !subscription?.keys?.auth) {
@@ -36,6 +45,9 @@ export async function POST(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   try {
+    const supabase = getSupabase()
+    if (!supabase) return NextResponse.json({ error: 'Push not configured' }, { status: 503 })
+
     const { endpoint } = await req.json()
     await supabase.from('push_subscriptions').delete().eq('endpoint', endpoint)
     return NextResponse.json({ ok: true })

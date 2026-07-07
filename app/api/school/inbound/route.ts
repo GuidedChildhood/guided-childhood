@@ -32,7 +32,7 @@ import { DIGI_MODEL, DIGI_MODEL_FALLBACKS } from '@/lib/config/digi'
 // link on the school_connections row, and the setup screen polls
 // /api/school/connect to display them so the parent never leaves the flow.
 
-const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY ?? 'build-placeholder' })
 
 const SVIX_TOLERANCE_SECONDS = 300
 

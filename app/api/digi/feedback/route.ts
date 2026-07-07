@@ -3,7 +3,7 @@ import { DIGI_MODEL, DIGI_MODEL_FALLBACKS } from '@/lib/config/digi'
 import { NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 
-const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY ?? 'build-placeholder' })
 
 export const dynamic = 'force-dynamic'
 
