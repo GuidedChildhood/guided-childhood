@@ -10,6 +10,7 @@ const LINKS = [
   { href: '/educator', label: 'Home' },
   { href: '/educator/curriculum', label: 'Curriculum' },
   { href: '/educator/print', label: 'Print room' },
+  { href: '/educator/hub', label: 'The Hub' },
 ]
 
 export default function EducatorNav({ schoolName }: { schoolName?: string }) {

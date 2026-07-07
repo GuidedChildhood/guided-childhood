@@ -369,3 +369,16 @@ The product's design choices line up almost item for item with the DfE resource 
 - Family: device free dinner cards in a jar.
 
 Linked from the quest manager next to Print the sheet. v2 when Higgsfield credits land: character art on the sheets.
+
+---
+
+## 2026-07-07 — THE HUB + the compliance pack: the four pilot hard blockers built
+
+The research verdict named four hard blockers between the build and a real pilot school. All four now ship as generated documents in /educator/hub (nav: The Hub), every one printable and regenerating live from the curriculum data so none can go stale:
+
+1. **RSHE 2025 mapping matrix** (/educator/hub/rshe-mapping): all 21 modules against the named topics of the July 2025 statutory guidance (compulsory 1 Sep 2026) including pornography harms, misogynistic and incel cultures, deepfakes, gambling, illegal online behaviours, plus per module KCSIE hooks and EfCW strands from the lesson rows. Honest tags only: rshe field in the manifest, tagged where a module substantively teaches the topic.
+2. **Policy ready text** (/educator/hub/policy): paste ready paragraphs for the school's published RSE and online safety policy, including the parental transparency wording (licence explicitly permits parental viewing, no restricting clauses) and the right to withdraw position.
+3. **The parent pack** (/educator/hub/parents): the whole programme explained for parents module by module with outcomes and the family questions pulled live from parent notes, headed by the transparency promise. Built to BE the parental consultation the guidance requires.
+4. **Data protection pack** (/educator/hub/data-protection): DPO facing, six sections: what is processed (first name and initial only), lawful basis and roles, age appropriate design by phase, storage and retention, what the platform deliberately does not do, and DPIA consultation evidence guidance.
+
+Plus the friction layer: **safeguarding crosswalk** (/educator/hub/dsl, DSL notes and statutory grounds live from lesson rows) and **staff briefings** (/educator/hub/cpd, ten minute briefings for modules 8, 14, 16, 17, 18: register, watch fors, disclosure handling) and **FAQs**. RSHE_2025_TOPICS + rshe tags added to the curriculum manifest.
