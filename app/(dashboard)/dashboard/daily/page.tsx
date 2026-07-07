@@ -4,6 +4,7 @@ import { STAGES } from '@/lib/content/stages'
 import type { AgeBand } from '@/lib/content/stages'
 import DailyDeckViewer from './DailyDeckViewer'
 import type { DailyCard } from './DailyDeckViewer'
+import ConcernCheckIn from '@/components/daily/ConcernCheckIn'
 
 export default async function DailyPage() {
   const supabase = await createClient()
@@ -230,7 +231,15 @@ export default async function DailyPage() {
 
   return (
     <div style={{ background: 'var(--cream)', minHeight: '100dvh' }}>
-      <DailyDeckViewer cards={cards} alreadyDone={alreadyDone} checkIns={checkIns} />
+      {/* Always on the page, whatever state today's moment deck is in, so
+          the pathway's Check in link always lands somewhere answerable
+          and can actually flip to done. */}
+      {checkIns.length > 0 && (
+        <div id="checkin" style={{ maxWidth: '480px', margin: '0 auto', padding: '20px 20px 0' }}>
+          <ConcernCheckIn concerns={checkIns} />
+        </div>
+      )}
+      <DailyDeckViewer cards={cards} alreadyDone={alreadyDone} />
     </div>
   )
 }

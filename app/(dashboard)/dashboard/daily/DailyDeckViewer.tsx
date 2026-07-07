@@ -3,8 +3,6 @@
 import { useState, useCallback, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import MomentTimeline from '@/components/daily/MomentTimeline'
-import ConcernCheckIn from '@/components/daily/ConcernCheckIn'
-import type { ConcernCheckItem } from '@/components/daily/ConcernCheckIn'
 
 export type DailyCard = {
   id: string
@@ -191,11 +189,9 @@ function DoneFace() {
 export default function DailyDeckViewer({
   cards,
   alreadyDone,
-  checkIns = [],
 }: {
   cards: DailyCard[]
   alreadyDone: boolean
-  checkIns?: ConcernCheckItem[]
 }) {
   const router = useRouter()
   const [cardIndex, setCardIndex] = useState(0)
@@ -376,10 +372,6 @@ export default function DailyDeckViewer({
             ✓ Added to your tracker
           </div>
         )}
-
-        {/* Yesterday's concerns, checked before today's flags. The id is
-            the anchor the home path strip points at. */}
-        {checkIns.length > 0 && <div id="checkin"><ConcernCheckIn concerns={checkIns} /></div>}
 
         {/* Daily moments feedback: the day as a timeline of picture tiles */}
         {!momentsSaved ? (
