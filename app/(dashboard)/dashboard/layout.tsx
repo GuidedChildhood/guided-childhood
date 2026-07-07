@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import NavTabs from '@/components/dashboard/NavTabs'
 import MobileTabBar from '@/components/dashboard/MobileTabBar'
 import InstallPrompt from '@/components/pwa/InstallPrompt'
+import AppBadge from '@/components/pwa/AppBadge'
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient()
@@ -65,6 +66,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
       {/* Install prompt: Android gets the real install event, iPhone gets
           the guided two taps (Apple allows no automatic prompt) */}
       <InstallPrompt />
+      <AppBadge />
 
       {/* Mobile bottom tab bar: Home, DiGi, [Now], Scripts, Progress */}
       <MobileTabBar />
