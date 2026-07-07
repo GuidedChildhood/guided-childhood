@@ -12,6 +12,7 @@ import Link from 'next/link'
 // renders optimistically with a soft pulse while the words arrive.
 
 const SITUATIONS = [
+  { key: 'wont-get-up',    label: 'Will not get up, late night before', image: '/moments/sleep.png', emoji: '😴', slot: 'morning' },
   { key: 'morning-tv',     label: 'Morning TV, will not get ready', image: '/moments/morning.png',  emoji: '🌅', slot: 'morning' },
   { key: 'tv-off',         label: 'TV or screen turned off',        image: '/moments/tv_eve.png',   emoji: '📺', slot: 'any' },
   { key: 'phone-handover', label: 'Phone handover fight',           image: '/devices/iphone.png',   emoji: '📱', slot: 'any' },
