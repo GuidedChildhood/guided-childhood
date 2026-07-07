@@ -71,6 +71,8 @@ export default async function PrintRoomPage() {
                 <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                   <Link href={`/educator/print/${l.module_id}`} style={linkStyle}>Paper pack</Link>
                   <Link href={`/educator/print/${l.module_id}/booklet`} style={linkStyle}>Pupil booklet</Link>
+                  <Link href={`/educator/print/${l.module_id}/organiser`} style={linkStyle}>Knowledge organiser</Link>
+                  <Link href={`/educator/print/${l.module_id}/overview`} style={linkStyle}>Unit overview</Link>
                   {(classes ?? []).map(c => (
                     <Link key={c.id} href={`/educator/print/${l.module_id}/quiz/${c.id}`} style={linkStyle}>
                       Named quizzes · {c.name}
@@ -84,6 +86,27 @@ export default async function PrintRoomPage() {
             <p style={{ fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--ink-muted)' }}>
               No live modules yet. Packs appear here the moment a module ships.
             </p>
+          )}
+
+          {(classes ?? []).length > 0 && (
+            <div style={{
+              background: 'var(--warm)', border: '2px solid var(--gold)',
+              borderRadius: '20px', padding: '18px 20px',
+            }}>
+              <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16.5px', color: 'var(--ink)', marginBottom: '4px' }}>
+                Certificates 🏆
+              </h2>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.55, marginBottom: '12px' }}>
+                The Digital Detective Award, one per pupil with names already printed.
+              </p>
+              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                {(classes ?? []).map(c => (
+                  <Link key={c.id} href={`/educator/print/certificates/${c.id}`} style={linkStyle}>
+                    {c.name}
+                  </Link>
+                ))}
+              </div>
+            </div>
           )}
         </div>
       </div>
