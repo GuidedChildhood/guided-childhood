@@ -55,7 +55,7 @@ export default async function DashboardPage() {
     supabase.from('daily_sessions').select('completed_at').eq('user_id', user.id).eq('session_date', today).maybeSingle(),
     supabase.from('daily_moments').select('id, title, category, age_bands, icon, science_brief, digi_opener').eq('active', true).order('sort_order').limit(20),
     supabase.from('digi_feedback').select('feedback_date, question, parent_response, digi_insight').eq('user_id', user.id).not('parent_response', 'is', null).gte('feedback_date', sevenDaysAgo).order('feedback_date', { ascending: false }).limit(1).maybeSingle(),
-    supabase.from('school_actions').select('id, kind, title, detail, due_date, sent_to_child').eq('user_id', user.id).eq('status', 'open').order('due_date', { ascending: true, nullsFirst: false }).limit(12),
+    supabase.from('school_actions').select('id, kind, title, detail, due_date, sent_to_child, recurs_weekday, auto_send_to_child').eq('user_id', user.id).eq('status', 'open').order('due_date', { ascending: true, nullsFirst: false }).limit(20),
     supabase.from('school_connections').select('id').eq('user_id', user.id).eq('active', true).maybeSingle(),
     supabase.from('family_agreements').select('id').eq('user_id', user.id).limit(1).maybeSingle(),
     supabase.from('family_quests').select('id', { count: 'exact', head: true }).eq('user_id', user.id).eq('active', true),

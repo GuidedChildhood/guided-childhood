@@ -221,21 +221,41 @@ export default async function ProgressPage() {
           </p>
         ) : (
           <>
-            <div style={{ display: 'flex', gap: '6px', alignItems: 'flex-end', height: '54px', marginBottom: '10px' }}>
-              {[...checks].reverse().map(c => {
-                const a = avg(c)
-                return (
-                  <div key={c.week_start} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
-                    <div style={{
-                      width: '100%', borderRadius: '6px 6px 3px 3px',
-                      height: `${a !== null ? Math.max(10, (a / 5) * 46) : 10}px`,
-                      background: a !== null && a >= 3.4 ? 'var(--tint-sage)' : a !== null && a >= 2.4 ? 'var(--stage-1-bold)' : 'var(--terracotta-lt)',
-                      border: '1px solid var(--border)',
-                    }} />
-                  </div>
-                )
-              })}
-            </div>
+            {(() => {
+              const ordered = [...checks].reverse()
+              const mostRecentWeek = ordered[ordered.length - 1]?.week_start
+              return (
+                <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-end', marginBottom: '4px' }}>
+                  {ordered.map(c => {
+                    const a = avg(c)
+                    const isThisWeek = c.week_start === mostRecentWeek
+                    const dateLabel = new Date(`${c.week_start}T00:00:00`).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })
+                    return (
+                      <div key={c.week_start} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px' }}>
+                        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', color: 'var(--ink)' }}>
+                          {a !== null ? a.toFixed(1) : '–'}
+                        </span>
+                        <div style={{
+                          width: '100%', borderRadius: '6px 6px 3px 3px',
+                          height: `${a !== null ? Math.max(10, (a / 5) * 46) : 10}px`,
+                          background: a !== null && a >= 3.4 ? 'var(--tint-sage)' : a !== null && a >= 2.4 ? 'var(--stage-1-bold)' : 'var(--terracotta-lt)',
+                          border: '1px solid var(--border)',
+                        }} />
+                        <span style={{
+                          fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: isThisWeek ? 700 : 600,
+                          color: isThisWeek ? 'var(--terracotta-dark)' : 'var(--ink-light)', whiteSpace: 'nowrap',
+                        }}>
+                          {isThisWeek ? 'This week' : dateLabel}
+                        </span>
+                      </div>
+                    )
+                  })}
+                </div>
+              )
+            })()}
+            <p style={{ fontSize: '11px', color: 'var(--ink-light)', margin: '2px 0 12px' }}>
+              Out of 5, averaged across mood, sleep, social and screens. Green is doing well, amber is mixed, coral means worth a look.
+            </p>
             <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>
               {trend === 'up' && 'Climbing: this week scored better than last. Whatever changed, keep it.'}
               {trend === 'down' && `A dip this week. Not a crisis, a signal: start with ${nextStep.next}.`}
