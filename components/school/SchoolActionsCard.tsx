@@ -66,6 +66,8 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
   const [autoSend, setAutoSend] = useState(false)
   const [saving, setSaving] = useState(false)
   const [sendingId, setSendingId] = useState<string | null>(null)
+  const [testing, setTesting] = useState(false)
+  const [testResult, setTestResult] = useState<string | null>(null)
 
   const recurring = actions.filter(a => a.recurs_weekday != null)
   const oneOff = actions.filter(a => a.recurs_weekday == null)
@@ -122,6 +124,30 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
     } catch { /* non blocking */ } finally { setSendingId(null) }
   }
 
+  const sendTest = async () => {
+    setTesting(true)
+    setTestResult(null)
+    try {
+      const res = await fetch('/api/school/remind/test', { method: 'POST' })
+      const data = await res.json()
+      if (data.sent > 0) {
+        setTestResult(
+          data.childHasDevice
+            ? `Sent. Check your phone, and ${childName ?? 'your child'}'s.`
+            : 'Sent. It should reach your phone within seconds.'
+        )
+      } else if (data.reason) {
+        setTestResult('Turn on check ins first, above, then try the test again.')
+      } else {
+        setTestResult(data.error ?? 'Something went wrong, try again.')
+      }
+    } catch {
+      setTestResult('Could not reach the server, try again.')
+    } finally {
+      setTesting(false)
+    }
+  }
+
   return (
     <div style={{
       background: '#fff', border: '1.5px solid var(--border)',
@@ -138,9 +164,27 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
           {showAdd ? 'Cancel' : '+ Add a reminder'}
         </button>
       </div>
-      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '17px', color: 'var(--ink)', letterSpacing: '-0.02em', marginBottom: '14px' }}>
-        Things you need to know
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px', marginBottom: '14px', flexWrap: 'wrap' }}>
+        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '17px', color: 'var(--ink)', letterSpacing: '-0.02em' }}>
+          Things you need to know
+        </div>
+        <button
+          onClick={sendTest}
+          disabled={testing}
+          style={{
+            background: 'none', border: '1.5px solid var(--border)', borderRadius: '100px',
+            padding: '6px 12px', cursor: testing ? 'wait' : 'pointer',
+            fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, color: 'var(--ink-soft)',
+          }}
+        >
+          {testing ? 'Sending...' : 'Send a test reminder'}
+        </button>
       </div>
+      {testResult && (
+        <p style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '-8px 0 14px' }}>
+          {testResult}
+        </p>
+      )}
 
       {showAdd && (
         <div style={{ background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: '14px', padding: '14px', marginBottom: '14px' }}>
