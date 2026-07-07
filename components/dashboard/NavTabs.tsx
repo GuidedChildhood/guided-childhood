@@ -7,6 +7,7 @@ const NAV_TABS = [
   { href: '/dashboard', label: 'Home' },
   { href: '/dashboard/digi', label: 'DiGi' },
   { href: '/dashboard/pathway', label: 'Pathway' },
+  { href: '/dashboard/quests', label: 'Quests' },
   { href: '/dashboard/scripts', label: 'Scripts' },
   { href: '/dashboard/lessons', label: 'Lessons' },
   { href: '/dashboard/tracker', label: 'Progress' },

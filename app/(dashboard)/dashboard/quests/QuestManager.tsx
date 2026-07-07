@@ -15,6 +15,7 @@ const AGE_BANDS = ['4-7', '8-10', '11-13', '13-15', '16+'] as const
 type Quest = { id: string; title: string; emoji: string; stars: number; schedule: string; child_id: string | null }
 type Goal = { child_id: string; title: string; stars_needed: number; daily_stars: number | null }
 type KidLink = { child_id: string; token: string }
+type Tick = { quest_id: string; child_id: string | null; status: string; tick_date: string; approved_at: string | null }
 
 const SCHEDULE_LABELS: Record<string, string> = {
   daily: 'Every day', weekdays: 'School days', weekend: 'Weekends', once: 'One off',
@@ -29,6 +30,7 @@ export default function QuestManager() {
   const [children, setChildren] = useState<Child[]>([])
   const [quests, setQuests] = useState<Quest[]>([])
   const [goals, setGoals] = useState<Goal[]>([])
+  const [ticks, setTicks] = useState<Tick[]>([])
   const [links, setLinks] = useState<KidLink[]>([])
   const [activeChild, setActiveChild] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
@@ -123,6 +125,7 @@ export default function QuestManager() {
       setChildren(data.children ?? [])
       setQuests(data.quests ?? [])
       setGoals(data.goals ?? [])
+      setTicks(data.ticks ?? [])
       setLinks(data.links ?? [])
       if (!activeChild && data.children?.length) setActiveChild(data.children[0].id)
     } catch { /* retry on next action */ } finally { setLoading(false) }
@@ -143,6 +146,17 @@ export default function QuestManager() {
   const goal = goals.find(g => g.child_id === activeChild) ?? null
   const link = links.find(l => l.child_id === activeChild) ?? null
   const child = children.find(c => c.id === activeChild) ?? null
+
+  // Everything approved this week: the tasks the parent agreed the stars
+  // for, most recent first. quest_ticks only carries the quest id, so the
+  // title and emoji are looked up from the live quest, with a plain
+  // fallback for a quest that has since been removed.
+  const questById = useMemo(() => new Map(quests.map(q => [q.id, q])), [quests])
+  const completed = useMemo(() => ticks
+    .filter(t => t.status === 'approved' && (t.child_id === activeChild || t.child_id === null))
+    .sort((a, b) => (b.approved_at ?? b.tick_date).localeCompare(a.approved_at ?? a.tick_date)),
+    [ticks, activeChild])
+  const starsThisWeek = completed.reduce((sum, t) => sum + (questById.get(t.quest_id)?.stars ?? 1), 0)
 
   async function addQuest(t: { title: string; emoji: string; stars: number; schedule: string }) {
     await fetch('/api/quests', {
@@ -500,6 +514,48 @@ export default function QuestManager() {
             </div>
           )}
 
+          {/* Completed: everything approved this week, the tasks the parent
+              agreed the stars for after the child ticked them off */}
+          {completed.length > 0 && (
+            <div style={card}>
+              <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '10px', marginBottom: '12px' }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--stage-1-text)' }}>
+                  Done and starred this week
+                </div>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>
+                  ⭐ {starsThisWeek}
+                </div>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                {completed.slice(0, 12).map((t, i) => {
+                  const q = questById.get(t.quest_id)
+                  const when = new Date(`${t.tick_date}T00:00:00`).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' })
+                  return (
+                    <div key={`${t.quest_id}-${t.tick_date}-${i}`} style={{
+                      display: 'flex', alignItems: 'center', gap: '11px',
+                      padding: '10px 13px', borderRadius: '13px',
+                      background: 'var(--tint-green)', border: '1px solid var(--border)',
+                    }}>
+                      <span style={{
+                        width: 30, height: 30, borderRadius: '9px', flexShrink: 0, background: '#fff',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '15px',
+                      }}>{q?.emoji ?? '⭐'}</span>
+                      <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '13.5px', color: 'var(--ink)' }}>
+                        {q?.title ?? 'Completed quest'}
+                      </span>
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', color: 'var(--ink-muted)', flexShrink: 0 }}>
+                        {when}
+                      </span>
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--terracotta-dark)', flexShrink: 0 }}>
+                        ⭐ {q?.stars ?? 1}
+                      </span>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          )}
+
           {/* Star goal */}
           <div style={card}>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '10px' }}>
@@ -600,6 +656,24 @@ export default function QuestManager() {
                 >
                   Create {child.name}&apos;s quest link
                 </button>
+              )}
+              {link && (
+                <a
+                  href={`https://wa.me/${(child.phone || '').replace(/[^0-9]/g, '').replace(/^0/, '44')}?text=${encodeURIComponent(`${child.name}, your quests are ready. Tick them off and earn your stars: ${typeof window !== 'undefined' ? window.location.origin : ''}/k/${link.token}`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'inline-flex', alignItems: 'center', gap: '7px',
+                    background: '#25D366', color: '#fff', borderRadius: '14px',
+                    padding: '12px 20px', textDecoration: 'none',
+                    fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 800,
+                  }}
+                >
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.004c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 1.67c2.2 0 4.27.86 5.83 2.42a8.19 8.19 0 0 1 2.42 5.82c0 4.54-3.7 8.24-8.25 8.24a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24zm-2.53 4.4c-.15-.34-.3-.35-.44-.35l-.38-.01c-.13 0-.35.05-.53.25-.18.2-.7.68-.7 1.66s.72 1.93.82 2.06c.1.13 1.4 2.13 3.38 2.99.47.2.84.33 1.13.42.47.15.9.13 1.24.08.38-.06 1.17-.48 1.33-.94.16-.46.16-.86.12-.94-.05-.08-.18-.13-.38-.23s-1.17-.58-1.35-.64c-.18-.07-.31-.1-.44.1-.13.2-.5.64-.62.77-.11.13-.23.15-.42.05a5.5 5.5 0 0 1-1.62-1c-.6-.53-1-1.19-1.12-1.39-.12-.2-.01-.31.09-.41.09-.09.2-.23.3-.35.1-.12.13-.2.2-.34.06-.13.03-.25-.02-.35s-.44-1.09-.61-1.49z"/>
+                  </svg>
+                  WhatsApp
+                </a>
               )}
               <Link
                 href="/dashboard/quests/print"
