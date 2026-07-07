@@ -1,20 +1,8 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import NavTabs from '@/components/dashboard/NavTabs'
-import RightNowButton from '@/components/rightnow/RightNowButton'
+import MobileTabBar from '@/components/dashboard/MobileTabBar'
 import InstallPrompt from '@/components/pwa/InstallPrompt'
-
-// Mobile bottom bar: four tabs plus the raised Now button in the centre.
-// Pathway and AI left the mobile bar (both stay in the desktop nav and are
-// reachable from cards on Home) so the centre slot could become Right Now.
-const NAV_TABS_LEFT = [
-  { href: '/dashboard', label: 'Home', icon: '⌂' },
-  { href: '/dashboard/digi', label: 'DiGi', icon: '◎' },
-]
-const NAV_TABS_RIGHT = [
-  { href: '/dashboard/scripts', label: 'Scripts', icon: '◻' },
-  { href: '/dashboard/tracker', label: 'Progress', icon: '△' },
-]
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient()
@@ -78,22 +66,8 @@ export default async function DashboardLayout({ children }: { children: React.Re
           the guided two taps (Apple allows no automatic prompt) */}
       <InstallPrompt />
 
-      {/* Mobile bottom tab bar: Home, DiGi, [Now], Scripts, Tracker */}
-      <nav className="bottom-tab-bar">
-        {NAV_TABS_LEFT.map(tab => (
-          <Link key={tab.href} href={tab.href} className="tab-item" style={{ textDecoration: 'none' }}>
-            <span style={{ fontSize: '20px', lineHeight: 1 }}>{tab.icon}</span>
-            <span>{tab.label}</span>
-          </Link>
-        ))}
-        <RightNowButton />
-        {NAV_TABS_RIGHT.map(tab => (
-          <Link key={tab.href} href={tab.href} className="tab-item" style={{ textDecoration: 'none' }}>
-            <span style={{ fontSize: '20px', lineHeight: 1 }}>{tab.icon}</span>
-            <span>{tab.label}</span>
-          </Link>
-        ))}
-      </nav>
+      {/* Mobile bottom tab bar: Home, DiGi, [Now], Scripts, Progress */}
+      <MobileTabBar />
 
       <style>{`
         @media (min-width: 768px) {
