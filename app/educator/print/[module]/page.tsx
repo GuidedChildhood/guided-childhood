@@ -18,6 +18,11 @@ type TeacherNotes = {
   differentiation?: { support?: string; stretch?: string }
   paper_fallback?: string
   worksheet_items?: WorksheetItem[]
+  // v3: per module print content, so every module's pack carries its own
+  // tool and verdict language. Reference module fallbacks keep old rows printing.
+  tool?: { heading?: string; lines?: string[]; strapline?: string }
+  worksheet?: { title?: string; directions?: string; verdict_options?: string[] }
+  commitment_stem?: string
 }
 type ParentNote = { headline?: string; taught?: string; try_this?: string; family_question?: string }
 type DslNote = { note?: string }
@@ -54,6 +59,21 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
   const parent = (lesson.parent_note ?? {}) as ParentNote
   const dsl = (lesson.dsl_note ?? {}) as DslNote
   const items = notes.worksheet_items ?? []
+
+  // Module specific print content with reference lesson fallbacks.
+  const tool = {
+    heading: notes.tool?.heading ?? 'The three checks',
+    lines: notes.tool?.lines ?? [
+      '1. Who made this, and how do they know?',
+      '2. What do other places say?',
+      '3. How is it trying to make me feel?',
+    ],
+    strapline: notes.tool?.strapline ?? 'Three checks, under a minute. Check before you share.',
+  }
+  const worksheetTitle = notes.worksheet?.title ?? 'Run the three checks'
+  const worksheetDirections = notes.worksheet?.directions ?? 'For each item: run the checks, circle a verdict, and give your reason. A verdict without a reason does not count.'
+  const verdictOptions = notes.worksheet?.verdict_options ?? ['Believe', 'Pause', 'Do not share']
+  const commitmentStem = notes.commitment_stem ?? 'My commitment: the next time I see a shocking post I will...'
 
   return (
     <main style={{ maxWidth: '740px', margin: '0 auto', background: '#fff', color: 'var(--ink)' }}>
@@ -97,11 +117,11 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0' }}>
           {[0, 1, 2, 3].map(i => (
             <div key={i} style={{ border: '1px dashed var(--ink-light)', padding: '18px 16px' }}>
-              <div style={{ ...mono, color: 'var(--gold-dark)' }}>The three checks</div>
-              <p style={{ ...body, fontWeight: 800, marginTop: '8px' }}>1. Who made this, and how do they know?</p>
-              <p style={{ ...body, fontWeight: 800 }}>2. What do other places say?</p>
-              <p style={{ ...body, fontWeight: 800 }}>3. How is it trying to make me feel?</p>
-              <p style={{ ...body, fontSize: '11.5px', color: 'var(--ink-muted)', marginTop: '8px' }}>Three checks, under a minute. Check before you share.</p>
+              <div style={{ ...mono, color: 'var(--gold-dark)' }}>{tool.heading}</div>
+              {tool.lines.map((line, j) => (
+                <p key={j} style={{ ...body, fontWeight: 800, marginTop: j === 0 ? '8px' : 0 }}>{line}</p>
+              ))}
+              <p style={{ ...body, fontSize: '11.5px', color: 'var(--ink-muted)', marginTop: '8px' }}>{tool.strapline}</p>
             </div>
           ))}
         </div>
@@ -110,12 +130,12 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
       {/* Page 3: worksheet (photocopy per pupil) */}
       <section style={page}>
         <div style={mono}>Photocopy per pupil · Worksheet</div>
-        <h2 style={h2}>Run the three checks</h2>
-        <p style={body}>For each item: run the checks, circle a verdict, and give your reason. A verdict without a reason does not count.</p>
+        <h2 style={h2}>{worksheetTitle}</h2>
+        <p style={body}>{worksheetDirections}</p>
         {items.map(it => (
           <div key={it.n} style={box}>
             <p style={{ ...body, fontWeight: 700 }}>{it.n}. {it.item}</p>
-            <p style={{ ...body, marginTop: '6px' }}>Verdict: &nbsp; Believe &nbsp;·&nbsp; Pause &nbsp;·&nbsp; Do not share</p>
+            <p style={{ ...body, marginTop: '6px' }}>Verdict: &nbsp; {verdictOptions.join('  ·  ')}</p>
             <p style={{ ...body, marginTop: '6px', color: 'var(--ink-muted)' }}>Because:</p>
             <div style={writeLine} />
           </div>
@@ -140,7 +160,7 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
               {c.options.map((o, i) => <p key={i} style={body}>{String.fromCharCode(65 + i)}. {o.text}</p>)}
             </div>
           ))}
-          <p style={{ ...body, fontWeight: 700, marginTop: '10px' }}>My commitment: the next time I see a shocking post I will...</p>
+          <p style={{ ...body, fontWeight: 700, marginTop: '10px' }}>{commitmentStem}</p>
           <div style={writeLine} />
         </div>
       </section>

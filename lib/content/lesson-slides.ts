@@ -16,9 +16,28 @@
 //  - `diagram`: an animated flow diagram built from steps, no images needed
 //  - `digi`: the animated DiGi closing, the star speaking the lesson home
 
+// The five phases of the 60 minute arc. Shown as the phase strip in the
+// player so the lesson's shape is visible at a glance (Oak convention:
+// starter quiz, exposition cycles, practice, exit quiz).
+export type LessonPhase = 'starter' | 'teach' | 'practise' | 'prove' | 'close'
+
+export const PHASE_LABELS: Record<LessonPhase, string> = {
+  starter: 'Starter',
+  teach: 'Teach',
+  practise: 'Practise',
+  prove: 'Prove it',
+  close: 'Close',
+}
+
+export const PHASE_ORDER: LessonPhase[] = ['starter', 'teach', 'practise', 'prove', 'close']
+
 type SlideBase = {
   // Word for word teacher script for this slide. Optional on every type.
   script?: string
+  // Which part of the lesson arc this slide belongs to (v3).
+  phase?: LessonPhase
+  // Rough minutes this slide takes, shown as the timing chip (v3).
+  minutes?: number
 }
 
 export type TitleSlide = SlideBase & {
@@ -93,6 +112,25 @@ export type DiagramSlide = SlideBase & {
   verdicts?: string[]
 }
 
+// A timed talk task: think pair share, group talk, or whole class.
+// The player runs the countdown so pacing takes care of itself.
+export type DiscussionSlide = SlideBase & {
+  type: 'discussion'
+  prompt: string
+  mode?: 'pairs' | 'groups' | 'class'
+  seconds?: number // countdown length, defaults to 60
+  lookFor?: string // what a good answer sounds like, shown after the timer
+}
+
+// One big number and where it comes from. The evidence register: honest,
+// sourced, never a scare tactic.
+export type StatSlide = SlideBase & {
+  type: 'stat'
+  figure: string // the big number as displayed, e.g. "9 in 10"
+  claim: string // what the number says
+  source: string // where it comes from, always shown
+}
+
 export type TryItSlide = SlideBase & {
   type: 'tryit'
   heading: string
@@ -131,6 +169,8 @@ export type LessonSlide =
   | ChoiceSlide
   | ScenarioSlide
   | DiagramSlide
+  | DiscussionSlide
+  | StatSlide
   | TryItSlide
   | RecapSlide
   | VideoSlide
@@ -138,15 +178,19 @@ export type LessonSlide =
 
 const SLIDE_TYPES = new Set([
   'title', 'objective', 'keywords', 'concept', 'quote', 'choice',
-  'scenario', 'diagram', 'tryit', 'recap', 'video', 'digi',
+  'scenario', 'diagram', 'discussion', 'stat', 'tryit', 'recap', 'video', 'digi',
 ])
 
-// Defensive parse: slides come from a JSONB column, so a malformed row should
-// fall back to the text layout rather than crash the page.
+// Defensive parse: slides come from a JSONB column, so a malformed row
+// should fall back gracefully rather than crash the page. Unknown slide
+// types are SKIPPED, not fatal: when the database is ahead of a deploy
+// (a migration lands before the code that renders a new type), the lesson
+// still plays with every slide this build understands. Only a deck with
+// nothing recognisable returns null.
 export function parseSlides(raw: unknown): LessonSlide[] | null {
   if (!Array.isArray(raw) || raw.length === 0) return null
-  const valid = raw.every(
+  const known = raw.filter(
     s => s && typeof s === 'object' && SLIDE_TYPES.has((s as { type?: string }).type ?? '')
   )
-  return valid ? (raw as LessonSlide[]) : null
+  return known.length > 0 ? (known as LessonSlide[]) : null
 }

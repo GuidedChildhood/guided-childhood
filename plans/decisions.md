@@ -316,6 +316,38 @@ Migration 031 reseeds ks3-12-misinfo-deepfakes with the full v2 deck: 23 slides,
 
 ---
 
+## 2026-07-06 — The curriculum map: the shop window that beats Jigsaw
+
+Jigsaw's strength is showing a whole colourful programme at a glance, ours was a list. New screen `/educator/curriculum`: all 21 modules from the build spec section 5 as character colour coded cards (Sofia green, Zara gold, Oliver coral, DiGi star gold, Vix russet, Brock slate), grouped by key stage with straplines, DSL and crown module chips, and a live coverage ring per card that fills as the school's classes are taught. Live modules link to the player, the rest show in production. The manifest lives in lib/content/schools-curriculum.ts (display layer only, playable content stays in school_lessons rows, module ids match the DB convention). Character emblems are emoji stand ins until the Higgsfield character stills land. Workspace home links to the map with a gold card.
+
+---
+
+## 2026-07-06 — THE FULL CURRICULUM SHIPS + lesson engine v3 + the teacher dashboard
+
+**JP directive:** do not stop until the full curriculum is in and the dashboard beats Twinkl, Oak and Jigsaw combined, and the slides were still not enough for a full lesson.
+
+**Lesson engine v3 (the full lesson fix):** every slide now carries a phase (starter, teach, practise, prove, close) and minutes, drawn as the phase strip in the player so the 60 minute arc is visible while teaching, with a slide counter and per slide timing chip. Two new slide types: discussion (timed talk task, the player runs the countdown, pairs/groups/class, with a "good answer sounds like" reveal) and stat (one big sourced number, honest evidence only). Migration 032 refits the reference lesson to 26 slides with the full arc.
+
+**THE FULL CURRICULUM (migration 033):** all 20 remaining modules drafted by 20 parallel sessions against a single style guide with the reference deck as exemplar, validated hard (strict JSON, no semicolons, no dashes, script on every slide, digi closing last, two prove checks that become the printed exit quiz, worksheet verdicts consistent) and assembled into one idempotent migration. Every module ships complete: v3 deck (12 to 25 slides by key stage register), full teacher notes (misconceptions, differentiation, paper fallback, keywords, the module tool for the bookmark, worksheet with 6 items, commitment stem), parent note, DSL note where flagged (modules 8, 14, 16, 17, 18), statutory hooks and EfCW strands from spec section 5. Stat slides only where the drafting session could name a real source (Ofcom, Orben and Przybylski, Children's Commissioner, NCA, WEF, Vosoughi et al); modules with no confident source carry no stat slide at all. No video slides yet: beats render when Higgsfield credits are topped up, and every deck works without them (the paper fallback principle).
+
+**The teacher dashboard:** shared educator layout with a sticky top bar (Home, Curriculum, Print room, school name, hidden on print). Home is now a dashboard: stat row (classes, pupils, lessons taught, modules covered), teach next pointer per class, the curriculum map card. New print room index lists every pack, booklet and named quiz set per module per class. The paper pack generalised: bookmark tool, worksheet title, directions, verdict options and commitment stem all come from teacher_notes per module (reference lesson fallbacks preserved).
+
+**Teach route:** /educator/teach/[module] plays any live module (teacher script panel on). /educator/preview now redirects to the reference module for old links. All teach links rewired.
+
+**Marketing /schools:** curriculum section now renders from the same manifest as the product (no drift), chips list real module titles, and the "every lesson includes" line names the real product: player with animated characters and scripts, auto marked checks, packs, booklets, named quizzes, one tap register.
+
+---
+
+## 2026-07-07 — Star Lessons: the schools curriculum becomes the child version on the parent app
+
+**JP idea:** the quests system already sends a private link to the child, so send lessons the same way. Built: migration 034 (kid_lesson_missions), a Star Lessons panel on the parent quests page (pick child, pick any of the 21 lessons, set 1 to 10 stars, send), the mission appears on the child's quest link as a big Play card, opens a kid mode player (deep teal shell, DiGi celebration finish, teacher scripts stripped server side, quiz score tracked per slide so revisits never double count), and completion pays the stars into the same star bank the quests feed (once per mission, replays welcome but do not mint again). Token is the auth throughout, exactly like quest ticks: no child account, no login.
+
+## 2026-07-07 — School readiness verdict (deep research, 104 agents, adversarially verified)
+
+The product's design choices line up almost item for item with the DfE resource selection criteria and the Nov 2025 Ofsted framework, but no school teaches it tomorrow: RSHE scope adoption runs through a mandatory process layer. Three hard blockers to build: (1) parent transparency: a parent view or sample materials mechanism plus licence terms explicitly permitting parental viewing (the 2025 guidance voids any clause restricting it) and policy ready RSE text; (2) explicit mapping to the July 2025 RSHE guidance (compulsory 1 Sep 2026), including its newly named topics: pornography harms, incel and misogynistic cultures, deepfakes, online gambling, illegal online behaviours; (3) a vendor DPIA pack covering ages 4 to 18 by phase that a school DPO can sign. Friction layer: editable scripts (two thirds of teachers adapt rather than adopt), SEND access notes per lesson, short CPD briefing per safeguarding flagged module. Position as a component inside a school's PSHE provision, not a whole PSHE replacement. Shortest path to pilot: ship the compliance pack, recruit one school in summer term 2026 so parental consultation lands before the 1 Sep 2026 statutory switchover, and the pilot triples as sales proof, ICO citable DPIA consultation evidence, and the Ofsted impact baseline. Full cited report: plans/school-readiness-verdict-2026-07.md.
+
+---
+
 ## 2026-07-06 — Scripts get a deeper half, the kid channel gets a voice
 
 **JP directives:** scripts longer and shareable to the child; more goals so enough stars in one day completes the day; and a way to ping the kids that have phones with scripts and vital alerts.
@@ -337,3 +369,16 @@ Migration 031 reseeds ks3-12-misinfo-deepfakes with the full v2 deck: 23 slides,
 - Family: device free dinner cards in a jar.
 
 Linked from the quest manager next to Print the sheet. v2 when Higgsfield credits land: character art on the sheets.
+
+---
+
+## 2026-07-07 — THE HUB + the compliance pack: the four pilot hard blockers built
+
+The research verdict named four hard blockers between the build and a real pilot school. All four now ship as generated documents in /educator/hub (nav: The Hub), every one printable and regenerating live from the curriculum data so none can go stale:
+
+1. **RSHE 2025 mapping matrix** (/educator/hub/rshe-mapping): all 21 modules against the named topics of the July 2025 statutory guidance (compulsory 1 Sep 2026) including pornography harms, misogynistic and incel cultures, deepfakes, gambling, illegal online behaviours, plus per module KCSIE hooks and EfCW strands from the lesson rows. Honest tags only: rshe field in the manifest, tagged where a module substantively teaches the topic.
+2. **Policy ready text** (/educator/hub/policy): paste ready paragraphs for the school's published RSE and online safety policy, including the parental transparency wording (licence explicitly permits parental viewing, no restricting clauses) and the right to withdraw position.
+3. **The parent pack** (/educator/hub/parents): the whole programme explained for parents module by module with outcomes and the family questions pulled live from parent notes, headed by the transparency promise. Built to BE the parental consultation the guidance requires.
+4. **Data protection pack** (/educator/hub/data-protection): DPO facing, six sections: what is processed (first name and initial only), lawful basis and roles, age appropriate design by phase, storage and retention, what the platform deliberately does not do, and DPIA consultation evidence guidance.
+
+Plus the friction layer: **safeguarding crosswalk** (/educator/hub/dsl, DSL notes and statutory grounds live from lesson rows) and **staff briefings** (/educator/hub/cpd, ten minute briefings for modules 8, 14, 16, 17, 18: register, watch fors, disclosure handling) and **FAQs**. RSHE_2025_TOPICS + rshe tags added to the curriculum manifest.

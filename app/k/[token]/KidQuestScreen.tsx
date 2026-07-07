@@ -19,9 +19,10 @@ import { KID_LESSONS, type KidLesson } from '@/lib/quests/kid-lessons'
 type Quest = { id: string; title: string; emoji: string; stars: number; schedule: string }
 type Tick = { quest_id: string; status: string }
 type Goal = { title: string; stars_needed: number; daily_stars: number | null; achieved_at: string | null } | null
+export type KidMission = { id: string; title: string; stars: number; status: string }
 
 export default function KidQuestScreen({
-  token, childName, quests, todayTicks, weekStars, goal, streakDays = 0, laterQuests = [], doneLessonKeys = [],
+  token, childName, quests, todayTicks, weekStars, goal, streakDays = 0, laterQuests = [], doneLessonKeys = [], missions = [],
 }: {
   token: string
   childName: string
@@ -32,6 +33,7 @@ export default function KidQuestScreen({
   streakDays?: number
   laterQuests?: { title: string; emoji: string; schedule: string }[]
   doneLessonKeys?: string[]
+  missions?: KidMission[]
 }) {
   const [ticks, setTicks] = useState<Record<string, string>>(
     Object.fromEntries(todayTicks.map(t => [t.quest_id, t.status]))
@@ -578,6 +580,52 @@ export default function KidQuestScreen({
               <p style={{ textAlign: 'center', color: 'rgba(255,255,255,0.85)', fontSize: '15.5px', lineHeight: 1.55, margin: '0 0 4px' }}>
                 Two minute lessons, real superpowers, and the stars count just like quests.
               </p>
+              {missions.length > 0 && (
+                <>
+                  <p style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)', margin: '6px 0 0' }}>
+                    Star lessons from your grown up
+                  </p>
+                  {missions.map(m => {
+                    const done = m.status === 'done'
+                    return (
+                      <a
+                        key={m.id}
+                        href={`/k/${token}/lesson/${m.id}`}
+                        style={{
+                          display: 'flex', alignItems: 'center', gap: 14,
+                          background: done ? 'var(--tint-sage)' : '#fff',
+                          borderRadius: '20px', padding: '16px 18px', textDecoration: 'none',
+                          boxShadow: done ? '0 2px 0 rgba(0,0,0,0.12)' : '0 5px 0 rgba(0,0,0,0.18)',
+                          transform: done ? 'translateY(3px)' : 'none',
+                        }}
+                      >
+                        <span style={{ fontSize: '1.8rem', flexShrink: 0 }}>{done ? '🏆' : '🎬'}</span>
+                        <span style={{ flex: 1, minWidth: 0 }}>
+                          <span style={{
+                            display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800,
+                            fontSize: '1.15rem', color: 'var(--ink)', lineHeight: 1.25,
+                            textDecoration: done ? 'line-through' : 'none', opacity: done ? 0.6 : 1,
+                          }}>
+                            {m.title}
+                          </span>
+                          <span style={{ display: 'block', fontSize: '13.5px', fontWeight: 600, color: 'var(--ink-muted)', marginTop: 2 }}>
+                            {done ? 'Done! Stars landed ⭐ Play again any time' : `The big one, with DiGi · worth ${m.stars} star${m.stars === 1 ? '' : 's'}`}
+                          </span>
+                        </span>
+                        <span style={{
+                          width: 40, height: 40, borderRadius: '50%', flexShrink: 0,
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          background: done ? 'var(--terracotta)' : 'var(--cream)',
+                          border: done ? 'none' : '2.5px dashed var(--ink-light)',
+                          fontSize: '18px',
+                        }}>
+                          {done ? '✓' : '▶'}
+                        </span>
+                      </a>
+                    )
+                  })}
+                </>
+              )}
               {KID_LESSONS.map(lesson => {
                 const done = doneLessons.has(lesson.key)
                 return (

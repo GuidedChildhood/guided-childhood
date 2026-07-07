@@ -6,12 +6,19 @@ export const metadata: Metadata = {
   description: 'Full digital education from EYFS to Sixth Form. 21 modules, every lesson with teacher plan, pupil worksheet, slides and parent note. Mapped to RSE, Online Safety Act, and Ofsted requirements.',
 }
 
+// The marketing rows draw from the same manifest the product renders, so
+// the page and the platform can never drift apart.
+import { CURRICULUM as MODULES } from '@/lib/content/schools-curriculum'
+
+const titlesFor = (...stages: string[]) =>
+  MODULES.filter(m => stages.includes(m.keyStage)).map(m => m.title)
+
 const CURRICULUM = [
-  { stage: 'EYFS and KS1', years: 'Reception to Year 2', age: 'Ages 4 to 7', topics: ['Screens and kindness', 'Family screen routines', 'What is real online', 'Being safe with strangers'], color: 'var(--stage-1)', text: 'var(--terracotta)' },
-  { stage: 'KS2', years: 'Years 3 to 6', age: 'Ages 7 to 11', topics: ['Screen routines that work', 'Gaming without meltdowns', 'How algorithms decide what you see', 'Why people share and what stays online'], color: 'var(--stage-4)', text: 'var(--terracotta)' },
-  { stage: 'KS3', years: 'Years 7 to 9', age: 'Ages 11 to 14', topics: ['Mood, sleep and screens', 'Social media and social comparison', 'Deepfakes and AI-generated content', 'Group chats, pressure and privacy'], color: 'var(--stage-3)', text: 'var(--terracotta)' },
-  { stage: 'KS4', years: 'Years 10 to 11', age: 'Ages 14 to 16', topics: ['Manipulation and consent online', 'Sextortion: what it is and what to do', 'Radicalisation and extremist recruitment', 'Digital reputation and permanence'], color: 'var(--stage-5)', text: 'var(--terracotta)' },
-  { stage: 'KS5 and Sixth Form', years: 'Years 12 to 13', age: 'Ages 16 to 18', topics: ['AI literacy and critical thinking', 'Data rights and platform accountability', 'Digital identity post-18', 'Full independent navigation skills'], color: 'var(--stage-2)', text: 'var(--terracotta)' },
+  { stage: 'EYFS and KS1', years: 'Reception to Year 2', age: 'Ages 4 to 7', topics: titlesFor('EYFS', 'KS1'), color: 'var(--stage-1)', text: 'var(--terracotta)' },
+  { stage: 'KS2', years: 'Years 3 to 6', age: 'Ages 7 to 11', topics: titlesFor('KS2'), color: 'var(--stage-4)', text: 'var(--terracotta)' },
+  { stage: 'KS3', years: 'Years 7 to 9', age: 'Ages 11 to 14', topics: titlesFor('KS3'), color: 'var(--stage-3)', text: 'var(--terracotta)' },
+  { stage: 'KS4', years: 'Years 10 to 11', age: 'Ages 14 to 16', topics: titlesFor('KS4'), color: 'var(--stage-5)', text: 'var(--terracotta)' },
+  { stage: 'KS5 and Sixth Form', years: 'Years 12 to 13', age: 'Ages 16 to 18', topics: titlesFor('KS5'), color: 'var(--stage-2)', text: 'var(--terracotta)' },
 ]
 
 const PRICING = [
@@ -113,7 +120,7 @@ export default function SchoolsPage() {
           </div>
           <div style={{ background: 'var(--stage-2)', border: '1px solid var(--stage-2)', borderRadius: '12px', padding: '20px 24px', marginTop: '16px', display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
             <span style={{ color: 'var(--terracotta)', fontSize: '1rem', flexShrink: 0, marginTop: '2px' }}>✓</span>
-            <p style={{ fontSize: '.83rem', color: 'var(--ink-soft)', lineHeight: 1.65 }}>Every lesson includes: teacher plan with learning objectives, pupil-facing worksheet, slide deck (editable), and a parent note. No additional prep needed.</p>
+            <p style={{ fontSize: '.83rem', color: 'var(--ink-soft)', lineHeight: 1.65 }}>Every lesson includes: an interactive classroom player with animated characters and a word for word teacher script on every slide, auto marked checks, a printable paper pack, colour pupil booklets, quizzes with your pupils&rsquo; names already printed, a parent note home, and one tap delivery recording for your coverage evidence. No additional prep needed.</p>
           </div>
         </div>
       </section>

@@ -55,6 +55,23 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       .limit(400),
   ])
 
+  // Star lessons sent to this child: pending ones to play, and stars from
+  // lessons completed this week join the star bank alongside quest stars.
+  const { data: missionRows } = await supabase
+    .from('kid_lesson_missions')
+    .select('id, stars, status, completed_at, school_lessons(title)')
+    .eq('child_id', link.child_id)
+    .order('sent_at', { ascending: false })
+  const missions = (missionRows ?? []).map(m => ({
+    id: m.id,
+    title: (m.school_lessons as unknown as { title: string })?.title ?? 'A lesson from DiGi',
+    stars: m.stars,
+    status: m.status,
+  }))
+  const lessonWeekStars = (missionRows ?? [])
+    .filter(m => m.status === 'done' && m.completed_at && m.completed_at >= new Date(Date.now() - 7 * 86400000).toISOString())
+    .reduce((sum, m) => sum + m.stars, 0)
+
   // The child's own streak: consecutive days with at least one quest
   // ticked, ending today or yesterday. Pending counts, because the tick
   // is the child's act; approval is the parent's.
@@ -72,6 +89,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     .map(q => ({ title: q.title, emoji: q.emoji, schedule: q.schedule }))
   const starsByQuest = new Map((questsRes.data ?? []).map(q => [q.id, q.stars]))
   const weekStars = (weekTicksRes.data ?? []).reduce((sum, t) => sum + (starsByQuest.get(t.quest_id) ?? 1), 0)
+    + lessonWeekStars
 
   // Once quests stay due until ticked, then leave the list on later days
   // (today's tick still shows today, as waiting or done). Finished kid
@@ -106,6 +124,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       weekStars={weekStars}
       goal={goalRes.data ?? null}
       streakDays={streakDays}
+      missions={missions}
       laterQuests={laterQuests}
       doneLessonKeys={doneLessonKeys}
     />

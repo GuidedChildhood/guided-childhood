@@ -45,14 +45,14 @@ export default async function LessonHubPage({ params }: { params: Promise<{ id: 
 
   const before: PrepItem[] = [
     { key: 'onepager', label: 'Read the teacher one pager', detail: 'Objective, timing, misconceptions, differentiation. Five minutes the night before.', href: `/educator/print/${lesson.module_id}` },
-    { key: 'beats', label: 'Watch the video beats', detail: `${lesson.character_cast ?? 'The character'} carries four short beats. Know where they land.`, href: '/educator/preview' },
+    { key: 'beats', label: 'Watch the video beats', detail: `${lesson.character_cast ?? 'The character'} carries four short beats. Know where they land.`, href: `/educator/teach/${lesson.module_id}` },
     ...(dsl.note ? [{ key: 'dsl', label: 'Read the safeguarding note', detail: 'This module is safeguarding flagged. Know your disclosure route before you teach.', href: `/educator/print/${lesson.module_id}` }] : []),
     { key: 'pack', label: 'Print the paper pack', detail: 'One pager, bookmark strip, worksheet, start and exit cards, parent note.', href: `/educator/print/${lesson.module_id}` },
     { key: 'booklets', label: 'Print the pupil booklets', detail: 'One per pupil, fold in half. The rundown, case file and mission.', href: `/educator/print/${lesson.module_id}/booklet` },
     { key: 'quizzes', label: 'Print the named quizzes', detail: 'One page per pupil with names already printed from your class list.', href: `/educator/print/${lesson.module_id}/quiz/${cls.id}` },
   ]
   const during: PrepItem[] = [
-    { key: 'teach', label: 'Teach with the lesson player', detail: 'One projector is enough. The player carries the beats, checks and pacing.', href: '/educator/preview' },
+    { key: 'teach', label: 'Teach with the lesson player', detail: 'One projector is enough. The player carries the beats, checks and pacing.', href: `/educator/teach/${lesson.module_id}` },
     { key: 'worksheet', label: 'Run the independent practice', detail: 'Fifteen minutes on the worksheet or booklet case file. Verdicts need reasons.' },
     { key: 'quiz', label: 'Hand out the named quizzes', detail: 'End of lesson. Collect them back in: they are your per pupil evidence.' },
   ]
@@ -100,7 +100,7 @@ export default async function LessonHubPage({ params }: { params: Promise<{ id: 
         />
 
         <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', margin: '6px 0 26px' }}>
-          <Link href="/educator/preview" style={{
+          <Link href={`/educator/teach/${lesson.module_id}`} style={{
             padding: '13px 24px', borderRadius: '16px', background: 'var(--gold)', color: 'var(--ink)',
             boxShadow: '0 5px 0 var(--gold-hover)', textDecoration: 'none',
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
