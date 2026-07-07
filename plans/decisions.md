@@ -324,3 +324,16 @@ Migration 031 reseeds ks3-12-misinfo-deepfakes with the full v2 deck: 23 slides,
 - **The child note never leaves through us.** "Text it to Alma" opens the parent's own Messages app with the note prefilled. Young stages get the lunchbox line instead. Standing rule holds: we never message a child directly.
 - **Daily star goal (migration 033):** `star_goals.daily_stars`. Hit it and the kid page flips to "Day complete!", the Home quest board shows a Day goal chip per child. Weekly prize and daily target now live side by side.
 - **Parent ping (/api/quests/ping):** one tap in the quest manager buzzes the child's phone through their quest page push subscription: quest check, come off the screen, dinner in ten. Parent auth, own child only, capped at 140 chars.
+
+---
+
+## 2026-07-06 — The Game Pack: crafts built on games kids already know
+
+**JP directives:** "the big quality games and crafts?" then "base on well known kids games." The literacy craft packs from plan section 10 are now live at /dashboard/quests/crafts, CSS print sheets in the design system, no image credits needed. Every sheet declares the classic it plays like, carries the sneaky lesson line, is worth stars, and doubles as a quest.
+
+- 4 to 7: Robot Parent (Simon Says), My Screen Rules door poster, Goodnight Screens pairs (memory pairs).
+- 8 to 10: Password Monster (Mad Libs), The Feed snakes and ladders with choice ladders and trap snakes, Advert Detective Bingo.
+- 11 to 13: Deepfake or Real family quiz (TV quiz show, answers print upside down), Algorithm Architect (design the hook and it never hooks you again).
+- Family: device free dinner cards in a jar.
+
+Linked from the quest manager next to Print the sheet. v2 when Higgsfield credits land: character art on the sheets.

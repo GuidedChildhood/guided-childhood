@@ -186,7 +186,7 @@ export default async function ProgressPage() {
       {/* The week in numbers */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', marginBottom: '20px' }}>
         {[
-          { n: String(streak.count), label: 'day streak', sub: streak.count >= 5 ? 'mission unlocked' : `${Math.max(0, 5 - streak.count)} to a mission` },
+          { n: String(streak.count), label: 'day streak', sub: streak.count >= 5 ? 'mission ready' : `${Math.max(0, 5 - streak.count)} to a mission` },
           { n: String(weekStars), label: 'stars earned', sub: 'this week' },
           { n: String(checks.length), label: 'check ins', sub: 'so far' },
         ].map(stat => (
@@ -246,15 +246,18 @@ export default async function ProgressPage() {
         )}
       </div>
 
-      {/* What unlocks next */}
+      {/* The weekly mission, an invitation never a lock */}
       <div style={{ background: 'var(--deep-teal)', borderRadius: '18px', padding: '18px 20px' }}>
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)', marginBottom: '8px' }}>
           Streak missions
         </div>
-        <p style={{ fontSize: '14px', color: '#fff', lineHeight: 1.6, margin: 0, fontWeight: 600 }}>
+        <p style={{ fontSize: '14px', color: '#fff', lineHeight: 1.6, margin: '0 0 8px', fontWeight: 600 }}>
           {streak.count >= 5
-            ? `Mission unlocked: do an age matched lesson together this week. Is That Real? is ready in Lessons.`
-            : `${Math.max(0, 5 - streak.count)} more day${5 - streak.count === 1 ? '' : 's'} of showing up unlocks your first mission: a lesson to do together.`}
+            ? `Five days of showing up. This week's mission: do an age matched lesson together. Is That Real? is a good one to start with.`
+            : `Show up ${Math.max(0, 5 - streak.count)} more day${5 - streak.count === 1 ? '' : 's'} and your first mission lands: a lesson to do together.`}
+        </p>
+        <p style={{ fontSize: '12.5px', color: 'rgba(255,255,255,0.75)', lineHeight: 1.55, margin: 0 }}>
+          Missions are invitations, never locks. Every lesson is open to members any time in the Lessons tab.
         </p>
       </div>
     </div>
