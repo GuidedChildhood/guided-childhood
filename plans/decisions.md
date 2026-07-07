@@ -419,3 +419,9 @@ Applied the shared design language (components/educator/ui.ts) to the last pages
 - Lesson Hub (/educator/classes/[id]/lesson/[module]): the purpose block became the deep teal gradient header (gold eyebrow, outcome, objective, timing), every card lifted to the premium panel shadow.
 - Hub index and Print room cards: premium layered shadow and 22px radius.
 Every educator surface now shares the deep teal gradient header + white premium panels + gold-to-coral accents. Nav gained the settings gear.
+
+---
+
+## 2026-07-07 — The premium /schools marketing website (JP: wow, Apple premium)
+
+Rebuilt the public schools marketing page as an Apple grade premium website in the real warm brand (butter gold #EDC35F, espresso #2E2818 dark sections, cream canvas, Nunito). Sections: espresso hero with a gold radial glow, oversized headline ("The ban takes the apps. We build the judgement.") and a real product mockup on the right (a browser framed miniature of the live curriculum map, built from the same CHARACTERS manifest so it can never misrepresent the product, with coverage bars); an espresso stats strip (21 modules, 8 of 8 strands, 0 pupil accounts, 48 hrs); the "one lesson, everything in it" artefact grid; the DiGi Squad character cards (from the manifest, squad colours); the curriculum showcase (espresso stage rail + character chips per key stage); a compliance split (RSHE 2025, KCSIE, Connected World, data minimised); premium pricing (featured tier espresso); and a big espresso CTA. New Reveal client component does quiet fade ups via IntersectionObserver on transform/opacity only (composited, honours reduced motion), no layout animation. Marketing rows still draw from the shared manifest so the page and product never drift. Nav gained a Sign in link to /login?next=/educator. Decision: JP wanted both the marketing site and dashboard premium; marketing built first, dashboard lift to follow.
