@@ -16,6 +16,7 @@ function urlBase64ToUint8Array(base64String: string) {
 export default function PushPrompt({ userId, stage }: Props) {
   const [status, setStatus] = useState<'idle' | 'asking' | 'granted' | 'denied' | 'unsupported'>('idle')
   const [testResult, setTestResult] = useState<string | null>(null)
+  const [resetting, setResetting] = useState(false)
 
   async function sendTest() {
     setTestResult('Sending...')
@@ -65,6 +66,37 @@ export default function PushPrompt({ userId, stage }: Props) {
     }
   }
 
+  // The browser can say permission is granted while the actual
+  // registration underneath has gone stale (a reinstall, a cleared
+  // cache, an old service worker). This says on but nothing ever
+  // arrives is exactly that state, and there was no way to fix it
+  // short of digging into phone settings. Reset clears the old
+  // registration and creates a brand new one in two taps.
+  async function resetAndRetest() {
+    setResetting(true)
+    setTestResult(null)
+    try {
+      const reg = await navigator.serviceWorker.ready
+      const existing = await reg.pushManager.getSubscription()
+      if (existing) {
+        try {
+          await fetch('/api/push/subscribe', {
+            method: 'DELETE',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ endpoint: existing.endpoint }),
+          })
+        } catch { /* best effort */ }
+        await existing.unsubscribe()
+      }
+      await enable()
+      setTimeout(sendTest, 600)
+    } catch {
+      setStatus('denied')
+    } finally {
+      setResetting(false)
+    }
+  }
+
   if (status === 'granted') {
     return (
       <div style={{
@@ -94,6 +126,17 @@ export default function PushPrompt({ userId, stage }: Props) {
             {testResult}
           </p>
         )}
+        <button
+          onClick={resetAndRetest}
+          disabled={resetting}
+          style={{
+            background: 'none', border: 'none', cursor: resetting ? 'wait' : 'pointer', padding: 0, marginTop: '10px',
+            fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700,
+            color: 'var(--ink-muted)', textDecoration: 'underline',
+          }}
+        >
+          {resetting ? 'Resetting...' : 'Test not arriving? Reset and try again'}
+        </button>
       </div>
     )
   }
