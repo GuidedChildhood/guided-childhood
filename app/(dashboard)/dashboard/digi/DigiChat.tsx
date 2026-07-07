@@ -128,6 +128,11 @@ export default function DigiChat({
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages, reflectionQuestion])
 
+  // Safety net: a tap that navigates away while a textarea is still
+  // focused can skip the blur handler, which would leave the tab bar
+  // hidden on the next page. Always clear it on unmount.
+  useEffect(() => () => { document.body.classList.remove('gc-input-focused') }, [])
+
   async function sendMessage(text?: string, deviceOverride?: string) {
     const messageText = text ?? input
     if (!messageText.trim() || loading) return
@@ -503,8 +508,8 @@ export default function DigiChat({
                 marginBottom: 10,
                 boxSizing: 'border-box',
               }}
-              onFocus={e => (e.currentTarget.style.borderColor = 'var(--terracotta)')}
-              onBlur={e => (e.currentTarget.style.borderColor = 'var(--border)')}
+              onFocus={e => { e.currentTarget.style.borderColor = 'var(--terracotta)'; document.body.classList.add('gc-input-focused') }}
+              onBlur={e => { e.currentTarget.style.borderColor = 'var(--border)'; document.body.classList.remove('gc-input-focused') }}
             />
             <div style={{ display: 'flex', gap: 8 }}>
               <button
@@ -592,8 +597,8 @@ export default function DigiChat({
                 overflowY: 'auto',
                 transition: 'border-color 0.15s',
               }}
-              onFocus={e => (e.currentTarget.style.borderColor = 'var(--terracotta)')}
-              onBlur={e => (e.currentTarget.style.borderColor = 'var(--border)')}
+              onFocus={e => { e.currentTarget.style.borderColor = 'var(--terracotta)'; document.body.classList.add('gc-input-focused') }}
+              onBlur={e => { e.currentTarget.style.borderColor = 'var(--border)'; document.body.classList.remove('gc-input-focused') }}
             />
             <button
               type="submit"

@@ -254,6 +254,13 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
 }
 @media (min-width: 768px) { .bottom-tab-bar { display: none; } }
 
+/* While a text input has focus and the on screen keyboard is up, the
+   global tab bar and the page's own compose bar both try to pin
+   themselves above the keyboard, stacking messily. The tab bar steps
+   aside for the duration, the compose bar is the only bottom bar that
+   matters while typing. */
+body.gc-input-focused .bottom-tab-bar { display: none; }
+
 .tab-item {
   display: flex;
   flex-direction: column;
