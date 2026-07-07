@@ -392,3 +392,20 @@ Plus the friction layer: **safeguarding crosswalk** (/educator/hub/dsl, DSL note
 **Generated documents (all from live data, all printable):** pupil Knowledge Organiser per module (/educator/print/[module]/organiser: outcome, gains as tick boxes, words, the tool, before and after reflection); Unit overview per module (/educator/print/[module]/overview: the clean Puzzle Map, every slide with phase, kind, minutes); whole scheme Vocabulary (/educator/hub/vocabulary); the Year at a glance (/educator/hub/year-plan: modules spread across terms per key stage); the Coverage report (/educator/reports: module by class matrix with register dates, head and governor facing, added to nav); Certificates (/educator/print/certificates/[classId]: Digital Detective Award, names pre printed, two per page).
 
 Bill of materials status after this pass: teach layer done except video beats and interactives (blocked or next), plan layer done, evidence layer done except the class journal, compliance layer done, CPD layer done except the SLT deck, home layer done. Remaining majors: booklet v2 colour pass, interactive slide components, video beats (credits), editable scripts, class journal.
+
+---
+
+## 2026-07-07 — Premium dashboard finish (JP: make it luxury, our colours)
+
+The educator home rebuilt to a premium dashboard against the Shadcn academy reference but on brand and richer: a deep teal gradient hero with a gold radial glow and a personal greeting that surfaces the next lesson to teach; a gradient coverage donut (gold to coral, average across classes); gilded stat panels with soft layered shadows (0 12px 32px -18px teal); a quick route row (curriculum, print room, reports, hub); and a two column base of a class leaderboard ranked by coverage with gradient progress bars, and the live modules panel. Container widened to 980px to match the nav. Shared panel style: white, 24px radius, 1px border, the layered premium shadow. Setup and repair states unchanged. Added --gold-hover and --coral-dark fallbacks (they were referenced but never defined as tokens, so shadows silently rendered nothing before).
+
+---
+
+## 2026-07-07 — Profile and class editing + the shared design language
+
+**Design language shared:** components/educator/ui.ts holds the premium surface system (panel with layered teal shadow, innerRow, eyebrow, sectionEyebrow, btnGold/btnGreen/btnQuiet, input, label, h1) so every educator page speaks one dialect. Applied via the uiux-pro-max skill principles (warm authority direction, intentional shadows, mono eyebrows, no slop, no dashes). The class page rebuilt on it: deep teal gradient header with gold glow, premium panels for teach/deliveries/pupils.
+
+**Editing everywhere (migration 035 adds school_educators.display_name):**
+- Settings page /educator/settings (in the nav as a gear by the school name): edit your own name and role, edit the school name, phase and URN. Saved name flows to the dashboard greeting.
+- Class page Edit mode: rename the class, change year group, delete the class (danger zone), plus add pupils, rename pupils inline, remove pupils. Data minimisation enforced on every pupil write (first name and initial only, server side trim to two words).
+- Server actions in educator/actions.ts: updateProfile, updateSchool, updateClass, deleteClass, addPupils, renamePupil, removePupil, each guarded by a requireSchoolId membership check and scoped writes.
