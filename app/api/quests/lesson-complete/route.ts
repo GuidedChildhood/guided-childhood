@@ -1,18 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { KID_LESSONS, kidLessonQuestTitle } from '@/lib/quests/kid-lessons'
+import { KID_LESSONS, kidLessonQuestTitle, kidLessonBaseTitle } from '@/lib/quests/kid-lessons'
 
 // A kid finished a lesson on their quest link. Token is the auth, exactly
 // like quest ticks. Two lesson kinds share this endpoint:
-//  - lesson_key: a two minute mini lesson (lib/quests/kid-lessons). It
-//    becomes a one off quest with a pending tick so stars land through the
-//    parent approve loop.
+//  - lesson_key: a two minute mini lesson (lib/quests/kid-lessons) ending
+//    in a three question quiz. Marked HERE against the server side answer
+//    key: 100% earns the bonus star, and the client is never trusted with
+//    star maths. It becomes a one off quest with a pending tick so stars
+//    land through the parent approve loop.
 //  - mission_id: a full Star Lesson from the schools curriculum, sent by
 //    the parent (kid_lesson_missions). Stars award once on completion,
 //    replays never mint again.
 
 export async function POST(req: NextRequest) {
-  let body: { token?: string; lesson_key?: string; mission_id?: string; correct?: number; total?: number }
+  let body: { token?: string; lesson_key?: string; mission_id?: string; correct?: number; total?: number; answers?: unknown }
   try { body = await req.json() } catch { return NextResponse.json({ error: 'bad request' }, { status: 400 }) }
 
   const { token } = body
@@ -66,26 +68,36 @@ export async function POST(req: NextRequest) {
   const lesson = KID_LESSONS.find(l => l.key === body.lesson_key)
   if (!lesson) return NextResponse.json({ error: 'unknown lesson' }, { status: 404 })
 
-  const title = kidLessonQuestTitle(lesson)
+  const answers = body.answers
+  if (!Array.isArray(answers) || answers.length !== lesson.questions.length) {
+    return NextResponse.json({ error: 'answers required' }, { status: 400 })
+  }
 
-  // Each lesson lands its stars once per child.
+  const correct = lesson.questions.reduce(
+    (sum, q, i) => sum + (Number(answers[i]) === q.answer ? 1 : 0), 0
+  )
+  const perfect = correct === lesson.questions.length
+  const stars = Math.min(10, lesson.stars + (perfect ? lesson.bonusStars : 0))
+
+  // Each lesson lands its stars once per child, perfect or not.
   const { data: existing } = await supabase
     .from('family_quests')
     .select('id')
     .eq('user_id', link.user_id)
     .eq('child_id', link.child_id)
-    .eq('title', title)
+    .like('title', `${kidLessonBaseTitle(lesson)}%`)
+    .limit(1)
     .maybeSingle()
-  if (existing) return NextResponse.json({ ok: true, already: true })
+  if (existing) return NextResponse.json({ ok: true, already: true, correct, perfect })
 
   const { data: quest, error: questError } = await supabase
     .from('family_quests')
     .insert({
       user_id: link.user_id,
       child_id: link.child_id,
-      title,
+      title: kidLessonQuestTitle(lesson, perfect),
       emoji: lesson.emoji,
-      stars: lesson.stars,
+      stars,
       schedule: 'once',
     })
     .select('id')
@@ -103,8 +115,14 @@ export async function POST(req: NextRequest) {
     ticked_by: 'child',
   })
 
-  await notifyParent(req, supabase, link, `finished a lesson 🧠`, `${lesson.title}, all by themselves. One tap to approve and ${lesson.stars} stars land.`)
-  return NextResponse.json({ ok: true })
+  await notifyParent(
+    req, supabase, link,
+    perfect ? `got 100% on a lesson 💯` : `finished a lesson 🧠`,
+    perfect
+      ? `${lesson.title}, every question right. Approve and ${stars} stars land, bonus included.`
+      : `${lesson.title}, ${correct} of ${lesson.questions.length} right. One tap to approve and ${stars} stars land.`,
+  )
+  return NextResponse.json({ ok: true, correct, perfect, stars })
 }
 
 // Nudge the parent's phone, best effort.

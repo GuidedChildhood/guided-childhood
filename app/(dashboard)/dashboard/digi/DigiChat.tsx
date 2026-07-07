@@ -239,10 +239,10 @@ export default function DigiChat({
         {messages.length === 0 && (
           <div style={{ paddingTop: '8px' }}>
             <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: '16px', padding: '20px', marginBottom: '20px' }}>
-              <p style={{ fontSize: '15px', color: 'var(--ink)', lineHeight: 1.7, marginBottom: '8px', fontWeight: 500 }}>
+              <p style={{ fontSize: '17px', color: 'var(--ink)', lineHeight: 1.55, marginBottom: '8px', fontWeight: 600 }}>
                 I&apos;m DiGi, your digital parenting advisor.
               </p>
-              <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>
+              <p style={{ fontSize: '16px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
                 I&apos;m trained on the research and I get more useful the more you tell me. What&apos;s on your mind?
               </p>
             </div>
@@ -335,37 +335,58 @@ export default function DigiChat({
           </div>
         )}
 
-        {messages.map((msg, i) => (
-          <div
-            key={i}
-            style={{
-              display: 'flex',
-              justifyContent: msg.role === 'user' ? 'flex-end' : 'flex-start',
-              marginBottom: '12px',
-              alignItems: 'flex-end',
-              gap: 8,
-            }}
-          >
-            {msg.role === 'assistant' && (
-              <div style={{ marginBottom: 2 }}>
-                <DigiAvatar size={26} />
-              </div>
-            )}
-            <div style={{
-              maxWidth: '82%',
-              padding: '13px 16px',
-              borderRadius: msg.role === 'user' ? '16px 16px 4px 16px' : '16px 16px 16px 4px',
-              background: msg.role === 'user' ? 'var(--stage-2)' : '#fff',
-              border: msg.role === 'user' ? 'none' : '1px solid var(--border)',
-              color: 'var(--ink)',
-              fontSize: '15px',
-              lineHeight: 1.7,
-              whiteSpace: 'pre-wrap',
-            }}>
-              {msg.content}
+        {messages.map((msg, i) => {
+          // Chat protocol: every paragraph of a DiGi reply becomes its own
+          // bubble, the way real messaging apps break up long thoughts.
+          // The avatar sits on the first bubble of the group, the tail
+          // corner on the last, tight gaps inside a group.
+          const bubbles = msg.role === 'assistant'
+            ? msg.content.split(/\n{2,}/).map(s => s.trim()).filter(Boolean)
+            : [msg.content]
+          if (bubbles.length === 0) return null
+          return (
+            <div key={i} style={{ marginBottom: '16px' }}>
+              {bubbles.map((text, b) => {
+                const first = b === 0
+                const last = b === bubbles.length - 1
+                return (
+                  <div
+                    key={b}
+                    style={{
+                      display: 'flex',
+                      justifyContent: msg.role === 'user' ? 'flex-end' : 'flex-start',
+                      marginBottom: last ? 0 : '5px',
+                      alignItems: 'flex-end',
+                      gap: 8,
+                    }}
+                  >
+                    {msg.role === 'assistant' && (
+                      <div style={{ width: 28, flexShrink: 0, marginBottom: 2 }}>
+                        {last && <DigiAvatar size={28} />}
+                      </div>
+                    )}
+                    <div style={{
+                      maxWidth: '85%',
+                      padding: '13px 17px',
+                      borderRadius: msg.role === 'user'
+                        ? `18px ${first ? '18px' : '6px'} ${last ? '6px' : '6px'} 18px`
+                        : `${first ? '18px' : '6px'} 18px 18px ${last ? '6px' : '6px'}`,
+                      background: msg.role === 'user' ? 'var(--stage-2)' : '#fff',
+                      border: msg.role === 'user' ? 'none' : '1px solid var(--border)',
+                      boxShadow: msg.role === 'assistant' ? '0 1px 2px rgba(26,26,46,0.06)' : 'none',
+                      color: 'var(--ink)',
+                      fontSize: '16.5px',
+                      lineHeight: 1.55,
+                      whiteSpace: 'pre-wrap',
+                    }}>
+                      {text}
+                    </div>
+                  </div>
+                )
+              })}
             </div>
-          </div>
-        ))}
+          )
+        })}
 
         {loading && !streamingReply && (
           <div style={{ display: 'flex', justifyContent: 'flex-start', marginBottom: '12px', alignItems: 'flex-end', gap: 8 }}>
@@ -508,7 +529,7 @@ export default function DigiChat({
                 border: '1.5px solid var(--border)',
                 background: 'var(--cream)',
                 fontFamily: 'var(--font-body)',
-                fontSize: '15px',
+                fontSize: '16.5px',
                 color: 'var(--ink)',
                 resize: 'none',
                 outline: 'none',

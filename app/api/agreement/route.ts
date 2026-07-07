@@ -62,7 +62,14 @@ export async function POST(request: Request) {
         : new Date().toISOString().slice(0, 10))
     : null
 
-  const row = {
+  // The structured version (migration 034): which type was chosen and the
+  // clauses with their picked options, so the builder reopens exactly what
+  // was agreed. Retried without these keys if the columns are not in the
+  // database yet, so saving never breaks on a pending migration.
+  const agreementType = typeof body.agreement_type === 'string' ? body.agreement_type.slice(0, 40) : null
+  const clauses = body.clauses && typeof body.clauses === 'object' ? body.clauses : null
+
+  const row: Record<string, unknown> = {
     user_id: user.id,
     ...sections,
     stage_id: stageId,
@@ -72,11 +79,22 @@ export async function POST(request: Request) {
     review_date: reviewDate,
     version,
     updated_at: new Date().toISOString(),
+    agreement_type: agreementType,
+    clauses,
   }
 
-  const { error } = existing
+  let { error } = existing
     ? await supabase.from('family_agreements').update(row).eq('id', existing.id)
     : await supabase.from('family_agreements').insert(row)
+
+  if (error && (error.message.includes('agreement_type') || error.message.includes('clauses'))) {
+    delete row.agreement_type
+    delete row.clauses
+    const retry = existing
+      ? await supabase.from('family_agreements').update(row).eq('id', existing.id)
+      : await supabase.from('family_agreements').insert(row)
+    error = retry.error
+  }
 
   if (error) {
     return NextResponse.json({ error: 'Could not save the agreement' }, { status: 500 })

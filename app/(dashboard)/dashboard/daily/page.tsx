@@ -97,7 +97,7 @@ export default async function DailyPage() {
   }
 
   const dayIndex = Math.floor(Date.now() / 86400000)
-  let momentScript: { title: string; situation: string; say_this: string } | null = null
+  let momentScript: { title: string; situation: string; say_this: string; sort_order: number } | null = null
   let momentMatchedYesterday = false
 
   if (momentPool && momentPool.length > 0) {
@@ -118,6 +118,21 @@ export default async function DailyPage() {
 
   const stageChallenge = stage.challengeActions?.screens_takeover ?? stage.focus
 
+  // Cards never name a rule without spelling it out. If the stage text
+  // mentions a shorthand the parent might not know yet, the definition
+  // rides on the same card, and the button goes where the rule lives.
+  const RULE_EXPLAINERS: { match: string; text: string }[] = [
+    {
+      match: 'bedroom rule',
+      text: 'The bedroom rule, spelled out: screens do not sleep in bedrooms. Every device charges in the kitchen or hallway overnight, grown ups phones too, because kids copy what they see.',
+    },
+    {
+      match: 'charging station',
+      text: 'The charging station, spelled out: one spot in the kitchen or hallway where every device in the house sleeps overnight, grown ups phones included.',
+    },
+  ]
+  const challengeExplainer = RULE_EXPLAINERS.find(r => stageChallenge.toLowerCase().includes(r.match))
+
   const cards: DailyCard[] = []
 
   // The warmth layer: cards talk like a friend who knows this family,
@@ -136,6 +151,9 @@ export default async function DailyPage() {
       body: `${greeting}, ${firstName}. Last time you reached for the words for this one. Worth thirty seconds on why they do the heavy lifting, because the why is what makes them yours:\n\n${lastScript.why_it_works}`,
       accent: 'var(--terracotta)',
       icon: '↩',
+      action: lastCompletion
+        ? { label: 'Open the full script', href: `/dashboard/scripts/${lastCompletion.script_sort_order}` }
+        : undefined,
     })
   } else {
     cards.push({
@@ -149,15 +167,17 @@ export default async function DailyPage() {
     })
   }
 
-  // Card 2 — Today's focus (from stage data)
+  // Card 2 — Today's focus (from stage data), the rule always spelled
+  // out in full and the button pointing where it gets made official.
   cards.push({
     id: 'focus',
     type: 'focus',
     eyebrow: 'Today\'s focus',
     headline: 'One thing, nothing else',
-    body: `If today gets busy and everything else falls away, hold onto this one thing:\n\n${stageChallenge}\n\nThat is the whole ask. Small, doable, and it compounds.`,
+    body: `If today gets busy and everything else falls away, hold onto this one thing:\n\n${stageChallenge}${challengeExplainer ? `\n\n${challengeExplainer.text}` : ''}\n\nThat is the whole ask. Small, doable, and it compounds.`,
     accent: 'var(--terracotta)',
     icon: '◈',
+    action: { label: 'Make it official in your family agreement', href: '/dashboard/agreement' },
   })
 
   // Card 3 — Watch for this (daily moment situation)
@@ -170,6 +190,7 @@ export default async function DailyPage() {
       body: `${momentMatchedYesterday ? 'You flagged this one yesterday, so let us walk in ready today.' : 'Every family knows this one, yours included.'} ${momentScript.situation}\n\nIf it shows up, you already have the words: "${momentScript.say_this}"\n\nNo lecture, no negotiation. Say it warmly and let it land.`,
       accent: 'var(--terracotta)',
       icon: '△',
+      action: { label: 'Read the full script', href: `/dashboard/scripts/${momentScript.sort_order}` },
     })
   }
 

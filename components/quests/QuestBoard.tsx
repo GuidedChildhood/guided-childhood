@@ -102,7 +102,7 @@ export default function QuestBoard() {
                 borderRadius: '14px', padding: '11px 14px',
               }}>
                 <span style={{ fontSize: '1.2rem' }}>{q.emoji}</span>
-                <span style={{ flex: 1, minWidth: 0, fontSize: '13px', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.35 }}>
+                <span style={{ flex: 1, minWidth: 0, fontSize: '14.5px', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.4 }}>
                   {childName} ticked <strong>{q.title}</strong>
                   <span style={{ color: 'var(--ink-muted)', fontWeight: 500 }}> · ⭐ {q.stars} = {q.stars * STAR_MINUTES} min</span>
                 </span>
@@ -170,7 +170,7 @@ export default function QuestBoard() {
                     <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '17px', color: 'var(--ink)' }}>
                       {c.name}
                     </span>
-                    <span style={{ fontSize: '12px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>
+                    <span style={{ fontSize: '13.5px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>
                       ⭐ {weekStars} = {weekStars * STAR_MINUTES} min this week
                     </span>
                   </span>
@@ -187,7 +187,7 @@ export default function QuestBoard() {
                         {doneIds.has(q.id) ? '✓' : ''}
                       </span>
                     ))}
-                    <span style={{ fontSize: '11.5px', color: 'var(--ink-muted)', marginLeft: '4px' }}>
+                    <span style={{ fontSize: '13px', color: 'var(--ink-muted)', marginLeft: '4px' }}>
                       {doneToday}/{dueToday.length} today
                     </span>
                     {goal?.daily_stars ? (
@@ -252,7 +252,7 @@ export default function QuestBoard() {
                       >
                         <span style={{ fontSize: '1.05rem' }}>{q.emoji}</span>
                         <span style={{
-                          flex: 1, fontSize: '13px', fontWeight: 600, color: 'var(--ink)',
+                          flex: 1, fontSize: '14.5px', fontWeight: 600, color: 'var(--ink)',
                           textDecoration: done ? 'line-through' : 'none', opacity: done ? 0.6 : 1,
                         }}>
                           {q.title}

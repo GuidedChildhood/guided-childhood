@@ -48,7 +48,9 @@ export default function KidQuestScreen({
   const [doneLessons, setDoneLessons] = useState<Set<string>>(new Set(doneLessonKeys))
   const [activeLesson, setActiveLesson] = useState<KidLesson | null>(null)
   const [lessonCard, setLessonCard] = useState(0)
-  const [lessonAnswer, setLessonAnswer] = useState<number | null>(null)
+  const [qIndex, setQIndex] = useState(0)
+  const [qAnswers, setQAnswers] = useState<number[]>([])
+  const [qPicked, setQPicked] = useState<number | null>(null)
 
   useEffect(() => {
     if (localStorage.getItem('gc_kid_welcome') !== '1') setShowWelcome(true)
@@ -92,19 +94,26 @@ export default function KidQuestScreen({
   function openLesson(lesson: KidLesson) {
     setActiveLesson(lesson)
     setLessonCard(0)
-    setLessonAnswer(null)
+    setQIndex(0)
+    setQAnswers([])
+    setQPicked(null)
   }
 
-  async function finishLesson(lesson: KidLesson) {
+  async function finishLesson(lesson: KidLesson, answers: number[]) {
+    const correct = lesson.questions.reduce((sum, q, i) => sum + (answers[i] === q.answer ? 1 : 0), 0)
+    const perfect = correct === lesson.questions.length
+    const stars = lesson.stars + (perfect ? lesson.bonusStars : 0)
     setDoneLessons(prev => new Set(prev).add(lesson.key))
     setActiveLesson(null)
-    setToast(`Lesson done! ⭐ ${lesson.stars} stars sent to your grown up.`)
+    setToast(perfect
+      ? `💯 Perfect! ${stars} stars sent, bonus TV time included ⭐`
+      : `Lesson done! ⭐ ${stars} stars sent to your grown up.`)
     setTimeout(() => setToast(null), 3500)
     try {
       await fetch('/api/quests/lesson-complete', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token, lesson_key: lesson.key }),
+        body: JSON.stringify({ token, lesson_key: lesson.key, answers }),
       })
     } catch { /* best effort, the next load reconciles */ }
   }
@@ -498,14 +507,19 @@ export default function KidQuestScreen({
                 </button>
               </div>
 
-              {/* Progress dots */}
+              {/* Progress dots: cards then quiz questions */}
               <div style={{ display: 'flex', gap: '6px', marginBottom: '16px' }}>
-                {[...activeLesson.cards, 'q'].map((_, i) => (
-                  <span key={i} style={{
-                    flex: 1, height: '6px', borderRadius: '6px',
-                    background: i <= lessonCard ? 'var(--terracotta)' : 'var(--border)',
-                  }} />
-                ))}
+                {[...activeLesson.cards, ...activeLesson.questions].map((_, i) => {
+                  const progress = lessonCard < activeLesson.cards.length
+                    ? lessonCard
+                    : activeLesson.cards.length + Math.min(qIndex, activeLesson.questions.length - 1)
+                  return (
+                    <span key={i} style={{
+                      flex: 1, height: '6px', borderRadius: '6px',
+                      background: i <= progress ? 'var(--terracotta)' : 'var(--border)',
+                    }} />
+                  )
+                })}
               </div>
 
               {lessonCard < activeLesson.cards.length ? (
@@ -522,46 +536,84 @@ export default function KidQuestScreen({
                       boxShadow: '0 4px 0 var(--terracotta-dark)',
                     }}
                   >
-                    {lessonCard === activeLesson.cards.length - 1 ? 'Ready for the question' : 'Next'}
+                    {lessonCard === activeLesson.cards.length - 1 ? 'Ready for the quiz' : 'Next'}
                   </button>
                 </>
-              ) : (
-                <>
-                  <p style={{ fontSize: '17px', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.55, margin: '0 0 14px' }}>
-                    {activeLesson.question.q}
-                  </p>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '9px', marginBottom: '14px' }}>
-                    {activeLesson.question.options.map((opt, i) => {
-                      const picked = lessonAnswer === i
-                      const isRight = i === activeLesson.question.answer
-                      return (
+              ) : qIndex < activeLesson.questions.length ? (() => {
+                const question = activeLesson.questions[qIndex]
+                const answered = qPicked !== null
+                return (
+                  <>
+                    <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', margin: '0 0 8px' }}>
+                      Question {qIndex + 1} of {activeLesson.questions.length} · 100% earns the bonus ⭐
+                    </p>
+                    <p style={{ fontSize: '17px', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.55, margin: '0 0 14px' }}>
+                      {question.q}
+                    </p>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '9px', marginBottom: '14px' }}>
+                      {question.options.map((opt, i) => {
+                        const isRight = i === question.answer
+                        const showState = answered && (i === qPicked || isRight)
+                        return (
+                          <button
+                            key={i}
+                            onClick={() => !answered && setQPicked(i)}
+                            disabled={answered}
+                            style={{
+                              padding: '14px 16px', borderRadius: '14px', textAlign: 'left',
+                              cursor: answered ? 'default' : 'pointer',
+                              fontSize: '15.5px', fontWeight: 600, lineHeight: 1.45,
+                              background: showState ? (isRight ? 'var(--tint-sage)' : '#F6DBD3') : 'var(--cream)',
+                              border: showState ? '2px solid ' + (isRight ? 'var(--terracotta)' : 'var(--danger, #C0533E)') : '2px solid var(--border)',
+                              color: 'var(--ink)', opacity: answered && !showState ? 0.55 : 1,
+                            }}
+                          >
+                            {opt}{answered && isRight ? ' ✓' : ''}
+                          </button>
+                        )
+                      })}
+                    </div>
+                    {answered && (
+                      <>
+                        <p style={{ fontSize: '15px', lineHeight: 1.5, margin: '0 0 14px', fontWeight: 700, color: 'var(--ink)' }}>
+                          {qPicked === question.answer ? 'Right! ⭐' : 'Not that one, the green answer is the keeper.'}
+                        </p>
                         <button
-                          key={i}
-                          onClick={() => setLessonAnswer(i)}
+                          onClick={() => {
+                            setQAnswers(prev => [...prev, qPicked as number])
+                            setQPicked(null)
+                            setQIndex(i => i + 1)
+                          }}
                           style={{
-                            padding: '14px 16px', borderRadius: '14px', textAlign: 'left', cursor: 'pointer',
-                            fontSize: '15.5px', fontWeight: 600, lineHeight: 1.45,
-                            background: picked ? (isRight ? 'var(--tint-sage)' : '#F6DBD3') : 'var(--cream)',
-                            border: picked ? '2px solid ' + (isRight ? 'var(--terracotta)' : 'var(--danger, #C0533E)') : '2px solid var(--border)',
-                            color: 'var(--ink)',
+                            width: '100%', padding: '15px', background: 'var(--terracotta)', color: 'var(--ink)',
+                            border: 'none', borderRadius: '14px', cursor: 'pointer',
+                            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px',
+                            boxShadow: '0 4px 0 var(--terracotta-dark)',
                           }}
                         >
-                          {opt}
+                          {qIndex === activeLesson.questions.length - 1 ? 'See my score' : 'Next question'}
                         </button>
-                      )
-                    })}
-                  </div>
-                  {lessonAnswer !== null && (
-                    <p style={{
-                      fontSize: '15px', lineHeight: 1.55, margin: '0 0 14px', fontWeight: 600,
-                      color: lessonAnswer === activeLesson.question.answer ? 'var(--ink)' : 'var(--ink-soft)',
-                    }}>
-                      {lessonAnswer === activeLesson.question.answer ? activeLesson.question.right : activeLesson.question.wrong}
+                      </>
+                    )}
+                  </>
+                )
+              })() : (() => {
+                const correct = activeLesson.questions.reduce((sum, q, i) => sum + (qAnswers[i] === q.answer ? 1 : 0), 0)
+                const perfect = correct === activeLesson.questions.length
+                const stars = activeLesson.stars + (perfect ? activeLesson.bonusStars : 0)
+                return (
+                  <div style={{ textAlign: 'center' }}>
+                    <div style={{ fontSize: '3rem', lineHeight: 1, marginBottom: '8px' }}>{perfect ? '💯' : '⭐'}</div>
+                    <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.4rem', color: 'var(--ink)', margin: '0 0 6px' }}>
+                      {correct} out of {activeLesson.questions.length}!
                     </p>
-                  )}
-                  {lessonAnswer === activeLesson.question.answer && (
+                    <p style={{ fontSize: '15.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 16px' }}>
+                      {perfect
+                        ? `Perfect score! That earns the bonus star: ${stars} stars = ${stars * STAR_MINUTES} minutes of TV time once your grown up approves.`
+                        : `You earned ${stars} stars = ${stars * STAR_MINUTES} minutes of screen time. A perfect score on the next lesson earns the bonus star!`}
+                    </p>
                     <button
-                      onClick={() => finishLesson(activeLesson)}
+                      onClick={() => finishLesson(activeLesson, qAnswers)}
                       style={{
                         width: '100%', padding: '15px', background: 'var(--terracotta)', color: 'var(--ink)',
                         border: 'none', borderRadius: '14px', cursor: 'pointer',
@@ -569,16 +621,16 @@ export default function KidQuestScreen({
                         boxShadow: '0 4px 0 var(--terracotta-dark)',
                       }}
                     >
-                      Collect my {activeLesson.stars} stars ⭐
+                      Send my {stars} stars to my grown up ⭐
                     </button>
-                  )}
-                </>
-              )}
+                  </div>
+                )
+              })()}
             </div>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <p style={{ textAlign: 'center', color: 'rgba(255,255,255,0.85)', fontSize: '15.5px', lineHeight: 1.55, margin: '0 0 4px' }}>
-                Two minute lessons, real superpowers, and the stars count just like quests.
+                Two minute lessons with a quiz at the end. Get 100% and a bonus star lands, that is extra TV time!
               </p>
               {missions.length > 0 && (
                 <>
@@ -652,7 +704,7 @@ export default function KidQuestScreen({
                         {lesson.title}
                       </span>
                       <span style={{ display: 'block', fontSize: '13.5px', fontWeight: 600, color: 'var(--ink-muted)', marginTop: 2 }}>
-                        {done ? 'Done! Stars with your grown up ⭐' : `Worth ${lesson.stars} stars · about 2 minutes`}
+                        {done ? 'Done! Stars with your grown up ⭐' : `Worth ${lesson.stars} stars, +${lesson.bonusStars} bonus at 100% · 2 minutes`}
                       </span>
                     </span>
                     <span style={{

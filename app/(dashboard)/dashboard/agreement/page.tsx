@@ -1,7 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import { getAgreementDefaults } from '@/lib/content/agreement-defaults'
 import type { StageId } from '@/lib/pathway/progress'
 import AgreementBuilder from '@/components/agreement/AgreementBuilder'
 
@@ -22,7 +21,7 @@ export default async function AgreementPage() {
 
   const [{ data: profile }, { data: child }, { data: agreement }] = await Promise.all([
     supabase.from('profiles').select('subscription_status').eq('id', user.id).single(),
-    supabase.from('children').select('name, stage_id').eq('parent_id', user.id).eq('is_primary', true).maybeSingle(),
+    supabase.from('children').select('name, stage_id, phone').eq('parent_id', user.id).eq('is_primary', true).maybeSingle(),
     supabase.from('family_agreements').select('*').eq('user_id', user.id).maybeSingle(),
   ])
 
@@ -61,15 +60,13 @@ export default async function AgreementPage() {
     )
   }
 
-  const defaults = getAgreementDefaults(stageId)
-
   return (
     <AgreementBuilder
       childName={childName}
       stageId={stageId ?? 'explorer'}
       stageLabel={STAGE_LABELS[stageId ?? 'explorer']}
-      defaults={defaults}
       saved={agreement ?? null}
+      childPhone={(child as { phone?: string | null } | null)?.phone ?? null}
     />
   )
 }

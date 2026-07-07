@@ -14,7 +14,7 @@ export type SetupFlags = {
   daily: boolean
 }
 
-const STEPS: {
+export const STEPS: {
   key: keyof SetupFlags
   title: string
   what: string
