@@ -81,8 +81,9 @@ export default async function HubPage() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '14px' }}>
           {DOCS.map(d => (
             <Link key={d.href} href={d.href} style={{
-              background: '#fff', border: '1.5px solid var(--border)', borderRadius: '20px',
+              background: '#fff', border: '1px solid var(--border)', borderRadius: '22px',
               padding: '18px 20px', textDecoration: 'none', display: 'flex', gap: '14px', alignItems: 'flex-start',
+              boxShadow: '0 1px 2px rgba(23,60,70,0.04), 0 12px 32px -18px rgba(23,60,70,0.28)',
             }}>
               <span style={{ fontSize: '26px', flexShrink: 0 }}>{d.emoji}</span>
               <span>

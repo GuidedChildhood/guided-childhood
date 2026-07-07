@@ -409,3 +409,13 @@ The educator home rebuilt to a premium dashboard against the Shadcn academy refe
 - Settings page /educator/settings (in the nav as a gear by the school name): edit your own name and role, edit the school name, phase and URN. Saved name flows to the dashboard greeting.
 - Class page Edit mode: rename the class, change year group, delete the class (danger zone), plus add pupils, rename pupils inline, remove pupils. Data minimisation enforced on every pupil write (first name and initial only, server side trim to two words).
 - Server actions in educator/actions.ts: updateProfile, updateSchool, updateClass, deleteClass, addPupils, renamePupil, removePupil, each guarded by a requireSchoolId membership check and scoped writes.
+
+---
+
+## 2026-07-07 — Premium design across every educator page
+
+Applied the shared design language (components/educator/ui.ts) to the last pages that were still on the old warm card look, so the whole workspace matches:
+- Marking screen (/educator/deliveries/[id]): deep teal gradient header with the outcome and live judgement tallies (N working towards, N met, N exceeded), the grid in a premium panel with a plain lead in line.
+- Lesson Hub (/educator/classes/[id]/lesson/[module]): the purpose block became the deep teal gradient header (gold eyebrow, outcome, objective, timing), every card lifted to the premium panel shadow.
+- Hub index and Print room cards: premium layered shadow and 22px radius.
+Every educator surface now shares the deep teal gradient header + white premium panels + gold-to-coral accents. Nav gained the settings gear.

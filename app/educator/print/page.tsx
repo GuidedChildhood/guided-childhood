@@ -58,8 +58,9 @@ export default async function PrintRoomPage() {
             const ch = manifest ? CHARACTERS[manifest.character] : null
             return (
               <div key={l.module_id} style={{
-                background: 'var(--warm)', border: `2px solid ${ch?.accent ?? 'var(--border)'}`,
-                borderRadius: '20px', padding: '18px 20px',
+                background: '#fff', border: `2px solid ${ch?.accent ?? 'var(--border)'}`,
+                borderRadius: '22px', padding: '18px 20px',
+                boxShadow: '0 1px 2px rgba(23,60,70,0.04), 0 12px 32px -18px rgba(23,60,70,0.28)',
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '4px' }}>
                   {ch && <span style={{ fontSize: '18px' }}>{ch.emblem}</span>}

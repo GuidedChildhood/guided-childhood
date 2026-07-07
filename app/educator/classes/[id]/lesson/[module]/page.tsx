@@ -22,7 +22,8 @@ type DslNote = { note?: string; required?: boolean }
 type ParentNote = { family_question?: string }
 
 const eyebrow: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-muted)' }
-const card: React.CSSProperties = { background: 'var(--warm)', border: '1.5px solid var(--border)', borderRadius: '20px', padding: '20px 22px' }
+// The premium surface, matched to components/educator/ui.ts.
+const card: React.CSSProperties = { background: '#fff', border: '1px solid var(--border)', borderRadius: '24px', padding: 'clamp(18px, 2.5vw, 24px)', boxShadow: '0 1px 2px rgba(23,60,70,0.04), 0 12px 32px -18px rgba(23,60,70,0.28)' }
 const body: React.CSSProperties = { fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--ink)', lineHeight: 1.6 }
 
 export default async function LessonHubPage({ params }: { params: Promise<{ id: string; module: string }> }) {
@@ -66,19 +67,24 @@ export default async function LessonHubPage({ params }: { params: Promise<{ id: 
     <main style={{ minHeight: '100vh', background: 'var(--cream)', padding: '36px 20px 80px' }}>
       <div style={{ maxWidth: '760px', margin: '0 auto' }}>
         <Link href={`/educator/classes/${cls.id}`} style={{ ...eyebrow, textDecoration: 'none' }}>← {cls.name} · {cls.year_group}</Link>
-        <div style={{ ...eyebrow, color: 'var(--green-dark)', margin: '14px 0 4px' }}>{lesson.key_stage} · {lesson.year_band} · Everything for this lesson</div>
-        <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.5rem, 5vw, 2rem)', color: 'var(--ink)', letterSpacing: '-0.01em', margin: '0 0 18px' }}>
-          {lesson.title}
-        </h1>
 
-        {/* Purpose block: the what and the why, first, always */}
-        <div style={{ ...card, borderColor: 'var(--gold)', borderWidth: '2px', marginBottom: '14px' }}>
-          <div style={{ ...eyebrow, color: 'var(--gold-dark)', marginBottom: '8px' }}>Purpose · what pupils gain</div>
-          <p style={{ ...body, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', marginBottom: '8px' }}>
-            {lesson.single_action_outcome}
-          </p>
-          {notes.learning_objective && <p style={body}>{notes.learning_objective}</p>}
-          {notes.timing && <p style={{ ...body, fontSize: '12.5px', color: 'var(--ink-muted)', marginTop: '8px' }}>{notes.timing}</p>}
+        {/* Gradient purpose header: the what and the why, first, always */}
+        <div style={{ ...card, marginTop: '14px', marginBottom: '14px', background: 'linear-gradient(135deg, var(--deep-teal, #173C46) 0%, #12313a 100%)', border: 'none', color: '#fff', position: 'relative', overflow: 'hidden' }}>
+          <div style={{ position: 'absolute', top: '-50px', right: '-30px', width: '180px', height: '180px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(242,201,76,0.24) 0%, transparent 70%)' }} />
+          <div style={{ position: 'relative' }}>
+            <div style={{ ...eyebrow, color: 'rgba(255,255,255,0.6)' }}>{lesson.key_stage} · {lesson.year_band} · Everything for this lesson</div>
+            <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.5rem, 5vw, 2rem)', letterSpacing: '-0.01em', margin: '10px 0 12px' }}>
+              {lesson.title}
+            </h1>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--gold, #F2C94C)', marginBottom: '6px' }}>
+              Purpose · what pupils gain
+            </div>
+            <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: '#fff', marginBottom: '8px', lineHeight: 1.4 }}>
+              {lesson.single_action_outcome}
+            </p>
+            {notes.learning_objective && <p style={{ ...body, color: 'rgba(255,255,255,0.82)' }}>{notes.learning_objective}</p>}
+            {notes.timing && <p style={{ ...body, fontSize: '12.5px', color: 'rgba(255,255,255,0.6)', marginTop: '8px' }}>{notes.timing}</p>}
+          </div>
         </div>
 
         {/* Statutory line: the coverage this lesson earns the school */}
