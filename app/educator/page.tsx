@@ -85,7 +85,7 @@ export default async function EducatorHome({ searchParams }: { searchParams: Pro
 
   const { data: membership, error: membershipError } = await supabase
     .from('school_educators')
-    .select('school_id, role')
+    .select('school_id, role, display_name')
     .eq('user_id', user.id)
     .limit(1)
     .maybeSingle()
@@ -194,7 +194,8 @@ export default async function EducatorHome({ searchParams }: { searchParams: Pro
     { figure: `${modulesTaught}/${liveCount}`, label: 'modules covered', tint: 'var(--gold-lt, #FDF4D9)', ink: 'var(--gold-dark, #7A5A0E)' },
   ]
 
-  const firstName = (user.email ?? '').split('@')[0].split('.')[0]
+  const savedName = (membership.display_name ?? '').trim()
+  const firstName = savedName || (user.email ?? '').split('@')[0].split('.')[0]
   const greetName = firstName ? firstName.charAt(0).toUpperCase() + firstName.slice(1) : 'there'
 
   const QUICK = [

@@ -49,14 +49,21 @@ export default function EducatorNav({ schoolName }: { schoolName?: string }) {
               </Link>
             )
           })}
-          {schoolName && (
+          <Link href="/educator/settings" style={{
+            marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '8px', textDecoration: 'none',
+          }}>
+            {schoolName && (
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 600, color: 'var(--ink-muted)', letterSpacing: '0.04em' }}>
+                {schoolName}
+              </span>
+            )}
             <span style={{
-              marginLeft: 'auto', fontFamily: 'var(--font-mono)', fontSize: '11px',
-              fontWeight: 600, color: 'var(--ink-muted)', letterSpacing: '0.04em',
-            }}>
-              {schoolName}
-            </span>
-          )}
+              width: '30px', height: '30px', borderRadius: '50%', flexShrink: 0,
+              background: pathname.startsWith('/educator/settings') ? 'var(--gold)' : 'var(--warm)',
+              border: '1.5px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: '14px',
+            }} aria-label="Settings">⚙️</span>
+          </Link>
         </div>
       </nav>
     </>
