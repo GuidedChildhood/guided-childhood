@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 // A running check in, not a one day question: this card asks about
 // whatever is still open, however many days it has been coming up, and
@@ -41,6 +42,7 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
   // parent gets to see their answer land.
   const [answered, setAnswered] = useState<Record<string, Answer>>({})
   const [folded, setFolded] = useState<Record<string, boolean>>({})
+  const router = useRouter()
 
   if (concerns.length === 0) return null
 
@@ -54,7 +56,12 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ slug, answer: choice }),
-    }).catch(() => {})
+    })
+      // The Home path strip reads this same data server side. Refresh the
+      // router cache the moment an answer lands, so tapping Home right
+      // after does not show the check in step as still glowing and undone.
+      .then(() => router.refresh())
+      .catch(() => {})
     setTimeout(() => {
       setFolded(prev => ({ ...prev, [slug]: true }))
     }, FOLD_DELAY_MS)
