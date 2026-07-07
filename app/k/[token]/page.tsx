@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { questDueToday } from '@/lib/quests/due'
-import { KID_LESSONS, kidLessonQuestTitle } from '@/lib/quests/kid-lessons'
+import { KID_LESSONS, kidLessonBaseTitle } from '@/lib/quests/kid-lessons'
 import KidQuestScreen from './KidQuestScreen'
 
 // The kid's own screen. Opened from the private link their parent sends,
@@ -107,11 +107,10 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   const tickedOnceEver = new Set((onceTicks ?? []).map(t => t.quest_id))
   const dueQuests = quests.filter(q => !(q.schedule === 'once' && tickedOnceBeforeToday.has(q.id)))
 
-  const questByTitle = new Map((questsRes.data ?? []).map(q => [q.title, q.id]))
   const doneLessonKeys = KID_LESSONS
     .filter(l => {
-      const qid = questByTitle.get(kidLessonQuestTitle(l))
-      return qid ? tickedOnceEver.has(qid) : false
+      const base = kidLessonBaseTitle(l)
+      return (questsRes.data ?? []).some(q => String(q.title).startsWith(base) && tickedOnceEver.has(q.id))
     })
     .map(l => l.key)
 
