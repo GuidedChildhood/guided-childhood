@@ -409,3 +409,37 @@ The educator home rebuilt to a premium dashboard against the Shadcn academy refe
 - Settings page /educator/settings (in the nav as a gear by the school name): edit your own name and role, edit the school name, phase and URN. Saved name flows to the dashboard greeting.
 - Class page Edit mode: rename the class, change year group, delete the class (danger zone), plus add pupils, rename pupils inline, remove pupils. Data minimisation enforced on every pupil write (first name and initial only, server side trim to two words).
 - Server actions in educator/actions.ts: updateProfile, updateSchool, updateClass, deleteClass, addPupils, renamePupil, removePupil, each guarded by a requireSchoolId membership check and scoped writes.
+
+---
+
+## 2026-07-07 — Premium design across every educator page
+
+Applied the shared design language (components/educator/ui.ts) to the last pages that were still on the old warm card look, so the whole workspace matches:
+- Marking screen (/educator/deliveries/[id]): deep teal gradient header with the outcome and live judgement tallies (N working towards, N met, N exceeded), the grid in a premium panel with a plain lead in line.
+- Lesson Hub (/educator/classes/[id]/lesson/[module]): the purpose block became the deep teal gradient header (gold eyebrow, outcome, objective, timing), every card lifted to the premium panel shadow.
+- Hub index and Print room cards: premium layered shadow and 22px radius.
+Every educator surface now shares the deep teal gradient header + white premium panels + gold-to-coral accents. Nav gained the settings gear.
+
+---
+
+## 2026-07-07 — The premium /schools marketing website (JP: wow, Apple premium)
+
+Rebuilt the public schools marketing page as an Apple grade premium website in the real warm brand (butter gold #EDC35F, espresso #2E2818 dark sections, cream canvas, Nunito). Sections: espresso hero with a gold radial glow, oversized headline ("The ban takes the apps. We build the judgement.") and a real product mockup on the right (a browser framed miniature of the live curriculum map, built from the same CHARACTERS manifest so it can never misrepresent the product, with coverage bars); an espresso stats strip (21 modules, 8 of 8 strands, 0 pupil accounts, 48 hrs); the "one lesson, everything in it" artefact grid; the DiGi Squad character cards (from the manifest, squad colours); the curriculum showcase (espresso stage rail + character chips per key stage); a compliance split (RSHE 2025, KCSIE, Connected World, data minimised); premium pricing (featured tier espresso); and a big espresso CTA. New Reveal client component does quiet fade ups via IntersectionObserver on transform/opacity only (composited, honours reduced motion), no layout animation. Marketing rows still draw from the shared manifest so the page and product never drift. Nav gained a Sign in link to /login?next=/educator. Decision: JP wanted both the marketing site and dashboard premium; marketing built first, dashboard lift to follow.
+
+---
+
+## 2026-07-07 — Fixed the marketing site build (the real reason /schools was invisible)
+
+The Vercel marketing project (guided-childhood) had been failing every build, so the public site never deployed the schools page. Root cause: several API routes and the shared Supabase SSR helpers constructed their service clients at module scope with process.env.X! assertions, so a missing env var (the marketing project has no Supabase, Anthropic or Stripe keys) crashed page data collection and static generation for the whole app. Fixed by giving every module scope constructor a harmless build placeholder fallback (lib/supabase/server.ts, lib/supabase/client.ts, app/api/push/subscribe lazy init, app/api/stripe/webhook, and the six Anthropic DiGi routes). The real keys still win on the app project; the placeholders only ever apply on the marketing project, where those routes are never called. Verified: npm run build now completes all 84 pages with SUPABASE, ANTHROPIC and STRIPE env all empty. The premium /schools page can now reach the marketing production domain. App branch preview already serves it at guided-childhood-app-git-claude-lesson-6a2d73-guided-childhood.vercel.app/schools.
+
+---
+
+## 2026-07-07 — Schools hero: contrast fix + research led headline positioning
+
+Fixed the low contrast hero body text (cool white on espresso read dim and blueish): warmed every muted white on the dark sections from rgba(255,255,255,x) to a cream tint rgba(255,250,240,x) at higher opacity, and led the hero subhead with a bold solid white clause. Research led headline positioning (WebSearch: gov.uk teaching online safety, PSHE Association RSHE 2025, Ofsted Personal Development): schools search the literal terms "digital literacy / online safety / scheme of work", and the burning driver is RSHE 2025 becoming statutory September 2026 (now naming AI literacy, deepfakes, pornography harms, financial exploitation). So the eyebrow now carries the category for scan and SEO ("Digital literacy curriculum · Reception to Year 13"), the memorable hook stays the H1 ("The ban takes the apps. We build the judgement."), and the subhead leads with the clear high contrast clause naming the September 2026 RSHE driver and the Ofsted coverage evidence. Alternative H1 options offered to JP to choose from.
+
+---
+
+## 2026-07-07 — Synced main into the branch before merge (protect the live parent work)
+
+JP wants PR #91 updated but nothing live on the domain, and specifically not to break the landing pages currently live. Audit: PR #91 now carries only 5 net commits (premium educator pages, premium /schools site, marketing build fix). Main had advanced independently with other sessions' parent work (PRs #105, #106: Family Quests tabbed, Games tab, Pathway redesign, wellbeing list, kid lessons v2, migrations 034 to 037). One file overlapped, app/api/digi/route.ts (main added the chat message format block and the concerns ledger integration). Rather than risk merging an older based branch that could revert that live DiGi work, merged origin/main into the branch: auto resolved with no conflicts (my push subscribe placeholder line and main's new DiGi content changed different parts), my Star Lessons missions integration survived alongside main's upgraded kid lessons (questions, bonus stars, perfect scoring). Verified: TSC clean, and npm run build completes all 88 pages with every service env empty (marketing build safe). PR #91 now contains everything main has plus the schools work, so merging it is purely additive and cannot revert any live parent page. Still nothing deploys to the domain until JP merges.

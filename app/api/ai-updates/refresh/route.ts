@@ -18,7 +18,7 @@ import { NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 import { AI_UPDATE_MODEL, AI_UPDATE_MODEL_FALLBACKS, AI_UPDATE_AUDIENCES } from '@/lib/config/ai-module'
 
-const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY ?? 'build-placeholder' })
 
 type SourceItem = { title: string; text: string; url?: string; source_name?: string }
 type Draft = { audience: string; headline: string; summary: string; category: string }

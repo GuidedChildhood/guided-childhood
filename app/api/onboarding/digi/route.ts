@@ -7,7 +7,7 @@ import { welcomeEmail } from '@/lib/email/templates'
 import { NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 
-const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY ?? 'build-placeholder' })
 
 const CHALLENGE_LABELS: Record<string, string> = {
   morning_tv: 'morning TV battles',

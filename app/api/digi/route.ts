@@ -11,7 +11,7 @@ import { readFileSync } from 'fs'
 import { join } from 'path'
 
 const anthropic = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
+  apiKey: process.env.ANTHROPIC_API_KEY ?? 'build-placeholder',
   timeout: 45_000,
   maxRetries: 1,
 })
