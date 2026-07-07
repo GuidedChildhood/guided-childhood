@@ -11,6 +11,14 @@ import KidQuestScreen from './KidQuestScreen'
 
 export const dynamic = 'force-dynamic'
 
+// On a child's Home Screen this page is called My Quests, opens full
+// screen like a real app (which is also what lets reminders work on
+// iPhone), and wears the DiGi star icon from apple-icon.tsx.
+export const metadata = {
+  title: 'My Quests ⭐',
+  appleWebApp: { capable: true, title: 'My Quests', statusBarStyle: 'black-translucent' as const },
+}
+
 export default async function KidPage({ params }: { params: Promise<{ token: string }> }) {
   const { token } = await params
   if (!/^[0-9a-f]{18}$/.test(token)) notFound()
