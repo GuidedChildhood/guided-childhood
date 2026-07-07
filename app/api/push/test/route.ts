@@ -12,14 +12,32 @@ export async function POST() {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
 
-  if (!process.env.VAPID_EMAIL || !process.env.NEXT_PUBLIC_VAPID_KEY || !process.env.VAPID_PRIVATE_KEY) {
-    return NextResponse.json({ error: 'VAPID keys are not set on the server' }, { status: 500 })
+  // Name exactly which vars are missing so the Vercel fix is unambiguous.
+  // Never leak the values, only whether each is present.
+  const missing = [
+    ['VAPID_EMAIL', process.env.VAPID_EMAIL],
+    ['NEXT_PUBLIC_VAPID_KEY', process.env.NEXT_PUBLIC_VAPID_KEY],
+    ['VAPID_PRIVATE_KEY', process.env.VAPID_PRIVATE_KEY],
+  ].filter(([, v]) => !v).map(([k]) => k)
+  if (missing.length) {
+    return NextResponse.json({
+      error: `Not set on the server yet: ${missing.join(', ')}. Add these in Vercel then redeploy.`,
+    }, { status: 500 })
+  }
+
+  // A subtle wrong value that still 400s or 403s: the subject must be a
+  // mailto or https url, so catch a bare email here with a clear message.
+  const email = process.env.VAPID_EMAIL as string
+  if (!/^(mailto:|https:\/\/)/i.test(email)) {
+    return NextResponse.json({
+      error: `VAPID_EMAIL must start with mailto: (it is currently "${email.slice(0, 40)}"). Set it to mailto:hello@guidedchildhood.com and redeploy.`,
+    }, { status: 500 })
   }
 
   webpush.setVapidDetails(
-    process.env.VAPID_EMAIL,
-    process.env.NEXT_PUBLIC_VAPID_KEY,
-    process.env.VAPID_PRIVATE_KEY
+    email,
+    process.env.NEXT_PUBLIC_VAPID_KEY as string,
+    process.env.VAPID_PRIVATE_KEY as string
   )
 
   const admin = createAdminClient()
