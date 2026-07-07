@@ -11,9 +11,10 @@ import { STAR_MINUTES } from '@/lib/quests/templates'
 type Quest = { id: string; title: string; emoji: string; stars: number; schedule: string }
 type Tick = { quest_id: string; status: string }
 type Goal = { title: string; stars_needed: number; achieved_at: string | null } | null
+export type KidMission = { id: string; title: string; stars: number; status: string }
 
 export default function KidQuestScreen({
-  token, childName, quests, todayTicks, weekStars, goal, streakDays = 0,
+  token, childName, quests, todayTicks, weekStars, goal, streakDays = 0, missions = [],
 }: {
   token: string
   childName: string
@@ -22,6 +23,7 @@ export default function KidQuestScreen({
   weekStars: number
   goal: Goal
   streakDays?: number
+  missions?: KidMission[]
 }) {
   const [ticks, setTicks] = useState<Record<string, string>>(
     Object.fromEntries(todayTicks.map(t => [t.quest_id, t.status]))
@@ -133,6 +135,54 @@ export default function KidQuestScreen({
                 width: `${Math.min(100, (weekStars / Math.max(1, goal.stars_needed)) * 100)}%`,
                 transition: 'width 0.6s ease',
               }} />
+            </div>
+          </div>
+        )}
+
+        {/* Star lessons: missions from the grown up, stars paid by the quiz */}
+        {missions.length > 0 && (
+          <div style={{ marginBottom: '20px' }}>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)', margin: '0 0 10px' }}>
+              Star lessons
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              {missions.map(m => {
+                const done = m.status === 'done'
+                return (
+                  <a
+                    key={m.id}
+                    href={`/k/${token}/lesson/${m.id}`}
+                    style={{
+                      display: 'flex', alignItems: 'center', gap: 14,
+                      background: done ? 'var(--tint-sage, #DDEDE4)' : '#fff',
+                      borderRadius: '20px', padding: '16px 18px', textDecoration: 'none',
+                      boxShadow: done ? '0 2px 0 rgba(0,0,0,0.12)' : '0 5px 0 rgba(0,0,0,0.18)',
+                      transform: done ? 'translateY(3px)' : 'none',
+                    }}
+                  >
+                    <span style={{ fontSize: '1.8rem', flexShrink: 0 }}>{done ? '🏆' : '🎬'}</span>
+                    <span style={{ flex: 1, minWidth: 0 }}>
+                      <span style={{
+                        display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800,
+                        fontSize: '1rem', color: 'var(--ink)', lineHeight: 1.25,
+                        textDecoration: done ? 'line-through' : 'none', opacity: done ? 0.6 : 1,
+                      }}>
+                        {m.title}
+                      </span>
+                      <span style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: 'var(--ink-muted)', marginTop: 2 }}>
+                        {done ? 'Done! Stars landed ⭐ Play again any time' : `A lesson from DiGi · worth ${m.stars} star${m.stars === 1 ? '' : 's'}`}
+                      </span>
+                    </span>
+                    <span style={{
+                      flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '14px',
+                      color: 'var(--ink)', background: done ? 'transparent' : 'var(--gold, #F2C94C)',
+                      borderRadius: '100px', padding: done ? 0 : '8px 14px',
+                    }}>
+                      {done ? '✓' : 'Play →'}
+                    </span>
+                  </a>
+                )
+              })}
             </div>
           </div>
         )}

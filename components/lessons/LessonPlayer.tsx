@@ -466,6 +466,10 @@ export default function LessonPlayer({
   backHref,
   digiPrompt,
   teacherView = false,
+  kidMode = false,
+  kidStars,
+  completeEndpoint,
+  completeBody,
 }: {
   lessonId: string
   lessonSource: 'lesson' | 'ai_lesson' | 'school_lesson'
@@ -473,12 +477,20 @@ export default function LessonPlayer({
   backHref: string
   digiPrompt?: string
   teacherView?: boolean
+  // Kid mission mode: celebration finish, stars earned, quiz score sent
+  // to a token authenticated endpoint instead of the parent session one.
+  kidMode?: boolean
+  kidStars?: number
+  completeEndpoint?: string
+  completeBody?: Record<string, unknown>
 }) {
   const [index, setIndex] = useState(0)
   const [answered, setAnswered] = useState(false)
   const [digiMood, setDigiMood] = useState<DigiMood>('idle')
   const [finished, setFinished] = useState(false)
   const [scriptOpen, setScriptOpen] = useState(false)
+  // Per choice slide result, keyed by slide index so revisits do not double count.
+  const answersRef = useRef<Record<number, boolean>>({})
   const slideRef = useRef<HTMLDivElement>(null)
 
   const slide = slides[index]
@@ -500,6 +512,7 @@ export default function LessonPlayer({
 
   const onAnswered = (correct: boolean) => {
     setAnswered(true)
+    answersRef.current[index] = correct
     setDigiMood(correct ? 'happy' : 'speak')
   }
 
@@ -507,17 +520,59 @@ export default function LessonPlayer({
     if (isLast) {
       setFinished(true)
       setDigiMood('happy')
+      const results = Object.values(answersRef.current)
       try {
-        await fetch('/api/lessons/complete', {
+        await fetch(completeEndpoint ?? '/api/lessons/complete', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ lesson_id: lessonId, lesson_source: lessonSource }),
+          body: JSON.stringify({
+            lesson_id: lessonId,
+            lesson_source: lessonSource,
+            correct: results.filter(Boolean).length,
+            total: results.length,
+            ...completeBody,
+          }),
         })
       } catch { /* non-blocking */ }
       return
     }
     setAnswered(false)
     setIndex(i => i + 1)
+  }
+
+  if (finished && kidMode) {
+    const results = Object.values(answersRef.current)
+    const correct = results.filter(Boolean).length
+    return (
+      <div ref={slideRef} style={{ textAlign: 'center', padding: '32px 0' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '14px' }}>
+          <DigiCharacter mood="happy" size={110} />
+        </div>
+        <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.5rem, 5vw, 2rem)', fontWeight: 900, color: 'var(--ink)', letterSpacing: '-0.02em', marginBottom: '6px' }}>
+          You did it! 🎉
+        </h2>
+        {results.length > 0 && (
+          <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)', marginBottom: '6px' }}>
+            You got {correct} of {results.length} questions right.
+          </p>
+        )}
+        {typeof kidStars === 'number' && (
+          <div style={{
+            display: 'inline-block', background: 'var(--terracotta-lt, #FBEEC9)',
+            border: '2px solid var(--terracotta)', borderRadius: '100px',
+            padding: '10px 22px', margin: '10px 0 20px',
+            fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '18px', color: 'var(--ink)',
+          }}>
+            ⭐ {kidStars} star{kidStars === 1 ? '' : 's'} in your bank!
+          </div>
+        )}
+        <div style={{ maxWidth: '300px', margin: '0 auto' }}>
+          <Link href={backHref} className="btn btn-gold" style={{ justifyContent: 'center', fontSize: '14px', width: '100%' }}>
+            Back to my quests
+          </Link>
+        </div>
+      </div>
+    )
   }
 
   if (finished) {
