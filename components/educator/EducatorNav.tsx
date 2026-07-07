@@ -10,6 +10,7 @@ const LINKS = [
   { href: '/educator', label: 'Home' },
   { href: '/educator/curriculum', label: 'Curriculum' },
   { href: '/educator/print', label: 'Print room' },
+  { href: '/educator/reports', label: 'Reports' },
   { href: '/educator/hub', label: 'The Hub' },
 ]
 

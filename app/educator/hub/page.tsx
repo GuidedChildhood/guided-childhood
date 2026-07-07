@@ -44,6 +44,16 @@ const DOCS = [
     body: 'Ten minute briefings for the sensitive modules: what the lesson covers, the register to hold, disclosure handling, and what to watch for in the room.',
   },
   {
+    href: '/educator/hub/year-plan', emoji: '🗓️', accent: 'var(--green-dark)',
+    title: 'The year at a glance',
+    body: 'Every key stage&rsquo;s modules spread across the three terms. For the staffroom wall and the subject lead&rsquo;s long term plan.',
+  },
+  {
+    href: '/educator/hub/vocabulary', emoji: '🔤', accent: 'var(--gold-dark)',
+    title: 'Whole scheme vocabulary',
+    body: 'Every keyword from every module with its pupil facing definition, in teaching order. For display walls and planning.',
+  },
+  {
     href: '/educator/hub/faq', emoji: '💬', accent: 'var(--ink-muted)',
     title: 'Common questions',
     body: 'The answers heads, governors and parents ask for most, in plain words.',
