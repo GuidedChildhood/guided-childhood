@@ -3,6 +3,15 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { QUEST_TEMPLATES, PLAY_PAYS_WHY } from '@/lib/quests/templates'
+import { GAME_PICKS, STAGE_LABELS, AGE_BAND_TO_STAGE, type StageKey } from '@/lib/quests/game-picks'
+
+type QuestTab = 'manage' | 'rewards' | 'games' | 'share'
+const TABS: { key: QuestTab; label: string }[] = [
+  { key: 'manage', label: 'Quests' },
+  { key: 'rewards', label: 'Rewards' },
+  { key: 'games', label: 'Games' },
+  { key: 'share', label: 'Share' },
+]
 
 // The parent's quest manager. Pick from templates or write your own,
 // set what each is worth, set the goal the stars buy, then hand the
@@ -48,6 +57,7 @@ export default function QuestManager() {
   const [ticked, setTicked] = useState<string | null>(null)
   const [pingResult, setPingResult] = useState<string | null>(null)
   const [contactsSupported, setContactsSupported] = useState(false)
+  const [tab, setTab] = useState<QuestTab>('manage')
 
   useEffect(() => {
     setContactsSupported('contacts' in navigator)
@@ -158,6 +168,16 @@ export default function QuestManager() {
     [ticks, activeChild])
   const starsThisWeek = completed.reduce((sum, t) => sum + (questById.get(t.quest_id)?.stars ?? 1), 0)
 
+  // All quests done today: every one of the child's active quests has an
+  // approved tick dated today. This is what lights the whole card up.
+  const todayStr = new Date().toISOString().slice(0, 10)
+  const approvedTodayIds = new Set(
+    ticks.filter(t => t.status === 'approved' && t.tick_date === todayStr).map(t => t.quest_id)
+  )
+  const allDoneToday = childQuests.length > 0 && childQuests.every(q => approvedTodayIds.has(q.id))
+
+  const stageKey: StageKey = AGE_BAND_TO_STAGE[child?.age_band ?? '8-10'] ?? 'builder'
+
   async function addQuest(t: { title: string; emoji: string; stars: number; schedule: string }) {
     await fetch('/api/quests', {
       method: 'POST',
@@ -174,6 +194,13 @@ export default function QuestManager() {
       body: JSON.stringify({ quest_id: id }),
     })
     setQuests(prev => prev.filter(q => q.id !== id))
+  }
+
+  // From the Games tab: line a game up as the next reward and drop the
+  // parent on the Rewards tab to set the star price and save it.
+  function useGameAsReward(title: string) {
+    setGoalTitle(title)
+    setTab('rewards')
   }
 
   async function saveGoal() {
@@ -327,7 +354,46 @@ export default function QuestManager() {
       {/* Active quests */}
       {child && (
         <>
-          <div style={card}>
+          {/* The tabs: everything in its own place instead of one long scroll */}
+          <div style={{ display: 'flex', gap: '4px', background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '100px', padding: '4px', marginBottom: '18px', width: 'fit-content', maxWidth: '100%', overflowX: 'auto' }}>
+            {TABS.map(t => (
+              <button
+                key={t.key}
+                onClick={() => setTab(t.key)}
+                style={{
+                  padding: '9px 18px', borderRadius: '100px', cursor: 'pointer', border: 'none', flexShrink: 0,
+                  background: tab === t.key ? 'var(--deep-teal)' : 'transparent',
+                  color: tab === t.key ? '#fff' : 'var(--ink-soft)',
+                  fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 700,
+                }}
+              >
+                {t.label}
+              </button>
+            ))}
+          </div>
+
+          {tab === 'manage' && (
+          <>
+          {/* All quests done today: the whole thing lights up */}
+          {allDoneToday && (
+            <div style={{
+              display: 'flex', alignItems: 'center', gap: '12px',
+              background: 'var(--stage-1-bold)', border: '1.5px solid var(--terracotta)',
+              borderRadius: '16px', padding: '16px 18px', marginBottom: '16px',
+              boxShadow: '0 6px 20px rgba(237,195,95,0.35)',
+            }}>
+              <span style={{ fontSize: '26px', flexShrink: 0 }}>🌟</span>
+              <span>
+                <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '15.5px', color: 'var(--stage-1-text)' }}>
+                  Every quest done today
+                </span>
+                <span style={{ display: 'block', fontSize: '13px', color: 'var(--stage-1-text)', opacity: 0.85, marginTop: '2px' }}>
+                  {child.name} cleared the lot. The stars are theirs.
+                </span>
+              </span>
+            </div>
+          )}
+          <div style={{ ...card, ...(allDoneToday ? { borderColor: 'var(--terracotta)', boxShadow: '0 6px 20px rgba(237,195,95,0.18)' } : {}) }}>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '12px' }}>
               {child.name}&apos;s quests
             </div>
@@ -555,7 +621,15 @@ export default function QuestManager() {
               </div>
             </div>
           )}
+          </>
+          )}
 
+          {tab === 'games' && (
+            <GamesTab stageKey={stageKey} childName={child.name} onUse={useGameAsReward} />
+          )}
+
+          {tab === 'rewards' && (
+          <>
           {/* Star goal */}
           <div style={card}>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '10px' }}>
@@ -627,6 +701,11 @@ export default function QuestManager() {
             </div>
           </div>
 
+          </>
+          )}
+
+          {tab === 'share' && (
+          <>
           {/* Hand it over */}
           <div style={{ ...card, background: 'var(--tint-blue)', border: '1.5px solid var(--border)' }}>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-soft)', marginBottom: '10px' }}>
@@ -787,8 +866,80 @@ export default function QuestManager() {
               )}
             </div>
           </div>
+          </>
+          )}
         </>
       )}
+    </div>
+  )
+}
+
+// The Games tab: the curated premium picks for this child's stage. Each is
+// a real, quality game or creative app, weighted to educational, artistic
+// and screen positive, with brilliant offline games in the mix. Use it as
+// the reward lines a game up as the next thing the stars buy.
+const KIND_STYLE: Record<string, { label: string; bg: string; fg: string }> = {
+  digital:  { label: 'Screen', bg: 'var(--stage-2)', fg: 'var(--stage-2-text)' },
+  tabletop: { label: 'Offline', bg: 'var(--tint-green)', fg: '#2D5016' },
+  creative: { label: 'Create', bg: 'var(--stage-4)', fg: 'var(--stage-4-text)' },
+  outdoor:  { label: 'Outside', bg: 'var(--stage-1)', fg: 'var(--stage-1-text)' },
+}
+
+function GamesTab({ stageKey, childName, onUse }: { stageKey: StageKey; childName: string; onUse: (title: string) => void }) {
+  const picks = GAME_PICKS[stageKey] ?? []
+  const label = STAGE_LABELS[stageKey]
+  return (
+    <div>
+      <div style={{ ...card, background: 'var(--deep-teal)', border: 'none', color: '#fff' }}>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '6px' }}>
+          Best games for {label.name} · {label.ages}
+        </div>
+        <p style={{ fontSize: '13.5px', color: 'rgba(255,255,255,0.82)', lineHeight: 1.6, margin: 0 }}>
+          The good stuff, picked for {childName}. Real games and creative apps worth their time, with brilliant offline ones too. Line any of them up as the reward the stars buy.
+        </p>
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '12px' }}>
+        {picks.map(g => {
+          const k = KIND_STYLE[g.kind] ?? KIND_STYLE.digital
+          return (
+            <div key={g.title} style={{
+              display: 'flex', flexDirection: 'column', height: '100%',
+              background: '#fff', border: '1.5px solid var(--border)', borderRadius: '18px',
+              padding: '16px', boxShadow: '0 4px 18px rgba(26,26,46,0.06)',
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '7px', marginBottom: '10px', flexWrap: 'wrap' }}>
+                <span style={{
+                  fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase',
+                  background: k.bg, color: k.fg, padding: '3px 9px', borderRadius: '100px',
+                }}>{k.label}</span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 600, color: 'var(--ink-muted)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                  {g.category}
+                </span>
+              </div>
+              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)', lineHeight: 1.25, marginBottom: '4px' }}>
+                {g.title}
+              </div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--ink-muted)', marginBottom: '8px' }}>
+                {g.platform}
+              </div>
+              <p style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 14px', flex: 1 }}>
+                {g.why}
+              </p>
+              <button
+                onClick={() => onUse(g.title)}
+                style={{
+                  alignSelf: 'flex-start', background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
+                  borderRadius: '100px', padding: '7px 14px', cursor: 'pointer',
+                  fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, color: 'var(--terracotta-dark)',
+                }}
+              >
+                Use as the reward →
+              </button>
+            </div>
+          )
+        })}
+      </div>
     </div>
   )
 }
