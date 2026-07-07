@@ -8,8 +8,9 @@ const NAV_TABS = [
   { href: '/dashboard/digi', label: 'DiGi' },
   { href: '/dashboard/pathway', label: 'Pathway' },
   { href: '/dashboard/quests', label: 'Quests' },
-  { href: '/dashboard/scripts', label: 'Scripts' },
   { href: '/dashboard/lessons', label: 'Lessons' },
+  { href: '/dashboard/school', label: 'School' },
+  { href: '/dashboard/scripts', label: 'Scripts' },
   { href: '/dashboard/tracker', label: 'Progress' },
 ]
 

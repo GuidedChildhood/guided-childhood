@@ -94,3 +94,33 @@ later, not now. When the market evidence work resumes, weave one or
 two verified stats per relevant service (scripts, school catcher,
 lessons) into the tour email and the day 7 founder email, sourced only
 from plans/market-evidence-2026-07.md, never invented numbers.
+
+## Banked: Pathway page redesign into a real sequenced journey (7 July eve)
+
+Justin's vision for the Pathway page, to build once the competitor
+research lands:
+
+1. **First milestone: device settings set across ALL devices the child
+   uses**, by age. Not one device, the whole set: smartphone, smart TV,
+   YouTube, tablet, console. The pathway does not really begin until the
+   parent has agreed and set the recommended settings everywhere. Show
+   this as the first gate, each device a tick, settings all set as advised.
+2. **Then the digital literacy pathway for that specific child**: the
+   lessons, in order, for the age.
+3. **Moments become the work of stage one.** Every moment the parent has
+   logged, whether on the moment page or raised with DiGi, lands on the
+   pathway as a clickable item to work through. The parent marks each one
+   solved once our advice has actually fixed it. When all the stage one
+   moments are marked solved, the first age recommended lesson unlocks.
+4. **Recurrence is real.** A solved moment can come back. The parent can
+   mark a solved one as "happened again" and it reopens. DiGi can read all
+   of this history.
+5. Look at competitors (Bark, Qustodio, Canopy, Gabb, Pinwheel, Aura,
+   Google Family Link, Apple Family, Internet Matters, Common Sense) and
+   habit apps (Duolingo path, Finch) for borrowable journey UX. Warm,
+   education first, never surveillance framing.
+
+Data already in place to build on: device_setup_progress + device_guides
+(the device ticks), the concerns ledger (the moments, with status and
+recurrence already modelled), lessons + lesson_completions (the ordered
+track). The redesign is mostly assembly and visualisation, not new schema.
