@@ -432,8 +432,9 @@ export default async function DashboardPage() {
         </div>
       </Link>
 
-      {/* AI module discovery */}
-      <Link href="/dashboard/ai-module" style={{ textDecoration: 'none', display: 'block', marginBottom: '12px' }}>
+      {/* Lessons discovery: the one place every lesson lives, screen
+          habits, safety, wellbeing and AI literacy together */}
+      <Link href="/dashboard/lessons" style={{ textDecoration: 'none', display: 'block', marginBottom: '12px' }}>
         <div style={{
           background: 'var(--stage-3)', border: '1.5px solid var(--stage-3)',
           borderRadius: '16px', padding: '22px',
@@ -441,13 +442,13 @@ export default async function DashboardPage() {
         }}>
           <div>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '6px' }}>
-              New · AI literacy
+              Lessons
             </div>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)', marginBottom: '3px' }}>
-              Understand AI together
+              Learn it together
             </div>
             <div style={{ fontSize: '13px', color: 'var(--ink)' }}>
-              Deepfakes, chatbots, and using it well. Calm lessons for every age.
+              Screen habits, safety, wellbeing and AI literacy. Calm lessons for every age.
             </div>
           </div>
           <span style={{ fontSize: '18px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>
