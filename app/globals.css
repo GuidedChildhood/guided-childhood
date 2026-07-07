@@ -774,9 +774,13 @@ h1, h2, h3 { text-wrap: balance; }
   }
 }
 @media (max-width: 560px) {
+  /* Full width stacked cards on phones. Two columns crammed these photo
+     and text heavy cards and forced ugly white gaps, since short cards
+     stretched to match tall ones in a row. One column sizes each card to
+     its own content, so nothing is cropped and nothing is left blank. */
   .pathway-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+    grid-template-columns: 1fr;
+    gap: 14px;
   }
 }
 
