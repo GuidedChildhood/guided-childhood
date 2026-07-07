@@ -107,13 +107,13 @@ export default function SchoolsPage() {
         <div style={{ position: 'absolute', bottom: '-200px', left: '-140px', width: '520px', height: '520px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(254,240,138,0.09) 0%, transparent 68%)', pointerEvents: 'none' }} />
         <div style={{ maxWidth: '1160px', margin: '0 auto', position: 'relative', display: 'grid', gridTemplateColumns: 'minmax(0, 1.05fr) minmax(0, 0.95fr)', gap: 'clamp(32px, 5vw, 72px)', alignItems: 'center' }} className="schools-hero-grid">
           <Reveal>
-            <p style={{ ...eyebrow(GOLD), marginBottom: '22px' }}>Digital literacy curriculum · Reception to Year 13</p>
-            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.6rem, 5.6vw, 4.6rem)', fontWeight: 900, lineHeight: 1.02, letterSpacing: '-0.045em', marginBottom: '24px' }}>
-              The ban takes the apps.<br />
-              We build the <span style={{ color: GOLD }}>judgement.</span>
+            <p style={{ ...eyebrow(GOLD), marginBottom: '22px' }}>For schools, heads and PSHE leads</p>
+            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.5rem, 5.4vw, 4.4rem)', fontWeight: 900, lineHeight: 1.03, letterSpacing: '-0.045em', marginBottom: '22px' }}>
+              The digital literacy curriculum,<br />
+              ready for <span style={{ color: GOLD }}>September 2026.</span>
             </h1>
             <p style={{ fontFamily: 'var(--font-body)', fontSize: 'clamp(1.02rem, 1.5vw, 1.22rem)', color: 'rgba(255,250,240,0.9)', lineHeight: 1.7, maxWidth: '500px', marginBottom: '32px' }}>
-              <strong style={{ color: '#fff', fontWeight: 800 }}>The complete online safety and digital literacy scheme of work for the new RSHE guidance,</strong> statutory from September 2026. Twenty one modules, Reception to Year 13, each taught from an interactive script with printable packs and the coverage evidence Ofsted asks for. Ready in your classroom tomorrow.
+              <strong style={{ color: '#fff', fontWeight: 800 }}>The ban takes the apps. We build the judgement.</strong> A complete online safety scheme of work, Reception to Year 13, mapped to the new statutory RSHE guidance. Every lesson taught from an interactive script, with printable packs and the coverage evidence Ofsted asks for. Ready in your classroom tomorrow.
             </p>
             <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '18px' }}>
               <a href={MAILCHIMP_ENQUIRY} target="_blank" rel="noopener noreferrer" className="btn btn-gold" style={{ fontSize: '1rem', padding: '16px 32px' }}>
