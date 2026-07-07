@@ -120,6 +120,12 @@ export default async function DailyPage() {
 
   const cards: DailyCard[] = []
 
+  // The warmth layer: cards talk like a friend who knows this family,
+  // never a textbook. Context first, database content framed, always a
+  // hand on the shoulder before the information.
+  const ukHour = Number(new Date().toLocaleString('en-GB', { timeZone: 'Europe/London', hour: 'numeric', hour12: false }))
+  const greeting = ukHour < 12 ? 'Morning' : ukHour < 18 ? 'Afternoon' : 'Evening'
+
   // Card 1 — Review (if there's a last script) or Welcome
   if (lastScript) {
     cards.push({
@@ -127,7 +133,7 @@ export default async function DailyPage() {
       type: 'review',
       eyebrow: 'From last time',
       headline: lastScript.title,
-      body: lastScript.why_it_works,
+      body: `${greeting}, ${firstName}. Last time you reached for the words for this one. Worth thirty seconds on why they do the heavy lifting, because the why is what makes them yours:\n\n${lastScript.why_it_works}`,
       accent: 'var(--terracotta)',
       icon: '↩',
     })
@@ -137,7 +143,7 @@ export default async function DailyPage() {
       type: 'review',
       eyebrow: `Good to have you back, ${firstName}`,
       headline: `Stage ${stage.id}: ${stage.name}`,
-      body: stage.focus,
+      body: `${greeting}, ${firstName}. Two minutes, that is all this takes. Where your family is on the pathway right now:\n\n${stage.focus}`,
       accent: 'var(--terracotta)',
       icon: '◎',
     })
@@ -148,8 +154,8 @@ export default async function DailyPage() {
     id: 'focus',
     type: 'focus',
     eyebrow: 'Today\'s focus',
-    headline: 'What matters right now',
-    body: stageChallenge,
+    headline: 'One thing, nothing else',
+    body: `If today gets busy and everything else falls away, hold onto this one thing:\n\n${stageChallenge}\n\nThat is the whole ask. Small, doable, and it compounds.`,
     accent: 'var(--terracotta)',
     icon: '◈',
   })
@@ -161,7 +167,7 @@ export default async function DailyPage() {
       type: 'watchfor',
       eyebrow: momentMatchedYesterday ? 'Because you flagged this yesterday' : 'Watch for this today',
       headline: momentScript.title,
-      body: `${momentScript.situation}\n\nIf this happens, try: "${momentScript.say_this}"`,
+      body: `${momentMatchedYesterday ? 'You flagged this one yesterday, so let us walk in ready today.' : 'Every family knows this one, yours included.'} ${momentScript.situation}\n\nIf it shows up, you already have the words: "${momentScript.say_this}"\n\nNo lecture, no negotiation. Say it warmly and let it land.`,
       accent: 'var(--terracotta)',
       icon: '△',
     })

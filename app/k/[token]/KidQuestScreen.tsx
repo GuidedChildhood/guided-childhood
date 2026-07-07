@@ -1,7 +1,15 @@
 'use client'
 
-import { useState } from 'react'
-import { STAR_MINUTES } from '@/lib/quests/templates'
+import { useEffect, useState } from 'react'
+
+function urlBase64ToUint8Array(base64String: string) {
+  const padding = '='.repeat((4 - (base64String.length % 4)) % 4)
+  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/')
+  const rawData = atob(base64)
+  return Uint8Array.from(rawData, c => c.charCodeAt(0))
+}
+import { STAR_MINUTES, PLAY_PAYS_WHY_KID } from '@/lib/quests/templates'
+import { KID_LESSONS, type KidLesson } from '@/lib/quests/kid-lessons'
 
 // The kid facing quest screen: joyful, huge tap targets, instant ticks,
 // stars that count up, and a goal bar. Pending ticks show as "waiting
@@ -10,11 +18,11 @@ import { STAR_MINUTES } from '@/lib/quests/templates'
 
 type Quest = { id: string; title: string; emoji: string; stars: number; schedule: string }
 type Tick = { quest_id: string; status: string }
-type Goal = { title: string; stars_needed: number; achieved_at: string | null } | null
+type Goal = { title: string; stars_needed: number; daily_stars: number | null; achieved_at: string | null } | null
 export type KidMission = { id: string; title: string; stars: number; status: string }
 
 export default function KidQuestScreen({
-  token, childName, quests, todayTicks, weekStars, goal, streakDays = 0, missions = [],
+  token, childName, quests, todayTicks, weekStars, goal, streakDays = 0, laterQuests = [], doneLessonKeys = [], missions = [],
 }: {
   token: string
   childName: string
@@ -23,12 +31,103 @@ export default function KidQuestScreen({
   weekStars: number
   goal: Goal
   streakDays?: number
+  laterQuests?: { title: string; emoji: string; schedule: string }[]
+  doneLessonKeys?: string[]
   missions?: KidMission[]
 }) {
   const [ticks, setTicks] = useState<Record<string, string>>(
     Object.fromEntries(todayTicks.map(t => [t.quest_id, t.status]))
   )
   const [burst, setBurst] = useState<string | null>(null)
+  const [remindState, setRemindState] = useState<'hidden' | 'offer' | 'on' | 'ios'>('hidden')
+  const [showIosSteps, setShowIosSteps] = useState(false)
+  const [showWelcome, setShowWelcome] = useState(false)
+  const [toast, setToast] = useState<string | null>(null)
+  const [askedMore, setAskedMore] = useState(false)
+  const [tab, setTab] = useState<'quests' | 'lessons'>('quests')
+  const [doneLessons, setDoneLessons] = useState<Set<string>>(new Set(doneLessonKeys))
+  const [activeLesson, setActiveLesson] = useState<KidLesson | null>(null)
+  const [lessonCard, setLessonCard] = useState(0)
+  const [lessonAnswer, setLessonAnswer] = useState<number | null>(null)
+
+  useEffect(() => {
+    if (localStorage.getItem('gc_kid_welcome') !== '1') setShowWelcome(true)
+  }, [])
+
+  function dismissWelcome() {
+    localStorage.setItem('gc_kid_welcome', '1')
+    setShowWelcome(false)
+  }
+
+  useEffect(() => {
+    if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+      // iPhone in plain Safari: Apple only allows reminders once the page
+      // lives on the Home Screen, so show the how to instead of nothing.
+      const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent)
+      const standalone = window.matchMedia('(display-mode: standalone)').matches
+        || (navigator as unknown as { standalone?: boolean }).standalone === true
+      if (isIos && !standalone) setRemindState('ios')
+      return
+    }
+    if (localStorage.getItem('gc_kid_reminders') === '1' || Notification.permission === 'granted') {
+      setRemindState(Notification.permission === 'granted' ? 'on' : 'offer')
+      return
+    }
+    if (Notification.permission !== 'denied') setRemindState('offer')
+  }, [])
+
+  async function askForMore() {
+    setAskedMore(true)
+    setToast('Asked! Your grown up just got a ping ⭐')
+    setTimeout(() => setToast(null), 3500)
+    try {
+      await fetch('/api/quests/more', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token }),
+      })
+    } catch { /* best effort */ }
+  }
+
+  function openLesson(lesson: KidLesson) {
+    setActiveLesson(lesson)
+    setLessonCard(0)
+    setLessonAnswer(null)
+  }
+
+  async function finishLesson(lesson: KidLesson) {
+    setDoneLessons(prev => new Set(prev).add(lesson.key))
+    setActiveLesson(null)
+    setToast(`Lesson done! ⭐ ${lesson.stars} stars sent to your grown up.`)
+    setTimeout(() => setToast(null), 3500)
+    try {
+      await fetch('/api/quests/lesson-complete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token, lesson_key: lesson.key }),
+      })
+    } catch { /* best effort, the next load reconciles */ }
+  }
+
+  async function enableReminders() {
+    try {
+      const reg = await navigator.serviceWorker.register('/sw.js')
+      await navigator.serviceWorker.ready
+      const perm = await Notification.requestPermission()
+      if (perm !== 'granted') { setRemindState('hidden'); return }
+      const sub = await reg.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(process.env.NEXT_PUBLIC_VAPID_KEY!),
+      })
+      await fetch('/api/quests/push-subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token, subscription: sub.toJSON() }),
+      })
+      localStorage.setItem('gc_kid_reminders', '1')
+      setRemindState('on')
+    } catch { setRemindState('hidden') }
+  }
 
   async function toggle(quest: Quest) {
     const current = ticks[quest.id]
@@ -45,6 +144,8 @@ export default function KidQuestScreen({
     if (!untick) {
       setBurst(quest.id)
       setTimeout(() => setBurst(null), 900)
+      setToast('Sent to your grown up! ⭐ Stars land when they tap approve.')
+      setTimeout(() => setToast(null), 3000)
     }
 
     try {
@@ -80,7 +181,65 @@ export default function KidQuestScreen({
         }
       `}</style>
 
+      {/* The sent it toast */}
+      {toast && (
+        <div style={{
+          position: 'fixed', top: 'max(16px, env(safe-area-inset-top))', left: '16px', right: '16px', zIndex: 50,
+          display: 'flex', justifyContent: 'center', pointerEvents: 'none',
+        }}>
+          <div style={{
+            background: 'var(--terracotta)', color: 'var(--ink)',
+            borderRadius: '14px', padding: '12px 18px', maxWidth: '420px',
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', textAlign: 'center',
+            boxShadow: '0 6px 24px rgba(0,0,0,0.35)',
+          }}>
+            {toast}
+          </div>
+        </div>
+      )}
+
       <div style={{ width: 'min(100%, 460px)' }}>
+        {/* First visit: how this works, in kid language */}
+        {showWelcome && (
+          <div style={{
+            background: '#fff', borderRadius: '20px', padding: '18px 20px', marginBottom: '16px',
+            boxShadow: '0 8px 30px rgba(0,0,0,0.25)',
+          }}>
+            <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.15rem', color: 'var(--ink)', margin: '0 0 10px' }}>
+              Hi {childName}! This page is yours. 👋
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '9px', marginBottom: '14px' }}>
+              {[
+                'Do a quest in real life, then tap it here. Your grown up gets told straight away.',
+                'When they tap approve, your stars land and count toward your prize.',
+                'Make it one tap from your Home Screen: in Safari tap Share (the square with the arrow), then Add to Home Screen.',
+                'Tap the 🔔 button below so I can remind you about your quests.',
+              ].map((step, i) => (
+                <div key={i} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
+                  <span style={{
+                    width: 22, height: 22, borderRadius: '50%', flexShrink: 0,
+                    background: 'var(--terracotta)', color: 'var(--ink)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
+                  }}>{i + 1}</span>
+                  <span style={{ fontSize: '15px', color: 'var(--ink)', lineHeight: 1.55 }}>{step}</span>
+                </div>
+              ))}
+            </div>
+            <button
+              onClick={dismissWelcome}
+              style={{
+                width: '100%', padding: '12px', background: 'var(--terracotta)', color: 'var(--ink)',
+                border: 'none', borderRadius: '12px', cursor: 'pointer',
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px',
+                boxShadow: '0 4px 0 var(--terracotta-dark)',
+              }}
+            >
+              Got it, let me at my quests
+            </button>
+          </div>
+        )}
+
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '18px' }}>
           <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)', marginBottom: 6 }}>
@@ -107,7 +266,7 @@ export default function KidQuestScreen({
                 <span style={{ fontSize: '0.95rem', fontWeight: 700, opacity: 0.65 }}> +{pendingStars} waiting</span>
               )}
             </p>
-            <p style={{ fontSize: '12.5px', fontWeight: 700, color: 'var(--ink)', opacity: 0.75, margin: '2px 0 0' }}>
+            <p style={{ fontSize: '14px', fontWeight: 700, color: 'var(--ink)', opacity: 0.8, margin: '2px 0 0' }}>
               = {weekStars * STAR_MINUTES} minutes of screen time earned
             </p>
           </div>
@@ -120,11 +279,44 @@ export default function KidQuestScreen({
           )}
         </div>
 
+        {/* Today's goal: enough stars in one day completes the day */}
+        {goal?.daily_stars ? (() => {
+          const todayStars = quests.reduce((sum, q) => {
+            const st = ticks[q.id]
+            return st && st !== 'rejected' ? sum + q.stars : sum
+          }, 0)
+          const target = goal.daily_stars as number
+          const dayComplete = todayStars >= target
+          return (
+            <div style={{
+              background: dayComplete ? 'var(--terracotta)' : 'rgba(255,255,255,0.12)',
+              borderRadius: '16px', padding: '14px 18px', marginBottom: '12px',
+              boxShadow: dayComplete ? '0 5px 0 var(--terracotta-dark)' : 'none',
+            }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10, marginBottom: 8 }}>
+                <span style={{ fontSize: '15px', fontWeight: 700, color: dayComplete ? 'var(--ink)' : '#fff' }}>
+                  {dayComplete ? `Day complete! You hit today's goal 🎉` : `Today's goal`}
+                </span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, color: dayComplete ? 'var(--ink)' : 'rgba(255,255,255,0.85)' }}>
+                  ⭐ {Math.min(todayStars, target)}/{target}
+                </span>
+              </div>
+              <div style={{ height: '10px', borderRadius: '10px', background: dayComplete ? 'rgba(0,0,0,0.15)' : 'rgba(255,255,255,0.18)', overflow: 'hidden' }}>
+                <div style={{
+                  height: '100%', borderRadius: '10px', background: dayComplete ? '#fff' : 'var(--terracotta)',
+                  width: `${Math.min(100, (todayStars / Math.max(1, target)) * 100)}%`,
+                  transition: 'width 0.6s ease',
+                }} />
+              </div>
+            </div>
+          )
+        })() : null}
+
         {/* Goal bar */}
         {goal && (
           <div style={{ background: 'rgba(255,255,255,0.12)', borderRadius: '16px', padding: '14px 18px', marginBottom: '20px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10, marginBottom: 8 }}>
-              <span style={{ fontSize: '13px', fontWeight: 700, color: '#fff' }}>Saving for: {goal.title}</span>
+              <span style={{ fontSize: '15px', fontWeight: 700, color: '#fff' }}>Saving for: {goal.title}</span>
               <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, color: 'rgba(255,255,255,0.85)' }}>
                 {Math.min(weekStars, goal.stars_needed)}/{goal.stars_needed}
               </span>
@@ -139,58 +331,43 @@ export default function KidQuestScreen({
           </div>
         )}
 
-        {/* Star lessons: missions from the grown up, stars paid by the quiz */}
-        {missions.length > 0 && (
-          <div style={{ marginBottom: '20px' }}>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)', margin: '0 0 10px' }}>
-              Star lessons
-            </p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              {missions.map(m => {
-                const done = m.status === 'done'
-                return (
-                  <a
-                    key={m.id}
-                    href={`/k/${token}/lesson/${m.id}`}
-                    style={{
-                      display: 'flex', alignItems: 'center', gap: 14,
-                      background: done ? 'var(--tint-sage, #DDEDE4)' : '#fff',
-                      borderRadius: '20px', padding: '16px 18px', textDecoration: 'none',
-                      boxShadow: done ? '0 2px 0 rgba(0,0,0,0.12)' : '0 5px 0 rgba(0,0,0,0.18)',
-                      transform: done ? 'translateY(3px)' : 'none',
-                    }}
-                  >
-                    <span style={{ fontSize: '1.8rem', flexShrink: 0 }}>{done ? '🏆' : '🎬'}</span>
-                    <span style={{ flex: 1, minWidth: 0 }}>
-                      <span style={{
-                        display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800,
-                        fontSize: '1rem', color: 'var(--ink)', lineHeight: 1.25,
-                        textDecoration: done ? 'line-through' : 'none', opacity: done ? 0.6 : 1,
-                      }}>
-                        {m.title}
-                      </span>
-                      <span style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: 'var(--ink-muted)', marginTop: 2 }}>
-                        {done ? 'Done! Stars landed ⭐ Play again any time' : `A lesson from DiGi · worth ${m.stars} star${m.stars === 1 ? '' : 's'}`}
-                      </span>
-                    </span>
-                    <span style={{
-                      flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '14px',
-                      color: 'var(--ink)', background: done ? 'transparent' : 'var(--gold, #F2C94C)',
-                      borderRadius: '100px', padding: done ? 0 : '8px 14px',
-                    }}>
-                      {done ? '✓' : 'Play →'}
-                    </span>
-                  </a>
-                )
-              })}
-            </div>
-          </div>
-        )}
+        {/* Tabs: quests and lessons, both earn stars */}
+        <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
+          {([['quests', '⭐ My quests'], ['lessons', '🧠 My lessons']] as const).map(([key, label]) => (
+            <button
+              key={key}
+              onClick={() => { setTab(key); setActiveLesson(null) }}
+              style={{
+                flex: 1, padding: '13px 10px', borderRadius: '14px', cursor: 'pointer',
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
+                background: tab === key ? 'var(--terracotta)' : 'rgba(255,255,255,0.12)',
+                color: tab === key ? 'var(--ink)' : '#fff',
+                border: tab === key ? 'none' : '1.5px solid rgba(255,255,255,0.3)',
+                boxShadow: tab === key ? '0 4px 0 var(--terracotta-dark)' : 'none',
+              }}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+
+        {tab === 'quests' && (<>
+        {/* Why outside pays best: the philosophy, in kid words */}
+        <div style={{
+          display: 'flex', gap: '12px', alignItems: 'flex-start',
+          background: 'rgba(255,255,255,0.08)', borderRadius: '16px',
+          padding: '13px 16px', marginBottom: '14px',
+        }}>
+          <span style={{ fontSize: '1.5rem', lineHeight: 1, flexShrink: 0 }}>🌳</span>
+          <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.85)', lineHeight: 1.55, margin: 0 }}>
+            {PLAY_PAYS_WHY_KID}
+          </p>
+        </div>
 
         {/* Quest list */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           {quests.length === 0 && (
-            <p style={{ textAlign: 'center', color: 'rgba(255,255,255,0.8)', fontSize: '15px', lineHeight: 1.6 }}>
+            <p style={{ textAlign: 'center', color: 'rgba(255,255,255,0.8)', fontSize: '16.5px', lineHeight: 1.6 }}>
               No quests set for today yet. Ask your grown up to send some!
             </p>
           )}
@@ -217,13 +394,13 @@ export default function KidQuestScreen({
                 <span style={{ flex: 1, minWidth: 0 }}>
                   <span style={{
                     display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800,
-                    fontSize: '1rem', color: 'var(--ink)', lineHeight: 1.25,
+                    fontSize: '1.15rem', color: 'var(--ink)', lineHeight: 1.3,
                     textDecoration: state === 'approved' ? 'line-through' : 'none',
                     opacity: state === 'approved' ? 0.6 : 1,
                   }}>
                     {q.title}
                   </span>
-                  <span style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: 'var(--ink-muted)', marginTop: 2 }}>
+                  <span style={{ display: 'block', fontSize: '13.5px', fontWeight: 600, color: 'var(--ink-muted)', marginTop: 2 }}>
                     {state === 'approved' ? 'Done! Stars landed ⭐' : state === 'pending' ? 'Waiting for your grown up ✓' : `Worth ${q.stars} star${q.stars === 1 ? '' : 's'}`}
                   </span>
                 </span>
@@ -247,15 +424,322 @@ export default function KidQuestScreen({
         {allDone && (
           <div style={{ textAlign: 'center', marginTop: '24px' }}>
             <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.3rem', color: '#fff', margin: '0 0 4px' }}>
-              All quests done! 🎉
+              Today&apos;s list is done! 🎉
             </p>
-            <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.8)', margin: 0 }}>
+            <p style={{ fontSize: '15.5px', color: 'rgba(255,255,255,0.85)', margin: '0 0 14px' }}>
               Amazing work {childName}. Your grown up is approving your stars.
             </p>
+            <button
+              onClick={askForMore}
+              disabled={askedMore}
+              style={{
+                padding: '12px 22px', borderRadius: '14px', cursor: askedMore ? 'default' : 'pointer',
+                background: askedMore ? 'rgba(255,255,255,0.12)' : 'var(--terracotta)',
+                color: askedMore ? 'rgba(255,255,255,0.8)' : 'var(--ink)',
+                border: askedMore ? '1.5px solid rgba(255,255,255,0.3)' : 'none',
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px',
+                boxShadow: askedMore ? 'none' : '0 4px 0 var(--terracotta-dark)',
+              }}
+            >
+              {askedMore ? 'Asked ✓ watch this space' : 'Ask for more quests ⭐'}
+            </button>
           </div>
         )}
 
-        <p style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.08em', color: 'rgba(255,255,255,0.45)', marginTop: '32px' }}>
+        {/* Ask any time, not only when the list is finished */}
+        {!allDone && (
+          <button
+            onClick={askForMore}
+            disabled={askedMore}
+            style={{
+              width: '100%', marginTop: '16px', padding: '13px 16px',
+              background: 'rgba(255,255,255,0.12)', border: '1.5px solid rgba(255,255,255,0.35)',
+              borderRadius: '14px', cursor: askedMore ? 'default' : 'pointer',
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
+              color: askedMore ? 'rgba(255,255,255,0.7)' : '#fff',
+            }}
+          >
+            {askedMore ? 'Asked ✓ watch this space' : 'Ask for more quests ⭐'}
+          </button>
+        )}
+
+        {/* Quests waiting on other days, so done today never reads as done forever */}
+        {laterQuests.length > 0 && (
+          <div style={{ marginTop: '22px', background: 'rgba(255,255,255,0.08)', borderRadius: '16px', padding: '14px 18px' }}>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)', margin: '0 0 8px' }}>
+              Coming up, not today
+            </p>
+            {laterQuests.map((q, i) => (
+              <p key={i} style={{ fontSize: '14.5px', color: 'rgba(255,255,255,0.8)', margin: '0 0 4px', lineHeight: 1.5 }}>
+                {q.emoji} {q.title}
+                <span style={{ color: 'rgba(255,255,255,0.5)' }}>
+                  {' '}· {q.schedule === 'weekdays' ? 'school days' : q.schedule === 'weekend' ? 'weekends' : q.schedule === 'once' ? 'one time' : 'every day'}
+                </span>
+              </p>
+            ))}
+          </div>
+        )}
+        </>)}
+
+        {/* Lessons: two minutes, real skills, stars through the same approve loop */}
+        {tab === 'lessons' && (
+          activeLesson ? (
+            <div style={{ background: '#fff', borderRadius: '20px', padding: '20px', boxShadow: '0 6px 0 rgba(0,0,0,0.2)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
+                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '17px', color: 'var(--ink)' }}>
+                  {activeLesson.emoji} {activeLesson.title}
+                </span>
+                <button
+                  onClick={() => setActiveLesson(null)}
+                  aria-label="Close lesson"
+                  style={{ background: 'var(--cream)', border: 'none', borderRadius: '50%', width: '32px', height: '32px', fontSize: '14px', cursor: 'pointer', color: 'var(--ink-soft)' }}
+                >
+                  ✕
+                </button>
+              </div>
+
+              {/* Progress dots */}
+              <div style={{ display: 'flex', gap: '6px', marginBottom: '16px' }}>
+                {[...activeLesson.cards, 'q'].map((_, i) => (
+                  <span key={i} style={{
+                    flex: 1, height: '6px', borderRadius: '6px',
+                    background: i <= lessonCard ? 'var(--terracotta)' : 'var(--border)',
+                  }} />
+                ))}
+              </div>
+
+              {lessonCard < activeLesson.cards.length ? (
+                <>
+                  <p style={{ fontSize: '17px', color: 'var(--ink)', lineHeight: 1.6, minHeight: '110px', margin: '0 0 18px', fontWeight: 500 }}>
+                    {activeLesson.cards[lessonCard]}
+                  </p>
+                  <button
+                    onClick={() => setLessonCard(c => c + 1)}
+                    style={{
+                      width: '100%', padding: '15px', background: 'var(--terracotta)', color: 'var(--ink)',
+                      border: 'none', borderRadius: '14px', cursor: 'pointer',
+                      fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px',
+                      boxShadow: '0 4px 0 var(--terracotta-dark)',
+                    }}
+                  >
+                    {lessonCard === activeLesson.cards.length - 1 ? 'Ready for the question' : 'Next'}
+                  </button>
+                </>
+              ) : (
+                <>
+                  <p style={{ fontSize: '17px', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.55, margin: '0 0 14px' }}>
+                    {activeLesson.question.q}
+                  </p>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '9px', marginBottom: '14px' }}>
+                    {activeLesson.question.options.map((opt, i) => {
+                      const picked = lessonAnswer === i
+                      const isRight = i === activeLesson.question.answer
+                      return (
+                        <button
+                          key={i}
+                          onClick={() => setLessonAnswer(i)}
+                          style={{
+                            padding: '14px 16px', borderRadius: '14px', textAlign: 'left', cursor: 'pointer',
+                            fontSize: '15.5px', fontWeight: 600, lineHeight: 1.45,
+                            background: picked ? (isRight ? 'var(--tint-sage)' : '#F6DBD3') : 'var(--cream)',
+                            border: picked ? '2px solid ' + (isRight ? 'var(--terracotta)' : 'var(--danger, #C0533E)') : '2px solid var(--border)',
+                            color: 'var(--ink)',
+                          }}
+                        >
+                          {opt}
+                        </button>
+                      )
+                    })}
+                  </div>
+                  {lessonAnswer !== null && (
+                    <p style={{
+                      fontSize: '15px', lineHeight: 1.55, margin: '0 0 14px', fontWeight: 600,
+                      color: lessonAnswer === activeLesson.question.answer ? 'var(--ink)' : 'var(--ink-soft)',
+                    }}>
+                      {lessonAnswer === activeLesson.question.answer ? activeLesson.question.right : activeLesson.question.wrong}
+                    </p>
+                  )}
+                  {lessonAnswer === activeLesson.question.answer && (
+                    <button
+                      onClick={() => finishLesson(activeLesson)}
+                      style={{
+                        width: '100%', padding: '15px', background: 'var(--terracotta)', color: 'var(--ink)',
+                        border: 'none', borderRadius: '14px', cursor: 'pointer',
+                        fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px',
+                        boxShadow: '0 4px 0 var(--terracotta-dark)',
+                      }}
+                    >
+                      Collect my {activeLesson.stars} stars ⭐
+                    </button>
+                  )}
+                </>
+              )}
+            </div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <p style={{ textAlign: 'center', color: 'rgba(255,255,255,0.85)', fontSize: '15.5px', lineHeight: 1.55, margin: '0 0 4px' }}>
+                Two minute lessons, real superpowers, and the stars count just like quests.
+              </p>
+              {missions.length > 0 && (
+                <>
+                  <p style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)', margin: '6px 0 0' }}>
+                    Star lessons from your grown up
+                  </p>
+                  {missions.map(m => {
+                    const done = m.status === 'done'
+                    return (
+                      <a
+                        key={m.id}
+                        href={`/k/${token}/lesson/${m.id}`}
+                        style={{
+                          display: 'flex', alignItems: 'center', gap: 14,
+                          background: done ? 'var(--tint-sage)' : '#fff',
+                          borderRadius: '20px', padding: '16px 18px', textDecoration: 'none',
+                          boxShadow: done ? '0 2px 0 rgba(0,0,0,0.12)' : '0 5px 0 rgba(0,0,0,0.18)',
+                          transform: done ? 'translateY(3px)' : 'none',
+                        }}
+                      >
+                        <span style={{ fontSize: '1.8rem', flexShrink: 0 }}>{done ? '🏆' : '🎬'}</span>
+                        <span style={{ flex: 1, minWidth: 0 }}>
+                          <span style={{
+                            display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800,
+                            fontSize: '1.15rem', color: 'var(--ink)', lineHeight: 1.25,
+                            textDecoration: done ? 'line-through' : 'none', opacity: done ? 0.6 : 1,
+                          }}>
+                            {m.title}
+                          </span>
+                          <span style={{ display: 'block', fontSize: '13.5px', fontWeight: 600, color: 'var(--ink-muted)', marginTop: 2 }}>
+                            {done ? 'Done! Stars landed ⭐ Play again any time' : `The big one, with DiGi · worth ${m.stars} star${m.stars === 1 ? '' : 's'}`}
+                          </span>
+                        </span>
+                        <span style={{
+                          width: 40, height: 40, borderRadius: '50%', flexShrink: 0,
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          background: done ? 'var(--terracotta)' : 'var(--cream)',
+                          border: done ? 'none' : '2.5px dashed var(--ink-light)',
+                          fontSize: '18px',
+                        }}>
+                          {done ? '✓' : '▶'}
+                        </span>
+                      </a>
+                    )
+                  })}
+                </>
+              )}
+              {KID_LESSONS.map(lesson => {
+                const done = doneLessons.has(lesson.key)
+                return (
+                  <button
+                    key={lesson.key}
+                    onClick={() => !done && openLesson(lesson)}
+                    disabled={done}
+                    style={{
+                      display: 'flex', alignItems: 'center', gap: 14,
+                      background: done ? 'var(--tint-sage)' : '#fff',
+                      border: 'none', borderRadius: '20px', padding: '16px 18px',
+                      cursor: done ? 'default' : 'pointer', textAlign: 'left',
+                      boxShadow: done ? '0 2px 0 rgba(0,0,0,0.12)' : '0 5px 0 rgba(0,0,0,0.18)',
+                      transform: done ? 'translateY(3px)' : 'none',
+                    }}
+                  >
+                    <span style={{ fontSize: '1.8rem', flexShrink: 0 }}>{lesson.emoji}</span>
+                    <span style={{ flex: 1, minWidth: 0 }}>
+                      <span style={{
+                        display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800,
+                        fontSize: '1.15rem', color: 'var(--ink)', lineHeight: 1.25,
+                        textDecoration: done ? 'line-through' : 'none', opacity: done ? 0.6 : 1,
+                      }}>
+                        {lesson.title}
+                      </span>
+                      <span style={{ display: 'block', fontSize: '13.5px', fontWeight: 600, color: 'var(--ink-muted)', marginTop: 2 }}>
+                        {done ? 'Done! Stars with your grown up ⭐' : `Worth ${lesson.stars} stars · about 2 minutes`}
+                      </span>
+                    </span>
+                    <span style={{
+                      width: 40, height: 40, borderRadius: '50%', flexShrink: 0,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      background: done ? 'var(--terracotta)' : 'var(--cream)',
+                      border: done ? 'none' : '2.5px dashed var(--ink-light)',
+                      fontSize: '18px',
+                    }}>
+                      {done ? '✓' : '▶'}
+                    </span>
+                  </button>
+                )
+              })}
+              <p style={{ textAlign: 'center', color: 'rgba(255,255,255,0.55)', fontSize: '13px', lineHeight: 1.5, margin: '4px 0 0' }}>
+                More lessons land here soon. Finished them all? Ask for more quests on the other tab!
+              </p>
+            </div>
+          )
+        )}
+
+        {remindState === 'offer' && (
+          <button
+            onClick={enableReminders}
+            style={{
+              width: '100%', marginTop: '20px', padding: '13px 16px',
+              background: 'rgba(255,255,255,0.12)', border: '1.5px solid rgba(255,255,255,0.35)',
+              borderRadius: '14px', cursor: 'pointer',
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: '#fff',
+            }}
+          >
+            🔔 Remind me about my quests
+          </button>
+        )}
+        {remindState === 'on' && (
+          <p style={{ textAlign: 'center', fontSize: '14px', color: 'rgba(255,255,255,0.75)', marginTop: '18px' }}>
+            🔔 Reminders on. Morning and after school nudges, never at bedtime.
+          </p>
+        )}
+        {remindState === 'ios' && (
+          <>
+            <button
+              onClick={() => setShowIosSteps(v => !v)}
+              style={{
+                width: '100%', marginTop: '20px', padding: '13px 16px',
+                background: 'rgba(255,255,255,0.12)', border: '1.5px solid rgba(255,255,255,0.35)',
+                borderRadius: '14px', cursor: 'pointer',
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: '#fff',
+              }}
+            >
+              🔔 Want quest reminders? Add me to your Home Screen
+            </button>
+            {showIosSteps && (
+              <div style={{ marginTop: '10px', background: '#fff', borderRadius: '16px', padding: '16px 18px' }}>
+                {[
+                  <>Tap the <strong>Share</strong> button at the bottom of Safari, the square with the arrow pointing up.</>,
+                  <>Scroll down and tap <strong>Add to Home Screen</strong>, then tap <strong>Add</strong>.</>,
+                  <>Open your quests from the <strong>new icon</strong> on your Home Screen.</>,
+                  <>Tap the <strong>🔔 Remind me</strong> button that appears, and you are set.</>,
+                ].map((step, i) => (
+                  <div key={i} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start', marginBottom: i < 3 ? '9px' : 0 }}>
+                    <span style={{
+                      width: 22, height: 22, borderRadius: '50%', flexShrink: 0,
+                      background: 'var(--terracotta)', color: 'var(--ink)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
+                    }}>{i + 1}</span>
+                    <span style={{ fontSize: '15px', color: 'var(--ink)', lineHeight: 1.55 }}>{step}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </>
+        )}
+
+        <button
+          onClick={() => { setShowWelcome(true); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
+          style={{
+            display: 'block', margin: '24px auto 0', background: 'none', border: 'none',
+            cursor: 'pointer', fontSize: '14px', fontWeight: 600,
+            color: 'rgba(255,255,255,0.65)', textDecoration: 'underline', fontFamily: 'var(--font-body)',
+          }}
+        >
+          How does this page work?
+        </button>
+
+        <p style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.08em', color: 'rgba(255,255,255,0.45)', marginTop: '14px' }}>
           GUIDED CHILDHOOD QUESTS
         </p>
       </div>

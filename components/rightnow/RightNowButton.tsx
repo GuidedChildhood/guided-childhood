@@ -12,6 +12,7 @@ import Link from 'next/link'
 // renders optimistically with a soft pulse while the words arrive.
 
 const SITUATIONS = [
+  { key: 'wont-get-up',    label: 'Will not get up, late night before', image: '/moments/sleep.png', emoji: '😴', slot: 'morning' },
   { key: 'morning-tv',     label: 'Morning TV, will not get ready', image: '/moments/morning.png',  emoji: '🌅', slot: 'morning' },
   { key: 'tv-off',         label: 'TV or screen turned off',        image: '/moments/tv_eve.png',   emoji: '📺', slot: 'any' },
   { key: 'phone-handover', label: 'Phone handover fight',           image: '/devices/iphone.png',   emoji: '📱', slot: 'any' },
@@ -61,6 +62,7 @@ function BoltIcon() {
 export default function RightNowButton() {
   const [open, setOpen] = useState(false)
   const [entered, setEntered] = useState(false)
+  const [mounted, setMounted] = useState(false)
   const [showHint, setShowHint] = useState(false)
   const [picked, setPicked] = useState<SituationKey | null>(null)
   const [pickedLabel, setPickedLabel] = useState('')
@@ -84,6 +86,8 @@ export default function RightNowButton() {
     }
     setEntered(false)
   }, [open])
+
+  useEffect(() => { setMounted(true) }, [])
 
   // One time coach mark: explain the button before its first ever use.
   useEffect(() => {
@@ -140,6 +144,7 @@ export default function RightNowButton() {
       {/* One time coach mark above the button */}
       {showHint && createPortal(
         <div
+          className="rightnow-hint"
           onClick={dismissHint}
           style={{
             position: 'fixed', bottom: '92px', left: '50%', transform: 'translateX(-50%)',
@@ -155,11 +160,21 @@ export default function RightNowButton() {
           <p style={{ fontFamily: 'var(--font-body)', fontSize: '12.5px', lineHeight: 1.5, margin: 0, color: 'rgba(255,255,255,0.85)' }}>
             When a hard moment is happening, tap Now, pick the situation, and the calm words appear. Two taps, no searching.
           </p>
-          <div style={{
+          <div className="rightnow-hint-arrow" style={{
             position: 'absolute', bottom: '-7px', left: '50%', transform: 'translateX(-50%) rotate(45deg)',
             width: '14px', height: '14px', background: 'var(--deep-teal)',
           }} />
         </div>,
+        document.body
+      )}
+
+      {/* Desktop trigger: the tab bar is hidden above 768px, so the same
+          sheet opens from a floating pill portalled to body */}
+      {mounted && createPortal(
+        <button type="button" onClick={openSheet} aria-label="Right now help" className="rightnow-desktop no-print">
+          <BoltIcon />
+          Help now
+        </button>,
         document.body
       )}
 

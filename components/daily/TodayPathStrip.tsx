@@ -13,6 +13,16 @@ import type { TodayLoopTask } from '@/lib/pathway/daily-tasks'
 
 const NODE_SIZE = 46
 
+// What each step actually involves, shown in the Next banner so the
+// parent knows what they are walking into before they tap.
+const NEXT_HINT: Record<TodayLoopTask['key'], string> = {
+  checkin: 'Thirty seconds on how yesterday’s worry went, on the daily page',
+  moment:  'Two minutes with today’s cards',
+  script:  'Tonight’s words, picked for you, ready to read',
+  digi:    'Ask DiGi one question about your day',
+  done:    'Tap to see your progress',
+}
+
 const NODE_LOOK: Record<TodayLoopTask['key'], { fill: string; tick: string; icon: string }> = {
   checkin: { fill: 'var(--tint-sage)',    tick: 'var(--ink)',          icon: '🪴' },
   moment:  { fill: 'var(--stage-1-bold)', tick: 'var(--stage-1-text)', icon: '☀️' },
@@ -27,7 +37,10 @@ export default function TodayPathStrip({ tasks }: { tasks: TodayLoopTask[] }) {
   const firstOpen = tasks.findIndex(t => !t.done)
   const allDone = firstOpen === -1
   const currentIndex = allDone ? tasks.length - 1 : firstOpen
-  const doneCount = tasks.filter(t => t.done).length
+  // The Done flag is the finish line, not a step: count real steps only.
+  const steps = tasks.filter(t => t.key !== 'done')
+  const doneCount = steps.filter(t => t.done).length
+  const stepsLeft = steps.length - doneCount
   const centre = (i: number) => ((i + 0.5) / tasks.length) * 100
 
   useEffect(() => {
@@ -70,7 +83,7 @@ export default function TodayPathStrip({ tasks }: { tasks: TodayLoopTask[] }) {
           Today&apos;s path
         </span>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: allDone ? 'var(--terracotta-dark)' : 'var(--ink-muted)' }}>
-          {allDone ? 'All walked' : `${doneCount} of ${tasks.length}`}
+          {allDone ? 'All walked' : `${doneCount} of ${steps.length}`}
         </span>
       </div>
 
@@ -187,24 +200,37 @@ export default function TodayPathStrip({ tasks }: { tasks: TodayLoopTask[] }) {
         </div>
       </div>
 
-      {/* What finishes the day: the next step named, one tap away */}
+      {/* What finishes the day: the next step named, what it involves,
+          and an unmissable Go */}
       {!allDone ? (
         <Link
           href={tasks[currentIndex].href}
           style={{
             display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px',
-            marginTop: '14px', padding: '11px 14px',
+            marginTop: '14px', padding: '12px 14px',
             background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
             borderRadius: '14px', textDecoration: 'none',
           }}
         >
-          <span style={{ fontFamily: 'var(--font-body)', fontSize: '13px', fontWeight: 600, color: 'var(--ink)' }}>
-            Next: {tasks[currentIndex].label}
-            <span style={{ color: 'var(--ink-muted)', fontWeight: 500 }}>
-              {' '}· {tasks.length - doneCount} step{tasks.length - doneCount === 1 ? '' : 's'} to finish today
+          <span style={{ minWidth: 0 }}>
+            <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: '13.5px', fontWeight: 700, color: 'var(--ink)' }}>
+              Next: {tasks[currentIndex].label}
+              <span style={{ color: 'var(--ink-muted)', fontWeight: 500 }}>
+                {' '}· {stepsLeft === 1 ? 'last step of today' : `${stepsLeft} steps to finish today`}
+              </span>
+            </span>
+            <span style={{ display: 'block', fontSize: '12px', color: 'var(--ink-soft)', marginTop: '2px' }}>
+              {NEXT_HINT[tasks[currentIndex].key]}
             </span>
           </span>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--terracotta-dark)', flexShrink: 0 }}>→</span>
+          <span style={{
+            flexShrink: 0, background: 'var(--terracotta)', color: 'var(--ink)',
+            borderRadius: '12px', padding: '9px 16px',
+            fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 800,
+            boxShadow: '0 3px 0 var(--terracotta-dark)',
+          }}>
+            Go
+          </span>
         </Link>
       ) : (
         <p style={{

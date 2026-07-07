@@ -60,7 +60,7 @@ export async function getTodayLoop(
     {
       key: 'checkin',
       label: 'Check in',
-      href: '/dashboard/daily',
+      href: '/dashboard/daily#checkin',
       done: (pendingConcerns ?? []).length === 0,
     },
     {

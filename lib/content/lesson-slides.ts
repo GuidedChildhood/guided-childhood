@@ -181,12 +181,16 @@ const SLIDE_TYPES = new Set([
   'scenario', 'diagram', 'discussion', 'stat', 'tryit', 'recap', 'video', 'digi',
 ])
 
-// Defensive parse: slides come from a JSONB column, so a malformed row should
-// fall back to the text layout rather than crash the page.
+// Defensive parse: slides come from a JSONB column, so a malformed row
+// should fall back gracefully rather than crash the page. Unknown slide
+// types are SKIPPED, not fatal: when the database is ahead of a deploy
+// (a migration lands before the code that renders a new type), the lesson
+// still plays with every slide this build understands. Only a deck with
+// nothing recognisable returns null.
 export function parseSlides(raw: unknown): LessonSlide[] | null {
   if (!Array.isArray(raw) || raw.length === 0) return null
-  const valid = raw.every(
+  const known = raw.filter(
     s => s && typeof s === 'object' && SLIDE_TYPES.has((s as { type?: string }).type ?? '')
   )
-  return valid ? (raw as LessonSlide[]) : null
+  return known.length > 0 ? (known as LessonSlide[]) : null
 }

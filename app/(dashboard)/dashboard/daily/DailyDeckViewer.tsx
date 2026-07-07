@@ -354,8 +354,9 @@ export default function DailyDeckViewer({
           </div>
         )}
 
-        {/* Yesterday's concerns, checked before today's flags */}
-        {checkIns.length > 0 && <ConcernCheckIn concerns={checkIns} />}
+        {/* Yesterday's concerns, checked before today's flags. The id is
+            the anchor the home path strip points at. */}
+        {checkIns.length > 0 && <div id="checkin"><ConcernCheckIn concerns={checkIns} /></div>}
 
         {/* Daily moments feedback: the day as a timeline of picture tiles */}
         {!momentsSaved ? (

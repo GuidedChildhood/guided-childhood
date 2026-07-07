@@ -90,6 +90,7 @@ export async function POST(req: NextRequest) {
       user_id: user.id, child_id: body.child_id,
       title: String(body.title).slice(0, 120),
       stars_needed: Math.min(500, Math.max(1, Number(body.stars_needed) || 20)),
+      daily_stars: body.daily_stars ? Math.min(100, Math.max(1, Number(body.daily_stars))) : null,
       achieved_at: null,
     }
     const { data: existing } = await supabase

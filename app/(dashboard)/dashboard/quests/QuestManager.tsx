@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
-import { QUEST_TEMPLATES } from '@/lib/quests/templates'
+import { QUEST_TEMPLATES, PLAY_PAYS_WHY } from '@/lib/quests/templates'
 
 // The parent's quest manager. Pick from templates or write your own,
 // set what each is worth, set the goal the stars buy, then hand the
@@ -13,7 +13,7 @@ type Child = { id: string; name: string; age_band: string | null; phone?: string
 
 const AGE_BANDS = ['4-7', '8-10', '11-13', '13-15', '16+'] as const
 type Quest = { id: string; title: string; emoji: string; stars: number; schedule: string; child_id: string | null }
-type Goal = { child_id: string; title: string; stars_needed: number }
+type Goal = { child_id: string; title: string; stars_needed: number; daily_stars: number | null }
 type KidLink = { child_id: string; token: string }
 
 const SCHEDULE_LABELS: Record<string, string> = {
@@ -35,6 +35,7 @@ export default function QuestManager() {
   const [customTitle, setCustomTitle] = useState('')
   const [goalTitle, setGoalTitle] = useState('')
   const [goalStars, setGoalStars] = useState('20')
+  const [dailyStars, setDailyStars] = useState('')
   const [copied, setCopied] = useState(false)
   const [addingChild, setAddingChild] = useState(false)
   const [newChildName, setNewChildName] = useState('')
@@ -43,6 +44,7 @@ export default function QuestManager() {
   const [phoneSaved, setPhoneSaved] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [ticked, setTicked] = useState<string | null>(null)
+  const [pingResult, setPingResult] = useState<string | null>(null)
   const [contactsSupported, setContactsSupported] = useState(false)
 
   useEffect(() => {
@@ -128,6 +130,12 @@ export default function QuestManager() {
 
   useEffect(() => { load() }, [load])
 
+  // The day goal box always shows what is currently set for this child.
+  useEffect(() => {
+    const g = goals.find(g => g.child_id === activeChild)
+    setDailyStars(g?.daily_stars ? String(g.daily_stars) : '')
+  }, [activeChild, goals])
+
   const childQuests = useMemo(
     () => quests.filter(q => q.child_id === activeChild || q.child_id === null),
     [quests, activeChild]
@@ -155,14 +163,37 @@ export default function QuestManager() {
   }
 
   async function saveGoal() {
-    if (!goalTitle.trim() || !activeChild) return
+    const title = goalTitle.trim() || goal?.title
+    if (!title || !activeChild) return
     await fetch('/api/quests', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action: 'goal', child_id: activeChild, title: goalTitle.trim(), stars_needed: Number(goalStars) || 20 }),
+      body: JSON.stringify({
+        action: 'goal', child_id: activeChild, title,
+        stars_needed: Number(goalStars) || goal?.stars_needed || 20,
+        daily_stars: dailyStars ? Number(dailyStars) : goal?.daily_stars ?? null,
+      }),
     })
     setGoalTitle('')
     await load()
+  }
+
+  async function sendPing(message: string) {
+    if (!activeChild) return
+    setPingResult('Sending...')
+    try {
+      const res = await fetch('/api/quests/ping', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ child_id: activeChild, message }),
+      })
+      const data = await res.json()
+      setPingResult(data?.sent > 0
+        ? 'Ping sent ✓ It just landed on their phone.'
+        : 'Their phone is not set up for pings yet. Open their quest link on their phone and tap Remind me about my quests. On iPhone, add it to the home screen first.')
+    } catch {
+      setPingResult('Could not send just now, try again in a moment.')
+    }
   }
 
   async function getLink() {
@@ -369,14 +400,39 @@ export default function QuestManager() {
             </div>
           </div>
 
-          {/* Templates */}
+          {/* Templates: play and outside lead, and pay the most */}
           {templatesUnused.length > 0 && (
             <div style={card}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
+                Play pays best
+              </div>
+              <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 12px' }}>
+                {PLAY_PAYS_WHY}
+              </p>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '14px' }}>
+                {templatesUnused.filter(t => t.play).map(t => (
+                  <button
+                    key={t.title}
+                    onClick={() => addQuest(t)}
+                    style={{
+                      display: 'inline-flex', alignItems: 'center', gap: '7px',
+                      padding: '9px 14px', borderRadius: '100px', cursor: 'pointer',
+                      border: 'none', background: 'var(--terracotta)',
+                      fontFamily: 'var(--font-body)', fontSize: '13px', fontWeight: 700, color: 'var(--ink)',
+                      boxShadow: '0 3px 0 var(--terracotta-dark)',
+                    }}
+                  >
+                    <span>{t.emoji}</span> {t.title}
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700 }}>⭐{t.stars}</span>
+                    <span style={{ fontWeight: 800 }}>+</span>
+                  </button>
+                ))}
+              </div>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '12px' }}>
-                Quest ideas, tap to add
+                Everyday quest ideas, tap to add
               </div>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                {templatesUnused.map(t => (
+                {templatesUnused.filter(t => !t.play).map(t => (
                   <button
                     key={t.title}
                     onClick={() => addQuest(t)}
@@ -424,7 +480,8 @@ export default function QuestManager() {
             </div>
             {goal ? (
               <p style={{ fontSize: '14px', color: 'var(--ink)', margin: '0 0 12px' }}>
-                Current goal: <strong>{goal.title}</strong> at ⭐ {goal.stars_needed}. Set a new one below to replace it.
+                Current goal: <strong>{goal.title}</strong> at ⭐ {goal.stars_needed}
+                {goal.daily_stars ? <> with a day goal of ⭐ {goal.daily_stars}</> : null}. Set a new one below to replace it.
               </p>
             ) : (
               <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 12px' }}>
@@ -463,6 +520,27 @@ export default function QuestManager() {
               >
                 Set goal
               </button>
+            </div>
+            {/* Day goal: enough stars in one day completes the day */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap', marginTop: '12px' }}>
+              <span style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
+                Day goal, stars that finish the day:
+              </span>
+              <input
+                value={dailyStars}
+                onChange={e => setDailyStars(e.target.value.replace(/\D/g, ''))}
+                onBlur={() => { if (goal && dailyStars && Number(dailyStars) !== (goal.daily_stars ?? 0)) saveGoal() }}
+                inputMode="numeric"
+                placeholder="5"
+                style={{
+                  width: '64px', padding: '9px 12px', borderRadius: '12px',
+                  border: '1.5px solid var(--border)', background: 'var(--cream)',
+                  fontFamily: 'var(--font-mono)', fontSize: '14px', color: 'var(--ink)', outline: 'none', textAlign: 'center',
+                }}
+              />
+              <span style={{ fontSize: '12px', color: 'var(--ink-muted)' }}>
+                Hit it and their page says the day is complete
+              </span>
             </div>
           </div>
 
@@ -506,6 +584,18 @@ export default function QuestManager() {
                 }}
               >
                 Print the sheet
+              </Link>
+              <Link
+                href="/dashboard/quests/crafts"
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: '6px',
+                  background: 'var(--butter, #EDC35F)', color: 'var(--ink)', borderRadius: '14px',
+                  padding: '12px 20px', textDecoration: 'none',
+                  fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 800,
+                  boxShadow: '0 3px 0 rgba(0,0,0,0.2)',
+                }}
+              >
+                🎲 The Game Pack
               </Link>
             </div>
 
@@ -564,6 +654,36 @@ export default function QuestManager() {
                   </a>
                 )}
               </div>
+            </div>
+
+            {/* Ping their phone right now, through the quest page reminders */}
+            <div style={{ marginTop: '16px', paddingTop: '14px', borderTop: '1px solid var(--border)' }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
+                Ping {child.name}&apos;s phone now
+              </div>
+              <p style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 10px' }}>
+                One tap and it buzzes on their phone. Works once they have opened their quest link and turned on reminders.
+              </p>
+              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                {['Quest check! A few ticks and the stars are yours ⭐', 'Time to come off the screen now please', 'Dinner in 10 minutes, start wrapping up'].map(msg => (
+                  <button
+                    key={msg}
+                    onClick={() => sendPing(msg)}
+                    style={{
+                      background: '#fff', border: '1.5px solid var(--border)', borderRadius: '12px',
+                      padding: '9px 14px', cursor: 'pointer', fontFamily: 'var(--font-body)',
+                      fontSize: '12.5px', fontWeight: 600, color: 'var(--ink)', textAlign: 'left',
+                    }}
+                  >
+                    {msg.length > 34 ? msg.slice(0, 31) + '...' : msg}
+                  </button>
+                ))}
+              </div>
+              {pingResult && (
+                <p style={{ fontSize: '12.5px', color: pingResult.startsWith('Ping sent') ? 'var(--terracotta-dark)' : 'var(--ink-soft)', fontWeight: 600, lineHeight: 1.55, margin: '10px 0 0' }}>
+                  {pingResult}
+                </p>
+              )}
             </div>
           </div>
         </>

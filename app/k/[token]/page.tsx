@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { questDueToday } from '@/lib/quests/due'
+import { KID_LESSONS, kidLessonQuestTitle } from '@/lib/quests/kid-lessons'
 import KidQuestScreen from './KidQuestScreen'
 
 // The kid's own screen. Opened from the private link their parent sends,
@@ -43,7 +44,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       .eq('status', 'approved')
       .gte('tick_date', weekAgo),
     supabase.from('star_goals')
-      .select('title, stars_needed, achieved_at')
+      .select('*')
       .eq('child_id', link.child_id)
       .maybeSingle(),
     supabase.from('quest_ticks')
@@ -83,20 +84,49 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   }
 
   const quests = (questsRes.data ?? []).filter(q => questDueToday(q.schedule))
+  const laterQuests = (questsRes.data ?? [])
+    .filter(q => !questDueToday(q.schedule))
+    .map(q => ({ title: q.title, emoji: q.emoji, schedule: q.schedule }))
   const starsByQuest = new Map((questsRes.data ?? []).map(q => [q.id, q.stars]))
   const weekStars = (weekTicksRes.data ?? []).reduce((sum, t) => sum + (starsByQuest.get(t.quest_id) ?? 1), 0)
     + lessonWeekStars
+
+  // Once quests stay due until ticked, then leave the list on later days
+  // (today's tick still shows today, as waiting or done). Finished kid
+  // lessons are recognised by their quest title.
+  const onceIds = (questsRes.data ?? []).filter(q => q.schedule === 'once').map(q => q.id)
+  const { data: onceTicks } = onceIds.length
+    ? await supabase.from('quest_ticks')
+        .select('quest_id, tick_date')
+        .in('quest_id', onceIds)
+        .neq('status', 'rejected')
+    : { data: [] as { quest_id: string; tick_date: string }[] }
+  const tickedOnceBeforeToday = new Set(
+    (onceTicks ?? []).filter(t => String(t.tick_date) < today).map(t => t.quest_id)
+  )
+  const tickedOnceEver = new Set((onceTicks ?? []).map(t => t.quest_id))
+  const dueQuests = quests.filter(q => !(q.schedule === 'once' && tickedOnceBeforeToday.has(q.id)))
+
+  const questByTitle = new Map((questsRes.data ?? []).map(q => [q.title, q.id]))
+  const doneLessonKeys = KID_LESSONS
+    .filter(l => {
+      const qid = questByTitle.get(kidLessonQuestTitle(l))
+      return qid ? tickedOnceEver.has(qid) : false
+    })
+    .map(l => l.key)
 
   return (
     <KidQuestScreen
       token={token}
       childName={childRes.data?.name ?? 'Superstar'}
-      quests={quests}
+      quests={dueQuests}
       todayTicks={todayTicksRes.data ?? []}
       weekStars={weekStars}
       goal={goalRes.data ?? null}
       streakDays={streakDays}
       missions={missions}
+      laterQuests={laterQuests}
+      doneLessonKeys={doneLessonKeys}
     />
   )
 }

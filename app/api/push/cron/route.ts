@@ -51,5 +51,28 @@ export async function GET(req: NextRequest) {
   })
 
   const result = await res.json()
-  return NextResponse.json({ checkin: checkin.title, ukHour, ...result })
+
+  // Kid quest reminders ride the morning and after school slots only,
+  // never the evening one: no buzzing children at bedtime.
+  const KID_NUDGES: Record<number, { title: string; body: string }> = {
+    7: { title: 'Your quests are ready ⭐', body: 'Tick them off today and stack your stars.' },
+    15: { title: 'After school quests ⭐', body: 'A few ticks now and the screen minutes are yours.' },
+  }
+  const kidNudge = KID_NUDGES[checkin.hour]
+  let kidResult = null
+  if (kidNudge) {
+    try {
+      const kidRes = await fetch(`${req.nextUrl.origin}/api/push/send`, {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          authorization: `Bearer ${process.env.CRON_SECRET}`,
+        },
+        body: JSON.stringify({ title: kidNudge.title, body: kidNudge.body, url: '/', audience: 'kids' }),
+      })
+      kidResult = await kidRes.json()
+    } catch { /* kid nudges are best effort */ }
+  }
+
+  return NextResponse.json({ checkin: checkin.title, ukHour, ...result, kids: kidResult })
 }
