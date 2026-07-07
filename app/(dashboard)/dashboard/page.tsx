@@ -11,8 +11,7 @@ import StreakFlame from '@/components/daily/StreakFlame'
 import SchoolActionsCard, { type SchoolAction } from '@/components/school/SchoolActionsCard'
 import SchoolPromoCard from '@/components/school/SchoolPromoCard'
 import QuestBoard from '@/components/quests/QuestBoard'
-import SetupPath from '@/components/setup/SetupPath'
-import SetupNudge from '@/components/setup/SetupNudge'
+import SetupPath, { STEPS as SETUP_STEPS } from '@/components/setup/SetupPath'
 import SetupUnlockToast from '@/components/setup/SetupUnlockToast'
 import TodayPathStrip from '@/components/daily/TodayPathStrip'
 import { getDailyStreak } from '@/lib/pathway/streak'
@@ -80,6 +79,13 @@ export default async function DashboardPage() {
     push: !!pushSubResult.data,
     daily: !!anySessionResult.data,
   }
+
+  // One conductor, one ask at a time. SetupPath sequences the setup steps
+  // in order, and the standalone prompts below only appear when it is their
+  // turn, so a new parent never faces a wall of five asks at once. When
+  // setup is finished, the supplementary cards return to normal.
+  const currentSetupStep = SETUP_STEPS.find(s => !setupFlags[s.key])?.key ?? null
+  const setupComplete = currentSetupStep === null
 
   // Most applicable first: filter to the child's age, then lead with the
   // categories most likely happening at this hour (UK time), so the grid
@@ -170,9 +176,10 @@ export default async function DashboardPage() {
         <StreakFlame count={streak.count} aliveToday={streak.aliveToday} />
       </div>
 
-      {/* The setup path: every service visible as a step, foundations first */}
+      {/* The setup path is the single conductor. It shows one step at a
+          time, the rest waiting as quiet chips. The old bottom nudge that
+          re-asked the same step on a second surface is gone, one ask only. */}
       <SetupPath flags={setupFlags} />
-      <SetupNudge flags={setupFlags} />
       <SetupUnlockToast flags={setupFlags} />
 
       {/* DiGi leads: proactive watch fors, tips and parent care */}
@@ -276,17 +283,23 @@ export default async function DashboardPage() {
         </div>
       )}
 
-      {/* Push notification opt-in */}
-      <div style={{ marginBottom: '20px' }}>
-        <PushPrompt userId={user.id} stage={`Stage ${stage.id}`} />
-      </div>
+      {/* Push notification opt-in: only when it is this step's turn, or once
+          it is on (so the granted state and Send a test stay available). */}
+      {(setupFlags.push || currentSetupStep === 'push') && (
+        <div style={{ marginBottom: '20px' }}>
+          <PushPrompt userId={user.id} stage={`Stage ${stage.id}`} />
+        </div>
+      )}
 
-      {/* Device setup prompt */}
-      <DeviceSetupBanner
-        stageId={stage.id}
-        stageName={stage.name}
-        childName={child?.name ?? null}
-      />
+      {/* Device setup prompt: a supplementary ask, held back until the core
+          setup path is done so it never competes with the current step. */}
+      {setupComplete && (
+        <DeviceSetupBanner
+          stageId={stage.id}
+          stageName={stage.name}
+          childName={child?.name ?? null}
+        />
+      )}
 
       {/* Things you need to know: open school actions from forwarded school
           emails, or added by hand. The id is the anchor the setup path's
@@ -296,8 +309,9 @@ export default async function DashboardPage() {
         <SchoolActionsCard actions={schoolActions} childName={child?.name} />
       </div>
 
-      {/* School email promo until a connection is active, dismissible per device */}
-      {!hasSchoolConnection && <SchoolPromoCard />}
+      {/* School email promo: only when school is the current setup step, or
+          once the core setup is complete, so it waits its turn like the rest. */}
+      {!hasSchoolConnection && (currentSetupStep === 'school' || setupComplete) && <SchoolPromoCard />}
 
       {/* Moment cards section */}
       {todayMoments.length > 0 && (

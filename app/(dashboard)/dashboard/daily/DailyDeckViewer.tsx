@@ -230,7 +230,11 @@ export default function DailyDeckViewer({
       } else if (!done) {
         setDone(true)
         setShowComplete(true)
-        fetch('/api/daily/complete', { method: 'POST' }).catch(() => {})
+        // Refresh so Home drops its cached view and the Today path shows the
+        // moment as done, instead of staying stuck on it from a stale cache.
+        fetch('/api/daily/complete', { method: 'POST' })
+          .then(() => router.refresh())
+          .catch(() => {})
       }
     }
 

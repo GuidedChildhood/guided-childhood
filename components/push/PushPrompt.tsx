@@ -25,7 +25,7 @@ export default function PushPrompt({ userId, stage }: Props) {
       const data = await res.json()
       if (data.sent > 0) setTestResult('Sent. It should appear on this device within seconds.')
       else if (data.reason) setTestResult('No subscription found for this account on any device yet. Tap Turn on check ins first, inside the installed app.')
-      else if (data.errors?.length) setTestResult(`The push service refused (code ${data.errors[0]}). Tell Claude this code.`)
+      else if (data.errors?.length) setTestResult(`The push service refused (code ${data.errors[0]})${data.details?.[0] ? `: ${data.details[0]}` : ''}. Tell Claude this whole message.`)
       else setTestResult(data.error ?? 'Something went wrong, try again.')
     } catch {
       setTestResult('Could not reach the server, try again.')

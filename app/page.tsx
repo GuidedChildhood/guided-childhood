@@ -396,9 +396,19 @@ export default function HomePage() {
 
         <MarketingNav />
 
-        <Link href="/starter-pack" className="btn btn-green" style={{ fontSize: '13px', padding: '10px 22px', flexShrink: 0 }}>
-          Get Started
-        </Link>
+        {/* Header actions, always visible so Log in is never lost when the
+            section nav hides on mobile. */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0 }}>
+          <Link href="/login" style={{
+            fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '13px',
+            color: 'var(--ink)', textDecoration: 'none', padding: '10px 6px', whiteSpace: 'nowrap',
+          }}>
+            Log in
+          </Link>
+          <Link href="/starter-pack" className="btn btn-green" style={{ fontSize: '13px', padding: '10px 18px', flexShrink: 0, whiteSpace: 'nowrap' }}>
+            Get Started
+          </Link>
+        </div>
       </header>
 
       {/* ================================================================

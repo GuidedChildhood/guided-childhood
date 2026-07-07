@@ -209,7 +209,7 @@ export default function DeviceList({
                       className="btn btn-outline"
                       style={{ flex: 1, minWidth: '140px', justifyContent: 'center', fontSize: '13px' }}
                     >
-                      Ask DiGi to walk me through it
+                      DiGi can walk me through it
                     </Link>
                   </div>
                 </div>
