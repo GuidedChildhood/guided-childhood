@@ -107,13 +107,13 @@ export default function SchoolsPage() {
         <div style={{ position: 'absolute', bottom: '-200px', left: '-140px', width: '520px', height: '520px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(254,240,138,0.09) 0%, transparent 68%)', pointerEvents: 'none' }} />
         <div style={{ maxWidth: '1160px', margin: '0 auto', position: 'relative', display: 'grid', gridTemplateColumns: 'minmax(0, 1.05fr) minmax(0, 0.95fr)', gap: 'clamp(32px, 5vw, 72px)', alignItems: 'center' }} className="schools-hero-grid">
           <Reveal>
-            <p style={{ ...eyebrow(GOLD), marginBottom: '22px' }}>For schools, heads and PSHE leads</p>
+            <p style={{ ...eyebrow(GOLD), marginBottom: '22px' }}>Digital literacy curriculum · Reception to Year 13</p>
             <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.6rem, 5.6vw, 4.6rem)', fontWeight: 900, lineHeight: 1.02, letterSpacing: '-0.045em', marginBottom: '24px' }}>
               The ban takes the apps.<br />
               We build the <span style={{ color: GOLD }}>judgement.</span>
             </h1>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: 'clamp(1rem, 1.5vw, 1.2rem)', color: 'rgba(255,255,255,0.72)', lineHeight: 1.7, maxWidth: '480px', marginBottom: '32px' }}>
-              A complete digital literacy scheme of work, Reception to Year 13. Twenty one modules, each taught from an interactive lesson with a word for word script, printable packs, and coverage evidence that builds as you teach. The lesson Ofsted asks about, ready to run tomorrow.
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: 'clamp(1.02rem, 1.5vw, 1.22rem)', color: 'rgba(255,250,240,0.9)', lineHeight: 1.7, maxWidth: '500px', marginBottom: '32px' }}>
+              <strong style={{ color: '#fff', fontWeight: 800 }}>The complete online safety and digital literacy scheme of work for the new RSHE guidance,</strong> statutory from September 2026. Twenty one modules, Reception to Year 13, each taught from an interactive script with printable packs and the coverage evidence Ofsted asks for. Ready in your classroom tomorrow.
             </p>
             <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '18px' }}>
               <a href={MAILCHIMP_ENQUIRY} target="_blank" rel="noopener noreferrer" className="btn btn-gold" style={{ fontSize: '1rem', padding: '16px 32px' }}>
@@ -123,7 +123,7 @@ export default function SchoolsPage() {
                 See the curriculum
               </Link>
             </div>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.74rem', color: 'rgba(255,255,255,0.5)' }}>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.74rem', color: 'rgba(255,250,240,0.6)' }}>
               Free one term pilot for the first schools. We reply within 48 hours.
             </p>
           </Reveal>
@@ -145,7 +145,7 @@ export default function SchoolsPage() {
             <Reveal key={s.l} delay={i * 0.06}>
               <div style={{ textAlign: 'center' }}>
                 <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.9rem, 3.4vw, 2.8rem)', color: GOLD, lineHeight: 1, letterSpacing: '-0.02em' }}>{s.n}</div>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', letterSpacing: '0.06em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.55)', marginTop: '8px', lineHeight: 1.4 }}>{s.l}</div>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', letterSpacing: '0.06em', textTransform: 'uppercase', color: 'rgba(255,250,240,0.64)', marginTop: '8px', lineHeight: 1.4 }}>{s.l}</div>
               </div>
             </Reveal>
           ))}
@@ -243,7 +243,7 @@ export default function SchoolsPage() {
                     <div style={{ background: ESPRESSO, color: '#fff', padding: '24px 22px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                       <div style={{ ...eyebrow(GOLD), fontSize: '0.64rem', marginBottom: '7px' }}>{meta.label}</div>
                       <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.05rem', fontWeight: 800, marginBottom: '3px' }}>{meta.years}</div>
-                      <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: 'rgba(255,255,255,0.6)', lineHeight: 1.45 }}>{meta.strapline}</div>
+                      <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: 'rgba(255,250,240,0.7)', lineHeight: 1.45 }}>{meta.strapline}</div>
                     </div>
                     <div style={{ padding: '22px', display: 'flex', flexWrap: 'wrap', gap: '8px', alignContent: 'center' }}>
                       {mods.map(m => {
@@ -327,10 +327,10 @@ export default function SchoolsPage() {
                     <span style={{ position: 'absolute', top: '20px', right: '20px', ...eyebrow(GOLD), fontSize: '0.6rem' }}>Most schools</span>
                   )}
                   <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.66rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: plan.featured ? GOLD : 'var(--ink-muted)', marginBottom: '6px' }}>{plan.tier}</div>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.74rem', color: plan.featured ? 'rgba(255,255,255,0.6)' : 'var(--ink-muted)', marginBottom: '18px' }}>{plan.pupils}</div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.74rem', color: plan.featured ? 'rgba(255,250,240,0.7)' : 'var(--ink-muted)', marginBottom: '18px' }}>{plan.pupils}</div>
                   <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px', marginBottom: '22px' }}>
                     <span style={{ fontFamily: 'var(--font-display)', fontSize: '2.8rem', fontWeight: 900, lineHeight: 1, letterSpacing: '-0.03em' }}>{plan.price}</span>
-                    <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: plan.featured ? 'rgba(255,255,255,0.55)' : 'var(--ink-muted)' }}>{plan.period}</span>
+                    <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: plan.featured ? 'rgba(255,250,240,0.64)' : 'var(--ink-muted)' }}>{plan.period}</span>
                   </div>
                   <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '28px', flex: 1, padding: 0 }}>
                     {plan.features.map(feat => (
@@ -367,7 +367,7 @@ export default function SchoolsPage() {
             <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 4.2vw, 3.3rem)', fontWeight: 900, letterSpacing: '-0.04em', lineHeight: 1.05, marginBottom: '18px' }}>
               Be one of the first schools to teach it.
             </h2>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.08rem', color: 'rgba(255,255,255,0.72)', lineHeight: 1.7, marginBottom: '32px' }}>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.08rem', color: 'rgba(255,250,240,0.84)', lineHeight: 1.7, marginBottom: '32px' }}>
               A free one term pilot for the first schools who want to get ahead of September 2026. Tell us your school and we will reply within 48 hours, with the free assembly pack either way.
             </p>
             <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
