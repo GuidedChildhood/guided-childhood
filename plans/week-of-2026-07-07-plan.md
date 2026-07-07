@@ -70,3 +70,17 @@ by this session.
 - Agreement wizard shipped (type chooser with age recommendation, tap
   the clauses, options per clause, sign, saved view, Friday check that
   pays stars). Migration 034 required.
+
+## Banked: together games on the kid link (Justin, 7 July)
+
+In app family games hosted on the platform (they are just pages, no
+external hosting needed), each one a together game played on one phone
+passed around, never solo screen time, so the play pays best philosophy
+holds: the screen is the board, the family is the game.
+
+- v1 pair: Snap or memory pairs for the younger ones, and a Qwirkle
+  style tile matching game for 8 plus.
+- Finishing a game creates a pending quest (Played Snap together ⭐2)
+  through the same lesson-complete pattern: parent approves, stars land.
+- Games tab joins My quests and My lessons on the kid link.
+- Build after the launch blockers (gating, homepage, Stripe test).
