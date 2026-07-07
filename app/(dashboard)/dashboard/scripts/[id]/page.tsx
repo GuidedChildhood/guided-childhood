@@ -3,6 +3,7 @@ import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
 import { SOCIAL_MEDIA_LAW } from '@/lib/config/social-media-law'
 import ScriptDepth from '@/components/scripts/ScriptDepth'
+import { isScriptLocked } from '@/lib/content/free-script-limit'
 
 const STAGE_META: Record<string, { label: string; color: string; bg: string }> = {
   foundation:  { label: 'Foundation · Ages 4 to 7',  color: 'var(--ink)', bg: 'var(--stage-1)' },
@@ -65,9 +66,19 @@ export default async function ScriptDetailPage({
 
   if (!script) notFound()
 
-  if (!isPaid && !script.is_free) {
+  if (await isScriptLocked(supabase, user.id, isPaid, script)) {
     redirect('/dashboard/upgrade')
   }
+
+  // The purpose of this tool is to find the script the moment you need
+  // it, not to run a separate completion ritual. Opening it here IS
+  // using it, so this is the one and only place completion gets marked
+  // for the vast majority of visits (the deck flow marks it too, same
+  // row, upsert makes either order safe). Never touches the worked
+  // rating a parent may have already given.
+  await supabase
+    .from('script_completions')
+    .upsert({ user_id: user.id, script_sort_order: sortOrder }, { onConflict: 'user_id,script_sort_order' })
 
   const stageMeta = STAGE_META[script.stage_id] ?? STAGE_META.foundation
   const showBanNote = script.law_flag !== 'none' && SOCIAL_MEDIA_LAW !== 'none'
@@ -127,6 +138,19 @@ export default async function ScriptDetailPage({
         <p style={{ fontSize: '15px', color: 'var(--ink-muted)', fontStyle: 'italic', lineHeight: 1.5 }}>
           {script.situation}
         </p>
+      </div>
+
+      {/* How completion works, stated plainly: reading it here IS the
+          whole action, nothing else to click or tick */}
+      <div style={{
+        display: 'flex', alignItems: 'center', gap: '8px',
+        background: 'var(--tint-sage)', border: '1px solid var(--border)',
+        borderRadius: '12px', padding: '10px 14px', marginBottom: '20px',
+      }}>
+        <span style={{ fontSize: '14px', color: 'var(--ink)' }}>✓</span>
+        <span style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.45 }}>
+          Marked as read, just by opening it. It counts on your path today and toward your free scripts, nothing else to click.
+        </span>
       </div>
 
       {/* Ban world note */}

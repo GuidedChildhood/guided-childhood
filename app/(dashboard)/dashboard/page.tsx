@@ -12,6 +12,8 @@ import SchoolActionsCard, { type SchoolAction } from '@/components/school/School
 import SchoolPromoCard from '@/components/school/SchoolPromoCard'
 import QuestBoard from '@/components/quests/QuestBoard'
 import SetupPath from '@/components/setup/SetupPath'
+import SetupNudge from '@/components/setup/SetupNudge'
+import SetupUnlockToast from '@/components/setup/SetupUnlockToast'
 import TodayPathStrip from '@/components/daily/TodayPathStrip'
 import { getDailyStreak } from '@/lib/pathway/streak'
 import { getTodayLoop } from '@/lib/pathway/daily-tasks'
@@ -48,17 +50,22 @@ export default async function DashboardPage() {
 
   const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
 
-  const [childResult, dailySessionResult, todayMomentsResult, lastFeedbackResult, schoolActionsResult, schoolConnectionResult, agreementResult, questsCountResult, pushSubResult, anySessionResult] = await Promise.all([
+  const [childResult, dailySessionResult, todayMomentsResult, lastFeedbackResult, schoolActionsResult, schoolConnectionResult, agreementResult, questsCountResult, pushSubResult, anySessionResult, anySchoolActionResult] = await Promise.all([
     supabase.from('children').select('name, age_band, stage_id, streak_weeks, actions_this_week').eq('parent_id', user.id).eq('is_primary', true).single(),
     supabase.from('daily_sessions').select('completed_at').eq('user_id', user.id).eq('session_date', today).maybeSingle(),
     supabase.from('daily_moments').select('id, title, category, age_bands, icon, science_brief, digi_opener').eq('active', true).order('sort_order').limit(20),
     supabase.from('digi_feedback').select('feedback_date, question, parent_response, digi_insight').eq('user_id', user.id).not('parent_response', 'is', null).gte('feedback_date', sevenDaysAgo).order('feedback_date', { ascending: false }).limit(1).maybeSingle(),
-    supabase.from('school_actions').select('id, kind, title, detail, due_date').eq('user_id', user.id).eq('status', 'open').order('due_date', { ascending: true, nullsFirst: false }).limit(12),
+    supabase.from('school_actions').select('id, kind, title, detail, due_date, sent_to_child, recurs_weekday, auto_send_to_child').eq('user_id', user.id).eq('status', 'open').order('due_date', { ascending: true, nullsFirst: false }).limit(20),
     supabase.from('school_connections').select('id').eq('user_id', user.id).eq('active', true).maybeSingle(),
     supabase.from('family_agreements').select('id').eq('user_id', user.id).limit(1).maybeSingle(),
     supabase.from('family_quests').select('id', { count: 'exact', head: true }).eq('user_id', user.id).eq('active', true),
     supabase.from('push_subscriptions').select('endpoint').eq('user_id', user.id).limit(1).maybeSingle(),
     supabase.from('daily_sessions').select('id').eq('user_id', user.id).limit(1).maybeSingle(),
+    // Any school action ever added, connected inbox or typed by hand, done
+    // or dismissed or still open: either path is the setup step complete,
+    // and once complete it should stay complete, not flip back off the
+    // moment the open list empties out.
+    supabase.from('school_actions').select('id').eq('user_id', user.id).limit(1).maybeSingle(),
   ])
 
   const child = childResult.data
@@ -69,7 +76,7 @@ export default async function DashboardPage() {
   const setupFlags = {
     agreement: !!agreementResult.data,
     quests: (questsCountResult.count ?? 0) > 0,
-    school: hasSchoolConnection,
+    school: hasSchoolConnection || !!anySchoolActionResult.data,
     push: !!pushSubResult.data,
     daily: !!anySessionResult.data,
   }
@@ -165,6 +172,8 @@ export default async function DashboardPage() {
 
       {/* The setup path: every service visible as a step, foundations first */}
       <SetupPath flags={setupFlags} />
+      <SetupNudge flags={setupFlags} />
+      <SetupUnlockToast flags={setupFlags} />
 
       {/* DiGi leads: proactive watch fors, tips and parent care */}
       <DigiPrompts />
@@ -279,8 +288,13 @@ export default async function DashboardPage() {
         childName={child?.name ?? null}
       />
 
-      {/* Things you need to know: open school actions from forwarded school emails */}
-      <SchoolActionsCard actions={schoolActions} />
+      {/* Things you need to know: open school actions from forwarded school
+          emails, or added by hand. The id is the anchor the setup path's
+          school step points at, so Go lands right here, not on a separate
+          page the parent then has to hunt through for the add form. */}
+      <div id="school-actions">
+        <SchoolActionsCard actions={schoolActions} childName={child?.name} />
+      </div>
 
       {/* School email promo until a connection is active, dismissible per device */}
       {!hasSchoolConnection && <SchoolPromoCard />}
@@ -428,8 +442,9 @@ export default async function DashboardPage() {
         </div>
       </Link>
 
-      {/* AI module discovery */}
-      <Link href="/dashboard/ai-module" style={{ textDecoration: 'none', display: 'block', marginBottom: '12px' }}>
+      {/* Lessons discovery: the one place every lesson lives, screen
+          habits, safety, wellbeing and AI literacy together */}
+      <Link href="/dashboard/lessons" style={{ textDecoration: 'none', display: 'block', marginBottom: '12px' }}>
         <div style={{
           background: 'var(--stage-3)', border: '1.5px solid var(--stage-3)',
           borderRadius: '16px', padding: '22px',
@@ -437,13 +452,13 @@ export default async function DashboardPage() {
         }}>
           <div>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '6px' }}>
-              New · AI literacy
+              Lessons
             </div>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)', marginBottom: '3px' }}>
-              Understand AI together
+              Learn it together
             </div>
             <div style={{ fontSize: '13px', color: 'var(--ink)' }}>
-              Deepfakes, chatbots, and using it well. Calm lessons for every age.
+              Screen habits, safety, wellbeing and AI literacy. Calm lessons for every age.
             </div>
           </div>
           <span style={{ fontSize: '18px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>

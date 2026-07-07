@@ -254,6 +254,13 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
 }
 @media (min-width: 768px) { .bottom-tab-bar { display: none; } }
 
+/* While a text input has focus and the on screen keyboard is up, the
+   global tab bar and the page's own compose bar both try to pin
+   themselves above the keyboard, stacking messily. The tab bar steps
+   aside for the duration, the compose bar is the only bottom bar that
+   matters while typing. */
+body.gc-input-focused .bottom-tab-bar { display: none; }
+
 .tab-item {
   display: flex;
   flex-direction: column;
@@ -272,8 +279,14 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
   flex: 1;
   border-radius: 12px;
 }
-.tab-item.active, .tab-item:hover { color: var(--terracotta); }
+.tab-item.active { color: var(--terracotta); font-weight: 800; }
 .tab-item svg { width: 22px; height: 22px; }
+/* Hover only for real pointers: on touch, :hover can stick after a tap
+   and leave the wrong tab looking active until another tap clears it,
+   which is exactly what made Home look current while on another page. */
+@media (hover: hover) and (pointer: fine) {
+  .tab-item:hover { color: var(--terracotta); }
+}
 
 /* ── DIGI CARD (app) ── */
 .digi-card {

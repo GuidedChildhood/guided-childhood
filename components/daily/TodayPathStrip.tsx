@@ -12,6 +12,9 @@ import type { TodayLoopTask } from '@/lib/pathway/daily-tasks'
 // in grey. Every node is a link straight to its task.
 
 const NODE_SIZE = 46
+// Room above each node for DiGi plus the new instruction bubble stacked
+// on top of the character, so neither ever clips the header above.
+const TOP_OFFSET = 72
 
 // What each step actually involves, shown in the Next banner so the
 // parent knows what they are walking into before they tap.
@@ -73,8 +76,16 @@ export default function TodayPathStrip({ tasks }: { tasks: TodayLoopTask[] }) {
         .todaypath-pulse-ring {
           animation: todaypath-pulse 1.8s ease-out infinite;
         }
+        @keyframes todaypath-throb {
+          0%, 100% { transform: scale(1);    box-shadow: 0 0 0 5px var(--terracotta-lt), 0 0 10px 1px rgba(224,122,63,0.35); }
+          50%      { transform: scale(1.1);  box-shadow: 0 0 0 8px var(--terracotta-lt), 0 0 20px 6px rgba(224,122,63,0.6);  }
+        }
+        .todaypath-throb {
+          animation: todaypath-throb 1.4s ease-in-out infinite;
+        }
         @media (prefers-reduced-motion: reduce) {
           .todaypath-pulse-ring { animation: none; opacity: 0.35; }
+          .todaypath-throb { animation: none; }
         }
       `}</style>
 
@@ -87,25 +98,38 @@ export default function TodayPathStrip({ tasks }: { tasks: TodayLoopTask[] }) {
         </span>
       </div>
 
-      <div ref={stripRef} style={{ position: 'relative', paddingTop: '40px' }}>
-        {/* DiGi stands above the node the parent is on */}
+      <div ref={stripRef} style={{ position: 'relative', paddingTop: `${TOP_OFFSET}px` }}>
+        {/* DiGi stands above the node the parent is on, saying plainly
+            what a tap does. Clamped to the visible width so the bubble
+            never runs off the edge when the current node is first or last. */}
         <div
           style={{
             position: 'absolute',
-            left: `${centre(currentIndex)}%`,
-            top: '40px',
+            left: `${Math.min(82, Math.max(18, centre(currentIndex)))}%`,
+            top: `${TOP_OFFSET}px`,
             transform: 'translate(-50%, -100%)',
             pointerEvents: 'none',
             zIndex: 2,
+            display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px',
           }}
         >
+          {!allDone && (
+            <span style={{
+              background: 'var(--deep-teal)', color: '#fff',
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '10.5px',
+              padding: '5px 10px', borderRadius: '100px', whiteSpace: 'nowrap',
+              boxShadow: '0 3px 10px rgba(23,60,70,0.3)', marginBottom: '2px',
+            }}>
+              Tap the glow, do this next
+            </span>
+          )}
           <DigiCharacter mood={allDone ? 'happy' : 'idle'} size={38} />
         </div>
 
         {/* Connector line, with the walked part in butter */}
         <div style={{
           position: 'absolute',
-          top: `${40 + NODE_SIZE / 2 - 2}px`,
+          top: `${TOP_OFFSET + NODE_SIZE / 2 - 2}px`,
           left: `${centre(0)}%`,
           right: `${100 - centre(tasks.length - 1)}%`,
           height: '4px',
@@ -155,20 +179,23 @@ export default function TodayPathStrip({ tasks }: { tasks: TodayLoopTask[] }) {
                       }}
                     />
                   )}
-                  <div style={{
-                    width: '100%', height: '100%',
-                    borderRadius: '50%',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    background: isDoneNode ? look.fill : '#fff',
-                    border: isDoneNode
-                      ? '2.5px solid ' + look.fill
-                      : isCurrent
-                      ? '3px solid var(--terracotta)'
-                      : '2.5px solid var(--border)',
-                    boxShadow: isCurrent ? '0 0 0 5px var(--terracotta-lt)' : 'none',
-                    fontSize: '17px',
-                    filter: !isDoneNode && !isCurrent ? 'grayscale(1) opacity(0.55)' : 'none',
-                  }}>
+                  <div
+                    className={isCurrent ? 'todaypath-throb' : undefined}
+                    style={{
+                      width: '100%', height: '100%',
+                      borderRadius: '50%',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      background: isDoneNode ? look.fill : '#fff',
+                      border: isDoneNode
+                        ? '2.5px solid ' + look.fill
+                        : isCurrent
+                        ? '3px solid var(--terracotta)'
+                        : '2.5px solid var(--border)',
+                      boxShadow: isCurrent ? '0 0 0 5px var(--terracotta-lt)' : 'none',
+                      fontSize: '17px',
+                      filter: !isDoneNode && !isCurrent ? 'grayscale(1) opacity(0.55)' : 'none',
+                    }}
+                  >
                     {isDoneNode ? (
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                         <path d="M5 12.5l4.5 4.5L19 7.5" stroke={look.tick} strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />

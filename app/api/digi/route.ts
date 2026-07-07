@@ -72,6 +72,8 @@ YOUR VOICE:
 - End with the next concrete action. Always.
 - 3 to 5 sentences for most responses. Longer only when a specific how-to genuinely requires it.
 
+MESSAGE FORMAT: you are texting, not emailing. Write in short chat messages, the way a good friend texts, never a wall of one long paragraph. Break your reply into 2 to 4 separate messages, each one just a sentence or two doing a single job (the answer, then the reasoning, then the one thing to do tonight). Put a blank line between each message, that blank line is what turns them into separate bubbles on the parent's screen. Keep every individual message short enough to read in one glance, a busy parent is reading this one handed.
+
 REFLECTIVE QUESTION RULE:
 At the end of every response, after your main advice, add a separator line (---) and one short, specific reflective question on a new line. This question must:
 - Be answerable in one sentence
@@ -219,7 +221,7 @@ export async function POST(request: Request) {
       : Promise.resolve({ data: null }),
     supabase
       .from('concerns')
-      .select('label, status, times_flagged')
+      .select('slug, label, status, times_flagged')
       .eq('user_id', user.id)
       .in('status', ['open', 'improving'])
       .order('last_flagged_at', { ascending: false })
@@ -383,25 +385,50 @@ export async function POST(request: Request) {
 
     // DiGi learns: extract one durable memory from the exchange when there is
     // one worth keeping, so future conversations start from what is known.
+    // When the memory is a concern, it also joins the same concerns ledger
+    // Right now and the daily moments tagger write to, so a worry raised only
+    // in chat still gets carried forward and asked about again tomorrow,
+    // exactly like one flagged any other way. Existing slugs are offered back
+    // so a repeat of the same theme bumps the same row instead of forking it.
     try {
+      const existingConcernList = liveConcerns.length > 0
+        ? liveConcerns.map(c => `${c.slug}: ${c.label}`).join('; ')
+        : 'none yet'
       const extraction = await callDigi({
         model: DIGI_MODEL,
-        max_tokens: 200,
+        max_tokens: 220,
         messages: [{
           role: 'user',
-          content: `From this parent coaching exchange, extract at most ONE durable fact worth remembering for future conversations (a concern, a win, a preference, or lasting context about the child or family). Skip small talk and one off logistics. If nothing durable, reply exactly NONE.\n\nParent: ${message}\nAdvisor: ${mainResponse.slice(0, 600)}\n\nReply as JSON only: {"kind":"observation|concern|win|preference|context","content":"one sentence, third person"} or NONE`,
+          content: `From this parent coaching exchange, extract at most ONE durable fact worth remembering for future conversations (a concern, a win, a preference, or lasting context about the child or family). Skip small talk and one off logistics. If nothing durable, reply exactly NONE.\n\nParent: ${message}\nAdvisor: ${mainResponse.slice(0, 600)}\n\nThis family's existing tracked concerns (slug: label): ${existingConcernList}\n\nReply as JSON only: {"kind":"observation|concern|win|preference|context","content":"one sentence, third person","concern_slug":"kebab-case-2-to-4-words","concern_label":"Short label, sentence case"} or NONE. Only include concern_slug and concern_label when kind is concern: reuse an existing slug above verbatim if this is the same theme, otherwise invent a new short one.`,
         }],
       })
       const memText = extraction.content[0]?.type === 'text' ? extraction.content[0].text.trim() : 'NONE'
       if (memText !== 'NONE') {
         const memMatch = memText.match(/\{[\s\S]*\}/)
         if (memMatch) {
-          const mem = JSON.parse(memMatch[0]) as { kind: string; content: string }
+          const mem = JSON.parse(memMatch[0]) as { kind: string; content: string; concern_slug?: string; concern_label?: string }
           if (['observation', 'concern', 'win', 'preference', 'context'].includes(mem.kind) && mem.content) {
             await supabase.from('digi_memory').insert({
               user_id: user.id, child_id: child?.id ?? null,
               kind: mem.kind, content: mem.content.slice(0, 400), source: 'chat',
             })
+
+            if (mem.kind === 'concern' && mem.concern_slug && mem.concern_label) {
+              const slug = mem.concern_slug.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60)
+              if (slug) {
+                const prior = liveConcerns.find(c => c.slug === slug)
+                await supabase.from('concerns').upsert({
+                  user_id: user.id,
+                  child_id: child?.id ?? null,
+                  source: 'digi',
+                  slug,
+                  label: mem.concern_label.slice(0, 200),
+                  status: prior ? (prior.status === 'resolved' ? 'open' : prior.status) : 'open',
+                  times_flagged: prior ? prior.times_flagged + 1 : 1,
+                  last_flagged_at: new Date().toISOString(),
+                }, { onConflict: 'user_id,slug' })
+              }
+            }
           }
         }
       }

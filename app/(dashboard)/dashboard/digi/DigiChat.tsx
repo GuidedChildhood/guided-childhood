@@ -13,6 +13,38 @@ interface Message {
   content: string
 }
 
+// Chat protocol, made bulletproof: DiGi is told to write short texts
+// separated by blank lines, but a reply is still rendered as proper
+// chat bubbles even if a paragraph comes back long. Blank lines split
+// first, then anything still over ~200 characters is split again on
+// sentence boundaries into two sentence chunks, so the premium chat
+// look never depends on the model getting the format exactly right.
+const MAX_BUBBLE_CHARS = 200
+
+function splitIntoBubbles(content: string): string[] {
+  const paragraphs = content.split(/\n{2,}/).map(s => s.trim()).filter(Boolean)
+  const bubbles: string[] = []
+  for (const para of paragraphs) {
+    if (para.length <= MAX_BUBBLE_CHARS) {
+      bubbles.push(para)
+      continue
+    }
+    const sentences = para.split(/(?<=[.?!])\s+(?=[A-Z0-9"'])/).filter(Boolean)
+    let chunk = ''
+    for (const s of sentences) {
+      const candidate = chunk ? `${chunk} ${s}` : s
+      if (candidate.length > MAX_BUBBLE_CHARS && chunk) {
+        bubbles.push(chunk)
+        chunk = s
+      } else {
+        chunk = candidate
+      }
+    }
+    if (chunk) bubbles.push(chunk)
+  }
+  return bubbles
+}
+
 export default function DigiChat({
   initialMessages,
   initialCount,
@@ -55,28 +87,69 @@ export default function DigiChat({
   )
 
   const messagesEndRef = useRef<HTMLDivElement>(null)
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
   const FREE_LIMIT = 3
 
   const [deviceKey, setDeviceKey] = useState<string | null>(null)
 
+  // A prompt still waiting to be finished ("My situation: ") never goes
+  // into the box itself, that read as a messy half written sentence. It
+  // becomes a small topic tag above a clean, empty box instead: the
+  // parent sees what they are continuing without typing inside a wall
+  // of someone else's words, and their own short answer is quietly
+  // joined onto the full sentence only when it is actually sent.
+  const [continuingPrefix, setContinuingPrefix] = useState<string | null>(null)
+  const [continuingTopic, setContinuingTopic] = useState<string | null>(null)
+
+  // Arriving from Help now, a moment card, a script or a lesson with a
+  // ready made question: send it straight away so the conversation is
+  // already under way, rather than dumping a long sentence into a one
+  // line box where it sits half clipped and looks broken.
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search)
     const q = searchParams.get('q')
-    if (q) setInput(q)
     const device = searchParams.get('device')
     if (device) setDeviceKey(device)
+    if (!q) return
+    window.history.replaceState(null, '', window.location.pathname)
+    if (/:\s*$/.test(q)) {
+      const topicMatch = q.match(/:\s*([^.]+)\.[^.]*:\s*$/)
+      setContinuingTopic(topicMatch?.[1]?.trim() ?? 'this script')
+      setContinuingPrefix(q)
+      requestAnimationFrame(() => textareaRef.current?.focus())
+    } else {
+      sendMessage(q, device ?? undefined)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  // The compose box grows to fit what is in it, including a prefilled
+  // question, instead of clipping to one line and hiding the rest.
+  useEffect(() => {
+    const el = textareaRef.current
+    if (!el) return
+    el.style.height = 'auto'
+    el.style.height = `${Math.min(el.scrollHeight, 160)}px`
+  }, [input])
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages, reflectionQuestion])
 
-  async function sendMessage(text?: string) {
-    const messageText = text ?? input
-    if (!messageText.trim() || loading) return
+  // Safety net: a tap that navigates away while a textarea is still
+  // focused can skip the blur handler, which would leave the tab bar
+  // hidden on the next page. Always clear it on unmount.
+  useEffect(() => () => { document.body.classList.remove('gc-input-focused') }, [])
+
+  async function sendMessage(text?: string, deviceOverride?: string) {
+    const typed = text ?? input
+    if (!typed.trim() || loading) return
+    const messageText = text ? typed : continuingPrefix ? `${continuingPrefix}${typed}` : typed
 
     setMessages(prev => [...prev, { role: 'user', content: messageText }])
     setInput('')
+    setContinuingPrefix(null)
+    setContinuingTopic(null)
     setLoading(true)
     setError('')
 
@@ -91,7 +164,7 @@ export default function DigiChat({
       const res = await fetch('/api/digi', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: messageText, device_key: deviceKey }),
+        body: JSON.stringify({ message: messageText, device_key: deviceOverride ?? deviceKey }),
         signal: controller.signal,
       })
 
@@ -239,10 +312,10 @@ export default function DigiChat({
         {messages.length === 0 && (
           <div style={{ paddingTop: '8px' }}>
             <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: '16px', padding: '20px', marginBottom: '20px' }}>
-              <p style={{ fontSize: '15px', color: 'var(--ink)', lineHeight: 1.7, marginBottom: '8px', fontWeight: 500 }}>
+              <p style={{ fontSize: '17px', color: 'var(--ink)', lineHeight: 1.55, marginBottom: '8px', fontWeight: 600 }}>
                 I&apos;m DiGi, your digital parenting advisor.
               </p>
-              <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>
+              <p style={{ fontSize: '16px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
                 I&apos;m trained on the research and I get more useful the more you tell me. What&apos;s on your mind?
               </p>
             </div>
@@ -335,42 +408,59 @@ export default function DigiChat({
           </div>
         )}
 
-        {messages.map((msg, i) => (
-          <div
-            key={i}
-            style={{
-              display: 'flex',
-              justifyContent: msg.role === 'user' ? 'flex-end' : 'flex-start',
-              marginBottom: '12px',
-              alignItems: 'flex-end',
-              gap: 8,
-            }}
-          >
-            {msg.role === 'assistant' && (
-              <div style={{ marginBottom: 2 }}>
-                <DigiAvatar size={26} />
+        {messages.map((msg, i) => {
+          // Chat protocol: every short thought in a DiGi reply becomes its
+          // own bubble, the way real messaging apps stack a multi part
+          // message. The avatar sits once, beside the last bubble, and
+          // consecutive bubbles in the group sit close with softened inner
+          // corners, the iMessage grouping look rather than separate cards.
+          const bubbles = msg.role === 'assistant' ? splitIntoBubbles(msg.content) : [msg.content]
+          if (bubbles.length === 0) return null
+          return (
+            <div key={i} style={{ display: 'flex', justifyContent: msg.role === 'user' ? 'flex-end' : 'flex-start', marginBottom: '18px' }}>
+              <div style={{ display: 'flex', alignItems: 'flex-end', gap: 8, maxWidth: '86%' }}>
+                {msg.role === 'assistant' && (
+                  <div style={{ width: 30, flexShrink: 0, marginBottom: 2 }}>
+                    <DigiAvatar size={30} />
+                  </div>
+                )}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', minWidth: 0 }}>
+                  {bubbles.map((text, b) => {
+                    const first = b === 0
+                    const last = b === bubbles.length - 1
+                    return (
+                      <div
+                        key={b}
+                        style={{
+                          padding: '13px 17px',
+                          borderRadius: msg.role === 'user'
+                            ? `20px ${first ? '20px' : '8px'} ${last ? '5px' : '8px'} 20px`
+                            : `${first ? '20px' : '8px'} 20px 20px ${last ? '5px' : '8px'}`,
+                          background: msg.role === 'user' ? 'var(--terracotta)' : 'var(--white, #fff)',
+                          color: msg.role === 'user' ? 'var(--ink)' : 'var(--ink)',
+                          boxShadow: msg.role === 'assistant'
+                            ? '0 1px 1px rgba(26,26,46,0.04), 0 4px 14px rgba(26,26,46,0.07)'
+                            : '0 2px 0 var(--terracotta-dark)',
+                          fontSize: '16.5px',
+                          lineHeight: 1.5,
+                          whiteSpace: 'pre-wrap',
+                          fontWeight: 500,
+                        }}
+                      >
+                        {text}
+                      </div>
+                    )
+                  })}
+                </div>
               </div>
-            )}
-            <div style={{
-              maxWidth: '82%',
-              padding: '13px 16px',
-              borderRadius: msg.role === 'user' ? '16px 16px 4px 16px' : '16px 16px 16px 4px',
-              background: msg.role === 'user' ? 'var(--stage-2)' : '#fff',
-              border: msg.role === 'user' ? 'none' : '1px solid var(--border)',
-              color: 'var(--ink)',
-              fontSize: '15px',
-              lineHeight: 1.7,
-              whiteSpace: 'pre-wrap',
-            }}>
-              {msg.content}
             </div>
-          </div>
-        ))}
+          )
+        })}
 
         {loading && !streamingReply && (
-          <div style={{ display: 'flex', justifyContent: 'flex-start', marginBottom: '12px', alignItems: 'flex-end', gap: 8 }}>
-            <DigiAvatar size={26} mood="thinking" />
-            <div style={{ padding: '13px 16px', background: 'var(--white)', border: '1px solid var(--border)', borderRadius: '16px 16px 16px 4px', display: 'flex', gap: '5px', alignItems: 'center' }}>
+          <div style={{ display: 'flex', justifyContent: 'flex-start', marginBottom: '18px', alignItems: 'flex-end', gap: 8 }}>
+            <div style={{ width: 30, flexShrink: 0 }}><DigiAvatar size={30} mood="thinking" /></div>
+            <div style={{ padding: '15px 18px', background: 'var(--white)', borderRadius: '20px 20px 20px 5px', boxShadow: '0 1px 1px rgba(26,26,46,0.04), 0 4px 14px rgba(26,26,46,0.07)', display: 'flex', gap: '5px', alignItems: 'center' }}>
               {[0, 1, 2].map(i => (
                 <div key={i} style={{ width: '7px', height: '7px', background: 'var(--ink-light)', borderRadius: '50%', animation: `bounce 1.2s ease-in-out ${i * 0.2}s infinite` }} />
               ))}
@@ -429,8 +519,8 @@ export default function DigiChat({
                 marginBottom: 10,
                 boxSizing: 'border-box',
               }}
-              onFocus={e => (e.currentTarget.style.borderColor = 'var(--terracotta)')}
-              onBlur={e => (e.currentTarget.style.borderColor = 'var(--border)')}
+              onFocus={e => { e.currentTarget.style.borderColor = 'var(--terracotta)'; document.body.classList.add('gc-input-focused') }}
+              onBlur={e => { e.currentTarget.style.borderColor = 'var(--border)'; document.body.classList.remove('gc-input-focused') }}
             />
             <div style={{ display: 'flex', gap: 8 }}>
               <button
@@ -494,12 +584,37 @@ export default function DigiChat({
             </Link>
           </div>
         ) : (
-          <form onSubmit={e => { e.preventDefault(); sendMessage() }} style={{ display: 'flex', gap: '10px', alignItems: 'flex-end' }}>
+          <form onSubmit={e => { e.preventDefault(); sendMessage() }} style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            {continuingTopic && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span style={{
+                  display: 'inline-flex', alignItems: 'center', gap: '6px',
+                  background: 'var(--stage-2)', border: '1px solid var(--border)',
+                  borderRadius: '100px', padding: '5px 12px',
+                  fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700,
+                  color: 'var(--ink-soft)', maxWidth: '100%',
+                }}>
+                  <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    Continuing: {continuingTopic}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => { setContinuingPrefix(null); setContinuingTopic(null) }}
+                    aria-label="Stop continuing this topic"
+                    style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', color: 'var(--ink-muted)', fontSize: '13px', lineHeight: 1, flexShrink: 0 }}
+                  >
+                    ×
+                  </button>
+                </span>
+              </div>
+            )}
+            <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-end' }}>
             <textarea
+              ref={textareaRef}
               value={input}
               onChange={e => setInput(e.target.value)}
               onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage() } }}
-              placeholder="Ask DiGi anything about your child's digital world..."
+              placeholder={continuingTopic ? 'What is happening, in your own words...' : "Ask DiGi anything about your child's digital world..."}
               rows={1}
               style={{
                 flex: 1,
@@ -508,17 +623,17 @@ export default function DigiChat({
                 border: '1.5px solid var(--border)',
                 background: 'var(--cream)',
                 fontFamily: 'var(--font-body)',
-                fontSize: '15px',
+                fontSize: '16.5px',
                 color: 'var(--ink)',
                 resize: 'none',
                 outline: 'none',
                 lineHeight: 1.5,
-                maxHeight: '120px',
+                maxHeight: '160px',
                 overflowY: 'auto',
                 transition: 'border-color 0.15s',
               }}
-              onFocus={e => (e.currentTarget.style.borderColor = 'var(--terracotta)')}
-              onBlur={e => (e.currentTarget.style.borderColor = 'var(--border)')}
+              onFocus={e => { e.currentTarget.style.borderColor = 'var(--terracotta)'; document.body.classList.add('gc-input-focused') }}
+              onBlur={e => { e.currentTarget.style.borderColor = 'var(--border)'; document.body.classList.remove('gc-input-focused') }}
             />
             <button
               type="submit"
@@ -528,6 +643,7 @@ export default function DigiChat({
             >
               Send
             </button>
+            </div>
           </form>
         )}
       </div>

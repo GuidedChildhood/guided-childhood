@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 // The Right Now button: the emergency entry point in the centre of the
 // mobile tab bar. A child is crying because the TV went off and the parent
@@ -60,6 +61,7 @@ function BoltIcon() {
 }
 
 export default function RightNowButton() {
+  const router = useRouter()
   const [open, setOpen] = useState(false)
   const [entered, setEntered] = useState(false)
   const [mounted, setMounted] = useState(false)
@@ -117,6 +119,16 @@ export default function RightNowButton() {
   }
 
   function pick(key: SituationKey, label: string) {
+    // Something else has no keywords to match against, so the rescue
+    // matcher was just grabbing whatever script scored first, a near
+    // random result. There is no single right script for "something
+    // else", so send the parent to browse the whole library instead.
+    if (key === 'something-else') {
+      closeSheet()
+      router.push('/dashboard/scripts')
+      return
+    }
+
     // Optimistic: flip to the card view immediately, words pulse in.
     setPicked(key)
     setPickedLabel(label)

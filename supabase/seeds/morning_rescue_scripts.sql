@@ -1,4 +1,4 @@
--- Guided Childhood — Morning rescue scripts (3 scripts, sort orders 501 to 503)
+-- Guided Childhood — Morning rescue scripts (3 scripts, sort orders 9501 to 9503)
 -- The moment BEFORE the morning TV battle: they will not get up at all,
 -- usually because last night ran late and the routine slipped. The arc
 -- every one of these carries: this is common, no panic, no shouting, no
@@ -20,7 +20,7 @@ values
   'Fix the night, not the morning. Tell them the plan this afternoon while everyone is calm, never at bedtime: screens off thirty minutes earlier than usual, wind down starts straight after dinner, and tomorrow morning gets ten extra minutes of buffer. One calm early night usually repairs the whole rhythm.',
   'none',
   true,
-  501
+  9501
 ),
 
 (
@@ -34,7 +34,7 @@ values
   'Reset the routine together this afternoon: agree the screens off time, put the tablet to bed in the kitchen at that time, and let them set their own alarm for the morning. A child who set the alarm argues with the clock, not with you.',
   'none',
   true,
-  502
+  9502
 ),
 
 (
@@ -48,5 +48,5 @@ values
   'Tonight, not this morning, agree the reset together: screens out of the bedroom at an agreed time, their own alarm, their own wake up responsibility for the rest of the week. Write it into the family agreement so the rule belongs to the house, not to your mood.',
   'none',
   true,
-  503
+  9503
 );

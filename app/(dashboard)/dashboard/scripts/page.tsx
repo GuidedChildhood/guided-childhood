@@ -80,7 +80,17 @@ export default async function ScriptsPage() {
     return { stageId, meta: STAGE_META[stageId], items: sorted }
   }).filter(group => group.items.length > 0)
 
-  const freeCount = scripts.filter(s => s.is_free).length
+  // The promise is 5 free scripts, but is_free marks every script that is
+  // ELIGIBLE to be a free read (dozens, spanning every panic moment), not
+  // a personal allowance. Counting the flag itself never changed as this
+  // parent read more, which is the "stuck at some big number, never
+  // updates" bug. The real, personal, moving number is how many DISTINCT
+  // free scripts THIS parent has actually opened so far.
+  const FREE_SCRIPT_LIMIT = 5
+  const freeScriptOrders = new Set(scripts.filter(s => s.is_free).map(s => s.sort_order))
+  const freeScriptsReadCount = [...completedOrders].filter(o => freeScriptOrders.has(o)).length
+  const freeScriptsLeft = Math.max(0, FREE_SCRIPT_LIMIT - freeScriptsReadCount)
+  const freeAllowanceUsedUp = !isPaid && freeScriptsReadCount >= FREE_SCRIPT_LIMIT
 
   return (
     <div style={{ maxWidth: '720px', margin: '0 auto', padding: '24px 20px' }}>
@@ -112,16 +122,26 @@ export default async function ScriptsPage() {
       )}
 
       {!isPaid && (
-        <div style={{ background: 'var(--stage-5)', border: '2px solid var(--stage-5)', borderRadius: '16px', padding: '16px 20px', marginBottom: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
-          <div>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--terracotta)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Free plan</span>
-            <p style={{ fontSize: '14px', color: 'var(--ink)', marginTop: '4px' }}>
-              You have {freeCount} free scripts. Membership unlocks the full library of 100 plus, every stage from 4 to 16.
-            </p>
+        <div style={{ background: 'var(--stage-5)', border: '2px solid var(--stage-5)', borderRadius: '16px', padding: '16px 20px', marginBottom: '24px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px', flexWrap: 'wrap', marginBottom: '10px' }}>
+            <div>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--terracotta)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Free plan</span>
+              <p style={{ fontSize: '14px', color: 'var(--ink)', marginTop: '4px', fontWeight: 600 }}>
+                {freeAllowanceUsedUp
+                  ? "You have opened your 5 free scripts. They're yours to reread any time."
+                  : `${freeScriptsReadCount} of 5 free scripts opened, ${freeScriptsLeft} left to try.`}
+              </p>
+            </div>
+            <Link href="/dashboard/upgrade" className="btn btn-gold" style={{ flexShrink: 0, padding: '10px 20px', fontSize: '12px' }}>
+              Unlock all
+            </Link>
           </div>
-          <Link href="/dashboard/upgrade" className="btn btn-gold" style={{ flexShrink: 0, padding: '10px 20px', fontSize: '12px' }}>
-            Unlock all
-          </Link>
+          <div style={{ height: '8px', borderRadius: '8px', background: 'rgba(0,0,0,0.08)', overflow: 'hidden', marginBottom: '10px' }}>
+            <div style={{ height: '100%', borderRadius: '8px', background: 'var(--terracotta)', width: `${Math.min(100, (freeScriptsReadCount / FREE_SCRIPT_LIMIT) * 100)}%`, transition: 'width 0.4s ease' }} />
+          </div>
+          <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
+            Scripts are one part of it. Your daily path on the Home tab, a moment card, a check in, and a few free DiGi messages, never runs out and never needs membership. That is where the everyday habit lives, keep that going regardless.
+          </p>
         </div>
       )}
 
@@ -143,8 +163,11 @@ export default async function ScriptsPage() {
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {group.items.map(script => {
-              const isLocked = !isPaid && !script.is_free
               const isDone = completedOrders.has(script.sort_order)
+              // A free script already opened stays open forever. A free
+              // script never opened locks once the 5 are used up, same as
+              // a script that was never flagged free at all.
+              const isLocked = !isPaid && !isDone && (!script.is_free || freeAllowanceUsedUp)
               const isMatch = matchCategory === script.category
               return (
                 <Link
