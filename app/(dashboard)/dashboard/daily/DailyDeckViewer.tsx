@@ -14,6 +14,7 @@ export type DailyCard = {
   body: string
   accent: string
   icon: string
+  action?: { label: string; href: string }
 }
 
 // ── DECK MOTION ──────────────────────────────────────────────────────────────
@@ -29,21 +30,23 @@ type Phase = 'rest' | 'flip' | 'slide' | 'back'
 
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms))
 
-// Card tints rotate through the Good Inside blue and green pastels.
-// Butter stays reserved for the primary action button and the focus card.
+// Card looks match the full screen moment cards exactly: a deep
+// saturated band with white type over a pale tint body, the Good Inside
+// deck feel in the Guided Childhood palette. Butter stays reserved for
+// the focus card and action buttons.
 type Palette = { header: string; body: string; text: string }
 
 const BUTTER: Palette = {
-  header: 'var(--tint-amber)',
-  body: 'var(--terracotta-lt)',
-  text: 'var(--ink)',
+  header: '#E3A93C',
+  body: '#FBF0D7',
+  text: '#fff',
 }
 
 const PALETTES: Palette[] = [
-  { header: 'var(--stage-2-bold)', body: 'var(--stage-2)', text: 'var(--stage-2-text)' },
-  { header: 'var(--tint-blue)', body: 'var(--tint-sage)', text: 'var(--stage-2-text)' },
-  { header: 'var(--stage-2-bold)', body: 'var(--tint-green)', text: 'var(--stage-2-text)' },
-  { header: 'var(--tint-blue)', body: 'var(--stage-2)', text: 'var(--stage-2-text)' },
+  { header: '#3D739A', body: '#D8E8F8', text: '#fff' },
+  { header: '#2F8F6B', body: '#DEF0E7', text: '#fff' },
+  { header: '#173C46', body: '#DCE9EC', text: '#fff' },
+  { header: '#3D739A', body: '#E8F0EE', text: '#fff' },
 ]
 
 function paletteFor(card: DailyCard, index: number): Palette {
@@ -87,17 +90,17 @@ function CardFace({ card, palette, blank = false }: { card: DailyCard; palette: 
       }}>
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{
-            fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700,
+            fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700,
             letterSpacing: '.18em', textTransform: 'uppercase',
-            color: palette.text, opacity: 0.75, marginBottom: '6px',
+            color: palette.text, opacity: 0.85, marginBottom: '6px',
             ...hide,
           }}>
             {card.eyebrow}
           </div>
           <div style={{
-            fontFamily: 'var(--font-display)', fontWeight: 800,
-            fontSize: 'clamp(1.15rem, 4vw, 1.5rem)',
-            color: palette.text, lineHeight: 1.15, letterSpacing: '-0.02em',
+            fontFamily: 'var(--font-display)', fontWeight: 900,
+            fontSize: 'clamp(1.35rem, 5.2vw, 1.75rem)',
+            color: palette.text, lineHeight: 1.12, letterSpacing: '-0.02em',
             ...hide,
           }}>
             {card.headline}
@@ -121,10 +124,10 @@ function CardFace({ card, palette, blank = false }: { card: DailyCard; palette: 
       </div>
 
       {/* Card body */}
-      <div style={{ padding: '28px 24px 34px', background: palette.body, flex: 1 }}>
+      <div style={{ padding: '28px 24px 30px', background: palette.body, flex: 1, display: 'flex', flexDirection: 'column' }}>
         <p style={{
-          fontSize: 'clamp(16px, 4vw, 19px)',
-          lineHeight: 1.65,
+          fontSize: 'clamp(18px, 4.6vw, 21px)',
+          lineHeight: 1.62,
           color: 'var(--ink)',
           margin: 0,
           fontWeight: 500,
@@ -133,6 +136,26 @@ function CardFace({ card, palette, blank = false }: { card: DailyCard; palette: 
         }}>
           {card.body}
         </p>
+        {card.action && (
+          <a
+            href={card.action.href}
+            onClick={e => e.stopPropagation()}
+            style={{
+              marginTop: 'auto', paddingTop: '22px',
+              display: 'block', ...hide,
+            }}
+          >
+            <span style={{
+              display: 'inline-block', width: '100%', textAlign: 'center',
+              background: 'var(--terracotta)', color: 'var(--ink)',
+              borderRadius: '14px', padding: '14px 18px',
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px',
+              boxShadow: '0 4px 0 var(--terracotta-dark)',
+            }}>
+              {card.action.label}
+            </span>
+          </a>
+        )}
       </div>
     </div>
   )
@@ -312,13 +335,13 @@ export default function DailyDeckViewer({
             background: '#fff', border: '1.5px solid var(--border)',
             borderRadius: '20px', padding: '22px', marginBottom: '16px',
           }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--stage-2-text)', marginBottom: '10px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--stage-2-text)', marginBottom: '10px' }}>
               Quick tracker check in
             </div>
-            <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: '16px' }}>
+            <p style={{ fontSize: '16.5px', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.5, marginBottom: '16px' }}>
               How is your child doing with screens this week?
             </p>
-            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
               {['Really well', 'Doing ok', 'Bit of a battle', 'Struggling'].map((label, i) => (
                 <button
                   key={i}
@@ -331,12 +354,12 @@ export default function DailyDeckViewer({
                     }).catch(() => {})
                   }}
                   style={{
-                    padding: '9px 14px', borderRadius: '100px',
-                    border: '1.5px solid var(--border)',
-                    background: 'var(--cream)',
-                    fontFamily: 'var(--font-mono)', fontSize: '11px',
-                    fontWeight: 600, color: 'var(--ink-soft)',
-                    cursor: 'pointer', letterSpacing: '.04em',
+                    padding: '14px 12px', borderRadius: '14px',
+                    border: '2px solid var(--border)',
+                    background: '#fff',
+                    fontFamily: 'var(--font-display)', fontSize: '15px',
+                    fontWeight: 800, color: 'var(--ink)',
+                    cursor: 'pointer', boxShadow: '0 3px 0 var(--border)',
                   }}
                 >
                   {label}
@@ -348,7 +371,7 @@ export default function DailyDeckViewer({
           <div style={{
             background: 'var(--stage-2)', border: '1.5px solid var(--border)',
             borderRadius: '16px', padding: '14px 18px', marginBottom: '16px',
-            fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--ink-soft)',
+            fontFamily: 'var(--font-body)', fontSize: '14.5px', fontWeight: 600, color: 'var(--ink-soft)',
           }}>
             ✓ Added to your tracker
           </div>

@@ -60,13 +60,13 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
       {!(allAnswered && allFolded) ? (
         <>
           <div style={{
-            fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700,
+            fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
             letterSpacing: '.12em', textTransform: 'uppercase',
             color: 'var(--stage-2-text)', marginBottom: '8px',
           }}>
             Yesterday you flagged
           </div>
-          <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.55, marginBottom: '14px' }}>
+          <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.55, marginBottom: '16px' }}>
             One tap each. How did these go today?
           </p>
 
@@ -85,17 +85,14 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
                 }}
               >
                 <div style={{ overflow: 'hidden' }}>
-                  <div style={{
-                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                    gap: '10px', flexWrap: 'wrap', padding: '7px 0',
-                  }}>
+                  <div style={{ padding: '9px 0' }}>
                     <div style={{
-                      fontFamily: 'var(--font-body)', fontSize: '14px', fontWeight: 700,
-                      color: 'var(--ink)', minWidth: 0,
+                      fontFamily: 'var(--font-display)', fontSize: '16.5px', fontWeight: 800,
+                      color: 'var(--ink)', marginBottom: '9px',
                     }}>
                       {c.label}
                     </div>
-                    <div style={{ display: 'flex', gap: '6px', flexShrink: 0 }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px' }}>
                       {CHIPS.map(chip => {
                         const active = chosen === chip.answer
                         return (
@@ -104,17 +101,17 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
                             onClick={() => answer(c.slug, chip.answer)}
                             disabled={!!chosen}
                             style={{
-                              padding: '7px 12px',
-                              borderRadius: '100px',
-                              border: `1.5px solid ${active ? 'var(--terracotta)' : 'var(--border)'}`,
-                              background: active ? 'var(--terracotta-lt)' : 'var(--cream)',
-                              fontFamily: 'var(--font-mono)',
-                              fontSize: '11px',
-                              fontWeight: active ? 700 : 600,
-                              letterSpacing: '.04em',
+                              padding: '12px 8px',
+                              borderRadius: '14px',
+                              border: `2px solid ${active ? 'var(--terracotta)' : 'var(--border)'}`,
+                              background: active ? 'var(--terracotta)' : '#fff',
+                              fontFamily: 'var(--font-display)',
+                              fontSize: '14.5px',
+                              fontWeight: 800,
                               color: active ? 'var(--ink)' : 'var(--ink-soft)',
                               cursor: chosen ? 'default' : 'pointer',
                               opacity: chosen && !active ? 0.4 : 1,
+                              boxShadow: active ? '0 3px 0 var(--terracotta-dark)' : '0 3px 0 var(--border)',
                               transition: 'all 0.5s ease',
                             }}
                           >
@@ -132,7 +129,7 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
       ) : (
         <div style={{
           display: 'flex', alignItems: 'center', gap: '10px',
-          fontFamily: 'var(--font-mono)', fontSize: '12px',
+          fontFamily: 'var(--font-body)', fontSize: '14.5px', fontWeight: 600,
           color: 'var(--ink-soft)',
         }}>
           <span aria-hidden style={{
