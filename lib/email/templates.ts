@@ -96,7 +96,49 @@ export function day2StageEmail(params: {
   }
 }
 
-// 3 · Day 4, the DiGi nudge
+// 3 · Day 3, the full tour: every service, one line each, one link each.
+// Every earlier email is about ONE thing. This is the only one that
+// walks through everything on offer, step by step, so nothing gets
+// missed inside the app itself.
+export function day3TourEmail(params: {
+  parentName: string
+  childName: string
+  unsubscribe: string
+}): EmailContent {
+  const { parentName, childName, unsubscribe } = params
+  const step = (num: number, title: string, body: string, label: string, url: string): string =>
+    `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 22px">
+      <tr>
+        <td width="34" valign="top" style="padding-right:12px">
+          <div style="width:26px;height:26px;border-radius:50%;background:${BUTTER};color:${INK};font-family:'IBM Plex Mono',Menlo,monospace;font-weight:700;font-size:13px;text-align:center;line-height:26px">${num}</div>
+        </td>
+        <td valign="top">
+          <div style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:16px;font-weight:800;color:${INK};margin-bottom:4px">${title}</div>
+          <div style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:14px;line-height:1.6;color:${INK_SOFT};margin-bottom:8px">${body}</div>
+          <a href="${url}" style="font-family:'IBM Plex Mono',Menlo,monospace;font-size:12px;font-weight:700;letter-spacing:0.04em;color:${BUTTER_DARK};text-decoration:none">${label} →</a>
+        </td>
+      </tr>
+    </table>`
+
+  return {
+    subject: `Everything Guided Childhood does for ${childName}, in one email`,
+    html: wrapper(
+      heading(`${parentName}, here is the whole toolkit.`) +
+      p(`Three days in, so here is every piece in one place, what each one is for and where to find it. Save this one, it works as a map any time you are not sure where something lives.`) +
+      step(1, 'Scripts', `The exact words for the moment you are in: what to say, what not to say, and why it works. This is the one to open when a screen fight is happening right now.`, 'Open scripts', `${APP}/dashboard/scripts`) +
+      step(2, 'DiGi', `Your AI advisor for the question too small for a professional and too specific for a book. Ask it anything about ${childName} and screens, any time.`, 'Ask DiGi', `${APP}/dashboard/digi`) +
+      step(3, 'Family Quests', `${childName}'s everyday jobs, packing a bag, getting dressed, being kind, earn stars. Stars buy the screen time you both agree on. They tick, you approve.`, 'Set up quests', `${APP}/dashboard/quests`) +
+      step(4, 'Family Agreement', `The rules decided together, not handed down, covering screens off time, where devices sleep, and what happens when something goes wrong. Signed by both of you.`, 'Build your agreement', `${APP}/dashboard/agreement`) +
+      step(5, 'School emails, caught automatically', `Forward school emails to your private address and PE kit days, forms and deadlines land as reminders here, straight into the platform, never buried in an inbox.`, 'Connect your school', `${APP}/dashboard/school`) +
+      step(6, 'Your Progress page', `Streaks, wellbeing signals and where ${childName} sits on the pathway to 16, all in one view. This is the page that answers is it working.`, 'See your progress', `${APP}/dashboard/tracker`) +
+      step(7, 'Help now', `The gold button at the bottom of every screen. Mid meltdown, tap it, pick the situation, the calm script is on screen in seconds.`, 'Open the dashboard', `${APP}/dashboard`) +
+      p(`Every one of these is built on the actual research on kids, screens and growing up online, not opinion. More on that another time.`),
+      unsubscribe
+    ),
+  }
+}
+
+// 4 · Day 4, the DiGi nudge
 export function day4DigiEmail(params: {
   childName: string
   unsubscribe: string

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { sendEmail, emailConfigured, unsubscribeUrl } from '@/lib/email'
-import { day2StageEmail, day4DigiEmail, day7FounderEmail, weeklyDigestEmail } from '@/lib/email/templates'
+import { day2StageEmail, day3TourEmail, day4DigiEmail, day7FounderEmail, weeklyDigestEmail } from '@/lib/email/templates'
 import { STAGES, getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { FOUNDER_CAP } from '@/lib/stripe'
 
@@ -78,7 +78,7 @@ export async function GET(req: NextRequest) {
     return founderRemaining
   }
 
-  const results: Record<string, number> = { day2: 0, day4: 0, day7: 0, digest: 0, errors: 0 }
+  const results: Record<string, number> = { day2: 0, day3: 0, day4: 0, day7: 0, digest: 0, errors: 0 }
 
   async function deliver(userId: string, email: string, key: string, content: { subject: string; html: string }, counter: string) {
     const { error: logError } = await supabase.from('email_log').insert({ user_id: userId, email_key: key })
@@ -111,6 +111,12 @@ export async function GET(req: NextRequest) {
       await deliver(profile.id, profile.email, 'day2-stage', day2StageEmail({
         childName, stageName: stage.name, stageFocus: stage.focus.toLowerCase(), unsubscribe,
       }), 'day2')
+    }
+
+    if (days >= 3 && !alreadySent(profile.id, 'day3-tour')) {
+      await deliver(profile.id, profile.email, 'day3-tour', day3TourEmail({
+        parentName: name, childName, unsubscribe,
+      }), 'day3')
     }
 
     if (days >= 4 && !alreadySent(profile.id, 'day4-digi')) {
