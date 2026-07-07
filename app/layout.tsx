@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import './globals.css'
 import PwaRegister from '@/components/PwaRegister'
+import UpdateBanner from '@/components/UpdateBanner'
 
 export const metadata: Metadata = {
   title: {
@@ -55,6 +56,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <PwaRegister />
+        <UpdateBanner />
         {children}
       </body>
     </html>

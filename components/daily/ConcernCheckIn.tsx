@@ -1,15 +1,27 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
-// The morning after a flag, one question per concern: how did it go?
-// One tap answers, the row folds away, and when every row is answered
-// the card becomes a single warm line. Answers post to the concerns
-// ledger, which moves each one along open → improving → resolved.
+// A running check in, not a one day question: this card asks about
+// whatever is still open, however many days it has been coming up, and
+// keeps asking every day until the family says it is better twice in a
+// row. One tap answers, the row folds away, and when every row is
+// answered the card becomes a single warm line. Answers post to the
+// concerns ledger, which moves each one along open → improving → resolved.
 
 export type ConcernCheckItem = {
   slug: string
   label: string
+  timesFlagged: number
+  lastFlaggedAt: string
+}
+
+function recencyLabel(item: ConcernCheckItem): string {
+  const daysSince = Math.floor((Date.now() - new Date(item.lastFlaggedAt).getTime()) / 86400000)
+  if (item.timesFlagged > 1) return `Come up ${item.timesFlagged} times, still open`
+  if (daysSince <= 1) return 'You flagged this yesterday'
+  return `You flagged this ${daysSince} days ago`
 }
 
 type Answer = 'better' | 'same' | 'hard'
@@ -30,6 +42,7 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
   // parent gets to see their answer land.
   const [answered, setAnswered] = useState<Record<string, Answer>>({})
   const [folded, setFolded] = useState<Record<string, boolean>>({})
+  const router = useRouter()
 
   if (concerns.length === 0) return null
 
@@ -43,7 +56,12 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ slug, answer: choice }),
-    }).catch(() => {})
+    })
+      // The Home path strip reads this same data server side. Refresh the
+      // router cache the moment an answer lands, so tapping Home right
+      // after does not show the check in step as still glowing and undone.
+      .then(() => router.refresh())
+      .catch(() => {})
     setTimeout(() => {
       setFolded(prev => ({ ...prev, [slug]: true }))
     }, FOLD_DELAY_MS)
@@ -64,7 +82,7 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
             letterSpacing: '.12em', textTransform: 'uppercase',
             color: 'var(--stage-2-text)', marginBottom: '8px',
           }}>
-            Yesterday you flagged
+            Still on the list
           </div>
           <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.55, marginBottom: '16px' }}>
             One tap each. How did these go today?
@@ -88,9 +106,15 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
                   <div style={{ padding: '9px 0' }}>
                     <div style={{
                       fontFamily: 'var(--font-display)', fontSize: '16.5px', fontWeight: 800,
-                      color: 'var(--ink)', marginBottom: '9px',
+                      color: 'var(--ink)', marginBottom: '2px',
                     }}>
                       {c.label}
+                    </div>
+                    <div style={{
+                      fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 600,
+                      color: 'var(--ink-muted)', marginBottom: '9px',
+                    }}>
+                      {recencyLabel(c)}
                     </div>
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px' }}>
                       {CHIPS.map(chip => {

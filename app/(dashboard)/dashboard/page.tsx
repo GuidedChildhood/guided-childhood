@@ -50,7 +50,7 @@ export default async function DashboardPage() {
 
   const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
 
-  const [childResult, dailySessionResult, todayMomentsResult, lastFeedbackResult, schoolActionsResult, schoolConnectionResult, agreementResult, questsCountResult, pushSubResult, anySessionResult] = await Promise.all([
+  const [childResult, dailySessionResult, todayMomentsResult, lastFeedbackResult, schoolActionsResult, schoolConnectionResult, agreementResult, questsCountResult, pushSubResult, anySessionResult, anySchoolActionResult] = await Promise.all([
     supabase.from('children').select('name, age_band, stage_id, streak_weeks, actions_this_week').eq('parent_id', user.id).eq('is_primary', true).single(),
     supabase.from('daily_sessions').select('completed_at').eq('user_id', user.id).eq('session_date', today).maybeSingle(),
     supabase.from('daily_moments').select('id, title, category, age_bands, icon, science_brief, digi_opener').eq('active', true).order('sort_order').limit(20),
@@ -61,6 +61,11 @@ export default async function DashboardPage() {
     supabase.from('family_quests').select('id', { count: 'exact', head: true }).eq('user_id', user.id).eq('active', true),
     supabase.from('push_subscriptions').select('endpoint').eq('user_id', user.id).limit(1).maybeSingle(),
     supabase.from('daily_sessions').select('id').eq('user_id', user.id).limit(1).maybeSingle(),
+    // Any school action ever added, connected inbox or typed by hand, done
+    // or dismissed or still open: either path is the setup step complete,
+    // and once complete it should stay complete, not flip back off the
+    // moment the open list empties out.
+    supabase.from('school_actions').select('id').eq('user_id', user.id).limit(1).maybeSingle(),
   ])
 
   const child = childResult.data
@@ -71,7 +76,7 @@ export default async function DashboardPage() {
   const setupFlags = {
     agreement: !!agreementResult.data,
     quests: (questsCountResult.count ?? 0) > 0,
-    school: hasSchoolConnection,
+    school: hasSchoolConnection || !!anySchoolActionResult.data,
     push: !!pushSubResult.data,
     daily: !!anySessionResult.data,
   }
@@ -283,8 +288,13 @@ export default async function DashboardPage() {
         childName={child?.name ?? null}
       />
 
-      {/* Things you need to know: open school actions from forwarded school emails */}
-      <SchoolActionsCard actions={schoolActions} childName={child?.name} />
+      {/* Things you need to know: open school actions from forwarded school
+          emails, or added by hand. The id is the anchor the setup path's
+          school step points at, so Go lands right here, not on a separate
+          page the parent then has to hunt through for the add form. */}
+      <div id="school-actions">
+        <SchoolActionsCard actions={schoolActions} childName={child?.name} />
+      </div>
 
       {/* School email promo until a connection is active, dismissible per device */}
       {!hasSchoolConnection && <SchoolPromoCard />}

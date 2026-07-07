@@ -112,6 +112,38 @@ export default async function ProgressPage() {
         </p>
       </div>
 
+      {/* The streak, front and centre: the number that moves every single
+          day, ahead of the slower moving wellbeing picture below. */}
+      {streak.count > 0 && (
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: '14px',
+          background: streak.aliveToday ? 'var(--terracotta-lt)' : 'var(--cream)',
+          border: `1.5px solid ${streak.aliveToday ? 'var(--terracotta)' : 'var(--border)'}`,
+          borderRadius: '18px', padding: '18px 20px', marginBottom: '20px',
+        }}>
+          <svg width="30" height="38" viewBox="0 0 24 24" aria-hidden="true" style={{ flexShrink: 0 }}>
+            <path
+              d="M12 1.6c.5 4.4 2.2 6.4 3.9 8.8 1.3 1.8 2.1 3.5 2.1 5.5 0 3.8-2.7 6.5-6 6.5s-6-2.7-6-6.5c0-2.7 1.5-4.7 3.1-6.6C10.5 7.6 11.7 5.6 12 1.6z"
+              fill={streak.aliveToday ? 'var(--terracotta)' : 'var(--ink-light)'}
+            />
+            <path
+              d="M12 12.4c1.7 2 2.7 3.1 2.7 4.8 0 1.8-1.2 3.1-2.7 3.1s-2.7-1.3-2.7-3.1c0-1.7 1-2.8 2.7-4.8z"
+              fill={streak.aliveToday ? 'var(--terracotta-lt)' : 'var(--cream)'}
+            />
+          </svg>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.7rem', color: streak.aliveToday ? 'var(--terracotta-dark)' : 'var(--ink)', lineHeight: 1 }}>
+              {streak.count} day{streak.count === 1 ? '' : 's'} running
+            </div>
+            <div style={{ fontSize: '13px', color: 'var(--ink-soft)', marginTop: '4px' }}>
+              {streak.aliveToday
+                ? 'Today is already counted. Come back tomorrow to keep it going.'
+                : 'Not counted yet today. One check in, moment or script keeps it alive.'}
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Position on the pathway to 16 */}
       {stage && (
         <Link href="/dashboard/pathway" style={{ textDecoration: 'none', display: 'block', marginBottom: '20px' }}>
@@ -184,9 +216,8 @@ export default async function ProgressPage() {
       )}
 
       {/* The week in numbers */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', marginBottom: '20px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', marginBottom: '20px' }}>
         {[
-          { n: String(streak.count), label: 'day streak', sub: streak.count >= 5 ? 'mission ready' : `${Math.max(0, 5 - streak.count)} to a mission` },
           { n: String(weekStars), label: 'stars earned', sub: 'this week' },
           { n: String(checks.length), label: 'check ins', sub: 'so far' },
         ].map(stat => (

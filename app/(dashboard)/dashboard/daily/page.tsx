@@ -22,7 +22,7 @@ export default async function DailyPage() {
     // Live concerns flagged before today and not yet checked today: these
     // become the one tap check in card above the moments tagger.
     supabase.from('concerns')
-      .select('slug, label')
+      .select('slug, label, times_flagged, last_flagged_at')
       .eq('user_id', user.id)
       .in('status', ['open', 'improving'])
       .lt('last_flagged_at', today)
@@ -36,7 +36,7 @@ export default async function DailyPage() {
   const alreadyDone = !!sessionResult.data?.completed_at
   const streak = child?.streak_weeks ?? 0
   const yesterdayMoments: string[] = (yesterdaySession.data?.moment_feedback as string[] | null) ?? []
-  const checkIns = (concernsResult.data ?? []) as { slug: string; label: string }[]
+  const checkIns = (concernsResult.data ?? []) as { slug: string; label: string; times_flagged: number; last_flagged_at: string }[]
 
   const stage = STAGES.find(s => s.ageBand === (child?.age_band as AgeBand)) ?? STAGES[2]
 
@@ -236,7 +236,12 @@ export default async function DailyPage() {
           and can actually flip to done. */}
       {checkIns.length > 0 && (
         <div id="checkin" style={{ maxWidth: '480px', margin: '0 auto', padding: '20px 20px 0' }}>
-          <ConcernCheckIn concerns={checkIns} />
+          <ConcernCheckIn concerns={checkIns.map(c => ({
+            slug: c.slug,
+            label: c.label,
+            timesFlagged: c.times_flagged,
+            lastFlaggedAt: c.last_flagged_at,
+          }))} />
         </div>
       )}
       <DailyDeckViewer cards={cards} alreadyDone={alreadyDone} />

@@ -13,7 +13,7 @@ const UNLOCK_COPY: Record<keyof SetupFlags, string> = {
   quests: 'Family Quests are live. Everyday jobs now earn stars, and the stars buy the screen time you both agreed.',
   daily: 'Your daily practice has started. Two minutes a day is the whole habit, and it just began.',
   push: 'Check ins are on. From now on we nudge you right at the moments your child actually faces screens.',
-  school: 'You are connected. School emails now come straight into your platform, PE kit days, forms and reminders will show up on Home, and you can send any of them straight to your child as a task.',
+  school: 'School routines are set. Whatever you added will remind you, and your child too if you switch that on, every time it comes round.',
   agreement: 'Your family agreement is signed. It is what the stars buy, and Friday brings a quick check on how the week went against it.',
 }
 

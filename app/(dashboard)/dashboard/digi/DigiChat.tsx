@@ -92,13 +92,19 @@ export default function DigiChat({
 
   const [deviceKey, setDeviceKey] = useState<string | null>(null)
 
+  // A prompt still waiting to be finished ("My situation: ") never goes
+  // into the box itself, that read as a messy half written sentence. It
+  // becomes a small topic tag above a clean, empty box instead: the
+  // parent sees what they are continuing without typing inside a wall
+  // of someone else's words, and their own short answer is quietly
+  // joined onto the full sentence only when it is actually sent.
+  const [continuingPrefix, setContinuingPrefix] = useState<string | null>(null)
+  const [continuingTopic, setContinuingTopic] = useState<string | null>(null)
+
   // Arriving from Help now, a moment card, a script or a lesson with a
   // ready made question: send it straight away so the conversation is
   // already under way, rather than dumping a long sentence into a one
-  // line box where it sits half clipped and looks broken. The one
-  // exception is a prompt that ends mid sentence waiting for the parent
-  // to finish it ("My situation: "), which stays in the box, focused,
-  // full height, ready to complete.
+  // line box where it sits half clipped and looks broken.
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search)
     const q = searchParams.get('q')
@@ -107,7 +113,9 @@ export default function DigiChat({
     if (!q) return
     window.history.replaceState(null, '', window.location.pathname)
     if (/:\s*$/.test(q)) {
-      setInput(q)
+      const topicMatch = q.match(/:\s*([^.]+)\.[^.]*:\s*$/)
+      setContinuingTopic(topicMatch?.[1]?.trim() ?? 'this script')
+      setContinuingPrefix(q)
       requestAnimationFrame(() => textareaRef.current?.focus())
     } else {
       sendMessage(q, device ?? undefined)
@@ -134,11 +142,14 @@ export default function DigiChat({
   useEffect(() => () => { document.body.classList.remove('gc-input-focused') }, [])
 
   async function sendMessage(text?: string, deviceOverride?: string) {
-    const messageText = text ?? input
-    if (!messageText.trim() || loading) return
+    const typed = text ?? input
+    if (!typed.trim() || loading) return
+    const messageText = text ? typed : continuingPrefix ? `${continuingPrefix}${typed}` : typed
 
     setMessages(prev => [...prev, { role: 'user', content: messageText }])
     setInput('')
+    setContinuingPrefix(null)
+    setContinuingTopic(null)
     setLoading(true)
     setError('')
 
@@ -573,13 +584,37 @@ export default function DigiChat({
             </Link>
           </div>
         ) : (
-          <form onSubmit={e => { e.preventDefault(); sendMessage() }} style={{ display: 'flex', gap: '10px', alignItems: 'flex-end' }}>
+          <form onSubmit={e => { e.preventDefault(); sendMessage() }} style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            {continuingTopic && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span style={{
+                  display: 'inline-flex', alignItems: 'center', gap: '6px',
+                  background: 'var(--stage-2)', border: '1px solid var(--border)',
+                  borderRadius: '100px', padding: '5px 12px',
+                  fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700,
+                  color: 'var(--ink-soft)', maxWidth: '100%',
+                }}>
+                  <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    Continuing: {continuingTopic}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => { setContinuingPrefix(null); setContinuingTopic(null) }}
+                    aria-label="Stop continuing this topic"
+                    style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', color: 'var(--ink-muted)', fontSize: '13px', lineHeight: 1, flexShrink: 0 }}
+                  >
+                    ×
+                  </button>
+                </span>
+              </div>
+            )}
+            <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-end' }}>
             <textarea
               ref={textareaRef}
               value={input}
               onChange={e => setInput(e.target.value)}
               onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage() } }}
-              placeholder="Ask DiGi anything about your child's digital world..."
+              placeholder={continuingTopic ? 'What is happening, in your own words...' : "Ask DiGi anything about your child's digital world..."}
               rows={1}
               style={{
                 flex: 1,
@@ -608,6 +643,7 @@ export default function DigiChat({
             >
               Send
             </button>
+            </div>
           </form>
         )}
       </div>
