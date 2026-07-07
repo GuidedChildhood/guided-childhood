@@ -59,3 +59,14 @@ by this session.
   onto origin before pushing, never assume local history is the truth.
 - Every merged PR ends the branch chapter: new work means checking
   whether a fresh PR is needed.
+
+## Banked from Justin, 7 July afternoon
+
+- Marketing site AND onboarding: service tiles that flip over on tap.
+  Front: the service name and icon. Back: what it achieves, where it
+  lives on the phone and in the platform. One tile per service including
+  a school messages tile and a lessons tile. Marketing session owns the
+  marketing site version; platform lane owns the onboarding version.
+- Agreement wizard shipped (type chooser with age recommendation, tap
+  the clauses, options per clause, sign, saved view, Friday check that
+  pays stars). Migration 034 required.
