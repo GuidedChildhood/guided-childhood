@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect, notFound } from 'next/navigation'
 import DeckViewer from './DeckViewer'
+import { isScriptLocked } from '@/lib/content/free-script-limit'
 
 type ScriptRow = {
   sort_order: number
@@ -44,7 +45,7 @@ export default async function DeckPage({
 
   if (!script) notFound()
 
-  if (!isPaid && !script.is_free) {
+  if (await isScriptLocked(supabase, user.id, isPaid, script)) {
     redirect('/dashboard/upgrade')
   }
 

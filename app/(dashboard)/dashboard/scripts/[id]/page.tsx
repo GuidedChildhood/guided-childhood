@@ -3,6 +3,7 @@ import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
 import { SOCIAL_MEDIA_LAW } from '@/lib/config/social-media-law'
 import ScriptDepth from '@/components/scripts/ScriptDepth'
+import { isScriptLocked } from '@/lib/content/free-script-limit'
 
 const STAGE_META: Record<string, { label: string; color: string; bg: string }> = {
   foundation:  { label: 'Foundation · Ages 4 to 7',  color: 'var(--ink)', bg: 'var(--stage-1)' },
@@ -65,7 +66,7 @@ export default async function ScriptDetailPage({
 
   if (!script) notFound()
 
-  if (!isPaid && !script.is_free) {
+  if (await isScriptLocked(supabase, user.id, isPaid, script)) {
     redirect('/dashboard/upgrade')
   }
 

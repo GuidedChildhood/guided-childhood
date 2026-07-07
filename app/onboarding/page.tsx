@@ -4,7 +4,14 @@ import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { AGE_BAND_OPTIONS, getStageFromAgeBand, type AgeBand, type StarterAnswers } from '@/lib/content/stages'
 
-type Screen = 'init' | 'welcome' | 'name' | 'age' | 'challenges' | 'loading' | 'digi-intro' | 'founding' | 'first-task'
+type Screen = 'init' | 'welcome' | 'name' | 'age' | 'challenges' | 'loading' | 'digi-intro' | 'founding' | 'first-task' | 'notifications'
+
+function urlBase64ToUint8Array(base64String: string) {
+  const padding = '='.repeat((4 - (base64String.length % 4)) % 4)
+  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/')
+  const rawData = atob(base64)
+  return Uint8Array.from(rawData, c => c.charCodeAt(0))
+}
 
 interface DigiData {
   intro: string
@@ -148,6 +155,8 @@ export default function OnboardingPage() {
   const [digiData, setDigiData] = useState<DigiData | null>(null)
   const [founderSpots, setFounderSpots] = useState<FounderSpots | null>(null)
   const [saving, setSaving] = useState(false)
+  const [notifDest, setNotifDest] = useState<'script' | 'dashboard'>('script')
+  const [notifStatus, setNotifStatus] = useState<'idle' | 'asking' | 'done'>('idle')
   const nameInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
@@ -653,15 +662,87 @@ export default function OnboardingPage() {
             </div>
           )}
 
-          <button style={{ ...BTN, marginTop: '28px' }} onClick={() => router.push('/dashboard/scripts/recommended')}>
+          <button style={{ ...BTN, marginTop: '28px' }} onClick={() => { setNotifDest('script'); setScreen('notifications') }}>
             Open my first script
           </button>
           <p style={{ fontSize: 13, color: '#9ca3af', textAlign: 'center', marginTop: 14, lineHeight: 1.5 }}>
             DiGi picked it from what you told us. Two minutes, the exact words for tonight.
           </p>
-          <button type="button" onClick={() => router.push('/dashboard')} style={BACK_BTN}>
+          <button type="button" onClick={() => { setNotifDest('dashboard'); setScreen('notifications') }} style={BACK_BTN}>
             Take me to my dashboard instead
           </button>
+        </div>
+      </div>
+    )
+  }
+
+  // ── NOTIFICATIONS ─────────────────────────────────────────────────────────
+  // Asked here, at the exact moment DiGi named tonight's real moment, not
+  // buried in Settings for later. Duolingo asks the same way: once someone
+  // has already invested in a concrete plan, protecting that plan with a
+  // reminder is an easy, obvious yes.
+
+  if (screen === 'notifications') {
+    const goNext = () => router.push(notifDest === 'script' ? '/dashboard/scripts/recommended' : '/dashboard')
+
+    async function enableNotifications() {
+      setNotifStatus('asking')
+      try {
+        if (!('serviceWorker' in navigator) || !('PushManager' in window)) { goNext(); return }
+        const perm = await Notification.requestPermission()
+        if (perm !== 'granted') { goNext(); return }
+        const reg = await navigator.serviceWorker.register('/sw.js')
+        await navigator.serviceWorker.ready
+        const sub = await reg.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: urlBase64ToUint8Array(process.env.NEXT_PUBLIC_VAPID_KEY!),
+        })
+        const { data: { user } } = await supabase.auth.getUser()
+        await fetch('/api/push/subscribe', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ subscription: sub.toJSON(), userId: user?.id }),
+        })
+        setNotifStatus('done')
+        setTimeout(goNext, 900)
+      } catch {
+        goNext()
+      }
+    }
+
+    return (
+      <div style={{ minHeight: '100dvh', background: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '32px 24px' }}>
+        <style>{ANIM}</style>
+        <div style={{ maxWidth: 440, width: '100%', textAlign: 'center' }}>
+          <img src="/digi-squad/DiGi-star.svg" alt="" width={56} height={56} style={{ margin: '0 auto 22px', animation: 'digiFloat 2.4s ease-in-out infinite', display: 'block' }} />
+
+          {notifStatus === 'done' ? (
+            <>
+              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.4rem, 3.5vw, 1.8rem)', fontWeight: 900, color: 'var(--ink)', marginBottom: 10 }}>
+                Done! DiGi will be there.
+              </h2>
+              <p style={{ fontSize: 15, color: '#6b7280', lineHeight: 1.6 }}>Taking you in...</p>
+            </>
+          ) : (
+            <>
+              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.4rem, 3.5vw, 1.8rem)', fontWeight: 900, letterSpacing: '-0.02em', color: 'var(--ink)', marginBottom: 14 }}>
+                Want me to remind you?
+              </h2>
+              <p style={{ fontSize: 16, color: 'var(--ink)', lineHeight: 1.7, marginBottom: '28px' }}>
+                The moment you just planned for happens tonight, not next week. A nudge right before it, and one after school, and that is genuinely it. No spam, and I will stop the second it stops helping.
+              </p>
+              <button
+                style={{ ...BTN, animation: notifStatus === 'idle' ? 'btnGlow 2.2s ease-in-out 1s infinite' : 'none' }}
+                onClick={enableNotifications}
+                disabled={notifStatus === 'asking'}
+              >
+                {notifStatus === 'asking' ? 'One second...' : 'Yes, remind me'}
+              </button>
+              <button type="button" onClick={goNext} style={BACK_BTN}>
+                Not now
+              </button>
+            </>
+          )}
         </div>
       </div>
     )
