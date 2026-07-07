@@ -160,6 +160,18 @@ export type DigiSlide = SlideBase & {
   lines: string[]
 }
 
+// The eighth slide type: a named animated interaction. The row names a
+// component key (verdict-sort, signal-meter, star-breath, ...) and passes
+// config; the component code lives in components/lessons/interactives.
+// Every interaction is tap based, GSAP only, with a paper twin in the
+// teacher notes for the no device room.
+export type InteractiveSlide = SlideBase & {
+  type: 'interactive'
+  component: string
+  config?: Record<string, unknown>
+  caption?: string
+}
+
 export type LessonSlide =
   | TitleSlide
   | ObjectiveSlide
@@ -175,10 +187,11 @@ export type LessonSlide =
   | RecapSlide
   | VideoSlide
   | DigiSlide
+  | InteractiveSlide
 
 const SLIDE_TYPES = new Set([
   'title', 'objective', 'keywords', 'concept', 'quote', 'choice',
-  'scenario', 'diagram', 'discussion', 'stat', 'tryit', 'recap', 'video', 'digi',
+  'scenario', 'diagram', 'discussion', 'stat', 'tryit', 'recap', 'video', 'digi', 'interactive',
 ])
 
 // Defensive parse: slides come from a JSONB column, so a malformed row

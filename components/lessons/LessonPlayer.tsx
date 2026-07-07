@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { gsap } from 'gsap'
 import DigiCharacter, { type DigiMood } from '@/components/digi/DigiCharacter'
 import { PHASE_LABELS, PHASE_ORDER, type LessonPhase, type LessonSlide, type ChoiceSlide, type ScenarioSlide, type DiagramSlide, type DigiSlide, type DiscussionSlide, type StatSlide } from '@/lib/content/lesson-slides'
+import Interactive from '@/components/lessons/interactives'
 
 // Duolingo mechanics, Guided Childhood skin: one slide at a time, a segmented
 // progress bar, an answer that reacts, DiGi responding to how it goes, and a
@@ -411,6 +412,8 @@ function SlideBody({ slide, onAnswered }: { slide: LessonSlide; onAnswered: (cor
       return <DiagramBlock slide={slide} />
     case 'digi':
       return <DigiClosingBlock slide={slide} />
+    case 'interactive':
+      return <Interactive component={slide.component} config={slide.config} caption={slide.caption} />
     case 'video':
       return (
         <div>
