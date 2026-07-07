@@ -40,8 +40,11 @@ export async function POST() {
 
   let sent = 0
   const errors: string[] = []
+  const details: string[] = []
+  const hosts = new Set<string>()
   await Promise.allSettled(
     subs.map(async sub => {
+      try { hosts.add(new URL(sub.endpoint).host) } catch { /* ignore */ }
       try {
         await webpush.sendNotification(
           { endpoint: sub.endpoint, keys: { p256dh: sub.p256dh, auth: sub.auth } },
@@ -49,11 +52,15 @@ export async function POST() {
         )
         sent++
       } catch (err: unknown) {
-        const code = err && typeof err === 'object' && 'statusCode' in err ? String(err.statusCode) : 'unknown'
-        errors.push(code)
+        const e = err as { statusCode?: number; body?: string; message?: string }
+        errors.push(e?.statusCode != null ? String(e.statusCode) : 'unknown')
+        // The push service puts the real reason in the body, which is the
+        // thing that actually tells us what is wrong with a 400 or 403.
+        const reason = (e?.body || e?.message || '').toString().replace(/\s+/g, ' ').trim().slice(0, 300)
+        if (reason) details.push(reason)
       }
     })
   )
 
-  return NextResponse.json({ sent, devices: subs.length, errors })
+  return NextResponse.json({ sent, devices: subs.length, errors, details, hosts: [...hosts] })
 }
