@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
-import { QUEST_TEMPLATES } from '@/lib/quests/templates'
+import { QUEST_TEMPLATES, PLAY_PAYS_WHY } from '@/lib/quests/templates'
 
 // The parent's quest manager. Pick from templates or write your own,
 // set what each is worth, set the goal the stars buy, then hand the
@@ -400,14 +400,39 @@ export default function QuestManager() {
             </div>
           </div>
 
-          {/* Templates */}
+          {/* Templates: play and outside lead, and pay the most */}
           {templatesUnused.length > 0 && (
             <div style={card}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
+                Play pays best
+              </div>
+              <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 12px' }}>
+                {PLAY_PAYS_WHY}
+              </p>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '14px' }}>
+                {templatesUnused.filter(t => t.play).map(t => (
+                  <button
+                    key={t.title}
+                    onClick={() => addQuest(t)}
+                    style={{
+                      display: 'inline-flex', alignItems: 'center', gap: '7px',
+                      padding: '9px 14px', borderRadius: '100px', cursor: 'pointer',
+                      border: 'none', background: 'var(--terracotta)',
+                      fontFamily: 'var(--font-body)', fontSize: '13px', fontWeight: 700, color: 'var(--ink)',
+                      boxShadow: '0 3px 0 var(--terracotta-dark)',
+                    }}
+                  >
+                    <span>{t.emoji}</span> {t.title}
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700 }}>⭐{t.stars}</span>
+                    <span style={{ fontWeight: 800 }}>+</span>
+                  </button>
+                ))}
+              </div>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '12px' }}>
-                Quest ideas, tap to add
+                Everyday quest ideas, tap to add
               </div>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                {templatesUnused.map(t => (
+                {templatesUnused.filter(t => !t.play).map(t => (
                   <button
                     key={t.title}
                     onClick={() => addQuest(t)}

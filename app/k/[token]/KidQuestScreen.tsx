@@ -8,7 +8,7 @@ function urlBase64ToUint8Array(base64String: string) {
   const rawData = atob(base64)
   return Uint8Array.from(rawData, c => c.charCodeAt(0))
 }
-import { STAR_MINUTES } from '@/lib/quests/templates'
+import { STAR_MINUTES, PLAY_PAYS_WHY_KID } from '@/lib/quests/templates'
 import { KID_LESSONS, type KidLesson } from '@/lib/quests/kid-lessons'
 
 // The kid facing quest screen: joyful, huge tap targets, instant ticks,
@@ -350,6 +350,18 @@ export default function KidQuestScreen({
         </div>
 
         {tab === 'quests' && (<>
+        {/* Why outside pays best: the philosophy, in kid words */}
+        <div style={{
+          display: 'flex', gap: '12px', alignItems: 'flex-start',
+          background: 'rgba(255,255,255,0.08)', borderRadius: '16px',
+          padding: '13px 16px', marginBottom: '14px',
+        }}>
+          <span style={{ fontSize: '1.5rem', lineHeight: 1, flexShrink: 0 }}>🌳</span>
+          <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.85)', lineHeight: 1.55, margin: 0 }}>
+            {PLAY_PAYS_WHY_KID}
+          </p>
+        </div>
+
         {/* Quest list */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           {quests.length === 0 && (
