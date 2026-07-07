@@ -409,41 +409,68 @@ export default function QuestManager() {
               <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 12px' }}>
                 {PLAY_PAYS_WHY}
               </p>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '14px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(210px, 1fr))', gap: '10px', marginBottom: '18px' }}>
                 {templatesUnused.filter(t => t.play).map(t => (
                   <button
                     key={t.title}
                     onClick={() => addQuest(t)}
                     style={{
-                      display: 'inline-flex', alignItems: 'center', gap: '7px',
-                      padding: '9px 14px', borderRadius: '100px', cursor: 'pointer',
-                      border: 'none', background: 'var(--terracotta)',
-                      fontFamily: 'var(--font-body)', fontSize: '13px', fontWeight: 700, color: 'var(--ink)',
-                      boxShadow: '0 3px 0 var(--terracotta-dark)',
+                      display: 'flex', alignItems: 'center', gap: '11px', height: '100%',
+                      padding: '12px 13px', borderRadius: '15px', cursor: 'pointer', textAlign: 'left',
+                      border: '1.5px solid var(--terracotta)', background: 'var(--terracotta-lt)',
+                      boxShadow: '0 4px 14px rgba(201,154,40,0.14)',
                     }}
                   >
-                    <span>{t.emoji}</span> {t.title}
-                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700 }}>⭐{t.stars}</span>
-                    <span style={{ fontWeight: 800 }}>+</span>
+                    <span style={{
+                      width: 38, height: 38, borderRadius: '11px', flexShrink: 0,
+                      background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px',
+                    }}>{t.emoji}</span>
+                    <span style={{ flex: 1, minWidth: 0 }}>
+                      <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '13.5px', color: 'var(--ink)', lineHeight: 1.25 }}>
+                        {t.title}
+                      </span>
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>
+                        ⭐ {t.stars}
+                      </span>
+                    </span>
+                    <span style={{
+                      width: 26, height: 26, borderRadius: '50%', flexShrink: 0,
+                      background: 'var(--terracotta)', color: 'var(--ink)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', lineHeight: 1,
+                      boxShadow: '0 2px 0 var(--terracotta-dark)',
+                    }}>+</span>
                   </button>
                 ))}
               </div>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '12px' }}>
                 Everyday quest ideas, tap to add
               </div>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(210px, 1fr))', gap: '10px' }}>
                 {templatesUnused.filter(t => !t.play).map(t => (
                   <button
                     key={t.title}
                     onClick={() => addQuest(t)}
                     style={{
-                      display: 'inline-flex', alignItems: 'center', gap: '7px',
-                      padding: '9px 14px', borderRadius: '100px', cursor: 'pointer',
+                      display: 'flex', alignItems: 'center', gap: '11px', height: '100%',
+                      padding: '11px 13px', borderRadius: '15px', cursor: 'pointer', textAlign: 'left',
                       border: '1.5px solid var(--border)', background: '#fff',
-                      fontFamily: 'var(--font-body)', fontSize: '13px', fontWeight: 600, color: 'var(--ink)',
+                      boxShadow: '0 3px 12px rgba(26,26,46,0.05)',
                     }}
                   >
-                    <span>{t.emoji}</span> {t.title} <span style={{ color: 'var(--terracotta-dark)', fontWeight: 800 }}>+</span>
+                    <span style={{
+                      width: 34, height: 34, borderRadius: '10px', flexShrink: 0,
+                      background: 'var(--cream)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '16px',
+                    }}>{t.emoji}</span>
+                    <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: '13px', color: 'var(--ink)', lineHeight: 1.3 }}>
+                      {t.title}
+                    </span>
+                    <span style={{
+                      width: 24, height: 24, borderRadius: '50%', flexShrink: 0,
+                      background: 'var(--cream)', color: 'var(--terracotta-dark)', border: '1.5px solid var(--border)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', lineHeight: 1,
+                    }}>+</span>
                   </button>
                 ))}
               </div>
