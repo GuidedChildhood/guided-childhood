@@ -84,3 +84,13 @@ holds: the screen is the board, the family is the game.
   through the same lesson-complete pattern: parent approves, stars land.
 - Games tab joins My quests and My lessons on the kid link.
 - Build after the launch blockers (gating, homepage, Stripe test).
+
+## Banked: evidence and literacy framing in emails (Justin, 7 July)
+
+The day 3 tour email closes with one honest line ("built on the actual
+research, not opinion") but does not cite specifics yet. Justin asked
+to mix in real evidence on education, literacy and child protection
+later, not now. When the market evidence work resumes, weave one or
+two verified stats per relevant service (scripts, school catcher,
+lessons) into the tour email and the day 7 founder email, sourced only
+from plans/market-evidence-2026-07.md, never invented numbers.

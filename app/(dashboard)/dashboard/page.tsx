@@ -13,6 +13,7 @@ import SchoolPromoCard from '@/components/school/SchoolPromoCard'
 import QuestBoard from '@/components/quests/QuestBoard'
 import SetupPath from '@/components/setup/SetupPath'
 import SetupNudge from '@/components/setup/SetupNudge'
+import SetupUnlockToast from '@/components/setup/SetupUnlockToast'
 import TodayPathStrip from '@/components/daily/TodayPathStrip'
 import { getDailyStreak } from '@/lib/pathway/streak'
 import { getTodayLoop } from '@/lib/pathway/daily-tasks'
@@ -167,6 +168,7 @@ export default async function DashboardPage() {
       {/* The setup path: every service visible as a step, foundations first */}
       <SetupPath flags={setupFlags} />
       <SetupNudge flags={setupFlags} />
+      <SetupUnlockToast flags={setupFlags} />
 
       {/* DiGi leads: proactive watch fors, tips and parent care */}
       <DigiPrompts />
