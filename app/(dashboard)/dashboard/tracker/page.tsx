@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { getStageFromAgeBand, STAGES, type AgeBand } from '@/lib/content/stages'
 import { getDailyStreak } from '@/lib/pathway/streak'
+import WorkingOn from '@/components/tracker/WorkingOn'
 
 // The Progress page: the answer to the only question that matters, is it
 // working. One honest generated sentence at the top, then the evidence:
@@ -43,9 +44,13 @@ export default async function ProgressPage() {
   weekStart.setDate(weekStart.getDate() - weekStart.getDay())
   const weekStartStr = weekStart.toISOString().split('T')[0]
 
-  const [childrenRes, concernsRes, checksRes, questsRes, ticksRes, streak] = await Promise.all([
+  const [childrenRes, concernsRes, resolvedCountRes, checksRes, questsRes, ticksRes, streak] = await Promise.all([
     supabase.from('children').select('id, name, age_band').eq('parent_id', user.id).order('created_at'),
-    supabase.from('concerns').select('slug, label, status, times_flagged, last_flagged_at').eq('user_id', user.id).order('last_flagged_at', { ascending: false }).limit(8),
+    // What we are working on: only the live ones, most stubborn first so the
+    // pattern line has something to point at.
+    supabase.from('concerns').select('slug, label, status, times_flagged, last_flagged_at').eq('user_id', user.id).in('status', ['open', 'improving']).order('times_flagged', { ascending: false }).limit(10),
+    // The win count for the report: everything the family has sorted.
+    supabase.from('concerns').select('id', { count: 'exact', head: true }).eq('user_id', user.id).eq('status', 'resolved'),
     supabase.from('wellbeing_checks').select('week_start, mood_score, sleep_score, social_score, screen_mood_score, open_communication').eq('parent_id', user.id).order('week_start', { ascending: false }).limit(6),
     supabase.from('family_quests').select('id, stars, child_id').eq('user_id', user.id).eq('active', true),
     supabase.from('quest_ticks').select('quest_id, child_id, status').eq('user_id', user.id).eq('status', 'approved').gte('tick_date', weekAgo),
@@ -55,6 +60,7 @@ export default async function ProgressPage() {
   const children = childrenRes.data ?? []
   const primary = children[0] ?? null
   const concerns = concernsRes.data ?? []
+  const solvedCount = resolvedCountRes.count ?? 0
   const checks = (checksRes.data ?? []) as Check[]
   const quests = questsRes.data ?? []
   const ticks = ticksRes.data ?? []
@@ -180,40 +186,13 @@ export default async function ProgressPage() {
         </Link>
       )}
 
-      {/* Concern arcs */}
-      {concerns.length > 0 && (
-        <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '18px', padding: '18px 20px', marginBottom: '20px' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '12px' }}>
-            What you are working on
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            {concerns.map(c => (
-              <Link key={c.slug} href={`/dashboard/digi?q=${encodeURIComponent(`Update on: ${c.label}. What is the next step for us?`)}`} style={{ textDecoration: 'none' }}>
-                <div style={{
-                  display: 'flex', alignItems: 'center', gap: '10px',
-                  padding: '10px 14px', borderRadius: '12px',
-                  background: c.status === 'improving' ? 'var(--tint-sage)' : c.status === 'resolved' ? 'var(--cream)' : 'var(--terracotta-lt)',
-                  border: '1px solid var(--border)',
-                }}>
-                  <span style={{ fontSize: '13px', flexShrink: 0 }}>
-                    {c.status === 'improving' ? '↗' : c.status === 'resolved' ? '✓' : '·'}
-                  </span>
-                  <span style={{
-                    flex: 1, fontSize: '13.5px', fontWeight: 600, color: 'var(--ink)',
-                    textDecoration: c.status === 'resolved' ? 'line-through' : 'none',
-                    opacity: c.status === 'resolved' ? 0.6 : 1,
-                  }}>
-                    {c.label}
-                  </span>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', color: 'var(--ink-muted)', flexShrink: 0 }}>
-                    {c.status === 'improving' ? 'better this week' : c.status === 'resolved' ? 'resolved' : `came up ${c.times_flagged} time${c.times_flagged === 1 ? '' : 's'}`}
-                  </span>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
+      {/* What we are working on: the real list, with the parent's verdict */}
+      <WorkingOn
+        concerns={concerns.map(c => ({ slug: c.slug, label: c.label, status: c.status, times_flagged: c.times_flagged }))}
+        solvedAlready={solvedCount}
+        childName={primary?.name ?? 'your child'}
+        parentEmail={user.email ?? ''}
+      />
 
       {/* The week in numbers */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', marginBottom: '20px' }}>
@@ -229,72 +208,33 @@ export default async function ProgressPage() {
         ))}
       </div>
 
-      {/* Wellbeing trend in plain words */}
-      <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '18px', padding: '18px 20px', marginBottom: '20px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px', marginBottom: '12px' }}>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
-            The wellbeing picture
+      {/* The weekly check in: a plain prompt, no graph. The real picture is
+          the working on list above, in words the parent trusts. */}
+      <div style={{
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap',
+        background: '#fff', border: '1.5px solid var(--border)', borderRadius: '18px', padding: '16px 20px', marginBottom: '20px',
+      }}>
+        <span style={{ flex: 1, minWidth: '180px' }}>
+          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: 'var(--ink)' }}>
+            {checkedThisWeek ? 'This week is logged' : 'Weekly check in'}
           </span>
-          <Link href="/dashboard/tracker/checkin" style={{
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '12px',
-            background: checkedThisWeek ? 'var(--cream)' : 'var(--terracotta)',
-            color: checkedThisWeek ? 'var(--ink-muted)' : 'var(--ink)',
-            borderRadius: '10px', padding: '8px 14px', textDecoration: 'none',
-            boxShadow: checkedThisWeek ? 'none' : '0 3px 0 var(--terracotta-dark)',
-          }}>
-            {checkedThisWeek ? 'Update this week' : 'Start this week, 5 minutes'}
-          </Link>
-        </div>
-
-        {checks.length === 0 ? (
-          <p style={{ fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>
-            The weekly check in takes five minutes and becomes the most useful picture in this app: how {primary?.name ?? 'your child'} is actually doing, week on week, in your own words.
-          </p>
-        ) : (
-          <>
-            {(() => {
-              const ordered = [...checks].reverse()
-              const mostRecentWeek = ordered[ordered.length - 1]?.week_start
-              return (
-                <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-end', marginBottom: '4px' }}>
-                  {ordered.map(c => {
-                    const a = avg(c)
-                    const isThisWeek = c.week_start === mostRecentWeek
-                    const dateLabel = new Date(`${c.week_start}T00:00:00`).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })
-                    return (
-                      <div key={c.week_start} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px' }}>
-                        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', color: 'var(--ink)' }}>
-                          {a !== null ? a.toFixed(1) : '–'}
-                        </span>
-                        <div style={{
-                          width: '100%', borderRadius: '6px 6px 3px 3px',
-                          height: `${a !== null ? Math.max(10, (a / 5) * 46) : 10}px`,
-                          background: a !== null && a >= 3.4 ? 'var(--tint-sage)' : a !== null && a >= 2.4 ? 'var(--stage-1-bold)' : 'var(--terracotta-lt)',
-                          border: '1px solid var(--border)',
-                        }} />
-                        <span style={{
-                          fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: isThisWeek ? 700 : 600,
-                          color: isThisWeek ? 'var(--terracotta-dark)' : 'var(--ink-light)', whiteSpace: 'nowrap',
-                        }}>
-                          {isThisWeek ? 'This week' : dateLabel}
-                        </span>
-                      </div>
-                    )
-                  })}
-                </div>
-              )
-            })()}
-            <p style={{ fontSize: '11px', color: 'var(--ink-light)', margin: '2px 0 12px' }}>
-              Out of 5, averaged across mood, sleep, social and screens. Green is doing well, amber is mixed, coral means worth a look.
-            </p>
-            <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>
-              {trend === 'up' && 'Climbing: this week scored better than last. Whatever changed, keep it.'}
-              {trend === 'down' && `A dip this week. Not a crisis, a signal: start with ${nextStep.next}.`}
-              {trend === 'steady' && 'Holding steady week on week. Structure is doing its quiet work.'}
-              {trend === null && 'One more week of check ins and the trend starts telling its story.'}
-            </p>
-          </>
-        )}
+          <span style={{ display: 'block', fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '2px' }}>
+            {checkedThisWeek
+              ? `A quick read on how ${primary?.name ?? 'your child'} is doing, done for this week.`
+              : `Five minutes on how ${primary?.name ?? 'your child'} is really doing. It feeds the advice DiGi gives you.`}
+          </span>
+        </span>
+        <Link href="/dashboard/tracker/checkin" style={{
+          flexShrink: 0,
+          fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px',
+          background: checkedThisWeek ? 'var(--cream)' : 'var(--terracotta)',
+          color: checkedThisWeek ? 'var(--ink-muted)' : 'var(--ink)',
+          borderRadius: '12px', padding: '11px 18px', textDecoration: 'none',
+          boxShadow: checkedThisWeek ? 'none' : '0 3px 0 var(--terracotta-dark)',
+          border: checkedThisWeek ? '1.5px solid var(--border)' : 'none',
+        }}>
+          {checkedThisWeek ? 'Update' : 'Start, 5 minutes'}
+        </Link>
       </div>
 
       {/* The weekly mission, an invitation never a lock */}
