@@ -15,11 +15,11 @@ export async function GET() {
 
   const { data } = await supabase
     .from('school_actions')
-    .select('id, kind, title, detail, due_date, sent_to_child')
+    .select('id, kind, title, detail, due_date, sent_to_child, recurs_weekday, auto_send_to_child')
     .eq('user_id', user.id)
     .eq('status', 'open')
     .order('due_date', { ascending: true, nullsFirst: false })
-    .limit(12)
+    .limit(20)
   return NextResponse.json({ actions: data ?? [] })
 }
 
@@ -35,11 +35,21 @@ export async function POST(req: NextRequest) {
   const kind = KINDS.includes(body.kind) ? body.kind : 'notice'
   const detail = typeof body.detail === 'string' ? body.detail.trim().slice(0, 400) || null : null
   const dueDate = typeof body.due_date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(body.due_date) ? body.due_date : null
+  const recursWeekday = Number.isInteger(body.recurs_weekday) && body.recurs_weekday >= 0 && body.recurs_weekday <= 6
+    ? body.recurs_weekday
+    : null
+  const autoSendToChild = recursWeekday !== null && body.auto_send_to_child === true
 
   const { data, error } = await supabase
     .from('school_actions')
-    .insert({ user_id: user.id, kind, title, detail, due_date: dueDate, status: 'open' })
-    .select('id, kind, title, detail, due_date, sent_to_child')
+    .insert({
+      user_id: user.id, kind, title, detail,
+      due_date: recursWeekday !== null ? null : dueDate,
+      recurs_weekday: recursWeekday,
+      auto_send_to_child: autoSendToChild,
+      status: 'open',
+    })
+    .select('id, kind, title, detail, due_date, sent_to_child, recurs_weekday, auto_send_to_child')
     .single()
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
   return NextResponse.json({ action: data })

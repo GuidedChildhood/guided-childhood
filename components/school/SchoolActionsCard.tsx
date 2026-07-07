@@ -8,6 +8,12 @@ import { useState } from 'react'
 // /api/school/actions, adding posts there too, and Send sends the item
 // straight to the child's own quest page so packing the kit becomes
 // their job, not just something the parent remembers alone.
+//
+// Weekly routines (PE every Thursday, library books every Friday) are
+// a separate, permanent list: they never get done or dismissed the
+// way a one off does, they just come round again, and can be set to
+// remind the child automatically every single week with no parent tap
+// required.
 
 export type SchoolAction = {
   id: string
@@ -16,6 +22,8 @@ export type SchoolAction = {
   detail: string | null
   due_date: string | null
   sent_to_child?: boolean
+  recurs_weekday?: number | null
+  auto_send_to_child?: boolean
 }
 
 const KIND_STYLE: Record<string, { label: string; bg: string; color: string }> = {
@@ -28,6 +36,11 @@ const KIND_STYLE: Record<string, { label: string; bg: string; color: string }> =
 }
 
 const KIND_OPTIONS = Object.entries(KIND_STYLE) as [string, { label: string; bg: string; color: string }][]
+const WEEKDAYS = [
+  { n: 1, label: 'Mon' }, { n: 2, label: 'Tue' }, { n: 3, label: 'Wed' }, { n: 4, label: 'Thu' },
+  { n: 5, label: 'Fri' }, { n: 6, label: 'Sat' }, { n: 0, label: 'Sun' },
+]
+const WEEKDAY_NAME: Record<number, string> = { 0: 'Sunday', 1: 'Monday', 2: 'Tuesday', 3: 'Wednesday', 4: 'Thursday', 5: 'Friday', 6: 'Saturday' }
 
 function dueLabel(dueDate: string | null): string | null {
   if (!dueDate) return null
@@ -47,9 +60,15 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
   const [showAdd, setShowAdd] = useState(false)
   const [title, setTitle] = useState('')
   const [kind, setKind] = useState('notice')
+  const [repeats, setRepeats] = useState(false)
   const [dueDate, setDueDate] = useState('')
+  const [weekday, setWeekday] = useState(4) // Thursday, PE kit is the classic case
+  const [autoSend, setAutoSend] = useState(false)
   const [saving, setSaving] = useState(false)
   const [sendingId, setSendingId] = useState<string | null>(null)
+
+  const recurring = actions.filter(a => a.recurs_weekday != null)
+  const oneOff = actions.filter(a => a.recurs_weekday == null)
 
   const settle = async (id: string, status: 'done' | 'dismissed') => {
     setActions(a => a.filter(x => x.id !== id))
@@ -69,13 +88,20 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
       const res = await fetch('/api/school/actions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title: title.trim(), kind, due_date: dueDate || null }),
+        body: JSON.stringify({
+          title: title.trim(), kind,
+          due_date: repeats ? null : (dueDate || null),
+          recurs_weekday: repeats ? weekday : null,
+          auto_send_to_child: repeats ? autoSend : false,
+        }),
       })
       const data = await res.json()
       if (data.action) {
         setActions(a => [...a, data.action].sort((x, y) => (x.due_date ?? '9999').localeCompare(y.due_date ?? '9999')))
         setTitle('')
         setDueDate('')
+        setRepeats(false)
+        setAutoSend(false)
         setShowAdd(false)
       }
     } catch { /* non blocking */ } finally { setSaving(false) }
@@ -124,7 +150,7 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
           <input
             value={title}
             onChange={e => setTitle(e.target.value)}
-            placeholder="Reading record due, non uniform day, swimming kit..."
+            placeholder="PE kit, reading record due, swimming kit..."
             style={{
               width: '100%', padding: '11px 14px', borderRadius: '12px', marginBottom: '8px',
               border: '1.5px solid var(--border)', background: '#fff',
@@ -132,6 +158,75 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
             }}
             maxLength={140}
           />
+
+          {/* One time or every week */}
+          <div style={{ display: 'flex', gap: '8px', marginBottom: '10px' }}>
+            {[['One time', false], ['Every week', true]].map(([label, val]) => (
+              <button
+                key={label as string}
+                onClick={() => setRepeats(val as boolean)}
+                style={{
+                  padding: '8px 14px', borderRadius: '100px', cursor: 'pointer',
+                  fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '12.5px',
+                  background: repeats === val ? 'var(--terracotta)' : '#fff',
+                  color: 'var(--ink)', border: repeats === val ? 'none' : '1.5px solid var(--border)',
+                }}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+
+          {repeats ? (
+            <div style={{ marginBottom: '10px' }}>
+              <div style={{ display: 'flex', gap: '5px', flexWrap: 'wrap', marginBottom: '8px' }}>
+                {WEEKDAYS.map(d => (
+                  <button
+                    key={d.n}
+                    onClick={() => setWeekday(d.n)}
+                    style={{
+                      padding: '7px 11px', borderRadius: '10px', cursor: 'pointer',
+                      fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: '11px',
+                      background: weekday === d.n ? 'var(--deep-teal)' : '#fff',
+                      color: weekday === d.n ? '#fff' : 'var(--ink-soft)',
+                      border: weekday === d.n ? 'none' : '1.5px solid var(--border)',
+                    }}
+                  >
+                    {d.label}
+                  </button>
+                ))}
+              </div>
+              <button
+                onClick={() => setAutoSend(v => !v)}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: '8px', background: 'none', border: 'none',
+                  cursor: 'pointer', padding: 0, textAlign: 'left',
+                }}
+              >
+                <span style={{
+                  width: 20, height: 20, borderRadius: '6px', flexShrink: 0,
+                  background: autoSend ? 'var(--terracotta)' : '#fff',
+                  border: autoSend ? 'none' : '1.5px solid var(--border)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: '#fff',
+                }}>
+                  {autoSend ? '✓' : ''}
+                </span>
+                <span style={{ fontSize: '12.5px', color: 'var(--ink-soft)' }}>
+                  Also remind {childName ?? 'them'} automatically, every week
+                </span>
+              </button>
+            </div>
+          ) : (
+            <div style={{ marginBottom: '10px' }}>
+              <input
+                type="date"
+                value={dueDate}
+                onChange={e => setDueDate(e.target.value)}
+                style={{ padding: '10px 12px', borderRadius: '10px', border: '1.5px solid var(--border)', background: '#fff', fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--ink)' }}
+              />
+            </div>
+          )}
+
           <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
             <select
               value={kind}
@@ -140,12 +235,6 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
             >
               {KIND_OPTIONS.map(([key, meta]) => <option key={key} value={key}>{meta.label}</option>)}
             </select>
-            <input
-              type="date"
-              value={dueDate}
-              onChange={e => setDueDate(e.target.value)}
-              style={{ padding: '10px 12px', borderRadius: '10px', border: '1.5px solid var(--border)', background: '#fff', fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--ink)' }}
-            />
             <button
               onClick={addReminder}
               disabled={saving || !title.trim()}
@@ -162,13 +251,53 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
         </div>
       )}
 
-      {actions.length === 0 ? (
-        <p style={{ fontSize: '13px', color: 'var(--ink-muted)', lineHeight: 1.5 }}>
-          Nothing open right now. Forward a school email, or add a reminder by hand above.
-        </p>
+      {/* Weekly routines: permanent, never done or dismissed the way a one off is */}
+      {recurring.length > 0 && (
+        <div style={{ marginBottom: '16px' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
+            Every week
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            {recurring.map(a => (
+              <div key={a.id} style={{
+                display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 14px',
+                borderRadius: '12px', background: 'var(--tint-sage)', border: '1px solid var(--border)',
+              }}>
+                <span style={{
+                  fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase',
+                  background: '#fff', border: '1px solid var(--border)', borderRadius: '100px', padding: '3px 9px', flexShrink: 0,
+                }}>
+                  {WEEKDAY_NAME[a.recurs_weekday ?? 0]}
+                </span>
+                <span style={{ flex: 1, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '13.5px', color: 'var(--ink)' }}>
+                  {a.title}
+                </span>
+                {a.auto_send_to_child && (
+                  <span style={{ fontSize: '10.5px', color: 'var(--ink-soft)', flexShrink: 0 }}>
+                    → {childName ?? 'them'} weekly
+                  </span>
+                )}
+                <button
+                  onClick={() => settle(a.id, 'dismissed')}
+                  style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '11px', color: 'var(--ink-muted)', flexShrink: 0 }}
+                >
+                  Remove
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {oneOff.length === 0 ? (
+        recurring.length === 0 && (
+          <p style={{ fontSize: '13px', color: 'var(--ink-muted)', lineHeight: 1.5 }}>
+            Nothing open right now. Forward a school email, or add a reminder by hand above.
+          </p>
+        )
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-          {actions.map(a => {
+          {oneOff.map(a => {
             const kindMeta = KIND_STYLE[a.kind] ?? KIND_STYLE.notice
             const due = dueLabel(a.due_date)
             return (
