@@ -2,6 +2,8 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
 import { SOCIAL_MEDIA_LAW } from '@/lib/config/social-media-law'
+import ScriptDepth from '@/components/scripts/ScriptDepth'
+import { isScriptLocked } from '@/lib/content/free-script-limit'
 
 const STAGE_META: Record<string, { label: string; color: string; bg: string }> = {
   foundation:  { label: 'Foundation · Ages 4 to 7',  color: 'var(--ink)', bg: 'var(--stage-1)' },
@@ -30,6 +32,9 @@ type ScriptRow = {
   law_flag: string
   is_free: boolean
   sort_order: number
+  if_they_push_back: string | null
+  check_back: string | null
+  for_your_child: string | null
 }
 
 export default async function ScriptDetailPage({
@@ -61,16 +66,27 @@ export default async function ScriptDetailPage({
 
   if (!script) notFound()
 
-  if (!isPaid && !script.is_free) {
+  if (await isScriptLocked(supabase, user.id, isPaid, script)) {
     redirect('/dashboard/upgrade')
   }
+
+  // The purpose of this tool is to find the script the moment you need
+  // it, not to run a separate completion ritual. Opening it here IS
+  // using it, so this is the one and only place completion gets marked
+  // for the vast majority of visits (the deck flow marks it too, same
+  // row, upsert makes either order safe). Never touches the worked
+  // rating a parent may have already given.
+  await supabase
+    .from('script_completions')
+    .upsert({ user_id: user.id, script_sort_order: sortOrder }, { onConflict: 'user_id,script_sort_order' })
 
   const stageMeta = STAGE_META[script.stage_id] ?? STAGE_META.foundation
   const showBanNote = script.law_flag !== 'none' && SOCIAL_MEDIA_LAW !== 'none'
 
-  const [{ data: prevScript }, { data: nextScript }] = await Promise.all([
+  const [{ data: prevScript }, { data: nextScript }, { data: primaryChild }] = await Promise.all([
     supabase.from('scripts').select('sort_order, title').eq('sort_order', sortOrder - 1).maybeSingle(),
     supabase.from('scripts').select('sort_order, title').eq('sort_order', sortOrder + 1).maybeSingle(),
+    supabase.from('children').select('name, phone').eq('parent_id', user.id).eq('is_primary', true).maybeSingle(),
   ])
 
   return (
@@ -122,6 +138,19 @@ export default async function ScriptDetailPage({
         <p style={{ fontSize: '15px', color: 'var(--ink-muted)', fontStyle: 'italic', lineHeight: 1.5 }}>
           {script.situation}
         </p>
+      </div>
+
+      {/* How completion works, stated plainly: reading it here IS the
+          whole action, nothing else to click or tick */}
+      <div style={{
+        display: 'flex', alignItems: 'center', gap: '8px',
+        background: 'var(--tint-sage)', border: '1px solid var(--border)',
+        borderRadius: '12px', padding: '10px 14px', marginBottom: '20px',
+      }}>
+        <span style={{ fontSize: '14px', color: 'var(--ink)' }}>✓</span>
+        <span style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.45 }}>
+          Marked as read, just by opening it. It counts on your path today and toward your free scripts, nothing else to click.
+        </span>
       </div>
 
       {/* Ban world note */}
@@ -198,6 +227,19 @@ export default async function ScriptDetailPage({
           )
         })}
       </div>
+
+      {/* The deeper half: push back, check back, and the note for the child */}
+      <ScriptDepth
+        sortOrder={sortOrder}
+        initial={{
+          ifTheyPushBack: script.if_they_push_back ?? undefined,
+          checkBack: script.check_back ?? undefined,
+          forYourChild: script.for_your_child ?? undefined,
+        }}
+        childName={primaryChild?.name ?? null}
+        childPhone={primaryChild?.phone ?? null}
+        stageId={script.stage_id}
+      />
 
       {/* DiGi CTA */}
       <div style={{

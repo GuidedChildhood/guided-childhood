@@ -1,258 +1,402 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
+import { CURRICULUM as MODULES, CHARACTERS, KEY_STAGE_META, KEY_STAGE_ORDER } from '@/lib/content/schools-curriculum'
+import Reveal from './Reveal'
 
 export const metadata: Metadata = {
   title: 'For Schools | Guided Childhood',
-  description: 'Full digital education from EYFS to Sixth Form. 21 modules, every lesson with teacher plan, pupil worksheet, slides and parent note. Mapped to RSE, Online Safety Act, and Ofsted requirements.',
+  description: 'A digital literacy scheme of work from Reception to Year 13. 21 modules, every lesson taught from an interactive player with a word for word script, printable packs, and coverage evidence for Ofsted. Mapped to RSHE 2025, KCSIE and Education for a Connected World.',
 }
-
-const CURRICULUM = [
-  { stage: 'EYFS and KS1', years: 'Reception to Year 2', age: 'Ages 4 to 7', topics: ['Screens and kindness', 'Family screen routines', 'What is real online', 'Being safe with strangers'], color: 'var(--stage-1)', text: 'var(--terracotta)' },
-  { stage: 'KS2', years: 'Years 3 to 6', age: 'Ages 7 to 11', topics: ['Screen routines that work', 'Gaming without meltdowns', 'How algorithms decide what you see', 'Why people share and what stays online'], color: 'var(--stage-4)', text: 'var(--terracotta)' },
-  { stage: 'KS3', years: 'Years 7 to 9', age: 'Ages 11 to 14', topics: ['Mood, sleep and screens', 'Social media and social comparison', 'Deepfakes and AI-generated content', 'Group chats, pressure and privacy'], color: 'var(--stage-3)', text: 'var(--terracotta)' },
-  { stage: 'KS4', years: 'Years 10 to 11', age: 'Ages 14 to 16', topics: ['Manipulation and consent online', 'Sextortion: what it is and what to do', 'Radicalisation and extremist recruitment', 'Digital reputation and permanence'], color: 'var(--stage-5)', text: 'var(--terracotta)' },
-  { stage: 'KS5 and Sixth Form', years: 'Years 12 to 13', age: 'Ages 16 to 18', topics: ['AI literacy and critical thinking', 'Data rights and platform accountability', 'Digital identity post-18', 'Full independent navigation skills'], color: 'var(--stage-2)', text: 'var(--terracotta)' },
-]
-
-const PRICING = [
-  { tier: 'Small', pupils: 'Up to 300 pupils', price: '£299', period: '/year', features: ['Unlimited teacher logins', 'Full curriculum pack all stages', 'Assembly materials', 'Policy and compliance templates', 'School dashboard'], cta: 'Enquire', featured: false },
-  { tier: 'Medium', pupils: '300 to 800 pupils', price: '£499', period: '/year', features: ['Everything in small school', 'Parent evening pack', 'Staff CPD training module'], cta: 'Enquire', featured: true },
-  { tier: 'Large / MAT', pupils: '800+ pupils or multi-academy trust', price: '£999+', period: '/year', features: ['Everything in medium school', 'Multi-site dashboard', 'Co-branded materials', 'Bespoke onboarding'], cta: 'Contact us', featured: false },
-]
 
 const MAILCHIMP_ENQUIRY = 'https://mailchi.mp/thesocialbillboard/school'
 
-export default function SchoolsPage() {
+// Real brand tokens (warm, buttery, editorial):
+//   cream #F9F8F6 · ink #1A1A2E · butter gold --terracotta #EDC35F
+//   espresso --deep-teal #2E2818 · pale gold --gold #FEF08A
+const ESPRESSO = 'var(--deep-teal)'
+const GOLD = 'var(--terracotta)'
+
+const eyebrow = (color = 'var(--terracotta-dark)'): React.CSSProperties => ({
+  fontFamily: 'var(--font-mono)', fontSize: '0.72rem', fontWeight: 700,
+  letterSpacing: '0.16em', textTransform: 'uppercase', color,
+})
+
+// The premium warm surface: a hair of a highlight over a deep soft espresso drop.
+const softShadow = '0 1px 2px rgba(46,40,24,0.05), 0 30px 60px -34px rgba(46,40,24,0.42)'
+
+const PRICING = [
+  { tier: 'Small school', pupils: 'Up to 300 pupils', price: '£299', period: 'per year', features: ['Unlimited teacher logins', 'All 21 modules, Reception to Year 13', 'Every printable pack and pupil booklet', 'The compliance and safeguarding Hub', 'Coverage reporting for governors'], featured: false },
+  { tier: 'Medium school', pupils: '300 to 800 pupils', price: '£499', period: 'per year', features: ['Everything in Small school', 'Parent evening pack', 'Staff CPD briefings for every sensitive module', 'Priority pilot onboarding'], featured: true },
+  { tier: 'Large or MAT', pupils: '800 plus, or a trust', price: '£999', period: 'per year', features: ['Everything in Medium school', 'Multi school coverage dashboard', 'Co branded parent materials', 'A named onboarding lead'], featured: false },
+]
+
+// A miniature of the real product, framed in browser chrome, so a head can
+// SEE the premium curriculum map before they ever log in. Built from the
+// same character manifest the live product renders from.
+function ProductMockup() {
+  const showcase = MODULES.slice(0, 6)
   return (
-    <div style={{ background: 'var(--cream)' }}>
+    <div style={{
+      background: '#fff', borderRadius: '18px', overflow: 'hidden',
+      boxShadow: '0 2px 4px rgba(46,40,24,0.08), 0 50px 90px -40px rgba(46,40,24,0.6)',
+      border: '1px solid rgba(255,255,255,0.12)',
+    }}>
+      {/* Browser chrome */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '7px', padding: '11px 14px', background: '#F1EFEA', borderBottom: '1px solid var(--border)' }}>
+        <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#E06C5A' }} />
+        <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#E9B949' }} />
+        <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#7BB662' }} />
+        <span style={{ marginLeft: '10px', fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--ink-muted)', background: '#fff', borderRadius: '6px', padding: '3px 12px', flex: 1, maxWidth: '260px' }}>
+          guidedchildhood.app/educator/curriculum
+        </span>
+      </div>
+      {/* The map preview */}
+      <div style={{ padding: '18px', background: 'var(--cream)' }}>
+        <div style={{ ...eyebrow('var(--green-dark)'), fontSize: '0.6rem', marginBottom: '3px' }}>The whole programme · Reception to Year 13</div>
+        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: 'var(--ink)', letterSpacing: '-0.01em', marginBottom: '12px' }}>The curriculum map</div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
+          {showcase.map((m, i) => {
+            const ch = CHARACTERS[m.character]
+            return (
+              <div key={m.moduleId} style={{ background: '#fff', border: `1.5px solid ${ch.accent}`, borderRadius: '11px', overflow: 'hidden' }}>
+                <div style={{ background: ch.soft, padding: '5px 7px', display: 'flex', alignItems: 'center', gap: '5px' }}>
+                  <span style={{ width: '15px', height: '15px', borderRadius: '50%', background: '#fff', border: `1.5px solid ${ch.accent}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '9px' }}>{ch.emblem}</span>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '6.5px', fontWeight: 700, color: ch.ink, marginLeft: 'auto' }}>M{String(m.n).padStart(2, '0')}</span>
+                </div>
+                <div style={{ padding: '6px 7px 8px' }}>
+                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '8px', color: 'var(--ink)', lineHeight: 1.25, marginBottom: '5px', minHeight: '20px' }}>{m.title}</div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <span style={{ height: '4px', flex: 1, borderRadius: '4px', background: 'var(--border)', overflow: 'hidden' }}>
+                      <span style={{ display: 'block', height: '100%', width: i === 0 ? '100%' : i === 1 ? '66%' : i === 2 ? '33%' : '0%', background: ch.accent }} />
+                    </span>
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '6px', color: 'var(--ink-muted)' }}>{i === 0 ? '3/3' : i === 1 ? '2/3' : i === 2 ? '1/3' : '0/3'}</span>
+                  </div>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default function SchoolsPage() {
+  const totalModules = MODULES.length
+  return (
+    <div style={{ background: 'var(--cream)', overflowX: 'hidden' }}>
 
       {/* Nav */}
-      <header style={{ position: 'sticky', top: 0, zIndex: 300, height: '60px', padding: '0 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(247,243,238,.97)', backdropFilter: 'blur(20px)', borderBottom: '1px solid var(--border)' }}>
-        <Link href="/" style={{ fontFamily: 'var(--font-display)', fontSize: '.95rem', fontWeight: 700, color: 'var(--ink)', letterSpacing: '-.01em', textDecoration: 'none' }}>Guided Childhood</Link>
-        <nav style={{ display: 'flex', gap: '2px' }}>
-          {[['Home', '/'], ['For parents', '/'], ['Pricing', '#pricing']].map(([label, href]) => (
-            <Link key={label} href={href} style={{ fontFamily: 'var(--font-body)', fontSize: '.82rem', fontWeight: 500, color: 'var(--ink-soft)', padding: '6px 13px', borderRadius: '100px', textDecoration: 'none' }}>{label}</Link>
-          ))}
+      <header style={{ position: 'sticky', top: 0, zIndex: 300, height: '64px', padding: '0 clamp(20px, 4vw, 40px)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(249,248,246,0.82)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', borderBottom: '1px solid var(--border)' }}>
+        <Link href="/" style={{ fontFamily: 'var(--font-display)', fontSize: '1rem', fontWeight: 900, color: 'var(--ink)', letterSpacing: '-0.02em', textDecoration: 'none' }}>
+          ⭐ Guided Childhood <span style={{ color: 'var(--terracotta-dark)' }}>Schools</span>
+        </Link>
+        <nav style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
+          <Link href="#curriculum" style={{ fontFamily: 'var(--font-body)', fontSize: '0.86rem', fontWeight: 600, color: 'var(--ink-soft)', padding: '8px 14px', textDecoration: 'none' }}>Curriculum</Link>
+          <Link href="#pricing" style={{ fontFamily: 'var(--font-body)', fontSize: '0.86rem', fontWeight: 600, color: 'var(--ink-soft)', padding: '8px 14px', textDecoration: 'none' }}>Pricing</Link>
+          <Link href="/login?next=/educator" style={{ fontFamily: 'var(--font-body)', fontSize: '0.86rem', fontWeight: 600, color: 'var(--ink-soft)', padding: '8px 14px', textDecoration: 'none' }}>Sign in</Link>
+          <a href={MAILCHIMP_ENQUIRY} target="_blank" rel="noopener noreferrer" className="btn btn-gold" style={{ padding: '10px 22px', fontSize: '0.84rem', marginLeft: '6px' }}>
+            Request a pilot
+          </a>
         </nav>
-        <a href={MAILCHIMP_ENQUIRY} target="_blank" rel="noopener noreferrer" className="btn btn-gold" style={{ padding: '9px 22px', fontSize: '.82rem' }}>
-          Enquire
-        </a>
       </header>
 
-      {/* Hero */}
-      <section style={{ padding: 'clamp(60px, 8vw, 80px) 32px', textAlign: 'center', background: 'var(--stage-2)', borderBottom: '1px solid var(--stage-2)' }}>
-        <div style={{ maxWidth: '760px', margin: '0 auto' }}>
-          <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '14px' }}>For schools and headteachers</p>
-          <h1 style={{ fontSize: 'clamp(2.2rem, 4.5vw, 3.8rem)', fontWeight: 800, lineHeight: 1.06, letterSpacing: '-.04em', color: 'var(--ink)', marginBottom: '20px' }}>
-            The ban handles access.<br /><em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--terracotta)' }}>We handle readiness.</em><br />Ofsted will ask about the second part.
-          </h1>
-          <p style={{ fontSize: 'clamp(.92rem, 1.5vw, 1.1rem)', color: 'var(--ink-soft)', lineHeight: 1.8, maxWidth: '560px', margin: '0 auto 28px' }}>
-            21 modules. EYFS to Sixth Form. Every lesson with a teacher plan, pupil worksheet, slides, and parent note. Zero prep. Full statutory alignment. Ofsted ready.
-          </p>
-          <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <a href={MAILCHIMP_ENQUIRY} target="_blank" rel="noopener noreferrer" className="btn btn-gold" style={{ fontSize: '1rem', padding: '16px 32px' }}>
-              Request a free pilot →
-            </a>
-            <Link href="#curriculum" className="btn btn-outline" style={{ fontSize: '1rem', padding: '16px 32px' }}>
-              See the curriculum
-            </Link>
-          </div>
-          <p style={{ marginTop: '16px', fontFamily: 'var(--font-mono)', fontSize: '.72rem', color: 'var(--ink-light)' }}>Free one-term pilot for selected schools. 48-hour response.</p>
+      {/* ── HERO ── espresso, oversized, product mockup right ── */}
+      <section style={{ background: ESPRESSO, color: '#fff', padding: 'clamp(64px, 9vw, 120px) clamp(20px, 4vw, 40px) clamp(80px, 10vw, 140px)', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', top: '-140px', right: '-100px', width: '620px', height: '620px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(237,195,95,0.22) 0%, transparent 62%)', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', bottom: '-200px', left: '-140px', width: '520px', height: '520px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(254,240,138,0.09) 0%, transparent 68%)', pointerEvents: 'none' }} />
+        <div style={{ maxWidth: '1160px', margin: '0 auto', position: 'relative', display: 'grid', gridTemplateColumns: 'minmax(0, 1.05fr) minmax(0, 0.95fr)', gap: 'clamp(32px, 5vw, 72px)', alignItems: 'center' }} className="schools-hero-grid">
+          <Reveal>
+            <p style={{ ...eyebrow(GOLD), marginBottom: '22px' }}>For schools, heads and PSHE leads</p>
+            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.5rem, 5.4vw, 4.4rem)', fontWeight: 900, lineHeight: 1.03, letterSpacing: '-0.045em', marginBottom: '22px' }}>
+              The digital literacy curriculum,<br />
+              ready for <span style={{ color: GOLD }}>September 2026.</span>
+            </h1>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: 'clamp(1.02rem, 1.5vw, 1.22rem)', color: 'rgba(255,250,240,0.9)', lineHeight: 1.7, maxWidth: '500px', marginBottom: '32px' }}>
+              <strong style={{ color: '#fff', fontWeight: 800 }}>The ban takes the apps. We build the judgement.</strong> A complete online safety scheme of work, Reception to Year 13, mapped to the new statutory RSHE guidance. Every lesson taught from an interactive script, with printable packs and the coverage evidence Ofsted asks for. Ready in your classroom tomorrow.
+            </p>
+            <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '18px' }}>
+              <a href={MAILCHIMP_ENQUIRY} target="_blank" rel="noopener noreferrer" className="btn btn-gold" style={{ fontSize: '1rem', padding: '16px 32px' }}>
+                Request a free pilot
+              </a>
+              <Link href="#curriculum" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1rem', padding: '16px 30px', borderRadius: '16px', textDecoration: 'none', color: '#fff', background: 'rgba(255,255,255,0.1)', border: '1.5px solid rgba(255,255,255,0.24)' }}>
+                See the curriculum
+              </Link>
+            </div>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.74rem', color: 'rgba(255,250,240,0.6)' }}>
+              Free one term pilot for the first schools. We reply within 48 hours.
+            </p>
+          </Reveal>
+          <Reveal delay={0.12} y={34}>
+            <ProductMockup />
+          </Reveal>
         </div>
       </section>
 
-      {/* 4-step how it works */}
-      <section style={{ padding: 'clamp(60px, 8vw, 80px) 32px', background: 'var(--cream)' }}>
-        <div style={{ maxWidth: '1040px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '44px' }}>
-            <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>How it works</p>
-            <h2>Up and running in 48 hours.</h2>
-          </div>
-          <div className="four-col" style={{ display: 'grid', gap: '0' }}>
-            {[
-              { num: '01', title: 'School takes a licence', body: 'Annual licence. Immediate access for all teaching staff. No per-seat pricing, no login complications.' },
-              { num: '02', title: 'Teachers log in', body: 'Every teacher has a dashboard. Lessons assigned by year group. Download or present directly. Zero prep.' },
-              { num: '03', title: 'Lesson lands in the home', body: 'Every lesson includes a parent note. What was covered, the key message, and one conversation to have at home.' },
-              { num: '04', title: 'Evidence ready for Ofsted', body: 'Statutory alignment document, attendance records, and curriculum overview. Your DSL has everything they need.' },
-            ].map((step, i, arr) => (
-              <div key={i} style={{ textAlign: 'center', padding: '24px 20px', position: 'relative', borderRight: i < arr.length - 1 ? '1px solid var(--border)' : 'none' }}>
-                <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'var(--stage-2)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', border: '2px solid var(--stage-2)' }}>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '.7rem', fontWeight: 700, color: 'var(--terracotta)' }}>{step.num}</span>
-                </div>
-                <h3 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '10px' }}>{step.title}</h3>
-                <p style={{ fontSize: '.83rem', color: 'var(--ink-soft)', lineHeight: 1.7 }}>{step.body}</p>
+      {/* ── STATS STRIP ── */}
+      <section style={{ background: '#211C10', color: '#fff', padding: 'clamp(30px, 4vw, 44px) clamp(20px, 4vw, 40px)', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+        <div style={{ maxWidth: '1160px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '22px' }}>
+          {[
+            { n: `${totalModules}`, l: 'modules, Reception to Year 13' },
+            { n: '8 of 8', l: 'Connected World strands covered' },
+            { n: '0', l: 'pupil accounts or logins needed' },
+            { n: '48 hrs', l: 'from enquiry to your pilot' },
+          ].map((s, i) => (
+            <Reveal key={s.l} delay={i * 0.06}>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.9rem, 3.4vw, 2.8rem)', color: GOLD, lineHeight: 1, letterSpacing: '-0.02em' }}>{s.n}</div>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', letterSpacing: '0.06em', textTransform: 'uppercase', color: 'rgba(255,250,240,0.64)', marginTop: '8px', lineHeight: 1.4 }}>{s.l}</div>
               </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* ── ONE LESSON, EVERYTHING ── the artefacts ── */}
+      <section style={{ padding: 'clamp(72px, 10vw, 130px) clamp(20px, 4vw, 40px)' }}>
+        <div style={{ maxWidth: '1160px', margin: '0 auto' }}>
+          <Reveal>
+            <p style={{ ...eyebrow(), marginBottom: '14px' }}>One lesson, everything in it</p>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 3.8vw, 3.1rem)', fontWeight: 900, letterSpacing: '-0.035em', lineHeight: 1.08, color: 'var(--ink)', maxWidth: '760px', marginBottom: '18px' }}>
+              A teacher opens one page. The whole lesson is already there.
+            </h2>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.05rem', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '620px', marginBottom: '48px' }}>
+              No hunting through a portal. No prep the night before. Everything a non specialist needs to teach it well, generated from the lesson itself and updated the moment the world changes.
+            </p>
+          </Reveal>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '18px' }}>
+            {[
+              { icon: '🎬', title: 'The interactive lesson', body: 'A projector led player with the animated DiGi Squad, timed talk tasks, auto marked checks, and a word for word teacher script on every slide.' },
+              { icon: '🖨️', title: 'The printable pack', body: 'Teacher one pager, worksheet, bookmark, start and exit quiz cards, and a colour pupil booklet. Every quiz already has your pupils names on it.' },
+              { icon: '📊', title: 'Coverage that builds itself', body: 'One tap records the lesson. The curriculum map fills, and your governors report writes itself as a side effect of teaching.' },
+              { icon: '🏡', title: 'A note that reaches home', body: 'Every lesson ends with a parent note. What we taught, and one question for the dinner table. No login, nothing to sign up for.' },
+              { icon: '🛡️', title: 'Safeguarding built in', body: 'The five sensitive modules carry a DSL note, a ten minute staff briefing, and disclosure handling written into the script.' },
+              { icon: '📋', title: 'The compliance Hub', body: 'RSHE 2025 mapping, policy ready text, the parent pack and a data protection pack for your DPO. All of it prints.' },
+            ].map((f, i) => (
+              <Reveal key={f.title} delay={(i % 3) * 0.06} as="div" style={{ height: '100%' }}>
+                <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '22px', padding: '26px', height: '100%', boxShadow: softShadow }}>
+                  <div style={{ fontSize: '30px', marginBottom: '16px' }}>{f.icon}</div>
+                  <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.15rem', color: 'var(--ink)', letterSpacing: '-0.01em', marginBottom: '9px' }}>{f.title}</h3>
+                  <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.92rem', color: 'var(--ink-soft)', lineHeight: 1.65 }}>{f.body}</p>
+                </div>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Curriculum */}
-      <section id="curriculum" style={{ padding: 'clamp(60px, 8vw, 80px) 32px', scrollMarginTop: '70px' }}>
-        <div style={{ maxWidth: '1040px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '36px' }}>
-            <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>The curriculum</p>
-            <h2 style={{ marginBottom: '12px' }}>21 modules. EYFS to Sixth Form.</h2>
-            <p style={{ fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.8, maxWidth: '500px', margin: '0 auto' }}>One coherent programme that builds from first screens to full independence. Not a bolt-on. Not a one-off assembly. A proper scheme of work.</p>
+      {/* ── THE SQUAD ── */}
+      <section style={{ padding: 'clamp(64px, 9vw, 120px) clamp(20px, 4vw, 40px)', background: '#fff', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
+        <div style={{ maxWidth: '1160px', margin: '0 auto' }}>
+          <Reveal>
+            <p style={{ ...eyebrow(), marginBottom: '14px' }}>Taught by the DiGi Squad</p>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 3.8vw, 3.1rem)', fontWeight: 900, letterSpacing: '-0.035em', lineHeight: 1.08, color: 'var(--ink)', maxWidth: '720px', marginBottom: '18px' }}>
+              A cast children remember, carrying lessons that matter.
+            </h2>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.05rem', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '600px', marginBottom: '44px' }}>
+              Each character owns a corner of digital life, so a child meets a familiar face every time the topic comes back. DiGi, the golden star, is always there at the close.
+            </p>
+          </Reveal>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(168px, 1fr))', gap: '14px' }}>
+            {[
+              { key: 'digi', line: 'The golden star who closes every lesson' },
+              { key: 'zara', line: 'Truth, checks and the detective work' },
+              { key: 'oliver', line: 'Screen time, routines and gaming' },
+              { key: 'sofia', line: 'Kindness, privacy and staying safe' },
+              { key: 'vix', line: 'Street smart on scams and workarounds' },
+              { key: 'brock', line: 'The calm one, for mood and wellbeing' },
+            ].map((c, i) => {
+              const ch = CHARACTERS[c.key as keyof typeof CHARACTERS]
+              return (
+                <Reveal key={c.key} delay={(i % 3) * 0.05} as="div" style={{ height: '100%' }}>
+                  <div style={{ background: ch.soft, border: `1.5px solid ${ch.accent}`, borderRadius: '20px', padding: '22px 18px', textAlign: 'center', height: '100%' }}>
+                    <div style={{ width: '56px', height: '56px', margin: '0 auto 14px', borderRadius: '50%', background: '#fff', border: `2px solid ${ch.accent}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '28px' }}>{ch.emblem}</div>
+                    <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: ch.ink, marginBottom: '6px' }}>{ch.name}</div>
+                    <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: 'var(--ink-soft)', lineHeight: 1.5 }}>{c.line}</div>
+                  </div>
+                </Reveal>
+              )
+            })}
           </div>
+        </div>
+      </section>
+
+      {/* ── CURRICULUM ── */}
+      <section id="curriculum" style={{ padding: 'clamp(72px, 10vw, 130px) clamp(20px, 4vw, 40px)', scrollMarginTop: '70px' }}>
+        <div style={{ maxWidth: '1160px', margin: '0 auto' }}>
+          <Reveal>
+            <p style={{ ...eyebrow(), marginBottom: '14px' }}>The scheme of work</p>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 3.8vw, 3.1rem)', fontWeight: 900, letterSpacing: '-0.035em', lineHeight: 1.08, color: 'var(--ink)', maxWidth: '760px', marginBottom: '18px' }}>
+              {totalModules} modules that build from first screens to the working world.
+            </h2>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.05rem', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '620px', marginBottom: '44px' }}>
+              Not a bolt on, not a one off assembly. A proper spine that sits inside your PSHE provision and covers all eight Education for a Connected World strands, EYFS to Year 13.
+            </p>
+          </Reveal>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            {CURRICULUM.map((stage, i) => (
-              <div key={i} className="curriculum-row" style={{ display: 'grid', background: '#fff', border: '1px solid var(--border)', borderRadius: '14px', overflow: 'hidden' }}>
-                <div style={{ background: stage.color, padding: '24px 20px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.6rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: stage.text, marginBottom: '6px' }}>{stage.stage}</div>
-                  <div style={{ fontFamily: 'var(--font-display)', fontSize: '.9rem', fontWeight: 700, color: 'var(--ink)', marginBottom: '4px' }}>{stage.years}</div>
-                  <div style={{ fontSize: '.75rem', color: 'var(--ink-muted)' }}>{stage.age}</div>
-                </div>
-                <div style={{ padding: '24px 26px', display: 'flex', flexWrap: 'wrap', gap: '8px', alignContent: 'center' }}>
-                  {stage.topics.map((topic, j) => (
-                    <span key={j} style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '100px', padding: '5px 14px', fontSize: '.78rem', color: 'var(--ink-soft)', fontWeight: 500 }}>{topic}</span>
-                  ))}
-                </div>
+            {KEY_STAGE_ORDER.map((ks, i) => {
+              const meta = KEY_STAGE_META[ks]
+              const mods = MODULES.filter(m => m.keyStage === ks)
+              return (
+                <Reveal key={ks} delay={i * 0.05}>
+                  <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '20px', overflow: 'hidden', display: 'grid', gridTemplateColumns: 'minmax(180px, 220px) 1fr', boxShadow: softShadow }} className="schools-curric-row">
+                    <div style={{ background: ESPRESSO, color: '#fff', padding: '24px 22px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                      <div style={{ ...eyebrow(GOLD), fontSize: '0.64rem', marginBottom: '7px' }}>{meta.label}</div>
+                      <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.05rem', fontWeight: 800, marginBottom: '3px' }}>{meta.years}</div>
+                      <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: 'rgba(255,250,240,0.7)', lineHeight: 1.45 }}>{meta.strapline}</div>
+                    </div>
+                    <div style={{ padding: '22px', display: 'flex', flexWrap: 'wrap', gap: '8px', alignContent: 'center' }}>
+                      {mods.map(m => {
+                        const ch = CHARACTERS[m.character]
+                        return (
+                          <span key={m.moduleId} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: ch.soft, border: `1px solid ${ch.accent}`, borderRadius: '100px', padding: '6px 14px', fontFamily: 'var(--font-body)', fontSize: '0.8rem', fontWeight: 600, color: 'var(--ink)' }}>
+                            <span style={{ fontSize: '11px' }}>{ch.emblem}</span>{m.title}
+                          </span>
+                        )
+                      })}
+                    </div>
+                  </div>
+                </Reveal>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ── COMPLIANCE ── */}
+      <section style={{ padding: 'clamp(64px, 9vw, 120px) clamp(20px, 4vw, 40px)', background: 'var(--cream)' }}>
+        <div style={{ maxWidth: '1160px', margin: '0 auto' }}>
+          <Reveal>
+            <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)', gap: 'clamp(28px, 4vw, 56px)', alignItems: 'center' }} className="schools-hero-grid">
+              <div>
+                <p style={{ ...eyebrow(), marginBottom: '14px' }}>Ready for inspection, ready for parents</p>
+                <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.9rem, 3.4vw, 2.9rem)', fontWeight: 900, letterSpacing: '-0.035em', lineHeight: 1.1, color: 'var(--ink)', marginBottom: '18px' }}>
+                  The paperwork is already written, and it prints.
+                </h2>
+                <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.02rem', color: 'var(--ink-soft)', lineHeight: 1.7, marginBottom: '20px' }}>
+                  Every module is mapped to the RSHE 2025 guidance that becomes statutory in September 2026, including deepfakes, misogynistic and incel content, gambling and the harms of pornography. Your DSL gets the safeguarding crosswalk, your DPO gets the data protection pack, and parents get a transparency pack built for consultation.
+                </p>
+                <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.02rem', color: 'var(--ink-soft)', lineHeight: 1.7 }}>
+                  All of it regenerates from the live curriculum, so it can never fall out of date in a filing cabinet.
+                </p>
               </div>
-            ))}
-          </div>
-          <div style={{ background: 'var(--stage-2)', border: '1px solid var(--stage-2)', borderRadius: '12px', padding: '20px 24px', marginTop: '16px', display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-            <span style={{ color: 'var(--terracotta)', fontSize: '1rem', flexShrink: 0, marginTop: '2px' }}>✓</span>
-            <p style={{ fontSize: '.83rem', color: 'var(--ink-soft)', lineHeight: 1.65 }}>Every lesson includes: teacher plan with learning objectives, pupil-facing worksheet, slide deck (editable), and a parent note. No additional prep needed.</p>
-          </div>
-        </div>
-      </section>
-
-      {/* CPD + DiGi */}
-      <section style={{ padding: 'clamp(60px, 8vw, 80px) 32px', background: 'var(--cream)' }}>
-        <div className="two-col" style={{ maxWidth: '1040px', margin: '0 auto', gap: '24px' }}>
-          <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '16px', padding: '32px' }}>
-            <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>Staff CPD</p>
-            <h3 style={{ fontSize: '1.3rem', marginBottom: '14px' }}>2-hour CPD module for DSLs and PSHE leads</h3>
-            <p style={{ fontSize: '.88rem', color: 'var(--ink-soft)', lineHeight: 1.78, marginBottom: '16px' }}>Covers the research base behind the programme, how to use the curriculum effectively, safeguarding application, and how to communicate with parents about digital issues at home.</p>
-            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              {['Grounded in Odgers, Orben, Przybylski and Livingstone', 'KCSIE and Online Safety Act implications', 'Practical parent communication templates', 'Included in all licences'].map((item, i) => (
-                <li key={i} style={{ display: 'flex', gap: '8px', fontSize: '.83rem', color: 'var(--ink-soft)' }}>
-                  <span style={{ color: 'var(--terracotta)', fontWeight: 700, flexShrink: 0 }}>✓</span>
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div style={{ background: 'var(--deep-teal)', border: '1px solid var(--border)', borderRadius: '16px', padding: '32px' }}>
-            <p className="eyebrow" style={{ color: 'var(--gold)', marginBottom: '12px' }}>School DiGi</p>
-            <h3 style={{ fontSize: '1.3rem', color: '#fff', marginBottom: '14px' }}>Your school safeguarding AI advisor</h3>
-            <p style={{ fontSize: '.88rem', color: 'rgba(255,255,255,.65)', lineHeight: 1.78, marginBottom: '16px' }}>School DiGi gives DSLs, PSHE leads, and teachers an instant reference for any digital safeguarding question. GDPR compliant. No student data. Available on any device.</p>
-            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              {['Instant answers on safeguarding scenarios', 'Platform-specific guidance (TikTok, Discord, Roblox, etc)', 'Parent letter templates on demand', 'Available in Medium and Large licences'].map((item, i) => (
-                <li key={i} style={{ display: 'flex', gap: '8px', fontSize: '.83rem', color: 'rgba(255,255,255,.65)' }}>
-                  <span style={{ color: 'var(--gold)', fontWeight: 700, flexShrink: 0 }}>✓</span>
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      {/* Free assembly pack */}
-      <section style={{ padding: '36px 32px', background: 'var(--stage-5)', borderTop: '1px solid var(--stage-5)', borderBottom: '1px solid var(--stage-5)' }}>
-        <div style={{ maxWidth: '1040px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '24px', flexWrap: 'wrap' }}>
-          <div>
-            <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '8px' }}>Free · No strings · Ready to use today</p>
-            <h3 style={{ fontSize: '1.3rem', marginBottom: '8px' }}>Free assembly pack for any school</h3>
-            <p style={{ fontSize: '.88rem', color: 'var(--ink-soft)', maxWidth: '480px', lineHeight: 1.7 }}>A complete 45-minute assembly on digital life today, with slides, speaker notes, and a pupil handout. Works from Year 5 upward. No Guided Childhood licence needed.</p>
-          </div>
-          <a href={MAILCHIMP_ENQUIRY} target="_blank" rel="noopener noreferrer" style={{ background: 'var(--terracotta)', color: 'var(--ink)', fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '.88rem', padding: '14px 28px', borderRadius: '12px', textDecoration: 'none', boxShadow: '0 5px 0 var(--terracotta-dark)', whiteSpace: 'nowrap' }}>
-            Get the free assembly pack →
-          </a>
-        </div>
-      </section>
-
-      {/* Statutory alignment */}
-      <section style={{ padding: 'clamp(60px, 8vw, 80px) 32px' }}>
-        <div style={{ maxWidth: '1040px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '36px' }}>
-            <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>Statutory alignment</p>
-            <h2 style={{ marginBottom: '12px' }}>Covers everything Ofsted will ask about</h2>
-            <p style={{ fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.8, maxWidth: '500px', margin: '0 auto' }}>Your DSL gets a full alignment document showing exactly how each module maps to statutory requirements. No gaps. No guesswork.</p>
-          </div>
-          <div className="four-col" style={{ display: 'grid', gap: '12px' }}>
-            {[
-              { label: 'Online Safety Act 2023', desc: 'Platform duties and education requirements for under-18s.', color: 'var(--stage-2)', text: 'var(--terracotta)' },
-              { label: 'Statutory RSE and RSHE', desc: 'Healthy relationships online, age-appropriate sex and relationships education.', color: 'var(--stage-4)', text: 'var(--terracotta)' },
-              { label: 'Education for a Connected World (DfE)', desc: 'Full mapping to all eight strand areas, EYFS to age 18.', color: 'var(--stage-1)', text: 'var(--terracotta)' },
-              { label: 'DfE AI in Education Guidance 2025', desc: 'AI literacy, deepfakes, data rights, and responsible use from KS3 upward.', color: 'var(--stage-5)', text: 'var(--terracotta)' },
-            ].map((item, i) => (
-              <div key={i} style={{ background: item.color, borderRadius: '14px', padding: '22px' }}>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.6rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: item.text, marginBottom: '10px' }}>{item.label}</div>
-                <p style={{ fontSize: '.82rem', color: 'var(--ink-soft)', lineHeight: 1.65 }}>{item.desc}</p>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                {[
+                  { label: 'RSHE 2025', desc: 'Statutory September 2026, mapped module by module.' },
+                  { label: 'KCSIE 2025', desc: 'Online content harms addressed in every relevant module.' },
+                  { label: 'Connected World', desc: 'All eight UKCIS strands, EYFS to Year 13.' },
+                  { label: 'Data minimised', desc: 'First name and initial only. No pupil accounts.' },
+                ].map(item => (
+                  <div key={item.label} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '16px', padding: '20px', boxShadow: softShadow }}>
+                    <div style={{ ...eyebrow('var(--green-dark)'), fontSize: '0.62rem', marginBottom: '9px' }}>{item.label}</div>
+                    <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.82rem', color: 'var(--ink-soft)', lineHeight: 1.55 }}>{item.desc}</p>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-          <div style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '12px', padding: '16px 20px', marginTop: '16px', display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-            <span style={{ color: 'var(--terracotta)', fontSize: '1rem', flexShrink: 0, marginTop: '2px' }}>✓</span>
-            <p style={{ fontSize: '.82rem', color: 'var(--ink-soft)', lineHeight: 1.65 }}>KCSIE Part 2: every module addresses the safeguarding obligations for online safety. Your DSL receives a dedicated KCSIE alignment document as part of the licence.</p>
-          </div>
+            </div>
+          </Reveal>
         </div>
       </section>
 
-      {/* Pricing */}
-      <section id="pricing" style={{ padding: 'clamp(60px, 8vw, 80px) 32px', background: 'var(--cream)', scrollMarginTop: '70px' }}>
-        <div style={{ maxWidth: '1040px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '36px' }}>
-            <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>School pricing</p>
-            <h2 style={{ marginBottom: '12px' }}>Simple annual licences</h2>
-            <p style={{ fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.8, maxWidth: '500px', margin: '0 auto' }}>One licence covers all your teachers, all year groups, all 21 modules. No per-seat fees. No per-lesson charges.</p>
-          </div>
-          <div className="three-col" style={{ display: 'grid', gap: '12px' }}>
+      {/* ── PRICING ── */}
+      <section id="pricing" style={{ padding: 'clamp(72px, 10vw, 130px) clamp(20px, 4vw, 40px)', scrollMarginTop: '70px' }}>
+        <div style={{ maxWidth: '1160px', margin: '0 auto' }}>
+          <Reveal>
+            <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+              <p style={{ ...eyebrow(), marginBottom: '14px' }}>One licence, everything included</p>
+              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 3.8vw, 3.1rem)', fontWeight: 900, letterSpacing: '-0.035em', lineHeight: 1.08, color: 'var(--ink)', marginBottom: '16px' }}>
+                Simple annual pricing.
+              </h2>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.05rem', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '520px', margin: '0 auto' }}>
+                Every teacher, every year group, all {totalModules} modules. No per seat fees, no per lesson charges.
+              </p>
+            </div>
+          </Reveal>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px', alignItems: 'stretch' }}>
             {PRICING.map((plan, i) => (
-              <div key={i} style={{ background: plan.featured ? 'var(--stage-2)' : '#fff', border: `2px solid ${plan.featured ? 'var(--terracotta)' : 'var(--border)'}`, borderRadius: '16px', padding: '28px', display: 'flex', flexDirection: 'column', ...(plan.featured ? { transform: 'scale(1.025)' } : {}) }}>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.6rem', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '5px' }}>{plan.tier}</div>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.72rem', color: 'var(--ink-muted)', marginBottom: '14px' }}>{plan.pupils}</div>
-                <div style={{ display: 'flex', alignItems: 'baseline', gap: '2px', marginBottom: '20px' }}>
-                  <span style={{ fontFamily: 'var(--font-display)', fontSize: '2.4rem', fontWeight: 800, color: 'var(--ink)', lineHeight: 1 }}>{plan.price}</span>
-                  <span style={{ fontSize: '.76rem', color: 'var(--ink-muted)', marginLeft: '4px' }}>{plan.period}</span>
+              <Reveal key={plan.tier} delay={i * 0.07} as="div" style={{ height: '100%' }}>
+                <div style={{
+                  background: plan.featured ? ESPRESSO : '#fff',
+                  color: plan.featured ? '#fff' : 'var(--ink)',
+                  border: plan.featured ? 'none' : '1px solid var(--border)',
+                  borderRadius: '24px', padding: '32px 28px', display: 'flex', flexDirection: 'column', height: '100%',
+                  boxShadow: plan.featured ? '0 2px 4px rgba(46,40,24,0.1), 0 40px 70px -34px rgba(46,40,24,0.55)' : softShadow,
+                  position: 'relative',
+                }}>
+                  {plan.featured && (
+                    <span style={{ position: 'absolute', top: '20px', right: '20px', ...eyebrow(GOLD), fontSize: '0.6rem' }}>Most schools</span>
+                  )}
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.66rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: plan.featured ? GOLD : 'var(--ink-muted)', marginBottom: '6px' }}>{plan.tier}</div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.74rem', color: plan.featured ? 'rgba(255,250,240,0.7)' : 'var(--ink-muted)', marginBottom: '18px' }}>{plan.pupils}</div>
+                  <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px', marginBottom: '22px' }}>
+                    <span style={{ fontFamily: 'var(--font-display)', fontSize: '2.8rem', fontWeight: 900, lineHeight: 1, letterSpacing: '-0.03em' }}>{plan.price}</span>
+                    <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: plan.featured ? 'rgba(255,250,240,0.64)' : 'var(--ink-muted)' }}>{plan.period}</span>
+                  </div>
+                  <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '28px', flex: 1, padding: 0 }}>
+                    {plan.features.map(feat => (
+                      <li key={feat} style={{ display: 'flex', gap: '10px', fontFamily: 'var(--font-body)', fontSize: '0.86rem', color: plan.featured ? 'rgba(255,255,255,0.82)' : 'var(--ink-soft)', alignItems: 'flex-start', lineHeight: 1.5 }}>
+                        <span style={{ color: GOLD, fontWeight: 900, flexShrink: 0 }}>✓</span>{feat}
+                      </li>
+                    ))}
+                  </ul>
+                  <a href={MAILCHIMP_ENQUIRY} target="_blank" rel="noopener noreferrer" style={{
+                    width: '100%', padding: '14px', borderRadius: '14px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '0.92rem',
+                    textDecoration: 'none', display: 'block', textAlign: 'center', cursor: 'pointer',
+                    ...(plan.featured
+                      ? { background: GOLD, color: 'var(--ink)', boxShadow: '0 5px 0 var(--terracotta-dark)' }
+                      : { background: 'var(--cream)', color: 'var(--ink)', border: '1.5px solid var(--border)' }),
+                  }}>
+                    Request a pilot
+                  </a>
                 </div>
-                <div style={{ height: '1px', background: plan.featured ? 'var(--terracotta-lt)' : 'var(--border)', marginBottom: '16px' }} />
-                <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '24px', flex: 1 }}>
-                  {plan.features.map((feat, fi) => (
-                    <li key={fi} style={{ display: 'flex', gap: '8px', fontSize: '.82rem', color: 'var(--ink-soft)', alignItems: 'flex-start' }}>
-                      <span style={{ color: 'var(--terracotta)', fontWeight: 700, flexShrink: 0 }}>✓</span>
-                      {feat}
-                    </li>
-                  ))}
-                </ul>
-                <a href={MAILCHIMP_ENQUIRY} target="_blank" rel="noopener noreferrer" style={{ width: '100%', padding: '14px', borderRadius: '12px', fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '.85rem', textDecoration: 'none', display: 'block', textAlign: 'center', ...(plan.featured ? { background: 'var(--terracotta)', color: 'var(--ink)' } : { background: 'transparent', color: 'var(--ink)', border: '2px solid var(--border)' }) }}>
-                  {plan.cta}
-                </a>
-              </div>
+              </Reveal>
             ))}
           </div>
-          <p style={{ textAlign: 'center', fontSize: '.78rem', color: 'var(--ink-muted)', marginTop: '20px' }}>
-            10% discount on 2-year commitments · Free assembly pack for all enquiries · All teacher logins included
+          <p style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: '0.74rem', color: 'var(--ink-muted)', marginTop: '24px' }}>
+            10 percent off a two year commitment · a free assembly pack with every enquiry · all teacher logins included
           </p>
         </div>
       </section>
 
-      {/* CTA */}
-      <section style={{ padding: 'clamp(60px, 8vw, 80px) 32px', background: 'var(--terracotta-dark)', textAlign: 'center' }}>
-        <div style={{ maxWidth: '560px', margin: '0 auto' }}>
-          <h2 style={{ color: '#fff', marginBottom: '16px' }}>Ready to talk? We'll get back within 48 hours.</h2>
-          <p style={{ fontSize: '1rem', color: 'rgba(255,255,255,.7)', lineHeight: 1.78, marginBottom: '28px' }}>Free pilot available for selected schools. Assembly pack available for every school, free, today.</p>
-          <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <a href={MAILCHIMP_ENQUIRY} target="_blank" rel="noopener noreferrer" style={{ background: 'var(--stage-5)', color: 'var(--ink)', fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '1rem', padding: '16px 32px', borderRadius: '12px', textDecoration: 'none', boxShadow: '0 5px 0 var(--terracotta-dark)' }}>
-              Enquire now →
-            </a>
-            <a href={MAILCHIMP_ENQUIRY} target="_blank" rel="noopener noreferrer" style={{ background: 'rgba(255,255,255,.15)', border: '2px solid rgba(255,255,255,.3)', color: '#fff', fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '1rem', padding: '16px 32px', borderRadius: '12px', textDecoration: 'none' }}>
-              Get the free assembly pack
-            </a>
+      {/* ── FINAL CTA ── */}
+      <section style={{ background: ESPRESSO, color: '#fff', padding: 'clamp(72px, 10vw, 130px) clamp(20px, 4vw, 40px)', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '720px', height: '720px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(237,195,95,0.16) 0%, transparent 62%)', pointerEvents: 'none' }} />
+        <Reveal>
+          <div style={{ maxWidth: '660px', margin: '0 auto', textAlign: 'center', position: 'relative' }}>
+            <div style={{ fontSize: '44px', marginBottom: '18px' }}>⭐</div>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 4.2vw, 3.3rem)', fontWeight: 900, letterSpacing: '-0.04em', lineHeight: 1.05, marginBottom: '18px' }}>
+              Be one of the first schools to teach it.
+            </h2>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.08rem', color: 'rgba(255,250,240,0.84)', lineHeight: 1.7, marginBottom: '32px' }}>
+              A free one term pilot for the first schools who want to get ahead of September 2026. Tell us your school and we will reply within 48 hours, with the free assembly pack either way.
+            </p>
+            <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
+              <a href={MAILCHIMP_ENQUIRY} target="_blank" rel="noopener noreferrer" className="btn btn-gold" style={{ fontSize: '1.05rem', padding: '17px 36px' }}>
+                Request your pilot
+              </a>
+              <a href={MAILCHIMP_ENQUIRY} target="_blank" rel="noopener noreferrer" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.05rem', padding: '17px 34px', borderRadius: '16px', textDecoration: 'none', color: '#fff', background: 'rgba(255,255,255,0.12)', border: '1.5px solid rgba(255,255,255,0.26)' }}>
+                Get the free assembly pack
+              </a>
+            </div>
           </div>
-        </div>
+        </Reveal>
       </section>
 
       {/* Footer */}
-      <footer style={{ background: 'var(--cream)', borderTop: '1px solid var(--border)', padding: '28px 32px' }}>
-        <div style={{ maxWidth: '1040px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
-          <Link href="/" style={{ fontFamily: 'var(--font-display)', fontSize: '.86rem', fontWeight: 700, color: 'var(--ink-muted)', textDecoration: 'none' }}>← Guided Childhood</Link>
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '.7rem', color: 'var(--ink-light)' }}>© 2026 The Social Billboard · Justin Phillips</p>
+      <footer style={{ background: 'var(--cream)', borderTop: '1px solid var(--border)', padding: '30px clamp(20px, 4vw, 40px)' }}>
+        <div style={{ maxWidth: '1160px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
+          <Link href="/" style={{ fontFamily: 'var(--font-display)', fontSize: '0.9rem', fontWeight: 800, color: 'var(--ink-muted)', textDecoration: 'none' }}>← Guided Childhood</Link>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--ink-light)' }}>© 2026 The Social Billboard · Justin Phillips</p>
         </div>
       </footer>
+
+      {/* Responsive: stack the two column grids on small screens */}
+      <style>{`
+        @media (max-width: 860px) {
+          .schools-hero-grid { grid-template-columns: 1fr !important; }
+          .schools-curric-row { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
     </div>
   )
 }

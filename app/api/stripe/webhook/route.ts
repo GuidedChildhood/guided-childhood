@@ -5,9 +5,12 @@ import type Stripe from 'stripe'
 
 export const dynamic = 'force-dynamic'
 
+// Placeholder fallbacks so a missing env var at build time (the marketing
+// Vercel project has no Supabase keys) never crashes the whole build. The
+// real keys win on the app project; this route is never hit on marketing.
 const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_KEY!
+  process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co',
+  process.env.SUPABASE_SERVICE_KEY || 'build-placeholder'
 )
 
 export async function POST(request: Request) {

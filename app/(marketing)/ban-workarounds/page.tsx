@@ -459,7 +459,7 @@ export default function BanWorkaroundsPage() {
             The settings buy you time.<br />The guide gives you the conversation.
           </h2>
           <p style={{ color: 'rgba(255,255,255,.75)', fontSize: '1.05rem', maxWidth: '520px', margin: '0 auto 36px', lineHeight: 1.65 }}>
-            The free starter pack includes your child&rsquo;s stage, the workaround script for their age, and a 10-minute weekly check-in to keep you ahead of what is happening.
+            The free starter pack includes your child&rsquo;s stage, the workaround script for their age, and a 10-minute weekly check in to keep you ahead of what is happening.
           </p>
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link href="/starter-pack" className="btn btn-gold">
@@ -479,7 +479,7 @@ export default function BanWorkaroundsPage() {
       <footer style={{ padding: '32px 24px', borderTop: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
         <Link href="/" style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '.88rem', color: 'var(--ink)', textDecoration: 'none' }}>Guided Childhood</Link>
         <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
-          {[['Home', '/'], ['For schools', '/schools'], ['Join', '/join'], ['Digital wellbeing', 'https://wellbeing.guidedchildhood.com/']].map(([label, href]) => (
+          {[['Home', '/'], ['For schools', '/schools'], ['Join', '/join'], ['Digital wellbeing', 'https://www.guidedchildhood.com/digitalwellbeing']].map(([label, href]) => (
             <Link
               key={label} href={href}
               {...(href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}

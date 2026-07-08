@@ -32,7 +32,7 @@ import { DIGI_MODEL, DIGI_MODEL_FALLBACKS } from '@/lib/config/digi'
 // link on the school_connections row, and the setup screen polls
 // /api/school/connect to display them so the parent never leaves the flow.
 
-const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY ?? 'build-placeholder' })
 
 const SVIX_TOLERANCE_SECONDS = 300
 
@@ -120,6 +120,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'invalid json' }, { status: 400 })
   }
   const { to, from, subject, body } = normalisePayload(payload)
+  // A test ping from the setup screen: run the real token lookup and code
+  // parse, but never persist and never create actions. Purely a check that
+  // the platform side of the pipeline is alive.
+  const isTest = Boolean((payload as Record<string, unknown>)?.test)
 
   // The to value can be a bare address or "Name <address>".
   const toEmail = to.match(/<([^>]+)>/)?.[1] ?? to
@@ -133,7 +137,7 @@ export async function POST(req: NextRequest) {
     .eq('forward_token', token)
     .eq('active', true)
     .maybeSingle()
-  if (!conn) return NextResponse.json({ ok: true, skipped: 'unknown token' })
+  if (!conn) return NextResponse.json({ ok: true, resolvedToken: false, skipped: 'unknown token' })
 
   // Gmail forwarding verification email: catch it before the sender
   // allowlist (Google is never an allowlisted school sender), store the
@@ -145,6 +149,10 @@ export async function POST(req: NextRequest) {
       haystack.match(/\(#([0-9]{6,12})\)/)?.[1] ??
       haystack.match(/\b([0-9]{9})\b/)?.[1] ?? null
     const link = haystack.match(/https:\/\/mail-settings\.google\.com\/mail\/[^\s"'<>)\]]+/i)?.[0] ?? null
+    // A test never writes over a real, possibly pending, code.
+    if (isTest) {
+      return NextResponse.json({ ok: true, test: true, resolvedToken: true, codeFound: Boolean(code || link) })
+    }
     if (code || link) {
       await supabase.from('school_connections').update({
         verification_code: code,
@@ -153,6 +161,12 @@ export async function POST(req: NextRequest) {
       }).eq('forward_token', token)
     }
     return NextResponse.json({ ok: true, verification: Boolean(code || link) })
+  }
+
+  // A test that is not the Google branch: prove the token resolved, then
+  // stop before any extraction or action is written.
+  if (isTest) {
+    return NextResponse.json({ ok: true, test: true, resolvedToken: true, codeFound: false })
   }
 
   // If the parent listed school senders, only accept those (a forwarded

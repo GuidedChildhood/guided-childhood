@@ -268,7 +268,13 @@ export const TIME_COMMITMENT_OPTIONS: { label: string; value: TimeCommitmentId; 
 
 export interface StarterAnswers {
   ageBand: AgeBand
+  // The most pressing concern, the one we start the pathway on. Kept as a
+  // single value so everything downstream that picks one starting point
+  // still works unchanged.
   challenge: ChallengeId
+  // Every concern the parent ticked, most pressing first. Optional for back
+  // compatibility with answers saved before multi select existed.
+  concerns?: ChallengeId[]
   feeling: FeelingId
   timeCommitment?: TimeCommitmentId
 }

@@ -3,8 +3,6 @@
 import { useState, useCallback, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import MomentTimeline from '@/components/daily/MomentTimeline'
-import ConcernCheckIn from '@/components/daily/ConcernCheckIn'
-import type { ConcernCheckItem } from '@/components/daily/ConcernCheckIn'
 
 export type DailyCard = {
   id: string
@@ -14,6 +12,7 @@ export type DailyCard = {
   body: string
   accent: string
   icon: string
+  action?: { label: string; href: string }
 }
 
 // ── DECK MOTION ──────────────────────────────────────────────────────────────
@@ -29,21 +28,23 @@ type Phase = 'rest' | 'flip' | 'slide' | 'back'
 
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms))
 
-// Card tints rotate through the Good Inside blue and green pastels.
-// Butter stays reserved for the primary action button and the focus card.
+// Card looks match the full screen moment cards exactly: a deep
+// saturated band with white type over a pale tint body, the Good Inside
+// deck feel in the Guided Childhood palette. Butter stays reserved for
+// the focus card and action buttons.
 type Palette = { header: string; body: string; text: string }
 
 const BUTTER: Palette = {
-  header: 'var(--tint-amber)',
-  body: 'var(--terracotta-lt)',
-  text: 'var(--ink)',
+  header: '#E3A93C',
+  body: '#FBF0D7',
+  text: '#fff',
 }
 
 const PALETTES: Palette[] = [
-  { header: 'var(--stage-2-bold)', body: 'var(--stage-2)', text: 'var(--stage-2-text)' },
-  { header: 'var(--tint-blue)', body: 'var(--tint-sage)', text: 'var(--stage-2-text)' },
-  { header: 'var(--stage-2-bold)', body: 'var(--tint-green)', text: 'var(--stage-2-text)' },
-  { header: 'var(--tint-blue)', body: 'var(--stage-2)', text: 'var(--stage-2-text)' },
+  { header: '#3D739A', body: '#D8E8F8', text: '#fff' },
+  { header: '#2F8F6B', body: '#DEF0E7', text: '#fff' },
+  { header: '#173C46', body: '#DCE9EC', text: '#fff' },
+  { header: '#3D739A', body: '#E8F0EE', text: '#fff' },
 ]
 
 function paletteFor(card: DailyCard, index: number): Palette {
@@ -53,7 +54,20 @@ function paletteFor(card: DailyCard, index: number): Palette {
 
 const CARD_SHADOW = '0 10px 40px rgba(26,26,46,0.14), 0 2px 8px rgba(26,26,46,0.08)'
 
-function CardFace({ card, palette }: { card: DailyCard; palette: Palette }) {
+// blank renders the same card shape with its text invisible: the deck
+// shows the EDGE of the card waiting beneath, never its writing.
+function CardFace({ card, palette, blank = false }: { card: DailyCard; palette: Palette; blank?: boolean }) {
+  const hide: React.CSSProperties = blank ? { visibility: 'hidden' } : {}
+  async function shareCard(e: React.MouseEvent) {
+    e.stopPropagation()
+    const url = `${window.location.origin}/starter-pack`
+    const text = `${card.headline}\n\n${card.body}\n\nFrom Guided Childhood, the words that work: ${url}`
+    try {
+      if (navigator.share) await navigator.share({ title: card.headline, text, url })
+      else await navigator.clipboard.writeText(text)
+    } catch { /* cancelled */ }
+  }
+
   return (
     <div style={{
       background: palette.body,
@@ -61,41 +75,85 @@ function CardFace({ card, palette }: { card: DailyCard; palette: Palette }) {
       overflow: 'hidden',
       boxShadow: CARD_SHADOW,
       border: '1px solid var(--border)',
+      minHeight: 'min(56dvh, 540px)',
+      display: 'flex',
+      flexDirection: 'column',
     }}>
       {/* Curved header band */}
       <div style={{
         background: palette.header,
         padding: '22px 24px 26px',
         borderRadius: '0 0 32px 32px',
+        display: 'flex', alignItems: 'flex-start', gap: '12px',
       }}>
-        <div style={{
-          fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700,
-          letterSpacing: '.18em', textTransform: 'uppercase',
-          color: palette.text, opacity: 0.75, marginBottom: '6px',
-        }}>
-          {card.eyebrow}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{
+            fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700,
+            letterSpacing: '.18em', textTransform: 'uppercase',
+            color: palette.text, opacity: 0.85, marginBottom: '6px',
+            ...hide,
+          }}>
+            {card.eyebrow}
+          </div>
+          <div style={{
+            fontFamily: 'var(--font-display)', fontWeight: 900,
+            fontSize: 'clamp(1.35rem, 5.2vw, 1.75rem)',
+            color: palette.text, lineHeight: 1.12, letterSpacing: '-0.02em',
+            ...hide,
+          }}>
+            {card.headline}
+          </div>
         </div>
-        <div style={{
-          fontFamily: 'var(--font-display)', fontWeight: 800,
-          fontSize: 'clamp(1.15rem, 4vw, 1.5rem)',
-          color: palette.text, lineHeight: 1.15, letterSpacing: '-0.02em',
-        }}>
-          {card.headline}
-        </div>
+        <button
+          onClick={shareCard}
+          aria-label="Share this card"
+          style={{
+            width: 36, height: 36, borderRadius: '50%', flexShrink: 0,
+            border: `1.5px solid ${palette.text}`, opacity: 0.7,
+            background: 'transparent', cursor: 'pointer',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            ...hide,
+          }}
+        >
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 3v12M12 3l-4.5 4.5M12 3l4.5 4.5M5 13v6h14v-6" stroke={palette.text} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
       </div>
 
       {/* Card body */}
-      <div style={{ padding: '28px 24px 34px', background: palette.body }}>
+      <div style={{ padding: '28px 24px 30px', background: palette.body, flex: 1, display: 'flex', flexDirection: 'column' }}>
         <p style={{
-          fontSize: 'clamp(15.5px, 3.8vw, 18px)',
-          lineHeight: 1.6,
+          fontSize: 'clamp(18px, 4.6vw, 21px)',
+          lineHeight: 1.62,
           color: 'var(--ink)',
           margin: 0,
           fontWeight: 500,
           fontFamily: 'var(--font-body)',
+          ...hide,
         }}>
           {card.body}
         </p>
+        {card.action && (
+          <a
+            href={card.action.href}
+            onClick={e => e.stopPropagation()}
+            style={{
+              marginTop: 'auto', paddingTop: '22px',
+              display: 'block', ...hide,
+            }}
+          >
+            <span style={{
+              display: 'inline-block', width: '100%', textAlign: 'center',
+              background: 'var(--terracotta)', color: 'var(--ink)',
+              borderRadius: '14px', padding: '14px 18px',
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px',
+              boxShadow: '0 4px 0 var(--terracotta-dark)',
+            }}>
+              {card.action.label}
+            </span>
+          </a>
+        )}
       </div>
     </div>
   )
@@ -131,11 +189,9 @@ function DoneFace() {
 export default function DailyDeckViewer({
   cards,
   alreadyDone,
-  checkIns = [],
 }: {
   cards: DailyCard[]
   alreadyDone: boolean
-  checkIns?: ConcernCheckItem[]
 }) {
   const router = useRouter()
   const [cardIndex, setCardIndex] = useState(0)
@@ -174,7 +230,11 @@ export default function DailyDeckViewer({
       } else if (!done) {
         setDone(true)
         setShowComplete(true)
-        fetch('/api/daily/complete', { method: 'POST' }).catch(() => {})
+        // Refresh so Home drops its cached view and the Today path shows the
+        // moment as done, instead of staying stuck on it from a stale cache.
+        fetch('/api/daily/complete', { method: 'POST' })
+          .then(() => router.refresh())
+          .catch(() => {})
       }
     }
 
@@ -275,13 +335,13 @@ export default function DailyDeckViewer({
             background: '#fff', border: '1.5px solid var(--border)',
             borderRadius: '20px', padding: '22px', marginBottom: '16px',
           }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--stage-2-text)', marginBottom: '10px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--stage-2-text)', marginBottom: '10px' }}>
               Quick tracker check in
             </div>
-            <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: '16px' }}>
+            <p style={{ fontSize: '16.5px', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.5, marginBottom: '16px' }}>
               How is your child doing with screens this week?
             </p>
-            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
               {['Really well', 'Doing ok', 'Bit of a battle', 'Struggling'].map((label, i) => (
                 <button
                   key={i}
@@ -294,12 +354,12 @@ export default function DailyDeckViewer({
                     }).catch(() => {})
                   }}
                   style={{
-                    padding: '9px 14px', borderRadius: '100px',
-                    border: '1.5px solid var(--border)',
-                    background: 'var(--cream)',
-                    fontFamily: 'var(--font-mono)', fontSize: '11px',
-                    fontWeight: 600, color: 'var(--ink-soft)',
-                    cursor: 'pointer', letterSpacing: '.04em',
+                    padding: '14px 12px', borderRadius: '14px',
+                    border: '2px solid var(--border)',
+                    background: '#fff',
+                    fontFamily: 'var(--font-display)', fontSize: '15px',
+                    fontWeight: 800, color: 'var(--ink)',
+                    cursor: 'pointer', boxShadow: '0 3px 0 var(--border)',
                   }}
                 >
                   {label}
@@ -311,14 +371,11 @@ export default function DailyDeckViewer({
           <div style={{
             background: 'var(--stage-2)', border: '1.5px solid var(--border)',
             borderRadius: '16px', padding: '14px 18px', marginBottom: '16px',
-            fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--ink-soft)',
+            fontFamily: 'var(--font-body)', fontSize: '14.5px', fontWeight: 600, color: 'var(--ink-soft)',
           }}>
             ✓ Added to your tracker
           </div>
         )}
-
-        {/* Yesterday's concerns, checked before today's flags */}
-        {checkIns.length > 0 && <ConcernCheckIn concerns={checkIns} />}
 
         {/* Daily moments feedback: the day as a timeline of picture tiles */}
         {!momentsSaved ? (
@@ -375,6 +432,37 @@ export default function DailyDeckViewer({
         >
           Back to home
         </button>
+
+        {/* Done is not a dead end: issues do not respect the streak */}
+        <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+          <button
+            onClick={() => router.push('/dashboard/moments')}
+            style={{
+              flex: 1, padding: '13px', background: 'var(--white)',
+              border: '1.5px solid var(--border)', borderRadius: 'var(--radius-btn)',
+              fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
+              letterSpacing: '.06em', textTransform: 'uppercase',
+              color: 'var(--ink-soft)', cursor: 'pointer',
+            }}
+          >
+            Browse moments
+          </button>
+          <button
+            onClick={() => router.push('/dashboard/quests')}
+            style={{
+              flex: 1, padding: '13px', background: 'var(--white)',
+              border: '1.5px solid var(--border)', borderRadius: 'var(--radius-btn)',
+              fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
+              letterSpacing: '.06em', textTransform: 'uppercase',
+              color: 'var(--ink-soft)', cursor: 'pointer',
+            }}
+          >
+            Family quests
+          </button>
+        </div>
+        <p style={{ textAlign: 'center', fontSize: '12px', color: 'var(--ink-muted)', marginTop: '12px', marginBottom: 0 }}>
+          Something kicking off? The Help now button is always there, even after your day is done.
+        </p>
       </div>
     )
   }
@@ -440,7 +528,7 @@ export default function DailyDeckViewer({
               overflow: 'hidden', borderRadius: '28px',
             }}
           >
-            <CardFace card={underCard} palette={paletteFor(underCard, underIndex)} />
+            <CardFace card={underCard} palette={paletteFor(underCard, underIndex)} blank={!underRaised} />
           </div>
         )}
 

@@ -279,6 +279,174 @@ Research branch (Haidt and Not Fully Developed briefings, viral post anatomy) an
 
 ---
 
+## 2026-07-05 — The interactive slide type (eighth slide type)
+
+**`interactive` slide type approved for schools v2 (Justin request):** lesson JSON names a component key plus config; component code lives in components/lessons/interactives/; GSAP only; teacher screen first (class paced, teacher taps); answer capturing interactives write to check_responses like any check (class tally mode without devices); every interactive has a paper twin in teacher notes. V1 set: feed-loop, verdict-sort, signal-meter, spread-race, class-tally, star-breath. Mechanics ported from the algorithm literacy project Parts 5 and 8. Spec in plans/lesson-format.md 3.1.
+
+---
+
+## 2026-07-06 — Kid register brief and the personalised print layer
+
+**JP verdict on the reference lesson: too corporate.** The v2 design pass must deliver the fun kids version: the character animated and present through the lesson (not only in video beats), celebration moments on correct answers, kid facing register per key stage. Design research into Duolingo/Kahoot/Blooket and child evidence is running and feeds the pass.
+
+**Pupil booklet added (JP brief):** /educator/print/[module]/booklet, the little companion each child holds before and during the lesson: cover with the character and name line, the rundown of what today is about, the case file verdict pages, the mission and family question page. Generated per lesson from the row.
+
+**Personalised named quizzes added (JP brief):** /educator/print/[module]/quiz/[classId] prints the end of lesson quiz one page per pupil with names pre filled from the class list, Oak tick box conventions, commitment line. Teacher prints once, hands out, per child evidence with zero name writing. Both linked from the class page.
+
+---
+
+## 2026-07-06 — The pupil booklet is the colour first exception
+
+**JP directive:** teacher and admin print stays clean and ink light, but the pupil booklet is deliberately the most colourful, comprehensive lesson companion a kid could imagine, age banded (picture world at EYFS/KS1, squad adventure at KS2, detective dossier at KS3, field notebook at KS5), beautiful on screen as a digital artefact AND printing in full colour, with the eco mono twin still generated from the same data. Character art on covers and headers from the canonical stills. The bar: a child should want to keep it. Spec: print-design-system.md 4.8. Build: v2 pass, needs Higgsfield credits for the art.
+
+---
+
+## 2026-07-06 — Lesson v2: the proper lesson pass (scripts, scenarios, diagrams, DiGi closing)
+
+**JP feedback:** "this still looks very corporate, make it look like a proper lesson with scripts and diagrams inserted." The slide contract and player gained five slide types and a script channel:
+
+- **Every slide carries `script`**: the teacher's word for word script for that moment, shown in a collapsible teacher script panel in the player (teacherView prop, on for /educator routes, never for pupils or parents).
+- **`objective`**: the purpose slide. Pupil voice outcome, why the lesson exists, and what pupils gain as ticks. This is the Ofsted deep dive answer rendered on screen at minute two.
+- **`keywords`**: tier 2/3 vocabulary cards with pupil friendly definitions (Oak convention, under 200 chars).
+- **`scenario`**: a realistic feed post or voice message rendered as a phone card (handle, avatar, engagement counts). The evidence pupils run checks against. Deliberately convincing, that is the point.
+- **`diagram`**: animated flow built from steps with GSAP staggered reveal, verdict chips pop at the end. No images, photocopies cleanly.
+- **`digi`**: the animated closing. DiGi the golden star speaks the lesson home, speech bubbles appearing one at a time. Pure CSS and GSAP, zero render pipeline, so the animated speaking closing ships NOW and does not wait on Higgsfield credits (the video beat upgrade still lands when credits are topped up).
+
+Migration 031 reseeds ks3-12-misinfo-deepfakes with the full v2 deck: 23 slides, 23 scripts, three evidence items (footballer deepfake post, wellness scare post, trusted friend voice note), two diagrams (the three checks, how a fake travels), objective, keywords, and the DiGi closing. Same deck teaches the 60 minute rhythm: vote on evidence one, pair talk on evidence two, worksheet at minute 30, two exit checks, chant, mission, close.
+
+---
+
+## 2026-07-06 — The curriculum map: the shop window that beats Jigsaw
+
+Jigsaw's strength is showing a whole colourful programme at a glance, ours was a list. New screen `/educator/curriculum`: all 21 modules from the build spec section 5 as character colour coded cards (Sofia green, Zara gold, Oliver coral, DiGi star gold, Vix russet, Brock slate), grouped by key stage with straplines, DSL and crown module chips, and a live coverage ring per card that fills as the school's classes are taught. Live modules link to the player, the rest show in production. The manifest lives in lib/content/schools-curriculum.ts (display layer only, playable content stays in school_lessons rows, module ids match the DB convention). Character emblems are emoji stand ins until the Higgsfield character stills land. Workspace home links to the map with a gold card.
+
+---
+
+## 2026-07-06 — THE FULL CURRICULUM SHIPS + lesson engine v3 + the teacher dashboard
+
+**JP directive:** do not stop until the full curriculum is in and the dashboard beats Twinkl, Oak and Jigsaw combined, and the slides were still not enough for a full lesson.
+
+**Lesson engine v3 (the full lesson fix):** every slide now carries a phase (starter, teach, practise, prove, close) and minutes, drawn as the phase strip in the player so the 60 minute arc is visible while teaching, with a slide counter and per slide timing chip. Two new slide types: discussion (timed talk task, the player runs the countdown, pairs/groups/class, with a "good answer sounds like" reveal) and stat (one big sourced number, honest evidence only). Migration 032 refits the reference lesson to 26 slides with the full arc.
+
+**THE FULL CURRICULUM (migration 033):** all 20 remaining modules drafted by 20 parallel sessions against a single style guide with the reference deck as exemplar, validated hard (strict JSON, no semicolons, no dashes, script on every slide, digi closing last, two prove checks that become the printed exit quiz, worksheet verdicts consistent) and assembled into one idempotent migration. Every module ships complete: v3 deck (12 to 25 slides by key stage register), full teacher notes (misconceptions, differentiation, paper fallback, keywords, the module tool for the bookmark, worksheet with 6 items, commitment stem), parent note, DSL note where flagged (modules 8, 14, 16, 17, 18), statutory hooks and EfCW strands from spec section 5. Stat slides only where the drafting session could name a real source (Ofcom, Orben and Przybylski, Children's Commissioner, NCA, WEF, Vosoughi et al); modules with no confident source carry no stat slide at all. No video slides yet: beats render when Higgsfield credits are topped up, and every deck works without them (the paper fallback principle).
+
+**The teacher dashboard:** shared educator layout with a sticky top bar (Home, Curriculum, Print room, school name, hidden on print). Home is now a dashboard: stat row (classes, pupils, lessons taught, modules covered), teach next pointer per class, the curriculum map card. New print room index lists every pack, booklet and named quiz set per module per class. The paper pack generalised: bookmark tool, worksheet title, directions, verdict options and commitment stem all come from teacher_notes per module (reference lesson fallbacks preserved).
+
+**Teach route:** /educator/teach/[module] plays any live module (teacher script panel on). /educator/preview now redirects to the reference module for old links. All teach links rewired.
+
+**Marketing /schools:** curriculum section now renders from the same manifest as the product (no drift), chips list real module titles, and the "every lesson includes" line names the real product: player with animated characters and scripts, auto marked checks, packs, booklets, named quizzes, one tap register.
+
+---
+
+## 2026-07-07 — Star Lessons: the schools curriculum becomes the child version on the parent app
+
+**JP idea:** the quests system already sends a private link to the child, so send lessons the same way. Built: migration 034 (kid_lesson_missions), a Star Lessons panel on the parent quests page (pick child, pick any of the 21 lessons, set 1 to 10 stars, send), the mission appears on the child's quest link as a big Play card, opens a kid mode player (deep teal shell, DiGi celebration finish, teacher scripts stripped server side, quiz score tracked per slide so revisits never double count), and completion pays the stars into the same star bank the quests feed (once per mission, replays welcome but do not mint again). Token is the auth throughout, exactly like quest ticks: no child account, no login.
+
+## 2026-07-07 — School readiness verdict (deep research, 104 agents, adversarially verified)
+
+The product's design choices line up almost item for item with the DfE resource selection criteria and the Nov 2025 Ofsted framework, but no school teaches it tomorrow: RSHE scope adoption runs through a mandatory process layer. Three hard blockers to build: (1) parent transparency: a parent view or sample materials mechanism plus licence terms explicitly permitting parental viewing (the 2025 guidance voids any clause restricting it) and policy ready RSE text; (2) explicit mapping to the July 2025 RSHE guidance (compulsory 1 Sep 2026), including its newly named topics: pornography harms, incel and misogynistic cultures, deepfakes, online gambling, illegal online behaviours; (3) a vendor DPIA pack covering ages 4 to 18 by phase that a school DPO can sign. Friction layer: editable scripts (two thirds of teachers adapt rather than adopt), SEND access notes per lesson, short CPD briefing per safeguarding flagged module. Position as a component inside a school's PSHE provision, not a whole PSHE replacement. Shortest path to pilot: ship the compliance pack, recruit one school in summer term 2026 so parental consultation lands before the 1 Sep 2026 statutory switchover, and the pilot triples as sales proof, ICO citable DPIA consultation evidence, and the Ofsted impact baseline. Full cited report: plans/school-readiness-verdict-2026-07.md.
+
+---
+
+## 2026-07-06 — Scripts get a deeper half, the kid channel gets a voice
+
+**JP directives:** scripts longer and shareable to the child; more goals so enough stars in one day completes the day; and a way to ping the kids that have phones with scripts and vital alerts.
+
+- **Script depth (migration 032):** three new fields on the scripts table, `if_they_push_back`, `check_back`, `for_your_child`. Generated ONCE per script by DiGi at first view via /api/scripts/expand, then stored back on the row, so scripts stay in the database and the model is called once per script ever. The detail page now runs six steps plus a deep teal note card written for the child.
+- **The child note never leaves through us.** "Text it to Alma" opens the parent's own Messages app with the note prefilled. Young stages get the lunchbox line instead. Standing rule holds: we never message a child directly.
+- **Daily star goal (migration 033):** `star_goals.daily_stars`. Hit it and the kid page flips to "Day complete!", the Home quest board shows a Day goal chip per child. Weekly prize and daily target now live side by side.
+- **Parent ping (/api/quests/ping):** one tap in the quest manager buzzes the child's phone through their quest page push subscription: quest check, come off the screen, dinner in ten. Parent auth, own child only, capped at 140 chars.
+
+---
+
+## 2026-07-06 — The Game Pack: crafts built on games kids already know
+
+**JP directives:** "the big quality games and crafts?" then "base on well known kids games." The literacy craft packs from plan section 10 are now live at /dashboard/quests/crafts, CSS print sheets in the design system, no image credits needed. Every sheet declares the classic it plays like, carries the sneaky lesson line, is worth stars, and doubles as a quest.
+
+- 4 to 7: Robot Parent (Simon Says), My Screen Rules door poster, Goodnight Screens pairs (memory pairs).
+- 8 to 10: Password Monster (Mad Libs), The Feed snakes and ladders with choice ladders and trap snakes, Advert Detective Bingo.
+- 11 to 13: Deepfake or Real family quiz (TV quiz show, answers print upside down), Algorithm Architect (design the hook and it never hooks you again).
+- Family: device free dinner cards in a jar.
+
+Linked from the quest manager next to Print the sheet. v2 when Higgsfield credits land: character art on the sheets.
+
+---
+
+## 2026-07-07 — THE HUB + the compliance pack: the four pilot hard blockers built
+
+The research verdict named four hard blockers between the build and a real pilot school. All four now ship as generated documents in /educator/hub (nav: The Hub), every one printable and regenerating live from the curriculum data so none can go stale:
+
+1. **RSHE 2025 mapping matrix** (/educator/hub/rshe-mapping): all 21 modules against the named topics of the July 2025 statutory guidance (compulsory 1 Sep 2026) including pornography harms, misogynistic and incel cultures, deepfakes, gambling, illegal online behaviours, plus per module KCSIE hooks and EfCW strands from the lesson rows. Honest tags only: rshe field in the manifest, tagged where a module substantively teaches the topic.
+2. **Policy ready text** (/educator/hub/policy): paste ready paragraphs for the school's published RSE and online safety policy, including the parental transparency wording (licence explicitly permits parental viewing, no restricting clauses) and the right to withdraw position.
+3. **The parent pack** (/educator/hub/parents): the whole programme explained for parents module by module with outcomes and the family questions pulled live from parent notes, headed by the transparency promise. Built to BE the parental consultation the guidance requires.
+4. **Data protection pack** (/educator/hub/data-protection): DPO facing, six sections: what is processed (first name and initial only), lawful basis and roles, age appropriate design by phase, storage and retention, what the platform deliberately does not do, and DPIA consultation evidence guidance.
+
+Plus the friction layer: **safeguarding crosswalk** (/educator/hub/dsl, DSL notes and statutory grounds live from lesson rows) and **staff briefings** (/educator/hub/cpd, ten minute briefings for modules 8, 14, 16, 17, 18: register, watch fors, disclosure handling) and **FAQs**. RSHE_2025_TOPICS + rshe tags added to the curriculum manifest.
+
+---
+
+## 2026-07-07 — The remaining buildables + the branded front door
+
+**Login v2:** one door, two paths. A Family / School picker sets the copy and destination (arriving with ?next=/educator preselects School), DiGi waves at the top, chunky brand card. A teacher never reads family copy again (the exact confusion JP hit on 6 Jul).
+
+**Generated documents (all from live data, all printable):** pupil Knowledge Organiser per module (/educator/print/[module]/organiser: outcome, gains as tick boxes, words, the tool, before and after reflection); Unit overview per module (/educator/print/[module]/overview: the clean Puzzle Map, every slide with phase, kind, minutes); whole scheme Vocabulary (/educator/hub/vocabulary); the Year at a glance (/educator/hub/year-plan: modules spread across terms per key stage); the Coverage report (/educator/reports: module by class matrix with register dates, head and governor facing, added to nav); Certificates (/educator/print/certificates/[classId]: Digital Detective Award, names pre printed, two per page).
+
+Bill of materials status after this pass: teach layer done except video beats and interactives (blocked or next), plan layer done, evidence layer done except the class journal, compliance layer done, CPD layer done except the SLT deck, home layer done. Remaining majors: booklet v2 colour pass, interactive slide components, video beats (credits), editable scripts, class journal.
+
+---
+
+## 2026-07-07 — Premium dashboard finish (JP: make it luxury, our colours)
+
+The educator home rebuilt to a premium dashboard against the Shadcn academy reference but on brand and richer: a deep teal gradient hero with a gold radial glow and a personal greeting that surfaces the next lesson to teach; a gradient coverage donut (gold to coral, average across classes); gilded stat panels with soft layered shadows (0 12px 32px -18px teal); a quick route row (curriculum, print room, reports, hub); and a two column base of a class leaderboard ranked by coverage with gradient progress bars, and the live modules panel. Container widened to 980px to match the nav. Shared panel style: white, 24px radius, 1px border, the layered premium shadow. Setup and repair states unchanged. Added --gold-hover and --coral-dark fallbacks (they were referenced but never defined as tokens, so shadows silently rendered nothing before).
+
+---
+
+## 2026-07-07 — Profile and class editing + the shared design language
+
+**Design language shared:** components/educator/ui.ts holds the premium surface system (panel with layered teal shadow, innerRow, eyebrow, sectionEyebrow, btnGold/btnGreen/btnQuiet, input, label, h1) so every educator page speaks one dialect. Applied via the uiux-pro-max skill principles (warm authority direction, intentional shadows, mono eyebrows, no slop, no dashes). The class page rebuilt on it: deep teal gradient header with gold glow, premium panels for teach/deliveries/pupils.
+
+**Editing everywhere (migration 035 adds school_educators.display_name):**
+- Settings page /educator/settings (in the nav as a gear by the school name): edit your own name and role, edit the school name, phase and URN. Saved name flows to the dashboard greeting.
+- Class page Edit mode: rename the class, change year group, delete the class (danger zone), plus add pupils, rename pupils inline, remove pupils. Data minimisation enforced on every pupil write (first name and initial only, server side trim to two words).
+- Server actions in educator/actions.ts: updateProfile, updateSchool, updateClass, deleteClass, addPupils, renamePupil, removePupil, each guarded by a requireSchoolId membership check and scoped writes.
+
+---
+
+## 2026-07-07 — Premium design across every educator page
+
+Applied the shared design language (components/educator/ui.ts) to the last pages that were still on the old warm card look, so the whole workspace matches:
+- Marking screen (/educator/deliveries/[id]): deep teal gradient header with the outcome and live judgement tallies (N working towards, N met, N exceeded), the grid in a premium panel with a plain lead in line.
+- Lesson Hub (/educator/classes/[id]/lesson/[module]): the purpose block became the deep teal gradient header (gold eyebrow, outcome, objective, timing), every card lifted to the premium panel shadow.
+- Hub index and Print room cards: premium layered shadow and 22px radius.
+Every educator surface now shares the deep teal gradient header + white premium panels + gold-to-coral accents. Nav gained the settings gear.
+
+---
+
+## 2026-07-07 — The premium /schools marketing website (JP: wow, Apple premium)
+
+Rebuilt the public schools marketing page as an Apple grade premium website in the real warm brand (butter gold #EDC35F, espresso #2E2818 dark sections, cream canvas, Nunito). Sections: espresso hero with a gold radial glow, oversized headline ("The ban takes the apps. We build the judgement.") and a real product mockup on the right (a browser framed miniature of the live curriculum map, built from the same CHARACTERS manifest so it can never misrepresent the product, with coverage bars); an espresso stats strip (21 modules, 8 of 8 strands, 0 pupil accounts, 48 hrs); the "one lesson, everything in it" artefact grid; the DiGi Squad character cards (from the manifest, squad colours); the curriculum showcase (espresso stage rail + character chips per key stage); a compliance split (RSHE 2025, KCSIE, Connected World, data minimised); premium pricing (featured tier espresso); and a big espresso CTA. New Reveal client component does quiet fade ups via IntersectionObserver on transform/opacity only (composited, honours reduced motion), no layout animation. Marketing rows still draw from the shared manifest so the page and product never drift. Nav gained a Sign in link to /login?next=/educator. Decision: JP wanted both the marketing site and dashboard premium; marketing built first, dashboard lift to follow.
+
+---
+
+## 2026-07-07 — Fixed the marketing site build (the real reason /schools was invisible)
+
+The Vercel marketing project (guided-childhood) had been failing every build, so the public site never deployed the schools page. Root cause: several API routes and the shared Supabase SSR helpers constructed their service clients at module scope with process.env.X! assertions, so a missing env var (the marketing project has no Supabase, Anthropic or Stripe keys) crashed page data collection and static generation for the whole app. Fixed by giving every module scope constructor a harmless build placeholder fallback (lib/supabase/server.ts, lib/supabase/client.ts, app/api/push/subscribe lazy init, app/api/stripe/webhook, and the six Anthropic DiGi routes). The real keys still win on the app project; the placeholders only ever apply on the marketing project, where those routes are never called. Verified: npm run build now completes all 84 pages with SUPABASE, ANTHROPIC and STRIPE env all empty. The premium /schools page can now reach the marketing production domain. App branch preview already serves it at guided-childhood-app-git-claude-lesson-6a2d73-guided-childhood.vercel.app/schools.
+
+---
+
+## 2026-07-07 — Schools hero: contrast fix + research led headline positioning
+
+Fixed the low contrast hero body text (cool white on espresso read dim and blueish): warmed every muted white on the dark sections from rgba(255,255,255,x) to a cream tint rgba(255,250,240,x) at higher opacity, and led the hero subhead with a bold solid white clause. Research led headline positioning (WebSearch: gov.uk teaching online safety, PSHE Association RSHE 2025, Ofsted Personal Development): schools search the literal terms "digital literacy / online safety / scheme of work", and the burning driver is RSHE 2025 becoming statutory September 2026 (now naming AI literacy, deepfakes, pornography harms, financial exploitation). So the eyebrow now carries the category for scan and SEO ("Digital literacy curriculum · Reception to Year 13"), the memorable hook stays the H1 ("The ban takes the apps. We build the judgement."), and the subhead leads with the clear high contrast clause naming the September 2026 RSHE driver and the Ofsted coverage evidence. Alternative H1 options offered to JP to choose from.
+
+---
+
+## 2026-07-07 — Synced main into the branch before merge (protect the live parent work)
+
+JP wants PR #91 updated but nothing live on the domain, and specifically not to break the landing pages currently live. Audit: PR #91 now carries only 5 net commits (premium educator pages, premium /schools site, marketing build fix). Main had advanced independently with other sessions' parent work (PRs #105, #106: Family Quests tabbed, Games tab, Pathway redesign, wellbeing list, kid lessons v2, migrations 034 to 037). One file overlapped, app/api/digi/route.ts (main added the chat message format block and the concerns ledger integration). Rather than risk merging an older based branch that could revert that live DiGi work, merged origin/main into the branch: auto resolved with no conflicts (my push subscribe placeholder line and main's new DiGi content changed different parts), my Star Lessons missions integration survived alongside main's upgraded kid lessons (questions, bonus stars, perfect scoring). Verified: TSC clean, and npm run build completes all 88 pages with every service env empty (marketing build safe). PR #91 now contains everything main has plus the schools work, so merging it is purely additive and cannot revert any live parent page. Still nothing deploys to the domain until JP merges.
+
+---
+
 ## 2026-07-08 — The Hidden Thread (standing content filter, internal only)
 
 Added `.claude/skills/content-engine/hidden-thread.md`: Justin's underlying mission as a filter every post passes through, never a public statement. Core belief: the real drivers of children's mental health are poverty, adverse childhood experiences and parental mental health; social media gets the attention because it is visible and rich. The test before publishing: does this move attention toward the real drivers, or accidentally make the platform the main character. The 1 in 10 rule: roughly one post in ten states the poverty and ACE thesis plainly, the other nine each carry one brick without landing the whole thing, so readers arrive at it themselves. Moral panic is the vehicle (proportionality, never denial of harm), the poverty and ACE point is the destination, revealed gradually. The standard to earn is Sonia Livingstone: let the evidence do the work, never lean on the label. Wired into content-engine SKILL (read first, every time) and CLAUDE.md context routing (any social or Drive content applies the filter before drafting). Kept INTERNAL: it is not uploaded to the shared Drive and not shared with the agency, because it is a private strategic filter, not a brief.
+

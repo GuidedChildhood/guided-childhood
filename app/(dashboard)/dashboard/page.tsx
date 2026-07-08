@@ -10,6 +10,9 @@ import DigiPrompts from '@/components/digi/DigiPrompts'
 import StreakFlame from '@/components/daily/StreakFlame'
 import SchoolActionsCard, { type SchoolAction } from '@/components/school/SchoolActionsCard'
 import SchoolPromoCard from '@/components/school/SchoolPromoCard'
+import QuestBoard from '@/components/quests/QuestBoard'
+import SetupPath, { STEPS as SETUP_STEPS } from '@/components/setup/SetupPath'
+import SetupUnlockToast from '@/components/setup/SetupUnlockToast'
 import TodayPathStrip from '@/components/daily/TodayPathStrip'
 import { getDailyStreak } from '@/lib/pathway/streak'
 import { getTodayLoop } from '@/lib/pathway/daily-tasks'
@@ -46,13 +49,22 @@ export default async function DashboardPage() {
 
   const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
 
-  const [childResult, dailySessionResult, todayMomentsResult, lastFeedbackResult, schoolActionsResult, schoolConnectionResult] = await Promise.all([
+  const [childResult, dailySessionResult, todayMomentsResult, lastFeedbackResult, schoolActionsResult, schoolConnectionResult, agreementResult, questsCountResult, pushSubResult, anySessionResult, anySchoolActionResult] = await Promise.all([
     supabase.from('children').select('name, age_band, stage_id, streak_weeks, actions_this_week').eq('parent_id', user.id).eq('is_primary', true).single(),
     supabase.from('daily_sessions').select('completed_at').eq('user_id', user.id).eq('session_date', today).maybeSingle(),
     supabase.from('daily_moments').select('id, title, category, age_bands, icon, science_brief, digi_opener').eq('active', true).order('sort_order').limit(20),
     supabase.from('digi_feedback').select('feedback_date, question, parent_response, digi_insight').eq('user_id', user.id).not('parent_response', 'is', null).gte('feedback_date', sevenDaysAgo).order('feedback_date', { ascending: false }).limit(1).maybeSingle(),
-    supabase.from('school_actions').select('id, kind, title, detail, due_date').eq('user_id', user.id).eq('status', 'open').order('due_date', { ascending: true, nullsFirst: false }).limit(12),
+    supabase.from('school_actions').select('id, kind, title, detail, due_date, sent_to_child, recurs_weekday, auto_send_to_child').eq('user_id', user.id).eq('status', 'open').order('due_date', { ascending: true, nullsFirst: false }).limit(20),
     supabase.from('school_connections').select('id').eq('user_id', user.id).eq('active', true).maybeSingle(),
+    supabase.from('family_agreements').select('id').eq('user_id', user.id).limit(1).maybeSingle(),
+    supabase.from('family_quests').select('id', { count: 'exact', head: true }).eq('user_id', user.id).eq('active', true),
+    supabase.from('push_subscriptions').select('endpoint').eq('user_id', user.id).limit(1).maybeSingle(),
+    supabase.from('daily_sessions').select('id').eq('user_id', user.id).limit(1).maybeSingle(),
+    // Any school action ever added, connected inbox or typed by hand, done
+    // or dismissed or still open: either path is the setup step complete,
+    // and once complete it should stay complete, not flip back off the
+    // moment the open list empties out.
+    supabase.from('school_actions').select('id').eq('user_id', user.id).limit(1).maybeSingle(),
   ])
 
   const child = childResult.data
@@ -60,11 +72,39 @@ export default async function DashboardPage() {
   const lastFeedback = lastFeedbackResult.data
   const schoolActions: SchoolAction[] = schoolActionsResult.data ?? []
   const hasSchoolConnection = !!schoolConnectionResult.data
+  const setupFlags = {
+    agreement: !!agreementResult.data,
+    quests: (questsCountResult.count ?? 0) > 0,
+    school: hasSchoolConnection || !!anySchoolActionResult.data,
+    push: !!pushSubResult.data,
+    daily: !!anySessionResult.data,
+  }
 
+  // One conductor, one ask at a time. SetupPath sequences the setup steps
+  // in order, and the standalone prompts below only appear when it is their
+  // turn, so a new parent never faces a wall of five asks at once. When
+  // setup is finished, the supplementary cards return to normal.
+  const currentSetupStep = SETUP_STEPS.find(s => !setupFlags[s.key])?.key ?? null
+  const setupComplete = currentSetupStep === null
+
+  // Most applicable first: filter to the child's age, then lead with the
+  // categories most likely happening at this hour (UK time), so the grid
+  // greets the parent with their probable right now.
+  const ukHour = Number(new Date().toLocaleString('en-GB', { timeZone: 'Europe/London', hour: 'numeric', hour12: false }))
+  const slotOrder: string[] =
+    ukHour < 12 ? ['Morning', 'Transitions', 'Digital', 'School', 'Food', 'Emotions', 'Evening']
+    : ukHour < 15 ? ['School', 'Food', 'Digital', 'Transitions', 'Emotions', 'Morning', 'Evening']
+    : ukHour < 18 ? ['Transitions', 'Digital', 'Food', 'School', 'Emotions', 'Evening', 'Morning']
+    : ['Evening', 'Digital', 'Emotions', 'Food', 'Transitions', 'School', 'Morning']
+  const slotRank = (m: Moment) => {
+    const i = slotOrder.indexOf(m.category)
+    return i === -1 ? slotOrder.length : i
+  }
   const allMoments: Moment[] = todayMomentsResult.data ?? []
-  const todayMoments = child?.age_band
-    ? allMoments.filter(m => m.age_bands.length === 0 || m.age_bands.includes(child.age_band as AgeBand)).slice(0, 3)
-    : allMoments.slice(0, 3)
+  const ageMoments = child?.age_band
+    ? allMoments.filter(m => m.age_bands.length === 0 || m.age_bands.includes(child.age_band as AgeBand))
+    : allMoments
+  const todayMoments = [...ageMoments].sort((a, b) => slotRank(a) - slotRank(b)).slice(0, 5)
 
   const stage = child?.age_band
     ? getStageFromAgeBand(child.age_band as AgeBand)
@@ -136,11 +176,20 @@ export default async function DashboardPage() {
         <StreakFlame count={streak.count} aliveToday={streak.aliveToday} />
       </div>
 
+      {/* The setup path is the single conductor. It shows one step at a
+          time, the rest waiting as quiet chips. The old bottom nudge that
+          re-asked the same step on a second surface is gone, one ask only. */}
+      <SetupPath flags={setupFlags} />
+      <SetupUnlockToast flags={setupFlags} />
+
       {/* DiGi leads: proactive watch fors, tips and parent care */}
       <DigiPrompts />
 
       {/* Today's path: the day's loop as five nodes, DiGi on the next step */}
       <TodayPathStrip tasks={todayLoop} />
+
+      {/* Family quests: prominent, every child at a glance, tickable here */}
+      <QuestBoard />
 
       {/* Continue Your Progress — primary hero card */}
       <Link href="/dashboard/daily" style={{ textDecoration: 'none', display: 'block', marginBottom: '20px' }}>
@@ -189,7 +238,7 @@ export default async function DashboardPage() {
         </div>
       </Link>
 
-      {/* DiGi check-in — surfaces last reflective answer if the parent responded */}
+      {/* DiGi check in — surfaces last reflective answer if the parent responded */}
       {lastFeedback && (
         <div style={{
           background: 'var(--stage-5)',
@@ -234,23 +283,35 @@ export default async function DashboardPage() {
         </div>
       )}
 
-      {/* Push notification opt-in */}
-      <div style={{ marginBottom: '20px' }}>
-        <PushPrompt userId={user.id} stage={`Stage ${stage.id}`} />
+      {/* Push notification opt-in: only when it is this step's turn, or once
+          it is on (so the granted state and Send a test stay available). */}
+      {(setupFlags.push || currentSetupStep === 'push') && (
+        <div style={{ marginBottom: '20px' }}>
+          <PushPrompt userId={user.id} stage={`Stage ${stage.id}`} />
+        </div>
+      )}
+
+      {/* Device setup prompt: a supplementary ask, held back until the core
+          setup path is done so it never competes with the current step. */}
+      {setupComplete && (
+        <DeviceSetupBanner
+          stageId={stage.id}
+          stageName={stage.name}
+          childName={child?.name ?? null}
+        />
+      )}
+
+      {/* Things you need to know: open school actions from forwarded school
+          emails, or added by hand. The id is the anchor the setup path's
+          school step points at, so Go lands right here, not on a separate
+          page the parent then has to hunt through for the add form. */}
+      <div id="school-actions">
+        <SchoolActionsCard actions={schoolActions} childName={child?.name} />
       </div>
 
-      {/* Device setup prompt */}
-      <DeviceSetupBanner
-        stageId={stage.id}
-        stageName={stage.name}
-        childName={child?.name ?? null}
-      />
-
-      {/* Things you need to know: open school actions from forwarded school emails */}
-      <SchoolActionsCard actions={schoolActions} />
-
-      {/* School email promo until a connection is active, dismissible per device */}
-      {!hasSchoolConnection && <SchoolPromoCard />}
+      {/* School email promo: only when school is the current setup step, or
+          once the core setup is complete, so it waits its turn like the rest. */}
+      {!hasSchoolConnection && (currentSetupStep === 'school' || setupComplete) && <SchoolPromoCard />}
 
       {/* Moment cards section */}
       {todayMoments.length > 0 && (
@@ -266,7 +327,7 @@ export default async function DashboardPage() {
           </div>
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
             gap: '10px',
           }}>
             {todayMoments.map(moment => (
@@ -277,6 +338,26 @@ export default async function DashboardPage() {
                 ageBand={child?.age_band ?? undefined}
               />
             ))}
+            {/* The grid always closes with quick help to every moment */}
+            <Link href="/dashboard/moments" style={{ textDecoration: 'none' }}>
+              <div style={{
+                height: '100%', minHeight: '170px',
+                background: 'var(--deep-teal)', borderRadius: '20px',
+                display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+                gap: '10px', padding: '18px 14px', textAlign: 'center',
+              }}>
+                <span style={{
+                  width: 56, height: 56, borderRadius: '16px', background: 'rgba(255,255,255,0.14)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px',
+                }}>✨</span>
+                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '0.95rem', color: '#fff', lineHeight: 1.25 }}>
+                  All moments
+                </span>
+                <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.75)', lineHeight: 1.4 }}>
+                  Quick help for any battle, any time of day
+                </span>
+              </div>
+            </Link>
           </div>
         </div>
       )}
@@ -345,7 +426,7 @@ export default async function DashboardPage() {
               ? 'The bedroom rule is the single most effective structural protection at this stage. If it is not in place, this is the week.'
               : stage.id === 3
               ? 'The algorithm conversation opens more than any rule will close. Curiosity, not alarm.'
-              : 'The weekly check-in, same day same time, is your relationship maintenance. It does not have to be about screens.'}
+              : 'The weekly check in, same day same time, is your relationship maintenance. It does not have to be about screens.'}
           </p>
           <Link href="/dashboard/digi" style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--terracotta)', textDecoration: 'none', marginTop: '8px', display: 'block' }}>
             Ask DiGi →
@@ -375,8 +456,9 @@ export default async function DashboardPage() {
         </div>
       </Link>
 
-      {/* AI module discovery */}
-      <Link href="/dashboard/ai-module" style={{ textDecoration: 'none', display: 'block', marginBottom: '12px' }}>
+      {/* Lessons discovery: the one place every lesson lives, screen
+          habits, safety, wellbeing and AI literacy together */}
+      <Link href="/dashboard/lessons" style={{ textDecoration: 'none', display: 'block', marginBottom: '12px' }}>
         <div style={{
           background: 'var(--stage-3)', border: '1.5px solid var(--stage-3)',
           borderRadius: '16px', padding: '22px',
@@ -384,13 +466,13 @@ export default async function DashboardPage() {
         }}>
           <div>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '6px' }}>
-              New · AI literacy
+              Lessons
             </div>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)', marginBottom: '3px' }}>
-              Understand AI together
+              Learn it together
             </div>
             <div style={{ fontSize: '13px', color: 'var(--ink)' }}>
-              Deepfakes, chatbots, and using it well. Calm lessons for every age.
+              Screen habits, safety, wellbeing and AI literacy. Calm lessons for every age.
             </div>
           </div>
           <span style={{ fontSize: '18px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>
@@ -420,7 +502,7 @@ export default async function DashboardPage() {
       </Link>
 
       {/* Digital Health Check discovery */}
-      <Link href="https://wellbeing.guidedchildhood.com/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', display: 'block', marginBottom: '20px' }}>
+      <Link href="https://www.guidedchildhood.com/digitalwellbeing" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', display: 'block', marginBottom: '20px' }}>
         <div style={{
           background: 'var(--stage-2)', border: '1.5px solid var(--stage-2)',
           borderRadius: '16px', padding: '18px 22px',
@@ -432,6 +514,9 @@ export default async function DashboardPage() {
             </div>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)' }}>
               Get your child&apos;s Digital Health Report
+            </div>
+            <div style={{ fontSize: '12px', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '4px' }}>
+              Your membership includes one free report. Your code arrives by email.
             </div>
           </div>
           <span style={{ fontSize: '18px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>

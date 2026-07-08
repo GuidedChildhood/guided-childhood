@@ -15,6 +15,22 @@ function urlBase64ToUint8Array(base64String: string) {
 
 export default function PushPrompt({ userId, stage }: Props) {
   const [status, setStatus] = useState<'idle' | 'asking' | 'granted' | 'denied' | 'unsupported'>('idle')
+  const [testResult, setTestResult] = useState<string | null>(null)
+  const [resetting, setResetting] = useState(false)
+
+  async function sendTest() {
+    setTestResult('Sending...')
+    try {
+      const res = await fetch('/api/push/test', { method: 'POST' })
+      const data = await res.json()
+      if (data.sent > 0) setTestResult('Sent. It should appear on this device within seconds.')
+      else if (data.reason) setTestResult('No subscription found for this account on any device yet. Tap Turn on check ins first, inside the installed app.')
+      else if (data.errors?.length) setTestResult(`The push service refused (code ${data.errors[0]})${data.details?.[0] ? `: ${data.details[0]}` : ''}. Tell Claude this whole message.`)
+      else setTestResult(data.error ?? 'Something went wrong, try again.')
+    } catch {
+      setTestResult('Could not reach the server, try again.')
+    }
+  }
 
   useEffect(() => {
     if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
@@ -50,21 +66,77 @@ export default function PushPrompt({ userId, stage }: Props) {
     }
   }
 
+  // The browser can say permission is granted while the actual
+  // registration underneath has gone stale (a reinstall, a cleared
+  // cache, an old service worker). This says on but nothing ever
+  // arrives is exactly that state, and there was no way to fix it
+  // short of digging into phone settings. Reset clears the old
+  // registration and creates a brand new one in two taps.
+  async function resetAndRetest() {
+    setResetting(true)
+    setTestResult(null)
+    try {
+      const reg = await navigator.serviceWorker.ready
+      const existing = await reg.pushManager.getSubscription()
+      if (existing) {
+        try {
+          await fetch('/api/push/subscribe', {
+            method: 'DELETE',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ endpoint: existing.endpoint }),
+          })
+        } catch { /* best effort */ }
+        await existing.unsubscribe()
+      }
+      await enable()
+      setTimeout(sendTest, 600)
+    } catch {
+      setStatus('denied')
+    } finally {
+      setResetting(false)
+    }
+  }
+
   if (status === 'granted') {
     return (
       <div style={{
         background: 'var(--stage-2)',
         borderRadius: '14px',
         padding: '14px 18px',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '10px',
         fontSize: '.82rem',
         color: 'var(--ink-soft)',
         fontWeight: 600,
       }}>
-        <span style={{ fontSize: '1rem' }}>✓</span>
-        Check-ins are on. We will nudge you at 7:30am, 3:30pm and 9pm.
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+          <span style={{ fontSize: '1rem' }}>✓</span>
+          <span style={{ flex: 1, minWidth: '180px' }}>Check ins are on. We will nudge you at 7:30am, 3:30pm and 9pm.</span>
+          <button
+            onClick={sendTest}
+            style={{
+              background: 'none', border: '1.5px solid var(--border)', borderRadius: '10px',
+              padding: '7px 14px', cursor: 'pointer', flexShrink: 0,
+              fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--ink-soft)',
+            }}
+          >
+            Send a test
+          </button>
+        </div>
+        {testResult && (
+          <p style={{ margin: '10px 0 0', fontSize: '.78rem', fontWeight: 500, color: 'var(--ink-soft)', lineHeight: 1.5 }}>
+            {testResult}
+          </p>
+        )}
+        <button
+          onClick={resetAndRetest}
+          disabled={resetting}
+          style={{
+            background: 'none', border: 'none', cursor: resetting ? 'wait' : 'pointer', padding: 0, marginTop: '10px',
+            fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700,
+            color: 'var(--ink-muted)', textDecoration: 'underline',
+          }}
+        >
+          {resetting ? 'Resetting...' : 'Test not arriving? Reset and try again'}
+        </button>
       </div>
     )
   }
@@ -85,7 +157,7 @@ export default function PushPrompt({ userId, stage }: Props) {
         color: 'var(--ink)',
         marginBottom: '6px',
       }}>
-        Get your daily check-ins
+        Get your daily check ins
       </p>
       <p style={{
         fontSize: '.8rem',
@@ -111,7 +183,7 @@ export default function PushPrompt({ userId, stage }: Props) {
           boxShadow: '0 3px 0 rgba(0,0,0,0.12)',
         }}
       >
-        {status === 'asking' ? 'Turning on...' : 'Turn on check-ins'}
+        {status === 'asking' ? 'Turning on...' : 'Turn on check ins'}
       </button>
     </div>
   )

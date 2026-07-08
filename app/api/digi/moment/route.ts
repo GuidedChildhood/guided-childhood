@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 
-const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY ?? 'build-placeholder' })
 
 async function callDigi(params: Anthropic.MessageCreateParamsNonStreaming): Promise<Anthropic.Message> {
   const modelsToTry = [DIGI_MODEL, ...DIGI_MODEL_FALLBACKS.filter(m => m !== DIGI_MODEL)]
@@ -59,10 +59,17 @@ Your job is to respond with a personalised, context-aware JSON object. No prose 
 Respond with exactly this JSON structure:
 {
   "digiQuestion": "A single, specific opening question for this parent about their child's experience of this moment (max 25 words, warm, not generic)",
-  "science": "One sentence (max 25 words) of the core research insight for this moment, grounded in child development science",
-  "solutions": ["Action step 1 (max 20 words)", "Action step 2 (max 20 words)", "Action step 3 (max 20 words)"],
-  "script": "The exact words a parent could say tonight about this moment (max 30 words, in quotes, warm and plain)"
+  "science": "One or two sentences (max 40 words) of the core research insight for this moment, grounded in child development science",
+  "technique": {
+    "name": "A short memorable name for the single best technique for this moment at this age (max 5 words, e.g. The five minute bridge)",
+    "steps": ["Step 1, concrete and doable in the moment (max 18 words)", "Step 2 (max 18 words)", "Step 3 (max 18 words)"],
+    "why": "One sentence on why this technique works for a child of this age (max 25 words)"
+  },
+  "solutions": ["Quick action 1 (max 22 words)", "Quick action 2 (max 22 words)", "Quick action 3 (max 22 words)"],
+  "script": "The exact words a parent could say tonight about this moment (max 40 words, in quotes, warm and plain)"
 }
+
+The technique is the heart of the card: a real, named parenting method (transition warnings, co regulation, when-then framing, narrating feelings, the boring exit) chosen for THIS moment and THIS age, never generic advice. Steps are what the parent physically does and says, in order.
 
 Base knowledge for this moment:
 Science: ${moment.science_brief}
@@ -74,7 +81,7 @@ Personalise to the child's name and age. Make the digiQuestion specific to this 
   try {
     const response = await callDigi({
       model: DIGI_MODEL,
-      max_tokens: 400,
+      max_tokens: 700,
       system: systemPrompt,
       messages: [{ role: 'user', content: `Generate the moment card response for "${moment.title}" for ${resolvedName}.` }],
     })
@@ -92,10 +99,14 @@ Personalise to the child's name and age. Make the digiQuestion specific to this 
     }
 
     const parsed = JSON.parse(jsonMatch[0])
+    const technique = parsed.technique && parsed.technique.name && Array.isArray(parsed.technique.steps)
+      ? { name: String(parsed.technique.name), steps: parsed.technique.steps.slice(0, 3).map(String), why: parsed.technique.why ? String(parsed.technique.why) : null }
+      : null
 
     return NextResponse.json({
       digiQuestion: parsed.digiQuestion ?? moment.digi_opener,
       science: parsed.science ?? moment.science_brief,
+      technique,
       solutions: parsed.solutions ?? (Array.isArray(moment.solutions) ? moment.solutions : []),
       script: parsed.script ?? null,
     })

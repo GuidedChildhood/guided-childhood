@@ -12,6 +12,19 @@ import type { TodayLoopTask } from '@/lib/pathway/daily-tasks'
 // in grey. Every node is a link straight to its task.
 
 const NODE_SIZE = 46
+// Room above each node for DiGi plus the new instruction bubble stacked
+// on top of the character, so neither ever clips the header above.
+const TOP_OFFSET = 72
+
+// What each step actually involves, shown in the Next banner so the
+// parent knows what they are walking into before they tap.
+const NEXT_HINT: Record<TodayLoopTask['key'], string> = {
+  checkin: 'Thirty seconds on how yesterday’s worry went, on the daily page',
+  moment:  'Two minutes with today’s cards',
+  script:  'Tonight’s words, picked for you, ready to read',
+  digi:    'Ask DiGi one question about your day',
+  done:    'Tap to see your progress',
+}
 
 const NODE_LOOK: Record<TodayLoopTask['key'], { fill: string; tick: string; icon: string }> = {
   checkin: { fill: 'var(--tint-sage)',    tick: 'var(--ink)',          icon: '🪴' },
@@ -27,7 +40,10 @@ export default function TodayPathStrip({ tasks }: { tasks: TodayLoopTask[] }) {
   const firstOpen = tasks.findIndex(t => !t.done)
   const allDone = firstOpen === -1
   const currentIndex = allDone ? tasks.length - 1 : firstOpen
-  const doneCount = tasks.filter(t => t.done).length
+  // The Done flag is the finish line, not a step: count real steps only.
+  const steps = tasks.filter(t => t.key !== 'done')
+  const doneCount = steps.filter(t => t.done).length
+  const stepsLeft = steps.length - doneCount
   const centre = (i: number) => ((i + 0.5) / tasks.length) * 100
 
   useEffect(() => {
@@ -60,8 +76,16 @@ export default function TodayPathStrip({ tasks }: { tasks: TodayLoopTask[] }) {
         .todaypath-pulse-ring {
           animation: todaypath-pulse 1.8s ease-out infinite;
         }
+        @keyframes todaypath-throb {
+          0%, 100% { transform: scale(1);    box-shadow: 0 0 0 5px var(--terracotta-lt), 0 0 10px 1px rgba(224,122,63,0.35); }
+          50%      { transform: scale(1.1);  box-shadow: 0 0 0 8px var(--terracotta-lt), 0 0 20px 6px rgba(224,122,63,0.6);  }
+        }
+        .todaypath-throb {
+          animation: todaypath-throb 1.4s ease-in-out infinite;
+        }
         @media (prefers-reduced-motion: reduce) {
           .todaypath-pulse-ring { animation: none; opacity: 0.35; }
+          .todaypath-throb { animation: none; }
         }
       `}</style>
 
@@ -70,29 +94,42 @@ export default function TodayPathStrip({ tasks }: { tasks: TodayLoopTask[] }) {
           Today&apos;s path
         </span>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: allDone ? 'var(--terracotta-dark)' : 'var(--ink-muted)' }}>
-          {allDone ? 'All walked' : `${doneCount} of ${tasks.length}`}
+          {allDone ? 'All walked' : `${doneCount} of ${steps.length}`}
         </span>
       </div>
 
-      <div ref={stripRef} style={{ position: 'relative', paddingTop: '40px' }}>
-        {/* DiGi stands above the node the parent is on */}
+      <div ref={stripRef} style={{ position: 'relative', paddingTop: `${TOP_OFFSET}px` }}>
+        {/* DiGi stands above the node the parent is on, saying plainly
+            what a tap does. Clamped to the visible width so the bubble
+            never runs off the edge when the current node is first or last. */}
         <div
           style={{
             position: 'absolute',
-            left: `${centre(currentIndex)}%`,
-            top: '40px',
+            left: `${Math.min(82, Math.max(18, centre(currentIndex)))}%`,
+            top: `${TOP_OFFSET}px`,
             transform: 'translate(-50%, -100%)',
             pointerEvents: 'none',
             zIndex: 2,
+            display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px',
           }}
         >
+          {!allDone && (
+            <span style={{
+              background: 'var(--deep-teal)', color: '#fff',
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '10.5px',
+              padding: '5px 10px', borderRadius: '100px', whiteSpace: 'nowrap',
+              boxShadow: '0 3px 10px rgba(23,60,70,0.3)', marginBottom: '2px',
+            }}>
+              Tap the glow, do this next
+            </span>
+          )}
           <DigiCharacter mood={allDone ? 'happy' : 'idle'} size={38} />
         </div>
 
         {/* Connector line, with the walked part in butter */}
         <div style={{
           position: 'absolute',
-          top: `${40 + NODE_SIZE / 2 - 2}px`,
+          top: `${TOP_OFFSET + NODE_SIZE / 2 - 2}px`,
           left: `${centre(0)}%`,
           right: `${100 - centre(tasks.length - 1)}%`,
           height: '4px',
@@ -142,20 +179,23 @@ export default function TodayPathStrip({ tasks }: { tasks: TodayLoopTask[] }) {
                       }}
                     />
                   )}
-                  <div style={{
-                    width: '100%', height: '100%',
-                    borderRadius: '50%',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    background: isDoneNode ? look.fill : '#fff',
-                    border: isDoneNode
-                      ? '2.5px solid ' + look.fill
-                      : isCurrent
-                      ? '3px solid var(--terracotta)'
-                      : '2.5px solid var(--border)',
-                    boxShadow: isCurrent ? '0 0 0 5px var(--terracotta-lt)' : 'none',
-                    fontSize: '17px',
-                    filter: !isDoneNode && !isCurrent ? 'grayscale(1) opacity(0.55)' : 'none',
-                  }}>
+                  <div
+                    className={isCurrent ? 'todaypath-throb' : undefined}
+                    style={{
+                      width: '100%', height: '100%',
+                      borderRadius: '50%',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      background: isDoneNode ? look.fill : '#fff',
+                      border: isDoneNode
+                        ? '2.5px solid ' + look.fill
+                        : isCurrent
+                        ? '3px solid var(--terracotta)'
+                        : '2.5px solid var(--border)',
+                      boxShadow: isCurrent ? '0 0 0 5px var(--terracotta-lt)' : 'none',
+                      fontSize: '17px',
+                      filter: !isDoneNode && !isCurrent ? 'grayscale(1) opacity(0.55)' : 'none',
+                    }}
+                  >
                     {isDoneNode ? (
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                         <path d="M5 12.5l4.5 4.5L19 7.5" stroke={look.tick} strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -186,6 +226,47 @@ export default function TodayPathStrip({ tasks }: { tasks: TodayLoopTask[] }) {
           })}
         </div>
       </div>
+
+      {/* What finishes the day: the next step named, what it involves,
+          and an unmissable Go */}
+      {!allDone ? (
+        <Link
+          href={tasks[currentIndex].href}
+          style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px',
+            marginTop: '14px', padding: '12px 14px',
+            background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
+            borderRadius: '14px', textDecoration: 'none',
+          }}
+        >
+          <span style={{ minWidth: 0 }}>
+            <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: '13.5px', fontWeight: 700, color: 'var(--ink)' }}>
+              Next: {tasks[currentIndex].label}
+              <span style={{ color: 'var(--ink-muted)', fontWeight: 500 }}>
+                {' '}· {stepsLeft === 1 ? 'last step of today' : `${stepsLeft} steps to finish today`}
+              </span>
+            </span>
+            <span style={{ display: 'block', fontSize: '12px', color: 'var(--ink-soft)', marginTop: '2px' }}>
+              {NEXT_HINT[tasks[currentIndex].key]}
+            </span>
+          </span>
+          <span style={{
+            flexShrink: 0, background: 'var(--terracotta)', color: 'var(--ink)',
+            borderRadius: '12px', padding: '9px 16px',
+            fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 800,
+            boxShadow: '0 3px 0 var(--terracotta-dark)',
+          }}>
+            Go
+          </span>
+        </Link>
+      ) : (
+        <p style={{
+          marginTop: '14px', marginBottom: 0, textAlign: 'center',
+          fontFamily: 'var(--font-body)', fontSize: '13px', color: 'var(--ink-soft)',
+        }}>
+          Day complete. Your streak is safe, see you tomorrow.
+        </p>
+      )}
     </div>
   )
 }

@@ -18,15 +18,20 @@ export async function POST(req: NextRequest) {
     process.env.VAPID_PRIVATE_KEY
   )
 
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_KEY!
-  )
+  const serviceKey = process.env.SUPABASE_SERVICE_KEY ?? process.env.SUPABASE_SERVICE_ROLE_KEY
+  if (!serviceKey) {
+    return NextResponse.json({ error: 'service key not configured' }, { status: 500 })
+  }
+  const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, serviceKey)
 
-  const { title, body, url = '/dashboard', userId } = await req.json()
+  const { title, body, url = '/dashboard', userId, audience } = await req.json()
 
+  // Parent messages never reach kid devices and kid reminders never
+  // reach parents: subscriptions are split by child_id (migration 031).
   const query = supabase.from('push_subscriptions').select('*')
   if (userId) query.eq('user_id', userId)
+  if (audience === 'kids') query.not('child_id', 'is', null)
+  else query.is('child_id', null)
 
   const { data: subs, error } = await query
   if (error || !subs?.length) {

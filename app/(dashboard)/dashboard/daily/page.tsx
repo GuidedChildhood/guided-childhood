@@ -4,6 +4,7 @@ import { STAGES } from '@/lib/content/stages'
 import type { AgeBand } from '@/lib/content/stages'
 import DailyDeckViewer from './DailyDeckViewer'
 import type { DailyCard } from './DailyDeckViewer'
+import ConcernCheckIn from '@/components/daily/ConcernCheckIn'
 
 export default async function DailyPage() {
   const supabase = await createClient()
@@ -21,7 +22,7 @@ export default async function DailyPage() {
     // Live concerns flagged before today and not yet checked today: these
     // become the one tap check in card above the moments tagger.
     supabase.from('concerns')
-      .select('slug, label')
+      .select('slug, label, times_flagged, last_flagged_at')
       .eq('user_id', user.id)
       .in('status', ['open', 'improving'])
       .lt('last_flagged_at', today)
@@ -35,7 +36,7 @@ export default async function DailyPage() {
   const alreadyDone = !!sessionResult.data?.completed_at
   const streak = child?.streak_weeks ?? 0
   const yesterdayMoments: string[] = (yesterdaySession.data?.moment_feedback as string[] | null) ?? []
-  const checkIns = (concernsResult.data ?? []) as { slug: string; label: string }[]
+  const checkIns = (concernsResult.data ?? []) as { slug: string; label: string; times_flagged: number; last_flagged_at: string }[]
 
   const stage = STAGES.find(s => s.ageBand === (child?.age_band as AgeBand)) ?? STAGES[2]
 
@@ -97,7 +98,7 @@ export default async function DailyPage() {
   }
 
   const dayIndex = Math.floor(Date.now() / 86400000)
-  let momentScript: { title: string; situation: string; say_this: string } | null = null
+  let momentScript: { title: string; situation: string; say_this: string; sort_order: number } | null = null
   let momentMatchedYesterday = false
 
   if (momentPool && momentPool.length > 0) {
@@ -118,7 +119,28 @@ export default async function DailyPage() {
 
   const stageChallenge = stage.challengeActions?.screens_takeover ?? stage.focus
 
+  // Cards never name a rule without spelling it out. If the stage text
+  // mentions a shorthand the parent might not know yet, the definition
+  // rides on the same card, and the button goes where the rule lives.
+  const RULE_EXPLAINERS: { match: string; text: string }[] = [
+    {
+      match: 'bedroom rule',
+      text: 'The bedroom rule, spelled out: screens do not sleep in bedrooms. Every device charges in the kitchen or hallway overnight, grown ups phones too, because kids copy what they see.',
+    },
+    {
+      match: 'charging station',
+      text: 'The charging station, spelled out: one spot in the kitchen or hallway where every device in the house sleeps overnight, grown ups phones included.',
+    },
+  ]
+  const challengeExplainer = RULE_EXPLAINERS.find(r => stageChallenge.toLowerCase().includes(r.match))
+
   const cards: DailyCard[] = []
+
+  // The warmth layer: cards talk like a friend who knows this family,
+  // never a textbook. Context first, database content framed, always a
+  // hand on the shoulder before the information.
+  const ukHour = Number(new Date().toLocaleString('en-GB', { timeZone: 'Europe/London', hour: 'numeric', hour12: false }))
+  const greeting = ukHour < 12 ? 'Morning' : ukHour < 18 ? 'Afternoon' : 'Evening'
 
   // Card 1 — Review (if there's a last script) or Welcome
   if (lastScript) {
@@ -127,9 +149,12 @@ export default async function DailyPage() {
       type: 'review',
       eyebrow: 'From last time',
       headline: lastScript.title,
-      body: lastScript.why_it_works,
+      body: `${greeting}, ${firstName}. Last time you reached for the words for this one. Worth thirty seconds on why they do the heavy lifting, because the why is what makes them yours:\n\n${lastScript.why_it_works}`,
       accent: 'var(--terracotta)',
       icon: '↩',
+      action: lastCompletion
+        ? { label: 'Open the full script', href: `/dashboard/scripts/${lastCompletion.script_sort_order}` }
+        : undefined,
     })
   } else {
     cards.push({
@@ -137,21 +162,23 @@ export default async function DailyPage() {
       type: 'review',
       eyebrow: `Good to have you back, ${firstName}`,
       headline: `Stage ${stage.id}: ${stage.name}`,
-      body: stage.focus,
+      body: `${greeting}, ${firstName}. Two minutes, that is all this takes. Where your family is on the pathway right now:\n\n${stage.focus}`,
       accent: 'var(--terracotta)',
       icon: '◎',
     })
   }
 
-  // Card 2 — Today's focus (from stage data)
+  // Card 2 — Today's focus (from stage data), the rule always spelled
+  // out in full and the button pointing where it gets made official.
   cards.push({
     id: 'focus',
     type: 'focus',
     eyebrow: 'Today\'s focus',
-    headline: 'What matters right now',
-    body: stageChallenge,
+    headline: 'One thing, nothing else',
+    body: `If today gets busy and everything else falls away, hold onto this one thing:\n\n${stageChallenge}${challengeExplainer ? `\n\n${challengeExplainer.text}` : ''}\n\nThat is the whole ask. Small, doable, and it compounds.`,
     accent: 'var(--terracotta)',
     icon: '◈',
+    action: { label: 'Make it official in your family agreement', href: '/dashboard/agreement' },
   })
 
   // Card 3 — Watch for this (daily moment situation)
@@ -161,9 +188,10 @@ export default async function DailyPage() {
       type: 'watchfor',
       eyebrow: momentMatchedYesterday ? 'Because you flagged this yesterday' : 'Watch for this today',
       headline: momentScript.title,
-      body: `${momentScript.situation}\n\nIf this happens, try: "${momentScript.say_this}"`,
+      body: `${momentMatchedYesterday ? 'You flagged this one yesterday, so let us walk in ready today.' : 'Every family knows this one, yours included.'} ${momentScript.situation}\n\nIf it shows up, you already have the words: "${momentScript.say_this}"\n\nNo lecture, no negotiation. Say it warmly and let it land.`,
       accent: 'var(--terracotta)',
       icon: '△',
+      action: { label: 'Read the full script', href: `/dashboard/scripts/${momentScript.sort_order}` },
     })
   }
 
@@ -203,7 +231,20 @@ export default async function DailyPage() {
 
   return (
     <div style={{ background: 'var(--cream)', minHeight: '100dvh' }}>
-      <DailyDeckViewer cards={cards} alreadyDone={alreadyDone} checkIns={checkIns} />
+      {/* Always on the page, whatever state today's moment deck is in, so
+          the pathway's Check in link always lands somewhere answerable
+          and can actually flip to done. */}
+      {checkIns.length > 0 && (
+        <div id="checkin" style={{ maxWidth: '480px', margin: '0 auto', padding: '20px 20px 0' }}>
+          <ConcernCheckIn concerns={checkIns.map(c => ({
+            slug: c.slug,
+            label: c.label,
+            timesFlagged: c.times_flagged,
+            lastFlaggedAt: c.last_flagged_at,
+          }))} />
+        </div>
+      )}
+      <DailyDeckViewer cards={cards} alreadyDone={alreadyDone} />
     </div>
   )
 }

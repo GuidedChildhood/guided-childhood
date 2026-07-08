@@ -26,13 +26,13 @@ type Step = 'intro' | 'q1' | 'q2' | 'q3' | 'q4' | 'reassure' | 'result'
 
 const CHALLENGE_ICONS: Record<string, React.ReactNode> = {
   screens_takeover: (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
       <rect x="7" y="2" width="10" height="20" rx="2.5"/>
       <circle cx="12" cy="18" r=".6" fill="currentColor" stroke="none"/>
     </svg>
   ),
   mood_changes: (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
       <circle cx="12" cy="12" r="9"/>
       <path d="M9 15.5c.8-.8 1.4-1 3-1s2.2.2 3 1"/>
       <line x1="9.5" y1="10.5" x2="9.5" y2="10.5" strokeWidth="2.5"/>
@@ -40,7 +40,7 @@ const CHALLENGE_ICONS: Record<string, React.ReactNode> = {
     </svg>
   ),
   gaming: (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
       <path d="M2 10.5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v3a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5v-3z"/>
       <line x1="8" y1="11" x2="8" y2="13"/>
       <line x1="7" y1="12" x2="9" y2="12"/>
@@ -49,24 +49,36 @@ const CHALLENGE_ICONS: Record<string, React.ReactNode> = {
     </svg>
   ),
   online_safety: (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
       <path d="M12 2l7 3v5c0 5-3.5 9-7 10C8.5 19 5 15 5 10V5l7-3z"/>
       <path d="M9 12l2 2 4-4"/>
     </svg>
   ),
   start_conversation: (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
       <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
       <line x1="9" y1="10" x2="15" y2="10"/>
       <line x1="9" y1="13" x2="13" y2="13"/>
     </svg>
   ),
   asking_for_phone: (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
       <rect x="7" y="2" width="10" height="20" rx="2.5"/>
       <path d="M12 7v2m0 2v.5"/>
     </svg>
   ),
+}
+
+// Each concern gets its own soft colour family, so the grid reads as six
+// distinct things rather than six identical pale blue tiles. The tint is
+// the icon well, the fg is the line icon on top of it.
+const CHALLENGE_TINT: Record<string, { bg: string; fg: string }> = {
+  screens_takeover:   { bg: 'var(--stage-2)',       fg: 'var(--stage-2-text)' },
+  mood_changes:       { bg: 'var(--stage-3)',       fg: 'var(--stage-3-text)' },
+  gaming:             { bg: 'var(--stage-5)',       fg: 'var(--stage-5-text)' },
+  online_safety:      { bg: 'var(--tint-green)',    fg: '#2D5016' },
+  start_conversation: { bg: 'var(--stage-4)',       fg: 'var(--stage-4-text)' },
+  asking_for_phone:   { bg: 'var(--terracotta-lt)', fg: 'var(--terracotta-dark)' },
 }
 
 const STAGE_ACCENT: Record<number, { bold: string; text: string }> = {
@@ -80,7 +92,11 @@ const STAGE_ACCENT: Record<number, { bold: string; text: string }> = {
 export default function StarterPackPage() {
   const [step, setStep] = useState<Step>('intro')
   const [ageBand, setAgeBand] = useState<AgeBand | null>(null)
-  const [challenge, setChallenge] = useState<ChallengeId | null>(null)
+  // Concerns the parent ticked, most pressing first. picks[0] is the one we
+  // start the pathway on, so a single derived value keeps every downstream
+  // screen working exactly as before while the parent can now name several.
+  const [picks, setPicks] = useState<ChallengeId[]>([])
+  const challenge = picks[0] ?? null
   const [feeling, setFeeling] = useState<FeelingId | null>(null)
   const [timeCommitment, setTimeCommitment] = useState<TimeCommitmentId | null>(null)
   const [restored, setRestored] = useState(false)
@@ -93,9 +109,10 @@ export default function StarterPackPage() {
     try {
       const saved = localStorage.getItem('gc_starter_progress')
       if (saved) {
-        const parsed = JSON.parse(saved) as { step: Step; ageBand: AgeBand | null; challenge: ChallengeId | null; feeling: FeelingId | null; timeCommitment: TimeCommitmentId | null }
+        const parsed = JSON.parse(saved) as { step: Step; ageBand: AgeBand | null; picks?: ChallengeId[]; challenge?: ChallengeId | null; feeling: FeelingId | null; timeCommitment: TimeCommitmentId | null }
         if (parsed.ageBand) setAgeBand(parsed.ageBand)
-        if (parsed.challenge) setChallenge(parsed.challenge)
+        if (parsed.picks?.length) setPicks(parsed.picks)
+        else if (parsed.challenge) setPicks([parsed.challenge])
         if (parsed.feeling) setFeeling(parsed.feeling)
         if (parsed.timeCommitment) setTimeCommitment(parsed.timeCommitment)
         if (parsed.step && parsed.step !== 'result' && parsed.step !== 'reassure') setStep(parsed.step)
@@ -109,19 +126,19 @@ export default function StarterPackPage() {
   useEffect(() => {
     if (!restored) return
     try {
-      localStorage.setItem('gc_starter_progress', JSON.stringify({ step, ageBand, challenge, feeling, timeCommitment }))
+      localStorage.setItem('gc_starter_progress', JSON.stringify({ step, ageBand, picks, feeling, timeCommitment }))
     } catch {}
-  }, [restored, step, ageBand, challenge, feeling, timeCommitment])
+  }, [restored, step, ageBand, picks, feeling, timeCommitment])
 
   useEffect(() => {
     if (step === 'result' && ageBand && challenge && feeling && timeCommitment) {
-      const answers: StarterAnswers = { ageBand, challenge, feeling, timeCommitment }
+      const answers: StarterAnswers = { ageBand, challenge, concerns: picks, feeling, timeCommitment }
       try {
         localStorage.setItem('gc_starter_answers', JSON.stringify(answers))
         localStorage.removeItem('gc_starter_progress')
       } catch {}
     }
-  }, [step, ageBand, challenge, feeling, timeCommitment])
+  }, [step, ageBand, challenge, picks, feeling, timeCommitment])
 
   useEffect(() => {
     if (step !== 'reassure') return
@@ -133,9 +150,14 @@ export default function StarterPackPage() {
     setAgeBand(band)
     setTimeout(() => setStep('q2'), 280)
   }
-  function selectChallenge(c: ChallengeId) {
-    setChallenge(c)
-    setTimeout(() => setStep('q3'), 280)
+  // Tap adds or removes a concern. The first one ticked becomes the most
+  // pressing by default (front of the list), the parent can move that with
+  // the Start here control on any other ticked card.
+  function toggleChallenge(c: ChallengeId) {
+    setPicks(prev => prev.includes(c) ? prev.filter(x => x !== c) : [...prev, c])
+  }
+  function makePrimary(c: ChallengeId) {
+    setPicks(prev => [c, ...prev.filter(x => x !== c)])
   }
   function selectFeeling(f: FeelingId) {
     setFeeling(f)
@@ -304,7 +326,7 @@ export default function StarterPackPage() {
           </>
         )}
 
-        {/* Q2 — Challenge */}
+        {/* Q2 — Challenge (multi select, most pressing first) */}
         {step === 'q2' && (
           <>
             <h1 style={{
@@ -312,43 +334,112 @@ export default function StarterPackPage() {
               fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1.15,
               color: 'var(--ink)', marginBottom: '10px',
             }}>
-              What is your main concern right now?
+              What are you dealing with right now?
             </h1>
-            <p style={{ color: 'var(--ink)', fontSize: '15px', marginBottom: '32px', lineHeight: 1.55 }}>
-              Pick the one that feels most urgent. This only chooses where we start: the pathway covers all of it, and you can change focus any time.
+            <p style={{ color: 'var(--ink-soft)', fontSize: '15px', marginBottom: '24px', lineHeight: 1.55 }}>
+              Tick everything that is going on. Tap the one that worries you most first, that is where we begin. You can change focus any time.
             </p>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
               {CHALLENGE_OPTIONS.map(opt => {
-                const sel = challenge === opt.value
+                const sel = picks.includes(opt.value)
+                const isPrimary = picks[0] === opt.value
+                const tint = CHALLENGE_TINT[opt.value] ?? { bg: 'var(--stage-2)', fg: 'var(--terracotta-dark)' }
                 return (
                   <button
                     key={opt.value}
-                    onClick={() => selectChallenge(opt.value)}
+                    onClick={() => toggleChallenge(opt.value)}
+                    aria-pressed={sel}
                     style={{
+                      position: 'relative',
                       display: 'flex', flexDirection: 'column', alignItems: 'flex-start',
-                      padding: '16px 14px',
-                      background: sel ? 'var(--terracotta)' : 'var(--cream)',
-                      border: `1.5px solid ${sel ? 'var(--terracotta)' : 'var(--border)'}`,
-                      borderRadius: '14px', cursor: 'pointer', textAlign: 'left', transition: 'all 0.15s',
-                      boxShadow: sel ? '0 5px 0 var(--terracotta-dark)' : 'none',
+                      padding: '18px 16px 16px',
+                      background: 'var(--white)',
+                      border: `2px solid ${isPrimary ? 'var(--terracotta-dark)' : sel ? 'var(--terracotta)' : 'var(--border)'}`,
+                      borderRadius: '18px', cursor: 'pointer', textAlign: 'left',
+                      transition: 'transform 0.16s cubic-bezier(0.22,1,0.36,1), box-shadow 0.16s, border-color 0.16s',
+                      transform: sel ? 'translateY(-2px)' : 'none',
+                      boxShadow: sel
+                        ? '0 10px 28px rgba(201,154,40,0.20), 0 2px 6px rgba(26,26,46,0.05)'
+                        : '0 4px 20px rgba(26,26,46,0.06)',
                     }}
                   >
+                    {/* Tick, top right, once selected */}
+                    <span aria-hidden style={{
+                      position: 'absolute', top: 12, right: 12,
+                      width: 22, height: 22, borderRadius: '50%',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      background: sel ? 'var(--terracotta)' : 'transparent',
+                      border: sel ? 'none' : '2px solid var(--border)',
+                      transition: 'background 0.16s',
+                    }}>
+                      {sel && (
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M5 12.5l4.5 4.5L19 7" />
+                        </svg>
+                      )}
+                    </span>
+
                     <span style={{
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      width: 36, height: 36, borderRadius: '10px',
-                      background: sel ? 'rgba(255,255,255,0.2)' : 'var(--stage-2)',
-                      color: sel ? '#fff' : 'var(--terracotta)', marginBottom: '10px',
+                      width: 46, height: 46, borderRadius: '14px',
+                      background: tint.bg, color: tint.fg, marginBottom: '12px',
                     }}>
                       {CHALLENGE_ICONS[opt.value] ?? opt.icon}
                     </span>
-                    <span style={{ fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: '13px', color: sel ? '#fff' : 'var(--ink)', lineHeight: 1.3 }}>
+                    <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '13.5px', color: 'var(--ink)', lineHeight: 1.3 }}>
                       {opt.label}
                     </span>
+
+                    {/* Most pressing marker, and a way to move it */}
+                    {isPrimary ? (
+                      <span style={{
+                        marginTop: '10px',
+                        fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700,
+                        letterSpacing: '0.1em', textTransform: 'uppercase',
+                        color: 'var(--terracotta-dark)', background: 'var(--terracotta-lt)',
+                        borderRadius: '100px', padding: '4px 9px',
+                      }}>
+                        We start here
+                      </span>
+                    ) : sel ? (
+                      <span
+                        role="button"
+                        tabIndex={0}
+                        onClick={e => { e.stopPropagation(); makePrimary(opt.value) }}
+                        onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.stopPropagation(); makePrimary(opt.value) } }}
+                        style={{
+                          marginTop: '10px',
+                          fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700,
+                          letterSpacing: '0.1em', textTransform: 'uppercase',
+                          color: 'var(--ink-muted)', border: '1px solid var(--border)',
+                          borderRadius: '100px', padding: '4px 9px', cursor: 'pointer',
+                        }}
+                      >
+                        Start here instead
+                      </span>
+                    ) : null}
                   </button>
                 )
               })}
             </div>
-            <button onClick={() => setStep('q1')} style={{ marginTop: '24px', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-muted)', letterSpacing: '0.06em', padding: '8px 0', textAlign: 'left' }}>
+
+            <button
+              onClick={() => picks.length > 0 && setStep('q3')}
+              disabled={picks.length === 0}
+              style={{
+                marginTop: '24px', width: '100%',
+                padding: '17px 28px', borderRadius: 16, border: 'none',
+                background: picks.length ? 'var(--terracotta)' : 'var(--border)',
+                color: picks.length ? 'var(--ink)' : 'var(--ink-muted)',
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15,
+                cursor: picks.length ? 'pointer' : 'not-allowed',
+                boxShadow: picks.length ? '0 5px 0 var(--terracotta-dark)' : 'none',
+                transition: 'background 0.16s, box-shadow 0.16s',
+              }}
+            >
+              {picks.length === 0 ? 'Tick at least one' : picks.length === 1 ? 'Continue' : `Continue with ${picks.length}`}
+            </button>
+            <button onClick={() => setStep('q1')} style={{ marginTop: '12px', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-muted)', letterSpacing: '0.06em', padding: '8px 0', textAlign: 'left' }}>
               ← Back
             </button>
           </>

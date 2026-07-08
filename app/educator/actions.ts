@@ -119,3 +119,163 @@ export async function setJudgement(deliveryId: string, pupilId: string, level: '
   revalidatePath(`/educator/deliveries/${deliveryId}`)
   return { error: null }
 }
+
+// ── Profile and settings editing ──
+
+// Membership guard: confirm the signed in user belongs to a school before
+// any write, and return its id. Redirects to the workspace if not.
+async function requireSchoolId(supabase: Awaited<ReturnType<typeof createClient>>, userId: string) {
+  const { data: membership } = await supabase
+    .from('school_educators')
+    .select('school_id')
+    .eq('user_id', userId)
+    .limit(1)
+    .maybeSingle()
+  if (!membership) redirect('/educator')
+  return membership.school_id
+}
+
+export async function updateProfile(formData: FormData) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) redirect('/login')
+  await requireSchoolId(supabase, user.id)
+
+  const displayName = String(formData.get('display_name') ?? '').trim()
+  const role = String(formData.get('role') ?? 'teacher')
+  const allowed = ['teacher', 'lead', 'dsl', 'head']
+
+  const { error } = await supabase
+    .from('school_educators')
+    .update({ display_name: displayName || null, role: allowed.includes(role) ? role : 'teacher' })
+    .eq('user_id', user.id)
+  if (error) redirect(`/educator/settings?error=${encodeURIComponent(`Saving your profile failed: ${error.message}`)}`)
+
+  revalidatePath('/educator/settings')
+  revalidatePath('/educator')
+  redirect('/educator/settings?saved=1')
+}
+
+export async function updateSchool(formData: FormData) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) redirect('/login')
+  const schoolId = await requireSchoolId(supabase, user.id)
+
+  const name = String(formData.get('name') ?? '').trim()
+  const phase = String(formData.get('phase') ?? 'primary')
+  const urn = String(formData.get('urn') ?? '').trim()
+  if (!name) redirect('/educator/settings?error=A%20school%20needs%20a%20name')
+
+  const { error } = await supabase
+    .from('school_accounts')
+    .update({ name, phase, urn: urn || null })
+    .eq('id', schoolId)
+  if (error) redirect(`/educator/settings?error=${encodeURIComponent(`Saving the school failed: ${error.message}`)}`)
+
+  revalidatePath('/educator/settings')
+  revalidatePath('/educator')
+  redirect('/educator/settings?saved=1')
+}
+
+export async function updateClass(formData: FormData) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) redirect('/login')
+  const schoolId = await requireSchoolId(supabase, user.id)
+
+  const classId = String(formData.get('class_id') ?? '')
+  const name = String(formData.get('name') ?? '').trim()
+  const yearGroup = String(formData.get('year_group') ?? '').trim()
+  if (!classId || !name || !yearGroup) return
+
+  const { error } = await supabase
+    .from('school_classes')
+    .update({ name, year_group: yearGroup })
+    .eq('id', classId)
+    .eq('school_id', schoolId)
+  if (error) redirect(`/educator/classes/${classId}?error=${encodeURIComponent(`Saving the class failed: ${error.message}`)}`)
+
+  revalidatePath(`/educator/classes/${classId}`)
+  revalidatePath('/educator')
+  redirect(`/educator/classes/${classId}`)
+}
+
+export async function deleteClass(formData: FormData) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) redirect('/login')
+  const schoolId = await requireSchoolId(supabase, user.id)
+
+  const classId = String(formData.get('class_id') ?? '')
+  if (!classId) return
+
+  const { error } = await supabase
+    .from('school_classes')
+    .delete()
+    .eq('id', classId)
+    .eq('school_id', schoolId)
+  if (error) redirect(`/educator/classes/${classId}?error=${encodeURIComponent(`Removing the class failed: ${error.message}`)}`)
+
+  revalidatePath('/educator')
+  redirect('/educator')
+}
+
+export async function addPupils(formData: FormData) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) redirect('/login')
+  await requireSchoolId(supabase, user.id)
+
+  const classId = String(formData.get('class_id') ?? '')
+  const pupilLines = String(formData.get('pupils') ?? '')
+    .split('\n')
+    .map(l => l.trim().split(/\s+/).slice(0, 2).join(' '))
+    .filter(Boolean)
+  if (!classId) return
+  if (pupilLines.length === 0) { revalidatePath(`/educator/classes/${classId}`); redirect(`/educator/classes/${classId}`) }
+
+  const { error } = await supabase
+    .from('pupils')
+    .insert(pupilLines.map(display_name => ({ class_id: classId, display_name })))
+  if (error) redirect(`/educator/classes/${classId}?error=${encodeURIComponent(`Adding pupils failed: ${error.message}`)}`)
+
+  revalidatePath(`/educator/classes/${classId}`)
+  redirect(`/educator/classes/${classId}`)
+}
+
+export async function renamePupil(formData: FormData) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) redirect('/login')
+  await requireSchoolId(supabase, user.id)
+
+  const pupilId = String(formData.get('pupil_id') ?? '')
+  const classId = String(formData.get('class_id') ?? '')
+  // Data minimisation on edit too: first name and initial only.
+  const name = String(formData.get('display_name') ?? '').trim().split(/\s+/).slice(0, 2).join(' ')
+  if (!pupilId || !name) return
+
+  const { error } = await supabase.from('pupils').update({ display_name: name }).eq('id', pupilId)
+  if (error) redirect(`/educator/classes/${classId}?error=${encodeURIComponent(`Renaming the pupil failed: ${error.message}`)}`)
+
+  revalidatePath(`/educator/classes/${classId}`)
+  redirect(`/educator/classes/${classId}`)
+}
+
+export async function removePupil(formData: FormData) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) redirect('/login')
+  await requireSchoolId(supabase, user.id)
+
+  const pupilId = String(formData.get('pupil_id') ?? '')
+  const classId = String(formData.get('class_id') ?? '')
+  if (!pupilId) return
+
+  const { error } = await supabase.from('pupils').delete().eq('id', pupilId)
+  if (error) redirect(`/educator/classes/${classId}?error=${encodeURIComponent(`Removing the pupil failed: ${error.message}`)}`)
+
+  revalidatePath(`/educator/classes/${classId}`)
+  redirect(`/educator/classes/${classId}`)
+}

@@ -23,6 +23,19 @@ The loop a parent lives daily, each step feeding the next:
 Every screen must answer: where am I on the path to 16, and what is the one
 thing right now. If a screen answers neither, it does not belong.
 
+### The session shape (LOCKED, Justin 4 July)
+
+Login shows the flow up front: a session strip at the top of Home reading
+"Your 10 minutes today" with the day's steps as path nodes (concern follow
+up, school items and quest approvals, today's moment card, tracker close).
+The minutes come from the time commitment stored at onboarding, and the
+node count scales to it. Progress fills as they move. The LAST node every
+day is the tracker: a thirty second touch (how was today, one tap, plus a
+yes/no on any open concern), expanding to the full five minute check in on
+Fridays. The tracker is the session's finish line, not a page you have to
+remember to visit; that is what keeps its data live. Then the close: your
+minutes are done, streak shown, tomorrow teased.
+
 ## 2. Family Quests (what the wife would pay for) — DECISIONS LOCKED
 
 - Reach the kid BY AGE: ages 4 to 8 printable quest cards plus a handover
@@ -95,3 +108,255 @@ by screen:
 3. Tracker redesign (section 3) and dashboard home order (section 4).
 4. Pathway page as the map.
 5. Then STOP BUILDING and put a price in front of strangers (founder 50).
+
+## 6. The Device Pathway matrix (LOCKED, Justin 4 July evening)
+
+The pathway map must answer, for every age band, the question parents
+actually arrive with: what is my child allowed at this age. One matrix,
+stage by stage, device by device (TV, tablet, console, smartwatch, laptop,
+smartphone, social accounts, AI tools). Each cell is one of three states:
+
+- Yes, with the settings pack for that age (from the device safety data)
+- Co viewing only: shared screen, parent present, what to watch together
+- Not yet: a clear cross, warm copy underneath (why, what instead, and
+  when it changes). The smartphone gets the flagship treatment, and the
+  philosophy is LOCKED (Justin, no brick phones, we do not believe in
+  them): when the phone arrives it is a real iPhone set to brick phone
+  settings. Calls, messages, camera, maps, nothing else: no browser, no
+  App Store, no feeds, downtime on, contacts limited. Then the SETTINGS
+  widen year by year along the pathway while the device stays the same.
+  The child learns the actual device they will live on, inside walls the
+  parent lowers deliberately, and a readiness checklist, not a birthday,
+  decides each widening step.
+
+Every Yes cell links three things: the settings walkthrough for that
+device at that age, the scripts for introducing it, and the parent
+behaviour modelling guide (your phone at dinner teaches more than any
+rule: what the parent models at each stage, phones down at meals, no
+scrolling during pickup, narrating your own device choices out loud).
+Plus what to watch: the age specific warning signs from the risks data.
+
+This IS the product spine: safety through settings, smartphone education
+starting with the parent's own settings and behaviour, use widening year
+by year, check ins catching issues. The matrix makes the whole promise
+visible on one screen.
+
+## 7. The promise audit (4 July, against the live marketing page)
+
+Delivered and true: scripts for the hard moment, Right Now, DiGi any
+time (once the cache fix deploys), the five stages, starter pack,
+founder cap.
+
+Gaps to close or trim before strangers arrive:
+- Monday ritual is promised but nothing arrives on Monday. Build: Monday
+  morning push and email with the three personalised actions (stage plus
+  open concerns). Cheapest promise to make true.
+- Tracker "optional uploads: browsing data, AI usage, sleep" does not
+  exist. Trim from the page until built.
+- "Full curriculum: home and school" is the lessons engine, not the
+  current app. Mark rolling out or trim until the engine ships.
+- Verify 131 parents and the three named testimonials are real. Honest
+  numbers is a non negotiable; smaller true numbers beat big soft ones.
+- Waitlist copy vs live signups: pick one mode.
+
+## 8. The daily literacy card (the FEEL of daily support, per age)
+
+One two minute card per day in the session strip, age specific, one
+literacy idea per card (algorithms, deepfakes, comparison, AI, dark
+patterns), swipeable like the moment deck. Progress counter makes the
+pathway tangible: Literacy skill N of 160 on the road to 16. Content
+seeds from the ai_lessons table and the evidence bank now; when the
+lessons engine lands, every lesson renders three ways: daily drip cards,
+home sofa lesson, school classroom lesson. This is the bridge that makes
+"digital literacy support every day at every age" true, not implied.
+
+## 9. The moment flash (Justin, 4 July night)
+
+On login the most likely moment for RIGHT NOW flashes up top, before any
+scrolling: time of day picks the candidate (7.30am morning TV battle or
+phone before school, 4pm after school decompress, 7.45pm bedtime), and
+the concerns ledger overrides it (bedtime flagged twice this week means
+bedtime flashes first tonight regardless of clock). One big card, the
+problem named in the headline, the words one tap away, dismiss slides it
+into the normal deck. The app should feel like it already knows what is
+happening in the kitchen. Slots into the dashboard reorder as the Today's
+one thing position when a moment is live.
+
+### Correction to the promise audit item 2 (Justin, 4 July night)
+
+The tracker uploads promise (browsing data, AI usage, sleep) IS real: it
+is the Digital Health Report at wellbeing.guidedchildhood.com, a separate
+paid service. So the fix is a bridge, not a trim:
+- Homepage tracker bullet reworded to name it: weekly check in included,
+  the deep dive (browsing data, AI usage, sleep analysis) is the Digital
+  Health Report, one tap away.
+- Product bridge to build: report results feed back into the platform
+  (tracker trend and DiGi context), so the loop reads: the report finds
+  the problem, the platform fixes it, the tracker proves it.
+- Pricing decision for Justin: is a report included with membership
+  (founder perk, one per year?) or always a separate purchase. Decide
+  before the founder 50 push so the pricing table can say it plainly.
+
+### Tracker untangled (Justin, 5 July)
+
+Two things were half conflated and are now separate:
+- The WELLBEING CHECK IN is a ritual, not a destination: thirty second
+  touch at the end of every daily session, full five minute version on
+  Fridays. It loses its nav tab.
+- PROGRESS is the page (nav tab renamed from Tracker to Progress): the
+  child's position on the pathway to 16, streak, literacy skills done,
+  quest stars this week, concerns improving or open, devices unlocked.
+  The check in FEEDS this page; it is not the page. Section 3's redesign
+  applies to Progress.
+
+## 10. Milestones, recurring settings, watch time allocation, literacy crafts (Justin, 5 July)
+
+Launch date relaxed: done properly with all kids lessons beats Wednesday.
+
+DIGITAL MILESTONES on the Progress page: at each age, three columns of
+expectations: Using (what they should be doing digitally), Understanding
+(concepts they should grasp), Behaviour (habits and warning signs). Each
+row is monitored by what we already track: lessons covered, settings
+applied on age related devices, check in signals. When an age unlocks,
+new rows appear plus a "three new things arrive at age N" briefing.
+
+SMARTPHONE JOURNEY additions: each age band on the device matrix names
+the known behaviour issues that arrive with it (from the risks data:
+group chat drama at 9, comparison dip 11 to 13, secrecy at 14) and
+settings check ins RECUR: age tick over reopens the walkthrough with
+what changed.
+
+QUESTS additions: approval allocates the agreed watch time automatically
+per the agreement exchange rate, shown on both sides ("You earned your
+45 minutes of Saturday Minecraft"). Under phone age children get the
+daily printable tick sheet, parent keeps the alert rhythm.
+
+LITERACY CRAFT PACKS (printable, screen free, star earning, tied to the
+lesson curriculum): 4 to 7 Robot Parent programming cards, Real or
+Pretend sorting, My Screen Rules colour in door poster, build a paper
+turn timer. 8 to 10 Password Monster (silly name becomes the real
+passphrase), Advert Detective bingo, The Feed snakes and ladders with
+choice ladders and trap snakes. 11 to 13 Algorithm Architect (design a
+feed to hook someone, reverse engineering as vaccine), Deepfake or Real
+family quiz pack, phishing escape room. Family: device free dinner cards,
+weekly Family Tech Quiz. Every craft doubles as a quest and maps to a
+lesson so the curriculum, the chores and the fun are one system.
+
+## 11. The DiGi dispatch: something to send the child (Justin, 5 July)
+
+A regular DiGi child insight the parent can forward straight to their
+teenager (or use age appropriately for any child with message access).
+One card in the session strip: "Worth sending to Alfie this week", with
+a ready to send message and one tap share (WhatsApp, iMessage, copy).
+
+Four types, rotated and personalised:
+- Check a setting: "New Snapchat update reset some privacy settings,
+  worth 30 seconds: Settings then Privacy then Contact Me set to
+  Friends" written so the teen can do it themselves.
+- Watch out for: current scams and trends from the research watch (the
+  WhatsApp job scam going round, the new group chat pile on pattern),
+  fresh and specific, never vague fearmongering.
+- Agreement nudge: gentle reminder tied to THEIR family agreement
+  ("remember our 9pm group chat deal, you chose it") referencing what
+  they signed, not a new rule.
+- Worth knowing: a cool fact or skill that credits their intelligence
+  (how the feed decides what you see, how to spot an AI image).
+
+TONE RULES for teen dispatches: short, zero lecture, assumes they are
+smart, sounds like a heads up from someone on their side. The parent can
+edit before sending. For younger children the dispatch converts to a
+"say this at dinner" conversation starter instead of a message.
+Personalisation: age, devices owned, agreement contents, open concerns.
+This also seeds the research watch requirement: dispatches must stay
+current to stay credible.
+
+### Weekend morning trigger (Justin, 5 July)
+
+Saturday and Sunday around 7.30am is the prime quest notification: alert
+the parent to print the day's quest sheet (little ones) or push the list
+to the kids' phones (older ones) BEFORE any TV or device is earned. The
+deal is set while the leverage exists; once the screen is on, the
+negotiation is lost. Weekday variant fires for after school. The kid
+link shows "today's quests arrived" the moment the parent sends them.
+
+## 12. Streak missions (Justin, 5 July evening)
+
+The streak must not just count, it must UNLOCK. Milestones become
+missions: at a 5 day streak the platform sets the first mission, do an
+age related lesson together this week (age matched from the lessons
+engine). Further milestones: 3 days a printable game from the craft
+pack, 7 days the family tech quiz night, 14 days review one device's
+settings together, 30 days the agreement refresh ritual. Each mission
+is a card in the session strip, completing it earns bonus stars for the
+child and keeps the streak meaningful: the number is the key, the
+mission is what it opens. Missions recorded per family so DiGi can
+reference them ("you two did the algorithm lesson last week").
+
+## 13. The free line (Justin, 5 July: how much do we give before subscribe)
+
+Principle from the market evidence: free must deliver one real win in the
+first session (the aha that spreads), paid unlocks depth and convenience.
+Recommended split:
+
+FREE, forever: the starter pack (roadmap, agreement template, 5 scripts,
+checklists), the daily loop lite (one moment card a day with the full
+technique, daily check in, streak), DiGi 3 messages a day, the agreements
+builder including print, Quests up to 3 quests per child WITH the kid
+link (the whole family gets hooked on the loop, both kid and parent
+return daily, and the paywall never blocks a child's tick).
+
+PAID £12.99: all 160 scripts, unlimited DiGi, unlimited quests plus the
+printable game packs and craft packs, the school email catcher, lessons,
+full device walkthroughs, the Progress deep view, the DiGi dispatch.
+
+The converter mechanic: the school catcher runs free for the first five
+caught emails, then keeps catching but shows only counts ("DiGi caught 3
+more things from Burrington this week"), full items behind the upgrade.
+The product itself demonstrates the value it is withholding, which beats
+any pricing page. Same pattern for scripts: every locked script shows
+its situation line and the first sentence of say this.
+
+Nothing in the free tier ever expires or degrades: the churn research
+says surprise removal is the number one trust killer.
+
+## 14. Foundations first: the start sequence (Justin, 6 July)
+
+Acknowledge at pathway start that the ORDER makes it easy. The sequence:
+
+1. SETTINGS first: the age right device settings walkthrough. Structure
+   before conversation, because settings remove half the arguments
+   before they happen.
+2. THE AGREEMENT second, in two forms: the verbal one (the sit down
+   conversation, scripts provided) and the system one (built and signed
+   in the agreements builder, driving quests and stars). The agreement
+   sets the easy pathway: everything after it refers back to what the
+   family chose together.
+3. THEN following and assisting as they go: the daily loop, moments,
+   quests, check ins. The platform walks beside them from here.
+
+Two starting states, acknowledged in onboarding without judgement:
+- Starting fresh: the sequence above, clean.
+- Already broken (habits set, battles daily): we say plainly that this
+  is fixable and common. The repair variant starts with the reset
+  conversation (an amnesty script: new start, no blame for what was
+  allowed before), THEN settings, then the new agreement. The pathway
+  meets the family where they are, never shames where they have been.
+
+Product touch points: onboarding asks fresh start or fixing things,
+the first session checklist orders itself accordingly, and DiGi knows
+which start the family made.
+
+## 15. The child phone channel (Justin, 6 July)
+
+Children table gains an optional phone number (migration 030). Sending
+always goes through the PARENT'S OWN Messages app via prefilled sms
+links: quests link, agreement, craft sheets. We never message a child
+directly, the parent presses send, which is both the safeguarding line
+and zero infrastructure. The flow overall: agreement is signed (verbal
+plus system), signing prompts "send the quest link and this week's
+crafts to their phone", child completes on their phone, tick pings the
+parent, approval releases the agreed reward automatically (already
+live), and the platform alerts the parent that the earned thing is due
+("Alfie has earned his Saturday film"). Add children directly in the
+quest manager, never a trip back through onboarding: first child or
+fifth, same two field form.

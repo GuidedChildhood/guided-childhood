@@ -11,6 +11,8 @@ import { NextResponse } from 'next/server'
 // for unpaid parents so the row they get is one they can open again later.
 
 type SituationKey =
+  | 'wont-get-up'
+  | 'morning-tv'
   | 'tv-off'
   | 'phone-handover'
   | 'bedtime'
@@ -18,17 +20,25 @@ type SituationKey =
   | 'homework'
   | 'something-else'
 
+// preferTitles pins a situation to its purpose written scripts: a title
+// containing one of these phrases wins outright. Keywords are the
+// fallback for stages without a curated script, and every keyword is a
+// whole word or phrase, never a fragment: 'shar' once matched the word
+// share in a misinformation script and served it for a sibling fight.
 const SITUATIONS: Record<SituationKey, {
   label: string
   category: string | null
+  preferTitles: string[]
   keywords: string[]
 }> = {
-  'tv-off':         { label: 'TV or screen turned off',   category: 'screen-habits', keywords: ['turn off', 'turned off', 'switch off', 'tv', 'screen time', 'time is up', 'ending', 'transition'] },
-  'phone-handover': { label: 'Phone handover fight',      category: 'screen-habits', keywords: ['phone', 'hand over', 'handover', 'hand it', 'give', 'put down', 'put it away', 'device away'] },
-  'bedtime':        { label: 'Bedtime battle',            category: 'screen-habits', keywords: ['bedtime', 'bed', 'bedroom', 'sleep', 'night', 'evening'] },
-  'sibling-fight':  { label: 'Sibling fight over device', category: 'screen-habits', keywords: ['sibling', 'brother', 'sister', 'shar', 'turn', 'fight', 'argu'] },
-  'homework':       { label: 'Homework refusal',          category: 'screen-habits', keywords: ['homework', 'school work', 'focus', 'refus', 'distract', 'study'] },
-  'something-else': { label: 'Something else',            category: null,            keywords: [] },
+  'wont-get-up':    { label: 'Will not get up, late night before', category: 'screen-time', preferTitles: ['get up in the morning', 'out of bed for school', 'impossible to wake'], keywords: ['get up', 'out of bed', 'wake', 'morning', 'late night', 'tired'] },
+  'morning-tv':     { label: 'Morning TV, will not get ready', category: 'screen-time', preferTitles: ['morning tv', 'ready for school'], keywords: ['morning', 'get dressed', 'dressed', 'uniform', 'before school', 'breakfast'] },
+  'tv-off':         { label: 'TV or screen turned off',   category: 'screen-time', preferTitles: ['turning the tv off', 'screen time ends', 'end of screen time'], keywords: ['turn off', 'turned off', 'switch off', 'time is up', 'transition', 'screen time'] },
+  'phone-handover': { label: 'Phone handover fight',      category: 'screen-time', preferTitles: ['phone handover', 'handing the phone'], keywords: ['hand over', 'handover', 'hand it over', 'put the phone down', 'put it away', 'device away', 'phone'] },
+  'bedtime':        { label: 'Bedtime battle',            category: 'screen-time', preferTitles: ['bedtime', 'screens before bed'], keywords: ['bedtime', 'before bed', 'goodnight', 'wind down', 'asleep', 'lights out'] },
+  'sibling-fight':  { label: 'Sibling fight over device', category: 'screen-time', preferTitles: ['sibling fight over the device', 'device turn war', 'sharing the screen with a younger sibling'], keywords: ['sibling', 'brother', 'sister', 'whose turn', 'taking turns', 'fight over', 'snatch'] },
+  'homework':       { label: 'Homework refusal',          category: 'screen-time', preferTitles: ['homework'], keywords: ['homework', 'school work', 'refuses', 'refusal', 'distracted', 'study'] },
+  'something-else': { label: 'Something else',            category: null, preferTitles: [], keywords: [] },
 }
 
 type ScriptRow = {
@@ -43,10 +53,16 @@ type ScriptRow = {
 
 function scoreScript(script: ScriptRow, def: (typeof SITUATIONS)[SituationKey], preferFree: boolean): number {
   let score = 0
+  const title = script.title.toLowerCase()
+  const situation = script.situation.toLowerCase()
+  // A purpose written script for this exact situation wins outright.
+  for (const pin of def.preferTitles) {
+    if (title.includes(pin)) score += 100
+  }
   if (def.category && script.category === def.category) score += 3
-  const haystack = `${script.title} ${script.situation}`.toLowerCase()
   for (const kw of def.keywords) {
-    if (haystack.includes(kw)) score += 2
+    if (title.includes(kw)) score += 4
+    else if (situation.includes(kw)) score += 2
   }
   if (preferFree && script.is_free) score += 1
   return score

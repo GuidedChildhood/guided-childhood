@@ -170,10 +170,12 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
   align-items: center;
   gap: 6px;
   background: transparent;
-  color: var(--terracotta);
+  /* Ink text, not butter gold, so it is properly readable on white. The
+     terracotta border keeps it reading as the secondary accent button. */
+  color: var(--ink);
   border: 1.5px solid var(--terracotta);
   font-family: var(--font-body);
-  font-weight: 600;
+  font-weight: 700;
   font-size: 15px;
   padding: 13px 27px;
   border-radius: var(--radius-btn);
@@ -254,6 +256,13 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
 }
 @media (min-width: 768px) { .bottom-tab-bar { display: none; } }
 
+/* While a text input has focus and the on screen keyboard is up, the
+   global tab bar and the page's own compose bar both try to pin
+   themselves above the keyboard, stacking messily. The tab bar steps
+   aside for the duration, the compose bar is the only bottom bar that
+   matters while typing. */
+body.gc-input-focused .bottom-tab-bar { display: none; }
+
 .tab-item {
   display: flex;
   flex-direction: column;
@@ -272,8 +281,14 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
   flex: 1;
   border-radius: 12px;
 }
-.tab-item.active, .tab-item:hover { color: var(--terracotta); }
+.tab-item.active { color: var(--terracotta); font-weight: 800; }
 .tab-item svg { width: 22px; height: 22px; }
+/* Hover only for real pointers: on touch, :hover can stick after a tap
+   and leave the wrong tab looking active until another tap clears it,
+   which is exactly what made Home look current while on another page. */
+@media (hover: hover) and (pointer: fine) {
+  .tab-item:hover { color: var(--terracotta); }
+}
 
 /* ── DIGI CARD (app) ── */
 .digi-card {
@@ -759,9 +774,13 @@ h1, h2, h3 { text-wrap: balance; }
   }
 }
 @media (max-width: 560px) {
+  /* Full width stacked cards on phones. Two columns crammed these photo
+     and text heavy cards and forced ugly white gaps, since short cards
+     stretched to match tall ones in a row. One column sizes each card to
+     its own content, so nothing is cropped and nothing is left blank. */
   .pathway-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+    grid-template-columns: 1fr;
+    gap: 14px;
   }
 }
 
@@ -779,5 +798,43 @@ h1, h2, h3 { text-wrap: balance; }
 @media (max-width: 540px) {
   .cat-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Help now on desktop: the mobile tab bar is hidden above 768px, so the
+   button gets a floating pill bottom right, portalled to body. */
+.rightnow-desktop { display: none; }
+@media (min-width: 768px) {
+  .rightnow-desktop {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    position: fixed;
+    right: 28px;
+    bottom: 28px;
+    z-index: 80;
+    background: var(--terracotta);
+    color: var(--ink);
+    border: 3px solid var(--white);
+    border-radius: 100px;
+    padding: 14px 22px;
+    cursor: pointer;
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    box-shadow: 0 5px 0 var(--terracotta-dark), 0 10px 30px rgba(0,0,0,0.15);
+  }
+  .rightnow-desktop:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--terracotta-dark); }
+  .rightnow-hint {
+    left: auto !important;
+    right: 28px !important;
+    transform: none !important;
+    bottom: 100px !important;
+  }
+  .rightnow-hint .rightnow-hint-arrow {
+    left: auto !important;
+    right: 40px !important;
+    transform: rotate(45deg) !important;
   }
 }

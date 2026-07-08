@@ -15,7 +15,7 @@ INSERT INTO public.scripts (stage_id, category, title, situation, say_this, not_
   'It is 8am. Your child is refusing to brush their teeth. You have asked three times and you are already late.',
   'Two minutes. You choose the toothpaste, I will set the timer. Then we are done.',
   'Why do you make this so hard every single morning? Just brush your teeth.',
-  'The every morning makes your child feel like a problem rather than a person who is struggling with a task. Giving choice within a non-negotiable boundary is the fastest route through sensory or autonomy resistance. The timer removes you from the role of the one making them stop.',
+  'The same battle every morning makes your child feel like a problem rather than a person who is struggling with a task. Giving choice within a boundary that stays firm is the fastest route through sensory or autonomy resistance. The timer removes you from the role of the one making them stop.',
   'This week, let them pick their own toothbrush or toothpaste at the shops. Ownership changes the dynamic more than any strategy.',
   'none',
   true,
