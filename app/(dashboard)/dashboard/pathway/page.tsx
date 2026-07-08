@@ -5,8 +5,10 @@ import { STAGES } from '@/lib/content/stages'
 import DeviceSetupBanner from '@/components/device/DeviceSetupBanner'
 import PathwayMap from '@/components/pathway/PathwayMap'
 import DailyTrail from '@/components/pathway/DailyTrail'
+import PathwayJourney from '@/components/pathway/PathwayJourney'
 import { getStageProgress, type StageId as ProgressStageId } from '@/lib/pathway/progress'
 import { getDailyTasks } from '@/lib/pathway/daily-tasks'
+import { getJourney } from '@/lib/pathway/journey'
 import type { ChallengeId } from '@/lib/content/stages'
 
 const STAGE_DISPLAY: Record<number, {
@@ -84,21 +86,24 @@ export default async function PathwayPage() {
 
   const challenge = ((profileResult.data?.onboarding_answers as Record<string, string> | null)?.challenge ?? null) as ChallengeId | null
 
-  const [currentStageProgress, dailyTasks] = primaryChild?.stage_id
+  const [currentStageProgress, dailyTasks, journey] = primaryChild?.stage_id
     ? await Promise.all([
         getStageProgress(supabase, user.id, primaryChild.stage_id as ProgressStageId, primaryChild.streak_weeks ?? 0),
         getDailyTasks(supabase, user.id, primaryChild.id, primaryChild.stage_id as ProgressStageId, challenge),
+        getJourney(supabase, user.id, primaryChild.stage_id as ProgressStageId),
       ])
-    : [null, null]
+    : [null, null, null]
+
+  const currentStageContent = currentStageNum ? STAGES.find(s => s.id === currentStageNum) : null
 
   return (
     <div style={{ padding: '24px 0 32px' }}>
       {/* Header */}
-      <div style={{ padding: '0 20px', maxWidth: '720px', margin: '0 auto', marginBottom: '28px' }}>
+      <div style={{ padding: '0 20px', maxWidth: '720px', margin: '0 auto', marginBottom: '20px' }}>
         <p className="eyebrow" style={{ marginBottom: '4px' }}>Your journey</p>
-        <h1 style={{ fontSize: 'clamp(1.5rem, 4vw, 2rem)', marginBottom: '8px' }}>Find your stage</h1>
+        <h1 style={{ fontSize: 'clamp(1.5rem, 4vw, 2rem)', marginBottom: '8px' }}>The pathway to 16</h1>
         <p style={{ color: 'var(--ink-muted)', fontSize: '15px', lineHeight: 1.55 }}>
-          Guided Childhood grows with your child. One framework, ages 4 to 16.
+          One framework, ages 4 to 16, that grows with your child. Your next step is always here.
         </p>
         {children.length > 1 && (
           <p style={{ color: 'var(--ink-muted)', fontSize: '14px', marginTop: '4px' }}>
@@ -106,6 +111,18 @@ export default async function PathwayPage() {
           </p>
         )}
       </div>
+
+      {/* The journey: one spine, three strands, the single next step */}
+      {journey && currentStageContent && (
+        <div style={{ padding: '0 20px', maxWidth: '720px', margin: '0 auto 32px' }}>
+          <PathwayJourney
+            journey={journey}
+            childName={primaryChild?.name ?? 'your child'}
+            stageName={currentStageContent.name}
+            stageAges={currentStageContent.ages}
+          />
+        </div>
+      )}
 
       {/* Today: the real tasks for this family, DiGi leading to the next one */}
       {dailyTasks && (

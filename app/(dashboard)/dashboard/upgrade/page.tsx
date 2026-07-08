@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
+import PlanChooser from '@/components/upgrade/PlanChooser'
 
 async function getFounderCount(): Promise<number> {
   try {
@@ -47,63 +48,57 @@ export default async function UpgradePage() {
         </p>
       </div>
 
-      {/* Guarantee */}
-      <div style={{ background: 'var(--stage-2)', border: '1px solid var(--stage-2)', borderRadius: '14px', padding: '14px 18px', marginBottom: '28px', textAlign: 'center' }}>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--terracotta)', letterSpacing: '0.08em' }}>
-          30 DAY MONEY BACK GUARANTEE · NO QUESTIONS ASKED
+      {/* One subscription, every child: the family framing the best family
+          apps lead with. */}
+      <div style={{ background: 'var(--tint-sage)', border: '1px solid var(--border)', borderRadius: '14px', padding: '14px 18px', marginBottom: '24px', textAlign: 'center' }}>
+        <span style={{ fontFamily: 'var(--font-body)', fontSize: '14px', fontWeight: 600, color: 'var(--ink)' }}>
+          One subscription covers every child, at every stage from 4 to 16.
         </span>
       </div>
 
-      {/* Pricing cards */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '32px' }}>
+      {/* Pricing */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '24px' }}>
 
-        {/* Founder rate */}
+        {/* Founder rate, the hero while spots remain */}
         {founderAvailable && (
           <div style={{
             background: 'var(--deep-teal)',
-            borderRadius: '20px',
+            borderRadius: '22px',
             padding: '28px 24px',
             position: 'relative',
             overflow: 'hidden',
+            boxShadow: '0 12px 34px rgba(46,40,24,0.28)',
           }}>
             <div style={{
-              position: 'absolute',
-              top: '0',
-              right: '0',
-              background: 'var(--gold)',
-              color: 'var(--ink)',
-              fontFamily: 'var(--font-mono)',
-              fontSize: '10px',
-              fontWeight: 600,
-              letterSpacing: '0.1em',
-              textTransform: 'uppercase',
-              padding: '6px 16px',
-              borderRadius: '0 20px 0 14px',
+              position: 'absolute', top: 0, right: 0,
+              background: 'var(--terracotta)', color: 'var(--ink)',
+              fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700,
+              letterSpacing: '0.1em', textTransform: 'uppercase',
+              padding: '6px 16px', borderRadius: '0 22px 0 14px',
             }}>
               {founderRemaining} of 50 left
             </div>
 
-            <p className="eyebrow" style={{ color: 'var(--gold)', marginBottom: '10px' }}>Founder rate</p>
-            <div style={{ marginBottom: '16px' }}>
-              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '2.5rem', color: '#fff' }}>£7.99</span>
-              <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: '14px' }}> / month</span>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--gold)', marginTop: '4px' }}>
+            <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '10px' }}>Founder rate</p>
+            <div style={{ marginBottom: '18px' }}>
+              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '2.6rem', color: '#fff', letterSpacing: '-0.03em' }}>£7.99</span>
+              <span style={{ color: 'rgba(255,255,255,0.55)', fontSize: '15px' }}> / month</span>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--terracotta)', marginTop: '4px' }}>
                 Locked for life, never increases
               </div>
             </div>
-            <ul style={{ margin: '0 0 22px', padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <ul style={{ margin: '0 0 22px', padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '9px' }}>
               {[
                 'Everything in the platform, for life at this rate',
                 'All 5 stages as your child grows',
                 'Unlimited DiGi conversations',
                 '100 plus expert scripts',
-                'Wellbeing tracker with trend chart',
-                'Family agreement builder',
-                'Monthly live Pathway Session with Justin (starts at member 50)',
+                'Wellbeing tracker and the family agreement builder',
+                'Monthly live Pathway Session with Justin (from member 50)',
               ].map((item, i) => (
-                <li key={i} style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                  <span style={{ color: 'var(--gold)', fontSize: '14px' }}>✓</span>
-                  <span style={{ fontSize: '14px', color: 'rgba(255,255,255,0.8)' }}>{item}</span>
+                <li key={i} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
+                  <span style={{ color: 'var(--terracotta)', fontSize: '14px', marginTop: '1px' }}>✓</span>
+                  <span style={{ fontSize: '14px', color: 'rgba(255,255,255,0.85)', lineHeight: 1.5 }}>{item}</span>
                 </li>
               ))}
             </ul>
@@ -116,82 +111,34 @@ export default async function UpgradePage() {
           </div>
         )}
 
-        {/* Annual — the default choice */}
-        <div style={{ background: 'var(--cream)', border: '3px solid var(--terracotta)', borderRadius: '20px', padding: '24px', position: 'relative' }}>
-          <div style={{
-            position: 'absolute',
-            top: '-12px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            background: 'var(--terracotta)',
-            color: 'var(--ink)',
-            fontFamily: 'var(--font-mono)',
-            fontSize: '10px',
-            fontWeight: 600,
-            letterSpacing: '0.1em',
-            textTransform: 'uppercase',
-            padding: '5px 16px',
-            borderRadius: '100px',
-            whiteSpace: 'nowrap',
-          }}>
-            Best value · Save £57 a year
-          </div>
-          <p className="eyebrow" style={{ marginBottom: '10px', marginTop: '4px' }}>Annual</p>
-          <div style={{ marginBottom: '16px' }}>
-            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '2.5rem', color: 'var(--ink)' }}>£99</span>
-            <span style={{ color: 'var(--ink-muted)', fontSize: '14px' }}> / year</span>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--terracotta)', marginTop: '4px' }}>
-              Works out at £8.25 a month
-            </div>
-          </div>
-          <ul style={{ margin: '0 0 22px', padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            {[
-              'All 5 stages as your child grows',
-              'Unlimited DiGi conversations',
-              '100 plus expert scripts',
-              'Wellbeing tracker with trend chart',
-              'Family agreement builder',
-              'One payment, a full year of the pathway',
-            ].map((item, i) => (
-              <li key={i} style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                <span style={{ color: 'var(--terracotta)', fontSize: '14px' }}>✓</span>
-                <span style={{ fontSize: '14px', color: 'var(--ink-soft)' }}>{item}</span>
-              </li>
-            ))}
-          </ul>
-          <form action="/api/stripe/checkout" method="POST">
-            <input type="hidden" name="tier" value="annual" />
-            <button type="submit" className="btn btn-gold" style={{ width: '100%', justifyContent: 'center', fontSize: '15px', padding: '16px' }}>
-              Start annual, £99 a year
-            </button>
-          </form>
-        </div>
+        {/* Standard plans with the yearly and monthly toggle */}
+        <PlanChooser heading={founderAvailable ? 'Or the standard rate' : 'Choose your plan'} />
+      </div>
 
-        {/* Monthly — the downgrade option */}
-        <div style={{ background: 'var(--cream)', border: '2px solid var(--border)', borderRadius: '20px', padding: '24px' }}>
-          <p className="eyebrow" style={{ marginBottom: '10px' }}>Monthly</p>
-          <div style={{ marginBottom: '16px' }}>
-            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '2rem', color: 'var(--ink)' }}>£12.99</span>
-            <span style={{ color: 'var(--ink-muted)', fontSize: '14px' }}> / month</span>
-          </div>
-          <ul style={{ margin: '0 0 22px', padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            {[
-              'Everything in Annual',
-              'Pay month to month',
-              'Cancel any time',
-            ].map((item, i) => (
-              <li key={i} style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                <span style={{ color: 'var(--terracotta)', fontSize: '14px' }}>✓</span>
-                <span style={{ fontSize: '14px', color: 'var(--ink-soft)' }}>{item}</span>
-              </li>
-            ))}
-          </ul>
-          <form action="/api/stripe/checkout" method="POST">
-            <input type="hidden" name="tier" value="standard" />
-            <button type="submit" className="btn btn-ink" style={{ width: '100%', justifyContent: 'center' }}>
-              Prefer monthly? £12.99 a month
-            </button>
-          </form>
+      {/* Fear remover: full access now, cancel any time, money back. The
+          same job the trial timeline does on the best paywalls, in our
+          money back model. */}
+      <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '18px', padding: '20px 22px', marginBottom: '32px', boxShadow: '0 4px 22px rgba(26,26,46,0.05)' }}>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '14px' }}>
+          No risk, here is exactly how it works
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+          {[
+            { icon: '🔓', t: 'Today', d: 'Full access to everything the moment you join. Every stage, unlimited DiGi, every script.' },
+            { icon: '✋', t: 'Any time', d: 'Cancel in a tap from Settings. No calls, no forms, no guilt.' },
+            { icon: '↩', t: 'First 30 days', d: 'Not for you? Email us and we refund every penny, no questions asked.' },
+          ].map((s, i) => (
+            <div key={i} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
+              <span style={{
+                width: '30px', height: '30px', borderRadius: '9px', flexShrink: 0,
+                background: 'var(--tint-sage)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '15px',
+              }}>{s.icon}</span>
+              <span>
+                <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: 'var(--ink)' }}>{s.t}</span>
+                <span style={{ display: 'block', fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '1px' }}>{s.d}</span>
+              </span>
+            </div>
+          ))}
         </div>
       </div>
 

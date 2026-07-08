@@ -3,6 +3,7 @@
 import { useState, useCallback, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import MomentTimeline from '@/components/daily/MomentTimeline'
+import Celebration from '@/components/ui/Celebration'
 
 export type DailyCard = {
   id: string
@@ -306,8 +307,11 @@ export default function DailyDeckViewer({
 
     return (
       <div style={{
+        position: 'relative',
         maxWidth: '480px', margin: '0 auto', padding: '40px 20px 60px',
       }}>
+        {/* The delight moment: a soft confetti burst the day it is finished */}
+        <Celebration />
         {/* Done header */}
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
           <div style={{
