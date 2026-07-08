@@ -12,6 +12,12 @@ export interface GamePick {
   category: string
   platform: string
   why: string
+  // Best played together: a parent, a sibling or a friend in the room, not
+  // alone with headphones on. These are the ones that turn screen time into
+  // talking time, so we badge them and let a parent filter to them. The
+  // whole point of the deal is that time on a device should still connect a
+  // child to people, not wall them off.
+  together?: boolean
 }
 
 export type StageKey = 'foundation' | 'builder' | 'explorer' | 'shaper' | 'independent'
