@@ -44,13 +44,16 @@ export default async function ProgressPage() {
   weekStart.setDate(weekStart.getDate() - weekStart.getDay())
   const weekStartStr = weekStart.toISOString().split('T')[0]
 
-  const [childrenRes, concernsRes, resolvedCountRes, checksRes, questsRes, ticksRes, streak] = await Promise.all([
+  const [childrenRes, concernsRes, resolvedCountRes, recentSolvedRes, checksRes, questsRes, ticksRes, streak] = await Promise.all([
     supabase.from('children').select('id, name, age_band').eq('parent_id', user.id).order('created_at'),
     // What we are working on: only the live ones, most stubborn first so the
     // pattern line has something to point at.
     supabase.from('concerns').select('slug, label, status, times_flagged, last_flagged_at').eq('user_id', user.id).in('status', ['open', 'improving']).order('times_flagged', { ascending: false }).limit(10),
     // The win count for the report: everything the family has sorted.
     supabase.from('concerns').select('id', { count: 'exact', head: true }).eq('user_id', user.id).eq('status', 'resolved'),
+    // The most recently sorted, so a parent can flag one that has come
+    // back. Reopening it bumps the flag count and DiGi reads the recurrence.
+    supabase.from('concerns').select('slug, label, times_flagged').eq('user_id', user.id).eq('status', 'resolved').order('last_checked_at', { ascending: false }).limit(6),
     supabase.from('wellbeing_checks').select('week_start, mood_score, sleep_score, social_score, screen_mood_score, open_communication').eq('parent_id', user.id).order('week_start', { ascending: false }).limit(6),
     supabase.from('family_quests').select('id, stars, child_id').eq('user_id', user.id).eq('active', true),
     supabase.from('quest_ticks').select('quest_id, child_id, status').eq('user_id', user.id).eq('status', 'approved').gte('tick_date', weekAgo),
@@ -61,6 +64,7 @@ export default async function ProgressPage() {
   const primary = children[0] ?? null
   const concerns = concernsRes.data ?? []
   const solvedCount = resolvedCountRes.count ?? 0
+  const recentSolved = recentSolvedRes.data ?? []
   const checks = (checksRes.data ?? []) as Check[]
   const quests = questsRes.data ?? []
   const ticks = ticksRes.data ?? []
@@ -190,6 +194,7 @@ export default async function ProgressPage() {
       <WorkingOn
         concerns={concerns.map(c => ({ slug: c.slug, label: c.label, status: c.status, times_flagged: c.times_flagged }))}
         solvedAlready={solvedCount}
+        recentSolved={recentSolved.map(c => ({ slug: c.slug, label: c.label, times_flagged: c.times_flagged }))}
         childName={primary?.name ?? 'your child'}
         parentEmail={user.email ?? ''}
       />

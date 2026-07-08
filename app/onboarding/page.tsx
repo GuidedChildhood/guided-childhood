@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { AGE_BAND_OPTIONS, getStageFromAgeBand, type AgeBand, type StarterAnswers } from '@/lib/content/stages'
+import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
 
 type Screen = 'init' | 'welcome' | 'name' | 'age' | 'challenges' | 'loading' | 'digi-intro' | 'founding' | 'first-task' | 'notifications'
 
@@ -697,7 +698,7 @@ export default function OnboardingPage() {
         await navigator.serviceWorker.ready
         const sub = await reg.pushManager.subscribe({
           userVisibleOnly: true,
-          applicationServerKey: urlBase64ToUint8Array(process.env.NEXT_PUBLIC_VAPID_KEY!),
+          applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY),
         })
         const { data: { user } } = await supabase.auth.getUser()
         await fetch('/api/push/subscribe', {

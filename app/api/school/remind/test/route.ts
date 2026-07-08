@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import webpush from 'web-push'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
 
 // Logged in self test for the school reminder, the same shape as
 // /api/push/test but built from this parent's own real school actions
@@ -15,7 +16,7 @@ export async function POST() {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
 
-  if (!process.env.VAPID_EMAIL || !process.env.NEXT_PUBLIC_VAPID_KEY || !process.env.VAPID_PRIVATE_KEY) {
+  if (!process.env.VAPID_EMAIL || !process.env.VAPID_PRIVATE_KEY) {
     return NextResponse.json({ error: 'VAPID keys are not set on the server' }, { status: 500 })
   }
 
@@ -32,7 +33,7 @@ export async function POST() {
     ? `Tomorrow: ${titles[0]}. Sort it tonight while it is easy.`
     : `Tomorrow: ${titles.slice(0, 3).join(', ')}${titles.length > 3 ? ', and more' : ''}. Sort tonight while it is easy.`
 
-  webpush.setVapidDetails(process.env.VAPID_EMAIL, process.env.NEXT_PUBLIC_VAPID_KEY, process.env.VAPID_PRIVATE_KEY)
+  webpush.setVapidDetails(process.env.VAPID_EMAIL, VAPID_PUBLIC_KEY, process.env.VAPID_PRIVATE_KEY)
   const admin = createAdminClient()
 
   const { data: parentSubs } = await admin

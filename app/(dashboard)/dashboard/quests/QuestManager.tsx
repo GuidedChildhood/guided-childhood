@@ -886,7 +886,9 @@ const KIND_STYLE: Record<string, { label: string; bg: string; fg: string }> = {
 }
 
 function GamesTab({ stageKey, childName, onUse }: { stageKey: StageKey; childName: string; onUse: (title: string) => void }) {
-  const picks = GAME_PICKS[stageKey] ?? []
+  // Lead with the play together picks: the ones that keep a person in the
+  // room are the point, so they sit at the top of the grid.
+  const picks = [...(GAME_PICKS[stageKey] ?? [])].sort((a, b) => Number(!!b.together) - Number(!!a.together))
   const label = STAGE_LABELS[stageKey]
   return (
     <div>
@@ -896,6 +898,9 @@ function GamesTab({ stageKey, childName, onUse }: { stageKey: StageKey; childNam
         </div>
         <p style={{ fontSize: '13.5px', color: 'rgba(255,255,255,0.82)', lineHeight: 1.6, margin: 0 }}>
           The good stuff, picked for {childName}. Real games and creative apps worth their time, with brilliant offline ones too. Line any of them up as the reward the stars buy.
+        </p>
+        <p style={{ fontSize: '12.5px', color: 'rgba(255,255,255,0.7)', lineHeight: 1.55, margin: '10px 0 0' }}>
+          Look for the <span style={{ color: 'var(--terracotta)', fontWeight: 700 }}>Play together</span> ones. The best screen time still has a person in the room, so time on a device becomes time talking, not time alone.
         </p>
       </div>
 
@@ -916,6 +921,13 @@ function GamesTab({ stageKey, childName, onUse }: { stageKey: StageKey; childNam
                 <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 600, color: 'var(--ink-muted)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                   {g.category}
                 </span>
+                {g.together && (
+                  <span style={{
+                    fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase',
+                    background: 'var(--terracotta-lt)', color: 'var(--terracotta-dark)', padding: '3px 9px', borderRadius: '100px',
+                    border: '1px solid var(--terracotta)',
+                  }}>Play together</span>
+                )}
               </div>
               <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)', lineHeight: 1.25, marginBottom: '4px' }}>
                 {g.title}
