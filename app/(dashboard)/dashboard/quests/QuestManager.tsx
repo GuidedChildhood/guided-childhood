@@ -886,7 +886,9 @@ const KIND_STYLE: Record<string, { label: string; bg: string; fg: string }> = {
 }
 
 function GamesTab({ stageKey, childName, onUse }: { stageKey: StageKey; childName: string; onUse: (title: string) => void }) {
-  const picks = GAME_PICKS[stageKey] ?? []
+  // Lead with the play together picks: the ones that keep a person in the
+  // room are the point, so they sit at the top of the grid.
+  const picks = [...(GAME_PICKS[stageKey] ?? [])].sort((a, b) => Number(!!b.together) - Number(!!a.together))
   const label = STAGE_LABELS[stageKey]
   return (
     <div>
