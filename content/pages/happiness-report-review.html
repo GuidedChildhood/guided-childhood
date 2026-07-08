@@ -147,7 +147,7 @@ footer{margin-top:64px;padding-top:22px;border-top:1px solid var(--border);font-
       <span class="eyebrow">Go deeper</span>
       <h2>Get the full source pack</h2>
       <p>Every study named here, with the links, the sample sizes, the effect sizes and the honest limits, in one document. We will send it to your inbox and, if you want it, keep you posted when the next review lands.</p>
-      <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+      <form id="whr-form" action="https://formspree.io/f/xjgqddzy" method="POST">
         <input type="hidden" name="_subject" value="Happiness Report review, source pack request">
         <input type="hidden" name="request" value="WHR 2026 source pack">
         <div class="row">
@@ -155,8 +155,10 @@ footer{margin-top:64px;padding-top:22px;border-top:1px solid var(--border);font-
           <button type="submit">Send me the sources</button>
         </div>
       </form>
+      <div id="whr-ok" class="card green" style="display:none;margin-top:14px"><p style="margin:0"><strong>Thank you.</strong> The source pack is on its way to your inbox. If you do not see it, check wherever your promotions land.</p></div>
+      <p id="whr-err" class="tiny" style="display:none;color:var(--coral-dark)">Something went wrong. Please try again in a moment, or subscribe on the Substack below and reply to say hello.</p>
       <p class="tiny">No spam. The source pack and the occasional review. Unsubscribe any time.</p>
-      <p style="margin-top:18px"><a class="btn sub" href="YOUR_SUBSTACK_URL">Read more on the Substack</a></p>
+      <p style="margin-top:18px"><a class="btn sub" href="https://justiniphillips.substack.com/">Read more on the Substack</a></p>
     </div>
   </section>
 
@@ -181,5 +183,22 @@ footer{margin-top:64px;padding-top:22px;border-top:1px solid var(--border);font-
   </footer>
 
 </div>
+<script>
+(function(){
+  var f=document.getElementById('whr-form');
+  if(!f)return;
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    var ok=document.getElementById('whr-ok'), err=document.getElementById('whr-err');
+    err.style.display='none';
+    fetch(f.action,{method:'POST',body:new FormData(f),headers:{'Accept':'application/json'}})
+      .then(function(r){
+        if(r.ok){f.style.display='none';ok.style.display='block';}
+        else{err.style.display='block';}
+      })
+      .catch(function(){err.style.display='block';});
+  });
+})();
+</script>
 </body>
 </html>
