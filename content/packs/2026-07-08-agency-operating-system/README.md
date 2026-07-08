@@ -28,3 +28,10 @@ Verified mini briefing plus source ledger, LinkedIn post plus first comment, car
 
 ## Higgsfield note
 Connector is live but the account has 0.11 credits; a 5 second clip costs 7.5, so a full reel is roughly 45 to 90 credits. Top up to render. The reel script is produced either way. See the example reel doc.
+
+## Brand asset QA rule (added 8 July, prompted by a garbled "algorithm")
+Never trust AI rendered text. Image and video models routinely misspell words (for example "algorithium" instead of "algorithm"). So:
+- Any on screen words come from the design layer (Canva or the editor) or are burned in from the voiceover transcript, never typed by the image or video model.
+- This is exactly why our reel clips are generated text free and the words are added as captions from the narration.
+- Proofread every asset before it ships. Watch the word algorithm specifically, plus any researcher name, number and the brand name.
+- If an AI asset contains any rendered text, treat it as a placeholder and replace the text in the design layer.
