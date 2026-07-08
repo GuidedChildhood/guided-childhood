@@ -10,6 +10,7 @@ function urlBase64ToUint8Array(base64String: string) {
 }
 import { STAR_MINUTES, PLAY_PAYS_WHY_KID } from '@/lib/quests/templates'
 import { KID_LESSONS, type KidLesson } from '@/lib/quests/kid-lessons'
+import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
 
 // The kid facing quest screen: joyful, huge tap targets, instant ticks,
 // stars that count up, and a goal bar. Pending ticks show as "waiting
@@ -126,7 +127,7 @@ export default function KidQuestScreen({
       if (perm !== 'granted') { setRemindState('hidden'); return }
       const sub = await reg.pushManager.subscribe({
         userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array(process.env.NEXT_PUBLIC_VAPID_KEY!),
+        applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY),
       })
       await fetch('/api/quests/push-subscribe', {
         method: 'POST',

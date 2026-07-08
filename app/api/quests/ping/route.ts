@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import webpush from 'web-push'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
 
 // A parent pings their child's phone right now: a quest nudge, a come
 // off the screen call, dinner in ten. It only reaches a device where
@@ -13,7 +14,7 @@ export async function POST(req: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
 
-  if (!process.env.VAPID_EMAIL || !process.env.NEXT_PUBLIC_VAPID_KEY || !process.env.VAPID_PRIVATE_KEY) {
+  if (!process.env.VAPID_EMAIL || !process.env.VAPID_PRIVATE_KEY) {
     return NextResponse.json({ error: 'Notifications not configured' }, { status: 500 })
   }
 
@@ -42,7 +43,7 @@ export async function POST(req: NextRequest) {
 
   webpush.setVapidDetails(
     process.env.VAPID_EMAIL,
-    process.env.NEXT_PUBLIC_VAPID_KEY,
+    VAPID_PUBLIC_KEY,
     process.env.VAPID_PRIVATE_KEY
   )
 

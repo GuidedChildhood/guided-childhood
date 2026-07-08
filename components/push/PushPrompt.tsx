@@ -1,5 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
+import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
 
 interface Props {
   userId: string
@@ -17,6 +18,7 @@ export default function PushPrompt({ userId, stage }: Props) {
   const [status, setStatus] = useState<'idle' | 'asking' | 'granted' | 'denied' | 'unsupported'>('idle')
   const [testResult, setTestResult] = useState<string | null>(null)
   const [resetting, setResetting] = useState(false)
+  const [enableError, setEnableError] = useState<string | null>(null)
 
   async function sendTest() {
     setTestResult('Sending...')
@@ -44,25 +46,51 @@ export default function PushPrompt({ userId, stage }: Props) {
 
   async function enable() {
     setStatus('asking')
+    setEnableError(null)
     try {
-      const perm = await Notification.requestPermission()
-      if (perm !== 'granted') { setStatus('denied'); return }
+      if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+        setStatus('unsupported')
+        return
+      }
 
+      const perm = await Notification.requestPermission()
+      if (perm !== 'granted') {
+        setStatus('denied')
+        setEnableError('Notifications are blocked for this app. Open your phone settings for Guided Childhood and allow notifications, then try again.')
+        return
+      }
+
+      // A stale or missing service worker registration is the most common
+      // reason subscribe throws. ready can hang if the worker never
+      // registered, so nudge a registration first.
+      if (!(await navigator.serviceWorker.getRegistration())) {
+        try { await navigator.serviceWorker.register('/sw.js') } catch { /* the ready below will surface it */ }
+      }
       const reg = await navigator.serviceWorker.ready
+
       const sub = await reg.pushManager.subscribe({
         userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array(process.env.NEXT_PUBLIC_VAPID_KEY!),
+        applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY),
       })
 
-      await fetch('/api/push/subscribe', {
+      const res = await fetch('/api/push/subscribe', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ subscription: sub.toJSON(), userId, stage }),
       })
+      if (!res.ok) {
+        setStatus('idle')
+        setEnableError('Turned on here, but saving it to your account failed. Try once more.')
+        return
+      }
 
       setStatus('granted')
-    } catch {
-      setStatus('denied')
+    } catch (err) {
+      // Never die silently: show what actually went wrong so it is fixable
+      // rather than a dead button.
+      setStatus('idle')
+      const msg = err instanceof Error ? err.message : String(err)
+      setEnableError(`Could not turn on notifications: ${msg.slice(0, 160)}. On iPhone this needs the app added to your home screen first.`)
     }
   }
 
@@ -141,7 +169,21 @@ export default function PushPrompt({ userId, stage }: Props) {
     )
   }
 
-  if (status === 'denied' || status === 'unsupported') return null
+  // When blocked or unsupported, stay quiet unless we captured a reason
+  // worth showing so the parent knows why the button did nothing.
+  if ((status === 'denied' || status === 'unsupported') && !enableError) return null
+  if (status === 'denied' || status === 'unsupported') {
+    return (
+      <div style={{
+        background: 'var(--stage-4)', borderRadius: '16px', padding: '16px 20px',
+        border: '1px solid var(--border)',
+      }}>
+        <p style={{ margin: 0, fontSize: '.8rem', fontWeight: 600, color: 'var(--ink-soft)', lineHeight: 1.55 }}>
+          {enableError}
+        </p>
+      </div>
+    )
+  }
 
   return (
     <div style={{
@@ -185,6 +227,11 @@ export default function PushPrompt({ userId, stage }: Props) {
       >
         {status === 'asking' ? 'Turning on...' : 'Turn on check ins'}
       </button>
+      {enableError && (
+        <p style={{ margin: '12px 0 0', fontSize: '.76rem', fontWeight: 600, color: 'var(--terracotta-dark, #a44)', lineHeight: 1.5 }}>
+          {enableError}
+        </p>
+      )}
     </div>
   )
 }

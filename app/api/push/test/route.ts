@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import webpush from 'web-push'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
 
 // Logged in self test: sends one notification to the caller's own devices
 // so a parent (or Justin) can verify the whole push chain in one tap.
@@ -13,10 +14,11 @@ export async function POST() {
   if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
 
   // Name exactly which vars are missing so the Vercel fix is unambiguous.
-  // Never leak the values, only whether each is present.
+  // Never leak the values, only whether each is present. The public key is
+  // no longer required here: it has a baked in fallback (lib/config/vapid),
+  // so only the two true server secrets can block a send.
   const missing = [
     ['VAPID_EMAIL', process.env.VAPID_EMAIL],
-    ['NEXT_PUBLIC_VAPID_KEY', process.env.NEXT_PUBLIC_VAPID_KEY],
     ['VAPID_PRIVATE_KEY', process.env.VAPID_PRIVATE_KEY],
   ].filter(([, v]) => !v).map(([k]) => k)
   if (missing.length) {
@@ -36,7 +38,7 @@ export async function POST() {
 
   webpush.setVapidDetails(
     email,
-    process.env.NEXT_PUBLIC_VAPID_KEY as string,
+    VAPID_PUBLIC_KEY,
     process.env.VAPID_PRIVATE_KEY as string
   )
 
