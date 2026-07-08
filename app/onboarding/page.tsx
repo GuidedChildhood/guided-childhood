@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { AGE_BAND_OPTIONS, getStageFromAgeBand, type AgeBand, type StarterAnswers } from '@/lib/content/stages'
 import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
+import Celebration from '@/components/ui/Celebration'
 
 type Screen = 'init' | 'welcome' | 'name' | 'age' | 'challenges' | 'loading' | 'digi-intro' | 'founding' | 'first-task' | 'notifications'
 
@@ -480,6 +481,11 @@ export default function OnboardingPage() {
     return (
       <div style={{ minHeight: '100dvh', background: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '32px 24px' }}>
         <style>{ANIM}</style>
+        {/* The pathway is ready: a soft confetti burst as DiGi arrives, so
+            finishing setup feels like a welcome, not a form submit. */}
+        <div style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 50 }}>
+          <Celebration />
+        </div>
         <div style={{ maxWidth: 480, width: '100%' }}>
 
           {/* DiGi avatar with pulse rings — animates in */}
