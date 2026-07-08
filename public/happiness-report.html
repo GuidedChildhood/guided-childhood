@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The biggest claim and the biggest dataset · A fair read of the 2026 World Happiness Report</title>
+<meta name="description" content="A fair, sourced breakdown of the 2026 World Happiness Report chapter on social media and young people, by Guided Childhood.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+:root{
+  --cream:#F7F3EE; --warm:#FDFBF8; --ink:#1C1C1C; --ink-soft:#4A4A4A; --ink-muted:#6E6A62; --ink-light:#9B958A;
+  --green:#AFDCA2; --green-dark:#2E7D5A; --green-lt:#EEF7F2;
+  --coral:#D4600A; --coral-lt:#FEF3E8; --coral-dark:#C0392B;
+  --gold:#F2C94C; --gold-lt:#FEFAE8; --gold-dark:#C9962A;
+  --lav:#E7ECF8; --lav-deep:#3D5BA9; --border:#E4DFD7;
+  --font-body:'Hanken Grotesk',system-ui,sans-serif; --font-mono:'IBM Plex Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--cream);color:var(--ink);font-family:var(--font-body);font-size:17px;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:48px 24px 96px}
+.eyebrow{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-muted)}
+header.top{padding:24px 0 32px;border-bottom:1px solid var(--border)}
+header.top h1{font-weight:800;font-size:clamp(1.9rem,5vw,2.7rem);line-height:1.14;letter-spacing:-0.02em;margin:14px 0 16px}
+header.top .lede{font-size:19px;color:var(--ink-soft)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.chip{font-family:var(--font-mono);font-size:12px;font-weight:500;padding:5px 12px;border-radius:999px;background:var(--warm);border:1px solid var(--border);color:var(--ink-soft)}
+section{margin-top:44px}
+h2{font-weight:800;font-size:clamp(1.35rem,3.4vw,1.8rem);letter-spacing:-0.01em;margin:8px 0 16px;line-height:1.2}
+p{margin:0 0 16px;color:var(--ink-soft)}
+p strong{color:var(--ink);font-weight:700}
+.big{font-family:var(--font-mono);font-weight:600;font-size:clamp(2.2rem,7vw,3.2rem);color:var(--coral-dark);letter-spacing:-0.02em;line-height:1;margin:8px 0 4px}
+.card{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:26px 28px;margin:20px 0}
+.card.green{background:var(--green-lt);border-color:var(--green)}
+ul.clean{list-style:none;margin:8px 0 16px}
+ul.clean li{padding:9px 0;border-bottom:1px solid var(--border);color:var(--ink-soft)}
+ul.clean li:last-child{border-bottom:none}
+ul.clean li b{color:var(--ink)}
+.pull{font-weight:700;font-size:1.25rem;color:var(--ink);line-height:1.35;margin:8px 0 16px}
+/* the gate */
+.gate{background:var(--warm);border:1px solid var(--border);border-radius:22px;padding:32px 30px;margin-top:28px;position:relative;box-shadow:0 20px 50px -30px rgba(46,125,90,0.4)}
+.gate .lock{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--green-dark)}
+.gate h2{margin-top:8px}
+.gate ul{list-style:none;margin:14px 0 18px}
+.gate ul li{padding:7px 0 7px 26px;position:relative;color:var(--ink-soft)}
+.gate ul li:before{content:"";position:absolute;left:0;top:13px;width:10px;height:10px;border-radius:50%;background:var(--green)}
+form .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+input[type=email]{flex:1;min-width:220px;font-family:var(--font-body);font-size:16px;padding:15px 16px;border:1px solid var(--border);border-radius:14px;background:#fff;color:var(--ink)}
+button,.btn{font-family:var(--font-body);font-weight:700;font-size:16px;padding:15px 24px;border:none;border-radius:14px;background:var(--green-dark);color:#fff;cursor:pointer;box-shadow:0 5px 0 #1f5a40;text-decoration:none;display:inline-block}
+button:active{transform:translateY(2px);box-shadow:0 3px 0 #1f5a40}
+.btn.sub{background:var(--lav-deep);box-shadow:0 5px 0 #2b4384}
+.tiny{font-family:var(--font-mono);font-size:12px;color:var(--ink-light);margin-top:12px}
+#gated{display:none}
+#unlocked{display:none}
+.ledger{background:var(--warm);border:1px solid var(--border);border-radius:20px;overflow:hidden;margin-top:10px}
+.lrow{padding:14px 20px;border-bottom:1px solid var(--border);font-size:14px;color:var(--ink-soft)}
+.lrow:last-child{border-bottom:none}
+.lrow a{color:var(--lav-deep);text-decoration:none;border-bottom:1px solid var(--lav)}
+footer{margin-top:64px;padding-top:22px;border-top:1px solid var(--border);font-family:var(--font-mono);font-size:12px;color:var(--ink-light)}
+@media(max-width:560px){.wrap{padding:28px 16px 64px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <span class="eyebrow">Guided Childhood · Fighting the Moral Panic</span>
+    <h1>The biggest claim, and the biggest dataset</h1>
+    <p class="lede">The 2026 World Happiness Report made social media its theme. Its headline chapter makes one of the strongest claims in the field. Here is a fair, fully sourced look at whether the biggest evidence we actually have can carry it.</p>
+    <div class="chips">
+      <span class="chip">WHR 2026, Chapter 3</span>
+      <span class="chip">Haidt and Rausch</span>
+      <span class="chip">Steelman first</span>
+      <span class="chip">Sources included</span>
+    </div>
+  </header>
+
+  <section>
+    <span class="eyebrow">The claim</span>
+    <h2>State it at full strength first</h2>
+    <p>The 2026 World Happiness Report, from the Wellbeing Research Centre at Oxford with Gallup and the UN, devoted its theme to social media and young people. Its third chapter, by Jonathan Haidt and Zachary Rausch, is titled, word for word, <strong>"Social media is harming adolescents at a scale large enough to cause changes at the population level."</strong></p>
+    <p>They frame it as a product safety trial. The question they pose is whether social media platforms are <strong>dangerous consumer products</strong> whose design has harmed young people, and they conclude that on the evidence these products are not reasonably safe for children.</p>
+    <p>This deserves respect, not a reflex. Their case is not one weak study. It is seven independent lines of evidence they argue all point the same way: what young people say, what parents and clinicians report, internal corporate documents, cross sectional studies, longitudinal studies, reduction experiments, and natural experiments. Their sharpest move is that a critic can wave away any single method, but must explain away all seven. Their strongest single card is a genuine causal one: when Facebook rolled out college by college across the United States, researchers used that timing as a natural experiment and found its arrival <strong>caused</strong> a real worsening in student mental health (Braghieri, Levy and Makarin, American Economic Review, 2022).</p>
+    <p>That is a serious argument. Now the honest look at whether the title holds.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">The problem at the centre of the claim</span>
+    <h2>Population scale is exactly where the effect is smallest</h2>
+    <p>The phrase in the title, population level, makes a specific promise. It says the effect is large enough to show up across a whole population. So look at the largest population level datasets we have.</p>
+    <div class="card">
+      <div class="big">0.4%</div>
+      <p style="margin:0"><strong>The largest study of this question assembled 355,358 adolescents.</strong> Analysed across every defensible method at once, digital technology use explained at most about 0.4 percent of the variation in wellbeing. The researchers put it next to eating potatoes and wearing glasses. Real, measurable, and tiny (Orben and Przybylski, Nature Human Behaviour, 2019).</p>
+    </div>
+    <p>It is not one study. Across <strong>2.4 million people in 168 countries</strong>, wellbeing was mostly positively associated with internet access as it spread, with no sign of a population wide harm tracking its arrival (Vuorre and Przybylski).</p>
+    <p class="pull">The title promises a population scale effect. The best population scale data shows one of the smallest effects in the field. So which is it, and what does an honest read do with the gap?</p>
+  </section>
+
+  <section>
+    <div class="gate" id="gate">
+      <span class="lock">The full breakdown</span>
+      <h2>Read the honest resolution</h2>
+      <p>You have the setup. The rest is where it gets genuinely useful, and genuinely fair to both sides:</p>
+      <ul>
+        <li>Where Haidt and Rausch are right, and why their strongest evidence matters</li>
+        <li>How a small average and real harm are both true at once, the vulnerable tail</li>
+        <li>How the report quietly contradicts its own headline</li>
+        <li>What actually follows for your child, and what does not</li>
+        <li>The full source pack, every study and number, sent to your inbox</li>
+      </ul>
+      <form id="whr-form" action="https://formspree.io/f/xjgqddzy" method="POST">
+        <input type="hidden" name="_subject" value="Happiness Report review, unlocked the full breakdown">
+        <input type="hidden" name="request" value="WHR 2026 full breakdown and source pack">
+        <div class="row">
+          <input type="email" name="email" required placeholder="Your email address">
+          <button type="submit">Unlock the full breakdown</button>
+        </div>
+      </form>
+      <p class="tiny">Unlocks instantly on this page, and the source pack lands in your inbox. No spam, unsubscribe any time.</p>
+    </div>
+    <p id="whr-err" class="tiny" style="display:none;color:var(--coral-dark)">Something went wrong. Please try again in a moment, or subscribe on the Substack and reply to say hello.</p>
+  </section>
+
+  <div id="unlocked" class="card green"><p style="margin:0"><strong>Unlocked.</strong> The full breakdown is below, and the source pack is on its way to your inbox.</p></div>
+
+  <div id="gated">
+
+    <section>
+      <span class="eyebrow">The honest pivot</span>
+      <h2>Where Haidt and Rausch are right</h2>
+      <p>This is not a takedown, and the lazy version of this argument is wrong too. Several of their points hold, and pretending otherwise would be its own dishonesty.</p>
+      <p>The Facebook rollout study is real and it is causal, not just a correlation, which is rare and valuable. Their honest limit is that it studied 2004 Facebook and college students, not a thirteen year old on an algorithmic video feed today, but the direction is real. They are also right that harm concentrates in girls and in early adolescence, and right that no single family can solve a <strong>collective action trap</strong>: a child cannot simply leave the platform their whole friendship group lives on. Even children who are not on a platform can be worse off because everyone else is.</p>
+      <p>And there is a genuine effect hiding in the averages. Which is the next point, and it is the one that matters most.</p>
+    </section>
+
+    <section>
+      <span class="eyebrow">The reconciliation</span>
+      <h2>Small on average, real in the tail</h2>
+      <p>Two things that sound opposite are both true, and holding them together is the whole of an honest position.</p>
+      <div class="card green">
+        <p style="margin:0 0 12px"><strong>The average effect is small.</strong> That is why "rewiring a generation" overclaims. An average blends a large majority of children who are basically fine with a smaller group who are genuinely hurt.</p>
+        <p style="margin:0"><strong>The harm concentrates.</strong> The same research group that found the small average also mapped windows of developmental sensitivity: the negative link is strongest around ages 11 to 13 for girls and 14 to 15 for boys (Orben, Przybylski, Blakemore and Kievit, Nature Communications, 2022). A feed cannot tell distress from appetite, so it finds the struggling child fastest.</p>
+      </div>
+      <p>So the defensible claim is not the title. It is quieter and better supported: a modest effect, concentrated in a vulnerable minority and in specific developmental windows, plus real time trend worries that observational data cannot cleanly pin on any one cause. That is worth acting on. It is not a population scale epidemic.</p>
+    </section>
+
+    <section>
+      <span class="eyebrow">The report checks itself</span>
+      <h2>The World Happiness Report disagrees with its own headline</h2>
+      <p>The most telling thing is that the editors did not lead with Chapter 3. They published the whole report under the banner of a <strong>complex global picture</strong>, and they paired the strong chapter with more cautious ones.</p>
+      <ul class="clean">
+        <li><b>The report's own nuance:</b> children using social media under an hour a day reported the highest wellbeing of all, higher even than non users. All use is not equal.</li>
+        <li><b>Its international evidence chapter</b> found that raising a child's sense of <b>belonging at school</b> from low to high improved girls' life satisfaction around four times more in the UK and Ireland, and around six times more across 47 countries, than moving social media use from high to low.</li>
+        <li><b>Its finding on heavy use</b> was that the association with lower wellbeing is real on average but highly dependent on the platform, the way it is used, gender and family circumstances.</li>
+      </ul>
+      <p>Read the whole report and it does not say social media is the main character in the youth mental health story. It says the picture is mixed, the effect is uneven, and other things in a child's life matter more. That is the honest headline, and it is not the one the loudest chapter chose.</p>
+    </section>
+
+    <section>
+      <span class="eyebrow">So what follows</span>
+      <h2>Get the size right, then aim the response to match</h2>
+      <p>If the effect is small on average and concentrated in the vulnerable, two things follow, and they are not the ban.</p>
+      <p>First, aim the serious protection where the harm actually is: the children already carrying the most, often the ones facing things at home that never make a headline. The factors that carry the largest share of the youth mental health burden, poverty, adverse childhood experiences and family mental health, sit far above platform use in the evidence, and they get a fraction of the attention. Getting the proportions right is not minimising social media. It is spending our effort where it changes the most lives.</p>
+      <p>Second, for every other child, the answer is capability, not eradication. Social media and AI are not leaving. A child will live their whole life with recommendation systems. So we teach them, in steps, age by age, to see the machine and steer it, the way we teach roads and swimming. Regulate the design that genuinely exploits children. Teach the literacy. And build the real world richness that gives a feed less to compete with.</p>
+      <p class="pull">Panic is the wrong response, not because children are safe, but because it aims at the wrong target. The evidence says prepare, in proportion.</p>
+      <p style="margin-top:18px"><a class="btn sub" href="https://justiniphillips.substack.com/">Read more on the Substack</a></p>
+    </section>
+
+    <section>
+      <span class="eyebrow">Every citation, so you can check us</span>
+      <h2>Sources</h2>
+      <div class="ledger">
+        <div class="lrow">World Happiness Report 2026, Chapter 3, Haidt and Rausch, "Social media is harming adolescents at a scale large enough to cause changes at the population level." Wellbeing Research Centre, University of Oxford, with Gallup and the UN, 19 March 2026. <a href="https://www.worldhappiness.report">worldhappiness.report</a></div>
+        <div class="lrow">Orben and Przybylski, Nature Human Behaviour, 2019. n = 355,358, specification curve analysis, about 0.4 percent of variance. <a href="https://www.nature.com/articles/s41562-018-0506-1">nature.com</a></div>
+        <div class="lrow">Vuorre and Przybylski, Clinical Psychological Science, 2024 (2,414,294 people, 168 countries) and Royal Society Open Science, 2023 (946,798 people, Facebook, 72 countries).</div>
+        <div class="lrow">Odgers, review of The Anxious Generation, Nature, 2024. No evidence platforms are rewiring children's brains or driving an epidemic.</div>
+        <div class="lrow">Orben, Przybylski, Blakemore and Kievit, "Windows of developmental sensitivity to social media," Nature Communications, 2022.</div>
+        <div class="lrow">Braghieri, Levy and Makarin, "Social Media and Mental Health," American Economic Review, 2022. The Facebook college rollout natural experiment, a causal worsening in student mental health.</div>
+        <div class="lrow">Ferguson, meta analyses of screen media and adolescent mental health, near zero average effects.</div>
+        <div class="lrow">For balance: Sigaud, Rausch, McClean and Haidt, 2026, arguing the Vuorre and Przybylski studies should not be used to exonerate social media. The debate is live and shared on open data.</div>
+      </div>
+    </section>
+
+  </div>
+
+  <footer>
+    Guided Childhood · A calm, evidence literate read of children and technology · Written to be checked. This review was assembled from the published research and coverage of the 2026 World Happiness Report; where a figure could not be read from the primary document directly it was corroborated across multiple sources.
+  </footer>
+
+</div>
+<script>
+(function(){
+  var f=document.getElementById('whr-form');
+  if(!f)return;
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    var err=document.getElementById('whr-err'); err.style.display='none';
+    fetch(f.action,{method:'POST',body:new FormData(f),headers:{'Accept':'application/json'}})
+      .then(function(r){
+        if(r.ok){
+          document.getElementById('gate').style.display='none';
+          document.getElementById('unlocked').style.display='block';
+          document.getElementById('gated').style.display='block';
+          document.getElementById('unlocked').scrollIntoView({behavior:'smooth',block:'start'});
+        } else { err.style.display='block'; }
+      })
+      .catch(function(){err.style.display='block';});
+  });
+})();
+</script>
+</body>
+</html>
