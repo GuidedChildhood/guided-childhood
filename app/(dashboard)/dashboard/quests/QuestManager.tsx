@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
-import { QUEST_TEMPLATES, PLAY_PAYS_WHY } from '@/lib/quests/templates'
+import { QUEST_TEMPLATES, PLAY_PAYS_WHY, STAR_MINUTES } from '@/lib/quests/templates'
 import { GAME_PICKS, STAGE_LABELS, AGE_BAND_TO_STAGE, type StageKey } from '@/lib/quests/game-picks'
 
 type QuestTab = 'manage' | 'rewards' | 'games' | 'share'
@@ -902,6 +902,14 @@ function GamesTab({ stageKey, childName, onUse }: { stageKey: StageKey; childNam
         <p style={{ fontSize: '12.5px', color: 'rgba(255,255,255,0.7)', lineHeight: 1.55, margin: '10px 0 0' }}>
           Look for the <span style={{ color: 'var(--terracotta)', fontWeight: 700 }}>Play together</span> ones. The best screen time still has a person in the room, so time on a device becomes time talking, not time alone.
         </p>
+        {/* The exchange rate, always visible, so the catalogue reads as
+            something real stars buy, the way a rewards shop shows a balance. */}
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', marginTop: '14px', background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.18)', borderRadius: '100px', padding: '6px 13px' }}>
+          <span aria-hidden="true">⭐</span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.04em', color: '#fff' }}>
+            1 star = {STAR_MINUTES} minutes of any of these
+          </span>
+        </div>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '12px' }}>
