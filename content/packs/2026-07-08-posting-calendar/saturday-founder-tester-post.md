@@ -1,0 +1,3 @@
+# Saturday founder tester post (recruit the first cohort)
+
+Canonical: Google Doc "GDC — Saturday founder tester post (recruit the first cohort)". Build in public recruitment post as the platform nears launch: parents red penning the pathway, playlists in final checks, opening a small founder tester group (capped at 50, real scarcity). LinkedIn and a warmer FB/IG version. Mechanic: comment FOUNDER or DM, route to the waitlist and founder rate. Carries one quiet Hidden Thread brick (the children carrying the most at home). No dashes. This Saturday it takes the slot over the light Reddit/Mumsnet post.

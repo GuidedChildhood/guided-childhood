@@ -11,6 +11,7 @@ Re-read /plans/decisions.md after any compaction.
 - Database work              → docs/02 only
 - Payments / paywall         → docs/01 (Stripe section) + docs/08 (save flow)
 - Emails or any copy         → research/01 voice rules; no dashes ever in copy
+- Any social / Drive content  → apply .claude/skills/content-engine/hidden-thread.md (the mission filter + 1 in 10 rule) before drafting
 - School features            → schools/01 + docs/09
 - Retention features         → docs/08
 - Marketing pages            → docs/06 + docs/09 (delivery model)
