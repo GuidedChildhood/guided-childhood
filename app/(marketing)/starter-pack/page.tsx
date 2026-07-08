@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import DigiCharacter from '@/components/digi/DigiCharacter'
+import Celebration from '@/components/ui/Celebration'
 import {
   STAGES,
   AGE_BAND_OPTIONS,
@@ -183,12 +184,20 @@ export default function StarterPackPage() {
 
   return (
     <div style={{ minHeight: '100dvh', background: '#fff', display: 'flex', flexDirection: 'column' }}>
-      {/* Thin progress bar at very top */}
-      <div style={{ height: '4px', background: 'var(--border)', flexShrink: 0 }}>
-        <div style={{
-          height: '100%', background: 'var(--terracotta)',
-          width: `${(progress / 4) * 100}%`, transition: 'width 0.35s ease',
-        }} />
+      {/* Segmented progress at the very top, one bar per question, the way
+          the best onboarding flows show real momentum rather than a vague
+          creeping line (Chime, Nextdoor and the like). */}
+      <div style={{ display: 'flex', gap: '4px', padding: '8px 10px 0', flexShrink: 0 }} aria-hidden="true">
+        {[1, 2, 3, 4].map(n => (
+          <div key={n} style={{ flex: 1, height: '4px', borderRadius: '4px', background: 'var(--border)', overflow: 'hidden' }}>
+            <div style={{
+              height: '100%', borderRadius: '4px',
+              background: 'var(--terracotta)',
+              width: progress >= n ? '100%' : '0%',
+              transition: 'width 0.35s ease',
+            }} />
+          </div>
+        ))}
       </div>
 
       <div style={{
@@ -769,6 +778,13 @@ function ResultScreen({
 
   return (
     <div ref={rootRef} style={{ minHeight: '100dvh', background: 'var(--cream)', padding: '0 0 80px' }}>
+      {/* The payoff moment: a soft one shot confetti burst over the reveal,
+          reduced motion aware, so building the pathway feels like an arrival
+          and not just another screen. */}
+      <div style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 50 }}>
+        <Celebration />
+      </div>
+
       {/* Stage accent strip at top */}
       <div style={{ height: '5px', background: accent.bold }} />
 
