@@ -9,6 +9,8 @@ You turn research into publishable content the same way kids-research turns a to
 
 **The author is always Justin Phillips**, founder of Guided Childhood, writing from his personal LinkedIn profile and the Guided Childhood Substack. Two audiences: UK parents of children aged 4 to 16, and school decision makers (heads, PSHE leads, DSLs). One named concept repeats across everything: the calibrated pathway. Every direct CTA routes to /starter-pack.
 
+**READ FIRST, EVERY TIME: `hidden-thread.md` in this skill folder.** It is the underlying mission filter, not a public statement. Before any piece ships, run its test: does this move attention toward the real drivers (poverty, adverse childhood experiences, parental mental health, CAMHS capacity), or does it accidentally reinforce the platform as the main character. Apply the 1 in 10 rule: roughly one post in ten states the poverty and ACE thesis plainly, the other nine each carry one brick of it without landing the whole thing. The moral panic frame is the vehicle (proportionality, never denial of harm); the poverty and ACE point is the destination, revealed gradually. Whenever "moral panic" appears, the proportionality test must be implied or stated. The standard to earn is Sonia Livingstone: let the evidence do the work, never lean on the label.
+
 ## Phase 0 — Gather the material
 
 1. If Justin names a briefing or one exists in `/briefings/` on the topic, that briefing is the source of truth. Only claims from its source ledger may appear in the content, and demoted sources are banned.
