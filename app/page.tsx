@@ -641,7 +641,7 @@ export default function HomePage() {
           <div className="fu divide-stat-row" style={{ display: 'grid', gap: '1px', background: 'var(--border)', borderRadius: '20px', overflow: 'hidden', marginBottom: '64px' }}>
             {[
               { num: 'Nearly universal', label: 'UK teenagers who already own a smartphone or tablet, per OECD' },
-              { num: '6 points', label: 'How much more likely a child in a poorer school is taught by someone unsure with the technology, per LSE' },
+              { num: '6 percentage points', label: 'The gap between the poorest and wealthiest schools in how often a child is taught by someone not confident with the technology, per LSE' },
               { num: '4 in 10 vs 8 in 10', label: 'Children from the least affluent homes who can swim 25 metres unaided, against the wealthiest. Cost rations the lesson, not the water' },
             ].map((s, i) => (
               <div key={i} style={{ background: '#fff', padding: 'clamp(24px, 3vw, 32px) clamp(20px, 2.5vw, 28px)' }}>
