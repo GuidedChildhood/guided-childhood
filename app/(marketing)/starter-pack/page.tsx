@@ -5,7 +5,6 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import DigiCharacter from '@/components/digi/DigiCharacter'
 import Celebration from '@/components/ui/Celebration'
-import LivingSketchHero from '@/components/marketing/LivingSketchHero'
 import {
   STAGES,
   AGE_BAND_OPTIONS,
@@ -230,8 +229,8 @@ export default function StarterPackPage() {
         {/* Intro — the story of what happens */}
         {step === 'intro' && (
           <>
-            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '8px' }}>
-              <LivingSketchHero size={220} />
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+              <img src="/digi-squad/DiGi-star.svg" alt="" width={72} height={72} style={{ animation: 'gentleFloat 3.5s ease-in-out infinite' }} />
             </div>
             <h1 style={{
               fontFamily: 'var(--font-display)', fontSize: 'clamp(1.8rem, 4.5vw, 2.4rem)',
@@ -277,7 +276,7 @@ export default function StarterPackPage() {
         {step === 'reassure' && (
           <div style={{ textAlign: 'center' }}>
             <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '14px' }}>
-              <LivingSketchHero size={170} />
+              <img src="/digi-squad/DiGi-star.svg" alt="" width={72} height={72} style={{ animation: 'gentleFloat 2.5s ease-in-out infinite' }} />
             </div>
             <h1 style={{
               fontFamily: 'var(--font-display)', fontSize: 'clamp(1.7rem, 4.5vw, 2.2rem)',
