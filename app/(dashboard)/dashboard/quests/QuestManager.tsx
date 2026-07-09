@@ -944,6 +944,21 @@ function GamesTab({ stageKey, childName, onUse, goal, earnedStars }: {
         <p style={{ fontSize: '12.5px', color: 'rgba(255,255,255,0.7)', lineHeight: 1.55, margin: '10px 0 0' }}>
           Look for the <span style={{ color: 'var(--terracotta)', fontWeight: 700 }}>Play together</span> ones. The best screen time still has a person in the room, so time on a device becomes time talking, not time alone.
         </p>
+        {/* The built in star games, so they are one tap away rather than a
+            hidden route. Children also meet the age matched ones on their
+            quest link. */}
+        <Link
+          href="/dashboard/quests/play"
+          style={{
+            display: 'inline-flex', alignItems: 'center', gap: '8px', marginTop: '14px',
+            background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '12px',
+            padding: '10px 16px', textDecoration: 'none',
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px',
+            boxShadow: '0 3px 0 var(--terracotta-dark)',
+          }}
+        >
+          🎮 Play the star games
+        </Link>
         {/* The exchange rate, always visible, so the catalogue reads as
             something real stars buy, the way a rewards shop shows a balance. */}
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', marginTop: '14px', background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.18)', borderRadius: '100px', padding: '6px 13px' }}>
