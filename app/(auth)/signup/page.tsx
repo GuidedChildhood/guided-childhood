@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -7,6 +7,19 @@ import { useRouter } from 'next/navigation'
 export default function SignupPage() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
+
+  // Prefill from the starter pack (?email=) so the account is created against
+  // the same address the pathway was saved to. Read from the URL directly so
+  // no Suspense boundary is needed for useSearchParams.
+  useEffect(() => {
+    try {
+      const fromUrl = new URLSearchParams(window.location.search).get('email')
+      const fromStore = localStorage.getItem('gc_starter_email')
+      const prefill = fromUrl ?? fromStore
+      if (prefill) setEmail(prefill)
+    } catch {}
+  }, [])
+
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
