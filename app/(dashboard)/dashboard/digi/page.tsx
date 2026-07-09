@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { hasFullAccess } from '@/lib/access'
 import { redirect } from 'next/navigation'
 import { getStageFromAgeBand, type AgeBand, STAGES } from '@/lib/content/stages'
 import DigiChat from './DigiChat'
@@ -46,7 +47,7 @@ export default async function DigiPage() {
   const today = new Date().toISOString().split('T')[0]
 
   const [profileResult, childResult, convResult, feedbackResult] = await Promise.all([
-    supabase.from('profiles').select('subscription_status').eq('id', user.id).single(),
+    supabase.from('profiles').select('subscription_status, trial_ends_at').eq('id', user.id).single(),
     supabase.from('children').select('age_band, name').eq('parent_id', user.id).eq('is_primary', true).single(),
     supabase.from('digi_conversations')
       .select('messages, messages_today, last_message_date')
@@ -59,7 +60,7 @@ export default async function DigiPage() {
       .maybeSingle(),
   ])
 
-  const isPaid = profileResult.data?.subscription_status === 'active'
+  const isPaid = hasFullAccess(profileResult.data)
 
   const stage = childResult.data?.age_band
     ? getStageFromAgeBand(childResult.data.age_band as AgeBand)

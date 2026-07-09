@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { hasFullAccess } from '@/lib/access'
 import { NextResponse } from 'next/server'
 
 export const dynamic = 'force-dynamic'
@@ -19,10 +20,10 @@ export async function POST(request: Request) {
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('subscription_status')
+    .select('subscription_status, trial_ends_at')
     .eq('id', user.id)
     .single()
-  if (profile?.subscription_status !== 'active') {
+  if (!hasFullAccess(profile)) {
     return NextResponse.json({ error: 'Upgrade required' }, { status: 403 })
   }
 
