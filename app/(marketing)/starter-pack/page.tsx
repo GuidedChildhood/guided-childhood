@@ -23,7 +23,7 @@ if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger)
 }
 
-type Step = 'intro' | 'q1' | 'q2' | 'q3' | 'q4' | 'reassure' | 'result'
+type Step = 'intro' | 'q1' | 'q2' | 'q3' | 'q4' | 'email' | 'reassure' | 'result'
 
 const CHALLENGE_ICONS: Record<string, React.ReactNode> = {
   screens_takeover: (
@@ -100,6 +100,12 @@ export default function StarterPackPage() {
   const challenge = picks[0] ?? null
   const [feeling, setFeeling] = useState<FeelingId | null>(null)
   const [timeCommitment, setTimeCommitment] = useState<TimeCommitmentId | null>(null)
+  const [email, setEmail] = useState('')
+  const [emailError, setEmailError] = useState('')
+  const [savingEmail, setSavingEmail] = useState(false)
+  // A parent who has already been through the quiz on this device. We greet
+  // them by name of intent rather than making them start Q1 over again.
+  const [returning, setReturning] = useState(false)
   const [restored, setRestored] = useState(false)
 
   const stage = ageBand ? getStageFromAgeBand(ageBand) : null
@@ -117,6 +123,24 @@ export default function StarterPackPage() {
         if (parsed.feeling) setFeeling(parsed.feeling)
         if (parsed.timeCommitment) setTimeCommitment(parsed.timeCommitment)
         if (parsed.step && parsed.step !== 'result' && parsed.step !== 'reassure') setStep(parsed.step)
+      }
+      // A saved email plus a completed answer set means they have finished the
+      // quiz here before. Hydrate those answers so See my pathway can render
+      // the result, and offer to take them straight there or to sign in, so
+      // returning lands them in the right place, not back at Q1.
+      const savedEmail = localStorage.getItem('gc_starter_email')
+      const savedAnswers = localStorage.getItem('gc_starter_answers')
+      if (savedEmail) setEmail(savedEmail)
+      if (savedEmail && savedAnswers && !saved) {
+        try {
+          const a = JSON.parse(savedAnswers) as StarterAnswers
+          if (a.ageBand) setAgeBand(a.ageBand)
+          if (a.concerns?.length) setPicks(a.concerns)
+          else if (a.challenge) setPicks([a.challenge])
+          if (a.feeling) setFeeling(a.feeling)
+          if (a.timeCommitment) setTimeCommitment(a.timeCommitment)
+          setReturning(true)
+        } catch {}
       }
     } catch {}
     setRestored(true)
@@ -166,7 +190,35 @@ export default function StarterPackPage() {
   }
   function selectTimeCommitment(t: TimeCommitmentId) {
     setTimeCommitment(t)
-    setTimeout(() => setStep('reassure'), 280)
+    setTimeout(() => setStep('email'), 280)
+  }
+
+  // The one detail we ask for: where to send the starter pack, and the key
+  // that lands a return visit back in their account. Answers are already in
+  // localStorage; we save the lead server side, best effort, and never block
+  // the pathway on it.
+  async function submitEmail() {
+    const clean = email.trim().toLowerCase()
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(clean)) {
+      setEmailError('Please enter a valid email so we can send your pack.')
+      return
+    }
+    setEmailError('')
+    setSavingEmail(true)
+    try { localStorage.setItem('gc_starter_email', clean) } catch {}
+    try {
+      await fetch('/api/starter/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: clean,
+          answers: { ageBand, concerns: picks, challenge, feeling, timeCommitment },
+          stageId: stage ? String(stage.id) : null,
+        }),
+      })
+    } catch { /* lead capture is best effort, the pathway still builds */ }
+    setSavingEmail(false)
+    setStep('reassure')
   }
 
   const progress = step === 'intro' ? 0 : step === 'q1' ? 1 : step === 'q2' ? 2 : step === 'q3' ? 3 : 4
@@ -178,6 +230,7 @@ export default function StarterPackPage() {
         accent={STAGE_ACCENT[stage.id]}
         challenge={challenge}
         feeling={feeling!}
+        email={email}
       />
     )
   }
@@ -226,15 +279,50 @@ export default function StarterPackPage() {
         )}
         <div key={step} style={{ animation: 'stepIn 0.45s ease both' }}>
 
+        {/* Welcome back — a return visit with a saved email skips the quiz and
+            goes straight to the saved pathway or sign in. */}
+        {step === 'intro' && returning && (
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '18px' }}>
+              <img src="/digi-squad/DiGi-star.svg" alt="" width={72} height={72} style={{ animation: 'gentleFloat 3.5s ease-in-out infinite' }} />
+            </div>
+            <h1 style={{
+              fontFamily: 'var(--font-display)', fontSize: 'clamp(1.7rem, 4.5vw, 2.3rem)',
+              fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1,
+              color: 'var(--ink)', marginBottom: '10px',
+            }}>
+              Welcome back.
+            </h1>
+            <p style={{ color: 'var(--ink-soft)', fontSize: '15px', marginBottom: '26px', lineHeight: 1.6 }}>
+              Your child&apos;s pathway is saved{email ? <> to <span style={{ color: 'var(--ink)', fontWeight: 700 }}>{email}</span></> : ''}. Pick up where you left off.
+            </p>
+            <button
+              onClick={() => setStep('result')}
+              style={{ width: '100%', padding: '17px 28px', borderRadius: 16, border: 'none', background: 'var(--terracotta)', color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15, cursor: 'pointer', boxShadow: '0 5px 0 var(--terracotta-dark)' }}
+            >
+              See my pathway
+            </button>
+            <Link
+              href={`/login${email ? `?email=${encodeURIComponent(email)}` : ''}`}
+              style={{ display: 'block', marginTop: '14px', textAlign: 'center', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '14px', color: 'var(--ink)' }}
+            >
+              Sign in to my account
+            </Link>
+            <button onClick={() => { setReturning(false); setStep('q1') }} style={{ marginTop: '10px', width: '100%', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-muted)', letterSpacing: '0.06em', padding: '8px 0' }}>
+              Start again for another child
+            </button>
+          </div>
+        )}
+
         {/* Intro — the story of what happens */}
-        {step === 'intro' && (
+        {step === 'intro' && !returning && (
           <>
             <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
               <img src="/digi-squad/DiGi-star.svg" alt="" width={72} height={72} style={{ animation: 'gentleFloat 3.5s ease-in-out infinite' }} />
             </div>
             <h1 style={{
               fontFamily: 'var(--font-display)', fontSize: 'clamp(1.8rem, 4.5vw, 2.4rem)',
-              fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1.15,
+              fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1,
               color: 'var(--ink)', marginBottom: '10px', textAlign: 'center',
             }}>
               Let us build your child&apos;s pathway.
@@ -317,7 +405,7 @@ export default function StarterPackPage() {
           <>
             <h1 style={{
               fontFamily: 'var(--font-display)', fontSize: 'clamp(1.7rem, 4.5vw, 2.4rem)',
-              fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1.15,
+              fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1,
               color: 'var(--ink)', marginBottom: '10px',
             }}>
               How old is your child?
@@ -359,7 +447,7 @@ export default function StarterPackPage() {
           <>
             <h1 style={{
               fontFamily: 'var(--font-display)', fontSize: 'clamp(1.7rem, 4.5vw, 2.4rem)',
-              fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1.15,
+              fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1,
               color: 'var(--ink)', marginBottom: '10px',
             }}>
               What are you dealing with right now?
@@ -478,7 +566,7 @@ export default function StarterPackPage() {
           <>
             <h1 style={{
               fontFamily: 'var(--font-display)', fontSize: 'clamp(1.7rem, 4.5vw, 2.4rem)',
-              fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1.15,
+              fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1,
               color: 'var(--ink)', marginBottom: '10px',
             }}>
               How are you feeling about it?
@@ -523,7 +611,7 @@ export default function StarterPackPage() {
           <>
             <h1 style={{
               fontFamily: 'var(--font-display)', fontSize: 'clamp(1.7rem, 4.5vw, 2.4rem)',
-              fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1.15,
+              fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1,
               color: 'var(--ink)', marginBottom: '10px',
             }}>
               How much time can you give this each day?
@@ -558,6 +646,64 @@ export default function StarterPackPage() {
               ))}
             </div>
             <button onClick={() => setStep('q3')} style={{ marginTop: '24px', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-muted)', letterSpacing: '0.06em', padding: '8px 0', textAlign: 'left' }}>
+              ← Back
+            </button>
+          </>
+        )}
+
+        {/* Email — asked last, once the four questions are done and the pack is
+            clearly worth having. This is the key that lands a return visit in
+            the right place, and where tonight's starter pack is sent. */}
+        {step === 'email' && (
+          <>
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '18px' }}>
+              <img src="/digi-squad/DiGi-star.svg" alt="" width={60} height={60} style={{ animation: 'gentleFloat 3.5s ease-in-out infinite' }} />
+            </div>
+            <h1 style={{
+              fontFamily: 'var(--font-display)', fontSize: 'clamp(1.7rem, 4.5vw, 2.4rem)',
+              fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1,
+              color: 'var(--ink)', marginBottom: '10px', textAlign: 'center',
+            }}>
+              Where should we send it?
+            </h1>
+            <p style={{ color: 'var(--ink-soft)', fontSize: '15px', marginBottom: '26px', lineHeight: 1.6, textAlign: 'center' }}>
+              Your pathway is ready. Add your email and we save it to your account, so next time you land straight back here, not at the start.
+            </p>
+
+            <input
+              className="input"
+              type="email"
+              inputMode="email"
+              autoComplete="email"
+              placeholder="you@email.com"
+              value={email}
+              onChange={e => { setEmail(e.target.value); if (emailError) setEmailError('') }}
+              onKeyDown={e => { if (e.key === 'Enter') submitEmail() }}
+              style={{ fontSize: 17, textAlign: 'center', marginBottom: emailError ? '10px' : '16px' }}
+            />
+            {emailError && (
+              <p style={{ color: 'var(--terracotta-dark)', fontSize: '13px', textAlign: 'center', marginBottom: '14px', lineHeight: 1.5 }}>
+                {emailError}
+              </p>
+            )}
+
+            <button
+              onClick={submitEmail}
+              disabled={savingEmail}
+              style={{
+                width: '100%', padding: '17px 28px', borderRadius: 16, border: 'none',
+                background: 'var(--terracotta)', color: 'var(--ink)',
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15,
+                cursor: savingEmail ? 'default' : 'pointer', opacity: savingEmail ? 0.7 : 1,
+                boxShadow: '0 5px 0 var(--terracotta-dark)',
+              }}
+            >
+              {savingEmail ? 'Saving your pathway...' : 'Save my pathway'}
+            </button>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--ink-light)', textAlign: 'center', marginTop: '14px', letterSpacing: '0.05em', lineHeight: 1.6 }}>
+              No card. We email the starter pack and the occasional genuinely useful thing. Unsubscribe any time.
+            </p>
+            <button onClick={() => setStep('q4')} style={{ marginTop: '10px', width: '100%', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-muted)', letterSpacing: '0.06em', padding: '8px 0' }}>
               ← Back
             </button>
           </>
@@ -700,13 +846,17 @@ const LESSON_THUMBS = [
 ]
 
 function ResultScreen({
-  stage, accent, challenge, feeling,
+  stage, accent, challenge, feeling, email,
 }: {
   stage: ReturnType<typeof getStageFromAgeBand>
   accent: { bold: string; text: string }
   challenge: ChallengeId
   feeling: FeelingId
+  email?: string
 }) {
+  // Carry the captured email into signup so the account is created against the
+  // same address the pathway was saved to, landing them in the right place.
+  const signupHref = email ? `/signup?email=${encodeURIComponent(email)}` : '/signup'
   const challengeAction = stage.challengeActions[challenge] ?? stage.action
   const challengeLabel = CHALLENGE_OPTIONS.find(c => c.value === challenge)?.label ?? 'what you told us'
 
@@ -1081,7 +1231,7 @@ function ResultScreen({
             Create your free account and your Stage {stage.id} pathway is saved. No card required.
           </p>
           <Link
-            href="/signup"
+            href={signupHref}
             style={{
               display: 'inline-flex', alignItems: 'center',
               padding: '16px 36px', background: 'var(--terracotta)',
