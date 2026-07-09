@@ -128,7 +128,7 @@ function PairsView({ game, onDone }: { game: PairsGame; onDone: () => void }) {
         {game.stage}
       </div>
       <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.2rem, 4.5vw, 1.5rem)', letterSpacing: '-0.02em', lineHeight: 1.15, margin: '0 0 16px' }}>
-        Match the animal to its name
+        {game.pictorial ? 'Tap the two that go together' : 'Match the animal to its name'}
       </h2>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '10px' }}>
         {cards.map((c, idx) => {
@@ -140,7 +140,7 @@ function PairsView({ game, onDone }: { game: PairsGame; onDone: () => void }) {
               aspectRatio: '1', borderRadius: '16px', cursor: isDone ? 'default' : 'pointer',
               border: `2px solid ${isDone ? 'var(--sage-ink, #2D5016)' : isBad ? '#c0392b' : isSel ? 'var(--terracotta)' : 'var(--border)'}`,
               background: isDone ? 'var(--tint-sage)' : isSel ? 'var(--terracotta-lt)' : '#fff',
-              fontSize: c.w ? '15px' : '26px', fontWeight: 800, color: 'var(--ink)',
+              fontSize: game.pictorial ? '30px' : (c.w ? '15px' : '26px'), fontWeight: 800, color: 'var(--ink)',
               transition: 'transform .12s', transform: isSel ? 'scale(0.96)' : 'none',
             }}>{c.t}</button>
           )
