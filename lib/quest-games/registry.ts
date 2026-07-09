@@ -10,6 +10,11 @@ export type QuestGameMeta = {
   title: string
   emoji: string
   stage: string
+  // Which stages this game suits (1 Foundation 4 to 7, 2 Builder 8 to 10,
+  // 3 Explorer 11 to 13, 4 Shaper 13 to 15, 5 Independent 16 plus). The kid
+  // screen only ever shows a child the games tagged for their stage, so a
+  // four year old never meets an eleven year old's game.
+  stages: number[]
   stars: number
   blurb: string
 }
@@ -34,13 +39,13 @@ export type QuestGame = PairsGame | JudgeGame
 export const QUEST_GAMES: QuestGame[] = [
   {
     key: 'animal-pairs', mechanic: 'pairs',
-    title: 'Animal Pairs', emoji: '🦊', stage: 'Foundation · 4 to 7', stars: 2,
+    title: 'Animal Pairs', emoji: '🦊', stage: 'Foundation · 4 to 7', stages: [1, 2], stars: 2,
     blurb: 'Match each animal to its name. Gentle reading and spotting.',
     pairs: [['🦊', 'Fox'], ['🐑', 'Sheep'], ['🐄', 'Cow'], ['🐸', 'Frog']],
   },
   {
     key: 'what-is-an-advert', mechanic: 'judge',
-    title: 'What Is an Advert?', emoji: '🔍', stage: 'Explorer · 11 to 13', stars: 4,
+    title: 'What Is an Advert?', emoji: '🔍', stage: 'Explorer · 11 to 13', stages: [3, 4, 5], stars: 4,
     blurb: 'Sort real posts from paid adverts. Spot when someone is selling to you.',
     leftLabel: 'Just a post', rightLabel: 'Advert',
     endPraise: 'You spotted every advert. That is the skill that keeps you in charge of your feed.',
@@ -54,7 +59,7 @@ export const QUEST_GAMES: QuestGame[] = [
   },
   {
     key: 'real-or-fake', mechanic: 'judge',
-    title: 'Real or Fake?', emoji: '🕵️', stage: 'Explorer · 11 to 13', stars: 4,
+    title: 'Real or Fake?', emoji: '🕵️', stage: 'Explorer · 11 to 13', stages: [3, 4, 5], stars: 4,
     blurb: 'Decide what to believe. Build the habit of pausing before you trust a post.',
     leftLabel: 'Real', rightLabel: 'Fake',
     endPraise: 'You paused before believing every time. That pause is everything.',
@@ -70,4 +75,11 @@ export const QUEST_GAMES: QuestGame[] = [
 
 export function getQuestGame(key: string): QuestGame | null {
   return QUEST_GAMES.find(g => g.key === key) ?? null
+}
+
+// Only the games that suit a child at this stage. A null or unknown stage
+// falls back to the middle stage so nothing shows wildly off for that child.
+export function gamesForStage(stageId: number | null | undefined): QuestGame[] {
+  const stage = stageId && stageId >= 1 && stageId <= 5 ? stageId : 2
+  return QUEST_GAMES.filter(g => g.stages.includes(stage))
 }

@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { questDueToday } from '@/lib/quests/due'
 import { KID_LESSONS, kidLessonBaseTitle } from '@/lib/quests/kid-lessons'
+import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import KidQuestScreen from './KidQuestScreen'
 
 // The kid's own screen. Opened from the private link their parent sends,
@@ -35,7 +36,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   const weekAgo = new Date(Date.now() - 7 * 86400000).toISOString().slice(0, 10)
 
   const [childRes, questsRes, todayTicksRes, weekTicksRes, goalRes, streakTicksRes] = await Promise.all([
-    supabase.from('children').select('name').eq('id', link.child_id).maybeSingle(),
+    supabase.from('children').select('name, age_band').eq('id', link.child_id).maybeSingle(),
     supabase.from('family_quests')
       .select('id, title, emoji, stars, schedule')
       .eq('user_id', link.user_id)
@@ -122,10 +123,16 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     })
     .map(l => l.key)
 
+  // The child's stage decides which games and mini lessons are age
+  // appropriate, so a four year old never meets an eleven year old's game.
+  const ageBand = childRes.data?.age_band as AgeBand | undefined
+  const stageId = ageBand ? getStageFromAgeBand(ageBand).id : 2
+
   return (
     <KidQuestScreen
       token={token}
       childName={childRes.data?.name ?? 'Superstar'}
+      stageId={stageId}
       quests={dueQuests}
       todayTicks={todayTicksRes.data ?? []}
       weekStars={weekStars}

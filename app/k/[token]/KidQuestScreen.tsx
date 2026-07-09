@@ -9,8 +9,8 @@ function urlBase64ToUint8Array(base64String: string) {
   return Uint8Array.from(rawData, c => c.charCodeAt(0))
 }
 import { STAR_MINUTES, PLAY_PAYS_WHY_KID } from '@/lib/quests/templates'
-import { KID_LESSONS, type KidLesson } from '@/lib/quests/kid-lessons'
-import { QUEST_GAMES, type QuestGame } from '@/lib/quest-games/registry'
+import { lessonsForStage, type KidLesson } from '@/lib/quests/kid-lessons'
+import { gamesForStage, type QuestGame } from '@/lib/quest-games/registry'
 import QuestGamePlayer from '@/components/quest-games/QuestGamePlayer'
 import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
 
@@ -25,10 +25,11 @@ type Goal = { title: string; stars_needed: number; daily_stars: number | null; a
 export type KidMission = { id: string; title: string; stars: number; status: string }
 
 export default function KidQuestScreen({
-  token, childName, quests, todayTicks, weekStars, goal, streakDays = 0, laterQuests = [], doneLessonKeys = [], missions = [],
+  token, childName, stageId = 2, quests, todayTicks, weekStars, goal, streakDays = 0, laterQuests = [], doneLessonKeys = [], missions = [],
 }: {
   token: string
   childName: string
+  stageId?: number
   quests: Quest[]
   todayTicks: Tick[]
   weekStars: number
@@ -38,6 +39,10 @@ export default function KidQuestScreen({
   doneLessonKeys?: string[]
   missions?: KidMission[]
 }) {
+  // Only the games and mini lessons that suit this child's stage, so a young
+  // child never meets an older child's content.
+  const stageLessons = lessonsForStage(stageId)
+  const stageGames = gamesForStage(stageId)
   const [ticks, setTicks] = useState<Record<string, string>>(
     Object.fromEntries(todayTicks.map(t => [t.quest_id, t.status]))
   )
@@ -708,7 +713,7 @@ export default function KidQuestScreen({
                   })}
                 </>
               )}
-              {KID_LESSONS.map(lesson => {
+              {stageLessons.map(lesson => {
                 const done = doneLessons.has(lesson.key)
                 return (
                   <button
@@ -749,7 +754,7 @@ export default function KidQuestScreen({
                   </button>
                 )
               })}
-              {QUEST_GAMES.map(game => {
+              {stageGames.map(game => {
                 const done = doneGames.has(game.key)
                 return (
                   <button

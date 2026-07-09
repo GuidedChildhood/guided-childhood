@@ -18,6 +18,11 @@ export type KidLesson = {
   emoji: string
   stars: number
   bonusStars: number
+  // Which stages this lesson suits (1 Foundation 4 to 7 up to 5 Independent
+  // 16 plus). These are reading quizzes, so none is tagged for Stage 1: a
+  // four year old learns co watched with a grown up, never solo on the kid
+  // link. The kid screen only shows a child the lessons for their stage.
+  stages: number[]
   cards: string[]
   questions: KidQuestion[]
 }
@@ -29,6 +34,7 @@ export const KID_LESSONS: KidLesson[] = [
     emoji: '🕵️',
     stars: 3,
     bonusStars: 1,
+    stages: [2, 3, 4, 5],
     cards: [
       'Some videos and photos online are made up. Not just silly ones, some are built to trick you, and they can look VERY real.',
       'Check one: WHO posted it? A real famous person has a real account with millions of followers. A copycat account with 47 followers is a big clue.',
@@ -71,6 +77,7 @@ export const KID_LESSONS: KidLesson[] = [
     emoji: '🔐',
     stars: 2,
     bonusStars: 1,
+    stages: [2, 3, 4, 5],
     cards: [
       'A password is like the key to your room. If someone guesses it, they can pretend to BE you. So it needs to be hard to guess but easy for you to remember.',
       'Bad passwords: your name, your birthday, your pet, or 12345. A computer can guess those in less than one second. Seriously, one second.',
@@ -113,6 +120,7 @@ export const KID_LESSONS: KidLesson[] = [
     emoji: '🎣',
     stars: 3,
     bonusStars: 1,
+    stages: [2, 3, 4, 5],
     cards: [
       'Ever meant to watch ONE video and looked up an hour later? That is not you being weak. That is an app doing its job.',
       'Apps are built by teams whose whole job is keeping you watching. The next video loads by itself, so stopping needs a decision but continuing needs nothing.',
@@ -155,6 +163,7 @@ export const KID_LESSONS: KidLesson[] = [
     emoji: '💛',
     stars: 3,
     bonusStars: 1,
+    stages: [2, 3, 4, 5],
     cards: [
       'Sometimes people send mean things online. It happens to nearly everyone, even famous people, and it is never your fault.',
       'Rule one: do not reply while you feel hot and angry. A mean reply turns one bad message into a fight, and screenshots last forever.',
@@ -197,6 +206,7 @@ export const KID_LESSONS: KidLesson[] = [
     emoji: '🎭',
     stars: 3,
     bonusStars: 1,
+    stages: [2, 3, 4, 5],
     cards: [
       'Online, anyone can pretend to be anyone. A profile that says kid, 10, loves football could be exactly that, or could be someone completely different.',
       'That is why some things NEVER get shared online: your address, your school, your phone number. Not to game friends, not to anyone who asks nicely.',
@@ -239,6 +249,7 @@ export const KID_LESSONS: KidLesson[] = [
     emoji: '🕶️',
     stars: 2,
     bonusStars: 1,
+    stages: [2, 3, 4, 5],
     cards: [
       'Some adverts do not look like adverts. They look like normal videos, because you would skip them if you knew.',
       'When a YouTuber says this toy is AMAZING and puts a shop link underneath, they might have been paid to say it. Look for the little words AD or gifted.',
@@ -283,4 +294,12 @@ export function kidLessonQuestTitle(lesson: KidLesson, perfect: boolean): string
 
 export function kidLessonBaseTitle(lesson: KidLesson): string {
   return `Lesson: ${lesson.title}`
+}
+
+// Only the mini lessons that suit a child at this stage. Stage 1 (4 to 7)
+// has none by design, so a young child's kid screen shows quests and any
+// young game, never a reading quiz meant for an older child.
+export function lessonsForStage(stageId: number | null | undefined): KidLesson[] {
+  const stage = stageId && stageId >= 1 && stageId <= 5 ? stageId : 2
+  return KID_LESSONS.filter(l => l.stages.includes(stage))
 }
