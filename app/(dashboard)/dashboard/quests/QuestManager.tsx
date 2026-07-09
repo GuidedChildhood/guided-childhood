@@ -2,8 +2,9 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
-import { QUEST_TEMPLATES, PLAY_PAYS_WHY, STAR_MINUTES } from '@/lib/quests/templates'
-import { GAME_PICKS, STAGE_LABELS, AGE_BAND_TO_STAGE, type StageKey } from '@/lib/quests/game-picks'
+import { QUEST_TEMPLATES, PLAY_PAYS_WHY } from '@/lib/quests/templates'
+import { STAGE_LABELS, AGE_BAND_TO_STAGE, type StageKey } from '@/lib/quests/game-picks'
+import { gamesForStage } from '@/lib/quest-games/registry'
 
 type QuestTab = 'manage' | 'rewards' | 'games' | 'share'
 const TABS: { key: QuestTab; label: string }[] = [
@@ -200,12 +201,6 @@ export default function QuestManager() {
     setQuests(prev => prev.filter(q => q.id !== id))
   }
 
-  // From the Games tab: line a game up as the next reward and drop the
-  // parent on the Rewards tab to set the star price and save it.
-  function useGameAsReward(title: string) {
-    setGoalTitle(title)
-    setTab('rewards')
-  }
 
   async function saveGoal() {
     const title = goalTitle.trim() || goal?.title
@@ -655,7 +650,7 @@ export default function QuestManager() {
           )}
 
           {tab === 'games' && (
-            <GamesTab stageKey={stageKey} childName={child.name} onUse={useGameAsReward} goal={goal} earnedStars={starsThisWeek} />
+            <GamesTab stageKey={stageKey} childName={child.name} />
           )}
 
           {tab === 'rewards' && (
@@ -904,154 +899,71 @@ export default function QuestManager() {
   )
 }
 
-// The Games tab: the curated premium picks for this child's stage. Each is
-// a real, quality game or creative app, weighted to educational, artistic
-// and screen positive, with brilliant offline games in the mix. Use it as
-// the reward lines a game up as the next thing the stars buy.
-const KIND_STYLE: Record<string, { label: string; bg: string; fg: string }> = {
-  digital:  { label: 'Screen', bg: 'var(--stage-2)', fg: 'var(--stage-2-text)' },
-  tabletop: { label: 'Offline', bg: 'var(--tint-green)', fg: '#2D5016' },
-  creative: { label: 'Create', bg: 'var(--stage-4)', fg: 'var(--stage-4-text)' },
-  outdoor:  { label: 'Outside', bg: 'var(--stage-1)', fg: 'var(--stage-1-text)' },
+// The Games tab: only the star games we built into the app, age matched to
+// this child's stage. Each is played to earn stars, so this is a play list,
+// not a shop. A four to seven year old sees only their gentle games, never
+// an eleven year old's.
+const STAGEKEY_TO_NUM: Record<StageKey, number> = {
+  foundation: 1, builder: 2, explorer: 3, shaper: 4, independent: 5,
 }
 
-function GamesTab({ stageKey, childName, onUse, goal, earnedStars }: {
+function GamesTab({ stageKey, childName }: {
   stageKey: StageKey
   childName: string
-  onUse: (title: string) => void
-  goal: { title: string; stars_needed: number } | null
-  earnedStars: number
 }) {
-  // Lead with the play together picks: the ones that keep a person in the
-  // room are the point, so they sit at the top of the grid.
-  const picks = [...(GAME_PICKS[stageKey] ?? [])].sort((a, b) => Number(!!b.together) - Number(!!a.together))
+  const games = gamesForStage(STAGEKEY_TO_NUM[stageKey] ?? 2)
   const label = STAGE_LABELS[stageKey]
-
-  // The goal in play, if the family set one to a game. Shows the progress
-  // climbing, the pattern the best rewards apps use to keep a child pulling
-  // toward something they chose.
-  const goalPct = goal ? Math.min(100, Math.round((earnedStars / Math.max(1, goal.stars_needed)) * 100)) : 0
-  const starsToGo = goal ? Math.max(0, goal.stars_needed - earnedStars) : 0
   return (
     <div>
       <div style={{ ...card, background: 'var(--deep-teal)', border: 'none', color: '#fff' }}>
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '6px' }}>
-          Best games for {label.name} · {label.ages}
+          Star games for {label.name} · {label.ages}
         </div>
         <p style={{ fontSize: '13.5px', color: 'rgba(255,255,255,0.82)', lineHeight: 1.6, margin: 0 }}>
-          The good stuff, picked for {childName}. Real games and creative apps worth their time, with brilliant offline ones too. Line any of them up as the reward the stars buy.
+          The games we built, matched to {childName}&apos;s stage. They play, they learn something real, and the stars land in their bank. Every one is on their quest link too.
         </p>
-        <p style={{ fontSize: '12.5px', color: 'rgba(255,255,255,0.7)', lineHeight: 1.55, margin: '10px 0 0' }}>
-          Look for the <span style={{ color: 'var(--terracotta)', fontWeight: 700 }}>Play together</span> ones. The best screen time still has a person in the room, so time on a device becomes time talking, not time alone.
-        </p>
-        {/* The built in star games, so they are one tap away rather than a
-            hidden route. Children also meet the age matched ones on their
-            quest link. */}
-        <Link
-          href="/dashboard/quests/play"
-          style={{
-            display: 'inline-flex', alignItems: 'center', gap: '8px', marginTop: '14px',
-            background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '12px',
-            padding: '10px 16px', textDecoration: 'none',
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px',
-            boxShadow: '0 3px 0 var(--terracotta-dark)',
-          }}
-        >
-          🎮 Play the star games
-        </Link>
-        {/* The exchange rate, always visible, so the catalogue reads as
-            something real stars buy, the way a rewards shop shows a balance. */}
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', marginTop: '14px', background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.18)', borderRadius: '100px', padding: '6px 13px' }}>
-          <span aria-hidden="true">⭐</span>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.04em', color: '#fff' }}>
-            1 star = {STAR_MINUTES} minutes of any of these
-          </span>
-        </div>
-
-        {/* The goal climbing: if a game is set as the goal, show how close
-            the child is, so the catalogue is a thing to pull toward. */}
-        {goal && (
-          <div style={{ marginTop: '14px', background: 'rgba(0,0,0,0.18)', borderRadius: '14px', padding: '13px 15px' }}>
-            <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '10px', marginBottom: '8px' }}>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>
-                This week&apos;s goal
-              </span>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: 'rgba(255,255,255,0.85)' }}>
-                {Math.min(earnedStars, goal.stars_needed)}/{goal.stars_needed} ⭐
-              </span>
-            </div>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: '#fff', marginBottom: '9px' }}>
-              {goal.title}
-            </div>
-            <div style={{ height: '8px', borderRadius: '8px', background: 'rgba(255,255,255,0.18)', overflow: 'hidden' }}>
-              <div style={{ height: '100%', borderRadius: '8px', background: 'var(--terracotta)', width: `${goalPct}%`, transition: 'width 0.4s ease' }} />
-            </div>
-            <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.8)', marginTop: '8px', lineHeight: 1.45 }}>
-              {starsToGo === 0
-                ? `${childName} has earned it. Time to play.`
-                : `${starsToGo} more star${starsToGo === 1 ? '' : 's'} and ${childName} has earned it.`}
-            </div>
-          </div>
-        )}
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '12px' }}>
-        {picks.map(g => {
-          const k = KIND_STYLE[g.kind] ?? KIND_STYLE.digital
-          return (
-            <div key={g.title} style={{
+      {games.length === 0 ? (
+        <p style={{ fontSize: '13px', color: 'var(--ink-muted)', lineHeight: 1.6 }}>
+          More games for this stage are on the way. In the meantime the daily deck and quests keep the stars coming.
+        </p>
+      ) : (
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '12px' }}>
+          {games.map(g => (
+            <div key={g.key} style={{
               display: 'flex', flexDirection: 'column', height: '100%',
               background: '#fff', border: '1.5px solid var(--border)', borderRadius: '18px',
               padding: '16px', boxShadow: '0 4px 18px rgba(26,26,46,0.06)',
             }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '7px', marginBottom: '10px', flexWrap: 'wrap' }}>
-                <span style={{
-                  fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase',
-                  background: k.bg, color: k.fg, padding: '3px 9px', borderRadius: '100px',
-                }}>{k.label}</span>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 600, color: 'var(--ink-muted)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-                  {g.category}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
+                <span style={{ fontSize: '1.7rem', flexShrink: 0 }}>{g.emoji}</span>
+                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)', lineHeight: 1.2 }}>
+                  {g.title}
                 </span>
-                {g.together && (
-                  <span style={{
-                    fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase',
-                    background: 'var(--terracotta-lt)', color: 'var(--terracotta-dark)', padding: '3px 9px', borderRadius: '100px',
-                    border: '1px solid var(--terracotta)',
-                  }}>Play together</span>
-                )}
-                {goal?.title === g.title && (
-                  <span style={{
-                    fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase',
-                    background: 'var(--deep-teal)', color: '#fff', padding: '3px 9px', borderRadius: '100px',
-                  }}>This week&apos;s goal ⭐</span>
-                )}
               </div>
-              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)', lineHeight: 1.25, marginBottom: '4px' }}>
-                {g.title}
-              </div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--ink-muted)', marginBottom: '8px' }}>
-                {g.platform}
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
+                {g.stage} · ⭐ {g.stars}
               </div>
               <p style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 14px', flex: 1 }}>
-                {g.why}
+                {g.blurb}
               </p>
-              <button
-                onClick={() => onUse(g.title)}
+              <Link
+                href={`/dashboard/quests/play/${g.key}`}
                 style={{
-                  alignSelf: 'flex-start',
-                  background: goal?.title === g.title ? 'var(--deep-teal)' : 'var(--terracotta-lt)',
-                  border: `1.5px solid ${goal?.title === g.title ? 'var(--deep-teal)' : 'var(--terracotta)'}`,
-                  borderRadius: '100px', padding: '7px 14px', cursor: 'pointer',
-                  fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700,
-                  color: goal?.title === g.title ? '#fff' : 'var(--terracotta-dark)',
+                  alignSelf: 'flex-start', textDecoration: 'none',
+                  background: 'var(--terracotta)', color: 'var(--ink)',
+                  border: 'none', borderRadius: '12px', padding: '9px 18px',
+                  fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 800,
+                  boxShadow: '0 3px 0 var(--terracotta-dark)',
                 }}
               >
-                {goal?.title === g.title ? 'Change the goal' : 'Make this the goal →'}
-              </button>
+                Play {g.title} →
+              </Link>
             </div>
-          )
-        })}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   )
 }
