@@ -190,24 +190,37 @@ export default function PushPrompt({ userId, stage }: Props) {
       background: 'var(--stage-4)',
       borderRadius: '16px',
       padding: '20px 22px',
-      border: '1px solid var(--border)',
+      border: '2px solid var(--terracotta)',
+      boxShadow: '0 6px 20px rgba(224,122,63,0.16)',
     }}>
+      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '8px' }}>
+        Important step
+      </div>
       <p style={{
         fontFamily: 'var(--font-display)',
-        fontSize: '.9rem',
-        fontWeight: 700,
+        fontSize: '1rem',
+        fontWeight: 800,
         color: 'var(--ink)',
         marginBottom: '6px',
       }}>
-        Get your daily check ins
+        Turn on your daily check ins
       </p>
       <p style={{
         fontSize: '.8rem',
         color: 'var(--ink-soft)',
         lineHeight: 1.6,
-        marginBottom: '14px',
+        marginBottom: '10px',
       }}>
-        Three gentle nudges a day: morning, after school, bedtime. Same moments your child faces screens. You will be ready with the words.
+        Three gentle nudges a day: morning, after school, bedtime. The moments your child faces screens, so you are ready with the words. This is the thing that keeps the habit alive.
+      </p>
+      <p style={{
+        fontSize: '.72rem',
+        color: 'var(--ink-muted)',
+        lineHeight: 1.5,
+        marginBottom: '14px',
+        fontFamily: 'var(--font-mono)',
+      }}>
+        On iPhone, add the app to your Home Screen first (tap Share, then Add to Home Screen), then open it from there and turn these on.
       </p>
       <button
         onClick={enable}

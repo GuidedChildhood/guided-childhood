@@ -10,6 +10,8 @@ function urlBase64ToUint8Array(base64String: string) {
 }
 import { STAR_MINUTES, PLAY_PAYS_WHY_KID } from '@/lib/quests/templates'
 import { KID_LESSONS, type KidLesson } from '@/lib/quests/kid-lessons'
+import { QUEST_GAMES, type QuestGame } from '@/lib/quest-games/registry'
+import QuestGamePlayer from '@/components/quest-games/QuestGamePlayer'
 import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
 
 // The kid facing quest screen: joyful, huge tap targets, instant ticks,
@@ -48,6 +50,8 @@ export default function KidQuestScreen({
   const [tab, setTab] = useState<'quests' | 'lessons'>('quests')
   const [doneLessons, setDoneLessons] = useState<Set<string>>(new Set(doneLessonKeys))
   const [activeLesson, setActiveLesson] = useState<KidLesson | null>(null)
+  const [activeGame, setActiveGame] = useState<QuestGame | null>(null)
+  const [doneGames, setDoneGames] = useState<Set<string>>(new Set())
   const [lessonCard, setLessonCard] = useState(0)
   const [qIndex, setQIndex] = useState(0)
   const [qAnswers, setQAnswers] = useState<number[]>([])
@@ -119,6 +123,22 @@ export default function KidQuestScreen({
     } catch { /* best effort, the next load reconciles */ }
   }
 
+  // A quest game finished. Record the stars server side (fixed, from the
+  // registry, never trusted here) while the celebration stays on screen.
+  async function recordGame(game: QuestGame) {
+    if (doneGames.has(game.key)) return
+    setDoneGames(prev => new Set(prev).add(game.key))
+    setToast(`${game.stars} stars sent to your grown up! ⭐`)
+    setTimeout(() => setToast(null), 3500)
+    try {
+      await fetch('/api/quests/lesson-complete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token, game_key: game.key }),
+      })
+    } catch { /* best effort, the next load reconciles */ }
+  }
+
   async function enableReminders() {
     try {
       const reg = await navigator.serviceWorker.register('/sw.js')
@@ -178,6 +198,15 @@ export default function KidQuestScreen({
       padding: '22px 16px 40px',
       fontFamily: 'var(--font-body)',
     }}>
+      {/* Quest game overlay: the child plays, the stars record on finish
+          through the same approve loop, the celebration stays until Done. */}
+      {activeGame && (
+        <QuestGamePlayer
+          game={activeGame}
+          onComplete={() => recordGame(activeGame)}
+          onClose={() => setActiveGame(null)}
+        />
+      )}
       <style>{`
         @keyframes kid-pop {
           0% { transform: scale(1); }
@@ -716,6 +745,47 @@ export default function KidQuestScreen({
                       fontSize: '18px',
                     }}>
                       {done ? '✓' : '▶'}
+                    </span>
+                  </button>
+                )
+              })}
+              {QUEST_GAMES.map(game => {
+                const done = doneGames.has(game.key)
+                return (
+                  <button
+                    key={game.key}
+                    onClick={() => !done && setActiveGame(game)}
+                    disabled={done}
+                    style={{
+                      display: 'flex', alignItems: 'center', gap: 14,
+                      background: done ? 'var(--tint-sage)' : '#fff',
+                      border: 'none', borderRadius: '20px', padding: '16px 18px',
+                      cursor: done ? 'default' : 'pointer', textAlign: 'left',
+                      boxShadow: done ? '0 2px 0 rgba(0,0,0,0.12)' : '0 5px 0 rgba(0,0,0,0.18)',
+                      transform: done ? 'translateY(3px)' : 'none',
+                    }}
+                  >
+                    <span style={{ fontSize: '1.8rem', flexShrink: 0 }}>{game.emoji}</span>
+                    <span style={{ flex: 1, minWidth: 0 }}>
+                      <span style={{
+                        display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800,
+                        fontSize: '1.15rem', color: 'var(--ink)', lineHeight: 1.25,
+                        textDecoration: done ? 'line-through' : 'none', opacity: done ? 0.6 : 1,
+                      }}>
+                        {game.title}
+                      </span>
+                      <span style={{ display: 'block', fontSize: '13.5px', fontWeight: 600, color: 'var(--ink-muted)', marginTop: 2 }}>
+                        {done ? 'Done! Stars with your grown up ⭐' : `A game, worth ${game.stars} stars`}
+                      </span>
+                    </span>
+                    <span style={{
+                      width: 40, height: 40, borderRadius: '50%', flexShrink: 0,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      background: done ? 'var(--terracotta)' : 'var(--cream)',
+                      border: done ? 'none' : '2.5px dashed var(--ink-light)',
+                      fontSize: '18px',
+                    }}>
+                      {done ? '✓' : '🎮'}
                     </span>
                   </button>
                 )

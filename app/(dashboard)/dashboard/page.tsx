@@ -6,7 +6,8 @@ import type { Moment } from '@/components/cards/MomentCard'
 import MomentCard from '@/components/cards/MomentCard'
 import PushPrompt from '@/components/push/PushPrompt'
 import DeviceSetupBanner from '@/components/device/DeviceSetupBanner'
-import DigiPrompts from '@/components/digi/DigiPrompts'
+import SmartAlerts from '@/components/alerts/SmartAlerts'
+import { getSuggestions, type Suggestion } from '@/lib/alerts/suggestions'
 import StreakFlame from '@/components/daily/StreakFlame'
 import SchoolActionsCard, { type SchoolAction } from '@/components/school/SchoolActionsCard'
 import SchoolPromoCard from '@/components/school/SchoolPromoCard'
@@ -50,7 +51,7 @@ export default async function DashboardPage() {
   const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
 
   const [childResult, dailySessionResult, todayMomentsResult, lastFeedbackResult, schoolActionsResult, schoolConnectionResult, agreementResult, questsCountResult, pushSubResult, anySessionResult, anySchoolActionResult] = await Promise.all([
-    supabase.from('children').select('name, age_band, stage_id, streak_weeks, actions_this_week').eq('parent_id', user.id).eq('is_primary', true).single(),
+    supabase.from('children').select('id, name, age_band, stage_id, streak_weeks, actions_this_week').eq('parent_id', user.id).eq('is_primary', true).single(),
     supabase.from('daily_sessions').select('completed_at').eq('user_id', user.id).eq('session_date', today).maybeSingle(),
     supabase.from('daily_moments').select('id, title, category, age_bands, icon, science_brief, digi_opener').eq('active', true).order('sort_order').limit(20),
     supabase.from('digi_feedback').select('feedback_date, question, parent_response, digi_insight').eq('user_id', user.id).not('parent_response', 'is', null).gte('feedback_date', sevenDaysAgo).order('feedback_date', { ascending: false }).limit(1).maybeSingle(),
@@ -120,9 +121,12 @@ export default async function DashboardPage() {
   // daily deck relies on.
   const stageSlug = stage.name.toLowerCase() as PathwayStageId
   const challenge = ((profile?.onboarding_answers as Record<string, string> | null)?.challenge ?? null) as ChallengeId | null
-  const [streak, todayLoop] = await Promise.all([
+  const [streak, todayLoop, suggestions] = await Promise.all([
     getDailyStreak(supabase, user.id),
     getTodayLoop(supabase, user.id, stageSlug, challenge),
+    child?.stage_id
+      ? getSuggestions(supabase, user.id, { childName: child.name, childId: child.id, stageId: stageSlug, ukHour })
+      : Promise.resolve([] as Suggestion[]),
   ])
 
   // Last completed script insight
@@ -182,8 +186,9 @@ export default async function DashboardPage() {
       <SetupPath flags={setupFlags} />
       <SetupUnlockToast flags={setupFlags} />
 
-      {/* DiGi leads: proactive watch fors, tips and parent care */}
-      <DigiPrompts />
+      {/* Smart alerts: the one proactive layer, the ranked things this
+          family could do now, two at a time, calm and dismissable. */}
+      <SmartAlerts suggestions={suggestions} />
 
       {/* Today's path: the day's loop as five nodes, DiGi on the next step */}
       <TodayPathStrip tasks={todayLoop} />
@@ -391,6 +396,11 @@ export default async function DashboardPage() {
         </div>
       )}
 
+      {/* Everything below is the fuller home. It waits until setup is done,
+          so a new parent gets a calm first screen, the conductor and today's
+          practice, not a wall of explore me cards on day one. */}
+      {setupComplete && (<>
+
       {/* This week's actions */}
       <div style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '20px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
@@ -522,6 +532,8 @@ export default async function DashboardPage() {
           <span style={{ fontSize: '18px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>
         </div>
       </Link>
+
+      </>)}
 
       {/* DiGi quick access */}
       <div style={{ background: 'var(--stage-5)', border: '1.5px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '20px' }}>

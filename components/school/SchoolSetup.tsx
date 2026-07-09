@@ -115,6 +115,10 @@ export default function SchoolSetup() {
   const [confirmDelete, setConfirmDelete] = useState(false)
   const [testing, setTesting] = useState(false)
   const [testResult, setTestResult] = useState<{ ok: boolean; message: string } | null>(null)
+  // Whether the forwarding domain can actually receive mail yet (has an MX
+  // record). Null while unknown, false warns the parent before they forward
+  // into a silent bounce.
+  const [inboundLive, setInboundLive] = useState<boolean | null>(null)
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
   const testLetterbox = async () => {
@@ -144,6 +148,12 @@ export default function SchoolSetup() {
   useEffect(() => {
     load().then(conn => setScreen(conn ? 'manage' : 'pitch'))
   }, [load])
+
+  // Check once whether the forwarding domain is live, so the address screen
+  // can warn instead of letting a forward bounce silently.
+  useEffect(() => {
+    fetch('/api/school/health').then(r => r.json()).then(d => setInboundLive(!!d.live)).catch(() => {})
+  }, [])
 
   // While the parent is on the provider steps and no code has arrived yet,
   // poll every five seconds so the Gmail confirmation code appears live.
@@ -348,6 +358,22 @@ export default function SchoolSetup() {
         <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: '18px' }}>
           This address belongs to your family alone. Anything you forward to it gets read once for the actions, then deleted.
         </p>
+
+        {/* Not receiving yet: if the domain has no MX record, a forward will
+            bounce. Warn plainly rather than let the parent hit a silent bounce. */}
+        {inboundLive === false && (
+          <div style={{
+            background: '#FBEAEA', border: '1.5px solid var(--danger, #c0392b)', borderRadius: '14px',
+            padding: '14px 16px', marginBottom: '18px',
+          }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--danger, #c0392b)', marginBottom: '6px' }}>
+              Not ready to receive yet
+            </div>
+            <p style={{ fontSize: '13px', color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>
+              This address is not live on our mail servers yet, so a forward may bounce back for now. We are finishing the setup. Save the address, and try forwarding again a little later or tap Test the letterbox below.
+            </p>
+          </div>
+        )}
 
         <div style={{
           background: 'var(--deep-teal)', borderRadius: '16px', padding: '20px 22px', marginBottom: '20px',

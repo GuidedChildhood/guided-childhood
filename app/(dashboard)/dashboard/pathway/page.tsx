@@ -2,14 +2,9 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { STAGES } from '@/lib/content/stages'
-import DeviceSetupBanner from '@/components/device/DeviceSetupBanner'
-import PathwayMap from '@/components/pathway/PathwayMap'
-import DailyTrail from '@/components/pathway/DailyTrail'
 import PathwayJourney from '@/components/pathway/PathwayJourney'
 import { getStageProgress, type StageId as ProgressStageId } from '@/lib/pathway/progress'
-import { getDailyTasks } from '@/lib/pathway/daily-tasks'
 import { getJourney } from '@/lib/pathway/journey'
-import type { ChallengeId } from '@/lib/content/stages'
 
 const STAGE_DISPLAY: Record<number, {
   displayName: string
@@ -84,15 +79,12 @@ export default async function PathwayPage() {
   const primaryChild = children[0]
   const currentStageNum = primaryChild?.stage_id ? stageIdToNum[primaryChild.stage_id] ?? null : null
 
-  const challenge = ((profileResult.data?.onboarding_answers as Record<string, string> | null)?.challenge ?? null) as ChallengeId | null
-
-  const [currentStageProgress, dailyTasks, journey] = primaryChild?.stage_id
+  const [currentStageProgress, journey] = primaryChild?.stage_id
     ? await Promise.all([
         getStageProgress(supabase, user.id, primaryChild.stage_id as ProgressStageId, primaryChild.streak_weeks ?? 0),
-        getDailyTasks(supabase, user.id, primaryChild.id, primaryChild.stage_id as ProgressStageId, challenge),
         getJourney(supabase, user.id, primaryChild.stage_id as ProgressStageId),
       ])
-    : [null, null, null]
+    : [null, null]
 
   const currentStageContent = currentStageNum ? STAGES.find(s => s.id === currentStageNum) : null
 
@@ -103,7 +95,7 @@ export default async function PathwayPage() {
         <p className="eyebrow" style={{ marginBottom: '4px' }}>Your journey</p>
         <h1 style={{ fontSize: 'clamp(1.5rem, 4vw, 2rem)', marginBottom: '8px' }}>The pathway to 16</h1>
         <p style={{ color: 'var(--ink-muted)', fontSize: '15px', lineHeight: 1.55 }}>
-          One framework, ages 4 to 16, that grows with your child. Your next step is always here.
+          The plan that turns 16 from a cliff edge into a gentle ramp. The settings relax as your child earns it, one stage at a time, all the way to independence. Your next step is always here.
         </p>
         {children.length > 1 && (
           <p style={{ color: 'var(--ink-muted)', fontSize: '14px', marginTop: '4px' }}>
@@ -124,22 +116,29 @@ export default async function PathwayPage() {
         </div>
       )}
 
-      {/* Today: the real tasks for this family, DiGi leading to the next one */}
-      {dailyTasks && (
-        <div style={{ padding: '0 20px', maxWidth: '720px', margin: '0 auto 40px' }}>
-          <p className="eyebrow" style={{ textAlign: 'center', color: 'var(--terracotta)', marginBottom: '12px' }}>Today</p>
-          <DailyTrail tasks={dailyTasks} />
-        </div>
-      )}
-
-      {/* The full journey: DiGi on the 4 to 16 overview trail */}
-      {currentStageNum && (
-        <div style={{ padding: '0 20px', margin: '0 auto 36px' }}>
-          <p className="eyebrow" style={{ textAlign: 'center', color: 'var(--ink-muted)', marginBottom: '12px' }}>The full journey, 4 to 16</p>
-          <PathwayMap
-            currentStageNum={currentStageNum}
-            progressPct={currentStageProgress?.overallPct ?? 0}
-          />
+      {/* DiGi help: the pathway is never a wall. When the next step is
+          unclear, DiGi reads the moments this family has flagged and talks
+          through the one that matters now. This is the moments and DiGi help
+          thread, in one calm card, replacing the stacked journey views that
+          made the page busy. */}
+      {currentStageContent && (
+        <div style={{ padding: '0 20px', maxWidth: '720px', margin: '0 auto 28px' }}>
+          <Link href="/dashboard/digi" style={{ textDecoration: 'none', display: 'block' }}>
+            <div style={{ background: 'var(--deep-teal)', borderRadius: '18px', padding: '18px 20px', display: 'flex', alignItems: 'center', gap: '14px' }}>
+              <div style={{ width: 40, height: 40, borderRadius: '11px', background: 'var(--terracotta)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
+                <span style={{ color: '#fff', fontSize: '1rem', lineHeight: 1 }}>◎</span>
+              </div>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: '#fff' }}>
+                  Not sure of your next step?
+                </div>
+                <div style={{ fontSize: '12.5px', color: 'rgba(255,255,255,0.78)', lineHeight: 1.45, marginTop: '2px' }}>
+                  DiGi reads the moments you have flagged and talks you through the one that matters now.
+                </div>
+              </div>
+              <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '18px', flexShrink: 0 }}>→</span>
+            </div>
+          </Link>
         </div>
       )}
 
@@ -297,23 +296,6 @@ export default async function PathwayPage() {
           swipe to explore
         </span>
       </div>
-
-      {/* Device setup banner for primary child's stage */}
-      {children.length > 0 && (() => {
-        const primaryChild = children[0]
-        const primaryStageNum = primaryChild.stage_id ? stageIdToNum[primaryChild.stage_id] ?? null : null
-        const primaryStage = primaryStageNum ? STAGES.find(s => s.id === primaryStageNum) : null
-        if (!primaryStage) return null
-        return (
-          <div style={{ padding: '0 20px', maxWidth: '720px', margin: '24px auto 0' }}>
-            <DeviceSetupBanner
-              stageId={primaryStage.id}
-              stageName={primaryStage.name}
-              childName={primaryChild.name}
-            />
-          </div>
-        )
-      })()}
 
       {/* Multiple children section */}
       <div style={{ padding: '0 20px', maxWidth: '720px', margin: '28px auto 0' }}>

@@ -374,6 +374,30 @@ export default function QuestManager() {
 
           {tab === 'manage' && (
           <>
+          {/* Get it on their phone: the most important quest setup step after
+              adding quests, surfaced prominently on the main tab until the
+              child's link exists, then it steps back. */}
+          {!link && (
+            <button
+              onClick={() => setTab('share')}
+              style={{
+                width: '100%', textAlign: 'left', cursor: 'pointer', border: 'none',
+                background: 'var(--deep-teal)', borderRadius: '18px', padding: '16px 18px', marginBottom: '16px',
+                display: 'flex', alignItems: 'center', gap: '14px',
+              }}
+            >
+              <span style={{ width: 42, height: 42, borderRadius: '12px', background: 'var(--terracotta)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>📲</span>
+              <span style={{ flex: 1, minWidth: 0 }}>
+                <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: '#fff' }}>
+                  Put {child.name}&apos;s quests on their phone
+                </span>
+                <span style={{ display: 'block', fontSize: '12.5px', color: 'rgba(255,255,255,0.78)', lineHeight: 1.45, marginTop: '2px' }}>
+                  Send their own private quest page by message. It opens like a mini app, nothing to install.
+                </span>
+              </span>
+              <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '18px', flexShrink: 0 }}>→</span>
+            </button>
+          )}
           {/* All quests done today: the whole thing lights up */}
           {allDoneToday && (
             <div style={{

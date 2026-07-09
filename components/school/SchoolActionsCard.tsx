@@ -137,7 +137,7 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
             : 'Sent. It should reach your phone within seconds.'
         )
       } else if (data.reason) {
-        setTestResult('Turn on check ins first, above, then try the test again.')
+        setTestResult('Turn on notifications first. Open your home page, tap Turn on check ins, then come back and test again.')
       } else {
         setTestResult(data.error ?? 'Something went wrong, try again.')
       }
