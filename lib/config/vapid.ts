@@ -7,4 +7,4 @@
 // remain true server secrets, set in the host environment.
 export const VAPID_PUBLIC_KEY =
   process.env.NEXT_PUBLIC_VAPID_KEY ||
-  'BCjcbeqMk64dRNd8AFQY99JYI0bK7aPvlHhfJcoKvSSZvYQOEpPyEhdphY_5QkE-RjM2i9cnSOx_mT3A0eIxoDU'
+  'BBZjfqow7fWhqWjvT-0qNS8gDLCuBrpJmsGVRg1adL__MbkBf94OUGBKxWCvr7pkOrLfMIRgJKra0WwzR35w9xU'
