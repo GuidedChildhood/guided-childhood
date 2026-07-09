@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import DigiCharacter, { type DigiMood } from '@/components/digi/DigiCharacter'
 import { momentImageForTitle } from '@/lib/content/moment-images'
+import { momentPhotoForTitle } from '@/lib/content/moment-photos'
 import { momentLook } from '@/lib/content/moment-look'
 
 export interface Moment {
@@ -50,7 +51,8 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
   const [questMade, setQuestMade] = useState(false)
 
   const accentColor = CATEGORY_COLORS[moment.category] ?? 'var(--stage-1)'
-  const imageSrc = momentImageForTitle(moment.title)
+  // Real photo first (covers every card), the older tile as a fallback.
+  const imageSrc = momentPhotoForTitle(moment.title) ?? momentImageForTitle(moment.title)
   const look = momentLook(moment.category)
 
   async function handleShare() {
