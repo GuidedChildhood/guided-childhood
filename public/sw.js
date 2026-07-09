@@ -1,4 +1,4 @@
-const CACHE_NAME = 'gc-v2'
+const CACHE_NAME = 'gc-v3'
 const STATIC_ASSETS = [
   '/',
   '/starter-pack',
