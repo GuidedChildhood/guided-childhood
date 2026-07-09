@@ -5,7 +5,7 @@ import type { SupabaseClient } from '@supabase/supabase-js'
 // permanent wall. A free script already opened stays open forever, nothing
 // free ever degrades; a free script never opened locks only once this
 // week's allowance is used, and the allowance returns every week.
-export const FREE_SCRIPTS_PER_WEEK = 3
+export const FREE_SCRIPTS_PER_WEEK = 2
 
 function weekAgoIso(): string {
   return new Date(Date.now() - 7 * 86400000).toISOString()

@@ -89,7 +89,7 @@ export default async function ScriptsPage() {
   // A weekly renewing allowance, not a lifetime cap: only free scripts
   // opened in the last seven days count against the week, and every one
   // already opened stays open forever. The ceiling refreshes, never walls.
-  const FREE_SCRIPTS_PER_WEEK = 3
+  const FREE_SCRIPTS_PER_WEEK = 2
   const weekAgoIso = new Date(Date.now() - 7 * 86400000).toISOString()
   const freeScriptOrders = new Set(scripts.filter(s => s.is_free).map(s => s.sort_order))
   const freeScriptsReadCount = (completions ?? []).filter(c => freeScriptOrders.has(c.script_sort_order) && String(c.completed_at) >= weekAgoIso).length

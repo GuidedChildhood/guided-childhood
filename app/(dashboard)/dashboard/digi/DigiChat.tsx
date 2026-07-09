@@ -88,7 +88,7 @@ export default function DigiChat({
 
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
-  const FREE_LIMIT = 5
+  const FREE_LIMIT = 3
 
   const [deviceKey, setDeviceKey] = useState<string | null>(null)
 
@@ -172,7 +172,7 @@ export default function DigiChat({
         clearTimeout(timeout)
         const data = await res.json().catch(() => ({} as { error?: string }))
         if (res.status === 429) {
-          setError('DiGi has helped all it can today, that is your 5 free chats. It refreshes tomorrow, or go unlimited any time.')
+          setError('DiGi has helped all it can today, that is your 3 free chats. It refreshes tomorrow, or go unlimited any time.')
         } else {
           setError(data.error ?? 'Something went wrong. Please try again.')
         }
