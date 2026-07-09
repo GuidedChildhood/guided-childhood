@@ -140,7 +140,7 @@ async function callDigiStream(params: Omit<Anthropic.MessageCreateParamsStreamin
 export const maxDuration = 60
 export const dynamic = 'force-dynamic'
 
-const FREE_DAILY_LIMIT = 5
+const FREE_DAILY_LIMIT = 3
 
 export async function POST(request: Request) {
   const supabase = await createClient()
