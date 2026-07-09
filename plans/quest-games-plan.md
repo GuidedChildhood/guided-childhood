@@ -94,6 +94,19 @@ Grounded in the four pillars of good educational apps (active, engaged, meaningf
 
 Kids' game and level reward UI patterns to pull from Mobbin (level complete, star reward, calm finish, child friendly tap targets) when the connector is stable in this environment. Until then, JP can paste Mobbin screenshots for a site teardown, or we lean on the patterns already pulled for the quest and reward work.
 
+## 11b. A Doodle style adaptive maths track, and what we may copy
+
+JP asked about DoodleMaths and whether we can emulate it. Two answers, feasibility and law.
+
+**Feasibility: yes, and it fits our model unusually well.** Doodle is adaptive maths practice, a placement quiz then difficulty that adjusts to the child, ten minutes little and often, rewarding effort with stars. Our quest engine can host exactly this: times tables, number bonds, arithmetic and reasoning drills as quest games, with a simple adaptive rule (right answer nudges harder, wrong nudges easier) and stars paid through the loop we already have. Their whole model is earn stars for little and often practice, which is our model already, so a maths practice track is a natural fit as one family of quest games.
+
+**Law: emulate the approach, never the product.** This is guidance, not legal advice, and anything close to the line should get a lawyer's sign off. The clean line:
+
+- **Free to learn from (ideas and methods are not copyrightable):** the pedagogy and mechanics. Adaptive difficulty, a placement baseline, ten minute little and often sessions, rewarding effort over ability, instant teaching feedback, curriculum aligned practice, the general idea of a maths mini game. Simple difficulty adjustment long predates Doodle and is generic. The maths itself (number bonds, times tables, the national curriculum) is fact and public.
+- **Must not copy:** their brand and name, their characters (the panda sidekick, the robot), their artwork and sound, their exact question wording or question banks, their specific mini games and those names (Bakery Blast, Monkey Mania), their screens and layouts verbatim, and their proprietary adaptive algorithm code. Do not clone their look, lift their content, or reverse engineer a patented method. Write our own questions, draw our own art in the Guided Childhood style, and build our own simple adaptive logic.
+- **Our ethos overrides where they differ.** Doodle leans on streaks and daily login pressure. Our quest games do not (section 8): fixed transparent stars, calm finish, no streak in danger nudges. We take the good (adaptive, little and often, effort rewarded, instant feedback, curriculum aligned) and leave the pressure.
+- **Scope honesty.** Doodle is a mature, curriculum complete product with years of content and a real adaptive engine. We should not try to clone it wholesale, that is a large content operation. The right first move is a focused maths practice track (times tables, number bonds, arithmetic) inside the quest engine, positioned as practice quests that earn stars, not a full maths curriculum competitor.
+
 ## 12. First actions
 
 1. Define the quest game JSON shape and the mechanic renderer registry (mirrors the lessons interactive layer).
