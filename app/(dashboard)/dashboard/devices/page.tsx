@@ -1,7 +1,8 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import type { AgeBand } from '@/lib/content/stages'
-import DeviceList, { type DeviceGuide } from './DeviceList'
+import DeviceHub from './DeviceHub'
+import type { DeviceGuide } from './DeviceList'
 
 const STAGE_MAP: Record<string, { id: string; label: string }> = {
   '4-7':   { id: 'foundation',  label: 'Foundation · Ages 4 to 7' },
@@ -77,7 +78,7 @@ export default async function DevicesPage() {
         </div>
       )}
 
-      <DeviceList devices={devices} childAge={childAge} initialCompleted={completedKeys} />
+      <DeviceHub devices={devices} childAge={childAge} initialCompleted={completedKeys} />
     </div>
   )
 }

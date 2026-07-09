@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import DigiCharacter from '@/components/digi/DigiCharacter'
+import Celebration from '@/components/ui/Celebration'
 import {
   STAGES,
   AGE_BAND_OPTIONS,
@@ -142,7 +143,7 @@ export default function StarterPackPage() {
 
   useEffect(() => {
     if (step !== 'reassure') return
-    const t = setTimeout(() => setStep('result'), 2100)
+    const t = setTimeout(() => setStep('result'), 2900)
     return () => clearTimeout(t)
   }, [step])
 
@@ -183,12 +184,20 @@ export default function StarterPackPage() {
 
   return (
     <div style={{ minHeight: '100dvh', background: '#fff', display: 'flex', flexDirection: 'column' }}>
-      {/* Thin progress bar at very top */}
-      <div style={{ height: '4px', background: 'var(--border)', flexShrink: 0 }}>
-        <div style={{
-          height: '100%', background: 'var(--terracotta)',
-          width: `${(progress / 4) * 100}%`, transition: 'width 0.35s ease',
-        }} />
+      {/* Segmented progress at the very top, one bar per question, the way
+          the best onboarding flows show real momentum rather than a vague
+          creeping line (Chime, Nextdoor and the like). */}
+      <div style={{ display: 'flex', gap: '4px', padding: '8px 10px 0', flexShrink: 0 }} aria-hidden="true">
+        {[1, 2, 3, 4].map(n => (
+          <div key={n} style={{ flex: 1, height: '4px', borderRadius: '4px', background: 'var(--border)', overflow: 'hidden' }}>
+            <div style={{
+              height: '100%', borderRadius: '4px',
+              background: 'var(--terracotta)',
+              width: progress >= n ? '100%' : '0%',
+              transition: 'width 0.35s ease',
+            }} />
+          </div>
+        ))}
       </div>
 
       <div style={{
@@ -261,26 +270,45 @@ export default function StarterPackPage() {
           </>
         )}
 
-        {/* Reassurance beat before the result */}
+        {/* The build beat: the wait is used to show real work happening, the
+            way the best onboarding flows earn the pause instead of spinning a
+            blank loader. Three steps tick in, then it moves to the result. */}
         {step === 'reassure' && (
           <div style={{ textAlign: 'center' }}>
-            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '22px' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '14px' }}>
               <img src="/digi-squad/DiGi-star.svg" alt="" width={72} height={72} style={{ animation: 'gentleFloat 2.5s ease-in-out infinite' }} />
             </div>
             <h1 style={{
-              fontFamily: 'var(--font-display)', fontSize: 'clamp(1.8rem, 4.5vw, 2.3rem)',
-              fontWeight: 800, letterSpacing: '-0.02em', color: 'var(--ink)', marginBottom: '12px',
+              fontFamily: 'var(--font-display)', fontSize: 'clamp(1.7rem, 4.5vw, 2.2rem)',
+              fontWeight: 800, letterSpacing: '-0.02em', color: 'var(--ink)', marginBottom: '18px',
             }}>
-              You are in the right place.
+              Building your pathway.
             </h1>
-            <p style={{ color: 'var(--ink-soft)', fontSize: '15px', lineHeight: 1.6, maxWidth: '380px', margin: '0 auto' }}>
-              {challenge === 'screens_takeover' ? 'Thousands of families fight the same screen battles. There is a calm way through, and we are building yours now.'
-                : challenge === 'mood_changes' ? 'You noticed the mood changes. That noticing is the skill. We are building your pathway now.'
-                : challenge === 'gaming' ? 'Gaming battles have an ending. We are building your family\'s way there now.'
-                : challenge === 'online_safety' ? 'Safety comes from readiness, not luck. We are building your child\'s pathway now.'
-                : challenge === 'start_conversation' ? 'The first conversation is the hardest one. We are writing yours now.'
-                : 'The phone question has a right answer for your family. We are building it now.'}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxWidth: '360px', margin: '0 auto 20px' }}>
+              {[
+                { t: `Matching to your stage`, d: '0.1s' },
+                { t: 'Writing the exact words for tonight', d: '0.9s' },
+                { t: 'Mapping the pathway to 16', d: '1.7s' },
+              ].map(row => (
+                <div key={row.t} style={{
+                  display: 'flex', alignItems: 'center', gap: '11px', textAlign: 'left',
+                  background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: '13px',
+                  padding: '12px 15px', opacity: 0, animation: `buildIn 0.5s ease ${row.d} forwards`,
+                }}>
+                  <span style={{
+                    width: 22, height: 22, borderRadius: '50%', flexShrink: 0, background: 'var(--tint-sage)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#2D5016', fontSize: '12px', fontWeight: 800,
+                  }}>✓</span>
+                  <span style={{ fontSize: '13.5px', fontWeight: 600, color: 'var(--ink)' }}>{row.t}</span>
+                </div>
+              ))}
+            </div>
+            {/* Honest reassurance, no invented numbers: this really is the
+                thing parents raise most about growing up today. */}
+            <p style={{ color: 'var(--ink-soft)', fontSize: '13.5px', lineHeight: 1.6, maxWidth: '360px', margin: '0 auto' }}>
+              You are far from alone. Screens are the hardest daily battle most UK parents name, and there is a calm way through.
             </p>
+            <style>{`@keyframes buildIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }`}</style>
           </div>
         )}
 
@@ -769,6 +797,13 @@ function ResultScreen({
 
   return (
     <div ref={rootRef} style={{ minHeight: '100dvh', background: 'var(--cream)', padding: '0 0 80px' }}>
+      {/* The payoff moment: a soft one shot confetti burst over the reveal,
+          reduced motion aware, so building the pathway feels like an arrival
+          and not just another screen. */}
+      <div style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 50 }}>
+        <Celebration />
+      </div>
+
       {/* Stage accent strip at top */}
       <div style={{ height: '5px', background: accent.bold }} />
 

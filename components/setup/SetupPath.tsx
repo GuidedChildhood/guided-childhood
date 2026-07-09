@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import SetupCompleteCard from './SetupCompleteCard'
 
 // The setup path: one card that makes every service visible as a step
 // with a tick, in the foundations first order (settings, agreement,
@@ -39,20 +40,7 @@ export default function SetupPath({ flags }: { flags: SetupFlags }) {
   const doneCount = STEPS.filter(s => flags[s.key]).length
   const current = STEPS.find(s => !flags[s.key])
 
-  if (!current) {
-    return (
-      <div style={{
-        display: 'flex', alignItems: 'center', gap: '10px',
-        background: 'var(--tint-sage)', borderRadius: '14px',
-        padding: '12px 16px', marginBottom: '20px',
-      }}>
-        <span>✓</span>
-        <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--ink-soft)' }}>
-          Your family setup is complete. Everything now works together.
-        </span>
-      </div>
-    )
-  }
+  if (!current) return <SetupCompleteCard />
 
   const waiting = STEPS.filter(s => !flags[s.key] && s.key !== current.key)
 

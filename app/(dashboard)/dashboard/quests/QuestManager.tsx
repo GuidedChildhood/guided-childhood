@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
-import { QUEST_TEMPLATES, PLAY_PAYS_WHY } from '@/lib/quests/templates'
+import { QUEST_TEMPLATES, PLAY_PAYS_WHY, STAR_MINUTES } from '@/lib/quests/templates'
 import { GAME_PICKS, STAGE_LABELS, AGE_BAND_TO_STAGE, type StageKey } from '@/lib/quests/game-picks'
 
 type QuestTab = 'manage' | 'rewards' | 'games' | 'share'
@@ -625,7 +625,7 @@ export default function QuestManager() {
           )}
 
           {tab === 'games' && (
-            <GamesTab stageKey={stageKey} childName={child.name} onUse={useGameAsReward} />
+            <GamesTab stageKey={stageKey} childName={child.name} onUse={useGameAsReward} goal={goal} earnedStars={starsThisWeek} />
           )}
 
           {tab === 'rewards' && (
@@ -885,11 +885,23 @@ const KIND_STYLE: Record<string, { label: string; bg: string; fg: string }> = {
   outdoor:  { label: 'Outside', bg: 'var(--stage-1)', fg: 'var(--stage-1-text)' },
 }
 
-function GamesTab({ stageKey, childName, onUse }: { stageKey: StageKey; childName: string; onUse: (title: string) => void }) {
+function GamesTab({ stageKey, childName, onUse, goal, earnedStars }: {
+  stageKey: StageKey
+  childName: string
+  onUse: (title: string) => void
+  goal: { title: string; stars_needed: number } | null
+  earnedStars: number
+}) {
   // Lead with the play together picks: the ones that keep a person in the
   // room are the point, so they sit at the top of the grid.
   const picks = [...(GAME_PICKS[stageKey] ?? [])].sort((a, b) => Number(!!b.together) - Number(!!a.together))
   const label = STAGE_LABELS[stageKey]
+
+  // The goal in play, if the family set one to a game. Shows the progress
+  // climbing, the pattern the best rewards apps use to keep a child pulling
+  // toward something they chose.
+  const goalPct = goal ? Math.min(100, Math.round((earnedStars / Math.max(1, goal.stars_needed)) * 100)) : 0
+  const starsToGo = goal ? Math.max(0, goal.stars_needed - earnedStars) : 0
   return (
     <div>
       <div style={{ ...card, background: 'var(--deep-teal)', border: 'none', color: '#fff' }}>
@@ -902,6 +914,40 @@ function GamesTab({ stageKey, childName, onUse }: { stageKey: StageKey; childNam
         <p style={{ fontSize: '12.5px', color: 'rgba(255,255,255,0.7)', lineHeight: 1.55, margin: '10px 0 0' }}>
           Look for the <span style={{ color: 'var(--terracotta)', fontWeight: 700 }}>Play together</span> ones. The best screen time still has a person in the room, so time on a device becomes time talking, not time alone.
         </p>
+        {/* The exchange rate, always visible, so the catalogue reads as
+            something real stars buy, the way a rewards shop shows a balance. */}
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', marginTop: '14px', background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.18)', borderRadius: '100px', padding: '6px 13px' }}>
+          <span aria-hidden="true">⭐</span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.04em', color: '#fff' }}>
+            1 star = {STAR_MINUTES} minutes of any of these
+          </span>
+        </div>
+
+        {/* The goal climbing: if a game is set as the goal, show how close
+            the child is, so the catalogue is a thing to pull toward. */}
+        {goal && (
+          <div style={{ marginTop: '14px', background: 'rgba(0,0,0,0.18)', borderRadius: '14px', padding: '13px 15px' }}>
+            <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '10px', marginBottom: '8px' }}>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>
+                This week&apos;s goal
+              </span>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: 'rgba(255,255,255,0.85)' }}>
+                {Math.min(earnedStars, goal.stars_needed)}/{goal.stars_needed} ⭐
+              </span>
+            </div>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: '#fff', marginBottom: '9px' }}>
+              {goal.title}
+            </div>
+            <div style={{ height: '8px', borderRadius: '8px', background: 'rgba(255,255,255,0.18)', overflow: 'hidden' }}>
+              <div style={{ height: '100%', borderRadius: '8px', background: 'var(--terracotta)', width: `${goalPct}%`, transition: 'width 0.4s ease' }} />
+            </div>
+            <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.8)', marginTop: '8px', lineHeight: 1.45 }}>
+              {starsToGo === 0
+                ? `${childName} has earned it. Time to play.`
+                : `${starsToGo} more star${starsToGo === 1 ? '' : 's'} and ${childName} has earned it.`}
+            </div>
+          </div>
+        )}
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '12px' }}>
@@ -928,6 +974,12 @@ function GamesTab({ stageKey, childName, onUse }: { stageKey: StageKey; childNam
                     border: '1px solid var(--terracotta)',
                   }}>Play together</span>
                 )}
+                {goal?.title === g.title && (
+                  <span style={{
+                    fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase',
+                    background: 'var(--deep-teal)', color: '#fff', padding: '3px 9px', borderRadius: '100px',
+                  }}>This week&apos;s goal ⭐</span>
+                )}
               </div>
               <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)', lineHeight: 1.25, marginBottom: '4px' }}>
                 {g.title}
@@ -941,12 +993,15 @@ function GamesTab({ stageKey, childName, onUse }: { stageKey: StageKey; childNam
               <button
                 onClick={() => onUse(g.title)}
                 style={{
-                  alignSelf: 'flex-start', background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
+                  alignSelf: 'flex-start',
+                  background: goal?.title === g.title ? 'var(--deep-teal)' : 'var(--terracotta-lt)',
+                  border: `1.5px solid ${goal?.title === g.title ? 'var(--deep-teal)' : 'var(--terracotta)'}`,
                   borderRadius: '100px', padding: '7px 14px', cursor: 'pointer',
-                  fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, color: 'var(--terracotta-dark)',
+                  fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700,
+                  color: goal?.title === g.title ? '#fff' : 'var(--terracotta-dark)',
                 }}
               >
-                Use as the reward →
+                {goal?.title === g.title ? 'Change the goal' : 'Make this the goal →'}
               </button>
             </div>
           )

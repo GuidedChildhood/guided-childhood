@@ -6,9 +6,28 @@ Justin's ask: build animations to go with the lessons and the scripts, and plan 
 
 ---
 
+## 0. The house illustration style (LOCKED 8 Jul 2026 by JP)
+
+Every animation on the parent platform is drawn in one style, set by the balloon at the cliff image JP handed over. Call it the **living sketch**. It is what makes the product feel human and unmistakably ours, and it is now the fixed reference for all parent facing illustration and motion.
+
+The style, precisely so it stays consistent:
+- **Hand drawn black ink linework.** Rough, energetic, confident, imperfect. Single pen weight with natural thick and thin. Lines overshoot corners a little. Nothing vector clean, nothing geometric.
+- **Felt tip marker colour, sparingly.** A tight palette only: the Guided Childhood red (the balloon, the hearts), a strong hoodie blue, an occasional warning orange. Colour is scribbled in with visible marker streaks, never flat filled, and it never fully reaches the lines. Most of the frame stays white.
+- **Loads of white space.** The drawing sits in a lot of paper. No backgrounds, no gradients, no boxes around things.
+- **Hand lettering** for any word inside a scene (signs, labels), never a typeface baked into the art. UI type stays Nunito and Plex Mono around the illustration, not inside it.
+- **The metaphor is always the pathway to 16.** The child, the balloon marked 16, the old path behind, the pull of the feed. This scene and its cast (one child, the 16 balloon, notification icons as weather) are the visual world every other illustration draws from.
+
+How the living sketch moves, so the style survives animation:
+- **Draw on.** Lines sketch themselves in the way a hand would, using SVG stroke reveal (stroke dashoffset). This is the signature move and it is pure GSAP.
+- **The boil.** Once drawn, key strokes jitter one or two pixels on a slow loop so the sketch feels alive and hand held, never a frozen clip. Subtle, or it reads as noise.
+- **Object motion with weight.** The balloon floats and tugs on its string, the notification icons swirl and rise like a tide, hearts drift up. Real physics feel, gentle, slow.
+- Everything stays GSAP plus SVG, which fits the design rule below exactly. No raster, no video, for the living sketch pieces, so they stay tiny, editable, and razor sharp on every screen.
+
+This answers the open dependency in section 3: the character art is the living sketch, hand drawn as layered SVG so the lines can draw on, boil, and gesture. Produce the cast (the child, and the four squad characters rendered into this same pen) once, in this one style, and every lesson, script, pathway and empty state draws from it.
+
 ## 1. The rule we stay inside
 
-The design system is explicit: motion is GSAP only, subtle, purposeful, no Three.js. Everything here obeys that. Nothing 3D, nothing decorative, no motion that does not teach or guide. Reduced motion is respected everywhere by drawing the calm end state, never nothing (the Celebration component already sets this pattern). Sixty frames a second on a mid range phone or it ships simpler.
+The design system is explicit: motion is GSAP only, subtle, purposeful, no Three.js. Everything here obeys that. Nothing 3D, nothing decorative, no motion that does not teach or guide. Reduced motion is respected everywhere by drawing the calm end state, never nothing (the Celebration component already sets this pattern). Sixty frames a second on a mid range phone or it ships simpler. The living sketch style in section 0 sits inside this rule cleanly: SVG stroke reveal and gentle transforms are exactly the GSAP motion the system already allows.
 
 ---
 
