@@ -479,7 +479,7 @@ export default function SchoolSetup() {
               <StepRow n={1}>Open Gmail on a computer, click the gear at the top right, then <strong>See all settings</strong>.</StepRow>
               <StepRow n={2}>Open the <strong>Forwarding and POP/IMAP</strong> tab and click <strong>Add a forwarding address</strong>. Paste your private address from above.</StepRow>
               <StepRow n={3}>
-                Google emails a confirmation code to that address. It appears right here, so stay on this page:
+                Google sends a confirmation code, or sometimes a one tap confirm link, to that address. Whichever it is appears right here, so stay on this page:
                 <div style={{
                   marginTop: '10px', padding: '14px 16px', borderRadius: '12px',
                   background: hasVerification ? 'var(--tint-green)' : 'var(--cream)',
@@ -503,7 +503,7 @@ export default function SchoolSetup() {
                   ) : (
                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                       <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: 'var(--terracotta)', flexShrink: 0 }} />
-                      <span style={{ fontSize: '13px', color: 'var(--ink-muted)' }}>Waiting for your code. It usually arrives within a minute of clicking Add in Gmail.</span>
+                      <span style={{ fontSize: '13px', color: 'var(--ink-muted)' }}>Waiting for Google. Your code or confirm link usually arrives within a minute of clicking Add in Gmail.</span>
                     </div>
                   )}
                   {connection.verification_code && connection.verification_link && (
@@ -515,7 +515,7 @@ export default function SchoolSetup() {
                   )}
                 </div>
               </StepRow>
-              <StepRow n={4}>Enter the code back in Gmail and click <strong>Verify</strong>.</StepRow>
+              <StepRow n={4}>If you got a code, type it back into Gmail and click <strong>Verify</strong>. If we showed a <strong>Confirm</strong> link above instead, tap that, it does the same job.</StepRow>
               <StepRow n={5}>Still on the Forwarding tab, keep <strong>Disable forwarding</strong> selected. The filter you make next forwards only the school, not your whole inbox.</StepRow>
               <StepRow n={6}>
                 Paste this into the search box at the top of Gmail, press Enter, then click <strong>Create filter</strong> just under the search box:

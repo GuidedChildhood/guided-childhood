@@ -177,6 +177,10 @@ export default function QuestManager() {
   const allDoneToday = childQuests.length > 0 && childQuests.every(q => approvedTodayIds.has(q.id))
 
   const stageKey: StageKey = AGE_BAND_TO_STAGE[child?.age_band ?? '8-10'] ?? 'builder'
+  // A four to seven year old has no personal phone, and we never advise one
+  // at this age. Their quests are done on paper with a grown up, so the whole
+  // hand over reframes to the printed sheet rather than a phone link.
+  const youngChild = stageKey === 'foundation'
 
   async function addQuest(t: { title: string; emoji: string; stars: number; schedule: string }) {
     await fetch('/api/quests', {
@@ -386,13 +390,15 @@ export default function QuestManager() {
                 display: 'flex', alignItems: 'center', gap: '14px',
               }}
             >
-              <span style={{ width: 42, height: 42, borderRadius: '12px', background: 'var(--terracotta)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>📲</span>
+              <span style={{ width: 42, height: 42, borderRadius: '12px', background: 'var(--terracotta)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>{youngChild ? '🖨️' : '📲'}</span>
               <span style={{ flex: 1, minWidth: 0 }}>
                 <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: '#fff' }}>
-                  Put {child.name}&apos;s quests on their phone
+                  {youngChild ? `Print ${child.name}'s quest sheet` : `Put ${child.name}'s quests on their phone`}
                 </span>
                 <span style={{ display: 'block', fontSize: '12.5px', color: 'rgba(255,255,255,0.78)', lineHeight: 1.45, marginTop: '2px' }}>
-                  Send their own private quest page by message. It opens like a mini app, nothing to install.
+                  {youngChild
+                    ? 'At this age quests work best on paper, done with you. No phone needed. Print the sheet for the fridge.'
+                    : 'Send their own private quest page by message. It opens like a mini app, nothing to install.'}
                 </span>
               </span>
               <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '18px', flexShrink: 0 }}>→</span>
