@@ -698,7 +698,7 @@ export default function StarterPackPage() {
                 boxShadow: '0 5px 0 var(--terracotta-dark)',
               }}
             >
-              {savingEmail ? 'Saving your pathway...' : 'Save my pathway'}
+              {savingEmail ? 'Starting your pathway...' : 'Start your digital pathway'}
             </button>
             <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--ink-light)', textAlign: 'center', marginTop: '14px', letterSpacing: '0.05em', lineHeight: 1.6 }}>
               No card. We email the starter pack and the occasional genuinely useful thing. Unsubscribe any time.
@@ -1241,7 +1241,7 @@ function ResultScreen({
               boxShadow: '0 5px 0 var(--terracotta-dark)',
             }}
           >
-            Save my pathway, it is free
+            Start your digital pathway, it is free
           </Link>
           <p style={{ marginTop: '14px', fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'rgba(255,255,255,0.6)' }}>
             Already have an account?{' '}
