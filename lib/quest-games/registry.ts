@@ -37,7 +37,15 @@ export type JudgeGame = QuestGameMeta & {
   items: { text: string; correct: 'left' | 'right'; why: string }[]
 }
 
-export type QuestGame = PairsGame | JudgeGame
+export type SumsGame = QuestGameMeta & {
+  mechanic: 'sums'
+  // A soft per question countdown, the quick fire times tables feel. When
+  // the timer runs out the question is marked missed and moves on.
+  timed?: boolean
+  questions: { q: string; options: number[]; answer: number }[]
+}
+
+export type QuestGame = PairsGame | JudgeGame | SumsGame
 
 export const QUEST_GAMES: QuestGame[] = [
   {
@@ -46,6 +54,39 @@ export const QUEST_GAMES: QuestGame[] = [
     pictorial: true,
     blurb: 'Match each animal to its favourite food. All pictures, no reading needed.',
     pairs: [['🐄', '🥛'], ['🐝', '🍯'], ['🐰', '🥕'], ['🐵', '🍌']],
+  },
+  {
+    key: 'count-dots', mechanic: 'pairs',
+    title: 'Count the Dots', emoji: '🔢', stage: 'Foundation · 4 to 7', stages: [1, 2], stars: 2,
+    pictorial: true,
+    blurb: 'Match each number to the dice that shows it. First counting, no reading.',
+    pairs: [['1', '⚀'], ['2', '⚁'], ['3', '⚂'], ['4', '⚃']],
+  },
+  {
+    key: 'quick-maths', mechanic: 'sums',
+    title: 'Quick Maths', emoji: '➕', stage: 'Builder · 8 to 10', stages: [2, 3], stars: 3,
+    blurb: 'Fast adding and taking away. Warm up those number skills.',
+    questions: [
+      { q: '3 + 4', options: [6, 7, 8], answer: 7 },
+      { q: '9 − 5', options: [3, 4, 5], answer: 4 },
+      { q: '6 + 7', options: [12, 13, 14], answer: 13 },
+      { q: '15 − 8', options: [6, 7, 8], answer: 7 },
+      { q: '8 + 8', options: [15, 16, 17], answer: 16 },
+      { q: '20 − 6', options: [13, 14, 15], answer: 14 },
+    ],
+  },
+  {
+    key: 'times-sprint', mechanic: 'sums', timed: true,
+    title: 'Times Table Sprint', emoji: '⚡', stage: 'Explorer · 11 to 13', stages: [3, 4, 5], stars: 4,
+    blurb: 'Quick fire times tables against the clock. Beat the timer on each one.',
+    questions: [
+      { q: '6 × 7', options: [42, 48, 36], answer: 42 },
+      { q: '8 × 9', options: [72, 64, 81], answer: 72 },
+      { q: '7 × 7', options: [42, 49, 56], answer: 49 },
+      { q: '9 × 6', options: [54, 45, 63], answer: 54 },
+      { q: '12 × 8', options: [96, 88, 108], answer: 96 },
+      { q: '11 × 7', options: [77, 84, 70], answer: 77 },
+    ],
   },
   {
     key: 'what-is-an-advert', mechanic: 'judge',

@@ -1,9 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Celebration from '@/components/ui/Celebration'
-import type { QuestGame, PairsGame, JudgeGame } from '@/lib/quest-games/registry'
+import type { QuestGame, PairsGame, JudgeGame, SumsGame } from '@/lib/quest-games/registry'
 
 // The in app quest game player. Renders a game by its mechanic, calm and
 // finite, ending in a warm finish that names the stars. Scoring wiring (send
@@ -54,6 +54,8 @@ export default function QuestGamePlayer({ game, onComplete, onClose }: {
             <Finish game={game} onClose={onClose} />
           ) : game.mechanic === 'pairs' ? (
             <PairsView game={game} onDone={finish} />
+          ) : game.mechanic === 'sums' ? (
+            <SumsView game={game} onDone={finish} />
           ) : (
             <JudgeView game={game} onDone={finish} />
           )}
@@ -146,6 +148,91 @@ function PairsView({ game, onDone }: { game: PairsGame; onDone: () => void }) {
           )
         })}
       </div>
+    </>
+  )
+}
+
+function SumsView({ game, onDone }: { game: SumsGame; onDone: () => void }) {
+  const PER_Q = 7000
+  const [i, setI] = useState(0)
+  // null while unanswered, the tapped number when answered, or -1 on timeout.
+  const [answered, setAnswered] = useState<number | null>(null)
+  const [timeLeft, setTimeLeft] = useState(PER_Q)
+  const item = game.questions[i]
+
+  useEffect(() => {
+    if (!game.timed || answered !== null) return
+    setTimeLeft(PER_Q)
+    const start = Date.now()
+    const id = setInterval(() => {
+      const left = PER_Q - (Date.now() - start)
+      if (left <= 0) { clearInterval(id); setAnswered(-1) }
+      else setTimeLeft(left)
+    }, 100)
+    return () => clearInterval(id)
+  }, [i, game.timed, answered])
+
+  const isCorrect = answered !== null && answered === item.answer
+  function pick(opt: number) { if (answered === null) setAnswered(opt) }
+  function next() {
+    if (i + 1 < game.questions.length) { setI(i + 1); setAnswered(null) }
+    else onDone()
+  }
+
+  return (
+    <>
+      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
+        {game.stage} · {i + 1} of {game.questions.length}
+      </div>
+
+      {game.timed && (
+        <div style={{ height: '8px', borderRadius: '8px', background: 'var(--border)', overflow: 'hidden', marginBottom: '14px' }}>
+          <div style={{ height: '100%', borderRadius: '8px', background: answered === null ? 'var(--terracotta)' : 'transparent', width: `${Math.max(0, (timeLeft / PER_Q) * 100)}%`, transition: 'width 0.1s linear' }} />
+        </div>
+      )}
+
+      <div style={{ textAlign: 'center', margin: '10px 0 22px' }}>
+        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(2.4rem, 12vw, 3.4rem)', letterSpacing: '-0.03em', color: 'var(--ink)', lineHeight: 1 }}>
+          {item.q}
+        </div>
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
+        {item.options.map(opt => {
+          const chosen = answered === opt
+          const showAsAnswer = answered !== null && opt === item.answer
+          return (
+            <button
+              key={opt}
+              onClick={() => pick(opt)}
+              disabled={answered !== null}
+              style={{
+                padding: '18px 6px', borderRadius: '16px', cursor: answered === null ? 'pointer' : 'default',
+                fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.5rem', color: 'var(--ink)',
+                background: showAsAnswer ? 'var(--tint-sage)' : chosen ? '#FBEAEA' : '#fff',
+                border: `2px solid ${showAsAnswer ? 'var(--sage-ink, #2D5016)' : chosen ? '#c0392b' : 'var(--border)'}`,
+              }}
+            >
+              {opt}
+            </button>
+          )
+        })}
+      </div>
+
+      {answered !== null && (
+        <div>
+          <div style={{
+            fontSize: '14px', lineHeight: 1.5, color: 'var(--ink)', marginTop: '14px', textAlign: 'center',
+            fontFamily: 'var(--font-display)', fontWeight: 800,
+          }}>
+            {isCorrect ? 'Correct! ⭐' : answered === -1 ? `Time! It was ${item.answer}.` : `Not quite, it was ${item.answer}.`}
+          </div>
+          <button onClick={next} style={{
+            marginTop: '14px', width: '100%', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
+            padding: '14px', borderRadius: '15px', border: 'none', background: 'var(--deep-teal)', color: '#fff', cursor: 'pointer',
+          }}>{i + 1 < game.questions.length ? 'Next' : 'Finish'}</button>
+        </div>
+      )}
     </>
   )
 }
