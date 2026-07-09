@@ -3,7 +3,7 @@ import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
 import MarkLessonDone from '@/components/lessons/MarkLessonDone'
 import LessonPlayer from '@/components/lessons/LessonPlayer'
-import { parseSlides } from '@/lib/content/lesson-slides'
+import { parseSlides, autoSlidesFromLesson } from '@/lib/content/lesson-slides'
 
 const STAGE_LABEL: Record<string, { label: string; bg: string }> = {
   foundation:  { label: 'Foundation · Ages 4 to 7',        bg: 'var(--stage-1)' },
@@ -48,7 +48,10 @@ export default async function LessonDetailPage({ params }: { params: Promise<{ i
   const lesson = data as Lesson | null
   if (!lesson) notFound()
 
-  const slides = parseSlides(lesson.slides)
+  const stageForEyebrow = STAGE_LABEL[lesson.stage_id] ?? STAGE_LABEL.foundation
+  // Authored deck wins; otherwise build one from the lesson's own four parts
+  // so every parent lesson plays as slides, never a flat wall of text.
+  const slides = parseSlides(lesson.slides) ?? autoSlidesFromLesson(lesson, { eyebrow: stageForEyebrow.label })
 
   const { data: completion } = await supabase
     .from('lesson_completions')

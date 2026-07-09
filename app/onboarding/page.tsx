@@ -158,6 +158,9 @@ export default function OnboardingPage() {
   const [digiData, setDigiData] = useState<DigiData | null>(null)
   const [founderSpots, setFounderSpots] = useState<FounderSpots | null>(null)
   const [saving, setSaving] = useState(false)
+  // True when the starter quiz already gave us age and challenges, so
+  // onboarding skips re asking them and goes straight to the pathway.
+  const [prefilled, setPrefilled] = useState(false)
   const [notifDest, setNotifDest] = useState<'script' | 'dashboard'>('script')
   const [notifStatus, setNotifStatus] = useState<'idle' | 'asking' | 'done'>('idle')
   const nameInputRef = useRef<HTMLInputElement>(null)
@@ -184,6 +187,9 @@ export default function OnboardingPage() {
           const mappedAll = Array.from(new Set(fromStarter.map(c => OLD_TO_NEW_CHALLENGE[c]).filter(Boolean)))
           if (mappedAll.length) setChallenges(mappedAll)
           if (answers.timeCommitment) setTimeCommitment(answers.timeCommitment)
+          // We already asked age and concern in the starter quiz. If both are
+          // here, do not make the parent answer them a second time.
+          if (answers.ageBand && mappedAll.length) setPrefilled(true)
         }
       } catch {}
 
@@ -330,10 +336,15 @@ export default function OnboardingPage() {
   // ── NAME ──────────────────────────────────────────────────────────────────
 
   if (screen === 'name') {
+    // When the starter quiz already told us the age and the concern, the
+    // name is the only new thing, so this one screen finishes setup.
+    const ageLabel = AGE_BAND_OPTIONS.find(o => o.value === ageBand)?.label ?? ''
+    const challengeLabel = CHALLENGES.find(c => c.id === challenges[0])?.label?.toLowerCase() ?? ''
+    const nextFromName = () => { if (prefilled) completePersonalisation(); else setScreen('age') }
     return (
       <div style={{ minHeight: '100dvh', background: '#fff', display: 'flex', flexDirection: 'column' }}>
         <style>{ANIM}</style>
-        <ProgressBar step={1} />
+        <ProgressBar step={prefilled ? 3 : 1} />
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '32px 24px' }}>
           <div style={{ maxWidth: 480, width: '100%' }}>
             <DigiSpeech text="What's your child's first name?" />
@@ -346,11 +357,19 @@ export default function OnboardingPage() {
               value={childName}
               onChange={e => setChildName(e.target.value)}
               placeholder="Their first name"
-              onKeyDown={e => { if (e.key === 'Enter') setScreen('age') }}
+              onKeyDown={e => { if (e.key === 'Enter') nextFromName() }}
               style={{ marginBottom: '16px', fontSize: 17 }}
             />
-            <button style={BTN} onClick={() => setScreen('age')}>
-              Next
+            {prefilled && (
+              <p style={{ fontSize: 13, color: '#6b7280', marginBottom: '16px', lineHeight: 1.55 }}>
+                From your answers we have set this up for a {ageLabel} year old{challengeLabel ? `, focused on ${challengeLabel}` : ''}.{' '}
+                <button type="button" onClick={() => setScreen('age')} style={{ background: 'none', border: 'none', padding: 0, color: 'var(--terracotta)', fontWeight: 700, cursor: 'pointer', fontSize: 13 }}>
+                  Change
+                </button>
+              </p>
+            )}
+            <button style={{ ...BTN, opacity: saving ? 0.7 : 1 }} onClick={nextFromName} disabled={saving}>
+              {prefilled ? (saving ? 'One moment...' : 'Show me the pathway') : 'Next'}
             </button>
             <button onClick={() => setScreen('welcome')} style={BACK_BTN}>
               ← Back
