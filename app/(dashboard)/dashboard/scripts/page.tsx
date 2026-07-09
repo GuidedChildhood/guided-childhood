@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { hasFullAccess } from '@/lib/access'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { CHALLENGE_TO_CATEGORY } from '@/lib/content/challenge-map'
@@ -48,13 +49,13 @@ export default async function ScriptsPage() {
   if (!user) redirect('/login')
 
   const [{ data: profile }, { data: child }, { data: scriptsData }, { data: completions }] = await Promise.all([
-    supabase.from('profiles').select('subscription_status, onboarding_answers').eq('id', user.id).single(),
+    supabase.from('profiles').select('subscription_status, trial_ends_at, onboarding_answers').eq('id', user.id).single(),
     supabase.from('children').select('stage_id').eq('parent_id', user.id).eq('is_primary', true).maybeSingle(),
     supabase.from('scripts').select('id, stage_id, title, situation, category, is_free, sort_order').order('sort_order', { ascending: true }),
     supabase.from('script_completions').select('script_sort_order, completed_at').eq('user_id', user.id),
   ])
 
-  const isPaid = profile?.subscription_status === 'active'
+  const isPaid = hasFullAccess(profile)
   const scripts = (scriptsData ?? []) as ScriptRow[]
   const completedOrders = new Set((completions ?? []).map(c => c.script_sort_order))
   const challenge = (profile?.onboarding_answers as Record<string, string> | null)?.challenge as ChallengeId | undefined

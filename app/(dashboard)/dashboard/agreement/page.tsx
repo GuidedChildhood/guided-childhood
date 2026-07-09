@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { hasFullAccess } from '@/lib/access'
 import { redirect } from 'next/navigation'
 import type { StageId } from '@/lib/pathway/progress'
 import AgreementBuilder from '@/components/agreement/AgreementBuilder'
@@ -19,12 +20,12 @@ export default async function AgreementPage() {
   if (!user) redirect('/login')
 
   const [{ data: profile }, { data: child }, { data: agreement }] = await Promise.all([
-    supabase.from('profiles').select('subscription_status').eq('id', user.id).single(),
+    supabase.from('profiles').select('subscription_status, trial_ends_at').eq('id', user.id).single(),
     supabase.from('children').select('name, stage_id, phone').eq('parent_id', user.id).eq('is_primary', true).maybeSingle(),
     supabase.from('family_agreements').select('*').eq('user_id', user.id).maybeSingle(),
   ])
 
-  const isPaid = profile?.subscription_status === 'active'
+  const isPaid = hasFullAccess(profile)
   const stageId = (child?.stage_id ?? null) as StageId | null
   const childName = child?.name ?? 'your child'
 

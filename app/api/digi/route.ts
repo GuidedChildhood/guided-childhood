@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { hasFullAccess } from '@/lib/access'
 import { DIGI_MODEL, DIGI_MODEL_FALLBACKS } from '@/lib/config/digi'
 import { SOCIAL_MEDIA_LAW, banContextForDigi, BANNED_PLATFORMS, banIsActive } from '@/lib/config/social-media-law'
 import { NextResponse, after } from 'next/server'
@@ -173,7 +174,7 @@ export async function POST(request: Request) {
   ] = await Promise.all([
     supabase
       .from('profiles')
-      .select('subscription_status, onboarding_answers')
+      .select('subscription_status, trial_ends_at, onboarding_answers')
       .eq('id', user.id)
       .single(),
     supabase
@@ -233,7 +234,7 @@ export async function POST(request: Request) {
   const convData = convResult.data
   const child = childResult.data
 
-  const isPaid = profile?.subscription_status === 'active'
+  const isPaid = hasFullAccess(profile)
 
   const today = new Date().toISOString().split('T')[0]
   const isNewDay = !convData || convData.last_message_date !== today

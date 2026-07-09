@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { hasFullAccess } from '@/lib/access'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { STAGES } from '@/lib/content/stages'
@@ -64,11 +65,11 @@ export default async function PathwayPage() {
   if (!user) redirect('/login')
 
   const [profileResult, childrenResult] = await Promise.all([
-    supabase.from('profiles').select('subscription_status, onboarding_answers').eq('id', user.id).single(),
+    supabase.from('profiles').select('subscription_status, trial_ends_at, onboarding_answers').eq('id', user.id).single(),
     supabase.from('children').select('id, name, age_band, stage_id, is_primary, streak_weeks').eq('parent_id', user.id).order('is_primary', { ascending: false }),
   ])
 
-  const isPaid = profileResult.data?.subscription_status === 'active'
+  const isPaid = hasFullAccess(profileResult.data)
   const children = (childrenResult.data ?? []) as Child[]
 
   const stageIdToNum: Record<string, number> = {

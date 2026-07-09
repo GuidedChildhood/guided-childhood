@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { hasFullAccess } from '@/lib/access'
 import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
 import { SOCIAL_MEDIA_LAW } from '@/lib/config/social-media-law'
@@ -52,11 +53,11 @@ export default async function ScriptDetailPage({
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('subscription_status')
+    .select('subscription_status, trial_ends_at')
     .eq('id', user.id)
     .single()
 
-  const isPaid = profile?.subscription_status === 'active'
+  const isPaid = hasFullAccess(profile)
 
   const { data: script } = await supabase
     .from('scripts')

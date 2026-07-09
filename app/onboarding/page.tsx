@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { AGE_BAND_OPTIONS, getStageFromAgeBand, type AgeBand, type StarterAnswers } from '@/lib/content/stages'
 import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
+import { trialEndsFromNow } from '@/lib/access'
 import Celebration from '@/components/ui/Celebration'
 
 type Screen = 'init' | 'welcome' | 'name' | 'age' | 'challenges' | 'loading' | 'digi-intro' | 'founding' | 'first-task' | 'notifications'
@@ -214,6 +215,8 @@ export default function OnboardingPage() {
       supabase.from('profiles').update({
         onboarding_answers: { ageBand, challenge: challenges[0] ?? null, feeling: null, timeCommitment: timeCommitment ?? null },
         onboarding_complete: true,
+        // The 14 day free trial starts the moment setup is done, no card.
+        trial_ends_at: trialEndsFromNow(),
       }).eq('id', user.id),
       supabase.from('children').select('id').eq('parent_id', user.id).limit(1),
     ])

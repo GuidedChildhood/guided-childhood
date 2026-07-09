@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { hasFullAccess } from '@/lib/access'
 import { NextResponse } from 'next/server'
 
 // The Right Now rescue: a parent taps the situation mid meltdown and this
@@ -78,11 +79,11 @@ export async function POST(request: Request) {
   if (!def) return NextResponse.json({ error: 'Unknown situation' }, { status: 400 })
 
   const [{ data: profile }, { data: child }] = await Promise.all([
-    supabase.from('profiles').select('subscription_status').eq('id', user.id).single(),
+    supabase.from('profiles').select('subscription_status, trial_ends_at').eq('id', user.id).single(),
     supabase.from('children').select('id, stage_id').eq('parent_id', user.id).eq('is_primary', true).maybeSingle(),
   ])
 
-  const preferFree = profile?.subscription_status !== 'active'
+  const preferFree = !hasFullAccess(profile)
   const stageId = child?.stage_id ?? null
 
   // One query for the child's stage; RLS filters to what this account may see.

@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { hasFullAccess } from '@/lib/access'
 import { redirect } from 'next/navigation'
 import { getRecommendedScript } from '@/lib/pathway/recommend'
 import type { ChallengeId } from '@/lib/content/stages'
@@ -15,7 +16,7 @@ export default async function RecommendedScriptRedirect() {
   if (!user) redirect('/login')
 
   const [{ data: profile }, { data: child }] = await Promise.all([
-    supabase.from('profiles').select('onboarding_answers, subscription_status').eq('id', user.id).single(),
+    supabase.from('profiles').select('onboarding_answers, subscription_status, trial_ends_at').eq('id', user.id).single(),
     supabase.from('children').select('stage_id').eq('parent_id', user.id).eq('is_primary', true).maybeSingle(),
   ])
 
@@ -27,7 +28,7 @@ export default async function RecommendedScriptRedirect() {
   // script reader's upgrade wall.
   const recommended = stageId
     ? await getRecommendedScript(supabase, user.id, stageId, challenge ?? null, {
-        preferFree: profile?.subscription_status !== 'active',
+        preferFree: !hasFullAccess(profile),
       })
     : null
 

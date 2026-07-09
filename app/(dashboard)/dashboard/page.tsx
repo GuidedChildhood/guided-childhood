@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { hasFullAccess, inTrial, trialDaysLeft } from '@/lib/access'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { getStageFromAgeBand, type AgeBand, type ChallengeId, STAGES } from '@/lib/content/stages'
@@ -40,7 +41,7 @@ export default async function DashboardPage() {
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('full_name, onboarding_complete, subscription_status, onboarding_answers')
+    .select('full_name, onboarding_complete, subscription_status, trial_ends_at, onboarding_answers')
     .eq('id', user.id)
     .single()
 
@@ -112,7 +113,7 @@ export default async function DashboardPage() {
     : STAGES[0]
 
   const stageColor = STAGE_COLORS[stage.id as keyof typeof STAGE_COLORS]
-  const isPaid = profile?.subscription_status === 'active'
+  const isPaid = hasFullAccess(profile)
   const firstName = profile?.full_name?.split(' ')[0] ?? 'there'
 
   // Today's loop and the daily streak, both resolved server side.
@@ -148,8 +149,42 @@ export default async function DashboardPage() {
     if (lastScript) lastInsight = lastScript
   }
 
+  const showTrial = inTrial(profile)
+  const trialLeft = trialDaysLeft(profile)
+  const trialEnded = !isPaid && Boolean(profile?.trial_ends_at) && !showTrial
+
   return (
     <div style={{ maxWidth: '640px', margin: '0 auto', padding: '24px 20px' }}>
+      {/* Trial status: warm and forgiving during, a gentle offer after, never
+          a lockout. The everyday habit stays free either way. */}
+      {showTrial && (
+        <div style={{ background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: '16px', padding: '14px 18px', marginBottom: '18px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap' }}>
+            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--ink)' }}>
+              ✨ Full access, {trialLeft} {trialLeft === 1 ? 'day' : 'days'} left
+            </span>
+            <Link href="/dashboard/upgrade" style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--terracotta-dark)', textDecoration: 'none', letterSpacing: '0.04em' }}>
+              See membership →
+            </Link>
+          </div>
+          <p style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '6px 0 0' }}>
+            Everything is open while you settle in. Miss a day, no problem, just pick up where you left off. Five to ten minutes is all it takes, and we have got you the whole way to 16.
+          </p>
+        </div>
+      )}
+      {trialEnded && (
+        <div style={{ background: 'var(--deep-teal)', borderRadius: '16px', padding: '16px 18px', marginBottom: '18px' }}>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: '#fff', marginBottom: '4px' }}>
+            Your 14 days of full access have finished
+          </div>
+          <p style={{ fontSize: '12.5px', color: 'rgba(255,255,255,0.8)', lineHeight: 1.55, margin: '0 0 12px' }}>
+            The daily habit, quests and your tracker stay free, always. Open everything again, all the scripts, unlimited DiGi and the full pathway.
+          </p>
+          <Link href="/dashboard/upgrade" style={{ display: 'inline-flex', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '12px', padding: '10px 18px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
+            Unlock everything again
+          </Link>
+        </div>
+      )}
       {/* Header — child name + stage + streak */}
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '22px', gap: '12px' }}>
         <div>

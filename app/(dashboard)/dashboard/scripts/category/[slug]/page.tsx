@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { hasFullAccess } from '@/lib/access'
 import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
 import { CATEGORY_META } from '../../page'
@@ -42,11 +43,11 @@ export default async function CategoryPage({
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('subscription_status')
+    .select('subscription_status, trial_ends_at')
     .eq('id', user.id)
     .single()
 
-  const isPaid = profile?.subscription_status === 'active'
+  const isPaid = hasFullAccess(profile)
 
   const { data: completionRows } = await supabase
     .from('script_completions')
