@@ -21,8 +21,11 @@ export type QuestGameMeta = {
 
 export type PairsGame = QuestGameMeta & {
   mechanic: 'pairs'
-  // [emoji, name] pairs the child matches
+  // Two things the child matches. When pictorial, both sides are pictures
+  // (emoji) so a pre reader can play with no words at all. Otherwise the
+  // second side is a name to read.
   pairs: [string, string][]
+  pictorial?: boolean
 }
 
 export type JudgeGame = QuestGameMeta & {
@@ -39,9 +42,10 @@ export type QuestGame = PairsGame | JudgeGame
 export const QUEST_GAMES: QuestGame[] = [
   {
     key: 'animal-pairs', mechanic: 'pairs',
-    title: 'Animal Pairs', emoji: '🦊', stage: 'Foundation · 4 to 7', stages: [1, 2], stars: 2,
-    blurb: 'Match each animal to its name. Gentle reading and spotting.',
-    pairs: [['🦊', 'Fox'], ['🐑', 'Sheep'], ['🐄', 'Cow'], ['🐸', 'Frog']],
+    title: 'Animal Match', emoji: '🐾', stage: 'Foundation · 4 to 7', stages: [1, 2], stars: 2,
+    pictorial: true,
+    blurb: 'Match each animal to its favourite food. All pictures, no reading needed.',
+    pairs: [['🐄', '🥛'], ['🐝', '🍯'], ['🐰', '🥕'], ['🐵', '🍌']],
   },
   {
     key: 'what-is-an-advert', mechanic: 'judge',
