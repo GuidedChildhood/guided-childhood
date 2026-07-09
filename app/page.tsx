@@ -560,6 +560,62 @@ export default function HomePage() {
       </section>
 
       {/* ================================================================
+          EVERYTHING YOU GET — the full service walkthrough, near the top so
+          a first visit sees the whole system and why each part earns its
+          place, before the deeper narrative.
+          ================================================================ */}
+      <section aria-label="Everything you get" style={{ padding: 'clamp(80px, 10vw, 120px) 32px', background: 'var(--deep-teal)' }}>
+        <div style={{ maxWidth: '1080px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+            <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>Everything in one place</p>
+            <h2 className="fu" style={{ color: '#fff', marginBottom: '14px' }}>
+              One calm system.{' '}
+              <span style={{ color: 'var(--terracotta)' }}>Every part earns its place.</span>
+            </h2>
+            <p className="fu" style={{ fontSize: '1rem', color: 'rgba(255,255,255,0.8)', lineHeight: 1.8, maxWidth: '560px', margin: '0 auto' }}>
+              Not random tips. Ten tools that work together, from the first shared screen at four to full independence at sixteen. Here is what you get, and why each one matters.
+            </p>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '14px', marginBottom: '44px' }}>
+            {[
+              { emoji: '🌱', tint: 'var(--stage-1-bold)', name: 'Daily moments', what: 'One small thing each day: the moment, the exact words, a quick check in.', why: 'The ten minute habit everything hangs on.' },
+              { emoji: '💬', tint: 'var(--stage-3-bold)', name: '160 exact scripts', what: 'The words for the meltdown, the handover, the first phone conversation.', why: 'So you are never caught without something to say.' },
+              { emoji: '◎', tint: 'var(--stage-5-bold)', name: 'DiGi, always on', what: 'A real answer for your child and your stage, calibrated, never a lecture.', why: 'The eleven at night question, answered calmly.' },
+              { emoji: '⭐', tint: 'var(--stage-2-bold)', name: 'Family Quests', what: 'Real jobs, play and quick learning games earn the screen time you agree.', why: 'Earned time already did its job.' },
+              { emoji: '🗺️', tint: 'var(--stage-4-bold)', name: 'The pathway to 16', what: 'One plan that relaxes as your child earns it, stage by stage.', why: 'Turns sixteen from a cliff edge into a gentle ramp.' },
+              { emoji: '✦', tint: 'var(--stage-3-bold)', name: 'The lessons', what: 'Calm, age matched lessons that build real digital judgement.', why: 'Learned together young, on their own as they grow.' },
+              { emoji: '🛡️', tint: 'var(--stage-1-bold)', name: 'Device checklists', what: 'Per device, per age, what to set tonight before the screen reaches them.', why: 'Ten minutes of setup saves months of arguments.' },
+              { emoji: '🔔', tint: 'var(--stage-4-bold)', name: 'School reminders', what: 'Forward the school email and the dates and kit turn into alerts.', why: 'Never miss a PE kit day again.' },
+              { emoji: '📝', tint: 'var(--stage-2-bold)', name: 'Family agreement', what: 'One page you build together, print, and both sign.', why: 'Agreed together, so it actually holds.' },
+              { emoji: '📈', tint: 'var(--stage-5-bold)', name: 'Wellbeing tracker', what: 'One tap a day, a check in each week.', why: 'Spot the pattern before it becomes a problem.' },
+            ].map(s => (
+              <div key={s.name} className="fu" style={{ background: '#fff', borderRadius: '20px', padding: '22px 22px 20px', boxShadow: '0 10px 30px rgba(0,0,0,0.14)', display: 'flex', flexDirection: 'column' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
+                  <span style={{ width: 44, height: 44, borderRadius: '13px', flexShrink: 0, background: s.tint, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px' }}>{s.emoji}</span>
+                  <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.06rem', letterSpacing: '-0.01em', color: 'var(--ink)' }}>{s.name}</span>
+                </div>
+                <p style={{ fontSize: '.9rem', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 14px' }}>{s.what}</p>
+                <div style={{ marginTop: 'auto', paddingTop: '12px', borderTop: '1px solid var(--border)' }}>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.58rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '4px' }}>Why it matters</div>
+                  <p style={{ fontSize: '.86rem', color: 'var(--ink)', fontWeight: 600, lineHeight: 1.5, margin: 0 }}>{s.why}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="fu" style={{ textAlign: 'center' }}>
+            <Link href="/starter-pack" style={{ display: 'inline-flex', alignItems: 'center', padding: '16px 34px', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '16px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1rem', boxShadow: '0 5px 0 var(--terracotta-dark)' }}>
+              Start my pathway free
+            </Link>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '.68rem', color: 'rgba(255,255,255,0.6)', marginTop: '14px', letterSpacing: '.06em' }}>
+              Free starter pack · No card needed · Built on the research
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ================================================================
           THE REAL DIVIDE — digital literacy narrative, deep water reframe
           ================================================================ */}
       <section aria-label="The digital literacy divide" style={{ padding: 'clamp(80px, 10vw, 120px) 32px', background: '#fff', borderTop: '1px solid var(--border)' }}>
