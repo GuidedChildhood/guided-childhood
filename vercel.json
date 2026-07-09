@@ -59,6 +59,8 @@
     { "src": "/financial-forecast/", "dest": "/financial-forecast.html" },
     { "src": "/investor", "dest": "/investor.html" },
     { "src": "/investor/", "dest": "/investor.html" },
+    { "src": "/happiness-report", "dest": "/happiness-report.html" },
+    { "src": "/happiness-report/", "dest": "/happiness-report.html" },
     { "src": "/(.*)", "dest": "/index.html" }
   ],
   "headers": [
