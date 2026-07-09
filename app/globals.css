@@ -466,6 +466,13 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
 
 @media (max-width: 600px) { .hide-mobile { display: none !important; } }
 
+/* Comfortable reading size on phones. A larger base lifts every rem based
+   size, and the smallest mono labels get a small bump so they stay legible. */
+@media (max-width: 600px) {
+  body { font-size: 17px; line-height: 1.6; }
+  .eyebrow { font-size: 11.5px; }
+}
+
 /* ── GSAP ── */
 .fu { will-change: transform, opacity; }
 
