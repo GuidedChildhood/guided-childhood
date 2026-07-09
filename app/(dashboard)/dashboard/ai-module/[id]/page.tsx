@@ -3,7 +3,7 @@ import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
 import MarkLessonDone from '@/components/lessons/MarkLessonDone'
 import LessonPlayer from '@/components/lessons/LessonPlayer'
-import { parseSlides } from '@/lib/content/lesson-slides'
+import { parseSlides, autoSlidesFromLesson } from '@/lib/content/lesson-slides'
 
 const AUDIENCE_LABEL: Record<string, { label: string; bg: string }> = {
   age_7:   { label: 'Age 7',    bg: 'var(--stage-1)' },
@@ -52,10 +52,11 @@ export default async function AiLessonPage({ params }: { params: Promise<{ id: s
   const lesson = data as Lesson | null
   if (!lesson) notFound()
 
+  // Authored deck wins; otherwise build one from the lesson's own content so
+  // every AI module lesson plays as slides, not a flat wall of text.
   const slides = parseSlides(lesson.slides)
+    ?? autoSlidesFromLesson(lesson, { eyebrow: AUDIENCE_LABEL[lesson.audience]?.label ?? 'AI safety' })
 
-  // Slide lessons render in the interactive player; the four section layout
-  // below remains the fallback for lessons without slides yet.
   if (slides) {
     return (
       <div style={{ maxWidth: '620px', margin: '0 auto', padding: '24px 20px 48px' }}>
