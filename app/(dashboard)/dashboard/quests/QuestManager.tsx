@@ -270,7 +270,7 @@ export default function QuestManager() {
         The deal: quests earn stars
       </h1>
       <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.65, marginBottom: '20px' }}>
-        Set the quests, agree what stars buy, and hand them over: their own link for older kids, a printed sheet for little ones. They tick, you approve, stars land.
+        Mostly real chores and jobs that earn stars, agreed with you. No phone needed: print the sheet for the fridge, or just tick them off here yourself. Older children can have their own private link if they want one, never a reason to hand a child a phone before they are ready.
       </p>
 
       {/* Child picker plus add another, right here, never back to onboarding */}
