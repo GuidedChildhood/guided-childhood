@@ -6,7 +6,7 @@ This is one finished script in the format we will use for every lesson explainer
 
 - **Lesson**: How the feed decides what you see
 - **Stage**: Explorer, ages 11 to 13
-- **Host character**: Olga, Online Smarts, curious and sharp
+- **Host character**: Zara, the curious one who sees through tricks
 - **Runtime**: about 5 minutes, seven beats
 - **Voice**: warm, plain, a little conspiratorial, never a lecture
 
@@ -16,9 +16,9 @@ This is one finished script in the format we will use for every lesson explainer
 
 **Narration.** Have you ever picked up your phone to check one thing, and then looked up and twenty minutes were gone? That is not an accident. Someone built it that way. Today we find out how the feed decides exactly what to show you, and how to take the wheel back.
 
-**On screen.** A young person glances at a phone. A clock spins fast behind them. The feed scrolls on and on by itself. Olga leans into the corner of the frame, eyebrow raised.
+**On screen.** A young person glances at a phone. A clock spins fast behind them. The feed scrolls on and on by itself. Zara leans into the corner of the frame, eyebrow raised.
 
-**Illustration prompt.** A curious eleven year old sitting on a sofa looking at a phone, a clock behind them spinning quickly to show time passing, an endless scroll of little posts flowing down the screen, one friendly cartoon guide character called Olga peeking in from the side. Warm, calm, a touch playful.
+**Illustration prompt.** A curious eleven year old sitting on a sofa looking at a phone, a clock behind them spinning quickly to show time passing, an endless scroll of little posts flowing down the screen, one friendly cartoon guide character called Zara peeking in from the side. Warm, calm, a touch playful.
 
 ---
 
@@ -76,9 +76,9 @@ This is one finished script in the format we will use for every lesson explainer
 
 **Narration.** The feed is not your enemy, and it is not your friend. It is a machine following a recipe. And now, you can read the recipe. This week, catch one moment the feed pulls you in, and name it out loud. Seeing the trick is how you beat it.
 
-**On screen.** Olga gives a knowing nod. A young person closes the phone and looks up, calm and clear eyed.
+**On screen.** Zara gives a knowing nod. A young person closes the phone and looks up, calm and clear eyed.
 
-**Illustration prompt.** The guide character Olga giving a warm knowing nod, next to a young person calmly putting their phone down and looking up with a small confident smile. Resolved, hopeful, calm.
+**Illustration prompt.** The guide character Zara giving a warm knowing nod, next to a young person calmly putting their phone down and looking up with a small confident smile. Resolved, hopeful, calm.
 
 ---
 
@@ -86,7 +86,7 @@ This is one finished script in the format we will use for every lesson explainer
 
 1. Read it once as a whole. The narration is the voiceover script, ready for a voice tool or a real read.
 2. Generate each beat's illustration from its prompt, in the house style, at 16 by 9.
-3. Assemble in Higgsfield: one picture per beat, narration over the top, a gentle move on each still (a slow push in, a small parallax), Olga popping in only where the script marks her.
+3. Assemble in Higgsfield: one picture per beat, narration over the top, a gentle move on each still (a slow push in, a small parallax), Zara popping in only where the script marks her.
 4. Keep the cuts on the beat changes, so a new idea always gets a new picture. That segmenting is what makes it land.
 
 The full pedagogy, the age by age structure from 4 to 16, the reusable script template for every lesson, and the character rules are in the lesson structure plan, which the research feeds. This is the worked example of the format.
