@@ -23,6 +23,10 @@ export async function POST(req: NextRequest) {
 
   try {
     const supabase = createAdminClient()
+    // Only ping the founder for a genuinely new lead, not a quiz re run.
+    const { data: existing } = await supabase
+      .from('starter_leads').select('email').eq('email', email).maybeSingle()
+
     // Upsert on email so re running the quiz updates the same lead. Never
     // flip converted back to false from here; signup owns that flag.
     const { error } = await supabase
@@ -32,9 +36,38 @@ export async function POST(req: NextRequest) {
         { onConflict: 'email' },
       )
     if (error) return NextResponse.json({ ok: false }, { status: 200 })
+
+    if (!existing) await notifyFounder(req, supabase, email)
   } catch {
     return NextResponse.json({ ok: false }, { status: 200 })
   }
 
   return NextResponse.json({ ok: true })
+}
+
+// Ping the founder's phone the moment a new email lands, so signups are
+// visible in real time. Best effort: looks up the founder account by email
+// and pushes through the existing send route. Never blocks the response.
+async function notifyFounder(
+  req: NextRequest,
+  supabase: ReturnType<typeof createAdminClient>,
+  leadEmail: string,
+) {
+  try {
+    const founderEmail = (process.env.FOUNDER_NOTIFY_EMAIL ?? 'justin@thesocialbillboard.com').toLowerCase()
+    const { data: founder } = await supabase
+      .from('profiles').select('id').eq('email', founderEmail).maybeSingle()
+    if (!founder?.id) return
+    const origin = process.env.NEXT_PUBLIC_APP_URL ?? req.nextUrl.origin
+    await fetch(`${origin}/api/push/send`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.CRON_SECRET}` },
+      body: JSON.stringify({
+        userId: founder.id,
+        title: 'New Guided Childhood signup 🎉',
+        body: leadEmail,
+        url: '/dashboard',
+      }),
+    })
+  } catch { /* founder ping is best effort */ }
 }
