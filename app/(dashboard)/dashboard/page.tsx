@@ -391,6 +391,11 @@ export default async function DashboardPage() {
         </div>
       )}
 
+      {/* Everything below is the fuller home. It waits until setup is done,
+          so a new parent gets a calm first screen, the conductor and today's
+          practice, not a wall of explore me cards on day one. */}
+      {setupComplete && (<>
+
       {/* This week's actions */}
       <div style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '20px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
@@ -522,6 +527,8 @@ export default async function DashboardPage() {
           <span style={{ fontSize: '18px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>
         </div>
       </Link>
+
+      </>)}
 
       {/* DiGi quick access */}
       <div style={{ background: 'var(--stage-5)', border: '1.5px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '20px' }}>
