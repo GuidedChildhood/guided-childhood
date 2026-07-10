@@ -5,6 +5,8 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import DigiCharacter from '@/components/digi/DigiCharacter'
 import Celebration from '@/components/ui/Celebration'
+import { createClient } from '@/lib/supabase/client'
+import { trialEndsFromNow } from '@/lib/access'
 import {
   STAGES,
   AGE_BAND_OPTIONS,
@@ -106,8 +108,14 @@ export default function StarterPackPage() {
   const [email, setEmail] = useState('')
   const [name, setName] = useState('')
   const [childName, setChildName] = useState('')
+  const [password, setPassword] = useState('')
   const [emailError, setEmailError] = useState('')
   const [savingEmail, setSavingEmail] = useState(false)
+  // True once the account exists and needs email confirmation before they can
+  // step into the platform (only when Confirm email is switched on in
+  // Supabase). With it off, a session is created and this stays false.
+  const [needsConfirm, setNeedsConfirm] = useState(false)
+  const supabase = createClient()
   // A parent who has already been through the quiz on this device. We greet
   // them by name of intent rather than making them start Q1 over again.
   const [returning, setReturning] = useState(false)
@@ -200,8 +208,10 @@ export default function StarterPackPage() {
   function selectTimeCommitment(t: TimeCommitmentId) {
     setTimeCommitment(t)
     // Email and name are already captured up front, so the last answer goes
-    // straight to the pathway. Update the lead with the full answer set.
+    // straight to the pathway. Update the lead, and write the account through
+    // (onboarding complete, trial, child) while the build animation plays.
     captureLead({ ageBand, concerns: picks, challenge, feeling, timeCommitment: t })
+    finishSetup()
     setTimeout(() => setStep('reassure'), 280)
   }
 
@@ -234,12 +244,70 @@ export default function StarterPackPage() {
       setEmailError('Please enter a valid email so we can save your pathway.')
       return
     }
+    if (password.length < 8) {
+      setEmailError('Choose a password of at least 8 characters.')
+      return
+    }
     setEmailError('')
     setSavingEmail(true)
-    try { localStorage.setItem('gc_starter_name', name.trim()) } catch {}
+    try {
+      localStorage.setItem('gc_starter_name', name.trim())
+      localStorage.setItem('gc_starter_email', clean)
+    } catch {}
+
+    // Create the account up front, the one click that sets it all up. With
+    // Confirm email off a session is established now and they walk straight in
+    // at the end; with it on the account is made and they confirm by email
+    // before stepping in.
+    const { data, error } = await supabase.auth.signUp({
+      email: clean,
+      password,
+      options: { data: { full_name: name.trim() }, emailRedirectTo: `${window.location.origin}/auth/callback` },
+    })
+    if (error) {
+      const msg = error.message.toLowerCase()
+      setEmailError(
+        msg.includes('already registered') || msg.includes('already been registered')
+          ? 'That email already has an account. Sign in and your pathway is waiting.'
+          : error.message
+      )
+      setSavingEmail(false)
+      return
+    }
+    if (!data.session) setNeedsConfirm(true)
+
     await captureLead({})
     setSavingEmail(false)
     setStep('q1')
+  }
+
+  // Once the questions are done, write the account through: mark onboarding
+  // complete, start the 7 day trial, and create the child. This is what the
+  // old separate onboarding did, folded into the one flow so the child is
+  // never asked again. Best effort; if the session is not ready yet (email
+  // confirmation pending) the old onboarding remains the fallback.
+  async function finishSetup() {
+    try {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) return
+      const stg = ageBand ? getStageFromAgeBand(ageBand) : null
+      await supabase.from('profiles').update({
+        onboarding_complete: true,
+        trial_ends_at: trialEndsFromNow(),
+        onboarding_answers: { ageBand, challenge, feeling, timeCommitment },
+      }).eq('id', user.id)
+      const { data: existing } = await supabase.from('children').select('id').eq('parent_id', user.id).limit(1)
+      if (!existing || existing.length === 0) {
+        await supabase.from('children').insert({
+          parent_id: user.id,
+          name: childName.trim() || 'Your child',
+          age_band: ageBand,
+          stage_id: stg ? stg.name.toLowerCase() : 'explorer',
+          is_primary: true,
+        })
+      }
+      try { localStorage.removeItem('gc_starter_answers') } catch {}
+    } catch { /* onboarding remains the fallback */ }
   }
 
   // The one detail we ask for: where to send the starter pack, and the key
@@ -280,6 +348,7 @@ export default function StarterPackPage() {
         challenge={challenge}
         feeling={feeling!}
         email={email}
+        needsConfirm={needsConfirm}
       />
     )
   }
@@ -419,10 +488,10 @@ export default function StarterPackPage() {
               fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1,
               color: 'var(--ink)', marginBottom: '10px', textAlign: 'center',
             }}>
-              First, a little about you
+              Create your account
             </h1>
             <p style={{ color: 'var(--ink-soft)', fontSize: '15px', marginBottom: '24px', lineHeight: 1.6, textAlign: 'center' }}>
-              So everything is personal and your pathway is here whenever you come back.
+              One step, then straight into your pathway. This is the only setup, your name, email and a password.
             </p>
 
             <input
@@ -442,6 +511,15 @@ export default function StarterPackPage() {
               placeholder="you@email.com"
               value={email}
               onChange={e => { setEmail(e.target.value); if (emailError) setEmailError('') }}
+              style={{ fontSize: 17, marginBottom: '12px' }}
+            />
+            <input
+              className="input"
+              type="password"
+              autoComplete="new-password"
+              placeholder="Create a password"
+              value={password}
+              onChange={e => { setPassword(e.target.value); if (emailError) setEmailError('') }}
               onKeyDown={e => { if (e.key === 'Enter') submitDetails() }}
               style={{ fontSize: 17, marginBottom: emailError ? '10px' : '16px' }}
             />
@@ -982,17 +1060,19 @@ const LESSON_THUMBS = [
 ]
 
 function ResultScreen({
-  stage, accent, challenge, feeling, email,
+  stage, accent, challenge, feeling, email, needsConfirm,
 }: {
   stage: ReturnType<typeof getStageFromAgeBand>
   accent: { bold: string; text: string }
   challenge: ChallengeId
   feeling: FeelingId
   email?: string
+  needsConfirm?: boolean
 }) {
-  // Carry the captured email into signup so the account is created against the
-  // same address the pathway was saved to, landing them in the right place.
-  const signupHref = email ? `/signup?email=${encodeURIComponent(email)}` : '/signup'
+  // The account was created on the first screen, so stepping in goes straight
+  // to the platform, no second sign up. Only when email confirmation is
+  // pending do they confirm by email first, then sign in.
+  const enterHref = needsConfirm ? `/login${email ? `?email=${encodeURIComponent(email)}` : ''}` : '/dashboard'
   const challengeAction = stage.challengeActions[challenge] ?? stage.action
   const challengeLabel = CHALLENGE_OPTIONS.find(c => c.value === challenge)?.label ?? 'what you told us'
 
@@ -1098,7 +1178,7 @@ function ResultScreen({
         {/* Straight to the platform: first timers get the guided reveal below,
             but anyone who does not want to scroll can step in right now. */}
         <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '10px' }}>
-          <Link href={signupHref} style={{
+          <Link href={enterHref} style={{
             display: 'inline-flex', alignItems: 'center', gap: '6px',
             fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
             letterSpacing: '0.05em', color: 'var(--deep-teal)', textDecoration: 'none',
@@ -1371,16 +1451,18 @@ function ResultScreen({
         {/* ── Beat 5: save CTA, the one primary CTA on the page ── */}
         <div className="wow-fu" style={{ background: 'var(--deep-teal)', borderRadius: '20px', padding: '40px 28px', textAlign: 'center', marginBottom: '12px' }}>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '14px' }}>
-            Free to start
+            {needsConfirm ? 'One last step' : 'You are all set'}
           </div>
           <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', color: '#fff', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '12px' }}>
-            Save your child&apos;s pathway
+            {needsConfirm ? 'Check your email' : 'Your pathway is ready'}
           </h2>
           <p style={{ color: 'rgba(255,255,255,0.78)', fontSize: '14px', lineHeight: 1.6, maxWidth: '340px', margin: '0 auto 24px' }}>
-            Create your free account and your Stage {stage.id} pathway is saved. No card required.
+            {needsConfirm
+              ? 'We sent a link to confirm your email. Tap it, then step straight in. Your Stage ' + stage.id + ' pathway is saved and waiting.'
+              : 'Your account is set and your Stage ' + stage.id + ' pathway is ready. Step in whenever you are. No card required.'}
           </p>
           <Link
-            href={signupHref}
+            href={enterHref}
             style={{
               display: 'inline-flex', alignItems: 'center',
               padding: '16px 36px', background: 'var(--terracotta)',
@@ -1390,7 +1472,7 @@ function ResultScreen({
               boxShadow: '0 5px 0 var(--terracotta-dark)',
             }}
           >
-            Start your digital pathway, it is free
+            {needsConfirm ? 'I have confirmed, sign in' : 'Step into your pathway'}
           </Link>
           <p style={{ marginTop: '14px', fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'rgba(255,255,255,0.6)' }}>
             Already have an account?{' '}
