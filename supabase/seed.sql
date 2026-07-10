@@ -194,8 +194,8 @@ values
 
 (
   'independent',
-  'University or job and social media',
-  'Your 16+ year old is thinking about their digital footprint as they apply to sixth form, apprenticeships, or jobs.',
+  'Your online footprint and your future',
+  'Your 16 or 17 year old is starting to think about what their online life says about them, as sixth form, apprenticeships and jobs come into view.',
   'The stuff you put online now will still be there when someone who does not know you searches your name in ten years. It is worth one hour going through your public profiles together and deciding what you actually want someone to see.',
   'You need to clean up your social media, employers look at it.',
   'The conversation lands better as a practical exercise than a warning. Doing it together positions the parent as a useful resource rather than a monitor. The young person learns the skill of intentional digital identity management, which is worth more than the cleaned-up profile.',
