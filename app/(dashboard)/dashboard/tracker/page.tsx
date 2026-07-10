@@ -3,7 +3,9 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { getStageFromAgeBand, STAGES, type AgeBand } from '@/lib/content/stages'
 import { getDailyStreak } from '@/lib/pathway/streak'
+import { getAllStagesProgress, type StageId } from '@/lib/pathway/progress'
 import WorkingOn from '@/components/tracker/WorkingOn'
+import PassportStamps, { type Stamp, type StampStatus } from '@/components/pathway/PassportStamps'
 
 // The Progress page: the answer to the only question that matters, is it
 // working. One honest generated sentence at the top, then the evidence:
@@ -45,7 +47,7 @@ export default async function ProgressPage() {
   const weekStartStr = weekStart.toISOString().split('T')[0]
 
   const [childrenRes, concernsRes, resolvedCountRes, recentSolvedRes, checksRes, questsRes, ticksRes, streak] = await Promise.all([
-    supabase.from('children').select('id, name, age_band').eq('parent_id', user.id).order('created_at'),
+    supabase.from('children').select('id, name, age_band, streak_weeks').eq('parent_id', user.id).order('created_at'),
     // What we are working on: only the live ones, most stubborn first so the
     // pattern line has something to point at.
     supabase.from('concerns').select('slug, label, status, times_flagged, last_flagged_at').eq('user_id', user.id).in('status', ['open', 'improving']).order('times_flagged', { ascending: false }).limit(10),
@@ -70,6 +72,26 @@ export default async function ProgressPage() {
   const ticks = ticksRes.data ?? []
 
   const stage = primary?.age_band ? getStageFromAgeBand(primary.age_band as AgeBand) : null
+
+  // The passport, live. Real progress for all five stages, mapped to stamps:
+  // earned at 100 percent, in progress on the current stage, catch up for an
+  // earlier stage not yet filled, ahead for one still to come. Each links to
+  // its stage so the passport doubles as a map and a catch up plan.
+  const STAGE_SLUGS: StageId[] = ['foundation', 'builder', 'explorer', 'shaper', 'independent']
+  const allProgress = stage ? await getAllStagesProgress(supabase, user.id, primary?.streak_weeks ?? 0) : null
+  const stamps: Stamp[] = stage && allProgress
+    ? STAGES.map(s => {
+        const slug = STAGE_SLUGS[s.id - 1]
+        const pct = allProgress[slug].overallPct
+        const status: StampStatus =
+          pct >= 100 ? 'earned'
+          : s.id === stage.id ? 'current'
+          : s.id < stage.id ? 'catchup'
+          : 'upcoming'
+        return { id: s.id, name: s.name, ages: s.ages, pct, status, href: `/dashboard/scripts?stage=${slug}` }
+      })
+    : []
+
   const starsByQuest = new Map(quests.map(q => [q.id, q.stars]))
   const weekStars = ticks.reduce((sum, t) => sum + (starsByQuest.get(t.quest_id) ?? 1), 0)
 
@@ -154,40 +176,11 @@ export default async function ProgressPage() {
         </div>
       )}
 
-      {/* Position on the pathway to 16 */}
-      {stage && (
-        <Link href="/dashboard/pathway" style={{ textDecoration: 'none', display: 'block', marginBottom: '20px' }}>
-          <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '18px', padding: '18px 20px' }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '12px' }}>
-              {primary?.name ?? 'Your child'} on the pathway to 16
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-              {STAGES.map((s, i) => {
-                const here = s.id === stage.id
-                return (
-                  <div key={s.id} style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '4px' }}>
-                    <div style={{
-                      width: here ? 34 : 22, height: here ? 34 : 22, borderRadius: '50%', flexShrink: 0,
-                      background: s.id < stage.id ? 'var(--tint-sage)' : here ? 'var(--terracotta)' : 'var(--cream)',
-                      border: here ? '3px solid var(--terracotta-dark)' : '2px solid var(--border)',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontFamily: 'var(--font-mono)', fontSize: here ? '13px' : '10px', fontWeight: 700,
-                      color: here ? '#fff' : 'var(--ink-muted)',
-                    }}>
-                      {s.id < stage.id ? '✓' : s.id}
-                    </div>
-                    {i < STAGES.length - 1 && (
-                      <div style={{ flex: 1, height: '3px', borderRadius: '3px', background: s.id < stage.id ? 'var(--tint-sage)' : 'var(--border)' }} />
-                    )}
-                  </div>
-                )
-              })}
-            </div>
-            <p style={{ fontSize: '12.5px', color: 'var(--ink-soft)', margin: '12px 0 0', lineHeight: 1.5 }}>
-              Stage {stage.id}, {stage.name} ({stage.ages}). Every lesson, quest and setting from here builds toward full independence at 16.
-            </p>
-          </div>
-        </Link>
+      {/* The passport, live: five stamps that fill as each stage is worked
+          through, earned solid at 100 percent, with catch up for earlier
+          stages and a celebration when the whole passport is complete. */}
+      {stage && stamps.length > 0 && (
+        <PassportStamps stamps={stamps} childName={primary?.name ?? 'your child'} />
       )}
 
       {/* What we are working on: the real list, with the parent's verdict */}
