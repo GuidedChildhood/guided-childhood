@@ -1,8 +1,8 @@
-// Full access to Guided Childhood: an active subscription, or a 14 day free
+// Full access to Guided Childhood: an active subscription, or a 7 day free
 // trial that has not yet passed. When the trial ends the family settles onto
 // the free tier, never a lockout. One helper so every feature gate agrees.
 
-export const TRIAL_DAYS = 14
+export const TRIAL_DAYS = 7
 
 export type AccessProfile = {
   subscription_status?: string | null

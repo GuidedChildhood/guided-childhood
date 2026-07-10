@@ -233,7 +233,7 @@ export default function OnboardingPage() {
       supabase.from('profiles').update({
         onboarding_answers: { ageBand, challenge: challenges[0] ?? null, feeling: null, timeCommitment: timeCommitment ?? null },
         onboarding_complete: true,
-        // The 14 day free trial starts the moment setup is done, no card.
+        // The 7 day free trial starts the moment setup is done, no card.
         trial_ends_at: trialEndsFromNow(),
       }).eq('id', user.id),
       supabase.from('children').select('id').eq('parent_id', user.id).limit(1),
@@ -602,7 +602,7 @@ export default function OnboardingPage() {
             {!soldOut ? (
               <>
                 <p style={{ fontSize: 16, color: 'var(--ink)', lineHeight: 1.7, marginBottom: '20px' }}>
-                  Your 14 days are already running. Add your card now to hold one of the 50 founder places and lock in £7.99 a month for life. Nothing is charged for 14 days, and you can cancel any time before then.
+                  Your 7 days are already running. Add your card now to hold one of the 50 founder places and lock in £7.99 a month for life. Nothing is charged for 7 days, and you can cancel any time before then.
                 </p>
 
                 {/* Availability counter — ink on white, not coloured bg */}
@@ -621,19 +621,19 @@ export default function OnboardingPage() {
                   <input type="hidden" name="tier" value="founder" />
                   <input type="hidden" name="from" value="onboarding" />
                   <button type="submit" style={BTN}>
-                    Hold my founder place. 14 days free, then £7.99 for life
+                    Hold my founder place. 7 days free, then £7.99 for life
                   </button>
                 </form>
               </>
             ) : (
               <>
                 <p style={{ fontSize: 16, color: 'var(--ink)', lineHeight: 1.7, marginBottom: '20px' }}>
-                  The 50 founder places have been claimed. Your 14 days are already running. Add your card to continue automatically after, nothing charged for 14 days, cancel any time.
+                  The 50 founder places have been claimed. Your 7 days are already running. Add your card to continue automatically after, nothing charged for 7 days, cancel any time.
                 </p>
                 <form action="/api/stripe/checkout" method="POST">
                   <input type="hidden" name="tier" value="standard" />
                   <input type="hidden" name="from" value="onboarding" />
-                  <button type="submit" style={BTN}>Keep my access. 14 days free, then standard rate</button>
+                  <button type="submit" style={BTN}>Keep my access. 7 days free, then standard rate</button>
                 </form>
               </>
             )}
@@ -653,7 +653,7 @@ export default function OnboardingPage() {
             Start free without a card
           </button>
           <p style={{ fontSize: 12.5, color: '#9ca3af', textAlign: 'center', marginTop: 10, lineHeight: 1.5 }}>
-            Full access for your 14 days. After that the daily habit, quests and your tracker stay free, always. No card, no charge, ever.
+            Full access for your 7 days. After that the daily habit, quests and your tracker stay free, always. No card, no charge, ever.
           </p>
         </div>
       </div>
