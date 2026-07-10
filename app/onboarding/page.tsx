@@ -594,7 +594,7 @@ export default function OnboardingPage() {
             {!soldOut ? (
               <>
                 <p style={{ fontSize: 16, color: 'var(--ink)', lineHeight: 1.7, marginBottom: '20px' }}>
-                  Founding members lock in £7.99 a month for life. The price never rises for you, even as the platform grows.
+                  Your 14 days are already running. Add your card now to hold one of the 50 founder places and lock in £7.99 a month for life. Nothing is charged for 14 days, and you can cancel any time before then.
                 </p>
 
                 {/* Availability counter — ink on white, not coloured bg */}
@@ -613,19 +613,19 @@ export default function OnboardingPage() {
                   <input type="hidden" name="tier" value="founder" />
                   <input type="hidden" name="from" value="onboarding" />
                   <button type="submit" style={BTN}>
-                    Claim my founding place. £7.99 per month for life.
+                    Hold my founder place. 14 days free, then £7.99 for life
                   </button>
                 </form>
               </>
             ) : (
               <>
                 <p style={{ fontSize: 16, color: 'var(--ink)', lineHeight: 1.7, marginBottom: '20px' }}>
-                  The 50 founding places have been claimed. You can still join at our standard rate.
+                  The 50 founder places have been claimed. Your 14 days are already running. Add your card to continue automatically after, nothing charged for 14 days, cancel any time.
                 </p>
                 <form action="/api/stripe/checkout" method="POST">
                   <input type="hidden" name="tier" value="standard" />
                   <input type="hidden" name="from" value="onboarding" />
-                  <button type="submit" style={BTN}>Join now</button>
+                  <button type="submit" style={BTN}>Keep my access. 14 days free, then standard rate</button>
                 </form>
               </>
             )}
@@ -636,7 +636,7 @@ export default function OnboardingPage() {
             onClick={skipToApp}
             style={BACK_BTN}
           >
-            Maybe later, take me to the platform
+            Start free without a card
           </button>
         </div>
       </div>

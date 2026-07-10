@@ -50,7 +50,12 @@ export async function POST(request: Request) {
 
     case 'customer.subscription.updated': {
       if (userId) {
-        const status = sub.status === 'active' ? 'active' : sub.status === 'past_due' ? 'past_due' : 'cancelled'
+        // A card up front trial reports status 'trialing'. Treat it as full
+        // access, same as active, so the founder who added a card is never
+        // locked out during their 14 free days.
+        const status = (sub.status === 'active' || sub.status === 'trialing')
+          ? 'active'
+          : sub.status === 'past_due' ? 'past_due' : 'cancelled'
         await supabaseAdmin.from('profiles').update({
           subscription_status: status,
           subscription_tier: tier,
