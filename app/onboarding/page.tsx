@@ -642,10 +642,19 @@ export default function OnboardingPage() {
           <button
             type="button"
             onClick={skipToApp}
-            style={BACK_BTN}
+            style={{
+              display: 'block', width: '100%', marginTop: '14px',
+              padding: '15px 24px', background: '#fff',
+              border: '2px solid var(--ink)', borderRadius: 16,
+              color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15,
+              cursor: 'pointer', textAlign: 'center',
+            }}
           >
             Start free without a card
           </button>
+          <p style={{ fontSize: 12.5, color: '#9ca3af', textAlign: 'center', marginTop: 10, lineHeight: 1.5 }}>
+            Full access for your 14 days. After that the daily habit, quests and your tracker stay free, always. No card, no charge, ever.
+          </p>
         </div>
       </div>
     )
