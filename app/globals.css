@@ -17,6 +17,8 @@
   --terracotta-dark:   #C99A28;
   --terracotta-lt:     #FEF7E0;
   --deep-teal:         #2E2818;   /* dark sections (footer, CTA) — deep warm espresso, never black, never teal */
+  --retro-green:       #2F8F6B;   /* warm retro green, from the School moment cards — for friendlier dark panels */
+  --retro-green-dark:  #236F52;   /* the shadow/pressed shade of retro green */
 
   /* ── STAGE PASTELS (card backgrounds, section tints) ── */
   --stage-1:           #FFFBEE;   /* barely-there warm yellow — Ages 4–7  */
@@ -479,6 +481,11 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
    clicks (the first click wakes the layer, the second registers). The
    animations are cheap enough without it. */
 .fu {}
+
+/* The step forward CTA: the arrow nudges right on hover, so the button reads
+   as the next step, a move forward, not just a destination. */
+.step-cta .arrow { display: inline-block; transition: transform 0.2s ease; }
+.step-cta:hover .arrow { transform: translateX(5px); }
 
 /* The hero does NOT animate on load. Every attempt to reveal it, in JS or in
    CSS, has read as a flash or flicker on first landing: the eye catches the
