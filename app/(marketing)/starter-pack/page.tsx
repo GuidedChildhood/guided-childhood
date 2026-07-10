@@ -850,31 +850,35 @@ export default function StarterPackPage() {
             <p style={{ color: 'var(--ink)', fontSize: '15px', marginBottom: '32px', lineHeight: 1.55 }}>
               We will match your daily practice to this. You can change it any time.
             </p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              {TIME_COMMITMENT_OPTIONS.map(opt => (
-                <button
-                  key={opt.value}
-                  onClick={() => selectTimeCommitment(opt.value)}
-                  style={{
-                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                    padding: '16px 20px',
-                    background: timeCommitment === opt.value ? 'var(--terracotta)' : 'var(--cream)',
-                    border: `1.5px solid ${timeCommitment === opt.value ? 'var(--terracotta)' : 'var(--border)'}`,
-                    borderRadius: '14px', cursor: 'pointer', textAlign: 'left', transition: 'all 0.15s',
-                    boxShadow: timeCommitment === opt.value ? '0 5px 0 var(--terracotta-dark)' : 'none',
-                  }}
-                >
-                  <div>
-                    <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '16px', color: timeCommitment === opt.value ? '#fff' : 'var(--ink)' }}>
-                      {opt.label}
-                    </div>
-                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: timeCommitment === opt.value ? 'rgba(255,255,255,0.75)' : 'var(--ink-muted)', marginTop: '3px', letterSpacing: '0.08em' }}>
-                      {opt.sub}
-                    </div>
-                  </div>
-                  <div style={{ color: timeCommitment === opt.value ? '#fff' : 'var(--ink-light)', fontSize: '16px' }}>→</div>
-                </button>
-              ))}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              {TIME_COMMITMENT_OPTIONS.map(opt => {
+                const on = timeCommitment === opt.value
+                return (
+                  <button
+                    key={opt.value}
+                    onClick={() => selectTimeCommitment(opt.value)}
+                    style={{
+                      display: 'flex', alignItems: 'center', gap: '14px', width: '100%',
+                      padding: '15px 16px',
+                      background: '#fff',
+                      border: `1.5px solid ${on ? 'var(--terracotta)' : 'var(--border)'}`,
+                      borderRadius: '16px', cursor: 'pointer', textAlign: 'left',
+                      boxShadow: on ? '0 8px 22px rgba(220,88,50,0.18)' : '0 1px 2px rgba(26,26,46,0.05)',
+                      transition: 'border-color 0.15s, box-shadow 0.15s',
+                    }}
+                  >
+                    <span style={{ flex: 1, minWidth: 0 }}>
+                      <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
+                        {opt.label}
+                      </span>
+                      <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '10.5px', color: 'var(--ink-muted)', marginTop: '2px', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                        {opt.sub}
+                      </span>
+                    </span>
+                    <span style={{ color: on ? 'var(--terracotta)' : 'var(--ink-light)', fontSize: '22px', flexShrink: 0, lineHeight: 1, fontWeight: 300 }}>›</span>
+                  </button>
+                )
+              })}
             </div>
             <button onClick={() => setStep('q2')} style={{ marginTop: '24px', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-muted)', letterSpacing: '0.06em', padding: '8px 0', textAlign: 'left' }}>
               ← Back
