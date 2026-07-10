@@ -23,7 +23,7 @@ if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger)
 }
 
-type Step = 'intro' | 'q1' | 'q2' | 'q3' | 'q4' | 'email' | 'reassure' | 'result'
+type Step = 'intro' | 'details' | 'q1' | 'q2' | 'q3' | 'q4' | 'email' | 'reassure' | 'result'
 
 const CHALLENGE_ICONS: Record<string, React.ReactNode> = {
   screens_takeover: (
@@ -101,6 +101,7 @@ export default function StarterPackPage() {
   const [feeling, setFeeling] = useState<FeelingId | null>(null)
   const [timeCommitment, setTimeCommitment] = useState<TimeCommitmentId | null>(null)
   const [email, setEmail] = useState('')
+  const [name, setName] = useState('')
   const [emailError, setEmailError] = useState('')
   const [savingEmail, setSavingEmail] = useState(false)
   // A parent who has already been through the quiz on this device. We greet
@@ -129,8 +130,10 @@ export default function StarterPackPage() {
       // the result, and offer to take them straight there or to sign in, so
       // returning lands them in the right place, not back at Q1.
       const savedEmail = localStorage.getItem('gc_starter_email')
+      const savedName = localStorage.getItem('gc_starter_name')
       const savedAnswers = localStorage.getItem('gc_starter_answers')
       if (savedEmail) setEmail(savedEmail)
+      if (savedName) setName(savedName)
       if (savedEmail && savedAnswers && !saved) {
         try {
           const a = JSON.parse(savedAnswers) as StarterAnswers
@@ -190,7 +193,47 @@ export default function StarterPackPage() {
   }
   function selectTimeCommitment(t: TimeCommitmentId) {
     setTimeCommitment(t)
-    setTimeout(() => setStep('email'), 280)
+    // Email and name are already captured up front, so the last answer goes
+    // straight to the pathway. Update the lead with the full answer set.
+    captureLead({ ageBand, concerns: picks, challenge, feeling, timeCommitment: t })
+    setTimeout(() => setStep('reassure'), 280)
+  }
+
+  // Save the lead server side, best effort, keyed by email. Called once up
+  // front (so the founder ping fires the moment we have an email) and again
+  // with the full answers at the end. Never blocks the flow.
+  async function captureLead(extra: Record<string, unknown>) {
+    const clean = email.trim().toLowerCase()
+    if (!clean) return
+    try { localStorage.setItem('gc_starter_email', clean) } catch {}
+    try {
+      await fetch('/api/starter/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: clean,
+          answers: { name: name.trim() || null, ...extra },
+          stageId: stage ? String(stage.id) : null,
+        }),
+      })
+    } catch { /* lead capture is best effort */ }
+  }
+
+  // The first screen now: who you are, before the questions. This front loads
+  // name and email so we never ask twice, and lands a return visit in the
+  // right place. Then straight into the age question.
+  async function submitDetails() {
+    const clean = email.trim().toLowerCase()
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(clean)) {
+      setEmailError('Please enter a valid email so we can save your pathway.')
+      return
+    }
+    setEmailError('')
+    setSavingEmail(true)
+    try { localStorage.setItem('gc_starter_name', name.trim()) } catch {}
+    await captureLead({})
+    setSavingEmail(false)
+    setStep('q1')
   }
 
   // The one detail we ask for: where to send the starter pack, and the key
@@ -221,7 +264,7 @@ export default function StarterPackPage() {
     setStep('reassure')
   }
 
-  const progress = step === 'intro' ? 0 : step === 'q1' ? 1 : step === 'q2' ? 2 : step === 'q3' ? 3 : 4
+  const progress = (step === 'intro' || step === 'details') ? 0 : step === 'q1' ? 1 : step === 'q2' ? 2 : step === 'q3' ? 3 : 4
 
   if (step === 'result' && stage && ageBand && challenge) {
     return (
@@ -308,7 +351,7 @@ export default function StarterPackPage() {
             >
               Sign in to my account
             </Link>
-            <button onClick={() => { setReturning(false); setStep('q1') }} style={{ marginTop: '10px', width: '100%', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-muted)', letterSpacing: '0.06em', padding: '8px 0' }}>
+            <button onClick={() => { setReturning(false); setStep('details') }} style={{ marginTop: '10px', width: '100%', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-muted)', letterSpacing: '0.06em', padding: '8px 0' }}>
               Start again for another child
             </button>
           </div>
@@ -346,7 +389,7 @@ export default function StarterPackPage() {
               ))}
             </div>
             <button
-              onClick={() => setStep('q1')}
+              onClick={() => setStep('details')}
               className="btn btn-gold"
               style={{ width: '100%', justifyContent: 'center', fontSize: '15px', padding: '17px' }}
             >
@@ -355,6 +398,67 @@ export default function StarterPackPage() {
             <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--ink-light)', textAlign: 'center', marginTop: '14px', letterSpacing: '0.06em' }}>
               No card. No commitment. Built on the research.
             </p>
+          </>
+        )}
+
+        {/* Details — name and email first, so we never ask twice and a return
+            visit lands right where it left off. This is the only email ask. */}
+        {step === 'details' && (
+          <>
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '18px' }}>
+              <img src="/digi-squad/DiGi-star.svg" alt="" width={60} height={60} style={{ animation: 'gentleFloat 3.5s ease-in-out infinite' }} />
+            </div>
+            <h1 style={{
+              fontFamily: 'var(--font-display)', fontSize: 'clamp(1.7rem, 4.5vw, 2.4rem)',
+              fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1,
+              color: 'var(--ink)', marginBottom: '10px', textAlign: 'center',
+            }}>
+              First, a little about you
+            </h1>
+            <p style={{ color: 'var(--ink-soft)', fontSize: '15px', marginBottom: '24px', lineHeight: 1.6, textAlign: 'center' }}>
+              So everything is personal and your pathway is here whenever you come back.
+            </p>
+
+            <input
+              className="input"
+              type="text"
+              autoComplete="given-name"
+              placeholder="Your first name"
+              value={name}
+              onChange={e => setName(e.target.value)}
+              style={{ fontSize: 17, marginBottom: '12px' }}
+            />
+            <input
+              className="input"
+              type="email"
+              inputMode="email"
+              autoComplete="email"
+              placeholder="you@email.com"
+              value={email}
+              onChange={e => { setEmail(e.target.value); if (emailError) setEmailError('') }}
+              onKeyDown={e => { if (e.key === 'Enter') submitDetails() }}
+              style={{ fontSize: 17, marginBottom: emailError ? '10px' : '16px' }}
+            />
+            {emailError && (
+              <p style={{ color: 'var(--terracotta-dark)', fontSize: '13px', textAlign: 'center', marginBottom: '14px', lineHeight: 1.5 }}>
+                {emailError}
+              </p>
+            )}
+
+            <button
+              onClick={submitDetails}
+              disabled={savingEmail}
+              className="btn btn-gold"
+              style={{ width: '100%', justifyContent: 'center', fontSize: '15px', padding: '17px', opacity: savingEmail ? 0.7 : 1 }}
+            >
+              {savingEmail ? 'One moment...' : 'Continue'}
+            </button>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--ink-light)', textAlign: 'center', marginTop: '14px', letterSpacing: '0.05em', lineHeight: 1.6 }}>
+              No card. We save your pathway and email the occasional genuinely useful thing. Unsubscribe any time.
+            </p>
+            <button onClick={() => setStep('intro')} style={{ marginTop: '10px', width: '100%', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-muted)', letterSpacing: '0.06em', padding: '8px 0' }}>
+              ← Back
+            </button>
           </>
         )}
 

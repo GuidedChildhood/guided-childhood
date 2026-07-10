@@ -17,6 +17,10 @@ export default function SignupPage() {
       const fromStore = localStorage.getItem('gc_starter_email')
       const prefill = fromUrl ?? fromStore
       if (prefill) setEmail(prefill)
+      // Name is captured at the very start of the pathway now, so carry it
+      // through and never ask for it twice.
+      const savedName = localStorage.getItem('gc_starter_name')
+      if (savedName) setName(savedName)
     } catch {}
   }, [])
 
