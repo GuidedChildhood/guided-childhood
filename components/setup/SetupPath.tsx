@@ -71,44 +71,14 @@ export default function SetupPath({ flags, phoneAge = false }: { flags: SetupFla
         </div>
       </Link>
 
-      {/* The rest wait as a clear numbered list, so a parent reads them as an
-          ordered set of steps and every one is an obvious tap, not a vague
-          chip that looks like it might do nothing. */}
+      {/* One step at a time. The rest are not listed here, they reveal one
+          after another as each is done: finish this one and the next becomes
+          the card, so a parent never faces the whole pile at once. A quiet
+          count is all the reassurance they need that there is a sequence. */}
       {waiting.length > 0 && (
-        <div style={{ marginTop: '16px' }}>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', display: 'block', marginBottom: '10px' }}>
-            Then, in order
-          </span>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            {waiting.map((s, i) => (
-              <Link key={s.key} href={s.href} style={{ textDecoration: 'none', display: 'block' }}>
-                <div style={{
-                  display: 'flex', alignItems: 'center', gap: '12px',
-                  background: 'var(--cream)', border: '1px solid var(--border)',
-                  borderRadius: '14px', padding: '11px 14px',
-                }}>
-                  <span style={{
-                    flexShrink: 0, width: 26, height: 26, borderRadius: '8px',
-                    background: '#fff', border: '1px solid var(--border)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, color: 'var(--terracotta-dark)',
-                  }}>
-                    {i + 1}
-                  </span>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', display: 'block', marginBottom: '1px' }}>
-                      Step {i + 1}
-                    </span>
-                    <span style={{ fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 700, color: 'var(--ink)' }}>
-                      {s.title}
-                    </span>
-                  </div>
-                  <span style={{ flexShrink: 0, fontSize: '16px', color: 'var(--ink-light)' }}>›</span>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
+        <p style={{ margin: '14px 0 0', fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-muted)', letterSpacing: '0.02em' }}>
+          Then {waiting.length} more, one at a time.
+        </p>
       )}
     </div>
   )

@@ -14,6 +14,14 @@ function urlBase64ToUint8Array(base64String: string) {
   return Uint8Array.from(rawData, c => c.charCodeAt(0))
 }
 
+// Byte compare two keys, to tell an existing push subscription's key from the
+// current one after a VAPID rotation.
+function sameBytes(a: Uint8Array, b: Uint8Array) {
+  if (a.length !== b.length) return false
+  for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) return false
+  return true
+}
+
 export default function PushPrompt({ userId, stage }: Props) {
   const [status, setStatus] = useState<'idle' | 'asking' | 'granted' | 'denied' | 'unsupported'>('idle')
   const [testResult, setTestResult] = useState<string | null>(null)
@@ -68,10 +76,36 @@ export default function PushPrompt({ userId, stage }: Props) {
       }
       const reg = await navigator.serviceWorker.ready
 
-      const sub = await reg.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY),
-      })
+      // Self heal a VAPID key rotation. If a subscription already exists but
+      // was made with a different public key than the one baked in now, the
+      // push service will later reject sends with a 403 invalid JWT, and the
+      // browser refuses to re-subscribe with a new key over the old one. So
+      // detect the mismatch, drop the stale subscription, and subscribe fresh
+      // with the current key. Without this a parent is stuck until they find
+      // the Reset link.
+      const currentKey = urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
+      let sub = await reg.pushManager.getSubscription()
+      if (sub) {
+        const existingKey = sub.options?.applicationServerKey
+        const matches = !!existingKey && sameBytes(new Uint8Array(existingKey), currentKey)
+        if (!matches) {
+          try {
+            await fetch('/api/push/subscribe', {
+              method: 'DELETE',
+              headers: { 'content-type': 'application/json' },
+              body: JSON.stringify({ endpoint: sub.endpoint }),
+            })
+          } catch { /* best effort */ }
+          await sub.unsubscribe()
+          sub = null
+        }
+      }
+      if (!sub) {
+        sub = await reg.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: currentKey,
+        })
+      }
 
       const res = await fetch('/api/push/subscribe', {
         method: 'POST',
