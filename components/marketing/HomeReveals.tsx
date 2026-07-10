@@ -23,7 +23,13 @@ export default function HomeReveals() {
       // server painted hero is never hidden then shown by JS, which was the
       // one time flicker on landing. JS only drives the scroll reveals below.
       const hero = gsap.utils.toArray<HTMLElement>('#hero .fu')
-      const rest = gsap.utils.toArray<HTMLElement>('.fu').filter(el => !hero.includes(el))
+      // Only hide and animate elements that start BELOW the fold. Anything
+      // already on screen at load is left exactly as the server painted it,
+      // so it can never be hidden then shown again, the little flicker on
+      // landing. Off screen elements reveal as they scroll into view.
+      const rest = gsap.utils.toArray<HTMLElement>('.fu')
+        .filter(el => !hero.includes(el))
+        .filter(el => el.getBoundingClientRect().top > window.innerHeight * 0.9)
 
       if (rest.length) {
         gsap.set(rest, { opacity: 0, y: 22 })
