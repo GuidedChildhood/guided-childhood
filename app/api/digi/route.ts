@@ -7,7 +7,7 @@ import Anthropic from '@anthropic-ai/sdk'
 import { getStageFromAgeBand, STAGES, type AgeBand, type ChallengeId } from '@/lib/content/stages'
 import { getRecommendedScript } from '@/lib/pathway/recommend'
 import type { StageId } from '@/lib/pathway/progress'
-import { getExpertKnowledge, getFamilyMemory } from '@/lib/digi/brain'
+import { getExpertKnowledge, getFamilyMemory, getWhatWorked } from '@/lib/digi/brain'
 import { readFileSync } from 'fs'
 import { join } from 'path'
 
@@ -171,6 +171,7 @@ export async function POST(request: Request) {
     deviceGuideResult,
     concernsResult,
     familyMemory,
+    whatWorked,
   ] = await Promise.all([
     supabase
       .from('profiles')
@@ -228,6 +229,7 @@ export async function POST(request: Request) {
       .order('last_flagged_at', { ascending: false })
       .limit(6),
     getFamilyMemory(supabase, user.id, message),
+    getWhatWorked(supabase, user.id),
   ])
 
   const profile = profileResult.data
@@ -308,7 +310,7 @@ export async function POST(request: Request) {
     trackerResult.data ?? [],
     feedbackResult.data ?? [],
     aiKnowledge,
-    deviceGuideKnowledge + scriptFeedbackKnowledge + nextStepKnowledge + concernsKnowledge + expertKnowledge + familyMemory,
+    deviceGuideKnowledge + scriptFeedbackKnowledge + nextStepKnowledge + concernsKnowledge + whatWorked + expertKnowledge + familyMemory,
   )
 
   // Drop any malformed or empty entries before the history reaches the model:
