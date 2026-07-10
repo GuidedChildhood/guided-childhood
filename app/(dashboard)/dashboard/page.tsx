@@ -155,6 +155,19 @@ export default async function DashboardPage() {
     if (lastScript) lastInsight = lastScript
   }
 
+  // Monthly wellbeing check in: due when it has never been done, or the last
+  // one was more than 28 days ago. A gentle prompt, not a nag, and only once
+  // the core setup is behind them so day one stays calm.
+  const { data: lastCheckin } = await supabase
+    .from('wellbeing_checkins')
+    .select('created_at')
+    .eq('user_id', user.id)
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .maybeSingle()
+  const checkinDue = !lastCheckin
+    || (Date.now() - new Date(lastCheckin.created_at).getTime()) > 28 * 24 * 60 * 60 * 1000
+
   const showTrial = inTrial(profile)
   const trialLeft = trialDaysLeft(profile)
   const trialEnded = !isPaid && Boolean(profile?.trial_ends_at) && !showTrial
@@ -447,6 +460,35 @@ export default async function DashboardPage() {
           so a new parent gets a calm first screen, the conductor and today's
           practice, not a wall of explore me cards on day one. */}
       {setupComplete && (<>
+
+      {/* Monthly wellbeing check in prompt: the mission made real, you in view
+          not only your child. Shown when a check in is due. */}
+      {checkinDue && (
+        <Link href="/dashboard/checkin" style={{ textDecoration: 'none', display: 'block', marginBottom: '20px' }}>
+          <div style={{
+            background: 'var(--stage-4)', border: '1.5px solid var(--stage-4)',
+            borderRadius: '16px', padding: '20px 22px',
+            display: 'flex', alignItems: 'center', gap: '16px',
+          }}>
+            <span style={{
+              width: 48, height: 48, borderRadius: '14px', background: 'var(--deep-teal)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px', flexShrink: 0,
+            }}>💛</span>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '4px' }}>
+                Monthly check in
+              </div>
+              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)', marginBottom: '2px' }}>
+                A minute for you, {firstName}
+              </div>
+              <div style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.45 }}>
+                How have you been this month? Not your child. You.
+              </div>
+            </div>
+            <span style={{ fontSize: '18px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>
+          </div>
+        </Link>
+      )}
 
       {/* This week's actions */}
       <div style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '20px' }}>
