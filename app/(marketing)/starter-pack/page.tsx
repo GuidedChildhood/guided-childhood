@@ -1480,8 +1480,8 @@ function ResultScreen({
         </div>
 
         {/* ── Beat 5: save CTA, the one primary CTA on the page ── */}
-        <div className="wow-fu" style={{ background: 'var(--deep-teal)', borderRadius: '20px', padding: '40px 28px', textAlign: 'center', marginBottom: '12px' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '14px' }}>
+        <div className="wow-fu" style={{ background: 'var(--retro-green)', borderRadius: '20px', padding: '40px 28px', textAlign: 'center', marginBottom: '12px' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--stage-1-bold)', marginBottom: '14px' }}>
             {needsConfirm ? 'One last step' : 'You are all set'}
           </div>
           <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', color: '#fff', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '12px' }}>
@@ -1494,8 +1494,9 @@ function ResultScreen({
           </p>
           <Link
             href={enterHref}
+            className="step-cta"
             style={{
-              display: 'inline-flex', alignItems: 'center',
+              display: 'inline-flex', alignItems: 'center', gap: '10px',
               padding: '16px 36px', background: 'var(--terracotta)',
               color: 'var(--ink)', borderRadius: '16px', textDecoration: 'none',
               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px',
@@ -1504,10 +1505,11 @@ function ResultScreen({
             }}
           >
             {needsConfirm ? 'I have confirmed, sign in' : 'Step into your pathway'}
+            <span className="arrow" aria-hidden style={{ fontSize: '18px' }}>→</span>
           </Link>
-          <p style={{ marginTop: '14px', fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'rgba(255,255,255,0.6)' }}>
+          <p style={{ marginTop: '14px', fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'rgba(255,255,255,0.75)' }}>
             Already have an account?{' '}
-            <Link href="/login" style={{ color: 'var(--terracotta)', textDecoration: 'none' }}>Sign in</Link>
+            <Link href="/login" style={{ color: 'var(--stage-1-bold)', textDecoration: 'none', fontWeight: 700 }}>Sign in</Link>
           </p>
         </div>
 
