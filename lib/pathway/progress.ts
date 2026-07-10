@@ -28,6 +28,12 @@ export interface StageProgress {
   devicesPct: number
   lessonsPct: number
   overallPct: number
+  // The stamp is earned when the stage's real tasks, its lessons and scripts,
+  // are all done. Deliberately not gated on a four week streak, so completing
+  // the content a parent can actually finish is what fills and earns the
+  // stamp. The streak and devices still lift the ring, they just do not block
+  // the badge.
+  contentComplete: boolean
 }
 
 // Blends four independent signals into one progress number per stage:
@@ -86,7 +92,11 @@ export async function getStageProgress(
 
   const overallPct = Math.round((scriptsPct + streakPct + devicesPct + lessonsPct) / 4)
 
-  return { scriptsPct, streakPct, devicesPct, lessonsPct, overallPct }
+  const totalContent = stageScriptOrders.size + totalLessonsInStage
+  const doneContent = completedInStage + lessonsDone
+  const contentComplete = totalContent > 0 && doneContent === totalContent
+
+  return { scriptsPct, streakPct, devicesPct, lessonsPct, overallPct, contentComplete }
 }
 
 export function nextStageId(current: StageId): StageId | null {
@@ -145,9 +155,12 @@ export async function getAllStagesProgress(
       aiInStage.filter(l => completedLessonKeys.has(`ai_lesson:${l.id}`)).length
     const lessonsPct = totalLessons > 0 ? Math.round((lessonsDone / totalLessons) * 100) : 0
 
+    const totalContent = stageScripts.length + stageLessons.length + aiInStage.length
+    const doneContent = scriptsDone + lessonsDone
     out[stageId] = {
       scriptsPct, streakPct, devicesPct, lessonsPct,
       overallPct: Math.round((scriptsPct + streakPct + devicesPct + lessonsPct) / 4),
+      contentComplete: totalContent > 0 && doneContent === totalContent,
     }
   }
   return out
