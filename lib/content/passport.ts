@@ -68,6 +68,51 @@ export const PASSPORT_TAGLINE =
 export const PASSPORT_ANALOGY =
   'Just as a child cannot drive without a licence, they step onto social media with a passport they have earned, one stage at a time.'
 
+// The phone ladder. The single question every parent asks, answered as a
+// staircase rather than a yes or no: what device, at what age, and why. Built
+// on the same evidence as the passport, gradual controlled exposure, and on
+// the stage device guidance already in lib/content/stages.ts. A feature phone
+// buys independence without handing over the algorithm, so the feed waits
+// until a child is ready for it, not the day they get a phone.
+export interface PhoneRung {
+  ages: string
+  device: string
+  detail: string
+}
+
+export const PHONE_LADDER: PhoneRung[] = [
+  {
+    ages: 'Ages 4 to 8',
+    device: 'No personal phone',
+    detail:
+      'Shared family screens only, always in the same room. Nothing a child carries or uses alone. This is where the very first habits form.',
+  },
+  {
+    ages: 'Around 9 to 10',
+    device: 'A first feature phone, if one is needed',
+    detail:
+      'Calls and texts, no apps, no internet feed. It buys the independence a parent wants, a walk home, a call to you, without handing over the algorithm. This is the age the phone conversation usually starts.',
+  },
+  {
+    ages: 'Ages 11 to 13',
+    device: 'Feature phone for most, no social media',
+    detail:
+      'The critical window. If a smartphone is truly needed, it is a locked down one, strong settings, set up together, and still no social media. The feed waits while the resilience is built.',
+  },
+  {
+    ages: 'Ages 13 to 15',
+    device: 'A smartphone with agreed guidelines',
+    detail:
+      'The heavy training years. Social media introduced slowly and watched, not opened all at once. Each step earned, each step talked through, the run up to 16.',
+  },
+  {
+    ages: '16',
+    device: 'Full phone and real social media',
+    detail:
+      'The passport is earned. Your child steps onto real feeds already knowing how they work and how to get help. Prepared, not postponed.',
+  },
+]
+
 // The readiness picture for a single stage: where the child is on the passport
 // journey, and how loud the social media training should be right now. The
 // weight climbs from about 13, the run up to the cliff edge, exactly where a

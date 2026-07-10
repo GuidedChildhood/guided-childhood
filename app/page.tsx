@@ -6,6 +6,7 @@ import FaqAccordion from '@/components/marketing/FaqAccordion'
 import FlipCards from '@/components/marketing/FlipCards'
 import DigiWalker from '@/components/marketing/DigiWalker'
 import HomeReveals from '@/components/marketing/HomeReveals'
+import PassportSection from '@/components/marketing/PassportSection'
 import MarketingNav from '@/components/marketing/MarketingNav'
 import DigiCharacter from '@/components/digi/DigiCharacter'
 
@@ -558,6 +559,13 @@ export default function HomePage() {
           ))}
         </div>
       </section>
+
+      {/* ================================================================
+          SOCIAL MEDIA PASSPORT — the one idea the platform turns on, stated
+          high on the page: the pathway is the passport, a stamp each stage to
+          16, education not a ban.
+          ================================================================ */}
+      <PassportSection />
 
       {/* ================================================================
           EVERYTHING YOU GET — the full service walkthrough, near the top so
