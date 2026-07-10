@@ -446,13 +446,13 @@ export default function StarterPackPage() {
               Let us build your child&apos;s pathway.
             </h1>
             <p style={{ color: 'var(--ink-soft)', fontSize: '15px', marginBottom: '30px', lineHeight: 1.6, textAlign: 'center' }}>
-              Four quick questions. Two minutes. Free.
+              A couple of minutes, then free access to the platform. No card.
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '30px' }}>
               {[
-                { n: '1', title: 'Tell us about your child', sub: 'Their age and the screen struggle you are facing right now' },
-                { n: '2', title: 'We build their pathway', sub: 'Matched to their exact stage, from first screens to 16' },
-                { n: '3', title: 'Your starter pack arrives tonight', sub: 'The exact words for tonight, free, straight to your inbox' },
+                { n: '1', title: 'Tell us about your child', sub: 'Their age and the screen battle you are facing right now' },
+                { n: '2', title: 'We build their pathway', sub: 'The digital literacy plan for their exact stage, guiding you year by year to a safe, capable 16' },
+                { n: '3', title: 'Step into the platform, free', sub: 'The words for tonight, safe lessons by age, and a plan that protects your child and you' },
               ].map(item => (
                 <div key={item.n} style={{ display: 'flex', gap: '14px', alignItems: 'flex-start', background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: '14px', padding: '16px 18px' }}>
                   <div style={{ width: '26px', height: '26px', borderRadius: '50%', background: 'var(--terracotta)', color: 'var(--ink)', fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '1px' }}>{item.n}</div>
