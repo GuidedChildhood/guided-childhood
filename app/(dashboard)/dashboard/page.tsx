@@ -14,6 +14,7 @@ import SchoolActionsCard, { type SchoolAction } from '@/components/school/School
 import SchoolPromoCard from '@/components/school/SchoolPromoCard'
 import QuestBoard from '@/components/quests/QuestBoard'
 import SetupPath, { STEPS as SETUP_STEPS } from '@/components/setup/SetupPath'
+import SocialMediaReadiness from '@/components/pathway/SocialMediaReadiness'
 import SetupUnlockToast from '@/components/setup/SetupUnlockToast'
 import TodayPathStrip from '@/components/daily/TodayPathStrip'
 import { getDailyStreak } from '@/lib/pathway/streak'
@@ -229,6 +230,12 @@ export default async function DashboardPage() {
       {/* Smart alerts: the one proactive layer, the ranked things this
           family could do now, two at a time, calm and dismissable. */}
       <SmartAlerts suggestions={suggestions} />
+
+      {/* Social media passport: from Stage 3 the readiness question goes live,
+          and from 13 the training turns heavy as the cliff edge at 16 comes
+          into view. Renders nothing below Stage 3, so the early years stay
+          calm. This is the dashboard alert for the age that needs it. */}
+      <SocialMediaReadiness stageId={stage.id} childName={child?.name} />
 
       {/* Today's path: the day's loop as five nodes, DiGi on the next step */}
       <TodayPathStrip tasks={todayLoop} />

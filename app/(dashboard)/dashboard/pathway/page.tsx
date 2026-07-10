@@ -96,8 +96,11 @@ export default async function PathwayPage() {
         <p className="eyebrow" style={{ marginBottom: '4px' }}>Your journey</p>
         <h1 style={{ fontSize: 'clamp(1.5rem, 4vw, 2rem)', marginBottom: '8px' }}>The pathway to 16</h1>
         <p style={{ color: 'var(--ink-muted)', fontSize: '15px', lineHeight: 1.55 }}>
-          The plan that turns 16 from a cliff edge into a gentle ramp. The settings relax as your child earns it, one stage at a time, all the way to independence. Your next step is always here.
+          This is your child’s social media passport. The plan that turns 16 from a cliff edge into a gentle ramp, earned one stage at a time, all the way to independence. Your next step is always here.
         </p>
+        <Link href="/passport" style={{ display: 'inline-block', marginTop: '8px', fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--terracotta)', textDecoration: 'none', letterSpacing: '0.03em' }}>
+          Why we call it a passport →
+        </Link>
         {children.length > 1 && (
           <p style={{ color: 'var(--ink-muted)', fontSize: '14px', marginTop: '4px' }}>
             {children.length} children, one account.
