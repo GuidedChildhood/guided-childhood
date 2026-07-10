@@ -82,9 +82,10 @@ export default async function ProgressPage() {
   const stamps: Stamp[] = stage && allProgress
     ? STAGES.map(s => {
         const slug = STAGE_SLUGS[s.id - 1]
-        const pct = allProgress[slug].overallPct
+        const prog = allProgress[slug]
+        const pct = prog.overallPct
         const status: StampStatus =
-          pct >= 100 ? 'earned'
+          prog.contentComplete ? 'earned'
           : s.id === stage.id ? 'current'
           : s.id < stage.id ? 'catchup'
           : 'upcoming'

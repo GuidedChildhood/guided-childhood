@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { MOMENT_PHOTOS } from '@/lib/content/moment-photos'
 
 // The Right Now button: the emergency entry point in the centre of the
 // mobile tab bar. A child is crying because the TV went off and the parent
@@ -12,15 +13,17 @@ import { useRouter } from 'next/navigation'
 // from tap to words, so the fetch fires immediately on pick and the card
 // renders optimistically with a soft pulse while the words arrive.
 
+// The real photo tiles, the same warm no people set the moment cards use, so
+// this sheet matches the rest of the app instead of the older line drawings.
 const SITUATIONS = [
-  { key: 'wont-get-up',    label: 'Will not get up, late night before', image: '/moments/sleep.png', emoji: '😴', slot: 'morning' },
-  { key: 'morning-tv',     label: 'Morning TV, will not get ready', image: '/moments/morning.png',  emoji: '🌅', slot: 'morning' },
-  { key: 'tv-off',         label: 'TV or screen turned off',        image: '/moments/tv_eve.png',   emoji: '📺', slot: 'any' },
-  { key: 'phone-handover', label: 'Phone handover fight',           image: '/devices/iphone.png',   emoji: '📱', slot: 'any' },
-  { key: 'bedtime',        label: 'Bedtime battle',                 image: '/moments/bedtime.png',  emoji: '🌙', slot: 'evening' },
-  { key: 'sibling-fight',  label: 'Sibling fight over device',      image: '/moments/fighting.png', emoji: '⚡', slot: 'any' },
-  { key: 'homework',       label: 'Homework refusal',               image: '/moments/homework.png', emoji: '✏️', slot: 'afternoon' },
-  { key: 'something-else', label: 'Something else',                 image: null,                    emoji: '✨', slot: 'any' },
+  { key: 'wont-get-up',    label: 'Will not get up, late night before', image: MOMENT_PHOTOS.bed_morning,  emoji: '😴', slot: 'morning' },
+  { key: 'morning-tv',     label: 'Morning TV, will not get ready', image: MOMENT_PHOTOS.tv_remote,    emoji: '🌅', slot: 'morning' },
+  { key: 'tv-off',         label: 'TV or screen turned off',        image: MOMENT_PHOTOS.tablet_sofa,  emoji: '📺', slot: 'any' },
+  { key: 'phone-handover', label: 'Phone handover fight',           image: MOMENT_PHOTOS.phone_table,  emoji: '📱', slot: 'any' },
+  { key: 'bedtime',        label: 'Bedtime battle',                 image: MOMENT_PHOTOS.bedtime_lamp, emoji: '🌙', slot: 'evening' },
+  { key: 'sibling-fight',  label: 'Sibling fight over device',      image: MOMENT_PHOTOS.gaming,       emoji: '⚡', slot: 'any' },
+  { key: 'homework',       label: 'Homework refusal',               image: MOMENT_PHOTOS.homework,     emoji: '✏️', slot: 'afternoon' },
+  { key: 'something-else', label: 'Something else',                 image: null,                       emoji: '✨', slot: 'any' },
 ] as const
 
 type SituationKey = (typeof SITUATIONS)[number]['key']
