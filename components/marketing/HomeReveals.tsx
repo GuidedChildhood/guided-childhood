@@ -19,13 +19,11 @@ export default function HomeReveals() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
     const ctx = gsap.context(() => {
+      // The hero reveal is handled in CSS (#hero .fu in globals.css) so the
+      // server painted hero is never hidden then shown by JS, which was the
+      // one time flicker on landing. JS only drives the scroll reveals below.
       const hero = gsap.utils.toArray<HTMLElement>('#hero .fu')
       const rest = gsap.utils.toArray<HTMLElement>('.fu').filter(el => !hero.includes(el))
-
-      if (hero.length) {
-        gsap.set(hero, { opacity: 0, y: 22 })
-        gsap.to(hero, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', stagger: 0.09, delay: 0.05, clearProps: 'transform,opacity' })
-      }
 
       if (rest.length) {
         gsap.set(rest, { opacity: 0, y: 22 })
