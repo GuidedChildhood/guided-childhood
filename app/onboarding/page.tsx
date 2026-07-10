@@ -175,8 +175,11 @@ export default function OnboardingPage() {
       if (!user) { router.push('/login'); return }
 
       const { data: profile } = await supabase
-        .from('profiles').select('onboarding_complete').eq('id', user.id).single()
+        .from('profiles').select('onboarding_complete').eq('id', user.id).maybeSingle()
 
+      // Already onboarded: send them to the dashboard. The dashboard only
+      // bounces back here when it positively knows onboarding is not done, so
+      // this can no longer ping pong into the continuous flashing loop.
       if (profile?.onboarding_complete) { router.push('/dashboard'); return }
 
       try {
