@@ -227,7 +227,7 @@ export async function POST(request: Request) {
       .in('status', ['open', 'improving'])
       .order('last_flagged_at', { ascending: false })
       .limit(6),
-    getFamilyMemory(supabase, user.id),
+    getFamilyMemory(supabase, user.id, message),
   ])
 
   const profile = profileResult.data
