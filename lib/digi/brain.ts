@@ -113,6 +113,31 @@ export async function getFamilyMemory(
     ranked.map(m => `- [${m.kind}] ${m.content}`).join('\n')
 }
 
+// What has already worked for this family: the concerns they have turned
+// around. DiGi sees open concerns and scripts tried elsewhere, but never the
+// wins, so it cannot build on them. Surfacing the real turnarounds lets DiGi
+// remind a parent they have done hard things before and lean on what worked,
+// which is the difference between advice and a coach who knows your track
+// record. Encouragement only, never pressure.
+export async function getWhatWorked(
+  supabase: SupabaseClient,
+  userId: string,
+  limit = 8
+): Promise<string> {
+  const { data } = await supabase
+    .from('concerns')
+    .select('label, status, last_flagged_at')
+    .eq('user_id', userId)
+    .in('status', ['resolved', 'improving'])
+    .order('last_flagged_at', { ascending: false })
+    .limit(limit)
+
+  if (!data || data.length === 0) return ''
+
+  return '\n\nWHAT HAS ALREADY WORKED FOR THIS FAMILY (real wins they have earned, lean on these to build momentum and remind them they can do this, never as pressure or a to do list):\n' +
+    data.map(c => `- ${c.label}: ${c.status === 'resolved' ? 'sorted' : 'getting better'}`).join('\n')
+}
+
 export interface ProactiveTrigger {
   kind: 'watch_for' | 'tip' | 'parent_care' | 'celebration'
   reason: string
