@@ -7,7 +7,7 @@ import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
 import { trialEndsFromNow } from '@/lib/access'
 import Celebration from '@/components/ui/Celebration'
 
-type Screen = 'init' | 'welcome' | 'name' | 'age' | 'challenges' | 'loading' | 'digi-intro' | 'founding' | 'first-task' | 'notifications'
+type Screen = 'init' | 'welcome' | 'children' | 'challenges' | 'loading' | 'digi-intro' | 'founding' | 'first-task' | 'notifications'
 
 function urlBase64ToUint8Array(base64String: string) {
   const padding = '='.repeat((4 - (base64String.length % 4)) % 4)
@@ -153,6 +153,10 @@ export default function OnboardingPage() {
   const [screen, setScreen] = useState<Screen>('init')
   const [childName, setChildName] = useState('')
   const [ageBand, setAgeBand] = useState<AgeBand>('8-10')
+  // Any additional children the parent adds. The first child above is the
+  // active one the app follows for now; these are saved so the account feels
+  // complete, ready for full multi child later.
+  const [siblings, setSiblings] = useState<{ name: string; ageBand: AgeBand }[]>([])
   const [challenges, setChallenges] = useState<string[]>([])
   const [timeCommitment, setTimeCommitment] = useState<StarterAnswers['timeCommitment']>(undefined)
   const [digiData, setDigiData] = useState<DigiData | null>(null)
@@ -204,7 +208,7 @@ export default function OnboardingPage() {
   }, [router])
 
   useEffect(() => {
-    if (screen === 'name') setTimeout(() => nameInputRef.current?.focus(), 100)
+    if (screen === 'children') setTimeout(() => nameInputRef.current?.focus(), 100)
   }, [screen])
 
   async function completePersonalisation() {
@@ -234,6 +238,23 @@ export default function OnboardingPage() {
     } else {
       await supabase.from('children').update({ name, age_band: ageBand, stage_id: stage.name.toLowerCase() })
         .eq('id', existingChildren.data[0].id)
+    }
+
+    // Save any additional children the parent added. Named only, never
+    // primary, so the account holds the whole family while the app runs on
+    // the active child for now. Only on a fresh setup, so re running never
+    // duplicates them.
+    if ((!existingChildren.data || existingChildren.data.length === 0) && siblings.length) {
+      const rows = siblings
+        .filter(s => s.name.trim())
+        .map(s => ({
+          parent_id: user.id,
+          name: s.name.trim(),
+          age_band: s.ageBand,
+          stage_id: getStageFromAgeBand(s.ageBand).name.toLowerCase(),
+          is_primary: false,
+        }))
+      if (rows.length) await supabase.from('children').insert(rows)
     }
 
     localStorage.removeItem('gc_starter_answers')
@@ -325,104 +346,84 @@ export default function OnboardingPage() {
           <p style={{ fontSize: 16, color: '#6b7280', lineHeight: 1.65, marginBottom: '32px' }}>
             Let's set this up around your child. Takes two minutes.
           </p>
-          <button style={BTN} onClick={() => setScreen('name')}>
-            Get started
+          <button style={BTN} onClick={() => setScreen('children')}>
+            Start your digital pathway
           </button>
         </div>
       </div>
     )
   }
 
-  // ── NAME ──────────────────────────────────────────────────────────────────
+  // ── CHILDREN ──────────────────────────────────────────────────────────────
+  // One screen: the active child (name and age), then any brothers or sisters
+  // the parent wants on the account. The first child is the one the app
+  // follows for now, the rest are saved so the whole family is set up.
 
-  if (screen === 'name') {
-    // When the starter quiz already told us the age and the concern, the
-    // name is the only new thing, so this one screen finishes setup.
-    const ageLabel = AGE_BAND_OPTIONS.find(o => o.value === ageBand)?.label ?? ''
-    const challengeLabel = CHALLENGES.find(c => c.id === challenges[0])?.label?.toLowerCase() ?? ''
-    const nextFromName = () => { if (prefilled) completePersonalisation(); else setScreen('age') }
+  if (screen === 'children') {
+    const firstName = childName.trim()
+    const continueOn = () => { if (prefilled) completePersonalisation(); else setScreen('challenges') }
+    const addSibling = () => setSiblings(prev => [...prev, { name: '', ageBand: '8-10' }])
+    const updateSibling = (i: number, patch: Partial<{ name: string; ageBand: AgeBand }>) =>
+      setSiblings(prev => prev.map((s, idx) => (idx === i ? { ...s, ...patch } : s)))
+    const removeSibling = (i: number) => setSiblings(prev => prev.filter((_, idx) => idx !== i))
+
+    const lbl: React.CSSProperties = { display: 'block', fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#9ca3af', marginBottom: 8 }
+    const ageRow = (on: boolean): React.CSSProperties => ({ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 18px', border: `2px solid ${on ? 'var(--terracotta)' : '#e5e7eb'}`, borderRadius: 16, background: on ? 'var(--terracotta-lt)' : '#fff', cursor: 'pointer', textAlign: 'left', width: '100%', transition: 'border-color 0.12s, background 0.12s' })
+
     return (
       <div style={{ minHeight: '100dvh', background: '#fff', display: 'flex', flexDirection: 'column' }}>
         <style>{ANIM}</style>
-        <ProgressBar step={prefilled ? 3 : 1} />
+        <ProgressBar step={prefilled ? 3 : 2} />
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '32px 24px' }}>
           <div style={{ maxWidth: 480, width: '100%' }}>
-            <DigiSpeech text="What's your child's first name?" />
-            <p style={{ fontSize: 13, color: '#9ca3af', marginBottom: '18px', fontFamily: 'var(--font-mono)', letterSpacing: '0.03em' }}>
-              Optional. We'll use it so everything feels personal.
-            </p>
+            <DigiSpeech text="Who are we setting up for?" />
+
+            <label style={lbl}>Your child&apos;s first name</label>
             <input
               ref={nameInputRef}
               className="input"
               value={childName}
               onChange={e => setChildName(e.target.value)}
               placeholder="Their first name"
-              onKeyDown={e => { if (e.key === 'Enter') nextFromName() }}
-              style={{ marginBottom: '16px', fontSize: 17 }}
+              style={{ marginBottom: '18px', fontSize: 17 }}
             />
-            {prefilled && (
-              <p style={{ fontSize: 13, color: '#6b7280', marginBottom: '16px', lineHeight: 1.55 }}>
-                From your answers we have set this up for a {ageLabel} year old{challengeLabel ? `, focused on ${challengeLabel}` : ''}.{' '}
-                <button type="button" onClick={() => setScreen('age')} style={{ background: 'none', border: 'none', padding: 0, color: 'var(--terracotta)', fontWeight: 700, cursor: 'pointer', fontSize: 13 }}>
-                  Change
-                </button>
-              </p>
-            )}
-            <button style={{ ...BTN, opacity: saving ? 0.7 : 1 }} onClick={nextFromName} disabled={saving}>
-              {prefilled ? (saving ? 'One moment...' : 'Show me the pathway') : 'Next'}
-            </button>
-            <button onClick={() => setScreen('welcome')} style={BACK_BTN}>
-              ← Back
-            </button>
-          </div>
-        </div>
-      </div>
-    )
-  }
 
-  // ── AGE ───────────────────────────────────────────────────────────────────
-
-  if (screen === 'age') {
-    const firstName = childName.trim() || 'them'
-    return (
-      <div style={{ minHeight: '100dvh', background: '#fff', display: 'flex', flexDirection: 'column' }}>
-        <style>{ANIM}</style>
-        <ProgressBar step={2} />
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '32px 24px' }}>
-          <div style={{ maxWidth: 480, width: '100%' }}>
-            <DigiSpeech text={firstName === 'them' ? 'How old are they?' : `How old is ${firstName}?`} />
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '20px' }}>
+            <label style={lbl}>How old {firstName ? `is ${firstName}` : 'are they'}?</label>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '24px' }}>
               {AGE_BAND_OPTIONS.map(opt => (
-                <button
-                  key={opt.value}
-                  onClick={() => setAgeBand(opt.value)}
-                  style={{
-                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                    padding: '16px 20px',
-                    border: `2px solid ${ageBand === opt.value ? 'var(--terracotta)' : '#e5e7eb'}`,
-                    borderRadius: 16,
-                    background: ageBand === opt.value ? 'var(--terracotta-lt)' : '#fff',
-                    cursor: 'pointer', textAlign: 'left', width: '100%',
-                    transition: 'border-color 0.12s, background 0.12s',
-                  }}
-                >
+                <button key={opt.value} onClick={() => setAgeBand(opt.value)} style={ageRow(ageBand === opt.value)}>
                   <div>
-                    <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 16, color: 'var(--ink)', marginBottom: 2 }}>{opt.label}</div>
+                    <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 15, color: 'var(--ink)', marginBottom: 2 }}>{opt.label}</div>
                     <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: '#9ca3af', letterSpacing: '0.04em' }}>{opt.sub}</div>
                   </div>
                   {ageBand === opt.value
-                    ? <div style={{ width: 22, height: 22, borderRadius: '50%', background: 'var(--terracotta)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                        <span style={{ color: '#fff', fontSize: 12, fontWeight: 800, lineHeight: 1 }}>✓</span>
-                      </div>
-                    : <div style={{ width: 22, height: 22, borderRadius: '50%', border: '2px solid #e5e7eb', flexShrink: 0 }} />
-                  }
+                    ? <div style={{ width: 20, height: 20, borderRadius: '50%', background: 'var(--terracotta)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><span style={{ color: '#fff', fontSize: 11, fontWeight: 800, lineHeight: 1 }}>✓</span></div>
+                    : <div style={{ width: 20, height: 20, borderRadius: '50%', border: '2px solid #e5e7eb', flexShrink: 0 }} />}
                 </button>
               ))}
             </div>
-            <button style={BTN} onClick={() => setScreen('challenges')}>
-              Next
+
+            {siblings.map((s, i) => (
+              <div key={i} style={{ border: '1.5px solid #e5e7eb', borderRadius: 16, padding: '14px 15px', marginBottom: '12px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                  <span style={{ ...lbl, marginBottom: 0 }}>Another child</span>
+                  <button type="button" onClick={() => removeSibling(i)} style={{ background: 'none', border: 'none', color: '#9ca3af', fontFamily: 'var(--font-mono)', fontSize: 11, cursor: 'pointer', letterSpacing: '0.04em' }}>Remove</button>
+                </div>
+                <input className="input" value={s.name} onChange={e => updateSibling(i, { name: e.target.value })} placeholder="First name" style={{ marginBottom: '10px', fontSize: 16 }} />
+                <select value={s.ageBand} onChange={e => updateSibling(i, { ageBand: e.target.value as AgeBand })} className="input" style={{ fontSize: 15 }}>
+                  {AGE_BAND_OPTIONS.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
+                </select>
+              </div>
+            ))}
+
+            <button type="button" onClick={addSibling} style={{ ...BTN, background: '#fff', color: 'var(--terracotta)', border: '2px solid var(--terracotta)', boxShadow: 'none', marginBottom: '18px' }}>
+              + Add another child
             </button>
-            <button onClick={() => setScreen('name')} style={BACK_BTN}>
+
+            <button style={{ ...BTN, opacity: saving ? 0.7 : 1 }} onClick={continueOn} disabled={saving}>
+              {saving ? 'One moment...' : prefilled ? 'Show me the pathway' : 'Next'}
+            </button>
+            <button onClick={() => setScreen('welcome')} style={BACK_BTN}>
               ← Back
             </button>
           </div>
@@ -474,7 +475,7 @@ export default function OnboardingPage() {
             >
               {saving ? 'One moment...' : 'Show me the pathway'}
             </button>
-            <button onClick={() => setScreen('age')} style={BACK_BTN}>
+            <button onClick={() => setScreen('children')} style={BACK_BTN}>
               ← Back
             </button>
           </div>
