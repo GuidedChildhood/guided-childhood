@@ -133,7 +133,18 @@ export default async function DashboardPage() {
 
   const stageColor = STAGE_COLORS[stage.id as keyof typeof STAGE_COLORS]
   const isPaid = hasFullAccess(profile)
-  const firstName = profile?.full_name?.split(' ')[0] ?? 'there'
+  // The parent's first name, resolved from the best source we have: the
+  // profile, then the auth metadata set at signup, then the email local part,
+  // so a warm greeting almost never falls back to the bare "there".
+  const rawName =
+    profile?.full_name
+    || (user.user_metadata?.full_name as string | undefined)
+    || (user.user_metadata?.name as string | undefined)
+    || (user.email ? user.email.split('@')[0].replace(/[._-]+/g, ' ') : '')
+  const firstNameRaw = (rawName ?? '').trim().split(' ')[0]
+  const firstName = firstNameRaw
+    ? firstNameRaw.charAt(0).toUpperCase() + firstNameRaw.slice(1)
+    : 'there'
 
   // Today's loop and the daily streak, both resolved server side.
   // stage.name lowercased matches the pathway stage slugs exactly
@@ -221,7 +232,7 @@ export default async function DashboardPage() {
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '22px', gap: '12px' }}>
         <div>
           <h1 style={{ fontSize: 'clamp(1.6rem, 5vw, 2.2rem)', fontWeight: 900, letterSpacing: '-0.035em', lineHeight: 1, marginBottom: '6px' }}>
-            {(child?.name && child.name !== 'Your child') ? child.name : firstName}
+            {(child?.name && child.name !== 'Your child') ? child.name : `Hello ${firstName}`}
           </h1>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
             <span style={{

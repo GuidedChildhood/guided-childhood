@@ -973,6 +973,16 @@ const RESULT_H2: React.CSSProperties = {
 
 const FEATURES: { title: string; body: string; comingSoon?: boolean; lessons?: boolean; icon: React.ReactNode }[] = [
   {
+    title: 'The social media passport',
+    body: 'The whole pathway to 16 in one place. A stamp earned each stage, so 16 is a step, not a cliff edge.',
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="8" r="6"/>
+        <path d="M15.5 13.5L17 22l-5-3-5 3 1.5-8.5"/>
+      </svg>
+    ),
+  },
+  {
     title: 'Daily moments',
     body: 'The morning routine, homework, the gaming handover, bedtime. The exact words for each, and what your child learns from it.',
     icon: (
