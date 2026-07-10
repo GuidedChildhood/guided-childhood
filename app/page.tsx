@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: 'Social media arrives at 16. Ready is built from age 4.',
-    description: 'The ban delays the apps, it does not prepare your child for them. The stage by stage digital literacy pathway for UK families: exact scripts for screen time battles, gaming meltdowns and bedtime fights. Ages 4 to 16. Free starter pack.',
+    description: 'The ban delays the apps, it does not prepare your child for them. The stage by stage digital literacy pathway for UK families: exact scripts for screen time battles, gaming meltdowns and bedtime fights. Ages 4 to 16. Free to start.',
     url: 'https://www.guidedchildhood.co.uk',
     type: 'website',
     locale: 'en_GB',
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Social media arrives at 16. Ready is built from age 4.',
-    description: 'The ban delays the apps, it does not prepare your child for them. The stage by stage digital literacy pathway for UK families. Ages 4 to 16. Free starter pack.',
+    description: 'The ban delays the apps, it does not prepare your child for them. The stage by stage digital literacy pathway for UK families. Ages 4 to 16. Free to start.',
   },
   alternates: {
     canonical: 'https://www.guidedchildhood.co.uk',
@@ -430,14 +430,14 @@ export default function HomePage() {
             </p>
             <div className="fu" style={{ display: 'flex', gap: '18px', flexWrap: 'wrap', alignItems: 'center', marginBottom: '14px' }}>
               <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '15px', padding: '16px 36px' }}>
-                Start my pathway free
+                Get started here
               </Link>
               <Link href="#stages" style={{ fontSize: '.9rem', fontWeight: 600, color: 'var(--ink-soft)', textDecoration: 'none' }}>
                 Find your stage →
               </Link>
             </div>
             <p className="fu" style={{ fontSize: '.82rem', color: 'var(--ink-muted)', fontWeight: 600, marginBottom: '34px' }}>
-              Free starter pack · No card needed · Built on the research
+              Free access to the platform · No card needed · Built on the research
             </p>
             <p className="fu" style={{ fontFamily: 'var(--font-mono)', fontSize: '.68rem', fontWeight: 600, letterSpacing: '.06em', color: 'var(--ink-light)' }}>
               Online Safety Act 2023 · DfE · Statutory RSE · Ofcom
@@ -606,10 +606,10 @@ export default function HomePage() {
 
           <div className="fu" style={{ textAlign: 'center' }}>
             <Link href="/starter-pack" style={{ display: 'inline-flex', alignItems: 'center', padding: '16px 34px', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '16px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1rem', boxShadow: '0 5px 0 var(--terracotta-dark)' }}>
-              Start my pathway free
+              Get started here
             </Link>
             <p style={{ fontFamily: 'var(--font-mono)', fontSize: '.68rem', color: 'rgba(255,255,255,0.6)', marginTop: '14px', letterSpacing: '.06em' }}>
-              Free starter pack · No card needed · Built on the research
+              Free access to the platform · No card needed · Built on the research
             </p>
           </div>
         </div>
@@ -1273,7 +1273,7 @@ export default function HomePage() {
 
           <div style={{ textAlign: 'center', marginTop: '44px' }}>
             <Link href="/starter-pack" className="btn btn-gold fu" style={{ fontSize: '14px', padding: '16px 36px' }}>
-              Start my pathway free
+              Get started here
             </Link>
           </div>
         </div>
@@ -1506,7 +1506,7 @@ export default function HomePage() {
 
           <div style={{ textAlign: 'center', marginTop: '36px' }}>
             <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '14px', padding: '15px 32px' }}>
-              Start my pathway free
+              Get started here
             </Link>
           </div>
         </div>
@@ -2475,11 +2475,11 @@ export default function HomePage() {
             <span style={{ color: 'var(--terracotta)' }}>guided childhood today</span>
           </h2>
           <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink)', lineHeight: 1.8, marginBottom: '36px' }}>
-            No setup. No waiting. The starter pack is free and arrives immediately. One account covers all your children.
+            No setup. No waiting. The platform is free to start and opens immediately. One account covers all your children.
           </p>
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '20px' }}>
             <Link href="/starter-pack" className="btn btn-gold fu" style={{ fontSize: '15px', padding: '17px 40px' }}>
-              Start my pathway free
+              Get started here
             </Link>
             <Link href="https://www.guidedchildhood.com/digitalwellbeing" target="_blank" rel="noopener noreferrer" style={{
               display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
