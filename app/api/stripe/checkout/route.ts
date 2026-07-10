@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { stripe, STRIPE_PRICES, FOUNDER_CAP } from '@/lib/stripe'
+import { TRIAL_DAYS } from '@/lib/access'
 import { NextResponse } from 'next/server'
 
 export const dynamic = 'force-dynamic'
@@ -82,7 +83,7 @@ export async function POST(request: Request) {
     metadata: { tier, user_id: user.id },
     subscription_data: {
       metadata: { tier, user_id: user.id },
-      ...(isOnboardingTrial ? { trial_period_days: 14 } : {}),
+      ...(isOnboardingTrial ? { trial_period_days: TRIAL_DAYS } : {}),
     },
   })
 

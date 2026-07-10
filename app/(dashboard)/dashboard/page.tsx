@@ -180,7 +180,7 @@ export default async function DashboardPage() {
       {trialEnded && (
         <div style={{ background: 'var(--deep-teal)', borderRadius: '16px', padding: '16px 18px', marginBottom: '18px' }}>
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: '#fff', marginBottom: '4px' }}>
-            Your 14 days of full access have finished
+            Your 7 days of full access have finished
           </div>
           <p style={{ fontSize: '12.5px', color: 'rgba(255,255,255,0.8)', lineHeight: 1.55, margin: '0 0 12px' }}>
             The daily habit, quests and your tracker stay free, always. Open everything again, all the scripts, unlimited DiGi and the full pathway.
