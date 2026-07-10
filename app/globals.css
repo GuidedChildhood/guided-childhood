@@ -480,22 +480,14 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
    animations are cheap enough without it. */
 .fu {}
 
-/* Hero reveal is CSS driven, not JavaScript. The server paints the hero
-   visible, so hiding it in JS on hydration made it flash once on landing
-   (show, hide, fade back in). Doing the first reveal in CSS means the hero
-   starts hidden from the very first paint, never flickers, and fails safe:
-   it ends fully visible even if the script never runs, and reduced motion
-   shows it instantly. The scroll reveals for the rest of the page stay in
-   HomeReveals. */
-@media (prefers-reduced-motion: no-preference) {
-  #hero .fu { opacity: 0; transform: translateY(22px); animation: heroReveal 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
-  #hero .fu:nth-child(2) { animation-delay: 0.07s; }
-  #hero .fu:nth-child(3) { animation-delay: 0.14s; }
-  #hero .fu:nth-child(4) { animation-delay: 0.21s; }
-  #hero .fu:nth-child(5) { animation-delay: 0.28s; }
-  #hero .fu:nth-child(n+6) { animation-delay: 0.35s; }
-}
-@keyframes heroReveal { to { opacity: 1; transform: translateY(0); } }
+/* The hero does NOT animate on load. Every attempt to reveal it, in JS or in
+   CSS, has read as a flash or flicker on first landing: the eye catches the
+   hero moving or fading the instant the page appears. The hero is the first
+   thing a visitor sees, so it should simply be there, solid and still, from
+   the very first paint. Reveals are for content further down the page, earned
+   as the visitor scrolls (HomeReveals), where a gentle fade up is a delight,
+   not a distraction. So there is deliberately no #hero .fu rule: the empty
+   .fu class above leaves the hero fully visible and motionless. */
 
 /* ── SEGMENTED PILL NAV ── */
 .nav-pill {
