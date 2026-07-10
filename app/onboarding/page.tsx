@@ -183,6 +183,11 @@ export default function OnboardingPage() {
       if (profile?.onboarding_complete) { router.push('/dashboard'); return }
 
       try {
+        // The child's first name is captured at the start of the pathway now,
+        // so carry it through and never ask for it twice.
+        const savedChildName = localStorage.getItem('gc_starter_child_name')
+        if (savedChildName) setChildName(savedChildName)
+
         const saved = localStorage.getItem('gc_starter_answers')
         if (saved) {
           const answers = JSON.parse(saved) as StarterAnswers

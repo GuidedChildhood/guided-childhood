@@ -98,10 +98,14 @@ export default function StarterPackPage() {
   // screen working exactly as before while the parent can now name several.
   const [picks, setPicks] = useState<ChallengeId[]>([])
   const challenge = picks[0] ?? null
-  const [feeling, setFeeling] = useState<FeelingId | null>(null)
+  // The feeling question was dropped (age, concerns and usage are the ones
+  // that drive the first fixes). A calm default keeps the reveal copy working
+  // without asking for it.
+  const [feeling, setFeeling] = useState<FeelingId | null>('unsure')
   const [timeCommitment, setTimeCommitment] = useState<TimeCommitmentId | null>(null)
   const [email, setEmail] = useState('')
   const [name, setName] = useState('')
+  const [childName, setChildName] = useState('')
   const [emailError, setEmailError] = useState('')
   const [savingEmail, setSavingEmail] = useState(false)
   // A parent who has already been through the quiz on this device. We greet
@@ -131,9 +135,11 @@ export default function StarterPackPage() {
       // returning lands them in the right place, not back at Q1.
       const savedEmail = localStorage.getItem('gc_starter_email')
       const savedName = localStorage.getItem('gc_starter_name')
+      const savedChildName = localStorage.getItem('gc_starter_child_name')
       const savedAnswers = localStorage.getItem('gc_starter_answers')
       if (savedEmail) setEmail(savedEmail)
       if (savedName) setName(savedName)
+      if (savedChildName) setChildName(savedChildName)
       if (savedEmail && savedAnswers && !saved) {
         try {
           const a = JSON.parse(savedAnswers) as StarterAnswers
@@ -512,10 +518,22 @@ export default function StarterPackPage() {
               fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1,
               color: 'var(--ink)', marginBottom: '10px',
             }}>
-              How old is your child?
+              Tell us about your child
             </h1>
-            <p style={{ color: 'var(--ink)', fontSize: '15px', marginBottom: '32px', lineHeight: 1.55 }}>
-              This maps to your stage and personalises everything that follows.
+            <p style={{ color: 'var(--ink)', fontSize: '15px', marginBottom: '20px', lineHeight: 1.55 }}>
+              Their first name and age, so everything that follows is about them. This maps your stage.
+            </p>
+            <input
+              className="input"
+              type="text"
+              autoComplete="off"
+              placeholder="Your child's first name"
+              value={childName}
+              onChange={e => { setChildName(e.target.value); try { localStorage.setItem('gc_starter_child_name', e.target.value.trim()) } catch {} }}
+              style={{ fontSize: 17, marginBottom: '22px' }}
+            />
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '12px' }}>
+              How old are they?
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               {AGE_BAND_OPTIONS.map(opt => (
@@ -644,7 +662,7 @@ export default function StarterPackPage() {
             </div>
 
             <button
-              onClick={() => picks.length > 0 && setStep('q3')}
+              onClick={() => picks.length > 0 && setStep('q4')}
               disabled={picks.length === 0}
               style={{
                 marginTop: '24px', width: '100%',
@@ -749,7 +767,7 @@ export default function StarterPackPage() {
                 </button>
               ))}
             </div>
-            <button onClick={() => setStep('q3')} style={{ marginTop: '24px', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-muted)', letterSpacing: '0.06em', padding: '8px 0', textAlign: 'left' }}>
+            <button onClick={() => setStep('q2')} style={{ marginTop: '24px', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-muted)', letterSpacing: '0.06em', padding: '8px 0', textAlign: 'left' }}>
               ← Back
             </button>
           </>
