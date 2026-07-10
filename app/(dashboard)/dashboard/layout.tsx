@@ -5,6 +5,7 @@ import MobileTabBar from '@/components/dashboard/MobileTabBar'
 import MobileSecondaryNav from '@/components/dashboard/MobileSecondaryNav'
 import InstallPrompt from '@/components/pwa/InstallPrompt'
 import AppBadge from '@/components/pwa/AppBadge'
+import SetupNextBar from '@/components/setup/SetupNextBar'
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient()
@@ -72,6 +73,10 @@ export default async function DashboardLayout({ children }: { children: React.Re
           the guided two taps (Apple allows no automatic prompt) */}
       <InstallPrompt />
       <AppBadge />
+
+      {/* The guided rail: while setup is unfinished, a Next step bar walks the
+          parent onward from any page that is not the step's own page. */}
+      <SetupNextBar />
 
       {/* Mobile bottom tab bar: Home, DiGi, [Now], Scripts, Progress */}
       <MobileTabBar />

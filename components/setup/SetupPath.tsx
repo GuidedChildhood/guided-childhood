@@ -1,48 +1,14 @@
 import Link from 'next/link'
 import SetupCompleteCard from './SetupCompleteCard'
+import { STEPS, visibleSteps, type SetupFlags } from '@/lib/setup/steps'
 
 // The setup path: one card that makes every service visible as a step
 // with a tick, in the foundations first order (settings, agreement,
 // quests, school, lesson, check ins). The proven adoption pattern:
 // parents complete paths, they do not explore feature piles. Collapses
-// to one quiet row once everything is done.
-
-export type SetupFlags = {
-  agreement: boolean
-  quests: boolean
-  school: boolean
-  push: boolean
-  daily: boolean
-  childLink: boolean
-}
-
-// Ordered for flow: fastest value and least effort first, so the parent
-// gets a win before the heavier multi step asks. Daily practice is the
-// two minute core habit, notifications make sure the nudges reach them,
-// then quests, then the heavier school routines, then their child's own
-// phone link once they are old enough, then the agreement they build
-// together when ready.
-export const STEPS: {
-  key: keyof SetupFlags
-  title: string
-  what: string
-  href: string
-}[] = [
-  { key: 'daily',     title: 'Do your first daily practice', what: 'Two minutes: the moment, the words, the check in. This is the habit everything else hangs on.', href: '/dashboard/daily' },
-  { key: 'push',      title: 'Turn on check ins',          what: 'Three gentle nudges a day at the moments your child faces screens.', href: '/dashboard#turn-on-check-ins' },
-  { key: 'quests',    title: 'Set up Family Quests',       what: 'Their everyday jobs earn stars, stars buy the screen time you agree. They tick, you approve. Two minutes to set up, and the kids love it.', href: '/dashboard/quests' },
-  { key: 'school',    title: 'Set up school routines',      what: 'Add PE kit, library day or a Saturday activity by hand, once, and it reminds you and your child every week from then on. Forwarding school email is there too if you want it.', href: '/dashboard#school-actions' },
-  { key: 'childLink', title: 'Send your child their phone link', what: 'When they are old enough for a phone, around 9, send their own private link by message. It opens like a mini app on their phone, nothing to install, and their quests come with them.', href: '/dashboard/quests?tab=share' },
-  { key: 'agreement', title: 'Build your family agreement', what: 'When you are ready: decided together and signed, it makes every boundary something you both chose, and it powers what the stars buy.', href: '/dashboard/agreement' },
-]
-
-// The child's own phone link only belongs in the path once they are old
-// enough to have a phone. We record around 9 as the point the conversation
-// usually starts, so anything below the 4 to 7 band shows the step, and
-// Foundation age children do not. Everything else is always in the path.
-export function visibleSteps(phoneAge: boolean) {
-  return STEPS.filter(s => s.key !== 'childLink' || phoneAge)
-}
+// to one quiet row once everything is done. The step list itself lives in
+// lib/setup/steps.ts so the guided next step bar can share it.
+export { STEPS, visibleSteps, type SetupFlags }
 
 // One step at a time: the next undone step is the card, the rest wait as
 // small chips so the parent always knows more is there without facing a
