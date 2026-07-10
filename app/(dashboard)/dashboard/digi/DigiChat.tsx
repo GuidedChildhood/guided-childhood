@@ -88,6 +88,17 @@ export default function DigiChat({
 
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
+  // The scrolling messages column, and whether the reader is currently pinned
+  // to the bottom. While pinned, new text keeps the latest line in view as it
+  // streams. The moment the reader scrolls up to re-read, we release, so the
+  // stream never yanks them back down mid sentence. A ref, not state, so a
+  // scroll never triggers a re-render.
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const stickRef = useRef(true)
+  const onMessagesScroll = () => {
+    const el = scrollRef.current
+    if (el) stickRef.current = el.scrollHeight - el.scrollTop - el.clientHeight < 80
+  }
   const FREE_LIMIT = 3
 
   const [deviceKey, setDeviceKey] = useState<string | null>(null)
@@ -132,8 +143,14 @@ export default function DigiChat({
     el.style.height = `${Math.min(el.scrollHeight, 160)}px`
   }, [input])
 
+  // Keep the newest text in view as it streams, but only while the reader is
+  // pinned to the bottom. Instant, not smooth: a smooth animation on every
+  // streamed token stacks up into jank and fights the reader. If they have
+  // scrolled up to read, we leave them exactly where they are.
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+    if (!stickRef.current) return
+    const el = scrollRef.current
+    if (el) el.scrollTop = el.scrollHeight
   }, [messages, reflectionQuestion])
 
   // Safety net: a tap that navigates away while a textarea is still
@@ -146,6 +163,8 @@ export default function DigiChat({
     if (!typed.trim() || loading) return
     const messageText = text ? typed : continuingPrefix ? `${continuingPrefix}${typed}` : typed
 
+    // Sending is an intent to see the reply: always re-pin to the bottom.
+    stickRef.current = true
     setMessages(prev => [...prev, { role: 'user', content: messageText }])
     setInput('')
     setContinuingPrefix(null)
@@ -307,7 +326,7 @@ export default function DigiChat({
       </div>
 
       {/* Messages */}
-      <div style={{ flex: 1, overflowY: 'auto', padding: '20px 20px 0', background: 'var(--cream)' }}>
+      <div ref={scrollRef} onScroll={onMessagesScroll} style={{ flex: 1, overflowY: 'auto', padding: '20px 20px 0', background: 'var(--cream)' }}>
 
         {messages.length === 0 && (
           <div style={{ paddingTop: '8px' }}>
