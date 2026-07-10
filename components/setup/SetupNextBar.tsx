@@ -42,6 +42,14 @@ export default function SetupNextBar() {
   }, [refetch])
 
   if (!next || hidden) return null
+  // The very first step, the daily practice, is not surfaced by the bar. The
+  // home card already drives it, and the practice itself runs across several
+  // pages (the moment and script cards), where the bar would otherwise nag a
+  // parent to start the very thing they are in the middle of doing. The bar is
+  // for what comes NEXT, once the current task is done, so it only starts once
+  // the daily practice is behind them.
+  if (next.key === 'daily') return null
+
   // The home page owns the full setup card; do not double up there. And never
   // point a parent at the page they are already on.
   const base = next.href.split('#')[0].split('?')[0]
