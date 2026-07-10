@@ -10,7 +10,7 @@ type SupabaseClient = Awaited<ReturnType<typeof createClient>>
 // calm cap, so it surfaces the service without ever nagging. See
 // plans/smart-alerts-plan.md.
 
-export type SuggestionKind = 'school' | 'script' | 'device' | 'quest' | 'ping' | 'lesson' | 'digi'
+export type SuggestionKind = 'school' | 'script' | 'device' | 'quest' | 'ping' | 'lesson' | 'digi' | 'win'
 
 export interface Suggestion {
   key: string       // stable id for the dismiss cool off
@@ -36,12 +36,17 @@ export async function getSuggestions(
   const todayDate = new Date().toISOString().slice(0, 10)
   const in2days = new Date(Date.now() + 2 * 86400000).toISOString().slice(0, 10)
 
-  const [journey, schoolSoon, questCount, concernToday, recurringConcern] = await Promise.all([
+  const win21 = new Date(Date.now() - 21 * 86400000).toISOString()
+  const [journey, schoolSoon, questCount, concernToday, recurringConcern, recentWin] = await Promise.all([
     getJourney(supabase, userId, stageId),
     supabase.from('school_actions').select('title, due_date').eq('user_id', userId).eq('status', 'open').not('due_date', 'is', null).gte('due_date', todayDate).lte('due_date', in2days).order('due_date', { ascending: true }).limit(1),
     supabase.from('family_quests').select('id', { count: 'exact', head: true }).eq('user_id', userId).eq('active', true),
     supabase.from('concerns').select('label, slug').eq('user_id', userId).eq('status', 'open').gte('last_flagged_at', todayIso).order('last_flagged_at', { ascending: false }).limit(1),
     supabase.from('concerns').select('label, slug, times_flagged').eq('user_id', userId).eq('status', 'open').gte('times_flagged', 3).order('times_flagged', { ascending: false }).limit(1),
+    // A recent win to celebrate: a concern turned around in the last three
+    // weeks. Momentum, not only problems, so the family in view is one that is
+    // making progress. The dismiss cool off keeps it from repeating.
+    supabase.from('concerns').select('label, slug, status').eq('user_id', userId).in('status', ['resolved', 'improving']).gte('last_flagged_at', win21).order('last_flagged_at', { ascending: false }).limit(1),
   ])
 
   // Only look for a kid link when it can pay off, at screen off time.
@@ -103,6 +108,14 @@ export async function getSuggestions(
     title: `Do a lesson with ${name}`,
     body: `Next up: ${journey.lessons.nextTitle}. Calm, a few minutes, together.`,
     cta: 'Open the lesson', href: journey.lessons.href,
+  })
+
+  const win = recentWin.data?.[0]
+  if (win) s.push({
+    key: `win:${win.slug}`, kind: 'win', urgency: 4, emoji: '🎉',
+    title: win.status === 'resolved' ? `You turned ${win.label.toLowerCase()} around` : `${win.label} is getting better`,
+    body: 'That is a real win, and you earned it. See it land on the passport, and the next stamp waiting.',
+    cta: 'See your passport', href: '/dashboard/tracker',
   })
 
   return s.sort((a, b) => b.urgency - a.urgency)
