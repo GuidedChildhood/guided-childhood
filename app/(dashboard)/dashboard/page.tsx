@@ -183,7 +183,7 @@ export default async function DashboardPage() {
             Your 7 days of full access have finished
           </div>
           <p style={{ fontSize: '12.5px', color: 'rgba(255,255,255,0.8)', lineHeight: 1.55, margin: '0 0 12px' }}>
-            The daily habit, quests and your tracker stay free, always. Open everything again, all the scripts, unlimited DiGi and the full pathway.
+            The daily habit, quests and your tracker stay free, always. To open everything again, all the scripts, unlimited DiGi and the full pathway, the founder rate is still open for you at £7.99 a month for life.
           </p>
           <Link href="/dashboard/upgrade" style={{ display: 'inline-flex', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '12px', padding: '10px 18px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
             Unlock everything again

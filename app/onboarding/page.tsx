@@ -653,7 +653,7 @@ export default function OnboardingPage() {
             Start free without a card
           </button>
           <p style={{ fontSize: 12.5, color: '#9ca3af', textAlign: 'center', marginTop: 10, lineHeight: 1.5 }}>
-            Full access for your 7 days. After that the daily habit, quests and your tracker stay free, always. No card, no charge, ever.
+            Full access for your 7 days. After that the daily habit, quests and tracker stay free, and the founder rate stays open for you if you want everything back. No card now, no charge without your say.
           </p>
         </div>
       </div>
