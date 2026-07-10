@@ -65,15 +65,24 @@ export async function POST(request: Request) {
     ? `${origin}/dashboard/scripts/recommended?upgraded=1`
     : `${origin}/dashboard?upgraded=1`
 
+  // Door two from onboarding: card now, nothing charged for 14 days, then it
+  // continues automatically. Everywhere else (an existing trial user
+  // upgrading from the dashboard) charges straight away, so nobody ever gets
+  // two free trials. The card is always collected so the founder place is
+  // genuinely held.
+  const isOnboardingTrial = body.from === 'onboarding'
+
   const session = await stripe.checkout.sessions.create({
     customer: customerId,
     mode: 'subscription',
     line_items: [{ price: STRIPE_PRICES[tier], quantity: 1 }],
     success_url: successUrl,
     cancel_url: `${origin}/dashboard/upgrade`,
+    payment_method_collection: 'always',
     metadata: { tier, user_id: user.id },
     subscription_data: {
       metadata: { tier, user_id: user.id },
+      ...(isOnboardingTrial ? { trial_period_days: 14 } : {}),
     },
   })
 
