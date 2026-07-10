@@ -661,6 +661,20 @@ export default function StarterPackPage() {
               })}
             </div>
 
+            {/* Parent wellbeing: the quiet reminder that this is about them too,
+                shown right where they name the hard stuff. Warm, brief, never a
+                lecture. */}
+            <div style={{
+              display: 'flex', gap: '12px', alignItems: 'flex-start',
+              background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
+              borderRadius: '16px', padding: '14px 16px', marginTop: '20px',
+            }}>
+              <img src="/digi-squad/DiGi-star.svg" alt="" width={34} height={34} style={{ flexShrink: 0, marginTop: '1px' }} />
+              <p style={{ fontSize: '13.5px', color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>
+                This is the hardest part of parenting right now, and how you are doing matters as much as how they are. We have got you, not just your child.
+              </p>
+            </div>
+
             <button
               onClick={() => picks.length > 0 && setStep('q4')}
               disabled={picks.length === 0}
@@ -1080,6 +1094,19 @@ function ResultScreen({
       <div style={{ height: '5px', background: accent.bold }} />
 
       <div style={{ maxWidth: '620px', margin: '0 auto', padding: '32px 24px 0' }}>
+
+        {/* Straight to the platform: first timers get the guided reveal below,
+            but anyone who does not want to scroll can step in right now. */}
+        <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '10px' }}>
+          <Link href={signupHref} style={{
+            display: 'inline-flex', alignItems: 'center', gap: '6px',
+            fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
+            letterSpacing: '0.05em', color: 'var(--deep-teal)', textDecoration: 'none',
+            border: '1.5px solid var(--border)', borderRadius: '100px', padding: '8px 15px', background: '#fff',
+          }}>
+            Skip the tour, take me straight in →
+          </Link>
+        </div>
 
         {/*
           Higgsfield intro slot: an 8 second DiGi welcome clip will sit here
