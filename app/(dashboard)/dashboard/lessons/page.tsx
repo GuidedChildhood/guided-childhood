@@ -1,6 +1,8 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
+import { hasFullAccess } from '@/lib/access'
+import { freeLessonIds } from '@/lib/content/lesson-access'
 
 const STAGE_META = {
   foundation:  { num: 1, label: 'Foundation',  ages: 'Ages 4 to 7',       color: 'var(--ink)', bg: 'var(--stage-1)' },
@@ -43,13 +45,12 @@ export default async function LessonsPage() {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('full_name')
-    .eq('id', user.id)
-    .single()
-
-  const [{ data: lessonsData }, { data: aiLessonsData }] = await Promise.all([
+  const [{ data: profile }, { data: lessonsData }, { data: aiLessonsData }, { data: completionsData }] = await Promise.all([
+    supabase
+      .from('profiles')
+      .select('full_name, subscription_status, trial_ends_at')
+      .eq('id', user.id)
+      .maybeSingle(),
     supabase
       .from('lessons')
       .select('id, stage_id, category, title, key_message, sort_order')
@@ -61,6 +62,11 @@ export default async function LessonsPage() {
       .select('id, audience, category, title, key_message, sort_order')
       .in('audience', ['age_7', 'age_9', 'age_11', 'age_13', 'age_16'])
       .order('sort_order', { ascending: true }),
+    supabase
+      .from('lesson_completions')
+      .select('lesson_id')
+      .eq('user_id', user.id)
+      .eq('lesson_source', 'lesson'),
   ])
 
   const generalLessons: LessonRow[] = (lessonsData ?? []).map(l => ({ ...l, source: 'lesson' as const }))
@@ -75,6 +81,14 @@ export default async function LessonsPage() {
   }))
 
   const allLessons = [...generalLessons, ...aiLessons]
+
+  // Free tier: one parent lesson per stage is a free taste, the rest lock
+  // once the trial is over. Anything already completed stays open.
+  const isPaid = hasFullAccess(profile)
+  const freeIds = freeLessonIds(generalLessons)
+  const completedIds = new Set((completionsData ?? []).map(c => c.lesson_id))
+  const isLocked = (l: LessonRow) =>
+    l.source === 'lesson' && !isPaid && !freeIds.has(l.id) && !completedIds.has(l.id)
 
   const byStage = (Object.keys(STAGE_META) as StageId[]).map(stageId => ({
     stageId,
@@ -167,7 +181,9 @@ export default async function LessonsPage() {
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            {group.items.map(lesson => (
+            {group.items.map(lesson => {
+              const locked = isLocked(lesson)
+              return (
               <Link
                 key={`${lesson.source}-${lesson.id}`}
                 href={lesson.source === 'ai' ? `/dashboard/ai-module/${lesson.id}` : `/dashboard/lessons/${lesson.id}`}
@@ -176,6 +192,7 @@ export default async function LessonsPage() {
                   textDecoration: 'none',
                   background: 'var(--cream)', border: '1px solid var(--border)',
                   borderRadius: '14px', padding: '14px 16px',
+                  opacity: locked ? 0.72 : 1,
                 }}
               >
                 <div style={{ flex: 1, minWidth: 0 }}>
@@ -183,6 +200,11 @@ export default async function LessonsPage() {
                     <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 600, color: 'var(--terracotta)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
                       {CATEGORY_LABEL[lesson.category] ?? lesson.category}
                     </span>
+                    {locked && (
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, color: 'var(--ink-muted)', letterSpacing: '0.08em', textTransform: 'uppercase', background: 'var(--border)', borderRadius: '100px', padding: '2px 7px' }}>
+                        Members
+                      </span>
+                    )}
                   </div>
                   <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '15px', color: 'var(--ink)', marginBottom: '3px' }}>
                     {lesson.title}
@@ -191,9 +213,10 @@ export default async function LessonsPage() {
                     {lesson.key_message}
                   </div>
                 </div>
-                <span style={{ fontSize: '16px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>
+                <span style={{ fontSize: '15px', color: 'var(--ink-light)', flexShrink: 0 }}>{locked ? '🔒' : '→'}</span>
               </Link>
-            ))}
+              )
+            })}
           </div>
         </section>
       ))}
