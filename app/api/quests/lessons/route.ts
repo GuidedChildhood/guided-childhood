@@ -12,7 +12,7 @@ export async function GET() {
   if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
 
   const [childrenRes, lessonsRes, missionsRes] = await Promise.all([
-    supabase.from('children').select('id, name').eq('parent_id', user.id).order('created_at'),
+    supabase.from('children').select('id, name, age_band').eq('parent_id', user.id).order('created_at'),
     supabase.from('school_lessons').select('id, module_id, title, key_stage, year_band, single_action_outcome').order('sort_order'),
     supabase.from('kid_lesson_missions')
       .select('id, child_id, lesson_id, stars, status, score_correct, score_total, sent_at, completed_at')
