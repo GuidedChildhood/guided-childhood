@@ -60,6 +60,13 @@ export default function QuestManager() {
   const [contactsSupported, setContactsSupported] = useState(false)
   const [tab, setTab] = useState<QuestTab>('manage')
 
+  // Open straight to a tab when linked with ?tab=, so the setup step Send
+  // your child their phone link lands on Share, not the default Quests tab.
+  useEffect(() => {
+    const t = new URLSearchParams(window.location.search).get('tab')
+    if (t === 'share' || t === 'rewards' || t === 'games' || t === 'manage') setTab(t)
+  }, [])
+
   useEffect(() => {
     setContactsSupported('contacts' in navigator)
   }, [])
