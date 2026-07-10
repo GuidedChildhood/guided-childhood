@@ -613,32 +613,49 @@ export default function StarterPackPage() {
             <p style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '12px' }}>
               How old are they?
             </p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              {AGE_BAND_OPTIONS.map(opt => (
-                <button
-                  key={opt.value}
-                  onClick={() => selectAge(opt.value)}
-                  style={{
-                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                    padding: '16px 20px',
-                    background: ageBand === opt.value ? 'var(--terracotta)' : 'var(--cream)',
-                    border: `1.5px solid ${ageBand === opt.value ? 'var(--terracotta)' : 'var(--border)'}`,
-                    borderRadius: '14px', cursor: 'pointer', textAlign: 'left', transition: 'all 0.15s',
-                    boxShadow: ageBand === opt.value ? '0 5px 0 var(--terracotta-dark)' : 'none',
-                  }}
-                >
-                  <div>
-                    <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '16px', color: ageBand === opt.value ? '#fff' : 'var(--ink)' }}>
-                      {opt.label}
-                    </div>
-                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: ageBand === opt.value ? 'rgba(255,255,255,0.75)' : 'var(--ink-muted)', marginTop: '3px', letterSpacing: '0.08em' }}>
-                      {opt.sub}
-                    </div>
-                  </div>
-                  <div style={{ color: ageBand === opt.value ? '#fff' : 'var(--ink-light)', fontSize: '16px' }}>→</div>
-                </button>
-              ))}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              {AGE_BAND_OPTIONS.map(opt => {
+                const st = getStageFromAgeBand(opt.value)
+                const acc = STAGE_ACCENT[st.id]
+                const on = ageBand === opt.value
+                return (
+                  <button
+                    key={opt.value}
+                    onClick={() => selectAge(opt.value)}
+                    style={{
+                      display: 'flex', alignItems: 'center', gap: '14px', width: '100%',
+                      padding: '13px 15px',
+                      background: '#fff',
+                      border: `1.5px solid ${on ? 'var(--terracotta)' : 'var(--border)'}`,
+                      borderRadius: '16px', cursor: 'pointer', textAlign: 'left',
+                      boxShadow: on ? '0 8px 22px rgba(220,88,50,0.18)' : '0 1px 2px rgba(26,26,46,0.05)',
+                      transition: 'border-color 0.15s, box-shadow 0.15s, transform 0.1s',
+                    }}
+                  >
+                    <span style={{
+                      width: 42, height: 42, borderRadius: '13px', flexShrink: 0,
+                      background: acc.bold, color: acc.text,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '17px',
+                    }}>
+                      {st.id}
+                    </span>
+                    <span style={{ flex: 1, minWidth: 0 }}>
+                      <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
+                        {opt.label}
+                      </span>
+                      <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '10.5px', color: 'var(--ink-muted)', marginTop: '2px', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                        Stage {st.id} · {st.name}
+                      </span>
+                    </span>
+                    <span style={{ color: on ? 'var(--terracotta)' : 'var(--ink-light)', fontSize: '22px', flexShrink: 0, lineHeight: 1, fontWeight: 300 }}>›</span>
+                  </button>
+                )
+              })}
             </div>
+            <p style={{ textAlign: 'center', fontSize: '12.5px', color: 'var(--ink-muted)', marginTop: '16px', lineHeight: 1.5 }}>
+              Got more than one child? You can add a brother or sister any time once you are in.
+            </p>
           </>
         )}
 
