@@ -43,9 +43,14 @@ export default async function DashboardPage() {
     .from('profiles')
     .select('full_name, onboarding_complete, subscription_status, trial_ends_at, onboarding_answers')
     .eq('id', user.id)
-    .single()
+    .maybeSingle()
 
-  if (!profile?.onboarding_complete) redirect('/onboarding')
+  // Only send to onboarding when we POSITIVELY know it is not done. If the
+  // profile read comes back empty (a transient session or read hiccup),
+  // rendering the dashboard is safe (everything below is null tolerant) and,
+  // crucially, never bounces to onboarding, which onboarding then bounces
+  // back, the continuous flashing loop. One side must not fight the other.
+  if (profile && profile.onboarding_complete === false) redirect('/onboarding')
 
   const today = new Date().toISOString().split('T')[0]
 
