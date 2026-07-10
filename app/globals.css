@@ -474,7 +474,11 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
 }
 
 /* ── GSAP ── */
-.fu { will-change: transform, opacity; }
+/* No permanent will-change here. Promoting every reveal element to its own
+   compositor layer for the whole session made links inside them need two
+   clicks (the first click wakes the layer, the second registers). The
+   animations are cheap enough without it. */
+.fu {}
 
 /* Hero reveal is CSS driven, not JavaScript. The server paints the hero
    visible, so hiding it in JS on hydration made it flash once on landing
