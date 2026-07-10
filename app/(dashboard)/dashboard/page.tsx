@@ -13,7 +13,7 @@ import StreakFlame from '@/components/daily/StreakFlame'
 import SchoolActionsCard, { type SchoolAction } from '@/components/school/SchoolActionsCard'
 import SchoolPromoCard from '@/components/school/SchoolPromoCard'
 import QuestBoard from '@/components/quests/QuestBoard'
-import SetupPath, { STEPS as SETUP_STEPS } from '@/components/setup/SetupPath'
+import SetupPath, { visibleSteps as visibleSetupSteps } from '@/components/setup/SetupPath'
 import SocialMediaReadiness from '@/components/pathway/SocialMediaReadiness'
 import SetupUnlockToast from '@/components/setup/SetupUnlockToast'
 import TodayPathStrip from '@/components/daily/TodayPathStrip'
@@ -57,7 +57,7 @@ export default async function DashboardPage() {
 
   const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
 
-  const [childResult, dailySessionResult, todayMomentsResult, lastFeedbackResult, schoolActionsResult, schoolConnectionResult, agreementResult, questsCountResult, pushSubResult, anySessionResult, anySchoolActionResult] = await Promise.all([
+  const [childResult, dailySessionResult, todayMomentsResult, lastFeedbackResult, schoolActionsResult, schoolConnectionResult, agreementResult, questsCountResult, pushSubResult, anySessionResult, anySchoolActionResult, kidLinksResult] = await Promise.all([
     supabase.from('children').select('id, name, age_band, stage_id, streak_weeks, actions_this_week').eq('parent_id', user.id).eq('is_primary', true).single(),
     supabase.from('daily_sessions').select('completed_at').eq('user_id', user.id).eq('session_date', today).maybeSingle(),
     supabase.from('daily_moments').select('id, title, category, age_bands, icon, science_brief, digi_opener').eq('active', true).order('sort_order').limit(20),
@@ -73,6 +73,9 @@ export default async function DashboardPage() {
     // and once complete it should stay complete, not flip back off the
     // moment the open list empties out.
     supabase.from('school_actions').select('id').eq('user_id', user.id).limit(1).maybeSingle(),
+    // Whether any child already has their own phone link (the kid companion
+    // link). Keyed by user, matched to the primary child below.
+    supabase.from('kid_links').select('child_id').eq('user_id', user.id),
   ])
 
   const child = childResult.data
@@ -80,19 +83,29 @@ export default async function DashboardPage() {
   const lastFeedback = lastFeedbackResult.data
   const schoolActions: SchoolAction[] = schoolActionsResult.data ?? []
   const hasSchoolConnection = !!schoolConnectionResult.data
+  // The child phone link step only belongs once a child is old enough to
+  // have a phone. We record around 9 as the point that starts, so any band
+  // above Foundation (4 to 7) shows it. If the parent set an even younger
+  // child, the step simply waits until they move up.
+  const phoneAge = !!childResult.data?.age_band && childResult.data.age_band !== '4-7'
+  const hasKidLink = (kidLinksResult.data ?? []).some(k => k.child_id === childResult.data?.id)
   const setupFlags = {
     agreement: !!agreementResult.data,
     quests: (questsCountResult.count ?? 0) > 0,
     school: hasSchoolConnection || !!anySchoolActionResult.data,
     push: !!pushSubResult.data,
     daily: !!anySessionResult.data,
+    childLink: hasKidLink,
   }
 
   // One conductor, one ask at a time. SetupPath sequences the setup steps
   // in order, and the standalone prompts below only appear when it is their
-  // turn, so a new parent never faces a wall of five asks at once. When
-  // setup is finished, the supplementary cards return to normal.
-  const currentSetupStep = SETUP_STEPS.find(s => !setupFlags[s.key])?.key ?? null
+  // turn, so a new parent never faces a wall of asks at once. When setup is
+  // finished, the supplementary cards return to normal. visibleSetupSteps
+  // drops the phone link step for children too young to have a phone, so it
+  // never blocks completion for a Foundation age family.
+  const setupSteps = visibleSetupSteps(phoneAge)
+  const currentSetupStep = setupSteps.find(s => !setupFlags[s.key])?.key ?? null
   const setupComplete = currentSetupStep === null
 
   // Most applicable first: filter to the child's age, then lead with the
@@ -237,7 +250,7 @@ export default async function DashboardPage() {
       {/* The setup path is the single conductor. It shows one step at a
           time, the rest waiting as quiet chips. The old bottom nudge that
           re-asked the same step on a second surface is gone, one ask only. */}
-      <SetupPath flags={setupFlags} />
+      <SetupPath flags={setupFlags} phoneAge={phoneAge} />
       <SetupUnlockToast flags={setupFlags} />
 
       {/* Smart alerts: the one proactive layer, the ranked things this
@@ -348,13 +361,15 @@ export default async function DashboardPage() {
         </div>
       )}
 
-      {/* Push notification opt-in: only when it is this step's turn, or once
-          it is on (so the granted state and Send a test stay available). */}
-      {(setupFlags.push || currentSetupStep === 'push') && (
-        <div style={{ marginBottom: '20px' }}>
-          <PushPrompt userId={user.id} stage={`Stage ${stage.id}`} />
-        </div>
-      )}
+      {/* Push notification opt-in. Rendered whenever check ins are not yet on
+          (so the enable button is always reachable, including when a parent
+          taps the Turn on check ins step out of order), and kept once they are
+          on so the granted state and Send a test stay available. The id is the
+          anchor the step link scrolls to, which is what makes that button
+          actually do something instead of a silent reload. */}
+      <div id="turn-on-check-ins" style={{ marginBottom: '20px', scrollMarginTop: '80px' }}>
+        <PushPrompt userId={user.id} stage={`Stage ${stage.id}`} />
+      </div>
 
       {/* Device setup prompt: a supplementary ask, held back until the core
           setup path is done so it never competes with the current step. */}
