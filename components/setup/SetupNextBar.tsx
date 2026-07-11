@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import type { SetupStep } from '@/lib/setup/steps'
@@ -15,6 +15,14 @@ export default function SetupNextBar() {
   const pathname = usePathname()
   const [next, setNext] = useState<SetupStep | null>(null)
   const [hidden, setHidden] = useState(false)
+
+  // Do not nag. The bar appears at most twice in a session, so a parent who
+  // taps Not now sees it return just once more, then it leaves them alone.
+  // Counted in sessionStorage, so it starts fresh on their next visit.
+  const MAX_SHOWS = 2
+  const SESSION_KEY = 'gc_setupbar_shows'
+  const [showThis, setShowThis] = useState(false)
+  const shownFlag = useRef(false)
 
   const refetch = useCallback(async () => {
     try {
@@ -41,19 +49,36 @@ export default function SetupNextBar() {
     }
   }, [refetch])
 
-  if (!next || hidden) return null
-  // The very first step, the daily practice, is not surfaced by the bar. The
-  // home card already drives it, and the practice itself runs across several
-  // pages (the moment and script cards), where the bar would otherwise nag a
-  // parent to start the very thing they are in the middle of doing. The bar is
-  // for what comes NEXT, once the current task is done, so it only starts once
-  // the daily practice is behind them.
-  if (next.key === 'daily') return null
+  // Whether this appearance is eligible at all. The first step, the daily
+  // practice, is driven by the home card and runs across several pages, so the
+  // bar never nags it. The home page owns the full setup card, and the bar
+  // never points a parent at the page they are already on.
+  const base = next ? next.href.split('#')[0].split('?')[0] : ''
+  const eligible =
+    !!next && !hidden &&
+    next.key !== 'daily' &&
+    pathname !== '/dashboard' &&
+    pathname !== base
 
-  // The home page owns the full setup card; do not double up there. And never
-  // point a parent at the page they are already on.
-  const base = next.href.split('#')[0].split('?')[0]
-  if (pathname === '/dashboard' || pathname === base) return null
+  // Count each fresh appearance and stop after two in a session, so the bar
+  // guides without turning into a repeated reminder.
+  useEffect(() => {
+    if (eligible && !shownFlag.current) {
+      shownFlag.current = true
+      const n = typeof window !== 'undefined' ? Number(sessionStorage.getItem(SESSION_KEY) || '0') : MAX_SHOWS
+      if (n < MAX_SHOWS) {
+        try { sessionStorage.setItem(SESSION_KEY, String(n + 1)) } catch { /* private mode */ }
+        setShowThis(true)
+      } else {
+        setShowThis(false)
+      }
+    } else if (!eligible) {
+      shownFlag.current = false
+      setShowThis(false)
+    }
+  }, [eligible])
+
+  if (!eligible || !showThis) return null
 
   return (
     <div style={{
