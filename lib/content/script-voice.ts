@@ -43,6 +43,23 @@ export const SCRIPT_VOICE: Record<number, string> = {
   115: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144548_63def5a6-e229-4b09-bc74-9474ac39a201.mp3', // Late night phone use affecting sleep
   116: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144551_7b592ac2-0dfd-4754-8963-a740f866878e.mp3', // Learning versus entertainment
   117: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144553_5ecedf7d-426c-48f6-a9eb-4a41fb2e5da1.mp3', // The game their friends play
+  201: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144826_ec02712f-9ded-4125-a506-372593506674.mp3', // Getting their first console
+  202: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144828_8431792f-d49a-4698-9323-cd876ace79c6.mp3', // Gaming instead of homework
+  203: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144831_2140874c-27d4-42c5-8e3c-5602a2210485.mp3', // Aggressive behaviour after gaming
+  204: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144835_cd6662d6-97ad-4c3f-8821-c93a00a31e67.mp3', // Online gaming with strangers
+  205: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144838_a064e10d-5a34-4944-b29e-da4abbe4bc06.mp3', // Requests for in-game purchases
+  206: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144840_2e920f29-bb4f-4f80-82d3-40d508c0e69a.mp3', // Gaming until very late
+  207: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144843_fa442d57-428c-4158-ab03-6a74fb0b7def.mp3', // Online gaming friends they have never met
+  208: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144846_4418e4e9-2d94-4363-8e74-85c86b26553a.mp3', // Losing badly and getting angry
+  209: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144848_bb8c50f3-ee86-42a6-b82c-9582e6f26e64.mp3', // Obsessive gaming, nothing else matters
+  210: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144850_c1e4b661-52b9-421d-8306-4087c621273c.mp3', // Gaming culture and toxic masculinity
+  211: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144853_20ccb6f5-4e2a-42ec-8df6-f9649f849847.mp3', // Gambling mechanics in games
+  212: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144855_de6e4685-d349-49b4-9369-76cf3883ce7e.mp3', // Serious esports ambitions
+  213: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144858_842e0a6e-479d-4ecf-98b0-8ba592d7ffcd.mp3', // Gaming to cope with anxiety
+  214: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144900_4e6a3b95-44d4-4571-99a8-7b79f21e6b71.mp3', // Healthy gaming versus addiction
+  215: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144903_ccedb76f-61f0-4555-98a1-836ce8803640.mp3', // Gaming affecting university or work
+  216: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144906_7e540e98-efb7-4e89-a3d5-9ad75e568734.mp3', // Devices and sleep
+  217: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144909_c578ac94-e2b5-4a52-ae28-37cf1b79137a.mp3', // Early body image messages from media
 }
 
 export function scriptVoiceUrl(sortOrder: number): string | null {
