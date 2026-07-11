@@ -37,6 +37,12 @@ export default function StarLessons() {
   const [busy, setBusy] = useState(false)
   const [sent, setSent] = useState(false)
   const [loaded, setLoaded] = useState(false)
+  // Preview: the slides of the lesson being sent, so a parent sees exactly
+  // what they are handing over. Keyed by lesson id so switching lesson closes
+  // a stale preview.
+  const [previewFor, setPreviewFor] = useState<string | null>(null)
+  const [previewSlides, setPreviewSlides] = useState<Array<Record<string, unknown>> | null>(null)
+  const [previewBusy, setPreviewBusy] = useState(false)
 
   const load = async () => {
     try {
@@ -77,6 +83,31 @@ export default function StarLessons() {
       setSent(true)
       setTimeout(() => setSent(false), 2600)
     } finally { setBusy(false) }
+  }
+
+  const togglePreview = async () => {
+    if (!lessonId) return
+    if (previewFor === lessonId && previewSlides) { setPreviewFor(null); setPreviewSlides(null); return }
+    setPreviewBusy(true)
+    try {
+      const res = await fetch(`/api/quests/lessons?lesson=${encodeURIComponent(lessonId)}`)
+      const data = await res.json()
+      const raw = data.lesson?.slides
+      setPreviewSlides(Array.isArray(raw) ? raw : [])
+      setPreviewFor(lessonId)
+    } catch { setPreviewSlides([]); setPreviewFor(lessonId) }
+    finally { setPreviewBusy(false) }
+  }
+
+  // Best effort readable text from any slide shape, so the preview shows the
+  // real teaching content whatever the slide type is.
+  const slideText = (s: Record<string, unknown>) => {
+    const str = (v: unknown) => (typeof v === 'string' ? v : '')
+    const heading = str(s.title) || str(s.heading) || str(s.eyebrow) || str(s.label)
+    let body = str(s.body) || str(s.text) || str(s.quote)
+    if (!body && Array.isArray(s.keywords)) body = (s.keywords as unknown[]).map(k => (typeof k === 'string' ? k : (k as { term?: string })?.term ?? '')).filter(Boolean).join(', ')
+    if (!body && Array.isArray(s.options)) body = (s.options as Array<{ label?: string }>).map(o => o.label).filter(Boolean).join('  ·  ')
+    return { heading, body }
   }
 
   const remove = async (id: string) => {
@@ -180,9 +211,48 @@ export default function StarLessons() {
                 {selected.title}
               </span>
             </div>
-            <p style={{ fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0 }}>
+            <p style={{ fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 12px' }}>
               After it, {child?.name} will be able to say: &ldquo;{selected.single_action_outcome}&rdquo;
             </p>
+            <button
+              onClick={togglePreview}
+              disabled={previewBusy}
+              style={{
+                background: '#fff', border: '1.5px solid var(--gold)', borderRadius: '11px',
+                padding: '9px 15px', cursor: 'pointer', fontFamily: 'var(--font-display)',
+                fontWeight: 700, fontSize: '12.5px', color: 'var(--ink)',
+                display: 'inline-flex', alignItems: 'center', gap: '7px',
+              }}
+            >
+              {previewBusy ? 'Opening...' : previewFor === lessonId && previewSlides ? 'Hide the lesson' : '👀 See the lesson first'}
+            </button>
+          </div>
+        )}
+
+        {/* The lesson itself, so a parent sees what they are handing over */}
+        {previewFor === lessonId && previewSlides && (
+          <div style={{ border: '1.5px solid var(--border)', borderRadius: '16px', padding: '6px 4px', marginBottom: '20px', maxHeight: '340px', overflowY: 'auto', background: 'var(--cream)' }}>
+            {previewSlides.length === 0 ? (
+              <p style={{ fontSize: '13px', color: 'var(--ink-muted)', padding: '14px', margin: 0 }}>
+                This lesson plays as an interactive session for your child. Send it to see it on their link.
+              </p>
+            ) : (
+              previewSlides.map((s, i) => {
+                const { heading, body } = slideText(s)
+                if (!heading && !body) return null
+                return (
+                  <div key={i} style={{ padding: '12px 14px', borderBottom: i < previewSlides.length - 1 ? '1px solid var(--border)' : 'none' }}>
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, color: 'var(--terracotta)', flexShrink: 0 }}>{i + 1}</span>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        {heading && <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '13.5px', color: 'var(--ink)', marginBottom: body ? '3px' : 0 }}>{heading}</div>}
+                        {body && <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0 }}>{body}</p>}
+                      </div>
+                    </div>
+                  </div>
+                )
+              })
+            )}
           </div>
         )}
 
