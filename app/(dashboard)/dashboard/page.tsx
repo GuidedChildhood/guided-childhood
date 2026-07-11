@@ -8,6 +8,7 @@ import MomentCard from '@/components/cards/MomentCard'
 import PushPrompt from '@/components/push/PushPrompt'
 import DeviceSetupBanner from '@/components/device/DeviceSetupBanner'
 import SmartAlerts from '@/components/alerts/SmartAlerts'
+import DigiPrompts from '@/components/digi/DigiPrompts'
 import { getSuggestions, type Suggestion } from '@/lib/alerts/suggestions'
 import StreakFlame from '@/components/daily/StreakFlame'
 import SchoolActionsCard, { type SchoolAction } from '@/components/school/SchoolActionsCard'
@@ -264,6 +265,13 @@ export default async function DashboardPage() {
           re-asked the same step on a second surface is gone, one ask only. */}
       <SetupPath flags={setupFlags} phoneAge={phoneAge} />
       <SetupUnlockToast flags={setupFlags} />
+
+      {/* DiGi jumps in: proactive prompts generated from this family's own
+          data (mood and sleep trends, recurring concerns, wins) and the
+          expert knowledge base, so DiGi speaks first when it spots something
+          worth watching, always with a calm next step and never a diagnosis.
+          Renders nothing when there is nothing to say. */}
+      <DigiPrompts />
 
       {/* Smart alerts: the one proactive layer, the ranked things this
           family could do now, two at a time, calm and dismissable. */}
