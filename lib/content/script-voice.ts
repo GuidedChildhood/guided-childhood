@@ -11,7 +11,8 @@
 // /dashboard/scripts/<sort_order>).
 
 export const SCRIPT_VOICE: Record<number, string> = {
-  4: '/script-voice/4.m4a', // First social platform request, in Justin's voice
+  // Filled once Justin's voice is cloned and the say this line is generated
+  // per script. Until then every script uses the device voice.
 }
 
 export function scriptVoiceUrl(sortOrder: number): string | null {
