@@ -23,5 +23,13 @@ export async function GET() {
     .select('sort_order, title, say_this')
     .order('sort_order', { ascending: true })
 
-  return NextResponse.json({ count: data?.length ?? 0, scripts: data ?? [] })
+  // Download as a file so it is a one tap save on a phone, not raw JSON to
+  // select and copy by hand.
+  const body = JSON.stringify({ count: data?.length ?? 0, scripts: data ?? [] }, null, 2)
+  return new NextResponse(body, {
+    headers: {
+      'Content-Type': 'application/json',
+      'Content-Disposition': 'attachment; filename="scripts.json"',
+    },
+  })
 }
