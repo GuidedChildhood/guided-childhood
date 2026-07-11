@@ -11,7 +11,7 @@
 // /dashboard/scripts/<sort_order>).
 
 export const SCRIPT_VOICE: Record<number, string> = {
-  // 12: '/script-voice/12.mp3',
+  4: '/script-voice/4.m4a', // First social platform request, in Justin's voice
 }
 
 export function scriptVoiceUrl(sortOrder: number): string | null {
