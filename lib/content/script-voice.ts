@@ -4,9 +4,8 @@
 // exists for the script, and falls back to the device voice when it does not.
 // Generated in Justin's cloned voice (Higgsfield, ElevenLabs engine, the
 // Justin-Claude-new voice from a denoised sample). Served from the generation
-// CDN for now; the plan is to move these to our own hosting once the full set
-// is signed off. Keyed by the script sort_order (the id in the URL
-// /dashboard/scripts/<sort_order>).
+// CDN for now; the plan is to move these to our own hosting later. Keyed by
+// the script sort_order (the id in the URL /dashboard/scripts/<sort_order>).
 
 export const SCRIPT_VOICE: Record<number, string> = {
   1: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144027_27fb8491-85d1-42ce-91ea-c28f57b2ffa8.mp3', // First device moment
@@ -80,6 +79,35 @@ export const SCRIPT_VOICE: Record<number, string> = {
   318: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145144_491071e4-57c9-4ca3-96a9-600c98d8c168.mp3', // Recognising algorithm manipulation
   319: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145146_4399cd77-ef57-4dee-90b3-49ceddade848.mp3', // Social media for mental health versus escapism
   320: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145149_cfba078f-7fab-40ee-974c-23b53fa8f278.mp3', // Social media fast or digital detox
+  401: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145426_dcd01b9c-bc55-41b8-8804-d55215bab9f4.mp3', // Strangers online
+  402: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145428_3f9c38fc-9de1-4d17-b862-7748dc115d59.mp3', // Clicking suspicious links
+  403: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145430_94601dcb-8ba0-4083-b884-7d46985185ca.mp3', // Sharing personal information
+  404: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145433_29f51f19-9a4e-44b6-96e5-286c527ce24e.mp3', // Someone asking to meet in person
+  405: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145440_49240a1a-9871-44e5-8c8b-e53b46c39b8d.mp3', // Recognising grooming warning signs
+  406: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145446_75fb0729-15c0-4c13-885e-7e9b58dc4e04.mp3', // Password safety
+  407: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145448_8f7dbc8f-384a-415d-a7ad-437472754fd5.mp3', // Screenshot culture and privacy
+  408: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145454_0863f8f2-955b-4dfd-8e7b-520c17001e8e.mp3', // Deepfakes and manipulated images
+  409: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145457_23e97fad-f904-4108-a212-8c50e380da05.mp3', // Scams targeting teenagers
+  410: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145459_eeda5cb2-aea1-4877-947f-8b9369bdf959.mp3', // Revenge porn and image-based abuse
+  411: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145501_7872cdcb-5d52-44b0-889a-0f69822c6a8b.mp3', // Online predators
+  412: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145504_960ebc41-7d85-4913-b5de-0ab0869f5db4.mp3', // Privacy on dating apps
+  413: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145506_91f7aa53-5ed4-4415-bfc6-8a4e4e94fabb.mp3', // Digital security habits
+  414: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145509_b31344ff-447c-4676-ad99-16a1aaad05d3.mp3', // Doxxing and online harassment
+  415: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145511_806be7d5-de8c-4854-b386-61abbedc0323.mp3', // Protecting personal data
+  416: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145513_52a0a723-cbe5-433a-828a-a7a9d170084e.mp3', // Spotting misinformation and manipulation
+  417: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145518_feb5d5a4-ac9d-451e-b24f-49fedfa30ff4.mp3', // Renegotiating the phone-free bedroom
+  501: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145520_53334f13-232f-4904-baa8-dc4532e97362.mp3', // They are being bullied online
+  502: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145522_f66e4e54-58a4-4dc3-b0ca-cdf40885810a.mp3', // Screenshots of group chat exclusion
+  503: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145525_2c4c5b68-c94f-4745-834a-de04e7b960e0.mp3', // Someone is spreading rumours
+  504: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145527_af701920-848d-4cf1-b3b1-b8504cb78681.mp3', // They are the one doing the bullying
+  505: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145530_b5ed5873-9184-498b-8012-92adcee98720.mp3', // Pile-on in a group chat
+  506: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145532_5e22405d-e166-4f04-9dfe-c1d1d86017eb.mp3', // Revenge posting and screenshot sharing
+  507: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145534_20ca053b-9509-465a-9f50-a1a7e833c85c.mp3', // The bully is a friend in real life
+  508: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145537_3367791b-45f8-47f1-97ba-6081c3be980f.mp3', // They do not want to report it
+  509: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145539_6c9be55b-f4ff-4a00-8672-68aa611eb8ba.mp3', // The school is involved
+  510: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145544_39c6764f-e510-4941-a451-1d5927a1f26e.mp3', // It has escalated to threats
+  511: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145546_193836a9-8062-40a7-bd81-ab45e6cd4458.mp3', // Sleep and study balance
+  512: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145548_352b7ae1-bc26-4cf9-9693-31eccacc8fe1.mp3', // A mature conversation about image sharing and the law
 }
 
 export function scriptVoiceUrl(sortOrder: number): string | null {
