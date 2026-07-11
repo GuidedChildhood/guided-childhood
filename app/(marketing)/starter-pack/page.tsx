@@ -670,7 +670,7 @@ export default function StarterPackPage() {
               What are you dealing with right now?
             </h1>
             <p style={{ color: 'var(--ink-soft)', fontSize: '15px', marginBottom: '24px', lineHeight: 1.55 }}>
-              Tick everything that is going on. Tap the one that worries you most first, that is where we begin. You can change focus any time.
+              Tick everything that is going on, and tap the one that worries you most first. That just sets where we start. Your plan still covers everything else for their age.
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
               {CHALLENGE_OPTIONS.map(opt => {
@@ -770,12 +770,26 @@ export default function StarterPackPage() {
               </p>
             </div>
 
+            {/* At the decision point, name plainly that this is only the
+                starting focus, so ticking one never reads as missing the rest */}
+            <div style={{
+              display: 'flex', alignItems: 'center', gap: '9px',
+              marginTop: '20px', padding: '11px 14px',
+              background: 'var(--tint-sage)', border: '1px solid var(--border)', borderRadius: '12px',
+            }}>
+              <span aria-hidden style={{ fontSize: '14px', flexShrink: 0 }}>🎯</span>
+              <p style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
+                You are choosing where to start. Every other part of your child&apos;s age is still in your plan.
+              </p>
+            </div>
+
             <button
               onClick={() => picks.length > 0 && setStep('q4')}
               disabled={picks.length === 0}
               style={{
-                marginTop: '24px', width: '100%',
-                padding: '17px 28px', borderRadius: 16, border: 'none',
+                marginTop: '14px', width: '100%',
+                padding: '16px 22px', borderRadius: 16, border: 'none',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px',
                 background: picks.length ? 'var(--terracotta)' : 'var(--border)',
                 color: picks.length ? 'var(--ink)' : 'var(--ink-muted)',
                 fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15,
@@ -784,7 +798,24 @@ export default function StarterPackPage() {
                 transition: 'background 0.16s, box-shadow 0.16s',
               }}
             >
-              {picks.length === 0 ? 'Tick at least one' : picks.length === 1 ? 'Continue' : `Continue with ${picks.length}`}
+              {picks.length === 0 ? (
+                'Tick what is going on'
+              ) : (
+                <>
+                  <span>Start with {picks.length === 1 ? 'this focus' : 'these'}</span>
+                  {picks.length > 1 && (
+                    <span style={{
+                      minWidth: '22px', height: '22px', padding: '0 7px', borderRadius: '100px',
+                      background: 'rgba(26,26,46,0.16)', color: 'var(--ink)',
+                      fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
+                      display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                    }}>
+                      {picks.length}
+                    </span>
+                  )}
+                  <span aria-hidden style={{ fontSize: '17px' }}>→</span>
+                </>
+              )}
             </button>
             <button onClick={() => setStep('q1')} style={{ marginTop: '12px', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-muted)', letterSpacing: '0.06em', padding: '8px 0', textAlign: 'left' }}>
               ← Back
