@@ -15,6 +15,7 @@ import SchoolPromoCard from '@/components/school/SchoolPromoCard'
 import QuestBoard from '@/components/quests/QuestBoard'
 import SetupPath, { visibleSteps as visibleSetupSteps } from '@/components/setup/SetupPath'
 import SocialMediaReadiness from '@/components/pathway/SocialMediaReadiness'
+import FeatureDiscovery from '@/components/setup/FeatureDiscovery'
 import SetupUnlockToast from '@/components/setup/SetupUnlockToast'
 import TodayPathStrip from '@/components/daily/TodayPathStrip'
 import { getDailyStreak } from '@/lib/pathway/streak'
@@ -486,6 +487,12 @@ export default async function DashboardPage() {
           so a new parent gets a calm first screen, the conductor and today's
           practice, not a wall of explore me cards on day one. */}
       {setupComplete && (<>
+
+      {/* Feature discovery: once setup is behind them, one rotating nudge that
+          walks a parent through the whole platform over time, so the sections
+          that are no longer tabs still get found. Primes add to home screen
+          and check ins first, then rotates the rest, quietly. */}
+      <FeatureDiscovery done={[...(setupFlags.push ? ['notifications'] : []), ...(setupFlags.quests ? ['quests'] : [])]} />
 
       {/* Monthly wellbeing check in prompt: the mission made real, you in view
           not only your child. Shown when a check in is due. */}

@@ -76,9 +76,9 @@ export async function getSuggestions(
 
   if (journey.devices.total > 0 && journey.devices.done < journey.devices.total) s.push({
     key: 'device:next', kind: 'device', urgency: 6, emoji: '🛡️',
-    title: `Set up ${journey.devices.nextName ?? 'the next device'}`,
-    body: 'One setup protects a screen your family uses. A few minutes now.',
-    cta: 'Set it up', href: journey.devices.href,
+    title: 'Set up your child’s devices for this age',
+    body: 'The settings worth checking on the screens your family uses, matched to your child’s age. A few minutes now.',
+    cta: 'See the setup', href: journey.devices.href,
   })
 
   if ((questCount.count ?? 0) === 0) s.push({
