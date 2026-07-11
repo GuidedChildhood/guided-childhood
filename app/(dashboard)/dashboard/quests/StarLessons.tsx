@@ -158,7 +158,7 @@ export default function StarLessons() {
 
       <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '22px', padding: 'clamp(20px, 4vw, 26px)' }}>
         <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.65, marginBottom: '22px' }}>
-          It lands on their quest link as a big play button. DiGi walks them through it, and the quiz at the end pays the stars straight into their star bank.
+          It lands on their quest link as a big play button, and the quiz at the end pays the stars into their star bank. No phone yet? Tap See the lesson and go through it together.
         </p>
 
         {/* Who for + stars */}
