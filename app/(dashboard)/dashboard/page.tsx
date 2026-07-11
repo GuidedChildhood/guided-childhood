@@ -581,6 +581,29 @@ export default async function DashboardPage() {
         </div>
       </Link>
 
+      {/* Scripts discovery: the exact words for the hard conversations. Now
+          that Scripts is not a bottom tab, this is its home on the dashboard. */}
+      <Link href="/dashboard/scripts" style={{ textDecoration: 'none', display: 'block', marginBottom: '12px' }}>
+        <div style={{
+          background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta-lt)',
+          borderRadius: '16px', padding: '22px',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px',
+        }}>
+          <div>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
+              Scripts
+            </div>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)', marginBottom: '3px' }}>
+              The exact words
+            </div>
+            <div style={{ fontSize: '13px', color: 'var(--ink)' }}>
+              Word for word scripts for the hard conversations, from first tablet to first phone.
+            </div>
+          </div>
+          <span style={{ fontSize: '18px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>
+        </div>
+      </Link>
+
       {/* Lessons discovery: the one place every lesson lives, screen
           habits, safety, wellbeing and AI literacy together */}
       <Link href="/dashboard/lessons" style={{ textDecoration: 'none', display: 'block', marginBottom: '12px' }}>

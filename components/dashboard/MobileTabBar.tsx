@@ -4,20 +4,19 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import RightNowButton from '@/components/rightnow/RightNowButton'
 
-// The mobile bottom bar: Home, DiGi, [Now], Scripts, Progress. The tab
-// bar previously had no idea which page it was on, so a leftover touch
-// hover state could leave Home looking highlighted while the parent was
-// three pages away on Scripts, exactly the "which tab am I on" confusion
-// that made getting back to Home feel broken. Active is now decided from
-// the real route by longest matching prefix, same rule the desktop pill
-// nav uses, so a script or lesson page still lights its parent tab.
+// The mobile bottom bar: Home, DiGi, [Now], Progress. One nav, not two: the
+// old scrollable strip above the page was removed, so the bottom bar is the
+// single place to move around, in the thumb zone, which is the mobile
+// standard. Four anchors and the centre Right Now action, everything else
+// (Scripts, Lessons, Quests, School, Pathway) lives on Home. Active is
+// decided from the real route by longest matching prefix, same rule the
+// desktop pill nav uses, so a script or lesson page still lights its parent.
 
 const NAV_TABS_LEFT = [
   { href: '/dashboard', label: 'Home', icon: '⌂' },
   { href: '/dashboard/digi', label: 'DiGi', icon: '◎' },
 ]
 const NAV_TABS_RIGHT = [
-  { href: '/dashboard/scripts', label: 'Scripts', icon: '◻' },
   { href: '/dashboard/tracker', label: 'Progress', icon: '△' },
 ]
 const ALL_TABS = [...NAV_TABS_LEFT, ...NAV_TABS_RIGHT]

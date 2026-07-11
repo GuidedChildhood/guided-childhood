@@ -2,7 +2,6 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import NavTabs from '@/components/dashboard/NavTabs'
 import MobileTabBar from '@/components/dashboard/MobileTabBar'
-import MobileSecondaryNav from '@/components/dashboard/MobileSecondaryNav'
 import InstallPrompt from '@/components/pwa/InstallPrompt'
 import AppBadge from '@/components/pwa/AppBadge'
 import SetupNextBar from '@/components/setup/SetupNextBar'
@@ -60,9 +59,9 @@ export default async function DashboardLayout({ children }: { children: React.Re
         </div>
       </header>
 
-      {/* Mobile only: a scrollable tab strip so every section, Lessons and
-          School included, is reachable as a tab, not only from a Home card. */}
-      <MobileSecondaryNav />
+      {/* One nav on mobile, not two: the scrollable top strip was removed so
+          the bottom bar is the single place to move around. Every section
+          reaches from Home or the bottom bar. */}
 
       {/* Main content */}
       <main style={{ flex: 1, paddingBottom: '80px' }}>
