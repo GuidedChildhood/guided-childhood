@@ -60,6 +60,26 @@ export const SCRIPT_VOICE: Record<number, string> = {
   215: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144903_ccedb76f-61f0-4555-98a1-836ce8803640.mp3', // Gaming affecting university or work
   216: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144906_7e540e98-efb7-4e89-a3d5-9ad75e568734.mp3', // Devices and sleep
   217: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144909_c578ac94-e2b5-4a52-ae28-37cf1b79137a.mp3', // Early body image messages from media
+  301: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145102_8d97387a-f565-432c-b89e-7f70397b3fd2.mp3', // Too young for a first social media account
+  302: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145107_e0034677-ffb1-4006-a623-974eaf4fa8ca.mp3', // Asking for Instagram at twelve
+  303: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145109_340347c0-51b0-4ab8-87c6-5e715688796d.mp3', // Comparing followers and likes
+  304: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145111_682290bd-6ce8-4b25-be9a-26095708b81b.mp3', // Posting content they might regret
+  305: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145113_8c2ea389-243c-431d-a49c-6363906a7bcf.mp3', // Seeing something upsetting on TikTok
+  306: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145115_0cc7f4bf-5fb1-4986-8da3-20bc0ed71933.mp3', // Following people they do not know
+  307: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145118_e17ece08-4207-45a1-9e30-09718eb7a762.mp3', // Social media affecting sleep
+  308: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145120_6801eed4-cad8-47dd-9b13-c310cbba6462.mp3', // Performing for social media rather than living
+  309: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145122_f2afeba6-b3e6-4c8e-ad59-98555bf5c362.mp3', // Being caught in an online pile-on
+  310: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145125_ce8d6c54-2eac-410a-9da5-6584cf71ef65.mp3', // Fear of missing out driven by social media
+  311: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145127_b34c2f32-9ce2-4492-a83c-cc29c2e95b50.mp3', // Sexting or pressure to share images
+  312: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145129_fa7cbb4e-fde3-459b-ab03-c87bb12b96bf.mp3', // Influencer culture and unrealistic standards
+  313: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145132_b1d1fabd-42bd-4483-8890-0ebc2d7fa30e.mp3', // Privacy settings and what to share
+  314: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145135_1a6b882c-84de-436a-8ef5-106cc829cd0e.mp3', // Using social media to cope with loneliness
+  315: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145137_0e4f9cfe-cc7d-4253-9246-8d3cd5dbe8d2.mp3', // Social media and political radicalisation
+  316: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145140_ee9ac8bb-2671-4d16-b2e0-d088db9621fb.mp3', // Social media and mental health awareness
+  317: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145142_37080632-2a57-4a21-b920-186f2011fce4.mp3', // Building a positive online presence
+  318: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145144_491071e4-57c9-4ca3-96a9-600c98d8c168.mp3', // Recognising algorithm manipulation
+  319: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145146_4399cd77-ef57-4dee-90b3-49ceddade848.mp3', // Social media for mental health versus escapism
+  320: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145149_cfba078f-7fab-40ee-974c-23b53fa8f278.mp3', // Social media fast or digital detox
 }
 
 export function scriptVoiceUrl(sortOrder: number): string | null {
