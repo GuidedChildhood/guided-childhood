@@ -37,7 +37,7 @@ export default function MarketingNav() {
   }, [])
 
   return (
-    <nav className="nav-links-desktop" style={{ display: 'flex', gap: '2px', background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '100px', padding: '3px' }}>
+    <nav className="nav-links-desktop">
       {LINKS.map(link => (
         <Link
           key={link.href}

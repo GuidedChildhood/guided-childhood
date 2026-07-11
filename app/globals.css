@@ -784,8 +784,15 @@ h1, h2, h3 { text-wrap: balance; }
 .nav-links-desktop {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 2px;
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 3px;
 }
+/* Hide on mobile. The style lives on the class, not inline on the element,
+   so this media query can actually win, an inline display would override it
+   and leave the desktop nav overflowing off the top of the phone. */
 @media (max-width: 720px) { .nav-links-desktop { display: none; } }
 
 /* ── PATHWAY GRID (stage walkthrough) ── */
