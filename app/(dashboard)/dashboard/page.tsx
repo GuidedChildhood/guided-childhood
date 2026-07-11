@@ -11,6 +11,7 @@ import SmartAlerts from '@/components/alerts/SmartAlerts'
 import DigiPrompts from '@/components/digi/DigiPrompts'
 import { getSuggestions, type Suggestion } from '@/lib/alerts/suggestions'
 import StreakFlame from '@/components/daily/StreakFlame'
+import DigiStreakWidget from '@/components/digi/DigiStreakWidget'
 import SchoolActionsCard, { type SchoolAction } from '@/components/school/SchoolActionsCard'
 import SchoolPromoCard from '@/components/school/SchoolPromoCard'
 import QuestBoard from '@/components/quests/QuestBoard'
@@ -259,6 +260,10 @@ export default async function DashboardPage() {
         </div>
         <StreakFlame count={streak.count} aliveToday={streak.aliveToday} />
       </div>
+
+      {/* DiGi widget: the streak card with personality, the Duolingo charm
+          without the guilt. Warm when you show up, an open door when away. */}
+      <DigiStreakWidget count={streak.count} aliveToday={streak.aliveToday} firstName={firstName} />
 
       {/* The setup path is the single conductor. It shows one step at a
           time, the rest waiting as quiet chips. The old bottom nudge that
