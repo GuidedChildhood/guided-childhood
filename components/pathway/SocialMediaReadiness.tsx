@@ -21,10 +21,12 @@ const STAGE_EVIDENCE_INDEX: Record<number, number> = {
   5: 3, // sixteen is a cliff edge, unless you build a ramp
 }
 
-// A warm espresso gradient with a soft butter glow in the top corner. Reads as
-// a premium dark panel with depth, never a flat black rectangle.
+// A warm, brand espresso gradient with a soft butter glow in the top corner.
+// Lifted well off black into a lit cocoa brown, so it reads as a crafted brand
+// panel like the dark surfaces top apps use for an important moment, never a
+// stark black rectangle. The gold glow ties it to the terracotta brand.
 const HEAVY_SURFACE =
-  'radial-gradient(120% 95% at 90% -5%, rgba(237,195,95,0.16), transparent 55%), linear-gradient(158deg, #37301F 0%, #2C2617 55%, #221D12 100%)'
+  'radial-gradient(135% 100% at 84% -14%, rgba(237,195,95,0.28), transparent 50%), linear-gradient(157deg, #52462E 0%, #443925 52%, #392F1F 100%)'
 
 export default function SocialMediaReadiness({
   stageId,
@@ -43,18 +45,25 @@ export default function SocialMediaReadiness({
   const isEarned = readiness.weight === 'earned'
   const onDark = isHeavy
 
-  const titleColor = onDark ? '#fff' : 'var(--ink)'
-  const bodyColor = onDark ? 'rgba(255,255,255,0.80)' : 'var(--ink-soft)'
-  const innerBg = onDark ? 'rgba(255,255,255,0.055)' : 'rgba(255,255,255,0.7)'
-  const innerBorder = onDark ? '1px solid rgba(255,255,255,0.10)' : '1px solid var(--border)'
+  // Apple crisp on dark: a warm near white for headings, a bright but easy
+  // body, and raised inner surfaces with a hint more lift so text sits clearly
+  // above the panel rather than fighting a stark black.
+  const titleColor = onDark ? '#FFF8EC' : 'var(--ink)'
+  const bodyColor = onDark ? 'rgba(255,251,244,0.90)' : 'var(--ink-soft)'
+  const innerBg = onDark ? 'rgba(255,251,244,0.08)' : 'rgba(255,255,255,0.7)'
+  const innerBorder = onDark ? '1px solid rgba(255,251,244,0.14)' : '1px solid var(--border)'
 
   return (
     <div
       style={{
         background: onDark ? HEAVY_SURFACE : 'var(--stage-4)',
         borderRadius: '24px',
-        border: onDark ? '1px solid rgba(255,255,255,0.08)' : '1.5px solid var(--stage-4)',
-        boxShadow: onDark ? '0 14px 40px rgba(0,0,0,0.28)' : 'none',
+        // A faint gold hairline plus an inner top highlight give the panel a
+        // crafted, lit edge instead of a flat cutout.
+        border: onDark ? '1px solid rgba(237,195,95,0.18)' : '1.5px solid var(--stage-4)',
+        boxShadow: onDark
+          ? 'inset 0 1px 0 rgba(255,248,236,0.10), 0 20px 46px -20px rgba(40,28,8,0.62)'
+          : 'none',
         padding: 'clamp(22px, 5vw, 28px)',
         marginBottom: '20px',
         overflow: 'hidden',
@@ -88,7 +97,11 @@ export default function SocialMediaReadiness({
         {readiness.title}
       </h3>
 
-      <p style={{ fontSize: 'clamp(1rem, 2.8vw, 1.08rem)', lineHeight: 1.65, color: bodyColor, marginBottom: '20px' }}>
+      <p style={{
+        fontSize: 'clamp(1.02rem, 2.8vw, 1.12rem)', lineHeight: 1.62,
+        fontWeight: onDark ? 500 : 400, letterSpacing: '-0.005em',
+        color: bodyColor, marginBottom: '20px',
+      }}>
         {readiness.body}
       </p>
 
@@ -104,7 +117,7 @@ export default function SocialMediaReadiness({
         }}>
           {isEarned ? 'Where it lands' : 'This stage'}
         </div>
-        <p style={{ fontSize: '14px', lineHeight: 1.6, color: onDark ? 'rgba(255,255,255,0.92)' : 'var(--ink)', margin: 0 }}>
+        <p style={{ fontSize: '14.5px', lineHeight: 1.6, fontWeight: onDark ? 500 : 400, color: onDark ? 'rgba(255,251,244,0.95)' : 'var(--ink)', margin: 0 }}>
           {readiness.focus}
         </p>
       </div>
@@ -120,12 +133,12 @@ export default function SocialMediaReadiness({
         }}>
           {evidence.headline}
         </p>
-        <p style={{ fontSize: '13px', lineHeight: 1.6, color: bodyColor, margin: '0 0 9px' }}>
+        <p style={{ fontSize: '13.5px', lineHeight: 1.62, fontWeight: onDark ? 500 : 400, color: bodyColor, margin: '0 0 9px' }}>
           {evidence.detail}
         </p>
         <p style={{
           fontFamily: 'var(--font-mono)', fontSize: '10.5px', letterSpacing: '0.03em',
-          color: onDark ? 'rgba(255,255,255,0.58)' : 'var(--ink-muted)', margin: 0,
+          color: onDark ? 'rgba(255,251,244,0.64)' : 'var(--ink-muted)', margin: 0,
         }}>
           {evidence.source}
         </p>
@@ -153,9 +166,9 @@ export default function SocialMediaReadiness({
           href="/passport"
           style={{
             display: 'inline-flex', alignItems: 'center',
-            color: onDark ? '#fff' : 'var(--ink)',
-            background: onDark ? 'rgba(255,255,255,0.06)' : 'transparent',
-            border: `1.5px solid ${onDark ? 'rgba(255,255,255,0.22)' : 'var(--border)'}`,
+            color: onDark ? '#FFF8EC' : 'var(--ink)',
+            background: onDark ? 'rgba(255,251,244,0.08)' : 'transparent',
+            border: `1.5px solid ${onDark ? 'rgba(255,251,244,0.30)' : 'var(--border)'}`,
             borderRadius: '14px', padding: '13px 20px', textDecoration: 'none',
             fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '13px',
           }}
