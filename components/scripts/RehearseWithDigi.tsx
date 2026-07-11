@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import DigiCharacter from '@/components/digi/DigiCharacter'
 
@@ -37,6 +37,37 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
     const el = scrollRef.current
     if (el) el.scrollTop = el.scrollHeight
   })
+
+  // The child talks back out loud, in a lighter, quicker voice, so a parent
+  // hears the pushback the way it lands rather than only reading it. Browser
+  // speech for now, a proper fun kid voice can slot in later. A ref stops the
+  // same reply being spoken twice across re-renders.
+  const [voiceOn, setVoiceOn] = useState(true)
+  const spokenRef = useRef<string>('')
+
+  const speakChild = (text: string) => {
+    if (typeof window === 'undefined' || !('speechSynthesis' in window)) return
+    const synth = window.speechSynthesis
+    synth.cancel()
+    const u = new SpeechSynthesisUtterance(text)
+    u.pitch = 1.5
+    u.rate = 1.06
+    u.lang = 'en-GB'
+    const voices = synth.getVoices()
+    const pick =
+      voices.find(v => /child|kid|girl|Google UK English Female|Serena|Kate|Martha/i.test(v.name) && v.lang?.startsWith('en'))
+      ?? voices.find(v => v.lang === 'en-GB')
+      ?? voices.find(v => v.lang?.startsWith('en'))
+    if (pick) u.voice = pick
+    synth.speak(u)
+  }
+
+  const stopSpeaking = () => {
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) window.speechSynthesis.cancel()
+  }
+
+  // Never leave the child voice talking after the panel unmounts.
+  useEffect(() => () => stopSpeaking(), [])
 
   async function run(mode: 'child' | 'coach', history: Msg[]) {
     setBusy(true)
@@ -79,6 +110,9 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
       full += decoder.decode()
       if (!full.trim()) {
         setError('DiGi went quiet. Try that again.')
+      } else if (mode === 'child' && voiceOn && spokenRef.current !== full) {
+        spokenRef.current = full
+        speakChild(full)
       }
     } catch {
       setError('DiGi lost connection. Your line was not lost, try again.')
@@ -109,6 +143,8 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
   }
 
   function reset() {
+    stopSpeaking()
+    spokenRef.current = ''
     setMessages([])
     setCoached(false)
     setError('')
@@ -162,7 +198,17 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
             </div>
           </div>
         </div>
-        <button onClick={reset} style={ghostBtn} title="Start over">Start over</button>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <button
+            onClick={() => setVoiceOn(v => { if (v) stopSpeaking(); return !v })}
+            style={{ ...ghostBtn, padding: '7px 11px' }}
+            title={voiceOn ? 'Mute the child voice' : 'Hear the child out loud'}
+            aria-label={voiceOn ? 'Mute the child voice' : 'Hear the child out loud'}
+          >
+            {voiceOn ? 'Voice on' : 'Muted'}
+          </button>
+          <button onClick={reset} style={ghostBtn} title="Start over">Start over</button>
+        </div>
       </div>
 
       <div ref={scrollRef} style={{ maxHeight: 320, overflowY: 'auto', padding: '16px 18px', display: 'flex', flexDirection: 'column', gap: 10, background: 'var(--cream)' }}>

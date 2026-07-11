@@ -56,9 +56,26 @@ export default function InsightsBoard() {
       <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.6rem,4vw,2.2rem)', letterSpacing: '-0.03em', color: 'var(--ink)', marginBottom: 8 }}>
         What parents asked DiGi
       </h1>
-      <p style={{ fontSize: 15, color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: 22 }}>
+      <p style={{ fontSize: 15, color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: 16 }}>
         The insight agent reads real DiGi conversations, themes them, and ranks what to build next. Aggregated and de-identified, never a single family.
       </p>
+
+      {/* One tap export of every script, for generating the voice batch. Same
+          login as this page, so it just works from here. */}
+      <a
+        href="/api/admin/scripts-export"
+        style={{
+          display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 22,
+          padding: '9px 14px', borderRadius: 10, textDecoration: 'none',
+          background: 'var(--tint-sage)', border: '1px solid var(--border)',
+          fontFamily: 'var(--font-mono)', fontSize: 11.5, fontWeight: 700,
+          letterSpacing: '0.04em', color: 'var(--ink)',
+        }}
+      >
+        ⬇ Download all scripts (for the voice batch)
+      </a>
+      <br />
+
 
       {/* Controls */}
       <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', alignItems: 'center', marginBottom: 24 }}>
