@@ -256,9 +256,11 @@ export default function ScriptReader({ sayThis, notThis, whyItWorks, tonight, st
           onClick={closeFocus}
           style={{
             position: 'fixed', inset: 0, zIndex: 1000,
+            // Warm brand cocoa espresso with a soft gold glow, matching the
+            // passport card and the Right Now tip, never a stark black wall.
             background:
-              'radial-gradient(130% 90% at 50% 0%, rgba(237,195,95,0.16), transparent 60%),' +
-              'linear-gradient(180deg, #2E2818 0%, #241F12 100%)',
+              'radial-gradient(120% 80% at 50% -6%, rgba(237,195,95,0.22), transparent 55%),' +
+              'linear-gradient(170deg, #4B3F29 0%, #3C3221 55%, #322818 100%)',
             display: 'flex', flexDirection: 'column',
             padding: 'clamp(24px, 7vw, 64px)',
             animation: 'sr-fade 0.2s ease',
@@ -276,8 +278,8 @@ export default function ScriptReader({ sayThis, notThis, whyItWorks, tonight, st
               aria-label="Close"
               style={{
                 width: 40, height: 40, borderRadius: '50%', cursor: 'pointer',
-                background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)',
-                color: '#fff', fontSize: 20, lineHeight: 1,
+                background: 'rgba(255,248,236,0.12)', border: '1px solid rgba(255,248,236,0.22)',
+                color: '#FFF8EC', fontSize: 20, lineHeight: 1,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
               }}
             >×</button>
