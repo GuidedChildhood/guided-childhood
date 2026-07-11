@@ -8,7 +8,14 @@
       "mcp__271e0a78-3143-4030-b4b1-2348e09478c0__get_file_permissions",
       "mcp__271e0a78-3143-4030-b4b1-2348e09478c0__list_recent_files",
       "mcp__271e0a78-3143-4030-b4b1-2348e09478c0__read_file_content",
-      "mcp__271e0a78-3143-4030-b4b1-2348e09478c0__search_files"
+      "mcp__271e0a78-3143-4030-b4b1-2348e09478c0__search_files",
+      "mcp__0706aa33-5a34-4e57-a890-33148e31b7d6__list_voices",
+      "mcp__0706aa33-5a34-4e57-a890-33148e31b7d6__generate_audio",
+      "mcp__0706aa33-5a34-4e57-a890-33148e31b7d6__media_upload",
+      "mcp__0706aa33-5a34-4e57-a890-33148e31b7d6__media_confirm",
+      "mcp__0706aa33-5a34-4e57-a890-33148e31b7d6__create_voice_from_confirmed_audio",
+      "mcp__0706aa33-5a34-4e57-a890-33148e31b7d6__show_generations",
+      "mcp__0706aa33-5a34-4e57-a890-33148e31b7d6__job_display"
     ]
   }
 }
