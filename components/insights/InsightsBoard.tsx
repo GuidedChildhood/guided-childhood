@@ -12,6 +12,12 @@ type Rec = { type: string; title: string; why: string; priority: number }
 type Report = { summary?: string; themes?: Theme[]; gaps?: Gap[]; recommendations?: Rec[] }
 type Payload = { generatedAt: string; days: number; count: number; report: Report }
 
+type Violation = { code: string; detail: string; severity: 'low' | 'medium' | 'high' }
+type CaseResult = { id: string; category: string; safetyPass: boolean; severity: string; rubricScore: number; score: number; rubricNotes: string; violations: Violation[] }
+type EvalRun = { ranAt: string; model: string; cases: number; passed: number; safetyBreaches: number; averageScore: number; results: CaseResult[] }
+type WisdomRow = { topic: string; age_band: string | null; what_works: string; evidence_count: number }
+type WisdomRebuild = { ranAt: string; signals: number; written: number; rows: WisdomRow[] }
+
 const TYPE_TINT: Record<string, { bg: string; fg: string }> = {
   script: { bg: 'var(--stage-2)', fg: 'var(--stage-2-text)' },
   lesson: { bg: 'var(--stage-4)', fg: 'var(--stage-4-text)' },
@@ -44,6 +50,34 @@ export default function InsightsBoard() {
     } finally {
       setLoading(false)
     }
+  }
+
+  // DiGi quality panel: the safety evals and the aggregate wisdom rebuild.
+  const [evalRun, setEvalRun] = useState<EvalRun | null>(null)
+  const [wisdom, setWisdom] = useState<WisdomRebuild | null>(null)
+  const [qLoading, setQLoading] = useState<'evals' | 'wisdom' | null>(null)
+  const [qError, setQError] = useState('')
+
+  async function runEvals() {
+    setQLoading('evals'); setQError('')
+    try {
+      const res = await fetch('/api/admin/digi-evals', { method: 'POST' })
+      const json = await res.json()
+      if (!res.ok) { setQError(json.error ?? 'Could not run the evals.'); return }
+      setEvalRun(json)
+    } catch { setQError('Could not reach the eval harness.') }
+    finally { setQLoading(null) }
+  }
+
+  async function rebuildWisdom() {
+    setQLoading('wisdom'); setQError('')
+    try {
+      const res = await fetch('/api/admin/digi-wisdom', { method: 'POST' })
+      const json = await res.json()
+      if (!res.ok) { setQError(json.error ?? 'Could not rebuild wisdom.'); return }
+      setWisdom(json)
+    } catch { setQError('Could not reach the wisdom builder.') }
+    finally { setQLoading(null) }
   }
 
   const recs = (data?.report.recommendations ?? []).slice().sort((a, b) => a.priority - b.priority)
@@ -179,6 +213,78 @@ export default function InsightsBoard() {
           )}
         </>
       )}
+
+      {/* DiGi quality: the safety evals and the shared wisdom rebuild. Founder
+          tools that keep DiGi honest and current, both on the existing key. */}
+      <section style={{ marginTop: 40, paddingTop: 28, borderTop: '1px solid var(--border)' }}>
+        <h2 style={sectionH}>DiGi quality</h2>
+        <p style={{ fontSize: 14, color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: 16 }}>
+          The evals run DiGi against a fixed set of hard cases and grade every reply against the non negotiables. The rebuild distils what has worked across families into DiGi&rsquo;s shared wisdom.
+        </p>
+
+        <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 18 }}>
+          <button onClick={runEvals} disabled={qLoading !== null} className="btn btn-gold" style={{ padding: '10px 18px', fontSize: 13, cursor: 'pointer', opacity: qLoading ? 0.7 : 1 }}>
+            {qLoading === 'evals' ? 'Running the evals...' : 'Run safety evals'}
+          </button>
+          <button onClick={rebuildWisdom} disabled={qLoading !== null} className="btn btn-outline" style={{ padding: '10px 18px', fontSize: 13, cursor: 'pointer', opacity: qLoading ? 0.7 : 1 }}>
+            {qLoading === 'wisdom' ? 'Rebuilding wisdom...' : 'Rebuild shared wisdom'}
+          </button>
+        </div>
+
+        {qError && <p style={{ color: 'var(--danger)', fontSize: 14, marginBottom: 16 }}>{qError}</p>}
+
+        {evalRun && (
+          <div style={{ marginBottom: 22 }}>
+            <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 12 }}>
+              <Stat label="Passed" value={`${evalRun.passed}/${evalRun.cases}`} tone={evalRun.passed === evalRun.cases ? 'good' : 'warn'} />
+              <Stat label="Safety breaches" value={String(evalRun.safetyBreaches)} tone={evalRun.safetyBreaches === 0 ? 'good' : 'bad'} />
+              <Stat label="Average score" value={`${Math.round(evalRun.averageScore * 100)}%`} tone={evalRun.averageScore >= 0.8 ? 'good' : evalRun.averageScore >= 0.6 ? 'warn' : 'bad'} />
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              {evalRun.results.map(r => (
+                <div key={r.id} style={{ display: 'flex', alignItems: 'center', gap: 10, background: 'var(--white,#fff)', border: '1px solid var(--border)', borderRadius: 10, padding: '10px 12px' }}>
+                  <span style={{ fontSize: 15 }}>{r.safetyPass && r.rubricScore >= 0.75 ? '✓' : !r.safetyPass ? '⚠' : '•'}</span>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11.5, color: 'var(--ink)', minWidth: 130 }}>{r.id}</span>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700, color: r.safetyPass ? 'var(--ink-soft)' : 'var(--danger)' }}>{Math.round(r.score * 100)}%</span>
+                  <span style={{ fontSize: 12, color: 'var(--ink-muted)', lineHeight: 1.4, flex: 1, minWidth: 0 }}>
+                    {r.safetyPass ? r.rubricNotes : r.violations.map(v => v.code).join(', ')}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {wisdom && (
+          <div>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ink-muted)', marginBottom: 10 }}>
+              {wisdom.written} patterns written from {wisdom.signals} de-identified signals
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {wisdom.rows.map((w, i) => (
+                <div key={i} style={{ background: 'var(--white,#fff)', border: '1px solid var(--border)', borderRadius: 12, padding: '13px 15px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 3 }}>
+                    <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 14, color: 'var(--ink)' }}>{w.topic}</span>
+                    {w.age_band && <span style={{ fontFamily: 'var(--font-mono)', fontSize: 8.5, fontWeight: 700, letterSpacing: '0.06em', color: 'var(--ink-muted)', background: 'var(--tint-sage)', padding: '2px 7px', borderRadius: 100 }}>{w.age_band}</span>}
+                  </div>
+                  <p style={{ fontSize: 13, color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>{w.what_works}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </section>
+    </div>
+  )
+}
+
+function Stat({ label, value, tone }: { label: string; value: string; tone: 'good' | 'warn' | 'bad' }) {
+  const fg = tone === 'good' ? 'var(--stage-1-text)' : tone === 'warn' ? 'var(--terracotta-dark)' : 'var(--danger)'
+  const bg = tone === 'good' ? 'var(--stage-1)' : tone === 'warn' ? 'var(--stage-2)' : 'var(--tint-rose, #FBE9E9)'
+  return (
+    <div style={{ background: bg, borderRadius: 12, padding: '12px 16px', minWidth: 110 }}>
+      <div style={{ fontFamily: 'var(--font-mono)', fontSize: 9.5, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: fg, marginBottom: 3 }}>{label}</div>
+      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 20, color: 'var(--ink)' }}>{value}</div>
     </div>
   )
 }
