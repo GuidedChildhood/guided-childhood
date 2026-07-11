@@ -2,7 +2,13 @@
 
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import DigiCharacter from '@/components/digi/DigiCharacter'
+
+// The child is played by Oliver, the warm Pixar style DiGi squad boy, so a
+// parent is rehearsing with what feels like a real little person rather than a
+// chat bubble. Always Oliver, for one familiar face across every rehearsal.
+const KID_FACE = '/digi-squad/Oliver.png'
 
 // A rehearsal room for the words. DiGi plays the child so the parent can try
 // the line, feel the pushback, and find their footing before the real
@@ -31,6 +37,7 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
   const scrollRef = useRef<HTMLDivElement>(null)
 
   const childLabel = childName && childName !== 'Your child' ? childName : 'your child'
+  const kidFace = KID_FACE
   const parentTurns = messages.filter(m => m.role === 'user').length
 
   const scrollDown = () => requestAnimationFrame(() => {
@@ -188,7 +195,19 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
     <div style={{ ...panel, padding: 0, overflow: 'hidden' }}>
       <div style={{ padding: '18px 20px 14px', borderBottom: '1px solid rgba(46,40,24,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <DigiCharacter size={30} mood="idle" />
+          {coached ? (
+            <DigiCharacter size={32} mood="idle" />
+          ) : (
+            <span
+              className={busy ? 'rd-kid-talk' : undefined}
+              style={{
+                width: 42, height: 42, borderRadius: '50%', overflow: 'hidden', flexShrink: 0,
+                background: 'var(--cream)', border: '2px solid var(--terracotta)', display: 'block',
+              }}
+            >
+              <Image src={kidFace} alt="" width={42} height={42} style={{ objectFit: 'cover', objectPosition: 'top', display: 'block' }} />
+            </span>
+          )}
           <div>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 9.5, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>
               Rehearsal
@@ -276,7 +295,11 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
         )}
       </div>
 
-      <style>{`@keyframes rh-bounce { 0%,80%,100% { transform: translateY(0) } 40% { transform: translateY(-6px) } }`}</style>
+      <style>{`
+        @keyframes rh-bounce { 0%,80%,100% { transform: translateY(0) } 40% { transform: translateY(-6px) } }
+        @keyframes rd-kid-talk { 0%,100% { transform: translateY(0) scale(1) } 50% { transform: translateY(-2px) scale(1.05) } }
+        .rd-kid-talk { animation: rd-kid-talk 0.6s ease-in-out infinite; }
+      `}</style>
     </div>
   )
 }
