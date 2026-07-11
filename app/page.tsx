@@ -364,7 +364,7 @@ export default function HomePage() {
         right: 0,
         zIndex: 300,
         height: '64px',
-        padding: '0 28px',
+        padding: '0 clamp(14px, 4vw, 28px)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -390,7 +390,7 @@ export default function HomePage() {
               ))}
             </div>
           </div>
-          <span style={{ fontFamily: 'var(--font-display)', fontSize: '1rem', fontWeight: 800, color: 'var(--ink)', letterSpacing: '-.03em' }}>
+          <span style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(0.9rem, 4vw, 1rem)', fontWeight: 800, color: 'var(--ink)', letterSpacing: '-.03em' }}>
             Guided Childhood
           </span>
         </Link>
@@ -399,14 +399,14 @@ export default function HomePage() {
 
         {/* Header actions, always visible so Log in is never lost when the
             section nav hides on mobile. */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(4px, 2vw, 10px)', flexShrink: 0 }}>
           <Link href="/login" style={{
             fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '13px',
-            color: 'var(--ink)', textDecoration: 'none', padding: '10px 6px', whiteSpace: 'nowrap',
+            color: 'var(--ink)', textDecoration: 'none', padding: '10px clamp(4px, 1.5vw, 6px)', whiteSpace: 'nowrap',
           }}>
             Log in
           </Link>
-          <Link href="/starter-pack" className="btn btn-green" style={{ fontSize: '13px', padding: '10px 18px', flexShrink: 0, whiteSpace: 'nowrap' }}>
+          <Link href="/starter-pack" className="btn btn-green" style={{ fontSize: '13px', padding: '10px clamp(13px, 3.5vw, 18px)', flexShrink: 0, whiteSpace: 'nowrap' }}>
             Get Started
           </Link>
         </div>
