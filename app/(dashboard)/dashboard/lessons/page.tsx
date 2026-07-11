@@ -64,9 +64,9 @@ export default async function LessonsPage() {
       .order('sort_order', { ascending: true }),
     supabase
       .from('lesson_completions')
-      .select('lesson_id')
+      .select('lesson_id, lesson_source')
       .eq('user_id', user.id)
-      .eq('lesson_source', 'lesson'),
+      .in('lesson_source', ['lesson', 'ai_lesson']),
   ])
 
   const generalLessons: LessonRow[] = (lessonsData ?? []).map(l => ({ ...l, source: 'lesson' as const }))
@@ -86,9 +86,23 @@ export default async function LessonsPage() {
   // once the trial is over. Anything already completed stays open.
   const isPaid = hasFullAccess(profile)
   const freeIds = freeLessonIds(generalLessons)
-  const completedIds = new Set((completionsData ?? []).map(c => c.lesson_id))
+  // Completion is tracked per source, and lesson ids are not unique across the
+  // two tables, so key the done set by source too. General lessons record as
+  // 'lesson', the AI pack records as 'ai_lesson'.
+  const completedLessonIds = new Set(
+    (completionsData ?? []).filter(c => c.lesson_source === 'lesson').map(c => c.lesson_id),
+  )
+  const completedAiIds = new Set(
+    (completionsData ?? []).filter(c => c.lesson_source === 'ai_lesson').map(c => c.lesson_id),
+  )
+  const isDone = (l: LessonRow) =>
+    l.source === 'ai' ? completedAiIds.has(l.id) : completedLessonIds.has(l.id)
   const isLocked = (l: LessonRow) =>
-    l.source === 'lesson' && !isPaid && !freeIds.has(l.id) && !completedIds.has(l.id)
+    l.source === 'lesson' && !isPaid && !freeIds.has(l.id) && !completedLessonIds.has(l.id)
+
+  const doneCount = allLessons.filter(isDone).length
+  const totalCount = allLessons.length
+  const pct = totalCount > 0 ? Math.round((doneCount / totalCount) * 100) : 0
 
   const byStage = (Object.keys(STAGE_META) as StageId[]).map(stageId => ({
     stageId,
@@ -107,6 +121,24 @@ export default async function LessonsPage() {
           Screen habits, safety, wellbeing and online risks, mapped to the school curriculum, plus the full AI safety and literacy pack{firstName ? ` for ${firstName}'s stage` : ''}.
         </p>
       </div>
+
+      {/* Progress: completed lessons count toward the total, and any lesson
+          can be opened again whenever you want a refresher. */}
+      {doneCount > 0 && (
+        <div style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '16px', padding: '16px 18px', marginBottom: '20px' }}>
+          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '10px', marginBottom: '10px' }}>
+            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)' }}>
+              {doneCount} of {totalCount} lessons complete
+            </span>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--terracotta)', letterSpacing: '0.06em' }}>
+              {pct}%
+            </span>
+          </div>
+          <div style={{ height: '8px', borderRadius: '100px', background: 'var(--border)', overflow: 'hidden' }}>
+            <div style={{ width: `${pct}%`, height: '100%', borderRadius: '100px', background: 'var(--terracotta)', transition: 'width 0.3s ease' }} />
+          </div>
+        </div>
+      )}
 
       {/* Flagship playable lesson */}
       <Link href="/dashboard/lessons/preview" style={{ textDecoration: 'none', display: 'block', marginBottom: '16px' }}>
@@ -183,6 +215,7 @@ export default async function LessonsPage() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {group.items.map(lesson => {
               const locked = isLocked(lesson)
+              const done = !locked && isDone(lesson)
               return (
               <Link
                 key={`${lesson.source}-${lesson.id}`}
@@ -190,7 +223,8 @@ export default async function LessonsPage() {
                 style={{
                   display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px',
                   textDecoration: 'none',
-                  background: 'var(--cream)', border: '1px solid var(--border)',
+                  background: done ? '#EDF7F1' : 'var(--cream)',
+                  border: done ? '1px solid #B7DEC9' : '1px solid var(--border)',
                   borderRadius: '14px', padding: '14px 16px',
                   opacity: locked ? 0.72 : 1,
                 }}
@@ -200,6 +234,11 @@ export default async function LessonsPage() {
                     <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 600, color: 'var(--terracotta)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
                       {CATEGORY_LABEL[lesson.category] ?? lesson.category}
                     </span>
+                    {done && (
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, color: '#1F7A54', letterSpacing: '0.08em', textTransform: 'uppercase', background: '#D4EDDF', borderRadius: '100px', padding: '2px 8px' }}>
+                        ✓ Completed
+                      </span>
+                    )}
                     {locked && (
                       <span style={{ fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, color: 'var(--ink-muted)', letterSpacing: '0.08em', textTransform: 'uppercase', background: 'var(--border)', borderRadius: '100px', padding: '2px 7px' }}>
                         Members
@@ -213,7 +252,13 @@ export default async function LessonsPage() {
                     {lesson.key_message}
                   </div>
                 </div>
-                <span style={{ fontSize: '15px', color: 'var(--ink-light)', flexShrink: 0 }}>{locked ? '🔒' : '→'}</span>
+                {done ? (
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: '#1F7A54', letterSpacing: '0.04em', textTransform: 'uppercase', flexShrink: 0, whiteSpace: 'nowrap' }}>
+                    Run again ↻
+                  </span>
+                ) : (
+                  <span style={{ fontSize: '15px', color: 'var(--ink-light)', flexShrink: 0 }}>{locked ? '🔒' : '→'}</span>
+                )}
               </Link>
               )
             })}

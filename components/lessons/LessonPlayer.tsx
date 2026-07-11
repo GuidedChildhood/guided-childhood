@@ -540,6 +540,16 @@ export default function LessonPlayer({
     setIndex(i => i + 1)
   }
 
+  // A lesson is never one and done. Replaying keeps the completion on record
+  // and just runs the deck again from the top.
+  const runAgain = () => {
+    answersRef.current = {}
+    setAnswered(false)
+    setFinished(false)
+    setIndex(0)
+    setDigiMood('idle')
+  }
+
   if (finished && kidMode) {
     const results = Object.values(answersRef.current)
     const correct = results.filter(Boolean).length
@@ -583,18 +593,23 @@ export default function LessonPlayer({
           <DigiCharacter mood="happy" size={96} />
         </div>
         <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.4rem, 3.4vw, 1.8rem)', fontWeight: 900, color: 'var(--ink)', letterSpacing: '-0.02em', marginBottom: '10px' }}>
-          Lesson done
+          Completed
         </h2>
         <p style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '360px', margin: '0 auto 26px' }}>
           {isSchool
             ? 'Now the worksheet verdicts and the named exit quizzes. Then one tap on the register records the delivery.'
-            : 'Counted towards your stage progress. The best next step is trying it at home tonight.'}
+            : 'Counted towards your stage progress. The best next step is trying it at home tonight, and you can run it again any time.'}
         </p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxWidth: '320px', margin: '0 auto' }}>
           {digiPrompt && (
             <Link href={`/dashboard/digi?q=${encodeURIComponent(digiPrompt)}`} className="btn btn-gold" style={{ justifyContent: 'center', fontSize: '13px' }}>
               Talk it through with DiGi
             </Link>
+          )}
+          {!isSchool && (
+            <button onClick={runAgain} className="btn btn-outline" style={{ justifyContent: 'center', fontSize: '13px' }}>
+              Run it again ↻
+            </button>
           )}
           <Link href={backHref} className="btn btn-outline" style={{ justifyContent: 'center', fontSize: '13px' }}>
             {isSchool ? 'Back to the lesson hub' : 'Back to all lessons'}
