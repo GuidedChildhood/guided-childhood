@@ -6,6 +6,7 @@ import { SOCIAL_MEDIA_LAW } from '@/lib/config/social-media-law'
 import ScriptDepth from '@/components/scripts/ScriptDepth'
 import ScriptReader from '@/components/scripts/ScriptReader'
 import RehearseWithDigi from '@/components/scripts/RehearseWithDigi'
+import { scriptVoiceUrl } from '@/lib/content/script-voice'
 import { isScriptLocked } from '@/lib/content/free-script-limit'
 
 const STAGE_META: Record<string, { label: string; color: string; bg: string }> = {
@@ -173,6 +174,7 @@ export default async function ScriptDetailPage({
           whyItWorks={script.why_it_works}
           tonight={script.tonight}
           stageId={script.stage_id}
+          voiceUrl={scriptVoiceUrl(sortOrder)}
         />
       </div>
 
