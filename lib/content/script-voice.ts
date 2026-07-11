@@ -11,8 +11,10 @@
 // /dashboard/scripts/<sort_order>).
 
 export const SCRIPT_VOICE: Record<number, string> = {
-  // Filled once Justin's voice is cloned and the say this line is generated
-  // per script. Until then every script uses the device voice.
+  // First social platform request, generated in Justin's cloned voice
+  // (Higgsfield, ElevenLabs engine). Served from the generation CDN for now;
+  // move to our own hosting once the voice is signed off across the set.
+  4: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_124947_9e608878-8eb3-4594-9a1a-ffc71d423e98.mp3',
 }
 
 export function scriptVoiceUrl(sortOrder: number): string | null {
