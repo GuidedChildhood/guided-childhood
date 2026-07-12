@@ -184,6 +184,57 @@ export const QUEST_GAMES: QuestGame[] = [
       { text: 'Netflix says your account will be deleted today unless you confirm your card details now.', correct: 'right', why: 'Real companies never delete same day and never ask for card details by message. Fear plus a deadline equals scam.' },
     ],
   },
+  {
+    key: 'how-many-squares', mechanic: 'sums',
+    title: 'How Many Squares?', emoji: '🟦', stage: 'Builder · 8 to 10', stages: [2, 3], stars: 3,
+    blurb: 'Count every square hiding in the big one. The bigger squares are sneaky.',
+    questions: [
+      { q: '⬜⬜⬜', options: [2, 3, 4], answer: 3 },
+      { q: '⬜⬜\n⬜⬜', options: [4, 5, 6], answer: 5 },
+      { q: '⬜⬜⬜\n⬜⬜⬜', options: [6, 8, 9], answer: 8 },
+      { q: '⬜⬜⬜\n⬜⬜⬜\n⬜⬜⬜', options: [9, 13, 14], answer: 14 },
+      { q: '⬜⬜⬜⬜\n⬜⬜⬜⬜\n⬜⬜⬜⬜\n⬜⬜⬜⬜', options: [16, 29, 30], answer: 30 },
+    ],
+  },
+  {
+    key: 'doubles-dash', mechanic: 'sums', timed: true,
+    title: 'Doubles Dash', emoji: '✌️', stage: 'Foundation · 4 to 7', stages: [1, 2], stars: 2,
+    blurb: 'Double the number before the timer runs out. The first step to times tables.',
+    questions: [
+      { q: 'Double 2', options: [3, 4, 5], answer: 4 },
+      { q: 'Double 5', options: [10, 12, 8], answer: 10 },
+      { q: 'Double 4', options: [6, 8, 10], answer: 8 },
+      { q: 'Double 7', options: [12, 14, 16], answer: 14 },
+      { q: 'Double 6', options: [12, 14, 10], answer: 12 },
+      { q: 'Double 9', options: [16, 18, 20], answer: 18 },
+    ],
+  },
+  {
+    key: 'tables-warm-up', mechanic: 'sums', timed: true,
+    title: 'Tables Warm Up', emoji: '🎸', stage: 'Builder · 8 to 10', stages: [2], stars: 3,
+    blurb: 'The 2s, 5s and 10s against the clock. Your first tables on stage.',
+    questions: [
+      { q: '2 × 3', options: [5, 6, 8], answer: 6 },
+      { q: '5 × 4', options: [20, 25, 15], answer: 20 },
+      { q: '10 × 6', options: [66, 60, 56], answer: 60 },
+      { q: '2 × 7', options: [12, 14, 16], answer: 14 },
+      { q: '5 × 8', options: [45, 35, 40], answer: 40 },
+      { q: '10 × 9', options: [90, 99, 80], answer: 90 },
+    ],
+  },
+  {
+    key: 'tables-rock-out', mechanic: 'sums', timed: true,
+    title: 'Tables Rock Out', emoji: '🤘', stage: 'Builder · 8 to 10', stages: [2, 3], stars: 3,
+    blurb: 'The 3s, 4s and 6s at full speed. One step from the big sprint.',
+    questions: [
+      { q: '3 × 6', options: [18, 21, 15], answer: 18 },
+      { q: '4 × 7', options: [24, 28, 32], answer: 28 },
+      { q: '6 × 5', options: [30, 36, 24], answer: 30 },
+      { q: '3 × 9', options: [24, 27, 30], answer: 27 },
+      { q: '4 × 9', options: [32, 36, 40], answer: 36 },
+      { q: '6 × 7', options: [42, 48, 36], answer: 42 },
+    ],
+  },
 ]
 
 export function getQuestGame(key: string): QuestGame | null {
