@@ -152,6 +152,7 @@ export default function OnboardingPage() {
 
   const [screen, setScreen] = useState<Screen>('init')
   const [childName, setChildName] = useState('')
+  const [nameNudge, setNameNudge] = useState(false)
   const [ageBand, setAgeBand] = useState<AgeBand>('8-10')
   // Any additional children the parent adds. The first child above is the
   // active one the app follows for now; these are saved so the account feels
@@ -369,7 +370,17 @@ export default function OnboardingPage() {
 
   if (screen === 'children') {
     const firstName = childName.trim()
-    const continueOn = () => { if (prefilled) completePersonalisation(); else setScreen('challenges') }
+    // A name is never demanded (first name only is the whole ask), but leaving
+    // it blank should be a choice, not an accident: the first Next with no
+    // name flags why it matters and asks once. A second Next continues.
+    const continueOn = () => {
+      if (!firstName && !nameNudge) {
+        setNameNudge(true)
+        nameInputRef.current?.focus()
+        return
+      }
+      if (prefilled) completePersonalisation(); else setScreen('challenges')
+    }
     const addSibling = () => setSiblings(prev => [...prev, { name: '', ageBand: '8-10' }])
     const updateSibling = (i: number, patch: Partial<{ name: string; ageBand: AgeBand }>) =>
       setSiblings(prev => prev.map((s, idx) => (idx === i ? { ...s, ...patch } : s)))
@@ -393,8 +404,15 @@ export default function OnboardingPage() {
               value={childName}
               onChange={e => setChildName(e.target.value)}
               placeholder="Their first name"
-              style={{ marginBottom: '18px', fontSize: 17 }}
+              style={{ marginBottom: nameNudge && !firstName ? '10px' : '18px', fontSize: 17 }}
             />
+            {nameNudge && !firstName && (
+              <div style={{ background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: 12, padding: '12px 14px', marginBottom: '18px' }}>
+                <p style={{ fontSize: 13.5, color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>
+                  A first name makes every script and DiGi answer personal to them. First name only, nothing else is ever asked for. You can also continue without one.
+                </p>
+              </div>
+            )}
 
             <label style={lbl}>How old {firstName ? `is ${firstName}` : 'are they'}?</label>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '24px' }}>
@@ -429,7 +447,7 @@ export default function OnboardingPage() {
             </button>
 
             <button style={{ ...BTN, opacity: saving ? 0.7 : 1 }} onClick={continueOn} disabled={saving}>
-              {saving ? 'One moment...' : prefilled ? 'Show me the pathway' : 'Next'}
+              {saving ? 'One moment...' : nameNudge && !firstName ? 'Continue without a name' : prefilled ? 'Show me the pathway' : 'Next'}
             </button>
             <button onClick={() => setScreen('welcome')} style={BACK_BTN}>
               ← Back
