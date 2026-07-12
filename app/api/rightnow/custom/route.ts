@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { firstText } from '@/lib/digi/text'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { DIGI_MODEL, DIGI_MODEL_FALLBACKS } from '@/lib/config/digi'
 import { hasCrisisLanguage, lexicalFlags, highestSeverity } from '@/lib/digi/safety'
@@ -39,7 +40,7 @@ async function generate(prompt: string): Promise<string> {
   for (const model of models) {
     try {
       const msg = await anthropic.messages.create({ model, max_tokens: 350, messages: [{ role: 'user', content: prompt }] })
-      return msg.content[0]?.type === 'text' ? msg.content[0].text : ''
+      return firstText(msg)
     } catch (err) {
       const isModelError = err instanceof Anthropic.APIError && (err.status === 404 || err.status === 400)
       if (!isModelError) throw err

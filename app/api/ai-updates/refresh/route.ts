@@ -14,6 +14,7 @@
 // x-cron-secret header. Without CRON_SECRET configured, the route is disabled.
 
 import { createClient } from '@supabase/supabase-js'
+import { firstText } from '@/lib/digi/text'
 import { NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 import { AI_UPDATE_MODEL, AI_UPDATE_MODEL_FALLBACKS, AI_UPDATE_AUDIENCES } from '@/lib/config/ai-module'
@@ -71,7 +72,7 @@ export async function POST(request: Request) {
     } catch {
       continue // skip a source that fails, keep going
     }
-    const text = response.content[0]?.type === 'text' ? response.content[0].text : ''
+    const text = firstText(response)
     const parsed = safeParseDrafts(text)
     for (const d of parsed) {
       if (!AI_UPDATE_AUDIENCES.includes(d.audience as typeof AI_UPDATE_AUDIENCES[number])) continue

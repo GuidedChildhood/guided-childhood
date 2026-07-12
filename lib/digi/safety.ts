@@ -1,4 +1,5 @@
 import { DIGI_MODEL, DIGI_MODEL_FALLBACKS } from '@/lib/config/digi'
+import { firstText } from '@/lib/digi/text'
 import Anthropic from '@anthropic-ai/sdk'
 
 // DiGi's second pair of eyes. The reply streams to the parent, so nothing here
@@ -150,7 +151,7 @@ Return an empty array if the reply is clean.`
   for (const model of models) {
     try {
       const msg = await anthropic.messages.create({ model, max_tokens: 500, messages: [{ role: 'user', content: prompt }] })
-      const text = msg.content[0]?.type === 'text' ? msg.content[0].text : ''
+      const text = firstText(msg)
       const match = text.match(/\{[\s\S]*\}/)
       if (!match) return []
       const parsed = JSON.parse(match[0]) as { violations?: Violation[] }
