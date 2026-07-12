@@ -1246,7 +1246,7 @@ function ResultScreen({
             letterSpacing: '0.05em', color: 'var(--deep-teal)', textDecoration: 'none',
             border: '1.5px solid var(--border)', borderRadius: '100px', padding: '8px 15px', background: '#fff',
           }}>
-            Skip the tour, take me straight in →
+            Take me straight in →
           </Link>
         </div>
 
@@ -1259,14 +1259,17 @@ function ResultScreen({
           </div>
         */}
 
-        {/* ── Beat 1: reassure and name it ─────────────────────── */}
-        <div className="wow-fu" style={RESULT_EYEBROW}>Your pathway</div>
+        {/* ── Beat 1: the arrival, and what the next minute shows ── */}
+        <div className="wow-fu" style={RESULT_EYEBROW}>Built from your answers</div>
         <h1 className="wow-fu" style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.6rem, 4vw, 2.2rem)', fontWeight: 800, letterSpacing: '-0.025em', color: 'var(--ink)', lineHeight: 1.15, marginBottom: '16px' }}>
-          Here is where your family is.
+          Your pathway is built.
         </h1>
 
-        <p className="wow-fu" style={{ fontSize: '15px', color: 'var(--ink)', lineHeight: 1.7, marginBottom: '28px' }}>
-          Whatever age your child is now, this is how we keep them safe: the exact words for tonight, a daily fix for the moment that keeps coming back, and a clear pathway from their first screen to full independence at 16.
+        <p className="wow-fu" style={{ fontSize: '15px', color: 'var(--ink)', lineHeight: 1.7, marginBottom: '12px' }}>
+          <strong>Our job:</strong> the exact words for tonight, a two minute daily practice, and DiGi beside you the moment anything kicks off. <strong>Your job:</strong> five minutes a day.
+        </p>
+        <p className="wow-fu" style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 600, letterSpacing: '0.04em', color: 'var(--ink-muted)', marginBottom: '28px' }}>
+          Sixty seconds down this page and you will know exactly what happens tonight, this week, and on the road to 16.
         </p>
 
         {/* Problem recognition. Names what they told us before offering the fix. */}
@@ -1516,7 +1519,7 @@ function ResultScreen({
             {needsConfirm ? 'One last step' : 'You are all set'}
           </div>
           <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', color: '#fff', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '12px' }}>
-            {needsConfirm ? 'Check your email' : 'Your pathway is ready'}
+            {needsConfirm ? 'Check your email' : 'Your first win is tonight'}
           </h2>
           <p style={{ color: 'rgba(255,255,255,0.78)', fontSize: '14px', lineHeight: 1.6, maxWidth: '340px', margin: '0 auto 24px' }}>
             {needsConfirm

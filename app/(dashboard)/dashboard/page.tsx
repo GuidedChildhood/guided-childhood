@@ -12,6 +12,7 @@ import DigiPrompts from '@/components/digi/DigiPrompts'
 import { getSuggestions, type Suggestion } from '@/lib/alerts/suggestions'
 import StreakFlame from '@/components/daily/StreakFlame'
 import DigiStreakWidget from '@/components/digi/DigiStreakWidget'
+import AddChildName from '@/components/dashboard/AddChildName'
 import SchoolActionsCard, { type SchoolAction } from '@/components/school/SchoolActionsCard'
 import SchoolPromoCard from '@/components/school/SchoolPromoCard'
 import QuestBoard from '@/components/quests/QuestBoard'
@@ -266,6 +267,10 @@ export default async function DashboardPage() {
           re-asked the same step on a second surface is gone, one ask only. */}
       <SetupPath flags={setupFlags} phoneAge={phoneAge} />
       <SetupUnlockToast flags={setupFlags} />
+
+      {/* The child's name was skipped at setup: one gentle ask, one tap to make
+          the whole app personal. Dismissable, never nags. */}
+      {(!child?.name || child.name === 'Your child') && <AddChildName />}
 
       {/* Today's Path: the hero of Home. The day's routine as one clear strip,
           DiGi sitting on the lit next step, so Home opens with a single thing to
