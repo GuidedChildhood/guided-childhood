@@ -261,15 +261,20 @@ export default async function DashboardPage() {
         <StreakFlame count={streak.count} aliveToday={streak.aliveToday} />
       </div>
 
-      {/* DiGi widget: the streak card with personality, the Duolingo charm
-          without the guilt. Warm when you show up, an open door when away. */}
-      <DigiStreakWidget count={streak.count} aliveToday={streak.aliveToday} firstName={firstName} />
-
       {/* The setup path is the single conductor. It shows one step at a
           time, the rest waiting as quiet chips. The old bottom nudge that
           re-asked the same step on a second surface is gone, one ask only. */}
       <SetupPath flags={setupFlags} phoneAge={phoneAge} />
       <SetupUnlockToast flags={setupFlags} />
+
+      {/* Today's Path: the hero of Home. The day's routine as one clear strip,
+          DiGi sitting on the lit next step, so Home opens with a single thing to
+          do rather than a wall of cards. */}
+      <TodayPathStrip tasks={todayLoop} />
+
+      {/* The streak card sits under the path: the reason to come back, below the
+          thing to do now. */}
+      <DigiStreakWidget count={streak.count} aliveToday={streak.aliveToday} firstName={firstName} />
 
       {/* DiGi jumps in: proactive prompts generated from this family's own
           data (mood and sleep trends, recurring concerns, wins) and the
@@ -288,58 +293,8 @@ export default async function DashboardPage() {
           calm. This is the dashboard alert for the age that needs it. */}
       <SocialMediaReadiness stageId={stage.id} childName={child?.name} />
 
-      {/* Today's path: the day's loop as five nodes, DiGi on the next step */}
-      <TodayPathStrip tasks={todayLoop} />
-
       {/* Family quests: prominent, every child at a glance, tickable here */}
       <QuestBoard />
-
-      {/* Continue Your Progress — primary hero card */}
-      <Link href="/dashboard/daily" style={{ textDecoration: 'none', display: 'block', marginBottom: '20px' }}>
-        <div style={{
-          background: stageColor.bg,
-          borderRadius: '20px',
-          overflow: 'hidden',
-          border: `1.5px solid ${stageColor.border}`,
-          boxShadow: '0 4px 24px rgba(26,26,46,0.08)',
-        }}>
-          {/* Stage color bold accent strip */}
-          <div style={{ background: stageColor.text, height: '5px' }} />
-          <div style={{ padding: '22px 22px 20px' }}>
-            <div style={{
-              fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600,
-              letterSpacing: '0.12em', textTransform: 'uppercase',
-              color: 'var(--ink-muted)', marginBottom: '10px',
-            }}>
-              {dailyDone ? 'Completed today' : 'Continue your progress'}
-            </div>
-            <div style={{
-              fontFamily: 'var(--font-display)', fontWeight: 900,
-              fontSize: 'clamp(1.2rem, 4vw, 1.55rem)', color: 'var(--ink)',
-              letterSpacing: '-0.025em', lineHeight: 1.15, marginBottom: '18px',
-            }}>
-              {dailyDone
-                ? "Today's practice done"
-                : `Today's practice${(child?.name && child.name !== 'Your child') ? ` for ${child.name}` : ''}`}
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px' }}>
-              <div style={{ fontSize: '13px', color: 'var(--ink-muted)' }}>
-                {dailyDone ? 'Come back tomorrow' : '5 cards · 2 minutes'}
-              </div>
-              <div style={{
-                background: dailyDone ? 'var(--border)' : 'var(--terracotta)',
-                color: dailyDone ? 'var(--ink-muted)' : '#fff',
-                borderRadius: '16px', padding: '10px 20px',
-                fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
-                letterSpacing: '0.06em', textTransform: 'uppercase', flexShrink: 0,
-                boxShadow: dailyDone ? 'none' : '0 3px 0 var(--terracotta-dark)',
-              }}>
-                {dailyDone ? 'Done ✓' : 'Continue →'}
-              </div>
-            </div>
-          </div>
-        </div>
-      </Link>
 
       {/* DiGi check in — surfaces last reflective answer if the parent responded */}
       {lastFeedback && (
@@ -595,29 +550,6 @@ export default async function DashboardPage() {
             </div>
             <div style={{ fontSize: '13px', color: 'var(--ink)' }}>
               Every step from first device to independence, mapped to your child&apos;s stage.
-            </div>
-          </div>
-          <span style={{ fontSize: '18px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>
-        </div>
-      </Link>
-
-      {/* Scripts discovery: the exact words for the hard conversations. Now
-          that Scripts is not a bottom tab, this is its home on the dashboard. */}
-      <Link href="/dashboard/scripts" style={{ textDecoration: 'none', display: 'block', marginBottom: '12px' }}>
-        <div style={{
-          background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta-lt)',
-          borderRadius: '16px', padding: '22px',
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px',
-        }}>
-          <div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
-              Scripts
-            </div>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)', marginBottom: '3px' }}>
-              The exact words
-            </div>
-            <div style={{ fontSize: '13px', color: 'var(--ink)' }}>
-              Word for word scripts for the hard conversations, from first tablet to first phone.
             </div>
           </div>
           <span style={{ fontSize: '18px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>
