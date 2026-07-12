@@ -47,7 +47,7 @@ export default async function CategoryPage({
     .eq('id', user.id)
     .single()
 
-  const isPaid = hasFullAccess(profile)
+  const isPaid = hasFullAccess(profile, user.email)
 
   const { data: completionRows } = await supabase
     .from('script_completions')

@@ -152,7 +152,7 @@ export async function POST(request: Request) {
   const convData = convResult.data
   const child = childResult.data
 
-  const isPaid = hasFullAccess(profile)
+  const isPaid = hasFullAccess(profile, user.email)
 
   const today = new Date().toISOString().split('T')[0]
   const isNewDay = !convData || convData.last_message_date !== today
@@ -179,7 +179,7 @@ export async function POST(request: Request) {
     getExpertKnowledge(supabase, child?.age_band ?? null, message),
     getAggregateWisdom(supabase, child?.age_band ?? null, message),
     child?.stage_id
-      ? getRecommendedScript(supabase, user.id, child.stage_id as StageId, parentChallenge ?? null)
+      ? getRecommendedScript(supabase, user.id, child.stage_id as StageId, parentChallenge ?? null, { preferFree: !isPaid })
       : Promise.resolve(null),
     scriptFeedback.length > 0
       ? supabase

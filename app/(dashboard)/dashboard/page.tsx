@@ -138,7 +138,7 @@ export default async function DashboardPage() {
     : STAGES[0]
 
   const stageColor = STAGE_COLORS[stage.id as keyof typeof STAGE_COLORS]
-  const isPaid = hasFullAccess(profile)
+  const isPaid = hasFullAccess(profile, user.email)
   // The parent's first name, resolved from the best source we have: the
   // profile, then the auth metadata set at signup, then the email local part,
   // so a warm greeting almost never falls back to the bare "there".
@@ -160,7 +160,7 @@ export default async function DashboardPage() {
   const challenge = ((profile?.onboarding_answers as Record<string, string> | null)?.challenge ?? null) as ChallengeId | null
   const [streak, todayLoop, suggestions] = await Promise.all([
     getDailyStreak(supabase, user.id),
-    getTodayLoop(supabase, user.id, stageSlug, challenge),
+    getTodayLoop(supabase, user.id, stageSlug, challenge, isPaid),
     child?.stage_id
       ? getSuggestions(supabase, user.id, { childName: child.name, childId: child.id, stageId: stageSlug, ukHour })
       : Promise.resolve([] as Suggestion[]),

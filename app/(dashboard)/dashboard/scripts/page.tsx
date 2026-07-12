@@ -55,7 +55,7 @@ export default async function ScriptsPage() {
     supabase.from('script_completions').select('script_sort_order, completed_at').eq('user_id', user.id),
   ])
 
-  const isPaid = hasFullAccess(profile)
+  const isPaid = hasFullAccess(profile, user.email)
   const scripts = (scriptsData ?? []) as ScriptRow[]
   const completedOrders = new Set((completions ?? []).map(c => c.script_sort_order))
   const challenge = (profile?.onboarding_answers as Record<string, string> | null)?.challenge as ChallengeId | undefined
@@ -63,7 +63,7 @@ export default async function ScriptsPage() {
   const currentStageId = (child?.stage_id as StageId) ?? null
 
   const recommended = currentStageId
-    ? await getRecommendedScript(supabase, user.id, currentStageId, challenge ?? null)
+    ? await getRecommendedScript(supabase, user.id, currentStageId, challenge ?? null, { preferFree: !isPaid })
     : null
 
   const byStage = (Object.keys(STAGE_META) as StageId[]).map(stageId => {
