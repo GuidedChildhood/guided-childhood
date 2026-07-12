@@ -18,7 +18,7 @@ export type DigiTask =
   | 'verify' | 'grade' | 'wisdom' | 'insights'
   | 'extract' | 'feedback' | 'prompts' | 'moment'
 
-const FAST_TASKS = new Set<DigiTask>(['extract', 'feedback', 'prompts', 'moment'])
+const FAST_TASKS = new Set<DigiTask>(['extract', 'feedback', 'prompts', 'moment', 'grade'])
 
 // The model router (DiGi intelligence step 8): one place decides which
 // model answers which job. Parent facing words and safety judgement get
