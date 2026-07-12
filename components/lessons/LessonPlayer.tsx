@@ -481,7 +481,9 @@ export default function LessonPlayer({
   // to a token authenticated endpoint instead of the parent session one.
   kidMode?: boolean
   kidStars?: number
-  completeEndpoint?: string
+  // null skips the completion write entirely: a lesson DiGi wrote on the fly
+  // has no database row to complete against.
+  completeEndpoint?: string | null
   completeBody?: Record<string, unknown>
 }) {
   const [index, setIndex] = useState(0)
@@ -520,6 +522,7 @@ export default function LessonPlayer({
     if (isLast) {
       setFinished(true)
       setDigiMood('happy')
+      if (completeEndpoint === null) return
       const results = Object.values(answersRef.current)
       try {
         await fetch(completeEndpoint ?? '/api/lessons/complete', {
