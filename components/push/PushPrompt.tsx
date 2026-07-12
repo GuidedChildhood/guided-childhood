@@ -171,7 +171,7 @@ export default function PushPrompt({ userId, stage }: Props) {
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
           <span style={{ fontSize: '1rem' }}>✓</span>
-          <span style={{ flex: 1, minWidth: '180px' }}>Check ins are on. We will nudge you at 7:30am, 3:30pm and 9pm.</span>
+          <span style={{ flex: 1, minWidth: '180px' }}>Check ins are on. Pick the moments that suit your day.</span>
           <button
             onClick={sendTest}
             style={{
@@ -183,6 +183,7 @@ export default function PushPrompt({ userId, stage }: Props) {
             Send a test
           </button>
         </div>
+        <NudgeSlots />
         {testResult && (
           <p style={{ margin: '10px 0 0', fontSize: '.78rem', fontWeight: 500, color: 'var(--ink-soft)', lineHeight: 1.5 }}>
             {testResult}
@@ -279,6 +280,65 @@ export default function PushPrompt({ userId, stage }: Props) {
           {enableError}
         </p>
       )}
+    </div>
+  )
+}
+
+// When do you want your daily nudge? Three moments, tap to toggle, saved to
+// every device the parent has. The routine choice as personalisation: the same
+// check ins, at the times that fit this family's actual day.
+const SLOT_OPTIONS = [
+  { key: 'morning', label: 'Morning 7:30am' },
+  { key: 'afternoon', label: 'After school 3:30pm' },
+  { key: 'evening', label: 'Evening 9pm' },
+] as const
+
+function NudgeSlots() {
+  const [slots, setSlots] = useState<string[]>(['morning', 'afternoon', 'evening'])
+  const [loaded, setLoaded] = useState(false)
+
+  useEffect(() => {
+    fetch('/api/push/slots')
+      .then(r => (r.ok ? r.json() : null))
+      .then(d => { if (d?.slots?.length) setSlots(d.slots) })
+      .catch(() => null)
+      .finally(() => setLoaded(true))
+  }, [])
+
+  function toggle(key: string) {
+    const next = slots.includes(key) ? slots.filter(s => s !== key) : [...slots, key]
+    if (next.length === 0) return
+    setSlots(next)
+    fetch('/api/push/slots', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ slots: next }),
+    }).catch(() => null)
+  }
+
+  return (
+    <div style={{ display: 'flex', gap: '7px', flexWrap: 'wrap', marginTop: '11px', opacity: loaded ? 1 : 0.6, transition: 'opacity 0.2s' }}>
+      {SLOT_OPTIONS.map(o => {
+        const on = slots.includes(o.key)
+        return (
+          <button
+            key={o.key}
+            type="button"
+            onClick={() => toggle(o.key)}
+            aria-pressed={on}
+            style={{
+              fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700,
+              letterSpacing: '0.04em', borderRadius: '100px', padding: '7px 13px',
+              cursor: 'pointer', transition: 'all 0.12s',
+              background: on ? 'var(--terracotta)' : '#fff',
+              color: on ? 'var(--ink)' : 'var(--ink-muted)',
+              border: on ? '1.5px solid var(--terracotta)' : '1.5px solid var(--border)',
+            }}
+          >
+            {on ? '\u2713 ' : ''}{o.label}
+          </button>
+        )
+      })}
     </div>
   )
 }

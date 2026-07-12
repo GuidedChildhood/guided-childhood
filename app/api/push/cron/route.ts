@@ -14,16 +14,19 @@ const WINDOW_MINUTES = 10
 
 const CHECK_INS = [
   {
+    slot: 'morning',
     hour: 7, minute: 30,
     title: 'Morning check in',
     body: 'How did the first screen moment go today? DiGi is ready with the words if you need them.',
   },
   {
+    slot: 'afternoon',
     hour: 15, minute: 30,
     title: 'School is out',
     body: 'After school screen time is one of the hardest moments. Your stage guide has the structure.',
   },
   {
+    slot: 'evening',
     hour: 21, minute: 0,
     title: 'Evening wind down',
     body: 'Bedtime and the phone, how did it go? Log the moment and DiGi will help you prepare for tomorrow.',
@@ -57,7 +60,7 @@ export async function GET(req: NextRequest) {
       'content-type': 'application/json',
       authorization: `Bearer ${process.env.CRON_SECRET}`,
     },
-    body: JSON.stringify({ title: checkin.title, body: checkin.body, url: '/dashboard' }),
+    body: JSON.stringify({ title: checkin.title, body: checkin.body, url: '/dashboard', slot: checkin.slot }),
   })
 
   const result = await res.json()
