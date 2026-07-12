@@ -534,94 +534,35 @@ export default async function DashboardPage() {
         </div>
       </div>
 
-      {/* Pathway discovery: Pathway left the mobile tab bar for the Right Now button, this card is its home on mobile */}
-      <Link href="/dashboard/pathway" style={{ textDecoration: 'none', display: 'block', marginBottom: '12px' }}>
-        <div style={{
-          background: 'var(--tint-blue)', border: '1.5px solid var(--tint-blue)',
-          borderRadius: '16px', padding: '22px',
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px',
-        }}>
-          <div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '6px' }}>
-              Your journey
-            </div>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)', marginBottom: '3px' }}>
-              See your pathway
-            </div>
-            <div style={{ fontSize: '13px', color: 'var(--ink)' }}>
-              Every step from first device to independence, mapped to your child&apos;s stage.
-            </div>
-          </div>
-          <span style={{ fontSize: '18px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>
+      {/* Explore: everything else in the membership, folded into one calm grid
+          of equal tiles instead of a stack of full width cards. Scripts and
+          Quests are their own tabs now, so this is the rest of the platform,
+          kept quiet and below the day so Home stays about today. */}
+      <section style={{ marginBottom: '20px' }}>
+        <p className="eyebrow" style={{ marginBottom: '12px', fontSize: 10 }}>Explore your membership</p>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px' }}>
+          {[
+            { href: '/dashboard/pathway', external: false, bg: 'var(--tint-blue)', icon: '🗺️', title: 'Your pathway', sub: 'First device to independence' },
+            { href: '/dashboard/lessons', external: false, bg: 'var(--stage-3)', icon: '📚', title: 'Lessons', sub: 'Screen habits to AI literacy' },
+            { href: '/dashboard/agreement', external: false, bg: 'var(--stage-1)', icon: '🤝', title: 'Family agreement', sub: 'Five talks, one signed sheet' },
+            { href: 'https://www.guidedchildhood.com/digitalwellbeing', external: true, bg: 'var(--stage-2)', icon: '🩺', title: 'Health report', sub: 'One free with membership' },
+          ].map(tile => (
+            <Link
+              key={tile.href}
+              href={tile.href}
+              {...(tile.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+              style={{
+                textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: '7px',
+                background: tile.bg, border: `1.5px solid ${tile.bg}`, borderRadius: '16px', padding: '16px',
+              }}
+            >
+              <span style={{ fontSize: '22px', lineHeight: 1 }}>{tile.icon}</span>
+              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--ink)', lineHeight: 1.2 }}>{tile.title}</span>
+              <span style={{ fontSize: '11.5px', color: 'var(--ink-soft)', lineHeight: 1.4 }}>{tile.sub}</span>
+            </Link>
+          ))}
         </div>
-      </Link>
-
-      {/* Lessons discovery: the one place every lesson lives, screen
-          habits, safety, wellbeing and AI literacy together */}
-      <Link href="/dashboard/lessons" style={{ textDecoration: 'none', display: 'block', marginBottom: '12px' }}>
-        <div style={{
-          background: 'var(--stage-3)', border: '1.5px solid var(--stage-3)',
-          borderRadius: '16px', padding: '22px',
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px',
-        }}>
-          <div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '6px' }}>
-              Lessons
-            </div>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)', marginBottom: '3px' }}>
-              Learn it together
-            </div>
-            <div style={{ fontSize: '13px', color: 'var(--ink)' }}>
-              Screen habits, safety, wellbeing and AI literacy. Calm lessons for every age.
-            </div>
-          </div>
-          <span style={{ fontSize: '18px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>
-        </div>
-      </Link>
-
-      {/* Family agreement discovery */}
-      <Link href="/dashboard/agreement" style={{ textDecoration: 'none', display: 'block', marginBottom: '12px' }}>
-        <div style={{
-          background: 'var(--stage-1)', border: '1.5px solid var(--stage-1)',
-          borderRadius: '16px', padding: '22px',
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px',
-        }}>
-          <div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '6px' }}>
-              Made together
-            </div>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)', marginBottom: '3px' }}>
-              Build your family agreement
-            </div>
-            <div style={{ fontSize: '13px', color: 'var(--ink)' }}>
-              Five conversations, one signed agreement, printed for the fridge.
-            </div>
-          </div>
-          <span style={{ fontSize: '18px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>
-        </div>
-      </Link>
-
-      {/* Digital Health Check discovery */}
-      <Link href="https://www.guidedchildhood.com/digitalwellbeing" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', display: 'block', marginBottom: '20px' }}>
-        <div style={{
-          background: 'var(--stage-2)', border: '1.5px solid var(--stage-2)',
-          borderRadius: '16px', padding: '18px 22px',
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px',
-        }}>
-          <div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '6px' }}>
-              Under 10 minutes, no login
-            </div>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)' }}>
-              Get your child&apos;s Digital Health Report
-            </div>
-            <div style={{ fontSize: '12px', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '4px' }}>
-              Your membership includes one free report. Your code arrives by email.
-            </div>
-          </div>
-          <span style={{ fontSize: '18px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>
-        </div>
-      </Link>
+      </section>
 
       </>)}
 
