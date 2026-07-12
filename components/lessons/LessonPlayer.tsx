@@ -610,6 +610,11 @@ export default function LessonPlayer({
             </Link>
           )}
           {!isSchool && (
+            <Link href="/dashboard/tracker" className="btn btn-outline" style={{ justifyContent: 'center', fontSize: '13px' }}>
+              See your passport fill →
+            </Link>
+          )}
+          {!isSchool && (
             <button onClick={runAgain} className="btn btn-outline" style={{ justifyContent: 'center', fontSize: '13px' }}>
               Run it again ↻
             </button>

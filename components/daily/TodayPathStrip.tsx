@@ -324,12 +324,15 @@ export default function TodayPathStrip({ tasks }: { tasks: TodayLoopTask[] }) {
           </span>
         </Link>
       ) : (
-        <p style={{
-          marginTop: '14px', marginBottom: 0, textAlign: 'center',
-          fontFamily: 'var(--font-body)', fontSize: '13px', color: 'var(--ink-soft)',
-        }}>
-          Day complete. Your streak is safe, see you tomorrow.
-        </p>
+        <Link
+          href="/dashboard/tracker"
+          style={{
+            display: 'block', marginTop: '14px', textAlign: 'center', textDecoration: 'none',
+            fontFamily: 'var(--font-body)', fontSize: '13px', color: 'var(--ink-soft)',
+          }}
+        >
+          Day complete, streak safe. <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>See what it moved →</span>
+        </Link>
       )}
     </div>
   )

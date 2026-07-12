@@ -437,6 +437,18 @@ export default function DailyDeckViewer({
           Back to home
         </button>
 
+        <button
+          onClick={() => router.push('/dashboard/tracker')}
+          style={{
+            width: '100%', marginTop: '10px', padding: '12px', background: 'none',
+            border: 'none', cursor: 'pointer',
+            fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
+            letterSpacing: '0.06em', color: 'var(--terracotta-dark)',
+          }}
+        >
+          See what today moved on your passport →
+        </button>
+
         {/* Done is not a dead end: issues do not respect the streak */}
         <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
           <button
