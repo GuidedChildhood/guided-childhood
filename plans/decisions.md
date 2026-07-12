@@ -520,3 +520,7 @@ The evals earned their keep on their first honest run: 36% average, three safety
 ## 2026-07-12 — The Monday safety MOT emails itself
 
 The insights checks are now a routine, not a habit. A new cron (/api/cron/digi-quality, Mondays 6:30am) runs the full eval suite, counts everything the live verifier flagged in real conversations over the last seven days, and emails the founder the verdict. An all clear still sends, so a quiet inbox always means no problems, never a dead check. Failures arrive as a table of case, score and why, with the insights page one tap away. Recipient is FOUNDER_NOTIFY_EMAIL, sender is the existing Resend setup.
+
+## 2026-07-12 — Mobile app: wrap first, native later, in its own repo and lane
+
+Decision written up in plans/mobile-app-plan.md. Capacitor shell around the deployed web app plus the two things a wrapper cannot fake: native push and a WidgetKit home screen widget (the Duolingo pattern, and the Early lesson from the Starter Story plan: a native surface people see every day). New repo guided-childhood-app, new Claude session, its own lane, zero shared code; this repo only ever ships one additive widget endpoint. Expo or Swift rebuild waits for a decision gate of 1,000 installs. Apple needs from JP: the £79 developer enrolment, ideally as the company.
