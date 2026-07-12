@@ -1,7 +1,26 @@
 import type { Metadata, Viewport } from 'next'
+import { Nunito, IBM_Plex_Mono } from 'next/font/google'
 import './globals.css'
 import PwaRegister from '@/components/PwaRegister'
 import UpdateBanner from '@/components/UpdateBanner'
+
+// Fonts loaded through Next's font pipeline, not a CSS @import. The old import
+// was render blocking and flashed a generic system font before Nunito arrived,
+// which is what made the type read cheap for a beat on first paint. Self hosted
+// and preloaded, the brand font is there from the first frame.
+const nunito = Nunito({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800', '900'],
+  style: ['normal', 'italic'],
+  variable: '--font-nunito',
+  display: 'swap',
+})
+const plexMono = IBM_Plex_Mono({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-ibm-plex-mono',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: {
@@ -47,7 +66,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${nunito.variable} ${plexMono.variable}`}>
       <head>
         <link rel="manifest" href="/manifest.json" />
         <link rel="apple-touch-icon" href="/icons/icon-192.png" />
