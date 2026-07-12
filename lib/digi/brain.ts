@@ -96,19 +96,52 @@ export async function getFamilyMemory(
   message = '',
   limit = 12
 ): Promise<string> {
-  // Pull a wide recent window, then rank it against the question so the slice
-  // DiGi actually sees is the most relevant, not merely the most recent.
-  const { data } = await supabase
-    .from('digi_memory')
-    .select('kind, content, created_at')
-    .eq('user_id', userId)
-    .eq('active', true)
-    .order('created_at', { ascending: false })
-    .limit(60)
+  // Hybrid retrieval. When embeddings are configured, the question is embedded
+  // and the memories nearest in MEANING come back through match_digi_memory
+  // (locked to this user inside the function). Those candidates then still go
+  // through rankMemories, so kind weight, recency and word overlap all keep
+  // their say. Any failure, or no key, falls straight back to the recent
+  // window plus keyword ranking that has worked all along.
+  const { embedText } = await import('@/lib/digi/embeddings')
 
-  if (!data || data.length === 0) return ''
+  const [recentResult, queryEmbedding] = await Promise.all([
+    supabase
+      .from('digi_memory')
+      .select('kind, content, created_at')
+      .eq('user_id', userId)
+      .eq('active', true)
+      .order('created_at', { ascending: false })
+      .limit(60),
+    message.trim() ? embedText(message, 'query') : Promise.resolve(null),
+  ])
 
-  const ranked = rankMemories(data as MemoryRow[], message, Date.now(), limit)
+  const recent = (recentResult.data ?? []) as MemoryRow[]
+
+  let candidates: MemoryRow[] = recent
+  if (queryEmbedding) {
+    try {
+      const { data: semantic } = await supabase.rpc('match_digi_memory', {
+        query_embedding: queryEmbedding,
+        match_count: 20,
+      })
+      if (semantic && semantic.length > 0) {
+        // Merge by content so a memory found both ways appears once. Semantic
+        // hits lead, the recent window fills in what meaning search missed
+        // (brand new rows may not be embedded yet).
+        const seen = new Set<string>()
+        candidates = []
+        for (const m of [...(semantic as MemoryRow[]), ...recent]) {
+          if (seen.has(m.content)) continue
+          seen.add(m.content)
+          candidates.push({ kind: m.kind, content: m.content, created_at: m.created_at })
+        }
+      }
+    } catch { /* semantic search is an upgrade, never a dependency */ }
+  }
+
+  if (candidates.length === 0) return ''
+
+  const ranked = rankMemories(candidates, message, Date.now(), limit)
   return '\n\nWHAT YOU REMEMBER ABOUT THIS FAMILY (the most relevant to what they just asked, from previous conversations and check ins, use naturally, never recite as a list):\n' +
     ranked.map(m => `- [${m.kind}] ${m.content}`).join('\n')
 }
