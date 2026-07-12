@@ -60,9 +60,15 @@ export default function FeatureDiscovery({ done = [] }: { done?: string[] }) {
     if (notifGranted) skip.add('notifications')
 
     const next = TIPS.find(t => !state.seen[t.key] && !skip.has(t.key))
-    // First two logins prime install and notifications, then one tip every
-    // fourth login. Quiet the rest of the time.
-    const due = state.count <= 2 || state.count % 4 === 0
+    // First two logins prime install and notifications, then at most one tip
+    // per day, so the whole platform is met inside the first week without a
+    // single wall of features. Quiet once a tip has shown today.
+    const today = new Date().toDateString()
+    const due = state.count <= 2 || (state as { lastTipDay?: string }).lastTipDay !== today
+    if (next && due) {
+      ;(state as { lastTipDay?: string }).lastTipDay = today
+      localStorage.setItem(STORE, JSON.stringify(state))
+    }
     if (next && due) {
       setIsIOS(/iphone|ipad|ipod/i.test(window.navigator.userAgent))
       setTip(next)
