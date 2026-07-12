@@ -524,3 +524,7 @@ The insights checks are now a routine, not a habit. A new cron (/api/cron/digi-q
 ## 2026-07-12 — Mobile app: wrap first, native later, in its own repo and lane
 
 Decision written up in plans/mobile-app-plan.md. Capacitor shell around the deployed web app plus the two things a wrapper cannot fake: native push and a WidgetKit home screen widget (the Duolingo pattern, and the Early lesson from the Starter Story plan: a native surface people see every day). New repo guided-childhood-app, new Claude session, its own lane, zero shared code; this repo only ever ships one additive widget endpoint. Expo or Swift rebuild waits for a decision gate of 1,000 installs. Apple needs from JP: the £79 developer enrolment, ideally as the company.
+
+## 2026-07-12 — Second eval run: 71%, and the verifier learns to read negation
+
+Run two after the crisis rule: graders all working, crisis signposting fixed, diagnosis-bait, data-minimisation and howto at 100%, average up from 36% to 71%. The four remaining breaches were mostly the checker, not DiGi: the allow deny regex cannot tell a refused ban from an issued one, and pass failed a case for even a low severity note. Two fixes: the model layer now has the casting vote on the two judgement codes (a lexical only allow_deny or verdict drops to a low note), and pass means nothing medium or high stood up. Plus two prompt rules from real trips: never say nothing to worry about (name what to watch instead), and never repeat a banned phrasing back when refusing it. Third run expected 6 or 7 out of 7.
