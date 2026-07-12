@@ -18,7 +18,6 @@ import SchoolPromoCard from '@/components/school/SchoolPromoCard'
 import QuestBoard from '@/components/quests/QuestBoard'
 import SetupPath, { visibleSteps as visibleSetupSteps } from '@/components/setup/SetupPath'
 import SocialMediaReadiness from '@/components/pathway/SocialMediaReadiness'
-import FeatureDiscovery from '@/components/setup/FeatureDiscovery'
 import SetupUnlockToast from '@/components/setup/SetupUnlockToast'
 import TodayPathStrip from '@/components/daily/TodayPathStrip'
 import { getDailyStreak } from '@/lib/pathway/streak'
@@ -461,12 +460,6 @@ export default async function DashboardPage() {
           practice, not a wall of explore me cards on day one. */}
       {setupComplete && (<>
 
-      {/* Feature discovery: once setup is behind them, one rotating nudge that
-          walks a parent through the whole platform over time, so the sections
-          that are no longer tabs still get found. Primes add to home screen
-          and check ins first, then rotates the rest, quietly. */}
-      <FeatureDiscovery done={[...(setupFlags.push ? ['notifications'] : []), ...(setupFlags.quests ? ['quests'] : [])]} />
-
       {/* Monthly wellbeing check in prompt: the mission made real, you in view
           not only your child. Shown when a check in is due. */}
       {checkinDue && (
@@ -540,34 +533,55 @@ export default async function DashboardPage() {
       </div>
 
       {/* Explore: everything else in the membership, folded into one calm grid
-          of equal tiles instead of a stack of full width cards. Scripts and
-          Quests are their own tabs now, so this is the rest of the platform,
-          kept quiet and below the day so Home stays about today. */}
-      <section style={{ marginBottom: '20px' }}>
-        <p className="eyebrow" style={{ marginBottom: '12px', fontSize: 10 }}>Explore your membership</p>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px' }}>
-          {[
-            { href: '/dashboard/pathway', external: false, bg: 'var(--tint-blue)', icon: '🗺️', title: 'Your pathway', sub: 'First device to independence' },
-            { href: '/dashboard/lessons', external: false, bg: 'var(--stage-3)', icon: '📚', title: 'Lessons', sub: 'Screen habits to AI literacy' },
-            { href: '/dashboard/agreement', external: false, bg: 'var(--stage-1)', icon: '🤝', title: 'Family agreement', sub: 'Five talks, one signed sheet' },
-            { href: 'https://www.guidedchildhood.com/digitalwellbeing', external: true, bg: 'var(--stage-2)', icon: '🩺', title: 'Health report', sub: 'One free with membership' },
-          ].map(tile => (
-            <Link
-              key={tile.href}
-              href={tile.href}
-              {...(tile.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-              style={{
-                textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: '7px',
-                background: tile.bg, border: `1.5px solid ${tile.bg}`, borderRadius: '16px', padding: '16px',
-              }}
-            >
-              <span style={{ fontSize: '22px', lineHeight: 1 }}>{tile.icon}</span>
-              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--ink)', lineHeight: 1.2 }}>{tile.title}</span>
-              <span style={{ fontSize: '11.5px', color: 'var(--ink-soft)', lineHeight: 1.4 }}>{tile.sub}</span>
-            </Link>
-          ))}
-        </div>
-      </section>
+          of equal tiles. One tile a day carries the spotlight with a line of
+          why, so a parent learns the whole membership over the weeks without
+          ever facing a wall. Deterministic by date, no storage, no nagging. */}
+      {(() => {
+        const tiles = [
+          { href: '/dashboard/pathway', external: false, bg: 'var(--tint-blue)', icon: '🗺️', title: 'Your pathway', sub: 'First device to independence', why: 'See the whole road mapped for your child, and exactly where you are on it.' },
+          { href: '/dashboard/lessons', external: false, bg: 'var(--stage-3)', icon: '📚', title: 'Lessons', sub: 'Screen habits to AI literacy', why: 'Five minutes on the sofa together beats an hour of lecturing. Pick one tonight.' },
+          { href: '/dashboard/agreement', external: false, bg: 'var(--stage-1)', icon: '🤝', title: 'Family agreement', sub: 'Five talks, one signed sheet', why: 'Rules they helped write are rules they keep. Print it for the fridge.' },
+          { href: 'https://www.guidedchildhood.com/digitalwellbeing', external: true, bg: 'var(--stage-2)', icon: '🩺', title: 'Health report', sub: 'One free with membership', why: 'Ten minutes, no login, and you get a clear picture of where things stand.' },
+        ]
+        const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000)
+        const spot = dayOfYear % tiles.length
+        return (
+          <section style={{ marginBottom: '20px' }}>
+            <p className="eyebrow" style={{ marginBottom: '12px', fontSize: 10 }}>Explore your membership</p>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px' }}>
+              {tiles.map((tile, i) => {
+                const isSpot = i === spot
+                return (
+                  <Link
+                    key={tile.href}
+                    href={tile.href}
+                    {...(tile.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                    style={{
+                      textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: '7px',
+                      background: tile.bg,
+                      border: isSpot ? '1.5px solid var(--terracotta)' : `1.5px solid ${tile.bg}`,
+                      boxShadow: isSpot ? '0 0 0 3px var(--terracotta-lt)' : 'none',
+                      borderRadius: '16px', padding: '16px',
+                      gridColumn: isSpot ? '1 / -1' : 'auto',
+                    }}
+                  >
+                    <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                      <span style={{ fontSize: '22px', lineHeight: 1 }}>{tile.icon}</span>
+                      {isSpot && (
+                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '100px', padding: '3px 9px' }}>
+                          Worth a look today
+                        </span>
+                      )}
+                    </span>
+                    <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--ink)', lineHeight: 1.2 }}>{tile.title}</span>
+                    <span style={{ fontSize: '11.5px', color: 'var(--ink-soft)', lineHeight: 1.4 }}>{isSpot ? tile.why : tile.sub}</span>
+                  </Link>
+                )
+              })}
+            </div>
+          </section>
+        )
+      })()}
 
       </>)}
 
