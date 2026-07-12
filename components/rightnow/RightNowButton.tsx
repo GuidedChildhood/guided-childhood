@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 import { MOMENT_PHOTOS } from '@/lib/content/moment-photos'
 
 // The Right Now button: the emergency entry point in the centre of the
@@ -63,8 +63,13 @@ function BoltIcon() {
   )
 }
 
-export default function RightNowButton() {
+export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 'fab' } = {}) {
   const router = useRouter()
+  const pathname = usePathname()
+  // On the DiGi chat the page has its own bottom compose bar, so the floating
+  // action would sit on top of the Send button. Hide it there: the parent is
+  // already talking to DiGi.
+  const hideFab = pathname?.startsWith('/dashboard/digi')
   const [open, setOpen] = useState(false)
   const [entered, setEntered] = useState(false)
   const [mounted, setMounted] = useState(false)
@@ -161,8 +166,10 @@ export default function RightNowButton() {
         <div
           className="rightnow-hint"
           style={{
-            position: 'fixed', bottom: '92px', left: '50%', transform: 'translateX(-50%)',
-            zIndex: 90, width: 'min(86vw, 310px)',
+            position: 'fixed', zIndex: 90, width: 'min(86vw, 310px)',
+            ...(variant === 'fab'
+              ? { bottom: '150px', right: '14px' }
+              : { bottom: '92px', left: '50%', transform: 'translateX(-50%)' }),
             // Warm brand espresso with a soft gold glow and a faint gold
             // hairline, so it reads as a crafted tip, not a stark black box.
             background: 'radial-gradient(130% 120% at 88% -20%, rgba(237,195,95,0.26), transparent 55%), linear-gradient(155deg, #4B3F29 0%, #3C3221 100%)',
@@ -194,8 +201,10 @@ export default function RightNowButton() {
             When a hard moment is happening, tap Now, pick the situation, and the calm words appear. Two taps, no searching.
           </p>
           <div className="rightnow-hint-arrow" style={{
-            position: 'absolute', bottom: '-7px', left: '50%', transform: 'translateX(-50%) rotate(45deg)',
-            width: '14px', height: '14px', background: '#3C3221',
+            position: 'absolute', bottom: '-7px', width: '14px', height: '14px', background: '#3C3221',
+            ...(variant === 'fab'
+              ? { right: '28px', transform: 'rotate(45deg)' }
+              : { left: '50%', transform: 'translateX(-50%) rotate(45deg)' }),
           }} />
         </div>,
         document.body
@@ -211,48 +220,67 @@ export default function RightNowButton() {
         document.body
       )}
 
-      {/* The raised butter circle in the centre of the tab bar */}
-      <button
-        type="button"
-        onClick={openSheet}
-        aria-label="Right now help"
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '3px',
-          flex: 1,
-          background: 'none',
-          border: 'none',
-          padding: 0,
-          cursor: 'pointer',
-          marginTop: '-26px',
-          fontFamily: 'var(--font-body)',
-        }}
-      >
-        <span style={{
-          width: '56px',
-          height: '56px',
-          borderRadius: '50%',
-          background: 'var(--terracotta)',
-          boxShadow: '0 5px 0 var(--terracotta-dark)',
-          border: '3px solid var(--white)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
+      {/* The raised butter circle in the centre of the tab bar (legacy tab
+          placement, kept for any caller still asking for it) */}
+      {variant === 'tab' && (
+        <button
+          type="button"
+          onClick={openSheet}
+          aria-label="Right now help"
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '3px',
+            flex: 1,
+            background: 'none',
+            border: 'none',
+            padding: 0,
+            cursor: 'pointer',
+            marginTop: '-26px',
+            fontFamily: 'var(--font-body)',
+          }}
+        >
+          <span style={{
+            width: '56px',
+            height: '56px',
+            borderRadius: '50%',
+            background: 'var(--terracotta)',
+            boxShadow: '0 5px 0 var(--terracotta-dark)',
+            border: '3px solid var(--white)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+            <BoltIcon />
+          </span>
+          <span style={{
+            fontSize: '9px',
+            fontWeight: 600,
+            letterSpacing: '.05em',
+            textTransform: 'uppercase',
+            color: 'var(--terracotta-dark)',
+          }}>
+            Help now
+          </span>
+        </button>
+      )}
+
+      {/* Floating action, mobile: now that the bottom bar carries five real
+          tabs, Help now lives as a thumb reachable button just above the bar.
+          One tap to the same sheet. Hidden on desktop, which uses the pill. */}
+      {variant === 'fab' && mounted && !hideFab && createPortal(
+        <button
+          type="button"
+          onClick={openSheet}
+          aria-label="Right now help"
+          className="rightnow-fab no-print"
+        >
           <BoltIcon />
-        </span>
-        <span style={{
-          fontSize: '9px',
-          fontWeight: 600,
-          letterSpacing: '.05em',
-          textTransform: 'uppercase',
-          color: 'var(--terracotta-dark)',
-        }}>
-          Help now
-        </span>
-      </button>
+          <span>Now</span>
+        </button>,
+        document.body,
+      )}
 
       {/* Full screen sheet, portalled to body: the tab bar's backdrop filter
           would otherwise trap this fixed sheet inside the 64px bar */}
