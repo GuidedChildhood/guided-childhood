@@ -8,7 +8,8 @@ function urlBase64ToUint8Array(base64String: string) {
   const rawData = atob(base64)
   return Uint8Array.from(rawData, c => c.charCodeAt(0))
 }
-import { STAR_MINUTES, PLAY_PAYS_WHY_KID } from '@/lib/quests/templates'
+import { STAR_MINUTES, PLAY_PAYS_WHY_KID, KID_REQUEST_IDEAS } from '@/lib/quests/templates'
+import type { StarBank } from '@/lib/quests/bank'
 import { lessonsForStage, type KidLesson } from '@/lib/quests/kid-lessons'
 import { gamesForStage, type QuestGame } from '@/lib/quest-games/registry'
 import QuestGamePlayer from '@/components/quest-games/QuestGamePlayer'
@@ -23,9 +24,11 @@ type Quest = { id: string; title: string; emoji: string; stars: number; schedule
 type Tick = { quest_id: string; status: string }
 type Goal = { title: string; stars_needed: number; daily_stars: number | null; achieved_at: string | null } | null
 export type KidMission = { id: string; title: string; stars: number; status: string }
+export type KidAsk = { id: string; title: string; emoji: string; status: string }
 
 export default function KidQuestScreen({
   token, childName, stageId = 2, quests, todayTicks, weekStars, goal, streakDays = 0, laterQuests = [], doneLessonKeys = [], missions = [],
+  bank = null, usedWeekMinutes = 0, requests = [],
 }: {
   token: string
   childName: string
@@ -38,6 +41,9 @@ export default function KidQuestScreen({
   laterQuests?: { title: string; emoji: string; schedule: string }[]
   doneLessonKeys?: string[]
   missions?: KidMission[]
+  bank?: StarBank | null
+  usedWeekMinutes?: number
+  requests?: KidAsk[]
 }) {
   // Only the games and mini lessons that suit this child's stage, so a young
   // child never meets an older child's content.
@@ -61,6 +67,9 @@ export default function KidQuestScreen({
   const [qIndex, setQIndex] = useState(0)
   const [qAnswers, setQAnswers] = useState<number[]>([])
   const [qPicked, setQPicked] = useState<number | null>(null)
+  const [asks, setAsks] = useState<KidAsk[]>(requests)
+  const [askText, setAskText] = useState('')
+  const [askBusy, setAskBusy] = useState(false)
 
   useEffect(() => {
     if (localStorage.getItem('gc_kid_welcome') !== '1') setShowWelcome(true)
@@ -87,6 +96,32 @@ export default function KidQuestScreen({
     }
     if (Notification.permission !== 'denied') setRemindState('offer')
   }, [])
+
+  // The child pitches their own quest: clean my room, wash the car. It
+  // lands with the grown up as an ask, one tap turns it into the real
+  // thing with stars attached.
+  async function submitAsk(title: string, emoji: string) {
+    const clean = title.replace(/\s+/g, ' ').trim().slice(0, 60)
+    if (clean.length < 3 || askBusy) return
+    if (asks.filter(a => a.status === 'pending').length >= 5) {
+      setToast('Lots of ideas already waiting! Ask again once your grown up answers.')
+      setTimeout(() => setToast(null), 3500)
+      return
+    }
+    setAskBusy(true)
+    setAskText('')
+    setAsks(prev => [{ id: `local-${Date.now()}`, title: clean, emoji, status: 'pending' }, ...prev])
+    setToast('Quest idea sent to your grown up! ⭐')
+    setTimeout(() => setToast(null), 3500)
+    try {
+      await fetch('/api/quests/request', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token, title: clean, emoji }),
+      })
+    } catch { /* best effort, the next load reconciles */ }
+    setAskBusy(false)
+  }
 
   async function askForMore() {
     setAskedMore(true)
@@ -195,6 +230,10 @@ export default function KidQuestScreen({
   const doneCount = quests.filter(q => ticks[q.id]).length
   const allDone = quests.length > 0 && doneCount === quests.length
   const pendingStars = quests.filter(q => ticks[q.id] === 'pending').reduce((s, q) => s + q.stars, 0)
+  // The bank is what is really there to spend: earned ever, minus the
+  // screen time already used. Falls back to the week count until the
+  // family has run migration 047.
+  const bankBalance = bank ? bank.balance : weekStars
 
   return (
     <div style={{
@@ -302,16 +341,19 @@ export default function KidQuestScreen({
         }}>
           <div style={{ flex: 1 }}>
             <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink)', opacity: 0.7, margin: '0 0 2px' }}>
-              Star bank this week
+              My star bank
             </p>
             <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.7rem', color: 'var(--ink)', margin: 0 }}>
-              ⭐ {weekStars}
+              ⭐ {bankBalance}
               {pendingStars > 0 && (
                 <span style={{ fontSize: '0.95rem', fontWeight: 700, opacity: 0.65 }}> +{pendingStars} waiting</span>
               )}
             </p>
             <p style={{ fontSize: '14px', fontWeight: 700, color: 'var(--ink)', opacity: 0.8, margin: '2px 0 0' }}>
-              = {weekStars * STAR_MINUTES} minutes of screen time earned
+              = {bankBalance * STAR_MINUTES} minutes of screen time to use
+            </p>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, color: 'var(--ink)', opacity: 0.65, margin: '4px 0 0' }}>
+              +⭐ {weekStars} earned this week{usedWeekMinutes > 0 ? ` · ${usedWeekMinutes} min used` : ''}
             </p>
           </div>
           {streakDays > 0 && (
@@ -362,13 +404,13 @@ export default function KidQuestScreen({
             <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10, marginBottom: 8 }}>
               <span style={{ fontSize: '15px', fontWeight: 700, color: '#fff' }}>Saving for: {goal.title}</span>
               <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, color: 'rgba(255,255,255,0.85)' }}>
-                {Math.min(weekStars, goal.stars_needed)}/{goal.stars_needed}
+                {Math.min(bankBalance, goal.stars_needed)}/{goal.stars_needed}
               </span>
             </div>
             <div style={{ height: '10px', borderRadius: '10px', background: 'rgba(255,255,255,0.18)', overflow: 'hidden' }}>
               <div style={{
                 height: '100%', borderRadius: '10px', background: 'var(--terracotta)',
-                width: `${Math.min(100, (weekStars / Math.max(1, goal.stars_needed)) * 100)}%`,
+                width: `${Math.min(100, (bankBalance / Math.max(1, goal.stars_needed)) * 100)}%`,
                 transition: 'width 0.6s ease',
               }} />
             </div>
@@ -490,22 +532,72 @@ export default function KidQuestScreen({
           </div>
         )}
 
-        {/* Ask any time, not only when the list is finished */}
-        {!allDone && (
-          <button
-            onClick={askForMore}
-            disabled={askedMore}
-            style={{
-              width: '100%', marginTop: '16px', padding: '13px 16px',
-              background: 'rgba(255,255,255,0.12)', border: '1.5px solid rgba(255,255,255,0.35)',
-              borderRadius: '14px', cursor: askedMore ? 'default' : 'pointer',
-              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
-              color: askedMore ? 'rgba(255,255,255,0.7)' : '#fff',
-            }}
-          >
-            {askedMore ? 'Asked ✓ watch this space' : 'Ask for more quests ⭐'}
-          </button>
-        )}
+        {/* Pitch your own quest: the child's idea becomes a real quest the
+            moment the grown up says yes */}
+        <div style={{ marginTop: '18px', background: 'rgba(255,255,255,0.1)', borderRadius: '18px', padding: '16px 18px' }}>
+          <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: '#fff', margin: '0 0 4px' }}>
+            Got a quest idea? 💡
+          </p>
+          <p style={{ fontSize: '13.5px', color: 'rgba(255,255,255,0.75)', lineHeight: 1.5, margin: '0 0 12px' }}>
+            Pitch it to your grown up. If they say yes it becomes a real quest with stars on it.
+          </p>
+          <div style={{ display: 'flex', gap: '7px', flexWrap: 'wrap', marginBottom: '12px' }}>
+            {KID_REQUEST_IDEAS.filter(idea => !asks.some(a => a.title === idea.title)).slice(0, 4).map(idea => (
+              <button
+                key={idea.title}
+                onClick={() => submitAsk(idea.title, idea.emoji)}
+                style={{
+                  padding: '9px 13px', borderRadius: '100px', cursor: 'pointer',
+                  background: '#fff', border: 'none',
+                  fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '13px', color: 'var(--ink)',
+                  boxShadow: '0 3px 0 rgba(0,0,0,0.2)',
+                }}
+              >
+                {idea.emoji} {idea.title}
+              </button>
+            ))}
+          </div>
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <input
+              value={askText}
+              onChange={e => setAskText(e.target.value)}
+              onKeyDown={e => { if (e.key === 'Enter') submitAsk(askText, '⭐') }}
+              placeholder="Or your own idea..."
+              maxLength={60}
+              style={{
+                flex: 1, minWidth: 0, padding: '12px 14px', borderRadius: '12px',
+                border: 'none', background: '#fff',
+                fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink)', outline: 'none',
+              }}
+            />
+            <button
+              onClick={() => submitAsk(askText, '⭐')}
+              disabled={askText.trim().length < 3}
+              style={{
+                padding: '12px 18px', borderRadius: '12px', border: 'none', flexShrink: 0,
+                cursor: askText.trim().length < 3 ? 'default' : 'pointer',
+                background: 'var(--terracotta)', color: 'var(--ink)',
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px',
+                boxShadow: '0 3px 0 var(--terracotta-dark)',
+                opacity: askText.trim().length < 3 ? 0.55 : 1,
+              }}
+            >
+              Pitch it
+            </button>
+          </div>
+          {asks.length > 0 && (
+            <div style={{ marginTop: '12px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+              {asks.slice(0, 6).map(a => (
+                <p key={a.id} style={{ fontSize: '13.5px', color: 'rgba(255,255,255,0.85)', margin: 0, lineHeight: 1.5 }}>
+                  {a.emoji} {a.title}
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, marginLeft: '7px', color: a.status === 'added' ? 'var(--terracotta)' : a.status === 'declined' ? 'rgba(255,255,255,0.55)' : 'rgba(255,255,255,0.7)' }}>
+                    {a.status === 'added' ? 'IT IS ON ⭐' : a.status === 'declined' ? 'NOT THIS TIME' : 'WAITING...'}
+                  </span>
+                </p>
+              ))}
+            </div>
+          )}
+        </div>
 
         {/* Quests waiting on other days, so done today never reads as done forever */}
         {laterQuests.length > 0 && (

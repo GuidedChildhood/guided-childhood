@@ -15,14 +15,19 @@ type Child = { id: string; name: string }
 type Quest = { id: string; title: string; emoji: string; stars: number; schedule: string; child_id: string | null }
 type Tick = { id: string; quest_id: string; child_id: string | null; tick_date: string; status: string }
 type Goal = { child_id: string; title: string; stars_needed: number; daily_stars: number | null }
+type Ask = { id: string; child_id: string; title: string; emoji: string; status: string }
+type Bank = { child_id: string; earned: number; spent: number; balance: number; minutes: number }
 
 export default function QuestBoard() {
   const [children, setChildren] = useState<Child[]>([])
   const [quests, setQuests] = useState<Quest[]>([])
   const [ticks, setTicks] = useState<Tick[]>([])
   const [goals, setGoals] = useState<Goal[]>([])
+  const [asks, setAsks] = useState<Ask[]>([])
+  const [banks, setBanks] = useState<Bank[]>([])
   const [loaded, setLoaded] = useState(false)
   const [openChild, setOpenChild] = useState<string | null>(null)
+  const [spendNote, setSpendNote] = useState<string | null>(null)
 
   const load = useCallback(async () => {
     try {
@@ -32,10 +37,47 @@ export default function QuestBoard() {
       setQuests(data.quests ?? [])
       setTicks(data.ticks ?? [])
       setGoals(data.goals ?? [])
+      setAsks(data.requests ?? [])
+      setBanks(data.banks ?? [])
     } catch { /* stays hidden */ } finally { setLoaded(true) }
   }, [])
 
   useEffect(() => { load() }, [load])
+
+  // The child asked for this quest. Yes makes it real (2 stars, one off,
+  // adjustable any time in Manage), no closes it kindly.
+  async function decideAsk(askId: string, decision: 'added' | 'declined') {
+    setAsks(prev => prev.map(a => a.id === askId ? { ...a, status: decision } : a))
+    try {
+      await fetch('/api/quests', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'request_decide', request_id: askId, decision, stars: 2, schedule: 'once' }),
+      })
+      if (decision === 'added') load()
+    } catch { load() }
+  }
+
+  // Screen time was used: the stars come off the bank right here.
+  async function spend(childId: string, minutes: number) {
+    try {
+      const res = await fetch('/api/quests/spend', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ child_id: childId, minutes }),
+      })
+      const data = await res.json()
+      if (data.ok) {
+        setBanks(prev => prev.map(b => b.child_id === childId
+          ? { ...b, spent: b.spent + data.spent_stars, balance: data.balance, minutes: data.balance_minutes }
+          : b))
+        setSpendNote(`${data.spent_minutes} minutes marked as used, ⭐ ${data.balance} left in the bank`)
+      } else {
+        setSpendNote(data.error ?? 'Could not mark that just now')
+      }
+      setTimeout(() => setSpendNote(null), 3500)
+    } catch { /* next load reconciles */ }
+  }
 
   async function decide(tickId: string, decision: 'approve' | 'reject') {
     setTicks(prev => prev.map(t => t.id === tickId ? { ...t, status: decision === 'approve' ? 'approved' : 'rejected' } : t))
@@ -63,7 +105,8 @@ export default function QuestBoard() {
     } catch { load() }
   }
 
-  if (!loaded || quests.length === 0) return null
+  const pendingAsks = asks.filter(a => a.status === 'pending')
+  if (!loaded || (quests.length === 0 && pendingAsks.length === 0)) return null
 
   const questById = new Map(quests.map(q => [q.id, q]))
   const pending = ticks.filter(t => t.status === 'pending')
@@ -87,6 +130,49 @@ export default function QuestBoard() {
           Manage
         </Link>
       </div>
+
+      {/* The kids' own quest ideas: one tap makes it real */}
+      {pendingAsks.length > 0 && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '14px' }}>
+          {pendingAsks.map(a => {
+            const childName = children.find(c => c.id === a.child_id)?.name ?? 'Your child'
+            return (
+              <div key={a.id} style={{
+                display: 'flex', alignItems: 'center', gap: '10px',
+                background: 'var(--tint-blue)', border: '1.5px solid var(--border)',
+                borderRadius: '14px', padding: '11px 14px',
+              }}>
+                <span style={{ fontSize: '1.2rem' }}>{a.emoji}</span>
+                <span style={{ flex: 1, minWidth: 0, fontSize: '14.5px', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.4 }}>
+                  {childName} pitched a quest: <strong>{a.title}</strong>
+                  <span style={{ color: 'var(--ink-muted)', fontWeight: 500 }}> · their idea</span>
+                </span>
+                <button
+                  onClick={() => decideAsk(a.id, 'added')}
+                  style={{
+                    background: 'var(--terracotta)', color: 'var(--ink)', border: 'none',
+                    borderRadius: '10px', padding: '8px 14px', cursor: 'pointer',
+                    fontFamily: 'var(--font-display)', fontSize: '12px', fontWeight: 800,
+                    boxShadow: '0 3px 0 var(--terracotta-dark)', flexShrink: 0,
+                  }}
+                >
+                  Add it ⭐2
+                </button>
+                <button
+                  onClick={() => decideAsk(a.id, 'declined')}
+                  aria-label="Not this time"
+                  style={{
+                    background: 'none', border: '1px solid var(--border)', borderRadius: '10px',
+                    padding: '8px 10px', cursor: 'pointer', fontSize: '12px', color: 'var(--ink-muted)', flexShrink: 0,
+                  }}
+                >
+                  ✕
+                </button>
+              </div>
+            )
+          })}
+        </div>
+      )}
 
       {/* Approve queue: the kid is waiting on you */}
       {pending.length > 0 && (
@@ -146,6 +232,8 @@ export default function QuestBoard() {
           const weekStars = ticks
             .filter(t => t.status === 'approved' && (t.child_id === c.id || t.child_id === null))
             .reduce((sum, t) => sum + (questById.get(t.quest_id)?.stars ?? 1), 0)
+          const bank = banks.find(b => b.child_id === c.id)
+          const balance = bank ? bank.balance : weekStars
           const goal = goals.find(g => g.child_id === c.id)
           const todayStars = ticks
             .filter(t => t.tick_date === today && t.status !== 'rejected' && (t.child_id === c.id || t.child_id === null))
@@ -171,7 +259,7 @@ export default function QuestBoard() {
                       {c.name}
                     </span>
                     <span style={{ fontSize: '13.5px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>
-                      ⭐ {weekStars} = {weekStars * STAR_MINUTES} min this week
+                      ⭐ {balance} = {balance * STAR_MINUTES} min in the bank
                     </span>
                   </span>
                   {/* Today's quest dots */}
@@ -208,12 +296,12 @@ export default function QuestBoard() {
                     <span style={{ display: 'block', marginTop: '8px' }}>
                       <span style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10.5px', color: 'var(--ink-muted)', marginBottom: '3px' }}>
                         <span>Saving for {goal.title}</span>
-                        <span>{Math.min(weekStars, goal.stars_needed)}/{goal.stars_needed}</span>
+                        <span>{Math.min(balance, goal.stars_needed)}/{goal.stars_needed}</span>
                       </span>
                       <span style={{ display: 'block', height: '8px', borderRadius: '8px', background: 'var(--border)', overflow: 'hidden' }}>
                         <span style={{
                           display: 'block', height: '100%', borderRadius: '8px', background: 'var(--terracotta)',
-                          width: `${Math.min(100, (weekStars / Math.max(1, goal.stars_needed)) * 100)}%`,
+                          width: `${Math.min(100, (balance / Math.max(1, goal.stars_needed)) * 100)}%`,
                           transition: 'width 0.5s ease',
                         }} />
                       </span>
@@ -228,6 +316,37 @@ export default function QuestBoard() {
               {/* Expanded: tick today's quests right here */}
               {isOpen && (
                 <div style={{ padding: '0 16px 14px', display: 'flex', flexDirection: 'column', gap: '7px' }}>
+                  {/* Screen time used comes straight off the bank */}
+                  {balance > 0 && (
+                    <div style={{
+                      display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap',
+                      background: '#fff', border: '1px solid var(--border)', borderRadius: '11px',
+                      padding: '10px 12px',
+                    }}>
+                      <span style={{ fontSize: '12.5px', fontWeight: 600, color: 'var(--ink-soft)' }}>
+                        Screen time used:
+                      </span>
+                      {[15, 30, 60].map(m => (
+                        <button
+                          key={m}
+                          onClick={() => spend(c.id, m)}
+                          disabled={balance * STAR_MINUTES < STAR_MINUTES}
+                          style={{
+                            background: 'var(--cream)', border: '1.5px solid var(--border)',
+                            borderRadius: '100px', padding: '6px 12px', cursor: 'pointer',
+                            fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--ink)',
+                          }}
+                        >
+                          {m} min
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                  {spendNote && (
+                    <p style={{ fontSize: '12px', fontWeight: 600, color: 'var(--terracotta-dark)', margin: 0 }}>
+                      {spendNote}
+                    </p>
+                  )}
                   <Link href="/dashboard/quests" style={{
                     alignSelf: 'flex-end', fontSize: '11.5px', fontWeight: 700,
                     color: 'var(--terracotta-dark)', textDecoration: 'none',

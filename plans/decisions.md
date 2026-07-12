@@ -472,3 +472,15 @@ JP asked whether the 14 day trial should collect card up front and auto charge (
 **Pathway page opens with the road to 16.** Five stages as one track, walked stages ticked, DiGi on the current stage with You are here, fill moves with real progress. Onboarding raw greys swapped for checker tokens.
 
 **Known follow ups.** A2 rich card render for DiGi generated lessons still parked. Insights page 404s for the founder until FOUNDER_NOTIFY_EMAIL matches his real login email. Owner still to run migrations 045 and 046 and tap Embed memories.
+
+## 2026-07-12 — The quest economy: a real bank, kids pitch their own quests
+
+**Stars became a real bank (migration 047).** Earned ever (approved ticks plus finished star lessons) minus spent equals the balance, computed server side in lib/quests/bank.ts and never trusted from a client. The kid page, the Home quest board and the Rewards tab all show the balance in stars and minutes. Goal bars now fill from the bank balance instead of a rolling week, so saving for the Saturday film actually accumulates.
+
+**Screen time used comes off the bank.** One tap (15, 30 or 60 minutes) on the Home board or the Rewards tab records a star_spends row; a spend can never take the bank below zero. Research note: chore apps where points convert to real screen time beat generic reward apps, and the failure mode is week two abandonment, which the visible balance and one tap spend are built against.
+
+**Children pitch their own quests.** Clean my room, wash the car: idea chips plus free text on the kid page, capped at five open asks. The parent gets a push, answers on the Home board (one tap, 2 stars, one off) or in the manager with a star stepper and schedule chips. Yes turns the ask into a real family quest and pings the child's device; no closes it kindly on their page. quest_requests table, token is the auth, same letterbox trust model as ticking.
+
+**Thirteen more quest templates** (dishwasher, help make dinner, pet care, deep clean bedroom, washing away, sibling help, spellings and times tables, instrument practice, bins, plants). STAR_MINUTES stays the single exchange rate constant; a per family rate remains a follow up.
+
+**Owner action: run migration 047 in the Supabase editor.** Until then the new tables read as empty and everything falls back to the old weekly view, nothing breaks.
