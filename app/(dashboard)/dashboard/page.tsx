@@ -60,7 +60,7 @@ export default async function DashboardPage() {
 
   const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
 
-  const [childResult, dailySessionResult, todayMomentsResult, lastFeedbackResult, schoolActionsResult, schoolConnectionResult, agreementResult, questsCountResult, pushSubResult, anySessionResult, anySchoolActionResult, kidLinksResult] = await Promise.all([
+  const [childResult, dailySessionResult, todayMomentsResult, lastFeedbackResult, schoolActionsResult, schoolConnectionResult, agreementResult, questsCountResult, pushSubResult, anySessionResult, anySchoolActionResult, kidLinksResult, focusConcernResult] = await Promise.all([
     supabase.from('children').select('id, name, age_band, stage_id, streak_weeks, actions_this_week').eq('parent_id', user.id).eq('is_primary', true).single(),
     supabase.from('daily_sessions').select('completed_at').eq('user_id', user.id).eq('session_date', today).maybeSingle(),
     supabase.from('daily_moments').select('id, title, category, age_bands, icon, science_brief, digi_opener').eq('active', true).order('sort_order').limit(20),
@@ -79,6 +79,9 @@ export default async function DashboardPage() {
     // Whether any child already has their own phone link (the kid companion
     // link). Keyed by user, matched to the primary child below.
     supabase.from('kid_links').select('child_id').eq('user_id', user.id),
+    // The problem this family is working on right now: the most recently
+    // flagged live concern, for the focus bar above the path.
+    supabase.from('concerns').select('label, status').eq('user_id', user.id).in('status', ['open', 'improving']).order('last_flagged_at', { ascending: false }).limit(1).maybeSingle(),
   ])
 
   const child = childResult.data
@@ -270,6 +273,50 @@ export default async function DashboardPage() {
       {/* The child's name was skipped at setup: one gentle ask, one tap to make
           the whole app personal. Dismissable, never nags. */}
       {(!child?.name || child.name === 'Your child') && <AddChildName />}
+
+      {/* The problem first: the concern this family keeps flagging, named, with
+          its arc and the one tap path to the words that fix it tonight. The
+          whole platform framed the way the parent experiences it: my problem,
+          the clear route to the solution. Falls back to the challenge they
+          told us at signup, and stays silent when there is nothing live. */}
+      {(() => {
+        const focusConcern = focusConcernResult.data
+        const challengeLabels: Record<string, string> = {
+          morning_tv: 'Morning TV battles', controller_fights: 'Controller fights',
+          wont_put_down: 'Will not put the device down', bedtime_screens: 'Bedtime screens',
+          mood_after_screens: 'Mood after screens', something_else: '',
+          screens_takeover: 'Screens are taking over', mood_changes: 'Mood changes after phone use',
+          gaming: 'Gaming concerns', online_safety: 'Online safety worries',
+          start_conversation: 'Starting the conversation', asking_for_phone: 'Asking for a phone',
+        }
+        const challengeKey = (profile?.onboarding_answers as Record<string, string> | null)?.challenge ?? ''
+        const label = focusConcern?.label ?? challengeLabels[challengeKey] ?? ''
+        if (!label) return null
+        const improving = focusConcern?.status === 'improving'
+        const scriptHref = todayLoop.find(t => t.key === 'script')?.href ?? '/dashboard/scripts'
+        return (
+          <Link href={scriptHref} style={{ textDecoration: 'none', display: 'block', marginBottom: '12px' }}>
+            <div style={{
+              display: 'flex', alignItems: 'center', gap: '10px',
+              background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
+              borderRadius: '14px', padding: '11px 14px',
+            }}>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', flexShrink: 0 }}>
+                Your focus
+              </span>
+              <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: 'var(--ink)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                {label}
+                <span style={{ fontWeight: 600, color: improving ? 'var(--stage-1-text)' : 'var(--ink-muted)' }}>
+                  {' '}· {focusConcern ? (improving ? 'getting better' : 'working on it') : 'your starting focus'}
+                </span>
+              </span>
+              <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: 'var(--terracotta-dark)', whiteSpace: 'nowrap' }}>
+                The words for tonight →
+              </span>
+            </div>
+          </Link>
+        )
+      })()}
 
       {/* Today's Path: the hero of Home. The day's routine as one clear strip,
           DiGi sitting on the lit next step, so Home opens with a single thing to
