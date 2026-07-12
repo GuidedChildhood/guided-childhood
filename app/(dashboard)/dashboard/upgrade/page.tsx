@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import PlanChooser from '@/components/upgrade/PlanChooser'
+import { hasFullAccess } from '@/lib/access'
 
 async function getFounderCount(): Promise<number> {
   try {
@@ -24,12 +25,41 @@ export default async function UpgradePage() {
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('subscription_status, subscription_tier, is_founder')
+    .select('subscription_status, subscription_tier, is_founder, trial_ends_at')
     .eq('id', user.id)
     .single()
 
-  if (profile?.subscription_status === 'active') {
-    redirect('/dashboard')
+  // Already unlocked (subscriber, live trial, or the founder). The old
+  // silent redirect home made every Unlock link feel broken: you tapped
+  // upgrade and just landed on Home with no explanation. Say it instead.
+  if (hasFullAccess(profile, user.email)) {
+    return (
+      <div style={{ maxWidth: '520px', margin: '0 auto', padding: '48px 20px', textAlign: 'center' }}>
+        <div style={{ fontSize: '2.6rem', marginBottom: '14px' }}>🎉</div>
+        <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '10px' }}>Nothing to unlock</p>
+        <h1 style={{ fontSize: 'clamp(1.6rem, 5vw, 2.1rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: '12px' }}>
+          You already have everything.
+        </h1>
+        <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.65, marginBottom: '28px' }}>
+          Your account has full access: every stage, unlimited DiGi, every script, rehearsals, the tracker and the agreement builder. If a button sent you here, it was checking, and the answer is yes.
+        </p>
+        <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}>
+          <Link href="/dashboard" className="btn btn-gold" style={{ padding: '14px 24px', fontSize: '14px' }}>
+            Back to home
+          </Link>
+          <Link
+            href="/dashboard/settings"
+            style={{
+              display: 'inline-flex', alignItems: 'center', padding: '14px 24px',
+              background: '#fff', color: 'var(--ink)', borderRadius: '16px', textDecoration: 'none',
+              border: '1.5px solid var(--border)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px',
+            }}
+          >
+            Manage my plan
+          </Link>
+        </div>
+      </div>
+    )
   }
 
   const founderCount = await getFounderCount()
