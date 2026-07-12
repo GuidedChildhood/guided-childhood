@@ -76,6 +76,13 @@ function includesAny(haystack: string, terms: string[]): boolean {
   return terms.some(t => haystack.includes(t))
 }
 
+// Exported so any surface that takes free text from a parent (the Right Now
+// rescue, future forms) can spot crisis language BEFORE calling a model and
+// route straight to a human signpost instead.
+export function hasCrisisLanguage(text: string): boolean {
+  return includesAny((text ?? '').toLowerCase(), CRISIS_TERMS)
+}
+
 // The deterministic pass. Pure, so the evals and any test can rely on it, and
 // cheap enough to run on every live reply without a second thought.
 export function lexicalFlags(userMessage: string, reply: string): Violation[] {
