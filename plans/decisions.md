@@ -504,3 +504,7 @@ JP sent The Happy News covers as the look: photos die at 84px, flat joyful art r
 ## 2026-07-12 — DiGi step 8 shipped: the model router
 
 One place (digiModelsFor in lib/config/digi.ts) now decides which model answers which job. Parent facing words and safety judgement stay on the deep model (DIGI_MODEL, default claude-fable-5): chat, rescue, rehearsal, script expansion, onboarding, the safety verifier, the eval grader, wisdom and insights. Mechanical jobs start on the fast tier (DIGI_MODEL_FAST, default claude-haiku-4-5-20251001): memory extraction, feedback classification, prompt chips, moment copy. Every task keeps the full fallback ladder behind its first choice, and both tiers are env config, never hardcoded. The eight step DiGi intelligence plan is now complete end to end.
+
+## 2026-07-12 — Moments: the whole library is one tap away
+
+JP could not see the full moments list: the page silently filters to the primary child's age band, which reads as missing content. The grid now opens on the child's set (For Alma · 14) with an All ages toggle beside it showing the full count, deep teal pills above the category row. Age appropriate by default, nothing hidden.

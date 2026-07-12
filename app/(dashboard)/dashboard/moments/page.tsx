@@ -46,6 +46,7 @@ export default async function MomentsPage() {
 
       <MomentsGrid
         initialMoments={moments}
+        allMoments={allMoments}
         childName={child?.name ?? undefined}
         ageBand={child?.age_band ?? undefined}
       />
