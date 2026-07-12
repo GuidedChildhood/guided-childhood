@@ -508,3 +508,7 @@ One place (digiModelsFor in lib/config/digi.ts) now decides which model answers 
 ## 2026-07-12 — Moments: the whole library is one tap away
 
 JP could not see the full moments list: the page silently filters to the primary child's age band, which reads as missing content. The grid now opens on the child's set (For Alma · 14) with an All ages toggle beside it showing the full count, deep teal pills above the category row. Age appropriate by default, nothing hidden.
+
+## 2026-07-12 — Upgrade page stops bouncing unlocked accounts to Home
+
+JP tapped rehearsals and upgrade links and kept landing on Home with no explanation. Cause: /dashboard/upgrade silently redirected anyone with an active subscription to /dashboard, so every Unlock button on an already unlocked account read as broken navigation. The page now uses the same hasFullAccess check as everything else (subscriber, live trial or founder) and shows a plain "You already have everything" card with Back to home and Manage my plan, never a silent bounce.
