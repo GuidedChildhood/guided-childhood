@@ -55,7 +55,7 @@ export default function InsightsBoard() {
   // DiGi quality panel: the safety evals and the aggregate wisdom rebuild.
   const [evalRun, setEvalRun] = useState<EvalRun | null>(null)
   const [wisdom, setWisdom] = useState<WisdomRebuild | null>(null)
-  const [qLoading, setQLoading] = useState<'evals' | 'wisdom' | null>(null)
+  const [qLoading, setQLoading] = useState<'evals' | 'wisdom' | 'embed' | null>(null)
   const [qError, setQError] = useState('')
 
   async function runEvals() {
@@ -77,6 +77,26 @@ export default function InsightsBoard() {
       if (!res.ok) { setQError(json.error ?? 'Could not rebuild wisdom.'); return }
       setWisdom(json)
     } catch { setQError('Could not reach the wisdom builder.') }
+    finally { setQLoading(null) }
+  }
+
+  // Semantic memory backfill: batches of 100 until nothing is left, so the
+  // whole memory history becomes searchable by meaning in one sitting.
+  const [embedStatus, setEmbedStatus] = useState<string | null>(null)
+  async function embedMemories() {
+    setQLoading('embed'); setQError(''); setEmbedStatus('Embedding...')
+    try {
+      let total = 0
+      for (let i = 0; i < 40; i++) {
+        const res = await fetch('/api/admin/digi-embed-backfill', { method: 'POST' })
+        const json = await res.json()
+        if (!res.ok) { setQError(json.error ?? 'Embedding failed.'); setEmbedStatus(null); return }
+        total += json.embedded ?? 0
+        setEmbedStatus(`${total} embedded, ${json.remaining} to go`)
+        if (!json.remaining) break
+      }
+      setEmbedStatus(s => (s ? s + '. Done, memory now searches by meaning.' : 'Done.'))
+    } catch { setQError('Could not reach the embedding backfill.') }
     finally { setQLoading(null) }
   }
 
@@ -229,7 +249,13 @@ export default function InsightsBoard() {
           <button onClick={rebuildWisdom} disabled={qLoading !== null} className="btn btn-outline" style={{ padding: '10px 18px', fontSize: 13, cursor: 'pointer', opacity: qLoading ? 0.7 : 1 }}>
             {qLoading === 'wisdom' ? 'Rebuilding wisdom...' : 'Rebuild shared wisdom'}
           </button>
+          <button onClick={embedMemories} disabled={qLoading !== null} className="btn btn-outline" style={{ padding: '10px 18px', fontSize: 13, cursor: 'pointer', opacity: qLoading ? 0.7 : 1 }}>
+            {qLoading === 'embed' ? 'Embedding...' : 'Embed memories'}
+          </button>
         </div>
+        {embedStatus && (
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 11.5, color: 'var(--ink-muted)', marginBottom: 16 }}>{embedStatus}</p>
+        )}
 
         {qError && <p style={{ color: 'var(--danger)', fontSize: 14, marginBottom: 16 }}>{qError}</p>}
 

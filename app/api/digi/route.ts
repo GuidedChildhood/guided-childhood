@@ -328,9 +328,15 @@ export async function POST(request: Request) {
         if (memMatch) {
           const mem = JSON.parse(memMatch[0]) as { kind: string; content: string; concern_slug?: string; concern_label?: string }
           if (['observation', 'concern', 'win', 'preference', 'context'].includes(mem.kind) && mem.content) {
+            // Embed at write time so the memory is findable by meaning from
+            // the very next question. No key or a failed call stores null and
+            // the backfill sweeps it up later.
+            const { embedText } = await import('@/lib/digi/embeddings')
+            const embedding = await embedText(mem.content.slice(0, 400), 'document').catch(() => null)
             await supabase.from('digi_memory').insert({
               user_id: user.id, child_id: child?.id ?? null,
               kind: mem.kind, content: mem.content.slice(0, 400), source: 'chat',
+              ...(embedding ? { embedding } : {}),
             })
 
             if (mem.kind === 'concern' && mem.concern_slug && mem.concern_label) {
