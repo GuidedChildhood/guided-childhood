@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { firstText } from '@/lib/digi/text'
 import { DIGI_MODEL, DIGI_MODEL_FALLBACKS } from '@/lib/config/digi'
 import { NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
@@ -86,7 +87,7 @@ Personalise to the child's name and age. Make the digiQuestion specific to this 
       messages: [{ role: 'user', content: `Generate the moment card response for "${moment.title}" for ${resolvedName}.` }],
     })
 
-    const text = response.content[0].type === 'text' ? response.content[0].text : ''
+    const text = firstText(response)
     const jsonMatch = text.match(/\{[\s\S]*\}/)
 
     if (!jsonMatch) {
