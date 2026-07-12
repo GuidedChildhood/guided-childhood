@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 import { createClient } from '@/lib/supabase/server'
-import { DIGI_MODEL, DIGI_MODEL_FALLBACKS } from '@/lib/config/digi'
+import { digiModelsFor } from '@/lib/config/digi'
 import { findTriggers } from '@/lib/digi/brain'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { hasFullAccess } from '@/lib/access'
@@ -11,7 +11,7 @@ import { getStageProgress, type StageId } from '@/lib/pathway/progress'
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY ?? 'build-placeholder' })
 
 async function createWithFallback(params: Omit<Anthropic.MessageCreateParamsNonStreaming, 'model'>) {
-  const models = [DIGI_MODEL, ...DIGI_MODEL_FALLBACKS.filter(m => m !== DIGI_MODEL)]
+  const models = digiModelsFor('prompts')
   let lastError: unknown
   for (const model of models) {
     try {

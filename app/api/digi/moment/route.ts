@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { firstText } from '@/lib/digi/text'
-import { DIGI_MODEL, DIGI_MODEL_FALLBACKS } from '@/lib/config/digi'
+import { DIGI_MODEL, DIGI_MODEL_FALLBACKS, digiModelsFor } from '@/lib/config/digi'
 import { NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
@@ -81,7 +81,7 @@ Personalise to the child's name and age. Make the digiQuestion specific to this 
 
   try {
     const response = await callDigi({
-      model: DIGI_MODEL,
+      model: digiModelsFor('moment')[0],
       max_tokens: 700,
       system: systemPrompt,
       messages: [{ role: 'user', content: `Generate the moment card response for "${moment.title}" for ${resolvedName}.` }],
