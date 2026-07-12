@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { firstText } from '@/lib/digi/text'
 import { hasFullAccess } from '@/lib/access'
-import { DIGI_MODEL, DIGI_MODEL_FALLBACKS } from '@/lib/config/digi'
+import { DIGI_MODEL, DIGI_MODEL_FALLBACKS, digiModelsFor } from '@/lib/config/digi'
 import { NextResponse, after } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 import { getStageFromAgeBand, STAGES, type AgeBand, type ChallengeId } from '@/lib/content/stages'
@@ -316,7 +316,7 @@ export async function POST(request: Request) {
         ? liveConcerns.map(c => `${c.slug}: ${c.label}`).join('; ')
         : 'none yet'
       const extraction = await callDigi({
-        model: DIGI_MODEL,
+        model: digiModelsFor('extract')[0],
         max_tokens: 220,
         messages: [{
           role: 'user',
