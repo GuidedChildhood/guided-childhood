@@ -1,37 +1,38 @@
-// Real photo tiles for the moment cards. Generated on Higgsfield in one warm
-// no people lifestyle style, served from the same cloudfront CDN as the
-// homepage stage photos (allowed in next.config). Every moment title maps to
-// a tile here, so a card never falls back to an emoji.
+// Illustrated tiles for the moment cards: one warm hand drawn picture book
+// style across the set (12 July 2026 batch), because photos die at 84px and
+// flat art reads instantly. Served from the cloudfront CDN allowed in
+// next.config. Every moment title maps to a tile, never an emoji fallback.
+// Restyle later = one Higgsfield batch + swap these URLs, never a code change.
 
 const BASE = 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/'
 
 export const MOMENT_PHOTOS: Record<string, string> = {
-  shoes_door:          BASE + 'hf_20260709_142536_149fd280-0c12-479d-a171-7c08d4d4d5cb.png',
-  tablet_sofa:         BASE + 'hf_20260709_142544_1bd89b80-f7ad-47b1-9aee-00d3999857f3.png',
-  bed_morning:         BASE + 'hf_20260709_151840_d75acb9e-5198-4e0e-8605-b494de20a9fe.png',
-  tv_remote:           BASE + 'hf_20260709_151853_46b69b55-8cfb-46c6-8b6e-c053f19d9642.png',
-  phone_table:         BASE + 'hf_20260709_151908_67c0dd0b-5567-46cc-8dc5-3d4532aa7534.png',
-  uniform:             BASE + 'hf_20260709_151910_9396e814-37df-48b3-9a03-871813b968ee.png',
-  breakfast:           BASE + 'hf_20260709_151911_b07e15f2-59ef-405f-8dd3-87768079651f.png',
-  teeth:               BASE + 'hf_20260709_151914_70b929d7-da6c-40e1-a0c0-b7178ec1365d.png',
-  smartphone:          BASE + 'hf_20260709_151915_72312dc6-234d-4c54-9641-265ec872a1d1.png',
-  social_phone:        BASE + 'hf_20260709_151917_47d961e8-2a77-4c28-9f9d-f47287f8415c.png',
-  gaming:              BASE + 'hf_20260709_151919_69d7d356-bc0b-45ab-9b30-c9ad1ba940d8.png',
-  phone_dark_bed:      BASE + 'hf_20260709_151920_fd0d8c5b-2a54-40f5-a498-44f4fd8a774e.png',
-  phone_notifications: BASE + 'hf_20260709_151940_a0c362b4-e68d-4b50-a6ef-5cd74a5904b0.png',
-  homework:            BASE + 'hf_20260709_151942_5dd5d92b-74dc-4f65-be20-b99b9d091b51.png',
-  exam:                BASE + 'hf_20260709_151944_4c8c2d0e-7643-46ff-ba9e-9b552d866fdd.png',
-  sports_bag:          BASE + 'hf_20260709_151945_646becef-6062-4363-8732-1f6850e95d4d.png',
-  dinner_plate:        BASE + 'hf_20260709_151947_456053df-f023-4135-b478-db340e4f4186.png',
-  lunchbox:            BASE + 'hf_20260709_151949_6fb63bca-faaf-4fbd-8554-e710e867ac3e.png',
-  bedtime_lamp:        BASE + 'hf_20260709_151950_c25d437d-8272-458a-b077-023d1ed2c7bd.png',
-  night_bed:           BASE + 'hf_20260709_151952_9aedb6f9-53f7-4141-b306-eed2883847c2.png',
-  moving_boxes:        BASE + 'hf_20260709_151954_4239283e-2ba5-4902-93d7-e780c601e80e.png',
-  overnight_bag:       BASE + 'hf_20260709_151955_c438d429-3e09-4160-9003-8ca62e327de3.png',
-  board_game:          BASE + 'hf_20260709_151957_10bbafcb-2120-46be-9975-d4589940260c.png',
-  laptop_open:         BASE + 'hf_20260709_151959_cd0a3c82-5084-4b5a-b866-a6eb775c3e6b.png',
-  two_mugs:            BASE + 'hf_20260709_152001_35f29b02-c209-4eed-8047-53c63676edab.png',
-  closed_door:         BASE + 'hf_20260709_152002_a7ef5ac7-aabd-44a4-bade-87939cc1f92d.png',
+  shoes_door:           BASE + 'hf_20260712_195640_c3a311b2-e805-4084-9516-17c5cfe49cd7.png',
+  tablet_sofa:          BASE + 'hf_20260712_195641_ad5279ce-73f5-4455-98ec-3c4397dc80f7.png',
+  bed_morning:          BASE + 'hf_20260712_195522_9efc8c47-00fc-48b1-980e-80b14282cd99.png',
+  tv_remote:            BASE + 'hf_20260712_195608_c76bf013-2af1-465e-b738-b671beb07995.png',
+  phone_table:          BASE + 'hf_20260712_195649_74e650d8-1cfa-47c5-a11f-6d78f291f3e9.png',
+  uniform:              BASE + 'hf_20260712_195532_9c239412-7636-447c-bfdd-1e46c2b0f711.png',
+  breakfast:            BASE + 'hf_20260712_195651_974230c7-cea5-4a6d-8fee-a701c836dbb5.png',
+  teeth:                BASE + 'hf_20260712_195230_c72a633f-c475-44ec-9807-72b73a55067f.png',
+  smartphone:           BASE + 'hf_20260712_195702_bb1b1b3d-57f7-4c45-b346-77b17901c64c.png',
+  social_phone:         BASE + 'hf_20260712_195704_448dfd4c-90f6-49f6-8fcc-d8fc4bc19f20.png',
+  gaming:               BASE + 'hf_20260712_195232_a89d2990-1ae2-4faf-9f25-24a6ce8ac899.png',
+  phone_dark_bed:       BASE + 'hf_20260712_195716_a0080796-1751-4b09-9b2c-6eb2a5ed96dc.png',
+  phone_notifications:  BASE + 'hf_20260712_195718_4da016a1-de16-4539-995b-0046a12e9c39.png',
+  homework:             BASE + 'hf_20260712_195617_8549b253-7fd5-42cf-a5b2-5b10e77f51f6.png',
+  exam:                 BASE + 'hf_20260712_195727_81f84ea2-99a5-4a8a-9f32-b38793f0c7f4.png',
+  sports_bag:           BASE + 'hf_20260712_195533_c352c366-cbe4-4e9d-9d94-fcb3b0abfd03.png',
+  dinner_plate:         BASE + 'hf_20260712_195606_8e50d8a3-fad4-4379-afd7-b24df34d6513.png',
+  lunchbox:             BASE + 'hf_20260712_195544_426e0356-48e9-430a-a82a-5e9dd1ca7c3a.png',
+  bedtime_lamp:         BASE + 'hf_20260712_195628_1bbd76a4-02cd-4793-bbdd-c7ee4c609ac4.png',
+  night_bed:            BASE + 'hf_20260712_195630_048877a9-a9ed-4168-b3aa-750694b07b44.png',
+  moving_boxes:         BASE + 'hf_20260712_195729_0411669f-15b7-4ebc-996f-80e61b8ca2cc.png',
+  overnight_bag:        BASE + 'hf_20260712_195739_330b76ad-411a-495b-9467-241f155936eb.png',
+  board_game:           BASE + 'hf_20260712_195740_c97259f6-c156-4481-9e85-d266de88714b.png',
+  laptop_open:          BASE + 'hf_20260712_195801_7ebe6c72-e96f-45f7-9af5-60d1f5165158.png',
+  two_mugs:             BASE + 'hf_20260712_195749_3a134594-53b8-4807-9336-71a0ec97cd8a.png',
+  closed_door:          BASE + 'hf_20260712_195751_08c58628-9d2f-47b7-95ba-c2976058b790.png',
 }
 
 // Title to tile, most specific patterns first so the right photo wins. Covers
