@@ -22,6 +22,27 @@ Do not vary the hook while you are still learning what works. One hook, everywhe
 
 ---
 
+## What this costs, and the free start (read this first)
+
+You can run the whole first month or two for **£0**. Almost every channel here is free, and the one that costs money is optional and capped. Do not spend anything until the free channels prove the hook converts.
+
+**Free, and where you start:**
+- Your own posting on LinkedIn. Free.
+- Parent groups on Facebook, Mumsnet, Reddit. Free.
+- The share card and referral loop. Free (one Claude build).
+- The email drip that converts them. Free on the Resend free tier.
+- The content engine writing your posts. Free, you already have the skill.
+- Search pages later. Free to build.
+
+**The only thing that costs money is the paid creators, and it is a ceiling not a bill:**
+- The test is capped at **£750 to £1,000 total** across two or three creators.
+- You can start much smaller, one micro creator at £150 to £250 is a real test.
+- Cheaper still, many small creators will do it for a **free lifetime membership or a small gift** instead of cash. That is a near free way to test the creator format.
+
+**The money rule:** do not pay a penny until your free posts and group seeds are sending parents to the stage check and some are signing up. Once the free traffic converts, paying a creator just pours more people into a funnel you already know works. You pay to scale something proven, never to find out if it works. So run Parts 2 and 3 first, watch the sheet, and only reach Part 4 once you have seen signups from free traffic.
+
+---
+
 ## The channels, in the order you switch them on
 
 You do not do all of these at once. You turn them on in this order, because the early ones are free and fast and the later ones compound slowly.
