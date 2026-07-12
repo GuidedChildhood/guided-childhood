@@ -17,5 +17,16 @@
       "mcp__0706aa33-5a34-4e57-a890-33148e31b7d6__show_generations",
       "mcp__0706aa33-5a34-4e57-a890-33148e31b7d6__job_display"
     ]
+  },
+  "extraKnownMarketplaces": {
+    "superpowers-marketplace": {
+      "source": {
+        "source": "github",
+        "repo": "obra/superpowers-marketplace"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "superpowers@superpowers-marketplace": true
   }
 }
