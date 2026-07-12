@@ -60,7 +60,7 @@ export default async function DigiPage() {
       .maybeSingle(),
   ])
 
-  const isPaid = hasFullAccess(profileResult.data)
+  const isPaid = hasFullAccess(profileResult.data, user.email)
 
   const stage = childResult.data?.age_band
     ? getStageFromAgeBand(childResult.data.age_band as AgeBand)

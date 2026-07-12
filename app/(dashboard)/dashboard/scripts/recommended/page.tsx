@@ -28,7 +28,7 @@ export default async function RecommendedScriptRedirect() {
   // script reader's upgrade wall.
   const recommended = stageId
     ? await getRecommendedScript(supabase, user.id, stageId, challenge ?? null, {
-        preferFree: !hasFullAccess(profile),
+        preferFree: !hasFullAccess(profile, user.email),
       })
     : null
 

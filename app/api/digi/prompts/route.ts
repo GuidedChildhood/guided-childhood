@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import { DIGI_MODEL, DIGI_MODEL_FALLBACKS } from '@/lib/config/digi'
 import { findTriggers } from '@/lib/digi/brain'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
+import { hasFullAccess } from '@/lib/access'
 import { getRecommendedScript } from '@/lib/pathway/recommend'
 import { getStageProgress, type StageId } from '@/lib/pathway/progress'
 
@@ -56,7 +57,7 @@ export async function GET() {
   // written by someone walking beside them.
   const stage = child.age_band ? getStageFromAgeBand(child.age_band as AgeBand) : null
   const { data: profile } = await supabase
-    .from('profiles').select('onboarding_answers').eq('id', user.id).maybeSingle()
+    .from('profiles').select('onboarding_answers, subscription_status, trial_ends_at').eq('id', user.id).maybeSingle()
   const challenge = (profile?.onboarding_answers as Record<string, string> | null)?.challenge ?? null
 
   const [{ data: knowledge }, { data: memory }, { data: concerns }, progress, recommended] = await Promise.all([
@@ -67,7 +68,7 @@ export async function GET() {
       ? getStageProgress(supabase, user.id, child.stage_id as StageId, child.streak_weeks ?? 0).catch(() => null)
       : Promise.resolve(null),
     child.stage_id
-      ? getRecommendedScript(supabase, user.id, child.stage_id as StageId, (challenge as never) ?? null).catch(() => null)
+      ? getRecommendedScript(supabase, user.id, child.stage_id as StageId, (challenge as never) ?? null, { preferFree: !hasFullAccess(profile, user.email) }).catch(() => null)
       : Promise.resolve(null),
   ])
 

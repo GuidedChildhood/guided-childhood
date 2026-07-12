@@ -70,7 +70,7 @@ export default async function PathwayPage() {
     supabase.from('children').select('id, name, age_band, stage_id, is_primary, streak_weeks').eq('parent_id', user.id).order('is_primary', { ascending: false }),
   ])
 
-  const isPaid = hasFullAccess(profileResult.data)
+  const isPaid = hasFullAccess(profileResult.data, user.email)
   const children = (childrenResult.data ?? []) as Child[]
 
   const stageIdToNum: Record<string, number> = {

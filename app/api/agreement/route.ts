@@ -23,7 +23,7 @@ export async function POST(request: Request) {
     .select('subscription_status, trial_ends_at')
     .eq('id', user.id)
     .single()
-  if (!hasFullAccess(profile)) {
+  if (!hasFullAccess(profile, user.email)) {
     return NextResponse.json({ error: 'Upgrade required' }, { status: 403 })
   }
 
