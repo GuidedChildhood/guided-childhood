@@ -3,6 +3,9 @@ import Anthropic from '@anthropic-ai/sdk'
 import { createClient } from '@/lib/supabase/server'
 import { DIGI_MODEL, DIGI_MODEL_FALLBACKS } from '@/lib/config/digi'
 import { findTriggers } from '@/lib/digi/brain'
+import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
+import { getRecommendedScript } from '@/lib/pathway/recommend'
+import { getStageProgress, type StageId } from '@/lib/pathway/progress'
 
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY ?? 'build-placeholder' })
 
@@ -46,10 +49,38 @@ export async function GET() {
   const triggers = findTriggers(checks ?? [], child.streak_weeks ?? 0, lastPrompt?.created_at ?? null)
   if (triggers.length === 0) return NextResponse.json({ prompts: [] })
 
-  const [{ data: knowledge }, { data: memory }] = await Promise.all([
+  // DiGi knows the pathway: where this family stands on the road to 16, how
+  // far through the stage they are, what they told us the problem was, what
+  // keeps coming up, and the exact next script with their child's name on it.
+  // This is what turns a generic tip into a prompt that reads like it was
+  // written by someone walking beside them.
+  const stage = child.age_band ? getStageFromAgeBand(child.age_band as AgeBand) : null
+  const { data: profile } = await supabase
+    .from('profiles').select('onboarding_answers').eq('id', user.id).maybeSingle()
+  const challenge = (profile?.onboarding_answers as Record<string, string> | null)?.challenge ?? null
+
+  const [{ data: knowledge }, { data: memory }, { data: concerns }, progress, recommended] = await Promise.all([
     supabase.from('expert_knowledge').select('source_name, finding').eq('active', true).limit(24),
     supabase.from('digi_memory').select('kind, content').eq('user_id', user.id).eq('active', true).order('created_at', { ascending: false }).limit(8),
+    supabase.from('concerns').select('label, status, times_flagged').eq('user_id', user.id).in('status', ['open', 'improving']).order('last_flagged_at', { ascending: false }).limit(3),
+    child.stage_id
+      ? getStageProgress(supabase, user.id, child.stage_id as StageId, child.streak_weeks ?? 0).catch(() => null)
+      : Promise.resolve(null),
+    child.stage_id
+      ? getRecommendedScript(supabase, user.id, child.stage_id as StageId, (challenge as never) ?? null).catch(() => null)
+      : Promise.resolve(null),
   ])
+
+  const pathwayContext = [
+    stage ? `Stage ${stage.id} of 5, ${stage.name} (${stage.ages}).` : null,
+    progress ? `${progress.overallPct}% of the way through this stage.` : null,
+    (child.streak_weeks ?? 0) > 0 ? `${child.streak_weeks} week streak on the pathway.` : null,
+    challenge ? `The problem they signed up with: ${String(challenge).replace(/_/g, ' ')}.` : null,
+    (concerns ?? []).length > 0
+      ? `Live concerns they keep flagging: ${(concerns ?? []).map(c => `${c.label} (${c.status === 'improving' ? 'getting better' : 'still open'}, flagged ${c.times_flagged}x)`).join('; ')}.`
+      : null,
+    recommended ? `The exact next script on their pathway: "${recommended.title}" (${recommended.situation}).` : null,
+  ].filter(Boolean).join('\n')
 
   try {
     const response = await createWithFallback({
@@ -59,6 +90,10 @@ export async function GET() {
         content: `You are DiGi, the warm and evidence grounded parenting guide inside Guided Childhood. Write ${triggers.length} short proactive prompts for this parent, one per trigger below. Each prompt is a small card the parent sees on their dashboard before they ask anything.
 
 Child: ${child.name}, age band ${child.age_band}.
+
+WHERE THIS FAMILY IS ON THE PATHWAY (you know their road, use it: name the stage, the progress, the concern, or the exact next script by title when it makes the prompt land harder, so the parent feels you genuinely know where they are):
+${pathwayContext || 'Just getting started.'}
+
 Triggers:
 ${triggers.map((t, i) => `${i + 1}. kind=${t.kind}: ${t.reason}`).join('\n')}
 
