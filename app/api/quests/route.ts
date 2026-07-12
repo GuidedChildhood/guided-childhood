@@ -1,12 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { randomBytes } from 'crypto'
 import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
+import { getStarBanks } from '@/lib/quests/bank'
+import { pushToChild } from '@/lib/quests/kid-push'
+import { STAR_MINUTES } from '@/lib/quests/templates'
 
 // The parent's quest manager API. GET returns everything the manager and
 // the board need in one call: children, their quests, today's ticks, the
-// pending approval queue, weekly stars and the goal. POST creates or
-// updates a quest, DELETE deactivates. The kid link is created lazily the
-// first time a child's quests are managed, so sharing is always possible.
+// pending approval queue, the kids' own quest asks, each child's star
+// bank and the goal. POST creates or updates a quest, decides a child's
+// ask, DELETE deactivates. The kid link is created lazily the first time
+// a child's quests are managed, so sharing is always possible.
 
 export async function GET() {
   const supabase = await createClient()
@@ -14,8 +19,9 @@ export async function GET() {
   if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
 
   const weekAgo = new Date(Date.now() - 7 * 86400000).toISOString().slice(0, 10)
+  const monthAgoIso = new Date(Date.now() - 30 * 86400000).toISOString()
 
-  const [childrenRes, questsRes, ticksRes, goalsRes, linksRes] = await Promise.all([
+  const [childrenRes, questsRes, ticksRes, goalsRes, linksRes, requestsRes, spendsRes] = await Promise.all([
     // select * so the optional phone column (migration 030) is included
     // when present and its absence never breaks the whole board
     supabase.from('children').select('*').eq('parent_id', user.id).order('created_at'),
@@ -23,14 +29,24 @@ export async function GET() {
     supabase.from('quest_ticks').select('*').eq('user_id', user.id).gte('tick_date', weekAgo),
     supabase.from('star_goals').select('*').eq('user_id', user.id),
     supabase.from('kid_links').select('child_id, token').eq('user_id', user.id),
+    supabase.from('quest_requests').select('*').eq('user_id', user.id)
+      .gte('created_at', monthAgoIso).order('created_at', { ascending: false }),
+    supabase.from('star_spends').select('*').eq('user_id', user.id)
+      .order('created_at', { ascending: false }).limit(20),
   ])
 
+  const children = childrenRes.data ?? []
+  const banks = await getStarBanks(supabase, user.id, children.map(c => c.id))
+
   return NextResponse.json({
-    children: childrenRes.data ?? [],
+    children,
     quests: questsRes.data ?? [],
     ticks: ticksRes.data ?? [],
     goals: goalsRes.data ?? [],
     links: linksRes.data ?? [],
+    requests: requestsRes.data ?? [],
+    spends: spendsRes.data ?? [],
+    banks,
   })
 }
 
@@ -98,6 +114,54 @@ export async function POST(req: NextRequest) {
     const { error } = existing
       ? await supabase.from('star_goals').update(row).eq('id', existing.id)
       : await supabase.from('star_goals').insert(row)
+    if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+    return NextResponse.json({ ok: true })
+  }
+
+  // Decide a child's own quest ask: added turns it into a real quest with
+  // the stars the parent sets, declined closes it kindly. Either way the
+  // child's page shows the answer, and their device gets a nudge if their
+  // reminders are on.
+  if (body.action === 'request_decide' && body.request_id && ['added', 'declined'].includes(body.decision)) {
+    const { data: request } = await supabase
+      .from('quest_requests')
+      .select('id, child_id, title, emoji, status')
+      .eq('id', body.request_id)
+      .eq('user_id', user.id)
+      .eq('status', 'pending')
+      .maybeSingle()
+    if (!request) return NextResponse.json({ error: 'unknown request' }, { status: 404 })
+
+    if (body.decision === 'added') {
+      const stars = Math.min(10, Math.max(1, Number(body.stars) || 2))
+      const schedule = ['daily', 'weekdays', 'weekend', 'once'].includes(body.schedule) ? body.schedule : 'once'
+      const { error: questError } = await supabase.from('family_quests').insert({
+        user_id: user.id,
+        child_id: request.child_id,
+        title: request.title,
+        emoji: request.emoji ?? '⭐',
+        stars,
+        schedule,
+      })
+      if (questError) return NextResponse.json({ error: questError.message }, { status: 500 })
+      await pushToChild(
+        createAdminClient(), user.id, request.child_id,
+        'Your quest idea is on! ⭐',
+        `"${request.title}" is now a real quest worth ${stars} star${stars === 1 ? '' : 's'}, that is ${stars * STAR_MINUTES} minutes. Go get it.`
+      )
+    } else {
+      await pushToChild(
+        createAdminClient(), user.id, request.child_id,
+        'About your quest idea',
+        `"${request.title}" is not one for now, but keep the ideas coming.`
+      )
+    }
+
+    const { error } = await supabase
+      .from('quest_requests')
+      .update({ status: body.decision, decided_at: new Date().toISOString() })
+      .eq('id', request.id)
+      .eq('user_id', user.id)
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
     return NextResponse.json({ ok: true })
   }

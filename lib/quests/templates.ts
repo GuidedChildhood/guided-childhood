@@ -51,4 +51,25 @@ export const QUEST_TEMPLATES: QuestTemplate[] = [
   { title: 'One kind thing done',         emoji: '💛', stars: 1, schedule: 'daily' },
   { title: 'Device on charge downstairs', emoji: '🔌', stars: 1, schedule: 'daily' },
   { title: 'Screen off first ask',        emoji: '📺', stars: 2, schedule: 'daily' },
+  { title: 'Empty or load the dishwasher', emoji: '🫧', stars: 1, schedule: 'daily' },
+  { title: 'Help make dinner',            emoji: '🍳', stars: 2, schedule: 'daily' },
+  { title: 'Feed or walk the pet',        emoji: '🐾', stars: 1, schedule: 'daily' },
+  { title: 'Clean bedroom top to bottom', emoji: '🧹', stars: 3, schedule: 'weekend' },
+  { title: 'Put your washing away',       emoji: '🧺', stars: 1, schedule: 'weekdays' },
+  { title: 'Help a brother or sister',    emoji: '🤝', stars: 2, schedule: 'daily' },
+  { title: 'Spellings or times tables practised', emoji: '✖️', stars: 2, schedule: 'weekdays' },
+  { title: 'Ten minutes of instrument practice', emoji: '🎵', stars: 2, schedule: 'daily' },
+  { title: 'Bins out without being asked', emoji: '🗑️', stars: 2, schedule: 'once' },
+  { title: 'Water the plants',            emoji: '🪴', stars: 1, schedule: 'weekend' },
+]
+
+// Starter ideas for the child's own quest asks, in their words. Free
+// text sits alongside so any idea can be pitched to the grown up.
+export const KID_REQUEST_IDEAS: { title: string; emoji: string }[] = [
+  { title: 'Clean my room',            emoji: '🧹' },
+  { title: 'Wash the car',             emoji: '🚗' },
+  { title: 'Help with dinner',         emoji: '🍳' },
+  { title: 'Tidy the garden',          emoji: '🌿' },
+  { title: 'Sort my school bag',       emoji: '🎒' },
+  { title: 'Read to someone smaller',  emoji: '📚' },
 ]
