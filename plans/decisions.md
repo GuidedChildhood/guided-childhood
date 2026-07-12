@@ -456,3 +456,19 @@ Added `.claude/skills/content-engine/hidden-thread.md`: Justin's underlying miss
 ## 2026-07-10 — Trial model: two doors, no card by default plus a card door
 
 JP asked whether the 14 day trial should collect card up front and auto charge (like other services) or stay no card. Best practice tradeoff: card up front converts a higher share but far fewer start and it fights the "nothing hidden" brand with anxious parents at a £7.99 price. No card maximises trials and trust. Decision: build both doors, do not choose one. Door one stays the no card 14 day trial (trial_ends_at set at onboarding completion, drops to free tier after). Door two on the founding screen is now a Stripe subscription with trial_period_days 14 and payment_method_collection always: card collected, nothing charged for 14 days, auto continues, holds the founder place. The trial is applied only when from is onboarding, so an existing trial user upgrading from the dashboard is charged immediately and nobody gets two free trials. Webhook now maps Stripe status trialing to our active so a card door founder is never locked out during their free days. Revisit going card first only after launch with real conversion numbers. Needs a Stripe test mode purchase to confirm the trial and card flow before go live.
+
+## 2026-07-12 — DiGi intelligence complete, one voice, the daily pathway
+
+**DiGi voice is Skye, one character voice across the platform (Duolingo pattern).** All 100 script say this lines regenerated in the Skye preset (seed audio engine), replacing the founder clone. Scripts reader and Right Now rescue both play her. Swapping voice later is one batch plus a rewrite of lib/content/script-voice.ts, never a code change. Founder voice files remain in Higgsfield history.
+
+**DiGi intelligence build is complete (steps 1 to 7 of 8).** Shipped this window: safety verifier (lexical plus model rubric, digi_safety_flags, never blocks the streamed reply), evals harness (seven adversarial cases, founder button on insights), aggregate wisdom (digi_wisdom, weekly Sunday cron, de identified), semantic memory (embeddings, EMBEDDING_API_KEY config with Voyage or OpenAI auto detect at 1024 dims, hybrid retrieval in getFamilyMemory, Embed memories backfill button). Step 8 router deliberately parked. Migrations 043 to 046.
+
+**Mobile home follows the blueprint (plans/mobile-flow-blueprint-2026-07.md).** Five real tabs (Home, Scripts, DiGi, Quests, Progress), Help now as a floating action, Today's Path as the hero with time of day cues and a once per win celebration, streak widget under it, Explore grid for the rest. Fonts load via next/font, no more system font flash.
+
+**Now rescue answers anything.** Something else takes one typed line and DiGi writes the card live; crisis language never reaches the model and routes to Samaritans, 999, the GP. Rescue moments feed digi_questions and the concerns ledger.
+
+**Check in pushes are slot aware (migration 046).** Parents pick morning, after school, evening under Check ins are on; cron sends only to chosen slots; defaults keep everyone unchanged.
+
+**Pathway page opens with the road to 16.** Five stages as one track, walked stages ticked, DiGi on the current stage with You are here, fill moves with real progress. Onboarding raw greys swapped for checker tokens.
+
+**Known follow ups.** A2 rich card render for DiGi generated lessons still parked. Insights page 404s for the founder until FOUNDER_NOTIFY_EMAIL matches his real login email. Owner still to run migrations 045 and 046 and tap Embed memories.
