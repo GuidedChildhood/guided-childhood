@@ -349,6 +349,7 @@ export default function StarterPackPage() {
         feeling={feeling!}
         email={email}
         needsConfirm={needsConfirm}
+        childName={childName.trim()}
       />
     )
   }
@@ -1121,8 +1122,17 @@ const LESSON_THUMBS = [
   { band: 'var(--stage-5-bold)', tilt: '-1deg', label: 'AI and you' },
 ]
 
+// The tour reads as chapters. Each pill scrolls to its beat, so a parent
+// can see the whole shape of the next sixty seconds before they give it.
+const CHAPTERS: { id: string; label: string }[] = [
+  { id: 'chapter-week', label: 'Tonight' },
+  { id: 'chapter-inside', label: 'What you get' },
+  { id: 'chapter-road', label: 'The road to 16' },
+  { id: 'chapter-cta', label: 'Step in' },
+]
+
 function ResultScreen({
-  stage, accent, challenge, feeling, email, needsConfirm,
+  stage, accent, challenge, feeling, email, needsConfirm, childName,
 }: {
   stage: ReturnType<typeof getStageFromAgeBand>
   accent: { bold: string; text: string }
@@ -1130,6 +1140,7 @@ function ResultScreen({
   feeling: FeelingId
   email?: string
   needsConfirm?: boolean
+  childName?: string
 }) {
   // The account was created on the first screen, so stepping in goes straight
   // to the platform, no second sign up. Only when email confirmation is
@@ -1137,12 +1148,21 @@ function ResultScreen({
   const enterHref = needsConfirm ? `/login${email ? `?email=${encodeURIComponent(email)}` : ''}` : '/dashboard'
   const challengeAction = stage.challengeActions[challenge] ?? stage.action
   const challengeLabel = CHALLENGE_OPTIONS.find(c => c.value === challenge)?.label ?? 'what you told us'
+  // Their child's name carries the whole page: the headline, week one and
+  // the final door all belong to them, not to a generic "your child".
+  const kid = childName && childName.length > 1 ? childName : ''
+  const headline = kid ? `${kid}'s pathway is built.` : 'Your pathway is built.'
 
   const rootRef = useRef<HTMLDivElement>(null)
   const weekPathRef = useRef<HTMLDivElement>(null)
   const weekDigiRef = useRef<HTMLDivElement>(null)
   const pathwayRef = useRef<HTMLDivElement>(null)
   const pathwayDigiRef = useRef<HTMLDivElement>(null)
+  const progressRef = useRef<HTMLDivElement>(null)
+  const ctaRef = useRef<HTMLDivElement>(null)
+  // The floating step in bar: arrives once week one has been read, retires
+  // the moment the real door is on screen.
+  const [showFloat, setShowFloat] = useState(false)
 
   const feelingLine =
     feeling === 'anxious' ? 'You said this feels like a lot right now. That is exactly what your first week is built to fix.'
@@ -1165,6 +1185,52 @@ function ResultScreen({
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
     const ctx = gsap.context(() => {
+      // The arrival: the headline lands word by word, the film title moment.
+      const words = gsap.utils.toArray<HTMLElement>('.wow-word', rootRef.current)
+      if (words.length) {
+        gsap.fromTo(words,
+          { opacity: 0, y: 20 },
+          { opacity: 1, y: 0, duration: 0.55, ease: 'power3.out', stagger: 0.09, delay: 0.15, clearProps: 'transform,opacity' }
+        )
+      }
+
+      // A hairline of progress across the very top: how far through the
+      // tour you are, start to door.
+      if (progressRef.current) {
+        gsap.fromTo(progressRef.current, { scaleX: 0 }, {
+          scaleX: 1, ease: 'none',
+          scrollTrigger: { trigger: rootRef.current, start: 'top top', end: 'bottom bottom', scrub: 0.3 },
+        })
+      }
+
+      // The numbers strip counts itself up as it arrives.
+      const nums = gsap.utils.toArray<HTMLElement>('.wow-num', rootRef.current)
+      nums.forEach(el => {
+        const target = Number(el.dataset.count ?? '0')
+        const counter = { v: 0 }
+        gsap.to(counter, {
+          v: target, duration: 1.3, ease: 'power2.out',
+          scrollTrigger: { trigger: el, start: 'top 88%', once: true },
+          onUpdate: () => { el.textContent = String(Math.round(counter.v)) },
+        })
+      })
+
+      // Floating step in bar: shows after week one, hides at the real door.
+      if (weekPathRef.current) {
+        ScrollTrigger.create({
+          trigger: weekPathRef.current, start: 'bottom 78%',
+          onEnter: () => setShowFloat(true),
+          onLeaveBack: () => setShowFloat(false),
+        })
+      }
+      if (ctaRef.current) {
+        ScrollTrigger.create({
+          trigger: ctaRef.current, start: 'top 95%',
+          onEnter: () => setShowFloat(false),
+          onLeaveBack: () => setShowFloat(true),
+        })
+      }
+
       const fus = gsap.utils.toArray<HTMLElement>('.wow-fu', rootRef.current)
       if (fus.length) {
         gsap.set(fus, { opacity: 0, y: 24 })
@@ -1217,6 +1283,10 @@ function ResultScreen({
           const text = rootStyles.getPropertyValue(`--stage-${i + 1}-text`).trim() || '#713F12'
           tl.to(dot, { backgroundColor: bold, borderColor: bold, color: text, scale: 1.12, duration: 0.4 }, Math.min(i * 1.25, 4.6))
         })
+        // A little hop of joy as DiGi reaches 16: the road has an end, and
+        // it is a good one.
+        tl.to(pathwayDigiRef.current, { y: -9, duration: 0.22, ease: 'power2.out' }, 5)
+        tl.to(pathwayDigiRef.current, { y: 0, duration: 0.28, ease: 'bounce.out' }, 5.22)
       }
     }, rootRef)
 
@@ -1230,6 +1300,11 @@ function ResultScreen({
           and not just another screen. */}
       <div style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 50 }}>
         <Celebration />
+      </div>
+
+      {/* Tour progress hairline: fills as they walk the page, start to door */}
+      <div style={{ position: 'fixed', top: 0, left: 0, right: 0, height: '3px', zIndex: 60, pointerEvents: 'none' }} aria-hidden>
+        <div ref={progressRef} style={{ height: '100%', background: 'var(--terracotta)', transform: 'scaleX(0)', transformOrigin: 'left' }} />
       </div>
 
       {/* Stage accent strip at top */}
@@ -1260,17 +1335,42 @@ function ResultScreen({
         */}
 
         {/* ── Beat 1: the arrival, and what the next minute shows ── */}
-        <div className="wow-fu" style={RESULT_EYEBROW}>Built from your answers</div>
-        <h1 className="wow-fu" style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.6rem, 4vw, 2.2rem)', fontWeight: 800, letterSpacing: '-0.025em', color: 'var(--ink)', lineHeight: 1.15, marginBottom: '16px' }}>
-          Your pathway is built.
+        <div style={RESULT_EYEBROW}>Built from your answers</div>
+        <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.7rem, 4.4vw, 2.4rem)', fontWeight: 900, letterSpacing: '-0.03em', color: 'var(--ink)', lineHeight: 1.12, marginBottom: '16px' }}>
+          {headline.split(' ').map((word, i) => (
+            <span key={i} className="wow-word" style={{ display: 'inline-block', whiteSpace: 'pre' }}>
+              {word}{i < headline.split(' ').length - 1 ? ' ' : ''}
+            </span>
+          ))}
         </h1>
 
         <p className="wow-fu" style={{ fontSize: '15px', color: 'var(--ink)', lineHeight: 1.7, marginBottom: '12px' }}>
           <strong>Our job:</strong> the exact words for tonight, a two minute daily practice, and DiGi beside you the moment anything kicks off. <strong>Your job:</strong> five minutes a day.
         </p>
-        <p className="wow-fu" style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 600, letterSpacing: '0.04em', color: 'var(--ink-muted)', marginBottom: '28px' }}>
+        <p className="wow-fu" style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 600, letterSpacing: '0.04em', color: 'var(--ink-muted)', marginBottom: '14px' }}>
           Sixty seconds down this page and you will know exactly what happens tonight, this week, and on the road to 16.
         </p>
+
+        {/* The chapters, tappable: the whole tour visible before it starts */}
+        <div className="wow-fu" style={{ display: 'flex', gap: '7px', flexWrap: 'wrap', marginBottom: '28px' }}>
+          {CHAPTERS.map((c, i) => (
+            <button
+              key={c.id}
+              onClick={() => document.getElementById(c.id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: '7px',
+                padding: '8px 14px', borderRadius: '100px', cursor: 'pointer',
+                background: '#fff', border: '1.5px solid var(--border)',
+                fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700,
+                letterSpacing: '0.06em', color: 'var(--ink-soft)',
+                boxShadow: '0 2px 8px rgba(26,26,46,0.05)',
+              }}
+            >
+              <span style={{ color: 'var(--terracotta-dark)' }}>{i + 1}</span>
+              {c.label}
+            </button>
+          ))}
+        </div>
 
         {/* Problem recognition. Names what they told us before offering the fix. */}
         <div className="wow-fu" style={{ background: '#fff', borderRadius: '20px', overflow: 'hidden', boxShadow: '0 10px 32px rgba(26,26,46,0.10)', marginBottom: '14px' }}>
@@ -1329,9 +1429,9 @@ function ResultScreen({
         </div>
 
         {/* ── Beat 2: your first week with us ──────────────────── */}
-        <section style={{ marginTop: 'clamp(64px, 10vw, 96px)' }}>
-          <div className="wow-fu" style={RESULT_EYEBROW}>Your first week</div>
-          <h2 className="wow-fu" style={RESULT_H2}>Here is how week one goes.</h2>
+        <section id="chapter-week" style={{ marginTop: 'clamp(64px, 10vw, 96px)', scrollMarginTop: '18px' }}>
+          <div className="wow-fu" style={RESULT_EYEBROW}>Chapter 1 · Tonight and your first week</div>
+          <h2 className="wow-fu" style={RESULT_H2}>{kid ? `Here is how ${kid}'s first week goes.` : 'Here is how week one goes.'}</h2>
           <p className="wow-fu" style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.65, marginBottom: '24px' }}>
             {feelingLine}
           </p>
@@ -1378,8 +1478,8 @@ function ResultScreen({
         </section>
 
         {/* ── Beat 3: what you get ─────────────────────────────── */}
-        <section style={{ marginTop: 'clamp(64px, 10vw, 96px)' }}>
-          <div className="wow-fu" style={RESULT_EYEBROW}>What you get</div>
+        <section id="chapter-inside" style={{ marginTop: 'clamp(64px, 10vw, 96px)', scrollMarginTop: '18px' }}>
+          <div className="wow-fu" style={RESULT_EYEBROW}>Chapter 2 · What you get</div>
           <h2 className="wow-fu" style={RESULT_H2}>Everything waiting inside.</h2>
           <p className="wow-fu" style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.65, marginBottom: '20px' }}>
             Built for real families with school runs and short evenings. Every piece earns its place.
@@ -1442,11 +1542,33 @@ function ResultScreen({
               )
             })}
           </div>
+
+          {/* The numbers, counting themselves up: the quiet proof that this
+              is a built thing, not a promise */}
+          <div className="wow-fu" style={{ background: 'var(--deep-teal)', borderRadius: '20px', padding: 'clamp(22px, 4vw, 30px) clamp(18px, 4vw, 28px)', marginTop: '16px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(110px, 1fr))', gap: '18px 12px' }}>
+              {[
+                { n: 160, label: 'exact scripts' },
+                { n: 100, label: 'kitchen table lessons' },
+                { n: 5, label: 'stages, one road' },
+                { n: 12, label: 'years walked with you' },
+              ].map(s => (
+                <div key={s.label}>
+                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.9rem, 4.5vw, 2.5rem)', color: '#fff', lineHeight: 1, letterSpacing: '-0.02em' }}>
+                    <span className="wow-num" data-count={s.n}>{s.n}</span>
+                  </div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)', marginTop: '6px', lineHeight: 1.4 }}>
+                    {s.label}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </section>
 
         {/* ── Beat 4: the pathway simulation ───────────────────── */}
-        <section style={{ marginTop: 'clamp(64px, 10vw, 96px)' }}>
-          <div className="wow-fu" style={RESULT_EYEBROW}>The road ahead</div>
+        <section id="chapter-road" style={{ marginTop: 'clamp(64px, 10vw, 96px)', scrollMarginTop: '18px' }}>
+          <div className="wow-fu" style={RESULT_EYEBROW}>Chapter 3 · The road ahead</div>
           <h2 className="wow-fu" style={RESULT_H2}>One pathway, ages 4 to 16.</h2>
           <p className="wow-fu" style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.65, marginBottom: '20px' }}>
             Stage {stage.id} is where you start, not where it ends. The whole road is already mapped, and DiGi walks it with you.
@@ -1514,7 +1636,7 @@ function ResultScreen({
         </div>
 
         {/* ── Beat 5: save CTA, the one primary CTA on the page ── */}
-        <div className="wow-fu" style={{ background: 'var(--retro-green)', borderRadius: '20px', padding: '40px 28px', textAlign: 'center', marginBottom: '12px' }}>
+        <div id="chapter-cta" ref={ctaRef} className="wow-fu" style={{ background: 'var(--retro-green)', borderRadius: '20px', padding: '40px 28px', textAlign: 'center', marginBottom: '12px', scrollMarginTop: '18px' }}>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--stage-1-bold)', marginBottom: '14px' }}>
             {needsConfirm ? 'One last step' : 'You are all set'}
           </div>
@@ -1538,8 +1660,10 @@ function ResultScreen({
               boxShadow: '0 5px 0 var(--terracotta-dark)',
             }}
           >
-            {needsConfirm ? 'I have confirmed, sign in' : 'Step into your pathway'}
-            <span className="arrow" aria-hidden style={{ fontSize: '18px' }}>→</span>
+            <span>
+              {needsConfirm ? 'I have confirmed, sign in' : kid ? `Step into ${kid}'s pathway` : 'Step into your pathway'}
+              {' '}<span className="arrow" aria-hidden style={{ fontSize: '18px' }}>→</span>
+            </span>
           </Link>
           <p style={{ marginTop: '14px', fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'rgba(255,255,255,0.75)' }}>
             Already have an account?{' '}
@@ -1567,6 +1691,45 @@ function ResultScreen({
               </div>
             ))}
           </div>
+        </div>
+      </div>
+
+      {/* The floating door: after week one has been read, the way in rides
+          along at the bottom until the real CTA takes over. */}
+      <div
+        aria-hidden={!showFloat}
+        style={{
+          position: 'fixed', left: 0, right: 0,
+          bottom: 'max(12px, env(safe-area-inset-bottom))',
+          zIndex: 55, display: 'flex', justifyContent: 'center',
+          padding: '0 16px', pointerEvents: showFloat ? 'auto' : 'none',
+          transform: showFloat ? 'translateY(0)' : 'translateY(90px)',
+          opacity: showFloat ? 1 : 0,
+          transition: 'transform 0.35s cubic-bezier(0.22,1,0.36,1), opacity 0.3s ease',
+        }}
+      >
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: '12px',
+          width: 'min(100%, 460px)',
+          background: 'var(--deep-teal)', borderRadius: '18px',
+          padding: '10px 10px 10px 18px',
+          boxShadow: '0 12px 36px rgba(26,26,46,0.28)',
+        }}>
+          <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: '#fff', lineHeight: 1.3 }}>
+            {kid ? `${kid}'s pathway is ready` : 'Your pathway is ready'}
+          </span>
+          <Link
+            href={enterHref}
+            style={{
+              flexShrink: 0, display: 'inline-flex', alignItems: 'center', gap: '7px',
+              padding: '11px 18px', background: 'var(--terracotta)', color: 'var(--ink)',
+              borderRadius: '13px', textDecoration: 'none',
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px',
+              boxShadow: '0 3px 0 var(--terracotta-dark)',
+            }}
+          >
+            Step in <span aria-hidden>→</span>
+          </Link>
         </div>
       </div>
     </div>

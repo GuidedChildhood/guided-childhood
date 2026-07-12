@@ -484,3 +484,7 @@ JP asked whether the 14 day trial should collect card up front and auto charge (
 **Thirteen more quest templates** (dishwasher, help make dinner, pet care, deep clean bedroom, washing away, sibling help, spellings and times tables, instrument practice, bins, plants). STAR_MINUTES stays the single exchange rate constant; a per family rate remains a follow up.
 
 **Owner action: run migration 047 in the Supabase editor.** Until then the new tables read as empty and everything falls back to the old weekly view, nothing breaks.
+
+## 2026-07-12 — The tour got its cinematic pass
+
+The starter pack reveal now reads as a guided film rather than a scroll. The headline lands word by word and carries the child's name (Alma's pathway is built), four tappable chapter pills sit under the promise line so a parent sees the whole shape of the next sixty seconds before giving them, a terracotta hairline across the very top fills as they walk the page, a dark numbers strip counts itself up on arrival (160 scripts, 100 lessons, 5 stages, 12 years), DiGi does a small hop of joy on reaching 16, and a floating step in bar rides the bottom edge from the end of week one until the real door takes over. The final button and the floating bar both carry the child's name. All GSAP, all inside the existing reduced motion guard, checked on 390px and 1280px with Playwright screenshots, zero console errors.
