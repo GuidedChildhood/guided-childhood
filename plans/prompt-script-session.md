@@ -27,8 +27,20 @@ For every topic in the research topic map (ages 0 to 16), produce one file
 plans/script-sessions/<band>-<topic-slug>.md containing:
 - Track P: the parent session script (60 to 90 seconds, P beats 1 to 4 from
   the template: the moment, the reframe, try this tonight, DiGi tag)
-- Track C: the child session beats (intro, concept, pause, mission) in the
-  section 10.2 screenplay format, cast for the age band
+- Track C: the COMPLETE child session as one flowing deck, not just beats:
+  · OPEN with a DiGi intro (the golden star welcomes them into the mission)
+  · the animation beats (intro, concept, pause, mission) in the section
+    10.2 screenplay format, cast for the age band
+  · SLIDES WOVEN BETWEEN every pair of beats, named by type from the
+    existing grammar (concept, scenario, diagram, keywords, choice,
+    discussion, stat, interactive with its component key) with their full
+    content written out, so the whole session flows as one piece
+  · the last two choice slides are the quiz that proves the lesson
+  · CLOSE with the DiGi finish, written in BOTH variants: the school close
+    (mission set, exit quiz, see you next lesson) and the home close, where
+    DiGi tells the child the lesson is now COMPLETE, their grown up is
+    getting the good news right now, their stars have landed, and stars
+    turn into device time. Warm, celebratory, never transactional cold.
 - A one line note mapping the topic to its existing module (schools-curriculum.ts)
   or naming it as a gap
 

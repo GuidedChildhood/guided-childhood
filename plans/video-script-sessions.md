@@ -31,14 +31,37 @@ P-BEAT 4 — OPTIONAL DIGI TAG (5s, from the DiGi library)
   DiGi star wave: "Questions? Ask me any time." Routes to the advisor.
 ```
 
-### Track C — the child session (the existing lesson beats)
-The Section 10.2 screenplay format, unchanged, cast by key stage:
+### Track C — the child session (a complete flowing deck, not just beats)
+The Section 10.2 screenplay format for the animation beats, cast by key
+stage, PLUS the slides woven between them so the whole session flows as
+one piece: DiGi opens it, slides and beats alternate, DiGi closes it.
 
 ```
-BEAT 1 — INTRO   (12s dialogue beat: the hook, board text, case open)
-BEAT 2 — CONCEPT (10s identity beat: the tool taught in one breath)
-BEAT 3 — PAUSE   (8s DiGi Junior library: breath, five word share)
-BEAT 4 — MISSION (8s identity beat: the handover, one action this week)
+OPEN     — DIGI INTRO (digi slide or 5s library beat): DiGi the golden star
+           welcomes them in by mission name. "Detectives, today's case..."
+BEAT 1   — INTRO   (12s dialogue beat: the hook, board text, case open)
+SLIDES   — 1 to 3 slides from the existing grammar between every pair of
+           beats: concept, scenario (a feed post to judge), diagram,
+           keywords, choice (the check), discussion, or interactive
+           (verdict-sort, signal-meter, feed-loop, spread-race,
+           class-tally, star-breath). Name the slide type and write its
+           content. The deck must read as ONE flow, never a video dump.
+BEAT 2   — CONCEPT (10s identity beat: the tool taught in one breath)
+SLIDES   — the practice moments (choice checks, an interactive)
+BEAT 3   — PAUSE   (8s DiGi Junior library: breath, five word share)
+SLIDES   — the apply moments (scenario, discussion, the last two choice
+           slides are the quiz that proves the lesson)
+BEAT 4   — MISSION (8s identity beat: the handover, one action this week)
+CLOSE    — DIGI FINISH (digi slide, always last, 3 to 4 bubbles). Two
+           variants written for every topic:
+           · School close: mission set, exit quiz goes out, see you next
+             lesson.
+           · Home close (the Star Lesson version): DiGi tells the child
+             the lesson is COMPLETE, their grown up is getting the good
+             news right now, and their stars have landed, and stars turn
+             into device time. Example register: "Case closed! ⭐ Your
+             grown up just got the news, and your stars are in the bank.
+             Stars mean screen time, you earned it the smart way."
 ```
 
 Screenplay fields per beat (unchanged from the spec):
