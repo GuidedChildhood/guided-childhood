@@ -572,3 +572,7 @@ The curriculum content lane is live on branch claude/script-sessions-v1 (draft P
 ## 2026-07-13 — Script sessions: 0 to 5 band complete
 
 The remaining five 0 to 5 parent only sessions are written to plans/script-sessions/: 0-5-daily-conversations.md, 0-5-good-digital-habits.md, 0-5-safe-device-setup.md, 0-5-sharing-milestones-safely.md and 0-5-choosing-apps.md, each Track P only in the watch one then act format with the exemplar's structure, DiGi as the golden star throughout and no child track. The Zgambo et al. 2025 narrative finding is reused once only (good digital habits); every other session carries no statistics by design and the refuted claims appear nowhere. With the earlier screen time and feelings session this closes all six topics of the band; next batch is the 5 to 7 band, one band per push.
+
+## 2026-07-13 — Script sessions: 5 to 7 band complete
+
+All four 5 to 7 co watch sessions are written to plans/script-sessions/: 5-7-kindness-on-screens.md, 5-7-calm-bodies-screens-feelings.md, 5-7-real-pretend-computer.md and 5-7-screen-routines.md, each with a full Track P (parent first, co watch handoff at beat 3) and a complete Track C flowing deck with Sofia teaching, DiGi Junior pausing, DiGi opening and closing in both variants, quiz as the last two choice slides, and no statistics anywhere by design. The kindness session carries the education validation audit content (unkind and pretend people named briefly and warmly, never the child's fault, telling never naughty); next batch is the 7 to 11 band, one band per push.
