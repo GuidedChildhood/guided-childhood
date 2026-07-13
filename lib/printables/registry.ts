@@ -25,6 +25,8 @@ export type Printable = {
   stars: number
   blurb: string
   sheetUrl: string
+  // Spanish artwork when it exists; the PDF route serves it with ?lang=es.
+  sheetUrlEs?: string
   previewUrl: string
 }
 
@@ -36,6 +38,7 @@ export const PRINTABLES: Printable[] = [
     stars: 5,
     blurb: 'Sixteen real world summer wins, coloured in one by one. Fill the page before September.',
     sheetUrl: BASE + 'hf_20260713_124922_ba0709ec-ec0d-4c0d-a8a6-af46bd990fae.png',
+    sheetUrlEs: BASE + 'hf_20260713_132550_1294330c-1bf1-4803-b1ab-f4bd1f054f6f.png',
     previewUrl: BASE + 'hf_20260713_124936_d5894552-b377-4835-b103-599872e5b4d5.png',
   },
   {
@@ -45,6 +48,7 @@ export const PRINTABLES: Printable[] = [
     stars: 5,
     blurb: 'The screens stay off and the rain stays out. Forts, baking, kitchen discos and hot chocolate.',
     sheetUrl: BASE + 'hf_20260713_125301_6f2b5e5d-85e2-4a91-bbc6-e0f2367e5908.png',
+    sheetUrlEs: BASE + 'hf_20260713_132555_33e47caa-d096-43ee-8294-f18bf561d992.png',
     previewUrl: BASE + 'hf_20260713_125305_b235e9e2-d3c2-4fd0-aef6-a6c0c90e8a5b.png',
   },
   {
@@ -54,6 +58,7 @@ export const PRINTABLES: Printable[] = [
     stars: 5,
     blurb: 'Every box coloured made someone’s day better. Thank you notes, baking for a neighbour, three real compliments.',
     sheetUrl: BASE + 'hf_20260713_125323_1242da82-d705-4bec-83f4-2acfc357b38c.png',
+    sheetUrlEs: BASE + 'hf_20260713_132622_2f3c7661-f22d-4f7a-8d58-2c34ac5ede9e.png',
     previewUrl: BASE + 'hf_20260713_125326_94438fa2-9760-4981-b058-205ea2623e2f.png',
   },
   {
@@ -63,6 +68,7 @@ export const PRINTABLES: Printable[] = [
     stars: 5,
     blurb: 'Eight ways to read: outside, to someone, about space, a book they chose themselves.',
     sheetUrl: BASE + 'hf_20260713_125341_14a3ecc6-7706-4ccf-b1ca-67eee4e9bad9.png',
+    sheetUrlEs: BASE + 'hf_20260713_132628_59a9f6de-080b-4765-9a58-5ebce84fb951.png',
     previewUrl: BASE + 'hf_20260713_125344_3aaa7475-b816-4b0b-8d3f-932fd86f48f2.png',
   },
   {
@@ -72,6 +78,7 @@ export const PRINTABLES: Printable[] = [
     stars: 5,
     blurb: 'Take it on a walk. A feather, a snail, a funny shaped cloud. Look, spot, colour.',
     sheetUrl: BASE + 'hf_20260713_125401_9fc5d6aa-042a-4c2c-906c-495d1a71b442.png',
+    sheetUrlEs: BASE + 'hf_20260713_132647_97614a78-c23d-40c8-aa1c-a02632ce75d9.png',
     previewUrl: BASE + 'hf_20260713_125404_e98b9bff-4d58-43e9-976f-8e7704586b31.png',
   },
   {
@@ -81,6 +88,7 @@ export const PRINTABLES: Printable[] = [
     stars: 5,
     blurb: 'Done together or not at all: game night, a screen free evening, a walk somewhere new.',
     sheetUrl: BASE + 'hf_20260713_125421_89d1c68e-fb50-4046-8a9c-d33bbfa4759c.png',
+    sheetUrlEs: BASE + 'hf_20260713_132652_0b2abeb9-04eb-4c6b-9fda-753a7c9c8242.png',
     previewUrl: BASE + 'hf_20260713_125425_decdd972-db44-4eb1-9b37-56ea142bee1d.png',
   },
   {

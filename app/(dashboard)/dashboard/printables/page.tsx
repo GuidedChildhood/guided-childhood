@@ -91,6 +91,29 @@ export default async function PrintablesPage() {
         Print it, put the crayons out, and the screens look after themselves. Every finished sheet is worth stars: add it to the quest list, they hand the page back, you approve, the stars land in their bank.
       </p>
 
+      {/* The builder: pick from the idea pool or write your own, then print */}
+      <a
+        href="/dashboard/printables/builder"
+        style={{
+          display: 'flex', alignItems: 'center', gap: '16px', textDecoration: 'none',
+          background: 'var(--tint-sage)', border: '1.5px solid var(--border)', borderRadius: '20px',
+          padding: '18px 22px', marginBottom: '34px',
+        }}
+      >
+        <span style={{ fontSize: '30px', lineHeight: 1 }} aria-hidden>✏️</span>
+        <span style={{ flex: 1 }}>
+          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
+            Build your own bucket list
+          </span>
+          <span style={{ display: 'block', fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.55, marginTop: '3px' }}>
+            Pick from our ideas or write your own, put their name on it, and print a list that is completely yours.
+          </span>
+        </span>
+        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--ink)', whiteSpace: 'nowrap' }}>
+          Open the builder →
+        </span>
+      </a>
+
       <Section
         title={childName ? `Made for ${childName}` : 'Made for their age'}
         sub="The sheets that fit their stage right now."
