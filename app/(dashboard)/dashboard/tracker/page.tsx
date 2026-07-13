@@ -5,7 +5,8 @@ import { getStageFromAgeBand, STAGES, type AgeBand } from '@/lib/content/stages'
 import { getDailyStreak } from '@/lib/pathway/streak'
 import { getAllStagesProgress, type StageId } from '@/lib/pathway/progress'
 import WorkingOn from '@/components/tracker/WorkingOn'
-import PassportStamps, { type Stamp, type StampStatus } from '@/components/pathway/PassportStamps'
+import PassportBook from '@/components/pathway/PassportBook'
+import { type Stamp, type StampStatus } from '@/components/pathway/PassportStamps'
 
 // The Progress page: the answer to the only question that matters, is it
 // working. One honest generated sentence at the top, then the evidence:
@@ -177,11 +178,12 @@ export default async function ProgressPage() {
         </div>
       )}
 
-      {/* The passport, live: five stamps that fill as each stage is worked
-          through, earned solid at 100 percent, with catch up for earlier
-          stages and a celebration when the whole passport is complete. */}
+      {/* The passport as a flip book: a cover and one page per stage, each
+          page's circle filling as that stage is worked through, stamped
+          solid at 100 percent, with catch up pages for earlier stages and a
+          celebration when the whole passport is complete. */}
       {stage && stamps.length > 0 && (
-        <PassportStamps stamps={stamps} childName={primary?.name ?? 'your child'} />
+        <PassportBook stamps={stamps} childName={primary?.name ?? 'your child'} />
       )}
 
       {/* What we are working on: the real list, with the parent's verdict */}
