@@ -28,20 +28,24 @@ export default function PrintableActions({ printable }: { printable: Printable }
     } catch { setAdded(false) }
   }
 
+  const downloadStyle: React.CSSProperties = {
+    display: 'inline-flex', alignItems: 'center', gap: '7px',
+    background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '12px',
+    padding: '10px 16px', textDecoration: 'none',
+    fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 800,
+    boxShadow: '0 3px 0 var(--terracotta-dark)',
+  }
+
   return (
     <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-      <a
-        href={`/api/printables/${printable.key}/pdf`}
-        style={{
-          display: 'inline-flex', alignItems: 'center', gap: '7px',
-          background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '12px',
-          padding: '10px 16px', textDecoration: 'none',
-          fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 800,
-          boxShadow: '0 3px 0 var(--terracotta-dark)',
-        }}
-      >
-        ⬇ Download PDF
+      <a href={`/api/printables/${printable.key}/pdf`} style={downloadStyle}>
+        ⬇ PDF{printable.sheetUrlEs ? ' · English' : ''}
       </a>
+      {printable.sheetUrlEs && (
+        <a href={`/api/printables/${printable.key}/pdf?lang=es`} style={downloadStyle}>
+          ⬇ PDF · Espanol
+        </a>
+      )}
       <button
         onClick={addToQuests}
         disabled={added}
