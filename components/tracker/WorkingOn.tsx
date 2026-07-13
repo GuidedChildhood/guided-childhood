@@ -16,22 +16,32 @@ export type WorkingConcern = {
   times_flagged: number
 }
 
+export type SolvedConcern = {
+  slug: string
+  label: string
+  times_flagged: number
+}
+
 const HELP_EMAIL = 'hello@guidedchildhood.com'
 
 export default function WorkingOn({
   concerns,
   solvedAlready,
+  recentSolved = [],
   childName,
   parentEmail,
 }: {
   concerns: WorkingConcern[]
   solvedAlready: number
+  recentSolved?: SolvedConcern[]
   childName: string
   parentEmail: string
 }) {
   const [live, setLive] = useState(concerns)
   const [solvedNow, setSolvedNow] = useState(0)
   const [helped, setHelped] = useState<Record<string, boolean>>({})
+  const [solvedList, setSolvedList] = useState(recentSolved)
+  const [showSolved, setShowSolved] = useState(false)
 
   const solvedTotal = solvedAlready + solvedNow
   const working = live.length
@@ -49,12 +59,32 @@ export default function WorkingOn({
   }, [live])
 
   function markSolved(slug: string) {
+    const done = live.find(c => c.slug === slug)
     setLive(prev => prev.filter(c => c.slug !== slug))
     setSolvedNow(n => n + 1)
+    // Drop it onto the sorted list too so it can be reopened straight away
+    // if it comes back, no refresh needed.
+    if (done) setSolvedList(prev => [{ slug: done.slug, label: done.label, times_flagged: done.times_flagged }, ...prev.filter(s => s.slug !== slug)].slice(0, 8))
     fetch('/api/concerns/status', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ slug, status: 'resolved' }),
+    }).catch(() => {})
+  }
+
+  // It came back. Reopen it, move it to the live list, and let the server
+  // bump the flag count so the pattern line and DiGi read the recurrence.
+  function markHappenedAgain(slug: string) {
+    const back = solvedList.find(s => s.slug === slug)
+    setSolvedList(prev => prev.filter(s => s.slug !== slug))
+    if (back) {
+      setLive(prev => [{ slug: back.slug, label: back.label, status: 'open', times_flagged: back.times_flagged + 1 }, ...prev])
+      setSolvedNow(n => Math.max(0, n - 1))
+    }
+    fetch('/api/concerns/status', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ slug, status: 'recurred' }),
     }).catch(() => {})
   }
 
@@ -163,6 +193,45 @@ export default function WorkingOn({
             ))}
           </div>
         </>
+      )}
+
+      {/* Recently sorted, with a way back on. A win is never final: if it
+          comes back, one tap reopens it and DiGi sees the pattern. */}
+      {solvedList.length > 0 && (
+        <div style={{ marginTop: working > 0 ? '18px' : '14px', borderTop: '1px solid var(--border)', paddingTop: '14px' }}>
+          <button
+            onClick={() => setShowSolved(s => !s)}
+            style={{
+              background: 'none', border: 'none', padding: 0, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px',
+              fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)',
+            }}
+          >
+            Recently sorted ({solvedList.length})
+            <span aria-hidden="true" style={{ transform: showSolved ? 'rotate(90deg)' : 'none', transition: 'transform .15s', display: 'inline-block' }}>›</span>
+          </button>
+          {showSolved && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '12px' }}>
+              {solvedList.map(s => (
+                <div key={s.slug} style={{ display: 'flex', alignItems: 'center', gap: '10px', border: '1px solid var(--border)', borderRadius: '12px', padding: '10px 13px', background: 'var(--tint-green)' }}>
+                  <span style={{ flexShrink: 0, color: '#2D5016' }} aria-hidden="true">✓</span>
+                  <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '13.5px', color: 'var(--ink)' }}>
+                    {s.label}
+                  </span>
+                  <button
+                    onClick={() => markHappenedAgain(s.slug)}
+                    style={{
+                      flexShrink: 0, background: '#fff', border: '1.5px solid var(--border)', color: 'var(--ink-soft)',
+                      borderRadius: '100px', padding: '6px 12px', cursor: 'pointer',
+                      fontFamily: 'var(--font-display)', fontSize: '12px', fontWeight: 700,
+                    }}
+                  >
+                    Happened again
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       )}
     </div>
   )

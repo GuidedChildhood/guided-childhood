@@ -1,5 +1,6 @@
 import type { createClient } from '@/lib/supabase/server'
-import { getRecommendedScript } from './recommend'
+import { getRecommendedScript, type RecommendedScript } from './recommend'
+import { isScriptLocked } from '@/lib/content/free-script-limit'
 import type { StageId } from './progress'
 import type { ChallengeId } from '@/lib/content/stages'
 
@@ -24,11 +25,28 @@ export interface TodayLoopTask {
 // rhythm (check in, moment, script, DiGi, done), each resolved against
 // real completion data for TODAY only. This is the seed of the full
 // node path home: same shape, one day's slice.
+// A free account must never be routed from "the words for tonight" into
+// the script reader's paywall redirect. Prefer a free script, then check
+// the weekly allowance; if even that is spent, the honest link is the
+// scripts list, where locked cards say so up front.
+async function safeScriptHref(
+  supabase: SupabaseClient,
+  userId: string,
+  isPaid: boolean,
+  recommended: RecommendedScript | null
+): Promise<string> {
+  if (!recommended) return '/dashboard/scripts'
+  if (isPaid) return `/dashboard/scripts/${recommended.sort_order}`
+  const locked = await isScriptLocked(supabase, userId, false, recommended)
+  return locked ? '/dashboard/scripts' : `/dashboard/scripts/${recommended.sort_order}`
+}
+
 export async function getTodayLoop(
   supabase: SupabaseClient,
   userId: string,
   stageId: StageId,
-  challenge: ChallengeId | null
+  challenge: ChallengeId | null,
+  isPaid = true
 ): Promise<TodayLoopTask[]> {
   const today = new Date().toISOString().slice(0, 10)
 
@@ -49,11 +67,12 @@ export async function getTodayLoop(
       .or(`last_checked_at.is.null,last_checked_at.lt.${today}`)
       .limit(1),
     supabase.from('daily_sessions').select('completed_at, cards_completed').eq('user_id', userId).eq('session_date', today).maybeSingle(),
-    getRecommendedScript(supabase, userId, stageId, challenge),
+    getRecommendedScript(supabase, userId, stageId, challenge, { preferFree: !isPaid }),
     supabase.from('script_completions').select('id').eq('user_id', userId).gte('completed_at', `${today}T00:00:00Z`).limit(1),
     supabase.from('digi_questions').select('id').eq('user_id', userId).gte('created_at', `${today}T00:00:00Z`).limit(1),
   ])
 
+  const scriptHref = await safeScriptHref(supabase, userId, isPaid, recommended)
   const momentDone = !!session && (session.completed_at !== null || (session.cards_completed ?? 0) > 0)
 
   const tasks: TodayLoopTask[] = [
@@ -72,7 +91,7 @@ export async function getTodayLoop(
     {
       key: 'script',
       label: 'Script',
-      href: recommended ? `/dashboard/scripts/${recommended.sort_order}` : '/dashboard/scripts',
+      href: scriptHref,
       done: (scriptToday ?? []).length > 0,
     },
     {
@@ -121,7 +140,8 @@ export async function getDailyTasks(
   userId: string,
   childId: string | null,
   stageId: StageId,
-  challenge: ChallengeId | null
+  challenge: ChallengeId | null,
+  isPaid = true
 ): Promise<DailyTask[]> {
   const today = new Date().toISOString().slice(0, 10)
   const weekStart = mondayOf(new Date())
@@ -138,7 +158,7 @@ export async function getDailyTasks(
     { data: checkin },
   ] = await Promise.all([
     supabase.from('daily_sessions').select('completed_at, cards_completed').eq('user_id', userId).eq('session_date', today).maybeSingle(),
-    getRecommendedScript(supabase, userId, stageId, challenge),
+    getRecommendedScript(supabase, userId, stageId, challenge, { preferFree: !isPaid }),
     supabase.from('script_completions').select('id').eq('user_id', userId).gte('completed_at', `${today}T00:00:00Z`).limit(1),
     supabase.from('lessons').select('id, title').eq('stage_id', stageId).eq('audience', 'parent').neq('status', 'stub').order('sort_order', { ascending: true }),
     supabase.from('ai_lessons').select('id, title').eq('audience', STAGE_TO_AUDIENCE[stageId]),
@@ -179,7 +199,7 @@ export async function getDailyTasks(
       detail: recommended
         ? 'Tonight’s script, picked for you'
         : 'Every script for this stage is read',
-      href: recommended ? `/dashboard/scripts/${recommended.sort_order}` : '/dashboard/scripts',
+      href: await safeScriptHref(supabase, userId, isPaid, recommended),
       done: !recommended || (scriptDoneToday ?? []).length > 0,
     },
     {

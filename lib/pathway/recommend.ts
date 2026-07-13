@@ -9,6 +9,7 @@ export interface RecommendedScript {
   sort_order: number
   title: string
   situation: string
+  is_free: boolean
   matchesChallenge: boolean
 }
 
@@ -61,6 +62,7 @@ export async function getRecommendedScript(
     sort_order: chosen.sort_order,
     title: chosen.title,
     situation: chosen.situation,
+    is_free: chosen.is_free,
     matchesChallenge: matching.some(s => s.sort_order === chosen.sort_order),
   }
 }

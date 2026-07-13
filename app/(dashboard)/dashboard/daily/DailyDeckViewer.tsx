@@ -3,6 +3,7 @@
 import { useState, useCallback, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import MomentTimeline from '@/components/daily/MomentTimeline'
+import Celebration from '@/components/ui/Celebration'
 
 export type DailyCard = {
   id: string
@@ -230,7 +231,11 @@ export default function DailyDeckViewer({
       } else if (!done) {
         setDone(true)
         setShowComplete(true)
-        fetch('/api/daily/complete', { method: 'POST' }).catch(() => {})
+        // Refresh so Home drops its cached view and the Today path shows the
+        // moment as done, instead of staying stuck on it from a stale cache.
+        fetch('/api/daily/complete', { method: 'POST' })
+          .then(() => router.refresh())
+          .catch(() => {})
       }
     }
 
@@ -302,8 +307,11 @@ export default function DailyDeckViewer({
 
     return (
       <div style={{
+        position: 'relative',
         maxWidth: '480px', margin: '0 auto', padding: '40px 20px 60px',
       }}>
+        {/* The delight moment: a soft confetti burst the day it is finished */}
+        <Celebration />
         {/* Done header */}
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
           <div style={{
@@ -427,6 +435,18 @@ export default function DailyDeckViewer({
           }}
         >
           Back to home
+        </button>
+
+        <button
+          onClick={() => router.push('/dashboard/tracker')}
+          style={{
+            width: '100%', marginTop: '10px', padding: '12px', background: 'none',
+            border: 'none', cursor: 'pointer',
+            fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
+            letterSpacing: '0.06em', color: 'var(--terracotta-dark)',
+          }}
+        >
+          See what today moved on your passport →
         </button>
 
         {/* Done is not a dead end: issues do not respect the streak */}

@@ -207,3 +207,36 @@ export function parseSlides(raw: unknown): LessonSlide[] | null {
   )
   return known.length > 0 ? (known as LessonSlide[]) : null
 }
+
+// Build a slide deck from a parent lesson's own content when it has no
+// authored deck. Every parent lesson already carries the four parts (the
+// idea, why it matters, try this, the key message), so this turns the flat
+// text layout into the interactive player: one part per slide, a title to
+// open, DiGi to close. Authored decks always win; this is only the fallback
+// so that every lesson plays as slides, not a wall of text. Returns null
+// when there is genuinely no content to build from.
+export function autoSlidesFromLesson(
+  lesson: {
+    title: string
+    the_idea?: string | null
+    why_it_matters?: string | null
+    try_this?: string | null
+    key_message?: string | null
+  },
+  opts?: { eyebrow?: string },
+): LessonSlide[] | null {
+  const idea = (lesson.the_idea ?? '').trim()
+  const why = (lesson.why_it_matters ?? '').trim()
+  const tryThis = (lesson.try_this ?? '').trim()
+  const key = (lesson.key_message ?? '').trim()
+  if (!idea && !why && !tryThis && !key) return null
+
+  const slides: LessonSlide[] = [
+    { type: 'title', eyebrow: opts?.eyebrow, title: lesson.title },
+  ]
+  if (idea) slides.push({ type: 'concept', heading: 'The idea', body: idea })
+  if (why) slides.push({ type: 'concept', heading: 'Why it matters', body: why })
+  if (tryThis) slides.push({ type: 'tryit', heading: 'Try this tonight', body: tryThis })
+  if (key) slides.push({ type: 'digi', heading: 'Remember', lines: [key] })
+  return slides
+}

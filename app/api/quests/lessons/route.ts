@@ -6,13 +6,22 @@ import { createClient } from '@/lib/supabase/server'
 // version by design) and every mission already sent with its status and
 // quiz score. POST sends a lesson to a child, DELETE takes one back.
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
 
+  // Preview one lesson: return its slides so a parent can see exactly what
+  // they are sending before they send it.
+  const previewId = req.nextUrl.searchParams.get('lesson')
+  if (previewId) {
+    const { data } = await supabase
+      .from('school_lessons').select('id, title, slides').eq('id', previewId).maybeSingle()
+    return NextResponse.json({ lesson: data })
+  }
+
   const [childrenRes, lessonsRes, missionsRes] = await Promise.all([
-    supabase.from('children').select('id, name').eq('parent_id', user.id).order('created_at'),
+    supabase.from('children').select('id, name, age_band').eq('parent_id', user.id).order('created_at'),
     supabase.from('school_lessons').select('id, module_id, title, key_stage, year_band, single_action_outcome').order('sort_order'),
     supabase.from('kid_lesson_missions')
       .select('id, child_id, lesson_id, stars, status, score_correct, score_total, sent_at, completed_at')

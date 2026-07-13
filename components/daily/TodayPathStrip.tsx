@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { gsap } from 'gsap'
 import DigiCharacter from '@/components/digi/DigiCharacter'
@@ -17,13 +17,40 @@ const NODE_SIZE = 46
 const TOP_OFFSET = 72
 
 // What each step actually involves, shown in the Next banner so the
-// parent knows what they are walking into before they tap.
-const NEXT_HINT: Record<TodayLoopTask['key'], string> = {
-  checkin: 'Thirty seconds on how yesterday’s worry went, on the daily page',
-  moment:  'Two minutes with today’s cards',
-  script:  'Tonight’s words, picked for you, ready to read',
-  digi:    'Ask DiGi one question about your day',
-  done:    'Tap to see your progress',
+// parent knows what they are walking into before they tap. The wording
+// follows the clock: the same step reads differently at breakfast and at
+// bedtime, so the path always feels like it belongs to this moment.
+function nextHint(key: TodayLoopTask['key']): string {
+  const hour = new Date().getHours()
+  const daypart = hour < 12 ? 'morning' : hour < 17 ? 'afternoon' : 'evening'
+  const hints: Record<TodayLoopTask['key'], Record<string, string>> = {
+    checkin: {
+      morning: 'Start the day: thirty seconds on how yesterday’s worry went',
+      afternoon: 'Thirty seconds on how yesterday’s worry went',
+      evening: 'Before the day closes: how did yesterday’s worry go?',
+    },
+    moment: {
+      morning: 'Two minutes with today’s cards, best before the day runs off',
+      afternoon: 'Two minutes with today’s cards',
+      evening: 'Two minutes with today’s cards while the kettle boils',
+    },
+    script: {
+      morning: 'Today’s words, ready for the after school moment',
+      afternoon: 'The words for the tricky moment coming after school',
+      evening: 'Tonight’s words for the wind down, ready to read',
+    },
+    digi: {
+      morning: 'Ask DiGi the thing on your mind before the day starts',
+      afternoon: 'Ask DiGi one question about your day',
+      evening: 'Tell DiGi how today actually went',
+    },
+    done: {
+      morning: 'Tap to see your progress',
+      afternoon: 'Tap to see your progress',
+      evening: 'Tap to see your progress',
+    },
+  }
+  return hints[key][daypart]
 }
 
 const NODE_LOOK: Record<TodayLoopTask['key'], { fill: string; tick: string; icon: string }> = {
@@ -36,6 +63,11 @@ const NODE_LOOK: Record<TodayLoopTask['key'], { fill: string; tick: string; icon
 
 export default function TodayPathStrip({ tasks }: { tasks: TodayLoopTask[] }) {
   const stripRef = useRef<HTMLDivElement>(null)
+  // The celebration: a step finished since the last look at Home gets a half
+  // second of delight, the node pops and DiGi says so. The evidence from the
+  // big pathway apps is that these tiny moments are what compound into
+  // retention. Tracked per day in localStorage, so it fires once per win.
+  const [celebrating, setCelebrating] = useState<string | null>(null)
 
   const firstOpen = tasks.findIndex(t => !t.done)
   const allDone = firstOpen === -1
@@ -57,6 +89,36 @@ export default function TodayPathStrip({ tasks }: { tasks: TodayLoopTask[] }) {
       { opacity: 1, y: 0, duration: 0.55, stagger: 0.09, ease: 'power2.out', delay: 0.15 }
     )
     return () => { tween.kill() }
+  }, [])
+
+  useEffect(() => {
+    // Spot the steps completed since the parent last looked at Home today.
+    const today = new Date().toDateString()
+    const doneKeys = tasks.filter(t => t.key !== 'done' && t.done).map(t => t.key)
+    let seen: { date: string; keys: string[] } = { date: today, keys: [] }
+    try {
+      const raw = localStorage.getItem('gc_todaypath_seen')
+      if (raw) seen = JSON.parse(raw)
+    } catch { /* fresh start */ }
+    const newly = seen.date === today ? doneKeys.filter(k => !seen.keys.includes(k)) : []
+    localStorage.setItem('gc_todaypath_seen', JSON.stringify({ date: today, keys: doneKeys }))
+    if (newly.length === 0) return
+
+    const last = newly[newly.length - 1]
+    const label = tasks.find(t => t.key === last)?.label ?? 'That'
+    setCelebrating(label)
+    const clear = setTimeout(() => setCelebrating(null), 2800)
+
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && stripRef.current) {
+      const nodes = newly
+        .map(k => stripRef.current!.querySelector(`[data-node-key="${k}"]`))
+        .filter(Boolean)
+      if (nodes.length) {
+        gsap.fromTo(nodes, { scale: 1 }, { scale: 1.22, duration: 0.28, yoyo: true, repeat: 1, ease: 'back.out(2.4)', delay: 0.6, stagger: 0.1 })
+      }
+    }
+    return () => clearTimeout(clear)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -113,17 +175,19 @@ export default function TodayPathStrip({ tasks }: { tasks: TodayLoopTask[] }) {
             display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px',
           }}
         >
-          {!allDone && (
+          {(celebrating || !allDone) && (
             <span style={{
-              background: 'var(--deep-teal)', color: '#fff',
+              background: celebrating ? 'var(--terracotta)' : 'var(--deep-teal)',
+              color: celebrating ? 'var(--ink)' : '#fff',
               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '10.5px',
               padding: '5px 10px', borderRadius: '100px', whiteSpace: 'nowrap',
-              boxShadow: '0 3px 10px rgba(23,60,70,0.3)', marginBottom: '2px',
+              boxShadow: celebrating ? '0 3px 10px rgba(237,195,95,0.5)' : '0 3px 10px rgba(23,60,70,0.3)',
+              marginBottom: '2px', transition: 'background 0.3s',
             }}>
-              Tap the glow, do this next
+              {celebrating ? `${celebrating} done, lovely 🎉` : 'Tap the glow, do this next'}
             </span>
           )}
-          <DigiCharacter mood={allDone ? 'happy' : 'idle'} size={38} />
+          <DigiCharacter mood={celebrating || allDone ? 'happy' : 'idle'} size={38} />
         </div>
 
         {/* Connector line, with the walked part in butter */}
@@ -168,7 +232,7 @@ export default function TodayPathStrip({ tasks }: { tasks: TodayLoopTask[] }) {
                   zIndex: 1,
                 }}
               >
-                <div style={{ position: 'relative', width: NODE_SIZE, height: NODE_SIZE }}>
+                <div data-node-key={task.key} style={{ position: 'relative', width: NODE_SIZE, height: NODE_SIZE }}>
                   {isCurrent && (
                     <div
                       className="todaypath-pulse-ring"
@@ -247,7 +311,7 @@ export default function TodayPathStrip({ tasks }: { tasks: TodayLoopTask[] }) {
               </span>
             </span>
             <span style={{ display: 'block', fontSize: '12px', color: 'var(--ink-soft)', marginTop: '2px' }}>
-              {NEXT_HINT[tasks[currentIndex].key]}
+              {nextHint(tasks[currentIndex].key)}
             </span>
           </span>
           <span style={{
@@ -260,12 +324,15 @@ export default function TodayPathStrip({ tasks }: { tasks: TodayLoopTask[] }) {
           </span>
         </Link>
       ) : (
-        <p style={{
-          marginTop: '14px', marginBottom: 0, textAlign: 'center',
-          fontFamily: 'var(--font-body)', fontSize: '13px', color: 'var(--ink-soft)',
-        }}>
-          Day complete. Your streak is safe, see you tomorrow.
-        </p>
+        <Link
+          href="/dashboard/tracker"
+          style={{
+            display: 'block', marginTop: '14px', textAlign: 'center', textDecoration: 'none',
+            fontFamily: 'var(--font-body)', fontSize: '13px', color: 'var(--ink-soft)',
+          }}
+        >
+          Day complete, streak safe. <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>See what it moved →</span>
+        </Link>
       )}
     </div>
   )

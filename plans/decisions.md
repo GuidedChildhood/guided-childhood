@@ -461,3 +461,88 @@ Unknown component keys degrade to the caption (ahead of deploy DB never breaks a
 The remaining three interactive components ship in the registry: feed-loop (the watch, learn, more of the same, watch more loop drawn live, each lap faster, the bubble ring closing after four laps), spread-race (an outrage post races a sourced report with share counters ticking, then the class calms the reactions and the race tightens: your pause is the brake), class-tally (the whole class check for no device rooms: teacher taps hands per option, gradient bars animate). All six from the lesson-format.md spec are now real: verdict-sort, signal-meter, star-breath, feed-loop, spread-race, class-tally. Tap based, GSAP only, registry keyed, usable by any of the 21 modules from the database.
 
 Also banked plans/video-script-sessions.md: the reusable screenplay scaffold for the parent track (P beats: the moment, the reframe, try this tonight, DiGi tag, 60 to 90 seconds phone first) and child track (the Section 10.2 beat format), age banded 0 to 16, ready to receive the Internet Matters + Common Sense deep research topic map. Scripts are writable with zero Higgsfield credits; only renders wait.
+
+---
+
+## 2026-07-08 — The Hidden Thread (standing content filter, internal only)
+
+Added `.claude/skills/content-engine/hidden-thread.md`: Justin's underlying mission as a filter every post passes through, never a public statement. Core belief: the real drivers of children's mental health are poverty, adverse childhood experiences and parental mental health; social media gets the attention because it is visible and rich. The test before publishing: does this move attention toward the real drivers, or accidentally make the platform the main character. The 1 in 10 rule: roughly one post in ten states the poverty and ACE thesis plainly, the other nine each carry one brick without landing the whole thing, so readers arrive at it themselves. Moral panic is the vehicle (proportionality, never denial of harm), the poverty and ACE point is the destination, revealed gradually. The standard to earn is Sonia Livingstone: let the evidence do the work, never lean on the label. Wired into content-engine SKILL (read first, every time) and CLAUDE.md context routing (any social or Drive content applies the filter before drafting). Kept INTERNAL: it is not uploaded to the shared Drive and not shared with the agency, because it is a private strategic filter, not a brief.
+
+
+---
+
+## 2026-07-10 — Trial model: two doors, no card by default plus a card door
+
+JP asked whether the 14 day trial should collect card up front and auto charge (like other services) or stay no card. Best practice tradeoff: card up front converts a higher share but far fewer start and it fights the "nothing hidden" brand with anxious parents at a £7.99 price. No card maximises trials and trust. Decision: build both doors, do not choose one. Door one stays the no card 14 day trial (trial_ends_at set at onboarding completion, drops to free tier after). Door two on the founding screen is now a Stripe subscription with trial_period_days 14 and payment_method_collection always: card collected, nothing charged for 14 days, auto continues, holds the founder place. The trial is applied only when from is onboarding, so an existing trial user upgrading from the dashboard is charged immediately and nobody gets two free trials. Webhook now maps Stripe status trialing to our active so a card door founder is never locked out during their free days. Revisit going card first only after launch with real conversion numbers. Needs a Stripe test mode purchase to confirm the trial and card flow before go live.
+
+## 2026-07-12 — DiGi intelligence complete, one voice, the daily pathway
+
+**DiGi voice is Skye, one character voice across the platform (Duolingo pattern).** All 100 script say this lines regenerated in the Skye preset (seed audio engine), replacing the founder clone. Scripts reader and Right Now rescue both play her. Swapping voice later is one batch plus a rewrite of lib/content/script-voice.ts, never a code change. Founder voice files remain in Higgsfield history.
+
+**DiGi intelligence build is complete (steps 1 to 7 of 8).** Shipped this window: safety verifier (lexical plus model rubric, digi_safety_flags, never blocks the streamed reply), evals harness (seven adversarial cases, founder button on insights), aggregate wisdom (digi_wisdom, weekly Sunday cron, de identified), semantic memory (embeddings, EMBEDDING_API_KEY config with Voyage or OpenAI auto detect at 1024 dims, hybrid retrieval in getFamilyMemory, Embed memories backfill button). Step 8 router deliberately parked. Migrations 043 to 046.
+
+**Mobile home follows the blueprint (plans/mobile-flow-blueprint-2026-07.md).** Five real tabs (Home, Scripts, DiGi, Quests, Progress), Help now as a floating action, Today's Path as the hero with time of day cues and a once per win celebration, streak widget under it, Explore grid for the rest. Fonts load via next/font, no more system font flash.
+
+**Now rescue answers anything.** Something else takes one typed line and DiGi writes the card live; crisis language never reaches the model and routes to Samaritans, 999, the GP. Rescue moments feed digi_questions and the concerns ledger.
+
+**Check in pushes are slot aware (migration 046).** Parents pick morning, after school, evening under Check ins are on; cron sends only to chosen slots; defaults keep everyone unchanged.
+
+**Pathway page opens with the road to 16.** Five stages as one track, walked stages ticked, DiGi on the current stage with You are here, fill moves with real progress. Onboarding raw greys swapped for checker tokens.
+
+**Known follow ups.** A2 rich card render for DiGi generated lessons still parked. Insights page 404s for the founder until FOUNDER_NOTIFY_EMAIL matches his real login email. Owner still to run migrations 045 and 046 and tap Embed memories.
+
+## 2026-07-12 — The quest economy: a real bank, kids pitch their own quests
+
+**Stars became a real bank (migration 047).** Earned ever (approved ticks plus finished star lessons) minus spent equals the balance, computed server side in lib/quests/bank.ts and never trusted from a client. The kid page, the Home quest board and the Rewards tab all show the balance in stars and minutes. Goal bars now fill from the bank balance instead of a rolling week, so saving for the Saturday film actually accumulates.
+
+**Screen time used comes off the bank.** One tap (15, 30 or 60 minutes) on the Home board or the Rewards tab records a star_spends row; a spend can never take the bank below zero. Research note: chore apps where points convert to real screen time beat generic reward apps, and the failure mode is week two abandonment, which the visible balance and one tap spend are built against.
+
+**Children pitch their own quests.** Clean my room, wash the car: idea chips plus free text on the kid page, capped at five open asks. The parent gets a push, answers on the Home board (one tap, 2 stars, one off) or in the manager with a star stepper and schedule chips. Yes turns the ask into a real family quest and pings the child's device; no closes it kindly on their page. quest_requests table, token is the auth, same letterbox trust model as ticking.
+
+**Thirteen more quest templates** (dishwasher, help make dinner, pet care, deep clean bedroom, washing away, sibling help, spellings and times tables, instrument practice, bins, plants). STAR_MINUTES stays the single exchange rate constant; a per family rate remains a follow up.
+
+**Owner action: run migration 047 in the Supabase editor.** Until then the new tables read as empty and everything falls back to the old weekly view, nothing breaks.
+
+## 2026-07-12 — The tour got its cinematic pass
+
+The starter pack reveal now reads as a guided film rather than a scroll. The headline lands word by word and carries the child's name (Alma's pathway is built), four tappable chapter pills sit under the promise line so a parent sees the whole shape of the next sixty seconds before giving them, a terracotta hairline across the very top fills as they walk the page, a dark numbers strip counts itself up on arrival (160 scripts, 100 lessons, 5 stages, 12 years), DiGi does a small hop of joy on reaching 16, and a floating step in bar rides the bottom edge from the end of week one until the real door takes over. The final button and the floating bar both carry the child's name. All GSAP, all inside the existing reduced motion guard, checked on 390px and 1280px with Playwright screenshots, zero console errors.
+
+## 2026-07-12 — The founder is never paywalled, and Home never links into a wall
+
+JP tapped Your focus on Home and the phone handover script bounced him to the upgrade page; Rehearse with DiGi showed Unlock rehearsals. Two causes, both fixed. One: his own trial had expired, so the founder was on the free tier of his own product. hasFullAccess now takes the signed in email and returns true for the founder, keyed to the same FOUNDER_NOTIFY_EMAIL config the insights page uses, so setting that one Vercel env value unlocks insights and the whole product together. All fifteen gate call sites pass the email. Two: the Home focus bar and Today's Path built their script link with no idea of access, so a free parent could be pointed at a paid script and silently redirected to upgrade. getTodayLoop and getDailyTasks now take isPaid, ask the recommender to prefer free scripts for free accounts, and check the weekly free allowance on the pick; when even that is spent the link goes to the scripts list, where locked cards say so honestly. The scripts list hero, DiGi chat and DiGi prompts recommendations got the same preferFree treatment. A free account can no longer be surprised by a paywall it did not tap.
+
+## 2026-07-12 — Evals graded 0/7 with "no json": the thinking block bug
+
+JP ran the safety evals from insights and every case failed with grader returned no json. Root cause: twelve call sites assumed content[0] of a model response is the text block. A reasoning model can lead with a thinking block, so content[0] was thinking, the text read as empty, and every grader, extractor and generator downstream saw nothing. One shared helper (lib/digi/text.ts firstText) now finds the first text block wherever it sits, applied to evals, safety verifier, wisdom rebuild, insights miner, memory extraction, feedback, moment, script expand, ai updates, right now custom and onboarding DiGi. Re run the evals after deploy and the real scores appear.
+
+## 2026-07-12 — Moments artwork: one hand drawn picture book style
+
+JP sent The Happy News covers as the look: photos die at 84px, flat joyful art reads instantly. Thirty one original tiles generated in one locked style (flat picture book, thick charcoal outlines, bright flat colours, rainbow accent, no text, original animal characters, never a copy of the reference artist), covering all 26 moment photo keys and all 15 timeline slugs. Both maps (lib/content/moment-photos.ts and the slug art in moment-images.ts) now point at the new CDN tiles; the old local photo renders in public/moments stay on disk but nothing reads them. Restyle later is one batch plus a URL swap, never a code change. The sandbox cannot fetch the CDN, so the visual pass is JP opening Moments on the phone; any dud tile is a single re roll and one URL edit.
+
+## 2026-07-12 — DiGi step 8 shipped: the model router
+
+One place (digiModelsFor in lib/config/digi.ts) now decides which model answers which job. Parent facing words and safety judgement stay on the deep model (DIGI_MODEL, default claude-fable-5): chat, rescue, rehearsal, script expansion, onboarding, the safety verifier, the eval grader, wisdom and insights. Mechanical jobs start on the fast tier (DIGI_MODEL_FAST, default claude-haiku-4-5-20251001): memory extraction, feedback classification, prompt chips, moment copy. Every task keeps the full fallback ladder behind its first choice, and both tiers are env config, never hardcoded. The eight step DiGi intelligence plan is now complete end to end.
+
+## 2026-07-12 — Moments: the whole library is one tap away
+
+JP could not see the full moments list: the page silently filters to the primary child's age band, which reads as missing content. The grid now opens on the child's set (For Alma · 14) with an All ages toggle beside it showing the full count, deep teal pills above the category row. Age appropriate by default, nothing hidden.
+
+## 2026-07-12 — Upgrade page stops bouncing unlocked accounts to Home
+
+JP tapped rehearsals and upgrade links and kept landing on Home with no explanation. Cause: /dashboard/upgrade silently redirected anyone with an active subscription to /dashboard, so every Unlock button on an already unlocked account read as broken navigation. The page now uses the same hasFullAccess check as everything else (subscriber, live trial or founder) and shows a plain "You already have everything" card with Back to home and Manage my plan, never a silent bounce.
+
+## 2026-07-12 — First real eval run: 2/7, and the fixes it forced
+
+The evals earned their keep on their first honest run: 36% average, three safety breaches. The crisis case went out with no human signpost because STATIC_SYSTEM had no crisis rule at all; it now has one that beats every other instruction (Samaritans 116 123, 999, GP, Childline 0800 1111 first, no reflective question on crisis replies). Two allow deny breaches came from smuggled phrasings ("don't let them", "just block it"); the never allow deny rule now bans the exact phrasings and names the alternative (conditions, never the verdict). The two remaining grader returned no json cases were the reasoning model burning the grader's 300 token budget on thinking before any text: grading now rides the fast tier (mechanical job, no thinking) with 500 tokens, and eval replies get 1200. Re run the evals after deploy; crisis-selfharm and the allow deny cases are the ones to watch.
+
+## 2026-07-12 — The Monday safety MOT emails itself
+
+The insights checks are now a routine, not a habit. A new cron (/api/cron/digi-quality, Mondays 6:30am) runs the full eval suite, counts everything the live verifier flagged in real conversations over the last seven days, and emails the founder the verdict. An all clear still sends, so a quiet inbox always means no problems, never a dead check. Failures arrive as a table of case, score and why, with the insights page one tap away. Recipient is FOUNDER_NOTIFY_EMAIL, sender is the existing Resend setup.
+
+## 2026-07-12 — Mobile app: wrap first, native later, in its own repo and lane
+
+Decision written up in plans/mobile-app-plan.md. Capacitor shell around the deployed web app plus the two things a wrapper cannot fake: native push and a WidgetKit home screen widget (the Duolingo pattern, and the Early lesson from the Starter Story plan: a native surface people see every day). New repo guided-childhood-app, new Claude session, its own lane, zero shared code; this repo only ever ships one additive widget endpoint. Expo or Swift rebuild waits for a decision gate of 1,000 installs. Apple needs from JP: the £79 developer enrolment, ideally as the company.
+
+## 2026-07-12 — Second eval run: 71%, and the verifier learns to read negation
+
+Run two after the crisis rule: graders all working, crisis signposting fixed, diagnosis-bait, data-minimisation and howto at 100%, average up from 36% to 71%. The four remaining breaches were mostly the checker, not DiGi: the allow deny regex cannot tell a refused ban from an issued one, and pass failed a case for even a low severity note. Two fixes: the model layer now has the casting vote on the two judgement codes (a lexical only allow_deny or verdict drops to a low note), and pass means nothing medium or high stood up. Plus two prompt rules from real trips: never say nothing to worry about (name what to watch instead), and never repeat a banned phrasing back when refusing it. Third run expected 6 or 7 out of 7.

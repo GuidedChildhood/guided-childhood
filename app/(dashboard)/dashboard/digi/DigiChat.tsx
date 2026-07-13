@@ -3,6 +3,8 @@ import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import DigiCharacter, { type DigiMood } from '@/components/digi/DigiCharacter'
+import LessonPlayer from '@/components/lessons/LessonPlayer'
+import type { LessonSlide } from '@/lib/content/lesson-slides'
 
 function DigiAvatar({ size = 26, mood = 'idle' }: { size?: number; mood?: DigiMood }) {
   return <DigiCharacter size={size} mood={mood} />
@@ -43,6 +45,180 @@ function splitIntoBubbles(content: string): string[] {
     if (chunk) bubbles.push(chunk)
   }
   return bubbles
+}
+
+// When DiGi answers a how to in the house lesson shape, splitting it on blank
+// lines shatters the numbered steps across ragged bubbles (the three steps land
+// half in one box, half in the next). So a lesson reply is caught here and
+// rendered as one clean structured card instead. Anything that is not a lesson
+// falls through to the normal chat bubbles untouched.
+interface LessonParts {
+  title: string
+  bigIdea?: string
+  why?: string
+  steps: string[]
+  tryTonight?: string
+}
+
+function parseLesson(content: string): LessonParts | null {
+  const text = content.trim()
+  // The lesson always opens with the Lesson label, so this is a stable, early
+  // signal even while the reply is still streaming in.
+  if (!/^Lesson:/i.test(text)) return null
+
+  const markers: { key: keyof LessonParts; re: RegExp }[] = [
+    { key: 'title', re: /Lesson:/i },
+    { key: 'bigIdea', re: /The big idea:/i },
+    { key: 'why', re: /Why it works[^:\n]*:/i },
+    { key: 'steps', re: /Teach it in (?:three|3) steps:/i },
+    { key: 'tryTonight', re: /Try tonight:/i },
+  ]
+
+  const found = markers
+    .map(m => {
+      const match = text.match(m.re)
+      return match && match.index != null
+        ? { key: m.key, start: match.index, end: match.index + match[0].length }
+        : null
+    })
+    .filter((x): x is { key: keyof LessonParts; start: number; end: number } => x !== null)
+    .sort((a, b) => a.start - b.start)
+
+  const parts: LessonParts = { title: '', steps: [] }
+  for (let i = 0; i < found.length; i++) {
+    const cur = found[i]
+    const next = found[i + 1]
+    const body = text.slice(cur.end, next ? next.start : undefined).trim()
+    if (cur.key === 'steps') {
+      // Split on the numbered markers whether the steps came on their own lines
+      // or ran together on one line, so 1 2 3 always separate cleanly.
+      parts.steps = body.split(/\s*\d+[.)]\s+/).map(s => s.trim()).filter(Boolean)
+    } else {
+      parts[cur.key] = body
+    }
+  }
+
+  if (!parts.title) return null
+  return parts
+}
+
+// A DiGi written lesson becomes real slides, so Play it runs the same
+// interactive player a library lesson uses: one part at a time, DiGi
+// reacting, the try tonight landing last. No database row, so the player
+// skips the completion write (completeEndpoint null).
+function lessonToSlides(parts: LessonParts): LessonSlide[] {
+  const slides: LessonSlide[] = [{ type: 'title', eyebrow: 'A DiGi lesson, made for you', title: parts.title }]
+  if (parts.bigIdea) slides.push({ type: 'concept', heading: 'The big idea', body: parts.bigIdea })
+  if (parts.why) slides.push({ type: 'concept', heading: 'Why it works', body: parts.why })
+  if (parts.steps.length) slides.push({ type: 'recap', heading: 'Teach it in three steps', points: parts.steps })
+  if (parts.tryTonight) slides.push({ type: 'tryit', heading: 'Try tonight', body: parts.tryTonight })
+  return slides
+}
+
+function LessonCard({ parts }: { parts: LessonParts }) {
+  const [playing, setPlaying] = useState(false)
+  const labelStyle: React.CSSProperties = {
+    fontFamily: 'var(--font-mono)', fontSize: 9.5, fontWeight: 700,
+    letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta)',
+  }
+  return (
+    <div style={{
+      background: 'var(--white, #fff)', border: '1px solid var(--terracotta-lt)',
+      borderRadius: '18px', padding: '18px 18px 16px',
+      boxShadow: '0 1px 1px rgba(26,26,46,0.04), 0 4px 14px rgba(26,26,46,0.07)',
+    }}>
+      <div style={{ ...labelStyle, marginBottom: 6 }}>Lesson</div>
+      <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.15rem', letterSpacing: '-0.02em', color: 'var(--ink)', lineHeight: 1.2, margin: 0 }}>
+        {parts.title}
+      </h3>
+
+      {parts.bigIdea && (
+        <div style={{ background: 'var(--stage-2)', borderRadius: 14, padding: '13px 15px', marginTop: 14 }}>
+          <div style={{ ...labelStyle, marginBottom: 5 }}>The big idea</div>
+          <p style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 15.5, color: 'var(--ink)', lineHeight: 1.45, margin: 0 }}>{parts.bigIdea}</p>
+        </div>
+      )}
+
+      {parts.why && (
+        <div style={{ marginTop: 14 }}>
+          <div style={{ ...labelStyle, marginBottom: 5 }}>Why it works</div>
+          <p style={{ fontSize: 15, color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>{parts.why}</p>
+        </div>
+      )}
+
+      {parts.steps.length > 0 && (
+        <div style={{ marginTop: 16 }}>
+          <div style={{ ...labelStyle, marginBottom: 10 }}>Teach it in three steps</div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {parts.steps.map((step, i) => (
+              <div key={i} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+                <span style={{
+                  width: 24, height: 24, borderRadius: '50%', flexShrink: 0, marginTop: 1,
+                  background: 'var(--terracotta)', color: 'var(--ink)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 12.5,
+                }}>{i + 1}</span>
+                <span style={{ fontSize: 15, color: 'var(--ink)', lineHeight: 1.55, paddingTop: 1 }}>{step}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {parts.tryTonight && (
+        <div style={{ background: 'var(--stage-1)', border: '1px solid var(--stage-1-bold)', borderRadius: 14, padding: '13px 15px', marginTop: 16 }}>
+          <div style={{ ...labelStyle, color: 'var(--stage-1-text)', marginBottom: 5 }}>Try tonight</div>
+          <p style={{ fontSize: 15, color: 'var(--ink)', lineHeight: 1.55, margin: 0, fontWeight: 500 }}>{parts.tryTonight}</p>
+        </div>
+      )}
+
+      <button
+        type="button"
+        onClick={() => setPlaying(true)}
+        style={{
+          width: '100%', marginTop: 14,
+          background: 'var(--terracotta)', color: 'var(--ink)', border: 'none',
+          borderRadius: 14, padding: '12px 18px', cursor: 'pointer',
+          fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 14,
+          boxShadow: '0 4px 0 var(--terracotta-dark)',
+        }}
+      >
+        ▶ Play it as a lesson
+      </button>
+
+      {playing && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={parts.title}
+          style={{ position: 'fixed', inset: 0, zIndex: 300, background: 'var(--cream)', overflowY: 'auto' }}
+        >
+          <div style={{ maxWidth: 620, margin: '0 auto', padding: '18px 20px 48px' }}>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 10 }}>
+              <button
+                type="button"
+                onClick={() => setPlaying(false)}
+                aria-label="Close the lesson"
+                style={{
+                  background: 'var(--white, #fff)', border: '1px solid var(--border)', borderRadius: '50%',
+                  width: 38, height: 38, fontSize: 16, color: 'var(--ink-soft)', cursor: 'pointer', lineHeight: 1,
+                }}
+              >
+                ✕
+              </button>
+            </div>
+            <LessonPlayer
+              lessonId="digi-quick-lesson"
+              lessonSource="ai_lesson"
+              slides={lessonToSlides(parts)}
+              backHref="/dashboard/digi"
+              completeEndpoint={null}
+            />
+          </div>
+        </div>
+      )}
+    </div>
+  )
 }
 
 export default function DigiChat({
@@ -88,6 +264,17 @@ export default function DigiChat({
 
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
+  // The scrolling messages column, and whether the reader is currently pinned
+  // to the bottom. While pinned, new text keeps the latest line in view as it
+  // streams. The moment the reader scrolls up to re-read, we release, so the
+  // stream never yanks them back down mid sentence. A ref, not state, so a
+  // scroll never triggers a re-render.
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const stickRef = useRef(true)
+  const onMessagesScroll = () => {
+    const el = scrollRef.current
+    if (el) stickRef.current = el.scrollHeight - el.scrollTop - el.clientHeight < 80
+  }
   const FREE_LIMIT = 3
 
   const [deviceKey, setDeviceKey] = useState<string | null>(null)
@@ -132,8 +319,14 @@ export default function DigiChat({
     el.style.height = `${Math.min(el.scrollHeight, 160)}px`
   }, [input])
 
+  // Keep the newest text in view as it streams, but only while the reader is
+  // pinned to the bottom. Instant, not smooth: a smooth animation on every
+  // streamed token stacks up into jank and fights the reader. If they have
+  // scrolled up to read, we leave them exactly where they are.
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+    if (!stickRef.current) return
+    const el = scrollRef.current
+    if (el) el.scrollTop = el.scrollHeight
   }, [messages, reflectionQuestion])
 
   // Safety net: a tap that navigates away while a textarea is still
@@ -146,6 +339,8 @@ export default function DigiChat({
     if (!typed.trim() || loading) return
     const messageText = text ? typed : continuingPrefix ? `${continuingPrefix}${typed}` : typed
 
+    // Sending is an intent to see the reply: always re-pin to the bottom.
+    stickRef.current = true
     setMessages(prev => [...prev, { role: 'user', content: messageText }])
     setInput('')
     setContinuingPrefix(null)
@@ -172,7 +367,7 @@ export default function DigiChat({
         clearTimeout(timeout)
         const data = await res.json().catch(() => ({} as { error?: string }))
         if (res.status === 429) {
-          setError('You have used your 3 free DiGi messages for today. Upgrade for unlimited access.')
+          setError('DiGi has helped all it can today, that is your 3 free chats. It refreshes tomorrow, or go unlimited any time.')
         } else {
           setError(data.error ?? 'Something went wrong. Please try again.')
         }
@@ -307,7 +502,7 @@ export default function DigiChat({
       </div>
 
       {/* Messages */}
-      <div style={{ flex: 1, overflowY: 'auto', padding: '20px 20px 0', background: 'var(--cream)' }}>
+      <div ref={scrollRef} onScroll={onMessagesScroll} style={{ flex: 1, overflowY: 'auto', padding: '20px 20px 0', background: 'var(--cream)' }}>
 
         {messages.length === 0 && (
           <div style={{ paddingTop: '8px' }}>
@@ -414,8 +609,11 @@ export default function DigiChat({
           // message. The avatar sits once, beside the last bubble, and
           // consecutive bubbles in the group sit close with softened inner
           // corners, the iMessage grouping look rather than separate cards.
+          // A lesson reply renders as one structured card. Everything else
+          // stacks as the usual chat bubbles.
+          const lesson = msg.role === 'assistant' ? parseLesson(msg.content) : null
           const bubbles = msg.role === 'assistant' ? splitIntoBubbles(msg.content) : [msg.content]
-          if (bubbles.length === 0) return null
+          if (!lesson && bubbles.length === 0) return null
           return (
             <div key={i} style={{ display: 'flex', justifyContent: msg.role === 'user' ? 'flex-end' : 'flex-start', marginBottom: '18px' }}>
               <div style={{ display: 'flex', alignItems: 'flex-end', gap: 8, maxWidth: '86%' }}>
@@ -425,7 +623,7 @@ export default function DigiChat({
                   </div>
                 )}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', minWidth: 0 }}>
-                  {bubbles.map((text, b) => {
+                  {lesson ? <LessonCard parts={lesson} /> : bubbles.map((text, b) => {
                     const first = b === 0
                     const last = b === bubbles.length - 1
                     return (

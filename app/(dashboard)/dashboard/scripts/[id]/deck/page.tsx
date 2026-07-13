@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { hasFullAccess } from '@/lib/access'
 import { redirect, notFound } from 'next/navigation'
 import DeckViewer from './DeckViewer'
 import { isScriptLocked } from '@/lib/content/free-script-limit'
@@ -31,11 +32,11 @@ export default async function DeckPage({
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('subscription_status')
+    .select('subscription_status, trial_ends_at')
     .eq('id', user.id)
     .single()
 
-  const isPaid = profile?.subscription_status === 'active'
+  const isPaid = hasFullAccess(profile, user.email)
 
   const { data: script } = await supabase
     .from('scripts')

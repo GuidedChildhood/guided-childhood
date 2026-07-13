@@ -6,17 +6,24 @@ const CATEGORIES = ['All', 'Morning', 'Digital', 'School', 'Food', 'Evening', 'T
 
 interface MomentsGridProps {
   initialMoments: Moment[]
+  allMoments?: Moment[]
   childName?: string
   ageBand?: string
 }
 
-export default function MomentsGrid({ initialMoments, childName, ageBand }: MomentsGridProps) {
+export default function MomentsGrid({ initialMoments, allMoments, childName, ageBand }: MomentsGridProps) {
   const [activeCategory, setActiveCategory] = useState('All')
   const [flippedIds, setFlippedIds] = useState<Set<string>>(new Set())
+  // Age filtered by default so a parent lands on what fits their child, but
+  // the whole library is one tap away: hidden cards read as missing content.
+  const [scope, setScope] = useState<'child' | 'all'>('child')
+  const everything = allMoments ?? initialMoments
+  const showScopeToggle = everything.length > initialMoments.length
+  const pool = scope === 'all' ? everything : initialMoments
 
   const filtered = activeCategory === 'All'
-    ? initialMoments
-    : initialMoments.filter(m => m.category === activeCategory)
+    ? pool
+    : pool.filter(m => m.category === activeCategory)
 
   function handleFlip(momentId: string) {
     setFlippedIds(prev => new Set([...prev, momentId]))
@@ -24,6 +31,36 @@ export default function MomentsGrid({ initialMoments, childName, ageBand }: Mome
 
   return (
     <div>
+      {/* Whose moments: the child's age by default, everything on request */}
+      {showScopeToggle && (
+        <div style={{ display: 'flex', gap: 6, marginBottom: 10 }}>
+          {([
+            ['child', `${childName && childName !== 'Your child' ? `For ${childName}` : 'For their age'} · ${initialMoments.length}`],
+            ['all', `All ages · ${everything.length}`],
+          ] as const).map(([key, label]) => (
+            <button
+              key={key}
+              onClick={() => setScope(key)}
+              style={{
+                padding: '7px 14px',
+                borderRadius: '100px',
+                border: scope === key ? 'none' : '1px solid var(--border)',
+                background: scope === key ? 'var(--deep-teal)' : 'var(--white)',
+                color: scope === key ? '#fff' : 'var(--ink-soft)',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '11.5px',
+                fontWeight: 700,
+                letterSpacing: '0.03em',
+                cursor: 'pointer',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      )}
+
       {/* Category filter */}
       <div style={{
         display: 'flex',

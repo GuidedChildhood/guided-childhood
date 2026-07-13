@@ -14,6 +14,7 @@ const UNLOCK_COPY: Record<keyof SetupFlags, string> = {
   daily: 'Your daily practice has started. Two minutes a day is the whole habit, and it just began.',
   push: 'Check ins are on. From now on we nudge you right at the moments your child actually faces screens.',
   school: 'School routines are set. Whatever you added will remind you, and your child too if you switch that on, every time it comes round.',
+  childLink: 'Their phone link is ready. Send it by message and their quests open like a mini app, nothing to install.',
   agreement: 'Your family agreement is signed. It is what the stars buy, and Friday brings a quick check on how the week went against it.',
 }
 

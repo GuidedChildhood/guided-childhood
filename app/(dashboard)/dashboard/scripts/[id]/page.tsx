@@ -1,8 +1,12 @@
 import { createClient } from '@/lib/supabase/server'
+import { hasFullAccess } from '@/lib/access'
 import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
 import { SOCIAL_MEDIA_LAW } from '@/lib/config/social-media-law'
 import ScriptDepth from '@/components/scripts/ScriptDepth'
+import ScriptReader from '@/components/scripts/ScriptReader'
+import RehearseWithDigi from '@/components/scripts/RehearseWithDigi'
+import { scriptVoiceUrl } from '@/lib/content/script-voice'
 import { isScriptLocked } from '@/lib/content/free-script-limit'
 
 const STAGE_META: Record<string, { label: string; color: string; bg: string }> = {
@@ -12,13 +16,6 @@ const STAGE_META: Record<string, { label: string; color: string; bg: string }> =
   shaper:      { label: 'Shaper · Ages 13 to 15',    color: 'var(--ink)', bg: 'var(--stage-4)' },
   independent: { label: 'Independent · Ages 16 and above', color: 'var(--ink)', bg: 'var(--stage-5)' },
 }
-
-const STEPS = [
-  { num: 1, key: 'say_this',     label: 'Say this',      accent: 'var(--terracotta)', bg: 'var(--stage-2)',  border: 'var(--stage-2)' },
-  { num: 2, key: 'not_this',     label: 'Not this',      accent: 'var(--danger)',           bg: 'var(--danger-bg)',         border: 'var(--danger-border)' },
-  { num: 3, key: 'why_it_works', label: 'Why it works',  accent: 'var(--terracotta)', bg: 'var(--stage-3)', border: 'var(--stage-3)' },
-  { num: 4, key: 'tonight',      label: 'Tonight',       accent: 'var(--terracotta)', bg: 'var(--stage-5)',  border: 'var(--stage-5)' },
-] as const
 
 type ScriptRow = {
   id: string
@@ -52,11 +49,11 @@ export default async function ScriptDetailPage({
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('subscription_status')
+    .select('subscription_status, trial_ends_at')
     .eq('id', user.id)
     .single()
 
-  const isPaid = profile?.subscription_status === 'active'
+  const isPaid = hasFullAccess(profile, user.email)
 
   const { data: script } = await supabase
     .from('scripts')
@@ -168,65 +165,28 @@ export default async function ScriptDetailPage({
         </div>
       )}
 
-      {/* 4 steps */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '28px' }}>
-        {STEPS.map((step) => {
-          const content = script[step.key]
-          return (
-            <div
-              key={step.num}
-              style={{
-                background: step.bg,
-                border: `1.5px solid ${step.border}`,
-                borderRadius: '16px',
-                padding: '22px',
-                display: 'flex',
-                gap: '18px',
-              }}
-            >
-              {/* Number circle */}
-              <div style={{
-                width: '36px', height: '36px', borderRadius: '50%',
-                background: step.key === 'not_this' ? 'var(--danger)' : step.accent, color: '#fff',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: '16px', fontWeight: 800, flexShrink: 0,
-                fontFamily: 'var(--font-display)',
-              }}>
-                {step.num}
-              </div>
-
-              <div style={{ flex: 1 }}>
-                <div style={{
-                  fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600,
-                  letterSpacing: '0.12em', textTransform: 'uppercase',
-                  color: step.accent, marginBottom: '10px',
-                }}>
-                  {step.label}
-                </div>
-                {step.key === 'say_this' ? (
-                  <p style={{
-                    fontSize: 'clamp(1.1rem, 3vw, 1.25rem)',
-                    fontWeight: 700,
-                    color: 'var(--ink)',
-                    lineHeight: 1.55,
-                    fontFamily: 'var(--font-display)',
-                  }}>
-                    &ldquo;{content}&rdquo;
-                  </p>
-                ) : step.key === 'not_this' ? (
-                  <p style={{ fontSize: '15px', color: 'var(--danger)', lineHeight: 1.65, fontStyle: 'italic' }}>
-                    &ldquo;{content}&rdquo;
-                  </p>
-                ) : (
-                  <p style={{ fontSize: '15px', color: 'var(--ink)', lineHeight: 1.65, ...(step.key === 'tonight' ? { fontWeight: 500 } : {}) }}>
-                    {content}
-                  </p>
-                )}
-              </div>
-            </div>
-          )
-        })}
+      {/* The four core steps, led by the say-this hero: read it big, hear it
+          aloud, then the supporting cards */}
+      <div style={{ marginBottom: '28px' }}>
+        <ScriptReader
+          sayThis={script.say_this}
+          notThis={script.not_this}
+          whyItWorks={script.why_it_works}
+          tonight={script.tonight}
+          stageId={script.stage_id}
+          voiceUrl={scriptVoiceUrl(sortOrder)}
+        />
       </div>
+
+      {/* Rehearse the words with DiGi before the real conversation */}
+      <RehearseWithDigi
+        scriptTitle={script.title}
+        situation={script.situation}
+        sayThis={script.say_this}
+        notThis={script.not_this}
+        childName={primaryChild?.name ?? null}
+        isPaid={isPaid}
+      />
 
       {/* The deeper half: push back, check back, and the note for the child */}
       <ScriptDepth
@@ -262,6 +222,27 @@ export default async function ScriptDetailPage({
           Ask DiGi about this
         </Link>
       </div>
+
+      {/* Turn the words into something that lasts: a shared family agreement */}
+      <Link
+        href="/dashboard/agreement"
+        style={{
+          display: 'flex', alignItems: 'center', gap: '14px', textDecoration: 'none',
+          background: 'var(--tint-sage)', border: '1px solid var(--border)',
+          borderRadius: '16px', padding: '18px 20px', marginBottom: '24px',
+        }}
+      >
+        <span style={{ fontSize: '22px', flexShrink: 0 }}>🤝</span>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ fontSize: '15px', fontWeight: 700, color: 'var(--ink)', fontFamily: 'var(--font-display)', marginBottom: '2px' }}>
+            Make it a family agreement
+          </div>
+          <div style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.45 }}>
+            Turn this conversation into a simple agreement you both sign, so the rule holds after the moment passes.
+          </div>
+        </div>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '18px', color: 'var(--terracotta)', flexShrink: 0 }}>→</span>
+      </Link>
 
       {/* Navigation */}
       <div style={{ display: 'flex', gap: '10px' }}>

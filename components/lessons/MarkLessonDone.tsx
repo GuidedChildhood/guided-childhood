@@ -35,7 +35,7 @@ export default function MarkLessonDone({
       className={done ? 'btn btn-outline' : 'btn btn-gold'}
       style={{ width: '100%', justifyContent: 'center', fontSize: '13px', marginBottom: '16px' }}
     >
-      {done ? 'Marked as done ✓' : 'Mark as done'}
+      {done ? 'Completed ✓' : 'Mark as done'}
     </button>
   )
 }

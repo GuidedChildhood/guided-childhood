@@ -19,13 +19,19 @@ export default function HomeReveals() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
     const ctx = gsap.context(() => {
+      // The hero never animates: it is painted solid and still, so it can never
+      // flash or flicker on landing, and there is no transform left on it to
+      // eat a click. We still gather the hero elements only to EXCLUDE them
+      // from the scroll reveal set below, so nothing here ever hides them.
       const hero = gsap.utils.toArray<HTMLElement>('#hero .fu')
-      const rest = gsap.utils.toArray<HTMLElement>('.fu').filter(el => !hero.includes(el))
 
-      if (hero.length) {
-        gsap.set(hero, { opacity: 0, y: 22 })
-        gsap.to(hero, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', stagger: 0.09, delay: 0.05, clearProps: 'transform,opacity' })
-      }
+      // Only hide and animate elements that start BELOW the fold. Anything
+      // already on screen at load is left exactly as the server painted it,
+      // so it can never be hidden then shown again, the little flicker on
+      // landing. Off screen elements reveal as they scroll into view.
+      const rest = gsap.utils.toArray<HTMLElement>('.fu')
+        .filter(el => !hero.includes(el))
+        .filter(el => el.getBoundingClientRect().top > window.innerHeight * 0.9)
 
       if (rest.length) {
         gsap.set(rest, { opacity: 0, y: 22 })

@@ -113,7 +113,27 @@ export default function SchoolSetup() {
   const [provider, setProvider] = useState<'gmail' | 'other'>('gmail')
   const [showAuto, setShowAuto] = useState(false)
   const [confirmDelete, setConfirmDelete] = useState(false)
+  const [testing, setTesting] = useState(false)
+  const [testResult, setTestResult] = useState<{ ok: boolean; message: string } | null>(null)
+  // Whether the forwarding domain can actually receive mail yet (has an MX
+  // record). Null while unknown, false warns the parent before they forward
+  // into a silent bounce.
+  const [inboundLive, setInboundLive] = useState<boolean | null>(null)
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null)
+
+  const testLetterbox = async () => {
+    setTesting(true)
+    setTestResult(null)
+    try {
+      const res = await fetch('/api/school/test', { method: 'POST' })
+      const data = await res.json()
+      setTestResult({ ok: Boolean(data.ok), message: data.message ?? 'Something went wrong running the test.' })
+    } catch {
+      setTestResult({ ok: false, message: 'Could not reach the server to run the test.' })
+    } finally {
+      setTesting(false)
+    }
+  }
 
   const load = useCallback(async (): Promise<Connection | null> => {
     try {
@@ -128,6 +148,12 @@ export default function SchoolSetup() {
   useEffect(() => {
     load().then(conn => setScreen(conn ? 'manage' : 'pitch'))
   }, [load])
+
+  // Check once whether the forwarding domain is live, so the address screen
+  // can warn instead of letting a forward bounce silently.
+  useEffect(() => {
+    fetch('/api/school/health').then(r => r.json()).then(d => setInboundLive(!!d.live)).catch(() => {})
+  }, [])
 
   // While the parent is on the provider steps and no code has arrived yet,
   // poll every five seconds so the Gmail confirmation code appears live.
@@ -333,6 +359,22 @@ export default function SchoolSetup() {
           This address belongs to your family alone. Anything you forward to it gets read once for the actions, then deleted.
         </p>
 
+        {/* Not receiving yet: if the domain has no MX record, a forward will
+            bounce. Warn plainly rather than let the parent hit a silent bounce. */}
+        {inboundLive === false && (
+          <div style={{
+            background: '#FBEAEA', border: '1.5px solid var(--danger, #c0392b)', borderRadius: '14px',
+            padding: '14px 16px', marginBottom: '18px',
+          }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--danger, #c0392b)', marginBottom: '6px' }}>
+              Not ready to receive yet
+            </div>
+            <p style={{ fontSize: '13px', color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>
+              This address is not live on our mail servers yet, so a forward may bounce back for now. We are finishing the setup. Save the address, and try forwarding again a little later or tap Test the letterbox below.
+            </p>
+          </div>
+        )}
+
         <div style={{
           background: 'var(--deep-teal)', borderRadius: '16px', padding: '20px 22px', marginBottom: '20px',
           display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap',
@@ -344,6 +386,41 @@ export default function SchoolSetup() {
             {connection.forward_address}
           </div>
           <CopyButton value={connection.forward_address} label="Copy address" />
+        </div>
+
+        {/* Test the letterbox: proves the platform side is live before the
+            parent goes fishing for a code that might never arrive. */}
+        <div style={{ ...card, display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
+          <div style={{ flex: 1, minWidth: '180px' }}>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: 'var(--ink)', marginBottom: '2px' }}>
+              Is the letterbox working?
+            </div>
+            <div style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
+              Run a quick check that your address is live and reading emails.
+            </div>
+          </div>
+          <button
+            onClick={testLetterbox}
+            disabled={testing}
+            style={{
+              background: 'var(--deep-teal)', color: '#fff', border: 'none', borderRadius: '12px',
+              padding: '11px 18px', cursor: testing ? 'wait' : 'pointer', flexShrink: 0,
+              fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
+            }}
+          >
+            {testing ? 'Testing...' : 'Test the letterbox'}
+          </button>
+          {testResult && (
+            <div style={{
+              width: '100%',
+              background: testResult.ok ? 'var(--tint-green)' : 'var(--stage-1)',
+              border: '1px solid var(--border)', borderRadius: '12px', padding: '12px 14px',
+              fontSize: '13px', color: 'var(--ink)', lineHeight: 1.55,
+            }}>
+              <strong>{testResult.ok ? '✓ Platform ready. ' : 'Heads up. '}</strong>
+              {testResult.message}
+            </div>
+          )}
         </div>
 
         {/* The easy way: no rules, no codes, works straight away */}
@@ -402,7 +479,7 @@ export default function SchoolSetup() {
               <StepRow n={1}>Open Gmail on a computer, click the gear at the top right, then <strong>See all settings</strong>.</StepRow>
               <StepRow n={2}>Open the <strong>Forwarding and POP/IMAP</strong> tab and click <strong>Add a forwarding address</strong>. Paste your private address from above.</StepRow>
               <StepRow n={3}>
-                Google emails a confirmation code to that address. It appears right here, so stay on this page:
+                Google sends a confirmation code, or sometimes a one tap confirm link, to that address. Whichever it is appears right here, so stay on this page:
                 <div style={{
                   marginTop: '10px', padding: '14px 16px', borderRadius: '12px',
                   background: hasVerification ? 'var(--tint-green)' : 'var(--cream)',
@@ -426,7 +503,7 @@ export default function SchoolSetup() {
                   ) : (
                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                       <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: 'var(--terracotta)', flexShrink: 0 }} />
-                      <span style={{ fontSize: '13px', color: 'var(--ink-muted)' }}>Waiting for your code. It usually arrives within a minute of clicking Add in Gmail.</span>
+                      <span style={{ fontSize: '13px', color: 'var(--ink-muted)' }}>Waiting for Google. Your code or confirm link usually arrives within a minute of clicking Add in Gmail.</span>
                     </div>
                   )}
                   {connection.verification_code && connection.verification_link && (
@@ -438,7 +515,7 @@ export default function SchoolSetup() {
                   )}
                 </div>
               </StepRow>
-              <StepRow n={4}>Enter the code back in Gmail and click <strong>Verify</strong>.</StepRow>
+              <StepRow n={4}>If you got a code, type it back into Gmail and click <strong>Verify</strong>. If we showed a <strong>Confirm</strong> link above instead, tap that, it does the same job.</StepRow>
               <StepRow n={5}>Still on the Forwarding tab, keep <strong>Disable forwarding</strong> selected. The filter you make next forwards only the school, not your whole inbox.</StepRow>
               <StepRow n={6}>
                 Paste this into the search box at the top of Gmail, press Enter, then click <strong>Create filter</strong> just under the search box:

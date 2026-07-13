@@ -137,7 +137,7 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
             : 'Sent. It should reach your phone within seconds.'
         )
       } else if (data.reason) {
-        setTestResult('Turn on check ins first, above, then try the test again.')
+        setTestResult('Turn on notifications first. Open your home page, tap Turn on check ins, then come back and test again.')
       } else {
         setTestResult(data.error ?? 'Something went wrong, try again.')
       }
@@ -153,31 +153,39 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
       background: '#fff', border: '1.5px solid var(--border)',
       borderRadius: '16px', padding: '20px 22px', marginBottom: '20px',
     }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '4px' }}>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
+      <div style={{ marginBottom: '14px' }}>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
           From school
         </div>
-        <button
-          onClick={() => setShowAdd(v => !v)}
-          style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--terracotta-dark)' }}
-        >
-          {showAdd ? 'Cancel' : '+ Add a reminder'}
-        </button>
-      </div>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px', marginBottom: '14px', flexWrap: 'wrap' }}>
-        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '17px', color: 'var(--ink)', letterSpacing: '-0.02em' }}>
+        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '18px', color: 'var(--ink)', letterSpacing: '-0.02em', marginBottom: '6px' }}>
           Things you need to know
         </div>
+        <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0 }}>
+          Kit days, payments and deadlines DiGi pulls from your forwarded school emails, plus anything you add. They show here every time you open the app, and as a reminder on your phone if notifications are on.
+        </p>
+      </div>
+      {/* Actions row: wraps cleanly on a phone and a laptop. */}
+      <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '14px' }}>
+        <button
+          onClick={() => setShowAdd(v => !v)}
+          style={{
+            background: showAdd ? 'var(--cream)' : 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
+            borderRadius: '100px', padding: '8px 16px', cursor: 'pointer',
+            fontFamily: 'var(--font-display)', fontSize: '12.5px', fontWeight: 800, color: 'var(--terracotta-dark)',
+          }}
+        >
+          {showAdd ? 'Cancel' : '+ Add reminder'}
+        </button>
         <button
           onClick={sendTest}
           disabled={testing}
           style={{
-            background: 'none', border: '1.5px solid var(--border)', borderRadius: '100px',
-            padding: '6px 12px', cursor: testing ? 'wait' : 'pointer',
-            fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, color: 'var(--ink-soft)',
+            background: '#fff', border: '1.5px solid var(--border)', borderRadius: '100px',
+            padding: '8px 16px', cursor: testing ? 'wait' : 'pointer',
+            fontFamily: 'var(--font-display)', fontSize: '12.5px', fontWeight: 800, color: 'var(--ink-soft)',
           }}
         >
-          {testing ? 'Sending...' : 'Send a test reminder'}
+          {testing ? 'Sending...' : 'Send a test'}
         </button>
       </div>
       {testResult && (

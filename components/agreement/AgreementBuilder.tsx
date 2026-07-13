@@ -32,6 +32,7 @@ interface Props {
   stageLabel: string
   saved: SavedAgreement | null
   childPhone: string | null
+  isPaid: boolean
 }
 
 type Step = 'type' | 'clauses' | 'sign' | 'done'
@@ -44,7 +45,7 @@ function defaultReviewDate(): string {
 
 const CUSTOM = '__custom__'
 
-export default function AgreementBuilder({ childName, stageId, stageLabel, saved, childPhone }: Props) {
+export default function AgreementBuilder({ childName, stageId, stageLabel, saved, childPhone, isPaid }: Props) {
   const recommended = recommendedType(stageId)
   const [step, setStep] = useState<Step>(saved ? 'done' : 'type')
   const [typeKey, setTypeKey] = useState<string>(saved?.agreement_type ?? recommended)
@@ -382,10 +383,21 @@ export default function AgreementBuilder({ childName, stageId, stageLabel, saved
             <button onClick={() => setStep('clauses')} style={{ ...bigBtn, width: 'auto', flexShrink: 0, background: '#fff', color: 'var(--ink-soft)', border: '2px solid var(--border)', boxShadow: '0 3px 0 var(--border)' }}>
               ← Back
             </button>
-            <button onClick={save} disabled={saving} style={{ ...bigBtn, opacity: saving ? 0.7 : 1 }}>
-              {saving ? 'Saving...' : 'Save our agreement'}
-            </button>
+            {isPaid ? (
+              <button onClick={save} disabled={saving} style={{ ...bigBtn, opacity: saving ? 0.7 : 1 }}>
+                {saving ? 'Saving...' : 'Save our agreement'}
+              </button>
+            ) : (
+              <Link href="/dashboard/upgrade" style={{ ...bigBtn, textDecoration: 'none', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                Save and print with membership →
+              </Link>
+            )}
           </div>
+          {!isPaid && (
+            <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '10px', textAlign: 'center' }}>
+              Building it and talking it through is free. Membership saves it, tracks the weekly check, and prints the signed fridge copy.
+            </p>
+          )}
         </>
       )}
 

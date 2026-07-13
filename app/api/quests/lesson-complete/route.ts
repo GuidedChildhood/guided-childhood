@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { KID_LESSONS, kidLessonQuestTitle, kidLessonBaseTitle } from '@/lib/quests/kid-lessons'
+import { getQuestGame } from '@/lib/quest-games/registry'
 
 // A kid finished a lesson on their quest link. Token is the auth, exactly
 // like quest ticks. Two lesson kinds share this endpoint:
@@ -14,7 +15,7 @@ import { KID_LESSONS, kidLessonQuestTitle, kidLessonBaseTitle } from '@/lib/ques
 //    replays never mint again.
 
 export async function POST(req: NextRequest) {
-  let body: { token?: string; lesson_key?: string; mission_id?: string; correct?: number; total?: number; answers?: unknown }
+  let body: { token?: string; lesson_key?: string; mission_id?: string; game_key?: string; correct?: number; total?: number; answers?: unknown }
   try { body = await req.json() } catch { return NextResponse.json({ error: 'bad request' }, { status: 400 }) }
 
   const { token } = body
@@ -61,6 +62,54 @@ export async function POST(req: NextRequest) {
 
     await notifyParent(req, supabase, link, `finished a star lesson 🎬`, `Quiz score ${correct} of ${total}. ${mission.stars} stars landed in their bank.`)
     return NextResponse.json({ stars: mission.stars })
+  }
+
+  // ── Quest game (a game a child plays to earn stars) ──
+  // Fixed, transparent stars from the registry, never trusted from the
+  // client, landing as a one off quest with a pending tick, once per child,
+  // exactly like the mini lessons below.
+  if (body.game_key) {
+    const game = getQuestGame(body.game_key)
+    if (!game) return NextResponse.json({ error: 'unknown game' }, { status: 404 })
+    const title = `Game: ${game.title}`
+
+    const { data: existing } = await supabase
+      .from('family_quests')
+      .select('id')
+      .eq('user_id', link.user_id)
+      .eq('child_id', link.child_id)
+      .like('title', `${title}%`)
+      .limit(1)
+      .maybeSingle()
+    if (existing) return NextResponse.json({ ok: true, already: true, stars: 0 })
+
+    const { data: quest, error: questError } = await supabase
+      .from('family_quests')
+      .insert({
+        user_id: link.user_id,
+        child_id: link.child_id,
+        title,
+        emoji: game.emoji,
+        stars: game.stars,
+        schedule: 'once',
+      })
+      .select('id')
+      .single()
+    if (questError || !quest) {
+      return NextResponse.json({ error: questError?.message ?? 'could not save' }, { status: 500 })
+    }
+
+    await supabase.from('quest_ticks').insert({
+      quest_id: quest.id,
+      user_id: link.user_id,
+      child_id: link.child_id,
+      tick_date: new Date().toISOString().slice(0, 10),
+      status: 'pending',
+      ticked_by: 'child',
+    })
+
+    await notifyParent(req, supabase, link, `played a game 🎮`, `${game.title}, ${game.stars} stars. One tap to approve and they land.`)
+    return NextResponse.json({ ok: true, stars: game.stars })
   }
 
   // ── Mini lesson (two minute card lesson on the quest screen) ──

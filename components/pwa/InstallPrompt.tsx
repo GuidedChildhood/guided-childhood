@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react'
 
 const SNOOZE_KEY = 'gc_install_snooze'
 const DONE_KEY = 'gc_install_done'
+const FIRST_SEEN_KEY = 'gc_app_first_seen'
 const SNOOZE_DAYS = 3
 
 type BeforeInstallPromptEvent = Event & { prompt: () => Promise<void>; userChoice: Promise<{ outcome: string }> }
@@ -35,6 +36,9 @@ export default function InstallPrompt() {
     if (localStorage.getItem(DONE_KEY) === '1') return
     const snooze = Number(localStorage.getItem(SNOOZE_KEY) ?? 0)
     if (snooze && Date.now() - snooze < SNOOZE_DAYS * 86400000) return
+    // Never on the very first visit. Let the parent land and do their first
+    // setup step before we ask them to install, so nothing competes on day one.
+    if (!localStorage.getItem(FIRST_SEEN_KEY)) { localStorage.setItem(FIRST_SEEN_KEY, String(Date.now())); return }
 
     const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent)
     setPlatform(isIos ? 'ios' : 'android')

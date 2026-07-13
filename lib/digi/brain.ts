@@ -51,23 +51,124 @@ export async function getExpertKnowledge(
     top.map(s => `- ${s.k.source_name}: ${s.k.finding}`).join('\n')
 }
 
+export type MemoryRow = { kind: string; content: string; created_at: string }
+
+// A memory's weight by kind: a concern or a win about the family carries more
+// than a passing observation, so it stays in view longer.
+const MEMORY_KIND_WEIGHT: Record<string, number> = {
+  concern: 3, win: 3, preference: 2, context: 2, observation: 1.5,
+}
+
+// Pure so it can be tested and reasoned about. A memory rises on three signals
+// blended together: it matches the words of what the parent just asked, it is
+// a weightier kind, and it is recent. The point is to surface the memory that
+// matters for THIS question, not just the newest rows. `now` is passed in so
+// the ranking is deterministic in tests.
+export function rankMemories(
+  rows: MemoryRow[],
+  message: string,
+  now: number,
+  limit = 12,
+): MemoryRow[] {
+  const words = new Set(
+    message.toLowerCase().split(/[^a-z0-9]+/).filter(w => w.length > 3)
+  )
+  const scored = rows.map((m, i) => {
+    let score = MEMORY_KIND_WEIGHT[m.kind] ?? 1
+    const ageDays = (now - new Date(m.created_at).getTime()) / 86_400_000
+    score += Math.max(0, 3 - ageDays / 20) // about 3 today, fading to 0 by 60 days
+    const content = m.content.toLowerCase()
+    let overlap = 0
+    for (const w of words) if (content.includes(w)) overlap++
+    score += overlap * 2.5
+    return { m, score, i }
+  })
+  // Sort by score, breaking ties by original order (newest first from the query).
+  return scored
+    .sort((a, b) => b.score - a.score || a.i - b.i)
+    .slice(0, limit)
+    .map(s => s.m)
+}
+
 export async function getFamilyMemory(
   supabase: SupabaseClient,
   userId: string,
+  message = '',
   limit = 12
 ): Promise<string> {
+  // Hybrid retrieval. When embeddings are configured, the question is embedded
+  // and the memories nearest in MEANING come back through match_digi_memory
+  // (locked to this user inside the function). Those candidates then still go
+  // through rankMemories, so kind weight, recency and word overlap all keep
+  // their say. Any failure, or no key, falls straight back to the recent
+  // window plus keyword ranking that has worked all along.
+  const { embedText } = await import('@/lib/digi/embeddings')
+
+  const [recentResult, queryEmbedding] = await Promise.all([
+    supabase
+      .from('digi_memory')
+      .select('kind, content, created_at')
+      .eq('user_id', userId)
+      .eq('active', true)
+      .order('created_at', { ascending: false })
+      .limit(60),
+    message.trim() ? embedText(message, 'query') : Promise.resolve(null),
+  ])
+
+  const recent = (recentResult.data ?? []) as MemoryRow[]
+
+  let candidates: MemoryRow[] = recent
+  if (queryEmbedding) {
+    try {
+      const { data: semantic } = await supabase.rpc('match_digi_memory', {
+        query_embedding: queryEmbedding,
+        match_count: 20,
+      })
+      if (semantic && semantic.length > 0) {
+        // Merge by content so a memory found both ways appears once. Semantic
+        // hits lead, the recent window fills in what meaning search missed
+        // (brand new rows may not be embedded yet).
+        const seen = new Set<string>()
+        candidates = []
+        for (const m of [...(semantic as MemoryRow[]), ...recent]) {
+          if (seen.has(m.content)) continue
+          seen.add(m.content)
+          candidates.push({ kind: m.kind, content: m.content, created_at: m.created_at })
+        }
+      }
+    } catch { /* semantic search is an upgrade, never a dependency */ }
+  }
+
+  if (candidates.length === 0) return ''
+
+  const ranked = rankMemories(candidates, message, Date.now(), limit)
+  return '\n\nWHAT YOU REMEMBER ABOUT THIS FAMILY (the most relevant to what they just asked, from previous conversations and check ins, use naturally, never recite as a list):\n' +
+    ranked.map(m => `- [${m.kind}] ${m.content}`).join('\n')
+}
+
+// What has already worked for this family: the concerns they have turned
+// around. DiGi sees open concerns and scripts tried elsewhere, but never the
+// wins, so it cannot build on them. Surfacing the real turnarounds lets DiGi
+// remind a parent they have done hard things before and lean on what worked,
+// which is the difference between advice and a coach who knows your track
+// record. Encouragement only, never pressure.
+export async function getWhatWorked(
+  supabase: SupabaseClient,
+  userId: string,
+  limit = 8
+): Promise<string> {
   const { data } = await supabase
-    .from('digi_memory')
-    .select('kind, content, created_at')
+    .from('concerns')
+    .select('label, status, last_flagged_at')
     .eq('user_id', userId)
-    .eq('active', true)
-    .order('created_at', { ascending: false })
+    .in('status', ['resolved', 'improving'])
+    .order('last_flagged_at', { ascending: false })
     .limit(limit)
 
   if (!data || data.length === 0) return ''
 
-  return '\n\nWHAT YOU REMEMBER ABOUT THIS FAMILY (from previous conversations and check ins, use naturally, never recite as a list):\n' +
-    data.map(m => `- [${m.kind}] ${m.content}`).join('\n')
+  return '\n\nWHAT HAS ALREADY WORKED FOR THIS FAMILY (real wins they have earned, lean on these to build momentum and remind them they can do this, never as pressure or a to do list):\n' +
+    data.map(c => `- ${c.label}: ${c.status === 'resolved' ? 'sorted' : 'getting better'}`).join('\n')
 }
 
 export interface ProactiveTrigger {

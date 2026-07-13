@@ -6,6 +6,7 @@ import FaqAccordion from '@/components/marketing/FaqAccordion'
 import FlipCards from '@/components/marketing/FlipCards'
 import DigiWalker from '@/components/marketing/DigiWalker'
 import HomeReveals from '@/components/marketing/HomeReveals'
+import PassportSection from '@/components/marketing/PassportSection'
 import MarketingNav from '@/components/marketing/MarketingNav'
 import DigiCharacter from '@/components/digi/DigiCharacter'
 
@@ -20,7 +21,7 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: 'Social media arrives at 16. Ready is built from age 4.',
-    description: 'The ban delays the apps, it does not prepare your child for them. The stage by stage digital literacy pathway for UK families: exact scripts for screen time battles, gaming meltdowns and bedtime fights. Ages 4 to 16. Free starter pack.',
+    description: 'The ban delays the apps, it does not prepare your child for them. The stage by stage digital literacy pathway for UK families: exact scripts for screen time battles, gaming meltdowns and bedtime fights. Ages 4 to 16. Free to start.',
     url: 'https://www.guidedchildhood.co.uk',
     type: 'website',
     locale: 'en_GB',
@@ -28,7 +29,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Social media arrives at 16. Ready is built from age 4.',
-    description: 'The ban delays the apps, it does not prepare your child for them. The stage by stage digital literacy pathway for UK families. Ages 4 to 16. Free starter pack.',
+    description: 'The ban delays the apps, it does not prepare your child for them. The stage by stage digital literacy pathway for UK families. Ages 4 to 16. Free to start.',
   },
   alternates: {
     canonical: 'https://www.guidedchildhood.co.uk',
@@ -363,7 +364,7 @@ export default function HomePage() {
         right: 0,
         zIndex: 300,
         height: '64px',
-        padding: '0 28px',
+        padding: '0 clamp(14px, 4vw, 28px)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -389,16 +390,26 @@ export default function HomePage() {
               ))}
             </div>
           </div>
-          <span style={{ fontFamily: 'var(--font-display)', fontSize: '1rem', fontWeight: 800, color: 'var(--ink)', letterSpacing: '-.03em' }}>
+          <span style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(0.9rem, 4vw, 1rem)', fontWeight: 800, color: 'var(--ink)', letterSpacing: '-.03em' }}>
             Guided Childhood
           </span>
         </Link>
 
         <MarketingNav />
 
-        <Link href="/starter-pack" className="btn btn-green" style={{ fontSize: '13px', padding: '10px 22px', flexShrink: 0 }}>
-          Get Started
-        </Link>
+        {/* Header actions, always visible so Log in is never lost when the
+            section nav hides on mobile. */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(4px, 2vw, 10px)', flexShrink: 0 }}>
+          <Link href="/login" style={{
+            fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '13px',
+            color: 'var(--ink)', textDecoration: 'none', padding: '10px clamp(4px, 1.5vw, 6px)', whiteSpace: 'nowrap',
+          }}>
+            Log in
+          </Link>
+          <Link href="/starter-pack" className="btn btn-green" style={{ fontSize: '13px', padding: '10px clamp(13px, 3.5vw, 18px)', flexShrink: 0, whiteSpace: 'nowrap' }}>
+            Get Started
+          </Link>
+        </div>
       </header>
 
       {/* ================================================================
@@ -420,14 +431,14 @@ export default function HomePage() {
             </p>
             <div className="fu" style={{ display: 'flex', gap: '18px', flexWrap: 'wrap', alignItems: 'center', marginBottom: '14px' }}>
               <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '15px', padding: '16px 36px' }}>
-                Start my pathway free
+                Get started here
               </Link>
               <Link href="#stages" style={{ fontSize: '.9rem', fontWeight: 600, color: 'var(--ink-soft)', textDecoration: 'none' }}>
                 Find your stage →
               </Link>
             </div>
             <p className="fu" style={{ fontSize: '.82rem', color: 'var(--ink-muted)', fontWeight: 600, marginBottom: '34px' }}>
-              Free starter pack · No card needed · Built on the research
+              Free access to the platform · No card needed · Built on the research
             </p>
             <p className="fu" style={{ fontFamily: 'var(--font-mono)', fontSize: '.68rem', fontWeight: 600, letterSpacing: '.06em', color: 'var(--ink-light)' }}>
               Online Safety Act 2023 · DfE · Statutory RSE · Ofcom
@@ -550,6 +561,69 @@ export default function HomePage() {
       </section>
 
       {/* ================================================================
+          SOCIAL MEDIA PASSPORT — the one idea the platform turns on, stated
+          high on the page: the pathway is the passport, a stamp each stage to
+          16, education not a ban.
+          ================================================================ */}
+      <PassportSection />
+
+      {/* ================================================================
+          EVERYTHING YOU GET — the full service walkthrough, near the top so
+          a first visit sees the whole system and why each part earns its
+          place, before the deeper narrative.
+          ================================================================ */}
+      <section aria-label="Everything you get" style={{ padding: 'clamp(80px, 10vw, 120px) 32px', background: 'var(--deep-teal)' }}>
+        <div style={{ maxWidth: '1080px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+            <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>Everything in one place</p>
+            <h2 className="fu" style={{ color: '#fff', marginBottom: '14px' }}>
+              One calm system.{' '}
+              <span style={{ color: 'var(--terracotta)' }}>Every part earns its place.</span>
+            </h2>
+            <p className="fu" style={{ fontSize: '1rem', color: 'rgba(255,255,255,0.8)', lineHeight: 1.8, maxWidth: '560px', margin: '0 auto' }}>
+              Not random tips. Ten tools that work together, from the first shared screen at four to full independence at sixteen. Here is what you get, and why each one matters.
+            </p>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '14px', marginBottom: '44px' }}>
+            {[
+              { emoji: '🌱', tint: 'var(--stage-1-bold)', name: 'Daily moments', what: 'One small thing each day: the moment, the exact words, a quick check in.', why: 'The ten minute habit everything hangs on.' },
+              { emoji: '💬', tint: 'var(--stage-3-bold)', name: '160 exact scripts', what: 'The words for the meltdown, the handover, the first phone conversation.', why: 'So you are never caught without something to say.' },
+              { emoji: '◎', tint: 'var(--stage-5-bold)', name: 'DiGi, always on', what: 'A real answer for your child and your stage, calibrated, never a lecture.', why: 'The eleven at night question, answered calmly.' },
+              { emoji: '⭐', tint: 'var(--stage-2-bold)', name: 'Family Quests', what: 'Real jobs, play and quick learning games earn the screen time you agree.', why: 'Earned time already did its job.' },
+              { emoji: '🗺️', tint: 'var(--stage-4-bold)', name: 'The pathway to 16', what: 'One plan that relaxes as your child earns it, stage by stage.', why: 'Turns sixteen from a cliff edge into a gentle ramp.' },
+              { emoji: '✦', tint: 'var(--stage-3-bold)', name: 'The lessons', what: 'Calm, age matched lessons that build real digital judgement.', why: 'Learned together young, on their own as they grow.' },
+              { emoji: '🛡️', tint: 'var(--stage-1-bold)', name: 'Device checklists', what: 'Per device, per age, what to set tonight before the screen reaches them.', why: 'Ten minutes of setup saves months of arguments.' },
+              { emoji: '🔔', tint: 'var(--stage-4-bold)', name: 'School reminders', what: 'Forward the school email and the dates and kit turn into alerts.', why: 'Never miss a PE kit day again.' },
+              { emoji: '📝', tint: 'var(--stage-2-bold)', name: 'Family agreement', what: 'One page you build together, print, and both sign.', why: 'Agreed together, so it actually holds.' },
+              { emoji: '📈', tint: 'var(--stage-5-bold)', name: 'Wellbeing tracker', what: 'One tap a day, a check in each week.', why: 'Spot the pattern before it becomes a problem.' },
+            ].map(s => (
+              <div key={s.name} className="fu" style={{ background: '#fff', borderRadius: '20px', padding: '22px 22px 20px', boxShadow: '0 10px 30px rgba(0,0,0,0.14)', display: 'flex', flexDirection: 'column' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
+                  <span style={{ width: 44, height: 44, borderRadius: '13px', flexShrink: 0, background: s.tint, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px' }}>{s.emoji}</span>
+                  <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.06rem', letterSpacing: '-0.01em', color: 'var(--ink)' }}>{s.name}</span>
+                </div>
+                <p style={{ fontSize: '.9rem', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 14px' }}>{s.what}</p>
+                <div style={{ marginTop: 'auto', paddingTop: '12px', borderTop: '1px solid var(--border)' }}>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.58rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '4px' }}>Why it matters</div>
+                  <p style={{ fontSize: '.86rem', color: 'var(--ink)', fontWeight: 600, lineHeight: 1.5, margin: 0 }}>{s.why}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="fu" style={{ textAlign: 'center' }}>
+            <Link href="/starter-pack" style={{ display: 'inline-flex', alignItems: 'center', padding: '16px 34px', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '16px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1rem', boxShadow: '0 5px 0 var(--terracotta-dark)' }}>
+              Get started here
+            </Link>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '.68rem', color: 'rgba(255,255,255,0.6)', marginTop: '14px', letterSpacing: '.06em' }}>
+              Free access to the platform · No card needed · Built on the research
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ================================================================
           THE REAL DIVIDE — digital literacy narrative, deep water reframe
           ================================================================ */}
       <section aria-label="The digital literacy divide" style={{ padding: 'clamp(80px, 10vw, 120px) 32px', background: '#fff', borderTop: '1px solid var(--border)' }}>
@@ -575,7 +649,7 @@ export default function HomePage() {
           <div className="fu divide-stat-row" style={{ display: 'grid', gap: '1px', background: 'var(--border)', borderRadius: '20px', overflow: 'hidden', marginBottom: '64px' }}>
             {[
               { num: 'Nearly universal', label: 'UK teenagers who already own a smartphone or tablet, per OECD' },
-              { num: '6 points', label: 'How much more likely a child in a poorer school is taught by someone unsure with the technology, per LSE' },
+              { num: '6 percentage points', label: 'The gap between the poorest and wealthiest schools in how often a child is taught by someone not confident with the technology, per LSE' },
               { num: '4 in 10 vs 8 in 10', label: 'Children from the least affluent homes who can swim 25 metres unaided, against the wealthiest. Cost rations the lesson, not the water' },
             ].map((s, i) => (
               <div key={i} style={{ background: '#fff', padding: 'clamp(24px, 3vw, 32px) clamp(20px, 2.5vw, 28px)' }}>
@@ -723,6 +797,12 @@ export default function HomePage() {
                           position: 'absolute',
                           bottom: '10px',
                           left: '12px',
+                          right: '12px',
+                          maxWidth: 'calc(100% - 24px)',
+                          width: 'fit-content',
+                          whiteSpace: 'nowrap',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
                           background: s.bg,
                           borderRadius: '100px',
                           padding: '4px 10px',
@@ -1201,7 +1281,7 @@ export default function HomePage() {
 
           <div style={{ textAlign: 'center', marginTop: '44px' }}>
             <Link href="/starter-pack" className="btn btn-gold fu" style={{ fontSize: '14px', padding: '16px 36px' }}>
-              Start my pathway free
+              Get started here
             </Link>
           </div>
         </div>
@@ -1434,7 +1514,7 @@ export default function HomePage() {
 
           <div style={{ textAlign: 'center', marginTop: '36px' }}>
             <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '14px', padding: '15px 32px' }}>
-              Start my pathway free
+              Get started here
             </Link>
           </div>
         </div>
@@ -2403,11 +2483,11 @@ export default function HomePage() {
             <span style={{ color: 'var(--terracotta)' }}>guided childhood today</span>
           </h2>
           <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink)', lineHeight: 1.8, marginBottom: '36px' }}>
-            No setup. No waiting. The starter pack is free and arrives immediately. One account covers all your children.
+            No setup. No waiting. The platform is free to start and opens immediately. One account covers all your children.
           </p>
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '20px' }}>
             <Link href="/starter-pack" className="btn btn-gold fu" style={{ fontSize: '15px', padding: '17px 40px' }}>
-              Start my pathway free
+              Get started here
             </Link>
             <Link href="https://www.guidedchildhood.com/digitalwellbeing" target="_blank" rel="noopener noreferrer" style={{
               display: 'inline-flex', alignItems: 'center', justifyContent: 'center',

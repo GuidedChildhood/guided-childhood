@@ -1,7 +1,9 @@
 import { notFound } from 'next/navigation'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { questDueToday } from '@/lib/quests/due'
+import { getStarBanks } from '@/lib/quests/bank'
 import { KID_LESSONS, kidLessonBaseTitle } from '@/lib/quests/kid-lessons'
+import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import KidQuestScreen from './KidQuestScreen'
 
 // The kid's own screen. Opened from the private link their parent sends,
@@ -35,7 +37,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   const weekAgo = new Date(Date.now() - 7 * 86400000).toISOString().slice(0, 10)
 
   const [childRes, questsRes, todayTicksRes, weekTicksRes, goalRes, streakTicksRes] = await Promise.all([
-    supabase.from('children').select('name').eq('id', link.child_id).maybeSingle(),
+    supabase.from('children').select('name, age_band').eq('id', link.child_id).maybeSingle(),
     supabase.from('family_quests')
       .select('id, title, emoji, stars, schedule')
       .eq('user_id', link.user_id)
@@ -122,10 +124,36 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     })
     .map(l => l.key)
 
+  // The child's stage decides which games and mini lessons are age
+  // appropriate, so a four year old never meets an eleven year old's game.
+  const ageBand = childRes.data?.age_band as AgeBand | undefined
+  const stageId = ageBand ? getStageFromAgeBand(ageBand).id : 2
+
+  // The star bank (earned ever, spent as screen time, what is left) and
+  // the child's own quest asks. Both tables land with migration 047, so
+  // failures fall back to empty rather than breaking the page.
+  const weekAgoIso = new Date(Date.now() - 7 * 86400000).toISOString()
+  const [banks, requestsRes, weekSpendsRes] = await Promise.all([
+    getStarBanks(supabase, link.user_id, [link.child_id]),
+    supabase.from('quest_requests')
+      .select('id, title, emoji, status, created_at')
+      .eq('child_id', link.child_id)
+      .gte('created_at', weekAgoIso)
+      .order('created_at', { ascending: false })
+      .limit(8),
+    supabase.from('star_spends')
+      .select('minutes')
+      .eq('child_id', link.child_id)
+      .gte('created_at', weekAgoIso),
+  ])
+  const bank = banks[0] ?? { child_id: link.child_id, earned: 0, spent: 0, balance: 0, minutes: 0 }
+  const usedWeekMinutes = (weekSpendsRes.data ?? []).reduce((sum, s) => sum + (Number(s.minutes) || 0), 0)
+
   return (
     <KidQuestScreen
       token={token}
       childName={childRes.data?.name ?? 'Superstar'}
+      stageId={stageId}
       quests={dueQuests}
       todayTicks={todayTicksRes.data ?? []}
       weekStars={weekStars}
@@ -134,6 +162,9 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       missions={missions}
       laterQuests={laterQuests}
       doneLessonKeys={doneLessonKeys}
+      bank={bank}
+      usedWeekMinutes={usedWeekMinutes}
+      requests={(requestsRes.data ?? []) as { id: string; title: string; emoji: string; status: string }[]}
     />
   )
 }

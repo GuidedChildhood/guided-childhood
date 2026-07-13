@@ -1,55 +1,26 @@
 import Link from 'next/link'
+import SetupCompleteCard from './SetupCompleteCard'
+import { STEPS, visibleSteps, type SetupFlags } from '@/lib/setup/steps'
 
 // The setup path: one card that makes every service visible as a step
 // with a tick, in the foundations first order (settings, agreement,
 // quests, school, lesson, check ins). The proven adoption pattern:
 // parents complete paths, they do not explore feature piles. Collapses
-// to one quiet row once everything is done.
-
-export type SetupFlags = {
-  agreement: boolean
-  quests: boolean
-  school: boolean
-  push: boolean
-  daily: boolean
-}
-
-export const STEPS: {
-  key: keyof SetupFlags
-  title: string
-  what: string
-  href: string
-}[] = [
-  { key: 'quests',    title: 'Set up Family Quests',       what: 'Their everyday jobs earn stars, stars buy the screen time you agree. They tick, you approve. Two minutes to set up, and the kids love it.', href: '/dashboard/quests' },
-  { key: 'daily',     title: 'Do your first daily practice', what: 'Two minutes: the moment, the words, the check in. This is the habit everything else hangs on.', href: '/dashboard/daily' },
-  { key: 'push',      title: 'Turn on check ins',          what: 'Three gentle nudges a day at the moments your child faces screens.', href: '/dashboard' },
-  { key: 'school',    title: 'Set up school routines',      what: 'Add PE kit, library day or a Saturday activity by hand, once, and it reminds you and your child every week from then on. Forwarding school email is there too if you want it.', href: '/dashboard#school-actions' },
-  { key: 'agreement', title: 'Build your family agreement', what: 'When you are ready: decided together and signed, it makes every boundary something you both chose, and it powers what the stars buy.', href: '/dashboard/agreement' },
-]
+// to one quiet row once everything is done. The step list itself lives in
+// lib/setup/steps.ts so the guided next step bar can share it.
+export { STEPS, visibleSteps, type SetupFlags }
 
 // One step at a time: the next undone step is the card, the rest wait as
 // small chips so the parent always knows more is there without facing a
 // wall of jobs on day one. Progressive, never overwhelming.
-export default function SetupPath({ flags }: { flags: SetupFlags }) {
-  const doneCount = STEPS.filter(s => flags[s.key]).length
-  const current = STEPS.find(s => !flags[s.key])
+export default function SetupPath({ flags, phoneAge = false }: { flags: SetupFlags; phoneAge?: boolean }) {
+  const steps = visibleSteps(phoneAge)
+  const doneCount = steps.filter(s => flags[s.key]).length
+  const current = steps.find(s => !flags[s.key])
 
-  if (!current) {
-    return (
-      <div style={{
-        display: 'flex', alignItems: 'center', gap: '10px',
-        background: 'var(--tint-sage)', borderRadius: '14px',
-        padding: '12px 16px', marginBottom: '20px',
-      }}>
-        <span>✓</span>
-        <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--ink-soft)' }}>
-          Your family setup is complete. Everything now works together.
-        </span>
-      </div>
-    )
-  }
+  if (!current) return <SetupCompleteCard />
 
-  const waiting = STEPS.filter(s => !flags[s.key] && s.key !== current.key)
+  const waiting = steps.filter(s => !flags[s.key] && s.key !== current.key)
 
   return (
     <div style={{
@@ -61,7 +32,7 @@ export default function SetupPath({ flags }: { flags: SetupFlags }) {
           Your next step
         </span>
         <span style={{ display: 'inline-flex', gap: '4px', alignItems: 'center' }}>
-          {STEPS.map(s => (
+          {steps.map(s => (
             <span key={s.key} style={{
               width: flags[s.key] ? 8 : s.key === current.key ? 18 : 8,
               height: 8, borderRadius: '8px',
@@ -70,7 +41,7 @@ export default function SetupPath({ flags }: { flags: SetupFlags }) {
             }} />
           ))}
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: 'var(--ink-muted)', marginLeft: '4px' }}>
-            {doneCount}/{STEPS.length}
+            {doneCount}/{steps.length}
           </span>
         </span>
       </div>
@@ -100,22 +71,14 @@ export default function SetupPath({ flags }: { flags: SetupFlags }) {
         </div>
       </Link>
 
-      {/* The rest wait quietly, visible but never a wall */}
+      {/* One step at a time. The rest are not listed here, they reveal one
+          after another as each is done: finish this one and the next becomes
+          the card, so a parent never faces the whole pile at once. A quiet
+          count is all the reassurance they need that there is a sequence. */}
       {waiting.length > 0 && (
-        <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginTop: '12px' }}>
-          <span style={{ fontSize: '11px', color: 'var(--ink-muted)', alignSelf: 'center' }}>Then:</span>
-          {waiting.map(s => (
-            <Link key={s.key} href={s.href} style={{ textDecoration: 'none' }}>
-              <span style={{
-                display: 'inline-block', padding: '6px 12px', borderRadius: '100px',
-                background: 'var(--cream)', border: '1px solid var(--border)',
-                fontFamily: 'var(--font-body)', fontSize: '11.5px', fontWeight: 600, color: 'var(--ink-soft)',
-              }}>
-                {s.title}
-              </span>
-            </Link>
-          ))}
-        </div>
+        <p style={{ margin: '14px 0 0', fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-muted)', letterSpacing: '0.02em' }}>
+          Then {waiting.length} more, one at a time.
+        </p>
       )}
     </div>
   )

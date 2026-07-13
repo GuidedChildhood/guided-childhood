@@ -554,6 +554,16 @@ function CompletionCard({
         >
           Ask DiGi about this
         </Link>
+        <Link
+          href="/dashboard/tracker"
+          style={{
+            flexBasis: '100%', textAlign: 'center', padding: '11px 0', textDecoration: 'none',
+            fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
+            letterSpacing: '0.06em', color: 'var(--terracotta-dark)',
+          }}
+        >
+          This script just filled your passport, see it →
+        </Link>
       </div>
     </div>
   )

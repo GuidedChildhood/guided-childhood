@@ -2,8 +2,9 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
-import { QUEST_TEMPLATES, PLAY_PAYS_WHY } from '@/lib/quests/templates'
-import { GAME_PICKS, STAGE_LABELS, AGE_BAND_TO_STAGE, type StageKey } from '@/lib/quests/game-picks'
+import { QUEST_TEMPLATES, PLAY_PAYS_WHY, STAR_MINUTES } from '@/lib/quests/templates'
+import { STAGE_LABELS, AGE_BAND_TO_STAGE, type StageKey } from '@/lib/quests/game-picks'
+import { gamesForStage } from '@/lib/quest-games/registry'
 
 type QuestTab = 'manage' | 'rewards' | 'games' | 'share'
 const TABS: { key: QuestTab; label: string }[] = [
@@ -25,6 +26,9 @@ type Quest = { id: string; title: string; emoji: string; stars: number; schedule
 type Goal = { child_id: string; title: string; stars_needed: number; daily_stars: number | null }
 type KidLink = { child_id: string; token: string }
 type Tick = { quest_id: string; child_id: string | null; status: string; tick_date: string; approved_at: string | null }
+type Ask = { id: string; child_id: string; title: string; emoji: string; status: string; created_at: string }
+type Bank = { child_id: string; earned: number; spent: number; balance: number; minutes: number }
+type Spend = { id: string; child_id: string; stars: number; minutes: number; created_at: string }
 
 const SCHEDULE_LABELS: Record<string, string> = {
   daily: 'Every day', weekdays: 'School days', weekend: 'Weekends', once: 'One off',
@@ -58,6 +62,19 @@ export default function QuestManager() {
   const [pingResult, setPingResult] = useState<string | null>(null)
   const [contactsSupported, setContactsSupported] = useState(false)
   const [tab, setTab] = useState<QuestTab>('manage')
+  const [asksList, setAsksList] = useState<Ask[]>([])
+  const [banks, setBanks] = useState<Bank[]>([])
+  const [spends, setSpends] = useState<Spend[]>([])
+  const [askStars, setAskStars] = useState<Record<string, number>>({})
+  const [askSchedule, setAskSchedule] = useState<Record<string, string>>({})
+  const [spendMsg, setSpendMsg] = useState<string | null>(null)
+
+  // Open straight to a tab when linked with ?tab=, so the setup step Send
+  // your child their phone link lands on Share, not the default Quests tab.
+  useEffect(() => {
+    const t = new URLSearchParams(window.location.search).get('tab')
+    if (t === 'share' || t === 'rewards' || t === 'games' || t === 'manage') setTab(t)
+  }, [])
 
   useEffect(() => {
     setContactsSupported('contacts' in navigator)
@@ -137,6 +154,9 @@ export default function QuestManager() {
       setGoals(data.goals ?? [])
       setTicks(data.ticks ?? [])
       setLinks(data.links ?? [])
+      setAsksList(data.requests ?? [])
+      setBanks(data.banks ?? [])
+      setSpends(data.spends ?? [])
       if (!activeChild && data.children?.length) setActiveChild(data.children[0].id)
     } catch { /* retry on next action */ } finally { setLoading(false) }
   }, [activeChild])
@@ -177,6 +197,10 @@ export default function QuestManager() {
   const allDoneToday = childQuests.length > 0 && childQuests.every(q => approvedTodayIds.has(q.id))
 
   const stageKey: StageKey = AGE_BAND_TO_STAGE[child?.age_band ?? '8-10'] ?? 'builder'
+  // A four to seven year old has no personal phone, and we never advise one
+  // at this age. Their quests are done on paper with a grown up, so the whole
+  // hand over reframes to the printed sheet rather than a phone link.
+  const youngChild = stageKey === 'foundation'
 
   async function addQuest(t: { title: string; emoji: string; stars: number; schedule: string }) {
     await fetch('/api/quests', {
@@ -196,11 +220,50 @@ export default function QuestManager() {
     setQuests(prev => prev.filter(q => q.id !== id))
   }
 
-  // From the Games tab: line a game up as the next reward and drop the
-  // parent on the Rewards tab to set the star price and save it.
-  function useGameAsReward(title: string) {
-    setGoalTitle(title)
-    setTab('rewards')
+
+  // Answer a child's quest pitch: added makes it real with the stars and
+  // rhythm chosen here, declined closes it kindly on their page.
+  async function decideAsk(ask: Ask, decision: 'added' | 'declined') {
+    setAsksList(prev => prev.map(a => a.id === ask.id ? { ...a, status: decision } : a))
+    try {
+      await fetch('/api/quests', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'request_decide', request_id: ask.id, decision,
+          stars: askStars[ask.id] ?? 2,
+          schedule: askSchedule[ask.id] ?? 'once',
+        }),
+      })
+      if (decision === 'added') await load()
+    } catch { load() }
+  }
+
+  // Screen time was used: mark the minutes, the stars come off the bank.
+  async function spendTime(minutes: number) {
+    if (!activeChild) return
+    try {
+      const res = await fetch('/api/quests/spend', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ child_id: activeChild, minutes }),
+      })
+      const data = await res.json()
+      if (data.ok) {
+        setBanks(prev => prev.map(b => b.child_id === activeChild
+          ? { ...b, spent: b.spent + data.spent_stars, balance: data.balance, minutes: data.balance_minutes }
+          : b))
+        setSpends(prev => [{
+          id: `local-${Date.now()}`, child_id: activeChild,
+          stars: data.spent_stars, minutes: data.spent_minutes,
+          created_at: new Date().toISOString(),
+        }, ...prev])
+        setSpendMsg(`${data.spent_minutes} minutes marked as used ✓`)
+      } else {
+        setSpendMsg(data.error ?? 'Could not mark that just now')
+      }
+      setTimeout(() => setSpendMsg(null), 3500)
+    } catch { load() }
   }
 
   async function saveGoal() {
@@ -271,7 +334,7 @@ export default function QuestManager() {
         The deal: quests earn stars
       </h1>
       <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.65, marginBottom: '20px' }}>
-        Set the quests, agree what stars buy, and hand them over: their own link for older kids, a printed sheet for little ones. They tick, you approve, stars land.
+        Mostly real chores and jobs that earn stars, agreed with you. No phone needed: print the sheet for the fridge, or just tick them off here yourself. Older children can have their own private link if they want one, never a reason to hand a child a phone before they are ready.
       </p>
 
       {/* Child picker plus add another, right here, never back to onboarding */}
@@ -374,6 +437,32 @@ export default function QuestManager() {
 
           {tab === 'manage' && (
           <>
+          {/* Get it on their phone: the most important quest setup step after
+              adding quests, surfaced prominently on the main tab until the
+              child's link exists, then it steps back. */}
+          {!link && (
+            <button
+              onClick={() => setTab('share')}
+              style={{
+                width: '100%', textAlign: 'left', cursor: 'pointer', border: 'none',
+                background: 'var(--deep-teal)', borderRadius: '18px', padding: '16px 18px', marginBottom: '16px',
+                display: 'flex', alignItems: 'center', gap: '14px',
+              }}
+            >
+              <span style={{ width: 42, height: 42, borderRadius: '12px', background: 'var(--terracotta)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>{youngChild ? '🖨️' : '📲'}</span>
+              <span style={{ flex: 1, minWidth: 0 }}>
+                <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: '#fff' }}>
+                  {youngChild ? `Print ${child.name}'s quest sheet` : `Put ${child.name}'s quests on their phone`}
+                </span>
+                <span style={{ display: 'block', fontSize: '12.5px', color: 'rgba(255,255,255,0.78)', lineHeight: 1.45, marginTop: '2px' }}>
+                  {youngChild
+                    ? 'At this age quests work best on paper, done with you. No phone needed. Print the sheet for the fridge.'
+                    : 'Send their own private quest page by message. It opens like a mini app, nothing to install.'}
+                </span>
+              </span>
+              <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '18px', flexShrink: 0 }}>→</span>
+            </button>
+          )}
           {/* All quests done today: the whole thing lights up */}
           {allDoneToday && (
             <div style={{
@@ -393,6 +482,82 @@ export default function QuestManager() {
               </span>
             </div>
           )}
+          {/* The child's own quest pitches: set the stars and rhythm, one
+              tap makes it a real quest, their page tells them the news */}
+          {asksList.filter(a => a.child_id === activeChild && a.status === 'pending').length > 0 && (
+            <div style={{ ...card, background: 'var(--tint-blue)' }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-soft)', marginBottom: '4px' }}>
+                {child.name} pitched these quests
+              </div>
+              <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 12px' }}>
+                Their own ideas, from their quest page. Set the stars, say yes, and it lands on their list.
+              </p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                {asksList.filter(a => a.child_id === activeChild && a.status === 'pending').map(a => {
+                  const stars = askStars[a.id] ?? 2
+                  const schedule = askSchedule[a.id] ?? 'once'
+                  return (
+                    <div key={a.id} style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '14px', padding: '12px 14px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
+                        <span style={{ fontSize: '1.2rem', flexShrink: 0 }}>{a.emoji}</span>
+                        <span style={{ flex: 1, minWidth: 0, fontSize: '14px', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.3 }}>
+                          {a.title}
+                        </span>
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                          <button onClick={() => setAskStars(prev => ({ ...prev, [a.id]: Math.max(1, stars - 1) }))} style={{ width: 30, height: 30, borderRadius: '9px', border: '1.5px solid var(--border)', background: '#fff', cursor: 'pointer', fontWeight: 800 }}>−</button>
+                          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, minWidth: '42px', textAlign: 'center' }}>⭐ {stars}</span>
+                          <button onClick={() => setAskStars(prev => ({ ...prev, [a.id]: Math.min(10, stars + 1) }))} style={{ width: 30, height: 30, borderRadius: '9px', border: '1.5px solid var(--border)', background: '#fff', cursor: 'pointer', fontWeight: 800 }}>+</button>
+                        </span>
+                        <span style={{ display: 'inline-flex', gap: '6px', flexWrap: 'wrap' }}>
+                          {(['once', 'daily', 'weekdays', 'weekend'] as const).map(s => (
+                            <button
+                              key={s}
+                              onClick={() => setAskSchedule(prev => ({ ...prev, [a.id]: s }))}
+                              style={{
+                                padding: '6px 12px', borderRadius: '100px', cursor: 'pointer',
+                                border: '1.5px solid var(--border)',
+                                background: schedule === s ? 'var(--deep-teal)' : '#fff',
+                                color: schedule === s ? '#fff' : 'var(--ink-soft)',
+                                fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
+                              }}
+                            >
+                              {SCHEDULE_LABELS[s]}
+                            </button>
+                          ))}
+                        </span>
+                        <span style={{ display: 'inline-flex', gap: '8px', marginLeft: 'auto' }}>
+                          <button
+                            onClick={() => decideAsk(a, 'added')}
+                            style={{
+                              background: 'var(--terracotta)', color: 'var(--ink)', border: 'none',
+                              borderRadius: '10px', padding: '8px 16px', cursor: 'pointer',
+                              fontFamily: 'var(--font-display)', fontSize: '12px', fontWeight: 800,
+                              boxShadow: '0 3px 0 var(--terracotta-dark)',
+                            }}
+                          >
+                            Add it
+                          </button>
+                          <button
+                            onClick={() => decideAsk(a, 'declined')}
+                            style={{
+                              background: 'none', border: '1px solid var(--border)', borderRadius: '10px',
+                              padding: '8px 12px', cursor: 'pointer',
+                              fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--ink-muted)',
+                            }}
+                          >
+                            Not now
+                          </button>
+                        </span>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          )}
+
           <div style={{ ...card, ...(allDoneToday ? { borderColor: 'var(--terracotta)', boxShadow: '0 6px 20px rgba(237,195,95,0.18)' } : {}) }}>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '12px' }}>
               {child.name}&apos;s quests
@@ -625,11 +790,75 @@ export default function QuestManager() {
           )}
 
           {tab === 'games' && (
-            <GamesTab stageKey={stageKey} childName={child.name} onUse={useGameAsReward} />
+            <GamesTab stageKey={stageKey} childName={child.name} />
           )}
 
           {tab === 'rewards' && (
           <>
+          {/* The screen time bank: earned, used, what is left. Marking time
+              as used is one tap, so the deal stays honest both ways. */}
+          {(() => {
+            const bank = banks.find(b => b.child_id === activeChild)
+            const balance = bank?.balance ?? 0
+            const childSpends = spends.filter(s => s.child_id === activeChild).slice(0, 6)
+            return (
+              <div style={{ ...card, background: 'var(--deep-teal)', border: 'none' }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '10px' }}>
+                  {child.name}&apos;s screen time bank
+                </div>
+                <div style={{ display: 'flex', gap: '18px', flexWrap: 'wrap', marginBottom: '14px' }}>
+                  {[
+                    { label: 'In the bank', value: `⭐ ${balance}`, sub: `${balance * STAR_MINUTES} min` },
+                    { label: 'Earned ever', value: `⭐ ${bank?.earned ?? 0}`, sub: `${(bank?.earned ?? 0) * STAR_MINUTES} min` },
+                    { label: 'Used', value: `⭐ ${bank?.spent ?? 0}`, sub: `${(bank?.spent ?? 0) * STAR_MINUTES} min` },
+                  ].map(s => (
+                    <div key={s.label}>
+                      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)', marginBottom: '2px' }}>{s.label}</div>
+                      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.3rem', color: '#fff', lineHeight: 1.1 }}>{s.value}</div>
+                      <div style={{ fontSize: '12px', fontWeight: 600, color: 'rgba(255,255,255,0.7)' }}>{s.sub}</div>
+                    </div>
+                  ))}
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                  <span style={{ fontSize: '13px', fontWeight: 600, color: 'rgba(255,255,255,0.8)' }}>
+                    Screen time used:
+                  </span>
+                  {[15, 30, 60].map(m => (
+                    <button
+                      key={m}
+                      onClick={() => spendTime(m)}
+                      disabled={balance <= 0}
+                      style={{
+                        background: balance > 0 ? 'var(--terracotta)' : 'rgba(255,255,255,0.15)',
+                        color: balance > 0 ? 'var(--ink)' : 'rgba(255,255,255,0.5)',
+                        border: 'none', borderRadius: '100px', padding: '8px 14px',
+                        cursor: balance > 0 ? 'pointer' : 'default',
+                        fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
+                        boxShadow: balance > 0 ? '0 3px 0 var(--terracotta-dark)' : 'none',
+                      }}
+                    >
+                      {m} min
+                    </button>
+                  ))}
+                </div>
+                {spendMsg && (
+                  <p style={{ fontSize: '12.5px', fontWeight: 600, color: 'var(--terracotta)', margin: '10px 0 0' }}>
+                    {spendMsg}
+                  </p>
+                )}
+                {childSpends.length > 0 && (
+                  <div style={{ marginTop: '14px', paddingTop: '12px', borderTop: '1px solid rgba(255,255,255,0.2)' }}>
+                    {childSpends.map(s => (
+                      <p key={s.id} style={{ fontSize: '12.5px', color: 'rgba(255,255,255,0.75)', margin: '0 0 4px', lineHeight: 1.5 }}>
+                        {s.minutes} min used · ⭐ {s.stars} · {new Date(s.created_at).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' })}
+                      </p>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )
+          })()}
+
           {/* Star goal */}
           <div style={card}>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '10px' }}>
@@ -874,72 +1103,71 @@ export default function QuestManager() {
   )
 }
 
-// The Games tab: the curated premium picks for this child's stage. Each is
-// a real, quality game or creative app, weighted to educational, artistic
-// and screen positive, with brilliant offline games in the mix. Use it as
-// the reward lines a game up as the next thing the stars buy.
-const KIND_STYLE: Record<string, { label: string; bg: string; fg: string }> = {
-  digital:  { label: 'Screen', bg: 'var(--stage-2)', fg: 'var(--stage-2-text)' },
-  tabletop: { label: 'Offline', bg: 'var(--tint-green)', fg: '#2D5016' },
-  creative: { label: 'Create', bg: 'var(--stage-4)', fg: 'var(--stage-4-text)' },
-  outdoor:  { label: 'Outside', bg: 'var(--stage-1)', fg: 'var(--stage-1-text)' },
+// The Games tab: only the star games we built into the app, age matched to
+// this child's stage. Each is played to earn stars, so this is a play list,
+// not a shop. A four to seven year old sees only their gentle games, never
+// an eleven year old's.
+const STAGEKEY_TO_NUM: Record<StageKey, number> = {
+  foundation: 1, builder: 2, explorer: 3, shaper: 4, independent: 5,
 }
 
-function GamesTab({ stageKey, childName, onUse }: { stageKey: StageKey; childName: string; onUse: (title: string) => void }) {
-  const picks = GAME_PICKS[stageKey] ?? []
+function GamesTab({ stageKey, childName }: {
+  stageKey: StageKey
+  childName: string
+}) {
+  const games = gamesForStage(STAGEKEY_TO_NUM[stageKey] ?? 2)
   const label = STAGE_LABELS[stageKey]
   return (
     <div>
       <div style={{ ...card, background: 'var(--deep-teal)', border: 'none', color: '#fff' }}>
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '6px' }}>
-          Best games for {label.name} · {label.ages}
+          Star games for {label.name} · {label.ages}
         </div>
         <p style={{ fontSize: '13.5px', color: 'rgba(255,255,255,0.82)', lineHeight: 1.6, margin: 0 }}>
-          The good stuff, picked for {childName}. Real games and creative apps worth their time, with brilliant offline ones too. Line any of them up as the reward the stars buy.
+          The games we built, matched to {childName}&apos;s stage. They play, they learn something real, and the stars land in their bank. Every one is on their quest link too.
         </p>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '12px' }}>
-        {picks.map(g => {
-          const k = KIND_STYLE[g.kind] ?? KIND_STYLE.digital
-          return (
-            <div key={g.title} style={{
+      {games.length === 0 ? (
+        <p style={{ fontSize: '13px', color: 'var(--ink-muted)', lineHeight: 1.6 }}>
+          More games for this stage are on the way. In the meantime the daily deck and quests keep the stars coming.
+        </p>
+      ) : (
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '12px' }}>
+          {games.map(g => (
+            <div key={g.key} style={{
               display: 'flex', flexDirection: 'column', height: '100%',
               background: '#fff', border: '1.5px solid var(--border)', borderRadius: '18px',
               padding: '16px', boxShadow: '0 4px 18px rgba(26,26,46,0.06)',
             }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '7px', marginBottom: '10px', flexWrap: 'wrap' }}>
-                <span style={{
-                  fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase',
-                  background: k.bg, color: k.fg, padding: '3px 9px', borderRadius: '100px',
-                }}>{k.label}</span>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 600, color: 'var(--ink-muted)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-                  {g.category}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
+                <span style={{ fontSize: '1.7rem', flexShrink: 0 }}>{g.emoji}</span>
+                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)', lineHeight: 1.2 }}>
+                  {g.title}
                 </span>
               </div>
-              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)', lineHeight: 1.25, marginBottom: '4px' }}>
-                {g.title}
-              </div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--ink-muted)', marginBottom: '8px' }}>
-                {g.platform}
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
+                {g.stage} · ⭐ {g.stars}
               </div>
               <p style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 14px', flex: 1 }}>
-                {g.why}
+                {g.blurb}
               </p>
-              <button
-                onClick={() => onUse(g.title)}
+              <Link
+                href={`/dashboard/quests/play/${g.key}`}
                 style={{
-                  alignSelf: 'flex-start', background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
-                  borderRadius: '100px', padding: '7px 14px', cursor: 'pointer',
-                  fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, color: 'var(--terracotta-dark)',
+                  alignSelf: 'flex-start', textDecoration: 'none',
+                  background: 'var(--terracotta)', color: 'var(--ink)',
+                  border: 'none', borderRadius: '12px', padding: '9px 18px',
+                  fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 800,
+                  boxShadow: '0 3px 0 var(--terracotta-dark)',
                 }}
               >
-                Use as the reward →
-              </button>
+                Play {g.title} →
+              </Link>
             </div>
-          )
-        })}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   )
 }

@@ -28,6 +28,9 @@
     { "path": "/api/push/cron", "schedule": "*/30 * * * *" },
     { "path": "/api/push/reengage", "schedule": "0 17 * * *" },
     { "path": "/api/school/remind", "schedule": "0 18 * * *" },
-    { "path": "/api/email/cron", "schedule": "0 8 * * *" }
+    { "path": "/api/email/cron", "schedule": "0 8 * * *" },
+    { "path": "/api/cron/digi-insights", "schedule": "0 7 * * *" },
+    { "path": "/api/cron/digi-wisdom", "schedule": "0 6 * * 0" },
+    { "path": "/api/cron/digi-quality", "schedule": "30 6 * * 1" }
   ]
 }

@@ -3,12 +3,13 @@
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
+// Log in lives in the header actions, not here, so it is always visible
+// even when this section nav is hidden on mobile.
 const LINKS = [
   { label: 'Find Your Stage', href: '#stages', section: 'stages' },
   { label: 'How It Works', href: '#how-it-works', section: 'how-it-works' },
   { label: 'For Schools', href: '/schools', section: null },
   { label: 'Pricing', href: '#pricing', section: 'pricing' },
-  { label: 'Log in', href: '/login', section: null },
 ]
 
 // Marketing header nav in the same segmented pill language as the
@@ -36,7 +37,7 @@ export default function MarketingNav() {
   }, [])
 
   return (
-    <nav className="nav-links-desktop" style={{ display: 'flex', gap: '2px', background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '100px', padding: '3px' }}>
+    <nav className="nav-links-desktop">
       {LINKS.map(link => (
         <Link
           key={link.href}

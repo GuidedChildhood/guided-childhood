@@ -29,21 +29,29 @@ function renderStep(step: string) {
   )
 }
 
+// Controlled now: the coverage board above shares the same completed set and
+// open guide, so marking a device set up updates the ring live and a board
+// tile can open the matching guide here.
 export default function DeviceList({
   devices,
   childAge,
-  initialCompleted,
+  completed,
+  pending,
+  onToggle,
+  openKey,
+  setOpenKey,
 }: {
   devices: DeviceGuide[]
   childAge: number
-  initialCompleted: string[]
+  completed: Set<string>
+  pending: string | null
+  onToggle: (key: string) => void
+  openKey: string | null
+  setOpenKey: (key: string | null) => void
 }) {
   const categories = useMemo(() => ['All', ...Array.from(new Set(devices.map(d => d.category)))], [devices])
   const [activeCategory, setActiveCategory] = useState('All')
   const [query, setQuery] = useState('')
-  const [openKey, setOpenKey] = useState<string | null>(null)
-  const [completed, setCompleted] = useState<Set<string>>(new Set(initialCompleted))
-  const [pending, setPending] = useState<string | null>(null)
 
   const filtered = devices.filter(d => {
     if (activeCategory !== 'All' && d.category !== activeCategory) return false
@@ -51,39 +59,10 @@ export default function DeviceList({
     return true
   })
 
-  const toggleComplete = async (key: string) => {
-    setPending(key)
-    const isDone = completed.has(key)
-    setCompleted(prev => {
-      const next = new Set(prev)
-      if (isDone) next.delete(key)
-      else next.add(key)
-      return next
-    })
-    try {
-      await fetch('/api/devices/complete', {
-        method: isDone ? 'DELETE' : 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ device_key: key }),
-      })
-    } catch { /* non-blocking */ }
-    setPending(null)
-  }
-
   return (
     <div>
-      {/* Progress summary */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px', flexWrap: 'wrap', gap: '10px' }}>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, color: 'var(--ink)', letterSpacing: '0.02em' }}>
-          {completed.size} of {devices.length} devices set up
-        </div>
-        <div style={{ flex: 1, minWidth: '80px', maxWidth: '160px', height: '8px', background: 'var(--border)', borderRadius: '100px', overflow: 'hidden' }}>
-          <div style={{
-            width: `${devices.length ? (completed.size / devices.length) * 100 : 0}%`,
-            height: '100%', background: 'var(--terracotta)', borderRadius: '100px',
-            transition: 'width 0.25s ease',
-          }} />
-        </div>
+      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '12px' }}>
+        Every guide, step by step
       </div>
 
       {/* Search */}
@@ -135,11 +114,12 @@ export default function DeviceList({
           return (
             <div
               key={d.device_key}
+              id={`device-${d.device_key}`}
               style={{
                 background: '#fff', border: `1.5px solid ${isOpen ? 'var(--terracotta)' : 'var(--border)'}`,
                 borderRadius: '16px', overflow: 'hidden',
                 boxShadow: isOpen ? '0 8px 32px rgba(26,26,46,0.08)' : 'none',
-                transition: 'border-color 0.15s',
+                transition: 'border-color 0.15s', scrollMarginTop: '90px',
               }}
             >
               <button
@@ -197,7 +177,7 @@ export default function DeviceList({
 
                   <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                     <button
-                      onClick={() => toggleComplete(d.device_key)}
+                      onClick={() => onToggle(d.device_key)}
                       disabled={pending === d.device_key}
                       className={isDone ? 'btn btn-outline' : 'btn btn-gold'}
                       style={{ flex: 1, minWidth: '140px', justifyContent: 'center', fontSize: '13px' }}
@@ -209,7 +189,7 @@ export default function DeviceList({
                       className="btn btn-outline"
                       style={{ flex: 1, minWidth: '140px', justifyContent: 'center', fontSize: '13px' }}
                     >
-                      Ask DiGi to walk me through it
+                      DiGi can walk me through it
                     </Link>
                   </div>
                 </div>

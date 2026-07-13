@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { hasFullAccess } from '@/lib/access'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { CHALLENGE_TO_CATEGORY } from '@/lib/content/challenge-map'
@@ -48,13 +49,13 @@ export default async function ScriptsPage() {
   if (!user) redirect('/login')
 
   const [{ data: profile }, { data: child }, { data: scriptsData }, { data: completions }] = await Promise.all([
-    supabase.from('profiles').select('subscription_status, onboarding_answers').eq('id', user.id).single(),
+    supabase.from('profiles').select('subscription_status, trial_ends_at, onboarding_answers').eq('id', user.id).single(),
     supabase.from('children').select('stage_id').eq('parent_id', user.id).eq('is_primary', true).maybeSingle(),
     supabase.from('scripts').select('id, stage_id, title, situation, category, is_free, sort_order').order('sort_order', { ascending: true }),
-    supabase.from('script_completions').select('script_sort_order').eq('user_id', user.id),
+    supabase.from('script_completions').select('script_sort_order, completed_at').eq('user_id', user.id),
   ])
 
-  const isPaid = profile?.subscription_status === 'active'
+  const isPaid = hasFullAccess(profile, user.email)
   const scripts = (scriptsData ?? []) as ScriptRow[]
   const completedOrders = new Set((completions ?? []).map(c => c.script_sort_order))
   const challenge = (profile?.onboarding_answers as Record<string, string> | null)?.challenge as ChallengeId | undefined
@@ -62,7 +63,7 @@ export default async function ScriptsPage() {
   const currentStageId = (child?.stage_id as StageId) ?? null
 
   const recommended = currentStageId
-    ? await getRecommendedScript(supabase, user.id, currentStageId, challenge ?? null)
+    ? await getRecommendedScript(supabase, user.id, currentStageId, challenge ?? null, { preferFree: !isPaid })
     : null
 
   const byStage = (Object.keys(STAGE_META) as StageId[]).map(stageId => {
@@ -86,11 +87,15 @@ export default async function ScriptsPage() {
   // parent read more, which is the "stuck at some big number, never
   // updates" bug. The real, personal, moving number is how many DISTINCT
   // free scripts THIS parent has actually opened so far.
-  const FREE_SCRIPT_LIMIT = 5
+  // A weekly renewing allowance, not a lifetime cap: only free scripts
+  // opened in the last seven days count against the week, and every one
+  // already opened stays open forever. The ceiling refreshes, never walls.
+  const FREE_SCRIPTS_PER_WEEK = 2
+  const weekAgoIso = new Date(Date.now() - 7 * 86400000).toISOString()
   const freeScriptOrders = new Set(scripts.filter(s => s.is_free).map(s => s.sort_order))
-  const freeScriptsReadCount = [...completedOrders].filter(o => freeScriptOrders.has(o)).length
-  const freeScriptsLeft = Math.max(0, FREE_SCRIPT_LIMIT - freeScriptsReadCount)
-  const freeAllowanceUsedUp = !isPaid && freeScriptsReadCount >= FREE_SCRIPT_LIMIT
+  const freeScriptsReadCount = (completions ?? []).filter(c => freeScriptOrders.has(c.script_sort_order) && String(c.completed_at) >= weekAgoIso).length
+  const freeScriptsLeft = Math.max(0, FREE_SCRIPTS_PER_WEEK - freeScriptsReadCount)
+  const freeAllowanceUsedUp = !isPaid && freeScriptsReadCount >= FREE_SCRIPTS_PER_WEEK
 
   return (
     <div style={{ maxWidth: '720px', margin: '0 auto', padding: '24px 20px' }}>
@@ -128,8 +133,8 @@ export default async function ScriptsPage() {
               <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--terracotta)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Free plan</span>
               <p style={{ fontSize: '14px', color: 'var(--ink)', marginTop: '4px', fontWeight: 600 }}>
                 {freeAllowanceUsedUp
-                  ? "You have opened your 5 free scripts. They're yours to reread any time."
-                  : `${freeScriptsReadCount} of 5 free scripts opened, ${freeScriptsLeft} left to try.`}
+                  ? "That is your free scripts for this week. Fresh ones unlock in a few days, and every one you have opened stays yours to reread."
+                  : `${freeScriptsReadCount} of ${FREE_SCRIPTS_PER_WEEK} free scripts this week, ${freeScriptsLeft} left. They refresh every week.`}
               </p>
             </div>
             <Link href="/dashboard/upgrade" className="btn btn-gold" style={{ flexShrink: 0, padding: '10px 20px', fontSize: '12px' }}>
@@ -137,7 +142,7 @@ export default async function ScriptsPage() {
             </Link>
           </div>
           <div style={{ height: '8px', borderRadius: '8px', background: 'rgba(0,0,0,0.08)', overflow: 'hidden', marginBottom: '10px' }}>
-            <div style={{ height: '100%', borderRadius: '8px', background: 'var(--terracotta)', width: `${Math.min(100, (freeScriptsReadCount / FREE_SCRIPT_LIMIT) * 100)}%`, transition: 'width 0.4s ease' }} />
+            <div style={{ height: '100%', borderRadius: '8px', background: 'var(--terracotta)', width: `${Math.min(100, (freeScriptsReadCount / FREE_SCRIPTS_PER_WEEK) * 100)}%`, transition: 'width 0.4s ease' }} />
           </div>
           <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
             Scripts are one part of it. Your daily path on the Home tab, a moment card, a check in, and a few free DiGi messages, never runs out and never needs membership. That is where the everyday habit lives, keep that going regardless.

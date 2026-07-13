@@ -66,16 +66,52 @@ function pickAddress(value: unknown): string {
   return String(first ?? '')
 }
 
-function normalisePayload(payload: unknown): InboundEmail {
+function normalisePayload(payload: unknown): InboundEmail & { emailId: string | null } {
   const outer = (payload ?? {}) as Record<string, unknown>
   const source = (outer.type === 'email.received' && outer.data && typeof outer.data === 'object')
     ? outer.data as Record<string, unknown>
     : outer
+  // Resend inbound sometimes delivers only metadata in the webhook, with the
+  // body empty. Read every field a body might hide in, and keep the email id
+  // so we can fetch the full content if the code and link are not here.
+  const body = String(source.text ?? source.html ?? source.body ?? source.raw ?? source.content ?? '')
   return {
     to: pickAddress(source.to),
     from: pickAddress(source.from).toLowerCase(),
     subject: String(source.subject ?? ''),
-    body: String(source.text ?? source.html ?? ''),
+    body,
+    emailId: source.email_id ? String(source.email_id) : (source.id ? String(source.id) : null),
+  }
+}
+
+// The Gmail forwarding confirmation code and link live in the email body.
+// These tolerate a truncated subject, HTML wrapping and a missing closing
+// paren, so the nine digit code is found however Gmail formats it.
+function extractGmailCode(haystack: string): string | null {
+  return (
+    haystack.match(/confirmation code[:\s#]*([0-9]{6,12})/i)?.[1] ??
+    haystack.match(/\(#\s*([0-9]{6,12})\)?/)?.[1] ??
+    haystack.match(/\b([0-9]{9})\b/)?.[1] ?? null
+  )
+}
+function extractGmailLink(haystack: string): string | null {
+  return haystack.match(/https:\/\/mail-settings\.google\.com\/mail\/[^\s"'<>)\]]+/i)?.[0] ?? null
+}
+
+// Fetch the full inbound email from Resend by id, so the body is available
+// even when the webhook payload carried only metadata. Best effort: any
+// failure just leaves us with what the webhook already gave us.
+async function fetchInboundBody(emailId: string | null): Promise<string> {
+  if (!emailId || !process.env.RESEND_API_KEY) return ''
+  try {
+    const res = await fetch(`https://api.resend.com/emails/${emailId}`, {
+      headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}` },
+    })
+    if (!res.ok) return ''
+    const j = await res.json() as { text?: string; html?: string }
+    return `${j.text ?? ''}\n${j.html ?? ''}`
+  } catch {
+    return ''
   }
 }
 
@@ -119,7 +155,11 @@ export async function POST(req: NextRequest) {
   try { payload = JSON.parse(rawBody) } catch {
     return NextResponse.json({ error: 'invalid json' }, { status: 400 })
   }
-  const { to, from, subject, body } = normalisePayload(payload)
+  const { to, from, subject, body, emailId } = normalisePayload(payload)
+  // A test ping from the setup screen: run the real token lookup and code
+  // parse, but never persist and never create actions. Purely a check that
+  // the platform side of the pipeline is alive.
+  const isTest = Boolean((payload as Record<string, unknown>)?.test)
 
   // The to value can be a bare address or "Name <address>".
   const toEmail = to.match(/<([^>]+)>/)?.[1] ?? to
@@ -133,18 +173,29 @@ export async function POST(req: NextRequest) {
     .eq('forward_token', token)
     .eq('active', true)
     .maybeSingle()
-  if (!conn) return NextResponse.json({ ok: true, skipped: 'unknown token' })
+  if (!conn) return NextResponse.json({ ok: true, resolvedToken: false, skipped: 'unknown token' })
 
   // Gmail forwarding verification email: catch it before the sender
   // allowlist (Google is never an allowlisted school sender), store the
   // code and link for the setup screen, and stop. Never sent to DiGi.
   if (from.includes('forwarding-noreply@google.com')) {
-    const haystack = `${subject}\n${body}`
-    const code =
-      haystack.match(/confirmation code[:\s#]*([0-9]{6,12})/i)?.[1] ??
-      haystack.match(/\(#([0-9]{6,12})\)/)?.[1] ??
-      haystack.match(/\b([0-9]{9})\b/)?.[1] ?? null
-    const link = haystack.match(/https:\/\/mail-settings\.google\.com\/mail\/[^\s"'<>)\]]+/i)?.[0] ?? null
+    let haystack = `${subject}\n${body}`
+    let code = extractGmailCode(haystack)
+    let link = extractGmailLink(haystack)
+    // The webhook can carry only metadata, but the code and link live in the
+    // body. If neither is here, fetch the full email from Resend and parse it.
+    if (!code && !link) {
+      const full = await fetchInboundBody(emailId)
+      if (full) {
+        haystack = `${subject}\n${full}`
+        code = extractGmailCode(haystack)
+        link = extractGmailLink(haystack)
+      }
+    }
+    // A test never writes over a real, possibly pending, code.
+    if (isTest) {
+      return NextResponse.json({ ok: true, test: true, resolvedToken: true, codeFound: Boolean(code || link) })
+    }
     if (code || link) {
       await supabase.from('school_connections').update({
         verification_code: code,
@@ -152,7 +203,15 @@ export async function POST(req: NextRequest) {
         verification_received_at: new Date().toISOString(),
       }).eq('forward_token', token)
     }
-    return NextResponse.json({ ok: true, verification: Boolean(code || link) })
+    // Diagnostics in the response, never secrets, so the Resend delivery log
+    // shows what happened: whether a body arrived and what was found.
+    return NextResponse.json({ ok: true, verification: Boolean(code || link), codeFound: Boolean(code), linkFound: Boolean(link), bodyChars: body.length })
+  }
+
+  // A test that is not the Google branch: prove the token resolved, then
+  // stop before any extraction or action is written.
+  if (isTest) {
+    return NextResponse.json({ ok: true, test: true, resolvedToken: true, codeFound: false })
   }
 
   // If the parent listed school senders, only accept those (a forwarded

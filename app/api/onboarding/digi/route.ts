@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { firstText } from '@/lib/digi/text'
 import { createClient as createServiceClient } from '@supabase/supabase-js'
 import { DIGI_MODEL, DIGI_MODEL_FALLBACKS } from '@/lib/config/digi'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
@@ -68,7 +69,7 @@ Stage context: ${name} is Stage ${stage.id} (${stage.name}, ${stage.ages}). ${st
     messages: [{ role: 'user', content: 'Generate the onboarding content.' }],
   })
 
-  const raw = response.content[0].type === 'text' ? response.content[0].text.trim() : ''
+  const raw = firstText(response).trim()
 
   let parsed: { intro: string; taskQuestion: string; taskAction: string; taskScript: string }
   try {
