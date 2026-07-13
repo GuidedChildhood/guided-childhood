@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import NavTabs from '@/components/dashboard/NavTabs'
 import MobileTabBar from '@/components/dashboard/MobileTabBar'
+import RightNowButton from '@/components/rightnow/RightNowButton'
 import InstallPrompt from '@/components/pwa/InstallPrompt'
 import AppBadge from '@/components/pwa/AppBadge'
 import SetupNextBar from '@/components/setup/SetupNextBar'
@@ -77,8 +78,12 @@ export default async function DashboardLayout({ children }: { children: React.Re
           parent onward from any page that is not the step's own page. */}
       <SetupNextBar />
 
-      {/* Mobile bottom tab bar: Home, DiGi, [Now], Scripts, Progress */}
+      {/* Mobile bottom tab bar: Home, Scripts, DiGi, Quests, Progress */}
       <MobileTabBar />
+
+      {/* Help now: a floating action just above the tab bar on mobile (and the
+          pill on desktop), so crisis words stay one tap away from any page. */}
+      <RightNowButton variant="fab" />
 
       <style>{`
         @media (min-width: 768px) {

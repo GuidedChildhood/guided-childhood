@@ -62,7 +62,7 @@ const BTN: React.CSSProperties = {
 const BACK_BTN: React.CSSProperties = {
   display: 'block', width: '100%', marginTop: '12px',
   background: 'none', border: 'none',
-  color: '#9ca3af',
+  color: 'var(--ink-light)',
   fontFamily: 'var(--font-mono)', fontSize: '11px',
   cursor: 'pointer', textAlign: 'center' as const,
   padding: '10px 0', letterSpacing: '0.06em',
@@ -95,7 +95,7 @@ const ANIM = `
 
 function ProgressBar({ step }: { step: 1 | 2 | 3 }) {
   return (
-    <div style={{ height: '4px', background: '#f3f4f6', flexShrink: 0 }}>
+    <div style={{ height: '4px', background: 'var(--cream)', flexShrink: 0 }}>
       <div style={{
         height: '100%', background: 'var(--terracotta)',
         width: `${(step / 3) * 100}%`,
@@ -120,7 +120,7 @@ function DigiSpeech({ text }: { text: string }) {
           width: 0, height: 0,
           borderTop: '8px solid transparent',
           borderBottom: '8px solid transparent',
-          borderRight: '9px solid #e5e7eb',
+          borderRight: '9px solid var(--border)',
         }} />
         {/* Tail — fill layer */}
         <div style={{
@@ -132,7 +132,7 @@ function DigiSpeech({ text }: { text: string }) {
           zIndex: 1,
         }} />
         <div style={{
-          background: '#fff', border: '1.5px solid #e5e7eb',
+          background: '#fff', border: '1.5px solid var(--border)',
           borderRadius: 18, padding: '14px 18px',
           boxShadow: '0 2px 12px rgba(26,26,46,0.07)',
           position: 'relative', zIndex: 0,
@@ -152,6 +152,7 @@ export default function OnboardingPage() {
 
   const [screen, setScreen] = useState<Screen>('init')
   const [childName, setChildName] = useState('')
+  const [nameNudge, setNameNudge] = useState(false)
   const [ageBand, setAgeBand] = useState<AgeBand>('8-10')
   // Any additional children the parent adds. The first child above is the
   // active one the app follows for now; these are saved so the account feels
@@ -299,7 +300,7 @@ export default function OnboardingPage() {
     return (
       <div style={{ minHeight: '100dvh', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <style>{ANIM}</style>
-        <div style={{ width: 36, height: 36, border: '3px solid #f3f4f6', borderTopColor: 'var(--terracotta)', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
+        <div style={{ width: 36, height: 36, border: '3px solid var(--cream)', borderTopColor: 'var(--terracotta)', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
       </div>
     )
   }
@@ -327,7 +328,7 @@ export default function OnboardingPage() {
               position: 'absolute', top: -8, left: '50%', transform: 'translateX(-50%)',
               width: 0, height: 0,
               borderLeft: '8px solid transparent', borderRight: '8px solid transparent',
-              borderBottom: '8px solid #e5e7eb',
+              borderBottom: '8px solid var(--border)',
             }} />
             <div style={{
               position: 'absolute', top: -6, left: '50%', transform: 'translateX(-50%)',
@@ -337,7 +338,7 @@ export default function OnboardingPage() {
               zIndex: 1,
             }} />
             <div style={{
-              background: '#fff', border: '1.5px solid #e5e7eb',
+              background: '#fff', border: '1.5px solid var(--border)',
               borderRadius: 18, padding: '14px 22px',
               boxShadow: '0 2px 12px rgba(26,26,46,0.07)',
               position: 'relative', zIndex: 0,
@@ -351,7 +352,7 @@ export default function OnboardingPage() {
           <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.7rem, 4.5vw, 2.4rem)', fontWeight: 900, letterSpacing: '-0.03em', color: 'var(--ink)', lineHeight: 1.12, marginBottom: '14px' }}>
             From first screen to digital independence.
           </h1>
-          <p style={{ fontSize: 16, color: '#6b7280', lineHeight: 1.65, marginBottom: '32px' }}>
+          <p style={{ fontSize: 16, color: 'var(--ink-muted)', lineHeight: 1.65, marginBottom: '32px' }}>
             Let's set this up around your child. Takes two minutes.
           </p>
           <button style={BTN} onClick={() => setScreen('children')}>
@@ -369,14 +370,24 @@ export default function OnboardingPage() {
 
   if (screen === 'children') {
     const firstName = childName.trim()
-    const continueOn = () => { if (prefilled) completePersonalisation(); else setScreen('challenges') }
+    // A name is never demanded (first name only is the whole ask), but leaving
+    // it blank should be a choice, not an accident: the first Next with no
+    // name flags why it matters and asks once. A second Next continues.
+    const continueOn = () => {
+      if (!firstName && !nameNudge) {
+        setNameNudge(true)
+        nameInputRef.current?.focus()
+        return
+      }
+      if (prefilled) completePersonalisation(); else setScreen('challenges')
+    }
     const addSibling = () => setSiblings(prev => [...prev, { name: '', ageBand: '8-10' }])
     const updateSibling = (i: number, patch: Partial<{ name: string; ageBand: AgeBand }>) =>
       setSiblings(prev => prev.map((s, idx) => (idx === i ? { ...s, ...patch } : s)))
     const removeSibling = (i: number) => setSiblings(prev => prev.filter((_, idx) => idx !== i))
 
-    const lbl: React.CSSProperties = { display: 'block', fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#9ca3af', marginBottom: 8 }
-    const ageRow = (on: boolean): React.CSSProperties => ({ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 18px', border: `2px solid ${on ? 'var(--terracotta)' : '#e5e7eb'}`, borderRadius: 16, background: on ? 'var(--terracotta-lt)' : '#fff', cursor: 'pointer', textAlign: 'left', width: '100%', transition: 'border-color 0.12s, background 0.12s' })
+    const lbl: React.CSSProperties = { display: 'block', fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-light)', marginBottom: 8 }
+    const ageRow = (on: boolean): React.CSSProperties => ({ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 18px', border: `2px solid ${on ? 'var(--terracotta)' : 'var(--border)'}`, borderRadius: 16, background: on ? 'var(--terracotta-lt)' : '#fff', cursor: 'pointer', textAlign: 'left', width: '100%', transition: 'border-color 0.12s, background 0.12s' })
 
     return (
       <div style={{ minHeight: '100dvh', background: '#fff', display: 'flex', flexDirection: 'column' }}>
@@ -393,8 +404,15 @@ export default function OnboardingPage() {
               value={childName}
               onChange={e => setChildName(e.target.value)}
               placeholder="Their first name"
-              style={{ marginBottom: '18px', fontSize: 17 }}
+              style={{ marginBottom: nameNudge && !firstName ? '10px' : '18px', fontSize: 17 }}
             />
+            {nameNudge && !firstName && (
+              <div style={{ background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: 12, padding: '12px 14px', marginBottom: '18px' }}>
+                <p style={{ fontSize: 13.5, color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>
+                  A first name makes every script and DiGi answer personal to them. First name only, nothing else is ever asked for. You can also continue without one.
+                </p>
+              </div>
+            )}
 
             <label style={lbl}>How old {firstName ? `is ${firstName}` : 'are they'}?</label>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '24px' }}>
@@ -402,20 +420,20 @@ export default function OnboardingPage() {
                 <button key={opt.value} onClick={() => setAgeBand(opt.value)} style={ageRow(ageBand === opt.value)}>
                   <div>
                     <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 15, color: 'var(--ink)', marginBottom: 2 }}>{opt.label}</div>
-                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: '#9ca3af', letterSpacing: '0.04em' }}>{opt.sub}</div>
+                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ink-light)', letterSpacing: '0.04em' }}>{opt.sub}</div>
                   </div>
                   {ageBand === opt.value
                     ? <div style={{ width: 20, height: 20, borderRadius: '50%', background: 'var(--terracotta)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><span style={{ color: '#fff', fontSize: 11, fontWeight: 800, lineHeight: 1 }}>✓</span></div>
-                    : <div style={{ width: 20, height: 20, borderRadius: '50%', border: '2px solid #e5e7eb', flexShrink: 0 }} />}
+                    : <div style={{ width: 20, height: 20, borderRadius: '50%', border: '2px solid var(--border)', flexShrink: 0 }} />}
                 </button>
               ))}
             </div>
 
             {siblings.map((s, i) => (
-              <div key={i} style={{ border: '1.5px solid #e5e7eb', borderRadius: 16, padding: '14px 15px', marginBottom: '12px' }}>
+              <div key={i} style={{ border: '1.5px solid var(--border)', borderRadius: 16, padding: '14px 15px', marginBottom: '12px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
                   <span style={{ ...lbl, marginBottom: 0 }}>Another child</span>
-                  <button type="button" onClick={() => removeSibling(i)} style={{ background: 'none', border: 'none', color: '#9ca3af', fontFamily: 'var(--font-mono)', fontSize: 11, cursor: 'pointer', letterSpacing: '0.04em' }}>Remove</button>
+                  <button type="button" onClick={() => removeSibling(i)} style={{ background: 'none', border: 'none', color: 'var(--ink-light)', fontFamily: 'var(--font-mono)', fontSize: 11, cursor: 'pointer', letterSpacing: '0.04em' }}>Remove</button>
                 </div>
                 <input className="input" value={s.name} onChange={e => updateSibling(i, { name: e.target.value })} placeholder="First name" style={{ marginBottom: '10px', fontSize: 16 }} />
                 <select value={s.ageBand} onChange={e => updateSibling(i, { ageBand: e.target.value as AgeBand })} className="input" style={{ fontSize: 15 }}>
@@ -429,7 +447,7 @@ export default function OnboardingPage() {
             </button>
 
             <button style={{ ...BTN, opacity: saving ? 0.7 : 1 }} onClick={continueOn} disabled={saving}>
-              {saving ? 'One moment...' : prefilled ? 'Show me the pathway' : 'Next'}
+              {saving ? 'One moment...' : nameNudge && !firstName ? 'Continue without a name' : prefilled ? 'Show me the pathway' : 'Next'}
             </button>
             <button onClick={() => setScreen('welcome')} style={BACK_BTN}>
               ← Back
@@ -450,7 +468,7 @@ export default function OnboardingPage() {
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '32px 24px' }}>
           <div style={{ maxWidth: 480, width: '100%' }}>
             <DigiSpeech text="What's the main challenge right now?" />
-            <p style={{ fontSize: 13, color: '#9ca3af', marginBottom: '18px', fontFamily: 'var(--font-mono)', letterSpacing: '0.03em' }}>
+            <p style={{ fontSize: 13, color: 'var(--ink-light)', marginBottom: '18px', fontFamily: 'var(--font-mono)', letterSpacing: '0.03em' }}>
               Pick as many as apply.
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '20px' }}>
@@ -462,7 +480,7 @@ export default function OnboardingPage() {
                     onClick={() => toggleChallenge(c.id)}
                     style={{
                       padding: '16px 12px',
-                      border: `2px solid ${selected ? 'var(--terracotta)' : '#e5e7eb'}`,
+                      border: `2px solid ${selected ? 'var(--terracotta)' : 'var(--border)'}`,
                       borderRadius: 14,
                       background: selected ? 'var(--terracotta-lt)' : '#fff',
                       cursor: 'pointer', textAlign: 'center', lineHeight: 1.35,
@@ -499,7 +517,7 @@ export default function OnboardingPage() {
       <div style={{ minHeight: '100dvh', background: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '20px' }}>
         <style>{ANIM}</style>
         <img src="/digi-squad/DiGi-star.svg" alt="" width={72} height={72} style={{ animation: 'digiFloat 2s ease-in-out infinite' }} />
-        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: '#9ca3af', letterSpacing: '0.08em' }}>
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--ink-light)', letterSpacing: '0.08em' }}>
           Setting up your pathway...
         </p>
       </div>
@@ -531,13 +549,13 @@ export default function OnboardingPage() {
             </div>
             <div style={{ animation: 'fadeUp 0.45s ease 0.1s both' }}>
               <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 20, color: 'var(--ink)', letterSpacing: '-0.02em' }}>DiGi</div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: '#9ca3af', letterSpacing: '0.06em', marginTop: 2 }}>Your digital parenting advisor</div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ink-light)', letterSpacing: '0.06em', marginTop: 2 }}>Your digital parenting advisor</div>
             </div>
           </div>
 
           {/* Message */}
           <div style={{
-            background: '#fff', border: '1.5px solid #e5e7eb',
+            background: '#fff', border: '1.5px solid var(--border)',
             borderRadius: 20, padding: '22px 24px',
             marginBottom: '24px',
             boxShadow: '0 4px 24px rgba(26,26,46,0.08)',
@@ -586,7 +604,7 @@ export default function OnboardingPage() {
         <style>{ANIM}</style>
         <div style={{ maxWidth: 480, width: '100%' }}>
 
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: '#9ca3af', marginBottom: '12px' }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--ink-light)', marginBottom: '12px' }}>
             Founding members · 50 places
           </p>
           <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.8rem, 4.5vw, 2.6rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1, color: 'var(--ink)', marginBottom: '28px' }}>
@@ -594,7 +612,7 @@ export default function OnboardingPage() {
           </h1>
 
           <div style={{
-            background: '#fff', border: '1.5px solid #e5e7eb',
+            background: '#fff', border: '1.5px solid var(--border)',
             borderRadius: 20, padding: '28px 24px',
             marginBottom: '14px',
             boxShadow: '0 4px 24px rgba(26,26,46,0.07)',
@@ -608,7 +626,7 @@ export default function OnboardingPage() {
                 {/* Availability counter — ink on white, not coloured bg */}
                 <div style={{
                   display: 'inline-flex', alignItems: 'center', gap: '8px',
-                  border: '1.5px solid #e5e7eb',
+                  border: '1.5px solid var(--border)',
                   borderRadius: '100px', padding: '7px 16px', marginBottom: '24px',
                 }}>
                   <div style={{ width: 7, height: 7, borderRadius: '50%', background: 'var(--terracotta)', flexShrink: 0 }} />
@@ -652,7 +670,7 @@ export default function OnboardingPage() {
           >
             Start free without a card
           </button>
-          <p style={{ fontSize: 12.5, color: '#9ca3af', textAlign: 'center', marginTop: 10, lineHeight: 1.5 }}>
+          <p style={{ fontSize: 12.5, color: 'var(--ink-light)', textAlign: 'center', marginTop: 10, lineHeight: 1.5 }}>
             Full access for your 7 days. After that the daily habit, quests and tracker stay free, and the founder rate stays open for you if you want everything back. No card now, no charge without your say.
           </p>
         </div>
@@ -677,7 +695,7 @@ export default function OnboardingPage() {
               {/* DiGi question */}
               <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
                 <img src="/digi-squad/DiGi-star.svg" alt="" width={36} height={36} style={{ flexShrink: 0, animation: 'digiFloat 3.5s ease-in-out infinite' }} />
-                <div style={{ background: '#fff', border: '1.5px solid #e5e7eb', borderRadius: 16, padding: '16px 18px', flex: 1, boxShadow: '0 2px 12px rgba(26,26,46,0.06)' }}>
+                <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 16, padding: '16px 18px', flex: 1, boxShadow: '0 2px 12px rgba(26,26,46,0.06)' }}>
                   <p style={{ fontSize: 15, lineHeight: 1.65, color: 'var(--ink)', margin: 0, fontWeight: 500 }}>
                     {digiData.taskQuestion}
                   </p>
@@ -685,7 +703,7 @@ export default function OnboardingPage() {
               </div>
 
               {/* Action */}
-              <div style={{ background: '#fff', border: '1.5px solid #e5e7eb', borderLeft: '3px solid var(--terracotta)', borderRadius: '0 14px 14px 0', padding: '20px' }}>
+              <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderLeft: '3px solid var(--terracotta)', borderRadius: '0 14px 14px 0', padding: '20px' }}>
                 <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: 8 }}>
                   Try this tomorrow
                 </div>
@@ -695,7 +713,7 @@ export default function OnboardingPage() {
               </div>
 
               {/* Script */}
-              <div style={{ background: 'var(--terracotta-lt)', border: '1.5px solid #e5e7eb', borderRadius: 14, padding: '20px' }}>
+              <div style={{ background: 'var(--terracotta-lt)', border: '1.5px solid var(--border)', borderRadius: 14, padding: '20px' }}>
                 <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: 8 }}>
                   Say this
                 </div>
@@ -707,14 +725,14 @@ export default function OnboardingPage() {
           ) : (
             <div style={{ textAlign: 'center', padding: '40px 0' }}>
               <img src="/digi-squad/DiGi-star.svg" alt="" width={48} height={48} style={{ margin: '0 auto 16px', animation: 'digiFloat 2s ease-in-out infinite', display: 'block' }} />
-              <p style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: '#9ca3af', letterSpacing: '0.06em' }}>DiGi is preparing your first task...</p>
+              <p style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--ink-light)', letterSpacing: '0.06em' }}>DiGi is preparing your first task...</p>
             </div>
           )}
 
           <button style={{ ...BTN, marginTop: '28px' }} onClick={() => { setNotifDest('script'); setScreen('notifications') }}>
             Open my first script
           </button>
-          <p style={{ fontSize: 13, color: '#9ca3af', textAlign: 'center', marginTop: 14, lineHeight: 1.5 }}>
+          <p style={{ fontSize: 13, color: 'var(--ink-light)', textAlign: 'center', marginTop: 14, lineHeight: 1.5 }}>
             DiGi picked it from what you told us. Two minutes, the exact words for tonight.
           </p>
           <button type="button" onClick={() => { setNotifDest('dashboard'); setScreen('notifications') }} style={BACK_BTN}>
@@ -770,7 +788,7 @@ export default function OnboardingPage() {
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.4rem, 3.5vw, 1.8rem)', fontWeight: 900, color: 'var(--ink)', marginBottom: 10 }}>
                 Done! DiGi will be there.
               </h2>
-              <p style={{ fontSize: 15, color: '#6b7280', lineHeight: 1.6 }}>Taking you in...</p>
+              <p style={{ fontSize: 15, color: 'var(--ink-muted)', lineHeight: 1.6 }}>Taking you in...</p>
             </>
           ) : (
             <>

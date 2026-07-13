@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { firstText } from '@/lib/digi/text'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { DIGI_MODEL, DIGI_MODEL_FALLBACKS } from '@/lib/config/digi'
 import { NextResponse } from 'next/server'
@@ -91,7 +92,7 @@ The forYourChild note is the one the parent will actually send from their own ph
       messages: [{ role: 'user', content: `Generate the three deeper sections for "${script.title}".` }],
     })
 
-    const text = response.content[0].type === 'text' ? response.content[0].text : ''
+    const text = firstText(response)
     const jsonMatch = text.match(/\{[\s\S]*\}/)
     if (!jsonMatch) return NextResponse.json({ error: 'Generation failed' }, { status: 502 })
 

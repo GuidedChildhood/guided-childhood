@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
-import { QUEST_TEMPLATES, PLAY_PAYS_WHY } from '@/lib/quests/templates'
+import { QUEST_TEMPLATES, PLAY_PAYS_WHY, STAR_MINUTES } from '@/lib/quests/templates'
 import { STAGE_LABELS, AGE_BAND_TO_STAGE, type StageKey } from '@/lib/quests/game-picks'
 import { gamesForStage } from '@/lib/quest-games/registry'
 
@@ -26,6 +26,9 @@ type Quest = { id: string; title: string; emoji: string; stars: number; schedule
 type Goal = { child_id: string; title: string; stars_needed: number; daily_stars: number | null }
 type KidLink = { child_id: string; token: string }
 type Tick = { quest_id: string; child_id: string | null; status: string; tick_date: string; approved_at: string | null }
+type Ask = { id: string; child_id: string; title: string; emoji: string; status: string; created_at: string }
+type Bank = { child_id: string; earned: number; spent: number; balance: number; minutes: number }
+type Spend = { id: string; child_id: string; stars: number; minutes: number; created_at: string }
 
 const SCHEDULE_LABELS: Record<string, string> = {
   daily: 'Every day', weekdays: 'School days', weekend: 'Weekends', once: 'One off',
@@ -59,6 +62,12 @@ export default function QuestManager() {
   const [pingResult, setPingResult] = useState<string | null>(null)
   const [contactsSupported, setContactsSupported] = useState(false)
   const [tab, setTab] = useState<QuestTab>('manage')
+  const [asksList, setAsksList] = useState<Ask[]>([])
+  const [banks, setBanks] = useState<Bank[]>([])
+  const [spends, setSpends] = useState<Spend[]>([])
+  const [askStars, setAskStars] = useState<Record<string, number>>({})
+  const [askSchedule, setAskSchedule] = useState<Record<string, string>>({})
+  const [spendMsg, setSpendMsg] = useState<string | null>(null)
 
   // Open straight to a tab when linked with ?tab=, so the setup step Send
   // your child their phone link lands on Share, not the default Quests tab.
@@ -145,6 +154,9 @@ export default function QuestManager() {
       setGoals(data.goals ?? [])
       setTicks(data.ticks ?? [])
       setLinks(data.links ?? [])
+      setAsksList(data.requests ?? [])
+      setBanks(data.banks ?? [])
+      setSpends(data.spends ?? [])
       if (!activeChild && data.children?.length) setActiveChild(data.children[0].id)
     } catch { /* retry on next action */ } finally { setLoading(false) }
   }, [activeChild])
@@ -208,6 +220,51 @@ export default function QuestManager() {
     setQuests(prev => prev.filter(q => q.id !== id))
   }
 
+
+  // Answer a child's quest pitch: added makes it real with the stars and
+  // rhythm chosen here, declined closes it kindly on their page.
+  async function decideAsk(ask: Ask, decision: 'added' | 'declined') {
+    setAsksList(prev => prev.map(a => a.id === ask.id ? { ...a, status: decision } : a))
+    try {
+      await fetch('/api/quests', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'request_decide', request_id: ask.id, decision,
+          stars: askStars[ask.id] ?? 2,
+          schedule: askSchedule[ask.id] ?? 'once',
+        }),
+      })
+      if (decision === 'added') await load()
+    } catch { load() }
+  }
+
+  // Screen time was used: mark the minutes, the stars come off the bank.
+  async function spendTime(minutes: number) {
+    if (!activeChild) return
+    try {
+      const res = await fetch('/api/quests/spend', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ child_id: activeChild, minutes }),
+      })
+      const data = await res.json()
+      if (data.ok) {
+        setBanks(prev => prev.map(b => b.child_id === activeChild
+          ? { ...b, spent: b.spent + data.spent_stars, balance: data.balance, minutes: data.balance_minutes }
+          : b))
+        setSpends(prev => [{
+          id: `local-${Date.now()}`, child_id: activeChild,
+          stars: data.spent_stars, minutes: data.spent_minutes,
+          created_at: new Date().toISOString(),
+        }, ...prev])
+        setSpendMsg(`${data.spent_minutes} minutes marked as used ✓`)
+      } else {
+        setSpendMsg(data.error ?? 'Could not mark that just now')
+      }
+      setTimeout(() => setSpendMsg(null), 3500)
+    } catch { load() }
+  }
 
   async function saveGoal() {
     const title = goalTitle.trim() || goal?.title
@@ -425,6 +482,82 @@ export default function QuestManager() {
               </span>
             </div>
           )}
+          {/* The child's own quest pitches: set the stars and rhythm, one
+              tap makes it a real quest, their page tells them the news */}
+          {asksList.filter(a => a.child_id === activeChild && a.status === 'pending').length > 0 && (
+            <div style={{ ...card, background: 'var(--tint-blue)' }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-soft)', marginBottom: '4px' }}>
+                {child.name} pitched these quests
+              </div>
+              <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 12px' }}>
+                Their own ideas, from their quest page. Set the stars, say yes, and it lands on their list.
+              </p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                {asksList.filter(a => a.child_id === activeChild && a.status === 'pending').map(a => {
+                  const stars = askStars[a.id] ?? 2
+                  const schedule = askSchedule[a.id] ?? 'once'
+                  return (
+                    <div key={a.id} style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '14px', padding: '12px 14px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
+                        <span style={{ fontSize: '1.2rem', flexShrink: 0 }}>{a.emoji}</span>
+                        <span style={{ flex: 1, minWidth: 0, fontSize: '14px', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.3 }}>
+                          {a.title}
+                        </span>
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                          <button onClick={() => setAskStars(prev => ({ ...prev, [a.id]: Math.max(1, stars - 1) }))} style={{ width: 30, height: 30, borderRadius: '9px', border: '1.5px solid var(--border)', background: '#fff', cursor: 'pointer', fontWeight: 800 }}>−</button>
+                          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, minWidth: '42px', textAlign: 'center' }}>⭐ {stars}</span>
+                          <button onClick={() => setAskStars(prev => ({ ...prev, [a.id]: Math.min(10, stars + 1) }))} style={{ width: 30, height: 30, borderRadius: '9px', border: '1.5px solid var(--border)', background: '#fff', cursor: 'pointer', fontWeight: 800 }}>+</button>
+                        </span>
+                        <span style={{ display: 'inline-flex', gap: '6px', flexWrap: 'wrap' }}>
+                          {(['once', 'daily', 'weekdays', 'weekend'] as const).map(s => (
+                            <button
+                              key={s}
+                              onClick={() => setAskSchedule(prev => ({ ...prev, [a.id]: s }))}
+                              style={{
+                                padding: '6px 12px', borderRadius: '100px', cursor: 'pointer',
+                                border: '1.5px solid var(--border)',
+                                background: schedule === s ? 'var(--deep-teal)' : '#fff',
+                                color: schedule === s ? '#fff' : 'var(--ink-soft)',
+                                fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
+                              }}
+                            >
+                              {SCHEDULE_LABELS[s]}
+                            </button>
+                          ))}
+                        </span>
+                        <span style={{ display: 'inline-flex', gap: '8px', marginLeft: 'auto' }}>
+                          <button
+                            onClick={() => decideAsk(a, 'added')}
+                            style={{
+                              background: 'var(--terracotta)', color: 'var(--ink)', border: 'none',
+                              borderRadius: '10px', padding: '8px 16px', cursor: 'pointer',
+                              fontFamily: 'var(--font-display)', fontSize: '12px', fontWeight: 800,
+                              boxShadow: '0 3px 0 var(--terracotta-dark)',
+                            }}
+                          >
+                            Add it
+                          </button>
+                          <button
+                            onClick={() => decideAsk(a, 'declined')}
+                            style={{
+                              background: 'none', border: '1px solid var(--border)', borderRadius: '10px',
+                              padding: '8px 12px', cursor: 'pointer',
+                              fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--ink-muted)',
+                            }}
+                          >
+                            Not now
+                          </button>
+                        </span>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          )}
+
           <div style={{ ...card, ...(allDoneToday ? { borderColor: 'var(--terracotta)', boxShadow: '0 6px 20px rgba(237,195,95,0.18)' } : {}) }}>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '12px' }}>
               {child.name}&apos;s quests
@@ -662,6 +795,70 @@ export default function QuestManager() {
 
           {tab === 'rewards' && (
           <>
+          {/* The screen time bank: earned, used, what is left. Marking time
+              as used is one tap, so the deal stays honest both ways. */}
+          {(() => {
+            const bank = banks.find(b => b.child_id === activeChild)
+            const balance = bank?.balance ?? 0
+            const childSpends = spends.filter(s => s.child_id === activeChild).slice(0, 6)
+            return (
+              <div style={{ ...card, background: 'var(--deep-teal)', border: 'none' }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '10px' }}>
+                  {child.name}&apos;s screen time bank
+                </div>
+                <div style={{ display: 'flex', gap: '18px', flexWrap: 'wrap', marginBottom: '14px' }}>
+                  {[
+                    { label: 'In the bank', value: `⭐ ${balance}`, sub: `${balance * STAR_MINUTES} min` },
+                    { label: 'Earned ever', value: `⭐ ${bank?.earned ?? 0}`, sub: `${(bank?.earned ?? 0) * STAR_MINUTES} min` },
+                    { label: 'Used', value: `⭐ ${bank?.spent ?? 0}`, sub: `${(bank?.spent ?? 0) * STAR_MINUTES} min` },
+                  ].map(s => (
+                    <div key={s.label}>
+                      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)', marginBottom: '2px' }}>{s.label}</div>
+                      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.3rem', color: '#fff', lineHeight: 1.1 }}>{s.value}</div>
+                      <div style={{ fontSize: '12px', fontWeight: 600, color: 'rgba(255,255,255,0.7)' }}>{s.sub}</div>
+                    </div>
+                  ))}
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                  <span style={{ fontSize: '13px', fontWeight: 600, color: 'rgba(255,255,255,0.8)' }}>
+                    Screen time used:
+                  </span>
+                  {[15, 30, 60].map(m => (
+                    <button
+                      key={m}
+                      onClick={() => spendTime(m)}
+                      disabled={balance <= 0}
+                      style={{
+                        background: balance > 0 ? 'var(--terracotta)' : 'rgba(255,255,255,0.15)',
+                        color: balance > 0 ? 'var(--ink)' : 'rgba(255,255,255,0.5)',
+                        border: 'none', borderRadius: '100px', padding: '8px 14px',
+                        cursor: balance > 0 ? 'pointer' : 'default',
+                        fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
+                        boxShadow: balance > 0 ? '0 3px 0 var(--terracotta-dark)' : 'none',
+                      }}
+                    >
+                      {m} min
+                    </button>
+                  ))}
+                </div>
+                {spendMsg && (
+                  <p style={{ fontSize: '12.5px', fontWeight: 600, color: 'var(--terracotta)', margin: '10px 0 0' }}>
+                    {spendMsg}
+                  </p>
+                )}
+                {childSpends.length > 0 && (
+                  <div style={{ marginTop: '14px', paddingTop: '12px', borderTop: '1px solid rgba(255,255,255,0.2)' }}>
+                    {childSpends.map(s => (
+                      <p key={s.id} style={{ fontSize: '12.5px', color: 'rgba(255,255,255,0.75)', margin: '0 0 4px', lineHeight: 1.5 }}>
+                        {s.minutes} min used · ⭐ {s.stars} · {new Date(s.created_at).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' })}
+                      </p>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )
+          })()}
+
           {/* Star goal */}
           <div style={card}>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '10px' }}>

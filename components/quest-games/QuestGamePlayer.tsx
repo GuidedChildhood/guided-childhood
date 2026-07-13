@@ -192,7 +192,14 @@ function SumsView({ game, onDone }: { game: SumsGame; onDone: () => void }) {
       )}
 
       <div style={{ textAlign: 'center', margin: '10px 0 22px' }}>
-        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(2.4rem, 12vw, 3.4rem)', letterSpacing: '-0.03em', color: 'var(--ink)', lineHeight: 1 }}>
+        <div style={{
+          fontFamily: 'var(--font-display)', fontWeight: 900, letterSpacing: '-0.03em', color: 'var(--ink)',
+          // A question with line breaks is a picture puzzle (the squares grid):
+          // render it as the multi line figure it is, at a size that fits.
+          fontSize: item.q.includes('\n') ? 'clamp(1.4rem, 7vw, 2rem)' : 'clamp(2.4rem, 12vw, 3.4rem)',
+          lineHeight: item.q.includes('\n') ? 1.15 : 1,
+          whiteSpace: 'pre-line',
+        }}>
           {item.q}
         </div>
       </div>

@@ -1,4 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap');
+/* Fonts are loaded via next/font in app/layout.tsx (self hosted, preloaded),
+   which exposes --font-nunito and --font-ibm-plex-mono. No render blocking
+   @import, so the brand type is sharp from the first paint. */
 
 @import "tailwindcss";
 
@@ -74,9 +76,9 @@
   --lav-deep:          var(--terracotta-dark);
 
   /* ── FONTS ── */
-  --font-display: 'Nunito', system-ui, sans-serif;
-  --font-body:    'Nunito', system-ui, sans-serif;
-  --font-mono:    'IBM Plex Mono', 'JetBrains Mono', monospace;
+  --font-display: var(--font-nunito), system-ui, sans-serif;
+  --font-body:    var(--font-nunito), system-ui, sans-serif;
+  --font-mono:    var(--font-ibm-plex-mono), 'JetBrains Mono', monospace;
   --sans:         var(--font-body);
   --serif:        var(--font-display);
   --mono:         var(--font-mono);
@@ -834,6 +836,37 @@ h1, h2, h3 { text-wrap: balance; }
     grid-template-columns: 1fr;
   }
 }
+
+/* Help now on mobile: a round floating action just above the five tab bar,
+   in the thumb zone. Hidden on desktop, which uses the pill below. Steps
+   aside while a text input is focused so it never covers a compose bar. */
+.rightnow-fab {
+  position: fixed;
+  right: 16px;
+  bottom: calc(78px + env(safe-area-inset-bottom));
+  z-index: 95;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--terracotta);
+  color: #fff;
+  border: 3px solid var(--white);
+  box-shadow: 0 5px 0 var(--terracotta-dark), 0 10px 26px rgba(0,0,0,0.16);
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.rightnow-fab:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--terracotta-dark); }
+@media (min-width: 768px) { .rightnow-fab { display: none; } }
+body.gc-input-focused .rightnow-fab { display: none; }
 
 /* Help now on desktop: the mobile tab bar is hidden above 768px, so the
    button gets a floating pill bottom right, portalled to body. */

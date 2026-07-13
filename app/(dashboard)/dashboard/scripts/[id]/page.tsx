@@ -53,7 +53,7 @@ export default async function ScriptDetailPage({
     .eq('id', user.id)
     .single()
 
-  const isPaid = hasFullAccess(profile)
+  const isPaid = hasFullAccess(profile, user.email)
 
   const { data: script } = await supabase
     .from('scripts')

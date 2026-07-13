@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
-import { DIGI_MODEL, DIGI_MODEL_FALLBACKS } from '@/lib/config/digi'
+import { firstText } from '@/lib/digi/text'
+import { digiModelsFor } from '@/lib/config/digi'
 import { NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 
@@ -9,7 +10,7 @@ export const dynamic = 'force-dynamic'
 
 async function generateInsight(question: string, answer: string, childName: string | null, ageBand: string | null): Promise<string | null> {
   const name = (childName && childName !== 'Your child') ? childName : 'their child'
-  const modelsToTry = [DIGI_MODEL, ...DIGI_MODEL_FALLBACKS.filter(m => m !== DIGI_MODEL)]
+  const modelsToTry = digiModelsFor('feedback')
   for (const model of modelsToTry) {
     try {
       const res = await Promise.race([
@@ -21,7 +22,7 @@ async function generateInsight(question: string, answer: string, childName: stri
         }),
         new Promise<never>((_, reject) => setTimeout(() => reject(new Error('timeout')), 4000)),
       ])
-      const text = res.content[0].type === 'text' ? res.content[0].text.trim() : null
+      const text = firstText(res).trim() || null
       return text
     } catch (err) {
       const isModelError = err instanceof Anthropic.APIError && (err.status === 404 || err.status === 400)

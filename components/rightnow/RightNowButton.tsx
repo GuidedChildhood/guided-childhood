@@ -1,10 +1,11 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import { MOMENT_PHOTOS } from '@/lib/content/moment-photos'
+import { scriptVoiceUrl } from '@/lib/content/script-voice'
 
 // The Right Now button: the emergency entry point in the centre of the
 // mobile tab bar. A child is crying because the TV went off and the parent
@@ -46,7 +47,9 @@ type ScriptResult = {
   title: string
   say_this: string
   not_this: string
-  sort_order: number
+  sort_order?: number
+  custom?: boolean
+  crisis?: boolean
 }
 
 function BoltIcon() {
@@ -63,8 +66,12 @@ function BoltIcon() {
   )
 }
 
-export default function RightNowButton() {
-  const router = useRouter()
+export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 'fab' } = {}) {
+  const pathname = usePathname()
+  // On the DiGi chat the page has its own bottom compose bar, so the floating
+  // action would sit on top of the Send button. Hide it there: the parent is
+  // already talking to DiGi.
+  const hideFab = pathname?.startsWith('/dashboard/digi')
   const [open, setOpen] = useState(false)
   const [entered, setEntered] = useState(false)
   const [mounted, setMounted] = useState(false)
@@ -73,6 +80,12 @@ export default function RightNowButton() {
   const [pickedLabel, setPickedLabel] = useState('')
   const [script, setScript] = useState<ScriptResult | null>(null)
   const [failed, setFailed] = useState(false)
+  // Something else: the parent types one line and DiGi writes the words on
+  // the spot, instead of being dumped into the library mid meltdown.
+  const [customMode, setCustomMode] = useState(false)
+  const [customInput, setCustomInput] = useState('')
+  const audioRef = useRef<HTMLAudioElement | null>(null)
+  const [speaking, setSpeaking] = useState(false)
 
   // Lock body scroll while the sheet is up.
   useEffect(() => {
@@ -107,28 +120,39 @@ export default function RightNowButton() {
     setShowHint(false)
   }
 
+  function stopVoice() {
+    audioRef.current?.pause()
+    audioRef.current = null
+    setSpeaking(false)
+  }
+
   function openSheet() {
     dismissHint()
     setPicked(null)
     setPickedLabel('')
     setScript(null)
     setFailed(false)
+    setCustomMode(false)
+    setCustomInput('')
     setOpen(true)
   }
 
   function closeSheet() {
+    stopVoice()
     setEntered(false)
     setTimeout(() => setOpen(false), 500)
   }
 
   function pick(key: SituationKey, label: string) {
-    // Something else has no keywords to match against, so the rescue
-    // matcher was just grabbing whatever script scored first, a near
-    // random result. There is no single right script for "something
-    // else", so send the parent to browse the whole library instead.
+    // Something else used to close the sheet and dump the parent into the
+    // script library to browse, mid meltdown. Now it asks for one line and
+    // DiGi writes the words on the spot.
     if (key === 'something-else') {
-      closeSheet()
-      router.push('/dashboard/scripts')
+      setPicked(key)
+      setPickedLabel('Something else')
+      setScript(null)
+      setFailed(false)
+      setCustomMode(true)
       return
     }
 
@@ -148,6 +172,34 @@ export default function RightNowButton() {
       .catch(() => setFailed(true))
   }
 
+  function submitCustom() {
+    const detail = customInput.trim()
+    if (!detail) return
+    setCustomMode(false)
+    setPickedLabel(detail.length > 60 ? detail.slice(0, 57) + '...' : detail)
+    setScript(null)
+    setFailed(false)
+
+    fetch('/api/rightnow/custom', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ detail }),
+    })
+      .then(res => (res.ok ? res.json() : Promise.reject(new Error('bad status'))))
+      .then((data: ScriptResult) => setScript(data))
+      .catch(() => setFailed(true))
+  }
+
+  function playVoice(url: string) {
+    if (speaking) { stopVoice(); return }
+    const audio = new Audio(url)
+    audioRef.current = audio
+    setSpeaking(true)
+    audio.onended = () => setSpeaking(false)
+    audio.onerror = () => setSpeaking(false)
+    audio.play().catch(() => setSpeaking(false))
+  }
+
   const digiHref = `/dashboard/digi?q=${encodeURIComponent(
     script
       ? `Happening right now: ${pickedLabel.toLowerCase()}. I just used the script ${script.title}. Talk me through what comes next.`
@@ -161,8 +213,10 @@ export default function RightNowButton() {
         <div
           className="rightnow-hint"
           style={{
-            position: 'fixed', bottom: '92px', left: '50%', transform: 'translateX(-50%)',
-            zIndex: 90, width: 'min(86vw, 310px)',
+            position: 'fixed', zIndex: 90, width: 'min(86vw, 310px)',
+            ...(variant === 'fab'
+              ? { bottom: '150px', right: '14px' }
+              : { bottom: '92px', left: '50%', transform: 'translateX(-50%)' }),
             // Warm brand espresso with a soft gold glow and a faint gold
             // hairline, so it reads as a crafted tip, not a stark black box.
             background: 'radial-gradient(130% 120% at 88% -20%, rgba(237,195,95,0.26), transparent 55%), linear-gradient(155deg, #4B3F29 0%, #3C3221 100%)',
@@ -194,8 +248,10 @@ export default function RightNowButton() {
             When a hard moment is happening, tap Now, pick the situation, and the calm words appear. Two taps, no searching.
           </p>
           <div className="rightnow-hint-arrow" style={{
-            position: 'absolute', bottom: '-7px', left: '50%', transform: 'translateX(-50%) rotate(45deg)',
-            width: '14px', height: '14px', background: '#3C3221',
+            position: 'absolute', bottom: '-7px', width: '14px', height: '14px', background: '#3C3221',
+            ...(variant === 'fab'
+              ? { right: '28px', transform: 'rotate(45deg)' }
+              : { left: '50%', transform: 'translateX(-50%) rotate(45deg)' }),
           }} />
         </div>,
         document.body
@@ -211,48 +267,67 @@ export default function RightNowButton() {
         document.body
       )}
 
-      {/* The raised butter circle in the centre of the tab bar */}
-      <button
-        type="button"
-        onClick={openSheet}
-        aria-label="Right now help"
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '3px',
-          flex: 1,
-          background: 'none',
-          border: 'none',
-          padding: 0,
-          cursor: 'pointer',
-          marginTop: '-26px',
-          fontFamily: 'var(--font-body)',
-        }}
-      >
-        <span style={{
-          width: '56px',
-          height: '56px',
-          borderRadius: '50%',
-          background: 'var(--terracotta)',
-          boxShadow: '0 5px 0 var(--terracotta-dark)',
-          border: '3px solid var(--white)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
+      {/* The raised butter circle in the centre of the tab bar (legacy tab
+          placement, kept for any caller still asking for it) */}
+      {variant === 'tab' && (
+        <button
+          type="button"
+          onClick={openSheet}
+          aria-label="Right now help"
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '3px',
+            flex: 1,
+            background: 'none',
+            border: 'none',
+            padding: 0,
+            cursor: 'pointer',
+            marginTop: '-26px',
+            fontFamily: 'var(--font-body)',
+          }}
+        >
+          <span style={{
+            width: '56px',
+            height: '56px',
+            borderRadius: '50%',
+            background: 'var(--terracotta)',
+            boxShadow: '0 5px 0 var(--terracotta-dark)',
+            border: '3px solid var(--white)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+            <BoltIcon />
+          </span>
+          <span style={{
+            fontSize: '9px',
+            fontWeight: 600,
+            letterSpacing: '.05em',
+            textTransform: 'uppercase',
+            color: 'var(--terracotta-dark)',
+          }}>
+            Help now
+          </span>
+        </button>
+      )}
+
+      {/* Floating action, mobile: now that the bottom bar carries five real
+          tabs, Help now lives as a thumb reachable button just above the bar.
+          One tap to the same sheet. Hidden on desktop, which uses the pill. */}
+      {variant === 'fab' && mounted && !hideFab && createPortal(
+        <button
+          type="button"
+          onClick={openSheet}
+          aria-label="Right now help"
+          className="rightnow-fab no-print"
+        >
           <BoltIcon />
-        </span>
-        <span style={{
-          fontSize: '9px',
-          fontWeight: 600,
-          letterSpacing: '.05em',
-          textTransform: 'uppercase',
-          color: 'var(--terracotta-dark)',
-        }}>
-          Help now
-        </span>
-      </button>
+          <span>Now</span>
+        </button>,
+        document.body,
+      )}
 
       {/* Full screen sheet, portalled to body: the tab bar's backdrop filter
           would otherwise trap this fixed sheet inside the 64px bar */}
@@ -333,6 +408,59 @@ export default function RightNowButton() {
                   ))}
                 </div>
               </>
+            ) : customMode ? (
+              <>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginTop: '8px' }}>
+                  Right now
+                </div>
+                <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '24px', color: 'var(--ink)', letterSpacing: '-.02em', margin: '6px 0 4px' }}>
+                  Tell me what is happening
+                </h2>
+                <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: '16px' }}>
+                  One line is enough. DiGi writes the calm words for this exact moment, for your child&rsquo;s age.
+                </p>
+                <textarea
+                  value={customInput}
+                  onChange={e => setCustomInput(e.target.value)}
+                  onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); submitCustom() } }}
+                  autoFocus
+                  rows={3}
+                  maxLength={280}
+                  placeholder="She is screaming because I took the iPad at dinner..."
+                  style={{
+                    width: '100%', padding: '14px 16px', borderRadius: '16px',
+                    border: '1.5px solid var(--border)', background: 'var(--white, #fff)',
+                    fontFamily: 'var(--font-body)', fontSize: '16px', color: 'var(--ink)',
+                    lineHeight: 1.5, resize: 'none', outline: 'none', marginBottom: '12px',
+                    boxSizing: 'border-box',
+                  }}
+                />
+                <button
+                  type="button"
+                  onClick={submitCustom}
+                  disabled={!customInput.trim()}
+                  style={{
+                    width: '100%', background: 'var(--terracotta)', color: 'var(--ink)',
+                    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
+                    border: 'none', borderRadius: '16px', padding: '16px 20px',
+                    cursor: 'pointer', boxShadow: '0 5px 0 var(--terracotta-dark)',
+                    opacity: customInput.trim() ? 1 : 0.55, marginBottom: '10px',
+                  }}
+                >
+                  Get the words
+                </button>
+                <button
+                  type="button"
+                  onClick={() => { setCustomMode(false); setPicked(null) }}
+                  style={{
+                    width: '100%', background: 'none', border: 'none', cursor: 'pointer',
+                    fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 600,
+                    color: 'var(--ink-muted)', letterSpacing: '0.06em', padding: '10px 0',
+                  }}
+                >
+                  ← Pick a moment instead
+                </button>
+              </>
             ) : (
               <>
                 <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginTop: '8px' }}>
@@ -341,6 +469,11 @@ export default function RightNowButton() {
                 <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '22px', color: 'var(--ink)', letterSpacing: '-.02em', margin: '6px 0 16px' }}>
                   {script ? script.title : failed ? 'The words are with DiGi' : 'Getting your words'}
                 </h2>
+                {!script && !failed && (
+                  <p style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, color: 'var(--ink-muted)', letterSpacing: '0.04em', margin: '-8px 0 14px' }}>
+                    While the words come, breathe out slowly once. You first, then them.
+                  </p>
+                )}
 
                 {failed ? (
                   <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: '16px', padding: '20px', marginBottom: '16px' }}>
@@ -356,22 +489,39 @@ export default function RightNowButton() {
                       marginBottom: '12px',
                       animation: script ? undefined : 'rightnow-pulse 1.2s ease-in-out infinite',
                     }}>
-                      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--ink-soft)', marginBottom: '10px' }}>
-                        Say this
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px', marginBottom: '10px' }}>
+                        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--ink-soft)' }}>
+                          Say this
+                        </div>
+                        {script?.sort_order != null && scriptVoiceUrl(script.sort_order) && (
+                          <button
+                            type="button"
+                            onClick={() => playVoice(scriptVoiceUrl(script.sort_order!)!)}
+                            style={{
+                              display: 'inline-flex', alignItems: 'center', gap: '6px',
+                              background: 'var(--white, #fff)', border: '1.5px solid var(--border)',
+                              borderRadius: '100px', padding: '6px 12px', cursor: 'pointer',
+                              fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700,
+                              letterSpacing: '0.06em', color: 'var(--ink)',
+                            }}
+                          >
+                            {speaking ? '◼ Stop' : '▶ Hear it'}
+                          </button>
+                        )}
                       </div>
                       <p style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '20px', lineHeight: 1.45, color: 'var(--ink)', minHeight: script ? undefined : '86px' }}>
                         {script?.say_this ?? ''}
                       </p>
                     </div>
 
-                    {/* NOT THIS */}
+                    {/* NOT THIS, or in a crisis the human beside you */}
                     <div style={{
                       background: 'var(--danger-bg)', border: '1px solid var(--danger-border)',
                       borderRadius: '16px', padding: '18px 20px', marginBottom: '20px',
                       animation: script ? undefined : 'rightnow-pulse 1.2s ease-in-out infinite',
                     }}>
                       <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--danger)', marginBottom: '8px' }}>
-                        Not this
+                        {script?.crisis ? 'A human, right now' : 'Not this'}
                       </div>
                       <p style={{ fontSize: '15px', lineHeight: 1.55, color: 'var(--danger)', minHeight: script ? undefined : '44px' }}>
                         {script?.not_this ?? ''}
@@ -417,7 +567,7 @@ export default function RightNowButton() {
                   )}
                   <Link
                     href={digiHref}
-                    onClick={() => setOpen(false)}
+                    onClick={() => { stopVoice(); setOpen(false) }}
                     style={{
                       display: 'block', textAlign: 'center', textDecoration: 'none',
                       background: 'var(--terracotta)', color: 'var(--ink)',

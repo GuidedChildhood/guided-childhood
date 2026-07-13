@@ -84,7 +84,7 @@ export default async function LessonsPage() {
 
   // Free tier: one parent lesson per stage is a free taste, the rest lock
   // once the trial is over. Anything already completed stays open.
-  const isPaid = hasFullAccess(profile)
+  const isPaid = hasFullAccess(profile, user.email)
   const freeIds = freeLessonIds(generalLessons)
   // Completion is tracked per source, and lesson ids are not unique across the
   // two tables, so key the done set by source too. General lessons record as

@@ -1,113 +1,116 @@
-// Justin's own voice, reading the say this line of a script aloud.
+// DiGi's voice, reading the say this line of a script aloud.
 //
-// The script reader's Hear it aloud button plays this recording when one
-// exists for the script, and falls back to the device voice when it does not.
-// Generated in Justin's cloned voice (Higgsfield, ElevenLabs engine, the
-// Justin-Claude-new voice from a denoised sample). Served from the generation
-// CDN for now; the plan is to move these to our own hosting later. Keyed by
-// the script sort_order (the id in the URL /dashboard/scripts/<sort_order>).
+// The script reader and the Right Now rescue play this recording when one
+// exists for the script, and fall back to the device voice when it does not.
+// One character voice owns all spoken audio across the platform, the
+// Duolingo pattern: DiGi teaches, DiGi reads, DiGi coaches. Generated with
+// the Skye preset on the Higgsfield seed audio engine, the same voice the
+// lessons use; regenerating in a different voice is one batch and a rewrite
+// of this map, never a code change. Served from the generation CDN for now;
+// the plan is to move these to our own hosting later. Keyed by the script
+// sort_order (the id in the URL /dashboard/scripts/<sort_order>).
 
 export const SCRIPT_VOICE: Record<number, string> = {
-  1: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144027_27fb8491-85d1-42ce-91ea-c28f57b2ffa8.mp3', // First device moment
-  2: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144035_29de6843-e9be-4c92-bf87-6d43e0377605.mp3', // Meltdown when screen time ends
-  3: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144040_ec95fbc8-9531-4975-830a-f40e7312c3dc.mp3', // Asking for their own phone
-  4: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_140159_675008d1-43cf-4700-b7e6-d79ec8d0a4d6.mp3', // First social platform request
-  5: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144048_9b6ed583-bd70-4d83-bf39-a736dd163dda.mp3', // Gaming going over time
-  6: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144107_2042d025-51f8-4ba8-b8d2-4a214b1e1c6a.mp3', // Asking to watch YouTube unsupervised
-  7: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144110_6ae25ced-9b19-4dbf-a856-ed8d6a52038d.mp3', // The social media ask
-  8: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144112_0ecb26e9-0f77-4688-ace7-0d4a5492e39a.mp3', // Mood change after phone use
-  9: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144115_7511978f-9764-4938-860c-1080ce464ae5.mp3', // Screenshot and group chat incident
-  10: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144117_ef20e030-8115-409c-bbc0-e8abae642501.mp3', // Refusing to come off their phone
-  11: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144131_9feb058a-f2a5-4006-84e1-0996bb683428.mp3', // Social media causing anxiety
-  12: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144134_068e2cf7-bb27-46ed-b389-4d5899b7b24d.mp3', // Late night device use
-  13: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144136_8a47bb05-366b-4d0e-a9a8-eabbf0578f87.mp3', // Content causing distress
-  14: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144139_035972c6-df40-4def-a252-9c3de49bd528.mp3', // Your online footprint and your future
-  15: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144141_e8a32839-9365-4f33-bf9e-20d8ab3a8587.mp3', // Phone-free conversation
-  16: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144143_c38d824d-9815-4ff6-b3f9-fdcf425c36b9.mp3', // Family agreement conversation
-  17: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144145_43cfa48e-38e5-4f36-9277-d94947e626b5.mp3', // The ban conversation
-  101: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144503_ec7d2827-6008-4daa-b376-8cafaf9616fa.mp3', // Asking for more screen time
-  102: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144505_2d7f2a93-85eb-4c58-bf21-688e2ab5d2ff.mp3', // Screens before bed
-  103: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144507_d8429155-765f-4fad-9028-160720a119b6.mp3', // Refusing to stop when time is up
-  104: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144510_c560a5d1-97d3-4d07-bc49-3fbebe26faa9.mp3', // Screens replacing outdoor play
-  105: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144512_ded79fc2-3fa9-4477-9485-05a2c90315bf.mp3', // Sneaking screen time
-  106: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144514_28ed8499-ffe8-4d2b-b028-88650d0dc4c3.mp3', // Phone constantly out at meals
-  107: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144517_172644c0-ab68-4827-9a42-2ad41f092324.mp3', // Screen time tied to mood
-  108: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144519_d441729c-5ce5-4ad3-8d30-eaecf30886fb.mp3', // Homework on a device with constant distraction
-  109: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144522_79428e48-f2f4-4c88-9717-2df0b9ee00fd.mp3', // Binge watching
-  110: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144536_3e7c4c13-fad5-4843-9aa1-e71eaaded928.mp3', // Always on their phone, ignoring family
-  111: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144538_868fa03f-2990-4c59-a716-b799f02846e6.mp3', // Negotiating screen time limits
-  112: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144540_be034b52-a90f-4b83-8ecd-acbb736341b2.mp3', // Using screens to avoid difficult emotions
-  113: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144543_e2a5583e-4121-4860-b307-6aeb95456614.mp3', // Comparing screen time to friends' limits
-  114: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144545_c45d3c31-d96d-4778-ad26-5bea978f17c0.mp3', // Managing their own screen time as a young adult
-  115: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144548_63def5a6-e229-4b09-bc74-9474ac39a201.mp3', // Late night phone use affecting sleep
-  116: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144551_7b592ac2-0dfd-4754-8963-a740f866878e.mp3', // Learning versus entertainment
-  117: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144553_5ecedf7d-426c-48f6-a9eb-4a41fb2e5da1.mp3', // The game their friends play
-  201: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144826_ec02712f-9ded-4125-a506-372593506674.mp3', // Getting their first console
-  202: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144828_8431792f-d49a-4698-9323-cd876ace79c6.mp3', // Gaming instead of homework
-  203: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144831_2140874c-27d4-42c5-8e3c-5602a2210485.mp3', // Aggressive behaviour after gaming
-  204: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144835_cd6662d6-97ad-4c3f-8821-c93a00a31e67.mp3', // Online gaming with strangers
-  205: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144838_a064e10d-5a34-4944-b29e-da4abbe4bc06.mp3', // Requests for in-game purchases
-  206: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144840_2e920f29-bb4f-4f80-82d3-40d508c0e69a.mp3', // Gaming until very late
-  207: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144843_fa442d57-428c-4158-ab03-6a74fb0b7def.mp3', // Online gaming friends they have never met
-  208: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144846_4418e4e9-2d94-4363-8e74-85c86b26553a.mp3', // Losing badly and getting angry
-  209: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144848_bb8c50f3-ee86-42a6-b82c-9582e6f26e64.mp3', // Obsessive gaming, nothing else matters
-  210: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144850_c1e4b661-52b9-421d-8306-4087c621273c.mp3', // Gaming culture and toxic masculinity
-  211: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144853_20ccb6f5-4e2a-42ec-8df6-f9649f849847.mp3', // Gambling mechanics in games
-  212: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144855_de6e4685-d349-49b4-9369-76cf3883ce7e.mp3', // Serious esports ambitions
-  213: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144858_842e0a6e-479d-4ecf-98b0-8ba592d7ffcd.mp3', // Gaming to cope with anxiety
-  214: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144900_4e6a3b95-44d4-4571-99a8-7b79f21e6b71.mp3', // Healthy gaming versus addiction
-  215: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144903_ccedb76f-61f0-4555-98a1-836ce8803640.mp3', // Gaming affecting university or work
-  216: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144906_7e540e98-efb7-4e89-a3d5-9ad75e568734.mp3', // Devices and sleep
-  217: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_144909_c578ac94-e2b5-4a52-ae28-37cf1b79137a.mp3', // Early body image messages from media
-  301: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145102_8d97387a-f565-432c-b89e-7f70397b3fd2.mp3', // Too young for a first social media account
-  302: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145107_e0034677-ffb1-4006-a623-974eaf4fa8ca.mp3', // Asking for Instagram at twelve
-  303: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145109_340347c0-51b0-4ab8-87c6-5e715688796d.mp3', // Comparing followers and likes
-  304: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145111_682290bd-6ce8-4b25-be9a-26095708b81b.mp3', // Posting content they might regret
-  305: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145113_8c2ea389-243c-431d-a49c-6363906a7bcf.mp3', // Seeing something upsetting on TikTok
-  306: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145115_0cc7f4bf-5fb1-4986-8da3-20bc0ed71933.mp3', // Following people they do not know
-  307: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145118_e17ece08-4207-45a1-9e30-09718eb7a762.mp3', // Social media affecting sleep
-  308: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145120_6801eed4-cad8-47dd-9b13-c310cbba6462.mp3', // Performing for social media rather than living
-  309: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145122_f2afeba6-b3e6-4c8e-ad59-98555bf5c362.mp3', // Being caught in an online pile-on
-  310: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145125_ce8d6c54-2eac-410a-9da5-6584cf71ef65.mp3', // Fear of missing out driven by social media
-  311: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145127_b34c2f32-9ce2-4492-a83c-cc29c2e95b50.mp3', // Sexting or pressure to share images
-  312: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145129_fa7cbb4e-fde3-459b-ab03-c87bb12b96bf.mp3', // Influencer culture and unrealistic standards
-  313: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145132_b1d1fabd-42bd-4483-8890-0ebc2d7fa30e.mp3', // Privacy settings and what to share
-  314: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145135_1a6b882c-84de-436a-8ef5-106cc829cd0e.mp3', // Using social media to cope with loneliness
-  315: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145137_0e4f9cfe-cc7d-4253-9246-8d3cd5dbe8d2.mp3', // Social media and political radicalisation
-  316: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145140_ee9ac8bb-2671-4d16-b2e0-d088db9621fb.mp3', // Social media and mental health awareness
-  317: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145142_37080632-2a57-4a21-b920-186f2011fce4.mp3', // Building a positive online presence
-  318: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145144_491071e4-57c9-4ca3-96a9-600c98d8c168.mp3', // Recognising algorithm manipulation
-  319: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145146_4399cd77-ef57-4dee-90b3-49ceddade848.mp3', // Social media for mental health versus escapism
-  320: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145149_cfba078f-7fab-40ee-974c-23b53fa8f278.mp3', // Social media fast or digital detox
-  401: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145426_dcd01b9c-bc55-41b8-8804-d55215bab9f4.mp3', // Strangers online
-  402: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145428_3f9c38fc-9de1-4d17-b862-7748dc115d59.mp3', // Clicking suspicious links
-  403: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145430_94601dcb-8ba0-4083-b884-7d46985185ca.mp3', // Sharing personal information
-  404: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145433_29f51f19-9a4e-44b6-96e5-286c527ce24e.mp3', // Someone asking to meet in person
-  405: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145440_49240a1a-9871-44e5-8c8b-e53b46c39b8d.mp3', // Recognising grooming warning signs
-  406: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145446_75fb0729-15c0-4c13-885e-7e9b58dc4e04.mp3', // Password safety
-  407: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145448_8f7dbc8f-384a-415d-a7ad-437472754fd5.mp3', // Screenshot culture and privacy
-  408: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145454_0863f8f2-955b-4dfd-8e7b-520c17001e8e.mp3', // Deepfakes and manipulated images
-  409: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145457_23e97fad-f904-4108-a212-8c50e380da05.mp3', // Scams targeting teenagers
-  410: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145459_eeda5cb2-aea1-4877-947f-8b9369bdf959.mp3', // Revenge porn and image-based abuse
-  411: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145501_7872cdcb-5d52-44b0-889a-0f69822c6a8b.mp3', // Online predators
-  412: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145504_960ebc41-7d85-4913-b5de-0ab0869f5db4.mp3', // Privacy on dating apps
-  413: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145506_91f7aa53-5ed4-4415-bfc6-8a4e4e94fabb.mp3', // Digital security habits
-  414: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145509_b31344ff-447c-4676-ad99-16a1aaad05d3.mp3', // Doxxing and online harassment
-  415: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145511_806be7d5-de8c-4854-b386-61abbedc0323.mp3', // Protecting personal data
-  416: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145513_52a0a723-cbe5-433a-828a-a7a9d170084e.mp3', // Spotting misinformation and manipulation
-  417: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145518_feb5d5a4-ac9d-451e-b24f-49fedfa30ff4.mp3', // Renegotiating the phone-free bedroom
-  501: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145520_53334f13-232f-4904-baa8-dc4532e97362.mp3', // They are being bullied online
-  502: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145522_f66e4e54-58a4-4dc3-b0ca-cdf40885810a.mp3', // Screenshots of group chat exclusion
-  503: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145525_2c4c5b68-c94f-4745-834a-de04e7b960e0.mp3', // Someone is spreading rumours
-  504: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145527_af701920-848d-4cf1-b3b1-b8504cb78681.mp3', // They are the one doing the bullying
-  505: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145530_b5ed5873-9184-498b-8012-92adcee98720.mp3', // Pile-on in a group chat
-  506: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145532_5e22405d-e166-4f04-9dfe-c1d1d86017eb.mp3', // Revenge posting and screenshot sharing
-  507: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145534_20ca053b-9509-465a-9f50-a1a7e833c85c.mp3', // The bully is a friend in real life
-  508: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145537_3367791b-45f8-47f1-97ba-6081c3be980f.mp3', // They do not want to report it
-  509: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145539_6c9be55b-f4ff-4a00-8672-68aa611eb8ba.mp3', // The school is involved
-  510: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145544_39c6764f-e510-4941-a451-1d5927a1f26e.mp3', // It has escalated to threats
-  511: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145546_193836a9-8062-40a7-bd81-ab45e6cd4458.mp3', // Sleep and study balance
-  512: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260711_145548_352b7ae1-bc26-4cf9-9693-31eccacc8fe1.mp3', // A mature conversation about image sharing and the law
+  1: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_110820_9fe4d7fe-3aee-4ea0-858a-412f2728abd7.wav', // First device moment
+  2: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_110822_7ffc4997-1bcb-45ee-a8fd-c1043c493264.wav', // Meltdown when screen time ends
+  3: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_110825_2c0b6c3b-b328-49de-8498-96ae86c7c5a9.wav', // Asking for their own phone
+  4: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_110827_1c95193a-eceb-4df8-b52e-4ddfb691ed18.wav', // First social platform request
+  5: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_110829_1f1caa0e-ca86-49f0-bbd9-a07648aef879.wav', // Gaming going over time
+  6: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_110838_95e1df30-572a-422f-81f5-e009d8d86570.wav', // Asking to watch YouTube unsupervised
+  7: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_110905_f95fc7cc-a54b-4418-8999-0caab6f2248c.wav', // The social media ask
+  8: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_110919_7128f07d-27ac-4169-9253-2c64973fbe56.wav', // Mood change after phone use
+  9: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_110934_c27f080a-6e22-4ab3-90bc-4940fdf722fc.wav', // Screenshot and group chat incident
+  10: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_110847_7d4008a6-3876-46e7-a926-67f9dd03f1a6.wav', // Refusing to come off their phone
+  11: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_110949_b9f212cf-8e37-4530-bc82-8cce31a48fcf.wav', // Social media causing anxiety
+  12: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_110951_283086ce-a7fb-4822-b6e3-287be36cb5c6.wav', // Late night device use
+  13: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_110954_fe74617b-cd50-4738-9331-3de3ec4a7df5.wav', // Content causing distress
+  14: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111007_8003e449-bfdc-4dda-b8be-2a56bd3a8c7c.wav', // Your online footprint and your future
+  15: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111009_697c1bd7-0e67-463b-9a36-485a7efedf23.wav', // Phone-free conversation
+  16: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111011_8f0d8999-540c-448e-a211-60055df28b2a.wav', // Family agreement conversation
+  17: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111024_06127a69-19aa-4e0d-a6b6-e6e85b553cc4.wav', // The ban conversation
+  101: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111030_b158c5c8-973d-4151-a7c6-aff5bf59f5ff.wav', // Asking for more screen time
+  102: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111033_90cb6535-68ad-4eb8-aea0-3fc0d337f923.wav', // Screens before bed
+  103: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111045_1cbf3b1d-c799-4257-9bd5-6f2bd7e6594c.wav', // Refusing to stop when time is up
+  104: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111048_0df8c4f2-0627-4037-8df4-fcfd06e464be.wav', // Screens replacing outdoor play
+  105: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111051_8d056ed9-9b94-457b-ab20-a6780202366c.wav', // Sneaking screen time
+  106: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111103_724e690a-3155-4ea5-9bb7-87a2757a0ee3.wav', // Phone constantly out at meals
+  107: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111105_b1853e51-2a59-406d-b9f5-a027a0ef9e90.wav', // Screen time tied to mood
+  108: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111108_2cb765ce-fabb-45ec-af55-f0fe8c959d69.wav', // Homework on a device with constant distraction
+  109: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111117_88518a0e-1ce8-42e1-922c-854a00db7487.wav', // Binge watching
+  110: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111120_1868bbcf-0a1e-412f-862d-3eea931777cc.wav', // Always on their phone, ignoring family
+  111: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111122_d9278dab-f692-4047-8c69-eb01183b9dbe.wav', // Negotiating screen time limits
+  112: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111132_2f48daf8-b320-42f4-88f8-de94d6cae692.wav', // Using screens to avoid difficult emotions
+  113: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111134_0471fde5-f32f-4953-84bc-ceaaea796f6a.wav', // Comparing screen time to friends' limits
+  114: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111137_71ad7272-7d21-4ff9-a265-acbd753e10b3.wav', // Managing their own screen time as a young adult
+  115: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111148_74051bc5-55fc-48e2-89df-2a488e23788e.wav', // Late night phone use affecting sleep
+  116: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111152_a8bac6d6-0e08-4bf6-9006-f71fe6664ef4.wav', // Learning versus entertainment
+  117: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111154_3df750c5-4712-48a6-8e7d-2cbb2d37d5fc.wav', // The game their friends play
+  201: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111207_d1489e36-dd12-4c7c-a139-60f96535615a.wav', // Getting their first console
+  202: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111210_7d025d77-2eeb-4cbd-a453-025a15bd5c55.wav', // Gaming instead of homework
+  203: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111216_b8189d72-012a-463b-bf7f-24b5c1abe55d.wav', // Aggressive behaviour after gaming
+  204: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111230_464689c4-944a-4255-82e0-c4f77939b347.wav', // Online gaming with strangers
+  205: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111232_7d5f6bf1-ca48-4893-b4d2-9e853e81626e.wav', // Requests for in-game purchases
+  206: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111238_e03fca52-26e2-4d00-923f-23a469237111.wav', // Gaming until very late
+  207: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111250_50ff699c-481a-41f9-9397-9cd08811fb0a.wav', // Online gaming friends they have never met
+  208: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111252_eababf48-a1da-42b0-8748-4a24df521410.wav', // Losing badly and getting angry
+  209: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111307_9c7e03c6-3326-479c-8b4a-e5fcdb218b2b.wav', // Obsessive gaming, nothing else matters
+  210: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111319_6820d622-3d7b-46e3-b2be-a084fb546571.wav', // Gaming culture and toxic masculinity
+  211: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111321_a86f9108-706f-4702-9900-726773f4f8bd.wav', // Gambling mechanics in games
+  212: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111336_457494a8-60cf-45c4-a34a-404188c67a8d.wav', // Serious esports ambitions
+  213: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111340_2f64de20-d984-44ec-975a-4512008320a4.wav', // Gaming to cope with anxiety
+  214: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111352_dcc9d956-8ce6-4fe7-a340-8752ed3bca46.wav', // Healthy gaming versus addiction
+  215: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111355_0e4bd43f-0d1b-4ebb-ba23-af7c16300069.wav', // Gaming affecting university or work
+  216: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111413_bd8abebd-ac3d-4800-a5cb-b781574e3e1f.wav', // Devices and sleep
+  217: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111416_70a9d078-309d-407c-b745-335f24d5f309.wav', // Early body image messages from media
+  301: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111431_8119e4be-6edd-4315-95f2-eafc404c0e5b.wav', // Too young for a first social media account
+  302: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111434_d35a06ea-ca16-4b1c-ba6a-9c92b73317c5.wav', // Asking for Instagram at twelve
+  303: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111452_a6133314-cde4-47b6-a888-e0a1960477a0.wav', // Comparing followers and likes
+  304: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111455_8712d85c-0403-4edb-b283-95f17730fbc2.wav', // Posting content they might regret
+  305: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111510_bb4f0cf7-f1a2-4615-8af1-6edf389b2298.wav', // Seeing something upsetting on TikTok
+  306: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111513_178e28bf-0c83-454f-9dee-8609fe189984.wav', // Following people they do not know
+  307: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111523_c06b719c-b3c7-4e9b-9108-a801781f087a.wav', // Social media affecting sleep
+  308: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111526_223c28cd-7841-4233-9614-441aec7bb386.wav', // Performing for social media rather than living
+  309: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111537_53e6b9e4-751d-4c97-8948-b151727fdbe5.wav', // Being caught in an online pile-on
+  310: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111539_abc9c9e3-715d-43f2-913e-397bbb375909.wav', // Fear of missing out driven by social media
+  311: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111550_c179616d-5e05-423c-817e-5d23344bdeeb.wav', // Sexting or pressure to share images
+  312: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111553_edb9419f-bd7d-4ed7-9bdf-e240612e6cc1.wav', // Influencer culture and unrealistic standards
+  313: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111602_b015a632-3626-467d-97bf-48457b55cc13.wav', // Privacy settings and what to share
+  314: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111610_cb24fb08-1ad9-4ea3-8e70-8eed50879149.wav', // Using social media to cope with loneliness
+  315: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111625_c55f7b05-9e91-49f4-9caf-fdc9a160c43f.wav', // Social media and political radicalisation
+  316: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111628_4dd6d7ba-b449-44d9-acdb-20d1bfc884d4.wav', // Social media and mental health awareness
+  317: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111637_33449cf7-b662-44bf-9b3e-f95b99c8292d.wav', // Building a positive online presence
+  318: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111640_a147a858-3781-41a1-a346-dbcba52746a0.wav', // Recognising algorithm manipulation
+  319: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111652_d5f65e9b-8d5c-474e-90a6-954caace68a3.wav', // Social media for mental health versus escapism
+  320: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111655_98a54f93-e0cb-4208-be0a-c29b08ae212c.wav', // Social media fast or digital detox
+  401: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111706_ca7d07ff-f570-42b0-89fd-00ece187c741.wav', // Strangers online
+  402: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111708_701e13c1-ec0c-4b57-a3ce-67f63ca677e4.wav', // Clicking suspicious links
+  403: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111718_592aa7b4-01f5-460d-9a85-696e3e44c2cf.wav', // Sharing personal information
+  404: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111720_b827dd13-54c0-4419-ab00-12dd434b1d56.wav', // Someone asking to meet in person
+  405: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111731_39569e35-51c2-417d-94ac-a90b21b11bd0.wav', // Recognising grooming warning signs
+  406: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111739_fb34ef24-a7a2-400a-a3d3-d2b0dede37ff.wav', // Password safety
+  407: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111751_c7bee8eb-f67f-4417-9541-a26ce5d0bf62.wav', // Screenshot culture and privacy
+  408: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111757_ac2feeba-6e6f-4a87-bed4-12cc2df21bb7.wav', // Deepfakes and manipulated images
+  409: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111814_371abd04-9d99-4807-b3af-b8776fd83f6d.wav', // Scams targeting teenagers
+  410: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111821_7ccbdfda-4a04-4ed4-82a1-0247fde68c86.wav', // Revenge porn and image-based abuse
+  411: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111839_f778f28e-e365-4367-85b8-a8ee9ddf0dc8.wav', // Online predators
+  412: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111841_363a4319-664c-4a2d-957b-48c572af2d3d.wav', // Privacy on dating apps
+  413: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111855_2c0ad802-c818-4cea-8b82-c6b6f9df396d.wav', // Digital security habits
+  414: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111859_8c9653cd-ec43-4665-8302-538e3fb88613.wav', // Doxxing and online harassment
+  415: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111909_8fe4104a-d8d5-43b7-adfc-8135f26b8fb3.wav', // Protecting personal data
+  416: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111918_1a7e67b4-0322-48f5-bde0-bc81b19bac40.wav', // Spotting misinformation and manipulation
+  417: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111934_0d9593e0-e4c8-4c9a-8b50-fb87b7850277.wav', // Renegotiating the phone-free bedroom
+  501: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111941_2ef3ee9c-8055-469c-9883-f11b5eff1d85.wav', // They are being bullied online
+  502: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111957_b3515c80-bc61-4987-8ddf-5a2c67fe709a.wav', // Screenshots of group chat exclusion
+  503: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_111959_815407db-cd65-4ac0-af70-30e1efd6a492.wav', // Someone is spreading rumours
+  504: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_112008_0e435b9c-a55d-4ac2-8bbf-8fd298343a0e.wav', // They are the one doing the bullying
+  505: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_112014_3a00f2e1-478b-4e05-a392-d5cbd8f59e40.wav', // Pile-on in a group chat
+  506: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_112026_81f1ef20-4a72-41ba-94d4-3b0edc444356.wav', // Revenge posting and screenshot sharing
+  507: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_112029_f375604c-0067-4ec6-b620-8e00e6f37b99.wav', // The bully is a friend in real life
+  508: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_112040_b1d9de9b-66ec-426a-a16a-3930528a124f.wav', // They do not want to report it
+  509: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_112043_c64fd27e-c7d2-4fac-a83a-d738a36805bb.wav', // The school is involved
+  510: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_112052_a9c440ea-faaf-431a-b5cc-4d3f206570a6.wav', // It has escalated to threats
+  511: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_112055_428c5150-4dc2-4a62-83da-6b258303fe81.wav', // Sleep and study balance
+  512: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260712_112057_ad4429dc-d050-406c-a609-42c019698613.wav', // A mature conversation about image sharing and the law
 }
 
 export function scriptVoiceUrl(sortOrder: number): string | null {

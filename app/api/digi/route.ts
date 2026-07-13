@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
+import { firstText } from '@/lib/digi/text'
 import { hasFullAccess } from '@/lib/access'
-import { DIGI_MODEL, DIGI_MODEL_FALLBACKS } from '@/lib/config/digi'
+import { DIGI_MODEL, DIGI_MODEL_FALLBACKS, digiModelsFor } from '@/lib/config/digi'
 import { NextResponse, after } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 import { getStageFromAgeBand, STAGES, type AgeBand, type ChallengeId } from '@/lib/content/stages'
@@ -152,7 +153,7 @@ export async function POST(request: Request) {
   const convData = convResult.data
   const child = childResult.data
 
-  const isPaid = hasFullAccess(profile)
+  const isPaid = hasFullAccess(profile, user.email)
 
   const today = new Date().toISOString().split('T')[0]
   const isNewDay = !convData || convData.last_message_date !== today
@@ -179,7 +180,7 @@ export async function POST(request: Request) {
     getExpertKnowledge(supabase, child?.age_band ?? null, message),
     getAggregateWisdom(supabase, child?.age_band ?? null, message),
     child?.stage_id
-      ? getRecommendedScript(supabase, user.id, child.stage_id as StageId, parentChallenge ?? null)
+      ? getRecommendedScript(supabase, user.id, child.stage_id as StageId, parentChallenge ?? null, { preferFree: !isPaid })
       : Promise.resolve(null),
     scriptFeedback.length > 0
       ? supabase
@@ -315,22 +316,28 @@ export async function POST(request: Request) {
         ? liveConcerns.map(c => `${c.slug}: ${c.label}`).join('; ')
         : 'none yet'
       const extraction = await callDigi({
-        model: DIGI_MODEL,
+        model: digiModelsFor('extract')[0],
         max_tokens: 220,
         messages: [{
           role: 'user',
           content: `From this parent coaching exchange, extract at most ONE durable fact worth remembering for future conversations (a concern, a win, a preference, or lasting context about the child or family). Skip small talk and one off logistics. If nothing durable, reply exactly NONE.\n\nParent: ${message}\nAdvisor: ${mainResponse.slice(0, 600)}\n\nThis family's existing tracked concerns (slug: label): ${existingConcernList}\n\nReply as JSON only: {"kind":"observation|concern|win|preference|context","content":"one sentence, third person","concern_slug":"kebab-case-2-to-4-words","concern_label":"Short label, sentence case"} or NONE. Only include concern_slug and concern_label when kind is concern: reuse an existing slug above verbatim if this is the same theme, otherwise invent a new short one.`,
         }],
       })
-      const memText = extraction.content[0]?.type === 'text' ? extraction.content[0].text.trim() : 'NONE'
+      const memText = firstText(extraction).trim() || 'NONE'
       if (memText !== 'NONE') {
         const memMatch = memText.match(/\{[\s\S]*\}/)
         if (memMatch) {
           const mem = JSON.parse(memMatch[0]) as { kind: string; content: string; concern_slug?: string; concern_label?: string }
           if (['observation', 'concern', 'win', 'preference', 'context'].includes(mem.kind) && mem.content) {
+            // Embed at write time so the memory is findable by meaning from
+            // the very next question. No key or a failed call stores null and
+            // the backfill sweeps it up later.
+            const { embedText } = await import('@/lib/digi/embeddings')
+            const embedding = await embedText(mem.content.slice(0, 400), 'document').catch(() => null)
             await supabase.from('digi_memory').insert({
               user_id: user.id, child_id: child?.id ?? null,
               kind: mem.kind, content: mem.content.slice(0, 400), source: 'chat',
+              ...(embedding ? { embedding } : {}),
             })
 
             if (mem.kind === 'concern' && mem.concern_slug && mem.concern_label) {

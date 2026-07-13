@@ -25,7 +25,7 @@ export default async function AgreementPage() {
     supabase.from('family_agreements').select('*').eq('user_id', user.id).maybeSingle(),
   ])
 
-  const isPaid = hasFullAccess(profile)
+  const isPaid = hasFullAccess(profile, user.email)
   const stageId = (child?.stage_id ?? null) as StageId | null
   const childName = child?.name ?? 'your child'
 

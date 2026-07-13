@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { STAGES } from '@/lib/content/stages'
 import PathwayJourney from '@/components/pathway/PathwayJourney'
+import StageRoadMap from '@/components/pathway/StageRoadMap'
 import { getStageProgress, type StageId as ProgressStageId } from '@/lib/pathway/progress'
 import { getJourney } from '@/lib/pathway/journey'
 
@@ -69,7 +70,7 @@ export default async function PathwayPage() {
     supabase.from('children').select('id, name, age_band, stage_id, is_primary, streak_weeks').eq('parent_id', user.id).order('is_primary', { ascending: false }),
   ])
 
-  const isPaid = hasFullAccess(profileResult.data)
+  const isPaid = hasFullAccess(profileResult.data, user.email)
   const children = (childrenResult.data ?? []) as Child[]
 
   const stageIdToNum: Record<string, number> = {
@@ -106,6 +107,15 @@ export default async function PathwayPage() {
             {children.length} children, one account.
           </p>
         )}
+      </div>
+
+      {/* The road to 16 at a glance: where this family is on the whole map,
+          before any detail. Orientation first, then the journey below. */}
+      <div style={{ padding: '0 20px', maxWidth: '720px', margin: '0 auto 20px' }}>
+        <StageRoadMap
+          currentStageNum={currentStageNum}
+          progressPct={currentStageProgress?.overallPct ?? null}
+        />
       </div>
 
       {/* The journey: one spine, three strands, the single next step */}

@@ -83,7 +83,7 @@ export async function POST(request: Request) {
     supabase.from('children').select('id, stage_id').eq('parent_id', user.id).eq('is_primary', true).maybeSingle(),
   ])
 
-  const preferFree = !hasFullAccess(profile)
+  const preferFree = !hasFullAccess(profile, user.email)
   const stageId = child?.stage_id ?? null
 
   // One query for the child's stage; RLS filters to what this account may see.

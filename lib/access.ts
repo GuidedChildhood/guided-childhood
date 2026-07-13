@@ -9,7 +9,13 @@ export type AccessProfile = {
   trial_ends_at?: string | null
 }
 
-export function hasFullAccess(profile: AccessProfile | null | undefined): boolean {
+// The founder is never paywalled on his own product. Keyed to the same
+// FOUNDER_NOTIFY_EMAIL config the insights page uses, so setting that one
+// env value unlocks both. Server side only, the env never reaches a client.
+const FOUNDER_EMAIL = (process.env.FOUNDER_NOTIFY_EMAIL ?? 'justin@thesocialbillboard.com').toLowerCase()
+
+export function hasFullAccess(profile: AccessProfile | null | undefined, email?: string | null): boolean {
+  if (email && email.toLowerCase() === FOUNDER_EMAIL) return true
   if (!profile) return false
   if (profile.subscription_status === 'active') return true
   if (profile.trial_ends_at) return new Date(profile.trial_ends_at).getTime() > Date.now()

@@ -70,7 +70,7 @@ export default async function LessonDetailPage({ params }: { params: Promise<{ i
   // open. Everything else in this stage sits behind the paywall.
   const { data: accessProfile } = await supabase
     .from('profiles').select('subscription_status, trial_ends_at').eq('id', user.id).maybeSingle()
-  const locked = !hasFullAccess(accessProfile) && !completion
+  const locked = !hasFullAccess(accessProfile, user.email) && !completion
     && !(await isParentLessonFree(supabase, lesson.stage_id, lesson.id))
 
   if (locked) {

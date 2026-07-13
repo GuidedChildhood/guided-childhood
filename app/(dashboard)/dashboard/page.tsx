@@ -12,12 +12,12 @@ import DigiPrompts from '@/components/digi/DigiPrompts'
 import { getSuggestions, type Suggestion } from '@/lib/alerts/suggestions'
 import StreakFlame from '@/components/daily/StreakFlame'
 import DigiStreakWidget from '@/components/digi/DigiStreakWidget'
+import AddChildName from '@/components/dashboard/AddChildName'
 import SchoolActionsCard, { type SchoolAction } from '@/components/school/SchoolActionsCard'
 import SchoolPromoCard from '@/components/school/SchoolPromoCard'
 import QuestBoard from '@/components/quests/QuestBoard'
 import SetupPath, { visibleSteps as visibleSetupSteps } from '@/components/setup/SetupPath'
 import SocialMediaReadiness from '@/components/pathway/SocialMediaReadiness'
-import FeatureDiscovery from '@/components/setup/FeatureDiscovery'
 import SetupUnlockToast from '@/components/setup/SetupUnlockToast'
 import TodayPathStrip from '@/components/daily/TodayPathStrip'
 import { getDailyStreak } from '@/lib/pathway/streak'
@@ -60,7 +60,7 @@ export default async function DashboardPage() {
 
   const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
 
-  const [childResult, dailySessionResult, todayMomentsResult, lastFeedbackResult, schoolActionsResult, schoolConnectionResult, agreementResult, questsCountResult, pushSubResult, anySessionResult, anySchoolActionResult, kidLinksResult] = await Promise.all([
+  const [childResult, dailySessionResult, todayMomentsResult, lastFeedbackResult, schoolActionsResult, schoolConnectionResult, agreementResult, questsCountResult, pushSubResult, anySessionResult, anySchoolActionResult, kidLinksResult, focusConcernResult] = await Promise.all([
     supabase.from('children').select('id, name, age_band, stage_id, streak_weeks, actions_this_week').eq('parent_id', user.id).eq('is_primary', true).single(),
     supabase.from('daily_sessions').select('completed_at').eq('user_id', user.id).eq('session_date', today).maybeSingle(),
     supabase.from('daily_moments').select('id, title, category, age_bands, icon, science_brief, digi_opener').eq('active', true).order('sort_order').limit(20),
@@ -79,6 +79,9 @@ export default async function DashboardPage() {
     // Whether any child already has their own phone link (the kid companion
     // link). Keyed by user, matched to the primary child below.
     supabase.from('kid_links').select('child_id').eq('user_id', user.id),
+    // The problem this family is working on right now: the most recently
+    // flagged live concern, for the focus bar above the path.
+    supabase.from('concerns').select('label, status').eq('user_id', user.id).in('status', ['open', 'improving']).order('last_flagged_at', { ascending: false }).limit(1).maybeSingle(),
   ])
 
   const child = childResult.data
@@ -135,7 +138,7 @@ export default async function DashboardPage() {
     : STAGES[0]
 
   const stageColor = STAGE_COLORS[stage.id as keyof typeof STAGE_COLORS]
-  const isPaid = hasFullAccess(profile)
+  const isPaid = hasFullAccess(profile, user.email)
   // The parent's first name, resolved from the best source we have: the
   // profile, then the auth metadata set at signup, then the email local part,
   // so a warm greeting almost never falls back to the bare "there".
@@ -157,7 +160,7 @@ export default async function DashboardPage() {
   const challenge = ((profile?.onboarding_answers as Record<string, string> | null)?.challenge ?? null) as ChallengeId | null
   const [streak, todayLoop, suggestions] = await Promise.all([
     getDailyStreak(supabase, user.id),
-    getTodayLoop(supabase, user.id, stageSlug, challenge),
+    getTodayLoop(supabase, user.id, stageSlug, challenge, isPaid),
     child?.stage_id
       ? getSuggestions(supabase, user.id, { childName: child.name, childId: child.id, stageId: stageSlug, ukHour })
       : Promise.resolve([] as Suggestion[]),
@@ -261,15 +264,68 @@ export default async function DashboardPage() {
         <StreakFlame count={streak.count} aliveToday={streak.aliveToday} />
       </div>
 
-      {/* DiGi widget: the streak card with personality, the Duolingo charm
-          without the guilt. Warm when you show up, an open door when away. */}
-      <DigiStreakWidget count={streak.count} aliveToday={streak.aliveToday} firstName={firstName} />
-
       {/* The setup path is the single conductor. It shows one step at a
           time, the rest waiting as quiet chips. The old bottom nudge that
           re-asked the same step on a second surface is gone, one ask only. */}
       <SetupPath flags={setupFlags} phoneAge={phoneAge} />
       <SetupUnlockToast flags={setupFlags} />
+
+      {/* The child's name was skipped at setup: one gentle ask, one tap to make
+          the whole app personal. Dismissable, never nags. */}
+      {(!child?.name || child.name === 'Your child') && <AddChildName />}
+
+      {/* The problem first: the concern this family keeps flagging, named, with
+          its arc and the one tap path to the words that fix it tonight. The
+          whole platform framed the way the parent experiences it: my problem,
+          the clear route to the solution. Falls back to the challenge they
+          told us at signup, and stays silent when there is nothing live. */}
+      {(() => {
+        const focusConcern = focusConcernResult.data
+        const challengeLabels: Record<string, string> = {
+          morning_tv: 'Morning TV battles', controller_fights: 'Controller fights',
+          wont_put_down: 'Will not put the device down', bedtime_screens: 'Bedtime screens',
+          mood_after_screens: 'Mood after screens', something_else: '',
+          screens_takeover: 'Screens are taking over', mood_changes: 'Mood changes after phone use',
+          gaming: 'Gaming concerns', online_safety: 'Online safety worries',
+          start_conversation: 'Starting the conversation', asking_for_phone: 'Asking for a phone',
+        }
+        const challengeKey = (profile?.onboarding_answers as Record<string, string> | null)?.challenge ?? ''
+        const label = focusConcern?.label ?? challengeLabels[challengeKey] ?? ''
+        if (!label) return null
+        const improving = focusConcern?.status === 'improving'
+        const scriptHref = todayLoop.find(t => t.key === 'script')?.href ?? '/dashboard/scripts'
+        return (
+          <Link href={scriptHref} style={{ textDecoration: 'none', display: 'block', marginBottom: '12px' }}>
+            <div style={{
+              display: 'flex', alignItems: 'center', gap: '10px',
+              background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
+              borderRadius: '14px', padding: '11px 14px',
+            }}>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', flexShrink: 0 }}>
+                Your focus
+              </span>
+              <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: 'var(--ink)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                {label}
+                <span style={{ fontWeight: 600, color: improving ? 'var(--stage-1-text)' : 'var(--ink-muted)' }}>
+                  {' '}· {focusConcern ? (improving ? 'getting better' : 'working on it') : 'your starting focus'}
+                </span>
+              </span>
+              <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: 'var(--terracotta-dark)', whiteSpace: 'nowrap' }}>
+                The words for tonight →
+              </span>
+            </div>
+          </Link>
+        )
+      })()}
+
+      {/* Today's Path: the hero of Home. The day's routine as one clear strip,
+          DiGi sitting on the lit next step, so Home opens with a single thing to
+          do rather than a wall of cards. */}
+      <TodayPathStrip tasks={todayLoop} />
+
+      {/* The streak card sits under the path: the reason to come back, below the
+          thing to do now. */}
+      <DigiStreakWidget count={streak.count} aliveToday={streak.aliveToday} firstName={firstName} />
 
       {/* DiGi jumps in: proactive prompts generated from this family's own
           data (mood and sleep trends, recurring concerns, wins) and the
@@ -288,58 +344,8 @@ export default async function DashboardPage() {
           calm. This is the dashboard alert for the age that needs it. */}
       <SocialMediaReadiness stageId={stage.id} childName={child?.name} />
 
-      {/* Today's path: the day's loop as five nodes, DiGi on the next step */}
-      <TodayPathStrip tasks={todayLoop} />
-
       {/* Family quests: prominent, every child at a glance, tickable here */}
       <QuestBoard />
-
-      {/* Continue Your Progress — primary hero card */}
-      <Link href="/dashboard/daily" style={{ textDecoration: 'none', display: 'block', marginBottom: '20px' }}>
-        <div style={{
-          background: stageColor.bg,
-          borderRadius: '20px',
-          overflow: 'hidden',
-          border: `1.5px solid ${stageColor.border}`,
-          boxShadow: '0 4px 24px rgba(26,26,46,0.08)',
-        }}>
-          {/* Stage color bold accent strip */}
-          <div style={{ background: stageColor.text, height: '5px' }} />
-          <div style={{ padding: '22px 22px 20px' }}>
-            <div style={{
-              fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600,
-              letterSpacing: '0.12em', textTransform: 'uppercase',
-              color: 'var(--ink-muted)', marginBottom: '10px',
-            }}>
-              {dailyDone ? 'Completed today' : 'Continue your progress'}
-            </div>
-            <div style={{
-              fontFamily: 'var(--font-display)', fontWeight: 900,
-              fontSize: 'clamp(1.2rem, 4vw, 1.55rem)', color: 'var(--ink)',
-              letterSpacing: '-0.025em', lineHeight: 1.15, marginBottom: '18px',
-            }}>
-              {dailyDone
-                ? "Today's practice done"
-                : `Today's practice${(child?.name && child.name !== 'Your child') ? ` for ${child.name}` : ''}`}
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px' }}>
-              <div style={{ fontSize: '13px', color: 'var(--ink-muted)' }}>
-                {dailyDone ? 'Come back tomorrow' : '5 cards · 2 minutes'}
-              </div>
-              <div style={{
-                background: dailyDone ? 'var(--border)' : 'var(--terracotta)',
-                color: dailyDone ? 'var(--ink-muted)' : '#fff',
-                borderRadius: '16px', padding: '10px 20px',
-                fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
-                letterSpacing: '0.06em', textTransform: 'uppercase', flexShrink: 0,
-                boxShadow: dailyDone ? 'none' : '0 3px 0 var(--terracotta-dark)',
-              }}>
-                {dailyDone ? 'Done ✓' : 'Continue →'}
-              </div>
-            </div>
-          </div>
-        </div>
-      </Link>
 
       {/* DiGi check in — surfaces last reflective answer if the parent responded */}
       {lastFeedback && (
@@ -501,12 +507,6 @@ export default async function DashboardPage() {
           practice, not a wall of explore me cards on day one. */}
       {setupComplete && (<>
 
-      {/* Feature discovery: once setup is behind them, one rotating nudge that
-          walks a parent through the whole platform over time, so the sections
-          that are no longer tabs still get found. Primes add to home screen
-          and check ins first, then rotates the rest, quietly. */}
-      <FeatureDiscovery done={[...(setupFlags.push ? ['notifications'] : []), ...(setupFlags.quests ? ['quests'] : [])]} />
-
       {/* Monthly wellbeing check in prompt: the mission made real, you in view
           not only your child. Shown when a check in is due. */}
       {checkinDue && (
@@ -579,117 +579,57 @@ export default async function DashboardPage() {
         </div>
       </div>
 
-      {/* Pathway discovery: Pathway left the mobile tab bar for the Right Now button, this card is its home on mobile */}
-      <Link href="/dashboard/pathway" style={{ textDecoration: 'none', display: 'block', marginBottom: '12px' }}>
-        <div style={{
-          background: 'var(--tint-blue)', border: '1.5px solid var(--tint-blue)',
-          borderRadius: '16px', padding: '22px',
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px',
-        }}>
-          <div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '6px' }}>
-              Your journey
+      {/* Explore: everything else in the membership, folded into one calm grid
+          of equal tiles. One tile a day carries the spotlight with a line of
+          why, so a parent learns the whole membership over the weeks without
+          ever facing a wall. Deterministic by date, no storage, no nagging. */}
+      {(() => {
+        const tiles = [
+          { href: '/dashboard/pathway', external: false, bg: 'var(--tint-blue)', icon: '🗺️', title: 'Your pathway', sub: 'First device to independence', why: 'See the whole road mapped for your child, and exactly where you are on it.' },
+          { href: '/dashboard/lessons', external: false, bg: 'var(--stage-3)', icon: '📚', title: 'Lessons', sub: 'Screen habits to AI literacy', why: 'Five minutes on the sofa together beats an hour of lecturing. Pick one tonight.' },
+          { href: '/dashboard/moments', external: false, bg: 'var(--terracotta-lt)', icon: '⚡', title: 'Moments', sub: 'The words for any battle', why: 'Bedtime, the handover, the meltdown. Tap the moment and the words are there.' },
+          { href: '/dashboard/agreement', external: false, bg: 'var(--stage-1)', icon: '🤝', title: 'Family agreement', sub: 'Five talks, one signed sheet', why: 'Rules they helped write are rules they keep. Print it for the fridge.' },
+          { href: 'https://www.guidedchildhood.com/digitalwellbeing', external: true, bg: 'var(--stage-2)', icon: '🩺', title: 'Health report', sub: 'One free with membership', why: 'Ten minutes, no login, and you get a clear picture of where things stand.' },
+        ]
+        const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000)
+        const spot = dayOfYear % tiles.length
+        return (
+          <section style={{ marginBottom: '20px' }}>
+            <p className="eyebrow" style={{ marginBottom: '12px', fontSize: 10 }}>Explore your membership</p>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px' }}>
+              {tiles.map((tile, i) => {
+                const isSpot = i === spot
+                return (
+                  <Link
+                    key={tile.href}
+                    href={tile.href}
+                    {...(tile.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                    style={{
+                      textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: '7px',
+                      background: tile.bg,
+                      border: isSpot ? '1.5px solid var(--terracotta)' : `1.5px solid ${tile.bg}`,
+                      boxShadow: isSpot ? '0 0 0 3px var(--terracotta-lt)' : 'none',
+                      borderRadius: '16px', padding: '16px',
+                      gridColumn: isSpot ? '1 / -1' : 'auto',
+                    }}
+                  >
+                    <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                      <span style={{ fontSize: '22px', lineHeight: 1 }}>{tile.icon}</span>
+                      {isSpot && (
+                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '100px', padding: '3px 9px' }}>
+                          Worth a look today
+                        </span>
+                      )}
+                    </span>
+                    <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--ink)', lineHeight: 1.2 }}>{tile.title}</span>
+                    <span style={{ fontSize: '11.5px', color: 'var(--ink-soft)', lineHeight: 1.4 }}>{isSpot ? tile.why : tile.sub}</span>
+                  </Link>
+                )
+              })}
             </div>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)', marginBottom: '3px' }}>
-              See your pathway
-            </div>
-            <div style={{ fontSize: '13px', color: 'var(--ink)' }}>
-              Every step from first device to independence, mapped to your child&apos;s stage.
-            </div>
-          </div>
-          <span style={{ fontSize: '18px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>
-        </div>
-      </Link>
-
-      {/* Scripts discovery: the exact words for the hard conversations. Now
-          that Scripts is not a bottom tab, this is its home on the dashboard. */}
-      <Link href="/dashboard/scripts" style={{ textDecoration: 'none', display: 'block', marginBottom: '12px' }}>
-        <div style={{
-          background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta-lt)',
-          borderRadius: '16px', padding: '22px',
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px',
-        }}>
-          <div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
-              Scripts
-            </div>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)', marginBottom: '3px' }}>
-              The exact words
-            </div>
-            <div style={{ fontSize: '13px', color: 'var(--ink)' }}>
-              Word for word scripts for the hard conversations, from first tablet to first phone.
-            </div>
-          </div>
-          <span style={{ fontSize: '18px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>
-        </div>
-      </Link>
-
-      {/* Lessons discovery: the one place every lesson lives, screen
-          habits, safety, wellbeing and AI literacy together */}
-      <Link href="/dashboard/lessons" style={{ textDecoration: 'none', display: 'block', marginBottom: '12px' }}>
-        <div style={{
-          background: 'var(--stage-3)', border: '1.5px solid var(--stage-3)',
-          borderRadius: '16px', padding: '22px',
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px',
-        }}>
-          <div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '6px' }}>
-              Lessons
-            </div>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)', marginBottom: '3px' }}>
-              Learn it together
-            </div>
-            <div style={{ fontSize: '13px', color: 'var(--ink)' }}>
-              Screen habits, safety, wellbeing and AI literacy. Calm lessons for every age.
-            </div>
-          </div>
-          <span style={{ fontSize: '18px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>
-        </div>
-      </Link>
-
-      {/* Family agreement discovery */}
-      <Link href="/dashboard/agreement" style={{ textDecoration: 'none', display: 'block', marginBottom: '12px' }}>
-        <div style={{
-          background: 'var(--stage-1)', border: '1.5px solid var(--stage-1)',
-          borderRadius: '16px', padding: '22px',
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px',
-        }}>
-          <div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '6px' }}>
-              Made together
-            </div>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)', marginBottom: '3px' }}>
-              Build your family agreement
-            </div>
-            <div style={{ fontSize: '13px', color: 'var(--ink)' }}>
-              Five conversations, one signed agreement, printed for the fridge.
-            </div>
-          </div>
-          <span style={{ fontSize: '18px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>
-        </div>
-      </Link>
-
-      {/* Digital Health Check discovery */}
-      <Link href="https://www.guidedchildhood.com/digitalwellbeing" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', display: 'block', marginBottom: '20px' }}>
-        <div style={{
-          background: 'var(--stage-2)', border: '1.5px solid var(--stage-2)',
-          borderRadius: '16px', padding: '18px 22px',
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px',
-        }}>
-          <div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '6px' }}>
-              Under 10 minutes, no login
-            </div>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)' }}>
-              Get your child&apos;s Digital Health Report
-            </div>
-            <div style={{ fontSize: '12px', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '4px' }}>
-              Your membership includes one free report. Your code arrives by email.
-            </div>
-          </div>
-          <span style={{ fontSize: '18px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>
-        </div>
-      </Link>
+          </section>
+        )
+      })()}
 
       </>)}
 

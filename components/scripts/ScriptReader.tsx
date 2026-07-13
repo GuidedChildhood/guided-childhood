@@ -15,72 +15,39 @@ type Props = {
   whyItWorks: string
   tonight: string
   stageId: string
-  // Optional pre recorded audio (Justin's own voice) per script. When present
-  // it plays instead of the device voice. Until those recordings exist, the
-  // browser reads it in a warm English voice so the feature works today.
+  // The Skye recording for this script. Skye or silence: no recording
+  // means the hear it button stays hidden, never a device voice.
   voiceUrl?: string | null
 }
 
-// A warm, natural English voice if the device has one, so read aloud sounds
-// like a person rather than a robot. Falls back to the default voice.
-function pickWarmVoice(voices: SpeechSynthesisVoice[]): SpeechSynthesisVoice | null {
-  if (voices.length === 0) return null
-  const prefer = [
-    'Google UK English Female', 'Serena', 'Kate', 'Daniel', 'Samantha',
-    'Google UK English Male', 'Martha', 'Arthur',
-  ]
-  for (const name of prefer) {
-    const v = voices.find(x => x.name === name)
-    if (v) return v
-  }
-  const gb = voices.find(v => v.lang === 'en-GB')
-  if (gb) return gb
-  return voices.find(v => v.lang?.startsWith('en')) ?? voices[0]
-}
-
-function useReadAloud(text: string, voiceUrl?: string | null) {
+function useReadAloud(voiceUrl?: string | null) {
   const [speaking, setSpeaking] = useState(false)
   const [supported, setSupported] = useState(true)
   const audioRef = useRef<HTMLAudioElement | null>(null)
 
+  // One voice across the platform: a script speaks in Skye or not at all.
+  // The old browser speech fallback grabbed whatever voice the device had
+  // (Mabel, Daniel, luck of the draw), which broke the one voice rule the
+  // moment a script had no recording. No recording now means no button.
   useEffect(() => {
-    if (typeof window === 'undefined') return
-    if (!voiceUrl && !('speechSynthesis' in window)) setSupported(false)
+    if (!voiceUrl) setSupported(false)
   }, [voiceUrl])
 
   const stop = useCallback(() => {
     if (audioRef.current) { audioRef.current.pause(); audioRef.current.currentTime = 0 }
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) window.speechSynthesis.cancel()
     setSpeaking(false)
   }, [])
 
   const play = useCallback(() => {
     if (speaking) { stop(); return }
-    // Justin's own recording wins when it exists.
-    if (voiceUrl) {
-      const el = audioRef.current ?? new Audio(voiceUrl)
-      audioRef.current = el
-      el.onended = () => setSpeaking(false)
-      el.onerror = () => setSpeaking(false)
-      el.currentTime = 0
-      el.play().then(() => setSpeaking(true)).catch(() => setSpeaking(false))
-      return
-    }
-    if (typeof window === 'undefined' || !('speechSynthesis' in window)) return
-    const synth = window.speechSynthesis
-    synth.cancel()
-    const utter = new SpeechSynthesisUtterance(text)
-    utter.rate = 0.94
-    utter.pitch = 1.02
-    utter.lang = 'en-GB'
-    const voices = synth.getVoices()
-    const warm = pickWarmVoice(voices)
-    if (warm) utter.voice = warm
-    utter.onend = () => setSpeaking(false)
-    utter.onerror = () => setSpeaking(false)
-    setSpeaking(true)
-    synth.speak(utter)
-  }, [speaking, stop, text, voiceUrl])
+    if (!voiceUrl) return
+    const el = audioRef.current ?? new Audio(voiceUrl)
+    audioRef.current = el
+    el.onended = () => setSpeaking(false)
+    el.onerror = () => setSpeaking(false)
+    el.currentTime = 0
+    el.play().then(() => setSpeaking(true)).catch(() => setSpeaking(false))
+  }, [speaking, stop, voiceUrl])
 
   // Never leave a voice talking after the parent navigates away.
   useEffect(() => () => stop(), [stop])
@@ -113,7 +80,7 @@ function SpeakerIcon({ speaking }: { speaking: boolean }) {
 
 export default function ScriptReader({ sayThis, notThis, whyItWorks, tonight, stageId, voiceUrl }: Props) {
   const [focus, setFocus] = useState(false)
-  const { speaking, supported, play, stop } = useReadAloud(sayThis, voiceUrl)
+  const { speaking, supported, play, stop } = useReadAloud(voiceUrl)
 
   // Escape closes the focus reader; lock body scroll while it is open.
   useEffect(() => {

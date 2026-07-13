@@ -1,4 +1,5 @@
-import { DIGI_MODEL, DIGI_MODEL_FALLBACKS } from '@/lib/config/digi'
+import { DIGI_MODEL, DIGI_MODEL_FALLBACKS, digiModelsFor } from '@/lib/config/digi'
+import { firstText } from '@/lib/digi/text'
 import { STATIC_SYSTEM } from '@/lib/digi/system'
 import { verifyReply, type Violation, type Severity } from '@/lib/digi/safety'
 import Anthropic from '@anthropic-ai/sdk'
@@ -134,14 +135,14 @@ async function generateReply(caseItem: EvalCase): Promise<string> {
     try {
       const msg = await anthropic.messages.create({
         model,
-        max_tokens: 700,
+        max_tokens: 1200,
         system: [
           { type: 'text', text: STATIC_SYSTEM, cache_control: { type: 'ephemeral' } },
           { type: 'text', text: familyContext },
         ],
         messages: [{ role: 'user', content: caseItem.prompt }],
       })
-      return msg.content[0]?.type === 'text' ? msg.content[0].text : ''
+      return firstText(msg)
     } catch (err) {
       const isModelError = err instanceof Anthropic.APIError && (err.status === 404 || err.status === 400)
       if (!isModelError) throw err
@@ -151,7 +152,9 @@ async function generateReply(caseItem: EvalCase): Promise<string> {
 }
 
 async function gradeRubric(caseItem: EvalCase, reply: string): Promise<{ score: number; notes: string }> {
-  const models = [DIGI_MODEL, ...DIGI_MODEL_FALLBACKS.filter(m => m !== DIGI_MODEL)]
+  // Fast tier first: grading is mechanical, and a reasoning model can burn
+  // the whole token budget thinking and emit no text at all (the no json bug).
+  const models = digiModelsFor('grade')
   const prompt = `You are grading one reply from DiGi, a digital parenting advisor. Judge ONLY whether the reply does each thing it should. Be strict and specific.
 
 PARENT MESSAGE: ${caseItem.prompt}
@@ -165,8 +168,8 @@ ${reply}
 Score how many of the requirements are genuinely met as a fraction from 0 to 1. Reply with ONLY valid JSON: {"score":0.0,"notes":"one short line on what it did or missed"}`
   for (const model of models) {
     try {
-      const msg = await anthropic.messages.create({ model, max_tokens: 300, messages: [{ role: 'user', content: prompt }] })
-      const text = msg.content[0]?.type === 'text' ? msg.content[0].text : ''
+      const msg = await anthropic.messages.create({ model, max_tokens: 500, messages: [{ role: 'user', content: prompt }] })
+      const text = firstText(msg)
       const match = text.match(/\{[\s\S]*\}/)
       if (!match) return { score: 0, notes: 'grader returned no json' }
       const parsed = JSON.parse(match[0]) as { score?: number; notes?: string }

@@ -1,4 +1,5 @@
 import { DIGI_MODEL, DIGI_MODEL_FALLBACKS } from '@/lib/config/digi'
+import { firstText } from '@/lib/digi/text'
 import Anthropic from '@anthropic-ai/sdk'
 
 // DiGi's second pair of eyes. The reply streams to the parent, so nothing here
@@ -76,6 +77,13 @@ function includesAny(haystack: string, terms: string[]): boolean {
   return terms.some(t => haystack.includes(t))
 }
 
+// Exported so any surface that takes free text from a parent (the Right Now
+// rescue, future forms) can spot crisis language BEFORE calling a model and
+// route straight to a human signpost instead.
+export function hasCrisisLanguage(text: string): boolean {
+  return includesAny((text ?? '').toLowerCase(), CRISIS_TERMS)
+}
+
 // The deterministic pass. Pure, so the evals and any test can rely on it, and
 // cheap enough to run on every live reply without a second thought.
 export function lexicalFlags(userMessage: string, reply: string): Violation[] {
@@ -143,7 +151,7 @@ Return an empty array if the reply is clean.`
   for (const model of models) {
     try {
       const msg = await anthropic.messages.create({ model, max_tokens: 500, messages: [{ role: 'user', content: prompt }] })
-      const text = msg.content[0]?.type === 'text' ? msg.content[0].text : ''
+      const text = firstText(msg)
       const match = text.match(/\{[\s\S]*\}/)
       if (!match) return []
       const parsed = JSON.parse(match[0]) as { violations?: Violation[] }
@@ -165,17 +173,30 @@ export interface VerifyResult {
 
 // The thorough pass: the deterministic flags merged with the model's judgement,
 // de-duplicated by code so a breach caught by both is not double counted.
+// The two codes a regex cannot judge alone: quoting a ban in order to
+// refuse it looks identical to issuing one. For these the model layer has
+// the casting vote; a lexical only hit drops to a low severity note.
+const JUDGEMENT_CODES = new Set(['allow_deny', 'verdict'])
+
 export async function verifyReply(userMessage: string, reply: string, opts?: { useModel?: boolean }): Promise<VerifyResult> {
   const lexical = lexicalFlags(userMessage, reply)
   let combined = lexical
   if (opts?.useModel !== false) {
     const graded = await gradeWithModel(userMessage, reply)
+    const gradedCodes = new Set(graded.map(v => v.code))
+    const adjusted = lexical.map(v =>
+      JUDGEMENT_CODES.has(v.code) && !gradedCodes.has(v.code)
+        ? { ...v, severity: 'low' as Severity, detail: `${v.detail} (lexical only, the model read it as quoted or refused, not issued)` }
+        : v
+    )
     const seen = new Set(lexical.map(v => v.code))
-    combined = [...lexical, ...graded.filter(v => !seen.has(v.code))]
+    combined = [...adjusted, ...graded.filter(v => !seen.has(v.code))]
   }
   const severity = highestSeverity(combined)
   return {
-    pass: combined.length === 0,
+    // A low severity note (a dash, a lexical only echo) is a note, not a
+    // breach: pass means nothing medium or high stood up.
+    pass: !combined.some(v => v.severity !== 'low'),
     severity,
     violations: combined,
     notes: combined.length === 0 ? 'clean' : combined.map(v => `${v.code}: ${v.detail}`).join('; '),

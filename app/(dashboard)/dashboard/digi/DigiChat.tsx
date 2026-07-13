@@ -3,6 +3,8 @@ import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import DigiCharacter, { type DigiMood } from '@/components/digi/DigiCharacter'
+import LessonPlayer from '@/components/lessons/LessonPlayer'
+import type { LessonSlide } from '@/lib/content/lesson-slides'
 
 function DigiAvatar({ size = 26, mood = 'idle' }: { size?: number; mood?: DigiMood }) {
   return <DigiCharacter size={size} mood={mood} />
@@ -100,7 +102,21 @@ function parseLesson(content: string): LessonParts | null {
   return parts
 }
 
+// A DiGi written lesson becomes real slides, so Play it runs the same
+// interactive player a library lesson uses: one part at a time, DiGi
+// reacting, the try tonight landing last. No database row, so the player
+// skips the completion write (completeEndpoint null).
+function lessonToSlides(parts: LessonParts): LessonSlide[] {
+  const slides: LessonSlide[] = [{ type: 'title', eyebrow: 'A DiGi lesson, made for you', title: parts.title }]
+  if (parts.bigIdea) slides.push({ type: 'concept', heading: 'The big idea', body: parts.bigIdea })
+  if (parts.why) slides.push({ type: 'concept', heading: 'Why it works', body: parts.why })
+  if (parts.steps.length) slides.push({ type: 'recap', heading: 'Teach it in three steps', points: parts.steps })
+  if (parts.tryTonight) slides.push({ type: 'tryit', heading: 'Try tonight', body: parts.tryTonight })
+  return slides
+}
+
 function LessonCard({ parts }: { parts: LessonParts }) {
+  const [playing, setPlaying] = useState(false)
   const labelStyle: React.CSSProperties = {
     fontFamily: 'var(--font-mono)', fontSize: 9.5, fontWeight: 700,
     letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta)',
@@ -153,6 +169,52 @@ function LessonCard({ parts }: { parts: LessonParts }) {
         <div style={{ background: 'var(--stage-1)', border: '1px solid var(--stage-1-bold)', borderRadius: 14, padding: '13px 15px', marginTop: 16 }}>
           <div style={{ ...labelStyle, color: 'var(--stage-1-text)', marginBottom: 5 }}>Try tonight</div>
           <p style={{ fontSize: 15, color: 'var(--ink)', lineHeight: 1.55, margin: 0, fontWeight: 500 }}>{parts.tryTonight}</p>
+        </div>
+      )}
+
+      <button
+        type="button"
+        onClick={() => setPlaying(true)}
+        style={{
+          width: '100%', marginTop: 14,
+          background: 'var(--terracotta)', color: 'var(--ink)', border: 'none',
+          borderRadius: 14, padding: '12px 18px', cursor: 'pointer',
+          fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 14,
+          boxShadow: '0 4px 0 var(--terracotta-dark)',
+        }}
+      >
+        ▶ Play it as a lesson
+      </button>
+
+      {playing && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={parts.title}
+          style={{ position: 'fixed', inset: 0, zIndex: 300, background: 'var(--cream)', overflowY: 'auto' }}
+        >
+          <div style={{ maxWidth: 620, margin: '0 auto', padding: '18px 20px 48px' }}>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 10 }}>
+              <button
+                type="button"
+                onClick={() => setPlaying(false)}
+                aria-label="Close the lesson"
+                style={{
+                  background: 'var(--white, #fff)', border: '1px solid var(--border)', borderRadius: '50%',
+                  width: 38, height: 38, fontSize: 16, color: 'var(--ink-soft)', cursor: 'pointer', lineHeight: 1,
+                }}
+              >
+                ✕
+              </button>
+            </div>
+            <LessonPlayer
+              lessonId="digi-quick-lesson"
+              lessonSource="ai_lesson"
+              slides={lessonToSlides(parts)}
+              backHref="/dashboard/digi"
+              completeEndpoint={null}
+            />
+          </div>
         </div>
       )}
     </div>
