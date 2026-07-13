@@ -237,8 +237,11 @@ export default async function DashboardPage() {
       {/* Header — child name + stage + streak */}
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '22px', gap: '12px' }}>
         <div>
+          {/* The tour promises "Step into Teo's pathway"; Home pays it off.
+              A bare name read as a label, the possessive reads as a road
+              that belongs to them. */}
           <h1 style={{ fontSize: 'clamp(1.6rem, 5vw, 2.2rem)', fontWeight: 900, letterSpacing: '-0.035em', lineHeight: 1, marginBottom: '6px' }}>
-            {(child?.name && child.name !== 'Your child') ? child.name : `Hello ${firstName}`}
+            {(child?.name && child.name !== 'Your child') ? `${child.name}'s pathway` : `Hello ${firstName}`}
           </h1>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
             <span style={{
