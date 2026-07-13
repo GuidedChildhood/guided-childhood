@@ -568,3 +568,7 @@ The 104 agent deep research on the three benchmarks (Internet Matters early year
 ## 2026-07-13 — Script sessions lane claimed: v1 pair written
 
 The curriculum content lane is live on branch claude/script-sessions-v1 (draft PR is the lock). The v1 pair from the research file is written to plans/script-sessions/: 7-11-misinformation-deepfakes-ai.md (Track P plus the full Track C deck, Zara KS2 register, three checks locked wording, quiz as the last two choice slides, both DiGi closes) and 0-5-screen-time-and-feelings.md (Track P only, child never watches, Zgambo 2025 worded as the research file allows). Next batch: the remaining five 0 to 5 parent only topics, one band per push. Scripts only, no renders, no migrations; JP red pens in the files and platform lane lands them.
+
+## 2026-07-13 — Script sessions: 0 to 5 band complete
+
+The remaining five 0 to 5 parent only sessions are written to plans/script-sessions/: 0-5-daily-conversations.md, 0-5-good-digital-habits.md, 0-5-safe-device-setup.md, 0-5-sharing-milestones-safely.md and 0-5-choosing-apps.md, each Track P only in the watch one then act format with the exemplar's structure, DiGi as the golden star throughout and no child track. The Zgambo et al. 2025 narrative finding is reused once only (good digital habits); every other session carries no statistics by design and the refuted claims appear nowhere. With the earlier screen time and feelings session this closes all six topics of the band; next batch is the 5 to 7 band, one band per push.
