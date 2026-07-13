@@ -21,7 +21,7 @@ import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
 // for the grown up", approved ones celebrate. No navigation anywhere
 // else: this screen is the whole world of the link.
 
-type Quest = { id: string; title: string; emoji: string; stars: number; schedule: string }
+type Quest = { id: string; title: string; emoji: string; stars: number; schedule: string; blocks_screens?: boolean }
 type Tick = { quest_id: string; status: string }
 type Goal = { title: string; stars_needed: number; daily_stars: number | null; achieved_at: string | null } | null
 export type KidMission = { id: string; title: string; stars: number; status: string }
@@ -452,14 +452,30 @@ export default function KidQuestScreen({
           </p>
         </div>
 
-        {/* Quest list */}
+        {/* Screens wait: any quest flagged blocks_screens and not yet
+            approved sits at the top of the list behind this banner. */}
+        {quests.some(q => q.blocks_screens && ticks[q.id] !== 'approved') && (
+          <div style={{
+            display: 'flex', gap: '10px', alignItems: 'center',
+            background: 'var(--terracotta)', borderRadius: '14px',
+            padding: '11px 15px', marginBottom: '12px',
+            boxShadow: '0 3px 0 var(--terracotta-dark)',
+          }}>
+            <span style={{ fontSize: '1.3rem', lineHeight: 1 }}>📵</span>
+            <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--ink)', lineHeight: 1.4, margin: 0 }}>
+              These come first today. Screens after.
+            </p>
+          </div>
+        )}
+
+        {/* Quest list, screens wait quests first */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           {quests.length === 0 && (
             <p style={{ textAlign: 'center', color: 'rgba(255,255,255,0.8)', fontSize: '16.5px', lineHeight: 1.6 }}>
               No quests set for today yet. Ask your grown up to send some!
             </p>
           )}
-          {quests.map(q => {
+          {[...quests].sort((a, b) => Number(Boolean(b.blocks_screens)) - Number(Boolean(a.blocks_screens))).map(q => {
             const state = ticks[q.id]
             const done = Boolean(state)
             return (
@@ -490,6 +506,17 @@ export default function KidQuestScreen({
                   </span>
                   <span style={{ display: 'block', fontSize: '13.5px', fontWeight: 600, color: 'var(--ink-muted)', marginTop: 2 }}>
                     {state === 'approved' ? 'Done! Stars landed ⭐' : state === 'pending' ? 'Waiting for your grown up ✓' : `Worth ${q.stars} star${q.stars === 1 ? '' : 's'}`}
+                    {q.blocks_screens && state !== 'approved' && (
+                      <span style={{
+                        display: 'inline-block', marginLeft: 8, verticalAlign: 'middle',
+                        fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700,
+                        letterSpacing: '0.08em', textTransform: 'uppercase',
+                        background: 'var(--terracotta-lt)', color: 'var(--terracotta-dark)',
+                        border: '1px solid var(--terracotta)', borderRadius: '100px', padding: '2px 8px',
+                      }}>
+                        📵 Before screens
+                      </span>
+                    )}
                   </span>
                 </span>
                 <span style={{
