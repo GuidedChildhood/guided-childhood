@@ -576,3 +576,7 @@ The remaining five 0 to 5 parent only sessions are written to plans/script-sessi
 ## 2026-07-13 — Script sessions: 5 to 7 band complete
 
 All four 5 to 7 co watch sessions are written to plans/script-sessions/: 5-7-kindness-on-screens.md, 5-7-calm-bodies-screens-feelings.md, 5-7-real-pretend-computer.md and 5-7-screen-routines.md, each with a full Track P (parent first, co watch handoff at beat 3) and a complete Track C flowing deck with Sofia teaching, DiGi Junior pausing, DiGi opening and closing in both variants, quiz as the last two choice slides, and no statistics anywhere by design. The kindness session carries the education validation audit content (unkind and pretend people named briefly and warmly, never the child's fault, telling never naughty); next batch is the 7 to 11 band, one band per push.
+
+## 2026-07-13 — Script sessions: 7 to 11 band complete
+
+The remaining six 7 to 11 sessions are written to plans/script-sessions/: 7-11-gaming-time-intensity-spend.md and 7-11-mood-and-screens.md (Oliver), 7-11-how-algorithms-work.md, 7-11-privacy-passwords-reputation.md and 7-11-my-work-and-others-work.md (Zara) and 7-11-kind-and-safe-online.md (Sofia with Oliver support), each with a full Track P ending in the Star Lesson handoff and a complete Track C flowing deck to the misinformation exemplar's standard, with all six interactive grammar types used once across the band and no statistics anywhere by design. Misinformation was already in the v1 pair, so the band is now 7 of 7; next batch is the 11 to 14 band, one band per push.
