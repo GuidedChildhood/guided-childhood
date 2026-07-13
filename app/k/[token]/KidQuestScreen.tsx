@@ -9,6 +9,7 @@ function urlBase64ToUint8Array(base64String: string) {
   return Uint8Array.from(rawData, c => c.charCodeAt(0))
 }
 import { STAR_MINUTES, PLAY_PAYS_WHY_KID, KID_REQUEST_IDEAS } from '@/lib/quests/templates'
+import { printablesForStage } from '@/lib/printables/registry'
 import type { StarBank } from '@/lib/quests/bank'
 import { lessonsForStage, type KidLesson } from '@/lib/quests/kid-lessons'
 import { gamesForStage, type QuestGame } from '@/lib/quest-games/registry'
@@ -45,10 +46,11 @@ export default function KidQuestScreen({
   usedWeekMinutes?: number
   requests?: KidAsk[]
 }) {
-  // Only the games and mini lessons that suit this child's stage, so a young
-  // child never meets an older child's content.
+  // Only the games, mini lessons and printables that suit this child's
+  // stage, so a young child never meets an older child's content.
   const stageLessons = lessonsForStage(stageId)
   const stageGames = gamesForStage(stageId)
+  const stagePrintables = printablesForStage(stageId)
   const [ticks, setTicks] = useState<Record<string, string>>(
     Object.fromEntries(todayTicks.map(t => [t.quest_id, t.status]))
   )
@@ -887,6 +889,51 @@ export default function KidQuestScreen({
                   </button>
                 )
               })}
+              {/* Printable adventures: the child browses their stage's sheets
+                  and the ask rides the same pitch flow as quest ideas. The
+                  grown up prints it, the finished page pays the stars. */}
+              {stagePrintables.length > 0 && (
+                <>
+                  <p style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)', margin: '10px 0 0' }}>
+                    Paper adventures, ask for a print out
+                  </p>
+                  {stagePrintables.map(p => {
+                    const askedTitle = `Print the ${p.title} sheet`
+                    const asked = asks.some(a => a.title === askedTitle)
+                    return (
+                      <div key={p.key} style={{
+                        display: 'flex', alignItems: 'center', gap: 12,
+                        background: '#fff', borderRadius: '20px', padding: '12px 14px',
+                        boxShadow: '0 5px 0 rgba(0,0,0,0.18)',
+                      }}>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={p.previewUrl} alt="" style={{ width: 58, height: 58, borderRadius: '14px', objectFit: 'cover', flexShrink: 0 }} />
+                        <span style={{ flex: 1, minWidth: 0 }}>
+                          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1rem', color: 'var(--ink)', lineHeight: 1.25 }}>
+                            {p.emoji} {p.title}
+                          </span>
+                          <span style={{ display: 'block', fontSize: '12.5px', fontWeight: 600, color: 'var(--ink-muted)', marginTop: 2 }}>
+                            A colouring sheet, worth {p.stars} stars when the whole page is done
+                          </span>
+                        </span>
+                        <button
+                          onClick={() => submitAsk(askedTitle, '🖨️')}
+                          disabled={asked}
+                          style={{
+                            flexShrink: 0, padding: '10px 12px', borderRadius: '12px', border: 'none',
+                            cursor: asked ? 'default' : 'pointer',
+                            background: asked ? 'var(--tint-sage)' : 'var(--terracotta)', color: 'var(--ink)',
+                            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '12px',
+                            boxShadow: asked ? 'none' : '0 3px 0 var(--terracotta-dark)',
+                          }}
+                        >
+                          {asked ? 'Asked ✓' : 'Ask for it'}
+                        </button>
+                      </div>
+                    )
+                  })}
+                </>
+              )}
               <p style={{ textAlign: 'center', color: 'rgba(255,255,255,0.55)', fontSize: '13px', lineHeight: 1.5, margin: '4px 0 0' }}>
                 More lessons land here soon. Finished them all? Ask for more quests on the other tab!
               </p>
