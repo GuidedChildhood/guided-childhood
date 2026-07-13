@@ -9,9 +9,11 @@ interface MomentsGridProps {
   allMoments?: Moment[]
   childName?: string
   ageBand?: string
+  suggestedId?: string
+  suggestReason?: string
 }
 
-export default function MomentsGrid({ initialMoments, allMoments, childName, ageBand }: MomentsGridProps) {
+export default function MomentsGrid({ initialMoments, allMoments, childName, ageBand, suggestedId, suggestReason }: MomentsGridProps) {
   const [activeCategory, setActiveCategory] = useState('All')
   const [flippedIds, setFlippedIds] = useState<Set<string>>(new Set())
   // Age filtered by default so a parent lands on what fits their child, but
@@ -21,9 +23,15 @@ export default function MomentsGrid({ initialMoments, allMoments, childName, age
   const showScopeToggle = everything.length > initialMoments.length
   const pool = scope === 'all' ? everything : initialMoments
 
-  const filtered = activeCategory === 'All'
+  const baseFiltered = activeCategory === 'All'
     ? pool
     : pool.filter(m => m.category === activeCategory)
+  // DiGi's pick leads the grid when browsing everything, so the cleverness
+  // is the first thing a parent meets, never buried by sort order.
+  const suggestedMoment = suggestedId ? pool.find(m => m.id === suggestedId) : undefined
+  const filtered = activeCategory === 'All' && suggestedMoment
+    ? [suggestedMoment, ...baseFiltered.filter(m => m.id !== suggestedId)]
+    : baseFiltered
 
   function handleFlip(momentId: string) {
     setFlippedIds(prev => new Set([...prev, momentId]))
@@ -31,6 +39,23 @@ export default function MomentsGrid({ initialMoments, allMoments, childName, age
 
   return (
     <div>
+      {/* DiGi names its pick and why, the first card in the grid below */}
+      {suggestedMoment && suggestReason && activeCategory === 'All' && (
+        <div style={{
+          display: 'flex', gap: 12, alignItems: 'flex-start',
+          background: 'var(--deep-teal)', borderRadius: 16,
+          padding: '14px 16px', marginBottom: 14,
+        }}>
+          <span style={{ fontSize: '1.3rem', flexShrink: 0 }} aria-hidden>✨</span>
+          <p style={{ margin: 0, fontSize: '13.5px', lineHeight: 1.55, color: 'rgba(255,255,255,0.9)' }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', display: 'block', marginBottom: 3 }}>
+              DiGi&apos;s pick
+            </span>
+            <strong>{suggestedMoment.title}</strong>, {suggestReason}. It is the first card below.
+          </p>
+        </div>
+      )}
+
       {/* Whose moments: the child's age by default, everything on request */}
       {showScopeToggle && (
         <div style={{ display: 'flex', gap: 6, marginBottom: 10 }}>
