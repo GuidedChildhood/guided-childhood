@@ -79,20 +79,7 @@ function SpeakerIcon({ speaking }: { speaking: boolean }) {
 }
 
 export default function ScriptReader({ sayThis, notThis, whyItWorks, tonight, stageId, voiceUrl }: Props) {
-  const [focus, setFocus] = useState(false)
-  const { speaking, supported, play, stop } = useReadAloud(voiceUrl)
-
-  // Escape closes the focus reader; lock body scroll while it is open.
-  useEffect(() => {
-    if (!focus) return
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setFocus(false) }
-    document.addEventListener('keydown', onKey)
-    const prev = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
-    return () => { document.removeEventListener('keydown', onKey); document.body.style.overflow = prev }
-  }, [focus])
-
-  const closeFocus = () => { stop(); setFocus(false) }
+  const { speaking, supported, play } = useReadAloud(voiceUrl)
 
   return (
     <>
@@ -143,15 +130,6 @@ export default function ScriptReader({ sayThis, notThis, whyItWorks, tonight, st
         </blockquote>
 
         <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 24 }}>
-          <button
-            onClick={() => setFocus(true)}
-            style={heroBtn(false)}
-          >
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-              <path d="M15 3h6v6" /><path d="M9 21H3v-6" /><path d="M21 3l-7 7" /><path d="M3 21l7-7" />
-            </svg>
-            Read it big
-          </button>
           {supported && (
             <button onClick={play} style={heroBtn(speaking)}>
               <SpeakerIcon speaking={speaking} />
@@ -215,80 +193,8 @@ export default function ScriptReader({ sayThis, notThis, whyItWorks, tonight, st
         </p>
       </div>
 
-      {/* ── Full screen focus reader ──────────────────────────────────── */}
-      {focus && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          onClick={closeFocus}
-          style={{
-            position: 'fixed', inset: 0, zIndex: 1000,
-            // Warm brand cocoa espresso with a soft gold glow, matching the
-            // passport card and the Right Now tip, never a stark black wall.
-            background:
-              'radial-gradient(120% 80% at 50% -6%, rgba(237,195,95,0.22), transparent 55%),' +
-              'linear-gradient(170deg, #4B3F29 0%, #3C3221 55%, #322818 100%)',
-            display: 'flex', flexDirection: 'column',
-            padding: 'clamp(24px, 7vw, 64px)',
-            animation: 'sr-fade 0.2s ease',
-          }}
-        >
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0 }}>
-            <span style={{
-              fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 600,
-              letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(237,195,95,0.85)',
-            }}>
-              Say this
-            </span>
-            <button
-              onClick={(e) => { e.stopPropagation(); closeFocus() }}
-              aria-label="Close"
-              style={{
-                width: 40, height: 40, borderRadius: '50%', cursor: 'pointer',
-                background: 'rgba(255,248,236,0.12)', border: '1px solid rgba(255,248,236,0.22)',
-                color: '#FFF8EC', fontSize: 20, lineHeight: 1,
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-              }}
-            >×</button>
-          </div>
-
-          <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <p style={{
-              margin: 0,
-              fontFamily: 'var(--font-display)', fontWeight: 800,
-              fontSize: 'clamp(2rem, 8vw, 4rem)', lineHeight: 1.24,
-              letterSpacing: '-0.02em', color: '#FFF6E4', textAlign: 'center',
-              textWrap: 'balance', maxWidth: 900,
-            }}>
-              &ldquo;{sayThis}&rdquo;
-            </p>
-          </div>
-
-          <div style={{ display: 'flex', justifyContent: 'center', gap: 12, flexShrink: 0 }}>
-            {supported && (
-              <button
-                onClick={(e) => { e.stopPropagation(); play() }}
-                style={{
-                  ...heroBtn(speaking),
-                  background: speaking ? 'rgba(255,255,255,0.16)' : 'var(--butter, #EDC35F)',
-                  color: speaking ? '#fff' : '#3A2C0C',
-                  borderColor: 'transparent',
-                }}
-              >
-                <SpeakerIcon speaking={speaking} />
-                {speaking ? 'Stop' : 'Hear it aloud'}
-              </button>
-            )}
-            <span style={{ alignSelf: 'center', fontSize: 12, color: 'rgba(255,255,255,0.55)', fontFamily: 'var(--font-body)' }}>
-              Tap anywhere to close
-            </span>
-          </div>
-        </div>
-      )}
-
       <style>{`
         @keyframes sr-bar { 0%,100% { transform: scaleY(0.4) } 50% { transform: scaleY(1) } }
-        @keyframes sr-fade { from { opacity: 0 } to { opacity: 1 } }
       `}</style>
     </>
   )
