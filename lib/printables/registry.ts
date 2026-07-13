@@ -83,6 +83,15 @@ export const PRINTABLES: Printable[] = [
     sheetUrl: BASE + 'hf_20260713_125421_89d1c68e-fb50-4046-8a9c-d33bbfa4759c.png',
     previewUrl: BASE + 'hf_20260713_125425_decdd972-db44-4eb1-9b37-56ea142bee1d.png',
   },
+  {
+    key: 'spanish-bucket-list',
+    title: 'My Spanish Bucket List', emoji: '🇪🇸', kind: 'bucket',
+    stages: [1, 2, 3], minutes: 'A week of words', setting: 'anywhere', skill: 'Spanish',
+    stars: 5,
+    blurb: 'Hola, gracias, uno dos tres. Eight first steps into Spanish, said out loud and coloured in.',
+    sheetUrl: BASE + 'hf_20260713_130906_33a56139-da85-4684-ad89-84067d3e705b.png',
+    previewUrl: BASE + 'hf_20260713_130909_6f362795-3990-499b-81b7-69068534efc8.png',
+  },
 ]
 
 export function getPrintable(key: string): Printable | null {
