@@ -15,7 +15,7 @@ export type Printable = {
   key: string
   title: string
   emoji: string
-  kind: 'bucket' | 'hunt' | 'challenge' | 'brain'
+  kind: 'bucket' | 'hunt' | 'challenge' | 'brain' | 'craft'
   // Stage ids this sheet suits (1 Foundation to 5 Independent), same
   // scheme as the quest games so every surface gates the same way.
   stages: number[]
@@ -27,6 +27,10 @@ export type Printable = {
   sheetUrl: string
   // Spanish artwork when it exists; the PDF route serves it with ?lang=es.
   sheetUrlEs?: string
+  // Multi page printables (crafts) list their remaining pages here and
+  // the PDF route appends them after the first sheet.
+  extraSheetUrls?: string[]
+  extraSheetUrlsEs?: string[]
   previewUrl: string
 }
 
@@ -90,6 +94,18 @@ export const PRINTABLES: Printable[] = [
     sheetUrl: BASE + 'hf_20260713_125421_89d1c68e-fb50-4046-8a9c-d33bbfa4759c.png',
     sheetUrlEs: BASE + 'hf_20260713_132652_0b2abeb9-04eb-4c6b-9fda-753a7c9c8242.png',
     previewUrl: BASE + 'hf_20260713_125425_decdd972-db44-4eb1-9b37-56ea142bee1d.png',
+  },
+  {
+    key: 'bucket-list-craft',
+    title: 'Bucket List Craft', emoji: '✂️', kind: 'craft',
+    stages: [1, 2], minutes: 'One afternoon', setting: 'indoors', skill: 'Creativity',
+    stars: 5,
+    blurb: 'Two pages, one craft: cut out the bucket, glue on the handle and friends, write the list, colour the lot.',
+    sheetUrl: BASE + 'hf_20260713_135347_bd5adb12-5316-4d17-a99a-68dca28c1d07.png',
+    extraSheetUrls: [BASE + 'hf_20260713_135351_23e3bb15-5856-4759-95cf-b989098f9faa.png'],
+    sheetUrlEs: BASE + 'hf_20260713_135730_8cd335c2-8065-4c3d-9416-bdd52eb1c322.png',
+    extraSheetUrlsEs: [BASE + 'hf_20260713_135734_8c8dee4f-dd30-4a87-a5d6-f1568d371767.png'],
+    previewUrl: BASE + 'hf_20260713_140432_f5db6b56-1610-47bb-a7bf-bb4b29a07d73.png',
   },
   {
     key: 'spanish-bucket-list',

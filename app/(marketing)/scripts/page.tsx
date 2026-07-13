@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { STAGES } from '@/lib/content/stages'
 import PrintButton from './PrintButton'
+import { PrintBrandFooter } from '@/components/brand/PrintBrand'
 
 export const metadata = {
   title: 'Conversation Scripts | Guided Childhood',
@@ -245,6 +246,10 @@ export default function ScriptsPage() {
             </article>
           )
         })}
+        {/* Brand foot, print only: the catchphrase rides every printout */}
+        <div className="print-only" style={{ display: 'none' }}>
+          <PrintBrandFooter />
+        </div>
       </div>
 
       {/* ── Upsell ───────────────────────────────────── */}
@@ -290,6 +295,7 @@ export default function ScriptsPage() {
       <style>{`
         @media print {
           .no-print { display: none !important; }
+          .print-only { display: block !important; }
           body { background: #fff !important; }
           .script-card { break-inside: avoid; box-shadow: none !important; border: 1px solid #ddd !important; margin-bottom: 24px; }
           section:first-of-type { padding-top: 20px !important; }

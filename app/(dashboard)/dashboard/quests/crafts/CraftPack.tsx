@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { PrintBrandFooter } from '@/components/brand/PrintBrand'
 
 // The Game Pack. Age banded printable games and crafts, each one screen
 // free, each one worth stars, each one secretly a digital literacy
@@ -67,6 +68,7 @@ function Sheet({ children, band, title, worth, lesson, plays }: {
       <p style={{ ...mono, fontSize: '9px', color: 'var(--ink-light)', textAlign: 'center', marginTop: '20px' }}>
         Finished? Tick it on your quest page and the stars are yours
       </p>
+      <PrintBrandFooter />
     </div>
   )
 }

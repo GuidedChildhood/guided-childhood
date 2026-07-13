@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { PrintBrandHeader, PrintBrandFooter } from '@/components/brand/PrintBrand'
 
 // The interactive bucket list maker. A family picks from the idea pool or
 // writes their own, we lay it out as a colour in sheet in the house style,
@@ -205,9 +206,7 @@ export default function BucketBuilder() {
         background: '#fff', border: '1.5px solid var(--border)', borderRadius: '18px',
         padding: '38px 36px 26px', boxShadow: '0 8px 30px rgba(26,26,46,0.10)',
       }}>
-        <div style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.28em', textTransform: 'uppercase', color: 'var(--ink)', marginBottom: '10px' }}>
-          Guided Digital Pathway
-        </div>
+        <PrintBrandHeader />
         <h2 style={{ textAlign: 'center', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.7rem, 5vw, 2.3rem)', letterSpacing: '-0.02em', color: 'var(--ink)', margin: '0 0 6px' }}>
           {title.trim() || 'Our Bucket List'}
         </h2>
@@ -245,9 +244,7 @@ export default function BucketBuilder() {
             Whole list done? Hand this to your grown up. Worth 5 stars toward your screen time.
           </span>
         </div>
-        <p style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: '8.5px', letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginTop: '12px' }}>
-          guidedchildhood.com
-        </p>
+        <PrintBrandFooter />
       </div>
     </div>
   )
