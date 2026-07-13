@@ -186,11 +186,250 @@ function StarBreath({ config }: { config: { seconds?: number } }) {
   )
 }
 
+// ── feed-loop ─────────────────────────────────────────────────────────
+// The feedback loop drawn live: watch, signal, more of the same, watch
+// more. Each lap runs faster, and after four laps the bubble closes
+// around the loop. The algorithm literacy centrepiece.
+function FeedLoop({ config }: { config: { laps?: number } }) {
+  const laps = config.laps ?? 4
+  const [running, setRunning] = useState(false)
+  const [lap, setLap] = useState(0)
+  const [bubbled, setBubbled] = useState(false)
+  const dotRef = useRef<HTMLDivElement>(null)
+  const ringRef = useRef<HTMLDivElement>(null)
+  const wrapRef = useRef<HTMLDivElement>(null)
+
+  const NODES = [
+    { emoji: '👀', label: 'You watch', top: '0%', left: '50%' },
+    { emoji: '📡', label: 'The feed learns', top: '50%', left: '100%' },
+    { emoji: '📦', label: 'More of the same', top: '100%', left: '50%' },
+    { emoji: '🔁', label: 'You watch more', top: '50%', left: '0%' },
+  ]
+
+  const start = () => {
+    if (running || bubbled || !dotRef.current) return
+    setRunning(true)
+    const R = 110
+    const tl = gsap.timeline({
+      onComplete: () => {
+        setRunning(false)
+        setBubbled(true)
+        if (ringRef.current) {
+          gsap.fromTo(ringRef.current, { scale: 1.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.7, ease: 'back.out(1.4)' })
+        }
+      },
+    })
+    for (let i = 0; i < laps; i++) {
+      const dur = Math.max(0.5, 2.2 - i * 0.55) // each lap faster
+      tl.to(dotRef.current, {
+        motionPath: undefined, // keep dependency free: rotate a wrapper instead
+        duration: 0,
+      })
+      tl.to(wrapRef.current, {
+        rotation: `+=360`, duration: dur, ease: 'none',
+        onStart: () => setLap(i + 1),
+      })
+    }
+  }
+
+  const reset = () => {
+    setBubbled(false); setLap(0)
+    if (ringRef.current) gsap.set(ringRef.current, { opacity: 0 })
+    if (wrapRef.current) gsap.set(wrapRef.current, { rotation: 0 })
+  }
+
+  return (
+    <div style={{ textAlign: 'center' }}>
+      <div style={{ ...eyebrow, marginBottom: '10px' }}>The feed loop · watch it close</div>
+      <div style={{ position: 'relative', width: '260px', height: '260px', margin: '10px auto 18px' }}>
+        {/* Bubble ring, appears at the end */}
+        <div ref={ringRef} style={{
+          position: 'absolute', inset: '-16px', borderRadius: '50%',
+          border: '3px solid var(--coral, #D4600A)', opacity: 0, pointerEvents: 'none',
+        }} />
+        {/* Track */}
+        <div style={{ position: 'absolute', inset: '18px', borderRadius: '50%', border: '2px dashed var(--border)' }} />
+        {/* Rotating dot */}
+        <div ref={wrapRef} style={{ position: 'absolute', inset: 0 }}>
+          <div ref={dotRef} style={{
+            position: 'absolute', top: '6px', left: '50%', transform: 'translateX(-50%)',
+            width: '26px', height: '26px', borderRadius: '50%',
+            background: 'var(--terracotta)', boxShadow: '0 3px 0 rgba(0,0,0,0.2)',
+          }} />
+        </div>
+        {/* Nodes */}
+        {NODES.map(n => (
+          <div key={n.label} style={{
+            position: 'absolute', top: n.top, left: n.left, transform: 'translate(-50%, -50%)',
+            background: '#fff', border: '1.5px solid var(--border)', borderRadius: '14px',
+            padding: '8px 10px', width: '108px',
+          }}>
+            <div style={{ fontSize: '18px' }}>{n.emoji}</div>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '10.5px', color: 'var(--ink)', lineHeight: 1.25 }}>{n.label}</div>
+          </div>
+        ))}
+      </div>
+      {bubbled ? (
+        <>
+          <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.15rem', color: 'var(--coral, #D4600A)', marginBottom: '4px' }}>
+            The bubble just closed.
+          </p>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: '13.5px', color: 'var(--ink-soft)', maxWidth: '380px', margin: '0 auto 14px', lineHeight: 1.6 }}>
+            Four laps, each faster than the last, and now the feed only shows more of the same. Knowing the recipe is how you open it back up.
+          </p>
+          <button onClick={reset} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', cursor: 'pointer', color: 'var(--ink)', background: '#fff', border: '2px solid var(--border)', borderRadius: '14px', padding: '11px 20px' }}>
+            Run it again
+          </button>
+        </>
+      ) : (
+        <button onClick={start} disabled={running} style={{
+          fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', cursor: 'pointer',
+          color: 'var(--ink)', background: 'var(--terracotta)', border: 'none', borderRadius: '14px',
+          padding: '12px 24px', boxShadow: '0 4px 0 var(--terracotta-dark, #C99A28)', opacity: running ? 0.6 : 1,
+        }}>
+          {running ? `Lap ${lap} of ${laps}...` : 'Start watching'}
+        </button>
+      )}
+    </div>
+  )
+}
+
+// ── spread-race ───────────────────────────────────────────────────────
+// Two posts race across the screen, the outrage one pulling ahead. Then
+// the class calms the reactions and re runs it: the race tightens. The
+// point about engineered outrage, made kinetic.
+function SpreadRace({ config }: { config: { calm?: boolean } }) {
+  const [phase, setPhase] = useState<'ready' | 'racing' | 'done' | 'calmDone'>('ready')
+  const [shares, setShares] = useState({ outrage: 0, honest: 0 })
+  const outrageRef = useRef<HTMLDivElement>(null)
+  const honestRef = useRef<HTMLDivElement>(null)
+  const dampened = phase === 'calmDone'
+
+  const run = (calm: boolean) => {
+    if (!outrageRef.current || !honestRef.current) return
+    setPhase('racing')
+    setShares({ outrage: 0, honest: 0 })
+    gsap.set([outrageRef.current, honestRef.current], { x: 0 })
+    const outrageEnd = calm ? 235 : 240
+    const honestEnd = calm ? 210 : 110
+    const dur = 3
+    const counters = { o: 0, h: 0 }
+    const oTarget = calm ? 3100 : 9600
+    const hTarget = calm ? 2600 : 1400
+    gsap.to(counters, {
+      o: oTarget, h: hTarget, duration: dur, ease: 'power1.in',
+      onUpdate: () => setShares({ outrage: Math.round(counters.o), honest: Math.round(counters.h) }),
+    })
+    gsap.to(outrageRef.current, { x: outrageEnd, duration: dur, ease: calm ? 'power1.inOut' : 'power2.in' })
+    gsap.to(honestRef.current, {
+      x: honestEnd, duration: dur, ease: 'power1.inOut',
+      onComplete: () => setPhase(calm ? 'calmDone' : 'done'),
+    })
+  }
+
+  const lane: React.CSSProperties = { position: 'relative', height: '64px', background: 'var(--warm, #fff)', border: '1.5px solid var(--border)', borderRadius: '16px', marginBottom: '10px', overflow: 'hidden' }
+  const racer: React.CSSProperties = { position: 'absolute', top: '50%', transform: 'translateY(-50%)', left: '8px', display: 'flex', alignItems: 'center', gap: '8px', background: '#fff', border: '1.5px solid var(--border)', borderRadius: '12px', padding: '7px 10px', width: '170px' }
+
+  return (
+    <div style={{ textAlign: 'center' }}>
+      <div style={{ ...eyebrow, marginBottom: '10px' }}>The spread race · same day, two posts</div>
+      <div style={{ maxWidth: '460px', margin: '0 auto 14px', textAlign: 'left' }}>
+        <div style={lane}>
+          <div ref={outrageRef} style={racer}>
+            <span style={{ fontSize: '20px' }}>😡</span>
+            <span>
+              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '11px', color: 'var(--ink)' }}>THEY are lying to you!!</span>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--coral, #D4600A)', fontWeight: 700 }}>↻ {shares.outrage.toLocaleString()}</span>
+            </span>
+          </div>
+        </div>
+        <div style={lane}>
+          <div ref={honestRef} style={racer}>
+            <span style={{ fontSize: '20px' }}>📰</span>
+            <span>
+              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '11px', color: 'var(--ink)' }}>Careful, sourced report</span>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--green-dark, #2E7D5A)', fontWeight: 700 }}>↻ {shares.honest.toLocaleString()}</span>
+            </span>
+          </div>
+        </div>
+      </div>
+      {phase === 'ready' && (
+        <button onClick={() => run(false)} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', cursor: 'pointer', color: 'var(--ink)', background: 'var(--terracotta)', border: 'none', borderRadius: '14px', padding: '12px 24px', boxShadow: '0 4px 0 var(--terracotta-dark, #C99A28)' }}>
+          Run the race
+        </button>
+      )}
+      {phase === 'done' && (
+        <>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: '13.5px', color: 'var(--ink)', maxWidth: '400px', margin: '0 auto 12px', lineHeight: 1.6 }}>
+            <strong>The outrage post wins by miles.</strong> Not because it is true, because reactions are the fuel. Now calm the reactions: what if people paused instead of raging?
+          </p>
+          <button onClick={() => run(true)} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', cursor: 'pointer', color: '#fff', background: 'var(--green-dark, #2E7D5A)', border: 'none', borderRadius: '14px', padding: '12px 24px', boxShadow: '0 4px 0 rgba(0,0,0,0.2)' }}>
+            Calm the reactions, race again
+          </button>
+        </>
+      )}
+      {dampened && (
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: '13.5px', color: 'var(--ink)', maxWidth: '400px', margin: '0 auto', lineHeight: 1.6 }}>
+          <strong>Look at the race now.</strong> When people pause instead of react, the fake loses its engine. Your pause is not nothing, it is the brake.
+        </p>
+      )}
+    </div>
+  )
+}
+
+// ── class-tally ───────────────────────────────────────────────────────
+// The whole class check for no device rooms: the teacher taps hands
+// counted per option and the bars animate. Works in every module.
+function ClassTally({ config }: { config: { question?: string; options?: string[] } }) {
+  const question = config.question ?? 'What does the class think?'
+  const options = config.options ?? ['Yes', 'Not sure', 'No']
+  const [counts, setCounts] = useState<number[]>(options.map(() => 0))
+  const total = counts.reduce((a, b) => a + b, 0)
+
+  const bump = (i: number, d: number) =>
+    setCounts(c => c.map((n, j) => (j === i ? Math.max(0, n + d) : n)))
+
+  return (
+    <div style={{ textAlign: 'center' }}>
+      <div style={{ ...eyebrow, marginBottom: '10px' }}>Class tally · hands up, teacher taps</div>
+      <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'clamp(1.15rem, 2.8vw, 1.45rem)', color: 'var(--ink)', lineHeight: 1.35, maxWidth: '460px', margin: '0 auto 20px' }}>
+        {question}
+      </h2>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxWidth: '440px', margin: '0 auto' }}>
+        {options.map((opt, i) => {
+          const pct = total > 0 ? (counts[i] / total) * 100 : 0
+          return (
+            <div key={opt} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <button onClick={() => bump(i, -1)} aria-label={`One fewer for ${opt}`} style={{ width: '34px', height: '34px', borderRadius: '10px', border: '1.5px solid var(--border)', background: '#fff', fontWeight: 900, fontSize: '16px', cursor: 'pointer', color: 'var(--ink-muted)', flexShrink: 0 }}>−</button>
+              <div style={{ flex: 1, textAlign: 'left' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+                  <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: 'var(--ink)' }}>{opt}</span>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, color: 'var(--ink-muted)' }}>{counts[i]}</span>
+                </div>
+                <div style={{ height: '12px', borderRadius: '100px', background: 'var(--border)', overflow: 'hidden' }}>
+                  <div style={{ height: '100%', width: `${pct}%`, borderRadius: '100px', background: 'linear-gradient(90deg, var(--terracotta), var(--coral, #D4600A))', transition: 'width 0.45s cubic-bezier(0.22,1,0.36,1)' }} />
+                </div>
+              </div>
+              <button onClick={() => bump(i, 1)} aria-label={`One more for ${opt}`} style={{ width: '44px', height: '44px', borderRadius: '12px', border: 'none', background: 'var(--terracotta)', fontWeight: 900, fontSize: '20px', cursor: 'pointer', color: 'var(--ink)', boxShadow: '0 3px 0 var(--terracotta-dark, #C99A28)', flexShrink: 0 }}>+</button>
+            </div>
+          )
+        })}
+      </div>
+      <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-muted)', marginTop: '14px' }}>
+        {total} hand{total === 1 ? '' : 's'} counted
+      </p>
+    </div>
+  )
+}
+
 // The registry: lesson rows name a component by key.
 const INTERACTIVES: Record<string, React.ComponentType<{ config: Record<string, unknown> }>> = {
   'verdict-sort': VerdictSort as React.ComponentType<{ config: Record<string, unknown> }>,
   'signal-meter': SignalMeter as React.ComponentType<{ config: Record<string, unknown> }>,
   'star-breath': StarBreath as React.ComponentType<{ config: Record<string, unknown> }>,
+  'feed-loop': FeedLoop as React.ComponentType<{ config: Record<string, unknown> }>,
+  'spread-race': SpreadRace as React.ComponentType<{ config: Record<string, unknown> }>,
+  'class-tally': ClassTally as React.ComponentType<{ config: Record<string, unknown> }>,
 }
 
 export default function Interactive({ component, config, caption }: { component: string; config?: Record<string, unknown>; caption?: string }) {

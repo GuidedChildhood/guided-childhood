@@ -453,3 +453,11 @@ Built the interactive layer that turns the lesson player from slides plus video 
 - signal-meter: tap actions (like, comment, watch to end, rewatch), the signal bar grows by weight so watch time visibly dwarfs a like. The algorithm literacy point, lands itself.
 - star-breath: DiGi Junior the golden star breathing on a 4 second cycle, the calm pause companion for every module.
 Unknown component keys degrade to the caption (ahead of deploy DB never breaks a lesson). Migration 038 drops a verdict-sort into the reference lesson right after the independent practice, as the on screen twin of the worksheet. Player wired, print overview updated for the new type. TSC clean, build all 88 pages green.
+
+---
+
+## 2026-07-07 — All six interactions live + the video script session scaffold
+
+The remaining three interactive components ship in the registry: feed-loop (the watch, learn, more of the same, watch more loop drawn live, each lap faster, the bubble ring closing after four laps), spread-race (an outrage post races a sourced report with share counters ticking, then the class calms the reactions and the race tightens: your pause is the brake), class-tally (the whole class check for no device rooms: teacher taps hands per option, gradient bars animate). All six from the lesson-format.md spec are now real: verdict-sort, signal-meter, star-breath, feed-loop, spread-race, class-tally. Tap based, GSAP only, registry keyed, usable by any of the 21 modules from the database.
+
+Also banked plans/video-script-sessions.md: the reusable screenplay scaffold for the parent track (P beats: the moment, the reframe, try this tonight, DiGi tag, 60 to 90 seconds phone first) and child track (the Section 10.2 beat format), age banded 0 to 16, ready to receive the Internet Matters + Common Sense deep research topic map. Scripts are writable with zero Higgsfield credits; only renders wait.
