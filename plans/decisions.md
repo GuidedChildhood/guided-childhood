@@ -446,6 +446,24 @@ JP wants PR #91 updated but nothing live on the domain, and specifically not to 
 
 ---
 
+## 2026-07-07 — The eighth slide type ships: interactive lesson components
+
+Built the interactive layer that turns the lesson player from slides plus video into a genuinely interactive experience (the core "make it a fun kids lesson" feedback, and the differentiator vs Jigsaw's static slides). New slide type `interactive` in lesson-slides.ts: a row names a component key and passes config, the code lives in components/lessons/interactives/index.tsx as a registry, so a new interaction in one module is instantly available to all 21 (rule 6: content in the DB, code in the app). Three components shipped, all tap based (projector and touch friendly, no drag), GSAP only, each with a paper twin named in the caption for the no device room:
+- verdict-sort: post cards the class taps into believe / pause / do not share, each flicking to its pile with tallies animating. The detective drill.
+- signal-meter: tap actions (like, comment, watch to end, rewatch), the signal bar grows by weight so watch time visibly dwarfs a like. The algorithm literacy point, lands itself.
+- star-breath: DiGi Junior the golden star breathing on a 4 second cycle, the calm pause companion for every module.
+Unknown component keys degrade to the caption (ahead of deploy DB never breaks a lesson). Migration 038 drops a verdict-sort into the reference lesson right after the independent practice, as the on screen twin of the worksheet. Player wired, print overview updated for the new type. TSC clean, build all 88 pages green.
+
+---
+
+## 2026-07-07 — All six interactions live + the video script session scaffold
+
+The remaining three interactive components ship in the registry: feed-loop (the watch, learn, more of the same, watch more loop drawn live, each lap faster, the bubble ring closing after four laps), spread-race (an outrage post races a sourced report with share counters ticking, then the class calms the reactions and the race tightens: your pause is the brake), class-tally (the whole class check for no device rooms: teacher taps hands per option, gradient bars animate). All six from the lesson-format.md spec are now real: verdict-sort, signal-meter, star-breath, feed-loop, spread-race, class-tally. Tap based, GSAP only, registry keyed, usable by any of the 21 modules from the database.
+
+Also banked plans/video-script-sessions.md: the reusable screenplay scaffold for the parent track (P beats: the moment, the reframe, try this tonight, DiGi tag, 60 to 90 seconds phone first) and child track (the Section 10.2 beat format), age banded 0 to 16, ready to receive the Internet Matters + Common Sense deep research topic map. Scripts are writable with zero Higgsfield credits; only renders wait.
+
+---
+
 ## 2026-07-08 — The Hidden Thread (standing content filter, internal only)
 
 Added `.claude/skills/content-engine/hidden-thread.md`: Justin's underlying mission as a filter every post passes through, never a public statement. Core belief: the real drivers of children's mental health are poverty, adverse childhood experiences and parental mental health; social media gets the attention because it is visible and rich. The test before publishing: does this move attention toward the real drivers, or accidentally make the platform the main character. The 1 in 10 rule: roughly one post in ten states the poverty and ACE thesis plainly, the other nine each carry one brick without landing the whole thing, so readers arrive at it themselves. Moral panic is the vehicle (proportionality, never denial of harm), the poverty and ACE point is the destination, revealed gradually. The standard to earn is Sonia Livingstone: let the evidence do the work, never lean on the label. Wired into content-engine SKILL (read first, every time) and CLAUDE.md context routing (any social or Drive content applies the filter before drafting). Kept INTERNAL: it is not uploaded to the shared Drive and not shared with the agency, because it is a private strategic filter, not a brief.

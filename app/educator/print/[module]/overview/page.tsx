@@ -15,7 +15,7 @@ const TYPE_LABELS: Record<string, string> = {
   title: 'Opening', objective: 'Objective', keywords: 'Keywords', concept: 'Teaching',
   quote: 'The chant', choice: 'Check', scenario: 'Evidence', diagram: 'Diagram',
   discussion: 'Talk task', stat: 'Evidence stat', tryit: 'Practice', recap: 'Recap',
-  video: 'Video beat', digi: 'DiGi closing',
+  video: 'Video beat', digi: 'DiGi closing', interactive: 'Interactive',
 }
 
 function slideTitle(s: LessonSlide): string {
@@ -34,6 +34,7 @@ function slideTitle(s: LessonSlide): string {
     case 'recap': return s.heading
     case 'video': return s.caption ?? 'Video beat'
     case 'digi': return s.heading ?? 'DiGi closes the lesson'
+    case 'interactive': return `${s.component} (interactive)`
   }
 }
 

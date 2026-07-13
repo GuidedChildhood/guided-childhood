@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { gsap } from 'gsap'
 import DigiCharacter, { type DigiMood } from '@/components/digi/DigiCharacter'
 import { PHASE_LABELS, PHASE_ORDER, type LessonPhase, type LessonSlide, type ChoiceSlide, type ScenarioSlide, type DiagramSlide, type DigiSlide, type DiscussionSlide, type StatSlide } from '@/lib/content/lesson-slides'
+import Interactive from '@/components/lessons/interactives'
 
 // Duolingo mechanics, Guided Childhood skin: one slide at a time, a segmented
 // progress bar, an answer that reacts, DiGi responding to how it goes, and a
@@ -411,6 +412,8 @@ function SlideBody({ slide, onAnswered }: { slide: LessonSlide; onAnswered: (cor
       return <DiagramBlock slide={slide} />
     case 'digi':
       return <DigiClosingBlock slide={slide} />
+    case 'interactive':
+      return <Interactive component={slide.component} config={slide.config} caption={slide.caption} />
     case 'video':
       return (
         <div>
@@ -573,12 +576,15 @@ export default function LessonPlayer({
           <div style={{
             display: 'inline-block', background: 'var(--terracotta-lt, #FBEEC9)',
             border: '2px solid var(--terracotta)', borderRadius: '100px',
-            padding: '10px 22px', margin: '10px 0 20px',
+            padding: '10px 22px', margin: '10px 0 12px',
             fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '18px', color: 'var(--ink)',
           }}>
             ⭐ {kidStars} star{kidStars === 1 ? '' : 's'} in your bank!
           </div>
         )}
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.6, maxWidth: '340px', margin: '0 auto 20px' }}>
+          Your grown up just got the good news. Stars mean screen time, and you earned it the smart way.
+        </p>
         <div style={{ maxWidth: '300px', margin: '0 auto' }}>
           <Link href={backHref} className="btn btn-gold" style={{ justifyContent: 'center', fontSize: '14px', width: '100%' }}>
             Back to my quests
