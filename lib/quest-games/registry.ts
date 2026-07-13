@@ -235,6 +235,145 @@ export const QUEST_GAMES: QuestGame[] = [
       { q: '6 × 7', options: [42, 48, 36], answer: 42 },
     ],
   },
+  // ── The research batch, 13 July 2026. Grounded in what the market
+  // leaders prove works: Duolingo ABC (bite sized phonics, instant
+  // celebration), Khan Academy Kids (variety and adaptive spread), Times
+  // Tables Rock Stars (timed recall ladders that climb), SplashLearn
+  // (untimed number sense before speed). Every game stage gated. ──
+  {
+    key: 'first-sounds', mechanic: 'judge',
+    title: 'First Sounds', emoji: '🔤', stage: 'Foundation · 4 to 7', stages: [1], stars: 2,
+    blurb: 'Which sound does it start with? Phonics the way school teaches it, as a game.',
+    leftLabel: 'Sss sound', rightLabel: 'Mmm sound', endPraise: 'Your ears are sharp! Sounds are how reading starts.',
+    items: [
+      { text: '🐍 Snake', correct: 'left', why: 'Snake starts with the sss sound, just like a snake hisses.' },
+      { text: '🌙 Moon', correct: 'right', why: 'Moon starts with mmm, lips together like a yummy sound.' },
+      { text: '🧦 Sock', correct: 'left', why: 'Sock starts sss. Say it slowly and feel the hiss.' },
+      { text: '🐵 Monkey', correct: 'right', why: 'Monkey starts mmm. Try humming it: mmm-onkey.' },
+      { text: '☀️ Sun', correct: 'left', why: 'Sun starts with sss, the same hiss as snake and sock.' },
+      { text: '🥛 Milk', correct: 'right', why: 'Milk starts mmm, the sound you make when it tastes good.' },
+    ],
+  },
+  {
+    key: 'number-bonds-ten', mechanic: 'sums',
+    title: 'Make Ten', emoji: '🔟', stage: 'Foundation · 4 to 7', stages: [1, 2], stars: 2,
+    blurb: 'Find the missing piece that makes ten. No timer, just thinking.',
+    questions: [
+      { q: '7 + ? = 10', options: [2, 3, 4], answer: 3 },
+      { q: '4 + ? = 10', options: [6, 5, 7], answer: 6 },
+      { q: '9 + ? = 10', options: [1, 2, 3], answer: 1 },
+      { q: '5 + ? = 10', options: [4, 5, 6], answer: 5 },
+      { q: '2 + ? = 10', options: [7, 8, 9], answer: 8 },
+      { q: '10 + ? = 10', options: [0, 1, 10], answer: 0 },
+    ],
+  },
+  {
+    key: 'what-comes-next', mechanic: 'judge',
+    title: 'What Comes Next?', emoji: '🔴', stage: 'Foundation · 4 to 7', stages: [1], stars: 2,
+    blurb: 'Spot the pattern and say what comes next. Patterns are how maths begins.',
+    leftLabel: '🔴 Red', rightLabel: '🔵 Blue', endPraise: 'Pattern spotted every time! That is real maths thinking.',
+    items: [
+      { text: '🔴🔵🔴🔵🔴 then?', correct: 'right', why: 'Red blue, red blue, red... so blue comes next.' },
+      { text: '🔵🔵🔴🔵🔵 then?', correct: 'left', why: 'Two blues then a red, so after two blues comes red.' },
+      { text: '🔴🔴🔵🔴🔴 then?', correct: 'right', why: 'Two reds then a blue. Two reds just happened.' },
+      { text: '🔵🔴🔵🔴🔵 then?', correct: 'left', why: 'Blue red, blue red, blue... red keeps the pattern.' },
+      { text: '🔴🔵🔵🔴🔵🔵 then?', correct: 'left', why: 'One red then two blues, round and round. Red starts it again.' },
+    ],
+  },
+  {
+    key: 'word-detective', mechanic: 'judge',
+    title: 'Word Detective', emoji: '🔎', stage: 'Builder · 8 to 10', stages: [2], stars: 3,
+    blurb: 'Real word or made up? Sound it out like a detective.',
+    leftLabel: 'Real word', rightLabel: 'Made up', endPraise: 'Case closed, detective. Reading is checking, not guessing.',
+    items: [
+      { text: 'blossom', correct: 'left', why: 'Real: flowers blossom in spring.' },
+      { text: 'plimber', correct: 'right', why: 'Made up. It sounds wordish, but check: it means nothing.' },
+      { text: 'whisper', correct: 'left', why: 'Real: to speak very softly.' },
+      { text: 'trandle', correct: 'right', why: 'Made up. Sounding real is not the same as being real.' },
+      { text: 'gleaming', correct: 'left', why: 'Real: shining brightly, like gleaming treasure.' },
+      { text: 'smorp', correct: 'right', why: 'Made up. A detective checks before believing.' },
+    ],
+  },
+  {
+    key: 'halves-hero', mechanic: 'sums', timed: true,
+    title: 'Halves Hero', emoji: '➗', stage: 'Builder · 8 to 10', stages: [2], stars: 3,
+    blurb: 'Halve it before the timer runs out. Doubles in reverse.',
+    questions: [
+      { q: 'Half of 8', options: [3, 4, 5], answer: 4 },
+      { q: 'Half of 14', options: [6, 7, 8], answer: 7 },
+      { q: 'Half of 20', options: [10, 12, 8], answer: 10 },
+      { q: 'Half of 18', options: [8, 9, 11], answer: 9 },
+      { q: 'Half of 24', options: [12, 14, 11], answer: 12 },
+      { q: 'Half of 30', options: [13, 15, 20], answer: 15 },
+    ],
+  },
+  {
+    key: 'division-dash', mechanic: 'sums', timed: true,
+    title: 'Division Dash', emoji: '🚀', stage: 'Builder · 8 to 10', stages: [2, 3], stars: 3,
+    blurb: 'Tables backwards, against the clock. If you know 6 times 4, you know this.',
+    questions: [
+      { q: '24 ÷ 6', options: [3, 4, 6], answer: 4 },
+      { q: '35 ÷ 5', options: [6, 7, 8], answer: 7 },
+      { q: '18 ÷ 2', options: [8, 9, 7], answer: 9 },
+      { q: '40 ÷ 10', options: [4, 5, 10], answer: 4 },
+      { q: '27 ÷ 3', options: [8, 9, 7], answer: 9 },
+      { q: '32 ÷ 4', options: [6, 8, 9], answer: 8 },
+    ],
+  },
+  {
+    key: 'tables-final-boss', mechanic: 'sums', timed: true,
+    title: 'Tables Final Boss', emoji: '👑', stage: 'Explorer · 11 to 13', stages: [3], stars: 4,
+    blurb: 'The 7s, 8s and 12s, the hardest tables there are, at full speed.',
+    questions: [
+      { q: '7 × 8', options: [54, 56, 63], answer: 56 },
+      { q: '12 × 7', options: [84, 96, 72], answer: 84 },
+      { q: '8 × 9', options: [64, 72, 81], answer: 72 },
+      { q: '12 × 12', options: [124, 144, 132], answer: 144 },
+      { q: '7 × 7', options: [47, 49, 56], answer: 49 },
+      { q: '8 × 12', options: [88, 96, 108], answer: 96 },
+    ],
+  },
+  {
+    key: 'percent-power', mechanic: 'sums',
+    title: 'Percent Power', emoji: '💯', stage: 'Explorer · 11 to 13', stages: [3, 4], stars: 4,
+    blurb: 'Percentages in your head. The maths that spots a fake discount.',
+    questions: [
+      { q: '50% of 80', options: [30, 40, 45], answer: 40 },
+      { q: '10% of 340', options: [34, 43, 30], answer: 34 },
+      { q: '25% of 60', options: [12, 15, 20], answer: 15 },
+      { q: '10% of 90', options: [9, 10, 19], answer: 9 },
+      { q: '50% of 46', options: [21, 23, 26], answer: 23 },
+      { q: '20% of 50', options: [10, 15, 20], answer: 10 },
+    ],
+  },
+  {
+    key: 'fact-or-opinion', mechanic: 'judge',
+    title: 'Fact or Opinion?', emoji: '⚖️', stage: 'Explorer · 11 to 13', stages: [3, 4], stars: 4,
+    blurb: 'The internet mixes them on purpose. Learn to split them in a second.',
+    leftLabel: 'Fact', rightLabel: 'Opinion', endPraise: 'That skill beats half the internet. Facts can be checked, opinions can only be argued.',
+    items: [
+      { text: 'The Amazon is the largest rainforest on Earth', correct: 'left', why: 'Checkable against evidence, so it is a fact.' },
+      { text: 'Summer is the best season', correct: 'right', why: 'Best according to whom? No way to check it, so it is an opinion.' },
+      { text: 'This game is boring', correct: 'right', why: 'Boring is a feeling about it, not a checkable measurement.' },
+      { text: 'An octopus has three hearts', correct: 'left', why: 'Sounds unlikely, but it is checkable and true. Surprising does not mean opinion.' },
+      { text: 'Everyone loves this new phone', correct: 'right', why: 'Everyone is the giveaway. Sweeping claims about all people are opinion dressed as fact.' },
+      { text: 'Videos with sad music get more shares', correct: 'left', why: 'Measurable with data, so it is a factual claim you could check.' },
+    ],
+  },
+  {
+    key: 'clickbait-caller', mechanic: 'judge',
+    title: 'Clickbait Caller', emoji: '📰', stage: 'Shaper · 13 to 15', stages: [4, 5], stars: 4,
+    blurb: 'Headline or hook? Call out the ones engineered to grab you.',
+    leftLabel: 'Reporting', rightLabel: 'Clickbait', endPraise: 'You see the machine now. A headline that sells a feeling is selling you.',
+    items: [
+      { text: 'Council approves new skate park after two year campaign', correct: 'left', why: 'Says what happened, checkable, no tricks.' },
+      { text: 'You will NOT believe what this teacher did next', correct: 'right', why: 'Hides the story to force the click. Real news tells you the story.' },
+      { text: 'Doctors HATE this one weird trick', correct: 'right', why: 'Fake conflict plus a secret. The oldest bait pattern on the internet.' },
+      { text: 'Storm expected to reach the coast by Friday evening', correct: 'left', why: 'Specific, checkable, tells you the thing up front.' },
+      { text: 'This everyday food is slowly destroying your brain', correct: 'right', why: 'Fear plus vagueness. If it were true it would name the food and the evidence.' },
+      { text: 'Local team loses final on penalties', correct: 'left', why: 'The whole story in six words. Reporting gives, clickbait withholds.' },
+    ],
+  },
 ]
 
 export function getQuestGame(key: string): QuestGame | null {
