@@ -584,3 +584,7 @@ Three JP asks in one pass. First, branding: every PDF download now carries Guide
 ## 2026-07-13 — Printables get their Explore tile
 
 JP said add to platform once the Spanish, branding and builder round was done, so the Printables tile joins the Home Explore grid (sage tint, printer icon, The offline pathway). It rides the same one spotlight a day rotation as the other five tiles.
+
+## 2026-07-13 — The bucket craft, and the brand rides every printout
+
+Two JP asks. The cut and paste bucket craft he loved on Etsy is now ours as original artwork in the locked style: page one is a big bucket with the title, seven write your own checkbox lines and the star strip, page two is the pieces (handle, sun, starfish, ice lolly, a spade for the name and a flag for the date). English and Spanish pairs, an assembled craft preview, and the registry grew extraSheetUrls so multi page printables are still a data entry; the PDF route loops the pages. Second, brand and catchphrase everywhere: lib/brand.ts is the single source (name, pathway line, catchphrase: Keeping the balance: offline strong, online safe. Digitally educated, AI literate, ready by 16.), the PDF route stamps the real logo drawn in vectors plus name, pathway line and catchphrase on every page of every download, and components/brand/PrintBrand.tsx puts the same header and footer on the builder sheet, quest sheets, game pack sheets, the family agreement and the educator parent note. No downloadable leaves the house unbranded.
