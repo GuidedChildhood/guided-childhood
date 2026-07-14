@@ -1,0 +1,271 @@
+'use client'
+
+import { useState } from 'react'
+import Link from 'next/link'
+import LessonSendButton from './together/LessonSendButton'
+import PrintableActions from '../printables/PrintableActions'
+import type { Printable } from '@/lib/printables/registry'
+
+// The Lessons browser. The old page was one long scroll of every lesson at
+// every stage; this splits it into three tidy views with a segmented
+// control at the top (Watch together, Lessons, Printables) and a stage
+// chip row that defaults to the child's own stage, so a parent lands on a
+// short, relevant shelf they can act on, not a wall of forty cards. Every
+// card leads with a thumbnail and carries its two real actions.
+
+export type WatchItem = {
+  code: string; stageNum: number; stageName: string; title: string
+  catchphrase: string; strand: string; posterUrl: string | null
+  journeyStep: number; duration: string | null; done: boolean
+}
+export type LibraryItem = {
+  id: string; href: string; stageNum: number; stageLabel: string; stageAges: string
+  categoryLabel: string; title: string; keyMessage: string; locked: boolean; done: boolean
+}
+
+type View = 'together' | 'library' | 'printables'
+
+const STAGE_LIST = [
+  { num: 1, label: 'Foundation', ages: '4 to 7' },
+  { num: 2, label: 'Builder', ages: '8 to 10' },
+  { num: 3, label: 'Explorer', ages: '11 to 13' },
+  { num: 4, label: 'Shaper', ages: '13 to 15' },
+  { num: 5, label: 'Independent', ages: '16 and up' },
+]
+
+const STRAND_EMOJI: Record<string, string> = {
+  screens: '📱', screen: '📱', bodies: '🧠', feelings: '💛', wellbeing: '💛',
+  kindness: '🤝', privacy: '🛡️', gaming: '🎮', misinformation: '🔍',
+  algorithms: '🎯', money: '💷', identity: '✨', default: '🎬',
+}
+function strandEmoji(strand: string): string {
+  const k = (strand || '').toLowerCase()
+  for (const key of Object.keys(STRAND_EMOJI)) if (k.includes(key)) return STRAND_EMOJI[key]
+  return STRAND_EMOJI.default
+}
+
+export default function LessonsBrowser({
+  childId, childName, childStageNum, watchItems, libraryItems, printables, isPaid,
+}: {
+  childId: string | null
+  childName: string
+  childStageNum: number
+  watchItems: WatchItem[]
+  libraryItems: LibraryItem[]
+  printables: Printable[]
+  isPaid: boolean
+}) {
+  const [view, setView] = useState<View>('together')
+  // Default the stage filter to the child's own stage, so the first thing a
+  // parent sees is the shelf that fits their child, not everything at once.
+  const [stage, setStage] = useState<number>(childStageNum)
+
+  const watchForStage = watchItems.filter(w => w.stageNum === stage)
+  const libForStage = libraryItems.filter(l => l.stageNum === stage)
+  const printForStage = printables.filter(p => p.stages.includes(stage))
+
+  // Stage chips only offer stages that hold something in the current view,
+  // so a parent never taps into an empty shelf.
+  const stagesWith = new Set(
+    (view === 'together' ? watchItems.map(w => w.stageNum)
+      : view === 'library' ? libraryItems.map(l => l.stageNum)
+      : printables.flatMap(p => p.stages))
+  )
+  const stageChips = STAGE_LIST.filter(s => stagesWith.has(s.num))
+
+  const TABS: { key: View; icon: string; label: string; count: number }[] = [
+    { key: 'together', icon: '🎬', label: 'Watch together', count: watchItems.length },
+    { key: 'library', icon: '📚', label: 'Lessons', count: libraryItems.length },
+    { key: 'printables', icon: '🖨️', label: 'Printables', count: printables.length },
+  ]
+
+  return (
+    <div>
+      {/* Sticky control strip: the segmented view switch and the stage chips
+          ride together, frosted, so navigation stays put as the shelf
+          scrolls under it. */}
+      <div style={{
+        position: 'sticky', top: 0, zIndex: 5, margin: '0 -20px', padding: '10px 20px 12px',
+        background: 'rgba(249,248,246,0.86)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)',
+        borderBottom: '1px solid var(--border)',
+      }}>
+        <div style={{ display: 'flex', gap: '6px', background: '#fff', border: '1px solid var(--border)', borderRadius: '100px', padding: '4px', boxShadow: '0 2px 10px rgba(26,26,46,0.05)' }}>
+          {TABS.map(t => {
+            const on = view === t.key
+            return (
+              <button
+                key={t.key}
+                onClick={() => setView(t.key)}
+                style={{
+                  flex: 1, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '6px',
+                  padding: '9px 8px', borderRadius: '100px', cursor: 'pointer', border: 'none',
+                  background: on ? 'var(--deep-teal)' : 'transparent',
+                  color: on ? '#fff' : 'var(--ink-soft)',
+                  fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 800,
+                  boxShadow: on ? '0 2px 8px -1px rgba(46,40,24,0.45)' : 'none',
+                  transition: 'background 0.2s ease, color 0.2s ease',
+                }}
+              >
+                <span style={{ fontSize: '14px' }}>{t.icon}</span>
+                <span>{t.label}</span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, opacity: on ? 0.85 : 0.5 }}>{t.count}</span>
+              </button>
+            )
+          })}
+        </div>
+
+        {stageChips.length > 1 && (
+          <div style={{ display: 'flex', gap: '7px', overflowX: 'auto', paddingTop: '10px', scrollbarWidth: 'none' }}>
+            {stageChips.map(s => {
+              const on = s.num === stage
+              return (
+                <button
+                  key={s.num}
+                  onClick={() => setStage(s.num)}
+                  style={{
+                    flexShrink: 0, padding: '7px 13px', borderRadius: '100px', cursor: 'pointer',
+                    border: `1.5px solid ${on ? 'var(--terracotta)' : 'var(--border)'}`,
+                    background: on ? 'var(--terracotta-lt)' : '#fff',
+                    color: on ? 'var(--terracotta-dark)' : 'var(--ink-soft)',
+                    fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, whiteSpace: 'nowrap',
+                  }}
+                >
+                  Stage {s.num} · {s.ages}
+                  {s.num === childStageNum ? ` · ${childName}` : ''}
+                </button>
+              )
+            })}
+          </div>
+        )}
+      </div>
+
+      <div style={{ paddingTop: '20px' }}>
+        {/* ── Watch together ── the drawn films, thumbnail led, two taps:
+            watch on the sofa or send to their phone. */}
+        {view === 'together' && (
+          <>
+            <p style={{ fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 16px' }}>
+              The illustrated films that already live on {childName}&apos;s phone. Watch one together here, or send it for them to watch on their own. First watch earns 10 stars.
+            </p>
+            {watchForStage.length === 0 ? (
+              <Empty>No films at this stage yet. Try another stage above.</Empty>
+            ) : (
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(230px, 1fr))', gap: '14px' }}>
+                {watchForStage.map(w => (
+                  <div key={w.code} style={{ display: 'flex', flexDirection: 'column', background: '#fff', border: '1.5px solid var(--border)', borderRadius: '18px', overflow: 'hidden', boxShadow: '0 4px 18px rgba(26,26,46,0.06)' }}>
+                    <Link href={`/dashboard/lessons/together/${w.code}`} style={{ position: 'relative', display: 'block', textDecoration: 'none', aspectRatio: '16 / 10', overflow: 'hidden', background: `linear-gradient(150deg, var(--stage-${w.stageNum}-bold) 0%, var(--stage-${w.stageNum}) 100%)` }}>
+                      {w.posterUrl ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={w.posterUrl} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+                      ) : (
+                        <span style={{ position: 'absolute', top: '10px', left: '12px', fontSize: '26px' }}>{strandEmoji(w.strand)}</span>
+                      )}
+                      {w.done && (
+                        <span style={{ position: 'absolute', top: '10px', right: '10px', fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, color: '#1F7A54', letterSpacing: '0.06em', textTransform: 'uppercase', background: '#D4EDDF', borderRadius: '100px', padding: '2px 8px' }}>✓ Done</span>
+                      )}
+                      <span style={{ position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%,-50%)', width: 46, height: 46, borderRadius: '50%', background: 'rgba(255,255,255,0.9)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 3px 10px rgba(0,0,0,0.15)' }}>
+                        <span style={{ fontSize: '16px', color: 'var(--ink)', marginLeft: '3px' }}>▶</span>
+                      </span>
+                      <span style={{ position: 'absolute', bottom: '10px', left: '12px', fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, color: 'var(--ink)', letterSpacing: '0.06em', textTransform: 'uppercase', background: 'rgba(255,255,255,0.75)', borderRadius: '100px', padding: '2px 8px' }}>
+                        Lesson {w.journeyStep}{w.duration ? ` · ${w.duration}` : ''}
+                      </span>
+                    </Link>
+                    <div style={{ padding: '13px 15px 15px', display: 'flex', flexDirection: 'column', gap: '10px', flex: 1 }}>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)', lineHeight: 1.2, marginBottom: '4px' }}>{w.title}</div>
+                        <div style={{ fontSize: '12px', color: 'var(--ink-muted)', fontStyle: 'italic', lineHeight: 1.4 }}>&ldquo;{w.catchphrase}&rdquo;</div>
+                      </div>
+                      <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                        <Link href={`/dashboard/lessons/together/${w.code}`} style={{ flex: 1, textAlign: 'center', textDecoration: 'none', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '11px', padding: '9px 10px', fontFamily: 'var(--font-display)', fontSize: '12.5px', fontWeight: 800, boxShadow: '0 3px 0 var(--terracotta-dark)', whiteSpace: 'nowrap' }}>
+                          {w.done ? 'Watch again ↻' : '▶ Watch together'}
+                        </Link>
+                        <LessonSendButton childId={childId} childName={childName} title={w.title} />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </>
+        )}
+
+        {/* ── Lessons ── the interactive library the parent leads, one stage
+            at a time so it stays a short list. */}
+        {view === 'library' && (
+          <>
+            <Link href="/dashboard/lessons/preview" style={{ textDecoration: 'none', display: 'block', marginBottom: '16px' }}>
+              <div style={{ background: '#DEF0E7', border: '1.5px solid #2F8F6B', borderRadius: '18px', padding: '16px 18px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '14px' }}>
+                <div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#2F8F6B', marginBottom: '3px' }}>New · 15 min together · ages 11 to 15</div>
+                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: 'var(--ink)' }}>Is That Real?</div>
+                  <div style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: '2px' }}>The sofa lesson on fake images and deepfakes.</div>
+                </div>
+                <span style={{ background: 'var(--terracotta)', color: 'var(--ink)', flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', borderRadius: '12px', padding: '10px 16px', boxShadow: '0 4px 0 var(--terracotta-dark)' }}>Start</span>
+              </div>
+            </Link>
+            {libForStage.length === 0 ? (
+              <Empty>No library lessons at this stage yet. Try another stage above.</Empty>
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                {libForStage.map(l => (
+                  <Link key={l.id} href={l.href} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', textDecoration: 'none', background: l.done ? '#EDF7F1' : '#fff', border: l.done ? '1px solid #B7DEC9' : '1px solid var(--border)', borderRadius: '14px', padding: '13px 15px', opacity: l.locked ? 0.72 : 1, boxShadow: '0 2px 10px rgba(26,26,46,0.04)' }}>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '3px', flexWrap: 'wrap' }}>
+                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 600, color: 'var(--terracotta-dark)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>{l.categoryLabel}</span>
+                        {l.done && <span style={{ fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, color: '#1F7A54', letterSpacing: '0.08em', textTransform: 'uppercase', background: '#D4EDDF', borderRadius: '100px', padding: '2px 8px' }}>✓ Done</span>}
+                        {l.locked && <span style={{ fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, color: 'var(--ink-muted)', letterSpacing: '0.08em', textTransform: 'uppercase', background: 'var(--border)', borderRadius: '100px', padding: '2px 7px' }}>Members</span>}
+                      </div>
+                      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '15px', color: 'var(--ink)', marginBottom: '2px' }}>{l.title}</div>
+                      <div style={{ fontSize: '12px', color: 'var(--ink-muted)', fontStyle: 'italic', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{l.keyMessage}</div>
+                    </div>
+                    {l.done ? <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: '#1F7A54', letterSpacing: '0.04em', textTransform: 'uppercase', flexShrink: 0 }}>Run again ↻</span> : <span style={{ fontSize: '15px', color: 'var(--ink-light)', flexShrink: 0 }}>{l.locked ? '🔒' : '→'}</span>}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </>
+        )}
+
+        {/* ── Printables ── the paper sheets, every one a real thumbnail with
+            print and add to quests right on the card. */}
+        {view === 'printables' && (
+          <>
+            <p style={{ fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 16px' }}>
+              Colouring sheets to print and finish away from screens. Print it, or add it to {childName}&apos;s quests so the finished page pays stars.
+            </p>
+            {printForStage.length === 0 ? (
+              <Empty>No printables at this stage yet. Try another stage above.</Empty>
+            ) : (
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(230px, 1fr))', gap: '14px' }}>
+                {printForStage.map(p => (
+                  <div key={p.key} style={{ display: 'flex', flexDirection: 'column', background: '#fff', border: '1.5px solid var(--border)', borderRadius: '18px', overflow: 'hidden', boxShadow: '0 4px 18px rgba(26,26,46,0.06)' }}>
+                    <div style={{ position: 'relative', aspectRatio: '16 / 11', overflow: 'hidden', background: '#EFE9DD' }}>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={p.previewUrl} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+                      <span style={{ position: 'absolute', top: '10px', left: '12px', fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: 'var(--ink)', background: 'rgba(255,255,255,0.85)', borderRadius: '100px', padding: '3px 9px' }}>⭐ {p.stars}</span>
+                    </div>
+                    <div style={{ padding: '13px 15px 15px', display: 'flex', flexDirection: 'column', gap: '10px', flex: 1 }}>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)', lineHeight: 1.2, marginBottom: '3px' }}>{p.emoji} {p.title}</div>
+                        <div style={{ fontSize: '12px', color: 'var(--ink-muted)', lineHeight: 1.4 }}>{p.skill} · {p.minutes}</div>
+                      </div>
+                      <PrintableActions printable={p} isPaid={isPaid} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </>
+        )}
+      </div>
+    </div>
+  )
+}
+
+function Empty({ children }: { children: React.ReactNode }) {
+  return (
+    <div style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '14px', padding: '22px', textAlign: 'center', color: 'var(--ink-muted)', fontSize: '14px' }}>
+      {children}
+    </div>
+  )
+}

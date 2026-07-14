@@ -18,7 +18,7 @@ const NAV_TABS = [
   { href: '/dashboard/tracker', label: 'Progress', icon: '△' },
 ]
 
-export default function MobileTabBar() {
+export default function MobileTabBar({ pendingAsks = 0 }: { pendingAsks?: number }) {
   const pathname = usePathname()
   const active = NAV_TABS
     .filter(t => (t.href === '/dashboard' ? pathname === '/dashboard' : pathname.startsWith(t.href)))
@@ -26,18 +26,28 @@ export default function MobileTabBar() {
 
   return (
     <nav className="bottom-tab-bar">
-      {NAV_TABS.map(tab => (
-        <Link
-          key={tab.href}
-          href={tab.href}
-          className={`tab-item${tab.href === active ? ' active' : ''}`}
-          style={{ textDecoration: 'none' }}
-          aria-current={tab.href === active ? 'page' : undefined}
-        >
-          <span style={{ fontSize: '20px', lineHeight: 1 }}>{tab.icon}</span>
-          <span>{tab.label}</span>
-        </Link>
-      ))}
+      {NAV_TABS.map(tab => {
+        const showBadge = tab.href === '/dashboard/quests' && pendingAsks > 0
+        return (
+          <Link
+            key={tab.href}
+            href={tab.href}
+            className={`tab-item${tab.href === active ? ' active' : ''}`}
+            style={{ textDecoration: 'none' }}
+            aria-current={tab.href === active ? 'page' : undefined}
+          >
+            <span style={{ position: 'relative', fontSize: '20px', lineHeight: 1 }}>
+              {tab.icon}
+              {showBadge && (
+                <span className="ask-badge" aria-label={`${pendingAsks} waiting`}>
+                  {pendingAsks > 9 ? '9+' : pendingAsks}
+                </span>
+              )}
+            </span>
+            <span>{tab.label}</span>
+          </Link>
+        )
+      })}
     </nav>
   )
 }

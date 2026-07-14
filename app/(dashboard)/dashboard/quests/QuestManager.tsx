@@ -5,6 +5,15 @@ import Link from 'next/link'
 import { QUEST_TEMPLATES, PLAY_PAYS_WHY, STAR_MINUTES } from '@/lib/quests/templates'
 import { STAGE_LABELS, AGE_BAND_TO_STAGE, type StageKey } from '@/lib/quests/game-picks'
 import { gamesForStage } from '@/lib/quest-games/registry'
+import { PRINTABLES } from '@/lib/printables/registry'
+import { deviceLabel, deviceEmoji } from '@/lib/quests/device-time'
+
+// When a child asks for a printable their pitch reads "Print the {title}
+// sheet" (set in the kid screen). Match it back to the sheet so the parent
+// gets a real print link right here, not just the words.
+function printableForAsk(title: string) {
+  return PRINTABLES.find(p => title === `Print the ${p.title} sheet`) ?? null
+}
 
 type QuestTab = 'manage' | 'rewards' | 'games' | 'share'
 const TABS: { key: QuestTab; label: string }[] = [
@@ -29,6 +38,7 @@ type Tick = { quest_id: string; child_id: string | null; status: string; tick_da
 type Ask = { id: string; child_id: string; title: string; emoji: string; status: string; created_at: string }
 type Bank = { child_id: string; earned: number; spent: number; balance: number; minutes: number }
 type Spend = { id: string; child_id: string; stars: number; minutes: number; created_at: string }
+type Session = { id: string; child_id: string; device: string; minutes: number; stars: number; ends_at: string; started_at: string }
 
 const SCHEDULE_LABELS: Record<string, string> = {
   daily: 'Every day', weekdays: 'School days', weekend: 'Weekends', once: 'One off',
@@ -68,6 +78,7 @@ export default function QuestManager() {
   const [asksList, setAsksList] = useState<Ask[]>([])
   const [banks, setBanks] = useState<Bank[]>([])
   const [spends, setSpends] = useState<Spend[]>([])
+  const [sessions, setSessions] = useState<Session[]>([])
   const [askStars, setAskStars] = useState<Record<string, number>>({})
   const [askSchedule, setAskSchedule] = useState<Record<string, string>>({})
   const [spendMsg, setSpendMsg] = useState<string | null>(null)
@@ -84,15 +95,30 @@ export default function QuestManager() {
   }, [])
 
   async function tickForThem(questId: string) {
+    const quest = quests.find(q => q.id === questId)
+    // Land the tick locally straight away so the button stays Done and the
+    // card can light up, instead of flashing Done then bouncing back.
+    const today = new Date().toISOString().slice(0, 10)
     setTicked(questId)
-    setTimeout(() => setTicked(null), 2000)
+    setTicks(prev => {
+      const already = prev.some(t => t.quest_id === questId && t.tick_date === today)
+      if (already) {
+        return prev.map(t => t.quest_id === questId && t.tick_date === today
+          ? { ...t, status: 'approved', approved_at: new Date().toISOString() } : t)
+      }
+      return [...prev, {
+        quest_id: questId, child_id: quest?.child_id ?? activeChild,
+        status: 'approved', tick_date: today, approved_at: new Date().toISOString(),
+      }]
+    })
     try {
       await fetch('/api/quests/approve', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ quest_id: questId }),
       })
-    } catch { /* refetch on next load */ }
+      await load()
+    } catch { /* the optimistic tick stands, next load reconciles */ }
   }
 
   async function editQuest(questId: string, patch: { stars?: number; schedule?: string; blocks_screens?: boolean }) {
@@ -160,6 +186,7 @@ export default function QuestManager() {
       setAsksList(data.requests ?? [])
       setBanks(data.banks ?? [])
       setSpends(data.spends ?? [])
+      setSessions(data.sessions ?? [])
       if (!activeChild && data.children?.length) setActiveChild(data.children[0].id)
     } catch { /* retry on next action */ } finally { setLoading(false) }
   }, [activeChild])
@@ -572,6 +599,12 @@ export default function QuestManager() {
 
           {tab === 'manage' && (
           <>
+          {/* Device time in progress: a live countdown next to the child who
+              is on their screen right now, tracking the same clock they see. */}
+          {sessions.filter(s => s.child_id === activeChild).map(s => (
+            <ParentTimePill key={s.id} session={s} childName={child.name} />
+          ))}
+
           {/* Get it on their phone: the most important quest setup step after
               adding quests, surfaced prominently on the main tab until the
               child's link exists, then it steps back. */}
@@ -631,6 +664,7 @@ export default function QuestManager() {
                 {asksList.filter(a => a.child_id === activeChild && a.status === 'pending').map(a => {
                   const stars = askStars[a.id] ?? 2
                   const schedule = askSchedule[a.id] ?? 'once'
+                  const sheet = printableForAsk(a.title)
                   return (
                     <div key={a.id} style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '14px', padding: '12px 14px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
@@ -639,6 +673,25 @@ export default function QuestManager() {
                           {a.title}
                         </span>
                       </div>
+                      {/* A printable ask gets a real print link, so the parent
+                          can open the sheet the moment their child asks, then
+                          set what the finished page is worth and add it. */}
+                      {sheet && (
+                        <a
+                          href={`/api/printables/${sheet.key}/pdf`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{
+                            display: 'inline-flex', alignItems: 'center', gap: '8px', marginBottom: '12px',
+                            background: 'var(--deep-teal)', color: '#fff', textDecoration: 'none',
+                            borderRadius: '11px', padding: '9px 15px',
+                            fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 800,
+                            boxShadow: '0 3px 0 rgba(0,0,0,0.25)',
+                          }}
+                        >
+                          🖨️ Print {sheet.title}
+                        </a>
+                      )}
                       <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
                         <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
                           <button onClick={() => setAskStars(prev => ({ ...prev, [a.id]: Math.max(1, stars - 1) }))} style={{ width: 30, height: 30, borderRadius: '9px', border: '1.5px solid var(--border)', background: '#fff', cursor: 'pointer', fontWeight: 800 }}>−</button>
@@ -768,6 +821,7 @@ export default function QuestManager() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               {childQuests.map(q => {
                 const editing = editingId === q.id
+                const sheet = printableForAsk(q.title)
                 return (
                   <div key={q.id} style={{
                     borderRadius: '14px', background: '#fff', border: '1.5px solid var(--border)',
@@ -781,18 +835,42 @@ export default function QuestManager() {
                           {SCHEDULE_LABELS[q.schedule] ?? q.schedule} · ⭐ {q.stars}{q.blocks_screens ? ' · 📵 before screens' : ''}
                         </span>
                       </span>
-                      <button
-                        onClick={() => tickForThem(q.id)}
-                        title="They did it, tick it off and land the stars"
-                        style={{
-                          background: ticked === q.id ? 'var(--tint-sage)' : 'var(--terracotta-lt)',
-                          border: '1.5px solid var(--terracotta)', borderRadius: '10px',
-                          padding: '7px 12px', cursor: 'pointer', flexShrink: 0,
-                          fontFamily: 'var(--font-display)', fontSize: '12px', fontWeight: 800, color: 'var(--ink)',
-                        }}
-                      >
-                        {ticked === q.id ? 'Done ✓' : 'Done today'}
-                      </button>
+                      {/* A print quest carries a real print link, so the sheet
+                          is one tap away whenever the parent is ready. */}
+                      {sheet && (
+                        <a
+                          href={`/api/printables/${sheet.key}/pdf`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          title={`Open ${sheet.title} to print`}
+                          style={{
+                            background: 'var(--deep-teal)', color: '#fff', textDecoration: 'none',
+                            border: 'none', borderRadius: '10px',
+                            padding: '7px 12px', flexShrink: 0,
+                            fontFamily: 'var(--font-display)', fontSize: '12px', fontWeight: 800,
+                          }}
+                        >
+                          🖨️ Print
+                        </a>
+                      )}
+                      {(() => {
+                        const doneToday = approvedTodayIds.has(q.id) || ticked === q.id
+                        return (
+                          <button
+                            onClick={() => !doneToday && tickForThem(q.id)}
+                            disabled={doneToday}
+                            title={doneToday ? 'Done and stars landed' : 'They did it, tick it off and land the stars'}
+                            style={{
+                              background: doneToday ? 'var(--tint-sage)' : 'var(--terracotta-lt)',
+                              border: '1.5px solid var(--terracotta)', borderRadius: '10px',
+                              padding: '7px 12px', cursor: doneToday ? 'default' : 'pointer', flexShrink: 0,
+                              fontFamily: 'var(--font-display)', fontSize: '12px', fontWeight: 800, color: 'var(--ink)',
+                            }}
+                          >
+                            {doneToday ? 'Done ✓' : 'Done today'}
+                          </button>
+                        )
+                      })()}
                       <button
                         onClick={() => setEditingId(editing ? null : q.id)}
                         style={{
@@ -1310,6 +1388,44 @@ export default function QuestManager() {
           )}
         </>
       )}
+    </div>
+  )
+}
+
+// A live device time countdown on the parent board: the same clock the
+// child sees, ticking off the shared end time, so a parent can glance and
+// know how long is left on the screen right now.
+function ParentTimePill({ session, childName }: { session: Session; childName: string }) {
+  const [remaining, setRemaining] = useState<number>(() => Math.round((new Date(session.ends_at).getTime() - Date.now()) / 1000))
+  useEffect(() => {
+    const end = new Date(session.ends_at).getTime()
+    const tick = () => setRemaining(Math.round((end - Date.now()) / 1000))
+    tick()
+    const id = setInterval(tick, 1000)
+    return () => clearInterval(id)
+  }, [session.ends_at])
+  if (remaining <= 0) return null
+  const mm = Math.floor(remaining / 60)
+  const ss = String(Math.max(0, remaining % 60)).padStart(2, '0')
+  const low = remaining <= 60
+  return (
+    <div style={{
+      display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px',
+      background: '#fff', border: `1.5px solid ${low ? '#C0533E' : 'var(--terracotta)'}`,
+      borderRadius: '16px', padding: '14px 16px', boxShadow: '0 4px 14px rgba(201,154,40,0.12)',
+    }}>
+      <span style={{ fontSize: '1.6rem', flexShrink: 0 }}>{deviceEmoji(session.device)}</span>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--ink)' }}>
+          {childName} is on the {deviceLabel(session.device)}
+        </div>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--ink-muted)' }}>
+          {session.stars} star{session.stars === 1 ? '' : 's'} spent · {session.minutes} min booked
+        </div>
+      </div>
+      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.5rem', color: low ? '#C0533E' : 'var(--ink)', fontVariantNumeric: 'tabular-nums', flexShrink: 0 }}>
+        {mm}:{ss}
+      </div>
     </div>
   )
 }
