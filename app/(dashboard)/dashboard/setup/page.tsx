@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
+import { ButtonLink } from '@/components/ui/Button'
 import { getSetupState } from '@/lib/setup/flags'
 
 export const dynamic = 'force-dynamic'
@@ -68,13 +69,9 @@ export default async function SetupPage() {
                   <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)', lineHeight: 1.25 }}>{s.title}</div>
                   <div style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: '2px' }}>{shortWhat(s.key)}</div>
                 </div>
-                <Link href={s.href} className="setup-cta" style={{
-                  flexShrink: 0, background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none',
-                  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px',
-                  borderRadius: '12px', padding: '10px 18px', boxShadow: '0 3px 0 var(--terracotta-dark)',
-                }}>
+                <ButtonLink href={s.href} variant="primary" size="md" style={{ flexShrink: 0 }}>
                   {i === 0 ? 'Start' : 'Set up'}
-                </Link>
+                </ButtonLink>
               </div>
             ))}
           </div>
