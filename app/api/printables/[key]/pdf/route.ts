@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { PDFDocument, StandardFonts, rgb, type PDFPage, type PDFFont } from 'pdf-lib'
 import { createClient } from '@/lib/supabase/server'
 import { getPrintable } from '@/lib/printables/registry'
+import { hasFullAccess } from '@/lib/access'
 import { BRAND_NAME, BRAND_PATHWAY, BRAND_CATCHPHRASE, BRAND_DOMAIN, LOGO_BARS } from '@/lib/brand'
 
 // A real PDF download: the sheet artwork embedded on branded A4 pages,
@@ -76,6 +77,14 @@ export async function GET(req: NextRequest, ctx: { params: Promise<{ key: string
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
+
+  // Printables are a member feature: the download is gated server side so
+  // the paywall holds even against a direct link to this route.
+  const { data: profile } = await supabase
+    .from('profiles').select('subscription_status, trial_ends_at').eq('id', user.id).maybeSingle()
+  if (!hasFullAccess(profile, user.email)) {
+    return NextResponse.json({ error: 'members only' }, { status: 402 })
+  }
 
   const { key } = await ctx.params
   const printable = getPrintable(key)

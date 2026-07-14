@@ -36,6 +36,7 @@ export default function StarLessons() {
   const [showAllAges, setShowAllAges] = useState(false)
   const [busy, setBusy] = useState(false)
   const [sent, setSent] = useState(false)
+  const [sendError, setSendError] = useState<string | null>(null)
   const [loaded, setLoaded] = useState(false)
   // Preview: the slides of the lesson being sent, so a parent sees exactly
   // what they are handing over. Keyed by lesson id so switching lesson closes
@@ -73,15 +74,27 @@ export default function StarLessons() {
     if (!childId || !lessonId || busy) return
     setBusy(true)
     setSent(false)
+    setSendError(null)
     try {
-      await fetch('/api/quests/lessons', {
+      const res = await fetch('/api/quests/lessons', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ child_id: childId, lesson_id: lessonId, stars }),
       })
+      // A silent failure used to still say "Sent"; now the real reason
+      // shows so a broken send is never mistaken for a working one.
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}))
+        setSendError(data.error === 'lessons not set up'
+          ? 'Lessons are not switched on yet for this account. This is a one time database step, tell Justin and it is a two minute fix.'
+          : (data.error ? `Could not send: ${data.error}` : 'Could not send just now. Try again in a moment.'))
+        return
+      }
       await load()
       setSent(true)
       setTimeout(() => setSent(false), 2600)
+    } catch {
+      setSendError('Could not reach the server. Check your connection and try again.')
     } finally { setBusy(false) }
   }
 
@@ -256,19 +269,32 @@ export default function StarLessons() {
           </div>
         )}
 
-        <button
-          onClick={send}
-          disabled={busy || !lessonId}
-          style={{
-            width: '100%', padding: '15px 24px', borderRadius: '16px',
-            background: sent ? 'var(--tint-sage)' : 'var(--gold)', color: 'var(--ink)', border: 'none',
-            boxShadow: sent ? 'none' : '0 5px 0 var(--gold-hover)', cursor: busy || !lessonId ? 'default' : 'pointer',
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
-            opacity: busy || !lessonId ? 0.6 : 1, transition: 'background 0.2s',
-          }}
-        >
-          {busy ? 'Sending...' : sent ? `Sent to ${child?.name} ✓` : `Send the lesson to ${child?.name}`}
-        </button>
+        {lessons.length === 0 ? (
+          <div style={{ background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: '14px', padding: '14px 16px' }}>
+            <p style={{ fontSize: '13.5px', color: 'var(--ink)', lineHeight: 1.6, margin: 0, fontWeight: 600 }}>
+              Lessons are not switched on for this account yet. This is a one time database step, not a fault with your account. Once it is done, every lesson appears here to send.
+            </p>
+          </div>
+        ) : (
+          <button
+            onClick={send}
+            disabled={busy || !lessonId}
+            style={{
+              width: '100%', padding: '15px 24px', borderRadius: '16px',
+              background: sent ? 'var(--tint-sage)' : 'var(--gold)', color: 'var(--ink)', border: 'none',
+              boxShadow: sent ? 'none' : '0 5px 0 var(--gold-hover)', cursor: busy || !lessonId ? 'default' : 'pointer',
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
+              opacity: busy || !lessonId ? 0.6 : 1, transition: 'background 0.2s',
+            }}
+          >
+            {busy ? 'Sending...' : sent ? `Sent to ${child?.name} ✓` : `Send the lesson to ${child?.name}`}
+          </button>
+        )}
+        {sendError && (
+          <p style={{ fontSize: '13px', color: 'var(--danger, #B4232A)', lineHeight: 1.55, margin: '12px 0 0', fontWeight: 600 }}>
+            {sendError}
+          </p>
+        )}
 
         {/* Sent missions */}
         {missions.length > 0 && (
