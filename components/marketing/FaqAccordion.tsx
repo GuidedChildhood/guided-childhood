@@ -4,7 +4,11 @@ import { useState } from 'react'
 const FAQS = [
   {
     q: 'What exactly do I get?',
-    a: 'The stage pathway from age 4 to 16, built for the moment social media arrives at 16. Daily moments with the exact words for the friction points of the day: the morning routine, homework, the gaming handover, bedtime. 160 scripts for the hard conversations. DiGi, the AI parenting advisor trained on the research, available at 11pm. Device setting checklists, per device and per age, iPhone first. The wellbeing tracker with weekly check ins. The family agreement builder you print and both sign. 100 lessons for digital home schooling. And a weekly advice email written like a parent, not a robot. School reminders, where you forward the school\'s emails and the dates appear as alerts, are coming soon.',
+    a: 'The stage pathway from age 4 to 16, built for the moment social media arrives at 16. Daily moments with the exact words for the friction points of the day: the morning routine, homework, the gaming handover, bedtime. 160 scripts for the hard conversations. 100 lessons for digital home schooling. The digital passport your child fills stage by stage, weighted toward the lessons they complete. Family quests where real jobs earn stars and stars buy the screen time you agree, with a printable contract you both sign. Printable bucket lists and crafts in English and Spanish, every finished sheet worth stars. 24 age gated learning games. DiGi, the AI parenting advisor trained on the research, available at 11pm. Device setting checklists per device and per age. The wellbeing tracker with weekly check ins. The family agreement builder. And school reminders: forward the school\'s emails and the dates appear as alerts.',
+  },
+  {
+    q: 'Does this prepare my child for the under 16 social media ban?',
+    a: 'Yes, that is the core of it. The ban delays the apps until 16 but teaches nothing. We build the judgement in the years before: lessons in misinformation, algorithms and AI literacy, and a passport earned stage by stage, so 16 arrives as a step, not a cliff edge. Arriving with habits beats arriving with rules.',
   },
   {
     q: 'Is this just about social media?',

@@ -7,6 +7,8 @@ import FlipCards from '@/components/marketing/FlipCards'
 import DigiWalker from '@/components/marketing/DigiWalker'
 import HomeReveals from '@/components/marketing/HomeReveals'
 import PassportSection from '@/components/marketing/PassportSection'
+import SeeInside from '@/components/marketing/SeeInside'
+import DigiGreeter from '@/components/marketing/DigiGreeter'
 import MarketingNav from '@/components/marketing/MarketingNav'
 import DigiCharacter from '@/components/digi/DigiCharacter'
 
@@ -292,7 +294,8 @@ export default function HomePage() {
             foundingDate: '2024',
             founder: { '@type': 'Person', name: 'Justin Phillips' },
             areaServed: { '@type': 'Country', name: 'United Kingdom' },
-            knowsAbout: ['digital parenting', 'screen time', 'online safety', 'children social media', 'parental controls', 'digital wellbeing'],
+            knowsAbout: ['digital parenting', 'screen time', 'online safety', 'children social media', 'parental controls', 'digital wellbeing', 'AI literacy for children', 'digital literacy curriculum', 'under 16 social media ban', 'digital passport for children'],
+            slogan: 'Keeping the balance: offline strong, online safe. Digitally educated, AI literate, ready by 16.',
           },
           {
             '@context': 'https://schema.org',
@@ -333,7 +336,12 @@ export default function HomePage() {
               {
                 '@type': 'Question',
                 name: 'What is Guided Childhood and how does it work?',
-                acceptedAnswer: { '@type': 'Answer', text: 'Guided Childhood is a stage by stage digital parenting platform for UK families with children aged 4 to 16. You identify your child\'s stage, then get daily moments with the exact words for the friction points of the day, 160 scripts for the hard conversations, device setting checklists, a wellbeing tracker with weekly check ins, a family agreement builder, 100 lessons you can teach at home, and DiGi, your AI parenting advisor, whenever you need the specific words. It takes around five minutes a day.' },
+                acceptedAnswer: { '@type': 'Answer', text: 'Guided Childhood is a stage by stage digital parenting platform for UK families with children aged 4 to 16. You identify your child\'s stage, then get daily moments with the exact words for the friction points of the day, 160 scripts for the hard conversations, 100 lessons you can teach at home, a digital passport your child fills stage by stage, family quests where real jobs earn stars and stars buy agreed screen time, printable bucket lists and crafts in English and Spanish, 24 age gated learning games, device setting checklists, a wellbeing tracker, a family agreement builder, and DiGi, your AI parenting advisor, whenever you need the specific words. The idea in one line: keeping the balance, offline strong, online safe, digitally educated, AI literate, ready by 16. It takes around five minutes a day.' },
+              },
+              {
+                '@type': 'Question',
+                name: 'Does Guided Childhood prepare my child for the UK under 16 social media ban?',
+                acceptedAnswer: { '@type': 'Answer', text: 'Yes, that is the core of it. The UK ban delays social media access until 16 but does not teach children anything. Guided Childhood builds the judgement in the years before: a five stage pathway from age 4, lessons in misinformation, algorithms and AI literacy, and a digital passport earned stage by stage, so 16 arrives as a step rather than a cliff edge. Arriving with habits beats arriving with rules.' },
               },
               {
                 '@type': 'Question',
@@ -543,9 +551,9 @@ export default function HomePage() {
       <section style={{ background: 'var(--cream)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
         <div className="stats-strip" style={{ maxWidth: '960px', margin: '0 auto' }}>
           {[
-            { num: '200',  label: 'Families on their pathway' },
+            { num: '160',  label: 'Scripts for the hard moments' },
+            { num: '100',  label: 'Lessons taught at home' },
             { num: '5',    label: 'Stages from age 4 to 16' },
-            { num: '12',   label: 'Daily situations with scripts' },
             { num: '2027', label: 'Social media ban. Start now.' },
           ].map((s, i) => (
             <div key={i} style={{ textAlign: 'center', padding: '36px 20px', borderRight: i < 3 ? '1px solid var(--border)' : 'none' }}>
@@ -568,6 +576,16 @@ export default function HomePage() {
       <PassportSection />
 
       {/* ================================================================
+          SEE INSIDE — real product screenshots, the primary trust signal.
+          Every image is a genuine capture of the shipped product.
+          ================================================================ */}
+      <SeeInside />
+
+      {/* DiGi pops up once per visit: the problem in one line, the answer
+          in the next, the door third. */}
+      <DigiGreeter />
+
+      {/* ================================================================
           EVERYTHING YOU GET — the full service walkthrough, near the top so
           a first visit sees the whole system and why each part earns its
           place, before the deeper narrative.
@@ -581,7 +599,7 @@ export default function HomePage() {
               <span style={{ color: 'var(--terracotta)' }}>Every part earns its place.</span>
             </h2>
             <p className="fu" style={{ fontSize: '1rem', color: 'rgba(255,255,255,0.8)', lineHeight: 1.8, maxWidth: '560px', margin: '0 auto' }}>
-              Not random tips. Ten tools that work together, from the first shared screen at four to full independence at sixteen. Here is what you get, and why each one matters.
+              Not random tips. Twelve tools that work together, from the first shared screen at four to full independence at sixteen. Here is what you get, and why each one matters.
             </p>
           </div>
 
@@ -590,13 +608,15 @@ export default function HomePage() {
               { emoji: '🌱', tint: 'var(--stage-1-bold)', name: 'Daily moments', what: 'One small thing each day: the moment, the exact words, a quick check in.', why: 'The ten minute habit everything hangs on.' },
               { emoji: '💬', tint: 'var(--stage-3-bold)', name: '160 exact scripts', what: 'The words for the meltdown, the handover, the first phone conversation.', why: 'So you are never caught without something to say.' },
               { emoji: '◎', tint: 'var(--stage-5-bold)', name: 'DiGi, always on', what: 'A real answer for your child and your stage, calibrated, never a lecture.', why: 'The eleven at night question, answered calmly.' },
-              { emoji: '⭐', tint: 'var(--stage-2-bold)', name: 'Family Quests', what: 'Real jobs, play and quick learning games earn the screen time you agree.', why: 'Earned time already did its job.' },
-              { emoji: '🗺️', tint: 'var(--stage-4-bold)', name: 'The pathway to 16', what: 'One plan that relaxes as your child earns it, stage by stage.', why: 'Turns sixteen from a cliff edge into a gentle ramp.' },
+              { emoji: '⭐', tint: 'var(--stage-2-bold)', name: 'Family Quests', what: 'Real jobs and play earn stars, stars buy screen time, and the printed contract seals the deal.', why: 'Earned time already did its job.' },
+              { emoji: '🛂', tint: 'var(--stage-4-bold)', name: 'The digital passport', what: 'One page per stage, a circle that fills as they learn, a stamp when it is earned. All the way to 16.', why: 'Turns sixteen from a cliff edge into a gentle ramp.' },
               { emoji: '✦', tint: 'var(--stage-3-bold)', name: 'The lessons', what: 'Calm, age matched lessons that build real digital judgement.', why: 'Learned together young, on their own as they grow.' },
               { emoji: '🛡️', tint: 'var(--stage-1-bold)', name: 'Device checklists', what: 'Per device, per age, what to set tonight before the screen reaches them.', why: 'Ten minutes of setup saves months of arguments.' },
               { emoji: '🔔', tint: 'var(--stage-4-bold)', name: 'School reminders', what: 'Forward the school email and the dates and kit turn into alerts.', why: 'Never miss a PE kit day again.' },
               { emoji: '📝', tint: 'var(--stage-2-bold)', name: 'Family agreement', what: 'One page you build together, print, and both sign.', why: 'Agreed together, so it actually holds.' },
               { emoji: '📈', tint: 'var(--stage-5-bold)', name: 'Wellbeing tracker', what: 'One tap a day, a check in each week.', why: 'Spot the pattern before it becomes a problem.' },
+              { emoji: '🖨️', tint: 'var(--stage-1-bold)', name: 'The printables', what: 'Bucket lists, scavenger hunts and crafts, in English and Spanish, every finished sheet worth stars.', why: 'The offline pathway: screens down, crayons out.' },
+              { emoji: '🎮', tint: 'var(--stage-3-bold)', name: '24 learning games', what: 'Phonics to fact checking, every game age gated to your child and built on what the best educational apps prove works.', why: 'Screen time that teaches, when it is earned.' },
             ].map(s => (
               <div key={s.name} className="fu" style={{ background: '#fff', borderRadius: '20px', padding: '22px 22px 20px', boxShadow: '0 10px 30px rgba(0,0,0,0.14)', display: 'flex', flexDirection: 'column' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>

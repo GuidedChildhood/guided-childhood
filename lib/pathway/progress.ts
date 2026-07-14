@@ -90,7 +90,9 @@ export async function getStageProgress(
     aiLessonsInStage.filter(l => completedLessonKeys.has(`ai_lesson:${l.id}`)).length
   const lessonsPct = totalLessonsInStage > 0 ? Math.round((lessonsDone / totalLessonsInStage) * 100) : 0
 
-  const overallPct = Math.round((scriptsPct + streakPct + devicesPct + lessonsPct) / 4)
+  // Lessons carry the most weight in the passport circle: the stamp is
+  // about what the child learned, with the daily habit and setup behind it.
+  const overallPct = Math.round(lessonsPct * 0.4 + scriptsPct * 0.3 + streakPct * 0.15 + devicesPct * 0.15)
 
   const totalContent = stageScriptOrders.size + totalLessonsInStage
   const doneContent = completedInStage + lessonsDone
@@ -159,7 +161,7 @@ export async function getAllStagesProgress(
     const doneContent = scriptsDone + lessonsDone
     out[stageId] = {
       scriptsPct, streakPct, devicesPct, lessonsPct,
-      overallPct: Math.round((scriptsPct + streakPct + devicesPct + lessonsPct) / 4),
+      overallPct: Math.round(lessonsPct * 0.4 + scriptsPct * 0.3 + streakPct * 0.15 + devicesPct * 0.15),
       contentComplete: totalContent > 0 && doneContent === totalContent,
     }
   }
