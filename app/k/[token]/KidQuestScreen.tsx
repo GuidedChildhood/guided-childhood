@@ -136,6 +136,21 @@ export default function KidQuestScreen({
     setAskBusy(false)
   }
 
+  // Print it now: the child can send the sheet to a printer themselves, not
+  // only ask a grown up. The sheet art is public on the CDN, so a small
+  // print window shows just the page and prints it. If a popup is blocked,
+  // opening the image straight is the fallback so the button never dead ends.
+  function printSheet(sheetUrl: string, title: string) {
+    const w = window.open('', '_blank')
+    if (!w) { window.open(sheetUrl, '_blank'); return }
+    w.document.write(
+      `<!doctype html><html><head><title>${title}</title>` +
+      `<style>@page{margin:8mm}html,body{margin:0;padding:0}img{width:100%;display:block}</style></head>` +
+      `<body><img src="${sheetUrl}" alt="${title}" onload="setTimeout(function(){window.focus();window.print()},250)"></body></html>`
+    )
+    w.document.close()
+  }
+
   async function askForMore() {
     setAskedMore(true)
     setToast('Asked! Your grown up just got a ping ⭐')
@@ -994,20 +1009,32 @@ export default function KidQuestScreen({
                             {p.emoji} {p.title}
                           </div>
                           <div style={{ fontSize: '13px', fontWeight: 600, color: 'var(--ink-muted)', lineHeight: 1.4, marginBottom: '11px' }}>
-                            A colouring sheet, worth {p.stars} stars when the whole page is done
+                            Print it, colour the whole page, and it is worth {p.stars} stars
                           </div>
+                          <button
+                            onClick={() => printSheet(p.sheetUrl, p.title)}
+                            style={{
+                              width: '100%', padding: '13px', borderRadius: '14px', border: 'none',
+                              cursor: 'pointer', marginBottom: '8px',
+                              background: 'var(--terracotta)', color: 'var(--ink)',
+                              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
+                              boxShadow: '0 4px 0 var(--terracotta-dark)',
+                            }}
+                          >
+                            🖨️ Print it now
+                          </button>
                           <button
                             onClick={() => submitAsk(askedTitle, '🖨️')}
                             disabled={asked}
                             style={{
-                              width: '100%', padding: '13px', borderRadius: '14px', border: 'none',
+                              width: '100%', padding: '11px', borderRadius: '14px',
+                              border: '1.5px solid var(--border)',
                               cursor: asked ? 'default' : 'pointer',
-                              background: asked ? 'var(--tint-sage)' : 'var(--terracotta)', color: 'var(--ink)',
-                              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
-                              boxShadow: asked ? 'none' : '0 4px 0 var(--terracotta-dark)',
+                              background: asked ? 'var(--tint-sage)' : '#fff', color: 'var(--ink)',
+                              fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '13.5px',
                             }}
                           >
-                            {asked ? 'Asked your grown up ✓' : '🖨️ Ask for a print out'}
+                            {asked ? 'Asked your grown up ✓' : 'Or ask a grown up to print it'}
                           </button>
                         </div>
                       </div>
