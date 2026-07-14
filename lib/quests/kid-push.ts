@@ -24,8 +24,15 @@ export async function pushToChild(
       .eq('child_id', childId)
     if (!subs?.length) return
 
+    // Tapping the notification must open the child's own quest page, not
+    // the site root (where a child, with no login, lands nowhere useful).
+    // Look up their private link token and deep link straight to it.
+    const { data: link } = await admin
+      .from('kid_links').select('token').eq('user_id', userId).eq('child_id', childId).maybeSingle()
+    const url = (link as { token?: string } | null)?.token ? `/k/${(link as { token: string }).token}` : '/'
+
     webpush.setVapidDetails(process.env.VAPID_EMAIL, VAPID_PUBLIC_KEY, process.env.VAPID_PRIVATE_KEY)
-    const payload = JSON.stringify({ title, body, url: '/' })
+    const payload = JSON.stringify({ title, body, url })
     const stale: string[] = []
     await Promise.allSettled(
       subs.map(async sub => {

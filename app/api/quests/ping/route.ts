@@ -31,15 +31,17 @@ export async function POST(req: NextRequest) {
   if (!child) return NextResponse.json({ error: 'Child not found' }, { status: 404 })
 
   const admin = createAdminClient()
-  const { data: subs } = await admin
-    .from('push_subscriptions')
-    .select('endpoint, p256dh, auth')
-    .eq('user_id', user.id)
-    .eq('child_id', child_id)
+  const [{ data: subs }, { data: link }] = await Promise.all([
+    admin.from('push_subscriptions').select('endpoint, p256dh, auth').eq('user_id', user.id).eq('child_id', child_id),
+    admin.from('kid_links').select('token').eq('user_id', user.id).eq('child_id', child_id).maybeSingle(),
+  ])
 
   if (!subs?.length) {
     return NextResponse.json({ sent: 0, reason: 'no_subscription' })
   }
+
+  // Tapping the notification opens the child's own quest page.
+  const openUrl = (link as { token?: string } | null)?.token ? `/k/${(link as { token: string }).token}` : '/'
 
   webpush.setVapidDetails(
     process.env.VAPID_EMAIL,
@@ -50,7 +52,7 @@ export async function POST(req: NextRequest) {
   const body = typeof message === 'string' && message.trim()
     ? message.trim().slice(0, 140)
     : 'Have a look at your quests when you get a minute.'
-  const payload = JSON.stringify({ title: 'A ping from home ⭐', body, url: '/' })
+  const payload = JSON.stringify({ title: 'A ping from home ⭐', body, url: openUrl })
 
   let sent = 0
   const stale: string[] = []
