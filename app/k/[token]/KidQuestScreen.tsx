@@ -996,47 +996,49 @@ export default function KidQuestScreen({
                     const askedTitle = `Print the ${p.title} sheet`
                     const asked = asks.some(a => a.title === askedTitle)
                     return (
-                      <div key={p.key} style={bigCardShell(false)}>
-                        <div style={{ position: 'relative', height: '112px', background: '#EFE9DD', overflow: 'hidden' }}>
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img src={p.previewUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                          <span style={{ position: 'absolute', top: '9px', left: '11px', fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: 'var(--ink)', background: 'rgba(255,255,255,0.85)', borderRadius: '100px', padding: '3px 9px' }}>
-                            ⭐ {p.stars}
-                          </span>
-                        </div>
-                        <div style={{ padding: '13px 16px 15px' }}>
-                          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.05rem', color: 'var(--ink)', lineHeight: 1.2, marginBottom: '3px' }}>
-                            {p.emoji} {p.title}
+                      <div key={p.key} style={{ ...bigCardShell(false), padding: '11px 13px 13px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '13px', marginBottom: '11px' }}>
+                          <div style={{ position: 'relative', width: 76, height: 76, borderRadius: '15px', flexShrink: 0, overflow: 'hidden', background: '#EFE9DD' }}>
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img src={p.previewUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                            <span style={{ position: 'absolute', bottom: '5px', left: '5px', fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, color: 'var(--ink)', background: 'rgba(255,255,255,0.9)', borderRadius: '100px', padding: '2px 7px' }}>
+                              ⭐ {p.stars}
+                            </span>
                           </div>
-                          <div style={{ fontSize: '13px', fontWeight: 600, color: 'var(--ink-muted)', lineHeight: 1.4, marginBottom: '11px' }}>
-                            Print it, colour the whole page, and it is worth {p.stars} stars
+                          <div style={{ flex: 1, minWidth: 0 }}>
+                            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.02rem', color: 'var(--ink)', lineHeight: 1.22 }}>
+                              {p.emoji} {p.title}
+                            </div>
+                            <div style={{ fontSize: '12.5px', fontWeight: 600, color: 'var(--ink-muted)', lineHeight: 1.35, marginTop: '2px' }}>
+                              Colour the whole page for {p.stars} stars
+                            </div>
                           </div>
-                          <button
-                            onClick={() => printSheet(p.sheetUrl, p.title)}
-                            style={{
-                              width: '100%', padding: '13px', borderRadius: '14px', border: 'none',
-                              cursor: 'pointer', marginBottom: '8px',
-                              background: 'var(--terracotta)', color: 'var(--ink)',
-                              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
-                              boxShadow: '0 4px 0 var(--terracotta-dark)',
-                            }}
-                          >
-                            🖨️ Print it now
-                          </button>
-                          <button
-                            onClick={() => submitAsk(askedTitle, '🖨️')}
-                            disabled={asked}
-                            style={{
-                              width: '100%', padding: '11px', borderRadius: '14px',
-                              border: '1.5px solid var(--border)',
-                              cursor: asked ? 'default' : 'pointer',
-                              background: asked ? 'var(--tint-sage)' : '#fff', color: 'var(--ink)',
-                              fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '13.5px',
-                            }}
-                          >
-                            {asked ? 'Asked your grown up ✓' : 'Or ask a grown up to print it'}
-                          </button>
                         </div>
+                        <button
+                          onClick={() => printSheet(p.sheetUrl, p.title)}
+                          style={{
+                            width: '100%', padding: '12px', borderRadius: '13px', border: 'none',
+                            cursor: 'pointer', marginBottom: '7px',
+                            background: 'var(--terracotta)', color: 'var(--ink)',
+                            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
+                            boxShadow: '0 4px 0 var(--terracotta-dark)',
+                          }}
+                        >
+                          🖨️ Print it now
+                        </button>
+                        <button
+                          onClick={() => submitAsk(askedTitle, '🖨️')}
+                          disabled={asked}
+                          style={{
+                            width: '100%', padding: '10px', borderRadius: '13px',
+                            border: '1.5px solid var(--border)',
+                            cursor: asked ? 'default' : 'pointer',
+                            background: asked ? 'var(--tint-sage)' : '#fff', color: 'var(--ink)',
+                            fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '13px',
+                          }}
+                        >
+                          {asked ? 'Asked your grown up ✓' : 'Or ask a grown up to print it'}
+                        </button>
                       </div>
                     )
                   })}
@@ -1168,24 +1170,27 @@ function gradientFor(seed: string): string {
 function bigCardShell(done: boolean): React.CSSProperties {
   return {
     display: 'block', width: '100%', textAlign: 'left', padding: 0,
-    background: '#fff', border: 'none', borderRadius: '22px', overflow: 'hidden',
+    background: '#fff', border: 'none', borderRadius: '18px', overflow: 'hidden',
     textDecoration: 'none', cursor: done ? 'default' : 'pointer',
-    boxShadow: done ? '0 2px 0 rgba(0,0,0,0.12)' : '0 6px 0 rgba(0,0,0,0.18)',
+    boxShadow: done ? '0 2px 0 rgba(0,0,0,0.10)' : '0 5px 0 rgba(0,0,0,0.16)',
     transform: done ? 'translateY(3px)' : 'none',
   }
 }
 
 function SectionHead({ icon, children }: { icon: string; children: React.ReactNode }) {
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: '14px 0 1px' }}>
-      <span style={{ fontSize: '1.2rem', lineHeight: 1 }}>{icon}</span>
-      <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.15rem', color: '#fff', letterSpacing: '-0.01em' }}>
+    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: '16px 0 3px' }}>
+      <span style={{ fontSize: '1.1rem', lineHeight: 1 }}>{icon}</span>
+      <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: '#fff', letterSpacing: '-0.01em' }}>
         {children}
       </span>
     </div>
   )
 }
 
+// A compact thumbnail row: the artwork small on the left, the words and the
+// action on the right, so a whole tab of lessons scans like the quests list
+// instead of a long stack of tall banners. Crisper, shorter, same pictures.
 function CardFace({
   emoji, title, subtitle, seed, done, image, pill, actionIcon,
 }: {
@@ -1193,48 +1198,45 @@ function CardFace({
   image?: string; pill?: string; actionIcon: string
 }) {
   return (
-    <>
-      <div style={{ position: 'relative', height: '112px', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', background: image ? '#EFE9DD' : gradientFor(seed) }}>
+    <div style={{ display: 'flex', alignItems: 'center', gap: '13px', padding: '11px 13px' }}>
+      <div style={{ position: 'relative', width: 76, height: 76, borderRadius: '15px', flexShrink: 0, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', background: image ? '#EFE9DD' : gradientFor(seed) }}>
         {image ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={image} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: done ? 0.85 : 1 }} />
+          <img src={image} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
         ) : (
-          <span style={{ fontSize: '3.3rem', lineHeight: 1, filter: 'drop-shadow(0 3px 4px rgba(0,0,0,0.18))', opacity: done ? 0.85 : 1 }}>{emoji}</span>
+          <span style={{ fontSize: '2.3rem', lineHeight: 1, filter: 'drop-shadow(0 2px 3px rgba(0,0,0,0.18))' }}>{emoji}</span>
         )}
         {pill && (
-          <span style={{ position: 'absolute', top: '9px', left: '11px', fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: 'var(--ink)', background: 'rgba(255,255,255,0.85)', borderRadius: '100px', padding: '3px 9px' }}>
+          <span style={{ position: 'absolute', bottom: '5px', left: '5px', fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, color: 'var(--ink)', background: 'rgba(255,255,255,0.9)', borderRadius: '100px', padding: '2px 7px' }}>
             {pill}
           </span>
         )}
+      </div>
+      <div style={{ flex: 1, minWidth: 0 }}>
         {done && (
-          <span style={{ position: 'absolute', top: '9px', right: '10px', fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, color: '#1F7A54', letterSpacing: '0.06em', textTransform: 'uppercase', background: '#D4EDDF', borderRadius: '100px', padding: '3px 9px' }}>
+          <span style={{ display: 'inline-block', fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, color: '#1F7A54', letterSpacing: '0.06em', textTransform: 'uppercase', background: '#D4EDDF', borderRadius: '100px', padding: '2px 8px', marginBottom: '4px' }}>
             ✓ Done
           </span>
         )}
-      </div>
-      <div style={{ padding: '13px 16px 15px', display: 'flex', alignItems: 'center', gap: '12px' }}>
-        <span style={{ flex: 1, minWidth: 0 }}>
-          <span style={{
-            display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800,
-            fontSize: '1.1rem', color: 'var(--ink)', lineHeight: 1.25,
-            textDecoration: done ? 'line-through' : 'none', opacity: done ? 0.6 : 1,
-          }}>
-            {title}
-          </span>
-          <span style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: 'var(--ink-muted)', marginTop: '3px', lineHeight: 1.4 }}>
-            {subtitle}
-          </span>
-        </span>
         <span style={{
-          width: 44, height: 44, borderRadius: '50%', flexShrink: 0,
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          background: done ? 'var(--terracotta)' : 'var(--cream)',
-          border: done ? 'none' : '2.5px dashed var(--ink-light)',
-          fontSize: '18px',
+          display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800,
+          fontSize: '1.02rem', color: 'var(--ink)', lineHeight: 1.22,
         }}>
-          {done ? '✓' : actionIcon}
+          {title}
+        </span>
+        <span style={{ display: 'block', fontSize: '12.5px', fontWeight: 600, color: 'var(--ink-muted)', marginTop: '2px', lineHeight: 1.35 }}>
+          {subtitle}
         </span>
       </div>
-    </>
+      <span style={{
+        width: 42, height: 42, borderRadius: '50%', flexShrink: 0,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        background: done ? 'var(--terracotta)' : 'var(--cream)',
+        border: done ? 'none' : '2.5px dashed var(--ink-light)',
+        fontSize: '17px',
+      }}>
+        {done ? '✓' : actionIcon}
+      </span>
+    </div>
   )
 }
