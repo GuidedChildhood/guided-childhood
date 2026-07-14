@@ -5,6 +5,7 @@ import { getStarBanks } from '@/lib/quests/bank'
 import { KID_LESSONS, kidLessonBaseTitle } from '@/lib/quests/kid-lessons'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { getParentLessons, getCompletionsForChild } from '@/lib/lessons/parent-lessons'
+import { hasFullAccess } from '@/lib/access'
 import KidQuestScreen from './KidQuestScreen'
 
 // The kid's own screen. Opened from the private link their parent sends,
@@ -156,7 +157,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   // the child's own quest asks. Both tables land with migration 047, so
   // failures fall back to empty rather than breaking the page.
   const weekAgoIso = new Date(Date.now() - 7 * 86400000).toISOString()
-  const [banks, requestsRes, weekSpendsRes] = await Promise.all([
+  const [banks, requestsRes, weekSpendsRes, parentProfileRes] = await Promise.all([
     getStarBanks(supabase, link.user_id, [link.child_id]),
     supabase.from('quest_requests')
       .select('id, title, emoji, status, created_at')
@@ -168,7 +169,15 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       .select('minutes')
       .eq('child_id', link.child_id)
       .gte('created_at', weekAgoIso),
+    // The parent's access decides whether the printables show on the child
+    // link: a member family gets the paper adventures, a free family does
+    // not, matching the paywall on the parent side.
+    supabase.from('profiles').select('subscription_status, trial_ends_at, email').eq('id', link.user_id).maybeSingle(),
   ])
+  const printablesUnlocked = hasFullAccess(
+    parentProfileRes.data as { subscription_status?: string | null; trial_ends_at?: string | null } | null,
+    (parentProfileRes.data as { email?: string | null } | null)?.email,
+  )
   const bank = banks[0] ?? { child_id: link.child_id, earned: 0, spent: 0, balance: 0, minutes: 0 }
   const usedWeekMinutes = (weekSpendsRes.data ?? []).reduce((sum, s) => sum + (Number(s.minutes) || 0), 0)
 
@@ -188,6 +197,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       doneLessonKeys={doneLessonKeys}
       bank={bank}
       usedWeekMinutes={usedWeekMinutes}
+      printablesUnlocked={printablesUnlocked}
       requests={(requestsRes.data ?? []) as { id: string; title: string; emoji: string; status: string }[]}
     />
   )
