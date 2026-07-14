@@ -90,7 +90,11 @@ export default async function ProgressPage() {
           : s.id === stage.id ? 'current'
           : s.id < stage.id ? 'catchup'
           : 'upcoming'
-        return { id: s.id, name: s.name, ages: s.ages, pct, status, href: `/dashboard/scripts?stage=${slug}` }
+        return {
+          id: s.id, name: s.name, ages: s.ages, pct, status,
+          href: `/dashboard/lessons`,
+          lessonsDone: prog.lessonsDone, lessonsTotal: prog.lessonsTotal,
+        }
       })
     : []
 

@@ -106,42 +106,48 @@ export default function PassportBook({
         >
           {page === 0 ? (
             /* ── The cover ─────────────────────────────── */
+            /* The cover reads like a real passport: burgundy book, gold
+               foil rules and crest, formal letterspaced titling. */
             <div
               onClick={() => goTo(1)}
               role="button"
               aria-label="Open the passport"
               style={{
-                background: 'var(--deep-teal)', borderRadius: '18px', cursor: 'pointer',
+                background: 'linear-gradient(160deg, #6B2333 0%, #571C2A 55%, #4A1723 100%)',
+                borderRadius: '14px 18px 18px 14px', cursor: 'pointer',
                 padding: '38px 26px 30px', textAlign: 'center', minHeight: '420px',
                 display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between',
-                border: '1.5px solid rgba(255,255,255,0.12)',
-                boxShadow: 'inset 0 0 0 6px rgba(237,195,95,0.35), inset 0 0 0 8px rgba(255,255,255,0.06)',
+                boxShadow: 'inset 0 0 0 2px rgba(237,195,95,0.55), inset 0 0 0 5px rgba(237,195,95,0.14), inset 12px 0 24px rgba(0,0,0,0.25)',
               }}
             >
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>
-                Digital Passport
+              <div>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.34em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>
+                  Digital Passport
+                </div>
+                <div style={{ width: '46px', height: '1.5px', background: 'rgba(237,195,95,0.55)', margin: '10px auto 0' }} />
               </div>
               <div>
-                {/* The crest: the gold square with the rising bars */}
+                {/* The gold foil crest: the rising bars in a laurel ring */}
                 <div style={{
-                  width: '64px', height: '64px', background: 'var(--terracotta)', borderRadius: '16px',
-                  display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                  boxShadow: '0 4px 0 var(--terracotta-dark)', marginBottom: '18px',
+                  width: '84px', height: '84px', borderRadius: '50%', margin: '0 auto 18px',
+                  border: '2.5px solid rgba(237,195,95,0.85)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  boxShadow: 'inset 0 0 0 4px rgba(237,195,95,0.18)',
                 }}>
-                  <div style={{ display: 'flex', alignItems: 'flex-end', gap: '4px', height: '30px' }}>
+                  <div style={{ display: 'flex', alignItems: 'flex-end', gap: '4.5px', height: '34px' }}>
                     {[5, 9, 14, 8].map((h, i) => (
-                      <div key={i} style={{ width: '5.5px', height: `${(h / 14) * 30}px`, background: '#fff', borderRadius: '3px' }} />
+                      <div key={i} style={{ width: '6px', height: `${(h / 14) * 34}px`, background: 'var(--terracotta)', borderRadius: '3px' }} />
                     ))}
                   </div>
                 </div>
-                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.5rem', color: '#fff', letterSpacing: '-0.02em', lineHeight: 1.15 }}>
+                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.5rem', color: 'var(--terracotta)', letterSpacing: '0.02em', lineHeight: 1.15 }}>
                   {childName === 'your child' ? 'Our family' : childName}
                 </div>
-                <div style={{ fontSize: '12.5px', color: 'rgba(255,255,255,0.72)', marginTop: '6px' }}>
-                  The journey to 16, one stage at a time
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(237,195,95,0.65)', marginTop: '8px' }}>
+                  The journey to 16
                 </div>
               </div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.55)' }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(237,195,95,0.5)' }}>
                 Tap to open
               </div>
             </div>
@@ -215,8 +221,25 @@ export default function PassportBook({
                 </div>
               </div>
 
-              {/* Passport data rows */}
+              {/* Passport data rows: lessons lead, they are the process */}
               <div style={{ borderTop: `1.5px dashed ${theme.bold}`, paddingTop: '12px', marginTop: 'auto' }}>
+                {typeof stamp.lessonsTotal === 'number' && stamp.lessonsTotal > 0 && (
+                  <div style={{ marginBottom: '8px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', gap: '10px', marginBottom: '4px' }}>
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: theme.text, opacity: 0.65 }}>Lessons</span>
+                      <span style={{ fontSize: '11.5px', fontWeight: 700, color: 'var(--ink)' }}>
+                        {stamp.lessonsDone ?? 0} of {stamp.lessonsTotal} done
+                      </span>
+                    </div>
+                    <div style={{ height: '7px', borderRadius: '100px', background: 'rgba(26,26,46,0.08)', overflow: 'hidden' }}>
+                      <div style={{
+                        height: '100%', borderRadius: '100px', background: theme.bold,
+                        width: `${Math.min(100, Math.round(((stamp.lessonsDone ?? 0) / stamp.lessonsTotal) * 100))}%`,
+                        transition: 'width 0.8s cubic-bezier(0.22,1,0.36,1)',
+                      }} />
+                    </div>
+                  </div>
+                )}
                 {[
                   ['Holder', childName === 'your child' ? 'Our family' : childName],
                   ['Status', stamp.status === 'earned' ? 'Page stamped' : stamp.status === 'catchup' ? 'Waiting, catch up any time' : stamp.status === 'upcoming' ? 'Still to come' : 'Filling up now'],
