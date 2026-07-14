@@ -3,6 +3,21 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { getParentLessons, getCompletionsForChild, durationLabel } from '@/lib/lessons/parent-lessons'
 import { STAGES } from '@/lib/content/stages'
+import LessonSendButton from './LessonSendButton'
+
+// A stage tinted thumbnail with the lesson keyword and a play mark, so the
+// grid reads like a shelf of little films without needing an image asset
+// per lesson. One emoji per strand keeps them warm and distinct.
+const STRAND_EMOJI: Record<string, string> = {
+  screens: '📱', screen: '📱', bodies: '🧠', feelings: '💛', wellbeing: '💛',
+  kindness: '🤝', privacy: '🛡️', gaming: '🎮', misinformation: '🔍',
+  algorithms: '🎯', money: '💷', identity: '✨', default: '🎬',
+}
+function strandEmoji(strand: string): string {
+  const k = (strand || '').toLowerCase()
+  for (const key of Object.keys(STRAND_EMOJI)) if (k.includes(key)) return STRAND_EMOJI[key]
+  return STRAND_EMOJI.default
+}
 
 // Watch together lessons: the co view videos for parent and child on the
 // sofa, with the pause and talk beats built in. Parents see every lesson
@@ -85,49 +100,72 @@ export default async function WatchTogetherPage() {
             </span>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(230px, 1fr))', gap: '14px' }}>
             {items.map(lesson => {
               const completion = completions.get(lesson.lesson_code)
               const done = Boolean(completion)
               const duration = durationLabel(segmentsByLesson.get(lesson.id))
               return (
-                <Link
+                <div
                   key={lesson.lesson_code}
-                  href={`/dashboard/lessons/together/${lesson.lesson_code}`}
                   style={{
-                    display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px',
-                    textDecoration: 'none',
-                    background: done ? '#EDF7F1' : 'var(--cream)',
-                    border: done ? '1px solid #B7DEC9' : '1px solid var(--border)',
-                    borderRadius: '14px', padding: '14px 16px',
+                    display: 'flex', flexDirection: 'column',
+                    background: '#fff', border: '1.5px solid var(--border)',
+                    borderRadius: '18px', overflow: 'hidden',
+                    boxShadow: '0 4px 18px rgba(26,26,46,0.06)',
                   }}
                 >
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px', flexWrap: 'wrap' }}>
-                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 600, color: 'var(--terracotta)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
-                        Lesson {lesson.journey_step}{duration ? ` · ${duration}` : ''}
+                  {/* Thumbnail: a stage tinted tile with the strand emoji and
+                      a play mark, the shelf of little films look */}
+                  <Link
+                    href={`/dashboard/lessons/together/${lesson.lesson_code}`}
+                    style={{
+                      position: 'relative', display: 'block', textDecoration: 'none',
+                      aspectRatio: '16 / 10',
+                      background: `linear-gradient(150deg, var(--stage-${stage.id}-bold) 0%, var(--stage-${stage.id}) 100%)`,
+                    }}
+                  >
+                    <span style={{ position: 'absolute', top: '10px', left: '12px', fontSize: '26px', lineHeight: 1 }}>{strandEmoji(lesson.strand)}</span>
+                    {done && (
+                      <span style={{ position: 'absolute', top: '10px', right: '10px', fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, color: '#1F7A54', letterSpacing: '0.06em', textTransform: 'uppercase', background: '#D4EDDF', borderRadius: '100px', padding: '2px 8px' }}>
+                        ✓ Done{completion && completion.times_completed > 1 ? ` ×${completion.times_completed}` : ''}
                       </span>
-                      {done && (
-                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, color: '#1F7A54', letterSpacing: '0.08em', textTransform: 'uppercase', background: '#D4EDDF', borderRadius: '100px', padding: '2px 8px' }}>
-                          ✓ Completed{completion && completion.times_completed > 1 ? ` ×${completion.times_completed}` : ''}
-                        </span>
-                      )}
+                    )}
+                    {/* Play mark */}
+                    <span style={{ position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%,-50%)', width: 46, height: 46, borderRadius: '50%', background: 'rgba(255,255,255,0.9)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 3px 10px rgba(0,0,0,0.15)' }}>
+                      <span style={{ fontSize: '16px', color: 'var(--ink)', marginLeft: '3px' }}>▶</span>
+                    </span>
+                    <span style={{ position: 'absolute', bottom: '10px', left: '12px', fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, color: 'var(--ink)', letterSpacing: '0.06em', textTransform: 'uppercase', background: 'rgba(255,255,255,0.75)', borderRadius: '100px', padding: '2px 8px' }}>
+                      Lesson {lesson.journey_step}{duration ? ` · ${duration}` : ''}
+                    </span>
+                  </Link>
+
+                  <div style={{ padding: '13px 15px 15px', display: 'flex', flexDirection: 'column', gap: '10px', flex: 1 }}>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)', lineHeight: 1.2, marginBottom: '4px' }}>
+                        {lesson.title}
+                      </div>
+                      <div style={{ fontSize: '12px', color: 'var(--ink-muted)', fontStyle: 'italic', lineHeight: 1.4 }}>
+                        &ldquo;{lesson.catchphrase}&rdquo;
+                      </div>
                     </div>
-                    <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '15px', color: 'var(--ink)', marginBottom: '3px' }}>
-                      {lesson.title}
-                    </div>
-                    <div style={{ fontSize: '12px', color: 'var(--ink-muted)', fontStyle: 'italic', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                      &ldquo;{lesson.catchphrase}&rdquo;
+                    <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                      <Link
+                        href={`/dashboard/lessons/together/${lesson.lesson_code}`}
+                        style={{
+                          flex: 1, textAlign: 'center', textDecoration: 'none',
+                          background: 'var(--terracotta)', color: 'var(--ink)',
+                          borderRadius: '11px', padding: '9px 10px',
+                          fontFamily: 'var(--font-display)', fontSize: '12.5px', fontWeight: 800,
+                          boxShadow: '0 3px 0 var(--terracotta-dark)', whiteSpace: 'nowrap',
+                        }}
+                      >
+                        {done ? 'Watch again ↻' : '▶ Watch together'}
+                      </Link>
+                      <LessonSendButton childId={child?.id ?? null} childName={child?.name ?? 'your child'} title={lesson.title} />
                     </div>
                   </div>
-                  {done ? (
-                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: '#1F7A54', letterSpacing: '0.04em', textTransform: 'uppercase', flexShrink: 0, whiteSpace: 'nowrap' }}>
-                      Watch again ↻
-                    </span>
-                  ) : (
-                    <span style={{ fontSize: '15px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>
-                  )}
-                </Link>
+                </div>
               )
             })}
           </div>

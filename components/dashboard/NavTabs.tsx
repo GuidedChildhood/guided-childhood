@@ -24,7 +24,7 @@ export default function NavTabs() {
     .sort((a, b) => b.href.length - a.href.length)[0]?.href
 
   return (
-    <nav style={{ display: 'flex', gap: '2px', flex: 1, background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '100px', padding: '3px', width: 'fit-content', flexGrow: 0 }}>
+    <nav style={{ display: 'flex', gap: '3px', flex: 1, background: 'rgba(247,244,238,0.7)', border: '1px solid rgba(26,26,46,0.06)', borderRadius: '100px', padding: '4px', width: 'fit-content', flexGrow: 0, backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', boxShadow: 'inset 0 1px 2px rgba(26,26,46,0.03)' }}>
       {NAV_TABS.map(tab => (
         <Link
           key={tab.href}

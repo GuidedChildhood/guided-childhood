@@ -1317,9 +1317,9 @@ function ResultScreen({
         <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '10px' }}>
           <Link href={enterHref} style={{
             display: 'inline-flex', alignItems: 'center', gap: '6px',
-            fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
-            letterSpacing: '0.05em', color: 'var(--deep-teal)', textDecoration: 'none',
-            border: '1.5px solid var(--border)', borderRadius: '100px', padding: '8px 15px', background: '#fff',
+            fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 700,
+            letterSpacing: '-0.005em', color: 'var(--deep-teal)', textDecoration: 'none',
+            border: '1.5px solid var(--border)', borderRadius: '100px', padding: '9px 17px', background: '#fff',
           }}>
             Take me straight in →
           </Link>
