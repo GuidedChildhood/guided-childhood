@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 import { createClient } from '@/lib/supabase/server'
 import { digiModelsFor } from '@/lib/config/digi'
-import { findTriggers } from '@/lib/digi/brain'
+import { findTriggers, SHARE_NUDGE_REASON } from '@/lib/digi/brain'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { hasFullAccess } from '@/lib/access'
 import { getRecommendedScript } from '@/lib/pathway/recommend'
@@ -31,7 +31,7 @@ export async function GET() {
   if (!user) return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
 
   const [{ data: pending }, { data: child }, { data: lastPrompt }] = await Promise.all([
-    supabase.from('digi_prompts').select('id, kind, title, body, created_at').eq('user_id', user.id).eq('status', 'pending').order('created_at', { ascending: false }).limit(3),
+    supabase.from('digi_prompts').select('id, kind, title, body, href, created_at').eq('user_id', user.id).eq('status', 'pending').order('created_at', { ascending: false }).limit(3),
     supabase.from('children').select('id, name, age_band, stage_id, streak_weeks').eq('parent_id', user.id).eq('is_primary', true).maybeSingle(),
     supabase.from('digi_prompts').select('created_at').eq('user_id', user.id).order('created_at', { ascending: false }).limit(1).maybeSingle(),
   ])
@@ -60,8 +60,12 @@ export async function GET() {
     .from('profiles').select('onboarding_answers, subscription_status, trial_ends_at').eq('id', user.id).maybeSingle()
   const challenge = (profile?.onboarding_answers as Record<string, string> | null)?.challenge ?? null
 
-  const [{ data: knowledge }, { data: memory }, { data: concerns }, progress, recommended] = await Promise.all([
+  const [{ data: knowledge }, { data: norms }, { data: memory }, { data: concerns }, progress, recommended] = await Promise.all([
     supabase.from('expert_knowledge').select('source_name, finding').eq('active', true).limit(24),
+    // The parent wellbeing "normal moments" library, pulled on its own so a
+    // parent_care prompt is grounded in a real normalised position rather than
+    // improvised. Retrieval is by the normal_moments topic seeded in 054.
+    supabase.from('expert_knowledge').select('source_name, finding').eq('active', true).contains('topics', ['normal_moments']).limit(8),
     supabase.from('digi_memory').select('kind, content').eq('user_id', user.id).eq('active', true).order('created_at', { ascending: false }).limit(8),
     supabase.from('concerns').select('label, status, times_flagged').eq('user_id', user.id).in('status', ['open', 'improving']).order('last_flagged_at', { ascending: false }).limit(3),
     child.stage_id
@@ -104,7 +108,10 @@ ${(memory ?? []).map(m => `- ${m.content}`).join('\n') || '- nothing yet'}
 Expert knowledge you may draw on (cite the source name inside the body when used):
 ${(knowledge ?? []).map(k => `- ${k.source_name}: ${k.finding}`).join('\n')}
 
-Rules: warm, plain, direct, no alarmism, never diagnose. watch_for prompts describe one concrete thing to notice this week and one gentle action. tip prompts give one small daily life improvement (school run conversations, mealtimes, bedtime handover). parent_care prompts are about the parent's own wellbeing, permission giving in tone. celebration prompts are short and genuinely warm. If anything suggests crisis, the action is always a human: GP, NHS 111, Childline 0800 1111. No dashes in the text. Return ONLY a JSON array: [{"kind":"...","title":"max 8 words","body":"2 to 3 sentences","reason":"the trigger reason verbatim"}]`,
+NORMAL MOMENTS the parent may be feeling bad about (ground any parent_care prompt in one of these: name the everyday moment plainly, say what the research below shows is normal and cite the source name, then offer one small permission giving thing to do. The job is to stand beside them, never to guilt them):
+${(norms ?? []).map(k => `- ${k.source_name}: ${k.finding}`).join('\n') || '- (none seeded yet)'}
+
+Rules: warm, plain, direct, no alarmism, never diagnose. watch_for prompts describe one concrete thing to notice this week and one gentle action. tip prompts give one small daily life improvement (school run conversations, mealtimes, bedtime handover). If a tip trigger reason is about sharing a printable or lesson, write a short warm nudge to open Lessons and send ${child.name} a printable or lesson so they earn stars, and make it feel like a treat not a task. parent_care prompts are about the parent's own wellbeing, grounded in a NORMAL MOMENT above, permission giving in tone, and they gently point to giving yourself space or letting the child be bored or play alone when it fits. celebration prompts are short and genuinely warm. If anything suggests crisis, the action is always a human: GP, NHS 111, Childline 0800 1111. No dashes in the text. Return ONLY a JSON array: [{"kind":"...","title":"max 8 words","body":"2 to 3 sentences","reason":"the trigger reason verbatim"}]`,
       }],
     })
 
@@ -116,12 +123,17 @@ Rules: warm, plain, direct, no alarmism, never diagnose. watch_for prompts descr
     const rows = items
       .filter(p => ['watch_for', 'tip', 'parent_care', 'new_research', 'celebration'].includes(p.kind))
       .slice(0, 2)
-      .map(p => ({ user_id: user.id, child_id: child.id, kind: p.kind, title: p.title, body: p.body, reason: p.reason }))
+      .map(p => ({
+        user_id: user.id, child_id: child.id, kind: p.kind, title: p.title, body: p.body, reason: p.reason,
+        // A share nudge deep links straight to the Lessons hub, so the prompt
+        // (and the notification built from it) opens exactly what to do.
+        href: p.reason === SHARE_NUDGE_REASON ? '/dashboard/lessons' : null,
+      }))
 
     if (rows.length > 0) await supabase.from('digi_prompts').insert(rows)
 
     const { data: fresh } = await supabase
-      .from('digi_prompts').select('id, kind, title, body, created_at')
+      .from('digi_prompts').select('id, kind, title, body, href, created_at')
       .eq('user_id', user.id).eq('status', 'pending')
       .order('created_at', { ascending: false }).limit(3)
     return NextResponse.json({ prompts: fresh ?? [] })
