@@ -109,6 +109,24 @@ Priority is 1 highest to 5 lowest.`
   return { generatedAt: new Date().toISOString(), days, count: questions.length, report }
 }
 
+// Keep the run. The insight agent used to email its findings and discard
+// them; persisting each run turns the daily mining into a history the founder
+// can look back over, so themes and gaps become a trend, not a one off. Best
+// effort: a storage hiccup must never fail the run itself.
+export async function persistInsights(payload: InsightPayload): Promise<void> {
+  if (payload.count === 0) return
+  try {
+    const admin = createAdminClient()
+    await admin.from('digi_insights').insert({
+      generated_at: payload.generatedAt,
+      days: payload.days,
+      question_count: payload.count,
+      summary: payload.report.summary ?? null,
+      report: payload.report,
+    })
+  } catch { /* history is best effort, never blocks the report */ }
+}
+
 export function renderInsightsEmail(payload: InsightPayload): string {
   const recs = (payload.report.recommendations ?? []).slice().sort((a, b) => a.priority - b.priority)
   return `<div style="font-family:system-ui,sans-serif;max-width:600px;color:#1A1A2E">

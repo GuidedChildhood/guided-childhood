@@ -114,10 +114,12 @@ evidence_count is roughly how many signals point to this pattern.`
       evidence_count: Math.max(1, Math.round(Number(w.evidence_count) || 1)),
     }))
 
-  // Replace the set: deactivate the old rows, insert the fresh ones. A clean
-  // swap keeps the corpus current without stacking stale patterns.
-  await admin.from('digi_wisdom').update({ active: false }).eq('active', true)
+  // Replace the set only when there is a fresh set to put in. A bad model run
+  // that parses to zero rows must never blank a populated corpus, so the swap
+  // (deactivate old, insert new) happens as one step and only with rows in
+  // hand. The old wisdom keeps working until real new wisdom replaces it.
   if (rows.length > 0) {
+    await admin.from('digi_wisdom').update({ active: false }).eq('active', true)
     await admin.from('digi_wisdom').insert(rows.map(r => ({ ...r, active: true, updated_at: new Date().toISOString() })))
   }
 

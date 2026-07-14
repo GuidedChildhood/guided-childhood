@@ -16,7 +16,8 @@ import AddChildName from '@/components/dashboard/AddChildName'
 import SchoolActionsCard, { type SchoolAction } from '@/components/school/SchoolActionsCard'
 import SchoolPromoCard from '@/components/school/SchoolPromoCard'
 import QuestBoard from '@/components/quests/QuestBoard'
-import SetupPath, { visibleSteps as visibleSetupSteps } from '@/components/setup/SetupPath'
+import WaitingOnYou from '@/components/quests/WaitingOnYou'
+import { visibleSteps as visibleSetupSteps } from '@/lib/setup/steps'
 import SocialMediaReadiness from '@/components/pathway/SocialMediaReadiness'
 import SetupUnlockToast from '@/components/setup/SetupUnlockToast'
 import TodayPathStrip from '@/components/daily/TodayPathStrip'
@@ -33,9 +34,9 @@ const STAGE_COLORS = {
 } as const
 
 const WEEKLY_ACTIONS = [
-  'Have the bedroom rule conversation if it is not yet in place',
-  'Ask your child one open question about their online week',
-  'Check in on the wellbeing tracker this week',
+  'Put the bedroom rule in place',
+  'Ask one open question about their online week',
+  'Do this week’s wellbeing check in',
 ]
 
 export default async function DashboardPage() {
@@ -227,7 +228,7 @@ export default async function DashboardPage() {
             </Link>
           </div>
           <p style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '6px 0 0' }}>
-            Everything is open while you settle in. Miss a day, no problem, just pick up where you left off. Five to ten minutes is all it takes, and we have got you the whole way to 16.
+            Everything is open while you settle in. Five to ten minutes a day, all the way to 16.
           </p>
         </div>
       )}
@@ -237,7 +238,7 @@ export default async function DashboardPage() {
             Your 7 days of full access have finished
           </div>
           <p style={{ fontSize: '12.5px', color: 'rgba(255,255,255,0.8)', lineHeight: 1.55, margin: '0 0 12px' }}>
-            The daily habit, quests and your tracker stay free, always. To open everything again, all the scripts, unlimited DiGi and the full pathway, the founder rate is still open for you at £7.99 a month for life.
+            The daily habit, quests and your tracker stay free. The founder rate opens everything for £7.99 a month, for life.
           </p>
           <Link href="/dashboard/upgrade" style={{ display: 'inline-flex', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '12px', padding: '10px 18px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
             Unlock everything again
@@ -277,10 +278,40 @@ export default async function DashboardPage() {
         <StreakFlame count={streak.count} aliveToday={streak.aliveToday} />
       </div>
 
-      {/* The setup path is the single conductor. It shows one step at a
-          time, the rest waiting as quiet chips. The old bottom nudge that
-          re-asked the same step on a second surface is gone, one ask only. */}
-      <SetupPath flags={setupFlags} phoneAge={phoneAge} />
+      {/* Waiting on you: the one clear next action at the top. A red count of
+          the quests to approve and the ideas a child pitched, tapping down to
+          the board where a parent acts on them. Silent when nothing waits. */}
+      <WaitingOnYou />
+
+      {/* Setup lives on its own page now, out of the daily Home. While it is
+          unfinished, Home carries one compact way in, naming the next step;
+          when it is done, this disappears and Home stays clean. */}
+      {!setupComplete && (() => {
+        const doneCount = setupSteps.filter(s => setupFlags[s.key]).length
+        const next = setupSteps.find(s => !setupFlags[s.key])
+        return (
+          <Link href="/dashboard/setup" style={{ textDecoration: 'none', display: 'block', marginBottom: '20px' }}>
+            <div style={{
+              display: 'flex', alignItems: 'center', gap: '14px',
+              background: '#fff', border: '1.5px solid var(--terracotta)', borderRadius: '18px', padding: '15px 18px',
+              boxShadow: '0 4px 16px rgba(201,154,40,0.12)',
+            }}>
+              <span style={{ flexShrink: 0, width: 46, height: 46, borderRadius: '13px', background: 'var(--terracotta-lt)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px' }}>🧭</span>
+              <span style={{ flex: 1, minWidth: 0 }}>
+                <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: 'var(--ink)', lineHeight: 1.2 }}>
+                  Finish setting up
+                </span>
+                <span style={{ display: 'block', fontSize: '13px', color: 'var(--ink-soft)', marginTop: '2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                  {doneCount} of {setupSteps.length} done{next ? ` · next: ${next.title.toLowerCase()}` : ''}
+                </span>
+              </span>
+              <span style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', color: 'var(--ink)', background: 'var(--terracotta)', borderRadius: '11px', padding: '9px 16px', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
+                Continue
+              </span>
+            </div>
+          </Link>
+        )
+      })()}
       <SetupUnlockToast flags={setupFlags} />
 
       {/* The child's name was skipped at setup: one gentle ask, one tap to make
@@ -357,8 +388,11 @@ export default async function DashboardPage() {
           calm. This is the dashboard alert for the age that needs it. */}
       <SocialMediaReadiness stageId={stage.id} childName={child?.name} />
 
-      {/* Family quests: prominent, every child at a glance, tickable here */}
-      <QuestBoard />
+      {/* Family quests: prominent, every child at a glance, tickable here.
+          The id is the anchor the Waiting on you banner scrolls to. */}
+      <div id="quest-board" style={{ scrollMarginTop: '80px' }}>
+        <QuestBoard />
+      </div>
 
       {/* DiGi check in — surfaces last reflective answer if the parent responded */}
       {lastFeedback && (
@@ -603,6 +637,7 @@ export default async function DashboardPage() {
           { href: '/dashboard/moments', external: false, bg: 'var(--terracotta-lt)', icon: '⚡', title: 'Moments', sub: 'The words for any battle', why: 'Bedtime, the handover, the meltdown. Tap the moment and the words are there.' },
           { href: '/dashboard/agreement', external: false, bg: 'var(--stage-1)', icon: '🤝', title: 'Family agreement', sub: 'Five talks, one signed sheet', why: 'Rules they helped write are rules they keep. Print it for the fridge.' },
           { href: '/dashboard/printables', external: false, bg: 'var(--tint-sage)', icon: '🖨️', title: 'Printables', sub: 'The offline pathway', why: 'Print a bucket list, put the crayons out, and every finished sheet pays stars.' },
+          { href: '/dashboard/setup', external: false, bg: 'var(--cream)', icon: '🧭', title: 'Set up', sub: 'Quests, school, devices, agreement', why: 'Change any of your setup: quests, school routines, the child link, your agreement.' },
           { href: 'https://www.guidedchildhood.com/digitalwellbeing', external: true, bg: 'var(--stage-2)', icon: '🩺', title: 'Health report', sub: 'One free with membership', why: 'Ten minutes, and you get a clear picture of where things stand.' },
         ]
         const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000)

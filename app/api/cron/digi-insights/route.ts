@@ -1,5 +1,5 @@
 import { sendEmail, emailConfigured } from '@/lib/email'
-import { runDigiInsights, renderInsightsEmail } from '@/lib/digi/insights'
+import { runDigiInsights, renderInsightsEmail, persistInsights } from '@/lib/digi/insights'
 import { NextResponse } from 'next/server'
 
 // The daily drop. Vercel Cron hits this each morning and, when it is a genuine
@@ -29,6 +29,10 @@ export async function GET(request: Request) {
   } catch (err) {
     return NextResponse.json({ error: err instanceof Error ? err.message : 'Insight run failed' }, { status: 502 })
   }
+
+  // Keep the run as history before anything else, so the record builds even
+  // on a week the email is not configured.
+  await persistInsights(payload)
 
   // Nothing to say on a quiet week, so no empty email lands.
   if (payload.count > 0 && emailConfigured()) {

@@ -56,16 +56,27 @@ export default function LessonsBrowser({
   isPaid: boolean
 }) {
   const [view, setView] = useState<View>('together')
-  // Default the stage filter to the child's own stage, so the first thing a
-  // parent sees is the shelf that fits their child, not everything at once.
-  const [stage, setStage] = useState<number>(childStageNum)
+  // Default to All ages, so a parent sees every illustrated video we made and
+  // can send whichever they judge right for their child, not only their own
+  // stage. The chips still let them narrow to one age.
+  const [stage, setStage] = useState<number | 'all'>('all')
 
-  const watchForStage = watchItems.filter(w => w.stageNum === stage)
-  const libForStage = libraryItems.filter(l => l.stageNum === stage)
-  const printForStage = printables.filter(p => p.stages.includes(stage))
+  const inStage = (n: number) => stage === 'all' || n === stage
+  const watchForStage = watchItems.filter(w => inStage(w.stageNum))
+  const libForStage = libraryItems.filter(l => inStage(l.stageNum))
+  const printForStage = printables.filter(p => p.stages.some(inStage))
+
+  // Group stage keyed items (videos, lessons) by stage for the All ages
+  // view, so everything is on screen at once under clear age headers; a
+  // single stage renders as just its own group.
+  function groupByStage<T extends { stageNum: number }>(items: T[]): { s: typeof STAGE_LIST[number]; items: T[] }[] {
+    return STAGE_LIST
+      .map(s => ({ s, items: items.filter(i => i.stageNum === s.num) }))
+      .filter(g => g.items.length > 0)
+  }
 
   // Stage chips only offer stages that hold something in the current view,
-  // so a parent never taps into an empty shelf.
+  // plus All ages at the front.
   const stagesWith = new Set(
     (view === 'together' ? watchItems.map(w => w.stageNum)
       : view === 'library' ? libraryItems.map(l => l.stageNum)
@@ -116,6 +127,18 @@ export default function LessonsBrowser({
 
         {stageChips.length > 1 && (
           <div style={{ display: 'flex', gap: '7px', overflowX: 'auto', paddingTop: '10px', scrollbarWidth: 'none' }}>
+            <button
+              onClick={() => setStage('all')}
+              style={{
+                flexShrink: 0, padding: '7px 13px', borderRadius: '100px', cursor: 'pointer',
+                border: `1.5px solid ${stage === 'all' ? 'var(--terracotta)' : 'var(--border)'}`,
+                background: stage === 'all' ? 'var(--terracotta-lt)' : '#fff',
+                color: stage === 'all' ? 'var(--terracotta-dark)' : 'var(--ink-soft)',
+                fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, whiteSpace: 'nowrap',
+              }}
+            >
+              All ages
+            </button>
             {stageChips.map(s => {
               const on = s.num === stage
               return (
@@ -150,8 +173,11 @@ export default function LessonsBrowser({
             {watchForStage.length === 0 ? (
               <Empty>No films at this stage yet. Try another stage above.</Empty>
             ) : (
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(230px, 1fr))', gap: '14px' }}>
-                {watchForStage.map(w => (
+              groupByStage(watchForStage).map(g => (
+              <div key={g.s.num} style={{ marginBottom: '22px' }}>
+                {stage === 'all' && <StageSubHead s={g.s} childStageNum={childStageNum} childName={childName} />}
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(230px, 1fr))', gap: '14px' }}>
+                {g.items.map(w => (
                   <div key={w.code} style={{ display: 'flex', flexDirection: 'column', background: '#fff', border: '1.5px solid var(--border)', borderRadius: '18px', overflow: 'hidden', boxShadow: '0 4px 18px rgba(26,26,46,0.06)' }}>
                     <Link href={`/dashboard/lessons/together/${w.code}`} style={{ position: 'relative', display: 'block', textDecoration: 'none', aspectRatio: '16 / 10', overflow: 'hidden', background: `linear-gradient(150deg, var(--stage-${w.stageNum}-bold) 0%, var(--stage-${w.stageNum}) 100%)` }}>
                       {w.posterUrl ? (
@@ -184,13 +210,15 @@ export default function LessonsBrowser({
                     </div>
                   </div>
                 ))}
+                </div>
               </div>
+              ))
             )}
           </>
         )}
 
-        {/* ── Lessons ── the interactive library the parent leads, one stage
-            at a time so it stays a short list. */}
+        {/* ── Lessons ── the interactive library the parent leads, grouped by
+            age when showing all. */}
         {view === 'library' && (
           <>
             <Link href="/dashboard/lessons/preview" style={{ textDecoration: 'none', display: 'block', marginBottom: '16px' }}>
@@ -206,8 +234,11 @@ export default function LessonsBrowser({
             {libForStage.length === 0 ? (
               <Empty>No library lessons at this stage yet. Try another stage above.</Empty>
             ) : (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                {libForStage.map(l => (
+              groupByStage(libForStage).map(g => (
+              <div key={g.s.num} style={{ marginBottom: '18px' }}>
+                {stage === 'all' && <StageSubHead s={g.s} childStageNum={childStageNum} childName={childName} />}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                {g.items.map(l => (
                   <Link key={l.id} href={l.href} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', textDecoration: 'none', background: l.done ? '#EDF7F1' : '#fff', border: l.done ? '1px solid #B7DEC9' : '1px solid var(--border)', borderRadius: '14px', padding: '13px 15px', opacity: l.locked ? 0.72 : 1, boxShadow: '0 2px 10px rgba(26,26,46,0.04)' }}>
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '3px', flexWrap: 'wrap' }}>
@@ -221,7 +252,9 @@ export default function LessonsBrowser({
                     {l.done ? <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: '#1F7A54', letterSpacing: '0.04em', textTransform: 'uppercase', flexShrink: 0 }}>Run again ↻</span> : <span style={{ fontSize: '15px', color: 'var(--ink-light)', flexShrink: 0 }}>{l.locked ? '🔒' : '→'}</span>}
                   </Link>
                 ))}
+                </div>
               </div>
+              ))
             )}
           </>
         )}
@@ -258,6 +291,27 @@ export default function LessonsBrowser({
           </>
         )}
       </div>
+    </div>
+  )
+}
+
+// A small age header for the All ages view, so a parent can see at a glance
+// which video sits at which stage and judge what fits their child.
+function StageSubHead({ s, childStageNum, childName }: { s: typeof STAGE_LIST[number]; childStageNum: number; childName: string }) {
+  const mine = s.num === childStageNum
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: '0 0 12px' }}>
+      <span style={{
+        fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase',
+        color: 'var(--ink)', background: `var(--stage-${s.num})`, padding: '4px 11px', borderRadius: '100px',
+      }}>
+        Stage {s.num} · Ages {s.ages}
+      </span>
+      {mine && (
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
+          {childName}&apos;s stage
+        </span>
+      )}
     </div>
   )
 }

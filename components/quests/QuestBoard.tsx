@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { questDueToday } from '@/lib/quests/due'
 import { STAR_MINUTES } from '@/lib/quests/templates'
+import Button, { ButtonLink } from '@/components/ui/Button'
 
 // The family quest board on Home: every child's day at a glance, big
 // enough to matter. The approve queue leads (kid ticked, one tap lands
@@ -121,14 +122,7 @@ export default function QuestBoard() {
         <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
           Family Quests
         </span>
-        <Link href="/dashboard/quests" style={{
-          fontFamily: 'var(--font-display)', fontSize: '12.5px', fontWeight: 800,
-          color: 'var(--ink)', textDecoration: 'none',
-          background: 'var(--terracotta)', borderRadius: '10px', padding: '7px 14px',
-          boxShadow: '0 3px 0 var(--terracotta-dark)',
-        }}>
-          Manage
-        </Link>
+        <ButtonLink href="/dashboard/quests" variant="primary" size="sm">Manage</ButtonLink>
       </div>
 
       {/* The kids' own quest ideas: one tap makes it real */}
@@ -147,17 +141,9 @@ export default function QuestBoard() {
                   {childName} pitched a quest: <strong>{a.title}</strong>
                   <span style={{ color: 'var(--ink-muted)', fontWeight: 500 }}> · their idea</span>
                 </span>
-                <button
-                  onClick={() => decideAsk(a.id, 'added')}
-                  style={{
-                    background: 'var(--terracotta)', color: 'var(--ink)', border: 'none',
-                    borderRadius: '10px', padding: '8px 14px', cursor: 'pointer',
-                    fontFamily: 'var(--font-display)', fontSize: '12px', fontWeight: 800,
-                    boxShadow: '0 3px 0 var(--terracotta-dark)', flexShrink: 0,
-                  }}
-                >
+                <Button variant="primary" size="sm" onClick={() => decideAsk(a.id, 'added')} style={{ flexShrink: 0 }}>
                   Add it ⭐2
-                </button>
+                </Button>
                 <button
                   onClick={() => decideAsk(a.id, 'declined')}
                   aria-label="Not this time"
@@ -192,17 +178,9 @@ export default function QuestBoard() {
                   {childName} ticked <strong>{q.title}</strong>
                   <span style={{ color: 'var(--ink-muted)', fontWeight: 500 }}> · ⭐ {q.stars} = {q.stars * STAR_MINUTES} min</span>
                 </span>
-                <button
-                  onClick={() => decide(t.id, 'approve')}
-                  style={{
-                    background: 'var(--terracotta)', color: 'var(--ink)', border: 'none',
-                    borderRadius: '10px', padding: '8px 14px', cursor: 'pointer',
-                    fontFamily: 'var(--font-display)', fontSize: '12px', fontWeight: 800,
-                    boxShadow: '0 3px 0 var(--terracotta-dark)', flexShrink: 0,
-                  }}
-                >
+                <Button variant="primary" size="sm" onClick={() => decide(t.id, 'approve')} style={{ flexShrink: 0 }}>
                   Approve
-                </button>
+                </Button>
                 <button
                   onClick={() => decide(t.id, 'reject')}
                   aria-label="Not done yet"
