@@ -201,44 +201,89 @@ export default function BucketBuilder() {
         </div>
       </div>
 
-      {/* The sheet itself: what prints */}
+      {/* The sheet itself: what prints. The list lives INSIDE a big drawn
+          bucket (original line art, drawn right here in SVG), so the print
+          out is the bucket shaped page from the craft, with their own
+          picks written on it. Everything uncoloured is theirs to colour. */}
       <div className="print-sheet" style={{
         background: '#fff', border: '1.5px solid var(--border)', borderRadius: '18px',
-        padding: '38px 36px 26px', boxShadow: '0 8px 30px rgba(26,26,46,0.10)',
+        padding: '30px 26px 22px', boxShadow: '0 8px 30px rgba(26,26,46,0.10)',
       }}>
         <PrintBrandHeader />
-        <h2 style={{ textAlign: 'center', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.7rem, 5vw, 2.3rem)', letterSpacing: '-0.02em', color: 'var(--ink)', margin: '0 0 6px' }}>
-          {title.trim() || 'Our Bucket List'}
-        </h2>
-        <p style={{ textAlign: 'center', fontSize: '13px', fontWeight: 600, color: 'var(--ink-soft)', margin: '0 0 6px' }}>
-          Colour the circle when you have done it!
-        </p>
-        {childName.trim() && (
-          <p style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.08em', color: 'var(--ink-muted)', margin: '0 0 4px' }}>
-            {childName.trim()}&apos;s list
-          </p>
-        )}
-        <div style={{ height: '6px', borderRadius: '100px', margin: '14px 0 22px', background: 'linear-gradient(90deg, #E85D4A, #EDC35F, #8FBF6C, #5B8FA8, #9B7EC8)' }} />
 
-        {picked.length === 0 ? (
-          <p style={{ textAlign: 'center', fontSize: '14px', color: 'var(--ink-muted)', padding: '30px 0 40px' }}>
-            Your picks appear here as you choose them.
-          </p>
-        ) : (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px 20px', marginBottom: '22px' }}>
-            {picked.map(idea => (
-              <div key={idea.text} style={{ display: 'flex', alignItems: 'center', gap: '12px', border: '2px solid var(--ink)', borderRadius: '14px', padding: '12px 14px' }}>
-                <span style={{ width: 26, height: 26, borderRadius: '50%', border: '2.5px solid var(--ink)', flexShrink: 0 }} />
-                <span style={{ fontSize: '22px', flexShrink: 0 }}>{idea.emoji}</span>
-                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '14px', color: 'var(--ink)', lineHeight: 1.25 }}>
-                  {idea.text}
-                </span>
+        <div style={{ position: 'relative', maxWidth: '470px', margin: '0 auto', aspectRatio: '400 / 508' }}>
+          {/* The bucket: handle with ring ends, rim, tapered body */}
+          <svg viewBox="0 0 400 508" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }} aria-hidden>
+            <path d="M 62 132 C 62 18, 338 18, 338 132" fill="none" stroke="#1A1A2E" strokeWidth="11" strokeLinecap="round" />
+            <circle cx="62" cy="132" r="11" fill="#fff" stroke="#1A1A2E" strokeWidth="7" />
+            <circle cx="338" cy="132" r="11" fill="#fff" stroke="#1A1A2E" strokeWidth="7" />
+            <rect x="34" y="128" width="332" height="40" rx="20" fill="#fff" stroke="#1A1A2E" strokeWidth="8" />
+            <path d="M 52 168 L 348 168 L 317 480 Q 315 500 295 500 L 105 500 Q 85 500 83 480 Z" fill="#fff" stroke="#1A1A2E" strokeWidth="8" strokeLinejoin="round" />
+            {/* A little smiling sun on the rim corner, theirs to colour */}
+            <circle cx="356" cy="112" r="17" fill="#fff" stroke="#1A1A2E" strokeWidth="5" />
+            <path d="M 356 88 v-9 M 356 136 v9 M 332 112 h-9 M 380 112 h9 M 339 95 l-6 -6 M 373 95 l6 -6 M 339 129 l-6 6 M 373 129 l6 6" stroke="#1A1A2E" strokeWidth="4" strokeLinecap="round" />
+            <circle cx="350" cy="108" r="1.8" fill="#1A1A2E" />
+            <circle cx="362" cy="108" r="1.8" fill="#1A1A2E" />
+            <path d="M 350 116 q 6 5 12 0" fill="none" stroke="#1A1A2E" strokeWidth="2.5" strokeLinecap="round" />
+          </svg>
+
+          {/* The list, laid out inside the bucket body. Rows share the
+              bucket's height evenly, like ruled lines, so any count from 1
+              to 12 always fits inside the drawing. */}
+          {(() => {
+            const n = picked.length
+            const size = n <= 6 ? { text: 15, emoji: 18, circle: 20 } : n <= 9 ? { text: 13, emoji: 15, circle: 17 } : { text: 11.5, emoji: 13, circle: 14 }
+            return (
+              <div style={{
+                position: 'absolute', left: '17.5%', right: '17.5%', top: '35%', bottom: '4.5%',
+                display: 'flex', flexDirection: 'column', overflow: 'hidden',
+              }}>
+                <div style={{
+                  textAlign: 'center', fontFamily: 'var(--font-display)', fontWeight: 900,
+                  fontSize: n > 9 ? '18px' : '21px', letterSpacing: '-0.02em',
+                  color: 'var(--ink)', lineHeight: 1.1,
+                }}>
+                  {title.trim() || 'Our Bucket List'}
+                </div>
+                <div style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: '8px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '3px 0 2px' }}>
+                  {childName.trim() ? `${childName.trim()}'s list · ` : ''}Colour the circle when it is done
+                </div>
+                <div style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }}>
+                  {n === 0 ? (
+                    <p style={{ textAlign: 'center', fontSize: '13px', color: 'var(--ink-muted)', margin: 'auto 0' }}>
+                      Your picks appear in the bucket as you choose them.
+                    </p>
+                  ) : picked.map((idea, i) => (
+                    // The bucket tapers inward, so lower rows tuck in a
+                    // touch further to stay clear of the drawn wall.
+                    <div key={idea.text} style={{
+                      flex: 1, minHeight: 0,
+                      display: 'flex', alignItems: 'center', gap: '9px',
+                      borderBottom: '1.5px solid var(--border)',
+                      padding: `0 ${Math.max(0, ((i + 0.5) / n) * 7.7 - 2.2).toFixed(1)}%`,
+                    }}>
+                      <span style={{
+                        width: size.circle, height: size.circle,
+                        borderRadius: '50%', border: '2.5px solid var(--ink)', flexShrink: 0,
+                      }} />
+                      <span style={{ fontSize: `${size.emoji}px`, flexShrink: 0, lineHeight: 1 }}>{idea.emoji}</span>
+                      <span style={{
+                        fontFamily: 'var(--font-display)', fontWeight: 700,
+                        fontSize: `${size.text}px`,
+                        color: 'var(--ink)', lineHeight: 1.15, minWidth: 0,
+                        overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+                      }}>
+                        {idea.text}
+                      </span>
+                    </div>
+                  ))}
+                </div>
               </div>
-            ))}
-          </div>
-        )}
+            )
+          })()}
+        </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', background: 'var(--deep-teal)', borderRadius: '14px', padding: '13px 18px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', background: 'var(--deep-teal)', borderRadius: '14px', padding: '13px 18px', marginTop: '14px' }}>
           <span style={{ fontSize: '22px' }}>⭐</span>
           <span style={{ fontSize: '13px', fontWeight: 700, color: '#fff', lineHeight: 1.45 }}>
             Whole list done? Hand this to your grown up. Worth 5 stars toward your screen time.
