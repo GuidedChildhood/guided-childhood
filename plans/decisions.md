@@ -699,3 +699,7 @@ JP: setup things (set up quests and the like) need to be separate from the main 
 ## 2026-07-14 — One shared Button, the consistency backbone
 
 Start of the buttons all formatted consistent work JP asked for. Added components/ui/Button.tsx: one button used everywhere, so radius, the chunky drop shadow, display type and sizes are identical across the app instead of twenty hand rolled inline ones. Variants primary (butter gold), teal, danger, secondary, quiet; sizes sm/md/lg with a proportional lift; disabled, full width and icon support; renders a next/link when given href, a real button otherwise. Adopted first in the Setup hub CTAs. The rollout to the busier legacy surfaces (Quests board, script and lesson pages) continues from here, swapping their inline button styles for this one. Verified every variant and size in a showcase with Playwright. No SQL.
+
+## 2026-07-14 — Rolling the shared Button through the Quests board
+
+Continuing the buttons consistency work. The home Quests board (QuestBoard) primary actions, Manage, Add it and Approve, now render through components/ui/Button instead of their own inline styles, so they match the rest of the app exactly. The small dismiss crosses and the tick rows stay as they are (they are a different control type, not a call to action). Verified compile and the Button variants in isolation; the live board needs auth and data so it could not be screenshotted in the sandbox, it renders on the preview. Rollout continues to the Quests manage page and script and lesson CTAs next. No SQL.
