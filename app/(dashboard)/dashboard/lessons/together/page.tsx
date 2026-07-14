@@ -121,11 +121,23 @@ export default async function WatchTogetherPage() {
                     href={`/dashboard/lessons/together/${lesson.lesson_code}`}
                     style={{
                       position: 'relative', display: 'block', textDecoration: 'none',
-                      aspectRatio: '16 / 10',
+                      aspectRatio: '16 / 10', overflow: 'hidden',
                       background: `linear-gradient(150deg, var(--stage-${stage.id}-bold) 0%, var(--stage-${stage.id}) 100%)`,
                     }}
                   >
-                    <span style={{ position: 'absolute', top: '10px', left: '12px', fontSize: '26px', lineHeight: 1 }}>{strandEmoji(lesson.strand)}</span>
+                    {/* The real poster, a frame from the finished video. Falls
+                        back to the stage tint and strand emoji when absent. */}
+                    {lesson.poster_url && (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={lesson.poster_url}
+                        alt=""
+                        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+                      />
+                    )}
+                    {!lesson.poster_url && (
+                      <span style={{ position: 'absolute', top: '10px', left: '12px', fontSize: '26px', lineHeight: 1 }}>{strandEmoji(lesson.strand)}</span>
+                    )}
                     {done && (
                       <span style={{ position: 'absolute', top: '10px', right: '10px', fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, color: '#1F7A54', letterSpacing: '0.06em', textTransform: 'uppercase', background: '#D4EDDF', borderRadius: '100px', padding: '2px 8px' }}>
                         ✓ Done{completion && completion.times_completed > 1 ? ` ×${completion.times_completed}` : ''}
