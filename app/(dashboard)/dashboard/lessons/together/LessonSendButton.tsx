@@ -14,7 +14,7 @@ export default function LessonSendButton({
   childName: string
   title: string
 }) {
-  const [state, setState] = useState<'idle' | 'sending' | 'sent' | 'nolink'>('idle')
+  const [state, setState] = useState<'idle' | 'sending' | 'sent' | 'nodevice' | 'noserver'>('idle')
 
   async function send() {
     if (!childId || state === 'sending') return
@@ -26,14 +26,20 @@ export default function LessonSendButton({
         body: JSON.stringify({ child_id: childId, message: `New lesson to play: ${title} ⭐` }),
       })
       const data = await res.json().catch(() => ({}))
-      setState(data?.sent > 0 ? 'sent' : 'nolink')
-      setTimeout(() => setState('idle'), 4000)
-    } catch { setState('idle') }
+      // Three honest outcomes: delivered, the child's phone is not set up
+      // for pings yet (the lesson is on their quests either way), or the
+      // server is missing its notification keys (a deploy setting).
+      if (!res.ok) setState('noserver')
+      else if (data?.sent > 0) setState('sent')
+      else setState('nodevice')
+      setTimeout(() => setState('idle'), 5000)
+    } catch { setState('noserver') }
   }
 
   const label = state === 'sending' ? 'Sending...'
-    : state === 'sent' ? `Sent to ${childName} ✓`
-    : state === 'nolink' ? 'Their phone is not set up yet'
+    : state === 'sent' ? `Pinged ${childName} ✓`
+    : state === 'nodevice' ? 'On their quests (no ping set up)'
+    : state === 'noserver' ? 'Pings not switched on yet'
     : `📲 Send to ${childName}`
 
   return (

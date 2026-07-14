@@ -5,15 +5,13 @@ import { hasFullAccess } from '@/lib/access'
 import { freeLessonIds } from '@/lib/content/lesson-access'
 import { getParentLessons, getCompletionsForChild, durationLabel } from '@/lib/lessons/parent-lessons'
 import { STAGES } from '@/lib/content/stages'
-import LessonsTabs from './LessonsTabs'
-import StarLessons from './StarLessons'
 import LessonSendButton from './together/LessonSendButton'
 
-// The Lessons hub: one place for every lesson type. A segmented control
-// switches between doing lessons together (the watch together videos on
-// top, then the interactive library) and sending a lesson to the child's
-// device. Send to child moved here from the Quests page so lessons live in
-// one home; on the child it still lands as a quest.
+// The Lessons hub: one place for every lesson type. The illustrated films
+// are the child's lessons, already on their phone; the parent watches them
+// together here or nudges the child to watch on their own. Below sits the
+// interactive library the parent leads. One clean scroll, no confusing
+// separate send page.
 
 export const metadata = { title: 'Lessons — Guided Childhood' }
 
@@ -100,10 +98,10 @@ export default async function LessonsPage() {
       {watchByStage.length > 0 && (
         <section style={{ marginBottom: '34px' }}>
           <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '4px' }}>
-            Watch together
+            📱 On {childName}&apos;s phone
           </p>
           <p style={{ fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 16px' }}>
-            Short illustrated films you watch on the sofa{child ? ` with ${childName}` : ''}, with DiGi pausing to talk. First watch earns 10 stars.
+            The illustrated films, already waiting on {childName}&apos;s quest link. Watch one together on the sofa here, or tap Send to nudge {childName} to watch it on their own. First watch earns 10 stars.
           </p>
           {watchByStage.map(({ stage, items }) => (
             <div key={stage.id} style={{ marginBottom: '20px' }}>
@@ -208,11 +206,11 @@ export default async function LessonsPage() {
         <p className="eyebrow" style={{ marginBottom: '4px' }}>Every lesson, one place</p>
         <h1 style={{ fontSize: 'clamp(1.5rem, 4vw, 2rem)', marginBottom: '8px' }}>Lessons</h1>
         <p style={{ color: 'var(--ink-soft)', fontSize: '15px', lineHeight: 1.6 }}>
-          Watch the illustrated films together, work through the interactive library, or send a lesson straight to {childName}&apos;s device.
+          The illustrated films that live on {childName}&apos;s phone, and the interactive library you lead together. Watch here, or send one to their device.
         </p>
       </div>
 
-      <LessonsTabs together={together} send={<StarLessons />} childName={childName} />
+      {together}
     </div>
   )
 }
