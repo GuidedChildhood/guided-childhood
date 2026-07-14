@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { gsap } from 'gsap'
 import DigiCharacter, { type DigiMood } from '@/components/digi/DigiCharacter'
+import AnimatedIntro from '@/components/lessons/AnimatedIntro'
 import { PHASE_LABELS, PHASE_ORDER, type LessonPhase, type LessonSlide, type ChoiceSlide, type ScenarioSlide, type DiagramSlide, type DigiSlide, type DiscussionSlide, type StatSlide } from '@/lib/content/lesson-slides'
 import Interactive from '@/components/lessons/interactives'
 
@@ -316,17 +317,12 @@ function SlideBody({ slide, onAnswered }: { slide: LessonSlide; onAnswered: (cor
   switch (slide.type) {
     case 'title':
       return (
-        <div style={{ textAlign: 'center', padding: '16px 0' }}>
-          {slide.eyebrow && (
-            <div style={{ ...eyebrowStyle, color: 'var(--terracotta)', marginBottom: '14px' }}>
-              {slide.eyebrow}
-            </div>
-          )}
-          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.5rem, 4vw, 2.1rem)', fontWeight: 900, color: 'var(--ink)', lineHeight: 1.15, letterSpacing: '-0.03em', marginBottom: '14px' }}>
-            {slide.title}
-          </h1>
+        <div style={{ padding: '4px 0' }}>
+          {/* The animated character intro is the opener: DiGi the star kicks
+              off, the title reveals, far cleaner than a busy stock scene. */}
+          <AnimatedIntro eyebrow={slide.eyebrow} title={slide.title} />
           {slide.body && (
-            <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '400px', margin: '0 auto' }}>
+            <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '400px', margin: '18px auto 0', textAlign: 'center' }}>
               {slide.body}
             </p>
           )}
