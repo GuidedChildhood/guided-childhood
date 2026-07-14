@@ -94,6 +94,8 @@ export default async function ProgressPage() {
           id: s.id, name: s.name, ages: s.ages, pct, status,
           href: `/dashboard/lessons`,
           lessonsDone: prog.lessonsDone, lessonsTotal: prog.lessonsTotal,
+          scriptsPct: prog.scriptsPct, streakPct: prog.streakPct,
+          devicesPct: prog.devicesPct, lessonsPct: prog.lessonsPct,
         }
       })
     : []
