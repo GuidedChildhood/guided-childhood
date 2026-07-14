@@ -158,13 +158,23 @@ export default async function DashboardPage() {
   // daily deck relies on.
   const stageSlug = stage.name.toLowerCase() as PathwayStageId
   const challenge = ((profile?.onboarding_answers as Record<string, string> | null)?.challenge ?? null) as ChallengeId | null
-  const [streak, todayLoop, suggestions] = await Promise.all([
+  const [streak, todayLoop, suggestions, watchTogetherTotal, watchTogetherDone] = await Promise.all([
     getDailyStreak(supabase, user.id),
     getTodayLoop(supabase, user.id, stageSlug, challenge, isPaid),
     child?.stage_id
       ? getSuggestions(supabase, user.id, { childName: child.name, childId: child.id, stageId: stageSlug, ukHour })
       : Promise.resolve([] as Suggestion[]),
+    // Watch together lessons: the co view videos, for the progress count
+    // on the lessons card below (completions are the primary child's).
+    supabase.from('parent_lessons').select('id', { count: 'exact', head: true }).eq('active', true),
+    child
+      ? supabase.from('parent_lesson_completions').select('id', { count: 'exact', head: true }).eq('child_id', child.id)
+      : Promise.resolve({ count: 0 }),
   ])
+  const watchTogether = {
+    total: watchTogetherTotal.count ?? 0,
+    done: Math.min(watchTogetherDone.count ?? 0, watchTogetherTotal.count ?? 0),
+  }
 
   // Last completed script insight
   const { data: lastCompletion } = await supabase

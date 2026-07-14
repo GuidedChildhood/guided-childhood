@@ -25,11 +25,12 @@ type Quest = { id: string; title: string; emoji: string; stars: number; schedule
 type Tick = { quest_id: string; status: string }
 type Goal = { title: string; stars_needed: number; daily_stars: number | null; achieved_at: string | null } | null
 export type KidMission = { id: string; title: string; stars: number; status: string }
+export type KidAdventure = { code: string; title: string; catchphrase: string; stageId: number; done: boolean; timesCompleted: number }
 export type KidAsk = { id: string; title: string; emoji: string; status: string }
 
 export default function KidQuestScreen({
   token, childName, stageId = 2, quests, todayTicks, weekStars, goal, streakDays = 0, laterQuests = [], doneLessonKeys = [], missions = [],
-  bank = null, usedWeekMinutes = 0, requests = [],
+  adventures = [], bank = null, usedWeekMinutes = 0, requests = [],
 }: {
   token: string
   childName: string
@@ -42,6 +43,7 @@ export default function KidQuestScreen({
   laterQuests?: { title: string; emoji: string; schedule: string }[]
   doneLessonKeys?: string[]
   missions?: KidMission[]
+  adventures?: KidAdventure[]
   bank?: StarBank | null
   usedWeekMinutes?: number
   requests?: KidAsk[]
@@ -788,6 +790,29 @@ export default function KidQuestScreen({
               <p style={{ textAlign: 'center', color: 'rgba(255,255,255,0.85)', fontSize: '15.5px', lineHeight: 1.55, margin: '0 0 4px' }}>
                 Two minute lessons with a quiz at the end. Get 100% and a bonus star lands, that is extra TV time!
               </p>
+              {/* Watch together adventures: current stage first, earlier
+                  stages below as earlier adventures (catch up without ever
+                  calling it that). Complete ones stay open, redo earns 2. */}
+              {adventures.length > 0 && (
+                <>
+                  <p style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)', margin: '6px 0 0' }}>
+                    Watch together with your grown up
+                  </p>
+                  {adventures.filter(a => a.stageId === stageId).map(a => (
+                    <AdventureCard key={a.code} adventure={a} token={token} />
+                  ))}
+                  {adventures.some(a => a.stageId < stageId) && (
+                    <>
+                      <p style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)', margin: '6px 0 0' }}>
+                        Earlier adventures
+                      </p>
+                      {adventures.filter(a => a.stageId < stageId).map(a => (
+                        <AdventureCard key={a.code} adventure={a} token={token} />
+                      ))}
+                    </>
+                  )}
+                </>
+              )}
               {missions.length > 0 && (
                 <>
                   <p style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)', margin: '6px 0 0' }}>
@@ -1038,5 +1063,49 @@ export default function KidQuestScreen({
         </p>
       </div>
     </div>
+  )
+}
+
+// A watch together adventure card: same big warm register as the star
+// lesson missions, snuggle up framing, and complete ones stay open
+// because the redo IS the feature (2 more stars every rewatch).
+function AdventureCard({ adventure, token }: { adventure: KidAdventure; token: string }) {
+  const done = adventure.done
+  return (
+    <a
+      href={`/k/${token}/adventures/${adventure.code}`}
+      style={{
+        display: 'flex', alignItems: 'center', gap: 14,
+        background: done ? 'var(--tint-sage)' : '#fff',
+        borderRadius: '20px', padding: '16px 18px', textDecoration: 'none',
+        boxShadow: done ? '0 2px 0 rgba(0,0,0,0.12)' : '0 5px 0 rgba(0,0,0,0.18)',
+        transform: done ? 'translateY(3px)' : 'none',
+      }}
+    >
+      <span style={{ fontSize: '1.8rem', flexShrink: 0 }}>{done ? '🏆' : '🍿'}</span>
+      <span style={{ flex: 1, minWidth: 0 }}>
+        <span style={{
+          display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800,
+          fontSize: '1.15rem', color: 'var(--ink)', lineHeight: 1.25,
+          opacity: done ? 0.75 : 1,
+        }}>
+          {adventure.title}
+        </span>
+        <span style={{ display: 'block', fontSize: '13.5px', fontWeight: 600, color: 'var(--ink-muted)', marginTop: 2 }}>
+          {done
+            ? `Done${adventure.timesCompleted > 1 ? ` ×${adventure.timesCompleted}` : ''}! Watch again for 2 more stars ⭐`
+            : 'Snuggle up with your grown up · worth 10 stars'}
+        </span>
+      </span>
+      <span style={{
+        width: 40, height: 40, borderRadius: '50%', flexShrink: 0,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        background: done ? 'var(--terracotta)' : 'var(--cream)',
+        border: done ? 'none' : '2.5px dashed var(--ink-light)',
+        fontSize: '18px',
+      }}>
+        {done ? '↻' : '▶'}
+      </span>
+    </a>
   )
 }
