@@ -498,22 +498,25 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
    not a distraction. So there is deliberately no #hero .fu rule: the empty
    .fu class above leaves the hero fully visible and motionless. */
 
-/* ── SEGMENTED PILL NAV ── */
+/* ── SEGMENTED PILL NAV ── premium, Apple clean: display type, tighter
+   tracking, an active pill with real depth and a soft settle transition. */
 .nav-pill {
-  padding: 8px 16px;
+  padding: 8px 17px;
   border-radius: 100px;
-  font-family: var(--font-body);
-  font-size: 0.84rem;
-  font-weight: 600;
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: -0.006em;
   color: var(--ink-soft);
   text-decoration: none;
-  transition: background 0.18s ease, color 0.18s ease;
+  transition: background 0.22s cubic-bezier(0.22,1,0.36,1), color 0.22s ease, box-shadow 0.22s ease;
   white-space: nowrap;
 }
-.nav-pill:hover { background: #fff; color: var(--ink); }
+.nav-pill:hover { background: rgba(255,255,255,0.85); color: var(--ink); }
 .nav-pill-active, .nav-pill-active:hover {
   background: var(--deep-teal);
   color: #fff;
+  box-shadow: 0 2px 8px -1px rgba(23,60,70,0.4), inset 0 1px 0 rgba(255,255,255,0.08);
 }
 
 /* ── POLISH PRIMITIVES ── */
