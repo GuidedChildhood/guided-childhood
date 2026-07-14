@@ -38,6 +38,16 @@ export async function GET() {
   const children = childrenRes.data ?? []
   const banks = await getStarBanks(supabase, user.id, children.map(c => c.id))
 
+  // Live device time sessions, so the board can show a running countdown
+  // next to the child who is using their screen time right now.
+  const { data: sessionRows } = await supabase
+    .from('device_sessions')
+    .select('id, child_id, device, minutes, stars, ends_at, started_at')
+    .eq('user_id', user.id)
+    .eq('status', 'active')
+    .gt('ends_at', new Date().toISOString())
+  const sessions = sessionRows ?? []
+
   return NextResponse.json({
     children,
     quests: questsRes.data ?? [],
@@ -47,6 +57,7 @@ export async function GET() {
     requests: requestsRes.data ?? [],
     spends: spendsRes.data ?? [],
     banks,
+    sessions,
   })
 }
 

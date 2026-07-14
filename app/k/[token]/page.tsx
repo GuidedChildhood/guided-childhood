@@ -5,6 +5,7 @@ import { getStarBanks } from '@/lib/quests/bank'
 import { KID_LESSONS, kidLessonBaseTitle } from '@/lib/quests/kid-lessons'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { getParentLessons, getCompletionsForChild } from '@/lib/lessons/parent-lessons'
+import { getActiveSession } from '@/lib/quests/device-time'
 import { hasFullAccess } from '@/lib/access'
 import KidQuestScreen from './KidQuestScreen'
 
@@ -181,6 +182,9 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   )
   const bank = banks[0] ?? { child_id: link.child_id, earned: 0, spent: 0, balance: 0, minutes: 0 }
   const usedWeekMinutes = (weekSpendsRes.data ?? []).reduce((sum, s) => sum + (Number(s.minutes) || 0), 0)
+  // A live device time session, if one is running, so the countdown picks
+  // up where it left off on a refresh.
+  const activeSession = await getActiveSession(supabase, link.child_id)
 
   return (
     <KidQuestScreen
@@ -199,6 +203,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       bank={bank}
       usedWeekMinutes={usedWeekMinutes}
       printablesUnlocked={printablesUnlocked}
+      activeSession={activeSession}
       requests={(requestsRes.data ?? []) as { id: string; title: string; emoji: string; status: string }[]}
     />
   )

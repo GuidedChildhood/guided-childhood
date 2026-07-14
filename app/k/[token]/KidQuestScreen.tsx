@@ -14,6 +14,8 @@ import type { StarBank } from '@/lib/quests/bank'
 import { lessonsForStage, type KidLesson } from '@/lib/quests/kid-lessons'
 import { gamesForStage, type QuestGame } from '@/lib/quest-games/registry'
 import QuestGamePlayer from '@/components/quest-games/QuestGamePlayer'
+import DeviceTimeCard from '@/components/quests/DeviceTimeCard'
+import type { ActiveSession } from '@/lib/quests/device-time'
 import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
 
 // The kid facing quest screen: joyful, huge tap targets, instant ticks,
@@ -30,7 +32,7 @@ export type KidAsk = { id: string; title: string; emoji: string; status: string 
 
 export default function KidQuestScreen({
   token, childName, stageId = 2, quests, todayTicks, weekStars, goal, streakDays = 0, laterQuests = [], doneLessonKeys = [], missions = [],
-  adventures = [], bank = null, usedWeekMinutes = 0, requests = [], printablesUnlocked = true,
+  adventures = [], bank = null, usedWeekMinutes = 0, requests = [], printablesUnlocked = true, activeSession = null,
 }: {
   token: string
   childName: string
@@ -48,6 +50,7 @@ export default function KidQuestScreen({
   usedWeekMinutes?: number
   requests?: KidAsk[]
   printablesUnlocked?: boolean
+  activeSession?: ActiveSession | null
 }) {
   // Only the games, mini lessons and printables that suit this child's
   // stage, so a young child never meets an older child's content.
@@ -369,6 +372,10 @@ export default function KidQuestScreen({
             </div>
           )}
         </div>
+
+        {/* Device time: turn earned stars into minutes on an agreed device,
+            with the countdown and the alarm when the time is up. */}
+        <DeviceTimeCard token={token} balanceStars={bankBalance} initialSession={activeSession} />
 
         {/* Today's goal: enough stars in one day completes the day */}
         {goal?.daily_stars ? (() => {
