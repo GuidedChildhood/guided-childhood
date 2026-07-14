@@ -42,6 +42,9 @@ export default async function WatchTogetherPage() {
         <p style={{ color: 'var(--ink)', fontSize: '15px' }}>
           Short videos you watch on the sofa{child ? ` with ${child.name}` : ' with your child'}, with DiGi pausing at just the right moments for you to talk. First watch earns 10 stars, every rewatch earns 2 more.
         </p>
+        <Link href="/dashboard/lessons" style={{ display: 'inline-block', marginTop: '10px', fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, color: 'var(--terracotta)', letterSpacing: '0.04em', textDecoration: 'none' }}>
+          Looking for the interactive lesson library? →
+        </Link>
       </div>
 
       {doneCount > 0 && (
