@@ -17,7 +17,7 @@ import SchoolActionsCard, { type SchoolAction } from '@/components/school/School
 import SchoolPromoCard from '@/components/school/SchoolPromoCard'
 import QuestBoard from '@/components/quests/QuestBoard'
 import WaitingOnYou from '@/components/quests/WaitingOnYou'
-import SetupPath, { visibleSteps as visibleSetupSteps } from '@/components/setup/SetupPath'
+import { visibleSteps as visibleSetupSteps } from '@/lib/setup/steps'
 import SocialMediaReadiness from '@/components/pathway/SocialMediaReadiness'
 import SetupUnlockToast from '@/components/setup/SetupUnlockToast'
 import TodayPathStrip from '@/components/daily/TodayPathStrip'
@@ -283,10 +283,35 @@ export default async function DashboardPage() {
           the board where a parent acts on them. Silent when nothing waits. */}
       <WaitingOnYou />
 
-      {/* The setup path is the single conductor. It shows one step at a
-          time, the rest waiting as quiet chips. The old bottom nudge that
-          re-asked the same step on a second surface is gone, one ask only. */}
-      <SetupPath flags={setupFlags} phoneAge={phoneAge} />
+      {/* Setup lives on its own page now, out of the daily Home. While it is
+          unfinished, Home carries one compact way in, naming the next step;
+          when it is done, this disappears and Home stays clean. */}
+      {!setupComplete && (() => {
+        const doneCount = setupSteps.filter(s => setupFlags[s.key]).length
+        const next = setupSteps.find(s => !setupFlags[s.key])
+        return (
+          <Link href="/dashboard/setup" style={{ textDecoration: 'none', display: 'block', marginBottom: '20px' }}>
+            <div style={{
+              display: 'flex', alignItems: 'center', gap: '14px',
+              background: '#fff', border: '1.5px solid var(--terracotta)', borderRadius: '18px', padding: '15px 18px',
+              boxShadow: '0 4px 16px rgba(201,154,40,0.12)',
+            }}>
+              <span style={{ flexShrink: 0, width: 46, height: 46, borderRadius: '13px', background: 'var(--terracotta-lt)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px' }}>🧭</span>
+              <span style={{ flex: 1, minWidth: 0 }}>
+                <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: 'var(--ink)', lineHeight: 1.2 }}>
+                  Finish setting up
+                </span>
+                <span style={{ display: 'block', fontSize: '13px', color: 'var(--ink-soft)', marginTop: '2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                  {doneCount} of {setupSteps.length} done{next ? ` · next: ${next.title.toLowerCase()}` : ''}
+                </span>
+              </span>
+              <span style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', color: 'var(--ink)', background: 'var(--terracotta)', borderRadius: '11px', padding: '9px 16px', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
+                Continue
+              </span>
+            </div>
+          </Link>
+        )
+      })()}
       <SetupUnlockToast flags={setupFlags} />
 
       {/* The child's name was skipped at setup: one gentle ask, one tap to make
@@ -612,6 +637,7 @@ export default async function DashboardPage() {
           { href: '/dashboard/moments', external: false, bg: 'var(--terracotta-lt)', icon: '⚡', title: 'Moments', sub: 'The words for any battle', why: 'Bedtime, the handover, the meltdown. Tap the moment and the words are there.' },
           { href: '/dashboard/agreement', external: false, bg: 'var(--stage-1)', icon: '🤝', title: 'Family agreement', sub: 'Five talks, one signed sheet', why: 'Rules they helped write are rules they keep. Print it for the fridge.' },
           { href: '/dashboard/printables', external: false, bg: 'var(--tint-sage)', icon: '🖨️', title: 'Printables', sub: 'The offline pathway', why: 'Print a bucket list, put the crayons out, and every finished sheet pays stars.' },
+          { href: '/dashboard/setup', external: false, bg: 'var(--cream)', icon: '🧭', title: 'Set up', sub: 'Quests, school, devices, agreement', why: 'Change any of your setup: quests, school routines, the child link, your agreement.' },
           { href: 'https://www.guidedchildhood.com/digitalwellbeing', external: true, bg: 'var(--stage-2)', icon: '🩺', title: 'Health report', sub: 'One free with membership', why: 'Ten minutes, and you get a clear picture of where things stand.' },
         ]
         const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000)
