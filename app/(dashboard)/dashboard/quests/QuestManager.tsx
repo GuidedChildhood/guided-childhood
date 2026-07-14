@@ -61,6 +61,7 @@ export default function QuestManager() {
   const [ticked, setTicked] = useState<string | null>(null)
   const [firstTask, setFirstTask] = useState('')
   const [firstMsg, setFirstMsg] = useState<string | null>(null)
+  const [handMode, setHandMode] = useState<'phone' | 'paper'>('phone')
   const [pingResult, setPingResult] = useState<string | null>(null)
   const [contactsSupported, setContactsSupported] = useState(false)
   const [tab, setTab] = useState<QuestTab>('manage')
@@ -203,6 +204,12 @@ export default function QuestManager() {
   // at this age. Their quests are done on paper with a grown up, so the whole
   // hand over reframes to the printed sheet rather than a phone link.
   const youngChild = stageKey === 'foundation'
+
+  // A four to seven year old never gets a phone handover, so the hand it
+  // over switch defaults to paper for them and phone for everyone else.
+  useEffect(() => {
+    setHandMode(youngChild ? 'paper' : 'phone')
+  }, [activeChild, youngChild])
 
   async function addQuest(t: { title: string; emoji: string; stars: number; schedule: string }) {
     await fetch('/api/quests', {
@@ -442,6 +449,109 @@ export default function QuestManager() {
       {/* Active quests */}
       {child && (
         <>
+          {/* Hand it over: the one decision, made simple. To their phone,
+              or onto paper. Everything else lives in the tabs below. */}
+          <div style={card}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '10px' }}>
+              Hand it to {child.name}
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', marginBottom: '14px' }}>
+              {([['phone', '📱', 'To their phone', 'A private page, sent by you'], ['paper', '🖨️', 'The offline pack', 'Print it, tick it off here']] as const).map(([mode, icon, title, sub]) => (
+                <button
+                  key={mode}
+                  onClick={() => setHandMode(mode)}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: '12px', textAlign: 'left',
+                    background: handMode === mode ? 'var(--terracotta-lt)' : '#fff',
+                    border: `2px solid ${handMode === mode ? 'var(--terracotta)' : 'var(--border)'}`,
+                    borderRadius: '16px', padding: '14px 16px', cursor: 'pointer',
+                  }}
+                >
+                  <span style={{ fontSize: '26px', lineHeight: 1 }}>{icon}</span>
+                  <span>
+                    <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--ink)' }}>{title}</span>
+                    <span style={{ display: 'block', fontSize: '11.5px', color: 'var(--ink-soft)', marginTop: '2px' }}>{sub}</span>
+                  </span>
+                </button>
+              ))}
+            </div>
+
+            {handMode === 'phone' ? (
+              <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+                <div style={{ flex: '1 1 260px', minWidth: 0 }}>
+                  <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '12px' }}>
+                    {link ? (
+                      <>
+                        <button onClick={shareLink} style={{
+                          background: 'var(--terracotta)', border: 'none', borderRadius: '12px', padding: '11px 18px', cursor: 'pointer',
+                          fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 800, color: 'var(--ink)',
+                          boxShadow: '0 3px 0 var(--terracotta-dark)',
+                        }}>
+                          {copied ? 'Link copied ✓' : `📤 Send ${child.name} the link`}
+                        </button>
+                        <button onClick={() => sendPing('Quest check! Come and see your stars ⭐')} style={{
+                          background: '#fff', border: '1.5px solid var(--border)', borderRadius: '12px', padding: '11px 18px', cursor: 'pointer',
+                          fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 800, color: 'var(--ink)',
+                        }}>
+                          🔔 Ping their phone
+                        </button>
+                      </>
+                    ) : (
+                      <button onClick={getLink} style={{
+                        background: 'var(--terracotta)', border: 'none', borderRadius: '12px', padding: '11px 18px', cursor: 'pointer',
+                        fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 800, color: 'var(--ink)',
+                        boxShadow: '0 3px 0 var(--terracotta-dark)',
+                      }}>
+                        🔑 Create {child.name}&apos;s private link
+                      </button>
+                    )}
+                  </div>
+                  {pingResult && <p style={{ fontSize: '12px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 10px' }}>{pingResult}</p>}
+                  <div style={{ background: 'var(--tint-sage)', borderRadius: '12px', padding: '12px 14px' }}>
+                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '5px' }}>
+                      How it works, and why it is safe
+                    </div>
+                    <p style={{ fontSize: '12.5px', color: 'var(--ink)', lineHeight: 1.6, margin: 0 }}>
+                      {child.name} gets one private page, not an app. Nothing to install, no account, no login, no messages from anyone. The link is the key and only your family holds it. It opens like a mini app (add it to their Home Screen for one tap) and every star still lands only when you approve it here.
+                    </p>
+                  </div>
+                </div>
+                {/* What they see: the real child page */}
+                <div style={{ flex: '0 0 118px', textAlign: 'center' }}>
+                  <div style={{ borderRadius: '16px', overflow: 'hidden', border: '4px solid var(--ink)', boxShadow: '0 10px 26px rgba(26,26,46,0.18)' }}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src="/marketing/kid-page.png" alt="The child's quest page" style={{ width: '100%', display: 'block' }} />
+                  </div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginTop: '6px' }}>
+                    What they see
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '8px', marginBottom: '10px' }}>
+                  {[
+                    ['🖨️', 'Quest sheet', '/dashboard/quests/print'],
+                    ['📜', 'Device contract', '/dashboard/quests/contract'],
+                    ['🎲', 'Game pack', '/dashboard/quests/crafts'],
+                    ['✂️', 'Printables', '/dashboard/printables'],
+                  ].map(([icon, label, href]) => (
+                    <a key={href} href={href} style={{
+                      display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none',
+                      background: '#fff', border: '1.5px solid var(--border)', borderRadius: '14px', padding: '12px 14px',
+                    }}>
+                      <span style={{ fontSize: '20px', lineHeight: 1 }}>{icon}</span>
+                      <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', color: 'var(--ink)' }}>{label}</span>
+                    </a>
+                  ))}
+                </div>
+                <p style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>
+                  No phone needed. Print it for the fridge, tick quests off here yourself, and the stars still land in {child.name}&apos;s bank.
+                </p>
+              </div>
+            )}
+          </div>
+
           {/* The tabs: everything in its own place instead of one long scroll */}
           <div style={{ display: 'flex', gap: '4px', background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '100px', padding: '4px', marginBottom: '18px', width: 'fit-content', maxWidth: '100%', overflowX: 'auto' }}>
             {TABS.map(t => (
