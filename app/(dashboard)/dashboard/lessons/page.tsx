@@ -168,28 +168,6 @@ export default async function LessonsPage() {
         </div>
       </Link>
 
-      {/* Digital Health Check card */}
-      <Link href="https://www.guidedchildhood.com/digitalwellbeing" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', display: 'block', marginBottom: '24px' }}>
-        <div style={{
-          background: 'var(--stage-5)', border: '1.5px solid var(--stage-5)',
-          borderRadius: '16px', padding: '18px 20px',
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '14px',
-        }}>
-          <div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '4px' }}>
-              Under 10 minutes, no login
-            </div>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)' }}>
-              Get your child&apos;s Digital Health Report
-            </div>
-            <div style={{ fontSize: '12px', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '4px' }}>
-              Your membership includes one free report. Your code arrives by email.
-            </div>
-          </div>
-          <span style={{ fontSize: '18px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>
-        </div>
-      </Link>
-
       {byStage.length === 0 && (
         <div style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '14px', padding: '20px', color: 'var(--ink-muted)', fontSize: '14px' }}>
           Lessons are being prepared. Check back soon.
@@ -265,6 +243,29 @@ export default async function LessonsPage() {
           </div>
         </section>
       ))}
+
+      {/* Digital Health Report: a link out to the separate wellbeing service.
+          Lives at the very bottom, below all the lessons, so the lessons lead. */}
+      <Link href="https://www.guidedchildhood.com/digitalwellbeing" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', display: 'block', marginTop: '8px', marginBottom: '24px' }}>
+        <div style={{
+          background: 'var(--stage-5)', border: '1.5px solid var(--stage-5)',
+          borderRadius: '16px', padding: '18px 20px',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '14px',
+        }}>
+          <div>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '4px' }}>
+              Under 10 minutes, no login
+            </div>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)' }}>
+              Get your child&apos;s Digital Health Report
+            </div>
+            <div style={{ fontSize: '12px', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '4px' }}>
+              Your membership includes one free report. Your code arrives by email.
+            </div>
+          </div>
+          <span style={{ fontSize: '18px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>
+        </div>
+      </Link>
     </div>
   )
 }
