@@ -4,6 +4,7 @@ import { questDueToday } from '@/lib/quests/due'
 import { getStarBanks } from '@/lib/quests/bank'
 import { KID_LESSONS, kidLessonBaseTitle } from '@/lib/quests/kid-lessons'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
+import { getParentLessons, getCompletionsForChild } from '@/lib/lessons/parent-lessons'
 import KidQuestScreen from './KidQuestScreen'
 
 // The kid's own screen. Opened from the private link their parent sends,
@@ -129,6 +130,28 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   const ageBand = childRes.data?.age_band as AgeBand | undefined
   const stageId = ageBand ? getStageFromAgeBand(ageBand).id : 2
 
+  // Watch together adventures: the co view lessons, age gated forward
+  // only. A child sees everything from Stage 1 up to their own stage,
+  // so a late joiner still gets the early habits, and the copy calls
+  // them earlier adventures, never catching up.
+  const [{ lessons: adventureLessons }, adventureCompletions] = await Promise.all([
+    getParentLessons(supabase),
+    getCompletionsForChild(supabase, link.child_id),
+  ])
+  const adventures = adventureLessons
+    .filter(l => l.stage_id <= stageId)
+    .map(l => {
+      const completion = adventureCompletions.get(l.lesson_code)
+      return {
+        code: l.lesson_code,
+        title: l.title,
+        catchphrase: l.catchphrase,
+        stageId: l.stage_id,
+        done: Boolean(completion),
+        timesCompleted: completion?.times_completed ?? 0,
+      }
+    })
+
   // The star bank (earned ever, spent as screen time, what is left) and
   // the child's own quest asks. Both tables land with migration 047, so
   // failures fall back to empty rather than breaking the page.
@@ -160,6 +183,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       goal={goalRes.data ?? null}
       streakDays={streakDays}
       missions={missions}
+      adventures={adventures}
       laterQuests={laterQuests}
       doneLessonKeys={doneLessonKeys}
       bank={bank}
