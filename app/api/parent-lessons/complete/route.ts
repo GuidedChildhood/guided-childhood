@@ -204,7 +204,7 @@ async function notifyParent(
         userId: link.user_id,
         title: `${name} ${titleSuffix}`,
         body: bodyText,
-        url: '/dashboard/lessons/together',
+        url: '/dashboard/lessons',
       }),
     })
   } catch { /* push is best effort */ }
