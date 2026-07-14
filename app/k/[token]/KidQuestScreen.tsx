@@ -78,6 +78,11 @@ export default function KidQuestScreen({
   const [asks, setAsks] = useState<KidAsk[]>(requests)
   const [askText, setAskText] = useState('')
   const [askBusy, setAskBusy] = useState(false)
+  // My lessons is split into sub-tabs (Watch, Learn, Games, Print) with a red
+  // dot when a grown up has pinged something new. "New" means an item this
+  // child has not opened yet, tracked in localStorage on their own device.
+  const [lessonTab, setLessonTab] = useState<'watch' | 'learn' | 'games' | 'print'>('watch')
+  const [seenLessons, setSeenLessons] = useState<Set<string>>(new Set())
 
   useEffect(() => {
     if (localStorage.getItem('gc_kid_welcome') !== '1') setShowWelcome(true)
@@ -242,6 +247,63 @@ export default function KidQuestScreen({
   // screen time already used. Falls back to the week count until the
   // family has run migration 047.
   const bankBalance = bank ? bank.balance : weekStars
+
+  // ── My lessons sub-tabs and the "something new" dots ──
+  // Only grown up sent content counts as new (adventures, star lessons, and
+  // unlocked printables); the games and mini lesson libraries are always
+  // there, so they never flag as new.
+  const watchIds = adventures.map(a => `adv:${a.code}`)
+  const learnIds = missions.map(m => `mis:${m.id}`)
+  const printIds = (printablesUnlocked ? stagePrintables : []).map(p => `prn:${p.key}`)
+  const newWatch = watchIds.filter(id => !seenLessons.has(id)).length
+  const newLearn = learnIds.filter(id => !seenLessons.has(id)).length
+  const newPrint = printIds.filter(id => !seenLessons.has(id)).length
+  const totalNewLessons = newWatch + newLearn + newPrint
+
+  const hasWatch = adventures.length > 0
+  const hasLearn = missions.length > 0 || stageLessons.length > 0
+  const hasGames = stageGames.length > 0
+  const hasPrint = printablesUnlocked && stagePrintables.length > 0
+  const LESSON_TABS = [
+    { key: 'watch' as const, label: 'Watch', icon: '📺', has: hasWatch, dot: newWatch },
+    { key: 'learn' as const, label: 'Learn', icon: '🧠', has: hasLearn, dot: newLearn },
+    { key: 'games' as const, label: 'Games', icon: '🎮', has: hasGames, dot: 0 },
+    { key: 'print' as const, label: 'Print', icon: '🖨️', has: hasPrint, dot: newPrint },
+  ]
+  const availableLessonTabs = LESSON_TABS.filter(t => t.has)
+  // Keep the sub-tab valid; if the current one has no content, fall to the
+  // first that does (preferring one with something new to see).
+  const activeLessonTab = availableLessonTabs.some(t => t.key === lessonTab)
+    ? lessonTab
+    : (availableLessonTabs.find(t => t.dot > 0)?.key ?? availableLessonTabs[0]?.key ?? 'watch')
+
+  // Load what this child has already seen, once.
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem('gc_kid_seen_lessons')
+      if (raw) setSeenLessons(new Set(JSON.parse(raw) as string[]))
+    } catch { /* first visit, nothing seen */ }
+  }, [])
+
+  function markLessonsSeen(ids: string[]) {
+    if (ids.length === 0) return
+    setSeenLessons(prev => {
+      if (ids.every(i => prev.has(i))) return prev
+      const next = new Set(prev)
+      ids.forEach(i => next.add(i))
+      try { localStorage.setItem('gc_kid_seen_lessons', JSON.stringify([...next])) } catch { /* private mode */ }
+      return next
+    })
+  }
+
+  // When the child looks at a sub-tab, its items are seen, so the dot clears.
+  useEffect(() => {
+    if (tab !== 'lessons') return
+    if (activeLessonTab === 'watch') markLessonsSeen(watchIds)
+    else if (activeLessonTab === 'learn') markLessonsSeen(learnIds)
+    else if (activeLessonTab === 'print') markLessonsSeen(printIds)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tab, activeLessonTab])
 
   return (
     <div style={{
@@ -429,13 +491,15 @@ export default function KidQuestScreen({
           </div>
         )}
 
-        {/* Tabs: quests and lessons, both earn stars */}
+        {/* Tabs: quests and lessons, both earn stars. My lessons wears a red
+            badge the moment a grown up pings something new. */}
         <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
           {([['quests', '⭐ My quests'], ['lessons', '🧠 My lessons']] as const).map(([key, label]) => (
             <button
               key={key}
               onClick={() => { setTab(key); setActiveLesson(null) }}
               style={{
+                position: 'relative',
                 flex: 1, padding: '13px 10px', borderRadius: '14px', cursor: 'pointer',
                 fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
                 background: tab === key ? 'var(--terracotta)' : 'rgba(255,255,255,0.12)',
@@ -445,6 +509,16 @@ export default function KidQuestScreen({
               }}
             >
               {label}
+              {key === 'lessons' && totalNewLessons > 0 && (
+                <span style={{
+                  position: 'absolute', top: '-7px', right: '-6px', minWidth: 22, height: 22, padding: '0 5px',
+                  borderRadius: '100px', background: '#E5484D', color: '#fff',
+                  fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, lineHeight: '22px',
+                  textAlign: 'center', boxShadow: '0 0 0 2px var(--deep-teal)',
+                }}>
+                  {totalNewLessons > 9 ? '9+' : totalNewLessons}
+                </span>
+              )}
             </button>
           ))}
         </div>
@@ -795,14 +869,36 @@ export default function KidQuestScreen({
             </div>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '13px' }}>
-              <p style={{ textAlign: 'center', color: 'rgba(255,255,255,0.85)', fontSize: '15.5px', lineHeight: 1.55, margin: '0 0 2px' }}>
-                Two minute lessons with a quiz at the end. Get 100% and a bonus star lands, that is extra TV time!
-              </p>
+              {/* Sub-tabs so the long list stops being a jumble: Watch, Learn,
+                  Games, Print. Each wears a red dot the moment a grown up pings
+                  something new into it. */}
+              {availableLessonTabs.length > 1 && (
+                <div style={{ display: 'flex', gap: '7px', marginBottom: '2px' }}>
+                  {availableLessonTabs.map(t => {
+                    const on = t.key === activeLessonTab
+                    return (
+                      <button key={t.key} onClick={() => setLessonTab(t.key)} style={{
+                        position: 'relative', flex: 1, padding: '11px 6px', borderRadius: '13px', cursor: 'pointer',
+                        fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px',
+                        background: on ? '#fff' : 'rgba(255,255,255,0.12)',
+                        color: on ? 'var(--ink)' : '#fff',
+                        border: on ? 'none' : '1.5px solid rgba(255,255,255,0.25)',
+                        boxShadow: on ? '0 3px 0 rgba(0,0,0,0.2)' : 'none',
+                      }}>
+                        {t.icon} {t.label}
+                        {t.dot > 0 && (
+                          <span style={{ position: 'absolute', top: '-6px', right: '-5px', minWidth: 18, height: 18, padding: '0 4px', borderRadius: '100px', background: '#E5484D', color: '#fff', fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, lineHeight: '18px', textAlign: 'center', boxShadow: '0 0 0 2px var(--deep-teal)' }}>{t.dot}</span>
+                        )}
+                      </button>
+                    )
+                  })}
+                </div>
+              )}
 
               {/* Watch together adventures: current stage first, earlier
                   stages below (catch up without ever calling it that). The
                   drawn film frame is the thumbnail. Redo earns 2 more. */}
-              {adventures.length > 0 && (
+              {activeLessonTab === 'watch' && adventures.length > 0 && (
                 <>
                   <SectionHead icon="🎬">Watch with your grown up</SectionHead>
                   {adventures.filter(a => a.stageId === stageId).map(a => (
@@ -819,7 +915,7 @@ export default function KidQuestScreen({
                 </>
               )}
 
-              {missions.length > 0 && (
+              {activeLessonTab === 'learn' && missions.length > 0 && (
                 <>
                   <SectionHead icon="⭐">Star lessons from your grown up</SectionHead>
                   {missions.map(m => {
@@ -840,8 +936,8 @@ export default function KidQuestScreen({
                 </>
               )}
 
-              {stageLessons.length > 0 && <SectionHead icon="🧠">My lessons</SectionHead>}
-              {stageLessons.map(lesson => {
+              {activeLessonTab === 'learn' && stageLessons.length > 0 && <SectionHead icon="🧠">Lessons for me</SectionHead>}
+              {activeLessonTab === 'learn' && stageLessons.map(lesson => {
                 const done = doneLessons.has(lesson.key)
                 return (
                   <button key={lesson.key} onClick={() => !done && openLesson(lesson)} disabled={done} style={bigCardShell(done)}>
@@ -857,8 +953,8 @@ export default function KidQuestScreen({
                 )
               })}
 
-              {stageGames.length > 0 && <SectionHead icon="🎮">Games to play</SectionHead>}
-              {stageGames.map(game => {
+              {activeLessonTab === 'games' && stageGames.length > 0 && <SectionHead icon="🎮">Games to play</SectionHead>}
+              {activeLessonTab === 'games' && stageGames.map(game => {
                 const done = doneGames.has(game.key)
                 return (
                   <button key={game.key} onClick={() => !done && setActiveGame(game)} disabled={done} style={bigCardShell(done)}>
@@ -878,7 +974,7 @@ export default function KidQuestScreen({
                   and the ask rides the same pitch flow as quest ideas. The
                   real preview is the big thumbnail; the grown up prints it,
                   the finished page pays the stars. */}
-              {printablesUnlocked && stagePrintables.length > 0 && (
+              {activeLessonTab === 'print' && printablesUnlocked && stagePrintables.length > 0 && (
                 <>
                   <SectionHead icon="🖨️">Paper adventures</SectionHead>
                   {stagePrintables.map(p => {
