@@ -320,7 +320,7 @@ function SlideBody({ slide, onAnswered }: { slide: LessonSlide; onAnswered: (cor
         <div style={{ padding: '4px 0' }}>
           {/* The animated character intro is the opener: DiGi the star kicks
               off, the title reveals, far cleaner than a busy stock scene. */}
-          <AnimatedIntro eyebrow={slide.eyebrow} title={slide.title} />
+          <AnimatedIntro eyebrow={slide.eyebrow} title={slide.title} character={slide.character} />
           {slide.body && (
             <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '400px', margin: '18px auto 0', textAlign: 'center' }}>
               {slide.body}

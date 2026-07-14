@@ -45,6 +45,9 @@ export type TitleSlide = SlideBase & {
   eyebrow?: string
   title: string
   body?: string
+  // Which intro character clip plays: football, dance or celebrate. When
+  // absent the intro picks one from the title.
+  character?: string
 }
 
 export type ObjectiveSlide = SlideBase & {
