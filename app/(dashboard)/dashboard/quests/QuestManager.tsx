@@ -5,6 +5,14 @@ import Link from 'next/link'
 import { QUEST_TEMPLATES, PLAY_PAYS_WHY, STAR_MINUTES } from '@/lib/quests/templates'
 import { STAGE_LABELS, AGE_BAND_TO_STAGE, type StageKey } from '@/lib/quests/game-picks'
 import { gamesForStage } from '@/lib/quest-games/registry'
+import { PRINTABLES } from '@/lib/printables/registry'
+
+// When a child asks for a printable their pitch reads "Print the {title}
+// sheet" (set in the kid screen). Match it back to the sheet so the parent
+// gets a real print link right here, not just the words.
+function printableForAsk(title: string) {
+  return PRINTABLES.find(p => title === `Print the ${p.title} sheet`) ?? null
+}
 
 type QuestTab = 'manage' | 'rewards' | 'games' | 'share'
 const TABS: { key: QuestTab; label: string }[] = [
@@ -631,6 +639,7 @@ export default function QuestManager() {
                 {asksList.filter(a => a.child_id === activeChild && a.status === 'pending').map(a => {
                   const stars = askStars[a.id] ?? 2
                   const schedule = askSchedule[a.id] ?? 'once'
+                  const sheet = printableForAsk(a.title)
                   return (
                     <div key={a.id} style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '14px', padding: '12px 14px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
@@ -639,6 +648,25 @@ export default function QuestManager() {
                           {a.title}
                         </span>
                       </div>
+                      {/* A printable ask gets a real print link, so the parent
+                          can open the sheet the moment their child asks, then
+                          set what the finished page is worth and add it. */}
+                      {sheet && (
+                        <a
+                          href={`/api/printables/${sheet.key}/pdf`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{
+                            display: 'inline-flex', alignItems: 'center', gap: '8px', marginBottom: '12px',
+                            background: 'var(--deep-teal)', color: '#fff', textDecoration: 'none',
+                            borderRadius: '11px', padding: '9px 15px',
+                            fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 800,
+                            boxShadow: '0 3px 0 rgba(0,0,0,0.25)',
+                          }}
+                        >
+                          🖨️ Print {sheet.title}
+                        </a>
+                      )}
                       <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
                         <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
                           <button onClick={() => setAskStars(prev => ({ ...prev, [a.id]: Math.max(1, stars - 1) }))} style={{ width: 30, height: 30, borderRadius: '9px', border: '1.5px solid var(--border)', background: '#fff', cursor: 'pointer', fontWeight: 800 }}>−</button>
@@ -768,6 +796,7 @@ export default function QuestManager() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               {childQuests.map(q => {
                 const editing = editingId === q.id
+                const sheet = printableForAsk(q.title)
                 return (
                   <div key={q.id} style={{
                     borderRadius: '14px', background: '#fff', border: '1.5px solid var(--border)',
@@ -781,6 +810,24 @@ export default function QuestManager() {
                           {SCHEDULE_LABELS[q.schedule] ?? q.schedule} · ⭐ {q.stars}{q.blocks_screens ? ' · 📵 before screens' : ''}
                         </span>
                       </span>
+                      {/* A print quest carries a real print link, so the sheet
+                          is one tap away whenever the parent is ready. */}
+                      {sheet && (
+                        <a
+                          href={`/api/printables/${sheet.key}/pdf`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          title={`Open ${sheet.title} to print`}
+                          style={{
+                            background: 'var(--deep-teal)', color: '#fff', textDecoration: 'none',
+                            border: 'none', borderRadius: '10px',
+                            padding: '7px 12px', flexShrink: 0,
+                            fontFamily: 'var(--font-display)', fontSize: '12px', fontWeight: 800,
+                          }}
+                        >
+                          🖨️ Print
+                        </a>
+                      )}
                       <button
                         onClick={() => tickForThem(q.id)}
                         title="They did it, tick it off and land the stars"
