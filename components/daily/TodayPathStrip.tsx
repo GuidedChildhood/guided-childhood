@@ -61,7 +61,12 @@ const NODE_LOOK: Record<TodayLoopTask['key'], { fill: string; tick: string; icon
   done:    { fill: 'var(--stage-3-bold)', tick: 'var(--stage-3-text)', icon: '🏁' },
 }
 
-export default function TodayPathStrip({ tasks }: { tasks: TodayLoopTask[] }) {
+// How many steps count as a full day at each budget. Five minutes is one
+// small thing, and that is genuinely enough to keep the streak. Ten and
+// fifteen ask for a little more, for the days there is room.
+const STEPS_FOR_MINUTES: Record<number, number> = { 5: 1, 10: 2, 15: 3 }
+
+export default function TodayPathStrip({ tasks, dailyMinutes = 10 }: { tasks: TodayLoopTask[]; dailyMinutes?: number }) {
   const stripRef = useRef<HTMLDivElement>(null)
   // The celebration: a step finished since the last look at Home gets a half
   // second of delight, the node pops and DiGi says so. The evidence from the
@@ -69,14 +74,34 @@ export default function TodayPathStrip({ tasks }: { tasks: TodayLoopTask[] }) {
   // retention. Tracked per day in localStorage, so it fires once per win.
   const [celebrating, setCelebrating] = useState<string | null>(null)
 
+  // The parent's daily budget. The day is counted done when they have spent
+  // it, not when every step is ticked, so a short day still keeps the streak
+  // and the steps they did not reach simply wait for tomorrow. Never a guilt.
+  const [minutes, setMinutes] = useState(dailyMinutes)
+  const requiredCount = STEPS_FOR_MINUTES[minutes] ?? 2
+
   const firstOpen = tasks.findIndex(t => !t.done)
   const allDone = firstOpen === -1
   const currentIndex = allDone ? tasks.length - 1 : firstOpen
   // The Done flag is the finish line, not a step: count real steps only.
   const steps = tasks.filter(t => t.key !== 'done')
   const doneCount = steps.filter(t => t.done).length
-  const stepsLeft = steps.length - doneCount
+  // The day is done once the budget is met, even if steps remain. Those
+  // become optional bonus, not unfinished business.
+  const dayDone = doneCount >= requiredCount
+  const toBudget = Math.max(0, requiredCount - doneCount)
+  // No pressure once the budget is met: DiGi stops pointing and just smiles.
+  const pressure = !dayDone && !allDone
   const centre = (i: number) => ((i + 0.5) / tasks.length) * 100
+
+  function pickMinutes(m: number) {
+    setMinutes(m)
+    fetch('/api/daily-minutes', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ minutes: m }),
+    }).catch(() => { /* the choice still holds for this view */ })
+  }
 
   useEffect(() => {
     const strip = stripRef.current
@@ -151,13 +176,42 @@ export default function TodayPathStrip({ tasks }: { tasks: TodayLoopTask[] }) {
         }
       `}</style>
 
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px', padding: '0 4px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px', padding: '0 4px' }}>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
           Today&apos;s path
         </span>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: allDone ? 'var(--terracotta-dark)' : 'var(--ink-muted)' }}>
-          {allDone ? 'All walked' : `${doneCount} of ${steps.length}`}
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: dayDone ? 'var(--terracotta-dark)' : 'var(--ink-muted)' }}>
+          {dayDone ? 'Today done' : `${doneCount} of ${requiredCount}`}
         </span>
+      </div>
+
+      {/* The budget: how much the parent has today. The day counts as done at
+          whichever size they pick, so a five minute day still keeps the
+          streak. Quiet, tappable, never a demand. */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px', padding: '0 4px' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, color: 'var(--ink-light)' }}>
+          I have
+        </span>
+        {[5, 10, 15].map(m => {
+          const on = m === minutes
+          return (
+            <button
+              key={m}
+              onClick={() => pickMinutes(m)}
+              aria-pressed={on}
+              style={{
+                fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
+                padding: '4px 11px', borderRadius: '100px', cursor: 'pointer',
+                border: on ? '1.5px solid var(--terracotta)' : '1.5px solid var(--border)',
+                background: on ? 'var(--terracotta-lt)' : '#fff',
+                color: on ? 'var(--terracotta-dark)' : 'var(--ink-muted)',
+                transition: 'all 0.15s',
+              }}
+            >
+              {m} min
+            </button>
+          )
+        })}
       </div>
 
       <div ref={stripRef} style={{ position: 'relative', paddingTop: `${TOP_OFFSET}px` }}>
@@ -175,7 +229,7 @@ export default function TodayPathStrip({ tasks }: { tasks: TodayLoopTask[] }) {
             display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px',
           }}
         >
-          {(celebrating || !allDone) && (
+          {(celebrating || pressure) && (
             <span style={{
               background: celebrating ? 'var(--terracotta)' : 'var(--deep-teal)',
               color: celebrating ? 'var(--ink)' : '#fff',
@@ -187,7 +241,7 @@ export default function TodayPathStrip({ tasks }: { tasks: TodayLoopTask[] }) {
               {celebrating ? `${celebrating} done, lovely 🎉` : 'Tap the glow, do this next'}
             </span>
           )}
-          <DigiCharacter mood={celebrating || allDone ? 'happy' : 'idle'} size={38} />
+          <DigiCharacter mood={celebrating || !pressure ? 'happy' : 'idle'} size={38} />
         </div>
 
         {/* Connector line, with the walked part in butter */}
@@ -213,7 +267,7 @@ export default function TodayPathStrip({ tasks }: { tasks: TodayLoopTask[] }) {
         <div style={{ display: 'flex' }}>
           {tasks.map((task, i) => {
             const look = NODE_LOOK[task.key]
-            const isCurrent = i === currentIndex && !allDone
+            const isCurrent = i === currentIndex && pressure
             const isDoneNode = task.done
             return (
               <Link
@@ -291,9 +345,13 @@ export default function TodayPathStrip({ tasks }: { tasks: TodayLoopTask[] }) {
         </div>
       </div>
 
-      {/* What finishes the day: the next step named, what it involves,
-          and an unmissable Go */}
-      {!allDone ? (
+      {/* Three ways the day ends. While the budget is unmet, the next step is
+          named with an unmissable Go, counted down to the minutes the parent
+          chose, not to all five steps. Once the budget is met the day is
+          declared done and the streak safe, with anything left offered as a
+          gentle bonus and never as a debt. When every step is done, the warm
+          full house line. */}
+      {pressure ? (
         <Link
           href={tasks[currentIndex].href}
           style={{
@@ -307,7 +365,7 @@ export default function TodayPathStrip({ tasks }: { tasks: TodayLoopTask[] }) {
             <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: '13.5px', fontWeight: 700, color: 'var(--ink)' }}>
               Next: {tasks[currentIndex].label}
               <span style={{ color: 'var(--ink-muted)', fontWeight: 500 }}>
-                {' '}· {stepsLeft === 1 ? 'last step of today' : `${stepsLeft} steps to finish today`}
+                {' '}· {toBudget === 1 ? `last of your ${minutes} min` : `${toBudget} to your ${minutes} min`}
               </span>
             </span>
             <span style={{ display: 'block', fontSize: '12px', color: 'var(--ink-soft)', marginTop: '2px' }}>
@@ -323,6 +381,28 @@ export default function TodayPathStrip({ tasks }: { tasks: TodayLoopTask[] }) {
             Go
           </span>
         </Link>
+      ) : !allDone ? (
+        <div style={{
+          marginTop: '14px', padding: '13px 15px',
+          background: 'var(--tint-sage)', borderRadius: '14px',
+        }}>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: 'var(--ink)' }}>
+            That is your {minutes} minutes, day done 🎉
+          </div>
+          <div style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '3px' }}>
+            Streak safe. The rest waits for tomorrow, no rush. Got a spare minute and want to carry on?
+          </div>
+          <Link
+            href={tasks[currentIndex].href}
+            style={{
+              display: 'inline-block', marginTop: '9px',
+              fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
+              color: 'var(--terracotta-dark)', textDecoration: 'none',
+            }}
+          >
+            Keep going: {tasks[currentIndex].label} →
+          </Link>
+        </div>
       ) : (
         <Link
           href="/dashboard/tracker"
