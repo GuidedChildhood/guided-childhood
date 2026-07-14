@@ -30,7 +30,7 @@ export type KidAsk = { id: string; title: string; emoji: string; status: string 
 
 export default function KidQuestScreen({
   token, childName, stageId = 2, quests, todayTicks, weekStars, goal, streakDays = 0, laterQuests = [], doneLessonKeys = [], missions = [],
-  adventures = [], bank = null, usedWeekMinutes = 0, requests = [],
+  adventures = [], bank = null, usedWeekMinutes = 0, requests = [], printablesUnlocked = true,
 }: {
   token: string
   childName: string
@@ -47,6 +47,7 @@ export default function KidQuestScreen({
   bank?: StarBank | null
   usedWeekMinutes?: number
   requests?: KidAsk[]
+  printablesUnlocked?: boolean
 }) {
   // Only the games, mini lessons and printables that suit this child's
   // stage, so a young child never meets an older child's content.
@@ -949,7 +950,7 @@ export default function KidQuestScreen({
               {/* Printable adventures: the child browses their stage's sheets
                   and the ask rides the same pitch flow as quest ideas. The
                   grown up prints it, the finished page pays the stars. */}
-              {stagePrintables.length > 0 && (
+              {printablesUnlocked && stagePrintables.length > 0 && (
                 <>
                   <p style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)', margin: '10px 0 0' }}>
                     🖨️ Paper adventures, ask for a print out
