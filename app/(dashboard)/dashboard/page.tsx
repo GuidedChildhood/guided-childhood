@@ -34,9 +34,9 @@ const STAGE_COLORS = {
 } as const
 
 const WEEKLY_ACTIONS = [
-  'Have the bedroom rule conversation if it is not yet in place',
-  'Ask your child one open question about their online week',
-  'Check in on the wellbeing tracker this week',
+  'Put the bedroom rule in place',
+  'Ask one open question about their online week',
+  'Do this week’s wellbeing check in',
 ]
 
 export default async function DashboardPage() {
@@ -228,7 +228,7 @@ export default async function DashboardPage() {
             </Link>
           </div>
           <p style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '6px 0 0' }}>
-            Everything is open while you settle in. Miss a day, no problem, just pick up where you left off. Five to ten minutes is all it takes, and we have got you the whole way to 16.
+            Everything is open while you settle in. Five to ten minutes a day, all the way to 16.
           </p>
         </div>
       )}
@@ -238,7 +238,7 @@ export default async function DashboardPage() {
             Your 7 days of full access have finished
           </div>
           <p style={{ fontSize: '12.5px', color: 'rgba(255,255,255,0.8)', lineHeight: 1.55, margin: '0 0 12px' }}>
-            The daily habit, quests and your tracker stay free, always. To open everything again, all the scripts, unlimited DiGi and the full pathway, the founder rate is still open for you at £7.99 a month for life.
+            The daily habit, quests and your tracker stay free. The founder rate opens everything for £7.99 a month, for life.
           </p>
           <Link href="/dashboard/upgrade" style={{ display: 'inline-flex', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '12px', padding: '10px 18px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
             Unlock everything again
