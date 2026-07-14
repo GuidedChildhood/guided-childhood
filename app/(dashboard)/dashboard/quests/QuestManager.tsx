@@ -92,15 +92,30 @@ export default function QuestManager() {
   }, [])
 
   async function tickForThem(questId: string) {
+    const quest = quests.find(q => q.id === questId)
+    // Land the tick locally straight away so the button stays Done and the
+    // card can light up, instead of flashing Done then bouncing back.
+    const today = new Date().toISOString().slice(0, 10)
     setTicked(questId)
-    setTimeout(() => setTicked(null), 2000)
+    setTicks(prev => {
+      const already = prev.some(t => t.quest_id === questId && t.tick_date === today)
+      if (already) {
+        return prev.map(t => t.quest_id === questId && t.tick_date === today
+          ? { ...t, status: 'approved', approved_at: new Date().toISOString() } : t)
+      }
+      return [...prev, {
+        quest_id: questId, child_id: quest?.child_id ?? activeChild,
+        status: 'approved', tick_date: today, approved_at: new Date().toISOString(),
+      }]
+    })
     try {
       await fetch('/api/quests/approve', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ quest_id: questId }),
       })
-    } catch { /* refetch on next load */ }
+      await load()
+    } catch { /* the optimistic tick stands, next load reconciles */ }
   }
 
   async function editQuest(questId: string, patch: { stars?: number; schedule?: string; blocks_screens?: boolean }) {
@@ -828,18 +843,24 @@ export default function QuestManager() {
                           🖨️ Print
                         </a>
                       )}
-                      <button
-                        onClick={() => tickForThem(q.id)}
-                        title="They did it, tick it off and land the stars"
-                        style={{
-                          background: ticked === q.id ? 'var(--tint-sage)' : 'var(--terracotta-lt)',
-                          border: '1.5px solid var(--terracotta)', borderRadius: '10px',
-                          padding: '7px 12px', cursor: 'pointer', flexShrink: 0,
-                          fontFamily: 'var(--font-display)', fontSize: '12px', fontWeight: 800, color: 'var(--ink)',
-                        }}
-                      >
-                        {ticked === q.id ? 'Done ✓' : 'Done today'}
-                      </button>
+                      {(() => {
+                        const doneToday = approvedTodayIds.has(q.id) || ticked === q.id
+                        return (
+                          <button
+                            onClick={() => !doneToday && tickForThem(q.id)}
+                            disabled={doneToday}
+                            title={doneToday ? 'Done and stars landed' : 'They did it, tick it off and land the stars'}
+                            style={{
+                              background: doneToday ? 'var(--tint-sage)' : 'var(--terracotta-lt)',
+                              border: '1.5px solid var(--terracotta)', borderRadius: '10px',
+                              padding: '7px 12px', cursor: doneToday ? 'default' : 'pointer', flexShrink: 0,
+                              fontFamily: 'var(--font-display)', fontSize: '12px', fontWeight: 800, color: 'var(--ink)',
+                            }}
+                          >
+                            {doneToday ? 'Done ✓' : 'Done today'}
+                          </button>
+                        )
+                      })()}
                       <button
                         onClick={() => setEditingId(editing ? null : q.id)}
                         style={{
