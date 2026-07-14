@@ -148,6 +148,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
         title: l.title,
         catchphrase: l.catchphrase,
         stageId: l.stage_id,
+        posterUrl: l.poster_url ?? null,
         done: Boolean(completion),
         timesCompleted: completion?.times_completed ?? 0,
       }

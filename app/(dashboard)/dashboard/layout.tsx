@@ -15,6 +15,17 @@ export default async function DashboardLayout({ children }: { children: React.Re
     ? await supabase.from('profiles').select('full_name, subscription_tier, subscription_status').eq('id', user.id).single()
     : { data: null }
 
+  // Pending child asks: the count that puts a red, gently rocking badge on
+  // the Quests tab, so a parent notices when their child has pitched a
+  // quest or asked for a printable and it is waiting on their yes.
+  const { count: pendingAsks } = user
+    ? await supabase
+        .from('quest_requests')
+        .select('id', { count: 'exact', head: true })
+        .eq('user_id', user.id)
+        .eq('status', 'pending')
+    : { count: 0 }
+
   const isPaid = profile?.subscription_status === 'active'
 
   return (
@@ -46,7 +57,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
               Guided Childhood
             </span>
           </Link>
-          <NavTabs />
+          <NavTabs pendingAsks={pendingAsks ?? 0} />
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             {!isPaid && (
               <Link href="/dashboard/upgrade" className="btn btn-gold" style={{ padding: '10px 20px', fontSize: '13px' }}>
@@ -79,7 +90,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
       <SetupNextBar />
 
       {/* Mobile bottom tab bar: Home, Scripts, DiGi, Quests, Progress */}
-      <MobileTabBar />
+      <MobileTabBar pendingAsks={pendingAsks ?? 0} />
 
       {/* Help now: a floating action just above the tab bar on mobile (and the
           pill on desktop), so crisis words stay one tap away from any page. */}
