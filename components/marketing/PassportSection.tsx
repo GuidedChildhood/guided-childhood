@@ -35,30 +35,40 @@ export default function PassportSection() {
         {/* The passport book: a deep teal cover beside a stamped page */}
         <div className="passport-book fu" style={{ display: 'flex', gap: '18px', alignItems: 'stretch', marginBottom: '36px', flexWrap: 'wrap', justifyContent: 'center' }}>
 
-          {/* Cover */}
+          {/* Cover: a real passport book, burgundy with gold foil */}
           <div style={{
             flex: '1 1 240px', minWidth: 240, maxWidth: 320,
-            background: 'var(--deep-teal)', borderRadius: '18px',
-            padding: '30px 26px', color: '#fff', position: 'relative',
+            background: 'linear-gradient(160deg, #6B2333 0%, #571C2A 55%, #4A1723 100%)',
+            borderRadius: '14px 18px 18px 14px',
+            padding: '30px 26px', color: 'var(--terracotta)', position: 'relative',
             display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
-            boxShadow: '0 14px 40px rgba(0,0,0,0.16)',
+            boxShadow: '0 14px 40px rgba(0,0,0,0.22), inset 0 0 0 2px rgba(237,195,95,0.55), inset 0 0 0 5px rgba(237,195,95,0.14), inset 12px 0 24px rgba(0,0,0,0.25)',
           }}>
-            <div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '6px' }}>
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'rgba(237,195,95,0.8)', marginBottom: '8px' }}>
                 Guided Childhood
               </div>
-              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.7rem', letterSpacing: '-0.02em', lineHeight: 1.05 }}>
+              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.6rem', letterSpacing: '0.02em', lineHeight: 1.05 }}>
                 Digital Passport
               </div>
+              <div style={{ width: '46px', height: '1.5px', background: 'rgba(237,195,95,0.55)', margin: '12px auto 0' }} />
             </div>
             <div style={{ margin: '26px 0', display: 'flex', justifyContent: 'center' }}>
-              <div style={{ width: 84, height: 84, borderRadius: '50%', border: '2.5px solid rgba(255,255,255,0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <div style={{ width: 62, height: 62, borderRadius: '50%', border: '1.5px solid rgba(255,255,255,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '30px' }}>
-                  🛡️
+              {/* Gold foil crest: the rising bars in a ring */}
+              <div style={{
+                width: 88, height: 88, borderRadius: '50%',
+                border: '2.5px solid rgba(237,195,95,0.85)',
+                boxShadow: 'inset 0 0 0 4px rgba(237,195,95,0.18)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}>
+                <div style={{ display: 'flex', alignItems: 'flex-end', gap: '4.5px', height: '36px' }}>
+                  {[5, 9, 14, 8].map((h, i) => (
+                    <div key={i} style={{ width: '6.5px', height: `${(h / 14) * 36}px`, background: 'var(--terracotta)', borderRadius: '3px' }} />
+                  ))}
                 </div>
               </div>
             </div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)', textAlign: 'center' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(237,195,95,0.65)', textAlign: 'center' }}>
               Ages 4 to 16 · Prepared, not postponed
             </div>
           </div>

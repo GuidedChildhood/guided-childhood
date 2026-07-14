@@ -21,6 +21,9 @@ export interface Stamp {
   pct: number
   status: StampStatus
   href: string
+  // The visible process on the passport page: lessons done of total.
+  lessonsDone?: number
+  lessonsTotal?: number
 }
 
 const R = 32

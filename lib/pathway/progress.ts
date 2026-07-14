@@ -27,6 +27,10 @@ export interface StageProgress {
   streakPct: number
   devicesPct: number
   lessonsPct: number
+  // The passport page shows lessons as the simple visible process:
+  // done of total, straight from the completions.
+  lessonsDone: number
+  lessonsTotal: number
   overallPct: number
   // The stamp is earned when the stage's real tasks, its lessons and scripts,
   // are all done. Deliberately not gated on a four week streak, so completing
@@ -98,7 +102,7 @@ export async function getStageProgress(
   const doneContent = completedInStage + lessonsDone
   const contentComplete = totalContent > 0 && doneContent === totalContent
 
-  return { scriptsPct, streakPct, devicesPct, lessonsPct, overallPct, contentComplete }
+  return { scriptsPct, streakPct, devicesPct, lessonsPct, lessonsDone, lessonsTotal: totalLessonsInStage, overallPct, contentComplete }
 }
 
 export function nextStageId(current: StageId): StageId | null {
@@ -161,6 +165,7 @@ export async function getAllStagesProgress(
     const doneContent = scriptsDone + lessonsDone
     out[stageId] = {
       scriptsPct, streakPct, devicesPct, lessonsPct,
+      lessonsDone, lessonsTotal: totalLessons,
       overallPct: Math.round(lessonsPct * 0.4 + scriptsPct * 0.3 + streakPct * 0.15 + devicesPct * 0.15),
       contentComplete: totalContent > 0 && doneContent === totalContent,
     }

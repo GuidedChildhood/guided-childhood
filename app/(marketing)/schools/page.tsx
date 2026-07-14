@@ -102,13 +102,13 @@ export default function SchoolsPage() {
       </header>
 
       {/* ── HERO ── espresso, oversized, product mockup right ── */}
-      <section style={{ background: ESPRESSO, color: '#fff', padding: 'clamp(64px, 9vw, 120px) clamp(20px, 4vw, 40px) clamp(80px, 10vw, 140px)', position: 'relative', overflow: 'hidden' }}>
+      <section style={{ background: 'linear-gradient(150deg, #2B5665 0%, #1E4652 55%, #173C46 100%)', color: '#fff', padding: 'clamp(64px, 9vw, 120px) clamp(20px, 4vw, 40px) clamp(80px, 10vw, 140px)', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', top: '-140px', right: '-100px', width: '620px', height: '620px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(237,195,95,0.22) 0%, transparent 62%)', pointerEvents: 'none' }} />
         <div style={{ position: 'absolute', bottom: '-200px', left: '-140px', width: '520px', height: '520px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(254,240,138,0.09) 0%, transparent 68%)', pointerEvents: 'none' }} />
         <div style={{ maxWidth: '1160px', margin: '0 auto', position: 'relative', display: 'grid', gridTemplateColumns: 'minmax(0, 1.05fr) minmax(0, 0.95fr)', gap: 'clamp(32px, 5vw, 72px)', alignItems: 'center' }} className="schools-hero-grid">
           <Reveal>
             <p style={{ ...eyebrow(GOLD), marginBottom: '22px' }}>For schools, heads and PSHE leads</p>
-            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.5rem, 5.4vw, 4.4rem)', fontWeight: 900, lineHeight: 1.03, letterSpacing: '-0.045em', marginBottom: '22px' }}>
+            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.5rem, 5.4vw, 4.4rem)', fontWeight: 900, lineHeight: 1.03, letterSpacing: '-0.045em', marginBottom: '22px', color: '#fff' }}>
               The digital literacy curriculum,<br />
               ready for <span style={{ color: GOLD }}>September 2026.</span>
             </h1>
@@ -359,12 +359,12 @@ export default function SchoolsPage() {
       </section>
 
       {/* ── FINAL CTA ── */}
-      <section style={{ background: ESPRESSO, color: '#fff', padding: 'clamp(72px, 10vw, 130px) clamp(20px, 4vw, 40px)', position: 'relative', overflow: 'hidden' }}>
+      <section style={{ background: 'linear-gradient(150deg, #2B5665 0%, #1E4652 55%, #173C46 100%)', color: '#fff', padding: 'clamp(72px, 10vw, 130px) clamp(20px, 4vw, 40px)', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '720px', height: '720px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(237,195,95,0.16) 0%, transparent 62%)', pointerEvents: 'none' }} />
         <Reveal>
           <div style={{ maxWidth: '660px', margin: '0 auto', textAlign: 'center', position: 'relative' }}>
             <div style={{ fontSize: '44px', marginBottom: '18px' }}>⭐</div>
-            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 4.2vw, 3.3rem)', fontWeight: 900, letterSpacing: '-0.04em', lineHeight: 1.05, marginBottom: '18px' }}>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 4.2vw, 3.3rem)', fontWeight: 900, letterSpacing: '-0.04em', lineHeight: 1.05, marginBottom: '18px', color: '#fff' }}>
               Be one of the first schools to teach it.
             </h2>
             <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.08rem', color: 'rgba(255,250,240,0.84)', lineHeight: 1.7, marginBottom: '32px' }}>
