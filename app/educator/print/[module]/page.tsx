@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect, notFound } from 'next/navigation'
 import { parseSlides, type ChoiceSlide } from '@/lib/content/lesson-slides'
 import PrintButton from './PrintButton'
+import { PrintBrandFooter } from '@/components/brand/PrintBrand'
 
 // The paper pack: every printable a teacher needs for a lesson, generated
 // from the lesson row in one click. This is the paperwork killer promised
@@ -177,6 +178,7 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
         {parent.try_this && <div style={box}><span style={mono}>Try this at home</span><p style={body}>{parent.try_this}</p></div>}
         {parent.family_question && <div style={box}><span style={mono}>Dinner table question</span><p style={{ ...body, fontWeight: 700 }}>{parent.family_question}</p></div>}
         <p style={{ ...body, fontSize: '11px', color: 'var(--ink-light)', marginTop: '14px' }}>Guided Childhood Schools · no login needed, nothing to sign up for. This note is yours.</p>
+        <PrintBrandFooter />
       </section>
     </main>
   )

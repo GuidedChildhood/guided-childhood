@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import PrintButton from './PrintButton'
+import { PrintBrandHeader, PrintBrandFooter } from '@/components/brand/PrintBrand'
 
 // The printable quest sheet: one week per child, big tick boxes, fridge
 // ready. For under phone age children this IS the interface; the parent
@@ -52,6 +53,7 @@ export default async function QuestPrintPage() {
             background: '#fff', border: '3px solid var(--ink)', borderRadius: '20px',
             padding: '24px 26px', marginBottom: '24px',
           }}>
+            <PrintBrandHeader />
             {/* Board banner, DiGi presiding */}
             <div style={{
               textAlign: 'center', marginBottom: '14px',
@@ -153,6 +155,7 @@ export default async function QuestPrintPage() {
             <p style={{ textAlign: 'center', fontSize: '12px', color: 'var(--ink-soft)', marginTop: '14px', marginBottom: 0 }}>
               Tick the box when it is done, then show a grown up. Stars land when they approve. ⭐
             </p>
+            <PrintBrandFooter />
           </div>
         )
       })}

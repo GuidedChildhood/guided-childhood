@@ -167,7 +167,7 @@ export async function POST(req: NextRequest) {
   }
 
   // Create a quest
-  const { title, emoji, stars, schedule, child_id } = body
+  const { title, emoji, stars, schedule, child_id, blocks_screens } = body
   if (!title || typeof title !== 'string') {
     return NextResponse.json({ error: 'title required' }, { status: 400 })
   }
@@ -178,6 +178,7 @@ export async function POST(req: NextRequest) {
     emoji: (emoji ?? '⭐').slice(0, 8),
     stars: Math.min(10, Math.max(1, Number(stars) || 1)),
     schedule: ['daily', 'weekdays', 'weekend', 'once'].includes(schedule) ? schedule : 'daily',
+    blocks_screens: Boolean(blocks_screens),
   }).select().single()
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
   return NextResponse.json({ quest: data })
@@ -189,13 +190,14 @@ export async function PATCH(req: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
 
-  const { quest_id, title, stars, schedule } = await req.json()
+  const { quest_id, title, stars, schedule, blocks_screens } = await req.json()
   if (!quest_id) return NextResponse.json({ error: 'quest_id required' }, { status: 400 })
 
   const patch: Record<string, unknown> = {}
   if (typeof title === 'string' && title.trim()) patch.title = title.trim().slice(0, 120)
   if (stars !== undefined) patch.stars = Math.min(10, Math.max(1, Number(stars) || 1))
   if (['daily', 'weekdays', 'weekend', 'once'].includes(schedule)) patch.schedule = schedule
+  if (typeof blocks_screens === 'boolean') patch.blocks_screens = blocks_screens
   if (Object.keys(patch).length === 0) return NextResponse.json({ error: 'nothing to update' }, { status: 400 })
 
   const { error } = await supabase

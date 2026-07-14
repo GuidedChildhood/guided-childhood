@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import PrintButton from '@/components/agreement/PrintButton'
+import { PrintBrandHeader, PrintBrandFooter } from '@/components/brand/PrintBrand'
 
 export const dynamic = 'force-dynamic'
 
@@ -52,9 +53,10 @@ export default async function AgreementPrintPage() {
 
       {/* The document */}
       <div style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: '20px', padding: 'clamp(28px, 5vw, 44px)' }}>
+        <PrintBrandHeader />
         <div style={{ textAlign: 'center', marginBottom: '30px' }}>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '10px' }}>
-            Guided Childhood · Family agreement{agreement.version > 1 ? ` · Version ${agreement.version}` : ''}
+            Family agreement{agreement.version > 1 ? ` · Version ${agreement.version}` : ''}
           </div>
           <h1 style={{ fontSize: 'clamp(1.6rem, 4vw, 2.1rem)', lineHeight: 1.1, marginBottom: '8px' }}>
             Our family agreement
@@ -99,6 +101,7 @@ export default async function AgreementPrintPage() {
             We will sit down and review this together on {formatDate(agreement.review_date)}
           </p>
         )}
+        <PrintBrandFooter />
       </div>
     </div>
   )

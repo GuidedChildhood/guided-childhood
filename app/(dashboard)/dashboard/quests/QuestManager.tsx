@@ -22,7 +22,7 @@ const TABS: { key: QuestTab; label: string }[] = [
 type Child = { id: string; name: string; age_band: string | null; phone?: string | null }
 
 const AGE_BANDS = ['4-7', '8-10', '11-13', '13-15', '16+'] as const
-type Quest = { id: string; title: string; emoji: string; stars: number; schedule: string; child_id: string | null }
+type Quest = { id: string; title: string; emoji: string; stars: number; schedule: string; child_id: string | null; blocks_screens?: boolean }
 type Goal = { child_id: string; title: string; stars_needed: number; daily_stars: number | null }
 type KidLink = { child_id: string; token: string }
 type Tick = { quest_id: string; child_id: string | null; status: string; tick_date: string; approved_at: string | null }
@@ -59,6 +59,8 @@ export default function QuestManager() {
   const [phoneSaved, setPhoneSaved] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [ticked, setTicked] = useState<string | null>(null)
+  const [firstTask, setFirstTask] = useState('')
+  const [firstMsg, setFirstMsg] = useState<string | null>(null)
   const [pingResult, setPingResult] = useState<string | null>(null)
   const [contactsSupported, setContactsSupported] = useState(false)
   const [tab, setTab] = useState<QuestTab>('manage')
@@ -92,7 +94,7 @@ export default function QuestManager() {
     } catch { /* refetch on next load */ }
   }
 
-  async function editQuest(questId: string, patch: { stars?: number; schedule?: string }) {
+  async function editQuest(questId: string, patch: { stars?: number; schedule?: string; blocks_screens?: boolean }) {
     setQuests(prev => prev.map(q => q.id === questId ? { ...q, ...patch } as Quest : q))
     try {
       await fetch('/api/quests', {
@@ -208,6 +210,29 @@ export default function QuestManager() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ ...t, child_id: activeChild }),
     })
+    await load()
+  }
+
+  // The spotted it prompt: the bedroom is not tidy, homework is not done.
+  // One tap makes it a one off quest flagged before screens, at the top of
+  // the child's list, on the printed contract, with a best effort ping to
+  // their device.
+  async function addBeforeScreens(title: string) {
+    const t = title.trim()
+    if (!activeChild || !t) return
+    await fetch('/api/quests', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ title: t, emoji: '📵', stars: 1, schedule: 'once', child_id: activeChild, blocks_screens: true }),
+    })
+    setFirstTask('')
+    setFirstMsg('On their list, marked before screens ✓')
+    setTimeout(() => setFirstMsg(null), 3500)
+    fetch('/api/quests/ping', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ child_id: activeChild, message: `Before screens today: ${t}` }),
+    }).catch(() => {})
     await load()
   }
 
@@ -558,6 +583,69 @@ export default function QuestManager() {
             </div>
           )}
 
+          {/* Do this first: the spotted it prompt and the printed contract */}
+          <div style={card}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
+              📵 Do this first
+            </div>
+            <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 12px' }}>
+              Spotted something that needs doing before screens go on? Send it now: it lands at the top of {child.name}&apos;s list marked before screens, pings their device, and sits on the printed contract.
+            </p>
+            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '10px' }}>
+              {['🛏️ Tidy your bedroom', '📚 Homework finished', '🎒 Bag packed for tomorrow'].map(chip => (
+                <button
+                  key={chip}
+                  onClick={() => addBeforeScreens(chip.slice(chip.indexOf(' ') + 1))}
+                  style={{
+                    background: '#fff', border: '1.5px solid var(--border)', borderRadius: '100px',
+                    padding: '8px 14px', cursor: 'pointer',
+                    fontFamily: 'var(--font-display)', fontSize: '12.5px', fontWeight: 700, color: 'var(--ink)',
+                  }}
+                >
+                  {chip}
+                </button>
+              ))}
+            </div>
+            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+              <input
+                value={firstTask}
+                onChange={e => setFirstTask(e.target.value)}
+                onKeyDown={e => { if (e.key === 'Enter') addBeforeScreens(firstTask) }}
+                placeholder="Or type it: feed the dog, violin practice..."
+                style={{
+                  flex: 1, minWidth: '200px', border: '1.5px solid var(--border)', borderRadius: '12px',
+                  padding: '10px 14px', fontSize: '13.5px', fontFamily: 'inherit', color: 'var(--ink)',
+                }}
+              />
+              <button
+                onClick={() => addBeforeScreens(firstTask)}
+                disabled={!firstTask.trim()}
+                style={{
+                  background: 'var(--terracotta)', border: 'none', borderRadius: '12px',
+                  padding: '10px 18px', cursor: firstTask.trim() ? 'pointer' : 'default',
+                  opacity: firstTask.trim() ? 1 : 0.5,
+                  fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 800, color: 'var(--ink)',
+                  boxShadow: '0 3px 0 var(--terracotta-dark)',
+                }}
+              >
+                Send it
+              </button>
+            </div>
+            {firstMsg && (
+              <p style={{ fontSize: '12.5px', color: 'var(--terracotta-dark)', fontWeight: 700, margin: '10px 0 0' }}>{firstMsg}</p>
+            )}
+            <a
+              href="/dashboard/quests/contract"
+              style={{
+                display: 'inline-block', marginTop: '12px',
+                fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700,
+                color: 'var(--terracotta-dark)', textDecoration: 'none',
+              }}
+            >
+              Print the device time contract →
+            </a>
+          </div>
+
           <div style={{ ...card, ...(allDoneToday ? { borderColor: 'var(--terracotta)', boxShadow: '0 6px 20px rgba(237,195,95,0.18)' } : {}) }}>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '12px' }}>
               {child.name}&apos;s quests
@@ -580,7 +668,7 @@ export default function QuestManager() {
                       <span style={{ flex: 1, minWidth: 0 }}>
                         <span style={{ display: 'block', fontSize: '14px', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.3 }}>{q.title}</span>
                         <span style={{ fontSize: '11px', color: 'var(--ink-muted)' }}>
-                          {SCHEDULE_LABELS[q.schedule] ?? q.schedule} · ⭐ {q.stars}
+                          {SCHEDULE_LABELS[q.schedule] ?? q.schedule} · ⭐ {q.stars}{q.blocks_screens ? ' · 📵 before screens' : ''}
                         </span>
                       </span>
                       <button
@@ -631,6 +719,19 @@ export default function QuestManager() {
                             </button>
                           ))}
                         </span>
+                        <button
+                          onClick={() => editQuest(q.id, { blocks_screens: !q.blocks_screens })}
+                          title="Screens wait until this one is done and approved"
+                          style={{
+                            padding: '6px 12px', borderRadius: '100px', cursor: 'pointer',
+                            border: `1.5px solid ${q.blocks_screens ? 'var(--terracotta)' : 'var(--border)'}`,
+                            background: q.blocks_screens ? 'var(--terracotta-lt)' : '#fff',
+                            color: q.blocks_screens ? 'var(--terracotta-dark)' : 'var(--ink-soft)',
+                            fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
+                          }}
+                        >
+                          📵 Screens wait{q.blocks_screens ? ' ✓' : ''}
+                        </button>
                         <button onClick={() => removeQuest(q.id)} style={{
                           marginLeft: 'auto', background: 'none', border: 'none', cursor: 'pointer',
                           fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--danger)', fontWeight: 700,

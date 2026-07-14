@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { DAILY_MOMENTS, DAILY_MOMENT_GROUPS } from '@/lib/content/daily-moments'
 import { momentImageSrc } from '@/lib/content/moment-images'
 
@@ -221,6 +222,23 @@ export default function MomentTimeline({
           </div>
         </div>
       ))}
+
+      {/* The day picker shows the child's slice; the full library, with the
+          science and DiGi's words behind every card, is one tap away. */}
+      <Link
+        href="/dashboard/moments"
+        style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          marginTop: '4px', marginLeft: '64px', padding: '12px 16px',
+          background: 'var(--cream)', border: '1.5px solid var(--border)',
+          borderRadius: '14px', textDecoration: 'none',
+        }}
+      >
+        <span style={{ fontSize: '13.5px', fontWeight: 700, color: 'var(--ink)', fontFamily: 'var(--font-display)' }}>
+          Every moment, with the science behind it
+        </span>
+        <span style={{ color: 'var(--terracotta-dark)', fontSize: '16px' }}>→</span>
+      </Link>
     </div>
   )
 }
