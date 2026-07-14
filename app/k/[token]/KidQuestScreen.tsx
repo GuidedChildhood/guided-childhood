@@ -875,6 +875,11 @@ export default function KidQuestScreen({
                   </button>
                 )
               })}
+              {stageGames.length > 0 && (
+                <p style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)', margin: '10px 0 0' }}>
+                  Games to play
+                </p>
+              )}
               {stageGames.map(game => {
                 const done = doneGames.has(game.key)
                 return (
@@ -922,7 +927,7 @@ export default function KidQuestScreen({
               {stagePrintables.length > 0 && (
                 <>
                   <p style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)', margin: '10px 0 0' }}>
-                    Paper adventures, ask for a print out
+                    🖨️ Paper adventures, ask for a print out
                   </p>
                   {stagePrintables.map(p => {
                     const askedTitle = `Print the ${p.title} sheet`

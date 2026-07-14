@@ -38,7 +38,7 @@ export const PRINTABLES: Printable[] = [
   {
     key: 'summer-bucket-list',
     title: 'My Summer Bucket List', emoji: '☀️', kind: 'bucket',
-    stages: [1, 2], minutes: 'All summer', setting: 'anywhere', skill: 'Family time',
+    stages: [1, 2, 3], minutes: 'All summer', setting: 'anywhere', skill: 'Family time',
     stars: 5,
     blurb: 'Sixteen real world summer wins, coloured in one by one. Fill the page before September.',
     sheetUrl: BASE + 'hf_20260713_124922_ba0709ec-ec0d-4c0d-a8a6-af46bd990fae.png',
@@ -48,7 +48,7 @@ export const PRINTABLES: Printable[] = [
   {
     key: 'rainy-day-bucket-list',
     title: 'My Rainy Day Bucket List', emoji: '🌧️', kind: 'bucket',
-    stages: [1, 2], minutes: 'One wet day', setting: 'indoors', skill: 'Creativity',
+    stages: [1, 2, 3], minutes: 'One wet day', setting: 'indoors', skill: 'Creativity',
     stars: 5,
     blurb: 'The screens stay off and the rain stays out. Forts, baking, kitchen discos and hot chocolate.',
     sheetUrl: BASE + 'hf_20260713_125301_6f2b5e5d-85e2-4a91-bbc6-e0f2367e5908.png',
@@ -58,7 +58,7 @@ export const PRINTABLES: Printable[] = [
   {
     key: 'kindness-bucket-list',
     title: 'My Kindness Bucket List', emoji: '💛', kind: 'bucket',
-    stages: [1, 2, 3], minutes: 'A few weeks', setting: 'anywhere', skill: 'Wellbeing',
+    stages: [1, 2, 3, 4], minutes: 'A few weeks', setting: 'anywhere', skill: 'Wellbeing',
     stars: 5,
     blurb: 'Every box coloured made someone’s day better. Thank you notes, baking for a neighbour, three real compliments.',
     sheetUrl: BASE + 'hf_20260713_125323_1242da82-d705-4bec-83f4-2acfc357b38c.png',
@@ -68,7 +68,7 @@ export const PRINTABLES: Printable[] = [
   {
     key: 'reading-bucket-list',
     title: 'My Reading Bucket List', emoji: '📚', kind: 'bucket',
-    stages: [1, 2, 3], minutes: 'A month of stories', setting: 'anywhere', skill: 'Reading',
+    stages: [1, 2, 3, 4], minutes: 'A month of stories', setting: 'anywhere', skill: 'Reading',
     stars: 5,
     blurb: 'Eight ways to read: outside, to someone, about space, a book they chose themselves.',
     sheetUrl: BASE + 'hf_20260713_125341_14a3ecc6-7706-4ccf-b1ca-67eee4e9bad9.png',
@@ -78,7 +78,7 @@ export const PRINTABLES: Printable[] = [
   {
     key: 'nature-scavenger-hunt',
     title: 'Nature Scavenger Hunt', emoji: '🍃', kind: 'hunt',
-    stages: [1, 2], minutes: '45 minutes', setting: 'outdoors', skill: 'Attention',
+    stages: [1, 2, 3], minutes: '45 minutes', setting: 'outdoors', skill: 'Attention',
     stars: 5,
     blurb: 'Take it on a walk. A feather, a snail, a funny shaped cloud. Look, spot, colour.',
     sheetUrl: BASE + 'hf_20260713_125401_9fc5d6aa-042a-4c2c-906c-495d1a71b442.png',
@@ -88,7 +88,7 @@ export const PRINTABLES: Printable[] = [
   {
     key: 'family-challenge-list',
     title: 'Family Challenge List', emoji: '🏆', kind: 'challenge',
-    stages: [1, 2, 3, 4], minutes: 'A few weekends', setting: 'anywhere', skill: 'Family time',
+    stages: [1, 2, 3, 4, 5], minutes: 'A few weekends', setting: 'anywhere', skill: 'Family time',
     stars: 5,
     blurb: 'Done together or not at all: game night, a screen free evening, a walk somewhere new.',
     sheetUrl: BASE + 'hf_20260713_125421_89d1c68e-fb50-4046-8a9c-d33bbfa4759c.png',
@@ -98,7 +98,7 @@ export const PRINTABLES: Printable[] = [
   {
     key: 'bucket-list-craft',
     title: 'Bucket List Craft', emoji: '✂️', kind: 'craft',
-    stages: [1, 2], minutes: 'One afternoon', setting: 'indoors', skill: 'Creativity',
+    stages: [1, 2, 3], minutes: 'One afternoon', setting: 'indoors', skill: 'Creativity',
     stars: 5,
     blurb: 'Two pages, one craft: cut out the bucket, glue on the handle and friends, write the list, colour the lot.',
     sheetUrl: BASE + 'hf_20260713_135347_bd5adb12-5316-4d17-a99a-68dca28c1d07.png',
@@ -110,7 +110,7 @@ export const PRINTABLES: Printable[] = [
   {
     key: 'spanish-bucket-list',
     title: 'My Spanish Bucket List', emoji: '🇪🇸', kind: 'bucket',
-    stages: [1, 2, 3], minutes: 'A week of words', setting: 'anywhere', skill: 'Spanish',
+    stages: [1, 2, 3, 4], minutes: 'A week of words', setting: 'anywhere', skill: 'Spanish',
     stars: 5,
     blurb: 'Hola, gracias, uno dos tres. Eight first steps into Spanish, said out loud and coloured in.',
     sheetUrl: BASE + 'hf_20260713_130906_33a56139-da85-4684-ad89-84067d3e705b.png',
