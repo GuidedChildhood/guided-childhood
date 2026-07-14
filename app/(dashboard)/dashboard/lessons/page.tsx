@@ -254,7 +254,7 @@ export default async function LessonsPage() {
         }}>
           <div>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '4px' }}>
-              Under 10 minutes, no login
+              Under 10 minutes, free with membership
             </div>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)' }}>
               Get your child&apos;s Digital Health Report
