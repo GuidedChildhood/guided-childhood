@@ -31,7 +31,7 @@ export async function getNotifications(supabase: NotifClient, userId: string): P
     supabase.from('quest_ticks').select('id, quest_id, child_id, tick_date').eq('user_id', userId).eq('status', 'pending').gte('tick_date', weekAgo),
     supabase.from('quest_requests').select('id, child_id, title, emoji, created_at, status').eq('user_id', userId).eq('status', 'pending'),
     supabase.from('school_actions').select('id, title, due_date, created_at').eq('user_id', userId).eq('status', 'open'),
-    supabase.from('digi_prompts').select('id, kind, title, body, created_at').eq('user_id', userId).eq('status', 'pending'),
+    supabase.from('digi_prompts').select('id, kind, title, body, href, created_at').eq('user_id', userId).eq('status', 'pending'),
     supabase.from('device_sessions').select('id, child_id, device, ends_at').eq('user_id', userId).eq('status', 'active').gt('ends_at', new Date().toISOString()),
   ])
 
@@ -64,13 +64,16 @@ export async function getNotifications(supabase: NotifClient, userId: string): P
     })
   }
 
-  // DiGi stepping in: the proactive prompt from the family's own data.
+  // DiGi stepping in: the proactive prompt from the family's own data. When
+  // the prompt carries its own link (a share nudge to open Lessons), the
+  // notification points straight there, so it opens exactly what to do rather
+  // than only a chat.
   for (const d of digiRes.data ?? []) {
     items.push({
       id: `digi-${d.id}`, kind: 'digi', icon: '◎', urgent: false,
       title: d.title as string,
       body: d.body as string,
-      href: `/dashboard/digi?q=${encodeURIComponent(`You flagged: ${d.title}. Can we talk it through?`)}`,
+      href: (d.href as string | null) || `/dashboard/digi?q=${encodeURIComponent(`You flagged: ${d.title}. Can we talk it through?`)}`,
       at: String(d.created_at),
     })
   }

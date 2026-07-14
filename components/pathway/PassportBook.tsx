@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import Link from 'next/link'
 import type { Stamp, StampStatus } from './PassportStamps'
 
@@ -30,6 +30,8 @@ function statusLabel(s: StampStatus): string {
   return 'Ahead'
 }
 
+const CELEBRATED_KEY = 'gc_passport_celebrated'
+
 export default function PassportBook({
   stamps,
   childName,
@@ -37,23 +39,41 @@ export default function PassportBook({
   stamps: Stamp[]
   childName: string
 }) {
-  // Page 0 is the cover; pages 1..5 are the stages.
+  // Page 0 is the cover; pages 1..5 are the stages. The book rests on its
+  // cover and never opens itself: the parent taps to open each page, the way
+  // Justin asked for, so the cover is a real front door.
   const [page, setPage] = useState(0)
   const [flipping, setFlipping] = useState<'next' | 'prev' | null>(null)
   const [drawn, setDrawn] = useState(false)
+  const [celebrating, setCelebrating] = useState<Stamp | null>(null)
   const pending = useRef<number | null>(null)
 
   const earnedCount = stamps.filter(s => s.status === 'earned').length
   const allEarned = earnedCount === stamps.length && stamps.length > 0
-  const currentStage = stamps.find(s => s.status === 'current')
 
-  // Open the book on the child's stage: a beat on the cover, then flip in.
+  // Draw the rings in shortly after mount. No auto flip: the cover stays put.
   useEffect(() => {
     const draw = setTimeout(() => setDrawn(true), 300)
-    const open = setTimeout(() => {
-      if (currentStage) goTo(currentStage.id)
-    }, 900)
-    return () => { clearTimeout(draw); clearTimeout(open) }
+    return () => clearTimeout(draw)
+  }, [])
+
+  // Real success when a page is newly stamped. We remember which earned pages
+  // the family has already celebrated, so the first time a page crosses to
+  // earned it gets a proper moment: a stamp slam, a burst and a gentle buzz.
+  // Later visits stay calm. This is the "make it feel earned" ask.
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    let seen: number[] = []
+    try { seen = JSON.parse(localStorage.getItem(CELEBRATED_KEY) ?? '[]') } catch { seen = [] }
+    const fresh = stamps.find(s => s.status === 'earned' && !seen.includes(s.id))
+    if (!fresh) return
+    const t = setTimeout(() => {
+      setCelebrating(fresh)
+      try { navigator.vibrate?.([40, 60, 90]) } catch { /* not supported */ }
+      const next = Array.from(new Set([...seen, ...stamps.filter(s => s.status === 'earned').map(s => s.id)]))
+      try { localStorage.setItem(CELEBRATED_KEY, JSON.stringify(next)) } catch { /* private mode */ }
+    }, 700)
+    return () => clearTimeout(t)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -221,39 +241,49 @@ export default function PassportBook({
                 </div>
               </div>
 
-              {/* Passport data rows: lessons lead, they are the process */}
+              {/* To stamp this page: the plain checklist of what completes the
+                  stage. Each task shows a tick when it is done and how much is
+                  left when it is not, so the page always says exactly what to
+                  do next. Lessons lead, they are the process. */}
               <div style={{ borderTop: `1.5px dashed ${theme.bold}`, paddingTop: '12px', marginTop: 'auto' }}>
-                {typeof stamp.lessonsTotal === 'number' && stamp.lessonsTotal > 0 && (
-                  <div style={{ marginBottom: '8px' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', gap: '10px', marginBottom: '4px' }}>
-                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: theme.text, opacity: 0.65 }}>Lessons</span>
-                      <span style={{ fontSize: '11.5px', fontWeight: 700, color: 'var(--ink)' }}>
-                        {stamp.lessonsDone ?? 0} of {stamp.lessonsTotal} done
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: theme.text, opacity: 0.7, marginBottom: '9px' }}>
+                  {stamp.status === 'earned' ? 'This page is stamped' : 'To stamp this page'}
+                </div>
+                {(() => {
+                  const lt = stamp.lessonsTotal ?? 0
+                  const ld = stamp.lessonsDone ?? 0
+                  const tasks: { label: string; done: boolean; detail: string }[] = [
+                    { label: 'Watch the lessons', done: (stamp.lessonsPct ?? 0) >= 100, detail: lt > 0 ? `${ld} of ${lt} done` : `${stamp.lessonsPct ?? 0}%` },
+                    { label: 'Read the scripts', done: (stamp.scriptsPct ?? 0) >= 100, detail: `${stamp.scriptsPct ?? 0}%` },
+                    { label: 'Set up the devices', done: (stamp.devicesPct ?? 0) >= 100, detail: `${stamp.devicesPct ?? 0}%` },
+                    { label: 'Keep the daily habit', done: (stamp.streakPct ?? 0) >= 100, detail: `${stamp.streakPct ?? 0}%` },
+                  ]
+                  return tasks.map(t => (
+                    <div key={t.label} style={{ display: 'flex', alignItems: 'center', gap: '9px', marginBottom: '7px' }}>
+                      <span style={{
+                        width: 17, height: 17, borderRadius: '6px', flexShrink: 0,
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        background: t.done ? theme.bold : 'transparent',
+                        border: t.done ? 'none' : `1.5px solid ${theme.bold}`,
+                      }}>
+                        {t.done && (
+                          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke={theme.text} strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12.5l4.5 4.5L19 7" /></svg>
+                        )}
+                      </span>
+                      <span style={{ flex: 1, fontSize: '12.5px', fontWeight: 700, color: 'var(--ink)', opacity: t.done ? 0.5 : 1, textDecoration: t.done ? 'line-through' : 'none' }}>
+                        {t.label}
+                      </span>
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: theme.text, opacity: 0.75 }}>
+                        {t.detail}
                       </span>
                     </div>
-                    <div style={{ height: '7px', borderRadius: '100px', background: 'rgba(26,26,46,0.08)', overflow: 'hidden' }}>
-                      <div style={{
-                        height: '100%', borderRadius: '100px', background: theme.bold,
-                        width: `${Math.min(100, Math.round(((stamp.lessonsDone ?? 0) / stamp.lessonsTotal) * 100))}%`,
-                        transition: 'width 0.8s cubic-bezier(0.22,1,0.36,1)',
-                      }} />
-                    </div>
-                  </div>
-                )}
-                {[
-                  ['Holder', childName === 'your child' ? 'Our family' : childName],
-                  ['Status', stamp.status === 'earned' ? 'Page stamped' : stamp.status === 'catchup' ? 'Waiting, catch up any time' : stamp.status === 'upcoming' ? 'Still to come' : 'Filling up now'],
-                ].map(([k, v]) => (
-                  <div key={k} style={{ display: 'flex', justifyContent: 'space-between', gap: '10px', marginBottom: '5px' }}>
-                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: theme.text, opacity: 0.65 }}>{k}</span>
-                    <span style={{ fontSize: '11.5px', fontWeight: 700, color: 'var(--ink)' }}>{v}</span>
-                  </div>
-                ))}
+                  ))
+                })()}
                 <Link
                   href={stamp.href}
                   style={{
                     position: 'relative', zIndex: 3,
-                    display: 'block', textAlign: 'center', marginTop: '10px',
+                    display: 'block', textAlign: 'center', marginTop: '11px',
                     fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px',
                     color: 'var(--ink)', textDecoration: 'none',
                     background: theme.bold, borderRadius: '12px', padding: '10px 14px',
@@ -327,10 +357,78 @@ export default function PassportBook({
         </div>
       )}
 
+      {/* Real success: the first time a page is stamped, the whole thing gets
+          a moment. A dimmed backdrop, a big seal slamming in, a burst of gold
+          and a warm line, then a tap to carry on to the page it belongs to. */}
+      {celebrating && (() => {
+        const t = STAGE_THEME[celebrating.id] ?? STAGE_THEME[1]
+        return (
+          <div
+            onClick={() => { const id = celebrating.id; setCelebrating(null); goTo(id) }}
+            role="button"
+            aria-label="Continue"
+            style={{
+              position: 'fixed', inset: 0, zIndex: 60, cursor: 'pointer',
+              background: 'rgba(26,26,46,0.62)', backdropFilter: 'blur(3px)',
+              display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+              padding: '24px', animation: 'gcCelebFade 0.3s ease both',
+            }}
+          >
+            {/* Gold burst behind the seal */}
+            <div style={{ position: 'relative', width: 200, height: 200, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              {Array.from({ length: 12 }).map((_, i) => (
+                <span key={i} style={{
+                  position: 'absolute', width: 9, height: 9, borderRadius: '2px',
+                  background: i % 2 ? 'var(--terracotta)' : '#fff',
+                  ['--r' as string]: `${i * 30}deg`,
+                  animation: `gcBurst 0.75s cubic-bezier(0.22,1,0.36,1) both`,
+                  animationDelay: `${0.12 + i * 0.012}s`,
+                } as React.CSSProperties} />
+              ))}
+              <div style={{
+                width: 130, height: 130, borderRadius: '50%', background: t.bg,
+                border: `4px solid ${t.text}`, color: t.text,
+                display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+                boxShadow: '0 14px 40px rgba(0,0,0,0.35)',
+                animation: 'gcSeal 0.6s cubic-bezier(0.34,1.56,0.64,1) both',
+              }}>
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12.5l4.5 4.5L19 7" /></svg>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', marginTop: '4px' }}>Stamped</span>
+              </div>
+            </div>
+            <div style={{ textAlign: 'center', marginTop: '22px', maxWidth: '320px', animation: 'gcCelebFade 0.4s ease 0.25s both' }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>
+                Page {celebrating.id} earned
+              </div>
+              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.5rem', color: '#fff', marginTop: '8px', lineHeight: 1.15 }}>
+                {celebrating.name} complete
+              </div>
+              <div style={{ fontSize: '13.5px', color: 'rgba(255,255,255,0.82)', lineHeight: 1.55, marginTop: '8px' }}>
+                {childName === 'your child' ? 'Your family' : `${childName}`} finished a whole stage of the journey to 16. That page is stamped for good.
+              </div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.55)', marginTop: '18px' }}>
+                Tap to see the page
+              </div>
+            </div>
+          </div>
+        )
+      })()}
+
       <style>{`
         @keyframes gcStampIn {
           0% { transform: scale(0.4) rotate(-30deg); opacity: 0; }
           100% { transform: scale(1) rotate(-10deg); opacity: 1; }
+        }
+        @keyframes gcCelebFade { 0% { opacity: 0 } 100% { opacity: 1 } }
+        @keyframes gcSeal {
+          0% { transform: scale(2.4) rotate(18deg); opacity: 0 }
+          60% { opacity: 1 }
+          100% { transform: scale(1) rotate(-8deg); opacity: 1 }
+        }
+        @keyframes gcBurst {
+          0% { transform: rotate(var(--r)) translateY(0) scale(0.2); opacity: 0 }
+          35% { opacity: 1 }
+          100% { transform: rotate(var(--r)) translateY(-92px) scale(1); opacity: 0 }
         }
       `}</style>
     </div>

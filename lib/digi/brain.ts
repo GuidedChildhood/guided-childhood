@@ -176,6 +176,11 @@ export interface ProactiveTrigger {
   reason: string
 }
 
+// The verbatim reason that marks a prompt as a share nudge: DiGi inviting the
+// parent to open Lessons and send a printable or lesson so the child earns
+// stars. The route matches on this to deep link the prompt straight there.
+export const SHARE_NUDGE_REASON = 'Routine cadence: nudge to share a printable or lesson so the child earns stars.'
+
 // Rules over real family data. Deliberately simple and inspectable: each
 // returns the reason a prompt should exist, generation happens elsewhere.
 export function findTriggers(
@@ -204,10 +209,15 @@ export function findTriggers(
 
   // A steady drumbeat even when nothing is wrong: one daily life tip, and
   // parent care roughly weekly, because the parent's own mental health is
-  // half of the child's environment.
+  // half of the child's environment. On alternate days the tip becomes a
+  // gentle nudge to share a printable or lesson so the child earns stars,
+  // which keeps the star loop alive without ever being a chore.
   const stale = !lastPromptAt || (Date.now() - new Date(lastPromptAt).getTime()) > 3 * 24 * 60 * 60 * 1000
   if (stale) {
-    triggers.push({ kind: 'tip', reason: 'Routine cadence: no proactive prompt in the last three days.' })
+    const shareTurn = Math.floor(Date.now() / 86_400_000) % 2 === 0
+    triggers.push(shareTurn
+      ? { kind: 'tip', reason: SHARE_NUDGE_REASON }
+      : { kind: 'tip', reason: 'Routine cadence: no proactive prompt in the last three days.' })
     triggers.push({ kind: 'parent_care', reason: 'Routine cadence: parent wellbeing check due.' })
   }
 

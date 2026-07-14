@@ -47,7 +47,7 @@ export default async function DashboardPage() {
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('full_name, onboarding_complete, subscription_status, trial_ends_at, onboarding_answers')
+    .select('full_name, onboarding_complete, subscription_status, trial_ends_at, onboarding_answers, daily_minutes')
     .eq('id', user.id)
     .maybeSingle()
 
@@ -366,7 +366,7 @@ export default async function DashboardPage() {
       {/* Today's Path: the hero of Home. The day's routine as one clear strip,
           DiGi sitting on the lit next step, so Home opens with a single thing to
           do rather than a wall of cards. */}
-      <TodayPathStrip tasks={todayLoop} />
+      <TodayPathStrip tasks={todayLoop} dailyMinutes={(profile?.daily_minutes as number | null) ?? 10} />
 
       {/* The glanceable stat row: streak, stars in the bank, today's quests,
           the three numbers a parent wants at a glance. */}

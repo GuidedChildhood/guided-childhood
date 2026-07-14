@@ -24,6 +24,12 @@ export interface Stamp {
   // The visible process on the passport page: lessons done of total.
   lessonsDone?: number
   lessonsTotal?: number
+  // The four tasks that stamp the page, each as its own percent, so a page
+  // can show a plain checklist of exactly what is left to complete.
+  scriptsPct?: number
+  streakPct?: number
+  devicesPct?: number
+  lessonsPct?: number
 }
 
 const R = 32

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import DigiCharacter from '@/components/digi/DigiCharacter'
 
-type Prompt = { id: string; kind: string; title: string; body: string }
+type Prompt = { id: string; kind: string; title: string; body: string; href?: string | null }
 
 const KIND_LABEL: Record<string, string> = {
   watch_for: 'Worth watching this week',
@@ -61,12 +61,22 @@ export default function DigiPrompts() {
               {p.body}
             </p>
             <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-              <Link
-                href={`/dashboard/digi?q=${encodeURIComponent(`You flagged: ${p.title}. Can we talk it through?`)}`}
-                style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--terracotta-dark)', textDecoration: 'none' }}
-              >
-                Talk it through with DiGi →
-              </Link>
+              {p.href ? (
+                <Link
+                  href={p.href}
+                  onClick={() => dismiss(p.id)}
+                  style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--terracotta-dark)', textDecoration: 'none' }}
+                >
+                  Open Lessons to share →
+                </Link>
+              ) : (
+                <Link
+                  href={`/dashboard/digi?q=${encodeURIComponent(`You flagged: ${p.title}. Can we talk it through?`)}`}
+                  style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--terracotta-dark)', textDecoration: 'none' }}
+                >
+                  Talk it through with DiGi →
+                </Link>
+              )}
               <button
                 onClick={() => dismiss(p.id)}
                 style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-muted)' }}
