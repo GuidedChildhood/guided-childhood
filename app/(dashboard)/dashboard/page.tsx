@@ -599,7 +599,7 @@ export default async function DashboardPage() {
       {(() => {
         const tiles = [
           { href: '/dashboard/pathway', external: false, bg: 'var(--tint-blue)', icon: '🗺️', title: 'Your pathway', sub: 'First device to independence', why: 'See the whole road mapped for your child, and exactly where you are on it.' },
-          { href: '/dashboard/lessons/together', external: false, bg: 'var(--stage-3)', icon: '📚', title: 'Lessons', sub: 'Illustrated five minute lessons to watch together', why: 'Five minutes on the sofa together beats an hour of lecturing. Pick one tonight.' },
+          { href: '/dashboard/lessons', external: false, bg: 'var(--stage-3)', icon: '📚', title: 'Lessons', sub: 'Illustrated five minute lessons to watch together', why: 'Five minutes on the sofa together beats an hour of lecturing. Pick one tonight.' },
           { href: '/dashboard/moments', external: false, bg: 'var(--terracotta-lt)', icon: '⚡', title: 'Moments', sub: 'The words for any battle', why: 'Bedtime, the handover, the meltdown. Tap the moment and the words are there.' },
           { href: '/dashboard/agreement', external: false, bg: 'var(--stage-1)', icon: '🤝', title: 'Family agreement', sub: 'Five talks, one signed sheet', why: 'Rules they helped write are rules they keep. Print it for the fridge.' },
           { href: '/dashboard/printables', external: false, bg: 'var(--tint-sage)', icon: '🖨️', title: 'Printables', sub: 'The offline pathway', why: 'Print a bucket list, put the crayons out, and every finished sheet pays stars.' },
