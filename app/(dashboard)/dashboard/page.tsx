@@ -17,6 +17,7 @@ import SchoolActionsCard, { type SchoolAction } from '@/components/school/School
 import SchoolPromoCard from '@/components/school/SchoolPromoCard'
 import QuestBoard from '@/components/quests/QuestBoard'
 import WaitingOnYou from '@/components/quests/WaitingOnYou'
+import HomeStats from '@/components/dashboard/HomeStats'
 import { visibleSteps as visibleSetupSteps } from '@/lib/setup/steps'
 import SocialMediaReadiness from '@/components/pathway/SocialMediaReadiness'
 import SetupUnlockToast from '@/components/setup/SetupUnlockToast'
@@ -367,32 +368,46 @@ export default async function DashboardPage() {
           do rather than a wall of cards. */}
       <TodayPathStrip tasks={todayLoop} />
 
-      {/* The streak card sits under the path: the reason to come back, below the
-          thing to do now. */}
-      <DigiStreakWidget count={streak.count} aliveToday={streak.aliveToday} firstName={firstName} />
+      {/* The glanceable stat row: streak, stars in the bank, today's quests,
+          the three numbers a parent wants at a glance. */}
+      <HomeStats streakCount={streak.count} />
 
-      {/* DiGi jumps in: proactive prompts generated from this family's own
-          data (mood and sleep trends, recurring concerns, wins) and the
-          expert knowledge base, so DiGi speaks first when it spots something
-          worth watching, always with a calm next step and never a diagnosis.
-          Renders nothing when there is nothing to say. */}
-      <DigiPrompts />
-
-      {/* Smart alerts: the one proactive layer, the ranked things this
-          family could do now, two at a time, calm and dismissable. */}
-      <SmartAlerts suggestions={suggestions} />
-
-      {/* Social media passport: from Stage 3 the readiness question goes live,
-          and from 13 the training turns heavy as the cliff edge at 16 comes
-          into view. Renders nothing below Stage 3, so the early years stay
-          calm. This is the dashboard alert for the age that needs it. */}
-      <SocialMediaReadiness stageId={stage.id} childName={child?.name} />
-
-      {/* Family quests: prominent, every child at a glance, tickable here.
-          The id is the anchor the Waiting on you banner scrolls to. */}
+      {/* Family quests, high in the daily flow: every child at a glance,
+          tickable here. The id is the anchor the Waiting on you banner
+          scrolls to. */}
       <div id="quest-board" style={{ scrollMarginTop: '80px' }}>
         <QuestBoard />
       </div>
+
+      {/* Keep going: the rest of the membership as a quiet grid of tiles, so
+          every part is one tap away without a wall of full width cards. */}
+      <p className="eyebrow" style={{ margin: '0 0 10px', fontSize: 10 }}>Keep going</p>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', marginBottom: '22px' }}>
+        {[
+          { href: '/dashboard/lessons', external: false, bg: 'var(--stage-3)', icon: '📚', title: 'Lessons', sub: 'Watch together, five minutes' },
+          { href: '/dashboard/moments', external: false, bg: 'var(--terracotta-lt)', icon: '⚡', title: 'Moments', sub: 'The words for any battle' },
+          { href: '/dashboard/digi', external: false, bg: 'var(--stage-5)', icon: '◎', title: 'Ask DiGi', sub: 'Anything about their world' },
+          { href: '/dashboard/pathway', external: false, bg: 'var(--tint-blue)', icon: '🗺️', title: 'Pathway', sub: 'The whole road to 16' },
+          { href: '/dashboard/scripts', external: false, bg: 'var(--stage-1)', icon: '❝', title: 'Scripts', sub: 'What to say, word for word' },
+          { href: '/dashboard/printables', external: false, bg: 'var(--tint-sage)', icon: '🖨️', title: 'Printables', sub: 'The offline pathway' },
+          { href: '/dashboard/agreement', external: false, bg: 'var(--stage-1)', icon: '🤝', title: 'Family agreement', sub: 'Five talks, one signed sheet' },
+          { href: '/dashboard/setup', external: false, bg: 'var(--cream)', icon: '🧭', title: 'Set up', sub: 'Quests, school, devices' },
+          { href: 'https://www.guidedchildhood.com/digitalwellbeing', external: true, bg: 'var(--stage-2)', icon: '🩺', title: 'Health report', sub: 'One free with membership' },
+        ].map(t => (
+          <Link key={t.href} href={t.href} {...(t.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})} style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: '6px', background: t.bg, border: `1.5px solid ${t.bg}`, borderRadius: '16px', padding: '15px' }}>
+            <span style={{ fontSize: '20px', lineHeight: 1 }}>{t.icon}</span>
+            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--ink)', lineHeight: 1.2 }}>{t.title}</span>
+            <span style={{ fontSize: '11.5px', color: 'var(--ink-soft)', lineHeight: 1.4 }}>{t.sub}</span>
+          </Link>
+        ))}
+      </div>
+
+      {/* Below the daily flow, quieter: the streak card, DiGi's proactive
+          prompts, the ranked alerts and the age gate. */}
+      <DigiStreakWidget count={streak.count} aliveToday={streak.aliveToday} firstName={firstName} />
+      <DigiPrompts />
+      <SmartAlerts suggestions={suggestions} />
+      <SocialMediaReadiness stageId={stage.id} childName={child?.name} />
 
       {/* DiGi check in — surfaces last reflective answer if the parent responded */}
       {lastFeedback && (
@@ -625,60 +640,6 @@ export default async function DashboardPage() {
           </Link>
         </div>
       </div>
-
-      {/* Explore: everything else in the membership, folded into one calm grid
-          of equal tiles. One tile a day carries the spotlight with a line of
-          why, so a parent learns the whole membership over the weeks without
-          ever facing a wall. Deterministic by date, no storage, no nagging. */}
-      {(() => {
-        const tiles = [
-          { href: '/dashboard/pathway', external: false, bg: 'var(--tint-blue)', icon: '🗺️', title: 'Your pathway', sub: 'First device to independence', why: 'See the whole road mapped for your child, and exactly where you are on it.' },
-          { href: '/dashboard/lessons', external: false, bg: 'var(--stage-3)', icon: '📚', title: 'Lessons', sub: 'Illustrated five minute lessons to watch together', why: 'Five minutes on the sofa together beats an hour of lecturing. Pick one tonight.' },
-          { href: '/dashboard/moments', external: false, bg: 'var(--terracotta-lt)', icon: '⚡', title: 'Moments', sub: 'The words for any battle', why: 'Bedtime, the handover, the meltdown. Tap the moment and the words are there.' },
-          { href: '/dashboard/agreement', external: false, bg: 'var(--stage-1)', icon: '🤝', title: 'Family agreement', sub: 'Five talks, one signed sheet', why: 'Rules they helped write are rules they keep. Print it for the fridge.' },
-          { href: '/dashboard/printables', external: false, bg: 'var(--tint-sage)', icon: '🖨️', title: 'Printables', sub: 'The offline pathway', why: 'Print a bucket list, put the crayons out, and every finished sheet pays stars.' },
-          { href: '/dashboard/setup', external: false, bg: 'var(--cream)', icon: '🧭', title: 'Set up', sub: 'Quests, school, devices, agreement', why: 'Change any of your setup: quests, school routines, the child link, your agreement.' },
-          { href: 'https://www.guidedchildhood.com/digitalwellbeing', external: true, bg: 'var(--stage-2)', icon: '🩺', title: 'Health report', sub: 'One free with membership', why: 'Ten minutes, and you get a clear picture of where things stand.' },
-        ]
-        const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000)
-        const spot = dayOfYear % tiles.length
-        return (
-          <section style={{ marginBottom: '20px' }}>
-            <p className="eyebrow" style={{ marginBottom: '12px', fontSize: 10 }}>Explore your membership</p>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px' }}>
-              {tiles.map((tile, i) => {
-                const isSpot = i === spot
-                return (
-                  <Link
-                    key={tile.href}
-                    href={tile.href}
-                    {...(tile.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                    style={{
-                      textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: '7px',
-                      background: tile.bg,
-                      border: isSpot ? '1.5px solid var(--terracotta)' : `1.5px solid ${tile.bg}`,
-                      boxShadow: isSpot ? '0 0 0 3px var(--terracotta-lt)' : 'none',
-                      borderRadius: '16px', padding: '16px',
-                      gridColumn: isSpot ? '1 / -1' : 'auto',
-                    }}
-                  >
-                    <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                      <span style={{ fontSize: '22px', lineHeight: 1 }}>{tile.icon}</span>
-                      {isSpot && (
-                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '100px', padding: '3px 9px' }}>
-                          Worth a look today
-                        </span>
-                      )}
-                    </span>
-                    <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--ink)', lineHeight: 1.2 }}>{tile.title}</span>
-                    <span style={{ fontSize: '11.5px', color: 'var(--ink-soft)', lineHeight: 1.4 }}>{isSpot ? tile.why : tile.sub}</span>
-                  </Link>
-                )
-              })}
-            </div>
-          </section>
-        )
-      })()}
 
       </>)}
 
