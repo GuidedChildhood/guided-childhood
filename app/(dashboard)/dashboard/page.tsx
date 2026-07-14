@@ -16,6 +16,7 @@ import AddChildName from '@/components/dashboard/AddChildName'
 import SchoolActionsCard, { type SchoolAction } from '@/components/school/SchoolActionsCard'
 import SchoolPromoCard from '@/components/school/SchoolPromoCard'
 import QuestBoard from '@/components/quests/QuestBoard'
+import WaitingOnYou from '@/components/quests/WaitingOnYou'
 import SetupPath, { visibleSteps as visibleSetupSteps } from '@/components/setup/SetupPath'
 import SocialMediaReadiness from '@/components/pathway/SocialMediaReadiness'
 import SetupUnlockToast from '@/components/setup/SetupUnlockToast'
@@ -277,6 +278,11 @@ export default async function DashboardPage() {
         <StreakFlame count={streak.count} aliveToday={streak.aliveToday} />
       </div>
 
+      {/* Waiting on you: the one clear next action at the top. A red count of
+          the quests to approve and the ideas a child pitched, tapping down to
+          the board where a parent acts on them. Silent when nothing waits. */}
+      <WaitingOnYou />
+
       {/* The setup path is the single conductor. It shows one step at a
           time, the rest waiting as quiet chips. The old bottom nudge that
           re-asked the same step on a second surface is gone, one ask only. */}
@@ -357,8 +363,11 @@ export default async function DashboardPage() {
           calm. This is the dashboard alert for the age that needs it. */}
       <SocialMediaReadiness stageId={stage.id} childName={child?.name} />
 
-      {/* Family quests: prominent, every child at a glance, tickable here */}
-      <QuestBoard />
+      {/* Family quests: prominent, every child at a glance, tickable here.
+          The id is the anchor the Waiting on you banner scrolls to. */}
+      <div id="quest-board" style={{ scrollMarginTop: '80px' }}>
+        <QuestBoard />
+      </div>
 
       {/* DiGi check in — surfaces last reflective answer if the parent responded */}
       {lastFeedback && (

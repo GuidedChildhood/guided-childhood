@@ -3,15 +3,15 @@ import LessonsBrowser, { type WatchItem, type LibraryItem } from '@/app/(dashboa
 import { PRINTABLES } from '@/lib/printables/registry'
 
 const watch: WatchItem[] = [
-  { code: 'a', stageNum: 2, stageName: '', title: 'The screen that would not switch off', catchphrase: 'Screens wait, we play first', strand: 'screens', posterUrl: null, journeyStep: 1, duration: 'About 3 minutes', done: false },
-  { code: 'b', stageNum: 2, stageName: '', title: 'Kind words online', catchphrase: 'Type it like you would say it', strand: 'kindness', posterUrl: null, journeyStep: 2, duration: 'About 2 minutes', done: true },
-  { code: 'c', stageNum: 2, stageName: '', title: 'Who made this game want my time?', catchphrase: 'Notice the hook', strand: 'gaming', posterUrl: null, journeyStep: 3, duration: 'About 4 minutes', done: false },
-  { code: 'd', stageNum: 3, stageName: '', title: 'Is that photo real?', catchphrase: 'Look twice', strand: 'misinformation', posterUrl: null, journeyStep: 4, duration: 'About 3 minutes', done: false },
+  { code: 'a', stageNum: 1, stageName: '', title: 'First screens, first rules', catchphrase: 'Little and together', strand: 'screens', posterUrl: null, journeyStep: 1, duration: 'About 2 minutes', done: false },
+  { code: 'b', stageNum: 2, stageName: '', title: 'The screen that would not switch off', catchphrase: 'Screens wait, we play first', strand: 'screens', posterUrl: null, journeyStep: 1, duration: 'About 3 minutes', done: false },
+  { code: 'c', stageNum: 2, stageName: '', title: 'Kind words online', catchphrase: 'Type it like you would say it', strand: 'kindness', posterUrl: null, journeyStep: 2, duration: 'About 2 minutes', done: true },
+  { code: 'd', stageNum: 3, stageName: '', title: 'Is that photo real?', catchphrase: 'Look twice', strand: 'misinformation', posterUrl: null, journeyStep: 1, duration: 'About 3 minutes', done: false },
+  { code: 'e', stageNum: 4, stageName: '', title: 'Who sees what you post?', catchphrase: 'Once it is out, it is out', strand: 'privacy', posterUrl: null, journeyStep: 1, duration: 'About 4 minutes', done: false },
 ]
 const library: LibraryItem[] = [
   { id: 'l1', href: '#', stageNum: 2, stageLabel: 'Builder', stageAges: '8 to 10', categoryLabel: 'Screen habits', title: 'Screens and sleep', keyMessage: 'Screens off an hour before bed', locked: false, done: true },
-  { id: 'l2', href: '#', stageNum: 2, stageLabel: 'Builder', stageAges: '8 to 10', categoryLabel: 'Safety', title: 'Who is on the other side?', keyMessage: 'Not everyone online is who they say', locked: false, done: false },
-  { id: 'l3', href: '#', stageNum: 2, stageLabel: 'Builder', stageAges: '8 to 10', categoryLabel: 'AI literacy', title: 'What is a chatbot?', keyMessage: 'It guesses words, it does not know you', locked: true, done: false },
+  { id: 'l2', href: '#', stageNum: 3, stageLabel: 'Explorer', stageAges: '11 to 13', categoryLabel: 'Safety', title: 'Who is on the other side?', keyMessage: 'Not everyone online is who they say', locked: false, done: false },
 ]
 
 export default function DevLessons() {
