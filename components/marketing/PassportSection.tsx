@@ -28,7 +28,7 @@ export default function PassportSection() {
             <span style={{ color: 'var(--terracotta)' }}>social media passport</span>
           </h2>
           <p className="fu" style={{ fontSize: '1.05rem', color: 'var(--ink-soft)', lineHeight: 1.75, maxWidth: '600px', margin: '0 auto' }}>
-            {PASSPORT_ANALOGY} This is not about banning. It is about preparation, the skills to navigate the digital world rather than hide from it.
+            {PASSPORT_ANALOGY} This is not about banning. It is about preparation, the skills to navigate the digital world rather than hide from it. Your child earns the passport page by page: safe digital usage, healthy habits from the start, no matter what age they join.
           </p>
         </div>
 
@@ -115,6 +115,25 @@ export default function PassportSection() {
             <p style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.6, marginTop: '20px', paddingTop: '16px', borderTop: '1px solid var(--border)' }}>
               At 16, when social media and the first vote arrive together, the cliff edge is just a step. Your child is prepared, educated and safe, and so are you.
             </p>
+          </div>
+
+          {/* The real thing: the passport as it looks in the app today */}
+          <div style={{
+            flex: '0 1 200px', minWidth: 180, maxWidth: 230, alignSelf: 'center',
+            display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'center',
+          }}>
+            <div style={{ borderRadius: '22px', overflow: 'hidden', border: '5px solid var(--ink)', boxShadow: '0 18px 50px rgba(26,26,46,0.22)' }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/marketing/passport-mobile-stage.png"
+                alt="The digital passport inside the app, a stage page with its circle filling"
+                loading="lazy"
+                style={{ width: '100%', display: 'block', aspectRatio: '390 / 680', objectFit: 'cover', objectPosition: 'top' }}
+              />
+            </div>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
+              Live in the app today
+            </div>
           </div>
         </div>
 
