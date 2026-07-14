@@ -33,6 +33,7 @@ export type KidAsk = { id: string; title: string; emoji: string; status: string 
 export default function KidQuestScreen({
   token, childName, stageId = 2, quests, todayTicks, weekStars, goal, streakDays = 0, laterQuests = [], doneLessonKeys = [], missions = [],
   adventures = [], bank = null, usedWeekMinutes = 0, requests = [], printablesUnlocked = true, activeSession = null,
+  weekChart = [],
 }: {
   token: string
   childName: string
@@ -51,6 +52,7 @@ export default function KidQuestScreen({
   requests?: KidAsk[]
   printablesUnlocked?: boolean
   activeSession?: ActiveSession | null
+  weekChart?: { label: string; count: number; today: boolean }[]
 }) {
   // Only the games, mini lessons and printables that suit this child's
   // stage, so a young child never meets an older child's content.
@@ -550,6 +552,13 @@ export default function KidQuestScreen({
             {PLAY_PAYS_WHY_KID}
           </p>
         </div>
+
+        {/* My week: a simple bar per day of the last seven, taller the more
+            quests the child ticked, and the plain sum of what that earned in
+            minutes. A child can see their own effort turn into screen time. */}
+        {weekChart.some(d => d.count > 0) && (
+          <KidWeekChart data={weekChart} weekStars={weekStars} />
+        )}
 
         {/* Screens wait: any quest flagged blocks_screens and not yet
             approved sits at the top of the list behind this banner. */}
@@ -1165,6 +1174,47 @@ function gradientFor(seed: string): string {
   let h = 0
   for (let i = 0; i < seed.length; i++) h = (h * 31 + seed.charCodeAt(i)) >>> 0
   return CARD_GRADIENTS[h % CARD_GRADIENTS.length]
+}
+
+// My week: seven little bars, one per day, taller the more the child did,
+// with today ringed in gold, and the plain line that turns the week's stars
+// into minutes. Deliberately simple: a child reads their own effort at a
+// glance and sees exactly what it is worth.
+function KidWeekChart({ data, weekStars }: { data: { label: string; count: number; today: boolean }[]; weekStars: number }) {
+  const max = Math.max(1, ...data.map(d => d.count))
+  const total = data.reduce((s, d) => s + d.count, 0)
+  return (
+    <div style={{ background: '#fff', borderRadius: '18px', padding: '15px 16px 13px', marginBottom: '14px', boxShadow: '0 4px 0 rgba(0,0,0,0.16)' }}>
+      <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: '12px' }}>
+        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1rem', color: 'var(--ink)' }}>My week 📊</span>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
+          {total} done
+        </span>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: '7px', height: '70px' }}>
+        {data.map((d, i) => (
+          <div key={i} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px', height: '100%', justifyContent: 'flex-end' }}>
+            {d.count > 0 && (
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: 'var(--ink)' }}>{d.count}</span>
+            )}
+            <div style={{
+              width: '100%', maxWidth: 26, borderRadius: '7px',
+              height: `${Math.max(d.count > 0 ? 14 : 6, (d.count / max) * 52)}px`,
+              background: d.count === 0 ? 'var(--cream)' : d.today ? 'var(--terracotta)' : 'var(--terracotta-lt)',
+              border: d.today ? '2px solid var(--terracotta-dark)' : d.count === 0 ? '1.5px solid var(--border)' : '2px solid var(--terracotta)',
+              transition: 'height 0.5s cubic-bezier(0.22,1,0.36,1)',
+            }} />
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: d.today ? 'var(--terracotta-dark)' : 'var(--ink-muted)' }}>{d.label}</span>
+          </div>
+        ))}
+      </div>
+      <div style={{ marginTop: '11px', textAlign: 'center', background: 'var(--tint-sage)', borderRadius: '11px', padding: '9px' }}>
+        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: 'var(--ink)' }}>
+          ⭐ {weekStars} stars this week = {weekStars * STAR_MINUTES} minutes earned
+        </span>
+      </div>
+    </div>
+  )
 }
 
 function bigCardShell(done: boolean): React.CSSProperties {
