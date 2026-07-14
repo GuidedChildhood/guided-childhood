@@ -47,6 +47,14 @@ export async function POST(req: NextRequest) {
 
   const stars = Math.max(1, Math.min(10, Number(body.stars) || 3))
 
+  // The lesson must exist. If school_lessons has no rows (the curriculum
+  // migration has not been run on this database), say so plainly rather
+  // than throwing a foreign key error the parent cannot read.
+  const { data: lessonRow, error: lookupError } = await supabase
+    .from('school_lessons').select('id').eq('id', body.lesson_id).maybeSingle()
+  if (lookupError) return NextResponse.json({ error: 'lessons not set up' }, { status: 503 })
+  if (!lessonRow) return NextResponse.json({ error: 'lessons not set up' }, { status: 503 })
+
   // Re-sending an already sent lesson updates the stars and resets it to
   // playable, so a parent can offer a replay with a fresh reward.
   const { error } = await supabase

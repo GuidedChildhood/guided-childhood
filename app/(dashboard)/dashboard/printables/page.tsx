@@ -1,7 +1,9 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
+import Link from 'next/link'
 import { PRINTABLES, printablesForStage } from '@/lib/printables/registry'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
+import { hasFullAccess } from '@/lib/access'
 import PrintableActions from './PrintableActions'
 
 // The Printables library: the offline pathway. Beautiful colouring book
@@ -20,12 +22,13 @@ export default async function PrintablesPage() {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const { data: child } = await supabase
-    .from('children')
-    .select('name, age_band')
-    .eq('parent_id', user.id)
-    .eq('is_primary', true)
-    .maybeSingle()
+  const [{ data: child }, { data: profile }] = await Promise.all([
+    supabase.from('children').select('name, age_band').eq('parent_id', user.id).eq('is_primary', true).maybeSingle(),
+    supabase.from('profiles').select('subscription_status, trial_ends_at').eq('id', user.id).maybeSingle(),
+  ])
+  // Previews always show (they are the sell); downloads and the builder
+  // are a member feature. The founder and trial parents get full access.
+  const isPaid = hasFullAccess(profile, user.email)
 
   const stageId = child?.age_band ? getStageFromAgeBand(child.age_band as AgeBand).id : 2
   const forChild = printablesForStage(stageId)
@@ -72,7 +75,7 @@ export default async function PrintablesPage() {
                 <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0, flex: 1 }}>
                   {p.blurb}
                 </p>
-                <PrintableActions printable={p} />
+                <PrintableActions printable={p} isPaid={isPaid} />
               </div>
             </div>
           ))}
@@ -91,9 +94,10 @@ export default async function PrintablesPage() {
         Print it, put the crayons out, and the screens look after themselves. Every finished sheet is worth stars: add it to the quest list, they hand the page back, you approve, the stars land in their bank.
       </p>
 
-      {/* The builder: pick from the idea pool or write your own, then print */}
-      <a
-        href="/dashboard/printables/builder"
+      {/* The builder: pick from the idea pool or write your own, then print.
+          A member feature; free parents see it and are pointed to upgrade. */}
+      <Link
+        href={isPaid ? '/dashboard/printables/builder' : '/dashboard/upgrade'}
         style={{
           display: 'flex', alignItems: 'center', gap: '16px', textDecoration: 'none',
           background: 'var(--tint-sage)', border: '1.5px solid var(--border)', borderRadius: '20px',
@@ -103,16 +107,16 @@ export default async function PrintablesPage() {
         <span style={{ fontSize: '30px', lineHeight: 1 }} aria-hidden>✏️</span>
         <span style={{ flex: 1 }}>
           <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
-            Build your own bucket list
+            Build your own bucket list{isPaid ? '' : ' 🔒'}
           </span>
           <span style={{ display: 'block', fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.55, marginTop: '3px' }}>
             Pick from our ideas or write your own, put their name on it, and print a list that is completely yours.
           </span>
         </span>
         <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--ink)', whiteSpace: 'nowrap' }}>
-          Open the builder →
+          {isPaid ? 'Open the builder →' : 'Members →'}
         </span>
-      </a>
+      </Link>
 
       <Section
         title={childName ? `Made for ${childName}` : 'Made for their age'}

@@ -7,7 +7,7 @@ import type { Printable } from '@/lib/printables/registry'
 // wiring. Add to quests creates a one off family quest through the same
 // approve loop as everything else, so the finished paper pays screen time.
 
-export default function PrintableActions({ printable }: { printable: Printable }) {
+export default function PrintableActions({ printable, isPaid = true }: { printable: Printable; isPaid?: boolean }) {
   const [added, setAdded] = useState(false)
 
   async function addToQuests() {
@@ -34,6 +34,17 @@ export default function PrintableActions({ printable }: { printable: Printable }
     padding: '10px 16px', textDecoration: 'none',
     fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 800,
     boxShadow: '0 3px 0 var(--terracotta-dark)',
+  }
+
+  // Free parents see the beautiful preview (the sell) but the download and
+  // the star wiring are a member feature, so the printables sit behind the
+  // paywall like the rest of the library.
+  if (!isPaid) {
+    return (
+      <a href="/dashboard/upgrade" style={{ ...downloadStyle, background: '#fff', border: '1.5px solid var(--border)', boxShadow: 'none', color: 'var(--ink)' }}>
+        🔒 Members download and print
+      </a>
+    )
   }
 
   return (

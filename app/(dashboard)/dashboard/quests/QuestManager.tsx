@@ -1001,7 +1001,7 @@ export default function QuestManager() {
           )}
 
           {tab === 'games' && (
-            <GamesTab stageKey={stageKey} childName={child.name} />
+            <GamesTab stageKey={stageKey} childName={child.name} childId={activeChild} onShare={sendPing} />
           )}
 
           {tab === 'rewards' && (
@@ -1314,28 +1314,33 @@ export default function QuestManager() {
   )
 }
 
-// The Games tab: only the star games we built into the app, age matched to
-// this child's stage. Each is played to earn stars, so this is a play list,
-// not a shop. A four to seven year old sees only their gentle games, never
-// an eleven year old's.
+// The Games tab: the star games we built, age matched to this child's
+// stage. These are the CHILD's games, not the parent's: every one already
+// lives on the child's quest link. The parent's job here is to look one
+// over (Preview) and nudge the child to play it (Send to child), never to
+// play it themselves. A four to seven year old sees only their gentle
+// games, never an eleven year old's.
 const STAGEKEY_TO_NUM: Record<StageKey, number> = {
   foundation: 1, builder: 2, explorer: 3, shaper: 4, independent: 5,
 }
 
-function GamesTab({ stageKey, childName }: {
+function GamesTab({ stageKey, childName, childId, onShare }: {
   stageKey: StageKey
   childName: string
+  childId: string | null
+  onShare: (message: string) => void
 }) {
   const games = gamesForStage(STAGEKEY_TO_NUM[stageKey] ?? 2)
   const label = STAGE_LABELS[stageKey]
+  const [shared, setShared] = useState<string | null>(null)
   return (
     <div>
       <div style={{ ...card, background: 'var(--deep-teal)', border: 'none', color: '#fff' }}>
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '6px' }}>
-          Star games for {label.name} · {label.ages}
+          {childName}&apos;s games · {label.name} · {label.ages}
         </div>
         <p style={{ fontSize: '13.5px', color: 'rgba(255,255,255,0.82)', lineHeight: 1.6, margin: 0 }}>
-          The games we built, matched to {childName}&apos;s stage. They play, they learn something real, and the stars land in their bank. Every one is on their quest link too.
+          These are {childName}&apos;s games, already on their quest link and matched to their stage. Every one teaches something real and pays stars into their bank. Preview any to see what they will play, or send one to nudge them to play it now.
         </p>
       </div>
 
@@ -1358,23 +1363,37 @@ function GamesTab({ stageKey, childName }: {
                 </span>
               </div>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
-                {g.stage} · ⭐ {g.stars}
+                {g.stage} · ⭐ {g.stars} · On their link
               </div>
               <p style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 14px', flex: 1 }}>
                 {g.blurb}
               </p>
-              <Link
-                href={`/dashboard/quests/play/${g.key}`}
-                style={{
-                  alignSelf: 'flex-start', textDecoration: 'none',
-                  background: 'var(--terracotta)', color: 'var(--ink)',
-                  border: 'none', borderRadius: '12px', padding: '9px 18px',
-                  fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 800,
-                  boxShadow: '0 3px 0 var(--terracotta-dark)',
-                }}
-              >
-                Play {g.title} →
-              </Link>
+              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                <button
+                  onClick={() => { onShare(`Play ${g.title} on your quests, worth ${g.stars} stars ⭐`); setShared(g.key); setTimeout(() => setShared(s => s === g.key ? null : s), 2600) }}
+                  disabled={!childId}
+                  style={{
+                    textDecoration: 'none', cursor: childId ? 'pointer' : 'default',
+                    background: shared === g.key ? 'var(--tint-sage)' : 'var(--terracotta)', color: 'var(--ink)',
+                    border: 'none', borderRadius: '12px', padding: '9px 16px',
+                    fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 800,
+                    boxShadow: shared === g.key ? 'none' : '0 3px 0 var(--terracotta-dark)',
+                    opacity: childId ? 1 : 0.6,
+                  }}
+                >
+                  {shared === g.key ? 'Sent ✓' : `Send to ${childName}`}
+                </button>
+                <Link
+                  href={`/dashboard/quests/play/${g.key}`}
+                  style={{
+                    textDecoration: 'none', alignSelf: 'center',
+                    fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700,
+                    color: 'var(--ink-soft)', padding: '6px 4px',
+                  }}
+                >
+                  Preview
+                </Link>
+              </div>
             </div>
           ))}
         </div>
