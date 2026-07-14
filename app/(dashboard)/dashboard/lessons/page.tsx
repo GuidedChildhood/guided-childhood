@@ -122,6 +122,29 @@ export default async function LessonsPage() {
         </p>
       </div>
 
+      {/* Cross link to the watch together video lessons: the two lesson types
+          live side by side, each reachable from the other. */}
+      <Link href="/dashboard/lessons/together" style={{ textDecoration: 'none', display: 'block', marginBottom: '20px' }}>
+        <div style={{
+          background: 'var(--stage-3)', border: '1.5px solid var(--stage-3)',
+          borderRadius: '16px', padding: '18px 20px',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '14px',
+        }}>
+          <div>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '4px' }}>
+              Watch together
+            </div>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)' }}>
+              Illustrated five minute video lessons
+            </div>
+            <div style={{ fontSize: '12px', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '4px' }}>
+              Short stories you watch on the sofa, with DiGi. First watch earns 10 stars.
+            </div>
+          </div>
+          <span style={{ fontSize: '18px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>
+        </div>
+      </Link>
+
       {/* Progress: completed lessons count toward the total, and any lesson
           can be opened again whenever you want a refresher. */}
       {doneCount > 0 && (
