@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import NavTabs from '@/components/dashboard/NavTabs'
+import NotificationsBell from '@/components/dashboard/NotificationsBell'
 import MobileTabBar from '@/components/dashboard/MobileTabBar'
 import RightNowButton from '@/components/rightnow/RightNowButton'
 import InstallPrompt from '@/components/pwa/InstallPrompt'
@@ -59,6 +60,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
           </Link>
           <NavTabs pendingAsks={pendingAsks ?? 0} />
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <NotificationsBell />
             {!isPaid && (
               <Link href="/dashboard/upgrade" className="btn btn-gold" style={{ padding: '10px 20px', fontSize: '13px' }}>
                 Upgrade
