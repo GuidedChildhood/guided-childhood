@@ -15,7 +15,7 @@ export async function GET() {
 
   const { data } = await supabase
     .from('school_actions')
-    .select('id, kind, title, detail, due_date, sent_to_child, recurs_weekday, auto_send_to_child')
+    .select('id, kind, title, detail, due_date, due_time, sent_to_child, recurs_weekday, auto_send_to_child')
     .eq('user_id', user.id)
     .eq('status', 'open')
     .order('due_date', { ascending: true, nullsFirst: false })
@@ -35,6 +35,9 @@ export async function POST(req: NextRequest) {
   const kind = KINDS.includes(body.kind) ? body.kind : 'notice'
   const detail = typeof body.detail === 'string' ? body.detail.trim().slice(0, 400) || null : null
   const dueDate = typeof body.due_date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(body.due_date) ? body.due_date : null
+  // A written time (dentist at 09:00) that lets the reminder escalate as it
+  // nears. Only kept for a dated one off, never for a weekly routine.
+  const dueTime = typeof body.due_time === 'string' && /^\d{2}:\d{2}$/.test(body.due_time) ? body.due_time : null
   const recursWeekday = Number.isInteger(body.recurs_weekday) && body.recurs_weekday >= 0 && body.recurs_weekday <= 6
     ? body.recurs_weekday
     : null
@@ -45,11 +48,12 @@ export async function POST(req: NextRequest) {
     .insert({
       user_id: user.id, kind, title, detail,
       due_date: recursWeekday !== null ? null : dueDate,
+      due_time: recursWeekday !== null ? null : dueTime,
       recurs_weekday: recursWeekday,
       auto_send_to_child: autoSendToChild,
       status: 'open',
     })
-    .select('id, kind, title, detail, due_date, sent_to_child, recurs_weekday, auto_send_to_child')
+    .select('id, kind, title, detail, due_date, due_time, sent_to_child, recurs_weekday, auto_send_to_child')
     .single()
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 

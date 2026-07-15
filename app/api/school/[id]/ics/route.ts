@@ -30,10 +30,18 @@ export async function GET(_req: NextRequest, ctx: { params: Promise<{ id: string
   const admin = createAdminClient()
   const { data: a } = await admin
     .from('school_actions')
-    .select('id, title, detail, due_date, recurs_weekday')
+    .select('id, title, detail, due_date, due_time, recurs_weekday')
     .eq('id', id)
     .maybeSingle()
   if (!a) return NextResponse.json({ error: 'not found' }, { status: 404 })
+
+  // A written time (dentist at 09:00) becomes the event's real start; the
+  // default 7:45 covers the seen by today reminders that carry no time.
+  const tm = typeof a.due_time === 'string' && /^\d{2}:\d{2}/.test(a.due_time) ? a.due_time.slice(0, 5) : null
+  const startClock = tm ? `${tm.replace(':', '')}00` : '074500'
+  const endClock = tm
+    ? `${pad((Number(tm.slice(0, 2)) * 60 + Number(tm.slice(3, 5)) + 15) / 60 | 0)}${pad((Number(tm.slice(0, 2)) * 60 + Number(tm.slice(3, 5)) + 15) % 60)}00`
+    : '080000'
 
   let startDate: string
   let rrule = ''
@@ -62,8 +70,8 @@ export async function GET(_req: NextRequest, ctx: { params: Promise<{ id: string
     `DTSTAMP:${stamp}`,
     `SUMMARY:${esc(String(a.title))}`,
     a.detail ? `DESCRIPTION:${esc(String(a.detail))}` : 'DESCRIPTION:From school, via Guided Childhood',
-    `DTSTART:${startDate}T074500`,
-    `DTEND:${startDate}T080000${rrule}`,
+    `DTSTART:${startDate}T${startClock}`,
+    `DTEND:${startDate}T${endClock}${rrule}`,
     'BEGIN:VALARM',
     'TRIGGER:PT0M',
     'ACTION:DISPLAY',

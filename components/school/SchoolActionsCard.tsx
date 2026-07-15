@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 // Things you need to know: the open school_actions DiGi extracted from
 // forwarded school emails, plus anything the parent typed in by hand
@@ -21,6 +21,7 @@ export type SchoolAction = {
   title: string
   detail: string | null
   due_date: string | null
+  due_time?: string | null
   sent_to_child?: boolean
   recurs_weekday?: number | null
   auto_send_to_child?: boolean
@@ -42,17 +43,42 @@ const WEEKDAYS = [
 ]
 const WEEKDAY_NAME: Record<number, string> = { 0: 'Sunday', 1: 'Monday', 2: 'Tuesday', 3: 'Wednesday', 4: 'Thursday', 5: 'Friday', 6: 'Saturday' }
 
-function dueLabel(dueDate: string | null): string | null {
+type DueTone = 'overdue' | 'urgent' | 'today' | 'soon' | 'calm'
+
+// The reminder escalates as it nears. A dated task is calm days out, turns
+// to Today, and if a written time is set it goes red in the last hour and
+// overdue once it passes. This drives both the words and the colour so the
+// card gets louder exactly when it matters, never before.
+// nowMs is passed in, not read from the clock, so the same value is used on
+// the server render and the first client render (no hydration mismatch). It
+// is null until the component mounts, and while null the minute level urgency
+// is held back to a stable Today at HH:MM, then it escalates live once the
+// client ticks the clock in.
+function dueInfo(dueDate: string | null, dueTime: string | null | undefined, nowMs: number | null): { text: string; tone: DueTone } | null {
   if (!dueDate) return null
-  const due = new Date(`${dueDate}T00:00:00`)
-  if (Number.isNaN(due.getTime())) return null
-  const today = new Date()
-  today.setHours(0, 0, 0, 0)
-  const days = Math.round((due.getTime() - today.getTime()) / 86400000)
-  if (days < 0) return 'Overdue'
-  if (days === 0) return 'Today'
-  if (days === 1) return 'Tomorrow'
-  return `By ${due.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' })}`
+  const today = new Date(nowMs ?? Date.parse(`${dueDate}T00:00:00`)); today.setHours(0, 0, 0, 0)
+  const dueDay = new Date(`${dueDate}T00:00:00`)
+  if (Number.isNaN(dueDay.getTime())) return null
+  const days = Math.round((dueDay.getTime() - today.getTime()) / 86400000)
+  const timeStr = dueTime ? dueTime.slice(0, 5) : null
+
+  if (days > 1) return { text: `By ${dueDay.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' })}${timeStr ? `, ${timeStr}` : ''}`, tone: 'calm' }
+  if (days === 1) return { text: `Tomorrow${timeStr ? ` at ${timeStr}` : ''}`, tone: 'soon' }
+
+  // Today or past. Minute level urgency only once mounted (nowMs set).
+  if (timeStr && nowMs != null) {
+    const dueAt = new Date(`${dueDate}T${dueTime!.length === 5 ? `${dueTime}:00` : dueTime}`)
+    if (!Number.isNaN(dueAt.getTime())) {
+      const mins = Math.round((dueAt.getTime() - nowMs) / 60000)
+      if (mins < 0) return { text: `Overdue · was ${timeStr}`, tone: 'overdue' }
+      if (mins <= 60) return { text: mins <= 1 ? `Now · ${timeStr}` : `In ${mins} min · ${timeStr}`, tone: 'urgent' }
+      if (days < 0) return { text: `Overdue · was ${timeStr}`, tone: 'overdue' }
+      return { text: `Today at ${timeStr}`, tone: 'today' }
+    }
+  }
+  if (timeStr) return { text: `Today at ${timeStr}`, tone: 'today' }
+  if (days < 0) return { text: 'Overdue', tone: 'overdue' }
+  return { text: 'Today', tone: 'today' }
 }
 
 export default function SchoolActionsCard({ actions: initial, childName }: { actions: SchoolAction[]; childName?: string | null }) {
@@ -62,12 +88,21 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
   const [kind, setKind] = useState('notice')
   const [repeats, setRepeats] = useState(false)
   const [dueDate, setDueDate] = useState('')
+  const [dueTime, setDueTime] = useState('')
   const [weekday, setWeekday] = useState(4) // Thursday, PE kit is the classic case
   const [autoSend, setAutoSend] = useState(false)
   const [saving, setSaving] = useState(false)
   const [sendingId, setSendingId] = useState<string | null>(null)
   const [testing, setTesting] = useState(false)
   const [testResult, setTestResult] = useState<string | null>(null)
+  // Held null through the first render so server and client agree, then the
+  // clock ticks in and the timed cards escalate on their own.
+  const [nowMs, setNowMs] = useState<number | null>(null)
+  useEffect(() => {
+    setNowMs(Date.now())
+    const t = setInterval(() => setNowMs(Date.now()), 30000)
+    return () => clearInterval(t)
+  }, [])
 
   const recurring = actions.filter(a => a.recurs_weekday != null)
   const oneOff = actions.filter(a => a.recurs_weekday == null)
@@ -93,6 +128,7 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
         body: JSON.stringify({
           title: title.trim(), kind,
           due_date: repeats ? null : (dueDate || null),
+          due_time: repeats ? null : (dueDate && dueTime ? dueTime : null),
           recurs_weekday: repeats ? weekday : null,
           auto_send_to_child: repeats ? autoSend : false,
         }),
@@ -102,6 +138,7 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
         setActions(a => [...a, data.action].sort((x, y) => (x.due_date ?? '9999').localeCompare(y.due_date ?? '9999')))
         setTitle('')
         setDueDate('')
+        setDueTime('')
         setRepeats(false)
         setAutoSend(false)
         setShowAdd(false)
@@ -153,6 +190,9 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
       background: '#fff', border: '1.5px solid var(--border)',
       borderRadius: '16px', padding: '20px 22px', marginBottom: '20px',
     }}>
+      {/* A calm pulse, only ever on the last hour and overdue cards, so the
+          card gets your eye exactly when the time is close. */}
+      <style>{`@keyframes gcSchoolPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(229,72,77,0.0) } 50% { box-shadow: 0 0 0 4px rgba(229,72,77,0.12) } }`}</style>
       <div style={{ marginBottom: '14px' }}>
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
           From school
@@ -270,12 +310,25 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
             </div>
           ) : (
             <div style={{ marginBottom: '10px' }}>
-              <input
-                type="date"
-                value={dueDate}
-                onChange={e => setDueDate(e.target.value)}
-                style={{ padding: '10px 12px', borderRadius: '10px', border: '1.5px solid var(--border)', background: '#fff', fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--ink)' }}
-              />
+              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center' }}>
+                <input
+                  type="date"
+                  value={dueDate}
+                  onChange={e => setDueDate(e.target.value)}
+                  style={{ padding: '10px 12px', borderRadius: '10px', border: '1.5px solid var(--border)', background: '#fff', fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--ink)' }}
+                />
+                <input
+                  type="time"
+                  value={dueTime}
+                  onChange={e => setDueTime(e.target.value)}
+                  disabled={!dueDate}
+                  title="Optional. A time makes it go red as it nears, like a dentist at 09:00."
+                  style={{ padding: '10px 12px', borderRadius: '10px', border: '1.5px solid var(--border)', background: dueDate ? '#fff' : 'var(--cream)', fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--ink)', opacity: dueDate ? 1 : 0.5 }}
+                />
+              </div>
+              <p style={{ fontSize: '11.5px', color: 'var(--ink-muted)', lineHeight: 1.45, margin: '6px 0 0' }}>
+                Add a time for a set appointment (dentist, assembly). It turns red as it nears. Leave it off for a seen by today reminder.
+              </p>
             </div>
           )}
 
@@ -351,11 +404,16 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           {oneOff.map(a => {
             const kindMeta = KIND_STYLE[a.kind] ?? KIND_STYLE.notice
-            const due = dueLabel(a.due_date)
+            const due = dueInfo(a.due_date, a.due_time, nowMs)
+            const hot = due?.tone === 'urgent' || due?.tone === 'overdue'
+            const dueColor = due?.tone === 'overdue' || due?.tone === 'urgent' ? 'var(--danger)'
+              : due?.tone === 'today' ? 'var(--terracotta-dark)' : 'var(--ink-muted)'
             return (
               <div key={a.id} style={{
                 padding: '12px 14px', borderRadius: '12px',
-                background: 'var(--cream)', border: '1px solid var(--border)',
+                background: hot ? 'var(--danger-bg)' : 'var(--cream)',
+                border: hot ? '1.5px solid var(--danger)' : '1px solid var(--border)',
+                animation: hot ? 'gcSchoolPulse 1.6s ease-in-out infinite' : undefined,
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', marginBottom: '5px' }}>
                   <span style={{
@@ -368,10 +426,11 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
                   </span>
                   {due && (
                     <span style={{
-                      fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700,
-                      color: due === 'Overdue' ? 'var(--danger)' : due === 'Today' ? 'var(--terracotta-dark)' : 'var(--ink-muted)',
+                      display: 'inline-flex', alignItems: 'center', gap: '4px',
+                      fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: dueColor,
                     }}>
-                      {due}
+                      {hot && <span style={{ width: 6, height: 6, borderRadius: '100px', background: 'var(--danger)', display: 'inline-block' }} />}
+                      {due.text}
                     </span>
                   )}
                 </div>

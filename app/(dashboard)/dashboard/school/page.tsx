@@ -16,7 +16,7 @@ export default async function SchoolPage() {
   const [actionsResult, childResult] = await Promise.all([
     supabase
       .from('school_actions')
-      .select('id, kind, title, detail, due_date, sent_to_child, recurs_weekday, auto_send_to_child')
+      .select('id, kind, title, detail, due_date, due_time, sent_to_child, recurs_weekday, auto_send_to_child')
       .eq('user_id', user.id)
       .eq('status', 'open')
       .order('due_date', { ascending: true, nullsFirst: false })

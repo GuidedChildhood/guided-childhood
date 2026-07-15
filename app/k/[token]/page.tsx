@@ -196,6 +196,27 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   // up where it left off on a refresh.
   const activeSession = await getActiveSession(supabase, link.child_id)
 
+  // From school, for the child themselves: the reminders their grown up sent
+  // through (one offs due today) and any weekly routine set to reach them
+  // automatically on its day. These show as a banner on the child's own
+  // screen that goes red as a timed one nears, so the child sees it too, not
+  // only the parent. Only ever the items meant for the child.
+  const todayWeekday = new Date().getDay()
+  const { data: schoolRows } = await supabase
+    .from('school_actions')
+    .select('id, title, kind, due_date, due_time, recurs_weekday, sent_to_child, auto_send_to_child')
+    .eq('user_id', link.user_id)
+    .eq('status', 'open')
+    .or(`due_date.eq.${today},recurs_weekday.eq.${todayWeekday}`)
+  const schoolToday = (schoolRows ?? [])
+    .filter(a => a.recurs_weekday != null ? a.auto_send_to_child : a.sent_to_child)
+    .map(a => ({
+      id: a.id as string,
+      title: a.title as string,
+      kind: a.kind as string,
+      time: typeof a.due_time === 'string' ? (a.due_time as string).slice(0, 5) : null,
+    }))
+
   return (
     <KidQuestScreen
       token={token}
@@ -216,6 +237,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       activeSession={activeSession}
       weekChart={weekChart}
       requests={(requestsRes.data ?? []) as { id: string; title: string; emoji: string; status: string }[]}
+      schoolToday={schoolToday}
     />
   )
 }

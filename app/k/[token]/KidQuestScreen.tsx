@@ -30,11 +30,12 @@ type Goal = { title: string; stars_needed: number; daily_stars: number | null; a
 export type KidMission = { id: string; title: string; stars: number; status: string }
 export type KidAdventure = { code: string; title: string; catchphrase: string; stageId: number; posterUrl?: string | null; done: boolean; timesCompleted: number }
 export type KidAsk = { id: string; title: string; emoji: string; status: string }
+export type KidSchoolToday = { id: string; title: string; kind: string; time: string | null }
 
 export default function KidQuestScreen({
   token, childName, stageId = 2, quests, todayTicks, weekStars, goal, streakDays = 0, laterQuests = [], doneLessonKeys = [], missions = [],
   adventures = [], bank = null, usedWeekMinutes = 0, requests = [], printablesUnlocked = true, activeSession = null,
-  weekChart = [],
+  weekChart = [], schoolToday = [],
 }: {
   token: string
   childName: string
@@ -54,6 +55,7 @@ export default function KidQuestScreen({
   printablesUnlocked?: boolean
   activeSession?: ActiveSession | null
   weekChart?: { label: string; count: number; today: boolean }[]
+  schoolToday?: KidSchoolToday[]
 }) {
   // Only the games, mini lessons and printables that suit this child's
   // stage, so a young child never meets an older child's content.
@@ -435,6 +437,11 @@ export default function KidQuestScreen({
             Go {childName}!
           </h1>
         </div>
+
+        {/* From school today: the child sees the reminder their grown up sent
+            through, and a timed one goes red as it nears, so it lands with
+            them too, not only the parent. */}
+        <KidSchoolBanner items={schoolToday} />
 
         {/* Star bank */}
         <div style={{
@@ -1211,6 +1218,75 @@ function gradientFor(seed: string): string {
 // with today ringed in gold, and the plain line that turns the week's stars
 // into minutes. Deliberately simple: a child reads their own effort at a
 // glance and sees exactly what it is worth.
+const SCHOOL_KIND_EMOJI: Record<string, string> = {
+  kit: '🎒', payment: '💷', homework: '📖', event: '📅', deadline: '⏰', notice: '📌',
+}
+
+// The child's own school reminder banner. Calm and gold most of the day, and
+// as a timed one nears (in the last hour, or once it is passed) it turns red
+// and gives a soft pulse, so a dentist at nine reaches the child too. It
+// re-checks the clock every half minute so the red arrives on its own.
+function KidSchoolBanner({ items }: { items: KidSchoolToday[] }) {
+  // null until mounted, so the first client render matches the server and the
+  // red only arrives once the clock is ticking on the child's own device.
+  const [now, setNow] = useState<number | null>(null)
+  useEffect(() => {
+    setNow(Date.now())
+    if (!items.some(i => i.time)) return
+    const t = setInterval(() => setNow(Date.now()), 30000)
+    return () => clearInterval(t)
+  }, [items])
+
+  if (!items.length) return null
+
+  const today = new Date(now ?? Date.now()).toISOString().slice(0, 10)
+  const urgentOf = (time: string | null): boolean => {
+    if (!time || now == null) return false
+    const at = new Date(`${today}T${time.length === 5 ? `${time}:00` : time}`).getTime()
+    if (Number.isNaN(at)) return false
+    const mins = (at - now) / 60000
+    return mins <= 60 // in the last hour, or already passed
+  }
+  const anyUrgent = items.some(i => urgentOf(i.time))
+
+  return (
+    <div style={{
+      background: '#fff', borderRadius: '18px', padding: '14px 16px', marginBottom: '16px',
+      border: anyUrgent ? '2.5px solid #E5484D' : '2px solid var(--terracotta)',
+      boxShadow: anyUrgent ? '0 5px 0 rgba(185,59,63,0.55)' : '0 5px 0 var(--terracotta-dark)',
+      animation: anyUrgent ? 'gcKidSchoolPulse 1.3s ease-in-out infinite' : undefined,
+    }}>
+      <style>{`@keyframes gcKidSchoolPulse { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-2px) } }`}</style>
+      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: anyUrgent ? '#B93B3F' : 'var(--terracotta-dark)', marginBottom: '9px' }}>
+        {anyUrgent ? '🔴 Don’t forget, it is nearly time' : '🏫 From school today'}
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        {items.map(i => {
+          const hot = urgentOf(i.time)
+          return (
+            <div key={i.id} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <span style={{ fontSize: '1.2rem', flexShrink: 0 }}>{SCHOOL_KIND_EMOJI[i.kind] ?? '📌'}</span>
+              <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)' }}>
+                {i.title}
+              </span>
+              {i.time && (
+                <span style={{
+                  flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
+                  padding: '3px 9px', borderRadius: '100px',
+                  background: hot ? '#FDECEC' : 'var(--tint-sage)',
+                  color: hot ? '#B93B3F' : 'var(--ink-soft)',
+                }}>
+                  {i.time}
+                </span>
+              )}
+            </div>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
 function KidWeekChart({ data, weekStars }: { data: { label: string; count: number; today: boolean }[]; weekStars: number }) {
   const max = Math.max(1, ...data.map(d => d.count))
   const total = data.reduce((s, d) => s + d.count, 0)
