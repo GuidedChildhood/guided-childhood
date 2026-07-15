@@ -96,6 +96,16 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     while (tickDays.has(dayStr(offset))) { streakDays++; offset++ }
   }
 
+  // The child's week at a glance: how many quests they ticked each of the
+  // last seven days, built from the same tick history the streak uses.
+  const weekChart = Array.from({ length: 7 }, (_, i) => {
+    const off = 6 - i
+    const d = dayStr(off)
+    const count = (streakTicksRes.data ?? []).filter(t => String(t.tick_date) === d).length
+    const dow = new Date(`${d}T00:00:00Z`).getUTCDay()
+    return { label: 'SMTWTFS'[dow], count, today: off === 0 }
+  })
+
   const quests = (questsRes.data ?? []).filter(q => questDueToday(q.schedule))
   const laterQuests = (questsRes.data ?? [])
     .filter(q => !questDueToday(q.schedule))
@@ -204,6 +214,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       usedWeekMinutes={usedWeekMinutes}
       printablesUnlocked={printablesUnlocked}
       activeSession={activeSession}
+      weekChart={weekChart}
       requests={(requestsRes.data ?? []) as { id: string; title: string; emoji: string; status: string }[]}
     />
   )

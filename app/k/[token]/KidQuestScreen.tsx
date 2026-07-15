@@ -16,6 +16,7 @@ import { gamesForStage, type QuestGame } from '@/lib/quest-games/registry'
 import QuestGamePlayer from '@/components/quest-games/QuestGamePlayer'
 import DeviceTimeCard from '@/components/quests/DeviceTimeCard'
 import type { ActiveSession } from '@/lib/quests/device-time'
+import { playKidSound, soundEnabled, setSoundEnabled } from '@/lib/sound/kidSounds'
 import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
 
 // The kid facing quest screen: joyful, huge tap targets, instant ticks,
@@ -33,6 +34,7 @@ export type KidAsk = { id: string; title: string; emoji: string; status: string 
 export default function KidQuestScreen({
   token, childName, stageId = 2, quests, todayTicks, weekStars, goal, streakDays = 0, laterQuests = [], doneLessonKeys = [], missions = [],
   adventures = [], bank = null, usedWeekMinutes = 0, requests = [], printablesUnlocked = true, activeSession = null,
+  weekChart = [],
 }: {
   token: string
   childName: string
@@ -51,6 +53,7 @@ export default function KidQuestScreen({
   requests?: KidAsk[]
   printablesUnlocked?: boolean
   activeSession?: ActiveSession | null
+  weekChart?: { label: string; count: number; today: boolean }[]
 }) {
   // Only the games, mini lessons and printables that suit this child's
   // stage, so a young child never meets an older child's content.
@@ -83,9 +86,11 @@ export default function KidQuestScreen({
   // child has not opened yet, tracked in localStorage on their own device.
   const [lessonTab, setLessonTab] = useState<'watch' | 'learn' | 'games' | 'print'>('watch')
   const [seenLessons, setSeenLessons] = useState<Set<string>>(new Set())
+  const [soundOn, setSoundOn] = useState(true)
 
   useEffect(() => {
     if (localStorage.getItem('gc_kid_welcome') !== '1') setShowWelcome(true)
+    setSoundOn(soundEnabled())
   }, [])
 
   function dismissWelcome() {
@@ -134,6 +139,21 @@ export default function KidQuestScreen({
       })
     } catch { /* best effort, the next load reconciles */ }
     setAskBusy(false)
+  }
+
+  // Print it now: the child can send the sheet to a printer themselves, not
+  // only ask a grown up. The sheet art is public on the CDN, so a small
+  // print window shows just the page and prints it. If a popup is blocked,
+  // opening the image straight is the fallback so the button never dead ends.
+  function printSheet(sheetUrl: string, title: string) {
+    const w = window.open('', '_blank')
+    if (!w) { window.open(sheetUrl, '_blank'); return }
+    w.document.write(
+      `<!doctype html><html><head><title>${title}</title>` +
+      `<style>@page{margin:8mm}html,body{margin:0;padding:0}img{width:100%;display:block}</style></head>` +
+      `<body><img src="${sheetUrl}" alt="${title}" onload="setTimeout(function(){window.focus();window.print()},250)"></body></html>`
+    )
+    w.document.close()
   }
 
   async function askForMore() {
@@ -227,6 +247,7 @@ export default function KidQuestScreen({
     if (!untick) {
       setBurst(quest.id)
       setTimeout(() => setBurst(null), 900)
+      playKidSound('star')
       setToast('Sent to your grown up! ⭐ Stars land when they tap approve.')
       setTimeout(() => setToast(null), 3000)
     }
@@ -393,8 +414,20 @@ export default function KidQuestScreen({
           </div>
         )}
 
-        {/* Header */}
-        <div style={{ textAlign: 'center', marginBottom: '18px' }}>
+        {/* Header, with the little sound switch tucked in the corner so a
+            child (or a grown up) can turn the sounds off any time. */}
+        <div style={{ position: 'relative', textAlign: 'center', marginBottom: '18px' }}>
+          <button
+            onClick={() => { const next = !soundOn; setSoundOn(next); setSoundEnabled(next); if (next) playKidSound('tap') }}
+            aria-label={soundOn ? 'Turn sounds off' : 'Turn sounds on'}
+            style={{
+              position: 'absolute', top: 0, right: 0, width: 40, height: 40, borderRadius: '50%',
+              background: 'rgba(255,255,255,0.12)', border: '1.5px solid rgba(255,255,255,0.28)',
+              cursor: 'pointer', fontSize: '17px', lineHeight: 1, color: '#fff',
+            }}
+          >
+            {soundOn ? '🔊' : '🔇'}
+          </button>
           <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)', marginBottom: 6 }}>
             Today&apos;s quests
           </p>
@@ -497,7 +530,7 @@ export default function KidQuestScreen({
           {([['quests', '⭐ My quests'], ['lessons', '🧠 My lessons']] as const).map(([key, label]) => (
             <button
               key={key}
-              onClick={() => { setTab(key); setActiveLesson(null) }}
+              onClick={() => { setTab(key); setActiveLesson(null); playKidSound('tap') }}
               style={{
                 position: 'relative',
                 flex: 1, padding: '13px 10px', borderRadius: '14px', cursor: 'pointer',
@@ -535,6 +568,13 @@ export default function KidQuestScreen({
             {PLAY_PAYS_WHY_KID}
           </p>
         </div>
+
+        {/* My week: a simple bar per day of the last seven, taller the more
+            quests the child ticked, and the plain sum of what that earned in
+            minutes. A child can see their own effort turn into screen time. */}
+        {weekChart.some(d => d.count > 0) && (
+          <KidWeekChart data={weekChart} weekStars={weekStars} />
+        )}
 
         {/* Screens wait: any quest flagged blocks_screens and not yet
             approved sits at the top of the list behind this banner. */}
@@ -981,35 +1021,49 @@ export default function KidQuestScreen({
                     const askedTitle = `Print the ${p.title} sheet`
                     const asked = asks.some(a => a.title === askedTitle)
                     return (
-                      <div key={p.key} style={bigCardShell(false)}>
-                        <div style={{ position: 'relative', height: '112px', background: '#EFE9DD', overflow: 'hidden' }}>
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img src={p.previewUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                          <span style={{ position: 'absolute', top: '9px', left: '11px', fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: 'var(--ink)', background: 'rgba(255,255,255,0.85)', borderRadius: '100px', padding: '3px 9px' }}>
-                            ⭐ {p.stars}
-                          </span>
-                        </div>
-                        <div style={{ padding: '13px 16px 15px' }}>
-                          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.05rem', color: 'var(--ink)', lineHeight: 1.2, marginBottom: '3px' }}>
-                            {p.emoji} {p.title}
+                      <div key={p.key} style={{ ...bigCardShell(false), padding: '11px 13px 13px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '13px', marginBottom: '11px' }}>
+                          <div style={{ position: 'relative', width: 76, height: 76, borderRadius: '15px', flexShrink: 0, overflow: 'hidden', background: '#EFE9DD' }}>
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img src={p.previewUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                            <span style={{ position: 'absolute', bottom: '5px', left: '5px', fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, color: 'var(--ink)', background: 'rgba(255,255,255,0.9)', borderRadius: '100px', padding: '2px 7px' }}>
+                              ⭐ {p.stars}
+                            </span>
                           </div>
-                          <div style={{ fontSize: '13px', fontWeight: 600, color: 'var(--ink-muted)', lineHeight: 1.4, marginBottom: '11px' }}>
-                            A colouring sheet, worth {p.stars} stars when the whole page is done
+                          <div style={{ flex: 1, minWidth: 0 }}>
+                            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.02rem', color: 'var(--ink)', lineHeight: 1.22 }}>
+                              {p.emoji} {p.title}
+                            </div>
+                            <div style={{ fontSize: '12.5px', fontWeight: 600, color: 'var(--ink-muted)', lineHeight: 1.35, marginTop: '2px' }}>
+                              Colour the whole page for {p.stars} stars
+                            </div>
                           </div>
-                          <button
-                            onClick={() => submitAsk(askedTitle, '🖨️')}
-                            disabled={asked}
-                            style={{
-                              width: '100%', padding: '13px', borderRadius: '14px', border: 'none',
-                              cursor: asked ? 'default' : 'pointer',
-                              background: asked ? 'var(--tint-sage)' : 'var(--terracotta)', color: 'var(--ink)',
-                              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
-                              boxShadow: asked ? 'none' : '0 4px 0 var(--terracotta-dark)',
-                            }}
-                          >
-                            {asked ? 'Asked your grown up ✓' : '🖨️ Ask for a print out'}
-                          </button>
                         </div>
+                        <button
+                          onClick={() => printSheet(p.sheetUrl, p.title)}
+                          style={{
+                            width: '100%', padding: '12px', borderRadius: '13px', border: 'none',
+                            cursor: 'pointer', marginBottom: '7px',
+                            background: 'var(--terracotta)', color: 'var(--ink)',
+                            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
+                            boxShadow: '0 4px 0 var(--terracotta-dark)',
+                          }}
+                        >
+                          🖨️ Print it now
+                        </button>
+                        <button
+                          onClick={() => submitAsk(askedTitle, '🖨️')}
+                          disabled={asked}
+                          style={{
+                            width: '100%', padding: '10px', borderRadius: '13px',
+                            border: '1.5px solid var(--border)',
+                            cursor: asked ? 'default' : 'pointer',
+                            background: asked ? 'var(--tint-sage)' : '#fff', color: 'var(--ink)',
+                            fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '13px',
+                          }}
+                        >
+                          {asked ? 'Asked your grown up ✓' : 'Or ask a grown up to print it'}
+                        </button>
                       </div>
                     )
                   })}
@@ -1138,27 +1192,71 @@ function gradientFor(seed: string): string {
   return CARD_GRADIENTS[h % CARD_GRADIENTS.length]
 }
 
+// My week: seven little bars, one per day, taller the more the child did,
+// with today ringed in gold, and the plain line that turns the week's stars
+// into minutes. Deliberately simple: a child reads their own effort at a
+// glance and sees exactly what it is worth.
+function KidWeekChart({ data, weekStars }: { data: { label: string; count: number; today: boolean }[]; weekStars: number }) {
+  const max = Math.max(1, ...data.map(d => d.count))
+  const total = data.reduce((s, d) => s + d.count, 0)
+  return (
+    <div style={{ background: '#fff', borderRadius: '18px', padding: '15px 16px 13px', marginBottom: '14px', boxShadow: '0 4px 0 rgba(0,0,0,0.16)' }}>
+      <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: '12px' }}>
+        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1rem', color: 'var(--ink)' }}>My week 📊</span>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
+          {total} done
+        </span>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: '7px', height: '70px' }}>
+        {data.map((d, i) => (
+          <div key={i} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px', height: '100%', justifyContent: 'flex-end' }}>
+            {d.count > 0 && (
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: 'var(--ink)' }}>{d.count}</span>
+            )}
+            <div style={{
+              width: '100%', maxWidth: 26, borderRadius: '7px',
+              height: `${Math.max(d.count > 0 ? 14 : 6, (d.count / max) * 52)}px`,
+              background: d.count === 0 ? 'var(--cream)' : d.today ? 'var(--terracotta)' : 'var(--terracotta-lt)',
+              border: d.today ? '2px solid var(--terracotta-dark)' : d.count === 0 ? '1.5px solid var(--border)' : '2px solid var(--terracotta)',
+              transition: 'height 0.5s cubic-bezier(0.22,1,0.36,1)',
+            }} />
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: d.today ? 'var(--terracotta-dark)' : 'var(--ink-muted)' }}>{d.label}</span>
+          </div>
+        ))}
+      </div>
+      <div style={{ marginTop: '11px', textAlign: 'center', background: 'var(--tint-sage)', borderRadius: '11px', padding: '9px' }}>
+        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: 'var(--ink)' }}>
+          ⭐ {weekStars} stars this week = {weekStars * STAR_MINUTES} minutes earned
+        </span>
+      </div>
+    </div>
+  )
+}
+
 function bigCardShell(done: boolean): React.CSSProperties {
   return {
     display: 'block', width: '100%', textAlign: 'left', padding: 0,
-    background: '#fff', border: 'none', borderRadius: '22px', overflow: 'hidden',
+    background: '#fff', border: 'none', borderRadius: '18px', overflow: 'hidden',
     textDecoration: 'none', cursor: done ? 'default' : 'pointer',
-    boxShadow: done ? '0 2px 0 rgba(0,0,0,0.12)' : '0 6px 0 rgba(0,0,0,0.18)',
+    boxShadow: done ? '0 2px 0 rgba(0,0,0,0.10)' : '0 5px 0 rgba(0,0,0,0.16)',
     transform: done ? 'translateY(3px)' : 'none',
   }
 }
 
 function SectionHead({ icon, children }: { icon: string; children: React.ReactNode }) {
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: '14px 0 1px' }}>
-      <span style={{ fontSize: '1.2rem', lineHeight: 1 }}>{icon}</span>
-      <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.15rem', color: '#fff', letterSpacing: '-0.01em' }}>
+    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: '16px 0 3px' }}>
+      <span style={{ fontSize: '1.1rem', lineHeight: 1 }}>{icon}</span>
+      <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: '#fff', letterSpacing: '-0.01em' }}>
         {children}
       </span>
     </div>
   )
 }
 
+// A compact thumbnail row: the artwork small on the left, the words and the
+// action on the right, so a whole tab of lessons scans like the quests list
+// instead of a long stack of tall banners. Crisper, shorter, same pictures.
 function CardFace({
   emoji, title, subtitle, seed, done, image, pill, actionIcon,
 }: {
@@ -1166,48 +1264,45 @@ function CardFace({
   image?: string; pill?: string; actionIcon: string
 }) {
   return (
-    <>
-      <div style={{ position: 'relative', height: '112px', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', background: image ? '#EFE9DD' : gradientFor(seed) }}>
+    <div style={{ display: 'flex', alignItems: 'center', gap: '13px', padding: '11px 13px' }}>
+      <div style={{ position: 'relative', width: 76, height: 76, borderRadius: '15px', flexShrink: 0, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', background: image ? '#EFE9DD' : gradientFor(seed) }}>
         {image ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={image} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: done ? 0.85 : 1 }} />
+          <img src={image} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
         ) : (
-          <span style={{ fontSize: '3.3rem', lineHeight: 1, filter: 'drop-shadow(0 3px 4px rgba(0,0,0,0.18))', opacity: done ? 0.85 : 1 }}>{emoji}</span>
+          <span style={{ fontSize: '2.3rem', lineHeight: 1, filter: 'drop-shadow(0 2px 3px rgba(0,0,0,0.18))' }}>{emoji}</span>
         )}
         {pill && (
-          <span style={{ position: 'absolute', top: '9px', left: '11px', fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: 'var(--ink)', background: 'rgba(255,255,255,0.85)', borderRadius: '100px', padding: '3px 9px' }}>
+          <span style={{ position: 'absolute', bottom: '5px', left: '5px', fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, color: 'var(--ink)', background: 'rgba(255,255,255,0.9)', borderRadius: '100px', padding: '2px 7px' }}>
             {pill}
           </span>
         )}
+      </div>
+      <div style={{ flex: 1, minWidth: 0 }}>
         {done && (
-          <span style={{ position: 'absolute', top: '9px', right: '10px', fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, color: '#1F7A54', letterSpacing: '0.06em', textTransform: 'uppercase', background: '#D4EDDF', borderRadius: '100px', padding: '3px 9px' }}>
+          <span style={{ display: 'inline-block', fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, color: '#1F7A54', letterSpacing: '0.06em', textTransform: 'uppercase', background: '#D4EDDF', borderRadius: '100px', padding: '2px 8px', marginBottom: '4px' }}>
             ✓ Done
           </span>
         )}
-      </div>
-      <div style={{ padding: '13px 16px 15px', display: 'flex', alignItems: 'center', gap: '12px' }}>
-        <span style={{ flex: 1, minWidth: 0 }}>
-          <span style={{
-            display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800,
-            fontSize: '1.1rem', color: 'var(--ink)', lineHeight: 1.25,
-            textDecoration: done ? 'line-through' : 'none', opacity: done ? 0.6 : 1,
-          }}>
-            {title}
-          </span>
-          <span style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: 'var(--ink-muted)', marginTop: '3px', lineHeight: 1.4 }}>
-            {subtitle}
-          </span>
-        </span>
         <span style={{
-          width: 44, height: 44, borderRadius: '50%', flexShrink: 0,
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          background: done ? 'var(--terracotta)' : 'var(--cream)',
-          border: done ? 'none' : '2.5px dashed var(--ink-light)',
-          fontSize: '18px',
+          display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800,
+          fontSize: '1.02rem', color: 'var(--ink)', lineHeight: 1.22,
         }}>
-          {done ? '✓' : actionIcon}
+          {title}
+        </span>
+        <span style={{ display: 'block', fontSize: '12.5px', fontWeight: 600, color: 'var(--ink-muted)', marginTop: '2px', lineHeight: 1.35 }}>
+          {subtitle}
         </span>
       </div>
-    </>
+      <span style={{
+        width: 42, height: 42, borderRadius: '50%', flexShrink: 0,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        background: done ? 'var(--terracotta)' : 'var(--cream)',
+        border: done ? 'none' : '2.5px dashed var(--ink-light)',
+        fontSize: '17px',
+      }}>
+        {done ? '✓' : actionIcon}
+      </span>
+    </div>
   )
 }
