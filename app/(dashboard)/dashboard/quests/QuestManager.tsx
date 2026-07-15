@@ -33,7 +33,7 @@ const TABS: { key: QuestTab; label: string }[] = [
 type Child = { id: string; name: string; age_band: string | null; phone?: string | null; use_mode?: string | null }
 
 const AGE_BANDS = ['4-7', '8-10', '11-13', '13-15', '16+'] as const
-type Quest = { id: string; title: string; emoji: string; stars: number; schedule: string; child_id: string | null; blocks_screens?: boolean }
+type Quest = { id: string; title: string; emoji: string; stars: number; schedule: string; schedule_days?: number[] | null; child_id: string | null; blocks_screens?: boolean }
 type Goal = { child_id: string; title: string; stars_needed: number; daily_stars: number | null }
 type KidLink = { child_id: string; token: string }
 type Tick = { quest_id: string; child_id: string | null; status: string; tick_date: string; approved_at: string | null }
@@ -125,7 +125,7 @@ export default function QuestManager() {
     } catch { /* the optimistic tick stands, next load reconciles */ }
   }
 
-  async function editQuest(questId: string, patch: { stars?: number; schedule?: string; blocks_screens?: boolean }) {
+  async function editQuest(questId: string, patch: { stars?: number; schedule?: string; schedule_days?: number[] | null; blocks_screens?: boolean }) {
     setQuests(prev => prev.map(q => q.id === questId ? { ...q, ...patch } as Quest : q))
     try {
       await fetch('/api/quests', {
@@ -970,21 +970,50 @@ export default function QuestManager() {
                           <button onClick={() => editQuest(q.id, { stars: q.stars + 1 })} disabled={q.stars >= 10} style={{ width: 30, height: 30, borderRadius: '9px', border: '1.5px solid var(--border)', background: '#fff', cursor: 'pointer', fontWeight: 800 }}>+</button>
                         </span>
                         <span style={{ display: 'inline-flex', gap: '6px', flexWrap: 'wrap' }}>
-                          {(['daily', 'weekdays', 'weekend', 'once'] as const).map(s => (
-                            <button
-                              key={s}
-                              onClick={() => editQuest(q.id, { schedule: s })}
-                              style={{
-                                padding: '6px 12px', borderRadius: '100px', cursor: 'pointer',
-                                border: '1.5px solid var(--border)',
-                                background: q.schedule === s ? 'var(--deep-teal)' : '#fff',
-                                color: q.schedule === s ? '#fff' : 'var(--ink-soft)',
-                                fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
-                              }}
-                            >
-                              {SCHEDULE_LABELS[s]}
-                            </button>
-                          ))}
+                          {(['daily', 'weekdays', 'weekend', 'once'] as const).map(s => {
+                            const activeDays = (q.schedule_days?.length ?? 0) > 0
+                            return (
+                              <button
+                                key={s}
+                                onClick={() => editQuest(q.id, { schedule: s, schedule_days: null })}
+                                style={{
+                                  padding: '6px 12px', borderRadius: '100px', cursor: 'pointer',
+                                  border: '1.5px solid var(--border)',
+                                  background: (!activeDays && q.schedule === s) ? 'var(--deep-teal)' : '#fff',
+                                  color: (!activeDays && q.schedule === s) ? '#fff' : 'var(--ink-soft)',
+                                  fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
+                                }}
+                              >
+                                {SCHEDULE_LABELS[s]}
+                              </button>
+                            )
+                          })}
+                        </span>
+                        {/* Or pick exact days: how three times a week is really set. */}
+                        <span style={{ display: 'inline-flex', gap: '4px', alignItems: 'center', flexWrap: 'wrap' }}>
+                          {[[1, 'M'], [2, 'T'], [3, 'W'], [4, 'T'], [5, 'F'], [6, 'S'], [0, 'S']].map(([n, l]) => {
+                            const on = (q.schedule_days ?? []).includes(n as number)
+                            return (
+                              <button
+                                key={`${n}`}
+                                onClick={() => {
+                                  const cur = q.schedule_days ?? []
+                                  const next = on ? cur.filter(d => d !== n) : [...cur, n as number]
+                                  editQuest(q.id, { schedule_days: next.length ? next : null })
+                                }}
+                                title="Pick the exact days"
+                                style={{
+                                  width: 26, height: 26, borderRadius: '8px', cursor: 'pointer',
+                                  border: on ? '1.5px solid var(--terracotta)' : '1.5px solid var(--border)',
+                                  background: on ? 'var(--terracotta)' : '#fff',
+                                  color: on ? 'var(--ink)' : 'var(--ink-muted)',
+                                  fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
+                                }}
+                              >
+                                {l}
+                              </button>
+                            )
+                          })}
                         </span>
                         <button
                           onClick={() => editQuest(q.id, { blocks_screens: !q.blocks_screens })}
