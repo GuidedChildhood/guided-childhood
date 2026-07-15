@@ -8,4 +8,8 @@
 --
 -- Supabase editor rules: idempotent, flat statements only.
 
-alter table public.profiles add column if not exists daily_minutes int not null default 10;
+-- Added as a plain default column, not NOT NULL, so it is a metadata only
+-- change that never rewrites the table or blocks on a lock. Every existing
+-- and new row still reads 10 by default, and the app treats a missing value
+-- as 10 anyway.
+alter table public.profiles add column if not exists daily_minutes int default 10;

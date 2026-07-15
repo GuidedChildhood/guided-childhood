@@ -283,6 +283,34 @@ export default function KidQuestScreen({
   // family has run migration 047.
   const bankBalance = bank ? bank.balance : weekStars
 
+  // Welcome back celebrations: when the child opens their screen and something
+  // grew while they were away, a squad friend springs up to mark it. Two
+  // moments, each fired at most once per milestone so it is a treat, not a
+  // nag: crossing a star bank milestone (their grown up approved stars up to a
+  // round number), and being on a streak of three days or more. localStorage
+  // on their own device remembers what has already been celebrated.
+  useEffect(() => {
+    const BANK_MILES = [10, 25, 50, 100, 200, 500]
+    try {
+      const seenBank = Number(localStorage.getItem('gc_kid_bank_mile') || '0')
+      const hit = [...BANK_MILES].reverse().find(m => bankBalance >= m && m > seenBank)
+      if (hit) {
+        localStorage.setItem('gc_kid_bank_mile', String(hit))
+        setHappyNews({ character: 'zara', headline: `${hit} stars in the bank!`, sub: `That is ${hit * STAR_MINUTES} minutes of screen time earned. Superstar.` })
+        return
+      }
+      if (streakDays >= 3) {
+        const key = `${new Date().toISOString().slice(0, 10)}:${streakDays}`
+        if (localStorage.getItem('gc_kid_streak_seen') !== key) {
+          localStorage.setItem('gc_kid_streak_seen', key)
+          setHappyNews({ character: 'oliver', headline: `${streakDays} day streak!`, sub: 'You have shown up every day. That is how champions train. Keep it going!' })
+        }
+      }
+    } catch { /* localStorage off, skip the treat */ }
+    // Runs once on open with the values the server rendered.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   // ── My lessons sub-tabs and the "something new" dots ──
   // Only grown up sent content counts as new (adventures, star lessons, and
   // unlocked printables); the games and mini lesson libraries are always
@@ -686,6 +714,7 @@ export default function KidQuestScreen({
         {allDone && (
           <div style={{ textAlign: 'center', marginTop: '24px' }}>
             <HappyScene
+              character="oliver"
               headline="Today's list is done!"
               sub={`Amazing work ${childName}. Your grown up is approving your stars.`}
             />

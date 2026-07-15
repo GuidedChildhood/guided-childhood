@@ -12,14 +12,24 @@
 
 const CONFETTI = ['#F6C244', '#E5734B', '#2E7D5A', '#7C5CBF', '#4B9CE5']
 
+// The squad friends are solid background art, so they only look right cropped
+// into a circle. The star is transparent and floats uncropped.
+const SCENE_FRIEND: Record<string, { src: string; ring: string }> = {
+  oliver: { src: '/digi-squad/Oliver.png', ring: '#D4600A' },
+  zara: { src: '/digi-squad/Zara.png', ring: '#C9962A' },
+  sofia: { src: '/digi-squad/Sofia.jpeg', ring: '#2E7D5A' },
+}
+
 export default function HappyScene({
-  headline, sub, image, tone = 'onDark',
+  headline, sub, image, character = 'star', tone = 'onDark',
 }: {
   headline: string
   sub?: string
   image?: string
+  character?: 'star' | 'oliver' | 'zara' | 'sofia'
   tone?: 'onDark' | 'onLight'
 }) {
+  const friend = character !== 'star' ? SCENE_FRIEND[character] : null
   const titleColor = tone === 'onDark' ? '#fff' : 'var(--ink)'
   const subColor = tone === 'onDark' ? 'rgba(255,255,255,0.85)' : 'var(--ink-soft)'
 
@@ -31,7 +41,7 @@ export default function HappyScene({
         @keyframes gcSceneDrift { 0% { transform: translateY(-6px); opacity: 0 } 20% { opacity: 1 } 100% { transform: translateY(60px) translateX(var(--drift)); opacity: 0 } }
       `}</style>
 
-      <div style={{ position: 'relative', height: image ? 168 : 140, marginBottom: '6px' }}>
+      <div style={{ position: 'relative', height: image ? 168 : friend ? 162 : 140, marginBottom: friend ? '12px' : '6px' }}>
         {/* Soft rainbow arc behind the friend */}
         <svg viewBox="0 0 200 100" style={{ position: 'absolute', left: '50%', top: '18px', width: 200, transform: 'translateX(-50%)', opacity: 0.55 }} aria-hidden>
           {['#E5734B', '#F6C244', '#2E7D5A', '#4B9CE5'].map((c, i) => (
@@ -56,14 +66,21 @@ export default function HappyScene({
           }} aria-hidden />
         ))}
 
-        {/* The friend: a dropped in illustration if present, otherwise the star */}
+        {/* The friend: a dropped in illustration if present, else a squad friend
+            framed in a circle, else the transparent star floating free. */}
         <div style={{ position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%,-50%)', animation: 'gcSceneFloat 3.2s ease-in-out infinite' }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={image ?? '/digi-squad/DiGi-star.svg'}
-            alt=""
-            style={{ width: image ? 220 : 96, height: image ? 'auto' : 96, maxWidth: '78vw', objectFit: 'contain', filter: 'drop-shadow(0 8px 14px rgba(0,0,0,0.22))' }}
-          />
+          {image ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={image} alt="" style={{ width: 220, height: 'auto', maxWidth: '78vw', objectFit: 'contain', filter: 'drop-shadow(0 8px 14px rgba(0,0,0,0.22))' }} />
+          ) : friend ? (
+            <span style={{ display: 'block', width: 104, height: 104, borderRadius: '50%', overflow: 'hidden', background: '#FFF7E8', border: `3px solid ${friend.ring}`, boxShadow: '0 8px 14px rgba(0,0,0,0.22)' }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={friend.src} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            </span>
+          ) : (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src="/digi-squad/DiGi-star.svg" alt="" style={{ width: 96, height: 96, objectFit: 'contain', filter: 'drop-shadow(0 8px 14px rgba(0,0,0,0.22))' }} />
+          )}
         </div>
       </div>
 
