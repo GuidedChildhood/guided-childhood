@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { QUEST_TEMPLATES, PLAY_PAYS_WHY, STAR_MINUTES } from '@/lib/quests/templates'
 import { ROUTINE_PACKS, type RoutinePack } from '@/lib/quests/routines'
+import ChildLinkShare from '@/components/quests/ChildLinkShare'
 import { STAGE_LABELS, AGE_BAND_TO_STAGE, type StageKey } from '@/lib/quests/game-picks'
 import { gamesForStage } from '@/lib/quest-games/registry'
 import { PRINTABLES } from '@/lib/printables/registry'
@@ -1496,6 +1497,10 @@ export default function QuestManager() {
               )}
             </div>
           </div>
+
+          {/* More ways to share: QR, copy, email, and co-view on this device,
+              for no phone, no WhatsApp, or a very young child. */}
+          {link && <ChildLinkShare token={link.token} childName={child.name} ageBand={child.age_band} />}
           </>
           )}
         </>
