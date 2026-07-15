@@ -73,7 +73,7 @@ export default function KidQuestScreen({
   const [showWelcome, setShowWelcome] = useState(false)
   const [toast, setToast] = useState<string | null>(null)
   const [askedMore, setAskedMore] = useState(false)
-  const [tab, setTab] = useState<'quests' | 'lessons'>('quests')
+  const [tab, setTab] = useState<'quests' | 'lessons' | 'print'>('quests')
   const [doneLessons, setDoneLessons] = useState<Set<string>>(new Set(doneLessonKeys))
   const [activeLesson, setActiveLesson] = useState<KidLesson | null>(null)
   const [activeGame, setActiveGame] = useState<QuestGame | null>(null)
@@ -88,7 +88,7 @@ export default function KidQuestScreen({
   // My lessons is split into sub-tabs (Watch, Learn, Games, Print) with a red
   // dot when a grown up has pinged something new. "New" means an item this
   // child has not opened yet, tracked in localStorage on their own device.
-  const [lessonTab, setLessonTab] = useState<'watch' | 'learn' | 'games' | 'print'>('watch')
+  const [lessonTab, setLessonTab] = useState<'watch' | 'learn' | 'games'>('watch')
   const [seenLessons, setSeenLessons] = useState<Set<string>>(new Set())
   const [soundOn, setSoundOn] = useState(true)
   const [happyNews, setHappyNews] = useState<HappyNewsItem | null>(null)
@@ -283,6 +283,19 @@ export default function KidQuestScreen({
   // family has run migration 047.
   const bankBalance = bank ? bank.balance : weekStars
 
+  // DiGi's line for the top bar: one short, clear, useful thing for the child
+  // right now, read from their own numbers. Calm and encouraging, never a
+  // telling off, and it always says something.
+  const remainingToday = quests.length - doneCount
+  const goalLeft = goal?.stars_needed ? goal.stars_needed - bankBalance : null
+  const digiTip =
+    (goalLeft != null && goalLeft > 0 && goalLeft <= 6) ? `Just ${goalLeft} more star${goalLeft === 1 ? '' : 's'} and you reach your prize!`
+    : (quests.length > 0 && remainingToday === 0) ? 'Everything done today. You are a superstar!'
+    : (pendingStars > 0) ? `${pendingStars} star${pendingStars === 1 ? '' : 's'} waiting for your grown up to say yes.`
+    : (streakDays >= 1 && remainingToday > 0) ? `Do one quest today to keep your ${streakDays} day streak going.`
+    : (remainingToday > 0) ? 'Tick a quest to earn stars for screen time.'
+    : 'Nice work. Ask your grown up for more quests when you are ready.'
+
   // Welcome back celebrations: when the child opens their screen and something
   // grew while they were away, a squad friend springs up to mark it. Two
   // moments, each fired at most once per milestone so it is a treat, not a
@@ -304,7 +317,16 @@ export default function KidQuestScreen({
         if (localStorage.getItem('gc_kid_streak_seen') !== key) {
           localStorage.setItem('gc_kid_streak_seen', key)
           setHappyNews({ character: 'oliver', headline: `${streakDays} day streak!`, sub: 'You have shown up every day. That is how champions train. Keep it going!' })
+          return
         }
+      }
+      // The daily hello: first open of the day, DiGi shows what is waiting so
+      // the to-do is obvious the moment they land. Once per day.
+      const today = new Date().toISOString().slice(0, 10)
+      const remaining = quests.length - doneCount
+      if (remaining > 0 && localStorage.getItem('gc_kid_today_seen') !== today) {
+        localStorage.setItem('gc_kid_today_seen', today)
+        setHappyNews({ character: 'digi', headline: `Hi ${childName}! ${remaining} thing${remaining === 1 ? '' : 's'} to do today`, sub: 'Tick each one as you go and watch your stars grow. You have got this!' })
       }
     } catch { /* localStorage off, skip the treat */ }
     // Runs once on open with the values the server rendered.
@@ -317,21 +339,22 @@ export default function KidQuestScreen({
   // there, so they never flag as new.
   const watchIds = adventures.map(a => `adv:${a.code}`)
   const learnIds = missions.map(m => `mis:${m.id}`)
-  const printIds = (printablesUnlocked ? stagePrintables : []).map(p => `prn:${p.key}`)
+  // Printables have their own top level tab now, so their new count feeds that
+  // tab's badge, not the lessons one. Shown to the child either way so the
+  // ask-a-grown-up path always works; the paywall only gates printing.
+  const printIds = stagePrintables.map(p => `prn:${p.key}`)
   const newWatch = watchIds.filter(id => !seenLessons.has(id)).length
   const newLearn = learnIds.filter(id => !seenLessons.has(id)).length
   const newPrint = printIds.filter(id => !seenLessons.has(id)).length
-  const totalNewLessons = newWatch + newLearn + newPrint
+  const totalNewLessons = newWatch + newLearn
 
   const hasWatch = adventures.length > 0
   const hasLearn = missions.length > 0 || stageLessons.length > 0
   const hasGames = stageGames.length > 0
-  const hasPrint = printablesUnlocked && stagePrintables.length > 0
   const LESSON_TABS = [
     { key: 'watch' as const, label: 'Watch', icon: '📺', has: hasWatch, dot: newWatch },
     { key: 'learn' as const, label: 'Learn', icon: '🧠', has: hasLearn, dot: newLearn },
     { key: 'games' as const, label: 'Games', icon: '🎮', has: hasGames, dot: 0 },
-    { key: 'print' as const, label: 'Print', icon: '🖨️', has: hasPrint, dot: newPrint },
   ]
   const availableLessonTabs = LESSON_TABS.filter(t => t.has)
   // Keep the sub-tab valid; if the current one has no content, fall to the
@@ -359,12 +382,12 @@ export default function KidQuestScreen({
     })
   }
 
-  // When the child looks at a sub-tab, its items are seen, so the dot clears.
+  // When the child looks at a tab, its items are seen, so the dot clears.
   useEffect(() => {
+    if (tab === 'print') { markLessonsSeen(printIds); return }
     if (tab !== 'lessons') return
     if (activeLessonTab === 'watch') markLessonsSeen(watchIds)
     else if (activeLessonTab === 'learn') markLessonsSeen(learnIds)
-    else if (activeLessonTab === 'print') markLessonsSeen(printIds)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tab, activeLessonTab])
 
@@ -481,6 +504,20 @@ export default function KidQuestScreen({
           </h1>
         </div>
 
+        {/* DiGi in the top bar: a small star friend with one clear insight for
+            the child, read from their own numbers, always here and readable. */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, background: 'rgba(255,255,255,0.1)', border: '1.5px solid rgba(255,255,255,0.22)', borderRadius: '16px', padding: '11px 14px', margin: '14px 0 4px' }}>
+          <style>{`@keyframes gcTipBob {0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-4px) rotate(4deg)}}`}</style>
+          <span style={{ flexShrink: 0, width: 46, height: 46, borderRadius: '50%', background: '#FFF7E8', border: '2px solid var(--terracotta)', display: 'flex', alignItems: 'center', justifyContent: 'center', animation: 'gcTipBob 3s ease-in-out infinite' }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/digi-squad/DiGi-star.svg" alt="" style={{ width: 32, height: 32 }} />
+          </span>
+          <span style={{ flex: 1, minWidth: 0 }}>
+            <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)' }}>DiGi says</span>
+            <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: '#fff', lineHeight: 1.3, marginTop: '1px' }}>{digiTip}</span>
+          </span>
+        </div>
+
         {/* From school today: the child sees the reminder their grown up sent
             through, and a timed one goes red as it nears, so it lands with
             them too, not only the parent. */}
@@ -517,6 +554,31 @@ export default function KidQuestScreen({
             </div>
           )}
         </div>
+
+        {/* The obvious signpost: how many jobs are left today, tap to jump
+            straight to the list. Loud when there is still something to do,
+            quiet and green once the day is done. */}
+        {tab === 'quests' && quests.length > 0 && doneCount < quests.length && (
+          <button
+            onClick={() => { document.getElementById('my-todo')?.scrollIntoView({ behavior: 'smooth' }); playKidSound('tap') }}
+            style={{
+              width: '100%', display: 'flex', alignItems: 'center', gap: '12px',
+              background: 'var(--terracotta)', border: 'none', borderRadius: '16px',
+              padding: '14px 16px', marginBottom: '12px', cursor: 'pointer', textAlign: 'left',
+              boxShadow: '0 5px 0 var(--terracotta-dark)',
+            }}
+          >
+            <span style={{ fontSize: '1.5rem', flexShrink: 0 }}>📋</span>
+            <span style={{ flex: 1, minWidth: 0 }}>
+              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: 'var(--ink)' }}>
+                You have {quests.length - doneCount} thing{quests.length - doneCount === 1 ? '' : 's'} to do today
+              </span>
+              <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--terracotta-dark)', marginTop: '1px' }}>
+                Tap to see your to-do list ↓
+              </span>
+            </span>
+          </button>
+        )}
 
         {/* Device time: turn earned stars into minutes on an agreed device,
             with the countdown and the alarm when the time is up. */}
@@ -574,17 +636,18 @@ export default function KidQuestScreen({
           </div>
         )}
 
-        {/* Tabs: quests and lessons, both earn stars. My lessons wears a red
-            badge the moment a grown up pings something new. */}
-        <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
-          {([['quests', '⭐ My quests'], ['lessons', '🧠 My lessons']] as const).map(([key, label]) => (
+        {/* Tabs: quests, lessons and printables, all earn stars. Lessons and
+            printables wear a red badge the moment a grown up pings something
+            new, or a fresh printable is waiting to ask for. */}
+        <div style={{ display: 'flex', gap: '7px', marginBottom: '16px' }}>
+          {([['quests', '⭐ Quests', 0], ['lessons', '🧠 Lessons', totalNewLessons], ['print', '🖨️ Printables', newPrint]] as const).map(([key, label, dot]) => (
             <button
               key={key}
               onClick={() => { setTab(key); setActiveLesson(null); playKidSound('tap') }}
               style={{
                 position: 'relative',
-                flex: 1, padding: '13px 10px', borderRadius: '14px', cursor: 'pointer',
-                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
+                flex: 1, padding: '13px 6px', borderRadius: '14px', cursor: 'pointer',
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px',
                 background: tab === key ? 'var(--terracotta)' : 'rgba(255,255,255,0.12)',
                 color: tab === key ? 'var(--ink)' : '#fff',
                 border: tab === key ? 'none' : '1.5px solid rgba(255,255,255,0.3)',
@@ -592,14 +655,14 @@ export default function KidQuestScreen({
               }}
             >
               {label}
-              {key === 'lessons' && totalNewLessons > 0 && (
+              {dot > 0 && (
                 <span style={{
                   position: 'absolute', top: '-7px', right: '-6px', minWidth: 22, height: 22, padding: '0 5px',
                   borderRadius: '100px', background: '#E5484D', color: '#fff',
                   fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, lineHeight: '22px',
                   textAlign: 'center', boxShadow: '0 0 0 2px var(--deep-teal)',
                 }}>
-                  {totalNewLessons > 9 ? '9+' : totalNewLessons}
+                  {dot > 9 ? '9+' : dot}
                 </span>
               )}
             </button>
@@ -639,6 +702,23 @@ export default function KidQuestScreen({
             <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--ink)', lineHeight: 1.4, margin: 0 }}>
               These come first today. Screens after.
             </p>
+          </div>
+        )}
+
+        {/* My to-do today: the obvious checklist, with how many are left. */}
+        {quests.length > 0 && (
+          <div id="my-todo" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, marginBottom: '10px', scrollMarginTop: '12px' }}>
+            <span style={{ display: 'flex', alignItems: 'center', gap: 8, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.2rem', color: '#fff' }}>
+              ✅ My to-do today
+            </span>
+            <span style={{
+              flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700,
+              padding: '5px 11px', borderRadius: '100px',
+              background: doneCount < quests.length ? 'var(--terracotta)' : 'var(--tint-sage)',
+              color: 'var(--ink)',
+            }}>
+              {doneCount < quests.length ? `${quests.length - doneCount} to do` : 'All done! 🎉'}
+            </span>
           </div>
         )}
 
@@ -1065,85 +1145,126 @@ export default function KidQuestScreen({
                   and the ask rides the same pitch flow as quest ideas. The
                   real preview is the big thumbnail; the grown up prints it,
                   the finished page pays the stars. */}
-              {activeLessonTab === 'print' && printablesUnlocked && stagePrintables.length > 0 && (
-                <>
-                  <SectionHead icon="🖨️">Paper adventures</SectionHead>
-                  {stagePrintables.map(p => {
-                    const finishedTitle = `Finished the ${p.title} sheet`
-                    const printTitle = `Print the ${p.title} sheet`
-                    const finished = asks.some(a => a.title === finishedTitle)
-                    return (
-                      <div key={p.key} style={{ ...bigCardShell(false), padding: '11px 13px 13px' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '13px', marginBottom: '11px' }}>
-                          <div style={{ position: 'relative', width: 76, height: 76, borderRadius: '15px', flexShrink: 0, overflow: 'hidden', background: '#EFE9DD' }}>
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img src={p.previewUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                            <span style={{ position: 'absolute', bottom: '5px', left: '5px', fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, color: 'var(--ink)', background: 'rgba(255,255,255,0.9)', borderRadius: '100px', padding: '2px 7px' }}>
-                              ⭐ {p.stars}
-                            </span>
-                          </div>
-                          <div style={{ flex: 1, minWidth: 0 }}>
-                            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.02rem', color: 'var(--ink)', lineHeight: 1.22 }}>
-                              {p.emoji} {p.title}
-                            </div>
-                            <div style={{ fontSize: '12.5px', fontWeight: 600, color: 'var(--ink-muted)', lineHeight: 1.35, marginTop: '2px' }}>
-                              Colour the whole page for {p.stars} stars
-                            </div>
-                          </div>
-                        </div>
-                        <button
-                          onClick={() => printSheet(p.sheetUrl, p.title)}
-                          style={{
-                            width: '100%', padding: '12px', borderRadius: '13px', border: 'none',
-                            cursor: 'pointer', marginBottom: '7px',
-                            background: 'var(--terracotta)', color: 'var(--ink)',
-                            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
-                            boxShadow: '0 4px 0 var(--terracotta-dark)',
-                          }}
-                        >
-                          🖨️ Print it now
-                        </button>
-                        {/* The earn step, made plain: once it is coloured in, the
-                            child shows their grown up, who approves the stars. */}
-                        <button
-                          onClick={() => {
-                            submitAsk(finishedTitle, p.emoji)
-                            setHappyNews({ character: 'sofia', headline: 'Beautiful work!', sub: `${p.stars} star${p.stars === 1 ? '' : 's'} on the way once your grown up sees it.` })
-                          }}
-                          disabled={finished}
-                          style={{
-                            width: '100%', padding: '12px', borderRadius: '13px', border: 'none',
-                            cursor: finished ? 'default' : 'pointer', marginBottom: '7px',
-                            background: finished ? 'var(--tint-sage)' : 'var(--deep-teal)',
-                            color: finished ? 'var(--ink)' : '#fff',
-                            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px',
-                            boxShadow: finished ? 'none' : '0 4px 0 rgba(0,0,0,0.22)',
-                          }}
-                        >
-                          {finished ? 'Shown to your grown up ✓ Stars on the way' : `I finished it! Show my grown up ⭐ ${p.stars}`}
-                        </button>
-                        <button
-                          onClick={() => submitAsk(printTitle, '🖨️')}
-                          style={{
-                            width: '100%', padding: '9px', borderRadius: '12px',
-                            border: 'none', cursor: 'pointer', background: 'none',
-                            fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: '12.5px',
-                            color: 'var(--ink-muted)',
-                          }}
-                        >
-                          No printer? Ask a grown up to print it
-                        </button>
-                      </div>
-                    )
-                  })}
-                </>
-              )}
-
               <p style={{ textAlign: 'center', color: 'rgba(255,255,255,0.55)', fontSize: '13px', lineHeight: 1.5, margin: '6px 0 0' }}>
                 More lessons land here soon. Finished them all? Ask for more quests on the other tab!
               </p>
             </div>
           )
+        )}
+
+        {/* Printables: their own tab so the child always finds them and can ask
+            a grown up. When unlocked they can print and finish for stars; when
+            not, the ask still goes through so the grown up can sort it. */}
+        {tab === 'print' && (
+          <div>
+            <p style={{ textAlign: 'center', color: 'rgba(255,255,255,0.8)', fontSize: '14px', lineHeight: 1.5, margin: '0 0 14px' }}>
+              Colour a sheet away from the screen, then show your grown up for stars.
+            </p>
+            {stagePrintables.length === 0 ? (
+              <HappyScene headline="More printables soon" sub="New colouring sheets land here. Check back soon!" />
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                {stagePrintables.map(p => {
+                  const finishedTitle = `Finished the ${p.title} sheet`
+                  const printTitle = `Print the ${p.title} sheet`
+                  const wantTitle = `Please can I do the ${p.title} printable`
+                  const finished = asks.some(a => a.title === finishedTitle)
+                  const requested = asks.some(a => a.title === wantTitle)
+                  return (
+                    <div key={p.key} style={{ ...bigCardShell(false), padding: '11px 13px 13px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '13px', marginBottom: '11px' }}>
+                        <div style={{ position: 'relative', width: 76, height: 76, borderRadius: '15px', flexShrink: 0, overflow: 'hidden', background: '#EFE9DD' }}>
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img src={p.previewUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                          <span style={{ position: 'absolute', bottom: '5px', left: '5px', fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, color: 'var(--ink)', background: 'rgba(255,255,255,0.9)', borderRadius: '100px', padding: '2px 7px' }}>
+                            ⭐ {p.stars}
+                          </span>
+                        </div>
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.02rem', color: 'var(--ink)', lineHeight: 1.22 }}>
+                            {p.emoji} {p.title}
+                          </div>
+                          <div style={{ fontSize: '12.5px', fontWeight: 600, color: 'var(--ink-muted)', lineHeight: 1.35, marginTop: '2px' }}>
+                            Colour the whole page for {p.stars} stars
+                          </div>
+                        </div>
+                      </div>
+
+                      {printablesUnlocked ? (
+                        <>
+                          <button
+                            onClick={() => printSheet(p.sheetUrl, p.title)}
+                            style={{
+                              width: '100%', padding: '12px', borderRadius: '13px', border: 'none',
+                              cursor: 'pointer', marginBottom: '7px',
+                              background: 'var(--terracotta)', color: 'var(--ink)',
+                              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
+                              boxShadow: '0 4px 0 var(--terracotta-dark)',
+                            }}
+                          >
+                            🖨️ Print it now
+                          </button>
+                          {/* The earn step, made plain: once it is coloured in, the
+                              child shows their grown up, who approves the stars. */}
+                          <button
+                            onClick={() => {
+                              submitAsk(finishedTitle, p.emoji)
+                              setHappyNews({ character: 'sofia', headline: 'Beautiful work!', sub: `${p.stars} star${p.stars === 1 ? '' : 's'} on the way once your grown up sees it.` })
+                            }}
+                            disabled={finished}
+                            style={{
+                              width: '100%', padding: '12px', borderRadius: '13px', border: 'none',
+                              cursor: finished ? 'default' : 'pointer', marginBottom: '7px',
+                              background: finished ? 'var(--tint-sage)' : 'var(--deep-teal)',
+                              color: finished ? 'var(--ink)' : '#fff',
+                              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px',
+                              boxShadow: finished ? 'none' : '0 4px 0 rgba(0,0,0,0.22)',
+                            }}
+                          >
+                            {finished ? 'Shown to your grown up ✓ Stars on the way' : `I finished it! Show my grown up ⭐ ${p.stars}`}
+                          </button>
+                          <button
+                            onClick={() => submitAsk(printTitle, '🖨️')}
+                            style={{
+                              width: '100%', padding: '9px', borderRadius: '12px',
+                              border: 'none', cursor: 'pointer', background: 'none',
+                              fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: '12.5px',
+                              color: 'var(--ink-muted)',
+                            }}
+                          >
+                            No printer? Ask a grown up to print it
+                          </button>
+                        </>
+                      ) : (
+                        <>
+                          <button
+                            onClick={() => {
+                              submitAsk(wantTitle, p.emoji)
+                              setHappyNews({ character: 'sofia', headline: 'Asked your grown up!', sub: `They can set up ${p.title} for you to colour in.` })
+                            }}
+                            disabled={requested}
+                            style={{
+                              width: '100%', padding: '12px', borderRadius: '13px', border: 'none',
+                              cursor: requested ? 'default' : 'pointer',
+                              background: requested ? 'var(--tint-sage)' : 'var(--deep-teal)',
+                              color: requested ? 'var(--ink)' : '#fff',
+                              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px',
+                              boxShadow: requested ? 'none' : '0 4px 0 rgba(0,0,0,0.22)',
+                            }}
+                          >
+                            {requested ? 'Asked your grown up ✓' : 'Ask a grown up for this one ⭐'}
+                          </button>
+                          <p style={{ fontSize: '11.5px', color: 'var(--ink-muted)', textAlign: 'center', margin: '8px 0 0', lineHeight: 1.4 }}>
+                            Your grown up can set up printables for you.
+                          </p>
+                        </>
+                      )}
+                    </div>
+                  )
+                })}
+              </div>
+            )}
+          </div>
         )}
 
         {remindState === 'offer' && (

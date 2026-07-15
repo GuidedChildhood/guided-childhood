@@ -9,6 +9,7 @@ import PushPrompt from '@/components/push/PushPrompt'
 import DeviceSetupBanner from '@/components/device/DeviceSetupBanner'
 import SmartAlerts from '@/components/alerts/SmartAlerts'
 import DigiPrompts from '@/components/digi/DigiPrompts'
+import WeeklyReviewCard from '@/components/digi/WeeklyReviewCard'
 import { getSuggestions, type Suggestion } from '@/lib/alerts/suggestions'
 import StreakFlame from '@/components/daily/StreakFlame'
 import DigiStreakWidget from '@/components/digi/DigiStreakWidget'
@@ -283,6 +284,9 @@ export default async function DashboardPage() {
           the quests to approve and the ideas a child pitched, tapping down to
           the board where a parent acts on them. Silent when nothing waits. */}
       <WaitingOnYou />
+
+      {/* The Sunday DiGi weekly review, when there is one to read. */}
+      <WeeklyReviewCard />
 
       {/* Setup lives on its own page now, out of the daily Home. While it is
           unfinished, Home carries one compact way in, naming the next step;

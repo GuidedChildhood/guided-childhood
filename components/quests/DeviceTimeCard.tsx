@@ -103,7 +103,12 @@ export default function DeviceTimeCard({
         body: JSON.stringify({ token, device, minutes }),
       })
       const data = await res.json().catch(() => ({}))
-      if (res.ok && data.session) {
+      if (res.ok && data.pending) {
+        // Ask first families: the grown up has to say yes. The child sees a
+        // calm confirmation, not a timer, and the parent gets the ping.
+        setNote('Asked your grown up! They will start your time when they say yes.')
+        setPhase('idle')
+      } else if (res.ok && data.session) {
         setNote(null)
         setSession({
           id: data.session.id, device: data.session.device, minutes: data.session.minutes,

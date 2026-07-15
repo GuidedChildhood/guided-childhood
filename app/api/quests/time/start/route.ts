@@ -28,6 +28,14 @@ export async function POST(req: NextRequest) {
     .from('kid_links').select('user_id, child_id').eq('token', token).maybeSingle()
   if (!link) return NextResponse.json({ error: 'unknown link' }, { status: 404 })
 
+  // Trust level decides how much the child can do alone: ask (needs the grown
+  // up's yes first), watch (starts freely, parent gets the ping and countdown),
+  // trusted (starts freely, lighter touch, no per session ping).
+  const { data: childRow } = await supabase
+    .from('children').select('name, device_trust').eq('id', link.child_id).maybeSingle()
+  const trust = (childRow?.device_trust as string) ?? 'watch'
+  const childName = childRow?.name ?? 'Your child'
+
   // Vital chores gate: any quest the parent flagged before screens, due today
   // and not yet approved, blocks the child from starting device time. The
   // parent still keeps the override from their own board.
@@ -57,6 +65,32 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'not enough stars', balance: bank?.balance ?? 0 }, { status: 400 })
   }
 
+  // Ask first: record the ask and nudge the parent, but do not start or spend.
+  // The parent approves it from their screen time card, which starts the timer.
+  if (trust === 'ask') {
+    // Clear any earlier pending ask so one child never stacks a queue.
+    await supabase.from('device_requests')
+      .update({ status: 'declined' })
+      .eq('child_id', link.child_id).eq('status', 'pending')
+    await supabase.from('device_requests').insert({
+      user_id: link.user_id, child_id: link.child_id, device, minutes: mins, status: 'pending',
+    })
+    try {
+      const origin = process.env.NEXT_PUBLIC_APP_URL ?? req.nextUrl.origin
+      await fetch(`${origin}/api/push/send`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.CRON_SECRET}` },
+        body: JSON.stringify({
+          userId: link.user_id,
+          title: `${childName} is asking for screen time ⏳`,
+          body: `${mins} minutes on the ${deviceLabel(device)}, that is ${stars} star${stars === 1 ? '' : 's'}. Tap to say yes on your board.`,
+          url: '/dashboard/quests',
+        }),
+      })
+    } catch { /* best effort */ }
+    return NextResponse.json({ pending: true })
+  }
+
   // One live session at a time: close any that is still open before the new
   // one starts, so two timers never run at once.
   await supabase.from('device_sessions')
@@ -80,22 +114,23 @@ export async function POST(req: NextRequest) {
 
   await supabase.from('kid_links').update({ last_seen_at: new Date().toISOString() }).eq('token', token)
 
-  // Tell the parent their child has started, best effort.
-  try {
-    const { data: kid } = await supabase.from('children').select('name').eq('id', link.child_id).maybeSingle()
-    const name = kid?.name ?? 'Your child'
-    const origin = process.env.NEXT_PUBLIC_APP_URL ?? req.nextUrl.origin
-    await fetch(`${origin}/api/push/send`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.CRON_SECRET}` },
-      body: JSON.stringify({
-        userId: link.user_id,
-        title: `${name} started ${mins} minutes on the ${deviceLabel(device)} ⏱️`,
-        body: `That is ${stars} star${stars === 1 ? '' : 's'} spent. The timer is running, you can watch it on the quests board.`,
-        url: '/dashboard/quests',
-      }),
-    })
-  } catch { /* push is best effort */ }
+  // Tell the parent their child has started, best effort. A trusted child
+  // starts with a lighter touch, so no per session ping; watch still pings.
+  if (trust !== 'trusted') {
+    try {
+      const origin = process.env.NEXT_PUBLIC_APP_URL ?? req.nextUrl.origin
+      await fetch(`${origin}/api/push/send`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.CRON_SECRET}` },
+        body: JSON.stringify({
+          userId: link.user_id,
+          title: `${childName} started ${mins} minutes on the ${deviceLabel(device)} ⏱️`,
+          body: `That is ${stars} star${stars === 1 ? '' : 's'} spent. The timer is running, you can watch it on the quests board.`,
+          url: '/dashboard/quests',
+        }),
+      })
+    } catch { /* push is best effort */ }
+  }
 
   return NextResponse.json({ ok: true, session })
 }
