@@ -30,7 +30,7 @@ const TABS: { key: QuestTab; label: string }[] = [
 // quests over: share the kid link for older children or print the sheet
 // for little ones.
 
-type Child = { id: string; name: string; age_band: string | null; phone?: string | null }
+type Child = { id: string; name: string; age_band: string | null; phone?: string | null; use_mode?: string | null }
 
 const AGE_BANDS = ['4-7', '8-10', '11-13', '13-15', '16+'] as const
 type Quest = { id: string; title: string; emoji: string; stars: number; schedule: string; child_id: string | null; blocks_screens?: boolean }
@@ -67,6 +67,7 @@ export default function QuestManager() {
   const [addingChild, setAddingChild] = useState(false)
   const [newChildName, setNewChildName] = useState('')
   const [newChildAge, setNewChildAge] = useState<string | null>(null)
+  const [newChildMode, setNewChildMode] = useState<'own' | 'coview'>('own')
   const [phoneDraft, setPhoneDraft] = useState('')
   const [phoneSaved, setPhoneSaved] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
@@ -153,16 +154,27 @@ export default function QuestManager() {
     const res = await fetch('/api/quests', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action: 'child', name: newChildName.trim(), age_band: newChildAge }),
+      body: JSON.stringify({ action: 'child', name: newChildName.trim(), age_band: newChildAge, use_mode: newChildMode }),
     })
     const data = await res.json()
     if (data.child) {
       setAddingChild(false)
       setNewChildName('')
       setNewChildAge(null)
+      setNewChildMode('own')
       setActiveChild(data.child.id)
       await load()
     }
+  }
+
+  // Change how the active child uses it, from the share tab.
+  async function setUseMode(mode: 'own' | 'coview') {
+    if (!activeChild) return
+    await fetch('/api/quests', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'usemode', child_id: activeChild, use_mode: mode }),
+    })
+    await load()
   }
 
   async function savePhone() {
@@ -483,7 +495,7 @@ export default function QuestManager() {
             {AGE_BANDS.map(band => (
               <button
                 key={band}
-                onClick={() => setNewChildAge(band)}
+                onClick={() => { setNewChildAge(band); setNewChildMode(band === '4-7' ? 'coview' : 'own') }}
                 style={{
                   padding: '9px 16px', borderRadius: '100px', cursor: 'pointer',
                   border: '1.5px solid var(--border)',
@@ -496,6 +508,31 @@ export default function QuestManager() {
               </button>
             ))}
           </div>
+
+          {/* How they use it: their own app, or together on your device. */}
+          {newChildAge && (
+            <div style={{ marginBottom: '14px' }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
+                How will {newChildName.trim() || 'they'} use it?
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '7px' }}>
+                {([
+                  ['own', '📱 Their own app', 'On their tablet or phone. You send the link or QR, they add it to their home screen.'],
+                  ['coview', '👀 Together on your device', 'You open it on your phone and do it together. Best for a little one with no device.'],
+                ] as const).map(([m, label, hint]) => (
+                  <button key={m} onClick={() => setNewChildMode(m)} aria-pressed={newChildMode === m} style={{
+                    textAlign: 'left', padding: '10px 13px', borderRadius: '12px', cursor: 'pointer',
+                    background: newChildMode === m ? 'var(--terracotta-lt)' : '#fff',
+                    border: newChildMode === m ? '1.5px solid var(--terracotta)' : '1.5px solid var(--border)',
+                  }}>
+                    <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: 'var(--ink)' }}>{label}</span>
+                    <span style={{ display: 'block', fontSize: '11.5px', color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: '1px' }}>{hint}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
           <button
             onClick={addChild}
             disabled={!newChildName.trim() || !newChildAge}
@@ -1500,7 +1537,7 @@ export default function QuestManager() {
 
           {/* More ways to share: QR, copy, email, and co-view on this device,
               for no phone, no WhatsApp, or a very young child. */}
-          {link && <ChildLinkShare token={link.token} childName={child.name} ageBand={child.age_band} />}
+          {link && <ChildLinkShare token={link.token} childName={child.name} ageBand={child.age_band} useMode={child.use_mode} onSetMode={setUseMode} />}
           </>
           )}
         </>

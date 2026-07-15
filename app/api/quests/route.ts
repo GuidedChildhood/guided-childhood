@@ -78,15 +78,27 @@ export async function POST(req: NextRequest) {
     if (!stageId) return NextResponse.json({ error: 'bad age band' }, { status: 400 })
     const { count } = await supabase
       .from('children').select('id', { count: 'exact', head: true }).eq('parent_id', user.id)
+    // How they use it: explicit choice, else a sensible default by age (a four
+    // to seven year old co-views, everyone older gets their own app).
+    const useMode = ['own', 'coview'].includes(body.use_mode) ? body.use_mode : (body.age_band === '4-7' ? 'coview' : 'own')
     const { data, error } = await supabase.from('children').insert({
       parent_id: user.id,
       name: String(body.name).slice(0, 60),
       age_band: body.age_band,
       stage_id: stageId,
       is_primary: (count ?? 0) === 0,
-    }).select('id, name, age_band').single()
+      use_mode: useMode,
+    }).select('id, name, age_band, use_mode').single()
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
     return NextResponse.json({ child: data })
+  }
+
+  // Change how a child uses it: their own app, or co-view together.
+  if (body.action === 'usemode' && body.child_id && ['own', 'coview'].includes(body.use_mode)) {
+    const { error } = await supabase
+      .from('children').update({ use_mode: body.use_mode }).eq('id', body.child_id).eq('parent_id', user.id)
+    if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+    return NextResponse.json({ ok: true })
   }
 
   // Save the child's phone number (optional, drives send to phone)

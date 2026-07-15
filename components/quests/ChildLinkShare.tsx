@@ -10,11 +10,12 @@ import QRCode from 'qrcode'
 // child's private key, so the QR is generated on device, never sent to any
 // outside service.
 
-export default function ChildLinkShare({ token, childName, ageBand }: { token: string; childName: string; ageBand?: string | null }) {
+export default function ChildLinkShare({ token, childName, ageBand, useMode, onSetMode }: { token: string; childName: string; ageBand?: string | null; useMode?: string | null; onSetMode?: (m: 'own' | 'coview') => void }) {
   const [qr, setQr] = useState<string | null>(null)
   const [copied, setCopied] = useState(false)
   const [url, setUrl] = useState('')
-  const youngest = ageBand === '4-7'
+  // Co-view leads when it is set, else falls back to the youngest by age.
+  const youngest = useMode ? useMode === 'coview' : ageBand === '4-7'
 
   useEffect(() => {
     const u = `${window.location.origin}/k/${token}`
@@ -39,9 +40,23 @@ export default function ChildLinkShare({ token, childName, ageBand }: { token: s
       <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
         More ways to share
       </div>
-      <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 14px' }}>
+      <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 12px' }}>
         No phone or no WhatsApp? Any of these work. For a little one, use it together on your own device.
       </p>
+
+      {/* How this child uses it, changeable any time. */}
+      {onSetMode && (
+        <div style={{ display: 'flex', gap: '7px', marginBottom: '14px' }}>
+          {([['own', '📱 Own app'], ['coview', '👀 Together']] as const).map(([m, label]) => (
+            <button key={m} onClick={() => onSetMode(m)} aria-pressed={youngest === (m === 'coview')} style={{
+              flex: 1, padding: '9px', borderRadius: '11px', cursor: 'pointer',
+              fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '12.5px', color: 'var(--ink)',
+              background: (youngest === (m === 'coview')) ? 'var(--terracotta-lt)' : '#fff',
+              border: (youngest === (m === 'coview')) ? '1.5px solid var(--terracotta)' : '1.5px solid var(--border)',
+            }}>{label}</button>
+          ))}
+        </div>
+      )}
 
       {/* Co-view first for the youngest, who have no device of their own. */}
       {youngest && (
