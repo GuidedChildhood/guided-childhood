@@ -73,6 +73,7 @@ export default function QuestManager() {
   const [firstMsg, setFirstMsg] = useState<string | null>(null)
   const [handMode, setHandMode] = useState<'phone' | 'paper'>('phone')
   const [pingResult, setPingResult] = useState<string | null>(null)
+  const [pingDraft, setPingDraft] = useState('')
   const [contactsSupported, setContactsSupported] = useState(false)
   const [tab, setTab] = useState<QuestTab>('manage')
   const [asksList, setAsksList] = useState<Ask[]>([])
@@ -1376,7 +1377,7 @@ export default function QuestManager() {
                 One tap and it buzzes on their phone. Works once they have opened their quest link and turned on reminders.
               </p>
               <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                {['Quest check! A few ticks and the stars are yours ⭐', 'Time to come off the screen now please', 'Dinner in 10 minutes, start wrapping up'].map(msg => (
+                {['Quest check! A few ticks and the stars are yours ⭐', 'Time to come off the screen now please', 'Turn the TV off please', 'Time to start your homework', 'Dinner in 10 minutes, start wrapping up', 'Please come downstairs'].map(msg => (
                   <button
                     key={msg}
                     onClick={() => sendPing(msg)}
@@ -1390,6 +1391,36 @@ export default function QuestManager() {
                   </button>
                 ))}
               </div>
+              {/* Type any quick message of your own */}
+              <form
+                onSubmit={e => { e.preventDefault(); const m = pingDraft.trim(); if (m) { sendPing(m); setPingDraft('') } }}
+                style={{ display: 'flex', gap: '8px', marginTop: '10px' }}
+              >
+                <input
+                  value={pingDraft}
+                  onChange={e => setPingDraft(e.target.value)}
+                  maxLength={140}
+                  placeholder="Or type your own quick message"
+                  style={{
+                    flex: 1, minWidth: 0, padding: '10px 12px', borderRadius: '12px',
+                    border: '1.5px solid var(--border)', fontFamily: 'var(--font-body)',
+                    fontSize: '13px', color: 'var(--ink)', background: '#fff',
+                  }}
+                />
+                <button
+                  type="submit"
+                  disabled={!pingDraft.trim()}
+                  style={{
+                    flexShrink: 0, background: pingDraft.trim() ? 'var(--terracotta)' : 'var(--border)',
+                    color: 'var(--ink)', border: 'none', borderRadius: '12px', padding: '10px 16px',
+                    cursor: pingDraft.trim() ? 'pointer' : 'default',
+                    fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 800,
+                    boxShadow: pingDraft.trim() ? '0 3px 0 var(--terracotta-dark)' : 'none',
+                  }}
+                >
+                  Send
+                </button>
+              </form>
               {pingResult && (
                 <p style={{ fontSize: '12.5px', color: pingResult.startsWith('Ping sent') ? 'var(--terracotta-dark)' : 'var(--ink-soft)', fontWeight: 600, lineHeight: 1.55, margin: '10px 0 0' }}>
                   {pingResult}

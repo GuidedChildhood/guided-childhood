@@ -1018,8 +1018,9 @@ export default function KidQuestScreen({
                 <>
                   <SectionHead icon="🖨️">Paper adventures</SectionHead>
                   {stagePrintables.map(p => {
-                    const askedTitle = `Print the ${p.title} sheet`
-                    const asked = asks.some(a => a.title === askedTitle)
+                    const finishedTitle = `Finished the ${p.title} sheet`
+                    const printTitle = `Print the ${p.title} sheet`
+                    const finished = asks.some(a => a.title === finishedTitle)
                     return (
                       <div key={p.key} style={{ ...bigCardShell(false), padding: '11px 13px 13px' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '13px', marginBottom: '11px' }}>
@@ -1051,18 +1052,32 @@ export default function KidQuestScreen({
                         >
                           🖨️ Print it now
                         </button>
+                        {/* The earn step, made plain: once it is coloured in, the
+                            child shows their grown up, who approves the stars. */}
                         <button
-                          onClick={() => submitAsk(askedTitle, '🖨️')}
-                          disabled={asked}
+                          onClick={() => submitAsk(finishedTitle, p.emoji)}
+                          disabled={finished}
                           style={{
-                            width: '100%', padding: '10px', borderRadius: '13px',
-                            border: '1.5px solid var(--border)',
-                            cursor: asked ? 'default' : 'pointer',
-                            background: asked ? 'var(--tint-sage)' : '#fff', color: 'var(--ink)',
-                            fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '13px',
+                            width: '100%', padding: '12px', borderRadius: '13px', border: 'none',
+                            cursor: finished ? 'default' : 'pointer', marginBottom: '7px',
+                            background: finished ? 'var(--tint-sage)' : 'var(--deep-teal)',
+                            color: finished ? 'var(--ink)' : '#fff',
+                            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px',
+                            boxShadow: finished ? 'none' : '0 4px 0 rgba(0,0,0,0.22)',
                           }}
                         >
-                          {asked ? 'Asked your grown up ✓' : 'Or ask a grown up to print it'}
+                          {finished ? 'Shown to your grown up ✓ Stars on the way' : `I finished it! Show my grown up ⭐ ${p.stars}`}
+                        </button>
+                        <button
+                          onClick={() => submitAsk(printTitle, '🖨️')}
+                          style={{
+                            width: '100%', padding: '9px', borderRadius: '12px',
+                            border: 'none', cursor: 'pointer', background: 'none',
+                            fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: '12.5px',
+                            color: 'var(--ink-muted)',
+                          }}
+                        >
+                          No printer? Ask a grown up to print it
                         </button>
                       </div>
                     )
