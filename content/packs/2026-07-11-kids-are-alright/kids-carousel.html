@@ -1,0 +1,85 @@
+<!DOCTYPE html><html lang="en-GB"><head><meta charset="UTF-8">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,800;0,900;1,500;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@500;600&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#33322e}
+.card{width:1080px;height:1080px;background:#F4EAD1;color:#1a1a1a;padding:74px 88px;overflow:hidden;display:flex;flex-direction:column;font-family:'EB Garamond',Georgia,serif;position:relative}
+.eyebrow{font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:#8a6d2f;text-align:center}
+.rule{width:64px;height:3px;background:#C79A3B;margin:20px auto 0}
+h1{font-family:'Playfair Display',serif;font-weight:900;color:#111;line-height:.98;letter-spacing:-.01em;text-align:center}
+.big1 h1{font-size:118px;margin-top:20px}
+h1.med{font-size:90px;margin-top:26px}
+.sub{font-family:'Playfair Display',serif;font-style:italic;font-weight:600;color:#B0842B;font-size:36px;line-height:1.26;text-align:center;max-width:820px;margin:24px auto 0}
+.divider{width:120px;height:1px;background:#cbb98f;margin:28px auto}
+.stats{display:flex;flex-direction:column;gap:22px;align-items:center;margin-top:4px}
+.stat{text-align:center;line-height:1.28}
+.stat .l{font-size:33px;color:#2a2a2a}
+.stat .n{font-size:33px;color:#111;font-weight:500}
+.stat .n b{font-weight:700}
+.src{font-family:'IBM Plex Mono',monospace;font-size:16px;color:#9a8a63;letter-spacing:.02em}
+.foot{margin-top:auto}
+.close{font-family:'Playfair Display',serif;font-size:39px;color:#111;text-align:center;line-height:1.22}
+.close .g{color:#B0842B;font-style:italic}
+ul.next{list-style:none;margin:30px auto 0;max-width:840px;display:flex;flex-direction:column;gap:22px}
+ul.next li{font-size:38px;color:#1f1f1f;padding-left:52px;position:relative;line-height:1.2}
+ul.next li:before{content:"";position:absolute;left:8px;top:14px;width:18px;height:18px;border:3px solid #C79A3B;border-radius:50%}
+.cta{font-family:'IBM Plex Mono',monospace;font-size:22px;letter-spacing:.06em;color:#8a6d2f;text-align:center;margin-top:26px}
+.brand{font-family:'IBM Plex Mono',monospace;font-size:18px;color:#9a8a63;text-align:center;margin-top:14px;letter-spacing:.04em}
+.arrow{color:#B0842B;font-weight:700}
+</style></head><body>
+
+<div class="card big1" id="c1">
+  <div class="eyebrow">The Wrong Villain · Key Insight 08</div><div class="rule"></div>
+  <h1>The Kids<br>Are Alright.</h1>
+  <div class="sub">On almost every measure that matters,<br>they are doing better than we did.</div>
+  <div class="divider"></div>
+  <div class="stats">
+    <div class="stat"><div class="l">Under 18 pregnancy rate</div><div class="n"><span class="arrow">&darr;</span> <b>66%</b> since 2007</div><div class="src">ONS, England and Wales</div></div>
+    <div class="stat"><div class="l">First entries to youth justice</div><div class="n"><span class="arrow">&darr;</span> <b>93%</b> since 2007</div><div class="src">Youth Justice Board</div></div>
+    <div class="stat"><div class="l">Teenage smoking</div><div class="n">lowest ever recorded, <b>2023</b></div><div class="src">NHS England</div></div>
+  </div>
+  <div class="foot"><div class="close">Not a lost generation.</div></div>
+</div>
+
+<div class="card" id="c2">
+  <div class="eyebrow">Key Insight 08 · And not just here</div><div class="rule"></div>
+  <h1 class="med">And it is<br>not just here.</h1>
+  <div class="sub">The same story shows up right across<br>the developed world.</div>
+  <div class="divider"></div>
+  <div class="stats">
+    <div class="stat"><div class="l">Youth violent victimisation</div><div class="n"><span class="arrow">&darr;</span> <b>85%</b> since 1993</div><div class="src">US Bureau of Justice Statistics</div></div>
+    <div class="stat"><div class="l">Teen birth rate</div><div class="n"><span class="arrow">&darr;</span> <b>79%</b> since 1991</div><div class="src">US CDC</div></div>
+    <div class="stat"><div class="l">Teen sobriety</div><div class="n">two in three used nothing, <b>2024</b></div><div class="src">Monitoring the Future</div></div>
+  </div>
+  <div class="foot"><div class="close">Least violent. Most sober.<br>Most educated.</div></div>
+</div>
+
+<div class="card" id="c3">
+  <div class="eyebrow">Key Insight 08 · The one real exception</div><div class="rule"></div>
+  <h1 class="med">But one part<br>is real.</h1>
+  <div class="sub">Since around 2008, distress has climbed.<br>This part we take seriously.</div>
+  <div class="divider"></div>
+  <div class="stats">
+    <div class="stat"><div class="l">England, a probable mental health condition</div><div class="n">1 in 9 in 2017 &rarr; <b>1 in 5</b> by 2023</div><div class="src">NHS England</div></div>
+    <div class="stat"><div class="l">US teenage girls reporting persistent sadness</div><div class="n"><b>57%</b> in 2021</div><div class="src">US CDC</div></div>
+  </div>
+  <div class="foot"><div class="close">They are capable <span class="g">and</span> struggling.<br>Both are true.</div></div>
+</div>
+
+<div class="card" id="c4">
+  <div class="eyebrow">Key Insight 08 · What we do next</div><div class="rule"></div>
+  <h1 class="med">So what<br>do we do?</h1>
+  <ul class="next">
+    <li>Aim at the real drivers, not the visible one</li>
+    <li>Protect the one steady, trusted adult</li>
+    <li>Change the story we tell them</li>
+    <li>Build capability, not walls</li>
+  </ul>
+  <div class="foot">
+    <div class="close">Set high expectations <span class="g">and they meet them.</span></div>
+    <div class="cta">Repost · Follow Justin Phillips · Comment PATHWAY</div>
+    <div class="brand">guidedchildhood.com</div>
+  </div>
+</div>
+
+</body></html>
