@@ -17,6 +17,7 @@ import QuestGamePlayer from '@/components/quest-games/QuestGamePlayer'
 import DeviceTimeCard from '@/components/quests/DeviceTimeCard'
 import type { ActiveSession } from '@/lib/quests/device-time'
 import { playKidSound, soundEnabled, setSoundEnabled } from '@/lib/sound/kidSounds'
+import HappyNews, { type HappyNewsItem, type CharacterKey } from '@/components/celebrate/HappyNews'
 import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
 
 // The kid facing quest screen: joyful, huge tap targets, instant ticks,
@@ -89,6 +90,7 @@ export default function KidQuestScreen({
   const [lessonTab, setLessonTab] = useState<'watch' | 'learn' | 'games' | 'print'>('watch')
   const [seenLessons, setSeenLessons] = useState<Set<string>>(new Set())
   const [soundOn, setSoundOn] = useState(true)
+  const [happyNews, setHappyNews] = useState<HappyNewsItem | null>(null)
 
   useEffect(() => {
     if (localStorage.getItem('gc_kid_welcome') !== '1') setShowWelcome(true)
@@ -250,6 +252,15 @@ export default function KidQuestScreen({
       setBurst(quest.id)
       setTimeout(() => setBurst(null), 900)
       playKidSound('star')
+      // A squad friend springs up with the good news, rotating so it is not
+      // always the same face. The toast stays as the quiet backup line.
+      const cast: CharacterKey[] = ['oliver', 'zara', 'digi']
+      const who = cast[quest.title.length % cast.length]
+      setHappyNews({
+        character: who,
+        headline: `${quest.stars} star${quest.stars === 1 ? '' : 's'} on the way!`,
+        sub: 'Sent to your grown up. They tap approve and the stars are yours.',
+      })
       setToast('Sent to your grown up! ⭐ Stars land when they tap approve.')
       setTimeout(() => setToast(null), 3000)
     }
@@ -356,6 +367,9 @@ export default function KidQuestScreen({
           100% { transform: translateY(-46px) scale(1.25); opacity: 0; }
         }
       `}</style>
+
+      {/* Happy news: a squad friend springs up with the good news */}
+      <HappyNews item={happyNews} onClose={() => setHappyNews(null)} />
 
       {/* The sent it toast */}
       {toast && (
@@ -1062,7 +1076,10 @@ export default function KidQuestScreen({
                         {/* The earn step, made plain: once it is coloured in, the
                             child shows their grown up, who approves the stars. */}
                         <button
-                          onClick={() => submitAsk(finishedTitle, p.emoji)}
+                          onClick={() => {
+                            submitAsk(finishedTitle, p.emoji)
+                            setHappyNews({ character: 'sofia', headline: 'Beautiful work!', sub: `${p.stars} star${p.stars === 1 ? '' : 's'} on the way once your grown up sees it.` })
+                          }}
                           disabled={finished}
                           style={{
                             width: '100%', padding: '12px', borderRadius: '13px', border: 'none',

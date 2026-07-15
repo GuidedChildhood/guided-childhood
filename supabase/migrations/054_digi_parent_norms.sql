@@ -26,7 +26,7 @@ alter table public.digi_prompts add column if not exists href text;
 -- established position, no invented statistics. Guarded on the normal_moments
 -- topic so a re-run never double inserts.
 insert into public.expert_knowledge (source_type, source_name, finding, age_bands, topics)
-select source_type, source_name, finding, age_bands, topics
+select source_type, source_name, finding, age_bands::text[], topics::text[]
 from (values
   ('researcher', 'Dr Ellen Galinsky', 'When children were asked what they would change, they did not wish for more hours with their parents, they wished their parents were less stressed and less tired. A short stretch of calm, present time counts for more than being available and frazzled all day, so working while your child is nearby is not the harm it feels like.', '{4-7,8-10,11-13,13-15,16+}', '{parent_wellbeing,normal_moments,routines}'),
   ('expert', 'Donald Winnicott', 'Children are not helped by a perfect parent, they are helped by an ordinary devoted one who gets it right often enough and repairs the rest. The good enough parent is the healthy one. Reaching for perfect only adds a pressure that helps nobody in the house.', '{4-7,8-10,11-13,13-15,16+}', '{parent_wellbeing,normal_moments,relationships}'),
