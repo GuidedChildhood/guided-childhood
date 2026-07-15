@@ -3,6 +3,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { getStarBanks } from '@/lib/quests/bank'
 import { STAR_MINUTES } from '@/lib/quests/templates'
 import { isDeviceKey, minutesToStars, deviceLabel } from '@/lib/quests/device-time'
+import { questDueToday } from '@/lib/quests/due'
 
 // The child spends earned stars as device time. The link token is the auth,
 // same trust model as ticking. Starting a session records the spend against
@@ -26,6 +27,29 @@ export async function POST(req: NextRequest) {
   const { data: link } = await supabase
     .from('kid_links').select('user_id, child_id').eq('token', token).maybeSingle()
   if (!link) return NextResponse.json({ error: 'unknown link' }, { status: 404 })
+
+  // Vital chores gate: any quest the parent flagged before screens, due today
+  // and not yet approved, blocks the child from starting device time. The
+  // parent still keeps the override from their own board.
+  const gateToday = new Date().toISOString().slice(0, 10)
+  const { data: gateQuests } = await supabase
+    .from('family_quests')
+    .select('id, title, schedule')
+    .eq('user_id', link.user_id)
+    .eq('active', true)
+    .eq('blocks_screens', true)
+    .or(`child_id.eq.${link.child_id},child_id.is.null`)
+  const dueGate = (gateQuests ?? []).filter(q => questDueToday(q.schedule))
+  if (dueGate.length > 0) {
+    const { data: approvedToday } = await supabase
+      .from('quest_ticks').select('quest_id')
+      .eq('child_id', link.child_id).eq('status', 'approved').eq('tick_date', gateToday)
+    const doneIds = new Set((approvedToday ?? []).map(t => t.quest_id))
+    const blocking = dueGate.filter(q => !doneIds.has(q.id))
+    if (blocking.length > 0) {
+      return NextResponse.json({ error: 'chores first', blocking: blocking.map(q => q.title) }, { status: 400 })
+    }
+  }
 
   const stars = minutesToStars(mins)
   const [bank] = await getStarBanks(supabase, link.user_id, [link.child_id])
