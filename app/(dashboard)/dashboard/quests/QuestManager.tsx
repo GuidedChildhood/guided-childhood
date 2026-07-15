@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { QUEST_TEMPLATES, PLAY_PAYS_WHY, STAR_MINUTES } from '@/lib/quests/templates'
+import { ROUTINE_PACKS, type RoutinePack } from '@/lib/quests/routines'
 import { STAGE_LABELS, AGE_BAND_TO_STAGE, type StageKey } from '@/lib/quests/game-picks'
 import { gamesForStage } from '@/lib/quest-games/registry'
 import { PRINTABLES } from '@/lib/printables/registry'
@@ -255,6 +256,32 @@ export default function QuestManager() {
       }).catch(() => {})
     }
     await load()
+  }
+
+  // Add a whole routine at once: each of its quests that is not already set,
+  // one summary ping to the child, one reload. Tapping twice never doubles up
+  // because anything already on the list is skipped.
+  const [addingRoutine, setAddingRoutine] = useState<string | null>(null)
+  async function addRoutine(pack: RoutinePack) {
+    if (!activeChild || addingRoutine) return
+    setAddingRoutine(pack.key)
+    const fresh = pack.tasks.filter(t => !childQuests.some(q => q.title === t.title))
+    for (const t of fresh) {
+      await fetch('/api/quests', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...t, child_id: activeChild }),
+      }).catch(() => {})
+    }
+    if (fresh.length > 0) {
+      fetch('/api/quests/ping', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ child_id: activeChild, message: `New routine: ${pack.emoji} ${pack.name}` }),
+      }).catch(() => {})
+    }
+    await load()
+    setAddingRoutine(null)
   }
 
   // The spotted it prompt: the bedroom is not tidy, homework is not done.
@@ -942,6 +969,47 @@ export default function QuestManager() {
                         </button>
                       </div>
                     )}
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+
+          {/* Routines: a whole moment of the week added in one tap */}
+          <div style={card}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
+              Routines
+            </div>
+            <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 12px' }}>
+              Add a whole moment of the week in one tap: the school morning, the bedtime wind down, the weekend reset. Each drops in its jobs on the right days. You can edit or remove any of them after.
+            </p>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(230px, 1fr))', gap: '10px' }}>
+              {ROUTINE_PACKS.map(pack => {
+                const already = pack.tasks.filter(t => childQuests.some(q => q.title === t.title)).length
+                const allIn = already === pack.tasks.length
+                return (
+                  <div key={pack.key} style={{ border: '1.5px solid var(--border)', borderRadius: '15px', padding: '13px 14px', background: '#fff', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '9px' }}>
+                      <span style={{ fontSize: '1.4rem' }}>{pack.emoji}</span>
+                      <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)' }}>{pack.name}</span>
+                    </div>
+                    <p style={{ fontSize: '12px', color: 'var(--ink-soft)', lineHeight: 1.45, margin: 0, flex: 1 }}>{pack.blurb}</p>
+                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, color: 'var(--ink-muted)' }}>
+                      {pack.tasks.length} jobs{already > 0 && !allIn ? ` · ${already} already set` : ''}
+                    </div>
+                    <button
+                      onClick={() => addRoutine(pack)}
+                      disabled={allIn || addingRoutine === pack.key}
+                      style={{
+                        width: '100%', padding: '10px', borderRadius: '12px', border: 'none',
+                        cursor: allIn || addingRoutine === pack.key ? 'default' : 'pointer',
+                        background: allIn ? 'var(--tint-sage)' : 'var(--terracotta)',
+                        color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px',
+                        boxShadow: allIn ? 'none' : '0 3px 0 var(--terracotta-dark)',
+                      }}
+                    >
+                      {allIn ? 'All set ✓' : addingRoutine === pack.key ? 'Adding…' : `Add this routine`}
+                    </button>
                   </div>
                 )
               })}

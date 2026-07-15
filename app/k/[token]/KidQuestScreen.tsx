@@ -304,7 +304,16 @@ export default function KidQuestScreen({
         if (localStorage.getItem('gc_kid_streak_seen') !== key) {
           localStorage.setItem('gc_kid_streak_seen', key)
           setHappyNews({ character: 'oliver', headline: `${streakDays} day streak!`, sub: 'You have shown up every day. That is how champions train. Keep it going!' })
+          return
         }
+      }
+      // The daily hello: first open of the day, DiGi shows what is waiting so
+      // the to-do is obvious the moment they land. Once per day.
+      const today = new Date().toISOString().slice(0, 10)
+      const remaining = quests.length - doneCount
+      if (remaining > 0 && localStorage.getItem('gc_kid_today_seen') !== today) {
+        localStorage.setItem('gc_kid_today_seen', today)
+        setHappyNews({ character: 'digi', headline: `Hi ${childName}! ${remaining} thing${remaining === 1 ? '' : 's'} to do today`, sub: 'Tick each one as you go and watch your stars grow. You have got this!' })
       }
     } catch { /* localStorage off, skip the treat */ }
     // Runs once on open with the values the server rendered.
@@ -519,6 +528,31 @@ export default function KidQuestScreen({
           )}
         </div>
 
+        {/* The obvious signpost: how many jobs are left today, tap to jump
+            straight to the list. Loud when there is still something to do,
+            quiet and green once the day is done. */}
+        {tab === 'quests' && quests.length > 0 && doneCount < quests.length && (
+          <button
+            onClick={() => { document.getElementById('my-todo')?.scrollIntoView({ behavior: 'smooth' }); playKidSound('tap') }}
+            style={{
+              width: '100%', display: 'flex', alignItems: 'center', gap: '12px',
+              background: 'var(--terracotta)', border: 'none', borderRadius: '16px',
+              padding: '14px 16px', marginBottom: '12px', cursor: 'pointer', textAlign: 'left',
+              boxShadow: '0 5px 0 var(--terracotta-dark)',
+            }}
+          >
+            <span style={{ fontSize: '1.5rem', flexShrink: 0 }}>📋</span>
+            <span style={{ flex: 1, minWidth: 0 }}>
+              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: 'var(--ink)' }}>
+                You have {quests.length - doneCount} thing{quests.length - doneCount === 1 ? '' : 's'} to do today
+              </span>
+              <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--terracotta-dark)', marginTop: '1px' }}>
+                Tap to see your to-do list ↓
+              </span>
+            </span>
+          </button>
+        )}
+
         {/* Device time: turn earned stars into minutes on an agreed device,
             with the countdown and the alarm when the time is up. */}
         <DeviceTimeCard token={token} balanceStars={bankBalance} initialSession={activeSession} />
@@ -641,6 +675,23 @@ export default function KidQuestScreen({
             <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--ink)', lineHeight: 1.4, margin: 0 }}>
               These come first today. Screens after.
             </p>
+          </div>
+        )}
+
+        {/* My to-do today: the obvious checklist, with how many are left. */}
+        {quests.length > 0 && (
+          <div id="my-todo" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, marginBottom: '10px', scrollMarginTop: '12px' }}>
+            <span style={{ display: 'flex', alignItems: 'center', gap: 8, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.2rem', color: '#fff' }}>
+              ✅ My to-do today
+            </span>
+            <span style={{
+              flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700,
+              padding: '5px 11px', borderRadius: '100px',
+              background: doneCount < quests.length ? 'var(--terracotta)' : 'var(--tint-sage)',
+              color: 'var(--ink)',
+            }}>
+              {doneCount < quests.length ? `${quests.length - doneCount} to do` : 'All done! 🎉'}
+            </span>
           </div>
         )}
 
