@@ -283,6 +283,19 @@ export default function KidQuestScreen({
   // family has run migration 047.
   const bankBalance = bank ? bank.balance : weekStars
 
+  // DiGi's line for the top bar: one short, clear, useful thing for the child
+  // right now, read from their own numbers. Calm and encouraging, never a
+  // telling off, and it always says something.
+  const remainingToday = quests.length - doneCount
+  const goalLeft = goal?.stars_needed ? goal.stars_needed - bankBalance : null
+  const digiTip =
+    (goalLeft != null && goalLeft > 0 && goalLeft <= 6) ? `Just ${goalLeft} more star${goalLeft === 1 ? '' : 's'} and you reach your prize!`
+    : (quests.length > 0 && remainingToday === 0) ? 'Everything done today. You are a superstar!'
+    : (pendingStars > 0) ? `${pendingStars} star${pendingStars === 1 ? '' : 's'} waiting for your grown up to say yes.`
+    : (streakDays >= 1 && remainingToday > 0) ? `Do one quest today to keep your ${streakDays} day streak going.`
+    : (remainingToday > 0) ? 'Tick a quest to earn stars for screen time.'
+    : 'Nice work. Ask your grown up for more quests when you are ready.'
+
   // Welcome back celebrations: when the child opens their screen and something
   // grew while they were away, a squad friend springs up to mark it. Two
   // moments, each fired at most once per milestone so it is a treat, not a
@@ -489,6 +502,20 @@ export default function KidQuestScreen({
           <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.7rem, 8vw, 2.2rem)', color: '#fff', letterSpacing: '-0.02em', margin: 0 }}>
             Go {childName}!
           </h1>
+        </div>
+
+        {/* DiGi in the top bar: a small star friend with one clear insight for
+            the child, read from their own numbers, always here and readable. */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, background: 'rgba(255,255,255,0.1)', border: '1.5px solid rgba(255,255,255,0.22)', borderRadius: '16px', padding: '11px 14px', margin: '14px 0 4px' }}>
+          <style>{`@keyframes gcTipBob {0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-4px) rotate(4deg)}}`}</style>
+          <span style={{ flexShrink: 0, width: 46, height: 46, borderRadius: '50%', background: '#FFF7E8', border: '2px solid var(--terracotta)', display: 'flex', alignItems: 'center', justifyContent: 'center', animation: 'gcTipBob 3s ease-in-out infinite' }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/digi-squad/DiGi-star.svg" alt="" style={{ width: 32, height: 32 }} />
+          </span>
+          <span style={{ flex: 1, minWidth: 0 }}>
+            <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)' }}>DiGi says</span>
+            <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: '#fff', lineHeight: 1.3, marginTop: '1px' }}>{digiTip}</span>
+          </span>
         </div>
 
         {/* From school today: the child sees the reminder their grown up sent
