@@ -18,7 +18,7 @@ function ctaLabel(n: Notification): string {
   if (n.kind === 'approve') return 'Approve the stars'
   if (n.kind === 'ask') return 'See the request'
   if (n.kind === 'device') return 'See the timer'
-  if (n.kind === 'school') return 'Open school'
+  if (n.kind === 'school') return 'See and clear'
   if (n.kind === 'digi') return n.href.includes('/lessons') ? 'Open Lessons' : 'Talk it through'
   return 'Open'
 }

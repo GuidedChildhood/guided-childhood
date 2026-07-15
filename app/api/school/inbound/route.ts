@@ -248,7 +248,7 @@ export async function POST(req: NextRequest) {
     await fetch(`${origin}/api/push/send`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.CRON_SECRET}` },
-      body: JSON.stringify({ userId: conn.user_id, title: `DiGi caught a school email`, body: promptTitle, url: '/dashboard' }),
+      body: JSON.stringify({ userId: conn.user_id, title: `DiGi caught a school email`, body: promptTitle, url: '/dashboard/school' }),
     })
   } catch { /* push is best effort */ }
 
