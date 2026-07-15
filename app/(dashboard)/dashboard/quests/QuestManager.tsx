@@ -244,6 +244,15 @@ export default function QuestManager() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ ...t, child_id: activeChild }),
     })
+    // Ping their phone so a new quest shows up right away, not only next time
+    // they open their page. Best effort, same as the before screens add.
+    if (activeChild) {
+      fetch('/api/quests/ping', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ child_id: activeChild, message: `New quest: ${t.emoji} ${t.title}` }),
+      }).catch(() => {})
+    }
     await load()
   }
 
