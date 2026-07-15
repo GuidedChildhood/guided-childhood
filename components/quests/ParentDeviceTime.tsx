@@ -11,7 +11,14 @@ import { DEVICES, type DeviceKey, minutesToStars, deviceLabel, deviceEmoji } fro
 // device, spending the child's earned stars by default, or a bonus for a treat.
 
 type Session = { id: string; child_id: string; device: DeviceKey; minutes: number; stars: number; ends_at: string; started_at: string }
-type Kid = { id: string; name: string; balance: number; session: Session | null }
+type DeviceRequest = { id: string; device: DeviceKey; minutes: number }
+type Kid = { id: string; name: string; balance: number; session: Session | null; trust: string; request: DeviceRequest | null }
+
+const TRUST_LEVELS: { key: string; label: string; hint: string }[] = [
+  { key: 'ask', label: 'Ask first', hint: 'They ask, you say yes before the timer runs.' },
+  { key: 'watch', label: 'Start, I watch', hint: 'They start freely, you get the ping and countdown.' },
+  { key: 'trusted', label: 'Trusted', hint: 'They start freely, a lighter touch, no ping each time.' },
+]
 
 const MINUTE_PRESETS = [15, 30, 45, 60]
 
@@ -147,6 +154,39 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
     setBusy(false)
   }
 
+  // Ask first: approve starts the timer with what the child asked for, decline
+  // just clears the ask.
+  async function approveRequest() {
+    if (!kid.request || busy) return
+    setBusy(true); setErr(null)
+    try {
+      const r = await fetch('/api/quests/time/parent-start', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ childId: kid.id, device: kid.request.device, minutes: kid.request.minutes, bonus: false }),
+      })
+      const d = await r.json()
+      if (!r.ok) { setErr(d.error === 'not enough stars' ? 'Not enough stars for that' : 'Could not start, try again'); setBusy(false); return }
+      await fetch('/api/quests/time/request', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: kid.request.id, status: 'approved' }) })
+      onChange()
+    } catch { setErr('Could not start, try again') }
+    setBusy(false)
+  }
+  async function declineRequest() {
+    if (!kid.request || busy) return
+    setBusy(true)
+    try {
+      await fetch('/api/quests/time/request', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: kid.request.id, status: 'declined' }) })
+      onChange()
+    } catch { /* non blocking */ }
+    setBusy(false)
+  }
+  async function setTrust(level: string) {
+    try {
+      await fetch('/api/quests/time/trust', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ childId: kid.id, trust: level }) })
+      onChange()
+    } catch { /* non blocking */ }
+  }
+
   // Running: show the countdown, and the time up state with the next step.
   if (kid.session && remaining !== null && (remaining > 0 || finished)) {
     const total = kid.session.minutes * 60000
@@ -182,6 +222,39 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
         <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)' }}>{kid.name}</span>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>⭐ {kid.balance}</span>
       </div>
+
+      {/* Ask first: the child is waiting on a yes. */}
+      {kid.request && (
+        <div style={{ border: '1.5px solid var(--terracotta)', background: 'var(--terracotta-lt)', borderRadius: '13px', padding: '11px 13px', marginBottom: '11px' }}>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: 'var(--ink)', marginBottom: '2px' }}>
+            {deviceEmoji(kid.request.device)} {kid.name} is asking for {kid.request.minutes} minutes
+          </div>
+          <div style={{ fontSize: '12px', color: 'var(--ink-soft)', marginBottom: '9px' }}>That is {minutesToStars(kid.request.minutes)} stars on the {deviceLabel(kid.request.device)}.</div>
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <button onClick={approveRequest} disabled={busy} style={{ flex: 1, padding: '9px', borderRadius: '11px', border: 'none', cursor: busy ? 'default' : 'pointer', background: 'var(--terracotta)', color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>Yes, start it</button>
+            <button onClick={declineRequest} disabled={busy} style={{ flexShrink: 0, padding: '9px 14px', borderRadius: '11px', border: '1.5px solid var(--border)', background: '#fff', cursor: busy ? 'default' : 'pointer', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '13px', color: 'var(--ink-soft)' }}>Not now</button>
+          </div>
+        </div>
+      )}
+
+      {/* Trust level: how much this child can do alone, more as they grow. */}
+      <details style={{ marginBottom: '11px' }}>
+        <summary style={{ cursor: 'pointer', listStyle: 'none', fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
+          Trust: {TRUST_LEVELS.find(l => l.key === kid.trust)?.label ?? 'Start, I watch'} ›
+        </summary>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginTop: '9px' }}>
+          {TRUST_LEVELS.map(l => (
+            <button key={l.key} onClick={() => setTrust(l.key)} aria-pressed={kid.trust === l.key} style={{
+              textAlign: 'left', padding: '8px 11px', borderRadius: '11px', cursor: 'pointer',
+              background: kid.trust === l.key ? 'var(--terracotta-lt)' : '#fff',
+              border: kid.trust === l.key ? '1.5px solid var(--terracotta)' : '1.5px solid var(--border)',
+            }}>
+              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', color: 'var(--ink)' }}>{l.label}</span>
+              <span style={{ display: 'block', fontSize: '11.5px', color: 'var(--ink-soft)', lineHeight: 1.4 }}>{l.hint}</span>
+            </button>
+          ))}
+        </div>
+      </details>
 
       <div style={{ display: 'flex', gap: '6px', marginBottom: '9px' }}>
         {DEVICES.map(d => (
