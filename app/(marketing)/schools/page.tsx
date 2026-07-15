@@ -263,6 +263,26 @@ export default function SchoolsPage() {
         </div>
       </section>
 
+      {/* ── HOME AND SCHOOL, ONE PASSPORT ── */}
+      <section style={{ padding: 'clamp(64px, 9vw, 120px) clamp(20px, 4vw, 40px)', background: 'var(--stage-1)', borderTop: '1px solid var(--border)' }}>
+        <div style={{ maxWidth: '860px', margin: '0 auto', textAlign: 'center' }}>
+          <Reveal>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'clamp(0.72rem, 2.4vw, 0.82rem)', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '14px' }}>
+              Home and school, one passport
+            </p>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 3.8vw, 3.1rem)', fontWeight: 900, letterSpacing: '-0.035em', lineHeight: 1.08, color: 'var(--ink)', marginBottom: '18px' }}>
+              The learning carries on at home
+            </h2>
+            <p style={{ fontSize: 'clamp(1rem, 2.4vw, 1.18rem)', lineHeight: 1.6, color: 'var(--ink-soft)', maxWidth: '680px', margin: '0 auto 14px' }}>
+              Every pupil’s family gets the Guided Childhood parent app, with DiGi, the daily practice and the same digital passport your curriculum follows. What a child meets in class, a parent can carry on that evening, so the message is one message and not two.
+            </p>
+            <p style={{ fontSize: 'clamp(1rem, 2.4vw, 1.18rem)', lineHeight: 1.6, color: 'var(--ink-soft)', maxWidth: '680px', margin: '0 auto' }}>
+              The passport earns a stamp for each stage on the road to 16, and in time a family will be able to print it as a keepsake book of the journey. One shared pathway, school and home walking it together.
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
       {/* ── COMPLIANCE ── */}
       <section style={{ padding: 'clamp(64px, 9vw, 120px) clamp(20px, 4vw, 40px)', background: 'var(--cream)' }}>
         <div style={{ maxWidth: '1160px', margin: '0 auto' }}>
