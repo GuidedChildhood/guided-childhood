@@ -32,6 +32,7 @@ export default function DeviceTimeCard({
   const [minutes, setMinutes] = useState<number>(Math.min(30, balanceStars * STAR_MINUTES))
   const [remaining, setRemaining] = useState<number>(0)
   const [busy, setBusy] = useState(false)
+  const [note, setNote] = useState<string | null>(null)
   const audioRef = useRef<AudioContext | null>(null)
 
   const maxMinutes = Math.max(0, balanceStars * STAR_MINUTES)
@@ -103,14 +104,21 @@ export default function DeviceTimeCard({
       })
       const data = await res.json().catch(() => ({}))
       if (res.ok && data.session) {
+        setNote(null)
         setSession({
           id: data.session.id, device: data.session.device, minutes: data.session.minutes,
           stars: data.session.stars, endsAt: data.session.ends_at, startedAt: data.session.started_at,
         })
         setPhase('idle')
         router.refresh()
+      } else if (data.error === 'chores first') {
+        setNote(`Finish first: ${(data.blocking ?? []).join(', ')}. Then your time can start.`)
+      } else if (data.error === 'not enough stars') {
+        setNote('Not quite enough stars yet. Earn a few more first.')
+      } else {
+        setNote('That did not start. Try again in a moment.')
       }
-    } catch { /* leave the picker open to try again */ }
+    } catch { setNote('That did not start. Try again in a moment.') }
     setBusy(false)
   }
 
@@ -227,6 +235,11 @@ export default function DeviceTimeCard({
             style={{ width: 44, height: 44, borderRadius: '12px', border: '1.5px solid var(--border)', background: 'var(--cream)', cursor: minutes + STAR_MINUTES > maxMinutes ? 'default' : 'pointer', fontSize: '20px', fontWeight: 800, color: 'var(--ink)', opacity: minutes + STAR_MINUTES > maxMinutes ? 0.4 : 1, flexShrink: 0 }}
           >+</button>
         </div>
+        {note && (
+          <div style={{ background: '#FDECEC', border: '1.5px solid #E5484D', borderRadius: '12px', padding: '10px 13px', marginBottom: '12px', fontSize: '13px', fontWeight: 700, color: '#B93B3F', lineHeight: 1.4 }}>
+            {note}
+          </div>
+        )}
         <div style={{ display: 'flex', gap: '8px' }}>
           <button
             onClick={() => setPhase('idle')}

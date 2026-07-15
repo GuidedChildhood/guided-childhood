@@ -40,7 +40,7 @@ export const dynamic = 'force-dynamic'
 const WARM_ERROR = 'DiGi lost its place for a second. Try that line again, nothing was lost.'
 
 type Body = {
-  mode: 'child' | 'coach'
+  mode: 'child' | 'coach' | 'suggest'
   scriptTitle: string
   situation: string
   sayThis: string
@@ -92,11 +92,31 @@ Give feedback in 3 to 4 short chat messages separated by blank lines:
 Warm, plain, direct. Never shame. No bullet points. No dashes anywhere. End on belief that they can do this.`
     : `You are role-playing a child so a parent can practise a hard conversation. Stay fully in character as the child. Do NOT give advice, do NOT break character, do NOT speak as an assistant.
 
-You are ${childName}, ${stage.ages}. The situation: ${situation}. Your parent is about to talk to you about it. React the way a real child this age genuinely might: a little defensive or testing at first, wanting to be understood, softening if the parent stays calm and connected, pushing back if they come in with a flat no. Keep every reply to one or two natural sentences, the way a child actually talks, never a speech. Use age appropriate language. Never be abusive or use profanity. No dashes anywhere in what you say. If the parent handles it really well, let it show. This is practice, so make it feel real but winnable.`
+You are ${childName}, ${stage.ages}. The situation: ${situation}. Your parent is about to talk to you about it. React the way a real child this age genuinely might: a little defensive or testing at first, wanting to be understood, softening if the parent stays calm and connected, pushing back if they come in with a flat no. Keep every reply to one or two natural sentences, the way a child actually talks, never a speech. Use age appropriate language, the real slang and half sentences of a child this age, not a tidy grown up version. Ground it in the real world: name the actual app or game, invent a friend's name, mention being the only one left out, homework, being tired, whatever a child this age would really bring up in this exact situation, so it feels like a real moment and not a script. Never be abusive or use profanity. No dashes anywhere in what you say. If the parent handles it really well, let it show. This is practice, so make it feel real but winnable.`
 
   const messages = body.messages
     .filter(m => (m.role === 'user' || m.role === 'assistant') && m.content?.trim())
     .slice(-16)
+
+  // Suggest mode: the parent is stuck for words, so DiGi hands three short
+  // lines they could say next, calibrated to this script, without breaking the
+  // rehearsal. Non streaming, returns a plain JSON array of options.
+  if (mode === 'suggest') {
+    const suggestSystem = `You are DiGi, a calm parenting coach. The parent is mid practice and unsure what to say next to ${childName} (${stage.ages}) about: ${situation}. Suggest exactly 3 short things they could say next, each ONE natural sentence, warm and calibrated, never a flat no and never a lecture. Lean towards the spirit of saying: "${sayThis}". Steer clear of: "${notThis}". Return ONLY a JSON array of 3 strings. No dashes anywhere.`
+    try {
+      const r = await anthropic.messages.create({
+        model: DIGI_MODEL, max_tokens: 300,
+        system: suggestSystem,
+        messages: messages.length ? messages : [{ role: 'user', content: '(Give three opening lines the parent could start with.)' }],
+      })
+      const text = r.content.filter(b => b.type === 'text').map(b => (b as { text: string }).text).join('')
+      const match = text.match(/\[[\s\S]*\]/)
+      const options = match ? (JSON.parse(match[0]) as unknown[]).filter(x => typeof x === 'string').slice(0, 3) : []
+      return NextResponse.json({ options })
+    } catch {
+      return NextResponse.json({ options: [] })
+    }
+  }
 
   // Coach mode reviews the run just completed; if the parent has not said
   // anything yet in child mode, open with a natural first line from the child.

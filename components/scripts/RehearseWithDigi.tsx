@@ -51,20 +51,29 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
   // same reply being spoken twice across re-renders.
   const [voiceOn, setVoiceOn] = useState(true)
   const spokenRef = useRef<string>('')
+  const [suggestions, setSuggestions] = useState<string[]>([])
+  const [suggBusy, setSuggBusy] = useState(false)
 
   const speakChild = (text: string) => {
     if (typeof window === 'undefined' || !('speechSynthesis' in window)) return
     const synth = window.speechSynthesis
     synth.cancel()
     const u = new SpeechSynthesisUtterance(text)
-    u.pitch = 1.5
-    u.rate = 1.06
+    // A little lighter and quicker than an adult, but not the shrill chipmunk
+    // a high pitch gives: a gentler lift reads as a real child, not a robot.
+    u.pitch = 1.22
+    u.rate = 1.04
     u.lang = 'en-GB'
     const voices = synth.getVoices()
+    // Prefer the device's high quality neural voices first (iOS and modern
+    // Chrome ship enhanced or natural en voices that sound genuinely human),
+    // then a named younger sounding voice, then any English fallback.
+    const en = voices.filter(v => v.lang?.startsWith('en'))
     const pick =
-      voices.find(v => /child|kid|girl|Google UK English Female|Serena|Kate|Martha/i.test(v.name) && v.lang?.startsWith('en'))
-      ?? voices.find(v => v.lang === 'en-GB')
-      ?? voices.find(v => v.lang?.startsWith('en'))
+      en.find(v => /enhanced|premium|natural|neural/i.test(v.name))
+      ?? en.find(v => /child|kid|girl|Serena|Kate|Martha|Ava|Zoe|Google UK English Female/i.test(v.name))
+      ?? en.find(v => v.lang === 'en-GB')
+      ?? en[0]
     if (pick) u.voice = pick
     synth.speak(u)
   }
@@ -139,8 +148,25 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
     const next: Msg[] = [...messages, { role: 'user', content: input.trim() }]
     setMessages(next)
     setInput('')
+    setSuggestions([])
     scrollDown()
     run('child', next)
+  }
+
+  // Stuck for words: DiGi offers three calibrated lines the parent can tap to
+  // drop into the box and send or tweak, so they always have a way forward.
+  async function getSuggestions() {
+    if (suggBusy || busy) return
+    setSuggBusy(true)
+    try {
+      const res = await fetch('/api/scripts/rehearse', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mode: 'suggest', scriptTitle, situation, sayThis, notThis, messages: messages.map(m => ({ role: m.role, content: m.content })) }),
+      })
+      const d = await res.json()
+      setSuggestions(Array.isArray(d.options) ? d.options.filter((x: unknown) => typeof x === 'string') : [])
+    } catch { setSuggestions([]) }
+    setSuggBusy(false)
   }
 
   function askCoach() {
@@ -263,6 +289,23 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
       <div style={{ padding: '12px 16px', borderTop: '1px solid rgba(46,40,24,0.1)', background: 'var(--white,#fff)' }}>
         {!coached ? (
           <>
+            {suggestions.length > 0 && (
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 10 }}>
+                {suggestions.map((s, i) => (
+                  <button
+                    key={i}
+                    onClick={() => { setInput(s); setSuggestions([]) }}
+                    style={{
+                      textAlign: 'left', background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
+                      borderRadius: 12, padding: '8px 12px', cursor: 'pointer',
+                      fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--ink)', lineHeight: 1.4,
+                    }}
+                  >
+                    {s}
+                  </button>
+                ))}
+              </div>
+            )}
             <form onSubmit={e => { e.preventDefault(); sendLine() }} style={{ display: 'flex', gap: 8, alignItems: 'flex-end' }}>
               <textarea
                 value={input}
@@ -282,6 +325,9 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
                 Say it
               </button>
             </form>
+            <button onClick={getSuggestions} disabled={busy || suggBusy} style={{ ...ghostBtn, marginTop: 10, width: '100%', textAlign: 'center', padding: '9px' }}>
+              {suggBusy ? 'Thinking of options…' : '💡 Stuck for words? Show me options'}
+            </button>
             {parentTurns >= 2 && (
               <button onClick={askCoach} disabled={busy} style={{ ...ghostBtn, marginTop: 10, width: '100%', textAlign: 'center', padding: '9px' }}>
                 Ask DiGi how I did

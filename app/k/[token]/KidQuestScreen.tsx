@@ -17,6 +17,8 @@ import QuestGamePlayer from '@/components/quest-games/QuestGamePlayer'
 import DeviceTimeCard from '@/components/quests/DeviceTimeCard'
 import type { ActiveSession } from '@/lib/quests/device-time'
 import { playKidSound, soundEnabled, setSoundEnabled } from '@/lib/sound/kidSounds'
+import HappyNews, { type HappyNewsItem, type CharacterKey } from '@/components/celebrate/HappyNews'
+import HappyScene from '@/components/celebrate/HappyScene'
 import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
 
 // The kid facing quest screen: joyful, huge tap targets, instant ticks,
@@ -30,11 +32,12 @@ type Goal = { title: string; stars_needed: number; daily_stars: number | null; a
 export type KidMission = { id: string; title: string; stars: number; status: string }
 export type KidAdventure = { code: string; title: string; catchphrase: string; stageId: number; posterUrl?: string | null; done: boolean; timesCompleted: number }
 export type KidAsk = { id: string; title: string; emoji: string; status: string }
+export type KidSchoolToday = { id: string; title: string; kind: string; time: string | null }
 
 export default function KidQuestScreen({
   token, childName, stageId = 2, quests, todayTicks, weekStars, goal, streakDays = 0, laterQuests = [], doneLessonKeys = [], missions = [],
   adventures = [], bank = null, usedWeekMinutes = 0, requests = [], printablesUnlocked = true, activeSession = null,
-  weekChart = [],
+  weekChart = [], schoolToday = [],
 }: {
   token: string
   childName: string
@@ -54,6 +57,7 @@ export default function KidQuestScreen({
   printablesUnlocked?: boolean
   activeSession?: ActiveSession | null
   weekChart?: { label: string; count: number; today: boolean }[]
+  schoolToday?: KidSchoolToday[]
 }) {
   // Only the games, mini lessons and printables that suit this child's
   // stage, so a young child never meets an older child's content.
@@ -87,6 +91,7 @@ export default function KidQuestScreen({
   const [lessonTab, setLessonTab] = useState<'watch' | 'learn' | 'games' | 'print'>('watch')
   const [seenLessons, setSeenLessons] = useState<Set<string>>(new Set())
   const [soundOn, setSoundOn] = useState(true)
+  const [happyNews, setHappyNews] = useState<HappyNewsItem | null>(null)
 
   useEffect(() => {
     if (localStorage.getItem('gc_kid_welcome') !== '1') setShowWelcome(true)
@@ -248,6 +253,15 @@ export default function KidQuestScreen({
       setBurst(quest.id)
       setTimeout(() => setBurst(null), 900)
       playKidSound('star')
+      // A squad friend springs up with the good news, rotating so it is not
+      // always the same face. The toast stays as the quiet backup line.
+      const cast: CharacterKey[] = ['oliver', 'zara', 'digi']
+      const who = cast[quest.title.length % cast.length]
+      setHappyNews({
+        character: who,
+        headline: `${quest.stars} star${quest.stars === 1 ? '' : 's'} on the way!`,
+        sub: 'Sent to your grown up. They tap approve and the stars are yours.',
+      })
       setToast('Sent to your grown up! ⭐ Stars land when they tap approve.')
       setTimeout(() => setToast(null), 3000)
     }
@@ -268,6 +282,34 @@ export default function KidQuestScreen({
   // screen time already used. Falls back to the week count until the
   // family has run migration 047.
   const bankBalance = bank ? bank.balance : weekStars
+
+  // Welcome back celebrations: when the child opens their screen and something
+  // grew while they were away, a squad friend springs up to mark it. Two
+  // moments, each fired at most once per milestone so it is a treat, not a
+  // nag: crossing a star bank milestone (their grown up approved stars up to a
+  // round number), and being on a streak of three days or more. localStorage
+  // on their own device remembers what has already been celebrated.
+  useEffect(() => {
+    const BANK_MILES = [10, 25, 50, 100, 200, 500]
+    try {
+      const seenBank = Number(localStorage.getItem('gc_kid_bank_mile') || '0')
+      const hit = [...BANK_MILES].reverse().find(m => bankBalance >= m && m > seenBank)
+      if (hit) {
+        localStorage.setItem('gc_kid_bank_mile', String(hit))
+        setHappyNews({ character: 'zara', headline: `${hit} stars in the bank!`, sub: `That is ${hit * STAR_MINUTES} minutes of screen time earned. Superstar.` })
+        return
+      }
+      if (streakDays >= 3) {
+        const key = `${new Date().toISOString().slice(0, 10)}:${streakDays}`
+        if (localStorage.getItem('gc_kid_streak_seen') !== key) {
+          localStorage.setItem('gc_kid_streak_seen', key)
+          setHappyNews({ character: 'oliver', headline: `${streakDays} day streak!`, sub: 'You have shown up every day. That is how champions train. Keep it going!' })
+        }
+      }
+    } catch { /* localStorage off, skip the treat */ }
+    // Runs once on open with the values the server rendered.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   // ── My lessons sub-tabs and the "something new" dots ──
   // Only grown up sent content counts as new (adventures, star lessons, and
@@ -355,6 +397,9 @@ export default function KidQuestScreen({
         }
       `}</style>
 
+      {/* Happy news: a squad friend springs up with the good news */}
+      <HappyNews item={happyNews} onClose={() => setHappyNews(null)} />
+
       {/* The sent it toast */}
       {toast && (
         <div style={{
@@ -435,6 +480,11 @@ export default function KidQuestScreen({
             Go {childName}!
           </h1>
         </div>
+
+        {/* From school today: the child sees the reminder their grown up sent
+            through, and a timed one goes red as it nears, so it lands with
+            them too, not only the parent. */}
+        <KidSchoolBanner items={schoolToday} />
 
         {/* Star bank */}
         <div style={{
@@ -595,9 +645,10 @@ export default function KidQuestScreen({
         {/* Quest list, screens wait quests first */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           {quests.length === 0 && (
-            <p style={{ textAlign: 'center', color: 'rgba(255,255,255,0.8)', fontSize: '16.5px', lineHeight: 1.6 }}>
-              No quests set for today yet. Ask your grown up to send some!
-            </p>
+            <HappyScene
+              headline="All calm for now"
+              sub="No quests today yet. Ask your grown up to send some and start earning stars!"
+            />
           )}
           {[...quests].sort((a, b) => Number(Boolean(b.blocks_screens)) - Number(Boolean(a.blocks_screens))).map(q => {
             const state = ticks[q.id]
@@ -662,16 +713,16 @@ export default function KidQuestScreen({
 
         {allDone && (
           <div style={{ textAlign: 'center', marginTop: '24px' }}>
-            <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.3rem', color: '#fff', margin: '0 0 4px' }}>
-              Today&apos;s list is done! 🎉
-            </p>
-            <p style={{ fontSize: '15.5px', color: 'rgba(255,255,255,0.85)', margin: '0 0 14px' }}>
-              Amazing work {childName}. Your grown up is approving your stars.
-            </p>
+            <HappyScene
+              character="oliver"
+              headline="Today's list is done!"
+              sub={`Amazing work ${childName}. Your grown up is approving your stars.`}
+            />
             <button
               onClick={askForMore}
               disabled={askedMore}
               style={{
+                marginTop: '14px',
                 padding: '12px 22px', borderRadius: '14px', cursor: askedMore ? 'default' : 'pointer',
                 background: askedMore ? 'rgba(255,255,255,0.12)' : 'var(--terracotta)',
                 color: askedMore ? 'rgba(255,255,255,0.8)' : 'var(--ink)',
@@ -1018,8 +1069,9 @@ export default function KidQuestScreen({
                 <>
                   <SectionHead icon="🖨️">Paper adventures</SectionHead>
                   {stagePrintables.map(p => {
-                    const askedTitle = `Print the ${p.title} sheet`
-                    const asked = asks.some(a => a.title === askedTitle)
+                    const finishedTitle = `Finished the ${p.title} sheet`
+                    const printTitle = `Print the ${p.title} sheet`
+                    const finished = asks.some(a => a.title === finishedTitle)
                     return (
                       <div key={p.key} style={{ ...bigCardShell(false), padding: '11px 13px 13px' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '13px', marginBottom: '11px' }}>
@@ -1051,18 +1103,35 @@ export default function KidQuestScreen({
                         >
                           🖨️ Print it now
                         </button>
+                        {/* The earn step, made plain: once it is coloured in, the
+                            child shows their grown up, who approves the stars. */}
                         <button
-                          onClick={() => submitAsk(askedTitle, '🖨️')}
-                          disabled={asked}
+                          onClick={() => {
+                            submitAsk(finishedTitle, p.emoji)
+                            setHappyNews({ character: 'sofia', headline: 'Beautiful work!', sub: `${p.stars} star${p.stars === 1 ? '' : 's'} on the way once your grown up sees it.` })
+                          }}
+                          disabled={finished}
                           style={{
-                            width: '100%', padding: '10px', borderRadius: '13px',
-                            border: '1.5px solid var(--border)',
-                            cursor: asked ? 'default' : 'pointer',
-                            background: asked ? 'var(--tint-sage)' : '#fff', color: 'var(--ink)',
-                            fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '13px',
+                            width: '100%', padding: '12px', borderRadius: '13px', border: 'none',
+                            cursor: finished ? 'default' : 'pointer', marginBottom: '7px',
+                            background: finished ? 'var(--tint-sage)' : 'var(--deep-teal)',
+                            color: finished ? 'var(--ink)' : '#fff',
+                            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px',
+                            boxShadow: finished ? 'none' : '0 4px 0 rgba(0,0,0,0.22)',
                           }}
                         >
-                          {asked ? 'Asked your grown up ✓' : 'Or ask a grown up to print it'}
+                          {finished ? 'Shown to your grown up ✓ Stars on the way' : `I finished it! Show my grown up ⭐ ${p.stars}`}
+                        </button>
+                        <button
+                          onClick={() => submitAsk(printTitle, '🖨️')}
+                          style={{
+                            width: '100%', padding: '9px', borderRadius: '12px',
+                            border: 'none', cursor: 'pointer', background: 'none',
+                            fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: '12.5px',
+                            color: 'var(--ink-muted)',
+                          }}
+                        >
+                          No printer? Ask a grown up to print it
                         </button>
                       </div>
                     )
@@ -1196,6 +1265,75 @@ function gradientFor(seed: string): string {
 // with today ringed in gold, and the plain line that turns the week's stars
 // into minutes. Deliberately simple: a child reads their own effort at a
 // glance and sees exactly what it is worth.
+const SCHOOL_KIND_EMOJI: Record<string, string> = {
+  kit: '🎒', payment: '💷', homework: '📖', event: '📅', deadline: '⏰', notice: '📌',
+}
+
+// The child's own school reminder banner. Calm and gold most of the day, and
+// as a timed one nears (in the last hour, or once it is passed) it turns red
+// and gives a soft pulse, so a dentist at nine reaches the child too. It
+// re-checks the clock every half minute so the red arrives on its own.
+function KidSchoolBanner({ items }: { items: KidSchoolToday[] }) {
+  // null until mounted, so the first client render matches the server and the
+  // red only arrives once the clock is ticking on the child's own device.
+  const [now, setNow] = useState<number | null>(null)
+  useEffect(() => {
+    setNow(Date.now())
+    if (!items.some(i => i.time)) return
+    const t = setInterval(() => setNow(Date.now()), 30000)
+    return () => clearInterval(t)
+  }, [items])
+
+  if (!items.length) return null
+
+  const today = new Date(now ?? Date.now()).toISOString().slice(0, 10)
+  const urgentOf = (time: string | null): boolean => {
+    if (!time || now == null) return false
+    const at = new Date(`${today}T${time.length === 5 ? `${time}:00` : time}`).getTime()
+    if (Number.isNaN(at)) return false
+    const mins = (at - now) / 60000
+    return mins <= 60 // in the last hour, or already passed
+  }
+  const anyUrgent = items.some(i => urgentOf(i.time))
+
+  return (
+    <div style={{
+      background: '#fff', borderRadius: '18px', padding: '14px 16px', marginBottom: '16px',
+      border: anyUrgent ? '2.5px solid #E5484D' : '2px solid var(--terracotta)',
+      boxShadow: anyUrgent ? '0 5px 0 rgba(185,59,63,0.55)' : '0 5px 0 var(--terracotta-dark)',
+      animation: anyUrgent ? 'gcKidSchoolPulse 1.3s ease-in-out infinite' : undefined,
+    }}>
+      <style>{`@keyframes gcKidSchoolPulse { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-2px) } }`}</style>
+      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: anyUrgent ? '#B93B3F' : 'var(--terracotta-dark)', marginBottom: '9px' }}>
+        {anyUrgent ? '🔴 Don’t forget, it is nearly time' : '🏫 From school today'}
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        {items.map(i => {
+          const hot = urgentOf(i.time)
+          return (
+            <div key={i.id} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <span style={{ fontSize: '1.2rem', flexShrink: 0 }}>{SCHOOL_KIND_EMOJI[i.kind] ?? '📌'}</span>
+              <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)' }}>
+                {i.title}
+              </span>
+              {i.time && (
+                <span style={{
+                  flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
+                  padding: '3px 9px', borderRadius: '100px',
+                  background: hot ? '#FDECEC' : 'var(--tint-sage)',
+                  color: hot ? '#B93B3F' : 'var(--ink-soft)',
+                }}>
+                  {i.time}
+                </span>
+              )}
+            </div>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
 function KidWeekChart({ data, weekStars }: { data: { label: string; count: number; today: boolean }[]; weekStars: number }) {
   const max = Math.max(1, ...data.map(d => d.count))
   const total = data.reduce((s, d) => s + d.count, 0)

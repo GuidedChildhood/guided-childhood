@@ -44,46 +44,47 @@ export default function DigiPrompts() {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '20px' }}>
       {prompts.map(p => (
         <div key={p.id} style={{
-          background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
-          borderRadius: '16px', padding: '14px 16px', display: 'flex', gap: '12px', alignItems: 'flex-start',
+          background: '#fff', border: '1.5px solid var(--border)',
+          borderRadius: '20px', padding: '18px 20px 16px',
+          boxShadow: '0 4px 18px rgba(26,26,46,0.05)',
         }}>
-          <div style={{ flexShrink: 0, marginTop: '2px' }}>
-            <DigiCharacter mood={p.kind === 'celebration' ? 'happy' : 'speak'} size={34} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
+            <span style={{ flexShrink: 0, width: 44, height: 44, borderRadius: '13px', background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <DigiCharacter mood={p.kind === 'celebration' ? 'happy' : 'speak'} size={30} />
+            </span>
+            <span style={{ flex: 1, minWidth: 0 }}>
+              <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
+                {KIND_LABEL[p.kind] ?? 'From DiGi'}
+              </span>
+              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16.5px', color: 'var(--ink)', lineHeight: 1.25, marginTop: '3px' }}>
+                {p.title}
+              </span>
+            </span>
           </div>
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '3px' }}>
-              {KIND_LABEL[p.kind] ?? 'From DiGi'}
-            </div>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--ink)', marginBottom: '4px' }}>
-              {p.title}
-            </div>
-            <p style={{ fontSize: '13px', color: 'var(--ink)', lineHeight: 1.55, marginBottom: '8px' }}>
-              {p.body}
-            </p>
-            <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-              {p.href ? (
-                <Link
-                  href={p.href}
-                  onClick={() => dismiss(p.id)}
-                  style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--terracotta-dark)', textDecoration: 'none' }}
-                >
-                  Open Lessons to share →
-                </Link>
-              ) : (
-                <Link
-                  href={`/dashboard/digi?q=${encodeURIComponent(`You flagged: ${p.title}. Can we talk it through?`)}`}
-                  style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--terracotta-dark)', textDecoration: 'none' }}
-                >
-                  Talk it through with DiGi →
-                </Link>
-              )}
-              <button
-                onClick={() => dismiss(p.id)}
-                style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-muted)' }}
-              >
-                Dismiss
-              </button>
-            </div>
+          <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.68, margin: '0 0 15px' }}>
+            {p.body}
+          </p>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <Link
+              href={p.href ?? `/dashboard/digi?q=${encodeURIComponent(`You flagged: ${p.title}. Can we talk it through?`)}`}
+              onClick={() => { if (p.href) dismiss(p.id) }}
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: '7px',
+                background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none',
+                borderRadius: '13px', padding: '10px 16px',
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px',
+                boxShadow: '0 4px 0 var(--terracotta-dark)',
+              }}
+            >
+              {p.href ? 'Open Lessons' : 'Talk it through'}
+              <span style={{ fontSize: '15px' }} aria-hidden>→</span>
+            </Link>
+            <button
+              onClick={() => dismiss(p.id)}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--ink-muted)' }}
+            >
+              Dismiss
+            </button>
           </div>
         </div>
       ))}

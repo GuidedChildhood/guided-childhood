@@ -73,6 +73,7 @@ export default function QuestManager() {
   const [firstMsg, setFirstMsg] = useState<string | null>(null)
   const [handMode, setHandMode] = useState<'phone' | 'paper'>('phone')
   const [pingResult, setPingResult] = useState<string | null>(null)
+  const [pingDraft, setPingDraft] = useState('')
   const [contactsSupported, setContactsSupported] = useState(false)
   const [tab, setTab] = useState<QuestTab>('manage')
   const [asksList, setAsksList] = useState<Ask[]>([])
@@ -244,6 +245,15 @@ export default function QuestManager() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ ...t, child_id: activeChild }),
     })
+    // Ping their phone so a new quest shows up right away, not only next time
+    // they open their page. Best effort, same as the before screens add.
+    if (activeChild) {
+      fetch('/api/quests/ping', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ child_id: activeChild, message: `New quest: ${t.emoji} ${t.title}` }),
+      }).catch(() => {})
+    }
     await load()
   }
 
@@ -819,13 +829,22 @@ export default function QuestManager() {
               </p>
             )}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              {childQuests.map(q => {
+              {/* Still to do first, done today sinks to the bottom and dims,
+                  so the live list is always what is left. A stable sort keeps
+                  the order within each group, and a freshly added quest, being
+                  not done, lands at the top. */}
+              {[...childQuests].sort((a, b) => {
+                const da = approvedTodayIds.has(a.id) || ticked === a.id
+                const db = approvedTodayIds.has(b.id) || ticked === b.id
+                return Number(da) - Number(db)
+              }).map(q => {
                 const editing = editingId === q.id
                 const sheet = printableForAsk(q.title)
+                const doneToday = approvedTodayIds.has(q.id) || ticked === q.id
                 return (
                   <div key={q.id} style={{
-                    borderRadius: '14px', background: '#fff', border: '1.5px solid var(--border)',
-                    padding: '12px 14px',
+                    borderRadius: '14px', background: doneToday ? 'var(--cream)' : '#fff', border: '1.5px solid var(--border)',
+                    padding: '12px 14px', opacity: doneToday ? 0.72 : 1, transition: 'opacity 0.3s',
                   }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                       <span style={{ fontSize: '1.3rem', flexShrink: 0 }}>{q.emoji}</span>
@@ -853,24 +872,19 @@ export default function QuestManager() {
                           🖨️ Print
                         </a>
                       )}
-                      {(() => {
-                        const doneToday = approvedTodayIds.has(q.id) || ticked === q.id
-                        return (
-                          <button
-                            onClick={() => !doneToday && tickForThem(q.id)}
-                            disabled={doneToday}
-                            title={doneToday ? 'Done and stars landed' : 'They did it, tick it off and land the stars'}
-                            style={{
-                              background: doneToday ? 'var(--tint-sage)' : 'var(--terracotta-lt)',
-                              border: '1.5px solid var(--terracotta)', borderRadius: '10px',
-                              padding: '7px 12px', cursor: doneToday ? 'default' : 'pointer', flexShrink: 0,
-                              fontFamily: 'var(--font-display)', fontSize: '12px', fontWeight: 800, color: 'var(--ink)',
-                            }}
-                          >
-                            {doneToday ? 'Done ✓' : 'Done today'}
-                          </button>
-                        )
-                      })()}
+                      <button
+                        onClick={() => !doneToday && tickForThem(q.id)}
+                        disabled={doneToday}
+                        title={doneToday ? 'Done and stars landed' : 'Check they did it, then tap to land the stars'}
+                        style={{
+                          background: doneToday ? 'var(--tint-sage)' : 'var(--terracotta-lt)',
+                          border: '1.5px solid var(--terracotta)', borderRadius: '10px',
+                          padding: '7px 12px', cursor: doneToday ? 'default' : 'pointer', flexShrink: 0,
+                          fontFamily: 'var(--font-display)', fontSize: '12px', fontWeight: 800, color: 'var(--ink)',
+                        }}
+                      >
+                        {doneToday ? 'Done ✓' : 'Done?'}
+                      </button>
                       <button
                         onClick={() => setEditingId(editing ? null : q.id)}
                         style={{
@@ -1363,7 +1377,7 @@ export default function QuestManager() {
                 One tap and it buzzes on their phone. Works once they have opened their quest link and turned on reminders.
               </p>
               <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                {['Quest check! A few ticks and the stars are yours ⭐', 'Time to come off the screen now please', 'Dinner in 10 minutes, start wrapping up'].map(msg => (
+                {['Quest check! A few ticks and the stars are yours ⭐', 'Time to come off the screen now please', 'Turn the TV off please', 'Time to start your homework', 'Dinner in 10 minutes, start wrapping up', 'Please come downstairs'].map(msg => (
                   <button
                     key={msg}
                     onClick={() => sendPing(msg)}
@@ -1377,6 +1391,36 @@ export default function QuestManager() {
                   </button>
                 ))}
               </div>
+              {/* Type any quick message of your own */}
+              <form
+                onSubmit={e => { e.preventDefault(); const m = pingDraft.trim(); if (m) { sendPing(m); setPingDraft('') } }}
+                style={{ display: 'flex', gap: '8px', marginTop: '10px' }}
+              >
+                <input
+                  value={pingDraft}
+                  onChange={e => setPingDraft(e.target.value)}
+                  maxLength={140}
+                  placeholder="Or type your own quick message"
+                  style={{
+                    flex: 1, minWidth: 0, padding: '10px 12px', borderRadius: '12px',
+                    border: '1.5px solid var(--border)', fontFamily: 'var(--font-body)',
+                    fontSize: '13px', color: 'var(--ink)', background: '#fff',
+                  }}
+                />
+                <button
+                  type="submit"
+                  disabled={!pingDraft.trim()}
+                  style={{
+                    flexShrink: 0, background: pingDraft.trim() ? 'var(--terracotta)' : 'var(--border)',
+                    color: 'var(--ink)', border: 'none', borderRadius: '12px', padding: '10px 16px',
+                    cursor: pingDraft.trim() ? 'pointer' : 'default',
+                    fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 800,
+                    boxShadow: pingDraft.trim() ? '0 3px 0 var(--terracotta-dark)' : 'none',
+                  }}
+                >
+                  Send
+                </button>
+              </form>
               {pingResult && (
                 <p style={{ fontSize: '12.5px', color: pingResult.startsWith('Ping sent') ? 'var(--terracotta-dark)' : 'var(--ink-soft)', fontWeight: 600, lineHeight: 1.55, margin: '10px 0 0' }}>
                   {pingResult}

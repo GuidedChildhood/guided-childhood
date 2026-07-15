@@ -2575,7 +2575,7 @@ export default function HomePage() {
             {/* Company */}
             <div>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.62rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,.4)', marginBottom: '16px' }}>Company</div>
-              {[['About', '/'], ['Blog', '/'], ['Contact', '/'], ['Privacy', '/'], ['Terms', '/'], ['Login', '/login']].map(([label, href]) => (
+              {[['About', '/pathway'], ['Contact', 'mailto:hello@guidedchildhood.com'], ['Privacy', '/privacy'], ['Terms', '/terms'], ['Login', '/login']].map(([label, href]) => (
                 <div key={label} style={{ marginBottom: '10px' }}>
                   <Link href={href} style={{ fontSize: '.78rem', color: 'rgba(255,255,255,.6)', textDecoration: 'none', fontWeight: 500 }}>{label}</Link>
                 </div>

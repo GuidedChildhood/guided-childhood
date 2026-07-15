@@ -66,8 +66,8 @@ export async function POST(request: Request) {
     ? `${origin}/dashboard/scripts/recommended?upgraded=1`
     : `${origin}/dashboard?upgraded=1`
 
-  // Door two from onboarding: card now, nothing charged for 14 days, then it
-  // continues automatically. Everywhere else (an existing trial user
+  // Door two from onboarding: card now, nothing charged for the trial length,
+  // then it continues automatically. Everywhere else (an existing trial user
   // upgrading from the dashboard) charges straight away, so nobody ever gets
   // two free trials. The card is always collected so the founder place is
   // genuinely held.

@@ -68,9 +68,27 @@ export default function ParentDeviceTime() {
         <span style={{ fontSize: '1.1rem' }}>⏱️</span>
         <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: 'var(--ink)' }}>Screen time</span>
       </div>
-      <p style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 16px' }}>
+      <p style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 10px' }}>
         Set device time for each child. It spends their stars, or give a bonus for a treat. You both get the alarm when it is up.
       </p>
+      <details style={{ marginBottom: '16px' }}>
+        <summary style={{ cursor: 'pointer', listStyle: 'none', fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
+          How does screen time work? ›
+        </summary>
+        <ol style={{ margin: '10px 0 0', padding: '0 0 0 4px', listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          {[
+            ['⭐', 'They earn stars by doing quests. One star is worth five minutes of screen time.'],
+            ['⏱️', 'You pick a device and how long here, and it spends those stars. Or flip on bonus to gift free minutes.'],
+            ['📱', 'The countdown runs on their phone and yours at the same time, so you both see it ticking down.'],
+            ['⏰', 'When it reaches zero, both phones get the alarm. Then it is time to agree the next quests.'],
+          ].map(([icon, text]) => (
+            <li key={text} style={{ display: 'flex', gap: '9px', alignItems: 'flex-start', fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
+              <span style={{ flexShrink: 0 }}>{icon}</span>
+              <span>{text}</span>
+            </li>
+          ))}
+        </ol>
+      </details>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
         {kids.map(k => (
           <ChildRow key={k.id} kid={k} onChange={load} onAlarm={alarm} />
