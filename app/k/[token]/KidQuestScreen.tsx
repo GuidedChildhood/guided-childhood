@@ -16,6 +16,7 @@ import { gamesForStage, type QuestGame } from '@/lib/quest-games/registry'
 import QuestGamePlayer from '@/components/quest-games/QuestGamePlayer'
 import DeviceTimeCard from '@/components/quests/DeviceTimeCard'
 import type { ActiveSession } from '@/lib/quests/device-time'
+import { playKidSound, soundEnabled, setSoundEnabled } from '@/lib/sound/kidSounds'
 import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
 
 // The kid facing quest screen: joyful, huge tap targets, instant ticks,
@@ -85,9 +86,11 @@ export default function KidQuestScreen({
   // child has not opened yet, tracked in localStorage on their own device.
   const [lessonTab, setLessonTab] = useState<'watch' | 'learn' | 'games' | 'print'>('watch')
   const [seenLessons, setSeenLessons] = useState<Set<string>>(new Set())
+  const [soundOn, setSoundOn] = useState(true)
 
   useEffect(() => {
     if (localStorage.getItem('gc_kid_welcome') !== '1') setShowWelcome(true)
+    setSoundOn(soundEnabled())
   }, [])
 
   function dismissWelcome() {
@@ -244,6 +247,7 @@ export default function KidQuestScreen({
     if (!untick) {
       setBurst(quest.id)
       setTimeout(() => setBurst(null), 900)
+      playKidSound('star')
       setToast('Sent to your grown up! ⭐ Stars land when they tap approve.')
       setTimeout(() => setToast(null), 3000)
     }
@@ -410,8 +414,20 @@ export default function KidQuestScreen({
           </div>
         )}
 
-        {/* Header */}
-        <div style={{ textAlign: 'center', marginBottom: '18px' }}>
+        {/* Header, with the little sound switch tucked in the corner so a
+            child (or a grown up) can turn the sounds off any time. */}
+        <div style={{ position: 'relative', textAlign: 'center', marginBottom: '18px' }}>
+          <button
+            onClick={() => { const next = !soundOn; setSoundOn(next); setSoundEnabled(next); if (next) playKidSound('tap') }}
+            aria-label={soundOn ? 'Turn sounds off' : 'Turn sounds on'}
+            style={{
+              position: 'absolute', top: 0, right: 0, width: 40, height: 40, borderRadius: '50%',
+              background: 'rgba(255,255,255,0.12)', border: '1.5px solid rgba(255,255,255,0.28)',
+              cursor: 'pointer', fontSize: '17px', lineHeight: 1, color: '#fff',
+            }}
+          >
+            {soundOn ? '🔊' : '🔇'}
+          </button>
           <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)', marginBottom: 6 }}>
             Today&apos;s quests
           </p>
@@ -514,7 +530,7 @@ export default function KidQuestScreen({
           {([['quests', '⭐ My quests'], ['lessons', '🧠 My lessons']] as const).map(([key, label]) => (
             <button
               key={key}
-              onClick={() => { setTab(key); setActiveLesson(null) }}
+              onClick={() => { setTab(key); setActiveLesson(null); playKidSound('tap') }}
               style={{
                 position: 'relative',
                 flex: 1, padding: '13px 10px', borderRadius: '14px', cursor: 'pointer',
