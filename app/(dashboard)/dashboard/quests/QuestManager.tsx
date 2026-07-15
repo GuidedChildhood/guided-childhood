@@ -39,7 +39,7 @@ type KidLink = { child_id: string; token: string }
 type Tick = { quest_id: string; child_id: string | null; status: string; tick_date: string; approved_at: string | null }
 type Ask = { id: string; child_id: string; title: string; emoji: string; status: string; created_at: string }
 type Bank = { child_id: string; earned: number; spent: number; balance: number; minutes: number }
-type Spend = { id: string; child_id: string; stars: number; minutes: number; created_at: string }
+type Spend = { id: string; child_id: string; stars: number; minutes: number; note?: string | null; created_at: string }
 type Session = { id: string; child_id: string; device: string; minutes: number; stars: number; ends_at: string; started_at: string }
 
 const SCHEDULE_LABELS: Record<string, string> = {
@@ -1288,7 +1288,7 @@ export default function QuestManager() {
                   <div style={{ marginTop: '14px', paddingTop: '12px', borderTop: '1px solid rgba(255,255,255,0.2)' }}>
                     {childSpends.map(s => (
                       <p key={s.id} style={{ fontSize: '12.5px', color: 'rgba(255,255,255,0.75)', margin: '0 0 4px', lineHeight: 1.5 }}>
-                        {s.minutes} min used · ⭐ {s.stars} · {new Date(s.created_at).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' })}
+                        {s.minutes > 0 ? `${s.minutes} min used` : (s.note ?? 'Reward')} · ⭐ {s.stars} · {new Date(s.created_at).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' })}
                       </p>
                     ))}
                   </div>

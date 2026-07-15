@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 function urlBase64ToUint8Array(base64String: string) {
   const padding = '='.repeat((4 - (base64String.length % 4)) % 4)
@@ -92,6 +93,35 @@ export default function KidQuestScreen({
   const [seenLessons, setSeenLessons] = useState<Set<string>>(new Set())
   const [soundOn, setSoundOn] = useState(true)
   const [happyNews, setHappyNews] = useState<HappyNewsItem | null>(null)
+  const router = useRouter()
+  const [goalRedeemed, setGoalRedeemed] = useState(Boolean(goal?.achieved_at))
+  const [goalConfirm, setGoalConfirm] = useState(false)
+  const [goalBusy, setGoalBusy] = useState(false)
+
+  // Cash in the saved-for reward once the bank truly holds enough. Two taps so
+  // it is never accidental: the first arms it, the second spends the stars.
+  async function redeemGoal() {
+    if (!goal || goalBusy || goalRedeemed) return
+    setGoalBusy(true)
+    try {
+      const res = await fetch('/api/quests/goal/redeem', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token }),
+      })
+      const data = await res.json().catch(() => ({}))
+      if (res.ok) {
+        setGoalRedeemed(true)
+        setGoalConfirm(false)
+        playKidSound('done')
+        setHappyNews({ character: 'oliver', headline: 'You earned it! 🎉', sub: `Your grown up knows. Time to enjoy ${goal.title}!` })
+        router.refresh()
+      } else {
+        setToast(data.error === 'not enough stars' ? 'Not quite enough stars yet.' : 'Could not redeem, try again.')
+        setTimeout(() => setToast(null), 3000)
+      }
+    } catch { setToast('Could not redeem, try again.'); setTimeout(() => setToast(null), 3000) }
+    setGoalBusy(false)
+  }
 
   useEffect(() => {
     if (localStorage.getItem('gc_kid_welcome') !== '1') setShowWelcome(true)
@@ -617,24 +647,53 @@ export default function KidQuestScreen({
           )
         })() : null}
 
-        {/* Goal bar */}
-        {goal && (
-          <div style={{ background: 'rgba(255,255,255,0.12)', borderRadius: '16px', padding: '14px 18px', marginBottom: '20px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10, marginBottom: 8 }}>
-              <span style={{ fontSize: '15px', fontWeight: 700, color: '#fff' }}>Saving for: {goal.title}</span>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, color: 'rgba(255,255,255,0.85)' }}>
-                {Math.min(bankBalance, goal.stars_needed)}/{goal.stars_needed}
-              </span>
+        {/* Goal bar: saving for a reward, and once the bank holds enough it
+            becomes a big tappable Redeem, two taps so it is never by accident. */}
+        {goal && (() => {
+          const ready = bankBalance >= goal.stars_needed && !goalRedeemed
+          if (goalRedeemed) {
+            return (
+              <div style={{ background: 'var(--tint-sage)', borderRadius: '16px', padding: '14px 18px', marginBottom: '20px', textAlign: 'center' }}>
+                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '15px', color: 'var(--ink)' }}>🎉 Redeemed: {goal.title}</span>
+                <span style={{ display: 'block', fontSize: '13px', color: 'var(--ink-soft)', marginTop: '2px' }}>Your grown up knows. Ask them to set a new goal!</span>
+              </div>
+            )
+          }
+          return (
+            <div style={{ background: ready ? 'var(--terracotta)' : 'rgba(255,255,255,0.12)', borderRadius: '16px', padding: '14px 18px', marginBottom: '20px', boxShadow: ready ? '0 5px 0 var(--terracotta-dark)' : 'none' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10, marginBottom: 8 }}>
+                <span style={{ fontSize: '15px', fontWeight: 700, color: ready ? 'var(--ink)' : '#fff' }}>Saving for: {goal.title}</span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, color: ready ? 'var(--ink)' : 'rgba(255,255,255,0.85)' }}>
+                  {Math.min(bankBalance, goal.stars_needed)}/{goal.stars_needed}
+                </span>
+              </div>
+              <div style={{ height: '10px', borderRadius: '10px', background: ready ? 'rgba(26,26,46,0.15)' : 'rgba(255,255,255,0.18)', overflow: 'hidden' }}>
+                <div style={{
+                  height: '100%', borderRadius: '10px', background: ready ? 'var(--deep-teal)' : 'var(--terracotta)',
+                  width: `${Math.min(100, (bankBalance / Math.max(1, goal.stars_needed)) * 100)}%`,
+                  transition: 'width 0.6s ease',
+                }} />
+              </div>
+              {ready && (
+                goalConfirm ? (
+                  <div style={{ marginTop: '12px' }}>
+                    <p style={{ fontSize: '13.5px', fontWeight: 700, color: 'var(--ink)', margin: '0 0 8px', textAlign: 'center' }}>
+                      Cash in {goal.stars_needed} stars for {goal.title}?
+                    </p>
+                    <div style={{ display: 'flex', gap: '8px' }}>
+                      <button onClick={redeemGoal} disabled={goalBusy} style={{ flex: 1, padding: '11px', borderRadius: '13px', border: 'none', cursor: goalBusy ? 'default' : 'pointer', background: 'var(--deep-teal)', color: '#fff', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', boxShadow: '0 4px 0 rgba(0,0,0,0.22)' }}>{goalBusy ? 'Redeeming…' : 'Yes, redeem it!'}</button>
+                      <button onClick={() => setGoalConfirm(false)} disabled={goalBusy} style={{ flexShrink: 0, padding: '11px 16px', borderRadius: '13px', border: 'none', cursor: 'pointer', background: '#fff', color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '14px' }}>Not yet</button>
+                    </div>
+                  </div>
+                ) : (
+                  <button onClick={() => setGoalConfirm(true)} style={{ width: '100%', marginTop: '12px', padding: '12px', borderRadius: '13px', border: 'none', cursor: 'pointer', background: '#fff', color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '15px', boxShadow: '0 4px 0 rgba(0,0,0,0.18)' }}>
+                    🎉 You saved enough! Redeem it
+                  </button>
+                )
+              )}
             </div>
-            <div style={{ height: '10px', borderRadius: '10px', background: 'rgba(255,255,255,0.18)', overflow: 'hidden' }}>
-              <div style={{
-                height: '100%', borderRadius: '10px', background: 'var(--terracotta)',
-                width: `${Math.min(100, (bankBalance / Math.max(1, goal.stars_needed)) * 100)}%`,
-                transition: 'width 0.6s ease',
-              }} />
-            </div>
-          </div>
-        )}
+          )
+        })()}
 
         {/* Tabs: quests, lessons and printables, all earn stars. Lessons and
             printables wear a red badge the moment a grown up pings something
