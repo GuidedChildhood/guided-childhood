@@ -78,15 +78,27 @@ export async function POST(req: NextRequest) {
     if (!stageId) return NextResponse.json({ error: 'bad age band' }, { status: 400 })
     const { count } = await supabase
       .from('children').select('id', { count: 'exact', head: true }).eq('parent_id', user.id)
+    // How they use it: explicit choice, else a sensible default by age (a four
+    // to seven year old co-views, everyone older gets their own app).
+    const useMode = ['own', 'coview'].includes(body.use_mode) ? body.use_mode : (body.age_band === '4-7' ? 'coview' : 'own')
     const { data, error } = await supabase.from('children').insert({
       parent_id: user.id,
       name: String(body.name).slice(0, 60),
       age_band: body.age_band,
       stage_id: stageId,
       is_primary: (count ?? 0) === 0,
-    }).select('id, name, age_band').single()
+      use_mode: useMode,
+    }).select('id, name, age_band, use_mode').single()
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
     return NextResponse.json({ child: data })
+  }
+
+  // Change how a child uses it: their own app, or co-view together.
+  if (body.action === 'usemode' && body.child_id && ['own', 'coview'].includes(body.use_mode)) {
+    const { error } = await supabase
+      .from('children').update({ use_mode: body.use_mode }).eq('id', body.child_id).eq('parent_id', user.id)
+    if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+    return NextResponse.json({ ok: true })
   }
 
   // Save the child's phone number (optional, drives send to phone)
@@ -182,6 +194,11 @@ export async function POST(req: NextRequest) {
   if (!title || typeof title !== 'string') {
     return NextResponse.json({ error: 'title required' }, { status: 400 })
   }
+  const cleanDays = (v: unknown): number[] | null => {
+    if (!Array.isArray(v)) return null
+    const days = [...new Set(v.filter(n => Number.isInteger(n) && n >= 0 && n <= 6) as number[])]
+    return days.length ? days.sort() : null
+  }
   const { data, error } = await supabase.from('family_quests').insert({
     user_id: user.id,
     child_id: child_id ?? null,
@@ -189,6 +206,7 @@ export async function POST(req: NextRequest) {
     emoji: (emoji ?? '⭐').slice(0, 8),
     stars: Math.min(10, Math.max(1, Number(stars) || 1)),
     schedule: ['daily', 'weekdays', 'weekend', 'once'].includes(schedule) ? schedule : 'daily',
+    schedule_days: cleanDays(body.schedule_days),
     blocks_screens: Boolean(blocks_screens),
   }).select().single()
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
@@ -201,13 +219,20 @@ export async function PATCH(req: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
 
-  const { quest_id, title, stars, schedule, blocks_screens } = await req.json()
+  const { quest_id, title, stars, schedule, schedule_days, blocks_screens } = await req.json()
   if (!quest_id) return NextResponse.json({ error: 'quest_id required' }, { status: 400 })
 
   const patch: Record<string, unknown> = {}
   if (typeof title === 'string' && title.trim()) patch.title = title.trim().slice(0, 120)
   if (stars !== undefined) patch.stars = Math.min(10, Math.max(1, Number(stars) || 1))
   if (['daily', 'weekdays', 'weekend', 'once'].includes(schedule)) patch.schedule = schedule
+  // Chosen days: an array sets them, null clears back to the schedule text.
+  if (Array.isArray(schedule_days)) {
+    const days = [...new Set(schedule_days.filter((n: unknown) => Number.isInteger(n) && (n as number) >= 0 && (n as number) <= 6) as number[])].sort()
+    patch.schedule_days = days.length ? days : null
+  } else if (schedule_days === null) {
+    patch.schedule_days = null
+  }
   if (typeof blocks_screens === 'boolean') patch.blocks_screens = blocks_screens
   if (Object.keys(patch).length === 0) return NextResponse.json({ error: 'nothing to update' }, { status: 400 })
 

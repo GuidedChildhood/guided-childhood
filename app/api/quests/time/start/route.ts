@@ -42,12 +42,12 @@ export async function POST(req: NextRequest) {
   const gateToday = new Date().toISOString().slice(0, 10)
   const { data: gateQuests } = await supabase
     .from('family_quests')
-    .select('id, title, schedule')
+    .select('id, title, schedule, schedule_days')
     .eq('user_id', link.user_id)
     .eq('active', true)
     .eq('blocks_screens', true)
     .or(`child_id.eq.${link.child_id},child_id.is.null`)
-  const dueGate = (gateQuests ?? []).filter(q => questDueToday(q.schedule))
+  const dueGate = (gateQuests ?? []).filter(q => questDueToday(q.schedule, (q as { schedule_days?: number[] | null }).schedule_days))
   if (dueGate.length > 0) {
     const { data: approvedToday } = await supabase
       .from('quest_ticks').select('quest_id')

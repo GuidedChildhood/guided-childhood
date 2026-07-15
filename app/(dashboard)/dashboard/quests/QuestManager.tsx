@@ -4,6 +4,9 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { QUEST_TEMPLATES, PLAY_PAYS_WHY, STAR_MINUTES } from '@/lib/quests/templates'
 import { ROUTINE_PACKS, type RoutinePack } from '@/lib/quests/routines'
+import ChildLinkShare from '@/components/quests/ChildLinkShare'
+import StarSummary from '@/components/quests/StarSummary'
+import { questDueToday } from '@/lib/quests/due'
 import { STAGE_LABELS, AGE_BAND_TO_STAGE, type StageKey } from '@/lib/quests/game-picks'
 import { gamesForStage } from '@/lib/quest-games/registry'
 import { PRINTABLES } from '@/lib/printables/registry'
@@ -29,16 +32,16 @@ const TABS: { key: QuestTab; label: string }[] = [
 // quests over: share the kid link for older children or print the sheet
 // for little ones.
 
-type Child = { id: string; name: string; age_band: string | null; phone?: string | null }
+type Child = { id: string; name: string; age_band: string | null; phone?: string | null; use_mode?: string | null }
 
 const AGE_BANDS = ['4-7', '8-10', '11-13', '13-15', '16+'] as const
-type Quest = { id: string; title: string; emoji: string; stars: number; schedule: string; child_id: string | null; blocks_screens?: boolean }
+type Quest = { id: string; title: string; emoji: string; stars: number; schedule: string; schedule_days?: number[] | null; child_id: string | null; blocks_screens?: boolean }
 type Goal = { child_id: string; title: string; stars_needed: number; daily_stars: number | null }
 type KidLink = { child_id: string; token: string }
 type Tick = { quest_id: string; child_id: string | null; status: string; tick_date: string; approved_at: string | null }
 type Ask = { id: string; child_id: string; title: string; emoji: string; status: string; created_at: string }
 type Bank = { child_id: string; earned: number; spent: number; balance: number; minutes: number }
-type Spend = { id: string; child_id: string; stars: number; minutes: number; created_at: string }
+type Spend = { id: string; child_id: string; stars: number; minutes: number; note?: string | null; created_at: string }
 type Session = { id: string; child_id: string; device: string; minutes: number; stars: number; ends_at: string; started_at: string }
 
 const SCHEDULE_LABELS: Record<string, string> = {
@@ -66,6 +69,7 @@ export default function QuestManager() {
   const [addingChild, setAddingChild] = useState(false)
   const [newChildName, setNewChildName] = useState('')
   const [newChildAge, setNewChildAge] = useState<string | null>(null)
+  const [newChildMode, setNewChildMode] = useState<'own' | 'coview'>('own')
   const [phoneDraft, setPhoneDraft] = useState('')
   const [phoneSaved, setPhoneSaved] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
@@ -123,7 +127,7 @@ export default function QuestManager() {
     } catch { /* the optimistic tick stands, next load reconciles */ }
   }
 
-  async function editQuest(questId: string, patch: { stars?: number; schedule?: string; blocks_screens?: boolean }) {
+  async function editQuest(questId: string, patch: { stars?: number; schedule?: string; schedule_days?: number[] | null; blocks_screens?: boolean }) {
     setQuests(prev => prev.map(q => q.id === questId ? { ...q, ...patch } as Quest : q))
     try {
       await fetch('/api/quests', {
@@ -152,16 +156,27 @@ export default function QuestManager() {
     const res = await fetch('/api/quests', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action: 'child', name: newChildName.trim(), age_band: newChildAge }),
+      body: JSON.stringify({ action: 'child', name: newChildName.trim(), age_band: newChildAge, use_mode: newChildMode }),
     })
     const data = await res.json()
     if (data.child) {
       setAddingChild(false)
       setNewChildName('')
       setNewChildAge(null)
+      setNewChildMode('own')
       setActiveChild(data.child.id)
       await load()
     }
+  }
+
+  // Change how the active child uses it, from the share tab.
+  async function setUseMode(mode: 'own' | 'coview') {
+    if (!activeChild) return
+    await fetch('/api/quests', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'usemode', child_id: activeChild, use_mode: mode }),
+    })
+    await load()
   }
 
   async function savePhone() {
@@ -482,7 +497,7 @@ export default function QuestManager() {
             {AGE_BANDS.map(band => (
               <button
                 key={band}
-                onClick={() => setNewChildAge(band)}
+                onClick={() => { setNewChildAge(band); setNewChildMode(band === '4-7' ? 'coview' : 'own') }}
                 style={{
                   padding: '9px 16px', borderRadius: '100px', cursor: 'pointer',
                   border: '1.5px solid var(--border)',
@@ -495,6 +510,31 @@ export default function QuestManager() {
               </button>
             ))}
           </div>
+
+          {/* How they use it: their own app, or together on your device. */}
+          {newChildAge && (
+            <div style={{ marginBottom: '14px' }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
+                How will {newChildName.trim() || 'they'} use it?
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '7px' }}>
+                {([
+                  ['own', '📱 Their own app', 'On their tablet or phone. You send the link or QR, they add it to their home screen.'],
+                  ['coview', '👀 Together on your device', 'You open it on your phone and do it together. Best for a little one with no device.'],
+                ] as const).map(([m, label, hint]) => (
+                  <button key={m} onClick={() => setNewChildMode(m)} aria-pressed={newChildMode === m} style={{
+                    textAlign: 'left', padding: '10px 13px', borderRadius: '12px', cursor: 'pointer',
+                    background: newChildMode === m ? 'var(--terracotta-lt)' : '#fff',
+                    border: newChildMode === m ? '1.5px solid var(--terracotta)' : '1.5px solid var(--border)',
+                  }}>
+                    <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: 'var(--ink)' }}>{label}</span>
+                    <span style={{ display: 'block', fontSize: '11.5px', color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: '1px' }}>{hint}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
           <button
             onClick={addChild}
             disabled={!newChildName.trim() || !newChildAge}
@@ -513,6 +553,29 @@ export default function QuestManager() {
       {/* Active quests */}
       {child && (
         <>
+          {/* The star system at a glance: rate, stars and minutes, what is
+              waiting, what is to do, the goal, the timer, one glance. */}
+          {(() => {
+            const today = new Date().toISOString().slice(0, 10)
+            const tickedToday = new Set(ticks.filter(t => t.tick_date === today).map(t => t.quest_id))
+            const dueToday = childQuests.filter(q => questDueToday(q.schedule, q.schedule_days))
+            const g = goals.find(gg => gg.child_id === activeChild)
+            return (
+              <StarSummary
+                childName={child.name}
+                balanceStars={banks.find(b => b.child_id === activeChild)?.balance ?? 0}
+                weekStars={starsThisWeek}
+                pending={ticks.filter(t => t.child_id === activeChild && t.status === 'pending').length}
+                todo={dueToday.filter(q => !tickedToday.has(q.id)).length}
+                goal={g ? { title: g.title, stars_needed: g.stars_needed } : null}
+                timerRunning={sessions.some(s => s.child_id === activeChild)}
+                onApprove={() => { if (ticks.some(t => t.child_id === activeChild && t.status === 'pending')) { window.location.href = '/dashboard#quest-board' } else { setTab('manage') } }}
+                onScreenTime={() => document.getElementById('screen-time')?.scrollIntoView({ behavior: 'smooth' })}
+                onShare={() => setTab('share')}
+              />
+            )
+          })()}
+
           {/* Hand it over: the one decision, made simple. To their phone,
               or onto paper. Everything else lives in the tabs below. */}
           <div style={card}>
@@ -932,21 +995,50 @@ export default function QuestManager() {
                           <button onClick={() => editQuest(q.id, { stars: q.stars + 1 })} disabled={q.stars >= 10} style={{ width: 30, height: 30, borderRadius: '9px', border: '1.5px solid var(--border)', background: '#fff', cursor: 'pointer', fontWeight: 800 }}>+</button>
                         </span>
                         <span style={{ display: 'inline-flex', gap: '6px', flexWrap: 'wrap' }}>
-                          {(['daily', 'weekdays', 'weekend', 'once'] as const).map(s => (
-                            <button
-                              key={s}
-                              onClick={() => editQuest(q.id, { schedule: s })}
-                              style={{
-                                padding: '6px 12px', borderRadius: '100px', cursor: 'pointer',
-                                border: '1.5px solid var(--border)',
-                                background: q.schedule === s ? 'var(--deep-teal)' : '#fff',
-                                color: q.schedule === s ? '#fff' : 'var(--ink-soft)',
-                                fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
-                              }}
-                            >
-                              {SCHEDULE_LABELS[s]}
-                            </button>
-                          ))}
+                          {(['daily', 'weekdays', 'weekend', 'once'] as const).map(s => {
+                            const activeDays = (q.schedule_days?.length ?? 0) > 0
+                            return (
+                              <button
+                                key={s}
+                                onClick={() => editQuest(q.id, { schedule: s, schedule_days: null })}
+                                style={{
+                                  padding: '6px 12px', borderRadius: '100px', cursor: 'pointer',
+                                  border: '1.5px solid var(--border)',
+                                  background: (!activeDays && q.schedule === s) ? 'var(--deep-teal)' : '#fff',
+                                  color: (!activeDays && q.schedule === s) ? '#fff' : 'var(--ink-soft)',
+                                  fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
+                                }}
+                              >
+                                {SCHEDULE_LABELS[s]}
+                              </button>
+                            )
+                          })}
+                        </span>
+                        {/* Or pick exact days: how three times a week is really set. */}
+                        <span style={{ display: 'inline-flex', gap: '4px', alignItems: 'center', flexWrap: 'wrap' }}>
+                          {[[1, 'M'], [2, 'T'], [3, 'W'], [4, 'T'], [5, 'F'], [6, 'S'], [0, 'S']].map(([n, l]) => {
+                            const on = (q.schedule_days ?? []).includes(n as number)
+                            return (
+                              <button
+                                key={`${n}`}
+                                onClick={() => {
+                                  const cur = q.schedule_days ?? []
+                                  const next = on ? cur.filter(d => d !== n) : [...cur, n as number]
+                                  editQuest(q.id, { schedule_days: next.length ? next : null })
+                                }}
+                                title="Pick the exact days"
+                                style={{
+                                  width: 26, height: 26, borderRadius: '8px', cursor: 'pointer',
+                                  border: on ? '1.5px solid var(--terracotta)' : '1.5px solid var(--border)',
+                                  background: on ? 'var(--terracotta)' : '#fff',
+                                  color: on ? 'var(--ink)' : 'var(--ink-muted)',
+                                  fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
+                                }}
+                              >
+                                {l}
+                              </button>
+                            )
+                          })}
                         </span>
                         <button
                           onClick={() => editQuest(q.id, { blocks_screens: !q.blocks_screens })}
@@ -1221,7 +1313,7 @@ export default function QuestManager() {
                   <div style={{ marginTop: '14px', paddingTop: '12px', borderTop: '1px solid rgba(255,255,255,0.2)' }}>
                     {childSpends.map(s => (
                       <p key={s.id} style={{ fontSize: '12.5px', color: 'rgba(255,255,255,0.75)', margin: '0 0 4px', lineHeight: 1.5 }}>
-                        {s.minutes} min used · ⭐ {s.stars} · {new Date(s.created_at).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' })}
+                        {s.minutes > 0 ? `${s.minutes} min used` : (s.note ?? 'Reward')} · ⭐ {s.stars} · {new Date(s.created_at).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' })}
                       </p>
                     ))}
                   </div>
@@ -1496,6 +1588,10 @@ export default function QuestManager() {
               )}
             </div>
           </div>
+
+          {/* More ways to share: QR, copy, email, and co-view on this device,
+              for no phone, no WhatsApp, or a very young child. */}
+          {link && <ChildLinkShare token={link.token} childName={child.name} ageBand={child.age_band} useMode={child.use_mode} onSetMode={setUseMode} />}
           </>
           )}
         </>

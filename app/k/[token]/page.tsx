@@ -42,7 +42,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   const [childRes, questsRes, todayTicksRes, weekTicksRes, goalRes, streakTicksRes] = await Promise.all([
     supabase.from('children').select('name, age_band').eq('id', link.child_id).maybeSingle(),
     supabase.from('family_quests')
-      .select('id, title, emoji, stars, schedule, blocks_screens')
+      .select('id, title, emoji, stars, schedule, schedule_days, blocks_screens')
       .eq('user_id', link.user_id)
       .eq('active', true)
       .or(`child_id.eq.${link.child_id},child_id.is.null`)
@@ -106,9 +106,9 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     return { label: 'SMTWTFS'[dow], count, today: off === 0 }
   })
 
-  const quests = (questsRes.data ?? []).filter(q => questDueToday(q.schedule))
+  const quests = (questsRes.data ?? []).filter(q => questDueToday(q.schedule, (q as { schedule_days?: number[] | null }).schedule_days))
   const laterQuests = (questsRes.data ?? [])
-    .filter(q => !questDueToday(q.schedule))
+    .filter(q => !questDueToday(q.schedule, (q as { schedule_days?: number[] | null }).schedule_days))
     .map(q => ({ title: q.title, emoji: q.emoji, schedule: q.schedule }))
   const starsByQuest = new Map((questsRes.data ?? []).map(q => [q.id, q.stars]))
   const weekStars = (weekTicksRes.data ?? []).reduce((sum, t) => sum + (starsByQuest.get(t.quest_id) ?? 1), 0)

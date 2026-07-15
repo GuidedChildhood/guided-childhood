@@ -13,7 +13,7 @@ import Button, { ButtonLink } from '@/components/ui/Button'
 // quest right here without leaving Home.
 
 type Child = { id: string; name: string }
-type Quest = { id: string; title: string; emoji: string; stars: number; schedule: string; child_id: string | null }
+type Quest = { id: string; title: string; emoji: string; stars: number; schedule: string; schedule_days?: number[] | null; child_id: string | null }
 type Tick = { id: string; quest_id: string; child_id: string | null; tick_date: string; status: string }
 type Goal = { child_id: string; title: string; stars_needed: number; daily_stars: number | null }
 type Ask = { id: string; child_id: string; title: string; emoji: string; status: string }
@@ -202,7 +202,7 @@ export default function QuestBoard() {
         {children.map(c => {
           const childQuests = quests.filter(q => q.child_id === c.id || q.child_id === null)
           if (childQuests.length === 0) return null
-          const dueToday = childQuests.filter(q => questDueToday(q.schedule))
+          const dueToday = childQuests.filter(q => questDueToday(q.schedule, q.schedule_days))
           const doneIds = new Set(
             ticks.filter(t => t.tick_date === today && t.status !== 'rejected' && (t.child_id === c.id || t.child_id === null)).map(t => t.quest_id)
           )

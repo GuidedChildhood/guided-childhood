@@ -10,7 +10,7 @@ import { STAR_MINUTES } from '@/lib/quests/templates'
 // feed the board uses, so the three numbers agree with the rest of the page.
 // Renders just the streak on its own until a child and quests exist.
 
-type Quest = { id: string; schedule: string; child_id: string | null }
+type Quest = { id: string; schedule: string; schedule_days?: number[] | null; child_id: string | null }
 type Tick = { quest_id: string; child_id: string | null; tick_date: string; status: string }
 type Bank = { child_id: string; balance: number }
 
@@ -43,7 +43,7 @@ export default function HomeStats({ streakCount }: { streakCount: number }) {
         const bank = banks.find(b => b.child_id === child.id)
         if (bank) setBankStars(bank.balance)
         const todayStr = new Date().toISOString().slice(0, 10)
-        const due = quests.filter(q => (q.child_id === child.id || q.child_id === null) && questDueToday(q.schedule))
+        const due = quests.filter(q => (q.child_id === child.id || q.child_id === null) && questDueToday(q.schedule, q.schedule_days))
         const doneIds = new Set(ticks.filter(t => t.tick_date === todayStr && t.status !== 'rejected' && (t.child_id === child.id || t.child_id === null)).map(t => t.quest_id))
         if (due.length > 0) setToday({ done: due.filter(q => doneIds.has(q.id)).length, total: due.length })
       })
