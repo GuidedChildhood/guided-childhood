@@ -5,6 +5,8 @@ import Link from 'next/link'
 import { QUEST_TEMPLATES, PLAY_PAYS_WHY, STAR_MINUTES } from '@/lib/quests/templates'
 import { ROUTINE_PACKS, type RoutinePack } from '@/lib/quests/routines'
 import ChildLinkShare from '@/components/quests/ChildLinkShare'
+import StarSummary from '@/components/quests/StarSummary'
+import { questDueToday } from '@/lib/quests/due'
 import { STAGE_LABELS, AGE_BAND_TO_STAGE, type StageKey } from '@/lib/quests/game-picks'
 import { gamesForStage } from '@/lib/quest-games/registry'
 import { PRINTABLES } from '@/lib/printables/registry'
@@ -551,6 +553,29 @@ export default function QuestManager() {
       {/* Active quests */}
       {child && (
         <>
+          {/* The star system at a glance: rate, stars and minutes, what is
+              waiting, what is to do, the goal, the timer, one glance. */}
+          {(() => {
+            const today = new Date().toISOString().slice(0, 10)
+            const tickedToday = new Set(ticks.filter(t => t.tick_date === today).map(t => t.quest_id))
+            const dueToday = childQuests.filter(q => questDueToday(q.schedule, q.schedule_days))
+            const g = goals.find(gg => gg.child_id === activeChild)
+            return (
+              <StarSummary
+                childName={child.name}
+                balanceStars={banks.find(b => b.child_id === activeChild)?.balance ?? 0}
+                weekStars={starsThisWeek}
+                pending={ticks.filter(t => t.child_id === activeChild && t.status === 'pending').length}
+                todo={dueToday.filter(q => !tickedToday.has(q.id)).length}
+                goal={g ? { title: g.title, stars_needed: g.stars_needed } : null}
+                timerRunning={sessions.some(s => s.child_id === activeChild)}
+                onApprove={() => { if (ticks.some(t => t.child_id === activeChild && t.status === 'pending')) { window.location.href = '/dashboard#quest-board' } else { setTab('manage') } }}
+                onScreenTime={() => document.getElementById('screen-time')?.scrollIntoView({ behavior: 'smooth' })}
+                onShare={() => setTab('share')}
+              />
+            )
+          })()}
+
           {/* Hand it over: the one decision, made simple. To their phone,
               or onto paper. Everything else lives in the tabs below. */}
           <div style={card}>
