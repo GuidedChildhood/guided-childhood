@@ -819,13 +819,22 @@ export default function QuestManager() {
               </p>
             )}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              {childQuests.map(q => {
+              {/* Still to do first, done today sinks to the bottom and dims,
+                  so the live list is always what is left. A stable sort keeps
+                  the order within each group, and a freshly added quest, being
+                  not done, lands at the top. */}
+              {[...childQuests].sort((a, b) => {
+                const da = approvedTodayIds.has(a.id) || ticked === a.id
+                const db = approvedTodayIds.has(b.id) || ticked === b.id
+                return Number(da) - Number(db)
+              }).map(q => {
                 const editing = editingId === q.id
                 const sheet = printableForAsk(q.title)
+                const doneToday = approvedTodayIds.has(q.id) || ticked === q.id
                 return (
                   <div key={q.id} style={{
-                    borderRadius: '14px', background: '#fff', border: '1.5px solid var(--border)',
-                    padding: '12px 14px',
+                    borderRadius: '14px', background: doneToday ? 'var(--cream)' : '#fff', border: '1.5px solid var(--border)',
+                    padding: '12px 14px', opacity: doneToday ? 0.72 : 1, transition: 'opacity 0.3s',
                   }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                       <span style={{ fontSize: '1.3rem', flexShrink: 0 }}>{q.emoji}</span>
@@ -853,24 +862,19 @@ export default function QuestManager() {
                           🖨️ Print
                         </a>
                       )}
-                      {(() => {
-                        const doneToday = approvedTodayIds.has(q.id) || ticked === q.id
-                        return (
-                          <button
-                            onClick={() => !doneToday && tickForThem(q.id)}
-                            disabled={doneToday}
-                            title={doneToday ? 'Done and stars landed' : 'They did it, tick it off and land the stars'}
-                            style={{
-                              background: doneToday ? 'var(--tint-sage)' : 'var(--terracotta-lt)',
-                              border: '1.5px solid var(--terracotta)', borderRadius: '10px',
-                              padding: '7px 12px', cursor: doneToday ? 'default' : 'pointer', flexShrink: 0,
-                              fontFamily: 'var(--font-display)', fontSize: '12px', fontWeight: 800, color: 'var(--ink)',
-                            }}
-                          >
-                            {doneToday ? 'Done ✓' : 'Done today'}
-                          </button>
-                        )
-                      })()}
+                      <button
+                        onClick={() => !doneToday && tickForThem(q.id)}
+                        disabled={doneToday}
+                        title={doneToday ? 'Done and stars landed' : 'Check they did it, then tap to land the stars'}
+                        style={{
+                          background: doneToday ? 'var(--tint-sage)' : 'var(--terracotta-lt)',
+                          border: '1.5px solid var(--terracotta)', borderRadius: '10px',
+                          padding: '7px 12px', cursor: doneToday ? 'default' : 'pointer', flexShrink: 0,
+                          fontFamily: 'var(--font-display)', fontSize: '12px', fontWeight: 800, color: 'var(--ink)',
+                        }}
+                      >
+                        {doneToday ? 'Done ✓' : 'Done?'}
+                      </button>
                       <button
                         onClick={() => setEditingId(editing ? null : q.id)}
                         style={{
