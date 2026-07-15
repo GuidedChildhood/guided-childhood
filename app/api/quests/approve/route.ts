@@ -35,19 +35,23 @@ export async function POST(req: NextRequest) {
     const { data: quest } = await supabase
       .from('family_quests').select('id, child_id, title, stars').eq('id', quest_id).eq('user_id', user.id).maybeSingle()
     if (!quest) return NextResponse.json({ error: 'unknown quest' }, { status: 404 })
-    const { error } = await supabase.from('quest_ticks').insert({
-      quest_id: quest.id, user_id: user.id, child_id: quest.child_id,
-      tick_date: today, status: 'approved', ticked_by: 'parent',
-      approved_at: new Date().toISOString(),
-    })
-    if (error && !error.message.includes('duplicate')) {
-      return NextResponse.json({ error: error.message }, { status: 500 })
-    }
-    if (error) {
-      // Already ticked today: approve the existing one instead
-      await supabase.from('quest_ticks')
-        .update({ status: 'approved', approved_at: new Date().toISOString() })
-        .eq('quest_id', quest.id).eq('tick_date', today).eq('user_id', user.id)
+    // If the child already ticked it today, approve THAT row so their pending
+    // tick clears, instead of inserting a second one that leaves the first
+    // sitting in the parent's notifications as still waiting. Only insert a
+    // fresh approved tick when there was nothing pending to approve.
+    const { data: promoted } = await supabase.from('quest_ticks')
+      .update({ status: 'approved', approved_at: new Date().toISOString() })
+      .eq('quest_id', quest.id).eq('tick_date', today).eq('user_id', user.id).neq('status', 'approved')
+      .select('id')
+    if (!promoted || promoted.length === 0) {
+      const { error } = await supabase.from('quest_ticks').insert({
+        quest_id: quest.id, user_id: user.id, child_id: quest.child_id,
+        tick_date: today, status: 'approved', ticked_by: 'parent',
+        approved_at: new Date().toISOString(),
+      })
+      if (error && !error.message.includes('duplicate')) {
+        return NextResponse.json({ error: error.message }, { status: 500 })
+      }
     }
     if (quest.child_id) await tellChildConfirmed(user.id, quest.child_id, quest.title, quest.stars ?? 1)
     return NextResponse.json({ ok: true })
