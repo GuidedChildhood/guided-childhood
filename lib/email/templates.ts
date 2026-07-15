@@ -201,3 +201,26 @@ export function weeklyDigestEmail(params: {
     ),
   }
 }
+
+// 6 · Lead magnet delivery, sent the moment a parent asks for a free
+// printable. Warm, short, and it points gently on to the free pathway
+// without a hard sell. There is no account yet, so unsubscribe is a
+// plain reply address rather than a signed link.
+export function magnetEmail(params: {
+  magnetTitle: string
+  downloadUrl: string
+}): EmailContent {
+  const { magnetTitle, downloadUrl } = params
+  return {
+    subject: `Your download: ${magnetTitle}`,
+    html: wrapper(
+      heading('Here is your download.') +
+      p(`Thanks for grabbing <strong>${magnetTitle}</strong>. It is one page, made to print and stick on the fridge. No login needed.`) +
+      button('Download the printable', downloadUrl) +
+      p(`If the button does not work, paste this into your browser: <a href="${downloadUrl}" style="color:${BUTTER_DARK}">${downloadUrl}</a>`) +
+      p(`This is the free front door to Guided Childhood. When you want the calm plan behind it, the starter pack picks the first small move for your child in about two minutes.`) +
+      button('See the free starter pack', `${APP}/starter-pack`),
+      'mailto:hello@guidedchildhood.com?subject=Unsubscribe'
+    ),
+  }
+}
