@@ -18,6 +18,7 @@ import DeviceTimeCard from '@/components/quests/DeviceTimeCard'
 import type { ActiveSession } from '@/lib/quests/device-time'
 import { playKidSound, soundEnabled, setSoundEnabled } from '@/lib/sound/kidSounds'
 import HappyNews, { type HappyNewsItem, type CharacterKey } from '@/components/celebrate/HappyNews'
+import HappyScene from '@/components/celebrate/HappyScene'
 import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
 
 // The kid facing quest screen: joyful, huge tap targets, instant ticks,
@@ -616,9 +617,10 @@ export default function KidQuestScreen({
         {/* Quest list, screens wait quests first */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           {quests.length === 0 && (
-            <p style={{ textAlign: 'center', color: 'rgba(255,255,255,0.8)', fontSize: '16.5px', lineHeight: 1.6 }}>
-              No quests set for today yet. Ask your grown up to send some!
-            </p>
+            <HappyScene
+              headline="All calm for now"
+              sub="No quests today yet. Ask your grown up to send some and start earning stars!"
+            />
           )}
           {[...quests].sort((a, b) => Number(Boolean(b.blocks_screens)) - Number(Boolean(a.blocks_screens))).map(q => {
             const state = ticks[q.id]
@@ -683,16 +685,15 @@ export default function KidQuestScreen({
 
         {allDone && (
           <div style={{ textAlign: 'center', marginTop: '24px' }}>
-            <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.3rem', color: '#fff', margin: '0 0 4px' }}>
-              Today&apos;s list is done! 🎉
-            </p>
-            <p style={{ fontSize: '15.5px', color: 'rgba(255,255,255,0.85)', margin: '0 0 14px' }}>
-              Amazing work {childName}. Your grown up is approving your stars.
-            </p>
+            <HappyScene
+              headline="Today's list is done!"
+              sub={`Amazing work ${childName}. Your grown up is approving your stars.`}
+            />
             <button
               onClick={askForMore}
               disabled={askedMore}
               style={{
+                marginTop: '14px',
                 padding: '12px 22px', borderRadius: '14px', cursor: askedMore ? 'default' : 'pointer',
                 background: askedMore ? 'rgba(255,255,255,0.12)' : 'var(--terracotta)',
                 color: askedMore ? 'rgba(255,255,255,0.8)' : 'var(--ink)',
