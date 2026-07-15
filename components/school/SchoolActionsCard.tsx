@@ -396,6 +396,13 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
                   >
                     Dismiss
                   </button>
+                  <a
+                    href={`/api/school/${a.id}/ics`}
+                    title="Add this to your phone calendar"
+                    style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--ink-soft)', textDecoration: 'none' }}
+                  >
+                    📅 Calendar
+                  </a>
                   {a.sent_to_child ? (
                     <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-muted)', marginLeft: 'auto' }}>
                       Sent to {childName ?? 'them'} ✓

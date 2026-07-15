@@ -52,6 +52,20 @@ export async function POST(req: NextRequest) {
     .select('id, kind, title, detail, due_date, sent_to_child, recurs_weekday, auto_send_to_child')
     .single()
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+
+  // Tell both phones it has been added, with a link that adds it straight to
+  // their calendar. Best effort, so a push hiccup never blocks the save.
+  try {
+    const origin = process.env.NEXT_PUBLIC_APP_URL ?? req.nextUrl.origin
+    const ics = `${origin}/api/school/${data.id}/ics`
+    const send = (extra: Record<string, unknown>) => fetch(`${origin}/api/push/send`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', authorization: `Bearer ${process.env.CRON_SECRET}` },
+      body: JSON.stringify({ userId: user.id, title: `Added: ${title} 🎒`, body: 'Tap to add it to your calendar.', url: ics, ...extra }),
+    })
+    await Promise.allSettled([send({}), send({ audience: 'kids' })])
+  } catch { /* best effort */ }
+
   return NextResponse.json({ action: data })
 }
 
