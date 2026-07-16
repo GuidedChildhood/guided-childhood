@@ -43,7 +43,21 @@ export default function QuestBoard() {
     } catch { /* stays hidden */ } finally { setLoaded(true) }
   }, [])
 
-  useEffect(() => { load() }, [load])
+  // Keep the board live: a child ticking a quest lands as a pending approval
+  // the parent should see without a refresh. Poll gently, and refetch the
+  // moment the tab is looked at again, so Waiting on you is never stale.
+  useEffect(() => {
+    load()
+    const id = setInterval(load, 15000)
+    const onVis = () => { if (!document.hidden) load() }
+    window.addEventListener('focus', load)
+    document.addEventListener('visibilitychange', onVis)
+    return () => {
+      clearInterval(id)
+      window.removeEventListener('focus', load)
+      document.removeEventListener('visibilitychange', onVis)
+    }
+  }, [load])
 
   // The child asked for this quest. Yes makes it real (2 stars, one off,
   // adjustable any time in Manage), no closes it kindly.
@@ -88,6 +102,9 @@ export default function QuestBoard() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ tick_id: tickId, decision }),
       })
+      // Drop the bell and the Waiting on you banner at once, and the child's
+      // own app hears the yes on its next poll.
+      try { window.dispatchEvent(new Event('gc:notifs-changed')) } catch { /* SSR */ }
     } catch { load() }
   }
 

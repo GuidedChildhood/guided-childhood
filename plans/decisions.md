@@ -1083,3 +1083,21 @@ should fall off the list once done, so the flow makes sense.
   folded done group.
 
 On PR 303 (continue-build-ldot8v). No migration.
+
+## 2026-07-16 — The approve loop is live both ways
+
+Closing the loop started with the child live approval. The parent side updated
+only on reload, so a child ticking a quest did not show until refresh.
+
+- The Home quest board (QuestBoard) now polls every 15s and refetches on focus
+  and when the tab is looked at again, so a fresh pending tick appears without a
+  reload.
+- The Waiting on you banner does the same, in sync with the bell via the
+  gc:notifs-changed event, so the red count and the plain English summary stay
+  live.
+- Approving on the board fires gc:notifs-changed, so the bell and banner drop at
+  once, and the child's own app hears the yes on its next poll (the loop from the
+  earlier child live approval work).
+
+Whole flow now: child ticks, parent sees it live and approves, child sees the
+yes live, and it falls off both lists. On PR 303. No migration.

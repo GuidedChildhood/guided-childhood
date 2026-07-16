@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { NOTIFS_CHANGED_EVENT } from '@/components/dashboard/NotificationsBell'
 
 // The one clear "do this next" banner at the top of Home, and the mobile way
 // into the notifications hub (mobile has no header bell). It carries the same
@@ -16,12 +17,28 @@ export default function WaitingOnYou() {
 
   useEffect(() => {
     let live = true
-    fetch('/api/notifications')
-      .then(r => r.json())
-      .then(d => { if (live) setItems(d.items ?? []) })
-      .catch(() => {})
-      .finally(() => { if (live) setLoaded(true) })
-    return () => { live = false }
+    const refresh = () => {
+      fetch('/api/notifications')
+        .then(r => r.json())
+        .then(d => { if (live) setItems(d.items ?? []) })
+        .catch(() => {})
+        .finally(() => { if (live) setLoaded(true) })
+    }
+    refresh()
+    // Stay live with the bell: a child ticking a quest, or anything clearing,
+    // updates this banner without a reload.
+    const id = setInterval(refresh, 15000)
+    const onVis = () => { if (!document.hidden) refresh() }
+    window.addEventListener(NOTIFS_CHANGED_EVENT, refresh)
+    window.addEventListener('focus', refresh)
+    document.addEventListener('visibilitychange', onVis)
+    return () => {
+      live = false
+      clearInterval(id)
+      window.removeEventListener(NOTIFS_CHANGED_EVENT, refresh)
+      window.removeEventListener('focus', refresh)
+      document.removeEventListener('visibilitychange', onVis)
+    }
   }, [])
 
   const total = items.length
