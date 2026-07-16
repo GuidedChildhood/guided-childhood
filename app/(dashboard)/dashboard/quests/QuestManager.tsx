@@ -6,6 +6,7 @@ import { QUEST_TEMPLATES, PLAY_PAYS_WHY, STAR_MINUTES } from '@/lib/quests/templ
 import { ROUTINE_PACKS, type RoutinePack } from '@/lib/quests/routines'
 import ChildLinkShare from '@/components/quests/ChildLinkShare'
 import StarSummary from '@/components/quests/StarSummary'
+import ScreenBalanceInsight from '@/components/quests/ScreenBalanceInsight'
 import { questDueToday } from '@/lib/quests/due'
 import { STAGE_LABELS, AGE_BAND_TO_STAGE, type StageKey } from '@/lib/quests/game-picks'
 import { gamesForStage } from '@/lib/quest-games/registry'
@@ -20,11 +21,11 @@ function printableForAsk(title: string) {
 }
 
 type QuestTab = 'manage' | 'rewards' | 'games' | 'share'
-const TABS: { key: QuestTab; label: string }[] = [
-  { key: 'manage', label: 'Quests' },
-  { key: 'rewards', label: 'Rewards' },
-  { key: 'games', label: 'Games' },
-  { key: 'share', label: 'Share' },
+const TABS: { key: QuestTab; label: string; icon: string; hint: string }[] = [
+  { key: 'manage', label: 'Quests', icon: '⭐', hint: 'Set the tasks' },
+  { key: 'rewards', label: 'Rewards', icon: '🎁', hint: 'Prizes to save for' },
+  { key: 'games', label: 'Games', icon: '🎲', hint: 'Play to learn' },
+  { key: 'share', label: 'Share', icon: '📲', hint: 'Phone or QR code' },
 ]
 
 // The parent's quest manager. Pick from templates or write your own,
@@ -569,12 +570,56 @@ export default function QuestManager() {
                 todo={dueToday.filter(q => !tickedToday.has(q.id)).length}
                 goal={g ? { title: g.title, stars_needed: g.stars_needed } : null}
                 timerRunning={sessions.some(s => s.child_id === activeChild)}
+                sessionEndsAt={sessions.find(s => s.child_id === activeChild)?.ends_at ?? null}
                 onApprove={() => { if (ticks.some(t => t.child_id === activeChild && t.status === 'pending')) { window.location.href = '/dashboard#quest-board' } else { setTab('manage') } }}
+                onTodo={() => { setTab('manage'); setTimeout(() => document.getElementById('my-todo')?.scrollIntoView({ behavior: 'smooth' }), 60) }}
                 onScreenTime={() => document.getElementById('screen-time')?.scrollIntoView({ behavior: 'smooth' })}
                 onShare={() => setTab('share')}
               />
             )
           })()}
+
+          {/* The screens gate, made visible to the parent: when a quest is
+              flagged before screens, the child's timer stays locked until you
+              approve it. This line says plainly whether it is locked and on
+              what, or unlocked, so the parent knows the timer state at a glance
+              the same way the child does. */}
+          {(() => {
+            const gate = childQuests.filter(q => q.blocks_screens && questDueToday(q.schedule, q.schedule_days))
+            if (gate.length === 0) return null
+            const blocking = gate.filter(q => !approvedTodayIds.has(q.id))
+            const locked = blocking.length > 0
+            return (
+              <div style={{
+                display: 'flex', alignItems: 'center', gap: '11px', marginBottom: '18px',
+                background: locked ? 'var(--danger-bg)' : 'var(--tint-sage)',
+                border: `1.5px solid ${locked ? 'var(--danger)' : 'var(--deep-teal)'}`,
+                borderRadius: '14px', padding: '12px 15px',
+              }}>
+                <span style={{ fontSize: '1.3rem', lineHeight: 1, flexShrink: 0 }}>{locked ? '🔒' : '✅'}</span>
+                <div style={{ minWidth: 0 }}>
+                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: 'var(--ink)' }}>
+                    {locked ? 'Screen time is locked' : 'Screen time is unlocked'}
+                  </div>
+                  <div style={{ fontFamily: 'var(--font-body)', fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
+                    {locked
+                      ? `Waiting on: ${blocking.map(q => q.title).join(', ')}. Approve ${blocking.length === 1 ? 'it' : 'them'} and ${child.name}'s timer can start.`
+                      : `${child.name} finished the before screens ${gate.length === 1 ? 'task' : 'tasks'}, so the timer is ready to go.`}
+                  </div>
+                </div>
+              </div>
+            )
+          })()}
+
+          {/* DiGi's calm, age aware read on the child's screen time balance,
+              evidence led and never a hard limit. */}
+          <ScreenBalanceInsight
+            childName={child.name}
+            ageBand={child.age_band}
+            balanceStars={banks.find(b => b.child_id === activeChild)?.balance ?? 0}
+            weekStars={starsThisWeek}
+            timerRunning={sessions.some(s => s.child_id === activeChild)}
+          />
 
           {/* Hand it over: the one decision, made simple. To their phone,
               or onto paper. Everything else lives in the tabs below. */}
@@ -656,6 +701,12 @@ export default function QuestManager() {
               </div>
             ) : (
               <div>
+                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '16px', color: 'var(--ink)', marginBottom: '3px' }}>
+                  The offline pack
+                </div>
+                <p style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 12px' }}>
+                  Four things to print, tap any one to open it ready for the printer.
+                </p>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '8px', marginBottom: '10px' }}>
                   {[
                     ['🖨️', 'Quest sheet', '/dashboard/quests/print'],
@@ -665,10 +716,10 @@ export default function QuestManager() {
                   ].map(([icon, label, href]) => (
                     <a key={href} href={href} style={{
                       display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none',
-                      background: '#fff', border: '1.5px solid var(--border)', borderRadius: '14px', padding: '12px 14px',
+                      background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: '14px', padding: '13px 15px',
                     }}>
-                      <span style={{ fontSize: '20px', lineHeight: 1 }}>{icon}</span>
-                      <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', color: 'var(--ink)' }}>{label}</span>
+                      <span style={{ fontSize: '22px', lineHeight: 1 }}>{icon}</span>
+                      <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: 'var(--ink)' }}>{label}</span>
                     </a>
                   ))}
                 </div>
@@ -679,22 +730,30 @@ export default function QuestManager() {
             )}
           </div>
 
-          {/* The tabs: everything in its own place instead of one long scroll */}
-          <div style={{ display: 'flex', gap: '4px', background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '100px', padding: '4px', marginBottom: '18px', width: 'fit-content', maxWidth: '100%', overflowX: 'auto' }}>
-            {TABS.map(t => (
-              <button
-                key={t.key}
-                onClick={() => setTab(t.key)}
-                style={{
-                  padding: '9px 18px', borderRadius: '100px', cursor: 'pointer', border: 'none', flexShrink: 0,
-                  background: tab === t.key ? 'var(--deep-teal)' : 'transparent',
-                  color: tab === t.key ? '#fff' : 'var(--ink-soft)',
-                  fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 700,
-                }}
-              >
-                {t.label}
-              </button>
-            ))}
+          {/* The front door: four big labelled buttons with an icon and a line
+              of what each is for, so a parent knows exactly where to go. */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px', marginBottom: '18px' }}>
+            {TABS.map(t => {
+              const on = tab === t.key
+              return (
+                <button
+                  key={t.key}
+                  onClick={() => setTab(t.key)}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: '11px', textAlign: 'left', cursor: 'pointer',
+                    background: on ? 'var(--terracotta-lt)' : '#fff',
+                    border: `2px solid ${on ? 'var(--terracotta)' : 'var(--border)'}`,
+                    borderRadius: '16px', padding: '12px 14px',
+                  }}
+                >
+                  <span style={{ fontSize: '1.5rem', lineHeight: 1, flexShrink: 0 }}>{t.icon}</span>
+                  <span style={{ minWidth: 0 }}>
+                    <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--ink)' }}>{t.label}</span>
+                    <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 600, letterSpacing: '0.03em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginTop: '2px' }}>{t.hint}</span>
+                  </span>
+                </button>
+              )
+            })}
           </div>
 
           {tab === 'manage' && (
@@ -909,7 +968,7 @@ export default function QuestManager() {
             </a>
           </div>
 
-          <div style={{ ...card, ...(allDoneToday ? { borderColor: 'var(--terracotta)', boxShadow: '0 6px 20px rgba(237,195,95,0.18)' } : {}) }}>
+          <div id="my-todo" style={{ ...card, scrollMarginTop: '80px', ...(allDoneToday ? { borderColor: 'var(--terracotta)', boxShadow: '0 6px 20px rgba(237,195,95,0.18)' } : {}) }}>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '12px' }}>
               {child.name}&apos;s quests
             </div>
@@ -1537,7 +1596,7 @@ export default function QuestManager() {
                 One tap and it buzzes on their phone. Works once they have opened their quest link and turned on reminders.
               </p>
               <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                {['Quest check! A few ticks and the stars are yours ⭐', 'Time to come off the screen now please', 'Turn the TV off please', 'Time to start your homework', 'Dinner in 10 minutes, start wrapping up', 'Please come downstairs'].map(msg => (
+                {['You can watch now, you earned it ⭐', 'Please finish your chores first', 'Quest check! A few ticks and the stars are yours ⭐', 'Time to come off the screen now please', 'Turn the TV off please', 'Time to start your homework', 'Dinner in 10 minutes, start wrapping up', 'Please come downstairs', 'Time for bed now please'].map(msg => (
                   <button
                     key={msg}
                     onClick={() => sendPing(msg)}

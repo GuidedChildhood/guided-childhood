@@ -70,6 +70,14 @@ Colours: see README.md colour token block
 Buttons: border-radius 16px, box-shadow 0 5px 0 <shadow-colour>, chunky
 Motion: GSAP only — subtle fade-ups, staggered reveals, no Three.js
 
+MOBBIN FIRST: before building or redesigning any UI, pull real reference
+screens from the Mobbin MCP (search_screens / search_flows) and design against
+proven patterns, then translate them into our own butter and ink and Nunito,
+never a copy of another brand. If the Mobbin tools are not in the session, say
+so and proceed on the references already gathered plus best practice. Reference
+apps we lean on: GoHenry, Greenlight, Finch (star and reward loops), and Good
+Inside (the simplicity, big text, swipe to discard, DiGi comes up first).
+
 ## WEEKLY RHYTHM
 
 Monday: new session → read CLAUDE.md + decisions.md → write week-N-plan.md → approve → build
