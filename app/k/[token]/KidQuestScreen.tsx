@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 function urlBase64ToUint8Array(base64String: string) {
@@ -311,6 +311,41 @@ export default function KidQuestScreen({
       })
     } catch { /* optimistic state stands, the next load reconciles */ }
   }
+
+  // Watch for the grown up's yes landing while the child has the page open, so
+  // a Waiting quest flips to Done live and a squad friend springs up to say so,
+  // no refresh needed. Polls gently, and the moment the tab comes back.
+  const seenApprovedRef = useRef<Set<string>>(new Set(todayTicks.filter(t => t.status === 'approved').map(t => t.quest_id)))
+  useEffect(() => {
+    let live = true
+    const poll = async () => {
+      try {
+        const res = await fetch(`/api/quests/tick?token=${token}`)
+        if (!res.ok || !live) return
+        const d = await res.json()
+        const fresh = d.ticks as Record<string, string> | undefined
+        if (!fresh) return
+        // A pending quest that has just turned approved: celebrate it once.
+        const justApproved = Object.keys(fresh).find(qid => fresh[qid] === 'approved' && !seenApprovedRef.current.has(qid))
+        if (justApproved) {
+          Object.keys(fresh).forEach(qid => { if (fresh[qid] === 'approved') seenApprovedRef.current.add(qid) })
+          const q = quests.find(x => x.id === justApproved)
+          if (q) setHappyNews({
+            character: 'digi',
+            headline: 'Your grown up said yes! ⭐',
+            sub: `${q.title} is done. That is ${q.stars * STAR_MINUTES} minutes of screen time earned. Superstar!`,
+          })
+          playKidSound('star')
+        }
+        setTicks(fresh)
+      } catch { /* offline, the next poll tries again */ }
+    }
+    const id = setInterval(poll, 12000)
+    const onVis = () => { if (!document.hidden) poll() }
+    document.addEventListener('visibilitychange', onVis)
+    return () => { live = false; clearInterval(id); document.removeEventListener('visibilitychange', onVis) }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token])
 
   const doneCount = quests.filter(q => ticks[q.id]).length
   const allDone = quests.length > 0 && doneCount === quests.length
@@ -795,40 +830,46 @@ export default function KidQuestScreen({
           )}
           {(() => {
             const sorted = [...quests].sort((a, b) => Number(Boolean(b.blocks_screens)) - Number(Boolean(a.blocks_screens)))
-            const openQ = sorted.filter(q => ticks[q.id] !== 'approved')
+            // Three clear groups so the flow makes sense: what is still yours to
+            // do, what is now in the grown up's hands (nothing for you to do),
+            // and what is finished and off the list.
+            const todoQ = sorted.filter(q => !ticks[q.id])
+            const waitingQ = sorted.filter(q => ticks[q.id] === 'pending')
             const doneQ = sorted.filter(q => ticks[q.id] === 'approved')
             const card = (q: typeof quests[number]) => {
               const state = ticks[q.id]
-              const done = Boolean(state)
+              const approved = state === 'approved'
+              const waiting = state === 'pending'
               return (
                 <button
                   key={q.id}
                   onClick={() => toggle(q)}
                   style={{
                     display: 'flex', alignItems: 'center', gap: 14,
-                    background: state === 'approved' ? 'var(--tint-sage)' : done ? '#FFF7E0' : '#fff',
-                    border: 'none', borderRadius: '20px', padding: '16px 18px', width: '100%',
-                    cursor: state === 'approved' ? 'default' : 'pointer', textAlign: 'left',
-                    boxShadow: done ? '0 2px 0 rgba(0,0,0,0.12)' : '0 5px 0 rgba(0,0,0,0.18)',
-                    transform: done ? 'translateY(3px)' : 'none',
+                    background: approved ? 'var(--tint-sage)' : waiting ? '#FFF7E0' : '#fff',
+                    border: waiting ? '1.5px dashed var(--terracotta)' : 'none',
+                    borderRadius: '20px', padding: '16px 18px', width: '100%',
+                    cursor: approved ? 'default' : 'pointer', textAlign: 'left',
+                    boxShadow: approved ? '0 2px 0 rgba(0,0,0,0.12)' : waiting ? 'none' : '0 5px 0 rgba(0,0,0,0.18)',
+                    transform: approved ? 'translateY(3px)' : 'none',
                     transition: 'all 0.15s ease',
                     position: 'relative',
                     animation: burst === q.id ? 'kid-pop 0.5s ease' : undefined,
                   }}
                 >
-                  <span style={{ fontSize: '1.8rem', flexShrink: 0 }}>{q.emoji}</span>
+                  <span style={{ fontSize: '1.8rem', flexShrink: 0, opacity: waiting ? 0.85 : 1 }}>{q.emoji}</span>
                   <span style={{ flex: 1, minWidth: 0 }}>
                     <span style={{
                       display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800,
                       fontSize: '1.15rem', color: 'var(--ink)', lineHeight: 1.3,
-                      textDecoration: state === 'approved' ? 'line-through' : 'none',
-                      opacity: state === 'approved' ? 0.6 : 1,
+                      textDecoration: approved ? 'line-through' : 'none',
+                      opacity: approved ? 0.6 : 1,
                     }}>
                       {q.title}
                     </span>
-                    <span style={{ display: 'block', fontSize: '13.5px', fontWeight: 600, color: 'var(--ink-muted)', marginTop: 2 }}>
-                      {state === 'approved' ? 'Done! Stars landed ⭐' : state === 'pending' ? 'Waiting for your grown up ✓' : `Worth ${q.stars} star${q.stars === 1 ? '' : 's'}`}
-                      {q.blocks_screens && state !== 'approved' && (
+                    <span style={{ display: 'block', fontSize: '13.5px', fontWeight: 600, color: waiting ? 'var(--terracotta-dark)' : 'var(--ink-muted)', marginTop: 2 }}>
+                      {approved ? 'Done! Stars landed ⭐' : waiting ? 'With your grown up now, nothing to do' : `Worth ${q.stars} star${q.stars === 1 ? '' : 's'}`}
+                      {q.blocks_screens && !approved && (
                         <span style={{
                           display: 'inline-block', marginLeft: 8, verticalAlign: 'middle',
                           fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700,
@@ -844,11 +885,11 @@ export default function KidQuestScreen({
                   <span style={{
                     width: 40, height: 40, borderRadius: '50%', flexShrink: 0,
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    background: done ? 'var(--terracotta)' : 'var(--cream)',
-                    border: done ? 'none' : '2.5px dashed var(--ink-light)',
+                    background: approved ? 'var(--terracotta)' : waiting ? 'var(--terracotta-lt)' : 'var(--cream)',
+                    border: approved ? 'none' : waiting ? '1.5px solid var(--terracotta)' : '2.5px dashed var(--ink-light)',
                     fontSize: '18px', position: 'relative',
                   }}>
-                    {done ? '✓' : ''}
+                    {approved ? '✓' : waiting ? '⏳' : ''}
                     {burst === q.id && (
                       <span style={{ position: 'absolute', animation: 'kid-star-rise 0.9s ease-out forwards', fontSize: '20px' }}>⭐</span>
                     )}
@@ -856,9 +897,20 @@ export default function KidQuestScreen({
                 </button>
               )
             }
+            const sectionLabel = (icon: string, text: string) => (
+              <div style={{ display: 'flex', alignItems: 'center', gap: 7, margin: '6px 2px 0', fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-soft)' }}>
+                <span aria-hidden>{icon}</span>{text}
+              </div>
+            )
             return (
               <>
-                {openQ.map(card)}
+                {todoQ.map(card)}
+                {waitingQ.length > 0 && (
+                  <>
+                    {sectionLabel('⏳', `Waiting for your grown up · ${waitingQ.length}`)}
+                    {waitingQ.map(card)}
+                  </>
+                )}
                 {doneQ.length > 0 && (
                   <>
                     {/* Done today folds away, so the list stays what is left */}
@@ -866,7 +918,7 @@ export default function KidQuestScreen({
                       onClick={() => setShowKidDone(s => !s)}
                       style={{
                         display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10,
-                        width: '100%', cursor: 'pointer', textAlign: 'left',
+                        width: '100%', cursor: 'pointer', textAlign: 'left', marginTop: 4,
                         background: '#fff', border: '1.5px solid rgba(26,26,46,0.1)',
                         borderRadius: '16px', padding: '13px 16px',
                         fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1rem', color: 'var(--ink)',

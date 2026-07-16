@@ -1063,3 +1063,23 @@ once cleared for the week; parent only kinds (a payment) never reach the child.
 
 All on branch claude/continue-build-ldot8v (PR 300). No migration (uses the
 064/065 columns already there).
+
+## 2026-07-16 — Child quests: live approval, clear waiting state, done falls off
+
+Justin, on the child app: when a child ticks a quest it is out of their hands
+(waiting on the grown up), the yes should land live, be obvious, and the quest
+should fall off the list once done, so the flow makes sense.
+
+- New GET /api/quests/tick?token= returns today's tick status per quest (token
+  is the auth). The kid screen polls it every 12s and the moment the tab comes
+  back, so a Waiting quest flips to Done without a refresh, and a squad friend
+  springs up (Your grown up said yes! plus the minutes earned) the first time
+  an approval lands.
+- The list is now three clear groups: what is still theirs to do, then Waiting
+  for your grown up (a dashed terracotta card, an hourglass, With your grown up
+  now, nothing to do, so it plainly reads as out of their hands, not done), then
+  a folded N done today. The to do count is untouched quests only, so waiting
+  never reads as still to do, and an approved quest drops straight into the
+  folded done group.
+
+On PR 303 (continue-build-ldot8v). No migration.
