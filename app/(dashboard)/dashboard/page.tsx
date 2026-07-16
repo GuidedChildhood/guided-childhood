@@ -22,6 +22,7 @@ import HomeStats from '@/components/dashboard/HomeStats'
 import { visibleSteps as visibleSetupSteps } from '@/lib/setup/steps'
 import SocialMediaReadiness from '@/components/pathway/SocialMediaReadiness'
 import SetupUnlockToast from '@/components/setup/SetupUnlockToast'
+import DigiWelcomeSheet from '@/components/digi/DigiWelcomeSheet'
 import TodayPathStrip from '@/components/daily/TodayPathStrip'
 import { getDailyStreak } from '@/lib/pathway/streak'
 import { getTodayLoop } from '@/lib/pathway/daily-tasks'
@@ -88,6 +89,12 @@ export default async function DashboardPage() {
   ])
 
   const child = childResult.data
+  // Every child's name, primary first, so DiGi can greet the whole family by
+  // name in the welcome sheet.
+  const { data: allKids } = await supabase
+    .from('children').select('name, is_primary').eq('parent_id', user.id)
+    .order('is_primary', { ascending: false })
+  const childNames = (allKids ?? []).map(k => k.name as string).filter(Boolean)
   const dailyDone = !!dailySessionResult.data?.completed_at
   const lastFeedback = lastFeedbackResult.data
   const schoolActions: SchoolAction[] = schoolActionsResult.data ?? []
@@ -217,6 +224,8 @@ export default async function DashboardPage() {
 
   return (
     <div style={{ maxWidth: '640px', margin: '0 auto', padding: '24px 20px' }}>
+      {/* DiGi comes up first, once a day, greeting the family by name */}
+      <DigiWelcomeSheet childNames={childNames} />
       {/* Trial status: warm and forgiving during, a gentle offer after, never
           a lockout. The everyday habit stays free either way. */}
       {showTrial && (
