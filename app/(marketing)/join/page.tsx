@@ -52,7 +52,7 @@ const FEATURES = [
   },
   {
     icon: '◎',
-    title: 'DiGi AI advisor',
+    title: 'DiGi, your evidence led guide',
     desc: 'Trained on the research. Tell DiGi what happened today and get the exact words and the structural fix. Available at 11pm when the guilt spiral hits. Always a calibrated next step.',
     tag: 'Available 24/7',
     tagColor: 'var(--terracotta)',

@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   publisher: 'Guided Childhood',
   openGraph: {
     title: 'Guided Childhood, The Stage-by-Stage Digital Parenting Guide',
-    description: 'From first screen at age 4 to full independence at 16. Exact scripts for every hard moment. DiGi your AI parenting advisor. For UK families.',
+    description: 'From first screen at age 4 to full independence at 16. Exact scripts for every hard moment. DiGi your evidence led guide. For UK families.',
     type: 'website',
     locale: 'en_GB',
     siteName: 'Guided Childhood',
