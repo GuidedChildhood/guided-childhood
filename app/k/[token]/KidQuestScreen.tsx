@@ -9,7 +9,7 @@ function urlBase64ToUint8Array(base64String: string) {
   const rawData = atob(base64)
   return Uint8Array.from(rawData, c => c.charCodeAt(0))
 }
-import { STAR_MINUTES, PLAY_PAYS_WHY_KID, KID_REQUEST_IDEAS } from '@/lib/quests/templates'
+import { STAR_MINUTES, KID_REQUEST_IDEAS } from '@/lib/quests/templates'
 import { printablesForStage } from '@/lib/printables/registry'
 import type { StarBank } from '@/lib/quests/bank'
 import { lessonsForStage, type KidLesson } from '@/lib/quests/kid-lessons'
@@ -20,6 +20,7 @@ import type { ActiveSession } from '@/lib/quests/device-time'
 import { playKidSound, soundEnabled, setSoundEnabled } from '@/lib/sound/kidSounds'
 import HappyNews, { type HappyNewsItem, type CharacterKey } from '@/components/celebrate/HappyNews'
 import HappyScene from '@/components/celebrate/HappyScene'
+import BalanceInsight from '@/components/celebrate/BalanceInsight'
 import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
 
 // The kid facing quest screen: joyful, huge tap targets, instant ticks,
@@ -729,17 +730,10 @@ export default function KidQuestScreen({
         </div>
 
         {tab === 'quests' && (<>
-        {/* Why outside pays best: the philosophy, in kid words */}
-        <div style={{
-          display: 'flex', gap: '12px', alignItems: 'flex-start',
-          background: 'rgba(255,255,255,0.08)', borderRadius: '16px',
-          padding: '13px 16px', marginBottom: '14px',
-        }}>
-          <span style={{ fontSize: '1.5rem', lineHeight: 1, flexShrink: 0 }}>🌳</span>
-          <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.85)', lineHeight: 1.55, margin: 0 }}>
-            {PLAY_PAYS_WHY_KID}
-          </p>
-        </div>
+        {/* The balance insight surface: a bigger, brighter, character led card
+            that teaches why balance is worth it, rotating a fresh idea daily,
+            grounded in the science bank. Replaces the old single tip line. */}
+        <BalanceInsight stageId={stageId} />
 
         {/* My week: a simple bar per day of the last seven, taller the more
             quests the child ticked, and the plain sum of what that earned in
