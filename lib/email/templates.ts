@@ -202,6 +202,92 @@ export function weeklyDigestEmail(params: {
   }
 }
 
+// 10 · Lead nurture, sent once to an email captured before an account exists
+// (a magnet download or a quiz drop off). Warm, no hard sell, one door to the
+// free trial. No account yet, so unsubscribe is a plain reply address.
+export function leadNurtureEmail(): EmailContent {
+  return {
+    subject: 'Your pathway is a couple of minutes away',
+    html: wrapper(
+      heading('Whenever you are ready.') +
+      p(`You grabbed something from us recently, thank you. If it was useful, there is a whole calm plan behind it, matched to your child's age.`) +
+      p(`It takes about two minutes to set up, no card needed, and the free trial opens everything: the scripts for the hard conversations, the daily moments, and DiGi whenever you want the exact words.`) +
+      button('Start the free trial', `${APP}/starter-pack`) +
+      p(`No rush, and no pressure. The door stays open whenever the timing feels right.`),
+      'mailto:hello@guidedchildhood.com?subject=Unsubscribe'
+    ),
+  }
+}
+
+// 8 · Trial ending, the gentle nudge two days before a no card trial runs
+// out. No pressure, a reminder of what they would keep, one clear door.
+export function trialEndingEmail(params: {
+  childName: string
+  daysLeft: number
+  unsubscribe: string
+}): EmailContent {
+  const { childName, daysLeft, unsubscribe } = params
+  const when = daysLeft <= 1 ? 'tomorrow' : `in ${daysLeft} days`
+  return {
+    subject: `Your free trial ends ${when}`,
+    html: wrapper(
+      heading('A quick heads up.') +
+      p(`Your free trial ends ${when}. No card was taken, so nothing happens automatically, this is just so it does not catch you out.`) +
+      p(`If it has helped with ${childName}, keeping it means the daily moments, the scripts for the hard conversations, and DiGi whenever you need the words all stay on.`) +
+      button('Keep everything on', `${APP}/dashboard/upgrade`) +
+      p(`And if the timing is not right, that is completely fine. You drop to the free tier and keep your pathway. Nothing is lost.`),
+      unsubscribe
+    ),
+  }
+}
+
+// 9 · Win back, sent once a short while after a trial lapses unpaid. Warm,
+// no guilt, the door left open.
+export function winBackEmail(params: {
+  childName: string
+  unsubscribe: string
+}): EmailContent {
+  const { childName, unsubscribe } = params
+  return {
+    subject: 'The door is still open',
+    html: wrapper(
+      heading('No rush, just a hello.') +
+      p(`Your trial wrapped up and you are on the free tier now, which is a perfectly good place to be. No guilt here.`) +
+      p(`When things with ${childName} feel like they need a steadier hand again, everything is one tap from being back on: the scripts, the daily moments, DiGi at 11pm.`) +
+      button('Pick up where you left off', `${APP}/dashboard/upgrade`) +
+      p(`One small thing this week is the whole idea. That is all it ever asks.`),
+      unsubscribe
+    ),
+  }
+}
+
+// 7 · School reminder, the belt and braces channel alongside the push. A
+// strong, specific subject so it stands out in a busy inbox, the list of
+// what is due, and a plain link to fix it if DiGi picked it up wrong from a
+// forwarded school email.
+export function schoolReminderEmail(params: {
+  titles: string[]
+  adjustUrl: string
+  unsubscribe: string
+}): EmailContent {
+  const { titles, adjustUrl, unsubscribe } = params
+  const subject = titles.length === 1
+    ? `Tomorrow: ${titles[0]} 🎒`
+    : `Tomorrow for school: ${titles[0]} and ${titles.length - 1} more 🎒`
+  const list = titles.map(t => `<li style="margin:0 0 6px">${t}</li>`).join('')
+  return {
+    subject,
+    html: wrapper(
+      heading('From school, due tomorrow.') +
+      p('Here is what to sort tonight while it is still easy:') +
+      `<ul style="margin:0 0 16px;padding-left:20px;font-size:16px;color:${INK}">${list}</ul>` +
+      button('Open my school reminders', `${APP}/dashboard/school`) +
+      p(`Not right, or DiGi picked it up wrong from an email? <a href="${adjustUrl}" style="color:${BUTTER_DARK};font-weight:700">Adjust or clear it here</a>.`),
+      unsubscribe
+    ),
+  }
+}
+
 // 6 · Lead magnet delivery, sent the moment a parent asks for a free
 // printable. Warm, short, and it points gently on to the free pathway
 // without a hard sell. There is no account yet, so unsubscribe is a

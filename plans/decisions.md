@@ -738,6 +738,53 @@ Justin sent a run of Good Inside screenshots as the north star: DiGi comes up fi
 
 Justin confirmed both open questions. (1) Stay in house on Resend and the database for the whole funnel, not Mailchimp and not a third party lifecycle tool for now; Loops.so stays a later option only if a no code editor is wanted. (2) Yes to trial over waitlist. On inspection the starter quiz already creates the account and starts the 7 day trial at the end (trial_ends_at set via trialEndsFromNow), so there is no parent waitlist left in the app to remove; that was the old external Mailchimp list. School waitlist stays separate (the Mailchimp school enquiry form) until we bring it into the database. Next build unlocked: a status aware funnel on Resend, one contacts model across leads, magnet leads and parents, with a computed lifecycle_state (lead, trialing, trial_ending, active, lapsed) so the lifecycle emails branch by state, trial nurture stops on payment and win back starts on lapse. Non urgent since the trial already works; queued behind the Quests area redesign.
 
+## 2026-07-16 — Handoff to the Mobbin design session: DiGi rename + chat flow
+
+Assigned to the concurrent Mobbin connected design session, not this one, to
+avoid two sessions editing the DiGi chat UI at once.
+
+1. Rename the chat header eyebrow from "Your AI advisor" to "Your evidence led
+   guide" in app/(dashboard)/dashboard/digi/DigiChat.tsx (around line 485).
+   DiGi is a warm guide grounded in research, not a generic AI advisor. No
+   dashes in the copy. Optional later consistency pass on the marketing
+   mentions of "DiGi AI advisor" (pathway, join, home page), not urgent.
+
+2. Make the DiGi chat read as one flowing thread, matching the welcome sheet.
+   The DigiWelcomeSheet (components/digi/DigiWelcomeSheet.tsx) flows: big warm
+   Nunito, generous line height, cream ground, one voice. The chat currently
+   renders DiGi replies as separate stacked white cards that read as boxed
+   fragments. Target: group consecutive DiGi lines into one soft continuous
+   bubble or column rather than N bordered cards; warmer type (Nunito ~15 to
+   16px, line height ~1.6, ink slightly softened); a cream or terracotta-lt
+   ground for DiGi turns with the parent's turns kept visually distinct;
+   generous spacing, rounded, no harsh separators; keep the calm "Reflection
+   saved" footer. Pull live Mobbin references for AI chat / conversation
+   patterns before finalising, then translate into our butter and ink.
+
+Also shipped this session on PR 288 (backend, no UI overlap): school
+reminders now push the child's phone as well as the parent PWA for child
+appropriate one off items (kit, event, homework) the night before; weekly
+routines already did this.
+
+## 2026-07-16 — Push test honesty (backend done, card copy handed to design session)
+
+A parent tapped Send a test on the school card, saw "Sent, it should reach
+your phone", but nothing arrived, because push subscriptions are per device
+and the test landed on their Mac Chrome where they were testing, not the
+phone. Backend done this session: /api/school/remind/test now returns
+platforms (labels of the device hosts it reached) and hasApple (whether any
+Apple push endpoint, ie an iPhone, iPad or Mac Safari, is subscribed at all).
+Chrome uses the same host on desktop and Android so that one stays the honest
+"Chrome (desktop or Android)".
+
+Handoff to the design session (SchoolActionsCard.tsx, the sendTest result
+copy, a UI file so not touched here): replace the flat "Sent, it should reach
+your phone within seconds" with an honest line built from the response, eg
+"Sent to Chrome (desktop or Android). If your phone did not buzz, open the app
+on your phone and turn on notifications there." When hasApple is false and the
+parent is likely on iPhone, spell out the iOS steps: add to Home Screen, open
+from the icon, then allow notifications. Keep it calm and plain, no dashes.
+
 ## 2026-07-16 — "Is a Ban a Plan?" series framing (ban neutral, deadline not a plan)
 
 Built the 7 post LinkedIn series plus newsletter from the anti ban evidence report, under content/packs/2026-07-16-is-a-ban-a-plan/. The one framing rule, written into 00-framing-guardrail.md and held on every post: a ban is a deadline, not a plan. The series never relitigates the ban, for or against. When the evidence shows circumvention (Barnes BMJ 85% still using, Chicago working paper 75% found bypass easy), that is framed as "a line alone does not reach the child, so build the thing that does", never as "the ban failed". Episode 3 is the ~1 in 10 hidden thread reveal (poverty, ACEs, caregiver mental health); the other six each carry one brick.

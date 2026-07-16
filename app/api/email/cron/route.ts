@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { sendEmail, emailConfigured, unsubscribeUrl } from '@/lib/email'
-import { day2StageEmail, day3TourEmail, day4DigiEmail, day7FounderEmail, weeklyDigestEmail } from '@/lib/email/templates'
+import { day2StageEmail, day3TourEmail, day4DigiEmail, day7FounderEmail, weeklyDigestEmail, trialEndingEmail, winBackEmail, leadNurtureEmail } from '@/lib/email/templates'
+import { lifecycleState, trialDaysLeft } from '@/lib/email/lifecycle'
 import { STAGES, getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { FOUNDER_CAP } from '@/lib/stripe'
 
@@ -20,6 +21,7 @@ interface ProfileRow {
   full_name: string | null
   created_at: string
   subscription_status: string | null
+  trial_ends_at: string | null
   email_opt_out: boolean
   onboarding_complete: boolean | null
 }
@@ -57,7 +59,7 @@ export async function GET(req: NextRequest) {
   const [{ data: profiles }, { data: log }] = await Promise.all([
     supabase
       .from('profiles')
-      .select('id, email, full_name, created_at, subscription_status, email_opt_out, onboarding_complete')
+      .select('id, email, full_name, created_at, subscription_status, trial_ends_at, email_opt_out, onboarding_complete')
       .gte('created_at', since),
     supabase.from('email_log').select('user_id, email_key'),
   ])
@@ -78,7 +80,7 @@ export async function GET(req: NextRequest) {
     return founderRemaining
   }
 
-  const results: Record<string, number> = { day2: 0, day3: 0, day4: 0, day7: 0, digest: 0, errors: 0 }
+  const results: Record<string, number> = { day2: 0, day3: 0, day4: 0, day7: 0, trialEnding: 0, winback: 0, leadNurture: 0, digest: 0, errors: 0 }
 
   async function deliver(userId: string, email: string, key: string, content: { subject: string; html: string }, counter: string) {
     const { error: logError } = await supabase.from('email_log').insert({ user_id: userId, email_key: key })
@@ -129,6 +131,63 @@ export async function GET(req: NextRequest) {
         await deliver(profile.id, profile.email, 'day7-founder', day7FounderEmail({ remaining, unsubscribe }), 'day7')
       }
     }
+
+    // The status aware layer: branch on where the contact actually is, not on
+    // the day count. Trial nurture stops on payment (an active member is never
+    // in trial_ending or lapsed), and win back starts on lapse. Both send once.
+    const state = lifecycleState(profile)
+
+    if (state === 'trial_ending' && !alreadySent(profile.id, 'trial-ending')) {
+      const left = trialDaysLeft(profile.trial_ends_at) ?? 1
+      await deliver(profile.id, profile.email, 'trial-ending', trialEndingEmail({
+        childName, daysLeft: Math.max(1, left), unsubscribe,
+      }), 'trialEnding')
+    }
+
+    if (state === 'lapsed' && !alreadySent(profile.id, 'winback-1')) {
+      // Give it a couple of days after the lapse so it does not land the same
+      // day as the day 7 founder email. A cancellation (no trial date) sends.
+      const left = trialDaysLeft(profile.trial_ends_at)
+      if (left == null || left <= -2) {
+        await deliver(profile.id, profile.email, 'winback-1', winBackEmail({ childName, unsubscribe }), 'winback')
+      }
+    }
+  }
+
+  // Lead nurture: emails captured before an account exists (magnet downloads
+  // and quiz drop offs). One warm nudge to come start the free trial, at least
+  // a day after capture, guarded once by nurtured_at. Anyone who already has
+  // an account is excluded, so a real member never gets a start your trial
+  // email (the converted flag is not reliably set, so profiles is the source
+  // of truth here).
+  const dayAgo = new Date(Date.now() - 86400000).toISOString()
+  const { data: leads } = await supabase
+    .from('starter_leads')
+    .select('email')
+    .is('nurtured_at', null)
+    .lte('created_at', dayAgo)
+    .limit(200)
+
+  const leadEmails = (leads ?? []).map(l => l.email as string).filter(Boolean)
+  if (leadEmails.length > 0) {
+    const { data: existing } = await supabase
+      .from('profiles').select('email').in('email', leadEmails)
+    const hasAccount = new Set((existing ?? []).map(p => (p.email as string)?.toLowerCase()))
+
+    for (const email of leadEmails) {
+      if (hasAccount.has(email.toLowerCase())) continue
+      // Stamp first so a send failure never re-sends on the next run.
+      const { error: stampErr } = await supabase
+        .from('starter_leads').update({ nurtured_at: new Date().toISOString() })
+        .eq('email', email).is('nurtured_at', null)
+      if (stampErr) continue
+      const sent = await sendEmail({ to: email, ...leadNurtureEmail() })
+      if (sent.ok) results.leadNurture += 1
+      else {
+        results.errors += 1
+        await supabase.from('starter_leads').update({ nurtured_at: null }).eq('email', email)
+      }
+    }
   }
 
   // Monday digest, for everyone onboarded (not just the last 30 days)
@@ -137,7 +196,7 @@ export async function GET(req: NextRequest) {
     const key = digestKey(now)
     const { data: allProfiles } = await supabase
       .from('profiles')
-      .select('id, email, full_name, created_at, subscription_status, email_opt_out, onboarding_complete')
+      .select('id, email, full_name, created_at, subscription_status, trial_ends_at, email_opt_out, onboarding_complete')
       .eq('onboarding_complete', true)
       .eq('email_opt_out', false)
 

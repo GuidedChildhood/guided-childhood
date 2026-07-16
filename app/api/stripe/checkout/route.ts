@@ -80,6 +80,14 @@ export async function POST(request: Request) {
     success_url: successUrl,
     cancel_url: `${origin}/dashboard/upgrade`,
     payment_method_collection: 'always',
+    // Make the member tick that they accept the Terms at checkout. This
+    // tightens the trial to charge consent and helps win any card dispute.
+    // Requires a Terms of service URL set in the Stripe Dashboard (Settings,
+    // Public details), else Stripe rejects the session, so it is behind a
+    // flag that stays off until that URL is set.
+    ...(process.env.STRIPE_TOS_CONSENT === 'on'
+      ? { consent_collection: { terms_of_service: 'required' as const } }
+      : {}),
     metadata: { tier, user_id: user.id },
     subscription_data: {
       metadata: { tier, user_id: user.id },
