@@ -1101,3 +1101,19 @@ only on reload, so a child ticking a quest did not show until refresh.
 
 Whole flow now: child ticks, parent sees it live and approves, child sees the
 yes live, and it falls off both lists. On PR 303. No migration.
+
+## 2026-07-16 — The child My week chart, made obvious
+
+Justin could not read the old My week chart (variable height pills with floating
+numbers read as noise, not progress). Researched the kid reward loops we lean on
+(Finch, Duolingo streaks, GoHenry): the pattern that lands with children is a
+show up streak, not a bar chart.
+
+- KidWeekChart is now a week strip: one circle per day, filled gold with a star
+  for a day they earned something, an empty dashed circle for a quiet day, today
+  ringed. A plain headline frames how many days they showed up (A fresh week let
+  us go, Great going N days this week, Amazing N days this week). The green line
+  stays: stars earned equals minutes of screen time, so the reason to show up is
+  right there. Reads at a glance for a young child, no numbers to decode.
+
+On PR 303 (continue-build-ldot8v). No migration.

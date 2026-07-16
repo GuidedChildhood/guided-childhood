@@ -1651,36 +1651,45 @@ function KidSchoolBanner({ items }: { items: KidSchoolToday[] }) {
 }
 
 function KidWeekChart({ data, weekStars }: { data: { label: string; count: number; today: boolean }[]; weekStars: number }) {
-  const max = Math.max(1, ...data.map(d => d.count))
-  const total = data.reduce((s, d) => s + d.count, 0)
+  // A child reads a week best as a simple row of days they showed up on, the
+  // Duolingo and Finch way: a filled gold star for every day with a quest, an
+  // empty circle for a quiet day, today ringed. No bar heights to decode, no
+  // floating numbers. The framing is days shown up, never a day missed, so it
+  // celebrates the habit and never nags.
+  const activeDays = data.filter(d => d.count > 0).length
+  const headline =
+    activeDays === 0 ? 'A fresh week, let us go!'
+    : activeDays >= 6 ? `Amazing, ${activeDays} days this week!`
+    : activeDays >= 3 ? `Great going, ${activeDays} days this week`
+    : `${activeDays} day${activeDays === 1 ? '' : 's'} this week, keep it up`
   return (
     <div style={{ background: '#fff', borderRadius: '18px', padding: '15px 16px 13px', marginBottom: '14px', boxShadow: '0 4px 0 rgba(0,0,0,0.16)' }}>
-      <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: '12px' }}>
-        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1rem', color: 'var(--ink)' }}>My week 📊</span>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
-          {total} done
-        </span>
+      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: 'var(--ink)', marginBottom: '12px' }}>
+        {headline}
       </div>
-      <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: '7px', height: '70px' }}>
-        {data.map((d, i) => (
-          <div key={i} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px', height: '100%', justifyContent: 'flex-end' }}>
-            {d.count > 0 && (
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: 'var(--ink)' }}>{d.count}</span>
-            )}
-            <div style={{
-              width: '100%', maxWidth: 26, borderRadius: '7px',
-              height: `${Math.max(d.count > 0 ? 14 : 6, (d.count / max) * 52)}px`,
-              background: d.count === 0 ? 'var(--cream)' : d.today ? 'var(--terracotta)' : 'var(--terracotta-lt)',
-              border: d.today ? '2px solid var(--terracotta-dark)' : d.count === 0 ? '1.5px solid var(--border)' : '2px solid var(--terracotta)',
-              transition: 'height 0.5s cubic-bezier(0.22,1,0.36,1)',
-            }} />
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: d.today ? 'var(--terracotta-dark)' : 'var(--ink-muted)' }}>{d.label}</span>
-          </div>
-        ))}
+      <div style={{ display: 'flex', justifyContent: 'space-between', gap: '4px' }}>
+        {data.map((d, i) => {
+          const active = d.count > 0
+          return (
+            <div key={i} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px' }}>
+              <div style={{
+                width: 34, height: 34, borderRadius: '50%',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '17px',
+                background: active ? 'var(--terracotta)' : 'var(--cream)',
+                border: active ? 'none' : '2px dashed var(--ink-light)',
+                boxShadow: d.today ? '0 0 0 3px var(--terracotta-lt)' : 'none',
+                color: '#fff', fontWeight: 800,
+              }}>
+                {active ? '⭐' : ''}
+              </div>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: d.today ? 'var(--terracotta-dark)' : 'var(--ink-muted)' }}>{d.label}</span>
+            </div>
+          )
+        })}
       </div>
-      <div style={{ marginTop: '11px', textAlign: 'center', background: 'var(--tint-sage)', borderRadius: '11px', padding: '9px' }}>
-        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: 'var(--ink)' }}>
-          ⭐ {weekStars} stars this week = {weekStars * STAR_MINUTES} minutes earned
+      <div style={{ marginTop: '13px', textAlign: 'center', background: 'var(--tint-sage)', borderRadius: '11px', padding: '10px' }}>
+        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--ink)' }}>
+          ⭐ {weekStars} stars earned = {weekStars * STAR_MINUTES} minutes of screen time
         </span>
       </div>
     </div>
