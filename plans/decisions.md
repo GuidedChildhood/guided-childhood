@@ -1017,3 +1017,20 @@ the whole routine.
 - The child's From school banner also respects cleared_on, so a cleared routine
   steps back from the child's screen too. The Home Screen app badge already
   ignored recurring routines, so no change there.
+
+## 2026-07-16 — Screen balance insight is now real, moving data
+
+Justin: the balance bar was a fixed age guide (always about 75 min for 8 to 10),
+he wanted real data, a level that moves with the minutes used and the tasks
+done, and bigger and bolder.
+
+Rebuilt ScreenBalanceInsight into a live balance level. The two sides are the
+star economy's own exchange rate made visible: screen minutes actually USED
+today (from getMinutesUsedToday, now returned per child by /api/quests as
+usage) against real world minutes EARNED today (stars approved today times
+STAR_MINUTES). The needle sits where the balance tips: green and calm when real
+life is ahead, tipping to screen with a nudge when screen leads, a calm midpoint
+when the day is empty. Bigger heading, a bold 22px bar with a moving needle, and
+the two figures called out. The age guide stays as a small mono context line.
+QuestManager passes usedTodayMinutes and earnedTodayStars (today's approved
+ticks). No migration.
