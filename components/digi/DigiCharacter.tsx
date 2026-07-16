@@ -85,7 +85,7 @@ export default function DigiCharacter({
     >
       <Image
         src="/digi-squad/DiGi-star.svg"
-        alt="DiGi your AI parenting advisor"
+        alt="DiGi, your evidence led guide"
         width={size}
         height={size}
         style={{ width: '100%', height: '100%', objectFit: 'contain' }}

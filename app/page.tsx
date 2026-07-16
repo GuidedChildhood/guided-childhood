@@ -14,11 +14,11 @@ import DigiCharacter from '@/components/digi/DigiCharacter'
 
 export const metadata: Metadata = {
   title: 'Guided Childhood, Screen Time and Digital Literacy Guide for UK Families · Ages 4 to 16',
-  description: 'The UK ban delays social media until 16, it does not prepare your child for it. Guided Childhood gives UK parents a stage by stage digital literacy pathway from age 4 to 16, exact scripts for every screen time fight, and DiGi your AI parenting advisor available at 11pm.',
+  description: 'The UK ban delays social media until 16, it does not prepare your child for it. Guided Childhood gives UK parents a stage by stage digital literacy pathway from age 4 to 16, exact scripts for every screen time fight, and DiGi your evidence led guide available at 11pm.',
   keywords: [
     'digital parenting UK', 'screen time scripts', 'digital literacy for children',
     'child screen time advice', 'social media age UK', 'digital parenting pathway',
-    'AI parenting advisor', 'screen time arguments', 'digital literacy divide',
+    'evidence led parenting guide', 'screen time arguments', 'digital literacy divide',
     'online safety for children UK',
   ],
   openGraph: {
@@ -336,7 +336,7 @@ export default function HomePage() {
               {
                 '@type': 'Question',
                 name: 'What is Guided Childhood and how does it work?',
-                acceptedAnswer: { '@type': 'Answer', text: 'Guided Childhood is a stage by stage digital parenting platform for UK families with children aged 4 to 16. You identify your child\'s stage, then get daily moments with the exact words for the friction points of the day, 160 scripts for the hard conversations, 100 lessons you can teach at home, a digital passport your child fills stage by stage, family quests where real jobs earn stars and stars buy agreed screen time, printable bucket lists and crafts in English and Spanish, 24 age gated learning games, device setting checklists, a wellbeing tracker, a family agreement builder, and DiGi, your AI parenting advisor, whenever you need the specific words. The idea in one line: keeping the balance, offline strong, online safe, digitally educated, AI literate, ready by 16. It takes around five minutes a day.' },
+                acceptedAnswer: { '@type': 'Answer', text: 'Guided Childhood is a stage by stage digital parenting platform for UK families with children aged 4 to 16. You identify your child\'s stage, then get daily moments with the exact words for the friction points of the day, 160 scripts for the hard conversations, 100 lessons you can teach at home, a digital passport your child fills stage by stage, family quests where real jobs earn stars and stars buy agreed screen time, printable bucket lists and crafts in English and Spanish, 24 age gated learning games, device setting checklists, a wellbeing tracker, a family agreement builder, and DiGi, your evidence led guide, whenever you need the specific words. The idea in one line: keeping the balance, offline strong, online safe, digitally educated, AI literate, ready by 16. It takes around five minutes a day.' },
               },
               {
                 '@type': 'Question',
@@ -1164,7 +1164,7 @@ export default function HomePage() {
               },
               {
                 iconBg: 'var(--terracotta)',
-                title: 'DiGi AI Advisor',
+                title: 'DiGi, your evidence led guide',
                 body: 'Trained on the research. Tell DiGi what happened today and get the exact words and the structural fix. Available at 11pm when the guilt spiral hits.',
                 svg: (
                   <DigiCharacter mood="idle" size={36} />
@@ -1722,7 +1722,7 @@ export default function HomePage() {
 
             <div>
               <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '14px' }}>
-                Your AI digital parenting advisor
+                Your evidence led guide
               </p>
               <h2 className="fu" style={{ marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
                 <span>DiGi has read every study.<br />Ask anything.</span>
@@ -2411,7 +2411,7 @@ export default function HomePage() {
                   ['✓', 'All scripts and guides'],
                   ['✓', 'Full curriculum, all lessons'],
                   ['✓', 'Digital wellbeing tracker'],
-                  ['✓', 'DiGi AI advisor, unlimited'],
+                  ['✓', 'DiGi, unlimited'],
                   ['✓', 'School lesson packs included'],
                 ],
                 cta: 'Start now', href: '/join',

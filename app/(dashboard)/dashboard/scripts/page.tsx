@@ -23,6 +23,17 @@ export const CATEGORY_META: Record<string, {
   'relationships': { label: 'Relationships', description: 'Trust, independence, and keeping the conversation open.',                 bg: 'var(--stage-3)',    border: 'var(--stage-3)',    accent: 'var(--terracotta)' },
 }
 
+// A big friendly emoji per category, for the collection card header block, so
+// the scripts shelf reads as topic cards, not a plain list. Falls back to a
+// quote mark, never a wrong picture.
+const CATEGORY_EMOJI: Record<string, string> = {
+  'first-device': '📱', 'social-media': '💬', 'gaming': '🎮', 'safety': '🛡️',
+  'wellbeing': '💛', 'screen-habits': '⏰', 'ai-and-tech': '🤖', 'relationships': '🤝',
+}
+function scriptEmoji(category: string): string {
+  return CATEGORY_EMOJI[category] ?? '❝'
+}
+
 const STAGE_META = {
   foundation:  { num: 1, label: 'Foundation',  ages: 'Ages 4 to 7',       color: 'var(--ink)', bg: 'var(--stage-1)' },
   builder:     { num: 2, label: 'Builder',     ages: 'Ages 8 to 10',      color: 'var(--ink)', bg: 'var(--stage-2)' },
@@ -166,7 +177,9 @@ export default async function ScriptsPage() {
             </span>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          {/* Big pastel collection cards, matching the Lessons library shelf,
+              so the scripts menu reads as topic cards not a plain list. */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '14px' }}>
             {group.items.map(script => {
               const isDone = completedOrders.has(script.sort_order)
               // A free script already opened stays open forever. A free
@@ -174,35 +187,34 @@ export default async function ScriptsPage() {
               // a script that was never flagged free at all.
               const isLocked = !isPaid && !isDone && (!script.is_free || freeAllowanceUsedUp)
               const isMatch = matchCategory === script.category
+              const cat = CATEGORY_META[script.category]
               return (
                 <Link
                   key={script.id}
                   href={isLocked ? '/dashboard/upgrade' : `/dashboard/scripts/${script.sort_order}`}
                   style={{
-                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                    textDecoration: 'none', gap: '12px',
-                    background: 'var(--cream)',
-                    border: `1px solid ${isMatch ? 'var(--terracotta)' : 'var(--border)'}`,
-                    borderRadius: '16px', padding: '14px 16px',
-                    opacity: isLocked ? 0.7 : 1,
+                    display: 'flex', flexDirection: 'column', textDecoration: 'none',
+                    background: '#fff',
+                    border: `1.5px solid ${isMatch ? 'var(--terracotta)' : isDone ? '#B7DEC9' : 'var(--border)'}`,
+                    borderRadius: '18px', overflow: 'hidden', opacity: isLocked ? 0.72 : 1,
+                    boxShadow: '0 4px 18px rgba(26,26,46,0.06)',
                   }}
                 >
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '3px' }}>
-                      {isDone && <span style={{ fontSize: '12px', color: 'var(--terracotta)', flexShrink: 0 }}>✓</span>}
-                      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '15px', color: 'var(--ink)' }}>
-                        {script.title}
-                      </div>
-                    </div>
-                    <div style={{ fontSize: '12px', color: 'var(--ink-muted)', fontStyle: 'italic', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                      {script.situation}
-                    </div>
+                  <div style={{ position: 'relative', aspectRatio: '16 / 8', display: 'flex', alignItems: 'center', justifyContent: 'center', background: `linear-gradient(150deg, var(--stage-${group.meta.num}-bold) 0%, var(--stage-${group.meta.num}) 100%)` }}>
+                    <span style={{ fontSize: '36px', lineHeight: 1 }}>{scriptEmoji(script.category)}</span>
+                    {isDone && <span style={{ position: 'absolute', top: '10px', right: '10px', fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, color: '#1F7A54', letterSpacing: '0.06em', textTransform: 'uppercase', background: '#D4EDDF', borderRadius: '100px', padding: '2px 8px' }}>✓ Done</span>}
+                    {isLocked && <span style={{ position: 'absolute', top: '10px', right: '10px', fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, color: 'var(--ink)', letterSpacing: '0.06em', textTransform: 'uppercase', background: 'rgba(255,255,255,0.85)', borderRadius: '100px', padding: '2px 8px' }}>🔒 Members</span>}
                   </div>
-                  {isLocked ? (
-                    <span style={{ fontSize: '14px', flexShrink: 0 }}>🔒</span>
-                  ) : (
-                    <span style={{ fontSize: '16px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>
-                  )}
+                  <div style={{ padding: '13px 15px 15px', display: 'flex', flexDirection: 'column', gap: '10px', flex: 1 }}>
+                    <div style={{ flex: 1 }}>
+                      {cat && <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, color: 'var(--terracotta-dark)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '5px' }}>{cat.label}</div>}
+                      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)', lineHeight: 1.2, marginBottom: '4px' }}>{script.title}</div>
+                      <div style={{ fontSize: '12px', color: 'var(--ink-muted)', fontStyle: 'italic', lineHeight: 1.4, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{script.situation}</div>
+                    </div>
+                    <span style={{ textAlign: 'center', background: isDone ? 'var(--cream)' : 'var(--terracotta)', color: 'var(--ink)', border: isDone ? '1.5px solid var(--border)' : 'none', borderRadius: '11px', padding: '9px 10px', fontFamily: 'var(--font-display)', fontSize: '12.5px', fontWeight: 800, boxShadow: isDone ? 'none' : '0 3px 0 var(--terracotta-dark)' }}>
+                      {isLocked ? 'Preview' : isDone ? 'Read again ↻' : 'Open'}
+                    </span>
+                  </div>
                 </Link>
               )
             })}
