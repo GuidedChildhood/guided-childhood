@@ -178,10 +178,10 @@ export default function TodayPathStrip({ tasks, dailyMinutes = 10 }: { tasks: To
 
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px', padding: '0 4px' }}>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
-          Today&apos;s path
+          {dayDone ? 'Today' : 'Today · do this next'}
         </span>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: dayDone ? 'var(--terracotta-dark)' : 'var(--ink-muted)' }}>
-          {dayDone ? 'Today done' : `${doneCount} of ${requiredCount}`}
+          {dayDone ? 'All done ✓' : `${doneCount} of ${requiredCount}`}
         </span>
       </div>
 
@@ -215,35 +215,47 @@ export default function TodayPathStrip({ tasks, dailyMinutes = 10 }: { tasks: To
       </div>
 
       <div ref={stripRef} style={{ position: 'relative', paddingTop: `${TOP_OFFSET}px` }}>
-        {/* DiGi stands above the node the parent is on, saying plainly
-            what a tap does. Clamped to the visible width so the bubble
-            never runs off the edge when the current node is first or last. */}
-        <div
-          style={{
+        {/* DiGi stands above the node the parent is on. When a step is still
+            waiting today, DiGi keeps bouncing, says Click me, and IS the tap
+            target, dropping straight onto the thing to do next. When the day is
+            done or a win just landed, DiGi bounces once, celebrates and settles,
+            and stops being a button so nothing nags. Clamped to the visible
+            width so the bubble never runs off the edge at the first or last. */}
+        {(() => {
+          const nudging = pressure && !celebrating
+          const wrapStyle: React.CSSProperties = {
             position: 'absolute',
             left: `${Math.min(82, Math.max(18, centre(currentIndex)))}%`,
             top: `${TOP_OFFSET}px`,
             transform: 'translate(-50%, -100%)',
-            pointerEvents: 'none',
+            pointerEvents: nudging ? 'auto' : 'none',
+            cursor: nudging ? 'pointer' : 'default',
+            textDecoration: 'none',
             zIndex: 2,
             display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px',
-          }}
-        >
-          {(celebrating || pressure) && (
-            <span style={{
-              background: celebrating ? 'var(--terracotta)' : 'var(--terracotta-lt)',
-              color: 'var(--ink)',
-              border: celebrating ? 'none' : '1.5px solid var(--terracotta)',
-              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '10.5px',
-              padding: '5px 10px', borderRadius: '100px', whiteSpace: 'nowrap',
-              boxShadow: '0 3px 10px rgba(237,195,95,0.35)',
-              marginBottom: '2px', transition: 'background 0.3s',
-            }}>
-              {celebrating ? `${celebrating} done, lovely 🎉` : 'Tap the glow, do this next'}
-            </span>
-          )}
-          <DigiCharacter mood={celebrating || !pressure ? 'happy' : 'idle'} size={38} />
-        </div>
+          }
+          const inner = (
+            <>
+              {(celebrating || pressure) && (
+                <span style={{
+                  background: celebrating ? 'var(--terracotta)' : 'var(--terracotta-lt)',
+                  color: 'var(--ink)',
+                  border: celebrating ? 'none' : '1.5px solid var(--terracotta)',
+                  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '10.5px',
+                  padding: '5px 10px', borderRadius: '100px', whiteSpace: 'nowrap',
+                  boxShadow: '0 3px 10px rgba(237,195,95,0.35)',
+                  marginBottom: '2px', transition: 'background 0.3s',
+                }}>
+                  {celebrating ? `${celebrating} done, lovely 🎉` : '👆 Click me, do this next'}
+                </span>
+              )}
+              <DigiCharacter mood={celebrating || !pressure ? 'happy' : 'idle'} size={38} once={!pressure && !celebrating} />
+            </>
+          )
+          return nudging
+            ? <Link href={tasks[currentIndex].href} aria-label={`Do this next: ${tasks[currentIndex].label}`} style={wrapStyle}>{inner}</Link>
+            : <div style={wrapStyle}>{inner}</div>
+        })()}
 
         {/* Connector line, with the walked part in butter */}
         <div style={{

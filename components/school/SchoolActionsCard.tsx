@@ -180,13 +180,19 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
       const res = await fetch('/api/school/remind/test', { method: 'POST' })
       const data = await res.json()
       if (data.sent > 0) {
-        setTestResult(
-          data.childHasDevice
-            ? `Sent. Check your phone, and ${childName ?? 'your child'}'s.`
-            : 'Sent. It should reach your phone within seconds.'
-        )
+        // Push is per device, so say plainly where it actually landed. If no
+        // phone (Apple push) is subscribed, the ping went to another device
+        // like the laptop you set it up on, and the phone in your hand needs
+        // turning on before it will ever buzz.
+        const where = (data.platforms ?? []).join(' and ')
+        const landed = where ? `Sent to ${where}.` : 'Sent.'
+        const childLine = data.childHasDevice ? ` ${childName ?? 'Your child'}'s phone got theirs too.` : ''
+        const phoneHint = data.hasApple
+          ? ''
+          : ' If the phone in your hand stayed quiet, that phone is not turned on yet. Open this page on the phone itself, tap Turn on check ins, and on iPhone add it to your home screen first, then test again.'
+        setTestResult(landed + childLine + phoneHint)
       } else if (data.reason) {
-        setTestResult('Turn on notifications first. Open your home page, tap Turn on check ins, then come back and test again.')
+        setTestResult('No device is set up to get these yet. On the phone you want the reminders on, open this page, tap Turn on check ins, then test again. On iPhone, add the app to your home screen first, then turn them on.')
       } else {
         setTestResult(data.error ?? 'Something went wrong, try again.')
       }

@@ -795,6 +795,35 @@ Verification (background agent) drove three deliberate edits away from the sourc
 
 The Quests redesign brief (quests-redesign.md) and the Good Inside design language entry both flagged that Mobbin was offline the day they were written, so StarSummary and the front door were built from the documented spirit only, not live screens. Mobbin is back. Pulled fresh screens for every pattern the plan names and wrote them up in design-refs/quests-mobbin-notes.md, each pattern linked to the exact Mobbin screen so a builder can open it while working. Highlights that change the build: GoHenry's child earning screen shows the week as one segmented bar (Allowance, Tasks done, To do) rather than three flat tiles, so fold our waiting/to do/this week tiles into one bar with the tiles as tap targets below; Greenlight's parent home proves a stat card reads as tappable only when it carries a one word action sublabel (Manage), so our three tiles each need a Review/Open/Adjust line; Opal's Blocks screen is the exact model for the live device timer, a single running session card with the remaining time big and a draining progress underline, PWA mirrors it, never a lock; Greenlight's set allowance screen already ships the age aware recommendation box that the DiGi screen time balance insight should copy (recommended balance, age named, one honest sentence, never a rule); LookUp/Byte/GoHenry Learn for the four big labelled front door tiles, we alternate butter and cream not a saturated wall; Finch for celebration that rewards the choice and growth (egg hatching, weekly star, streak framed as days done not loss aversion), which doubles as the safety template for the child insight surface; Duolingo ABC and BitePal for the child insight card shape, one big bubble headline, one squad character, one idea, one gentle dismiss. Skip list recorded too: no saturated colour walls, no loss aversion streak copy, no passcode lock as the timer spine (Parent PIN stays parked), never their fonts. This unblocks slices 1 to 3 of the Quests redesign; no code changed this session, references only. Draft PR opened on claude/mobbin-ux-references-i142dd. No SQL.
 
+## 2026-07-16 — Email funnel status layer, deliverability hygiene, and config knobs (backend batch)
+
+Built the status aware email funnel end to end on Resend and the database, no
+new vendor. lib/email/lifecycle.ts computes a contact's state (lead, trialing,
+trial_ending, active, lapsed) from the fields we already hold. The daily cron
+now branches on state, not just day counts: a trial ending nudge two days
+before a no card trial runs out, a win back a couple of days after a trial
+lapses unpaid (held so it never lands the same day as the day 7 founder
+email), and a lead nurture (migration 063, starter_leads.nurtured_at) that
+sends one come start the trial email to a captured email with no account,
+excluding anyone who already has a profile (the converted flag is never set,
+so profiles is the source of truth). Nurture stops on payment because an
+active member is never in the trial_ending or lapsed state. Deliverability
+hygiene: /api/email/webhook suppresses hard bounces and spam complaints
+(email_opt_out for members, nurtured_at for leads), soft bounces ignored,
+svix verified against RESEND_WEBHOOK_SECRET. Also this batch: the Stripe
+checkout can require a Terms tick (consent_collection) behind
+STRIPE_TOS_CONSENT env because it needs a Terms URL in the Stripe Dashboard
+first; school reminders now reach the child's phone and the parent's inbox
+(strong subject, fix it link) not only the parent PWA, aligned across the
+morning and evening crons to child appropriate kinds only; the screens gate
+(before screens quests locking the timer) is now shown to the parent on the
+Quests page; and STAR_MINUTES became a config value (NEXT_PUBLIC_STAR_MINUTES,
+default 5) so the exchange rate is tunable without code. Config to set when
+ready: run migrations 061, 062, 063; RESEND_WEBHOOK_SECRET plus a Resend
+webhook at /api/email/webhook for bounced and complained; Terms URL in Stripe
+then STRIPE_TOS_CONSENT=on. All on PR 296, clean and mergeable. The per child
+parent set rate and the Quests slice 3 send to child persisted state remain UI
+work for the design session, not built in parallel.
 ## 2026-07-16 — Mobbin polish pass: Quests readability, balance bar, and DiGi as one flowing voice
 
 The Quests redesign (slices 1 to 3 and the child insight surface) had already shipped from a parallel session (PR #293) while this session pulled the Mobbin references, so this session did the "before final polish" the plan deferred to when Mobbin reconnected, plus two live design asks from Justin. Five files, references only where noted, all typecheck clean and screenshot verified in a throwaway harness (deleted before commit).
@@ -824,3 +853,136 @@ Justin confirmed the child app is good as is and the marketing copy is fine to c
 ## 2026-07-16 — Child app: light pastel wash background
 
 Justin wanted the child app off the flat dark espresso and onto a faded pastel combination of our colours, child approved. Pulled Mobbin for child colour schemes first (Kit uses a soft pink lavender pastel, Tolan and Calm Kids a dusk gradient; Duolingo ABC actually a warm dark brown close to what we had). Showed Justin three candidates rendered with real content for contrast; he picked the light pastel wash. Rebuilt the child quest screen (app/k/[token]/KidQuestScreen.tsx): background is now linear-gradient(168deg, #FFF3DC 0%, #FDE7F0 46%, #EAE7FB 100%), a warm butter to soft rose to lavender, and every one of the ~47 white on dark spots was flipped to work on light: headings and body to ink, the glass panels (tabs, fold strip, tip card, device and goal bars, ask more, catch up, nav sub tiles) to solid white or cream with a faint ink border, secondary text to ink-soft/ink-muted. White stays only where it belongs, on the red count badges and the deep teal buttons. Verified the quests and lessons tabs in a harness at mobile width, all text readable, cards separating cleanly. On PR #299. No SQL.
+## 2026-07-16 — Rehearsal voice off by default, Stuck for words fixed, DiGi bounce is a click me, daily viewing guide
+
+A run of live red pen from Justin on the parent app, all backend and behaviour
+(the Mobbin design session owns the visual polish).
+
+**DiGi voice is off by default everywhere, opt in only.** The Rehearse with
+DiGi child voice defaulted on (browser speech), so it spoke unasked and felt
+inconsistent with the click to play Skye voice on scripts. Now voiceOn starts
+false; the button reads Add voice when off and Voice on when on, and turning it
+on reads the child's latest line straight away so the parent hears what they
+switched on. Script reader stays click to play, DiGi chat has no audio, so
+nothing on the platform speaks until asked. Deeper unify of the rehearsal
+browser voice to the generated Skye voice is a later job (dynamic lines cannot
+be pre rendered), noted not done.
+
+**Stuck for words now works and is evidence led.** The suggest button called the
+model directly with no fallback ladder and swallowed any 404 into an empty list,
+so on a bad primary model it silently did nothing. Now it runs the full model
+fallback ladder, parses the JSON array or falls back to line parsing, and on a
+real empty returns a friendly note the card shows instead of a dead button. The
+prompt is rewritten to ground the three lines in the child mental health
+evidence (name and validate the feeling first, connection before correction, a
+limit with empathy, an element of choice, never a flat no or a lecture). Tapping
+a line drops it into the box, then Say it sends it to DiGi.
+
+**Home daily path DiGi is a click me when work remains.** Justin's steer: a
+constant bounce is right only when there is still something to do that day, and
+then it should invite a tap and take them to it. DiGiCharacter gained a once
+prop (one bounce then settle, repeat 0 not -1); TodayPathStrip loops DiGi only
+while a step is outstanding (pressure) and now wraps the bouncing DiGi in a Link
+to the next task with a 👆 Click me, do this next bubble; when the day is done it
+bounces once, celebrates and stops being a button. DigiStreakWidget bounces once
+when the streak is alive today, loops only when it needs keeping warm.
+
+**Quests front door buttons land somewhere.** Set tasks, Screen time and Share
+app read as broken because Set tasks was a no op when already on the manage tab
+and Share switched a tab far below the fold. Now Set tasks scrolls to the quest
+list, Screen time to the screen time card, Share to the tabs (new quest-tabs
+anchor), each landing visibly.
+
+**Push test is honest about where it landed.** The school Send a test said it
+should reach your phone even when the only subscription was the laptop. It now
+names the devices it actually reached (platforms) and, when no Apple push
+endpoint is subscribed, spells out turning notifications on on the phone itself
+(and adding to the home screen first on iPhone).
+
+**Recommended daily viewing, built into the timer (plan: daily-guide-plan.md).**
+Age banded soft guide (from screen-balance BAND), read against minutes logged
+today. New lib/quests/daily-guide.ts (pure state: recommended, used, remaining,
+status under/reached/over) and lib/quests/usage.ts (getMinutesUsedToday, sums
+today's device_sessions plus manual star_spends not tied to a session, so the
+phone timer and the no phone co view mark both count once). Surfaced: the parent
+screen time card shows used vs recommended per child with a treat note when a
+grant would go over; the child timer shows a today's screen time bar and a calm
+you have had your screen time today pause at the guide, still letting them ask a
+grown up for a treat. Never a hard block: the parent holds the real control.
+/api/quests/time/active and the child page carry usedToday plus recommended. No
+migration. All on branch claude/continue-build-ldot8v.
+
+## 2026-07-16 — Shared notes and scripts land on the child's own app, not SMS (migration 064)
+
+Justin: a note or script we share should appear on the child's phone (their own
+app) and be stored to read again, not fired out over SMS, and this delivery
+should apply to anything we share to a child; the read together option stays
+only for the no phone ages. Built as a reusable system.
+
+- Migration 064 child_shares (id, user_id, child_id, kind note|script, title,
+  body, ref, created_at, read_at), RLS owner only, idempotent, flat.
+- /api/child-share: POST (parent auth) stores the share and best effort pings
+  the child's device deep linked to their own page, returns hasApp; PATCH marks
+  a share read from the child's link (token is the auth, scoped to that child).
+- The child's app shows a From your grown up card at the top of their page
+  (NotesFromGrownUp): the note in warm italic, a Got it thank you button that
+  marks it read on the server and folds it away, but it stays in their history.
+  The kid page loads the last twelve shares; a missing table degrades to empty,
+  never breaks the page.
+- The script note card (ScriptDepth) now leads with Send to their app for a
+  child who has their link set up (no phone number needed), the note landing in
+  their app and pinging their phone. SMS drops to Text it instead. For the young
+  ages (foundation, builder) the read together option (bedtime, lunchbox) leads
+  and there is no app send. Copy stays throughout. The script page passes the
+  child id and whether a kid link exists.
+
+The same POST /api/child-share is the reusable path for sharing anything else to
+a child's app later. Owner action: run migration 064.
+
+Voice consistency (item 2): the critical part shipped earlier (voice off by
+default, consistent opt in across the platform). True unification of the live
+rehearsal voice to the recorded Skye voice is not buildable in app, the Skye
+voice is pre generated audio files and dynamic rehearsal lines would need a live
+text to speech service (a provider, key and cost decision for Justin). Flagged,
+not faked.
+
+## 2026-07-16 — Something else is not a tracked concern, share nudge opens a real printable
+
+Two red pen fixes from Justin.
+
+**Something else is a picker, not a rateable moment.** The daily concern check
+in (Still on the list) was showing a Something else row with Better/Same/Still
+hard, because the generic catch all was being written to the concerns ledger and
+counted (Come up 4 times). Only the specific moment a parent lands on should be
+tracked. Fixed at the source and the surface: the moment tagger and the Right
+Now rescue no longer log the generic slug (something-else, something_else,
+other) as a concern, and the daily check in filters those slugs and a Something
+else label out defensively so any old row never shows. The typed Something else
+(custom rescue) still logs, because there the label is the parent's real words,
+a genuine specific moment.
+
+**The share a printable nudge now opens a real printable.** DiGi's proactive
+share nudge deep linked to /dashboard/lessons, so tapping the notification
+landed on a hub, not an actual printable. It now points at /dashboard/printables
+(a real page of ready to print sheets, which does exist, the PRINTABLES
+registry), and the prompt copy names Printables to match. New prompts carry the
+new href; old pending ones age out.
+
+## 2026-07-16 — Weekly review shows what DiGi is doing, notifications clear on tap
+
+Two more from Justin.
+
+**Your week with DiGi tells you what it is doing while it reads.** The preview
+button sat on Reading for a while with no sign of life. Now, while DiGi builds
+the review, the card runs a warm little narrative in DiGi's voice (Just reading
+all our chats from this week... Got them, pulling out what actually mattered...
+Here you go, shaping the plan for next week...), DiGi shifts to a thinking mood,
+so the wait reads as DiGi working, not a stuck button.
+
+**A DiGi notification clears when you open it.** The notifications feed is
+derived live, so a DiGi nudge kept showing in the bell even after the parent
+tapped it. NotificationCard (new client card) marks a DiGi prompt acted on tap
+(keepalive fetch, so it lands through the navigation), and the feed only shows
+pending, so it is gone from the count next look. The action notifications
+(approve, a child's ask, school) still clear only when the parent actually does
+the thing on the target page, so a stray tap never loses one.

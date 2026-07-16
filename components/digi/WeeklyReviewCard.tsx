@@ -22,10 +22,28 @@ type Review = {
 
 const STAR_MINUTES = 5
 
+// While DiGi reads the week (it takes a moment, it is really reading the
+// family's own chats and quests), a warm little narrative of what it is doing,
+// so the wait feels like DiGi working, not a stuck button.
+const READING_STEPS = [
+  'Just reading all our chats from this week...',
+  'Got them. Pulling out what actually mattered...',
+  'Here you go, shaping the plan for next week...',
+]
+
 export default function WeeklyReviewCard() {
   const [review, setReview] = useState<Review | null>(null)
   const [loaded, setLoaded] = useState(false)
   const [busy, setBusy] = useState(false)
+  const [step, setStep] = useState(0)
+
+  // Walk the reading narrative forward while busy, holding on the last line
+  // until the review lands.
+  useEffect(() => {
+    if (!busy) { setStep(0); return }
+    const t = setInterval(() => setStep(s => Math.min(s + 1, READING_STEPS.length - 1)), 1600)
+    return () => clearInterval(t)
+  }, [busy])
 
   useEffect(() => {
     fetch('/api/digi/weekly-review')
@@ -70,13 +88,15 @@ export default function WeeklyReviewCard() {
     return (
       <div style={{ background: '#fff', border: '1.5px dashed var(--border)', borderRadius: '18px', padding: '16px 18px', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '13px' }}>
         <span style={{ flexShrink: 0, width: 42, height: 42, borderRadius: '12px', background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <DigiCharacter mood="idle" size={28} />
+          <DigiCharacter mood={busy ? 'thinking' : 'idle'} size={28} />
         </span>
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)' }}>Your week with DiGi</div>
-          <div style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.4 }}>A warm read of your family&apos;s week, and one thing to set up next.</div>
+          <div style={{ fontSize: '12.5px', color: busy ? 'var(--terracotta-dark)' : 'var(--ink-soft)', lineHeight: 1.4, fontWeight: busy ? 700 : 400, transition: 'color 0.3s' }}>
+            {busy ? READING_STEPS[step] : 'A warm read of your family’s week, and one thing to set up next.'}
+          </div>
         </div>
-        <button onClick={preview} disabled={busy} style={{ flexShrink: 0, background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: '12px', padding: '9px 14px', cursor: busy ? 'default' : 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '12.5px', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
+        <button onClick={preview} disabled={busy} style={{ flexShrink: 0, background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: '12px', padding: '9px 14px', cursor: busy ? 'default' : 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '12.5px', boxShadow: '0 3px 0 var(--terracotta-dark)', opacity: busy ? 0.85 : 1 }}>
           {busy ? 'Reading…' : 'See it'}
         </button>
       </div>

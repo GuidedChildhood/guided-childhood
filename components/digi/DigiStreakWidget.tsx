@@ -100,7 +100,10 @@ export default function DigiStreakWidget({ count, aliveToday, firstName }: Props
     >
       <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
         <div ref={starRef} style={{ flexShrink: 0 }}>
-          <DigiCharacter mood={s.mood} size={64} />
+          {/* When the streak is alive today there is nothing to chase, so DiGi
+              bounces once and rests. When it needs keeping warm, the motion
+              loops as a gentle, guilt free nudge. */}
+          <DigiCharacter mood={s.mood} size={64} once={aliveToday} />
         </div>
 
         <div style={{ flex: 1, minWidth: 0 }}>

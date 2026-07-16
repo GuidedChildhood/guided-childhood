@@ -45,14 +45,15 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
     if (el) el.scrollTop = el.scrollHeight
   })
 
-  // The child talks back out loud, in a lighter, quicker voice, so a parent
-  // hears the pushback the way it lands rather than only reading it. Browser
-  // speech for now, a proper fun kid voice can slot in later. A ref stops the
-  // same reply being spoken twice across re-renders.
-  const [voiceOn, setVoiceOn] = useState(true)
+  // The child can talk back out loud, in a lighter, quicker voice, so a parent
+  // hears the pushback the way it lands rather than only reading it. Voice is
+  // OFF by default across the platform: the parent turns it on if they want it,
+  // it never plays unasked. A ref stops the same reply being spoken twice.
+  const [voiceOn, setVoiceOn] = useState(false)
   const spokenRef = useRef<string>('')
   const [suggestions, setSuggestions] = useState<string[]>([])
   const [suggBusy, setSuggBusy] = useState(false)
+  const [suggMsg, setSuggMsg] = useState<string | null>(null)
 
   const speakChild = (text: string) => {
     if (typeof window === 'undefined' || !('speechSynthesis' in window)) return
@@ -149,6 +150,7 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
     setMessages(next)
     setInput('')
     setSuggestions([])
+    setSuggMsg(null)
     scrollDown()
     run('child', next)
   }
@@ -158,14 +160,20 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
   async function getSuggestions() {
     if (suggBusy || busy) return
     setSuggBusy(true)
+    setSuggMsg(null)
     try {
       const res = await fetch('/api/scripts/rehearse', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ mode: 'suggest', scriptTitle, situation, sayThis, notThis, messages: messages.map(m => ({ role: m.role, content: m.content })) }),
       })
       const d = await res.json()
-      setSuggestions(Array.isArray(d.options) ? d.options.filter((x: unknown) => typeof x === 'string') : [])
-    } catch { setSuggestions([]) }
+      const opts = Array.isArray(d.options) ? d.options.filter((x: unknown) => typeof x === 'string') : []
+      setSuggestions(opts)
+      if (opts.length === 0) setSuggMsg(d.error ?? 'DiGi could not think of options just now. Try again in a moment.')
+    } catch {
+      setSuggestions([])
+      setSuggMsg('Could not load options just now. Try again in a moment.')
+    }
     setSuggBusy(false)
   }
 
@@ -245,12 +253,20 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <button
-            onClick={() => setVoiceOn(v => { if (v) stopSpeaking(); return !v })}
+            onClick={() => setVoiceOn(v => {
+              const next = !v
+              if (!next) { stopSpeaking(); return next }
+              // Turning it on: read the child's latest line out loud right away,
+              // so the parent hears what they just switched on.
+              const lastChild = [...messages].reverse().find(m => m.role === 'assistant' && !m.coach)
+              if (lastChild) { spokenRef.current = lastChild.content; speakChild(lastChild.content) }
+              return next
+            })}
             style={{ ...ghostBtn, padding: '7px 11px' }}
-            title={voiceOn ? 'Mute the child voice' : 'Hear the child out loud'}
-            aria-label={voiceOn ? 'Mute the child voice' : 'Hear the child out loud'}
+            title={voiceOn ? 'Turn the voice off' : 'Turn the voice on'}
+            aria-label={voiceOn ? 'Turn the voice off' : 'Turn the voice on'}
           >
-            {voiceOn ? 'Voice on' : 'Muted'}
+            {voiceOn ? '🔊 Voice on' : '🔈 Add voice'}
           </button>
           <button onClick={reset} style={ghostBtn} title="Start over">Start over</button>
         </div>
@@ -290,21 +306,29 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
         {!coached ? (
           <>
             {suggestions.length > 0 && (
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 10 }}>
-                {suggestions.map((s, i) => (
-                  <button
-                    key={i}
-                    onClick={() => { setInput(s); setSuggestions([]) }}
-                    style={{
-                      textAlign: 'left', background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
-                      borderRadius: 12, padding: '8px 12px', cursor: 'pointer',
-                      fontFamily: 'var(--font-body)', fontSize: 13, color: 'var(--ink)', lineHeight: 1.4,
-                    }}
-                  >
-                    {s}
-                  </button>
-                ))}
+              <div style={{ marginBottom: 10 }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 9.5, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 7 }}>
+                  Evidence led lines · tap one, then Say it
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  {suggestions.map((s, i) => (
+                    <button
+                      key={i}
+                      onClick={() => { setInput(s); setSuggestions([]); setSuggMsg(null) }}
+                      style={{
+                        textAlign: 'left', background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
+                        borderRadius: 12, padding: '10px 13px', cursor: 'pointer',
+                        fontFamily: 'var(--font-body)', fontSize: 13.5, color: 'var(--ink)', lineHeight: 1.45,
+                      }}
+                    >
+                      {s}
+                    </button>
+                  ))}
+                </div>
               </div>
+            )}
+            {suggMsg && (
+              <p style={{ fontSize: 12.5, color: 'var(--ink-muted)', lineHeight: 1.45, margin: '0 0 10px' }}>{suggMsg}</p>
             )}
             <form onSubmit={e => { e.preventDefault(); sendLine() }} style={{ display: 'flex', gap: 8, alignItems: 'flex-end' }}>
               <textarea

@@ -22,9 +22,12 @@ export async function POST(request: Request) {
       { onConflict: 'user_id,session_date' }
     )
 
-  // Concerns ledger: best effort, never blocks the save
+  // Concerns ledger: best effort, never blocks the save. The generic Something
+  // else tag is a picker, not a real moment, so it is never tracked as a
+  // concern; only the specific moments the parent lands on are.
+  const GENERIC_CONCERN_SLUGS = new Set(['something-else', 'something_else', 'other'])
   try {
-    const slugs = (moments ?? []).filter(m => dailyMomentLabel(m) !== null)
+    const slugs = (moments ?? []).filter(m => dailyMomentLabel(m) !== null && !GENERIC_CONCERN_SLUGS.has(m))
     if (slugs.length > 0) {
       const now = new Date().toISOString()
 
