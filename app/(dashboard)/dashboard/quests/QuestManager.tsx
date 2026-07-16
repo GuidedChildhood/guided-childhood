@@ -571,10 +571,10 @@ export default function QuestManager() {
                 goal={g ? { title: g.title, stars_needed: g.stars_needed } : null}
                 timerRunning={sessions.some(s => s.child_id === activeChild)}
                 sessionEndsAt={sessions.find(s => s.child_id === activeChild)?.ends_at ?? null}
-                onApprove={() => { if (ticks.some(t => t.child_id === activeChild && t.status === 'pending')) { window.location.href = '/dashboard#quest-board' } else { setTab('manage') } }}
+                onApprove={() => { if (ticks.some(t => t.child_id === activeChild && t.status === 'pending')) { window.location.href = '/dashboard#quest-board' } else { setTab('manage'); setTimeout(() => document.getElementById('my-todo')?.scrollIntoView({ behavior: 'smooth' }), 60) } }}
                 onTodo={() => { setTab('manage'); setTimeout(() => document.getElementById('my-todo')?.scrollIntoView({ behavior: 'smooth' }), 60) }}
                 onScreenTime={() => document.getElementById('screen-time')?.scrollIntoView({ behavior: 'smooth' })}
-                onShare={() => setTab('share')}
+                onShare={() => { setTab('share'); setTimeout(() => document.getElementById('quest-tabs')?.scrollIntoView({ behavior: 'smooth' }), 60) }}
               />
             )
           })()}
@@ -741,7 +741,7 @@ export default function QuestManager() {
 
           {/* The front door: four big labelled buttons with an icon and a line
               of what each is for, so a parent knows exactly where to go. */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px', marginBottom: '18px' }}>
+          <div id="quest-tabs" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px', marginBottom: '18px', scrollMarginTop: '80px' }}>
             {TABS.map(t => {
               const on = tab === t.key
               return (

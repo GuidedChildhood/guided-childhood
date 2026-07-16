@@ -30,6 +30,17 @@ function guideFor(ageBand: string | null): BandGuide {
   return (ageBand && BAND[ageBand]) || BAND['8-10']
 }
 
+// The one source of truth for the age banded daily guide, so the timer, the
+// child's screen and the parent's card all read the same number. A soft
+// steer, never a hard cap.
+export function recommendedDailyMinutes(ageBand: string | null): number {
+  return guideFor(ageBand).dailyMins
+}
+
+export function bandLabelFor(ageBand: string | null): string {
+  return guideFor(ageBand).label
+}
+
 export type BalanceInsight = {
   headline: string
   body: string

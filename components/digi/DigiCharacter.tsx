@@ -10,6 +10,10 @@ interface DigiCharacterProps {
   size?: number
   className?: string
   style?: React.CSSProperties
+  // One bounce on load, then still. Set this when DiGi is just present and
+  // does not need to keep pulling the eye. Leave it off (the default) when
+  // DiGi is asking to be noticed, so the motion loops as a gentle nudge.
+  once?: boolean
 }
 
 export default function DigiCharacter({
@@ -17,6 +21,7 @@ export default function DigiCharacter({
   size = 120,
   className,
   style,
+  once = false,
 }: DigiCharacterProps) {
   const ref = useRef<HTMLDivElement>(null)
   const idleTL = useRef<gsap.core.Timeline | null>(null)
@@ -29,7 +34,7 @@ export default function DigiCharacter({
     gsap.set(ref.current, { rotation: 0, scale: 1, y: 0 })
 
     const el = ref.current
-    const tl = gsap.timeline({ repeat: -1 })
+    const tl = gsap.timeline({ repeat: once ? 0 : -1 })
     idleTL.current = tl
 
     if (mood === 'idle') {
@@ -68,7 +73,7 @@ export default function DigiCharacter({
     }
 
     return () => { idleTL.current?.kill() }
-  }, [mood])
+  }, [mood, once])
 
   return (
     <div

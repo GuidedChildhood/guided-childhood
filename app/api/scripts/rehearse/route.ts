@@ -99,23 +99,48 @@ You are ${childName}, ${stage.ages}. The situation: ${situation}. Your parent is
     .slice(-16)
 
   // Suggest mode: the parent is stuck for words, so DiGi hands three short
-  // lines they could say next, calibrated to this script, without breaking the
-  // rehearsal. Non streaming, returns a plain JSON array of options.
+  // lines they could say next, grounded in the evidence on what actually helps
+  // a child in a hard moment (connection before correction, name the feeling,
+  // hold the limit warmly, never a flat no), calibrated to this script. Non
+  // streaming, returns a plain JSON array of options. Runs the full model
+  // fallback ladder so a 404 on the first model never leaves the parent with a
+  // dead button, and falls back to line parsing if the JSON is imperfect.
   if (mode === 'suggest') {
-    const suggestSystem = `You are DiGi, a calm parenting coach. The parent is mid practice and unsure what to say next to ${childName} (${stage.ages}) about: ${situation}. Suggest exactly 3 short things they could say next, each ONE natural sentence, warm and calibrated, never a flat no and never a lecture. Lean towards the spirit of saying: "${sayThis}". Steer clear of: "${notThis}". Return ONLY a JSON array of 3 strings. No dashes anywhere.`
-    try {
-      const r = await anthropic.messages.create({
-        model: DIGI_MODEL, max_tokens: 300,
-        system: suggestSystem,
-        messages: messages.length ? messages : [{ role: 'user', content: '(Give three opening lines the parent could start with.)' }],
-      })
-      const text = r.content.filter(b => b.type === 'text').map(b => (b as { text: string }).text).join('')
-      const match = text.match(/\[[\s\S]*\]/)
-      const options = match ? (JSON.parse(match[0]) as unknown[]).filter(x => typeof x === 'string').slice(0, 3) : []
-      return NextResponse.json({ options })
-    } catch {
-      return NextResponse.json({ options: [] })
+    const suggestSystem = `You are DiGi, an evidence led parenting guide. The parent is mid practice and stuck for what to say next to ${childName} (${stage.ages}) about: ${situation}.
+
+Ground your suggestions in what the child mental health evidence shows actually helps in a hard moment: name and validate the feeling before any limit (emotion coaching), stay warm and connected rather than controlling, offer a limit WITH empathy not instead of it, give an element of choice or collaboration, and keep the child's dignity. Never a flat no, never a lecture, never shame.
+
+Suggest exactly 3 short things the parent could say next, each ONE natural spoken sentence a real parent would actually say out loud. Lean towards the spirit of: "${sayThis}". Steer clear of the spirit of: "${notThis}". Return ONLY a JSON array of 3 strings, nothing else. No dashes anywhere.`
+
+    const models = [DIGI_MODEL, ...DIGI_MODEL_FALLBACKS.filter(m => m !== DIGI_MODEL)]
+    for (const model of models) {
+      try {
+        const r = await anthropic.messages.create({
+          model, max_tokens: 320,
+          system: suggestSystem,
+          messages: messages.length ? messages : [{ role: 'user', content: '(Give three opening lines the parent could start with.)' }],
+        })
+        const text = r.content.filter(b => b.type === 'text').map(b => (b as { text: string }).text).join('').trim()
+        let options: string[] = []
+        const match = text.match(/\[[\s\S]*\]/)
+        if (match) {
+          try { options = (JSON.parse(match[0]) as unknown[]).filter(x => typeof x === 'string') } catch { /* fall through to line parse */ }
+        }
+        // Fallback parse: a plain list, one line each, strip bullets and quotes.
+        if (options.length === 0 && text) {
+          options = text.split('\n')
+            .map(l => l.replace(/^\s*(?:[-*•]|\d+[.)])\s*/, '').replace(/^["'"]|["'"]$/g, '').trim())
+            .filter(l => l.length > 0 && !/^\[|\]$/.test(l))
+        }
+        options = options.slice(0, 3)
+        if (options.length > 0) return NextResponse.json({ options })
+      } catch (err) {
+        const isModelError = err instanceof Anthropic.APIError && (err.status === 404 || err.status === 400)
+        if (!isModelError) break
+        // try the next model in the ladder
+      }
     }
+    return NextResponse.json({ options: [], error: 'DiGi could not think of options just now. Try again in a moment.' })
   }
 
   // Coach mode reviews the run just completed; if the parent has not said

@@ -6,6 +6,8 @@ import { KID_LESSONS, kidLessonBaseTitle } from '@/lib/quests/kid-lessons'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { getParentLessons, getCompletionsForChild } from '@/lib/lessons/parent-lessons'
 import { getActiveSession } from '@/lib/quests/device-time'
+import { getMinutesUsedToday } from '@/lib/quests/usage'
+import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
 import { hasFullAccess } from '@/lib/access'
 import KidQuestScreen from './KidQuestScreen'
 
@@ -196,6 +198,13 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   // up where it left off on a refresh.
   const activeSession = await getActiveSession(supabase, link.child_id)
 
+  // The recommended daily viewing for this age, and how much has already been
+  // logged today, so the child's timer can show the balance and gently pause
+  // once they have had their healthy amount. A soft guide, never a hard block.
+  const usedTodayMap = await getMinutesUsedToday(supabase, link.user_id, [link.child_id])
+  const usedTodayMinutes = usedTodayMap.get(link.child_id) ?? 0
+  const recommendedMinutes = recommendedDailyMinutes(ageBand ?? null)
+
   // From school, for the child themselves: the reminders their grown up sent
   // through (one offs due today) and any weekly routine set to reach them
   // automatically on its day. These show as a banner on the child's own
@@ -233,6 +242,8 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       doneLessonKeys={doneLessonKeys}
       bank={bank}
       usedWeekMinutes={usedWeekMinutes}
+      usedTodayMinutes={usedTodayMinutes}
+      recommendedMinutes={recommendedMinutes}
       printablesUnlocked={printablesUnlocked}
       activeSession={activeSession}
       weekChart={weekChart}

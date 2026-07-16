@@ -38,7 +38,7 @@ export type KidSchoolToday = { id: string; title: string; kind: string; time: st
 
 export default function KidQuestScreen({
   token, childName, stageId = 2, quests, todayTicks, weekStars, goal, streakDays = 0, laterQuests = [], doneLessonKeys = [], missions = [],
-  adventures = [], bank = null, usedWeekMinutes = 0, requests = [], printablesUnlocked = true, activeSession = null,
+  adventures = [], bank = null, usedWeekMinutes = 0, usedTodayMinutes = 0, recommendedMinutes = 0, requests = [], printablesUnlocked = true, activeSession = null,
   weekChart = [], schoolToday = [],
 }: {
   token: string
@@ -55,6 +55,8 @@ export default function KidQuestScreen({
   adventures?: KidAdventure[]
   bank?: StarBank | null
   usedWeekMinutes?: number
+  usedTodayMinutes?: number
+  recommendedMinutes?: number
   requests?: KidAsk[]
   printablesUnlocked?: boolean
   activeSession?: ActiveSession | null
@@ -613,7 +615,7 @@ export default function KidQuestScreen({
 
         {/* Device time: turn earned stars into minutes on an agreed device,
             with the countdown and the alarm when the time is up. */}
-        <DeviceTimeCard token={token} balanceStars={bankBalance} initialSession={activeSession} />
+        <DeviceTimeCard token={token} balanceStars={bankBalance} initialSession={activeSession} usedTodayMinutes={usedTodayMinutes} recommendedMinutes={recommendedMinutes} />
 
         {/* Today's goal: enough stars in one day completes the day */}
         {goal?.daily_stars ? (() => {

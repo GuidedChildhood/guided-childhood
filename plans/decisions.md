@@ -849,3 +849,62 @@ Small follow up after the Good Inside sweep merged (PR #295). The design brief h
 ## 2026-07-16 — DiGi rename extended to marketing (pre launch, no SEO cost)
 
 Justin confirmed the child app is good as is and the marketing copy is fine to change since nothing has launched, so the "evidence led guide" reframe now runs across the marketing surfaces too, not just the in app ones: the homepage hero eyebrow, the DiGi feature card title, the pricing line, the join and pathway feature lists, the FAQ answer, the OG and page meta descriptions, and the DigiCharacter alt text. The SEO keyword "AI parenting advisor" became "evidence led parenting guide". Left untouched on purpose: the internal DiGi LLM system prompts (lib/digi/system.ts, safety.ts, insights.ts and the two api routes), which describe DiGi's role to the model and are never seen by a user. Typecheck clean. On PR #297. No SQL.
+
+## 2026-07-16 — Rehearsal voice off by default, Stuck for words fixed, DiGi bounce is a click me, daily viewing guide
+
+A run of live red pen from Justin on the parent app, all backend and behaviour
+(the Mobbin design session owns the visual polish).
+
+**DiGi voice is off by default everywhere, opt in only.** The Rehearse with
+DiGi child voice defaulted on (browser speech), so it spoke unasked and felt
+inconsistent with the click to play Skye voice on scripts. Now voiceOn starts
+false; the button reads Add voice when off and Voice on when on, and turning it
+on reads the child's latest line straight away so the parent hears what they
+switched on. Script reader stays click to play, DiGi chat has no audio, so
+nothing on the platform speaks until asked. Deeper unify of the rehearsal
+browser voice to the generated Skye voice is a later job (dynamic lines cannot
+be pre rendered), noted not done.
+
+**Stuck for words now works and is evidence led.** The suggest button called the
+model directly with no fallback ladder and swallowed any 404 into an empty list,
+so on a bad primary model it silently did nothing. Now it runs the full model
+fallback ladder, parses the JSON array or falls back to line parsing, and on a
+real empty returns a friendly note the card shows instead of a dead button. The
+prompt is rewritten to ground the three lines in the child mental health
+evidence (name and validate the feeling first, connection before correction, a
+limit with empathy, an element of choice, never a flat no or a lecture). Tapping
+a line drops it into the box, then Say it sends it to DiGi.
+
+**Home daily path DiGi is a click me when work remains.** Justin's steer: a
+constant bounce is right only when there is still something to do that day, and
+then it should invite a tap and take them to it. DiGiCharacter gained a once
+prop (one bounce then settle, repeat 0 not -1); TodayPathStrip loops DiGi only
+while a step is outstanding (pressure) and now wraps the bouncing DiGi in a Link
+to the next task with a 👆 Click me, do this next bubble; when the day is done it
+bounces once, celebrates and stops being a button. DigiStreakWidget bounces once
+when the streak is alive today, loops only when it needs keeping warm.
+
+**Quests front door buttons land somewhere.** Set tasks, Screen time and Share
+app read as broken because Set tasks was a no op when already on the manage tab
+and Share switched a tab far below the fold. Now Set tasks scrolls to the quest
+list, Screen time to the screen time card, Share to the tabs (new quest-tabs
+anchor), each landing visibly.
+
+**Push test is honest about where it landed.** The school Send a test said it
+should reach your phone even when the only subscription was the laptop. It now
+names the devices it actually reached (platforms) and, when no Apple push
+endpoint is subscribed, spells out turning notifications on on the phone itself
+(and adding to the home screen first on iPhone).
+
+**Recommended daily viewing, built into the timer (plan: daily-guide-plan.md).**
+Age banded soft guide (from screen-balance BAND), read against minutes logged
+today. New lib/quests/daily-guide.ts (pure state: recommended, used, remaining,
+status under/reached/over) and lib/quests/usage.ts (getMinutesUsedToday, sums
+today's device_sessions plus manual star_spends not tied to a session, so the
+phone timer and the no phone co view mark both count once). Surfaced: the parent
+screen time card shows used vs recommended per child with a treat note when a
+grant would go over; the child timer shows a today's screen time bar and a calm
+you have had your screen time today pause at the guide, still letting them ask a
+grown up for a treat. Never a hard block: the parent holds the real control.
+/api/quests/time/active and the child page carry usedToday plus recommended. No
+migration. All on branch claude/continue-build-ldot8v.

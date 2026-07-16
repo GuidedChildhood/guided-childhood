@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { DEVICES, type DeviceKey, minutesToStars, deviceLabel, deviceEmoji } from '@/lib/quests/device-time'
+import { dailyGuide } from '@/lib/quests/daily-guide'
 
 // The parent's screen time control, one card per child. When a child has time
 // running it shows the same countdown the child sees, and warns the parent
@@ -12,7 +13,7 @@ import { DEVICES, type DeviceKey, minutesToStars, deviceLabel, deviceEmoji } fro
 
 type Session = { id: string; child_id: string; device: DeviceKey; minutes: number; stars: number; ends_at: string; started_at: string }
 type DeviceRequest = { id: string; device: DeviceKey; minutes: number }
-type Kid = { id: string; name: string; balance: number; session: Session | null; trust: string; request: DeviceRequest | null }
+type Kid = { id: string; name: string; balance: number; session: Session | null; trust: string; request: DeviceRequest | null; ageBand?: string | null; usedToday?: number; recommended?: number }
 
 const TRUST_LEVELS: { key: string; label: string; hint: string }[] = [
   { key: 'ask', label: 'Ask first', hint: 'They ask, you say yes before the timer runs.' },
@@ -223,6 +224,11 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>⭐ {kid.balance}</span>
       </div>
 
+      {/* Today's guide: how much this child has already had against the age
+          banded recommendation, so a grant is made with the day in view. A
+          soft steer, never a block. */}
+      <DailyGuideLine usedToday={kid.usedToday ?? 0} recommended={kid.recommended ?? 0} ageBand={kid.ageBand ?? null} addingMinutes={minutes} />
+
       {/* Ask first: the child is waiting on a yes. */}
       {kid.request && (
         <div style={{ border: '1.5px solid var(--terracotta)', background: 'var(--terracotta-lt)', borderRadius: '13px', padding: '11px 13px', marginBottom: '11px' }}>
@@ -297,6 +303,43 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
           : bonus ? `Give ${minutes} min on the ${deviceLabel(device)} 🎁`
           : `Start ${minutes} min · ${cost} stars`}
       </button>
+    </div>
+  )
+}
+
+// The day's recommended viewing at a glance: a slim bar of used against the
+// age banded guide, one plain line, and a quiet treat note when the minutes
+// about to be granted would take the child past the guide for the day. Always
+// a soft steer, never a limit that blocks the parent.
+function DailyGuideLine({ usedToday, recommended, ageBand, addingMinutes }: {
+  usedToday: number; recommended: number; ageBand: string | null; addingMinutes: number
+}) {
+  const g = dailyGuide(ageBand, usedToday)
+  if (recommended <= 0) return null
+  const willTreat = usedToday + addingMinutes > recommended
+  const accent = g.status === 'over' ? '#C0533E' : g.status === 'reached' ? 'var(--terracotta-dark)' : 'var(--retro-green)'
+  return (
+    <div style={{ marginBottom: '11px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8, marginBottom: '4px' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
+          Today, age {g.bandLabel}
+        </span>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, color: accent }}>
+          {g.used} of ~{recommended} min
+        </span>
+      </div>
+      <div style={{ height: 6, borderRadius: 100, background: 'rgba(26,26,46,0.08)', overflow: 'hidden' }}>
+        <div style={{ height: '100%', width: `${g.pct}%`, borderRadius: 100, background: accent, transition: 'width 0.4s ease' }} />
+      </div>
+      {(g.status !== 'under' || willTreat) && (
+        <p style={{ fontSize: '11.5px', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '6px 0 0' }}>
+          {g.status === 'over'
+            ? `That is ${g.overBy} min over today's guide. Anything more is a treat, your call.`
+            : g.status === 'reached'
+            ? `They have had their recommended time today. More is a treat, your call.`
+            : `This grant would take them past today's guide. That is fine as a treat.`}
+        </p>
+      )}
     </div>
   )
 }
