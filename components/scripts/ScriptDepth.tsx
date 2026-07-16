@@ -18,6 +18,8 @@ type Props = {
   initial: Partial<Expansion>
   childName: string | null
   childPhone: string | null
+  childId: string | null
+  childHasApp: boolean
   stageId: string
 }
 
@@ -28,13 +30,15 @@ const DEEP_STEPS = [
 
 const YOUNG_STAGES = ['foundation', 'builder']
 
-export default function ScriptDepth({ sortOrder, initial, childName, childPhone, stageId }: Props) {
+export default function ScriptDepth({ sortOrder, initial, childName, childPhone, childId, childHasApp, stageId }: Props) {
   const hasAll = !!(initial.ifTheyPushBack && initial.checkBack && initial.forYourChild)
   const [expansion, setExpansion] = useState<Expansion | null>(
     hasAll ? (initial as Expansion) : null
   )
   const [loading, setLoading] = useState(!hasAll)
   const [copied, setCopied] = useState(false)
+  const [sending, setSending] = useState(false)
+  const [sent, setSent] = useState<string | null>(null)
 
   useEffect(() => {
     if (hasAll) return
@@ -66,6 +70,31 @@ export default function ScriptDepth({ sortOrder, initial, childName, childPhone,
     } else {
       copy()
     }
+  }
+
+  // Send the note straight to the child's own app, where it is kept to read
+  // again, and pings their phone. Only for a child who has their app set up.
+  const sendToApp = async () => {
+    if (!note || !childId || sending) return
+    setSending(true)
+    setSent(null)
+    try {
+      const res = await fetch('/api/child-share', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ child_id: childId, kind: 'note', title: `A note for ${childName ?? 'you'}`, body: note, ref: String(sortOrder) }),
+      })
+      const d = await res.json().catch(() => ({}))
+      if (res.ok && d.ok) {
+        setSent(d.hasApp
+          ? `Sent to ${childName ?? 'their'}'s app 💛 It is on their phone and saved for them to read again.`
+          : `Saved to ${childName ?? 'their'}'s app 💛 They will see it next time they open their page.`)
+      } else {
+        setSent('Could not send just now. You can still copy it and share it your way.')
+      }
+    } catch {
+      setSent('Could not send just now. You can still copy it and share it your way.')
+    }
+    setSending(false)
   }
 
   const copy = () => {
@@ -147,19 +176,34 @@ export default function ScriptDepth({ sortOrder, initial, childName, childPhone,
 
         <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.75)', lineHeight: 1.5, marginBottom: '16px' }}>
           {isYoung
-            ? 'Too young for a phone? Read it at bedtime, or tuck it into a lunchbox. We never message your child, this note only ever goes from you.'
-            : 'This opens your own Messages app with the note ready to send. We never message your child, it always comes from you.'}
+            ? 'At this age there is no phone, so read it together at bedtime, or tuck it into a lunchbox. It always comes from you, we never message your child.'
+            : childHasApp
+            ? 'This lands in their own app and pings their phone, kept for them to read again. It always comes from you, we never message your child.'
+            : 'This shares the note from you, your own way. It always comes from you, we never message your child.'}
         </p>
 
         <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+          {/* Send to their app is the way for a child who has it, no phone
+              number needed. The read together and copy paths stay for the
+              young ages and the no app families. */}
+          {childHasApp && !isYoung && childId && (
+            <button onClick={sendToApp} disabled={sending} className="btn btn-gold" style={{ padding: '10px 18px', fontSize: '12px', cursor: sending ? 'wait' : 'pointer' }}>
+              {sending ? 'Sending…' : `💛 Send to ${childName ?? 'their'}'s app`}
+            </button>
+          )}
           {smsHref && (
-            <a href={smsHref} className="btn btn-gold" style={{ padding: '10px 18px', fontSize: '12px', textDecoration: 'none' }}>
-              Text it to {childName ?? 'your child'}
+            <a href={smsHref} className={childHasApp && !isYoung ? '' : 'btn btn-gold'} style={{
+              padding: '10px 18px', fontSize: '12px', textDecoration: 'none',
+              ...(childHasApp && !isYoung ? { background: 'transparent', color: '#fff', border: '1.5px solid rgba(255,255,255,0.4)', borderRadius: '16px', fontFamily: 'var(--font-display)', fontWeight: 700 } : {}),
+            }}>
+              Text it instead
             </a>
           )}
-          <button onClick={share} className="btn btn-gold" style={{ padding: '10px 18px', fontSize: '12px', cursor: 'pointer' }}>
-            {smsHref ? 'Share another way' : `Share it with ${childName ?? 'your child'}`}
-          </button>
+          {!(childHasApp && !isYoung) && (
+            <button onClick={share} className="btn btn-gold" style={{ padding: '10px 18px', fontSize: '12px', cursor: 'pointer' }}>
+              {smsHref ? 'Share another way' : `Share it with ${childName ?? 'your child'}`}
+            </button>
+          )}
           <button
             onClick={copy}
             style={{
@@ -172,6 +216,9 @@ export default function ScriptDepth({ sortOrder, initial, childName, childPhone,
             {copied ? 'Copied ✓' : 'Copy the note'}
           </button>
         </div>
+        {sent && (
+          <p style={{ fontSize: '12.5px', color: '#fff', fontWeight: 700, lineHeight: 1.5, margin: '12px 0 0' }}>{sent}</p>
+        )}
       </div>
 
     </div>

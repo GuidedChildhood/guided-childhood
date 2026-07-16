@@ -39,7 +39,7 @@ export type KidSchoolToday = { id: string; title: string; kind: string; time: st
 export default function KidQuestScreen({
   token, childName, stageId = 2, quests, todayTicks, weekStars, goal, streakDays = 0, laterQuests = [], doneLessonKeys = [], missions = [],
   adventures = [], bank = null, usedWeekMinutes = 0, usedTodayMinutes = 0, recommendedMinutes = 0, requests = [], printablesUnlocked = true, activeSession = null,
-  weekChart = [], schoolToday = [],
+  weekChart = [], schoolToday = [], notes = [],
 }: {
   token: string
   childName: string
@@ -62,6 +62,7 @@ export default function KidQuestScreen({
   activeSession?: ActiveSession | null
   weekChart?: { label: string; count: number; today: boolean }[]
   schoolToday?: KidSchoolToday[]
+  notes?: { id: string; kind: string; title: string; body: string; read: boolean }[]
 }) {
   // Only the games, mini lessons and printables that suit this child's
   // stage, so a young child never meets an older child's content.
@@ -612,6 +613,10 @@ export default function KidQuestScreen({
             </span>
           </button>
         )}
+
+        {/* A note from a grown up: shared straight to this app, kept to read
+            again, never a text message. */}
+        <NotesFromGrownUp token={token} notes={notes} />
 
         {/* Device time: turn earned stars into minutes on an agreed device,
             with the countdown and the alarm when the time is up. */}
@@ -1449,6 +1454,55 @@ const SCHOOL_KIND_EMOJI: Record<string, string> = {
 // as a timed one nears (in the last hour, or once it is passed) it turns red
 // and gives a soft pulse, so a dentist at nine reaches the child too. It
 // re-checks the clock every half minute so the red arrives on its own.
+function NotesFromGrownUp({ token, notes }: {
+  token: string
+  notes: { id: string; kind: string; title: string; body: string; read: boolean }[]
+}) {
+  // Already read notes fold away, so the card only ever shows what is new to
+  // read. Tapping Got it marks it read on the server and tucks it away, but it
+  // still lives in their app history for the grown up.
+  const [dismissed, setDismissed] = useState<Set<string>>(() => new Set(notes.filter(n => n.read).map(n => n.id)))
+  const visible = notes.filter(n => !dismissed.has(n.id))
+  if (visible.length === 0) return null
+
+  const gotIt = (id: string) => {
+    setDismissed(prev => { const next = new Set(prev); next.add(id); return next })
+    fetch('/api/child-share', {
+      method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token, id }),
+    }).catch(() => { /* it still shows read on next open */ })
+  }
+
+  return (
+    <div style={{ marginBottom: '16px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+      {visible.map(n => (
+        <div key={n.id} style={{ background: '#fff', borderRadius: '18px', padding: '16px 18px', boxShadow: '0 5px 0 rgba(0,0,0,0.14)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 9 }}>
+            <span style={{ fontSize: '1.4rem', lineHeight: 1 }}>💛</span>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
+              A note for you
+            </span>
+          </div>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: '15.5px', color: 'var(--ink)', lineHeight: 1.6, fontStyle: 'italic', margin: '0 0 14px' }}>
+            {n.body}
+          </p>
+          <button
+            onClick={() => gotIt(n.id)}
+            style={{
+              width: '100%', padding: '12px', borderRadius: '14px', border: 'none', cursor: 'pointer',
+              background: 'var(--terracotta)', color: 'var(--ink)',
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px',
+              boxShadow: '0 4px 0 var(--terracotta-dark)',
+            }}
+          >
+            Got it, thank you 💛
+          </button>
+        </div>
+      ))}
+    </div>
+  )
+}
+
 function KidSchoolBanner({ items }: { items: KidSchoolToday[] }) {
   // null until mounted, so the first client render matches the server and the
   // red only arrives once the clock is ticking on the child's own device.

@@ -205,6 +205,22 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   const usedTodayMinutes = usedTodayMap.get(link.child_id) ?? 0
   const recommendedMinutes = recommendedDailyMinutes(ageBand ?? null)
 
+  // Notes and scripts a grown up shared to this child's own app, newest first.
+  // These land here instead of a text message, and stay to be read again.
+  const { data: shareRows } = await supabase
+    .from('child_shares')
+    .select('id, kind, title, body, created_at, read_at')
+    .eq('child_id', link.child_id)
+    .order('created_at', { ascending: false })
+    .limit(12)
+  const notes = (shareRows ?? []).map(n => ({
+    id: n.id as string,
+    kind: n.kind as string,
+    title: n.title as string,
+    body: n.body as string,
+    read: Boolean(n.read_at),
+  }))
+
   // From school, for the child themselves: the reminders their grown up sent
   // through (one offs due today) and any weekly routine set to reach them
   // automatically on its day. These show as a banner on the child's own
@@ -249,6 +265,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       weekChart={weekChart}
       requests={(requestsRes.data ?? []) as { id: string; title: string; emoji: string; status: string }[]}
       schoolToday={schoolToday}
+      notes={notes}
     />
   )
 }

@@ -178,10 +178,10 @@ export default function TodayPathStrip({ tasks, dailyMinutes = 10 }: { tasks: To
 
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px', padding: '0 4px' }}>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
-          Today&apos;s path
+          {dayDone ? 'Today' : 'Today · do this next'}
         </span>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: dayDone ? 'var(--terracotta-dark)' : 'var(--ink-muted)' }}>
-          {dayDone ? 'Today done' : `${doneCount} of ${requiredCount}`}
+          {dayDone ? 'All done ✓' : `${doneCount} of ${requiredCount}`}
         </span>
       </div>
 
