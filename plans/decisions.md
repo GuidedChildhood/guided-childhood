@@ -737,3 +737,31 @@ Justin sent a run of Good Inside screenshots as the north star: DiGi comes up fi
 ## 2026-07-16 — Email funnel confirmed: in house on Resend, trial not waitlist
 
 Justin confirmed both open questions. (1) Stay in house on Resend and the database for the whole funnel, not Mailchimp and not a third party lifecycle tool for now; Loops.so stays a later option only if a no code editor is wanted. (2) Yes to trial over waitlist. On inspection the starter quiz already creates the account and starts the 7 day trial at the end (trial_ends_at set via trialEndsFromNow), so there is no parent waitlist left in the app to remove; that was the old external Mailchimp list. School waitlist stays separate (the Mailchimp school enquiry form) until we bring it into the database. Next build unlocked: a status aware funnel on Resend, one contacts model across leads, magnet leads and parents, with a computed lifecycle_state (lead, trialing, trial_ending, active, lapsed) so the lifecycle emails branch by state, trial nurture stops on payment and win back starts on lapse. Non urgent since the trial already works; queued behind the Quests area redesign.
+
+## 2026-07-16 — Handoff to the Mobbin design session: DiGi rename + chat flow
+
+Assigned to the concurrent Mobbin connected design session, not this one, to
+avoid two sessions editing the DiGi chat UI at once.
+
+1. Rename the chat header eyebrow from "Your AI advisor" to "Your evidence led
+   guide" in app/(dashboard)/dashboard/digi/DigiChat.tsx (around line 485).
+   DiGi is a warm guide grounded in research, not a generic AI advisor. No
+   dashes in the copy. Optional later consistency pass on the marketing
+   mentions of "DiGi AI advisor" (pathway, join, home page), not urgent.
+
+2. Make the DiGi chat read as one flowing thread, matching the welcome sheet.
+   The DigiWelcomeSheet (components/digi/DigiWelcomeSheet.tsx) flows: big warm
+   Nunito, generous line height, cream ground, one voice. The chat currently
+   renders DiGi replies as separate stacked white cards that read as boxed
+   fragments. Target: group consecutive DiGi lines into one soft continuous
+   bubble or column rather than N bordered cards; warmer type (Nunito ~15 to
+   16px, line height ~1.6, ink slightly softened); a cream or terracotta-lt
+   ground for DiGi turns with the parent's turns kept visually distinct;
+   generous spacing, rounded, no harsh separators; keep the calm "Reflection
+   saved" footer. Pull live Mobbin references for AI chat / conversation
+   patterns before finalising, then translate into our butter and ink.
+
+Also shipped this session on PR 288 (backend, no UI overlap): school
+reminders now push the child's phone as well as the parent PWA for child
+appropriate one off items (kit, event, homework) the night before; weekly
+routines already did this.
