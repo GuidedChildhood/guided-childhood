@@ -25,6 +25,7 @@ export type SchoolAction = {
   sent_to_child?: boolean
   recurs_weekday?: number | null
   auto_send_to_child?: boolean
+  cleared_on?: string | null
 }
 
 const KIND_STYLE: Record<string, { label: string; bg: string; color: string }> = {
@@ -128,6 +129,29 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
         body: JSON.stringify({ id, status }),
       })
     } catch { /* non blocking */ }
+  }
+
+  // A weekly routine cleared for today: it stays in the list (it is coming back
+  // next week) but steps back from today's reminders, so clearing PE kit does
+  // not delete the routine. Delete (Remove) is the way to end it for good.
+  const todayStr = nowMs != null ? new Date(nowMs).toISOString().slice(0, 10) : ''
+  const [clearedIds, setClearedIds] = useState<Set<string>>(new Set())
+  // Seed from the server once the client clock is in: a routine whose cleared_on
+  // is today is already cleared for today.
+  useEffect(() => {
+    if (!todayStr) return
+    const seed = initial.filter(a => a.recurs_weekday != null && String(a.cleared_on ?? '') === todayStr).map(a => a.id)
+    if (seed.length) setClearedIds(s => { const n = new Set(s); seed.forEach(id => n.add(id)); return n })
+  }, [todayStr, initial])
+  const clearForToday = async (id: string) => {
+    setClearedIds(s => { const n = new Set(s); n.add(id); return n })
+    try {
+      await fetch('/api/school/actions', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, clear_today: true }),
+      })
+    } catch { /* non blocking, it still holds for this view */ }
   }
 
   const addReminder = async () => {
@@ -425,11 +449,26 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
                     → {childName ?? 'them'} weekly
                   </span>
                 )}
+                {/* On its own day, a routine can be cleared just for today: it
+                    stays in this list for next week, only steps back from
+                    today's reminders. Delete ends it for good. */}
+                {nowMs != null && a.recurs_weekday === new Date(nowMs).getDay() && (
+                  clearedIds.has(a.id) ? (
+                    <span style={{ fontSize: '11px', fontWeight: 700, color: 'var(--ink-muted)', flexShrink: 0 }}>Cleared for today ✓</span>
+                  ) : (
+                    <button
+                      onClick={() => clearForToday(a.id)}
+                      style={{ background: '#fff', border: '1.5px solid var(--terracotta)', borderRadius: '100px', padding: '5px 12px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: '11.5px', fontWeight: 800, color: 'var(--terracotta-dark)', flexShrink: 0 }}
+                    >
+                      Clear for today ✓
+                    </button>
+                  )
+                )}
                 <button
                   onClick={() => settle(a.id, 'dismissed')}
                   style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '11px', color: 'var(--ink-muted)', flexShrink: 0 }}
                 >
-                  Remove
+                  Delete
                 </button>
               </div>
             ))}

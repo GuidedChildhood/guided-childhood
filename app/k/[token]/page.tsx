@@ -229,12 +229,16 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   const todayWeekday = new Date().getDay()
   const { data: schoolRows } = await supabase
     .from('school_actions')
-    .select('id, title, kind, due_date, due_time, recurs_weekday, sent_to_child, auto_send_to_child')
+    .select('id, title, kind, due_date, due_time, recurs_weekday, sent_to_child, auto_send_to_child, cleared_on')
     .eq('user_id', link.user_id)
     .eq('status', 'open')
     .or(`due_date.eq.${today},recurs_weekday.eq.${todayWeekday}`)
   const schoolToday = (schoolRows ?? [])
-    .filter(a => a.recurs_weekday != null ? a.auto_send_to_child : a.sent_to_child)
+    // A weekly routine the grown up already cleared for today steps back from
+    // the child's banner too, not just the parent's list.
+    .filter(a => a.recurs_weekday != null
+      ? a.auto_send_to_child && String((a as { cleared_on?: string | null }).cleared_on ?? '') !== today
+      : a.sent_to_child)
     .map(a => ({
       id: a.id as string,
       title: a.title as string,

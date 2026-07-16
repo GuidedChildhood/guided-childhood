@@ -30,7 +30,7 @@ export async function getNotifications(supabase: NotifClient, userId: string): P
     supabase.from('family_quests').select('id, title, emoji').eq('user_id', userId),
     supabase.from('quest_ticks').select('id, quest_id, child_id, tick_date').eq('user_id', userId).eq('status', 'pending').gte('tick_date', weekAgo),
     supabase.from('quest_requests').select('id, child_id, title, emoji, created_at, status').eq('user_id', userId).eq('status', 'pending'),
-    supabase.from('school_actions').select('id, title, due_date, created_at').eq('user_id', userId).eq('status', 'open'),
+    supabase.from('school_actions').select('id, title, due_date, created_at, recurs_weekday, cleared_on').eq('user_id', userId).eq('status', 'open'),
     supabase.from('digi_prompts').select('id, kind, title, body, href, created_at').eq('user_id', userId).eq('status', 'pending'),
     supabase.from('device_sessions').select('id, child_id, device, ends_at').eq('user_id', userId).eq('status', 'active').gt('ends_at', new Date().toISOString()),
   ])
@@ -78,14 +78,24 @@ export async function getNotifications(supabase: NotifClient, userId: string): P
     })
   }
 
-  // Something from school still open.
+  // Something from school still open. A one off shows until it is done. A
+  // weekly routine (PE kit every Thursday) only shows on its own weekday, and
+  // once cleared for today it steps back until next week, so it never nags
+  // every single day.
+  const today = new Date().toISOString().slice(0, 10)
+  const todayWeekday = new Date().getDay()
   for (const s of schoolRes.data ?? []) {
-    const due = s.due_date ? ` · due ${String(s.due_date)}` : ''
+    const recurs = (s as { recurs_weekday?: number | null }).recurs_weekday
+    if (recurs != null) {
+      if (recurs !== todayWeekday) continue
+      if (String((s as { cleared_on?: string | null }).cleared_on ?? '') === today) continue
+    }
+    const due = s.due_date ? ` · due ${String(s.due_date)}` : recurs != null ? ' · today' : ''
     items.push({
       id: `school-${s.id}`, kind: 'school', icon: '🏫', urgent: false,
       title: s.title as string,
       body: `From school${due}`,
-      href: '/dashboard/school', at: String(s.created_at ?? s.due_date ?? ''),
+      href: '/dashboard/school', at: String(s.created_at ?? s.due_date ?? today),
     })
   }
 

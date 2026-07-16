@@ -995,3 +995,25 @@ Justin: nothing that has said its piece should sit on screen forever.
   shows for about four seconds after a reflection saves, then fades, via a
   separate reflectionToast state so reflectionDone stays true and the prompt
   never resurfaces.
+
+## 2026-07-16 — Weekly school routines: clear for today, keep the reminder (migration 065)
+
+Justin: clearing a weekly reminder (PE kit) should clear it for today only, not
+delete the routine, with a delete for when they really want it gone. Two things
+were wrong: a recurring routine showed in the notifications bell every single
+day (not only its weekday), and the only clear on it was Remove, which deleted
+the whole routine.
+
+- Migration 065 adds school_actions.cleared_on (date). Clearing a routine for
+  today stamps cleared_on = today (server side); the row stays open and comes
+  back next week.
+- /api/school/actions PATCH takes clear_today: true and stamps cleared_on;
+  done / dismissed still end a one off or delete a routine.
+- The notifications feed (collect.ts) now shows a recurring routine only on its
+  own weekday, and holds it back once cleared for today, so it never nags daily.
+- The school card shows Clear for today on a routine on its day (it stays in the
+  Every week list, marked Cleared for today), and Remove became Delete for
+  ending it for good.
+- The child's From school banner also respects cleared_on, so a cleared routine
+  steps back from the child's screen too. The Home Screen app badge already
+  ignored recurring routines, so no change there.
