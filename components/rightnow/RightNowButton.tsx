@@ -217,13 +217,13 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
             ...(variant === 'fab'
               ? { bottom: '150px', right: '14px' }
               : { bottom: '92px', left: '50%', transform: 'translateX(-50%)' }),
-            // Warm brand espresso with a soft gold glow and a faint gold
-            // hairline, so it reads as a crafted tip, not a stark black box.
-            background: 'radial-gradient(130% 120% at 88% -20%, rgba(237,195,95,0.26), transparent 55%), linear-gradient(155deg, #4B3F29 0%, #3C3221 100%)',
-            color: '#FFF8EC',
-            border: '1px solid rgba(237,195,95,0.22)',
+            // Warm and light, in the brand butter, so it reads as a friendly
+            // tip and not a stark black box. Dark ink text keeps it readable.
+            background: '#fff',
+            color: 'var(--ink)',
+            border: '1.5px solid var(--terracotta)',
             borderRadius: '18px', padding: '15px 40px 15px 17px',
-            boxShadow: 'inset 0 1px 0 rgba(255,248,236,0.10), 0 14px 34px -12px rgba(40,28,8,0.6)',
+            boxShadow: '0 14px 34px -12px rgba(26,26,46,0.24)',
           }}
         >
           {/* An obvious way out: a real close control, not click the bubble */}
@@ -233,22 +233,23 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
             aria-label="Dismiss tip"
             style={{
               position: 'absolute', top: '9px', right: '9px',
-              width: '26px', height: '26px', borderRadius: '50%',
-              background: 'rgba(255,248,236,0.12)', border: '1px solid rgba(255,248,236,0.18)',
-              color: '#FFF8EC', fontSize: '14px', lineHeight: 1, cursor: 'pointer',
+              width: '28px', height: '28px', borderRadius: '50%',
+              background: 'var(--cream)', border: '1px solid var(--border)',
+              color: 'var(--ink-muted)', fontSize: '14px', lineHeight: 1, cursor: 'pointer',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}
           >
             ✕
           </button>
-          <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', margin: '0 0 5px', letterSpacing: '-0.01em' }}>
+          <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', margin: '0 0 5px', letterSpacing: '-0.01em', color: 'var(--ink)' }}>
             Mid meltdown? This button.
           </p>
-          <p style={{ fontFamily: 'var(--font-body)', fontWeight: 500, fontSize: '13px', lineHeight: 1.55, margin: 0, color: 'rgba(255,251,244,0.90)' }}>
+          <p style={{ fontFamily: 'var(--font-body)', fontWeight: 500, fontSize: '13px', lineHeight: 1.55, margin: 0, color: 'var(--ink-soft)' }}>
             When a hard moment is happening, tap Now, pick the situation, and the calm words appear. Two taps, no searching.
           </p>
           <div className="rightnow-hint-arrow" style={{
-            position: 'absolute', bottom: '-7px', width: '14px', height: '14px', background: '#3C3221',
+            position: 'absolute', bottom: '-7px', width: '14px', height: '14px', background: '#fff',
+            borderRight: '1.5px solid var(--terracotta)', borderBottom: '1.5px solid var(--terracotta)',
             ...(variant === 'fab'
               ? { right: '28px', transform: 'rotate(45deg)' }
               : { left: '50%', transform: 'translateX(-50%) rotate(45deg)' }),

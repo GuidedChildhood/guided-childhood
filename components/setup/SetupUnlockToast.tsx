@@ -57,16 +57,38 @@ export default function SetupUnlockToast({ flags }: { flags: SetupFlags }) {
       transition: 'transform 0.35s ease, opacity 0.35s ease',
       zIndex: 90, width: 'min(94vw, 440px)',
     }}>
+      {/* Warm and light, in the brand butter, never a stark black box. The
+          check sits in a soft butter chip, and there is a real cross to shut
+          it, as well as a tap anywhere on the card. */}
       <div
-        onClick={dismiss}
         style={{
-          background: 'var(--deep-teal)', color: '#fff', borderRadius: '16px',
-          padding: '16px 18px', cursor: 'pointer', boxShadow: '0 10px 34px rgba(23,60,70,0.35)',
-          display: 'flex', gap: '10px', alignItems: 'flex-start',
+          position: 'relative', background: '#fff', color: 'var(--ink)',
+          border: '1.5px solid var(--border)', borderRadius: '18px',
+          padding: '15px 44px 15px 15px',
+          boxShadow: '0 12px 34px -10px rgba(26,26,46,0.22)',
+          display: 'flex', gap: '11px', alignItems: 'flex-start', cursor: 'pointer',
         }}
+        onClick={dismiss}
       >
-        <span style={{ fontSize: '18px', lineHeight: 1, flexShrink: 0 }}>✓</span>
-        <span style={{ fontSize: '14.5px', lineHeight: 1.5, fontWeight: 600 }}>{queue[0]}</span>
+        <span style={{
+          flexShrink: 0, width: 30, height: 30, borderRadius: '50%',
+          background: 'var(--terracotta-lt)', border: '1px solid var(--terracotta)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          fontSize: '15px', lineHeight: 1, color: 'var(--terracotta-dark)', fontWeight: 900,
+        }}>✓</span>
+        <span style={{ fontSize: '14.5px', lineHeight: 1.5, fontWeight: 600, color: 'var(--ink)' }}>{queue[0]}</span>
+        <button
+          type="button"
+          aria-label="Close"
+          onClick={(e) => { e.stopPropagation(); dismiss() }}
+          style={{
+            position: 'absolute', top: '9px', right: '9px',
+            width: '28px', height: '28px', borderRadius: '50%', flexShrink: 0,
+            background: 'var(--cream)', border: '1px solid var(--border)',
+            color: 'var(--ink-muted)', fontSize: '14px', lineHeight: 1, cursor: 'pointer',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}
+        >✕</button>
       </div>
     </div>
   )
