@@ -449,20 +449,19 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
                     → {childName ?? 'them'} weekly
                   </span>
                 )}
-                {/* On its own day, a routine can be cleared just for today: it
-                    stays in this list for next week, only steps back from
-                    today's reminders. Delete ends it for good. */}
-                {nowMs != null && a.recurs_weekday === new Date(nowMs).getDay() && (
-                  clearedIds.has(a.id) ? (
-                    <span style={{ fontSize: '11px', fontWeight: 700, color: 'var(--ink-muted)', flexShrink: 0 }}>Cleared for today ✓</span>
-                  ) : (
-                    <button
-                      onClick={() => clearForToday(a.id)}
-                      style={{ background: '#fff', border: '1.5px solid var(--terracotta)', borderRadius: '100px', padding: '5px 12px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: '11.5px', fontWeight: 800, color: 'var(--terracotta-dark)', flexShrink: 0 }}
-                    >
-                      Clear for today ✓
-                    </button>
-                  )
+                {/* A routine can be cleared just for today: it stays in this
+                    list for next week and only steps back from today's
+                    reminders (and the notifications bell on its day). Delete
+                    ends it for good. */}
+                {clearedIds.has(a.id) ? (
+                  <span style={{ fontSize: '11px', fontWeight: 700, color: 'var(--ink-muted)', flexShrink: 0 }}>Cleared for today ✓</span>
+                ) : (
+                  <button
+                    onClick={() => clearForToday(a.id)}
+                    style={{ background: '#fff', border: '1.5px solid var(--terracotta)', borderRadius: '100px', padding: '5px 12px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: '11.5px', fontWeight: 800, color: 'var(--terracotta-dark)', flexShrink: 0 }}
+                  >
+                    Clear for today ✓
+                  </button>
                 )}
                 <button
                   onClick={() => settle(a.id, 'dismissed')}
