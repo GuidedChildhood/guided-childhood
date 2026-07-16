@@ -983,3 +983,15 @@ tapped it. NotificationCard (new client card) marks a DiGi prompt acted on tap
 pending, so it is gone from the count next look. The action notifications
 (approve, a child's ask, school) still clear only when the parent actually does
 the thing on the target page, so a stray tap never loses one.
+
+## 2026-07-16 — Two transient messages now ease away instead of lingering
+
+Justin: nothing that has said its piece should sit on screen forever.
+
+- The Mid meltdown coach mark on the Help now button now eases itself away after
+  two minutes (and counts as seen so it does not pop again), rather than waiting
+  for the parent to close it. The X still dismisses it early.
+- The Reflection saved, DiGi will use this tomorrow line in the DiGi chat now
+  shows for about four seconds after a reflection saves, then fades, via a
+  separate reflectionToast state so reflectionDone stays true and the prompt
+  never resurfaces.
