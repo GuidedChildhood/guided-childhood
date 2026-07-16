@@ -60,7 +60,7 @@
 
   /* ── CHILD APP BACKGROUND ── one faded pastel wash, pink up top into
      lavender, used across every child screen so they always match. */
-  --kid-bg: linear-gradient(170deg, #FCE0EE 0%, #F6E3F3 48%, #EAE7FB 100%);
+  --kid-bg: linear-gradient(170deg, #F8C9E1 0%, #EFCFEC 48%, #DED9F6 100%);
 
   /* ── LEGACY ALIASES ── */
   --warm:              var(--cream);
