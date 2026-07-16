@@ -17,9 +17,15 @@ export type QuestTemplate = {
 }
 
 // The family exchange rate: what one star is worth in screen minutes.
-// Shown wherever stars appear so the deal is always concrete. Becomes a
-// per family setting with the agreement integration.
-export const STAR_MINUTES = 5
+// Shown wherever stars appear so the deal is always concrete. A config value
+// like DIGI_MODEL, tunable per environment through NEXT_PUBLIC_STAR_MINUTES
+// without a code change, defaulting to 5 when unset or invalid. All eighteen
+// read sites pick this up automatically. The per child, parent set rate is the
+// larger follow up that needs the picker and the star bank threaded through.
+export const STAR_MINUTES = (() => {
+  const raw = Number(process.env.NEXT_PUBLIC_STAR_MINUTES)
+  return Number.isFinite(raw) && raw >= 1 && raw <= 60 ? Math.round(raw) : 5
+})()
 
 // Why play pays best, in the parent's language. Shown next to the
 // templates so the star values read as a philosophy, not an accident.

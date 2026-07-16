@@ -795,6 +795,35 @@ Verification (background agent) drove three deliberate edits away from the sourc
 
 The Quests redesign brief (quests-redesign.md) and the Good Inside design language entry both flagged that Mobbin was offline the day they were written, so StarSummary and the front door were built from the documented spirit only, not live screens. Mobbin is back. Pulled fresh screens for every pattern the plan names and wrote them up in design-refs/quests-mobbin-notes.md, each pattern linked to the exact Mobbin screen so a builder can open it while working. Highlights that change the build: GoHenry's child earning screen shows the week as one segmented bar (Allowance, Tasks done, To do) rather than three flat tiles, so fold our waiting/to do/this week tiles into one bar with the tiles as tap targets below; Greenlight's parent home proves a stat card reads as tappable only when it carries a one word action sublabel (Manage), so our three tiles each need a Review/Open/Adjust line; Opal's Blocks screen is the exact model for the live device timer, a single running session card with the remaining time big and a draining progress underline, PWA mirrors it, never a lock; Greenlight's set allowance screen already ships the age aware recommendation box that the DiGi screen time balance insight should copy (recommended balance, age named, one honest sentence, never a rule); LookUp/Byte/GoHenry Learn for the four big labelled front door tiles, we alternate butter and cream not a saturated wall; Finch for celebration that rewards the choice and growth (egg hatching, weekly star, streak framed as days done not loss aversion), which doubles as the safety template for the child insight surface; Duolingo ABC and BitePal for the child insight card shape, one big bubble headline, one squad character, one idea, one gentle dismiss. Skip list recorded too: no saturated colour walls, no loss aversion streak copy, no passcode lock as the timer spine (Parent PIN stays parked), never their fonts. This unblocks slices 1 to 3 of the Quests redesign; no code changed this session, references only. Draft PR opened on claude/mobbin-ux-references-i142dd. No SQL.
 
+## 2026-07-16 — Email funnel status layer, deliverability hygiene, and config knobs (backend batch)
+
+Built the status aware email funnel end to end on Resend and the database, no
+new vendor. lib/email/lifecycle.ts computes a contact's state (lead, trialing,
+trial_ending, active, lapsed) from the fields we already hold. The daily cron
+now branches on state, not just day counts: a trial ending nudge two days
+before a no card trial runs out, a win back a couple of days after a trial
+lapses unpaid (held so it never lands the same day as the day 7 founder
+email), and a lead nurture (migration 063, starter_leads.nurtured_at) that
+sends one come start the trial email to a captured email with no account,
+excluding anyone who already has a profile (the converted flag is never set,
+so profiles is the source of truth). Nurture stops on payment because an
+active member is never in the trial_ending or lapsed state. Deliverability
+hygiene: /api/email/webhook suppresses hard bounces and spam complaints
+(email_opt_out for members, nurtured_at for leads), soft bounces ignored,
+svix verified against RESEND_WEBHOOK_SECRET. Also this batch: the Stripe
+checkout can require a Terms tick (consent_collection) behind
+STRIPE_TOS_CONSENT env because it needs a Terms URL in the Stripe Dashboard
+first; school reminders now reach the child's phone and the parent's inbox
+(strong subject, fix it link) not only the parent PWA, aligned across the
+morning and evening crons to child appropriate kinds only; the screens gate
+(before screens quests locking the timer) is now shown to the parent on the
+Quests page; and STAR_MINUTES became a config value (NEXT_PUBLIC_STAR_MINUTES,
+default 5) so the exchange rate is tunable without code. Config to set when
+ready: run migrations 061, 062, 063; RESEND_WEBHOOK_SECRET plus a Resend
+webhook at /api/email/webhook for bounced and complained; Terms URL in Stripe
+then STRIPE_TOS_CONSENT=on. All on PR 296, clean and mergeable. The per child
+parent set rate and the Quests slice 3 send to child persisted state remain UI
+work for the design session, not built in parallel.
 ## 2026-07-16 — Mobbin polish pass: Quests readability, balance bar, and DiGi as one flowing voice
 
 The Quests redesign (slices 1 to 3 and the child insight surface) had already shipped from a parallel session (PR #293) while this session pulled the Mobbin references, so this session did the "before final polish" the plan deferred to when Mobbin reconnected, plus two live design asks from Justin. Five files, references only where noted, all typecheck clean and screenshot verified in a throwaway harness (deleted before commit).
@@ -820,3 +849,62 @@ Small follow up after the Good Inside sweep merged (PR #295). The design brief h
 ## 2026-07-16 — DiGi rename extended to marketing (pre launch, no SEO cost)
 
 Justin confirmed the child app is good as is and the marketing copy is fine to change since nothing has launched, so the "evidence led guide" reframe now runs across the marketing surfaces too, not just the in app ones: the homepage hero eyebrow, the DiGi feature card title, the pricing line, the join and pathway feature lists, the FAQ answer, the OG and page meta descriptions, and the DigiCharacter alt text. The SEO keyword "AI parenting advisor" became "evidence led parenting guide". Left untouched on purpose: the internal DiGi LLM system prompts (lib/digi/system.ts, safety.ts, insights.ts and the two api routes), which describe DiGi's role to the model and are never seen by a user. Typecheck clean. On PR #297. No SQL.
+
+## 2026-07-16 — Rehearsal voice off by default, Stuck for words fixed, DiGi bounce is a click me, daily viewing guide
+
+A run of live red pen from Justin on the parent app, all backend and behaviour
+(the Mobbin design session owns the visual polish).
+
+**DiGi voice is off by default everywhere, opt in only.** The Rehearse with
+DiGi child voice defaulted on (browser speech), so it spoke unasked and felt
+inconsistent with the click to play Skye voice on scripts. Now voiceOn starts
+false; the button reads Add voice when off and Voice on when on, and turning it
+on reads the child's latest line straight away so the parent hears what they
+switched on. Script reader stays click to play, DiGi chat has no audio, so
+nothing on the platform speaks until asked. Deeper unify of the rehearsal
+browser voice to the generated Skye voice is a later job (dynamic lines cannot
+be pre rendered), noted not done.
+
+**Stuck for words now works and is evidence led.** The suggest button called the
+model directly with no fallback ladder and swallowed any 404 into an empty list,
+so on a bad primary model it silently did nothing. Now it runs the full model
+fallback ladder, parses the JSON array or falls back to line parsing, and on a
+real empty returns a friendly note the card shows instead of a dead button. The
+prompt is rewritten to ground the three lines in the child mental health
+evidence (name and validate the feeling first, connection before correction, a
+limit with empathy, an element of choice, never a flat no or a lecture). Tapping
+a line drops it into the box, then Say it sends it to DiGi.
+
+**Home daily path DiGi is a click me when work remains.** Justin's steer: a
+constant bounce is right only when there is still something to do that day, and
+then it should invite a tap and take them to it. DiGiCharacter gained a once
+prop (one bounce then settle, repeat 0 not -1); TodayPathStrip loops DiGi only
+while a step is outstanding (pressure) and now wraps the bouncing DiGi in a Link
+to the next task with a 👆 Click me, do this next bubble; when the day is done it
+bounces once, celebrates and stops being a button. DigiStreakWidget bounces once
+when the streak is alive today, loops only when it needs keeping warm.
+
+**Quests front door buttons land somewhere.** Set tasks, Screen time and Share
+app read as broken because Set tasks was a no op when already on the manage tab
+and Share switched a tab far below the fold. Now Set tasks scrolls to the quest
+list, Screen time to the screen time card, Share to the tabs (new quest-tabs
+anchor), each landing visibly.
+
+**Push test is honest about where it landed.** The school Send a test said it
+should reach your phone even when the only subscription was the laptop. It now
+names the devices it actually reached (platforms) and, when no Apple push
+endpoint is subscribed, spells out turning notifications on on the phone itself
+(and adding to the home screen first on iPhone).
+
+**Recommended daily viewing, built into the timer (plan: daily-guide-plan.md).**
+Age banded soft guide (from screen-balance BAND), read against minutes logged
+today. New lib/quests/daily-guide.ts (pure state: recommended, used, remaining,
+status under/reached/over) and lib/quests/usage.ts (getMinutesUsedToday, sums
+today's device_sessions plus manual star_spends not tied to a session, so the
+phone timer and the no phone co view mark both count once). Surfaced: the parent
+screen time card shows used vs recommended per child with a treat note when a
+grant would go over; the child timer shows a today's screen time bar and a calm
+you have had your screen time today pause at the guide, still letting them ask a
+grown up for a treat. Never a hard block: the parent holds the real control.
+/api/quests/time/active and the child page carry usedToday plus recommended. No
+migration. All on branch claude/continue-build-ldot8v.

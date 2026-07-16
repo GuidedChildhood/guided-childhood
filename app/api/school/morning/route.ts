@@ -29,15 +29,24 @@ export async function GET(req: NextRequest) {
   const { dateStr: today, weekday } = ukToday()
 
   const [{ data: dueToday }, { data: routines }] = await Promise.all([
-    supabase.from('school_actions').select('user_id, title').eq('status', 'open').eq('due_date', today),
-    supabase.from('school_actions').select('user_id, title').eq('status', 'open').eq('recurs_weekday', weekday),
+    supabase.from('school_actions').select('user_id, title, kind').eq('status', 'open').eq('due_date', today),
+    supabase.from('school_actions').select('user_id, title, kind').eq('status', 'open').eq('recurs_weekday', weekday),
   ])
 
+  // The parent hears about everything; the child only about the things they
+  // can act on themselves (kit, events, homework), never payments or notices.
+  const CHILD_KINDS = new Set(['kit', 'event', 'homework'])
   const byUser = new Map<string, string[]>()
+  const childByUser = new Map<string, string[]>()
   for (const a of [...(dueToday ?? []), ...(routines ?? [])]) {
     const list = byUser.get(a.user_id) ?? []
     if (!list.includes(a.title)) list.push(a.title)
     byUser.set(a.user_id, list)
+    if (a.kind && CHILD_KINDS.has(a.kind)) {
+      const clist = childByUser.get(a.user_id) ?? []
+      if (!clist.includes(a.title)) clist.push(a.title)
+      childByUser.set(a.user_id, clist)
+    }
   }
 
   const origin = process.env.NEXT_PUBLIC_APP_URL ?? req.nextUrl.origin
@@ -57,15 +66,22 @@ export async function GET(req: NextRequest) {
       })
       if ((await r.json()).sent > 0) parents++
     } catch { /* best effort */ }
-    // The child's own devices, so they know what to grab too.
-    try {
-      const r = await fetch(`${origin}/api/push/send`, {
-        method: 'POST',
-        headers: { 'content-type': 'application/json', authorization: `Bearer ${process.env.CRON_SECRET}` },
-        body: JSON.stringify({ userId, audience: 'kids', title: 'For school today 🎒', body }),
-      })
-      if ((await r.json()).sent > 0) kids++
-    } catch { /* best effort */ }
+    // The child's own devices, so they know what to grab too. Only the child
+    // appropriate items, so they never get a payment or a plain notice.
+    const childTitles = childByUser.get(userId)
+    if (childTitles && childTitles.length > 0) {
+      const childBody = childTitles.length === 1
+        ? `Today: ${childTitles[0]}.`
+        : `Today: ${childTitles.slice(0, 3).join(', ')}${childTitles.length > 3 ? ', and more' : ''}.`
+      try {
+        const r = await fetch(`${origin}/api/push/send`, {
+          method: 'POST',
+          headers: { 'content-type': 'application/json', authorization: `Bearer ${process.env.CRON_SECRET}` },
+          body: JSON.stringify({ userId, audience: 'kids', title: 'For school today 🎒', body: childBody }),
+        })
+        if ((await r.json()).sent > 0) kids++
+      } catch { /* best effort */ }
+    }
   }
 
   return NextResponse.json({ ok: true, families: byUser.size, parents, kids })

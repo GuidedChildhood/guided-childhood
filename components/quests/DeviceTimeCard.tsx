@@ -19,11 +19,13 @@ function fmt(totalSeconds: number): string {
 }
 
 export default function DeviceTimeCard({
-  token, balanceStars, initialSession,
+  token, balanceStars, initialSession, usedTodayMinutes = 0, recommendedMinutes = 0,
 }: {
   token: string
   balanceStars: number
   initialSession: ActiveSession | null
+  usedTodayMinutes?: number
+  recommendedMinutes?: number
 }) {
   const router = useRouter()
   const [session, setSession] = useState<ActiveSession | null>(initialSession)
@@ -262,30 +264,65 @@ export default function DeviceTimeCard({
     )
   }
 
-  // ── Idle: the invite to spend ──
+  // ── Idle: the invite to spend, with today's healthy amount in view ──
   const canSpend = balanceStars > 0
+  const recToday = Math.max(0, Math.round(recommendedMinutes))
+  const usedToday = Math.max(0, Math.round(usedTodayMinutes))
+  const guidePct = recToday > 0 ? Math.min(100, Math.round((usedToday / recToday) * 100)) : 0
+  const reachedGuide = recToday > 0 && usedToday >= recToday
+
   return (
-    <button
-      onClick={() => canSpend && setPhase('picking')}
-      disabled={!canSpend}
-      style={{
-        width: '100%', display: 'flex', alignItems: 'center', gap: '12px', textAlign: 'left',
-        background: canSpend ? '#fff' : 'rgba(255,255,255,0.55)', border: 'none',
-        borderRadius: '18px', padding: '15px 18px', marginBottom: '16px',
-        cursor: canSpend ? 'pointer' : 'default',
-        boxShadow: canSpend ? '0 5px 0 rgba(0,0,0,0.14)' : 'none',
-      }}
-    >
-      <span style={{ fontSize: '1.7rem', flexShrink: 0 }}>⏱️</span>
-      <span style={{ flex: 1, minWidth: 0 }}>
-        <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: 'var(--ink)', lineHeight: 1.2 }}>
-          {canSpend ? 'Use my device time' : 'No device time yet'}
+    <div style={{ marginBottom: '16px' }}>
+      {/* Today's healthy amount: a small, calm bar of how much screen time has
+          been had today against the guide for this age. Never a lock, just a
+          gentle heads up so a child can see their own balance. */}
+      {recToday > 0 && (
+        <div style={{
+          background: reachedGuide ? 'var(--tint-sage)' : '#fff',
+          borderRadius: '14px', padding: '11px 15px', marginBottom: '10px',
+          boxShadow: '0 3px 0 rgba(0,0,0,0.10)',
+        }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8, marginBottom: '6px' }}>
+            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', color: 'var(--ink)' }}>
+              {reachedGuide ? 'You have had your screen time today 🌱' : "Today's screen time"}
+            </span>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--ink-soft)' }}>
+              {usedToday}/{recToday} min
+            </span>
+          </div>
+          <div style={{ height: 8, borderRadius: 100, background: 'rgba(26,26,46,0.10)', overflow: 'hidden' }}>
+            <div style={{ height: '100%', width: `${guidePct}%`, borderRadius: 100, background: reachedGuide ? 'var(--retro-green)' : 'var(--terracotta)', transition: 'width 0.5s ease' }} />
+          </div>
+          {reachedGuide && (
+            <p style={{ fontSize: '12px', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '7px 0 0' }}>
+              That is the healthy amount for your age. Want more? Ask your grown up for a treat.
+            </p>
+          )}
+        </div>
+      )}
+
+      <button
+        onClick={() => canSpend && setPhase('picking')}
+        disabled={!canSpend}
+        style={{
+          width: '100%', display: 'flex', alignItems: 'center', gap: '12px', textAlign: 'left',
+          background: canSpend ? '#fff' : 'rgba(255,255,255,0.55)', border: 'none',
+          borderRadius: '18px', padding: '15px 18px',
+          cursor: canSpend ? 'pointer' : 'default',
+          boxShadow: canSpend ? '0 5px 0 rgba(0,0,0,0.14)' : 'none',
+        }}
+      >
+        <span style={{ fontSize: '1.7rem', flexShrink: 0 }}>⏱️</span>
+        <span style={{ flex: 1, minWidth: 0 }}>
+          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: 'var(--ink)', lineHeight: 1.2 }}>
+            {canSpend ? (reachedGuide ? 'A treat, if a grown up says yes' : 'Use my device time') : 'No device time yet'}
+          </span>
+          <span style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: 'var(--ink-muted)', marginTop: '2px' }}>
+            {canSpend ? `You have ${balanceStars * STAR_MINUTES} minutes to use` : 'Earn stars to unlock screen time'}
+          </span>
         </span>
-        <span style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: 'var(--ink-muted)', marginTop: '2px' }}>
-          {canSpend ? `You have ${balanceStars * STAR_MINUTES} minutes to use` : 'Earn stars to unlock screen time'}
-        </span>
-      </span>
-      {canSpend && <span style={{ fontSize: '1.3rem', flexShrink: 0 }}>▶</span>}
-    </button>
+        {canSpend && <span style={{ fontSize: '1.3rem', flexShrink: 0 }}>▶</span>}
+      </button>
+    </div>
   )
 }
