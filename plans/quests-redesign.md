@@ -60,3 +60,32 @@ reconnect and pull fresh screens before final polish.
   prominence + share/QR polish.**
 
 Each slice ships on its own so the page improves in steps, never a big bang.
+
+## Child app — the balance insight surface (16 July brief)
+
+Justin wants the child app to teach balance, in the DiGi squad's voices, warm
+and exciting, never fear. Grow the existing HappyNews pop ups and the green
+balance card into a bigger, rotating insight surface that a child looks
+forward to. Each card is one idea, big and bright, a squad character
+delivering it, grounded only in our saved science bank (daily-moments
+science briefs, the kids research briefings, the philosophy we share with our
+groups), never invented, and passed through the same safety lens DiGi uses.
+
+Card themes (rotate, age banded):
+- Try this task today (a fresh quest nudge)
+- You do not need to use all your device time (celebrate choosing to save it)
+- The good stuff offline: real play, making things, being outside
+- Connecting with people face to face, and helping with family chores
+- Why your brain needs the balance (growth, sleep, mood), child friendly
+- What is worth watching when screen time is on (quality over scroll)
+
+Safety rules: positive framing not scare tactics, age appropriate language per
+band, praise the balanced choice rather than shame the screen, no dark
+patterns, no guilt, and every claim traceable to the science bank. Bigger,
+happier art than the current pop up. Mobbin was offline the day of this brief;
+pull child app patterns on reconnect to check the safe, non addictive way to
+surface this to children.
+
+Build note: extend HappyNews/HappyScene and the child insight card rather than
+a new system. Content comes from a small child-safe insight bank keyed by age
+band and character, seeded from the science bank.
