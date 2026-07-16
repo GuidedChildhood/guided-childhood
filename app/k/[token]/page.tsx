@@ -233,11 +233,14 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     .eq('user_id', link.user_id)
     .eq('status', 'open')
     .or(`due_date.eq.${today},recurs_weekday.eq.${todayWeekday}`)
+  // Child appropriate kinds mirror to the child's own banner so they know
+  // too: a PE kit or homework routine, never a parent only thing like a
+  // payment. A weekly routine shows on its day by default (no need for the
+  // grown up to tick anything), and steps back once cleared for the week.
+  const CHILD_KINDS = new Set(['kit', 'event', 'homework'])
   const schoolToday = (schoolRows ?? [])
-    // A weekly routine the grown up already cleared for today steps back from
-    // the child's banner too, not just the parent's list.
     .filter(a => a.recurs_weekday != null
-      ? a.auto_send_to_child && String((a as { cleared_on?: string | null }).cleared_on ?? '') !== today
+      ? (a.auto_send_to_child || CHILD_KINDS.has(a.kind as string)) && String((a as { cleared_on?: string | null }).cleared_on ?? '') !== today
       : a.sent_to_child)
     .map(a => ({
       id: a.id as string,

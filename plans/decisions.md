@@ -1034,3 +1034,29 @@ when the day is empty. Bigger heading, a bold 22px bar with a moving needle, and
 the two figures called out. The age guide stays as a small mono context line.
 QuestManager passes usedTodayMinutes and earnedTodayStars (today's approved
 ticks). No migration.
+
+## 2026-07-16 — Bell updates on clear, school reminders clear in place and mirror to the child
+
+Justin, on the notifications bell and the school reminder card.
+
+**The bell re-counts the moment something clears.** NotificationsBell only
+fetched once on mount, so the red number sat stale after clearing. It now
+re-fetches on a gc:notifs-changed window event, on focus, and when the tab
+comes back into view. Every clear dispatches that event, so the count drops at
+once.
+
+**A school reminder clears in place, acknowledged not deleted.** The
+notification card no longer just links to the school page. A weekly routine
+(PE kit) shows Clear for this week, which acknowledges it (cleared_on = today,
+kept for next week); a one off shows Got it, clear (done for good). The card
+folds away and the bell updates, with a quiet Open school link for full manage.
+collect.ts carries a recurring flag so the card knows which. DiGi cards also
+fire the event as they mark themselves acted.
+
+**The routine mirrors to the child's app by default.** A child appropriate
+weekly routine (kit, event, homework) now shows on the child's From school
+banner on its day without the grown up needing to tick anything, and steps back
+once cleared for the week; parent only kinds (a payment) never reach the child.
+
+All on branch claude/continue-build-ldot8v (PR 300). No migration (uses the
+064/065 columns already there).

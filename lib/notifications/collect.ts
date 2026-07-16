@@ -15,6 +15,9 @@ export type Notification = {
   href: string
   at: string
   urgent: boolean
+  // School only: whether this is a weekly routine (so it can be cleared for
+  // the week and kept) versus a one off (cleared for good).
+  recurring?: boolean
 }
 
 export type NotificationFeed = {
@@ -96,6 +99,7 @@ export async function getNotifications(supabase: NotifClient, userId: string): P
       title: s.title as string,
       body: `From school${due}`,
       href: '/dashboard/school', at: String(s.created_at ?? s.due_date ?? today),
+      recurring: recurs != null,
     })
   }
 
