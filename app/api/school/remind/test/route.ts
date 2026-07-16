@@ -11,6 +11,19 @@ import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
 // actually fires. Sends to the parent's own devices, and to the
 // child's if there is at least one weekly routine set to auto send.
 
+// Push subscriptions are per device, so a parent testing on their laptop
+// gets the notification on the laptop, not the phone. We label the endpoint
+// host so the UI can say plainly where it landed, and whether a phone (an
+// Apple push endpoint) is subscribed at all. Chrome uses the same host on
+// desktop and Android, so that one stays the honest "Chrome".
+function platformLabel(endpoint: string): string {
+  if (endpoint.includes('push.apple.com')) return 'an Apple device (iPhone, iPad or Mac Safari)'
+  if (endpoint.includes('googleapis.com')) return 'Chrome (desktop or Android)'
+  if (endpoint.includes('mozilla')) return 'Firefox'
+  if (endpoint.includes('windows.com')) return 'Windows'
+  return 'a device'
+}
+
 export async function POST() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
@@ -46,19 +59,23 @@ export async function POST() {
     return NextResponse.json({ sent: 0, reason: 'no subscription on this account yet' })
   }
 
-  const parentPayload = JSON.stringify({ title: 'Test: from school, due tomorrow', body, url: '/dashboard' })
+  const parentPayload = JSON.stringify({ title: 'Test: from school, due tomorrow', body, url: '/dashboard/school' })
   let sent = 0
   const errors: string[] = []
+  const delivered = new Set<string>()
   await Promise.allSettled(
     parentSubs.map(async sub => {
       try {
         await webpush.sendNotification({ endpoint: sub.endpoint, keys: { p256dh: sub.p256dh, auth: sub.auth } }, parentPayload)
         sent++
+        delivered.add(platformLabel(sub.endpoint))
       } catch (err: unknown) {
         errors.push(err && typeof err === 'object' && 'statusCode' in err ? String(err.statusCode) : 'unknown')
       }
     })
   )
+  const platforms = [...delivered]
+  const hasApple = parentSubs.some(s => s.endpoint.includes('push.apple.com'))
 
   let childSent = 0
   const child = childResult.data
@@ -83,5 +100,5 @@ export async function POST() {
     )
   }
 
-  return NextResponse.json({ sent, devices: parentSubs.length, errors, childSent, childHasDevice: (child ? childSent > 0 : null) })
+  return NextResponse.json({ sent, devices: parentSubs.length, platforms, hasApple, errors, childSent, childHasDevice: (child ? childSent > 0 : null) })
 }

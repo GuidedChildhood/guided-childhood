@@ -765,3 +765,22 @@ Also shipped this session on PR 288 (backend, no UI overlap): school
 reminders now push the child's phone as well as the parent PWA for child
 appropriate one off items (kit, event, homework) the night before; weekly
 routines already did this.
+
+## 2026-07-16 — Push test honesty (backend done, card copy handed to design session)
+
+A parent tapped Send a test on the school card, saw "Sent, it should reach
+your phone", but nothing arrived, because push subscriptions are per device
+and the test landed on their Mac Chrome where they were testing, not the
+phone. Backend done this session: /api/school/remind/test now returns
+platforms (labels of the device hosts it reached) and hasApple (whether any
+Apple push endpoint, ie an iPhone, iPad or Mac Safari, is subscribed at all).
+Chrome uses the same host on desktop and Android so that one stays the honest
+"Chrome (desktop or Android)".
+
+Handoff to the design session (SchoolActionsCard.tsx, the sendTest result
+copy, a UI file so not touched here): replace the flat "Sent, it should reach
+your phone within seconds" with an honest line built from the response, eg
+"Sent to Chrome (desktop or Android). If your phone did not buzz, open the app
+on your phone and turn on notifications there." When hasApple is false and the
+parent is likely on iPhone, spell out the iOS steps: add to Home Screen, open
+from the icon, then allow notifications. Keep it calm and plain, no dashes.
