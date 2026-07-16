@@ -964,3 +964,22 @@ landed on a hub, not an actual printable. It now points at /dashboard/printables
 (a real page of ready to print sheets, which does exist, the PRINTABLES
 registry), and the prompt copy names Printables to match. New prompts carry the
 new href; old pending ones age out.
+
+## 2026-07-16 — Weekly review shows what DiGi is doing, notifications clear on tap
+
+Two more from Justin.
+
+**Your week with DiGi tells you what it is doing while it reads.** The preview
+button sat on Reading for a while with no sign of life. Now, while DiGi builds
+the review, the card runs a warm little narrative in DiGi's voice (Just reading
+all our chats from this week... Got them, pulling out what actually mattered...
+Here you go, shaping the plan for next week...), DiGi shifts to a thinking mood,
+so the wait reads as DiGi working, not a stuck button.
+
+**A DiGi notification clears when you open it.** The notifications feed is
+derived live, so a DiGi nudge kept showing in the bell even after the parent
+tapped it. NotificationCard (new client card) marks a DiGi prompt acted on tap
+(keepalive fetch, so it lands through the navigation), and the feed only shows
+pending, so it is gone from the count next look. The action notifications
+(approve, a child's ask, school) still clear only when the parent actually does
+the thing on the target page, so a stray tap never loses one.
