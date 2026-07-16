@@ -202,6 +202,23 @@ export function weeklyDigestEmail(params: {
   }
 }
 
+// 10 · Lead nurture, sent once to an email captured before an account exists
+// (a magnet download or a quiz drop off). Warm, no hard sell, one door to the
+// free trial. No account yet, so unsubscribe is a plain reply address.
+export function leadNurtureEmail(): EmailContent {
+  return {
+    subject: 'Your pathway is a couple of minutes away',
+    html: wrapper(
+      heading('Whenever you are ready.') +
+      p(`You grabbed something from us recently, thank you. If it was useful, there is a whole calm plan behind it, matched to your child's age.`) +
+      p(`It takes about two minutes to set up, no card needed, and the free trial opens everything: the scripts for the hard conversations, the daily moments, and DiGi whenever you want the exact words.`) +
+      button('Start the free trial', `${APP}/starter-pack`) +
+      p(`No rush, and no pressure. The door stays open whenever the timing feels right.`),
+      'mailto:hello@guidedchildhood.com?subject=Unsubscribe'
+    ),
+  }
+}
+
 // 8 · Trial ending, the gentle nudge two days before a no card trial runs
 // out. No pressure, a reminder of what they would keep, one clear door.
 export function trialEndingEmail(params: {
