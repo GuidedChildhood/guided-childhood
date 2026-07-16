@@ -86,51 +86,51 @@ export default function WeeklyReviewCard() {
   const routineHref = review.suggestion_routine ? `/dashboard/quests?routine=${review.suggestion_routine}` : '/dashboard/quests'
 
   return (
-    <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '20px', padding: '18px 20px 16px', marginBottom: '20px', boxShadow: '0 4px 18px rgba(26,26,46,0.05)' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
-        <span style={{ flexShrink: 0, width: 44, height: 44, borderRadius: '13px', background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <DigiCharacter mood="happy" size={30} />
+    <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '24px', padding: '22px 24px 20px', marginBottom: '20px', boxShadow: '0 2px 4px rgba(26,26,46,0.03), 0 14px 36px -12px rgba(26,26,46,0.13)' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '13px', marginBottom: '16px' }}>
+        <span style={{ flexShrink: 0, width: 50, height: 50, borderRadius: '15px', background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <DigiCharacter mood="happy" size={34} />
         </span>
         <span style={{ flex: 1, minWidth: 0 }}>
-          <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>Your week with DiGi</span>
-          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)', lineHeight: 1.25, marginTop: '2px' }}>
+          <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>Your week with DiGi</span>
+          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '19px', color: 'var(--ink)', lineHeight: 1.15, letterSpacing: '-0.01em', marginTop: '3px' }}>
             The week just gone
           </span>
         </span>
       </div>
 
       {/* Glanceable stats */}
-      <div style={{ display: 'flex', gap: '7px', flexWrap: 'wrap', marginBottom: '13px' }}>
+      <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '15px' }}>
         {[
           ['⭐', `${s.starsEarned} earned`],
           ['✅', `${s.questsApproved} quests`],
           ['📅', `${s.activeDays}/7 days`],
           ['📱', `${s.deviceMinutes} min screen`],
         ].map(([icon, label]) => (
-          <span key={label} style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '100px', padding: '5px 11px', fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--ink-soft)' }}>
+          <span key={label} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '100px', padding: '6px 13px', fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, color: 'var(--ink-soft)' }}>
             <span>{icon}</span>{label}
           </span>
         ))}
       </div>
 
-      <p style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 12px' }}>{review.summary}</p>
+      <p style={{ fontSize: '16px', color: 'var(--ink)', opacity: 0.86, lineHeight: 1.65, margin: '0 0 15px' }}>{review.summary}</p>
 
       {review.watch_for && (
-        <div style={{ background: 'var(--tint-sage)', borderRadius: '12px', padding: '11px 13px', marginBottom: '12px' }}>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--deep-teal)' }}>Worth a glance</span>
-          <p style={{ fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '3px 0 0' }}>{review.watch_for}</p>
+        <div style={{ background: 'var(--tint-sage)', borderRadius: '14px', padding: '14px 16px', marginBottom: '15px' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--deep-teal)' }}>Worth a glance</span>
+          <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '5px 0 0' }}>{review.watch_for}</p>
         </div>
       )}
 
       <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
-        <Link href={routineHref} onClick={dismiss} style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none', borderRadius: '13px', padding: '10px 16px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', boxShadow: '0 4px 0 var(--terracotta-dark)' }}>
+        <Link href={routineHref} onClick={dismiss} style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none', borderRadius: '15px', padding: '13px 20px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', boxShadow: '0 5px 0 var(--terracotta-dark)' }}>
           {review.suggestion ? 'Set up next week' : 'Open Quests'}
-          <span style={{ fontSize: '15px' }} aria-hidden>→</span>
+          <span style={{ fontSize: '16px' }} aria-hidden>→</span>
         </Link>
         {review.suggestion && (
-          <span style={{ flex: 1, minWidth: 140, fontSize: '12.5px', color: 'var(--ink-muted)', lineHeight: 1.4 }}>{review.suggestion}</span>
+          <span style={{ flex: 1, minWidth: 150, fontSize: '13.5px', color: 'var(--ink-muted)', lineHeight: 1.5 }}>{review.suggestion}</span>
         )}
-        <button onClick={dismiss} style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--ink-muted)' }}>Dismiss</button>
+        <button onClick={dismiss} style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, color: 'var(--ink-muted)' }}>Dismiss</button>
       </div>
     </div>
   )
