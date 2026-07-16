@@ -669,6 +669,12 @@ export default function QuestManager() {
               </div>
             ) : (
               <div>
+                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '16px', color: 'var(--ink)', marginBottom: '3px' }}>
+                  The offline pack
+                </div>
+                <p style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 12px' }}>
+                  Four things to print, tap any one to open it ready for the printer.
+                </p>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '8px', marginBottom: '10px' }}>
                   {[
                     ['🖨️', 'Quest sheet', '/dashboard/quests/print'],
@@ -678,10 +684,10 @@ export default function QuestManager() {
                   ].map(([icon, label, href]) => (
                     <a key={href} href={href} style={{
                       display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none',
-                      background: '#fff', border: '1.5px solid var(--border)', borderRadius: '14px', padding: '12px 14px',
+                      background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: '14px', padding: '13px 15px',
                     }}>
-                      <span style={{ fontSize: '20px', lineHeight: 1 }}>{icon}</span>
-                      <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', color: 'var(--ink)' }}>{label}</span>
+                      <span style={{ fontSize: '22px', lineHeight: 1 }}>{icon}</span>
+                      <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: 'var(--ink)' }}>{label}</span>
                     </a>
                   ))}
                 </div>
@@ -1558,7 +1564,7 @@ export default function QuestManager() {
                 One tap and it buzzes on their phone. Works once they have opened their quest link and turned on reminders.
               </p>
               <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                {['Quest check! A few ticks and the stars are yours ⭐', 'Time to come off the screen now please', 'Turn the TV off please', 'Time to start your homework', 'Dinner in 10 minutes, start wrapping up', 'Please come downstairs'].map(msg => (
+                {['You can watch now, you earned it ⭐', 'Please finish your chores first', 'Quest check! A few ticks and the stars are yours ⭐', 'Time to come off the screen now please', 'Turn the TV off please', 'Time to start your homework', 'Dinner in 10 minutes, start wrapping up', 'Please come downstairs', 'Time for bed now please'].map(msg => (
                   <button
                     key={msg}
                     onClick={() => sendPing(msg)}
