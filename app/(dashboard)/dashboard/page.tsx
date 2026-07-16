@@ -262,7 +262,7 @@ export default async function DashboardPage() {
           {/* The tour promises "Step into Teo's pathway"; Home pays it off.
               A bare name read as a label, the possessive reads as a road
               that belongs to them. */}
-          <h1 style={{ fontSize: 'clamp(1.6rem, 5vw, 2.2rem)', fontWeight: 900, letterSpacing: '-0.035em', lineHeight: 1, marginBottom: '6px' }}>
+          <h1 style={{ fontSize: 'clamp(1.9rem, 6.5vw, 2.6rem)', fontWeight: 900, letterSpacing: '-0.035em', lineHeight: 1.02, marginBottom: '8px' }}>
             {(child?.name && child.name !== 'Your child') ? `${child.name}'s pathway` : `Hello ${firstName}`}
           </h1>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
