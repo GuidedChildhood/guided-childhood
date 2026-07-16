@@ -80,6 +80,9 @@ export default function KidQuestScreen({
   const [activeLesson, setActiveLesson] = useState<KidLesson | null>(null)
   const [activeGame, setActiveGame] = useState<QuestGame | null>(null)
   const [doneGames, setDoneGames] = useState<Set<string>>(new Set())
+  // Finished quests fold away into a quiet strip so the daily list stays the
+  // things still to do, not a long wall of ticked off cards.
+  const [showKidDone, setShowKidDone] = useState(false)
   const [lessonCard, setLessonCard] = useState(0)
   const [qIndex, setQIndex] = useState(0)
   const [qAnswers, setQAnswers] = useState<number[]>([])
@@ -783,65 +786,96 @@ export default function KidQuestScreen({
               sub="No quests today yet. Ask your grown up to send some and start earning stars!"
             />
           )}
-          {[...quests].sort((a, b) => Number(Boolean(b.blocks_screens)) - Number(Boolean(a.blocks_screens))).map(q => {
-            const state = ticks[q.id]
-            const done = Boolean(state)
-            return (
-              <button
-                key={q.id}
-                onClick={() => toggle(q)}
-                style={{
-                  display: 'flex', alignItems: 'center', gap: 14,
-                  background: state === 'approved' ? 'var(--tint-sage)' : done ? '#FFF7E0' : '#fff',
-                  border: 'none', borderRadius: '20px', padding: '16px 18px',
-                  cursor: state === 'approved' ? 'default' : 'pointer', textAlign: 'left',
-                  boxShadow: done ? '0 2px 0 rgba(0,0,0,0.12)' : '0 5px 0 rgba(0,0,0,0.18)',
-                  transform: done ? 'translateY(3px)' : 'none',
-                  transition: 'all 0.15s ease',
-                  position: 'relative',
-                  animation: burst === q.id ? 'kid-pop 0.5s ease' : undefined,
-                }}
-              >
-                <span style={{ fontSize: '1.8rem', flexShrink: 0 }}>{q.emoji}</span>
-                <span style={{ flex: 1, minWidth: 0 }}>
-                  <span style={{
-                    display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800,
-                    fontSize: '1.15rem', color: 'var(--ink)', lineHeight: 1.3,
-                    textDecoration: state === 'approved' ? 'line-through' : 'none',
-                    opacity: state === 'approved' ? 0.6 : 1,
-                  }}>
-                    {q.title}
+          {(() => {
+            const sorted = [...quests].sort((a, b) => Number(Boolean(b.blocks_screens)) - Number(Boolean(a.blocks_screens)))
+            const openQ = sorted.filter(q => ticks[q.id] !== 'approved')
+            const doneQ = sorted.filter(q => ticks[q.id] === 'approved')
+            const card = (q: typeof quests[number]) => {
+              const state = ticks[q.id]
+              const done = Boolean(state)
+              return (
+                <button
+                  key={q.id}
+                  onClick={() => toggle(q)}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: 14,
+                    background: state === 'approved' ? 'var(--tint-sage)' : done ? '#FFF7E0' : '#fff',
+                    border: 'none', borderRadius: '20px', padding: '16px 18px', width: '100%',
+                    cursor: state === 'approved' ? 'default' : 'pointer', textAlign: 'left',
+                    boxShadow: done ? '0 2px 0 rgba(0,0,0,0.12)' : '0 5px 0 rgba(0,0,0,0.18)',
+                    transform: done ? 'translateY(3px)' : 'none',
+                    transition: 'all 0.15s ease',
+                    position: 'relative',
+                    animation: burst === q.id ? 'kid-pop 0.5s ease' : undefined,
+                  }}
+                >
+                  <span style={{ fontSize: '1.8rem', flexShrink: 0 }}>{q.emoji}</span>
+                  <span style={{ flex: 1, minWidth: 0 }}>
+                    <span style={{
+                      display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800,
+                      fontSize: '1.15rem', color: 'var(--ink)', lineHeight: 1.3,
+                      textDecoration: state === 'approved' ? 'line-through' : 'none',
+                      opacity: state === 'approved' ? 0.6 : 1,
+                    }}>
+                      {q.title}
+                    </span>
+                    <span style={{ display: 'block', fontSize: '13.5px', fontWeight: 600, color: 'var(--ink-muted)', marginTop: 2 }}>
+                      {state === 'approved' ? 'Done! Stars landed ⭐' : state === 'pending' ? 'Waiting for your grown up ✓' : `Worth ${q.stars} star${q.stars === 1 ? '' : 's'}`}
+                      {q.blocks_screens && state !== 'approved' && (
+                        <span style={{
+                          display: 'inline-block', marginLeft: 8, verticalAlign: 'middle',
+                          fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700,
+                          letterSpacing: '0.08em', textTransform: 'uppercase',
+                          background: 'var(--terracotta-lt)', color: 'var(--terracotta-dark)',
+                          border: '1px solid var(--terracotta)', borderRadius: '100px', padding: '2px 8px',
+                        }}>
+                          📵 Before screens
+                        </span>
+                      )}
+                    </span>
                   </span>
-                  <span style={{ display: 'block', fontSize: '13.5px', fontWeight: 600, color: 'var(--ink-muted)', marginTop: 2 }}>
-                    {state === 'approved' ? 'Done! Stars landed ⭐' : state === 'pending' ? 'Waiting for your grown up ✓' : `Worth ${q.stars} star${q.stars === 1 ? '' : 's'}`}
-                    {q.blocks_screens && state !== 'approved' && (
-                      <span style={{
-                        display: 'inline-block', marginLeft: 8, verticalAlign: 'middle',
-                        fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700,
-                        letterSpacing: '0.08em', textTransform: 'uppercase',
-                        background: 'var(--terracotta-lt)', color: 'var(--terracotta-dark)',
-                        border: '1px solid var(--terracotta)', borderRadius: '100px', padding: '2px 8px',
-                      }}>
-                        📵 Before screens
-                      </span>
+                  <span style={{
+                    width: 40, height: 40, borderRadius: '50%', flexShrink: 0,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    background: done ? 'var(--terracotta)' : 'var(--cream)',
+                    border: done ? 'none' : '2.5px dashed var(--ink-light)',
+                    fontSize: '18px', position: 'relative',
+                  }}>
+                    {done ? '✓' : ''}
+                    {burst === q.id && (
+                      <span style={{ position: 'absolute', animation: 'kid-star-rise 0.9s ease-out forwards', fontSize: '20px' }}>⭐</span>
                     )}
                   </span>
-                </span>
-                <span style={{
-                  width: 40, height: 40, borderRadius: '50%', flexShrink: 0,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  background: done ? 'var(--terracotta)' : 'var(--cream)',
-                  border: done ? 'none' : '2.5px dashed var(--ink-light)',
-                  fontSize: '18px', position: 'relative',
-                }}>
-                  {done ? '✓' : ''}
-                  {burst === q.id && (
-                    <span style={{ position: 'absolute', animation: 'kid-star-rise 0.9s ease-out forwards', fontSize: '20px' }}>⭐</span>
-                  )}
-                </span>
-              </button>
+                </button>
+              )
+            }
+            return (
+              <>
+                {openQ.map(card)}
+                {doneQ.length > 0 && (
+                  <>
+                    {/* Done today folds away, so the list stays what is left */}
+                    <button
+                      onClick={() => setShowKidDone(s => !s)}
+                      style={{
+                        display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10,
+                        width: '100%', cursor: 'pointer', textAlign: 'left',
+                        background: 'rgba(255,255,255,0.14)', border: '1.5px solid rgba(255,255,255,0.28)',
+                        borderRadius: '16px', padding: '13px 16px',
+                        fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1rem', color: '#fff',
+                      }}
+                    >
+                      <span>✅ {doneQ.length} done today</span>
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, opacity: 0.9 }}>
+                        {showKidDone ? 'Hide ▲' : 'Show ▼'}
+                      </span>
+                    </button>
+                    {showKidDone && doneQ.map(card)}
+                  </>
+                )}
+              </>
             )
-          })}
+          })()}
         </div>
 
         {allDone && (

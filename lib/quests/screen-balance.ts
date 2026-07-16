@@ -56,6 +56,8 @@ export function screenBalanceInsight(opts: {
 }): BalanceInsight {
   const { childName, ageBand, minutesReady, weekStars, timerRunning, hour } = opts
   const g = guideFor(ageBand)
+  // The age guide reads mid sentence after "For age X," so it starts lower case.
+  const line = g.line.charAt(0).toLowerCase() + g.line.slice(1)
 
   // The effort line: earning from real quests is the balance working, so name
   // it warmly when it is happening.
@@ -68,8 +70,8 @@ export function screenBalanceInsight(opts: {
   if (hour != null && hour >= 19) {
     return {
       tone: 'evening',
-      headline: `Winding down for ${childName}`,
-      body: `${effort}It is getting late. Screens settle a child best when they stop about an hour before bed, so tonight might be one to bank the minutes for tomorrow.`,
+      headline: `Winding down time`,
+      body: `${effort}It is getting late now, so here is my one thought for tonight. Screens settle a child best when they stop about an hour before bed, so I would bank ${childName}'s minutes for tomorrow. They will sleep the better for it.`,
       guideMins: g.dailyMins,
       bandLabel: g.label,
     }
@@ -82,17 +84,17 @@ export function screenBalanceInsight(opts: {
     return {
       tone: 'pace',
       headline: `Plenty banked for ${childName}`,
-      body: `${effort}For age ${g.label}, ${g.line} ${childName} has ${minutesReady} minutes saved, so it is worth spreading across the days rather than one long go, so it stays a treat.`,
+      body: `${effort}${childName} has ${minutesReady} minutes saved up now, which is lovely to see. If it were me, I would spread it across the days rather than one long sitting, so it stays a treat. For age ${g.label}, ${line}`,
       guideMins: g.dailyMins,
       bandLabel: g.label,
     }
   }
 
-  const nowLine = timerRunning ? `${childName} is enjoying some now. ` : ''
+  const nowLine = timerRunning ? `${childName} is enjoying some now, which is exactly what it is for. ` : ''
   return {
     tone: 'good',
     headline: `A healthy balance for ${childName}`,
-    body: `${effort}${nowLine}For age ${g.label}, ${g.line}`,
+    body: `${effort}${nowLine}For age ${g.label}, ${line} From where I am sitting you have the mix about right, screens as one part of a full day. Keep doing what you are doing.`,
     guideMins: g.dailyMins,
     bandLabel: g.label,
   }

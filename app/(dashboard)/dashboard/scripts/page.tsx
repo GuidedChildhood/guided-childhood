@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { hasFullAccess } from '@/lib/access'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
+import BrowseTile from '@/components/ui/BrowseTile'
 import { CHALLENGE_TO_CATEGORY } from '@/lib/content/challenge-map'
 import { getRecommendedScript } from '@/lib/pathway/recommend'
 import type { ChallengeId } from '@/lib/content/stages'
@@ -177,45 +178,26 @@ export default async function ScriptsPage() {
             </span>
           </div>
 
-          {/* Big pastel collection cards, matching the Lessons library shelf,
-              so the scripts menu reads as topic cards not a plain list. */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '14px' }}>
+          {/* Big pastel browse tiles, the Good Inside Discover pattern. */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: '12px' }}>
             {group.items.map(script => {
               const isDone = completedOrders.has(script.sort_order)
               // A free script already opened stays open forever. A free
               // script never opened locks once the 5 are used up, same as
               // a script that was never flagged free at all.
               const isLocked = !isPaid && !isDone && (!script.is_free || freeAllowanceUsedUp)
-              const isMatch = matchCategory === script.category
               const cat = CATEGORY_META[script.category]
               return (
-                <Link
+                <BrowseTile
                   key={script.id}
                   href={isLocked ? '/dashboard/upgrade' : `/dashboard/scripts/${script.sort_order}`}
-                  style={{
-                    display: 'flex', flexDirection: 'column', textDecoration: 'none',
-                    background: '#fff',
-                    border: `1.5px solid ${isMatch ? 'var(--terracotta)' : isDone ? '#B7DEC9' : 'var(--border)'}`,
-                    borderRadius: '18px', overflow: 'hidden', opacity: isLocked ? 0.72 : 1,
-                    boxShadow: '0 4px 18px rgba(26,26,46,0.06)',
-                  }}
-                >
-                  <div style={{ position: 'relative', aspectRatio: '16 / 8', display: 'flex', alignItems: 'center', justifyContent: 'center', background: `linear-gradient(150deg, var(--stage-${group.meta.num}-bold) 0%, var(--stage-${group.meta.num}) 100%)` }}>
-                    <span style={{ fontSize: '36px', lineHeight: 1 }}>{scriptEmoji(script.category)}</span>
-                    {isDone && <span style={{ position: 'absolute', top: '10px', right: '10px', fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, color: '#1F7A54', letterSpacing: '0.06em', textTransform: 'uppercase', background: '#D4EDDF', borderRadius: '100px', padding: '2px 8px' }}>✓ Done</span>}
-                    {isLocked && <span style={{ position: 'absolute', top: '10px', right: '10px', fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, color: 'var(--ink)', letterSpacing: '0.06em', textTransform: 'uppercase', background: 'rgba(255,255,255,0.85)', borderRadius: '100px', padding: '2px 8px' }}>🔒 Members</span>}
-                  </div>
-                  <div style={{ padding: '13px 15px 15px', display: 'flex', flexDirection: 'column', gap: '10px', flex: 1 }}>
-                    <div style={{ flex: 1 }}>
-                      {cat && <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, color: 'var(--terracotta-dark)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '5px' }}>{cat.label}</div>}
-                      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)', lineHeight: 1.2, marginBottom: '4px' }}>{script.title}</div>
-                      <div style={{ fontSize: '12px', color: 'var(--ink-muted)', fontStyle: 'italic', lineHeight: 1.4, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{script.situation}</div>
-                    </div>
-                    <span style={{ textAlign: 'center', background: isDone ? 'var(--cream)' : 'var(--terracotta)', color: 'var(--ink)', border: isDone ? '1.5px solid var(--border)' : 'none', borderRadius: '11px', padding: '9px 10px', fontFamily: 'var(--font-display)', fontSize: '12.5px', fontWeight: 800, boxShadow: isDone ? 'none' : '0 3px 0 var(--terracotta-dark)' }}>
-                      {isLocked ? 'Preview' : isDone ? 'Read again ↻' : 'Open'}
-                    </span>
-                  </div>
-                </Link>
+                  stageNum={group.meta.num}
+                  title={script.title}
+                  sub={cat?.label ?? script.category}
+                  emoji={scriptEmoji(script.category)}
+                  done={isDone}
+                  locked={isLocked}
+                />
               )
             })}
           </div>

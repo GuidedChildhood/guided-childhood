@@ -80,6 +80,9 @@ export default function QuestManager() {
   const [handMode, setHandMode] = useState<'phone' | 'paper'>('phone')
   const [pingResult, setPingResult] = useState<string | null>(null)
   const [pingDraft, setPingDraft] = useState('')
+  // Quests done today fold into a quiet strip, so the manage list stays what is
+  // still live rather than a long wall of ticked off rows.
+  const [showParentDone, setShowParentDone] = useState(false)
   const [contactsSupported, setContactsSupported] = useState(false)
   const [tab, setTab] = useState<QuestTab>('manage')
   const [asksList, setAsksList] = useState<Ask[]>([])
@@ -991,11 +994,12 @@ export default function QuestManager() {
                   so the live list is always what is left. A stable sort keeps
                   the order within each group, and a freshly added quest, being
                   not done, lands at the top. */}
-              {[...childQuests].sort((a, b) => {
-                const da = approvedTodayIds.has(a.id) || ticked === a.id
-                const db = approvedTodayIds.has(b.id) || ticked === b.id
-                return Number(da) - Number(db)
-              }).map(q => {
+              {(() => {
+                const isDone = (q: typeof childQuests[number]) => approvedTodayIds.has(q.id) || ticked === q.id
+                const sorted = [...childQuests].sort((a, b) => Number(isDone(a)) - Number(isDone(b)))
+                const openL = sorted.filter(x => !isDone(x))
+                const doneL = sorted.filter(x => isDone(x))
+                const row = (q: typeof childQuests[number]) => {
                 const editing = editingId === q.id
                 const sheet = printableForAsk(q.title)
                 const doneToday = approvedTodayIds.has(q.id) || ticked === q.id
@@ -1130,8 +1134,35 @@ export default function QuestManager() {
                       </div>
                     )}
                   </div>
+                  )
+                }
+                return (
+                  <>
+                    {openL.map(row)}
+                    {doneL.length > 0 && (
+                      <>
+                        {/* Done today, folded away to keep the live list short */}
+                        <button
+                          onClick={() => setShowParentDone(s => !s)}
+                          style={{
+                            display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10,
+                            width: '100%', cursor: 'pointer', textAlign: 'left',
+                            background: 'var(--cream)', border: '1.5px solid var(--border)',
+                            borderRadius: '12px', padding: '11px 14px',
+                            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: 'var(--ink)',
+                          }}
+                        >
+                          <span>✓ {doneL.length} done today</span>
+                          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--ink-soft)' }}>
+                            {showParentDone ? 'Hide ▲' : 'Show ▼'}
+                          </span>
+                        </button>
+                        {showParentDone && doneL.map(row)}
+                      </>
+                    )}
+                  </>
                 )
-              })}
+              })()}
             </div>
           </div>
 
