@@ -37,7 +37,7 @@ export default function QuestGamePlayer({ game, onComplete, onClose }: {
 
   return (
     <div style={{
-      position: 'fixed', inset: 0, zIndex: 60, background: 'linear-gradient(168deg, #FFF3DC 0%, #FDE7F0 46%, #EAE7FB 100%)',
+      position: 'fixed', inset: 0, zIndex: 60, background: 'var(--kid-bg)',
       display: 'flex', flexDirection: 'column', alignItems: 'center',
       padding: 'max(14px, env(safe-area-inset-top)) 14px max(14px, env(safe-area-inset-bottom))',
     }}>

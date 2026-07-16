@@ -58,6 +58,10 @@
   --tint-amber:        #F0E8D0;
   --tint-green:        #E8F4EE;
 
+  /* ── CHILD APP BACKGROUND ── one faded pastel wash, pink up top into
+     lavender, used across every child screen so they always match. */
+  --kid-bg: linear-gradient(170deg, #FCE0EE 0%, #F6E3F3 48%, #EAE7FB 100%);
+
   /* ── LEGACY ALIASES ── */
   --warm:              var(--cream);
   --cream-2:           var(--cream);

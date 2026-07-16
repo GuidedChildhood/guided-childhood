@@ -47,7 +47,7 @@ export default async function KidLessonPage({ params }: { params: Promise<{ toke
   })
 
   return (
-    <div style={{ minHeight: '100dvh', background: 'linear-gradient(168deg, #FFF3DC 0%, #FDE7F0 46%, #EAE7FB 100%)', padding: '20px 14px 50px', fontFamily: 'var(--font-body)' }}>
+    <div style={{ minHeight: '100dvh', background: 'var(--kid-bg)', padding: '20px 14px 50px', fontFamily: 'var(--font-body)' }}>
       <div style={{ maxWidth: '560px', margin: '0 auto' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', gap: '10px' }}>
           <Link href={`/k/${token}`} style={{
