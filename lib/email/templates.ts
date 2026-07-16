@@ -202,6 +202,33 @@ export function weeklyDigestEmail(params: {
   }
 }
 
+// 7 · School reminder, the belt and braces channel alongside the push. A
+// strong, specific subject so it stands out in a busy inbox, the list of
+// what is due, and a plain link to fix it if DiGi picked it up wrong from a
+// forwarded school email.
+export function schoolReminderEmail(params: {
+  titles: string[]
+  adjustUrl: string
+  unsubscribe: string
+}): EmailContent {
+  const { titles, adjustUrl, unsubscribe } = params
+  const subject = titles.length === 1
+    ? `Tomorrow: ${titles[0]} 🎒`
+    : `Tomorrow for school: ${titles[0]} and ${titles.length - 1} more 🎒`
+  const list = titles.map(t => `<li style="margin:0 0 6px">${t}</li>`).join('')
+  return {
+    subject,
+    html: wrapper(
+      heading('From school, due tomorrow.') +
+      p('Here is what to sort tonight while it is still easy:') +
+      `<ul style="margin:0 0 16px;padding-left:20px;font-size:16px;color:${INK}">${list}</ul>` +
+      button('Open my school reminders', `${APP}/dashboard/school`) +
+      p(`Not right, or DiGi picked it up wrong from an email? <a href="${adjustUrl}" style="color:${BUTTER_DARK};font-weight:700">Adjust or clear it here</a>.`),
+      unsubscribe
+    ),
+  }
+}
+
 // 6 · Lead magnet delivery, sent the moment a parent asks for a free
 // printable. Warm, short, and it points gently on to the free pathway
 // without a hard sell. There is no account yet, so unsubscribe is a

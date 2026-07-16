@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { sendEmail, emailConfigured, unsubscribeUrl } from '@/lib/email'
+import { schoolReminderEmail } from '@/lib/email/templates'
 
 export const dynamic = 'force-dynamic'
 export const maxDuration = 60
@@ -63,7 +65,16 @@ export async function GET(req: NextRequest) {
 
   let sent = 0
   let childSent = 0
+  let emailed = 0
   const origin = process.env.NEXT_PUBLIC_APP_URL ?? req.nextUrl.origin
+
+  // The parents' emails, for the belt and braces email channel alongside push.
+  const emailById = new Map<string, string>()
+  if (emailConfigured() && byUser.size > 0) {
+    const { data: profs } = await supabase
+      .from('profiles').select('id, email').in('id', [...byUser.keys()])
+    for (const p of profs ?? []) if (p.email) emailById.set(p.id as string, p.email as string)
+  }
 
   for (const [userId, titles] of byUser) {
     const body = titles.length === 1
@@ -78,6 +89,18 @@ export async function GET(req: NextRequest) {
       const result = await res.json()
       if (result.sent > 0) sent++
     } catch { /* best effort */ }
+
+    // The same reminder by email, with a strong subject and a fix it link.
+    const email = emailById.get(userId)
+    if (email) {
+      try {
+        const { ok } = await sendEmail({
+          to: email,
+          ...schoolReminderEmail({ titles, adjustUrl: `${origin}/dashboard/school`, unsubscribe: unsubscribeUrl(userId) }),
+        })
+        if (ok) emailed++
+      } catch { /* best effort */ }
+    }
   }
 
   // Child appropriate one offs reach the child's phone the night before too,
@@ -150,5 +173,5 @@ export async function GET(req: NextRequest) {
     } catch { /* best effort, next week tries again */ }
   }
 
-  return NextResponse.json({ families: byUser.size, sent, childSent, dueDate: tomorrow, weekday })
+  return NextResponse.json({ families: byUser.size, sent, childSent, emailed, dueDate: tomorrow, weekday })
 }
