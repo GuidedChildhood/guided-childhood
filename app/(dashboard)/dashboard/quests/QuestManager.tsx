@@ -6,6 +6,7 @@ import { QUEST_TEMPLATES, PLAY_PAYS_WHY, STAR_MINUTES } from '@/lib/quests/templ
 import { ROUTINE_PACKS, type RoutinePack } from '@/lib/quests/routines'
 import ChildLinkShare from '@/components/quests/ChildLinkShare'
 import StarSummary from '@/components/quests/StarSummary'
+import ScreenBalanceInsight from '@/components/quests/ScreenBalanceInsight'
 import { questDueToday } from '@/lib/quests/due'
 import { STAGE_LABELS, AGE_BAND_TO_STAGE, type StageKey } from '@/lib/quests/game-picks'
 import { gamesForStage } from '@/lib/quest-games/registry'
@@ -577,6 +578,16 @@ export default function QuestManager() {
               />
             )
           })()}
+
+          {/* DiGi's calm, age aware read on the child's screen time balance,
+              evidence led and never a hard limit. */}
+          <ScreenBalanceInsight
+            childName={child.name}
+            ageBand={child.age_band}
+            balanceStars={banks.find(b => b.child_id === activeChild)?.balance ?? 0}
+            weekStars={starsThisWeek}
+            timerRunning={sessions.some(s => s.child_id === activeChild)}
+          />
 
           {/* Hand it over: the one decision, made simple. To their phone,
               or onto paper. Everything else lives in the tabs below. */}
