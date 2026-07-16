@@ -73,7 +73,7 @@ export async function GET(req: NextRequest) {
       const res = await fetch(`${origin}/api/push/send`, {
         method: 'POST',
         headers: { 'content-type': 'application/json', authorization: `Bearer ${process.env.CRON_SECRET}` },
-        body: JSON.stringify({ userId, title: 'From school, due tomorrow', body, url: '/dashboard' }),
+        body: JSON.stringify({ userId, title: 'From school, due tomorrow', body, url: '/dashboard/school' }),
       })
       const result = await res.json()
       if (result.sent > 0) sent++

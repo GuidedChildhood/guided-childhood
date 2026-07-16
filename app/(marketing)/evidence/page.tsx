@@ -1,5 +1,5 @@
-import Link from 'next/link'
 import type { CSSProperties } from 'react'
+import MagnetGate from '@/components/marketing/MagnetGate'
 
 export const metadata = {
   title: 'The evidence behind Guided Childhood',
@@ -41,8 +41,12 @@ export default function EvidencePage() {
         Inside the app, DiGi draws on a growing library of expert positions and real research, grounded to named sources rather than invented, and it is honest when something is unsettled. The full cited briefings sit behind the product and are refreshed as new work lands.
       </p>
 
-      <div style={{ marginTop: '30px' }}>
-        <Link href="/starter-pack" className="btn btn-gold" style={{ padding: '13px 26px', fontSize: '15px' }}>Start with the free pack</Link>
+      <div style={{ marginTop: '34px' }}>
+        <MagnetGate
+          slug="evidence"
+          heading="Take the one page summary"
+          sub="The whole stance on a single printable page, calm and plain, ready to read or share. We will send it straight over."
+        />
       </div>
     </div>
   )

@@ -1,5 +1,5 @@
-import Link from 'next/link'
 import type { CSSProperties } from 'react'
+import MagnetGate from '@/components/marketing/MagnetGate'
 
 export const metadata = {
   title: 'Five questions before you hand over a screen · Guided Childhood',
@@ -41,10 +41,11 @@ export default function FiveQuestionsPage() {
         ))}
       </div>
 
-      <div style={{ background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: '18px', padding: '24px', textAlign: 'center' }}>
-        <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.2rem', color: 'var(--ink)', margin: '0 0 12px' }}>Want a calm plan, not just questions?</p>
-        <Link href="/starter-pack" className="btn btn-gold" style={{ padding: '13px 26px', fontSize: '15px' }}>Get the free starter pack</Link>
-      </div>
+      <MagnetGate
+        slug="five-questions"
+        heading="Get the fridge printable"
+        sub="A clean one page version of all five questions, made to print and stick up where you will see it. We will send it straight over."
+      />
     </div>
   )
 }

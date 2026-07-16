@@ -53,7 +53,7 @@ export async function GET(req: NextRequest) {
       const r = await fetch(`${origin}/api/push/send`, {
         method: 'POST',
         headers: { 'content-type': 'application/json', authorization: `Bearer ${process.env.CRON_SECRET}` },
-        body: JSON.stringify({ userId, title: 'This morning, for school 🎒', body, url: '/dashboard#school-actions' }),
+        body: JSON.stringify({ userId, title: 'This morning, for school 🎒', body, url: '/dashboard/school' }),
       })
       if ((await r.json()).sent > 0) parents++
     } catch { /* best effort */ }

@@ -43,6 +43,18 @@ const WEEKDAYS = [
 ]
 const WEEKDAY_NAME: Record<number, string> = { 0: 'Sunday', 1: 'Monday', 2: 'Tuesday', 3: 'Wednesday', 4: 'Thursday', 5: 'Friday', 6: 'Saturday' }
 
+// The routines parents forget the most, each a single tap that fills the
+// name, picks a sensible day, and sets it to every week. The day is only a
+// starting guess; the weekday picker below lets them change it.
+const QUICK_ROUTINES: { label: string; emoji: string; kind: string; weekday: number }[] = [
+  { label: 'PE kit', emoji: '👟', kind: 'kit', weekday: 4 },
+  { label: 'Reading book', emoji: '📖', kind: 'homework', weekday: 5 },
+  { label: 'Swimming kit', emoji: '🩱', kind: 'kit', weekday: 2 },
+  { label: 'Spellings', emoji: '✏️', kind: 'homework', weekday: 1 },
+  { label: 'Library books', emoji: '📚', kind: 'kit', weekday: 3 },
+  { label: 'Show and tell', emoji: '🧸', kind: 'event', weekday: 5 },
+]
+
 type DueTone = 'overdue' | 'urgent' | 'today' | 'soon' | 'calm'
 
 // The reminder escalates as it nears. A dated task is calm days out, turns
@@ -239,6 +251,31 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
           <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.5, marginBottom: '10px' }}>
             School does not email you, or this one is off your own radar? Add it here, it works exactly the same either way.
           </p>
+
+          {/* One tap routines: the classics parents forget. Tapping fills the
+              name and sets it to every week, so a PE kit reminder is two taps. */}
+          <div style={{ marginBottom: '10px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '7px' }}>
+              Quick add a weekly routine
+            </div>
+            <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+              {QUICK_ROUTINES.map(r => (
+                <button
+                  key={r.label}
+                  onClick={() => { setTitle(r.label); setKind(r.kind); setRepeats(true); setWeekday(r.weekday) }}
+                  style={{
+                    padding: '7px 12px', borderRadius: '100px', cursor: 'pointer',
+                    fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '12px',
+                    background: title === r.label ? 'var(--terracotta)' : '#fff', color: 'var(--ink)',
+                    border: title === r.label ? 'none' : '1.5px solid var(--border)',
+                  }}
+                >
+                  {r.emoji} {r.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
           <input
             value={title}
             onChange={e => setTitle(e.target.value)}
@@ -447,7 +484,7 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
                     onClick={() => settle(a.id, 'done')}
                     style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--terracotta-dark)', padding: 0 }}
                   >
-                    Done ✓
+                    Got it, clear ✓
                   </button>
                   <button
                     onClick={() => settle(a.id, 'dismissed')}

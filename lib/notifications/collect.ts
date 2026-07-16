@@ -85,7 +85,7 @@ export async function getNotifications(supabase: NotifClient, userId: string): P
       id: `school-${s.id}`, kind: 'school', icon: '🏫', urgent: false,
       title: s.title as string,
       body: `From school${due}`,
-      href: '/dashboard#school-actions', at: String(s.created_at ?? s.due_date ?? ''),
+      href: '/dashboard/school', at: String(s.created_at ?? s.due_date ?? ''),
     })
   }
 
