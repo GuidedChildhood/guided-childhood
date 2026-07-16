@@ -3,6 +3,7 @@ import { randomBytes } from 'crypto'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getStarBanks } from '@/lib/quests/bank'
+import { getMinutesUsedToday } from '@/lib/quests/usage'
 import { pushToChild } from '@/lib/quests/kid-push'
 import { STAR_MINUTES } from '@/lib/quests/templates'
 
@@ -38,6 +39,12 @@ export async function GET() {
   const children = childrenRes.data ?? []
   const banks = await getStarBanks(supabase, user.id, children.map(c => c.id))
 
+  // Minutes of screen time each child has actually used today, so the balance
+  // insight can show a real, moving level rather than a fixed age guide.
+  const usedTodayMap = await getMinutesUsedToday(supabase, user.id, children.map(c => c.id))
+  const usage: Record<string, number> = {}
+  for (const c of children) usage[c.id as string] = usedTodayMap.get(c.id as string) ?? 0
+
   // Live device time sessions, so the board can show a running countdown
   // next to the child who is using their screen time right now.
   const { data: sessionRows } = await supabase
@@ -58,6 +65,7 @@ export async function GET() {
     spends: spendsRes.data ?? [],
     banks,
     sessions,
+    usage,
   })
 }
 

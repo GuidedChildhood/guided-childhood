@@ -7,17 +7,35 @@ import Link from 'next/link'
 // the school app pattern. Tapping opens the notifications hub. The red dot
 // only shows when something actually needs the parent.
 
+// Anything that clears a notification dispatches this so the bell re-counts
+// straight away, instead of the red number sitting stale until a reload.
+export const NOTIFS_CHANGED_EVENT = 'gc:notifs-changed'
+
 export default function NotificationsBell() {
   const [count, setCount] = useState(0)
   const [urgent, setUrgent] = useState(0)
 
   useEffect(() => {
     let live = true
-    fetch('/api/notifications')
-      .then(r => r.json())
-      .then(d => { if (live) { setCount(d.count ?? 0); setUrgent(d.urgentCount ?? 0) } })
-      .catch(() => {})
-    return () => { live = false }
+    const refresh = () => {
+      fetch('/api/notifications')
+        .then(r => r.json())
+        .then(d => { if (live) { setCount(d.count ?? 0); setUrgent(d.urgentCount ?? 0) } })
+        .catch(() => {})
+    }
+    refresh()
+    // Re-count when a notification is cleared, when the tab comes back into
+    // view, and on focus, so the number is never stale.
+    const onVisible = () => { if (!document.hidden) refresh() }
+    window.addEventListener(NOTIFS_CHANGED_EVENT, refresh)
+    window.addEventListener('focus', refresh)
+    document.addEventListener('visibilitychange', onVisible)
+    return () => {
+      live = false
+      window.removeEventListener(NOTIFS_CHANGED_EVENT, refresh)
+      window.removeEventListener('focus', refresh)
+      document.removeEventListener('visibilitychange', onVisible)
+    }
   }, [])
 
   return (

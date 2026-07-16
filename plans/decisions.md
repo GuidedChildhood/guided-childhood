@@ -986,3 +986,80 @@ tapped it. NotificationCard (new client card) marks a DiGi prompt acted on tap
 pending, so it is gone from the count next look. The action notifications
 (approve, a child's ask, school) still clear only when the parent actually does
 the thing on the target page, so a stray tap never loses one.
+
+## 2026-07-16 — Two transient messages now ease away instead of lingering
+
+Justin: nothing that has said its piece should sit on screen forever.
+
+- The Mid meltdown coach mark on the Help now button now eases itself away after
+  two minutes (and counts as seen so it does not pop again), rather than waiting
+  for the parent to close it. The X still dismisses it early.
+- The Reflection saved, DiGi will use this tomorrow line in the DiGi chat now
+  shows for about four seconds after a reflection saves, then fades, via a
+  separate reflectionToast state so reflectionDone stays true and the prompt
+  never resurfaces.
+
+## 2026-07-16 — Weekly school routines: clear for today, keep the reminder (migration 065)
+
+Justin: clearing a weekly reminder (PE kit) should clear it for today only, not
+delete the routine, with a delete for when they really want it gone. Two things
+were wrong: a recurring routine showed in the notifications bell every single
+day (not only its weekday), and the only clear on it was Remove, which deleted
+the whole routine.
+
+- Migration 065 adds school_actions.cleared_on (date). Clearing a routine for
+  today stamps cleared_on = today (server side); the row stays open and comes
+  back next week.
+- /api/school/actions PATCH takes clear_today: true and stamps cleared_on;
+  done / dismissed still end a one off or delete a routine.
+- The notifications feed (collect.ts) now shows a recurring routine only on its
+  own weekday, and holds it back once cleared for today, so it never nags daily.
+- The school card shows Clear for today on a routine on its day (it stays in the
+  Every week list, marked Cleared for today), and Remove became Delete for
+  ending it for good.
+- The child's From school banner also respects cleared_on, so a cleared routine
+  steps back from the child's screen too. The Home Screen app badge already
+  ignored recurring routines, so no change there.
+
+## 2026-07-16 — Screen balance insight is now real, moving data
+
+Justin: the balance bar was a fixed age guide (always about 75 min for 8 to 10),
+he wanted real data, a level that moves with the minutes used and the tasks
+done, and bigger and bolder.
+
+Rebuilt ScreenBalanceInsight into a live balance level. The two sides are the
+star economy's own exchange rate made visible: screen minutes actually USED
+today (from getMinutesUsedToday, now returned per child by /api/quests as
+usage) against real world minutes EARNED today (stars approved today times
+STAR_MINUTES). The needle sits where the balance tips: green and calm when real
+life is ahead, tipping to screen with a nudge when screen leads, a calm midpoint
+when the day is empty. Bigger heading, a bold 22px bar with a moving needle, and
+the two figures called out. The age guide stays as a small mono context line.
+QuestManager passes usedTodayMinutes and earnedTodayStars (today's approved
+ticks). No migration.
+
+## 2026-07-16 — Bell updates on clear, school reminders clear in place and mirror to the child
+
+Justin, on the notifications bell and the school reminder card.
+
+**The bell re-counts the moment something clears.** NotificationsBell only
+fetched once on mount, so the red number sat stale after clearing. It now
+re-fetches on a gc:notifs-changed window event, on focus, and when the tab
+comes back into view. Every clear dispatches that event, so the count drops at
+once.
+
+**A school reminder clears in place, acknowledged not deleted.** The
+notification card no longer just links to the school page. A weekly routine
+(PE kit) shows Clear for this week, which acknowledges it (cleared_on = today,
+kept for next week); a one off shows Got it, clear (done for good). The card
+folds away and the bell updates, with a quiet Open school link for full manage.
+collect.ts carries a recurring flag so the card knows which. DiGi cards also
+fire the event as they mark themselves acted.
+
+**The routine mirrors to the child's app by default.** A child appropriate
+weekly routine (kit, event, homework) now shows on the child's From school
+banner on its day without the grown up needing to tick anything, and steps back
+once cleared for the week; parent only kinds (a payment) never reach the child.
+
+All on branch claude/continue-build-ldot8v (PR 300). No migration (uses the
+064/065 columns already there).
