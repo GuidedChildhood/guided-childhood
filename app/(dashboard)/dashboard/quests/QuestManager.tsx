@@ -445,8 +445,8 @@ export default function QuestManager() {
       <h1 style={{ fontSize: 'clamp(1.6rem, 5vw, 2rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '10px' }}>
         The deal: quests earn stars
       </h1>
-      <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.65, marginBottom: '20px' }}>
-        Mostly real chores and jobs that earn stars, agreed with you. No phone needed: print the sheet for the fridge, or just tick them off here yourself. Older children can have their own private link if they want one, never a reason to hand a child a phone before they are ready.
+      <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: '20px' }}>
+        Real chores and jobs, agreed with you, that earn stars. No phone needed: print the sheet, or tick them off here yourself.
       </p>
 
       {/* Child picker plus add another, right here, never back to onboarding */}
@@ -680,12 +680,21 @@ export default function QuestManager() {
                   </div>
                   {pingResult && <p style={{ fontSize: '12px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 10px' }}>{pingResult}</p>}
                   <div style={{ background: 'var(--tint-sage)', borderRadius: '12px', padding: '12px 14px' }}>
-                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '5px' }}>
-                      How it works, and why it is safe
+                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
+                      One private page, and it is safe
                     </div>
-                    <p style={{ fontSize: '12.5px', color: 'var(--ink)', lineHeight: 1.6, margin: 0 }}>
-                      {child.name} gets one private page, not an app. Nothing to install, no account, no login, no messages from anyone. The link is the key and only your family holds it. It opens like a mini app (add it to their Home Screen for one tap) and every star still lands only when you approve it here.
-                    </p>
+                    <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                      {[
+                        'Nothing to install, no login, no messages',
+                        'Only your family holds the link',
+                        'Stars land only when you approve them here',
+                      ].map(line => (
+                        <li key={line} style={{ display: 'flex', gap: '8px', fontSize: '12.5px', color: 'var(--ink)', lineHeight: 1.4 }}>
+                          <span aria-hidden style={{ color: 'var(--retro-green)', fontWeight: 900, flexShrink: 0 }}>✓</span>
+                          <span>{line}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 </div>
                 {/* What they see: the real child page */}
@@ -910,8 +919,8 @@ export default function QuestManager() {
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
               📵 Do this first
             </div>
-            <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 12px' }}>
-              Spotted something that needs doing before screens go on? Send it now: it lands at the top of {child.name}&apos;s list marked before screens, pings their device, and sits on the printed contract.
+            <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 12px' }}>
+              Something to do before screens go on? Send it now. It jumps to the top of {child.name}&apos;s list and pings their phone.
             </p>
             <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '10px' }}>
               {['🛏️ Tidy your bedroom', '📚 Homework finished', '🎒 Bag packed for tomorrow'].map(chip => (
@@ -1462,8 +1471,8 @@ export default function QuestManager() {
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-soft)', marginBottom: '10px' }}>
               Hand the quests over
             </div>
-            <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 14px' }}>
-              Older kids get their own private quest page: send the link by message, it opens like a mini app, nothing to install. Little ones get the printed sheet for the fridge.
+            <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 14px' }}>
+              Older kids get their own private page, sent by message. Little ones get the printed sheet for the fridge.
             </p>
             <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
               {link ? (

@@ -9,7 +9,7 @@
 import { useEffect, useState } from 'react'
 import DigiCharacter from '@/components/digi/DigiCharacter'
 import { STAR_MINUTES } from '@/lib/quests/templates'
-import { screenBalanceInsight } from '@/lib/quests/screen-balance'
+import { screenBalanceInsight, WAKING_DAY_MINS } from '@/lib/quests/screen-balance'
 
 export default function ScreenBalanceInsight({
   childName, ageBand, balanceStars, weekStars, timerRunning,
@@ -34,6 +34,12 @@ export default function ScreenBalanceInsight({
 
   const accent = insight.tone === 'evening' ? 'var(--stage-5-bold)' : insight.tone === 'pace' ? 'var(--stage-1-bold)' : 'var(--tint-sage)'
 
+  // The balance drawn as a slim bar, in the Greenlight split spirit: the age
+  // guide's screen slice against the rest of a full day (real play, people,
+  // sleep). Deliberately a shape, not a hard split, so it stays a calibrated
+  // steer rather than a rule. Capped so a generous guide never fills the bar.
+  const screenPct = Math.min(50, Math.round((insight.guideMins / WAKING_DAY_MINS) * 100))
+
   return (
     <div style={{
       display: 'flex', gap: '13px', alignItems: 'flex-start',
@@ -53,9 +59,27 @@ export default function ScreenBalanceInsight({
         <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)', lineHeight: 1.25, marginBottom: '5px' }}>
           {insight.headline}
         </div>
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0 }}>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 12px' }}>
           {insight.body}
         </p>
+
+        {/* The balance, shown: screen is one slice of a full day. */}
+        <div>
+          <div style={{ display: 'flex', height: 10, borderRadius: '100px', overflow: 'hidden', border: '1px solid var(--border)' }}>
+            <span style={{ width: `${screenPct}%`, background: 'var(--terracotta)' }} />
+            <span style={{ flex: 1, background: 'var(--retro-green)' }} />
+          </div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px 14px', marginTop: '7px' }}>
+            <span style={{ display: 'flex', alignItems: 'center', gap: '5px', fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: 'var(--ink-soft)' }}>
+              <span style={{ width: 8, height: 8, borderRadius: '2px', background: 'var(--terracotta)' }} />
+              ≈{insight.guideMins} min screen
+            </span>
+            <span style={{ display: 'flex', alignItems: 'center', gap: '5px', fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: 'var(--ink-soft)' }}>
+              <span style={{ width: 8, height: 8, borderRadius: '2px', background: 'var(--retro-green)' }} />
+              the rest for play, people and sleep
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   )

@@ -482,7 +482,7 @@ export default function DigiChat({
               <DigiAvatar size={36} mood="wave" />
             </div>
             <div>
-              <p className="eyebrow" style={{ marginBottom: '1px', fontSize: 10 }}>Your AI advisor</p>
+              <p className="eyebrow" style={{ marginBottom: '1px', fontSize: 10 }}>Your evidence led guide</p>
               <h1 style={{ fontSize: '1.05rem', marginBottom: '0', lineHeight: 1 }}>DiGi</h1>
             </div>
           </div>
@@ -506,13 +506,16 @@ export default function DigiChat({
 
         {messages.length === 0 && (
           <div style={{ paddingTop: '8px' }}>
-            <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: '16px', padding: '20px', marginBottom: '20px' }}>
-              <p style={{ fontSize: '17px', color: 'var(--ink)', lineHeight: 1.55, marginBottom: '8px', fontWeight: 600 }}>
-                I&apos;m DiGi, your digital parenting advisor.
-              </p>
-              <p style={{ fontSize: '16px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
-                I&apos;m trained on the research and I get more useful the more you tell me. What&apos;s on your mind?
-              </p>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10, maxWidth: '90%', marginBottom: '20px' }}>
+              <div style={{ width: 30, flexShrink: 0, marginTop: 2 }}><DigiAvatar size={30} mood="wave" /></div>
+              <div style={{ background: 'var(--terracotta-lt)', borderRadius: '6px 20px 20px 20px', padding: '16px 19px' }}>
+                <p style={{ fontFamily: 'var(--font-body)', fontSize: '17px', color: 'var(--ink)', lineHeight: 1.55, margin: '0 0 8px', fontWeight: 700 }}>
+                  I&apos;m DiGi, your evidence led guide.
+                </p>
+                <p style={{ fontFamily: 'var(--font-body)', fontSize: '16px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0, fontWeight: 500 }}>
+                  I&apos;m trained on the research and I get more useful the more you tell me. What&apos;s on your mind?
+                </p>
+              </div>
             </div>
 
             {stageId && stageName && !deviceSetupDismissed && (
@@ -604,61 +607,60 @@ export default function DigiChat({
         )}
 
         {messages.map((msg, i) => {
-          // Chat protocol: every short thought in a DiGi reply becomes its
-          // own bubble, the way real messaging apps stack a multi part
-          // message. The avatar sits once, beside the last bubble, and
-          // consecutive bubbles in the group sit close with softened inner
-          // corners, the iMessage grouping look rather than separate cards.
-          // A lesson reply renders as one structured card. Everything else
-          // stacks as the usual chat bubbles.
-          const lesson = msg.role === 'assistant' ? parseLesson(msg.content) : null
-          const bubbles = msg.role === 'assistant' ? splitIntoBubbles(msg.content) : [msg.content]
+          // DiGi speaks as one warm, continuous voice, the way the welcome
+          // sheet reads, not a stack of boxed white cards. The whole reply
+          // flows inside a single soft butter bubble, its separate thoughts
+          // set apart by generous spacing rather than separate boxes. Only the
+          // parent's own message wears the solid butter bubble, on the right.
+          // A lesson reply still renders as its structured card.
+          if (msg.role === 'user') {
+            return (
+              <div key={i} style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '22px' }}>
+                <div style={{
+                  maxWidth: '82%', background: 'var(--terracotta)', color: 'var(--ink)',
+                  borderRadius: '20px 20px 5px 20px', padding: '13px 17px',
+                  boxShadow: '0 2px 0 var(--terracotta-dark)',
+                  fontFamily: 'var(--font-body)', fontSize: '16.5px', lineHeight: 1.5,
+                  fontWeight: 500, whiteSpace: 'pre-wrap',
+                }}>
+                  {msg.content}
+                </div>
+              </div>
+            )
+          }
+          const lesson = parseLesson(msg.content)
+          const bubbles = splitIntoBubbles(msg.content)
           if (!lesson && bubbles.length === 0) return null
           return (
-            <div key={i} style={{ display: 'flex', justifyContent: msg.role === 'user' ? 'flex-end' : 'flex-start', marginBottom: '18px' }}>
-              <div style={{ display: 'flex', alignItems: 'flex-end', gap: 8, maxWidth: '86%' }}>
-                {msg.role === 'assistant' && (
-                  <div style={{ width: 30, flexShrink: 0, marginBottom: 2 }}>
-                    <DigiAvatar size={30} />
+            <div key={i} style={{ display: 'flex', justifyContent: 'flex-start', marginBottom: '22px' }}>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10, maxWidth: '90%' }}>
+                <div style={{ width: 30, flexShrink: 0, marginTop: 2 }}>
+                  <DigiAvatar size={30} />
+                </div>
+                {lesson ? <LessonCard parts={lesson} /> : (
+                  <div style={{
+                    background: 'var(--terracotta-lt)', borderRadius: '6px 20px 20px 20px',
+                    padding: '16px 19px', display: 'flex', flexDirection: 'column', gap: '13px', minWidth: 0,
+                  }}>
+                    {bubbles.map((text, b) => (
+                      <p key={b} style={{
+                        margin: 0, fontFamily: 'var(--font-body)', fontSize: '16.5px',
+                        lineHeight: 1.6, color: 'var(--ink)', fontWeight: 500, whiteSpace: 'pre-wrap',
+                      }}>
+                        {text}
+                      </p>
+                    ))}
                   </div>
                 )}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', minWidth: 0 }}>
-                  {lesson ? <LessonCard parts={lesson} /> : bubbles.map((text, b) => {
-                    const first = b === 0
-                    const last = b === bubbles.length - 1
-                    return (
-                      <div
-                        key={b}
-                        style={{
-                          padding: '13px 17px',
-                          borderRadius: msg.role === 'user'
-                            ? `20px ${first ? '20px' : '8px'} ${last ? '5px' : '8px'} 20px`
-                            : `${first ? '20px' : '8px'} 20px 20px ${last ? '5px' : '8px'}`,
-                          background: msg.role === 'user' ? 'var(--terracotta)' : 'var(--white, #fff)',
-                          color: msg.role === 'user' ? 'var(--ink)' : 'var(--ink)',
-                          boxShadow: msg.role === 'assistant'
-                            ? '0 1px 1px rgba(26,26,46,0.04), 0 4px 14px rgba(26,26,46,0.07)'
-                            : '0 2px 0 var(--terracotta-dark)',
-                          fontSize: '16.5px',
-                          lineHeight: 1.5,
-                          whiteSpace: 'pre-wrap',
-                          fontWeight: 500,
-                        }}
-                      >
-                        {text}
-                      </div>
-                    )
-                  })}
-                </div>
               </div>
             </div>
           )
         })}
 
         {loading && !streamingReply && (
-          <div style={{ display: 'flex', justifyContent: 'flex-start', marginBottom: '18px', alignItems: 'flex-end', gap: 8 }}>
-            <div style={{ width: 30, flexShrink: 0 }}><DigiAvatar size={30} mood="thinking" /></div>
-            <div style={{ padding: '15px 18px', background: 'var(--white)', borderRadius: '20px 20px 20px 5px', boxShadow: '0 1px 1px rgba(26,26,46,0.04), 0 4px 14px rgba(26,26,46,0.07)', display: 'flex', gap: '5px', alignItems: 'center' }}>
+          <div style={{ display: 'flex', justifyContent: 'flex-start', marginBottom: '22px', alignItems: 'flex-start', gap: 10 }}>
+            <div style={{ width: 30, flexShrink: 0, marginTop: 2 }}><DigiAvatar size={30} mood="thinking" /></div>
+            <div style={{ padding: '16px 19px', background: 'var(--terracotta-lt)', borderRadius: '6px 20px 20px 20px', display: 'flex', gap: '5px', alignItems: 'center' }}>
               {[0, 1, 2].map(i => (
                 <div key={i} style={{ width: '7px', height: '7px', background: 'var(--ink-light)', borderRadius: '50%', animation: `bounce 1.2s ease-in-out ${i * 0.2}s infinite` }} />
               ))}

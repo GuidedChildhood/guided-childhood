@@ -30,7 +30,21 @@ function guideFor(ageBand: string | null): BandGuide {
   return (ageBand && BAND[ageBand]) || BAND['8-10']
 }
 
-export type BalanceInsight = { headline: string; body: string; tone: BalanceTone }
+export type BalanceInsight = {
+  headline: string
+  body: string
+  tone: BalanceTone
+  // The age guide, surfaced so the card can draw the balance as a slim bar:
+  // the recommended screen slice against the rest of a child's waking day
+  // (real play, people, sleep). A rough shape, never a hard split.
+  guideMins: number
+  bandLabel: string
+}
+
+// A child's waking day, in minutes, used only to size the balance bar so the
+// screen slice reads as one part of a full day, not the whole of it. Rough by
+// design: the point is the shape, not a precise clock.
+export const WAKING_DAY_MINS = 13 * 60
 
 export function screenBalanceInsight(opts: {
   childName: string
@@ -56,6 +70,8 @@ export function screenBalanceInsight(opts: {
       tone: 'evening',
       headline: `Winding down for ${childName}`,
       body: `${effort}It is getting late. Screens settle a child best when they stop about an hour before bed, so tonight might be one to bank the minutes for tomorrow.`,
+      guideMins: g.dailyMins,
+      bandLabel: g.label,
     }
   }
 
@@ -67,6 +83,8 @@ export function screenBalanceInsight(opts: {
       tone: 'pace',
       headline: `Plenty banked for ${childName}`,
       body: `${effort}For age ${g.label}, ${g.line} ${childName} has ${minutesReady} minutes saved, so it is worth spreading across the days rather than one long go, so it stays a treat.`,
+      guideMins: g.dailyMins,
+      bandLabel: g.label,
     }
   }
 
@@ -75,5 +93,7 @@ export function screenBalanceInsight(opts: {
     tone: 'good',
     headline: `A healthy balance for ${childName}`,
     body: `${effort}${nowLine}For age ${g.label}, ${g.line}`,
+    guideMins: g.dailyMins,
+    bandLabel: g.label,
   }
 }

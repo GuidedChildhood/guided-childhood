@@ -52,6 +52,9 @@ export default function StarSummary({
   }, [sessionEndsAt])
   const remainingMs = sessionEndsAt && now ? Math.max(0, new Date(sessionEndsAt).getTime() - now) : null
 
+  // A tile reads as tappable only when it says so: a Greenlight style chevron
+  // sits in the corner of an interactive tile, and the static one (this week)
+  // stays visibly calmer, so a parent knows at a glance which ones act.
   const tile = (
     icon: string, big: string, label: string, onClick?: () => void, hot?: boolean,
   ): React.ReactNode => (
@@ -59,12 +62,18 @@ export default function StarSummary({
       onClick={onClick}
       disabled={!onClick}
       style={{
-        flex: 1, minWidth: 82, textAlign: 'center', cursor: onClick ? 'pointer' : 'default',
-        background: hot ? 'var(--danger-bg)' : 'var(--cream)',
+        position: 'relative', flex: 1, minWidth: 82, textAlign: 'center',
+        cursor: onClick ? 'pointer' : 'default',
+        background: hot ? 'var(--danger-bg)' : onClick ? '#fff' : 'var(--cream)',
         border: `1.5px solid ${hot ? 'var(--danger)' : 'var(--border)'}`,
         borderRadius: '14px', padding: '11px 8px',
+        boxShadow: onClick ? '0 2px 0 var(--border)' : 'none',
+        opacity: onClick || hot ? 1 : 0.82,
       }}
     >
+      {onClick && (
+        <span aria-hidden style={{ position: 'absolute', top: 6, right: 9, fontSize: '13px', fontWeight: 800, color: hot ? 'var(--danger)' : 'var(--ink-light)' }}>›</span>
+      )}
       <div style={{ fontSize: '1.2rem', lineHeight: 1 }}>{icon}</div>
       <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.2rem', color: hot ? 'var(--danger)' : 'var(--ink)', marginTop: '3px' }}>{big}</div>
       <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.03em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginTop: '2px' }}>{label}</div>
