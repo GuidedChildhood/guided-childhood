@@ -816,3 +816,7 @@ Two more in the same pass. The Scripts library, a core menu the Good Inside brie
 ## 2026-07-16 — Child reward pop up: bigger, happier art
 
 Small follow up after the Good Inside sweep merged (PR #295). The design brief had named the child reward pop up (HappyNews) as wanting "bigger, happier art than the current pop up." Bumped it toward the Duolingo ABC warmth: the squad character is bigger (64 to 76) with a thicker ring, the headline is bigger (17 to 19), and the confetti burst is fuller (14 to 18 pieces). Still the same transient bottom pop up that springs up, celebrates and tucks away, just warmer. Standalone component, no logic change, typecheck clean. Branch restarted off latest main since PR #295 had merged; new draft PR. No SQL.
+
+## 2026-07-16 — DiGi rename extended to marketing (pre launch, no SEO cost)
+
+Justin confirmed the child app is good as is and the marketing copy is fine to change since nothing has launched, so the "evidence led guide" reframe now runs across the marketing surfaces too, not just the in app ones: the homepage hero eyebrow, the DiGi feature card title, the pricing line, the join and pathway feature lists, the FAQ answer, the OG and page meta descriptions, and the DigiCharacter alt text. The SEO keyword "AI parenting advisor" became "evidence led parenting guide". Left untouched on purpose: the internal DiGi LLM system prompts (lib/digi/system.ts, safety.ts, insights.ts and the two api routes), which describe DiGi's role to the model and are never seen by a user. Typecheck clean. On PR #297. No SQL.
