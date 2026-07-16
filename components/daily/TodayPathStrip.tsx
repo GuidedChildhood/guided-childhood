@@ -231,11 +231,12 @@ export default function TodayPathStrip({ tasks, dailyMinutes = 10 }: { tasks: To
         >
           {(celebrating || pressure) && (
             <span style={{
-              background: celebrating ? 'var(--terracotta)' : 'var(--deep-teal)',
-              color: celebrating ? 'var(--ink)' : '#fff',
+              background: celebrating ? 'var(--terracotta)' : 'var(--terracotta-lt)',
+              color: 'var(--ink)',
+              border: celebrating ? 'none' : '1.5px solid var(--terracotta)',
               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '10.5px',
               padding: '5px 10px', borderRadius: '100px', whiteSpace: 'nowrap',
-              boxShadow: celebrating ? '0 3px 10px rgba(237,195,95,0.5)' : '0 3px 10px rgba(23,60,70,0.3)',
+              boxShadow: '0 3px 10px rgba(237,195,95,0.35)',
               marginBottom: '2px', transition: 'background 0.3s',
             }}>
               {celebrating ? `${celebrating} done, lovely 🎉` : 'Tap the glow, do this next'}
