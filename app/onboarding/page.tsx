@@ -549,7 +549,7 @@ export default function OnboardingPage() {
             </div>
             <div style={{ animation: 'fadeUp 0.45s ease 0.1s both' }}>
               <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 20, color: 'var(--ink)', letterSpacing: '-0.02em' }}>DiGi</div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ink-light)', letterSpacing: '0.06em', marginTop: 2 }}>Your digital parenting advisor</div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ink-light)', letterSpacing: '0.06em', marginTop: 2 }}>Your evidence led guide</div>
             </div>
           </div>
 
