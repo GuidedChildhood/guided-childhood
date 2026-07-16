@@ -579,6 +579,38 @@ export default function QuestManager() {
             )
           })()}
 
+          {/* The screens gate, made visible to the parent: when a quest is
+              flagged before screens, the child's timer stays locked until you
+              approve it. This line says plainly whether it is locked and on
+              what, or unlocked, so the parent knows the timer state at a glance
+              the same way the child does. */}
+          {(() => {
+            const gate = childQuests.filter(q => q.blocks_screens && questDueToday(q.schedule, q.schedule_days))
+            if (gate.length === 0) return null
+            const blocking = gate.filter(q => !approvedTodayIds.has(q.id))
+            const locked = blocking.length > 0
+            return (
+              <div style={{
+                display: 'flex', alignItems: 'center', gap: '11px', marginBottom: '18px',
+                background: locked ? 'var(--danger-bg)' : 'var(--tint-sage)',
+                border: `1.5px solid ${locked ? 'var(--danger)' : 'var(--deep-teal)'}`,
+                borderRadius: '14px', padding: '12px 15px',
+              }}>
+                <span style={{ fontSize: '1.3rem', lineHeight: 1, flexShrink: 0 }}>{locked ? '🔒' : '✅'}</span>
+                <div style={{ minWidth: 0 }}>
+                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: 'var(--ink)' }}>
+                    {locked ? 'Screen time is locked' : 'Screen time is unlocked'}
+                  </div>
+                  <div style={{ fontFamily: 'var(--font-body)', fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
+                    {locked
+                      ? `Waiting on: ${blocking.map(q => q.title).join(', ')}. Approve ${blocking.length === 1 ? 'it' : 'them'} and ${child.name}'s timer can start.`
+                      : `${child.name} finished the before screens ${gate.length === 1 ? 'task' : 'tasks'}, so the timer is ready to go.`}
+                  </div>
+                </div>
+              </div>
+            )
+          })()}
+
           {/* DiGi's calm, age aware read on the child's screen time balance,
               evidence led and never a hard limit. */}
           <ScreenBalanceInsight
