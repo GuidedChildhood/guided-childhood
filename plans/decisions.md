@@ -794,3 +794,33 @@ Verification (background agent) drove three deliberate edits away from the sourc
 ## 2026-07-16 — Mobbin reconnected: fresh UX pull captured for the Quests redesign
 
 The Quests redesign brief (quests-redesign.md) and the Good Inside design language entry both flagged that Mobbin was offline the day they were written, so StarSummary and the front door were built from the documented spirit only, not live screens. Mobbin is back. Pulled fresh screens for every pattern the plan names and wrote them up in design-refs/quests-mobbin-notes.md, each pattern linked to the exact Mobbin screen so a builder can open it while working. Highlights that change the build: GoHenry's child earning screen shows the week as one segmented bar (Allowance, Tasks done, To do) rather than three flat tiles, so fold our waiting/to do/this week tiles into one bar with the tiles as tap targets below; Greenlight's parent home proves a stat card reads as tappable only when it carries a one word action sublabel (Manage), so our three tiles each need a Review/Open/Adjust line; Opal's Blocks screen is the exact model for the live device timer, a single running session card with the remaining time big and a draining progress underline, PWA mirrors it, never a lock; Greenlight's set allowance screen already ships the age aware recommendation box that the DiGi screen time balance insight should copy (recommended balance, age named, one honest sentence, never a rule); LookUp/Byte/GoHenry Learn for the four big labelled front door tiles, we alternate butter and cream not a saturated wall; Finch for celebration that rewards the choice and growth (egg hatching, weekly star, streak framed as days done not loss aversion), which doubles as the safety template for the child insight surface; Duolingo ABC and BitePal for the child insight card shape, one big bubble headline, one squad character, one idea, one gentle dismiss. Skip list recorded too: no saturated colour walls, no loss aversion streak copy, no passcode lock as the timer spine (Parent PIN stays parked), never their fonts. This unblocks slices 1 to 3 of the Quests redesign; no code changed this session, references only. Draft PR opened on claude/mobbin-ux-references-i142dd. No SQL.
+
+## 2026-07-16 — Email funnel status layer, deliverability hygiene, and config knobs (backend batch)
+
+Built the status aware email funnel end to end on Resend and the database, no
+new vendor. lib/email/lifecycle.ts computes a contact's state (lead, trialing,
+trial_ending, active, lapsed) from the fields we already hold. The daily cron
+now branches on state, not just day counts: a trial ending nudge two days
+before a no card trial runs out, a win back a couple of days after a trial
+lapses unpaid (held so it never lands the same day as the day 7 founder
+email), and a lead nurture (migration 063, starter_leads.nurtured_at) that
+sends one come start the trial email to a captured email with no account,
+excluding anyone who already has a profile (the converted flag is never set,
+so profiles is the source of truth). Nurture stops on payment because an
+active member is never in the trial_ending or lapsed state. Deliverability
+hygiene: /api/email/webhook suppresses hard bounces and spam complaints
+(email_opt_out for members, nurtured_at for leads), soft bounces ignored,
+svix verified against RESEND_WEBHOOK_SECRET. Also this batch: the Stripe
+checkout can require a Terms tick (consent_collection) behind
+STRIPE_TOS_CONSENT env because it needs a Terms URL in the Stripe Dashboard
+first; school reminders now reach the child's phone and the parent's inbox
+(strong subject, fix it link) not only the parent PWA, aligned across the
+morning and evening crons to child appropriate kinds only; the screens gate
+(before screens quests locking the timer) is now shown to the parent on the
+Quests page; and STAR_MINUTES became a config value (NEXT_PUBLIC_STAR_MINUTES,
+default 5) so the exchange rate is tunable without code. Config to set when
+ready: run migrations 061, 062, 063; RESEND_WEBHOOK_SECRET plus a Resend
+webhook at /api/email/webhook for bounced and complained; Terms URL in Stripe
+then STRIPE_TOS_CONSENT=on. All on PR 296, clean and mergeable. The per child
+parent set rate and the Quests slice 3 send to child persisted state remain UI
+work for the design session, not built in parallel.
