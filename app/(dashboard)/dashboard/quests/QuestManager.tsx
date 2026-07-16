@@ -20,11 +20,11 @@ function printableForAsk(title: string) {
 }
 
 type QuestTab = 'manage' | 'rewards' | 'games' | 'share'
-const TABS: { key: QuestTab; label: string }[] = [
-  { key: 'manage', label: 'Quests' },
-  { key: 'rewards', label: 'Rewards' },
-  { key: 'games', label: 'Games' },
-  { key: 'share', label: 'Share' },
+const TABS: { key: QuestTab; label: string; icon: string; hint: string }[] = [
+  { key: 'manage', label: 'Quests', icon: '⭐', hint: 'Set the tasks' },
+  { key: 'rewards', label: 'Rewards', icon: '🎁', hint: 'Prizes to save for' },
+  { key: 'games', label: 'Games', icon: '🎲', hint: 'Play to learn' },
+  { key: 'share', label: 'Share', icon: '📲', hint: 'Phone or QR code' },
 ]
 
 // The parent's quest manager. Pick from templates or write your own,
@@ -569,7 +569,9 @@ export default function QuestManager() {
                 todo={dueToday.filter(q => !tickedToday.has(q.id)).length}
                 goal={g ? { title: g.title, stars_needed: g.stars_needed } : null}
                 timerRunning={sessions.some(s => s.child_id === activeChild)}
+                sessionEndsAt={sessions.find(s => s.child_id === activeChild)?.ends_at ?? null}
                 onApprove={() => { if (ticks.some(t => t.child_id === activeChild && t.status === 'pending')) { window.location.href = '/dashboard#quest-board' } else { setTab('manage') } }}
+                onTodo={() => { setTab('manage'); setTimeout(() => document.getElementById('my-todo')?.scrollIntoView({ behavior: 'smooth' }), 60) }}
                 onScreenTime={() => document.getElementById('screen-time')?.scrollIntoView({ behavior: 'smooth' })}
                 onShare={() => setTab('share')}
               />
@@ -679,22 +681,30 @@ export default function QuestManager() {
             )}
           </div>
 
-          {/* The tabs: everything in its own place instead of one long scroll */}
-          <div style={{ display: 'flex', gap: '4px', background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '100px', padding: '4px', marginBottom: '18px', width: 'fit-content', maxWidth: '100%', overflowX: 'auto' }}>
-            {TABS.map(t => (
-              <button
-                key={t.key}
-                onClick={() => setTab(t.key)}
-                style={{
-                  padding: '9px 18px', borderRadius: '100px', cursor: 'pointer', border: 'none', flexShrink: 0,
-                  background: tab === t.key ? 'var(--deep-teal)' : 'transparent',
-                  color: tab === t.key ? '#fff' : 'var(--ink-soft)',
-                  fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 700,
-                }}
-              >
-                {t.label}
-              </button>
-            ))}
+          {/* The front door: four big labelled buttons with an icon and a line
+              of what each is for, so a parent knows exactly where to go. */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px', marginBottom: '18px' }}>
+            {TABS.map(t => {
+              const on = tab === t.key
+              return (
+                <button
+                  key={t.key}
+                  onClick={() => setTab(t.key)}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: '11px', textAlign: 'left', cursor: 'pointer',
+                    background: on ? 'var(--terracotta-lt)' : '#fff',
+                    border: `2px solid ${on ? 'var(--terracotta)' : 'var(--border)'}`,
+                    borderRadius: '16px', padding: '12px 14px',
+                  }}
+                >
+                  <span style={{ fontSize: '1.5rem', lineHeight: 1, flexShrink: 0 }}>{t.icon}</span>
+                  <span style={{ minWidth: 0 }}>
+                    <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--ink)' }}>{t.label}</span>
+                    <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 600, letterSpacing: '0.03em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginTop: '2px' }}>{t.hint}</span>
+                  </span>
+                </button>
+              )
+            })}
           </div>
 
           {tab === 'manage' && (
@@ -909,7 +919,7 @@ export default function QuestManager() {
             </a>
           </div>
 
-          <div style={{ ...card, ...(allDoneToday ? { borderColor: 'var(--terracotta)', boxShadow: '0 6px 20px rgba(237,195,95,0.18)' } : {}) }}>
+          <div id="my-todo" style={{ ...card, scrollMarginTop: '80px', ...(allDoneToday ? { borderColor: 'var(--terracotta)', boxShadow: '0 6px 20px rgba(237,195,95,0.18)' } : {}) }}>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '12px' }}>
               {child.name}&apos;s quests
             </div>
