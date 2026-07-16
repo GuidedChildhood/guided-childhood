@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import DigiCharacter from '@/components/digi/DigiCharacter'
+import WriteIn from '@/components/ui/WriteIn'
 
 // The Sunday DiGi weekly review, on the parent's home. A warm read of the
 // family's own week, one gentle watch-for, and one thing to set up for next
@@ -86,7 +87,7 @@ export default function WeeklyReviewCard() {
   const routineHref = review.suggestion_routine ? `/dashboard/quests?routine=${review.suggestion_routine}` : '/dashboard/quests'
 
   return (
-    <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '24px', padding: '22px 24px 20px', marginBottom: '20px', boxShadow: '0 2px 4px rgba(26,26,46,0.03), 0 14px 36px -12px rgba(26,26,46,0.13)' }}>
+    <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '24px', padding: '24px 24px 22px', marginBottom: '24px', boxShadow: '0 2px 4px rgba(26,26,46,0.03), 0 14px 36px -12px rgba(26,26,46,0.13)' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '13px', marginBottom: '16px' }}>
         <span style={{ flexShrink: 0, width: 50, height: 50, borderRadius: '15px', background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <DigiCharacter mood="happy" size={34} />
@@ -113,7 +114,9 @@ export default function WeeklyReviewCard() {
         ))}
       </div>
 
-      <p style={{ fontSize: '16px', color: 'var(--ink)', opacity: 0.86, lineHeight: 1.65, margin: '0 0 15px' }}>{review.summary}</p>
+      <p style={{ fontSize: '16px', color: 'var(--ink)', opacity: 0.86, lineHeight: 1.65, margin: '0 0 16px' }}>
+        <WriteIn key={review.summary} text={review.summary} baseDelay={120} stepMs={16} />
+      </p>
 
       {review.watch_for && (
         <div style={{ background: 'var(--tint-sage)', borderRadius: '14px', padding: '14px 16px', marginBottom: '15px' }}>
