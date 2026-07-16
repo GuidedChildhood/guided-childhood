@@ -54,7 +54,7 @@ export default function HappyNews({ item, onClose }: { item: HappyNewsItem | nul
 
       {/* Confetti burst behind the card */}
       <div style={{ position: 'absolute', bottom: '70px', left: '50%', width: 0, height: 0, pointerEvents: 'none' }}>
-        {Array.from({ length: 14 }).map((_, i) => {
+        {Array.from({ length: 18 }).map((_, i) => {
           const drift = `${(i % 2 ? 1 : -1) * (20 + (i * 7) % 90)}px`
           const fall = `${-70 - (i * 13) % 120}px`
           return (
@@ -77,8 +77,8 @@ export default function HappyNews({ item, onClose }: { item: HappyNewsItem | nul
         animation: 'gcHappyUp 0.55s cubic-bezier(0.22,1.2,0.36,1) both',
       }}>
         <span style={{
-          flexShrink: 0, width: 64, height: 64, borderRadius: '50%', overflow: 'hidden',
-          background: '#FFF7E8', border: `2.5px solid ${c.ring}`,
+          flexShrink: 0, width: 76, height: 76, borderRadius: '50%', overflow: 'hidden',
+          background: '#FFF7E8', border: `3px solid ${c.ring}`,
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           animation: 'gcHappyBob 1.6s ease-in-out infinite',
         }}>
@@ -89,7 +89,7 @@ export default function HappyNews({ item, onClose }: { item: HappyNewsItem | nul
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: c.ring, marginBottom: '2px' }}>
             {c.name} says
           </div>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '17px', color: 'var(--ink)', lineHeight: 1.2 }}>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '19px', color: 'var(--ink)', lineHeight: 1.15, letterSpacing: '-0.01em' }}>
             {item.headline}
           </div>
           {item.sub && (
