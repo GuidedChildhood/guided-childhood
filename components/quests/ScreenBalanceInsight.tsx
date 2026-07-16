@@ -10,6 +10,7 @@
 
 import { useEffect, useState } from 'react'
 import DigiCharacter from '@/components/digi/DigiCharacter'
+import WriteIn from '@/components/ui/WriteIn'
 import { STAR_MINUTES } from '@/lib/quests/templates'
 import { screenBalanceInsight, WAKING_DAY_MINS } from '@/lib/quests/screen-balance'
 
@@ -41,10 +42,10 @@ export default function ScreenBalanceInsight({
   return (
     <div style={{
       background: '#fff', border: '1.5px solid var(--border)',
-      borderRadius: '22px', padding: '24px 24px 22px', marginBottom: '18px',
+      borderRadius: '22px', padding: '26px 24px 24px', marginBottom: '22px',
     }}>
       {/* The mark and who is speaking, welcome sheet style */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '13px', marginBottom: '18px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '13px', marginBottom: '20px' }}>
         <span style={{
           flexShrink: 0, width: 52, height: 52, borderRadius: '16px', background: 'var(--terracotta)',
           boxShadow: '0 4px 0 var(--terracotta-dark)',
@@ -57,22 +58,22 @@ export default function ScreenBalanceInsight({
         </div>
       </div>
 
-      {/* Big bold heading, the note it opens with */}
+      {/* Big bold heading, the note it opens with, written in */}
       <h3 style={{
         fontFamily: 'var(--font-display)', fontWeight: 900,
         fontSize: 'clamp(1.4rem, 5.5vw, 1.7rem)', color: 'var(--ink)',
-        lineHeight: 1.12, letterSpacing: '-0.03em', margin: '0 0 12px',
+        lineHeight: 1.12, letterSpacing: '-0.03em', margin: '0 0 14px',
       }}>
-        {insight.headline}
+        <WriteIn key={insight.headline} text={insight.headline} baseDelay={0} stepMs={34} />
       </h3>
 
-      {/* Generous body, DiGi writing to you */}
+      {/* Generous body, DiGi writing to you, revealed word by word */}
       <p style={{
         fontFamily: 'var(--font-body)', fontWeight: 500,
         fontSize: '17px', color: 'var(--ink)', opacity: 0.9,
-        lineHeight: 1.62, margin: '0 0 20px',
+        lineHeight: 1.62, margin: '0 0 22px',
       }}>
-        {insight.body}
+        <WriteIn key={insight.body} text={insight.body} baseDelay={220} stepMs={18} />
       </p>
 
       {/* The balance, shown: screen is one slice of a full day */}

@@ -41,7 +41,7 @@ export default function WaitingOnYou() {
   if (rest > 0) parts.push(`${rest} more`)
 
   return (
-    <Link href="/dashboard/notifications" style={{ textDecoration: 'none', display: 'block', marginBottom: '18px' }}>
+    <Link href="/dashboard/notifications" style={{ textDecoration: 'none', display: 'block', marginBottom: '22px' }}>
       <div style={{
         display: 'flex', alignItems: 'center', gap: '15px',
         background: '#fff', border: `1.5px solid ${urgent > 0 ? '#E5484D' : 'var(--border)'}`,
