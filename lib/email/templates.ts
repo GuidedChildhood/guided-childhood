@@ -202,6 +202,48 @@ export function weeklyDigestEmail(params: {
   }
 }
 
+// 8 · Trial ending, the gentle nudge two days before a no card trial runs
+// out. No pressure, a reminder of what they would keep, one clear door.
+export function trialEndingEmail(params: {
+  childName: string
+  daysLeft: number
+  unsubscribe: string
+}): EmailContent {
+  const { childName, daysLeft, unsubscribe } = params
+  const when = daysLeft <= 1 ? 'tomorrow' : `in ${daysLeft} days`
+  return {
+    subject: `Your free trial ends ${when}`,
+    html: wrapper(
+      heading('A quick heads up.') +
+      p(`Your free trial ends ${when}. No card was taken, so nothing happens automatically, this is just so it does not catch you out.`) +
+      p(`If it has helped with ${childName}, keeping it means the daily moments, the scripts for the hard conversations, and DiGi whenever you need the words all stay on.`) +
+      button('Keep everything on', `${APP}/dashboard/upgrade`) +
+      p(`And if the timing is not right, that is completely fine. You drop to the free tier and keep your pathway. Nothing is lost.`),
+      unsubscribe
+    ),
+  }
+}
+
+// 9 · Win back, sent once a short while after a trial lapses unpaid. Warm,
+// no guilt, the door left open.
+export function winBackEmail(params: {
+  childName: string
+  unsubscribe: string
+}): EmailContent {
+  const { childName, unsubscribe } = params
+  return {
+    subject: 'The door is still open',
+    html: wrapper(
+      heading('No rush, just a hello.') +
+      p(`Your trial wrapped up and you are on the free tier now, which is a perfectly good place to be. No guilt here.`) +
+      p(`When things with ${childName} feel like they need a steadier hand again, everything is one tap from being back on: the scripts, the daily moments, DiGi at 11pm.`) +
+      button('Pick up where you left off', `${APP}/dashboard/upgrade`) +
+      p(`One small thing this week is the whole idea. That is all it ever asks.`),
+      unsubscribe
+    ),
+  }
+}
+
 // 7 · School reminder, the belt and braces channel alongside the push. A
 // strong, specific subject so it stands out in a busy inbox, the list of
 // what is due, and a plain link to fix it if DiGi picked it up wrong from a

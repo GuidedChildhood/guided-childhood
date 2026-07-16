@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { sendEmail, emailConfigured, unsubscribeUrl } from '@/lib/email'
-import { day2StageEmail, day3TourEmail, day4DigiEmail, day7FounderEmail, weeklyDigestEmail } from '@/lib/email/templates'
+import { day2StageEmail, day3TourEmail, day4DigiEmail, day7FounderEmail, weeklyDigestEmail, trialEndingEmail, winBackEmail } from '@/lib/email/templates'
+import { lifecycleState, trialDaysLeft } from '@/lib/email/lifecycle'
 import { STAGES, getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { FOUNDER_CAP } from '@/lib/stripe'
 
@@ -20,6 +21,7 @@ interface ProfileRow {
   full_name: string | null
   created_at: string
   subscription_status: string | null
+  trial_ends_at: string | null
   email_opt_out: boolean
   onboarding_complete: boolean | null
 }
@@ -57,7 +59,7 @@ export async function GET(req: NextRequest) {
   const [{ data: profiles }, { data: log }] = await Promise.all([
     supabase
       .from('profiles')
-      .select('id, email, full_name, created_at, subscription_status, email_opt_out, onboarding_complete')
+      .select('id, email, full_name, created_at, subscription_status, trial_ends_at, email_opt_out, onboarding_complete')
       .gte('created_at', since),
     supabase.from('email_log').select('user_id, email_key'),
   ])
@@ -78,7 +80,7 @@ export async function GET(req: NextRequest) {
     return founderRemaining
   }
 
-  const results: Record<string, number> = { day2: 0, day3: 0, day4: 0, day7: 0, digest: 0, errors: 0 }
+  const results: Record<string, number> = { day2: 0, day3: 0, day4: 0, day7: 0, trialEnding: 0, winback: 0, digest: 0, errors: 0 }
 
   async function deliver(userId: string, email: string, key: string, content: { subject: string; html: string }, counter: string) {
     const { error: logError } = await supabase.from('email_log').insert({ user_id: userId, email_key: key })
@@ -129,6 +131,27 @@ export async function GET(req: NextRequest) {
         await deliver(profile.id, profile.email, 'day7-founder', day7FounderEmail({ remaining, unsubscribe }), 'day7')
       }
     }
+
+    // The status aware layer: branch on where the contact actually is, not on
+    // the day count. Trial nurture stops on payment (an active member is never
+    // in trial_ending or lapsed), and win back starts on lapse. Both send once.
+    const state = lifecycleState(profile)
+
+    if (state === 'trial_ending' && !alreadySent(profile.id, 'trial-ending')) {
+      const left = trialDaysLeft(profile.trial_ends_at) ?? 1
+      await deliver(profile.id, profile.email, 'trial-ending', trialEndingEmail({
+        childName, daysLeft: Math.max(1, left), unsubscribe,
+      }), 'trialEnding')
+    }
+
+    if (state === 'lapsed' && !alreadySent(profile.id, 'winback-1')) {
+      // Give it a couple of days after the lapse so it does not land the same
+      // day as the day 7 founder email. A cancellation (no trial date) sends.
+      const left = trialDaysLeft(profile.trial_ends_at)
+      if (left == null || left <= -2) {
+        await deliver(profile.id, profile.email, 'winback-1', winBackEmail({ childName, unsubscribe }), 'winback')
+      }
+    }
   }
 
   // Monday digest, for everyone onboarded (not just the last 30 days)
@@ -137,7 +160,7 @@ export async function GET(req: NextRequest) {
     const key = digestKey(now)
     const { data: allProfiles } = await supabase
       .from('profiles')
-      .select('id, email, full_name, created_at, subscription_status, email_opt_out, onboarding_complete')
+      .select('id, email, full_name, created_at, subscription_status, trial_ends_at, email_opt_out, onboarding_complete')
       .eq('onboarding_complete', true)
       .eq('email_opt_out', false)
 
