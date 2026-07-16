@@ -83,8 +83,15 @@ export default async function ScriptDetailPage({
   const [{ data: prevScript }, { data: nextScript }, { data: primaryChild }] = await Promise.all([
     supabase.from('scripts').select('sort_order, title').eq('sort_order', sortOrder - 1).maybeSingle(),
     supabase.from('scripts').select('sort_order, title').eq('sort_order', sortOrder + 1).maybeSingle(),
-    supabase.from('children').select('name, phone').eq('parent_id', user.id).eq('is_primary', true).maybeSingle(),
+    supabase.from('children').select('id, name, phone').eq('parent_id', user.id).eq('is_primary', true).maybeSingle(),
   ])
+
+  // Does this child have their own app (a kid link)? If so the note goes
+  // straight to their phone and their app, not out over SMS.
+  const { data: kidLink } = primaryChild?.id
+    ? await supabase.from('kid_links').select('token').eq('child_id', primaryChild.id).maybeSingle()
+    : { data: null }
+  const childHasApp = Boolean((kidLink as { token?: string } | null)?.token)
 
   return (
     <div style={{ maxWidth: '680px', margin: '0 auto', padding: '24px 20px 48px' }}>
@@ -198,6 +205,8 @@ export default async function ScriptDetailPage({
         }}
         childName={primaryChild?.name ?? null}
         childPhone={primaryChild?.phone ?? null}
+        childId={primaryChild?.id ?? null}
+        childHasApp={childHasApp}
         stageId={script.stage_id}
       />
 

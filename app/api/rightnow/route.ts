@@ -119,28 +119,32 @@ export async function POST(request: Request) {
     }
   }
 
-  // Concerns ledger: best effort, never blocks the rescue.
-  try {
-    const slug = `rightnow-${situation}`
-    const now = new Date().toISOString()
-    const { data: prior } = await supabase
-      .from('concerns')
-      .select('status, times_flagged')
-      .eq('user_id', user.id)
-      .eq('slug', slug)
-      .maybeSingle()
+  // Concerns ledger: best effort, never blocks the rescue. The generic
+  // Something else picker is never tracked as a concern; only a specific
+  // situation is (the typed one goes through the custom route with real words).
+  if (situation !== 'something-else') {
+    try {
+      const slug = `rightnow-${situation}`
+      const now = new Date().toISOString()
+      const { data: prior } = await supabase
+        .from('concerns')
+        .select('status, times_flagged')
+        .eq('user_id', user.id)
+        .eq('slug', slug)
+        .maybeSingle()
 
-    await supabase.from('concerns').upsert({
-      user_id: user.id,
-      child_id: child?.id ?? null,
-      source: 'rightnow',
-      slug,
-      label: def.label,
-      status: prior ? (prior.status === 'resolved' ? 'open' : prior.status) : 'open',
-      times_flagged: prior ? prior.times_flagged + 1 : 1,
-      last_flagged_at: now,
-    }, { onConflict: 'user_id,slug' })
-  } catch { /* the ledger never blocks the rescue */ }
+      await supabase.from('concerns').upsert({
+        user_id: user.id,
+        child_id: child?.id ?? null,
+        source: 'rightnow',
+        slug,
+        label: def.label,
+        status: prior ? (prior.status === 'resolved' ? 'open' : prior.status) : 'open',
+        times_flagged: prior ? prior.times_flagged + 1 : 1,
+        last_flagged_at: now,
+      }, { onConflict: 'user_id,slug' })
+    } catch { /* the ledger never blocks the rescue */ }
+  }
 
   return NextResponse.json({
     title: best.title,

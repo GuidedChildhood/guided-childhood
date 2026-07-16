@@ -908,3 +908,78 @@ you have had your screen time today pause at the guide, still letting them ask a
 grown up for a treat. Never a hard block: the parent holds the real control.
 /api/quests/time/active and the child page carry usedToday plus recommended. No
 migration. All on branch claude/continue-build-ldot8v.
+
+## 2026-07-16 — Shared notes and scripts land on the child's own app, not SMS (migration 064)
+
+Justin: a note or script we share should appear on the child's phone (their own
+app) and be stored to read again, not fired out over SMS, and this delivery
+should apply to anything we share to a child; the read together option stays
+only for the no phone ages. Built as a reusable system.
+
+- Migration 064 child_shares (id, user_id, child_id, kind note|script, title,
+  body, ref, created_at, read_at), RLS owner only, idempotent, flat.
+- /api/child-share: POST (parent auth) stores the share and best effort pings
+  the child's device deep linked to their own page, returns hasApp; PATCH marks
+  a share read from the child's link (token is the auth, scoped to that child).
+- The child's app shows a From your grown up card at the top of their page
+  (NotesFromGrownUp): the note in warm italic, a Got it thank you button that
+  marks it read on the server and folds it away, but it stays in their history.
+  The kid page loads the last twelve shares; a missing table degrades to empty,
+  never breaks the page.
+- The script note card (ScriptDepth) now leads with Send to their app for a
+  child who has their link set up (no phone number needed), the note landing in
+  their app and pinging their phone. SMS drops to Text it instead. For the young
+  ages (foundation, builder) the read together option (bedtime, lunchbox) leads
+  and there is no app send. Copy stays throughout. The script page passes the
+  child id and whether a kid link exists.
+
+The same POST /api/child-share is the reusable path for sharing anything else to
+a child's app later. Owner action: run migration 064.
+
+Voice consistency (item 2): the critical part shipped earlier (voice off by
+default, consistent opt in across the platform). True unification of the live
+rehearsal voice to the recorded Skye voice is not buildable in app, the Skye
+voice is pre generated audio files and dynamic rehearsal lines would need a live
+text to speech service (a provider, key and cost decision for Justin). Flagged,
+not faked.
+
+## 2026-07-16 — Something else is not a tracked concern, share nudge opens a real printable
+
+Two red pen fixes from Justin.
+
+**Something else is a picker, not a rateable moment.** The daily concern check
+in (Still on the list) was showing a Something else row with Better/Same/Still
+hard, because the generic catch all was being written to the concerns ledger and
+counted (Come up 4 times). Only the specific moment a parent lands on should be
+tracked. Fixed at the source and the surface: the moment tagger and the Right
+Now rescue no longer log the generic slug (something-else, something_else,
+other) as a concern, and the daily check in filters those slugs and a Something
+else label out defensively so any old row never shows. The typed Something else
+(custom rescue) still logs, because there the label is the parent's real words,
+a genuine specific moment.
+
+**The share a printable nudge now opens a real printable.** DiGi's proactive
+share nudge deep linked to /dashboard/lessons, so tapping the notification
+landed on a hub, not an actual printable. It now points at /dashboard/printables
+(a real page of ready to print sheets, which does exist, the PRINTABLES
+registry), and the prompt copy names Printables to match. New prompts carry the
+new href; old pending ones age out.
+
+## 2026-07-16 — Weekly review shows what DiGi is doing, notifications clear on tap
+
+Two more from Justin.
+
+**Your week with DiGi tells you what it is doing while it reads.** The preview
+button sat on Reading for a while with no sign of life. Now, while DiGi builds
+the review, the card runs a warm little narrative in DiGi's voice (Just reading
+all our chats from this week... Got them, pulling out what actually mattered...
+Here you go, shaping the plan for next week...), DiGi shifts to a thinking mood,
+so the wait reads as DiGi working, not a stuck button.
+
+**A DiGi notification clears when you open it.** The notifications feed is
+derived live, so a DiGi nudge kept showing in the bell even after the parent
+tapped it. NotificationCard (new client card) marks a DiGi prompt acted on tap
+(keepalive fetch, so it lands through the navigation), and the feed only shows
+pending, so it is gone from the count next look. The action notifications
+(approve, a child's ask, school) still clear only when the parent actually does
+the thing on the target page, so a stray tap never loses one.
