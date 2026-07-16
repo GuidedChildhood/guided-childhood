@@ -65,7 +65,7 @@ export default async function MomentsPage() {
     <div style={{ maxWidth: '700px', margin: '0 auto', padding: '24px 20px' }}>
       <div style={{ marginBottom: '24px' }}>
         <p className="eyebrow" style={{ marginBottom: '4px' }}>Moment cards</p>
-        <h1 style={{ fontSize: 'clamp(1.4rem, 4vw, 1.8rem)', marginBottom: '8px' }}>
+        <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '8px' }}>
           Every moment, handled
         </h1>
         <p style={{ fontSize: '14px', color: 'var(--ink-muted)', lineHeight: 1.6 }}>
