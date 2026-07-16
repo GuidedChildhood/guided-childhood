@@ -39,7 +39,7 @@ export async function GET(req: NextRequest) {
 
   const { data: dueTomorrow } = await supabase
     .from('school_actions')
-    .select('user_id, title')
+    .select('user_id, title, kind')
     .eq('status', 'open')
     .eq('due_date', tomorrow)
 
@@ -77,6 +77,32 @@ export async function GET(req: NextRequest) {
       })
       const result = await res.json()
       if (result.sent > 0) sent++
+    } catch { /* best effort */ }
+  }
+
+  // Child appropriate one offs reach the child's phone the night before too,
+  // so packing the kit becomes their job, not only the parent's memory.
+  // Payments, deadlines and plain notices stay with the parent only.
+  const CHILD_KINDS = new Set(['kit', 'event', 'homework'])
+  const childByUser = new Map<string, string[]>()
+  for (const a of dueTomorrow ?? []) {
+    if (!a.kind || !CHILD_KINDS.has(a.kind)) continue
+    const list = childByUser.get(a.user_id) ?? []
+    list.push(a.title)
+    childByUser.set(a.user_id, list)
+  }
+  for (const [userId, titles] of childByUser) {
+    const body = titles.length === 1
+      ? `Tomorrow: ${titles[0]}. Get it ready tonight ⭐`
+      : `Tomorrow: ${titles.slice(0, 3).join(', ')}. Get them ready tonight ⭐`
+    try {
+      const res = await fetch(`${origin}/api/push/send`, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json', authorization: `Bearer ${process.env.CRON_SECRET}` },
+        body: JSON.stringify({ userId, audience: 'kids', title: 'From school 🎒', body, url: '/' }),
+      })
+      const result = await res.json()
+      if (result.sent > 0) childSent++
     } catch { /* best effort */ }
   }
 
