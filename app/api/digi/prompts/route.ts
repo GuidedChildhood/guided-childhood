@@ -111,7 +111,7 @@ ${(knowledge ?? []).map(k => `- ${k.source_name}: ${k.finding}`).join('\n')}
 NORMAL MOMENTS the parent may be feeling bad about (ground any parent_care prompt in one of these: name the everyday moment plainly, say what the research below shows is normal and cite the source name, then offer one small permission giving thing to do. The job is to stand beside them, never to guilt them):
 ${(norms ?? []).map(k => `- ${k.source_name}: ${k.finding}`).join('\n') || '- (none seeded yet)'}
 
-Rules: warm, plain, direct, no alarmism, never diagnose. watch_for prompts describe one concrete thing to notice this week and one gentle action. tip prompts give one small daily life improvement (school run conversations, mealtimes, bedtime handover). If a tip trigger reason is about sharing a printable or lesson, write a short warm nudge to open Lessons and send ${child.name} a printable or lesson so they earn stars, and make it feel like a treat not a task. parent_care prompts are about the parent's own wellbeing, grounded in a NORMAL MOMENT above, permission giving in tone, and they gently point to giving yourself space or letting the child be bored or play alone when it fits. celebration prompts are short and genuinely warm. If anything suggests crisis, the action is always a human: GP, NHS 111, Childline 0800 1111. No dashes in the text. Return ONLY a JSON array: [{"kind":"...","title":"max 8 words","body":"2 to 3 sentences","reason":"the trigger reason verbatim"}]`,
+Rules: warm, plain, direct, no alarmism, never diagnose. watch_for prompts describe one concrete thing to notice this week and one gentle action. tip prompts give one small daily life improvement (school run conversations, mealtimes, bedtime handover). If a tip trigger reason is about sharing a printable or lesson, write a short warm nudge to open Printables and send ${child.name} a printable so they earn stars (a real page of ready to print sheets), and make it feel like a treat not a task. parent_care prompts are about the parent's own wellbeing, grounded in a NORMAL MOMENT above, permission giving in tone, and they gently point to giving yourself space or letting the child be bored or play alone when it fits. celebration prompts are short and genuinely warm. If anything suggests crisis, the action is always a human: GP, NHS 111, Childline 0800 1111. No dashes in the text. Return ONLY a JSON array: [{"kind":"...","title":"max 8 words","body":"2 to 3 sentences","reason":"the trigger reason verbatim"}]`,
       }],
     })
 
@@ -125,9 +125,10 @@ Rules: warm, plain, direct, no alarmism, never diagnose. watch_for prompts descr
       .slice(0, 2)
       .map(p => ({
         user_id: user.id, child_id: child.id, kind: p.kind, title: p.title, body: p.body, reason: p.reason,
-        // A share nudge deep links straight to the Lessons hub, so the prompt
-        // (and the notification built from it) opens exactly what to do.
-        href: p.reason === SHARE_NUDGE_REASON ? '/dashboard/lessons' : null,
+        // A share nudge deep links straight to the Printables library, a real
+        // page of real sheets, so the notification opens exactly what it names
+        // and never lands on a hub with nothing to actually print.
+        href: p.reason === SHARE_NUDGE_REASON ? '/dashboard/printables' : null,
       }))
 
     if (rows.length > 0) await supabase.from('digi_prompts').insert(rows)

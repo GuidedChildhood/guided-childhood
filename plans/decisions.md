@@ -942,3 +942,25 @@ rehearsal voice to the recorded Skye voice is not buildable in app, the Skye
 voice is pre generated audio files and dynamic rehearsal lines would need a live
 text to speech service (a provider, key and cost decision for Justin). Flagged,
 not faked.
+
+## 2026-07-16 — Something else is not a tracked concern, share nudge opens a real printable
+
+Two red pen fixes from Justin.
+
+**Something else is a picker, not a rateable moment.** The daily concern check
+in (Still on the list) was showing a Something else row with Better/Same/Still
+hard, because the generic catch all was being written to the concerns ledger and
+counted (Come up 4 times). Only the specific moment a parent lands on should be
+tracked. Fixed at the source and the surface: the moment tagger and the Right
+Now rescue no longer log the generic slug (something-else, something_else,
+other) as a concern, and the daily check in filters those slugs and a Something
+else label out defensively so any old row never shows. The typed Something else
+(custom rescue) still logs, because there the label is the parent's real words,
+a genuine specific moment.
+
+**The share a printable nudge now opens a real printable.** DiGi's proactive
+share nudge deep linked to /dashboard/lessons, so tapping the notification
+landed on a hub, not an actual printable. It now points at /dashboard/printables
+(a real page of ready to print sheets, which does exist, the PRINTABLES
+registry), and the prompt copy names Printables to match. New prompts carry the
+new href; old pending ones age out.
