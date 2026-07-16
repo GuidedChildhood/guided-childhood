@@ -20,7 +20,7 @@ export default async function NotificationsPage() {
     <div style={{ maxWidth: '620px', margin: '0 auto', padding: '26px 20px 48px' }}>
       <div style={{ marginBottom: '22px' }}>
         <p className="eyebrow" style={{ marginBottom: '5px' }}>What has popped up</p>
-        <h1 style={{ fontSize: 'clamp(1.7rem, 5vw, 2.15rem)', marginBottom: '8px' }}>Notifications</h1>
+        <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '8px' }}>Notifications</h1>
         <p style={{ color: 'var(--ink-soft)', fontSize: '15.5px', lineHeight: 1.6 }}>
           {items.length === 0
             ? 'Nothing needs you right now.'

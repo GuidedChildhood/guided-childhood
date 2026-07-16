@@ -41,17 +41,17 @@ export default function WaitingOnYou() {
   if (rest > 0) parts.push(`${rest} more`)
 
   return (
-    <Link href="/dashboard/notifications" style={{ textDecoration: 'none', display: 'block', marginBottom: '18px' }}>
+    <Link href="/dashboard/notifications" style={{ textDecoration: 'none', display: 'block', marginBottom: '22px' }}>
       <div style={{
-        display: 'flex', alignItems: 'center', gap: '14px',
+        display: 'flex', alignItems: 'center', gap: '15px',
         background: '#fff', border: `1.5px solid ${urgent > 0 ? '#E5484D' : 'var(--border)'}`,
-        borderRadius: '18px', padding: '15px 18px',
-        boxShadow: urgent > 0 ? '0 4px 16px rgba(229,72,77,0.14)' : '0 2px 12px rgba(26,26,46,0.05)',
+        borderRadius: '22px', padding: '17px 20px',
+        boxShadow: urgent > 0 ? '0 6px 22px -6px rgba(229,72,77,0.22)' : '0 2px 4px rgba(26,26,46,0.03), 0 14px 34px -12px rgba(26,26,46,0.12)',
       }}>
         <span style={{
           position: 'relative', flexShrink: 0,
-          width: 46, height: 46, borderRadius: '13px', background: urgent > 0 ? '#FDECEC' : 'var(--cream)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px',
+          width: 50, height: 50, borderRadius: '15px', background: urgent > 0 ? '#FDECEC' : 'var(--cream)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px',
         }}>
           🔔
           <span style={{
@@ -64,17 +64,17 @@ export default function WaitingOnYou() {
           </span>
         </span>
         <span style={{ flex: 1, minWidth: 0 }}>
-          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: 'var(--ink)', lineHeight: 1.2 }}>
+          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.2rem', color: 'var(--ink)', lineHeight: 1.15, letterSpacing: '-0.01em' }}>
             {urgent > 0 ? 'Waiting on you' : 'Notifications'}
           </span>
-          <span style={{ display: 'block', fontSize: '13px', color: 'var(--ink-soft)', marginTop: '2px' }}>
+          <span style={{ display: 'block', fontSize: '14px', color: 'var(--ink-soft)', marginTop: '3px' }}>
             {parts.join(' · ')}
           </span>
         </span>
         <span style={{
-          flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px',
-          color: '#fff', background: urgent > 0 ? '#E5484D' : 'var(--deep-teal)', borderRadius: '11px', padding: '9px 15px',
-          boxShadow: urgent > 0 ? '0 3px 0 #B93B3F' : '0 3px 0 rgba(0,0,0,0.25)',
+          flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px',
+          color: '#fff', background: urgent > 0 ? '#E5484D' : 'var(--deep-teal)', borderRadius: '13px', padding: '11px 18px',
+          boxShadow: urgent > 0 ? '0 4px 0 #B93B3F' : '0 4px 0 rgba(0,0,0,0.25)',
         }}>
           {urgent > 0 ? 'Review' : 'Open'}
         </span>
