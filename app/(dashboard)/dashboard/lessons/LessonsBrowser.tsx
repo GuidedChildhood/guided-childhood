@@ -44,6 +44,14 @@ function strandEmoji(strand: string): string {
   return STRAND_EMOJI.default
 }
 
+// The library lessons carry a category label rather than a strand, so they get
+// their own lookup with a book default, never the film emoji.
+function categoryEmoji(category: string): string {
+  const k = (category || '').toLowerCase()
+  for (const key of Object.keys(STRAND_EMOJI)) if (key !== 'default' && k.includes(key)) return STRAND_EMOJI[key]
+  return '📘'
+}
+
 export default function LessonsBrowser({
   childId, childName, childStageNum, watchItems, libraryItems, printables, isPaid,
 }: {
@@ -237,19 +245,27 @@ export default function LessonsBrowser({
               groupByStage(libForStage).map(g => (
               <div key={g.s.num} style={{ marginBottom: '18px' }}>
                 {stage === 'all' && <StageSubHead s={g.s} childStageNum={childStageNum} childName={childName} />}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                {/* Big pastel collection cards, the Headspace and stoic library
+                    pattern, so the lessons shelf matches the Watch and Print
+                    shelves instead of reading as a plain list. */}
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '14px' }}>
                 {g.items.map(l => (
-                  <Link key={l.id} href={l.href} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', textDecoration: 'none', background: l.done ? '#EDF7F1' : '#fff', border: l.done ? '1px solid #B7DEC9' : '1px solid var(--border)', borderRadius: '14px', padding: '13px 15px', opacity: l.locked ? 0.72 : 1, boxShadow: '0 2px 10px rgba(26,26,46,0.04)' }}>
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '3px', flexWrap: 'wrap' }}>
-                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 600, color: 'var(--terracotta-dark)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>{l.categoryLabel}</span>
-                        {l.done && <span style={{ fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, color: '#1F7A54', letterSpacing: '0.08em', textTransform: 'uppercase', background: '#D4EDDF', borderRadius: '100px', padding: '2px 8px' }}>✓ Done</span>}
-                        {l.locked && <span style={{ fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, color: 'var(--ink-muted)', letterSpacing: '0.08em', textTransform: 'uppercase', background: 'var(--border)', borderRadius: '100px', padding: '2px 7px' }}>Members</span>}
-                      </div>
-                      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '15px', color: 'var(--ink)', marginBottom: '2px' }}>{l.title}</div>
-                      <div style={{ fontSize: '12px', color: 'var(--ink-muted)', fontStyle: 'italic', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{l.keyMessage}</div>
+                  <Link key={l.id} href={l.href} style={{ display: 'flex', flexDirection: 'column', textDecoration: 'none', background: '#fff', border: l.done ? '1.5px solid #B7DEC9' : '1.5px solid var(--border)', borderRadius: '18px', overflow: 'hidden', opacity: l.locked ? 0.72 : 1, boxShadow: '0 4px 18px rgba(26,26,46,0.06)' }}>
+                    <div style={{ position: 'relative', aspectRatio: '16 / 8', display: 'flex', alignItems: 'center', justifyContent: 'center', background: `linear-gradient(150deg, var(--stage-${l.stageNum}-bold) 0%, var(--stage-${l.stageNum}) 100%)` }}>
+                      <span style={{ fontSize: '36px', lineHeight: 1 }}>{categoryEmoji(l.categoryLabel)}</span>
+                      {l.done && <span style={{ position: 'absolute', top: '10px', right: '10px', fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, color: '#1F7A54', letterSpacing: '0.06em', textTransform: 'uppercase', background: '#D4EDDF', borderRadius: '100px', padding: '2px 8px' }}>✓ Done</span>}
+                      {l.locked && <span style={{ position: 'absolute', top: '10px', right: '10px', fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, color: 'var(--ink)', letterSpacing: '0.06em', textTransform: 'uppercase', background: 'rgba(255,255,255,0.85)', borderRadius: '100px', padding: '2px 8px' }}>🔒 Members</span>}
                     </div>
-                    {l.done ? <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: '#1F7A54', letterSpacing: '0.04em', textTransform: 'uppercase', flexShrink: 0 }}>Run again ↻</span> : <span style={{ fontSize: '15px', color: 'var(--ink-light)', flexShrink: 0 }}>{l.locked ? '🔒' : '→'}</span>}
+                    <div style={{ padding: '13px 15px 15px', display: 'flex', flexDirection: 'column', gap: '10px', flex: 1 }}>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, color: 'var(--terracotta-dark)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '5px' }}>{l.categoryLabel}</div>
+                        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)', lineHeight: 1.2, marginBottom: '4px' }}>{l.title}</div>
+                        <div style={{ fontSize: '12px', color: 'var(--ink-muted)', fontStyle: 'italic', lineHeight: 1.4, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{l.keyMessage}</div>
+                      </div>
+                      <span style={{ textAlign: 'center', background: l.done ? 'var(--cream)' : 'var(--terracotta)', color: 'var(--ink)', border: l.done ? '1.5px solid var(--border)' : 'none', borderRadius: '11px', padding: '9px 10px', fontFamily: 'var(--font-display)', fontSize: '12.5px', fontWeight: 800, boxShadow: l.done ? 'none' : '0 3px 0 var(--terracotta-dark)' }}>
+                        {l.locked ? 'Preview' : l.done ? 'Run again ↻' : 'Start'}
+                      </span>
+                    </div>
                   </Link>
                 ))}
                 </div>
