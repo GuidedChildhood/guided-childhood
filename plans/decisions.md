@@ -1360,3 +1360,21 @@ wellbeing, agreement, lessons, printables, Home) are anchored to the PRIMARY
 child via is_primary. So a family with more than one child gets per child quests
 and pathway, but one shared coaching context on the primary child. Full per child
 coaching everywhere is a real post launch workstream, not a launch week fix.
+
+## 2026-07-17 — Consolidation pass: fewer cards, calmer surfaces
+
+Answering the honest read that the app had grown busy. Removing and folding, not
+adding. Multi child functionality (per child quests, stars, links, pathway) left
+intact; only coaching stays primary child as agreed.
+
+- Pathway: the two big cards added this session (the science and the stance) are
+  folded into one PathwayEvidence card, collapsed by default, one tap to read. The
+  pathway is a next step again, not a research brochure.
+- Child app: the star bank and the balance strip are merged into one block (stars
+  and streak on top, the balance meter, week jobs and earn more below), so the top
+  of the child app is one calm card, not two.
+- Parent Home: already hero led (Today's Path plus a tidy tile grid), so no risky
+  reorg. The weekly review preview offer now only shows from Thursday on, so it is
+  not one more card every day.
+
+On PR 303. No migration.

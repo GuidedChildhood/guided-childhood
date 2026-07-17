@@ -3,7 +3,8 @@ import { hasFullAccess } from '@/lib/access'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { STAGES, type AgeBand, type ChallengeId } from '@/lib/content/stages'
-import { readinessForAgeBand, WHY_IT_WORKS, OUR_STANCE } from '@/lib/content/readiness'
+import { readinessForAgeBand } from '@/lib/content/readiness'
+import PathwayEvidence from '@/components/pathway/PathwayEvidence'
 import PathwayJourney from '@/components/pathway/PathwayJourney'
 import StageRoadMap from '@/components/pathway/StageRoadMap'
 import { getStageProgress, type StageId as ProgressStageId } from '@/lib/pathway/progress'
@@ -171,36 +172,10 @@ export default async function PathwayPage() {
         />
       </div>
 
-      {/* Why this works: the measured science, so the gradual on ramp reads as
-          evidence led and not another screen time app. Odgers and Orben, balance
-          and competence over a countdown. */}
+      {/* The evidence and the stance, folded into one card that opens on demand,
+          so the pathway stays a next step, not a research brochure. */}
       <div style={{ padding: '0 20px', maxWidth: '720px', margin: '0 auto 24px' }}>
-        <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '18px', padding: '20px' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--deep-teal)', marginBottom: '6px' }}>{WHY_IT_WORKS.eyebrow}</div>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '18px', color: 'var(--ink)', lineHeight: 1.2, marginBottom: '8px' }}>{WHY_IT_WORKS.headline}</div>
-          <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 14px' }}>{WHY_IT_WORKS.body}</p>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-            {WHY_IT_WORKS.points.map(p => (
-              <div key={p.title} style={{ display: 'flex', gap: '11px', background: 'var(--cream)', borderRadius: '13px', padding: '12px 14px' }}>
-                <span style={{ fontSize: '20px', flexShrink: 0, lineHeight: 1.2 }}>{p.icon}</span>
-                <div style={{ minWidth: 0 }}>
-                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: 'var(--ink)' }}>{p.title}</div>
-                  <div style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '2px' }}>{p.body}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, color: 'var(--ink-muted)', lineHeight: 1.5, margin: '14px 0 0' }}>{WHY_IT_WORKS.sources}</p>
-        </div>
-      </div>
-
-      {/* Our stance: the honest answer to the fair question, does an app for kids
-          contradict a screen reduction mission. Baked in, not buried. */}
-      <div style={{ padding: '0 20px', maxWidth: '720px', margin: '0 auto 24px' }}>
-        <div style={{ background: 'var(--deep-teal)', borderRadius: '18px', padding: '20px' }}>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '17px', color: '#fff', lineHeight: 1.25, marginBottom: '8px' }}>{OUR_STANCE.headline}</div>
-          <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.85)', lineHeight: 1.6, margin: 0 }}>{OUR_STANCE.body}</p>
-        </div>
+        <PathwayEvidence />
       </div>
 
       {/* The journey: one spine, three strands, the single next step */}

@@ -99,8 +99,13 @@ export default function WeeklyReviewCard() {
 
   if (!loaded) return null
 
-  // No review yet: a slim offer to preview the week so far.
+  // No review yet: a slim offer to preview the week, but only from Thursday on,
+  // when the week just gone actually has a shape. The rest of the week Home stays
+  // clear of it, so it is not one more card every day.
   if (!review) {
+    const day = new Date().getDay() // 0 Sun .. 6 Sat
+    const endOfWeek = day === 0 || day >= 4
+    if (!endOfWeek) return null
     return (
       <div style={{ background: '#fff', border: '1.5px dashed var(--border)', borderRadius: '18px', padding: '16px 18px', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '13px' }}>
         <span style={{ flexShrink: 0, width: 42, height: 42, borderRadius: '12px', background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

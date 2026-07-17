@@ -660,8 +660,9 @@ export default function KidQuestScreen({
         <div style={{
           background: '#fff', borderRadius: '20px', padding: '16px 18px',
           boxShadow: '0 5px 0 rgba(26,26,46,0.10)', borderLeft: `6px solid ${accentHex}`,
-          marginBottom: '16px', display: 'flex', alignItems: 'center', gap: 14,
+          marginBottom: '16px',
         }}>
+         <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
           <div style={{
             flexShrink: 0, width: 56, height: 56, borderRadius: '16px',
             background: 'var(--terracotta-lt)', border: `2px solid ${accentHex}`,
@@ -691,20 +692,21 @@ export default function KidQuestScreen({
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: '8px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>day streak</div>
             </div>
           )}
-        </div>
+         </div>
 
-        {/* The balance strip: real life against screen watched today, on track
-            or not, the week's jobs highlighted, and a friendly way to earn more
-            by asking a grown up for a new job. Same logic as the parent's card,
-            told for a child. */}
-        <KidBalanceStrip
-          todayScreen={usedTodayMinutes}
-          todayEarned={todayEarnedMins}
-          weekStars={weekStars}
-          weekUsed={usedWeekMinutes}
-          onAskMore={askForMore}
-          asked={askedMore}
-        />
+          {/* The balance, in the same block: real life against screen watched
+              today, the week's jobs, and a friendly way to earn more. One card,
+              not two, so the top of the app stays calm. */}
+          <KidBalanceStrip
+            bare
+            todayScreen={usedTodayMinutes}
+            todayEarned={todayEarnedMins}
+            weekStars={weekStars}
+            weekUsed={usedWeekMinutes}
+            onAskMore={askForMore}
+            asked={askedMore}
+          />
+        </div>
 
         {/* Our family deal: a quiet link the child can pop up any time to keep
             an eye on how the deal works and what they are saving for. */}
@@ -1667,13 +1669,14 @@ const SCHOOL_KIND_EMOJI: Record<string, string> = {
 // they watched. It highlights the week's stars and, when screen pulls ahead or
 // they just want more, offers the productive way forward: ask a grown up for a
 // new job, never nag, always a door to earn more.
-function KidBalanceStrip({ todayScreen, todayEarned, weekStars, weekUsed, onAskMore, asked }: {
+function KidBalanceStrip({ todayScreen, todayEarned, weekStars, weekUsed, onAskMore, asked, bare = false }: {
   todayScreen: number
   todayEarned: number
   weekStars: number
   weekUsed: number
   onAskMore: () => void
   asked: boolean
+  bare?: boolean
 }) {
   const screen = Math.max(0, Math.round(todayScreen))
   const real = Math.max(0, Math.round(todayEarned))
@@ -1685,8 +1688,13 @@ function KidBalanceStrip({ todayScreen, todayEarned, weekStars, weekUsed, onAskM
   const green = 'var(--retro-green)'
   const gold = 'var(--terracotta)'
 
+  // Bare drops the card chrome so it can sit inside the star bank as one block.
+  const wrap: React.CSSProperties = bare
+    ? { marginTop: '14px', paddingTop: '14px', borderTop: '1.5px solid var(--border)' }
+    : { background: '#fff', borderRadius: '20px', padding: '16px 18px', marginBottom: '16px', boxShadow: '0 5px 0 rgba(26,26,46,0.10)' }
+
   return (
-    <div style={{ background: '#fff', borderRadius: '20px', padding: '16px 18px', marginBottom: '16px', boxShadow: '0 5px 0 rgba(26,26,46,0.10)' }}>
+    <div style={wrap}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '11px' }}>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>My balance today</span>
         <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '12px', color: '#fff', background: onTrack ? green : gold, borderRadius: '100px', padding: '5px 13px' }}>
