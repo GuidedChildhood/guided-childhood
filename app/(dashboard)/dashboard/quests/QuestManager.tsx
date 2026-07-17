@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { QUEST_TEMPLATES, PLAY_PAYS_WHY, STAR_MINUTES } from '@/lib/quests/templates'
 import { ROUTINE_PACKS, type RoutinePack } from '@/lib/quests/routines'
 import ChildLinkShare from '@/components/quests/ChildLinkShare'
+import QrHandoverModal from '@/components/quests/QrHandoverModal'
 import StarSummary from '@/components/quests/StarSummary'
 import ScreenBalanceInsight from '@/components/quests/ScreenBalanceInsight'
 import { questDueToday } from '@/lib/quests/due'
@@ -73,6 +74,7 @@ export default function QuestManager() {
   const [goalStars, setGoalStars] = useState('20')
   const [dailyStars, setDailyStars] = useState('')
   const [copied, setCopied] = useState(false)
+  const [showQr, setShowQr] = useState(false)
   const [addingChild, setAddingChild] = useState(false)
   const [newChildName, setNewChildName] = useState('')
   const [newChildAge, setNewChildAge] = useState<string | null>(null)
@@ -464,6 +466,10 @@ export default function QuestManager() {
 
   return (
     <div>
+      {/* The instant hand over: scan the QR straight onto the child's phone. */}
+      {showQr && link && child && (
+        <QrHandoverModal token={link.token} childName={child.name} onClose={() => setShowQr(false)} />
+      )}
       <p className="eyebrow" style={{ color: 'var(--terracotta-dark)', marginBottom: '10px' }}>Family Quests</p>
       <h1 style={{ fontSize: 'clamp(1.6rem, 5vw, 2rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '10px' }}>
         The deal: quests earn stars
@@ -1535,13 +1541,13 @@ export default function QuestManager() {
             <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
               {link ? (
                 <button
-                  onClick={shareLink}
+                  onClick={() => setShowQr(true)}
                   style={{
                     background: 'var(--deep-teal)', color: '#fff', border: 'none', borderRadius: '14px',
                     padding: '12px 20px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 800,
                   }}
                 >
-                  {copied ? 'Link copied ✓' : `Send ${child.name} their link`}
+                  Send {child.name} their link
                 </button>
               ) : (
                 <button

@@ -43,8 +43,12 @@ export default function DigiWelcomeSheet({ childrenInfo }: { childrenInfo: Child
     const today = new Date().toISOString().slice(0, 10)
     const key = `gc_digi_welcome_${today}`
     if (localStorage.getItem(key)) return
-    // Land on a clean Home first, then DiGi greets about a minute after login,
-    // rather than stacking on top of the other popups the second the page loads.
+    // The first three greetings come up right after login, the warm front door
+    // families liked best while they are still learning the app. After that DiGi
+    // eases back to five minutes in, so it never interrupts a parent who already
+    // knows their way around. A short beat still lets Home paint first.
+    const priorCount = Number(localStorage.getItem('gc_welcome_count') || '0')
+    const delay = priorCount < 3 ? POPUP_DELAY.welcome : POPUP_DELAY.welcomeSettled
     const id = setTimeout(() => {
       localStorage.setItem(key, '1')
       // Count the greetings, and only after the first few, and only now and
@@ -60,7 +64,7 @@ export default function DigiWelcomeSheet({ childrenInfo }: { childrenInfo: Child
       openPopup('welcome')
       setShow(true)
       requestAnimationFrame(() => requestAnimationFrame(() => setEntered(true)))
-    }, POPUP_DELAY.welcome)
+    }, delay)
     return () => clearTimeout(id)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
