@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import DigiCharacter from '@/components/digi/DigiCharacter'
 import type { SetupFlags } from './SetupPath'
 
 // The moment a setup step actually finishes deserves its own plain
@@ -57,32 +58,39 @@ export default function SetupUnlockToast({ flags }: { flags: SetupFlags }) {
       transition: 'transform 0.35s ease, opacity 0.35s ease',
       zIndex: 90, width: 'min(94vw, 440px)',
     }}>
-      {/* Warm and light, in the brand butter, never a stark black box. The
-          check sits in a soft butter chip, and there is a real cross to shut
-          it, as well as a tap anywhere on the card. */}
+      {/* The premium DiGi note: the same butter mark and warm ink as the DiGi
+          front door, so a finished setup step reads as DiGi telling you what
+          just switched on, clear and premium, never a stark black box. */}
       <div
         style={{
           position: 'relative', background: '#fff', color: 'var(--ink)',
-          border: '1.5px solid var(--border)', borderRadius: '18px',
-          padding: '15px 44px 15px 15px',
-          boxShadow: '0 12px 34px -10px rgba(26,26,46,0.22)',
-          display: 'flex', gap: '11px', alignItems: 'flex-start', cursor: 'pointer',
+          border: '1.5px solid var(--border)', borderRadius: '22px',
+          padding: '17px 46px 17px 17px',
+          boxShadow: '0 2px 4px rgba(26,26,46,0.04), 0 18px 42px -12px rgba(26,26,46,0.26)',
+          display: 'flex', gap: '13px', alignItems: 'flex-start', cursor: 'pointer',
         }}
         onClick={dismiss}
       >
         <span style={{
-          flexShrink: 0, width: 30, height: 30, borderRadius: '50%',
-          background: 'var(--terracotta-lt)', border: '1px solid var(--terracotta)',
+          flexShrink: 0, width: 44, height: 44, borderRadius: '14px',
+          background: 'var(--terracotta)', boxShadow: '0 4px 0 var(--terracotta-dark)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontSize: '15px', lineHeight: 1, color: 'var(--terracotta-dark)', fontWeight: 900,
-        }}>✓</span>
-        <span style={{ fontSize: '14.5px', lineHeight: 1.5, fontWeight: 600, color: 'var(--ink)' }}>{queue[0]}</span>
+        }}>
+          <DigiCharacter mood="happy" size={30} once />
+        </span>
+        <span style={{ flex: 1, minWidth: 0, paddingTop: '1px' }}>
+          <span style={{
+            display: 'block', fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700,
+            letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '4px',
+          }}>Now on</span>
+          <span style={{ display: 'block', fontSize: '14.5px', lineHeight: 1.5, fontWeight: 600, color: 'var(--ink)' }}>{queue[0]}</span>
+        </span>
         <button
           type="button"
           aria-label="Close"
           onClick={(e) => { e.stopPropagation(); dismiss() }}
           style={{
-            position: 'absolute', top: '9px', right: '9px',
+            position: 'absolute', top: '11px', right: '11px',
             width: '28px', height: '28px', borderRadius: '50%', flexShrink: 0,
             background: 'var(--cream)', border: '1px solid var(--border)',
             color: 'var(--ink-muted)', fontSize: '14px', lineHeight: 1, cursor: 'pointer',
