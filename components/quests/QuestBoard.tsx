@@ -29,6 +29,7 @@ export default function QuestBoard() {
   const [loaded, setLoaded] = useState(false)
   const [openChild, setOpenChild] = useState<string | null>(null)
   const [spendNote, setSpendNote] = useState<string | null>(null)
+  const [showDone, setShowDone] = useState(false)
 
   const load = useCallback(async () => {
     try {
@@ -43,7 +44,21 @@ export default function QuestBoard() {
     } catch { /* stays hidden */ } finally { setLoaded(true) }
   }, [])
 
-  useEffect(() => { load() }, [load])
+  // Keep the board live: a child ticking a quest lands as a pending approval
+  // the parent should see without a refresh. Poll gently, and refetch the
+  // moment the tab is looked at again, so Waiting on you is never stale.
+  useEffect(() => {
+    load()
+    const id = setInterval(load, 15000)
+    const onVis = () => { if (!document.hidden) load() }
+    window.addEventListener('focus', load)
+    document.addEventListener('visibilitychange', onVis)
+    return () => {
+      clearInterval(id)
+      window.removeEventListener('focus', load)
+      document.removeEventListener('visibilitychange', onVis)
+    }
+  }, [load])
 
   // The child asked for this quest. Yes makes it real (2 stars, one off,
   // adjustable any time in Manage), no closes it kindly.
@@ -88,6 +103,9 @@ export default function QuestBoard() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ tick_id: tickId, decision }),
       })
+      // Drop the bell and the Waiting on you banner at once, and the child's
+      // own app hears the yes on its next poll.
+      try { window.dispatchEvent(new Event('gc:notifs-changed')) } catch { /* SSR */ }
     } catch { load() }
   }
 
@@ -224,7 +242,7 @@ export default function QuestBoard() {
               overflow: 'hidden',
             }}>
               <button
-                onClick={() => setOpenChild(isOpen ? null : c.id)}
+                onClick={() => { setShowDone(false); setOpenChild(isOpen ? null : c.id) }}
                 style={{
                   width: '100%', display: 'flex', alignItems: 'center', gap: '14px',
                   padding: '14px 16px', background: 'none', border: 'none',
@@ -332,34 +350,88 @@ export default function QuestBoard() {
                   }}>
                     + Add a quest for {c.name}
                   </Link>
-                  {dueToday.map(q => {
-                    const done = doneIds.has(q.id)
+                  {/* What is still to do stays up top, big and tappable. */}
+                  {(() => {
+                    const todo = dueToday.filter(q => !doneIds.has(q.id))
+                    const done = dueToday.filter(q => doneIds.has(q.id))
                     return (
-                      <button
-                        key={q.id}
-                        onClick={() => !done && tickQuest(q.id, c.id)}
-                        disabled={done}
-                        style={{
-                          display: 'flex', alignItems: 'center', gap: '10px',
-                          padding: '10px 12px', borderRadius: '11px',
-                          background: done ? 'var(--tint-sage)' : '#fff',
-                          border: '1px solid var(--border)', cursor: done ? 'default' : 'pointer',
-                          textAlign: 'left',
-                        }}
-                      >
-                        <span style={{ fontSize: '1.05rem' }}>{q.emoji}</span>
-                        <span style={{
-                          flex: 1, fontSize: '14.5px', fontWeight: 600, color: 'var(--ink)',
-                          textDecoration: done ? 'line-through' : 'none', opacity: done ? 0.6 : 1,
-                        }}>
-                          {q.title}
-                        </span>
-                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, color: done ? 'var(--ink-muted)' : 'var(--terracotta-dark)', flexShrink: 0 }}>
-                          {done ? 'Done ✓' : `Tick · ⭐${q.stars}`}
-                        </span>
-                      </button>
+                      <>
+                        {todo.length === 0 && done.length > 0 && (
+                          <div style={{
+                            display: 'flex', alignItems: 'center', gap: '8px',
+                            padding: '11px 13px', borderRadius: '11px',
+                            background: 'var(--tint-sage)', border: '1px solid var(--border)',
+                          }}>
+                            <span style={{ fontSize: '1.05rem' }}>🎉</span>
+                            <span style={{ fontSize: '14px', fontWeight: 700, color: 'var(--ink)' }}>
+                              All done for today
+                            </span>
+                          </div>
+                        )}
+                        {todo.map(q => (
+                          <button
+                            key={q.id}
+                            onClick={() => tickQuest(q.id, c.id)}
+                            style={{
+                              display: 'flex', alignItems: 'center', gap: '10px',
+                              padding: '10px 12px', borderRadius: '11px',
+                              background: '#fff', border: '1px solid var(--border)', cursor: 'pointer',
+                              textAlign: 'left',
+                            }}
+                          >
+                            <span style={{ fontSize: '1.05rem' }}>{q.emoji}</span>
+                            <span style={{ flex: 1, fontSize: '14.5px', fontWeight: 600, color: 'var(--ink)' }}>
+                              {q.title}
+                            </span>
+                            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, color: 'var(--terracotta-dark)', flexShrink: 0 }}>
+                              Tick · ⭐{q.stars}
+                            </span>
+                          </button>
+                        ))}
+                        {/* The agreed ones drop off into a quiet, foldable line so the
+                            list never grows into a pile of Done rows. */}
+                        {done.length > 0 && (
+                          <div>
+                            <button
+                              onClick={() => setShowDone(s => !s)}
+                              style={{
+                                width: '100%', display: 'flex', alignItems: 'center', gap: '8px',
+                                padding: '9px 12px', borderRadius: '11px', background: 'none',
+                                border: '1px dashed var(--border)', cursor: 'pointer', textAlign: 'left',
+                              }}
+                            >
+                              <span style={{ fontSize: '13px' }}>✓</span>
+                              <span style={{ flex: 1, fontSize: '13px', fontWeight: 700, color: 'var(--ink-muted)' }}>
+                                {done.length} done today
+                              </span>
+                              <span style={{ fontSize: '12px', color: 'var(--ink-light)', transform: showDone ? 'rotate(90deg)' : 'none', transition: 'transform 0.2s ease' }}>
+                                →
+                              </span>
+                            </button>
+                            {showDone && (
+                              <div style={{ display: 'flex', flexDirection: 'column', gap: '5px', marginTop: '5px' }}>
+                                {done.map(q => (
+                                  <div key={q.id} style={{
+                                    display: 'flex', alignItems: 'center', gap: '10px',
+                                    padding: '9px 12px', borderRadius: '11px',
+                                    background: 'var(--tint-sage)', border: '1px solid var(--border)',
+                                  }}>
+                                    <span style={{ fontSize: '1.05rem', opacity: 0.7 }}>{q.emoji}</span>
+                                    <span style={{ flex: 1, fontSize: '14px', fontWeight: 600, color: 'var(--ink)', textDecoration: 'line-through', opacity: 0.6 }}>
+                                      {q.title}
+                                    </span>
+                                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, color: 'var(--ink-muted)', flexShrink: 0 }}>
+                                      Done ✓
+                                    </span>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </>
                     )
-                  })}
+                  })()}
                 </div>
               )}
             </div>

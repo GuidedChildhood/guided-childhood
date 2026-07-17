@@ -5,6 +5,23 @@ import { createAdminClient } from '@/lib/supabase/admin'
 // auth, exactly like the school letterbox. A tick lands as pending, the
 // parent's phone gets a nudge, approval releases the stars.
 
+// The kid app polls this to see the grown up's answer land without a refresh:
+// today's tick status for every quest, keyed by quest id. Token is the auth.
+export async function GET(req: NextRequest) {
+  const token = new URL(req.url).searchParams.get('token') ?? ''
+  if (!/^[0-9a-f]{18}$/.test(token)) return NextResponse.json({ error: 'bad request' }, { status: 400 })
+  const supabase = createAdminClient()
+  const { data: link } = await supabase.from('kid_links').select('child_id').eq('token', token).maybeSingle()
+  const childId = (link as { child_id?: string } | null)?.child_id
+  if (!childId) return NextResponse.json({ error: 'unknown link' }, { status: 404 })
+  const today = new Date().toISOString().slice(0, 10)
+  const { data: rows } = await supabase
+    .from('quest_ticks').select('quest_id, status').eq('child_id', childId).eq('tick_date', today)
+  const ticks: Record<string, string> = {}
+  for (const r of rows ?? []) ticks[r.quest_id as string] = r.status as string
+  return NextResponse.json({ ticks })
+}
+
 export async function POST(req: NextRequest) {
   const { token, quest_id, untick } = await req.json()
   if (!token || typeof token !== 'string' || !/^[0-9a-f]{18}$/.test(token) || !quest_id) {

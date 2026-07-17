@@ -39,6 +39,28 @@ export const dynamic = 'force-dynamic'
 
 const WARM_ERROR = 'DiGi lost its place for a second. Try that line again, nothing was lost.'
 
+// No dashes in any copy, ever. Turn stray em, en and spaced hyphens into commas
+// so a model line never slips a dash through.
+function noDashes(s: string): string {
+  return s.replace(/\s*[—–]\s*/g, ', ').replace(/\s+-\s+/g, ', ').trim()
+}
+
+// The safety net for Stuck for words: three genuinely good lines grounded in the
+// expert canon (Dr Becky Kennedy, connection before correction and two things
+// are true; Sue Atkins, the calm confident boundary; emotion coaching, name the
+// feeling first). Built from this script so they always fit the moment, even
+// with no model. Never leaves the parent with a dead button.
+function expertFallbackLines(childName: string, situation: string, sayThis: string): string[] {
+  const lines: string[] = [
+    `I can see this feels really unfair right now, and it makes sense you are frustrated.`,
+  ]
+  const say = noDashes((sayThis ?? '').trim())
+  if (say) lines.push(say)
+  else lines.push(`Two things are true. You are allowed to be cross, and it is still time to stop.`)
+  lines.push(`Shall we figure out a good stopping point together, so it is not so sudden next time?`)
+  return lines.slice(0, 3).map(noDashes)
+}
+
 type Body = {
   mode: 'child' | 'coach' | 'suggest'
   scriptTitle: string
@@ -106,19 +128,37 @@ You are ${childName}, ${stage.ages}. The situation: ${situation}. Your parent is
   // fallback ladder so a 404 on the first model never leaves the parent with a
   // dead button, and falls back to line parsing if the JSON is imperfect.
   if (mode === 'suggest') {
-    const suggestSystem = `You are DiGi, an evidence led parenting guide. The parent is mid practice and stuck for what to say next to ${childName} (${stage.ages}) about: ${situation}.
+    const suggestSystem = `You are DiGi, a sharp, evidence led parenting guide coaching a parent mid rehearsal. Your job is to hand them the exact words to say next to ${childName} (${stage.ages}) about: ${situation}.
 
-Ground your suggestions in what the child mental health evidence shows actually helps in a hard moment: name and validate the feeling before any limit (emotion coaching), stay warm and connected rather than controlling, offer a limit WITH empathy not instead of it, give an element of choice or collaboration, and keep the child's dignity. Never a flat no, never a lecture, never shame.
+Draw on the actual playbook the leading child and parent wellbeing experts teach:
+- Dr Becky Kennedy: connection before correction, and "two things are true" (the child's feeling is real AND the limit still holds).
+- Sue Atkins: the calm, confident boundary, said once, warmly, without wobble or lecture.
+- Emotion coaching (Gottman, Tina Payne Bryson): name and validate the feeling first, so the child feels felt before anything is asked of them.
+- Give a real element of choice or collaboration so the child keeps their dignity and some control.
 
-Suggest exactly 3 short things the parent could say next, each ONE natural spoken sentence a real parent would actually say out loud. Lean towards the spirit of: "${sayThis}". Steer clear of the spirit of: "${notThis}". Return ONLY a JSON array of 3 strings, nothing else. No dashes anywhere.`
+Each line should do one of these well: name and validate what ${childName} is feeling, hold the limit warmly WITH the empathy rather than instead of it, or offer a choice or a way to solve it together. Never a flat no, never a lecture, never shame, never sarcasm.
+
+Suggest exactly 3 short lines the parent could say next, each ONE natural spoken British sentence a real parent would actually say out loud in this moment, responding to what the child just said. Lean towards the spirit of: "${sayThis}". Steer clear of the spirit of: "${notThis}". Return ONLY a JSON array of 3 strings, nothing else. Never use a dash of any kind.`
+
+    // Build our own single user turn so the model always answers as the coach.
+    // Passing the rehearsal messages straight through ends on the child's line,
+    // which makes the model continue in the child's voice instead of coaching,
+    // the exact reason the button was dying. Fold the recent exchange into
+    // context text and ask plainly for the three lines.
+    const recent = messages.slice(-6)
+      .map(m => `${m.role === 'user' ? 'Parent' : childName}: ${m.content}`).join('\n')
+    const lastChild = [...messages].reverse().find(m => m.role === 'assistant')?.content
+    const ask = recent
+      ? `Here is how the rehearsal is going so far:\n${recent}\n\n${lastChild ? `${childName} has just said: "${lastChild}". ` : ''}Give me three lines I could say back right now, as a JSON array of 3 strings.`
+      : `Give me three strong opening lines I could start this conversation with, as a JSON array of 3 strings.`
 
     const models = [DIGI_MODEL, ...DIGI_MODEL_FALLBACKS.filter(m => m !== DIGI_MODEL)]
     for (const model of models) {
       try {
         const r = await anthropic.messages.create({
-          model, max_tokens: 320,
+          model, max_tokens: 400,
           system: suggestSystem,
-          messages: messages.length ? messages : [{ role: 'user', content: '(Give three opening lines the parent could start with.)' }],
+          messages: [{ role: 'user', content: ask }],
         })
         const text = r.content.filter(b => b.type === 'text').map(b => (b as { text: string }).text).join('').trim()
         let options: string[] = []
@@ -132,7 +172,7 @@ Suggest exactly 3 short things the parent could say next, each ONE natural spoke
             .map(l => l.replace(/^\s*(?:[-*•]|\d+[.)])\s*/, '').replace(/^["'"]|["'"]$/g, '').trim())
             .filter(l => l.length > 0 && !/^\[|\]$/.test(l))
         }
-        options = options.slice(0, 3)
+        options = options.slice(0, 3).map(noDashes).filter(Boolean)
         if (options.length > 0) return NextResponse.json({ options })
       } catch (err) {
         const isModelError = err instanceof Anthropic.APIError && (err.status === 404 || err.status === 400)
@@ -140,7 +180,9 @@ Suggest exactly 3 short things the parent could say next, each ONE natural spoke
         // try the next model in the ladder
       }
     }
-    return NextResponse.json({ options: [], error: 'DiGi could not think of options just now. Try again in a moment.' })
+    // Never a dead button: hand back the expert grounded lines built from this
+    // very script, so the parent always has three real things to say.
+    return NextResponse.json({ options: expertFallbackLines(childName, situation, sayThis) })
   }
 
   // Coach mode reviews the run just completed; if the parent has not said
