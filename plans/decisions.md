@@ -1240,3 +1240,17 @@ wall of gold.
   so the child's screen is no longer one flat block of gold.
 
 On PR 303 (continue-build-ldot8v). No migration.
+
+## 2026-07-16 — Colour pass on the child app top section
+
+The child's top was a wall of gold, led by a solid gold star bank block. Reworked
+it into one cohesive set of premium cards on the pink background.
+
+- Star bank is now a white card with a gold star medallion and a gold left accent,
+  not a flat gold fill. The number and minutes read in ink, the earned this week
+  line picks up teal, and the streak sits in its own warm flame chip.
+- With the balance strip below it (green real life, gold screen, teal action, sage
+  win) the top column now carries gold, green, teal and sage instead of one note
+  of gold, and the single bold gold CTA (the to do signpost) stands out again.
+
+On PR 303 (continue-build-ldot8v). No migration.

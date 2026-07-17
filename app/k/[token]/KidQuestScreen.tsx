@@ -603,34 +603,41 @@ export default function KidQuestScreen({
             them too, not only the parent. */}
         <KidSchoolBanner items={schoolToday} />
 
-        {/* Star bank */}
+        {/* Star bank: a white card with a gold star medallion and a gold accent,
+            not a flat block of gold, so the top of the app reads as one premium
+            set of cards. The streak sits in its own warm flame chip. */}
         <div style={{
-          background: 'var(--terracotta)', borderRadius: '20px', padding: '16px 20px',
-          boxShadow: '0 5px 0 var(--terracotta-dark)', marginBottom: '16px',
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12,
+          background: '#fff', borderRadius: '20px', padding: '16px 18px',
+          boxShadow: '0 5px 0 rgba(26,26,46,0.10)', borderLeft: '6px solid var(--terracotta)',
+          marginBottom: '16px', display: 'flex', alignItems: 'center', gap: 14,
         }}>
-          <div style={{ flex: 1 }}>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink)', opacity: 0.7, margin: '0 0 2px' }}>
+          <div style={{
+            flexShrink: 0, width: 56, height: 56, borderRadius: '16px',
+            background: 'var(--terracotta-lt)', border: '2px solid var(--terracotta)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '30px',
+          }}>⭐</div>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '0 0 1px' }}>
               My star bank
             </p>
-            <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.7rem', color: 'var(--ink)', margin: 0 }}>
-              ⭐ {bankBalance}
+            <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.7rem', color: 'var(--ink)', margin: 0, lineHeight: 1.05 }}>
+              {bankBalance}
               {pendingStars > 0 && (
-                <span style={{ fontSize: '0.95rem', fontWeight: 700, opacity: 0.65 }}> +{pendingStars} waiting</span>
+                <span style={{ fontSize: '0.9rem', fontWeight: 700, color: 'var(--terracotta-dark)' }}> +{pendingStars} waiting</span>
               )}
             </p>
-            <p style={{ fontSize: '14px', fontWeight: 700, color: 'var(--ink)', opacity: 0.8, margin: '2px 0 0' }}>
+            <p style={{ fontSize: '13.5px', fontWeight: 700, color: 'var(--ink-soft)', margin: '2px 0 0' }}>
               = {bankBalance * STAR_MINUTES} minutes of screen time to use
             </p>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, color: 'var(--ink)', opacity: 0.65, margin: '4px 0 0' }}>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, color: 'var(--retro-green-dark, var(--deep-teal))', margin: '4px 0 0' }}>
               +⭐ {weekStars} earned this week{usedWeekMinutes > 0 ? ` · ${usedWeekMinutes} min used` : ''}
             </p>
           </div>
           {streakDays > 0 && (
-            <div style={{ textAlign: 'center', flexShrink: 0 }}>
-              <div style={{ fontSize: '1.5rem', lineHeight: 1 }}>🔥</div>
-              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.1rem', color: 'var(--ink)' }}>{streakDays}</div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink)', opacity: 0.7 }}>day streak</div>
+            <div style={{ flexShrink: 0, textAlign: 'center', background: 'var(--terracotta-lt)', borderRadius: '14px', padding: '9px 12px' }}>
+              <div style={{ fontSize: '1.35rem', lineHeight: 1 }}>🔥</div>
+              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: 'var(--terracotta-dark)' }}>{streakDays}</div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '8px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>day streak</div>
             </div>
           )}
         </div>
