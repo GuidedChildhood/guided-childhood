@@ -1421,3 +1421,21 @@ kid's app. Stripped it right back, using Greenlight as the reference.
 - Our family deal moves from a text link into one of the tiles.
 
 On PR 303. No migration.
+
+## 2026-07-17 — Insights board hardened, plus a product pulse
+
+The founder insights board looked broken pre launch because it only mined DiGi
+chats, and there are none yet. Two fixes.
+
+- Product pulse: a new founder only aggregate read across all families
+  (/api/admin/product-pulse), loaded on open, de-identified counts and sums only.
+  Families and children, active this week, quests set and done, screen minutes,
+  check ins and average parent mood, plus a stage breakdown. So the board is
+  useful from day one, and it is the general data gathering for deciding what to
+  build and watching product health week to week.
+- Empty states: the DiGi insight run now says plainly when there are no
+  conversations in the window yet, and the pulse says when there are no families
+  yet, so nothing reads as broken before launch.
+
+Founder only throughout (gated on FOUNDER_NOTIFY_EMAIL). On a new PR off main.
+No migration.
