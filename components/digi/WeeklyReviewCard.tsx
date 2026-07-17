@@ -6,6 +6,8 @@ import DigiCharacter from '@/components/digi/DigiCharacter'
 import WriteIn from '@/components/ui/WriteIn'
 import { STAR_MINUTES } from '@/lib/quests/templates'
 import { weekBalance, expertWeekTip } from '@/lib/quests/screen-balance'
+import { readinessForAgeBand } from '@/lib/content/readiness'
+import type { AgeBand } from '@/lib/content/stages'
 
 // The Friday round up, the first thing a parent sees on Home. A clear, premium
 // read of the family's own week: the balance score front and centre (their
@@ -97,8 +99,13 @@ export default function WeeklyReviewCard() {
 
   if (!loaded) return null
 
-  // No review yet: a slim offer to preview the week so far.
+  // No review yet: a slim offer to preview the week, but only from Thursday on,
+  // when the week just gone actually has a shape. The rest of the week Home stays
+  // clear of it, so it is not one more card every day.
   if (!review) {
+    const day = new Date().getDay() // 0 Sun .. 6 Sat
+    const endOfWeek = day === 0 || day >= 4
+    if (!endOfWeek) return null
     return (
       <div style={{ background: '#fff', border: '1.5px dashed var(--border)', borderRadius: '18px', padding: '16px 18px', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '13px' }}>
         <span style={{ flexShrink: 0, width: 42, height: 42, borderRadius: '12px', background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -150,6 +157,10 @@ export default function WeeklyReviewCard() {
   const topGlances = glances.slice(0, 2)
 
   const routineHref = review.suggestion_routine ? `/dashboard/quests?routine=${review.suggestion_routine}` : '/dashboard/quests'
+
+  // Tie the week back to the whole point: which passport stamp this stage is
+  // earning, so a good week reads as a step toward ready at 16, not just stars.
+  const readiness = readinessForAgeBand((s.ageBands?.[0] as AgeBand | null) ?? null)
 
   return (
     <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '24px', padding: '24px 24px 22px', marginBottom: '24px', boxShadow: '0 2px 4px rgba(26,26,46,0.03), 0 14px 36px -12px rgba(26,26,46,0.13)' }}>
@@ -239,6 +250,15 @@ export default function WeeklyReviewCard() {
           </div>
         </div>
       )}
+
+      {/* The week on the pathway: this stamp, one step nearer ready at 16. */}
+      <Link href="/dashboard/pathway" style={{ display: 'flex', alignItems: 'center', gap: '11px', background: 'var(--cream)', borderRadius: '13px', padding: '11px 14px', marginBottom: '16px', textDecoration: 'none' }}>
+        <span style={{ fontSize: '18px', flexShrink: 0 }}>🪪</span>
+        <span style={{ flex: 1, minWidth: 0, fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.45 }}>
+          On the pathway this is <strong style={{ color: 'var(--ink)' }}>Stage {readiness.id}, {readiness.stamp}</strong>. A good week here is one step nearer ready at 16.
+        </span>
+        <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>See →</span>
+      </Link>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
         <Link href={routineHref} onClick={dismiss} style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none', borderRadius: '15px', padding: '13px 20px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', boxShadow: '0 5px 0 var(--terracotta-dark)' }}>

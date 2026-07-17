@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { MOMENT_PHOTOS } from '@/lib/content/moment-photos'
 import { scriptVoiceUrl } from '@/lib/content/script-voice'
+import { POPUP_DELAY, openPopup, closePopup, whenClear } from '@/lib/ui/popupQueue'
 import DigiCharacter from '@/components/digi/DigiCharacter'
 
 // The Right Now button: the emergency entry point in the centre of the
@@ -108,12 +109,12 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
 
   useEffect(() => { setMounted(true) }, [])
 
-  // One time coach mark: explain the button before its first ever use.
+  // One time coach mark: explain the button before its first ever use. It waits
+  // about a minute after login and until nothing else is up (the welcome sheet
+  // and any toast go first), so it never lands as part of a pile on load.
   useEffect(() => {
-    if (localStorage.getItem('gc_now_hint_seen') !== '1') {
-      const id = setTimeout(() => setShowHint(true), 1200)
-      return () => clearTimeout(id)
-    }
+    if (localStorage.getItem('gc_now_hint_seen') === '1') return
+    return whenClear(POPUP_DELAY.coach, () => { openPopup('coach'); setShowHint(true) })
   }, [])
 
   // It has said its piece: the coach mark eases itself away after two minutes
@@ -122,6 +123,7 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
     if (!showHint) return
     const id = setTimeout(() => {
       localStorage.setItem('gc_now_hint_seen', '1')
+      closePopup('coach')
       setShowHint(false)
     }, 120000)
     return () => clearTimeout(id)
@@ -129,6 +131,7 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
 
   function dismissHint() {
     localStorage.setItem('gc_now_hint_seen', '1')
+    closePopup('coach')
     setShowHint(false)
   }
 

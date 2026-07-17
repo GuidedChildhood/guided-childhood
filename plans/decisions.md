@@ -1203,3 +1203,178 @@ attributable fallback so the plan is never empty and never carries a dash.
 Files: supabase/migrations/066_weekly_checkin_plan.sql, lib/digi/weekly-plan.ts,
 app/api/wellbeing/weekly/route.ts, components/digi/SundayCheckIn.tsx, mounted on
 dashboard Home above the round up. On PR 303 (continue-build-ldot8v). MIGRATION 066.
+
+## 2026-07-16 — Home popups no longer stack on load
+
+Three popups (the DiGi welcome sheet, the setup unlock toast, the Now coach mark)
+all fired the second Home loaded, landing on top of each other. Justin wanted a
+clean login, then a quick gentle alert about a minute in, not a pile.
+
+- New tiny shared lock, lib/ui/popupQueue: a session scoped flag so only one
+  popup is ever up, plus staggered base delays (welcome 60s, toast 63s, coach
+  66s). whenClear waits out the delay then holds until nothing else is up.
+- The welcome sheet now greets about a minute after login (still once a day), and
+  takes the lock while open. The toast and the coach mark wait behind it and show
+  one at a time once it is dismissed. All three release the lock on close.
+- Frequency is unchanged and gentle: welcome once a day, toast once per unlock,
+  coach mark once ever with its two minute auto dismiss.
+
+On PR 303 (continue-build-ldot8v). No migration.
+
+## 2026-07-16 — The child's balance strip on their own app
+
+Justin: the child's top bar should show family help against screen watched, on
+track or not, the same balance logic as the parent, highlight the week's jobs,
+and give a productive way to ask a grown up for more. And better colours than the
+wall of gold.
+
+- New KidBalanceStrip sits under the star bank: a two sided level, green for the
+  real life jobs they earned today (stars times minutes) against gold for the
+  screen watched today, with a needle and an On track / Screen is ahead pill.
+- A week highlight chip in sage: N stars earned from jobs this week, minutes
+  watched beside it.
+- Be productive, always a door open: a teal Ask for a new job button that rides
+  the existing askForMore ping to the parent. It shouts a little louder (Do a job
+  to balance it) when screen has pulled ahead, and turns to Asked once sent.
+- Colour: green (real life), gold (screen), teal (the action), sage (the win),
+  so the child's screen is no longer one flat block of gold.
+
+On PR 303 (continue-build-ldot8v). No migration.
+
+## 2026-07-16 — Colour pass on the child app top section
+
+The child's top was a wall of gold, led by a solid gold star bank block. Reworked
+it into one cohesive set of premium cards on the pink background.
+
+- Star bank is now a white card with a gold star medallion and a gold left accent,
+  not a flat gold fill. The number and minutes read in ink, the earned this week
+  line picks up teal, and the streak sits in its own warm flame chip.
+- With the balance strip below it (green real life, gold screen, teal action, sage
+  win) the top column now carries gold, green, teal and sage instead of one note
+  of gold, and the single bold gold CTA (the to do signpost) stands out again.
+
+On PR 303 (continue-build-ldot8v). No migration.
+
+## 2026-07-17 — Sunday check in is Sunday only, child app tidy ups
+
+- The Sunday check in now only appears proactively on a Sunday. The rest of the
+  week it stays quiet (the agreed plan still shows all week once set), so Home is
+  never cluttered with a card there is nothing to do with yet.
+- Child app: a redeemed reward can be ticked off (Got it, tick it off) and drops
+  away, remembered on their device, so a finished goal never lingers.
+- Child app: a new Our family deal popup, a quiet link the child can open any
+  time to keep an eye on the deal (jobs earn stars, stars buy screen time, a good
+  amount a day, and what they are saving for). The kid app is token based and does
+  not load the parent's signed agreement, so this is the deal in the child's own
+  words, self contained.
+
+On PR 303 (continue-build-ldot8v). No migration.
+
+## 2026-07-17 — Launch build 1: the readiness passport made visible (Rec 1)
+
+The daily loop barely referenced the whole point (ready at 16, no cliff edge).
+New lib/content/readiness.ts holds the passport stamps, one named competence per
+stage (Steady stops, Healthy habits, How it works, Real footprint, Ready), each
+with what it builds toward, plus the measured science (Candice Odgers, Amy Orben,
+Cambridge, the digital passport idea): balance and competence over a countdown,
+deliberately not the moral panic line, Haidt left out per Justin.
+
+- Pathway page now shows the current stage's stamp (what it builds and toward
+  what) and a Why this works science card.
+- The Friday round up ties the week back to the pathway: this stamp, one step
+  nearer ready at 16, linking to the pathway.
+
+Marketing page is the mobbin session's lane, so its version of this narrative is
+handed off below, not built here. On PR 303. No migration.
+
+## 2026-07-17 — Launch build 2: the smartphone contradiction, answered (Rec 2)
+
+The fair charge is that a screen reduction brand shipped an app for a young
+child's phone. Answered in the product, not just in words, and in line with the
+never police rule.
+
+- Under 11 (Foundation and Builder, 4 to 10) now defaults to co-view: parent led,
+  done together on the parent's device, no child device. Was 4 to 7 only.
+- Own device stays a free opt in. The setup copy leads with co-view as the
+  evidence aligned recommendation, and frames own device as the parent's call for
+  an older child who already has one. We point the way, we do not police.
+- OUR_STANCE added to lib/content/readiness and shown as a card on the pathway:
+  we do not put phones in children's hands, and the choice is always yours.
+- Real life as the counterweight already ships as the child balance strip; the
+  stance and the co-view default push the framing further toward earned and
+  balanced rather than a screen wallet.
+
+On PR 303. No migration.
+
+## 2026-07-17 — Launch build 3: marketing narrative handed to the mobbin session
+
+The marketing page is the mobbin session's lane, so rather than build it here (two
+sessions on one page is the duplication trap), the launch narrative is written up
+in plans/marketing-brief-launch.md for that session to apply: one hero promise
+(get them ready for the phone, no cliff edge), how we do it (the passport steps),
+the measured science (Odgers, Orben, reuse WHY_IT_WORKS), and the stance (reuse
+OUR_STANCE). All three content blocks live in lib/content/readiness.ts so the site
+and the app never drift.
+
+On PR 303. No migration.
+
+## 2026-07-17 — Child picks their buddy and colour (option 3, not gender)
+
+Instead of asking a child's gender (more data than we need, and stereotyping),
+the child personalises their own app. Migration 067 adds children.buddy and
+children.accent. A Make it mine sheet on the child app lets them pick a DiGi
+squad buddy (DiGi, Oliver, Sofia, Zara) and an accent colour (sunshine, grass,
+ocean, coral, berry). Their buddy greets them in the tip card, the accent takes
+the star bank and the buddy ring, saved to their record via a token authed
+endpoint. No gender collected anywhere. MIGRATION 067.
+
+## 2026-07-17 — Tailor by concern (option 2) and school email coming soon
+
+- Option 2: the pathway now tailors the current stage by the concern the family
+  actually flagged, not by the child's sex. The top open concern maps to the
+  stage's own action for it (For your family right now), so a parent worried about
+  gaming and one worried about comparison get different guidance. The honest,
+  precise version of a boy and girl pathway, with no gender data.
+- School email forwarding is marked coming soon for launch (complex, to go live
+  with the Apple app wrap). The whole SchoolSetup email flow is replaced by a
+  coming soon card. The manual weekly routines (SchoolActionsCard) stay live and
+  do the everyday job. Nothing was deleted, only hidden behind coming soon.
+
+On PR 303. No migration.
+
+## 2026-07-17 — DiGi welcome carries an occasional named social insight
+
+After the first few greetings, and only now and then (every third, rotating
+children), the DiGi welcome sheet adds one age relevant social media insight
+named to a child, grounded in Candace Odgers (what the data shows) and Catherine
+Knibbs (the psychology, the trusted adult). New lib/content/social-insights.ts,
+age banded, calm, never alarmist. The welcome sheet now takes children with age
+bands so it can name and age target. This keeps a gentle check on social media
+running through the platform, including 16 plus (the platform keeps supporting,
+does not stop at 16). On PR 303. No migration.
+
+## 2026-07-17 — Multi child: honest state (audit)
+Quests, stars and the pathway map handle several children. But most coaching and
+content surfaces (DiGi chat, daily practice, scripts, right now rescue, tracker,
+wellbeing, agreement, lessons, printables, Home) are anchored to the PRIMARY
+child via is_primary. So a family with more than one child gets per child quests
+and pathway, but one shared coaching context on the primary child. Full per child
+coaching everywhere is a real post launch workstream, not a launch week fix.
+
+## 2026-07-17 — Consolidation pass: fewer cards, calmer surfaces
+
+Answering the honest read that the app had grown busy. Removing and folding, not
+adding. Multi child functionality (per child quests, stars, links, pathway) left
+intact; only coaching stays primary child as agreed.
+
+- Pathway: the two big cards added this session (the science and the stance) are
+  folded into one PathwayEvidence card, collapsed by default, one tap to read. The
+  pathway is a next step again, not a research brochure.
+- Child app: the star bank and the balance strip are merged into one block (stars
+  and streak on top, the balance meter, week jobs and earn more below), so the top
+  of the child app is one calm card, not two.
+- Parent Home: already hero led (Today's Path plus a tidy tile grid), so no risky
+  reorg. The weekly review preview offer now only shows from Thursday on, so it is
+  not one more card every day.
+
+On PR 303. No migration.

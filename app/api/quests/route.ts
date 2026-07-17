@@ -86,9 +86,11 @@ export async function POST(req: NextRequest) {
     if (!stageId) return NextResponse.json({ error: 'bad age band' }, { status: 400 })
     const { count } = await supabase
       .from('children').select('id', { count: 'exact', head: true }).eq('parent_id', user.id)
-    // How they use it: explicit choice, else a sensible default by age (a four
-    // to seven year old co-views, everyone older gets their own app).
-    const useMode = ['own', 'coview'].includes(body.use_mode) ? body.use_mode : (body.age_band === '4-7' ? 'coview' : 'own')
+    // How they use it: explicit choice, else a sensible default by age. Under 11
+    // (Foundation and Builder) defaults to parent led, no child device, because
+    // that is the stance: we do not put a phone in a young child's hand. Their
+    // own app is a deliberate choice for an older child who already has a device.
+    const useMode = ['own', 'coview'].includes(body.use_mode) ? body.use_mode : (['4-7', '8-10'].includes(body.age_band) ? 'coview' : 'own')
     const { data, error } = await supabase.from('children').insert({
       parent_id: user.id,
       name: String(body.name).slice(0, 60),

@@ -10,6 +10,10 @@
 import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import DigiCharacter from './DigiCharacter'
+import { POPUP_DELAY, openPopup, closePopup } from '@/lib/ui/popupQueue'
+import { socialInsightFor, type SocialInsight } from '@/lib/content/social-insights'
+
+type ChildInfo = { name: string; ageBand: string | null }
 
 function joinNames(names: string[]): string {
   const clean = names.filter(n => n && n !== 'Your child')
@@ -19,11 +23,15 @@ function joinNames(names: string[]): string {
   return `${clean.slice(0, -1).join(', ')} and ${clean[clean.length - 1]}`
 }
 
-export default function DigiWelcomeSheet({ childNames }: { childNames: string[] }) {
+export default function DigiWelcomeSheet({ childrenInfo }: { childrenInfo: ChildInfo[] }) {
   const router = useRouter()
   const [show, setShow] = useState(false)
   const [entered, setEntered] = useState(false)
   const [text, setText] = useState('')
+  // The occasional age relevant social media insight, named to one child, shown
+  // only after the first few visits and only now and then, so it is a gentle
+  // check, never a lecture.
+  const [insight, setInsight] = useState<{ childName: string; body: SocialInsight } | null>(null)
   // Swipe down to peek it away, the native feel Justin asked for.
   const startY = useRef<number | null>(null)
   const [dragY, setDragY] = useState(0)
@@ -35,17 +43,35 @@ export default function DigiWelcomeSheet({ childNames }: { childNames: string[] 
     const today = new Date().toISOString().slice(0, 10)
     const key = `gc_digi_welcome_${today}`
     if (localStorage.getItem(key)) return
-    localStorage.setItem(key, '1')
-    setShow(true)
-    requestAnimationFrame(() => requestAnimationFrame(() => setEntered(true)))
+    // Land on a clean Home first, then DiGi greets about a minute after login,
+    // rather than stacking on top of the other popups the second the page loads.
+    const id = setTimeout(() => {
+      localStorage.setItem(key, '1')
+      // Count the greetings, and only after the first few, and only now and
+      // then, add one age relevant social media insight for one named child, so
+      // it stays a gentle check rather than a lecture every day.
+      const seen = Number(localStorage.getItem('gc_welcome_count') || '0') + 1
+      localStorage.setItem('gc_welcome_count', String(seen))
+      if (seen > 3 && seen % 3 === 0 && childrenInfo.length > 0) {
+        const child = childrenInfo[Math.floor(seen / 3) % childrenInfo.length]
+        const body = socialInsightFor(child.ageBand, child.name, Math.floor(seen / 3))
+        if (body) setInsight({ childName: child.name, body })
+      }
+      openPopup('welcome')
+      setShow(true)
+      requestAnimationFrame(() => requestAnimationFrame(() => setEntered(true)))
+    }, POPUP_DELAY.welcome)
+    return () => clearTimeout(id)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   if (!show) return null
 
-  const names = joinNames(childNames)
+  const names = joinNames(childrenInfo.map(c => c.name))
 
   function close() {
     setEntered(false)
+    closePopup('welcome')
     setTimeout(() => setShow(false), 320)
   }
 
@@ -128,6 +154,16 @@ export default function DigiWelcomeSheet({ childNames }: { childNames: string[] 
         }}>
           I know life does not pause for {names}. What is on your mind today? Bring me up to speed and I will point us at the next small thing.
         </p>
+
+        {insight && (
+          <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 16, padding: '14px 16px', marginTop: 18 }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: 5 }}>
+              A quiet thought on {insight.childName}
+            </div>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>{insight.body.text}</p>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, color: 'var(--ink-muted)', marginTop: 7 }}>{insight.body.source}</div>
+          </div>
+        )}
 
         <div style={{ flex: 1 }} />
 

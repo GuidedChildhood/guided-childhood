@@ -36,13 +36,33 @@ export type KidAdventure = { code: string; title: string; catchphrase: string; s
 export type KidAsk = { id: string; title: string; emoji: string; status: string }
 export type KidSchoolToday = { id: string; title: string; kind: string; time: string | null }
 
+// The child's own choices: a squad buddy who greets them, and an accent colour.
+// Small, known sets, so the app stays on brand whatever they pick.
+const BUDDY_MAP: Record<string, { name: string; img: string }> = {
+  digi: { name: 'DiGi', img: '/digi-squad/DiGi-star.svg' },
+  oliver: { name: 'Oliver', img: '/digi-squad/Oliver.png' },
+  sofia: { name: 'Sofia', img: '/digi-squad/Sofia.jpeg' },
+  zara: { name: 'Zara', img: '/digi-squad/Zara.png' },
+}
+const ACCENT_MAP: Record<string, { name: string; hex: string }> = {
+  sunshine: { name: 'Sunshine', hex: '#E7A33E' },
+  grass: { name: 'Grass', hex: '#57A06A' },
+  ocean: { name: 'Ocean', hex: '#2E8B9E' },
+  coral: { name: 'Coral', hex: '#E56B57' },
+  berry: { name: 'Berry', hex: '#C65B8E' },
+}
+const DEFAULT_BUDDY = 'digi'
+const DEFAULT_ACCENT = 'sunshine'
+
 export default function KidQuestScreen({
-  token, childName, stageId = 2, quests, todayTicks, weekStars, goal, streakDays = 0, laterQuests = [], doneLessonKeys = [], missions = [],
+  token, childName, buddy = null, accent = null, stageId = 2, quests, todayTicks, weekStars, goal, streakDays = 0, laterQuests = [], doneLessonKeys = [], missions = [],
   adventures = [], bank = null, usedWeekMinutes = 0, usedTodayMinutes = 0, recommendedMinutes = 0, requests = [], printablesUnlocked = true, activeSession = null,
   weekChart = [], schoolToday = [], notes = [],
 }: {
   token: string
   childName: string
+  buddy?: string | null
+  accent?: string | null
   stageId?: number
   quests: Quest[]
   todayTicks: Tick[]
@@ -104,6 +124,35 @@ export default function KidQuestScreen({
   const [goalRedeemed, setGoalRedeemed] = useState(Boolean(goal?.achieved_at))
   const [goalConfirm, setGoalConfirm] = useState(false)
   const [goalBusy, setGoalBusy] = useState(false)
+  // Once a reward is redeemed the child can tick it off and it drops away, so
+  // the list never keeps an old, finished goal sitting there. Remembered on
+  // their own device so it stays gone.
+  const [goalDone, setGoalDone] = useState(false)
+  // No id on the goal, so key the dismissal by its title and size, stable enough
+  // to remember this exact reward as ticked off across reloads.
+  const goalKey = goal ? `gc_goal_done_${goal.title}_${goal.stars_needed}` : ''
+  useEffect(() => {
+    if (goalKey && typeof window !== 'undefined' && localStorage.getItem(goalKey) === '1') setGoalDone(true)
+  }, [goalKey])
+  // The family deal popup: the child can pop it up any time to keep an eye on
+  // how the deal works and what they are saving for.
+  const [dealOpen, setDealOpen] = useState(false)
+  // The child's own buddy and accent. Starts from what the grown up account has
+  // saved, changes instantly when they pick, and saves back to their record.
+  const [chosenBuddy, setChosenBuddy] = useState(buddy && BUDDY_MAP[buddy] ? buddy : DEFAULT_BUDDY)
+  const [chosenAccent, setChosenAccent] = useState(accent && ACCENT_MAP[accent] ? accent : DEFAULT_ACCENT)
+  const [makeMineOpen, setMakeMineOpen] = useState(false)
+  const accentHex = ACCENT_MAP[chosenAccent]?.hex ?? ACCENT_MAP[DEFAULT_ACCENT].hex
+  const buddyImg = BUDDY_MAP[chosenBuddy]?.img ?? BUDDY_MAP[DEFAULT_BUDDY].img
+  function saveMine(next: { buddy?: string; accent?: string }) {
+    if (next.buddy) setChosenBuddy(next.buddy)
+    if (next.accent) setChosenAccent(next.accent)
+    playKidSound('tap')
+    fetch('/api/kid/buddy', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token, ...next }),
+    }).catch(() => { /* best effort, their choice still shows */ })
+  }
 
   // Cash in the saved-for reward once the bank truly holds enough. Two taps so
   // it is never accidental: the first arms it, the second spends the stars.
@@ -350,6 +399,14 @@ export default function KidQuestScreen({
   const doneCount = quests.filter(q => ticks[q.id]).length
   const allDone = quests.length > 0 && doneCount === quests.length
   const pendingStars = quests.filter(q => ticks[q.id] === 'pending').reduce((s, q) => s + q.stars, 0)
+  // Today's earned minutes: the jobs already ticked off today, turned into the
+  // screen time they buy, so the balance strip can weigh real life against
+  // screen watched today with the same logic the parent side uses.
+  const todayStars = quests.reduce((sum, q) => {
+    const st = ticks[q.id]
+    return st && st !== 'rejected' ? sum + q.stars : sum
+  }, 0)
+  const todayEarnedMins = todayStars * STAR_MINUTES
   // The bank is what is really there to spend: earned ever, minus the
   // screen time already used. Falls back to the week count until the
   // family has run migration 047.
@@ -580,12 +637,14 @@ export default function KidQuestScreen({
             the child, read from their own numbers, always here and readable. */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, background: '#fff', border: '1.5px solid rgba(26,26,46,0.1)', borderRadius: '16px', padding: '11px 14px', margin: '14px 0 4px' }}>
           <style>{`@keyframes gcTipBob {0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-4px) rotate(4deg)}}`}</style>
-          <span style={{ flexShrink: 0, width: 46, height: 46, borderRadius: '50%', background: '#FFF7E8', border: '2px solid var(--terracotta)', display: 'flex', alignItems: 'center', justifyContent: 'center', animation: 'gcTipBob 3s ease-in-out infinite' }}>
+          <button onClick={() => setMakeMineOpen(true)} aria-label="Make my app mine" style={{ flexShrink: 0, width: 46, height: 46, borderRadius: '50%', background: '#FFF7E8', border: `2px solid ${accentHex}`, overflow: 'hidden', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', animation: 'gcTipBob 3s ease-in-out infinite' }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/digi-squad/DiGi-star.svg" alt="" style={{ width: 32, height: 32 }} />
-          </span>
+            {chosenBuddy === 'digi'
+              ? <img src={buddyImg} alt="" style={{ width: 32, height: 32 }} />
+              : <img src={buddyImg} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }} />}
+          </button>
           <span style={{ flex: 1, minWidth: 0 }}>
-            <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>DiGi says</span>
+            <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>{BUDDY_MAP[chosenBuddy]?.name ?? 'DiGi'} says</span>
             <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: 'var(--ink)', lineHeight: 1.3, marginTop: '1px' }}>{digiTip}</span>
           </span>
         </div>
@@ -595,37 +654,93 @@ export default function KidQuestScreen({
             them too, not only the parent. */}
         <KidSchoolBanner items={schoolToday} />
 
-        {/* Star bank */}
+        {/* Star bank: a white card with a gold star medallion and a gold accent,
+            not a flat block of gold, so the top of the app reads as one premium
+            set of cards. The streak sits in its own warm flame chip. */}
         <div style={{
-          background: 'var(--terracotta)', borderRadius: '20px', padding: '16px 20px',
-          boxShadow: '0 5px 0 var(--terracotta-dark)', marginBottom: '16px',
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12,
+          background: '#fff', borderRadius: '20px', padding: '16px 18px',
+          boxShadow: '0 5px 0 rgba(26,26,46,0.10)', borderLeft: `6px solid ${accentHex}`,
+          marginBottom: '16px',
         }}>
-          <div style={{ flex: 1 }}>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink)', opacity: 0.7, margin: '0 0 2px' }}>
+         <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+          <div style={{
+            flexShrink: 0, width: 56, height: 56, borderRadius: '16px',
+            background: 'var(--terracotta-lt)', border: `2px solid ${accentHex}`,
+            display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '30px',
+          }}>⭐</div>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '0 0 1px' }}>
               My star bank
             </p>
-            <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.7rem', color: 'var(--ink)', margin: 0 }}>
-              ⭐ {bankBalance}
+            <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.7rem', color: 'var(--ink)', margin: 0, lineHeight: 1.05 }}>
+              {bankBalance}
               {pendingStars > 0 && (
-                <span style={{ fontSize: '0.95rem', fontWeight: 700, opacity: 0.65 }}> +{pendingStars} waiting</span>
+                <span style={{ fontSize: '0.9rem', fontWeight: 700, color: 'var(--terracotta-dark)' }}> +{pendingStars} waiting</span>
               )}
             </p>
-            <p style={{ fontSize: '14px', fontWeight: 700, color: 'var(--ink)', opacity: 0.8, margin: '2px 0 0' }}>
+            <p style={{ fontSize: '13.5px', fontWeight: 700, color: 'var(--ink-soft)', margin: '2px 0 0' }}>
               = {bankBalance * STAR_MINUTES} minutes of screen time to use
             </p>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, color: 'var(--ink)', opacity: 0.65, margin: '4px 0 0' }}>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, color: 'var(--retro-green-dark, var(--deep-teal))', margin: '4px 0 0' }}>
               +⭐ {weekStars} earned this week{usedWeekMinutes > 0 ? ` · ${usedWeekMinutes} min used` : ''}
             </p>
           </div>
           {streakDays > 0 && (
-            <div style={{ textAlign: 'center', flexShrink: 0 }}>
-              <div style={{ fontSize: '1.5rem', lineHeight: 1 }}>🔥</div>
-              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.1rem', color: 'var(--ink)' }}>{streakDays}</div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink)', opacity: 0.7 }}>day streak</div>
+            <div style={{ flexShrink: 0, textAlign: 'center', background: 'var(--terracotta-lt)', borderRadius: '14px', padding: '9px 12px' }}>
+              <div style={{ fontSize: '1.35rem', lineHeight: 1 }}>🔥</div>
+              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: 'var(--terracotta-dark)' }}>{streakDays}</div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '8px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>day streak</div>
             </div>
           )}
+         </div>
+
+          {/* The balance, in the same block: real life against screen watched
+              today, the week's jobs, and a friendly way to earn more. One card,
+              not two, so the top of the app stays calm. */}
+          <KidBalanceStrip
+            bare
+            todayScreen={usedTodayMinutes}
+            todayEarned={todayEarnedMins}
+            weekStars={weekStars}
+            weekUsed={usedWeekMinutes}
+            onAskMore={askForMore}
+            asked={askedMore}
+          />
         </div>
+
+        {/* Our family deal: a quiet link the child can pop up any time to keep
+            an eye on how the deal works and what they are saving for. */}
+        <button
+          onClick={() => { setDealOpen(true); playKidSound('tap') }}
+          style={{
+            width: '100%', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer',
+            background: '#fff', border: '1.5px solid rgba(26,26,46,0.1)', borderRadius: '14px',
+            padding: '12px 15px', marginBottom: '16px', textAlign: 'left',
+          }}
+        >
+          <span style={{ fontSize: '18px', flexShrink: 0 }}>📜</span>
+          <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: 'var(--ink)' }}>Our family deal</span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--deep-teal)', flexShrink: 0 }}>Have a look →</span>
+        </button>
+
+        {dealOpen && (
+          <FamilyDeal
+            onClose={() => setDealOpen(false)}
+            recommendedMinutes={recommendedMinutes}
+            goal={goal}
+            bankBalance={bankBalance}
+            goalRedeemed={goalRedeemed}
+          />
+        )}
+
+        {makeMineOpen && (
+          <MakeItMine
+            onClose={() => setMakeMineOpen(false)}
+            chosenBuddy={chosenBuddy}
+            chosenAccent={chosenAccent}
+            onPick={saveMine}
+          />
+        )}
 
         {/* The obvious signpost: how many jobs are left today, tap to jump
             straight to the list. Loud when there is still something to do,
@@ -698,10 +813,18 @@ export default function KidQuestScreen({
         {goal && (() => {
           const ready = bankBalance >= goal.stars_needed && !goalRedeemed
           if (goalRedeemed) {
+            // Finished and ticked off: it drops away so the list stays fresh.
+            if (goalDone) return null
             return (
               <div style={{ background: 'var(--tint-sage)', borderRadius: '16px', padding: '14px 18px', marginBottom: '20px', textAlign: 'center' }}>
                 <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '15px', color: 'var(--ink)' }}>🎉 Redeemed: {goal.title}</span>
-                <span style={{ display: 'block', fontSize: '13px', color: 'var(--ink-soft)', marginTop: '2px' }}>Your grown up knows. Ask them to set a new goal!</span>
+                <span style={{ display: 'block', fontSize: '13px', color: 'var(--ink-soft)', margin: '2px 0 10px' }}>Your grown up knows. Ask them to set a new goal!</span>
+                <button
+                  onClick={() => { if (goalKey) localStorage.setItem(goalKey, '1'); setGoalDone(true); playKidSound('tap') }}
+                  style={{ background: 'var(--retro-green)', color: '#fff', border: 'none', borderRadius: '12px', padding: '10px 20px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', boxShadow: '0 4px 0 rgba(0,0,0,0.2)' }}
+                >
+                  Got it, tick it off ✓
+                </button>
               </div>
             )
           }
@@ -1540,6 +1663,186 @@ const SCHOOL_KIND_EMOJI: Record<string, string> = {
 // as a timed one nears (in the last hour, or once it is passed) it turns red
 // and gives a soft pulse, so a dentist at nine reaches the child too. It
 // re-checks the clock every half minute so the red arrives on its own.
+// The balance strip for the child: real life against screen watched today, as a
+// two sided level with a needle, the same idea as the parent's balance card but
+// told for a child. Green is the jobs they did (real life), gold is the screen
+// they watched. It highlights the week's stars and, when screen pulls ahead or
+// they just want more, offers the productive way forward: ask a grown up for a
+// new job, never nag, always a door to earn more.
+function KidBalanceStrip({ todayScreen, todayEarned, weekStars, weekUsed, onAskMore, asked, bare = false }: {
+  todayScreen: number
+  todayEarned: number
+  weekStars: number
+  weekUsed: number
+  onAskMore: () => void
+  asked: boolean
+  bare?: boolean
+}) {
+  const screen = Math.max(0, Math.round(todayScreen))
+  const real = Math.max(0, Math.round(todayEarned))
+  const total = screen + real
+  // Where the needle sits. A calm midpoint when the day has not started.
+  const screenPct = total > 0 ? Math.round((screen / total) * 100) : 45
+  const realPct = 100 - screenPct
+  const onTrack = real >= screen
+  const green = 'var(--retro-green)'
+  const gold = 'var(--terracotta)'
+
+  // Bare drops the card chrome so it can sit inside the star bank as one block.
+  const wrap: React.CSSProperties = bare
+    ? { marginTop: '14px', paddingTop: '14px', borderTop: '1.5px solid var(--border)' }
+    : { background: '#fff', borderRadius: '20px', padding: '16px 18px', marginBottom: '16px', boxShadow: '0 5px 0 rgba(26,26,46,0.10)' }
+
+  return (
+    <div style={wrap}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '11px' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>My balance today</span>
+        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '12px', color: '#fff', background: onTrack ? green : gold, borderRadius: '100px', padding: '5px 13px' }}>
+          {onTrack ? 'On track ✅' : 'Screen is ahead'}
+        </span>
+      </div>
+
+      {/* The two sided level: real life against screen, with a needle. */}
+      <div style={{ position: 'relative', height: 22, borderRadius: '100px', overflow: 'hidden', display: 'flex', border: '1.5px solid rgba(26,26,46,0.12)' }}>
+        <span style={{ width: `${realPct}%`, background: green, transition: 'width 0.6s ease' }} />
+        <span style={{ flex: 1, background: gold }} />
+        <span style={{ position: 'absolute', top: -2, bottom: -2, left: `${realPct}%`, width: 3, marginLeft: -1.5, background: 'var(--ink)', borderRadius: '2px', transition: 'left 0.6s ease' }} />
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '8px', marginBottom: '12px' }}>
+        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', color: 'var(--ink)' }}>
+          <span style={{ width: 10, height: 10, borderRadius: '3px', background: green }} />⚽ Real life {real}m
+        </span>
+        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', color: 'var(--ink)' }}>
+          {screen}m Screen 📱<span style={{ width: 10, height: 10, borderRadius: '3px', background: gold }} />
+        </span>
+      </div>
+
+      {/* The week highlight: the jobs they did, front and centre. */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '9px', background: 'var(--tint-sage)', borderRadius: '13px', padding: '10px 13px' }}>
+        <span style={{ fontSize: '17px' }}>⭐</span>
+        <span style={{ fontSize: '13.5px', fontWeight: 800, color: 'var(--ink)', lineHeight: 1.35 }}>
+          {weekStars} star{weekStars === 1 ? '' : 's'} earned from jobs this week{weekUsed > 0 ? ` · ${weekUsed}m watched` : ''}
+        </span>
+      </div>
+
+      {/* Be productive: the door to earn more is always open, and it shouts a
+          little louder when screen has pulled ahead. */}
+      <button
+        onClick={onAskMore}
+        disabled={asked}
+        style={{
+          width: '100%', marginTop: '11px', padding: '12px', borderRadius: '14px', border: 'none',
+          cursor: asked ? 'default' : 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px',
+          background: asked ? 'var(--tint-sage)' : 'var(--deep-teal)', color: asked ? 'var(--ink)' : '#fff',
+          boxShadow: asked ? 'none' : '0 4px 0 rgba(0,0,0,0.22)',
+        }}
+      >
+        {asked ? 'Asked ✓ your grown up got a ping' : (onTrack ? '💪 Want more screen time? Ask for a new job' : '💪 Do a job to balance it, ask for a new one')}
+      </button>
+    </div>
+  )
+}
+
+// Our family deal: a simple, warm popup that lays out the deal the child lives
+// by, in their own words. How it works, the exchange rate, a good amount of
+// screen a day, and what they are saving for right now. No dashes, no rules
+// shouted, just the deal they can keep an eye on any time.
+function FamilyDeal({ onClose, recommendedMinutes, goal, bankBalance, goalRedeemed }: {
+  onClose: () => void
+  recommendedMinutes: number
+  goal: { title?: string; stars_needed?: number; achieved_at?: string | null } | null
+  bankBalance: number
+  goalRedeemed: boolean
+}) {
+  const rows: { icon: string; title: string; body: string }[] = [
+    { icon: '🧹', title: 'You do jobs', body: 'Real world jobs and quests your grown up sets, like tidying up or reading.' },
+    { icon: '⭐', title: 'Jobs earn stars', body: `Every quest gives you stars. One star is worth ${STAR_MINUTES} minutes of screen time.` },
+    { icon: '📱', title: 'Stars buy screen time', body: `You choose when to use them. A good amount of screen a day is about ${recommendedMinutes} minutes.` },
+  ]
+  if (goal?.title && !goalRedeemed) {
+    rows.push({ icon: '🎁', title: `Saving for ${goal.title}`, body: `You have ${bankBalance} of ${goal.stars_needed} stars so far. Keep going!` })
+  }
+  return (
+    <div onClick={onClose} style={{ position: 'fixed', inset: 0, zIndex: 130, background: 'rgba(26,26,46,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
+      <div onClick={e => e.stopPropagation()} style={{ width: '100%', maxWidth: 420, maxHeight: '86vh', overflowY: 'auto', background: 'var(--cream)', borderRadius: '24px', padding: '22px 20px', boxShadow: '0 20px 50px -16px rgba(26,26,46,0.4)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.4rem', color: 'var(--ink)', letterSpacing: '-0.01em' }}>📜 Our family deal</span>
+          <button onClick={onClose} aria-label="Close" style={{ width: 34, height: 34, borderRadius: '50%', border: 'none', background: '#fff', cursor: 'pointer', fontSize: '16px', color: 'var(--ink-muted)', flexShrink: 0 }}>✕</button>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          {rows.map((r, i) => (
+            <div key={i} style={{ display: 'flex', gap: '13px', background: '#fff', borderRadius: '15px', padding: '13px 15px' }}>
+              <span style={{ fontSize: '24px', flexShrink: 0, lineHeight: 1.2 }}>{r.icon}</span>
+              <div style={{ minWidth: 0 }}>
+                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)' }}>{r.title}</div>
+                <div style={{ fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '2px' }}>{r.body}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <button onClick={onClose} style={{ width: '100%', marginTop: '16px', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: '15px', padding: '14px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '15px', boxShadow: '0 5px 0 var(--terracotta-dark)' }}>
+          Got it!
+        </button>
+      </div>
+    </div>
+  )
+}
+
+// Make it mine: the child picks their buddy and their colour. Their choice, not
+// an assumption about them. Saves instantly and the whole app takes the accent.
+function MakeItMine({ onClose, chosenBuddy, chosenAccent, onPick }: {
+  onClose: () => void
+  chosenBuddy: string
+  chosenAccent: string
+  onPick: (next: { buddy?: string; accent?: string }) => void
+}) {
+  return (
+    <div onClick={onClose} style={{ position: 'fixed', inset: 0, zIndex: 130, background: 'rgba(26,26,46,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
+      <div onClick={e => e.stopPropagation()} style={{ width: '100%', maxWidth: 420, maxHeight: '86vh', overflowY: 'auto', background: 'var(--cream)', borderRadius: '24px', padding: '22px 20px', boxShadow: '0 20px 50px -16px rgba(26,26,46,0.4)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.4rem', color: 'var(--ink)', letterSpacing: '-0.01em' }}>✨ Make it mine</span>
+          <button onClick={onClose} aria-label="Close" style={{ width: 34, height: 34, borderRadius: '50%', border: 'none', background: '#fff', cursor: 'pointer', fontSize: '16px', color: 'var(--ink-muted)', flexShrink: 0 }}>✕</button>
+        </div>
+
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '10px' }}>Pick your buddy</div>
+        <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
+          {Object.entries(BUDDY_MAP).map(([id, b]) => {
+            const on = chosenBuddy === id
+            return (
+              <button key={id} onClick={() => onPick({ buddy: id })} aria-pressed={on} style={{ flex: 1, cursor: 'pointer', background: '#fff', border: on ? '3px solid var(--ink)' : '2px solid transparent', borderRadius: '16px', padding: '8px 4px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px' }}>
+                <span style={{ width: 46, height: 46, borderRadius: '50%', overflow: 'hidden', background: '#FFF7E8', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  {id === 'digi'
+                    ? <img src={b.img} alt="" style={{ width: 32, height: 32 }} />
+                    : <img src={b.img} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }} />}
+                </span>
+                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '11.5px', color: 'var(--ink)' }}>{b.name}</span>
+              </button>
+            )
+          })}
+        </div>
+
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '10px' }}>Pick your colour</div>
+        <div style={{ display: 'flex', gap: '12px', justifyContent: 'space-between', marginBottom: '20px' }}>
+          {Object.entries(ACCENT_MAP).map(([id, a]) => {
+            const on = chosenAccent === id
+            return (
+              <button key={id} onClick={() => onPick({ accent: id })} aria-label={a.name} aria-pressed={on} style={{ cursor: 'pointer', background: 'none', border: 'none', padding: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px' }}>
+                <span style={{ width: 40, height: 40, borderRadius: '50%', background: a.hex, boxShadow: on ? '0 0 0 3px #fff, 0 0 0 6px var(--ink)' : 'none' }} />
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, color: 'var(--ink-soft)' }}>{a.name}</span>
+              </button>
+            )
+          })}
+        </div>
+
+        <button onClick={onClose} style={{ width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: '15px', padding: '14px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '15px', boxShadow: '0 5px 0 var(--terracotta-dark)' }}>
+          That&apos;s mine!
+        </button>
+      </div>
+    </div>
+  )
+}
+
 function NotesFromGrownUp({ token, notes }: {
   token: string
   notes: { id: string; kind: string; title: string; body: string; read: boolean }[]
