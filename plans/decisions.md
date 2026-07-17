@@ -1404,3 +1404,20 @@ parent meets a one loop Home; the rest opens over the first fortnight.
   what Home promotes.
 
 On PR 303. No migration.
+
+## 2026-07-17 — Child screen simplified, icon led (Greenlight style)
+
+Justin: the child screen was way too messy, an adult analytics dashboard, not a
+kid's app. Stripped it right back, using Greenlight as the reference.
+
+- Removed the analytical balance strip from the child home entirely (the real
+  life vs screen meter, the on track pill, the two sided labels, the week stats
+  line, the dark ask button, and the dead KidBalanceStrip component). The balance
+  stays a PARENT tool, where it belongs, not something a young child reads.
+- The star card is now just the stars, the minutes, and the streak.
+- The whole child path is now four clean icon tiles, Greenlight style: a white
+  card, a rounded colour icon square, a bold title, one short line. My jobs, Use
+  my time, New job (asks a grown up), Our deal. Big, few words, obvious to tap.
+- Our family deal moves from a text link into one of the tiles.
+
+On PR 303. No migration.
