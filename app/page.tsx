@@ -515,6 +515,45 @@ export default function HomePage() {
               </div>
             </div>
 
+            {/* The child's side, tucked in front: real jobs earn stars, stars
+                buy screen time. The whole family model in a glance, in the kid
+                app's own butter and pastel. */}
+            <div style={{
+              position: 'absolute', bottom: '4px', left: '2px', width: '212px',
+              background: '#fff', borderRadius: '20px', overflow: 'hidden',
+              boxShadow: '0 22px 52px rgba(26,26,46,0.22)', border: '1px solid rgba(0,0,0,0.05)',
+              transform: 'rotate(-5deg)', zIndex: 3,
+            }}>
+              <div style={{ background: 'linear-gradient(168deg, #EF9EC8 0%, #ADB4EE 100%)', padding: '11px 13px' }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '7.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink)', opacity: 0.7 }}>Teo&apos;s quests</div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '5px' }}>
+                  <span style={{ width: 30, height: 30, borderRadius: '9px', background: 'var(--terracotta-lt)', border: '1.5px solid #E7A33E', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="var(--terracotta-dark)" aria-hidden><path d="M12 3.2l2.35 4.76 5.25.76-3.8 3.7.9 5.23L12 15.94l-4.7 2.47.9-5.23-3.8-3.7 5.25-.76z" /></svg>
+                  </span>
+                  <div>
+                    <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '15px', color: 'var(--ink)', lineHeight: 1 }}>22 stars</div>
+                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '8px', fontWeight: 700, color: 'var(--ink)', opacity: 0.75, marginTop: '2px' }}>= 110 min screen time</div>
+                  </div>
+                </div>
+              </div>
+              <div style={{ padding: '9px 11px', display: 'flex', flexDirection: 'column', gap: '7px' }}>
+                {[
+                  { title: 'Make your bed', stars: '+2', done: true },
+                  { title: 'Feed the dog', stars: '+1', done: false },
+                ].map((q, i) => (
+                  <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span style={{ flex: 1, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '11px', color: 'var(--ink)' }}>{q.title}</span>
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>{q.stars}</span>
+                    <span style={{ width: 19, height: 19, borderRadius: '50%', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: q.done ? 'var(--deep-teal)' : 'var(--cream)', border: q.done ? 'none' : '2px dashed var(--ink-light)', color: '#fff', fontSize: '10px', fontWeight: 900 }}>{q.done ? '✓' : ''}</span>
+                  </div>
+                ))}
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '7px', padding: '8px 11px', borderTop: '1px solid var(--border)', background: 'var(--tint-sage)' }}>
+                <svg width="15" height="15" viewBox="0 0 24 24" aria-hidden><rect x="3.5" y="3.5" width="17" height="17" rx="5" fill="#2F8F6B" /><path d="M10 8.6v6.8l5.4-3.4z" fill="#fff" /></svg>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '8px', fontWeight: 700, color: 'var(--ink)', letterSpacing: '0.02em' }}>Stars buy screen time</span>
+              </div>
+            </div>
+
           </div>
 
         </div>
