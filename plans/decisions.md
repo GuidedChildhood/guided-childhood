@@ -1269,3 +1269,20 @@ On PR 303 (continue-build-ldot8v). No migration.
   words, self contained.
 
 On PR 303 (continue-build-ldot8v). No migration.
+
+## 2026-07-17 — Launch build 1: the readiness passport made visible (Rec 1)
+
+The daily loop barely referenced the whole point (ready at 16, no cliff edge).
+New lib/content/readiness.ts holds the passport stamps, one named competence per
+stage (Steady stops, Healthy habits, How it works, Real footprint, Ready), each
+with what it builds toward, plus the measured science (Candice Odgers, Amy Orben,
+Cambridge, the digital passport idea): balance and competence over a countdown,
+deliberately not the moral panic line, Haidt left out per Justin.
+
+- Pathway page now shows the current stage's stamp (what it builds and toward
+  what) and a Why this works science card.
+- The Friday round up ties the week back to the pathway: this stamp, one step
+  nearer ready at 16, linking to the pathway.
+
+Marketing page is the mobbin session's lane, so its version of this narrative is
+handed off below, not built here. On PR 303. No migration.

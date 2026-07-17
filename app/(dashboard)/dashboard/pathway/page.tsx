@@ -2,7 +2,8 @@ import { createClient } from '@/lib/supabase/server'
 import { hasFullAccess } from '@/lib/access'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import { STAGES } from '@/lib/content/stages'
+import { STAGES, type AgeBand } from '@/lib/content/stages'
+import { readinessForAgeBand, WHY_IT_WORKS } from '@/lib/content/readiness'
 import PathwayJourney from '@/components/pathway/PathwayJourney'
 import StageRoadMap from '@/components/pathway/StageRoadMap'
 import { getStageProgress, type StageId as ProgressStageId } from '@/lib/pathway/progress'
@@ -109,6 +110,31 @@ export default async function PathwayPage() {
         )}
       </div>
 
+      {/* The stamp this stage earns: the passport made concrete. It names the
+          competence being built right now and what it is building toward, so the
+          daily loop always connects back to the whole point, ready at 16. */}
+      {(() => {
+        const r = readinessForAgeBand((primaryChild?.age_band as AgeBand | null) ?? null)
+        const name = primaryChild?.name ?? 'your child'
+        return (
+          <div style={{ padding: '0 20px', maxWidth: '720px', margin: '0 auto 20px' }}>
+            <div style={{ background: 'var(--cream)', border: '1.5px solid var(--border)', borderLeft: '6px solid var(--terracotta)', borderRadius: '18px', padding: '18px 20px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '10px' }}>
+                <span style={{ flexShrink: 0, width: 44, height: 44, borderRadius: '12px', background: 'var(--terracotta)', boxShadow: '0 4px 0 var(--terracotta-dark)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px' }}>🪪</span>
+                <div style={{ minWidth: 0 }}>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>Stage {r.id} stamp · {r.stage}</div>
+                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '19px', color: 'var(--ink)', lineHeight: 1.15, marginTop: '2px' }}>{r.stamp}</div>
+                </div>
+              </div>
+              <p style={{ fontSize: '14.5px', color: 'var(--ink)', lineHeight: 1.55, margin: '0 0 6px' }}>{r.skill}</p>
+              <p style={{ fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
+                Everything {name} does this stage is building toward {r.toward}
+              </p>
+            </div>
+          </div>
+        )
+      })()}
+
       {/* The road to 16 at a glance: where this family is on the whole map,
           before any detail. Orientation first, then the journey below. */}
       <div style={{ padding: '0 20px', maxWidth: '720px', margin: '0 auto 20px' }}>
@@ -116,6 +142,29 @@ export default async function PathwayPage() {
           currentStageNum={currentStageNum}
           progressPct={currentStageProgress?.overallPct ?? null}
         />
+      </div>
+
+      {/* Why this works: the measured science, so the gradual on ramp reads as
+          evidence led and not another screen time app. Odgers and Orben, balance
+          and competence over a countdown. */}
+      <div style={{ padding: '0 20px', maxWidth: '720px', margin: '0 auto 24px' }}>
+        <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '18px', padding: '20px' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--deep-teal)', marginBottom: '6px' }}>{WHY_IT_WORKS.eyebrow}</div>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '18px', color: 'var(--ink)', lineHeight: 1.2, marginBottom: '8px' }}>{WHY_IT_WORKS.headline}</div>
+          <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 14px' }}>{WHY_IT_WORKS.body}</p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            {WHY_IT_WORKS.points.map(p => (
+              <div key={p.title} style={{ display: 'flex', gap: '11px', background: 'var(--cream)', borderRadius: '13px', padding: '12px 14px' }}>
+                <span style={{ fontSize: '20px', flexShrink: 0, lineHeight: 1.2 }}>{p.icon}</span>
+                <div style={{ minWidth: 0 }}>
+                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: 'var(--ink)' }}>{p.title}</div>
+                  <div style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '2px' }}>{p.body}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, color: 'var(--ink-muted)', lineHeight: 1.5, margin: '14px 0 0' }}>{WHY_IT_WORKS.sources}</p>
+        </div>
       </div>
 
       {/* The journey: one spine, three strands, the single next step */}
