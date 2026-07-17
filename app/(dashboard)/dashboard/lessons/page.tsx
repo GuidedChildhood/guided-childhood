@@ -90,7 +90,7 @@ export default async function LessonsPage() {
     <div style={{ maxWidth: '760px', margin: '0 auto', padding: '20px 20px 48px' }}>
       <div style={{ marginBottom: '4px' }}>
         <p className="eyebrow" style={{ marginBottom: '4px' }}>Every lesson, one place</p>
-        <h1 style={{ fontSize: 'clamp(1.5rem, 4vw, 2rem)', marginBottom: '8px' }}>Lessons</h1>
+        <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '8px' }}>Lessons</h1>
         <p style={{ color: 'var(--ink-soft)', fontSize: '15px', lineHeight: 1.6, marginBottom: '14px' }}>
           Films to watch with {childName}, lessons you lead, and sheets to print. Switch between them below.
         </p>

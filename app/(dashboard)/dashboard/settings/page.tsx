@@ -119,7 +119,7 @@ export default function SettingsPage() {
 
       <div style={{ marginBottom: '28px' }}>
         <p className="eyebrow" style={{ marginBottom: '4px' }}>Your account</p>
-        <h1 style={{ fontSize: 'clamp(1.4rem, 4vw, 1.9rem)', marginBottom: 0 }}>Settings</h1>
+        <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: 0 }}>Settings</h1>
       </div>
 
       {error && (
