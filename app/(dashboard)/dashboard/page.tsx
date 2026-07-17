@@ -93,9 +93,11 @@ export default async function DashboardPage() {
   // Every child's name, primary first, so DiGi can greet the whole family by
   // name in the welcome sheet.
   const { data: allKids } = await supabase
-    .from('children').select('name, is_primary').eq('parent_id', user.id)
+    .from('children').select('name, age_band, is_primary').eq('parent_id', user.id)
     .order('is_primary', { ascending: false })
-  const childNames = (allKids ?? []).map(k => k.name as string).filter(Boolean)
+  const welcomeChildren = (allKids ?? [])
+    .filter(k => k.name)
+    .map(k => ({ name: k.name as string, ageBand: (k.age_band as string | null) ?? null }))
   const dailyDone = !!dailySessionResult.data?.completed_at
   const lastFeedback = lastFeedbackResult.data
   const schoolActions: SchoolAction[] = schoolActionsResult.data ?? []
@@ -226,7 +228,7 @@ export default async function DashboardPage() {
   return (
     <div style={{ maxWidth: '640px', margin: '0 auto', padding: '24px 20px' }}>
       {/* DiGi comes up first, once a day, greeting the family by name */}
-      <DigiWelcomeSheet childNames={childNames} />
+      <DigiWelcomeSheet childrenInfo={welcomeChildren} />
       {/* Trial status: warm and forgiving during, a gentle offer after, never
           a lockout. The everyday habit stays free either way. */}
       {showTrial && (

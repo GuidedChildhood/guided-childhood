@@ -1341,3 +1341,22 @@ endpoint. No gender collected anywhere. MIGRATION 067.
   do the everyday job. Nothing was deleted, only hidden behind coming soon.
 
 On PR 303. No migration.
+
+## 2026-07-17 — DiGi welcome carries an occasional named social insight
+
+After the first few greetings, and only now and then (every third, rotating
+children), the DiGi welcome sheet adds one age relevant social media insight
+named to a child, grounded in Candace Odgers (what the data shows) and Catherine
+Knibbs (the psychology, the trusted adult). New lib/content/social-insights.ts,
+age banded, calm, never alarmist. The welcome sheet now takes children with age
+bands so it can name and age target. This keeps a gentle check on social media
+running through the platform, including 16 plus (the platform keeps supporting,
+does not stop at 16). On PR 303. No migration.
+
+## 2026-07-17 — Multi child: honest state (audit)
+Quests, stars and the pathway map handle several children. But most coaching and
+content surfaces (DiGi chat, daily practice, scripts, right now rescue, tracker,
+wellbeing, agreement, lessons, printables, Home) are anchored to the PRIMARY
+child via is_primary. So a family with more than one child gets per child quests
+and pathway, but one shared coaching context on the primary child. Full per child
+coaching everywhere is a real post launch workstream, not a launch week fix.
