@@ -56,7 +56,7 @@ export default async function AiModulePage() {
     <div style={{ maxWidth: '720px', margin: '0 auto', padding: '24px 20px' }}>
       <div style={{ marginBottom: '24px' }}>
         <p className="eyebrow" style={{ marginBottom: '4px' }}>Understanding AI</p>
-        <h1 style={{ fontSize: 'clamp(1.5rem, 4vw, 2rem)', marginBottom: '8px' }}>The AI Module</h1>
+        <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '8px' }}>The AI Module</h1>
         <p style={{ color: 'var(--ink-muted)', fontSize: '15px' }}>
           How AI really works, and how to use it wisely. Calm, plain explanations for every age, plus you and the classroom.
         </p>

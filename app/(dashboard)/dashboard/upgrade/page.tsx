@@ -70,7 +70,7 @@ export default async function UpgradePage() {
     <div style={{ maxWidth: '640px', margin: '0 auto', padding: '32px 20px' }}>
       <div style={{ textAlign: 'center', marginBottom: '40px' }}>
         <p className="eyebrow" style={{ marginBottom: '8px', color: 'var(--terracotta)' }}>Guided Childhood</p>
-        <h1 style={{ fontSize: 'clamp(1.8rem, 5vw, 2.5rem)', marginBottom: '12px' }}>
+        <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.6rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.08, marginBottom: '12px' }}>
           Unlock the full pathway
         </h1>
         <p style={{ color: 'var(--ink-muted)', fontSize: '16px', maxWidth: '440px', margin: '0 auto' }}>

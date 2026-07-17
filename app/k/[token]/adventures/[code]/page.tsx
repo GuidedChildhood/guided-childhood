@@ -43,12 +43,12 @@ export default async function KidAdventurePage({ params }: { params: Promise<{ t
   const stageName = STAGES.find(s => s.id === lesson.stage_id)?.name ?? `Stage ${lesson.stage_id}`
 
   return (
-    <div style={{ minHeight: '100dvh', background: 'var(--deep-teal, #173C46)', padding: '20px 14px 50px', fontFamily: 'var(--font-body)' }}>
+    <div style={{ minHeight: '100dvh', background: 'var(--kid-bg)', padding: '20px 14px 50px', fontFamily: 'var(--font-body)' }}>
       <div style={{ maxWidth: '560px', margin: '0 auto' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', gap: '10px' }}>
           <Link href={`/k/${token}`} style={{
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px',
-            color: 'rgba(255,255,255,0.85)', textDecoration: 'none',
+            color: 'var(--ink-soft)', textDecoration: 'none',
           }}>
             ← My quests
           </Link>
@@ -62,10 +62,10 @@ export default async function KidAdventurePage({ params }: { params: Promise<{ t
         </div>
 
         <div style={{ textAlign: 'center', marginBottom: '16px' }}>
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)', margin: '0 0 6px' }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '0 0 6px' }}>
             Watch together with your grown up
           </p>
-          <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.3rem, 6vw, 1.7rem)', color: '#fff', letterSpacing: '-0.02em', lineHeight: 1.2, margin: 0 }}>
+          <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.3rem, 6vw, 1.7rem)', color: 'var(--ink)', letterSpacing: '-0.02em', lineHeight: 1.2, margin: 0 }}>
             {lesson.title}
           </h1>
         </div>

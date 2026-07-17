@@ -7,6 +7,7 @@ import { usePathname } from 'next/navigation'
 import { MOMENT_PHOTOS } from '@/lib/content/moment-photos'
 import { scriptVoiceUrl } from '@/lib/content/script-voice'
 import { POPUP_DELAY, openPopup, closePopup, whenClear } from '@/lib/ui/popupQueue'
+import DigiCharacter from '@/components/digi/DigiCharacter'
 
 // The Right Now button: the emergency entry point in the centre of the
 // mobile tab bar. A child is crying because the TV went off and the parent
@@ -227,17 +228,19 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
         <div
           className="rightnow-hint"
           style={{
-            position: 'fixed', zIndex: 90, width: 'min(86vw, 310px)',
+            position: 'fixed', zIndex: 90, width: 'min(90vw, 340px)',
             ...(variant === 'fab'
               ? { bottom: '150px', right: '14px' }
               : { bottom: '92px', left: '50%', transform: 'translateX(-50%)' }),
-            // Warm and light, in the brand butter, so it reads as a friendly
-            // tip and not a stark black box. Dark ink text keeps it readable.
+            // The premium DiGi note: the butter DiGi mark and warm ink of the
+            // DiGi front door, so the tip reads as DiGi leaning in, clear and
+            // premium, never a stark black box.
             background: '#fff',
             color: 'var(--ink)',
-            border: '1.5px solid var(--terracotta)',
-            borderRadius: '18px', padding: '15px 40px 15px 17px',
-            boxShadow: '0 14px 34px -12px rgba(26,26,46,0.24)',
+            border: '1.5px solid var(--border)',
+            borderRadius: '22px', padding: '17px 42px 17px 17px',
+            boxShadow: '0 2px 4px rgba(26,26,46,0.04), 0 18px 42px -12px rgba(26,26,46,0.28)',
+            display: 'flex', gap: '13px', alignItems: 'flex-start',
           }}
         >
           {/* An obvious way out: a real close control, not click the bubble */}
@@ -246,7 +249,7 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
             onClick={dismissHint}
             aria-label="Dismiss tip"
             style={{
-              position: 'absolute', top: '9px', right: '9px',
+              position: 'absolute', top: '11px', right: '11px',
               width: '28px', height: '28px', borderRadius: '50%',
               background: 'var(--cream)', border: '1px solid var(--border)',
               color: 'var(--ink-muted)', fontSize: '14px', lineHeight: 1, cursor: 'pointer',
@@ -255,15 +258,28 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
           >
             ✕
           </button>
-          <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', margin: '0 0 5px', letterSpacing: '-0.01em', color: 'var(--ink)' }}>
-            Mid meltdown? This button.
-          </p>
-          <p style={{ fontFamily: 'var(--font-body)', fontWeight: 500, fontSize: '13px', lineHeight: 1.55, margin: 0, color: 'var(--ink-soft)' }}>
-            When a hard moment is happening, tap Now, pick the situation, and the calm words appear. Two taps, no searching.
-          </p>
+          <span style={{
+            flexShrink: 0, width: 44, height: 44, borderRadius: '14px',
+            background: 'var(--terracotta)', boxShadow: '0 4px 0 var(--terracotta-dark)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}>
+            <DigiCharacter mood="speak" size={30} once />
+          </span>
+          <span style={{ flex: 1, minWidth: 0 }}>
+            <span style={{
+              display: 'block', fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700,
+              letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '3px',
+            }}>Help now</span>
+            <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px', margin: '0 0 5px', letterSpacing: '-0.01em', lineHeight: 1.2, color: 'var(--ink)' }}>
+              Mid meltdown? This button.
+            </span>
+            <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontWeight: 500, fontSize: '13.5px', lineHeight: 1.55, margin: 0, color: 'var(--ink-soft)' }}>
+              When a hard moment is happening, tap Now, pick the situation, and the calm words appear. Two taps, no searching.
+            </span>
+          </span>
           <div className="rightnow-hint-arrow" style={{
             position: 'absolute', bottom: '-7px', width: '14px', height: '14px', background: '#fff',
-            borderRight: '1.5px solid var(--terracotta)', borderBottom: '1.5px solid var(--terracotta)',
+            borderRight: '1.5px solid var(--border)', borderBottom: '1.5px solid var(--border)',
             ...(variant === 'fab'
               ? { right: '28px', transform: 'rotate(45deg)' }
               : { left: '50%', transform: 'translateX(-50%) rotate(45deg)' }),

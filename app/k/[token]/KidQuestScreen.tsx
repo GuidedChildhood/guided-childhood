@@ -522,7 +522,7 @@ export default function KidQuestScreen({
 
   return (
     <div style={{
-      minHeight: '100dvh', background: 'linear-gradient(168deg, #FFF3DC 0%, #FDE7F0 46%, #EAE7FB 100%)',
+      minHeight: '100dvh', background: 'var(--kid-bg)',
       display: 'flex', flexDirection: 'column', alignItems: 'center',
       padding: '22px 16px 40px',
       fontFamily: 'var(--font-body)',

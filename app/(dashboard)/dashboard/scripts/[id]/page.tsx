@@ -136,10 +136,10 @@ export default async function ScriptDetailPage({
           )}
         </div>
 
-        <h1 style={{ fontSize: 'clamp(1.5rem, 4vw, 2rem)', lineHeight: 1.1, letterSpacing: '-0.02em', marginBottom: '10px' }}>
+        <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.9rem, 6vw, 2.6rem)', lineHeight: 1.08, letterSpacing: '-0.03em', marginBottom: '12px' }}>
           {script.title}
         </h1>
-        <p style={{ fontSize: '15px', color: 'var(--ink-muted)', fontStyle: 'italic', lineHeight: 1.5 }}>
+        <p style={{ fontSize: '16.5px', color: 'var(--ink-soft)', lineHeight: 1.55, maxWidth: '46ch' }}>
           {script.situation}
         </p>
       </div>

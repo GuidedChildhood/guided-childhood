@@ -37,7 +37,7 @@ type Child = { id: string; name: string; age_band: string | null; phone?: string
 
 const AGE_BANDS = ['4-7', '8-10', '11-13', '13-15', '16+'] as const
 type Quest = { id: string; title: string; emoji: string; stars: number; schedule: string; schedule_days?: number[] | null; child_id: string | null; blocks_screens?: boolean }
-type Goal = { child_id: string; title: string; stars_needed: number; daily_stars: number | null }
+type Goal = { child_id: string; title: string; stars_needed: number; daily_stars: number | null; achieved_at: string | null }
 type KidLink = { child_id: string; token: string }
 type Tick = { quest_id: string; child_id: string | null; status: string; tick_date: string; approved_at: string | null }
 type Ask = { id: string; child_id: string; title: string; emoji: string; status: string; created_at: string }
@@ -399,6 +399,18 @@ export default function QuestManager() {
     await load()
   }
 
+  // The parent marks the saving goal done: the child saved enough and the
+  // real reward is handed over, so the stars are spent and the goal closes.
+  async function redeemGoal() {
+    if (!activeChild) return
+    await fetch('/api/quests', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'goal_redeem', child_id: activeChild }),
+    }).catch(() => {})
+    await load()
+  }
+
   async function sendPing(message: string) {
     if (!activeChild) return
     setPingResult('Sending...')
@@ -566,14 +578,19 @@ export default function QuestManager() {
             const tickedToday = new Set(ticks.filter(t => t.tick_date === today).map(t => t.quest_id))
             const dueToday = childQuests.filter(q => questDueToday(q.schedule, q.schedule_days))
             const g = goals.find(gg => gg.child_id === activeChild)
+            const gBalance = banks.find(b => b.child_id === activeChild)?.balance ?? 0
             return (
               <StarSummary
                 childName={child.name}
-                balanceStars={banks.find(b => b.child_id === activeChild)?.balance ?? 0}
+                balanceStars={gBalance}
                 weekStars={starsThisWeek}
                 pending={ticks.filter(t => t.child_id === activeChild && t.status === 'pending').length}
                 todo={dueToday.filter(q => !tickedToday.has(q.id)).length}
                 goal={g ? { title: g.title, stars_needed: g.stars_needed } : null}
+                goalReached={!!g && !g.achieved_at && gBalance >= g.stars_needed}
+                goalAchieved={!!g?.achieved_at}
+                onGoalDone={redeemGoal}
+                onSetGoal={() => { setTab('manage'); setTimeout(() => document.getElementById('star-goal')?.scrollIntoView({ behavior: 'smooth' }), 60) }}
                 timerRunning={sessions.some(s => s.child_id === activeChild)}
                 sessionEndsAt={sessions.find(s => s.child_id === activeChild)?.ends_at ?? null}
                 onApprove={() => { if (ticks.some(t => t.child_id === activeChild && t.status === 'pending')) { window.location.href = '/dashboard#quest-board' } else { setTab('manage'); setTimeout(() => document.getElementById('my-todo')?.scrollIntoView({ behavior: 'smooth' }), 60) } }}
@@ -1426,7 +1443,7 @@ export default function QuestManager() {
           })()}
 
           {/* Star goal */}
-          <div style={card}>
+          <div id="star-goal" style={card}>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '10px' }}>
               What the stars buy
             </div>

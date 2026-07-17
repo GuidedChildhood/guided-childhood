@@ -24,7 +24,7 @@ export default async function CheckinPage() {
 
       <div style={{ marginBottom: '28px' }}>
         <p className="eyebrow" style={{ marginBottom: '6px' }}>Monthly check in</p>
-        <h1 style={{ fontSize: 'clamp(1.5rem, 4vw, 2rem)', letterSpacing: '-0.02em', lineHeight: 1.1, marginBottom: '8px' }}>
+        <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '8px' }}>
           A minute for you
         </h1>
         <p style={{ color: 'var(--ink-muted)', fontSize: '15px', lineHeight: 1.55 }}>

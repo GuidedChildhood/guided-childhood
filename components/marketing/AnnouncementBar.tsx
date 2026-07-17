@@ -34,19 +34,21 @@ export default function AnnouncementBar() {
         href="/starter-pack"
         className="ann-cta"
         style={{
-          background: 'rgba(255,255,255,.2)',
-          color: '#fff',
-          fontFamily: 'var(--font-body)',
-          fontWeight: 700,
-          fontSize: '.72rem',
-          padding: '6px 14px',
+          background: 'var(--terracotta)',
+          color: 'var(--ink)',
+          fontFamily: 'var(--font-display)',
+          fontWeight: 800,
+          fontSize: '.74rem',
+          letterSpacing: '-0.01em',
+          padding: '7px 16px',
           borderRadius: '100px',
           whiteSpace: 'nowrap',
           textDecoration: 'none',
           flexShrink: 0,
           display: 'inline-flex',
           alignItems: 'center',
-          border: '1px solid rgba(255,255,255,.35)',
+          border: 'none',
+          boxShadow: '0 3px 0 var(--terracotta-dark)',
         }}
       >
         Start here
