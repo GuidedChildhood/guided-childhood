@@ -1174,3 +1174,32 @@ New pure helpers weekBalance and expertWeekTip live in lib/quests/screen-balance
 migration, the review stats JSON already carries it.
 
 On PR 303 (continue-build-ldot8v). No migration.
+
+## 2026-07-16 — The Sunday wellbeing check in, and DiGi's agreed weekly plan
+
+Justin wants DiGi to proactively check in on a Sunday: ask how the PARENT is,
+what went well, what was hardest, and what they want next week to feel like, then
+hand back a plan grounded in the experts and the family's data, so DiGi keeps
+advising week by week. Built as a stepped card (his pick), with the agreed plan
+living on Home all week (his pick).
+
+The five questions, the intelligence we need to direct a plan:
+1. How are YOU this week (1 to 5). The mission made real, the parent's own wellbeing.
+2. What went well (quick chips). Gathers the week's successes.
+3. What felt hardest (concern chips, mapped to the ledger so DiGi carries it on).
+4. What do you want next week to feel like (calmer mornings, less screen battle,
+   more connection, better sleep, feeling calmer myself). The direction.
+5. DiGi's plan: one to three small evidence based steps tied to the answers,
+   attributed to the experts (Dr Becky Kennedy, Sue Atkins, emotion coaching).
+   The parent taps Agree.
+
+Once agreed the plan sits on Home as a This week with DiGi strip all week, right
+above the Friday round up, closing the loop. Reuses wellbeing_checkins (parent
+mood plus the concern ledger already wired to it); migration 066 adds week_start,
+went_well, focus, plan, plan_agreed and a unique index for the weekly upsert.
+generateWeeklyPlan runs the DIGI_MODEL fallback ladder with a deterministic,
+attributable fallback so the plan is never empty and never carries a dash.
+
+Files: supabase/migrations/066_weekly_checkin_plan.sql, lib/digi/weekly-plan.ts,
+app/api/wellbeing/weekly/route.ts, components/digi/SundayCheckIn.tsx, mounted on
+dashboard Home above the round up. On PR 303 (continue-build-ldot8v). MIGRATION 066.
