@@ -127,7 +127,7 @@ function DiscussionBlock({ slide }: { slide: DiscussionSlide }) {
         )}
       </div>
       {done && slide.lookFor && (
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--ink)', lineHeight: 1.6, maxWidth: '420px', margin: '18px auto 0' }}>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: '16px', color: 'var(--ink)', lineHeight: 1.7, maxWidth: '440px', margin: '18px auto 0' }}>
           <strong>A good answer sounds like:</strong> {slide.lookFor}
         </p>
       )}
@@ -181,7 +181,7 @@ function ScenarioBlock({ slide }: { slide: ScenarioSlide }) {
             {slide.meta && <div style={{ fontFamily: 'var(--font-body)', fontSize: '12px', color: 'var(--ink-muted)' }}>{slide.meta}</div>}
           </div>
         </div>
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: '14.5px', color: 'var(--ink)', lineHeight: 1.55, marginBottom: slide.image || slide.stats ? '12px' : 0 }}>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: '16.5px', color: 'var(--ink)', lineHeight: 1.7, marginBottom: slide.image || slide.stats ? '12px' : 0 }}>
           {slide.text}
         </p>
         {slide.image && (

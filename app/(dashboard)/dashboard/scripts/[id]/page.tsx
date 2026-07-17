@@ -139,7 +139,7 @@ export default async function ScriptDetailPage({
         <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.9rem, 6vw, 2.6rem)', lineHeight: 1.08, letterSpacing: '-0.03em', marginBottom: '12px' }}>
           {script.title}
         </h1>
-        <p style={{ fontSize: '16.5px', color: 'var(--ink-soft)', lineHeight: 1.55, maxWidth: '46ch' }}>
+        <p style={{ fontSize: '18px', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '62ch' }}>
           {script.situation}
         </p>
       </div>
