@@ -647,6 +647,19 @@ export default function KidQuestScreen({
           <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.7rem, 8vw, 2.2rem)', color: 'var(--ink)', letterSpacing: '-0.02em', margin: 0 }}>
             Go {childName}!
           </h1>
+          {/* A clear, labelled way in to pick a buddy and a colour, so making
+              the app your own is obvious, not a hidden tap on the avatar. */}
+          <button
+            onClick={() => { setMakeMineOpen(true); playKidSound('tap') }}
+            style={{
+              marginTop: 10, display: 'inline-flex', alignItems: 'center', gap: 6,
+              background: 'var(--terracotta-lt)', border: `1.5px solid ${accentHex}`,
+              borderRadius: 100, padding: '7px 15px', cursor: 'pointer',
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '12.5px', color: 'var(--ink)',
+            }}
+          >
+            🎨 Make it mine
+          </button>
         </div>
 
         {/* DiGi in the top bar: a small star friend with one clear insight for
