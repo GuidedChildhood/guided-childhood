@@ -14,8 +14,9 @@ export default function ChildLinkShare({ token, childName, ageBand, useMode, onS
   const [qr, setQr] = useState<string | null>(null)
   const [copied, setCopied] = useState(false)
   const [url, setUrl] = useState('')
-  // Co-view leads when it is set, else falls back to the youngest by age.
-  const youngest = useMode ? useMode === 'coview' : ageBand === '4-7'
+  // Co-view leads when it is set, else falls back to parent led for under 11
+  // (4 to 7 and 8 to 10), the science aligned default we recommend.
+  const youngest = useMode ? useMode === 'coview' : (ageBand === '4-7' || ageBand === '8-10')
 
   useEffect(() => {
     const u = `${window.location.origin}/k/${token}`

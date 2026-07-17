@@ -1286,3 +1286,22 @@ deliberately not the moral panic line, Haidt left out per Justin.
 
 Marketing page is the mobbin session's lane, so its version of this narrative is
 handed off below, not built here. On PR 303. No migration.
+
+## 2026-07-17 — Launch build 2: the smartphone contradiction, answered (Rec 2)
+
+The fair charge is that a screen reduction brand shipped an app for a young
+child's phone. Answered in the product, not just in words, and in line with the
+never police rule.
+
+- Under 11 (Foundation and Builder, 4 to 10) now defaults to co-view: parent led,
+  done together on the parent's device, no child device. Was 4 to 7 only.
+- Own device stays a free opt in. The setup copy leads with co-view as the
+  evidence aligned recommendation, and frames own device as the parent's call for
+  an older child who already has one. We point the way, we do not police.
+- OUR_STANCE added to lib/content/readiness and shown as a card on the pathway:
+  we do not put phones in children's hands, and the choice is always yours.
+- Real life as the counterweight already ships as the child balance strip; the
+  stance and the co-view default push the framing further toward earned and
+  balanced rather than a screen wallet.
+
+On PR 303. No migration.

@@ -503,7 +503,7 @@ export default function QuestManager() {
             {AGE_BANDS.map(band => (
               <button
                 key={band}
-                onClick={() => { setNewChildAge(band); setNewChildMode(band === '4-7' ? 'coview' : 'own') }}
+                onClick={() => { setNewChildAge(band); setNewChildMode(['4-7', '8-10'].includes(band) ? 'coview' : 'own') }}
                 style={{
                   padding: '9px 16px', borderRadius: '100px', cursor: 'pointer',
                   border: '1.5px solid var(--border)',
@@ -525,8 +525,8 @@ export default function QuestManager() {
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '7px' }}>
                 {([
-                  ['own', '📱 Their own app', 'On their tablet or phone. You send the link or QR, they add it to their home screen.'],
-                  ['coview', '👀 Together on your device', 'You open it on your phone and do it together. Best for a little one with no device.'],
+                  ['coview', '👀 Together on your device', 'You open it on your phone and do it together, no device in their hands. What the evidence points to for under 11, and what we recommend.'],
+                  ['own', '📱 Their own app', 'If they already have their own device you can set it up here. Your family, your call, we just point the way.'],
                 ] as const).map(([m, label, hint]) => (
                   <button key={m} onClick={() => setNewChildMode(m)} aria-pressed={newChildMode === m} style={{
                     textAlign: 'left', padding: '10px 13px', borderRadius: '12px', cursor: 'pointer',

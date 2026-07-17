@@ -61,6 +61,14 @@ export function readinessForAgeBand(ageBand: AgeBand | null): ReadinessStamp {
   return READINESS.find(r => r.ageBand === ageBand) ?? READINESS[0]
 }
 
+// The stance, in one clear paragraph, so the brand is never open to the charge
+// that a screen reduction product put a phone in a young child's hand. It is the
+// answer to the contradiction, and it is honest: we recommend, we never police.
+export const OUR_STANCE = {
+  headline: 'We do not put phones in children’s hands',
+  body: 'For under 11s, Guided Childhood is parent led, done together on your device, no child device needed. For families whose older children already have a device, we make its time earned and balanced rather than endless. And we never police your family. We point the way the evidence points, and the choice is always yours.',
+}
+
 // The measured science, in plain words. Deliberately not the moral panic line.
 // This is what makes the gradual on ramp credible rather than just another
 // screen time app: we are not banning a number, we are building competence.

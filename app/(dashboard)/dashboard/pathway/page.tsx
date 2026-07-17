@@ -3,7 +3,7 @@ import { hasFullAccess } from '@/lib/access'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { STAGES, type AgeBand } from '@/lib/content/stages'
-import { readinessForAgeBand, WHY_IT_WORKS } from '@/lib/content/readiness'
+import { readinessForAgeBand, WHY_IT_WORKS, OUR_STANCE } from '@/lib/content/readiness'
 import PathwayJourney from '@/components/pathway/PathwayJourney'
 import StageRoadMap from '@/components/pathway/StageRoadMap'
 import { getStageProgress, type StageId as ProgressStageId } from '@/lib/pathway/progress'
@@ -164,6 +164,15 @@ export default async function PathwayPage() {
             ))}
           </div>
           <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, color: 'var(--ink-muted)', lineHeight: 1.5, margin: '14px 0 0' }}>{WHY_IT_WORKS.sources}</p>
+        </div>
+      </div>
+
+      {/* Our stance: the honest answer to the fair question, does an app for kids
+          contradict a screen reduction mission. Baked in, not buried. */}
+      <div style={{ padding: '0 20px', maxWidth: '720px', margin: '0 auto 24px' }}>
+        <div style={{ background: 'var(--deep-teal)', borderRadius: '18px', padding: '20px' }}>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '17px', color: '#fff', lineHeight: 1.25, marginBottom: '8px' }}>{OUR_STANCE.headline}</div>
+          <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.85)', lineHeight: 1.6, margin: 0 }}>{OUR_STANCE.body}</p>
         </div>
       </div>
 
