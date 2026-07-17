@@ -22,6 +22,8 @@ import HappyNews, { type HappyNewsItem, type CharacterKey } from '@/components/c
 import HappyScene from '@/components/celebrate/HappyScene'
 import BalanceInsight from '@/components/celebrate/BalanceInsight'
 import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
+import KidIcon, { type KidIconName } from '@/components/kid/KidIcon'
+import KidTickBurst from '@/components/kid/KidTickBurst'
 
 // The kid facing quest screen: joyful, huge tap targets, instant ticks,
 // stars that count up, and a goal bar. Pending ticks show as "waiting
@@ -658,8 +660,8 @@ export default function KidQuestScreen({
           <div style={{
             flexShrink: 0, width: 56, height: 56, borderRadius: '16px',
             background: 'var(--terracotta-lt)', border: `2px solid ${accentHex}`,
-            display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '30px',
-          }}>⭐</div>
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}><KidIcon name="star" size={30} color="var(--terracotta-dark)" /></div>
           <div style={{ flex: 1, minWidth: 0 }}>
             <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '0 0 1px' }}>
               My star bank
@@ -679,7 +681,7 @@ export default function KidQuestScreen({
           </div>
           {streakDays > 0 && (
             <div style={{ flexShrink: 0, textAlign: 'center', background: 'var(--terracotta-lt)', borderRadius: '14px', padding: '9px 12px' }}>
-              <div style={{ fontSize: '1.35rem', lineHeight: 1 }}>🔥</div>
+              <div style={{ display: 'flex', justifyContent: 'center', lineHeight: 1 }}><KidIcon name="flame" size={22} color="var(--terracotta-dark)" /></div>
               <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: 'var(--terracotta-dark)' }}>{streakDays}</div>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: '8px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>day streak</div>
             </div>
@@ -693,11 +695,11 @@ export default function KidQuestScreen({
             child always knows exactly what to tap. */}
         {(() => {
           const jobsLeft = quests.length - doneCount
-          const tiles = [
-            { icon: '📋', label: jobsLeft > 0 ? 'My jobs' : 'All done', sub: jobsLeft > 0 ? `${jobsLeft} to do` : 'Nice one', tint: 'var(--terracotta-lt)', onClick: () => { document.getElementById('my-todo')?.scrollIntoView({ behavior: 'smooth' }); playKidSound('tap') } },
-            { icon: '▶️', label: 'Use my time', sub: `${bankBalance * STAR_MINUTES} min`, tint: 'var(--tint-sage)', onClick: () => { document.getElementById('my-device-time')?.scrollIntoView({ behavior: 'smooth' }); playKidSound('tap') } },
-            { icon: askedMore ? '✅' : '➕', label: askedMore ? 'Asked' : 'New job', sub: askedMore ? 'Grown up knows' : 'Ask a grown up', tint: 'var(--tint-blue, var(--cream))', onClick: () => { if (!askedMore) { askForMore(); playKidSound('tap') } } },
-            { icon: '📜', label: 'Our deal', sub: 'How it works', tint: 'var(--cream)', onClick: () => { setDealOpen(true); playKidSound('tap') } },
+          const tiles: { icon: KidIconName; iconColor: string; label: string; sub: string; tint: string; onClick: () => void }[] = [
+            { icon: 'jobs', iconColor: 'var(--terracotta-dark)', label: jobsLeft > 0 ? 'My jobs' : 'All done', sub: jobsLeft > 0 ? `${jobsLeft} to do` : 'Nice one', tint: 'var(--terracotta-lt)', onClick: () => { document.getElementById('my-todo')?.scrollIntoView({ behavior: 'smooth' }); playKidSound('tap') } },
+            { icon: 'time', iconColor: '#2F8F6B', label: 'Use my time', sub: `${bankBalance * STAR_MINUTES} min`, tint: 'var(--tint-sage)', onClick: () => { document.getElementById('my-device-time')?.scrollIntoView({ behavior: 'smooth' }); playKidSound('tap') } },
+            { icon: 'newjob', iconColor: '#3D739A', label: askedMore ? 'Asked' : 'New job', sub: askedMore ? 'Grown up knows' : 'Ask a grown up', tint: askedMore ? 'var(--tint-sage)' : 'var(--tint-blue, #E4ECF7)', onClick: () => { if (!askedMore) { askForMore(); playKidSound('tap') } } },
+            { icon: 'deal', iconColor: 'var(--terracotta-dark)', label: 'Our deal', sub: 'How it works', tint: 'var(--cream)', onClick: () => { setDealOpen(true); playKidSound('tap') } },
           ]
           return (
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '18px' }}>
@@ -707,7 +709,7 @@ export default function KidQuestScreen({
                   background: '#fff', border: '1.5px solid rgba(26,26,46,0.08)', borderRadius: '20px', padding: '16px', textAlign: 'left',
                   boxShadow: '0 4px 0 rgba(26,26,46,0.08)',
                 }}>
-                  <span style={{ width: 48, height: 48, borderRadius: '14px', background: t.tint, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px' }}>{t.icon}</span>
+                  <span style={{ width: 48, height: 48, borderRadius: '14px', background: t.tint, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><KidIcon name={t.icon} size={26} color={t.iconColor} /></span>
                   <span style={{ minWidth: 0 }}>
                     <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.1rem', color: 'var(--ink)', lineHeight: 1.1 }}>{t.label}</span>
                     <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: '13px', color: 'var(--ink-muted)', marginTop: '2px' }}>{t.sub}</span>
@@ -839,34 +841,42 @@ export default function KidQuestScreen({
         {/* Tabs: quests, lessons and printables, all earn stars. Lessons and
             printables wear a red badge the moment a grown up pings something
             new, or a fresh printable is waiting to ask for. */}
-        <div style={{ display: 'flex', gap: '7px', marginBottom: '16px' }}>
-          {([['quests', '⭐ Quests', 0], ['lessons', '🧠 Lessons', totalNewLessons], ['print', '🖨️ Printables', newPrint]] as const).map(([key, label, dot]) => (
-            <button
-              key={key}
-              onClick={() => { setTab(key); setActiveLesson(null); playKidSound('tap') }}
-              style={{
-                position: 'relative',
-                flex: 1, padding: '13px 6px', borderRadius: '14px', cursor: 'pointer',
-                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px',
-                background: tab === key ? 'var(--terracotta)' : 'var(--cream)',
-                color: tab === key ? 'var(--ink)' : 'var(--ink-soft)',
-                border: tab === key ? 'none' : '1.5px solid rgba(26,26,46,0.1)',
-                boxShadow: tab === key ? '0 4px 0 var(--terracotta-dark)' : 'none',
-              }}
-            >
-              {label}
-              {dot > 0 && (
-                <span style={{
-                  position: 'absolute', top: '-7px', right: '-6px', minWidth: 22, height: 22, padding: '0 5px',
-                  borderRadius: '100px', background: '#E5484D', color: '#fff',
-                  fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, lineHeight: '22px',
-                  textAlign: 'center', boxShadow: '0 0 0 2px #fff',
-                }}>
-                  {dot > 9 ? '9+' : dot}
-                </span>
-              )}
-            </button>
-          ))}
+        {/* A clean segmented control, Greenlight style: one soft pill holding
+            three segments, the chosen one filled butter with the chunky shadow,
+            each with its own drawn icon so a young child reads it at a glance. */}
+        <div style={{ display: 'flex', gap: '4px', background: 'var(--cream)', border: '1.5px solid rgba(26,26,46,0.1)', borderRadius: '18px', padding: '4px', marginBottom: '16px' }}>
+          {([['quests', 'Quests', 'star', 0], ['lessons', 'Lessons', 'lessons', totalNewLessons], ['print', 'Printables', 'printables', newPrint]] as const).map(([key, label, icon, dot]) => {
+            const on = tab === key
+            return (
+              <button
+                key={key}
+                onClick={() => { setTab(key); setActiveLesson(null); playKidSound('tap') }}
+                style={{
+                  position: 'relative',
+                  flex: 1, padding: '10px 4px', borderRadius: '14px', cursor: 'pointer', border: 'none',
+                  display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px',
+                  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px',
+                  background: on ? 'var(--terracotta)' : 'transparent',
+                  color: on ? 'var(--ink)' : 'var(--ink-soft)',
+                  boxShadow: on ? '0 3px 0 var(--terracotta-dark)' : 'none',
+                  transition: 'background 0.15s',
+                }}
+              >
+                <KidIcon name={icon as KidIconName} size={21} color={on ? 'var(--ink)' : 'var(--ink-soft)'} />
+                {label}
+                {dot > 0 && (
+                  <span style={{
+                    position: 'absolute', top: '-5px', right: '-2px', minWidth: 20, height: 20, padding: '0 5px',
+                    borderRadius: '100px', background: '#E5484D', color: '#fff',
+                    fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, lineHeight: '20px',
+                    textAlign: 'center', boxShadow: '0 0 0 2px var(--cream)',
+                  }}>
+                    {dot > 9 ? '9+' : dot}
+                  </span>
+                )}
+              </button>
+            )
+          })}
         </div>
 
         {tab === 'quests' && (<>
@@ -985,9 +995,7 @@ export default function KidQuestScreen({
                     fontSize: '18px', position: 'relative',
                   }}>
                     {approved ? '✓' : waiting ? '⏳' : ''}
-                    {burst === q.id && (
-                      <span style={{ position: 'absolute', animation: 'kid-star-rise 0.9s ease-out forwards', fontSize: '20px' }}>⭐</span>
-                    )}
+                    {burst === q.id && <KidTickBurst color={accentHex} />}
                   </span>
                 </button>
               )
