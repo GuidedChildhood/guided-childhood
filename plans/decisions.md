@@ -1478,3 +1478,20 @@ Agreed builds:
   every day. Parent wellbeing is already research grounded through the DiGi
   welcome (social insights, Odgers and Knibbs) and the parent_care nudges
   (expert_knowledge normal_moments), so the wellbeing tips run on both sides.
+
+## 2026-07-17 — Lessons reachable on mobile: a DiGi lesson nudge
+
+On a phone the bottom bar has five fixed slots (Home, Scripts, DiGi, Quests,
+Progress) and the old scrolling top strip was removed, so Lessons had no nav
+tab at all, only the Home Keep going tile once lessons are revealed. Rather
+than crowd the bar, DiGi brings the lesson to the parent.
+
+- New DigiLessonNudge card on Home: one age relevant watch together film the
+  child has not seen yet, offered with the same two real choices as the hub,
+  Watch together here (co view) or Send to their phone (the ping). Dismissible
+  for the day so it is an offer, not a nag. Reuses the existing LessonSendButton
+  and the together co view route, no new endpoints.
+- Picks the closest unseen film at or below the child's stage, earliest step
+  first. Only shows once the lessons reveal has opened for the account.
+- The existing Home Lessons tile stays as the always there path. No change to
+  the five slot mobile bar. No migration.

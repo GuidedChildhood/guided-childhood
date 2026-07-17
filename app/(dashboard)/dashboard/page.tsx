@@ -27,6 +27,8 @@ import SocialMediaReadiness from '@/components/pathway/SocialMediaReadiness'
 import SetupUnlockToast from '@/components/setup/SetupUnlockToast'
 import DigiWelcomeSheet from '@/components/digi/DigiWelcomeSheet'
 import TodayPathStrip from '@/components/daily/TodayPathStrip'
+import DigiLessonNudge from '@/components/lessons/DigiLessonNudge'
+import { getParentLessons, getCompletionsForChild } from '@/lib/lessons/parent-lessons'
 import { getDailyStreak } from '@/lib/pathway/streak'
 import { getTodayLoop } from '@/lib/pathway/daily-tasks'
 import type { StageId as PathwayStageId } from '@/lib/pathway/progress'
@@ -125,6 +127,28 @@ export default async function DashboardPage() {
     daily: !!anySessionResult.data,
     childLink: hasKidLink,
   }
+
+  // DiGi brings a lesson to Home: one age relevant film the child has not
+  // watched yet, offered with the same two choices as the hub (watch together
+  // here, or send to their phone). This is the mobile answer to a nav that has
+  // no room for a Lessons tab, so lessons are always one tap away. Only once
+  // lessons have been revealed for this account.
+  let lessonNudge: { code: string; title: string; catchphrase: string | null } | null = null
+  if (revealed.has('lessons') && child?.id) {
+    const stageNum = child.age_band ? getStageFromAgeBand(child.age_band as AgeBand).id : 2
+    const [{ lessons: films }, watchedFilms] = await Promise.all([
+      getParentLessons(supabase),
+      getCompletionsForChild(supabase, child.id),
+    ])
+    const unseen = films.filter(f => !watchedFilms.has(f.lesson_code))
+    // Prefer the closest film at or below the child's stage, earliest step first.
+    const pick = [...unseen]
+      .filter(f => f.stage_id <= stageNum)
+      .sort((a, b) => (b.stage_id - a.stage_id) || (a.journey_step - b.journey_step))[0]
+      ?? unseen[0]
+    if (pick) lessonNudge = { code: pick.lesson_code, title: pick.title, catchphrase: pick.catchphrase ?? null }
+  }
+  const lessonChildName = child?.name && child.name !== 'Your child' ? child.name : 'your child'
 
   // One conductor, one ask at a time. SetupPath sequences the setup steps
   // in order, and the standalone prompts below only appear when it is their
@@ -418,6 +442,19 @@ export default async function DashboardPage() {
       <div id="quest-board" style={{ scrollMarginTop: '80px' }}>
         <QuestBoard />
       </div>
+
+      {/* DiGi hands a lesson straight to the parent, so lessons are reachable
+          on mobile even without a Lessons tab: watch together here, or send it
+          to the child's phone. */}
+      {lessonNudge && (
+        <DigiLessonNudge
+          childId={child?.id ?? null}
+          childName={lessonChildName}
+          code={lessonNudge.code}
+          title={lessonNudge.title}
+          catchphrase={lessonNudge.catchphrase}
+        />
+      )}
 
       {/* Keep going: the rest of the membership as a quiet grid of tiles, so
           every part is one tap away without a wall of full width cards. */}
