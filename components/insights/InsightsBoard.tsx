@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 // The founder facing view of the daily insight agent. Run it for a window,
 // and it themes what parents asked DiGi, shows the gaps against what we have,
@@ -100,6 +100,18 @@ export default function InsightsBoard() {
     finally { setQLoading(null) }
   }
 
+  // The product pulse: a de-identified aggregate read across all families, loaded
+  // on open so the board is useful even before DiGi has been chatted to.
+  type Pulse = { families: number; children: number; byStage: Record<string, number>; questsSet: number; ticksThisWeek: number; approvalRate: number | null; screenMinsWeek: number; activeFamilies7d: number; wellbeingCheckins30d: number; avgParentMood: number | null }
+  const [pulse, setPulse] = useState<Pulse | null>(null)
+  const [pulseError, setPulseError] = useState('')
+  useEffect(() => {
+    fetch('/api/admin/product-pulse')
+      .then(r => r.json())
+      .then(d => { if (d && !d.error) setPulse(d); else if (d?.error) setPulseError(d.error) })
+      .catch(() => setPulseError('Could not load the product pulse.'))
+  }, [])
+
   const recs = (data?.report.recommendations ?? []).slice().sort((a, b) => a.priority - b.priority)
 
   return (
@@ -113,6 +125,50 @@ export default function InsightsBoard() {
       <p style={{ fontSize: 15, color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: 16 }}>
         The insight agent reads real DiGi conversations, themes them, and ranks what to build next. Aggregated and de-identified, never a single family.
       </p>
+
+      {/* Product pulse: the aggregate health of the whole app, loaded on open, so
+          this board is useful from day one. Counts and sums only, de-identified. */}
+      <section style={{ marginBottom: 26 }}>
+        <h2 style={sectionH}>Product pulse</h2>
+        {pulseError && <p style={{ color: 'var(--ink-muted)', fontSize: 13 }}>Pulse unavailable: {pulseError}</p>}
+        {!pulse && !pulseError && <p style={{ color: 'var(--ink-muted)', fontSize: 13 }}>Reading the whole app...</p>}
+        {pulse && (() => {
+          const tiles: { label: string; value: string; sub?: string }[] = [
+            { label: 'Families', value: String(pulse.families), sub: `${pulse.children} children` },
+            { label: 'Active this week', value: String(pulse.activeFamilies7d), sub: pulse.families > 0 ? `${Math.round((pulse.activeFamilies7d / pulse.families) * 100)}% of families` : undefined },
+            { label: 'Quests set', value: String(pulse.questsSet) },
+            { label: 'Quests done this week', value: String(pulse.ticksThisWeek), sub: pulse.approvalRate != null ? `${pulse.approvalRate}% approved` : undefined },
+            { label: 'Screen mins this week', value: String(pulse.screenMinsWeek) },
+            { label: 'Check ins this month', value: String(pulse.wellbeingCheckins30d), sub: pulse.avgParentMood != null ? `avg mood ${pulse.avgParentMood}/5` : undefined },
+          ]
+          const stageEntries = Object.entries(pulse.byStage).filter(([b]) => b !== 'unknown')
+          return (
+            <>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 10 }}>
+                {tiles.map(t => (
+                  <div key={t.label} style={{ background: 'var(--white,#fff)', border: '1px solid var(--border)', borderRadius: 14, padding: '14px 16px' }}>
+                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>{t.label}</div>
+                    <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.7rem', color: 'var(--ink)', lineHeight: 1.1, marginTop: 2 }}>{t.value}</div>
+                    {t.sub && <div style={{ fontSize: 12, color: 'var(--ink-soft)', marginTop: 2 }}>{t.sub}</div>}
+                  </div>
+                ))}
+              </div>
+              {stageEntries.length > 0 && (
+                <div style={{ marginTop: 10, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                  {stageEntries.map(([band, n]) => (
+                    <span key={band} style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700, color: 'var(--ink-soft)', background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: 100, padding: '4px 11px' }}>
+                      {band}: {n}
+                    </span>
+                  ))}
+                </div>
+              )}
+              {pulse.families === 0 && (
+                <p style={{ fontSize: 13, color: 'var(--ink-muted)', marginTop: 10, lineHeight: 1.5 }}>No families yet. Once real families sign up and use the app, this fills in and the DiGi insight below has conversations to read.</p>
+              )}
+            </>
+          )
+        })()}
+      </section>
 
       {/* One tap export of every script, for generating the voice batch. Same
           login as this page, so it just works from here. */}
@@ -160,6 +216,14 @@ export default function InsightsBoard() {
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ink-muted)', marginBottom: 16 }}>
             {data.count} questions over {data.days} days
           </div>
+
+          {data.count === 0 && (
+            <div style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: 14, padding: '16px 18px', marginBottom: 20 }}>
+              <p style={{ fontSize: 14, color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>
+                No DiGi conversations in this window yet, so nothing to theme. This fills in once families are chatting to DiGi. Try a wider window, or check the product pulse above for the aggregate picture.
+              </p>
+            </div>
+          )}
 
           {/* Summary */}
           {data.report.summary && (

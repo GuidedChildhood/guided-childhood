@@ -61,10 +61,16 @@ const NODE_LOOK: Record<TodayLoopTask['key'], { fill: string; tick: string; icon
   done:    { fill: 'var(--stage-3-bold)', tick: 'var(--stage-3-text)', icon: '🏁' },
 }
 
-// How many steps count as a full day at each budget. Five minutes is one
-// small thing, and that is genuinely enough to keep the streak. Ten and
-// fifteen ask for a little more, for the days there is room.
-const STEPS_FOR_MINUTES: Record<number, number> = { 5: 1, 10: 2, 15: 3 }
+// Roughly how long each step really takes, so the day is counted done when
+// about that many minutes have actually been spent, not the instant a couple
+// of quick taps land. A short reflection, a couple of cards, a script to read,
+// a question to DiGi: the honest minute weight of each, summed as they are
+// ticked. Five minutes is still a couple of small things and genuinely enough
+// to keep the streak; ten and fifteen ask for a little more, for the days
+// there is room.
+const TASK_MINUTES: Record<TodayLoopTask['key'], number> = {
+  checkin: 2, moment: 3, script: 4, digi: 4, done: 0,
+}
 
 export default function TodayPathStrip({ tasks, dailyMinutes = 10 }: { tasks: TodayLoopTask[]; dailyMinutes?: number }) {
   const stripRef = useRef<HTMLDivElement>(null)
@@ -78,7 +84,6 @@ export default function TodayPathStrip({ tasks, dailyMinutes = 10 }: { tasks: To
   // it, not when every step is ticked, so a short day still keeps the streak
   // and the steps they did not reach simply wait for tomorrow. Never a guilt.
   const [minutes, setMinutes] = useState(dailyMinutes)
-  const requiredCount = STEPS_FOR_MINUTES[minutes] ?? 2
 
   const firstOpen = tasks.findIndex(t => !t.done)
   const allDone = firstOpen === -1
@@ -86,10 +91,14 @@ export default function TodayPathStrip({ tasks, dailyMinutes = 10 }: { tasks: To
   // The Done flag is the finish line, not a step: count real steps only.
   const steps = tasks.filter(t => t.key !== 'done')
   const doneCount = steps.filter(t => t.done).length
-  // The day is done once the budget is met, even if steps remain. Those
-  // become optional bonus, not unfinished business.
-  const dayDone = doneCount >= requiredCount
-  const toBudget = Math.max(0, requiredCount - doneCount)
+  // Minutes actually invested: the summed weight of the steps ticked so far,
+  // so the day only reads done once roughly the chosen minutes have been spent.
+  const investedMinutes = steps.filter(t => t.done).reduce((sum, t) => sum + (TASK_MINUTES[t.key] ?? 0), 0)
+  // The day is done once those minutes reach the budget, or every step is
+  // ticked. Anything left after that is optional bonus, never a debt.
+  const dayDone = investedMinutes >= minutes || (steps.length > 0 && doneCount === steps.length)
+  const toBudgetMin = Math.max(0, minutes - investedMinutes)
+  const nextWeight = TASK_MINUTES[tasks[currentIndex].key] ?? 0
   // No pressure once the budget is met: DiGi stops pointing and just smiles.
   const pressure = !dayDone && !allDone
   const centre = (i: number) => ((i + 0.5) / tasks.length) * 100
@@ -181,7 +190,7 @@ export default function TodayPathStrip({ tasks, dailyMinutes = 10 }: { tasks: To
           {dayDone ? 'Today' : 'Today · do this next'}
         </span>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: dayDone ? 'var(--terracotta-dark)' : 'var(--ink-muted)' }}>
-          {dayDone ? 'All done ✓' : `${doneCount} of ${requiredCount}`}
+          {dayDone ? 'All done ✓' : `${investedMinutes} of ${minutes} min`}
         </span>
       </div>
 
@@ -378,7 +387,7 @@ export default function TodayPathStrip({ tasks, dailyMinutes = 10 }: { tasks: To
             <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: '13.5px', fontWeight: 700, color: 'var(--ink)' }}>
               Next: {tasks[currentIndex].label}
               <span style={{ color: 'var(--ink-muted)', fontWeight: 500 }}>
-                {' '}· {toBudget === 1 ? `last of your ${minutes} min` : `${toBudget} to your ${minutes} min`}
+                {' '}· {investedMinutes + nextWeight >= minutes ? `last of your ${minutes} min` : `about ${toBudgetMin} min to your ${minutes} min`}
               </span>
             </span>
             <span style={{ display: 'block', fontSize: '12px', color: 'var(--ink-soft)', marginTop: '2px' }}>

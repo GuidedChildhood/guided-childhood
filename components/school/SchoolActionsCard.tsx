@@ -1,6 +1,13 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { NOTIFS_CHANGED_EVENT } from '@/components/dashboard/NotificationsBell'
+
+// Tell the bell to recount the moment a school item is cleared, settled or
+// added right here, so the number on the bell never lags behind the card.
+function notifsChanged() {
+  try { window.dispatchEvent(new Event(NOTIFS_CHANGED_EVENT)) } catch { /* SSR safety */ }
+}
 
 // Things you need to know: the open school_actions DiGi extracted from
 // forwarded school emails, plus anything the parent typed in by hand
@@ -122,6 +129,7 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
 
   const settle = async (id: string, status: 'done' | 'dismissed') => {
     setActions(a => a.filter(x => x.id !== id))
+    notifsChanged()
     try {
       await fetch('/api/school/actions', {
         method: 'PATCH',
@@ -135,6 +143,9 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
   // next week) but steps back from today's reminders, so clearing PE kit does
   // not delete the routine. Delete (Remove) is the way to end it for good.
   const todayStr = nowMs != null ? new Date(nowMs).toISOString().slice(0, 10) : ''
+  // Which weekday falls tomorrow, so a routine coming round then gets a quiet
+  // day before heads up on screen, matching the push that goes out tonight.
+  const tomorrowWeekday = nowMs != null ? (new Date(nowMs).getDay() + 1) % 7 : -1
   const [clearedIds, setClearedIds] = useState<Set<string>>(new Set())
   // Seed from the server once the client clock is in: a routine whose cleared_on
   // is today is already cleared for today.
@@ -145,6 +156,7 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
   }, [todayStr, initial])
   const clearForToday = async (id: string) => {
     setClearedIds(s => { const n = new Set(s); n.add(id); return n })
+    notifsChanged()
     try {
       await fetch('/api/school/actions', {
         method: 'PATCH',
@@ -172,6 +184,7 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
       const data = await res.json()
       if (data.action) {
         setActions(a => [...a, data.action].sort((x, y) => (x.due_date ?? '9999').localeCompare(y.due_date ?? '9999')))
+        notifsChanged()
         setTitle('')
         setDueDate('')
         setDueTime('')
@@ -444,6 +457,15 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
                 <span style={{ flex: 1, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '13.5px', color: 'var(--ink)' }}>
                   {a.title}
                 </span>
+                {a.recurs_weekday === tomorrowWeekday && !clearedIds.has(a.id) && (
+                  <span style={{
+                    fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase',
+                    background: 'var(--terracotta-lt)', color: 'var(--terracotta-dark)', border: '1px solid var(--terracotta)',
+                    borderRadius: '100px', padding: '3px 9px', flexShrink: 0,
+                  }}>
+                    Tomorrow
+                  </span>
+                )}
                 {a.auto_send_to_child && (
                   <span style={{ fontSize: '10.5px', color: 'var(--ink-soft)', flexShrink: 0 }}>
                     → {childName ?? 'them'} weekly

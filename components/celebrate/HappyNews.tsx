@@ -21,7 +21,12 @@ const CHARACTER: Record<CharacterKey, { src: string; name: string; ring: string 
   sofia:  { src: '/digi-squad/Sofia.jpeg',    name: 'Sofia',  ring: '#2E7D5A' },
 }
 
-export type HappyNewsItem = { character: CharacterKey; headline: string; sub?: string }
+// An optional action turns the pop into a doorway: a chunky button that takes
+// the child straight to the thing it is about (their to-do list, or a fun sheet)
+// and tucks the pop away, so a pop is something they can act on, not just read.
+// It either scrolls to a targetId on the page or runs onClick (for example to
+// open a tab), whichever is given.
+export type HappyNewsItem = { character: CharacterKey; headline: string; sub?: string; action?: { label: string; targetId?: string; onClick?: () => void } }
 
 const CONFETTI = ['#F6C244', '#E5734B', '#2E7D5A', '#7C5CBF', '#4B9CE5', '#E5484D']
 
@@ -96,6 +101,26 @@ export default function HappyNews({ item, onClose }: { item: HappyNewsItem | nul
             <div style={{ fontSize: '13px', fontWeight: 600, color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: '3px' }}>
               {item.sub}
             </div>
+          )}
+          {item.action && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation()
+                try {
+                  if (item.action!.onClick) item.action!.onClick()
+                  else if (item.action!.targetId) document.getElementById(item.action!.targetId)?.scrollIntoView({ behavior: 'smooth' })
+                } catch { /* no target */ }
+                onClose()
+              }}
+              style={{
+                marginTop: '9px', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none',
+                borderRadius: '12px', padding: '9px 16px', cursor: 'pointer',
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px',
+                boxShadow: '0 4px 0 var(--terracotta-dark)',
+              }}
+            >
+              {item.action.label}
+            </button>
           )}
         </div>
       </div>

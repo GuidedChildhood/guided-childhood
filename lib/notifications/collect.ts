@@ -58,7 +58,8 @@ export async function getNotifications(supabase: NotifClient, userId: string): P
 
   // A child pitched their own quest or asked for a printable.
   for (const a of asksRes.data ?? []) {
-    const isPrint = String(a.title).startsWith('Print the ')
+    const t = String(a.title)
+    const isPrint = t.startsWith('Print the ') || (t.startsWith('Please can I do the ') && t.endsWith(' printable'))
     items.push({
       id: `ask-${a.id}`, kind: 'ask', icon: isPrint ? '🖨️' : '💡', urgent: false,
       title: `${nameOf(a.child_id as string)} asked for something`,

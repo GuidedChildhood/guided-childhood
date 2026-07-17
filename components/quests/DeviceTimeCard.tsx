@@ -321,27 +321,31 @@ export default function DeviceTimeCard({
         </div>
       )}
 
+      {/* With stars in the bank, the invite to spend. With none, never a dead
+          end: a warm doorway to earning, so the answer to no time is always do
+          a job, never a minus number or a locked screen. */}
       <button
-        onClick={() => canSpend && setPhase('picking')}
-        disabled={!canSpend}
+        onClick={() => {
+          if (canSpend) { setPhase('picking'); return }
+          try { document.getElementById('my-todo')?.scrollIntoView({ behavior: 'smooth' }) } catch { /* no target */ }
+        }}
         style={{
           width: '100%', display: 'flex', alignItems: 'center', gap: '12px', textAlign: 'left',
-          background: canSpend ? '#fff' : 'rgba(255,255,255,0.55)', border: 'none',
-          borderRadius: '18px', padding: '15px 18px',
-          cursor: canSpend ? 'pointer' : 'default',
-          boxShadow: canSpend ? '0 5px 0 rgba(0,0,0,0.14)' : 'none',
+          background: '#fff', border: 'none',
+          borderRadius: '18px', padding: '15px 18px', cursor: 'pointer',
+          boxShadow: '0 5px 0 rgba(0,0,0,0.14)',
         }}
       >
-        <span style={{ fontSize: '1.7rem', flexShrink: 0 }}>⏱️</span>
+        <span style={{ fontSize: '1.7rem', flexShrink: 0 }}>{canSpend ? '⏱️' : '⭐'}</span>
         <span style={{ flex: 1, minWidth: 0 }}>
           <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: 'var(--ink)', lineHeight: 1.2 }}>
-            {canSpend ? (reachedGuide ? 'A treat, if a grown up says yes' : 'Use my device time') : 'No device time yet'}
+            {canSpend ? (reachedGuide ? 'A treat, if a grown up says yes' : 'Use my device time') : 'Earn your screen time'}
           </span>
           <span style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: 'var(--ink-muted)', marginTop: '2px' }}>
-            {canSpend ? `You have ${balanceStars * STAR_MINUTES} minutes to use` : 'Earn stars to unlock screen time'}
+            {canSpend ? `You have ${balanceStars * STAR_MINUTES} minutes to use` : 'Do a job to earn stars, then swap them for time. Tap to see your jobs'}
           </span>
         </span>
-        {canSpend && <span style={{ fontSize: '1.3rem', flexShrink: 0 }}>▶</span>}
+        <span style={{ fontSize: '1.3rem', flexShrink: 0 }}>{canSpend ? '▶' : '→'}</span>
       </button>
     </div>
   )
