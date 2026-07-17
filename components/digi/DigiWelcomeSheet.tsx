@@ -10,6 +10,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import DigiCharacter from './DigiCharacter'
+import { POPUP_DELAY, openPopup, closePopup } from '@/lib/ui/popupQueue'
 
 function joinNames(names: string[]): string {
   const clean = names.filter(n => n && n !== 'Your child')
@@ -35,9 +36,15 @@ export default function DigiWelcomeSheet({ childNames }: { childNames: string[] 
     const today = new Date().toISOString().slice(0, 10)
     const key = `gc_digi_welcome_${today}`
     if (localStorage.getItem(key)) return
-    localStorage.setItem(key, '1')
-    setShow(true)
-    requestAnimationFrame(() => requestAnimationFrame(() => setEntered(true)))
+    // Land on a clean Home first, then DiGi greets about a minute after login,
+    // rather than stacking on top of the other popups the second the page loads.
+    const id = setTimeout(() => {
+      localStorage.setItem(key, '1')
+      openPopup('welcome')
+      setShow(true)
+      requestAnimationFrame(() => requestAnimationFrame(() => setEntered(true)))
+    }, POPUP_DELAY.welcome)
+    return () => clearTimeout(id)
   }, [])
 
   if (!show) return null
@@ -46,6 +53,7 @@ export default function DigiWelcomeSheet({ childNames }: { childNames: string[] 
 
   function close() {
     setEntered(false)
+    closePopup('welcome')
     setTimeout(() => setShow(false), 320)
   }
 

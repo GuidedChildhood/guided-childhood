@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import type { SetupFlags } from './SetupPath'
+import { POPUP_DELAY, openPopup, closePopup, whenClear } from '@/lib/ui/popupQueue'
 
 // The moment a setup step actually finishes deserves its own plain
 // confirmation of what just switched on, not a silent fold into a
@@ -35,10 +36,14 @@ export default function SetupUnlockToast({ flags }: { flags: SetupFlags }) {
       .map(key => UNLOCK_COPY[key])
 
     localStorage.setItem(STORAGE_KEY, JSON.stringify(flags))
-    if (justUnlocked.length > 0) {
+    if (justUnlocked.length === 0) return
+    // Do not stack on load. Wait a beat after login and until nothing else is
+    // up (the welcome sheet goes first), then slide in on its own.
+    return whenClear(POPUP_DELAY.toast, () => {
+      openPopup('toast')
       setQueue(justUnlocked)
       requestAnimationFrame(() => setEntered(true))
-    }
+    })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -46,7 +51,11 @@ export default function SetupUnlockToast({ flags }: { flags: SetupFlags }) {
 
   function dismiss() {
     setEntered(false)
-    setTimeout(() => setQueue(q => q.slice(1)), 300)
+    setTimeout(() => setQueue(q => {
+      const rest = q.slice(1)
+      if (rest.length === 0) closePopup('toast')
+      return rest
+    }), 300)
   }
 
   return (

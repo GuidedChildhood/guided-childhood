@@ -1203,3 +1203,20 @@ attributable fallback so the plan is never empty and never carries a dash.
 Files: supabase/migrations/066_weekly_checkin_plan.sql, lib/digi/weekly-plan.ts,
 app/api/wellbeing/weekly/route.ts, components/digi/SundayCheckIn.tsx, mounted on
 dashboard Home above the round up. On PR 303 (continue-build-ldot8v). MIGRATION 066.
+
+## 2026-07-16 — Home popups no longer stack on load
+
+Three popups (the DiGi welcome sheet, the setup unlock toast, the Now coach mark)
+all fired the second Home loaded, landing on top of each other. Justin wanted a
+clean login, then a quick gentle alert about a minute in, not a pile.
+
+- New tiny shared lock, lib/ui/popupQueue: a session scoped flag so only one
+  popup is ever up, plus staggered base delays (welcome 60s, toast 63s, coach
+  66s). whenClear waits out the delay then holds until nothing else is up.
+- The welcome sheet now greets about a minute after login (still once a day), and
+  takes the lock while open. The toast and the coach mark wait behind it and show
+  one at a time once it is dismissed. All three release the lock on close.
+- Frequency is unchanged and gentle: welcome once a day, toast once per unlock,
+  coach mark once ever with its two minute auto dismiss.
+
+On PR 303 (continue-build-ldot8v). No migration.
