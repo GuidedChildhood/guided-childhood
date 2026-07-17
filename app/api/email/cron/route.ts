@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { sendEmail, emailConfigured, unsubscribeUrl } from '@/lib/email'
-import { day2StageEmail, day3TourEmail, day4DigiEmail, day7FounderEmail, weeklyDigestEmail, trialEndingEmail, winBackEmail, leadNurtureEmail } from '@/lib/email/templates'
+import { day2StageEmail, day3TourEmail, day4DigiEmail, day7FounderEmail, weeklyDigestEmail, trialEndingEmail, winBackEmail, leadNurtureEmail, childPhoneEmail, screenTimeEmail, lessonsEmail, schoolRemindersEmail, familyAgreementEmail } from '@/lib/email/templates'
 import { lifecycleState, trialDaysLeft } from '@/lib/email/lifecycle'
 import { STAGES, getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { FOUNDER_CAP } from '@/lib/stripe'
@@ -80,7 +80,7 @@ export async function GET(req: NextRequest) {
     return founderRemaining
   }
 
-  const results: Record<string, number> = { day2: 0, day3: 0, day4: 0, day7: 0, trialEnding: 0, winback: 0, leadNurture: 0, digest: 0, errors: 0 }
+  const results: Record<string, number> = { day2: 0, day3: 0, day4: 0, day7: 0, svcChildPhone: 0, svcScreenTime: 0, svcLessons: 0, svcSchool: 0, svcAgreement: 0, trialEnding: 0, winback: 0, leadNurture: 0, digest: 0, errors: 0 }
 
   async function deliver(userId: string, email: string, key: string, content: { subject: string; html: string }, counter: string) {
     const { error: logError } = await supabase.from('email_log').insert({ user_id: userId, email_key: key })
@@ -130,6 +130,38 @@ export async function GET(req: NextRequest) {
       if (remaining > 0) {
         await deliver(profile.id, profile.email, 'day7-founder', day7FounderEmail({ remaining, unsubscribe }), 'day7')
       }
+    }
+
+    // The service drip: one benefit email per service through the second week,
+    // each only sent when that service is NOT set up yet, so it is a genuine
+    // "here is why, here is where" nudge and never nags about something done.
+    // The setup signal is only queried once the day and the log both allow it.
+    if (days >= 9 && !alreadySent(profile.id, 'svc-childphone') && !!child?.age_band && child.age_band !== '4-7') {
+      const { data: link } = await supabase.from('kid_links').select('child_id').eq('user_id', profile.id).limit(1).maybeSingle()
+      if (!link) await deliver(profile.id, profile.email, 'svc-childphone', childPhoneEmail({ childName, unsubscribe }), 'svcChildPhone')
+    }
+
+    if (days >= 11 && !alreadySent(profile.id, 'svc-screentime')) {
+      const { count } = await supabase.from('family_quests').select('id', { count: 'exact', head: true }).eq('user_id', profile.id).eq('active', true)
+      if ((count ?? 0) === 0) await deliver(profile.id, profile.email, 'svc-screentime', screenTimeEmail({ childName, unsubscribe }), 'svcScreenTime')
+    }
+
+    if (days >= 13 && !alreadySent(profile.id, 'svc-lessons')) {
+      const { data: done } = await supabase.from('lesson_completions').select('lesson_id').eq('user_id', profile.id).limit(1).maybeSingle()
+      if (!done) await deliver(profile.id, profile.email, 'svc-lessons', lessonsEmail({ childName, unsubscribe }), 'svcLessons')
+    }
+
+    if (days >= 15 && !alreadySent(profile.id, 'svc-school')) {
+      const [{ data: conn }, { data: act }] = await Promise.all([
+        supabase.from('school_connections').select('id').eq('user_id', profile.id).eq('active', true).maybeSingle(),
+        supabase.from('school_actions').select('id').eq('user_id', profile.id).limit(1).maybeSingle(),
+      ])
+      if (!conn && !act) await deliver(profile.id, profile.email, 'svc-school', schoolRemindersEmail({ childName, unsubscribe }), 'svcSchool')
+    }
+
+    if (days >= 17 && !alreadySent(profile.id, 'svc-agreement')) {
+      const { data: agreement } = await supabase.from('family_agreements').select('id').eq('user_id', profile.id).limit(1).maybeSingle()
+      if (!agreement) await deliver(profile.id, profile.email, 'svc-agreement', familyAgreementEmail({ childName, unsubscribe }), 'svcAgreement')
     }
 
     // The status aware layer: branch on where the contact actually is, not on

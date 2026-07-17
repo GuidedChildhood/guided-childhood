@@ -102,7 +102,7 @@ export default function InsightsBoard() {
 
   // The product pulse: a de-identified aggregate read across all families, loaded
   // on open so the board is useful even before DiGi has been chatted to.
-  type Pulse = { families: number; children: number; byStage: Record<string, number>; questsSet: number; ticksThisWeek: number; approvalRate: number | null; screenMinsWeek: number; activeFamilies7d: number; wellbeingCheckins30d: number; avgParentMood: number | null }
+  type Pulse = { families: number; children: number; byStage: Record<string, number>; questsSet: number; ticksThisWeek: number; approvalRate: number | null; screenMinsWeek: number; activeFamilies7d: number; childAppSetUp: number; childActive7d: number; wellbeingCheckins30d: number; avgParentMood: number | null }
   const [pulse, setPulse] = useState<Pulse | null>(null)
   const [pulseError, setPulseError] = useState('')
   useEffect(() => {
@@ -136,6 +136,8 @@ export default function InsightsBoard() {
           const tiles: { label: string; value: string; sub?: string }[] = [
             { label: 'Families', value: String(pulse.families), sub: `${pulse.children} children` },
             { label: 'Active this week', value: String(pulse.activeFamilies7d), sub: pulse.families > 0 ? `${Math.round((pulse.activeFamilies7d / pulse.families) * 100)}% of families` : undefined },
+            { label: 'Child app set up', value: String(pulse.childAppSetUp), sub: pulse.families > 0 ? `${Math.round((pulse.childAppSetUp / pulse.families) * 100)}% of families` : undefined },
+            { label: 'Child using it this week', value: String(pulse.childActive7d), sub: pulse.childAppSetUp > 0 ? `${Math.round((pulse.childActive7d / pulse.childAppSetUp) * 100)}% of those set up` : undefined },
             { label: 'Quests set', value: String(pulse.questsSet) },
             { label: 'Quests done this week', value: String(pulse.ticksThisWeek), sub: pulse.approvalRate != null ? `${pulse.approvalRate}% approved` : undefined },
             { label: 'Screen mins this week', value: String(pulse.screenMinsWeek) },
