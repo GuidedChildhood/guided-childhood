@@ -22,7 +22,7 @@ export default function DigitalWellbeingPage() {
       {/* Nav */}
       <header style={{ position: 'sticky', top: 0, zIndex: 300, height: '60px', padding: '0 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(247,243,238,.97)', backdropFilter: 'blur(20px)', borderBottom: '1px solid var(--border)' }}>
         <Link href="/" style={{ fontFamily: 'var(--font-display)', fontSize: '.95rem', fontWeight: 700, color: 'var(--ink)', textDecoration: 'none' }}>Guided Childhood</Link>
-        <Link href="/starter-pack" className="btn btn-gold" style={{ padding: '9px 22px', fontSize: '.82rem' }}>
+        <Link href="https://wellbeing.guidedchildhood.com/signup/" className="btn btn-gold" style={{ padding: '9px 22px', fontSize: '.82rem' }}>
           Get Started
         </Link>
       </header>
@@ -37,7 +37,7 @@ export default function DigitalWellbeingPage() {
           <p style={{ fontSize: 'clamp(.92rem, 1.5vw, 1.1rem)', color: 'var(--ink-soft)', lineHeight: 1.8, maxWidth: '520px', margin: '0 auto 28px' }}>
             Answer questions about what's happening at home. TV routines, gaming, sleep, mood, social media, digital literacy. You'll get a personalised read of where the gaps are and exactly where to start.
           </p>
-          <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '15px', padding: '16px 32px' }}>
+          <Link href="https://wellbeing.guidedchildhood.com/signup/" className="btn btn-gold" style={{ fontSize: '15px', padding: '16px 32px' }}>
             Take the free health check →
           </Link>
           <p style={{ marginTop: '14px', fontFamily: 'var(--font-mono)', fontSize: '.72rem', color: 'var(--ink-muted)' }}>No account needed. No email required. Results instantly.</p>
@@ -103,7 +103,7 @@ export default function DigitalWellbeingPage() {
         <div style={{ maxWidth: '480px', margin: '0 auto' }}>
           <h2 style={{ marginBottom: '14px' }}>Find out where you are. It takes 5 minutes.</h2>
           <p style={{ fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.78, marginBottom: '24px' }}>Free. No signup. No email. Results immediately.</p>
-          <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '15px', padding: '16px 32px' }}>
+          <Link href="https://wellbeing.guidedchildhood.com/signup/" className="btn btn-gold" style={{ fontSize: '15px', padding: '16px 32px' }}>
             Take the free check →
           </Link>
           <p style={{ marginTop: '16px', fontSize: '.8rem', color: 'var(--ink-muted)' }}>Or <Link href="/" style={{ color: 'var(--terracotta)', fontWeight: 600, textDecoration: 'underline' }}>explore Guided Childhood</Link> first.</p>
