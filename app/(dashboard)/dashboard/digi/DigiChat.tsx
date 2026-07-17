@@ -263,6 +263,15 @@ export default function DigiChat({
   const [reflectionDone, setReflectionDone] = useState(
     pendingReflection?.answered ?? false
   )
+  // A brief confirmation the moment a reflection saves, then it eases away so
+  // it never lingers at the bottom of the thread. Separate from reflectionDone,
+  // which stays true so the prompt does not resurface.
+  const [reflectionToast, setReflectionToast] = useState(false)
+  useEffect(() => {
+    if (!reflectionToast) return
+    const id = setTimeout(() => setReflectionToast(false), 4000)
+    return () => clearTimeout(id)
+  }, [reflectionToast])
 
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
@@ -451,6 +460,7 @@ export default function DigiChat({
         }),
       })
       setReflectionDone(true)
+      setReflectionToast(true)
       setReflectionQuestion(null)
     } catch {
       // fail silently — not critical
@@ -761,8 +771,8 @@ export default function DigiChat({
           </div>
         )}
 
-        {reflectionDone && (
-          <div style={{ textAlign: 'center', padding: '12px 0 8px', marginBottom: 8 }}>
+        {reflectionToast && (
+          <div style={{ textAlign: 'center', padding: '12px 0 8px', marginBottom: 8, transition: 'opacity 0.4s' }}>
             <p style={{ fontFamily: 'var(--font-body)', fontSize: 12, color: 'var(--ink-muted)' }}>
               ✓ Reflection saved. DiGi will use this tomorrow
             </p>

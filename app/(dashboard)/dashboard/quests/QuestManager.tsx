@@ -89,6 +89,7 @@ export default function QuestManager() {
   const [banks, setBanks] = useState<Bank[]>([])
   const [spends, setSpends] = useState<Spend[]>([])
   const [sessions, setSessions] = useState<Session[]>([])
+  const [usage, setUsage] = useState<Record<string, number>>({})
   const [askStars, setAskStars] = useState<Record<string, number>>({})
   const [askSchedule, setAskSchedule] = useState<Record<string, string>>({})
   const [spendMsg, setSpendMsg] = useState<string | null>(null)
@@ -208,6 +209,7 @@ export default function QuestManager() {
       setBanks(data.banks ?? [])
       setSpends(data.spends ?? [])
       setSessions(data.sessions ?? [])
+      setUsage(data.usage ?? {})
       if (!activeChild && data.children?.length) setActiveChild(data.children[0].id)
     } catch { /* retry on next action */ } finally { setLoading(false) }
   }, [activeChild])
@@ -639,6 +641,8 @@ export default function QuestManager() {
             balanceStars={banks.find(b => b.child_id === activeChild)?.balance ?? 0}
             weekStars={starsThisWeek}
             timerRunning={sessions.some(s => s.child_id === activeChild)}
+            usedTodayMinutes={usage[activeChild ?? ''] ?? 0}
+            earnedTodayStars={completed.filter(t => t.tick_date === todayStr).reduce((sum, t) => sum + (questById.get(t.quest_id)?.stars ?? 1), 0)}
           />
 
           {/* Hand it over: the one decision, made simple. To their phone,

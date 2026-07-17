@@ -4,23 +4,39 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import DigiCharacter from '@/components/digi/DigiCharacter'
 import WriteIn from '@/components/ui/WriteIn'
+import { STAR_MINUTES } from '@/lib/quests/templates'
+import { weekBalance, expertWeekTip } from '@/lib/quests/screen-balance'
 
-// The Sunday DiGi weekly review, on the parent's home. A warm read of the
-// family's own week, one gentle watch-for, and one thing to set up for next
-// week. If none has been built yet the card offers a preview of the week so
-// far, so a parent never has to wait for Sunday to see it.
+// The Friday round up, the first thing a parent sees on Home. A clear, premium
+// read of the family's own week: the balance score front and centre (their
+// screen time against the evidence based healthy guide), the week's wins gathered
+// in one glance, one line of guidance from the experts we stand on, and a short
+// worth a glance list where every item links to the thing it is about. Nothing
+// compared to anyone else, never a report card on the child. If none has been
+// built yet the card offers a preview so a parent never waits for the week to turn.
+
+type Stats = {
+  children?: string[]
+  ageBands?: (string | null)[]
+  questsApproved?: number
+  starsEarned?: number
+  starsSpent?: number
+  deviceMinutes?: number
+  activeDays?: number
+  topQuest?: string | null
+  schoolOpen?: number
+  momentsDone?: number
+}
 
 type Review = {
   id: string
   week_start: string
-  stats: { questsApproved: number; starsEarned: number; deviceMinutes: number; activeDays: number }
+  stats: Stats
   summary: string
   watch_for: string | null
   suggestion: string | null
   suggestion_routine: string | null
 }
-
-const STAR_MINUTES = 5
 
 // While DiGi reads the week (it takes a moment, it is really reading the
 // family's own chats and quests), a warm little narrative of what it is doing,
@@ -37,8 +53,6 @@ export default function WeeklyReviewCard() {
   const [busy, setBusy] = useState(false)
   const [step, setStep] = useState(0)
 
-  // Walk the reading narrative forward while busy, holding on the last line
-  // until the review lands.
   useEffect(() => {
     if (!busy) { setStep(0); return }
     const t = setInterval(() => setStep(s => Math.min(s + 1, READING_STEPS.length - 1)), 1600)
@@ -93,7 +107,7 @@ export default function WeeklyReviewCard() {
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)' }}>Your week with DiGi</div>
           <div style={{ fontSize: '12.5px', color: busy ? 'var(--terracotta-dark)' : 'var(--ink-soft)', lineHeight: 1.4, fontWeight: busy ? 700 : 400, transition: 'color 0.3s' }}>
-            {busy ? READING_STEPS[step] : 'A warm read of your family’s week, and one thing to set up next.'}
+            {busy ? READING_STEPS[step] : 'A clear read of your family’s week, the balance, the wins, and one thing to try next.'}
           </div>
         </div>
         <button onClick={preview} disabled={busy} style={{ flexShrink: 0, background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: '12px', padding: '9px 14px', cursor: busy ? 'default' : 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '12.5px', boxShadow: '0 3px 0 var(--terracotta-dark)', opacity: busy ? 0.85 : 1 }}>
@@ -103,7 +117,38 @@ export default function WeeklyReviewCard() {
     )
   }
 
-  const s = review.stats ?? { questsApproved: 0, starsEarned: 0, deviceMinutes: 0, activeDays: 0 }
+  const s = review.stats ?? {}
+  const firstName = s.children?.[0] && s.children[0] !== 'Your child' ? s.children[0] : 'your child'
+  const starsEarned = s.starsEarned ?? 0
+  const activeDays = s.activeDays ?? 0
+  const momentsDone = s.momentsDone ?? 0
+
+  const bal = weekBalance({
+    screenMins: s.deviceMinutes ?? 0,
+    earnedMins: starsEarned * STAR_MINUTES,
+    ageBands: s.ageBands ?? [],
+  })
+  const tip = expertWeekTip({ balanceTone: bal.tone, activeDays, questsApproved: s.questsApproved ?? 0, momentsDone })
+
+  const balAccent = bal.tone === 'healthy' ? 'var(--retro-green)' : bal.tone === 'watch' ? 'var(--stage-1-bold)' : 'var(--deep-teal)'
+  const balLabel = bal.tone === 'healthy' ? 'Healthy balance' : bal.tone === 'watch' ? 'Worth a glance' : 'A quiet week'
+  const guidePct = bal.guideMins > 0 ? Math.min(160, Math.round((bal.screenMins / bal.guideMins) * 100)) : 0
+
+  // The week's wins, gathered from the family's own numbers, best first.
+  const wins: { icon: string; text: string }[] = []
+  if (starsEarned > 0) wins.push({ icon: '⭐', text: `${starsEarned} stars earned, worth ${starsEarned * STAR_MINUTES} minutes worked for, not just given` })
+  if (s.topQuest) wins.push({ icon: '🏆', text: `${firstName} leaned into “${s.topQuest}” the most` })
+  if (activeDays >= 3) wins.push({ icon: '📅', text: `Showed up ${activeDays} of 7 days this week` })
+  if (momentsDone > 0) wins.push({ icon: '💛', text: `${momentsDone} calm moment${momentsDone === 1 ? '' : 's'} handled well` })
+  const topWins = wins.slice(0, 3)
+
+  // Worth a glance, each linking to the thing it is about.
+  const glances: { text: string; href: string; cta: string }[] = []
+  if (bal.tone === 'watch') glances.push({ text: 'Screen ran ahead of the healthy guide. One offline quest tips it back.', href: '/dashboard/quests', cta: 'Open Quests' })
+  if ((s.schoolOpen ?? 0) > 0) glances.push({ text: `${s.schoolOpen} school reminder${s.schoolOpen === 1 ? '' : 's'} still open.`, href: '/dashboard/school', cta: 'See school' })
+  if (review.watch_for) glances.push({ text: review.watch_for, href: '/dashboard/checkin', cta: 'Check in' })
+  const topGlances = glances.slice(0, 2)
+
   const routineHref = review.suggestion_routine ? `/dashboard/quests?routine=${review.suggestion_routine}` : '/dashboard/quests'
 
   return (
@@ -120,13 +165,31 @@ export default function WeeklyReviewCard() {
         </span>
       </div>
 
+      {/* The balance score, front and centre: their screen time against the
+          evidence based healthy guide, as one clear number and a moving level. */}
+      <div style={{ background: 'var(--cream)', border: `1.5px solid var(--border)`, borderLeft: `6px solid ${balAccent}`, borderRadius: '18px', padding: '16px 18px', marginBottom: '16px' }}>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px', marginBottom: '10px' }}>
+          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '38px', lineHeight: 1, color: balAccent }}>{bal.balancePct}<span style={{ fontSize: '20px' }}>%</span></span>
+          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)' }}>{balLabel}</span>
+        </div>
+        {/* The level: how the week's screen time sits against the healthy guide.
+            Full and green when comfortably inside it, amber and over when not. */}
+        <div style={{ height: 14, borderRadius: '100px', background: '#fff', border: '1.5px solid var(--border)', overflow: 'hidden', marginBottom: '8px' }}>
+          <span style={{ display: 'block', height: '100%', width: `${Math.min(100, guidePct)}%`, background: balAccent, borderRadius: '100px', transition: 'width 0.6s ease' }} />
+        </div>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, color: 'var(--ink-muted)', marginBottom: '8px' }}>
+          {bal.screenMins} min screen used · healthy guide about {bal.guideMins} min a week
+        </div>
+        <p style={{ fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0 }}>{bal.line}</p>
+      </div>
+
       {/* Glanceable stats */}
       <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '15px' }}>
         {[
-          ['⭐', `${s.starsEarned} earned`],
-          ['✅', `${s.questsApproved} quests`],
-          ['📅', `${s.activeDays}/7 days`],
-          ['📱', `${s.deviceMinutes} min screen`],
+          ['⭐', `${starsEarned} earned`],
+          ['✅', `${s.questsApproved ?? 0} quests`],
+          ['📅', `${activeDays}/7 days`],
+          ['📱', `${s.deviceMinutes ?? 0} min screen`],
         ].map(([icon, label]) => (
           <span key={label} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '100px', padding: '6px 13px', fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, color: 'var(--ink-soft)' }}>
             <span>{icon}</span>{label}
@@ -134,14 +197,46 @@ export default function WeeklyReviewCard() {
         ))}
       </div>
 
-      <p style={{ fontSize: '16px', color: 'var(--ink)', opacity: 0.86, lineHeight: 1.65, margin: '0 0 16px' }}>
+      <p style={{ fontSize: '15.5px', color: 'var(--ink)', opacity: 0.86, lineHeight: 1.6, margin: '0 0 16px' }}>
         <WriteIn key={review.summary} text={review.summary} baseDelay={120} stepMs={16} />
       </p>
 
-      {review.watch_for && (
-        <div style={{ background: 'var(--tint-sage)', borderRadius: '14px', padding: '14px 16px', marginBottom: '15px' }}>
+      {/* This week's wins, gathered in one place */}
+      {topWins.length > 0 && (
+        <div style={{ marginBottom: '15px' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--retro-green-dark, var(--deep-teal))' }}>This week’s wins</span>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '7px', marginTop: '8px' }}>
+            {topWins.map((w, i) => (
+              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '10px', background: 'var(--tint-sage)', borderRadius: '12px', padding: '10px 13px' }}>
+                <span style={{ fontSize: '16px', flexShrink: 0 }}>{w.icon}</span>
+                <span style={{ fontSize: '14px', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.4 }}>{w.text}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* One line of guidance from the experts we stand on, chosen for this week */}
+      <div style={{ display: 'flex', gap: '11px', background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: '14px', padding: '13px 15px', marginBottom: '15px' }}>
+        <span style={{ fontSize: '17px', flexShrink: 0 }}>💡</span>
+        <div style={{ minWidth: 0 }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '3px' }}>The evidence · {tip.expert}</div>
+          <p style={{ fontSize: '14px', color: 'var(--ink)', lineHeight: 1.5, margin: 0, fontWeight: 500 }}>{tip.tip}</p>
+        </div>
+      </div>
+
+      {/* Worth a glance, each linking to the thing it is about */}
+      {topGlances.length > 0 && (
+        <div style={{ marginBottom: '16px' }}>
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--deep-teal)' }}>Worth a glance</span>
-          <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '5px 0 0' }}>{review.watch_for}</p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '7px', marginTop: '8px' }}>
+            {topGlances.map((g, i) => (
+              <Link key={i} href={g.href} style={{ display: 'flex', alignItems: 'center', gap: '11px', background: '#fff', border: '1.5px solid var(--border)', borderRadius: '13px', padding: '11px 14px', textDecoration: 'none' }}>
+                <span style={{ flex: 1, fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.45 }}>{g.text}</span>
+                <span style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '12px', color: '#fff', background: 'var(--deep-teal)', borderRadius: '10px', padding: '7px 12px', whiteSpace: 'nowrap' }}>{g.cta} →</span>
+              </Link>
+            ))}
+          </div>
         </div>
       )}
 

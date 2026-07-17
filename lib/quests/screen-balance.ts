@@ -57,6 +57,77 @@ export type BalanceInsight = {
 // design: the point is the shape, not a precise clock.
 export const WAKING_DAY_MINS = 13 * 60
 
+// The week's balance as one honest number, for the Friday round up. It reads
+// the family's actual screen minutes against the evidence based healthy guide
+// for their children's ages (recommended daily minutes times seven), and lands
+// a 0 to 100 balance score: 100 when screen sat inside the healthy range, less
+// the further it ran over. Earning screen from real quests softens the drop,
+// because a child earning their time is the balance working. Never a hard cap,
+// always a calibrated read.
+export type WeekBalance = {
+  screenMins: number
+  earnedMins: number
+  guideMins: number
+  balancePct: number
+  tone: 'healthy' | 'watch' | 'quiet'
+  line: string
+}
+
+export function weekBalance(opts: { screenMins: number; earnedMins: number; ageBands: (string | null)[] }): WeekBalance {
+  const bands = opts.ageBands.length ? opts.ageBands : [null]
+  const guideMins = bands.reduce((s, b) => s + recommendedDailyMinutes(b) * 7, 0)
+  const screenMins = Math.max(0, Math.round(opts.screenMins))
+  const earnedMins = Math.max(0, Math.round(opts.earnedMins))
+
+  let balancePct: number
+  if (screenMins === 0 || guideMins <= 0 || screenMins <= guideMins) {
+    balancePct = 100
+  } else {
+    const base = Math.round((guideMins / screenMins) * 100) // below 100 once over the guide
+    const earnedCushion = Math.min(1, earnedMins / screenMins) // 1 when fully earned back
+    balancePct = Math.max(30, Math.min(100, Math.round(base + (100 - base) * 0.4 * earnedCushion)))
+  }
+
+  const tone: WeekBalance['tone'] =
+    screenMins === 0 && earnedMins === 0 ? 'quiet'
+    : balancePct >= 80 ? 'healthy'
+    : 'watch'
+
+  const line =
+    tone === 'quiet' ? 'A quiet week on the numbers, which is completely fine. The balance builds itself again as the quests start flowing.'
+    : tone === 'healthy' ? 'Screen time sat comfortably inside the healthy range for your children this week, with real world time earning it. That is the balance the evidence points to.'
+    : 'Screen ran a little ahead of the healthy guide this week. No alarm, just worth a glance, since what screens crowd out matters more than the clock itself.'
+
+  return { screenMins, earnedMins, guideMins, balancePct, tone, line }
+}
+
+// One expert grounded line for the week, chosen by the family's own week so it
+// always reads as guidance meant for them. Attributed and dash free, in the
+// spirit of the wellbeing experts the platform stands on. This is how the
+// science gets relayed into the Friday update, week by week.
+export type ExpertTip = { expert: string; tip: string }
+
+export function expertWeekTip(signal: {
+  balanceTone: WeekBalance['tone']
+  activeDays: number
+  questsApproved: number
+  momentsDone: number
+}): ExpertTip {
+  if (signal.balanceTone === 'watch') {
+    return { expert: 'Sue Atkins', tip: 'When screen time creeps up, the calm boundary said once beats the long negotiation. Set the offline win first, so screen goes back to being the reward it is meant to be.' }
+  }
+  if (signal.balanceTone === 'quiet' || signal.questsApproved === 0) {
+    return { expert: 'Dr Becky Kennedy', tip: 'A quiet week is not a failure, it is just a week. Connection comes before any chart, so start next week with one small thing you do together, not one more thing to tick.' }
+  }
+  if (signal.activeDays >= 5) {
+    return { expert: 'Emotion coaching', tip: 'Showing up most days is the whole game. Name out loud what your child did well, because a child who feels seen for the effort keeps choosing it.' }
+  }
+  if (signal.momentsDone >= 2) {
+    return { expert: 'Dr Becky Kennedy', tip: 'You handled the hard moments with warmth this week, which is the real work. The repair matters more than getting it perfect in the moment.' }
+  }
+  return { expert: 'Dr Becky Kennedy', tip: 'Two things are true this week: the routine is working, and it is allowed to be imperfect. Keep the warmth first and the rest follows.' }
+}
+
 export function screenBalanceInsight(opts: {
   childName: string
   ageBand: string | null

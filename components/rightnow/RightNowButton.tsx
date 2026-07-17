@@ -116,6 +116,17 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
     }
   }, [])
 
+  // It has said its piece: the coach mark eases itself away after two minutes
+  // so it never lingers, and counts as seen so it does not pop up again.
+  useEffect(() => {
+    if (!showHint) return
+    const id = setTimeout(() => {
+      localStorage.setItem('gc_now_hint_seen', '1')
+      setShowHint(false)
+    }, 120000)
+    return () => clearTimeout(id)
+  }, [showHint])
+
   function dismissHint() {
     localStorage.setItem('gc_now_hint_seen', '1')
     setShowHint(false)

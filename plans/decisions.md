@@ -986,3 +986,220 @@ tapped it. NotificationCard (new client card) marks a DiGi prompt acted on tap
 pending, so it is gone from the count next look. The action notifications
 (approve, a child's ask, school) still clear only when the parent actually does
 the thing on the target page, so a stray tap never loses one.
+
+## 2026-07-16 — Two transient messages now ease away instead of lingering
+
+Justin: nothing that has said its piece should sit on screen forever.
+
+- The Mid meltdown coach mark on the Help now button now eases itself away after
+  two minutes (and counts as seen so it does not pop again), rather than waiting
+  for the parent to close it. The X still dismisses it early.
+- The Reflection saved, DiGi will use this tomorrow line in the DiGi chat now
+  shows for about four seconds after a reflection saves, then fades, via a
+  separate reflectionToast state so reflectionDone stays true and the prompt
+  never resurfaces.
+
+## 2026-07-16 — Weekly school routines: clear for today, keep the reminder (migration 065)
+
+Justin: clearing a weekly reminder (PE kit) should clear it for today only, not
+delete the routine, with a delete for when they really want it gone. Two things
+were wrong: a recurring routine showed in the notifications bell every single
+day (not only its weekday), and the only clear on it was Remove, which deleted
+the whole routine.
+
+- Migration 065 adds school_actions.cleared_on (date). Clearing a routine for
+  today stamps cleared_on = today (server side); the row stays open and comes
+  back next week.
+- /api/school/actions PATCH takes clear_today: true and stamps cleared_on;
+  done / dismissed still end a one off or delete a routine.
+- The notifications feed (collect.ts) now shows a recurring routine only on its
+  own weekday, and holds it back once cleared for today, so it never nags daily.
+- The school card shows Clear for today on a routine on its day (it stays in the
+  Every week list, marked Cleared for today), and Remove became Delete for
+  ending it for good.
+- The child's From school banner also respects cleared_on, so a cleared routine
+  steps back from the child's screen too. The Home Screen app badge already
+  ignored recurring routines, so no change there.
+
+## 2026-07-16 — Screen balance insight is now real, moving data
+
+Justin: the balance bar was a fixed age guide (always about 75 min for 8 to 10),
+he wanted real data, a level that moves with the minutes used and the tasks
+done, and bigger and bolder.
+
+Rebuilt ScreenBalanceInsight into a live balance level. The two sides are the
+star economy's own exchange rate made visible: screen minutes actually USED
+today (from getMinutesUsedToday, now returned per child by /api/quests as
+usage) against real world minutes EARNED today (stars approved today times
+STAR_MINUTES). The needle sits where the balance tips: green and calm when real
+life is ahead, tipping to screen with a nudge when screen leads, a calm midpoint
+when the day is empty. Bigger heading, a bold 22px bar with a moving needle, and
+the two figures called out. The age guide stays as a small mono context line.
+QuestManager passes usedTodayMinutes and earnedTodayStars (today's approved
+ticks). No migration.
+
+## 2026-07-16 — Bell updates on clear, school reminders clear in place and mirror to the child
+
+Justin, on the notifications bell and the school reminder card.
+
+**The bell re-counts the moment something clears.** NotificationsBell only
+fetched once on mount, so the red number sat stale after clearing. It now
+re-fetches on a gc:notifs-changed window event, on focus, and when the tab
+comes back into view. Every clear dispatches that event, so the count drops at
+once.
+
+**A school reminder clears in place, acknowledged not deleted.** The
+notification card no longer just links to the school page. A weekly routine
+(PE kit) shows Clear for this week, which acknowledges it (cleared_on = today,
+kept for next week); a one off shows Got it, clear (done for good). The card
+folds away and the bell updates, with a quiet Open school link for full manage.
+collect.ts carries a recurring flag so the card knows which. DiGi cards also
+fire the event as they mark themselves acted.
+
+**The routine mirrors to the child's app by default.** A child appropriate
+weekly routine (kit, event, homework) now shows on the child's From school
+banner on its day without the grown up needing to tick anything, and steps back
+once cleared for the week; parent only kinds (a payment) never reach the child.
+
+All on branch claude/continue-build-ldot8v (PR 300). No migration (uses the
+064/065 columns already there).
+
+## 2026-07-16 — Child quests: live approval, clear waiting state, done falls off
+
+Justin, on the child app: when a child ticks a quest it is out of their hands
+(waiting on the grown up), the yes should land live, be obvious, and the quest
+should fall off the list once done, so the flow makes sense.
+
+- New GET /api/quests/tick?token= returns today's tick status per quest (token
+  is the auth). The kid screen polls it every 12s and the moment the tab comes
+  back, so a Waiting quest flips to Done without a refresh, and a squad friend
+  springs up (Your grown up said yes! plus the minutes earned) the first time
+  an approval lands.
+- The list is now three clear groups: what is still theirs to do, then Waiting
+  for your grown up (a dashed terracotta card, an hourglass, With your grown up
+  now, nothing to do, so it plainly reads as out of their hands, not done), then
+  a folded N done today. The to do count is untouched quests only, so waiting
+  never reads as still to do, and an approved quest drops straight into the
+  folded done group.
+
+On PR 303 (continue-build-ldot8v). No migration.
+
+## 2026-07-16 — The approve loop is live both ways
+
+Closing the loop started with the child live approval. The parent side updated
+only on reload, so a child ticking a quest did not show until refresh.
+
+- The Home quest board (QuestBoard) now polls every 15s and refetches on focus
+  and when the tab is looked at again, so a fresh pending tick appears without a
+  reload.
+- The Waiting on you banner does the same, in sync with the bell via the
+  gc:notifs-changed event, so the red count and the plain English summary stay
+  live.
+- Approving on the board fires gc:notifs-changed, so the bell and banner drop at
+  once, and the child's own app hears the yes on its next poll (the loop from the
+  earlier child live approval work).
+
+Whole flow now: child ticks, parent sees it live and approves, child sees the
+yes live, and it falls off both lists. On PR 303. No migration.
+
+## 2026-07-16 — The child My week chart, made obvious
+
+Justin could not read the old My week chart (variable height pills with floating
+numbers read as noise, not progress). Researched the kid reward loops we lean on
+(Finch, Duolingo streaks, GoHenry): the pattern that lands with children is a
+show up streak, not a bar chart.
+
+- KidWeekChart is now a week strip: one circle per day, filled gold with a star
+  for a day they earned something, an empty dashed circle for a quiet day, today
+  ringed. A plain headline frames how many days they showed up (A fresh week let
+  us go, Great going N days this week, Amazing N days this week). The green line
+  stays: stars earned equals minutes of screen time, so the reason to show up is
+  right there. Reads at a glance for a young child, no numbers to decode.
+
+On PR 303 (continue-build-ldot8v). No migration.
+
+## 2026-07-16 — Agreed quests drop off the parent board
+
+Justin's board expanded a child and showed every quest done today as a growing
+pile of Done rows, so what was still to do got lost.
+
+- The expanded child list now leads with only what is still to do, big and
+  tappable. The agreed (done) quests fold into a quiet dashed N done today line
+  a parent can open if they want the detail, so the list never grows into a wall
+  of Done. When nothing is left, a single All done for today line shows instead.
+
+On PR 303 (continue-build-ldot8v). No migration.
+
+## 2026-07-16 — Stuck for words is fixed and expert grounded
+
+The rehearsal Show me options button kept dying with DiGi could not think of
+options just now. Root cause: suggest passed the rehearsal messages straight
+through, so the conversation ended on the child's line and the model carried on
+IN THE CHILD'S VOICE instead of coaching, then parsed to nothing.
+
+- Suggest now builds its own single coach turn: the recent exchange folded into
+  context, then a plain ask for three lines as JSON. It never ends on the child.
+- The prompt is grounded explicitly in the expert playbook we stand on: Dr Becky
+  Kennedy (connection before correction, two things are true), Sue Atkins (the
+  calm confident boundary), emotion coaching (name the feeling first), and a real
+  element of choice. So the pre filled lines are strategic, not generic.
+- The button can never die again: if every model fails, it returns three expert
+  grounded lines built from the script itself (validate the feeling, the script's
+  own say this line, offer a way forward together). A noDashes pass keeps every
+  suggested line dash free.
+
+On PR 303 (continue-build-ldot8v). No migration.
+
+## 2026-07-16 — The Friday round up, made clear and expert grounded
+
+Justin: the weekly page is the first thing a parent sees, so it has to be clear
+and premium, and it should relay the expert guidance we stand on, week by week,
+tidy and easy to follow. Rebuilt the weekly review card around four things:
+
+- A balance score front and centre. A real 0 to 100 read of the week's screen
+  minutes against the evidence based healthy guide for the children's ages
+  (recommended daily minutes times seven), softened when screen was earned back
+  through real quests. Big number, a moving level, and one honest line.
+- This week's wins, gathered from the family's own numbers: stars earned and the
+  minutes they bought, the quest they leaned into, days shown up, calm moments
+  handled. Best first, top three.
+- One line of guidance from the experts, chosen by this week's shape and
+  attributed (Dr Becky Kennedy, Sue Atkins, emotion coaching). This is how the
+  science gets relayed into the update every week.
+- Worth a glance, where each item now links to the thing it is about (Quests for
+  a screen tip back, School for open reminders, Check in for a flagged watch for).
+
+New pure helpers weekBalance and expertWeekTip live in lib/quests/screen-balance
+(client safe). gatherWeek now also reads age bands and calm moments handled. No
+migration, the review stats JSON already carries it.
+
+On PR 303 (continue-build-ldot8v). No migration.
+
+## 2026-07-16 — The Sunday wellbeing check in, and DiGi's agreed weekly plan
+
+Justin wants DiGi to proactively check in on a Sunday: ask how the PARENT is,
+what went well, what was hardest, and what they want next week to feel like, then
+hand back a plan grounded in the experts and the family's data, so DiGi keeps
+advising week by week. Built as a stepped card (his pick), with the agreed plan
+living on Home all week (his pick).
+
+The five questions, the intelligence we need to direct a plan:
+1. How are YOU this week (1 to 5). The mission made real, the parent's own wellbeing.
+2. What went well (quick chips). Gathers the week's successes.
+3. What felt hardest (concern chips, mapped to the ledger so DiGi carries it on).
+4. What do you want next week to feel like (calmer mornings, less screen battle,
+   more connection, better sleep, feeling calmer myself). The direction.
+5. DiGi's plan: one to three small evidence based steps tied to the answers,
+   attributed to the experts (Dr Becky Kennedy, Sue Atkins, emotion coaching).
+   The parent taps Agree.
+
+Once agreed the plan sits on Home as a This week with DiGi strip all week, right
+above the Friday round up, closing the loop. Reuses wellbeing_checkins (parent
+mood plus the concern ledger already wired to it); migration 066 adds week_start,
+went_well, focus, plan, plan_agreed and a unique index for the weekly upsert.
+generateWeeklyPlan runs the DIGI_MODEL fallback ladder with a deterministic,
+attributable fallback so the plan is never empty and never carries a dash.
+
+Files: supabase/migrations/066_weekly_checkin_plan.sql, lib/digi/weekly-plan.ts,
+app/api/wellbeing/weekly/route.ts, components/digi/SundayCheckIn.tsx, mounted on
+dashboard Home above the round up. On PR 303 (continue-build-ldot8v). MIGRATION 066.
