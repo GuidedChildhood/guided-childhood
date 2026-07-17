@@ -104,6 +104,19 @@ export default function KidQuestScreen({
   const [goalRedeemed, setGoalRedeemed] = useState(Boolean(goal?.achieved_at))
   const [goalConfirm, setGoalConfirm] = useState(false)
   const [goalBusy, setGoalBusy] = useState(false)
+  // Once a reward is redeemed the child can tick it off and it drops away, so
+  // the list never keeps an old, finished goal sitting there. Remembered on
+  // their own device so it stays gone.
+  const [goalDone, setGoalDone] = useState(false)
+  // No id on the goal, so key the dismissal by its title and size, stable enough
+  // to remember this exact reward as ticked off across reloads.
+  const goalKey = goal ? `gc_goal_done_${goal.title}_${goal.stars_needed}` : ''
+  useEffect(() => {
+    if (goalKey && typeof window !== 'undefined' && localStorage.getItem(goalKey) === '1') setGoalDone(true)
+  }, [goalKey])
+  // The family deal popup: the child can pop it up any time to keep an eye on
+  // how the deal works and what they are saving for.
+  const [dealOpen, setDealOpen] = useState(false)
 
   // Cash in the saved-for reward once the bank truly holds enough. Two taps so
   // it is never accidental: the first arms it, the second spends the stars.
@@ -655,6 +668,31 @@ export default function KidQuestScreen({
           asked={askedMore}
         />
 
+        {/* Our family deal: a quiet link the child can pop up any time to keep
+            an eye on how the deal works and what they are saving for. */}
+        <button
+          onClick={() => { setDealOpen(true); playKidSound('tap') }}
+          style={{
+            width: '100%', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer',
+            background: '#fff', border: '1.5px solid rgba(26,26,46,0.1)', borderRadius: '14px',
+            padding: '12px 15px', marginBottom: '16px', textAlign: 'left',
+          }}
+        >
+          <span style={{ fontSize: '18px', flexShrink: 0 }}>📜</span>
+          <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: 'var(--ink)' }}>Our family deal</span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--deep-teal)', flexShrink: 0 }}>Have a look →</span>
+        </button>
+
+        {dealOpen && (
+          <FamilyDeal
+            onClose={() => setDealOpen(false)}
+            recommendedMinutes={recommendedMinutes}
+            goal={goal}
+            bankBalance={bankBalance}
+            goalRedeemed={goalRedeemed}
+          />
+        )}
+
         {/* The obvious signpost: how many jobs are left today, tap to jump
             straight to the list. Loud when there is still something to do,
             quiet and green once the day is done. */}
@@ -726,10 +764,18 @@ export default function KidQuestScreen({
         {goal && (() => {
           const ready = bankBalance >= goal.stars_needed && !goalRedeemed
           if (goalRedeemed) {
+            // Finished and ticked off: it drops away so the list stays fresh.
+            if (goalDone) return null
             return (
               <div style={{ background: 'var(--tint-sage)', borderRadius: '16px', padding: '14px 18px', marginBottom: '20px', textAlign: 'center' }}>
                 <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '15px', color: 'var(--ink)' }}>🎉 Redeemed: {goal.title}</span>
-                <span style={{ display: 'block', fontSize: '13px', color: 'var(--ink-soft)', marginTop: '2px' }}>Your grown up knows. Ask them to set a new goal!</span>
+                <span style={{ display: 'block', fontSize: '13px', color: 'var(--ink-soft)', margin: '2px 0 10px' }}>Your grown up knows. Ask them to set a new goal!</span>
+                <button
+                  onClick={() => { if (goalKey) localStorage.setItem(goalKey, '1'); setGoalDone(true); playKidSound('tap') }}
+                  style={{ background: 'var(--retro-green)', color: '#fff', border: 'none', borderRadius: '12px', padding: '10px 20px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', boxShadow: '0 4px 0 rgba(0,0,0,0.2)' }}
+                >
+                  Got it, tick it off ✓
+                </button>
               </div>
             )
           }
@@ -1638,6 +1684,51 @@ function KidBalanceStrip({ todayScreen, todayEarned, weekStars, weekUsed, onAskM
       >
         {asked ? 'Asked ✓ your grown up got a ping' : (onTrack ? '💪 Want more screen time? Ask for a new job' : '💪 Do a job to balance it, ask for a new one')}
       </button>
+    </div>
+  )
+}
+
+// Our family deal: a simple, warm popup that lays out the deal the child lives
+// by, in their own words. How it works, the exchange rate, a good amount of
+// screen a day, and what they are saving for right now. No dashes, no rules
+// shouted, just the deal they can keep an eye on any time.
+function FamilyDeal({ onClose, recommendedMinutes, goal, bankBalance, goalRedeemed }: {
+  onClose: () => void
+  recommendedMinutes: number
+  goal: { title?: string; stars_needed?: number; achieved_at?: string | null } | null
+  bankBalance: number
+  goalRedeemed: boolean
+}) {
+  const rows: { icon: string; title: string; body: string }[] = [
+    { icon: '🧹', title: 'You do jobs', body: 'Real world jobs and quests your grown up sets, like tidying up or reading.' },
+    { icon: '⭐', title: 'Jobs earn stars', body: `Every quest gives you stars. One star is worth ${STAR_MINUTES} minutes of screen time.` },
+    { icon: '📱', title: 'Stars buy screen time', body: `You choose when to use them. A good amount of screen a day is about ${recommendedMinutes} minutes.` },
+  ]
+  if (goal?.title && !goalRedeemed) {
+    rows.push({ icon: '🎁', title: `Saving for ${goal.title}`, body: `You have ${bankBalance} of ${goal.stars_needed} stars so far. Keep going!` })
+  }
+  return (
+    <div onClick={onClose} style={{ position: 'fixed', inset: 0, zIndex: 130, background: 'rgba(26,26,46,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
+      <div onClick={e => e.stopPropagation()} style={{ width: '100%', maxWidth: 420, maxHeight: '86vh', overflowY: 'auto', background: 'var(--cream)', borderRadius: '24px', padding: '22px 20px', boxShadow: '0 20px 50px -16px rgba(26,26,46,0.4)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.4rem', color: 'var(--ink)', letterSpacing: '-0.01em' }}>📜 Our family deal</span>
+          <button onClick={onClose} aria-label="Close" style={{ width: 34, height: 34, borderRadius: '50%', border: 'none', background: '#fff', cursor: 'pointer', fontSize: '16px', color: 'var(--ink-muted)', flexShrink: 0 }}>✕</button>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          {rows.map((r, i) => (
+            <div key={i} style={{ display: 'flex', gap: '13px', background: '#fff', borderRadius: '15px', padding: '13px 15px' }}>
+              <span style={{ fontSize: '24px', flexShrink: 0, lineHeight: 1.2 }}>{r.icon}</span>
+              <div style={{ minWidth: 0 }}>
+                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)' }}>{r.title}</div>
+                <div style={{ fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '2px' }}>{r.body}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <button onClick={onClose} style={{ width: '100%', marginTop: '16px', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: '15px', padding: '14px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '15px', boxShadow: '0 5px 0 var(--terracotta-dark)' }}>
+          Got it!
+        </button>
+      </div>
     </div>
   )
 }

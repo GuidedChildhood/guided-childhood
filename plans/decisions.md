@@ -1254,3 +1254,18 @@ it into one cohesive set of premium cards on the pink background.
   of gold, and the single bold gold CTA (the to do signpost) stands out again.
 
 On PR 303 (continue-build-ldot8v). No migration.
+
+## 2026-07-17 — Sunday check in is Sunday only, child app tidy ups
+
+- The Sunday check in now only appears proactively on a Sunday. The rest of the
+  week it stays quiet (the agreed plan still shows all week once set), so Home is
+  never cluttered with a card there is nothing to do with yet.
+- Child app: a redeemed reward can be ticked off (Got it, tick it off) and drops
+  away, remembered on their device, so a finished goal never lingers.
+- Child app: a new Our family deal popup, a quiet link the child can open any
+  time to keep an eye on the deal (jobs earn stars, stars buy screen time, a good
+  amount a day, and what they are saving for). The kid app is token based and does
+  not load the parent's signed agreement, so this is the deal in the child's own
+  words, self contained.
+
+On PR 303 (continue-build-ldot8v). No migration.

@@ -124,30 +124,34 @@ export default function SundayCheckIn() {
     )
   }
 
-  // Closed: the proactive Sunday nudge, or a slim teaser any other day.
+  // Sunday only: the check in appears proactively on a Sunday, never any other
+  // day. Once a plan is agreed it shows above (all week); the rest of the week
+  // this stays quiet so Home is not cluttered with a card there is nothing to do
+  // with yet.
   if (!open) {
+    if (!due) return null
     return (
       <button onClick={() => { setOpen(true); setStepIdx(0) }} style={{
         width: '100%', textAlign: 'left', cursor: 'pointer',
-        background: due ? 'var(--terracotta-lt)' : '#fff',
-        border: `1.5px solid ${due ? 'var(--terracotta)' : 'var(--border)'}`,
+        background: 'var(--terracotta-lt)',
+        border: '1.5px solid var(--terracotta)',
         borderRadius: '20px', padding: '16px 18px', marginBottom: '20px',
         display: 'flex', alignItems: 'center', gap: '13px',
-        boxShadow: due ? '0 6px 20px -8px rgba(201,154,40,0.3)' : 'none',
+        boxShadow: '0 6px 20px -8px rgba(201,154,40,0.3)',
       }}>
         <span style={{ flexShrink: 0, width: 46, height: 46, borderRadius: '13px', background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <DigiCharacter mood="wave" size={30} once />
         </span>
         <span style={{ flex: 1, minWidth: 0 }}>
           <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '16px', color: 'var(--ink)', lineHeight: 1.2 }}>
-            {due ? 'Your Sunday check in' : 'Sunday check in with DiGi'}
+            Your Sunday check in
           </span>
           <span style={{ display: 'block', fontSize: '13px', color: 'var(--ink-soft)', marginTop: '2px', lineHeight: 1.4 }}>
             Five quick things, then DiGi sets a small plan for the week with you.
           </span>
         </span>
         <span style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', color: '#fff', background: 'var(--terracotta-dark)', borderRadius: '12px', padding: '10px 15px' }}>
-          {due ? 'Start' : 'Open'}
+          Start
         </span>
       </button>
     )
