@@ -1129,3 +1129,23 @@ pile of Done rows, so what was still to do got lost.
   of Done. When nothing is left, a single All done for today line shows instead.
 
 On PR 303 (continue-build-ldot8v). No migration.
+
+## 2026-07-16 — Stuck for words is fixed and expert grounded
+
+The rehearsal Show me options button kept dying with DiGi could not think of
+options just now. Root cause: suggest passed the rehearsal messages straight
+through, so the conversation ended on the child's line and the model carried on
+IN THE CHILD'S VOICE instead of coaching, then parsed to nothing.
+
+- Suggest now builds its own single coach turn: the recent exchange folded into
+  context, then a plain ask for three lines as JSON. It never ends on the child.
+- The prompt is grounded explicitly in the expert playbook we stand on: Dr Becky
+  Kennedy (connection before correction, two things are true), Sue Atkins (the
+  calm confident boundary), emotion coaching (name the feeling first), and a real
+  element of choice. So the pre filled lines are strategic, not generic.
+- The button can never die again: if every model fails, it returns three expert
+  grounded lines built from the script itself (validate the feeling, the script's
+  own say this line, offer a way forward together). A noDashes pass keeps every
+  suggested line dash free.
+
+On PR 303 (continue-build-ldot8v). No migration.
