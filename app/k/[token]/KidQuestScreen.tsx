@@ -658,8 +658,8 @@ export default function KidQuestScreen({
         }}>
          <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
           <div style={{
-            flexShrink: 0, width: 56, height: 56, borderRadius: '16px',
-            background: 'var(--terracotta-lt)', border: `2px solid ${accentHex}`,
+            flexShrink: 0, width: 56, height: 56, borderRadius: '14px',
+            background: 'var(--terracotta-lt)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}><KidIcon name="star" size={30} color="var(--terracotta-dark)" /></div>
           <div style={{ flex: 1, minWidth: 0 }}>
