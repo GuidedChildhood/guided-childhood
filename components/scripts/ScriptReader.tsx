@@ -160,7 +160,7 @@ export default function ScriptReader({ sayThis, notThis, whyItWorks, tonight, st
         bg="var(--tint-sage)"
         border="rgba(46,40,24,0.12)"
       >
-        <p style={{ fontSize: 16, color: 'var(--ink)', lineHeight: 1.65, margin: 0 }}>
+        <p style={{ fontSize: 18, color: 'var(--ink)', lineHeight: 1.75, margin: 0 }}>
           {whyItWorks}
         </p>
       </SupportCard>

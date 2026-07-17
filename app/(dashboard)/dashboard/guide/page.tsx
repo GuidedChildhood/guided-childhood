@@ -55,7 +55,7 @@ export default function GuidePage() {
       <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '10px' }}>
         How Guided Childhood works
       </h1>
-      <p style={{ color: 'var(--ink-soft)', fontSize: '15.5px', lineHeight: 1.6, marginBottom: '28px' }}>
+      <p style={{ color: 'var(--ink-soft)', fontSize: '17px', lineHeight: 1.7, marginBottom: '28px', maxWidth: '62ch' }}>
         Ten minutes a day, and a childhood ready for the phone rather than broken by it. Here is everything you have, what each part is for, and where to start.
       </p>
 

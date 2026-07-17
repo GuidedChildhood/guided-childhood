@@ -147,7 +147,7 @@ export default function ScriptDepth({ sortOrder, initial, childName, childPhone,
               }}>
                 {step.label}
               </div>
-              <p style={{ fontSize: '15px', color: 'var(--ink)', lineHeight: 1.65 }}>
+              <p style={{ fontSize: '17px', color: 'var(--ink)', lineHeight: 1.72 }}>
                 {expansion[step.key]}
               </p>
             </div>
@@ -168,7 +168,7 @@ export default function ScriptDepth({ sortOrder, initial, childName, childPhone,
         </div>
 
         <p style={{
-          fontSize: '15px', color: '#fff', lineHeight: 1.65, marginBottom: '14px',
+          fontSize: '17px', color: '#fff', lineHeight: 1.72, marginBottom: '14px',
           fontStyle: 'italic',
         }}>
           {note}
