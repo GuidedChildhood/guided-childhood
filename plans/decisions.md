@@ -1495,3 +1495,22 @@ than crowd the bar, DiGi brings the lesson to the parent.
   first. Only shows once the lessons reveal has opened for the account.
 - The existing Home Lessons tile stays as the always there path. No change to
   the five slot mobile bar. No migration.
+
+## 2026-07-17 — A benefit email for each service (the service drip)
+
+The onboarding emails sold the platform in general (welcome, stage, tour, DiGi,
+founder) but no single email sold each service's benefit and drove its setup.
+Added a gated service drip in the daily email cron.
+
+- New benefit emails, one per service, Justin's voice, no dashes: the child's
+  own app (day 9), earned screen time via quests (day 11), watch together
+  lessons (day 13), school reminders (day 15), the family agreement (day 17).
+- Each is GATED: it only sends when that service is not set up yet (no kid
+  link, no active quest, no lesson completion, no school connection or action,
+  no agreement), so a parent who has set it up is never nagged, and the setup
+  signal is only queried once the day and the email_log both allow it.
+- Idempotent through email_log like the rest, keys svc-childphone,
+  svc-screentime, svc-lessons, svc-school, svc-agreement. No migration.
+- Device time rides inside the screen time email; printables and the wellbeing
+  tracker are the remaining services without a dedicated email (they have no
+  clean setup gate), easy to add if wanted.

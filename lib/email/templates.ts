@@ -177,6 +177,92 @@ export function day7FounderEmail(params: {
   }
 }
 
+// ── The service drip ──
+// One benefit email per service, spaced through the second week and each only
+// sent when that service is NOT set up yet, so it is a genuine "here is why,
+// here is where" nudge and never nags about something already done. Justin's
+// voice, benefit first, one clear door.
+
+// Child's own app on their device
+export function childPhoneEmail(params: { childName: string; unsubscribe: string }): EmailContent {
+  const { childName, unsubscribe } = params
+  return {
+    subject: `Give ${childName} their own version`,
+    html: wrapper(
+      heading(`${childName} can have their own app.`) +
+      p(`It is the piece parents tell us changes the mood at home the most. ${childName} opens their own screen and sees their jobs, ticks them off, and watches their stars grow into screen time they earned.`) +
+      p(`No app store, no logins, nothing to install. You hold up a code, they point their tablet or phone at it, and they are in. You approve everything from your side, and there is nothing they can break.`) +
+      button('Set up their app', `${APP}/dashboard/quests`) +
+      p(`For a little one with no device, the same app opens on your phone and you do it together.`),
+      unsubscribe
+    ),
+  }
+}
+
+// Family Quests and earned screen time
+export function screenTimeEmail(params: { childName: string; unsubscribe: string }): EmailContent {
+  const { childName, unsubscribe } = params
+  return {
+    subject: 'Screen time, without the fight',
+    html: wrapper(
+      heading(`Turn screen time into something earned.`) +
+      p(`The daily battle usually comes from screens being a thing you give or take away. Family Quests flips it: ${childName}'s everyday jobs earn stars, stars buy the minutes you both agreed, and ${childName} chooses when to spend them.`) +
+      p(`No timer standoff, no nagging. When the time is up, their own screen says so, and yours gets a quiet heads up too. When they have run out, the answer is never a telling off, it is do another job.`) +
+      button('Set up quests and screen time', `${APP}/dashboard/quests`) +
+      p(`This is the bit backed by the research on self regulation: a child who earns and spends their own time learns to manage it.`),
+      unsubscribe
+    ),
+  }
+}
+
+// Watch together lessons
+export function lessonsEmail(params: { childName: string; unsubscribe: string }): EmailContent {
+  const { childName, unsubscribe } = params
+  return {
+    subject: 'Five minutes that does the hard talk for you',
+    html: wrapper(
+      heading(`The talks you dread, done in five minutes.`) +
+      p(`Comparison, strangers, staying kind online, knowing when to stop. Big talks, and hard to start. The lessons do the starting for you.`) +
+      p(`Short films you watch together on your device, or send straight to ${childName}'s phone to play on their own. Each one lands one idea in ${childName}'s language, then earns them a star for finishing.`) +
+      button('Watch one together', `${APP}/dashboard/lessons`) +
+      p(`No lecture from you needed. DiGi even nudges you the next one when the time is right.`),
+      unsubscribe
+    ),
+  }
+}
+
+// School reminders
+export function schoolRemindersEmail(params: { childName: string; unsubscribe: string }): EmailContent {
+  const { childName, unsubscribe } = params
+  return {
+    subject: 'Never miss another kit day',
+    html: wrapper(
+      heading(`PE kit, forms and deadlines, sorted.`) +
+      p(`Add your weekly routines once, or forward a school email to your private address, and the night before you get a reminder while there is still time to pack the bag or sign the form. Nothing buried in an inbox.`) +
+      p(`The child friendly ones reach ${childName} too, so packing the swimming kit becomes their job, not only something you carry in your head.`) +
+      button('Set up school reminders', `${APP}/dashboard/school`) +
+      p(`It works whether or not your school ever emails you.`),
+      unsubscribe
+    ),
+  }
+}
+
+// Family agreement
+export function familyAgreementEmail(params: { childName: string; unsubscribe: string }): EmailContent {
+  const { childName, unsubscribe } = params
+  return {
+    subject: 'The rules that actually stick',
+    html: wrapper(
+      heading(`Agree the screen rules together, once.`) +
+      p(`Rules handed down get fought. Rules a child helped write get kept. The family agreement walks you both through five short talks: screens off times, where devices sleep at night, what happens when something goes wrong, and turns them into one simple sheet you both sign.`) +
+      p(`It takes one sitting with ${childName}, and it ends the daily renegotiation because the answer is already agreed and on the wall.`) +
+      button('Build your agreement', `${APP}/dashboard/agreement`) +
+      p(`Not a contract to police them. A promise you make to each other.`),
+      unsubscribe
+    ),
+  }
+}
+
 // 5 · Weekly digest with the child's progress
 export function weeklyDigestEmail(params: {
   childName: string
