@@ -108,13 +108,13 @@ export default function WeeklyReviewCard() {
 
   return (
     <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '24px', padding: '24px 24px 22px', marginBottom: '24px', boxShadow: '0 2px 4px rgba(26,26,46,0.03), 0 14px 36px -12px rgba(26,26,46,0.13)' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '13px', marginBottom: '16px' }}>
-        <span style={{ flexShrink: 0, width: 50, height: 50, borderRadius: '15px', background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <DigiCharacter mood="happy" size={34} />
+      <div style={{ display: 'flex', alignItems: 'center', gap: '13px', marginBottom: '18px' }}>
+        <span style={{ flexShrink: 0, width: 52, height: 52, borderRadius: '16px', background: 'var(--terracotta)', boxShadow: '0 5px 0 var(--terracotta-dark)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <DigiCharacter mood="happy" size={34} once />
         </span>
         <span style={{ flex: 1, minWidth: 0 }}>
-          <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>Your week with DiGi</span>
-          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '19px', color: 'var(--ink)', lineHeight: 1.15, letterSpacing: '-0.01em', marginTop: '3px' }}>
+          <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>Your week with DiGi</span>
+          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.5rem, 5vw, 1.9rem)', color: 'var(--ink)', lineHeight: 1.1, letterSpacing: '-0.03em', marginTop: '4px' }}>
             The week just gone
           </span>
         </span>

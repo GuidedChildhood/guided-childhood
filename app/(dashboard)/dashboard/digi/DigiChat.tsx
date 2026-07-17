@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import DigiCharacter, { type DigiMood } from '@/components/digi/DigiCharacter'
+import DigiHero from '@/components/digi/DigiHero'
 import LessonPlayer from '@/components/lessons/LessonPlayer'
 import type { LessonSlide } from '@/lib/content/lesson-slides'
 
@@ -506,17 +507,15 @@ export default function DigiChat({
       <div ref={scrollRef} onScroll={onMessagesScroll} style={{ flex: 1, overflowY: 'auto', padding: '20px 20px 0', background: 'var(--cream)' }}>
 
         {messages.length === 0 && (
-          <div style={{ paddingTop: '8px' }}>
-            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10, maxWidth: '90%', marginBottom: '20px' }}>
-              <div style={{ width: 30, flexShrink: 0, marginTop: 2 }}><DigiAvatar size={30} mood="wave" /></div>
-              <div style={{ background: 'var(--terracotta-lt)', borderRadius: '6px 20px 20px 20px', padding: '16px 19px' }}>
-                <p style={{ fontFamily: 'var(--font-body)', fontSize: '17px', color: 'var(--ink)', lineHeight: 1.55, margin: '0 0 8px', fontWeight: 700 }}>
-                  I&apos;m DiGi, your evidence led guide.
-                </p>
-                <p style={{ fontFamily: 'var(--font-body)', fontSize: '16px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0, fontWeight: 500 }}>
-                  I&apos;m trained on the research and I get more useful the more you tell me. What&apos;s on your mind?
-                </p>
-              </div>
+          <div style={{ paddingTop: '4px' }}>
+            {/* The premium DiGi front door: the same warm hero DiGi opens with
+                everywhere, in our butter and ink. */}
+            <div style={{ margin: '0 -20px 24px' }}>
+              <DigiHero
+                title={<>Let&apos;s make today a little easier.</>}
+                subtitle="I am trained on the research and I get more useful the more you tell me. What is on your mind?"
+                curved={false}
+              />
             </div>
 
             {stageId && stageName && !deviceSetupDismissed && (
@@ -809,20 +808,26 @@ export default function DigiChat({
                 </span>
               </div>
             )}
-            <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-end' }}>
+            {/* The compose pill: soft rounded field with a butter send tucked
+                in the corner, the reference feel in our palette. */}
+            <div style={{
+              display: 'flex', gap: '8px', alignItems: 'flex-end',
+              background: 'var(--cream)', border: '1.5px solid var(--border)',
+              borderRadius: '26px', padding: '6px 6px 6px 18px',
+              transition: 'border-color 0.15s',
+            }}>
             <textarea
               ref={textareaRef}
               value={input}
               onChange={e => setInput(e.target.value)}
               onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage() } }}
-              placeholder={continuingTopic ? 'What is happening, in your own words...' : "Ask DiGi anything about your child's digital world..."}
+              placeholder={continuingTopic ? 'What is happening, in your own words...' : 'Type your question'}
               rows={1}
               style={{
                 flex: 1,
-                padding: '13px 16px',
-                borderRadius: '14px',
-                border: '1.5px solid var(--border)',
-                background: 'var(--cream)',
+                padding: '9px 0',
+                border: 'none',
+                background: 'transparent',
                 fontFamily: 'var(--font-body)',
                 fontSize: '16.5px',
                 color: 'var(--ink)',
@@ -831,18 +836,25 @@ export default function DigiChat({
                 lineHeight: 1.5,
                 maxHeight: '160px',
                 overflowY: 'auto',
-                transition: 'border-color 0.15s',
               }}
-              onFocus={e => { e.currentTarget.style.borderColor = 'var(--terracotta)'; document.body.classList.add('gc-input-focused') }}
-              onBlur={e => { e.currentTarget.style.borderColor = 'var(--border)'; document.body.classList.remove('gc-input-focused') }}
+              onFocus={e => { const p = e.currentTarget.parentElement; if (p) p.style.borderColor = 'var(--terracotta)'; document.body.classList.add('gc-input-focused') }}
+              onBlur={e => { const p = e.currentTarget.parentElement; if (p) p.style.borderColor = 'var(--border)'; document.body.classList.remove('gc-input-focused') }}
             />
             <button
               type="submit"
               disabled={loading || !input.trim()}
-              className="btn"
-              style={{ padding: '13px 20px', flexShrink: 0, fontSize: '13px' }}
+              aria-label="Send to DiGi"
+              style={{
+                flexShrink: 0, width: 44, height: 44, borderRadius: '50%', border: 'none',
+                background: input.trim() ? 'var(--terracotta)' : 'var(--border)',
+                color: 'var(--ink)', cursor: input.trim() ? 'pointer' : 'default',
+                boxShadow: input.trim() ? '0 4px 0 var(--terracotta-dark)' : 'none',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: 20, fontWeight: 800, lineHeight: 1,
+                transition: 'background 0.15s',
+              }}
             >
-              Send
+              ↑
             </button>
             </div>
           </form>
