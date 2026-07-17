@@ -1327,3 +1327,17 @@ squad buddy (DiGi, Oliver, Sofia, Zara) and an accent colour (sunshine, grass,
 ocean, coral, berry). Their buddy greets them in the tip card, the accent takes
 the star bank and the buddy ring, saved to their record via a token authed
 endpoint. No gender collected anywhere. MIGRATION 067.
+
+## 2026-07-17 — Tailor by concern (option 2) and school email coming soon
+
+- Option 2: the pathway now tailors the current stage by the concern the family
+  actually flagged, not by the child's sex. The top open concern maps to the
+  stage's own action for it (For your family right now), so a parent worried about
+  gaming and one worried about comparison get different guidance. The honest,
+  precise version of a boy and girl pathway, with no gender data.
+- School email forwarding is marked coming soon for launch (complex, to go live
+  with the Apple app wrap). The whole SchoolSetup email flow is replaced by a
+  coming soon card. The manual weekly routines (SchoolActionsCard) stay live and
+  do the everyday job. Nothing was deleted, only hidden behind coming soon.
+
+On PR 303. No migration.

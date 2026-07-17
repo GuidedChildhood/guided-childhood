@@ -2,7 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { hasFullAccess } from '@/lib/access'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import { STAGES, type AgeBand } from '@/lib/content/stages'
+import { STAGES, type AgeBand, type ChallengeId } from '@/lib/content/stages'
 import { readinessForAgeBand, WHY_IT_WORKS, OUR_STANCE } from '@/lib/content/readiness'
 import PathwayJourney from '@/components/pathway/PathwayJourney'
 import StageRoadMap from '@/components/pathway/StageRoadMap'
@@ -91,6 +91,21 @@ export default async function PathwayPage() {
 
   const currentStageContent = currentStageNum ? STAGES.find(s => s.id === currentStageNum) : null
 
+  // Tailor the stage by the concern this family actually flagged, not by any
+  // assumption about the child. The top open concern maps straight to the
+  // stage's own action for it, so an eleven year old whose parent worries about
+  // gaming and one whose parent worries about comparison get different guidance,
+  // the honest version of a boy and girl pathway.
+  const { data: topConcern } = await supabase
+    .from('concerns').select('slug, label')
+    .eq('user_id', user.id).neq('status', 'resolved')
+    .order('times_flagged', { ascending: false }).limit(1).maybeSingle()
+  const concernSlug = (topConcern as { slug?: string } | null)?.slug as ChallengeId | undefined
+  const concernLabel = (topConcern as { label?: string } | null)?.label ?? null
+  const tailoredAction = concernSlug && currentStageContent
+    ? currentStageContent.challengeActions[concernSlug] ?? null
+    : null
+
   return (
     <div style={{ padding: '24px 0 32px' }}>
       {/* Header */}
@@ -134,6 +149,18 @@ export default async function PathwayPage() {
           </div>
         )
       })()}
+
+      {/* Tailored by what this family flagged, not by the child's sex. */}
+      {tailoredAction && (
+        <div style={{ padding: '0 20px', maxWidth: '720px', margin: '0 auto 20px' }}>
+          <div style={{ background: 'var(--tint-sage)', border: '1.5px solid var(--border)', borderRadius: '18px', padding: '16px 18px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--deep-teal)', marginBottom: '5px' }}>
+              For your family right now{concernLabel ? ` · ${concernLabel}` : ''}
+            </div>
+            <p style={{ fontSize: '14.5px', color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>{tailoredAction}</p>
+          </div>
+        </div>
+      )}
 
       {/* The road to 16 at a glance: where this family is on the whole map,
           before any detail. Orientation first, then the journey below. */}

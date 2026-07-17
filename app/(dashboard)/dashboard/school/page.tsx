@@ -1,6 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
-import SchoolSetup from '@/components/school/SchoolSetup'
 import SchoolActionsCard, { type SchoolAction } from '@/components/school/SchoolActionsCard'
 
 // The school section: your live alerts first (the things you need to know,
@@ -42,8 +41,20 @@ export default async function SchoolPage() {
         <SchoolActionsCard actions={actions} childName={childName} />
       </div>
 
-      {/* The connection and setup */}
-      <SchoolSetup />
+      {/* Email forwarding is coming soon: the automatic pull from school emails
+          is being finished alongside the app wrap for Apple. The manual weekly
+          routines above are live and do the everyday job now. */}
+      <div style={{ background: '#fff', border: '1.5px dashed var(--border)', borderRadius: '18px', padding: '20px' }}>
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', margin: '0 0 8px' }}>
+          Forward your school emails · coming soon
+        </p>
+        <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '17px', color: 'var(--ink)', lineHeight: 1.25, margin: '0 0 8px' }}>
+          Automatic school email reminders are on the way
+        </h3>
+        <p style={{ color: 'var(--ink-soft)', fontSize: '14.5px', lineHeight: 1.6, margin: 0 }}>
+          Soon you will forward your school&apos;s emails to a private address and DiGi will pull out the kit days, trips, payments and homework for you, no typing. We are finishing it off alongside the phone app. For now, add your weekly routines above and they will remind you and your child every week.
+        </p>
+      </div>
     </div>
   )
 }
