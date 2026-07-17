@@ -26,12 +26,16 @@ export async function GET() {
   const monthAgoIso = new Date(now - 30 * 86_400_000).toISOString()
 
   try {
-    const [childrenRes, questsRes, ticksRes, spendsRes, wellbeingRes] = await Promise.all([
+    const [childrenRes, questsRes, ticksRes, spendsRes, wellbeingRes, kidLinksRes, sessionsRes] = await Promise.all([
       admin.from('children').select('age_band, parent_id'),
       admin.from('family_quests').select('id', { count: 'exact', head: true }).eq('active', true),
       admin.from('quest_ticks').select('user_id, status, tick_date').gte('tick_date', weekAgoDate),
       admin.from('star_spends').select('user_id, minutes, created_at').gte('created_at', weekAgoIso),
       admin.from('wellbeing_checkins').select('parent_mood, created_at').gte('created_at', monthAgoIso),
+      // Child app adoption: who set up the child link at all, and whose child is
+      // actually using it (ticking a job or running a screen time timer).
+      admin.from('kid_links').select('user_id'),
+      admin.from('device_sessions').select('user_id, started_at').gte('started_at', weekAgoIso),
     ])
 
     const kids = childrenRes.data ?? []
@@ -56,6 +60,15 @@ export async function GET() {
     const moods = wb.map(w => Number(w.parent_mood)).filter(n => n >= 1 && n <= 5)
     const avgParentMood = moods.length ? Math.round((moods.reduce((a, b) => a + b, 0) / moods.length) * 10) / 10 : null
 
+    // The child app funnel: how many families set up the child link, and how
+    // many have a child actually using it (a tick or a screen time session in
+    // the last week). The honest read on whether the child side lands.
+    const sessions = sessionsRes.data ?? []
+    const childAppSetUp = new Set((kidLinksRes.data ?? []).map(k => k.user_id as string).filter(Boolean)).size
+    const childActive = new Set<string>()
+    for (const t of ticks) if (t.user_id) childActive.add(t.user_id as string)
+    for (const s of sessions) if (s.user_id) childActive.add(s.user_id as string)
+
     return NextResponse.json({
       generatedAt: new Date(now).toISOString(),
       families,
@@ -66,6 +79,8 @@ export async function GET() {
       approvalRate,
       screenMinsWeek,
       activeFamilies7d: active.size,
+      childAppSetUp,
+      childActive7d: childActive.size,
       wellbeingCheckins30d: wb.length,
       avgParentMood,
     })
