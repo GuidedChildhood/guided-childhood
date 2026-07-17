@@ -12,7 +12,11 @@ const LOCK_KEY = 'gc_popup_open'
 // The toast and the coach mark still hold well back and take the lock behind it,
 // so only one is ever up at a time and they never stack on load.
 export const POPUP_DELAY = {
+  // The first few logins DiGi greets right away, the warm front door. After a
+  // family knows the app, the greeting eases back to five minutes in so it
+  // never interrupts a parent the second they land.
   welcome: 700,
+  welcomeSettled: 300_000,
   toast: 63_000,
   coach: 66_000,
 } as const
