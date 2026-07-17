@@ -34,7 +34,7 @@ type Goal = { title: string; stars_needed: number; daily_stars: number | null; a
 export type KidMission = { id: string; title: string; stars: number; status: string }
 export type KidAdventure = { code: string; title: string; catchphrase: string; stageId: number; posterUrl?: string | null; done: boolean; timesCompleted: number }
 export type KidAsk = { id: string; title: string; emoji: string; status: string }
-export type KidSchoolToday = { id: string; title: string; kind: string; time: string | null }
+export type KidSchoolToday = { id: string; title: string; kind: string; time: string | null; when?: 'today' | 'tomorrow' }
 
 // The child's own choices: a squad buddy who greets them, and an accent colour.
 // Small, known sets, so the app stays on brand whatever they pick.
@@ -1806,7 +1806,31 @@ function KidSchoolBanner({ items }: { items: KidSchoolToday[] }) {
     const mins = (at - now) / 60000
     return mins <= 60 // in the last hour, or already passed
   }
-  const anyUrgent = items.some(i => urgentOf(i.time))
+  // Tomorrow's items sit in their own calm heads up so the child can get
+  // ready the night before, the same nudge their grown up gets. Today's
+  // items lead and can go red as a timed one nears.
+  const todayItems = items.filter(i => (i.when ?? 'today') === 'today')
+  const tomorrowItems = items.filter(i => i.when === 'tomorrow')
+  const anyUrgent = todayItems.some(i => urgentOf(i.time))
+
+  const row = (i: KidSchoolToday, hot: boolean) => (
+    <div key={i.id} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+      <span style={{ fontSize: '1.2rem', flexShrink: 0 }}>{SCHOOL_KIND_EMOJI[i.kind] ?? '📌'}</span>
+      <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)' }}>
+        {i.title}
+      </span>
+      {i.time && (
+        <span style={{
+          flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
+          padding: '3px 9px', borderRadius: '100px',
+          background: hot ? '#FDECEC' : 'var(--tint-sage)',
+          color: hot ? '#B93B3F' : 'var(--ink-soft)',
+        }}>
+          {i.time}
+        </span>
+      )}
+    </div>
+  )
 
   return (
     <div style={{
@@ -1816,32 +1840,28 @@ function KidSchoolBanner({ items }: { items: KidSchoolToday[] }) {
       animation: anyUrgent ? 'gcKidSchoolPulse 1.3s ease-in-out infinite' : undefined,
     }}>
       <style>{`@keyframes gcKidSchoolPulse { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-2px) } }`}</style>
-      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: anyUrgent ? '#B93B3F' : 'var(--terracotta-dark)', marginBottom: '9px' }}>
-        {anyUrgent ? '🔴 Don’t forget, it is nearly time' : '🏫 From school today'}
-      </div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-        {items.map(i => {
-          const hot = urgentOf(i.time)
-          return (
-            <div key={i.id} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <span style={{ fontSize: '1.2rem', flexShrink: 0 }}>{SCHOOL_KIND_EMOJI[i.kind] ?? '📌'}</span>
-              <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)' }}>
-                {i.title}
-              </span>
-              {i.time && (
-                <span style={{
-                  flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
-                  padding: '3px 9px', borderRadius: '100px',
-                  background: hot ? '#FDECEC' : 'var(--tint-sage)',
-                  color: hot ? '#B93B3F' : 'var(--ink-soft)',
-                }}>
-                  {i.time}
-                </span>
-              )}
-            </div>
-          )
-        })}
-      </div>
+
+      {todayItems.length > 0 && (
+        <>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: anyUrgent ? '#B93B3F' : 'var(--terracotta-dark)', marginBottom: '9px' }}>
+            {anyUrgent ? '🔴 Don’t forget, it is nearly time' : '🏫 From school today'}
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            {todayItems.map(i => row(i, urgentOf(i.time)))}
+          </div>
+        </>
+      )}
+
+      {tomorrowItems.length > 0 && (
+        <div style={{ marginTop: todayItems.length > 0 ? '12px' : 0, paddingTop: todayItems.length > 0 ? '12px' : 0, borderTop: todayItems.length > 0 ? '1px solid var(--border)' : 'none' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '9px' }}>
+            🎒 Tomorrow, get it ready tonight
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            {tomorrowItems.map(i => row(i, false))}
+          </div>
+        </div>
+      )}
     </div>
   )
 }

@@ -135,6 +135,9 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
   // next week) but steps back from today's reminders, so clearing PE kit does
   // not delete the routine. Delete (Remove) is the way to end it for good.
   const todayStr = nowMs != null ? new Date(nowMs).toISOString().slice(0, 10) : ''
+  // Which weekday falls tomorrow, so a routine coming round then gets a quiet
+  // day before heads up on screen, matching the push that goes out tonight.
+  const tomorrowWeekday = nowMs != null ? (new Date(nowMs).getDay() + 1) % 7 : -1
   const [clearedIds, setClearedIds] = useState<Set<string>>(new Set())
   // Seed from the server once the client clock is in: a routine whose cleared_on
   // is today is already cleared for today.
@@ -444,6 +447,15 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
                 <span style={{ flex: 1, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '13.5px', color: 'var(--ink)' }}>
                   {a.title}
                 </span>
+                {a.recurs_weekday === tomorrowWeekday && !clearedIds.has(a.id) && (
+                  <span style={{
+                    fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase',
+                    background: 'var(--terracotta-lt)', color: 'var(--terracotta-dark)', border: '1px solid var(--terracotta)',
+                    borderRadius: '100px', padding: '3px 9px', flexShrink: 0,
+                  }}>
+                    Tomorrow
+                  </span>
+                )}
                 {a.auto_send_to_child && (
                   <span style={{ fontSize: '10.5px', color: 'var(--ink-soft)', flexShrink: 0 }}>
                     → {childName ?? 'them'} weekly
