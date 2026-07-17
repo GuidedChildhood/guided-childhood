@@ -60,7 +60,7 @@
 
   /* ── CHILD APP BACKGROUND ── one faded pastel wash, pink up top into
      lavender, used across every child screen so they always match. */
-  --kid-bg: linear-gradient(168deg, #F6C2DC 0%, #E0C8EE 30%, #CBCEF2 62%, #B2CAF0 100%);
+  --kid-bg: linear-gradient(168deg, #EF9EC8 0%, #CF9FE4 30%, #ADB4EE 60%, #86AEE8 100%);
 
   /* ── LEGACY ALIASES ── */
   --warm:              var(--cream);
@@ -822,6 +822,18 @@ h1, h2, h3 { text-wrap: balance; }
 }
 .digi-pop-in {
   animation: digi-pop-in 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.6s both;
+}
+
+/* The alarm clock jiggle when the child's device time is up: a cheerful
+   wobble that matches the fun jingle, not a stern buzz. */
+@keyframes gcAlarmBounce {
+  0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+  20%      { transform: translateY(-8px) rotate(-12deg) scale(1.12); }
+  45%      { transform: translateY(0) rotate(11deg) scale(1.08); }
+  70%      { transform: translateY(-4px) rotate(-7deg) scale(1.04); }
+}
+@media (prefers-reduced-motion: reduce) {
+  [style*="gcAlarmBounce"] { animation: none !important; }
 }
 
 /* ── NAV LINKS ── */

@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { DEVICES, deviceEmoji, deviceLabel, type ActiveSession } from '@/lib/quests/device-time'
 import { STAR_MINUTES } from '@/lib/quests/templates'
+import Celebration from '@/components/ui/Celebration'
 
 // The child's own device time timer. They have earned stars; here they turn
 // some into minutes on an agreed device, on their own screen. The countdown
@@ -40,27 +41,43 @@ export default function DeviceTimeCard({
   const maxMinutes = Math.max(0, balanceStars * STAR_MINUTES)
   const costStars = Math.ceil(minutes / STAR_MINUTES)
 
-  // A short, unmistakable alarm: three rising beeps, plus a buzz on phones.
+  // A fun, unmistakable Duolingo style jingle: a bright bouncing arpeggio that
+  // runs up and lands on a cheeky little "ta da", with a happy buzz on phones.
+  // Warm triangle tones so it lifts rather than jars, the way a good app rewards
+  // you rather than tells you off.
   const soundAlarm = useCallback(() => {
     try {
       const ctx = audioRef.current
       if (ctx) {
         const now = ctx.currentTime
-        ;[0, 0.5, 1].forEach((t, i) => {
+        const beep = (freq: number, at: number, dur: number, peak = 0.26) => {
           const osc = ctx.createOscillator()
           const gain = ctx.createGain()
-          osc.type = 'sine'
-          osc.frequency.value = 660 + i * 220
-          gain.gain.setValueAtTime(0.0001, now + t)
-          gain.gain.exponentialRampToValueAtTime(0.3, now + t + 0.04)
-          gain.gain.exponentialRampToValueAtTime(0.0001, now + t + 0.42)
+          const t0 = now + at
+          osc.type = 'triangle'
+          osc.frequency.setValueAtTime(freq, t0)
+          gain.gain.setValueAtTime(0.0001, t0)
+          gain.gain.exponentialRampToValueAtTime(peak, t0 + 0.02)
+          gain.gain.exponentialRampToValueAtTime(0.0001, t0 + dur)
           osc.connect(gain).connect(ctx.destination)
-          osc.start(now + t)
-          osc.stop(now + t + 0.45)
-        })
+          osc.start(t0)
+          osc.stop(t0 + dur + 0.03)
+        }
+        // Bright ascending run: C5 E5 G5 C6, then a little bounce back up to
+        // C6 for the "ta da". The whole phrase plays, so it is clearly the end.
+        const melody: [number, number, number, number?][] = [
+          [523, 0.00, 0.16],   // C5
+          [659, 0.14, 0.16],   // E5
+          [784, 0.28, 0.16],   // G5
+          [1047, 0.44, 0.24],  // C6
+          [784, 0.72, 0.14, 0.20],  // G5, quick dip
+          [1047, 0.86, 0.42, 0.30], // C6, the landing
+        ]
+        melody.forEach(([f, at, dur, peak]) => beep(f, at, dur, peak))
       }
     } catch { /* audio best effort */ }
-    try { navigator.vibrate?.([300, 120, 300, 120, 500]) } catch { /* no haptics */ }
+    // A cheerful little rhythm on phones, not one long angry buzz.
+    try { navigator.vibrate?.([90, 70, 90, 70, 90, 90, 260]) } catch { /* no haptics */ }
   }, [])
 
   // Tick every second off the fixed end time. When it hits zero, sound the
@@ -179,18 +196,21 @@ export default function DeviceTimeCard({
   // ── Time's up ──
   if (phase === 'up') {
     return (
-      <div style={{ background: 'var(--terracotta)', borderRadius: '20px', padding: '20px', marginBottom: '16px', boxShadow: '0 5px 0 var(--terracotta-dark)', textAlign: 'center' }}>
-        <div style={{ fontSize: '2.2rem', lineHeight: 1, marginBottom: '6px' }}>⏰</div>
-        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.3rem', color: 'var(--ink)', marginBottom: '4px' }}>Time is up!</div>
-        <p style={{ fontSize: '14.5px', color: 'var(--ink)', opacity: 0.8, margin: '0 0 14px', lineHeight: 1.5 }}>
-          Your {deviceLabel(session?.device ?? 'phone')} time is done. Earn more stars to unlock more.
-        </p>
-        <button
-          onClick={() => { setSession(null); setPhase('idle'); router.refresh() }}
-          style={{ padding: '11px 22px', borderRadius: '14px', border: 'none', background: 'var(--ink)', color: '#fff', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 800 }}
-        >
-          OK
-        </button>
+      <div style={{ position: 'relative', background: 'var(--terracotta)', borderRadius: '20px', padding: '20px', marginBottom: '16px', boxShadow: '0 5px 0 var(--terracotta-dark)', textAlign: 'center', overflow: 'hidden' }}>
+        <Celebration fire />
+        <div style={{ position: 'relative', zIndex: 1 }}>
+          <div style={{ fontSize: '2.4rem', lineHeight: 1, marginBottom: '6px', display: 'inline-block', animation: 'gcAlarmBounce 0.7s ease-in-out 3' }}>⏰</div>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.3rem', color: 'var(--ink)', marginBottom: '4px' }}>Time is up!</div>
+          <p style={{ fontSize: '14.5px', color: 'var(--ink)', opacity: 0.8, margin: '0 0 14px', lineHeight: 1.5 }}>
+            Great play! Your {deviceLabel(session?.device ?? 'phone')} time is done. Earn more stars to unlock more.
+          </p>
+          <button
+            onClick={() => { setSession(null); setPhase('idle'); router.refresh() }}
+            style={{ padding: '11px 22px', borderRadius: '14px', border: 'none', background: 'var(--ink)', color: '#fff', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 800 }}
+          >
+            OK
+          </button>
+        </div>
       </div>
     )
   }
