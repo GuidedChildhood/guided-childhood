@@ -52,7 +52,7 @@ export default function GuidePage() {
   return (
     <div style={{ maxWidth: '720px', margin: '0 auto', padding: '24px 20px 48px' }}>
       <p className="eyebrow" style={{ color: 'var(--terracotta-dark)', marginBottom: '4px' }}>Your guide</p>
-      <h1 style={{ fontSize: 'clamp(1.6rem, 4.5vw, 2.2rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '10px' }}>
+      <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '10px' }}>
         How Guided Childhood works
       </h1>
       <p style={{ color: 'var(--ink-soft)', fontSize: '15.5px', lineHeight: 1.6, marginBottom: '28px' }}>

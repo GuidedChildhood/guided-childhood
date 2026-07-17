@@ -87,7 +87,7 @@ export default async function PrintablesPage() {
   return (
     <div style={{ maxWidth: '860px', margin: '0 auto', padding: '24px 20px 48px' }}>
       <p className="eyebrow" style={{ color: 'var(--terracotta-dark)', marginBottom: '8px' }}>Printables</p>
-      <h1 style={{ fontSize: 'clamp(1.6rem, 5vw, 2.1rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '10px' }}>
+      <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '10px' }}>
         The offline pathway
       </h1>
       <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.65, marginBottom: '28px', maxWidth: '560px' }}>
