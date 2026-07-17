@@ -447,7 +447,7 @@ export default function KidQuestScreen({
       const remaining = quests.length - doneCount
       if (remaining > 0 && localStorage.getItem('gc_kid_today_seen') !== today) {
         localStorage.setItem('gc_kid_today_seen', today)
-        setHappyNews({ character: 'digi', headline: `Hi ${childName}! ${remaining} thing${remaining === 1 ? '' : 's'} to do today`, sub: 'Tick each one as you go and watch your stars grow. You have got this!' })
+        setHappyNews({ character: 'digi', headline: `Hi ${childName}! ${remaining} thing${remaining === 1 ? '' : 's'} to do today`, sub: 'Tick each one as you go and watch your stars grow. You have got this!', action: { label: 'Show me →', targetId: 'my-todo' } })
       }
     } catch { /* localStorage off, skip the treat */ }
     // Runs once on open with the values the server rendered.
@@ -635,10 +635,22 @@ export default function KidQuestScreen({
               ? <img src={buddyImg} alt="" style={{ width: 32, height: 32 }} />
               : <img src={buddyImg} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }} />}
           </button>
-          <span style={{ flex: 1, minWidth: 0 }}>
-            <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>{BUDDY_MAP[chosenBuddy]?.name ?? 'DiGi'} says</span>
-            <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: 'var(--ink)', lineHeight: 1.3, marginTop: '1px' }}>{digiTip}</span>
-          </span>
+          {/* When there are jobs still to do, the whole line is a doorway to
+              the to-do list, so DiGi's nudge is always something the child can
+              act on the moment they land, every time they come in. */}
+          <button
+            onClick={() => { if (remainingToday > 0) { document.getElementById('my-todo')?.scrollIntoView({ behavior: 'smooth' }); playKidSound('tap') } }}
+            disabled={remainingToday <= 0}
+            style={{ flex: 1, minWidth: 0, background: 'none', border: 'none', padding: 0, margin: 0, textAlign: 'left', cursor: remainingToday > 0 ? 'pointer' : 'default', display: 'flex', alignItems: 'center', gap: 8 }}
+          >
+            <span style={{ flex: 1, minWidth: 0 }}>
+              <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>{BUDDY_MAP[chosenBuddy]?.name ?? 'DiGi'} says</span>
+              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: 'var(--ink)', lineHeight: 1.3, marginTop: '1px' }}>{digiTip}</span>
+            </span>
+            {remainingToday > 0 && (
+              <span aria-hidden style={{ flexShrink: 0, fontSize: 18, color: 'var(--terracotta-dark)', fontWeight: 800 }}>→</span>
+            )}
+          </button>
         </div>
 
         {/* From school today: the child sees the reminder their grown up sent

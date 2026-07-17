@@ -1,6 +1,13 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { NOTIFS_CHANGED_EVENT } from '@/components/dashboard/NotificationsBell'
+
+// Tell the bell to recount the moment a school item is cleared, settled or
+// added right here, so the number on the bell never lags behind the card.
+function notifsChanged() {
+  try { window.dispatchEvent(new Event(NOTIFS_CHANGED_EVENT)) } catch { /* SSR safety */ }
+}
 
 // Things you need to know: the open school_actions DiGi extracted from
 // forwarded school emails, plus anything the parent typed in by hand
@@ -122,6 +129,7 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
 
   const settle = async (id: string, status: 'done' | 'dismissed') => {
     setActions(a => a.filter(x => x.id !== id))
+    notifsChanged()
     try {
       await fetch('/api/school/actions', {
         method: 'PATCH',
@@ -148,6 +156,7 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
   }, [todayStr, initial])
   const clearForToday = async (id: string) => {
     setClearedIds(s => { const n = new Set(s); n.add(id); return n })
+    notifsChanged()
     try {
       await fetch('/api/school/actions', {
         method: 'PATCH',
@@ -175,6 +184,7 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
       const data = await res.json()
       if (data.action) {
         setActions(a => [...a, data.action].sort((x, y) => (x.due_date ?? '9999').localeCompare(y.due_date ?? '9999')))
+        notifsChanged()
         setTitle('')
         setDueDate('')
         setDueTime('')
