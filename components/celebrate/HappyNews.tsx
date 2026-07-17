@@ -21,10 +21,12 @@ const CHARACTER: Record<CharacterKey, { src: string; name: string; ring: string 
   sofia:  { src: '/digi-squad/Sofia.jpeg',    name: 'Sofia',  ring: '#2E7D5A' },
 }
 
-// An optional action turns the pop into a doorway: a chunky button that scrolls
-// the child straight to the thing it is about (their to-do list) and tucks the
-// pop away, so "2 things to do" is something they can act on, not just read.
-export type HappyNewsItem = { character: CharacterKey; headline: string; sub?: string; action?: { label: string; targetId: string } }
+// An optional action turns the pop into a doorway: a chunky button that takes
+// the child straight to the thing it is about (their to-do list, or a fun sheet)
+// and tucks the pop away, so a pop is something they can act on, not just read.
+// It either scrolls to a targetId on the page or runs onClick (for example to
+// open a tab), whichever is given.
+export type HappyNewsItem = { character: CharacterKey; headline: string; sub?: string; action?: { label: string; targetId?: string; onClick?: () => void } }
 
 const CONFETTI = ['#F6C244', '#E5734B', '#2E7D5A', '#7C5CBF', '#4B9CE5', '#E5484D']
 
@@ -104,7 +106,10 @@ export default function HappyNews({ item, onClose }: { item: HappyNewsItem | nul
             <button
               onClick={(e) => {
                 e.stopPropagation()
-                try { document.getElementById(item.action!.targetId)?.scrollIntoView({ behavior: 'smooth' }) } catch { /* no target */ }
+                try {
+                  if (item.action!.onClick) item.action!.onClick()
+                  else if (item.action!.targetId) document.getElementById(item.action!.targetId)?.scrollIntoView({ behavior: 'smooth' })
+                } catch { /* no target */ }
                 onClose()
               }}
               style={{

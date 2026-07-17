@@ -11,6 +11,7 @@ function urlBase64ToUint8Array(base64String: string) {
 }
 import { STAR_MINUTES, KID_REQUEST_IDEAS } from '@/lib/quests/templates'
 import { printablesForStage } from '@/lib/printables/registry'
+import { insightsForStage } from '@/lib/content/child-insights'
 import type { StarBank } from '@/lib/quests/bank'
 import { lessonsForStage, type KidLesson } from '@/lib/quests/kid-lessons'
 import { gamesForStage, type QuestGame } from '@/lib/quest-games/registry'
@@ -448,6 +449,27 @@ export default function KidQuestScreen({
       if (remaining > 0 && localStorage.getItem('gc_kid_today_seen') !== today) {
         localStorage.setItem('gc_kid_today_seen', today)
         setHappyNews({ character: 'digi', headline: `Hi ${childName}! ${remaining} thing${remaining === 1 ? '' : 's'} to do today`, sub: 'Tick each one as you go and watch your stars grow. You have got this!', action: { label: 'Show me →', targetId: 'my-todo' } })
+        return
+      }
+
+      // The wisdom pop: on a quiet open, a squad friend brings one age relevant
+      // idea about screens and wellbeing, read from the science bank for this
+      // child's stage, and sometimes points at a fun sheet to do. A treat every
+      // few days, never every day, so it lands as a gift and not a lecture.
+      const lastPop = localStorage.getItem('gc_kid_insight_pop')
+      const daysSincePop = lastPop ? (Date.parse(today) - Date.parse(lastPop)) / 86400000 : 999
+      const pool = insightsForStage(stageId)
+      if (daysSincePop >= 3 && pool.length > 0) {
+        const dayNum = Math.floor(Date.parse(today) / 86400000)
+        const pick = pool[dayNum % pool.length]
+        localStorage.setItem('gc_kid_insight_pop', today)
+        const sheet = stagePrintables[dayNum % Math.max(1, stagePrintables.length)]
+        setHappyNews({
+          character: pick.character,
+          headline: pick.headline,
+          sub: pick.body,
+          action: sheet ? { label: 'See a fun sheet →', onClick: () => { setTab('print'); document.getElementById('kid-tabs')?.scrollIntoView({ behavior: 'smooth' }) } } : undefined,
+        })
       }
     } catch { /* localStorage off, skip the treat */ }
     // Runs once on open with the values the server rendered.
@@ -851,7 +873,7 @@ export default function KidQuestScreen({
         {/* Tabs: quests, lessons and printables, all earn stars. Lessons and
             printables wear a red badge the moment a grown up pings something
             new, or a fresh printable is waiting to ask for. */}
-        <div style={{ display: 'flex', gap: '7px', marginBottom: '16px' }}>
+        <div id="kid-tabs" style={{ display: 'flex', gap: '7px', marginBottom: '16px', scrollMarginTop: '12px' }}>
           {([['quests', '⭐ Quests', 0], ['lessons', '🧠 Lessons', totalNewLessons], ['print', '🖨️ Printables', newPrint]] as const).map(([key, label, dot]) => (
             <button
               key={key}
