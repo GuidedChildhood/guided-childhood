@@ -141,6 +141,41 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: true })
   }
 
+  // Mark the saving goal complete from the parent side: the child saved
+  // enough, the parent hands over the real reward, so the stars are spent and
+  // the goal is marked redeemed. Same honest bank as the child's own redeem,
+  // just driven by the grown up. One redemption per goal, until a new one is
+  // set. The child gets a little cheer on their page.
+  if (body.action === 'goal_redeem' && body.child_id) {
+    const { data: goal } = await supabase
+      .from('star_goals').select('id, title, stars_needed, achieved_at')
+      .eq('child_id', body.child_id).eq('user_id', user.id).maybeSingle()
+    if (!goal) return NextResponse.json({ error: 'no goal' }, { status: 404 })
+    if (goal.achieved_at) return NextResponse.json({ error: 'already redeemed', already: true }, { status: 400 })
+
+    const cost = goal.stars_needed
+    const [bank] = await getStarBanks(supabase, user.id, [body.child_id])
+    if (!bank || bank.balance < cost) {
+      return NextResponse.json({ error: 'not enough stars', balance: bank?.balance ?? 0 }, { status: 400 })
+    }
+
+    // Spend the stars (a reward has no minutes) and mark the goal redeemed.
+    const { error: spendError } = await supabase.from('star_spends').insert({
+      user_id: user.id, child_id: body.child_id, stars: cost, minutes: 0,
+      note: `🎁 Reward: ${goal.title}`,
+    })
+    if (spendError) return NextResponse.json({ error: spendError.message }, { status: 500 })
+    await supabase.from('star_goals').update({ achieved_at: new Date().toISOString() }).eq('id', goal.id)
+
+    // Cheer the child on their own page.
+    await pushToChild(
+      createAdminClient(), user.id, body.child_id,
+      'You earned your reward! 🎉',
+      `You saved ${cost} star${cost === 1 ? '' : 's'} for "${goal.title}". Enjoy it, then pick a new thing to save for.`
+    )
+    return NextResponse.json({ ok: true, balance: bank.balance - cost })
+  }
+
   // Decide a child's own quest ask: added turns it into a real quest with
   // the stars the parent sets, declined closes it kindly. Either way the
   // child's page shows the answer, and their device gets a nudge if their

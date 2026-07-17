@@ -11,6 +11,7 @@
 
 import { useEffect, useState } from 'react'
 import { STAR_MINUTES } from '@/lib/quests/templates'
+import Celebration from '@/components/ui/Celebration'
 
 type Goal = { title: string; stars_needed: number } | null
 
@@ -24,6 +25,7 @@ function fmt(ms: number): string {
 export default function StarSummary({
   childName, balanceStars, weekStars, pending, todo, goal, timerRunning,
   sessionEndsAt, onApprove, onTodo, onScreenTime, onShare,
+  goalReached = false, goalAchieved = false, onGoalDone, onSetGoal,
 }: {
   childName: string
   balanceStars: number
@@ -37,9 +39,25 @@ export default function StarSummary({
   onTodo: () => void
   onScreenTime: () => void
   onShare: () => void
+  // The child has saved enough for the goal, but it is not yet handed over.
+  goalReached?: boolean
+  // The goal has been redeemed: reward given, time to set a new one.
+  goalAchieved?: boolean
+  onGoalDone?: () => void | Promise<void>
+  onSetGoal?: () => void
 }) {
   const minutes = balanceStars * STAR_MINUTES
   const goalPct = goal ? Math.min(100, Math.round((balanceStars / Math.max(1, goal.stars_needed)) * 100)) : 0
+
+  // The mark-as-done step: a calm confirm, then a spinner, so a reward is never
+  // cashed in by a stray tap.
+  const [confirmDone, setConfirmDone] = useState(false)
+  const [redeeming, setRedeeming] = useState(false)
+  async function markDone() {
+    if (redeeming) return
+    setRedeeming(true)
+    try { await onGoalDone?.() } finally { setRedeeming(false); setConfirmDone(false) }
+  }
 
   // The live clock, held null until mounted so the server and first client
   // render agree, then it ticks the countdown the child is watching too.
@@ -140,15 +158,69 @@ export default function StarSummary({
         {tile('⭐', String(weekStars), 'this week')}
       </div>
 
-      {goal && (
-        <div style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '13px', padding: '10px 12px', marginBottom: '14px' }}>
+      {/* The goal, in one of three states: quietly saving, saved and ready to
+          hand over, or done and asking for the next one. */}
+      {goal && goalAchieved && (
+        <div style={{ position: 'relative', overflow: 'hidden', background: 'var(--tint-sage)', border: '1.5px solid var(--deep-teal)', borderRadius: '13px', padding: '13px 14px', marginBottom: '14px' }}>
+          <Celebration fire />
+          <div style={{ position: 'relative', zIndex: 1 }}>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--ink)', marginBottom: 4 }}>
+              🎉 {goal.title}: reward earned
+            </div>
+            <p style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '0 0 10px' }}>
+              {childName} saved it and cashed it in. Time to agree the next thing to save for.
+            </p>
+            <button
+              onClick={onSetGoal}
+              style={{ background: 'var(--deep-teal)', color: '#fff', border: 'none', borderRadius: '11px', padding: '9px 15px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px' }}
+            >
+              Set a new goal
+            </button>
+          </div>
+        </div>
+      )}
+
+      {goal && !goalAchieved && (
+        <div style={{ background: goalReached ? 'var(--terracotta-lt)' : 'var(--cream)', border: `1px solid ${goalReached ? 'var(--terracotta)' : 'var(--border)'}`, borderRadius: '13px', padding: '10px 12px', marginBottom: '14px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8, marginBottom: 6 }}>
             <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', color: 'var(--ink)' }}>🎯 Saving for: {goal.title}</span>
             <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--ink-soft)' }}>{Math.min(balanceStars, goal.stars_needed)}/{goal.stars_needed}</span>
           </div>
           <div style={{ height: 8, borderRadius: 100, background: 'rgba(26,26,46,0.1)', overflow: 'hidden' }}>
-            <div style={{ height: '100%', width: `${goalPct}%`, borderRadius: 100, background: 'var(--terracotta)' }} />
+            <div style={{ height: '100%', width: `${goalPct}%`, borderRadius: 100, background: goalReached ? 'var(--deep-teal)' : 'var(--terracotta)', transition: 'width 0.5s ease' }} />
           </div>
+          {goalReached && (
+            confirmDone ? (
+              <div style={{ marginTop: 10 }}>
+                <p style={{ fontSize: '12.5px', fontWeight: 700, color: 'var(--ink)', margin: '0 0 8px' }}>
+                  Hand over {goal.title} and spend {goal.stars_needed} stars?
+                </p>
+                <div style={{ display: 'flex', gap: 8 }}>
+                  <button
+                    onClick={markDone}
+                    disabled={redeeming}
+                    style={{ flex: 1, background: 'var(--deep-teal)', color: '#fff', border: 'none', borderRadius: '11px', padding: '10px', cursor: redeeming ? 'default' : 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', opacity: redeeming ? 0.7 : 1 }}
+                  >
+                    {redeeming ? 'Marking…' : 'Yes, done'}
+                  </button>
+                  <button
+                    onClick={() => setConfirmDone(false)}
+                    disabled={redeeming}
+                    style={{ flexShrink: 0, background: '#fff', color: 'var(--ink-soft)', border: '1.5px solid var(--border)', borderRadius: '11px', padding: '10px 14px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '13px' }}
+                  >
+                    Not yet
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <button
+                onClick={() => setConfirmDone(true)}
+                style={{ width: '100%', marginTop: 10, background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: '11px', padding: '11px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '14px', boxShadow: '0 4px 0 var(--terracotta-dark)' }}
+              >
+                🎉 Saved enough! Mark as done
+              </button>
+            )
+          )}
         </div>
       )}
 
