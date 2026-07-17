@@ -1317,3 +1317,13 @@ OUR_STANCE). All three content blocks live in lib/content/readiness.ts so the si
 and the app never drift.
 
 On PR 303. No migration.
+
+## 2026-07-17 — Child picks their buddy and colour (option 3, not gender)
+
+Instead of asking a child's gender (more data than we need, and stereotyping),
+the child personalises their own app. Migration 067 adds children.buddy and
+children.accent. A Make it mine sheet on the child app lets them pick a DiGi
+squad buddy (DiGi, Oliver, Sofia, Zara) and an accent colour (sunshine, grass,
+ocean, coral, berry). Their buddy greets them in the tip card, the accent takes
+the star bank and the buddy ring, saved to their record via a token authed
+endpoint. No gender collected anywhere. MIGRATION 067.

@@ -36,13 +36,33 @@ export type KidAdventure = { code: string; title: string; catchphrase: string; s
 export type KidAsk = { id: string; title: string; emoji: string; status: string }
 export type KidSchoolToday = { id: string; title: string; kind: string; time: string | null }
 
+// The child's own choices: a squad buddy who greets them, and an accent colour.
+// Small, known sets, so the app stays on brand whatever they pick.
+const BUDDY_MAP: Record<string, { name: string; img: string }> = {
+  digi: { name: 'DiGi', img: '/digi-squad/DiGi-star.svg' },
+  oliver: { name: 'Oliver', img: '/digi-squad/Oliver.png' },
+  sofia: { name: 'Sofia', img: '/digi-squad/Sofia.jpeg' },
+  zara: { name: 'Zara', img: '/digi-squad/Zara.png' },
+}
+const ACCENT_MAP: Record<string, { name: string; hex: string }> = {
+  sunshine: { name: 'Sunshine', hex: '#E7A33E' },
+  grass: { name: 'Grass', hex: '#57A06A' },
+  ocean: { name: 'Ocean', hex: '#2E8B9E' },
+  coral: { name: 'Coral', hex: '#E56B57' },
+  berry: { name: 'Berry', hex: '#C65B8E' },
+}
+const DEFAULT_BUDDY = 'digi'
+const DEFAULT_ACCENT = 'sunshine'
+
 export default function KidQuestScreen({
-  token, childName, stageId = 2, quests, todayTicks, weekStars, goal, streakDays = 0, laterQuests = [], doneLessonKeys = [], missions = [],
+  token, childName, buddy = null, accent = null, stageId = 2, quests, todayTicks, weekStars, goal, streakDays = 0, laterQuests = [], doneLessonKeys = [], missions = [],
   adventures = [], bank = null, usedWeekMinutes = 0, usedTodayMinutes = 0, recommendedMinutes = 0, requests = [], printablesUnlocked = true, activeSession = null,
   weekChart = [], schoolToday = [], notes = [],
 }: {
   token: string
   childName: string
+  buddy?: string | null
+  accent?: string | null
   stageId?: number
   quests: Quest[]
   todayTicks: Tick[]
@@ -117,6 +137,22 @@ export default function KidQuestScreen({
   // The family deal popup: the child can pop it up any time to keep an eye on
   // how the deal works and what they are saving for.
   const [dealOpen, setDealOpen] = useState(false)
+  // The child's own buddy and accent. Starts from what the grown up account has
+  // saved, changes instantly when they pick, and saves back to their record.
+  const [chosenBuddy, setChosenBuddy] = useState(buddy && BUDDY_MAP[buddy] ? buddy : DEFAULT_BUDDY)
+  const [chosenAccent, setChosenAccent] = useState(accent && ACCENT_MAP[accent] ? accent : DEFAULT_ACCENT)
+  const [makeMineOpen, setMakeMineOpen] = useState(false)
+  const accentHex = ACCENT_MAP[chosenAccent]?.hex ?? ACCENT_MAP[DEFAULT_ACCENT].hex
+  const buddyImg = BUDDY_MAP[chosenBuddy]?.img ?? BUDDY_MAP[DEFAULT_BUDDY].img
+  function saveMine(next: { buddy?: string; accent?: string }) {
+    if (next.buddy) setChosenBuddy(next.buddy)
+    if (next.accent) setChosenAccent(next.accent)
+    playKidSound('tap')
+    fetch('/api/kid/buddy', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token, ...next }),
+    }).catch(() => { /* best effort, their choice still shows */ })
+  }
 
   // Cash in the saved-for reward once the bank truly holds enough. Two taps so
   // it is never accidental: the first arms it, the second spends the stars.
@@ -601,12 +637,14 @@ export default function KidQuestScreen({
             the child, read from their own numbers, always here and readable. */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, background: '#fff', border: '1.5px solid rgba(26,26,46,0.1)', borderRadius: '16px', padding: '11px 14px', margin: '14px 0 4px' }}>
           <style>{`@keyframes gcTipBob {0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-4px) rotate(4deg)}}`}</style>
-          <span style={{ flexShrink: 0, width: 46, height: 46, borderRadius: '50%', background: '#FFF7E8', border: '2px solid var(--terracotta)', display: 'flex', alignItems: 'center', justifyContent: 'center', animation: 'gcTipBob 3s ease-in-out infinite' }}>
+          <button onClick={() => setMakeMineOpen(true)} aria-label="Make my app mine" style={{ flexShrink: 0, width: 46, height: 46, borderRadius: '50%', background: '#FFF7E8', border: `2px solid ${accentHex}`, overflow: 'hidden', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', animation: 'gcTipBob 3s ease-in-out infinite' }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/digi-squad/DiGi-star.svg" alt="" style={{ width: 32, height: 32 }} />
-          </span>
+            {chosenBuddy === 'digi'
+              ? <img src={buddyImg} alt="" style={{ width: 32, height: 32 }} />
+              : <img src={buddyImg} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }} />}
+          </button>
           <span style={{ flex: 1, minWidth: 0 }}>
-            <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>DiGi says</span>
+            <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>{BUDDY_MAP[chosenBuddy]?.name ?? 'DiGi'} says</span>
             <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: 'var(--ink)', lineHeight: 1.3, marginTop: '1px' }}>{digiTip}</span>
           </span>
         </div>
@@ -621,12 +659,12 @@ export default function KidQuestScreen({
             set of cards. The streak sits in its own warm flame chip. */}
         <div style={{
           background: '#fff', borderRadius: '20px', padding: '16px 18px',
-          boxShadow: '0 5px 0 rgba(26,26,46,0.10)', borderLeft: '6px solid var(--terracotta)',
+          boxShadow: '0 5px 0 rgba(26,26,46,0.10)', borderLeft: `6px solid ${accentHex}`,
           marginBottom: '16px', display: 'flex', alignItems: 'center', gap: 14,
         }}>
           <div style={{
             flexShrink: 0, width: 56, height: 56, borderRadius: '16px',
-            background: 'var(--terracotta-lt)', border: '2px solid var(--terracotta)',
+            background: 'var(--terracotta-lt)', border: `2px solid ${accentHex}`,
             display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '30px',
           }}>⭐</div>
           <div style={{ flex: 1, minWidth: 0 }}>
@@ -690,6 +728,15 @@ export default function KidQuestScreen({
             goal={goal}
             bankBalance={bankBalance}
             goalRedeemed={goalRedeemed}
+          />
+        )}
+
+        {makeMineOpen && (
+          <MakeItMine
+            onClose={() => setMakeMineOpen(false)}
+            chosenBuddy={chosenBuddy}
+            chosenAccent={chosenAccent}
+            onPick={saveMine}
           />
         )}
 
@@ -1727,6 +1774,61 @@ function FamilyDeal({ onClose, recommendedMinutes, goal, bankBalance, goalRedeem
         </div>
         <button onClick={onClose} style={{ width: '100%', marginTop: '16px', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: '15px', padding: '14px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '15px', boxShadow: '0 5px 0 var(--terracotta-dark)' }}>
           Got it!
+        </button>
+      </div>
+    </div>
+  )
+}
+
+// Make it mine: the child picks their buddy and their colour. Their choice, not
+// an assumption about them. Saves instantly and the whole app takes the accent.
+function MakeItMine({ onClose, chosenBuddy, chosenAccent, onPick }: {
+  onClose: () => void
+  chosenBuddy: string
+  chosenAccent: string
+  onPick: (next: { buddy?: string; accent?: string }) => void
+}) {
+  return (
+    <div onClick={onClose} style={{ position: 'fixed', inset: 0, zIndex: 130, background: 'rgba(26,26,46,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
+      <div onClick={e => e.stopPropagation()} style={{ width: '100%', maxWidth: 420, maxHeight: '86vh', overflowY: 'auto', background: 'var(--cream)', borderRadius: '24px', padding: '22px 20px', boxShadow: '0 20px 50px -16px rgba(26,26,46,0.4)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.4rem', color: 'var(--ink)', letterSpacing: '-0.01em' }}>✨ Make it mine</span>
+          <button onClick={onClose} aria-label="Close" style={{ width: 34, height: 34, borderRadius: '50%', border: 'none', background: '#fff', cursor: 'pointer', fontSize: '16px', color: 'var(--ink-muted)', flexShrink: 0 }}>✕</button>
+        </div>
+
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '10px' }}>Pick your buddy</div>
+        <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
+          {Object.entries(BUDDY_MAP).map(([id, b]) => {
+            const on = chosenBuddy === id
+            return (
+              <button key={id} onClick={() => onPick({ buddy: id })} aria-pressed={on} style={{ flex: 1, cursor: 'pointer', background: '#fff', border: on ? '3px solid var(--ink)' : '2px solid transparent', borderRadius: '16px', padding: '8px 4px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px' }}>
+                <span style={{ width: 46, height: 46, borderRadius: '50%', overflow: 'hidden', background: '#FFF7E8', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  {id === 'digi'
+                    ? <img src={b.img} alt="" style={{ width: 32, height: 32 }} />
+                    : <img src={b.img} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }} />}
+                </span>
+                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '11.5px', color: 'var(--ink)' }}>{b.name}</span>
+              </button>
+            )
+          })}
+        </div>
+
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '10px' }}>Pick your colour</div>
+        <div style={{ display: 'flex', gap: '12px', justifyContent: 'space-between', marginBottom: '20px' }}>
+          {Object.entries(ACCENT_MAP).map(([id, a]) => {
+            const on = chosenAccent === id
+            return (
+              <button key={id} onClick={() => onPick({ accent: id })} aria-label={a.name} aria-pressed={on} style={{ cursor: 'pointer', background: 'none', border: 'none', padding: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px' }}>
+                <span style={{ width: 40, height: 40, borderRadius: '50%', background: a.hex, boxShadow: on ? '0 0 0 3px #fff, 0 0 0 6px var(--ink)' : 'none' }} />
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, color: 'var(--ink-soft)' }}>{a.name}</span>
+              </button>
+            )
+          })}
+        </div>
+
+        <button onClick={onClose} style={{ width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: '15px', padding: '14px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '15px', boxShadow: '0 5px 0 var(--terracotta-dark)' }}>
+          That&apos;s mine!
         </button>
       </div>
     </div>

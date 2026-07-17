@@ -42,7 +42,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   const weekAgo = new Date(Date.now() - 7 * 86400000).toISOString().slice(0, 10)
 
   const [childRes, questsRes, todayTicksRes, weekTicksRes, goalRes, streakTicksRes] = await Promise.all([
-    supabase.from('children').select('name, age_band').eq('id', link.child_id).maybeSingle(),
+    supabase.from('children').select('name, age_band, buddy, accent').eq('id', link.child_id).maybeSingle(),
     supabase.from('family_quests')
       .select('id, title, emoji, stars, schedule, schedule_days, blocks_screens')
       .eq('user_id', link.user_id)
@@ -253,6 +253,8 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     <KidQuestScreen
       token={token}
       childName={childRes.data?.name ?? 'Superstar'}
+      buddy={(childRes.data?.buddy as string | null) ?? null}
+      accent={(childRes.data?.accent as string | null) ?? null}
       stageId={stageId}
       quests={dueQuests}
       todayTicks={todayTicksRes.data ?? []}
