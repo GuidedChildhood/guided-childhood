@@ -11,6 +11,8 @@ import SmartAlerts from '@/components/alerts/SmartAlerts'
 import DigiPrompts from '@/components/digi/DigiPrompts'
 import WeeklyReviewCard from '@/components/digi/WeeklyReviewCard'
 import SundayCheckIn from '@/components/digi/SundayCheckIn'
+import RevealCard from '@/components/onboarding/RevealCard'
+import { revealedKeys, eligibleReveals, daysSince } from '@/lib/onboarding/reveal'
 import { getSuggestions, type Suggestion } from '@/lib/alerts/suggestions'
 import StreakFlame from '@/components/daily/StreakFlame'
 import DigiStreakWidget from '@/components/digi/DigiStreakWidget'
@@ -98,6 +100,13 @@ export default async function DashboardPage() {
   const welcomeChildren = (allKids ?? [])
     .filter(k => k.name)
     .map(k => ({ name: k.name as string, ageBand: (k.age_band as string | null) ?? null }))
+
+  // Stage the reveal by account age: a new parent meets a one loop Home, and the
+  // rest opens up over the first fortnight. Established accounts reveal everything
+  // (daysSince is large), so nothing regresses for existing families.
+  const accountAgeDays = daysSince(user.created_at)
+  const revealed = revealedKeys(accountAgeDays)
+  const reveals = eligibleReveals(accountAgeDays)
   const dailyDone = !!dailySessionResult.data?.completed_at
   const lastFeedback = lastFeedbackResult.data
   const schoolActions: SchoolAction[] = schoolActionsResult.data ?? []
@@ -297,12 +306,23 @@ export default async function DashboardPage() {
           the board where a parent acts on them. Silent when nothing waits. */}
       <WaitingOnYou />
 
-      {/* The Sunday check in with DiGi, and the agreed plan sitting on Home all
-          week once it is set. */}
-      <SundayCheckIn />
+      {/* Stage the reveal: DiGi introduces one newly unlocked feature to a new
+          parent, once. Silent for an established account. */}
+      <RevealCard reveals={reveals} />
 
-      {/* The Friday DiGi round up, when there is one to read. */}
-      <WeeklyReviewCard />
+      {/* The wellbeing surfaces open up once the daily habit has held (day 12),
+          so a new parent is not met with a round up before there is a week to
+          read. Always on for established accounts. */}
+      {revealed.has('wellbeing') && (
+        <>
+          {/* The Sunday check in with DiGi, and the agreed plan sitting on Home
+              all week once it is set. */}
+          <SundayCheckIn />
+
+          {/* The Friday DiGi round up, when there is one to read. */}
+          <WeeklyReviewCard />
+        </>
+      )}
 
       {/* Setup lives on its own page now, out of the daily Home. While it is
           unfinished, Home carries one compact way in, naming the next step;
@@ -403,17 +423,17 @@ export default async function DashboardPage() {
           every part is one tap away without a wall of full width cards. */}
       <p className="eyebrow" style={{ margin: '0 0 10px', fontSize: 10 }}>Keep going</p>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', marginBottom: '22px' }}>
-        {[
-          { href: '/dashboard/lessons', external: false, bg: 'var(--stage-3)', icon: '📚', title: 'Lessons', sub: 'Watch together, five minutes' },
-          { href: '/dashboard/moments', external: false, bg: 'var(--terracotta-lt)', icon: '⚡', title: 'Moments', sub: 'The words for any battle' },
-          { href: '/dashboard/digi', external: false, bg: 'var(--stage-5)', icon: '◎', title: 'Ask DiGi', sub: 'Anything about their world' },
-          { href: '/dashboard/pathway', external: false, bg: 'var(--tint-blue)', icon: '🗺️', title: 'Pathway', sub: 'The whole road to 16' },
-          { href: '/dashboard/scripts', external: false, bg: 'var(--stage-1)', icon: '❝', title: 'Scripts', sub: 'What to say, word for word' },
-          { href: '/dashboard/printables', external: false, bg: 'var(--tint-sage)', icon: '🖨️', title: 'Printables', sub: 'The offline pathway' },
-          { href: '/dashboard/agreement', external: false, bg: 'var(--stage-1)', icon: '🤝', title: 'Family agreement', sub: 'Five talks, one signed sheet' },
-          { href: '/dashboard/setup', external: false, bg: 'var(--cream)', icon: '🧭', title: 'Set up', sub: 'Quests, school, devices' },
-          { href: 'https://www.guidedchildhood.com/digitalwellbeing', external: true, bg: 'var(--stage-2)', icon: '🩺', title: 'Health report', sub: 'One free with membership' },
-        ].map(t => (
+        {([
+          { href: '/dashboard/digi', external: false, bg: 'var(--stage-5)', icon: '◎', title: 'Ask DiGi', sub: 'Anything about their world', reveal: 'core' },
+          { href: '/dashboard/setup', external: false, bg: 'var(--cream)', icon: '🧭', title: 'Set up', sub: 'Quests, school, devices', reveal: 'core' },
+          { href: '/dashboard/moments', external: false, bg: 'var(--terracotta-lt)', icon: '⚡', title: 'Moments', sub: 'The words for any battle', reveal: 'moments' },
+          { href: '/dashboard/scripts', external: false, bg: 'var(--stage-1)', icon: '❝', title: 'Scripts', sub: 'What to say, word for word', reveal: 'moments' },
+          { href: '/dashboard/lessons', external: false, bg: 'var(--stage-3)', icon: '📚', title: 'Lessons', sub: 'Watch together, five minutes', reveal: 'lessons' },
+          { href: '/dashboard/printables', external: false, bg: 'var(--tint-sage)', icon: '🖨️', title: 'Printables', sub: 'The offline pathway', reveal: 'lessons' },
+          { href: '/dashboard/pathway', external: false, bg: 'var(--tint-blue)', icon: '🗺️', title: 'Pathway', sub: 'The whole road to 16', reveal: 'pathway' },
+          { href: '/dashboard/agreement', external: false, bg: 'var(--stage-1)', icon: '🤝', title: 'Family agreement', sub: 'Five talks, one signed sheet', reveal: 'wellbeing' },
+          { href: 'https://www.guidedchildhood.com/digitalwellbeing', external: true, bg: 'var(--stage-2)', icon: '🩺', title: 'Health report', sub: 'One free with membership', reveal: 'wellbeing' },
+        ] as const).filter(t => revealed.has(t.reveal)).map(t => (
           <Link key={t.href} href={t.href} {...(t.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})} style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: '6px', background: t.bg, border: `1.5px solid ${t.bg}`, borderRadius: '16px', padding: '15px' }}>
             <span style={{ fontSize: '20px', lineHeight: 1 }}>{t.icon}</span>
             <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--ink)', lineHeight: 1.2 }}>{t.title}</span>
@@ -425,9 +445,13 @@ export default async function DashboardPage() {
       {/* Below the daily flow, quieter: the streak card, DiGi's proactive
           prompts, the ranked alerts and the age gate. */}
       <DigiStreakWidget count={streak.count} aliveToday={streak.aliveToday} firstName={firstName} />
-      <DigiPrompts />
-      <SmartAlerts suggestions={suggestions} />
-      <SocialMediaReadiness stageId={stage.id} childName={child?.name} />
+      {revealed.has('moments') && (
+        <>
+          <DigiPrompts />
+          <SmartAlerts suggestions={suggestions} />
+          <SocialMediaReadiness stageId={stage.id} childName={child?.name} />
+        </>
+      )}
 
       {/* DiGi check in — surfaces last reflective answer if the parent responded */}
       {lastFeedback && (

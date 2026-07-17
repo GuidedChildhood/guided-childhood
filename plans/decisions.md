@@ -1386,3 +1386,21 @@ plans/onboarding-reveal-plan.md: a soft reveal (never a hard lock) where a new
 account meets a one loop Home first, and DiGi introduces the rest one calm card at
 a time over the first fortnight, plus a lighter first run setup. Migration free
 for v1 (account age plus localStorage). Ready to run on Justin's word; not started.
+
+## 2026-07-17 — Built: stage the reveal (onboarding calm start)
+
+A soft reveal, never a hard lock, driven by account age so no migration. A new
+parent meets a one loop Home; the rest opens over the first fortnight.
+
+- lib/onboarding/reveal.ts: the schedule (moments day 3, lessons day 6, pathway
+  day 9, wellbeing day 12), keyed by days since signup. Established accounts (and
+  any unknown age) reveal everything, so nothing regresses.
+- components/onboarding/RevealCard.tsx: a DiGi New card announcing the newest
+  unlocked feature once, seen tracked in localStorage.
+- Home now gates by reveal: the Sunday check in and weekly round up wait for day
+  12, the Keep going tiles start with just Ask DiGi and Set up and fill in as
+  features unlock, and DiGi prompts, smart alerts and readiness wait for day 3.
+- Everything stays reachable in the tab bar throughout; the reveal only controls
+  what Home promotes.
+
+On PR 303. No migration.
