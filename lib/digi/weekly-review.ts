@@ -19,6 +19,7 @@ const anthropic = new Anthropic({
 
 export type WeekStats = {
   children: string[]
+  ageBands: (string | null)[]
   questsApproved: number
   starsEarned: number
   starsSpent: number
@@ -26,6 +27,7 @@ export type WeekStats = {
   activeDays: number
   topQuest: string | null
   schoolOpen: number
+  momentsDone: number
 }
 
 export type WeeklyReview = {
@@ -51,8 +53,8 @@ async function gatherWeek(userId: string, weekStart: string): Promise<WeekStats>
   const startIso = start.toISOString()
   const endIso = new Date(start.getTime() + 7 * 86_400_000).toISOString()
 
-  const [childRes, ticksRes, questsRes, spendsRes, schoolRes] = await Promise.all([
-    admin.from('children').select('name').eq('parent_id', userId),
+  const [childRes, ticksRes, questsRes, spendsRes, schoolRes, momentsRes] = await Promise.all([
+    admin.from('children').select('name, age_band').eq('parent_id', userId),
     admin.from('quest_ticks').select('quest_id, tick_date, status')
       .eq('user_id', userId).eq('status', 'approved')
       .gte('tick_date', weekStart).lt('tick_date', endIso.slice(0, 10)),
@@ -60,6 +62,8 @@ async function gatherWeek(userId: string, weekStart: string): Promise<WeekStats>
     admin.from('star_spends').select('minutes, stars, created_at')
       .eq('user_id', userId).gte('created_at', startIso).lt('created_at', endIso),
     admin.from('school_actions').select('id').eq('user_id', userId).eq('status', 'open'),
+    admin.from('moment_completions').select('id')
+      .eq('user_id', userId).gte('completed_on', weekStart).lt('completed_on', endIso.slice(0, 10)),
   ])
 
   const questById = new Map((questsRes.data ?? []).map(q => [q.id, q]))
@@ -78,8 +82,10 @@ async function gatherWeek(userId: string, weekStart: string): Promise<WeekStats>
   for (const [title, n] of counts) if (n > topN) { topN = n; topQuest = title }
 
   const spends = spendsRes.data ?? []
+  const kids = childRes.data ?? []
   return {
-    children: (childRes.data ?? []).map(c => c.name),
+    children: kids.map(c => c.name),
+    ageBands: kids.map(c => (c.age_band as string | null) ?? null),
     questsApproved: ticks.length,
     starsEarned,
     starsSpent: spends.reduce((s, x) => s + (Number(x.stars) || 0), 0),
@@ -87,6 +93,7 @@ async function gatherWeek(userId: string, weekStart: string): Promise<WeekStats>
     activeDays,
     topQuest,
     schoolOpen: (schoolRes.data ?? []).length,
+    momentsDone: (momentsRes.data ?? []).length,
   }
 }
 
@@ -127,9 +134,10 @@ This family's week (their own numbers, nothing compared to anyone else):
 - Children: ${stats.children.join(', ') || 'one child'}
 - Quests approved: ${stats.questsApproved}
 - Active days: ${stats.activeDays} of 7
-- Stars earned: ${stats.starsEarned} (worth ${stats.starsEarned * STAR_MINUTES} minutes)
+- Stars earned: ${stats.starsEarned} (worth ${stats.starsEarned * STAR_MINUTES} minutes of screen time earned)
 - Screen minutes spent: ${stats.deviceMinutes}
 - Most done quest: ${stats.topQuest ?? 'none yet'}
+- Calm parenting moments handled: ${stats.momentsDone}
 - Open school reminders: ${stats.schoolOpen}
 
 Available routines to suggest for next week (use the key): ${routineList}

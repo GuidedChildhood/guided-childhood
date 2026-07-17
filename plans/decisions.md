@@ -1149,3 +1149,28 @@ IN THE CHILD'S VOICE instead of coaching, then parsed to nothing.
   suggested line dash free.
 
 On PR 303 (continue-build-ldot8v). No migration.
+
+## 2026-07-16 — The Friday round up, made clear and expert grounded
+
+Justin: the weekly page is the first thing a parent sees, so it has to be clear
+and premium, and it should relay the expert guidance we stand on, week by week,
+tidy and easy to follow. Rebuilt the weekly review card around four things:
+
+- A balance score front and centre. A real 0 to 100 read of the week's screen
+  minutes against the evidence based healthy guide for the children's ages
+  (recommended daily minutes times seven), softened when screen was earned back
+  through real quests. Big number, a moving level, and one honest line.
+- This week's wins, gathered from the family's own numbers: stars earned and the
+  minutes they bought, the quest they leaned into, days shown up, calm moments
+  handled. Best first, top three.
+- One line of guidance from the experts, chosen by this week's shape and
+  attributed (Dr Becky Kennedy, Sue Atkins, emotion coaching). This is how the
+  science gets relayed into the update every week.
+- Worth a glance, where each item now links to the thing it is about (Quests for
+  a screen tip back, School for open reminders, Check in for a flagged watch for).
+
+New pure helpers weekBalance and expertWeekTip live in lib/quests/screen-balance
+(client safe). gatherWeek now also reads age bands and calm moments handled. No
+migration, the review stats JSON already carries it.
+
+On PR 303 (continue-build-ldot8v). No migration.
