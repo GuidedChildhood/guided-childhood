@@ -1293,21 +1293,24 @@ export default function KidQuestScreen({
                   Games, Print. Each wears a red dot the moment a grown up pings
                   something new into it. */}
               {availableLessonTabs.length > 1 && (
-                <div style={{ display: 'flex', gap: '7px', marginBottom: '2px' }}>
+                <div style={{ display: 'flex', gap: '4px', background: 'var(--cream)', border: '1.5px solid rgba(26,26,46,0.1)', borderRadius: '16px', padding: '4px', marginBottom: '2px' }}>
                   {availableLessonTabs.map(t => {
                     const on = t.key === activeLessonTab
+                    const subIcon: KidIconName = t.key === 'watch' ? 'watch' : t.key === 'games' ? 'games' : 'lessons'
                     return (
                       <button key={t.key} onClick={() => setLessonTab(t.key)} style={{
-                        position: 'relative', flex: 1, padding: '11px 6px', borderRadius: '13px', cursor: 'pointer',
-                        fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px',
-                        background: on ? '#fff' : 'var(--cream)',
+                        position: 'relative', flex: 1, padding: '9px 4px', borderRadius: '12px', cursor: 'pointer', border: 'none',
+                        display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '3px',
+                        fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '12.5px',
+                        background: on ? 'var(--terracotta)' : 'transparent',
                         color: on ? 'var(--ink)' : 'var(--ink-soft)',
-                        border: on ? 'none' : '1.5px solid rgba(26,26,46,0.1)',
-                        boxShadow: on ? '0 3px 0 rgba(0,0,0,0.2)' : 'none',
+                        boxShadow: on ? '0 3px 0 var(--terracotta-dark)' : 'none',
+                        transition: 'background 0.15s',
                       }}>
-                        {t.icon} {t.label}
+                        <KidIcon name={subIcon} size={19} color={on ? 'var(--ink)' : 'var(--ink-soft)'} />
+                        {t.label}
                         {t.dot > 0 && (
-                          <span style={{ position: 'absolute', top: '-6px', right: '-5px', minWidth: 18, height: 18, padding: '0 4px', borderRadius: '100px', background: '#E5484D', color: '#fff', fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, lineHeight: '18px', textAlign: 'center', boxShadow: '0 0 0 2px #fff' }}>{t.dot}</span>
+                          <span style={{ position: 'absolute', top: '-5px', right: '-2px', minWidth: 18, height: 18, padding: '0 4px', borderRadius: '100px', background: '#E5484D', color: '#fff', fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, lineHeight: '18px', textAlign: 'center', boxShadow: '0 0 0 2px var(--cream)' }}>{t.dot}</span>
                         )}
                       </button>
                     )

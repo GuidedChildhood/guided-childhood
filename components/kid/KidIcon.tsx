@@ -7,6 +7,7 @@
 export type KidIconName =
   | 'jobs' | 'time' | 'newjob' | 'deal'
   | 'star' | 'flame' | 'lessons' | 'printables'
+  | 'watch' | 'games'
 
 export default function KidIcon({
   name, size = 26, color = 'currentColor',
@@ -80,6 +81,25 @@ export default function KidIcon({
         <svg {...common}>
           <path d="M12 3.2a6 6 0 0 1 3.7 10.7c-.7.6-1.1 1.2-1.2 2H9.5c-.1-.8-.5-1.4-1.2-2A6 6 0 0 1 12 3.2z" fill={color} stroke="none" />
           <path d="M9.6 18.4h4.8M10.2 20.6h3.6" stroke={color} strokeWidth="2" />
+        </svg>
+      )
+    // A screen with a play mark: watch together.
+    case 'watch':
+      return (
+        <svg {...common}>
+          <rect x="3" y="4.6" width="18" height="12.4" rx="3" fill={color} stroke="none" />
+          <path d="M10 8.5v5l4.2-2.5z" fill="#fff" stroke="none" />
+          <path d="M8.5 20.4h7" stroke={color} strokeWidth="2" />
+        </svg>
+      )
+    // A game controller: games.
+    case 'games':
+      return (
+        <svg {...common}>
+          <path d="M8 7h8a5 5 0 0 1 5 5v.4a3.4 3.4 0 0 1-6 2.2l-.5-.6h-5l-.5.6a3.4 3.4 0 0 1-6-2.2V12a5 5 0 0 1 5-5z" fill={color} stroke="none" />
+          <path d="M6.4 10.6v2.4M5.2 11.8h2.4" stroke="#fff" strokeWidth="1.8" />
+          <circle cx="16" cy="11.4" r="1.15" fill="#fff" stroke="none" />
+          <circle cx="18" cy="13.4" r="1.15" fill="#fff" stroke="none" />
         </svg>
       )
     // A printer: printables.
