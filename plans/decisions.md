@@ -1378,3 +1378,11 @@ intact; only coaching stays primary child as agreed.
   not one more card every day.
 
 On PR 303. No migration.
+
+## 2026-07-17 — Next build lined up: stage the reveal (onboarding)
+
+The remaining lever on "too much" inside the product. Full spec in
+plans/onboarding-reveal-plan.md: a soft reveal (never a hard lock) where a new
+account meets a one loop Home first, and DiGi introduces the rest one calm card at
+a time over the first fortnight, plus a lighter first run setup. Migration free
+for v1 (account age plus localStorage). Ready to run on Justin's word; not started.
