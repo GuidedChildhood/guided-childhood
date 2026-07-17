@@ -37,14 +37,14 @@ export default function QuestGamePlayer({ game, onComplete, onClose }: {
 
   return (
     <div style={{
-      position: 'fixed', inset: 0, zIndex: 60, background: 'var(--deep-teal)',
+      position: 'fixed', inset: 0, zIndex: 60, background: 'var(--kid-bg)',
       display: 'flex', flexDirection: 'column', alignItems: 'center',
       padding: 'max(14px, env(safe-area-inset-top)) 14px max(14px, env(safe-area-inset-bottom))',
     }}>
       <div style={{ width: 'min(100%, 460px)', display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
           <CloseControl onClose={onClose} />
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'rgba(255,255,255,0.8)' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--ink-soft)' }}>
             {game.title}
           </span>
         </div>
@@ -67,7 +67,7 @@ export default function QuestGamePlayer({ game, onComplete, onClose }: {
 
 const closeStyle = {
   width: 34, height: 34, borderRadius: '50%', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
-  border: '1.5px solid rgba(255,255,255,0.5)', background: 'transparent', color: '#fff', fontSize: '15px', textDecoration: 'none', cursor: 'pointer',
+  border: '1.5px solid rgba(26,26,46,0.2)', background: 'transparent', color: 'var(--ink)', fontSize: '15px', textDecoration: 'none', cursor: 'pointer',
 } as const
 
 function CloseControl({ onClose }: { onClose?: () => void }) {
