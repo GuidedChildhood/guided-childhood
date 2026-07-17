@@ -1117,3 +1117,15 @@ show up streak, not a bar chart.
   right there. Reads at a glance for a young child, no numbers to decode.
 
 On PR 303 (continue-build-ldot8v). No migration.
+
+## 2026-07-16 — Agreed quests drop off the parent board
+
+Justin's board expanded a child and showed every quest done today as a growing
+pile of Done rows, so what was still to do got lost.
+
+- The expanded child list now leads with only what is still to do, big and
+  tappable. The agreed (done) quests fold into a quiet dashed N done today line
+  a parent can open if they want the detail, so the list never grows into a wall
+  of Done. When nothing is left, a single All done for today line shows instead.
+
+On PR 303 (continue-build-ldot8v). No migration.
