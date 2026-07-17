@@ -1439,3 +1439,42 @@ chats, and there are none yet. Two fixes.
 
 Founder only throughout (gated on FOUNDER_NOTIFY_EMAIL). On a new PR off main.
 No migration.
+
+## 2026-07-17 — Red pen pass, then device time, positive screen time and the wisdom pop
+
+A run of mobile review fixes and three agreed builds. All on branch
+claude/continue-build-ldot8v, PR 317. No migrations.
+
+Red pen fixes:
+- The home daily strip now counts the day done by minutes actually invested
+  (a real weight per step), not two quick taps, so the "your X minutes" claim
+  is true. The road to 16 stops ticking earlier stages by age; they read as
+  catch up foundations with a line that nothing is done because of age.
+- The Together share choice flips instantly and surfaces the co view launch,
+  no dead reload. School reminders now prompt the day before on the child's
+  own screen (a calm get it ready tonight heads up) and show a Tomorrow tag on
+  parent routines, matching the night before push.
+- Notifications made actionable: clearing a school item now tells the bell to
+  recount at once; the child's things to do pop is a doorway (Show me jumps to
+  the to-do, and the DiGi line stays tappable every open); and the child
+  printable ask that reached notifications but could not be opened is fixed
+  (the locked family wording "Please can I do the X printable" now resolves to
+  the real sheet and print link, same as "Print the X sheet").
+
+Agreed builds:
+- Screen time is never a debt. Justin floated a negative balance; we chose the
+  positive version instead. With no stars, the Use my time tile is a warm
+  doorway to earning (do a job, then swap for time), never a minus number or a
+  dead lock. Keeps the calibrated, never punish spirit and the earn loop.
+- Device timer parent signal: start already pushes the parent and shows a live
+  shared countdown; the end of timer push already existed. Added the daily
+  allowance signal: when a session ends and the child has reached the healthy
+  daily amount for their age, the parent push says so calmly (their stars keep
+  earning for tomorrow), distinct from a plain timer up.
+- The wisdom pop (child): on a quiet open, a squad friend brings one age
+  relevant idea about screens and wellbeing from the child science bank
+  (lib/content/child-insights.ts, traceable to Odgers, Orben, displacement
+  science), and sometimes points at a fun sheet. A treat every few days, never
+  every day. Parent wellbeing is already research grounded through the DiGi
+  welcome (social insights, Odgers and Knibbs) and the parent_care nudges
+  (expert_knowledge normal_moments), so the wellbeing tips run on both sides.

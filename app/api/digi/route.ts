@@ -505,7 +505,24 @@ ${aiKnowledge}` : ''
   const childName = (child?.name as string | null) ?? null
   const nameRef = childName && childName !== 'Your child' ? childName : 'their child'
 
-  return `THE CHILD'S CONTEXT:
+  // What time it actually is for the parent (UK), so DiGi never says tonight in
+  // the morning. Server clock is UTC, so read it in Europe/London.
+  const now = new Date()
+  const londonHour = Number(new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/London', hour: 'numeric', hour12: false }).format(now))
+  const weekday = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/London', weekday: 'long' }).format(now)
+  const daypart = londonHour < 6 ? 'the middle of the night' : londonHour < 12 ? 'the morning' : londonHour < 17 ? 'the afternoon' : londonHour < 21 ? 'the evening' : 'late at night'
+
+  // A hard guard against inventing a child's name, the source of the wrong name
+  // a parent saw. Use only the real name, or "your child", never anything else.
+  const nameRule = childName && childName !== 'Your child'
+    ? `The child's name is ${childName}. Use only this name. Never invent, guess, shorten, or use any other name for the child, not even once.`
+    : `No child name has been given. Always say "your child". Never invent or use a made up name.`
+
+  return `RIGHT NOW: it is ${daypart} on ${weekday}, UK time. Match every time reference to this. Do not say tonight, this evening, or an evening off unless it is actually evening or night. If it is morning or afternoon and you want them to wait, say later today or this evening, never tonight.
+
+CHILD NAME RULE: ${nameRule}
+
+THE CHILD'S CONTEXT:
 - Name: ${nameRef}
 - Stage: ${stage.id} (${stage.name}, ${stage.ages})
 - Key Stage: ${stage.keyStage}, ${stage.yearGroup}

@@ -13,11 +13,17 @@ import { gamesForStage } from '@/lib/quest-games/registry'
 import { PRINTABLES } from '@/lib/printables/registry'
 import { deviceLabel, deviceEmoji } from '@/lib/quests/device-time'
 
-// When a child asks for a printable their pitch reads "Print the {title}
-// sheet" (set in the kid screen). Match it back to the sheet so the parent
-// gets a real print link right here, not just the words.
+// When a child asks for a printable their pitch reads either "Print the
+// {title} sheet" (full access, no printer at home) or "Please can I do the
+// {title} printable" (locked, asking to unlock it). Match either form back to
+// the sheet so the parent always gets a real print link right here, not just
+// the words. Missing the second form was why a child's printable ask landed
+// in notifications with no way to open it.
 function printableForAsk(title: string) {
-  return PRINTABLES.find(p => title === `Print the ${p.title} sheet`) ?? null
+  return PRINTABLES.find(p =>
+    title === `Print the ${p.title} sheet` ||
+    title === `Please can I do the ${p.title} printable`
+  ) ?? null
 }
 
 type QuestTab = 'manage' | 'rewards' | 'games' | 'share'

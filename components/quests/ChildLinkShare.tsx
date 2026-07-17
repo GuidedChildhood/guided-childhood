@@ -16,7 +16,17 @@ export default function ChildLinkShare({ token, childName, ageBand, useMode, onS
   const [url, setUrl] = useState('')
   // Co-view leads when it is set, else falls back to parent led for under 11
   // (4 to 7 and 8 to 10), the science aligned default we recommend.
-  const youngest = useMode ? useMode === 'coview' : (ageBand === '4-7' || ageBand === '8-10')
+  const savedYoungest = useMode ? useMode === 'coview' : (ageBand === '4-7' || ageBand === '8-10')
+  // Reflect the tap the instant it happens, before the save round trip lands,
+  // so choosing Together never feels dead. The persisted value takes over once
+  // the parent state catches up.
+  const [pending, setPending] = useState<'own' | 'coview' | null>(null)
+  const youngest = pending ? pending === 'coview' : savedYoungest
+
+  function choose(m: 'own' | 'coview') {
+    setPending(m)
+    onSetMode?.(m)
+  }
 
   useEffect(() => {
     const u = `${window.location.origin}/k/${token}`
@@ -24,6 +34,11 @@ export default function ChildLinkShare({ token, childName, ageBand, useMode, onS
     QRCode.toDataURL(u, { width: 220, margin: 1, color: { dark: '#1A1A2E', light: '#FFFFFF' } })
       .then(setQr).catch(() => setQr(null))
   }, [token])
+
+  // Once the saved mode matches the tapped one, drop the optimistic override.
+  useEffect(() => {
+    if (pending && savedYoungest === (pending === 'coview')) setPending(null)
+  }, [pending, savedYoungest])
 
   const copy = async () => {
     try { await navigator.clipboard.writeText(url); setCopied(true); setTimeout(() => setCopied(false), 2000) } catch { /* no clipboard */ }
@@ -49,7 +64,7 @@ export default function ChildLinkShare({ token, childName, ageBand, useMode, onS
       {onSetMode && (
         <div style={{ display: 'flex', gap: '7px', marginBottom: '14px' }}>
           {([['own', '📱 Own app'], ['coview', '👀 Together']] as const).map(([m, label]) => (
-            <button key={m} onClick={() => onSetMode(m)} aria-pressed={youngest === (m === 'coview')} style={{
+            <button key={m} onClick={() => choose(m)} aria-pressed={youngest === (m === 'coview')} style={{
               flex: 1, padding: '9px', borderRadius: '11px', cursor: 'pointer',
               fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '12.5px', color: 'var(--ink)',
               background: (youngest === (m === 'coview')) ? 'var(--terracotta-lt)' : '#fff',

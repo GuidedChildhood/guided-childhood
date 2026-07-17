@@ -227,27 +227,44 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   // screen that goes red as a timed one nears, so the child sees it too, not
   // only the parent. Only ever the items meant for the child.
   const todayWeekday = new Date().getDay()
+  const tomorrowDate = new Date(Date.now() + 86400000).toISOString().slice(0, 10)
+  const tomorrowWeekday = (todayWeekday + 1) % 7
   const { data: schoolRows } = await supabase
     .from('school_actions')
     .select('id, title, kind, due_date, due_time, recurs_weekday, sent_to_child, auto_send_to_child, cleared_on')
     .eq('user_id', link.user_id)
     .eq('status', 'open')
-    .or(`due_date.eq.${today},recurs_weekday.eq.${todayWeekday}`)
+    .or(`due_date.eq.${today},due_date.eq.${tomorrowDate},recurs_weekday.eq.${todayWeekday},recurs_weekday.eq.${tomorrowWeekday}`)
   // Child appropriate kinds mirror to the child's own banner so they know
   // too: a PE kit or homework routine, never a parent only thing like a
   // payment. A weekly routine shows on its day by default (no need for the
   // grown up to tick anything), and steps back once cleared for the week.
+  // Tomorrow's child items also show, in their own calm heads up, so the
+  // child can get the kit ready the night before, the same nudge the parent
+  // gets by push.
   const CHILD_KINDS = new Set(['kit', 'event', 'homework'])
   const schoolToday = (schoolRows ?? [])
-    .filter(a => a.recurs_weekday != null
-      ? (a.auto_send_to_child || CHILD_KINDS.has(a.kind as string)) && String((a as { cleared_on?: string | null }).cleared_on ?? '') !== today
-      : a.sent_to_child)
-    .map(a => ({
-      id: a.id as string,
-      title: a.title as string,
-      kind: a.kind as string,
-      time: typeof a.due_time === 'string' ? (a.due_time as string).slice(0, 5) : null,
-    }))
+    .map(a => {
+      const cleared = String((a as { cleared_on?: string | null }).cleared_on ?? '')
+      const isRoutine = a.recurs_weekday != null
+      const childOk = isRoutine ? (a.auto_send_to_child || CHILD_KINDS.has(a.kind as string)) : (a.sent_to_child || CHILD_KINDS.has(a.kind as string))
+      if (!childOk) return null
+      const dueToday = isRoutine ? a.recurs_weekday === todayWeekday : a.due_date === today
+      const dueTomorrow = isRoutine ? a.recurs_weekday === tomorrowWeekday : a.due_date === tomorrowDate
+      // A routine cleared for today steps back from today, but still shows a
+      // tomorrow heads up if it comes round again tomorrow.
+      const when: 'today' | 'tomorrow' | null =
+        dueToday && cleared !== today ? 'today' : dueTomorrow ? 'tomorrow' : null
+      if (!when) return null
+      return {
+        id: a.id as string,
+        title: a.title as string,
+        kind: a.kind as string,
+        time: typeof a.due_time === 'string' ? (a.due_time as string).slice(0, 5) : null,
+        when,
+      }
+    })
+    .filter((x): x is { id: string; title: string; kind: string; time: string | null; when: 'today' | 'tomorrow' } => x !== null)
 
   return (
     <KidQuestScreen
