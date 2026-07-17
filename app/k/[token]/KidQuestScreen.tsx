@@ -1323,7 +1323,7 @@ export default function KidQuestScreen({
                   drawn film frame is the thumbnail. Redo earns 2 more. */}
               {activeLessonTab === 'watch' && adventures.length > 0 && (
                 <>
-                  <SectionHead icon="🎬">Watch with your grown up</SectionHead>
+                  <SectionHead kidIcon="watch">Watch with your grown up</SectionHead>
                   {adventures.filter(a => a.stageId === stageId).map(a => (
                     <AdventureCard key={a.code} adventure={a} token={token} />
                   ))}
@@ -1340,7 +1340,7 @@ export default function KidQuestScreen({
 
               {activeLessonTab === 'learn' && missions.length > 0 && (
                 <>
-                  <SectionHead icon="⭐">Star lessons from your grown up</SectionHead>
+                  <SectionHead kidIcon="star">Star lessons from your grown up</SectionHead>
                   {missions.map(m => {
                     const done = m.status === 'done'
                     return (
@@ -1359,7 +1359,7 @@ export default function KidQuestScreen({
                 </>
               )}
 
-              {activeLessonTab === 'learn' && stageLessons.length > 0 && <SectionHead icon="🧠">Lessons for me</SectionHead>}
+              {activeLessonTab === 'learn' && stageLessons.length > 0 && <SectionHead kidIcon="lessons">Lessons for me</SectionHead>}
               {activeLessonTab === 'learn' && stageLessons.map(lesson => {
                 const done = doneLessons.has(lesson.key)
                 return (
@@ -1376,7 +1376,7 @@ export default function KidQuestScreen({
                 )
               })}
 
-              {activeLessonTab === 'games' && stageGames.length > 0 && <SectionHead icon="🎮">Games to play</SectionHead>}
+              {activeLessonTab === 'games' && stageGames.length > 0 && <SectionHead kidIcon="games">Games to play</SectionHead>}
               {activeLessonTab === 'games' && stageGames.map(game => {
                 const done = doneGames.has(game.key)
                 return (
@@ -1658,25 +1658,27 @@ function FamilyDeal({ onClose, recommendedMinutes, goal, bankBalance, goalRedeem
   bankBalance: number
   goalRedeemed: boolean
 }) {
-  const rows: { icon: string; title: string; body: string }[] = [
-    { icon: '🧹', title: 'You do jobs', body: 'Real world jobs and quests your grown up sets, like tidying up or reading.' },
-    { icon: '⭐', title: 'Jobs earn stars', body: `Every quest gives you stars. One star is worth ${STAR_MINUTES} minutes of screen time.` },
-    { icon: '📱', title: 'Stars buy screen time', body: `You choose when to use them. A good amount of screen a day is about ${recommendedMinutes} minutes.` },
+  const rows: { icon: KidIconName; iconColor: string; tint: string; title: string; body: string }[] = [
+    { icon: 'jobs', iconColor: 'var(--terracotta-dark)', tint: 'var(--terracotta-lt)', title: 'You do jobs', body: 'Real world jobs and quests your grown up sets, like tidying up or reading.' },
+    { icon: 'star', iconColor: 'var(--terracotta-dark)', tint: 'var(--terracotta-lt)', title: 'Jobs earn stars', body: `Every quest gives you stars. One star is worth ${STAR_MINUTES} minutes of screen time.` },
+    { icon: 'time', iconColor: '#2F8F6B', tint: 'var(--tint-sage)', title: 'Stars buy screen time', body: `You choose when to use them. A good amount of screen a day is about ${recommendedMinutes} minutes.` },
   ]
   if (goal?.title && !goalRedeemed) {
-    rows.push({ icon: '🎁', title: `Saving for ${goal.title}`, body: `You have ${bankBalance} of ${goal.stars_needed} stars so far. Keep going!` })
+    rows.push({ icon: 'deal', iconColor: '#3D739A', tint: 'var(--tint-blue, #E4ECF7)', title: `Saving for ${goal.title}`, body: `You have ${bankBalance} of ${goal.stars_needed} stars so far. Keep going!` })
   }
   return (
     <div onClick={onClose} style={{ position: 'fixed', inset: 0, zIndex: 130, background: 'rgba(26,26,46,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
       <div onClick={e => e.stopPropagation()} style={{ width: '100%', maxWidth: 420, maxHeight: '86vh', overflowY: 'auto', background: 'var(--cream)', borderRadius: '24px', padding: '22px 20px', boxShadow: '0 20px 50px -16px rgba(26,26,46,0.4)' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
-          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.4rem', color: 'var(--ink)', letterSpacing: '-0.01em' }}>📜 Our family deal</span>
+          <span style={{ display: 'flex', alignItems: 'center', gap: 9, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.4rem', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
+            <KidIcon name="deal" size={24} color="var(--terracotta-dark)" /> Our family deal
+          </span>
           <button onClick={onClose} aria-label="Close" style={{ width: 34, height: 34, borderRadius: '50%', border: 'none', background: '#fff', cursor: 'pointer', fontSize: '16px', color: 'var(--ink-muted)', flexShrink: 0 }}>✕</button>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           {rows.map((r, i) => (
-            <div key={i} style={{ display: 'flex', gap: '13px', background: '#fff', borderRadius: '15px', padding: '13px 15px' }}>
-              <span style={{ fontSize: '24px', flexShrink: 0, lineHeight: 1.2 }}>{r.icon}</span>
+            <div key={i} style={{ display: 'flex', gap: '13px', alignItems: 'center', background: '#fff', borderRadius: '16px', padding: '13px 15px' }}>
+              <span style={{ width: 42, height: 42, borderRadius: '12px', background: r.tint, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><KidIcon name={r.icon} size={23} color={r.iconColor} /></span>
               <div style={{ minWidth: 0 }}>
                 <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)' }}>{r.title}</div>
                 <div style={{ fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '2px' }}>{r.body}</div>
@@ -1704,7 +1706,9 @@ function MakeItMine({ onClose, chosenBuddy, chosenAccent, onPick }: {
     <div onClick={onClose} style={{ position: 'fixed', inset: 0, zIndex: 130, background: 'rgba(26,26,46,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
       <div onClick={e => e.stopPropagation()} style={{ width: '100%', maxWidth: 420, maxHeight: '86vh', overflowY: 'auto', background: 'var(--cream)', borderRadius: '24px', padding: '22px 20px', boxShadow: '0 20px 50px -16px rgba(26,26,46,0.4)' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
-          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.4rem', color: 'var(--ink)', letterSpacing: '-0.01em' }}>✨ Make it mine</span>
+          <span style={{ display: 'flex', alignItems: 'center', gap: 9, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.4rem', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
+            <KidIcon name="star" size={22} color="var(--terracotta-dark)" /> Make it mine
+          </span>
           <button onClick={onClose} aria-label="Close" style={{ width: 34, height: 34, borderRadius: '50%', border: 'none', background: '#fff', cursor: 'pointer', fontSize: '16px', color: 'var(--ink-muted)', flexShrink: 0 }}>✕</button>
         </div>
 
@@ -1913,10 +1917,12 @@ function bigCardShell(done: boolean): React.CSSProperties {
   }
 }
 
-function SectionHead({ icon, children }: { icon: string; children: React.ReactNode }) {
+function SectionHead({ icon, kidIcon, children }: { icon?: string; kidIcon?: KidIconName; children: React.ReactNode }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: '16px 0 3px' }}>
-      <span style={{ fontSize: '1.1rem', lineHeight: 1 }}>{icon}</span>
+      {kidIcon
+        ? <span style={{ display: 'flex', lineHeight: 1 }}><KidIcon name={kidIcon} size={20} color="var(--ink)" /></span>
+        : <span style={{ fontSize: '1.1rem', lineHeight: 1 }}>{icon}</span>}
       <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
         {children}
       </span>
