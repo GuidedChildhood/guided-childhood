@@ -1305,3 +1305,15 @@ never police rule.
   balanced rather than a screen wallet.
 
 On PR 303. No migration.
+
+## 2026-07-17 — Launch build 3: marketing narrative handed to the mobbin session
+
+The marketing page is the mobbin session's lane, so rather than build it here (two
+sessions on one page is the duplication trap), the launch narrative is written up
+in plans/marketing-brief-launch.md for that session to apply: one hero promise
+(get them ready for the phone, no cliff edge), how we do it (the passport steps),
+the measured science (Odgers, Orben, reuse WHY_IT_WORKS), and the stance (reuse
+OUR_STANCE). All three content blocks live in lib/content/readiness.ts so the site
+and the app never drift.
+
+On PR 303. No migration.
