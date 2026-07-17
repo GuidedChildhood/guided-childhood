@@ -7,10 +7,12 @@
 
 const LOCK_KEY = 'gc_popup_open'
 
-// A shared, staggered delay so nothing pops on load. Ordered so the welcome
-// greeting goes first, then the toast, then the coach mark, each a beat apart.
+// A shared, staggered delay so nothing pops on load. DiGi's greeting is the one
+// families want first, so it comes up right after login, the way it used to.
+// The toast and the coach mark still hold well back and take the lock behind it,
+// so only one is ever up at a time and they never stack on load.
 export const POPUP_DELAY = {
-  welcome: 60_000,
+  welcome: 700,
   toast: 63_000,
   coach: 66_000,
 } as const

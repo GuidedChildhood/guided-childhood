@@ -43,8 +43,9 @@ export default function DigiWelcomeSheet({ childrenInfo }: { childrenInfo: Child
     const today = new Date().toISOString().slice(0, 10)
     const key = `gc_digi_welcome_${today}`
     if (localStorage.getItem(key)) return
-    // Land on a clean Home first, then DiGi greets about a minute after login,
-    // rather than stacking on top of the other popups the second the page loads.
+    // DiGi greets right after login, the warm front door families liked best.
+    // A short beat lets Home paint first, then the sheet slides up on its own,
+    // ahead of the toast and coach mark which hold back and queue behind it.
     const id = setTimeout(() => {
       localStorage.setItem(key, '1')
       // Count the greetings, and only after the first few, and only now and
