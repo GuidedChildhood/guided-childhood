@@ -851,6 +851,31 @@ h1, h2, h3 { text-wrap: balance; }
    and leave the desktop nav overflowing off the top of the phone. */
 @media (max-width: 720px) { .nav-links-desktop { display: none; } }
 
+/* ── HEADER CTAS ── the two premium capsules on the right of the marketing
+   header: Log in as a clear ghost pill, Get Started as the solid butter one,
+   both the same height so they read as a balanced pair, the Linear and mymind
+   pattern in our butter and ink. */
+.hdr-login {
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 100px; border: 1.5px solid var(--border);
+  background: #fff; color: var(--ink);
+  font-family: var(--font-display); font-weight: 800; font-size: 14.5px;
+  letter-spacing: -0.01em; padding: 10px 20px;
+  text-decoration: none; white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s, transform 0.1s;
+}
+.hdr-login:hover { background: var(--cream); border-color: var(--ink-light); }
+.hdr-login:active { transform: translateY(1px); }
+.hdr-cta {
+  border-radius: 100px; font-size: 14.5px; padding: 11px 22px;
+  box-shadow: 0 4px 0 var(--terracotta-dark);
+}
+.hdr-cta:hover, .hdr-cta:active { box-shadow: 0 4px 0 var(--terracotta-dark); }
+@media (max-width: 420px) {
+  .hdr-login { padding: 9px 15px; font-size: 13.5px; }
+  .hdr-cta { padding: 10px 16px; font-size: 13.5px; }
+}
+
 /* ── PATHWAY GRID (stage walkthrough) ── */
 .pathway-grid {
   display: grid;

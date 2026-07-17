@@ -406,15 +406,13 @@ export default function HomePage() {
         <MarketingNav />
 
         {/* Header actions, always visible so Log in is never lost when the
-            section nav hides on mobile. */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(4px, 2vw, 10px)', flexShrink: 0 }}>
-          <Link href="/login" style={{
-            fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '13px',
-            color: 'var(--ink)', textDecoration: 'none', padding: '10px clamp(4px, 1.5vw, 6px)', whiteSpace: 'nowrap',
-          }}>
+            section nav hides on mobile. Two balanced premium capsules: a clear
+            ghost Log in and the solid butter Get Started. */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(7px, 1.5vw, 11px)', flexShrink: 0 }}>
+          <Link href="/login" className="hdr-login">
             Log in
           </Link>
-          <Link href="/starter-pack" className="btn btn-green" style={{ fontSize: '13px', padding: '10px clamp(13px, 3.5vw, 18px)', flexShrink: 0, whiteSpace: 'nowrap' }}>
+          <Link href="/starter-pack" className="btn btn-green hdr-cta">
             Get Started
           </Link>
         </div>
