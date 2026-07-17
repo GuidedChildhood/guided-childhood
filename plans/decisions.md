@@ -1220,3 +1220,23 @@ clean login, then a quick gentle alert about a minute in, not a pile.
   coach mark once ever with its two minute auto dismiss.
 
 On PR 303 (continue-build-ldot8v). No migration.
+
+## 2026-07-16 — The child's balance strip on their own app
+
+Justin: the child's top bar should show family help against screen watched, on
+track or not, the same balance logic as the parent, highlight the week's jobs,
+and give a productive way to ask a grown up for more. And better colours than the
+wall of gold.
+
+- New KidBalanceStrip sits under the star bank: a two sided level, green for the
+  real life jobs they earned today (stars times minutes) against gold for the
+  screen watched today, with a needle and an On track / Screen is ahead pill.
+- A week highlight chip in sage: N stars earned from jobs this week, minutes
+  watched beside it.
+- Be productive, always a door open: a teal Ask for a new job button that rides
+  the existing askForMore ping to the parent. It shouts a little louder (Do a job
+  to balance it) when screen has pulled ahead, and turns to Asked once sent.
+- Colour: green (real life), gold (screen), teal (the action), sage (the win),
+  so the child's screen is no longer one flat block of gold.
+
+On PR 303 (continue-build-ldot8v). No migration.
