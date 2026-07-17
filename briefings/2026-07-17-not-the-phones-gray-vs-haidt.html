@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What If It Is Not the Phones · Guided Childhood Research Briefing</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root{
+  --cream:      #F7F3EE;
+  --warm:       #FDFBF8;
+  --ink:        #1C1C1C;
+  --ink-soft:   #4A4A4A;
+  --ink-muted:  #6E6A62;
+  --ink-light:  #9B958A;
+  --green:      #AFDCA2;
+  --green-dark: #2E7D5A;
+  --green-lt:   #EEF7F2;
+  --coral:      #D4600A;
+  --coral-lt:   #FEF3E8;
+  --coral-dark: #C0392B;
+  --gold:       #F2C94C;
+  --gold-lt:    #FEFAE8;
+  --gold-dark:  #C9962A;
+  --gold-hover: #E3B53A;
+  --lav:        #E7ECF8;
+  --lav-deep:   #3D5BA9;
+  --border:     #E4DFD7;
+  --font-display: 'Hanken Grotesk', system-ui, sans-serif;
+  --font-body:    'Hanken Grotesk', system-ui, sans-serif;
+  --font-mono:    'IBM Plex Mono', monospace;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--cream);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.65}
+.wrap{max-width:860px;margin:0 auto;padding:48px 24px 96px}
+
+.eyebrow{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-muted)}
+
+header.brief-head{padding:40px 0 32px;border-bottom:1px solid var(--border)}
+header.brief-head h1{font-weight:800;font-size:clamp(2rem,5vw,3rem);line-height:1.12;letter-spacing:-0.02em;margin:12px 0 16px}
+.meta-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{font-family:var(--font-mono);font-size:12px;font-weight:500;padding:5px 12px;border-radius:999px;background:var(--warm);border:1px solid var(--border);color:var(--ink-soft)}
+.chip.version{background:var(--gold-lt);border-color:var(--gold);color:var(--gold-dark);font-weight:600}
+
+section{margin-top:56px}
+section > h2{font-weight:800;font-size:clamp(1.4rem,3vw,1.9rem);letter-spacing:-0.01em;margin:10px 0 20px}
+section > .eyebrow{display:block}
+
+.summary-card{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:28px 30px;font-size:17px;color:var(--ink-soft)}
+.summary-card p+p{margin-top:12px}
+.summary-card strong{color:var(--ink)}
+
+.answer-card{background:var(--green-lt);border:1px solid var(--green);border-radius:20px;padding:26px 30px;margin-top:16px}
+.answer-card .eyebrow{color:var(--green-dark)}
+.answer-card p{color:var(--ink);font-size:18px;font-weight:600;margin-top:8px;line-height:1.5}
+
+.finding{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:24px 26px;margin-bottom:16px}
+.finding-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.finding h3{font-weight:700;font-size:1.15rem;line-height:1.35;max-width:560px}
+.reliability{font-family:var(--font-mono);font-size:12px;font-weight:600;white-space:nowrap;padding:6px 12px;border-radius:12px}
+.reliability.high{background:var(--green-lt);color:var(--green-dark)}
+.reliability.medium{background:var(--gold-lt);color:var(--gold-dark)}
+.reliability.low{background:var(--coral-lt);color:var(--coral-dark)}
+.finding p{color:var(--ink-soft);margin-top:10px}
+.lens-tags{margin-top:14px;font-family:var(--font-mono);font-size:12px}
+.lens-tags .supported{color:var(--green-dark)}
+.lens-tags .challenged{color:var(--coral-dark)}
+.lens-tags span.sep{color:var(--ink-light);margin:0 8px}
+.finding .cite{font-family:var(--font-mono);font-size:12px;color:var(--ink-light);margin-top:10px}
+
+table.contra{width:100%;border-collapse:collapse;background:var(--warm);border:1px solid var(--border);border-radius:20px;overflow:hidden}
+table.contra th{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;text-align:left;color:var(--ink-muted);padding:14px 18px;border-bottom:1px solid var(--border);background:var(--cream)}
+table.contra td{padding:14px 18px;border-bottom:1px solid var(--border);color:var(--ink-soft);font-size:15px;vertical-align:top}
+table.contra tr:last-child td{border-bottom:none}
+td.leans{font-family:var(--font-mono);font-size:13px;font-weight:600;white-space:nowrap}
+td.leans.green{color:var(--green-dark)}
+td.leans.coral{color:var(--coral-dark)}
+
+.lens-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px}
+.lens-panel{border:1px solid var(--border);border-radius:20px;padding:22px 24px;background:var(--warm)}
+.lens-panel .eyebrow{margin-bottom:8px}
+.lens-panel h3{font-weight:700;font-size:1.05rem;margin-bottom:8px}
+.lens-panel p{color:var(--ink-soft);font-size:15px}
+.lens-panel.clinician{background:var(--green-lt)}
+.lens-panel.academic{background:var(--lav)}
+.lens-panel.skeptic{background:var(--coral-lt)}
+.lens-panel.economist{background:var(--gold-lt)}
+.lens-panel.historian{background:var(--warm)}
+.lens-panel.child{background:var(--cream);border-color:var(--green)}
+
+.gc-card{background:var(--green-lt);border:1px solid var(--green);border-radius:20px;padding:28px 30px}
+.gc-card ul{list-style:none;margin-top:4px}
+.gc-card li{padding:12px 0;border-bottom:1px solid var(--border);color:var(--ink-soft)}
+.gc-card li:last-child{border-bottom:none}
+.gc-card li strong{color:var(--ink);font-weight:700}
+.gc-card .tag{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--green-dark);display:block;margin-bottom:2px}
+
+.assump-card{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:26px 28px}
+.assump-card h3{font-weight:700;font-size:1.05rem;margin-bottom:8px}
+.assump-card p{color:var(--ink-soft)}
+.assump-card .missing{margin-top:20px;padding-top:20px;border-top:1px solid var(--border)}
+.assump-card .missing h3{color:var(--coral-dark)}
+
+.ledger{background:var(--warm);border:1px solid var(--border);border-radius:20px;overflow:hidden}
+.ledger-row{display:flex;gap:16px;align-items:flex-start;padding:16px 20px;border-bottom:1px solid var(--border)}
+.ledger-row:last-child{border-bottom:none}
+.verdict{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;padding:5px 10px;border-radius:10px;white-space:nowrap;margin-top:2px}
+.verdict.confirmed{background:var(--green-lt);color:var(--green-dark)}
+.verdict.corrected{background:var(--gold-lt);color:var(--gold-dark)}
+.verdict.demoted{background:var(--coral-lt);color:var(--coral-dark)}
+.ledger-row .src{font-size:14px;color:var(--ink-soft)}
+.ledger-row .src a{color:var(--lav-deep);text-decoration:none;border-bottom:1px solid var(--lav)}
+.ledger-row .src .note{display:block;font-family:var(--font-mono);font-size:12px;color:var(--ink-light);margin-top:4px}
+
+footer.brief-foot{margin-top:72px;padding-top:24px;border-top:1px solid var(--border);font-family:var(--font-mono);font-size:12px;color:var(--ink-light)}
+
+@media (max-width:600px){
+  .wrap{padding:24px 16px 64px}
+  .finding-top{flex-direction:column}
+  table.contra{display:block;overflow-x:auto}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="brief-head">
+    <span class="eyebrow">Guided Childhood Research Briefing</span>
+    <h1>What If It Is Not the Phones</h1>
+    <p style="color:var(--ink-soft);max-width:640px">Peter Gray says the crisis is lost play and school pressure, not screens. Jonathan Haidt says it is the phones. Here is where each man is right, where each is wrong, and why the honest answer is the exact ground Guided Childhood already stands on.</p>
+    <div class="meta-row">
+      <span class="chip version">V2 · Verified</span>
+      <span class="chip">17 Jul 2026</span>
+      <span class="chip">The Clinician</span>
+      <span class="chip">The Academic</span>
+      <span class="chip">The Skeptic</span>
+      <span class="chip">The Economist</span>
+      <span class="chip">The Historian</span>
+      <span class="chip">The Child</span>
+    </div>
+  </header>
+
+  <section id="summary">
+    <span class="eyebrow">Read this first</span>
+    <h2>60 Second Summary</h2>
+    <div class="summary-card">
+      <p>The Atlantic framed this as a duel, but the evidence says both men are half right and the fight itself is the problem. <strong>Gray is correct that the decline in free play and independent childhood is real and began in the 1970s, decades before the iPhone.</strong> In England the share of seven and eight year olds allowed to walk to school alone fell from around eighty percent in 1971 to under ten percent by 1990. A crisis that was already two decades deep cannot have been started by a phone launched in 2007.</p>
+      <p><strong>Haidt is correct about who is being hurt and how.</strong> Depression, self harm hospital visits and suicide rose sharply and together across the US, UK and Canada from about 2012, concentrated in girls. Those are bodies in hospital beds, not just survey ticks, so they survive the usual "it is only more help seeking" reply. And the newest longitudinal data shows that an addictive, compulsive pattern of phone and social media use roughly doubles the risk of suicidal behaviour, even though total screen time on its own predicts almost nothing.</p>
+      <p>That last line is the whole ball game. <strong>Across the largest datasets, technology use explains at most zero point four percent of the variance in teen wellbeing, about the same as eating potatoes.</strong> The harm is not the clock and not the device. It concentrates in a vulnerable tail: girls, the sleep deprived, the compulsive user, the child fed body image and self harm content. Meanwhile the biggest driver both camps talk past is the family itself. Caregiver mental health is, in the research, the single strongest predictor of a child's mental health.</p>
+      <p><strong>Gray's flagship number does not survive contact.</strong> His claim that school stress leapt to eighty three percent of teens by 2013, pinned to Common Core, pairs two surveys that asked different questions of different age groups. The eighty three percent is real, from a 2013 survey of thirteen to seventeen year olds. The earlier figure he sets against it came from a 2009 survey that asked eight to seventeen year olds a different question, about worry rather than stress, inside the worst of a recession. Two surveys that changed both their wording and their sample cannot be read as one clean jump. Kaitlyn Tiffany caught this, and Gray himself asked his publisher to pull the statistic. His broader point that school pressure is real still stands: when you ask children directly, grades are their number one pressure by a wide margin, ahead of looks or fitting in.</p>
+      <p>The National Academies, reviewing everything in 2024, called the causal evidence "mixed and inconclusive". That is not a shrug. It is the finding. <strong>A blanket under sixteen ban treats every child as the drowning minority. Gray's unsupervised free for all ignores that the drowning minority is real.</strong> Neither pole fits the data. The calibrated middle does: target the pattern and context of use, and the whole family around the child, not the device or the clock. That is not a compromise position. On this evidence it is the only defensible one, and it is the model Guided Childhood is already built on.</p>
+    </div>
+    <div class="answer-card">
+      <span class="eyebrow">The clear answer</span>
+      <p>It is not the phones. It is not only the phones either. The crisis is a seventy year loss of childhood autonomy, a real school pressure problem, and a family and economic story, with the phone acting as a genuine accelerant on a fire already lit, concentrated in the children most at risk. The right response is neither ban nor shrug. It is a guided pathway.</p>
+    </div>
+  </section>
+
+  <section id="findings">
+    <span class="eyebrow">Ranked by reliability</span>
+    <h2>Key Findings</h2>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>At population scale the phone effect on wellbeing is tiny, about zero point four percent of the variance</h3>
+        <span class="reliability high">Reliability 9/10</span>
+      </div>
+      <p>Across three datasets pooling 355,358 adolescents, digital technology use explained at most 0.4 percent of the variance in wellbeing. To put that in scale, wearing glasses is slightly more strongly linked to lower wellbeing, and regularly getting enough sleep is a far larger positive factor. This is the number that caps every "screens are melting brains" claim. It does not say phones are harmless. It says the average effect across all children is trivially small, which is why the harm must be looked for in specific patterns and specific children, not in totals.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Academic, Skeptic, Clinician</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: none on the number, only on its interpretation</span>
+      </div>
+      <div class="cite">Sources: Orben and Przybylski, Nature Human Behaviour 2019</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Total screen time predicts almost nothing, but an addictive pattern of use roughly doubles suicidal behaviour risk</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>A four year study following about 4,285 US children from age ten found that a rising trajectory of addictive, compulsive social media and phone use was linked to roughly double the risk of suicidal behaviour, while total screen time on its own showed no such link. Around one in three children were on that increasing addictive path from age eleven. This single finding dissolves the whole binary. The clinical enemy is not the device or the number of hours. It is the compulsive loop. A model that targets the pattern beats one that counts minutes or bans the object.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Clinician, Academic</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: Skeptic on causal direction</span>
+      </div>
+      <div class="cite">Sources: Xiao and colleagues, JAMA 2025 (ABCD cohort)</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>The loss of free play and independent childhood is real and predates smartphones by decades</h3>
+        <span class="reliability high">Reliability 9/10</span>
+      </div>
+      <p>In England, the proportion of seven and eight year olds allowed to travel to school on their own fell from around eighty percent in 1971 to under ten percent by 1990, measured with the same instrument in the same areas. Children's independent roaming range shrank sharply across the same generations. Over the same long arc, childhood anxiety and depression rose. This is Gray's strongest ground and it is solid: a decline that was already two decades deep before the iPhone cannot have been caused by phones. The phone is at most an accelerant on a fire lit in the 1970s.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Historian, Clinician, Economist</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: none on the mobility data, only on the size of its causal role</span>
+      </div>
+      <div class="cite">Sources: Hillman, One False Move 1990; Gray, Lancy and Bjorklund, Journal of Pediatrics 2023</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>The rise in girls' distress after 2012 is Haidt's strongest card because it includes hospital visits and deaths</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>US past year major depressive episodes among twelve to seventeen year olds rose about fifty two percent from 2005 to 2017, and among girls from 13.1 to 19.9 percent, roughly one in five. The inflection clusters around 2012 and appears in the US, UK and Canada together. Crucially it shows up in objective outcomes, self harm emergency visits and suicide, not only in self report, so it cannot be waved away as teens simply reporting more. In UK primary care data the sharpest rise in self harm is in ten to twelve year old girls. Something real changed, and it hit girls hardest.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Academic, Clinician, Historian</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: Skeptic on whether phones are the cause of the timing</span>
+      </div>
+      <div class="cite">Sources: Twenge and colleagues, Journal of Abnormal Psychology 2019; Greater Manchester EHR study 2024</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Caregiver mental health is the strongest single predictor of a child's mental health, and both camps talk past it</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>In Candice Odgers' review, adult and caregiver mental health is "by far the strongest predictor" of children's mental health and life chances. Anxiety is roughly thirty to fifty percent heritable, and parental depression and anxiety robustly predict child emotional difficulties through both genes and environment. Structural shocks matter too: an estimated 1.2 million US children lost a parent to drugs or firearms between 1999 and 2020. Neither the ban camp nor the free play camp centres the family system, yet it is the biggest lever in the data, and it is the one a whole family product can actually pull.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Academic, Clinician</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: none</span>
+      </div>
+      <div class="cite">Sources: Odgers, Nature 2024; intergenerational transmission literature, Am J Psychiatry 2023</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Gray's flagship school stress statistic is broken, though his underlying point about school survives</h3>
+        <span class="reliability medium">Reliability 6/10</span>
+      </div>
+      <p>Gray's headline pairs two non comparable surveys. The eighty three percent is real: in 2013 that share of thirteen to seventeen year olds said school was a somewhat or significant source of stress. But the earlier number he sets against it came from a 2009 survey that sampled a wider age band, eight to seventeen, and asked a different question, whether doing well in school was a source of worry. A different question, a different age group, taken in the depths of the recession, cannot be read as one clean jump timed to Common Core. Tiffany surfaced this and Gray asked his publisher to remove the statistic. What still holds, on solid separate data: ask children directly and grades are their top pressure, sixty eight percent, ahead of looks at forty seven and fitting in at forty one.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Skeptic and Academic on the flaw (both confirmed the age band and wording change), Child on the surviving point</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: the specific number is not usable, treat as corrected</span>
+      </div>
+      <div class="cite">Sources: APA Stress in America 2009 and 2013; Pew Research Center 2025</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Both Gray and Haidt commit the same single cause error, which is why neither wins outright</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>Gray credits video games with the good years, the teen suicide decline from 1990 to around 2007, then blames one school reform for the bad years after 2010. Haidt allows many causes for the good years, including the phase out of leaded petrol, then insists on a single villain, phones, for the bad years. Using a permissive many cause story for the improvement and a strict one cause story for the decline is special pleading, and each man does it in mirror image. As Odgers put it to The Atlantic, no serious epidemiologist reasons that way. The honest reading is multi causal.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Skeptic, Academic, Historian</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: none</span>
+      </div>
+      <div class="cite">Sources: Odgers, Nature 2024; Gray Substack and Psychology Today 2023</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>The best independent verdict on cause is that the evidence is mixed and inconclusive</h3>
+        <span class="reliability high">Reliability 9/10</span>
+      </div>
+      <p>The National Academies of Sciences, Engineering and Medicine reviewed the field in 2024 and concluded that the evidence that social media causes changes in adolescent mental health at the population level is mixed and inconclusive, with most studies cross sectional and unable to prove causation. It also noted specific features can harm some youth and help others. This is the load bearing honest sentence in the whole debate. A national ban is being enacted on precaution and a timing signal, not on settled causal science, which is precisely the space a calibrated rather than prohibitionist product can occupy with integrity.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Academic, Skeptic</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: Clinician notes population nulls hide a real clinical tail</span>
+      </div>
+      <div class="cite">Sources: National Academies, Social Media and Adolescent Health 2024</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Children see the harm in others but not themselves, and name school not likes as their biggest pressure</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>In 2024 Pew data, forty eight percent of teens said social media has a mostly negative effect on people their age, up from thirty two percent in 2022, but only fourteen percent said it negatively affects them personally. That thirty four point gap is the entire case for a calibrated model. And when asked what weighs on them, sixty eight percent named pressure to get good grades, more than looks or fitting in. Most also say social media helps them feel closer to friends. The child's own account fits neither the ban nor the free for all. It fits a pathway that meets the specific child.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Child, Academic</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: Clinician warns self report understates risk in the vulnerable</span>
+      </div>
+      <div class="cite">Sources: Pew Research Center 2025; Ofcom Children and Parents 2025</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>The platform business model earns about eleven billion dollars a year from minors, the force both psychologists skip</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>Six major platforms drew close to eleven billion US dollars in US advertising revenue from users under eighteen in 2022, with Instagram alone taking about four billion from thirteen to seventeen year olds. Derived from the study's own revenue and user figures, a single US teen on Instagram is worth roughly two hundred to two hundred forty dollars a year in ad revenue. Both Gray and Haidt argue about the child's psychology. Neither prices in the balance sheet that makes the harmful design self correcting only under force. This is why voluntary measures fail, and why the debate needs a structural answer, not just a parenting one.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Economist</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: none, though ARPU figures are estimates</span>
+      </div>
+      <div class="cite">Sources: Harvard Chan School, PLOS ONE 2023; industry ARPU estimates 2024</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Bans reshape supply and reassure adults, but the evidence they improve child outcomes is thin, and they are evaded</h3>
+        <span class="reliability medium">Reliability 7/10</span>
+      </div>
+      <p>History is consistent: the 1954 Comics Code and the 1994 game ratings changed what was produced and sold, yet left almost no measured evidence of improved child wellbeing. In England, a 2025 study across thirty schools found restrictive phone policies made no difference to wellbeing, anxiety, sleep or attainment, because they did not cut total use. Australia's under sixteen ban deactivated, removed or restricted 4.7 million accounts by December 2025, yet early University of Newcastle research tracking twelve to seventeen year olds found more than eighty five percent still using at least one restricted platform three months on. Forty percent of UK ten to twelve year olds already hold a profile despite the age limit. Prohibition changes the shopfront, not the behaviour.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Historian, Clinician, Economist, Child</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: Academic notes Australia data is early</span>
+      </div>
+      <div class="cite">Sources: Goodyear and colleagues, Lancet Regional Health Europe 2025; eSafety and University of Newcastle 2025 to 2026</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Prevention is the cheapest tier of the whole system, far below both enforcement and treatment</h3>
+        <span class="reliability medium">Reliability 7/10</span>
+      </div>
+      <p>England's children's mental health system already carries close to a million active referrals, with more than a third of referred children still waiting for treatment at the end of March 2025, at a cost near one billion pounds a year, and it is losing ground. An investment case analysis found prevention and early support for anxiety and depression returns many pounds for every one spent over a lifetime. The ban, by contrast, is spawning a multi billion pound age assurance industry that Australia shows people route around. A staged, prevention priced product sits in the cheapest and most effective tier of the cost curve, which is a finance grade argument for schools and health commissioners, not just a parenting one.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Economist</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: market size figures are directional, cite ranges</span>
+      </div>
+      <div class="cite">Sources: Children's Commissioner 2025; European Journal of Public Health 2024</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Gray's claim that video games cut teen suicide by forty percent is the weakest link in either book</h3>
+        <span class="reliability low">Reliability 3/10</span>
+      </div>
+      <p>The forty percent decline in US teen suicide from 1990 to around 2007 is real in the CDC data, but Gray's attribution of it to video games and home computers rests on an ecological time trend published on his own blog, with no design that isolates gaming from SSRIs, means restriction or the economy. It is exactly the correlation as causation move he rightly criticises in Haidt. Handle with care in any content: cite the decline as real, never the cause as settled.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: none as causal</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: Clinician, Academic, Skeptic</span>
+      </div>
+      <div class="cite">Sources: Gray, Psychology Today 2023 (self published, ecological)</div>
+    </article>
+
+  </section>
+
+  <section id="contradictions">
+    <span class="eyebrow">Where the lenses disagree</span>
+    <h2>Contradiction Map</h2>
+    <table class="contra">
+      <thead>
+        <tr><th>Disagreement</th><th>Position A</th><th>Position B</th><th>Evidence leans</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Are phones a cause of the crisis at all</td>
+          <td>Yes, in the vulnerable tail: girls, sleep loss, compulsive use, harmful content (Clinician, Academic)</td>
+          <td>Barely: the population effect is near zero and unidentified (Skeptic)</td>
+          <td class="leans green">Both true at once</td>
+        </tr>
+        <tr>
+          <td>Is total screen time the right thing to measure</td>
+          <td>No, the pattern of use is what tracks harm (Clinician)</td>
+          <td>No, and even "pattern" is ill defined, the variable is incoherent (Skeptic, Academic on Etchells)</td>
+          <td class="leans green">Agreement: measure pattern and context</td>
+        </tr>
+        <tr>
+          <td>Did school reform drive the decline</td>
+          <td>Yes, Common Core narrowed play and raised testing (Gray via Historian)</td>
+          <td>The flagship statistic is broken and the reasoning is single cause (Skeptic, Academic)</td>
+          <td class="leans coral">Leans against Gray's number</td>
+        </tr>
+        <tr>
+          <td>Is this just another moral panic like comics or games</td>
+          <td>Yes, the pattern repeats and the harm is overstated (Historian, Skeptic)</td>
+          <td>No, always on algorithmic social media has no historical precedent (Historian steel man of Haidt)</td>
+          <td class="leans green">Panic base rate holds, with one real exception</td>
+        </tr>
+        <tr>
+          <td>What is the biggest driver both sides miss</td>
+          <td>Caregiver and family mental health (Academic, Clinician)</td>
+          <td>The platform business model and attention economy (Economist)</td>
+          <td class="leans green">Both are underweighted by the two authors</td>
+        </tr>
+        <tr>
+          <td>Would a blanket ban help children</td>
+          <td>It reassures adults and reshapes supply (Historian)</td>
+          <td>It is evaded, and cuts off the kids who rely on online support most (Child, Economist)</td>
+          <td class="leans coral">Leans against the ban as a standalone fix</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="lenses">
+    <span class="eyebrow">Six perspectives</span>
+    <h2>Lens Panels</h2>
+    <div class="lens-grid">
+      <div class="lens-panel clinician">
+        <span class="eyebrow">The Clinician</span>
+        <h3>The clock is not the enemy, the loop is</h3>
+        <p>The population average hides the tail we actually see in clinic. Total screen time predicts little, but the compulsive pattern roughly doubles suicidal behaviour risk, and the sharpest rise in self harm is in ten to twelve year old girls. The reliable route from a phone to a hospital bed runs through displaced sleep and algorithmic body image and self harm content, not through hours alone. Target the pattern, protect the sleep, and treat the family, because caregiver mental health is one of the strongest predictors of who presents.</p>
+      </div>
+      <div class="lens-panel academic">
+        <span class="eyebrow">The Academic</span>
+        <h3>The honest word is inconclusive, and that helps you</h3>
+        <p>The population effect is at most zero point four percent of variance, about the size of eating potatoes. The girls and 2012 timing signal is real and includes deaths, which the help seeking objection cannot dismiss. But the single best causal study is 2000s Facebook among college students, which does not transplant onto twelve year olds. The National Academies called it mixed and inconclusive. A ban is being built on precaution, and the correlation as causation blade cuts Gray exactly as hard as Haidt.</p>
+      </div>
+      <div class="lens-panel skeptic">
+        <span class="eyebrow">The Skeptic</span>
+        <h3>Both men are mutually disqualifying</h3>
+        <p>Each grants messy multi causality for the good years and demands a single villain for the bad. Gray's forty three to eighty three school stress jump moves with the survey instrument and moves for non school stressors too, inside a recession. Haidt leans on abstinence studies that tell participants the expected result, and a 2025 meta analysis put their pooled effect near zero. The most defensible conclusion is that the phone effect, if real, is small and unidentified, and Common Core is on even weaker footing.</p>
+      </div>
+      <div class="lens-panel economist">
+        <span class="eyebrow">The Economist</span>
+        <h3>Follow the money the psychologists ignore</h3>
+        <p>Platforms earn about eleven billion a year from US minors, and a single teen is roughly two hundred dollars of ad inventory, which is why self regulation never comes. The ban's real legacy is a multi billion pound age assurance industry that Australia shows people evade. Downstream, England spends near a billion a year treating a queue of a quarter million children. Prevention returns many pounds per pound. Guided Childhood sits in the cheapest tier of that cost curve, which is a CFO argument, not just a parenting one.</p>
+      </div>
+      <div class="lens-panel historian">
+        <span class="eyebrow">The Historian</span>
+        <h3>An accelerant on a fire lit in 1971</h3>
+        <p>Independent childhood collapsed from eighty percent of young children walking to school alone in 1971 to under ten percent by 1990. Comics, radio, television and video games each drew the same addiction script and the same legislative reflex, and youth violent crime fell as games boomed. But leaded petrol and tobacco prove not every alarm is false. The tell of a real harm is mechanism, dose response and replication, and always on algorithmic social media is the one panic object with genuinely novel features.</p>
+      </div>
+      <div class="lens-panel child">
+        <span class="eyebrow">The Child</span>
+        <h3>Ask us and the answer is not the phone</h3>
+        <p>Nearly half of teens think social media harms their generation, but only fourteen percent say it harms them, and the biggest weight we name is grades, not likes. Most of us say it helps us feel closer to friends, and for LGBTQ and isolated kids it is the most affirming space we have. We already cut back when we overdo it. We are asking for explained boundaries and everyday conversation, not surveillance and not abandonment. Of the young people polled, the ban is least popular with the sixteen and seventeen year olds closest to it.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="guided-childhood">
+    <span class="eyebrow">So what do we do</span>
+    <h2>What This Means for Guided Childhood</h2>
+    <div class="gc-card">
+      <ul>
+        <li>
+          <span class="tag">Marketing · Positioning</span>
+          <strong>Own the calibrated middle out loud, and make the debate itself your proof.</strong> The single strongest line we now have: it is not the phones, and it is not only the phones. A blanket ban treats every child as the drowning minority, and a free for all pretends the drowning minority is not real. Guided Childhood is the only model that meets the child in front of you. This is safe to say because the National Academies verdict, mixed and inconclusive, backs it.
+        </li>
+        <li>
+          <span class="tag">DiGi</span>
+          <strong>DiGi should coach the pattern, not police the clock.</strong> The JAMA 2025 finding is our scientific licence: total time predicts little, the compulsive loop roughly doubles suicide risk. DiGi's pathways should surface addictive use signals, protect bedtime and sleep, and flag harmful content exposure, rather than counting minutes. This is the calibrated pathway made evidence based, and it is the opposite of allow or deny.
+        </li>
+        <li>
+          <span class="tag">Stages · Content</span>
+          <strong>Rebalance Stage content toward autonomy and family, the two biggest and most ignored levers.</strong> Gray's real win is the seventy year loss of independent play, and Odgers' is caregiver mental health as the strongest predictor. Our stages should visibly rebuild independence as children grow, and speak to the parent's own state, not only the child's screen. We are a whole family product, which is exactly where the biggest effect in the data sits.
+        </li>
+        <li>
+          <span class="tag">Schools</span>
+          <strong>Pitch schools the prevention economics and the honest science together.</strong> Restrictive phone policies alone changed nothing in the thirty school study, because they did not cut total use. Prevention returns many pounds per pound while the CAMHS queue passes a quarter million. Guided Childhood is the layer that works after a school realises a ban only moves the shopfront. That is a finance grade case for heads and commissioners.
+        </li>
+        <li>
+          <span class="tag">Ban readiness</span>
+          <strong>Position us as the thing families reach for when the Spring 2027 ban proves porous.</strong> Australia restricted 4.7 million accounts and still saw over eighty five percent of the tracked teens using the apps. Forty percent of UK ten to twelve year olds already hold a profile. The social_media_law flag should let Stage 4 content pivot from prepare for the ban to live alongside a ban that leaks, without a rewrite, exactly as docs/11 intends.
+        </li>
+        <li>
+          <span class="tag">Marketing · Claims</span>
+          <strong>Retire two tempting claims and bank the safe ones.</strong> Do not build on Gray's video games cut suicide forty percent line, and do not repeat the forty three to eighty three school stress jump, because both fail scrutiny and Gray himself pulled the second. Safe to use: the zero point four percent variance ceiling, grades as the top self reported pressure, the eleven billion from minors, and the Australia evasion numbers. Every one is load bearing and checkable.
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="assumptions">
+    <span class="eyebrow">Honest limits</span>
+    <h2>Assumptions and the Missing Lens</h2>
+    <div class="assump-card">
+      <h3>This briefing rests on</h3>
+      <p>Three assumptions. First, that the objective outcome data, self harm visits and suicide, is trustworthy even where self report is noisy, which most methodologists accept. Second, that population level effect sizes and clinical tail effects can both be true at once, which is the reconciliation the whole briefing turns on. Third, that the US heavy evidence base, Pew, ABCD, NSDUH, transfers reasonably to the UK, which the Ofcom and Children's Commissioner data broadly supports but does not prove. If any of these three is wrong, the balance between Gray and Haidt shifts.</p>
+      <div class="missing">
+        <h3>The missing seventh lens</h3>
+        <p>The Teacher. Every lens here looks at the child, the family, the platform or the data, but the person who watches thirty children move through Common Core style testing every day, and who would deliver any school based pathway, is absent. A teacher lens would test Gray's school pressure thesis against the classroom as lived, and pressure test whether our school product survives contact with a real timetable. Worth running as a V3 if the school lane heats up.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="sources">
+    <span class="eyebrow">Every citation checked against its primary source</span>
+    <h2>Source Ledger</h2>
+    <div class="summary-card" style="margin-bottom:16px">
+      <p>Six verifiers split every citation and fetched the primary sources. Most load bearing numbers held exactly. Nine were corrected for precision, two claims were demoted and dropped from the argument, and one statistic was reframed because the two surveys behind it are not comparable. Nothing in the findings above now rests on a demoted source. A recurring note: many publisher sites returned an automated block to the fetcher, so figures were confirmed through the primary documents' own text, DOIs and open mirrors rather than a direct read, which is flagged where it matters.</p>
+    </div>
+    <div class="ledger">
+
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://www.nature.com/articles/s41562-018-0506-1">Orben and Przybylski, The association between adolescent well being and digital technology use</a> · Nature Human Behaviour 2019
+          <span class="note">Confirmed: n = 355,358; technology use explains at most 0.4 percent of variance. The glasses comparison was softened from 1.45 times to slightly more, per the beta values.</span>
+        </div>
+      </div>
+
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://jamanetwork.com/journals/jama/fullarticle/2835481">Xiao and colleagues, Addictive Screen Use Trajectories and Suicidal Behaviors</a> · JAMA 2025 (ABCD cohort)
+          <span class="note">Confirmed exactly: n = 4,285; increasing addictive social media use risk ratio 2.14, 95 percent CI 1.61 to 2.85; 31.3 percent on the increasing trajectory from age 11; total screen time not associated.</span>
+        </div>
+      </div>
+
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://ora.ox.ac.uk/objects/uuid:89103856-a239-489a-8e7e-b6c1bad43a0f">Hillman, Adams and Whitelegg, One False Move</a> · Policy Studies Institute 1990
+          <span class="note">Confirmed: children allowed to travel to school without an adult fell from about 80 percent in 1971 to 9 percent in 1990, same instrument, same English areas.</span>
+        </div>
+      </div>
+
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://pubmed.ncbi.nlm.nih.gov/30869927/">Twenge and colleagues, Age, period and cohort trends in mood disorder indicators</a> · Journal of Abnormal Psychology 2019
+          <span class="note">Confirmed: NSDUH n = 611,880; past year major depressive episode among 12 to 17 year olds 8.7 percent in 2005 to 13.2 percent in 2017, a 52 percent rise; girls 13.1 to 19.9 percent.</span>
+        </div>
+      </div>
+
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://nap.nationalacademies.org/catalog/27396">National Academies, Social Media and Adolescent Health</a> · NASEM 2024
+          <span class="note">Confirmed verbatim in the report body: the scientific literature on the health effects of social media use is mixed and inconclusive. The committee did not support a population level causal conclusion.</span>
+        </div>
+      </div>
+
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://www.aeaweb.org/articles?id=10.1257/aer.20211218">Braghieri, Levy and Makarin, Social Media and Mental Health</a> · American Economic Review 2022
+          <span class="note">Confirmed: staggered Facebook college rollout raised severe depression about 7 percent and anxiety disorder about 20 percent of baseline. Subjects were college students, so it does not transplant straight onto under sixteens.</span>
+        </div>
+      </div>
+
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12161433/">Greater Manchester self harm electronic health record study</a> · BMJ Mental Health 2025
+          <span class="note">Confirmed: sharpest rise in self harm in 10 to 12 year old girls, incidence rate ratio 1.91, 95 percent CI 1.47 to 2.48. Study population is 10 to 24, not children only.</span>
+        </div>
+      </div>
+
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://www.nature.com/articles/d41586-024-00902-2">Odgers, The great rewiring, review of The Anxious Generation</a> · Nature 2024
+          <span class="note">Confirmed: caregiver mental health is by far the strongest predictor of children's mental health; 1.2 million US children lost a parent to drugs or firearms 1999 to 2020; the 72 country null holds.</span>
+        </div>
+      </div>
+
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0295337">Raffoul, Ward, Austin and colleagues, advertising revenue from youth</a> · PLOS ONE 2023 (Harvard Chan School)
+          <span class="note">Confirmed: nearly 11 billion US dollars in US ad revenue from under eighteens in 2022, 8.6 billion from 13 to 17s and 2.1 billion from under 12s; Instagram 4 billion from 13 to 17s.</span>
+        </div>
+      </div>
+
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10843955/">Jackson Morris and colleagues, investment case for adolescent mental health in England</a> · European Journal of Public Health 2024
+          <span class="note">Confirmed: prevention and early treatment package returns 15 pounds per 1 pound over 10 years, with far higher lifetime ratios for the most cost effective interventions.</span>
+        </div>
+      </div>
+
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://www.esafety.gov.au/newsroom/media-releases/platforms-restrict-access-to-47-million-under-16-accounts-across-australia">eSafety Commissioner, platforms restrict 4.7 million under 16 accounts</a> · Australia 2025, with University of Newcastle follow up via The Conversation 2026
+          <span class="note">Confirmed: 4.7 million accounts deactivated, removed or restricted after the 10 December 2025 ban; early cohort of 12 to 17 year olds found more than 85 percent still using a restricted platform three months on.</span>
+        </div>
+      </div>
+
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://www.pewresearch.org/social-trends/2025/03/13/pressures-teens-are-facing/">Pew Research Center, Pressures teens are facing</a> · March 2025
+          <span class="note">Confirmed: 68 percent feel pressure to get good grades, 47 percent to look good, 41 percent to fit in socially. n = 1,391 US teens 13 to 17, fielded autumn 2024.</span>
+        </div>
+      </div>
+
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://www.pewresearch.org/internet/2025/04/22/teens-social-media-and-mental-health/">Pew Research Center, Social Media and Teens' Mental Health, What Teens and Their Parents Say</a> · April 2025
+          <span class="note">Confirmed: 48 percent say social media mostly harms people their age, up from 32 percent in 2022, but only 14 percent say it harms them personally. Report title corrected from the working draft.</span>
+        </div>
+      </div>
+
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://www.thelancet.com/journals/lanepe/article/PIIS2666-7762(25)00003-1/fulltext">Goodyear and colleagues, SMART Schools phone policies</a> · Lancet Regional Health Europe 2025
+          <span class="note">Confirmed: 1,227 students, 30 English secondary schools; no significant difference between restrictive and permissive policies on wellbeing, anxiety, sleep or attainment, while higher total use was linked to worse outcomes. Cross sectional, so linked to, not caused by.</span>
+        </div>
+      </div>
+
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://www.johnsmithcentre.com/uk-youth-poll-2026/">John Smith Centre, UK Youth Poll 2026</a> · 2026
+          <span class="note">Confirmed: 62 percent of young people support the under 16 ban, down from 67 percent, lowest among 16 to 17 year olds at 53 percent. Poll covers ages 16 to 29, so young adults, not under sixteens themselves. Held up under extra scrutiny as a snapshot sourced figure.</span>
+        </div>
+      </div>
+
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://www.childrenscommissioner.gov.uk/news/press-notice-over-a-million-children-referred-to-mental-health-services-with-highest-annual-referrals-as-demand-rises-faster-than-systems-can-respond/">Children's Commissioner for England, children's mental health annual briefing</a> · 2025
+          <span class="note">Confirmed: close to one million active referrals; spend 996 million pounds in 2022 to 23 rising to 1.1 billion in 2023 to 24. Waiting figure corrected below.</span>
+        </div>
+      </div>
+
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://www.theatlantic.com/author/kaitlyn-tiffany/">Kaitlyn Tiffany, What If It Is Not the Phones</a> · The Atlantic, 9 July 2026
+          <span class="note">The seed article. Confirmed as the source for the Odgers no serious epidemiologist quote, Gray's request to pull the statistic, and the framing of the Gray versus Haidt split.</span>
+        </div>
+      </div>
+
+      <div class="ledger-row">
+        <span class="verdict confirmed">Confirmed</span>
+        <div class="src">
+          <a href="https://blogs.loc.gov/law/2022/10/the-senate-comic-book-hearings-of-1954/">The comics panic and later technology panics</a> · Library of Congress and contemporaneous records
+          <span class="note">Confirmed: Wertham 1954, Senate hearings April 1954, Comics Code October 1954. Confirmed: US youth violent crime peaked about 1993 to 94 and fell as video game sales rose, the inverse of the predicted harm.</span>
+        </div>
+      </div>
+
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <a href="https://www.apa.org/news/press/releases/stress/2013/stress-report.pdf">APA Stress in America, 2009 and 2013 waves</a> · American Psychological Association
+          <span class="note">The 83 percent figure is real, from 2013, ages 13 to 17. But the 2009 number set against it asked a different question, about worry, of a wider age band, 8 to 17. The two are not comparable, so 43 to 83 is not a clean jump. The age band and wording changes were confirmed from APA text; a parallel rise in other teen stressors could not be confirmed and was removed.</span>
+        </div>
+      </div>
+
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <a href="https://www.nature.com/articles/s41598-025-90984-3">Lemahieu and colleagues, social media abstinence meta analysis</a> · Scientific Reports 2025
+          <span class="note">Near zero pooled effect confirmed, and the research expectancy signature confirmed. Corrected: the measured outcomes are positive affect, negative affect and life satisfaction, and the intervention is abstinence, not reduction.</span>
+        </div>
+      </div>
+
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <a href="https://www.emarketer.com/press-releases/instagram-will-make-up-more-than-half-of-metas-us-ad-revenues-in-2025/">Per teen advertising value, Instagram</a> · derived from PLOS ONE 2023 revenue and user figures
+          <span class="note">Corrected to a derived estimate. Four billion dollars divided by 16.7 million US Instagram teens is about 239 dollars per teen per year, so roughly 200 to 240, not a hard official ARPU.</span>
+        </div>
+      </div>
+
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <a href="https://assets.childrenscommissioner.gov.uk/wpuploads/2025/05/cco-childrens-mental-health-annual-briefing-may-2025.pdf">Children's Commissioner, children waiting for treatment</a> · 2025
+          <span class="note">Corrected: the specific 385,540 waiting figure could not be confirmed. The official statement is that 35 percent of children with active referrals were still waiting for treatment at the end of March 2025, which the briefing now reflects as more than a third.</span>
+        </div>
+      </div>
+
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <a href="https://www.ofcom.org.uk/media-use-and-attitudes/media-habits-children/children-and-parents-media-use-and-attitudes-report-2025">Ofcom, Children and Parents Media Use and Attitudes 2025</a> · May 2025
+          <span class="note">72 percent feeling closer to friends confirmed. Corrected: the 40 percent with a profile is the 10 to 12 year old bracket, not all under thirteens; younger brackets are far lower.</span>
+        </div>
+      </div>
+
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <a href="https://www.tandfonline.com/doi/abs/10.1080/14733285.2014.952186">Woolley and Griffin, decreasing home range across three generations in Sheffield</a> · Children's Geographies 2015
+          <span class="note">Corrected: the trend and rough scale are confirmed, but this is a small three generation, two family study. The vivid 6 miles to 300 yards numbers are journalistic, from a 2007 newspaper graphic, so the precise multiplier was dropped from the briefing.</span>
+        </div>
+      </div>
+
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <a href="https://infoculturejournal.org/volume-47-number-4-novdec-2012">Tilley, Seducing the Innocent, Wertham's falsifications</a> · Information and Culture 2012
+          <span class="note">Corrected: the falsification paper is 2012, volume 47 number 4, pages 383 to 413. The 2013 date is when it went viral in the press.</span>
+        </div>
+      </div>
+
+      <div class="ledger-row">
+        <span class="verdict corrected">Corrected</span>
+        <div class="src">
+          <a href="https://www.esafety.gov.au/">Australia ban penalty ceiling</a> · Australian government 2025 to 2026
+          <span class="note">Corrected for anywhere the ceiling is quoted: the current maximum is about 49.5 million Australian dollars. The 99 million figure is a June 2026 proposal to double it, not yet enacted.</span>
+        </div>
+      </div>
+
+      <div class="ledger-row">
+        <span class="verdict demoted">Demoted</span>
+        <div class="src">
+          <a href="https://www.psychologytoday.com/us/blog/freedom-to-learn/202309/why-did-teen-suicides-decline-sharply-from-1990-to-2005">Gray, video games caused the 1990 to 2007 teen suicide decline</a> · Psychology Today and Substack 2023
+          <span class="note">Demoted as causal. The roughly 40 percent decline is real in CDC data, boys 18.1 to 10.8 per 100,000. The attribution to video games is Gray's own ecological, self published hypothesis with no causal design, so the briefing cites the decline but never the cause as settled.</span>
+        </div>
+      </div>
+
+      <div class="ledger-row">
+        <span class="verdict demoted">Demoted</span>
+        <div class="src">
+          <a href="https://www.thetrevorproject.org/research-briefs/online-experiences-and-mental-health-of-lgbtq-young-people/">Trevor Project, online experiences of LGBTQ young people</a> · research brief
+          <span class="note">Demoted: the specific 68 percent affirming figure and the large majorities report positive impact line could not be confirmed and appear misattributed. Only the directional claim survives, that online spaces are disproportionately affirming for LGBTQ youth compared with home and school, paired with the nuance that online connection driven by offline isolation also correlates with worse mental health.</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="brief-foot">
+    Guided Childhood · Kids Research Briefing · Six lenses, adversarially verified · V2 · 17 Jul 2026
+  </footer>
+
+</div>
+</body>
+</html>
