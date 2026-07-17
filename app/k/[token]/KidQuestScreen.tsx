@@ -399,14 +399,6 @@ export default function KidQuestScreen({
   const doneCount = quests.filter(q => ticks[q.id]).length
   const allDone = quests.length > 0 && doneCount === quests.length
   const pendingStars = quests.filter(q => ticks[q.id] === 'pending').reduce((s, q) => s + q.stars, 0)
-  // Today's earned minutes: the jobs already ticked off today, turned into the
-  // screen time they buy, so the balance strip can weigh real life against
-  // screen watched today with the same logic the parent side uses.
-  const todayStars = quests.reduce((sum, q) => {
-    const st = ticks[q.id]
-    return st && st !== 'rejected' ? sum + q.stars : sum
-  }, 0)
-  const todayEarnedMins = todayStars * STAR_MINUTES
   // The bank is what is really there to spend: earned ever, minus the
   // screen time already used. Falls back to the week count until the
   // family has run migration 047.
@@ -694,34 +686,37 @@ export default function KidQuestScreen({
           )}
          </div>
 
-          {/* The balance, in the same block: real life against screen watched
-              today, the week's jobs, and a friendly way to earn more. One card,
-              not two, so the top of the app stays calm. */}
-          <KidBalanceStrip
-            bare
-            todayScreen={usedTodayMinutes}
-            todayEarned={todayEarnedMins}
-            weekStars={weekStars}
-            weekUsed={usedWeekMinutes}
-            onAskMore={askForMore}
-            asked={askedMore}
-          />
         </div>
 
-        {/* Our family deal: a quiet link the child can pop up any time to keep
-            an eye on how the deal works and what they are saving for. */}
-        <button
-          onClick={() => { setDealOpen(true); playKidSound('tap') }}
-          style={{
-            width: '100%', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer',
-            background: '#fff', border: '1.5px solid rgba(26,26,46,0.1)', borderRadius: '14px',
-            padding: '12px 15px', marginBottom: '16px', textAlign: 'left',
-          }}
-        >
-          <span style={{ fontSize: '18px', flexShrink: 0 }}>📜</span>
-          <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: 'var(--ink)' }}>Our family deal</span>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--deep-teal)', flexShrink: 0 }}>Have a look →</span>
-        </button>
+        {/* The whole child path in four big buttons: do my jobs, use my time,
+            ask for a new job, see the deal. Big icons, few words, so a young
+            child always knows exactly what to tap. */}
+        {(() => {
+          const jobsLeft = quests.length - doneCount
+          const tiles = [
+            { icon: '📋', label: jobsLeft > 0 ? 'My jobs' : 'All done', sub: jobsLeft > 0 ? `${jobsLeft} to do` : 'Nice one', tint: 'var(--terracotta-lt)', onClick: () => { document.getElementById('my-todo')?.scrollIntoView({ behavior: 'smooth' }); playKidSound('tap') } },
+            { icon: '▶️', label: 'Use my time', sub: `${bankBalance * STAR_MINUTES} min`, tint: 'var(--tint-sage)', onClick: () => { document.getElementById('my-device-time')?.scrollIntoView({ behavior: 'smooth' }); playKidSound('tap') } },
+            { icon: askedMore ? '✅' : '➕', label: askedMore ? 'Asked' : 'New job', sub: askedMore ? 'Grown up knows' : 'Ask a grown up', tint: 'var(--tint-blue, var(--cream))', onClick: () => { if (!askedMore) { askForMore(); playKidSound('tap') } } },
+            { icon: '📜', label: 'Our deal', sub: 'How it works', tint: 'var(--cream)', onClick: () => { setDealOpen(true); playKidSound('tap') } },
+          ]
+          return (
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '18px' }}>
+              {tiles.map((t, i) => (
+                <button key={i} onClick={t.onClick} style={{
+                  display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '10px', cursor: 'pointer',
+                  background: '#fff', border: '1.5px solid rgba(26,26,46,0.08)', borderRadius: '20px', padding: '16px', textAlign: 'left',
+                  boxShadow: '0 4px 0 rgba(26,26,46,0.08)',
+                }}>
+                  <span style={{ width: 48, height: 48, borderRadius: '14px', background: t.tint, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px' }}>{t.icon}</span>
+                  <span style={{ minWidth: 0 }}>
+                    <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.1rem', color: 'var(--ink)', lineHeight: 1.1 }}>{t.label}</span>
+                    <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: '13px', color: 'var(--ink-muted)', marginTop: '2px' }}>{t.sub}</span>
+                  </span>
+                </button>
+              ))}
+            </div>
+          )
+        })()}
 
         {dealOpen && (
           <FamilyDeal
@@ -742,38 +737,15 @@ export default function KidQuestScreen({
           />
         )}
 
-        {/* The obvious signpost: how many jobs are left today, tap to jump
-            straight to the list. Loud when there is still something to do,
-            quiet and green once the day is done. */}
-        {tab === 'quests' && quests.length > 0 && doneCount < quests.length && (
-          <button
-            onClick={() => { document.getElementById('my-todo')?.scrollIntoView({ behavior: 'smooth' }); playKidSound('tap') }}
-            style={{
-              width: '100%', display: 'flex', alignItems: 'center', gap: '12px',
-              background: 'var(--terracotta)', border: 'none', borderRadius: '16px',
-              padding: '14px 16px', marginBottom: '12px', cursor: 'pointer', textAlign: 'left',
-              boxShadow: '0 5px 0 var(--terracotta-dark)',
-            }}
-          >
-            <span style={{ fontSize: '1.5rem', flexShrink: 0 }}>📋</span>
-            <span style={{ flex: 1, minWidth: 0 }}>
-              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: 'var(--ink)' }}>
-                You have {quests.length - doneCount} thing{quests.length - doneCount === 1 ? '' : 's'} to do today
-              </span>
-              <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--terracotta-dark)', marginTop: '1px' }}>
-                Tap to see your to-do list ↓
-              </span>
-            </span>
-          </button>
-        )}
-
         {/* A note from a grown up: shared straight to this app, kept to read
             again, never a text message. */}
         <NotesFromGrownUp token={token} notes={notes} />
 
         {/* Device time: turn earned stars into minutes on an agreed device,
             with the countdown and the alarm when the time is up. */}
-        <DeviceTimeCard token={token} balanceStars={bankBalance} initialSession={activeSession} usedTodayMinutes={usedTodayMinutes} recommendedMinutes={recommendedMinutes} />
+        <div id="my-device-time" style={{ scrollMarginTop: '80px' }}>
+          <DeviceTimeCard token={token} balanceStars={bankBalance} initialSession={activeSession} usedTodayMinutes={usedTodayMinutes} recommendedMinutes={recommendedMinutes} />
+        </div>
 
         {/* Today's goal: enough stars in one day completes the day */}
         {goal?.daily_stars ? (() => {
@@ -1663,85 +1635,6 @@ const SCHOOL_KIND_EMOJI: Record<string, string> = {
 // as a timed one nears (in the last hour, or once it is passed) it turns red
 // and gives a soft pulse, so a dentist at nine reaches the child too. It
 // re-checks the clock every half minute so the red arrives on its own.
-// The balance strip for the child: real life against screen watched today, as a
-// two sided level with a needle, the same idea as the parent's balance card but
-// told for a child. Green is the jobs they did (real life), gold is the screen
-// they watched. It highlights the week's stars and, when screen pulls ahead or
-// they just want more, offers the productive way forward: ask a grown up for a
-// new job, never nag, always a door to earn more.
-function KidBalanceStrip({ todayScreen, todayEarned, weekStars, weekUsed, onAskMore, asked, bare = false }: {
-  todayScreen: number
-  todayEarned: number
-  weekStars: number
-  weekUsed: number
-  onAskMore: () => void
-  asked: boolean
-  bare?: boolean
-}) {
-  const screen = Math.max(0, Math.round(todayScreen))
-  const real = Math.max(0, Math.round(todayEarned))
-  const total = screen + real
-  // Where the needle sits. A calm midpoint when the day has not started.
-  const screenPct = total > 0 ? Math.round((screen / total) * 100) : 45
-  const realPct = 100 - screenPct
-  const onTrack = real >= screen
-  const green = 'var(--retro-green)'
-  const gold = 'var(--terracotta)'
-
-  // Bare drops the card chrome so it can sit inside the star bank as one block.
-  const wrap: React.CSSProperties = bare
-    ? { marginTop: '14px', paddingTop: '14px', borderTop: '1.5px solid var(--border)' }
-    : { background: '#fff', borderRadius: '20px', padding: '16px 18px', marginBottom: '16px', boxShadow: '0 5px 0 rgba(26,26,46,0.10)' }
-
-  return (
-    <div style={wrap}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '11px' }}>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>My balance today</span>
-        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '12px', color: '#fff', background: onTrack ? green : gold, borderRadius: '100px', padding: '5px 13px' }}>
-          {onTrack ? 'On track ✅' : 'Screen is ahead'}
-        </span>
-      </div>
-
-      {/* The two sided level: real life against screen, with a needle. */}
-      <div style={{ position: 'relative', height: 22, borderRadius: '100px', overflow: 'hidden', display: 'flex', border: '1.5px solid rgba(26,26,46,0.12)' }}>
-        <span style={{ width: `${realPct}%`, background: green, transition: 'width 0.6s ease' }} />
-        <span style={{ flex: 1, background: gold }} />
-        <span style={{ position: 'absolute', top: -2, bottom: -2, left: `${realPct}%`, width: 3, marginLeft: -1.5, background: 'var(--ink)', borderRadius: '2px', transition: 'left 0.6s ease' }} />
-      </div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '8px', marginBottom: '12px' }}>
-        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', color: 'var(--ink)' }}>
-          <span style={{ width: 10, height: 10, borderRadius: '3px', background: green }} />⚽ Real life {real}m
-        </span>
-        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', color: 'var(--ink)' }}>
-          {screen}m Screen 📱<span style={{ width: 10, height: 10, borderRadius: '3px', background: gold }} />
-        </span>
-      </div>
-
-      {/* The week highlight: the jobs they did, front and centre. */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '9px', background: 'var(--tint-sage)', borderRadius: '13px', padding: '10px 13px' }}>
-        <span style={{ fontSize: '17px' }}>⭐</span>
-        <span style={{ fontSize: '13.5px', fontWeight: 800, color: 'var(--ink)', lineHeight: 1.35 }}>
-          {weekStars} star{weekStars === 1 ? '' : 's'} earned from jobs this week{weekUsed > 0 ? ` · ${weekUsed}m watched` : ''}
-        </span>
-      </div>
-
-      {/* Be productive: the door to earn more is always open, and it shouts a
-          little louder when screen has pulled ahead. */}
-      <button
-        onClick={onAskMore}
-        disabled={asked}
-        style={{
-          width: '100%', marginTop: '11px', padding: '12px', borderRadius: '14px', border: 'none',
-          cursor: asked ? 'default' : 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px',
-          background: asked ? 'var(--tint-sage)' : 'var(--deep-teal)', color: asked ? 'var(--ink)' : '#fff',
-          boxShadow: asked ? 'none' : '0 4px 0 rgba(0,0,0,0.22)',
-        }}
-      >
-        {asked ? 'Asked ✓ your grown up got a ping' : (onTrack ? '💪 Want more screen time? Ask for a new job' : '💪 Do a job to balance it, ask for a new one')}
-      </button>
-    </div>
-  )
-}
 
 // Our family deal: a simple, warm popup that lays out the deal the child lives
 // by, in their own words. How it works, the exchange rate, a good amount of

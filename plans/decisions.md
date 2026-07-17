@@ -1378,3 +1378,46 @@ intact; only coaching stays primary child as agreed.
   not one more card every day.
 
 On PR 303. No migration.
+
+## 2026-07-17 — Next build lined up: stage the reveal (onboarding)
+
+The remaining lever on "too much" inside the product. Full spec in
+plans/onboarding-reveal-plan.md: a soft reveal (never a hard lock) where a new
+account meets a one loop Home first, and DiGi introduces the rest one calm card at
+a time over the first fortnight, plus a lighter first run setup. Migration free
+for v1 (account age plus localStorage). Ready to run on Justin's word; not started.
+
+## 2026-07-17 — Built: stage the reveal (onboarding calm start)
+
+A soft reveal, never a hard lock, driven by account age so no migration. A new
+parent meets a one loop Home; the rest opens over the first fortnight.
+
+- lib/onboarding/reveal.ts: the schedule (moments day 3, lessons day 6, pathway
+  day 9, wellbeing day 12), keyed by days since signup. Established accounts (and
+  any unknown age) reveal everything, so nothing regresses.
+- components/onboarding/RevealCard.tsx: a DiGi New card announcing the newest
+  unlocked feature once, seen tracked in localStorage.
+- Home now gates by reveal: the Sunday check in and weekly round up wait for day
+  12, the Keep going tiles start with just Ask DiGi and Set up and fill in as
+  features unlock, and DiGi prompts, smart alerts and readiness wait for day 3.
+- Everything stays reachable in the tab bar throughout; the reveal only controls
+  what Home promotes.
+
+On PR 303. No migration.
+
+## 2026-07-17 — Child screen simplified, icon led (Greenlight style)
+
+Justin: the child screen was way too messy, an adult analytics dashboard, not a
+kid's app. Stripped it right back, using Greenlight as the reference.
+
+- Removed the analytical balance strip from the child home entirely (the real
+  life vs screen meter, the on track pill, the two sided labels, the week stats
+  line, the dark ask button, and the dead KidBalanceStrip component). The balance
+  stays a PARENT tool, where it belongs, not something a young child reads.
+- The star card is now just the stars, the minutes, and the streak.
+- The whole child path is now four clean icon tiles, Greenlight style: a white
+  card, a rounded colour icon square, a bold title, one short line. My jobs, Use
+  my time, New job (asks a grown up), Our deal. Big, few words, obvious to tap.
+- Our family deal moves from a text link into one of the tiles.
+
+On PR 303. No migration.
