@@ -475,11 +475,13 @@ export default function DigiChat({
             return (
               <div key={i} data-role="user" style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '22px' }}>
                 <div style={{
-                  maxWidth: '82%', background: 'var(--tint-blue)', color: 'var(--ink)',
-                  borderRadius: '20px 20px 5px 20px', padding: '13px 17px',
-                  boxShadow: '0 1px 2px rgba(46,40,24,0.06)',
-                  fontFamily: 'var(--font-display)', fontSize: '16.5px', lineHeight: 1.5,
-                  fontWeight: 700, whiteSpace: 'pre-wrap',
+                  // The Good Inside blue: a soft periwinkle question pill with
+                  // dark ink text, so the parent's question reads clear at the
+                  // top with DiGi's answer flowing beneath it.
+                  maxWidth: '84%', background: '#DCE7FB', color: '#1B2A4A',
+                  borderRadius: '20px', padding: '14px 18px',
+                  fontFamily: 'var(--font-display)', fontSize: '17px', lineHeight: 1.45,
+                  fontWeight: 800, whiteSpace: 'pre-wrap',
                 }}>
                   {msg.content}
                 </div>
