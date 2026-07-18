@@ -438,7 +438,7 @@ export default function HomePage() {
             </p>
             <div className="fu" style={{ marginBottom: '12px' }}>
               <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '16px', padding: '17px 42px' }}>
-                Start free
+                Get Started
               </Link>
             </div>
             <p className="fu" style={{ fontSize: '.85rem', color: 'var(--ink-muted)', fontWeight: 600, marginBottom: '18px' }}>
@@ -555,7 +555,7 @@ export default function HomePage() {
               <div style={{ padding: '9px 11px', display: 'flex', flexDirection: 'column', gap: '7px' }}>
                 {[
                   { title: 'Make your bed', stars: '+2', done: true },
-                  { title: 'Feed the dog', stars: '+1', done: false },
+                  { title: 'Tidy room', stars: '+1', done: false },
                 ].map((q, i) => (
                   <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <span style={{ flex: 1, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '11px', color: 'var(--ink)' }}>{q.title}</span>
