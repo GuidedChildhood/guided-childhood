@@ -108,16 +108,30 @@ export default function DigiChat({
   // scroll never triggers a re-render.
   const scrollRef = useRef<HTMLDivElement>(null)
   const stickRef = useRef(true)
-  // True from the moment a new question is sent until that question has actually
-  // reached the top of the view. Because the answer has not streamed in yet when
-  // the question first lands, there is nothing beneath it to scroll against, so
-  // one lift can only get it partway. We keep lifting on every streamed chunk
-  // until the question sits at the top, then release, the Good Inside feel.
-  const pinQuestionTop = useRef(false)
+  // Set the moment a new question is sent, so the next render lifts that
+  // question to the top of the view instead of pinning to the bottom.
+  const pendingQScroll = useRef(false)
+  // A trailing spacer under the newest exchange. Without it, on a tall laptop
+  // screen there is not enough content below a fresh question to scroll it up
+  // to the top, so it stalls halfway. We drop in a viewport of space on send so
+  // the question can always reach the very top, then shrink it once the answer
+  // has landed so there is no big empty gap left behind.
+  const tailRef = useRef<HTMLDivElement>(null)
+  const [tailSpace, setTailSpace] = useState(0)
+  const refitTail = () => {
+    const el = scrollRef.current, tail = tailRef.current
+    if (!el || !tail) return
+    const qs = el.querySelectorAll('[data-role="user"]')
+    const last = qs[qs.length - 1] as HTMLElement | undefined
+    if (!last) return
+    const qTop = last.getBoundingClientRect().top - el.getBoundingClientRect().top + el.scrollTop
+    const realContentH = el.scrollHeight - tail.offsetHeight
+    const belowQ = realContentH - qTop
+    setTailSpace(Math.max(24, el.clientHeight - belowQ - 8))
+  }
   const onMessagesScroll = () => {
     const el = scrollRef.current
-    if (!el) return
-    stickRef.current = el.scrollHeight - el.scrollTop - el.clientHeight < 80
+    if (el) stickRef.current = el.scrollHeight - el.scrollTop - el.clientHeight < 80
   }
   const FREE_LIMIT = 3
 
@@ -170,18 +184,11 @@ export default function DigiChat({
   useEffect(() => {
     const el = scrollRef.current
     if (!el) return
-    if (pinQuestionTop.current) {
+    if (pendingQScroll.current) {
+      pendingQScroll.current = false
       const qs = el.querySelectorAll('[data-role="user"]')
       const last = qs[qs.length - 1] as HTMLElement | undefined
-      if (last) {
-        // Lift the question to the top, leaving a small margin. Early on the
-        // answer is short and the scroll clamps before it gets there, so we
-        // hold the pin and try again on the next chunk. Once it is at the top
-        // (nothing left to lift), release so the parent can read freely.
-        const delta = last.getBoundingClientRect().top - el.getBoundingClientRect().top - 12
-        el.scrollTop += delta
-        if (delta <= 1) pinQuestionTop.current = false
-      }
+      if (last) el.scrollTop += last.getBoundingClientRect().top - el.getBoundingClientRect().top - 12
       return
     }
     if (stickRef.current) el.scrollTop = el.scrollHeight
@@ -203,9 +210,12 @@ export default function DigiChat({
     if (!reflectionDone) setReflectionQuestion(null)
 
     // Sending lifts the new question to the top of the view, not the bottom, so
-    // the answer reads from the question down, the Good Inside feel.
+    // the answer reads from the question down, the Good Inside feel. A full
+    // viewport of trailing space guarantees the question can reach the very top
+    // even before the answer has filled in beneath it.
     stickRef.current = false
-    pinQuestionTop.current = true
+    pendingQScroll.current = true
+    if (scrollRef.current) setTailSpace(scrollRef.current.clientHeight)
     setMessages(prev => [...prev, { role: 'user', content: messageText }])
     setInput('')
     setContinuingPrefix(null)
@@ -288,6 +298,9 @@ export default function DigiChat({
 
       showReply(mainResponse)
       setDailyCount(Number.isFinite(usedToday) && usedToday > 0 ? usedToday : dailyCount + 1)
+      // The answer has landed, so shrink the trailing space to just what is
+      // needed to keep the question near the top, no big empty gap below.
+      requestAnimationFrame(() => requestAnimationFrame(refitTail))
       // Hold the reflective question back and only let it surface once the
       // parent has paused, so it never interrupts a live back and forth.
       if (reflective && !reflectionQuestion && !reflectionDone) {
@@ -303,9 +316,6 @@ export default function DigiChat({
     } finally {
       setLoading(false)
       setStreamingReply(false)
-      // The answer is in. Release the pin so the parent can scroll freely, even
-      // if a short reply never grew tall enough to lift the question fully up.
-      pinQuestionTop.current = false
     }
   }
 
@@ -659,7 +669,8 @@ export default function DigiChat({
           </div>
         )}
 
-        <div ref={messagesEndRef} style={{ height: '20px' }} />
+        <div ref={tailRef} aria-hidden style={{ height: Math.max(20, tailSpace) }} />
+        <div ref={messagesEndRef} />
       </div>
 
       {/* Input */}

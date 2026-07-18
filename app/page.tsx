@@ -438,7 +438,7 @@ export default function HomePage() {
             </p>
             <div className="fu" style={{ marginBottom: '12px' }}>
               <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '16px', padding: '17px 42px' }}>
-                Start free
+                Get Started
               </Link>
             </div>
             <p className="fu" style={{ fontSize: '.85rem', color: 'var(--ink-muted)', fontWeight: 600, marginBottom: '18px' }}>
@@ -454,9 +454,17 @@ export default function HomePage() {
                 Or find your stage first →
               </Link>
             </div>
-            <p className="fu" style={{ fontFamily: 'var(--font-mono)', fontSize: '.68rem', fontWeight: 600, letterSpacing: '.04em', color: 'var(--ink-light)', lineHeight: 1.65, maxWidth: '450px' }}>
-              Built on the research of Candace Odgers, Amy Orben and Catherine Knibbs. Aligned with NHS and NSPCC guidance.
-            </p>
+            {/* Proof bar: named research on the left, a quiet slot held open on
+                the right for real parent quotes we add later. */}
+            <div className="fu proof-bar" style={{ display: 'flex', flexWrap: 'wrap', gap: '18px 26px', alignItems: 'center', maxWidth: '520px' }}>
+              <p style={{ fontFamily: 'var(--font-mono)', fontSize: '.68rem', fontWeight: 600, letterSpacing: '.04em', color: 'var(--ink-light)', lineHeight: 1.65, flex: '1 1 260px', minWidth: '240px', margin: 0 }}>
+                Built on the research of Candace Odgers, Amy Orben and Catherine Knibbs. Aligned with NHS and NSPCC guidance.
+              </p>
+              <div aria-hidden style={{ flex: '0 1 190px', minWidth: '170px', borderLeft: '2px solid var(--border)', paddingLeft: '16px' }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.6rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--ink-light)', opacity: 0.7 }}>Parent quote</div>
+                <div style={{ fontFamily: 'var(--font-body)', fontSize: '.78rem', fontWeight: 600, color: 'var(--ink-light)', opacity: 0.55, lineHeight: 1.4, marginTop: '4px' }}>Coming from our first families</div>
+              </div>
+            </div>
           </div>
 
           {/* Right: Daily digest app preview over the butter circle */}
@@ -532,10 +540,10 @@ export default function HomePage() {
               boxShadow: '0 22px 52px rgba(26,26,46,0.22)', border: '1px solid rgba(0,0,0,0.05)',
               transform: 'rotate(-5deg)', zIndex: 3,
             }}>
-              <div style={{ background: 'linear-gradient(168deg, #EF9EC8 0%, #ADB4EE 100%)', padding: '11px 13px' }}>
+              <div style={{ background: 'linear-gradient(165deg, #FBE9B6 0%, #F6D07E 100%)', padding: '11px 13px' }}>
                 <div style={{ fontFamily: 'var(--font-mono)', fontSize: '7.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink)', opacity: 0.7 }}>Teo&apos;s quests</div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '5px' }}>
-                  <span style={{ width: 30, height: 30, borderRadius: '9px', background: 'var(--terracotta-lt)', border: '1.5px solid #E7A33E', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <span style={{ width: 30, height: 30, borderRadius: '9px', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow: '0 2px 0 rgba(140,110,40,0.18)' }}>
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="var(--terracotta-dark)" aria-hidden><path d="M12 3.2l2.35 4.76 5.25.76-3.8 3.7.9 5.23L12 15.94l-4.7 2.47.9-5.23-3.8-3.7 5.25-.76z" /></svg>
                   </span>
                   <div>
@@ -547,7 +555,7 @@ export default function HomePage() {
               <div style={{ padding: '9px 11px', display: 'flex', flexDirection: 'column', gap: '7px' }}>
                 {[
                   { title: 'Make your bed', stars: '+2', done: true },
-                  { title: 'Feed the dog', stars: '+1', done: false },
+                  { title: 'Tidy room', stars: '+1', done: false },
                 ].map((q, i) => (
                   <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <span style={{ flex: 1, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '11px', color: 'var(--ink)' }}>{q.title}</span>
@@ -568,25 +576,41 @@ export default function HomePage() {
       </section>
 
       {/* ================================================================
-          BETA PARENT QUOTES — five placeholder slots, above the fold.
-          TODO(Justin): swap each slot for a real beta parent quote and name.
-          Left as clearly marked placeholders, never invented testimonials.
+          PARENT QUOTES — three real quotes from our first families,
+          provided by Justin and tidied for clarity. No dashes in copy.
           ================================================================ */}
       <section aria-label="What early families say" style={{ background: 'var(--cream)', borderBottom: '1px solid var(--border)', padding: 'clamp(40px, 6vw, 64px) 24px' }}>
-        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+        <div style={{ maxWidth: '1040px', margin: '0 auto' }}>
           <p className="eyebrow" style={{ textAlign: 'center', color: 'var(--terracotta-dark)', marginBottom: '10px' }}>From our first families</p>
-          <h2 style={{ textAlign: 'center', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.5rem, 3vw, 2rem)', letterSpacing: '-0.03em', lineHeight: 1.1, color: 'var(--ink)', margin: '0 0 28px' }}>
+          <h2 style={{ textAlign: 'center', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.5rem, 3vw, 2rem)', letterSpacing: '-0.03em', lineHeight: 1.1, color: 'var(--ink)', margin: '0 0 12px' }}>
             Real words from real parents
           </h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(185px, 1fr))', gap: '16px' }}>
-            {[1, 2, 3, 4, 5].map(i => (
-              <div key={i} style={{ background: '#fff', border: '1.5px dashed var(--border)', borderRadius: '18px', padding: '20px 18px', display: 'flex', flexDirection: 'column' }}>
-                <div aria-hidden style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', color: 'var(--terracotta)', lineHeight: 1, marginBottom: '4px' }}>&ldquo;</div>
-                <p style={{ fontSize: '14px', color: 'var(--ink-light)', lineHeight: 1.6, fontStyle: 'italic', margin: '0 0 16px', flex: 1 }}>
-                  A real beta parent quote lands here.
+          <p style={{ textAlign: 'center', fontFamily: 'var(--font-body)', fontSize: '1.02rem', fontWeight: 600, color: 'var(--ink-soft)', lineHeight: 1.6, maxWidth: '440px', margin: '0 auto 32px' }}>
+            You are not doing this wrong, and you are not doing it alone.
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '18px' }}>
+            {[
+              {
+                quote: 'I was so nervous about giving my 11 year old a smartphone. With DiGi I can ask for help at every step, it shows me exactly how to set things up safely, and it settles me whenever a problem comes up.',
+                name: 'Rachel',
+              },
+              {
+                quote: 'It was gone midnight and I still could not get my 12 year old to sleep. I have so many moments like that in a week, and DiGi remembers them. It catches up with me on Sunday with a plan to make it better, and I do not feel like a bad parent anymore.',
+                name: 'Joanne Reed',
+              },
+              {
+                quote: 'I was worried Lilly was on her device too much. Now I can track how she is doing, and the quests help her balance her screen time with getting outside to play.',
+                name: 'Maria Daniels',
+              },
+            ].map((p) => (
+              <div key={p.name} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '18px', padding: '24px 22px', display: 'flex', flexDirection: 'column', boxShadow: '0 4px 20px rgba(26,26,46,0.05)' }}>
+                <div aria-hidden style={{ fontFamily: 'var(--font-display)', fontSize: '2.2rem', color: 'var(--terracotta)', lineHeight: 0.7, marginBottom: '10px' }}>&ldquo;</div>
+                <p style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.65, fontStyle: 'italic', margin: '0 0 18px', flex: 1 }}>
+                  {p.quote}
                 </p>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
-                  Beta parent, slot {i}
+                <div>
+                  <div style={{ fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 800, color: 'var(--ink)' }}>{p.name}</div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginTop: '3px' }}>Guided Childhood parent</div>
                 </div>
               </div>
             ))}

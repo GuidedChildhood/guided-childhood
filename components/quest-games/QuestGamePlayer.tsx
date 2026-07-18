@@ -44,7 +44,7 @@ export default function QuestGamePlayer({ game, onComplete, onClose }: {
       <div style={{ width: 'min(100%, 460px)', display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
           <CloseControl onClose={onClose} />
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--ink-soft)' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'rgba(255,255,255,0.78)' }}>
             {game.title}
           </span>
         </div>

@@ -1535,3 +1535,33 @@ latest research in line with our thinking, without ever losing credibility.
   the insights board (promotes into expert_knowledge) or rejects. This is the
   guardrail against a fabricated finding ever entering under a real name. Never
   auto publish.
+
+## 2026-07-18 — Make it mine recolours the whole child screen
+
+The child app background is no longer a fixed pink/purple gradient (which also
+broke the no purple gradients rule). Make it mine now sets the whole background,
+not just the ring, from a colour bar with a live preview. Default is a premium
+dark anthracite (graphite). Themes: graphite, ocean, grass, sunshine, coral,
+berry, each with its own on background ink so text stays readable. The shared
+--kid-bg default (lesson, adventure, game screens) is now the anthracite too.
+Saved via the existing children.accent field, no migration.
+
+## 2026-07-18 — Child app celebrates balance, not screen time
+
+The child home no longer leads with screen time. The star bank, today usage and
+use my device time are one balance card whose hero line is the healthy balance
+of jobs done against screen used, plus the job streak. We never push device use;
+we celebrate balance and gently nudge jobs when screen runs ahead. Full vision
+(Duolingo nudges, monthly offline pushes to lessons/printables/connection, a
+balance reward score, the science) is in plans/balance-first-child.md, to build
+next on Justin go.
+
+## 2026-07-18 — Parent set daily screen time limit
+
+children.daily_limit_minutes (migration 069, nullable). Null uses the age based
+recommendation. Parent sets it in the quest manager (per child), where the age
+recommendation is always shown so they do not set it higher by accident. The
+child app shows used against this number (X of limit) and the device time picker
+never offers past what is left of it today, so a day never runs beyond the cap
+even when stars have banked up. Bank total (minutes ready) is separate from what
+is usable today.

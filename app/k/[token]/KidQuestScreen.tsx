@@ -11,7 +11,6 @@ function urlBase64ToUint8Array(base64String: string) {
 }
 import { STAR_MINUTES, KID_REQUEST_IDEAS } from '@/lib/quests/templates'
 import { printablesForStage } from '@/lib/printables/registry'
-import { insightsForStage } from '@/lib/content/child-insights'
 import type { StarBank } from '@/lib/quests/bank'
 import { lessonsForStage, type KidLesson } from '@/lib/quests/kid-lessons'
 import { gamesForStage, type QuestGame } from '@/lib/quest-games/registry'
@@ -47,23 +46,35 @@ const BUDDY_MAP: Record<string, { name: string; img: string }> = {
   sofia: { name: 'Sofia', img: '/digi-squad/Sofia.jpeg' },
   zara: { name: 'Zara', img: '/digi-squad/Zara.png' },
 }
-const ACCENT_MAP: Record<string, { name: string; hex: string }> = {
-  sunshine: { name: 'Sunshine', hex: '#E7A33E' },
-  grass: { name: 'Grass', hex: '#57A06A' },
-  ocean: { name: 'Ocean', hex: '#2E8B9E' },
-  coral: { name: 'Coral', hex: '#E56B57' },
-  berry: { name: 'Berry', hex: '#C65B8E' },
+// Make it mine now recolours the whole screen, not just the ring. Each theme is
+// the full background the child lives in, plus the ink that reads on top of it
+// and the accent used on their rings and cards. The default is a premium dark
+// anthracite, and the colour bar lets them own it. Ids stay the same as before
+// so a child who already picked one keeps it.
+// Graphite is a lighter, premium anthracite that keeps white text. Every colour
+// is a soft pastel wash with dark readable ink, all built the same gentle way so
+// none looks heavier than the others. The accent stays a deeper tone so rings
+// and card edges still read on white.
+const ACCENT_MAP: Record<string, { name: string; hex: string; bg: string; ink: string; inkSoft: string }> = {
+  graphite: { name: 'Graphite', hex: '#E7A33E', bg: 'linear-gradient(180deg, #4C5057 0%, #34373D 100%)', ink: '#F7F7F5', inkSoft: 'rgba(255,255,255,0.74)' },
+  ocean:    { name: 'Ocean',    hex: '#2E8B9E', bg: 'linear-gradient(180deg, #DCEEF6 0%, #C6E0EE 100%)', ink: 'var(--ink)', inkSoft: 'rgba(26,26,46,0.60)' },
+  grass:    { name: 'Grass',    hex: '#57A06A', bg: 'linear-gradient(180deg, #E1F1E6 0%, #CBE7D4 100%)', ink: 'var(--ink)', inkSoft: 'rgba(26,26,46,0.60)' },
+  sunshine: { name: 'Sunshine', hex: '#E19A2E', bg: 'linear-gradient(180deg, #FBEFCF 0%, #F6E3AE 100%)', ink: 'var(--ink)', inkSoft: 'rgba(26,26,46,0.60)' },
+  coral:    { name: 'Coral',    hex: '#E56B57', bg: 'linear-gradient(180deg, #FBE3DB 0%, #F6D0C4 100%)', ink: 'var(--ink)', inkSoft: 'rgba(26,26,46,0.60)' },
+  berry:    { name: 'Berry',    hex: '#C65B8E', bg: 'linear-gradient(180deg, #F8E2EC 0%, #F1CEDE 100%)', ink: 'var(--ink)', inkSoft: 'rgba(26,26,46,0.60)' },
 }
 const DEFAULT_BUDDY = 'digi'
-const DEFAULT_ACCENT = 'sunshine'
+const DEFAULT_ACCENT = 'graphite'
 
 export default function KidQuestScreen({
   token, childName, buddy = null, accent = null, stageId = 2, quests, todayTicks, weekStars, goal, streakDays = 0, laterQuests = [], doneLessonKeys = [], missions = [],
   adventures = [], bank = null, usedWeekMinutes = 0, usedTodayMinutes = 0, recommendedMinutes = 0, requests = [], printablesUnlocked = true, activeSession = null,
-  weekChart = [], schoolToday = [], notes = [],
+  weekChart = [], schoolToday = [], notes = [], agreementItems = [], agreementSigned = false,
 }: {
   token: string
   childName: string
+  agreementItems?: { title: string; body: string }[]
+  agreementSigned?: boolean
   buddy?: string | null
   accent?: string | null
   stageId?: number
@@ -140,13 +151,17 @@ export default function KidQuestScreen({
   // The family deal popup: the child can pop it up any time to keep an eye on
   // how the deal works and what they are saving for.
   const [dealOpen, setDealOpen] = useState(false)
+  // The screen time section stays folded away so the home is calm, and opens on
+  // a tap. It starts open only when a timer is already running, so a live
+  // countdown is never hidden.
+  const [deviceOpen, setDeviceOpen] = useState(Boolean(activeSession))
   // The child's own buddy and accent. Starts from what the grown up account has
   // saved, changes instantly when they pick, and saves back to their record.
   const [chosenBuddy, setChosenBuddy] = useState(buddy && BUDDY_MAP[buddy] ? buddy : DEFAULT_BUDDY)
   const [chosenAccent, setChosenAccent] = useState(accent && ACCENT_MAP[accent] ? accent : DEFAULT_ACCENT)
   const [makeMineOpen, setMakeMineOpen] = useState(false)
-  const accentHex = ACCENT_MAP[chosenAccent]?.hex ?? ACCENT_MAP[DEFAULT_ACCENT].hex
-  const buddyImg = BUDDY_MAP[chosenBuddy]?.img ?? BUDDY_MAP[DEFAULT_BUDDY].img
+  const theme = ACCENT_MAP[chosenAccent] ?? ACCENT_MAP[DEFAULT_ACCENT]
+  const accentHex = theme.hex
   function saveMine(next: { buddy?: string; accent?: string }) {
     if (next.buddy) setChosenBuddy(next.buddy)
     if (next.accent) setChosenAccent(next.accent)
@@ -183,7 +198,13 @@ export default function KidQuestScreen({
   }
 
   useEffect(() => {
-    if (localStorage.getItem('gc_kid_welcome') !== '1') setShowWelcome(true)
+    // Show the welcome once, ever. We mark it seen the moment it shows, not only
+    // when they tap the button, so it never greets them again on a later login
+    // even if they just scrolled past it the first time.
+    if (localStorage.getItem('gc_kid_welcome') !== '1') {
+      setShowWelcome(true)
+      localStorage.setItem('gc_kid_welcome', '1')
+    }
     setSoundOn(soundEnabled())
   }, [])
 
@@ -407,18 +428,6 @@ export default function KidQuestScreen({
   // family has run migration 047.
   const bankBalance = bank ? bank.balance : weekStars
 
-  // DiGi's line for the top bar: one short, clear, useful thing for the child
-  // right now, read from their own numbers. Calm and encouraging, never a
-  // telling off, and it always says something.
-  const remainingToday = quests.length - doneCount
-  const goalLeft = goal?.stars_needed ? goal.stars_needed - bankBalance : null
-  const digiTip =
-    (goalLeft != null && goalLeft > 0 && goalLeft <= 6) ? `Just ${goalLeft} more star${goalLeft === 1 ? '' : 's'} and you reach your prize!`
-    : (quests.length > 0 && remainingToday === 0) ? 'Everything done today. You are a superstar!'
-    : (pendingStars > 0) ? `${pendingStars} star${pendingStars === 1 ? '' : 's'} waiting for your grown up to say yes.`
-    : (streakDays >= 1 && remainingToday > 0) ? `Do one quest today to keep your ${streakDays} day streak going.`
-    : (remainingToday > 0) ? 'Tick a quest to earn stars for screen time.'
-    : 'Nice work. Ask your grown up for more quests when you are ready.'
 
   // Welcome back celebrations: when the child opens their screen and something
   // grew while they were away, a squad friend springs up to mark it. Two
@@ -444,35 +453,11 @@ export default function KidQuestScreen({
           return
         }
       }
-      // The daily hello: first open of the day, DiGi shows what is waiting so
-      // the to-do is obvious the moment they land. Once per day.
-      const today = new Date().toISOString().slice(0, 10)
-      const remaining = quests.length - doneCount
-      if (remaining > 0 && localStorage.getItem('gc_kid_today_seen') !== today) {
-        localStorage.setItem('gc_kid_today_seen', today)
-        setHappyNews({ character: 'digi', headline: `Hi ${childName}! ${remaining} thing${remaining === 1 ? '' : 's'} to do today`, sub: 'Tick each one as you go and watch your stars grow. You have got this!', action: { label: 'Show me →', targetId: 'my-todo' } })
-        return
-      }
-
-      // The wisdom pop: on a quiet open, a squad friend brings one age relevant
-      // idea about screens and wellbeing, read from the science bank for this
-      // child's stage, and sometimes points at a fun sheet to do. A treat every
-      // few days, never every day, so it lands as a gift and not a lecture.
-      const lastPop = localStorage.getItem('gc_kid_insight_pop')
-      const daysSincePop = lastPop ? (Date.parse(today) - Date.parse(lastPop)) / 86400000 : 999
-      const pool = insightsForStage(stageId)
-      if (daysSincePop >= 3 && pool.length > 0) {
-        const dayNum = Math.floor(Date.parse(today) / 86400000)
-        const pick = pool[dayNum % pool.length]
-        localStorage.setItem('gc_kid_insight_pop', today)
-        const sheet = stagePrintables[dayNum % Math.max(1, stagePrintables.length)]
-        setHappyNews({
-          character: pick.character,
-          headline: pick.headline,
-          sub: pick.body,
-          action: sheet ? { label: 'See a fun sheet →', onClick: () => { setTab('print'); document.getElementById('kid-tabs')?.scrollIntoView({ behavior: 'smooth' }) } } : undefined,
-        })
-      }
+      // Nothing else pops on open. The daily hello and the wisdom pop used to
+      // spring a character up every single login, which read as flicker and
+      // clutter. What to do is already right there on the screen, so the home
+      // stays calm and only a real, rare win (a bank milestone or a streak)
+      // ever brings a friend up to celebrate.
     } catch { /* localStorage off, skip the treat */ }
     // Runs once on open with the values the server rendered.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -538,7 +523,7 @@ export default function KidQuestScreen({
 
   return (
     <div style={{
-      minHeight: '100dvh', background: 'var(--kid-bg)',
+      minHeight: '100dvh', background: theme.bg,
       display: 'flex', flexDirection: 'column', alignItems: 'center',
       padding: '22px 16px 40px',
       fontFamily: 'var(--font-body)',
@@ -641,10 +626,10 @@ export default function KidQuestScreen({
           >
             {soundOn ? '🔊' : '🔇'}
           </button>
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 6 }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: theme.inkSoft, marginBottom: 6 }}>
             Today&apos;s quests
           </p>
-          <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.7rem, 8vw, 2.2rem)', color: 'var(--ink)', letterSpacing: '-0.02em', margin: 0 }}>
+          <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.7rem, 8vw, 2.2rem)', color: theme.ink, letterSpacing: '-0.02em', margin: 0 }}>
             Go {childName}!
           </h1>
           {/* A clear, labelled way in to pick a buddy and a colour, so making
@@ -662,89 +647,19 @@ export default function KidQuestScreen({
           </button>
         </div>
 
-        {/* DiGi in the top bar: a small star friend with one clear insight for
-            the child, read from their own numbers, always here and readable. */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12, background: '#fff', border: '1.5px solid rgba(26,26,46,0.1)', borderRadius: '16px', padding: '11px 14px', margin: '14px 0 4px' }}>
-          <style>{`@keyframes gcTipBob {0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-4px) rotate(4deg)}}`}</style>
-          <button onClick={() => setMakeMineOpen(true)} aria-label="Make my app mine" style={{ flexShrink: 0, width: 46, height: 46, borderRadius: '50%', background: '#FFF7E8', border: `2px solid ${accentHex}`, overflow: 'hidden', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', animation: 'gcTipBob 3s ease-in-out infinite' }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            {chosenBuddy === 'digi'
-              ? <img src={buddyImg} alt="" style={{ width: 32, height: 32 }} />
-              : <img src={buddyImg} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }} />}
-          </button>
-          {/* When there are jobs still to do, the whole line is a doorway to
-              the to-do list, so DiGi's nudge is always something the child can
-              act on the moment they land, every time they come in. */}
-          <button
-            onClick={() => { if (remainingToday > 0) { document.getElementById('my-todo')?.scrollIntoView({ behavior: 'smooth' }); playKidSound('tap') } }}
-            disabled={remainingToday <= 0}
-            style={{ flex: 1, minWidth: 0, background: 'none', border: 'none', padding: 0, margin: 0, textAlign: 'left', cursor: remainingToday > 0 ? 'pointer' : 'default', display: 'flex', alignItems: 'center', gap: 8 }}
-          >
-            <span style={{ flex: 1, minWidth: 0 }}>
-              <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>{BUDDY_MAP[chosenBuddy]?.name ?? 'DiGi'} says</span>
-              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: 'var(--ink)', lineHeight: 1.3, marginTop: '1px' }}>{digiTip}</span>
-            </span>
-            {remainingToday > 0 && (
-              <span aria-hidden style={{ flexShrink: 0, fontSize: 18, color: 'var(--terracotta-dark)', fontWeight: 800 }}>→</span>
-            )}
-          </button>
-        </div>
-
         {/* From school today: the child sees the reminder their grown up sent
             through, and a timed one goes red as it nears, so it lands with
             them too, not only the parent. */}
         <KidSchoolBanner items={schoolToday} />
 
-        {/* Star bank: a white card with a gold star medallion and a gold accent,
-            not a flat block of gold, so the top of the app reads as one premium
-            set of cards. The streak sits in its own warm flame chip. */}
-        <div style={{
-          background: '#fff', borderRadius: '20px', padding: '16px 18px',
-          boxShadow: '0 5px 0 rgba(26,26,46,0.10)', borderLeft: `6px solid ${accentHex}`,
-          marginBottom: '16px',
-        }}>
-         <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-          <div style={{
-            flexShrink: 0, width: 56, height: 56, borderRadius: '14px',
-            background: 'var(--terracotta-lt)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-          }}><KidIcon name="star" size={30} color="var(--terracotta-dark)" /></div>
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '0 0 1px' }}>
-              My star bank
-            </p>
-            <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.7rem', color: 'var(--ink)', margin: 0, lineHeight: 1.05 }}>
-              {bankBalance}
-              {pendingStars > 0 && (
-                <span style={{ fontSize: '0.9rem', fontWeight: 700, color: 'var(--terracotta-dark)' }}> +{pendingStars} waiting</span>
-              )}
-            </p>
-            <p style={{ fontSize: '13.5px', fontWeight: 700, color: 'var(--ink-soft)', margin: '2px 0 0' }}>
-              = {bankBalance * STAR_MINUTES} minutes of screen time to use
-            </p>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, color: 'var(--retro-green-dark, var(--deep-teal))', margin: '4px 0 0' }}>
-              +⭐ {weekStars} earned this week{usedWeekMinutes > 0 ? ` · ${usedWeekMinutes} min used` : ''}
-            </p>
-          </div>
-          {streakDays > 0 && (
-            <div style={{ flexShrink: 0, textAlign: 'center', background: 'var(--terracotta-lt)', borderRadius: '14px', padding: '9px 12px' }}>
-              <div style={{ display: 'flex', justifyContent: 'center', lineHeight: 1 }}><KidIcon name="flame" size={22} color="var(--terracotta-dark)" /></div>
-              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: 'var(--terracotta-dark)' }}>{streakDays}</div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '8px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>day streak</div>
-            </div>
-          )}
-         </div>
-
-        </div>
-
-        {/* The whole child path in four big buttons: do my jobs, use my time,
-            ask for a new job, see the deal. Big icons, few words, so a young
-            child always knows exactly what to tap. */}
+        {/* Lead with what to do: the whole child path in four big buttons, jobs
+            first. Big icons, few words, so a young child always knows exactly
+            what to tap the moment they land. */}
         {(() => {
           const jobsLeft = quests.length - doneCount
           const tiles: { icon: KidIconName; iconColor: string; label: string; sub: string; tint: string; onClick: () => void }[] = [
             { icon: 'jobs', iconColor: 'var(--terracotta-dark)', label: jobsLeft > 0 ? 'My jobs' : 'All done', sub: jobsLeft > 0 ? `${jobsLeft} to do` : 'Nice one', tint: 'var(--terracotta-lt)', onClick: () => { document.getElementById('my-todo')?.scrollIntoView({ behavior: 'smooth' }); playKidSound('tap') } },
-            { icon: 'time', iconColor: '#2F8F6B', label: 'Use my time', sub: `${bankBalance * STAR_MINUTES} min`, tint: 'var(--tint-sage)', onClick: () => { document.getElementById('my-device-time')?.scrollIntoView({ behavior: 'smooth' }); playKidSound('tap') } },
+            { icon: 'time', iconColor: '#2F8F6B', label: 'Use my time', sub: `${bankBalance * STAR_MINUTES} min`, tint: 'var(--tint-sage)', onClick: () => { setDeviceOpen(true); requestAnimationFrame(() => document.getElementById('my-device-time')?.scrollIntoView({ behavior: 'smooth' })); playKidSound('tap') } },
             { icon: 'newjob', iconColor: '#3D739A', label: askedMore ? 'Asked' : 'New job', sub: askedMore ? 'Grown up knows' : 'Ask a grown up', tint: askedMore ? 'var(--tint-sage)' : 'var(--tint-blue, #E4ECF7)', onClick: () => { if (!askedMore) { askForMore(); playKidSound('tap') } } },
             { icon: 'deal', iconColor: 'var(--terracotta-dark)', label: 'Our deal', sub: 'How it works', tint: 'var(--cream)', onClick: () => { setDealOpen(true); playKidSound('tap') } },
           ]
@@ -767,6 +682,62 @@ export default function KidQuestScreen({
           )
         })()}
 
+        {/* One clear balance card. The thing we celebrate is the healthy balance
+            of jobs done against screen used, and the streak of jobs, not the
+            screen time itself. Stars and minutes are here, but the hero line is
+            the balance: a warm well done when it is healthy, a gentle Duolingo
+            style nudge to do a job when screen has run ahead. Tap to open and
+            actually use the time. */}
+        {(() => {
+          const earnedWeekMins = weekStars * STAR_MINUTES
+          const healthy = usedWeekMinutes <= earnedWeekMins || usedWeekMinutes === 0
+          const balanceMsg = streakDays >= 2
+            ? `${streakDays} day streak of jobs, amazing! ${healthy ? 'And a lovely balance too.' : 'Do one job to keep your balance healthy.'}`
+            : healthy
+              ? 'Lovely balance. You have earned more than you have watched.'
+              : 'Screen has run a little ahead. Do a job to bring your balance back.'
+          return (
+        <div id="my-device-time" style={{ scrollMarginTop: '80px', marginBottom: '16px', background: '#fff', borderRadius: '20px', border: '1.5px solid rgba(26,26,46,0.08)', boxShadow: '0 4px 0 rgba(26,26,46,0.08)', overflow: 'hidden' }}>
+          <button onClick={() => { setDeviceOpen(o => !o); playKidSound('tap') }} aria-expanded={deviceOpen} style={{ width: '100%', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', padding: '16px 18px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+              <span style={{ flexShrink: 0, width: 52, height: 52, borderRadius: '14px', background: 'var(--terracotta-lt)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><KidIcon name="star" size={28} color="var(--terracotta-dark)" /></span>
+              <span style={{ flex: 1, minWidth: 0 }}>
+                <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>My balance</span>
+                <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.55rem', color: 'var(--ink)', lineHeight: 1.05 }}>
+                  {bankBalance} <span style={{ fontSize: '1rem' }}>stars</span>
+                  {pendingStars > 0 && <span style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--terracotta-dark)' }}> +{pendingStars}</span>}
+                </span>
+                <span style={{ display: 'block', fontSize: '12.5px', fontWeight: 700, color: 'var(--ink-soft)', marginTop: '1px' }}>{bankBalance * STAR_MINUTES} minutes ready to use</span>
+              </span>
+              {streakDays > 0 && (
+                <span style={{ flexShrink: 0, textAlign: 'center', background: 'var(--terracotta-lt)', borderRadius: '14px', padding: '8px 11px' }}>
+                  <span style={{ display: 'flex', justifyContent: 'center', lineHeight: 1 }}><KidIcon name="flame" size={20} color="var(--terracotta-dark)" /></span>
+                  <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1rem', color: 'var(--terracotta-dark)' }}>{streakDays}</span>
+                  <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '7.5px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>day streak</span>
+                </span>
+              )}
+              <span aria-hidden style={{ flexShrink: 0, fontSize: 20, color: 'var(--ink-muted)', transform: deviceOpen ? 'rotate(90deg)' : 'none', transition: 'transform 0.18s' }}>›</span>
+            </div>
+            {/* The hero: the balance we celebrate, or the gentle nudge to a job. */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 9, background: healthy ? 'var(--tint-sage)' : 'var(--terracotta-lt)', borderRadius: '13px', padding: '11px 13px' }}>
+              <span style={{ fontSize: 17, flexShrink: 0 }}>{healthy ? '🌱' : '💪'}</span>
+              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: 'var(--ink)', lineHeight: 1.35 }}>{balanceMsg}</span>
+            </div>
+          </button>
+          {deviceOpen && (
+            <div style={{ padding: '0 18px 18px' }}>
+              <DeviceTimeCard token={token} balanceStars={bankBalance} initialSession={activeSession} usedTodayMinutes={usedTodayMinutes} recommendedMinutes={recommendedMinutes} />
+              {weekChart.some(d => d.count > 0) && (
+                <div style={{ marginTop: '12px' }}>
+                  <KidWeekChart data={weekChart} weekStars={weekStars} />
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+          )
+        })()}
+
         {dealOpen && (
           <FamilyDeal
             onClose={() => setDealOpen(false)}
@@ -774,6 +745,8 @@ export default function KidQuestScreen({
             goal={goal}
             bankBalance={bankBalance}
             goalRedeemed={goalRedeemed}
+            agreementItems={agreementItems}
+            agreementSigned={agreementSigned}
           />
         )}
 
@@ -789,12 +762,6 @@ export default function KidQuestScreen({
         {/* A note from a grown up: shared straight to this app, kept to read
             again, never a text message. */}
         <NotesFromGrownUp token={token} notes={notes} />
-
-        {/* Device time: turn earned stars into minutes on an agreed device,
-            with the countdown and the alarm when the time is up. */}
-        <div id="my-device-time" style={{ scrollMarginTop: '80px' }}>
-          <DeviceTimeCard token={token} balanceStars={bankBalance} initialSession={activeSession} usedTodayMinutes={usedTodayMinutes} recommendedMinutes={recommendedMinutes} />
-        </div>
 
         {/* Today's goal: enough stars in one day completes the day */}
         {goal?.daily_stars ? (() => {
@@ -841,7 +808,17 @@ export default function KidQuestScreen({
                 <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '15px', color: 'var(--ink)' }}>🎉 Redeemed: {goal.title}</span>
                 <span style={{ display: 'block', fontSize: '13px', color: 'var(--ink-soft)', margin: '2px 0 10px' }}>Your grown up knows. Ask them to set a new goal!</span>
                 <button
-                  onClick={() => { if (goalKey) localStorage.setItem(goalKey, '1'); setGoalDone(true); playKidSound('tap') }}
+                  onClick={() => {
+                    if (goalKey) localStorage.setItem(goalKey, '1')
+                    setGoalDone(true)
+                    playKidSound('tap')
+                    // Clear it on the server too, so a redeemed reward never
+                    // comes back on the next open or on another device.
+                    fetch('/api/quests/goal/clear', {
+                      method: 'POST', headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ token }),
+                    }).catch(() => { /* localStorage still hides it here */ })
+                  }}
                   style={{ background: 'var(--retro-green)', color: '#fff', border: 'none', borderRadius: '12px', padding: '10px 20px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', boxShadow: '0 4px 0 rgba(0,0,0,0.2)' }}
                 >
                   Got it, tick it off ✓
@@ -932,13 +909,6 @@ export default function KidQuestScreen({
             that teaches why balance is worth it, rotating a fresh idea daily,
             grounded in the science bank. Replaces the old single tip line. */}
         <BalanceInsight stageId={stageId} usedTodayMinutes={usedTodayMinutes} recommendedMinutes={recommendedMinutes} balanceStars={bankBalance} streakDays={streakDays} />
-
-        {/* My week: a simple bar per day of the last seven, taller the more
-            quests the child ticked, and the plain sum of what that earned in
-            minutes. A child can see their own effort turn into screen time. */}
-        {weekChart.some(d => d.count > 0) && (
-          <KidWeekChart data={weekChart} weekStars={weekStars} />
-        )}
 
         {/* Screens wait: any quest flagged blocks_screens and not yet
             approved sits at the top of the list behind this banner. */}
@@ -1062,7 +1032,7 @@ export default function KidQuestScreen({
               )
             }
             const sectionLabel = (icon: string, text: string) => (
-              <div style={{ display: 'flex', alignItems: 'center', gap: 7, margin: '6px 2px 0', fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-soft)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 7, margin: '6px 2px 0', fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: theme.inkSoft }}>
                 <span aria-hidden>{icon}</span>{text}
               </div>
             )
@@ -1126,53 +1096,57 @@ export default function KidQuestScreen({
           </div>
         )}
 
-        {/* Pitch your own quest: the child's idea becomes a real quest the
-            moment the grown up says yes */}
-        <div style={{ marginTop: '18px', background: '#fff', borderRadius: '18px', padding: '16px 18px' }}>
-          <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)', margin: '0 0 4px' }}>
+        {/* Pitch your own quest: tap an example or write your own, and it goes
+            to the grown up to say yes. Big, clear, tappable, all the same size,
+            so a young child can pick or type easily. */}
+        <div style={{ marginTop: '18px', background: '#fff', border: '1.5px solid rgba(26,26,46,0.08)', borderRadius: '20px', padding: '16px 18px', boxShadow: '0 4px 0 rgba(26,26,46,0.08)' }}>
+          <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '17px', color: 'var(--ink)', margin: '0 0 4px' }}>
             Got a quest idea? 💡
           </p>
-          <p style={{ fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 12px' }}>
-            Pitch it to your grown up. If they say yes it becomes a real quest with stars on it.
+          <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 14px' }}>
+            Tap one, or write your own. Your grown up says yes to turn it into a real quest with stars.
           </p>
-          <div style={{ display: 'flex', gap: '7px', flexWrap: 'wrap', marginBottom: '12px' }}>
-            {KID_REQUEST_IDEAS.filter(idea => !asks.some(a => a.title === idea.title)).slice(0, 4).map(idea => (
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '9px', marginBottom: '14px' }}>
+            {KID_REQUEST_IDEAS.filter(idea => !asks.some(a => a.title === idea.title)).map(idea => (
               <button
                 key={idea.title}
-                onClick={() => submitAsk(idea.title, idea.emoji)}
+                onClick={() => { submitAsk(idea.title, idea.emoji); playKidSound('tap') }}
                 style={{
-                  padding: '9px 13px', borderRadius: '100px', cursor: 'pointer',
-                  background: '#fff', border: 'none',
-                  fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '13px', color: 'var(--ink)',
-                  boxShadow: '0 3px 0 rgba(0,0,0,0.2)',
+                  display: 'flex', alignItems: 'center', gap: '9px', textAlign: 'left', cursor: 'pointer',
+                  padding: '13px 14px', borderRadius: '14px',
+                  background: 'var(--cream)', border: '1.5px solid rgba(26,26,46,0.08)',
+                  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--ink)', lineHeight: 1.25,
                 }}
               >
-                {idea.emoji} {idea.title}
+                <span style={{ fontSize: '20px', flexShrink: 0 }}>{idea.emoji}</span>
+                <span style={{ minWidth: 0 }}>{idea.title}</span>
               </button>
             ))}
           </div>
-          <div style={{ display: 'flex', gap: '8px' }}>
+          <div style={{ display: 'flex', gap: '8px', alignItems: 'stretch' }}>
             <input
               value={askText}
               onChange={e => setAskText(e.target.value)}
               onKeyDown={e => { if (e.key === 'Enter') submitAsk(askText, '⭐') }}
-              placeholder="Or your own idea..."
+              placeholder="Write your own idea..."
               maxLength={60}
               style={{
-                flex: 1, minWidth: 0, padding: '12px 14px', borderRadius: '12px',
-                border: 'none', background: '#fff',
+                flex: 1, minWidth: 0, padding: '13px 14px', borderRadius: '14px',
+                border: '1.5px solid rgba(26,26,46,0.12)', background: 'var(--cream)',
                 fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink)', outline: 'none',
               }}
+              onFocus={e => { e.currentTarget.style.borderColor = 'var(--terracotta)' }}
+              onBlur={e => { e.currentTarget.style.borderColor = 'rgba(26,26,46,0.12)' }}
             />
             <button
               onClick={() => submitAsk(askText, '⭐')}
               disabled={askText.trim().length < 3}
               style={{
-                padding: '12px 18px', borderRadius: '12px', border: 'none', flexShrink: 0,
+                padding: '13px 20px', borderRadius: '14px', border: 'none', flexShrink: 0,
                 cursor: askText.trim().length < 3 ? 'default' : 'pointer',
                 background: 'var(--terracotta)', color: 'var(--ink)',
-                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px',
-                boxShadow: '0 3px 0 var(--terracotta-dark)',
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
+                boxShadow: askText.trim().length < 3 ? 'none' : '0 4px 0 var(--terracotta-dark)',
                 opacity: askText.trim().length < 3 ? 0.55 : 1,
               }}
             >
@@ -1180,14 +1154,15 @@ export default function KidQuestScreen({
             </button>
           </div>
           {asks.length > 0 && (
-            <div style={{ marginTop: '12px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+            <div style={{ marginTop: '14px', display: 'flex', flexDirection: 'column', gap: '7px' }}>
               {asks.slice(0, 6).map(a => (
-                <p key={a.id} style={{ fontSize: '13.5px', color: 'var(--ink-soft)', margin: 0, lineHeight: 1.5 }}>
-                  {a.emoji} {a.title}
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, marginLeft: '7px', color: a.status === 'added' ? 'var(--terracotta)' : a.status === 'declined' ? 'var(--ink-muted)' : 'var(--ink-muted)' }}>
-                    {a.status === 'added' ? 'IT IS ON ⭐' : a.status === 'declined' ? 'NOT THIS TIME' : 'WAITING...'}
+                <div key={a.id} style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'var(--cream)', borderRadius: '12px', padding: '9px 12px' }}>
+                  <span style={{ fontSize: '15px', flexShrink: 0 }}>{a.emoji}</span>
+                  <span style={{ flex: 1, minWidth: 0, fontSize: '14px', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.3 }}>{a.title}</span>
+                  <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: a.status === 'added' ? 'var(--retro-green-dark, var(--deep-teal))' : 'var(--ink-muted)' }}>
+                    {a.status === 'added' ? 'IT IS ON ⭐' : a.status === 'declined' ? 'NOT THIS TIME' : 'WAITING'}
                   </span>
-                </p>
+                </div>
               ))}
             </div>
           )}
@@ -1712,13 +1687,17 @@ const SCHOOL_KIND_EMOJI: Record<string, string> = {
 // by, in their own words. How it works, the exchange rate, a good amount of
 // screen a day, and what they are saving for right now. No dashes, no rules
 // shouted, just the deal they can keep an eye on any time.
-function FamilyDeal({ onClose, recommendedMinutes, goal, bankBalance, goalRedeemed }: {
+function FamilyDeal({ onClose, recommendedMinutes, goal, bankBalance, goalRedeemed, agreementItems = [], agreementSigned = false }: {
   onClose: () => void
   recommendedMinutes: number
   goal: { title?: string; stars_needed?: number; achieved_at?: string | null } | null
   bankBalance: number
   goalRedeemed: boolean
+  agreementItems?: { title: string; body: string }[]
+  agreementSigned?: boolean
 }) {
+  // Which agreed promise is open to read. One at a time keeps the deal tidy.
+  const [openPromise, setOpenPromise] = useState<number | null>(null)
   const rows: { icon: KidIconName; iconColor: string; tint: string; title: string; body: string }[] = [
     { icon: 'jobs', iconColor: 'var(--terracotta-dark)', tint: 'var(--terracotta-lt)', title: 'You do jobs', body: 'Real world jobs and quests your grown up sets, like tidying up or reading.' },
     { icon: 'star', iconColor: 'var(--terracotta-dark)', tint: 'var(--terracotta-lt)', title: 'Jobs earn stars', body: `Every quest gives you stars. One star is worth ${STAR_MINUTES} minutes of screen time.` },
@@ -1747,6 +1726,45 @@ function FamilyDeal({ onClose, recommendedMinutes, goal, bankBalance, goalRedeem
             </div>
           ))}
         </div>
+        {/* The real contract: what this family actually agreed and signed
+            together. Each promise is a tappable card the child can open to
+            read, so the deal they made is always here in their own app. */}
+        {agreementItems.length > 0 && (
+          <div style={{ marginTop: '20px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '10px' }}>
+              What we agreed together
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              {agreementItems.map((it, i) => {
+                const open = openPromise === i
+                return (
+                  <div key={i} style={{ background: '#fff', borderRadius: '14px', overflow: 'hidden' }}>
+                    <button
+                      onClick={() => setOpenPromise(open ? null : i)}
+                      aria-expanded={open}
+                      style={{ width: '100%', display: 'flex', alignItems: 'center', gap: '10px', background: 'none', border: 'none', cursor: 'pointer', padding: '13px 15px', textAlign: 'left' }}
+                    >
+                      <span style={{ width: 34, height: 34, borderRadius: '10px', background: 'var(--terracotta-lt)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><KidIcon name="deal" size={18} color="var(--terracotta-dark)" /></span>
+                      <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: 'var(--ink)' }}>{it.title}</span>
+                      <span aria-hidden style={{ flexShrink: 0, fontSize: 15, color: 'var(--ink-muted)', transform: open ? 'rotate(90deg)' : 'none', transition: 'transform 0.15s' }}>›</span>
+                    </button>
+                    {open && (
+                      <div style={{ padding: '0 15px 14px 59px', fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.55, whiteSpace: 'pre-wrap' }}>
+                        {it.body}
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+            {agreementSigned && (
+              <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--retro-green-dark, var(--deep-teal))', margin: '10px 2px 0', textAlign: 'center' }}>
+                ✓ You and your grown up agreed this together
+              </p>
+            )}
+          </div>
+        )}
+
         <button onClick={onClose} style={{ width: '100%', marginTop: '16px', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: '15px', padding: '14px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '15px', boxShadow: '0 5px 0 var(--terracotta-dark)' }}>
           Got it!
         </button>
@@ -1791,14 +1809,20 @@ function MakeItMine({ onClose, chosenBuddy, chosenAccent, onPick }: {
           })}
         </div>
 
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '10px' }}>Pick your colour</div>
-        <div style={{ display: 'flex', gap: '12px', justifyContent: 'space-between', marginBottom: '20px' }}>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '10px' }}>Pick your background</div>
+        {/* The colour bar: each swatch is the real background it sets, so the
+            child picks the whole screen, not a ring. A live preview strip sits
+            above it so the change is obvious before they even close. */}
+        <div style={{ height: 54, borderRadius: '14px', background: ACCENT_MAP[chosenAccent]?.bg ?? ACCENT_MAP[DEFAULT_ACCENT].bg, marginBottom: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1.5px solid rgba(26,26,46,0.12)' }}>
+          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '14px', color: ACCENT_MAP[chosenAccent]?.ink ?? '#fff' }}>My app</span>
+        </div>
+        <div style={{ display: 'flex', gap: '9px', marginBottom: '20px', overflowX: 'auto', paddingBottom: '4px' }}>
           {Object.entries(ACCENT_MAP).map(([id, a]) => {
             const on = chosenAccent === id
             return (
-              <button key={id} onClick={() => onPick({ accent: id })} aria-label={a.name} aria-pressed={on} style={{ cursor: 'pointer', background: 'none', border: 'none', padding: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px' }}>
-                <span style={{ width: 40, height: 40, borderRadius: '50%', background: a.hex, boxShadow: on ? '0 0 0 3px #fff, 0 0 0 6px var(--ink)' : 'none' }} />
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, color: 'var(--ink-soft)' }}>{a.name}</span>
+              <button key={id} onClick={() => onPick({ accent: id })} aria-label={a.name} aria-pressed={on} style={{ flexShrink: 0, cursor: 'pointer', background: 'none', border: 'none', padding: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px' }}>
+                <span style={{ width: 46, height: 46, borderRadius: '14px', background: a.bg, boxShadow: on ? '0 0 0 3px #fff, 0 0 0 6px var(--ink)' : 'inset 0 0 0 1.5px rgba(26,26,46,0.12)' }} />
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, color: on ? 'var(--ink)' : 'var(--ink-soft)' }}>{a.name}</span>
               </button>
             )
           })}
