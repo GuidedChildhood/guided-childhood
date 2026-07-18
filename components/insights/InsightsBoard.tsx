@@ -168,6 +168,28 @@ export default function InsightsBoard() {
     } catch { /* leave it to retry */ } finally { setReqBusy(null) }
   }
 
+  // The scripts DiGi drafted every two weeks from demand and the research bank,
+  // waiting for a founder OK before they enter the live library.
+  type ScriptDraft = { id: string; stage_id: string; category: string | null; title: string; situation: string; say_this: string; not_this: string; why_it_works: string; tonight: string; grounded_in: string | null; rationale: string | null }
+  const [drafts, setDrafts] = useState<ScriptDraft[] | null>(null)
+  const [draftBusy, setDraftBusy] = useState<string | null>(null)
+  useEffect(() => {
+    fetch('/api/admin/script-candidates')
+      .then(r => r.json())
+      .then(d => { if (d && !d.error) setDrafts(d.candidates ?? []) })
+      .catch(() => setDrafts([]))
+  }, [])
+  async function reviewDraft(id: string, action: 'approve' | 'reject') {
+    setDraftBusy(id)
+    try {
+      const res = await fetch('/api/admin/script-candidates', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, action }),
+      })
+      if (res.ok) setDrafts(d => (d ?? []).filter(x => x.id !== id))
+    } catch { /* leave it to retry */ } finally { setDraftBusy(null) }
+  }
+
   const recs = (data?.report.recommendations ?? []).slice().sort((a, b) => a.priority - b.priority)
 
   return (
@@ -227,6 +249,41 @@ export default function InsightsBoard() {
           )
         })()}
       </section>
+
+      {/* Scripts DiGi drafted every two weeks from demand and the research bank,
+          waiting for an OK before they join the live library. The human gate. */}
+      {drafts && drafts.length > 0 && (
+        <section style={{ marginBottom: 26 }}>
+          <h2 style={sectionH}>Script drafts to review · {drafts.length}</h2>
+          <p style={{ fontSize: 13.5, color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: 12 }}>
+            DiGi wrote these from what parents asked for, grounded in the research bank. Nothing joins the library until you approve it.
+          </p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            {drafts.map(d => (
+              <div key={d.id} style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 14, padding: '15px 16px' }}>
+                <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 6 }}>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>{d.stage_id}{d.category ? ` · ${d.category}` : ''}</span>
+                  {d.grounded_in && <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, color: 'var(--ink-muted)' }}>grounded in {d.grounded_in}</span>}
+                </div>
+                <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 17, color: 'var(--ink)', margin: '0 0 4px' }}>{d.title}</p>
+                <p style={{ fontSize: 13.5, color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 8px' }}>{d.situation}</p>
+                <p style={{ fontSize: 14, color: 'var(--ink)', lineHeight: 1.5, margin: '0 0 4px' }}><strong>Say this:</strong> {d.say_this}</p>
+                <p style={{ fontSize: 13.5, color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 4px' }}><strong>Not this:</strong> {d.not_this}</p>
+                <p style={{ fontSize: 13, color: 'var(--ink-muted)', lineHeight: 1.5, margin: '0 0 4px' }}><strong>Why it works:</strong> {d.why_it_works}</p>
+                <p style={{ fontSize: 13, color: 'var(--ink-muted)', lineHeight: 1.5, margin: '0 0 12px' }}><strong>Try tonight:</strong> {d.tonight}</p>
+                <div style={{ display: 'flex', gap: 8 }}>
+                  <button onClick={() => reviewDraft(d.id, 'approve')} disabled={draftBusy === d.id} style={{ flex: 1, background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 11, padding: '9px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 13, boxShadow: '0 3px 0 var(--terracotta-dark)', opacity: draftBusy === d.id ? 0.6 : 1 }}>
+                    {draftBusy === d.id ? '…' : 'Add to library'}
+                  </button>
+                  <button onClick={() => reviewDraft(d.id, 'reject')} disabled={draftBusy === d.id} style={{ background: '#fff', color: 'var(--ink-soft)', border: '1.5px solid var(--border)', borderRadius: 11, padding: '9px 16px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 13 }}>
+                    Reject
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Scripts parents asked for and could not find. The pipeline for writing
           the next scripts from real demand. Mark handled once written. */}
