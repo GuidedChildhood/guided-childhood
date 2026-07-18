@@ -111,6 +111,24 @@ export default function DigiChat({
   // Set the moment a new question is sent, so the next render lifts that
   // question to the top of the view instead of pinning to the bottom.
   const pendingQScroll = useRef(false)
+  // A trailing spacer under the newest exchange. Without it, on a tall laptop
+  // screen there is not enough content below a fresh question to scroll it up
+  // to the top, so it stalls halfway. We drop in a viewport of space on send so
+  // the question can always reach the very top, then shrink it once the answer
+  // has landed so there is no big empty gap left behind.
+  const tailRef = useRef<HTMLDivElement>(null)
+  const [tailSpace, setTailSpace] = useState(0)
+  const refitTail = () => {
+    const el = scrollRef.current, tail = tailRef.current
+    if (!el || !tail) return
+    const qs = el.querySelectorAll('[data-role="user"]')
+    const last = qs[qs.length - 1] as HTMLElement | undefined
+    if (!last) return
+    const qTop = last.getBoundingClientRect().top - el.getBoundingClientRect().top + el.scrollTop
+    const realContentH = el.scrollHeight - tail.offsetHeight
+    const belowQ = realContentH - qTop
+    setTailSpace(Math.max(24, el.clientHeight - belowQ - 8))
+  }
   const onMessagesScroll = () => {
     const el = scrollRef.current
     if (el) stickRef.current = el.scrollHeight - el.scrollTop - el.clientHeight < 80
@@ -192,9 +210,12 @@ export default function DigiChat({
     if (!reflectionDone) setReflectionQuestion(null)
 
     // Sending lifts the new question to the top of the view, not the bottom, so
-    // the answer reads from the question down, the Good Inside feel.
+    // the answer reads from the question down, the Good Inside feel. A full
+    // viewport of trailing space guarantees the question can reach the very top
+    // even before the answer has filled in beneath it.
     stickRef.current = false
     pendingQScroll.current = true
+    if (scrollRef.current) setTailSpace(scrollRef.current.clientHeight)
     setMessages(prev => [...prev, { role: 'user', content: messageText }])
     setInput('')
     setContinuingPrefix(null)
@@ -277,6 +298,9 @@ export default function DigiChat({
 
       showReply(mainResponse)
       setDailyCount(Number.isFinite(usedToday) && usedToday > 0 ? usedToday : dailyCount + 1)
+      // The answer has landed, so shrink the trailing space to just what is
+      // needed to keep the question near the top, no big empty gap below.
+      requestAnimationFrame(() => requestAnimationFrame(refitTail))
       // Hold the reflective question back and only let it surface once the
       // parent has paused, so it never interrupts a live back and forth.
       if (reflective && !reflectionQuestion && !reflectionDone) {
@@ -645,7 +669,8 @@ export default function DigiChat({
           </div>
         )}
 
-        <div ref={messagesEndRef} style={{ height: '20px' }} />
+        <div ref={tailRef} aria-hidden style={{ height: Math.max(20, tailSpace) }} />
+        <div ref={messagesEndRef} />
       </div>
 
       {/* Input */}
