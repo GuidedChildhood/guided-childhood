@@ -34,6 +34,7 @@
     { "path": "/api/cron/digi-insights", "schedule": "0 7 * * *" },
     { "path": "/api/cron/digi-wisdom", "schedule": "0 6 * * 0" },
     { "path": "/api/cron/digi-quality", "schedule": "30 6 * * 1" },
-    { "path": "/api/cron/weekly-review", "schedule": "45 18 * * 0" }
+    { "path": "/api/cron/weekly-review", "schedule": "45 18 * * 0" },
+    { "path": "/api/cron/knowledge-refresh", "schedule": "0 6 1,15 * *" }
   ]
 }

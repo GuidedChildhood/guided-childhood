@@ -192,6 +192,17 @@ export default function QuestManager() {
     await load()
   }
 
+  // Jump to a section, switching tab first when the target lives inside one.
+  // Two animation frames so the tab content is actually in the DOM before we
+  // scroll, otherwise the scroll fires against an element that is not there yet
+  // (the old fixed 60ms race was why these quick buttons felt dead).
+  function goToSection(anchorId: string, tabKey?: QuestTab) {
+    if (tabKey && tabKey !== tab) setTab(tabKey)
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      document.getElementById(anchorId)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }))
+  }
+
   async function savePhone() {
     if (!activeChild) return
     await fetch('/api/quests', {
@@ -602,13 +613,13 @@ export default function QuestManager() {
                 goalReached={!!g && !g.achieved_at && gBalance >= g.stars_needed}
                 goalAchieved={!!g?.achieved_at}
                 onGoalDone={redeemGoal}
-                onSetGoal={() => { setTab('manage'); setTimeout(() => document.getElementById('star-goal')?.scrollIntoView({ behavior: 'smooth' }), 60) }}
+                onSetGoal={() => goToSection('star-goal', 'manage')}
                 timerRunning={sessions.some(s => s.child_id === activeChild)}
                 sessionEndsAt={sessions.find(s => s.child_id === activeChild)?.ends_at ?? null}
-                onApprove={() => { if (ticks.some(t => t.child_id === activeChild && t.status === 'pending')) { window.location.href = '/dashboard#quest-board' } else { setTab('manage'); setTimeout(() => document.getElementById('my-todo')?.scrollIntoView({ behavior: 'smooth' }), 60) } }}
-                onTodo={() => { setTab('manage'); setTimeout(() => document.getElementById('my-todo')?.scrollIntoView({ behavior: 'smooth' }), 60) }}
-                onScreenTime={() => document.getElementById('screen-time')?.scrollIntoView({ behavior: 'smooth' })}
-                onShare={() => { setTab('share'); setTimeout(() => document.getElementById('quest-tabs')?.scrollIntoView({ behavior: 'smooth' }), 60) }}
+                onApprove={() => { if (ticks.some(t => t.child_id === activeChild && t.status === 'pending')) { window.location.href = '/dashboard#quest-board' } else { goToSection('quest-tabs', 'manage') } }}
+                onTodo={() => goToSection('my-todo', 'manage')}
+                onScreenTime={() => goToSection('screen-time')}
+                onShare={() => goToSection('quest-tabs', 'share')}
               />
             )
           })()}

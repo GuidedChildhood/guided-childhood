@@ -931,7 +931,7 @@ export default function KidQuestScreen({
         {/* The balance insight surface: a bigger, brighter, character led card
             that teaches why balance is worth it, rotating a fresh idea daily,
             grounded in the science bank. Replaces the old single tip line. */}
-        <BalanceInsight stageId={stageId} />
+        <BalanceInsight stageId={stageId} usedTodayMinutes={usedTodayMinutes} recommendedMinutes={recommendedMinutes} balanceStars={bankBalance} streakDays={streakDays} />
 
         {/* My week: a simple bar per day of the last seven, taller the more
             quests the child ticked, and the plain sum of what that earned in
@@ -993,9 +993,13 @@ export default function KidQuestScreen({
               const state = ticks[q.id]
               const approved = state === 'approved'
               const waiting = state === 'pending'
+              // A make, draw or build quest can point the child at a printable
+              // sheet, so "build something real" always has something concrete
+              // and fun to actually do, not a blank "nothing to do".
+              const makeQuest = /draw|make|build|craft|colou?r|paint|create|model/i.test(q.title) || ['🎨', '✏️', '🖍️', '✂️', '🖌️'].includes(q.emoji)
               return (
+                <div key={q.id} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                 <button
-                  key={q.id}
                   onClick={() => toggle(q)}
                   style={{
                     display: 'flex', alignItems: 'center', gap: 14,
@@ -1046,6 +1050,15 @@ export default function KidQuestScreen({
                     {burst === q.id && <KidTickBurst color={accentHex} />}
                   </span>
                 </button>
+                {makeQuest && !approved && (
+                  <button
+                    onClick={() => { setTab('print'); document.getElementById('kid-tabs')?.scrollIntoView({ behavior: 'smooth' }); playKidSound('tap') }}
+                    style={{ alignSelf: 'flex-start', marginLeft: 6, background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, color: 'var(--terracotta-dark)', padding: '2px 4px' }}
+                  >
+                    🖨️ Need help? Get a sheet to make one →
+                  </button>
+                )}
+                </div>
               )
             }
             const sectionLabel = (icon: string, text: string) => (

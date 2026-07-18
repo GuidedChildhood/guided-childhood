@@ -7,9 +7,26 @@
 // endless stream. Deliberately calm: one card, no autoplay, no infinite feed,
 // because a screen that teaches balance has to model it.
 
-import { useEffect, useState } from 'react'
+import { useMemo, useState } from 'react'
 import DigiCharacter from '@/components/digi/DigiCharacter'
 import { insightsForStage, type InsightCharacter, type InsightTheme } from '@/lib/content/child-insights'
+
+// The clever part: which idea leads is chosen from the child's own day, not at
+// random. High screen already used, lead with doing something real and not
+// using it all. No stars yet, lead with jobs earn stars. On a good streak, lead
+// with keeping the habit and how their brain grows. Everything else fills in
+// behind, so Show me another still walks the whole research bank. Deterministic
+// from the stats (no live AI on a child's screen, nothing to invent), and safe
+// to render on the server because it reads only props.
+function themePriority(s: { usedToday: number; recommended: number; balanceStars: number; streakDays: number }): InsightTheme[] {
+  const p: InsightTheme[] = []
+  const highScreen = s.recommended > 0 && s.usedToday >= Math.round(s.recommended * 0.8)
+  if (highScreen) p.push('offline', 'save')
+  if (s.balanceStars <= 0) p.push('task')
+  if (s.streakDays >= 3) p.push('save', 'brain')
+  p.push('connect', 'watch', 'brain', 'task', 'offline', 'save')
+  return [...new Set(p)]
+}
 
 const CHARACTER: Record<InsightCharacter, { src: string | null; name: string; ring: string }> = {
   digi: { src: null, name: 'DiGi', ring: 'var(--terracotta)' },
@@ -29,16 +46,25 @@ const THEME_BG: Record<InsightTheme, string> = {
   task: 'var(--terracotta-lt)',
 }
 
-export default function BalanceInsight({ stageId }: { stageId: number }) {
-  const list = insightsForStage(stageId)
+export default function BalanceInsight({
+  stageId, usedTodayMinutes = 0, recommendedMinutes = 0, balanceStars = 0, streakDays = 0,
+}: {
+  stageId: number
+  usedTodayMinutes?: number
+  recommendedMinutes?: number
+  balanceStars?: number
+  streakDays?: number
+}) {
   const [i, setI] = useState(0)
 
-  // Start on a different idea each day, chosen after mount so the server and
-  // first client render agree (index 0), then it settles on today's card.
-  useEffect(() => {
-    const day = Math.floor(Date.now() / 86400000)
-    setI(day % list.length)
-  }, [list.length])
+  // Order the stage's ideas so the one that fits the child's day right now
+  // leads, then the rest follow for Show me another.
+  const list = useMemo(() => {
+    const base = insightsForStage(stageId)
+    const priority = themePriority({ usedToday: usedTodayMinutes, recommended: recommendedMinutes, balanceStars, streakDays })
+    const rank = (t: InsightTheme) => { const idx = priority.indexOf(t); return idx === -1 ? 99 : idx }
+    return [...base].sort((a, b) => rank(a.theme) - rank(b.theme))
+  }, [stageId, usedTodayMinutes, recommendedMinutes, balanceStars, streakDays])
 
   if (list.length === 0) return null
   const cur = list[i % list.length]

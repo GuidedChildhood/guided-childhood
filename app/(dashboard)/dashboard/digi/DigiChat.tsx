@@ -1,5 +1,5 @@
 'use client'
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, type ReactNode } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import DigiCharacter, { type DigiMood } from '@/components/digi/DigiCharacter'
@@ -16,36 +16,23 @@ interface Message {
   content: string
 }
 
-// Chat protocol, made bulletproof: DiGi is told to write short texts
-// separated by blank lines, but a reply is still rendered as proper
-// chat bubbles even if a paragraph comes back long. Blank lines split
-// first, then anything still over ~200 characters is split again on
-// sentence boundaries into two sentence chunks, so the premium chat
-// look never depends on the model getting the format exactly right.
-const MAX_BUBBLE_CHARS = 200
-
-function splitIntoBubbles(content: string): string[] {
-  const paragraphs = content.split(/\n{2,}/).map(s => s.trim()).filter(Boolean)
-  const bubbles: string[] = []
-  for (const para of paragraphs) {
-    if (para.length <= MAX_BUBBLE_CHARS) {
-      bubbles.push(para)
-      continue
-    }
-    const sentences = para.split(/(?<=[.?!])\s+(?=[A-Z0-9"'])/).filter(Boolean)
-    let chunk = ''
-    for (const s of sentences) {
-      const candidate = chunk ? `${chunk} ${s}` : s
-      if (candidate.length > MAX_BUBBLE_CHARS && chunk) {
-        bubbles.push(chunk)
-        chunk = s
-      } else {
-        chunk = candidate
-      }
-    }
-    if (chunk) bubbles.push(chunk)
+// Render DiGi's bold lead ins (**like this**) as real bold, so a structured
+// answer reads with the clarity of a coach, the bold phrase carrying the point
+// and the rest of the sentence explaining it. Everything outside the asterisks
+// stays plain. A lone trailing ** while the reply is still streaming is ignored.
+function renderInline(text: string): ReactNode[] {
+  const nodes: ReactNode[] = []
+  const re = /\*\*(.+?)\*\*/g
+  let last = 0
+  let key = 0
+  let m: RegExpExecArray | null
+  while ((m = re.exec(text)) !== null) {
+    if (m.index > last) nodes.push(text.slice(last, m.index))
+    nodes.push(<strong key={key++} style={{ fontWeight: 800, color: 'var(--ink)' }}>{m[1]}</strong>)
+    last = m.index + m[0].length
   }
-  return bubbles
+  if (last < text.length) nodes.push(text.slice(last))
+  return nodes
 }
 
 // When DiGi answers a how to in the house lesson shape, splitting it on blank
@@ -639,8 +626,10 @@ export default function DigiChat({
             )
           }
           const lesson = parseLesson(msg.content)
-          const bubbles = splitIntoBubbles(msg.content)
-          if (!lesson && bubbles.length === 0) return null
+          // Keep each point whole (split on blank lines only, no character
+          // shatter), so a bold led suggestion never breaks across two boxes.
+          const paras = msg.content.split(/\n{2,}/).map(s => s.trim()).filter(Boolean)
+          if (!lesson && paras.length === 0) return null
           return (
             <div key={i} style={{ display: 'flex', justifyContent: 'flex-start', marginBottom: '22px' }}>
               <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10, maxWidth: '90%' }}>
@@ -652,12 +641,12 @@ export default function DigiChat({
                     background: 'var(--terracotta-lt)', borderRadius: '6px 20px 20px 20px',
                     padding: '16px 19px', display: 'flex', flexDirection: 'column', gap: '13px', minWidth: 0,
                   }}>
-                    {bubbles.map((text, b) => (
+                    {paras.map((text, b) => (
                       <p key={b} style={{
                         margin: 0, fontFamily: 'var(--font-body)', fontSize: '16.5px',
                         lineHeight: 1.6, color: 'var(--ink)', fontWeight: 500, whiteSpace: 'pre-wrap',
                       }}>
-                        {text}
+                        {renderInline(text)}
                       </p>
                     ))}
                   </div>
@@ -868,6 +857,11 @@ export default function DigiChat({
             </button>
             </div>
           </form>
+        )}
+        {!atLimit && (
+          <p style={{ margin: '9px 6px 0', textAlign: 'center', fontFamily: 'var(--font-body)', fontSize: '11px', color: 'var(--ink-muted)', lineHeight: 1.4 }}>
+            DiGi is a guide, not a crisis line, and can make mistakes. In an emergency call 999, or Samaritans on 116 123.
+          </p>
         )}
       </div>
 
