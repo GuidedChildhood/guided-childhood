@@ -7,6 +7,7 @@ import { readinessForAgeBand } from '@/lib/content/readiness'
 import PathwayEvidence from '@/components/pathway/PathwayEvidence'
 import PathwayJourney from '@/components/pathway/PathwayJourney'
 import StageRoadMap from '@/components/pathway/StageRoadMap'
+import LiteracyAreas from '@/components/pathway/LiteracyAreas'
 import { getStageProgress, type StageId as ProgressStageId } from '@/lib/pathway/progress'
 import { getJourney } from '@/lib/pathway/journey'
 
@@ -125,6 +126,11 @@ export default async function PathwayPage() {
           </p>
         )}
       </div>
+
+      {/* The four literacy strands in plain words, the simple face on the whole
+          curriculum, so a parent sees the whole promise in four things before
+          the detail below. */}
+      <LiteracyAreas stageId={currentStageNum ?? 1} childName={primaryChild?.name ?? undefined} />
 
       {/* The stamp this stage earns: the passport made concrete. It names the
           competence being built right now and what it is building toward, so the
