@@ -52,13 +52,17 @@ const BUDDY_MAP: Record<string, { name: string; img: string }> = {
 // and the accent used on their rings and cards. The default is a premium dark
 // anthracite, and the colour bar lets them own it. Ids stay the same as before
 // so a child who already picked one keeps it.
+// Graphite is a lighter, premium anthracite that keeps white text. Every colour
+// is a soft pastel wash with dark readable ink, all built the same gentle way so
+// none looks heavier than the others. The accent stays a deeper tone so rings
+// and card edges still read on white.
 const ACCENT_MAP: Record<string, { name: string; hex: string; bg: string; ink: string; inkSoft: string }> = {
-  graphite: { name: 'Graphite', hex: '#E7A33E', bg: 'linear-gradient(180deg, #3C4046 0%, #24262B 100%)', ink: '#F7F7F5', inkSoft: 'rgba(255,255,255,0.72)' },
-  ocean:    { name: 'Ocean',    hex: '#7FD1E0', bg: 'linear-gradient(180deg, #1C7387 0%, #0C4657 100%)', ink: '#FFFFFF', inkSoft: 'rgba(255,255,255,0.78)' },
-  grass:    { name: 'Grass',    hex: '#FCE38A', bg: 'linear-gradient(180deg, #3F9760 0%, #216A40 100%)', ink: '#FFFFFF', inkSoft: 'rgba(255,255,255,0.80)' },
-  sunshine: { name: 'Sunshine', hex: '#C24E2E', bg: 'linear-gradient(180deg, #F6C25C 0%, #EA9E33 100%)', ink: 'var(--ink)', inkSoft: 'rgba(26,26,46,0.64)' },
-  coral:    { name: 'Coral',    hex: '#FFE0B0', bg: 'linear-gradient(180deg, #EC7A5F 0%, #D14E39 100%)', ink: '#FFFFFF', inkSoft: 'rgba(255,255,255,0.85)' },
-  berry:    { name: 'Berry',    hex: '#FFE0B0', bg: 'linear-gradient(180deg, #D96C9A 0%, #B94A78 100%)', ink: '#FFFFFF', inkSoft: 'rgba(255,255,255,0.85)' },
+  graphite: { name: 'Graphite', hex: '#E7A33E', bg: 'linear-gradient(180deg, #4C5057 0%, #34373D 100%)', ink: '#F7F7F5', inkSoft: 'rgba(255,255,255,0.74)' },
+  ocean:    { name: 'Ocean',    hex: '#2E8B9E', bg: 'linear-gradient(180deg, #DCEEF6 0%, #C6E0EE 100%)', ink: 'var(--ink)', inkSoft: 'rgba(26,26,46,0.60)' },
+  grass:    { name: 'Grass',    hex: '#57A06A', bg: 'linear-gradient(180deg, #E1F1E6 0%, #CBE7D4 100%)', ink: 'var(--ink)', inkSoft: 'rgba(26,26,46,0.60)' },
+  sunshine: { name: 'Sunshine', hex: '#E19A2E', bg: 'linear-gradient(180deg, #FBEFCF 0%, #F6E3AE 100%)', ink: 'var(--ink)', inkSoft: 'rgba(26,26,46,0.60)' },
+  coral:    { name: 'Coral',    hex: '#E56B57', bg: 'linear-gradient(180deg, #FBE3DB 0%, #F6D0C4 100%)', ink: 'var(--ink)', inkSoft: 'rgba(26,26,46,0.60)' },
+  berry:    { name: 'Berry',    hex: '#C65B8E', bg: 'linear-gradient(180deg, #F8E2EC 0%, #F1CEDE 100%)', ink: 'var(--ink)', inkSoft: 'rgba(26,26,46,0.60)' },
 }
 const DEFAULT_BUDDY = 'digi'
 const DEFAULT_ACCENT = 'graphite'

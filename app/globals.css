@@ -61,7 +61,7 @@
   /* ── CHILD APP BACKGROUND ── premium anthracite by default. The home screen
      lets the child recolour it from Make it mine, this is the shared default
      the lesson, adventure and game screens rest on. */
-  --kid-bg: linear-gradient(180deg, #3C4046 0%, #24262B 100%);
+  --kid-bg: linear-gradient(180deg, #4C5057 0%, #34373D 100%);
 
   /* ── LEGACY ALIASES ── */
   --warm:              var(--cream);
