@@ -19,13 +19,24 @@ interface Message {
 // stays plain. A lone trailing ** while the reply is still streaming is ignored.
 function renderInline(text: string): ReactNode[] {
   const nodes: ReactNode[] = []
-  const re = /\*\*(.+?)\*\*/g
+  // Bold lead ins (**like this**) and internal links DiGi drops in to point at a
+  // real script it already has ([Title](/dashboard/...)). The link renders as a
+  // tappable chip so a parent can open the exact script from the conversation.
+  const re = /\*\*(.+?)\*\*|\[([^\]]+)\]\((\/[^)\s]+)\)/g
   let last = 0
   let key = 0
   let m: RegExpExecArray | null
   while ((m = re.exec(text)) !== null) {
     if (m.index > last) nodes.push(text.slice(last, m.index))
-    nodes.push(<strong key={key++} style={{ fontWeight: 800, color: 'var(--ink)' }}>{m[1]}</strong>)
+    if (m[1] !== undefined) {
+      nodes.push(<strong key={key++} style={{ fontWeight: 800, color: 'var(--ink)' }}>{m[1]}</strong>)
+    } else {
+      nodes.push(
+        <Link key={key++} href={m[3]} style={{ color: 'var(--terracotta-dark)', fontWeight: 800, textDecoration: 'underline', textUnderlineOffset: '2px' }}>
+          {m[2]} →
+        </Link>
+      )
+    }
     last = m.index + m[0].length
   }
   if (last < text.length) nodes.push(text.slice(last))

@@ -203,6 +203,26 @@ export async function POST(request: Request) {
       scriptFeedback.map(f => `- "${titleFor(f.script_sort_order)}": ${f.worked === 'yes' ? 'worked well' : f.worked === 'somewhat' ? 'partly worked' : 'did not work'}`).join('\n')
   }
 
+  // Scripts we already have that may fit what the parent just said, so DiGi can
+  // point them at the exact one rather than only talking in general. A light
+  // keyword match over the library; DiGi decides if one genuinely fits.
+  let scriptLinkKnowledge = ''
+  try {
+    const { data: allScripts } = await supabase.from('scripts').select('sort_order, title, situation, category')
+    const stop = new Set(['this', 'that', 'with', 'have', 'they', 'them', 'their', 'when', 'what', 'about', 'from', 'want', 'wants', 'will', 'wont', 'does', 'been', 'kids', 'child'])
+    const words = [...new Set(String(message).toLowerCase().replace(/[^a-z0-9\s]/g, ' ').split(/\s+/).filter(w => w.length > 3 && !stop.has(w)))]
+    const scored = (allScripts ?? []).map(s => {
+      const hay = `${s.title} ${s.situation} ${s.category}`.toLowerCase()
+      let score = 0
+      for (const w of words) if (hay.includes(w)) score += 1
+      return { s, score }
+    }).filter(x => x.score >= 2).sort((a, b) => b.score - a.score).slice(0, 3)
+    if (scored.length > 0) {
+      scriptLinkKnowledge = `\n\nSCRIPTS WE ALREADY HAVE THAT MAY FIT WHAT THE PARENT JUST SAID. If one genuinely fits their situation, name it warmly in your reply and link it so they can open it, exactly in this markdown form [Script title](/dashboard/scripts/SORT_ORDER). Only ever link one of these real scripts, never invent a title or a link, and only when it truly fits:\n` +
+        scored.map(x => `- [${x.s.title}](/dashboard/scripts/${x.s.sort_order}) — ${x.s.situation}`).join('\n')
+    }
+  } catch { /* scripts are a bonus, never block the reply */ }
+
   let deviceGuideKnowledge = ''
   const deviceGuide = deviceGuideResult.data
   if (deviceGuide) {
@@ -228,7 +248,7 @@ export async function POST(request: Request) {
     trackerResult.data ?? [],
     feedbackResult.data ?? [],
     aiKnowledge,
-    deviceGuideKnowledge + scriptFeedbackKnowledge + nextStepKnowledge + concernsKnowledge + whatWorked + aggregateWisdom + expertKnowledge + familyMemory,
+    deviceGuideKnowledge + scriptFeedbackKnowledge + scriptLinkKnowledge + nextStepKnowledge + concernsKnowledge + whatWorked + aggregateWisdom + expertKnowledge + familyMemory,
   )
 
   // Drop any malformed or empty entries before the history reaches the model:
