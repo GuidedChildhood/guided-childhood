@@ -72,7 +72,8 @@ const TASK_MINUTES: Record<TodayLoopTask['key'], number> = {
   checkin: 2, moment: 3, script: 4, digi: 4, done: 0,
 }
 
-export default function TodayPathStrip({ tasks, dailyMinutes = 10 }: { tasks: TodayLoopTask[]; dailyMinutes?: number }) {
+export default function TodayPathStrip({ tasks, dailyMinutes = 10, childName, streakCount = 0 }: { tasks: TodayLoopTask[]; dailyMinutes?: number; childName?: string; streakCount?: number }) {
+  const kid = childName && childName !== 'Your child' ? childName : 'your child'
   const stripRef = useRef<HTMLDivElement>(null)
   // The celebration: a step finished since the last look at Home gets a half
   // second of delight, the node pops and DiGi says so. The evidence from the
@@ -184,6 +185,20 @@ export default function TodayPathStrip({ tasks, dailyMinutes = 10 }: { tasks: To
           .todaypath-throb { animation: none; }
         }
       `}</style>
+
+      {/* The point of the day, in one line, so a parent always knows what they
+          are here to do before any steps: understand today's moment and walk
+          away with the words for it. */}
+      <div style={{ padding: '0 4px', marginBottom: '12px' }}>
+        <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '17px', color: 'var(--ink)', letterSpacing: '-0.01em', lineHeight: 1.2, margin: '0 0 3px' }}>
+          {dayDone ? 'Today, sorted' : `Today with ${kid}`}
+        </h2>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.45, margin: 0 }}>
+          {dayDone
+            ? 'You understood a moment and you have the words. That is the day.'
+            : 'Understand one moment, and walk away with the exact words for it.'}
+        </p>
+      </div>
 
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px', padding: '0 4px' }}>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
@@ -412,7 +427,7 @@ export default function TodayPathStrip({ tasks, dailyMinutes = 10 }: { tasks: To
             That is your {minutes} minutes, day done 🎉
           </div>
           <div style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '3px' }}>
-            Streak safe. The rest waits for tomorrow, no rush. Got a spare minute and want to carry on?
+            You are readier for {kid} today than yesterday.{streakCount >= 2 ? ` ${streakCount} days in a row now.` : ''} Streak safe, the rest waits for tomorrow. Got a spare minute?
           </div>
           <Link
             href={tasks[currentIndex].href}

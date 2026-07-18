@@ -49,6 +49,7 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
   const [loading, setLoading] = useState(false)
   const [shared, setShared] = useState(false)
   const [questMade, setQuestMade] = useState(false)
+  const [questBusy, setQuestBusy] = useState(false)
 
   const accentColor = CATEGORY_COLORS[moment.category] ?? 'var(--stage-1)'
   // Real photo first (covers every card), the older tile as a fallback.
@@ -369,6 +370,16 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
                   </p>
                 </div>
               )}
+
+              {/* The loop back: reading this is remembered, and DiGi brings it up
+                  in the Sunday catch up to ask how it went, so nothing is a one
+                  off. */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, opacity: 0.85 }}>
+                <span aria-hidden style={{ fontSize: '1rem' }}>🗓️</span>
+                <p style={{ fontFamily: 'var(--font-body)', fontSize: '12px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
+                  Noted. DiGi will check how this one went in your Sunday catch up.
+                </p>
+              </div>
             </div>
 
             {/* Footer */}
@@ -392,24 +403,33 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
               </a>
               <button
                 onClick={async () => {
-                  if (questMade) return
+                  if (questMade || questBusy) return
+                  setQuestBusy(true)
                   try {
-                    await fetch('/api/quests', {
+                    // Turn this moment's advice into a real child task and send
+                    // it to their app, rather than a generic quest named after
+                    // the problem.
+                    const res = await fetch('/api/moments/make-quest', {
                       method: 'POST',
                       headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({ title: moment.title, emoji: '⭐', stars: 2, schedule: 'daily' }),
+                      body: JSON.stringify({ momentId: moment.id }),
                     })
-                    setQuestMade(true)
-                  } catch { /* leave the button as is */ }
+                    if (res.ok) setQuestMade(true)
+                  } catch { /* leave the button as is */ } finally {
+                    setQuestBusy(false)
+                  }
                 }}
                 style={{
                   padding: '12px 14px', background: questMade ? 'var(--tint-sage)' : '#fff',
                   border: `1.5px solid ${questMade ? look.band : 'var(--border)'}`, borderRadius: '14px',
                   fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 700,
-                  color: 'var(--ink)', cursor: questMade ? 'default' : 'pointer',
+                  color: 'var(--ink)', cursor: questMade || questBusy ? 'default' : 'pointer',
+                  opacity: questBusy ? 0.6 : 1,
                 }}
               >
-                {questMade ? 'Quest made ✓' : 'Make it a quest'}
+                {questMade
+                  ? `Sent to ${childName && childName !== 'Your child' ? childName : 'them'} ✓`
+                  : questBusy ? 'Making...' : 'Make it a quest'}
               </button>
               <button
                 onClick={() => setOpen(false)}

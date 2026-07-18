@@ -435,7 +435,7 @@ export default async function DashboardPage() {
       {/* Today's Path: the hero of Home. The day's routine as one clear strip,
           DiGi sitting on the lit next step, so Home opens with a single thing to
           do rather than a wall of cards. */}
-      <TodayPathStrip tasks={todayLoop} dailyMinutes={(profile?.daily_minutes as number | null) ?? 10} />
+      <TodayPathStrip tasks={todayLoop} dailyMinutes={(profile?.daily_minutes as number | null) ?? 10} childName={child?.name ?? undefined} streakCount={streak.count} />
 
       {/* The glanceable stat row: streak, stars in the bank, today's quests,
           the three numbers a parent wants at a glance. */}
