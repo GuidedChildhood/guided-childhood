@@ -92,6 +92,7 @@ export default function SchoolsPage() {
           ⭐ Guided Childhood <span style={{ color: 'var(--terracotta-dark)' }}>Schools</span>
         </Link>
         <nav style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
+          <Link href="/" style={{ fontFamily: 'var(--font-body)', fontSize: '0.86rem', fontWeight: 600, color: 'var(--ink-soft)', padding: '8px 14px', textDecoration: 'none' }}>For parents</Link>
           <Link href="#curriculum" style={{ fontFamily: 'var(--font-body)', fontSize: '0.86rem', fontWeight: 600, color: 'var(--ink-soft)', padding: '8px 14px', textDecoration: 'none' }}>Curriculum</Link>
           <Link href="#pricing" style={{ fontFamily: 'var(--font-body)', fontSize: '0.86rem', fontWeight: 600, color: 'var(--ink-soft)', padding: '8px 14px', textDecoration: 'none' }}>Pricing</Link>
           <Link href="/login?next=/educator" style={{ fontFamily: 'var(--font-body)', fontSize: '0.86rem', fontWeight: 600, color: 'var(--ink-soft)', padding: '8px 14px', textDecoration: 'none' }}>Sign in</Link>
