@@ -4,7 +4,7 @@ import { hasFullAccess } from '@/lib/access'
 import { DIGI_MODEL, DIGI_MODEL_FALLBACKS, digiModelsFor } from '@/lib/config/digi'
 import { NextResponse, after } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
-import { getStageFromAgeBand, STAGES, type AgeBand, type ChallengeId } from '@/lib/content/stages'
+import { getStageFromAgeBand, STAGES, ageBandInList, type AgeBand, type ChallengeId } from '@/lib/content/stages'
 import { getRecommendedScript } from '@/lib/pathway/recommend'
 import type { StageId } from '@/lib/pathway/progress'
 import { getExpertKnowledge, getFamilyMemory, getWhatWorked } from '@/lib/digi/brain'
@@ -223,6 +223,32 @@ export async function POST(request: Request) {
     }
   } catch { /* scripts are a bonus, never block the reply */ }
 
+  // Moment cards that may fit what the parent just said, so when a chat leads
+  // to a real everyday moment DiGi can say that is a moment and link straight to
+  // the card. A light keyword match over the library, filtered to the child's
+  // age, and DiGi decides if one genuinely fits.
+  let momentLinkKnowledge = ''
+  try {
+    const { data: allMoments } = await supabase
+      .from('daily_moments')
+      .select('id, title, category, science_brief, age_bands')
+      .eq('active', true)
+    const stop = new Set(['this', 'that', 'with', 'have', 'they', 'them', 'their', 'when', 'what', 'about', 'from', 'want', 'wants', 'will', 'wont', 'does', 'been', 'kids', 'child'])
+    const words = [...new Set(String(message).toLowerCase().replace(/[^a-z0-9\s]/g, ' ').split(/\s+/).filter(w => w.length > 3 && !stop.has(w)))]
+    const scored = (allMoments ?? [])
+      .filter(mo => ageBandInList(child?.age_band ?? null, (mo.age_bands as string[] | null) ?? []))
+      .map(mo => {
+        const hay = `${mo.title} ${mo.category} ${mo.science_brief}`.toLowerCase()
+        let score = 0
+        for (const w of words) if (hay.includes(w)) score += 1
+        return { mo, score }
+      }).filter(x => x.score >= 2).sort((a, b) => b.score - a.score).slice(0, 3)
+    if (scored.length > 0) {
+      momentLinkKnowledge = `\n\nMOMENT CARDS WE ALREADY HAVE THAT MAY FIT WHAT THE PARENT JUST SAID. If the conversation has landed on one of these everyday moments, tell them warmly that this is a known moment and link the card so they can open it, exactly in this markdown form [Moment title](/m/MOMENT_ID). Only ever link one of these real moments, never invent a title or a link, only when it truly fits, and never link both a script and a moment in the same reply, choose the one that fits best:\n` +
+        scored.map(x => `- [${x.mo.title}](/m/${x.mo.id}) — ${x.mo.category}`).join('\n')
+    }
+  } catch { /* moments are a bonus, never block the reply */ }
+
   let deviceGuideKnowledge = ''
   const deviceGuide = deviceGuideResult.data
   if (deviceGuide) {
@@ -248,7 +274,7 @@ export async function POST(request: Request) {
     trackerResult.data ?? [],
     feedbackResult.data ?? [],
     aiKnowledge,
-    deviceGuideKnowledge + scriptFeedbackKnowledge + scriptLinkKnowledge + nextStepKnowledge + concernsKnowledge + whatWorked + aggregateWisdom + expertKnowledge + familyMemory,
+    deviceGuideKnowledge + scriptFeedbackKnowledge + scriptLinkKnowledge + momentLinkKnowledge + nextStepKnowledge + concernsKnowledge + whatWorked + aggregateWisdom + expertKnowledge + familyMemory,
   )
 
   // Drop any malformed or empty entries before the history reaches the model:
