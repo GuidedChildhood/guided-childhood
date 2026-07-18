@@ -112,6 +112,18 @@ export default function InsightsBoard() {
       .catch(() => setPulseError('Could not load the product pulse.'))
   }, [])
 
+  // The knowledge bank directory: every source DiGi is grounded in.
+  type BankSource = { source: string; type: string; findings: number; topics: string[]; ageBands: string[]; url: string | null; sample: string }
+  type Bank = { totalFindings: number; totalSources: number; byType: Record<string, number>; topics: string[]; sources: BankSource[] }
+  const [bank, setBank] = useState<Bank | null>(null)
+  const [bankError, setBankError] = useState('')
+  useEffect(() => {
+    fetch('/api/admin/knowledge-bank')
+      .then(r => r.json())
+      .then(d => { if (d && !d.error) setBank(d); else if (d?.error) setBankError(d.error) })
+      .catch(() => setBankError('Could not load the knowledge bank.'))
+  }, [])
+
   const recs = (data?.report.recommendations ?? []).slice().sort((a, b) => a.priority - b.priority)
 
   return (
@@ -170,6 +182,44 @@ export default function InsightsBoard() {
             </>
           )
         })()}
+      </section>
+
+      {/* Knowledge bank: the directory of every researcher, expert and body
+          DiGi is grounded in, so the whole evidence base is visible and the
+          research updater has somewhere to grow. */}
+      <section style={{ marginBottom: 26 }}>
+        <h2 style={sectionH}>DiGi&apos;s knowledge bank</h2>
+        {bankError && <p style={{ color: 'var(--ink-muted)', fontSize: 13 }}>Bank unavailable: {bankError}</p>}
+        {!bank && !bankError && <p style={{ color: 'var(--ink-muted)', fontSize: 13 }}>Reading the bank...</p>}
+        {bank && (
+          <>
+            <p style={{ fontSize: 13.5, color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: 12 }}>
+              {bank.totalSources} sources, {bank.totalFindings} findings across {bank.topics.length} topics. This is what DiGi retrieves from, all aligned to the calibrated pathway, never a ban.
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {bank.sources.map(s => (
+                <div key={s.source} style={{ background: 'var(--white,#fff)', border: '1px solid var(--border)', borderRadius: 12, padding: '12px 14px' }}>
+                  <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 10 }}>
+                    <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 14.5, color: 'var(--ink)' }}>
+                      {s.url ? <a href={s.url} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--ink)', textDecoration: 'underline' }}>{s.source}</a> : s.source}
+                    </span>
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10.5, fontWeight: 700, color: 'var(--ink-muted)', flexShrink: 0 }}>
+                      {s.type} · {s.findings}
+                    </span>
+                  </div>
+                  {s.sample && <p style={{ fontSize: 12.5, color: 'var(--ink-soft)', lineHeight: 1.5, margin: '5px 0 0' }}>{s.sample}</p>}
+                  {s.topics.length > 0 && (
+                    <div style={{ marginTop: 7, display: 'flex', gap: 5, flexWrap: 'wrap' }}>
+                      {s.topics.slice(0, 6).map(t => (
+                        <span key={t} style={{ fontFamily: 'var(--font-mono)', fontSize: 9.5, fontWeight: 700, color: 'var(--ink-muted)', background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: 100, padding: '2px 8px' }}>{t}</span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </>
+        )}
       </section>
 
       {/* One tap export of every script, for generating the voice batch. Same
