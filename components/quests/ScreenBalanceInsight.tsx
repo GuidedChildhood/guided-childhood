@@ -65,9 +65,14 @@ export default function ScreenBalanceInsight({
   const accent =
     tone === 'over' ? 'var(--danger)'
     : tone === 'nearing' ? 'var(--stage-1-bold)'
-    : tone === 'good' ? 'var(--retro-green)'
+    : tone === 'good' ? 'var(--deep-teal)'
     : tone === 'pace' ? 'var(--stage-1-bold)'
     : 'var(--deep-teal)'
+
+  // The healthy screen guide as a fraction of the day's total so far. The needle
+  // (at screenPct) and this marker share the same denominator, so the needle
+  // passing the marker means screen has passed the age guide, whatever the mix.
+  const guideMarkerPct = total > 0 && guide > 0 ? Math.min(97, (guide / total) * 100) : null
 
   // The screen side of the level carries the warning colour, so the bar itself
   // reads at a glance: red over the healthy amount, amber nearing it.
@@ -113,16 +118,34 @@ export default function ScreenBalanceInsight({
       </div>
 
       {/* The level: a bold bar that moves with the real minutes used and earned.
-          The screen side turns amber then red as it passes the healthy amount. */}
-      <div style={{ position: 'relative', height: 22, borderRadius: '100px', overflow: 'hidden', border: '1.5px solid var(--border)', display: 'flex', marginBottom: '10px', boxShadow: 'inset 0 1px 3px rgba(26,26,46,0.10)' }}>
+          The screen side turns amber then red as it passes the healthy amount.
+          A dashed marker shows where the age screen guide falls, so the needle
+          passing it reads at a glance as screen going over the healthy amount. */}
+      <div style={{ position: 'relative', height: 22, borderRadius: '100px', overflow: 'hidden', border: '1.5px solid var(--border)', display: 'flex', marginBottom: '8px', boxShadow: 'inset 0 1px 3px rgba(26,26,46,0.10)' }}>
         <span style={{ width: `${screenPct}%`, background: screenFill, transition: 'width 0.6s ease, background 0.4s ease' }} />
-        <span style={{ flex: 1, background: 'var(--retro-green)' }} />
+        <span style={{ flex: 1, background: 'var(--deep-teal)' }} />
+        {/* The age guide marker: a dashed line the screen side should stay under. */}
+        {guideMarkerPct != null && (
+          <span aria-hidden style={{
+            position: 'absolute', top: -1, bottom: -1, left: `${guideMarkerPct}%`, width: 0, marginLeft: -1,
+            borderLeft: '2px dashed rgba(255,255,255,0.9)', zIndex: 1,
+          }} />
+        )}
         {/* The needle sits where the balance tips right now. */}
         <span style={{
           position: 'absolute', top: -2, bottom: -2, left: `${screenPct}%`, width: 3, marginLeft: -1.5,
-          background: 'var(--ink)', borderRadius: '2px', transition: 'left 0.6s ease',
+          background: 'var(--ink)', borderRadius: '2px', transition: 'left 0.6s ease', zIndex: 2,
         }} />
       </div>
+
+      {guideMarkerPct != null && (
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '10px' }}>
+          <span aria-hidden style={{ width: 14, height: 0, borderTop: '2px dashed var(--ink-light)', flexShrink: 0 }} />
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, color: 'var(--ink-muted)', letterSpacing: '0.02em' }}>
+            Healthy screen guide for their age, about {guide} min
+          </span>
+        </div>
+      )}
 
       <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10, marginBottom: '12px' }}>
         <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', color: 'var(--ink)' }}>
@@ -131,7 +154,7 @@ export default function ScreenBalanceInsight({
         </span>
         <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', color: 'var(--ink)' }}>
           {realMins} min earned real life
-          <span style={{ width: 10, height: 10, borderRadius: '3px', background: 'var(--retro-green)', flexShrink: 0 }} />
+          <span style={{ width: 10, height: 10, borderRadius: '3px', background: 'var(--deep-teal)', flexShrink: 0 }} />
         </span>
       </div>
 
@@ -139,16 +162,41 @@ export default function ScreenBalanceInsight({
         {line}
       </p>
       {digiStepsIn && (
-        <Link
-          href={`/dashboard/digi?q=${encodeURIComponent(`${childName} has had a good amount of screen time today. What is a warm way to help them wind down and switch off without a fight?`)}`}
-          style={{
-            display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: '10px',
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '12.5px',
-            color: '#fff', background: accent, borderRadius: '11px', padding: '8px 14px', textDecoration: 'none',
-          }}
-        >
-          Ask DiGi how to wind down →
-        </Link>
+        <>
+          <Link
+            href={`/dashboard/digi?q=${encodeURIComponent(`${childName} has had a good amount of screen time today. What is a warm way to help them wind down and switch off without a fight?`)}`}
+            style={{
+              display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: '12px',
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '12.5px',
+              color: '#fff', background: accent, borderRadius: '11px', padding: '8px 14px', textDecoration: 'none',
+            }}
+          >
+            Ask DiGi how to wind down →
+          </Link>
+          {/* Good things to do instead of more screen, one tap each. The child
+              app reaches this same limit and can offer these to the child too. */}
+          <div style={{ marginBottom: '12px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '7px' }}>
+              Good things to do instead
+            </div>
+            <div style={{ display: 'flex', gap: '7px', flexWrap: 'wrap' }}>
+              {[
+                { icon: '🖨️', label: 'Printables', href: '/dashboard/printables' },
+                { icon: '✅', label: 'A real world job', href: '/dashboard/quests?tab=manage' },
+                { icon: '🎲', label: 'Learning games', href: '/dashboard/quests?tab=games' },
+              ].map(o => (
+                <Link key={o.label} href={o.href} style={{
+                  display: 'inline-flex', alignItems: 'center', gap: '6px',
+                  background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: '11px',
+                  padding: '8px 12px', textDecoration: 'none',
+                  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '12.5px', color: 'var(--ink)',
+                }}>
+                  <span aria-hidden>{o.icon}</span>{o.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+        </>
       )}
       <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, color: 'var(--ink-muted)' }}>
         Guide for age {insight.bandLabel}: about {insight.guideMins} min screen a day · ⭐ {earnedTodayStars} earned today
