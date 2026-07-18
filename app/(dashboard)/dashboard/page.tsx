@@ -2,7 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { hasFullAccess, inTrial, trialDaysLeft } from '@/lib/access'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import { getStageFromAgeBand, type AgeBand, type ChallengeId, STAGES } from '@/lib/content/stages'
+import { getStageFromAgeBand, ageBandInList, type AgeBand, type ChallengeId, STAGES } from '@/lib/content/stages'
 import type { Moment } from '@/components/cards/MomentCard'
 import MomentCard from '@/components/cards/MomentCard'
 import PushPrompt from '@/components/push/PushPrompt'
@@ -176,7 +176,7 @@ export default async function DashboardPage() {
   }
   const allMoments: Moment[] = todayMomentsResult.data ?? []
   const ageMoments = child?.age_band
-    ? allMoments.filter(m => m.age_bands.length === 0 || m.age_bands.includes(child.age_band as AgeBand))
+    ? allMoments.filter(m => ageBandInList(child.age_band, m.age_bands))
     : allMoments
   const todayMoments = [...ageMoments].sort((a, b) => slotRank(a) - slotRank(b)).slice(0, 5)
 

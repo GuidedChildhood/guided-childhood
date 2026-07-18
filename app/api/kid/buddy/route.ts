@@ -2,12 +2,21 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 
 // The child saves their own buddy and accent colour from their app. The kid
-// link token is the auth, exactly like the tick endpoint. Both values are
-// validated against the known sets so the child can only ever set a real buddy
-// and a real colour, never arbitrary data.
+// link token is the auth, exactly like the tick endpoint. The buddy and the
+// named colours are validated against the known sets, and a mixed colour is
+// only ever a bounded hue (h0 to h360), so the child can own the whole hue
+// wheel but never write arbitrary data.
 
 const BUDDIES = ['digi', 'oliver', 'sofia', 'zara']
 const ACCENTS = ['graphite', 'sunshine', 'grass', 'ocean', 'coral', 'berry']
+
+// A mixed colour saved from the hue slider: the letter h and a hue 0 to 360.
+function validAccent(a: unknown): a is string {
+  if (typeof a !== 'string') return false
+  if (ACCENTS.includes(a)) return true
+  const m = /^h(\d{1,3})$/.exec(a)
+  return m !== null && Number(m[1]) <= 360
+}
 
 export async function POST(req: NextRequest) {
   const { token, buddy, accent } = await req.json().catch(() => ({}))
@@ -21,7 +30,7 @@ export async function POST(req: NextRequest) {
 
   const patch: { buddy?: string; accent?: string } = {}
   if (typeof buddy === 'string' && BUDDIES.includes(buddy)) patch.buddy = buddy
-  if (typeof accent === 'string' && ACCENTS.includes(accent)) patch.accent = accent
+  if (validAccent(accent)) patch.accent = accent
   if (Object.keys(patch).length === 0) return NextResponse.json({ error: 'nothing to set' }, { status: 400 })
 
   const { error } = await supabase.from('children').update(patch).eq('id', childId)
