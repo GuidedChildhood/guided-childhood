@@ -124,10 +124,13 @@ function templateReview(stats: WeekStats): Omit<WeeklyReview, 'week_start' | 'st
   }
 }
 
-async function generateReview(stats: WeekStats): Promise<Omit<WeeklyReview, 'week_start' | 'stats'>> {
+async function generateReview(stats: WeekStats, reflections: string[] = []): Promise<Omit<WeeklyReview, 'week_start' | 'stats'>> {
   if (!process.env.ANTHROPIC_API_KEY) return templateReview(stats)
 
   const routineList = ROUTINE_PACKS.map(p => `${p.key} (${p.name})`).join(', ')
+  const reflectionBlock = reflections.length
+    ? `\n\nWhat the parent actually worked through with DiGi this week (their own words, from daily reflections). Gently weave one of these into the summary so the catch up feels like it remembers the conversations, never quote it back mechanically or list them all:\n${reflections.map(r => `- ${r}`).join('\n')}`
+    : ''
   const prompt = `You are DiGi, the calm, warm guide inside Guided Childhood, writing a family's private Sunday weekly review for the parent. Voice: warm, plain, direct, British, encouraging, never preachy, no AI-isms. Hard rule: never use a dash of any kind in the text, not even a hyphen between words. Never shame a quiet week. This stands beside the parent, it is not a report card on the child.
 
 This family's week (their own numbers, nothing compared to anyone else):
@@ -138,7 +141,7 @@ This family's week (their own numbers, nothing compared to anyone else):
 - Screen minutes spent: ${stats.deviceMinutes}
 - Most done quest: ${stats.topQuest ?? 'none yet'}
 - Calm parenting moments handled: ${stats.momentsDone}
-- Open school reminders: ${stats.schoolOpen}
+- Open school reminders: ${stats.schoolOpen}${reflectionBlock}
 
 Available routines to suggest for next week (use the key): ${routineList}
 
@@ -172,10 +175,29 @@ Return ONLY compact JSON, no prose around it:
 export async function buildWeeklyReview(userId: string, now = new Date()): Promise<WeeklyReview> {
   const weekStart = mondayOf(now)
   const stats = await gatherWeek(userId, weekStart)
-  const body = await generateReview(stats)
+
+  // What the family actually talked through with DiGi this week, drawn from the
+  // daily reflections the parent answered. This is what makes the catch up feel
+  // like it remembers the conversations, without any manual save step. Reflection
+  // text stays out of the stored stats (and off the client), it only shapes the
+  // summary here.
+  const admin = createAdminClient()
+  const endDay = new Date(new Date(`${weekStart}T00:00:00.000Z`).getTime() + 7 * 86_400_000).toISOString().slice(0, 10)
+  const { data: fbRows } = await admin
+    .from('digi_feedback')
+    .select('question, response')
+    .eq('user_id', userId)
+    .gte('feedback_date', weekStart)
+    .lt('feedback_date', endDay)
+    .limit(10)
+  const reflections = (fbRows ?? [])
+    .filter(r => r.response && String(r.response).trim())
+    .map(r => `Asked: ${String(r.question).trim().slice(0, 160)} They answered: ${String(r.response).trim().slice(0, 200)}`)
+    .slice(0, 5)
+
+  const body = await generateReview(stats, reflections)
   const review: WeeklyReview = { week_start: weekStart, stats, ...body }
 
-  const admin = createAdminClient()
   await admin.from('digi_weekly_reviews').upsert({
     user_id: userId,
     week_start: weekStart,
