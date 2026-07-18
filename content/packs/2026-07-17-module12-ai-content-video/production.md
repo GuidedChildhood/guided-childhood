@@ -85,4 +85,4 @@
 The three checks map to the media literacy evidence base and to this platform's own verified research on AI content, deepfakes and the way fakes target feeling over fact. Source and year printed on the teacher one pager per the lesson format.
 
 ## Job ids (filled as generated)
-Beat 1: pending · Beat 2: pending · Beat 3: (proof asset generating) · Beat 4: pending · Beat 5: pending · Beat 6: pending · Beat 7: pending · HeyGen intro: pending.
+Beat 1: pending · Beat 2: pending · Beat 3: Higgsfield b0e2320b-ee2f-47c7-b3b8-a5a8129e12dd (generated, on brand three checks diagram) · Beat 4: pending · Beat 5: pending · Beat 6: pending · Beat 7: pending · HeyGen intro: pending.
