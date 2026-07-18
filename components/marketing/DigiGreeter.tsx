@@ -6,12 +6,12 @@ import gsap from 'gsap'
 
 // DiGi pops up once per visit and types the message out word by word, like
 // a friend talking, inside a proper speech bubble with a tail. The golden
-// star, the same character the child meets inside. Names the problem, then
-// the whole offer, then the door. Dismissed with one tap, never nags again.
+// star, the same character the child meets inside. It answers the hero: the
+// problem is on the page, DiGi gives the calm answer, then the door. Warm
+// butter, never purple. Dismissed with one tap, never nags again.
 
 const BUBBLES = [
-  'At 16 the apps arrive all at once. A ban delays them, but it does not teach your child a single thing.',
-  'We do it differently. Full digital literacy lessons, taught at the right age. A star system that rewards real jobs and outside play. And the skills to navigate the online world, with a healthy balance of screens and life.',
+  'So we start at 4. Small, calm lessons that build real judgement, so by 16 your child already knows how to handle it.',
 ]
 
 // Split into words but keep trailing spaces so the typed text reflows cleanly.
@@ -21,11 +21,10 @@ function words(s: string): string[] {
 
 export default function DigiGreeter() {
   const [show, setShow] = useState(false)
-  const [bubble, setBubble] = useState(0)
   const [wordCount, setWordCount] = useState(0)
   const wrap = useRef<HTMLDivElement>(null)
 
-  const parts = words(BUBBLES[bubble])
+  const parts = words(BUBBLES[0])
   const typed = parts.slice(0, wordCount).join('')
   const done = wordCount >= parts.length
 
@@ -58,7 +57,7 @@ export default function DigiGreeter() {
     }, 95)
     return () => clearInterval(id)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [show, bubble])
+  }, [show])
 
   if (!show) return null
 
@@ -74,7 +73,7 @@ export default function DigiGreeter() {
     >
       <div style={{ position: 'relative', flex: 1 }}>
         <div style={{
-          background: '#fff', border: '1.5px solid var(--border)', borderRadius: '20px',
+          background: 'var(--cream)', border: '1.5px solid var(--terracotta)', borderRadius: '20px',
           boxShadow: '0 16px 44px rgba(26,26,46,0.2)', padding: '16px 18px 15px',
         }}>
           <button
@@ -95,34 +94,21 @@ export default function DigiGreeter() {
             {!done && <span style={{ display: 'inline-block', width: '2px', height: '1em', background: 'var(--terracotta)', marginLeft: '1px', verticalAlign: '-2px', animation: 'digiCaret 0.7s step-end infinite' }} />}
           </p>
           {done && (
-            bubble === 0 ? (
-              <button
-                onClick={() => setBubble(1)}
-                style={{
-                  background: 'none', border: 'none', cursor: 'pointer', padding: 0,
-                  fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--terracotta-dark)',
-                  animation: 'digiFadeIn 0.4s ease both',
-                }}
-              >
-                So what do you do? →
-              </button>
-            ) : (
-              <Link
-                href="/starter-pack"
-                style={{
-                  display: 'inline-block', background: 'var(--terracotta)', color: 'var(--ink)',
-                  borderRadius: '12px', padding: '10px 18px', textDecoration: 'none',
-                  fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 800,
-                  boxShadow: '0 3px 0 var(--terracotta-dark)', animation: 'digiFadeIn 0.4s ease both',
-                }}
-              >
-                Show me, it is free
-              </Link>
-            )
+            <Link
+              href="/starter-pack"
+              style={{
+                display: 'inline-block', background: 'var(--terracotta)', color: 'var(--ink)',
+                borderRadius: '12px', padding: '10px 18px', textDecoration: 'none',
+                fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 800,
+                boxShadow: '0 3px 0 var(--terracotta-dark)', animation: 'digiFadeIn 0.4s ease both',
+              }}
+            >
+              Show me, it is free
+            </Link>
           )}
         </div>
         {/* Speech bubble tail pointing at DiGi */}
-        <div style={{ position: 'absolute', right: '-7px', bottom: '18px', width: 0, height: 0, borderTop: '8px solid transparent', borderBottom: '8px solid transparent', borderLeft: '10px solid #fff', filter: 'drop-shadow(1.5px 0 0 var(--border))' }} />
+        <div style={{ position: 'absolute', right: '-7px', bottom: '18px', width: 0, height: 0, borderTop: '8px solid transparent', borderBottom: '8px solid transparent', borderLeft: '10px solid var(--cream)', filter: 'drop-shadow(1.5px 0 0 var(--terracotta))' }} />
       </div>
 
       {/* DiGi the golden star */}
