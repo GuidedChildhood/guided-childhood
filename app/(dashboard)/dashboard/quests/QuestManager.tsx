@@ -697,7 +697,9 @@ export default function QuestManager() {
           })()}
 
           {/* DiGi's calm, age aware read on the child's screen time balance,
-              evidence led and never a hard limit. */}
+              evidence led and never a hard limit. The Screen time quick button
+              lands here. */}
+          <div id="screen-time" style={{ scrollMarginTop: '80px' }} />
           <ScreenBalanceInsight
             childName={child.name}
             ageBand={child.age_band}

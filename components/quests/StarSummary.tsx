@@ -101,14 +101,18 @@ export default function StarSummary({
     </button>
   )
 
-  const bigBtn = (label: string, onClick: () => void, primary?: boolean): React.ReactNode => (
+  const bigBtn = (icon: string, label: string, onClick: () => void, primary?: boolean): React.ReactNode => (
     <button onClick={onClick} style={{
-      flex: 1, minWidth: 92, padding: '11px 8px', borderRadius: '13px', cursor: 'pointer',
+      flex: 1, minWidth: 96, padding: '12px 8px', borderRadius: '14px', cursor: 'pointer',
+      display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '3px',
       fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px',
-      background: primary ? 'var(--terracotta)' : '#fff', color: 'var(--ink)',
-      boxShadow: primary ? '0 4px 0 var(--terracotta-dark)' : 'none',
-      border: primary ? 'none' : '1.5px solid var(--border)',
-    }}>{label}</button>
+      background: primary ? 'var(--terracotta)' : 'var(--cream)', color: 'var(--ink)',
+      boxShadow: primary ? '0 4px 0 var(--terracotta-dark)' : '0 3px 0 rgba(26,26,46,0.14)',
+      border: primary ? 'none' : '1.5px solid rgba(26,26,46,0.1)',
+    }}>
+      <span style={{ fontSize: '18px', lineHeight: 1 }}>{icon}</span>
+      <span>{label}</span>
+    </button>
   )
 
   return (
@@ -237,9 +241,9 @@ export default function StarSummary({
       )}
 
       <div style={{ display: 'flex', gap: '7px', flexWrap: 'wrap' }}>
-        {bigBtn(pending > 0 ? `Approve ${pending} ⭐` : 'Set tasks', onApprove, pending > 0)}
-        {bigBtn('Screen time', onScreenTime)}
-        {bigBtn('Share app', onShare)}
+        {bigBtn(pending > 0 ? '⭐' : '📋', pending > 0 ? `Approve ${pending}` : 'Set tasks', onApprove, pending > 0)}
+        {bigBtn('⏱️', 'Screen time', onScreenTime)}
+        {bigBtn('📲', 'Share app', onShare)}
       </div>
     </div>
   )
