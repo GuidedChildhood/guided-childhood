@@ -69,10 +69,12 @@ const DEFAULT_ACCENT = 'graphite'
 export default function KidQuestScreen({
   token, childName, buddy = null, accent = null, stageId = 2, quests, todayTicks, weekStars, goal, streakDays = 0, laterQuests = [], doneLessonKeys = [], missions = [],
   adventures = [], bank = null, usedWeekMinutes = 0, usedTodayMinutes = 0, recommendedMinutes = 0, requests = [], printablesUnlocked = true, activeSession = null,
-  weekChart = [], schoolToday = [], notes = [],
+  weekChart = [], schoolToday = [], notes = [], agreementItems = [], agreementSigned = false,
 }: {
   token: string
   childName: string
+  agreementItems?: { title: string; body: string }[]
+  agreementSigned?: boolean
   buddy?: string | null
   accent?: string | null
   stageId?: number
@@ -723,6 +725,8 @@ export default function KidQuestScreen({
             goal={goal}
             bankBalance={bankBalance}
             goalRedeemed={goalRedeemed}
+            agreementItems={agreementItems}
+            agreementSigned={agreementSigned}
           />
         )}
 
@@ -1672,13 +1676,17 @@ const SCHOOL_KIND_EMOJI: Record<string, string> = {
 // by, in their own words. How it works, the exchange rate, a good amount of
 // screen a day, and what they are saving for right now. No dashes, no rules
 // shouted, just the deal they can keep an eye on any time.
-function FamilyDeal({ onClose, recommendedMinutes, goal, bankBalance, goalRedeemed }: {
+function FamilyDeal({ onClose, recommendedMinutes, goal, bankBalance, goalRedeemed, agreementItems = [], agreementSigned = false }: {
   onClose: () => void
   recommendedMinutes: number
   goal: { title?: string; stars_needed?: number; achieved_at?: string | null } | null
   bankBalance: number
   goalRedeemed: boolean
+  agreementItems?: { title: string; body: string }[]
+  agreementSigned?: boolean
 }) {
+  // Which agreed promise is open to read. One at a time keeps the deal tidy.
+  const [openPromise, setOpenPromise] = useState<number | null>(null)
   const rows: { icon: KidIconName; iconColor: string; tint: string; title: string; body: string }[] = [
     { icon: 'jobs', iconColor: 'var(--terracotta-dark)', tint: 'var(--terracotta-lt)', title: 'You do jobs', body: 'Real world jobs and quests your grown up sets, like tidying up or reading.' },
     { icon: 'star', iconColor: 'var(--terracotta-dark)', tint: 'var(--terracotta-lt)', title: 'Jobs earn stars', body: `Every quest gives you stars. One star is worth ${STAR_MINUTES} minutes of screen time.` },
@@ -1707,6 +1715,45 @@ function FamilyDeal({ onClose, recommendedMinutes, goal, bankBalance, goalRedeem
             </div>
           ))}
         </div>
+        {/* The real contract: what this family actually agreed and signed
+            together. Each promise is a tappable card the child can open to
+            read, so the deal they made is always here in their own app. */}
+        {agreementItems.length > 0 && (
+          <div style={{ marginTop: '20px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '10px' }}>
+              What we agreed together
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              {agreementItems.map((it, i) => {
+                const open = openPromise === i
+                return (
+                  <div key={i} style={{ background: '#fff', borderRadius: '14px', overflow: 'hidden' }}>
+                    <button
+                      onClick={() => setOpenPromise(open ? null : i)}
+                      aria-expanded={open}
+                      style={{ width: '100%', display: 'flex', alignItems: 'center', gap: '10px', background: 'none', border: 'none', cursor: 'pointer', padding: '13px 15px', textAlign: 'left' }}
+                    >
+                      <span style={{ width: 34, height: 34, borderRadius: '10px', background: 'var(--terracotta-lt)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><KidIcon name="deal" size={18} color="var(--terracotta-dark)" /></span>
+                      <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: 'var(--ink)' }}>{it.title}</span>
+                      <span aria-hidden style={{ flexShrink: 0, fontSize: 15, color: 'var(--ink-muted)', transform: open ? 'rotate(90deg)' : 'none', transition: 'transform 0.15s' }}>›</span>
+                    </button>
+                    {open && (
+                      <div style={{ padding: '0 15px 14px 59px', fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.55, whiteSpace: 'pre-wrap' }}>
+                        {it.body}
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+            {agreementSigned && (
+              <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--retro-green-dark, var(--deep-teal))', margin: '10px 2px 0', textAlign: 'center' }}>
+                ✓ You and your grown up agreed this together
+              </p>
+            )}
+          </div>
+        )}
+
         <button onClick={onClose} style={{ width: '100%', marginTop: '16px', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: '15px', padding: '14px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '15px', boxShadow: '0 5px 0 var(--terracotta-dark)' }}>
           Got it!
         </button>
