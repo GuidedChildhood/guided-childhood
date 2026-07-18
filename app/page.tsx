@@ -596,7 +596,7 @@ export default function HomePage() {
               },
               {
                 quote: 'It was gone midnight and I still could not get my 12 year old to sleep. I have so many moments like that in a week, and DiGi remembers them. It catches up with me on Sunday with a plan to make it better, and I do not feel like a bad parent anymore.',
-                name: 'Joanne Reedley',
+                name: 'Joanne Reed',
               },
               {
                 quote: 'I was worried Lilly was on her device too much. Now I can track how she is doing, and the quests help her balance her screen time with getting outside to play.',
