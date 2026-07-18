@@ -241,9 +241,12 @@ export default function DigiChat({
     }
   }, [stageId])
 
-  // Reflection state
+  // Reflection state. A reflection saved before the truncation fix may be a
+  // clipped fragment, so only surface one that ends as a proper question.
   const [reflectionQuestion, setReflectionQuestion] = useState<string | null>(
-    pendingReflection && !pendingReflection.answered ? pendingReflection.question : null
+    pendingReflection && !pendingReflection.answered && pendingReflection.question.trim().endsWith('?')
+      ? pendingReflection.question
+      : null
   )
   const [reflectionInput, setReflectionInput] = useState('')
   const [reflectionSaving, setReflectionSaving] = useState(false)
@@ -259,6 +262,19 @@ export default function DigiChat({
     const id = setTimeout(() => setReflectionToast(false), 4000)
     return () => clearTimeout(id)
   }, [reflectionToast])
+
+  // The reflection is a gentle end of chat ask, never an interruption. When a
+  // reply carries one, we hold it here and only surface the card once the
+  // parent has paused (no new message for a spell), so it lands at the natural
+  // end of the conversation rather than between two of their questions.
+  const reflectionTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const armReflection = (q: string) => {
+    if (reflectionTimer.current) clearTimeout(reflectionTimer.current)
+    reflectionTimer.current = setTimeout(() => {
+      setReflectionQuestion(prev => (prev || reflectionDone ? prev : q))
+    }, 22_000)
+  }
+  useEffect(() => () => { if (reflectionTimer.current) clearTimeout(reflectionTimer.current) }, [])
 
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
@@ -337,6 +353,11 @@ export default function DigiChat({
     if (!typed.trim() || loading) return
     const messageText = text ? typed : continuingPrefix ? `${continuingPrefix}${typed}` : typed
 
+    // A new message means the conversation is still going, so any reflection
+    // that was waiting to appear stands down and defers to the next real pause.
+    if (reflectionTimer.current) { clearTimeout(reflectionTimer.current); reflectionTimer.current = null }
+    if (!reflectionDone) setReflectionQuestion(null)
+
     // Sending is an intent to see the reply: always re-pin to the bottom.
     stickRef.current = true
     setMessages(prev => [...prev, { role: 'user', content: messageText }])
@@ -407,7 +428,11 @@ export default function DigiChat({
 
       const parts = fullText.split(REFLECTION_MARKER)
       const mainResponse = parts[0]?.trim() ?? fullText.trim()
-      const reflective = parts[1]?.trim() || null
+      // A real reflection always ends with a question mark. If the reply ran
+      // long and the reflection came through truncated, drop it rather than
+      // show a half sentence ("...or does he pr").
+      const rawReflective = parts[1]?.trim() || null
+      const reflective = rawReflective && rawReflective.endsWith('?') ? rawReflective : null
 
       if (!mainResponse) {
         setError('DiGi took too long to answer. Your message was not lost, try sending it again.')
@@ -417,9 +442,10 @@ export default function DigiChat({
 
       showReply(mainResponse)
       setDailyCount(Number.isFinite(usedToday) && usedToday > 0 ? usedToday : dailyCount + 1)
-      // Surface reflective question if new (and not already showing one)
+      // Hold the reflective question back and only let it surface once the
+      // parent has paused, so it never interrupts a live back and forth.
       if (reflective && !reflectionQuestion && !reflectionDone) {
-        setReflectionQuestion(reflective)
+        armReflection(reflective)
       }
     } catch {
       if (replyStarted) {

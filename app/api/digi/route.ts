@@ -251,7 +251,10 @@ export async function POST(request: Request) {
   try {
     modelStream = await callDigiStream({
       model: DIGI_MODEL,
-      max_tokens: 700,
+      // Headroom for the main reply AND the reflective question that follows the
+      // --- marker. At 700 a long lesson ate the whole budget and the reflection
+      // came through chopped mid word, so it gets its own room here.
+      max_tokens: 1000,
       system: [
         { type: 'text', text: STATIC_SYSTEM, cache_control: { type: 'ephemeral' } },
         { type: 'text', text: familyContext },
@@ -273,10 +276,15 @@ export async function POST(request: Request) {
     const responseText = await donePromise
     if (!responseText.trim()) return
 
-    // Extract the reflective question from the response (after the marker line)
+    // Extract the reflective question from the response (after the marker line).
+    // The reflection is written last, so a long reply can chop it off mid word.
+    // A real reflective question always ends with a question mark, so anything
+    // that does not is a truncated fragment and is dropped rather than saved as
+    // a half sentence ("...or does he pr").
     const reflectiveSplit = responseText.split(/\n\s*---\s*\n/)
     const mainResponse = reflectiveSplit[0]?.trim() ?? responseText
-    const reflectiveQuestion = reflectiveSplit[1]?.trim() ?? null
+    const rawReflective = reflectiveSplit[1]?.trim() ?? null
+    const reflectiveQuestion = rawReflective && rawReflective.endsWith('?') ? rawReflective : null
 
     // Save the main reply only. The reflective question lives in digi_feedback,
     // and saving the filtered history heals any poisoned rows already stored.
