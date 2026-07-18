@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { AGE_BAND_OPTIONS, getStageFromAgeBand, type AgeBand, type StarterAnswers } from '@/lib/content/stages'
+import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
 import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
 import { trialEndsFromNow } from '@/lib/access'
 import Celebration from '@/components/ui/Celebration'
@@ -154,6 +155,9 @@ export default function OnboardingPage() {
   const [childName, setChildName] = useState('')
   const [nameNudge, setNameNudge] = useState(false)
   const [ageBand, setAgeBand] = useState<AgeBand>('8-10')
+  // The daily screen time limit for the primary child. Null means use the age
+  // recommendation, and it stays adaptive if the age changes later.
+  const [dailyLimit, setDailyLimit] = useState<number | null>(null)
   // Any additional children the parent adds. The first child above is the
   // active one the app follows for now; these are saved so the account feels
   // complete, ready for full multi child later.
@@ -240,12 +244,17 @@ export default function OnboardingPage() {
       supabase.from('children').select('id').eq('parent_id', user.id).limit(1),
     ])
 
+    // Store their own limit only if it differs from the age recommendation, so
+    // leaving it on the recommended value keeps it adaptive to age changes.
+    const limitToStore = dailyLimit != null && dailyLimit > 0 && dailyLimit !== recommendedDailyMinutes(ageBand) ? dailyLimit : null
+
     if (!existingChildren.data || existingChildren.data.length === 0) {
       await supabase.from('children').insert({
         parent_id: user.id, name, age_band: ageBand, stage_id: stage.name.toLowerCase(), is_primary: true,
+        daily_limit_minutes: limitToStore,
       })
     } else {
-      await supabase.from('children').update({ name, age_band: ageBand, stage_id: stage.name.toLowerCase() })
+      await supabase.from('children').update({ name, age_band: ageBand, stage_id: stage.name.toLowerCase(), daily_limit_minutes: limitToStore })
         .eq('id', existingChildren.data[0].id)
     }
 
@@ -428,6 +437,37 @@ export default function OnboardingPage() {
                 </button>
               ))}
             </div>
+
+            {/* Daily screen time: the healthy amount for this age, which the
+                parent can accept or set their own. It is what the child app
+                counts against and never offers past. */}
+            {(() => {
+              const rec = recommendedDailyMinutes(ageBand)
+              const val = dailyLimit ?? rec
+              return (
+                <div style={{ background: 'var(--stage-2)', border: '1.5px solid var(--border)', borderRadius: 16, padding: '14px 15px', marginBottom: '18px' }}>
+                  <label style={{ ...lbl, marginBottom: 6 }}>Daily screen time</label>
+                  <p style={{ fontSize: 13, color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 10px' }}>
+                    Recommended for this age is <strong style={{ color: 'var(--ink)' }}>{rec} minutes a day</strong>. This is what {firstName || 'their'} app counts against and never goes past. You can change it any time.
+                  </p>
+                  <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+                    <input
+                      value={String(val)}
+                      onChange={e => { const n = parseInt(e.target.value.replace(/[^0-9]/g, '').slice(0, 3), 10); setDailyLimit(Number.isFinite(n) ? n : null) }}
+                      inputMode="numeric"
+                      style={{ width: 90, padding: '10px 14px', borderRadius: 12, border: '1.5px solid var(--border)', background: '#fff', fontFamily: 'var(--font-mono)', fontSize: 14, color: 'var(--ink)', outline: 'none' }}
+                      maxLength={3}
+                    />
+                    <span style={{ fontSize: 13, color: 'var(--ink-soft)' }}>min a day</span>
+                    {dailyLimit != null && dailyLimit !== rec && (
+                      <button type="button" onClick={() => setDailyLimit(null)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: 11.5, fontWeight: 700, color: 'var(--ink-muted)', textDecoration: 'underline' }}>
+                        Use recommended
+                      </button>
+                    )}
+                  </div>
+                </div>
+              )
+            })()}
 
             {siblings.map((s, i) => (
               <div key={i} style={{ border: '1.5px solid var(--border)', borderRadius: 16, padding: '14px 15px', marginBottom: '12px' }}>
