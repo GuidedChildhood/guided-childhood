@@ -38,7 +38,15 @@ export default function DeviceTimeCard({
   const [note, setNote] = useState<string | null>(null)
   const audioRef = useRef<AudioContext | null>(null)
 
-  const maxMinutes = Math.max(0, balanceStars * STAR_MINUTES)
+  // The most the child can start now: their stars in minutes, but never past
+  // what is left of the daily limit their grown up set, so a day's screen never
+  // runs beyond the agreed cap even when stars have banked up.
+  const dailyLimit = Math.round(recommendedMinutes)
+  const remainingToday = dailyLimit > 0 ? Math.max(0, dailyLimit - Math.round(usedTodayMinutes)) : Number.POSITIVE_INFINITY
+  const maxMinutes = Math.max(0, Math.min(balanceStars * STAR_MINUTES, remainingToday))
+  // Keep the chosen minutes inside the cap, so the picker never shows more than
+  // is allowed today.
+  useEffect(() => { setMinutes(m => Math.min(m, maxMinutes)) }, [maxMinutes])
   const costStars = Math.ceil(minutes / STAR_MINUTES)
 
   // A fun, unmistakable Duolingo style jingle: a bright bouncing arpeggio that
@@ -326,7 +334,9 @@ export default function DeviceTimeCard({
           a job, never a minus number or a locked screen. */}
       <button
         onClick={() => {
-          if (canSpend) { setPhase('picking'); return }
+          // Only open the picker when there is time left today inside the limit.
+          // At the cap, point back to jobs so the next screen time is earned.
+          if (canSpend && maxMinutes >= STAR_MINUTES) { setPhase('picking'); return }
           try { document.getElementById('my-todo')?.scrollIntoView({ behavior: 'smooth' }) } catch { /* no target */ }
         }}
         style={{
@@ -339,10 +349,10 @@ export default function DeviceTimeCard({
         <span style={{ fontSize: '1.7rem', flexShrink: 0 }}>{canSpend ? '⏱️' : '⭐'}</span>
         <span style={{ flex: 1, minWidth: 0 }}>
           <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: 'var(--ink)', lineHeight: 1.2 }}>
-            {canSpend ? (reachedGuide ? 'A treat, if a grown up says yes' : 'Use my device time') : 'Earn your screen time'}
+            {canSpend ? (reachedGuide ? 'That is your screen time for today 🌱' : 'Use my device time') : 'Earn your screen time'}
           </span>
           <span style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: 'var(--ink-muted)', marginTop: '2px' }}>
-            {canSpend ? `You have ${balanceStars * STAR_MINUTES} minutes to use` : 'Do a job to earn stars, then swap them for time. Tap to see your jobs'}
+            {canSpend ? (reachedGuide ? 'Your stars are safe for tomorrow. Do a job to earn more' : `You have ${maxMinutes} minutes to use now`) : 'Do a job to earn stars, then swap them for time. Tap to see your jobs'}
           </span>
         </span>
         <span style={{ fontSize: '1.3rem', flexShrink: 0 }}>{canSpend ? '▶' : '→'}</span>

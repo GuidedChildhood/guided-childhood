@@ -111,6 +111,20 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: true })
   }
 
+  // Save the child's daily screen time limit. A number is clamped to a sane
+  // range, and null resets it back to the age based recommendation.
+  if (body.action === 'dailylimit' && body.child_id) {
+    const raw = body.minutes
+    const limit = raw == null || raw === '' ? null : Math.max(15, Math.min(300, Math.round(Number(raw))))
+    if (limit !== null && !Number.isFinite(limit)) {
+      return NextResponse.json({ error: 'bad minutes' }, { status: 400 })
+    }
+    const { error } = await supabase
+      .from('children').update({ daily_limit_minutes: limit }).eq('id', body.child_id).eq('parent_id', user.id)
+    if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+    return NextResponse.json({ ok: true })
+  }
+
   // Save the child's phone number (optional, drives send to phone)
   if (body.action === 'phone' && body.child_id) {
     const phone = String(body.phone ?? '').replace(/[^0-9+ ]/g, '').slice(0, 20)
