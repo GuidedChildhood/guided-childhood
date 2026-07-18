@@ -28,6 +28,7 @@ import SocialMediaReadiness from '@/components/pathway/SocialMediaReadiness'
 import SetupUnlockToast from '@/components/setup/SetupUnlockToast'
 import DigiWelcomeSheet from '@/components/digi/DigiWelcomeSheet'
 import TodayPathStrip from '@/components/daily/TodayPathStrip'
+import RoadToSixteen from '@/components/pathway/RoadToSixteen'
 import DigiLessonNudge from '@/components/lessons/DigiLessonNudge'
 import { getParentLessons, getCompletionsForChild } from '@/lib/lessons/parent-lessons'
 import { getDailyStreak } from '@/lib/pathway/streak'
@@ -435,6 +436,11 @@ export default async function DashboardPage() {
       {/* Today's Path: the hero of Home. The day's routine as one clear strip,
           DiGi sitting on the lit next step, so Home opens with a single thing to
           do rather than a wall of cards. */}
+      {/* The promise, made visible: where this child is on the road to 16 and
+          what today is building toward. Sits above the day so daily use always
+          lives inside the destination. */}
+      <RoadToSixteen childName={child?.name ?? undefined} stageId={stage.id} streakCount={streak.count} />
+
       <TodayPathStrip tasks={todayLoop} dailyMinutes={(profile?.daily_minutes as number | null) ?? 10} childName={child?.name ?? undefined} streakCount={streak.count} />
 
       {/* The glanceable stat row: streak, stars in the bank, today's quests,
