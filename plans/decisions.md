@@ -1545,3 +1545,13 @@ dark anthracite (graphite). Themes: graphite, ocean, grass, sunshine, coral,
 berry, each with its own on background ink so text stays readable. The shared
 --kid-bg default (lesson, adventure, game screens) is now the anthracite too.
 Saved via the existing children.accent field, no migration.
+
+## 2026-07-18 — Child app celebrates balance, not screen time
+
+The child home no longer leads with screen time. The star bank, today usage and
+use my device time are one balance card whose hero line is the healthy balance
+of jobs done against screen used, plus the job streak. We never push device use;
+we celebrate balance and gently nudge jobs when screen runs ahead. Full vision
+(Duolingo nudges, monthly offline pushes to lessons/printables/connection, a
+balance reward score, the science) is in plans/balance-first-child.md, to build
+next on Justin go.
