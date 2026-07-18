@@ -7,7 +7,9 @@ import { readinessForAgeBand } from '@/lib/content/readiness'
 import PathwayEvidence from '@/components/pathway/PathwayEvidence'
 import PathwayJourney from '@/components/pathway/PathwayJourney'
 import StageRoadMap from '@/components/pathway/StageRoadMap'
-import LiteracyAreas from '@/components/pathway/LiteracyAreas'
+import LiteracyAreas, { type AreaStatus } from '@/components/pathway/LiteracyAreas'
+import { literacyAreaFor } from '@/lib/content/literacy'
+import { STAR_MINUTES } from '@/lib/quests/templates'
 import { getStageProgress, type StageId as ProgressStageId } from '@/lib/pathway/progress'
 import { getJourney } from '@/lib/pathway/journey'
 
@@ -127,10 +129,53 @@ export default async function PathwayPage() {
         )}
       </div>
 
-      {/* The four literacy strands in plain words, the simple face on the whole
-          curriculum, so a parent sees the whole promise in four things before
-          the detail below. */}
-      <LiteracyAreas stageId={currentStageNum ?? 1} childName={primaryChild?.name ?? undefined} />
+      {/* The four literacy strands in plain words, each with a live reading
+          from the family's real week: the jobs and screen balance, open
+          worries, and lessons done per strand. Green means on track, red means
+          worth a look, the same readings the rest of the app uses. */}
+      {await (async () => {
+        const now = new Date()
+        const day = (now.getUTCDay() + 6) % 7
+        const monday = new Date(now); monday.setUTCDate(now.getUTCDate() - day)
+        const weekStart = monday.toISOString().slice(0, 10)
+        const [ticksRes, questsRes, spendsRes, concernsRes, lessonsRes, doneRes] = await Promise.all([
+          supabase.from('quest_ticks').select('quest_id').eq('user_id', user.id).eq('status', 'approved').gte('tick_date', weekStart),
+          supabase.from('family_quests').select('id, stars').eq('user_id', user.id),
+          supabase.from('star_spends').select('minutes').eq('user_id', user.id).gte('created_at', `${weekStart}T00:00:00Z`),
+          supabase.from('concerns').select('id').eq('user_id', user.id).in('status', ['open', 'improving']),
+          supabase.from('lessons').select('id, category'),
+          supabase.from('lesson_completions').select('lesson_id').eq('user_id', user.id),
+        ])
+        const starsOf = new Map((questsRes.data ?? []).map(q => [q.id, q.stars ?? 1]))
+        const earnedMins = (ticksRes.data ?? []).reduce((s, t) => s + (starsOf.get(t.quest_id) ?? 1), 0) * STAR_MINUTES
+        const usedMins = (spendsRes.data ?? []).reduce((s, x) => s + (Number(x.minutes) || 0), 0)
+        const healthy = usedMins === 0 || usedMins <= earnedMins
+        const worries = (concernsRes.data ?? []).length
+        const doneIds = new Set((doneRes.data ?? []).map(d => d.lesson_id))
+        const doneByArea = new Map<string, number>()
+        for (const l of lessonsRes.data ?? []) {
+          if (!doneIds.has(l.id)) continue
+          const a = literacyAreaFor(l.category)
+          if (a) doneByArea.set(a.key, (doneByArea.get(a.key) ?? 0) + 1)
+        }
+        const lessonNote = (k: string, fallback: string) => {
+          const n = doneByArea.get(k) ?? 0
+          return n > 0 ? `${n} lesson${n === 1 ? '' : 's'} done. ${fallback}` : fallback
+        }
+        const statuses: Record<string, AreaStatus> = {
+          balance: healthy
+            ? { tone: 'green', label: 'In balance', note: lessonNote('balance', `Jobs earned ${earnedMins} min this week, ${usedMins} min used. A healthy balance.`) }
+            : { tone: 'red', label: 'Screen ahead', note: lessonNote('balance', `${usedMins} min used against ${earnedMins} min earned this week. A few jobs brings it back.`) },
+          safe: worries === 0
+            ? { tone: 'green', label: 'Steady', note: lessonNote('safe', 'No open worries. DiGi keeps asking gently along the way.') }
+            : { tone: 'red', label: `${worries} to watch`, note: lessonNote('safe', `Working through ${worries} open worr${worries === 1 ? 'y' : 'ies'} together. That is the system doing its job.`) },
+        }
+        for (const k of ['ai', 'social'] as const) {
+          const n = doneByArea.get(k) ?? 0
+          if (n > 0) statuses[k] = { tone: 'green', label: 'Building now', note: `${n} lesson${n === 1 ? '' : 's'} done and counting.` }
+        }
+        return <LiteracyAreas stageId={currentStageNum ?? 1} childName={primaryChild?.name ?? undefined} statuses={statuses} />
+      })()}
 
       {/* The stamp this stage earns: the passport made concrete. It names the
           competence being built right now and what it is building toward, so the
