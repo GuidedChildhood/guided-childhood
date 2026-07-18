@@ -146,6 +146,28 @@ export default function InsightsBoard() {
     } catch { /* leave it in the list to try again */ } finally { setReviewing(null) }
   }
 
+  // What parents asked DiGi for and could not find a script for. The pipeline
+  // for writing the next scripts from real demand. Mark handled once written.
+  type ScriptReq = { id: string; problem: string; created_at: string; closest: string | null }
+  const [scriptReqs, setScriptReqs] = useState<ScriptReq[] | null>(null)
+  const [reqBusy, setReqBusy] = useState<string | null>(null)
+  useEffect(() => {
+    fetch('/api/admin/script-requests')
+      .then(r => r.json())
+      .then(d => { if (d && !d.error) setScriptReqs(d.requests ?? []) })
+      .catch(() => setScriptReqs([]))
+  }, [])
+  async function markReqHandled(id: string) {
+    setReqBusy(id)
+    try {
+      const res = await fetch('/api/admin/script-requests', {
+        method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id }),
+      })
+      if (res.ok) setScriptReqs(r => (r ?? []).filter(x => x.id !== id))
+    } catch { /* leave it to retry */ } finally { setReqBusy(null) }
+  }
+
   const recs = (data?.report.recommendations ?? []).slice().sort((a, b) => a.priority - b.priority)
 
   return (
@@ -205,6 +227,32 @@ export default function InsightsBoard() {
           )
         })()}
       </section>
+
+      {/* Scripts parents asked for and could not find. The pipeline for writing
+          the next scripts from real demand. Mark handled once written. */}
+      {scriptReqs && scriptReqs.length > 0 && (
+        <section style={{ marginBottom: 26 }}>
+          <h2 style={sectionH}>Scripts parents asked for · {scriptReqs.length}</h2>
+          <p style={{ fontSize: 13.5, color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: 12 }}>
+            Real problems parents typed into Find my script that had no good fit. Write the next scripts from these.
+          </p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            {scriptReqs.map(r => (
+              <div key={r.id} style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 14, padding: '13px 15px' }}>
+                <p style={{ fontSize: 15, fontWeight: 700, color: 'var(--ink)', lineHeight: 1.45, margin: 0 }}>&ldquo;{r.problem}&rdquo;</p>
+                {r.closest && (
+                  <p style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ink-muted)', margin: '6px 0 0' }}>Closest we have: {r.closest}</p>
+                )}
+                <div style={{ marginTop: 10 }}>
+                  <button onClick={() => markReqHandled(r.id)} disabled={reqBusy === r.id} style={{ background: '#fff', color: 'var(--ink-soft)', border: '1.5px solid var(--border)', borderRadius: 11, padding: '8px 15px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 13, opacity: reqBusy === r.id ? 0.6 : 1 }}>
+                    {reqBusy === r.id ? 'Saving…' : 'Mark handled'}
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Review queue: findings the every two week updater drafted, waiting for
           an OK before they enter DiGi's live bank. The human gate. */}
