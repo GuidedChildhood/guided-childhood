@@ -1096,53 +1096,57 @@ export default function KidQuestScreen({
           </div>
         )}
 
-        {/* Pitch your own quest: the child's idea becomes a real quest the
-            moment the grown up says yes */}
-        <div style={{ marginTop: '18px', background: '#fff', borderRadius: '18px', padding: '16px 18px' }}>
-          <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)', margin: '0 0 4px' }}>
+        {/* Pitch your own quest: tap an example or write your own, and it goes
+            to the grown up to say yes. Big, clear, tappable, all the same size,
+            so a young child can pick or type easily. */}
+        <div style={{ marginTop: '18px', background: '#fff', border: '1.5px solid rgba(26,26,46,0.08)', borderRadius: '20px', padding: '16px 18px', boxShadow: '0 4px 0 rgba(26,26,46,0.08)' }}>
+          <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '17px', color: 'var(--ink)', margin: '0 0 4px' }}>
             Got a quest idea? 💡
           </p>
-          <p style={{ fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 12px' }}>
-            Pitch it to your grown up. If they say yes it becomes a real quest with stars on it.
+          <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 14px' }}>
+            Tap one, or write your own. Your grown up says yes to turn it into a real quest with stars.
           </p>
-          <div style={{ display: 'flex', gap: '7px', flexWrap: 'wrap', marginBottom: '12px' }}>
-            {KID_REQUEST_IDEAS.filter(idea => !asks.some(a => a.title === idea.title)).slice(0, 4).map(idea => (
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '9px', marginBottom: '14px' }}>
+            {KID_REQUEST_IDEAS.filter(idea => !asks.some(a => a.title === idea.title)).map(idea => (
               <button
                 key={idea.title}
-                onClick={() => submitAsk(idea.title, idea.emoji)}
+                onClick={() => { submitAsk(idea.title, idea.emoji); playKidSound('tap') }}
                 style={{
-                  padding: '9px 13px', borderRadius: '100px', cursor: 'pointer',
-                  background: '#fff', border: 'none',
-                  fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '13px', color: 'var(--ink)',
-                  boxShadow: '0 3px 0 rgba(0,0,0,0.2)',
+                  display: 'flex', alignItems: 'center', gap: '9px', textAlign: 'left', cursor: 'pointer',
+                  padding: '13px 14px', borderRadius: '14px',
+                  background: 'var(--cream)', border: '1.5px solid rgba(26,26,46,0.08)',
+                  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--ink)', lineHeight: 1.25,
                 }}
               >
-                {idea.emoji} {idea.title}
+                <span style={{ fontSize: '20px', flexShrink: 0 }}>{idea.emoji}</span>
+                <span style={{ minWidth: 0 }}>{idea.title}</span>
               </button>
             ))}
           </div>
-          <div style={{ display: 'flex', gap: '8px' }}>
+          <div style={{ display: 'flex', gap: '8px', alignItems: 'stretch' }}>
             <input
               value={askText}
               onChange={e => setAskText(e.target.value)}
               onKeyDown={e => { if (e.key === 'Enter') submitAsk(askText, '⭐') }}
-              placeholder="Or your own idea..."
+              placeholder="Write your own idea..."
               maxLength={60}
               style={{
-                flex: 1, minWidth: 0, padding: '12px 14px', borderRadius: '12px',
-                border: 'none', background: '#fff',
+                flex: 1, minWidth: 0, padding: '13px 14px', borderRadius: '14px',
+                border: '1.5px solid rgba(26,26,46,0.12)', background: 'var(--cream)',
                 fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink)', outline: 'none',
               }}
+              onFocus={e => { e.currentTarget.style.borderColor = 'var(--terracotta)' }}
+              onBlur={e => { e.currentTarget.style.borderColor = 'rgba(26,26,46,0.12)' }}
             />
             <button
               onClick={() => submitAsk(askText, '⭐')}
               disabled={askText.trim().length < 3}
               style={{
-                padding: '12px 18px', borderRadius: '12px', border: 'none', flexShrink: 0,
+                padding: '13px 20px', borderRadius: '14px', border: 'none', flexShrink: 0,
                 cursor: askText.trim().length < 3 ? 'default' : 'pointer',
                 background: 'var(--terracotta)', color: 'var(--ink)',
-                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px',
-                boxShadow: '0 3px 0 var(--terracotta-dark)',
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
+                boxShadow: askText.trim().length < 3 ? 'none' : '0 4px 0 var(--terracotta-dark)',
                 opacity: askText.trim().length < 3 ? 0.55 : 1,
               }}
             >
@@ -1150,14 +1154,15 @@ export default function KidQuestScreen({
             </button>
           </div>
           {asks.length > 0 && (
-            <div style={{ marginTop: '12px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+            <div style={{ marginTop: '14px', display: 'flex', flexDirection: 'column', gap: '7px' }}>
               {asks.slice(0, 6).map(a => (
-                <p key={a.id} style={{ fontSize: '13.5px', color: 'var(--ink-soft)', margin: 0, lineHeight: 1.5 }}>
-                  {a.emoji} {a.title}
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, marginLeft: '7px', color: a.status === 'added' ? 'var(--terracotta)' : a.status === 'declined' ? 'var(--ink-muted)' : 'var(--ink-muted)' }}>
-                    {a.status === 'added' ? 'IT IS ON ⭐' : a.status === 'declined' ? 'NOT THIS TIME' : 'WAITING...'}
+                <div key={a.id} style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'var(--cream)', borderRadius: '12px', padding: '9px 12px' }}>
+                  <span style={{ fontSize: '15px', flexShrink: 0 }}>{a.emoji}</span>
+                  <span style={{ flex: 1, minWidth: 0, fontSize: '14px', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.3 }}>{a.title}</span>
+                  <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: a.status === 'added' ? 'var(--retro-green-dark, var(--deep-teal))' : 'var(--ink-muted)' }}>
+                    {a.status === 'added' ? 'IT IS ON ⭐' : a.status === 'declined' ? 'NOT THIS TIME' : 'WAITING'}
                   </span>
-                </p>
+                </div>
               ))}
             </div>
           )}
