@@ -56,6 +56,7 @@ export async function getTodayLoop(
     recommended,
     { data: scriptToday },
     { data: digiToday },
+    { data: momentCompletionsToday },
   ] = await Promise.all([
     // Concerns flagged before today that have not been checked today:
     // the same query the daily deck uses to build its check in card.
@@ -70,10 +71,15 @@ export async function getTodayLoop(
     getRecommendedScript(supabase, userId, stageId, challenge, { preferFree: !isPaid }),
     supabase.from('script_completions').select('id').eq('user_id', userId).gte('completed_at', `${today}T00:00:00Z`).limit(1),
     supabase.from('digi_questions').select('id').eq('user_id', userId).gte('created_at', `${today}T00:00:00Z`).limit(1),
+    supabase.from('moment_completions').select('id').eq('user_id', userId).eq('completed_on', today).limit(1),
   ])
 
   const scriptHref = await safeScriptHref(supabase, userId, isPaid, recommended)
-  const momentDone = !!session && (session.completed_at !== null || (session.cards_completed ?? 0) > 0)
+  // Doing a moment counts whether it came from the daily deck (a session) or
+  // from reading a card in the library (a completion), so the step ticks either
+  // way and never looks stuck.
+  const momentDone = (!!session && (session.completed_at !== null || (session.cards_completed ?? 0) > 0))
+    || (momentCompletionsToday ?? []).length > 0
 
   const tasks: TodayLoopTask[] = [
     {
@@ -156,6 +162,7 @@ export async function getDailyTasks(
     { data: stageDevices },
     { data: deviceProgress },
     { data: checkin },
+    { data: momentCompletionsToday },
   ] = await Promise.all([
     supabase.from('daily_sessions').select('completed_at, cards_completed').eq('user_id', userId).eq('session_date', today).maybeSingle(),
     getRecommendedScript(supabase, userId, stageId, challenge, { preferFree: !isPaid }),
@@ -168,9 +175,11 @@ export async function getDailyTasks(
     childId
       ? supabase.from('wellbeing_checks').select('id').eq('child_id', childId).eq('week_start', weekStart).maybeSingle()
       : Promise.resolve({ data: null }),
+    supabase.from('moment_completions').select('id').eq('user_id', userId).eq('completed_on', today).limit(1),
   ])
 
-  const momentDone = !!session && (session.completed_at !== null || (session.cards_completed ?? 0) > 0)
+  const momentDone = (!!session && (session.completed_at !== null || (session.cards_completed ?? 0) > 0))
+    || (momentCompletionsToday ?? []).length > 0
 
   const doneLessonKeys = new Set((lessonCompletions ?? []).map(c => `${c.lesson_source}:${c.lesson_id}`))
   const nextLesson =

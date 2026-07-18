@@ -73,6 +73,12 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
     setOpen(true)
     onFlip?.(moment.id)
     if (!digiResponse) fetchDigiMoment()
+    // Reading a moment is doing today's moment: record it so the daily pathway
+    // ticks the Moment step. Best effort, never blocks the card.
+    fetch('/api/moments/complete', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ momentId: moment.id }),
+    }).catch(() => { /* the card still opens */ })
   }
 
   async function fetchDigiMoment() {
@@ -268,7 +274,7 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
                   fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink)',
                   lineHeight: 1.55, fontWeight: 500, margin: 0, flex: 1,
                 }}>
-                  {loading ? 'DiGi is thinking...' : digiResponse?.digiQuestion ?? moment.digi_opener}
+                  {loading ? 'One moment, I am pulling the evidence together for you.' : digiResponse?.digiQuestion ?? moment.digi_opener}
                 </p>
               </div>
 
@@ -283,6 +289,28 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
                   {digiResponse?.science ?? moment.science_brief}
                 </p>
               </div>
+
+              {/* While DiGi fetches the personalised technique and words, a warm
+                  heads up so the wait feels like care, not a freeze. It sits
+                  exactly where the technique will land, so the card fills in
+                  before their eyes. */}
+              {loading && !digiResponse && (
+                <div style={{
+                  background: 'var(--terracotta-lt)', borderRadius: '16px', padding: '16px 18px',
+                  display: 'flex', alignItems: 'center', gap: 12,
+                }}>
+                  <style>{`@keyframes gcMomentPulse { 0%,100% { opacity: 0.45 } 50% { opacity: 1 } }`}</style>
+                  <span aria-hidden style={{ fontSize: '1.4rem', animation: 'gcMomentPulse 1.3s ease-in-out infinite' }}>✨</span>
+                  <div>
+                    <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: 'var(--ink)', margin: '0 0 2px' }}>
+                      DiGi is gathering the evidence
+                    </p>
+                    <p style={{ fontFamily: 'var(--font-body)', fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
+                      Reading the research and the exact words for {moment.title.toLowerCase()}. Stay with me, we are nearly there.
+                    </p>
+                  </div>
+                </div>
+              )}
 
               {digiResponse?.technique && (
                 <div style={{
