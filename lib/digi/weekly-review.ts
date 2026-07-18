@@ -185,14 +185,14 @@ export async function buildWeeklyReview(userId: string, now = new Date()): Promi
   const endDay = new Date(new Date(`${weekStart}T00:00:00.000Z`).getTime() + 7 * 86_400_000).toISOString().slice(0, 10)
   const { data: fbRows } = await admin
     .from('digi_feedback')
-    .select('question, response')
+    .select('question, parent_response')
     .eq('user_id', userId)
     .gte('feedback_date', weekStart)
     .lt('feedback_date', endDay)
     .limit(10)
   const reflections = (fbRows ?? [])
-    .filter(r => r.response && String(r.response).trim())
-    .map(r => `Asked: ${String(r.question).trim().slice(0, 160)} They answered: ${String(r.response).trim().slice(0, 200)}`)
+    .filter(r => r.parent_response && String(r.parent_response).trim())
+    .map(r => `Asked: ${String(r.question).trim().slice(0, 160)} They answered: ${String(r.parent_response).trim().slice(0, 200)}`)
     .slice(0, 5)
 
   const body = await generateReview(stats, reflections)

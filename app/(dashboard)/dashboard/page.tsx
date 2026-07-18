@@ -10,6 +10,7 @@ import DeviceSetupBanner from '@/components/device/DeviceSetupBanner'
 import SmartAlerts from '@/components/alerts/SmartAlerts'
 import DigiPrompts from '@/components/digi/DigiPrompts'
 import WeeklyReviewCard from '@/components/digi/WeeklyReviewCard'
+import DigiWondering from '@/components/digi/DigiWondering'
 import SundayCheckIn from '@/components/digi/SundayCheckIn'
 import RevealCard from '@/components/onboarding/RevealCard'
 import { revealedKeys, eligibleReveals, daysSince } from '@/lib/onboarding/reveal'
@@ -345,6 +346,10 @@ export default async function DashboardPage() {
 
           {/* The Friday DiGi round up, when there is one to read. */}
           <WeeklyReviewCard />
+
+          {/* DiGi wondering: one gentle question now and again, capped, feeding
+              the Sunday round up. Stays quiet unless it is genuinely due. */}
+          <DigiWondering />
         </>
       )}
 
