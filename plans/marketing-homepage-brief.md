@@ -53,3 +53,37 @@ families). Add two things near the hero:
 - No report or Digital Health Check link in this pass.
 - Checker tokens, Nunito plus IBM Plex Mono, no dashes, no purple gradients.
 - Homepage only. Do not touch the app, the child app, or any data flow.
+
+## v2 notes — review of the first Mobbin draft (2026-07-18)
+
+The first pass got the hard part right: the headline leads with the felt pain
+("End the screen time fight, for good."), the subhead carries the cliff edge to
+ramp story above the fold, and the CTA hierarchy is clean (one loud "Start
+free", one quiet "Or find your stage first"). The "Tonight's Script" line in the
+dashboard mockup is the strongest proof on the page and must not be shrunk. Three
+fixes take it from good to premium and higher converting.
+
+### Fix 1 — kill the purple gradients (non-negotiable)
+The Teo's Quests card and the DiGi bubble in the draft are both purple gradient.
+That is on our banned list because it is the generic AI look. Rebuild both in our
+butter and ink. Right now the two most eye catching elements on the page are off
+brand.
+
+### Fix 2 — add a proof and authority bar above the fold
+There is no trust signal in the first three seconds. Add one line under the CTA
+or the subhead, in a quiet IBM Plex Mono treatment:
+> Built on the research of Candace Odgers, Amy Orben and Catherine Knibbs. Aligned with NHS and NSPCC guidance.
+Every name is defensible. Leave a placeholder slot beside it for real beta parent
+quotes once we have five.
+
+### Fix 3 — make the DiGi bubble answer, not repeat
+The draft bubble echoes the hero ("At 16 the apps arrive all at once. A ban
+delays them..."). It should resolve the problem the hero raises, so the eye moves
+left (problem) to right (answer):
+> So we start at 4. Small, calm lessons that build real judgement, so by 16 your child already knows how to handle it.
+
+### Fix 4 — one warm line for guilt and loneliness (below the fold)
+The page solves the fight and the fear well but under serves the guilt every
+parent feels. One line in Justin's voice, below the fold, no section needed:
+> You are not doing this wrong, and you are not doing it alone.
+This lifts the register from clever to trusted, the Good Inside effect.
