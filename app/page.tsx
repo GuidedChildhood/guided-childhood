@@ -424,30 +424,38 @@ export default function HomePage() {
       <section id="hero" aria-label="Hero" style={{ padding: 'clamp(56px, 7vw, 88px) 32px clamp(48px, 6vw, 80px)', background: 'radial-gradient(ellipse 90% 130% at 88% 45%, #FAEDC2 0%, #FDF6DE 42%, #FFFBEE 72%)', overflow: 'hidden' }}>
         <div className="hero-grid" style={{ maxWidth: '1100px', margin: '0 auto' }}>
 
-          {/* Left: text */}
+          {/* Left: text. Leads with the felt problem, the cliff to ramp idea as
+              the how, one primary action, and named proof above the fold. */}
           <div>
             <p className="fu eyebrow" style={{ marginBottom: '18px' }}>
               From age 4 through 16
             </p>
-            <h1 className="fu" style={{ fontSize: 'clamp(2.1rem, 3.4vw, 2.9rem)', fontWeight: 800, lineHeight: 1.12, letterSpacing: '-.028em', color: 'var(--ink)', maxWidth: '560px', marginBottom: '20px' }}>
-              Raising kids with screens gets a lot clearer from here.
+            <h1 className="fu" style={{ fontSize: 'clamp(2.5rem, 4.4vw, 3.5rem)', fontWeight: 900, lineHeight: 1.05, letterSpacing: '-.035em', color: 'var(--ink)', maxWidth: '560px', marginBottom: '18px' }}>
+              End the screen time fight, for good.
             </h1>
-            <p className="fu" style={{ fontSize: '1.05rem', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '470px', marginBottom: '30px' }}>
-              The only parenting platform built on one consistent, science backed approach, not random tips. Every device and every app, from age 4 through the teen years: what to teach, what to say in the moment, how to put things right, and how to keep your child safe.
+            <p className="fu" style={{ fontSize: '1.12rem', color: 'var(--ink-soft)', lineHeight: 1.65, maxWidth: '490px', marginBottom: '28px' }}>
+              At 16 the apps arrive all at once. A ban just delays them. It teaches nothing. Guided Childhood builds the judgement from age 4 to 16, so 16 is a gentle ramp, not a cliff edge.
             </p>
-            <div className="fu" style={{ display: 'flex', gap: '18px', flexWrap: 'wrap', alignItems: 'center', marginBottom: '14px' }}>
-              <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '15px', padding: '16px 36px' }}>
-                Get started here
-              </Link>
-              <Link href="#stages" style={{ fontSize: '.9rem', fontWeight: 600, color: 'var(--ink-soft)', textDecoration: 'none' }}>
-                Find your stage →
+            <div className="fu" style={{ marginBottom: '12px' }}>
+              <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '16px', padding: '17px 42px' }}>
+                Start free
               </Link>
             </div>
-            <p className="fu" style={{ fontSize: '.82rem', color: 'var(--ink-muted)', fontWeight: 600, marginBottom: '34px' }}>
-              Free access to the platform · No card needed · Built on the research
+            <p className="fu" style={{ fontSize: '.85rem', color: 'var(--ink-muted)', fontWeight: 600, marginBottom: '18px' }}>
+              Free access, no card needed
             </p>
-            <p className="fu" style={{ fontFamily: 'var(--font-mono)', fontSize: '.68rem', fontWeight: 600, letterSpacing: '.06em', color: 'var(--ink-light)' }}>
-              Online Safety Act 2023 · DfE · Statutory RSE · Ofcom
+            {/* Founder scarcity, stated plainly so it reads as a real offer */}
+            <div className="fu" style={{ display: 'inline-flex', alignItems: 'center', gap: '9px', background: 'var(--cream)', border: '1.5px solid var(--terracotta)', borderRadius: '100px', padding: '8px 16px', marginBottom: '20px' }}>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '.66rem', fontWeight: 700, letterSpacing: '.09em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', whiteSpace: 'nowrap' }}>Founding rate</span>
+              <span style={{ fontFamily: 'var(--font-display)', fontSize: '.86rem', fontWeight: 800, color: 'var(--ink)' }}>First 50 families, 7.99 a month for life</span>
+            </div>
+            <div className="fu" style={{ marginBottom: '26px' }}>
+              <Link href="#stages" style={{ fontSize: '.9rem', fontWeight: 600, color: 'var(--ink-soft)', textDecoration: 'none' }}>
+                Or find your stage first →
+              </Link>
+            </div>
+            <p className="fu" style={{ fontFamily: 'var(--font-mono)', fontSize: '.68rem', fontWeight: 600, letterSpacing: '.04em', color: 'var(--ink-light)', lineHeight: 1.65, maxWidth: '450px' }}>
+              Built on the research of Candace Odgers, Amy Orben and Catherine Knibbs. Aligned with NHS and NSPCC guidance.
             </p>
           </div>
 
@@ -556,6 +564,33 @@ export default function HomePage() {
 
           </div>
 
+        </div>
+      </section>
+
+      {/* ================================================================
+          BETA PARENT QUOTES — five placeholder slots, above the fold.
+          TODO(Justin): swap each slot for a real beta parent quote and name.
+          Left as clearly marked placeholders, never invented testimonials.
+          ================================================================ */}
+      <section aria-label="What early families say" style={{ background: 'var(--cream)', borderBottom: '1px solid var(--border)', padding: 'clamp(40px, 6vw, 64px) 24px' }}>
+        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+          <p className="eyebrow" style={{ textAlign: 'center', color: 'var(--terracotta-dark)', marginBottom: '10px' }}>From our first families</p>
+          <h2 style={{ textAlign: 'center', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.5rem, 3vw, 2rem)', letterSpacing: '-0.03em', lineHeight: 1.1, color: 'var(--ink)', margin: '0 0 28px' }}>
+            Real words from real parents
+          </h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(185px, 1fr))', gap: '16px' }}>
+            {[1, 2, 3, 4, 5].map(i => (
+              <div key={i} style={{ background: '#fff', border: '1.5px dashed var(--border)', borderRadius: '18px', padding: '20px 18px', display: 'flex', flexDirection: 'column' }}>
+                <div aria-hidden style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', color: 'var(--terracotta)', lineHeight: 1, marginBottom: '4px' }}>&ldquo;</div>
+                <p style={{ fontSize: '14px', color: 'var(--ink-light)', lineHeight: 1.6, fontStyle: 'italic', margin: '0 0 16px', flex: 1 }}>
+                  A real beta parent quote lands here.
+                </p>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
+                  Beta parent, slot {i}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
