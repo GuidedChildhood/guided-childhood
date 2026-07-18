@@ -576,28 +576,41 @@ export default function HomePage() {
       </section>
 
       {/* ================================================================
-          BETA PARENT QUOTES — five placeholder slots, above the fold.
-          TODO(Justin): swap each slot for a real beta parent quote and name.
-          Left as clearly marked placeholders, never invented testimonials.
+          PARENT QUOTES — three real quotes from our first families,
+          provided by Justin and tidied for clarity. No dashes in copy.
           ================================================================ */}
       <section aria-label="What early families say" style={{ background: 'var(--cream)', borderBottom: '1px solid var(--border)', padding: 'clamp(40px, 6vw, 64px) 24px' }}>
-        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+        <div style={{ maxWidth: '1040px', margin: '0 auto' }}>
           <p className="eyebrow" style={{ textAlign: 'center', color: 'var(--terracotta-dark)', marginBottom: '10px' }}>From our first families</p>
           <h2 style={{ textAlign: 'center', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.5rem, 3vw, 2rem)', letterSpacing: '-0.03em', lineHeight: 1.1, color: 'var(--ink)', margin: '0 0 12px' }}>
             Real words from real parents
           </h2>
-          <p style={{ textAlign: 'center', fontFamily: 'var(--font-body)', fontSize: '1.02rem', fontWeight: 600, color: 'var(--ink-soft)', lineHeight: 1.6, maxWidth: '440px', margin: '0 auto 28px' }}>
+          <p style={{ textAlign: 'center', fontFamily: 'var(--font-body)', fontSize: '1.02rem', fontWeight: 600, color: 'var(--ink-soft)', lineHeight: 1.6, maxWidth: '440px', margin: '0 auto 32px' }}>
             You are not doing this wrong, and you are not doing it alone.
           </p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(185px, 1fr))', gap: '16px' }}>
-            {[1, 2, 3, 4, 5].map(i => (
-              <div key={i} style={{ background: '#fff', border: '1.5px dashed var(--border)', borderRadius: '18px', padding: '20px 18px', display: 'flex', flexDirection: 'column' }}>
-                <div aria-hidden style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', color: 'var(--terracotta)', lineHeight: 1, marginBottom: '4px' }}>&ldquo;</div>
-                <p style={{ fontSize: '14px', color: 'var(--ink-light)', lineHeight: 1.6, fontStyle: 'italic', margin: '0 0 16px', flex: 1 }}>
-                  A real beta parent quote lands here.
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '18px' }}>
+            {[
+              {
+                quote: 'I was so nervous about giving my 11 year old a smartphone. With DiGi I can ask for help at every step, it shows me exactly how to set things up safely, and it settles me whenever a problem comes up.',
+                name: 'Rachel',
+              },
+              {
+                quote: 'It was gone midnight and I still could not get my 12 year old to sleep. I have so many moments like that in a week, and DiGi remembers them. It catches up with me on Sunday with a plan to make it better, and I do not feel like a bad parent anymore.',
+                name: 'Joanne Reedley',
+              },
+              {
+                quote: 'I was worried Lilly was on her device too much. Now I can track how she is doing, and the quests help her balance her screen time with getting outside to play.',
+                name: 'Maria Daniels',
+              },
+            ].map((p) => (
+              <div key={p.name} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '18px', padding: '24px 22px', display: 'flex', flexDirection: 'column', boxShadow: '0 4px 20px rgba(26,26,46,0.05)' }}>
+                <div aria-hidden style={{ fontFamily: 'var(--font-display)', fontSize: '2.2rem', color: 'var(--terracotta)', lineHeight: 0.7, marginBottom: '10px' }}>&ldquo;</div>
+                <p style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.65, fontStyle: 'italic', margin: '0 0 18px', flex: 1 }}>
+                  {p.quote}
                 </p>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
-                  Beta parent, slot {i}
+                <div>
+                  <div style={{ fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 800, color: 'var(--ink)' }}>{p.name}</div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginTop: '3px' }}>Guided Childhood parent</div>
                 </div>
               </div>
             ))}
