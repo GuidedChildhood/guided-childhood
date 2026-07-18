@@ -6,6 +6,7 @@ import BrowseTile from '@/components/ui/BrowseTile'
 import { CHALLENGE_TO_CATEGORY } from '@/lib/content/challenge-map'
 import { getRecommendedScript } from '@/lib/pathway/recommend'
 import type { ChallengeId } from '@/lib/content/stages'
+import ScriptFinder from '@/components/scripts/ScriptFinder'
 
 export const CATEGORY_META: Record<string, {
   label: string
@@ -118,6 +119,13 @@ export default async function ScriptsPage() {
           What to say, what not to say, and why it works. Scripts for real moments, not perfect families.
         </p>
       </div>
+
+      {/* Find my script: search all the scripts in plain words, and if there is
+          no fit, ask DiGi and it lands in the founder insights to be written. */}
+      <ScriptFinder
+        scripts={scripts.map(s => ({ sort_order: s.sort_order, title: s.title, situation: s.situation, category: s.category, is_free: s.is_free }))}
+        isPaid={isPaid}
+      />
 
       {recommended && (
         <Link
