@@ -17,8 +17,10 @@ export default function MomentsGrid({ initialMoments, allMoments, childName, age
   const [activeCategory, setActiveCategory] = useState('All')
   const [flippedIds, setFlippedIds] = useState<Set<string>>(new Set())
   // Age filtered by default so a parent lands on what fits their child, but
-  // the whole library is one tap away: hidden cards read as missing content.
-  const [scope, setScope] = useState<'child' | 'all'>('child')
+  // the whole library is one tap away: hidden cards read as missing content. If
+  // nothing is tagged for this child's age, we open on the whole library instead
+  // of a blank page, so the moments never look like they vanished.
+  const [scope, setScope] = useState<'child' | 'all'>(initialMoments.length === 0 ? 'all' : 'child')
   const everything = allMoments ?? initialMoments
   const showScopeToggle = everything.length > initialMoments.length
   const pool = scope === 'all' ? everything : initialMoments
@@ -37,8 +39,45 @@ export default function MomentsGrid({ initialMoments, allMoments, childName, age
     setFlippedIds(prev => new Set([...prev, momentId]))
   }
 
+  // The day at a glance: the moments laid along a timeline of a real day, so a
+  // parent sees the shape of the day and taps the time they are heading into.
+  // The categories are the times, the cross cutting ones stay in the filter row.
+  const TIME_BANDS: { label: string; category: string; icon: string }[] = [
+    { label: 'Morning', category: 'Morning', icon: '🌅' },
+    { label: 'Midday', category: 'School', icon: '🏫' },
+    { label: 'After school', category: 'Food', icon: '🍎' },
+    { label: 'Evening', category: 'Evening', icon: '🌙' },
+  ]
+  const timeline = TIME_BANDS
+    .map(b => ({ ...b, items: pool.filter(m => m.category === b.category) }))
+    .filter(b => b.items.length > 0)
+
   return (
     <div>
+      {/* The day timeline: moment icons along the arc of a day, tap a time to
+          filter the grid to it. */}
+      {timeline.length > 1 && (
+        <div style={{ position: 'relative', display: 'flex', justifyContent: 'space-between', gap: 6, marginBottom: 20, padding: '4px 2px' }}>
+          <div aria-hidden style={{ position: 'absolute', left: 22, right: 22, top: 26, height: 2, background: 'var(--border)', zIndex: 0 }} />
+          {timeline.map(b => {
+            const on = activeCategory === b.category
+            return (
+              <button
+                key={b.category}
+                onClick={() => setActiveCategory(on ? 'All' : b.category)}
+                style={{ position: 'relative', zIndex: 1, flex: 1, minWidth: 0, background: 'none', border: 'none', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5, padding: 0 }}
+              >
+                <span style={{ width: 46, height: 46, borderRadius: '50%', background: on ? 'var(--terracotta)' : 'var(--cream)', border: `1.5px solid ${on ? 'var(--terracotta-dark)' : 'var(--border)'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, boxShadow: on ? '0 3px 0 var(--terracotta-dark)' : 'none' }}>{b.icon}</span>
+                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 12, color: 'var(--ink)', lineHeight: 1.1, textAlign: 'center' }}>{b.label}</span>
+                <span style={{ display: 'flex', gap: 1, fontSize: 11, lineHeight: 1 }}>
+                  {b.items.slice(0, 4).map(m => <span key={m.id}>{m.icon}</span>)}
+                </span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 9, fontWeight: 700, color: 'var(--ink-muted)' }}>{b.items.length}</span>
+              </button>
+            )
+          })}
+        </div>
+      )}
       {/* DiGi names its pick and why, the first card in the grid below */}
       {suggestedMoment && suggestReason && activeCategory === 'All' && (
         <div style={{

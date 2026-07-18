@@ -439,7 +439,7 @@ export default async function DashboardPage() {
 
       {/* The glanceable stat row: streak, stars in the bank, today's quests,
           the three numbers a parent wants at a glance. */}
-      <HomeStats streakCount={streak.count} />
+      <HomeStats streakCount={streak.count} streakTotal={streak.total} />
 
       {/* Family quests, high in the daily flow: every child at a glance,
           tickable here. The id is the anchor the Waiting on you banner

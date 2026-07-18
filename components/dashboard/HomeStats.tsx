@@ -24,7 +24,7 @@ function Tile({ icon, value, label }: { icon: string; value: string; label: stri
   )
 }
 
-export default function HomeStats({ streakCount }: { streakCount: number }) {
+export default function HomeStats({ streakCount, streakTotal = 0 }: { streakCount: number; streakTotal?: number }) {
   const [bankStars, setBankStars] = useState<number | null>(null)
   const [today, setToday] = useState<{ done: number; total: number } | null>(null)
 
@@ -51,11 +51,24 @@ export default function HomeStats({ streakCount }: { streakCount: number }) {
     return () => { live = false }
   }, [])
 
+  // A clear celebration every fifth day of jobs in a row, and the longer
+  // lifetime streak always ticks up alongside, never reset by a missed day.
+  const fiveInARow = streakCount > 0 && streakCount % 5 === 0
   return (
-    <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
-      <Tile icon="🔥" value={String(streakCount)} label="Day streak" />
-      <Tile icon="⭐" value={bankStars === null ? '—' : String(bankStars)} label={bankStars === null ? 'In the bank' : `= ${bankStars * STAR_MINUTES} min`} />
-      <Tile icon="✅" value={today === null ? '—' : `${today.done}/${today.total}`} label="Today" />
+    <div style={{ marginBottom: '20px' }}>
+      {fiveInARow && (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: 14, padding: '11px 14px', marginBottom: 10 }}>
+          <span style={{ fontSize: 20, flexShrink: 0 }}>🔥</span>
+          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 14, color: 'var(--ink)', lineHeight: 1.35 }}>
+            {streakCount} days of jobs in a row, brilliant.{streakTotal > streakCount ? ` ${streakTotal} days in all and counting.` : ''}
+          </span>
+        </div>
+      )}
+      <div style={{ display: 'flex', gap: '10px' }}>
+        <Tile icon="🔥" value={String(streakCount)} label={streakTotal > 0 ? `${streakTotal} days in all` : 'Day streak'} />
+        <Tile icon="⭐" value={bankStars === null ? '—' : String(bankStars)} label={bankStars === null ? 'In the bank' : `= ${bankStars * STAR_MINUTES} min`} />
+        <Tile icon="✅" value={today === null ? '—' : `${today.done}/${today.total}`} label="Today" />
+      </div>
     </div>
   )
 }
