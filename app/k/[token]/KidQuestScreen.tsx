@@ -690,7 +690,7 @@ export default function KidQuestScreen({
           const jobsLeft = quests.length - doneCount
           const tiles: { icon: KidIconName; iconColor: string; label: string; sub: string; tint: string; onClick: () => void }[] = [
             { icon: 'jobs', iconColor: 'var(--terracotta-dark)', label: jobsLeft > 0 ? 'My jobs' : 'All done', sub: jobsLeft > 0 ? `${jobsLeft} to do` : 'Nice one', tint: 'var(--terracotta-lt)', onClick: () => { document.getElementById('my-todo')?.scrollIntoView({ behavior: 'smooth' }); playKidSound('tap') } },
-            { icon: 'time', iconColor: '#2F8F6B', label: 'Use my time', sub: `${bankBalance * STAR_MINUTES} min`, tint: 'var(--tint-sage)', onClick: () => { setDeviceOpen(true); requestAnimationFrame(() => document.getElementById('my-device-time')?.scrollIntoView({ behavior: 'smooth' })); playKidSound('tap') } },
+            { icon: 'time', iconColor: '#2F8F6B', label: 'Use my time', sub: `${bankBalance * STAR_MINUTES} min`, tint: 'var(--tint-sage)', onClick: () => { setDeviceOpen(true); playKidSound('tap'); setTimeout(() => document.getElementById('my-timer')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 160) } },
             { icon: 'newjob', iconColor: '#3D739A', label: askedMore ? 'Asked' : 'New job', sub: askedMore ? 'Grown up knows' : 'Ask a grown up', tint: askedMore ? 'var(--tint-sage)' : 'var(--tint-blue, #E4ECF7)', onClick: () => { if (!askedMore) { askForMore(); playKidSound('tap') } } },
             { icon: 'deal', iconColor: 'var(--terracotta-dark)', label: 'Our deal', sub: 'How it works', tint: 'var(--cream)', onClick: () => { setDealOpen(true); playKidSound('tap') } },
           ]
@@ -756,7 +756,7 @@ export default function KidQuestScreen({
             </div>
           </button>
           {deviceOpen && (
-            <div style={{ padding: '0 18px 18px' }}>
+            <div id="my-timer" style={{ padding: '0 18px 18px', scrollMarginTop: '72px' }}>
               <DeviceTimeCard token={token} balanceStars={bankBalance} initialSession={activeSession} usedTodayMinutes={usedTodayMinutes} recommendedMinutes={recommendedMinutes} />
               {weekChart.some(d => d.count > 0) && (
                 <div style={{ marginTop: '12px' }}>
