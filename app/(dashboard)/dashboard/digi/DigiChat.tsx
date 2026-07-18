@@ -581,6 +581,32 @@ export default function DigiChat({
           )
         })}
 
+        {/* Between chats, a quiet drop in: a couple of places that help with what
+            they just asked, the Good Inside feel. Only once the answer is settled,
+            never mid stream, and easy to ignore, so it never distracts. */}
+        {messages.length > 0 && messages[messages.length - 1].role === 'assistant' && !streamingReply && !loading && (
+          <div style={{ marginBottom: '26px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '9px' }}>
+              More that might help
+            </div>
+            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+              {[
+                { icon: '❝', label: 'Scripts for moments like this', href: '/dashboard/scripts' },
+                { icon: '🎬', label: 'A lesson to watch together', href: '/dashboard/lessons' },
+              ].map(r => (
+                <Link key={r.href} href={r.href} style={{
+                  display: 'inline-flex', alignItems: 'center', gap: '7px',
+                  background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '12px',
+                  padding: '9px 13px', textDecoration: 'none',
+                  fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '13px', color: 'var(--ink)',
+                }}>
+                  <span aria-hidden>{r.icon}</span>{r.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+
         {loading && !streamingReply && (
           <div style={{ marginBottom: '26px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 11 }}>
