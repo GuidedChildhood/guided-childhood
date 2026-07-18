@@ -266,9 +266,36 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     })
     .filter((x): x is { id: string; title: string; kind: string; time: string | null; when: 'today' | 'tomorrow' } => x !== null)
 
+  // Our family deal: the agreement the parent and child built and signed
+  // together. The child sees it in Our deal, so the contract they agreed is
+  // always there to read, not only on the parent side. Only the sections the
+  // family actually filled in show, in child friendly words.
+  const { data: agreementRow } = await supabase
+    .from('family_agreements')
+    .select('family_values, bedroom_rule_time, bedroom_rule_location, social_media_terms, when_things_go_wrong, extra_agreements, signed_by_parent, signed_by_child')
+    .eq('user_id', link.user_id)
+    .maybeSingle()
+  const agreementItems: { title: string; body: string }[] = []
+  if (agreementRow) {
+    const add = (title: string, body?: string | null) => {
+      const t = (body ?? '').trim()
+      if (t) agreementItems.push({ title, body: t })
+    }
+    add('What matters to us', agreementRow.family_values as string | null)
+    const bedtime = [agreementRow.bedroom_rule_time, agreementRow.bedroom_rule_location]
+      .map(s => String(s ?? '').trim()).filter(Boolean).join(' · ')
+    add('Phones at bedtime', bedtime)
+    add('Apps and social media', agreementRow.social_media_terms as string | null)
+    add('If something goes wrong', agreementRow.when_things_go_wrong as string | null)
+    add('Our extra promises', agreementRow.extra_agreements as string | null)
+  }
+  const agreementSigned = Boolean(agreementRow?.signed_by_parent && agreementRow?.signed_by_child)
+
   return (
     <KidQuestScreen
       token={token}
+      agreementItems={agreementItems}
+      agreementSigned={agreementSigned}
       childName={childRes.data?.name ?? 'Superstar'}
       buddy={(childRes.data?.buddy as string | null) ?? null}
       accent={(childRes.data?.accent as string | null) ?? null}
