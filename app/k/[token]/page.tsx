@@ -42,7 +42,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   const weekAgo = new Date(Date.now() - 7 * 86400000).toISOString().slice(0, 10)
 
   const [childRes, questsRes, todayTicksRes, weekTicksRes, goalRes, streakTicksRes] = await Promise.all([
-    supabase.from('children').select('name, age_band, buddy, accent').eq('id', link.child_id).maybeSingle(),
+    supabase.from('children').select('name, age_band, buddy, accent, daily_limit_minutes').eq('id', link.child_id).maybeSingle(),
     supabase.from('family_quests')
       .select('id, title, emoji, stars, schedule, schedule_days, blocks_screens')
       .eq('user_id', link.user_id)
@@ -203,7 +203,12 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   // once they have had their healthy amount. A soft guide, never a hard block.
   const usedTodayMap = await getMinutesUsedToday(supabase, link.user_id, [link.child_id])
   const usedTodayMinutes = usedTodayMap.get(link.child_id) ?? 0
-  const recommendedMinutes = recommendedDailyMinutes(ageBand ?? null)
+  // The daily limit the child's app shows and caps against: the parent's own
+  // number if they set one, otherwise the healthy age recommendation.
+  const parentLimit = (childRes.data as { daily_limit_minutes?: number | null } | null)?.daily_limit_minutes
+  const recommendedMinutes = parentLimit != null && parentLimit > 0
+    ? parentLimit
+    : recommendedDailyMinutes(ageBand ?? null)
 
   // Notes and scripts a grown up shared to this child's own app, newest first.
   // These land here instead of a text message, and stay to be read again.

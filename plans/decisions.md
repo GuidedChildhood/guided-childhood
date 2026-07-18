@@ -1555,3 +1555,13 @@ we celebrate balance and gently nudge jobs when screen runs ahead. Full vision
 (Duolingo nudges, monthly offline pushes to lessons/printables/connection, a
 balance reward score, the science) is in plans/balance-first-child.md, to build
 next on Justin go.
+
+## 2026-07-18 — Parent set daily screen time limit
+
+children.daily_limit_minutes (migration 069, nullable). Null uses the age based
+recommendation. Parent sets it in the quest manager (per child), where the age
+recommendation is always shown so they do not set it higher by accident. The
+child app shows used against this number (X of limit) and the device time picker
+never offers past what is left of it today, so a day never runs beyond the cap
+even when stars have banked up. Bank total (minutes ready) is separate from what
+is usable today.

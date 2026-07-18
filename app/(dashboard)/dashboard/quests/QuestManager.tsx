@@ -9,6 +9,7 @@ import QrHandoverModal from '@/components/quests/QrHandoverModal'
 import StarSummary from '@/components/quests/StarSummary'
 import ScreenBalanceInsight from '@/components/quests/ScreenBalanceInsight'
 import { questDueToday } from '@/lib/quests/due'
+import { recommendedDailyMinutes, bandLabelFor } from '@/lib/quests/screen-balance'
 import { STAGE_LABELS, AGE_BAND_TO_STAGE, type StageKey } from '@/lib/quests/game-picks'
 import { gamesForStage } from '@/lib/quest-games/registry'
 import { PRINTABLES } from '@/lib/printables/registry'
@@ -40,7 +41,7 @@ const TABS: { key: QuestTab; label: string; icon: string; hint: string }[] = [
 // quests over: share the kid link for older children or print the sheet
 // for little ones.
 
-type Child = { id: string; name: string; age_band: string | null; phone?: string | null; use_mode?: string | null }
+type Child = { id: string; name: string; age_band: string | null; phone?: string | null; use_mode?: string | null; daily_limit_minutes?: number | null }
 
 const AGE_BANDS = ['4-7', '8-10', '11-13', '13-15', '16+'] as const
 type Quest = { id: string; title: string; emoji: string; stars: number; schedule: string; schedule_days?: number[] | null; child_id: string | null; blocks_screens?: boolean }
@@ -81,6 +82,8 @@ export default function QuestManager() {
   const [newChildMode, setNewChildMode] = useState<'own' | 'coview'>('own')
   const [phoneDraft, setPhoneDraft] = useState('')
   const [phoneSaved, setPhoneSaved] = useState(false)
+  const [limitDraft, setLimitDraft] = useState('')
+  const [limitSaved, setLimitSaved] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [ticked, setTicked] = useState<string | null>(null)
   const [firstTask, setFirstTask] = useState('')
@@ -212,6 +215,18 @@ export default function QuestManager() {
     })
     setPhoneSaved(true)
     setTimeout(() => setPhoneSaved(false), 2000)
+    await load()
+  }
+
+  async function saveDailyLimit(minutes: number | null) {
+    if (!activeChild) return
+    await fetch('/api/quests', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'dailylimit', child_id: activeChild, minutes }),
+    })
+    setLimitSaved(true)
+    setTimeout(() => setLimitSaved(false), 2000)
     await load()
   }
 
@@ -1670,6 +1685,57 @@ export default function QuestManager() {
                 )}
               </div>
             </div>
+
+            {/* Daily screen time limit: what the child's app shows used against
+                and never offers past. Defaults to the healthy age guide, which
+                we show so a parent never sets it higher without meaning to. */}
+            {(() => {
+              const rec = recommendedDailyMinutes(child.age_band)
+              const current = child.daily_limit_minutes ?? null
+              const draftVal = limitDraft !== '' ? limitDraft : (current != null ? String(current) : '')
+              return (
+                <div style={{ marginTop: '16px', paddingTop: '14px', borderTop: '1px solid var(--border)' }}>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
+                    {child.name}&apos;s daily screen time limit
+                  </div>
+                  <p style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 10px' }}>
+                    Recommended for {bandLabelFor(child.age_band)}: <strong style={{ color: 'var(--ink)' }}>{rec} minutes a day</strong>. This is what {child.name}&apos;s app counts against, and it never offers more than this in a day. {current == null ? 'Using the recommendation.' : `Your limit: ${current} min.`}
+                  </p>
+                  <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center' }}>
+                    <input
+                      value={draftVal}
+                      onChange={e => setLimitDraft(e.target.value.replace(/[^0-9]/g, '').slice(0, 3))}
+                      placeholder={`${rec}`}
+                      inputMode="numeric"
+                      style={{
+                        width: '90px', padding: '10px 14px', borderRadius: '12px',
+                        border: '1.5px solid var(--border)', background: '#fff',
+                        fontFamily: 'var(--font-mono)', fontSize: '14px', color: 'var(--ink)', outline: 'none',
+                      }}
+                      maxLength={3}
+                    />
+                    <span style={{ fontSize: '13px', color: 'var(--ink-soft)' }}>min a day</span>
+                    <button
+                      onClick={() => { const n = parseInt(draftVal, 10); saveDailyLimit(Number.isFinite(n) && n > 0 ? n : null); setLimitDraft('') }}
+                      style={{
+                        background: '#fff', border: '1.5px solid var(--border)', borderRadius: '12px',
+                        padding: '10px 16px', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, color: 'var(--ink-soft)',
+                      }}
+                    >
+                      {limitSaved ? 'Saved ✓' : 'Save'}
+                    </button>
+                    {current != null && (
+                      <button
+                        onClick={() => { saveDailyLimit(null); setLimitDraft('') }}
+                        style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, color: 'var(--ink-muted)', textDecoration: 'underline' }}
+                      >
+                        Use recommended
+                      </button>
+                    )}
+                  </div>
+                </div>
+              )
+            })()}
 
             {/* Ping their phone right now, through the quest page reminders */}
             <div style={{ marginTop: '16px', paddingTop: '14px', borderTop: '1px solid var(--border)' }}>
