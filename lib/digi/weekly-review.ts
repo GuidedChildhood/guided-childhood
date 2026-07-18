@@ -29,6 +29,8 @@ export type WeekStats = {
   schoolOpen: number
   momentsDone: number
   momentsList: string[]
+  lessonsDone: string[]
+  scriptsTried: string[]
 }
 
 export type WeeklyReview = {
@@ -66,6 +68,31 @@ async function gatherWeek(userId: string, weekStart: string): Promise<WeekStats>
     admin.from('moment_completions').select('completed_on, daily_moments(title)')
       .eq('user_id', userId).gte('completed_on', weekStart).lt('completed_on', endIso.slice(0, 10)),
   ])
+
+  // The learning and the words tried this week: lessons completed (the literacy
+  // path moving) and scripts used with whether they worked, so Sunday can plan
+  // next week from what actually happened, not just count activity.
+  const [lessonCompRes, scriptCompRes] = await Promise.all([
+    admin.from('lesson_completions').select('lesson_id, lesson_source, completed_at')
+      .eq('user_id', userId).gte('completed_at', startIso).lt('completed_at', endIso),
+    admin.from('script_completions').select('script_sort_order, worked, completed_at')
+      .eq('user_id', userId).gte('completed_at', startIso).lt('completed_at', endIso),
+  ])
+  const lessonIds = (lessonCompRes.data ?? []).map(l => l.lesson_id)
+  const scriptOrders = (scriptCompRes.data ?? []).map(s => s.script_sort_order)
+  const [lessonTitlesRes, scriptTitlesRes] = await Promise.all([
+    lessonIds.length ? admin.from('lessons').select('id, title').in('id', lessonIds) : Promise.resolve({ data: [] }),
+    scriptOrders.length ? admin.from('scripts').select('sort_order, title').in('sort_order', scriptOrders) : Promise.resolve({ data: [] }),
+  ])
+  const lessonTitle = new Map((lessonTitlesRes.data ?? []).map(l => [l.id, l.title as string]))
+  const scriptTitle = new Map((scriptTitlesRes.data ?? []).map(s => [s.sort_order, s.title as string]))
+  const lessonsDone = [...new Set(lessonIds.map(id => lessonTitle.get(id)).filter((t): t is string => Boolean(t)))].slice(0, 6)
+  const scriptsTried = [...new Set((scriptCompRes.data ?? []).map(s => {
+    const t = scriptTitle.get(s.script_sort_order)
+    if (!t) return null
+    const w = s.worked === 'yes' ? 'worked' : s.worked === 'somewhat' ? 'partly worked' : s.worked === 'no' ? 'did not work' : 'tried'
+    return `${t} (${w})`
+  }).filter((t): t is string => Boolean(t)))].slice(0, 6)
 
   const questById = new Map((questsRes.data ?? []).map(q => [q.id, q]))
   const ticks = ticksRes.data ?? []
@@ -106,6 +133,8 @@ async function gatherWeek(userId: string, weekStart: string): Promise<WeekStats>
         })
         .filter((t): t is string => Boolean(t))
     )].slice(0, 6),
+    lessonsDone,
+    scriptsTried,
   }
 }
 
@@ -153,7 +182,11 @@ This family's week (their own numbers, nothing compared to anyone else):
 - Screen minutes spent: ${stats.deviceMinutes}
 - Most done quest: ${stats.topQuest ?? 'none yet'}
 - Calm parenting moments handled: ${stats.momentsDone}${stats.momentsList.length ? ` (the ones they read: ${stats.momentsList.join(', ')})` : ''}
-- Open school reminders: ${stats.schoolOpen}${reflectionBlock}
+- Open school reminders: ${stats.schoolOpen}
+- Lessons completed this week (the digital literacy path moving): ${stats.lessonsDone.length ? stats.lessonsDone.join(', ') : 'none this week'}
+- Scripts tried, and whether the words worked: ${stats.scriptsTried.length ? stats.scriptsTried.join(', ') : 'none this week'}${reflectionBlock}
+
+Plan the future from all of this, not just the counts. The suggestion should be the single best next step on the family's road to 16, safe, AI literate and digitally aware: build on a script that worked, revisit one that did not with a different angle, continue a moment they read, or the next lesson on the path. Name the real thing, never a vague keep it up.
 
 ${stats.momentsList.length ? `They read the moment card${stats.momentsList.length === 1 ? '' : 's'} above this week. In watch_for or suggestion, gently ask how one of them actually went in real life (name it), and offer one small next step or a scripted line if it is still tricky, so the catch up closes the loop on what they worked on.` : ''}
 
