@@ -28,6 +28,7 @@ export type WeekStats = {
   topQuest: string | null
   schoolOpen: number
   momentsDone: number
+  momentsList: string[]
 }
 
 export type WeeklyReview = {
@@ -62,7 +63,7 @@ async function gatherWeek(userId: string, weekStart: string): Promise<WeekStats>
     admin.from('star_spends').select('minutes, stars, created_at')
       .eq('user_id', userId).gte('created_at', startIso).lt('created_at', endIso),
     admin.from('school_actions').select('id').eq('user_id', userId).eq('status', 'open'),
-    admin.from('moment_completions').select('id')
+    admin.from('moment_completions').select('completed_on, daily_moments(title)')
       .eq('user_id', userId).gte('completed_on', weekStart).lt('completed_on', endIso.slice(0, 10)),
   ])
 
@@ -94,6 +95,17 @@ async function gatherWeek(userId: string, weekStart: string): Promise<WeekStats>
     topQuest,
     schoolOpen: (schoolRes.data ?? []).length,
     momentsDone: (momentsRes.data ?? []).length,
+    // The actual moments they read this week, newest first and deduped, so the
+    // Sunday catch up can ask how a specific one went, not just count them.
+    momentsList: [...new Set(
+      (momentsRes.data ?? [])
+        .map(r => {
+          const dm = (r as { daily_moments?: { title?: string } | { title?: string }[] }).daily_moments
+          const rel = Array.isArray(dm) ? dm[0] : dm
+          return rel?.title ?? null
+        })
+        .filter((t): t is string => Boolean(t))
+    )].slice(0, 6),
   }
 }
 
@@ -140,8 +152,10 @@ This family's week (their own numbers, nothing compared to anyone else):
 - Stars earned: ${stats.starsEarned} (worth ${stats.starsEarned * STAR_MINUTES} minutes of screen time earned)
 - Screen minutes spent: ${stats.deviceMinutes}
 - Most done quest: ${stats.topQuest ?? 'none yet'}
-- Calm parenting moments handled: ${stats.momentsDone}
+- Calm parenting moments handled: ${stats.momentsDone}${stats.momentsList.length ? ` (the ones they read: ${stats.momentsList.join(', ')})` : ''}
 - Open school reminders: ${stats.schoolOpen}${reflectionBlock}
+
+${stats.momentsList.length ? `They read the moment card${stats.momentsList.length === 1 ? '' : 's'} above this week. In watch_for or suggestion, gently ask how one of them actually went in real life (name it), and offer one small next step or a scripted line if it is still tricky, so the catch up closes the loop on what they worked on.` : ''}
 
 Available routines to suggest for next week (use the key): ${routineList}
 
