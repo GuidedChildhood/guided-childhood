@@ -7,7 +7,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 // and a real colour, never arbitrary data.
 
 const BUDDIES = ['digi', 'oliver', 'sofia', 'zara']
-const ACCENTS = ['sunshine', 'grass', 'ocean', 'coral', 'berry']
+const ACCENTS = ['graphite', 'sunshine', 'grass', 'ocean', 'coral', 'berry']
 
 export async function POST(req: NextRequest) {
   const { token, buddy, accent } = await req.json().catch(() => ({}))

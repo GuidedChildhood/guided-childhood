@@ -52,7 +52,7 @@ export default async function KidLessonPage({ params }: { params: Promise<{ toke
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', gap: '10px' }}>
           <Link href={`/k/${token}`} style={{
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px',
-            color: 'var(--ink-soft)', textDecoration: 'none',
+            color: 'rgba(255,255,255,0.78)', textDecoration: 'none',
           }}>
             ← My quests
           </Link>
@@ -66,10 +66,10 @@ export default async function KidLessonPage({ params }: { params: Promise<{ toke
         </div>
 
         <div style={{ textAlign: 'center', marginBottom: '16px' }}>
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '0 0 6px' }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.72)', margin: '0 0 6px' }}>
             A star lesson for {child?.name ?? 'you'}
           </p>
-          <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.3rem, 6vw, 1.7rem)', color: 'var(--ink)', letterSpacing: '-0.02em', lineHeight: 1.2, margin: 0 }}>
+          <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.3rem, 6vw, 1.7rem)', color: '#F7F7F5', letterSpacing: '-0.02em', lineHeight: 1.2, margin: 0 }}>
             {lesson.title}
           </h1>
         </div>

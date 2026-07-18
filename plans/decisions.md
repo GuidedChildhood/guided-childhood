@@ -1535,3 +1535,13 @@ latest research in line with our thinking, without ever losing credibility.
   the insights board (promotes into expert_knowledge) or rejects. This is the
   guardrail against a fabricated finding ever entering under a real name. Never
   auto publish.
+
+## 2026-07-18 — Make it mine recolours the whole child screen
+
+The child app background is no longer a fixed pink/purple gradient (which also
+broke the no purple gradients rule). Make it mine now sets the whole background,
+not just the ring, from a colour bar with a live preview. Default is a premium
+dark anthracite (graphite). Themes: graphite, ocean, grass, sunshine, coral,
+berry, each with its own on background ink so text stays readable. The shared
+--kid-bg default (lesson, adventure, game screens) is now the anthracite too.
+Saved via the existing children.accent field, no migration.

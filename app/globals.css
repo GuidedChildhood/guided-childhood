@@ -58,9 +58,10 @@
   --tint-amber:        #F0E8D0;
   --tint-green:        #E8F4EE;
 
-  /* ── CHILD APP BACKGROUND ── one faded pastel wash, pink up top into
-     lavender, used across every child screen so they always match. */
-  --kid-bg: linear-gradient(168deg, #EF9EC8 0%, #CF9FE4 30%, #ADB4EE 60%, #86AEE8 100%);
+  /* ── CHILD APP BACKGROUND ── premium anthracite by default. The home screen
+     lets the child recolour it from Make it mine, this is the shared default
+     the lesson, adventure and game screens rest on. */
+  --kid-bg: linear-gradient(180deg, #3C4046 0%, #24262B 100%);
 
   /* ── LEGACY ALIASES ── */
   --warm:              var(--cream);

@@ -47,15 +47,21 @@ const BUDDY_MAP: Record<string, { name: string; img: string }> = {
   sofia: { name: 'Sofia', img: '/digi-squad/Sofia.jpeg' },
   zara: { name: 'Zara', img: '/digi-squad/Zara.png' },
 }
-const ACCENT_MAP: Record<string, { name: string; hex: string }> = {
-  sunshine: { name: 'Sunshine', hex: '#E7A33E' },
-  grass: { name: 'Grass', hex: '#57A06A' },
-  ocean: { name: 'Ocean', hex: '#2E8B9E' },
-  coral: { name: 'Coral', hex: '#E56B57' },
-  berry: { name: 'Berry', hex: '#C65B8E' },
+// Make it mine now recolours the whole screen, not just the ring. Each theme is
+// the full background the child lives in, plus the ink that reads on top of it
+// and the accent used on their rings and cards. The default is a premium dark
+// anthracite, and the colour bar lets them own it. Ids stay the same as before
+// so a child who already picked one keeps it.
+const ACCENT_MAP: Record<string, { name: string; hex: string; bg: string; ink: string; inkSoft: string }> = {
+  graphite: { name: 'Graphite', hex: '#E7A33E', bg: 'linear-gradient(180deg, #3C4046 0%, #24262B 100%)', ink: '#F7F7F5', inkSoft: 'rgba(255,255,255,0.72)' },
+  ocean:    { name: 'Ocean',    hex: '#7FD1E0', bg: 'linear-gradient(180deg, #1C7387 0%, #0C4657 100%)', ink: '#FFFFFF', inkSoft: 'rgba(255,255,255,0.78)' },
+  grass:    { name: 'Grass',    hex: '#FCE38A', bg: 'linear-gradient(180deg, #3F9760 0%, #216A40 100%)', ink: '#FFFFFF', inkSoft: 'rgba(255,255,255,0.80)' },
+  sunshine: { name: 'Sunshine', hex: '#C24E2E', bg: 'linear-gradient(180deg, #F6C25C 0%, #EA9E33 100%)', ink: 'var(--ink)', inkSoft: 'rgba(26,26,46,0.64)' },
+  coral:    { name: 'Coral',    hex: '#FFE0B0', bg: 'linear-gradient(180deg, #EC7A5F 0%, #D14E39 100%)', ink: '#FFFFFF', inkSoft: 'rgba(255,255,255,0.85)' },
+  berry:    { name: 'Berry',    hex: '#FFE0B0', bg: 'linear-gradient(180deg, #D96C9A 0%, #B94A78 100%)', ink: '#FFFFFF', inkSoft: 'rgba(255,255,255,0.85)' },
 }
 const DEFAULT_BUDDY = 'digi'
-const DEFAULT_ACCENT = 'sunshine'
+const DEFAULT_ACCENT = 'graphite'
 
 export default function KidQuestScreen({
   token, childName, buddy = null, accent = null, stageId = 2, quests, todayTicks, weekStars, goal, streakDays = 0, laterQuests = [], doneLessonKeys = [], missions = [],
@@ -145,7 +151,8 @@ export default function KidQuestScreen({
   const [chosenBuddy, setChosenBuddy] = useState(buddy && BUDDY_MAP[buddy] ? buddy : DEFAULT_BUDDY)
   const [chosenAccent, setChosenAccent] = useState(accent && ACCENT_MAP[accent] ? accent : DEFAULT_ACCENT)
   const [makeMineOpen, setMakeMineOpen] = useState(false)
-  const accentHex = ACCENT_MAP[chosenAccent]?.hex ?? ACCENT_MAP[DEFAULT_ACCENT].hex
+  const theme = ACCENT_MAP[chosenAccent] ?? ACCENT_MAP[DEFAULT_ACCENT]
+  const accentHex = theme.hex
   const buddyImg = BUDDY_MAP[chosenBuddy]?.img ?? BUDDY_MAP[DEFAULT_BUDDY].img
   function saveMine(next: { buddy?: string; accent?: string }) {
     if (next.buddy) setChosenBuddy(next.buddy)
@@ -538,7 +545,7 @@ export default function KidQuestScreen({
 
   return (
     <div style={{
-      minHeight: '100dvh', background: 'var(--kid-bg)',
+      minHeight: '100dvh', background: theme.bg,
       display: 'flex', flexDirection: 'column', alignItems: 'center',
       padding: '22px 16px 40px',
       fontFamily: 'var(--font-body)',
@@ -641,10 +648,10 @@ export default function KidQuestScreen({
           >
             {soundOn ? '🔊' : '🔇'}
           </button>
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 6 }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: theme.inkSoft, marginBottom: 6 }}>
             Today&apos;s quests
           </p>
-          <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.7rem, 8vw, 2.2rem)', color: 'var(--ink)', letterSpacing: '-0.02em', margin: 0 }}>
+          <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.7rem, 8vw, 2.2rem)', color: theme.ink, letterSpacing: '-0.02em', margin: 0 }}>
             Go {childName}!
           </h1>
           {/* A clear, labelled way in to pick a buddy and a colour, so making
@@ -1062,7 +1069,7 @@ export default function KidQuestScreen({
               )
             }
             const sectionLabel = (icon: string, text: string) => (
-              <div style={{ display: 'flex', alignItems: 'center', gap: 7, margin: '6px 2px 0', fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-soft)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 7, margin: '6px 2px 0', fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: theme.inkSoft }}>
                 <span aria-hidden>{icon}</span>{text}
               </div>
             )
@@ -1791,14 +1798,20 @@ function MakeItMine({ onClose, chosenBuddy, chosenAccent, onPick }: {
           })}
         </div>
 
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '10px' }}>Pick your colour</div>
-        <div style={{ display: 'flex', gap: '12px', justifyContent: 'space-between', marginBottom: '20px' }}>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '10px' }}>Pick your background</div>
+        {/* The colour bar: each swatch is the real background it sets, so the
+            child picks the whole screen, not a ring. A live preview strip sits
+            above it so the change is obvious before they even close. */}
+        <div style={{ height: 54, borderRadius: '14px', background: ACCENT_MAP[chosenAccent]?.bg ?? ACCENT_MAP[DEFAULT_ACCENT].bg, marginBottom: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1.5px solid rgba(26,26,46,0.12)' }}>
+          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '14px', color: ACCENT_MAP[chosenAccent]?.ink ?? '#fff' }}>My app</span>
+        </div>
+        <div style={{ display: 'flex', gap: '9px', marginBottom: '20px', overflowX: 'auto', paddingBottom: '4px' }}>
           {Object.entries(ACCENT_MAP).map(([id, a]) => {
             const on = chosenAccent === id
             return (
-              <button key={id} onClick={() => onPick({ accent: id })} aria-label={a.name} aria-pressed={on} style={{ cursor: 'pointer', background: 'none', border: 'none', padding: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px' }}>
-                <span style={{ width: 40, height: 40, borderRadius: '50%', background: a.hex, boxShadow: on ? '0 0 0 3px #fff, 0 0 0 6px var(--ink)' : 'none' }} />
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, color: 'var(--ink-soft)' }}>{a.name}</span>
+              <button key={id} onClick={() => onPick({ accent: id })} aria-label={a.name} aria-pressed={on} style={{ flexShrink: 0, cursor: 'pointer', background: 'none', border: 'none', padding: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px' }}>
+                <span style={{ width: 46, height: 46, borderRadius: '14px', background: a.bg, boxShadow: on ? '0 0 0 3px #fff, 0 0 0 6px var(--ink)' : 'inset 0 0 0 1.5px rgba(26,26,46,0.12)' }} />
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, color: on ? 'var(--ink)' : 'var(--ink-soft)' }}>{a.name}</span>
               </button>
             )
           })}
