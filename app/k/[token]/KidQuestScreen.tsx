@@ -680,7 +680,7 @@ export default function KidQuestScreen({
             then how their stars are stacking up. */}
         <div style={{
           background: '#fff', borderRadius: '20px', padding: '16px 18px',
-          boxShadow: '0 5px 0 rgba(26,26,46,0.10)', borderLeft: `6px solid ${accentHex}`,
+          border: '1.5px solid rgba(26,26,46,0.08)', boxShadow: '0 4px 0 rgba(26,26,46,0.08)',
           marginBottom: '16px',
         }}>
          <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
