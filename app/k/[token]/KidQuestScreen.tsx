@@ -741,8 +741,16 @@ export default function KidQuestScreen({
 
         {/* Device time: turn earned stars into minutes on an agreed device,
             with the countdown and the alarm when the time is up. */}
+        {/* Everything screen time in one place: today's usage and the button to
+            use it, then this week's stars turning into minutes right underneath,
+            so it is one section, not scattered across the home. */}
         <div id="my-device-time" style={{ scrollMarginTop: '80px' }}>
           <DeviceTimeCard token={token} balanceStars={bankBalance} initialSession={activeSession} usedTodayMinutes={usedTodayMinutes} recommendedMinutes={recommendedMinutes} />
+          {weekChart.some(d => d.count > 0) && (
+            <div style={{ marginTop: '12px' }}>
+              <KidWeekChart data={weekChart} weekStars={weekStars} />
+            </div>
+          )}
         </div>
 
         {/* Today's goal: enough stars in one day completes the day */}
@@ -891,13 +899,6 @@ export default function KidQuestScreen({
             that teaches why balance is worth it, rotating a fresh idea daily,
             grounded in the science bank. Replaces the old single tip line. */}
         <BalanceInsight stageId={stageId} usedTodayMinutes={usedTodayMinutes} recommendedMinutes={recommendedMinutes} balanceStars={bankBalance} streakDays={streakDays} />
-
-        {/* My week: a simple bar per day of the last seven, taller the more
-            quests the child ticked, and the plain sum of what that earned in
-            minutes. A child can see their own effort turn into screen time. */}
-        {weekChart.some(d => d.count > 0) && (
-          <KidWeekChart data={weekChart} weekStars={weekStars} />
-        )}
 
         {/* Screens wait: any quest flagged blocks_screens and not yet
             approved sits at the top of the list behind this banner. */}
