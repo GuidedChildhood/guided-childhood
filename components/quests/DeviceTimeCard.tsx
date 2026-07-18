@@ -96,8 +96,15 @@ export default function DeviceTimeCard({
       const synth = window.speechSynthesis
       if (!synth) return
       const u = new SpeechSynthesisUtterance(text)
-      u.rate = 0.95
-      u.pitch = 1.1
+      // Bright and warm, a shade slower than normal so it lands as a friendly
+      // send off, never a bark. We reach for a softer, higher voice when the
+      // browser offers one (Samantha, Google UK female and the like), so it
+      // feels like a kind grown up counting down with them.
+      const voices = synth.getVoices?.() ?? []
+      const warm = voices.find(v => /samantha|google uk english female|karen|serena|female/i.test(v.name))
+      if (warm) u.voice = warm
+      u.rate = 0.92
+      u.pitch = 1.18
       u.volume = 0.9
       synth.speak(u)
     } catch { /* speech optional */ }
@@ -131,9 +138,13 @@ export default function DeviceTimeCard({
     }
     if (left === 10 && !spokeTenRef.current) {
       spokeTenRef.current = true
-      say('Ten seconds. Time to find some offline fun.')
-    } else if (left === 3 || left === 2 || left === 1) {
-      say(String(left))
+      say('Ten more seconds, then it is time for some offline fun.')
+    } else if (left === 3) {
+      say('Three')
+    } else if (left === 2) {
+      say('Two')
+    } else if (left === 1) {
+      say('One')
     }
   }, [say])
 
@@ -154,6 +165,7 @@ export default function DeviceTimeCard({
       if (left <= 0 && !fired) {
         fired = true
         soundAlarm()
+        say('Time for offline fun!')
         setPhase('up')
         // Record the stop; the whole block was used, so nothing refunds.
         fetch('/api/quests/time/stop', {
@@ -165,7 +177,7 @@ export default function DeviceTimeCard({
     tick()
     const id = setInterval(tick, 1000)
     return () => clearInterval(id)
-  }, [session, token, soundAlarm, countdownFx])
+  }, [session, token, soundAlarm, countdownFx, say])
 
   async function start() {
     if (busy || minutes < STAR_MINUTES || minutes > maxMinutes) return
@@ -239,8 +251,17 @@ export default function DeviceTimeCard({
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
               {deviceLabel(session.device)} time
             </div>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '2.4rem', lineHeight: 1, color: countingDown ? 'var(--terracotta-dark)' : low ? '#C0533E' : 'var(--ink)', fontVariantNumeric: 'tabular-nums' }}>
-              {fmt(remaining)}
+            <div
+              key={countingDown ? remaining : 'run'}
+              style={{
+                fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: countingDown ? '3rem' : '2.4rem', lineHeight: 1,
+                color: countingDown ? 'var(--terracotta-dark)' : low ? '#C0533E' : 'var(--ink)', fontVariantNumeric: 'tabular-nums',
+                transformOrigin: 'left center', display: 'inline-block',
+                animation: countingDown ? 'gcCountPop 0.5s ease-out' : 'none',
+                transition: 'font-size 0.2s ease',
+              }}
+            >
+              {countingDown ? remaining : fmt(remaining)}
             </div>
           </div>
         </div>
