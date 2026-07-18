@@ -124,8 +124,26 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
     return () => clearInterval(t)
   }, [])
 
+  // Due springs to the top. Weekly routines sort by how soon their day comes
+  // round (today first, one cleared for today drops to the back until next
+  // week), one offs by due date and time with no date last. Sorted only once
+  // the clock has ticked in, so the server and first client render still agree.
+  const todayDow = nowMs === null ? null : new Date(nowMs).getDay()
+  const daysUntil = (a: { recurs_weekday?: number | null; cleared_on?: string | null }) => {
+    if (todayDow === null || a.recurs_weekday == null) return 0
+    const d = (a.recurs_weekday - todayDow + 7) % 7
+    const clearedToday = String(a.cleared_on ?? '') === new Date(nowMs!).toISOString().slice(0, 10)
+    return d === 0 && clearedToday ? 7 : d
+  }
   const recurring = actions.filter(a => a.recurs_weekday != null)
+    .sort((a, b) => daysUntil(a) - daysUntil(b))
   const oneOff = actions.filter(a => a.recurs_weekday == null)
+    .sort((a, b) => {
+      if (nowMs === null) return 0
+      const ka = a.due_date ? `${a.due_date}T${(a.due_time ?? '23:59').slice(0, 5)}` : '9999'
+      const kb = b.due_date ? `${b.due_date}T${(b.due_time ?? '23:59').slice(0, 5)}` : '9999'
+      return ka < kb ? -1 : ka > kb ? 1 : 0
+    })
 
   const settle = async (id: string, status: 'done' | 'dismissed') => {
     setActions(a => a.filter(x => x.id !== id))
