@@ -449,7 +449,12 @@ export default function KidQuestScreen({
         const key = `${new Date().toISOString().slice(0, 10)}:${streakDays}`
         if (localStorage.getItem('gc_kid_streak_seen') !== key) {
           localStorage.setItem('gc_kid_streak_seen', key)
-          setHappyNews({ character: 'oliver', headline: `${streakDays} day streak!`, sub: 'You have shown up every day. That is how champions train. Keep it going!' })
+          // Every fifth day of jobs in a row is a big, clear celebration. The
+          // in between days get the gentler cheer.
+          const fiveInARow = streakDays % 5 === 0
+          setHappyNews(fiveInARow
+            ? { character: 'oliver', headline: `${streakDays} days of jobs in a row! 🔥`, sub: 'That is a proper streak. Champions show up like this. Keep the run going!' }
+            : { character: 'oliver', headline: `${streakDays} day streak!`, sub: 'You have shown up every day. That is how champions train. Keep it going!' })
           return
         }
       }

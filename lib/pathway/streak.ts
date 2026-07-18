@@ -7,6 +7,8 @@ export interface DailyStreak {
   count: number
   /** True when something meaningful already happened today. */
   aliveToday: boolean
+  /** Total meaningful days shown up, ever climbing, never reset by a missed day. */
+  total: number
 }
 
 function dayString(offsetDays: number): string {
@@ -63,8 +65,9 @@ export async function getDailyStreak(
   for (const r of ticks.data ?? []) days.add(String(r.approved_at).slice(0, 10))
   for (const r of feedback.data ?? []) days.add(String(r.feedback_date))
 
+  const total = days.size
   const aliveToday = days.has(dayString(0))
-  if (!aliveToday && !days.has(dayString(1))) return { count: 0, aliveToday: false }
+  if (!aliveToday && !days.has(dayString(1))) return { count: 0, aliveToday: false, total }
 
   let count = 0
   let offset = aliveToday ? 0 : 1
@@ -72,5 +75,5 @@ export async function getDailyStreak(
     count++
     offset++
   }
-  return { count, aliveToday }
+  return { count, aliveToday, total }
 }
