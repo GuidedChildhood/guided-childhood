@@ -38,19 +38,25 @@ export default function DigiWelcomeSheet({ childrenInfo }: { childrenInfo: Child
   const [dragging, setDragging] = useState(false)
 
   useEffect(() => {
-    // Once a day. The key is the local date, so a new day brings DiGi back
-    // but the same day never does.
-    const today = new Date().toISOString().slice(0, 10)
-    const key = `gc_digi_welcome_${today}`
-    if (localStorage.getItem(key)) return
-    // The first three greetings come up right after login, the warm front door
-    // families liked best while they are still learning the app. After that DiGi
-    // eases back to five minutes in, so it never interrupts a parent who already
-    // knows their way around. A short beat still lets Home paint first.
+    // DiGi greets once per login. The guard is the browser session, so a fresh
+    // login always brings DiGi up first thing, but an in app navigation within
+    // the same session never fires it twice.
+    const sessionKey = 'gc_digi_welcome_session'
+    if (sessionStorage.getItem(sessionKey)) return
     const priorCount = Number(localStorage.getItem('gc_welcome_count') || '0')
+    // While a family is still learning the app, DiGi greets on every login, the
+    // warm front door Justin wanted. Once they know their way around (after the
+    // first few), it settles to once a day so it never nags a returning parent.
+    const today = new Date().toISOString().slice(0, 10)
+    const dayKey = `gc_digi_welcome_${today}`
+    if (priorCount >= 3 && localStorage.getItem(dayKey)) return
+    // The first greetings come up right after login. After the family knows the
+    // app, DiGi eases back to five minutes in so it never interrupts a parent
+    // the second they land. A short beat still lets Home paint first.
     const delay = priorCount < 3 ? POPUP_DELAY.welcome : POPUP_DELAY.welcomeSettled
     const id = setTimeout(() => {
-      localStorage.setItem(key, '1')
+      sessionStorage.setItem(sessionKey, '1')
+      localStorage.setItem(dayKey, '1')
       // Count the greetings, and only after the first few, and only now and
       // then, add one age relevant social media insight for one named child, so
       // it stays a gentle check rather than a lecture every day.

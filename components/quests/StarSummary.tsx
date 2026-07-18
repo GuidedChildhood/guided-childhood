@@ -25,7 +25,7 @@ function fmt(ms: number): string {
 export default function StarSummary({
   childName, balanceStars, weekStars, pending, todo, goal, timerRunning,
   sessionEndsAt, onApprove, onTodo, onScreenTime, onShare,
-  goalReached = false, goalAchieved = false, onGoalDone, onSetGoal,
+  goalReached = false, goalAchieved = false, onGoalDone, onSetGoal, onDismissGoalDone,
 }: {
   childName: string
   balanceStars: number
@@ -45,6 +45,9 @@ export default function StarSummary({
   goalAchieved?: boolean
   onGoalDone?: () => void | Promise<void>
   onSetGoal?: () => void
+  // Drop the finished goal off the panel. The reward stays recorded, DiGi still
+  // remembers it, it just stops sitting here once the parent has seen it.
+  onDismissGoalDone?: () => void
 }) {
   const minutes = balanceStars * STAR_MINUTES
   const goalPct = goal ? Math.min(100, Math.round((balanceStars / Math.max(1, goal.stars_needed)) * 100)) : 0
@@ -167,8 +170,17 @@ export default function StarSummary({
       {goal && goalAchieved && (
         <div style={{ position: 'relative', overflow: 'hidden', background: 'var(--tint-sage)', border: '1.5px solid var(--deep-teal)', borderRadius: '13px', padding: '13px 14px', marginBottom: '14px' }}>
           <Celebration fire />
+          {onDismissGoalDone && (
+            <button
+              onClick={onDismissGoalDone}
+              aria-label="Clear this"
+              style={{ position: 'absolute', top: 8, right: 10, zIndex: 2, background: 'none', border: 'none', cursor: 'pointer', fontSize: '17px', lineHeight: 1, color: 'var(--ink-muted)', padding: '2px 4px' }}
+            >
+              ×
+            </button>
+          )}
           <div style={{ position: 'relative', zIndex: 1 }}>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--ink)', marginBottom: 4 }}>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--ink)', marginBottom: 4, paddingRight: 18 }}>
               🎉 {goal.title}: reward earned
             </div>
             <p style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '0 0 10px' }}>
