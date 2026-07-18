@@ -6,6 +6,7 @@ import { SOCIAL_MEDIA_LAW } from '@/lib/config/social-media-law'
 import ScriptDepth from '@/components/scripts/ScriptDepth'
 import ScriptReader from '@/components/scripts/ScriptReader'
 import RehearseWithDigi from '@/components/scripts/RehearseWithDigi'
+import ScriptHelpPrompt from '@/components/scripts/ScriptHelpPrompt'
 import { scriptVoiceUrl } from '@/lib/content/script-voice'
 import { isScriptLocked } from '@/lib/content/free-script-limit'
 
@@ -80,11 +81,13 @@ export default async function ScriptDetailPage({
   const stageMeta = STAGE_META[script.stage_id] ?? STAGE_META.foundation
   const showBanNote = script.law_flag !== 'none' && SOCIAL_MEDIA_LAW !== 'none'
 
-  const [{ data: prevScript }, { data: nextScript }, { data: primaryChild }] = await Promise.all([
+  const [{ data: prevScript }, { data: nextScript }, { data: primaryChild }, { data: myCompletion }] = await Promise.all([
     supabase.from('scripts').select('sort_order, title').eq('sort_order', sortOrder - 1).maybeSingle(),
     supabase.from('scripts').select('sort_order, title').eq('sort_order', sortOrder + 1).maybeSingle(),
     supabase.from('children').select('id, name, phone').eq('parent_id', user.id).eq('is_primary', true).maybeSingle(),
+    supabase.from('script_completions').select('worked').eq('user_id', user.id).eq('script_sort_order', sortOrder).maybeSingle(),
   ])
+  const workedRating = (myCompletion as { worked?: 'yes' | 'somewhat' | 'no' | null } | null)?.worked ?? null
 
   // Does this child have their own app (a kid link)? If so the note goes
   // straight to their phone and their app, not out over SMS.
@@ -209,6 +212,9 @@ export default async function ScriptDetailPage({
         childHasApp={childHasApp}
         stageId={script.stage_id}
       />
+
+      {/* Did it help? DiGi asks, and the answer shapes what it suggests next. */}
+      <ScriptHelpPrompt sortOrder={sortOrder} initialWorked={workedRating} />
 
       {/* DiGi CTA */}
       <div style={{
