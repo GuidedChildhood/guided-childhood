@@ -931,7 +931,7 @@ export default function KidQuestScreen({
         {/* The balance insight surface: a bigger, brighter, character led card
             that teaches why balance is worth it, rotating a fresh idea daily,
             grounded in the science bank. Replaces the old single tip line. */}
-        <BalanceInsight stageId={stageId} />
+        <BalanceInsight stageId={stageId} usedTodayMinutes={usedTodayMinutes} recommendedMinutes={recommendedMinutes} balanceStars={bankBalance} streakDays={streakDays} />
 
         {/* My week: a simple bar per day of the last seven, taller the more
             quests the child ticked, and the plain sum of what that earned in
