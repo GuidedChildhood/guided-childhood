@@ -82,8 +82,8 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
   const [pickedLabel, setPickedLabel] = useState('')
   const [script, setScript] = useState<ScriptResult | null>(null)
   const [failed, setFailed] = useState(false)
-  // Something else: the parent types one line and DiGi writes the words on
-  // the spot, instead of being dumped into the library mid meltdown.
+  // Something else: the parent types one line and DiGi writes the words on the
+  // spot, or steps through to the full moments library to pick the exact one.
   const [customMode, setCustomMode] = useState(false)
   const [customInput, setCustomInput] = useState('')
   const audioRef = useRef<HTMLAudioElement | null>(null)
@@ -475,11 +475,37 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
                     fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
                     border: 'none', borderRadius: '16px', padding: '16px 20px',
                     cursor: 'pointer', boxShadow: '0 5px 0 var(--terracotta-dark)',
-                    opacity: customInput.trim() ? 1 : 0.55, marginBottom: '10px',
+                    opacity: customInput.trim() ? 1 : 0.55, marginBottom: '12px',
                   }}
                 >
                   Get the words
                 </button>
+
+                {/* The whole library is one tap away: every moment we have
+                    designed, on the pick a moment page, so nothing ever feels
+                    missing behind Something else. */}
+                <Link
+                  href="/dashboard/moments"
+                  onClick={() => { stopVoice(); setOpen(false) }}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none',
+                    background: 'var(--white)', border: '1.5px solid var(--border)',
+                    borderRadius: '16px', padding: '14px 16px', marginBottom: '10px',
+                    boxShadow: '0 3px 0 var(--border)',
+                  }}
+                >
+                  <span style={{ fontSize: '1.4rem', flexShrink: 0 }}>🗂️</span>
+                  <span style={{ flex: 1, minWidth: 0 }}>
+                    <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: 'var(--ink)', lineHeight: 1.25 }}>
+                      Browse every moment
+                    </span>
+                    <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: '12.5px', color: 'var(--ink-soft)', marginTop: '1px' }}>
+                      Pick the exact one from the full library
+                    </span>
+                  </span>
+                  <span style={{ fontSize: '1.2rem', flexShrink: 0, color: 'var(--ink-muted)' }}>→</span>
+                </Link>
+
                 <button
                   type="button"
                   onClick={() => { setCustomMode(false); setPicked(null) }}

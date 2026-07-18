@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
-import { type AgeBand } from '@/lib/content/stages'
+import { ageBandInList } from '@/lib/content/stages'
 import MomentsGrid from './MomentsGrid'
 import type { Moment } from '@/components/cards/MomentCard'
 
@@ -34,9 +34,10 @@ export default async function MomentsPage() {
   const child = childResult.data
   const allMoments: Moment[] = momentsResult.data ?? []
 
-  // Filter to child's age band if known
+  // Filter to child's age band if known, matching by range overlap so a
+  // moment tagged 8-11 still reaches a child on the app's 8-10 band.
   const moments = child?.age_band
-    ? allMoments.filter(m => m.age_bands.length === 0 || m.age_bands.includes(child.age_band as AgeBand))
+    ? allMoments.filter(m => ageBandInList(child.age_band, m.age_bands))
     : allMoments
 
   // DiGi's pick: the same intelligence that runs the home path chooses one
