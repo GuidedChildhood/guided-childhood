@@ -11,7 +11,6 @@ function urlBase64ToUint8Array(base64String: string) {
 }
 import { STAR_MINUTES, KID_REQUEST_IDEAS } from '@/lib/quests/templates'
 import { printablesForStage } from '@/lib/printables/registry'
-import { insightsForStage } from '@/lib/content/child-insights'
 import type { StarBank } from '@/lib/quests/bank'
 import { lessonsForStage, type KidLesson } from '@/lib/quests/kid-lessons'
 import { gamesForStage, type QuestGame } from '@/lib/quest-games/registry'
@@ -194,7 +193,13 @@ export default function KidQuestScreen({
   }
 
   useEffect(() => {
-    if (localStorage.getItem('gc_kid_welcome') !== '1') setShowWelcome(true)
+    // Show the welcome once, ever. We mark it seen the moment it shows, not only
+    // when they tap the button, so it never greets them again on a later login
+    // even if they just scrolled past it the first time.
+    if (localStorage.getItem('gc_kid_welcome') !== '1') {
+      setShowWelcome(true)
+      localStorage.setItem('gc_kid_welcome', '1')
+    }
     setSoundOn(soundEnabled())
   }, [])
 
@@ -455,35 +460,11 @@ export default function KidQuestScreen({
           return
         }
       }
-      // The daily hello: first open of the day, DiGi shows what is waiting so
-      // the to-do is obvious the moment they land. Once per day.
-      const today = new Date().toISOString().slice(0, 10)
-      const remaining = quests.length - doneCount
-      if (remaining > 0 && localStorage.getItem('gc_kid_today_seen') !== today) {
-        localStorage.setItem('gc_kid_today_seen', today)
-        setHappyNews({ character: 'digi', headline: `Hi ${childName}! ${remaining} thing${remaining === 1 ? '' : 's'} to do today`, sub: 'Tick each one as you go and watch your stars grow. You have got this!', action: { label: 'Show me →', targetId: 'my-todo' } })
-        return
-      }
-
-      // The wisdom pop: on a quiet open, a squad friend brings one age relevant
-      // idea about screens and wellbeing, read from the science bank for this
-      // child's stage, and sometimes points at a fun sheet to do. A treat every
-      // few days, never every day, so it lands as a gift and not a lecture.
-      const lastPop = localStorage.getItem('gc_kid_insight_pop')
-      const daysSincePop = lastPop ? (Date.parse(today) - Date.parse(lastPop)) / 86400000 : 999
-      const pool = insightsForStage(stageId)
-      if (daysSincePop >= 3 && pool.length > 0) {
-        const dayNum = Math.floor(Date.parse(today) / 86400000)
-        const pick = pool[dayNum % pool.length]
-        localStorage.setItem('gc_kid_insight_pop', today)
-        const sheet = stagePrintables[dayNum % Math.max(1, stagePrintables.length)]
-        setHappyNews({
-          character: pick.character,
-          headline: pick.headline,
-          sub: pick.body,
-          action: sheet ? { label: 'See a fun sheet →', onClick: () => { setTab('print'); document.getElementById('kid-tabs')?.scrollIntoView({ behavior: 'smooth' }) } } : undefined,
-        })
-      }
+      // Nothing else pops on open. The daily hello and the wisdom pop used to
+      // spring a character up every single login, which read as flicker and
+      // clutter. What to do is already right there on the screen, so the home
+      // stays calm and only a real, rare win (a bank milestone or a streak)
+      // ever brings a friend up to celebrate.
     } catch { /* localStorage off, skip the treat */ }
     // Runs once on open with the values the server rendered.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -676,8 +657,7 @@ export default function KidQuestScreen({
         {/* DiGi in the top bar: a small star friend with one clear insight for
             the child, read from their own numbers, always here and readable. */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, background: '#fff', border: '1.5px solid rgba(26,26,46,0.1)', borderRadius: '16px', padding: '11px 14px', margin: '14px 0 4px' }}>
-          <style>{`@keyframes gcTipBob {0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-4px) rotate(4deg)}}`}</style>
-          <button onClick={() => setMakeMineOpen(true)} aria-label="Make my app mine" style={{ flexShrink: 0, width: 46, height: 46, borderRadius: '50%', background: '#FFF7E8', border: `2px solid ${accentHex}`, overflow: 'hidden', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', animation: 'gcTipBob 3s ease-in-out infinite' }}>
+          <button onClick={() => setMakeMineOpen(true)} aria-label="Make my app mine" style={{ flexShrink: 0, width: 46, height: 46, borderRadius: '50%', background: '#FFF7E8', border: `2px solid ${accentHex}`, overflow: 'hidden', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             {chosenBuddy === 'digi'
               ? <img src={buddyImg} alt="" style={{ width: 32, height: 32 }} />
@@ -852,7 +832,17 @@ export default function KidQuestScreen({
                 <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '15px', color: 'var(--ink)' }}>🎉 Redeemed: {goal.title}</span>
                 <span style={{ display: 'block', fontSize: '13px', color: 'var(--ink-soft)', margin: '2px 0 10px' }}>Your grown up knows. Ask them to set a new goal!</span>
                 <button
-                  onClick={() => { if (goalKey) localStorage.setItem(goalKey, '1'); setGoalDone(true); playKidSound('tap') }}
+                  onClick={() => {
+                    if (goalKey) localStorage.setItem(goalKey, '1')
+                    setGoalDone(true)
+                    playKidSound('tap')
+                    // Clear it on the server too, so a redeemed reward never
+                    // comes back on the next open or on another device.
+                    fetch('/api/quests/goal/clear', {
+                      method: 'POST', headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ token }),
+                    }).catch(() => { /* localStorage still hides it here */ })
+                  }}
                   style={{ background: 'var(--retro-green)', color: '#fff', border: 'none', borderRadius: '12px', padding: '10px 20px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', boxShadow: '0 4px 0 rgba(0,0,0,0.2)' }}
                 >
                   Got it, tick it off ✓
