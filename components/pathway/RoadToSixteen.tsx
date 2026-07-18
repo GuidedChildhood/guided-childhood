@@ -1,0 +1,82 @@
+import Link from 'next/link'
+
+// The promise made visible: a calm strip that says where this child is on the
+// road from 4 to 16, and what the whole thing is for. It leads with the
+// destination, safe and AI literate and digitally aware by 16, so daily use
+// always sits inside the bigger picture. It uses only what Home already knows,
+// the stage and the streak, so it is never empty and never a heavy query. The
+// deeper proof, lessons and moments per literacy area, lives on the full path
+// this links to, built over the same school curriculum stages.
+
+const STAGE_LABELS = ['Foundation', 'Builder', 'Explorer', 'Shaper', 'Independent'] as const
+const STAGE_AGES = ['4 to 7', '8 to 10', '11 to 13', '13 to 15', '16 plus'] as const
+
+export default function RoadToSixteen({
+  childName, stageId, streakCount = 0,
+}: {
+  childName?: string
+  stageId: number
+  streakCount?: number
+}) {
+  const kid = childName && childName !== 'Your child' ? childName : 'Your child'
+  const current = Math.min(5, Math.max(1, stageId))
+  const atEnd = current >= 5
+
+  return (
+    <Link
+      href="/dashboard/pathway"
+      style={{
+        display: 'block', textDecoration: 'none',
+        background: 'var(--deep-teal)', borderRadius: '20px',
+        padding: '18px 18px 16px', marginBottom: '20px',
+        boxShadow: '0 5px 0 rgba(26,26,46,0.14)',
+      }}
+    >
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, marginBottom: 8 }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>
+          The road to 16
+        </span>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: 'rgba(255,255,255,0.7)' }}>
+          Stage {current} of 5
+        </span>
+      </div>
+
+      <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '17px', color: '#fff', letterSpacing: '-0.01em', lineHeight: 1.25, margin: '0 0 3px' }}>
+        {atEnd
+          ? `${kid} is digitally ready`
+          : `${kid} is on track, ${STAGE_LABELS[current - 1]} stage`}
+      </p>
+      <p style={{ fontFamily: 'var(--font-body)', fontSize: '13px', color: 'rgba(255,255,255,0.85)', lineHeight: 1.5, margin: '0 0 14px' }}>
+        By 16, safe, AI literate and digitally aware. Built a little each day.
+        {streakCount >= 2 ? ` ${streakCount} days running.` : ''}
+      </p>
+
+      {/* The five stages, 4 to 16, current one lit */}
+      <div style={{ display: 'flex', alignItems: 'flex-start', gap: 4, marginBottom: 12 }}>
+        {STAGE_LABELS.map((label, i) => {
+          const n = i + 1
+          const done = n < current
+          const on = n === current
+          return (
+            <div key={label} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5, minWidth: 0 }}>
+              <div style={{
+                width: '100%', height: 6, borderRadius: 100,
+                background: done ? 'var(--terracotta)' : on ? '#fff' : 'rgba(255,255,255,0.22)',
+              }} />
+              <span style={{
+                fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, letterSpacing: '0.02em',
+                color: on ? '#fff' : 'rgba(255,255,255,0.55)', textAlign: 'center', lineHeight: 1.2,
+              }}>
+                {STAGE_AGES[i]}
+              </span>
+            </div>
+          )
+        })}
+      </div>
+
+      <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '12.5px', color: 'var(--terracotta)' }}>
+        See the whole path and the proof →
+      </span>
+    </Link>
+  )
+}
