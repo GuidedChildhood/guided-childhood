@@ -156,7 +156,6 @@ export default function KidQuestScreen({
   const [makeMineOpen, setMakeMineOpen] = useState(false)
   const theme = ACCENT_MAP[chosenAccent] ?? ACCENT_MAP[DEFAULT_ACCENT]
   const accentHex = theme.hex
-  const buddyImg = BUDDY_MAP[chosenBuddy]?.img ?? BUDDY_MAP[DEFAULT_BUDDY].img
   function saveMine(next: { buddy?: string; accent?: string }) {
     if (next.buddy) setChosenBuddy(next.buddy)
     if (next.accent) setChosenAccent(next.accent)
@@ -423,18 +422,6 @@ export default function KidQuestScreen({
   // family has run migration 047.
   const bankBalance = bank ? bank.balance : weekStars
 
-  // DiGi's line for the top bar: one short, clear, useful thing for the child
-  // right now, read from their own numbers. Calm and encouraging, never a
-  // telling off, and it always says something.
-  const remainingToday = quests.length - doneCount
-  const goalLeft = goal?.stars_needed ? goal.stars_needed - bankBalance : null
-  const digiTip =
-    (goalLeft != null && goalLeft > 0 && goalLeft <= 6) ? `Just ${goalLeft} more star${goalLeft === 1 ? '' : 's'} and you reach your prize!`
-    : (quests.length > 0 && remainingToday === 0) ? 'Everything done today. You are a superstar!'
-    : (pendingStars > 0) ? `${pendingStars} star${pendingStars === 1 ? '' : 's'} waiting for your grown up to say yes.`
-    : (streakDays >= 1 && remainingToday > 0) ? `Do one quest today to keep your ${streakDays} day streak going.`
-    : (remainingToday > 0) ? 'Tick a quest to earn stars for screen time.'
-    : 'Nice work. Ask your grown up for more quests when you are ready.'
 
   // Welcome back celebrations: when the child opens their screen and something
   // grew while they were away, a squad friend springs up to mark it. Two
@@ -654,41 +641,43 @@ export default function KidQuestScreen({
           </button>
         </div>
 
-        {/* DiGi in the top bar: a small star friend with one clear insight for
-            the child, read from their own numbers, always here and readable. */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12, background: '#fff', border: '1.5px solid rgba(26,26,46,0.1)', borderRadius: '16px', padding: '11px 14px', margin: '14px 0 4px' }}>
-          <button onClick={() => setMakeMineOpen(true)} aria-label="Make my app mine" style={{ flexShrink: 0, width: 46, height: 46, borderRadius: '50%', background: '#FFF7E8', border: `2px solid ${accentHex}`, overflow: 'hidden', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            {chosenBuddy === 'digi'
-              ? <img src={buddyImg} alt="" style={{ width: 32, height: 32 }} />
-              : <img src={buddyImg} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }} />}
-          </button>
-          {/* When there are jobs still to do, the whole line is a doorway to
-              the to-do list, so DiGi's nudge is always something the child can
-              act on the moment they land, every time they come in. */}
-          <button
-            onClick={() => { if (remainingToday > 0) { document.getElementById('my-todo')?.scrollIntoView({ behavior: 'smooth' }); playKidSound('tap') } }}
-            disabled={remainingToday <= 0}
-            style={{ flex: 1, minWidth: 0, background: 'none', border: 'none', padding: 0, margin: 0, textAlign: 'left', cursor: remainingToday > 0 ? 'pointer' : 'default', display: 'flex', alignItems: 'center', gap: 8 }}
-          >
-            <span style={{ flex: 1, minWidth: 0 }}>
-              <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>{BUDDY_MAP[chosenBuddy]?.name ?? 'DiGi'} says</span>
-              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: 'var(--ink)', lineHeight: 1.3, marginTop: '1px' }}>{digiTip}</span>
-            </span>
-            {remainingToday > 0 && (
-              <span aria-hidden style={{ flexShrink: 0, fontSize: 18, color: 'var(--terracotta-dark)', fontWeight: 800 }}>→</span>
-            )}
-          </button>
-        </div>
-
         {/* From school today: the child sees the reminder their grown up sent
             through, and a timed one goes red as it nears, so it lands with
             them too, not only the parent. */}
         <KidSchoolBanner items={schoolToday} />
 
-        {/* Star bank: a white card with a gold star medallion and a gold accent,
-            not a flat block of gold, so the top of the app reads as one premium
-            set of cards. The streak sits in its own warm flame chip. */}
+        {/* Lead with what to do: the whole child path in four big buttons, jobs
+            first. Big icons, few words, so a young child always knows exactly
+            what to tap the moment they land. */}
+        {(() => {
+          const jobsLeft = quests.length - doneCount
+          const tiles: { icon: KidIconName; iconColor: string; label: string; sub: string; tint: string; onClick: () => void }[] = [
+            { icon: 'jobs', iconColor: 'var(--terracotta-dark)', label: jobsLeft > 0 ? 'My jobs' : 'All done', sub: jobsLeft > 0 ? `${jobsLeft} to do` : 'Nice one', tint: 'var(--terracotta-lt)', onClick: () => { document.getElementById('my-todo')?.scrollIntoView({ behavior: 'smooth' }); playKidSound('tap') } },
+            { icon: 'time', iconColor: '#2F8F6B', label: 'Use my time', sub: `${bankBalance * STAR_MINUTES} min`, tint: 'var(--tint-sage)', onClick: () => { document.getElementById('my-device-time')?.scrollIntoView({ behavior: 'smooth' }); playKidSound('tap') } },
+            { icon: 'newjob', iconColor: '#3D739A', label: askedMore ? 'Asked' : 'New job', sub: askedMore ? 'Grown up knows' : 'Ask a grown up', tint: askedMore ? 'var(--tint-sage)' : 'var(--tint-blue, #E4ECF7)', onClick: () => { if (!askedMore) { askForMore(); playKidSound('tap') } } },
+            { icon: 'deal', iconColor: 'var(--terracotta-dark)', label: 'Our deal', sub: 'How it works', tint: 'var(--cream)', onClick: () => { setDealOpen(true); playKidSound('tap') } },
+          ]
+          return (
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '18px' }}>
+              {tiles.map((t, i) => (
+                <button key={i} onClick={t.onClick} style={{
+                  display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '10px', cursor: 'pointer',
+                  background: '#fff', border: '1.5px solid rgba(26,26,46,0.08)', borderRadius: '20px', padding: '16px', textAlign: 'left',
+                  boxShadow: '0 4px 0 rgba(26,26,46,0.08)',
+                }}>
+                  <span style={{ width: 48, height: 48, borderRadius: '14px', background: t.tint, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><KidIcon name={t.icon} size={26} color={t.iconColor} /></span>
+                  <span style={{ minWidth: 0 }}>
+                    <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.1rem', color: 'var(--ink)', lineHeight: 1.1 }}>{t.label}</span>
+                    <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: '13px', color: 'var(--ink-muted)', marginTop: '2px' }}>{t.sub}</span>
+                  </span>
+                </button>
+              ))}
+            </div>
+          )
+        })()}
+
+        {/* Star bank sits under the jobs now: the child sees what to do first,
+            then how their stars are stacking up. */}
         <div style={{
           background: '#fff', borderRadius: '20px', padding: '16px 18px',
           boxShadow: '0 5px 0 rgba(26,26,46,0.10)', borderLeft: `6px solid ${accentHex}`,
@@ -725,38 +714,7 @@ export default function KidQuestScreen({
             </div>
           )}
          </div>
-
         </div>
-
-        {/* The whole child path in four big buttons: do my jobs, use my time,
-            ask for a new job, see the deal. Big icons, few words, so a young
-            child always knows exactly what to tap. */}
-        {(() => {
-          const jobsLeft = quests.length - doneCount
-          const tiles: { icon: KidIconName; iconColor: string; label: string; sub: string; tint: string; onClick: () => void }[] = [
-            { icon: 'jobs', iconColor: 'var(--terracotta-dark)', label: jobsLeft > 0 ? 'My jobs' : 'All done', sub: jobsLeft > 0 ? `${jobsLeft} to do` : 'Nice one', tint: 'var(--terracotta-lt)', onClick: () => { document.getElementById('my-todo')?.scrollIntoView({ behavior: 'smooth' }); playKidSound('tap') } },
-            { icon: 'time', iconColor: '#2F8F6B', label: 'Use my time', sub: `${bankBalance * STAR_MINUTES} min`, tint: 'var(--tint-sage)', onClick: () => { document.getElementById('my-device-time')?.scrollIntoView({ behavior: 'smooth' }); playKidSound('tap') } },
-            { icon: 'newjob', iconColor: '#3D739A', label: askedMore ? 'Asked' : 'New job', sub: askedMore ? 'Grown up knows' : 'Ask a grown up', tint: askedMore ? 'var(--tint-sage)' : 'var(--tint-blue, #E4ECF7)', onClick: () => { if (!askedMore) { askForMore(); playKidSound('tap') } } },
-            { icon: 'deal', iconColor: 'var(--terracotta-dark)', label: 'Our deal', sub: 'How it works', tint: 'var(--cream)', onClick: () => { setDealOpen(true); playKidSound('tap') } },
-          ]
-          return (
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '18px' }}>
-              {tiles.map((t, i) => (
-                <button key={i} onClick={t.onClick} style={{
-                  display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '10px', cursor: 'pointer',
-                  background: '#fff', border: '1.5px solid rgba(26,26,46,0.08)', borderRadius: '20px', padding: '16px', textAlign: 'left',
-                  boxShadow: '0 4px 0 rgba(26,26,46,0.08)',
-                }}>
-                  <span style={{ width: 48, height: 48, borderRadius: '14px', background: t.tint, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><KidIcon name={t.icon} size={26} color={t.iconColor} /></span>
-                  <span style={{ minWidth: 0 }}>
-                    <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.1rem', color: 'var(--ink)', lineHeight: 1.1 }}>{t.label}</span>
-                    <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: '13px', color: 'var(--ink-muted)', marginTop: '2px' }}>{t.sub}</span>
-                  </span>
-                </button>
-              ))}
-            </div>
-          )
-        })()}
 
         {dealOpen && (
           <FamilyDeal
