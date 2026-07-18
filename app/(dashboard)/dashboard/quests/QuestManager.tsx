@@ -65,6 +65,11 @@ export default function QuestManager() {
   const [children, setChildren] = useState<Child[]>([])
   const [quests, setQuests] = useState<Quest[]>([])
   const [goals, setGoals] = useState<Goal[]>([])
+  // Finished goals the parent has cleared off the panel. The reward stays
+  // recorded server side (DiGi still remembers it), this just stops the earned
+  // card from sitting here forever once it has been seen. Keyed by child and
+  // the moment it was achieved, kept in the browser so it survives a refresh.
+  const [dismissedGoalDone, setDismissedGoalDone] = useState<Set<string>>(new Set())
   const [ticks, setTicks] = useState<Tick[]>([])
   const [links, setLinks] = useState<KidLink[]>([])
   const [activeChild, setActiveChild] = useState<string | null>(null)
@@ -430,6 +435,24 @@ export default function QuestManager() {
     await load()
   }
 
+  // Load the set of finished goals the parent has already cleared, once on mount.
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem('gc_goal_done_dismissed')
+      if (raw) setDismissedGoalDone(new Set(JSON.parse(raw) as string[]))
+    } catch { /* private mode, no memory needed */ }
+  }, [])
+
+  // Drop a finished goal off the panel and remember that choice.
+  function dismissGoalDone(key: string) {
+    setDismissedGoalDone(prev => {
+      const next = new Set(prev)
+      next.add(key)
+      try { localStorage.setItem('gc_goal_done_dismissed', JSON.stringify([...next])) } catch { /* ignore */ }
+      return next
+    })
+  }
+
   async function sendPing(message: string) {
     if (!activeChild) return
     setPingResult('Sending...')
@@ -602,6 +625,7 @@ export default function QuestManager() {
             const dueToday = childQuests.filter(q => questDueToday(q.schedule, q.schedule_days))
             const g = goals.find(gg => gg.child_id === activeChild)
             const gBalance = banks.find(b => b.child_id === activeChild)?.balance ?? 0
+            const goalDoneKey = g?.achieved_at ? `${g.child_id}:${g.achieved_at}` : null
             return (
               <StarSummary
                 childName={child.name}
@@ -611,9 +635,10 @@ export default function QuestManager() {
                 todo={dueToday.filter(q => !tickedToday.has(q.id)).length}
                 goal={g ? { title: g.title, stars_needed: g.stars_needed } : null}
                 goalReached={!!g && !g.achieved_at && gBalance >= g.stars_needed}
-                goalAchieved={!!g?.achieved_at}
+                goalAchieved={!!g?.achieved_at && !(goalDoneKey != null && dismissedGoalDone.has(goalDoneKey))}
                 onGoalDone={redeemGoal}
                 onSetGoal={() => goToSection('star-goal', 'manage')}
+                onDismissGoalDone={goalDoneKey ? () => dismissGoalDone(goalDoneKey) : undefined}
                 timerRunning={sessions.some(s => s.child_id === activeChild)}
                 sessionEndsAt={sessions.find(s => s.child_id === activeChild)?.ends_at ?? null}
                 onApprove={() => { if (ticks.some(t => t.child_id === activeChild && t.status === 'pending')) { window.location.href = '/dashboard#quest-board' } else { goToSection('quest-tabs', 'manage') } }}

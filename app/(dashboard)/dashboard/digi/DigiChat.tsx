@@ -108,12 +108,16 @@ export default function DigiChat({
   // scroll never triggers a re-render.
   const scrollRef = useRef<HTMLDivElement>(null)
   const stickRef = useRef(true)
-  // Set the moment a new question is sent, so the next render lifts that
-  // question to the top of the view instead of pinning to the bottom.
-  const pendingQScroll = useRef(false)
+  // True from the moment a new question is sent until that question has actually
+  // reached the top of the view. Because the answer has not streamed in yet when
+  // the question first lands, there is nothing beneath it to scroll against, so
+  // one lift can only get it partway. We keep lifting on every streamed chunk
+  // until the question sits at the top, then release, the Good Inside feel.
+  const pinQuestionTop = useRef(false)
   const onMessagesScroll = () => {
     const el = scrollRef.current
-    if (el) stickRef.current = el.scrollHeight - el.scrollTop - el.clientHeight < 80
+    if (!el) return
+    stickRef.current = el.scrollHeight - el.scrollTop - el.clientHeight < 80
   }
   const FREE_LIMIT = 3
 
@@ -166,11 +170,18 @@ export default function DigiChat({
   useEffect(() => {
     const el = scrollRef.current
     if (!el) return
-    if (pendingQScroll.current) {
-      pendingQScroll.current = false
+    if (pinQuestionTop.current) {
       const qs = el.querySelectorAll('[data-role="user"]')
       const last = qs[qs.length - 1] as HTMLElement | undefined
-      if (last) el.scrollTop += last.getBoundingClientRect().top - el.getBoundingClientRect().top - 12
+      if (last) {
+        // Lift the question to the top, leaving a small margin. Early on the
+        // answer is short and the scroll clamps before it gets there, so we
+        // hold the pin and try again on the next chunk. Once it is at the top
+        // (nothing left to lift), release so the parent can read freely.
+        const delta = last.getBoundingClientRect().top - el.getBoundingClientRect().top - 12
+        el.scrollTop += delta
+        if (delta <= 1) pinQuestionTop.current = false
+      }
       return
     }
     if (stickRef.current) el.scrollTop = el.scrollHeight
@@ -194,7 +205,7 @@ export default function DigiChat({
     // Sending lifts the new question to the top of the view, not the bottom, so
     // the answer reads from the question down, the Good Inside feel.
     stickRef.current = false
-    pendingQScroll.current = true
+    pinQuestionTop.current = true
     setMessages(prev => [...prev, { role: 'user', content: messageText }])
     setInput('')
     setContinuingPrefix(null)
@@ -292,6 +303,9 @@ export default function DigiChat({
     } finally {
       setLoading(false)
       setStreamingReply(false)
+      // The answer is in. Release the pin so the parent can scroll freely, even
+      // if a short reply never grew tall enough to lift the question fully up.
+      pinQuestionTop.current = false
     }
   }
 
