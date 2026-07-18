@@ -99,6 +99,14 @@ export default function DigiChat({
   }
   useEffect(() => () => { if (reflectionTimer.current) clearTimeout(reflectionTimer.current) }, [])
 
+  // Flagging an answer as off: a quiet way for the parent to tell us when a
+  // reply missed, with a short note. It lands server side for the team to work
+  // on, and resets the moment the next question is asked.
+  const [flagOpen, setFlagOpen] = useState(false)
+  const [flagNote, setFlagNote] = useState('')
+  const [flagSending, setFlagSending] = useState(false)
+  const [flagSent, setFlagSent] = useState(false)
+
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   // The scrolling messages column, and whether the reader is currently pinned
@@ -226,6 +234,8 @@ export default function DigiChat({
     // that was waiting to appear stands down and defers to the next real pause.
     if (reflectionTimer.current) { clearTimeout(reflectionTimer.current); reflectionTimer.current = null }
     if (!reflectionDone) setReflectionQuestion(null)
+    // A fresh question clears any flag box left open on the previous answer.
+    setFlagOpen(false); setFlagSent(false); setFlagNote('')
 
     // Sending lifts the new question to the top of the view, not the bottom, so
     // the answer reads from the question down, the Good Inside feel. A full
@@ -340,6 +350,31 @@ export default function DigiChat({
     } finally {
       setLoading(false)
       setStreamingReply(false)
+    }
+  }
+
+  async function submitFlag() {
+    if (!flagNote.trim() || flagSending) return
+    const last = messages[messages.length - 1]
+    const lastQuestion = [...messages].reverse().find(m => m.role === 'user')
+    setFlagSending(true)
+    try {
+      await fetch('/api/digi/flag', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          question: lastQuestion?.content ?? null,
+          answer: last?.role === 'assistant' ? last.content : null,
+          note: flagNote.trim(),
+        }),
+      })
+      setFlagSent(true)
+      setFlagOpen(false)
+      setFlagNote('')
+    } catch {
+      // fail quietly, never block the parent
+    } finally {
+      setFlagSending(false)
     }
   }
 
@@ -603,6 +638,67 @@ export default function DigiChat({
                   <span aria-hidden>{r.icon}</span>{r.label}
                 </Link>
               ))}
+            </div>
+
+            {/* Flag an answer as off. Quiet by default, a small note box when
+                opened, a plain thank you once sent. Never in the way. */}
+            <div style={{ marginTop: '14px' }}>
+              {flagSent ? (
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 600, color: 'var(--ink-muted)' }}>
+                  Thank you. We will look at this.
+                </div>
+              ) : flagOpen ? (
+                <div>
+                  <textarea
+                    value={flagNote}
+                    onChange={e => setFlagNote(e.target.value)}
+                    placeholder="What was off about this answer? It helps us make DiGi better."
+                    rows={2}
+                    style={{
+                      width: '100%', boxSizing: 'border-box', padding: '10px 13px', borderRadius: '12px',
+                      border: '1.5px solid var(--border)', background: 'var(--cream)',
+                      fontFamily: 'var(--font-body)', fontSize: '13.5px', color: 'var(--ink)',
+                      resize: 'none', outline: 'none', lineHeight: 1.5, marginBottom: '8px',
+                    }}
+                    onFocus={e => { e.currentTarget.style.borderColor = 'var(--terracotta)'; document.body.classList.add('gc-input-focused') }}
+                    onBlur={e => { e.currentTarget.style.borderColor = 'var(--border)'; document.body.classList.remove('gc-input-focused') }}
+                  />
+                  <div style={{ display: 'flex', gap: '8px' }}>
+                    <button
+                      onClick={submitFlag}
+                      disabled={flagSending || !flagNote.trim()}
+                      style={{
+                        background: flagNote.trim() ? 'var(--terracotta)' : 'var(--border)',
+                        color: flagNote.trim() ? 'var(--ink)' : 'var(--ink-muted)', border: 'none',
+                        borderRadius: '10px', padding: '9px 15px', cursor: flagNote.trim() ? 'pointer' : 'not-allowed',
+                        fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '12.5px',
+                      }}
+                    >
+                      {flagSending ? 'Sending…' : 'Send'}
+                    </button>
+                    <button
+                      onClick={() => { setFlagOpen(false); setFlagNote('') }}
+                      style={{
+                        background: 'none', border: '1.5px solid var(--border)', borderRadius: '10px', padding: '9px 14px',
+                        cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '12.5px', color: 'var(--ink-soft)',
+                      }}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <button
+                  onClick={() => setFlagOpen(true)}
+                  style={{
+                    background: 'none', border: 'none', padding: 0, cursor: 'pointer',
+                    fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--ink-light)',
+                    textDecoration: 'underline', textUnderlineOffset: '3px',
+                  }}
+                >
+                  Something off with this answer? Tell us
+                </button>
+              )}
             </div>
           </div>
         )}
