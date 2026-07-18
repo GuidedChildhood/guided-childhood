@@ -1582,3 +1582,17 @@ way as the set ones (light background, dark ink, deeper accent). Stored as
 h<hue> (0 to 360), validated bounded in /api/kid/buddy so it is never arbitrary
 data. resolveTheme in KidQuestScreen turns a named id or an h<hue> into the full
 theme. Handed to Mobbin to finish the visual of the slider itself.
+
+## 18 July 2026 — comprehensive moments library by age (migration 073)
+
+Added 26 moments to the daily_moments library, by canonical age band (4-7, 8-10,
+11-13, 13-15, 16+) and across all seven categories, to sit alongside the existing
+set. Grounded in mainstream child development and child mental health practice and
+in the spirit of Dr Becky Kennedy (connection before correction, good inside), Sue
+Atkins (calm routines, warm authority) and Catherine Knibbs (the online world
+through a nervous system and safety lens). No allow or deny: every opener leads to
+a calibrated pathway. No dashes in any copy. Uses the canonical age vocabulary so
+it matches children.age_band directly, and the range overlap matcher covers the
+older 8-11 style seed too. Icons are emoji placeholders: the Higgsfield
+illustrations, in the Happy News style, are the Mobbin lane, briefed separately.
+Idempotent insert, guarded by title.
