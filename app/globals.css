@@ -837,6 +837,17 @@ h1, h2, h3 { text-wrap: balance; }
   [style*="gcAlarmBounce"] { animation: none !important; }
 }
 
+/* Each of the last ten seconds lands with a soft pop, so the number itself
+   feels like a happy countdown to offline fun, not a clock running out. */
+@keyframes gcCountPop {
+  0%   { transform: scale(1.28); }
+  55%  { transform: scale(0.96); }
+  100% { transform: scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  [style*="gcCountPop"] { animation: none !important; }
+}
+
 /* ── NAV LINKS ── */
 .nav-links-desktop {
   display: flex;
