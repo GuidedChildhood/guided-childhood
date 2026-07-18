@@ -124,6 +124,28 @@ export default function InsightsBoard() {
       .catch(() => setBankError('Could not load the knowledge bank.'))
   }, [])
 
+  // The research updater's review queue: findings waiting for an OK before they
+  // enter the live bank.
+  type Candidate = { id: string; source_type: string | null; source_name: string | null; finding: string; age_bands: string[] | null; topics: string[] | null; url: string | null; rationale: string | null }
+  const [candidates, setCandidates] = useState<Candidate[] | null>(null)
+  const [reviewing, setReviewing] = useState<string | null>(null)
+  useEffect(() => {
+    fetch('/api/admin/knowledge-bank/candidates')
+      .then(r => r.json())
+      .then(d => { if (d && !d.error) setCandidates(d.candidates ?? []) })
+      .catch(() => setCandidates([]))
+  }, [])
+  async function reviewCandidate(id: string, action: 'approve' | 'reject') {
+    setReviewing(id)
+    try {
+      const res = await fetch('/api/admin/knowledge-bank/candidates', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, action }),
+      })
+      if (res.ok) setCandidates(c => (c ?? []).filter(x => x.id !== id))
+    } catch { /* leave it in the list to try again */ } finally { setReviewing(null) }
+  }
+
   const recs = (data?.report.recommendations ?? []).slice().sort((a, b) => a.priority - b.priority)
 
   return (
@@ -183,6 +205,46 @@ export default function InsightsBoard() {
           )
         })()}
       </section>
+
+      {/* Review queue: findings the every two week updater drafted, waiting for
+          an OK before they enter DiGi's live bank. The human gate. */}
+      {candidates && candidates.length > 0 && (
+        <section style={{ marginBottom: 26 }}>
+          <h2 style={sectionH}>Findings to review · {candidates.length}</h2>
+          <p style={{ fontSize: 13.5, color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: 12 }}>
+            The research updater drafted these. Nothing reaches DiGi until you click OK.
+          </p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            {candidates.map(c => (
+              <div key={c.id} style={{ background: 'var(--white,#fff)', border: '1.5px solid var(--terracotta)', borderRadius: 14, padding: '14px 16px' }}>
+                <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 10, marginBottom: 4 }}>
+                  <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 14.5, color: 'var(--ink)' }}>
+                    {c.url ? <a href={c.url} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--ink)', textDecoration: 'underline' }}>{c.source_name}</a> : c.source_name}
+                  </span>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10.5, fontWeight: 700, color: 'var(--ink-muted)', flexShrink: 0 }}>{c.source_type}</span>
+                </div>
+                <p style={{ fontSize: 14, color: 'var(--ink)', lineHeight: 1.55, margin: '0 0 6px' }}>{c.finding}</p>
+                {c.rationale && <p style={{ fontSize: 12, color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 6px', fontStyle: 'italic' }}>Why: {c.rationale}</p>}
+                {(c.topics ?? []).length > 0 && (
+                  <div style={{ margin: '4px 0 10px', display: 'flex', gap: 5, flexWrap: 'wrap' }}>
+                    {(c.topics ?? []).slice(0, 6).map(t => (
+                      <span key={t} style={{ fontFamily: 'var(--font-mono)', fontSize: 9.5, fontWeight: 700, color: 'var(--ink-muted)', background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: 100, padding: '2px 8px' }}>{t}</span>
+                    ))}
+                  </div>
+                )}
+                <div style={{ display: 'flex', gap: 8 }}>
+                  <button onClick={() => reviewCandidate(c.id, 'approve')} disabled={reviewing === c.id} style={{ flex: 1, background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 11, padding: '9px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 13, boxShadow: '0 3px 0 var(--terracotta-dark)', opacity: reviewing === c.id ? 0.6 : 1 }}>
+                    {reviewing === c.id ? 'Adding...' : 'OK, add to bank'}
+                  </button>
+                  <button onClick={() => reviewCandidate(c.id, 'reject')} disabled={reviewing === c.id} style={{ background: '#fff', color: 'var(--ink-soft)', border: '1.5px solid var(--border)', borderRadius: 11, padding: '9px 16px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 13 }}>
+                    Reject
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Knowledge bank: the directory of every researcher, expert and body
           DiGi is grounded in, so the whole evidence base is visible and the

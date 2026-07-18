@@ -1514,3 +1514,24 @@ Added a gated service drip in the daily email cron.
 - Device time rides inside the screen time email; printables and the wellbeing
   tracker are the remaining services without a dedicated email (they have no
   clean setup gate), easy to add if wanted.
+
+## 2026-07-18 — DiGi knowledge bank: directory, and a self growing research updater with a human gate
+
+Justin wanted the evidence bank visible, and a way for it to grow itself from the
+latest research in line with our thinking, without ever losing credibility.
+
+- Directory: a founder only view on the insights board of every researcher,
+  expert and body in expert_knowledge, grouped by source with topics, age bands,
+  a sample finding and a link. The bank already holds Odgers, Orben, Przybylski,
+  Livingstone, Knibbs, Dr Becky, Damour, NHS, NSPCC, NICE, UKCIS, Internet
+  Matters, Anna Freud, Cambridge and more.
+- The research updater (cron/knowledge-refresh, 1st and 15th of the month): reads
+  what parents have asked (digi_questions), drafts up to six candidate findings
+  from real, credible sources that fit the educate not ban pathway, tries web
+  search then falls back to model knowledge, and drops them into a review queue
+  (expert_knowledge_candidates, migration 068) as PENDING. It emails the founder
+  when new candidates land.
+- The human gate: nothing reaches the live bank until the founder clicks OK on
+  the insights board (promotes into expert_knowledge) or rejects. This is the
+  guardrail against a fabricated finding ever entering under a real name. Never
+  auto publish.
