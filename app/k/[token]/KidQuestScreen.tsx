@@ -682,45 +682,61 @@ export default function KidQuestScreen({
           )
         })()}
 
-        {/* Star bank sits under the jobs now: the child sees what to do first,
-            then how their stars are stacking up. */}
-        <div style={{
-          background: '#fff', borderRadius: '20px', padding: '16px 18px',
-          border: '1.5px solid rgba(26,26,46,0.08)', boxShadow: '0 4px 0 rgba(26,26,46,0.08)',
-          marginBottom: '16px',
-        }}>
-         <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-          <div style={{
-            flexShrink: 0, width: 56, height: 56, borderRadius: '14px',
-            background: 'var(--terracotta-lt)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-          }}><KidIcon name="star" size={30} color="var(--terracotta-dark)" /></div>
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '0 0 1px' }}>
-              My star bank
-            </p>
-            <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.7rem', color: 'var(--ink)', margin: 0, lineHeight: 1.05 }}>
-              {bankBalance}
-              {pendingStars > 0 && (
-                <span style={{ fontSize: '0.9rem', fontWeight: 700, color: 'var(--terracotta-dark)' }}> +{pendingStars} waiting</span>
+        {/* One clear balance card. The thing we celebrate is the healthy balance
+            of jobs done against screen used, and the streak of jobs, not the
+            screen time itself. Stars and minutes are here, but the hero line is
+            the balance: a warm well done when it is healthy, a gentle Duolingo
+            style nudge to do a job when screen has run ahead. Tap to open and
+            actually use the time. */}
+        {(() => {
+          const earnedWeekMins = weekStars * STAR_MINUTES
+          const healthy = usedWeekMinutes <= earnedWeekMins || usedWeekMinutes === 0
+          const balanceMsg = streakDays >= 2
+            ? `${streakDays} day streak of jobs, amazing! ${healthy ? 'And a lovely balance too.' : 'Do one job to keep your balance healthy.'}`
+            : healthy
+              ? 'Lovely balance. You have earned more than you have watched.'
+              : 'Screen has run a little ahead. Do a job to bring your balance back.'
+          return (
+        <div id="my-device-time" style={{ scrollMarginTop: '80px', marginBottom: '16px', background: '#fff', borderRadius: '20px', border: '1.5px solid rgba(26,26,46,0.08)', boxShadow: '0 4px 0 rgba(26,26,46,0.08)', overflow: 'hidden' }}>
+          <button onClick={() => { setDeviceOpen(o => !o); playKidSound('tap') }} aria-expanded={deviceOpen} style={{ width: '100%', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', padding: '16px 18px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+              <span style={{ flexShrink: 0, width: 52, height: 52, borderRadius: '14px', background: 'var(--terracotta-lt)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><KidIcon name="star" size={28} color="var(--terracotta-dark)" /></span>
+              <span style={{ flex: 1, minWidth: 0 }}>
+                <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>My balance</span>
+                <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.55rem', color: 'var(--ink)', lineHeight: 1.05 }}>
+                  {bankBalance} <span style={{ fontSize: '1rem' }}>stars</span>
+                  {pendingStars > 0 && <span style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--terracotta-dark)' }}> +{pendingStars}</span>}
+                </span>
+                <span style={{ display: 'block', fontSize: '12.5px', fontWeight: 700, color: 'var(--ink-soft)', marginTop: '1px' }}>{bankBalance * STAR_MINUTES} minutes ready to use</span>
+              </span>
+              {streakDays > 0 && (
+                <span style={{ flexShrink: 0, textAlign: 'center', background: 'var(--terracotta-lt)', borderRadius: '14px', padding: '8px 11px' }}>
+                  <span style={{ display: 'flex', justifyContent: 'center', lineHeight: 1 }}><KidIcon name="flame" size={20} color="var(--terracotta-dark)" /></span>
+                  <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1rem', color: 'var(--terracotta-dark)' }}>{streakDays}</span>
+                  <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '7.5px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>day streak</span>
+                </span>
               )}
-            </p>
-            <p style={{ fontSize: '13.5px', fontWeight: 700, color: 'var(--ink-soft)', margin: '2px 0 0' }}>
-              = {bankBalance * STAR_MINUTES} minutes of screen time to use
-            </p>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, color: 'var(--retro-green-dark, var(--deep-teal))', margin: '4px 0 0' }}>
-              +⭐ {weekStars} earned this week{usedWeekMinutes > 0 ? ` · ${usedWeekMinutes} min used` : ''}
-            </p>
-          </div>
-          {streakDays > 0 && (
-            <div style={{ flexShrink: 0, textAlign: 'center', background: 'var(--terracotta-lt)', borderRadius: '14px', padding: '9px 12px' }}>
-              <div style={{ display: 'flex', justifyContent: 'center', lineHeight: 1 }}><KidIcon name="flame" size={22} color="var(--terracotta-dark)" /></div>
-              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: 'var(--terracotta-dark)' }}>{streakDays}</div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '8px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>day streak</div>
+              <span aria-hidden style={{ flexShrink: 0, fontSize: 20, color: 'var(--ink-muted)', transform: deviceOpen ? 'rotate(90deg)' : 'none', transition: 'transform 0.18s' }}>›</span>
+            </div>
+            {/* The hero: the balance we celebrate, or the gentle nudge to a job. */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 9, background: healthy ? 'var(--tint-sage)' : 'var(--terracotta-lt)', borderRadius: '13px', padding: '11px 13px' }}>
+              <span style={{ fontSize: 17, flexShrink: 0 }}>{healthy ? '🌱' : '💪'}</span>
+              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: 'var(--ink)', lineHeight: 1.35 }}>{balanceMsg}</span>
+            </div>
+          </button>
+          {deviceOpen && (
+            <div style={{ padding: '0 18px 18px' }}>
+              <DeviceTimeCard token={token} balanceStars={bankBalance} initialSession={activeSession} usedTodayMinutes={usedTodayMinutes} recommendedMinutes={recommendedMinutes} />
+              {weekChart.some(d => d.count > 0) && (
+                <div style={{ marginTop: '12px' }}>
+                  <KidWeekChart data={weekChart} weekStars={weekStars} />
+                </div>
+              )}
             </div>
           )}
-         </div>
         </div>
+          )
+        })()}
 
         {dealOpen && (
           <FamilyDeal
@@ -746,40 +762,6 @@ export default function KidQuestScreen({
         {/* A note from a grown up: shared straight to this app, kept to read
             again, never a text message. */}
         <NotesFromGrownUp token={token} notes={notes} />
-
-        {/* Device time: turn earned stars into minutes on an agreed device,
-            with the countdown and the alarm when the time is up. */}
-        {/* Screen time, folded away by default so the home is calm. One tap
-            opens today's usage, the button to use it, and this week's stars
-            turning into minutes, all in the one place. */}
-        <div id="my-device-time" style={{ scrollMarginTop: '80px', marginBottom: '16px' }}>
-          <button
-            onClick={() => { setDeviceOpen(o => !o); playKidSound('tap') }}
-            aria-expanded={deviceOpen}
-            style={{
-              width: '100%', display: 'flex', alignItems: 'center', gap: '13px', cursor: 'pointer', textAlign: 'left',
-              background: '#fff', border: '1.5px solid rgba(26,26,46,0.08)', borderRadius: '20px', padding: '16px 18px',
-              boxShadow: '0 4px 0 rgba(26,26,46,0.08)',
-            }}
-          >
-            <span style={{ width: 48, height: 48, borderRadius: '14px', background: 'var(--tint-sage)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><KidIcon name="time" size={26} color="#2F8F6B" /></span>
-            <span style={{ flex: 1, minWidth: 0 }}>
-              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.1rem', color: 'var(--ink)', lineHeight: 1.1 }}>My screen time</span>
-              <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: '13px', color: 'var(--ink-muted)', marginTop: '2px' }}>{bankBalance * STAR_MINUTES} minutes to use</span>
-            </span>
-            <span aria-hidden style={{ flexShrink: 0, fontSize: 20, color: 'var(--ink-muted)', transform: deviceOpen ? 'rotate(90deg)' : 'none', transition: 'transform 0.18s' }}>›</span>
-          </button>
-          {deviceOpen && (
-            <div style={{ marginTop: '12px' }}>
-              <DeviceTimeCard token={token} balanceStars={bankBalance} initialSession={activeSession} usedTodayMinutes={usedTodayMinutes} recommendedMinutes={recommendedMinutes} />
-              {weekChart.some(d => d.count > 0) && (
-                <div style={{ marginTop: '12px' }}>
-                  <KidWeekChart data={weekChart} weekStars={weekStars} />
-                </div>
-              )}
-            </div>
-          )}
-        </div>
 
         {/* Today's goal: enough stars in one day completes the day */}
         {goal?.daily_stars ? (() => {
