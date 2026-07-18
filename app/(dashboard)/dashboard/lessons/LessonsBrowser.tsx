@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import BrowseTile from '@/components/ui/BrowseTile'
+import { literacyAreaFor } from '@/lib/content/literacy'
 import LessonSendButton from './together/LessonSendButton'
 import PrintableActions from '../printables/PrintableActions'
 import type { Printable } from '@/lib/printables/registry'
@@ -209,6 +210,15 @@ export default function LessonsBrowser({
                       <div style={{ flex: 1 }}>
                         <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)', lineHeight: 1.2, marginBottom: '4px' }}>{w.title}</div>
                         <div style={{ fontSize: '12px', color: 'var(--ink-muted)', fontStyle: 'italic', lineHeight: 1.4 }}>&ldquo;{w.catchphrase}&rdquo;</div>
+                        {(() => {
+                          const area = literacyAreaFor(w.strand)
+                          return area ? (
+                            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 5, marginTop: '8px', background: 'var(--tint-sage)', borderRadius: '100px', padding: '3px 9px' }}>
+                              <span aria-hidden style={{ fontSize: '11px' }}>{area.icon}</span>
+                              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.04em', color: 'var(--ink-soft)' }}>Builds {area.name}</span>
+                            </div>
+                          ) : null
+                        })()}
                       </div>
                       <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                         <Link href={`/dashboard/lessons/together/${w.code}`} style={{ flex: 1, textAlign: 'center', textDecoration: 'none', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '11px', padding: '9px 10px', fontFamily: 'var(--font-display)', fontSize: '12.5px', fontWeight: 800, boxShadow: '0 3px 0 var(--terracotta-dark)', whiteSpace: 'nowrap' }}>
@@ -254,7 +264,7 @@ export default function LessonsBrowser({
                     href={l.href}
                     stageNum={l.stageNum}
                     title={l.title}
-                    sub={l.categoryLabel}
+                    sub={literacyAreaFor(l.categoryLabel)?.name ?? l.categoryLabel}
                     emoji={categoryEmoji(l.categoryLabel)}
                     done={l.done}
                     locked={l.locked}
