@@ -1,9 +1,10 @@
-const CACHE_NAME = 'gc-v5'
+const CACHE_NAME = 'gc-v6'
+// Only static media is ever cached. Pages, scripts and styles are never stored,
+// so a deploy is picked up the instant the device is online, and the app can
+// never boot an old shell from a stale cache. The v6 bump purges anything the
+// earlier versions cached, including any old HTML or JS.
 const STATIC_ASSETS = [
-  '/',
-  '/starter-pack',
-  '/login',
-  '/signup',
+  '/icons/icon-192.png',
 ]
 
 self.addEventListener('install', event => {
@@ -46,22 +47,13 @@ self.addEventListener('fetch', event => {
     return
   }
 
-  // Everything else — pages, scripts and styles — is network first. Fresh
-  // HTML must always pair with fresh JS: a stale or truncated script served
-  // from cache is what left buttons dead and screens blank after a deploy.
-  // The cache is only a genuine offline fallback, and we only ever store a
-  // complete same origin 200, never a half loaded or error response.
-  event.respondWith(
-    fetch(request)
-      .then(res => {
-        if (res.ok && res.type === 'basic') {
-          const clone = res.clone()
-          caches.open(CACHE_NAME).then(cache => cache.put(request, clone))
-        }
-        return res
-      })
-      .catch(() => caches.match(request).then(cached => cached ?? Response.error()))
-  )
+  // Everything else — pages, scripts and styles — is network only, never
+  // cached. Fresh HTML must always pair with fresh JS, and the surest way to
+  // guarantee that is to never keep an old copy: a deploy is live the moment
+  // the device is online, and there is no stale shell to boot. This is what
+  // stops the app opening on an old version. We let the request go straight to
+  // the network without intercepting, so the browser handles it normally.
+  return
 })
 
 // ── PUSH NOTIFICATIONS ──────────────────────────────────────────────────────
