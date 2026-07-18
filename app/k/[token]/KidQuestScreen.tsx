@@ -151,6 +151,10 @@ export default function KidQuestScreen({
   // The family deal popup: the child can pop it up any time to keep an eye on
   // how the deal works and what they are saving for.
   const [dealOpen, setDealOpen] = useState(false)
+  // The screen time section stays folded away so the home is calm, and opens on
+  // a tap. It starts open only when a timer is already running, so a live
+  // countdown is never hidden.
+  const [deviceOpen, setDeviceOpen] = useState(Boolean(activeSession))
   // The child's own buddy and accent. Starts from what the grown up account has
   // saved, changes instantly when they pick, and saves back to their record.
   const [chosenBuddy, setChosenBuddy] = useState(buddy && BUDDY_MAP[buddy] ? buddy : DEFAULT_BUDDY)
@@ -655,7 +659,7 @@ export default function KidQuestScreen({
           const jobsLeft = quests.length - doneCount
           const tiles: { icon: KidIconName; iconColor: string; label: string; sub: string; tint: string; onClick: () => void }[] = [
             { icon: 'jobs', iconColor: 'var(--terracotta-dark)', label: jobsLeft > 0 ? 'My jobs' : 'All done', sub: jobsLeft > 0 ? `${jobsLeft} to do` : 'Nice one', tint: 'var(--terracotta-lt)', onClick: () => { document.getElementById('my-todo')?.scrollIntoView({ behavior: 'smooth' }); playKidSound('tap') } },
-            { icon: 'time', iconColor: '#2F8F6B', label: 'Use my time', sub: `${bankBalance * STAR_MINUTES} min`, tint: 'var(--tint-sage)', onClick: () => { document.getElementById('my-device-time')?.scrollIntoView({ behavior: 'smooth' }); playKidSound('tap') } },
+            { icon: 'time', iconColor: '#2F8F6B', label: 'Use my time', sub: `${bankBalance * STAR_MINUTES} min`, tint: 'var(--tint-sage)', onClick: () => { setDeviceOpen(true); requestAnimationFrame(() => document.getElementById('my-device-time')?.scrollIntoView({ behavior: 'smooth' })); playKidSound('tap') } },
             { icon: 'newjob', iconColor: '#3D739A', label: askedMore ? 'Asked' : 'New job', sub: askedMore ? 'Grown up knows' : 'Ask a grown up', tint: askedMore ? 'var(--tint-sage)' : 'var(--tint-blue, #E4ECF7)', onClick: () => { if (!askedMore) { askForMore(); playKidSound('tap') } } },
             { icon: 'deal', iconColor: 'var(--terracotta-dark)', label: 'Our deal', sub: 'How it works', tint: 'var(--cream)', onClick: () => { setDealOpen(true); playKidSound('tap') } },
           ]
@@ -745,14 +749,34 @@ export default function KidQuestScreen({
 
         {/* Device time: turn earned stars into minutes on an agreed device,
             with the countdown and the alarm when the time is up. */}
-        {/* Everything screen time in one place: today's usage and the button to
-            use it, then this week's stars turning into minutes right underneath,
-            so it is one section, not scattered across the home. */}
-        <div id="my-device-time" style={{ scrollMarginTop: '80px' }}>
-          <DeviceTimeCard token={token} balanceStars={bankBalance} initialSession={activeSession} usedTodayMinutes={usedTodayMinutes} recommendedMinutes={recommendedMinutes} />
-          {weekChart.some(d => d.count > 0) && (
+        {/* Screen time, folded away by default so the home is calm. One tap
+            opens today's usage, the button to use it, and this week's stars
+            turning into minutes, all in the one place. */}
+        <div id="my-device-time" style={{ scrollMarginTop: '80px', marginBottom: '16px' }}>
+          <button
+            onClick={() => { setDeviceOpen(o => !o); playKidSound('tap') }}
+            aria-expanded={deviceOpen}
+            style={{
+              width: '100%', display: 'flex', alignItems: 'center', gap: '13px', cursor: 'pointer', textAlign: 'left',
+              background: '#fff', border: '1.5px solid rgba(26,26,46,0.08)', borderRadius: '20px', padding: '16px 18px',
+              boxShadow: '0 4px 0 rgba(26,26,46,0.08)',
+            }}
+          >
+            <span style={{ width: 48, height: 48, borderRadius: '14px', background: 'var(--tint-sage)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><KidIcon name="time" size={26} color="#2F8F6B" /></span>
+            <span style={{ flex: 1, minWidth: 0 }}>
+              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.1rem', color: 'var(--ink)', lineHeight: 1.1 }}>My screen time</span>
+              <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: '13px', color: 'var(--ink-muted)', marginTop: '2px' }}>{bankBalance * STAR_MINUTES} minutes to use</span>
+            </span>
+            <span aria-hidden style={{ flexShrink: 0, fontSize: 20, color: 'var(--ink-muted)', transform: deviceOpen ? 'rotate(90deg)' : 'none', transition: 'transform 0.18s' }}>›</span>
+          </button>
+          {deviceOpen && (
             <div style={{ marginTop: '12px' }}>
-              <KidWeekChart data={weekChart} weekStars={weekStars} />
+              <DeviceTimeCard token={token} balanceStars={bankBalance} initialSession={activeSession} usedTodayMinutes={usedTodayMinutes} recommendedMinutes={recommendedMinutes} />
+              {weekChart.some(d => d.count > 0) && (
+                <div style={{ marginTop: '12px' }}>
+                  <KidWeekChart data={weekChart} weekStars={weekStars} />
+                </div>
+              )}
             </div>
           )}
         </div>
