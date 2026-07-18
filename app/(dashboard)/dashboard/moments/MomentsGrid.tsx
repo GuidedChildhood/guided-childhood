@@ -17,8 +17,10 @@ export default function MomentsGrid({ initialMoments, allMoments, childName, age
   const [activeCategory, setActiveCategory] = useState('All')
   const [flippedIds, setFlippedIds] = useState<Set<string>>(new Set())
   // Age filtered by default so a parent lands on what fits their child, but
-  // the whole library is one tap away: hidden cards read as missing content.
-  const [scope, setScope] = useState<'child' | 'all'>('child')
+  // the whole library is one tap away: hidden cards read as missing content. If
+  // nothing is tagged for this child's age, we open on the whole library instead
+  // of a blank page, so the moments never look like they vanished.
+  const [scope, setScope] = useState<'child' | 'all'>(initialMoments.length === 0 ? 'all' : 'child')
   const everything = allMoments ?? initialMoments
   const showScopeToggle = everything.length > initialMoments.length
   const pool = scope === 'all' ? everything : initialMoments
