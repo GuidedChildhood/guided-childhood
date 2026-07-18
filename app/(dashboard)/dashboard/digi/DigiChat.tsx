@@ -475,11 +475,11 @@ export default function DigiChat({
             return (
               <div key={i} data-role="user" style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '22px' }}>
                 <div style={{
-                  maxWidth: '82%', background: 'var(--terracotta)', color: 'var(--ink)',
+                  maxWidth: '82%', background: 'var(--tint-blue)', color: 'var(--ink)',
                   borderRadius: '20px 20px 5px 20px', padding: '13px 17px',
-                  boxShadow: '0 2px 0 var(--terracotta-dark)',
-                  fontFamily: 'var(--font-body)', fontSize: '16.5px', lineHeight: 1.5,
-                  fontWeight: 500, whiteSpace: 'pre-wrap',
+                  boxShadow: '0 1px 2px rgba(46,40,24,0.06)',
+                  fontFamily: 'var(--font-display)', fontSize: '16.5px', lineHeight: 1.5,
+                  fontWeight: 700, whiteSpace: 'pre-wrap',
                 }}>
                   {msg.content}
                 </div>
