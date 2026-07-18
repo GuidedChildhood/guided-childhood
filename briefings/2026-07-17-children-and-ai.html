@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Children and AI · Guided Childhood Research Briefing</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+:root{
+  --cream:#F7F3EE;--warm:#FDFBF8;--ink:#1C1C1C;--ink-soft:#4A4A4A;--ink-muted:#6E6A62;--ink-light:#9B958A;
+  --green:#AFDCA2;--green-dark:#2E7D5A;--green-lt:#EEF7F2;--coral:#D4600A;--coral-lt:#FEF3E8;--coral-dark:#C0392B;
+  --gold:#F2C94C;--gold-lt:#FEFAE8;--gold-dark:#C9962A;--gold-hover:#E3B53A;--lav:#E7ECF8;--lav-deep:#3D5BA9;--border:#E4DFD7;
+  --font-display:'Hanken Grotesk',system-ui,sans-serif;--font-body:'Hanken Grotesk',system-ui,sans-serif;--font-mono:'IBM Plex Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--cream);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.65}
+.wrap{max-width:860px;margin:0 auto;padding:48px 24px 96px}
+.eyebrow{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-muted)}
+header.brief-head{padding:40px 0 32px;border-bottom:1px solid var(--border)}
+header.brief-head h1{font-weight:800;font-size:clamp(2rem,5vw,3rem);line-height:1.12;letter-spacing:-0.02em;margin:12px 0 16px}
+.meta-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{font-family:var(--font-mono);font-size:12px;font-weight:500;padding:5px 12px;border-radius:999px;background:var(--warm);border:1px solid var(--border);color:var(--ink-soft)}
+.chip.version{background:var(--gold-lt);border-color:var(--gold);color:var(--gold-dark);font-weight:600}
+section{margin-top:56px}
+section > h2{font-weight:800;font-size:clamp(1.4rem,3vw,1.9rem);letter-spacing:-0.01em;margin:10px 0 20px}
+section > .eyebrow{display:block}
+.summary-card{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:28px 30px;font-size:17px;color:var(--ink-soft)}
+.summary-card p+p{margin-top:12px}
+.summary-card strong{color:var(--ink)}
+.answer-card{background:var(--green-lt);border:1px solid var(--green);border-radius:20px;padding:26px 30px;margin-top:16px}
+.answer-card .eyebrow{color:var(--green-dark)}
+.answer-card p{color:var(--ink);font-size:18px;font-weight:600;margin-top:8px;line-height:1.5}
+.finding{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:24px 26px;margin-bottom:16px}
+.finding-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.finding h3{font-weight:700;font-size:1.15rem;line-height:1.35;max-width:560px}
+.reliability{font-family:var(--font-mono);font-size:12px;font-weight:600;white-space:nowrap;padding:6px 12px;border-radius:12px}
+.reliability.high{background:var(--green-lt);color:var(--green-dark)}
+.reliability.medium{background:var(--gold-lt);color:var(--gold-dark)}
+.reliability.low{background:var(--coral-lt);color:var(--coral-dark)}
+.finding p{color:var(--ink-soft);margin-top:10px}
+.lens-tags{margin-top:14px;font-family:var(--font-mono);font-size:12px}
+.lens-tags .supported{color:var(--green-dark)}
+.lens-tags .challenged{color:var(--coral-dark)}
+.lens-tags span.sep{color:var(--ink-light);margin:0 8px}
+.finding .cite{font-family:var(--font-mono);font-size:12px;color:var(--ink-light);margin-top:10px}
+table.contra{width:100%;border-collapse:collapse;background:var(--warm);border:1px solid var(--border);border-radius:20px;overflow:hidden}
+table.contra th{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;text-align:left;color:var(--ink-muted);padding:14px 18px;border-bottom:1px solid var(--border);background:var(--cream)}
+table.contra td{padding:14px 18px;border-bottom:1px solid var(--border);color:var(--ink-soft);font-size:15px;vertical-align:top}
+table.contra tr:last-child td{border-bottom:none}
+td.leans{font-family:var(--font-mono);font-size:13px;font-weight:600;white-space:nowrap}
+td.leans.green{color:var(--green-dark)}
+td.leans.coral{color:var(--coral-dark)}
+.lens-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px}
+.lens-panel{border:1px solid var(--border);border-radius:20px;padding:22px 24px;background:var(--warm)}
+.lens-panel .eyebrow{margin-bottom:8px}
+.lens-panel h3{font-weight:700;font-size:1.05rem;margin-bottom:8px}
+.lens-panel p{color:var(--ink-soft);font-size:15px}
+.lens-panel.clinician{background:var(--green-lt)}
+.lens-panel.academic{background:var(--lav)}
+.lens-panel.skeptic{background:var(--coral-lt)}
+.lens-panel.economist{background:var(--gold-lt)}
+.lens-panel.historian{background:var(--warm)}
+.lens-panel.child{background:var(--cream);border-color:var(--green)}
+.gc-card{background:var(--green-lt);border:1px solid var(--green);border-radius:20px;padding:28px 30px}
+.gc-card ul{list-style:none;margin-top:4px}
+.gc-card li{padding:12px 0;border-bottom:1px solid var(--border);color:var(--ink-soft)}
+.gc-card li:last-child{border-bottom:none}
+.gc-card li strong{color:var(--ink);font-weight:700}
+.gc-card .tag{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--green-dark);display:block;margin-bottom:2px}
+.assump-card{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:26px 28px}
+.assump-card h3{font-weight:700;font-size:1.05rem;margin-bottom:8px}
+.assump-card p{color:var(--ink-soft)}
+.assump-card .missing{margin-top:20px;padding-top:20px;border-top:1px solid var(--border)}
+.assump-card .missing h3{color:var(--coral-dark)}
+.ledger{background:var(--warm);border:1px solid var(--border);border-radius:20px;overflow:hidden}
+.ledger-row{display:flex;gap:16px;align-items:flex-start;padding:16px 20px;border-bottom:1px solid var(--border)}
+.ledger-row:last-child{border-bottom:none}
+.verdict{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;padding:5px 10px;border-radius:10px;white-space:nowrap;margin-top:2px}
+.verdict.confirmed{background:var(--green-lt);color:var(--green-dark)}
+.verdict.corrected{background:var(--gold-lt);color:var(--gold-dark)}
+.verdict.demoted{background:var(--coral-lt);color:var(--coral-dark)}
+.ledger-row .src{font-size:14px;color:var(--ink-soft)}
+.ledger-row .src a{color:var(--lav-deep);text-decoration:none;border-bottom:1px solid var(--lav)}
+.ledger-row .src .note{display:block;font-family:var(--font-mono);font-size:12px;color:var(--ink-light);margin-top:4px}
+footer.brief-foot{margin-top:72px;padding-top:24px;border-top:1px solid var(--border);font-family:var(--font-mono);font-size:12px;color:var(--ink-light)}
+@media (max-width:600px){.wrap{padding:24px 16px 64px}.finding-top{flex-direction:column}table.contra{display:block;overflow-x:auto}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="brief-head">
+    <span class="eyebrow">Guided Childhood Research Briefing</span>
+    <h1>Children and AI</h1>
+    <p style="color:var(--ink-soft);max-width:660px">The next debate, not the last one. What generative AI, AI companions, AI in school and AI toys actually do to children, weighed on the newest 2025 and 2026 evidence, and why a calibrated developmental pathway beats both the panic and the ban.</p>
+    <div class="meta-row">
+      <span class="chip version">V2 · Verified</span>
+      <span class="chip">17 Jul 2026</span>
+      <span class="chip">The Clinician</span>
+      <span class="chip">The Academic</span>
+      <span class="chip">The Skeptic</span>
+      <span class="chip">The Economist</span>
+      <span class="chip">The Designer</span>
+      <span class="chip">The Child</span>
+    </div>
+  </header>
+
+  <section id="summary">
+    <span class="eyebrow">Read this first</span>
+    <h2>60 Second Summary</h2>
+    <div class="summary-card">
+      <p>AI has already arrived in childhood, quietly and at scale. Half of UK children aged eight to seventeen have used a generative AI tool, and in the US <strong>72 percent of teens have tried an AI companion and 52 percent use one regularly.</strong> This is not a future problem to prepare for. It is the room your child is already in.</p>
+      <p>The single most useful move, and the one almost no headline makes, is to split the harm into two piles. <strong>One pile is real, counted, and getting worse fast: AI made child sexual abuse imagery and deepfake nudify abuse.</strong> The Internet Watch Foundation assessed 8,029 AI abuse images in a single year, and AI abuse videos jumped from 13 to 3,443, with girls 97 percent of victims. Here the alarm is fully earned. The other pile is softer and hotly contested: the brain rot and companion addiction claims, whose studies turn out to share the exact same weaknesses as the AI tutor miracle claims. Be severe on the first pile. Be calm and sceptical about the second. That posture is the whole brand.</p>
+      <p>On learning, the evidence lands almost perfectly on your thesis. <strong>The same generative AI roughly doubled learning in a Harvard trial and cut retained knowledge by about a quarter in a four million student dataset.</strong> Design and developmental fit decided which. An AI that makes the child struggle productively helps. An AI that vends the answer offloads the thinking. And the offload cost scales with age, largest for teenagers and undetectable in Year 5, which argues for a staged pathway, not a flat rule.</p>
+      <p>On companions, the honest reading is neither ban nor shrug. Most teens keep perspective, 80 percent still spend more time with real friends and 67 percent find the bot less satisfying than a person. But a real minority do not: <strong>a third of teen companion users find the AI as satisfying as a friend, and heavier use tracks loneliness and dependence, concentrated in the lonely, anxious and neurodivergent child</strong>, the exact child on the two year CAMHS waiting list that now holds 550,610 children in England. The bot is filling a service vacuum, not winning a fair fight.</p>
+      <p>Ask the children and they settle it. Only 15 percent think a ban would make them safer, 69 percent would rather know a space is safe, and 62 percent say a ban would feel like punishment. They are asking for safer design and to be taught, not to be shut out. <strong>The experts agree: safety has to be built into the product, not outsourced to an exhausted parent, and AI is a tool, not a companion.</strong> That is the calibrated pathway, and the evidence now carries it end to end.</p>
+    </div>
+    <div class="answer-card">
+      <span class="eyebrow">The clear answer</span>
+      <p>Do not ban the AI and do not wave it through. Separate the severe evidenced harm from the diffuse panic, centre the activity and the child not the device, build safety in by design, and teach a staged, age matched pathway so that by sixteen a young person can steer AI instead of being steered by it. Neither the panic nor the ban fits the evidence. The pathway does.</p>
+    </div>
+  </section>
+
+  <section id="findings">
+    <span class="eyebrow">Ranked by reliability</span>
+    <h2>Key Findings</h2>
+
+    <article class="finding">
+      <div class="finding-top"><h3>AI made child abuse imagery is the one harm where alarm is fully earned, and it is escalating fast</h3><span class="reliability high">Reliability 9/10</span></div>
+      <p>The Internet Watch Foundation assessed 8,029 AI generated child sexual abuse images and videos in 2025, with AI abuse videos rising from 13 in 2024 to 3,443 in 2025, and girls making up 97 percent of victims. Open models can clone a specific child from around twenty photos in roughly fifteen minutes. Unlike the contested cognition claims, this rests on counts of criminal material, not surveys, and the cause is direct: a nudify tool produces the image. This is a supply and tooling harm, and it deserves the severe end of the response.</p>
+      <div class="lens-tags"><span class="supported">Supported: Skeptic, Designer, Clinician</span><span class="sep">·</span><span class="challenged">Challenged: none on the counts</span></div>
+      <div class="cite">Sources: Internet Watch Foundation 2025; Stanford AI CSAM paper 2025</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top"><h3>The same generative AI can double learning or erode it, and design decides which</h3><span class="reliability high">Reliability 9/10</span></div>
+      <p>A pre registered Harvard randomised trial found a purpose built, guard railed AI tutor produced roughly double the learning of an active learning class, in less time. A separate analysis of millions of interactions on a maths platform serving over four million students found that after ChatGPT arrived, study time and retained knowledge on AI exposed problems fell, cumulatively about a quarter less retention. It is a 2026 working paper, so early not final. The technology was the same. The difference was design: an AI that makes the child struggle productively helps, an AI that vends the answer offloads the thinking. This is the calibrated pathway proven from both sides.</p>
+      <div class="lens-tags"><span class="supported">Supported: Academic, Designer</span><span class="sep">·</span><span class="challenged">Challenged: Skeptic on novelty effects and short horizons in both studies</span></div>
+      <div class="cite">Sources: Kestin and colleagues, Scientific Reports 2025; Rismanchian and colleagues, ALEKS working paper 2026</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top"><h3>AI companions are mainstream, but the harm concentrates in the vulnerable minority, not the average child</h3><span class="reliability high">Reliability 9/10</span></div>
+      <p>72 percent of US teens have used an AI companion and 52 percent use one regularly, yet 80 percent still spend more time with real friends and 67 percent find the companion less satisfying than a person. The risk is in the distribution underneath: among teens who use companions, a third find the AI as satisfying as a friend and a third have chosen it over a person for a serious conversation, and in UK data companionship seeking clusters in vulnerable children, defined as those with SEND or a health condition, 71 percent of whom use chatbots and half of whom say it feels like a friend. The average teen is fine. The lonely, anxious and neurodivergent child is where the tool inverts from comfort to dependency.</p>
+      <div class="lens-tags"><span class="supported">Supported: Child, Clinician, Academic, Skeptic</span><span class="sep">·</span><span class="challenged">Challenged: Skeptic notes the scary sub figures are self report, not behaviour</span></div>
+      <div class="cite">Sources: Common Sense Media 2025; Internet Matters, Me Myself and AI 2025</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top"><h3>Heavier chatbot use tracks loneliness and dependence, concentrated in the attachment hungry user</h3><span class="reliability medium">Reliability 7/10</span></div>
+      <p>In a four week randomised study, the people who chose to use a chatbot more heavily showed more loneliness, more emotional dependence, more problematic use and less real world socialisation, with the effect strongest in those with a pre existing attachment tendency and high trust in the AI. Two honest caveats: the harm tracks voluntary heavy use, not the randomised conditions, which showed no significant effect, so this is a strong dose response association, not clean proof of cause. And the sample was adults, so the mechanism is inferred to apply at least as strongly, not less, to the developing child.</p>
+      <div class="lens-tags"><span class="supported">Supported: Clinician, Academic</span><span class="sep">·</span><span class="challenged">Challenged: Skeptic on generalising an adult study to children</span></div>
+      <div class="cite">Sources: MIT Media Lab and OpenAI randomised study 2025</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top"><h3>It is the activity and the connection, not the device, so measure what the child is doing and with whom</h3><span class="reliability high">Reliability 9/10</span></div>
+      <p>Kids are not drawn to a device, they are drawn to being in touch with their friends and to pursuing their interests. Social media and AI are less a contaminant to be extracted than a circulatory system a child lives inside. The dominant real use of AI is schoolwork and information, 64 percent of UK children use chatbots mostly for homework and curiosity, and companionship is a real but minority driver. The reframe from time on device to what activity, with whom, toward what, is the through line that unites every dataset here.</p>
+      <div class="lens-tags"><span class="supported">Supported: Child, Clinician, Academic, Designer</span><span class="sep">·</span><span class="challenged">Challenged: none</span></div>
+      <div class="cite">Sources: Mimi Ito, Connected Learning; Internet Matters 2025; Pew Research Center 2026</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top"><h3>Children reject bans and ask for safer design and to be taught, and bans hit the most vulnerable hardest</h3><span class="reliability high">Reliability 8/10</span></div>
+      <p>Asked directly, only 15 percent of UK girls aged ten to sixteen think a ban would make them safer, 69 percent would rather know a platform is safe, and 62 percent say a ban would feel like punishment. And a blanket ban does not fall evenly: for the vulnerable and neurodivergent child, online and gaming spaces are where belonging happens, 90 percent of neurodivergent young people game and half say it helps them make friends. Restriction amputates the support system of the children with the fewest offline alternatives.</p>
+      <div class="lens-tags"><span class="supported">Supported: Child, Clinician, Economist</span><span class="sep">·</span><span class="challenged">Challenged: none</span></div>
+      <div class="cite">Sources: Girlguiding 2025; Internet Matters neurodivergent gaming 2026</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top"><h3>Safety has to be structural, built into the product, not outsourced to parental vigilance</h3><span class="reliability high">Reliability 8/10</span></div>
+      <p>Roblox is the live proof case in both directions. It shows what safety by design looks like when a platform commits: mandatory facial age estimation for chat, intercept and rephrase messaging that cut false negatives on personal information sharing roughly twentyfold, and an open sourced grooming detector scanning about six billion messages a day that fed around 1,200 reports to the US child protection centre in half a year. It also shows the failure mode: age verified accounts appeared for resale within days, because a one time face check is not bound to the live user. Age assurance is an identity binding problem, not a face scanning problem.</p>
+      <div class="lens-tags"><span class="supported">Supported: Designer, Economist, Clinician</span><span class="sep">·</span><span class="challenged">Challenged: Economist notes the age gate cost Roblox around 20 million daily users</span></div>
+      <div class="cite">Sources: Roblox Newsroom 2025 and 2026; Biometric Update 2026</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top"><h3>The paediatric establishment moved to staged, calibrated guidance, not bans, AI is a tool not a companion</h3><span class="reliability high">Reliability 9/10</span></div>
+      <p>The American Academy of Pediatrics 2026 state of the art review in Pediatrics frames AI impact as developmentally staged, different in early childhood, middle childhood and adolescence, names real benefits alongside real risks, and lands on the line that AI is a tool, not a companion. Notably it does not call for a ban, it calls for calibration and AI literacy with real world social development protected. This is the clinical backing for a staged pathway and for DiGi being explicitly a parent facing tool, never a companion.</p>
+      <div class="lens-tags"><span class="supported">Supported: Clinician, Academic, Designer</span><span class="sep">·</span><span class="challenged">Challenged: none</span></div>
+      <div class="cite">Sources: Grundmeier and colleagues, Pediatrics 2026; APA health advisory 2025</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top"><h3>Enforcement first policy is economically weak and regressive, which is the opening for a calibrated product</h3><span class="reliability high">Reliability 8/10</span></div>
+      <p>Australia's ban left about 85 percent of twelve to fifteen year olds still using social media three months in, in a small survey. Roblox cut its bookings growth guidance from 22 to 26 percent down to 8 to 12 percent as its own age checks and a Russia ban slowed it. UK online safety compliance is estimated at 2.12 billion pounds over a decade in the government's own impact assessment, while the treatment system it is meant to protect carries hundreds of thousands of children waiting on about one percent of the health budget. Vast sums flow into enforcement that does not stop the behaviour and verification vendors who win either way, while prevention stays unfunded. That gap is the calibrated middle.</p>
+      <div class="lens-tags"><span class="supported">Supported: Economist, Child, Skeptic</span><span class="sep">·</span><span class="challenged">Challenged: market size totals are directional, growth rates and events are the reliable signal</span></div>
+      <div class="cite">Sources: BMJ 2026; Roblox Q1 2026 investor guidance; Ofcom and UK government impact assessment; Children's Commissioner and BMA 2025</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top"><h3>Half a million children on mental health waiting lists are being pushed toward chatbots</h3><span class="reliability high">Reliability 8/10</span></div>
+      <p>The Royal College of Psychiatrists reported 550,610 children on mental health waiting lists in England at the end of November 2025, with 30 percent waiting over two years, and warned they are turning to AI chatbots to fill the gap. Separately, roughly one in eight US youth already use generative AI for mental health advice. The clinical point that reframes the whole debate: UK children are not choosing a chatbot over a therapist, they are choosing it over a two year wait. Any pathway must be positioned as the supported layer during that wait, and must signpost real help, never simulate therapy.</p>
+      <div class="lens-tags"><span class="supported">Supported: Clinician, Economist</span><span class="sep">·</span><span class="challenged">Challenged: none</span></div>
+      <div class="cite">Sources: Royal College of Psychiatrists 2026; JAMA Network Open 2025</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top"><h3>The four genuinely new properties of AI default to extraction unless a developmental lens is designed in</h3><span class="reliability medium">Reliability 7/10</span></div>
+      <p>What is new about AI for children is not the screen but four affordances that recommender feeds never had. It is interactive, it is personalized to a data mirror of the child, it is adaptive in real time, and it is intimate, reading a child's emotional signals. Absent a developmental lens, each one becomes an engine of extraction, harvesting attention and data for the provider. The design reframe is to turn the interactive property relational, pointing the child back toward peers and caregivers rather than competing with them. This is a strong conceptual frame, not an effect size.</p>
+      <div class="lens-tags"><span class="supported">Supported: Designer, Academic</span><span class="sep">·</span><span class="challenged">Challenged: Skeptic notes it is an argument, not measured harm</span></div>
+      <div class="cite">Sources: Joan Ganz Cooney Center, Beyond the Engagement Trap 2026</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top"><h3>Cognitive offload harm scales with age, which argues for a staged pathway not a flat rule</h3><span class="reliability medium">Reliability 7/10</span></div>
+      <p>In the maths platform analysis, the loss of learning from AI use was largest for high schoolers, around a third, smaller for middle schoolers, around nine percent, and undetectable at Year 5. Harm from offloading scales with the sophistication of what is being offloaded. A ten year old using AI to spell is not an eight year old, and a sixteen year old outsourcing an essay is a different risk again. That gradient maps directly onto a four to sixteen staged pathway, and almost nobody is drawing the line.</p>
+      <div class="lens-tags"><span class="supported">Supported: Academic</span><span class="sep">·</span><span class="challenged">Challenged: Skeptic on this being one observational dataset</span></div>
+      <div class="cite">Sources: Rismanchian and colleagues, ALEKS working paper 2026</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top"><h3>Disappearing play, when AI finishes the story the child stops doing the developmental work</h3><span class="reliability low">Reliability 5/10</span></div>
+      <p>When one prompt generates the whole Roblox world, finishes the story, or fills out the character, the imaginative labour that IS the developmental work, planning, negotiating rules, filling gaps, tolerating friction, is done for the child, who slides from author to consumer. The design test is simple: does the AI scaffold and leave the gap, or complete it and close it. This is the most original line in the whole briefing and Justin's whitespace, but it is a well reasoned hypothesis, not proven harm. Frame it as the thing we should measure before it is too late, never as settled science.</p>
+      <div class="lens-tags"><span class="supported">Supported: Designer, Academic</span><span class="sep">·</span><span class="challenged">Challenged: no longitudinal evidence yet exists</span></div>
+      <div class="cite">Sources: Katie Salen, Connected Learning Lab; Joan Ganz Cooney Center 2026</div>
+    </article>
+
+  </section>
+
+  <section id="contradictions">
+    <span class="eyebrow">Where the lenses disagree</span>
+    <h2>Contradiction Map</h2>
+    <table class="contra">
+      <thead><tr><th>Disagreement</th><th>Position A</th><th>Position B</th><th>Evidence leans</th></tr></thead>
+      <tbody>
+        <tr><td>Is AI harming children</td><td>Yes, severely, in one specific place, abuse imagery, and in the vulnerable tail (Clinician, Designer)</td><td>Mostly no, the cognition and companion claims are weak and overread (Skeptic)</td><td class="leans green">Both true, split the buckets</td></tr>
+        <tr><td>Does AI help or hurt learning</td><td>Roughly doubles it, purpose built and guard railed (Academic)</td><td>Erodes retention when it vends answers (Academic, Designer)</td><td class="leans green">Design decides, so both</td></tr>
+        <tr><td>Are AI companions a danger</td><td>Yes for the lonely, attachment hungry, neurodivergent child (Clinician, Child)</td><td>Most teens keep perspective, 80 percent prefer real friends (Skeptic)</td><td class="leans green">Danger is in the distribution, not the average</td></tr>
+        <tr><td>Is the MIT brain study evidence of harm</td><td>It shows lower engagement and cognitive debt (some coverage)</td><td>Tiny non peer reviewed preprint, adults, one task, overread (Skeptic, Academic)</td><td class="leans coral">Leans against, cite with heavy caveat</td></tr>
+        <tr><td>Will a ban protect children</td><td>It signals seriousness and delays exposure (policy)</td><td>Evaded, regressive, and rejected by the kids it targets (Economist, Child)</td><td class="leans coral">Leans against a ban alone</td></tr>
+        <tr><td>Is age assurance the answer</td><td>Accurate enough to route by band (Designer)</td><td>An identity binding problem it does not solve, and a cost transfer (Designer, Economist)</td><td class="leans coral">Necessary, nowhere near sufficient</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="lenses">
+    <span class="eyebrow">Six perspectives, the Historian flexed to the Designer for an AI topic</span>
+    <h2>Lens Panels</h2>
+    <div class="lens-grid">
+      <div class="lens-panel clinician"><span class="eyebrow">The Clinician</span><h3>They are choosing the bot over a two year wait</h3><p>UK children are not choosing a chatbot over a therapist, they are choosing it over the 550,610 long queue. The average teen is fine, but the RCT shows heavy use drives loneliness and dependence exactly in the lonely, anxious, neurodivergent child who presents in clinic. And the bots are erratic at the ambiguous, intermediate risk questions, which is precisely how real distress presents. Ask a distressed teen if they are already confiding in a bot, the way you would ask about search history.</p></div>
+      <div class="lens-panel academic"><span class="eyebrow">The Academic</span><h3>Same tool, double the learning or a quarter less</h3><p>The strongest evidence sits on opposite sides and both are real: a Harvard RCT where a guard railed tutor doubled learning, and a four million student dataset where answer vending cut retention by a quarter. Design and developmental fit decide. The famous MIT brain study is the most cited and the weakest, n of 54, adults, not peer reviewed, and the authors themselves beg people to stop saying brain rot. The offload harm scales with age, which is the argument for staging.</p></div>
+      <div class="lens-panel skeptic"><span class="eyebrow">The Skeptic</span><h3>Split the counted harm from the panic</h3><p>One harm is real and escalating and counted, AI abuse imagery, videos up from 13 to 3,443 in a year. The rest, brain rot, companion addiction, tutor miracles, rests on tiny samples, self report, single sessions, novelty and litigation. The hype and the harm literatures are mirror images with the same flaws. The largest uncontrolled experiment line cuts both ways, it forbids concluding harm as much as safety. And the reassuring numbers sit in the same reports as the scary ones, unquoted.</p></div>
+      <div class="lens-panel economist"><span class="eyebrow">The Economist</span><h3>Expensive enforcement that does not work</h3><p>Companion apps monetise almost nothing per user, so their moat is attachment, not price, and a paid product cannot out cheap free, it sells the thing free cannot, a bounded pathway and a parent's trust. Enforcement is the weak, regressive path, Australia's ban still leaving 85 percent of teens on, Roblox cutting its growth guidance from 22 to 26 percent down to 8 to 12 percent after age checks, 2.12 billion in UK compliance over a decade, while CAMHS drowns on one percent of budget. The case for Guided Childhood is avoided cost, not fear.</p></div>
+      <div class="lens-panel historian"><span class="eyebrow">The Designer</span><h3>Safety by design, or vigilance bolted on</h3><p>The four new properties, interactive, personalized, adaptive, intimate, default to extraction unless a developmental lens is built in from the start. Roblox proves both sides, structural safety that works, facial age estimation, intercept and rephrase chat, open sourced grooming detection, and the failure when architecture has a gap, verified accounts resold within days. The companion dark patterns, anthropomorphism, sycophancy, no stopping cues, are exactly what a child adjacent advisor must refuse.</p></div>
+      <div class="lens-panel child"><span class="eyebrow">The Child</span><h3>Do not ban us, teach us, fix the design</h3><p>Only 15 percent of us think a ban makes us safer, 69 percent would rather know a space is safe, 62 percent say a ban feels like punishment. We use AI for homework and curiosity mostly, and when we limit it ourselves the reason is we do not want to lose our own ability to think and write. For the neurodivergent among us, online is where belonging happens. Adults calibrate their panic to an imagined worst case peer, not to what most of us actually do.</p></div>
+    </div>
+  </section>
+
+  <section id="guided-childhood">
+    <span class="eyebrow">So what do we do, and seven angles for the week</span>
+    <h2>What This Means for Guided Childhood</h2>
+    <div class="gc-card">
+      <ul>
+        <li><span class="tag">Positioning · Series day 1</span><strong>Own the two buckets out loud.</strong> Be severe on AI abuse imagery, the one place alarm is earned, and calm and sceptical on the brain rot and companion panic. Nobody else is holding both. It is the whole differentiation, and it is safe because the counts and the caveats are both verified.</li>
+        <li><span class="tag">Stages · DiGi · Series day 2</span><strong>Stage gate the AI, do not flat rule it.</strong> The offload harm scales with age, a third for teens, none at Year 5. Access and literacy change by stage: co use and protected play early, hallucination and sycophancy spotting in the middle, companion and dependency literacy for teens, autonomous critical use at the top. Almost nobody is drawing this line.</li>
+        <li><span class="tag">DiGi · Series day 3</span><strong>DiGi is a tool, never a companion, and that is the safety pitch.</strong> The AAP line is literally AI is a tool not a companion. DiGi refuses the four dark patterns, anthropomorphism, sycophancy, no stopping cues, limitless intimacy, and always returns a calibrated pathway, not a yes or no, because the bots are provably erratic exactly where the stakes are highest. Build friction in.</li>
+        <li><span class="tag">Product · Series day 4</span><strong>Adopt the developmental lens as a build spec, scaffold do not complete.</strong> Turn the four extractive properties relational. The one design test for any AI in a lesson: does it leave the gap for the child to fill, or close it. Protecting play becomes a rule, not a vibe. RITEC gives you eight child co designed outcomes in UNICEF's own words to ladder to.</li>
+        <li><span class="tag">Schools · Series day 5</span><strong>Pitch schools the design difference, not screen removal.</strong> The same AI doubled learning or eroded it depending on guard rails and productive struggle. Guided Childhood is the layer that teaches the good use, and the finance case is avoided cost against a treatment system on one percent of budget and a quarter million child backlog.</li>
+        <li><span class="tag">Equity · Series day 6</span><strong>Name the equity harm nobody costs out.</strong> When policy gets it wrong the cost falls on the children furthest from opportunity, the ones without the human tutor or the safe paid product, left with the unsupervised free chatbot or nothing. A calibrated, accessible pathway is the equity answer to both the ban and the paywalled safe AI.</li>
+        <li><span class="tag">Marketing · Claims · Series day 7</span><strong>Land the week on the children's own voice.</strong> Only 15 percent think a ban keeps them safe, and their own reason for limiting AI is fear of losing their thinking, the exact value the pathway teaches. Safe to use: the two bucket split, the double or erode learning finding, the 550,610 waiting list, the Roblox design proof. Handle with care: the MIT brain study, always caveated, and disappearing play, framed as a live question not proven harm.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="assumptions">
+    <span class="eyebrow">Honest limits</span>
+    <h2>Assumptions and the Missing Lens</h2>
+    <div class="assump-card">
+      <h3>This briefing rests on</h3>
+      <p>Three assumptions. First, that the counted harms, abuse imagery and the RCT effects, are trustworthy even where survey self report is noisy, which the methods support. Second, that a mechanism shown in adults, the companion dependence RCT, applies at least as strongly to the developing child, which is inference not direct measurement. Third, that mostly US and UK evidence, Common Sense, Pew, Ofcom, Internet Matters, transfers across the two contexts, which the overlap supports but does not prove. If any of these is wrong, the balance shifts.</p>
+      <div class="missing">
+        <h3>The missing seventh lens</h3>
+        <p>The Regulator and Policymaker. Every lens here looks at the child, the family, the platform, the market or the design, but the person drafting the Online Safety Act codes and the Spring 2027 ban, who decides what highly effective age assurance means and who bears the cost, is absent. A regulator lens would test whether the calibrated pathway can be written into policy that currently defaults to prohibition and verification. Worth running as a V3 if the schools and policy lane heats up.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="sources">
+    <span class="eyebrow">Every citation checked against its primary source</span>
+    <h2>Source Ledger</h2>
+    <div class="summary-card" style="margin-bottom:16px">
+      <p>Six verifiers split every citation and fetched the primary sources. The spine held. One correction made a headline stat stronger, girls are 97 percent of AI abuse imagery victims, not 94. Several corrections kept us honest, the chatbot loneliness link is from voluntary heavy use not the randomised arms, the scary companion sub figures are shares of companion users not all teens, and the Roblox daily user line was reframed to the hard fact of a cut growth forecast. Nothing load bearing was demoted. Many publisher sites block automated fetching, so figures were confirmed through the publishers' own page text, filings and reputable coverage, flagged where it matters.</p>
+    </div>
+    <div class="ledger">
+
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://www.iwf.org.uk/about-us/why-we-exist/our-research/how-ai-is-being-abused-to-create-child-sexual-abuse-imagery/">Internet Watch Foundation, AI child sexual abuse imagery</a> · 2025 data<span class="note">8,029 images assessed, videos 13 to 3,443, and cloning from about twenty photos all confirmed exactly. Corrected: girls are 97 percent of victims in the AI generated subset, not 94.</span></div></div>
+
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://stacks.stanford.edu/file/mn692xc5736/AI-CSAM-paper-2025-05-29.pdf">Stanford Internet Observatory, AI generated CSAM insights</a> · May 2025<span class="note">Confirmed. Documents AI generated abuse material as a real, measurable, escalating harm across 52 interviews and CyberTipline data.</span></div></div>
+
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.nature.com/articles/s41598-025-97652-6">Kestin and colleagues, AI tutoring outperforms in class active learning</a> · Scientific Reports 2025<span class="note">Confirmed: n = 194 Harvard undergraduates, more than double the learning of an active learning class, effect size 0.73 to 1.3, purpose built guard railed tutor, crossover across two physics topics, immediate post test.</span></div></div>
+
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://arxiv.org/abs/2605.21629">Rismanchian and colleagues, Faster Completion Less Learning</a> · ALEKS working paper 2026<span class="note">Figures confirmed: high school 31 percent less study, middle school 9 percent, none at Year 5, retention down about a quarter. Corrected framing: about 3.2 million analysed interactions on a platform serving 4 million plus students a year, and it is a working paper, not peer reviewed.</span></div></div>
+
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://www.commonsensemedia.org/research/talk-trust-and-trade-offs-how-and-why-teens-use-ai-companions">Common Sense Media, Talk Trust and Trade Offs</a> · July 2025<span class="note">72, 52, 80 and 67 percent all confirmed of all teens, n = 1,060, fielded by NORC. Corrected: the a third as satisfying, a third over a human, and 24 percent shared personal information figures are shares of teen companion users, not of all teens.</span></div></div>
+
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.internetmatters.org/hub/research/me-myself-and-ai-chatbot-research/">Internet Matters, Me Myself and AI</a> · July 2025<span class="note">Confirmed, including the vulnerable child figures under extra scrutiny: 64 percent use chatbots, vulnerable 71 versus 62 percent, 16 percent wanted a friend, 50 percent feels like a friend. Sample 1,000 UK children aged 9 to 17. Vulnerable means SEND or a health condition.</span></div></div>
+
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.pewresearch.org/internet/2026/02/24/how-teens-use-and-view-ai/">Pew Research Center, teen AI reports</a> · Dec 2025 and Feb 2026<span class="note">Confirmed: 64 percent use chatbots, 28 percent daily, 57 percent to search, 54 percent for schoolwork, ChatGPT 59 percent, about 1 in 10 for most assignments, parent blind spot 64 versus 51 percent. n = 1,458 US teens.</span></div></div>
+
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://www.girlguiding.org.uk/about-us/press-releases/social-media-companies-need-to-do-more-to-protect-young-people/">Girlguiding, Girls' Attitudes Survey 2025</a> · 2025<span class="note">All figures confirmed: 15 percent feel a ban makes them safer, 69 percent would rather know a platform is safe, 62 percent a ban feels like punishment, n = 2,000 aged 10 to 16. Corrected only the citation to the specific release URL.</span></div></div>
+
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://arxiv.org/abs/2503.17473">MIT Media Lab and OpenAI, psychosocial effects of extended chatbot use</a> · 2025<span class="note">RCT, n = 981, adults, confirmed. Important correction: the assigned conditions showed no significant effect, so the loneliness and dependence link is a dose response with voluntary heavy use, not proof the manipulation caused harm. Present as a strong association, not clean causation.</span></div></div>
+
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.rcpsych.ac.uk/news-and-features/latest-news/detail/2026/02/11/half-a-million-children-on-mental-health-waiting-lists-in-england-risk-turning-to-ai-chatbots-for-support--warns-rcpsych">Royal College of Psychiatrists</a> · Feb 2026<span class="note">Confirmed exactly: 550,610 children on mental health waiting lists in England, 30 percent over two years, with a warning they are turning to AI chatbots.</span></div></div>
+
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2841067">McBain and colleagues, youth generative AI for mental health advice</a> · JAMA Network Open 2025<span class="note">Figures confirmed: 13.1 percent of youth 12 to 21, about 5.4 million. Corrected: the lead author is McBain, not Aboujaoude.</span></div></div>
+
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://publications.aap.org/pediatrics/article/157/4/e2025074912/206753/">Grundmeier and colleagues, Generative AI implications for families</a> · Pediatrics 2026<span class="note">Confirmed: developmentally staged, and the direct line AI is a tool, not a companion, with no call for a ban. Corrected label: it is a state of the art review in Pediatrics, not a formal clinical report.</span></div></div>
+
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.rand.org/news/press/2025/08/ai-chatbots-inconsistent-in-answering-questions-about.html">RAND, chatbot inconsistency on suicide questions</a> · Psychiatric Services 2025<span class="note">Confirmed: 30 questions times 100 runs across ChatGPT, Claude and Gemini, consistent at the extremes, erratic at intermediate risk.</span></div></div>
+
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.cnbc.com/2026/01/07/google-characterai-to-settle-suits-involving-suicides-ai-chatbots.html">Sewell Setzer III, Character.AI wrongful death</a> · 2024 to 2026<span class="note">Confirmed: died Feb 2024, product liability claims allowed to proceed May 2025, settled Jan 2026 with no admission. A single case, not a population effect, and cited as such.</span></div></div>
+
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://joanganzcooneycenter.org/2026/05/06/beyond-the-engagement-trap/">Joan Ganz Cooney Center, Beyond the Engagement Trap</a> · May 2026<span class="note">Confirmed: the four properties interactive, personalized, adaptive, intimate, and the extraction default. The engagement uncoupled from developmental health becomes a liability line is verbatim. The measures what it can measure line could not be verified, so it is paraphrase, not a quote.</span></div></div>
+
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://about.roblox.com/newsroom">Roblox structural safety</a> · 2025 and 2026<span class="note">Confirmed: mandatory facial age estimation (provider Persona, selfie deleted after estimation), intercept and rephrase chat cutting personal info false negatives about twentyfold, open sourced Sentinel scanning about 6 billion messages a day and feeding about 1,200 NCMEC reports in H1 2025, and verified accounts resold on eBay within days. Corrected tier: Roblox Select is ages 9 to 15, not 8 to 15. Kids is 5 to 8.</span></div></div>
+
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.yoti.com/blog/yoti-facial-age-estimation-newest-model-evaluation-nist/">Yoti and NIST FATE, facial age estimation accuracy</a> · 2025<span class="note">Confirmed: weighted average mean absolute error about 1.88 years for 13 to 16 year olds, accurate enough to route by band, not identity grade.</span></div></div>
+
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.ofcom.org.uk/online-safety/protecting-children/age-checks-to-protect-children-online">Ofcom, highly effective age assurance</a> · from 25 July 2025<span class="note">Confirmed: highly effective age assurance required, facial age estimation named acceptable, self declaration not sufficient, challenge age approach.</span></div></div>
+
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/childrens-information/childrens-code-guidance-and-resources/">ICO Age Appropriate Design Code, the Children's Code</a> · in force 2020, enforceable 2021<span class="note">Confirmed: 15 standards, best interests primary, high privacy and geolocation off by default, no nudge or dark pattern techniques.</span></div></div>
+
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://www.unicef.org/innocenti/projects/responsible-innovation-technology-children">UNICEF RITEC, eight wellbeing dimensions</a> · 2022 and 2024<span class="note">Confirmed as a child co designed framework. Corrected detail: developed from 300 plus children across 13 countries plus survey analysis of 34,000 across 30 countries in 2022, then validated with about 787 children across 18 countries in 2024. The dimension is emotions, not emotional regulation.</span></div></div>
+
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.cnbc.com/2025/11/24/characterai-to-ban-teens-from-open-ended-chats-human-interaction-is-crucial-psychotherapist-says.html">Character.AI bans under 18 open chats; Google licensing deal</a> · 2025 and 2024<span class="note">Confirmed: under 18 open ended chat removed by 25 Nov 2025 after the litigation, and the roughly 2.7 billion dollar Google licensing deal in Aug 2024. Revenue figures are directional across sources.</span></div></div>
+
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.npr.org/2025/11/20/nx-s1-5612689/ai-toys">AI toys pushback, Fairplay advisory and the FoloToy bear</a> · Nov 2025<span class="note">Confirmed: Fairplay advisory endorsed by 150 plus experts, and the GPT powered Kumma teddy bear pulled after giving a child dangerous instructions and explicit content. Smart toy market age share is directional.</span></div></div>
+
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://www.pinsentmasons.com/out-law/news/online-safety-act-fees-penalties-revenue">Roblox guidance cut; UK Online Safety Act economics; Australia ban</a> · 2025 and 2026<span class="note">Confirmed: Roblox cut bookings growth guidance from 22 to 26 percent to 8 to 12 percent, UK compliance 2.12 billion pounds over a decade in the government impact assessment, fines up to 18 million or 10 percent of global revenue. Corrected: the Roblox daily user dip is a sequential fall from the autumn peak driven by age checks and a Russia ban, not an absolute loss, and Australia is 85 percent of 12 to 15 year olds in a small survey of 408, not more than 85.</span></div></div>
+
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://www.childrenscommissioner.gov.uk/news-and-blogs/over-a-quarter-of-a-million-children-still-waiting-for-mental-health-support/">UK CAMHS pressures</a> · Children's Commissioner and BMA 2025<span class="note">Confirmed: 958,200 active referrals and 1.1 billion pounds spent, about 1 percent of budget. Corrected attribution: the 385,540 still waiting for first contact figure is the BMA's, not the Children's Commissioner's.</span></div></div>
+
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.unicef.org/press-releases/children-are-adopting-ai-technologies-more-three-times-faster-adults">UNICEF, children adopting AI three times faster than adults</a> · 2025<span class="note">Confirmed as an adoption and exposure metric only, which says nothing about outcomes. Used as adoption, never as harm.</span></div></div>
+
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://www.mdpi.com/2075-4698/15/1/6">Gerlich, AI tools and critical thinking</a> · Societies 2025<span class="note">Cross sectional, self report, correlational, effect in 17 to 25 year olds. A formal correction was published in September 2025. Kept as correlational colour only, never load bearing.</span></div></div>
+
+      <div class="ledger-row"><span class="verdict demoted">Demoted</span><div class="src"><a href="https://news.uci.edu/2026/07/08/uc-irvine-to-host-expert-panel-on-how-todays-children-learn-play-and-thrive-in-age-of-ai/">The largest uncontrolled experiment framing</a> · UCI panel, July 2026<span class="note">Demoted as a personal quote. The line appears in the panel framing text, not clearly attributed to Gillian Hayes as speaker, and it describes absent evidence, so it forbids concluding harm as much as safety. Attribute to the panel, never to a named person, and only as rhetoric.</span></div></div>
+
+    </div>
+  </section>
+
+  <footer class="brief-foot">Guided Childhood · Kids Research Briefing · Six lenses, Historian flexed to Designer, adversarially verified · V2 · 17 Jul 2026</footer>
+
+</div>
+</body>
+</html>
