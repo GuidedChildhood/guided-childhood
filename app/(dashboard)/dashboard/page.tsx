@@ -332,27 +332,32 @@ export default async function DashboardPage() {
           the board where a parent acts on them. Silent when nothing waits. */}
       <WaitingOnYou />
 
+      {/* The hero of Home, straight after the urgent count: the promise (where
+          this child is on the road to 16) and the day (one clear strip, DiGi on
+          the lit next step). A parent knows exactly what to do the moment they
+          land, before anything else asks for attention. */}
+      <RoadToSixteen childName={child?.name ?? undefined} stageId={stage.id} streakCount={streak.count} />
+      <TodayPathStrip tasks={todayLoop} dailyMinutes={(profile?.daily_minutes as number | null) ?? 10} childName={child?.name ?? undefined} streakCount={streak.count} />
+
       {/* Stage the reveal: DiGi introduces one newly unlocked feature to a new
           parent, once. Silent for an established account. */}
       <RevealCard reveals={reveals} />
 
-      {/* The wellbeing surfaces open up once the daily habit has held (day 12),
-          so a new parent is not met with a round up before there is a week to
-          read. Always on for established accounts. */}
-      {revealed.has('wellbeing') && (
-        <>
-          {/* The Sunday check in with DiGi, and the agreed plan sitting on Home
-              all week once it is set. */}
-          <SundayCheckIn />
-
-          {/* The Friday DiGi round up, when there is one to read. */}
-          <WeeklyReviewCard />
-
-          {/* DiGi wondering: one gentle question now and again, capped, feeding
-              the Sunday round up. Stays quiet unless it is genuinely due. */}
-          <DigiWondering />
-        </>
-      )}
+      {/* One interrupt, not a stack. The Sunday check in always renders (it
+          carries the agreed plan through the week), but the other rhythm
+          surfaces take turns by day: the round up on Friday and Saturday when
+          it is fresh, DiGi wondering the rest of the week. At most two quiet
+          cards here, never three. */}
+      {revealed.has('wellbeing') && (() => {
+        const dayName = new Intl.DateTimeFormat('en-GB', { weekday: 'short', timeZone: 'Europe/London' }).format(new Date())
+        const roundupDay = dayName === 'Fri' || dayName === 'Sat'
+        return (
+          <>
+            <SundayCheckIn />
+            {roundupDay ? <WeeklyReviewCard /> : <DigiWondering />}
+          </>
+        )
+      })()}
 
       {/* Setup lives on its own page now, out of the daily Home. While it is
           unfinished, Home carries one compact way in, naming the next step;
@@ -432,16 +437,6 @@ export default async function DashboardPage() {
           </Link>
         )
       })()}
-
-      {/* Today's Path: the hero of Home. The day's routine as one clear strip,
-          DiGi sitting on the lit next step, so Home opens with a single thing to
-          do rather than a wall of cards. */}
-      {/* The promise, made visible: where this child is on the road to 16 and
-          what today is building toward. Sits above the day so daily use always
-          lives inside the destination. */}
-      <RoadToSixteen childName={child?.name ?? undefined} stageId={stage.id} streakCount={streak.count} />
-
-      <TodayPathStrip tasks={todayLoop} dailyMinutes={(profile?.daily_minutes as number | null) ?? 10} childName={child?.name ?? undefined} streakCount={streak.count} />
 
       {/* The glanceable stat row: streak, stars in the bank, today's quests,
           the three numbers a parent wants at a glance. */}

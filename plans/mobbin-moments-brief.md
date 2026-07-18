@@ -113,3 +113,18 @@ Keep the logic, polish the feel.
 The content, the age band matching, the wiring logic. Just the pictures, the
 slider look, and the countdown feel. Ping the platform session if a change needs
 more than art or styling.
+
+---
+
+## Job 4 (new): best in class polish pass on the parent home
+
+Justin wants the app to look super slick, professional, best in class. The home
+now has a clean five zone order: header and urgent count, then the hero (Road to
+16 strip plus Today strip), one reveal card, at most two quiet rhythm cards, then
+stats, quests, and doors to everything else. The structure is done; make it feel
+premium. Pull Mobbin references from the best consumer subscription apps (Finch,
+GoHenry, Good Inside, Duolingo) for spacing, card depth, type rhythm and micro
+motion, then translate into our butter and ink and Nunito. Focus on: consistent
+card radii and shadows, breathing room between zones, one accent per zone not
+five, and subtle GSAP fade ups on scroll. No layout changes without checking
+with the platform session, polish only.
