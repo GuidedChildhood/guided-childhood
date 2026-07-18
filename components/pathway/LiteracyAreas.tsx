@@ -20,7 +20,17 @@ const AREAS: Area[] = [
   { key: 'social',  icon: '💬', name: 'Social media ready', startStage: 3, blurb: 'The judgement for the platforms, built in good time before 16.' },
 ]
 
-export default function LiteracyAreas({ stageId, childName }: { stageId: number; childName?: string }) {
+// A live reading per area, computed server side from the family's real data:
+// green when on track, red when it needs a look, plus the proof line (lessons
+// done, balance this week, open worries). Absent means fall back to the static
+// age based status.
+export type AreaStatus = { tone: 'green' | 'red'; label: string; note?: string }
+
+export default function LiteracyAreas({ stageId, childName, statuses = {} }: {
+  stageId: number
+  childName?: string
+  statuses?: Partial<Record<string, AreaStatus>>
+}) {
   const kid = childName && childName !== 'Your child' ? childName : 'your child'
   const current = Math.min(5, Math.max(1, stageId))
 
@@ -37,9 +47,15 @@ export default function LiteracyAreas({ stageId, childName }: { stageId: number;
         {AREAS.map(area => {
           const active = current >= area.startStage
           const ready = current >= 5
-          const statusLabel = active
+          const live = active ? statuses[area.key] : undefined
+          const statusLabel = live
+            ? live.label
+            : active
             ? ready ? 'Ready' : 'Building now'
             : `Comes at ${STAGE_LABELS[area.startStage - 1]}, ${STAGE_AGES[area.startStage - 1]}`
+          const dotColour = live
+            ? live.tone === 'green' ? 'var(--retro-green, #2F8F6B)' : '#C0533E'
+            : active ? 'var(--retro-green, #2F8F6B)' : 'var(--border)'
           return (
             <Link
               key={area.key}
@@ -60,16 +76,16 @@ export default function LiteracyAreas({ stageId, childName }: { stageId: number;
                   {area.name}
                 </span>
                 <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: '12.5px', color: 'var(--ink-muted)', lineHeight: 1.45, marginTop: 1 }}>
-                  {area.blurb}
+                  {live?.note ?? area.blurb}
                 </span>
               </span>
               <span style={{
                 flexShrink: 0, display: 'inline-flex', alignItems: 'center', gap: 5,
                 fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.03em',
-                color: active ? 'var(--retro-green, #2F8F6B)' : 'var(--ink-light)',
+                color: live ? dotColour : active ? 'var(--retro-green, #2F8F6B)' : 'var(--ink-light)',
                 textAlign: 'right', maxWidth: '92px', lineHeight: 1.3,
               }}>
-                <span aria-hidden style={{ width: 8, height: 8, borderRadius: '50%', flexShrink: 0, background: active ? 'var(--retro-green, #2F8F6B)' : 'var(--border)' }} />
+                <span aria-hidden style={{ width: 8, height: 8, borderRadius: '50%', flexShrink: 0, background: dotColour }} />
                 {statusLabel}
               </span>
             </Link>
