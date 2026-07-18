@@ -88,15 +88,69 @@ export default function DeviceTimeCard({
     try { navigator.vibrate?.([90, 70, 90, 70, 90, 90, 260]) } catch { /* no haptics */ }
   }, [])
 
+  // A soft, warm spoken line, gentle rate so it never barks. Best effort: silent
+  // if the browser has no voice or sound is muted. The audio gesture on start
+  // already unlocked speech, so this is allowed to play later.
+  const say = useCallback((text: string) => {
+    try {
+      const synth = window.speechSynthesis
+      if (!synth) return
+      const u = new SpeechSynthesisUtterance(text)
+      u.rate = 0.95
+      u.pitch = 1.1
+      u.volume = 0.9
+      synth.speak(u)
+    } catch { /* speech optional */ }
+  }, [])
+
+  // The last ten seconds are a happy countdown to offline fun, not an alarm
+  // creeping up. A soft rising blip each second, a warm voice at ten to set up
+  // the handover, then a gentle spoken three, two, one so the child lands the
+  // finish themselves. Guarded so each second fires once.
+  const spokeTenRef = useRef(false)
+  const lastBlipRef = useRef(0)
+  const countdownFx = useCallback((left: number) => {
+    if (left > 10 || left < 1) return
+    const ctx = audioRef.current
+    if (ctx && lastBlipRef.current !== left) {
+      lastBlipRef.current = left
+      try {
+        const t0 = ctx.currentTime
+        const osc = ctx.createOscillator()
+        const gain = ctx.createGain()
+        // Rising as it nears zero, so the pitch itself feels like a countdown.
+        osc.type = 'sine'
+        osc.frequency.setValueAtTime(560 + (10 - left) * 34, t0)
+        gain.gain.setValueAtTime(0.0001, t0)
+        gain.gain.exponentialRampToValueAtTime(0.12, t0 + 0.015)
+        gain.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.14)
+        osc.connect(gain).connect(ctx.destination)
+        osc.start(t0)
+        osc.stop(t0 + 0.17)
+      } catch { /* audio best effort */ }
+    }
+    if (left === 10 && !spokeTenRef.current) {
+      spokeTenRef.current = true
+      say('Ten seconds. Time to find some offline fun.')
+    } else if (left === 3 || left === 2 || left === 1) {
+      say(String(left))
+    }
+  }, [say])
+
   // Tick every second off the fixed end time. When it hits zero, sound the
   // alarm once and close the session on the server.
   useEffect(() => {
     if (!session) return
     const end = new Date(session.endsAt).getTime()
     let fired = false
+    // A fresh countdown for each session, so the ten second voice and blips fire
+    // again next time, not only the first.
+    spokeTenRef.current = false
+    lastBlipRef.current = 0
     const tick = () => {
       const left = Math.round((end - Date.now()) / 1000)
       setRemaining(left)
+      countdownFx(left)
       if (left <= 0 && !fired) {
         fired = true
         soundAlarm()
@@ -111,7 +165,7 @@ export default function DeviceTimeCard({
     tick()
     const id = setInterval(tick, 1000)
     return () => clearInterval(id)
-  }, [session, token, soundAlarm])
+  }, [session, token, soundAlarm, countdownFx])
 
   async function start() {
     if (busy || minutes < STAR_MINUTES || minutes > maxMinutes) return
@@ -174,22 +228,33 @@ export default function DeviceTimeCard({
     const total = session.minutes * 60
     const pct = Math.max(0, Math.min(100, (remaining / total) * 100))
     const low = remaining <= 60
+    // The last ten seconds are the happy countdown to offline fun, so the number
+    // gets a warm terracotta and a friendly line comes up, never a red warning.
+    const countingDown = remaining <= 10 && remaining > 0
     return (
       <div style={{ background: '#fff', borderRadius: '20px', padding: '18px 20px', marginBottom: '16px', boxShadow: '0 5px 0 rgba(0,0,0,0.14)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
-          <span style={{ fontSize: '1.6rem' }}>{deviceEmoji(session.device)}</span>
+          <span style={{ fontSize: '1.6rem', display: 'inline-block', animation: countingDown ? 'gcAlarmBounce 0.7s ease-in-out infinite' : 'none' }}>{countingDown ? '🎉' : deviceEmoji(session.device)}</span>
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
               {deviceLabel(session.device)} time
             </div>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '2.4rem', lineHeight: 1, color: low ? '#C0533E' : 'var(--ink)', fontVariantNumeric: 'tabular-nums' }}>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '2.4rem', lineHeight: 1, color: countingDown ? 'var(--terracotta-dark)' : low ? '#C0533E' : 'var(--ink)', fontVariantNumeric: 'tabular-nums' }}>
               {fmt(remaining)}
             </div>
           </div>
         </div>
-        <div style={{ height: '10px', borderRadius: '10px', background: 'var(--cream)', overflow: 'hidden', marginBottom: '12px' }}>
-          <div style={{ height: '100%', borderRadius: '10px', width: `${pct}%`, background: low ? '#C0533E' : 'var(--terracotta)', transition: 'width 1s linear' }} />
+        <div style={{ height: '10px', borderRadius: '10px', background: 'var(--cream)', overflow: 'hidden', marginBottom: countingDown ? '10px' : '12px' }}>
+          <div style={{ height: '100%', borderRadius: '10px', width: `${pct}%`, background: countingDown ? 'var(--terracotta)' : low ? '#C0533E' : 'var(--terracotta)', transition: 'width 1s linear' }} />
         </div>
+        {countingDown && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'var(--terracotta-lt)', borderRadius: '12px', padding: '9px 12px', marginBottom: '12px' }}>
+            <span style={{ fontSize: '1.1rem' }}>🌟</span>
+            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', color: 'var(--ink)', lineHeight: 1.35 }}>
+              Nearly there. Time to find some offline fun.
+            </span>
+          </div>
+        )}
         <button
           onClick={stop}
           disabled={busy}
@@ -207,10 +272,10 @@ export default function DeviceTimeCard({
       <div style={{ position: 'relative', background: 'var(--terracotta)', borderRadius: '20px', padding: '20px', marginBottom: '16px', boxShadow: '0 5px 0 var(--terracotta-dark)', textAlign: 'center', overflow: 'hidden' }}>
         <Celebration fire />
         <div style={{ position: 'relative', zIndex: 1 }}>
-          <div style={{ fontSize: '2.4rem', lineHeight: 1, marginBottom: '6px', display: 'inline-block', animation: 'gcAlarmBounce 0.7s ease-in-out 3' }}>⏰</div>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.3rem', color: 'var(--ink)', marginBottom: '4px' }}>Time is up!</div>
+          <div style={{ fontSize: '2.4rem', lineHeight: 1, marginBottom: '6px', display: 'inline-block', animation: 'gcAlarmBounce 0.7s ease-in-out 3' }}>🎉</div>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.3rem', color: 'var(--ink)', marginBottom: '4px' }}>Time for offline fun!</div>
           <p style={{ fontSize: '14.5px', color: 'var(--ink)', opacity: 0.8, margin: '0 0 14px', lineHeight: 1.5 }}>
-            Great play! Your {deviceLabel(session?.device ?? 'phone')} time is done. Earn more stars to unlock more.
+            Great play! Your {deviceLabel(session?.device ?? 'phone')} time is done for now. Go find something fun away from the screen, and earn more stars to unlock more.
           </p>
           <button
             onClick={() => { setSession(null); setPhase('idle'); router.refresh() }}

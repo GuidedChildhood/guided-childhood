@@ -66,6 +66,32 @@ const ACCENT_MAP: Record<string, { name: string; hex: string; bg: string; ink: s
 const DEFAULT_BUDDY = 'digi'
 const DEFAULT_ACCENT = 'graphite'
 
+// A mixed colour: the child slides the hue wheel and gets their own soft pastel
+// wash, built the exact gentle way as the named ones (light background, dark
+// readable ink, a deeper accent for rings and edges), so any colour they land
+// on still looks on brand and never heavier than the others. Stored as h<hue>.
+function hueWash(h: number): { name: string; hex: string; bg: string; ink: string; inkSoft: string } {
+  return {
+    name: 'Mine',
+    hex: `hsl(${h}, 52%, 45%)`,
+    bg: `linear-gradient(180deg, hsl(${h}, 60%, 93%) 0%, hsl(${h}, 54%, 87%) 100%)`,
+    ink: 'var(--ink)',
+    inkSoft: 'rgba(26,26,46,0.60)',
+  }
+}
+// Resolve whatever is saved into a full theme: a named colour, a mixed hue, or
+// the default if it is neither.
+function resolveTheme(accent: string): { name: string; hex: string; bg: string; ink: string; inkSoft: string } {
+  if (ACCENT_MAP[accent]) return ACCENT_MAP[accent]
+  const m = /^h(\d{1,3})$/.exec(accent)
+  if (m) return hueWash(Math.max(0, Math.min(360, Number(m[1]))))
+  return ACCENT_MAP[DEFAULT_ACCENT]
+}
+// Is this a saved accent we recognise (named or mixed hue)?
+function knownAccent(a: string | null | undefined): a is string {
+  return typeof a === 'string' && (Boolean(ACCENT_MAP[a]) || /^h\d{1,3}$/.test(a))
+}
+
 export default function KidQuestScreen({
   token, childName, buddy = null, accent = null, stageId = 2, quests, todayTicks, weekStars, goal, streakDays = 0, laterQuests = [], doneLessonKeys = [], missions = [],
   adventures = [], bank = null, usedWeekMinutes = 0, usedTodayMinutes = 0, recommendedMinutes = 0, requests = [], printablesUnlocked = true, activeSession = null,
@@ -158,9 +184,9 @@ export default function KidQuestScreen({
   // The child's own buddy and accent. Starts from what the grown up account has
   // saved, changes instantly when they pick, and saves back to their record.
   const [chosenBuddy, setChosenBuddy] = useState(buddy && BUDDY_MAP[buddy] ? buddy : DEFAULT_BUDDY)
-  const [chosenAccent, setChosenAccent] = useState(accent && ACCENT_MAP[accent] ? accent : DEFAULT_ACCENT)
+  const [chosenAccent, setChosenAccent] = useState(knownAccent(accent) ? accent : DEFAULT_ACCENT)
   const [makeMineOpen, setMakeMineOpen] = useState(false)
-  const theme = ACCENT_MAP[chosenAccent] ?? ACCENT_MAP[DEFAULT_ACCENT]
+  const theme = resolveTheme(chosenAccent)
   const accentHex = theme.hex
   function saveMine(next: { buddy?: string; accent?: string }) {
     if (next.buddy) setChosenBuddy(next.buddy)
@@ -1786,6 +1812,11 @@ function MakeItMine({ onClose, chosenBuddy, chosenAccent, onPick }: {
   chosenAccent: string
   onPick: (next: { buddy?: string; accent?: string }) => void
 }) {
+  // A mixed colour reads back as h<hue>; the slider starts from it, or from a
+  // pleasant blue if the child is on a named colour.
+  const isCustom = /^h\d{1,3}$/.test(chosenAccent)
+  const [hue, setHue] = useState(isCustom ? Number(chosenAccent.slice(1)) : 210)
+  const preview = resolveTheme(chosenAccent)
   return (
     <div onClick={onClose} style={{ position: 'fixed', inset: 0, zIndex: 130, background: 'rgba(26,26,46,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
       <div onClick={e => e.stopPropagation()} style={{ width: '100%', maxWidth: 420, maxHeight: '86vh', overflowY: 'auto', background: 'var(--cream)', borderRadius: '24px', padding: '22px 20px', boxShadow: '0 20px 50px -16px rgba(26,26,46,0.4)' }}>
@@ -1818,10 +1849,10 @@ function MakeItMine({ onClose, chosenBuddy, chosenAccent, onPick }: {
         {/* The colour bar: each swatch is the real background it sets, so the
             child picks the whole screen, not a ring. A live preview strip sits
             above it so the change is obvious before they even close. */}
-        <div style={{ height: 54, borderRadius: '14px', background: ACCENT_MAP[chosenAccent]?.bg ?? ACCENT_MAP[DEFAULT_ACCENT].bg, marginBottom: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1.5px solid rgba(26,26,46,0.12)' }}>
-          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '14px', color: ACCENT_MAP[chosenAccent]?.ink ?? '#fff' }}>My app</span>
+        <div style={{ height: 54, borderRadius: '14px', background: preview.bg, marginBottom: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1.5px solid rgba(26,26,46,0.12)' }}>
+          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '14px', color: preview.ink }}>My app</span>
         </div>
-        <div style={{ display: 'flex', gap: '9px', marginBottom: '20px', overflowX: 'auto', paddingBottom: '4px' }}>
+        <div style={{ display: 'flex', gap: '9px', marginBottom: '16px', overflowX: 'auto', paddingBottom: '4px' }}>
           {Object.entries(ACCENT_MAP).map(([id, a]) => {
             const on = chosenAccent === id
             return (
@@ -1832,6 +1863,24 @@ function MakeItMine({ onClose, chosenBuddy, chosenAccent, onPick }: {
             )
           })}
         </div>
+
+        {/* Mix your own: slide the wheel to any colour and it becomes a soft
+            wash the same gentle way as the set ones. The slider itself is the
+            hue rainbow, and the swatch shows exactly what will land. */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>Or mix your own</span>
+          <span aria-hidden style={{ width: 24, height: 24, borderRadius: '50%', background: hueWash(hue).bg, border: `2px solid ${isCustom ? 'var(--ink)' : 'rgba(26,26,46,0.2)'}` }} />
+        </div>
+        <input
+          type="range" min={0} max={360} value={hue} aria-label="Mix your own colour"
+          onChange={e => { const h = Number(e.target.value); setHue(h); onPick({ accent: `h${h}` }) }}
+          style={{
+            width: '100%', marginBottom: '20px', appearance: 'none', WebkitAppearance: 'none',
+            height: 14, borderRadius: 100, cursor: 'pointer', outline: 'none',
+            background: 'linear-gradient(90deg, hsl(0,70%,60%), hsl(60,70%,60%), hsl(120,70%,55%), hsl(180,65%,55%), hsl(240,65%,62%), hsl(300,65%,62%), hsl(360,70%,60%))',
+            border: '1.5px solid rgba(26,26,46,0.12)',
+          }}
+        />
 
         <button onClick={onClose} style={{ width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: '15px', padding: '14px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '15px', boxShadow: '0 5px 0 var(--terracotta-dark)' }}>
           That&apos;s mine!

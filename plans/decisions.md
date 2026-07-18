@@ -1565,3 +1565,20 @@ child app shows used against this number (X of limit) and the device time picker
 never offers past what is left of it today, so a day never runs beyond the cap
 even when stars have banked up. Bank total (minutes ready) is separate from what
 is usable today.
+
+## 18 July 2026 — first pass on the two Mobbin lane items (hand to Mobbin to finish design)
+
+Countdown to offline fun: the child device timer's last ten seconds are now a
+happy countdown, not an alarm. A soft rising blip each second, a warm spoken
+line at ten ("Ten seconds. Time to find some offline fun."), and a gentle spoken
+three, two, one, all via Web Audio and Web Speech so there are no asset files.
+The number turns terracotta, a party emoji bounces, and a friendly line comes
+up. Time's up copy reframed to "Time for offline fun!". Handed to Mobbin to
+settle the exact voice, wording and motion.
+
+Make it mine, mix your own colour: the colour bar keeps the six named pastels
+and adds a hue slider under them. Any hue becomes a soft wash the same gentle
+way as the set ones (light background, dark ink, deeper accent). Stored as
+h<hue> (0 to 360), validated bounded in /api/kid/buddy so it is never arbitrary
+data. resolveTheme in KidQuestScreen turns a named id or an h<hue> into the full
+theme. Handed to Mobbin to finish the visual of the slider itself.
