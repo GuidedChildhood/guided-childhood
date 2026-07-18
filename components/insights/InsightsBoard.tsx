@@ -243,7 +243,10 @@ export default function InsightsBoard() {
                 {r.closest && (
                   <p style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ink-muted)', margin: '6px 0 0' }}>Closest we have: {r.closest}</p>
                 )}
-                <div style={{ marginTop: 10 }}>
+                <div style={{ marginTop: 10, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                  <a href={`/dashboard/new-script?problem=${encodeURIComponent(r.problem)}`} style={{ background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 11, padding: '8px 15px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 13, boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
+                    Write this script →
+                  </a>
                   <button onClick={() => markReqHandled(r.id)} disabled={reqBusy === r.id} style={{ background: '#fff', color: 'var(--ink-soft)', border: '1.5px solid var(--border)', borderRadius: 11, padding: '8px 15px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 13, opacity: reqBusy === r.id ? 0.6 : 1 }}>
                     {reqBusy === r.id ? 'Saving…' : 'Mark handled'}
                   </button>
