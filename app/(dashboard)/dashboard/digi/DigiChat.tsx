@@ -108,16 +108,35 @@ export default function DigiChat({
   // scroll never triggers a re-render.
   const scrollRef = useRef<HTMLDivElement>(null)
   const stickRef = useRef(true)
-  // Set the moment a new question is sent, so the next render lifts that
-  // question to the top of the view instead of pinning to the bottom.
-  const pendingQScroll = useRef(false)
-  // A trailing spacer under the newest exchange. Without it, on a tall laptop
-  // screen there is not enough content below a fresh question to scroll it up
-  // to the top, so it stalls halfway. We drop in a viewport of space on send so
-  // the question can always reach the very top, then shrink it once the answer
-  // has landed so there is no big empty gap left behind.
+  // Pin the newest question to the very top of the view, the Good Inside feel,
+  // until the parent scrolls away or asks the next thing. On its own a scroll
+  // cannot lift a fresh question to the top, because nothing has streamed in
+  // below it yet, and on a tall laptop a short answer never fills the gap. So we
+  // also drop a full viewport of trailing space below on send, which guarantees
+  // the question can always reach the top, then trim it once the answer lands.
+  const pinRef = useRef(false)
   const tailRef = useRef<HTMLDivElement>(null)
   const [tailSpace, setTailSpace] = useState(0)
+  const PIN_PAD = 12
+  // The scrollTop we set ourselves, so our own programmatic scroll is never
+  // mistaken for the parent taking the wheel.
+  const selfScroll = useRef<number | null>(null)
+
+  // Lift the newest question to the top of the view.
+  const pinToTop = () => {
+    const el = scrollRef.current
+    if (!el) return
+    const qs = el.querySelectorAll('[data-role="user"]')
+    const last = qs[qs.length - 1] as HTMLElement | undefined
+    if (!last) return
+    const top = el.scrollTop + (last.getBoundingClientRect().top - el.getBoundingClientRect().top) - PIN_PAD
+    selfScroll.current = top
+    el.scrollTop = top
+  }
+
+  // Once the answer is in, trim the trailing space to exactly a viewport below
+  // the question, so the pinned position never clamps (the question stays put)
+  // and there is no giant empty gap under a short reply.
   const refitTail = () => {
     const el = scrollRef.current, tail = tailRef.current
     if (!el || !tail) return
@@ -125,13 +144,17 @@ export default function DigiChat({
     const last = qs[qs.length - 1] as HTMLElement | undefined
     if (!last) return
     const qTop = last.getBoundingClientRect().top - el.getBoundingClientRect().top + el.scrollTop
-    const realContentH = el.scrollHeight - tail.offsetHeight
-    const belowQ = realContentH - qTop
-    setTailSpace(Math.max(24, el.clientHeight - belowQ - 8))
+    const belowQ = (el.scrollHeight - tail.offsetHeight) - qTop
+    setTailSpace(Math.max(24, el.clientHeight - belowQ))
   }
+
   const onMessagesScroll = () => {
     const el = scrollRef.current
-    if (el) stickRef.current = el.scrollHeight - el.scrollTop - el.clientHeight < 80
+    if (!el) return
+    // Ignore the scroll our own pin just caused; only a real move ends the pin.
+    if (selfScroll.current != null && Math.abs(el.scrollTop - selfScroll.current) < 3) return
+    pinRef.current = false
+    stickRef.current = el.scrollHeight - el.scrollTop - el.clientHeight < 80
   }
   const FREE_LIMIT = 3
 
@@ -184,15 +207,10 @@ export default function DigiChat({
   useEffect(() => {
     const el = scrollRef.current
     if (!el) return
-    if (pendingQScroll.current) {
-      pendingQScroll.current = false
-      const qs = el.querySelectorAll('[data-role="user"]')
-      const last = qs[qs.length - 1] as HTMLElement | undefined
-      if (last) el.scrollTop += last.getBoundingClientRect().top - el.getBoundingClientRect().top - 12
-      return
-    }
-    if (stickRef.current) el.scrollTop = el.scrollHeight
-  }, [messages, reflectionQuestion])
+    if (pinRef.current) { pinToTop(); return }
+    if (stickRef.current) { selfScroll.current = el.scrollHeight; el.scrollTop = el.scrollHeight }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [messages, reflectionQuestion, tailSpace])
 
   // Safety net: a tap that navigates away while a textarea is still
   // focused can skip the blur handler, which would leave the tab bar
@@ -214,7 +232,7 @@ export default function DigiChat({
     // viewport of trailing space guarantees the question can reach the very top
     // even before the answer has filled in beneath it.
     stickRef.current = false
-    pendingQScroll.current = true
+    pinRef.current = true
     if (scrollRef.current) setTailSpace(scrollRef.current.clientHeight)
     setMessages(prev => [...prev, { role: 'user', content: messageText }])
     setInput('')
@@ -298,9 +316,15 @@ export default function DigiChat({
 
       showReply(mainResponse)
       setDailyCount(Number.isFinite(usedToday) && usedToday > 0 ? usedToday : dailyCount + 1)
-      // The answer has landed, so shrink the trailing space to just what is
-      // needed to keep the question near the top, no big empty gap below.
-      requestAnimationFrame(() => requestAnimationFrame(refitTail))
+      // The answer has landed. Re-assert the question at the top, trim the
+      // trailing space to a viewport, then release the pin so the parent can
+      // read and scroll freely. The trim leaves the pinned position valid, so
+      // the question does not slip down even on a tall screen.
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        pinToTop()
+        refitTail()
+        pinRef.current = false
+      }))
       // Hold the reflective question back and only let it surface once the
       // parent has paused, so it never interrupts a live back and forth.
       if (reflective && !reflectionQuestion && !reflectionDone) {
@@ -386,7 +410,7 @@ export default function DigiChat({
       </div>
 
       {/* Messages */}
-      <div ref={scrollRef} onScroll={onMessagesScroll} style={{ flex: 1, overflowY: 'auto', padding: '20px 20px 0', background: 'var(--cream)' }}>
+      <div ref={scrollRef} onScroll={onMessagesScroll} style={{ flex: 1, overflowY: 'auto', padding: '20px 20px 0', background: '#fff' }}>
 
         {messages.length === 0 && (
           <div style={{ paddingTop: '4px' }}>
@@ -522,45 +546,48 @@ export default function DigiChat({
           // thing a child could hear too, so offer to put it in their words.
           const offerChildVersion = i === messages.length - 1 && !streamingReply && paras.length >= 3
           return (
-            <div key={i} style={{ display: 'flex', justifyContent: 'flex-start', marginBottom: '22px' }}>
-              <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10, maxWidth: '90%' }}>
-                <div style={{ width: 30, flexShrink: 0, marginTop: 2 }}>
-                  <DigiAvatar size={30} />
-                </div>
-                <div style={{
-                  background: 'var(--terracotta-lt)', borderRadius: '6px 20px 20px 20px',
-                  padding: '16px 19px', display: 'flex', flexDirection: 'column', gap: '13px', minWidth: 0,
-                }}>
-                  {paras.map((text, b) => (
-                    <p key={b} style={{
-                      margin: 0, fontFamily: 'var(--font-body)', fontSize: '16.5px',
-                      lineHeight: 1.65, color: 'var(--ink)', fontWeight: 500, whiteSpace: 'pre-wrap',
-                    }}>
-                      {renderInline(text)}
-                    </p>
-                  ))}
-                  {offerChildVersion && (
-                    <button
-                      onClick={() => sendMessage('Put that in simple words for my child to read, at their age, so we can go through it together.')}
-                      style={{
-                        alignSelf: 'flex-start', marginTop: 3, background: '#fff', border: '1.5px solid var(--terracotta)',
-                        color: 'var(--ink)', borderRadius: 12, padding: '9px 14px', cursor: 'pointer',
-                        fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 13,
-                      }}
-                    >
-                      Put this in words for my child
-                    </button>
-                  )}
-                </div>
+            <div key={i} style={{ marginBottom: '26px' }}>
+              {/* DiGi's mark and name sit once above the answer, the reference
+                  feel: no coloured bubble, just a clear note from a coach. */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 11 }}>
+                <div style={{ width: 26, height: 26, flexShrink: 0 }}><DigiAvatar size={26} /></div>
+                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15, color: 'var(--ink)' }}>DiGi</span>
+              </div>
+              {/* The answer flows as plain text on white, its separate points set
+                  apart by space, each bold lead in carrying the move. */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+                {paras.map((text, b) => (
+                  <p key={b} style={{
+                    margin: 0, fontFamily: 'var(--font-body)', fontSize: '17px',
+                    lineHeight: 1.6, color: 'var(--ink)', fontWeight: 500, whiteSpace: 'pre-wrap',
+                  }}>
+                    {renderInline(text)}
+                  </p>
+                ))}
+                {offerChildVersion && (
+                  <button
+                    onClick={() => sendMessage('Put that in simple words for my child to read, at their age, so we can go through it together.')}
+                    style={{
+                      alignSelf: 'flex-start', marginTop: 3, background: '#fff', border: '1.5px solid var(--terracotta)',
+                      color: 'var(--ink)', borderRadius: 12, padding: '9px 14px', cursor: 'pointer',
+                      fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 13,
+                    }}
+                  >
+                    Put this in words for my child
+                  </button>
+                )}
               </div>
             </div>
           )
         })}
 
         {loading && !streamingReply && (
-          <div style={{ display: 'flex', justifyContent: 'flex-start', marginBottom: '22px', alignItems: 'flex-start', gap: 10 }}>
-            <div style={{ width: 30, flexShrink: 0, marginTop: 2 }}><DigiAvatar size={30} mood="thinking" /></div>
-            <div style={{ padding: '16px 19px', background: 'var(--terracotta-lt)', borderRadius: '6px 20px 20px 20px', display: 'flex', gap: '5px', alignItems: 'center' }}>
+          <div style={{ marginBottom: '26px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 11 }}>
+              <div style={{ width: 26, height: 26, flexShrink: 0 }}><DigiAvatar size={26} mood="thinking" /></div>
+              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15, color: 'var(--ink)' }}>DiGi</span>
+            </div>
+            <div style={{ display: 'inline-flex', gap: '5px', alignItems: 'center', background: 'var(--cream)', borderRadius: '100px', padding: '10px 14px' }}>
               {[0, 1, 2].map(i => (
                 <div key={i} style={{ width: '7px', height: '7px', background: 'var(--ink-light)', borderRadius: '50%', animation: `bounce 1.2s ease-in-out ${i * 0.2}s infinite` }} />
               ))}
