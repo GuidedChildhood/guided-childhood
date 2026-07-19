@@ -23,7 +23,19 @@ function joinNames(names: string[]): string {
   return `${clean.slice(0, -1).join(', ')} and ${clean[clean.length - 1]}`
 }
 
-export default function DigiWelcomeSheet({ childrenInfo }: { childrenInfo: ChildInfo[] }) {
+// The once a day guided walk: DiGi greets, then shows where the child is on
+// the road, then today's one thing, then lets Home breathe. Each step is one
+// thought, so the parent is led rather than met by a wall.
+export type WelcomeGuide = {
+  stageNum: number
+  stageName: string
+  childName: string
+  nextTask: { label: string; href: string } | null
+  strands: { name: string; tone: 'green' | 'red' | 'grey' }[]
+}
+
+export default function DigiWelcomeSheet({ childrenInfo, guide }: { childrenInfo: ChildInfo[]; guide?: WelcomeGuide | null }) {
+  const [step, setStep] = useState(0)
   const router = useRouter()
   const [show, setShow] = useState(false)
   const [entered, setEntered] = useState(false)
@@ -155,17 +167,45 @@ export default function DigiWelcomeSheet({ childrenInfo }: { childrenInfo: Child
           fontSize: 'clamp(1.9rem, 7vw, 2.4rem)', lineHeight: 1.08, letterSpacing: '-0.03em',
           margin: '0 0 16px',
         }}>
-          Hey, it&apos;s DiGi.<br />Welcome back.
+          {step === 0 && <>Hey, it&apos;s DiGi.<br />Welcome back.</>}
+          {step === 1 && <>Here is where<br />{guide?.childName ?? 'we'} stand{guide ? 's' : ''}.</>}
+          {step === 2 && <>Today, one thing.</>}
         </h2>
 
+        {step === 0 && (
         <p style={{
           fontFamily: 'var(--font-body)', fontWeight: 500, color: 'var(--ink-soft)',
           fontSize: '17px', lineHeight: 1.55, margin: 0,
         }}>
           I know life does not pause for {names}. What is on your mind today? Bring me up to speed and I will point us at the next small thing.
         </p>
+        )}
 
-        {insight && (
+        {step === 1 && guide && (
+          <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 16, padding: '16px 18px' }}>
+            <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)', margin: '0 0 10px' }}>
+              Stage {guide.stageNum} of 5, {guide.stageName}. On the road to 16.
+            </p>
+            <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+              {guide.strands.map(s => (
+                <span key={s.name} style={{ display: 'inline-flex', alignItems: 'center', gap: 5, background: 'var(--cream)', borderRadius: 100, padding: '5px 11px', opacity: s.tone === 'grey' ? 0.55 : 1 }}>
+                  <span aria-hidden style={{ width: 7, height: 7, borderRadius: '50%', background: s.tone === 'green' ? 'var(--retro-green, #2F8F6B)' : s.tone === 'red' ? '#C0533E' : 'var(--border)' }} />
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: 'var(--ink-soft)' }}>{s.name}</span>
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {step === 2 && (
+          <p style={{ fontFamily: 'var(--font-body)', fontWeight: 500, color: 'var(--ink-soft)', fontSize: '17px', lineHeight: 1.55, margin: 0 }}>
+            {guide?.nextTask
+              ? <>Just this: <strong style={{ color: 'var(--ink)', fontWeight: 800 }}>{guide.nextTask.label}</strong>. A few minutes, then everything else can wait its turn.</>
+              : <>Today is already done. Lovely. Everything else is there when you want it.</>}
+          </p>
+        )}
+
+        {step === 0 && insight && (
           <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 16, padding: '14px 16px', marginTop: 18 }}>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: 5 }}>
               A quiet thought on {insight.childName}
@@ -177,7 +217,37 @@ export default function DigiWelcomeSheet({ childrenInfo }: { childrenInfo: Child
 
         <div style={{ flex: 1 }} />
 
+        {/* The guided walk forward: greeting to where we are, to today's one
+            thing, to Home. One tap each, always skippable. */}
+        {guide && step < 2 && (
+          <button
+            onClick={() => setStep(s => s + 1)}
+            style={{
+              width: '100%', marginTop: 20, padding: '15px', borderRadius: 16, border: 'none',
+              background: 'var(--terracotta)', color: 'var(--ink)', cursor: 'pointer',
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
+              boxShadow: '0 4px 0 var(--terracotta-dark)',
+            }}
+          >
+            {step === 0 ? `Next: where ${guide.childName} is →` : 'Next: today →'}
+          </button>
+        )}
+        {guide && step === 2 && guide.nextTask && (
+          <button
+            onClick={() => { close(); router.push(guide.nextTask!.href) }}
+            style={{
+              width: '100%', marginTop: 20, padding: '15px', borderRadius: 16, border: 'none',
+              background: 'var(--terracotta)', color: 'var(--ink)', cursor: 'pointer',
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
+              boxShadow: '0 4px 0 var(--terracotta-dark)',
+            }}
+          >
+            Take me there →
+          </button>
+        )}
+
         {/* The input, primed to open the DiGi chat */}
+        {step === 0 && (
         <form
           onSubmit={e => { e.preventDefault(); bringUpToSpeed() }}
           style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 20 }}
@@ -206,6 +276,7 @@ export default function DigiWelcomeSheet({ childrenInfo }: { childrenInfo: Child
             ↑
           </button>
         </form>
+        )}
 
         <button
           onClick={close}

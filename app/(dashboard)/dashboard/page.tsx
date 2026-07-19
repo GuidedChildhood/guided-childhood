@@ -265,7 +265,21 @@ export default async function DashboardPage() {
   return (
     <div style={{ maxWidth: '640px', margin: '0 auto', padding: '24px 20px' }}>
       {/* DiGi comes up first, once a day, greeting the family by name */}
-      <DigiWelcomeSheet childrenInfo={welcomeChildren} />
+      <DigiWelcomeSheet
+        childrenInfo={welcomeChildren}
+        guide={{
+          stageNum: stage.id,
+          stageName: stage.name,
+          childName: (child?.name && child.name !== 'Your child') ? child.name : 'your child',
+          nextTask: (() => { const t = todayLoop.find(x => !x.done && x.key !== 'done'); return t ? { label: t.label, href: t.href } : null })(),
+          strands: (['safe', 'balance', 'ai', 'social'] as const).map(k => ({
+            name: k === 'safe' ? 'Safe online' : k === 'balance' ? 'Healthy balance' : k === 'ai' ? 'AI and chatbots' : 'Social media ready',
+            tone: (stage.id >= (k === 'ai' || k === 'social' ? 3 : 1))
+              ? (literacyStatuses[k]?.tone ?? 'green')
+              : 'grey' as const,
+          })),
+        }}
+      />
       {/* Trial status: warm and forgiving during, a gentle offer after, never
           a lockout. The everyday habit stays free either way. */}
       {showTrial && (
