@@ -402,7 +402,7 @@ export default function TodayPathStrip({ tasks, dailyMinutes = 10, childName, st
             <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: '13.5px', fontWeight: 700, color: 'var(--ink)' }}>
               Next: {tasks[currentIndex].label}
               <span style={{ color: 'var(--ink-muted)', fontWeight: 500 }}>
-                {' '}· {investedMinutes + nextWeight >= minutes ? `last of your ${minutes} min` : `about ${toBudgetMin} min to your ${minutes} min`}
+                {' '}· {investedMinutes + nextWeight >= minutes ? `last of your ${minutes} min` : investedMinutes > 0 ? `${investedMinutes} min done today, about ${toBudgetMin} more to your ${minutes}` : `about ${toBudgetMin} min to your ${minutes} min`}
               </span>
             </span>
             <span style={{ display: 'block', fontSize: '12px', color: 'var(--ink-soft)', marginTop: '2px' }}>
