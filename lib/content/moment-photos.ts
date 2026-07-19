@@ -48,6 +48,22 @@ export const MOMENT_PHOTOS: Record<string, string> = {
   rainy_window:         BASE + 'hf_20260719_000914_872e67d4-467f-49cf-ba26-7e4b91a4af96.png',
   kettle_calm:          BASE + 'hf_20260719_000921_47ba93ba-3a93-4422-b904-1a8f26b635d5.png',
   bag_blanket:          BASE + 'hf_20260719_000922_37b067a5-17bd-4c8d-b510-b517b0933dfd.png',
+
+  // The 19 July 2026 batch: the 13 library titles that borrowed an interim tile
+  // now get their own draw, per the brief in plans/mobbin-moments-brief.md.
+  tablet_breakfast:     BASE + 'hf_20260719_013057_766d443e-30c5-4441-8c59-74a9c5feeaf0.png',
+  dark_alarm:           BASE + 'hf_20260719_013059_907e862f-927d-4a3b-88cb-8bf8c8a22fab.png',
+  phone_basket:         BASE + 'hf_20260719_013101_6c9b5164-8e3c-44fc-ac2f-16dd0ce6c77c.png',
+  coat_peg:             BASE + 'hf_20260719_013103_99849b76-b8cf-4078-8fdd-2617fd55c510.png',
+  tv_off_toy:           BASE + 'hf_20260719_013105_960c27f4-742c-4d48-8b94-8b98212fc1ea.png',
+  controller_sofa:      BASE + 'hf_20260719_013109_1aa94abf-6a2a-4823-9730-0420bcb7a0cf.png',
+  blurred_feed:         BASE + 'hf_20260719_013110_e5570802-6b6f-4ebc-a640-ef40fa478238.png',
+  open_door:            BASE + 'hf_20260719_013112_6c8efa5c-6a8e-4895-a871-9a930ded7e5b.png',
+  toys_tidied:          BASE + 'hf_20260719_013115_4780508c-96fe-444e-b653-4fa0e0ae19a8.png',
+  uniform_hook:         BASE + 'hf_20260719_013117_2f344c4e-c6ec-408a-bad0-b5b42361de7b.png',
+  shared_toy:           BASE + 'hf_20260719_013119_52e54382-4a35-4471-8346-baff94e1640f.png',
+  phone_charging_door:  BASE + 'hf_20260719_013121_312d9f7e-fd10-4435-914b-fbc49980e4e4.png',
+  lamp_stories:         BASE + 'hf_20260719_013123_75d3ad52-ea48-4cef-8938-a4e872926c7a.png',
 }
 
 // Title to tile, most specific patterns first so the right photo wins. Covers
@@ -66,20 +82,21 @@ const TITLE_TO_PHOTO: [RegExp, keyof typeof MOMENT_PHOTOS][] = [
   [/seeming low|low or flat/i, 'rainy_window'],
   [/boils over/i, 'kettle_calm'],
   [/after school meltdown/i, 'bag_blanket'],
-  // The rest of that batch resolves to the closest existing tile until it gets
-  // its own draw. Several of these titles matched nothing (or the wrong broad
-  // pattern) before, so each is named here explicitly.
-  [/wants the tablet/i, 'tablet_sofa'],
-  [/hard to wake|late night before/i, 'bed_morning'],
-  [/phones? at the dinner table/i, 'phone_table'],
-  [/want to go to school/i, 'shoes_door'],
-  [/turning the screen off/i, 'tv_remote'],
-  [/come off the game/i, 'gaming'],
-  [/leaving the house/i, 'shoes_door'],
-  [/playdate|ending a fun thing/i, 'board_game'],
-  [/settling into a new school|new school or class/i, 'uniform'],
-  [/siblings fighting/i, 'board_game'],
-  [/wind down|screens before bed/i, 'bedtime_lamp'],
+  // The rest of that batch got its own draw on 19 July 2026, so every library
+  // title now resolves to a dedicated tile, never a borrowed interim one.
+  [/wants the tablet/i, 'tablet_breakfast'],
+  [/hard to wake|late night before/i, 'dark_alarm'],
+  [/phones? at the dinner table/i, 'phone_basket'],
+  [/want to go to school/i, 'coat_peg'],
+  [/turning the screen off/i, 'tv_off_toy'],
+  [/come off the game/i, 'controller_sofa'],
+  [/comparing themselves/i, 'blurred_feed'],
+  [/leaving the house/i, 'open_door'],
+  [/playdate|ending a fun thing/i, 'toys_tidied'],
+  [/settling into a new school|new school or class/i, 'uniform_hook'],
+  [/siblings fighting/i, 'shared_toy'],
+  [/wind down|screens before bed/i, 'phone_charging_door'],
+  [/bedtime stalling/i, 'lamp_stories'],
 
   // Parent support first, so parental guilt does not match the emotions guilt
   [/shouting|failure as a parent|as a parent|mental health|parent burnout/i, 'two_mugs'],
