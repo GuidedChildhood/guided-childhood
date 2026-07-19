@@ -47,7 +47,7 @@ export async function getLiteracyStatuses(
     supabase.from('family_quests').select('id, stars').eq('user_id', userId),
     supabase.from('star_spends').select('minutes').eq('user_id', userId).gte('created_at', `${weekStart}T00:00:00Z`),
     supabase.from('concerns').select('id').eq('user_id', userId).in('status', ['open', 'improving']),
-    supabase.from('lessons').select('id, category'),
+    supabase.from('lessons').select('id, category, stage_id'),
     supabase.from('lesson_completions').select('lesson_id').eq('user_id', userId),
     supabase.from('device_guides').select('device_key, name, min_age'),
     supabase.from('device_setup_progress').select('device_key').eq('user_id', userId),
@@ -67,6 +67,23 @@ export async function getLiteracyStatuses(
     if (!doneIds.has(l.id)) continue
     const a = literacyAreaFor(l.category)
     if (a) doneByArea.set(a.key, (doneByArea.get(a.key) ?? 0) + 1)
+  }
+  // This stage's lessons per strand: the tick asks for the age right lessons
+  // to actually be taken, so learning is part of every reading.
+  const stageSlug = STAGE_ORDER[Math.min(4, Math.max(0, (stageNum ?? 1) - 1))]
+  const stageTotal = new Map<string, number>()
+  const stageDone = new Map<string, number>()
+  for (const l of (lessonsRes.data ?? []) as { id: string; category: string; stage_id?: string }[]) {
+    if (l.stage_id !== stageSlug) continue
+    const a = literacyAreaFor(l.category)
+    if (!a) continue
+    stageTotal.set(a.key, (stageTotal.get(a.key) ?? 0) + 1)
+    if (doneIds.has(l.id)) stageDone.set(a.key, (stageDone.get(a.key) ?? 0) + 1)
+  }
+  const stageLessonsLeft = (k: string) => (stageTotal.get(k) ?? 0) - (stageDone.get(k) ?? 0)
+  const stageLessonBit = (k: string) => {
+    const t = stageTotal.get(k) ?? 0
+    return t > 0 ? `${stageDone.get(k) ?? 0} of ${t} stage lessons done` : null
   }
   const lessonCount = (k: string) => doneByArea.get(k) ?? 0
   const lessonBit = (k: string) => {
@@ -88,7 +105,7 @@ export async function getLiteracyStatuses(
     (checkinsRes.data ?? []).find(c => c.strand === strand) as { grade: string; grade_note: string | null } | undefined
   const safeCheck = latestGrade('safe')
   const socialCheck = latestGrade('social')
-  const safeOk = devicesOk && worries === 0 && safeCheck?.grade !== 'red'
+  const safeOk = devicesOk && worries === 0 && safeCheck?.grade !== 'red' && stageLessonsLeft('safe') === 0
 
   const statuses: Record<string, AreaStatus> = {
     safe: safeOk
@@ -100,17 +117,19 @@ export async function getLiteracyStatuses(
         }
       : {
           tone: 'red',
-          label: !devicesOk ? 'Settings not finished' : worries > 0 ? `${worries} worr${worries === 1 ? 'y' : 'ies'} open` : 'DiGi flagged this week',
+          label: !devicesOk ? 'Settings not finished' : worries > 0 ? `${worries} worr${worries === 1 ? 'y' : 'ies'} open` : stageLessonsLeft('safe') > 0 ? 'Stage lessons waiting' : 'DiGi flagged this week',
           value: `${guidesDone.length} of ${guidesForAge.length} device guides set`,
           note: `${lessonBit('safe')}. ${worries > 0 ? `Working through ${worries} open worr${worries === 1 ? 'y' : 'ies'} together.` : 'The guides walk you through each screen.'}`,
           improve: !devicesOk && nextGuide
             ? `Finish the ${nextGuide.name} setup guide and this turns green.`
             : worries > 0
             ? 'Keep the open worry moving with DiGi and this turns green.'
+            : stageLessonsLeft('safe') > 0
+            ? `Do the next safe online lesson for this stage, ${stageLessonsLeft('safe')} to go.`
             : safeCheck?.grade_note ?? 'Answer DiGi honestly next week and keep the telling channel open.',
           href: devicesOk ? '/dashboard/digi' : '/dashboard/devices',
         },
-    balance: healthy
+    balance: healthy && stageLessonsLeft('balance') === 0
       ? {
           tone: 'green', label: 'In balance',
           value: `${earnedMins} min earned · ${usedMins} min used`,
@@ -118,10 +137,12 @@ export async function getLiteracyStatuses(
           href: '/dashboard/quests',
         }
       : {
-          tone: 'red', label: 'Screen ahead',
+          tone: 'red', label: healthy ? 'Stage lessons waiting' : 'Screen ahead',
           value: `${usedMins} min used · ${earnedMins} min earned`,
           note: `${lessonBit('balance')}. Screen has run ahead of what the jobs earned this week.`,
-          improve: 'Add two or three more jobs this week so the time is earned again.',
+          improve: healthy
+            ? `Do the next healthy balance lesson for this stage, ${stageLessonsLeft('balance')} to go.`
+            : 'Add two or three more jobs this week so the time is earned again.',
           href: '/dashboard/quests',
         },
   }
@@ -133,10 +154,10 @@ export async function getLiteracyStatuses(
   const socialRed = socialCheck?.grade === 'red'
   for (const k of ['ai', 'social'] as const) {
     const n = lessonCount(k)
-    statuses[k] = n > 0 && !(k === 'social' && socialRed)
+    statuses[k] = n > 0 && stageLessonsLeft(k) === 0 && !(k === 'social' && socialRed)
       ? {
           tone: 'green', label: 'Building now',
-          value: `${n} lesson${n === 1 ? '' : 's'} done`,
+          value: stageLessonBit(k) ?? `${n} lesson${n === 1 ? '' : 's'} done`,
           note: k === 'ai'
             ? 'What AI is, how chatbots work, and how to tell what is real, built lesson by lesson.'
             : 'The judgement for the platforms, built in good time before 16. From 13, DiGi also asks what they are seeing.',

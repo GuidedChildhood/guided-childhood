@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { READINESS } from '@/lib/content/readiness'
 
 // The whole promise in four things a parent can hold in their head, with the
 // proof behind each one: a big tick or a cross, the real numbers, and when it
@@ -69,9 +70,15 @@ export default function LiteracyAreas({ stageId, childName, statuses = {} }: {
         <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '0 0 4px' }}>
           The four things we build
         </p>
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 14px' }}>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 10px' }}>
           Everything {kid} does adds up to these, ready by 16. Green is on track. A cross tells you the one thing to do.
         </p>
+        <Link href="/dashboard/pathway" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 14, background: 'var(--terracotta-lt)', border: '1px solid var(--terracotta)', borderRadius: 100, padding: '5px 12px', textDecoration: 'none' }}>
+          <span aria-hidden style={{ fontSize: 13 }}>🪪</span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>
+            These four earn the {READINESS[current - 1].stamp} stamp on the road to 16 →
+          </span>
+        </Link>
 
         {AREAS.map(area => {
           const active = current >= area.startStage
