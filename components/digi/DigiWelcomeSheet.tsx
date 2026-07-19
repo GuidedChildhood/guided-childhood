@@ -12,6 +12,7 @@ import { useRouter } from 'next/navigation'
 import DigiCharacter from './DigiCharacter'
 import { POPUP_DELAY, openPopup, closePopup } from '@/lib/ui/popupQueue'
 import { socialInsightFor, type SocialInsight } from '@/lib/content/social-insights'
+import { MiniRoad, StrandPills } from '@/components/pathway/StageRoad'
 
 type ChildInfo = { name: string; ageBand: string | null }
 
@@ -183,17 +184,15 @@ export default function DigiWelcomeSheet({ childrenInfo, guide }: { childrenInfo
 
         {step === 1 && guide && (
           <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 16, padding: '16px 18px' }}>
-            <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)', margin: '0 0 10px' }}>
+            <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)', margin: '0 0 14px' }}>
               Stage {guide.stageNum} of 5, {guide.stageName}. On the road to 16.
             </p>
-            <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-              {guide.strands.map(s => (
-                <span key={s.name} style={{ display: 'inline-flex', alignItems: 'center', gap: 5, background: 'var(--cream)', borderRadius: 100, padding: '5px 11px', opacity: s.tone === 'grey' ? 0.55 : 1 }}>
-                  <span aria-hidden style={{ width: 7, height: 7, borderRadius: '50%', background: s.tone === 'green' ? 'var(--retro-green, #2F8F6B)' : s.tone === 'red' ? '#C0533E' : 'var(--border)' }} />
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: 'var(--ink-soft)' }}>{s.name}</span>
-                </span>
-              ))}
+            {/* The same road, the same pills, as Home and the pathway page:
+                one grammar, so the walk and the app tell one story. */}
+            <div style={{ marginBottom: 14 }}>
+              <MiniRoad currentStage={guide.stageNum} showDigi={false} />
             </div>
+            <StrandPills strands={guide.strands.map(s => ({ key: s.name, name: s.name, tone: s.tone }))} />
           </div>
         )}
 

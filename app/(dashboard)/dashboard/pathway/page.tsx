@@ -2,65 +2,14 @@ import { createClient } from '@/lib/supabase/server'
 import { hasFullAccess } from '@/lib/access'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import { STAGES, type AgeBand, type ChallengeId } from '@/lib/content/stages'
-import { readinessForAgeBand } from '@/lib/content/readiness'
+import { STAGES, type ChallengeId } from '@/lib/content/stages'
 import PathwayEvidence from '@/components/pathway/PathwayEvidence'
 import PathwayJourney from '@/components/pathway/PathwayJourney'
-import StageRoadMap from '@/components/pathway/StageRoadMap'
+import StageRoad from '@/components/pathway/StageRoad'
 import LiteracyAreas from '@/components/pathway/LiteracyAreas'
 import { getLiteracyStatuses } from '@/lib/pathway/literacy-status'
 import { getStageProgress, type StageId as ProgressStageId } from '@/lib/pathway/progress'
 import { getJourney } from '@/lib/pathway/journey'
-
-const STAGE_DISPLAY: Record<number, {
-  displayName: string
-  subtitle: string | null
-  concepts: string[]
-  color: string
-  bg: string
-  numColor: string
-}> = {
-  1: {
-    displayName: 'Foundation',
-    subtitle: null,
-    concepts: ['Shared screen', 'Co viewing', 'No solo device', 'No feeds'],
-    color: 'var(--terracotta)',
-    bg: 'var(--stage-1)',
-    numColor: 'var(--terracotta)',
-  },
-  2: {
-    displayName: 'First Steps',
-    subtitle: null,
-    concepts: ['Restricted phone', 'Family contacts', 'Privacy basics', 'Algorithms'],
-    color: 'var(--terracotta)',
-    bg: 'var(--stage-2)',
-    numColor: 'var(--terracotta)',
-  },
-  3: {
-    displayName: 'Explorer',
-    subtitle: 'Critical Window',
-    concepts: ['Guided smartphone', 'No social media', 'Comparison', 'Orben research'],
-    color: 'var(--terracotta)',
-    bg: 'var(--stage-3)',
-    numColor: 'var(--terracotta)',
-  },
-  4: {
-    displayName: 'Navigator',
-    subtitle: null,
-    concepts: ['Monitored social', 'Reputation', 'Filter bubbles', 'Readiness'],
-    color: 'var(--terracotta)',
-    bg: 'var(--stage-4)',
-    numColor: 'var(--terracotta)',
-  },
-  5: {
-    displayName: 'Independent',
-    subtitle: null,
-    concepts: ['Trust-based', 'Full access', 'AI literacy', 'Vibe coding'],
-    color: 'var(--terracotta)',
-    bg: 'var(--stage-5)',
-    numColor: 'var(--ink-muted)',
-  },
-}
 
 type Child = { id: string; name: string; age_band: string | null; stage_id: string | null; is_primary: boolean; streak_weeks: number | null }
 
@@ -81,7 +30,6 @@ export default async function PathwayPage() {
     foundation: 1, builder: 2, explorer: 3, shaper: 4, independent: 5,
   }
 
-  const childStageNums = new Set(children.map(c => c.stage_id ? stageIdToNum[c.stage_id] ?? null : null).filter(Boolean))
   const primaryChild = children[0]
   const currentStageNum = primaryChild?.stage_id ? stageIdToNum[primaryChild.stage_id] ?? null : null
 
@@ -115,7 +63,7 @@ export default async function PathwayPage() {
       <div style={{ padding: '0 20px', maxWidth: '720px', margin: '0 auto', marginBottom: '20px' }}>
         <p className="eyebrow" style={{ marginBottom: '4px' }}>Your journey</p>
         <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '8px' }}>The pathway to 16</h1>
-        <p style={{ color: 'var(--ink-muted)', fontSize: '15px', lineHeight: 1.55 }}>
+        <p style={{ color: 'var(--ink-soft)', fontSize: '16px', lineHeight: 1.6, maxWidth: '560px' }}>
           This is your child’s social media passport. The plan that turns 16 from a cliff edge into a gentle ramp, earned one stage at a time, all the way to independence. Your next step is always here.
         </p>
         <Link href="/passport" style={{ display: 'inline-block', marginTop: '8px', fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--terracotta)', textDecoration: 'none', letterSpacing: '0.03em' }}>
@@ -134,30 +82,18 @@ export default async function PathwayPage() {
           worth a look, the same readings the rest of the app uses. */}
       <LiteracyAreas stageId={currentStageNum ?? 1} childName={primaryChild?.name ?? undefined} statuses={await getLiteracyStatuses(supabase, user.id)} />
 
-      {/* The stamp this stage earns: the passport made concrete. It names the
-          competence being built right now and what it is building toward, so the
-          daily loop always connects back to the whole point, ready at 16. */}
-      {(() => {
-        const r = readinessForAgeBand((primaryChild?.age_band as AgeBand | null) ?? null)
-        const name = primaryChild?.name ?? 'your child'
-        return (
-          <div style={{ padding: '0 20px', maxWidth: '720px', margin: '0 auto 20px' }}>
-            <div style={{ background: 'var(--cream)', border: '1.5px solid var(--border)', borderLeft: '6px solid var(--terracotta)', borderRadius: '18px', padding: '18px 20px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '10px' }}>
-                <span style={{ flexShrink: 0, width: 44, height: 44, borderRadius: '12px', background: 'var(--terracotta)', boxShadow: '0 4px 0 var(--terracotta-dark)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px' }}>🪪</span>
-                <div style={{ minWidth: 0 }}>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>Stage {r.id} stamp · {r.stage}</div>
-                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '19px', color: 'var(--ink)', lineHeight: 1.15, marginTop: '2px' }}>{r.stamp}</div>
-                </div>
-              </div>
-              <p style={{ fontSize: '14.5px', color: 'var(--ink)', lineHeight: 1.55, margin: '0 0 6px' }}>{r.skill}</p>
-              <p style={{ fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
-                Everything {name} does this stage is building toward {r.toward}
-              </p>
-            </div>
-          </div>
-        )
-      })()}
+      {/* THE road. One picture of the whole journey: five stages on one dotted
+          trail, the passport stamp of each stage living on its node, DiGi on
+          the current one, live progress and the stage detail folded into it.
+          This replaces the separate stamp card, road map and stage cards row,
+          so the page never draws the same five stages twice. */}
+      <div style={{ padding: '0 20px', maxWidth: '720px', margin: '0 auto 20px' }}>
+        <StageRoad
+          currentStageNum={currentStageNum}
+          progressPct={currentStageProgress?.overallPct ?? null}
+          childName={primaryChild?.name ?? undefined}
+        />
+      </div>
 
       {/* Tailored by what this family flagged, not by the child's sex. */}
       {tailoredAction && (
@@ -170,15 +106,6 @@ export default async function PathwayPage() {
           </div>
         </div>
       )}
-
-      {/* The road to 16 at a glance: where this family is on the whole map,
-          before any detail. Orientation first, then the journey below. */}
-      <div style={{ padding: '0 20px', maxWidth: '720px', margin: '0 auto 20px' }}>
-        <StageRoadMap
-          currentStageNum={currentStageNum}
-          progressPct={currentStageProgress?.overallPct ?? null}
-        />
-      </div>
 
       {/* The evidence and the stance, folded into one card that opens on demand,
           so the pathway stays a next step, not a research brochure. */}
@@ -224,161 +151,6 @@ export default async function PathwayPage() {
         </div>
       )}
 
-      {/* Stage cards — horizontal scroll on mobile, grid on desktop */}
-      <div className="stage-scroll-container">
-        <div className="stage-cards-row">
-          {STAGES.map(stage => {
-            const display = STAGE_DISPLAY[stage.id]
-            const isMyStage = childStageNums.has(stage.id)
-            const stageId = ['foundation', 'builder', 'explorer', 'shaper', 'independent'][stage.id - 1]
-            const numLabel = String(stage.id).padStart(2, '0')
-
-            return (
-              <div
-                key={stage.id}
-                className="stage-card"
-                style={{
-                  background: display.bg,
-                  border: isMyStage ? `2.5px solid ${display.color}` : '1.5px solid var(--border)',
-                  borderRadius: '20px',
-                  overflow: 'hidden',
-                  position: 'relative',
-                  display: 'flex',
-                  flexDirection: 'column',
-                }}
-              >
-                {isMyStage && (
-                  <div style={{
-                    position: 'absolute', top: '12px', right: '12px',
-                    background: display.color, color: 'var(--ink)',
-                    fontFamily: 'var(--font-mono)', fontSize: '9px',
-                    fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase',
-                    padding: '3px 8px', borderRadius: '100px',
-                  }}>
-                    Your stage
-                  </div>
-                )}
-
-                {stage.id === currentStageNum && currentStageProgress && (
-                  <div style={{ padding: '16px 22px 0' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px' }}>
-                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: display.color }}>
-                        Progress
-                      </span>
-                      <span style={{ fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 800, color: 'var(--ink)' }}>
-                        {currentStageProgress.overallPct}%
-                      </span>
-                    </div>
-                    <div style={{ height: '6px', background: 'rgba(255,255,255,0.6)', borderRadius: '100px', overflow: 'hidden' }}>
-                      <div style={{ width: `${currentStageProgress.overallPct}%`, height: '100%', background: display.color, borderRadius: '100px', transition: 'width 0.3s ease' }} />
-                    </div>
-                  </div>
-                )}
-
-                {/* Stage number — large */}
-                <div style={{ padding: '22px 22px 0' }}>
-                  <div style={{
-                    fontFamily: 'var(--font-mono)', fontWeight: 700,
-                    fontSize: '48px', lineHeight: 1, letterSpacing: '-0.02em',
-                    color: display.numColor, opacity: 0.4,
-                    marginBottom: '6px',
-                  }}>
-                    {numLabel}
-                  </div>
-
-                  {/* Stage name */}
-                  <div style={{ marginBottom: '2px' }}>
-                    <span style={{
-                      fontFamily: 'var(--font-display)', fontWeight: 800,
-                      fontSize: '21px', color: 'var(--ink)', letterSpacing: '-0.01em',
-                    }}>
-                      {display.displayName}
-                    </span>
-                    {display.subtitle && (
-                      <span style={{
-                        display: 'block',
-                        fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600,
-                        letterSpacing: '0.1em', textTransform: 'uppercase',
-                        color: display.color, marginTop: '4px',
-                      }}>
-                        {display.subtitle}
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Year / age */}
-                  <div style={{ marginBottom: '16px' }}>
-                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-muted)', letterSpacing: '0.04em', marginBottom: '2px' }}>
-                      {stage.keyStage} · {stage.yearGroup}
-                    </div>
-                    <div style={{ fontSize: '13px', color: 'var(--ink-soft)', fontWeight: 600 }}>
-                      {stage.ages}
-                      <span style={{ fontWeight: 400, color: 'var(--ink-muted)' }}> &nbsp;({stage.usGrade})</span>
-                    </div>
-                  </div>
-
-                  {/* Concepts */}
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '18px' }}>
-                    {display.concepts.map(c => (
-                      <span key={c} style={{
-                        fontFamily: 'var(--font-mono)', fontSize: '10px',
-                        color: display.color,
-                        background: `color-mix(in srgb, ${display.bg} 60%, white)`,
-                        border: `1px solid color-mix(in srgb, ${display.color} 20%, transparent)`,
-                        padding: '3px 9px', borderRadius: '100px',
-                        fontWeight: 500, letterSpacing: '0.04em',
-                      }}>
-                        {c}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Parent question */}
-                  <div style={{
-                    background: 'rgba(255,255,255,0.6)',
-                    borderRadius: '12px',
-                    padding: '14px 16px',
-                    marginBottom: '18px',
-                  }}>
-                    <p style={{
-                      fontSize: '13px', fontStyle: 'italic',
-                      color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0,
-                    }}>
-                      &ldquo;{stage.parentQuote.replace(/^"/, '').replace(/"$/, '')}&rdquo;
-                    </p>
-                  </div>
-                </div>
-
-                {/* CTA */}
-                <div style={{ padding: '0 22px 22px', marginTop: 'auto' }}>
-                  <Link
-                    href={`/dashboard/scripts?stage=${stageId}`}
-                    style={{
-                      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                      background: display.color, color: 'var(--ink)',
-                      borderRadius: '16px', padding: '13px 16px',
-                      fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600,
-                      letterSpacing: '0.06em', textTransform: 'uppercase',
-                      textDecoration: 'none', transition: 'opacity 0.15s',
-                    }}
-                  >
-                    <span>See scripts</span>
-                    <span style={{ fontSize: '16px', fontWeight: 400, letterSpacing: 0 }}>→</span>
-                  </Link>
-                </div>
-              </div>
-            )
-          })}
-        </div>
-      </div>
-
-      {/* Scroll hint on mobile */}
-      <div className="scroll-hint" style={{ textAlign: 'center', marginTop: '14px' }}>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--ink-light)', letterSpacing: '0.06em' }}>
-          swipe to explore
-        </span>
-      </div>
-
       {/* Multiple children section */}
       <div style={{ padding: '0 20px', maxWidth: '720px', margin: '28px auto 0' }}>
         {children.length > 1 && (
@@ -389,7 +161,7 @@ export default async function PathwayPage() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               {children.map(child => {
                 const stageNum = child.stage_id ? stageIdToNum[child.stage_id] : null
-                const display = stageNum ? STAGE_DISPLAY[stageNum] : null
+                const stageMeta = stageNum ? STAGES.find(st => st.id === stageNum) ?? null : null
                 return (
                   <div key={child.id} style={{
                     display: 'flex', alignItems: 'center', justifyContent: 'space-between',
@@ -399,14 +171,14 @@ export default async function PathwayPage() {
                     <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '14px', color: 'var(--ink)' }}>
                       {child.name}
                     </span>
-                    {display && (
+                    {stageMeta && (
                       <span style={{
-                        fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600,
-                        color: display.color, background: display.bg,
+                        fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700,
+                        color: 'var(--terracotta-dark)', background: 'var(--terracotta-lt)',
                         padding: '3px 10px', borderRadius: '100px', letterSpacing: '0.06em',
                         textTransform: 'uppercase', whiteSpace: 'nowrap',
                       }}>
-                        {display.displayName}
+                        Stage {stageMeta.id} · {stageMeta.name}
                       </span>
                     )}
                   </div>
@@ -447,49 +219,6 @@ export default async function PathwayPage() {
         )}
       </div>
 
-      <style>{`
-        .stage-scroll-container {
-          overflow-x: auto;
-          -webkit-overflow-scrolling: touch;
-          scrollbar-width: none;
-          padding: 0 20px 12px;
-        }
-        .stage-scroll-container::-webkit-scrollbar { display: none; }
-
-        .stage-cards-row {
-          display: flex;
-          gap: 14px;
-          width: max-content;
-          scroll-snap-type: x mandatory;
-        }
-
-        .stage-card {
-          width: min(82vw, 300px);
-          flex-shrink: 0;
-          scroll-snap-align: start;
-        }
-
-        .scroll-hint { display: block; }
-
-        @media (min-width: 768px) {
-          .stage-scroll-container {
-            overflow-x: visible;
-            padding: 0 20px;
-          }
-          .stage-cards-row {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            width: 100%;
-            max-width: 1100px;
-            margin: 0 auto;
-          }
-          .stage-card {
-            width: auto;
-            scroll-snap-align: unset;
-          }
-          .scroll-hint { display: none; }
-        }
-      `}</style>
     </div>
   )
 }
