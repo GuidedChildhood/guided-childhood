@@ -1001,3 +1001,18 @@ body.gc-input-focused .rightnow-fab { display: none; }
     transform: rotate(45deg) !important;
   }
 }
+
+/* ── THE ROAD ON THE HOMEPAGE ──
+   The marketing page draws the pathway in the same road grammar as the app:
+   one dotted trail behind five stage circles. Scrolls sideways on a phone. */
+.road-scroll { overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+.road-scroll::-webkit-scrollbar { display: none; }
+.road-row { position: relative; display: flex; gap: 8px; }
+.road-row::before {
+  content: '';
+  position: absolute; left: 9%; right: 9%; top: 29px;
+  border-top: 4px dotted var(--terracotta);
+}
+@media (max-width: 760px) {
+  .road-row { min-width: 880px; padding-bottom: 6px; }
+}
