@@ -301,13 +301,19 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
           <div key={i} style={{ display: 'flex', justifyContent: m.role === 'user' ? 'flex-end' : 'flex-start' }}>
             <div style={{
               maxWidth: '82%', padding: '11px 15px', fontSize: 15, lineHeight: 1.5,
-              whiteSpace: 'pre-wrap', fontWeight: 500,
-              borderRadius: m.role === 'user' ? '18px 18px 5px 18px' : '18px 18px 18px 5px',
+              whiteSpace: 'pre-wrap',
+              // The same language as the DiGi chat: the child's line sits in
+              // the Good Inside periwinkle pill with dark ink, and coaching or
+              // parent lines read clear on white and terracotta, so first login
+              // and rehearsal feel like one app.
+              borderRadius: m.role === 'user' ? '18px 18px 5px 18px' : '20px 20px 20px 5px',
               background: m.role === 'user'
                 ? 'var(--terracotta)'
-                : m.coach ? 'linear-gradient(160deg,#FFF9EC,#FBE9C4)' : 'var(--white,#fff)',
-              color: 'var(--ink)',
-              border: m.coach ? '1.5px solid rgba(201,154,40,0.3)' : '1px solid rgba(46,40,24,0.08)',
+                : m.coach ? 'var(--white,#fff)' : '#DCE7FB',
+              color: m.role === 'assistant' && !m.coach ? '#1B2A4A' : 'var(--ink)',
+              fontFamily: m.role === 'assistant' && !m.coach ? 'var(--font-display)' : undefined,
+              fontWeight: m.role === 'assistant' && !m.coach ? 700 : 500,
+              border: m.coach ? '1px solid rgba(46,40,24,0.08)' : 'none',
               boxShadow: m.role === 'user' ? '0 2px 0 var(--terracotta-dark)' : '0 2px 10px rgba(26,26,46,0.05)',
             }}>
               {m.content}

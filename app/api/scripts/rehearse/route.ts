@@ -4,6 +4,7 @@ import { DIGI_MODEL, DIGI_MODEL_FALLBACKS } from '@/lib/config/digi'
 import { NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 import { getStageFromAgeBand, STAGES, type AgeBand } from '@/lib/content/stages'
+import { getExpertKnowledge } from '@/lib/digi/brain'
 
 // Rehearse with DiGi: a safe place to practise the words before the real
 // conversation. DiGi plays the child, reacting the way a real child of this
@@ -114,7 +115,9 @@ Give feedback in 3 to 4 short chat messages separated by blank lines:
 Warm, plain, direct. Never shame. No bullet points. No dashes anywhere. End on belief that they can do this.`
     : `You are role-playing a child so a parent can practise a hard conversation. Stay fully in character as the child. Do NOT give advice, do NOT break character, do NOT speak as an assistant.
 
-You are ${childName}, ${stage.ages}. The situation: ${situation}. Your parent is about to talk to you about it. React the way a real child this age genuinely might: a little defensive or testing at first, wanting to be understood, softening if the parent stays calm and connected, pushing back if they come in with a flat no. Keep every reply to one or two natural sentences, the way a child actually talks, never a speech. Use age appropriate language, the real slang and half sentences of a child this age, not a tidy grown up version. Ground it in the real world: name the actual app or game, invent a friend's name, mention being the only one left out, homework, being tired, whatever a child this age would really bring up in this exact situation, so it feels like a real moment and not a script. Never be abusive or use profanity. No dashes anywhere in what you say. If the parent handles it really well, let it show. This is practice, so make it feel real but winnable.`
+You are ${childName}, ${stage.ages}. The situation: ${situation}. Your parent is about to talk to you about it. React the way a real child this age genuinely might: a little defensive or testing at first, wanting to be understood, softening if the parent stays calm and connected, pushing back if they come in with a flat no. Keep every reply to one or two natural sentences, the way a child actually talks, never a speech. Use age appropriate language, the real slang and half sentences of a child this age, not a tidy grown up version. Ground it in the real world: name the actual app or game, invent a friend's name, mention being the only one left out, homework, being tired, whatever a child this age would really bring up in this exact situation, so it feels like a real moment and not a script. Never be abusive or use profanity. No dashes anywhere in what you say. If the parent handles it really well, let it show. This is practice, so make it feel real but winnable.
+
+Your FIRST message is the blurt: the exact raw thing a real child this age says in the heat of this precise moment, mid feeling, not a greeting and not a summary. Think what actually comes out of a child's mouth, the protest, the whatabout, the friend comparison, the am I in trouble, in their words.`
 
   const messages = body.messages
     .filter(m => (m.role === 'user' || m.role === 'assistant') && m.content?.trim())
@@ -128,11 +131,19 @@ You are ${childName}, ${stage.ages}. The situation: ${situation}. Your parent is
   // fallback ladder so a 404 on the first model never leaves the parent with a
   // dead button, and falls back to line parsing if the JSON is imperfect.
   if (mode === 'suggest') {
-    const suggestSystem = `You are DiGi, a sharp, evidence led parenting guide coaching a parent mid rehearsal. Your job is to hand them the exact words to say next to ${childName} (${stage.ages}) about: ${situation}.
+    // The research bank: real findings for this age and situation, so the
+    // suggested lines are grounded in the evidence, not just the canon.
+    let bankKnowledge = ''
+    try {
+      bankKnowledge = await getExpertKnowledge(supabase, child?.age_band ?? null, `${scriptTitle} ${situation}`)
+    } catch { /* the canon below still grounds the lines */ }
+
+    const suggestSystem = `You are DiGi, a sharp, evidence led parenting guide coaching a parent mid rehearsal. Your job is to hand them the exact words to say next to ${childName} (${stage.ages}) about: ${situation}.${bankKnowledge ? `\n\nRelevant findings from our research bank, use them to shape the lines where they fit:\n${bankKnowledge}` : ''}
 
 Draw on the actual playbook the leading child and parent wellbeing experts teach:
 - Dr Becky Kennedy: connection before correction, and "two things are true" (the child's feeling is real AND the limit still holds).
 - Sue Atkins: the calm, confident boundary, said once, warmly, without wobble or lecture.
+- Catherine Knibbs: the digital world acts on a child's nervous system, so speak to the state under the behaviour, keep yourself the safe person to tell, and never make the child the problem.
 - Emotion coaching (Gottman, Tina Payne Bryson): name and validate the feeling first, so the child feels felt before anything is asked of them.
 - Give a real element of choice or collaboration so the child keeps their dignity and some control.
 
