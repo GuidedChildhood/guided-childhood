@@ -42,7 +42,7 @@ export async function getLiteracyStatuses(
   const monday = new Date(now); monday.setUTCDate(now.getUTCDate() - day)
   const weekStart = monday.toISOString().slice(0, 10)
 
-  const [ticksRes, questsRes, spendsRes, concernsRes, lessonsRes, doneRes, guidesRes, setupRes] = await Promise.all([
+  const [ticksRes, questsRes, spendsRes, concernsRes, lessonsRes, doneRes, guidesRes, setupRes, checkinsRes] = await Promise.all([
     supabase.from('quest_ticks').select('quest_id').eq('user_id', userId).eq('status', 'approved').gte('tick_date', weekStart),
     supabase.from('family_quests').select('id, stars').eq('user_id', userId),
     supabase.from('star_spends').select('minutes').eq('user_id', userId).gte('created_at', `${weekStart}T00:00:00Z`),
@@ -51,6 +51,7 @@ export async function getLiteracyStatuses(
     supabase.from('lesson_completions').select('lesson_id').eq('user_id', userId),
     supabase.from('device_guides').select('device_key, name, min_age'),
     supabase.from('device_setup_progress').select('device_key').eq('user_id', userId),
+    supabase.from('literacy_checkins').select('strand, grade, grade_note, created_at').eq('user_id', userId).gte('created_at', new Date(Date.now() - 28 * 24 * 60 * 60 * 1000).toISOString()).order('created_at', { ascending: false }),
   ])
 
   const starsOf = new Map((questsRes.data ?? []).map(q => [q.id, q.stars ?? 1]))
@@ -82,7 +83,12 @@ export async function getLiteracyStatuses(
   const guidesDone = guidesForAge.filter(g => doneKeys.has(g.device_key))
   const nextGuide = guidesForAge.find(g => !doneKeys.has(g.device_key))
   const devicesOk = guidesForAge.length === 0 || guidesDone.length >= guidesForAge.length
-  const safeOk = devicesOk && worries === 0
+  // DiGi's graded weekly answers: the latest per strand inside 28 days.
+  const latestGrade = (strand: 'safe' | 'social') =>
+    (checkinsRes.data ?? []).find(c => c.strand === strand) as { grade: string; grade_note: string | null } | undefined
+  const safeCheck = latestGrade('safe')
+  const socialCheck = latestGrade('social')
+  const safeOk = devicesOk && worries === 0 && safeCheck?.grade !== 'red'
 
   const statuses: Record<string, AreaStatus> = {
     safe: safeOk
@@ -94,12 +100,14 @@ export async function getLiteracyStatuses(
         }
       : {
           tone: 'red',
-          label: devicesOk ? `${worries} worr${worries === 1 ? 'y' : 'ies'} open` : 'Settings not finished',
+          label: !devicesOk ? 'Settings not finished' : worries > 0 ? `${worries} worr${worries === 1 ? 'y' : 'ies'} open` : 'DiGi flagged this week',
           value: `${guidesDone.length} of ${guidesForAge.length} device guides set`,
           note: `${lessonBit('safe')}. ${worries > 0 ? `Working through ${worries} open worr${worries === 1 ? 'y' : 'ies'} together.` : 'The guides walk you through each screen.'}`,
           improve: !devicesOk && nextGuide
             ? `Finish the ${nextGuide.name} setup guide and this turns green.`
-            : 'Keep the open worry moving with DiGi and this turns green.',
+            : worries > 0
+            ? 'Keep the open worry moving with DiGi and this turns green.'
+            : safeCheck?.grade_note ?? 'Answer DiGi honestly next week and keep the telling channel open.',
           href: devicesOk ? '/dashboard/digi' : '/dashboard/devices',
         },
     balance: healthy
@@ -120,9 +128,12 @@ export async function getLiteracyStatuses(
 
   // The learning strands, age gated: green once the lessons are being done,
   // a cross when the age is right but the lessons are not moving yet.
+  // A red social answer from DiGi's weekly question overrides a lesson green,
+  // because what the child is actually meeting beats what has been watched.
+  const socialRed = socialCheck?.grade === 'red'
   for (const k of ['ai', 'social'] as const) {
     const n = lessonCount(k)
-    statuses[k] = n > 0
+    statuses[k] = n > 0 && !(k === 'social' && socialRed)
       ? {
           tone: 'green', label: 'Building now',
           value: `${n} lesson${n === 1 ? '' : 's'} done`,
@@ -139,7 +150,7 @@ export async function getLiteracyStatuses(
             : 'The age is right to start building platform judgement, well before any account exists.',
           improve: k === 'ai'
             ? 'Watch the first AI and chatbots lesson together this week.'
-            : 'Do the first social media readiness lesson together this week.',
+            : (socialRed && socialCheck?.grade_note) ? socialCheck.grade_note : 'Do the first social media readiness lesson together this week.',
           href: '/dashboard/lessons',
         }
   }

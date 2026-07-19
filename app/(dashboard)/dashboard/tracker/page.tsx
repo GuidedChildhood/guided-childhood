@@ -6,6 +6,7 @@ import { getDailyStreak } from '@/lib/pathway/streak'
 import { getAllStagesProgress, type StageId } from '@/lib/pathway/progress'
 import WorkingOn from '@/components/tracker/WorkingOn'
 import LiteracyAreas from '@/components/pathway/LiteracyAreas'
+import LiteracyCheckIn from '@/components/pathway/LiteracyCheckIn'
 import { getLiteracyStatuses } from '@/lib/pathway/literacy-status'
 import PassportBook from '@/components/pathway/PassportBook'
 import { type Stamp, type StampStatus } from '@/components/pathway/PassportStamps'
@@ -150,6 +151,7 @@ export default async function ProgressPage() {
         return (
           <div style={{ margin: '0 -20px' }}>
             <LiteracyAreas stageId={stageNum} childName={primary?.name ?? undefined} statuses={await getLiteracyStatuses(supabase, user.id, stageNum)} />
+            <LiteracyCheckIn stageId={stageNum} />
           </div>
         )
       })()}
