@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState, type CSSProperties } from 'react'
 import { useRouter } from 'next/navigation'
 import { DEVICES, deviceEmoji, deviceLabel, type ActiveSession } from '@/lib/quests/device-time'
 import { STAR_MINUTES } from '@/lib/quests/templates'
@@ -19,14 +19,49 @@ function fmt(totalSeconds: number): string {
   return `${m}:${String(sec).padStart(2, '0')}`
 }
 
+// When the screen time is done, the answer is never a dead end: a warm row of
+// good things to do instead, each one tap. Jobs scroll to the to do list on
+// this same screen; printables and games hop to their tabs through callbacks
+// the kid screen passes in, so this card never needs to know about tabs.
+function OfflineIdeas({ onPrintables, onGames }: { onPrintables?: () => void; onGames?: () => void }) {
+  const goJobs = () => {
+    try { document.getElementById('my-todo')?.scrollIntoView({ behavior: 'smooth' }) } catch { /* no target */ }
+  }
+  const idea: CSSProperties = {
+    display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+    flex: '1 1 auto', padding: '11px 12px', borderRadius: '14px', border: 'none',
+    background: '#fff', cursor: 'pointer', boxShadow: '0 3px 0 rgba(0,0,0,0.14)',
+    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', color: 'var(--ink)',
+    lineHeight: 1.2, whiteSpace: 'nowrap',
+  }
+  return (
+    <div style={{ textAlign: 'left' }}>
+      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '12.5px', color: 'var(--ink)', margin: '0 0 8px' }}>
+        Good things to do instead
+      </div>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+        <button onClick={goJobs} style={idea}>⭐ Do a job</button>
+        {onPrintables && <button onClick={onPrintables} style={idea}>🖍️ Printables</button>}
+        {onGames && <button onClick={onGames} style={idea}>🎮 Play a learning game</button>}
+      </div>
+    </div>
+  )
+}
+
 export default function DeviceTimeCard({
   token, balanceStars, initialSession, usedTodayMinutes = 0, recommendedMinutes = 0,
+  onPrintables, onGames,
 }: {
   token: string
   balanceStars: number
   initialSession: ActiveSession | null
   usedTodayMinutes?: number
   recommendedMinutes?: number
+  // Optional doorways for the offline ideas row: the kid screen passes these to
+  // hop to its Printables tab and its Games sub tab. Left out, those buttons
+  // simply do not show.
+  onPrintables?: () => void
+  onGames?: () => void
 }) {
   const router = useRouter()
   const [session, setSession] = useState<ActiveSession | null>(initialSession)
@@ -298,6 +333,10 @@ export default function DeviceTimeCard({
           <p style={{ fontSize: '14.5px', color: 'var(--ink)', opacity: 0.8, margin: '0 0 14px', lineHeight: 1.5 }}>
             Great play! Your {deviceLabel(session?.device ?? 'phone')} time is done for now. Go find something fun away from the screen, and earn more stars to unlock more.
           </p>
+          {/* Not just "go away from the screen": here is what to do, one tap. */}
+          <div style={{ background: 'rgba(255,255,255,0.45)', borderRadius: '14px', padding: '12px 13px', marginBottom: '14px' }}>
+            <OfflineIdeas onPrintables={onPrintables} onGames={onGames} />
+          </div>
           <button
             onClick={() => { setSession(null); setPhase('idle'); router.refresh() }}
             style={{ padding: '11px 22px', borderRadius: '14px', border: 'none', background: 'var(--ink)', color: '#fff', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 800 }}
@@ -408,9 +447,14 @@ export default function DeviceTimeCard({
             <div style={{ height: '100%', width: `${guidePct}%`, borderRadius: 100, background: reachedGuide ? 'var(--retro-green)' : 'var(--terracotta)', transition: 'width 0.5s ease' }} />
           </div>
           {reachedGuide && (
-            <p style={{ fontSize: '12px', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '7px 0 0' }}>
-              That is the healthy amount for your age. Want more? Ask your grown up for a treat.
-            </p>
+            <>
+              <p style={{ fontSize: '12px', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '7px 0 0' }}>
+                That is the healthy amount for your age. Want more? Ask your grown up for a treat.
+              </p>
+              <div style={{ marginTop: '10px' }}>
+                <OfflineIdeas onPrintables={onPrintables} onGames={onGames} />
+              </div>
+            </>
           )}
         </div>
       )}
