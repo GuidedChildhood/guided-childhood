@@ -757,7 +757,22 @@ export default function KidQuestScreen({
           </button>
           {deviceOpen && (
             <div id="my-timer" style={{ padding: '0 18px 18px', scrollMarginTop: '72px' }}>
-              <DeviceTimeCard token={token} balanceStars={bankBalance} initialSession={activeSession} usedTodayMinutes={usedTodayMinutes} recommendedMinutes={recommendedMinutes} />
+              <DeviceTimeCard
+                token={token} balanceStars={bankBalance} initialSession={activeSession}
+                usedTodayMinutes={usedTodayMinutes} recommendedMinutes={recommendedMinutes}
+                // The offline ideas row's doorways: printables live on their own
+                // tab and the learning games on the lessons Games sub tab, so a
+                // tap switches there and scrolls the tabs into view. Games only
+                // when this stage actually has some.
+                onPrintables={() => {
+                  setTab('print'); setActiveLesson(null); playKidSound('tap')
+                  setTimeout(() => document.getElementById('kid-tabs')?.scrollIntoView({ behavior: 'smooth' }), 120)
+                }}
+                onGames={hasGames ? () => {
+                  setTab('lessons'); setLessonTab('games'); setActiveLesson(null); playKidSound('tap')
+                  setTimeout(() => document.getElementById('kid-tabs')?.scrollIntoView({ behavior: 'smooth' }), 120)
+                } : undefined}
+              />
               {weekChart.some(d => d.count > 0) && (
                 <div style={{ marginTop: '12px' }}>
                   <KidWeekChart data={weekChart} weekStars={weekStars} />
