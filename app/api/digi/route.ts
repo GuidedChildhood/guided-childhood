@@ -11,6 +11,8 @@ import { getExpertKnowledge, getFamilyMemory, getWhatWorked } from '@/lib/digi/b
 import { getAggregateWisdom } from '@/lib/digi/wisdom'
 import { lexicalFlags, highestSeverity } from '@/lib/digi/safety'
 import { STATIC_SYSTEM } from '@/lib/digi/system'
+import { deviceLabel } from '@/lib/quests/device-time'
+import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
 import { createAdminClient } from '@/lib/supabase/admin'
 
 const anthropic = new Anthropic({
@@ -89,6 +91,8 @@ export async function POST(request: Request) {
     concernsResult,
     familyMemory,
     whatWorked,
+    agreementResult,
+    weekSessionsResult,
   ] = await Promise.all([
     supabase
       .from('profiles')
@@ -102,7 +106,7 @@ export async function POST(request: Request) {
       .single(),
     supabase
       .from('children')
-      .select('id, name, age_band, stage_id, streak_weeks, actions_this_week')
+      .select('id, name, age_band, stage_id, streak_weeks, actions_this_week, device_trust')
       .eq('parent_id', user.id)
       .eq('is_primary', true)
       .single(),
@@ -147,6 +151,16 @@ export async function POST(request: Request) {
       .limit(6),
     getFamilyMemory(supabase, user.id, message),
     getWhatWorked(supabase, user.id),
+    supabase
+      .from('family_agreements')
+      .select('signed_by_parent, signed_by_child, agreed_date, review_date')
+      .eq('user_id', user.id)
+      .maybeSingle(),
+    supabase
+      .from('device_sessions')
+      .select('device, minutes')
+      .eq('user_id', user.id)
+      .gte('started_at', new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString()),
   ])
 
   const profile = profileResult.data
@@ -267,6 +281,36 @@ export async function POST(request: Request) {
       `\nWhen the conversation touches one of these, acknowledge it with empathy as something you know has been coming up for them, and move them to the NEXT practical step rather than repeating what they have already tried. A concern that keeps returning means the approach needs adjusting, never that the parent is failing. No guilt, ever.`
   }
 
+  // This family's actual screen life: the agreement, the trust level, the
+  // timer's own numbers and the healthy guide for the age. So when a parent
+  // asks "should Teo have a Switch and for how long", DiGi answers from what
+  // this family has actually set up, and gently points at the missing piece
+  // (the family deal, the timer) instead of only giving good general advice.
+  let screenLifeKnowledge = ''
+  try {
+    const agreement = agreementResult.data
+    const byDevice = new Map<string, number>()
+    for (const s of weekSessionsResult.data ?? []) {
+      byDevice.set(String(s.device), (byDevice.get(String(s.device)) ?? 0) + (Number(s.minutes) || 0))
+    }
+    const usageLine = [...byDevice.entries()]
+      .sort((a, b) => b[1] - a[1])
+      .map(([d, m]) => `${deviceLabel(d)} ${m} min`)
+      .join(', ')
+    const agreementLine = !agreement
+      ? 'No family media agreement exists yet.'
+      : !(agreement.signed_by_parent && agreement.signed_by_child)
+        ? 'A family media agreement was started but is not yet signed by both sides.'
+        : `A family media agreement is in place, signed by both sides${agreement.review_date ? `, next review ${agreement.review_date}` : ''}.`
+    const trust = (child as { device_trust?: string } | null)?.device_trust ?? 'watch'
+    screenLifeKnowledge = `\n\nTHIS FAMILY'S SCREEN LIFE (use whenever the question touches a device, a console like a Switch or Xbox, TV, gaming, or how long on screens):
+- Healthy daily guide for this child's age: about ${recommendedDailyMinutes(child?.age_band ?? null)} minutes of recreational screen a day. Always a calibrated guide, never a hard cap.
+- Screen time through the family timer in the last 7 days: ${usageLine || 'none logged, which likely means screen time is happening without the timer'}.
+- Device trust level: ${trust} (ask means the child asks first, watch means they start freely and the parent gets a ping, trusted means a lighter touch).
+- ${agreementLine}
+When a parent asks whether or for how long their child should use any device, do two things beyond the advice itself. First, ground the answer in this family's own numbers above rather than only general figures. Second, check what is missing and add ONE warm sentence for it: if the agreement is missing or unsigned, suggest writing the deal down together while it is topical and link it exactly as [our family deal](/dashboard/agreement); if the timer shows nothing for the device being discussed, remind them every screen session, TV and consoles included, can run through the star timer on [the quests board](/dashboard/quests) so the time is earned, visible to both of them, and winds up on its own at the healthy amount. Never both sentences if only one is missing, never either if both are in place, and never a lecture.`
+  } catch { /* screen life context is a bonus, never blocks the reply */ }
+
   const familyContext = buildSystemPrompt(
     stage,
     child,
@@ -274,7 +318,7 @@ export async function POST(request: Request) {
     trackerResult.data ?? [],
     feedbackResult.data ?? [],
     aiKnowledge,
-    deviceGuideKnowledge + scriptFeedbackKnowledge + scriptLinkKnowledge + momentLinkKnowledge + nextStepKnowledge + concernsKnowledge + whatWorked + aggregateWisdom + expertKnowledge + familyMemory,
+    deviceGuideKnowledge + screenLifeKnowledge + scriptFeedbackKnowledge + scriptLinkKnowledge + momentLinkKnowledge + nextStepKnowledge + concernsKnowledge + whatWorked + aggregateWisdom + expertKnowledge + familyMemory,
   )
 
   // Drop any malformed or empty entries before the history reaches the model:
