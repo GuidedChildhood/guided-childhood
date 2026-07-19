@@ -33,6 +33,9 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
   const [input, setInput] = useState('')
   const [busy, setBusy] = useState(false)
   const [coached, setCoached] = useState(false)
+  // Finished for today: the panel folds away to a quiet done card instead of
+  // sitting open forever, and can always be run again.
+  const [doneOnce, setDoneOnce] = useState(false)
   const [error, setError] = useState('')
   const scrollRef = useRef<HTMLDivElement>(null)
 
@@ -210,6 +213,20 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
   }
 
   if (!open) {
+    // After a finished rehearsal the card rests quiet and small: a tick, a warm
+    // line, and the door to run it again. It never sits open once done.
+    if (doneOnce) {
+      return (
+        <div style={{ ...panel, display: 'flex', alignItems: 'center', gap: 12 }}>
+          <span aria-hidden style={{ fontSize: '1.4rem', flexShrink: 0 }}>✅</span>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 14.5, color: 'var(--ink)' }}>Rehearsed and ready</div>
+            <div style={{ fontSize: 12.5, color: 'var(--ink-soft)' }}>The words are warmed up for the real moment.</div>
+          </div>
+          <button onClick={start} style={ghostBtn}>Run it again</button>
+        </div>
+      )
+    }
     return (
       <div style={panel}>
         <Eyebrow />
@@ -269,6 +286,13 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
             {voiceOn ? '🔊 Voice on' : '🔈 Add voice'}
           </button>
           <button onClick={reset} style={ghostBtn} title="Start over">Start over</button>
+          <button
+            onClick={() => { stopSpeaking(); setDoneOnce(true); setOpen(false) }}
+            style={{ ...ghostBtn, background: 'var(--terracotta-lt)', borderColor: 'var(--terracotta)' }}
+            title="Finish the rehearsal"
+          >
+            Done ✓
+          </button>
         </div>
       </div>
 
