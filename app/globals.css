@@ -340,8 +340,11 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
   flex-shrink: 0;
 }
 
+/* One conversation grammar across the whole site, the same as the DiGi chat
+   a parent meets at login: their words in the soft blue pill, DiGi answering
+   as clean ink text. Every mock conversation inherits it from here. */
 .bubble-digi {
-  background: var(--cream);
+  background: #fff;
   padding: 11px 14px;
   border-radius: 16px;
   border-bottom-left-radius: 4px;
@@ -353,13 +356,15 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
 }
 
 .bubble-parent {
-  background: var(--stage-3);
-  padding: 11px 14px;
+  background: #DCE7FB;
+  padding: 11px 15px;
   border-radius: 16px;
   border-bottom-right-radius: 4px;
+  font-family: var(--font-display);
+  font-weight: 700;
   font-size: .85rem;
-  line-height: 1.65;
-  color: var(--ink);
+  line-height: 1.55;
+  color: #1B2A4A;
   max-width: 86%;
 }
 

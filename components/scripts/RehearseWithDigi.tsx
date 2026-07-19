@@ -296,33 +296,45 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
         </div>
       </div>
 
-      <div ref={scrollRef} style={{ maxHeight: 320, overflowY: 'auto', padding: '16px 18px', display: 'flex', flexDirection: 'column', gap: 10, background: 'var(--cream)' }}>
+      {/* The same conversation grammar as the DiGi chat at login: the parent's
+          words in the soft blue pill on the right, the other voice as clean ink
+          text on white. Coach asides keep their butter card so they read as a
+          whisper from the side, not a turn in the role play. */}
+      <div ref={scrollRef} style={{ maxHeight: 320, overflowY: 'auto', padding: '16px 18px', display: 'flex', flexDirection: 'column', gap: 12, background: '#fff' }}>
         {messages.map((m, i) => (
           <div key={i} style={{ display: 'flex', justifyContent: m.role === 'user' ? 'flex-end' : 'flex-start' }}>
-            <div style={{
-              maxWidth: '82%', padding: '11px 15px', fontSize: 15, lineHeight: 1.5,
-              whiteSpace: 'pre-wrap',
-              // The same language as the DiGi chat: the child's line sits in
-              // the Good Inside periwinkle pill with dark ink, and coaching or
-              // parent lines read clear on white and terracotta, so first login
-              // and rehearsal feel like one app.
-              borderRadius: m.role === 'user' ? '18px 18px 5px 18px' : '20px 20px 20px 5px',
-              background: m.role === 'user'
-                ? 'var(--terracotta)'
-                : m.coach ? 'var(--white,#fff)' : '#DCE7FB',
-              color: m.role === 'assistant' && !m.coach ? '#1B2A4A' : 'var(--ink)',
-              fontFamily: m.role === 'assistant' && !m.coach ? 'var(--font-display)' : undefined,
-              fontWeight: m.role === 'assistant' && !m.coach ? 700 : 500,
-              border: m.coach ? '1px solid rgba(46,40,24,0.08)' : 'none',
-              boxShadow: m.role === 'user' ? '0 2px 0 var(--terracotta-dark)' : '0 2px 10px rgba(26,26,46,0.05)',
-            }}>
-              {m.content}
-            </div>
+            {m.role === 'user' ? (
+              <div style={{
+                maxWidth: '82%', padding: '12px 16px', fontSize: 15, lineHeight: 1.5,
+                whiteSpace: 'pre-wrap', borderRadius: 18,
+                background: '#DCE7FB', color: '#1B2A4A',
+                fontFamily: 'var(--font-display)', fontWeight: 700,
+              }}>
+                {m.content}
+              </div>
+            ) : m.coach ? (
+              <div style={{
+                maxWidth: '86%', padding: '11px 15px', fontSize: 14.5, lineHeight: 1.55,
+                whiteSpace: 'pre-wrap', fontWeight: 500, borderRadius: 16,
+                background: 'linear-gradient(160deg,#FFF9EC,#FBE9C4)', color: 'var(--ink)',
+                border: '1.5px solid rgba(201,154,40,0.3)',
+              }}>
+                {m.content}
+              </div>
+            ) : (
+              <p style={{
+                maxWidth: '90%', margin: 0, fontSize: 15.5, lineHeight: 1.6,
+                whiteSpace: 'pre-wrap', fontWeight: 500,
+                fontFamily: 'var(--font-body)', color: 'var(--ink)',
+              }}>
+                {m.content}
+              </p>
+            )}
           </div>
         ))}
         {busy && (
           <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
-            <div style={{ padding: '13px 16px', background: 'var(--white,#fff)', borderRadius: '18px 18px 18px 5px', display: 'flex', gap: 5, boxShadow: '0 2px 10px rgba(26,26,46,0.05)' }}>
+            <div style={{ padding: '11px 14px', background: 'var(--cream)', borderRadius: 100, display: 'inline-flex', gap: 5 }}>
               {[0, 1, 2].map(i => (
                 <span key={i} style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--ink-light)', animation: `rh-bounce 1.2s ease-in-out ${i * 0.2}s infinite` }} />
               ))}
