@@ -71,7 +71,20 @@ export default function DeviceTimeCard({
   const [remaining, setRemaining] = useState<number>(0)
   const [busy, setBusy] = useState(false)
   const [note, setNote] = useState<string | null>(null)
+  // True when the block ended because it crossed the day's healthy amount,
+  // not because its own minutes ran out, so the finish can say so warmly.
+  const [endedByGuide, setEndedByGuide] = useState(false)
   const audioRef = useRef<AudioContext | null>(null)
+
+  // Minutes already used today before the current block started. The server's
+  // usedTodayMinutes counts a running block at its full planned length, so when
+  // the page loads mid session that block is subtracted back out; a block
+  // started from this screen is not in the server number yet, so nothing is.
+  const usedBeforeRef = useRef<number>(
+    initialSession
+      ? Math.max(0, Math.round(usedTodayMinutes) - initialSession.minutes)
+      : Math.max(0, Math.round(usedTodayMinutes))
+  )
 
   // The most the child can start now: their stars in minutes, but never past
   // what is left of the daily limit their grown up set, so a day's screen never
@@ -185,9 +198,25 @@ export default function DeviceTimeCard({
 
   // Tick every second off the fixed end time. When it hits zero, sound the
   // alarm once and close the session on the server.
+  //
+  // The healthy amount is part of the same countdown: when this block is not a
+  // treat and would run past the day's guide for their age, the countdown ends
+  // at the crossing instead. The child sees one honest timer that lands on the
+  // healthy amount, gets the same warm ten second send off, and the early stop
+  // hands the unused minutes straight back to their star bank. A treat block
+  // the grown up granted runs its full length untouched. Calibrated, never a
+  // telling off.
   useEffect(() => {
     if (!session) return
-    const end = new Date(session.endsAt).getTime()
+    const plannedEnd = new Date(session.endsAt).getTime()
+    const recToday = Math.max(0, Math.round(recommendedMinutes))
+    // The moment this block crosses today's guide: what is left of the guide
+    // when the block starts, run from the block's start. At least a minute, so
+    // a block that somehow starts at the line still ends kindly, not instantly.
+    const guideLeftMin = Math.max(1, recToday - usedBeforeRef.current)
+    const crossAt = new Date(session.startedAt).getTime() + guideLeftMin * 60000
+    const capsAtGuide = !session.treat && recToday > 0 && crossAt < plannedEnd
+    const end = capsAtGuide ? crossAt : plannedEnd
     let fired = false
     // A fresh countdown for each session, so the ten second voice and blips fire
     // again next time, not only the first.
@@ -200,9 +229,15 @@ export default function DeviceTimeCard({
       if (left <= 0 && !fired) {
         fired = true
         soundAlarm()
-        say('Time for offline fun!')
+        say(capsAtGuide
+          ? 'That is the healthy amount for today. Time for offline fun!'
+          : 'Time for offline fun!')
+        setEndedByGuide(capsAtGuide)
         setPhase('up')
-        // Record the stop; the whole block was used, so nothing refunds.
+        // Record the stop. A full block used all its minutes so nothing
+        // refunds; a block ended at the guide trims back to the minutes
+        // actually used, exactly like stopping early, so the rest of the
+        // stars go safely back to the bank.
         fetch('/api/quests/time/stop', {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ token, session_id: session.id }),
@@ -212,7 +247,7 @@ export default function DeviceTimeCard({
     tick()
     const id = setInterval(tick, 1000)
     return () => clearInterval(id)
-  }, [session, token, soundAlarm, countdownFx, say])
+  }, [session, token, recommendedMinutes, soundAlarm, countdownFx, say])
 
   async function start() {
     if (busy || minutes < STAR_MINUTES || minutes > maxMinutes) return
@@ -238,9 +273,16 @@ export default function DeviceTimeCard({
         setPhase('idle')
       } else if (res.ok && data.session) {
         setNote(null)
+        setEndedByGuide(false)
+        // This block is not on the server's today number yet, so what the page
+        // loaded with is exactly the minutes used before it.
+        usedBeforeRef.current = Math.max(0, Math.round(usedTodayMinutes))
         setSession({
           id: data.session.id, device: data.session.device, minutes: data.session.minutes,
           stars: data.session.stars, endsAt: data.session.ends_at, startedAt: data.session.started_at,
+          // A child started block is never a treat: treats are only ever a
+          // grown up knowingly granting time beyond the day's guide.
+          treat: false,
         })
         setPhase('idle')
         router.refresh()
@@ -272,7 +314,13 @@ export default function DeviceTimeCard({
 
   // ── Running: the live countdown ──
   if (session && phase !== 'up') {
-    const total = session.minutes * 60
+    // The bar runs against the same end the countdown does: the block's own
+    // minutes, or the guide crossing when this block would run past today's
+    // healthy amount and is not a treat.
+    const recNow = Math.max(0, Math.round(recommendedMinutes))
+    const guideLeftMin = Math.max(1, recNow - usedBeforeRef.current)
+    const cappedMin = !session.treat && recNow > 0 ? Math.min(session.minutes, guideLeftMin) : session.minutes
+    const total = cappedMin * 60
     const pct = Math.max(0, Math.min(100, (remaining / total) * 100))
     const low = remaining <= 60
     // The last ten seconds are the happy countdown to offline fun, so the number
@@ -328,17 +376,19 @@ export default function DeviceTimeCard({
       <div style={{ position: 'relative', background: 'var(--terracotta)', borderRadius: '20px', padding: '20px', marginBottom: '16px', boxShadow: '0 5px 0 var(--terracotta-dark)', textAlign: 'center', overflow: 'hidden' }}>
         <Celebration fire />
         <div style={{ position: 'relative', zIndex: 1 }}>
-          <div style={{ fontSize: '2.4rem', lineHeight: 1, marginBottom: '6px', display: 'inline-block', animation: 'gcAlarmBounce 0.7s ease-in-out 3' }}>🎉</div>
+          <div style={{ fontSize: '2.4rem', lineHeight: 1, marginBottom: '6px', display: 'inline-block', animation: 'gcAlarmBounce 0.7s ease-in-out 3' }}>{endedByGuide ? '🌱' : '🎉'}</div>
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.3rem', color: 'var(--ink)', marginBottom: '4px' }}>Time for offline fun!</div>
           <p style={{ fontSize: '14.5px', color: 'var(--ink)', opacity: 0.8, margin: '0 0 14px', lineHeight: 1.5 }}>
-            Great play! Your {deviceLabel(session?.device ?? 'phone')} time is done for now. Go find something fun away from the screen, and earn more stars to unlock more.
+            {endedByGuide
+              ? 'That is the healthy amount for today. Your stars are safe for tomorrow, and there is plenty of good stuff to do right now.'
+              : `Great play! Your ${deviceLabel(session?.device ?? 'phone')} time is done for now. Go find something fun away from the screen, and earn more stars to unlock more.`}
           </p>
           {/* Not just "go away from the screen": here is what to do, one tap. */}
           <div style={{ background: 'rgba(255,255,255,0.45)', borderRadius: '14px', padding: '12px 13px', marginBottom: '14px' }}>
             <OfflineIdeas onPrintables={onPrintables} onGames={onGames} />
           </div>
           <button
-            onClick={() => { setSession(null); setPhase('idle'); router.refresh() }}
+            onClick={() => { setSession(null); setPhase('idle'); setEndedByGuide(false); router.refresh() }}
             style={{ padding: '11px 22px', borderRadius: '14px', border: 'none', background: 'var(--ink)', color: '#fff', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 800 }}
           >
             OK
