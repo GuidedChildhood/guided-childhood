@@ -24,6 +24,7 @@ import BalanceInsight from '@/components/celebrate/BalanceInsight'
 import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
 import KidIcon, { type KidIconName } from '@/components/kid/KidIcon'
 import KidTickBurst from '@/components/kid/KidTickBurst'
+import KidDailyThree from '@/components/kid/KidDailyThree'
 
 // The kid facing quest screen: joyful, huge tap targets, instant ticks,
 // stars that count up, and a goal bar. Pending ticks show as "waiting
@@ -454,6 +455,21 @@ export default function KidQuestScreen({
   // family has run migration 047.
   const bankBalance = bank ? bank.balance : weekStars
 
+  // ── The Daily Three ── the home habit at the top of the screen: Learn (the
+  // next lesson for this stage), Do (the next job due today) and Move (a real
+  // world thing, ticked locally). All read from data already on this screen.
+  const nextLesson = stageLessons.find(l => !doneLessons.has(l.key)) ?? null
+  // A Stage 1 child has no reading quizzes, so their Learn is the next watch
+  // together adventure instead; nothing new gets invented for the tile.
+  const nextAdventure = adventures.find(a => a.stageId === stageId && !a.done) ?? null
+  const learnTarget = nextLesson ?? (stageLessons.length === 0 ? nextAdventure : null)
+  const learnedThisSession = doneLessons.size > doneLessonKeys.length
+  const dailyLearnDone = learnedThisSession || !learnTarget
+  const nextDailyQuest = [...quests]
+    .sort((a, b) => Number(Boolean(b.blocks_screens)) - Number(Boolean(a.blocks_screens)))
+    .find(q => !ticks[q.id]) ?? null
+  const dailyDoDone = quests.length === 0 || quests.every(q => ticks[q.id])
+
 
   // Welcome back celebrations: when the child opens their screen and something
   // grew while they were away, a squad friend springs up to mark it. Two
@@ -682,6 +698,51 @@ export default function KidQuestScreen({
             through, and a timed one goes red as it nears, so it lands with
             them too, not only the parent. */}
         <KidSchoolBanner items={schoolToday} />
+
+        {/* The Daily Three: the buddy's one line, then Learn, Do, Move as three
+            big tiles, with My road one tap behind. The home habit of the day,
+            done in about fifteen minutes, then it folds into a proud strip. */}
+        <KidDailyThree
+          childName={childName}
+          stageId={stageId}
+          buddyName={BUDDY_MAP[chosenBuddy].name}
+          buddyImg={BUDDY_MAP[chosenBuddy].img}
+          buddyIsStar={chosenBuddy === 'digi'}
+          learnTitle={nextLesson ? nextLesson.title : nextAdventure && stageLessons.length === 0 ? nextAdventure.title : null}
+          learnEmoji={nextLesson ? nextLesson.emoji : nextAdventure && stageLessons.length === 0 ? '🍿' : null}
+          learnStars={nextLesson ? nextLesson.stars : nextAdventure && stageLessons.length === 0 ? 10 : null}
+          learnDoneLive={dailyLearnDone}
+          allLessonsDone={!learnTarget}
+          doTitle={quests.length > 0 ? (nextDailyQuest?.title ?? quests[0].title) : null}
+          doEmoji={nextDailyQuest?.emoji ?? null}
+          doStars={nextDailyQuest?.stars ?? null}
+          doDone={dailyDoDone}
+          jobsLeft={quests.filter(q => !ticks[q.id]).length}
+          lessonsDoneCount={doneLessons.size}
+          starsBanked={bankBalance}
+          inkSoft={theme.inkSoft}
+          onLearnTap={() => {
+            setTab('lessons')
+            setActiveLesson(null)
+            setLessonTab(nextLesson || stageLessons.length > 0 ? 'learn' : 'watch')
+            playKidSound('tap')
+            setTimeout(() => document.getElementById('kid-tabs')?.scrollIntoView({ behavior: 'smooth' }), 80)
+          }}
+          onDoTap={() => {
+            setTab('quests')
+            setActiveLesson(null)
+            playKidSound('tap')
+            setTimeout(() => document.getElementById('my-todo')?.scrollIntoView({ behavior: 'smooth' }), 80)
+          }}
+          onCelebrate={() => {
+            playKidSound('done')
+            setHappyNews({
+              character: chosenBuddy as CharacterKey,
+              headline: 'All three done! 🎉',
+              sub: `Learn, Do and Move, the whole day. Amazing work ${childName}!`,
+            })
+          }}
+        />
 
         {/* Lead with what to do: the whole child path in four big buttons, jobs
             first. Big icons, few words, so a young child always knows exactly
