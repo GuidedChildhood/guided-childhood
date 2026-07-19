@@ -652,7 +652,13 @@ export default function QuestManager() {
                 goalReached={!!g && !g.achieved_at && gBalance >= g.stars_needed}
                 goalAchieved={!!g?.achieved_at && !(goalDoneKey != null && dismissedGoalDone.has(goalDoneKey))}
                 onGoalDone={redeemGoal}
-                onSetGoal={() => goToSection('star-goal', 'manage')}
+                onSetGoal={() => {
+                  // Setting a new goal is the natural end of the celebration:
+                  // drop the earned card off and land on the goal setter, which
+                  // lives on the Rewards tab, not Manage.
+                  if (goalDoneKey) dismissGoalDone(goalDoneKey)
+                  goToSection('star-goal', 'rewards')
+                }}
                 onDismissGoalDone={goalDoneKey ? () => dismissGoalDone(goalDoneKey) : undefined}
                 timerRunning={sessions.some(s => s.child_id === activeChild)}
                 sessionEndsAt={sessions.find(s => s.child_id === activeChild)?.ends_at ?? null}
