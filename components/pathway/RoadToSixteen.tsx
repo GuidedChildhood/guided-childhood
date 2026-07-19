@@ -1,4 +1,6 @@
 import Link from 'next/link'
+import { LITERACY_AREAS, type LiteracyKey } from '@/lib/content/literacy'
+import type { AreaStatus } from '@/lib/pathway/literacy-status'
 
 // The promise made visible: a calm strip that says where this child is on the
 // road from 4 to 16, and what the whole thing is for. It leads with the
@@ -11,12 +13,17 @@ import Link from 'next/link'
 const STAGE_LABELS = ['Foundation', 'Builder', 'Explorer', 'Shaper', 'Independent'] as const
 const STAGE_AGES = ['4 to 7', '8 to 10', '11 to 13', '13 to 15', '16 plus'] as const
 
+// The four strands each start at a stage; before it, the dot stays quietly
+// grey rather than pretending progress. Mirrors LiteracyAreas exactly.
+const STRAND_START: Record<LiteracyKey, number> = { safe: 1, balance: 1, ai: 3, social: 3 }
+
 export default function RoadToSixteen({
-  childName, stageId, streakCount = 0,
+  childName, stageId, streakCount = 0, statuses = {},
 }: {
   childName?: string
   stageId: number
   streakCount?: number
+  statuses?: Partial<Record<string, AreaStatus>>
 }) {
   const kid = childName && childName !== 'Your child' ? childName : 'Your child'
   const current = Math.min(5, Math.max(1, stageId))
@@ -71,6 +78,25 @@ export default function RoadToSixteen({
                 {STAGE_AGES[i]}
               </span>
             </div>
+          )
+        })}
+      </div>
+
+      {/* The same four strands the pathway page tracks, compact: the passport
+          and the tracker are one thing, read from one source. Green on track,
+          red worth a look, grey not started yet at this age. */}
+      <div style={{ display: 'flex', gap: 6, marginBottom: 12, flexWrap: 'wrap' }}>
+        {(Object.keys(LITERACY_AREAS) as LiteracyKey[]).map(k => {
+          const live = current >= STRAND_START[k] ? statuses[k] : undefined
+          const active = current >= STRAND_START[k]
+          const dot = live ? (live.tone === 'green' ? 'var(--retro-green, #2F8F6B)' : '#C0533E') : active ? 'var(--retro-green, #2F8F6B)' : 'var(--border)'
+          return (
+            <span key={k} style={{ display: 'inline-flex', alignItems: 'center', gap: 5, background: 'var(--cream)', borderRadius: 100, padding: '4px 10px', opacity: active ? 1 : 0.55 }}>
+              <span aria-hidden style={{ width: 7, height: 7, borderRadius: '50%', background: dot, flexShrink: 0 }} />
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.03em', color: 'var(--ink-soft)', whiteSpace: 'nowrap' }}>
+                {LITERACY_AREAS[k].name}
+              </span>
+            </span>
           )
         })}
       </div>

@@ -128,3 +128,18 @@ motion, then translate into our butter and ink and Nunito. Focus on: consistent
 card radii and shadows, breathing room between zones, one accent per zone not
 five, and subtle GSAP fade ups on scroll. No layout changes without checking
 with the platform session, polish only.
+
+---
+
+## Job 5 (new): one pathway language, Duolingo simple
+
+The pathway story now reads from one data source everywhere (the home strip, the
+pathway page four strands, the progress tab). But the pathway page still shows
+the same five stages several ways: the strands card, the stage stamp, the road
+map circles, the journey and a stage cards row. Make it ONE visual language,
+researched on Mobbin against Duolingo's path and the best learning apps: one
+road, the passport stamps living on that road (each passport page ties to a
+stage on the road to 16), larger more readable text throughout, professional
+and calm. Cut the duplicate stage renderings, keep one. Check the flow end to
+end: land on home, see the road and today, tap through to the full path, see
+the four strands and the next stamp, never the same picture twice.

@@ -434,7 +434,7 @@ export default function HomePage() {
               End the screen time fight, for good.
             </h1>
             <p className="fu" style={{ fontSize: '1.12rem', color: 'var(--ink-soft)', lineHeight: 1.65, maxWidth: '490px', marginBottom: '28px' }}>
-              At 16 the apps arrive all at once. A ban just delays them. It teaches nothing. Guided Childhood builds the judgement from age 4 to 16, so 16 is a gentle ramp, not a cliff edge.
+              At 16 the apps arrive all at once. A ban just delays them. It teaches nothing. Guided Childhood is the education from 4 to 16: safe online, digitally literate, using technology well, and social media ready at the right age. So 16 is a gentle ramp, not a cliff edge.
             </p>
             <div className="fu" style={{ marginBottom: '12px' }}>
               <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '16px', padding: '17px 42px' }}>

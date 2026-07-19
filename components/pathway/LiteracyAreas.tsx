@@ -20,11 +20,12 @@ const AREAS: Area[] = [
   { key: 'social',  icon: '💬', name: 'Social media ready', startStage: 3, blurb: 'The judgement for the platforms, built in good time before 16.' },
 ]
 
-// A live reading per area, computed server side from the family's real data:
-// green when on track, red when it needs a look, plus the proof line (lessons
-// done, balance this week, open worries). Absent means fall back to the static
-// age based status.
-export type AreaStatus = { tone: 'green' | 'red'; label: string; note?: string }
+// A live reading per area, computed once in lib/pathway/literacy-status and
+// shown identically here, on the home strip and on the progress tab, so the
+// passport and every tracker always agree. Absent means fall back to the
+// static age based status.
+export type { AreaStatus } from '@/lib/pathway/literacy-status'
+import type { AreaStatus } from '@/lib/pathway/literacy-status'
 
 export default function LiteracyAreas({ stageId, childName, statuses = {} }: {
   stageId: number
