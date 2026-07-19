@@ -29,6 +29,7 @@ import SetupUnlockToast from '@/components/setup/SetupUnlockToast'
 import DigiWelcomeSheet from '@/components/digi/DigiWelcomeSheet'
 import TodayPathStrip from '@/components/daily/TodayPathStrip'
 import RoadToSixteen from '@/components/pathway/RoadToSixteen'
+import { getLiteracyStatuses } from '@/lib/pathway/literacy-status'
 import DigiLessonNudge from '@/components/lessons/DigiLessonNudge'
 import { getParentLessons, getCompletionsForChild } from '@/lib/lessons/parent-lessons'
 import { getDailyStreak } from '@/lib/pathway/streak'
@@ -206,9 +207,10 @@ export default async function DashboardPage() {
   // daily deck relies on.
   const stageSlug = stage.name.toLowerCase() as PathwayStageId
   const challenge = ((profile?.onboarding_answers as Record<string, string> | null)?.challenge ?? null) as ChallengeId | null
-  const [streak, todayLoop, suggestions, watchTogetherTotal, watchTogetherDone] = await Promise.all([
+  const [streak, todayLoop, literacyStatuses, suggestions, watchTogetherTotal, watchTogetherDone] = await Promise.all([
     getDailyStreak(supabase, user.id),
     getTodayLoop(supabase, user.id, stageSlug, challenge, isPaid),
+    getLiteracyStatuses(supabase, user.id),
     child?.stage_id
       ? getSuggestions(supabase, user.id, { childName: child.name, childId: child.id, stageId: stageSlug, ukHour })
       : Promise.resolve([] as Suggestion[]),
@@ -336,7 +338,7 @@ export default async function DashboardPage() {
           this child is on the road to 16) and the day (one clear strip, DiGi on
           the lit next step). A parent knows exactly what to do the moment they
           land, before anything else asks for attention. */}
-      <RoadToSixteen childName={child?.name ?? undefined} stageId={stage.id} streakCount={streak.count} />
+      <RoadToSixteen childName={child?.name ?? undefined} stageId={stage.id} streakCount={streak.count} statuses={literacyStatuses} />
       <TodayPathStrip tasks={todayLoop} dailyMinutes={(profile?.daily_minutes as number | null) ?? 10} childName={child?.name ?? undefined} streakCount={streak.count} />
 
       {/* Stage the reveal: DiGi introduces one newly unlocked feature to a new

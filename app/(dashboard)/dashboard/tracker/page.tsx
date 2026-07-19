@@ -5,6 +5,8 @@ import { getStageFromAgeBand, STAGES, type AgeBand } from '@/lib/content/stages'
 import { getDailyStreak } from '@/lib/pathway/streak'
 import { getAllStagesProgress, type StageId } from '@/lib/pathway/progress'
 import WorkingOn from '@/components/tracker/WorkingOn'
+import LiteracyAreas from '@/components/pathway/LiteracyAreas'
+import { getLiteracyStatuses } from '@/lib/pathway/literacy-status'
 import PassportBook from '@/components/pathway/PassportBook'
 import { type Stamp, type StampStatus } from '@/components/pathway/PassportStamps'
 
@@ -139,6 +141,18 @@ export default async function ProgressPage() {
       <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '14px' }}>
         Is it working?
       </h1>
+
+      {/* The same four strands as Home and the pathway, read from the same
+          source, so progress always lands in one consistent picture. */}
+      {await (async () => {
+        const primary = (children ?? [])[0]
+        const stageNum = primary?.age_band ? getStageFromAgeBand(primary.age_band as AgeBand).id : 1
+        return (
+          <div style={{ margin: '0 -20px' }}>
+            <LiteracyAreas stageId={stageNum} childName={primary?.name ?? undefined} statuses={await getLiteracyStatuses(supabase, user.id)} />
+          </div>
+        )
+      })()}
 
       {/* The honest sentence */}
       <div style={{
