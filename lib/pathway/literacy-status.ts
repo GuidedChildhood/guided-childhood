@@ -6,23 +6,51 @@ type SupabaseClient = Awaited<ReturnType<typeof createClient>>
 
 // One live reading per literacy strand, computed once and shown everywhere,
 // the home strip, the pathway page and the progress tab, so the passport and
-// every tracker always agree. Green is on track, red is worth a look, and the
-// note carries the real numbers so the status is proof, not decoration.
-export type AreaStatus = { tone: 'green' | 'red'; label: string; note?: string }
+// every tracker always agree. Green is a big tick, red is a cross with the one
+// thing that fixes it, and the value carries the real numbers so the status is
+// proof, not decoration. Every reading is age honest: a strand that has not
+// started yet says when it comes and why, grounded in the research.
+export type AreaStatus = {
+  tone: 'green' | 'red'
+  label: string
+  note?: string
+  // The big bold figure behind the tick, e.g. "865 min earned · 50 used".
+  value?: string
+  // When red: the one concrete thing that turns the cross back to a tick.
+  improve?: string
+  // Where acting on this reading happens. Defaults to the lessons hub.
+  href?: string
+}
 
-export async function getLiteracyStatuses(supabase: SupabaseClient, userId: string): Promise<Record<string, AreaStatus>> {
+const STAGE_ORDER = ['foundation', 'builder', 'explorer', 'shaper', 'independent'] as const
+
+function deviceAgeToStageNum(minAge: number): number {
+  if (minAge <= 7) return 1
+  if (minAge <= 10) return 2
+  if (minAge <= 13) return 3
+  if (minAge <= 15) return 4
+  return 5
+}
+
+export async function getLiteracyStatuses(
+  supabase: SupabaseClient,
+  userId: string,
+  stageNum: number | null = null,
+): Promise<Record<string, AreaStatus>> {
   const now = new Date()
   const day = (now.getUTCDay() + 6) % 7
   const monday = new Date(now); monday.setUTCDate(now.getUTCDate() - day)
   const weekStart = monday.toISOString().slice(0, 10)
 
-  const [ticksRes, questsRes, spendsRes, concernsRes, lessonsRes, doneRes] = await Promise.all([
+  const [ticksRes, questsRes, spendsRes, concernsRes, lessonsRes, doneRes, guidesRes, setupRes] = await Promise.all([
     supabase.from('quest_ticks').select('quest_id').eq('user_id', userId).eq('status', 'approved').gte('tick_date', weekStart),
     supabase.from('family_quests').select('id, stars').eq('user_id', userId),
     supabase.from('star_spends').select('minutes').eq('user_id', userId).gte('created_at', `${weekStart}T00:00:00Z`),
     supabase.from('concerns').select('id').eq('user_id', userId).in('status', ['open', 'improving']),
     supabase.from('lessons').select('id, category'),
     supabase.from('lesson_completions').select('lesson_id').eq('user_id', userId),
+    supabase.from('device_guides').select('device_key, name, min_age'),
+    supabase.from('device_setup_progress').select('device_key').eq('user_id', userId),
   ])
 
   const starsOf = new Map((questsRes.data ?? []).map(q => [q.id, q.stars ?? 1]))
@@ -30,6 +58,8 @@ export async function getLiteracyStatuses(supabase: SupabaseClient, userId: stri
   const usedMins = (spendsRes.data ?? []).reduce((s, x) => s + (Number(x.minutes) || 0), 0)
   const healthy = usedMins === 0 || usedMins <= earnedMins
   const worries = (concernsRes.data ?? []).length
+
+  // Lessons done per strand, the learning half of every reading.
   const doneIds = new Set((doneRes.data ?? []).map(d => d.lesson_id))
   const doneByArea = new Map<string, number>()
   for (const l of lessonsRes.data ?? []) {
@@ -37,22 +67,81 @@ export async function getLiteracyStatuses(supabase: SupabaseClient, userId: stri
     const a = literacyAreaFor(l.category)
     if (a) doneByArea.set(a.key, (doneByArea.get(a.key) ?? 0) + 1)
   }
-  const lessonNote = (k: string, fallback: string) => {
-    const n = doneByArea.get(k) ?? 0
-    return n > 0 ? `${n} lesson${n === 1 ? '' : 's'} done. ${fallback}` : fallback
+  const lessonCount = (k: string) => doneByArea.get(k) ?? 0
+  const lessonBit = (k: string) => {
+    const n = lessonCount(k)
+    return n > 0 ? `${n} lesson${n === 1 ? '' : 's'} done` : 'No lessons done yet'
   }
 
+  // Safe online is part settings, part conversation: the device guides for
+  // this child's age actually marked done in the device setup section, plus
+  // the lessons, plus DiGi asking gently through the weekly catch up.
+  const stage = stageNum ?? 1
+  const guidesForAge = (guidesRes.data ?? []).filter(g => deviceAgeToStageNum(g.min_age) <= stage)
+  const doneKeys = new Set((setupRes.data ?? []).map(d => d.device_key))
+  const guidesDone = guidesForAge.filter(g => doneKeys.has(g.device_key))
+  const nextGuide = guidesForAge.find(g => !doneKeys.has(g.device_key))
+  const devicesOk = guidesForAge.length === 0 || guidesDone.length >= guidesForAge.length
+  const safeOk = devicesOk && worries === 0
+
   const statuses: Record<string, AreaStatus> = {
+    safe: safeOk
+      ? {
+          tone: 'green', label: 'Safe and set up',
+          value: guidesForAge.length > 0 ? `${guidesDone.length} of ${guidesForAge.length} device guides set` : 'No devices to set yet',
+          note: `${lessonBit('safe')}. No open worries. DiGi keeps asking gently in the weekly catch up.`,
+          href: '/dashboard/lessons',
+        }
+      : {
+          tone: 'red',
+          label: devicesOk ? `${worries} worr${worries === 1 ? 'y' : 'ies'} open` : 'Settings not finished',
+          value: `${guidesDone.length} of ${guidesForAge.length} device guides set`,
+          note: `${lessonBit('safe')}. ${worries > 0 ? `Working through ${worries} open worr${worries === 1 ? 'y' : 'ies'} together.` : 'The guides walk you through each screen.'}`,
+          improve: !devicesOk && nextGuide
+            ? `Finish the ${nextGuide.name} setup guide and this turns green.`
+            : 'Keep the open worry moving with DiGi and this turns green.',
+          href: devicesOk ? '/dashboard/digi' : '/dashboard/devices',
+        },
     balance: healthy
-      ? { tone: 'green', label: 'In balance', note: lessonNote('balance', `Jobs earned ${earnedMins} min this week, ${usedMins} min used. A healthy balance.`) }
-      : { tone: 'red', label: 'Screen ahead', note: lessonNote('balance', `${usedMins} min used against ${earnedMins} min earned this week. A few jobs brings it back.`) },
-    safe: worries === 0
-      ? { tone: 'green', label: 'Steady', note: lessonNote('safe', 'No open worries. DiGi keeps asking gently along the way.') }
-      : { tone: 'red', label: `${worries} to watch`, note: lessonNote('safe', `Working through ${worries} open worr${worries === 1 ? 'y' : 'ies'} together. That is the system doing its job.`) },
+      ? {
+          tone: 'green', label: 'In balance',
+          value: `${earnedMins} min earned · ${usedMins} min used`,
+          note: `${lessonBit('balance')}. Real world jobs are paying for the screen time, which is the balance doing its job.`,
+          href: '/dashboard/quests',
+        }
+      : {
+          tone: 'red', label: 'Screen ahead',
+          value: `${usedMins} min used · ${earnedMins} min earned`,
+          note: `${lessonBit('balance')}. Screen has run ahead of what the jobs earned this week.`,
+          improve: 'Add two or three more jobs this week so the time is earned again.',
+          href: '/dashboard/quests',
+        },
   }
+
+  // The learning strands, age gated: green once the lessons are being done,
+  // a cross when the age is right but the lessons are not moving yet.
   for (const k of ['ai', 'social'] as const) {
-    const n = doneByArea.get(k) ?? 0
-    if (n > 0) statuses[k] = { tone: 'green', label: 'Building now', note: `${n} lesson${n === 1 ? '' : 's'} done and counting.` }
+    const n = lessonCount(k)
+    statuses[k] = n > 0
+      ? {
+          tone: 'green', label: 'Building now',
+          value: `${n} lesson${n === 1 ? '' : 's'} done`,
+          note: k === 'ai'
+            ? 'What AI is, how chatbots work, and how to tell what is real, built lesson by lesson.'
+            : 'The judgement for the platforms, built in good time before 16. From 13, DiGi also asks what they are seeing.',
+          href: '/dashboard/lessons',
+        }
+      : {
+          tone: 'red', label: 'Lessons waiting',
+          value: 'No lessons done yet',
+          note: k === 'ai'
+            ? 'The age is right for this now. The first AI lesson takes ten minutes together.'
+            : 'The age is right to start building platform judgement, well before any account exists.',
+          improve: k === 'ai'
+            ? 'Watch the first AI and chatbots lesson together this week.'
+            : 'Do the first social media readiness lesson together this week.',
+          href: '/dashboard/lessons',
+        }
   }
   return statuses
 }
