@@ -41,7 +41,7 @@ export default function LiteracyAreas({ stageId, childName, statuses = {} }: {
         <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '0 0 4px' }}>
           The four things we build
         </p>
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 14px' }}>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 14px' }}>
           Everything {kid} does adds up to these, ready by 16.
         </p>
 
@@ -73,10 +73,10 @@ export default function LiteracyAreas({ stageId, childName, statuses = {} }: {
                 filter: active ? 'none' : 'grayscale(0.6) opacity(0.7)',
               }}>{area.icon}</span>
               <span style={{ flex: 1, minWidth: 0 }}>
-                <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)', lineHeight: 1.2 }}>
+                <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)', lineHeight: 1.25 }}>
                   {area.name}
                 </span>
-                <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: '12.5px', color: 'var(--ink-muted)', lineHeight: 1.45, marginTop: 1 }}>
+                <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: '13.5px', color: 'var(--ink-muted)', lineHeight: 1.5, marginTop: 2 }}>
                   {live?.note ?? area.blurb}
                 </span>
               </span>
