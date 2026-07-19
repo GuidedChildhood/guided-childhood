@@ -255,24 +255,13 @@ export default function QuestBoard() {
                       {c.name}
                     </span>
                     <span style={{ fontSize: '13.5px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>
-                      ⭐ {balance} = {balance * STAR_MINUTES} min in the bank
+                      ⭐ {balance} = {balance * STAR_MINUTES} min of screen time left
                     </span>
                   </span>
                   {/* Today's quest dots */}
-                  <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                    {dueToday.map(q => (
-                      <span key={q.id} style={{
-                        width: 14, height: 14, borderRadius: '50%',
-                        background: doneIds.has(q.id) ? 'var(--terracotta)' : '#fff',
-                        border: doneIds.has(q.id) ? 'none' : '2px solid var(--border)',
-                        display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                        fontSize: '8px', color: '#fff',
-                      }}>
-                        {doneIds.has(q.id) ? '✓' : ''}
-                      </span>
-                    ))}
-                    <span style={{ fontSize: '13px', color: 'var(--ink-muted)', marginLeft: '4px' }}>
-                      {doneToday}/{dueToday.length} today
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                    <span style={{ fontSize: '13.5px', fontWeight: 700, color: 'var(--ink-soft)' }}>
+                      {doneToday} of {dueToday.length} done today · tap to see the tasks, agree the waiting ones and send more
                     </span>
                     {goal?.daily_stars ? (
                       <span style={{
@@ -288,7 +277,7 @@ export default function QuestBoard() {
                     ) : null}
                   </span>
                   {/* Goal bar */}
-                  {goal && (
+                  {goal && balance < goal.stars_needed && (
                     <span style={{ display: 'block', marginTop: '8px' }}>
                       <span style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10.5px', color: 'var(--ink-muted)', marginBottom: '3px' }}>
                         <span>Saving for {goal.title}</span>
