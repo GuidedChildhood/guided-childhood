@@ -80,7 +80,7 @@ export default async function PathwayPage() {
           from the family's real week: the jobs and screen balance, open
           worries, and lessons done per strand. Green means on track, red means
           worth a look, the same readings the rest of the app uses. */}
-      <LiteracyAreas stageId={currentStageNum ?? 1} childName={primaryChild?.name ?? undefined} statuses={await getLiteracyStatuses(supabase, user.id)} />
+      <LiteracyAreas stageId={currentStageNum ?? 1} childName={primaryChild?.name ?? undefined} statuses={await getLiteracyStatuses(supabase, user.id, currentStageNum ?? 1)} />
 
       {/* THE road. One picture of the whole journey: five stages on one dotted
           trail, the passport stamp of each stage living on its node, DiGi on

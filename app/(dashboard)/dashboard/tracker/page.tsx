@@ -149,7 +149,7 @@ export default async function ProgressPage() {
         const stageNum = primary?.age_band ? getStageFromAgeBand(primary.age_band as AgeBand).id : 1
         return (
           <div style={{ margin: '0 -20px' }}>
-            <LiteracyAreas stageId={stageNum} childName={primary?.name ?? undefined} statuses={await getLiteracyStatuses(supabase, user.id)} />
+            <LiteracyAreas stageId={stageNum} childName={primary?.name ?? undefined} statuses={await getLiteracyStatuses(supabase, user.id, stageNum)} />
           </div>
         )
       })()}

@@ -210,7 +210,7 @@ export default async function DashboardPage() {
   const [streak, todayLoop, literacyStatuses, suggestions, watchTogetherTotal, watchTogetherDone] = await Promise.all([
     getDailyStreak(supabase, user.id),
     getTodayLoop(supabase, user.id, stageSlug, challenge, isPaid),
-    getLiteracyStatuses(supabase, user.id),
+    getLiteracyStatuses(supabase, user.id, stage.id),
     child?.stage_id
       ? getSuggestions(supabase, user.id, { childName: child.name, childId: child.id, stageId: stageSlug, ukHour })
       : Promise.resolve([] as Suggestion[]),
