@@ -26,7 +26,7 @@ export default function AnnouncementBar() {
         minWidth: 0,
         textAlign: 'center',
       }}>
-        The UK under-16 social media ban was announced. Spring 2027.{' '}
+        The UK under 16 social media ban was announced. Spring 2027.{' '}
         <strong>Your child's preparation is yours to build.</strong>
       </span>
       {/* No CTA up here: the header underneath already carries Log in and Get

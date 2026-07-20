@@ -24,11 +24,11 @@ const FAQS = [
   },
   {
     q: 'My child is already a teenager. Is it too late?',
-    a: 'No. There are more evenings, more car journeys, and more pickups ahead of you than behind you. The pathway starts from wherever you are. Stage 3 and 4 are specifically designed for parents who are starting mid-journey.',
+    a: 'No. There are more evenings, more car journeys, and more pickups ahead of you than behind you. The pathway starts from wherever you are. Stage 3 and 4 are specifically designed for parents who are starting mid journey.',
   },
   {
     q: 'My partner is not on board yet.',
-    a: 'Very common. Many members start on their own. The framework is evidence-based not fear-based, and most partners engage with that. Seeing it in action usually brings them around.',
+    a: 'Very common. Many members start on their own. The framework is evidence based not fear based, and most partners engage with that. Seeing it in action usually brings them around.',
   },
 ]
 

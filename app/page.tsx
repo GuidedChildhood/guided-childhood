@@ -1669,7 +1669,7 @@ export default function HomePage() {
               borderTop: '2.5px dashed var(--border)',
               zIndex: 0,
             }} />
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', position: 'relative', zIndex: 1 }}>
+            <div className="four-col" style={{ gap: '16px', position: 'relative', zIndex: 1 }}>
               {[
                 {
                   marker: 'After week 1',
