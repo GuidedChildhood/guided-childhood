@@ -26,10 +26,44 @@ const GRANT_MODES: { key: 'stars' | 'gift' | 'bonus'; label: string; hint: strin
 ]
 
 const TRUST_LEVELS: { key: string; label: string; hint: string }[] = [
-  { key: 'ask', label: 'Ask first', hint: 'They ask, you say yes before the timer runs.' },
-  { key: 'watch', label: 'Start, I watch', hint: 'They start freely, you get the ping and countdown.' },
-  { key: 'trusted', label: 'Trusted', hint: 'They start freely, a lighter touch, no ping each time.' },
+  { key: 'ask', label: 'Ask first', hint: 'They ask with one tap, you get a ping, and your yes starts their timer. The default.' },
+  { key: 'watch', label: 'They start, you watch', hint: 'They start it themselves, you get the ping and the live countdown.' },
+  { key: 'trusted', label: 'Trusted', hint: 'They start it themselves, a lighter touch, no ping each time.' },
 ]
+
+// The pending ask, answered in one tap: device and minutes named, yes or not
+// yet. Shared by the screen time card and the locked banner on the quests
+// page, so the answer is always one tap from wherever the parent is looking.
+export function PendingAskBox({ childName, request, exceedsGuide, busy, onApprove, onDecline }: {
+  childName: string
+  request: { device: DeviceKey; minutes: number }
+  exceedsGuide: boolean
+  busy: boolean
+  onApprove: () => void
+  onDecline: () => void
+}) {
+  return (
+    <div style={{ border: '1.5px solid var(--terracotta)', background: 'var(--terracotta-lt)', borderRadius: '13px', padding: '11px 13px', marginBottom: '11px' }}>
+      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: 'var(--ink)', marginBottom: '2px' }}>
+        {deviceEmoji(request.device)} {childName} is asking for {request.minutes} minutes
+      </div>
+      <div style={{ fontSize: '12px', color: 'var(--ink-soft)', marginBottom: '9px' }}>
+        That is {minutesToStars(request.minutes)} star{minutesToStars(request.minutes) === 1 ? '' : 's'} on the {deviceLabel(request.device)}. Your yes lets {childName} tap Start on their screen.
+      </div>
+      {/* Saying yes here past the day's guide is a treat, named warmly
+          before the tap so the parent grants it knowingly. Never a block. */}
+      {exceedsGuide && (
+        <p style={{ fontSize: '11.5px', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '0 0 9px' }}>
+          This takes {childName} past today&apos;s healthy amount for their age, so it goes down as a treat. Treats are fine, they are yours to give.
+        </p>
+      )}
+      <div style={{ display: 'flex', gap: '8px' }}>
+        <button onClick={onApprove} disabled={busy} style={{ flex: 1, padding: '10px', borderRadius: '12px', border: 'none', cursor: busy ? 'default' : 'pointer', background: 'var(--terracotta)', color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>Yes, start it</button>
+        <button onClick={onDecline} disabled={busy} style={{ flexShrink: 0, padding: '10px 15px', borderRadius: '12px', border: '1.5px solid var(--border)', background: '#fff', cursor: busy ? 'default' : 'pointer', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '13.5px', color: 'var(--ink-soft)' }}>Not yet</button>
+      </div>
+    </div>
+  )
+}
 
 const MINUTE_PRESETS = [15, 30, 45, 60]
 
@@ -165,21 +199,19 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
     setBusy(false)
   }
 
-  // Ask first: approve starts the timer with what the child asked for, decline
-  // just clears the ask.
+  // Ask first: the yes marks the ask approved and pings the child, whose own
+  // Start button begins the timer, so minutes never tick away on a screen
+  // nobody is looking at. Not yet declines it warmly.
+  const [answered, setAnswered] = useState<'yes' | null>(null)
   async function approveRequest() {
     if (!kid.request || busy) return
     setBusy(true); setErr(null)
     try {
-      const r = await fetch('/api/quests/time/parent-start', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ childId: kid.id, device: kid.request.device, minutes: kid.request.minutes, bonus: false }),
-      })
-      const d = await r.json()
-      if (!r.ok) { setErr(d.error === 'not enough stars' ? 'Not enough stars for that' : 'Could not start, try again'); setBusy(false); return }
-      await fetch('/api/quests/time/request', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: kid.request.id, status: 'approved' }) })
+      const r = await fetch('/api/quests/time/request', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: kid.request.id, status: 'approved' }) })
+      if (!r.ok) { setErr('Could not send the yes, try again'); setBusy(false); return }
+      setAnswered('yes')
       onChange()
-    } catch { setErr('Could not start, try again') }
+    } catch { setErr('Could not send the yes, try again') }
     setBusy(false)
   }
   async function declineRequest() {
@@ -260,29 +292,27 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
 
       {/* Ask first: the child is waiting on a yes. */}
       {kid.request && (
-        <div style={{ border: '1.5px solid var(--terracotta)', background: 'var(--terracotta-lt)', borderRadius: '13px', padding: '11px 13px', marginBottom: '11px' }}>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: 'var(--ink)', marginBottom: '2px' }}>
-            {deviceEmoji(kid.request.device)} {kid.name} is asking for {kid.request.minutes} minutes
-          </div>
-          <div style={{ fontSize: '12px', color: 'var(--ink-soft)', marginBottom: '9px' }}>That is {minutesToStars(kid.request.minutes)} stars on the {deviceLabel(kid.request.device)}.</div>
-          {/* Saying yes here past the day's guide is a treat, named warmly
-              before the tap so the parent grants it knowingly. Never a block. */}
-          {wouldExceedGuide(kid.ageBand ?? null, kid.usedToday ?? 0, kid.request.minutes) && (
-            <p style={{ fontSize: '11.5px', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '0 0 9px' }}>
-              This takes {kid.name} past today&apos;s healthy amount for their age, so it goes down as a treat. Treats are fine, they are yours to give.
-            </p>
-          )}
-          <div style={{ display: 'flex', gap: '8px' }}>
-            <button onClick={approveRequest} disabled={busy} style={{ flex: 1, padding: '9px', borderRadius: '11px', border: 'none', cursor: busy ? 'default' : 'pointer', background: 'var(--terracotta)', color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>Yes, start it</button>
-            <button onClick={declineRequest} disabled={busy} style={{ flexShrink: 0, padding: '9px 14px', borderRadius: '11px', border: '1.5px solid var(--border)', background: '#fff', cursor: busy ? 'default' : 'pointer', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '13px', color: 'var(--ink-soft)' }}>Not now</button>
-          </div>
-        </div>
+        <PendingAskBox
+          childName={kid.name}
+          request={kid.request}
+          exceedsGuide={wouldExceedGuide(kid.ageBand ?? null, kid.usedToday ?? 0, kid.request.minutes)}
+          busy={busy}
+          onApprove={approveRequest}
+          onDecline={declineRequest}
+        />
+      )}
+      {/* The yes is away: one calm line while the child taps Start. */}
+      {!kid.request && answered === 'yes' && !kid.session && (
+        <p style={{ fontSize: '12px', fontWeight: 600, color: 'var(--ink-soft)', background: 'var(--tint-sage)', borderRadius: '11px', padding: '9px 12px', margin: '0 0 11px', lineHeight: 1.45 }}>
+          ✅ Yes sent. {kid.name} taps Start on their screen and the countdown shows here too.
+        </p>
       )}
 
-      {/* Trust level: how much this child can do alone, more as they grow. */}
-      <details style={{ marginBottom: '11px' }}>
-        <summary style={{ cursor: 'pointer', listStyle: 'none', fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
-          Trust: {TRUST_LEVELS.find(l => l.key === kid.trust)?.label ?? 'Start, I watch'} ›
+      {/* Who starts the timer: how much this child does alone, more as they
+          grow. Easy to find, one plain line per option. */}
+      <details style={{ marginBottom: '11px', background: 'var(--cream)', borderRadius: '12px', padding: '9px 12px' }}>
+        <summary style={{ cursor: 'pointer', listStyle: 'none', fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 800, color: 'var(--ink)' }}>
+          Who starts the timer? <span style={{ fontWeight: 700, color: 'var(--terracotta-dark)' }}>{TRUST_LEVELS.find(l => l.key === kid.trust)?.label ?? 'Ask first'} ›</span>
         </summary>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginTop: '9px' }}>
           {TRUST_LEVELS.map(l => (

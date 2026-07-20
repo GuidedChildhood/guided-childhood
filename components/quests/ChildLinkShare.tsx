@@ -54,15 +54,28 @@ export default function ChildLinkShare({ token, childName, ageBand, useMode, onS
   return (
     <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '16px', padding: '18px 20px', marginBottom: '20px' }}>
       <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
-        More ways to share
+        Share to {childName}
       </div>
-      <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 12px' }}>
-        No phone or no WhatsApp? Any of these work. For a little one, use it together on your own device.
-      </p>
+
+      {/* The QR is the hero: the fastest hand over there is. */}
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', background: 'var(--cream)', borderRadius: '16px', padding: '18px 16px 16px', marginBottom: '14px' }}>
+        <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.1rem', color: 'var(--ink)', textAlign: 'center', lineHeight: 1.3, margin: 0 }}>
+          Scan with {childName}&apos;s device
+        </p>
+        {qr ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={qr} alt={`QR code to open ${childName}'s app`} width={230} height={230} style={{ borderRadius: '16px', border: '1.5px solid var(--border)', background: '#fff' }} />
+        ) : (
+          <div style={{ width: 230, height: 230, borderRadius: '16px', background: '#fff', border: '1.5px solid var(--border)' }} />
+        )}
+        <p style={{ fontSize: '12.5px', color: 'var(--ink-soft)', textAlign: 'center', lineHeight: 1.45, margin: 0, maxWidth: 280 }}>
+          Point {childName}&apos;s camera at this and their app opens. No typing, nothing to install.
+        </p>
+      </div>
 
       {/* How this child uses it, changeable any time. */}
       {onSetMode && (
-        <div style={{ display: 'flex', gap: '7px', marginBottom: '14px' }}>
+        <div style={{ display: 'flex', gap: '7px', marginBottom: '12px' }}>
           {([['own', '📱 Own app'], ['coview', '👀 Together']] as const).map(([m, label]) => (
             <button key={m} onClick={() => choose(m)} aria-pressed={youngest === (m === 'coview')} style={{
               flex: 1, padding: '9px', borderRadius: '11px', cursor: 'pointer',
@@ -74,25 +87,14 @@ export default function ChildLinkShare({ token, childName, ageBand, useMode, onS
         </div>
       )}
 
-      {/* Co-view first for the youngest, who have no device of their own. */}
+      {/* Co-view for the youngest, who have no device of their own. */}
       {youngest && (
-        <a href={url} target="_blank" rel="noopener noreferrer" style={{ ...btn, width: '100%', justifyContent: 'center', background: 'var(--terracotta)', border: 'none', color: 'var(--ink)', boxShadow: '0 4px 0 var(--terracotta-dark)', fontWeight: 800, fontSize: '14px', marginBottom: '14px' }}>
+        <a href={url} target="_blank" rel="noopener noreferrer" style={{ ...btn, width: '100%', justifyContent: 'center', background: 'var(--terracotta)', border: 'none', color: 'var(--ink)', boxShadow: '0 4px 0 var(--terracotta-dark)', fontWeight: 800, fontSize: '14px', marginBottom: '12px' }}>
           👀 Open {childName}&apos;s app here and use it together
         </a>
       )}
 
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
-        {qr ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={qr} alt={`QR code to open ${childName}'s app`} width={200} height={200} style={{ borderRadius: '14px', border: '1.5px solid var(--border)' }} />
-        ) : (
-          <div style={{ width: 200, height: 200, borderRadius: '14px', background: 'var(--cream)', border: '1.5px solid var(--border)' }} />
-        )}
-        <p style={{ fontSize: '12.5px', color: 'var(--ink-soft)', textAlign: 'center', lineHeight: 1.45, margin: 0, maxWidth: 260 }}>
-          Point {childName}&apos;s tablet camera at this to open their app. No typing, nothing to install.
-        </p>
-      </div>
-
+      {/* The quieter ways, under the hero: copy, email, open here. */}
       <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
         <button onClick={copy} style={btn}>{copied ? 'Copied ✓' : '🔗 Copy link'}</button>
         <a href={`mailto:?subject=${encodeURIComponent(`${childName}'s quests`)}&body=${encodeURIComponent(`Open this on ${childName}'s device to see their quests and earn stars: ${url}`)}`} style={btn}>✉️ Email it</a>
