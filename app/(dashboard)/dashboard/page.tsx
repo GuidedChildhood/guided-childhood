@@ -28,6 +28,7 @@ import DigiWelcomeSheet from '@/components/digi/DigiWelcomeSheet'
 import TodayPathBig from '@/components/daily/TodayPathBig'
 import DigiGreeting from '@/components/home/DigiGreeting'
 import HomeRows from '@/components/home/HomeRows'
+import BirthdayNudge from '@/components/home/BirthdayNudge'
 import LiveTimerChip from '@/components/home/LiveTimerChip'
 import ExploreGrid from '@/components/home/ExploreGrid'
 import { investedMinutes } from '@/lib/pathway/task-minutes'
@@ -110,6 +111,20 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   const reveals = eligibleReveals(accountAgeDays)
   const dailyDone = !!dailySessionResult.data?.completed_at
   const lastFeedback = lastFeedbackResult.data
+
+  // Children still missing the growing up switch (their birthday). Offered
+  // later in the journey, not at setup: the card waits until day three, and
+  // the read fails soft to nobody before migration 083.
+  let birthdayMissing: string[] = []
+  if (accountAgeDays >= 3) {
+    const { data: dobRows, error: dobErr } = await supabase
+      .from('children').select('name, date_of_birth').eq('parent_id', user.id)
+    if (!dobErr) {
+      birthdayMissing = (dobRows ?? [])
+        .filter(r => !r.date_of_birth)
+        .map(r => (r.name && r.name !== 'Your child' ? String(r.name) : 'your child'))
+    }
+  }
   const schoolActions: SchoolAction[] = schoolActionsResult.data ?? []
   const hasSchoolConnection = !!schoolConnectionResult.data
   // The child phone link step only belongs once a child is old enough to
@@ -295,6 +310,10 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           stageLessons,
         }}
       />
+      {/* The growing up switch, offered once the family is settled: children
+          without a birthday get one warm card naming the benefit. */}
+      <BirthdayNudge kidNames={birthdayMissing} />
+
       {/* Trial status: warm and forgiving during, a gentle offer after, never
           a lockout. The everyday habit stays free either way. */}
       {showTrial && (
