@@ -25,7 +25,7 @@ export async function getStarBanks(
 ): Promise<StarBank[]> {
   if (childIds.length === 0) return []
 
-  const [questsRes, ticksRes, missionsRes, spendsRes, watchTogetherRes] = await Promise.all([
+  const [questsRes, ticksRes, missionsRes, spendsRes, watchTogetherRes, bonusesRes] = await Promise.all([
     // Every quest ever, active or removed: old ticks still count
     supabase.from('family_quests').select('id, stars, child_id').eq('user_id', userId),
     supabase.from('quest_ticks').select('quest_id, child_id, status').eq('user_id', userId),
@@ -36,6 +36,9 @@ export async function getStarBanks(
     // only by the completion API. The table has no user_id column; the
     // child ids passed in are already scoped to this parent.
     supabase.from('parent_lesson_completions').select('child_id, stars_awarded').in('child_id', childIds),
+    // Bonus stars granted outside the quest loop (fair play weeks). The table
+    // lands with migration 086; before it the read errors and counts nothing.
+    supabase.from('star_bonuses').select('child_id, stars').eq('user_id', userId),
   ])
 
   const starsByQuest = new Map(
@@ -54,6 +57,9 @@ export async function getStarBanks(
       + (watchTogetherRes.data ?? [])
         .filter(c => c.child_id === childId)
         .reduce((sum, c) => sum + (Number(c.stars_awarded) || 0), 0)
+      + (bonusesRes.data ?? [])
+        .filter(b => b.child_id === childId)
+        .reduce((sum, b) => sum + (Number(b.stars) || 0), 0)
     const spent = (spendsRes.data ?? [])
       .filter(s => s.child_id === childId)
       .reduce((sum, s) => sum + (Number(s.stars) || 0), 0)

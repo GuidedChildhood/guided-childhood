@@ -206,6 +206,44 @@ export default function KidQuestScreen({
     // Re-check the initial ask against the remembered dismissal.
     setScreenAsk(a => (a && a.status === 'declined' && a.id && a.id === dismissedAskRef.current) ? null : a)
   }, [])
+  // Gentle presence nudge. The app itself is always free, it never uses
+  // minutes, but parked in here for twenty minutes straight with no timer
+  // running earns a warm nudge toward a job or the timer, and at thirty a
+  // single quiet line reaches the grown up, at most once a day. Never a
+  // charge, never a lock. Leaving for five minutes resets the count, and a
+  // running timer means fun screens are already metered, so no counting.
+  const [presenceNudge, setPresenceNudge] = useState(false)
+  const presenceMinsRef = useRef(0)
+  const presenceHiddenAtRef = useRef<number | null>(null)
+  const liveSessionRef = useRef<ActiveSession | null>(activeSession)
+  useEffect(() => { liveSessionRef.current = liveSession }, [liveSession])
+  useEffect(() => {
+    const onVis = () => {
+      if (document.visibilityState === 'hidden') presenceHiddenAtRef.current = Date.now()
+      else if (presenceHiddenAtRef.current && Date.now() - presenceHiddenAtRef.current > 5 * 60000) presenceMinsRef.current = 0
+    }
+    document.addEventListener('visibilitychange', onVis)
+    const id = setInterval(() => {
+      if (document.visibilityState !== 'visible') return
+      if (liveSessionRef.current) { presenceMinsRef.current = 0; return }
+      presenceMinsRef.current += 1
+      if (presenceMinsRef.current === 20) setPresenceNudge(true)
+      if (presenceMinsRef.current === 30) {
+        try {
+          const key = `gc_presence_alert_${new Date().toISOString().slice(0, 10)}`
+          if (!localStorage.getItem(key)) {
+            localStorage.setItem(key, '1')
+            fetch('/api/kid/presence-alert', {
+              method: 'POST', headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ token }),
+            }).catch(() => { /* best effort */ })
+          }
+        } catch { /* best effort */ }
+      }
+    }, 60000)
+    return () => { clearInterval(id); document.removeEventListener('visibilitychange', onVis) }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   // My lessons is split into sub-tabs (Watch, Learn, Games, Print) with a red
   // dot when a grown up has pinged something new. "New" means an item this
   // child has not opened yet, tracked in localStorage on their own device.
@@ -1058,6 +1096,38 @@ export default function KidQuestScreen({
             chosenAccent={chosenAccent}
             onPick={saveMine}
           />
+        )}
+
+        {/* The presence nudge: been in here a while with no timer running, so
+            a warm toast points at a job or the timer. Free to wave away. */}
+        {presenceNudge && (
+          <div style={{ position: 'fixed', left: '50%', bottom: 'calc(18px + env(safe-area-inset-bottom))', transform: 'translateX(-50%)', zIndex: 125, width: 'min(94vw, 420px)' }}>
+            <div style={{ background: 'var(--cream)', borderRadius: 20, padding: '16px 18px', boxShadow: '0 12px 40px -8px rgba(0,0,0,0.55)' }}>
+              <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 17, color: 'var(--ink)', margin: '0 0 4px' }}>
+                Been in here a while 👀
+              </p>
+              <p style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 12px' }}>
+                This app is always free, it never uses your minutes. If it is screen time you are after, start the timer. Or grab a quick job and earn while you are here.
+              </p>
+              <div style={{ display: 'flex', gap: 8 }}>
+                <button
+                  onClick={() => {
+                    setPresenceNudge(false); presenceMinsRef.current = 0; playKidSound('tap')
+                    try { document.getElementById('my-todo')?.scrollIntoView({ behavior: 'smooth' }) } catch { /* no target */ }
+                  }}
+                  style={{ flex: 1, background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 13, padding: '12px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 15, boxShadow: '0 4px 0 var(--terracotta-dark)' }}
+                >
+                  Do a job ⭐
+                </button>
+                <button
+                  onClick={() => { setPresenceNudge(false); presenceMinsRef.current = 0; playKidSound('tap') }}
+                  style={{ background: '#fff', color: 'var(--ink-soft)', border: '1.5px solid var(--border)', borderRadius: 13, padding: '12px 18px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15 }}
+                >
+                  OK
+                </button>
+              </div>
+            </div>
+          </div>
         )}
 
         {/* A note from a grown up: shared straight to this app, kept to read

@@ -544,6 +544,12 @@ export default function DeviceTimeCard({
               </div>
             </>
           )}
+          {/* The rule that keeps the deal fair and friendly: checking jobs and
+              doing lessons in here is always free, the timer is for the fun
+              screens. Said out loud so nobody ever hoards or fears the app. */}
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.04em', color: 'var(--ink-muted)', lineHeight: 1.5, margin: '8px 0 0' }}>
+            This app never uses your minutes. Fun screens do.
+          </p>
         </div>
       )}
 
