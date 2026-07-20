@@ -165,30 +165,33 @@ export default function ScriptReader({ sayThis, notThis, whyItWorks, tonight, st
         </p>
       </SupportCard>
 
-      {/* ── Tonight (the one action) ──────────────────────────────────── */}
+      {/* ── Tonight (the one action) ──────────────────────────────────────
+          Process, not speech, so it sits on clean white with ink text.
+          No dark espresso grounds on this page. */}
       <div style={{
         position: 'relative',
         borderRadius: 20,
         padding: 'clamp(20px, 5vw, 28px)',
         marginBottom: 18,
-        background: 'linear-gradient(160deg, #22505C 0%, #173C46 100%)',
-        boxShadow: '0 14px 34px -20px rgba(23,60,70,0.7)',
+        background: '#fff',
+        border: '1.5px solid var(--border)',
+        boxShadow: '0 3px 0 var(--border)',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
           <span style={{
             width: 26, height: 26, borderRadius: '50%', flexShrink: 0,
-            background: 'var(--butter, #EDC35F)', color: '#173C46',
+            background: 'var(--butter, #EDC35F)', color: '#3A2C0C',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 14,
           }}>4</span>
           <span style={{
             fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 600,
-            letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--butter, #EDC35F)',
+            letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--terracotta-dark)',
           }}>
             Tonight
           </span>
         </div>
-        <p style={{ fontSize: 17, color: '#fff', lineHeight: 1.6, fontWeight: 500, margin: 0 }}>
+        <p style={{ fontSize: 17, color: 'var(--ink)', lineHeight: 1.6, fontWeight: 500, margin: 0 }}>
           {tonight}
         </p>
       </div>

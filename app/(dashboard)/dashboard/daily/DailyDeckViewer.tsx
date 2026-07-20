@@ -37,15 +37,19 @@ type Palette = { header: string; body: string; text: string }
 
 const BUTTER: Palette = {
   header: '#E3A93C',
-  body: '#FBF0D7',
+  body: '#FDF9EE',
   text: '#fff',
 }
 
+// Body backgrounds sit near white so the text reads BBC clear, ink on a
+// barely there tint of the header colour keeping each card's identity.
+// No dark espresso headers: speech and reflection stay in the DiGi blues
+// and greens, never a near black band.
 const PALETTES: Palette[] = [
-  { header: '#3D739A', body: '#D8E8F8', text: '#fff' },
-  { header: '#2F8F6B', body: '#DEF0E7', text: '#fff' },
-  { header: '#173C46', body: '#DCE9EC', text: '#fff' },
-  { header: '#3D739A', body: '#E8F0EE', text: '#fff' },
+  { header: '#3D739A', body: '#F6FAFD', text: '#fff' },
+  { header: '#2F8F6B', body: '#F5FBF8', text: '#fff' },
+  { header: '#3D739A', body: '#F5F9FA', text: '#fff' },
+  { header: '#2F8F6B', body: '#F7FAF9', text: '#fff' },
 ]
 
 function paletteFor(card: DailyCard, index: number): Palette {
@@ -54,6 +58,41 @@ function paletteFor(card: DailyCard, index: number): Palette {
 }
 
 const CARD_SHADOW = '0 10px 40px rgba(26,26,46,0.14), 0 2px 8px rgba(26,26,46,0.08)'
+
+// ── BBC CLARITY ──────────────────────────────────────────────────────────────
+// Card bodies read like a news piece: short paragraphs with real space
+// between them, never one wall. Split at the \n\n the writers already put
+// in, then break any block that still runs past three sentences into
+// groups of two, the way a subeditor would.
+function splitSentences(block: string): string[] {
+  const parts = block.match(/[^.!?]+[.!?]+["')”’]*\s*|[^.!?]+$/g)
+  const cleaned = parts?.map(s => s.trim()).filter(Boolean)
+  return cleaned && cleaned.length > 0 ? cleaned : [block.trim()]
+}
+
+function toParagraphs(body: string): string[] {
+  const blocks = body.split(/\n{2,}/).map(b => b.trim()).filter(Boolean)
+  const out: string[] = []
+  for (const block of blocks) {
+    const sentences = splitSentences(block)
+    if (sentences.length <= 3) { out.push(block); continue }
+    for (let i = 0; i < sentences.length; i += 2) {
+      out.push(sentences.slice(i, i + 2).join(' '))
+    }
+  }
+  return out.length > 0 ? out : [body]
+}
+
+// The bold standfirst: the opening sentence leads in bold. When the piece
+// opens on a short greeting, the greeting alone is not a standfirst, so
+// the next sentence rides along with it.
+function splitLead(first: string): [string, string] {
+  const sentences = splitSentences(first)
+  const take = sentences.length > 1 && sentences[0].length < 40 ? 2 : 1
+  const lead = sentences.slice(0, take).join(' ')
+  const rest = sentences.slice(take).join(' ')
+  return [lead, rest]
+}
 
 // blank renders the same card shape with its text invisible: the deck
 // shows the EDGE of the card waiting beneath, never its writing.
@@ -83,9 +122,9 @@ function CardFace({ card, palette, blank = false }: { card: DailyCard; palette: 
       {/* Curved header band */}
       <div style={{
         background: palette.header,
-        padding: '22px 24px 26px',
+        padding: '20px 24px 24px',
         borderRadius: '0 0 32px 32px',
-        display: 'flex', alignItems: 'flex-start', gap: '12px',
+        display: 'flex', alignItems: 'center', gap: '12px',
       }}>
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{
@@ -97,9 +136,9 @@ function CardFace({ card, palette, blank = false }: { card: DailyCard; palette: 
             {card.eyebrow}
           </div>
           <div style={{
-            fontFamily: 'var(--font-display)', fontWeight: 900,
-            fontSize: 'clamp(1.35rem, 5.2vw, 1.75rem)',
-            color: palette.text, lineHeight: 1.12, letterSpacing: '-0.02em',
+            fontFamily: 'var(--font-display)', fontWeight: 800,
+            fontSize: '20px',
+            color: palette.text, lineHeight: 1.25, letterSpacing: '-0.015em',
             ...hide,
           }}>
             {card.headline}
@@ -122,19 +161,32 @@ function CardFace({ card, palette, blank = false }: { card: DailyCard; palette: 
         </button>
       </div>
 
-      {/* Card body */}
-      <div style={{ padding: '28px 24px 30px', background: palette.body, flex: 1, display: 'flex', flexDirection: 'column' }}>
-        <p style={{
-          fontSize: 'clamp(18px, 4.6vw, 21px)',
-          lineHeight: 1.62,
-          color: 'var(--ink)',
-          margin: 0,
-          fontWeight: 500,
-          fontFamily: 'var(--font-body)',
-          ...hide,
-        }}>
-          {card.body}
-        </p>
+      {/* Card body: BBC clear. A bold standfirst opens the piece, then
+          short paragraphs of near black ink on a near white ground, body
+          size type with generous leading and a readable measure. */}
+      <div style={{ padding: '24px 24px 24px', background: palette.body, flex: 1, display: 'flex', flexDirection: 'column' }}>
+        <div style={{ maxWidth: '620px', ...hide }}>
+          {toParagraphs(card.body).map((para, i, all) => {
+            const [lead, rest] = i === 0 ? splitLead(para) : ['', para]
+            return (
+              <p key={i} style={{
+                fontSize: '16.5px',
+                lineHeight: 1.6,
+                color: 'var(--ink)',
+                margin: i === all.length - 1 ? 0 : '0 0 14px',
+                fontWeight: 500,
+                fontFamily: 'var(--font-body)',
+              }}>
+                {i === 0 ? (
+                  <>
+                    <strong style={{ fontWeight: 800 }}>{lead}</strong>
+                    {rest ? ' ' + rest : ''}
+                  </>
+                ) : para}
+              </p>
+            )
+          })}
+        </div>
         {card.action && (
           <a
             href={card.action.href}
@@ -390,7 +442,7 @@ export default function DailyDeckViewer({
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--stage-2-text)', marginBottom: '8px' }}>
               What came up today?
             </div>
-            <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.55, marginBottom: '18px' }}>
+            <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.55, marginBottom: '18px' }}>
               Tap anything that happened. We will show you the right scripts tomorrow.
             </p>
             <div style={{ marginBottom: '18px' }}>
@@ -400,12 +452,13 @@ export default function DailyDeckViewer({
               onClick={saveMoments}
               style={{
                 width: '100%', padding: '12px',
-                background: selectedMoments.length > 0 ? 'var(--deep-teal)' : 'var(--cream)',
+                background: selectedMoments.length > 0 ? 'var(--terracotta)' : 'var(--cream)',
                 border: selectedMoments.length > 0 ? 'none' : '1.5px solid var(--border)',
                 borderRadius: '12px',
                 fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
                 letterSpacing: '.08em', textTransform: 'uppercase',
-                color: selectedMoments.length > 0 ? '#fff' : 'var(--ink)',
+                color: 'var(--ink)',
+                boxShadow: selectedMoments.length > 0 ? '0 3px 0 var(--terracotta-dark)' : 'none',
                 cursor: 'pointer',
                 transition: 'all 0.5s ease',
               }}
@@ -476,7 +529,7 @@ export default function DailyDeckViewer({
             Family quests
           </button>
         </div>
-        <p style={{ textAlign: 'center', fontSize: '12px', color: 'var(--ink-muted)', marginTop: '12px', marginBottom: 0 }}>
+        <p style={{ textAlign: 'center', fontSize: '14px', color: 'var(--ink-muted)', marginTop: '12px', marginBottom: 0 }}>
           Something kicking off? The Help now button is always there, even after your day is done.
         </p>
       </div>

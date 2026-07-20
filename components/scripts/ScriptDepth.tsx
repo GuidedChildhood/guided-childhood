@@ -111,7 +111,7 @@ export default function ScriptDepth({ sortOrder, initial, childName, childPhone,
         background: 'var(--cream)', border: '1.5px dashed var(--border)', borderRadius: '16px',
         padding: '20px 22px', marginBottom: '28px', textAlign: 'center',
       }}>
-        <p style={{ fontSize: '13px', color: 'var(--ink-muted)' }}>
+        <p style={{ fontSize: '14px', color: 'var(--ink-muted)' }}>
           DiGi is writing the deeper half of this script, the push back reply, the follow up and a note for your child...
         </p>
       </div>
@@ -155,26 +155,31 @@ export default function ScriptDepth({ sortOrder, initial, childName, childPhone,
         ))}
       </div>
 
-      {/* The note for the child */}
+      {/* The note for the child. Spoken words live in the DiGi blue pill,
+          the chat speech treatment, and everything around them (the how to
+          share it guidance, the buttons) is clean white process. No dark
+          espresso grounds on this page. */}
       <div style={{
-        background: 'var(--deep-teal, #173C46)', borderRadius: '16px', padding: '22px',
+        background: '#fff', border: '1.5px solid var(--border)',
+        borderRadius: '16px', padding: '22px',
       }}>
         <div style={{
           fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600,
           letterSpacing: '0.12em', textTransform: 'uppercase',
-          color: 'var(--butter, #EDC35F)', marginBottom: '10px',
+          color: 'var(--terracotta-dark)', marginBottom: '10px',
         }}>
           A note for {childName ?? 'your child'}
         </div>
 
         <p style={{
-          fontSize: '17px', color: '#fff', lineHeight: 1.72, marginBottom: '14px',
-          fontStyle: 'italic',
+          fontSize: '17px', color: '#1B2A4A', lineHeight: 1.6, marginBottom: '14px',
+          fontStyle: 'italic', background: '#DCE7FB',
+          borderRadius: '4px 16px 16px 16px', padding: '14px 16px',
         }}>
           {note}
         </p>
 
-        <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.75)', lineHeight: 1.5, marginBottom: '16px' }}>
+        <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.55, marginBottom: '16px' }}>
           {isYoung
             ? 'At this age there is no phone, so read it together at bedtime, or tuck it into a lunchbox. It always comes from you, we never message your child.'
             : childHasApp
@@ -194,7 +199,7 @@ export default function ScriptDepth({ sortOrder, initial, childName, childPhone,
           {smsHref && (
             <a href={smsHref} className={childHasApp && !isYoung ? '' : 'btn btn-gold'} style={{
               padding: '10px 18px', fontSize: '12px', textDecoration: 'none',
-              ...(childHasApp && !isYoung ? { background: 'transparent', color: '#fff', border: '1.5px solid rgba(255,255,255,0.4)', borderRadius: '16px', fontFamily: 'var(--font-display)', fontWeight: 700 } : {}),
+              ...(childHasApp && !isYoung ? { background: 'var(--white)', color: 'var(--ink)', border: '1.5px solid var(--border)', borderRadius: '16px', fontFamily: 'var(--font-display)', fontWeight: 700, boxShadow: '0 3px 0 var(--border)' } : {}),
             }}>
               Text it instead
             </a>
@@ -208,16 +213,17 @@ export default function ScriptDepth({ sortOrder, initial, childName, childPhone,
             onClick={copy}
             style={{
               padding: '10px 18px', fontSize: '12px', cursor: 'pointer',
-              background: 'transparent', color: '#fff',
-              border: '1.5px solid rgba(255,255,255,0.4)', borderRadius: '16px',
+              background: 'var(--white)', color: 'var(--ink)',
+              border: '1.5px solid var(--border)', borderRadius: '16px',
               fontFamily: 'var(--font-display)', fontWeight: 700,
+              boxShadow: '0 3px 0 var(--border)',
             }}
           >
             {copied ? 'Copied ✓' : 'Copy the note'}
           </button>
         </div>
         {sent && (
-          <p style={{ fontSize: '12.5px', color: '#fff', fontWeight: 700, lineHeight: 1.5, margin: '12px 0 0' }}>{sent}</p>
+          <p style={{ fontSize: '14px', color: 'var(--ink)', fontWeight: 700, lineHeight: 1.5, margin: '12px 0 0' }}>{sent}</p>
         )}
       </div>
 

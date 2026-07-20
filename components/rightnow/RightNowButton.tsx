@@ -238,8 +238,8 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
             background: '#fff',
             color: 'var(--ink)',
             border: '1.5px solid var(--border)',
-            borderRadius: '22px', padding: '17px 42px 17px 17px',
-            boxShadow: '0 2px 4px rgba(26,26,46,0.04), 0 18px 42px -12px rgba(26,26,46,0.28)',
+            borderRadius: '16px', padding: '17px 42px 17px 17px',
+            boxShadow: '0 8px 24px rgba(26,26,46,0.10), 0 3px 0 var(--border)',
             display: 'flex', gap: '13px', alignItems: 'flex-start',
           }}
         >
@@ -258,9 +258,11 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
           >
             ✕
           </button>
+          {/* The DiGi avatar, the same butter circle as the Home greeting */}
           <span style={{
-            flexShrink: 0, width: 44, height: 44, borderRadius: '14px',
-            background: 'var(--terracotta)', boxShadow: '0 4px 0 var(--terracotta-dark)',
+            flexShrink: 0, width: 44, height: 44, borderRadius: '50%',
+            background: 'var(--terracotta)', border: '2px solid var(--terracotta-dark)',
+            boxShadow: '0 3px 0 var(--terracotta-dark)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}>
             <DigiCharacter mood="speak" size={30} once />
@@ -499,7 +501,7 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
                     <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: 'var(--ink)', lineHeight: 1.25 }}>
                       Browse every moment
                     </span>
-                    <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: '12.5px', color: 'var(--ink-soft)', marginTop: '1px' }}>
+                    <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--ink-soft)', marginTop: '1px' }}>
                       Pick the exact one from the full library
                     </span>
                   </span>
