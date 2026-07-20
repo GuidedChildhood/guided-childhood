@@ -1680,3 +1680,10 @@ Connected World strand plus Key Stage plus PSHE link as visible badges
 booked, and a whole class 16:9 projector mode of the same player with
 per child pass data as exportable progress evidence. Parents buy the
 outcome, schools buy the evidence, same rows serve both.
+CLARIFIED by Justin same day: the family app lessons are NOT the school
+product. The app version teaches in a warm parent and child facing way and
+serves as the reference point schools see; the real academic depth is
+reserved for the school curriculum (schools/01, docs/09) as its own deeper
+tier. The whole class mode and curriculum badges therefore showcase and
+point toward the school curriculum rather than exposing the family lessons
+as the full school offer.
