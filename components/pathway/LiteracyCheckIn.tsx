@@ -8,11 +8,17 @@ import DigiCharacter from '@/components/digi/DigiCharacter'
 // media from 13. The parent answers in a sentence, DiGi grades it warmly on
 // the spot, and the strand reading folds it in from then on.
 
+type Strand = 'safe' | 'social' | 'fairplay'
+
+const STRAND_LABEL: Record<Strand, string> = {
+  safe: 'Safe online', social: 'Social media ready', fairplay: 'Fair play',
+}
+
 export default function LiteracyCheckIn({ stageId }: { stageId: number }) {
-  const [q, setQ] = useState<{ strand: 'safe' | 'social'; question: string } | null>(null)
+  const [q, setQ] = useState<{ strand: Strand; question: string } | null>(null)
   const [answer, setAnswer] = useState('')
   const [busy, setBusy] = useState(false)
-  const [result, setResult] = useState<{ grade: 'green' | 'red'; note: string } | null>(null)
+  const [result, setResult] = useState<{ grade: 'green' | 'red'; note: string; streak: number } | null>(null)
 
   useEffect(() => {
     fetch(`/api/digi/literacy-checkin?stage=${stageId}`)
@@ -32,7 +38,7 @@ export default function LiteracyCheckIn({ stageId }: { stageId: number }) {
         body: JSON.stringify({ strand: q.strand, question: q.question, answer: answer.trim() }),
       })
       const d = await r.json()
-      if (d.grade) setResult({ grade: d.grade, note: d.note })
+      if (d.grade) setResult({ grade: d.grade, note: d.note, streak: Number(d.streak) || 0 })
     } catch { /* stays open to try again */ } finally { setBusy(false) }
   }
 
@@ -42,7 +48,7 @@ export default function LiteracyCheckIn({ stageId }: { stageId: number }) {
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
           <DigiCharacter mood="speak" size={30} once />
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
-            DiGi asks · {q.strand === 'safe' ? 'Safe online' : 'Social media ready'}
+            DiGi asks · {STRAND_LABEL[q.strand]}
           </span>
         </div>
 
@@ -52,7 +58,14 @@ export default function LiteracyCheckIn({ stageId }: { stageId: number }) {
               {result.grade === 'green' ? '✓' : '✕'}
             </span>
             <p style={{ fontFamily: 'var(--font-body)', fontSize: '14.5px', color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>
-              {result.note} <span style={{ color: 'var(--ink-muted)' }}>This now counts toward the {q.strand === 'safe' ? 'Safe online' : 'Social media ready'} reading above.</span>
+              {result.note}{' '}
+              {q.strand === 'fairplay' && result.grade === 'green' ? (
+                <span style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>
+                  {result.streak > 1 ? `Fair play week ${result.streak} in a row.` : 'Fair play week.'} Every child gets a bonus star.
+                </span>
+              ) : (
+                <span style={{ color: 'var(--ink-muted)' }}>This now counts toward the {STRAND_LABEL[q.strand]} reading above.</span>
+              )}
             </p>
           </div>
         ) : (
