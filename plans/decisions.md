@@ -1671,3 +1671,12 @@ one screen contract on the kid link first run, wording by age band, one big
 I agree button; acceptance locks in on kid_links (agreed_at, agreed_level in
 migration 080) and is visible read only to both sides afterwards. DiGi
 context reads it later in a separate change Justin owns.
+
+## 20 July 2026 — The lesson player build carries the schools wow brief
+Four moves folded into the booked player upgrade: wear Rosenshine openly
+(phase labels, retrieval named), map every lesson to Education for a
+Connected World strand plus Key Stage plus PSHE link as visible badges
+(the Ofsted personal development evidence), the cinematic player as
+booked, and a whole class 16:9 projector mode of the same player with
+per child pass data as exportable progress evidence. Parents buy the
+outcome, schools buy the evidence, same rows serve both.
