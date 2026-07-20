@@ -16,15 +16,17 @@ import { lessonsForStage, type KidLesson } from '@/lib/quests/kid-lessons'
 import { gamesForStage, type QuestGame } from '@/lib/quest-games/registry'
 import QuestGamePlayer from '@/components/quest-games/QuestGamePlayer'
 import DeviceTimeCard from '@/components/quests/DeviceTimeCard'
-import type { ActiveSession } from '@/lib/quests/device-time'
+import { TIMER_RULE, type ActiveSession } from '@/lib/quests/device-time'
+import { CONTRACT_RULES, type ContractLevel } from '@/lib/content/kid-contract'
 import { playKidSound, soundEnabled, setSoundEnabled } from '@/lib/sound/kidSounds'
 import HappyNews, { type HappyNewsItem, type CharacterKey } from '@/components/celebrate/HappyNews'
 import HappyScene from '@/components/celebrate/HappyScene'
 import BalanceInsight from '@/components/celebrate/BalanceInsight'
 import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
 import KidIcon, { type KidIconName } from '@/components/kid/KidIcon'
-import KidTickBurst from '@/components/kid/KidTickBurst'
-import KidDailyThree from '@/components/kid/KidDailyThree'
+import KidTodayList from '@/components/kid/KidTodayList'
+import KidContract from '@/components/kid/KidContract'
+import KidRoad from '@/components/kid/KidRoad'
 
 // The kid facing quest screen: joyful, huge tap targets, instant ticks,
 // stars that count up, and a goal bar. Pending ticks show as "waiting
@@ -97,11 +99,22 @@ export default function KidQuestScreen({
   token, childName, buddy = null, accent = null, stageId = 2, quests, todayTicks, weekStars, goal, streakDays = 0, laterQuests = [], doneLessonKeys = [], missions = [],
   adventures = [], bank = null, usedWeekMinutes = 0, usedTodayMinutes = 0, recommendedMinutes = 0, requests = [], printablesUnlocked = true, activeSession = null,
   weekChart = [], schoolToday = [], notes = [], agreementItems = [], agreementSigned = false,
+  contractLevel = '11plus', contractAgreedAt = null, contractReady = false, giftStarsOwed = 0,
 }: {
   token: string
   childName: string
   agreementItems?: { title: string; body: string }[]
   agreementSigned?: boolean
+  // The age based timer contract: which wording fits this child, whether the
+  // database can hold the acceptance yet (migration 080), and when it was
+  // agreed. Null agreed_at with a ready database means the first run gate
+  // shows before the board.
+  contractLevel?: ContractLevel
+  contractAgreedAt?: string | null
+  contractReady?: boolean
+  // Stars still owed in jobs from gifted screen time, summed over the open
+  // gift debts. Zero hides the owed row entirely.
+  giftStarsOwed?: number
   buddy?: string | null
   accent?: string | null
   stageId?: number
@@ -144,9 +157,6 @@ export default function KidQuestScreen({
   const [activeLesson, setActiveLesson] = useState<KidLesson | null>(null)
   const [activeGame, setActiveGame] = useState<QuestGame | null>(null)
   const [doneGames, setDoneGames] = useState<Set<string>>(new Set())
-  // Finished quests fold away into a quiet strip so the daily list stays the
-  // things still to do, not a long wall of ticked off cards.
-  const [showKidDone, setShowKidDone] = useState(false)
   const [lessonCard, setLessonCard] = useState(0)
   const [qIndex, setQIndex] = useState(0)
   const [qAnswers, setQAnswers] = useState<number[]>([])
@@ -178,6 +188,29 @@ export default function KidQuestScreen({
   // The family deal popup: the child can pop it up any time to keep an eye on
   // how the deal works and what they are saving for.
   const [dealOpen, setDealOpen] = useState(false)
+  // My road, the child's own view of the road to 16, now opened from its own
+  // tile in the grid below the Today list.
+  const [roadOpen, setRoadOpen] = useState(false)
+  // The age based contract gate. Locked in on the server when the database
+  // has migration 080; this device also remembers the agree in localStorage
+  // so the child is never asked twice while the columns are still landing.
+  // null until mounted, so the board never flashes before the gate decides.
+  const [contractDone, setContractDone] = useState<boolean | null>(
+    contractAgreedAt || !contractReady ? true : null
+  )
+  useEffect(() => {
+    if (contractAgreedAt || !contractReady) return
+    try { setContractDone(localStorage.getItem('gc_kid_contract') === '1') }
+    catch { setContractDone(false) }
+  }, [contractAgreedAt, contractReady])
+  function agreeContract() {
+    try { localStorage.setItem('gc_kid_contract', '1') } catch { /* the server keeps it */ }
+    setContractDone(true)
+    fetch('/api/kid/agree', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token, level: contractLevel }),
+    }).catch(() => { /* this device remembers until the server can */ })
+  }
   // The screen time section stays folded away so the home is calm, and opens on
   // a tap. It starts open only when a timer is already running, so a live
   // countdown is never hidden.
@@ -188,7 +221,6 @@ export default function KidQuestScreen({
   const [chosenAccent, setChosenAccent] = useState(knownAccent(accent) ? accent : DEFAULT_ACCENT)
   const [makeMineOpen, setMakeMineOpen] = useState(false)
   const theme = resolveTheme(chosenAccent)
-  const accentHex = theme.hex
   function saveMine(next: { buddy?: string; accent?: string }) {
     if (next.buddy) setChosenBuddy(next.buddy)
     if (next.accent) setChosenAccent(next.accent)
@@ -465,10 +497,6 @@ export default function KidQuestScreen({
   const learnTarget = nextLesson ?? (stageLessons.length === 0 ? nextAdventure : null)
   const learnedThisSession = doneLessons.size > doneLessonKeys.length
   const dailyLearnDone = learnedThisSession || !learnTarget
-  const nextDailyQuest = [...quests]
-    .sort((a, b) => Number(Boolean(b.blocks_screens)) - Number(Boolean(a.blocks_screens)))
-    .find(q => !ticks[q.id]) ?? null
-  const dailyDoDone = quests.length === 0 || quests.every(q => ticks[q.id])
 
 
   // Welcome back celebrations: when the child opens their screen and something
@@ -567,6 +595,16 @@ export default function KidQuestScreen({
     else if (activeLessonTab === 'learn') markLessonsSeen(learnIds)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tab, activeLessonTab])
+
+  // First run: the age based contract comes before the board ever shows.
+  // While the gate decides (one mount tick) the background holds the screen
+  // so nothing flashes underneath.
+  if (contractDone === null) {
+    return <div style={{ minHeight: '100dvh', background: theme.bg }} />
+  }
+  if (!contractDone) {
+    return <KidContract childName={childName} level={contractLevel} onAgree={agreeContract} />
+  }
 
   return (
     <div style={{
@@ -679,19 +717,8 @@ export default function KidQuestScreen({
           <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.7rem, 8vw, 2.2rem)', color: theme.ink, letterSpacing: '-0.02em', margin: 0 }}>
             Go {childName}!
           </h1>
-          {/* A clear, labelled way in to pick a buddy and a colour, so making
-              the app your own is obvious, not a hidden tap on the avatar. */}
-          <button
-            onClick={() => { setMakeMineOpen(true); playKidSound('tap') }}
-            style={{
-              marginTop: 10, display: 'inline-flex', alignItems: 'center', gap: 6,
-              background: 'var(--terracotta-lt)', border: `1.5px solid ${accentHex}`,
-              borderRadius: 100, padding: '7px 15px', cursor: 'pointer',
-              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '12.5px', color: 'var(--ink)',
-            }}
-          >
-            🎨 Make it mine
-          </button>
+          {/* Make it mine now lives as its own tile in the grid below, with
+              everything else that is not a to do. */}
         </div>
 
         {/* From school today: the child sees the reminder their grown up sent
@@ -699,10 +726,11 @@ export default function KidQuestScreen({
             them too, not only the parent. */}
         <KidSchoolBanner items={schoolToday} />
 
-        {/* The Daily Three: the buddy's one line, then Learn, Do, Move as three
-            big tiles, with My road one tap behind. The home habit of the day,
-            done in about fifteen minutes, then it folds into a proud strip. */}
-        <KidDailyThree
+        {/* The ONE Today list: every job due today, plus Learn and Move, each
+            with its stars, ticked in one flow. The buddy's line sits above it
+            and the quiet device rule sits under it. When gifted screen time
+            is still owed, the warm pay back row shows here too. */}
+        <KidTodayList
           childName={childName}
           stageId={stageId}
           buddyName={BUDDY_MAP[chosenBuddy].name}
@@ -713,13 +741,11 @@ export default function KidQuestScreen({
           learnStars={nextLesson ? nextLesson.stars : nextAdventure && stageLessons.length === 0 ? 10 : null}
           learnDoneLive={dailyLearnDone}
           allLessonsDone={!learnTarget}
-          doTitle={quests.length > 0 ? (nextDailyQuest?.title ?? quests[0].title) : null}
-          doEmoji={nextDailyQuest?.emoji ?? null}
-          doStars={nextDailyQuest?.stars ?? null}
-          doDone={dailyDoDone}
-          jobsLeft={quests.filter(q => !ticks[q.id]).length}
-          lessonsDoneCount={doneLessons.size}
-          starsBanked={bankBalance}
+          quests={quests}
+          ticks={ticks}
+          onToggleQuest={q => toggle(q as Quest)}
+          burstQuestId={burst}
+          giftStarsOwed={giftStarsOwed}
           inkSoft={theme.inkSoft}
           onLearnTap={() => {
             setTab('lessons')
@@ -728,48 +754,65 @@ export default function KidQuestScreen({
             playKidSound('tap')
             setTimeout(() => document.getElementById('kid-tabs')?.scrollIntoView({ behavior: 'smooth' }), 80)
           }}
-          onDoTap={() => {
-            setTab('quests')
-            setActiveLesson(null)
-            playKidSound('tap')
-            setTimeout(() => document.getElementById('my-todo')?.scrollIntoView({ behavior: 'smooth' }), 80)
-          }}
           onCelebrate={() => {
             playKidSound('done')
             setHappyNews({
               character: chosenBuddy as CharacterKey,
-              headline: 'All three done! 🎉',
-              sub: `Learn, Do and Move, the whole day. Amazing work ${childName}!`,
+              headline: 'Today is done! 🎉',
+              sub: `Every job, plus Learn and Move. Amazing work ${childName}!`,
             })
           }}
         />
 
-        {/* Lead with what to do: the whole child path in four big buttons, jobs
-            first. Big icons, few words, so a young child always knows exactly
-            what to tap the moment they land. */}
+        {/* The tile grid keeps only what is NOT a to do. Use my time leads,
+            full width, carrying the device rule so a child reads it right
+            where they would reach for a screen. Then My road, Our deal,
+            Make it mine and New job. */}
         {(() => {
-          const jobsLeft = quests.length - doneCount
-          const tiles: { icon: KidIconName; iconColor: string; label: string; sub: string; tint: string; onClick: () => void }[] = [
-            { icon: 'jobs', iconColor: 'var(--terracotta-dark)', label: jobsLeft > 0 ? 'My jobs' : 'All done', sub: jobsLeft > 0 ? `${jobsLeft} to do` : 'Nice one', tint: 'var(--terracotta-lt)', onClick: () => { document.getElementById('my-todo')?.scrollIntoView({ behavior: 'smooth' }); playKidSound('tap') } },
-            { icon: 'time', iconColor: '#2F8F6B', label: 'Use my time', sub: `${bankBalance * STAR_MINUTES} min`, tint: 'var(--tint-sage)', onClick: () => { setDeviceOpen(true); playKidSound('tap'); setTimeout(() => document.getElementById('my-timer')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 160) } },
-            { icon: 'newjob', iconColor: '#3D739A', label: askedMore ? 'Asked' : 'New job', sub: askedMore ? 'Grown up knows' : 'Ask a grown up', tint: askedMore ? 'var(--tint-sage)' : 'var(--tint-blue, #E4ECF7)', onClick: () => { if (!askedMore) { askForMore(); playKidSound('tap') } } },
+          const tiles: { icon?: KidIconName; emoji?: string; iconColor?: string; label: string; sub: string; tint: string; onClick: () => void }[] = [
+            { emoji: '🗺️', label: 'My road', sub: 'The road to 16', tint: 'var(--tint-blue, #E4ECF7)', onClick: () => { setRoadOpen(true); playKidSound('tap') } },
             { icon: 'deal', iconColor: 'var(--terracotta-dark)', label: 'Our deal', sub: 'How it works', tint: 'var(--cream)', onClick: () => { setDealOpen(true); playKidSound('tap') } },
+            { emoji: '🎨', label: 'Make it mine', sub: 'Buddy and colour', tint: 'var(--terracotta-lt)', onClick: () => { setMakeMineOpen(true); playKidSound('tap') } },
+            { icon: 'newjob', iconColor: '#3D739A', label: askedMore ? 'Asked' : 'New job', sub: askedMore ? 'Grown up knows' : 'Ask a grown up', tint: askedMore ? 'var(--tint-sage)' : 'var(--tint-blue, #E4ECF7)', onClick: () => { if (!askedMore) { askForMore(); playKidSound('tap') } } },
           ]
           return (
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '18px' }}>
-              {tiles.map((t, i) => (
-                <button key={i} onClick={t.onClick} style={{
-                  display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '10px', cursor: 'pointer',
-                  background: '#fff', border: '1.5px solid rgba(26,26,46,0.08)', borderRadius: '20px', padding: '16px', textAlign: 'left',
-                  boxShadow: '0 4px 0 rgba(26,26,46,0.08)',
-                }}>
-                  <span style={{ width: 48, height: 48, borderRadius: '14px', background: t.tint, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><KidIcon name={t.icon} size={26} color={t.iconColor} /></span>
-                  <span style={{ minWidth: 0 }}>
-                    <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.1rem', color: 'var(--ink)', lineHeight: 1.1 }}>{t.label}</span>
-                    <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: '13px', color: 'var(--ink-muted)', marginTop: '2px' }}>{t.sub}</span>
+            <div style={{ marginBottom: '18px' }}>
+              <button
+                onClick={() => { setDeviceOpen(true); playKidSound('tap'); setTimeout(() => document.getElementById('my-timer')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 160) }}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: '13px', width: '100%', cursor: 'pointer',
+                  background: '#fff', border: '1.5px solid rgba(26,26,46,0.08)', borderRadius: '20px', padding: '15px 16px', textAlign: 'left',
+                  boxShadow: '0 4px 0 rgba(26,26,46,0.08)', marginBottom: '12px',
+                }}
+              >
+                <span style={{ width: 48, height: 48, borderRadius: '14px', background: 'var(--tint-sage)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><KidIcon name="time" size={26} color="#2F8F6B" /></span>
+                <span style={{ flex: 1, minWidth: 0 }}>
+                  <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.1rem', color: 'var(--ink)', lineHeight: 1.1 }}>
+                    Use my time <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--ink-muted)' }}>· {bankBalance * STAR_MINUTES} min ready</span>
                   </span>
-                </button>
-              ))}
+                  {/* The device rule, right where the screen would start. */}
+                  <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: '12.5px', color: 'var(--ink-muted)', marginTop: '3px', lineHeight: 1.4 }}>
+                    {TIMER_RULE}
+                  </span>
+                </span>
+              </button>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                {tiles.map((t, i) => (
+                  <button key={i} onClick={t.onClick} style={{
+                    display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '10px', cursor: 'pointer',
+                    background: '#fff', border: '1.5px solid rgba(26,26,46,0.08)', borderRadius: '20px', padding: '16px', textAlign: 'left',
+                    boxShadow: '0 4px 0 rgba(26,26,46,0.08)',
+                  }}>
+                    <span style={{ width: 48, height: 48, borderRadius: '14px', background: t.tint, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px' }}>
+                      {t.icon ? <KidIcon name={t.icon} size={26} color={t.iconColor ?? 'var(--ink)'} /> : t.emoji}
+                    </span>
+                    <span style={{ minWidth: 0 }}>
+                      <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.1rem', color: 'var(--ink)', lineHeight: 1.1 }}>{t.label}</span>
+                      <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: '13px', color: 'var(--ink-muted)', marginTop: '2px' }}>{t.sub}</span>
+                    </span>
+                  </button>
+                ))}
+              </div>
             </div>
           )
         })()}
@@ -854,6 +897,21 @@ export default function KidQuestScreen({
             goalRedeemed={goalRedeemed}
             agreementItems={agreementItems}
             agreementSigned={agreementSigned}
+            contractRule={CONTRACT_RULES[contractLevel]}
+            contractAgreedAt={contractAgreedAt}
+          />
+        )}
+
+        {roadOpen && (
+          <KidRoad
+            stageId={stageId}
+            childName={childName}
+            buddyName={BUDDY_MAP[chosenBuddy].name}
+            buddyImg={BUDDY_MAP[chosenBuddy].img}
+            buddyIsStar={chosenBuddy === 'digi'}
+            lessonsDoneCount={doneLessons.size}
+            starsBanked={bankBalance}
+            onClose={() => setRoadOpen(false)}
           />
         )}
 
@@ -1017,179 +1075,24 @@ export default function KidQuestScreen({
             grounded in the science bank. Replaces the old single tip line. */}
         <BalanceInsight stageId={stageId} usedTodayMinutes={usedTodayMinutes} recommendedMinutes={recommendedMinutes} balanceStars={bankBalance} streakDays={streakDays} />
 
-        {/* Screens wait: any quest flagged blocks_screens and not yet
-            approved sits at the top of the list behind this banner. */}
-        {quests.some(q => q.blocks_screens && ticks[q.id] !== 'approved') && (
-          <div style={{
-            display: 'flex', gap: '10px', alignItems: 'center',
-            background: 'var(--terracotta)', borderRadius: '14px',
-            padding: '11px 15px', marginBottom: '12px',
-            boxShadow: '0 3px 0 var(--terracotta-dark)',
-          }}>
-            <span style={{ fontSize: '1.3rem', lineHeight: 1 }}>📵</span>
-            <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--ink)', lineHeight: 1.4, margin: 0 }}>
-              These come first today. Screens after.
-            </p>
-          </div>
+        {/* The jobs themselves live in the ONE Today list above, ticked in one
+            flow with Learn and Move, so nothing about today repeats down here.
+            This tab keeps what is around the jobs: the balance insight, asking
+            for a fresh quest when everything is done, pitching an idea, and
+            what is coming on later days. */}
+        {quests.length === 0 && (
+          <HappyScene
+            headline="All calm for now"
+            sub="No quests today yet. Ask your grown up to send some and start earning stars!"
+          />
         )}
-
-        {/* My to-do today: the obvious checklist, with how many are left. */}
-        {quests.length > 0 && (
-          <div id="my-todo" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, marginBottom: '10px', scrollMarginTop: '12px' }}>
-            <span style={{ display: 'flex', alignItems: 'center', gap: 8, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.2rem', color: 'var(--ink)' }}>
-              ✅ My to-do today
-            </span>
-            <span style={{
-              flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700,
-              padding: '5px 11px', borderRadius: '100px',
-              background: doneCount < quests.length ? 'var(--terracotta)' : 'var(--tint-sage)',
-              color: 'var(--ink)',
-            }}>
-              {doneCount < quests.length ? `${quests.length - doneCount} to do` : 'All done! 🎉'}
-            </span>
-          </div>
-        )}
-
-        {/* Quest list, screens wait quests first */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-          {quests.length === 0 && (
-            <HappyScene
-              headline="All calm for now"
-              sub="No quests today yet. Ask your grown up to send some and start earning stars!"
-            />
-          )}
-          {(() => {
-            const sorted = [...quests].sort((a, b) => Number(Boolean(b.blocks_screens)) - Number(Boolean(a.blocks_screens)))
-            // Three clear groups so the flow makes sense: what is still yours to
-            // do, what is now in the grown up's hands (nothing for you to do),
-            // and what is finished and off the list.
-            const todoQ = sorted.filter(q => !ticks[q.id])
-            const waitingQ = sorted.filter(q => ticks[q.id] === 'pending')
-            const doneQ = sorted.filter(q => ticks[q.id] === 'approved')
-            const card = (q: typeof quests[number]) => {
-              const state = ticks[q.id]
-              const approved = state === 'approved'
-              const waiting = state === 'pending'
-              // A make, draw or build quest can point the child at a printable
-              // sheet, so "build something real" always has something concrete
-              // and fun to actually do, not a blank "nothing to do".
-              const makeQuest = /draw|make|build|craft|colou?r|paint|create|model/i.test(q.title) || ['🎨', '✏️', '🖍️', '✂️', '🖌️'].includes(q.emoji)
-              return (
-                <div key={q.id} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                <button
-                  onClick={() => toggle(q)}
-                  style={{
-                    display: 'flex', alignItems: 'center', gap: 14,
-                    background: approved ? 'var(--tint-sage)' : waiting ? '#FFF7E0' : '#fff',
-                    border: waiting ? '1.5px dashed var(--terracotta)' : 'none',
-                    borderRadius: '20px', padding: '16px 18px', width: '100%',
-                    cursor: approved ? 'default' : 'pointer', textAlign: 'left',
-                    boxShadow: approved ? '0 2px 0 rgba(0,0,0,0.12)' : waiting ? 'none' : '0 5px 0 rgba(0,0,0,0.18)',
-                    transform: approved ? 'translateY(3px)' : 'none',
-                    transition: 'all 0.15s ease',
-                    position: 'relative',
-                    animation: burst === q.id ? 'kid-pop 0.5s ease' : undefined,
-                  }}
-                >
-                  <span style={{ fontSize: '1.8rem', flexShrink: 0, opacity: waiting ? 0.85 : 1 }}>{q.emoji}</span>
-                  <span style={{ flex: 1, minWidth: 0 }}>
-                    <span style={{
-                      display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800,
-                      fontSize: '1.15rem', color: 'var(--ink)', lineHeight: 1.3,
-                      textDecoration: approved ? 'line-through' : 'none',
-                      opacity: approved ? 0.6 : 1,
-                    }}>
-                      {q.title}
-                    </span>
-                    <span style={{ display: 'block', fontSize: '13.5px', fontWeight: 600, color: waiting ? 'var(--terracotta-dark)' : 'var(--ink-muted)', marginTop: 2 }}>
-                      {approved ? 'Done! Stars landed ⭐' : waiting ? 'With your grown up now, nothing to do' : `Worth ${q.stars} star${q.stars === 1 ? '' : 's'}`}
-                      {q.blocks_screens && !approved && (
-                        <span style={{
-                          display: 'inline-block', marginLeft: 8, verticalAlign: 'middle',
-                          fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700,
-                          letterSpacing: '0.08em', textTransform: 'uppercase',
-                          background: 'var(--terracotta-lt)', color: 'var(--terracotta-dark)',
-                          border: '1px solid var(--terracotta)', borderRadius: '100px', padding: '2px 8px',
-                        }}>
-                          📵 Before screens
-                        </span>
-                      )}
-                    </span>
-                  </span>
-                  <span style={{
-                    width: 40, height: 40, borderRadius: '50%', flexShrink: 0,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    background: approved ? 'var(--terracotta)' : waiting ? 'var(--terracotta-lt)' : 'var(--cream)',
-                    border: approved ? 'none' : waiting ? '1.5px solid var(--terracotta)' : '2.5px dashed var(--ink-light)',
-                    fontSize: '18px', position: 'relative',
-                  }}>
-                    {approved ? '✓' : waiting ? '⏳' : ''}
-                    {burst === q.id && <KidTickBurst color={accentHex} />}
-                  </span>
-                </button>
-                {makeQuest && !approved && (
-                  <button
-                    onClick={() => { setTab('print'); document.getElementById('kid-tabs')?.scrollIntoView({ behavior: 'smooth' }); playKidSound('tap') }}
-                    style={{ alignSelf: 'flex-start', marginLeft: 6, background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, color: 'var(--terracotta-dark)', padding: '2px 4px' }}
-                  >
-                    🖨️ Need help? Get a sheet to make one →
-                  </button>
-                )}
-                </div>
-              )
-            }
-            const sectionLabel = (icon: string, text: string) => (
-              <div style={{ display: 'flex', alignItems: 'center', gap: 7, margin: '6px 2px 0', fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: theme.inkSoft }}>
-                <span aria-hidden>{icon}</span>{text}
-              </div>
-            )
-            return (
-              <>
-                {todoQ.map(card)}
-                {waitingQ.length > 0 && (
-                  <>
-                    {sectionLabel('⏳', `Waiting for your grown up · ${waitingQ.length}`)}
-                    {waitingQ.map(card)}
-                  </>
-                )}
-                {doneQ.length > 0 && (
-                  <>
-                    {/* Done today folds away, so the list stays what is left */}
-                    <button
-                      onClick={() => setShowKidDone(s => !s)}
-                      style={{
-                        display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10,
-                        width: '100%', cursor: 'pointer', textAlign: 'left', marginTop: 4,
-                        background: '#fff', border: '1.5px solid rgba(26,26,46,0.1)',
-                        borderRadius: '16px', padding: '13px 16px',
-                        fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1rem', color: 'var(--ink)',
-                      }}
-                    >
-                      <span>✅ {doneQ.length} done today</span>
-                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, opacity: 0.9 }}>
-                        {showKidDone ? 'Hide ▲' : 'Show ▼'}
-                      </span>
-                    </button>
-                    {showKidDone && doneQ.map(card)}
-                  </>
-                )}
-              </>
-            )
-          })()}
-        </div>
 
         {allDone && (
-          <div style={{ textAlign: 'center', marginTop: '24px' }}>
-            <HappyScene
-              character="oliver"
-              headline="Today's list is done!"
-              sub={`Amazing work ${childName}. Your grown up is approving your stars.`}
-            />
+          <div style={{ textAlign: 'center', marginTop: '8px' }}>
             <button
               onClick={askForMore}
               disabled={askedMore}
               style={{
-                marginTop: '14px',
                 padding: '12px 22px', borderRadius: '14px', cursor: askedMore ? 'default' : 'pointer',
                 background: askedMore ? 'var(--cream)' : 'var(--terracotta)',
                 color: askedMore ? 'var(--ink-soft)' : 'var(--ink)',
@@ -1794,7 +1697,7 @@ const SCHOOL_KIND_EMOJI: Record<string, string> = {
 // by, in their own words. How it works, the exchange rate, a good amount of
 // screen a day, and what they are saving for right now. No dashes, no rules
 // shouted, just the deal they can keep an eye on any time.
-function FamilyDeal({ onClose, recommendedMinutes, goal, bankBalance, goalRedeemed, agreementItems = [], agreementSigned = false }: {
+function FamilyDeal({ onClose, recommendedMinutes, goal, bankBalance, goalRedeemed, agreementItems = [], agreementSigned = false, contractRule, contractAgreedAt = null }: {
   onClose: () => void
   recommendedMinutes: number
   goal: { title?: string; stars_needed?: number; achieved_at?: string | null } | null
@@ -1802,6 +1705,10 @@ function FamilyDeal({ onClose, recommendedMinutes, goal, bankBalance, goalRedeem
   goalRedeemed: boolean
   agreementItems?: { title: string; body: string }[]
   agreementSigned?: boolean
+  // The timer rule this child agreed on their first run, read only here once
+  // it is locked in. The child never edits it from their side.
+  contractRule?: string
+  contractAgreedAt?: string | null
 }) {
   // Which agreed promise is open to read. One at a time keeps the deal tidy.
   const [openPromise, setOpenPromise] = useState<number | null>(null)
@@ -1833,6 +1740,27 @@ function FamilyDeal({ onClose, recommendedMinutes, goal, bankBalance, goalRedeem
             </div>
           ))}
         </div>
+        {/* The timer rule the child agreed on their first run: locked in, read
+            only, with the date it was agreed together. Both sides see the
+            same rule, and the child never edits it from here. */}
+        {contractRule && (
+          <div style={{ marginTop: '18px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
+              My timer rule
+            </div>
+            <div style={{ background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: '14px', padding: '13px 15px' }}>
+              <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: 'var(--ink)', lineHeight: 1.45, margin: 0 }}>
+                {contractRule}
+              </p>
+              {contractAgreedAt && (
+                <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, color: 'var(--terracotta-dark)', margin: '8px 0 0' }}>
+                  ✓ Agreed together on {new Date(contractAgreedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
+                </p>
+              )}
+            </div>
+          </div>
+        )}
+
         {/* The real contract: what this family actually agreed and signed
             together. Each promise is a tappable card the child can open to
             read, so the deal they made is always here in their own app. */}

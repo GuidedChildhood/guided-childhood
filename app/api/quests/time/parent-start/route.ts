@@ -16,7 +16,7 @@ import { pushToChild } from '@/lib/quests/kid-push'
 // check keep it to their own children.
 
 export async function POST(req: NextRequest) {
-  const { childId, device, minutes, bonus } = await req.json().catch(() => ({}))
+  const { childId, device, minutes, bonus, gift } = await req.json().catch(() => ({}))
   if (!childId || typeof childId !== 'string') {
     return NextResponse.json({ error: 'bad request' }, { status: 400 })
   }
@@ -37,7 +37,11 @@ export async function POST(req: NextRequest) {
     .from('children').select('id, name, age_band').eq('id', childId).eq('parent_id', user.id).maybeSingle()
   if (!child) return NextResponse.json({ error: 'unknown child' }, { status: 404 })
 
-  const isBonus = bonus === true
+  // A gift starts the block without spending stars, like a bonus, but it
+  // records a debt of jobs to do later: the pay back is saying thanks. The
+  // next approved quest tick settles the oldest open debt by itself.
+  const isGift = gift === true
+  const isBonus = bonus === true || isGift
   const stars = isBonus ? 0 : minutesToStars(mins)
 
   // A grant that takes the child past the day's healthy amount for their age
@@ -80,14 +84,29 @@ export async function POST(req: NextRequest) {
   }).select('id, device, minutes, stars, ends_at, started_at, treat').single()
   if (sessionError) return NextResponse.json({ error: sessionError.message }, { status: 500 })
 
+  // Record the gift's pay back: the stars these minutes would have cost,
+  // owed in jobs. Fails soft before migration 080: the time still starts,
+  // because a gift is a gift either way.
+  if (isGift) {
+    await supabase.from('gift_debts').insert({
+      user_id: user.id, child_id: childId, minutes: mins,
+      stars_owed: minutesToStars(mins),
+      note: `Gifted device time: ${deviceLabel(device)}`,
+    })
+  }
+
   // Tell the child their time has started, best effort, using the admin
   // client so the push helper can read the child's link and subscription.
   try {
     const admin = createAdminClient()
     await pushToChild(
       admin, user.id, childId,
-      isBonus ? `${mins} bonus minutes on the ${deviceLabel(device)} 🎁` : `${mins} minutes on the ${deviceLabel(device)} ⏱️`,
-      isBonus ? 'A treat from your grown up. Open to start the timer.' : 'Your grown up set your screen time. Open to see the countdown.',
+      isGift ? `A gift: ${mins} minutes on the ${deviceLabel(device)} 💛`
+        : isBonus ? `${mins} bonus minutes on the ${deviceLabel(device)} 🎁`
+        : `${mins} minutes on the ${deviceLabel(device)} ⏱️`,
+      isGift ? 'From your grown up, no stars spent. Do a job later to say thanks!'
+        : isBonus ? 'A treat from your grown up. Open to start the timer.'
+        : 'Your grown up set your screen time. Open to see the countdown.',
     )
   } catch { /* push is best effort */ }
 
