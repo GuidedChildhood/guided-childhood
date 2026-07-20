@@ -24,11 +24,11 @@ const plexMono = IBM_Plex_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: 'Guided Childhood, Screen Time and Digital Parenting Guide for UK Families',
+    default: 'Digital Literacy for Children Age 4 to 16, Research Based Pathway | Guided Childhood',
     template: '%s | Guided Childhood',
   },
-  description: 'Stop guessing what to say. Guided Childhood gives UK parents the exact scripts for screen time fights, gaming meltdowns, social media access, and bedtime battles. Stage by stage from age 4 to 16.',
-  keywords: ['digital parenting', 'screen time children UK', 'online safety kids', 'parenting advice screens', 'children social media age', 'phone rules children', 'digital wellbeing family', 'screen time guide UK parents'],
+  description: 'A research based digital literacy pathway for children from age 4 to 16. Safety settings for every device, AI and internet lessons by age, screen time they earn, and no social media cliff edge. For UK families.',
+  keywords: ['digital literacy children', 'digital literacy age 4 to 16', 'online safety kids', 'AI lessons for children', 'screen time children UK', 'children social media age', 'parental controls by age', 'digital parenting', 'internet safety education kids', 'screen time guide UK parents'],
   authors: [{ name: 'Justin Phillips' }],
   creator: 'Guided Childhood',
   publisher: 'Guided Childhood',
