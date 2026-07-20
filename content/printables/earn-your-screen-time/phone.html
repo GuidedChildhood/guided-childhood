@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Earn Your Screen Time · Phone</title>
+<link href="fonts/local-fonts.css" rel="stylesheet">
+<style>
+  :root{--cream:#F9F8F6;--ink:#1A1A2E;--ink-soft:#52526A;--ink-muted:#8888A0;
+    --border:#EAEAF0;--terracotta:#EDC35F;--terracotta-dark:#C99A28;--terracotta-lt:#FEF7E0;
+    --coral:#D4600A;--green:#2F8F6B;--tint-sage:#E8F0EE;--white:#FFF;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Nunito',sans-serif;color:var(--ink);}
+  .screen{width:1080px;height:1920px;background:var(--cream);padding:70px 60px;
+    display:flex;flex-direction:column;position:relative;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:26px;
+    letter-spacing:6px;text-transform:uppercase;color:var(--coral);}
+  .hero{display:flex;align-items:center;gap:34px;margin-top:22px;}
+  .hero img{width:250px;height:250px;object-fit:contain;}
+  .bubble{background:var(--white);border:7px solid var(--ink);border-radius:40px;
+    box-shadow:0 12px 0 var(--ink);padding:38px 42px;font-weight:800;font-size:40px;
+    line-height:1.3;position:relative;flex:1;}
+  .bubble:after{content:'';position:absolute;left:-30px;top:50%;transform:translateY(-50%);
+    border-top:24px solid transparent;border-bottom:24px solid transparent;
+    border-right:30px solid var(--ink);}
+  .rows{display:flex;flex-direction:column;gap:22px;margin-top:40px;flex:1;}
+  .row{background:var(--white);border:6px solid var(--ink);border-radius:36px;
+    box-shadow:0 10px 0 var(--ink);padding:28px 40px;display:flex;align-items:center;gap:32px;}
+  .row .label{font-weight:800;font-size:42px;flex:1;line-height:1.15;}
+  .row .box{width:74px;height:74px;border:6px solid var(--ink);border-radius:20px;background:var(--cream);}
+  .row svg.star{width:80px;height:80px;flex-shrink:0;}
+  .tally{background:var(--terracotta-lt);border:7px solid var(--ink);border-radius:40px;
+    box-shadow:0 12px 0 var(--ink);padding:34px;text-align:center;margin-top:38px;}
+  .tally .big{font-weight:900;font-size:46px;line-height:1.15;}
+  .tally .small{font-weight:700;font-size:32px;color:var(--ink-soft);margin-top:14px;}
+  .foot{margin-top:30px;text-align:center;font-family:'IBM Plex Mono',monospace;
+    font-size:24px;letter-spacing:4px;color:var(--ink-muted);text-transform:uppercase;}
+</style>
+</head>
+<body>
+
+<!-- SCREEN 1 · AGES 5 TO 7 -->
+<div class="screen" id="s1">
+  <div class="eyebrow">My screen time chart</div>
+  <div class="hero">
+    <img src="images/oliver-hero.png" alt="Oliver">
+    <div class="bubble">Colour a star for every win. Three stars earns a token!</div>
+  </div>
+  <div class="rows">
+    <div class="row"><div class="label">I got dressed by myself</div><svg class="star" viewBox="0 0 24 24"><path d="M12 2.5 14.9 8.6l6.6.8-4.9 4.5 1.3 6.5L12 17.2 6.1 20.4l1.3-6.5L2.5 9.4l6.6-.8z" fill="none" stroke="#1A1A2E" stroke-width="1.4"/></svg></div>
+    <div class="row"><div class="label">Teeth brushed, morning and night</div><svg class="star" viewBox="0 0 24 24"><path d="M12 2.5 14.9 8.6l6.6.8-4.9 4.5 1.3 6.5L12 17.2 6.1 20.4l1.3-6.5L2.5 9.4l6.6-.8z" fill="none" stroke="#1A1A2E" stroke-width="1.4"/></svg></div>
+    <div class="row"><div class="label">I played away from screens</div><svg class="star" viewBox="0 0 24 24"><path d="M12 2.5 14.9 8.6l6.6.8-4.9 4.5 1.3 6.5L12 17.2 6.1 20.4l1.3-6.5L2.5 9.4l6.6-.8z" fill="none" stroke="#1A1A2E" stroke-width="1.4"/></svg></div>
+    <div class="row"><div class="label">I read or shared a book</div><svg class="star" viewBox="0 0 24 24"><path d="M12 2.5 14.9 8.6l6.6.8-4.9 4.5 1.3 6.5L12 17.2 6.1 20.4l1.3-6.5L2.5 9.4l6.6-.8z" fill="none" stroke="#1A1A2E" stroke-width="1.4"/></svg></div>
+    <div class="row"><div class="label">I helped at home</div><svg class="star" viewBox="0 0 24 24"><path d="M12 2.5 14.9 8.6l6.6.8-4.9 4.5 1.3 6.5L12 17.2 6.1 20.4l1.3-6.5L2.5 9.4l6.6-.8z" fill="none" stroke="#1A1A2E" stroke-width="1.4"/></svg></div>
+    <div class="row"><div class="label">I used kind words today</div><svg class="star" viewBox="0 0 24 24"><path d="M12 2.5 14.9 8.6l6.6.8-4.9 4.5 1.3 6.5L12 17.2 6.1 20.4l1.3-6.5L2.5 9.4l6.6-.8z" fill="none" stroke="#1A1A2E" stroke-width="1.4"/></svg></div>
+  </div>
+  <div class="tally">
+    <div class="big">3 stars = 1 token · 6 stars = 2 tokens</div>
+    <div class="small">We count together at teatime</div>
+  </div>
+  <div class="foot">Guided Childhood · Ages 5 to 7</div>
+</div>
+
+<!-- SCREEN 2 · AGES 8 TO 11 -->
+<div class="screen" id="s2">
+  <div class="eyebrow">Boss of my screen</div>
+  <div class="hero">
+    <img src="images/oliver-hero.png" alt="Oliver">
+    <div class="bubble">Earn first, then enjoy every minute with zero nagging. Deal?</div>
+  </div>
+  <div class="rows">
+    <div class="row"><div class="label">Ready on time, no chasing</div><div class="box"></div></div>
+    <div class="row"><div class="label">Homework done before screens</div><div class="box"></div></div>
+    <div class="row"><div class="label">Read 15 minutes</div><div class="box"></div></div>
+    <div class="row"><div class="label">An hour of moving about</div><div class="box"></div></div>
+    <div class="row"><div class="label">Helped without being asked</div><div class="box"></div></div>
+    <div class="row"><div class="label">Screens parked at wind down time</div><div class="box"></div></div>
+  </div>
+  <div class="tally">
+    <div class="big">Every tick = 1 screen buck</div>
+    <div class="small">Tally on Sunday · 10 bucks = 30 weekend minutes · 20 = film night</div>
+  </div>
+  <div class="foot">Guided Childhood · Ages 8 to 11</div>
+</div>
+
+<!-- SCREEN 3 · ENDING WELL -->
+<div class="screen" id="s3" style="justify-content:center;text-align:center;">
+  <div class="eyebrow" style="text-align:center;">When time is nearly up</div>
+  <img src="images/DiGi-star.svg" alt="DiGi Junior" style="width:360px;height:388px;margin:60px auto 0;">
+  <div style="font-weight:900;font-size:74px;line-height:1.2;margin-top:60px;">
+    BEEP BOOP!<br>Five minutes to go!
+  </div>
+  <div style="font-weight:700;font-size:44px;color:var(--ink-soft);line-height:1.5;margin-top:50px;">
+    Finish your level.<br>Save your game.<br>One big breath in... and out.
+  </div>
+  <div class="tally" style="margin-top:70px;">
+    <div class="big">Screen off. High five. You ended well!</div>
+    <div class="small">That is a star for tomorrow's chart</div>
+  </div>
+  <div class="foot" style="margin-top:60px;">Guided Childhood · Ending Well</div>
+</div>
+
+</body>
+</html>
