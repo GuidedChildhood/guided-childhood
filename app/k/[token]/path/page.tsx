@@ -8,7 +8,8 @@ import { getStarBanks } from '@/lib/quests/bank'
 import { getMinutesUsedToday } from '@/lib/quests/usage'
 import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
 import { gamesForStage } from '@/lib/quest-games/registry'
-import KidPath, { type PathLesson, type PathGame } from '@/components/kid/KidPath'
+import { quizForBand } from '@/lib/content/school-quizzes'
+import KidPath, { type PathLesson, type PathGame, type PathJob } from '@/components/kid/KidPath'
 
 // My path: the child's own Duolingo style trail for their stage, opened from
 // the My road tile. Token scoped like every kid surface; the reads mirror the
@@ -44,7 +45,7 @@ export default async function KidPathPage({ params }: { params: Promise<{ token:
   const readiness = readinessForAgeBand(ageBand)
 
   const today = new Date().toISOString().slice(0, 10)
-  const [lessonsRes, completionsRes, parentProfileRes, ticksRes, banks, usedTodayMap] = await Promise.all([
+  const [lessonsRes, completionsRes, parentProfileRes, ticksRes, banks, usedTodayMap, questsRes] = await Promise.all([
     supabase.from('lessons')
       .select('id, stage_id, category, title, sort_order')
       .eq('audience', 'parent').neq('status', 'stub')
@@ -56,10 +57,14 @@ export default async function KidPathPage({ params }: { params: Promise<{ token:
       .select('subscription_status, trial_ends_at, email')
       .eq('id', link.user_id).maybeSingle(),
     supabase.from('quest_ticks')
-      .select('child_id, status')
+      .select('quest_id, child_id, status')
       .eq('user_id', link.user_id).eq('tick_date', today).neq('status', 'rejected').limit(50),
     getStarBanks(supabase, link.user_id, [link.child_id]),
     getMinutesUsedToday(supabase, link.user_id, [link.child_id]),
+    supabase.from('family_quests')
+      .select('id, title, emoji, stars, schedule, child_id')
+      .eq('user_id', link.user_id).eq('active', true)
+      .order('created_at', { ascending: true }),
   ])
 
   const allLessons = lessonsRes.data ?? []
@@ -86,22 +91,51 @@ export default async function KidPathPage({ params }: { params: Promise<{ token:
     key: g.key, title: g.title, emoji: g.emoji,
   }))
 
-  const jobsToday = (ticksRes.data ?? []).filter(t => t.child_id === link.child_id || t.child_id === null).length
+  // Today's jobs as steps on the trail: the quests the parent set that are
+  // due today, with the tick state right on the stone. Same due rules the
+  // quest board uses, kept simple: daily always, weekdays and weekend by the
+  // day, once quests until their tick is approved.
+  const dow = new Date().getUTCDay()
+  const isWeekend = dow === 0 || dow === 6
+  const todayTicks = (ticksRes.data ?? []).filter(t => t.child_id === link.child_id || t.child_id === null) as { child_id: string | null; status: string; quest_id?: string }[]
+  const jobsToday = todayTicks.length
+  const tickState = new Map<string, string>()
+  for (const t of (ticksRes.data ?? []) as { quest_id?: string; child_id: string | null; status: string }[]) {
+    if (t.quest_id && (t.child_id === link.child_id || t.child_id === null)) tickState.set(t.quest_id, t.status)
+  }
+  const jobs: PathJob[] = (questsRes.data ?? [])
+    .filter(q => q.child_id === null || q.child_id === link.child_id)
+    .filter(q =>
+      q.schedule === 'daily' || q.schedule === 'once'
+      || (q.schedule === 'weekdays' && !isWeekend)
+      || (q.schedule === 'weekend' && isWeekend))
+    .slice(0, 8)
+    .map(q => {
+      const st = tickState.get(q.id)
+      return {
+        id: q.id, title: q.title, emoji: q.emoji, stars: Number(q.stars) || 1,
+        state: (st === 'approved' ? 'done' : st === 'pending' ? 'waiting' : 'todo') as PathJob['state'],
+      }
+    })
 
-  // Today's chest state from the ledger itself; fails soft to unclaimed (with
-  // the not ready flag) before migration 086.
+  // Today's chest and quiz state from the ledger itself; both fail soft to
+  // unclaimed (with the not ready flag) before migration 086.
   let chestClaimed = false
+  let quizClaimed = false
   let needsMigration = false
   {
     const { data, error } = await supabase
       .from('star_bonuses')
-      .select('id')
+      .select('note')
       .eq('user_id', link.user_id).eq('child_id', link.child_id)
-      .ilike('note', 'Path chest%')
+      .or('note.ilike.Path chest%,note.ilike.Path quiz%')
       .gte('created_at', `${today}T00:00:00Z`)
-      .limit(1).maybeSingle()
+      .limit(10)
     if (error) needsMigration = true
-    else chestClaimed = Boolean(data)
+    else {
+      chestClaimed = (data ?? []).some(r => String(r.note).startsWith('Path chest'))
+      quizClaimed = (data ?? []).some(r => String(r.note).startsWith('Path quiz'))
+    }
   }
 
   const bank = banks[0]
@@ -116,10 +150,13 @@ export default async function KidPathPage({ params }: { params: Promise<{ token:
       stageName={stage.name}
       ages={stage.ages.replace('Ages ', '').toLowerCase()}
       stamp={readiness.stamp}
+      jobs={jobs}
       lessons={lessons}
       games={games}
-      jobsToday={jobsToday}
+      quiz={quizForBand(ageBand, Math.floor(Date.now() / 86400000))}
+      dayIndex={Math.floor(Date.now() / 86400000)}
       chestClaimed={chestClaimed}
+      quizClaimed={quizClaimed}
       usedTodayMinutes={usedTodayMap.get(link.child_id) ?? 0}
       guideMinutes={guideMinutes}
       balanceStars={bank?.balance ?? 0}
