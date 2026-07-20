@@ -1645,3 +1645,11 @@ on a steady cadence, research grounded, with choice questions so every new
 lesson is testable on arrival, into a review queue before going live. Also
 carried: age right lessons surfacing in the child app with the child taking
 the multiple choice themselves, passes flowing to the parent ticks.
+Also booked with it: the lesson player presentation upgrade, slides better
+than PowerPoint. One player build lifts every lesson at once since slides are
+data: full bleed one idea slides, huge Nunito 900 type, GSAP slide
+transitions and staggered reveals, a thin butter progress bar, DiGi popping
+in as the presenter on digi slides, house style illustrated diagrams per
+concept, choice slides as tactile moments with instant warm feedback, swipe
+and arrow key navigation. No new content format needed, the jsonb slide
+types already carry it.
