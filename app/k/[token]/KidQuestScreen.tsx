@@ -248,6 +248,16 @@ export default function KidQuestScreen({
   // dot when a grown up has pinged something new. "New" means an item this
   // child has not opened yet, tracked in localStorage on their own device.
   const [lessonTab, setLessonTab] = useState<'watch' | 'learn' | 'games'>('watch')
+  // Deep link from the path page: a game stone lands straight on the Games
+  // sub tab rather than leaving the child to hunt for it.
+  useEffect(() => {
+    try {
+      if (new URLSearchParams(window.location.search).get('tab') === 'games') {
+        setTab('lessons'); setLessonTab('games')
+        setTimeout(() => document.getElementById('kid-tabs')?.scrollIntoView({ behavior: 'smooth' }), 300)
+      }
+    } catch { /* fine */ }
+  }, [])
   const [seenLessons, setSeenLessons] = useState<Set<string>>(new Set())
   const [soundOn, setSoundOn] = useState(true)
   const [happyNews, setHappyNews] = useState<HappyNewsItem | null>(null)
@@ -929,7 +939,7 @@ export default function KidQuestScreen({
             Make it mine and New job. */}
         {(() => {
           const tiles: { icon?: KidIconName; emoji?: string; iconColor?: string; label: string; sub: string; tint: string; onClick: () => void }[] = [
-            { emoji: '🗺️', label: 'My road', sub: 'The road to 16', tint: 'var(--tint-blue, #E4ECF7)', onClick: () => { setRoadOpen(true); playKidSound('tap') } },
+            { emoji: '🗺️', label: 'My path', sub: 'Play the road to 16', tint: 'var(--tint-blue, #E4ECF7)', onClick: () => { playKidSound('tap'); window.location.assign(`/k/${token}/path`) } },
             // The stage lessons, taken by the child themselves: a pass here
             // lights the same tick their grown up sees on the pathway.
             { emoji: '📚', label: 'My lessons', sub: 'Learn it, pass it', tint: 'var(--terracotta-lt)', onClick: () => { playKidSound('tap'); window.location.href = `/k/${token}/lessons` } },
