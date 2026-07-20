@@ -4,6 +4,7 @@ import Link from 'next/link'
 import MarkLessonDone from '@/components/lessons/MarkLessonDone'
 import LessonPlayer from '@/components/lessons/LessonPlayer'
 import { parseSlides, autoSlidesFromLesson } from '@/lib/content/lesson-slides'
+import { badgesFor } from '@/lib/content/curriculum-badges'
 import { hasFullAccess } from '@/lib/access'
 import { isParentLessonFree } from '@/lib/content/lesson-access'
 
@@ -119,6 +120,7 @@ export default async function LessonDetailPage({ params }: { params: Promise<{ i
           slides={slides}
           backHref="/dashboard/lessons"
           digiPrompt={lesson.digi_prompt}
+          badges={badgesFor(lesson.stage_id, lesson.category)}
         />
       </div>
     )

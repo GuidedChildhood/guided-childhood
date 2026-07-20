@@ -9,7 +9,7 @@ import Link from 'next/link'
 // that art as a round storybook badge instead of the emoji; the emoji stays
 // as the fallback for anything without a cover yet.
 export default function BrowseTile({
-  href, stageNum, title, sub, emoji, coverUrl, done = false, doneLabel, locked = false, external = false,
+  href, stageNum, title, sub, emoji, coverUrl, done = false, doneLabel, locked = false, external = false, chips = [],
 }: {
   href: string
   stageNum: number
@@ -23,6 +23,9 @@ export default function BrowseTile({
   doneLabel?: string
   locked?: boolean
   external?: boolean
+  // Small quiet mono chips under the sub line: the lesson tiles carry their
+  // Key Stage and Education for a Connected World strand here.
+  chips?: string[]
 }) {
   const text = `var(--stage-${stageNum}-text)`
   return (
@@ -53,6 +56,19 @@ export default function BrowseTile({
           marginTop: '5px', position: 'relative', zIndex: 1,
         }}>
           {sub}
+        </span>
+      )}
+      {chips.length > 0 && (
+        <span style={{ display: 'flex', gap: '5px', flexWrap: 'wrap', marginTop: '7px', position: 'relative', zIndex: 1, maxWidth: '80%' }}>
+          {chips.map((c, i) => (
+            <span key={i} style={{
+              fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700,
+              letterSpacing: '0.05em', textTransform: 'uppercase', color: text,
+              background: 'rgba(255,255,255,0.55)', borderRadius: '100px', padding: '2px 8px',
+            }}>
+              {c}
+            </span>
+          ))}
         </span>
       )}
       {/* The topic mark, bleeding into the corner like the reference photo:

@@ -26,6 +26,10 @@ export type LibraryItem = {
   categoryLabel: string; title: string; keyMessage: string; locked: boolean; done: boolean
   // Choice questions answered right on the passing run, when the deck had any.
   score: number | null
+  // The honest curriculum mapping: Key Stage from the stage, Education for a
+  // Connected World strand from the category. Null when there is no clean fit.
+  ks: string | null
+  strand: string | null
 }
 
 type View = 'together' | 'library' | 'printables'
@@ -273,6 +277,7 @@ export default function LessonsBrowser({
                     done={l.done}
                     doneLabel={l.score != null ? `✓ Passed · ${l.score} right` : '✓ Passed'}
                     locked={l.locked}
+                    chips={[l.ks, l.strand].filter((c): c is string => Boolean(c))}
                   />
                 ))}
                 </div>

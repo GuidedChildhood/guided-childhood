@@ -1,0 +1,130 @@
+import Link from 'next/link'
+import DigiCharacter from '@/components/digi/DigiCharacter'
+
+// My lessons, the child's own list: the age right stage lessons from the
+// family library, on the kid dark theme. Presentational only, so the real
+// token page and the dev fixture render the exact same thing. Passing a
+// lesson here writes the same pass the parent side shows as a tick, so the
+// child's work and the sofa lesson land in the same place.
+
+export type KidLessonItem = {
+  id: string
+  title: string
+  emoji: string
+  keyMessage: string
+  done: boolean
+  score: number | null
+  locked: boolean
+}
+
+export default function KidLessonList({
+  backHref, childName, stageName, ages, items, hrefFor,
+}: {
+  backHref: string
+  childName: string
+  stageName: string
+  ages: string
+  items: KidLessonItem[]
+  hrefFor: (id: string) => string
+}) {
+  const doneCount = items.filter(i => i.done).length
+  return (
+    <div style={{ minHeight: '100dvh', background: 'var(--kid-bg)', padding: '22px 16px 50px', fontFamily: 'var(--font-body)' }}>
+      <div style={{ maxWidth: '560px', margin: '0 auto' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px', gap: '10px' }}>
+          <Link href={backHref} style={{
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px',
+            color: 'rgba(255,255,255,0.78)', textDecoration: 'none',
+          }}>
+            ← My quests
+          </Link>
+          {items.length > 0 && (
+            <span style={{
+              fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, letterSpacing: '0.1em',
+              textTransform: 'uppercase', color: 'var(--ink)', background: 'var(--terracotta)',
+              borderRadius: '100px', padding: '5px 12px', boxShadow: '0 3px 0 rgba(0,0,0,0.2)',
+            }}>
+              {doneCount} of {items.length} passed
+            </span>
+          )}
+        </div>
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '6px' }}>
+          <DigiCharacter mood="wave" size={56} once />
+          <div>
+            <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.5rem, 6vw, 1.9rem)', color: '#F7F7F5', letterSpacing: '-0.02em', lineHeight: 1.1, margin: 0 }}>
+              My lessons
+            </h1>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.66)', margin: '5px 0 0' }}>
+              {stageName} stage · {ages}
+            </p>
+          </div>
+        </div>
+        <p style={{ fontSize: '13.5px', color: 'rgba(255,255,255,0.78)', lineHeight: 1.6, margin: '10px 0 20px' }}>
+          Picked for your age, {childName}. Pass one and your grown up sees the tick straight away.
+        </p>
+
+        {items.length === 0 ? (
+          <div style={{ background: 'rgba(255,255,255,0.08)', border: '1.5px solid rgba(255,255,255,0.16)', borderRadius: '20px', padding: '26px 20px', textAlign: 'center', color: 'rgba(255,255,255,0.8)', fontSize: '14px', lineHeight: 1.6 }}>
+            No lessons for your stage just yet. New ones land all the time, so check back soon.
+          </div>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            {items.map(item => {
+              const inner = (
+                <>
+                  <span style={{
+                    width: '52px', height: '52px', borderRadius: '16px', flexShrink: 0,
+                    background: item.done ? 'var(--terracotta-lt)' : 'var(--stage-2)',
+                    border: item.done ? '2px solid var(--terracotta)' : '1.5px solid var(--border)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '26px',
+                  }}>
+                    {item.emoji}
+                  </span>
+                  <span style={{ flex: 1, minWidth: 0 }}>
+                    <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '15.5px', color: 'var(--ink)', lineHeight: 1.25, letterSpacing: '-0.01em' }}>
+                      {item.title}
+                    </span>
+                    <span style={{ display: 'block', fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.45, marginTop: '4px' }}>
+                      {item.locked ? 'Ask your grown up to open this one' : item.keyMessage}
+                    </span>
+                  </span>
+                  <span style={{ flexShrink: 0, alignSelf: 'center' }}>
+                    {item.done ? (
+                      <span style={{
+                        fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.06em',
+                        textTransform: 'uppercase', color: 'var(--terracotta-dark)',
+                        background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
+                        borderRadius: '100px', padding: '4px 10px',
+                      }}>
+                        ✓ Passed{item.score != null ? ` · ${item.score}` : ''}
+                      </span>
+                    ) : item.locked ? (
+                      <span style={{ fontSize: '18px' }}>🔒</span>
+                    ) : (
+                      <span style={{
+                        fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '13px',
+                        color: 'var(--ink)', background: 'var(--terracotta)',
+                        borderRadius: '12px', padding: '9px 15px', boxShadow: '0 4px 0 var(--terracotta-dark)',
+                      }}>
+                        Go ▶
+                      </span>
+                    )}
+                  </span>
+                </>
+              )
+              const shell: React.CSSProperties = {
+                display: 'flex', gap: '13px', alignItems: 'flex-start', textDecoration: 'none',
+                background: 'var(--cream)', borderRadius: '20px', padding: '15px 16px',
+                boxShadow: '0 5px 0 rgba(0,0,0,0.22)', opacity: item.locked ? 0.75 : 1,
+              }
+              return item.locked
+                ? <div key={item.id} style={shell}>{inner}</div>
+                : <Link key={item.id} href={hrefFor(item.id)} style={shell}>{inner}</Link>
+            })}
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}

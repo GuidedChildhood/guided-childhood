@@ -873,6 +873,9 @@ export default function KidQuestScreen({
         {(() => {
           const tiles: { icon?: KidIconName; emoji?: string; iconColor?: string; label: string; sub: string; tint: string; onClick: () => void }[] = [
             { emoji: '🗺️', label: 'My road', sub: 'The road to 16', tint: 'var(--tint-blue, #E4ECF7)', onClick: () => { setRoadOpen(true); playKidSound('tap') } },
+            // The stage lessons, taken by the child themselves: a pass here
+            // lights the same tick their grown up sees on the pathway.
+            { emoji: '📚', label: 'My lessons', sub: 'Learn it, pass it', tint: 'var(--terracotta-lt)', onClick: () => { playKidSound('tap'); window.location.href = `/k/${token}/lessons` } },
             { icon: 'deal', iconColor: 'var(--terracotta-dark)', label: 'Our deal', sub: 'How it works', tint: 'var(--cream)', onClick: () => { setDealOpen(true); playKidSound('tap') } },
             { emoji: '🎨', label: 'Make it mine', sub: 'Buddy and colour', tint: 'var(--terracotta-lt)', onClick: () => { setMakeMineOpen(true); playKidSound('tap') } },
             { icon: 'newjob', iconColor: '#3D739A', label: askedMore ? 'Asked' : 'New job', sub: askedMore ? 'Grown up knows' : 'Ask a grown up', tint: askedMore ? 'var(--tint-sage)' : 'var(--tint-blue, #E4ECF7)', onClick: () => { if (!askedMore) { askForMore(); playKidSound('tap') } } },
