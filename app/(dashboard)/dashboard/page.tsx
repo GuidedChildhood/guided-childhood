@@ -28,6 +28,7 @@ import TodayPathBig from '@/components/daily/TodayPathBig'
 import DigiGreeting from '@/components/home/DigiGreeting'
 import HomeRows from '@/components/home/HomeRows'
 import LiveTimerChip from '@/components/home/LiveTimerChip'
+import ExploreGrid from '@/components/home/ExploreGrid'
 import { investedMinutes } from '@/lib/pathway/task-minutes'
 import { getLiteracyStatuses } from '@/lib/pathway/literacy-status'
 import DigiLessonNudge from '@/components/lessons/DigiLessonNudge'
@@ -468,23 +469,29 @@ export default async function DashboardPage() {
         <PushPrompt userId={user.id} stage={`Stage ${stage.id}`} />
       </div>
 
-      {/* Everything else, folded: every quieter card Home used to stack is
-          still here and fully working, one tap away behind one calm row, so
-          the daily screen keeps one shape. */}
+      {/* See everything we do: the whole platform as grouped big icon tiles
+          (the Explore section), then every quieter card Home used to stack,
+          all one tap behind one calm row so the daily screen keeps one shape
+          and the next action above stays dominant. */}
       <details className="gc-home-more" style={{ marginBottom: '20px' }}>
         <summary style={{
           display: 'flex', alignItems: 'center', gap: '13px', cursor: 'pointer',
           background: '#fff', border: '1.5px solid var(--border)', borderRadius: '16px',
           padding: '14px 15px', boxShadow: '0 3px 0 rgba(26,26,46,0.05)', listStyle: 'none',
         }}>
-          <span style={{ width: 50, height: 50, borderRadius: '14px', background: 'var(--terracotta-lt)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px', flexShrink: 0 }}>🧺</span>
+          <span style={{ width: 50, height: 50, borderRadius: '14px', background: 'var(--terracotta-lt)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px', flexShrink: 0 }}>🧭</span>
           <span style={{ flex: 1, minWidth: 0 }}>
-            <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)', lineHeight: 1.2 }}>Everything else</span>
-            <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: '12.5px', color: 'var(--ink-muted)', marginTop: '3px' }}>Moments, lessons, printables, school and more</span>
+            <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)', lineHeight: 1.2 }}>See everything we do</span>
+            <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: '12.5px', color: 'var(--ink-muted)', marginTop: '3px' }}>Every part of the platform, one tap away</span>
           </span>
           <span aria-hidden style={{ color: 'var(--ink-muted)', fontWeight: 800, flexShrink: 0 }}>›</span>
         </summary>
         <div style={{ paddingTop: '16px' }}>
+
+        {/* The Explore grid: grouped big icons, every tile an existing page */}
+        <ExploreGrid scriptHref={todayLoop.find(t => t.key === 'script')?.href ?? '/dashboard/scripts'} />
+
+        <p className="eyebrow" style={{ margin: '4px 0 10px 2px', fontSize: 10 }}>Your cards and prompts</p>
 
       {/* DiGi hands a lesson straight to the parent, so lessons are reachable
           on mobile even without a Lessons tab: watch together here, or send it

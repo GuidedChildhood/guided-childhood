@@ -2,6 +2,7 @@ import TodayPathBig from '@/components/daily/TodayPathBig'
 import DigiGreeting from '@/components/home/DigiGreeting'
 import HomeRows from '@/components/home/HomeRows'
 import LiveTimerChip from '@/components/home/LiveTimerChip'
+import ExploreGrid from '@/components/home/ExploreGrid'
 import type { TodayLoopTask } from '@/lib/pathway/daily-tasks'
 
 // REFERENCE ONLY, never linked from the app. The REAL components of the
@@ -43,6 +44,24 @@ export default function RefSimplifiedHome() {
           isSunday
           initialToApprove={2}
         />
+
+        {/* On the real home this grid sits folded behind the See everything
+            we do row; shown open here so the whole section reviews at once. */}
+        <details open style={{ marginTop: '10px' }}>
+          <summary style={{
+            display: 'flex', alignItems: 'center', gap: '13px', cursor: 'pointer',
+            background: '#fff', border: '1.5px solid var(--border)', borderRadius: '16px',
+            padding: '14px 15px', boxShadow: '0 3px 0 rgba(26,26,46,0.05)', listStyle: 'none', marginBottom: '16px',
+          }}>
+            <span style={{ width: 50, height: 50, borderRadius: '14px', background: 'var(--terracotta-lt)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px', flexShrink: 0 }}>🧭</span>
+            <span style={{ flex: 1, minWidth: 0 }}>
+              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)', lineHeight: 1.2 }}>See everything we do</span>
+              <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: '12.5px', color: 'var(--ink-muted)', marginTop: '3px' }}>Every part of the platform, one tap away</span>
+            </span>
+            <span aria-hidden style={{ color: 'var(--ink-muted)', fontWeight: 800, flexShrink: 0 }}>›</span>
+          </summary>
+          <ExploreGrid />
+        </details>
       </div>
     </div>
   )
