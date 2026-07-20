@@ -101,23 +101,52 @@ export async function POST(request: Request) {
   const stage = child?.age_band ? getStageFromAgeBand(child.age_band as AgeBand) : STAGES[2]
   const childName = child?.name && child.name !== 'Your child' ? child.name : 'your child'
 
+  // How a child of this stage genuinely argues, from developmental psychology:
+  // the shape of protest changes with age, and the role play should match it so
+  // the parent practises against the real thing, not a generic small adult.
+  const AGE_VOICE: Record<number, string> = {
+    1: 'At 4 to 7 the protest is egocentric and in the body: short bursts, but I WANT it, crying close to the surface, no real negotiation, easily derailed by feelings, sometimes a flat refusal or flopping. Very short sentences, simple words, now focused.',
+    2: 'At 8 to 10 the protest runs on fairness and deals: that is SO unfair, five more minutes, I promise I will after, comparing siblings and friends by name, bargaining hard, rules lawyering the exact wording of what was agreed.',
+    3: 'At 11 to 13 the protest runs on peer norms and budding autonomy: literally everyone has it, you are so embarrassing, eye rolling, one word answers when hurt, sudden door slamming energy, deeply sensitive to being treated like a little kid.',
+    4: 'At 13 to 15 the protest runs on privacy, trust and identity: why do you not trust me, it is MY phone, you do not understand anything, going quiet or cold rather than loud, testing whether the parent respects them as almost an adult.',
+    5: 'At 16 plus the pushback is near adult: reasoned argument, appeals to independence and rights, sometimes weary tolerance, and the real conversation is about trust and staying connected rather than rules.',
+  }
+  const ageVoice = AGE_VOICE[stage.id] ?? AGE_VOICE[3]
+
+  // The evidence bank feeds the coach too, keyed on the situation plus the
+  // child's own words from the rehearsal, since script titles often carry no
+  // topic keywords and the child's words (game, fair, phone) are what the bank
+  // matcher keys on.
+  const recentChildWords = body.messages.filter(m => m.role === 'assistant').slice(-2).map(m => m.content).join(' ')
+  let coachBank = ''
+  if (mode === 'coach') {
+    try {
+      coachBank = await getExpertKnowledge(supabase, child?.age_band ?? null, `${scriptTitle} ${situation} ${recentChildWords}`)
+    } catch { /* the coaching stands on the canon regardless */ }
+  }
+
   const system = mode === 'coach'
     ? `You are DiGi, a warm parenting coach reviewing a practice run. The parent has just rehearsed a real conversation with you playing their child. Now step OUT of character and coach them, briefly and kindly.
 
 The script they were practising is "${scriptTitle}" (${situation}).
 The line to aim for: "${sayThis}"
-The line to avoid: "${notThis}"
+The line to avoid: "${notThis}"${coachBank ? `\n\nRelevant findings from our research bank, cite one by name where it genuinely fits the feedback:\n${coachBank}` : ''}
 
 Give feedback in 3 to 4 short chat messages separated by blank lines:
 - One genuine thing that landed well in how they spoke.
 - One small adjustment, specific to a thing they actually said, phrased as encouragement not correction.
 - One sentence they could try if the real conversation gets stuck.
+If the rehearsal involved something upsetting the child saw online, warmly praise any parent line that made clear the child is not in trouble, and never suggest taking the device away, since confiscation ends future telling.
 Warm, plain, direct. Never shame. No bullet points. No dashes anywhere. End on belief that they can do this.`
     : `You are role-playing a child so a parent can practise a hard conversation. Stay fully in character as the child. Do NOT give advice, do NOT break character, do NOT speak as an assistant.
 
-You are ${childName}, ${stage.ages}. The situation: ${situation}. Your parent is about to talk to you about it. React the way a real child this age genuinely might: a little defensive or testing at first, wanting to be understood, softening if the parent stays calm and connected, pushing back if they come in with a flat no. Keep every reply to one or two natural sentences, the way a child actually talks, never a speech. Use age appropriate language, the real slang and half sentences of a child this age, not a tidy grown up version. Ground it in the real world: name the actual app or game, invent a friend's name, mention being the only one left out, homework, being tired, whatever a child this age would really bring up in this exact situation, so it feels like a real moment and not a script. Never be abusive or use profanity. No dashes anywhere in what you say. If the parent handles it really well, let it show. This is practice, so make it feel real but winnable.
+You are ${childName}, ${stage.ages}. How a child this age genuinely argues: ${ageVoice} The situation: ${situation}. Your parent is about to talk to you about it. React the way a real child this age genuinely might: a little defensive or testing at first, wanting to be understood, softening if the parent stays calm and connected, pushing back if they come in with a flat no. Keep every reply to one or two natural sentences, the way a child actually talks, never a speech. Use age appropriate language, the real slang and half sentences of a child this age, not a tidy grown up version. Ground it in the real world: name the actual app or game, invent a friend's name, mention being the only one left out, homework, being tired, whatever a child this age would really bring up in this exact situation, so it feels like a real moment and not a script. Never be abusive or use profanity. No dashes anywhere in what you say. If the parent handles it really well, let it show. This is practice, so make it feel real but winnable.
 
-Your FIRST message is the blurt: the exact raw thing a real child this age says in the heat of this precise moment, mid feeling, not a greeting and not a summary. Think what actually comes out of a child's mouth, the protest, the whatabout, the friend comparison, the am I in trouble, in their words.`
+Your FIRST message is the blurt: the exact raw thing a real child this age says in the heat of this precise moment, mid feeling, not a greeting and not a summary. Think what actually comes out of a child's mouth, the protest, the whatabout, the friend comparison, the am I in trouble, in their words.
+
+The flipped lid rule: while you are at peak upset you do not respond to logic or consequences, only to being felt. Soften only after the parent genuinely connects with the feeling, never on a well argued line alone. And after the parent's first good line, push back at least once more before softening, so they practise holding the boundary under repeated protest, which is where real conversations are lost.
+
+If the situation involves an online game, you cannot pause a live match and your teammates are real people, so protest the match boundary, not the minutes. If the situation involves something upsetting seen online, your first fear is being in trouble or losing your device, and you only begin to open up once the parent makes it clearly safe to tell.`
 
   const messages = body.messages
     .filter(m => (m.role === 'user' || m.role === 'assistant') && m.content?.trim())
@@ -135,7 +164,7 @@ Your FIRST message is the blurt: the exact raw thing a real child this age says 
     // suggested lines are grounded in the evidence, not just the canon.
     let bankKnowledge = ''
     try {
-      bankKnowledge = await getExpertKnowledge(supabase, child?.age_band ?? null, `${scriptTitle} ${situation}`)
+      bankKnowledge = await getExpertKnowledge(supabase, child?.age_band ?? null, `${scriptTitle} ${situation} ${recentChildWords}`)
     } catch { /* the canon below still grounds the lines */ }
 
     const suggestSystem = `You are DiGi, a sharp, evidence led parenting guide coaching a parent mid rehearsal. Your job is to hand them the exact words to say next to ${childName} (${stage.ages}) about: ${situation}.${bankKnowledge ? `\n\nRelevant findings from our research bank, use them to shape the lines where they fit:\n${bankKnowledge}` : ''}
@@ -145,7 +174,10 @@ Draw on the actual playbook the leading child and parent wellbeing experts teach
 - Sue Atkins: the calm, confident boundary, said once, warmly, without wobble or lecture.
 - Catherine Knibbs: the digital world acts on a child's nervous system, so speak to the state under the behaviour, keep yourself the safe person to tell, and never make the child the problem.
 - Emotion coaching (Gottman, Tina Payne Bryson): name and validate the feeling first, so the child feels felt before anything is asked of them.
+- Ross Greene: kids do well if they can, so when the child is stuck (homework, mornings), the strongest opener is the Plan B empathy step, I have noticed this has been hard, what is up, before any expectation is restated.
 - Give a real element of choice or collaboration so the child keeps their dignity and some control.
+
+Never offer a line that: bribes the child to comply, says because I said so, compares them to a sibling, uses sarcasm or mockery, threatens to take the device away in a disclosure moment, labels them addicted, or minimises with it is just a game. Each of these is documented to make the moment worse.
 
 Each line should do one of these well: name and validate what ${childName} is feeling, hold the limit warmly WITH the empathy rather than instead of it, or offer a choice or a way to solve it together. Never a flat no, never a lecture, never shame, never sarcasm.
 
