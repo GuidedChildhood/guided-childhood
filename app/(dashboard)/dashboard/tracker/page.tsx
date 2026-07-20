@@ -8,6 +8,7 @@ import WorkingOn from '@/components/tracker/WorkingOn'
 import LiteracyAreas from '@/components/pathway/LiteracyAreas'
 import LiteracyCheckIn from '@/components/pathway/LiteracyCheckIn'
 import { getLiteracyStatuses } from '@/lib/pathway/literacy-status'
+import { READINESS } from '@/lib/content/readiness'
 import PassportBook from '@/components/pathway/PassportBook'
 import { type Stamp, type StampStatus } from '@/components/pathway/PassportStamps'
 
@@ -141,6 +142,13 @@ export default async function ProgressPage() {
 
   const checkedThisWeek = checks.some(c => c.week_start === weekStartStr)
 
+  // The literacy readings drive both the report card and the header's
+  // warmth, so they are computed once here.
+  const stageNum = primary?.age_band ? getStageFromAgeBand(primary.age_band as AgeBand).id : 1
+  const literacyStatuses = await getLiteracyStatuses(supabase, user.id, stageNum)
+  const activeAreaKeys = ['safe', 'balance', ...(stageNum >= 3 ? ['ai', 'social'] : [])]
+  const greenCount = activeAreaKeys.filter(k => literacyStatuses[k]?.tone === 'green').length
+
   return (
     <div style={{ maxWidth: '640px', margin: '0 auto', padding: '24px 20px 40px' }}>
       <p className="eyebrow" style={{ color: 'var(--terracotta-dark)', marginBottom: '8px' }}>Progress</p>
@@ -149,9 +157,25 @@ export default async function ProgressPage() {
       </h1>
       {/* The report in one warm sentence: what green means, and that amber
           is a next step, never a mark against anyone. */}
-      <p style={{ fontSize: '16.5px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 22px', maxWidth: '620px' }}>
+      <p style={{ fontSize: '16.5px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 12px', maxWidth: '620px' }}>
         Green means that part of the plan is doing its job. Anything amber comes with one clear next step, like a good school report.
       </p>
+
+      {/* The stamp these four earn, right under the title where the
+          report begins */}
+      <Link href="/dashboard/pathway" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 14, background: 'var(--terracotta-lt)', border: '1px solid var(--terracotta)', borderRadius: 100, padding: '5px 12px', textDecoration: 'none' }}>
+        <span aria-hidden style={{ fontSize: 13 }}>🪪</span>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>
+          These four earn the {READINESS[stageNum - 1].stamp} stamp on the road to 16 →
+        </span>
+      </Link>
+
+      {/* Warmth when the report is mostly green, in colour not noise */}
+      {greenCount >= 3 && (
+        <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px', color: 'var(--retro-green-dark)', lineHeight: 1.5, margin: '0 0 14px' }}>
+          🌱 Nearly all green. Lovely work.
+        </p>
+      )}
 
       {/* The day's work acknowledged before the report reads out */}
       {dailyDoneToday && (
@@ -173,17 +197,12 @@ export default async function ProgressPage() {
       )}
 
       {/* The same four strands as Home and the pathway, read from the same
-          source, so progress always lands in one consistent picture. */}
-      {await (async () => {
-        const primary = (children ?? [])[0]
-        const stageNum = primary?.age_band ? getStageFromAgeBand(primary.age_band as AgeBand).id : 1
-        return (
-          <div style={{ margin: '0 -20px' }}>
-            <LiteracyAreas stageId={stageNum} childName={primary?.name ?? undefined} statuses={await getLiteracyStatuses(supabase, user.id, stageNum)} />
-            <LiteracyCheckIn stageId={stageNum} />
-          </div>
-        )
-      })()}
+          source, so progress always lands in one consistent picture. The
+          stamp chip lives in the page header here, so the card skips it. */}
+      <div style={{ margin: '0 -20px' }}>
+        <LiteracyAreas stageId={stageNum} childName={primary?.name ?? undefined} statuses={literacyStatuses} stampChip={false} />
+        <LiteracyCheckIn stageId={stageNum} />
+      </div>
 
       {/* The honest sentence */}
       <div style={{

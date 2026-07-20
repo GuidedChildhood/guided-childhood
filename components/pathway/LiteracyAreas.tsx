@@ -12,27 +12,29 @@ import { READINESS } from '@/lib/content/readiness'
 
 const STAGE_LABELS = ['Foundation', 'Builder', 'Explorer', 'Shaper', 'Independent'] as const
 
-type Area = { key: string; icon: string; name: string; startStage: number; blurb: string; comesWhy: string; comesAge: string }
+// Each area owns a warm brand tint for its icon square, so the report
+// reads friendly and alive without a single alarm colour.
+type Area = { key: string; icon: string; tint: string; name: string; startStage: number; blurb: string; comesWhy: string; comesAge: string }
 
 const AREAS: Area[] = [
   {
-    key: 'safe', icon: '🛡️', name: 'Safe online', startStage: 1,
+    key: 'safe', icon: '🛡️', tint: 'var(--terracotta-lt)', name: 'Safe online', startStage: 1,
     blurb: 'Device settings set, worries worked through, and DiGi asking gently along the way.',
     comesWhy: '', comesAge: '4',
   },
   {
-    key: 'balance', icon: '⚖️', name: 'Healthy balance', startStage: 1,
+    key: 'balance', icon: '⚖️', tint: 'var(--tint-sage)', name: 'Healthy balance', startStage: 1,
     blurb: 'Real world jobs against screen time, held in a good balance.',
     comesWhy: '', comesAge: '4',
   },
   {
-    key: 'ai', icon: '🤖', name: 'AI and chatbots', startStage: 3,
+    key: 'ai', icon: '🤖', tint: 'var(--stage-3)', name: 'AI and chatbots', startStage: 3,
     blurb: 'What AI is, how chatbots work, and how to tell what is real.',
     comesWhy: 'Orben and Odgers place the algorithm conversation in the 11 to 13 window, when abstract thinking can hold it.',
     comesAge: '11',
   },
   {
-    key: 'social', icon: '💬', name: 'Social media ready', startStage: 3,
+    key: 'social', icon: '💬', tint: 'var(--stage-4)', name: 'Social media ready', startStage: 3,
     blurb: 'The judgement for the platforms, built in good time before 16.',
     comesWhy: 'Built before any account exists, so the skills are there first. From 13, DiGi asks what they are actually seeing.',
     comesAge: '11',
@@ -112,7 +114,13 @@ function ProgressBar({ done, total, tone }: { done: number; total: number; tone:
       aria-valuenow={done}
       aria-valuemin={0}
       aria-valuemax={total}
-      style={{ display: 'block', height: 6, borderRadius: 100, background: 'var(--border)', marginTop: 8, overflow: 'hidden' }}
+      style={{
+        display: 'block', height: 6, borderRadius: 100, marginTop: 8, overflow: 'hidden',
+        // A warm tinted track in the fill's own family, never plain grey:
+        // green over a light green wash on track, butter over butter light
+        // while the number is still moving.
+        background: tone === 'green' ? 'var(--tint-green)' : 'var(--terracotta-lt)',
+      }}
     >
       <span style={{
         display: 'block', height: '100%', borderRadius: 100,
@@ -123,10 +131,13 @@ function ProgressBar({ done, total, tone }: { done: number; total: number; tone:
   )
 }
 
-export default function LiteracyAreas({ stageId, childName, statuses = {} }: {
+export default function LiteracyAreas({ stageId, childName, statuses = {}, stampChip = true }: {
   stageId: number
   childName?: string
   statuses?: Partial<Record<string, AreaStatus>>
+  // The tracker page carries the stamp chip in its own header, so the
+  // card can hand it up rather than saying it twice on one screen.
+  stampChip?: boolean
 }) {
   const kid = childName && childName !== 'Your child' ? childName : 'your child'
   const current = Math.min(5, Math.max(1, stageId))
@@ -140,12 +151,14 @@ export default function LiteracyAreas({ stageId, childName, statuses = {} }: {
         <p style={{ fontFamily: 'var(--font-body)', fontSize: '16px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 12px', maxWidth: '620px' }}>
           Everything {kid} does adds up to these four, ready by 16. Green means on track. Amber comes with the one next step, never a mark against anyone.
         </p>
-        <Link href="/dashboard/pathway" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 14, background: 'var(--terracotta-lt)', border: '1px solid var(--terracotta)', borderRadius: 100, padding: '5px 12px', textDecoration: 'none' }}>
-          <span aria-hidden style={{ fontSize: 13 }}>🪪</span>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>
-            These four earn the {READINESS[current - 1].stamp} stamp on the road to 16 →
-          </span>
-        </Link>
+        {stampChip && (
+          <Link href="/dashboard/pathway" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 14, background: 'var(--terracotta-lt)', border: '1px solid var(--terracotta)', borderRadius: 100, padding: '5px 12px', textDecoration: 'none' }}>
+            <span aria-hidden style={{ fontSize: 13 }}>🪪</span>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>
+              These four earn the {READINESS[current - 1].stamp} stamp on the road to 16 →
+            </span>
+          </Link>
+        )}
 
         {AREAS.map(area => {
           const active = current >= area.startStage
@@ -177,7 +190,7 @@ export default function LiteracyAreas({ stageId, childName, statuses = {} }: {
 
           const inner = (
             <>
-              <span style={{ flexShrink: 0, width: 44, height: 44, borderRadius: '13px', background: 'var(--tint-sage)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px' }}>{area.icon}</span>
+              <span style={{ flexShrink: 0, width: 44, height: 44, borderRadius: '13px', background: area.tint, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px' }}>{area.icon}</span>
               <span style={{ flex: 1, minWidth: 0 }}>
                 <span style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', justifyContent: 'space-between' }}>
                   <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '18px', color: 'var(--ink)', lineHeight: 1.25 }}>
