@@ -1732,3 +1732,21 @@ big for hands up, ending on the quiet line that this is the family version
 and the full school curriculum goes deeper, pointing at /schools: the
 family lessons showcase toward the school tier, they are not the school
 offer. No migration: 083 was taken on main, 084 stays free.
+
+## 20 July 2026 — Go live day, closed out
+Twenty seven PRs merged (#393 to #421), migrations 058 and 074 to 083
+applied, schema verified to match the codebase (sweep query, empty).
+Live tonight: the big daily path home, hero road with Can do levels,
+Explore grid, digital literacy headline and premium homepage, testable
+Rosenshine lessons in the cinematic player on parent and child apps
+with curriculum badges and whole class mode, 96 Happy News lesson
+covers, the child one list with the locking age contract and gift pay
+backs, ask first screen time with the child status banner and kid
+nudges, DiGi device check ins, the school report progress page, and
+the age up birthday mechanism with the multi child switcher.
+OPEN PRODUCT CALLS for Justin: gate /class mode or keep it open as the
+schools demo; whether child lesson passes should mint stars and how
+many; rehearsal chips send immediately vs prefill for tweaking; eyeball
+the 96 generated covers on the hub. Next booked: fortnightly lesson
+writer pipeline, school curriculum depth tier, educator views adopting
+the lesson covers.
