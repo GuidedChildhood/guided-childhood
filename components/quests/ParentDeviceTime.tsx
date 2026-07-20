@@ -15,7 +15,15 @@ import { bandLabelFor } from '@/lib/quests/screen-balance'
 type Session = { id: string; child_id: string; device: DeviceKey; minutes: number; stars: number; ends_at: string; started_at: string }
 type DeviceRequest = { id: string; device: DeviceKey; minutes: number }
 type DeviceWeek = { device: DeviceKey; minutes: number; sessions: number }
-type Kid = { id: string; name: string; balance: number; session: Session | null; trust: string; request: DeviceRequest | null; ageBand?: string | null; usedToday?: number; recommended?: number; week?: DeviceWeek[]; sessionsToday?: number }
+type Kid = { id: string; name: string; balance: number; session: Session | null; trust: string; request: DeviceRequest | null; ageBand?: string | null; usedToday?: number; recommended?: number; week?: DeviceWeek[]; sessionsToday?: number; giftOwed?: number; agreedAt?: string | null }
+
+// How a grant pays for itself: their earned stars (the default), a gift that
+// jobs pay back later, or a free bonus with no strings at all.
+const GRANT_MODES: { key: 'stars' | 'gift' | 'bonus'; label: string; hint: string }[] = [
+  { key: 'stars', label: 'Spend their stars', hint: 'The default. Earned time, the deal as agreed.' },
+  { key: 'gift', label: 'Gift it', hint: 'Starts now, no stars spent. Jobs pay it back later, framed as saying thanks.' },
+  { key: 'bonus', label: 'Free bonus', hint: 'A treat with no strings. Spends nothing, owes nothing.' },
+]
 
 const TRUST_LEVELS: { key: string; label: string; hint: string }[] = [
   { key: 'ask', label: 'Ask first', hint: 'They ask, you say yes before the timer runs.' },
@@ -111,7 +119,7 @@ export default function ParentDeviceTime() {
 function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; onAlarm: () => void }) {
   const [device, setDevice] = useState<DeviceKey>('tablet')
   const [minutes, setMinutes] = useState(30)
-  const [bonus, setBonus] = useState(false)
+  const [mode, setMode] = useState<'stars' | 'gift' | 'bonus'>('stars')
   const [busy, setBusy] = useState(false)
   const [err, setErr] = useState<string | null>(null)
   const [remaining, setRemaining] = useState<number | null>(null)
@@ -139,8 +147,8 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
     return () => clearInterval(t)
   }, [kid.session, onAlarm, onChange])
 
-  const cost = bonus ? 0 : minutesToStars(minutes)
-  const tooPoor = !bonus && kid.balance < cost
+  const cost = mode === 'stars' ? minutesToStars(minutes) : 0
+  const tooPoor = mode === 'stars' && kid.balance < cost
 
   async function start() {
     if (busy || tooPoor) return
@@ -148,7 +156,7 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
     try {
       const r = await fetch('/api/quests/time/parent-start', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ childId: kid.id, device, minutes, bonus }),
+        body: JSON.stringify({ childId: kid.id, device, minutes, bonus: mode === 'bonus', gift: mode === 'gift' }),
       })
       const d = await r.json()
       if (!r.ok) { setErr(d.error === 'not enough stars' ? 'Not enough stars for that' : 'Could not start, try again'); setBusy(false); return }
@@ -226,6 +234,25 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>⭐ {kid.balance}</span>
       </div>
 
+      {/* A gift still being paid back, quietly. A gift is a gift: this is a
+          note of the thank you on its way, never a debt collector. */}
+      {(kid.giftOwed ?? 0) > 0 && (
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, color: 'var(--terracotta-dark)', margin: '0 0 9px' }}>
+          💛 Gifted, {kid.giftOwed} star{kid.giftOwed === 1 ? '' : 's'} owed in jobs
+        </p>
+      )}
+
+      {/* The timer rule this child agreed on their first run, locked in and
+          visible on both sides. */}
+      {kid.agreedAt && (
+        <p style={{ fontSize: '11.5px', color: 'var(--ink-soft)', margin: '0 0 9px' }}>
+          {kid.name} agreed the timer rule on {new Date(kid.agreedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}.{' '}
+          <Link href="/dashboard/agreement" style={{ color: 'var(--terracotta-dark)', fontWeight: 700, textDecoration: 'none' }}>
+            See the agreement →
+          </Link>
+        </p>
+      )}
+
       {/* Today's guide: how much this child has already had against the age
           banded recommendation, so a grant is made with the day in view. A
           soft steer, never a block. */}
@@ -293,10 +320,19 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
         ))}
       </div>
 
-      <label style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '11px', cursor: 'pointer' }}>
-        <input type="checkbox" checked={bonus} onChange={e => setBonus(e.target.checked)} style={{ width: 16, height: 16, accentColor: 'var(--terracotta)' }} />
-        <span style={{ fontSize: '12.5px', fontWeight: 600, color: 'var(--ink-soft)' }}>Give as a free bonus (no stars)</span>
-      </label>
+      {/* How this grant pays: stars, a gift with a pay back, or a free bonus. */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginBottom: '11px' }}>
+        {GRANT_MODES.map(m => (
+          <button key={m.key} onClick={() => setMode(m.key)} aria-pressed={mode === m.key} style={{
+            textAlign: 'left', padding: '8px 11px', borderRadius: '11px', cursor: 'pointer',
+            background: mode === m.key ? 'var(--terracotta-lt)' : '#fff',
+            border: mode === m.key ? '1.5px solid var(--terracotta)' : '1.5px solid var(--border)',
+          }}>
+            <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', color: 'var(--ink)' }}>{m.label}</span>
+            <span style={{ display: 'block', fontSize: '11.5px', color: 'var(--ink-soft)', lineHeight: 1.4 }}>{m.hint}</span>
+          </button>
+        ))}
+      </div>
 
       {err && <p style={{ fontSize: '12px', color: '#B93B3F', margin: '0 0 8px' }}>{err}</p>}
 
@@ -309,9 +345,15 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
       }}>
         {busy ? 'Starting…'
           : tooPoor ? `Needs ${cost} stars`
-          : bonus ? `Give ${minutes} min on the ${deviceLabel(device)} 🎁`
+          : mode === 'gift' ? `Gift ${minutes} min on the ${deviceLabel(device)} 💛`
+          : mode === 'bonus' ? `Give ${minutes} min on the ${deviceLabel(device)} 🎁`
           : `Start ${minutes} min · ${cost} stars`}
       </button>
+      {mode === 'gift' && (
+        <p style={{ fontSize: '11.5px', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '7px 0 0' }}>
+          The gift starts now and {minutesToStars(minutes)} star{minutesToStars(minutes) === 1 ? '' : 's'} of jobs pay it back later. The next approved job settles it by itself.
+        </p>
+      )}
 
       <WhereTheTimeGoes name={kid.name} ageBand={kid.ageBand ?? null} week={kid.week ?? []} />
     </div>

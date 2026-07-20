@@ -40,6 +40,31 @@ export async function GET() {
       .select('child_id, device, minutes, started_at')
       .eq('user_id', user.id).gte('started_at', weekStartIso).in('child_id', ids),
   ])
+  // Gifted time still owed in jobs, and the timer rule acceptance, per
+  // child. Both land with migration 080, so each read fails soft on an
+  // older database and the card simply shows neither line yet.
+  const giftOwedBy = new Map<string, number>()
+  {
+    const { data: debts, error } = await supabase
+      .from('gift_debts').select('child_id, stars_owed')
+      .eq('user_id', user.id).eq('settled', false)
+    if (!error) {
+      for (const d of debts ?? []) {
+        const cid = String(d.child_id)
+        giftOwedBy.set(cid, (giftOwedBy.get(cid) ?? 0) + (Number(d.stars_owed) || 0))
+      }
+    }
+  }
+  const agreedBy = new Map<string, string>()
+  {
+    const { data: links, error } = await supabase
+      .from('kid_links').select('child_id, agreed_at')
+      .eq('user_id', user.id).not('agreed_at', 'is', null)
+    if (!error) {
+      for (const l of links ?? []) agreedBy.set(String(l.child_id), String(l.agreed_at))
+    }
+  }
+
   const bankBy = new Map(banks.map(b => [b.child_id, b.balance]))
   const sessionBy = new Map((sessions ?? []).map(s => [s.child_id as string, s]))
   const requestBy = new Map((requests ?? []).map(r => [r.child_id as string, r]))
@@ -80,6 +105,8 @@ export async function GET() {
           .map(([device, agg]) => ({ device, minutes: agg.minutes, sessions: agg.sessions }))
           .sort((a, b) => b.minutes - a.minutes),
         sessionsToday: todayCountBy.get(c.id as string) ?? 0,
+        giftOwed: giftOwedBy.get(c.id as string) ?? 0,
+        agreedAt: agreedBy.get(c.id as string) ?? null,
       }
     }),
   })
