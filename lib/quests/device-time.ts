@@ -7,6 +7,12 @@ import { STAR_MINUTES } from './templates'
 
 export type DeviceKey = 'phone' | 'tablet' | 'tv' | 'console'
 
+// The device rule in child words, said the same way everywhere a device
+// could be used: the Use my time tile, the timer card, and the quiet line
+// under the Today list. A child should always know what using any device
+// means here.
+export const TIMER_RULE = 'Any screen goes through my timer. Do jobs, earn stars, start the timer.'
+
 export const DEVICES: { key: DeviceKey; label: string; emoji: string }[] = [
   { key: 'phone', label: 'Phone', emoji: '📱' },
   { key: 'tablet', label: 'Tablet', emoji: '📲' },

@@ -9,6 +9,7 @@ import { getActiveSession } from '@/lib/quests/device-time'
 import { getMinutesUsedToday } from '@/lib/quests/usage'
 import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
 import { hasFullAccess } from '@/lib/access'
+import { contractLevelFor } from '@/lib/content/kid-contract'
 import KidQuestScreen from './KidQuestScreen'
 
 // The kid's own screen. Opened from the private link their parent sends,
@@ -296,6 +297,28 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   }
   const agreementSigned = Boolean(agreementRow?.signed_by_parent && agreementRow?.signed_by_child)
 
+  // The age based timer contract and the gifted time still owed. Both land
+  // with migration 080, so each read is its own best effort query that fails
+  // soft on an older database: the contract gate simply waits until the
+  // columns exist, and the owed row stays hidden until the table does.
+  let contractAgreedAt: string | null = null
+  let contractReady = false
+  {
+    const { data, error } = await supabase
+      .from('kid_links').select('agreed_at').eq('token', token).maybeSingle()
+    if (!error) {
+      contractReady = true
+      contractAgreedAt = (data?.agreed_at as string | null) ?? null
+    }
+  }
+  let giftStarsOwed = 0
+  {
+    const { data, error } = await supabase
+      .from('gift_debts').select('stars_owed')
+      .eq('child_id', link.child_id).eq('settled', false)
+    if (!error) giftStarsOwed = (data ?? []).reduce((sum, d) => sum + (Number(d.stars_owed) || 0), 0)
+  }
+
   return (
     <KidQuestScreen
       token={token}
@@ -324,6 +347,10 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       requests={(requestsRes.data ?? []) as { id: string; title: string; emoji: string; status: string }[]}
       schoolToday={schoolToday}
       notes={notes}
+      contractLevel={contractLevelFor(ageBand ?? null)}
+      contractAgreedAt={contractAgreedAt}
+      contractReady={contractReady}
+      giftStarsOwed={giftStarsOwed}
     />
   )
 }

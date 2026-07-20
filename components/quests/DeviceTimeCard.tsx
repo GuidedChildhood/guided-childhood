@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from 'react'
 import { useRouter } from 'next/navigation'
-import { DEVICES, deviceEmoji, deviceLabel, type ActiveSession } from '@/lib/quests/device-time'
+import { DEVICES, TIMER_RULE, deviceEmoji, deviceLabel, type ActiveSession } from '@/lib/quests/device-time'
 import { STAR_MINUTES } from '@/lib/quests/templates'
 import Celebration from '@/components/ui/Celebration'
 
@@ -537,6 +537,12 @@ export default function DeviceTimeCard({
         </span>
         <span style={{ fontSize: '1.3rem', flexShrink: 0 }}>{canSpend ? '▶' : '→'}</span>
       </button>
+
+      {/* The device rule, said the same way here as everywhere else, so the
+          timer card itself always carries what using any screen means. */}
+      <p style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, letterSpacing: '0.03em', color: 'var(--ink-muted)', lineHeight: 1.6, margin: '10px 6px 0' }}>
+        {TIMER_RULE}
+      </p>
     </div>
   )
 }

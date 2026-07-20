@@ -13,6 +13,25 @@ import { STAR_MINUTES } from '@/lib/quests/templates'
 // The child hears the yes on their own phone: the task is confirmed and
 // the stars are now minutes to spend. Best effort, silent if their phone
 // is not set up (the quest page shows the same on next open).
+// A gift of screen time is paid back by doing a job: every approved tick
+// settles the oldest open gift debt for that child, marking it settled. One
+// job says thanks for one gift, however big either was, because the pay
+// back is a gesture, never a ledger. Fails soft before migration 080.
+type OwnerClient = Pick<import('@supabase/supabase-js').SupabaseClient, 'from'>
+async function settleOldestGiftDebt(supabase: OwnerClient, userId: string, childId: string) {
+  try {
+    const { data: debt, error } = await supabase
+      .from('gift_debts')
+      .select('id')
+      .eq('user_id', userId).eq('child_id', childId).eq('settled', false)
+      .order('created_at', { ascending: true })
+      .limit(1)
+      .maybeSingle()
+    if (error || !debt?.id) return
+    await supabase.from('gift_debts').update({ settled: true }).eq('id', debt.id)
+  } catch { /* the debt stays open for the next approved job */ }
+}
+
 async function tellChildConfirmed(userId: string, childId: string, title: string, stars: number) {
   const minutes = stars * STAR_MINUTES
   await pushToChild(
@@ -53,7 +72,10 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: error.message }, { status: 500 })
       }
     }
-    if (quest.child_id) await tellChildConfirmed(user.id, quest.child_id, quest.title, quest.stars ?? 1)
+    if (quest.child_id) {
+      await settleOldestGiftDebt(supabase, user.id, quest.child_id)
+      await tellChildConfirmed(user.id, quest.child_id, quest.title, quest.stars ?? 1)
+    }
     return NextResponse.json({ ok: true })
   }
 
@@ -76,6 +98,7 @@ export async function POST(req: NextRequest) {
   if (decision === 'approve') {
     const { data: tick } = await supabase
       .from('quest_ticks').select('quest_id, child_id').eq('id', tick_id).eq('user_id', user.id).maybeSingle()
+    if (tick?.child_id) await settleOldestGiftDebt(supabase, user.id, tick.child_id)
     if (tick?.child_id && tick.quest_id) {
       const { data: quest } = await supabase
         .from('family_quests').select('title, stars').eq('id', tick.quest_id).maybeSingle()
