@@ -73,8 +73,8 @@ export default function DigiGreeter() {
     >
       <div style={{ position: 'relative', flex: 1 }}>
         <div style={{
-          background: 'var(--cream)', border: '1.5px solid var(--terracotta)', borderRadius: '20px',
-          boxShadow: '0 16px 44px rgba(26,26,46,0.2)', padding: '16px 18px 15px',
+          background: '#fff', border: '1.5px solid var(--border)', borderRadius: '18px 18px 4px 18px',
+          boxShadow: '0 3px 0 rgba(26,26,46,0.05), 0 16px 44px rgba(26,26,46,0.14)', padding: '16px 18px 15px',
         }}>
           <button
             onClick={() => setShow(false)}
@@ -89,7 +89,7 @@ export default function DigiGreeter() {
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '7px' }}>
             DiGi
           </div>
-          <p style={{ fontSize: '13.5px', color: 'var(--ink)', lineHeight: 1.6, margin: '0 0 12px', fontWeight: 600, minHeight: '4.8em' }}>
+          <p style={{ fontSize: '14.5px', color: 'var(--ink)', lineHeight: 1.5, margin: '0 0 12px', minHeight: '4.5em' }}>
             {typed}
             {!done && <span style={{ display: 'inline-block', width: '2px', height: '1em', background: 'var(--terracotta)', marginLeft: '1px', verticalAlign: '-2px', animation: 'digiCaret 0.7s step-end infinite' }} />}
           </p>
@@ -108,7 +108,7 @@ export default function DigiGreeter() {
           )}
         </div>
         {/* Speech bubble tail pointing at DiGi */}
-        <div style={{ position: 'absolute', right: '-7px', bottom: '18px', width: 0, height: 0, borderTop: '8px solid transparent', borderBottom: '8px solid transparent', borderLeft: '10px solid var(--cream)', filter: 'drop-shadow(1.5px 0 0 var(--terracotta))' }} />
+        <div style={{ position: 'absolute', right: '-7px', bottom: '18px', width: 0, height: 0, borderTop: '8px solid transparent', borderBottom: '8px solid transparent', borderLeft: '10px solid #fff', filter: 'drop-shadow(1.5px 0 0 var(--border))' }} />
       </div>
 
       {/* DiGi the golden star */}
