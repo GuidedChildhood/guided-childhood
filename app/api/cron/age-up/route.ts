@@ -45,7 +45,10 @@ export async function GET(req: NextRequest) {
     .select('id, parent_id, name, age_band, date_of_birth')
     .not('date_of_birth', 'is', null)
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 502 })
+    // Fail soft before migration 083 lands: no date_of_birth column means
+    // nothing to age up yet, so the cron reports a quiet day rather than
+    // erroring. The day the migration runs, this route starts working.
+    return NextResponse.json({ ok: true, checked: 0, movedUp: 0, pushed: 0, skipped: error.message })
   }
 
   const today = new Date()

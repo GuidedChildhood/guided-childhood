@@ -37,6 +37,8 @@ import { getParentLessons, getCompletionsForChild } from '@/lib/lessons/parent-l
 import { getDailyStreak } from '@/lib/pathway/streak'
 import { getTodayLoop } from '@/lib/pathway/daily-tasks'
 import type { StageId as PathwayStageId } from '@/lib/pathway/progress'
+import ChildSwitcher from '@/components/children/ChildSwitcher'
+import { pickChild } from '@/lib/children/select'
 
 const WEEKLY_ACTIONS = [
   'Put the bedroom rule in place',
@@ -44,10 +46,11 @@ const WEEKLY_ACTIONS = [
   'Do this week’s wellbeing check in',
 ]
 
-export default async function DashboardPage() {
+export default async function DashboardPage({ searchParams }: { searchParams: Promise<{ child?: string }> }) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
+  const { child: childParam } = await searchParams
 
   const { data: profile } = await supabase
     .from('profiles')
@@ -67,7 +70,7 @@ export default async function DashboardPage() {
   const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
 
   const [childResult, dailySessionResult, todayMomentsResult, lastFeedbackResult, schoolActionsResult, schoolConnectionResult, agreementResult, questsCountResult, pushSubResult, anySessionResult, anySchoolActionResult, kidLinksResult, focusConcernResult] = await Promise.all([
-    supabase.from('children').select('id, name, age_band, stage_id, streak_weeks, actions_this_week').eq('parent_id', user.id).eq('is_primary', true).single(),
+    supabase.from('children').select('id, name, age_band, stage_id, streak_weeks, actions_this_week, is_primary').eq('parent_id', user.id).order('is_primary', { ascending: false }),
     supabase.from('daily_sessions').select('completed_at').eq('user_id', user.id).eq('session_date', today).maybeSingle(),
     supabase.from('daily_moments').select('id, title, category, age_bands, icon, science_brief, digi_opener').eq('active', true).order('sort_order').limit(20),
     supabase.from('digi_feedback').select('feedback_date, question, parent_response, digi_insight').eq('user_id', user.id).not('parent_response', 'is', null).gte('feedback_date', sevenDaysAgo).order('feedback_date', { ascending: false }).limit(1).maybeSingle(),
@@ -90,13 +93,12 @@ export default async function DashboardPage() {
     supabase.from('concerns').select('label, status').eq('user_id', user.id).in('status', ['open', 'improving']).order('last_flagged_at', { ascending: false }).limit(1).maybeSingle(),
   ])
 
-  const child = childResult.data
-  // Every child's name, primary first, so DiGi can greet the whole family by
-  // name in the welcome sheet.
-  const { data: allKids } = await supabase
-    .from('children').select('name, age_band, is_primary').eq('parent_id', user.id)
-    .order('is_primary', { ascending: false })
-  const welcomeChildren = (allKids ?? [])
+  // Every child, primary first. The whole page runs on the selected child
+  // (?child=<id>, defaulting to the primary), and the same list feeds the
+  // switcher pills and DiGi's whole family greeting in the welcome sheet.
+  const allKids = childResult.data ?? []
+  const child = pickChild(allKids, childParam)
+  const welcomeChildren = allKids
     .filter(k => k.name)
     .map(k => ({ name: k.name as string, ageBand: (k.age_band as string | null) ?? null }))
 
@@ -114,8 +116,8 @@ export default async function DashboardPage() {
   // have a phone. We record around 9 as the point that starts, so any band
   // above Foundation (4 to 7) shows it. If the parent set an even younger
   // child, the step simply waits until they move up.
-  const phoneAge = !!childResult.data?.age_band && childResult.data.age_band !== '4-7'
-  const hasKidLink = (kidLinksResult.data ?? []).some(k => k.child_id === childResult.data?.id)
+  const phoneAge = !!child?.age_band && child.age_band !== '4-7'
+  const hasKidLink = (kidLinksResult.data ?? []).some(k => k.child_id === child?.id)
   const setupFlags = {
     agreement: !!agreementResult.data,
     quests: (questsCountResult.count ?? 0) > 0,
@@ -257,6 +259,9 @@ export default async function DashboardPage() {
 
   return (
     <div style={{ maxWidth: '640px', margin: '0 auto', padding: '24px 20px' }}>
+      {/* More than one child: butter pills at the top switch whose day this
+          is. Every reading below recomputes for the selected child. */}
+      <ChildSwitcher kids={allKids} selectedId={child?.id ?? null} basePath="/dashboard" />
       {/* DiGi comes up first, once a day, greeting the family by name */}
       <DigiWelcomeSheet
         childrenInfo={welcomeChildren}

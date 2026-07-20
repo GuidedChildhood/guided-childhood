@@ -4,6 +4,7 @@ import SchoolLink from '@/components/digi/SchoolLink'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { AGE_BAND_OPTIONS, getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
+import { bandForAge } from '@/lib/children/age'
 import Link from 'next/link'
 
 interface Profile {
@@ -37,6 +38,9 @@ export default function SettingsPage() {
   const [profile, setProfile] = useState<Profile | null>(null)
   const [kids, setKids] = useState<Child[]>([])
   const [forms, setForms] = useState<Record<string, ChildForm>>({})
+  // False when migration 083 has not run yet: the birthday field hides and
+  // saves write the same columns they always did.
+  const [dobSupported, setDobSupported] = useState(true)
   const [loading, setLoading] = useState(true)
 
   // Profile form
@@ -51,16 +55,30 @@ export default function SettingsPage() {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) { router.push('/login'); return }
 
-      const [profileResult, childrenResult] = await Promise.all([
+      // date_of_birth arrives with migration 083. Until that runs, the
+      // column select fails, so we fail soft: load without it and the
+      // birthday field simply waits. Nothing breaks either side of the
+      // migration landing.
+      let [profileResult, childrenResult] = await Promise.all([
         supabase.from('profiles').select('full_name, email, subscription_status, subscription_tier, is_founder').eq('id', user.id).single(),
         supabase.from('children').select('id, name, age_band, date_of_birth, is_primary').eq('parent_id', user.id).order('is_primary', { ascending: false }),
       ])
+      if (childrenResult.error) {
+        childrenResult = await supabase.from('children').select('id, name, age_band, is_primary').eq('parent_id', user.id).order('is_primary', { ascending: false }) as typeof childrenResult
+        setDobSupported(false)
+      }
 
       if (profileResult.data) {
         setProfile(profileResult.data)
         setName(profileResult.data.full_name ?? '')
       }
-      const loadedKids = (childrenResult.data ?? []) as Child[]
+      const loadedKids = ((childrenResult.data ?? []) as Partial<Child>[]).map(k => ({
+        id: k.id as string,
+        name: k.name ?? 'Your child',
+        age_band: k.age_band ?? '8-10',
+        date_of_birth: k.date_of_birth ?? null,
+        is_primary: k.is_primary ?? false,
+      })) as Child[]
       setKids(loadedKids)
       setForms(Object.fromEntries(loadedKids.map(k => [k.id, {
         name: k.name === 'Your child' ? '' : k.name,
@@ -103,16 +121,17 @@ export default function SettingsPage() {
     // every day after, so everything grows up on its own. Without one, the
     // hand picked band stands. stage_id stores the stage slug (foundation,
     // builder, ...), the same value onboarding writes.
-    const band = bandForAge(form.dob || null) ?? form.ageBand
+    const band = (dobSupported ? bandForAge(form.dob || null) : null) ?? form.ageBand
     const stage = getStageFromAgeBand(band)
+    const update: Record<string, string | null> = {
+      name: form.name.trim() || 'Your child',
+      age_band: band,
+      stage_id: stage.name.toLowerCase(),
+    }
+    if (dobSupported) update.date_of_birth = form.dob || null
     const { error: err } = await supabase
       .from('children')
-      .update({
-        name: form.name.trim() || 'Your child',
-        age_band: band,
-        stage_id: stage.name.toLowerCase(),
-        date_of_birth: form.dob || null,
-      })
+      .update(update)
       .eq('id', id)
     if (err) { setError(err.message); patchForm(id, { saving: false }); return }
     setKids(ks => ks.map(k => k.id === id ? { ...k, name: form.name.trim() || 'Your child', age_band: band, date_of_birth: form.dob || null } : k))
@@ -198,7 +217,7 @@ export default function SettingsPage() {
       {kids.map(kid => {
         const form = forms[kid.id]
         if (!form) return null
-        const hasDob = !!form.dob
+        const hasDob = dobSupported && !!form.dob
         const derivedBand = hasDob ? bandForAge(form.dob) : null
         return (
         <section key={kid.id} style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '16px' }}>
@@ -217,6 +236,7 @@ export default function SettingsPage() {
                 placeholder="Your child"
               />
             </div>
+            {dobSupported && (
             <div>
               <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '6px' }}>
                 Birthday
@@ -237,6 +257,7 @@ export default function SettingsPage() {
                 </p>
               )}
             </div>
+            )}
             {!hasDob && (
             <div>
               <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '10px' }}>

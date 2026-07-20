@@ -10,13 +10,16 @@ import LiteracyAreas from '@/components/pathway/LiteracyAreas'
 import { getLiteracyStatuses } from '@/lib/pathway/literacy-status'
 import { getStageProgress, type StageId as ProgressStageId } from '@/lib/pathway/progress'
 import { getJourney } from '@/lib/pathway/journey'
+import ChildSwitcher from '@/components/children/ChildSwitcher'
+import { pickChild } from '@/lib/children/select'
 
 type Child = { id: string; name: string; age_band: string | null; stage_id: string | null; is_primary: boolean; streak_weeks: number | null }
 
-export default async function PathwayPage() {
+export default async function PathwayPage({ searchParams }: { searchParams: Promise<{ child?: string }> }) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
+  const { child: childParam } = await searchParams
 
   const [profileResult, childrenResult] = await Promise.all([
     supabase.from('profiles').select('subscription_status, trial_ends_at, onboarding_answers').eq('id', user.id).single(),
@@ -30,7 +33,9 @@ export default async function PathwayPage() {
     foundation: 1, builder: 2, explorer: 3, shaper: 4, independent: 5,
   }
 
-  const primaryChild = children[0]
+  // The whole road renders for the selected child (?child=<id>), defaulting
+  // to the primary, so a second or third child gets their own pathway too.
+  const primaryChild = pickChild(children, childParam)
   const currentStageNum = primaryChild?.stage_id ? stageIdToNum[primaryChild.stage_id] ?? null : null
 
   const [currentStageProgress, journey] = primaryChild?.stage_id
@@ -61,6 +66,7 @@ export default async function PathwayPage() {
     <div style={{ padding: '24px 0 32px' }}>
       {/* Header */}
       <div style={{ padding: '0 20px', maxWidth: '720px', margin: '0 auto', marginBottom: '20px' }}>
+        <ChildSwitcher kids={children} selectedId={primaryChild?.id ?? null} basePath="/dashboard/pathway" />
         <p className="eyebrow" style={{ marginBottom: '4px' }}>Your journey</p>
         <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '8px' }}>The pathway to 16</h1>
         <p style={{ color: 'var(--ink-soft)', fontSize: '16px', lineHeight: 1.6, maxWidth: '560px' }}>
