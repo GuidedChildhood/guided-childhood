@@ -270,6 +270,13 @@ export default function KidTodayList({
 
   const rows = [...jobRows, learnRow, moveRow]
 
+  // Jobs already sent to the grown up need nothing from the child, so they
+  // fold behind one quiet button instead of filling the top of the page. The
+  // count keeps them visible, the tap brings them back for a look.
+  const activeRows = rows.filter(r => r.state !== 'waiting')
+  const waitingRows = rows.filter(r => r.state === 'waiting')
+  const [waitingOpen, setWaitingOpen] = useState(false)
+
   const rowCard = (r: Row) => {
     const done = r.state === 'done'
     const waiting = r.state === 'waiting'
@@ -396,7 +403,27 @@ export default function KidTodayList({
         </div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '11px' }}>
-          {rows.map(rowCard)}
+          {activeRows.map(rowCard)}
+          {waitingRows.length > 0 && (
+            <>
+              <button
+                onClick={() => setWaitingOpen(o => !o)}
+                style={{
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10,
+                  width: '100%', background: 'rgba(255,255,255,0.10)', border: '1.5px dashed rgba(255,255,255,0.28)',
+                  borderRadius: '16px', padding: '12px 16px', cursor: 'pointer',
+                }}
+              >
+                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: 'rgba(255,255,255,0.85)' }}>
+                  ⏳ With your grown up · {waitingRows.length}
+                </span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)' }}>
+                  {waitingOpen ? 'Hide' : 'Show'}
+                </span>
+              </button>
+              {waitingOpen && waitingRows.map(rowCard)}
+            </>
+          )}
         </div>
       )}
 
