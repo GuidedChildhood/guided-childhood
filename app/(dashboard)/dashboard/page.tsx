@@ -9,40 +9,33 @@ import PushPrompt from '@/components/push/PushPrompt'
 import DeviceSetupBanner from '@/components/device/DeviceSetupBanner'
 import SmartAlerts from '@/components/alerts/SmartAlerts'
 import DigiPrompts from '@/components/digi/DigiPrompts'
-import WeeklyReviewCard from '@/components/digi/WeeklyReviewCard'
 import DigiWondering from '@/components/digi/DigiWondering'
 import SundayCheckIn from '@/components/digi/SundayCheckIn'
 import RevealCard from '@/components/onboarding/RevealCard'
 import { revealedKeys, eligibleReveals, daysSince } from '@/lib/onboarding/reveal'
 import { getSuggestions, type Suggestion } from '@/lib/alerts/suggestions'
-import StreakFlame from '@/components/daily/StreakFlame'
 import DigiStreakWidget from '@/components/digi/DigiStreakWidget'
 import AddChildName from '@/components/dashboard/AddChildName'
 import SchoolActionsCard, { type SchoolAction } from '@/components/school/SchoolActionsCard'
 import SchoolPromoCard from '@/components/school/SchoolPromoCard'
-import QuestBoard from '@/components/quests/QuestBoard'
 import WaitingOnYou from '@/components/quests/WaitingOnYou'
 import HomeStats from '@/components/dashboard/HomeStats'
 import { visibleSteps as visibleSetupSteps } from '@/lib/setup/steps'
 import SocialMediaReadiness from '@/components/pathway/SocialMediaReadiness'
 import SetupUnlockToast from '@/components/setup/SetupUnlockToast'
 import DigiWelcomeSheet from '@/components/digi/DigiWelcomeSheet'
-import TodayPathStrip from '@/components/daily/TodayPathStrip'
-import RoadToSixteen from '@/components/pathway/RoadToSixteen'
+import TodayPathBig from '@/components/daily/TodayPathBig'
+import DigiGreeting from '@/components/home/DigiGreeting'
+import HomeRows from '@/components/home/HomeRows'
+import LiveTimerChip from '@/components/home/LiveTimerChip'
+import ExploreGrid from '@/components/home/ExploreGrid'
+import { investedMinutes } from '@/lib/pathway/task-minutes'
 import { getLiteracyStatuses } from '@/lib/pathway/literacy-status'
 import DigiLessonNudge from '@/components/lessons/DigiLessonNudge'
 import { getParentLessons, getCompletionsForChild } from '@/lib/lessons/parent-lessons'
 import { getDailyStreak } from '@/lib/pathway/streak'
 import { getTodayLoop } from '@/lib/pathway/daily-tasks'
 import type { StageId as PathwayStageId } from '@/lib/pathway/progress'
-
-const STAGE_COLORS = {
-  1: { bg: 'var(--stage-1)', bold: 'var(--stage-1-bold)', text: 'var(--stage-1-text)', border: 'var(--stage-1)' },
-  2: { bg: 'var(--stage-2)', bold: 'var(--stage-2-bold)', text: 'var(--stage-2-text)', border: 'var(--stage-2)' },
-  3: { bg: 'var(--stage-3)', bold: 'var(--stage-3-bold)', text: 'var(--stage-3-text)', border: 'var(--stage-3)' },
-  4: { bg: 'var(--stage-4)', bold: 'var(--stage-4-bold)', text: 'var(--stage-4-text)', border: 'var(--stage-4)' },
-  5: { bg: 'var(--stage-5)', bold: 'var(--stage-5-bold)', text: 'var(--stage-5-text)', border: 'var(--stage-5)' },
-} as const
 
 const WEEKLY_ACTIONS = [
   'Put the bedroom rule in place',
@@ -186,7 +179,6 @@ export default async function DashboardPage() {
     ? getStageFromAgeBand(child.age_band as AgeBand)
     : STAGES[0]
 
-  const stageColor = STAGE_COLORS[stage.id as keyof typeof STAGE_COLORS]
   const isPaid = hasFullAccess(profile, user.email)
   // The parent's first name, resolved from the best source we have: the
   // profile, then the auth metadata set at signup, then the email local part,
@@ -310,50 +302,61 @@ export default async function DashboardPage() {
           </Link>
         </div>
       )}
-      {/* Header — child name + stage + streak */}
-      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '22px', gap: '12px' }}>
-        <div>
-          {/* The tour promises "Step into Teo's pathway"; Home pays it off.
-              A bare name read as a label, the possessive reads as a road
-              that belongs to them. */}
-          <h1 style={{ fontSize: 'clamp(1.9rem, 6.5vw, 2.6rem)', fontWeight: 900, letterSpacing: '-0.035em', lineHeight: 1.02, marginBottom: '8px' }}>
-            {(child?.name && child.name !== 'Your child') ? `${child.name}'s pathway` : `Hello ${firstName}`}
-          </h1>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-            <span style={{
-              fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600,
-              letterSpacing: '0.1em', textTransform: 'uppercase',
-              background: stageColor.bold, color: stageColor.text,
-              padding: '3px 10px', borderRadius: '100px',
-            }}>
-              Stage {stage.id} · {stage.name}
-            </span>
-            {stage.isCritical && (
-              <span style={{
-                fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 600,
-                letterSpacing: '0.08em', textTransform: 'uppercase',
-                background: 'var(--terracotta)', color: 'var(--ink)',
-                padding: '3px 8px', borderRadius: '100px',
-              }}>
-                Critical window
-              </span>
-            )}
-          </div>
-        </div>
-        <StreakFlame count={streak.count} aliveToday={streak.aliveToday} />
-      </div>
+      {/* DiGi greets in one line: who, where on the road, and what today
+          costs in minutes, with the streak flame alongside. The h1 header
+          this replaces said the same things across three rows. */}
+      {(() => {
+        const dailyBudget = (profile?.daily_minutes as number | null) ?? 10
+        const spent = investedMinutes(todayLoop)
+        const stepsAllDone = todayLoop.filter(t => t.key !== 'done').every(t => t.done)
+        return (
+          <DigiGreeting
+            firstName={firstName}
+            childName={child?.name ?? undefined}
+            stageName={stage.name}
+            stageNum={stage.id}
+            minutesLeft={Math.max(1, dailyBudget - spent)}
+            dayDone={spent >= dailyBudget || stepsAllDone}
+            streakCount={streak.count}
+            aliveToday={streak.aliveToday}
+          />
+        )
+      })()}
+
+      {/* The device timer, only when it is live: a child's running countdown
+          or a pending ask, one slim row that opens the full card on Quests.
+          Nothing renders here on a quiet day. */}
+      <LiveTimerChip />
 
       {/* Waiting on you: the one clear next action at the top. A red count of
-          the quests to approve and the ideas a child pitched, tapping down to
-          the board where a parent acts on them. Silent when nothing waits. */}
+          the quests to approve and the ideas a child pitched, tapping through
+          to where a parent acts on them. Silent when nothing waits. */}
       <WaitingOnYou />
 
-      {/* The hero of Home, straight after the urgent count: the promise (where
-          this child is on the road to 16) and the day (one clear strip, DiGi on
-          the lit next step). A parent knows exactly what to do the moment they
-          land, before anything else asks for attention. */}
-      <RoadToSixteen childName={child?.name ?? undefined} stageId={stage.id} streakCount={streak.count} statuses={literacyStatuses} />
-      <TodayPathStrip tasks={todayLoop} dailyMinutes={(profile?.daily_minutes as number | null) ?? 10} childName={child?.name ?? undefined} streakCount={streak.count} />
+      {/* The hero of Home: today's loop as the big vertical path, Duolingo
+          sized, DiGi on the lit next step and one big Go. A parent knows
+          exactly what to do the moment they land. */}
+      <TodayPathBig tasks={todayLoop} dailyMinutes={(profile?.daily_minutes as number | null) ?? 10} childName={child?.name ?? undefined} streakCount={streak.count} />
+
+      {/* Everything else folds to big friendly rows: quests with the live
+          approve count, the road to 16 with the stamp position, and DiGi.
+          Sundays add the round up row. The full quest board lives on the
+          Quests page, the full road on the Pathway page, the strand ticks on
+          the Progress page. */}
+      {(() => {
+        const dayName = new Intl.DateTimeFormat('en-GB', { weekday: 'short', timeZone: 'Europe/London' }).format(new Date())
+        const handover = !!child?.age_band && child.age_band !== '4-7' && !hasKidLink
+          && !!child?.name && child.name !== 'Your child'
+        return (
+          <HomeRows
+            stageName={stage.name}
+            stageNum={stage.id}
+            criticalWindow={stage.isCritical}
+            handoverChildName={handover ? child!.name : null}
+            isSunday={dayName === 'Sun'}
+          />
+        )
+      })()}
 
       {/* Stage the reveal: DiGi introduces one newly unlocked feature to a new
           parent, once. Silent for an established account. */}
@@ -364,16 +367,14 @@ export default async function DashboardPage() {
           surfaces take turns by day: the round up on Friday and Saturday when
           it is fresh, DiGi wondering the rest of the week. At most two quiet
           cards here, never three. */}
-      {revealed.has('wellbeing') && (() => {
-        const dayName = new Intl.DateTimeFormat('en-GB', { weekday: 'short', timeZone: 'Europe/London' }).format(new Date())
-        const roundupDay = dayName === 'Fri' || dayName === 'Sat'
-        return (
-          <>
-            <SundayCheckIn />
-            {roundupDay ? <WeeklyReviewCard /> : <DigiWondering />}
-          </>
-        )
-      })()}
+      {revealed.has('wellbeing') && (
+        <>
+          {/* The Sunday round up now rides as a row in HomeRows above; the
+              check in and DiGi's occasional wondering keep their spot. */}
+          <SundayCheckIn />
+          <DigiWondering />
+        </>
+      )}
 
       {/* Setup lives on its own page now, out of the daily Home. While it is
           unfinished, Home carries one compact way in, naming the next step;
@@ -458,12 +459,39 @@ export default async function DashboardPage() {
           the three numbers a parent wants at a glance. */}
       <HomeStats streakCount={streak.count} streakTotal={streak.total} />
 
-      {/* Family quests, high in the daily flow: every child at a glance,
-          tickable here. The id is the anchor the Waiting on you banner
-          scrolls to. */}
-      <div id="quest-board" style={{ scrollMarginTop: '80px' }}>
-        <QuestBoard />
+      {/* Push notification opt-in. Rendered whenever check ins are not yet on
+          (so the enable button is always reachable, including when a parent
+          taps the Turn on check ins step out of order), and kept once they are
+          on so the granted state and Send a test stay available. The id is the
+          anchor the setup step link scrolls to. Stays outside the fold below
+          so that link never lands on a closed drawer. */}
+      <div id="turn-on-check-ins" style={{ marginBottom: '20px', scrollMarginTop: '80px' }}>
+        <PushPrompt userId={user.id} stage={`Stage ${stage.id}`} />
       </div>
+
+      {/* See everything we do: the whole platform as grouped big icon tiles
+          (the Explore section), then every quieter card Home used to stack,
+          all one tap behind one calm row so the daily screen keeps one shape
+          and the next action above stays dominant. */}
+      <details className="gc-home-more" style={{ marginBottom: '20px' }}>
+        <summary style={{
+          display: 'flex', alignItems: 'center', gap: '13px', cursor: 'pointer',
+          background: '#fff', border: '1.5px solid var(--border)', borderRadius: '16px',
+          padding: '14px 15px', boxShadow: '0 3px 0 rgba(26,26,46,0.05)', listStyle: 'none',
+        }}>
+          <span style={{ width: 50, height: 50, borderRadius: '14px', background: 'var(--terracotta-lt)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px', flexShrink: 0 }}>🧭</span>
+          <span style={{ flex: 1, minWidth: 0 }}>
+            <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)', lineHeight: 1.2 }}>See everything we do</span>
+            <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: '12.5px', color: 'var(--ink-muted)', marginTop: '3px' }}>Every part of the platform, one tap away</span>
+          </span>
+          <span aria-hidden style={{ color: 'var(--ink-muted)', fontWeight: 800, flexShrink: 0 }}>›</span>
+        </summary>
+        <div style={{ paddingTop: '16px' }}>
+
+        {/* The Explore grid: grouped big icons, every tile an existing page */}
+        <ExploreGrid scriptHref={todayLoop.find(t => t.key === 'script')?.href ?? '/dashboard/scripts'} />
+
+        <p className="eyebrow" style={{ margin: '4px 0 10px 2px', fontSize: 10 }}>Your cards and prompts</p>
 
       {/* DiGi hands a lesson straight to the parent, so lessons are reachable
           on mobile even without a Lessons tab: watch together here, or send it
@@ -556,16 +584,6 @@ export default async function DashboardPage() {
           </Link>
         </div>
       )}
-
-      {/* Push notification opt-in. Rendered whenever check ins are not yet on
-          (so the enable button is always reachable, including when a parent
-          taps the Turn on check ins step out of order), and kept once they are
-          on so the granted state and Send a test stay available. The id is the
-          anchor the step link scrolls to, which is what makes that button
-          actually do something instead of a silent reload. */}
-      <div id="turn-on-check-ins" style={{ marginBottom: '20px', scrollMarginTop: '80px' }}>
-        <PushPrompt userId={user.id} stage={`Stage ${stage.id}`} />
-      </div>
 
       {/* Device setup prompt: a supplementary ask, held back until the core
           setup path is done so it never competes with the current step. */}
@@ -804,6 +822,9 @@ export default async function DashboardPage() {
           </Link>
         </div>
       )}
+
+        </div>
+      </details>
     </div>
   )
 }

@@ -1596,3 +1596,42 @@ it matches children.age_band directly, and the range overlap matcher covers the
 older 8-11 style seed too. Icons are emoji placeholders: the Higgsfield
 illustrations, in the Happy News style, are the Mobbin lane, briefed separately.
 Idempotent insert, guarded by title.
+
+## 20 July 2026 — the narrowed daily flow ships on the real home (PR 397)
+
+Justin approved the ref-daily-flow sample, so the real parent home now has
+one shape every day: DiGi greets in one sentence (road position plus today's
+minutes), the streak chip sits right, THE one card names the one next step
+(same getTodayLoop engine, the minute weights and minutes line copy moved to
+lib/pathway/today-loop-copy.ts so server and client count the day the same
+way), and everything else folds to slim rows. Family quests row carries a
+live N to approve badge; from age 8 to 10 with no kid link yet it also
+carries the QR handover nudge to the quests Share tab. Sunday adds the round
+up row. Nothing was deleted: the quest board (with the goal bars) moved to
+the top of the quests page with its quest-board anchor, the full road strip
+stays on the pathway page, literacy strand ticks stay on the pathway and
+Progress pages, and the quieter cards (moments grid, insight, alerts,
+readiness, school, DiGi extras, upgrade) live inside a folded Everything
+else row on home. The road primitives also scaled up Duolingo style:
+StageDot 64 default (56 kid, 44 mini) with the 0 5px 0 coin edge on every
+state, thicker dotted trails, larger labels, and a sticky stage and stamp
+chip on the pathway page while the road scrolls.
+
+## 20 July 2026 — the daily path and the road go Duolingo sized (PR 397, second pass)
+
+Justin sized the direction: the daily path must be big like the Duolingo
+pathway as the stem of what to do next, and the road to 16 as big as fits
+Duolingo clarity. The one card with four dots is superseded by the big
+vertical winding path (TodayPathBig: same getTodayLoop engine, same minute
+weights from lib/pathway/task-minutes, same copy, 68px pressed edge nodes,
+green ticks, DiGi beside the pulsing current node, the Go callout riding
+next to it, big icon minute chips). The pathway road is the page hero now:
+84px stamp nodes on a thick winding trail, sticky butter position card
+(stage plus stamp of 5), trophy at the end. The timer pops up on Home only
+when relevant: a live countdown row or a pending ask row, tap through to the
+full card on Quests, silent otherwise. Nothing dismantled: the quest board
+kept its move to the top of the quests page with the quest-board anchor, the
+kid handover prompt rides on Home and the quests page from the 8 to 10 band
+until a kid link exists, and every quieter Home card still renders inside
+the folded Everything else row, with the check ins prompt kept outside the
+fold so its setup anchor never lands on a closed drawer.

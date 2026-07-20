@@ -76,24 +76,23 @@ export default async function PathwayPage() {
         )}
       </div>
 
-      {/* The four literacy strands in plain words, each with a live reading
-          from the family's real week: the jobs and screen balance, open
-          worries, and lessons done per strand. Green means on track, red means
-          worth a look, the same readings the rest of the app uses. */}
-      <LiteracyAreas stageId={currentStageNum ?? 1} childName={primaryChild?.name ?? undefined} statuses={await getLiteracyStatuses(supabase, user.id, currentStageNum ?? 1)} />
-
-      {/* THE road. One picture of the whole journey: five stages on one dotted
-          trail, the passport stamp of each stage living on its node, DiGi on
-          the current one, live progress and the stage detail folded into it.
-          This replaces the separate stamp card, road map and stage cards row,
-          so the page never draws the same five stages twice. */}
-      <div style={{ padding: '0 20px', maxWidth: '720px', margin: '0 auto 20px' }}>
+      {/* THE road, the hero of the page: five big stamp nodes on one thick
+          winding trail, Duolingo sized, DiGi on the current one, the sticky
+          position card riding along as you scroll, live progress and the
+          stage detail folded in. */}
+      <div style={{ padding: '0 20px', maxWidth: '560px', margin: '0 auto 28px' }}>
         <StageRoad
           currentStageNum={currentStageNum}
           progressPct={currentStageProgress?.overallPct ?? null}
           childName={primaryChild?.name ?? undefined}
         />
       </div>
+
+      {/* The four literacy strands in plain words, each with a live reading
+          from the family's real week: the jobs and screen balance, open
+          worries, and lessons done per strand. Green means on track, red means
+          worth a look, the same readings the rest of the app uses. */}
+      <LiteracyAreas stageId={currentStageNum ?? 1} childName={primaryChild?.name ?? undefined} statuses={await getLiteracyStatuses(supabase, user.id, currentStageNum ?? 1)} />
 
       {/* Tailored by what this family flagged, not by the child's sex. */}
       {tailoredAction && (
