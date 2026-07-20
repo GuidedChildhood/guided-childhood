@@ -52,5 +52,23 @@ export async function POST(req: NextRequest) {
   })
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
+  // The grown up hears it straight away, best effort: real curriculum work
+  // done off their own bat is the best push a parent can get.
+  try {
+    const { data: child } = await supabase.from('children').select('name').eq('id', link.child_id).maybeSingle()
+    const name = child?.name && child.name !== 'Your child' ? child.name : 'Your child'
+    const origin = process.env.NEXT_PUBLIC_APP_URL ?? req.nextUrl.origin
+    await fetch(`${origin}/api/push/send`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.CRON_SECRET}` },
+      body: JSON.stringify({
+        userId: link.user_id,
+        title: `${name} passed today's school quiz 🏆`,
+        body: `${right} of ${total} on ${quiz.title} (${quiz.yearNote}). 2 bonus stars banked.`,
+        url: '/dashboard/quests',
+      }),
+    })
+  } catch { /* push is best effort */ }
+
   return NextResponse.json({ ok: true, stars: 2 })
 }

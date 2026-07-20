@@ -4,6 +4,8 @@ import QuestManager from './QuestManager'
 import QuestBoard from '@/components/quests/QuestBoard'
 import ParentDeviceTime from '@/components/quests/ParentDeviceTime'
 import SpotSomethingGood from '@/components/quests/SpotSomethingGood'
+import { STAR_MINUTES } from '@/lib/quests/templates'
+import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
 
 // Family Quests: the whole deal on one page now. The board leads (it moved
 // here from Home when the daily screen narrowed): the approve queue, every
@@ -20,10 +22,15 @@ export default async function QuestsPage() {
   const { data: { user } } = await supabase.auth.getUser()
   let handoverName: string | null = null
   let spotKids: { id: string; name: string }[] = []
+  // The deal, tuned to their age: what a good weekday on this board can earn
+  // each child, held against the healthy daily guide for their age, so the
+  // star economy lands the screen time roughly where the evidence points.
+  let tuning: { name: string; earnMins: number; guideMins: number; tone: 'tuned' | 'light' | 'rich' }[] = []
   if (user) {
-    const [{ data: kids }, { data: links }] = await Promise.all([
+    const [{ data: kids }, { data: links }, { data: quests }] = await Promise.all([
       supabase.from('children').select('id, name, age_band, is_primary').eq('parent_id', user.id).order('is_primary', { ascending: false }),
       supabase.from('kid_links').select('child_id').eq('user_id', user.id),
+      supabase.from('family_quests').select('stars, schedule, child_id').eq('user_id', user.id).eq('active', true),
     ])
     const linked = new Set((links ?? []).map(l => l.child_id))
     const ready = (kids ?? []).find(k =>
@@ -31,6 +38,22 @@ export default async function QuestsPage() {
     )
     handoverName = ready?.name ?? null
     spotKids = (kids ?? []).filter(k => k.name && k.name !== 'Your child').map(k => ({ id: k.id, name: k.name }))
+
+    tuning = (kids ?? [])
+      .filter(k => k.name && k.name !== 'Your child')
+      .map(k => {
+        const dayStars = (quests ?? [])
+          .filter(q => (q.child_id === null || q.child_id === k.id) && (q.schedule === 'daily' || q.schedule === 'weekdays'))
+          .reduce((s, q) => s + (Number(q.stars) || 1), 0)
+        const earnMins = dayStars * STAR_MINUTES
+        const guideMins = recommendedDailyMinutes(k.age_band ?? null)
+        const ratio = guideMins > 0 ? earnMins / guideMins : 1
+        return {
+          name: k.name as string, earnMins, guideMins,
+          tone: (ratio < 0.8 ? 'light' : ratio > 1.4 ? 'rich' : 'tuned') as 'tuned' | 'light' | 'rich',
+        }
+      })
+      .filter(t => t.guideMins > 0)
   }
 
   return (
@@ -70,6 +93,32 @@ export default async function QuestsPage() {
       {/* The in the moment star: seen kindness or a job done unasked, reward
           it right here and the reason pings the child's own app. */}
       <SpotSomethingGood kids={spotKids} />
+
+      {/* The deal, tuned to their age: a good day's jobs should earn roughly
+          the healthy screen amount for the child's age, so the economy lands
+          the balance where the evidence points. This names the numbers and
+          the one adjustment when the board runs light or rich. */}
+      {tuning.length > 0 && (
+        <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '16px', padding: '15px 17px', marginTop: '14px' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-soft)', marginBottom: '8px' }}>
+            The deal, tuned to their age
+          </div>
+          {tuning.map(t => (
+            <div key={t.name} style={{ display: 'flex', alignItems: 'baseline', gap: '8px', flexWrap: 'wrap', marginBottom: '6px' }}>
+              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: 'var(--ink)' }}>{t.name}:</span>
+              <span style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
+                a good weekday earns about <strong style={{ color: 'var(--ink)' }}>{t.earnMins} min</strong> · the healthy guide for their age is <strong style={{ color: 'var(--ink)' }}>{t.guideMins} min</strong> ·{' '}
+                {t.tone === 'tuned' && <span style={{ color: '#1F7A54', fontWeight: 700 }}>nicely tuned</span>}
+                {t.tone === 'light' && <span style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>runs light, a job or two more lets them earn the full healthy amount</span>}
+                {t.tone === 'rich' && <span style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>a rich board, they can bank the extra for weekend treats</span>}
+              </span>
+            </div>
+          ))}
+          <p style={{ fontSize: '12px', color: 'var(--ink-muted)', lineHeight: 1.5, margin: '4px 0 0' }}>
+            1 star is {STAR_MINUTES} minutes. Chest, quiz and bonus stars sit on top, so a brilliant day can always beat the guide a little.
+          </p>
+        </div>
+      )}
 
       <QuestManager />
 

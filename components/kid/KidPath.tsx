@@ -58,6 +58,10 @@ export default function KidPath({
   const [quizClaimed, setQuizClaimed] = useState(quizClaimedInitial)
   const [busy, setBusy] = useState(false)
   const [toast, setToast] = useState<string | null>(null)
+  // The chest lottery: opening always banks the star, and the celebration
+  // uncovers a bonus direction, the school quiz, a printable to do and show,
+  // or pure sparkle. Which one is the day's luck.
+  const [chestReveal, setChestReveal] = useState<'quiz' | 'printable' | 'star' | null>(null)
   const [sheet, setSheet] = useState<Stone | null>(null)
   // The quiz run, living inside the character sheet. Each run samples five
   // questions from the band's pool and shuffles every question's answer
@@ -180,7 +184,12 @@ export default function KidPath({
         body: JSON.stringify({ token }),
       })
       const d = await r.json().catch(() => ({}))
-      if (r.ok) { setChestClaimed(true); playKidSound('done'); say('+1 star in your bank ⭐') }
+      if (r.ok) {
+        setChestClaimed(true)
+        playKidSound('done')
+        const finds: ('quiz' | 'printable' | 'star')[] = quizClaimed ? ['printable', 'star'] : ['quiz', 'printable', 'star']
+        setChestReveal(finds[Math.floor(Math.random() * finds.length)])
+      }
       else if (d?.needsMigration) say('The chest is still being built. Soon!')
       else if (/already/.test(String(d?.error))) setChestClaimed(true)
     } catch { /* stays shut */ } finally { setBusy(false) }
@@ -263,6 +272,11 @@ export default function KidPath({
         @keyframes gcStartBob {
           0%, 100% { transform: translate(-50%, 0); }
           50% { transform: translate(-50%, -6px); }
+        }
+        @keyframes gcChestPop {
+          0% { transform: scale(0.3) rotate(-8deg); opacity: 0; }
+          60% { transform: scale(1.15) rotate(3deg); opacity: 1; }
+          100% { transform: scale(1) rotate(0deg); opacity: 1; }
         }
       `}</style>
       <div style={{ maxWidth: '520px', margin: '0 auto' }}>
@@ -436,6 +450,50 @@ export default function KidPath({
           </p>
         </div>
       </div>
+
+      {/* The chest reveal: the mini celebration and the day's lottery. The
+          star is always banked; what it uncovers points somewhere good. */}
+      {chestReveal && (
+        <div onClick={() => setChestReveal(null)} style={{ position: 'fixed', inset: 0, zIndex: 132, background: 'rgba(26,26,46,0.5)', display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
+          <div onClick={e => e.stopPropagation()} style={{ width: '100%', maxWidth: 520, background: 'var(--cream)', borderTopLeftRadius: 26, borderTopRightRadius: 26, padding: '24px 22px calc(28px + env(safe-area-inset-bottom))', boxShadow: '0 -18px 50px -16px rgba(0,0,0,0.5)', textAlign: 'center' }}>
+            <div style={{ fontSize: 56, lineHeight: 1, marginBottom: 8, display: 'inline-block', animation: 'gcChestPop 0.6s ease-out' }}>
+              {chestReveal === 'quiz' ? '🎓' : chestReveal === 'printable' ? '🖍️' : '✨'}
+            </div>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.4rem', color: 'var(--ink)', marginBottom: 4 }}>
+              Chest opened! +1 star banked ⭐
+            </div>
+            <p style={{ fontSize: '15.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 16px' }}>
+              {chestReveal === 'quiz' && 'And inside: the school quiz! Pass it and 2 more stars are yours.'}
+              {chestReveal === 'printable' && 'And inside: a printable! Print it, do it, and show your grown up. Finished sheets can pay stars as a quest.'}
+              {chestReveal === 'star' && 'Pure sparkle today. Spend it well on the timer, or save it up for something bigger.'}
+            </p>
+            {chestReveal === 'quiz' && (
+              <button
+                onClick={() => {
+                  const quizStone = stones.find(s => s.type === 'character' && s.holdsQuiz)
+                  setChestReveal(null)
+                  if (quizStone) openSheet(quizStone)
+                }}
+                style={{ width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 14, padding: '14px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 15.5, boxShadow: '0 5px 0 var(--terracotta-dark)' }}
+              >
+                Take the quiz, 2 more stars →
+              </button>
+            )}
+            {chestReveal === 'printable' && (
+              <a
+                href={`/k/${token}?tab=print`}
+                onClick={() => playKidSound('tap')}
+                style={{ display: 'block', width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 14, padding: '14px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 15.5, boxShadow: '0 5px 0 var(--terracotta-dark)', boxSizing: 'border-box' }}
+              >
+                See the printables →
+              </a>
+            )}
+            <button onClick={() => setChestReveal(null)} style={{ background: 'none', border: 'none', cursor: 'pointer', margin: '14px auto 0', fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: 14, color: 'var(--ink-muted)', textDecoration: 'underline', textUnderlineOffset: 3 }}>
+              Back to the path
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* The character sheet: the surprise behind the friend. A challenge for
           extra stars, or the school quiz matched to their curriculum. */}

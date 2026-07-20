@@ -252,8 +252,12 @@ export default function KidQuestScreen({
   // sub tab rather than leaving the child to hunt for it.
   useEffect(() => {
     try {
-      if (new URLSearchParams(window.location.search).get('tab') === 'games') {
+      const deep = new URLSearchParams(window.location.search).get('tab')
+      if (deep === 'games') {
         setTab('lessons'); setLessonTab('games')
+        setTimeout(() => document.getElementById('kid-tabs')?.scrollIntoView({ behavior: 'smooth' }), 300)
+      } else if (deep === 'print') {
+        setTab('print')
         setTimeout(() => document.getElementById('kid-tabs')?.scrollIntoView({ behavior: 'smooth' }), 300)
       }
     } catch { /* fine */ }
@@ -1037,6 +1041,7 @@ export default function KidQuestScreen({
                 key={activeSession?.id ?? 'idle'}
                 token={token} balanceStars={bankBalance} initialSession={activeSession}
                 usedTodayMinutes={usedTodayMinutes} recommendedMinutes={recommendedMinutes}
+                ageBand={(['4-7', '8-10', '11-13', '13-15', '16+'] as const)[Math.min(4, Math.max(0, stageId - 1))]}
                 deviceTrust={trust}
                 onAsked={a => {
                   setScreenAsk({ id: a.id, device: a.device, minutes: a.minutes, status: 'pending' })
