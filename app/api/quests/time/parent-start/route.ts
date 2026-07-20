@@ -4,6 +4,8 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { getStarBanks } from '@/lib/quests/bank'
 import { STAR_MINUTES } from '@/lib/quests/templates'
 import { isDeviceKey, minutesToStars, deviceLabel } from '@/lib/quests/device-time'
+import { getMinutesUsedToday } from '@/lib/quests/usage'
+import { wouldExceedGuide } from '@/lib/quests/daily-guide'
 import { pushToChild } from '@/lib/quests/kid-push'
 
 // The parent grants device time to a child from their own dashboard. Same
@@ -32,11 +34,21 @@ export async function POST(req: NextRequest) {
 
   // The child must belong to this parent.
   const { data: child } = await supabase
-    .from('children').select('id, name').eq('id', childId).eq('parent_id', user.id).maybeSingle()
+    .from('children').select('id, name, age_band').eq('id', childId).eq('parent_id', user.id).maybeSingle()
   if (!child) return NextResponse.json({ error: 'unknown child' }, { status: 404 })
 
   const isBonus = bonus === true
   const stars = isBonus ? 0 : minutesToStars(mins)
+
+  // A grant that takes the child past the day's healthy amount for their age
+  // is a treat: the parent knowingly gives it, it runs its full length, and
+  // the guide crossing never cuts it short. Never a block, always their call.
+  let treat = false
+  try {
+    const ageBand = (child as { age_band?: string | null }).age_band ?? null
+    const usedMap = await getMinutesUsedToday(supabase, user.id, [childId])
+    treat = wouldExceedGuide(ageBand, usedMap.get(childId) ?? 0, mins)
+  } catch { /* without the read, the grant simply starts untagged */ }
 
   if (!isBonus) {
     const [bank] = await getStarBanks(supabase, user.id, [childId])
@@ -64,8 +76,8 @@ export async function POST(req: NextRequest) {
   const endsAt = new Date(Date.now() + mins * 60000).toISOString()
   const { data: session, error: sessionError } = await supabase.from('device_sessions').insert({
     user_id: user.id, child_id: childId, device, minutes: mins, stars,
-    spend_id: spendId, ends_at: endsAt,
-  }).select('id, device, minutes, stars, ends_at, started_at').single()
+    spend_id: spendId, ends_at: endsAt, treat,
+  }).select('id, device, minutes, stars, ends_at, started_at, treat').single()
   if (sessionError) return NextResponse.json({ error: sessionError.message }, { status: 500 })
 
   // Tell the child their time has started, best effort, using the admin

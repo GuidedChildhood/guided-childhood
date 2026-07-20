@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { DEVICES, type DeviceKey, minutesToStars, deviceLabel, deviceEmoji } from '@/lib/quests/device-time'
-import { dailyGuide } from '@/lib/quests/daily-guide'
+import { dailyGuide, wouldExceedGuide } from '@/lib/quests/daily-guide'
+import { bandLabelFor } from '@/lib/quests/screen-balance'
 
 // The parent's screen time control, one card per child. When a child has time
 // running it shows the same countdown the child sees, and warns the parent
@@ -13,7 +14,8 @@ import { dailyGuide } from '@/lib/quests/daily-guide'
 
 type Session = { id: string; child_id: string; device: DeviceKey; minutes: number; stars: number; ends_at: string; started_at: string }
 type DeviceRequest = { id: string; device: DeviceKey; minutes: number }
-type Kid = { id: string; name: string; balance: number; session: Session | null; trust: string; request: DeviceRequest | null; ageBand?: string | null; usedToday?: number; recommended?: number }
+type DeviceWeek = { device: DeviceKey; minutes: number; sessions: number }
+type Kid = { id: string; name: string; balance: number; session: Session | null; trust: string; request: DeviceRequest | null; ageBand?: string | null; usedToday?: number; recommended?: number; week?: DeviceWeek[]; sessionsToday?: number }
 
 const TRUST_LEVELS: { key: string; label: string; hint: string }[] = [
   { key: 'ask', label: 'Ask first', hint: 'They ask, you say yes before the timer runs.' },
@@ -227,7 +229,7 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
       {/* Today's guide: how much this child has already had against the age
           banded recommendation, so a grant is made with the day in view. A
           soft steer, never a block. */}
-      <DailyGuideLine usedToday={kid.usedToday ?? 0} recommended={kid.recommended ?? 0} ageBand={kid.ageBand ?? null} addingMinutes={minutes} />
+      <DailyGuideLine name={kid.name} usedToday={kid.usedToday ?? 0} recommended={kid.recommended ?? 0} ageBand={kid.ageBand ?? null} addingMinutes={minutes} sessionsToday={kid.sessionsToday ?? 0} />
 
       {/* Ask first: the child is waiting on a yes. */}
       {kid.request && (
@@ -236,6 +238,13 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
             {deviceEmoji(kid.request.device)} {kid.name} is asking for {kid.request.minutes} minutes
           </div>
           <div style={{ fontSize: '12px', color: 'var(--ink-soft)', marginBottom: '9px' }}>That is {minutesToStars(kid.request.minutes)} stars on the {deviceLabel(kid.request.device)}.</div>
+          {/* Saying yes here past the day's guide is a treat, named warmly
+              before the tap so the parent grants it knowingly. Never a block. */}
+          {wouldExceedGuide(kid.ageBand ?? null, kid.usedToday ?? 0, kid.request.minutes) && (
+            <p style={{ fontSize: '11.5px', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '0 0 9px' }}>
+              This takes {kid.name} past today&apos;s healthy amount for their age, so it goes down as a treat. Treats are fine, they are yours to give.
+            </p>
+          )}
           <div style={{ display: 'flex', gap: '8px' }}>
             <button onClick={approveRequest} disabled={busy} style={{ flex: 1, padding: '9px', borderRadius: '11px', border: 'none', cursor: busy ? 'default' : 'pointer', background: 'var(--terracotta)', color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>Yes, start it</button>
             <button onClick={declineRequest} disabled={busy} style={{ flexShrink: 0, padding: '9px 14px', borderRadius: '11px', border: '1.5px solid var(--border)', background: '#fff', cursor: busy ? 'default' : 'pointer', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '13px', color: 'var(--ink-soft)' }}>Not now</button>
@@ -303,20 +312,63 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
           : bonus ? `Give ${minutes} min on the ${deviceLabel(device)} 🎁`
           : `Start ${minutes} min · ${cost} stars`}
       </button>
+
+      <WhereTheTimeGoes name={kid.name} ageBand={kid.ageBand ?? null} week={kid.week ?? []} />
+    </div>
+  )
+}
+
+// The week's screen time by device, heaviest first, so a parent can see at a
+// glance where the time actually goes. Under the heaviest device sits one age
+// calibrated line in the balance philosophy: what screens displace matters
+// more than the clock, and jobs on the quest board earn the time. One line,
+// one link, never a lecture.
+function WhereTheTimeGoes({ name, ageBand, week }: { name: string; ageBand: string | null; week: DeviceWeek[] }) {
+  if (week.length === 0) return null
+  const heaviest = week[0]
+  const band = bandLabelFor(ageBand)
+  const advice: Record<DeviceKey, string> = {
+    console: `Gaming carries most of ${name}'s screen time. At age ${band} what the sessions displace matters more than the clock, so keep sleep, movement and real mates first, and let jobs on the quest board earn the play.`,
+    tv: `TV carries most of ${name}'s screen time. At age ${band} what the watching displaces matters more than the clock, so keep play and sleep in first place, and let jobs on the quest board earn the sittings.`,
+    phone: `The phone carries most of ${name}'s screen time. At age ${band} shorter sittings with real breaks work best, so let jobs on the quest board earn each one.`,
+    tablet: `The tablet carries most of ${name}'s screen time. At age ${band} the balance matters more than the clock, so keep making and moving around it, and let jobs on the quest board earn the sittings.`,
+  }
+  return (
+    <div style={{ marginTop: '12px', background: 'var(--cream)', borderRadius: '13px', padding: '11px 13px' }}>
+      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '7px' }}>
+        Where the time goes · last 7 days
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+        {week.map(w => (
+          <div key={w.device} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span style={{ fontSize: '15px', flexShrink: 0 }}>{deviceEmoji(w.device)}</span>
+            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '12.5px', color: 'var(--ink)', flexShrink: 0 }}>{deviceLabel(w.device)}</span>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--ink-soft)', marginLeft: 'auto' }}>
+              {w.minutes} min this week · {w.sessions} session{w.sessions === 1 ? '' : 's'}
+            </span>
+          </div>
+        ))}
+      </div>
+      <p style={{ fontSize: '11.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '8px 0 0' }}>
+        {advice[heaviest.device]}{' '}
+        <Link href="/dashboard/lessons" style={{ color: 'var(--terracotta-dark)', fontWeight: 700, textDecoration: 'none' }}>
+          Healthy balance lessons →
+        </Link>
+      </p>
     </div>
   )
 }
 
 // The day's recommended viewing at a glance: a slim bar of used against the
-// age banded guide, one plain line, and a quiet treat note when the minutes
-// about to be granted would take the child past the guide for the day. Always
-// a soft steer, never a limit that blocks the parent.
-function DailyGuideLine({ usedToday, recommended, ageBand, addingMinutes }: {
-  usedToday: number; recommended: number; ageBand: string | null; addingMinutes: number
+// age banded guide, the day's sittings, one plain line, and a warm treat note
+// when the minutes about to be granted would take the child past the guide for
+// the day. Always a soft steer, never a limit that blocks the parent.
+function DailyGuideLine({ name, usedToday, recommended, ageBand, addingMinutes, sessionsToday }: {
+  name: string; usedToday: number; recommended: number; ageBand: string | null; addingMinutes: number; sessionsToday: number
 }) {
   const g = dailyGuide(ageBand, usedToday)
   if (recommended <= 0) return null
-  const willTreat = usedToday + addingMinutes > recommended
+  const willTreat = wouldExceedGuide(ageBand, usedToday, addingMinutes)
   const accent = g.status === 'over' ? '#C0533E' : g.status === 'reached' ? 'var(--terracotta-dark)' : 'var(--retro-green)'
   return (
     <div style={{ marginBottom: '11px' }}>
@@ -331,13 +383,18 @@ function DailyGuideLine({ usedToday, recommended, ageBand, addingMinutes }: {
       <div style={{ height: 6, borderRadius: 100, background: 'rgba(26,26,46,0.08)', overflow: 'hidden' }}>
         <div style={{ height: '100%', width: `${g.pct}%`, borderRadius: 100, background: accent, transition: 'width 0.4s ease' }} />
       </div>
+      {sessionsToday > 0 && (
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginTop: '4px' }}>
+          {sessionsToday} session{sessionsToday === 1 ? '' : 's'} today
+        </div>
+      )}
       {(g.status !== 'under' || willTreat) && (
         <p style={{ fontSize: '11.5px', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '6px 0 0' }}>
           {g.status === 'over'
             ? `That is ${g.overBy} min over today's guide. Anything more is a treat, your call.`
             : g.status === 'reached'
             ? `They have had their recommended time today. More is a treat, your call.`
-            : `This grant would take them past today's guide. That is fine as a treat.`}
+            : `This takes ${name} past today's healthy amount for their age, so it goes down as a treat. Treats are fine, they are yours to give.`}
         </p>
       )}
     </div>

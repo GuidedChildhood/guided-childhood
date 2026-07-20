@@ -22,7 +22,10 @@ export async function GET() {
 
   const ids = kids.map(c => c.id as string)
   const nowIso = new Date().toISOString()
-  const [banks, { data: sessions }, { data: requests }, usedToday] = await Promise.all([
+  const weekStartIso = new Date(Date.now() - 7 * 86400000).toISOString()
+  // "Today" follows the same UTC day the rest of the board uses.
+  const dayStartIso = new Date(new Date().toISOString().slice(0, 10) + 'T00:00:00.000Z').toISOString()
+  const [banks, { data: sessions }, { data: requests }, usedToday, { data: weekSessions }] = await Promise.all([
     getStarBanks(supabase, user.id, ids),
     supabase.from('device_sessions')
       .select('id, child_id, device, minutes, stars, ends_at, started_at')
@@ -31,10 +34,34 @@ export async function GET() {
       .select('id, child_id, device, minutes, created_at')
       .eq('user_id', user.id).eq('status', 'pending').order('created_at', { ascending: false }),
     getMinutesUsedToday(supabase, user.id, ids),
+    // The last seven days of timer blocks, for the where the time goes read:
+    // which devices carry the time, how many sittings, and how many today.
+    supabase.from('device_sessions')
+      .select('child_id, device, minutes, started_at')
+      .eq('user_id', user.id).gte('started_at', weekStartIso).in('child_id', ids),
   ])
   const bankBy = new Map(banks.map(b => [b.child_id, b.balance]))
   const sessionBy = new Map((sessions ?? []).map(s => [s.child_id as string, s]))
   const requestBy = new Map((requests ?? []).map(r => [r.child_id as string, r]))
+
+  // Per child, per device: minutes and sittings this week, heaviest first,
+  // plus how many sittings today. Running blocks count at their planned
+  // length, same as the today number does.
+  const weekBy = new Map<string, Map<string, { minutes: number; sessions: number }>>()
+  const todayCountBy = new Map<string, number>()
+  for (const s of weekSessions ?? []) {
+    const cid = String(s.child_id)
+    const dev = String(s.device)
+    let devices = weekBy.get(cid)
+    if (!devices) { devices = new Map(); weekBy.set(cid, devices) }
+    const agg = devices.get(dev) ?? { minutes: 0, sessions: 0 }
+    agg.minutes += Number(s.minutes) || 0
+    agg.sessions += 1
+    devices.set(dev, agg)
+    if (String(s.started_at) >= dayStartIso) {
+      todayCountBy.set(cid, (todayCountBy.get(cid) ?? 0) + 1)
+    }
+  }
 
   return NextResponse.json({
     children: kids.map(c => {
@@ -49,6 +76,10 @@ export async function GET() {
         ageBand,
         usedToday: usedToday.get(c.id as string) ?? 0,
         recommended: recommendedDailyMinutes(ageBand),
+        week: Array.from((weekBy.get(c.id as string) ?? new Map<string, { minutes: number; sessions: number }>()).entries())
+          .map(([device, agg]) => ({ device, minutes: agg.minutes, sessions: agg.sessions }))
+          .sort((a, b) => b.minutes - a.minutes),
+        sessionsToday: todayCountBy.get(c.id as string) ?? 0,
       }
     }),
   })

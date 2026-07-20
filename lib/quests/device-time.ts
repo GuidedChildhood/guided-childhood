@@ -40,6 +40,9 @@ export type ActiveSession = {
   stars: number
   endsAt: string
   startedAt: string
+  // The parent knowingly granted this block beyond the day's healthy guide.
+  // A treat runs its full length untouched by the guide crossing divert.
+  treat: boolean
 }
 
 type SessionClient = Pick<import('@supabase/supabase-js').SupabaseClient, 'from'>
@@ -51,7 +54,7 @@ type SessionClient = Pick<import('@supabase/supabase-js').SupabaseClient, 'from'
 export async function getActiveSession(supabase: SessionClient, childId: string): Promise<ActiveSession | null> {
   const { data } = await supabase
     .from('device_sessions')
-    .select('id, device, minutes, stars, ends_at, started_at, status')
+    .select('id, device, minutes, stars, ends_at, started_at, status, treat')
     .eq('child_id', childId)
     .eq('status', 'active')
     .order('started_at', { ascending: false })
@@ -66,5 +69,6 @@ export async function getActiveSession(supabase: SessionClient, childId: string)
     stars: data.stars as number,
     endsAt: data.ends_at as string,
     startedAt: data.started_at as string,
+    treat: Boolean((data as { treat?: boolean }).treat),
   }
 }
