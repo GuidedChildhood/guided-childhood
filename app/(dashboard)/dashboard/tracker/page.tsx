@@ -49,8 +49,9 @@ export default async function ProgressPage() {
   const weekStart = new Date()
   weekStart.setDate(weekStart.getDate() - weekStart.getDay())
   const weekStartStr = weekStart.toISOString().split('T')[0]
+  const today = new Date().toISOString().slice(0, 10)
 
-  const [childrenRes, concernsRes, resolvedCountRes, recentSolvedRes, checksRes, questsRes, ticksRes, streak] = await Promise.all([
+  const [childrenRes, concernsRes, resolvedCountRes, recentSolvedRes, checksRes, questsRes, ticksRes, streak, dailyRes] = await Promise.all([
     supabase.from('children').select('id, name, age_band, streak_weeks').eq('parent_id', user.id).order('created_at'),
     // What we are working on: only the live ones, most stubborn first so the
     // pattern line has something to point at.
@@ -64,7 +65,11 @@ export default async function ProgressPage() {
     supabase.from('family_quests').select('id, stars, child_id').eq('user_id', user.id).eq('active', true),
     supabase.from('quest_ticks').select('quest_id, child_id, status').eq('user_id', user.id).eq('status', 'approved').gte('tick_date', weekAgo),
     getDailyStreak(supabase, user.id),
+    // Today's ten minute loop, so the report can say the day's work is
+    // already feeding the readings below.
+    supabase.from('daily_sessions').select('completed_at').eq('user_id', user.id).eq('session_date', today).maybeSingle(),
   ])
+  const dailyDoneToday = !!dailyRes.data?.completed_at
 
   const children = childrenRes.data ?? []
   const primary = children[0] ?? null
@@ -147,6 +152,25 @@ export default async function ProgressPage() {
       <p style={{ fontSize: '16.5px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 22px', maxWidth: '620px' }}>
         Green means that part of the plan is doing its job. Anything amber comes with one clear next step, like a good school report.
       </p>
+
+      {/* The day's work acknowledged before the report reads out */}
+      {dailyDoneToday && (
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: 10,
+          background: 'var(--tint-green)', border: '1.5px solid var(--border)',
+          borderRadius: '14px', padding: '12px 16px', marginBottom: '16px',
+        }}>
+          <span aria-hidden style={{
+            flexShrink: 0, width: 22, height: 22, borderRadius: '50%',
+            background: 'var(--retro-green)', color: '#fff',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: '12px', fontWeight: 900,
+          }}>✓</span>
+          <p style={{ fontSize: '15px', color: 'var(--ink)', fontWeight: 600, lineHeight: 1.5, margin: 0 }}>
+            Today&rsquo;s ten minutes are done. That feeds the four below.
+          </p>
+        </div>
+      )}
 
       {/* The same four strands as Home and the pathway, read from the same
           source, so progress always lands in one consistent picture. */}

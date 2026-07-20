@@ -70,6 +70,16 @@ function StatusChip({ tone, children }: { tone: ChipTone; children: React.ReactN
   )
 }
 
+// What genuinely moves each reading, in plain words, mirroring exactly
+// what getLiteracyStatuses computes. AI has no weekly DiGi question in
+// the reading, so its line stays lessons only, never a claimed input.
+const MOVES: Record<string, string> = {
+  safe: 'Device guides done, worries worked through with DiGi, and the safe online lessons passed.',
+  balance: 'Jobs earn stars, screen runs through the timer, balance lessons passed.',
+  ai: 'The stage lessons for this age, passed one by one.',
+  social: "The stage lessons passed, and from 13 DiGi's weekly question.",
+}
+
 // A count like "3 of 18 device guides set" becomes a slim bar toward on
 // track, so an early number reads as a journey started, never a wall of
 // red. No count in the value means no bar, the numbers speak alone.
@@ -79,6 +89,19 @@ function progressFrom(value?: string): { done: number; total: number } | null {
   const total = Number(m[2])
   if (total <= 0) return null
   return { done: Math.min(Number(m[1]), total), total }
+}
+
+// The balance reading carries earned and used minutes instead of a
+// count, so its bar shows how much of the earned time the screen has
+// used: earning jobs grows the pot and the bar eases back, screen time
+// through the timer fills it. Both are the real inputs of the reading.
+function balanceFrom(value?: string): { done: number; total: number } | null {
+  const earned = value?.match(/(\d+) min earned/)
+  const used = value?.match(/(\d+) min used/)
+  if (!earned || !used) return null
+  const e = Number(earned[1])
+  if (e <= 0) return null
+  return { done: Math.min(Number(used[1]), e), total: e }
 }
 
 function ProgressBar({ done, total, tone }: { done: number; total: number; tone: ChipTone }) {
@@ -150,7 +173,7 @@ export default function LiteracyAreas({ stageId, childName, statuses = {} }: {
 
           const onTrack = (live?.tone ?? 'green') === 'green'
           const chipTone: ChipTone = onTrack ? 'green' : 'amber'
-          const bar = progressFrom(live?.value)
+          const bar = progressFrom(live?.value) ?? balanceFrom(live?.value)
 
           const inner = (
             <>
@@ -171,6 +194,11 @@ export default function LiteracyAreas({ stageId, childName, statuses = {} }: {
                 {bar && <ProgressBar done={bar.done} total={bar.total} tone={chipTone} />}
                 <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: '15.5px', color: 'var(--ink-soft)', lineHeight: 1.6, marginTop: 7 }}>
                   {live?.note ?? area.blurb}
+                </span>
+                {/* The day to day wiring, quiet and true: what a parent
+                    does that actually moves this reading. */}
+                <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--ink-muted)', lineHeight: 1.6, marginTop: 6 }}>
+                  <span style={{ fontWeight: 700 }}>What moves this:</span> {MOVES[area.key]}
                 </span>
                 {/* One next step, the butter button, straight to where the
                     fix happens. Next step language, never failure. */}

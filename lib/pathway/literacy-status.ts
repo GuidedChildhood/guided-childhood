@@ -168,7 +168,9 @@ export async function getLiteracyStatuses(
         }
       : {
           tone: 'red', label: 'Lessons waiting',
-          value: 'No lessons done yet',
+          // The stage fraction when it exists, so the report can draw a
+          // real bar that moves as each lesson is passed.
+          value: stageLessonBit(k) ?? 'No lessons done yet',
           note: k === 'ai'
             ? 'The age is right for this now. The first AI lesson takes ten minutes together.'
             : 'The age is right to start building platform judgement, well before any account exists.',
