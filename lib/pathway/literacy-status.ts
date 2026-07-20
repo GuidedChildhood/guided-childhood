@@ -48,7 +48,7 @@ export async function getLiteracyStatuses(
     supabase.from('star_spends').select('minutes').eq('user_id', userId).gte('created_at', `${weekStart}T00:00:00Z`),
     supabase.from('concerns').select('id').eq('user_id', userId).in('status', ['open', 'improving']),
     supabase.from('lessons').select('id, category, stage_id'),
-    supabase.from('lesson_completions').select('lesson_id').eq('user_id', userId),
+    supabase.from('lesson_completions').select('lesson_id, passed').eq('user_id', userId),
     supabase.from('device_guides').select('device_key, name, min_age'),
     supabase.from('device_setup_progress').select('device_key').eq('user_id', userId),
     supabase.from('literacy_checkins').select('strand, grade, grade_note, created_at').eq('user_id', userId).gte('created_at', new Date(Date.now() - 28 * 24 * 60 * 60 * 1000).toISOString()).order('created_at', { ascending: false }),
@@ -60,8 +60,11 @@ export async function getLiteracyStatuses(
   const healthy = usedMins === 0 || usedMins <= earnedMins
   const worries = (concernsRes.data ?? []).length
 
-  // Lessons done per strand, the learning half of every reading.
-  const doneIds = new Set((doneRes.data ?? []).map(d => d.lesson_id))
+  // Lessons passed per strand, the learning half of every reading. Since the
+  // lesson test landed, a lesson only counts once its end of lesson check was
+  // passed. Every completion from before defaults to passed, so nothing that
+  // was already green goes backwards.
+  const doneIds = new Set((doneRes.data ?? []).filter(d => d.passed !== false).map(d => d.lesson_id))
   const doneByArea = new Map<string, number>()
   for (const l of lessonsRes.data ?? []) {
     if (!doneIds.has(l.id)) continue
@@ -83,7 +86,7 @@ export async function getLiteracyStatuses(
   const stageLessonsLeft = (k: string) => (stageTotal.get(k) ?? 0) - (stageDone.get(k) ?? 0)
   const stageLessonBit = (k: string) => {
     const t = stageTotal.get(k) ?? 0
-    return t > 0 ? `${stageDone.get(k) ?? 0} of ${t} stage lessons done` : null
+    return t > 0 ? `${stageDone.get(k) ?? 0} of ${t} stage lessons passed` : null
   }
   const lessonCount = (k: string) => doneByArea.get(k) ?? 0
   const lessonBit = (k: string) => {

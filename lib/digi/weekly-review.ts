@@ -73,7 +73,7 @@ async function gatherWeek(userId: string, weekStart: string): Promise<WeekStats>
   // path moving) and scripts used with whether they worked, so Sunday can plan
   // next week from what actually happened, not just count activity.
   const [lessonCompRes, scriptCompRes] = await Promise.all([
-    admin.from('lesson_completions').select('lesson_id, lesson_source, completed_at')
+    admin.from('lesson_completions').select('lesson_id, lesson_source, completed_at, passed')
       .eq('user_id', userId).gte('completed_at', startIso).lt('completed_at', endIso),
     admin.from('script_completions').select('script_sort_order, worked, completed_at')
       .eq('user_id', userId).gte('completed_at', startIso).lt('completed_at', endIso),
@@ -86,7 +86,13 @@ async function gatherWeek(userId: string, weekStart: string): Promise<WeekStats>
   ])
   const lessonTitle = new Map((lessonTitlesRes.data ?? []).map(l => [l.id, l.title as string]))
   const scriptTitle = new Map((scriptTitlesRes.data ?? []).map(s => [s.sort_order, s.title as string]))
-  const lessonsDone = [...new Set(lessonIds.map(id => lessonTitle.get(id)).filter((t): t is string => Boolean(t)))].slice(0, 6)
+  // Each lesson carries whether its end of lesson check was passed, so the
+  // Sunday round up can say the learning stuck, not just that time was spent.
+  const passedById = new Map((lessonCompRes.data ?? []).map(l => [l.lesson_id, l.passed !== false]))
+  const lessonsDone = [...new Set(lessonIds.map(id => {
+    const t = lessonTitle.get(id)
+    return t ? `${t} (${passedById.get(id) ? 'passed the check' : 'retake waiting'})` : null
+  }).filter((t): t is string => Boolean(t)))].slice(0, 6)
   const scriptsTried = [...new Set((scriptCompRes.data ?? []).map(s => {
     const t = scriptTitle.get(s.script_sort_order)
     if (!t) return null

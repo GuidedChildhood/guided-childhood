@@ -23,6 +23,8 @@ export type WatchItem = {
 export type LibraryItem = {
   id: string; href: string; stageNum: number; stageLabel: string; stageAges: string
   categoryLabel: string; title: string; keyMessage: string; locked: boolean; done: boolean
+  // Choice questions answered right on the passing run, when the deck had any.
+  score: number | null
 }
 
 type View = 'together' | 'library' | 'printables'
@@ -267,6 +269,7 @@ export default function LessonsBrowser({
                     sub={literacyAreaFor(l.categoryLabel)?.name ?? l.categoryLabel}
                     emoji={categoryEmoji(l.categoryLabel)}
                     done={l.done}
+                    doneLabel={l.score != null ? `✓ Passed · ${l.score} right` : '✓ Passed'}
                     locked={l.locked}
                   />
                 ))}

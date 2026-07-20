@@ -46,7 +46,7 @@ export default async function LessonsPage() {
     supabase.from('profiles').select('full_name, subscription_status, trial_ends_at').eq('id', user.id).maybeSingle(),
     supabase.from('lessons').select('id, stage_id, category, title, key_message, sort_order').eq('audience', 'parent').neq('status', 'stub').order('sort_order', { ascending: true }),
     supabase.from('ai_lessons').select('id, audience, category, title, key_message, sort_order').in('audience', ['age_7', 'age_9', 'age_11', 'age_13', 'age_16']).order('sort_order', { ascending: true }),
-    supabase.from('lesson_completions').select('lesson_id, lesson_source').eq('user_id', user.id).in('lesson_source', ['lesson', 'ai_lesson']),
+    supabase.from('lesson_completions').select('lesson_id, lesson_source, score, passed').eq('user_id', user.id).in('lesson_source', ['lesson', 'ai_lesson']),
     getParentLessons(supabase),
     child ? getCompletionsForChild(supabase, child.id) : Promise.resolve(new Map()),
   ])
@@ -58,14 +58,21 @@ export default async function LessonsPage() {
   const aiLessons: LessonRow[] = (aiLessonsData ?? []).map(l => ({ id: l.id, stageKey: AUDIENCE_TO_STAGE[l.audience], category: 'ai_literacy', title: l.title, key_message: l.key_message, sort_order: l.sort_order, source: 'ai' as const }))
   const allLessons = [...generalLessons, ...aiLessons]
   const freeIds = freeLessonIds(generalLessons.map(l => ({ ...l, stage_id: l.stageKey })))
+  // A lesson shows as done once its end of lesson check was passed; a failed
+  // run stays open to retake. Any completion, passed or not, keeps a lesson
+  // unlocked so a near miss never re-locks a lesson already opened.
   const completedLessonIds = new Set((completionsData ?? []).filter(c => c.lesson_source === 'lesson').map(c => c.lesson_id))
-  const completedAiIds = new Set((completionsData ?? []).filter(c => c.lesson_source === 'ai_lesson').map(c => c.lesson_id))
+  const passedScore = (src: 'lesson' | 'ai_lesson') =>
+    new Map((completionsData ?? []).filter(c => c.lesson_source === src && c.passed !== false).map(c => [c.lesson_id, c.score as number | null]))
+  const passedLessons = passedScore('lesson')
+  const passedAi = passedScore('ai_lesson')
 
   const libraryItems: LibraryItem[] = allLessons
     .sort((a, b) => a.sort_order - b.sort_order)
     .map(l => {
       const meta = STAGE_META[l.stageKey]
-      const done = l.source === 'ai' ? completedAiIds.has(l.id) : completedLessonIds.has(l.id)
+      const passMap = l.source === 'ai' ? passedAi : passedLessons
+      const done = passMap.has(l.id)
       const locked = l.source === 'lesson' && !isPaid && !freeIds.has(l.id) && !completedLessonIds.has(l.id)
       return {
         id: `${l.source}-${l.id}`,
@@ -73,6 +80,7 @@ export default async function LessonsPage() {
         stageNum: meta?.num ?? 2, stageLabel: meta?.label ?? '', stageAges: meta?.ages ?? '',
         categoryLabel: CATEGORY_LABEL[l.category] ?? l.category,
         title: l.title, keyMessage: l.key_message, locked, done,
+        score: done ? passMap.get(l.id) ?? null : null,
       }
     })
     .filter(l => l.stageNum)

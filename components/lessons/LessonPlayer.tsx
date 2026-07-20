@@ -500,6 +500,13 @@ export default function LessonPlayer({
   const canContinue = !isChoice || answered
   const hasScripts = teacherView && slides.some(s => s.script)
 
+  // The end of lesson check: every choice slide counts towards the score and
+  // the pass mark is 70 percent. A deck with no choice slides passes on
+  // finishing, so the older text built lessons keep working exactly as before.
+  const choiceCount = slides.filter(s => s.type === 'choice').length
+  const correctCount = Object.values(answersRef.current).filter(Boolean).length
+  const passed = choiceCount === 0 || correctCount / choiceCount >= 0.7
+
   useEffect(() => {
     if (!slideRef.current) return
     gsap.fromTo(slideRef.current, { opacity: 0, y: 22 }, { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out' })
@@ -520,9 +527,10 @@ export default function LessonPlayer({
   const advance = async () => {
     if (isLast) {
       setFinished(true)
-      setDigiMood('happy')
+      setDigiMood(passed ? 'happy' : 'speak')
       if (completeEndpoint === null) return
-      const results = Object.values(answersRef.current)
+      // A failed run still writes the completion, with passed false, so the
+      // record is honest and the retake can upgrade it to a pass.
       try {
         await fetch(completeEndpoint ?? '/api/lessons/complete', {
           method: 'POST',
@@ -530,8 +538,8 @@ export default function LessonPlayer({
           body: JSON.stringify({
             lesson_id: lessonId,
             lesson_source: lessonSource,
-            correct: results.filter(Boolean).length,
-            total: results.length,
+            correct: Object.values(answersRef.current).filter(Boolean).length,
+            total: choiceCount,
             ...completeBody,
           }),
         })
@@ -549,6 +557,18 @@ export default function LessonPlayer({
     setAnswered(false)
     setFinished(false)
     setIndex(0)
+    setDigiMood('idle')
+  }
+
+  // The retake after a near miss: jump back to just before the first question
+  // that went wrong, so the tricky bit gets watched again and the wrong
+  // questions come round first. Earlier right answers stay banked; every
+  // question from here on is answered fresh and overwrites its old result.
+  const tryAgain = () => {
+    const firstWrong = slides.findIndex((s, i) => s.type === 'choice' && answersRef.current[i] === false)
+    setAnswered(false)
+    setFinished(false)
+    setIndex(firstWrong > 0 ? firstWrong - 1 : 0)
     setDigiMood('idle')
   }
 
@@ -590,16 +610,56 @@ export default function LessonPlayer({
     )
   }
 
+  // The near miss screen: warm, one retry line, never shame. The completion
+  // is already saved with passed false; another go can turn it into a pass.
+  if (finished && !passed && lessonSource !== 'school_lesson') {
+    return (
+      <div ref={slideRef} style={{ textAlign: 'center', padding: '32px 0' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '18px' }}>
+          <DigiCharacter mood="speak" size={96} />
+        </div>
+        <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.4rem, 3.4vw, 1.8rem)', fontWeight: 900, color: 'var(--ink)', letterSpacing: '-0.02em', marginBottom: '10px' }}>
+          Nearly
+        </h2>
+        <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)', marginBottom: '8px' }}>
+          {correctCount} of {choiceCount} right this time.
+        </p>
+        <p style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '360px', margin: '0 auto 26px' }}>
+          Watch the tricky bit again and have another go. It picks up right where it got tricky.
+        </p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxWidth: '320px', margin: '0 auto' }}>
+          <button onClick={tryAgain} className="btn btn-gold" style={{ justifyContent: 'center', fontSize: '14px' }}>
+            Have another go
+          </button>
+          {digiPrompt && (
+            <Link href={`/dashboard/digi?q=${encodeURIComponent(digiPrompt)}`} className="btn btn-outline" style={{ justifyContent: 'center', fontSize: '13px' }}>
+              Talk it through with DiGi
+            </Link>
+          )}
+          <Link href={backHref} className="btn btn-outline" style={{ justifyContent: 'center', fontSize: '13px' }}>
+            Back to all lessons
+          </Link>
+        </div>
+      </div>
+    )
+  }
+
   if (finished) {
     const isSchool = lessonSource === 'school_lesson'
+    const hasScore = !isSchool && choiceCount > 0
     return (
       <div ref={slideRef} style={{ textAlign: 'center', padding: '32px 0' }}>
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '18px' }}>
           <DigiCharacter mood="happy" size={96} />
         </div>
         <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.4rem, 3.4vw, 1.8rem)', fontWeight: 900, color: 'var(--ink)', letterSpacing: '-0.02em', marginBottom: '10px' }}>
-          Completed
+          {hasScore ? 'Passed' : 'Completed'}
         </h2>
+        {hasScore && (
+          <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)', marginBottom: '8px' }}>
+            {correctCount} of {choiceCount} right, that is a pass 🌱
+          </p>
+        )}
         <p style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '360px', margin: '0 auto 26px' }}>
           {isSchool
             ? 'Now the worksheet verdicts and the named exit quizzes. Then one tap on the register records the delivery.'

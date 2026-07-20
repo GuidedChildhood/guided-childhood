@@ -6,7 +6,7 @@ import Link from 'next/link'
 // One shared tile so every menu of options across the platform reads the same.
 // stageNum (1 to 5) picks the pastel, dark stage text stays readable on it.
 export default function BrowseTile({
-  href, stageNum, title, sub, emoji, done = false, locked = false, external = false,
+  href, stageNum, title, sub, emoji, done = false, doneLabel, locked = false, external = false,
 }: {
   href: string
   stageNum: number
@@ -14,6 +14,9 @@ export default function BrowseTile({
   sub?: string
   emoji: string
   done?: boolean
+  // What the green badge says when done. Defaults to "✓ Done"; lesson tiles
+  // pass "✓ Passed" with the score so parents see the check was passed.
+  doneLabel?: string
   locked?: boolean
   external?: boolean
 }) {
@@ -33,6 +36,9 @@ export default function BrowseTile({
         fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.15rem',
         color: text, lineHeight: 1.12, letterSpacing: '-0.02em',
         position: 'relative', zIndex: 1, maxWidth: '85%',
+        // The badge rides the top right corner, so the title drops below it
+        // rather than running underneath.
+        marginTop: done || locked ? '22px' : 0,
       }}>
         {title}
       </span>
@@ -61,7 +67,7 @@ export default function BrowseTile({
           color: done ? '#1F7A54' : 'var(--ink)',
           borderRadius: '100px', padding: '3px 9px',
         }}>
-          {done ? '✓ Done' : '🔒 Members'}
+          {done ? doneLabel ?? '✓ Done' : '🔒 Members'}
         </span>
       )}
     </Link>
