@@ -59,11 +59,33 @@ export default function KidPath({
   const [busy, setBusy] = useState(false)
   const [toast, setToast] = useState<string | null>(null)
   const [sheet, setSheet] = useState<Stone | null>(null)
-  // The quiz run, living inside the character sheet.
+  // The quiz run, living inside the character sheet. Each run samples five
+  // questions from the band's pool and shuffles every question's answer
+  // positions, so replays differ and there is never a positional pattern to
+  // spot (the middle one is not always right, as one sharp tester found).
+  const [runQs, setRunQs] = useState<{ q: string; options: string[]; answer: number; why: string }[]>([])
   const [qIndex, setQIndex] = useState(0)
   const [qRight, setQRight] = useState(0)
   const [qPicked, setQPicked] = useState<number | null>(null)
   const [qDone, setQDone] = useState<'pass' | 'fail' | null>(null)
+
+  function dealQuiz() {
+    const pool = [...quiz.pool]
+    for (let i = pool.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1)); [pool[i], pool[j]] = [pool[j], pool[i]]
+    }
+    return pool.slice(0, 5).map(question => {
+      const order = question.options.map((_, i) => i)
+      for (let i = order.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1)); [order[i], order[j]] = [order[j], order[i]]
+      }
+      return {
+        q: question.q, why: question.why,
+        options: order.map(i => question.options[i]),
+        answer: order.indexOf(question.answer),
+      }
+    })
+  }
 
   function say(msg: string) {
     setToast(msg)
@@ -166,28 +188,32 @@ export default function KidPath({
 
   function openSheet(stone: Stone) {
     playKidSound('tap')
+    setRunQs(dealQuiz())
     setQIndex(0); setQRight(0); setQPicked(null); setQDone(null)
     setSheet(stone)
   }
 
   function answerQuiz(i: number) {
-    if (qPicked != null || qDone) return
+    if (qPicked != null || qDone || !runQs[qIndex]) return
     setQPicked(i)
-    const right = i === quiz.questions[qIndex].answer
+    const right = i === runQs[qIndex].answer
     playKidSound(right ? 'star' : 'tap')
-    const newRight = qRight + (right ? 1 : 0)
-    setQRight(newRight)
-    setTimeout(() => {
-      if (qIndex + 1 < quiz.questions.length) {
-        setQIndex(qIndex + 1); setQPicked(null)
-      } else {
-        finishQuiz(newRight)
-      }
-    }, 750)
+    if (right) setQRight(r => r + 1)
+    // No auto advance: the why line sits with the answer until the child
+    // taps Continue, the Duolingo rhythm, so every question teaches.
+  }
+
+  function continueQuiz() {
+    playKidSound('tap')
+    if (qIndex + 1 < runQs.length) {
+      setQIndex(qIndex + 1); setQPicked(null)
+    } else {
+      finishQuiz(qRight)
+    }
   }
 
   async function finishQuiz(right: number) {
-    const passed = right / quiz.questions.length >= 0.8
+    const passed = runQs.length > 0 && right / runQs.length >= 0.8
     setQDone(passed ? 'pass' : 'fail')
     if (passed) playKidSound('done')
     if (!passed || quizClaimed) return
@@ -459,31 +485,31 @@ export default function KidPath({
               <div style={{ textAlign: 'center', padding: '10px 0 4px' }}>
                 <div style={{ fontSize: 44, lineHeight: 1, marginBottom: 8 }}>{qDone === 'pass' ? '🏆' : '💪'}</div>
                 <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.3rem', color: 'var(--ink)', marginBottom: 6 }}>
-                  {qDone === 'pass' ? `${qRight} of ${quiz.questions.length}! Quiz passed` : `${qRight} of ${quiz.questions.length} this time`}
+                  {qDone === 'pass' ? `${qRight} of ${runQs.length}! Quiz passed` : `${qRight} of ${runQs.length} this time`}
                 </div>
                 <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
-                  {qDone === 'pass' ? '2 bonus stars are in your bank ⭐' : 'So close. Have another go tomorrow, the quiz changes every day.'}
+                  {qDone === 'pass' ? '2 bonus stars are in your bank ⭐' : 'So close. Have another go tomorrow, the questions change every time.'}
                 </p>
               </div>
-            ) : (
+            ) : runQs[qIndex] ? (
               <>
                 <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700, color: 'var(--ink-muted)', marginBottom: 8 }}>
-                  Question {qIndex + 1} of {quiz.questions.length} · pass 4 to bank 2 stars
+                  Question {qIndex + 1} of {runQs.length} · pass 4 to bank 2 stars
                 </div>
                 <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.35rem', color: 'var(--ink)', lineHeight: 1.25, marginBottom: 14 }}>
-                  {quiz.questions[qIndex].q}
+                  {runQs[qIndex].q}
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
-                  {quiz.questions[qIndex].options.map((opt, oi) => {
+                  {runQs[qIndex].options.map((opt, oi) => {
                     const picked = qPicked === oi
-                    const isRight = oi === quiz.questions[qIndex].answer
+                    const isRight = oi === runQs[qIndex].answer
                     const showState = qPicked != null
                     return (
                       <button
                         key={oi}
                         onClick={() => answerQuiz(oi)}
                         style={{
-                          textAlign: 'left', padding: '14px 16px', borderRadius: 14, cursor: 'pointer',
+                          textAlign: 'left', padding: '14px 16px', borderRadius: 14, cursor: qPicked == null ? 'pointer' : 'default',
                           border: `2px solid ${showState && isRight ? '#2F8F6B' : picked ? '#C0533E' : 'var(--border)'}`,
                           background: showState && isRight ? '#DEF0E7' : picked ? '#FDECEC' : '#fff',
                           fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 17, color: 'var(--ink)',
@@ -494,8 +520,32 @@ export default function KidPath({
                     )
                   })}
                 </div>
+                {/* The teach beat, the Duolingo rhythm: the answer lands, the
+                    why sits with it, and the child moves on when ready. */}
+                {qPicked != null && (
+                  <div style={{ marginTop: 12 }}>
+                    <div style={{
+                      background: qPicked === runQs[qIndex].answer ? '#DEF0E7' : '#FDECEC',
+                      border: `1.5px solid ${qPicked === runQs[qIndex].answer ? '#2F8F6B' : '#C0533E'}`,
+                      borderRadius: 12, padding: '11px 14px', marginBottom: 10,
+                    }}>
+                      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 14.5, color: qPicked === runQs[qIndex].answer ? '#1F7A54' : '#B93B3F', marginBottom: 3 }}>
+                        {qPicked === runQs[qIndex].answer ? 'Correct!' : 'Not quite'}
+                      </div>
+                      <div style={{ fontSize: 14, color: 'var(--ink)', lineHeight: 1.5 }}>
+                        {runQs[qIndex].why}
+                      </div>
+                    </div>
+                    <button
+                      onClick={continueQuiz}
+                      style={{ width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 14, padding: '14px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 15.5, boxShadow: '0 5px 0 var(--terracotta-dark)' }}
+                    >
+                      {qIndex + 1 < runQs.length ? 'Continue →' : 'See my score →'}
+                    </button>
+                  </div>
+                )}
               </>
-            )}
+            ) : null}
           </div>
         </div>
       )}
