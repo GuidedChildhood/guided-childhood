@@ -181,6 +181,20 @@ export default function KidQuestScreen({
   const [kidNudges, setKidNudges] = useState<KidNudge[]>(initialNudges)
   const [askStartBusy, setAskStartBusy] = useState(false)
   const [liveSession, setLiveSession] = useState<ActiveSession | null>(activeSession)
+  // A running timer always surfaces: on load with a live session, and the
+  // moment a new one appears (including one the grown up started from their
+  // side), the device section opens and the app carries the child straight to
+  // the countdown, so a live timer is never buried down the page.
+  const surfacedSessionRef = useRef<string | null>(null)
+  useEffect(() => {
+    if (!liveSession) { surfacedSessionRef.current = null; return }
+    if (surfacedSessionRef.current === liveSession.id) return
+    surfacedSessionRef.current = liveSession.id
+    setDeviceOpen(true)
+    setTimeout(() => {
+      try { document.getElementById('my-timer')?.scrollIntoView({ behavior: 'smooth', block: 'start' }) } catch { /* no target yet */ }
+    }, 300)
+  }, [liveSession])
   const dismissedAskRef = useRef<string | null>(null)
   useEffect(() => {
     try { dismissedAskRef.current = localStorage.getItem('gc_kid_ask_dismissed') } catch { /* fine */ }
