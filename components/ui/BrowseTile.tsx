@@ -5,14 +5,18 @@ import Link from 'next/link'
 // emoji bleeding into the bottom right corner where Good Inside puts a photo.
 // One shared tile so every menu of options across the platform reads the same.
 // stageNum (1 to 5) picks the pastel, dark stage text stays readable on it.
+// When a coverUrl is given (the drawn lesson cover icons), the corner shows
+// that art as a round storybook badge instead of the emoji; the emoji stays
+// as the fallback for anything without a cover yet.
 export default function BrowseTile({
-  href, stageNum, title, sub, emoji, done = false, doneLabel, locked = false, external = false,
+  href, stageNum, title, sub, emoji, coverUrl, done = false, doneLabel, locked = false, external = false,
 }: {
   href: string
   stageNum: number
   title: string
   sub?: string
   emoji: string
+  coverUrl?: string | null
   done?: boolean
   // What the green badge says when done. Defaults to "✓ Done"; lesson tiles
   // pass "✓ Passed" with the score so parents see the check was passed.
@@ -51,13 +55,23 @@ export default function BrowseTile({
           {sub}
         </span>
       )}
-      {/* The topic mark, bleeding into the corner like the reference photo */}
-      <span aria-hidden style={{
-        position: 'absolute', right: '-4px', bottom: '-8px', fontSize: '58px', lineHeight: 1,
-        filter: 'drop-shadow(0 2px 6px rgba(26,26,46,0.12))',
-      }}>
-        {emoji}
-      </span>
+      {/* The topic mark, bleeding into the corner like the reference photo:
+          the drawn cover badge when we have one, the emoji otherwise. */}
+      {coverUrl ? (
+        <span aria-hidden style={{
+          position: 'absolute', right: '-10px', bottom: '-14px', width: '76px', height: '76px',
+          borderRadius: '50%', backgroundImage: `url(${coverUrl})`,
+          backgroundSize: 'cover', backgroundPosition: 'center',
+          boxShadow: '0 2px 8px rgba(26,26,46,0.16)', border: '2px solid rgba(255,255,255,0.7)',
+        }} />
+      ) : (
+        <span aria-hidden style={{
+          position: 'absolute', right: '-4px', bottom: '-8px', fontSize: '58px', lineHeight: 1,
+          filter: 'drop-shadow(0 2px 6px rgba(26,26,46,0.12))',
+        }}>
+          {emoji}
+        </span>
+      )}
       {(done || locked) && (
         <span style={{
           position: 'absolute', top: '11px', right: '12px', zIndex: 2,
