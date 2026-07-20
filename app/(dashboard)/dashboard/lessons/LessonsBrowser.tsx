@@ -415,7 +415,7 @@ function ProgressLessonsBanner({
       </div>
       <p style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '4px 0 12px' }}>
         {left > 0
-          ? <>These are the right ones for {childName}&apos;s age{stageMeta ? ` (${stageMeta.ages.toLowerCase()})` : ''}. {childName} sees exactly this set on their own page, and each pass ticks the progress report.</>
+          ? <>These are the right ones for {childName}&apos;s age{stageMeta ? ` (${stageMeta.ages.toLowerCase()})` : ''}. {childName} sees exactly this set on their own page, in order with the next one marked. One a week is plenty, and each pass ticks the progress report.</>
           : <>The progress report shows the full tick for this stage. New lessons arrive as {childName} ages up.</>}
       </p>
       <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>

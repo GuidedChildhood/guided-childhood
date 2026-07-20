@@ -61,7 +61,7 @@ export default function KidLessonList({
           </div>
         </div>
         <p style={{ fontSize: '13.5px', color: 'rgba(255,255,255,0.78)', lineHeight: 1.6, margin: '10px 0 20px' }}>
-          Picked for your age, {childName}. Pass one and your grown up sees the tick straight away.
+          Picked for your age, {childName}. Do them in order, top to bottom, one a week is perfect. Pass one and your grown up sees the tick straight away.
         </p>
 
         {items.length === 0 ? (
@@ -70,23 +70,47 @@ export default function KidLessonList({
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            {items.map(item => {
+            {items.map((item, idx) => {
+              // The one obvious next thing: the first lesson not yet passed and
+              // not locked gets the big Next up treatment, everything else waits
+              // its numbered turn.
+              const isNext = !item.done && !item.locked && items.findIndex(i => !i.done && !i.locked) === idx
               const inner = (
                 <>
-                  <span style={{
-                    width: '52px', height: '52px', borderRadius: '16px', flexShrink: 0,
-                    background: item.done ? 'var(--terracotta-lt)' : 'var(--stage-2)',
-                    border: item.done ? '2px solid var(--terracotta)' : '1.5px solid var(--border)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '26px',
-                  }}>
-                    {item.emoji}
+                  <span style={{ position: 'relative', flexShrink: 0 }}>
+                    <span style={{
+                      width: '52px', height: '52px', borderRadius: '16px', flexShrink: 0,
+                      background: item.done ? 'var(--terracotta-lt)' : 'var(--stage-2)',
+                      border: item.done ? '2px solid var(--terracotta)' : '1.5px solid var(--border)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '26px',
+                    }}>
+                      {item.emoji}
+                    </span>
+                    <span style={{
+                      position: 'absolute', top: '-6px', left: '-6px', width: '20px', height: '20px',
+                      borderRadius: '50%', background: item.done ? 'var(--terracotta)' : 'var(--ink)',
+                      color: item.done ? 'var(--ink)' : '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '11px',
+                      border: '2px solid var(--cream)',
+                    }}>
+                      {idx + 1}
+                    </span>
                   </span>
                   <span style={{ flex: 1, minWidth: 0 }}>
+                    {isNext && (
+                      <span style={{
+                        display: 'inline-block', fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700,
+                        letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink)',
+                        background: 'var(--terracotta)', borderRadius: '100px', padding: '3px 9px', marginBottom: '5px',
+                      }}>
+                        ⭐ Do this one next
+                      </span>
+                    )}
                     <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '15.5px', color: 'var(--ink)', lineHeight: 1.25, letterSpacing: '-0.01em' }}>
                       {item.title}
                     </span>
                     <span style={{ display: 'block', fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.45, marginTop: '4px' }}>
-                      {item.locked ? 'Ask your grown up to open this one' : item.keyMessage}
+                      {item.locked ? 'Ask your grown up to open this one' : isNext ? item.keyMessage : item.done ? item.keyMessage : `After lesson ${idx}, this one is waiting for you`}
                     </span>
                   </span>
                   <span style={{ flexShrink: 0, alignSelf: 'center' }}>
@@ -104,8 +128,10 @@ export default function KidLessonList({
                     ) : (
                       <span style={{
                         fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '13px',
-                        color: 'var(--ink)', background: 'var(--terracotta)',
-                        borderRadius: '12px', padding: '9px 15px', boxShadow: '0 4px 0 var(--terracotta-dark)',
+                        color: 'var(--ink)', background: isNext ? 'var(--terracotta)' : '#fff',
+                        border: isNext ? 'none' : '1.5px solid var(--border)',
+                        borderRadius: '12px', padding: '9px 15px',
+                        boxShadow: isNext ? '0 4px 0 var(--terracotta-dark)' : 'none',
                       }}>
                         Go ▶
                       </span>
@@ -116,7 +142,8 @@ export default function KidLessonList({
               const shell: React.CSSProperties = {
                 display: 'flex', gap: '13px', alignItems: 'flex-start', textDecoration: 'none',
                 background: 'var(--cream)', borderRadius: '20px', padding: '15px 16px',
-                boxShadow: '0 5px 0 rgba(0,0,0,0.22)', opacity: item.locked ? 0.75 : 1,
+                boxShadow: isNext ? '0 5px 0 var(--terracotta-dark), 0 0 0 3px var(--terracotta)' : '0 5px 0 rgba(0,0,0,0.22)',
+                opacity: item.locked ? 0.75 : 1,
               }
               return item.locked
                 ? <div key={item.id} style={shell}>{inner}</div>

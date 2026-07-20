@@ -61,6 +61,63 @@ export function readinessForAgeBand(ageBand: AgeBand | null): ReadinessStamp {
   return READINESS.find(r => r.ageBand === ageBand) ?? READINESS[0]
 }
 
+// The child's own stage deal, in kid words: what is great for them right now,
+// and what comes later on the road. Passport language all the way through,
+// steps earned as skills are shown, never a ban and never a telling off. The
+// child app shows this on their road so the boundaries are theirs to know,
+// not a rule that lives only on the parent's side.
+export type KidStageDeal = {
+  greatNow: { emoji: string; label: string }[]
+  later: string
+}
+
+export const KID_STAGE_DEALS: Record<number, KidStageDeal> = {
+  1: {
+    greatNow: [
+      { emoji: '📺', label: 'Watching with a grown up' },
+      { emoji: '🖍️', label: 'Drawing and making apps' },
+      { emoji: '🧩', label: 'Learning games' },
+      { emoji: '📞', label: 'Video calls with family' },
+    ],
+    later: 'Playing on your own and searching come next stage, when you have shown your steady stops.',
+  },
+  2: {
+    greatNow: [
+      { emoji: '🧩', label: 'Learning games and puzzles' },
+      { emoji: '🎨', label: 'Making things: art, music, builds' },
+      { emoji: '📞', label: 'Video calls with family' },
+      { emoji: '🎬', label: 'Shows you pick together' },
+    ],
+    later: 'Group chats and your own feeds come further up the road, once your habits are yours.',
+  },
+  3: {
+    greatNow: [
+      { emoji: '💬', label: 'Messaging family and real friends' },
+      { emoji: '🎥', label: 'Creating: video, music, code' },
+      { emoji: '🔍', label: 'Searching with your judgement on' },
+      { emoji: '🎮', label: 'Games with people you know' },
+    ],
+    later: 'Your own social accounts come around stage 4, set up with your grown up so nothing is new.',
+  },
+  4: {
+    greatNow: [
+      { emoji: '✨', label: 'First accounts, set up together' },
+      { emoji: '💬', label: 'Group chats with real friends' },
+      { emoji: '🎥', label: 'Creating and sharing your work' },
+      { emoji: '🧭', label: 'Spotting what the feed is doing' },
+    ],
+    later: 'The full independent phone comes at 16, and by then none of it will be new to you.',
+  },
+  5: {
+    greatNow: [
+      { emoji: '🚀', label: 'Your call now, you know how it works' },
+      { emoji: '🧭', label: 'Feeds with your eyes open' },
+      { emoji: '💛', label: 'Balance you set yourself' },
+    ],
+    later: 'This is the whole point. You built up to it, step by step, no cliff edge.',
+  },
+}
+
 // The stance, in one clear paragraph, so the brand is never open to the charge
 // that a screen reduction product put a phone in a young child's hand. It is the
 // answer to the contradiction, and it is honest: we recommend, we never police.
