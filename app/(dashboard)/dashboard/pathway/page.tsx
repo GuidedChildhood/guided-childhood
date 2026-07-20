@@ -168,10 +168,11 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
                 const stageNum = child.stage_id ? stageIdToNum[child.stage_id] : null
                 const stageMeta = stageNum ? STAGES.find(st => st.id === stageNum) ?? null : null
                 return (
-                  <div key={child.id} style={{
+                  <Link key={child.id} href={child.is_primary ? '/dashboard/pathway' : `/dashboard/pathway?child=${child.id}`} style={{
                     display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                     background: 'var(--cream)', border: '1px solid var(--border)',
                     borderRadius: '12px', padding: '12px 16px', gap: '12px',
+                    textDecoration: 'none',
                   }}>
                     <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '14px', color: 'var(--ink)' }}>
                       {child.name}
@@ -186,7 +187,7 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
                         Stage {stageMeta.id} · {stageMeta.name}
                       </span>
                     )}
-                  </div>
+                  </Link>
                 )
               })}
             </div>
