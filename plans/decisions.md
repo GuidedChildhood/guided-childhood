@@ -1687,3 +1687,18 @@ reserved for the school curriculum (schools/01, docs/09) as its own deeper
 tier. The whole class mode and curriculum badges therefore showcase and
 point toward the school curriculum rather than exposing the family lessons
 as the full school offer.
+
+## 2026-07-20: DiGi device check ins (PR #412, migration 082)
+
+From real parent feedback (the birthday Switch, the sons always on the
+Xbox): DiGi now checks in about device battles per child, from that
+child's actual device_sessions data, not generic questions. Decisions:
+signals computed live from the last 14 days (no usage copied anywhere),
+prompt bank lives in one lib (lib/digi/device-checkins.ts), one check in
+per child per week at most, strongest signal first, deduped against open
+concerns, Not really quiets that prompt for three weeks. Yes this is us
+opens the DiGi chat prefilled through the existing q param. The card and
+the generic DiGi wondering share the same gap key so DiGi never asks two
+questions in one visit. Migration 082 (digi_device_checkins) claimed in
+the PR title; 081 belongs to the ask first PR #408. If the table is not
+migrated yet the surface stays silent rather than breaking its promises.
