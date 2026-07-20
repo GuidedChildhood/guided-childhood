@@ -27,6 +27,9 @@ interface ChildForm {
   name: string
   ageBand: AgeBand
   dob: string
+  // Month and year is plenty to work from: the toggle swaps the input to a
+  // month picker and the save lands on the first of that month.
+  monthOnly: boolean
   saving: boolean
   saved: boolean
 }
@@ -84,6 +87,7 @@ export default function SettingsPage() {
         name: k.name === 'Your child' ? '' : k.name,
         ageBand: (k.age_band as AgeBand) || '8-10',
         dob: k.date_of_birth ?? '',
+        monthOnly: false,
         saving: false,
         saved: false,
       }])))
@@ -121,20 +125,23 @@ export default function SettingsPage() {
     // every day after, so everything grows up on its own. Without one, the
     // hand picked band stands. stage_id stores the stage slug (foundation,
     // builder, ...), the same value onboarding writes.
-    const band = (dobSupported ? bandForAge(form.dob || null) : null) ?? form.ageBand
+    // A month only birthday lands on the first of that month: month and year
+    // is plenty to derive the band and grow the stage from.
+    const dobFull = form.dob ? (form.dob.length === 7 ? `${form.dob}-01` : form.dob) : ''
+    const band = (dobSupported ? bandForAge(dobFull || null) : null) ?? form.ageBand
     const stage = getStageFromAgeBand(band)
     const update: Record<string, string | null> = {
       name: form.name.trim() || 'Your child',
       age_band: band,
       stage_id: stage.name.toLowerCase(),
     }
-    if (dobSupported) update.date_of_birth = form.dob || null
+    if (dobSupported) update.date_of_birth = dobFull || null
     const { error: err } = await supabase
       .from('children')
       .update(update)
       .eq('id', id)
     if (err) { setError(err.message); patchForm(id, { saving: false }); return }
-    setKids(ks => ks.map(k => k.id === id ? { ...k, name: form.name.trim() || 'Your child', age_band: band, date_of_birth: form.dob || null } : k))
+    setKids(ks => ks.map(k => k.id === id ? { ...k, name: form.name.trim() || 'Your child', age_band: band, date_of_birth: dobFull || null } : k))
     patchForm(id, { saving: false, saved: true, ageBand: band })
     setTimeout(() => patchForm(id, { saved: false }), 2500)
   }
@@ -243,11 +250,21 @@ export default function SettingsPage() {
               </label>
               <input
                 className="input"
-                type="date"
-                value={form.dob}
+                type={form.monthOnly ? 'month' : 'date'}
+                value={form.monthOnly ? form.dob.slice(0, 7) : form.dob}
                 onChange={e => patchForm(kid.id, { dob: e.target.value })}
-                max={new Date().toISOString().slice(0, 10)}
+                max={new Date().toISOString().slice(0, form.monthOnly ? 7 : 10)}
               />
+              <label style={{ display: 'flex', alignItems: 'center', gap: '7px', marginTop: '7px', cursor: 'pointer' }}>
+                <input
+                  type="checkbox"
+                  checked={form.monthOnly}
+                  onChange={e => patchForm(kid.id, { monthOnly: e.target.checked, dob: form.dob.slice(0, e.target.checked ? 7 : 10) })}
+                />
+                <span style={{ fontSize: '12.5px', color: 'var(--ink-soft)' }}>
+                  Rather not give the exact day? Month and year is plenty, we work from that.
+                </span>
+              </label>
               <p style={{ fontSize: '12px', color: 'var(--ink-muted)', marginTop: '4px' }}>
                 Set the birthday and everything grows up with them on its own.
               </p>
