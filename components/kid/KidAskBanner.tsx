@@ -47,13 +47,13 @@ export default function KidAskBanner({
       {nudges.map(n => (
         <div key={n.id} style={{ ...cardBase, background: '#fff' }}>
           <span style={{ fontSize: '1.5rem', flexShrink: 0 }}>💛</span>
-          <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: 'var(--ink)', lineHeight: 1.4 }}>
+          <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16.5px', color: 'var(--ink)', lineHeight: 1.4 }}>
             {n.message}
           </span>
           <button
             onClick={() => onDismissNudge(n.id)}
             aria-label="Got it"
-            style={{ flexShrink: 0, border: 'none', background: 'var(--cream)', borderRadius: '10px', padding: '8px 12px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '12.5px', color: 'var(--ink-soft)' }}
+            style={{ flexShrink: 0, border: 'none', background: 'var(--cream)', borderRadius: '10px', padding: '8px 12px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: 'var(--ink-soft)' }}
           >
             OK
           </button>
@@ -67,7 +67,7 @@ export default function KidAskBanner({
             <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.02rem', color: 'var(--ink)', lineHeight: 1.3 }}>
               Asked your grown up for {ask.minutes} min on the {deviceLabel(ask.device)}
             </span>
-            <span style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: 'var(--ink-muted)', marginTop: 2 }}>
+            <span style={{ display: 'block', fontSize: '15px', fontWeight: 600, color: 'var(--ink-muted)', marginTop: 2 }}>
               Waiting for their yes ⏳
             </span>
           </span>
@@ -88,7 +88,7 @@ export default function KidAskBanner({
             style={{
               width: '100%', padding: '15px', borderRadius: '16px', border: 'none',
               background: 'var(--ink)', color: '#fff', cursor: startBusy ? 'default' : 'pointer',
-              fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '17px',
+              fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '19px',
               boxShadow: '0 5px 0 rgba(0,0,0,0.35)', opacity: startBusy ? 0.7 : 1,
             }}
           >
@@ -104,14 +104,14 @@ export default function KidAskBanner({
             <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.02rem', color: 'var(--ink)', lineHeight: 1.3 }}>
               Not right now
             </span>
-            <span style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: 'var(--ink-muted)', marginTop: 2 }}>
+            <span style={{ display: 'block', fontSize: '15px', fontWeight: 600, color: 'var(--ink-muted)', marginTop: 2 }}>
               Your stars are safe.
             </span>
           </span>
           <button
             onClick={onDismissDeclined}
             aria-label="OK"
-            style={{ flexShrink: 0, border: 'none', background: 'var(--cream)', borderRadius: '10px', padding: '8px 12px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '12.5px', color: 'var(--ink-soft)' }}
+            style={{ flexShrink: 0, border: 'none', background: 'var(--cream)', borderRadius: '10px', padding: '8px 12px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: 'var(--ink-soft)' }}
           >
             OK
           </button>
@@ -127,7 +127,7 @@ export default function KidAskBanner({
             <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.02rem', color: 'var(--ink)', lineHeight: 1.3 }}>
               Do {blockingJobs[0]}{blockingJobs.length > 1 ? ` and ${blockingJobs.length - 1} more` : ''} first, then ask again
             </span>
-            <span style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: 'var(--ink-muted)', marginTop: 2 }}>
+            <span style={{ display: 'block', fontSize: '15px', fontWeight: 600, color: 'var(--ink-muted)', marginTop: 2 }}>
               Your grown up gets a ping when it is done.
             </span>
           </span>
