@@ -104,8 +104,8 @@ export function MiniRoad({ currentStage, showDigi = true }: { currentStage: numb
     <div style={{ position: 'relative', paddingTop: showDigi ? 26 : 0 }}>
       <RoadPulseStyle />
       {/* The dotted trail behind the circles, filled to where the family stands */}
-      <div aria-hidden style={{ position: 'absolute', left: '10%', right: '10%', top: (showDigi ? 26 : 0) + 15, borderTop: '3px dotted var(--border)' }} />
-      <div aria-hidden style={{ position: 'absolute', left: '10%', width: `${((current - 1) / 5) * 80}%`, top: (showDigi ? 26 : 0) + 15, borderTop: '3px dotted var(--terracotta)' }} />
+      <div aria-hidden style={{ position: 'absolute', left: '10%', right: '10%', top: (showDigi ? 26 : 0) + 17, borderTop: '4px dotted var(--border)' }} />
+      <div aria-hidden style={{ position: 'absolute', left: '10%', width: `${((current - 1) / 5) * 80}%`, top: (showDigi ? 26 : 0) + 17, borderTop: '4px dotted var(--terracotta)' }} />
       <div style={{ position: 'relative', display: 'flex' }}>
         {STAGES.map(stage => {
           const state: StageDotState = stage.id === current ? 'here' : stage.id < current ? 'behind' : 'ahead'
@@ -117,7 +117,7 @@ export function MiniRoad({ currentStage, showDigi = true }: { currentStage: numb
                   <DigiCharacter mood="happy" size={26} once />
                 </div>
               )}
-              <StageDot n={stage.id} state={state} size={30} />
+              <StageDot n={stage.id} state={state} size={36} />
               <span style={{ fontFamily: 'var(--font-mono)', fontSize: 9, fontWeight: 700, letterSpacing: '0.02em', color: state === 'here' ? 'var(--ink)' : 'var(--ink-muted)', textAlign: 'center', whiteSpace: 'nowrap' }}>
                 {ages}
               </span>
@@ -147,6 +147,42 @@ const STAGE_CONCEPTS: Record<number, string[]> = {
 
 const STAGE_SLUGS = ['foundation', 'builder', 'explorer', 'shaper', 'independent'] as const
 
+// ── The big road ────────────────────────────────────────────────────────────
+// Duolingo sized: fat stamp nodes on a thick winding trail down the page, the
+// current one ringed with DiGi standing on it, done stages stamped, future
+// ones quiet, and a small sticky card naming the position while you scroll.
+
+// The gentle meander, px from the centre line, one per stage. Small enough
+// that an 84px node never clips a 390px phone.
+const ROAD_MEANDER = [0, -62, 56, -56, 0]
+const ROAD_NODE = 84
+const ROAD_GAP_W = 300
+
+function RoadConnector({ fromX, toX, walked, height = 58 }: { fromX: number; toX: number; walked: boolean; height?: number }) {
+  const cx = ROAD_GAP_W / 2
+  const x1 = cx + fromX
+  const x2 = cx + toX
+  return (
+    <div aria-hidden style={{ position: 'relative', height, overflow: 'visible' }}>
+      <svg
+        width={ROAD_GAP_W}
+        height={height}
+        viewBox={`0 0 ${ROAD_GAP_W} ${height}`}
+        style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', display: 'block', overflow: 'visible' }}
+      >
+        <path
+          d={`M ${x1} ${-ROAD_NODE / 2} C ${x1} ${height * 0.7}, ${x2} ${height * 0.3}, ${x2} ${height + ROAD_NODE / 2}`}
+          fill="none"
+          stroke={walked ? 'var(--terracotta)' : 'var(--border)'}
+          strokeWidth={12}
+          strokeLinecap="round"
+          opacity={walked ? 0.55 : 1}
+        />
+      </svg>
+    </div>
+  )
+}
+
 export default function StageRoad({
   currentStageNum,
   progressPct,
@@ -158,144 +194,222 @@ export default function StageRoad({
 }) {
   const current = currentStageNum ?? 0
   const kid = childName && childName !== 'Your child' ? childName : 'your child'
+  const currentReadiness = current > 0 ? READINESS[current - 1] : null
 
   return (
-    <div style={{
-      background: '#fff', border: '1.5px solid var(--border)',
-      borderRadius: '20px', padding: '20px 18px 16px',
-      boxShadow: '0 4px 0 rgba(26,26,46,0.06)',
-    }}>
+    <div>
       <RoadPulseStyle />
-      <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 10, marginBottom: 18 }}>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
-          The road to 16
-        </span>
-        {current > 0 && (
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700, color: 'var(--ink-muted)' }}>
-            Stage {current} of 5
-          </span>
-        )}
-      </div>
+      <style>{`
+        .gc-road-sticky { position: sticky; top: 10px; z-index: 5; }
+        @media (min-width: 768px) { .gc-road-sticky { top: 76px; } }
+      `}</style>
+
+      {/* The sticky position card: always know where you stand while the
+          road scrolls, Duolingo style, in butter and ink. */}
+      {current > 0 && currentReadiness && (
+        <div className="gc-road-sticky" style={{
+          background: 'var(--terracotta)', borderRadius: 16, padding: '13px 18px',
+          boxShadow: '0 5px 0 var(--terracotta-dark)', marginBottom: 22,
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12,
+        }}>
+          <div style={{ minWidth: 0 }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink)', opacity: 0.7 }}>
+              The road to 16
+            </div>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 19, color: 'var(--ink)', letterSpacing: '-0.01em', lineHeight: 1.15, textTransform: 'uppercase' }}>
+              {STAGES[current - 1].name} · stamp {current} of 5
+            </div>
+          </div>
+          {progressPct !== null && (
+            <span style={{
+              flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 15,
+              background: '#fff', color: 'var(--terracotta-dark)', borderRadius: 100, padding: '7px 13px',
+            }}>
+              {progressPct}%
+            </span>
+          )}
+        </div>
+      )}
 
       <div>
         {STAGES.map((stage, i) => {
           const state: StageDotState = current > 0 && stage.id === current ? 'here' : current > 0 && stage.id < current ? 'behind' : 'ahead'
           const r = READINESS[i]
-          const last = i === STAGES.length - 1
           const here = state === 'here'
           const behind = state === 'behind'
+          const x = ROAD_MEANDER[i % ROAD_MEANDER.length]
 
           return (
-            <div key={stage.id} style={{ display: 'flex', gap: 14 }}>
-              {/* The rail: node, then the dotted trail down to the next node */}
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0, position: 'relative' }}>
-                {here && (
-                  <div style={{ position: 'absolute', top: -32, left: '50%', transform: 'translateX(-50%)', zIndex: 2 }}>
-                    <DigiCharacter mood="happy" size={28} once />
-                  </div>
-                )}
-                <StageDot n={stage.id} state={state} size={44} />
-                {!last && (
-                  <span aria-hidden style={{
-                    flex: 1, minHeight: 26, width: 0, margin: '4px 0',
-                    borderLeft: `3px dotted ${state !== 'ahead' ? 'var(--terracotta)' : 'var(--border)'}`,
-                  }} />
-                )}
-              </div>
+            <div key={stage.id}>
+              {i > 0 && (
+                <RoadConnector
+                  fromX={ROAD_MEANDER[(i - 1) % ROAD_MEANDER.length]}
+                  toX={x}
+                  walked={current > 0 && STAGES[i - 1].id <= current}
+                />
+              )}
 
-              {/* The stage on the road */}
-              <div style={{ flex: 1, minWidth: 0, paddingBottom: last ? 0 : 18 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-                  <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 18, color: here ? 'var(--ink)' : 'var(--ink-soft)', letterSpacing: '-0.01em' }}>
-                    {stage.name}
-                  </span>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10.5, fontWeight: 700, color: 'var(--ink-muted)' }}>
-                    {r.ages}
-                  </span>
-                  {here && (
-                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: 8.5, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', background: 'var(--terracotta)', color: 'var(--ink)', padding: '3px 9px', borderRadius: 100 }}>
-                      You are here
-                    </span>
-                  )}
-                  {behind && (
-                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: 8.5, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', border: '1px dashed var(--terracotta)', padding: '2px 8px', borderRadius: 100 }}>
-                      Catch up any time
-                    </span>
-                  )}
-                </div>
-
-                {/* The passport stamp lives on the road: the page of the
-                    passport this stage earns. */}
-                <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: 6, background: here ? 'var(--terracotta-lt)' : 'var(--cream)', border: `1px ${here ? 'solid var(--terracotta)' : 'solid var(--border)'}`, borderRadius: 100, padding: '4px 12px' }}>
-                  <span aria-hidden style={{ fontSize: 13 }}>🪪</span>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10.5, fontWeight: 700, letterSpacing: '0.04em', color: here ? 'var(--terracotta-dark)' : 'var(--ink-muted)' }}>
-                    Stamp: {r.stamp}
-                  </span>
-                </div>
-
-                {here ? (
-                  <div style={{ marginTop: 12, background: 'var(--cream)', border: '1.5px solid var(--border)', borderLeft: '6px solid var(--terracotta)', borderRadius: 16, padding: '16px 16px 14px' }}>
-                    {progressPct !== null && (
-                      <div style={{ marginBottom: 12 }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 6 }}>
-                          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>This stage</span>
-                          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 16, color: 'var(--terracotta-dark)' }}>{progressPct}%</span>
-                        </div>
-                        <div style={{ height: 10, borderRadius: 100, background: '#fff', border: '1px solid var(--border)', overflow: 'hidden' }}>
-                          <div style={{ height: '100%', width: `${progressPct}%`, background: 'var(--terracotta)', borderRadius: 100 }} />
-                        </div>
+              {/* The stamp node, big, with its pressed edge and its name */}
+              <div style={{ position: 'relative' }}>
+                <div style={{
+                  display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8,
+                  width: 'fit-content', margin: '0 auto', transform: `translateX(${x}px)`,
+                  position: 'relative', zIndex: 1, maxWidth: 'calc(100% - 20px)',
+                }}>
+                  <div className={here ? 'gc-road-here' : undefined} style={{ position: 'relative', width: ROAD_NODE, height: ROAD_NODE, borderRadius: '50%' }}>
+                    {here && (
+                      <div style={{ position: 'absolute', top: -40, left: '50%', transform: 'translateX(-50%)', zIndex: 2 }}>
+                        <DigiCharacter mood="happy" size={40} once />
                       </div>
                     )}
-                    <p style={{ fontFamily: 'var(--font-body)', fontSize: 15, color: 'var(--ink)', lineHeight: 1.55, margin: '0 0 6px' }}>{r.skill}</p>
-                    <p style={{ fontFamily: 'var(--font-body)', fontSize: 14, color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 12px' }}>
-                      Everything {kid} does this stage is building toward {r.toward}
-                    </p>
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 14 }}>
+                    <div style={{
+                      width: '100%', height: '100%', borderRadius: '50%',
+                      display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+                      background: here ? '#fff' : behind ? 'var(--terracotta-lt)' : 'var(--cream)',
+                      border: here ? '4px solid var(--terracotta)' : behind ? '3px dashed var(--terracotta)' : '3px solid var(--border)',
+                      boxShadow: here
+                        ? '0 6px 0 var(--terracotta-dark)'
+                        : behind
+                          ? '0 6px 0 rgba(201,154,40,0.45)'
+                          : '0 6px 0 var(--border)',
+                    }}>
+                      <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 30, lineHeight: 1, color: here || behind ? 'var(--terracotta-dark)' : 'var(--ink-light)' }}>
+                        {stage.id}
+                      </span>
+                      <span aria-hidden style={{ fontSize: 15, lineHeight: 1, marginTop: 2, filter: here || behind ? 'none' : 'grayscale(1) opacity(0.5)' }}>🪪</span>
+                    </div>
+                    {behind && (
+                      <span aria-hidden style={{
+                        position: 'absolute', right: -4, bottom: -2, width: 28, height: 28, borderRadius: '50%',
+                        background: '#2F8F6B', border: '3px solid #fff',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      }}>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                          <path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Big label under the node */}
+                  <div style={{ textAlign: 'center' }}>
+                    <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 26, letterSpacing: '-0.02em', lineHeight: 1.1, color: here ? 'var(--ink)' : 'var(--ink-soft)' }}>
+                      {stage.name}
+                    </div>
+                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700, color: 'var(--ink-muted)', marginTop: 3 }}>
+                      {r.ages}
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'center', gap: 6, marginTop: 7, flexWrap: 'wrap' }}>
+                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: here ? 'var(--terracotta-lt)' : 'var(--cream)', border: `1.5px solid ${here ? 'var(--terracotta)' : 'var(--border)'}`, borderRadius: 100, padding: '5px 13px' }}>
+                        <span aria-hidden style={{ fontSize: 13 }}>{behind ? '✅' : '🪪'}</span>
+                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10.5, fontWeight: 700, letterSpacing: '0.04em', color: here ? 'var(--terracotta-dark)' : 'var(--ink-muted)' }}>
+                          Stamp: {r.stamp}
+                        </span>
+                      </span>
+                      {here && (
+                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', background: 'var(--terracotta)', color: 'var(--ink)', padding: '5px 11px', borderRadius: 100, alignSelf: 'center' }}>
+                          You are here
+                        </span>
+                      )}
+                      {behind && (
+                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', border: '1px dashed var(--terracotta)', padding: '4px 10px', borderRadius: 100, alignSelf: 'center' }}>
+                          Catch up any time
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* The current stage opens out below its node, full width */}
+              {here ? (
+                <div style={{ marginTop: 14, background: '#fff', border: '1.5px solid var(--border)', borderLeft: '6px solid var(--terracotta)', borderRadius: 16, padding: '16px 16px 14px' }}>
+                  {progressPct !== null && (
+                    <div style={{ marginBottom: 12 }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 6 }}>
+                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>This stage</span>
+                        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 16, color: 'var(--terracotta-dark)' }}>{progressPct}%</span>
+                      </div>
+                      <div style={{ height: 10, borderRadius: 100, background: 'var(--cream)', border: '1px solid var(--border)', overflow: 'hidden' }}>
+                        <div style={{ height: '100%', width: `${progressPct}%`, background: 'var(--terracotta)', borderRadius: 100 }} />
+                      </div>
+                    </div>
+                  )}
+                  <p style={{ fontFamily: 'var(--font-body)', fontSize: 15, color: 'var(--ink)', lineHeight: 1.55, margin: '0 0 6px' }}>{r.skill}</p>
+                  <p style={{ fontFamily: 'var(--font-body)', fontSize: 14, color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 12px' }}>
+                    Everything {kid} does this stage is building toward {r.toward}
+                  </p>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 14 }}>
+                    {STAGE_CONCEPTS[stage.id].map(c => (
+                      <span key={c} style={{ fontFamily: 'var(--font-mono)', fontSize: 10.5, fontWeight: 600, letterSpacing: '0.03em', color: 'var(--ink-soft)', background: 'var(--cream)', border: '1px solid var(--border)', padding: '4px 10px', borderRadius: 100 }}>
+                        {c}
+                      </span>
+                    ))}
+                  </div>
+                  <Link
+                    href={`/dashboard/scripts?stage=${STAGE_SLUGS[stage.id - 1]}`}
+                    style={{
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                      background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none',
+                      borderRadius: 16, padding: '14px 20px',
+                      fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15,
+                      boxShadow: '0 5px 0 var(--terracotta-dark)', whiteSpace: 'nowrap',
+                    }}
+                  >
+                    The words for this stage →
+                  </Link>
+                </div>
+              ) : (
+                <details style={{ marginTop: 10, width: 'fit-content', maxWidth: '100%', margin: '10px auto 0', transform: `translateX(${x / 2}px)` }}>
+                  <summary style={{ cursor: 'pointer', listStyle: 'none', textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700, color: 'var(--ink-muted)', letterSpacing: '0.03em' }}>
+                    {behind ? 'Revisit this stage ▾' : 'What this stage holds ▾'}
+                  </summary>
+                  <div style={{ marginTop: 10, background: '#fff', border: '1.5px solid var(--border)', borderRadius: 14, padding: '13px 14px', transform: `translateX(${-x / 2}px)`, width: 'min(340px, calc(100vw - 40px))' }}>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 10 }}>
                       {STAGE_CONCEPTS[stage.id].map(c => (
-                        <span key={c} style={{ fontFamily: 'var(--font-mono)', fontSize: 10.5, fontWeight: 600, letterSpacing: '0.03em', color: 'var(--ink-soft)', background: '#fff', border: '1px solid var(--border)', padding: '4px 10px', borderRadius: 100 }}>
+                        <span key={c} style={{ fontFamily: 'var(--font-mono)', fontSize: 10.5, fontWeight: 600, letterSpacing: '0.03em', color: 'var(--ink-soft)', background: 'var(--cream)', border: '1px solid var(--border)', padding: '4px 10px', borderRadius: 100 }}>
                           {c}
                         </span>
                       ))}
                     </div>
-                    <Link
-                      href={`/dashboard/scripts?stage=${STAGE_SLUGS[stage.id - 1]}`}
-                      style={{
-                        display: 'inline-flex', alignItems: 'center', gap: 8,
-                        background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none',
-                        borderRadius: 16, padding: '12px 20px',
-                        fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 14,
-                        boxShadow: '0 4px 0 var(--terracotta-dark)', whiteSpace: 'nowrap',
-                      }}
-                    >
-                      The words for this stage →
+                    <p style={{ fontSize: 13.5, fontStyle: 'italic', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 10px' }}>
+                      &ldquo;{stage.parentQuote.replace(/^"/, '').replace(/"$/, '')}&rdquo;
+                    </p>
+                    <Link href={`/dashboard/scripts?stage=${STAGE_SLUGS[stage.id - 1]}`} style={{ fontFamily: 'var(--font-mono)', fontSize: 11.5, fontWeight: 700, color: 'var(--terracotta-dark)', textDecoration: 'none' }}>
+                      See the scripts →
                     </Link>
                   </div>
-                ) : (
-                  <details style={{ marginTop: 8 }}>
-                    <summary style={{ cursor: 'pointer', listStyle: 'none', fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700, color: 'var(--ink-muted)', letterSpacing: '0.03em' }}>
-                      {behind ? 'Revisit this stage ▾' : 'What this stage holds ▾'}
-                    </summary>
-                    <div style={{ marginTop: 10, background: 'var(--cream)', borderRadius: 14, padding: '13px 14px' }}>
-                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 10 }}>
-                        {STAGE_CONCEPTS[stage.id].map(c => (
-                          <span key={c} style={{ fontFamily: 'var(--font-mono)', fontSize: 10.5, fontWeight: 600, letterSpacing: '0.03em', color: 'var(--ink-soft)', background: '#fff', border: '1px solid var(--border)', padding: '4px 10px', borderRadius: 100 }}>
-                            {c}
-                          </span>
-                        ))}
-                      </div>
-                      <p style={{ fontSize: 13.5, fontStyle: 'italic', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 10px' }}>
-                        &ldquo;{stage.parentQuote.replace(/^"/, '').replace(/"$/, '')}&rdquo;
-                      </p>
-                      <Link href={`/dashboard/scripts?stage=${STAGE_SLUGS[stage.id - 1]}`} style={{ fontFamily: 'var(--font-mono)', fontSize: 11.5, fontWeight: 700, color: 'var(--terracotta-dark)', textDecoration: 'none' }}>
-                        See the scripts →
-                      </Link>
-                    </div>
-                  </details>
-                )}
-              </div>
+                </details>
+              )}
             </div>
           )
         })}
+
+        {/* The end of the road: the reward the whole journey earns */}
+        <RoadConnector fromX={ROAD_MEANDER[4]} toX={0} walked={current >= 5} />
+        <div style={{
+          display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8,
+          width: 'fit-content', margin: '0 auto', position: 'relative', zIndex: 1,
+        }}>
+          <div style={{
+            width: 76, height: 76, borderRadius: 22,
+            background: current >= 5 ? 'var(--terracotta)' : 'var(--cream)',
+            border: current >= 5 ? 'none' : '3px solid var(--border)',
+            boxShadow: current >= 5 ? '0 6px 0 var(--terracotta-dark)' : '0 6px 0 var(--border)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 36,
+            filter: current >= 5 ? 'none' : 'grayscale(1) opacity(0.6)',
+          }}>
+            🏆
+          </div>
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 20, letterSpacing: '-0.01em', color: current >= 5 ? 'var(--ink)' : 'var(--ink-soft)' }}>
+              Sixteen, ready
+            </div>
+            <div style={{ fontFamily: 'var(--font-body)', fontSize: 12.5, color: 'var(--ink-muted)', marginTop: 2, maxWidth: 240 }}>
+              Social media walked into with open eyes, not fallen into off a cliff
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Honest framing, kept from the old map: age sets the stage, learning

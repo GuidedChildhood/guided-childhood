@@ -20,7 +20,7 @@ const TOP_OFFSET = 72
 // parent knows what they are walking into before they tap. The wording
 // follows the clock: the same step reads differently at breakfast and at
 // bedtime, so the path always feels like it belongs to this moment.
-function nextHint(key: TodayLoopTask['key']): string {
+export function nextHint(key: TodayLoopTask['key']): string {
   const hour = new Date().getHours()
   const daypart = hour < 12 ? 'morning' : hour < 17 ? 'afternoon' : 'evening'
   const hints: Record<TodayLoopTask['key'], Record<string, string>> = {
@@ -61,16 +61,10 @@ const NODE_LOOK: Record<TodayLoopTask['key'], { fill: string; tick: string; icon
   done:    { fill: 'var(--stage-3-bold)', tick: 'var(--stage-3-text)', icon: '🏁' },
 }
 
-// Roughly how long each step really takes, so the day is counted done when
-// about that many minutes have actually been spent, not the instant a couple
-// of quick taps land. A short reflection, a couple of cards, a script to read,
-// a question to DiGi: the honest minute weight of each, summed as they are
-// ticked. Five minutes is still a couple of small things and genuinely enough
-// to keep the streak; ten and fifteen ask for a little more, for the days
-// there is room.
-const TASK_MINUTES: Record<TodayLoopTask['key'], number> = {
-  checkin: 2, moment: 3, script: 4, digi: 4, done: 0,
-}
+// The honest minute weight of each step lives in lib/pathway/task-minutes,
+// shared with the server side greeting and the big path.
+import { TASK_MINUTES } from '@/lib/pathway/task-minutes'
+export { TASK_MINUTES }
 
 export default function TodayPathStrip({ tasks, dailyMinutes = 10, childName, streakCount = 0 }: { tasks: TodayLoopTask[]; dailyMinutes?: number; childName?: string; streakCount?: number }) {
   const kid = childName && childName !== 'Your child' ? childName : 'your child'
