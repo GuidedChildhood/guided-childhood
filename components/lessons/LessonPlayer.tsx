@@ -1,75 +1,125 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { gsap } from 'gsap'
 import DigiCharacter, { type DigiMood } from '@/components/digi/DigiCharacter'
 import AnimatedIntro from '@/components/lessons/AnimatedIntro'
-import { PHASE_LABELS, PHASE_ORDER, type LessonPhase, type LessonSlide, type ChoiceSlide, type ScenarioSlide, type DiagramSlide, type DigiSlide, type DiscussionSlide, type StatSlide } from '@/lib/content/lesson-slides'
+import { ROSENSHINE_LABELS, type LessonSlide, type ChoiceSlide, type ScenarioSlide, type DiagramSlide, type DigiSlide, type DiscussionSlide, type StatSlide } from '@/lib/content/lesson-slides'
+import type { CurriculumBadges } from '@/lib/content/curriculum-badges'
 import Interactive from '@/components/lessons/interactives'
 
-// Duolingo mechanics, Guided Childhood skin: one slide at a time, a segmented
-// progress bar, an answer that reacts, DiGi responding to how it goes, and a
-// completion write so the pathway progress number moves the moment you finish.
-//
-// v2 (the proper lesson pass): objective and keywords slides, realistic
-// scenario posts rendered on screen, animated flow diagrams, the DiGi
-// speaking closing, and a teacher script panel under every slide that
-// carries one.
+// The cinematic player, v3. One player build lifts every lesson at once
+// because slides are data: full bleed one idea slides on a cream stage,
+// huge Nunito 900 headlines, GSAP slide transitions with staggered element
+// reveals so a concept builds piece by piece, a thin butter progress bar,
+// swipe and arrow key navigation, and DiGi popping in with his bubble.
+// Rosenshine worn openly: a quiet mono phase label on every slide
+// (RETRIEVAL / TEACH / PRACTISE / PROVE / CLOSE) and the retake framed as
+// retrieval practice. The choice score and the 70 percent pass system are
+// untouched from the v2 pass build.
 
 const eyebrowStyle: React.CSSProperties = {
   fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700,
   letterSpacing: '0.12em', textTransform: 'uppercase',
 }
 
+// The two curriculum chips: Key Stage and the Education for a Connected
+// World strand. Small, mono, honest. Shown on the intro slide.
+function BadgeChips({ badges }: { badges: CurriculumBadges }) {
+  if (!badges.keyStage && !badges.strand) return null
+  const chip: React.CSSProperties = {
+    fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700,
+    letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-soft)',
+    background: '#fff', border: '1.5px solid var(--border)',
+    borderRadius: '100px', padding: '5px 12px', whiteSpace: 'nowrap',
+  }
+  return (
+    <div data-reveal style={{ display: 'flex', gap: '8px', justifyContent: 'center', flexWrap: 'wrap', marginTop: '16px' }}>
+      {badges.keyStage && <span style={chip}>{badges.keyStage}</span>}
+      {badges.strand && <span style={chip}>EfCW: {badges.strand}</span>}
+    </div>
+  )
+}
+
 function ChoiceBlock({
   slide,
   onAnswered,
+  projector = false,
 }: {
   slide: ChoiceSlide
   onAnswered: (correct: boolean) => void
+  projector?: boolean
 }) {
   const [picked, setPicked] = useState<number | null>(null)
+  const rootRef = useRef<HTMLDivElement>(null)
 
   const pick = (i: number) => {
     if (picked !== null) return
     setPicked(i)
     onAnswered(slide.options[i].correct)
+    // The tactile beat: the picked answer pops the moment it is tapped.
+    const el = rootRef.current?.querySelector(`[data-choice-opt="${i}"]`)
+    if (el) {
+      gsap.fromTo(el, { scale: 0.97 }, {
+        scale: 1, duration: 0.45,
+        ease: slide.options[i].correct ? 'back.out(3)' : 'power2.out',
+      })
+    }
   }
 
   return (
-    <div>
-      <div style={{ ...eyebrowStyle, color: 'var(--terracotta)', marginBottom: '12px' }}>
-        Quick check
+    <div ref={rootRef}>
+      <div data-reveal style={{ ...eyebrowStyle, color: 'var(--terracotta-dark)', marginBottom: '14px', textAlign: 'center' }}>
+        {projector ? 'Hands up, then tap the class answer' : 'Quick check'}
       </div>
-      <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.2rem, 3vw, 1.5rem)', fontWeight: 800, color: 'var(--ink)', lineHeight: 1.3, letterSpacing: '-0.02em', marginBottom: '20px' }}>
+      <h2 data-reveal style={{
+        fontFamily: 'var(--font-display)', fontSize: projector ? 'clamp(1.8rem, 3.6vw, 2.6rem)' : 'clamp(1.45rem, 4.5vw, 1.9rem)',
+        fontWeight: 900, color: 'var(--ink)', lineHeight: 1.22, letterSpacing: '-0.02em',
+        marginBottom: '24px', textAlign: 'center', maxWidth: '620px', marginLeft: 'auto', marginRight: 'auto',
+      }}>
         {slide.question}
       </h2>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', maxWidth: projector ? '760px' : '520px', margin: '0 auto' }}>
         {slide.options.map((opt, i) => {
           const isPicked = picked === i
           const revealed = picked !== null
+          const showRight = revealed && opt.correct
           const border = isPicked
-            ? opt.correct ? '2px solid var(--terracotta)' : '2px solid var(--stage-3-bold)'
-            : revealed && opt.correct ? '2px solid var(--terracotta)' : '1.5px solid var(--border)'
+            ? opt.correct ? '2.5px solid var(--terracotta-dark)' : '2.5px solid var(--ink-muted)'
+            : showRight ? '2.5px solid var(--terracotta-dark)' : '2px solid var(--border)'
           const bg = isPicked
-            ? opt.correct ? 'var(--terracotta-lt)' : 'var(--stage-3)'
-            : '#fff'
+            ? opt.correct ? 'var(--terracotta-lt)' : 'var(--cream)'
+            : showRight ? 'var(--terracotta-lt)' : '#fff'
+          const shadow = revealed
+            ? isPicked || showRight ? '0 3px 0 var(--border)' : 'none'
+            : '0 5px 0 var(--border)'
           return (
             <button
               key={i}
+              data-choice-opt={i}
+              data-reveal
               onClick={() => pick(i)}
               disabled={revealed}
               style={{
-                textAlign: 'left', background: bg, border, borderRadius: '16px',
-                padding: '14px 16px', cursor: revealed ? 'default' : 'pointer',
-                fontFamily: 'var(--font-body)', fontSize: '14.5px', fontWeight: 600,
-                color: 'var(--ink)', lineHeight: 1.5, transition: 'border-color 0.15s, background 0.15s',
+                textAlign: 'left', background: bg, border, borderRadius: '18px',
+                padding: projector ? '20px 24px' : '17px 20px',
+                cursor: revealed ? 'default' : 'pointer',
+                fontFamily: 'var(--font-display)',
+                fontSize: projector ? '20px' : '16px', fontWeight: 800,
+                color: 'var(--ink)', lineHeight: 1.45,
+                boxShadow: shadow,
+                transform: revealed && (isPicked || showRight) ? 'translateY(2px)' : 'none',
+                transition: 'border-color 0.15s, background 0.15s, box-shadow 0.15s, transform 0.15s',
               }}
             >
               {opt.text}
               {isPicked && (
-                <span style={{ display: 'block', marginTop: '8px', fontSize: '13px', fontWeight: 500, color: 'var(--ink-soft)', lineHeight: 1.55 }}>
+                <span style={{
+                  display: 'block', marginTop: '10px',
+                  fontFamily: 'var(--font-body)', fontSize: projector ? '17px' : '14px',
+                  fontWeight: 600, color: 'var(--ink-soft)', lineHeight: 1.55,
+                }}>
                   {opt.correct ? '✓ ' : ''}{opt.feedback}
                 </span>
               )}
@@ -99,18 +149,18 @@ function DiscussionBlock({ slide }: { slide: DiscussionSlide }) {
 
   return (
     <div style={{ textAlign: 'center' }}>
-      <div style={{ ...eyebrowStyle, color: 'var(--terracotta)', marginBottom: '12px' }}>
+      <div data-reveal style={{ ...eyebrowStyle, color: 'var(--terracotta-dark)', marginBottom: '14px' }}>
         Talk task · {modeLabel}
       </div>
-      <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.25rem, 3vw, 1.6rem)', fontWeight: 800, color: 'var(--ink)', lineHeight: 1.35, letterSpacing: '-0.02em', maxWidth: '480px', margin: '0 auto 22px' }}>
+      <h2 data-reveal style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.45rem, 3.6vw, 2rem)', fontWeight: 900, color: 'var(--ink)', lineHeight: 1.3, letterSpacing: '-0.02em', maxWidth: '560px', margin: '0 auto 26px' }}>
         {slide.prompt}
       </h2>
-      <div style={{
+      <div data-reveal style={{
         display: 'inline-flex', flexDirection: 'column', alignItems: 'center', gap: '10px',
         background: done ? 'var(--stage-1)' : '#fff', border: `2px solid ${done ? 'var(--stage-1-bold)' : 'var(--border)'}`,
-        borderRadius: '20px', padding: '18px 34px',
+        borderRadius: '20px', padding: '18px 34px', boxShadow: '0 5px 0 var(--border)',
       }}>
-        <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: '38px', color: done ? 'var(--stage-1-text)' : 'var(--ink)', lineHeight: 1 }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: '42px', color: done ? 'var(--stage-1-text)' : 'var(--ink)', lineHeight: 1 }}>
           {done ? 'Time!' : `${Math.floor(left / 60)}:${String(left % 60).padStart(2, '0')}`}
         </span>
         {!done && (
@@ -118,8 +168,9 @@ function DiscussionBlock({ slide }: { slide: DiscussionSlide }) {
             onClick={() => setRunning(r => !r)}
             style={{
               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px',
-              background: 'var(--terracotta)', color: '#fff', border: 'none',
+              background: 'var(--terracotta)', color: 'var(--ink)', border: 'none',
               borderRadius: '12px', padding: '9px 20px', cursor: 'pointer',
+              boxShadow: '0 4px 0 var(--terracotta-dark)',
             }}
           >
             {running ? 'Pause' : left === total ? 'Start the timer' : 'Keep going'}
@@ -127,7 +178,7 @@ function DiscussionBlock({ slide }: { slide: DiscussionSlide }) {
         )}
       </div>
       {done && slide.lookFor && (
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: '16px', color: 'var(--ink)', lineHeight: 1.7, maxWidth: '440px', margin: '18px auto 0' }}>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: '16px', color: 'var(--ink)', lineHeight: 1.7, maxWidth: '460px', margin: '18px auto 0' }}>
           <strong>A good answer sounds like:</strong> {slide.lookFor}
         </p>
       )}
@@ -139,14 +190,14 @@ function DiscussionBlock({ slide }: { slide: DiscussionSlide }) {
 function StatBlock({ slide }: { slide: StatSlide }) {
   return (
     <div style={{ textAlign: 'center', padding: '10px 0' }}>
-      <div style={{ ...eyebrowStyle, color: 'var(--terracotta)', marginBottom: '16px' }}>The evidence</div>
-      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(3rem, 9vw, 4.6rem)', color: 'var(--terracotta)', lineHeight: 1, letterSpacing: '-0.03em', marginBottom: '14px' }}>
+      <div data-reveal style={{ ...eyebrowStyle, color: 'var(--terracotta-dark)', marginBottom: '18px' }}>The evidence</div>
+      <div data-reveal style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(3.6rem, 11vw, 5.6rem)', color: 'var(--terracotta-dark)', lineHeight: 1, letterSpacing: '-0.03em', marginBottom: '16px' }}>
         {slide.figure}
       </div>
-      <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'clamp(1.05rem, 2.6vw, 1.35rem)', color: 'var(--ink)', lineHeight: 1.45, maxWidth: '440px', margin: '0 auto 12px' }}>
+      <p data-reveal style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'clamp(1.15rem, 2.8vw, 1.5rem)', color: 'var(--ink)', lineHeight: 1.4, maxWidth: '480px', margin: '0 auto 14px' }}>
         {slide.claim}
       </p>
-      <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 600, color: 'var(--ink-muted)', letterSpacing: '0.04em' }}>
+      <p data-reveal style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 600, color: 'var(--ink-muted)', letterSpacing: '0.04em' }}>
         Source: {slide.source}
       </p>
     </div>
@@ -160,11 +211,11 @@ function ScenarioBlock({ slide }: { slide: ScenarioSlide }) {
   const isMessage = slide.platform === 'message'
   return (
     <div>
-      <div style={{ ...eyebrowStyle, color: 'var(--terracotta)', marginBottom: '12px' }}>
+      <div data-reveal style={{ ...eyebrowStyle, color: 'var(--terracotta-dark)', marginBottom: '14px', textAlign: 'center' }}>
         {slide.label ?? 'Evidence'}
       </div>
-      <div style={{
-        maxWidth: '420px', margin: '0 auto',
+      <div data-reveal style={{
+        maxWidth: '440px', margin: '0 auto',
         background: isMessage ? 'var(--stage-1)' : '#fff',
         border: '1.5px solid var(--border)', borderRadius: '22px',
         padding: '16px 18px', boxShadow: '0 6px 0 var(--border)',
@@ -199,9 +250,9 @@ function ScenarioBlock({ slide }: { slide: ScenarioSlide }) {
         )}
       </div>
       {slide.prompt && (
-        <p style={{
-          fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px', color: 'var(--ink)',
-          textAlign: 'center', lineHeight: 1.5, maxWidth: '400px', margin: '18px auto 0',
+        <p data-reveal style={{
+          fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'clamp(1rem, 2.4vw, 1.2rem)', color: 'var(--ink)',
+          textAlign: 'center', lineHeight: 1.5, maxWidth: '440px', margin: '20px auto 0',
         }}>
           {slide.prompt}
         </p>
@@ -227,10 +278,10 @@ function DiagramBlock({ slide }: { slide: DiagramSlide }) {
 
   return (
     <div ref={ref}>
-      <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.25rem, 3vw, 1.6rem)', fontWeight: 800, color: 'var(--ink)', letterSpacing: '-0.02em', marginBottom: '18px', textAlign: 'center' }}>
+      <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.45rem, 3.6vw, 2rem)', fontWeight: 900, color: 'var(--ink)', letterSpacing: '-0.02em', marginBottom: '20px', textAlign: 'center' }}>
         {slide.heading}
       </h2>
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0, maxWidth: '440px', margin: '0 auto' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0, maxWidth: '460px', margin: '0 auto' }}>
         {slide.steps.map((step, i) => (
           <div key={i} data-diagram-step style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <div style={{
@@ -245,7 +296,7 @@ function DiagramBlock({ slide }: { slide: DiagramSlide }) {
               </div>
             </div>
             {i < slide.steps.length - 1 && (
-              <div style={{ fontSize: '18px', color: 'var(--terracotta)', fontWeight: 900, padding: '6px 0' }}>↓</div>
+              <div style={{ fontSize: '18px', color: 'var(--terracotta-dark)', fontWeight: 900, padding: '6px 0' }}>↓</div>
             )}
           </div>
         ))}
@@ -264,7 +315,7 @@ function DiagramBlock({ slide }: { slide: DiagramSlide }) {
         )}
       </div>
       {slide.caption && (
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: '13.5px', color: 'var(--ink-soft)', textAlign: 'center', lineHeight: 1.6, maxWidth: '400px', margin: '16px auto 0' }}>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: '13.5px', color: 'var(--ink-soft)', textAlign: 'center', lineHeight: 1.6, maxWidth: '420px', margin: '16px auto 0' }}>
           {slide.caption}
         </p>
       )}
@@ -272,48 +323,64 @@ function DiagramBlock({ slide }: { slide: DiagramSlide }) {
   )
 }
 
-// The animated closing: DiGi the golden star bounces in and speaks the
-// lesson home one bubble at a time. No render pipeline, always available.
+// DiGi popping in with his bubble: the app greeting treatment. The golden
+// star lands in his butter circle, then speaks the lesson home one white
+// bubble at a time. No render pipeline, always available.
 function DigiClosingBlock({ slide }: { slide: DigiSlide }) {
   const ref = useRef<HTMLDivElement>(null)
   const [mood, setMood] = useState<DigiMood>('wave')
 
   useEffect(() => {
     if (!ref.current) return
+    const avatar = ref.current.querySelector('[data-digi-avatar]')
     const bubbles = ref.current.querySelectorAll('[data-digi-line]')
     const tl = gsap.timeline()
+    if (avatar) tl.fromTo(avatar, { opacity: 0, scale: 0.4, y: 16 }, { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: 'back.out(2.2)' })
     tl.fromTo(bubbles, { opacity: 0, y: 14, scale: 0.96 }, {
-      opacity: 1, y: 0, scale: 1, duration: 0.45, stagger: 1.1, ease: 'back.out(1.6)',
+      opacity: 1, y: 0, scale: 1, duration: 0.45, stagger: 1.0, ease: 'back.out(1.6)',
       onComplete: () => setMood('happy'),
-    })
+    }, '-=0.1')
     return () => { tl.kill() }
   }, [])
 
   return (
-    <div ref={ref} style={{ textAlign: 'center' }}>
+    <div ref={ref}>
       {slide.heading && (
-        <div style={{ ...eyebrowStyle, color: 'var(--terracotta)', marginBottom: '14px' }}>{slide.heading}</div>
+        <div style={{ ...eyebrowStyle, color: 'var(--terracotta-dark)', marginBottom: '18px', textAlign: 'center' }}>{slide.heading}</div>
       )}
-      <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '18px' }}>
-        <DigiCharacter mood={mood} size={104} />
-      </div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxWidth: '420px', margin: '0 auto' }}>
-        {slide.lines.map((line, i) => (
-          <div key={i} data-digi-line style={{
-            opacity: 0, background: '#fff', border: '2px solid var(--gold, #F2C94C)',
-            borderRadius: '18px', padding: '13px 18px', textAlign: 'left',
-            fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '14.5px',
-            color: 'var(--ink)', lineHeight: 1.55, boxShadow: '0 4px 0 var(--border)',
-          }}>
-            {line}
-          </div>
-        ))}
+      <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', maxWidth: '460px', margin: '0 auto' }}>
+        <span data-digi-avatar style={{
+          opacity: 0, width: 54, height: 54, borderRadius: '50%', flexShrink: 0,
+          background: 'var(--terracotta)', border: '2px solid var(--terracotta-dark)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          boxShadow: '0 4px 0 var(--terracotta-dark)',
+        }}>
+          <DigiCharacter mood={mood} size={38} />
+        </span>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', flex: 1, paddingTop: '4px' }}>
+          {slide.lines.map((line, i) => (
+            <div key={i} data-digi-line style={{
+              opacity: 0, background: '#fff', border: '1.5px solid var(--border)',
+              borderRadius: i === 0 ? '4px 18px 18px 18px' : '18px', padding: '13px 18px', textAlign: 'left',
+              fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '15.5px',
+              color: 'var(--ink)', lineHeight: 1.55, boxShadow: '0 3px 0 rgba(26,26,46,0.06)',
+            }}>
+              {line}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   )
 }
 
-function SlideBody({ slide, onAnswered }: { slide: LessonSlide; onAnswered: (correct: boolean) => void }) {
+function SlideBody({
+  slide, onAnswered, projector,
+}: {
+  slide: LessonSlide
+  onAnswered: (correct: boolean) => void
+  projector?: boolean
+}) {
   switch (slide.type) {
     case 'title':
       return (
@@ -322,7 +389,7 @@ function SlideBody({ slide, onAnswered }: { slide: LessonSlide; onAnswered: (cor
               off, the title reveals, far cleaner than a busy stock scene. */}
           <AnimatedIntro eyebrow={slide.eyebrow} title={slide.title} character={slide.character} />
           {slide.body && (
-            <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '400px', margin: '18px auto 0', textAlign: 'center' }}>
+            <p data-reveal style={{ fontSize: '15.5px', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '420px', margin: '18px auto 0', textAlign: 'center' }}>
               {slide.body}
             </p>
           )}
@@ -331,23 +398,24 @@ function SlideBody({ slide, onAnswered }: { slide: LessonSlide; onAnswered: (cor
     case 'objective':
       return (
         <div>
-          <div style={{ ...eyebrowStyle, color: 'var(--terracotta)', marginBottom: '12px' }}>
+          <div data-reveal style={{ ...eyebrowStyle, color: 'var(--terracotta-dark)', marginBottom: '14px' }}>
             Today&rsquo;s mission
           </div>
-          <div style={{
+          <div data-reveal style={{
             background: 'var(--stage-2)', border: '2px solid var(--terracotta)',
-            borderRadius: '20px', padding: 'clamp(18px, 3.5vw, 26px)', marginBottom: '16px',
+            borderRadius: '20px', padding: 'clamp(20px, 4vw, 30px)', marginBottom: '18px',
+            boxShadow: '0 5px 0 var(--terracotta-lt)',
           }}>
-            <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.15rem, 2.8vw, 1.45rem)', color: 'var(--ink)', lineHeight: 1.35, letterSpacing: '-0.02em' }}>
+            <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.3rem, 3.2vw, 1.7rem)', color: 'var(--ink)', lineHeight: 1.3, letterSpacing: '-0.02em' }}>
               {slide.outcome}
             </p>
           </div>
-          <p style={{ fontSize: '15px', color: 'var(--ink)', lineHeight: 1.7, marginBottom: '16px' }}>{slide.why}</p>
+          <p data-reveal style={{ fontSize: '15.5px', color: 'var(--ink)', lineHeight: 1.7, marginBottom: '16px' }}>{slide.why}</p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '9px' }}>
             {slide.gains.map((g, i) => (
-              <div key={i} style={{ display: 'flex', gap: '11px', alignItems: 'flex-start', background: '#fff', border: '1.5px solid var(--border)', borderRadius: '14px', padding: '11px 14px' }}>
-                <span style={{ color: 'var(--terracotta)', fontWeight: 900, flexShrink: 0 }}>✓</span>
-                <span style={{ fontSize: '14px', color: 'var(--ink)', lineHeight: 1.55 }}>{g}</span>
+              <div key={i} data-reveal style={{ display: 'flex', gap: '11px', alignItems: 'flex-start', background: '#fff', border: '1.5px solid var(--border)', borderRadius: '14px', padding: '12px 15px' }}>
+                <span style={{ color: 'var(--terracotta-dark)', fontWeight: 900, flexShrink: 0 }}>✓</span>
+                <span style={{ fontSize: '14.5px', color: 'var(--ink)', lineHeight: 1.55 }}>{g}</span>
               </div>
             ))}
           </div>
@@ -356,12 +424,12 @@ function SlideBody({ slide, onAnswered }: { slide: LessonSlide; onAnswered: (cor
     case 'keywords':
       return (
         <div>
-          <div style={{ ...eyebrowStyle, color: 'var(--terracotta)', marginBottom: '12px' }}>
+          <div data-reveal style={{ ...eyebrowStyle, color: 'var(--terracotta-dark)', marginBottom: '14px' }}>
             {slide.heading ?? 'Detective words'}
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
             {slide.words.map((w, i) => (
-              <div key={i} style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '16px', padding: '13px 16px' }}>
+              <div key={i} data-reveal style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '16px', padding: '13px 16px' }}>
                 <span style={{
                   display: 'inline-block', fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: '13px',
                   color: 'var(--stage-1-text)', background: 'var(--stage-1)', border: '1.5px solid var(--stage-1-bold)',
@@ -376,28 +444,39 @@ function SlideBody({ slide, onAnswered }: { slide: LessonSlide; onAnswered: (cor
         </div>
       )
     case 'concept':
+      // The full bleed one idea slide: the emoji lands, the huge headline
+      // follows, the body settles last. Each piece staggers in.
       return (
-        <div>
-          {slide.emoji && <div style={{ fontSize: '34px', marginBottom: '14px' }}>{slide.emoji}</div>}
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.25rem, 3vw, 1.6rem)', fontWeight: 800, color: 'var(--ink)', lineHeight: 1.25, letterSpacing: '-0.02em', marginBottom: '14px' }}>
+        <div style={{ textAlign: 'center' }}>
+          {slide.emoji && <div data-reveal style={{ fontSize: 'clamp(2.6rem, 6vw, 3.4rem)', marginBottom: '16px', lineHeight: 1 }}>{slide.emoji}</div>}
+          <h2 data-reveal style={{
+            fontFamily: 'var(--font-display)', fontSize: projector ? 'clamp(2.2rem, 4.5vw, 3.2rem)' : 'clamp(1.7rem, 5.5vw, 2.4rem)',
+            fontWeight: 900, color: 'var(--ink)', lineHeight: 1.15, letterSpacing: '-0.025em', marginBottom: '18px',
+            maxWidth: '640px', marginLeft: 'auto', marginRight: 'auto',
+          }}>
             {slide.heading}
           </h2>
-          <p style={{ fontSize: '15.5px', color: 'var(--ink)', lineHeight: 1.75 }}>{slide.body}</p>
+          <p data-reveal style={{
+            fontSize: projector ? 'clamp(1.1rem, 2vw, 1.35rem)' : 'clamp(1rem, 2.4vw, 1.1rem)',
+            color: 'var(--ink)', lineHeight: 1.75, maxWidth: '540px', margin: '0 auto', textAlign: 'left',
+          }}>
+            {slide.body}
+          </p>
         </div>
       )
     case 'quote':
       return (
-        <div style={{ background: 'var(--stage-2)', borderRadius: '20px', padding: 'clamp(22px, 4vw, 30px)', borderLeft: '3px solid var(--terracotta)' }}>
-          <div style={{ ...eyebrowStyle, color: 'var(--terracotta)', marginBottom: '12px' }}>
+        <div data-reveal style={{ background: 'var(--stage-2)', borderRadius: '20px', padding: 'clamp(24px, 4.5vw, 34px)', borderLeft: '3px solid var(--terracotta)', maxWidth: '560px', margin: '0 auto' }}>
+          <div style={{ ...eyebrowStyle, color: 'var(--terracotta-dark)', marginBottom: '12px' }}>
             {slide.label ?? 'Say this'}
           </div>
-          <p style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.05rem, 2.4vw, 1.3rem)', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.55, fontStyle: 'italic' }}>
+          <p style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.15rem, 2.8vw, 1.45rem)', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.55, fontStyle: 'italic' }}>
             &ldquo;{slide.text}&rdquo;
           </p>
         </div>
       )
     case 'choice':
-      return <ChoiceBlock slide={slide} onAnswered={onAnswered} />
+      return <ChoiceBlock slide={slide} onAnswered={onAnswered} projector={projector} />
     case 'discussion':
       return <DiscussionBlock slide={slide} />
     case 'stat':
@@ -429,11 +508,11 @@ function SlideBody({ slide, onAnswered }: { slide: LessonSlide; onAnswered: (cor
       )
     case 'tryit':
       return (
-        <div style={{ background: 'var(--stage-1)', borderRadius: '20px', padding: 'clamp(22px, 4vw, 30px)', border: '1.5px solid var(--stage-1-bold)' }}>
+        <div data-reveal style={{ background: 'var(--stage-1)', borderRadius: '20px', padding: 'clamp(24px, 4.5vw, 34px)', border: '1.5px solid var(--stage-1-bold)', maxWidth: '560px', margin: '0 auto' }}>
           <div style={{ ...eyebrowStyle, color: 'var(--stage-1-text)', marginBottom: '12px' }}>
             Try it tonight
           </div>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.15rem, 2.6vw, 1.4rem)', fontWeight: 800, color: 'var(--ink)', letterSpacing: '-0.02em', marginBottom: '12px' }}>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.3rem, 3vw, 1.6rem)', fontWeight: 900, color: 'var(--ink)', letterSpacing: '-0.02em', marginBottom: '12px' }}>
             {slide.heading}
           </h2>
           <p style={{ fontSize: '15px', color: 'var(--ink)', lineHeight: 1.7 }}>{slide.body}</p>
@@ -442,13 +521,13 @@ function SlideBody({ slide, onAnswered }: { slide: LessonSlide; onAnswered: (cor
     case 'recap':
       return (
         <div>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.25rem, 3vw, 1.6rem)', fontWeight: 800, color: 'var(--ink)', letterSpacing: '-0.02em', marginBottom: '18px' }}>
+          <h2 data-reveal style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.45rem, 3.6vw, 2rem)', fontWeight: 900, color: 'var(--ink)', letterSpacing: '-0.02em', marginBottom: '18px', textAlign: 'center' }}>
             {slide.heading}
           </h2>
-          <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '12px', padding: 0 }}>
+          <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '12px', padding: 0, maxWidth: '520px', margin: '0 auto' }}>
             {slide.points.map((p, i) => (
-              <li key={i} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', background: '#fff', border: '1.5px solid var(--border)', borderRadius: '14px', padding: '13px 16px' }}>
-                <span style={{ color: 'var(--terracotta)', fontWeight: 900, flexShrink: 0 }}>✓</span>
+              <li key={i} data-reveal style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', background: '#fff', border: '1.5px solid var(--border)', borderRadius: '14px', padding: '13px 16px' }}>
+                <span style={{ color: 'var(--terracotta-dark)', fontWeight: 900, flexShrink: 0 }}>✓</span>
                 <span style={{ fontSize: '14.5px', color: 'var(--ink)', lineHeight: 1.6 }}>{p}</span>
               </li>
             ))}
@@ -469,6 +548,9 @@ export default function LessonPlayer({
   kidStars,
   completeEndpoint,
   completeBody,
+  badges,
+  classMode = false,
+  initialIndex = 0,
 }: {
   lessonId: string
   lessonSource: 'lesson' | 'ai_lesson' | 'school_lesson'
@@ -484,8 +566,16 @@ export default function LessonPlayer({
   // has no database row to complete against.
   completeEndpoint?: string | null
   completeBody?: Record<string, unknown>
+  // Key Stage and Education for a Connected World chips on the intro slide.
+  badges?: CurriculumBadges
+  // Whole class projector mode: everything bigger, arrow keys advance, and
+  // the finish is the quiet signpost to the school curriculum tier.
+  classMode?: boolean
+  // Open at a given slide (dev fixtures and deep links).
+  initialIndex?: number
 }) {
-  const [index, setIndex] = useState(0)
+  const projector = classMode
+  const [index, setIndex] = useState(() => Math.min(Math.max(initialIndex, 0), Math.max(slides.length - 1, 0)))
   const [answered, setAnswered] = useState(false)
   const [digiMood, setDigiMood] = useState<DigiMood>('idle')
   const [finished, setFinished] = useState(false)
@@ -493,6 +583,11 @@ export default function LessonPlayer({
   // Per choice slide result, keyed by slide index so revisits do not double count.
   const answersRef = useRef<Record<number, boolean>>({})
   const slideRef = useRef<HTMLDivElement>(null)
+  const barRef = useRef<HTMLDivElement>(null)
+  const stageRef = useRef<HTMLDivElement>(null)
+  // Which way the deck is moving, so the slide transition matches the gesture.
+  const dirRef = useRef(1)
+  const touchStartX = useRef<number | null>(null)
 
   const slide = slides[index]
   const isChoice = slide?.type === 'choice'
@@ -507,10 +602,27 @@ export default function LessonPlayer({
   const correctCount = Object.values(answersRef.current).filter(Boolean).length
   const passed = choiceCount === 0 || correctCount / choiceCount >= 0.7
 
+  // The cinematic transition: the slide glides in from the direction of
+  // travel, then its pieces build one by one via the data-reveal marks.
   useEffect(() => {
     if (!slideRef.current) return
-    gsap.fromTo(slideRef.current, { opacity: 0, y: 22 }, { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out' })
+    const el = slideRef.current
+    const reveals = el.querySelectorAll('[data-reveal]')
+    const tl = gsap.timeline()
+    tl.fromTo(el, { opacity: 0, x: 36 * dirRef.current }, { opacity: 1, x: 0, duration: 0.45, ease: 'power2.out' })
+    if (reveals.length) {
+      tl.fromTo(reveals, { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.14, ease: 'power2.out' }, '-=0.2')
+    }
+    stageRef.current?.scrollTo({ top: 0 })
+    return () => { tl.kill() }
   }, [index, finished])
+
+  // The thin butter progress bar breathes forward with every slide.
+  useEffect(() => {
+    if (!barRef.current) return
+    const pct = finished ? 100 : ((index + 1) / Math.max(slides.length, 1)) * 100
+    gsap.to(barRef.current, { width: `${pct}%`, duration: 0.5, ease: 'power2.out' })
+  }, [index, finished, slides.length])
 
   useEffect(() => {
     if (slide?.type === 'choice' && !answered) setDigiMood('thinking')
@@ -524,7 +636,8 @@ export default function LessonPlayer({
     setDigiMood(correct ? 'happy' : 'speak')
   }
 
-  const advance = async () => {
+  const advance = useCallback(async () => {
+    dirRef.current = 1
     if (isLast) {
       setFinished(true)
       setDigiMood(passed ? 'happy' : 'speak')
@@ -548,34 +661,126 @@ export default function LessonPlayer({
     }
     setAnswered(false)
     setIndex(i => i + 1)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLast, passed, completeEndpoint, lessonId, lessonSource, choiceCount, completeBody])
+
+  const goBack = useCallback(() => {
+    if (index === 0) return
+    dirRef.current = -1
+    setAnswered(true)
+    setIndex(i => i - 1)
+  }, [index])
+
+  // Arrow keys drive the deck: the teacher at the projector, the parent on
+  // a laptop. Right or Enter continues once a choice is answered, left goes
+  // back. Touch gets the same via swipe on the slide stage.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (finished) return
+      if (e.key === 'ArrowRight') { if (canContinue) { e.preventDefault(); advance() } }
+      else if (e.key === 'ArrowLeft') { e.preventDefault(); goBack() }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [finished, canContinue, advance, goBack])
+
+  const onTouchStart = (e: React.TouchEvent) => { touchStartX.current = e.touches[0]?.clientX ?? null }
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null || finished) return
+    const dx = (e.changedTouches[0]?.clientX ?? touchStartX.current) - touchStartX.current
+    touchStartX.current = null
+    if (dx < -56 && canContinue) advance()
+    else if (dx > 56) goBack()
   }
 
   // A lesson is never one and done. Replaying keeps the completion on record
   // and just runs the deck again from the top.
   const runAgain = () => {
     answersRef.current = {}
+    dirRef.current = 1
     setAnswered(false)
     setFinished(false)
     setIndex(0)
     setDigiMood('idle')
   }
 
-  // The retake after a near miss: jump back to just before the first question
-  // that went wrong, so the tricky bit gets watched again and the wrong
-  // questions come round first. Earlier right answers stay banked; every
-  // question from here on is answered fresh and overwrites its old result.
+  // The retake, worn openly as retrieval practice: jump back to just before
+  // the first question that went wrong, so the tricky bit gets taught again
+  // and the wrong questions come round first. Earlier right answers stay
+  // banked; every question from here on is answered fresh and overwrites
+  // its old result.
   const tryAgain = () => {
     const firstWrong = slides.findIndex((s, i) => s.type === 'choice' && answersRef.current[i] === false)
+    dirRef.current = -1
     setAnswered(false)
     setFinished(false)
     setIndex(firstWrong > 0 ? firstWrong - 1 : 0)
     setDigiMood('idle')
   }
 
-  if (finished && kidMode) {
+  // ── The takeover shell ── every state below renders inside this full
+  // bleed cream stage: thin butter bar on top, quiet header, slide centre,
+  // controls at the bottom.
+  const phaseLabel = slide?.phase ? ROSENSHINE_LABELS[slide.phase] : null
+
+  let body: React.ReactNode
+
+  if (finished && classMode) {
+    // The quiet end slide of the whole class showcase: honest about what
+    // this is, pointing at the deeper tier schools actually buy.
+    body = (
+      <div ref={slideRef} style={{ textAlign: 'center', padding: '32px 0', maxWidth: '640px', margin: '0 auto' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+          <DigiCharacter mood="wave" size={110} />
+        </div>
+        <div style={{ ...eyebrowStyle, color: 'var(--terracotta-dark)', marginBottom: '14px' }}>For schools</div>
+        <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', fontWeight: 900, color: 'var(--ink)', letterSpacing: '-0.025em', lineHeight: 1.15, marginBottom: '14px' }}>
+          This is the family version.
+        </h2>
+        <p style={{ fontSize: 'clamp(1rem, 2vw, 1.2rem)', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '480px', margin: '0 auto 28px' }}>
+          The full school curriculum goes deeper: complete schemes of work by key stage, teacher scripts, assessment and progress evidence for every child.
+        </p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxWidth: '340px', margin: '0 auto' }}>
+          <Link href="/schools" className="btn btn-gold" style={{ justifyContent: 'center', fontSize: '15px' }}>
+            See the school curriculum
+          </Link>
+          <button onClick={runAgain} className="btn btn-outline" style={{ justifyContent: 'center', fontSize: '13px' }}>
+            Play it again ↻
+          </button>
+        </div>
+      </div>
+    )
+  } else if (finished && kidMode && !passed && lessonSource === 'lesson') {
+    // The kid near miss, in kid words: warm, one more go, never shame.
+    body = (
+      <div ref={slideRef} style={{ textAlign: 'center', padding: '32px 0' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '14px' }}>
+          <DigiCharacter mood="speak" size={100} />
+        </div>
+        <div style={{ ...eyebrowStyle, color: 'var(--terracotta-dark)', marginBottom: '10px' }}>Retrieval practice</div>
+        <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.5rem, 5vw, 2rem)', fontWeight: 900, color: 'var(--ink)', letterSpacing: '-0.02em', marginBottom: '8px' }}>
+          Nearly!
+        </h2>
+        <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)', marginBottom: '8px' }}>
+          You got {correctCount} of {choiceCount} right.
+        </p>
+        <p style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '340px', margin: '0 auto 24px' }}>
+          Going over it again is how it sticks. The tricky bit comes round first, then the questions.
+        </p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxWidth: '300px', margin: '0 auto' }}>
+          <button onClick={tryAgain} className="btn btn-gold" style={{ justifyContent: 'center', fontSize: '14px' }}>
+            Have another go
+          </button>
+          <Link href={backHref} className="btn btn-outline" style={{ justifyContent: 'center', fontSize: '13px' }}>
+            Back to my lessons
+          </Link>
+        </div>
+      </div>
+    )
+  } else if (finished && kidMode) {
     const results = Object.values(answersRef.current)
     const correct = results.filter(Boolean).length
-    return (
+    body = (
       <div ref={slideRef} style={{ textAlign: 'center', padding: '32px 0' }}>
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '14px' }}>
           <DigiCharacter mood="happy" size={110} />
@@ -599,37 +804,39 @@ export default function LessonPlayer({
           </div>
         )}
         <p style={{ fontFamily: 'var(--font-body)', fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.6, maxWidth: '340px', margin: '0 auto 20px' }}>
-          Your grown up just got the good news. Stars mean screen time, and you earned it the smart way.
+          {lessonSource === 'lesson'
+            ? 'That is a pass, and your grown up just got the good news. One more step down your road to 16.'
+            : 'Your grown up just got the good news. Stars mean screen time, and you earned it the smart way.'}
         </p>
         <div style={{ maxWidth: '300px', margin: '0 auto' }}>
           <Link href={backHref} className="btn btn-gold" style={{ justifyContent: 'center', fontSize: '14px', width: '100%' }}>
-            Back to my quests
+            {lessonSource === 'lesson' ? 'Back to my road ⭐' : 'Back to my quests'}
           </Link>
         </div>
       </div>
     )
-  }
-
-  // The near miss screen: warm, one retry line, never shame. The completion
-  // is already saved with passed false; another go can turn it into a pass.
-  if (finished && !passed && lessonSource !== 'school_lesson') {
-    return (
+  } else if (finished && !passed && lessonSource !== 'school_lesson') {
+    // The near miss screen, worn openly as retrieval practice: warm, one
+    // retry line, never shame. The completion is already saved with passed
+    // false; another go can turn it into a pass.
+    body = (
       <div ref={slideRef} style={{ textAlign: 'center', padding: '32px 0' }}>
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '18px' }}>
           <DigiCharacter mood="speak" size={96} />
         </div>
+        <div style={{ ...eyebrowStyle, color: 'var(--terracotta-dark)', marginBottom: '10px' }}>Retrieval practice</div>
         <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.4rem, 3.4vw, 1.8rem)', fontWeight: 900, color: 'var(--ink)', letterSpacing: '-0.02em', marginBottom: '10px' }}>
           Nearly
         </h2>
         <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)', marginBottom: '8px' }}>
           {correctCount} of {choiceCount} right this time.
         </p>
-        <p style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '360px', margin: '0 auto 26px' }}>
-          Watch the tricky bit again and have another go. It picks up right where it got tricky.
+        <p style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '380px', margin: '0 auto 26px' }}>
+          Going back over it is exactly how learning sticks. It picks up just before the tricky bit, so the idea comes first and the questions come round fresh.
         </p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxWidth: '320px', margin: '0 auto' }}>
           <button onClick={tryAgain} className="btn btn-gold" style={{ justifyContent: 'center', fontSize: '14px' }}>
-            Have another go
+            Go back over it
           </button>
           {digiPrompt && (
             <Link href={`/dashboard/digi?q=${encodeURIComponent(digiPrompt)}`} className="btn btn-outline" style={{ justifyContent: 'center', fontSize: '13px' }}>
@@ -642,12 +849,10 @@ export default function LessonPlayer({
         </div>
       </div>
     )
-  }
-
-  if (finished) {
+  } else if (finished) {
     const isSchool = lessonSource === 'school_lesson'
     const hasScore = !isSchool && choiceCount > 0
-    return (
+    body = (
       <div ref={slideRef} style={{ textAlign: 'center', padding: '32px 0' }}>
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '18px' }}>
           <DigiCharacter mood="happy" size={96} />
@@ -687,107 +892,127 @@ export default function LessonPlayer({
         </div>
       </div>
     )
+  } else {
+    body = (
+      <>
+        {/* The slide, one idea, centre stage */}
+        <div
+          ref={slideRef}
+          onTouchStart={onTouchStart}
+          onTouchEnd={onTouchEnd}
+          style={{
+            flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center',
+            paddingTop: '18px', paddingBottom: '24px',
+          }}
+        >
+          <SlideBody key={index} slide={slide} onAnswered={onAnswered} projector={projector} />
+          {index === 0 && badges && <BadgeChips badges={badges} />}
+        </div>
+
+        {/* Teacher script panel: word for word, teacher screen only by intent.
+            The toggle persists across slides so it stays open while teaching. */}
+        {hasScripts && (
+          <div style={{ marginBottom: '16px' }}>
+            <button
+              onClick={() => setScriptOpen(o => !o)}
+              style={{
+                fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
+                letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)',
+                background: 'none', border: 'none', cursor: 'pointer', padding: '2px 0', marginBottom: '8px',
+              }}
+            >
+              {scriptOpen ? '▾ Teacher script' : '▸ Teacher script'}
+            </button>
+            {scriptOpen && (
+              <div style={{
+                background: 'var(--stage-2)', borderLeft: '3px solid var(--terracotta)',
+                borderRadius: '12px', padding: '13px 16px',
+              }}>
+                <p style={{ fontFamily: 'var(--font-body)', fontSize: '13.5px', color: 'var(--ink)', lineHeight: 1.65 }}>
+                  {slide.script ?? 'No script for this slide. Let it land, then continue.'}
+                </p>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Controls */}
+        <div style={{ display: 'flex', gap: '10px', alignItems: 'center', paddingBottom: 'max(18px, env(safe-area-inset-bottom))' }}>
+          {index > 0 && (
+            <button
+              onClick={goBack}
+              className="btn btn-outline"
+              style={{ fontSize: '13px', padding: '13px 18px', flexShrink: 0 }}
+            >
+              Back
+            </button>
+          )}
+          <button
+            onClick={advance}
+            disabled={!canContinue}
+            className="btn btn-gold"
+            style={{ flex: 1, justifyContent: 'center', fontSize: projector ? '16px' : '14px', padding: '14px 20px', opacity: canContinue ? 1 : 0.45 }}
+          >
+            {isLast ? 'Finish lesson' : isChoice && !answered ? 'Pick an answer to continue' : 'Continue'}
+          </button>
+        </div>
+      </>
+    )
   }
 
-  // The lesson's shape: which phases this deck uses, in order, with the
-  // current one lit. Old decks without phases skip the strip entirely.
-  const phasesInDeck = PHASE_ORDER.filter(p => slides.some(s => s.phase === p))
-  const currentPhase: LessonPhase | undefined = slide?.phase
-
   return (
-    <div>
-      {/* Phase strip: the 60 minute arc at a glance */}
-      {phasesInDeck.length > 1 && (
-        <div style={{ display: 'flex', gap: '6px', marginBottom: '12px', flexWrap: 'wrap' }}>
-          {phasesInDeck.map(p => {
-            const active = p === currentPhase
-            return (
-              <span key={p} style={{
-                fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700,
-                letterSpacing: '0.1em', textTransform: 'uppercase',
-                color: active ? '#fff' : 'var(--ink-muted)',
-                background: active ? 'var(--terracotta)' : 'var(--warm, #fff)',
-                border: active ? '1.5px solid var(--terracotta)' : '1.5px solid var(--border)',
-                borderRadius: '100px', padding: '4px 12px',
-                transition: 'background 0.25s, color 0.25s',
-              }}>
-                {PHASE_LABELS[p]}
-              </span>
-            )
-          })}
-          <span style={{ marginLeft: 'auto', fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 600, color: 'var(--ink-muted)', alignSelf: 'center' }}>
-            Slide {index + 1} of {slides.length}{slide?.minutes ? ` · ~${slide.minutes} min` : ''}
-          </span>
-        </div>
-      )}
-
-      {/* Segmented progress bar */}
-      <div style={{ display: 'flex', gap: '5px', marginBottom: '28px' }}>
-        {slides.map((_, i) => (
-          <div key={i} style={{
-            flex: 1, height: '7px', borderRadius: '100px',
-            background: i <= index ? 'var(--terracotta)' : 'var(--border)',
-            transition: 'background 0.3s ease',
-          }} />
-        ))}
+    <div style={{
+      position: 'fixed', inset: 0, zIndex: 60, background: 'var(--cream)',
+      display: 'flex', flexDirection: 'column',
+    }}>
+      {/* The thin butter progress bar, edge to edge */}
+      <div style={{ height: '5px', background: 'var(--border)', flexShrink: 0 }}>
+        <div ref={barRef} style={{ height: '100%', width: 0, background: 'var(--terracotta)', borderRadius: '0 100px 100px 0' }} />
       </div>
 
-      {/* DiGi reacting */}
-      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '4px', minHeight: '48px' }}>
-        <DigiCharacter mood={digiMood} size={44} />
-      </div>
-
-      {/* Slide */}
-      <div ref={slideRef} style={{ minHeight: '260px', marginBottom: '20px' }}>
-        <SlideBody key={index} slide={slide} onAnswered={onAnswered} />
-      </div>
-
-      {/* Teacher script panel: word for word, teacher screen only by intent.
-          The toggle persists across slides so it stays open while teaching. */}
-      {hasScripts && (
-        <div style={{ marginBottom: '20px' }}>
-          <button
-            onClick={() => setScriptOpen(o => !o)}
-            style={{
-              fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
-              letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)',
-              background: 'none', border: 'none', cursor: 'pointer', padding: '2px 0', marginBottom: '8px',
-            }}
-          >
-            {scriptOpen ? '▾ Teacher script' : '▸ Teacher script'}
-          </button>
-          {scriptOpen && (
-            <div style={{
-              background: 'var(--stage-2)', borderLeft: '3px solid var(--terracotta)',
-              borderRadius: '12px', padding: '13px 16px',
+      {/* Quiet header: exit, the Rosenshine phase label, DiGi keeping watch */}
+      <div style={{
+        display: 'flex', alignItems: 'center', gap: '12px', flexShrink: 0,
+        padding: '10px clamp(16px, 4vw, 28px)',
+      }}>
+        <Link href={backHref} aria-label="Leave the lesson" style={{
+          fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
+          color: 'var(--ink-muted)', textDecoration: 'none', letterSpacing: '0.06em',
+          padding: '6px 8px', marginLeft: '-8px',
+        }}>
+          ✕
+        </Link>
+        <span style={{
+          fontFamily: 'var(--font-mono)', fontSize: projector ? '13px' : '10.5px', fontWeight: 700,
+          letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-muted)',
+        }}>
+          {finished
+            ? classMode ? 'The showcase' : 'The finish'
+            : `${phaseLabel ? `${phaseLabel} · ` : ''}${index + 1} of ${slides.length}${!projector && slide?.minutes ? ` · ~${slide.minutes} min` : ''}`}
+        </span>
+        <span style={{ marginLeft: 'auto', display: 'inline-flex', alignItems: 'center', gap: '10px' }}>
+          {kidMode && typeof kidStars === 'number' && !finished && (
+            <span style={{
+              fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '12.5px',
+              color: 'var(--ink)', background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
+              borderRadius: '100px', padding: '4px 11px',
             }}>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: '13.5px', color: 'var(--ink)', lineHeight: 1.65 }}>
-                {slide.script ?? 'No script for this slide. Let it land, then continue.'}
-              </p>
-            </div>
+              ⭐ {kidStars}
+            </span>
           )}
-        </div>
-      )}
+          {!finished && <DigiCharacter mood={digiMood} size={projector ? 52 : 38} />}
+        </span>
+      </div>
 
-      {/* Controls */}
-      <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-        {index > 0 && (
-          <button
-            onClick={() => { setAnswered(true); setIndex(i => i - 1) }}
-            className="btn btn-outline"
-            style={{ fontSize: '13px', padding: '13px 18px', flexShrink: 0 }}
-          >
-            Back
-          </button>
-        )}
-        <button
-          onClick={advance}
-          disabled={!canContinue}
-          className="btn btn-gold"
-          style={{ flex: 1, justifyContent: 'center', fontSize: '14px', padding: '14px 20px', opacity: canContinue ? 1 : 0.45 }}
-        >
-          {isLast ? 'Finish lesson' : isChoice && !answered ? 'Pick an answer to continue' : 'Continue'}
-        </button>
+      {/* The stage: scrolls when a slide runs tall, centres when it does not */}
+      <div ref={stageRef} style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column' }}>
+        <div style={{
+          flex: 1, display: 'flex', flexDirection: 'column',
+          width: '100%', maxWidth: projector ? '980px' : '640px',
+          margin: '0 auto', padding: '0 clamp(16px, 4vw, 28px)',
+        }}>
+          {body}
+        </div>
       </div>
     </div>
   )

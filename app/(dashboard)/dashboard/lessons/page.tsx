@@ -4,6 +4,7 @@ import { hasFullAccess } from '@/lib/access'
 import { freeLessonIds } from '@/lib/content/lesson-access'
 import { getParentLessons, getCompletionsForChild, durationLabel } from '@/lib/lessons/parent-lessons'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
+import { keyStageFor, strandFor } from '@/lib/content/curriculum-badges'
 import { PRINTABLES } from '@/lib/printables/registry'
 import LessonsBrowser, { type WatchItem, type LibraryItem } from './LessonsBrowser'
 
@@ -81,6 +82,7 @@ export default async function LessonsPage() {
         categoryLabel: CATEGORY_LABEL[l.category] ?? l.category,
         title: l.title, keyMessage: l.key_message, locked, done,
         score: done ? passMap.get(l.id) ?? null : null,
+        ks: keyStageFor(l.stageKey), strand: strandFor(l.category),
       }
     })
     .filter(l => l.stageNum)

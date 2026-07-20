@@ -4,6 +4,12 @@ import Link from 'next/link'
 import MarkLessonDone from '@/components/lessons/MarkLessonDone'
 import LessonPlayer from '@/components/lessons/LessonPlayer'
 import { parseSlides, autoSlidesFromLesson } from '@/lib/content/lesson-slides'
+import { badgesFor } from '@/lib/content/curriculum-badges'
+
+// The stage a lesson audience sits in, for the honest Key Stage chip.
+const AUDIENCE_STAGE: Record<string, string> = {
+  age_7: 'foundation', age_9: 'builder', age_11: 'explorer', age_13: 'shaper', age_16: 'independent',
+}
 
 const AUDIENCE_LABEL: Record<string, { label: string; bg: string }> = {
   age_7:   { label: 'Age 7',    bg: 'var(--stage-1)' },
@@ -74,6 +80,7 @@ export default async function AiLessonPage({ params }: { params: Promise<{ id: s
           slides={slides}
           backHref="/dashboard/ai-module"
           digiPrompt={lesson.digi_prompt}
+          badges={badgesFor(AUDIENCE_STAGE[lesson.audience], 'ai_literacy')}
         />
       </div>
     )

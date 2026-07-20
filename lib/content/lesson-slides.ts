@@ -31,6 +31,17 @@ export const PHASE_LABELS: Record<LessonPhase, string> = {
 
 export const PHASE_ORDER: LessonPhase[] = ['starter', 'teach', 'practise', 'prove', 'close']
 
+// The same phases wearing Rosenshine openly: the starter is retrieval
+// practice by design, and the player says so. Shown as the quiet mono phase
+// label on every slide in the cinematic player.
+export const ROSENSHINE_LABELS: Record<LessonPhase, string> = {
+  starter: 'Retrieval',
+  teach: 'Teach',
+  practise: 'Practise',
+  prove: 'Prove',
+  close: 'Close',
+}
+
 type SlideBase = {
   // Word for word teacher script for this slide. Optional on every type.
   script?: string

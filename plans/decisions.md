@@ -1702,3 +1702,33 @@ the generic DiGi wondering share the same gap key so DiGi never asks two
 questions in one visit. Migration 082 (digi_device_checkins) claimed in
 the PR title; 081 belongs to the ask first PR #408. If the table is not
 migrated yet the surface stays silent rather than breaking its promises.
+
+## 20 July 2026 — The cinematic player ships, one build lifting every lesson (PR #419)
+
+The booked player upgrade landed as one rewrite of components/lessons/
+LessonPlayer.tsx, so every surface that renders slides (parent lessons, AI
+modules, educator teach, kid star lessons) upgraded at once. Decisions:
+the player is now a full bleed cream takeover with a thin butter progress
+bar, huge Nunito 900 headlines, GSAP slide transitions plus staggered
+data-reveal builds, swipe and arrow key navigation. Rosenshine is worn
+openly: a quiet mono phase label on every slide (the starter phase says
+RETRIEVAL, because that is what it is) and both near miss screens frame
+the retake as retrieval practice. Choice slides went tactile (big pressed
+edge answers, instant warm feedback, GSAP pop); the 70 percent pass system
+and lesson_completions semantics are untouched. Curriculum badges are an
+honest derivation in lib/content/curriculum-badges.ts: Key Stage from the
+stage (Explorer says KS2/3, no rounding up), Education for a Connected
+World strand from the category, one small mono chip each on the intro
+slide and the hub tiles, no overclaiming. The child app gained My lessons
+(/k/[token]/lessons): the age right stage lessons on the kid dark theme,
+the SAME player as a light takeover, teacher scripts stripped server side,
+the parent paywall honoured (one free taste per stage), and completion
+writing through /api/kid/lesson-complete (token auth, admin client) into
+lesson_completions under the PARENT user_id, so a child's pass lights the
+same parent ticks as a together pass and is never downgraded by a wobbly
+replay. Whole class mode (/class/[lessonId]) renders any live family
+lesson read only at projector scale, arrow keys advance, choice answers
+big for hands up, ending on the quiet line that this is the family version
+and the full school curriculum goes deeper, pointing at /schools: the
+family lessons showcase toward the school tier, they are not the school
+offer. No migration: 083 was taken on main, 084 stays free.
