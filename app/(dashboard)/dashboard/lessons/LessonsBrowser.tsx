@@ -247,6 +247,13 @@ export default function LessonsBrowser({
             age when showing all. */}
         {view === 'library' && (
           <>
+            <ProgressLessonsBanner
+              childId={childId}
+              childName={childName}
+              childStageNum={childStageNum}
+              libraryItems={libraryItems}
+              onSeeStage={() => setStage(childStageNum)}
+            />
             <Link href="/dashboard/lessons/preview" style={{ textDecoration: 'none', display: 'block', marginBottom: '16px' }}>
               <div style={{ background: '#DEF0E7', border: '1.5px solid #2F8F6B', borderRadius: '18px', padding: '16px 18px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '14px' }}>
                 <div>
@@ -260,7 +267,11 @@ export default function LessonsBrowser({
             {libForStage.length === 0 ? (
               <Empty>No library lessons at this stage yet. Try another stage above.</Empty>
             ) : (
-              groupByStage(libForStage).map(g => (
+              // The child's own stage leads the All ages view: those are the
+              // lessons that move their progress report, so they come first.
+              [...groupByStage(libForStage)]
+                .sort((a, b) => Number(b.s.num === childStageNum) - Number(a.s.num === childStageNum))
+                .map(g => (
               <div key={g.s.num} style={{ marginBottom: '18px' }}>
                 {stage === 'all' && <StageSubHead s={g.s} childStageNum={childStageNum} childName={childName} />}
                 {/* Big pastel browse tiles, the Good Inside Discover pattern. */}
@@ -328,7 +339,7 @@ export default function LessonsBrowser({
 function StageSubHead({ s, childStageNum, childName }: { s: typeof STAGE_LIST[number]; childStageNum: number; childName: string }) {
   const mine = s.num === childStageNum
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: '0 0 12px' }}>
+    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: '0 0 12px', flexWrap: 'wrap' }}>
       <span style={{
         fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase',
         color: 'var(--ink)', background: `var(--stage-${s.num})`, padding: '4px 11px', borderRadius: '100px',
@@ -337,9 +348,102 @@ function StageSubHead({ s, childStageNum, childName }: { s: typeof STAGE_LIST[nu
       </span>
       {mine && (
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
-          {childName}&apos;s stage
+          {childName}&apos;s stage · counts for progress now
         </span>
       )}
+    </div>
+  )
+}
+
+// The one clear answer to "which lessons do I send?": the child's own stage
+// lessons are the ones their progress report counts, so this names them, shows
+// the real passed fraction, and sends the child a nudge to their own My
+// lessons page in one tap. Everything else in the library stays browsable,
+// this just makes the progress moving set unmissable.
+function ProgressLessonsBanner({
+  childId, childName, childStageNum, libraryItems, onSeeStage,
+}: {
+  childId: string | null
+  childName: string
+  childStageNum: number
+  libraryItems: LibraryItem[]
+  onSeeStage: () => void
+}) {
+  const [sendState, setSendState] = useState<'idle' | 'sending' | 'sent' | 'nodevice' | 'noserver'>('idle')
+  // Only the family library lessons count for the progress report ticks, the
+  // same set the child's own page shows, so the AI module extras stay out of
+  // this count.
+  const stageLessons = libraryItems.filter(l => l.id.startsWith('lesson-') && l.stageNum === childStageNum)
+  const total = stageLessons.length
+  if (total === 0) return null
+  const passed = stageLessons.filter(l => l.done).length
+  const left = total - passed
+  const stageMeta = STAGE_LIST.find(s => s.num === childStageNum)
+
+  async function send() {
+    if (!childId || sendState === 'sending') return
+    setSendState('sending')
+    try {
+      const res = await fetch('/api/quests/ping', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ child_id: childId, message: `Your ${stageMeta?.label ?? 'stage'} lessons are ready on your page. Pass one to light up your pathway ⭐` }),
+      })
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok) setSendState('noserver')
+      else if (data?.sent > 0) setSendState('sent')
+      else setSendState('nodevice')
+      setTimeout(() => setSendState('idle'), 5000)
+    } catch { setSendState('noserver') }
+  }
+
+  const sendLabel = sendState === 'sending' ? 'Sending...'
+    : sendState === 'sent' ? `Pinged ${childName} ✓`
+    : sendState === 'nodevice' ? 'On their page (no ping set up)'
+    : sendState === 'noserver' ? 'Pings not switched on yet'
+    : `📲 Send to ${childName}`
+
+  return (
+    <div style={{ background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: '18px', padding: '16px 18px', marginBottom: '14px' }}>
+      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-soft)', marginBottom: '4px' }}>
+        These move {childName}&apos;s progress
+      </div>
+      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: 'var(--ink)', lineHeight: 1.2 }}>
+        {left > 0
+          ? <>Stage {childStageNum} lessons, {passed} of {total} passed</>
+          : <>All {total} Stage {childStageNum} lessons passed 🌱</>}
+      </div>
+      <p style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '4px 0 12px' }}>
+        {left > 0
+          ? <>These are the right ones for {childName}&apos;s age{stageMeta ? ` (${stageMeta.ages.toLowerCase()})` : ''}. {childName} sees exactly this set on their own page, and each pass ticks the progress report.</>
+          : <>The progress report shows the full tick for this stage. New lessons arrive as {childName} ages up.</>}
+      </p>
+      <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+        <button
+          onClick={onSeeStage}
+          style={{
+            background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: '11px',
+            padding: '9px 14px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: '12.5px',
+            fontWeight: 800, boxShadow: '0 3px 0 var(--terracotta-dark)',
+          }}
+        >
+          See {childName}&apos;s lessons
+        </button>
+        <button
+          onClick={send}
+          disabled={!childId || sendState === 'sending'}
+          title={childId ? `Ping ${childName} to open My lessons on their page` : 'Add your child first'}
+          style={{
+            background: sendState === 'sent' ? 'var(--tint-sage)' : '#fff',
+            border: '1.5px solid var(--border)', borderRadius: '11px', padding: '8px 12px',
+            cursor: childId && sendState !== 'sending' ? 'pointer' : 'default',
+            fontFamily: 'var(--font-display)', fontSize: '12px', fontWeight: 800, color: 'var(--ink)',
+            whiteSpace: 'nowrap', opacity: childId ? 1 : 0.55,
+          }}
+        >
+          {sendLabel}
+        </button>
+      </div>
     </div>
   )
 }

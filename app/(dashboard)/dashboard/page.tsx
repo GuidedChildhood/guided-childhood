@@ -202,7 +202,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // daily deck relies on.
   const stageSlug = stage.name.toLowerCase() as PathwayStageId
   const challenge = ((profile?.onboarding_answers as Record<string, string> | null)?.challenge ?? null) as ChallengeId | null
-  const [streak, todayLoop, literacyStatuses, suggestions, watchTogetherTotal, watchTogetherDone] = await Promise.all([
+  const [streak, todayLoop, literacyStatuses, suggestions, watchTogetherTotal, watchTogetherDone, stageLessonRows, stageLessonDone] = await Promise.all([
     getDailyStreak(supabase, user.id),
     getTodayLoop(supabase, user.id, stageSlug, challenge, isPaid),
     getLiteracyStatuses(supabase, user.id, stage.id),
@@ -215,11 +215,27 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     child
       ? supabase.from('parent_lesson_completions').select('id', { count: 'exact', head: true }).eq('child_id', child.id)
       : Promise.resolve({ count: 0 }),
+    // The child's own stage lessons and their passes, so DiGi's welcome can
+    // name exactly which lessons to send for progress with the live count.
+    supabase.from('lessons').select('id').eq('audience', 'parent').eq('stage_id', stageSlug).neq('status', 'stub'),
+    supabase.from('lesson_completions').select('lesson_id, passed').eq('user_id', user.id).eq('lesson_source', 'lesson'),
   ])
   const watchTogether = {
     total: watchTogetherTotal.count ?? 0,
     done: Math.min(watchTogetherDone.count ?? 0, watchTogetherTotal.count ?? 0),
   }
+  // The same counting rule as the progress report: only this stage's family
+  // lessons, and only passes (an old completion without the pass columns
+  // counts, a failed run does not).
+  const stageLessonIds = new Set((stageLessonRows.data ?? []).map(l => l.id))
+  const stagePassed = new Set(
+    (stageLessonDone.data ?? [])
+      .filter(c => c.passed !== false && stageLessonIds.has(c.lesson_id))
+      .map(c => c.lesson_id)
+  )
+  const stageLessons = stageLessonIds.size > 0
+    ? { total: stageLessonIds.size, passed: stagePassed.size }
+    : null
 
   // Last completed script insight
   const { data: lastCompletion } = await supabase
@@ -276,6 +292,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
               ? (literacyStatuses[k]?.tone ?? 'green')
               : 'grey' as const,
           })),
+          stageLessons,
         }}
       />
       {/* Trial status: warm and forgiving during, a gentle offer after, never
