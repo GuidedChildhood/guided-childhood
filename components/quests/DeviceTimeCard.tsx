@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from 'react'
 import { useRouter } from 'next/navigation'
 import { KID_DEVICES, TIMER_RULE, deviceEmoji, deviceLabel, type ActiveSession, type TrustLevel } from '@/lib/quests/device-time'
+import { screenTipFor } from '@/lib/content/screen-tips'
 import { STAR_MINUTES } from '@/lib/quests/templates'
 import Celebration from '@/components/ui/Celebration'
 
@@ -51,13 +52,17 @@ function OfflineIdeas({ onPrintables, onGames }: { onPrintables?: () => void; on
 export default function DeviceTimeCard({
   token, balanceStars, initialSession, usedTodayMinutes = 0, recommendedMinutes = 0,
   deviceTrust = 'ask', onAsked, startPicking = false,
-  onPrintables, onGames,
+  onPrintables, onGames, ageBand = null,
 }: {
   token: string
   balanceStars: number
   initialSession: ActiveSession | null
   usedTodayMinutes?: number
   recommendedMinutes?: number
+  // The child's age band, for the one small age matched tip that rides the
+  // running countdown: good content worth choosing, the brain and sleep why,
+  // and what to steer around. Null just hides the tip.
+  ageBand?: string | null
   // How much this child does alone: ask (the default, the tap sends an ask
   // and the grown up's yes starts the deal), watch or trusted (the tap
   // starts the timer straight away).
@@ -366,6 +371,20 @@ export default function DeviceTimeCard({
         <div style={{ height: '10px', borderRadius: '10px', background: 'var(--cream)', overflow: 'hidden', marginBottom: countingDown ? '10px' : '12px' }}>
           <div style={{ height: '100%', borderRadius: '10px', width: `${pct}%`, background: countingDown ? 'var(--terracotta)' : low ? '#C0533E' : 'var(--terracotta)', transition: 'width 1s linear' }} />
         </div>
+        {/* One age matched tip riding the countdown: good content, the brain
+            and sleep why, or what to steer around. Rotates daily, never a
+            lecture, and steps aside for the happy final countdown. */}
+        {ageBand && !countingDown && (() => {
+          const tip = screenTipFor(ageBand, new Date().getDate())
+          return (
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8, background: 'var(--cream)', borderRadius: '12px', padding: '9px 12px', marginBottom: '12px' }}>
+              <span aria-hidden style={{ fontSize: '1rem', flexShrink: 0 }}>{tip.emoji}</span>
+              <span style={{ fontSize: '13.5px', fontWeight: 600, color: 'var(--ink-soft)', lineHeight: 1.45 }}>
+                {tip.text}
+              </span>
+            </div>
+          )
+        })()}
         {countingDown && (
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'var(--terracotta-lt)', borderRadius: '12px', padding: '9px 12px', marginBottom: '12px' }}>
             <span style={{ fontSize: '1.1rem' }}>🌟</span>

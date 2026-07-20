@@ -56,5 +56,23 @@ export async function POST(req: NextRequest) {
   })
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
+  // The grown up hears the good news, best effort: a job ticked and the
+  // pathway rewarding it is exactly what they want to know is working.
+  try {
+    const { data: child } = await supabase.from('children').select('name').eq('id', link.child_id).maybeSingle()
+    const name = child?.name && child.name !== 'Your child' ? child.name : 'Your child'
+    const origin = process.env.NEXT_PUBLIC_APP_URL ?? req.nextUrl.origin
+    await fetch(`${origin}/api/push/send`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.CRON_SECRET}` },
+      body: JSON.stringify({
+        userId: link.user_id,
+        title: `${name} opened today's path chest 🎁`,
+        body: `A job ticked and 1 bonus star banked on the pathway. The loop is working.`,
+        url: '/dashboard/quests',
+      }),
+    })
+  } catch { /* push is best effort */ }
+
   return NextResponse.json({ ok: true, stars: 1 })
 }
