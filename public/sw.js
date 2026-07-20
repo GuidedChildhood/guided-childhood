@@ -1,7 +1,7 @@
-const CACHE_NAME = 'gc-v6'
+const CACHE_NAME = 'gc-v7'
 // Only static media is ever cached. Pages, scripts and styles are never stored,
 // so a deploy is picked up the instant the device is online, and the app can
-// never boot an old shell from a stale cache. The v6 bump purges anything the
+// never boot an old shell from a stale cache. The v7 bump purges anything the
 // earlier versions cached, including any old HTML or JS.
 const STATIC_ASSETS = [
   '/icons/icon-192.png',
@@ -84,17 +84,28 @@ self.addEventListener('push', event => {
 
 self.addEventListener('notificationclick', event => {
   event.notification.close()
-  const url = event.notification.data?.url ?? '/dashboard'
+  const raw = event.notification.data?.url ?? '/dashboard'
+  // Only ever open our own pages from a tap.
+  const url = typeof raw === 'string' && raw.startsWith('/') ? raw : '/dashboard'
 
-  event.waitUntil(
-    clients.matchAll({ type: 'window', includeUncontrolled: true }).then(clientList => {
-      for (const client of clientList) {
-        if (client.url.includes(self.location.origin) && 'focus' in client) {
-          client.navigate(url)
-          return client.focus()
-        }
+  // A tap must always land on the CURRENT app, never a window that has sat in
+  // the background for days running the bundle it loaded at its last cold
+  // start. So when a window already exists we focus it, then force a real full
+  // page navigation two ways at once: client.navigate for browsers that
+  // support it, and a message the page turns into location.assign for the
+  // ones (iOS in particular) where client.navigate silently rejects. Either
+  // path is a full document load, so the fresh deploy comes down with it.
+  event.waitUntil((async () => {
+    const clientList = await clients.matchAll({ type: 'window', includeUncontrolled: true })
+    for (const client of clientList) {
+      if (!client.url.startsWith(self.location.origin)) continue
+      try { if ('focus' in client) await client.focus() } catch { /* still navigate */ }
+      try { client.postMessage({ type: 'navigate', url }) } catch { /* navigate below */ }
+      if ('navigate' in client) {
+        try { await client.navigate(url) } catch { /* the message path covers iOS */ }
       }
-      return clients.openWindow(url)
-    })
-  )
+      return
+    }
+    await clients.openWindow(url)
+  })())
 })
