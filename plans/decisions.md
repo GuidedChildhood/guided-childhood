@@ -1671,3 +1671,19 @@ one screen contract on the kid link first run, wording by age band, one big
 I agree button; acceptance locks in on kid_links (agreed_at, agreed_level in
 migration 080) and is visible read only to both sides afterwards. DiGi
 context reads it later in a separate change Justin owns.
+
+## 20 July 2026 — The lesson player build carries the schools wow brief
+Four moves folded into the booked player upgrade: wear Rosenshine openly
+(phase labels, retrieval named), map every lesson to Education for a
+Connected World strand plus Key Stage plus PSHE link as visible badges
+(the Ofsted personal development evidence), the cinematic player as
+booked, and a whole class 16:9 projector mode of the same player with
+per child pass data as exportable progress evidence. Parents buy the
+outcome, schools buy the evidence, same rows serve both.
+CLARIFIED by Justin same day: the family app lessons are NOT the school
+product. The app version teaches in a warm parent and child facing way and
+serves as the reference point schools see; the real academic depth is
+reserved for the school curriculum (schools/01, docs/09) as its own deeper
+tier. The whole class mode and curriculum badges therefore showcase and
+point toward the school curriculum rather than exposing the family lessons
+as the full school offer.
