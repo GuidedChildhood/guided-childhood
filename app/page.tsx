@@ -582,18 +582,19 @@ export default function HomePage() {
       </section>
 
       {/* ================================================================
-          PRODUCT MOMENT — the one deep ink band on the page. Left: the
-          parent home card, built as real markup so nothing fake ships as
-          a picture. Right: a genuine screenshot of the child's app.
+          PRODUCT MOMENT — a warm butter band, never dark. Left: the parent
+          home card, built as real markup so nothing fake ships as a
+          picture. Right: the child's quest screen, also coded, in the same
+          butter, cream and ink language. No pink, no blue, no dark ground.
           ================================================================ */}
-      <section aria-label="Inside the platform" style={{ background: 'var(--deep-teal)', padding: 'clamp(64px, 8vw, 100px) 24px' }}>
+      <section aria-label="Inside the platform" style={{ background: 'var(--terracotta-lt)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)', padding: 'clamp(64px, 8vw, 100px) 24px' }}>
         <div style={{ maxWidth: '1040px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '44px' }}>
-            <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>Inside the platform</p>
-            <h2 className="fu" style={{ color: '#fff', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.7rem, 3.2vw, 2.4rem)', letterSpacing: '-.03em', lineHeight: 1.1, margin: '0 0 14px' }}>
+            <p className="eyebrow fu" style={{ color: 'var(--terracotta-dark)', marginBottom: '12px' }}>Inside the platform</p>
+            <h2 className="fu" style={{ color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.7rem, 3.2vw, 2.4rem)', letterSpacing: '-.03em', lineHeight: 1.1, margin: '0 0 14px' }}>
               Here is what tonight looks like
             </h2>
-            <p className="fu" style={{ fontSize: '1rem', color: 'rgba(255,255,255,0.75)', lineHeight: 1.75, maxWidth: '540px', margin: '0 auto' }}>
+            <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.75, maxWidth: '540px', margin: '0 auto' }}>
               Your side gives you tonight&apos;s script and the week&apos;s plan in ten minutes. Their side turns real jobs into stars, and stars into screen time they earned.
             </p>
           </div>
@@ -602,8 +603,8 @@ export default function HomePage() {
 
             {/* Parent home card, coded not faked */}
             <figure className="fu" style={{ margin: 0 }}>
-              <div style={{ background: '#fff', borderRadius: '24px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.12)', boxShadow: '0 5px 0 rgba(0,0,0,0.35), 0 26px 60px rgba(0,0,0,0.35)' }}>
-                <div style={{ background: 'var(--stage-3)', padding: '15px 18px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div style={{ background: '#fff', borderRadius: '24px', overflow: 'hidden', border: '1px solid var(--border)', boxShadow: '0 5px 0 var(--terracotta), 0 20px 44px rgba(26,26,46,0.12)' }}>
+                <div style={{ background: 'var(--stage-1)', borderBottom: '1px solid var(--border)', padding: '15px 18px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                   <div>
                     <div style={{ fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '3px' }}>Stage 3 · Ages 11 to 13</div>
                     <div style={{ fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 800, color: 'var(--ink)' }}>Your home tonight</div>
@@ -615,7 +616,7 @@ export default function HomePage() {
                 <div style={{ padding: '14px 18px', borderBottom: '1px solid var(--border)' }}>
                   <div style={{ fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '7px' }}>Tonight&apos;s script</div>
                   <div style={{ fontFamily: 'var(--font-display)', fontSize: '13.5px', fontWeight: 800, color: 'var(--ink)', marginBottom: '7px' }}>The bedtime handover</div>
-                  <div style={{ background: 'var(--stage-2)', borderRadius: '12px', padding: '10px 13px', fontSize: '12px', color: 'var(--ink)', lineHeight: 1.55, fontStyle: 'italic' }}>
+                  <div style={{ background: 'var(--terracotta-lt)', border: '1px solid rgba(201,154,40,0.25)', borderRadius: '12px', padding: '10px 13px', fontSize: '12px', color: 'var(--ink)', lineHeight: 1.55, fontStyle: 'italic' }}>
                     &ldquo;The phone charges in the hallway from tonight. Whole house rule, mine included.&rdquo;
                   </div>
                 </div>
@@ -647,24 +648,68 @@ export default function HomePage() {
                   <div style={{ marginLeft: 'auto', fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>Ask →</div>
                 </div>
               </div>
-              <figcaption style={{ fontFamily: 'var(--font-mono)', fontSize: '.66rem', fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.55)', textAlign: 'center', marginTop: '14px' }}>
+              <figcaption style={{ fontFamily: 'var(--font-mono)', fontSize: '.66rem', fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', textAlign: 'center', marginTop: '14px' }}>
                 Your side · ten minutes a day
               </figcaption>
             </figure>
 
-            {/* Real screenshot of the child's app */}
+            {/* The child's quest screen, coded in the same butter, cream and
+                ink language as the parent card. Mirrors what the shipped
+                child app shows: star bank, today's goal, saving goal, quests. */}
             <figure className="fu" style={{ margin: 0 }}>
-              <div style={{ borderRadius: '24px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.12)', boxShadow: '0 5px 0 rgba(0,0,0,0.35), 0 26px 60px rgba(0,0,0,0.35)', background: '#2E2818' }}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/marketing/kid-page.png"
-                  alt="A real screen from the child's app: the star bank, today's goal, and quests that earn screen time"
-                  loading="lazy"
-                  style={{ width: '100%', display: 'block', aspectRatio: '390 / 500', objectFit: 'cover', objectPosition: 'top' }}
-                />
+              <div style={{ background: '#fff', borderRadius: '24px', overflow: 'hidden', border: '1px solid var(--border)', boxShadow: '0 5px 0 var(--terracotta), 0 20px 44px rgba(26,26,46,0.12)' }}>
+                <div style={{ padding: '15px 18px 12px', textAlign: 'center', borderBottom: '1px solid var(--border)' }}>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '3px' }}>Today&apos;s quests</div>
+                  <div style={{ fontFamily: 'var(--font-display)', fontSize: '17px', fontWeight: 900, color: 'var(--ink)', letterSpacing: '-.02em' }}>Go Sofia!</div>
+                </div>
+                <div style={{ padding: '12px 14px' }}>
+                  <div style={{ background: 'linear-gradient(165deg, #FBE9B6 0%, #F6D07E 100%)', borderRadius: '14px', padding: '11px 14px', boxShadow: '0 3px 0 rgba(140,110,40,0.25)' }}>
+                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '7.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink)', opacity: 0.7 }}>My star bank</div>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '4px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
+                        <svg width="19" height="19" viewBox="0 0 24 24" fill="var(--terracotta-dark)" aria-hidden><path d="M12 3.2l2.35 4.76 5.25.76-3.8 3.7.9 5.23L12 15.94l-4.7 2.47.9-5.23-3.8-3.7 5.25-.76z" /></svg>
+                        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '19px', color: 'var(--ink)', lineHeight: 1 }}>21</span>
+                      </div>
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '8px', fontWeight: 700, color: 'var(--ink)', opacity: 0.75 }}>3 day streak</span>
+                    </div>
+                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '8px', fontWeight: 700, color: 'var(--ink)', opacity: 0.75, marginTop: '4px' }}>= 105 minutes of screen time to use</div>
+                  </div>
+                </div>
+                <div style={{ padding: '2px 14px 10px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  {[
+                    { label: 'Today’s goal', meta: '1 of 5', pct: 20 },
+                    { label: 'Saving for: Saturday film night', meta: '20 of 20', pct: 100 },
+                  ].map(row => (
+                    <div key={row.label} style={{ background: 'var(--stage-1)', border: '1px solid var(--border)', borderRadius: '12px', padding: '9px 12px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px' }}>
+                        <span style={{ fontFamily: 'var(--font-display)', fontSize: '11px', fontWeight: 800, color: 'var(--ink)' }}>{row.label}</span>
+                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '8px', fontWeight: 700, color: 'var(--ink-muted)' }}>{row.meta}</span>
+                      </div>
+                      <div style={{ height: '7px', borderRadius: '100px', background: '#fff', border: '1px solid var(--border)', overflow: 'hidden' }}>
+                        <div style={{ width: `${row.pct}%`, height: '100%', background: 'var(--terracotta)', borderRadius: '100px' }} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div style={{ padding: '0 14px 10px', display: 'flex', flexDirection: 'column', gap: '7px' }}>
+                  {[
+                    { title: 'Make your bed', stars: '+2', done: true },
+                    { title: 'Read for 20 minutes', stars: '+2', done: false },
+                  ].map(q => (
+                    <div key={q.title} style={{ display: 'flex', alignItems: 'center', gap: '9px', border: '1px solid var(--border)', borderRadius: '12px', padding: '8px 12px' }}>
+                      <span style={{ flex: 1, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '11.5px', color: 'var(--ink)', textDecoration: q.done ? 'line-through' : 'none', opacity: q.done ? 0.6 : 1 }}>{q.title}</span>
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>{q.stars}</span>
+                      <span style={{ width: 19, height: 19, borderRadius: '50%', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: q.done ? 'var(--retro-green)' : 'var(--stage-1)', border: q.done ? 'none' : '2px dashed var(--ink-light)', color: '#fff', fontSize: '10px', fontWeight: 900 }}>{q.done ? '✓' : ''}</span>
+                    </div>
+                  ))}
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '7px', padding: '9px 14px', borderTop: '1px solid var(--border)', background: 'var(--stage-1)' }}>
+                  <svg width="15" height="15" viewBox="0 0 24 24" aria-hidden><rect x="3.5" y="3.5" width="17" height="17" rx="5" fill="var(--retro-green)" /><path d="M10 8.6v6.8l5.4-3.4z" fill="#fff" /></svg>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '8px', fontWeight: 700, color: 'var(--ink)', letterSpacing: '0.02em' }}>Stars buy screen time</span>
+                </div>
               </div>
-              <figcaption style={{ fontFamily: 'var(--font-mono)', fontSize: '.66rem', fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.55)', textAlign: 'center', marginTop: '14px' }}>
-                Their side · a real screen from the child&apos;s app
+              <figcaption style={{ fontFamily: 'var(--font-mono)', fontSize: '.66rem', fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', textAlign: 'center', marginTop: '14px' }}>
+                Their side · quests, stars and earned screen time
               </figcaption>
             </figure>
           </div>
@@ -1226,30 +1271,40 @@ export default function HomePage() {
             </p>
           </div>
 
-          {/* DiGi pathway guide */}
+          {/* DiGi pathway guide — the greeting bubble matches the app's DiGi
+              greeting treatment exactly: butter avatar, white bubble with the
+              small tail corner toward the avatar, quiet chunky shadow. */}
           <div style={{ marginTop: '56px', paddingTop: '48px', borderTop: '2px dashed var(--border)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
-            <div style={{ position: 'relative', display: 'inline-block' }}>
-              <DigiCharacter mood="wave" size={88} />
-              {/* Speech bubble */}
-              <div className="digi-pop-in" style={{
-                position: 'absolute',
-                top: '4px',
-                left: '100px',
-                background: '#fff',
-                borderRadius: '16px 16px 16px 4px',
-                padding: '12px 16px',
-                boxShadow: '0 4px 20px rgba(26,26,46,0.1)',
-                border: '1.5px solid var(--border)',
-                width: '200px',
-                fontSize: '12px',
-                fontWeight: 600,
-                color: 'var(--ink)',
-                lineHeight: 1.45,
+            <div className="digi-pop-in" style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', maxWidth: '360px' }}>
+              <span style={{
+                width: 40, height: 40, borderRadius: '50%', flexShrink: 0,
+                background: 'var(--terracotta)', border: '2px solid var(--terracotta-dark)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                boxShadow: '0 3px 0 var(--terracotta-dark)',
               }}>
-                I have every step from 4 to 16 covered. Ask me anything.
-                <div style={{ position: 'absolute', left: '-10px', top: '14px', width: 0, height: 0, borderTop: '8px solid transparent', borderBottom: '8px solid transparent', borderRight: '10px solid var(--border)' }} />
-                <div style={{ position: 'absolute', left: '-8px', top: '14px', width: 0, height: 0, borderTop: '8px solid transparent', borderBottom: '8px solid transparent', borderRight: '10px solid #fff' }} />
+                <DigiCharacter mood="speak" size={26} />
+              </span>
+              <div style={{
+                flex: 1, minWidth: 0, background: '#fff', border: '1.5px solid var(--border)',
+                borderRadius: '4px 18px 18px 18px', padding: '11px 14px',
+                boxShadow: '0 3px 0 rgba(26,26,46,0.05)',
+              }}>
+                <p style={{ margin: 0, fontFamily: 'var(--font-body)', fontSize: '14.5px', color: 'var(--ink)', lineHeight: 1.45 }}>
+                  I have every step from 4 to 16 covered. Ask me anything.
+                </p>
               </div>
+            </div>
+            {/* Three quiet trust lines in DiGi's own voice, nothing more */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '5px', textAlign: 'center' }}>
+              {[
+                'I will guide you, one step at a time.',
+                'My answers are checked against the science every week.',
+                'I have guardrails, and the guide in your family is always you.',
+              ].map(line => (
+                <p key={line} style={{ margin: 0, fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
+                  {line}
+                </p>
+              ))}
             </div>
             <div style={{ fontFamily: 'var(--font-display)', fontSize: '17px', fontWeight: 800, color: 'var(--ink)', textAlign: 'center', marginTop: '4px' }}>
               DiGi guides you through every stage
@@ -2099,9 +2154,9 @@ export default function HomePage() {
                 </div>
 
                 <div style={{ padding: '20px 16px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
-                  <div style={{ display: 'flex', gap: '9px', alignItems: 'flex-end' }}>
-                    <div className="digi-avatar-sm">D</div>
-                    <div className="bubble-digi">
+                  <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
+                    <span style={{ width: 40, height: 40, borderRadius: '50%', flexShrink: 0, background: 'var(--terracotta)', border: '2px solid var(--terracotta-dark)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 3px 0 var(--terracotta-dark)' }}><DigiCharacter mood="speak" size={26} /></span>
+                    <div className="bubble-digi" style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '4px 18px 18px 18px', boxShadow: '0 3px 0 rgba(26,26,46,0.05)', fontSize: '14.5px', color: 'var(--ink)' }}>
                       What is happening at home with screens right now?
                     </div>
                   </div>
@@ -2110,18 +2165,18 @@ export default function HomePage() {
                       Every evening my nine year old comes in from school and immediately wants the TV on. If I say no it is a full meltdown.
                     </div>
                   </div>
-                  <div style={{ display: 'flex', gap: '9px', alignItems: 'flex-end' }}>
-                    <div className="digi-avatar-sm">D</div>
-                    <div className="bubble-digi">
+                  <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
+                    <span style={{ width: 40, height: 40, borderRadius: '50%', flexShrink: 0, background: 'var(--terracotta)', border: '2px solid var(--terracotta-dark)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 3px 0 var(--terracotta-dark)' }}><DigiCharacter mood="speak" size={26} /></span>
+                    <div className="bubble-digi" style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '4px 18px 18px 18px', boxShadow: '0 3px 0 rgba(26,26,46,0.05)', fontSize: '14.5px', color: 'var(--ink)' }}>
                       This is one of the most common patterns at Stage 2. The fix is a 20 minute wind down routine with a script so it does not become a fight. Want the exact words for tonight?
                     </div>
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <div className="bubble-parent">Yes please</div>
                   </div>
-                  <div style={{ display: 'flex', gap: '9px', alignItems: 'flex-end' }}>
-                    <div className="digi-avatar-sm">D</div>
-                    <div className="bubble-digi" style={{ background: 'var(--stage-2)' }}>
+                  <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
+                    <span style={{ width: 40, height: 40, borderRadius: '50%', flexShrink: 0, background: 'var(--terracotta)', border: '2px solid var(--terracotta-dark)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 3px 0 var(--terracotta-dark)' }}><DigiCharacter mood="speak" size={26} /></span>
+                    <div className="bubble-digi" style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '4px 18px 18px 18px', boxShadow: '0 3px 0 rgba(26,26,46,0.05)', fontSize: '14.5px', color: 'var(--ink)' }}>
                       <strong style={{ display: 'block', marginBottom: '4px', color: 'var(--terracotta)', fontSize: '.76rem' }}>Stage 2 · Transition script</strong>
                       "Before you get the TV on, let's do your five things: shoes away, bag on hook, snack, five minutes outside, then TV. Deal?" Say it once, warmly. Then hold it.
                     </div>

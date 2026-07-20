@@ -23,6 +23,10 @@ const FAQS = [
     a: 'No. The research is clear: structure and timing protect children more than restriction. We give you the system to guide your child through the digital world, not to remove it from them.',
   },
   {
+    q: 'How does DiGi work and stay safe?',
+    a: 'DiGi draws on a knowledge bank built from the work of named researchers, and its answers are checked against the science every week. Every reply passes a safety check before it reaches you, and DiGi never simply allows or denies, it guides. It is a guide for everyday family life, not a crisis line: for anything serious it will always point you to real people who can help.',
+  },
+  {
     q: 'My child is already a teenager. Is it too late?',
     a: 'No. There are more evenings, more car journeys, and more pickups ahead of you than behind you. The pathway starts from wherever you are. Stage 3 and 4 are specifically designed for parents who are starting mid journey.',
   },
