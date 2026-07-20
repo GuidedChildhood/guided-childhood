@@ -83,14 +83,29 @@ const TONE_DOT: Record<StrandTone, string> = {
 }
 
 export function StrandPills({ strands }: { strands: Strand[] }) {
+  const anyRed = strands.some(s => s.tone === 'red')
   return (
-    <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-      {strands.map(s => (
-        <span key={s.key} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: 100, padding: '5px 11px', opacity: s.tone === 'grey' ? 0.55 : 1 }}>
-          <span aria-hidden style={{ width: 8, height: 8, borderRadius: '50%', background: TONE_DOT[s.tone], flexShrink: 0 }} />
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.03em', color: 'var(--ink-soft)', whiteSpace: 'nowrap' }}>{s.name}</span>
-        </span>
-      ))}
+    <div>
+      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+        {strands.map(s => {
+          const red = s.tone === 'red'
+          return (
+            <span key={s.key} style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: red ? '#FDF0EE' : 'var(--cream)', border: `1.5px solid ${red ? '#E8C4BC' : 'var(--border)'}`, borderRadius: 100, padding: '7px 14px', opacity: s.tone === 'grey' ? 0.55 : 1 }}>
+              <span aria-hidden style={{ width: 10, height: 10, borderRadius: '50%', background: TONE_DOT[s.tone], flexShrink: 0, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 7, fontWeight: 900 }}>{s.tone === 'green' ? '✓' : ''}</span>
+              <span style={{ fontFamily: 'var(--font-display)', fontSize: '13.5px', fontWeight: 800, color: red ? '#93392A' : 'var(--ink)', whiteSpace: 'nowrap' }}>{s.name}</span>
+              {red && (
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, color: '#93392A', whiteSpace: 'nowrap' }}>· fix this →</span>
+              )}
+            </span>
+          )
+        })}
+      </div>
+      {/* One quiet line so the dots explain themselves at a glance */}
+      <p style={{ margin: '8px 2px 0', fontFamily: 'var(--font-body)', fontSize: '12px', color: 'var(--ink-muted)', lineHeight: 1.4 }}>
+        {anyRed
+          ? 'A red one needs one thing doing. Tap through to see it and fix it together.'
+          : 'Green means on track for their age. Grey comes later, at the right age.'}
+      </p>
     </div>
   )
 }
