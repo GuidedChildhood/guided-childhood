@@ -9,40 +9,31 @@ import PushPrompt from '@/components/push/PushPrompt'
 import DeviceSetupBanner from '@/components/device/DeviceSetupBanner'
 import SmartAlerts from '@/components/alerts/SmartAlerts'
 import DigiPrompts from '@/components/digi/DigiPrompts'
-import WeeklyReviewCard from '@/components/digi/WeeklyReviewCard'
 import DigiWondering from '@/components/digi/DigiWondering'
 import SundayCheckIn from '@/components/digi/SundayCheckIn'
+import HomeGreeting from '@/components/daily/HomeGreeting'
+import TodayTenCard from '@/components/daily/TodayTenCard'
+import HomeSlimRows from '@/components/daily/HomeSlimRows'
+import { isDayDone } from '@/lib/pathway/today-loop-copy'
 import RevealCard from '@/components/onboarding/RevealCard'
 import { revealedKeys, eligibleReveals, daysSince } from '@/lib/onboarding/reveal'
 import { getSuggestions, type Suggestion } from '@/lib/alerts/suggestions'
-import StreakFlame from '@/components/daily/StreakFlame'
 import DigiStreakWidget from '@/components/digi/DigiStreakWidget'
 import AddChildName from '@/components/dashboard/AddChildName'
 import SchoolActionsCard, { type SchoolAction } from '@/components/school/SchoolActionsCard'
 import SchoolPromoCard from '@/components/school/SchoolPromoCard'
-import QuestBoard from '@/components/quests/QuestBoard'
 import WaitingOnYou from '@/components/quests/WaitingOnYou'
 import HomeStats from '@/components/dashboard/HomeStats'
 import { visibleSteps as visibleSetupSteps } from '@/lib/setup/steps'
 import SocialMediaReadiness from '@/components/pathway/SocialMediaReadiness'
 import SetupUnlockToast from '@/components/setup/SetupUnlockToast'
 import DigiWelcomeSheet from '@/components/digi/DigiWelcomeSheet'
-import TodayPathStrip from '@/components/daily/TodayPathStrip'
-import RoadToSixteen from '@/components/pathway/RoadToSixteen'
 import { getLiteracyStatuses } from '@/lib/pathway/literacy-status'
 import DigiLessonNudge from '@/components/lessons/DigiLessonNudge'
 import { getParentLessons, getCompletionsForChild } from '@/lib/lessons/parent-lessons'
 import { getDailyStreak } from '@/lib/pathway/streak'
 import { getTodayLoop } from '@/lib/pathway/daily-tasks'
 import type { StageId as PathwayStageId } from '@/lib/pathway/progress'
-
-const STAGE_COLORS = {
-  1: { bg: 'var(--stage-1)', bold: 'var(--stage-1-bold)', text: 'var(--stage-1-text)', border: 'var(--stage-1)' },
-  2: { bg: 'var(--stage-2)', bold: 'var(--stage-2-bold)', text: 'var(--stage-2-text)', border: 'var(--stage-2)' },
-  3: { bg: 'var(--stage-3)', bold: 'var(--stage-3-bold)', text: 'var(--stage-3-text)', border: 'var(--stage-3)' },
-  4: { bg: 'var(--stage-4)', bold: 'var(--stage-4-bold)', text: 'var(--stage-4-text)', border: 'var(--stage-4)' },
-  5: { bg: 'var(--stage-5)', bold: 'var(--stage-5-bold)', text: 'var(--stage-5-text)', border: 'var(--stage-5)' },
-} as const
 
 const WEEKLY_ACTIONS = [
   'Put the bedroom rule in place',
@@ -72,7 +63,7 @@ export default async function DashboardPage() {
 
   const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
 
-  const [childResult, dailySessionResult, todayMomentsResult, lastFeedbackResult, schoolActionsResult, schoolConnectionResult, agreementResult, questsCountResult, pushSubResult, anySessionResult, anySchoolActionResult, kidLinksResult, focusConcernResult] = await Promise.all([
+  const [childResult, dailySessionResult, todayMomentsResult, lastFeedbackResult, schoolActionsResult, schoolConnectionResult, agreementResult, questsCountResult, pushSubResult, anySessionResult, anySchoolActionResult, kidLinksResult, focusConcernResult, pendingTicksResult] = await Promise.all([
     supabase.from('children').select('id, name, age_band, stage_id, streak_weeks, actions_this_week').eq('parent_id', user.id).eq('is_primary', true).single(),
     supabase.from('daily_sessions').select('completed_at').eq('user_id', user.id).eq('session_date', today).maybeSingle(),
     supabase.from('daily_moments').select('id, title, category, age_bands, icon, science_brief, digi_opener').eq('active', true).order('sort_order').limit(20),
@@ -94,6 +85,9 @@ export default async function DashboardPage() {
     // The problem this family is working on right now: the most recently
     // flagged live concern, for the focus bar above the path.
     supabase.from('concerns').select('label, status').eq('user_id', user.id).in('status', ['open', 'improving']).order('last_flagged_at', { ascending: false }).limit(1).maybeSingle(),
+    // The live approve count for the Family quests row: ticks a child made
+    // that still wait on the parent's stars, same window the bell uses.
+    supabase.from('quest_ticks').select('id', { count: 'exact', head: true }).eq('user_id', user.id).eq('status', 'pending').gte('tick_date', sevenDaysAgo),
   ])
 
   const child = childResult.data
@@ -186,7 +180,6 @@ export default async function DashboardPage() {
     ? getStageFromAgeBand(child.age_band as AgeBand)
     : STAGES[0]
 
-  const stageColor = STAGE_COLORS[stage.id as keyof typeof STAGE_COLORS]
   const isPaid = hasFullAccess(profile, user.email)
   // The parent's first name, resolved from the best source we have: the
   // profile, then the auth metadata set at signup, then the email local part,
@@ -262,6 +255,18 @@ export default async function DashboardPage() {
   const trialLeft = trialDaysLeft(profile)
   const trialEnded = !isPaid && Boolean(profile?.trial_ends_at) && !showTrial
 
+  // The narrowed daily flow: everything the top of Home says in one shape.
+  const dailyMinutes = (profile?.daily_minutes as number | null) ?? 10
+  const dayDone = isDayDone(todayLoop, dailyMinutes)
+  const approveCount = pendingTicksResult.count ?? 0
+  const ukDayName = new Intl.DateTimeFormat('en-GB', { weekday: 'short', timeZone: 'Europe/London' }).format(new Date())
+  const isSunday = ukDayName === 'Sun'
+  // The kid handover nudge: from about 8, a child can tick their own jobs on
+  // their own side. Shown until the family has made a kid link.
+  const handoverName = phoneAge && !hasKidLink
+    ? ((child?.name && child.name !== 'Your child') ? child.name : 'Your child')
+    : null
+
   return (
     <div style={{ maxWidth: '640px', margin: '0 auto', padding: '24px 20px' }}>
       {/* DiGi comes up first, once a day, greeting the family by name */}
@@ -310,70 +315,48 @@ export default async function DashboardPage() {
           </Link>
         </div>
       )}
-      {/* Header — child name + stage + streak */}
-      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '22px', gap: '12px' }}>
-        <div>
-          {/* The tour promises "Step into Teo's pathway"; Home pays it off.
-              A bare name read as a label, the possessive reads as a road
-              that belongs to them. */}
-          <h1 style={{ fontSize: 'clamp(1.9rem, 6.5vw, 2.6rem)', fontWeight: 900, letterSpacing: '-0.035em', lineHeight: 1.02, marginBottom: '8px' }}>
-            {(child?.name && child.name !== 'Your child') ? `${child.name}'s pathway` : `Hello ${firstName}`}
-          </h1>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-            <span style={{
-              fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600,
-              letterSpacing: '0.1em', textTransform: 'uppercase',
-              background: stageColor.bold, color: stageColor.text,
-              padding: '3px 10px', borderRadius: '100px',
-            }}>
-              Stage {stage.id} · {stage.name}
-            </span>
-            {stage.isCritical && (
-              <span style={{
-                fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 600,
-                letterSpacing: '0.08em', textTransform: 'uppercase',
-                background: 'var(--terracotta)', color: 'var(--ink)',
-                padding: '3px 8px', borderRadius: '100px',
-              }}>
-                Critical window
-              </span>
-            )}
-          </div>
-        </div>
-        <StreakFlame count={streak.count} aliveToday={streak.aliveToday} />
-      </div>
+      {/* The narrowed daily flow. One screen, one next action, the same shape
+          every day: DiGi greets in one sentence that folds in the road
+          position and today's minutes, the streak chip sits right, then THE
+          one card names the next step, and everything else is a slim row. */}
+      <HomeGreeting
+        firstName={firstName}
+        childName={child?.name ?? undefined}
+        stageName={stage.name}
+        stageNum={stage.id}
+        minutes={dailyMinutes}
+        dayDone={dayDone}
+        streakCount={streak.count}
+        aliveToday={streak.aliveToday}
+      />
 
-      {/* Waiting on you: the one clear next action at the top. A red count of
-          the quests to approve and the ideas a child pitched, tapping down to
-          the board where a parent acts on them. Silent when nothing waits. */}
+      {/* Waiting on you: the urgent interrupt, a child stood waiting or
+          something from school. Silent when the coast is clear, so a calm
+          day keeps the one card first. */}
       <WaitingOnYou />
 
-      {/* The hero of Home, straight after the urgent count: the promise (where
-          this child is on the road to 16) and the day (one clear strip, DiGi on
-          the lit next step). A parent knows exactly what to do the moment they
-          land, before anything else asks for attention. */}
-      <RoadToSixteen childName={child?.name ?? undefined} stageId={stage.id} streakCount={streak.count} statuses={literacyStatuses} />
-      <TodayPathStrip tasks={todayLoop} dailyMinutes={(profile?.daily_minutes as number | null) ?? 10} childName={child?.name ?? undefined} streakCount={streak.count} />
+      {/* THE one card: the parent's minutes today, the one next step, one
+          butter button. Same engine as ever (getTodayLoop), new shape. */}
+      <TodayTenCard tasks={todayLoop} dailyMinutes={dailyMinutes} childName={child?.name ?? undefined} streakCount={streak.count} />
+
+      {/* Everything else folds to slim rows: quests with the live approve
+          count, the road with the stamp position, DiGi. Sunday adds the
+          round up row and nothing else moves. */}
+      <HomeSlimRows
+        approveCount={approveCount}
+        stageName={stage.name}
+        stageNum={stage.id}
+        showRoundup={isSunday && revealed.has('wellbeing')}
+        handoverName={handoverName}
+      />
 
       {/* Stage the reveal: DiGi introduces one newly unlocked feature to a new
           parent, once. Silent for an established account. */}
       <RevealCard reveals={reveals} />
 
-      {/* One interrupt, not a stack. The Sunday check in always renders (it
-          carries the agreed plan through the week), but the other rhythm
-          surfaces take turns by day: the round up on Friday and Saturday when
-          it is fresh, DiGi wondering the rest of the week. At most two quiet
-          cards here, never three. */}
-      {revealed.has('wellbeing') && (() => {
-        const dayName = new Intl.DateTimeFormat('en-GB', { weekday: 'short', timeZone: 'Europe/London' }).format(new Date())
-        const roundupDay = dayName === 'Fri' || dayName === 'Sat'
-        return (
-          <>
-            <SundayCheckIn />
-            {roundupDay ? <WeeklyReviewCard /> : <DigiWondering />}
-          </>
-        )
-      })()}
+      {/* The Sunday check in keeps its own rhythm: it carries the agreed plan
+          through the week and knows its own day. */}
+      {revealed.has('wellbeing') && <SundayCheckIn />}
 
       {/* Setup lives on its own page now, out of the daily Home. While it is
           unfinished, Home carries one compact way in, naming the next step;
@@ -409,6 +392,33 @@ export default async function DashboardPage() {
       {/* The child's name was skipped at setup: one gentle ask, one tap to make
           the whole app personal. Dismissable, never nags. */}
       {(!child?.name || child.name === 'Your child') && <AddChildName />}
+
+      {/* The quiet extras that stay on the daily screen: the every fifth day
+          jobs cheer, and the check ins opt in with its anchor, because the
+          setup path links straight to #turn-on-check-ins. */}
+      <HomeStats streakCount={streak.count} streakTotal={streak.total} />
+      <div id="turn-on-check-ins" style={{ marginBottom: '20px', scrollMarginTop: '80px' }}>
+        <PushPrompt userId={user.id} stage={`Stage ${stage.id}`} />
+      </div>
+
+      {/* Everything else the membership holds, folded shut behind one calm
+          row so the daily screen keeps one shape. Nothing that lived on Home
+          is deleted: it all still renders and works right here, it just
+          waits until the parent wants it. */}
+      <details className="gc-home-more" style={{ marginBottom: '20px' }}>
+        <summary style={{
+          display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer',
+          background: '#fff', border: '1.5px solid var(--border)', borderRadius: '16px',
+          padding: '13px 14px', boxShadow: '0 3px 0 rgba(26,26,46,0.05)',
+        }}>
+          <span style={{ width: 38, height: 38, borderRadius: '12px', background: 'var(--terracotta-lt)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '19px', flexShrink: 0 }}>🧺</span>
+          <span style={{ flex: 1, minWidth: 0 }}>
+            <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)', lineHeight: 1.2 }}>Everything else</span>
+            <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: '12.5px', color: 'var(--ink-muted)', marginTop: '2px' }}>Moments, lessons, printables, school and more</span>
+          </span>
+          <span aria-hidden className="gc-more-chev" style={{ color: 'var(--ink-muted)', fontWeight: 800, transition: 'transform 0.15s' }}>›</span>
+        </summary>
+        <div style={{ paddingTop: '14px' }}>
 
       {/* The problem first: the concern this family keeps flagging, named, with
           its arc and the one tap path to the words that fix it tonight. The
@@ -453,17 +463,6 @@ export default async function DashboardPage() {
           </Link>
         )
       })()}
-
-      {/* The glanceable stat row: streak, stars in the bank, today's quests,
-          the three numbers a parent wants at a glance. */}
-      <HomeStats streakCount={streak.count} streakTotal={streak.total} />
-
-      {/* Family quests, high in the daily flow: every child at a glance,
-          tickable here. The id is the anchor the Waiting on you banner
-          scrolls to. */}
-      <div id="quest-board" style={{ scrollMarginTop: '80px' }}>
-        <QuestBoard />
-      </div>
 
       {/* DiGi hands a lesson straight to the parent, so lessons are reachable
           on mobile even without a Lessons tab: watch together here, or send it
@@ -556,16 +555,6 @@ export default async function DashboardPage() {
           </Link>
         </div>
       )}
-
-      {/* Push notification opt-in. Rendered whenever check ins are not yet on
-          (so the enable button is always reachable, including when a parent
-          taps the Turn on check ins step out of order), and kept once they are
-          on so the granted state and Send a test stay available. The id is the
-          anchor the step link scrolls to, which is what makes that button
-          actually do something instead of a silent reload. */}
-      <div id="turn-on-check-ins" style={{ marginBottom: '20px', scrollMarginTop: '80px' }}>
-        <PushPrompt userId={user.id} stage={`Stage ${stage.id}`} />
-      </div>
 
       {/* Device setup prompt: a supplementary ask, held back until the core
           setup path is done so it never competes with the current step. */}
@@ -804,6 +793,19 @@ export default async function DashboardPage() {
           </Link>
         </div>
       )}
+
+      {/* DiGi wondering: the occasional open question that feeds the weekly
+          insight. It caps itself to once every few days. */}
+      {revealed.has('wellbeing') && <DigiWondering />}
+
+        </div>
+      </details>
+
+      <style>{`
+        .gc-home-more > summary::-webkit-details-marker { display: none; }
+        .gc-home-more > summary { list-style: none; }
+        .gc-home-more[open] > summary .gc-more-chev { transform: rotate(90deg); }
+      `}</style>
     </div>
   )
 }

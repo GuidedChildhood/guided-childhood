@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { gsap } from 'gsap'
 import DigiCharacter from '@/components/digi/DigiCharacter'
 import type { TodayLoopTask } from '@/lib/pathway/daily-tasks'
+import { TASK_MINUTES, nextHint } from '@/lib/pathway/today-loop-copy'
 
 // Today's loop as a horizontal five node path strip: the seed of the
 // full node path home. Done nodes fill in their pastel with a tick, the
@@ -16,60 +17,12 @@ const NODE_SIZE = 46
 // on top of the character, so neither ever clips the header above.
 const TOP_OFFSET = 72
 
-// What each step actually involves, shown in the Next banner so the
-// parent knows what they are walking into before they tap. The wording
-// follows the clock: the same step reads differently at breakfast and at
-// bedtime, so the path always feels like it belongs to this moment.
-function nextHint(key: TodayLoopTask['key']): string {
-  const hour = new Date().getHours()
-  const daypart = hour < 12 ? 'morning' : hour < 17 ? 'afternoon' : 'evening'
-  const hints: Record<TodayLoopTask['key'], Record<string, string>> = {
-    checkin: {
-      morning: 'Start the day: thirty seconds on how yesterday’s worry went',
-      afternoon: 'Thirty seconds on how yesterday’s worry went',
-      evening: 'Before the day closes: how did yesterday’s worry go?',
-    },
-    moment: {
-      morning: 'Two minutes with today’s cards, best before the day runs off',
-      afternoon: 'Two minutes with today’s cards',
-      evening: 'Two minutes with today’s cards while the kettle boils',
-    },
-    script: {
-      morning: 'Today’s words, ready for the after school moment',
-      afternoon: 'The words for the tricky moment coming after school',
-      evening: 'Tonight’s words for the wind down, ready to read',
-    },
-    digi: {
-      morning: 'Ask DiGi the thing on your mind before the day starts',
-      afternoon: 'Ask DiGi one question about your day',
-      evening: 'Tell DiGi how today actually went',
-    },
-    done: {
-      morning: 'Tap to see your progress',
-      afternoon: 'Tap to see your progress',
-      evening: 'Tap to see your progress',
-    },
-  }
-  return hints[key][daypart]
-}
-
 const NODE_LOOK: Record<TodayLoopTask['key'], { fill: string; tick: string; icon: string }> = {
   checkin: { fill: 'var(--tint-sage)',    tick: 'var(--ink)',          icon: '🪴' },
   moment:  { fill: 'var(--stage-1-bold)', tick: 'var(--stage-1-text)', icon: '☀️' },
   script:  { fill: 'var(--stage-2-bold)', tick: 'var(--stage-2-text)', icon: '💬' },
   digi:    { fill: 'var(--stage-5-bold)', tick: 'var(--stage-5-text)', icon: '✦' },
   done:    { fill: 'var(--stage-3-bold)', tick: 'var(--stage-3-text)', icon: '🏁' },
-}
-
-// Roughly how long each step really takes, so the day is counted done when
-// about that many minutes have actually been spent, not the instant a couple
-// of quick taps land. A short reflection, a couple of cards, a script to read,
-// a question to DiGi: the honest minute weight of each, summed as they are
-// ticked. Five minutes is still a couple of small things and genuinely enough
-// to keep the streak; ten and fifteen ask for a little more, for the days
-// there is room.
-const TASK_MINUTES: Record<TodayLoopTask['key'], number> = {
-  checkin: 2, moment: 3, script: 4, digi: 4, done: 0,
 }
 
 export default function TodayPathStrip({ tasks, dailyMinutes = 10, childName, streakCount = 0 }: { tasks: TodayLoopTask[]; dailyMinutes?: number; childName?: string; streakCount?: number }) {

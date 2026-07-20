@@ -1,15 +1,23 @@
 import Link from 'next/link'
 import QuestManager from './QuestManager'
+import QuestBoard from '@/components/quests/QuestBoard'
 import ParentDeviceTime from '@/components/quests/ParentDeviceTime'
 
-// Family Quests: the parent manager. Set the quests, the stars, the goal,
-// send the kid their link or print the sheet. The deal lives here. Sending
-// a lesson to the child moved to the Lessons tab (its one home now), so
-// this page points there rather than duplicating it.
+// Family Quests: the whole deal on one page now. The board leads (it moved
+// here from Home when the daily screen narrowed): the approve queue, every
+// child's day at a glance, the goal bars and the tick anything list. Then
+// the manager: set the quests, the stars, the goal, send the kid their link
+// or print the sheet. Sending a lesson to the child moved to the Lessons tab
+// (its one home now), so this page points there rather than duplicating it.
 
 export default function QuestsPage() {
   return (
     <div style={{ maxWidth: '640px', margin: '0 auto', padding: '24px 20px 40px' }}>
+      {/* The id is the anchor the approve links land on */}
+      <div id="quest-board" style={{ scrollMarginTop: '80px' }}>
+        <QuestBoard />
+      </div>
+
       <QuestManager />
 
       <ParentDeviceTime />

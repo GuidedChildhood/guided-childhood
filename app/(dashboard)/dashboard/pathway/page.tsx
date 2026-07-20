@@ -86,8 +86,29 @@ export default async function PathwayPage() {
           trail, the passport stamp of each stage living on its node, DiGi on
           the current one, live progress and the stage detail folded into it.
           This replaces the separate stamp card, road map and stage cards row,
-          so the page never draws the same five stages twice. */}
+          so the page never draws the same five stages twice. A small sticky
+          card names the current stage while the road scrolls, the Duolingo
+          trick of never letting you lose where you are. */}
       <div style={{ padding: '0 20px', maxWidth: '720px', margin: '0 auto 20px' }}>
+        {currentStageContent && currentStageNum && (
+          <div className="gc-stage-sticky">
+            <span style={{
+              display: 'inline-flex', alignItems: 'center', gap: 8,
+              background: '#fff', border: '1.5px solid var(--terracotta)',
+              borderRadius: '100px', padding: '8px 16px',
+              boxShadow: '0 3px 0 var(--terracotta-dark)',
+            }}>
+              <span aria-hidden style={{ fontSize: 14 }}>🪪</span>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink)' }}>
+                {currentStageContent.name} · stamp {currentStageNum} of 5
+              </span>
+            </span>
+          </div>
+        )}
+        <style>{`
+          .gc-stage-sticky { position: sticky; top: 10px; z-index: 30; text-align: center; margin-bottom: 12px; }
+          @media (max-width: 767px) { .gc-stage-sticky { top: 58px; } }
+        `}</style>
         <StageRoad
           currentStageNum={currentStageNum}
           progressPct={currentStageProgress?.overallPct ?? null}

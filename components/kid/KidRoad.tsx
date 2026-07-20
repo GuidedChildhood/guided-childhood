@@ -75,15 +75,15 @@ export default function KidRoad({
                 {/* The rail: the same dot and dotted trail as the parent road */}
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0, position: 'relative' }}>
                   {here && (
-                    <div style={{ position: 'absolute', top: -34, left: '50%', transform: 'translateX(-50%)', zIndex: 2 }}>
-                      {buddyFace(30)}
+                    <div style={{ position: 'absolute', top: -38, left: '50%', transform: 'translateX(-50%)', zIndex: 2 }}>
+                      {buddyFace(34)}
                     </div>
                   )}
-                  <StageDot n={stage.id} state={state} size={44} />
+                  <StageDot n={stage.id} state={state} size={56} />
                   {!last && (
                     <span aria-hidden style={{
-                      flex: 1, minHeight: 24, width: 0, margin: '4px 0',
-                      borderLeft: `3px dotted ${state !== 'ahead' ? 'var(--terracotta)' : 'var(--border)'}`,
+                      flex: 1, minHeight: 30, width: 0, margin: '6px 0',
+                      borderLeft: `4px dotted ${state !== 'ahead' ? 'var(--terracotta)' : 'var(--border)'}`,
                     }} />
                   )}
                 </div>

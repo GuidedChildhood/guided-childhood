@@ -20,7 +20,12 @@ import type { AreaStatus } from '@/lib/pathway/literacy-status'
 // ── The one way to draw a stage circle ──────────────────────────────────────
 export type StageDotState = 'behind' | 'here' | 'ahead'
 
-export function StageDot({ n, state, size = 44 }: { n: number; state: StageDotState; size?: number }) {
+// Duolingo scale: the stage circles are fat, clearly tappable coins now, and
+// every state wears the chunky 0 5px 0 shadow edge so the whole road reads as
+// solid pieces sat on the page, not flat rings. Sized up roughly 1.5x
+// everywhere (64 on the full road, 44 on the mini), one change here and every
+// consumer gets the larger road.
+export function StageDot({ n, state, size = 64 }: { n: number; state: StageDotState; size?: number }) {
   const here = state === 'here'
   const behind = state === 'behind'
   return (
@@ -33,7 +38,11 @@ export function StageDot({ n, state, size = 44 }: { n: number; state: StageDotSt
         background: here ? '#fff' : behind ? 'var(--terracotta-lt)' : 'var(--cream)',
         border: here ? '3px solid var(--terracotta)' : behind ? '2px dashed var(--terracotta)' : '2px solid var(--border)',
         color: here || behind ? 'var(--terracotta-dark)' : 'var(--ink-light)',
-        boxShadow: here ? '0 4px 0 var(--terracotta-dark)' : 'none',
+        boxShadow: here
+          ? '0 5px 0 var(--terracotta-dark)'
+          : behind
+          ? '0 5px 0 rgba(201,154,40,0.4)'
+          : '0 5px 0 var(--border)',
         position: 'relative', zIndex: 1,
       }}
     >
@@ -101,24 +110,24 @@ export function StrandPills({ strands }: { strands: Strand[] }) {
 export function MiniRoad({ currentStage, showDigi = true }: { currentStage: number; showDigi?: boolean }) {
   const current = Math.min(5, Math.max(1, currentStage))
   return (
-    <div style={{ position: 'relative', paddingTop: showDigi ? 26 : 0 }}>
+    <div style={{ position: 'relative', paddingTop: showDigi ? 32 : 0 }}>
       <RoadPulseStyle />
       {/* The dotted trail behind the circles, filled to where the family stands */}
-      <div aria-hidden style={{ position: 'absolute', left: '10%', right: '10%', top: (showDigi ? 26 : 0) + 15, borderTop: '3px dotted var(--border)' }} />
-      <div aria-hidden style={{ position: 'absolute', left: '10%', width: `${((current - 1) / 5) * 80}%`, top: (showDigi ? 26 : 0) + 15, borderTop: '3px dotted var(--terracotta)' }} />
+      <div aria-hidden style={{ position: 'absolute', left: '10%', right: '10%', top: (showDigi ? 32 : 0) + 22, borderTop: '4px dotted var(--border)' }} />
+      <div aria-hidden style={{ position: 'absolute', left: '10%', width: `${((current - 1) / 5) * 80}%`, top: (showDigi ? 32 : 0) + 22, borderTop: '4px dotted var(--terracotta)' }} />
       <div style={{ position: 'relative', display: 'flex' }}>
         {STAGES.map(stage => {
           const state: StageDotState = stage.id === current ? 'here' : stage.id < current ? 'behind' : 'ahead'
           const ages = stage.ageBand === '16+' ? '16 plus' : stage.ageBand.replace('-', ' to ')
           return (
-            <div key={stage.id} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, minWidth: 0, position: 'relative' }}>
+            <div key={stage.id} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, minWidth: 0, position: 'relative' }}>
               {showDigi && state === 'here' && (
-                <div style={{ position: 'absolute', top: -26, left: '50%', transform: 'translateX(-50%)', zIndex: 2 }}>
-                  <DigiCharacter mood="happy" size={26} once />
+                <div style={{ position: 'absolute', top: -30, left: '50%', transform: 'translateX(-50%)', zIndex: 2 }}>
+                  <DigiCharacter mood="happy" size={30} once />
                 </div>
               )}
-              <StageDot n={stage.id} state={state} size={30} />
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 9, fontWeight: 700, letterSpacing: '0.02em', color: state === 'here' ? 'var(--ink)' : 'var(--ink-muted)', textAlign: 'center', whiteSpace: 'nowrap' }}>
+              <StageDot n={stage.id} state={state} size={44} />
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10.5, fontWeight: 700, letterSpacing: '0.02em', color: state === 'here' ? 'var(--ink)' : 'var(--ink-muted)', textAlign: 'center', whiteSpace: 'nowrap' }}>
                 {ages}
               </span>
             </div>
@@ -190,15 +199,15 @@ export default function StageRoad({
               {/* The rail: node, then the dotted trail down to the next node */}
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0, position: 'relative' }}>
                 {here && (
-                  <div style={{ position: 'absolute', top: -32, left: '50%', transform: 'translateX(-50%)', zIndex: 2 }}>
-                    <DigiCharacter mood="happy" size={28} once />
+                  <div style={{ position: 'absolute', top: -38, left: '50%', transform: 'translateX(-50%)', zIndex: 2 }}>
+                    <DigiCharacter mood="happy" size={34} once />
                   </div>
                 )}
-                <StageDot n={stage.id} state={state} size={44} />
+                <StageDot n={stage.id} state={state} />
                 {!last && (
                   <span aria-hidden style={{
-                    flex: 1, minHeight: 26, width: 0, margin: '4px 0',
-                    borderLeft: `3px dotted ${state !== 'ahead' ? 'var(--terracotta)' : 'var(--border)'}`,
+                    flex: 1, minHeight: 34, width: 0, margin: '6px 0',
+                    borderLeft: `5px dotted ${state !== 'ahead' ? 'var(--terracotta)' : 'var(--border)'}`,
                   }} />
                 )}
               </div>
@@ -206,10 +215,10 @@ export default function StageRoad({
               {/* The stage on the road */}
               <div style={{ flex: 1, minWidth: 0, paddingBottom: last ? 0 : 18 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-                  <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 18, color: here ? 'var(--ink)' : 'var(--ink-soft)', letterSpacing: '-0.01em' }}>
+                  <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 21, color: here ? 'var(--ink)' : 'var(--ink-soft)', letterSpacing: '-0.01em' }}>
                     {stage.name}
                   </span>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10.5, fontWeight: 700, color: 'var(--ink-muted)' }}>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11.5, fontWeight: 700, color: 'var(--ink-muted)' }}>
                     {r.ages}
                   </span>
                   {here && (

@@ -1596,3 +1596,23 @@ it matches children.age_band directly, and the range overlap matcher covers the
 older 8-11 style seed too. Icons are emoji placeholders: the Higgsfield
 illustrations, in the Happy News style, are the Mobbin lane, briefed separately.
 Idempotent insert, guarded by title.
+
+## 20 July 2026 — the narrowed daily flow ships on the real home (PR 397)
+
+Justin approved the ref-daily-flow sample, so the real parent home now has
+one shape every day: DiGi greets in one sentence (road position plus today's
+minutes), the streak chip sits right, THE one card names the one next step
+(same getTodayLoop engine, the minute weights and minutes line copy moved to
+lib/pathway/today-loop-copy.ts so server and client count the day the same
+way), and everything else folds to slim rows. Family quests row carries a
+live N to approve badge; from age 8 to 10 with no kid link yet it also
+carries the QR handover nudge to the quests Share tab. Sunday adds the round
+up row. Nothing was deleted: the quest board (with the goal bars) moved to
+the top of the quests page with its quest-board anchor, the full road strip
+stays on the pathway page, literacy strand ticks stay on the pathway and
+Progress pages, and the quieter cards (moments grid, insight, alerts,
+readiness, school, DiGi extras, upgrade) live inside a folded Everything
+else row on home. The road primitives also scaled up Duolingo style:
+StageDot 64 default (56 kid, 44 mini) with the 0 5px 0 coin edge on every
+state, thicker dotted trails, larger labels, and a sticky stage and stamp
+chip on the pathway page while the road scrolls.
