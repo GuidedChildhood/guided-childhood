@@ -212,11 +212,16 @@ export default function StageRoad({
           boxShadow: '0 5px 0 var(--terracotta-dark)', marginBottom: 22,
           display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12,
         }}>
-          <div style={{ minWidth: 0 }}>
+          {/* DiGi rides the sticky card, so the guide travels the whole road
+              with the parent while the big trail scrolls beneath. */}
+          <div style={{ flexShrink: 0 }}>
+            <DigiCharacter mood="happy" size={30} once />
+          </div>
+          <div style={{ minWidth: 0, flex: 1 }}>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink)', opacity: 0.7 }}>
               The road to 16
             </div>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 19, color: 'var(--ink)', letterSpacing: '-0.01em', lineHeight: 1.15, textTransform: 'uppercase' }}>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(15px, 4.2vw, 19px)', color: 'var(--ink)', letterSpacing: '-0.01em', lineHeight: 1.15, textTransform: 'uppercase', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
               {STAGES[current - 1].name} · stamp {current} of 5
             </div>
           </div>
@@ -320,6 +325,18 @@ export default function StageRoad({
                         </span>
                       )}
                     </div>
+
+                    {/* The literacy level running with the stamp: what the
+                        child can do at this stage, in the readiness words.
+                        The current stage says it biggest in its card below. */}
+                    {!here && (
+                      <p style={{ fontFamily: 'var(--font-body)', fontSize: 12.5, color: behind ? 'var(--ink-soft)' : 'var(--ink-muted)', lineHeight: 1.45, margin: '8px auto 0', maxWidth: 300 }}>
+                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 9.5, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: behind ? 'var(--terracotta-dark)' : 'var(--ink-muted)' }}>
+                          Can do ·{' '}
+                        </span>
+                        {r.skill}
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>
@@ -338,7 +355,12 @@ export default function StageRoad({
                       </div>
                     </div>
                   )}
-                  <p style={{ fontFamily: 'var(--font-body)', fontSize: 15, color: 'var(--ink)', lineHeight: 1.55, margin: '0 0 6px' }}>{r.skill}</p>
+                  {/* The literacy level, biggest on the current stage: the
+                      passport stamp and what the child can do, together. */}
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', margin: '0 0 4px' }}>
+                    Can do at this stage
+                  </div>
+                  <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 18, color: 'var(--ink)', letterSpacing: '-0.01em', lineHeight: 1.35, margin: '0 0 8px' }}>{r.skill}</p>
                   <p style={{ fontFamily: 'var(--font-body)', fontSize: 14, color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 12px' }}>
                     Everything {kid} does this stage is building toward {r.toward}
                   </p>
