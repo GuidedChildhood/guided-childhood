@@ -116,15 +116,13 @@ export default function KidPath({
   if (!readingPlaced) stones.push({ type: 'reading' })
   stones.push({ type: 'finish' })
 
-  // ── The chase maths: passes leap double, jobs and finds count single. ──
+  // ── Trail progress: passes leap double, jobs and finds count single. ──
   const totalUnits = lessons.length * 2 + jobs.length + 2 // chest and quiz
   const doneUnits =
     lessons.filter(l => l.done).length * 2 +
     jobs.filter(j => j.state !== 'todo').length +
     (chestClaimed ? 1 : 0) + (quizClaimed ? 1 : 0)
   const childFrac = totalUnits > 0 ? Math.min(1, doneUnits / totalUnits) : 0
-  const gremlinFrac = guideMinutes > 0 ? Math.min(0.96, Math.max(0.02, usedTodayMinutes / guideMinutes)) : 0.02
-  const caught = guideMinutes > 0 && gremlinFrac >= childFrac && usedTodayMinutes > 0
 
   const nextLessonId = lessons.find(l => !l.done && !l.locked)?.id ?? null
   const jobsTicked = jobs.filter(j => j.state !== 'todo').length
@@ -140,7 +138,7 @@ export default function KidPath({
       })
       if (r.ok) {
         setJobs(js => js.map(j => j.id === job.id ? { ...j, state: 'waiting' } : j))
-        playKidSound('tap')
+        playKidSound('star')
         say(`Sent to your grown up ⭐ ${job.stars} star${job.stars === 1 ? '' : 's'} on the way`)
       }
     } catch { /* tap again */ } finally { setBusy(false) }
@@ -160,7 +158,7 @@ export default function KidPath({
         body: JSON.stringify({ token }),
       })
       const d = await r.json().catch(() => ({}))
-      if (r.ok) { setChestClaimed(true); playKidSound('tap'); say('+1 star in your bank ⭐') }
+      if (r.ok) { setChestClaimed(true); playKidSound('done'); say('+1 star in your bank ⭐') }
       else if (d?.needsMigration) say('The chest is still being built. Soon!')
       else if (/already/.test(String(d?.error))) setChestClaimed(true)
     } catch { /* stays shut */ } finally { setBusy(false) }
@@ -176,6 +174,7 @@ export default function KidPath({
     if (qPicked != null || qDone) return
     setQPicked(i)
     const right = i === quiz.questions[qIndex].answer
+    playKidSound(right ? 'star' : 'tap')
     const newRight = qRight + (right ? 1 : 0)
     setQRight(newRight)
     setTimeout(() => {
@@ -190,6 +189,7 @@ export default function KidPath({
   async function finishQuiz(right: number) {
     const passed = right / quiz.questions.length >= 0.8
     setQDone(passed ? 'pass' : 'fail')
+    if (passed) playKidSound('done')
     if (!passed || quizClaimed) return
     try {
       const r = await fetch('/api/kid/quiz-claim', {
@@ -201,8 +201,10 @@ export default function KidPath({
   }
 
   // ── Stone styling ──
-  const drift = (i: number): 'flex-start' | 'center' | 'flex-end' =>
-    (['center', 'flex-start', 'center', 'flex-end'] as const)[i % 4]
+  // The serpentine: stones swing out and back like the Duolingo trail, a
+  // smooth left right wave rather than a straight ladder.
+  const SERPENTINE = [0, -72, -104, -72, 0, 72, 104, 72]
+  const drift = (i: number): number => SERPENTINE[i % SERPENTINE.length]
 
   const shell = (opts: { bg: string; border?: string; dim?: boolean; pulse?: boolean }): React.CSSProperties => ({
     width: 84, height: 84, borderRadius: '50%', flexShrink: 0,
@@ -232,6 +234,10 @@ export default function KidPath({
           0%, 100% { box-shadow: 0 6px 0 rgba(26,26,46,0.16), 0 0 0 0 rgba(237,195,95,0.6); }
           50% { box-shadow: 0 6px 0 rgba(26,26,46,0.16), 0 0 0 14px rgba(237,195,95,0); }
         }
+        @keyframes gcStartBob {
+          0%, 100% { transform: translate(-50%, 0); }
+          50% { transform: translate(-50%, -6px); }
+        }
       `}</style>
       <div style={{ maxWidth: '520px', margin: '0 auto' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', gap: '10px' }}>
@@ -257,32 +263,17 @@ export default function KidPath({
               Stamp at the end: {stamp}
             </span>
           </div>
-        </div>
-
-        {/* The Scroll Gremlin chase. */}
-        {guideMinutes > 0 && (
-          <div style={{ background: '#fff', borderRadius: '18px', padding: '13px 16px 15px', marginBottom: '20px', boxShadow: '0 5px 0 rgba(26,26,46,0.12)', border: '1.5px solid var(--border)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 15, color: 'var(--ink)' }}>
-                {caught ? 'The Scroll Gremlin caught up! 👾' : 'Stay ahead of the Scroll Gremlin'}
-              </span>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700, color: 'var(--ink-soft)' }}>
-                {Math.max(0, Math.round(usedTodayMinutes))}/{guideMinutes} min
-              </span>
+          {/* The trail progress, the Duolingo way: one bar filling toward the
+              stamp as jobs, passes and finds land. */}
+          <div style={{ marginTop: 12 }}>
+            <div style={{ height: 10, borderRadius: 100, background: 'rgba(26,26,46,0.10)', overflow: 'hidden' }}>
+              <div style={{ height: '100%', width: `${Math.round(childFrac * 100)}%`, borderRadius: 100, background: 'var(--terracotta)', transition: 'width 0.5s ease' }} />
             </div>
-            <div style={{ position: 'relative', height: 30 }}>
-              <div style={{ position: 'absolute', left: 0, right: 0, top: 12, height: 7, borderRadius: 100, background: 'rgba(26,26,46,0.12)' }} />
-              <div style={{ position: 'absolute', left: 0, top: 12, height: 7, borderRadius: 100, width: `${childFrac * 100}%`, background: 'var(--terracotta)' }} />
-              <span aria-hidden style={{ position: 'absolute', top: -1, left: `calc(${gremlinFrac * 100}% - 11px)`, fontSize: 21 }}>👾</span>
-              <span aria-hidden style={{ position: 'absolute', top: -3, left: `calc(${childFrac * 100}% - 12px)`, fontSize: 23, filter: 'drop-shadow(0 2px 2px rgba(0,0,0,0.25))' }}>⭐</span>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10.5, fontWeight: 700, color: 'var(--ink-muted)', marginTop: 5 }}>
+              {doneUnits} of {totalUnits} along the path
             </div>
-            <p style={{ fontSize: 13, color: 'var(--ink-soft)', lineHeight: 1.45, margin: '4px 0 0' }}>
-              {caught
-                ? 'Tick a job, pass a lesson or open the chest to leap ahead of it.'
-                : 'Screen minutes move the Gremlin. Jobs, lessons and the finds move you.'}
-            </p>
           </div>
-        )}
+        </div>
 
         {toast && (
           <div style={{ position: 'sticky', top: 10, zIndex: 20, background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 14, padding: '11px 15px', marginBottom: 14, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 15, textAlign: 'center', boxShadow: '0 4px 0 var(--terracotta-dark)' }}>
@@ -315,14 +306,28 @@ export default function KidPath({
               const l = stone.lesson
               const isNext = l.id === nextLessonId
               node = (
-                <Link href={`/k/${token}/lessons/${l.id}`} onClick={() => playKidSound('tap')} style={column}>
+                <Link href={`/k/${token}/lessons/${l.id}`} onClick={() => playKidSound('tap')} style={{ ...column, position: 'relative', paddingTop: isNext ? 34 : 0 }}>
+                  {/* The floating START bubble, the Duolingo hallmark, bobbing
+                      over the one stone to do next. */}
+                  {isNext && (
+                    <span style={{
+                      position: 'absolute', top: 0, left: '50%',
+                      animation: 'gcStartBob 1.4s ease-in-out infinite',
+                      background: '#fff', border: '2px solid var(--terracotta)', borderRadius: 12,
+                      padding: '5px 13px', fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700,
+                      letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)',
+                      boxShadow: '0 3px 0 rgba(26,26,46,0.12)', whiteSpace: 'nowrap',
+                    }}>
+                      Start
+                    </span>
+                  )}
                   <span style={shell({ bg: l.done ? 'var(--terracotta)' : 'var(--cream)', dim: !l.done && !isNext, pulse: isNext })}>
                     <span style={{ fontSize: 34, lineHeight: 1 }}>{l.done ? '⭐' : l.locked ? '🔒' : l.emoji}</span>
                     {l.done && <span style={{ fontFamily: 'var(--font-mono)', fontSize: 9, fontWeight: 700, color: 'var(--ink)', marginTop: 2 }}>+2 ⚡ leap</span>}
                   </span>
                   <span style={label}>{l.title}</span>
                   <span style={sub}>
-                    {l.done ? `Passed${l.score != null ? ` · ${l.score} right` : ''}` : l.locked ? 'Ask your grown up' : isNext ? '▶ Start here · pass to leap 2' : 'Lesson'}
+                    {l.done ? `Passed${l.score != null ? ` · ${l.score} right` : ''}` : l.locked ? 'Ask your grown up' : isNext ? 'Pass to leap 2' : 'Lesson'}
                   </span>
                 </Link>
               )
@@ -385,12 +390,12 @@ export default function KidPath({
 
             return (
               <div key={i}>
-                <div style={{ display: 'flex', justifyContent: align, padding: '0 8%' }}>
-                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>{node}</div>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', transform: `translateX(${align}px)` }}>{node}</div>
                 </div>
                 {i < stones.length - 1 && (
                   <div style={{ display: 'flex', justifyContent: 'center', padding: '6px 0' }}>
-                    <span aria-hidden style={{ height: 26, borderLeft: '4px dotted rgba(26,26,46,0.22)' }} />
+                    <span aria-hidden style={{ height: 26, borderLeft: '4px dotted rgba(26,26,46,0.22)', transform: `translateX(${(drift(i) + drift(i + 1)) / 2}px)` }} />
                   </div>
                 )}
               </div>
@@ -401,7 +406,7 @@ export default function KidPath({
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 26, background: '#fff', border: '1.5px solid var(--border)', borderRadius: 18, padding: '14px 16px', boxShadow: '0 4px 0 rgba(26,26,46,0.10)' }}>
           <DigiCharacter mood="wave" size={44} once />
           <p style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
-            Every stone counts, {childName}. Tick jobs right here, pass the lesson check to leap two, and tap the friends you find. The road waits for you, the Gremlin does not.
+            Every stone counts, {childName}. Tick jobs right here, pass the lesson check to leap two, and tap the friends you find. The road waits for you.
           </p>
         </div>
       </div>
