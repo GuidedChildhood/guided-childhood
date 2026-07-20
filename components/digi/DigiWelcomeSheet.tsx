@@ -33,6 +33,10 @@ export type WelcomeGuide = {
   childName: string
   nextTask: { label: string; href: string } | null
   strands: { name: string; tone: 'green' | 'red' | 'grey' }[]
+  // The lessons that move the progress report right now: the child's own
+  // stage set, with the live passed count, so DiGi can say exactly which
+  // lessons to send and why. Null when the stage has no lessons yet.
+  stageLessons?: { total: number; passed: number } | null
 }
 
 export default function DigiWelcomeSheet({ childrenInfo, guide }: { childrenInfo: ChildInfo[]; guide?: WelcomeGuide | null }) {
@@ -193,6 +197,28 @@ export default function DigiWelcomeSheet({ childrenInfo, guide }: { childrenInfo
               <MiniRoad currentStage={guide.stageNum} showDigi={false} />
             </div>
             <StrandPills strands={guide.strands.map(s => ({ key: s.name, name: s.name, tone: s.tone }))} />
+            {/* Which lessons to send for progress: DiGi names the child's own
+                stage set with the live count, one tap to the hub. The same set
+                the child sees on their page, so nothing age wrong ever goes. */}
+            {guide.stageLessons && guide.stageLessons.total > 0 && (
+              <button
+                onClick={() => { close(); router.push('/dashboard/lessons') }}
+                style={{
+                  display: 'block', width: '100%', textAlign: 'left', marginTop: 14, cursor: 'pointer',
+                  background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
+                  borderRadius: 12, padding: '11px 13px',
+                }}
+              >
+                <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 9.5, fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase', color: 'var(--ink-soft)', marginBottom: 3 }}>
+                  Lessons that move this
+                </span>
+                <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: 14, fontWeight: 600, color: 'var(--ink)', lineHeight: 1.45 }}>
+                  {guide.stageLessons.passed < guide.stageLessons.total
+                    ? <>Send {guide.childName} the {guide.stageName} lessons, {guide.stageLessons.passed} of {guide.stageLessons.total} passed. Each pass ticks the report. <strong style={{ fontWeight: 800 }}>Open lessons →</strong></>
+                    : <>All {guide.stageLessons.total} {guide.stageName} lessons passed. The report shows the full tick for this stage.</>}
+                </span>
+              </button>
+            )}
           </div>
         )}
 
