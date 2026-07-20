@@ -212,7 +212,12 @@ export default function KidTodayList({
     onTap: () => void
   }
 
+  // Once the grown up gives the final approval the job leaves the list for
+  // good: the child gets the celebration pop and the stars land in the bank,
+  // and the list stays only the things still to do or waiting. The done count
+  // above still includes them, so progress never looks like it went backwards.
   const jobRows: Row[] = [...quests]
+    .filter(q => ticks[q.id] !== 'approved')
     .sort((a, b) => Number(Boolean(b.blocks_screens)) - Number(Boolean(a.blocks_screens)))
     .map(q => {
       const st = ticks[q.id]
