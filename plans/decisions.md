@@ -1635,3 +1635,13 @@ kid handover prompt rides on Home and the quests page from the 8 to 10 band
 until a kid link exists, and every quieter Home card still renders inside
 the folded Everything else row, with the check ins prompt kept outside the
 fold so its setup anchor never lands on a closed drawer.
+
+## 20 July 2026 — Booked: the lesson library grows on a rhythm
+Justin confirmed the test layer replaces nothing: the 20 age staged Rosenshine
+lessons and their hand drawn art stay permanently, new lessons only add rows.
+BOOKED for the next build week: a lesson writer pipeline in the style of the
+fortnightly script writer (PR 355), producing new Rosenshine lessons by stage
+on a steady cadence, research grounded, with choice questions so every new
+lesson is testable on arrival, into a review queue before going live. Also
+carried: age right lessons surfacing in the child app with the child taking
+the multiple choice themselves, passes flowing to the parent ticks.
