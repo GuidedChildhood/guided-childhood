@@ -33,14 +33,14 @@ export default function KidLessonList({
       <div style={{ maxWidth: '560px', margin: '0 auto' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px', gap: '10px' }}>
           <Link href={backHref} style={{
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px',
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
             color: 'rgba(255,255,255,0.78)', textDecoration: 'none',
           }}>
             ← My quests
           </Link>
           {items.length > 0 && (
             <span style={{
-              fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, letterSpacing: '0.1em',
+              fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.1em',
               textTransform: 'uppercase', color: 'var(--ink)', background: 'var(--terracotta)',
               borderRadius: '100px', padding: '5px 12px', boxShadow: '0 3px 0 rgba(0,0,0,0.2)',
             }}>
@@ -55,17 +55,17 @@ export default function KidLessonList({
             <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.5rem, 6vw, 1.9rem)', color: '#F7F7F5', letterSpacing: '-0.02em', lineHeight: 1.1, margin: 0 }}>
               My lessons
             </h1>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.66)', margin: '5px 0 0' }}>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.66)', margin: '5px 0 0' }}>
               {stageName} stage · {ages}
             </p>
           </div>
         </div>
-        <p style={{ fontSize: '13.5px', color: 'rgba(255,255,255,0.78)', lineHeight: 1.6, margin: '10px 0 20px' }}>
+        <p style={{ fontSize: '15.5px', color: 'rgba(255,255,255,0.78)', lineHeight: 1.6, margin: '10px 0 20px' }}>
           Picked for your age, {childName}. Do them in order, top to bottom, one a week is perfect. Pass one and your grown up sees the tick straight away.
         </p>
 
         {items.length === 0 ? (
-          <div style={{ background: 'rgba(255,255,255,0.08)', border: '1.5px solid rgba(255,255,255,0.16)', borderRadius: '20px', padding: '26px 20px', textAlign: 'center', color: 'rgba(255,255,255,0.8)', fontSize: '14px', lineHeight: 1.6 }}>
+          <div style={{ background: 'rgba(255,255,255,0.08)', border: '1.5px solid rgba(255,255,255,0.16)', borderRadius: '20px', padding: '26px 20px', textAlign: 'center', color: 'rgba(255,255,255,0.8)', fontSize: '16px', lineHeight: 1.6 }}>
             No lessons for your stage just yet. New ones land all the time, so check back soon.
           </div>
         ) : (
@@ -90,7 +90,7 @@ export default function KidLessonList({
                       position: 'absolute', top: '-6px', left: '-6px', width: '20px', height: '20px',
                       borderRadius: '50%', background: item.done ? 'var(--terracotta)' : 'var(--ink)',
                       color: item.done ? 'var(--ink)' : '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '11px',
+                      fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '13px',
                       border: '2px solid var(--cream)',
                     }}>
                       {idx + 1}
@@ -99,24 +99,24 @@ export default function KidLessonList({
                   <span style={{ flex: 1, minWidth: 0 }}>
                     {isNext && (
                       <span style={{
-                        display: 'inline-block', fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700,
+                        display: 'inline-block', fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700,
                         letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink)',
                         background: 'var(--terracotta)', borderRadius: '100px', padding: '3px 9px', marginBottom: '5px',
                       }}>
                         ⭐ Do this one next
                       </span>
                     )}
-                    <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '15.5px', color: 'var(--ink)', lineHeight: 1.25, letterSpacing: '-0.01em' }}>
+                    <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '17.5px', color: 'var(--ink)', lineHeight: 1.25, letterSpacing: '-0.01em' }}>
                       {item.title}
                     </span>
-                    <span style={{ display: 'block', fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.45, marginTop: '4px' }}>
+                    <span style={{ display: 'block', fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.45, marginTop: '4px' }}>
                       {item.locked ? 'Ask your grown up to open this one' : isNext ? item.keyMessage : item.done ? item.keyMessage : `After lesson ${idx}, this one is waiting for you`}
                     </span>
                   </span>
                   <span style={{ flexShrink: 0, alignSelf: 'center' }}>
                     {item.done ? (
                       <span style={{
-                        fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.06em',
+                        fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, letterSpacing: '0.06em',
                         textTransform: 'uppercase', color: 'var(--terracotta-dark)',
                         background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
                         borderRadius: '100px', padding: '4px 10px',
@@ -124,10 +124,10 @@ export default function KidLessonList({
                         ✓ Passed{item.score != null ? ` · ${item.score}` : ''}
                       </span>
                     ) : item.locked ? (
-                      <span style={{ fontSize: '18px' }}>🔒</span>
+                      <span style={{ fontSize: '20px' }}>🔒</span>
                     ) : (
                       <span style={{
-                        fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '13px',
+                        fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '15px',
                         color: 'var(--ink)', background: isNext ? 'var(--terracotta)' : '#fff',
                         border: isNext ? 'none' : '1.5px solid var(--border)',
                         borderRadius: '12px', padding: '9px 15px',

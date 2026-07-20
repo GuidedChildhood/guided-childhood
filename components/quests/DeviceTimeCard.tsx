@@ -31,12 +31,12 @@ function OfflineIdeas({ onPrintables, onGames }: { onPrintables?: () => void; on
     display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 6,
     flex: '1 1 auto', padding: '11px 12px', borderRadius: '14px', border: 'none',
     background: '#fff', cursor: 'pointer', boxShadow: '0 3px 0 rgba(0,0,0,0.14)',
-    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', color: 'var(--ink)',
+    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)',
     lineHeight: 1.2, whiteSpace: 'nowrap',
   }
   return (
     <div style={{ textAlign: 'left' }}>
-      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '12.5px', color: 'var(--ink)', margin: '0 0 8px' }}>
+      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: 'var(--ink)', margin: '0 0 8px' }}>
         Good things to do instead
       </div>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
@@ -346,7 +346,7 @@ export default function DeviceTimeCard({
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
           <span style={{ fontSize: '1.6rem', display: 'inline-block', animation: countingDown ? 'gcAlarmBounce 0.7s ease-in-out infinite' : 'none' }}>{countingDown ? '🎉' : deviceEmoji(session.device)}</span>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
               {deviceLabel(session.device)} time
             </div>
             <div
@@ -369,7 +369,7 @@ export default function DeviceTimeCard({
         {countingDown && (
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'var(--terracotta-lt)', borderRadius: '12px', padding: '9px 12px', marginBottom: '12px' }}>
             <span style={{ fontSize: '1.1rem' }}>🌟</span>
-            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', color: 'var(--ink)', lineHeight: 1.35 }}>
+            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)', lineHeight: 1.35 }}>
               Nearly there. Time to find some offline fun.
             </span>
           </div>
@@ -377,7 +377,7 @@ export default function DeviceTimeCard({
         <button
           onClick={stop}
           disabled={busy}
-          style={{ width: '100%', padding: '13px', borderRadius: '14px', border: '1.5px solid var(--border)', background: 'var(--cream)', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 800, color: 'var(--ink)' }}
+          style={{ width: '100%', padding: '13px', borderRadius: '14px', border: '1.5px solid var(--border)', background: 'var(--cream)', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: '17px', fontWeight: 800, color: 'var(--ink)' }}
         >
           I&apos;m done, hand it back
         </button>
@@ -393,7 +393,7 @@ export default function DeviceTimeCard({
         <div style={{ position: 'relative', zIndex: 1 }}>
           <div style={{ fontSize: '2.4rem', lineHeight: 1, marginBottom: '6px', display: 'inline-block', animation: 'gcAlarmBounce 0.7s ease-in-out 3' }}>{endedByGuide ? '🌱' : '🎉'}</div>
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.3rem', color: 'var(--ink)', marginBottom: '4px' }}>Time for offline fun!</div>
-          <p style={{ fontSize: '14.5px', color: 'var(--ink)', opacity: 0.8, margin: '0 0 14px', lineHeight: 1.5 }}>
+          <p style={{ fontSize: '16.5px', color: 'var(--ink)', opacity: 0.8, margin: '0 0 14px', lineHeight: 1.5 }}>
             {endedByGuide
               ? 'That is the healthy amount for today. Your stars are safe for tomorrow, and there is plenty of good stuff to do right now.'
               : `Great play! Your ${deviceLabel(session?.device ?? 'phone')} time is done for now. Go find something fun away from the screen, and earn more stars to unlock more.`}
@@ -404,7 +404,7 @@ export default function DeviceTimeCard({
           </div>
           <button
             onClick={() => { setSession(null); setPhase('idle'); setEndedByGuide(false); router.refresh() }}
-            style={{ padding: '11px 22px', borderRadius: '14px', border: 'none', background: 'var(--ink)', color: '#fff', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 800 }}
+            style={{ padding: '11px 22px', borderRadius: '14px', border: 'none', background: 'var(--ink)', color: '#fff', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: '16px', fontWeight: 800 }}
           >
             OK
           </button>
@@ -425,7 +425,7 @@ export default function DeviceTimeCard({
         {/* The deal, said plainly before anything is picked: an ask is an
             ask, and the yes is what starts the timer. */}
         {asksFirst && (
-          <p style={{ fontSize: '13px', fontWeight: 600, color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 12px' }}>
+          <p style={{ fontSize: '15px', fontWeight: 600, color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 12px' }}>
             This asks your grown up. They get a ping, and when they say yes your timer starts.
           </p>
         )}
@@ -442,7 +442,7 @@ export default function DeviceTimeCard({
                   minHeight: 86, padding: '12px 6px', borderRadius: '16px', cursor: 'pointer',
                   border: `2px solid ${on ? 'var(--terracotta)' : 'var(--border)'}`,
                   background: on ? 'var(--terracotta-lt)' : 'var(--cream)',
-                  fontFamily: 'var(--font-display)', fontSize: '12.5px', fontWeight: 800, color: 'var(--ink)',
+                  fontFamily: 'var(--font-display)', fontSize: '14.5px', fontWeight: 800, color: 'var(--ink)',
                   lineHeight: 1.2, textAlign: 'center',
                 }}
               >
@@ -453,8 +453,8 @@ export default function DeviceTimeCard({
           })}
         </div>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
-          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--ink)' }}>How long?</span>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, color: 'var(--ink-muted)' }}>{costStars} of your {balanceStars} stars</span>
+          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)' }}>How long?</span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 700, color: 'var(--ink-muted)' }}>{costStars} of your {balanceStars} stars</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
           <button
@@ -463,7 +463,7 @@ export default function DeviceTimeCard({
           >−</button>
           <div style={{ flex: 1, textAlign: 'center' }}>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.9rem', lineHeight: 1, color: 'var(--ink)' }}>{minutes}</div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>minutes</div>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>minutes</div>
           </div>
           <button
             onClick={() => setMinutes(m => Math.min(maxMinutes, m + STAR_MINUTES))}
@@ -475,26 +475,26 @@ export default function DeviceTimeCard({
             grown up decides, and the good offline stuff sits right there. */}
         {asksFirst && exceedsGuide && (
           <div style={{ background: 'var(--terracotta-lt)', borderRadius: '12px', padding: '11px 13px', marginBottom: '12px' }}>
-            <p style={{ fontSize: '12.5px', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.45, margin: '0 0 10px' }}>
+            <p style={{ fontSize: '14.5px', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.45, margin: '0 0 10px' }}>
               🌱 This goes past the healthy amount for today, your grown up decides.
             </p>
             <OfflineIdeas onPrintables={onPrintables} onGames={onGames} />
           </div>
         )}
         {note && (
-          <div style={{ background: '#FDECEC', border: '1.5px solid #E5484D', borderRadius: '12px', padding: '10px 13px', marginBottom: '12px', fontSize: '13px', fontWeight: 700, color: '#B93B3F', lineHeight: 1.4 }}>
+          <div style={{ background: '#FDECEC', border: '1.5px solid #E5484D', borderRadius: '12px', padding: '10px 13px', marginBottom: '12px', fontSize: '15px', fontWeight: 700, color: '#B93B3F', lineHeight: 1.4 }}>
             {note}
           </div>
         )}
         <div style={{ display: 'flex', gap: '8px' }}>
           <button
             onClick={() => setPhase('idle')}
-            style={{ padding: '13px 18px', borderRadius: '14px', border: '1.5px solid var(--border)', background: '#fff', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 800, color: 'var(--ink-soft)' }}
+            style={{ padding: '13px 18px', borderRadius: '14px', border: '1.5px solid var(--border)', background: '#fff', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: '16px', fontWeight: 800, color: 'var(--ink-soft)' }}
           >Back</button>
           <button
             onClick={start}
             disabled={busy || minutes < STAR_MINUTES}
-            style={{ flex: 1, padding: '13px', borderRadius: '14px', border: 'none', background: 'var(--terracotta)', color: 'var(--ink)', cursor: busy ? 'default' : 'pointer', fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 800, boxShadow: '0 4px 0 var(--terracotta-dark)', opacity: busy ? 0.6 : 1 }}
+            style={{ flex: 1, padding: '13px', borderRadius: '14px', border: 'none', background: 'var(--terracotta)', color: 'var(--ink)', cursor: busy ? 'default' : 'pointer', fontFamily: 'var(--font-display)', fontSize: '17px', fontWeight: 800, boxShadow: '0 4px 0 var(--terracotta-dark)', opacity: busy ? 0.6 : 1 }}
           >
             {busy
               ? (asksFirst ? 'Asking...' : 'Starting...')
@@ -524,10 +524,10 @@ export default function DeviceTimeCard({
           boxShadow: '0 3px 0 rgba(0,0,0,0.10)',
         }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8, marginBottom: '6px' }}>
-            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', color: 'var(--ink)' }}>
+            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)' }}>
               {reachedGuide ? 'You have had your screen time today 🌱' : "Today's screen time"}
             </span>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--ink-soft)' }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--ink-soft)' }}>
               {usedToday}/{recToday} min
             </span>
           </div>
@@ -536,7 +536,7 @@ export default function DeviceTimeCard({
           </div>
           {reachedGuide && (
             <>
-              <p style={{ fontSize: '12px', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '7px 0 0' }}>
+              <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '7px 0 0' }}>
                 That is the healthy amount for your age. Want more? Ask your grown up for a treat.
               </p>
               <div style={{ marginTop: '10px' }}>
@@ -571,7 +571,7 @@ export default function DeviceTimeCard({
               ? (reachedGuide && !asksFirst ? 'That is your screen time for today 🌱' : 'Use device time now')
               : 'Earn your screen time'}
           </span>
-          <span style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: 'var(--ink-muted)', marginTop: '2px' }}>
+          <span style={{ display: 'block', fontSize: '15px', fontWeight: 600, color: 'var(--ink-muted)', marginTop: '2px' }}>
             {canSpend
               ? (reachedGuide && !asksFirst
                 ? 'Your stars are safe for tomorrow. Do a job to earn more'
@@ -586,7 +586,7 @@ export default function DeviceTimeCard({
 
       {/* The device rule, said the same way here as everywhere else, so the
           timer card itself always carries what using any screen means. */}
-      <p style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, letterSpacing: '0.03em', color: 'var(--ink-muted)', lineHeight: 1.6, margin: '10px 6px 0' }}>
+      <p style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.03em', color: 'var(--ink-muted)', lineHeight: 1.6, margin: '10px 6px 0' }}>
         {TIMER_RULE}
       </p>
     </div>
