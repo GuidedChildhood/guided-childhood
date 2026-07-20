@@ -22,6 +22,9 @@ const QUESTIONS = [
   'When did you feel most like the parent you want to be this week?',
   'What is the conversation about screens you are quietly dreading?',
   'What does a calm evening look like in your house right now?',
+  'How are you holding up this week, honestly?',
+  'What has taken the most out of you as a parent lately?',
+  'When did you last get a moment that was just for you?',
 ]
 
 export default function DigiWondering() {
