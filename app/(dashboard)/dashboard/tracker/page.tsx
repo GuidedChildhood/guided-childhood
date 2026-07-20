@@ -11,6 +11,8 @@ import { getLiteracyStatuses } from '@/lib/pathway/literacy-status'
 import { READINESS } from '@/lib/content/readiness'
 import PassportBook from '@/components/pathway/PassportBook'
 import { type Stamp, type StampStatus } from '@/components/pathway/PassportStamps'
+import ChildSwitcher from '@/components/children/ChildSwitcher'
+import { pickChild } from '@/lib/children/select'
 
 // The Progress page: the answer to the only question that matters, is it
 // working. One honest generated sentence at the top, then the evidence:
@@ -41,10 +43,11 @@ function avg(c: Check): number | null {
   return vals.length ? vals.reduce((a, b) => a + b, 0) / vals.length : null
 }
 
-export default async function ProgressPage() {
+export default async function ProgressPage({ searchParams }: { searchParams: Promise<{ child?: string }> }) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
+  const { child: childParam } = await searchParams
 
   const weekAgo = new Date(Date.now() - 7 * 86400000).toISOString().slice(0, 10)
   const weekStart = new Date()
@@ -53,7 +56,7 @@ export default async function ProgressPage() {
   const today = new Date().toISOString().slice(0, 10)
 
   const [childrenRes, concernsRes, resolvedCountRes, recentSolvedRes, checksRes, questsRes, ticksRes, streak, dailyRes] = await Promise.all([
-    supabase.from('children').select('id, name, age_band, streak_weeks').eq('parent_id', user.id).order('created_at'),
+    supabase.from('children').select('id, name, age_band, streak_weeks, is_primary').eq('parent_id', user.id).order('is_primary', { ascending: false }),
     // What we are working on: only the live ones, most stubborn first so the
     // pattern line has something to point at.
     supabase.from('concerns').select('slug, label, status, times_flagged, last_flagged_at').eq('user_id', user.id).in('status', ['open', 'improving']).order('times_flagged', { ascending: false }).limit(10),
@@ -73,7 +76,10 @@ export default async function ProgressPage() {
   const dailyDoneToday = !!dailyRes.data?.completed_at
 
   const children = childrenRes.data ?? []
-  const primary = children[0] ?? null
+  // The report reads for the selected child (?child=<id>), defaulting to
+  // the primary. Before this, the page silently reported on the oldest
+  // created child whatever the family shape.
+  const primary = pickChild(children, childParam)
   const concerns = concernsRes.data ?? []
   const solvedCount = resolvedCountRes.count ?? 0
   const recentSolved = recentSolvedRes.data ?? []
@@ -151,6 +157,7 @@ export default async function ProgressPage() {
 
   return (
     <div style={{ maxWidth: '640px', margin: '0 auto', padding: '24px 20px 40px' }}>
+      <ChildSwitcher kids={children} selectedId={primary?.id ?? null} basePath="/dashboard/tracker" />
       <p className="eyebrow" style={{ color: 'var(--terracotta-dark)', marginBottom: '8px' }}>Progress</p>
       <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 6.5vw, 2.7rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '10px' }}>
         Is it working?

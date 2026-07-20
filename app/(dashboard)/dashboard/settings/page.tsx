@@ -4,6 +4,7 @@ import SchoolLink from '@/components/digi/SchoolLink'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { AGE_BAND_OPTIONS, getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
+import { bandForAge } from '@/lib/children/age'
 import Link from 'next/link'
 
 interface Profile {
@@ -18,6 +19,16 @@ interface Child {
   id: string
   name: string
   age_band: string
+  date_of_birth: string | null
+  is_primary: boolean
+}
+
+interface ChildForm {
+  name: string
+  ageBand: AgeBand
+  dob: string
+  saving: boolean
+  saved: boolean
 }
 
 export default function SettingsPage() {
@@ -25,19 +36,17 @@ export default function SettingsPage() {
   const supabase = createClient()
 
   const [profile, setProfile] = useState<Profile | null>(null)
-  const [child, setChild] = useState<Child | null>(null)
+  const [kids, setKids] = useState<Child[]>([])
+  const [forms, setForms] = useState<Record<string, ChildForm>>({})
+  // False when migration 083 has not run yet: the birthday field hides and
+  // saves write the same columns they always did.
+  const [dobSupported, setDobSupported] = useState(true)
   const [loading, setLoading] = useState(true)
 
   // Profile form
   const [name, setName] = useState('')
   const [savingProfile, setSavingProfile] = useState(false)
   const [profileSaved, setProfileSaved] = useState(false)
-
-  // Child form
-  const [childName, setChildName] = useState('')
-  const [ageBand, setAgeBand] = useState<AgeBand>('8-10')
-  const [savingChild, setSavingChild] = useState(false)
-  const [childSaved, setChildSaved] = useState(false)
 
   const [error, setError] = useState('')
 
@@ -46,20 +55,38 @@ export default function SettingsPage() {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) { router.push('/login'); return }
 
-      const [profileResult, childResult] = await Promise.all([
+      // date_of_birth arrives with migration 083. Until that runs, the
+      // column select fails, so we fail soft: load without it and the
+      // birthday field simply waits. Nothing breaks either side of the
+      // migration landing.
+      let [profileResult, childrenResult] = await Promise.all([
         supabase.from('profiles').select('full_name, email, subscription_status, subscription_tier, is_founder').eq('id', user.id).single(),
-        supabase.from('children').select('id, name, age_band').eq('parent_id', user.id).eq('is_primary', true).single(),
+        supabase.from('children').select('id, name, age_band, date_of_birth, is_primary').eq('parent_id', user.id).order('is_primary', { ascending: false }),
       ])
+      if (childrenResult.error) {
+        childrenResult = await supabase.from('children').select('id, name, age_band, is_primary').eq('parent_id', user.id).order('is_primary', { ascending: false }) as typeof childrenResult
+        setDobSupported(false)
+      }
 
       if (profileResult.data) {
         setProfile(profileResult.data)
         setName(profileResult.data.full_name ?? '')
       }
-      if (childResult.data) {
-        setChild(childResult.data)
-        setChildName(childResult.data.name)
-        setAgeBand(childResult.data.age_band as AgeBand)
-      }
+      const loadedKids = ((childrenResult.data ?? []) as Partial<Child>[]).map(k => ({
+        id: k.id as string,
+        name: k.name ?? 'Your child',
+        age_band: k.age_band ?? '8-10',
+        date_of_birth: k.date_of_birth ?? null,
+        is_primary: k.is_primary ?? false,
+      })) as Child[]
+      setKids(loadedKids)
+      setForms(Object.fromEntries(loadedKids.map(k => [k.id, {
+        name: k.name === 'Your child' ? '' : k.name,
+        ageBand: (k.age_band as AgeBand) || '8-10',
+        dob: k.date_of_birth ?? '',
+        saving: false,
+        saved: false,
+      }])))
       setLoading(false)
     }
     load()
@@ -80,21 +107,36 @@ export default function SettingsPage() {
     setSavingProfile(false)
   }
 
-  async function saveChild(e: React.FormEvent) {
+  function patchForm(id: string, patch: Partial<ChildForm>) {
+    setForms(f => ({ ...f, [id]: { ...f[id], ...patch } }))
+  }
+
+  async function saveChild(e: React.FormEvent, id: string) {
     e.preventDefault()
-    if (!child) return
-    setSavingChild(true)
+    const form = forms[id]
+    if (!form) return
+    patchForm(id, { saving: true })
     setError('')
-    const stage = getStageFromAgeBand(ageBand)
+    // A birthday takes over: the band and stage derive from it, today and
+    // every day after, so everything grows up on its own. Without one, the
+    // hand picked band stands. stage_id stores the stage slug (foundation,
+    // builder, ...), the same value onboarding writes.
+    const band = (dobSupported ? bandForAge(form.dob || null) : null) ?? form.ageBand
+    const stage = getStageFromAgeBand(band)
+    const update: Record<string, string | null> = {
+      name: form.name.trim() || 'Your child',
+      age_band: band,
+      stage_id: stage.name.toLowerCase(),
+    }
+    if (dobSupported) update.date_of_birth = form.dob || null
     const { error: err } = await supabase
       .from('children')
-      .update({ name: childName.trim() || 'Your child', age_band: ageBand, stage_id: stage.id })
-      .eq('id', child.id)
-    if (err) { setError(err.message); setSavingChild(false); return }
-    setChild(c => c ? { ...c, name: childName.trim() || 'Your child', age_band: ageBand } : c)
-    setChildSaved(true)
-    setTimeout(() => setChildSaved(false), 2500)
-    setSavingChild(false)
+      .update(update)
+      .eq('id', id)
+    if (err) { setError(err.message); patchForm(id, { saving: false }); return }
+    setKids(ks => ks.map(k => k.id === id ? { ...k, name: form.name.trim() || 'Your child', age_band: band, date_of_birth: form.dob || null } : k))
+    patchForm(id, { saving: false, saved: true, ageBand: band })
+    setTimeout(() => patchForm(id, { saved: false }), 2500)
   }
 
   async function signOut() {
@@ -169,22 +211,54 @@ export default function SettingsPage() {
         </form>
       </section>
 
-      {/* Child section */}
-      {child && (
-        <section style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '16px' }}>
-          <h2 style={{ fontSize: '1rem', marginBottom: '18px', color: 'var(--ink)' }}>Your child</h2>
-          <form onSubmit={saveChild} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+      {/* Children: every child in the family, each with their own details.
+          The birthday is the growing up switch: once set, the band and stage
+          derive from it daily and the hand picked band below steps back. */}
+      {kids.map(kid => {
+        const form = forms[kid.id]
+        if (!form) return null
+        const hasDob = dobSupported && !!form.dob
+        const derivedBand = hasDob ? bandForAge(form.dob) : null
+        return (
+        <section key={kid.id} style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '16px' }}>
+          <h2 style={{ fontSize: '1rem', marginBottom: '18px', color: 'var(--ink)' }}>
+            {kids.length > 1 ? (kid.name && kid.name !== 'Your child' ? kid.name : 'Your child') : 'Your child'}
+          </h2>
+          <form onSubmit={e => saveChild(e, kid.id)} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
             <div>
               <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '6px' }}>
                 Child's name (optional)
               </label>
               <input
                 className="input"
-                value={childName}
-                onChange={e => setChildName(e.target.value)}
+                value={form.name}
+                onChange={e => patchForm(kid.id, { name: e.target.value })}
                 placeholder="Your child"
               />
             </div>
+            {dobSupported && (
+            <div>
+              <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '6px' }}>
+                Birthday
+              </label>
+              <input
+                className="input"
+                type="date"
+                value={form.dob}
+                onChange={e => patchForm(kid.id, { dob: e.target.value })}
+                max={new Date().toISOString().slice(0, 10)}
+              />
+              <p style={{ fontSize: '12px', color: 'var(--ink-muted)', marginTop: '4px' }}>
+                Set the birthday and everything grows up with them on its own.
+              </p>
+              {derivedBand && (
+                <p style={{ fontSize: '12px', color: 'var(--ink-soft)', marginTop: '2px' }}>
+                  From this birthday: {AGE_BAND_OPTIONS.find(o => o.value === derivedBand)?.label} · {AGE_BAND_OPTIONS.find(o => o.value === derivedBand)?.sub}
+                </p>
+              )}
+            </div>
+            )}
+            {!hasDob && (
             <div>
               <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '10px' }}>
                 Age band
@@ -198,19 +272,19 @@ export default function SettingsPage() {
                       alignItems: 'center',
                       gap: '12px',
                       padding: '12px 14px',
-                      border: `2px solid ${ageBand === opt.value ? 'var(--terracotta)' : 'var(--border)'}`,
+                      border: `2px solid ${form.ageBand === opt.value ? 'var(--terracotta)' : 'var(--border)'}`,
                       borderRadius: '10px',
                       cursor: 'pointer',
-                      background: ageBand === opt.value ? 'var(--terracotta-lt)' : 'var(--cream)',
+                      background: form.ageBand === opt.value ? 'var(--terracotta-lt)' : 'var(--cream)',
                       transition: 'border-color 0.15s, background 0.15s',
                     }}
                   >
                     <input
                       type="radio"
-                      name="age_band"
+                      name={`age_band_${kid.id}`}
                       value={opt.value}
-                      checked={ageBand === opt.value}
-                      onChange={() => setAgeBand(opt.value)}
+                      checked={form.ageBand === opt.value}
+                      onChange={() => patchForm(kid.id, { ageBand: opt.value })}
                       style={{ accentColor: 'var(--terracotta)' }}
                     />
                     <span style={{ flex: 1 }}>
@@ -221,17 +295,19 @@ export default function SettingsPage() {
                 ))}
               </div>
             </div>
+            )}
             <button
               type="submit"
               className="btn btn-green"
-              disabled={savingChild}
+              disabled={form.saving}
               style={{ alignSelf: 'flex-start', padding: '10px 24px', fontSize: '14px' }}
             >
-              {childSaved ? 'Saved' : savingChild ? 'Saving...' : 'Save child details'}
+              {form.saved ? 'Saved' : form.saving ? 'Saving...' : 'Save child details'}
             </button>
           </form>
         </section>
-      )}
+        )
+      })}
 
       {/* Billing section */}
       <section style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '16px' }}>
