@@ -39,6 +39,10 @@ export default async function QuestsPage() {
     handoverName = ready?.name ?? null
     spotKids = (kids ?? []).filter(k => k.name && k.name !== 'Your child').map(k => ({ id: k.id, name: k.name }))
 
+    // Under the guide is a win, never a gap: the healthy amount is a
+    // ceiling, not a target, so the only verdicts are inside it (good) or
+    // earning past it (worth knowing, the extras bank rather than extend
+    // the day).
     tuning = (kids ?? [])
       .filter(k => k.name && k.name !== 'Your child')
       .map(k => {
@@ -47,10 +51,9 @@ export default async function QuestsPage() {
           .reduce((s, q) => s + (Number(q.stars) || 1), 0)
         const earnMins = dayStars * STAR_MINUTES
         const guideMins = recommendedDailyMinutes(k.age_band ?? null)
-        const ratio = guideMins > 0 ? earnMins / guideMins : 1
         return {
           name: k.name as string, earnMins, guideMins,
-          tone: (ratio < 0.8 ? 'light' : ratio > 1.4 ? 'rich' : 'tuned') as 'tuned' | 'light' | 'rich',
+          tone: (earnMins <= guideMins ? 'tuned' : 'rich') as 'tuned' | 'light' | 'rich',
         }
       })
       .filter(t => t.guideMins > 0)
@@ -107,15 +110,14 @@ export default async function QuestsPage() {
             <div key={t.name} style={{ display: 'flex', alignItems: 'baseline', gap: '8px', flexWrap: 'wrap', marginBottom: '6px' }}>
               <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: 'var(--ink)' }}>{t.name}:</span>
               <span style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
-                a good weekday earns about <strong style={{ color: 'var(--ink)' }}>{t.earnMins} min</strong> · the healthy guide for their age is <strong style={{ color: 'var(--ink)' }}>{t.guideMins} min</strong> ·{' '}
-                {t.tone === 'tuned' && <span style={{ color: '#1F7A54', fontWeight: 700 }}>nicely tuned</span>}
-                {t.tone === 'light' && <span style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>runs light, a job or two more lets them earn the full healthy amount</span>}
-                {t.tone === 'rich' && <span style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>a rich board, they can bank the extra for weekend treats</span>}
+                a good weekday earns up to <strong style={{ color: 'var(--ink)' }}>{t.earnMins} min</strong> · the healthy ceiling for their age is <strong style={{ color: 'var(--ink)' }}>{t.guideMins} min</strong> ·{' '}
+                {t.tone === 'tuned' && <span style={{ color: '#1F7A54', fontWeight: 700 }}>inside the guide, which is exactly right</span>}
+                {t.tone === 'rich' && <span style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>earns past the guide, the extras bank rather than stretch the day</span>}
               </span>
             </div>
           ))}
           <p style={{ fontSize: '12px', color: 'var(--ink-muted)', lineHeight: 1.5, margin: '4px 0 0' }}>
-            1 star is {STAR_MINUTES} minutes. Chest, quiz and bonus stars sit on top, so a brilliant day can always beat the guide a little.
+            1 star is {STAR_MINUTES} minutes. The guide is a ceiling, not a target: a child who earns plenty and watches less is the balance working at its best.
           </p>
         </div>
       )}
