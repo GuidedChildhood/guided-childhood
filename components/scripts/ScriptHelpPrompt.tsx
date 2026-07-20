@@ -32,7 +32,7 @@ export default function ScriptHelpPrompt({ sortOrder, initialWorked }: { sortOrd
     : null
 
   return (
-    <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '16px', padding: '18px 20px', marginBottom: '24px', boxShadow: '0 4px 0 rgba(26,26,46,0.06)' }}>
+    <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '20px', padding: 'clamp(20px, 5vw, 24px)', boxShadow: '0 4px 0 rgba(26,26,46,0.05)' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: settled ? 0 : '14px' }}>
         <span style={{ flexShrink: 0, width: 40, height: 40, borderRadius: '50%', background: 'var(--terracotta-lt)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <DigiCharacter size={26} mood={worked === 'yes' ? 'happy' : 'idle'} />

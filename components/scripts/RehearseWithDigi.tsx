@@ -4,19 +4,32 @@ import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import DigiCharacter from '@/components/digi/DigiCharacter'
+import { card, cardPad, eyebrow } from '@/components/scripts/card-system'
 
 // The child is played by Oliver, the warm Pixar style DiGi squad boy, so a
 // parent is rehearsing with what feels like a real little person rather than a
 // chat bubble. Always Oliver, for one familiar face across every rehearsal.
 const KID_FACE = '/digi-squad/Oliver.png'
 
-// A rehearsal room for the words. DiGi plays the child so the parent can try
-// the line, feel the pushback, and find their footing before the real
-// moment. When they are ready, DiGi steps out and coaches them on how it
-// went. Practice is the thing that turns a script on a screen into something
-// a parent can actually say, calm, at bedtime, to a real child.
+// A rehearsal room for the words, in the same conversation grammar as the
+// DiGi chat: the scenario pinned in the blue pill at the top, the child's
+// replies as clean ink on white streaming in below, the parent's lines in
+// blue pills on the right. While DiGi thinks the parent always sees what is
+// happening: the star, three dots, one quiet line. Below the conversation
+// sit ready made reply chips plus a free text bar, and both send through the
+// exact same rehearse call.
 
-type Msg = { role: 'user' | 'assistant'; content: string; coach?: boolean }
+export type Msg = { role: 'user' | 'assistant'; content: string; coach?: boolean }
+
+// Fixture seeding for the reference page only: lets a screenshot show the
+// open conversation, the thinking state and the chips without a server.
+// Purely initial state, it changes no behaviour.
+export type RehearseFixture = {
+  open?: boolean
+  messages?: Msg[]
+  busy?: boolean
+  coached?: boolean
+}
 
 type Props = {
   scriptTitle: string
@@ -25,14 +38,15 @@ type Props = {
   notThis: string
   childName: string | null
   isPaid: boolean
+  fixture?: RehearseFixture
 }
 
-export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notThis, childName, isPaid }: Props) {
-  const [open, setOpen] = useState(false)
-  const [messages, setMessages] = useState<Msg[]>([])
+export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notThis, childName, isPaid, fixture }: Props) {
+  const [open, setOpen] = useState(fixture?.open ?? false)
+  const [messages, setMessages] = useState<Msg[]>(fixture?.messages ?? [])
   const [input, setInput] = useState('')
-  const [busy, setBusy] = useState(false)
-  const [coached, setCoached] = useState(false)
+  const [busy, setBusy] = useState(fixture?.busy ?? false)
+  const [coached, setCoached] = useState(fixture?.coached ?? false)
   // Finished for today: the panel folds away to a quiet done card instead of
   // sitting open forever, and can always be run again.
   const [doneOnce, setDoneOnce] = useState(false)
@@ -147,9 +161,11 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
     if (messages.length === 0) run('child', [])
   }
 
-  function sendLine() {
-    if (!input.trim() || busy) return
-    const next: Msg[] = [...messages, { role: 'user', content: input.trim() }]
+  // One door for every parent line: the free text bar and the chips both come
+  // through here, into the exact same rehearse call.
+  function sendText(text: string) {
+    if (!text.trim() || busy) return
+    const next: Msg[] = [...messages, { role: 'user', content: text.trim() }]
     setMessages(next)
     setInput('')
     setSuggestions([])
@@ -158,8 +174,12 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
     run('child', next)
   }
 
-  // Stuck for words: DiGi offers three calibrated lines the parent can tap to
-  // drop into the box and send or tweak, so they always have a way forward.
+  function sendLine() {
+    sendText(input)
+  }
+
+  // Stuck for words: DiGi offers three calibrated lines that land as chips the
+  // parent can tap to say, so they always have a way forward.
   async function getSuggestions() {
     if (suggBusy || busy) return
     setSuggBusy(true)
@@ -195,17 +215,24 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
     run('child', [])
   }
 
+  // The ready made replies under the conversation: the script's own line
+  // first, then two warm openers, until DiGi's calibrated suggestions
+  // replace them. Client side only, every chip sends the same call.
+  const quickChips = suggestions.length > 0
+    ? suggestions
+    : [sayThis, 'I hear you. Tell me more about that.', 'I can see this feels really unfair to you.']
+
   // Locked for free accounts: still show the value, route to upgrade.
   if (!isPaid) {
     return (
-      <div style={panel}>
+      <div style={{ ...card, padding: cardPad }}>
         <Eyebrow />
         <h3 style={heading}>Practise it with DiGi first</h3>
         <p style={sub}>
           Rehearse the words out loud in a safe place. DiGi plays {childLabel}, reacting the way a real
           child might, so the real conversation is not the first time you say it. Then DiGi coaches you on how it went.
         </p>
-        <Link href="/dashboard/upgrade" className="btn btn-gold" style={{ marginTop: 14, display: 'inline-flex', padding: '11px 20px', fontSize: 13 }}>
+        <Link href="/dashboard/upgrade" className="btn btn-gold" style={{ marginTop: 16, display: 'inline-flex', padding: '11px 20px', fontSize: 13 }}>
           Unlock rehearsals
         </Link>
       </div>
@@ -217,25 +244,25 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
     // line, and the door to run it again. It never sits open once done.
     if (doneOnce) {
       return (
-        <div style={{ ...panel, display: 'flex', alignItems: 'center', gap: 12 }}>
+        <div style={{ ...card, padding: cardPad, display: 'flex', alignItems: 'center', gap: 12 }}>
           <span aria-hidden style={{ fontSize: '1.4rem', flexShrink: 0 }}>✅</span>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 14.5, color: 'var(--ink)' }}>Rehearsed and ready</div>
-            <div style={{ fontSize: 12.5, color: 'var(--ink-soft)' }}>The words are warmed up for the real moment.</div>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15, color: 'var(--ink)' }}>Rehearsed and ready</div>
+            <div style={{ fontSize: 14, color: 'var(--ink-soft)' }}>The words are warmed up for the real moment.</div>
           </div>
           <button onClick={start} style={ghostBtn}>Run it again</button>
         </div>
       )
     }
     return (
-      <div style={panel}>
+      <div style={{ ...card, padding: cardPad }}>
         <Eyebrow />
         <h3 style={heading}>Practise it with DiGi first</h3>
         <p style={sub}>
           A safe run through before the real moment. DiGi plays {childLabel} and reacts the way a real
           child might, so you can find your footing, then coaches you on how it went.
         </p>
-        <button onClick={start} className="btn btn-gold" style={{ marginTop: 14, padding: '12px 22px', fontSize: 13.5, cursor: 'pointer' }}>
+        <button onClick={start} className="btn btn-gold" style={{ marginTop: 16, padding: '12px 22px', fontSize: 13.5, cursor: 'pointer' }}>
           Start a practice run
         </button>
       </div>
@@ -243,32 +270,34 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
   }
 
   return (
-    <div style={{ ...panel, padding: 0, overflow: 'hidden' }}>
-      <div style={{ padding: '18px 20px 14px', borderBottom: '1px solid rgba(46,40,24,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
+    <div style={{ ...card, padding: 0, overflow: 'hidden' }}>
+
+      {/* Header: who is speaking, and the quiet controls */}
+      <div style={{ padding: '14px 18px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, flexWrap: 'wrap' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           {coached ? (
-            <DigiCharacter size={32} mood="idle" />
+            <DigiCharacter size={32} mood="idle" once />
           ) : (
             <span
               className={busy ? 'rd-kid-talk' : undefined}
               style={{
-                width: 42, height: 42, borderRadius: '50%', overflow: 'hidden', flexShrink: 0,
+                width: 38, height: 38, borderRadius: '50%', overflow: 'hidden', flexShrink: 0,
                 background: 'var(--cream)', border: '2px solid var(--terracotta)', display: 'block',
               }}
             >
-              <Image src={kidFace} alt="" width={42} height={42} style={{ objectFit: 'cover', objectPosition: 'top', display: 'block' }} />
+              <Image src={kidFace} alt="" width={38} height={38} style={{ objectFit: 'cover', objectPosition: 'top', display: 'block' }} />
             </span>
           )}
           <div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 9.5, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>
+            <div style={{ ...eyebrow, fontSize: 9.5, color: 'var(--terracotta-dark)' }}>
               Rehearsal
             </div>
-            <div style={{ fontSize: 13.5, fontWeight: 700, color: 'var(--ink)', fontFamily: 'var(--font-display)' }}>
+            <div style={{ fontSize: 14, fontWeight: 800, color: 'var(--ink)', fontFamily: 'var(--font-display)' }}>
               {coached ? 'DiGi is coaching you' : `DiGi is playing ${childLabel}`}
             </div>
           </div>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
           <button
             onClick={() => setVoiceOn(v => {
               const next = !v
@@ -279,7 +308,7 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
               if (lastChild) { spokenRef.current = lastChild.content; speakChild(lastChild.content) }
               return next
             })}
-            style={{ ...ghostBtn, padding: '7px 11px' }}
+            style={{ ...ghostBtn, padding: '7px 10px' }}
             title={voiceOn ? 'Turn the voice off' : 'Turn the voice on'}
             aria-label={voiceOn ? 'Turn the voice off' : 'Turn the voice on'}
           >
@@ -288,7 +317,7 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
           <button onClick={reset} style={ghostBtn} title="Start over">Start over</button>
           <button
             onClick={() => { stopSpeaking(); setDoneOnce(true); setOpen(false) }}
-            style={{ ...ghostBtn, background: 'var(--terracotta-lt)', borderColor: 'var(--terracotta)' }}
+            style={{ ...ghostBtn, background: 'var(--terracotta-lt)', borderColor: 'var(--terracotta)', color: 'var(--ink)' }}
             title="Finish the rehearsal"
           >
             Done ✓
@@ -296,17 +325,33 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
         </div>
       </div>
 
-      {/* The same conversation grammar as the DiGi chat at login: the parent's
-          words in the soft blue pill on the right, the other voice as clean ink
-          text on white. Coach asides keep their butter card so they read as a
-          whisper from the side, not a turn in the role play. */}
-      <div ref={scrollRef} style={{ maxHeight: 320, overflowY: 'auto', padding: '16px 18px', display: 'flex', flexDirection: 'column', gap: 12, background: '#fff' }}>
+      {/* The scenario, pinned at the top in the blue pill, exactly like the
+          question pill in the DiGi chat. It stays put while the conversation
+          scrolls beneath it, so the parent never loses what they are
+          rehearsing. */}
+      <div style={{ padding: '14px 18px 12px', background: '#fff' }}>
+        <div style={{ background: '#DCE7FB', color: '#1B2A4A', borderRadius: 18, padding: '12px 16px' }}>
+          <div style={{ ...eyebrow, fontSize: 9, color: '#1B2A4A', opacity: 0.65, marginBottom: 4 }}>
+            You are rehearsing
+          </div>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 14.5, lineHeight: 1.5 }}>
+            {situation}
+          </div>
+        </div>
+      </div>
+
+      {/* The same conversation grammar as the DiGi chat: the parent's words
+          in the soft blue pill on the right, the child's voice as clean ink
+          text on white, streaming in as DiGi types. Coach asides keep their
+          butter card so they read as a whisper from the side, not a turn in
+          the role play. */}
+      <div ref={scrollRef} style={{ maxHeight: 340, overflowY: 'auto', padding: '4px 18px 16px', display: 'flex', flexDirection: 'column', gap: 12, background: '#fff' }}>
         {messages.map((m, i) => (
           <div key={i} style={{ display: 'flex', justifyContent: m.role === 'user' ? 'flex-end' : 'flex-start' }}>
             {m.role === 'user' ? (
               <div style={{
                 maxWidth: '82%', padding: '12px 16px', fontSize: 15, lineHeight: 1.5,
-                whiteSpace: 'pre-wrap', borderRadius: 18,
+                whiteSpace: 'pre-wrap', borderRadius: '18px 18px 6px 18px',
                 background: '#DCE7FB', color: '#1B2A4A',
                 fontFamily: 'var(--font-display)', fontWeight: 700,
               }}>
@@ -314,9 +359,9 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
               </div>
             ) : m.coach ? (
               <div style={{
-                maxWidth: '86%', padding: '11px 15px', fontSize: 14.5, lineHeight: 1.55,
+                maxWidth: '86%', padding: '12px 15px', fontSize: 14.5, lineHeight: 1.55,
                 whiteSpace: 'pre-wrap', fontWeight: 500, borderRadius: 16,
-                background: 'linear-gradient(160deg,#FFF9EC,#FBE9C4)', color: 'var(--ink)',
+                background: 'linear-gradient(180deg,#FFF9EC,#FCEFD2)', color: 'var(--ink)',
                 border: '1.5px solid rgba(201,154,40,0.3)',
               }}>
                 {m.content}
@@ -332,55 +377,69 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
             )}
           </div>
         ))}
+
+        {/* Never a dead pause: while DiGi thinks the parent sees the star,
+            three moving dots, and one quiet line saying what is happening. */}
         {busy && (
-          <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
-            <div style={{ padding: '11px 14px', background: 'var(--cream)', borderRadius: 100, display: 'inline-flex', gap: 5 }}>
-              {[0, 1, 2].map(i => (
-                <span key={i} style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--ink-light)', animation: `rh-bounce 1.2s ease-in-out ${i * 0.2}s infinite` }} />
-              ))}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <DigiCharacter size={28} mood="thinking" />
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 9, background: 'var(--cream)', borderRadius: 100, padding: '9px 14px' }}>
+              <span style={{ display: 'inline-flex', gap: 4 }} aria-hidden>
+                {[0, 1, 2].map(i => (
+                  <span key={i} style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--ink-light)', animation: `rh-bounce 1.2s ease-in-out ${i * 0.2}s infinite` }} />
+                ))}
+              </span>
+              <span style={{ fontSize: 14, color: 'var(--ink-muted)', lineHeight: 1.3 }}>
+                {coached
+                  ? 'DiGi is thinking about how it went...'
+                  : `DiGi is thinking about ${childLabel === 'your child' ? "your child's" : `${childLabel}'s`} answer...`}
+              </span>
             </div>
           </div>
         )}
-        {error && <p style={{ fontSize: 13, color: 'var(--danger)', padding: '4px 2px' }}>{error}</p>}
+        {error && <p style={{ fontSize: 14, color: 'var(--danger)', padding: '4px 2px', margin: 0 }}>{error}</p>}
       </div>
 
-      <div style={{ padding: '12px 16px', borderTop: '1px solid rgba(46,40,24,0.1)', background: 'var(--white,#fff)' }}>
+      <div style={{ padding: '12px 16px 14px', borderTop: '1px solid var(--border)', background: 'var(--white,#fff)' }}>
         {!coached ? (
           <>
-            {suggestions.length > 0 && (
-              <div style={{ marginBottom: 10 }}>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 9.5, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 7 }}>
-                  Evidence led lines · tap one, then Say it
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                  {suggestions.map((s, i) => (
-                    <button
-                      key={i}
-                      onClick={() => { setInput(s); setSuggestions([]); setSuggMsg(null) }}
-                      style={{
-                        textAlign: 'left', background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
-                        borderRadius: 12, padding: '10px 13px', cursor: 'pointer',
-                        fontFamily: 'var(--font-body)', fontSize: 13.5, color: 'var(--ink)', lineHeight: 1.45,
-                      }}
-                    >
-                      {s}
-                    </button>
-                  ))}
-                </div>
+            {/* Ready made replies, Cleo style: tap one and it is said. The
+                script's own line always leads until DiGi's calibrated
+                suggestions take their place. */}
+            <div style={{ marginBottom: 10 }}>
+              <div style={{ ...eyebrow, fontSize: 9.5, letterSpacing: '0.08em', color: 'var(--ink-muted)', marginBottom: 7 }}>
+                {suggestions.length > 0 ? 'Lines from DiGi · tap one to say it' : 'Tap a line to say it, or try your own'}
               </div>
-            )}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                {quickChips.map((s, i) => (
+                  <button
+                    key={`${suggestions.length > 0 ? 'sugg' : 'base'}-${i}`}
+                    onClick={() => sendText(s)}
+                    disabled={busy}
+                    style={{
+                      textAlign: 'left', background: 'var(--terracotta-lt)', border: '1.5px solid rgba(201,154,40,0.45)',
+                      borderRadius: 14, padding: '10px 14px', cursor: busy ? 'default' : 'pointer',
+                      fontFamily: 'var(--font-body)', fontSize: 14, color: 'var(--ink)', lineHeight: 1.45,
+                      opacity: busy ? 0.55 : 1,
+                    }}
+                  >
+                    {s}
+                  </button>
+                ))}
+              </div>
+            </div>
             {suggMsg && (
-              <p style={{ fontSize: 12.5, color: 'var(--ink-muted)', lineHeight: 1.45, margin: '0 0 10px' }}>{suggMsg}</p>
+              <p style={{ fontSize: 14, color: 'var(--ink-muted)', lineHeight: 1.45, margin: '0 0 10px' }}>{suggMsg}</p>
             )}
             <form onSubmit={e => { e.preventDefault(); sendLine() }} style={{ display: 'flex', gap: 8, alignItems: 'flex-end' }}>
               <textarea
                 value={input}
                 onChange={e => setInput(e.target.value)}
                 onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendLine() } }}
-                placeholder={`Say your line to ${childLabel}...`}
+                placeholder="Try your own words..."
                 rows={1}
                 style={{
-                  flex: 1, padding: '11px 14px', borderRadius: 12, border: '1.5px solid var(--border)',
+                  flex: 1, padding: '11px 16px', borderRadius: 100, border: '1.5px solid var(--border)',
                   background: 'var(--cream)', fontFamily: 'var(--font-body)', fontSize: 15.5, color: 'var(--ink)',
                   resize: 'none', outline: 'none', lineHeight: 1.5, maxHeight: 120,
                 }}
@@ -391,14 +450,16 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
                 Say it
               </button>
             </form>
-            <button onClick={getSuggestions} disabled={busy || suggBusy} style={{ ...ghostBtn, marginTop: 10, width: '100%', textAlign: 'center', padding: '9px' }}>
-              {suggBusy ? 'Thinking of options…' : '💡 Stuck for words? Show me options'}
-            </button>
-            {parentTurns >= 2 && (
-              <button onClick={askCoach} disabled={busy} style={{ ...ghostBtn, marginTop: 10, width: '100%', textAlign: 'center', padding: '9px' }}>
-                Ask DiGi how I did
+            <div style={{ display: 'flex', gap: 8, marginTop: 10 }}>
+              <button onClick={getSuggestions} disabled={busy || suggBusy} style={{ ...ghostBtn, flex: 1, textAlign: 'center', padding: '9px' }}>
+                {suggBusy ? 'Thinking of lines…' : '💡 More lines from DiGi'}
               </button>
-            )}
+              {parentTurns >= 2 && (
+                <button onClick={askCoach} disabled={busy} style={{ ...ghostBtn, flex: 1, textAlign: 'center', padding: '9px' }}>
+                  Ask DiGi how I did
+                </button>
+              )}
+            </div>
           </>
         ) : (
           <button onClick={reset} disabled={busy} className="btn btn-green" style={{ width: '100%', padding: '12px', fontSize: 13, cursor: 'pointer' }}>
@@ -416,15 +477,7 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
   )
 }
 
-const panel: React.CSSProperties = {
-  background: 'var(--white,#fff)',
-  border: '1.5px solid rgba(46,40,24,0.12)',
-  borderRadius: 20,
-  padding: 22,
-  marginBottom: 18,
-  boxShadow: '0 10px 30px -22px rgba(46,40,24,0.5)',
-}
-const heading: React.CSSProperties = { fontSize: 'clamp(1.15rem,3.4vw,1.35rem)', letterSpacing: '-0.01em', margin: '4px 0 8px', color: 'var(--ink)' }
+const heading: React.CSSProperties = { fontSize: 'clamp(1.15rem,3.4vw,1.35rem)', letterSpacing: '-0.01em', margin: '6px 0 8px', color: 'var(--ink)' }
 const sub: React.CSSProperties = { fontSize: 14.5, color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0 }
 const ghostBtn: React.CSSProperties = {
   background: 'none', border: '1px solid var(--border)', borderRadius: 10, cursor: 'pointer',
@@ -435,8 +488,8 @@ const ghostBtn: React.CSSProperties = {
 function Eyebrow() {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-      <DigiCharacter size={26} mood="wave" />
-      <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>
+      <DigiCharacter size={26} mood="wave" once />
+      <span style={{ ...eyebrow, fontSize: 10, color: 'var(--terracotta-dark)' }}>
         Rehearse with DiGi
       </span>
     </div>
