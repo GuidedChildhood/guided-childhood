@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import QuestManager from './QuestManager'
 import QuestBoard from '@/components/quests/QuestBoard'
 import ParentDeviceTime from '@/components/quests/ParentDeviceTime'
+import SpotSomethingGood from '@/components/quests/SpotSomethingGood'
 
 // Family Quests: the whole deal on one page now. The board leads (it moved
 // here from Home when the daily screen narrowed): the approve queue, every
@@ -18,6 +19,7 @@ export default async function QuestsPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   let handoverName: string | null = null
+  let spotKids: { id: string; name: string }[] = []
   if (user) {
     const [{ data: kids }, { data: links }] = await Promise.all([
       supabase.from('children').select('id, name, age_band, is_primary').eq('parent_id', user.id).order('is_primary', { ascending: false }),
@@ -28,6 +30,7 @@ export default async function QuestsPage() {
       k.age_band && k.age_band !== '4-7' && !linked.has(k.id) && k.name && k.name !== 'Your child'
     )
     handoverName = ready?.name ?? null
+    spotKids = (kids ?? []).filter(k => k.name && k.name !== 'Your child').map(k => ({ id: k.id, name: k.name }))
   }
 
   return (
@@ -63,6 +66,10 @@ export default async function QuestsPage() {
       <div id="quest-board" style={{ scrollMarginTop: '80px' }}>
         <QuestBoard />
       </div>
+
+      {/* The in the moment star: seen kindness or a job done unasked, reward
+          it right here and the reason pings the child's own app. */}
+      <SpotSomethingGood kids={spotKids} />
 
       <QuestManager />
 
