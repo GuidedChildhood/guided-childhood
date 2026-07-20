@@ -139,9 +139,14 @@ export default async function ProgressPage() {
   return (
     <div style={{ maxWidth: '640px', margin: '0 auto', padding: '24px 20px 40px' }}>
       <p className="eyebrow" style={{ color: 'var(--terracotta-dark)', marginBottom: '8px' }}>Progress</p>
-      <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '14px' }}>
+      <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 6.5vw, 2.7rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '10px' }}>
         Is it working?
       </h1>
+      {/* The report in one warm sentence: what green means, and that amber
+          is a next step, never a mark against anyone. */}
+      <p style={{ fontSize: '16.5px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 22px', maxWidth: '620px' }}>
+        Green means that part of the plan is doing its job. Anything amber comes with one clear next step, like a good school report.
+      </p>
 
       {/* The same four strands as Home and the pathway, read from the same
           source, so progress always lands in one consistent picture. */}
