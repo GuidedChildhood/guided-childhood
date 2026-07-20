@@ -45,7 +45,7 @@ const STAGES = [
     num: '01', name: 'Foundation', ks: 'EYFS and KS1', ages: 'Ages 4 to 7',
     device: 'Shared screen',
     tags: ['TV routines', 'Co viewing', 'No solo device'],
-    quote: '"I cannot get my four-year-old off the iPad. What am I doing wrong?"',
+    quote: '"I cannot get my four year old off the iPad. What am I doing wrong?"',
     bg: 'var(--stage-1)', bold: 'var(--stage-1-bold)', text: 'var(--stage-1-text)',
   },
   {
@@ -72,7 +72,7 @@ const STAGES = [
   },
   {
     num: '05', name: 'Independent', ks: 'KS4/KS5 · Yr 11+', ages: 'Ages 16+',
-    device: 'Trust-based',
+    device: 'Trust based',
     tags: ['Full access', 'AI literacy', 'Readiness'],
     quote: '"She is 16 next month. I have no idea if she is ready."',
     bg: 'var(--stage-5)', bold: 'var(--stage-5-bold)', text: 'var(--stage-5-text)',
@@ -102,7 +102,7 @@ const PLACARDS = [
     frontLabel: 'Homework fight',
     front: '"He says he is doing homework on his laptop. He is watching YouTube. Nothing gets done and he lies about it."',
     backLabel: 'What actually fixes this',
-    back: 'He is not lazy. Every human brain chooses stimulating content over hard work when both are available. Homework and a device cannot share the same room. Say: "Homework goes in here. Phone goes on the kitchen counter. Thirty minutes focused, then it comes back." Phone out of sight. Not just face-down.',
+    back: 'He is not lazy. Every human brain chooses stimulating content over hard work when both are available. Homework and a device cannot share the same room. Say: "Homework goes in here. Phone goes on the kitchen counter. Thirty minutes focused, then it comes back." Phone out of sight. Not just face down.',
     bg: 'var(--stage-3)',
     stage: 'Stage 2 to 3 · Ages 8 to 13',
   },
@@ -110,7 +110,7 @@ const PLACARDS = [
     frontLabel: 'Dinner table',
     front: '"Dinner is everyone on their phone. Nobody talks. I feel invisible in my own family and I do not know how to change it."',
     backLabel: 'What actually fixes this',
-    back: 'You cannot ask your child to put their phone down while yours is on the table. The rule only holds when you follow it first. Say: "Dinner is phone-free for all of us, including me." Then do it. Every night for one month. Shared rules hold. Rules aimed only at children do not.',
+    back: 'You cannot ask your child to put their phone down while yours is on the table. The rule only holds when you follow it first. Say: "Dinner is phone free for all of us, including me." Then do it. Every night for one month. Shared rules hold. Rules aimed only at children do not.',
     bg: 'var(--stage-4)',
     stage: 'All stages',
   },
@@ -174,7 +174,7 @@ const PLACARDS = [
     frontLabel: 'Sleep ruined',
     front: '"She is exhausted every morning. I think she is on her phone in bed but I cannot catch her doing it."',
     backLabel: 'What actually fixes this',
-    back: 'You do not need to catch her. You need to remove the opportunity. The bedroom phone is the single highest-impact change in all the research on children and sleep. Say: "The phone charges in the hallway from tonight. Not because I do not trust you. Because sleep is not optional and this rule is not either." One structural change. More impact than any conversation or app timer.',
+    back: 'You do not need to catch her. You need to remove the opportunity. The bedroom phone is the single highest impact change in all the research on children and sleep. Say: "The phone charges in the hallway from tonight. Not because I do not trust you. Because sleep is not optional and this rule is not either." One structural change. More impact than any conversation or app timer.',
     bg: 'var(--stage-5)',
     stage: 'Stage 2 to 4 · Ages 8 to 15',
   },
@@ -237,7 +237,7 @@ const BEHAVIOUR_ISSUES = [
 const DIGITAL_GAPS = [
   'No idea how algorithms work or what they are being shown and why.',
   'Social media before you agreed to it. Through a friend\'s account or a VPN.',
-  'Cannot spot misinformation or AI-generated content.',
+  'Cannot spot misinformation or AI generated content.',
   'No sense of digital reputation or what stays online permanently.',
   'Group chats and messaging apps you do not know about.',
   'Privacy settings never touched. Personal information freely shared.',
@@ -248,11 +248,11 @@ const DIGITAL_GAPS = [
 // ── TRUST method ─────────────────────────────────────────────────────────────
 
 const TRUST = [
-  { letter: 'T', word: 'Timing', desc: 'Right device at the right age. Not all-or-nothing. Not a cliff edge.', bg: 'var(--stage-1)', color: 'var(--stage-1-text)' },
+  { letter: 'T', word: 'Timing', desc: 'Right device at the right age. Not all or nothing. Not a cliff edge.', bg: 'var(--stage-1)', color: 'var(--stage-1-text)' },
   { letter: 'R', word: 'Relationships', desc: 'Connection is the strongest protective factor the research has found.', bg: 'var(--stage-2)', color: 'var(--stage-2-text)' },
   { letter: 'U', word: 'Upstream', desc: 'Environment before rules. Platform mechanics matter more than willpower.', bg: 'var(--stage-5)', color: 'var(--stage-5-text)' },
-  { letter: 'S', word: 'Sleep', desc: 'The bedroom rule is the single highest-impact action in this system.', bg: 'var(--stage-3)', color: 'var(--stage-3-text)' },
-  { letter: 'T', word: 'Transparency', desc: 'Openness over secrecy. Co-navigation over monitoring.', bg: 'var(--stage-4)', color: 'var(--stage-4-text)' },
+  { letter: 'S', word: 'Sleep', desc: 'The bedroom rule is the single highest impact action in this system.', bg: 'var(--stage-3)', color: 'var(--stage-3-text)' },
+  { letter: 'T', word: 'Transparency', desc: 'Openness over secrecy. Navigating together over monitoring.', bg: 'var(--stage-4)', color: 'var(--stage-4-text)' },
 ]
 
 // ── Researchers ──────────────────────────────────────────────────────────────
@@ -262,14 +262,6 @@ const RESEARCHERS = [
   { name: 'Dr. Amy Orben', uni: 'Cambridge MRC · Oxford', finding: 'Developmental sensitivity windows: 11 to 13 for girls, 14 to 15 for boys. These are the stages we protect most carefully.' },
   { name: 'Prof. Andrew Przybylski', uni: 'Oxford Internet Institute', finding: 'The Goldilocks effect. Moderate use is not inherently harmful. Too much, too early, structured wrong: that is where risk lives.' },
   { name: 'Prof. Sonia Livingstone', uni: 'LSE, London', finding: 'Children need skills and agency, not just restrictions. Every stage builds graduated digital skills.' },
-]
-
-// ── Testimonials ─────────────────────────────────────────────────────────────
-
-const TESTIMONIALS = [
-  { text: '"I used to spiral every time the phone conversation came up. Now I have the exact words. It changed how we talk about it completely."', by: 'Sarah M.', stage: 'Stage 3', initials: 'SM' },
-  { text: '"The weekly check in is the thing I did not know I needed. I spotted something shifting in my son before it became a real problem."', by: 'Tom K.', stage: 'Stage 4', initials: 'TK' },
-  { text: '"My daughter and I are actually talking about this stuff now. DiGi gave me the language and the pathway gave me the confidence."', by: 'Clare H.', stage: 'Stage 3', initials: 'CH' },
 ]
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -289,7 +281,7 @@ export default function HomePage() {
             '@context': 'https://schema.org',
             '@type': 'Organization',
             name: 'Guided Childhood',
-            description: 'The stage-by-stage digital parenting guide for UK families. Ages 4 to 16. Built on the research.',
+            description: 'The stage by stage digital parenting guide for UK families. Ages 4 to 16. Built on the research.',
             url: 'https://www.guidedchildhood.co.uk',
             foundingDate: '2024',
             founder: { '@type': 'Person', name: 'Justin Phillips' },
@@ -302,7 +294,7 @@ export default function HomePage() {
             '@type': 'WebSite',
             name: 'Guided Childhood',
             url: 'https://www.guidedchildhood.co.uk',
-            description: 'The stage-by-stage digital parenting guide for UK families.',
+            description: 'The stage by stage digital parenting guide for UK families.',
             potentialAction: {
               '@type': 'SearchAction',
               target: 'https://www.guidedchildhood.co.uk/search?q={search_term_string}',
@@ -316,7 +308,7 @@ export default function HomePage() {
               {
                 '@type': 'Question',
                 name: 'At what age should my child get their first phone?',
-                acceptedAnswer: { '@type': 'Answer', text: 'There is no single right age. Guided Childhood uses a 5-stage pathway from ages 4 to 16. The right time depends on your child\'s stage of development, your family structure, and what boundaries you have in place. Stage 2 (ages 8 to 10) is typically when children get a restricted first device. Stage 3 (ages 11 to 13) is when smartphones become more common. The question is not when but how.' },
+                acceptedAnswer: { '@type': 'Answer', text: 'There is no single right age. Guided Childhood uses a five stage pathway from ages 4 to 16. The right time depends on your child\'s stage of development, your family structure, and what boundaries you have in place. Stage 2 (ages 8 to 10) is typically when children get a restricted first device. Stage 3 (ages 11 to 13) is when smartphones become more common. The question is not when but how.' },
               },
               {
                 '@type': 'Question',
@@ -326,12 +318,12 @@ export default function HomePage() {
               {
                 '@type': 'Question',
                 name: 'When should children be allowed on social media?',
-                acceptedAnswer: { '@type': 'Answer', text: 'The UK minimum age for most platforms is 13. Research by Dr Amy Orben at Cambridge identifies ages 11 to 13 as the highest-sensitivity window, particularly for girls. Guided Childhood Stage 3 covers exactly this: the conversation to have before access, what to watch for during access, and the boundaries that protect without destroying trust.' },
+                acceptedAnswer: { '@type': 'Answer', text: 'The UK minimum age for most platforms is 13. Research by Dr Amy Orben at Cambridge identifies ages 11 to 13 as the highest sensitivity window, particularly for girls. Guided Childhood Stage 3 covers exactly this: the conversation to have before access, what to watch for during access, and the boundaries that protect without destroying trust.' },
               },
               {
                 '@type': 'Question',
                 name: 'Is screen time really harmful for children?',
-                acceptedAnswer: { '@type': 'Answer', text: 'The research is more nuanced than most headlines suggest. Professor Candace Odgers at UC Irvine and Professor Andrew Przybylski at Oxford both find that the effects depend heavily on context, vulnerability, and structure. Screen time is not uniformly harmful. Too much, too early, without structure, for already-vulnerable children is where risk concentrates. Guided Childhood is built on this nuanced research, not panic.' },
+                acceptedAnswer: { '@type': 'Answer', text: 'The research is more nuanced than most headlines suggest. Professor Candace Odgers at UC Irvine and Professor Andrew Przybylski at Oxford both find that the effects depend heavily on context, vulnerability, and structure. Screen time is not uniformly harmful. Too much, too early, without structure, for already vulnerable children is where risk concentrates. Guided Childhood is built on this nuanced research, not panic.' },
               },
               {
                 '@type': 'Question',
@@ -433,9 +425,22 @@ export default function HomePage() {
             <h1 className="fu" style={{ fontSize: 'clamp(2.5rem, 4.4vw, 3.5rem)', fontWeight: 900, lineHeight: 1.05, letterSpacing: '-.035em', color: 'var(--ink)', maxWidth: '560px', marginBottom: '18px' }}>
               End the screen time fight, for good.
             </h1>
-            <p className="fu" style={{ fontSize: '1.12rem', color: 'var(--ink-soft)', lineHeight: 1.65, maxWidth: '490px', marginBottom: '28px' }}>
+            <p className="fu" style={{ fontSize: '1.12rem', color: 'var(--ink-soft)', lineHeight: 1.65, maxWidth: '490px', marginBottom: '22px' }}>
               At 16 the apps arrive all at once. A ban just delays them. It teaches nothing. Guided Childhood is the education from 4 to 16: safe online, digitally literate, using technology well, and social media ready at the right age. So 16 is a gentle ramp, not a cliff edge.
             </p>
+            {/* Exactly three benefit ticks, the outcome in plain words */}
+            <ul className="fu" style={{ listStyle: 'none', margin: '0 0 26px', padding: 0, display: 'flex', flexDirection: 'column', gap: '10px', maxWidth: '470px' }}>
+              {[
+                'The exact words for tonight, not generic advice',
+                'One clear road from 4 to 16, stamped stage by stage',
+                'Jobs earn stars, stars buy screen time, the fight ends',
+              ].map(line => (
+                <li key={line} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '.96rem', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.5 }}>
+                  <span aria-hidden style={{ width: 20, height: 20, borderRadius: '50%', background: 'var(--retro-green)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '.68rem', fontWeight: 900, flexShrink: 0, marginTop: '2px', boxShadow: '0 2px 0 var(--retro-green-dark)' }}>✓</span>
+                  {line}
+                </li>
+              ))}
+            </ul>
             <div className="fu" style={{ marginBottom: '12px' }}>
               <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '16px', padding: '17px 42px' }}>
                 Get Started
@@ -460,9 +465,10 @@ export default function HomePage() {
               <p style={{ fontFamily: 'var(--font-mono)', fontSize: '.68rem', fontWeight: 600, letterSpacing: '.04em', color: 'var(--ink-light)', lineHeight: 1.65, flex: '1 1 260px', minWidth: '240px', margin: 0 }}>
                 Built on the research of Candace Odgers, Amy Orben and Catherine Knibbs. Aligned with NHS and NSPCC guidance.
               </p>
-              <div aria-hidden style={{ flex: '0 1 190px', minWidth: '170px', borderLeft: '2px solid var(--border)', paddingLeft: '16px' }}>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.6rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--ink-light)', opacity: 0.7 }}>Parent quote</div>
-                <div style={{ fontFamily: 'var(--font-body)', fontSize: '.78rem', fontWeight: 600, color: 'var(--ink-light)', opacity: 0.55, lineHeight: 1.4, marginTop: '4px' }}>Coming from our first families</div>
+              <div style={{ flex: '0 1 200px', minWidth: '180px', borderLeft: '2px solid var(--terracotta)', paddingLeft: '16px' }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.6rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>Parent quote</div>
+                <div style={{ fontFamily: 'var(--font-body)', fontSize: '.8rem', fontWeight: 600, color: 'var(--ink-soft)', fontStyle: 'italic', lineHeight: 1.45, marginTop: '4px' }}>&ldquo;With DiGi I can ask for help at every step.&rdquo;</div>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.62rem', fontWeight: 700, color: 'var(--ink-muted)', marginTop: '4px' }}>Rachel, Guided Childhood parent</div>
               </div>
             </div>
           </div>
@@ -576,10 +582,183 @@ export default function HomePage() {
       </section>
 
       {/* ================================================================
+          PRODUCT MOMENT — the one deep ink band on the page. Left: the
+          parent home card, built as real markup so nothing fake ships as
+          a picture. Right: a genuine screenshot of the child's app.
+          ================================================================ */}
+      <section aria-label="Inside the platform" style={{ background: 'var(--deep-teal)', padding: 'clamp(64px, 8vw, 100px) 24px' }}>
+        <div style={{ maxWidth: '1040px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '44px' }}>
+            <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>Inside the platform</p>
+            <h2 className="fu" style={{ color: '#fff', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.7rem, 3.2vw, 2.4rem)', letterSpacing: '-.03em', lineHeight: 1.1, margin: '0 0 14px' }}>
+              Here is what tonight looks like
+            </h2>
+            <p className="fu" style={{ fontSize: '1rem', color: 'rgba(255,255,255,0.75)', lineHeight: 1.75, maxWidth: '540px', margin: '0 auto' }}>
+              Your side gives you tonight&apos;s script and the week&apos;s plan in ten minutes. Their side turns real jobs into stars, and stars into screen time they earned.
+            </p>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '22px', alignItems: 'start', maxWidth: '820px', margin: '0 auto' }}>
+
+            {/* Parent home card, coded not faked */}
+            <figure className="fu" style={{ margin: 0 }}>
+              <div style={{ background: '#fff', borderRadius: '24px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.12)', boxShadow: '0 5px 0 rgba(0,0,0,0.35), 0 26px 60px rgba(0,0,0,0.35)' }}>
+                <div style={{ background: 'var(--stage-3)', padding: '15px 18px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div>
+                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '3px' }}>Stage 3 · Ages 11 to 13</div>
+                    <div style={{ fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 800, color: 'var(--ink)' }}>Your home tonight</div>
+                  </div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '100px', padding: '5px 11px', letterSpacing: '0.06em', flexShrink: 0, boxShadow: '0 2px 0 var(--terracotta-dark)' }}>
+                    10 min
+                  </div>
+                </div>
+                <div style={{ padding: '14px 18px', borderBottom: '1px solid var(--border)' }}>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '7px' }}>Tonight&apos;s script</div>
+                  <div style={{ fontFamily: 'var(--font-display)', fontSize: '13.5px', fontWeight: 800, color: 'var(--ink)', marginBottom: '7px' }}>The bedtime handover</div>
+                  <div style={{ background: 'var(--stage-2)', borderRadius: '12px', padding: '10px 13px', fontSize: '12px', color: 'var(--ink)', lineHeight: 1.55, fontStyle: 'italic' }}>
+                    &ldquo;The phone charges in the hallway from tonight. Whole house rule, mine included.&rdquo;
+                  </div>
+                </div>
+                <div style={{ padding: '13px 18px', borderBottom: '1px solid var(--border)' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+                    <div style={{ fontFamily: 'var(--font-display)', fontSize: '12.5px', fontWeight: 800, color: 'var(--ink)' }}>The road to 16</div>
+                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, color: 'var(--ink-muted)', letterSpacing: '0.06em' }}>Stage 3 of 5</div>
+                  </div>
+                  <div style={{ display: 'flex', gap: '5px' }}>
+                    {[1, 2, 3, 4, 5].map(n => (
+                      <div key={n} style={{ flex: 1, height: '8px', borderRadius: '100px', background: n < 3 ? 'var(--retro-green)' : n === 3 ? 'var(--terracotta)' : 'var(--border)' }} />
+                    ))}
+                  </div>
+                </div>
+                <div style={{ padding: '12px 18px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <span style={{ width: '30px', height: '30px', background: 'var(--stage-1-bold)', borderRadius: '9px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: '14px' }}>⭐</span>
+                  <div>
+                    <div style={{ fontFamily: 'var(--font-display)', fontSize: '12px', fontWeight: 800, color: 'var(--ink)' }}>Star timer</div>
+                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '8.5px', color: 'var(--ink-muted)', marginTop: '2px' }}>Jobs done today earn tonight&apos;s minutes</div>
+                  </div>
+                  <div style={{ marginLeft: 'auto', fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>Open →</div>
+                </div>
+                <div style={{ padding: '12px 18px', display: 'flex', alignItems: 'center', gap: '10px', background: 'var(--cream)' }}>
+                  <DigiCharacter mood="idle" size={30} />
+                  <div>
+                    <div style={{ fontFamily: 'var(--font-display)', fontSize: '12px', fontWeight: 800, color: 'var(--ink)' }}>Ask DiGi anything</div>
+                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '8.5px', color: 'var(--ink-muted)', marginTop: '2px' }}>Even at 11pm, especially at 11pm</div>
+                  </div>
+                  <div style={{ marginLeft: 'auto', fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>Ask →</div>
+                </div>
+              </div>
+              <figcaption style={{ fontFamily: 'var(--font-mono)', fontSize: '.66rem', fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.55)', textAlign: 'center', marginTop: '14px' }}>
+                Your side · ten minutes a day
+              </figcaption>
+            </figure>
+
+            {/* Real screenshot of the child's app */}
+            <figure className="fu" style={{ margin: 0 }}>
+              <div style={{ borderRadius: '24px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.12)', boxShadow: '0 5px 0 rgba(0,0,0,0.35), 0 26px 60px rgba(0,0,0,0.35)', background: '#2E2818' }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/marketing/kid-page.png"
+                  alt="A real screen from the child's app: the star bank, today's goal, and quests that earn screen time"
+                  loading="lazy"
+                  style={{ width: '100%', display: 'block', aspectRatio: '390 / 500', objectFit: 'cover', objectPosition: 'top' }}
+                />
+              </div>
+              <figcaption style={{ fontFamily: 'var(--font-mono)', fontSize: '.66rem', fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.55)', textAlign: 'center', marginTop: '14px' }}>
+                Their side · a real screen from the child&apos;s app
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      {/* ================================================================
+          THE PROBLEM — quiet band, the felt problem in three short lines,
+          then the turn. Sits before any solution talk.
+          ================================================================ */}
+      <section aria-label="The problem" style={{ background: '#fff', padding: 'clamp(72px, 9vw, 108px) 24px' }}>
+        <div style={{ maxWidth: '640px', margin: '0 auto', textAlign: 'center' }}>
+          <p className="eyebrow fu" style={{ color: 'var(--ink-muted)', marginBottom: '26px' }}>The bit nobody says out loud</p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '18px', marginBottom: '34px' }}>
+            {[
+              'The same fight every night, and the guilt after you shout.',
+              'Every answer you find says ban it all, or give in and dread it.',
+              'Neither one teaches your child a single thing.',
+            ].map(line => (
+              <p key={line} className="fu" style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.15rem, 2.2vw, 1.5rem)', fontWeight: 800, color: 'var(--ink)', letterSpacing: '-.02em', lineHeight: 1.35, margin: 0 }}>
+                {line}
+              </p>
+            ))}
+          </div>
+          <p className="fu" style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.4rem, 2.8vw, 1.9rem)', fontWeight: 900, color: 'var(--terracotta-dark)', letterSpacing: '-.025em', lineHeight: 1.25, margin: 0 }}>
+            There is a third way, a guided one.
+          </p>
+        </div>
+      </section>
+
+      {/* ================================================================
+          HOW IT HELPS — three numbered steps, the whole model in a glance
+          ================================================================ */}
+      <section aria-label="How it helps" style={{ background: 'var(--cream)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)', padding: 'clamp(72px, 9vw, 108px) 24px' }}>
+        <div style={{ maxWidth: '1040px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '44px' }}>
+            <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>How it helps</p>
+            <h2 className="fu" style={{ margin: '0 0 14px' }}>
+              Three things, done{' '}
+              <span style={{ color: 'var(--terracotta)' }}>daily</span>
+            </h2>
+            <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.75, maxWidth: '480px', margin: '0 auto' }}>
+              Not a course. Not another app to manage. A small daily rhythm that quietly replaces the fight.
+            </p>
+          </div>
+
+          <div className="three-col">
+            {[
+              {
+                num: '01',
+                title: 'Ten minutes a day',
+                body: 'One moment, one script, one small win each evening. You open the app, get the exact words for tonight, and close it again. That is the whole habit.',
+                tint: 'var(--stage-1-bold)',
+              },
+              {
+                num: '02',
+                title: 'The road to 16',
+                body: 'Your child moves along five stages, earning passport stamps as they learn. By the time the apps arrive at sixteen, they are ready, because ready was built.',
+                tint: 'var(--stage-2-bold)',
+              },
+              {
+                num: '03',
+                title: 'They earn their screen time',
+                body: 'Real jobs and play earn stars. Stars buy agreed screen time on the star timer. The argument ends because the deal is theirs, and they keep it.',
+                tint: 'var(--stage-3-bold)',
+              },
+            ].map(step => (
+              <div key={step.num} className="fu" style={{ background: '#fff', borderRadius: '20px', border: '1px solid var(--border)', boxShadow: '0 5px 0 var(--border)', padding: '30px 26px', display: 'flex', flexDirection: 'column' }}>
+                <span style={{ width: 46, height: 46, borderRadius: '14px', background: step.tint, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: 'var(--ink)', letterSpacing: '-.02em', marginBottom: '18px', boxShadow: '0 3px 0 rgba(0,0,0,0.1)' }}>
+                  {step.num}
+                </span>
+                <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.15rem', fontWeight: 800, color: 'var(--ink)', letterSpacing: '-.02em', margin: '0 0 10px' }}>
+                  {step.title}
+                </h3>
+                <p style={{ fontSize: '.9rem', color: 'var(--ink-soft)', lineHeight: 1.7, margin: 0 }}>
+                  {step.body}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <div className="fu" style={{ textAlign: 'center', marginTop: '38px' }}>
+            <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '14px', padding: '15px 34px' }}>
+              Start tonight
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ================================================================
           PARENT QUOTES — three real quotes from our first families,
           provided by Justin and tidied for clarity. No dashes in copy.
           ================================================================ */}
-      <section aria-label="What early families say" style={{ background: 'var(--cream)', borderBottom: '1px solid var(--border)', padding: 'clamp(40px, 6vw, 64px) 24px' }}>
+      <section aria-label="What early families say" style={{ background: '#fff', borderBottom: '1px solid var(--border)', padding: 'clamp(40px, 6vw, 64px) 24px' }}>
         <div style={{ maxWidth: '1040px', margin: '0 auto' }}>
           <p className="eyebrow" style={{ textAlign: 'center', color: 'var(--terracotta-dark)', marginBottom: '10px' }}>From our first families</p>
           <h2 style={{ textAlign: 'center', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.5rem, 3vw, 2rem)', letterSpacing: '-0.03em', lineHeight: 1.1, color: 'var(--ink)', margin: '0 0 12px' }}>
@@ -603,7 +782,7 @@ export default function HomePage() {
                 name: 'Maria Daniels',
               },
             ].map((p) => (
-              <div key={p.name} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '18px', padding: '24px 22px', display: 'flex', flexDirection: 'column', boxShadow: '0 4px 20px rgba(26,26,46,0.05)' }}>
+              <div key={p.name} style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '20px', padding: '24px 22px', display: 'flex', flexDirection: 'column', boxShadow: '0 5px 0 var(--border)' }}>
                 <div aria-hidden style={{ fontFamily: 'var(--font-display)', fontSize: '2.2rem', color: 'var(--terracotta)', lineHeight: 0.7, marginBottom: '10px' }}>&ldquo;</div>
                 <p style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.65, fontStyle: 'italic', margin: '0 0 18px', flex: 1 }}>
                   {p.quote}
@@ -682,59 +861,98 @@ export default function HomePage() {
       <DigiGreeter />
 
       {/* ================================================================
-          EVERYTHING YOU GET — the full service walkthrough, near the top so
-          a first visit sees the whole system and why each part earns its
-          place, before the deeper narrative.
+          WHAT YOU GET — one warm card, a two column icon benefit list
+          covering every key area of the platform. Komoot pattern.
           ================================================================ */}
-      <section aria-label="Everything you get" style={{ padding: 'clamp(80px, 10vw, 120px) 32px', background: 'var(--deep-teal)' }}>
-        <div style={{ maxWidth: '1080px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-            <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>Everything in one place</p>
-            <h2 className="fu" style={{ color: '#fff', marginBottom: '14px' }}>
+      <section aria-label="What you get" style={{ padding: 'clamp(80px, 10vw, 120px) 24px', background: 'var(--cream)', borderTop: '1px solid var(--border)' }}>
+        <div style={{ maxWidth: '980px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '44px' }}>
+            <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>What you get</p>
+            <h2 className="fu" style={{ marginBottom: '14px' }}>
               One calm system.{' '}
               <span style={{ color: 'var(--terracotta)' }}>Every part earns its place.</span>
             </h2>
-            <p className="fu" style={{ fontSize: '1rem', color: 'rgba(255,255,255,0.8)', lineHeight: 1.8, maxWidth: '560px', margin: '0 auto' }}>
-              Not random tips. Twelve tools that work together, from the first shared screen at four to full independence at sixteen. Here is what you get, and why each one matters.
+            <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.8, maxWidth: '540px', margin: '0 auto' }}>
+              Not random tips. One system that works together, from the first shared screen at four to full independence at sixteen.
             </p>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '14px', marginBottom: '44px' }}>
-            {[
-              { emoji: '🌱', tint: 'var(--stage-1-bold)', name: 'Daily moments', what: 'One small thing each day: the moment, the exact words, a quick check in.', why: 'The ten minute habit everything hangs on.' },
-              { emoji: '💬', tint: 'var(--stage-3-bold)', name: '160 exact scripts', what: 'The words for the meltdown, the handover, the first phone conversation.', why: 'So you are never caught without something to say.' },
-              { emoji: '◎', tint: 'var(--stage-5-bold)', name: 'DiGi, always on', what: 'A real answer for your child and your stage, calibrated, never a lecture.', why: 'The eleven at night question, answered calmly.' },
-              { emoji: '⭐', tint: 'var(--stage-2-bold)', name: 'Family Quests', what: 'Real jobs and play earn stars, stars buy screen time, and the printed contract seals the deal.', why: 'Earned time already did its job.' },
-              { emoji: '🛂', tint: 'var(--stage-4-bold)', name: 'The digital passport', what: 'One page per stage, a circle that fills as they learn, a stamp when it is earned. All the way to 16.', why: 'Turns sixteen from a cliff edge into a gentle ramp.' },
-              { emoji: '✦', tint: 'var(--stage-3-bold)', name: 'The lessons', what: 'Calm, age matched lessons that build real digital judgement.', why: 'Learned together young, on their own as they grow.' },
-              { emoji: '🛡️', tint: 'var(--stage-1-bold)', name: 'Device checklists', what: 'Per device, per age, what to set tonight before the screen reaches them.', why: 'Ten minutes of setup saves months of arguments.' },
-              { emoji: '🔔', tint: 'var(--stage-4-bold)', name: 'School reminders', what: 'Forward the school email and the dates and kit turn into alerts.', why: 'Never miss a PE kit day again.' },
-              { emoji: '📝', tint: 'var(--stage-2-bold)', name: 'Family agreement', what: 'One page you build together, print, and both sign.', why: 'Agreed together, so it actually holds.' },
-              { emoji: '📈', tint: 'var(--stage-5-bold)', name: 'Wellbeing tracker', what: 'One tap a day, a check in each week.', why: 'Spot the pattern before it becomes a problem.' },
-              { emoji: '🖨️', tint: 'var(--stage-1-bold)', name: 'The printables', what: 'Bucket lists, scavenger hunts and crafts, in English and Spanish, every finished sheet worth stars.', why: 'The offline pathway: screens down, crayons out.' },
-              { emoji: '🎮', tint: 'var(--stage-3-bold)', name: '24 learning games', what: 'Phonics to fact checking, every game age gated to your child and built on what the best educational apps prove works.', why: 'Screen time that teaches, when it is earned.' },
-            ].map(s => (
-              <div key={s.name} className="fu" style={{ background: '#fff', borderRadius: '20px', padding: '22px 22px 20px', boxShadow: '0 10px 30px rgba(0,0,0,0.14)', display: 'flex', flexDirection: 'column' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
-                  <span style={{ width: 44, height: 44, borderRadius: '13px', flexShrink: 0, background: s.tint, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px' }}>{s.emoji}</span>
-                  <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.06rem', letterSpacing: '-0.01em', color: 'var(--ink)' }}>{s.name}</span>
+          <div className="fu" style={{ background: '#fff', borderRadius: '24px', border: '1px solid var(--border)', boxShadow: '0 5px 0 var(--border)', padding: 'clamp(26px, 4vw, 44px)' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '26px 36px' }}>
+              {[
+                {
+                  icon: <DigiCharacter mood="idle" size={30} />,
+                  tint: 'var(--terracotta-lt)',
+                  name: 'DiGi, your always on guide',
+                  body: 'Tell it what happened tonight and get the exact words back, calibrated to your child and stage. Never a lecture, never a shrug.',
+                },
+                {
+                  icon: <span style={{ fontSize: '20px' }}>🛂</span>,
+                  tint: 'var(--stage-4-bold)',
+                  name: 'The road to 16, with passport stamps',
+                  body: 'Five stages, a stamp for each one earned. Sixteen arrives as a step your child walked up to, not a cliff edge.',
+                },
+                {
+                  icon: <span style={{ fontSize: '20px' }}>💬</span>,
+                  tint: 'var(--stage-3-bold)',
+                  name: 'Daily scripts, word for word',
+                  body: 'The morning, the handover, the bedtime. What to say, what not to say, and why it works.',
+                },
+                {
+                  icon: <span style={{ fontSize: '20px' }}>⭐</span>,
+                  tint: 'var(--stage-1-bold)',
+                  name: 'The star timer',
+                  body: 'Real jobs and play earn stars, stars buy agreed screen time, and the timer keeps the deal fair for everyone.',
+                },
+                {
+                  icon: <span style={{ fontSize: '20px' }}>🛡️</span>,
+                  tint: 'var(--stage-2-bold)',
+                  name: 'Device setup guides for every doorway',
+                  body: 'First tablet, first console, first phone. What to set tonight, before the device reaches your child.',
+                },
+                {
+                  icon: <span style={{ fontSize: '20px' }}>📚</span>,
+                  tint: 'var(--stage-5-bold)',
+                  name: 'Lessons matched to their stage',
+                  body: 'Short lessons built on Rosenshine’s principles of instruction, taught at the kitchen table in minutes.',
+                },
+                {
+                  icon: <span style={{ fontSize: '20px' }}>🗞️</span>,
+                  tint: 'var(--stage-2-bold)',
+                  name: 'The weekly round up',
+                  body: 'Sunday catches your week: what happened, what shifted, and a plan for the one ahead. No spiralling required.',
+                },
+                {
+                  icon: <span style={{ fontSize: '20px' }}>🎒</span>,
+                  tint: 'var(--stage-1-bold)',
+                  name: 'Their own app',
+                  body: 'Quests, stars and the passport in a space that is theirs. Progress your child can hold up and show you.',
+                },
+              ].map(item => (
+                <div key={item.name} style={{ display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
+                  <span style={{ width: 46, height: 46, borderRadius: '14px', flexShrink: 0, background: item.tint, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 3px 0 rgba(0,0,0,0.08)' }}>
+                    {item.icon}
+                  </span>
+                  <div>
+                    <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1rem', fontWeight: 800, color: 'var(--ink)', letterSpacing: '-.01em', margin: '0 0 5px' }}>
+                      {item.name}
+                    </h3>
+                    <p style={{ fontSize: '.86rem', color: 'var(--ink-soft)', lineHeight: 1.65, margin: 0 }}>
+                      {item.body}
+                    </p>
+                  </div>
                 </div>
-                <p style={{ fontSize: '.9rem', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 14px' }}>{s.what}</p>
-                <div style={{ marginTop: 'auto', paddingTop: '12px', borderTop: '1px solid var(--border)' }}>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.58rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '4px' }}>Why it matters</div>
-                  <p style={{ fontSize: '.86rem', color: 'var(--ink)', fontWeight: 600, lineHeight: 1.5, margin: 0 }}>{s.why}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
 
-          <div className="fu" style={{ textAlign: 'center' }}>
-            <Link href="/starter-pack" style={{ display: 'inline-flex', alignItems: 'center', padding: '16px 34px', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '16px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1rem', boxShadow: '0 5px 0 var(--terracotta-dark)' }}>
-              Get started here
-            </Link>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '.68rem', color: 'rgba(255,255,255,0.6)', marginTop: '14px', letterSpacing: '.06em' }}>
-              Free access to the platform · No card needed · Built on the research
-            </p>
+            <div style={{ marginTop: '34px', paddingTop: '26px', borderTop: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', flexWrap: 'wrap' }}>
+              <p style={{ fontFamily: 'var(--font-mono)', fontSize: '.68rem', fontWeight: 700, letterSpacing: '.06em', color: 'var(--ink-muted)', margin: 0 }}>
+                Plus the family agreement, the wellbeing tracker, printables in English and Spanish, and 24 learning games.
+              </p>
+              <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '13px', padding: '13px 28px', flexShrink: 0 }}>
+                Get started here
+              </Link>
+            </div>
           </div>
         </div>
       </section>
@@ -1049,7 +1267,7 @@ export default function HomePage() {
       {/* ================================================================
           STAGE CARDS
           ================================================================ */}
-      <section id="stages" style={{ padding: 'clamp(88px, 11vw, 132px) 32px', background: '#F5F3FF', scrollMarginTop: '70px' }}>
+      <section id="stages" style={{ padding: 'clamp(88px, 11vw, 132px) 32px', background: '#fff', scrollMarginTop: '70px' }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
 
           <div style={{ textAlign: 'center', marginBottom: '44px' }}>
@@ -1433,7 +1651,7 @@ export default function HomePage() {
       <section aria-label="What changes" style={{ padding: 'clamp(72px, 9vw, 104px) 32px', background: '#FFFBEE', borderTop: '1px solid var(--border)' }}>
         <div style={{ maxWidth: '1040px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '52px' }}>
-            <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>What parents tell us</p>
+            <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>The first six months</p>
             <h2 className="fu" style={{ marginBottom: '14px' }}>
               Here is what changes{' '}
               <span style={{ color: 'var(--terracotta)' }}>and when</span>
@@ -1458,32 +1676,28 @@ export default function HomePage() {
                   bg: 'var(--stage-1-bold)',
                   text: 'var(--stage-1-text)',
                   title: 'The fight is still there. But you know what to say.',
-                  quote: '"I used the transition script on day three. He pushed back, obviously. But I held it and I did not spiral. That had never happened before."',
-                  by: 'Parent of a 9-year-old',
+                  body: 'The script is on your phone before the moment starts. Your child pushes back, of course. You hold it, calmly, and nobody spirals.',
                 },
                 {
                   marker: 'After month 1',
                   bg: 'var(--stage-2-bold)',
                   text: 'var(--stage-2-text)',
-                  title: 'The routine is running itself.',
-                  quote: '"The bedtime thing is just done now. Phone in the hall, no argument, three weeks in a row. I did not think that was possible."',
-                  by: 'Parent of an 11-year-old',
+                  title: 'The routine starts running itself.',
+                  body: 'The phone charges in the hall. Screens start after shoes and bag. The structure does the arguing, so you do not have to.',
                 },
                 {
                   marker: 'After month 3',
                   bg: 'var(--stage-3-bold)',
                   text: 'var(--stage-3-text)',
-                  title: 'Your child came to you first.',
-                  quote: '"She actually showed me something that worried her online. She came to me. Six months ago that would not have happened."',
-                  by: 'Parent of a 13-year-old',
+                  title: 'The conversations get easier.',
+                  body: 'Stars are being earned, stamps are being collected, and the weekly round up is spotting patterns before they become problems.',
                 },
                 {
                   marker: 'After month 6',
                   bg: 'var(--stage-4-bold)',
                   text: 'var(--stage-4-text)',
                   title: 'You trust yourself as a parent again.',
-                  quote: '"I am not guessing any more. I know where we are, what we are building towards, and why. That is the whole thing."',
-                  by: 'Parent of a 15-year-old',
+                  body: 'You are not guessing any more. You know where you are on the road, what you are building towards, and why. That is the whole thing.',
                 },
               ].map((item, i) => (
                 <div key={i} className="fu" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -1508,12 +1722,9 @@ export default function HomePage() {
                     <h3 style={{ fontSize: '13px', fontWeight: 800, color: 'var(--ink)', lineHeight: 1.3, marginBottom: '10px', letterSpacing: '-0.02em' }}>
                       {item.title}
                     </h3>
-                    <p style={{ fontFamily: 'var(--font-display)', fontSize: '11.5px', fontStyle: 'italic', color: 'var(--ink-soft)', lineHeight: 1.65, marginBottom: '10px' }}>
-                      {item.quote}
+                    <p style={{ fontSize: '11.5px', color: 'var(--ink-soft)', lineHeight: 1.65, margin: 0 }}>
+                      {item.body}
                     </p>
-                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 600, color: 'var(--ink-muted)', letterSpacing: '0.06em' }}>
-                      {item.by}
-                    </div>
                   </div>
                 </div>
               ))}
@@ -1896,13 +2107,13 @@ export default function HomePage() {
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <div className="bubble-parent">
-                      Every evening my 9-year-old comes in from school and immediately wants the TV on. If I say no it is a full meltdown.
+                      Every evening my nine year old comes in from school and immediately wants the TV on. If I say no it is a full meltdown.
                     </div>
                   </div>
                   <div style={{ display: 'flex', gap: '9px', alignItems: 'flex-end' }}>
                     <div className="digi-avatar-sm">D</div>
                     <div className="bubble-digi">
-                      This is one of the most common patterns at Stage 2. The fix is a 20-minute wind down routine with a script so it does not become a fight. Want the exact words for tonight?
+                      This is one of the most common patterns at Stage 2. The fix is a 20 minute wind down routine with a script so it does not become a fight. Want the exact words for tonight?
                     </div>
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -2031,14 +2242,14 @@ export default function HomePage() {
               { dot: 'var(--terracotta)', label: 'Behaviour signals', color: 'var(--terracotta)', items: [
                 ['Meltdowns when screens are removed', 'A sign that screens have become the primary regulation strategy. The framework builds alternatives before removing access.'],
                 ['Mood drops of 20 minutes or more after screens', 'The research identifies this duration as a meaningful signal, particularly in girls aged 11 to 13. Worth tracking, not diagnosing.'],
-                ['Sleep disruption caused by devices in the bedroom', 'The single highest-impact change you can make. The research shows this consistently across all age groups.'],
-                ['Withdrawal from offline activities they used to love', 'Not always screen-caused. But worth noting when it coincides with increased screen time.'],
+                ['Sleep disruption caused by devices in the bedroom', 'The single highest impact change you can make. The research shows this consistently across all age groups.'],
+                ['Withdrawal from offline activities they used to love', 'Not always screen caused. But worth noting when it coincides with increased screen time.'],
               ]},
               { dot: 'var(--terracotta-dark)', label: 'Mental health signals', color: 'var(--terracotta-dark)', items: [
                 ['Persistent anxiety about notifications', 'Checking before sleep, on waking, at meals. The research links this to platform mechanics, not personality.'],
                 ['Appearance comparison and self-critical talk after scrolling', 'Research shows this is amplified by appearance-based content at the 11 to 13 window.'],
-                ['Secrecy and hidden device use', 'Not always a crisis. But secrecy is the signal to act on. The script for this is specific and non-confrontational.'],
-                ['Prolonged low mood coinciding with a change in platform use', 'Research is clear that pre-existing vulnerability matters more than the platform. But the timing is worth noting.'],
+                ['Secrecy and hidden device use', 'Not always a crisis. But secrecy is the signal to act on. The script for this is specific and calm.'],
+                ['Prolonged low mood coinciding with a change in platform use', 'Research is clear that existing vulnerability matters more than the platform. But the timing is worth noting.'],
               ]},
             ].map((col, ci) => (
               <div key={ci} className="fu" style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '18px', padding: '24px' }}>
@@ -2094,12 +2305,12 @@ export default function HomePage() {
                 ['Cyberbullying', 'in group chats, gaming lobbies, and social platforms. What to do when it is your child on either side.'],
               ]},
               { label: 'Content risks', color: 'var(--terracotta-dark)', items: [
-                ['Age-inappropriate content', 'violent, sexual, or extremist material encountered through algorithms, search, or sharing.'],
+                ['Age inappropriate content', 'violent, sexual, or extremist material encountered through algorithms, search, or sharing.'],
                 ['Misinformation and AI content', 'what is real, what is generated, and how to build the skills that spot the difference.'],
-                ['Self-harm and eating disorder content', 'algorithmically amplified content that targets vulnerability.'],
+                ['Self harm and eating disorder content', 'algorithmically amplified content that targets vulnerability.'],
               ]},
               { label: 'Conduct and safety risks', color: 'var(--terracotta-dark)', items: [
-                ['Sextortion and image-based abuse', 'what it is, how it starts, and the conversation to have before it becomes a possibility.'],
+                ['Sextortion and image based abuse', 'what it is, how it starts, and the conversation to have before it becomes a possibility.'],
                 ['Radicalisation', 'how extremist communities recruit through gaming and niche forums. What a gradual shift looks like.'],
                 ['Digital reputation and permanence', 'what gets shared, what stays, and the consent conversation that changes behaviour.'],
               ]},
@@ -2237,7 +2448,7 @@ export default function HomePage() {
               },
               {
                 num: '02', numBg: 'var(--stage-1)', title: 'Your child starts building the actual skills',
-                body: 'Resilience, self-regulation, digital literacy. Not because you went soft, but because you held the boundary and the connection at the same time.',
+                body: 'Resilience, self regulation, digital literacy. Not because you went soft, but because you held the boundary and the connection at the same time.',
                 tag: 'Skills not compliance', tagBg: 'var(--stage-1)',
               },
               {
@@ -2280,45 +2491,12 @@ export default function HomePage() {
       </section>
 
       {/* ================================================================
-          TESTIMONIALS
+          NOT TOO LATE — the reassurance close. No invented testimonials
+          here, ever: the only quotes on this page are the real ones from
+          Rachel, Joanne Reed and Maria Daniels near the top.
           ================================================================ */}
       <section className="section-lg" style={{ background: '#fff' }}>
         <div style={{ maxWidth: '1040px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-            <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>What parents say</p>
-            <h2 className="fu">
-              It actually{' '}
-              <span style={{ color: 'var(--terracotta)' }}>works</span>
-            </h2>
-          </div>
-
-          <div className="three-col fu" style={{ marginBottom: '40px' }}>
-            {TESTIMONIALS.map((t, i) => (
-              <div key={i} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '20px', padding: '28px', display: 'flex', flexDirection: 'column' }}>
-                <div style={{ color: 'var(--terracotta)', fontSize: '1rem', letterSpacing: '2px', marginBottom: '14px' }}>★★★★★</div>
-                <p style={{ fontFamily: 'var(--font-display)', fontSize: '.92rem', fontStyle: 'italic', color: 'var(--ink)', lineHeight: 1.68, marginBottom: '16px', flex: 1 }}>
-                  {t.text}
-                </p>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', paddingTop: '14px', borderTop: '1px solid var(--border)' }}>
-                  <div style={{
-                    width: '36px', height: '36px', borderRadius: '50%',
-                    background: ['var(--stage-2)', 'var(--stage-4)', 'var(--stage-5)'][i],
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontWeight: 700, fontSize: '.72rem', color: 'var(--ink-soft)', flexShrink: 0,
-                  }}>
-                    {t.initials}
-                  </div>
-                  <div>
-                    <div style={{ fontSize: '.78rem', fontWeight: 700, color: 'var(--ink)' }}>{t.by}</div>
-                    <span style={{ background: 'var(--stage-2)', color: 'var(--terracotta)', borderRadius: '100px', padding: '2px 8px', fontSize: '.62rem', fontWeight: 700 }}>
-                      {t.stage}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
           <div style={{ textAlign: 'center' }}>
             <p style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.3rem, 2vw, 1.8rem)', fontWeight: 800, color: 'var(--ink)', marginBottom: '12px', letterSpacing: '-.03em' }}>
               No, it is not too late.
@@ -2433,7 +2611,7 @@ export default function HomePage() {
                   'Screen behaviour, routines, and emotional regulation',
                   'Grooming, manipulation, consent, and online strangers',
                   'Sextortion, radicalisation, and dark web awareness',
-                  'Misinformation, deepfakes, and AI-generated content',
+                  'Misinformation, deepfakes, and AI generated content',
                   'Algorithms, social media, privacy, digital reputation',
                   'AI literacy, data rights, full readiness at 16',
                   'Parent note with every single lesson',
@@ -2486,7 +2664,7 @@ export default function HomePage() {
             {[
               {
                 tier: 'Free forever', name: 'Starter Pack', price: 'Free', period: '',
-                save: 'Yours immediately on sign-up',
+                save: 'Yours immediately on signup',
                 features: [
                   ['✓', 'Age stage roadmap'],
                   ['✓', 'Family digital agreement template'],
@@ -2502,8 +2680,8 @@ export default function HomePage() {
                 tier: 'Best value', name: 'Annual OS', price: '£99', period: '/year',
                 save: 'Save £57. Two months free.',
                 features: [
-                  ['✓', 'Full 5-stage dashboard'],
-                  ['✓', 'Weekly 3-action plan'],
+                  ['✓', 'Full five stage dashboard'],
+                  ['✓', 'Weekly three action plan'],
                   ['✓', 'All scripts and guides'],
                   ['✓', 'Full curriculum, all lessons'],
                   ['✓', 'Digital wellbeing tracker'],
@@ -2615,7 +2793,7 @@ export default function HomePage() {
             </Link>
           </div>
           <div style={{ fontSize: '.72rem', color: 'var(--ink-muted)' }}>
-            No card required · 30-day money back on launch
+            No card required · 30 day money back on launch
           </div>
         </div>
       </section>
@@ -2640,7 +2818,7 @@ export default function HomePage() {
                 <span style={{ fontFamily: 'var(--font-display)', fontSize: '1rem', fontWeight: 800, color: '#fff', letterSpacing: '-.02em' }}>Guided Childhood</span>
               </div>
               <p style={{ fontSize: '.82rem', color: 'rgba(255,255,255,.5)', lineHeight: 1.7, maxWidth: '240px' }}>
-                The stage-by-stage digital parenting guide for UK families. Ages 4 to 16. Built on the research.
+                The stage by stage digital parenting guide for UK families. Ages 4 to 16. Built on the research.
               </p>
             </div>
 
