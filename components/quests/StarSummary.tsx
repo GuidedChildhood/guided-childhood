@@ -188,7 +188,7 @@ export default function StarSummary({
             </p>
             <button
               onClick={onSetGoal}
-              style={{ background: 'var(--deep-teal)', color: '#fff', border: 'none', borderRadius: '11px', padding: '9px 15px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px' }}
+              style={{ background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: '11px', padding: '9px 15px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', boxShadow: '0 3px 0 var(--terracotta-dark)' }}
             >
               Set a new goal
             </button>
@@ -215,7 +215,7 @@ export default function StarSummary({
                   <button
                     onClick={markDone}
                     disabled={redeeming}
-                    style={{ flex: 1, background: 'var(--deep-teal)', color: '#fff', border: 'none', borderRadius: '11px', padding: '10px', cursor: redeeming ? 'default' : 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', opacity: redeeming ? 0.7 : 1 }}
+                    style={{ flex: 1, background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: '11px', padding: '10px', cursor: redeeming ? 'default' : 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', boxShadow: '0 3px 0 var(--terracotta-dark)', opacity: redeeming ? 0.7 : 1 }}
                   >
                     {redeeming ? 'Marking…' : 'Yes, done'}
                   </button>
@@ -243,7 +243,7 @@ export default function StarSummary({
       <div style={{ display: 'flex', gap: '7px', flexWrap: 'wrap' }}>
         {bigBtn(pending > 0 ? '⭐' : '📋', pending > 0 ? `Approve ${pending}` : 'Set tasks', onApprove, pending > 0)}
         {bigBtn('⏱️', 'Screen time', onScreenTime)}
-        {bigBtn('📲', 'Share app', onShare)}
+        {bigBtn('📲', `Share to ${childName}`, onShare)}
       </div>
     </div>
   )

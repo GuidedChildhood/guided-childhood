@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { readTrust } from '@/lib/quests/device-time'
 import { getStarBanks } from '@/lib/quests/bank'
 import { getMinutesUsedToday } from '@/lib/quests/usage'
 import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
@@ -94,7 +95,7 @@ export async function GET() {
       return {
         id: c.id,
         name: c.name,
-        trust: (c as { device_trust?: string }).device_trust ?? 'watch',
+        trust: readTrust((c as { device_trust?: string }).device_trust),
         balance: bankBy.get(c.id as string) ?? 0,
         session: sessionBy.get(c.id as string) ?? null,
         request: requestBy.get(c.id as string) ?? null,

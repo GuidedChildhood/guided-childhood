@@ -16,8 +16,9 @@ import { lessonsForStage, type KidLesson } from '@/lib/quests/kid-lessons'
 import { gamesForStage, type QuestGame } from '@/lib/quest-games/registry'
 import QuestGamePlayer from '@/components/quest-games/QuestGamePlayer'
 import DeviceTimeCard from '@/components/quests/DeviceTimeCard'
-import { TIMER_RULE, type ActiveSession } from '@/lib/quests/device-time'
-import { CONTRACT_RULES, type ContractLevel } from '@/lib/content/kid-contract'
+import { TIMER_RULE, readTrust, type ActiveSession } from '@/lib/quests/device-time'
+import { contractRule, type ContractLevel } from '@/lib/content/kid-contract'
+import KidAskBanner, { type KidAskState, type KidNudge } from '@/components/kid/KidAskBanner'
 import { playKidSound, soundEnabled, setSoundEnabled } from '@/lib/sound/kidSounds'
 import HappyNews, { type HappyNewsItem, type CharacterKey } from '@/components/celebrate/HappyNews'
 import HappyScene from '@/components/celebrate/HappyScene'
@@ -100,6 +101,7 @@ export default function KidQuestScreen({
   adventures = [], bank = null, usedWeekMinutes = 0, usedTodayMinutes = 0, recommendedMinutes = 0, requests = [], printablesUnlocked = true, activeSession = null,
   weekChart = [], schoolToday = [], notes = [], agreementItems = [], agreementSigned = false,
   contractLevel = '11plus', contractAgreedAt = null, contractReady = false, giftStarsOwed = 0,
+  deviceTrust = 'ask', initialAsk = null, initialNudges = [],
 }: {
   token: string
   childName: string
@@ -115,6 +117,13 @@ export default function KidQuestScreen({
   // Stars still owed in jobs from gifted screen time, summed over the open
   // gift debts. Zero hides the owed row entirely.
   giftStarsOwed?: number
+  // Who starts the timer for this child: ask (the default), watch or
+  // trusted. Drives the card's wording, the ask flow and the contract rule.
+  deviceTrust?: string
+  // The latest ask and unread nudges, server rendered so the banner is right
+  // on first paint; the poll keeps them live after that.
+  initialAsk?: KidAskState | null
+  initialNudges?: KidNudge[]
   buddy?: string | null
   accent?: string | null
   stageId?: number
@@ -164,6 +173,20 @@ export default function KidQuestScreen({
   const [asks, setAsks] = useState<KidAsk[]>(requests)
   const [askText, setAskText] = useState('')
   const [askBusy, setAskBusy] = useState(false)
+  // The screen time ask and the grown up's nudges, live on the poll. A
+  // declined ask the child has tapped away stays away (their own device
+  // remembers which one), and a started ask hands over to the countdown.
+  const trust = readTrust(deviceTrust)
+  const [screenAsk, setScreenAsk] = useState<KidAskState | null>(initialAsk)
+  const [kidNudges, setKidNudges] = useState<KidNudge[]>(initialNudges)
+  const [askStartBusy, setAskStartBusy] = useState(false)
+  const [liveSession, setLiveSession] = useState<ActiveSession | null>(activeSession)
+  const dismissedAskRef = useRef<string | null>(null)
+  useEffect(() => {
+    try { dismissedAskRef.current = localStorage.getItem('gc_kid_ask_dismissed') } catch { /* fine */ }
+    // Re-check the initial ask against the remembered dismissal.
+    setScreenAsk(a => (a && a.status === 'declined' && a.id && a.id === dismissedAskRef.current) ? null : a)
+  }, [])
   // My lessons is split into sub-tabs (Watch, Learn, Games, Print) with a red
   // dot when a grown up has pinged something new. "New" means an item this
   // child has not opened yet, tracked in localStorage on their own device.
@@ -471,6 +494,28 @@ export default function KidQuestScreen({
         }
         setTicks(fresh)
       } catch { /* offline, the next poll tries again */ }
+      // The ask's fate and the grown up's nudges ride the same poll, so the
+      // yes lands live without a refresh and no second timer is invented.
+      try {
+        const res = await fetch(`/api/quests/time/status?token=${token}`)
+        if (!res.ok || !live) return
+        const d = await res.json() as {
+          ask?: { id: string; device: string; minutes: number; status: string } | null
+          session?: ActiveSession | null
+          nudges?: KidNudge[]
+        }
+        setLiveSession(d.session ?? null)
+        setKidNudges(d.nudges ?? [])
+        const a = d.ask
+        if (!a || a.status === 'started' || (a.status === 'declined' && a.id === dismissedAskRef.current)) {
+          setScreenAsk(null)
+        } else {
+          setScreenAsk(prev => {
+            if (a.status === 'approved' && prev?.status === 'pending') playKidSound('star')
+            return { id: a.id, device: a.device, minutes: a.minutes, status: a.status as KidAskState['status'] }
+          })
+        }
+      } catch { /* offline, the next poll tries again */ }
     }
     const id = setInterval(poll, 12000)
     const onVis = () => { if (!document.hidden) poll() }
@@ -603,7 +648,7 @@ export default function KidQuestScreen({
     return <div style={{ minHeight: '100dvh', background: theme.bg }} />
   }
   if (!contractDone) {
-    return <KidContract childName={childName} level={contractLevel} onAgree={agreeContract} />
+    return <KidContract childName={childName} level={contractLevel} trust={trust} onAgree={agreeContract} />
   }
 
   return (
@@ -720,6 +765,63 @@ export default function KidQuestScreen({
           {/* Make it mine now lives as its own tile in the grid below, with
               everything else that is not a to do. */}
         </div>
+
+        {/* The fate of their screen time ask, right under the greeting so it
+            is never hunted for: asked, the yes with one big Start, a warm
+            not right now, or the chores that come first. Nudges land here. */}
+        <KidAskBanner
+          ask={screenAsk}
+          blockingJobs={[...new Set(quests.filter(q => q.blocks_screens && !ticks[q.id]).map(q => q.title))]}
+          nudges={kidNudges}
+          hasSession={Boolean(liveSession)}
+          startBusy={askStartBusy}
+          onStart={async () => {
+            if (askStartBusy || !screenAsk?.id) return
+            setAskStartBusy(true)
+            try {
+              const res = await fetch('/api/quests/time/start', {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ token, requestId: screenAsk.id }),
+              })
+              const d = await res.json().catch(() => ({}))
+              if (res.ok && d.session) {
+                playKidSound('done')
+                setScreenAsk(null)
+                setLiveSession({
+                  id: d.session.id, device: d.session.device, minutes: d.session.minutes,
+                  stars: d.session.stars, endsAt: d.session.ends_at, startedAt: d.session.started_at,
+                  treat: Boolean(d.session.treat),
+                })
+                setDeviceOpen(true)
+                router.refresh()
+                setTimeout(() => document.getElementById('my-timer')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 250)
+              } else {
+                setToast(d.error === 'chores first' ? 'Do your before screens job first, then it starts.' : 'That did not start. Try again in a moment.')
+                setTimeout(() => setToast(null), 3000)
+              }
+            } catch {
+              setToast('That did not start. Try again in a moment.')
+              setTimeout(() => setToast(null), 3000)
+            }
+            setAskStartBusy(false)
+          }}
+          onDismissDeclined={() => {
+            if (screenAsk?.id) {
+              dismissedAskRef.current = screenAsk.id
+              try { localStorage.setItem('gc_kid_ask_dismissed', screenAsk.id) } catch { /* fine */ }
+            }
+            setScreenAsk(null)
+            playKidSound('tap')
+          }}
+          onDismissNudge={id => {
+            setKidNudges(ns => ns.filter(n => n.id !== id))
+            playKidSound('tap')
+            fetch('/api/kid/nudges', {
+              method: 'POST', headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ token, ids: [id] }),
+            }).catch(() => { /* it is gone locally either way */ })
+          }}
+        />
 
         {/* From school today: the child sees the reminder their grown up sent
             through, and a timed one goes red as it nears, so it lands with
@@ -862,8 +964,15 @@ export default function KidQuestScreen({
           {deviceOpen && (
             <div id="my-timer" style={{ padding: '0 18px 18px', scrollMarginTop: '72px' }}>
               <DeviceTimeCard
+                key={activeSession?.id ?? 'idle'}
                 token={token} balanceStars={bankBalance} initialSession={activeSession}
                 usedTodayMinutes={usedTodayMinutes} recommendedMinutes={recommendedMinutes}
+                deviceTrust={trust}
+                onAsked={a => {
+                  setScreenAsk({ id: a.id, device: a.device, minutes: a.minutes, status: 'pending' })
+                  playKidSound('tap')
+                  window.scrollTo({ top: 0, behavior: 'smooth' })
+                }}
                 // The offline ideas row's doorways: printables live on their own
                 // tab and the learning games on the lessons Games sub tab, so a
                 // tap switches there and scrolls the tabs into view. Games only
@@ -897,7 +1006,7 @@ export default function KidQuestScreen({
             goalRedeemed={goalRedeemed}
             agreementItems={agreementItems}
             agreementSigned={agreementSigned}
-            contractRule={CONTRACT_RULES[contractLevel]}
+            contractRule={contractRule(contractLevel, trust)}
             contractAgreedAt={contractAgreedAt}
           />
         )}
