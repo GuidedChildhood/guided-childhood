@@ -1653,3 +1653,21 @@ in as the presenter on digi slides, house style illustrated diagrams per
 concept, choice slides as tactile moments with instant warm feedback, swipe
 and arrow key navigation. No new content format needed, the jsonb slide
 types already carry it.
+
+## 20 July 2026 — Kid app: one Today list, the timer rule, gifts with a pay back, the age based contract
+Justin's brief for the child screen. One: the three competing to do surfaces
+(the Daily Three, the My jobs tile, the separate My to do today list) merge
+into ONE Today list at the top of the kid screen: family jobs due today plus
+Learn and Move, each with its stars, ticked in one flow. The engines stay
+untouched (localStorage day record for Learn and Move, quest_ticks for jobs);
+this is presentation unification. The tile grid below keeps only what is not
+a to do: Use my time, My road, Our deal, Make it mine, New job. Two: the
+device rule reads in child words wherever a device would be used: "Any screen
+goes through my timer. Do jobs, earn stars, start the timer." Three: a parent
+can gift screen minutes that debit jobs later (migration 080, gift_debts);
+the child sees one warm owed row and the next approved quest tick settles the
+oldest debt. Never shame, the pay back is saying thanks. Four: an age based
+one screen contract on the kid link first run, wording by age band, one big
+I agree button; acceptance locks in on kid_links (agreed_at, agreed_level in
+migration 080) and is visible read only to both sides afterwards. DiGi
+context reads it later in a separate change Justin owns.
