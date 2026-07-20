@@ -37,8 +37,12 @@ export const PLAY_PAYS_WHY_KID =
   'Outside and play quests pay the best stars. Screens are brilliant, but your body and brain grow strongest running about, making things and playing for real. That is why out there earns the most in here.'
 
 export const QUEST_TEMPLATES: QuestTemplate[] = [
-  // Play and outside first: the top of the pay scale
+  // Play and outside first: the top of the pay scale. Football and reading
+  // sit up here on purpose: a kickabout is the movement and the mates, and a
+  // book is the deepest screen free attention a child can practise.
   { title: 'One hour of outside play',          emoji: '🌳', stars: 4, schedule: 'daily',    play: true },
+  { title: 'Football, a proper kickabout',      emoji: '⚽', stars: 4, schedule: 'daily',    play: true },
+  { title: 'Twenty minutes lost in a book',     emoji: '📚', stars: 3, schedule: 'daily',    play: true },
   { title: 'Bike, scoot or run about',          emoji: '🚲', stars: 3, schedule: 'daily',    play: true },
   { title: 'Build, draw or make something real', emoji: '🎨', stars: 3, schedule: 'daily',   play: true },
   { title: 'Family game played together',       emoji: '🎲', stars: 4, schedule: 'weekend',  play: true },
@@ -50,7 +54,6 @@ export const QUEST_TEMPLATES: QuestTemplate[] = [
   { title: 'Teeth brushed, no reminders', emoji: '🦷', stars: 1, schedule: 'daily' },
   { title: 'Dressed and ready on time',   emoji: '👕', stars: 1, schedule: 'weekdays' },
   { title: 'School bag packed tonight',   emoji: '🎒', stars: 1, schedule: 'weekdays' },
-  { title: 'Twenty minutes of reading',   emoji: '📚', stars: 2, schedule: 'daily' },
   { title: 'Homework before screens',     emoji: '✏️', stars: 2, schedule: 'weekdays' },
   { title: 'Table laid or cleared',       emoji: '🍽️', stars: 1, schedule: 'daily' },
   { title: 'Room tidy before bed',        emoji: '🛏️', stars: 1, schedule: 'daily' },
@@ -75,6 +78,7 @@ export const KID_REQUEST_IDEAS: { title: string; emoji: string }[] = [
   { title: 'Clean my room',            emoji: '🧹' },
   { title: 'Wash the car',             emoji: '🚗' },
   { title: 'Help with dinner',         emoji: '🍳' },
+  { title: 'Play football outside',    emoji: '⚽' },
   { title: 'Tidy the garden',          emoji: '🌿' },
   { title: 'Sort my school bag',       emoji: '🎒' },
   { title: 'Read to someone smaller',  emoji: '📚' },
