@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { card, cardPad, eyebrow, stepCircle } from '@/components/scripts/card-system'
 
 // The deeper half of every script: what to say when the child pushes
 // back, how to check back later in the week, and a short note written
@@ -24,8 +25,8 @@ type Props = {
 }
 
 const DEEP_STEPS = [
-  { num: 5, key: 'ifTheyPushBack' as const, label: 'If they push back', bg: 'var(--stage-4)', border: 'var(--stage-4)' },
-  { num: 6, key: 'checkBack' as const, label: 'Check back in a few days', bg: 'var(--stage-1)', border: 'var(--stage-1)' },
+  { num: 5, key: 'ifTheyPushBack' as const, label: 'If they push back' },
+  { num: 6, key: 'checkBack' as const, label: 'Check back in a few days' },
 ]
 
 const YOUNG_STAGES = ['foundation', 'builder']
@@ -108,10 +109,10 @@ export default function ScriptDepth({ sortOrder, initial, childName, childPhone,
   if (loading) {
     return (
       <div style={{
-        background: 'var(--cream)', border: '1.5px dashed var(--border)', borderRadius: '16px',
-        padding: '20px 22px', marginBottom: '28px', textAlign: 'center',
+        ...card, boxShadow: 'none', borderStyle: 'dashed',
+        background: 'var(--cream)', padding: cardPad, textAlign: 'center',
       }}>
-        <p style={{ fontSize: '14px', color: 'var(--ink-muted)' }}>
+        <p style={{ fontSize: '14px', color: 'var(--ink-muted)', margin: 0 }}>
           DiGi is writing the deeper half of this script, the push back reply, the follow up and a note for your child...
         </p>
       </div>
@@ -121,60 +122,34 @@ export default function ScriptDepth({ sortOrder, initial, childName, childPhone,
   if (!expansion) return null
 
   return (
-    <div style={{ marginBottom: '28px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
 
-      {/* Steps 5 and 6, same shape as the first four */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '16px' }}>
-        {DEEP_STEPS.map(step => (
-          <div key={step.num} style={{
-            background: step.bg, border: `1.5px solid ${step.border}`,
-            borderRadius: '16px', padding: '22px', display: 'flex', gap: '18px',
-          }}>
-            <div style={{
-              width: '36px', height: '36px', borderRadius: '50%',
-              background: 'var(--terracotta)', color: '#fff',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontSize: '16px', fontWeight: 800, flexShrink: 0,
-              fontFamily: 'var(--font-display)',
-            }}>
-              {step.num}
-            </div>
-            <div style={{ flex: 1 }}>
-              <div style={{
-                fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600,
-                letterSpacing: '0.12em', textTransform: 'uppercase',
-                color: 'var(--terracotta)', marginBottom: '10px',
-              }}>
-                {step.label}
-              </div>
-              <p style={{ fontSize: '17px', color: 'var(--ink)', lineHeight: 1.72 }}>
-                {expansion[step.key]}
-              </p>
-            </div>
+      {/* Steps 5 and 6, the exact same card grammar as steps 1 to 4 */}
+      {DEEP_STEPS.map(step => (
+        <div key={step.num} style={{ ...card, padding: cardPad }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px' }}>
+            <span style={stepCircle}>{step.num}</span>
+            <span style={{ ...eyebrow, color: 'var(--terracotta-dark)' }}>{step.label}</span>
           </div>
-        ))}
-      </div>
+          <p style={{ fontSize: '16.5px', color: 'var(--ink)', lineHeight: 1.7, margin: 0 }}>
+            {expansion[step.key]}
+          </p>
+        </div>
+      ))}
 
       {/* The note for the child. Spoken words live in the DiGi blue pill,
           the chat speech treatment, and everything around them (the how to
           share it guidance, the buttons) is clean white process. No dark
           espresso grounds on this page. */}
-      <div style={{
-        background: '#fff', border: '1.5px solid var(--border)',
-        borderRadius: '16px', padding: '22px',
-      }}>
-        <div style={{
-          fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600,
-          letterSpacing: '0.12em', textTransform: 'uppercase',
-          color: 'var(--terracotta-dark)', marginBottom: '10px',
-        }}>
+      <div style={{ ...card, padding: cardPad }}>
+        <div style={{ ...eyebrow, color: 'var(--terracotta-dark)', marginBottom: '12px' }}>
           A note for {childName ?? 'your child'}
         </div>
 
         <p style={{
-          fontSize: '17px', color: '#1B2A4A', lineHeight: 1.6, marginBottom: '14px',
+          fontSize: '16px', color: '#1B2A4A', lineHeight: 1.6, marginBottom: '14px',
           fontStyle: 'italic', background: '#DCE7FB',
-          borderRadius: '4px 16px 16px 16px', padding: '14px 16px',
+          borderRadius: '18px 18px 18px 6px', padding: '14px 16px',
         }}>
           {note}
         </p>
