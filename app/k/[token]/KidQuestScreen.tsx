@@ -102,6 +102,7 @@ export default function KidQuestScreen({
   weekChart = [], schoolToday = [], notes = [], agreementItems = [], agreementSigned = false,
   contractLevel = '11plus', contractAgreedAt = null, contractReady = false, giftStarsOwed = 0,
   deviceTrust = 'ask', initialAsk = null, initialNudges = [],
+  stageLessonsPassed = null, stageLessonsTotal = null,
 }: {
   token: string
   childName: string
@@ -146,6 +147,10 @@ export default function KidQuestScreen({
   weekChart?: { label: string; count: number; today: boolean }[]
   schoolToday?: KidSchoolToday[]
   notes?: { id: string; kind: string; title: string; body: string; read: boolean }[]
+  // The stage library lesson passes, the same count the parent's progress
+  // report uses, for the road's proof chip. Nulls fall back to the old count.
+  stageLessonsPassed?: number | null
+  stageLessonsTotal?: number | null
 }) {
   // Only the games, mini lessons and printables that suit this child's
   // stage, so a young child never meets an older child's content.
@@ -1037,6 +1042,11 @@ export default function KidQuestScreen({
             buddyIsStar={chosenBuddy === 'digi'}
             lessonsDoneCount={doneLessons.size}
             starsBanked={bankBalance}
+            dailyGuideMinutes={recommendedMinutes}
+            usedTodayMinutes={usedTodayMinutes}
+            stageLessonsPassed={stageLessonsPassed}
+            stageLessonsTotal={stageLessonsTotal}
+            lessonsHref={`/k/${token}/lessons`}
             onClose={() => setRoadOpen(false)}
           />
         )}

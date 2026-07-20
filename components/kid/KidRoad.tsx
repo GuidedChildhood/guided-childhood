@@ -2,7 +2,8 @@
 
 import { StageDot, RoadPulseStyle, type StageDotState } from '@/components/pathway/StageRoad'
 import { STAGES } from '@/lib/content/stages'
-import { READINESS } from '@/lib/content/readiness'
+import { READINESS, KID_STAGE_DEALS } from '@/lib/content/readiness'
+import { STAR_MINUTES } from '@/lib/quests/templates'
 import { playKidSound } from '@/lib/sound/kidSounds'
 
 // My road: the child's own view of the road to 16, one tap behind the Daily
@@ -23,6 +24,7 @@ const KID_STAGE_LINES: Record<number, string> = {
 
 export default function KidRoad({
   stageId, childName, buddyName, buddyImg, buddyIsStar, lessonsDoneCount, starsBanked, onClose,
+  dailyGuideMinutes = 0, usedTodayMinutes = 0, stageLessonsPassed = null, stageLessonsTotal = null, lessonsHref = null,
 }: {
   stageId: number
   childName: string
@@ -32,6 +34,16 @@ export default function KidRoad({
   lessonsDoneCount: number
   starsBanked: number
   onClose: () => void
+  // The stage deal numbers, big and obvious: the daily screen guide for this
+  // age (the parent's own number when they set one), what is used today, and
+  // the stage lesson passes that are the exact count the parent's progress
+  // report uses. Nulls fall back to the plain proof chips, so the road never
+  // breaks when a surface cannot supply them.
+  dailyGuideMinutes?: number
+  usedTodayMinutes?: number
+  stageLessonsPassed?: number | null
+  stageLessonsTotal?: number | null
+  lessonsHref?: string | null
 }) {
   const current = Math.min(5, Math.max(1, stageId))
 
@@ -116,20 +128,82 @@ export default function KidRoad({
                       <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink)', lineHeight: 1.5, margin: '0 0 10px' }}>
                         {KID_STAGE_LINES[stage.id]}
                       </p>
-                      {/* The proof: this child's real numbers, not a promise */}
+
+                      {/* My deal at this stage: the boundaries in the child's own
+                          words, big numbers first. The same guide the timer uses,
+                          so every surface tells one story. */}
+                      {dailyGuideMinutes > 0 && (
+                        <>
+                          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 9.5, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 7 }}>
+                            My deal at this stage
+                          </div>
+                          <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
+                            <span style={{ flex: 1, textAlign: 'center', background: 'var(--tint-sage)', borderRadius: 12, padding: '10px 6px' }}>
+                              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.55rem', color: 'var(--ink)', lineHeight: 1 }}>{dailyGuideMinutes}</span>
+                              <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 8.5, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-soft)', marginTop: 3 }}>screen min a day</span>
+                            </span>
+                            <span style={{ flex: 1, textAlign: 'center', background: 'var(--tint-blue, #E4ECF7)', borderRadius: 12, padding: '10px 6px' }}>
+                              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.55rem', color: 'var(--ink)', lineHeight: 1 }}>{Math.max(0, Math.round(usedTodayMinutes))}</span>
+                              <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 8.5, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-soft)', marginTop: 3 }}>used today</span>
+                            </span>
+                          </div>
+                          <p style={{ fontSize: 12.5, fontWeight: 600, color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 10px' }}>
+                            Jobs pay for screens: 1 star is {STAR_MINUTES} minutes. Every screen counts, TV and consoles too, so the timer always goes on.
+                          </p>
+                        </>
+                      )}
+
+                      {/* Great for you now, and what comes later: the passport
+                          in kid words, steps earned, never a ban. */}
+                      {KID_STAGE_DEALS[stage.id] && (
+                        <>
+                          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 9.5, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 6 }}>
+                            Great for you now
+                          </div>
+                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 8 }}>
+                            {KID_STAGE_DEALS[stage.id].greatNow.map(g => (
+                              <span key={g.label} style={{ display: 'inline-flex', alignItems: 'center', gap: 5, background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: 100, padding: '5px 10px' }}>
+                                <span aria-hidden style={{ fontSize: 12 }}>{g.emoji}</span>
+                                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 11.5, color: 'var(--ink)' }}>{g.label}</span>
+                              </span>
+                            ))}
+                          </div>
+                          <p style={{ fontSize: 12, color: 'var(--ink-muted)', lineHeight: 1.5, margin: '0 0 12px' }}>
+                            🪪 {KID_STAGE_DEALS[stage.id].later}
+                          </p>
+                        </>
+                      )}
+
+                      {/* The proof: this child's real numbers, not a promise. The
+                          lessons figure is the same count the grown up's progress
+                          report uses, so a pass lights up both sides at once. */}
                       <div style={{ fontFamily: 'var(--font-mono)', fontSize: 9.5, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 7 }}>
                         Your proof so far
                       </div>
                       <div style={{ display: 'flex', gap: 8 }}>
                         <span style={{ flex: 1, textAlign: 'center', background: 'var(--tint-blue, #E4ECF7)', borderRadius: 12, padding: '9px 6px' }}>
-                          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.25rem', color: 'var(--ink)', lineHeight: 1 }}>{lessonsDoneCount}</span>
-                          <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-soft)', marginTop: 3 }}>lessons done</span>
+                          {stageLessonsTotal != null && stageLessonsTotal > 0 ? (
+                            <>
+                              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.25rem', color: 'var(--ink)', lineHeight: 1 }}>{stageLessonsPassed ?? 0} of {stageLessonsTotal}</span>
+                              <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-soft)', marginTop: 3 }}>stage lessons passed</span>
+                            </>
+                          ) : (
+                            <>
+                              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.25rem', color: 'var(--ink)', lineHeight: 1 }}>{lessonsDoneCount}</span>
+                              <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-soft)', marginTop: 3 }}>lessons done</span>
+                            </>
+                          )}
                         </span>
                         <span style={{ flex: 1, textAlign: 'center', background: 'var(--terracotta-lt)', borderRadius: 12, padding: '9px 6px' }}>
                           <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.25rem', color: 'var(--ink)', lineHeight: 1 }}>{starsBanked}</span>
                           <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-soft)', marginTop: 3 }}>stars earned</span>
                         </span>
                       </div>
+                      {lessonsHref && stageLessonsTotal != null && (stageLessonsPassed ?? 0) < stageLessonsTotal && (
+                        <a href={lessonsHref} style={{ display: 'block', textAlign: 'center', marginTop: 9, background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 12, padding: '10px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 13, boxShadow: '0 4px 0 var(--terracotta-dark)' }}>
+                          Pass the next lesson ▶
+                        </a>
+                      )}
                     </div>
                   ) : (
                     <p style={{ fontSize: 12.5, color: 'var(--ink-muted)', lineHeight: 1.45, margin: '7px 0 0' }}>

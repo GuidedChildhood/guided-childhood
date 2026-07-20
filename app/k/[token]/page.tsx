@@ -211,6 +211,24 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     ? parentLimit
     : recommendedDailyMinutes(ageBand ?? null)
 
+  // The child's stage library lessons and their passes, the exact same count
+  // the parent's progress report uses, so the road's proof and the report can
+  // never disagree. Fails soft to nulls on any read error.
+  let stageLessonsPassed: number | null = null
+  let stageLessonsTotal: number | null = null
+  {
+    const stageSlug = ageBand ? getStageFromAgeBand(ageBand).name.toLowerCase() : 'builder'
+    const [{ data: stageLessonRows, error: lessonsErr }, { data: passRows, error: passErr }] = await Promise.all([
+      supabase.from('lessons').select('id').eq('audience', 'parent').eq('stage_id', stageSlug).neq('status', 'stub'),
+      supabase.from('lesson_completions').select('lesson_id, passed').eq('user_id', link.user_id).eq('lesson_source', 'lesson'),
+    ])
+    if (!lessonsErr && !passErr && (stageLessonRows ?? []).length > 0) {
+      const ids = new Set((stageLessonRows ?? []).map(l => l.id))
+      stageLessonsTotal = ids.size
+      stageLessonsPassed = (passRows ?? []).filter(c => c.passed !== false && ids.has(c.lesson_id)).length
+    }
+  }
+
   // Notes and scripts a grown up shared to this child's own app, newest first.
   // These land here instead of a text message, and stay to be read again.
   const { data: shareRows } = await supabase
@@ -383,6 +401,8 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       usedWeekMinutes={usedWeekMinutes}
       usedTodayMinutes={usedTodayMinutes}
       recommendedMinutes={recommendedMinutes}
+      stageLessonsPassed={stageLessonsPassed}
+      stageLessonsTotal={stageLessonsTotal}
       printablesUnlocked={printablesUnlocked}
       activeSession={activeSession}
       weekChart={weekChart}
