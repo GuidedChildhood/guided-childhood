@@ -3,6 +3,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { deviceLabel } from '@/lib/quests/device-time'
 import { getMinutesUsedToday } from '@/lib/quests/usage'
 import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
+import { pushToChild } from '@/lib/quests/kid-push'
 
 // The parent's eyes on device time, every minute. Two jobs:
 //
@@ -100,6 +101,25 @@ export async function GET(request: Request) {
           `The ${deviceLabel(s.device as string)} timer has finished. Time to set the next quests.`,
         )
       }
+
+      // The child hears it too, on their own device. They may be across the
+      // room on the TV or the console, nowhere near their quest page, so the
+      // screen alarm alone is not enough. Best effort like every push.
+      try {
+        if (allowanceReached) {
+          await pushToChild(
+            admin, s.user_id as string, cid,
+            'That is your screen time for today 🌱',
+            'Nice one. Your stars keep earning for tomorrow. Open your page for good things to do instead.',
+          )
+        } else {
+          await pushToChild(
+            admin, s.user_id as string, cid,
+            'Time is up ⏰',
+            `Your ${deviceLabel(s.device as string)} timer has finished. Open your page for good things to do instead.`,
+          )
+        }
+      } catch { /* best effort per session */ }
     }
   }
 
@@ -143,6 +163,13 @@ export async function GET(request: Request) {
         `${kid.name} has reached the healthy amount for today 🌱`,
         `The ${deviceLabel(s.device as string)} timer is wrapping up with some offline ideas. Anything more today is a treat you can grant from the board.`,
       )
+      try {
+        await pushToChild(
+          admin, s.user_id as string, cid,
+          'Nearly time to wrap up 🌱',
+          'You have reached the healthy amount for today. When the timer ends, pick a job or something fun offline.',
+        )
+      } catch { /* best effort per session */ }
       alerted += 1
     } catch { /* best effort per session */ }
   }
