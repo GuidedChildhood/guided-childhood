@@ -662,7 +662,7 @@ export default function QuestManager() {
                 onDismissGoalDone={goalDoneKey ? () => dismissGoalDone(goalDoneKey) : undefined}
                 timerRunning={sessions.some(s => s.child_id === activeChild)}
                 sessionEndsAt={sessions.find(s => s.child_id === activeChild)?.ends_at ?? null}
-                onApprove={() => { if (ticks.some(t => t.child_id === activeChild && t.status === 'pending')) { window.location.href = '/dashboard#quest-board' } else { goToSection('quest-tabs', 'manage') } }}
+                onApprove={() => { if (ticks.some(t => t.child_id === activeChild && t.status === 'pending')) { window.location.href = '/dashboard/quests#quest-board' } else { goToSection('quest-tabs', 'manage') } }}
                 onTodo={() => goToSection('my-todo', 'manage')}
                 onScreenTime={() => goToSection('screen-time')}
                 onShare={() => goToSection('quest-tabs', 'share')}

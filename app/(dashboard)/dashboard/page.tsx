@@ -458,6 +458,34 @@ export default async function DashboardPage() {
           the three numbers a parent wants at a glance. */}
       <HomeStats streakCount={streak.count} streakTotal={streak.total} />
 
+      {/* Push notification opt-in. Rendered whenever check ins are not yet on
+          (so the enable button is always reachable, including when a parent
+          taps the Turn on check ins step out of order), and kept once they are
+          on so the granted state and Send a test stay available. The id is the
+          anchor the setup step link scrolls to. Stays outside the fold below
+          so that link never lands on a closed drawer. */}
+      <div id="turn-on-check-ins" style={{ marginBottom: '20px', scrollMarginTop: '80px' }}>
+        <PushPrompt userId={user.id} stage={`Stage ${stage.id}`} />
+      </div>
+
+      {/* Everything else, folded: every quieter card Home used to stack is
+          still here and fully working, one tap away behind one calm row, so
+          the daily screen keeps one shape. */}
+      <details className="gc-home-more" style={{ marginBottom: '20px' }}>
+        <summary style={{
+          display: 'flex', alignItems: 'center', gap: '13px', cursor: 'pointer',
+          background: '#fff', border: '1.5px solid var(--border)', borderRadius: '16px',
+          padding: '14px 15px', boxShadow: '0 3px 0 rgba(26,26,46,0.05)', listStyle: 'none',
+        }}>
+          <span style={{ width: 50, height: 50, borderRadius: '14px', background: 'var(--terracotta-lt)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px', flexShrink: 0 }}>🧺</span>
+          <span style={{ flex: 1, minWidth: 0 }}>
+            <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)', lineHeight: 1.2 }}>Everything else</span>
+            <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: '12.5px', color: 'var(--ink-muted)', marginTop: '3px' }}>Moments, lessons, printables, school and more</span>
+          </span>
+          <span aria-hidden style={{ color: 'var(--ink-muted)', fontWeight: 800, flexShrink: 0 }}>›</span>
+        </summary>
+        <div style={{ paddingTop: '16px' }}>
+
       {/* DiGi hands a lesson straight to the parent, so lessons are reachable
           on mobile even without a Lessons tab: watch together here, or send it
           to the child's phone. */}
@@ -549,16 +577,6 @@ export default async function DashboardPage() {
           </Link>
         </div>
       )}
-
-      {/* Push notification opt-in. Rendered whenever check ins are not yet on
-          (so the enable button is always reachable, including when a parent
-          taps the Turn on check ins step out of order), and kept once they are
-          on so the granted state and Send a test stay available. The id is the
-          anchor the step link scrolls to, which is what makes that button
-          actually do something instead of a silent reload. */}
-      <div id="turn-on-check-ins" style={{ marginBottom: '20px', scrollMarginTop: '80px' }}>
-        <PushPrompt userId={user.id} stage={`Stage ${stage.id}`} />
-      </div>
 
       {/* Device setup prompt: a supplementary ask, held back until the core
           setup path is done so it never competes with the current step. */}
@@ -797,6 +815,9 @@ export default async function DashboardPage() {
           </Link>
         </div>
       )}
+
+        </div>
+      </details>
     </div>
   )
 }
