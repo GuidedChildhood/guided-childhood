@@ -423,10 +423,10 @@ export default function HomePage() {
               From age 4 through 16
             </p>
             <h1 className="fu" style={{ fontSize: 'clamp(2.5rem, 4.4vw, 3.5rem)', fontWeight: 900, lineHeight: 1.05, letterSpacing: '-.035em', color: 'var(--ink)', maxWidth: '560px', marginBottom: '18px' }}>
-              End the screen time fight, for good.
+              Raise a digitally literate child, ready by 16.
             </h1>
             <p className="fu" style={{ fontSize: '1.12rem', color: 'var(--ink-soft)', lineHeight: 1.65, maxWidth: '490px', marginBottom: '22px' }}>
-              At 16 the apps arrive all at once. A ban just delays them. It teaches nothing. Guided Childhood is the education from 4 to 16: safe online, digitally literate, using technology well, and social media ready at the right age. So 16 is a gentle ramp, not a cliff edge.
+              A research based pathway from age 4 to 16. Safe settings on every device, real lessons in AI, games and the internet at the right age, screen time they earn, and no cliff edge into social media.
             </p>
             {/* Exactly three benefit ticks, the outcome in plain words */}
             <ul className="fu" style={{ listStyle: 'none', margin: '0 0 26px', padding: 0, display: 'flex', flexDirection: 'column', gap: '10px', maxWidth: '470px' }}>
@@ -735,7 +735,7 @@ export default function HomePage() {
             ))}
           </div>
           <p className="fu" style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.4rem, 2.8vw, 1.9rem)', fontWeight: 900, color: 'var(--terracotta-dark)', letterSpacing: '-.025em', lineHeight: 1.25, margin: 0 }}>
-            There is a third way, a guided one.
+            There is a third way, a guided one. End the screen time fight, for good.
           </p>
         </div>
       </section>
