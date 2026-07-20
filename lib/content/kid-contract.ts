@@ -27,6 +27,19 @@ export const CONTRACT_RULES: Record<ContractLevel, string> = {
   '11plus': 'Every screen runs through my timer. I start it myself and it winds up at the healthy amount',
 }
 
+// The rule the child actually lives under follows the trust setting, not just
+// their age. Ask first (the default) means even an 11 plus asks with one tap
+// before their timer runs; watch and trusted keep the self start wording.
+export function contractRule(level: ContractLevel, trust?: string | null): string {
+  if (level === '11plus' && (trust === 'watch' || trust === 'trusted')) {
+    return CONTRACT_RULES['11plus']
+  }
+  if (level === '11plus') {
+    return 'Every screen runs through my timer. I ask first with one tap, then my timer starts'
+  }
+  return CONTRACT_RULES[level]
+}
+
 // The supporting promises come straight from the agreement clauses the
 // family builder already uses, so the contract wording is wired, never
 // invented twice.

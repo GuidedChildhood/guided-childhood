@@ -20,6 +20,24 @@ export const DEVICES: { key: DeviceKey; label: string; emoji: string }[] = [
   { key: 'console', label: 'Console', emoji: '🎮' },
 ]
 
+// The same four devices in the child's own picker: TV first because that is
+// the most common ask, and the phone in their hands relabelled so the tile
+// reads as the thing they are actually holding. Same keys, same engine.
+export const KID_DEVICES: { key: DeviceKey; label: string; emoji: string }[] = [
+  { key: 'tv', label: 'TV', emoji: '📺' },
+  { key: 'phone', label: 'Stay on this phone', emoji: '📱' },
+  { key: 'tablet', label: 'Tablet', emoji: '📲' },
+  { key: 'console', label: 'Console', emoji: '🎮' },
+]
+
+export type TrustLevel = 'ask' | 'watch' | 'trusted'
+
+// Unset or unknown trust reads as ask first: the calibrated default for
+// everyone, which the parent can loosen in "Who starts the timer?".
+export function readTrust(v: unknown): TrustLevel {
+  return v === 'watch' || v === 'trusted' ? v : 'ask'
+}
+
 export function deviceLabel(key: string): string {
   return DEVICES.find(d => d.key === key)?.label ?? 'device'
 }

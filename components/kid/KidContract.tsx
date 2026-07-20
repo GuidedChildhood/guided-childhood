@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { CONTRACT_RULES, contractPromises, type ContractLevel } from '@/lib/content/kid-contract'
+import { contractRule, contractPromises, type ContractLevel } from '@/lib/content/kid-contract'
 import { playKidSound } from '@/lib/sound/kidSounds'
 
 // The one screen contract moment, before the board ever shows. Age based:
@@ -9,13 +9,16 @@ import { playKidSound } from '@/lib/sound/kidSounds'
 // and the supporting promises come from the family agreement clauses. One
 // big I agree, then it locks in on kid_links and both sides can see it.
 
-export default function KidContract({ childName, level, onAgree }: {
+export default function KidContract({ childName, level, trust, onAgree }: {
   childName: string
   level: ContractLevel
+  // The trust setting shapes the rule: with ask first (the default) even an
+  // 11 plus reads "I ask first with one tap, then my timer starts".
+  trust?: string | null
   onAgree: () => void
 }) {
   const [busy, setBusy] = useState(false)
-  const rule = CONTRACT_RULES[level]
+  const rule = contractRule(level, trust)
   const promises = contractPromises(level)
 
   return (

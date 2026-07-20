@@ -319,6 +319,48 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     if (!error) giftStarsOwed = (data ?? []).reduce((sum, d) => sum + (Number(d.stars_owed) || 0), 0)
   }
 
+  // Who starts the timer for this child, unset reading as ask, plus the
+  // latest screen time ask (last twelve hours, so a stale answer never
+  // greets them) and any unread nudges. The nudges table lands with
+  // migration 081, so that read fails soft to none.
+  let deviceTrust = 'ask'
+  {
+    const { data, error } = await supabase
+      .from('children').select('device_trust').eq('id', link.child_id).maybeSingle()
+    if (!error && (data?.device_trust === 'watch' || data?.device_trust === 'trusted')) {
+      deviceTrust = data.device_trust
+    }
+  }
+  const askSinceIso = new Date(Date.now() - 12 * 3600000).toISOString()
+  let initialAsk: { id: string; device: string; minutes: number; status: 'pending' | 'approved' | 'declined' } | null = null
+  {
+    const { data, error } = await supabase
+      .from('device_requests')
+      .select('id, device, minutes, status')
+      .eq('child_id', link.child_id)
+      .gte('created_at', askSinceIso)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle()
+    if (!error && data && ['pending', 'approved', 'declined'].includes(String(data.status))) {
+      initialAsk = {
+        id: String(data.id), device: String(data.device),
+        minutes: Number(data.minutes), status: data.status as 'pending' | 'approved' | 'declined',
+      }
+    }
+  }
+  let initialNudges: { id: string; message: string }[] = []
+  {
+    const { data, error } = await supabase
+      .from('kid_nudges')
+      .select('id, message')
+      .eq('child_id', link.child_id)
+      .eq('seen', false)
+      .order('created_at', { ascending: false })
+      .limit(4)
+    if (!error) initialNudges = (data ?? []).map(n => ({ id: String(n.id), message: String(n.message) }))
+  }
+
   return (
     <KidQuestScreen
       token={token}
@@ -351,6 +393,9 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       contractAgreedAt={contractAgreedAt}
       contractReady={contractReady}
       giftStarsOwed={giftStarsOwed}
+      deviceTrust={deviceTrust}
+      initialAsk={initialAsk}
+      initialNudges={initialNudges}
     />
   )
 }

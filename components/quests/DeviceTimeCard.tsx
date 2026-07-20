@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from 'react'
 import { useRouter } from 'next/navigation'
-import { DEVICES, TIMER_RULE, deviceEmoji, deviceLabel, type ActiveSession } from '@/lib/quests/device-time'
+import { KID_DEVICES, TIMER_RULE, deviceEmoji, deviceLabel, type ActiveSession, type TrustLevel } from '@/lib/quests/device-time'
 import { STAR_MINUTES } from '@/lib/quests/templates'
 import Celebration from '@/components/ui/Celebration'
 
@@ -50,6 +50,7 @@ function OfflineIdeas({ onPrintables, onGames }: { onPrintables?: () => void; on
 
 export default function DeviceTimeCard({
   token, balanceStars, initialSession, usedTodayMinutes = 0, recommendedMinutes = 0,
+  deviceTrust = 'ask', onAsked, startPicking = false,
   onPrintables, onGames,
 }: {
   token: string
@@ -57,6 +58,15 @@ export default function DeviceTimeCard({
   initialSession: ActiveSession | null
   usedTodayMinutes?: number
   recommendedMinutes?: number
+  // How much this child does alone: ask (the default, the tap sends an ask
+  // and the grown up's yes starts the deal), watch or trusted (the tap
+  // starts the timer straight away).
+  deviceTrust?: TrustLevel
+  // The ask went off: the kid screen's status banner takes over the waiting
+  // story, so this card can fold back to idle.
+  onAsked?: (ask: { id?: string; device: string; minutes: number }) => void
+  // Fixture only: open on the picker so the ref page can screenshot it.
+  startPicking?: boolean
   // Optional doorways for the offline ideas row: the kid screen passes these to
   // hop to its Printables tab and its Games sub tab. Left out, those buttons
   // simply do not show.
@@ -65,7 +75,7 @@ export default function DeviceTimeCard({
 }) {
   const router = useRouter()
   const [session, setSession] = useState<ActiveSession | null>(initialSession)
-  const [phase, setPhase] = useState<'idle' | 'picking' | 'up'>(initialSession ? 'idle' : 'idle')
+  const [phase, setPhase] = useState<'idle' | 'picking' | 'up'>(startPicking && !initialSession ? 'picking' : 'idle')
   const [device, setDevice] = useState<string>('tv')
   const [minutes, setMinutes] = useState<number>(Math.min(30, balanceStars * STAR_MINUTES))
   const [remaining, setRemaining] = useState<number>(0)
@@ -86,11 +96,14 @@ export default function DeviceTimeCard({
       : Math.max(0, Math.round(usedTodayMinutes))
   )
 
-  // The most the child can start now: their stars in minutes, but never past
-  // what is left of the daily limit their grown up set, so a day's screen never
-  // runs beyond the agreed cap even when stars have banked up.
+  // The most the child can pick now. Watch and trusted starts are hard capped
+  // at what is left of the day's limit, so a self started screen never runs
+  // beyond the agreed cap. An ask is different: the grown up decides, so the
+  // stars are the only ceiling and an ask past the guide is simply named as
+  // going past the healthy amount, both here and on the parent's yes.
+  const asksFirst = deviceTrust === 'ask'
   const dailyLimit = Math.round(recommendedMinutes)
-  const remainingToday = dailyLimit > 0 ? Math.max(0, dailyLimit - Math.round(usedTodayMinutes)) : Number.POSITIVE_INFINITY
+  const remainingToday = dailyLimit > 0 && !asksFirst ? Math.max(0, dailyLimit - Math.round(usedTodayMinutes)) : Number.POSITIVE_INFINITY
   const maxMinutes = Math.max(0, Math.min(balanceStars * STAR_MINUTES, remainingToday))
   // Keep the chosen minutes inside the cap, so the picker never shows more than
   // is allowed today.
@@ -267,10 +280,12 @@ export default function DeviceTimeCard({
       })
       const data = await res.json().catch(() => ({}))
       if (res.ok && data.pending) {
-        // Ask first families: the grown up has to say yes. The child sees a
-        // calm confirmation, not a timer, and the parent gets the ping.
-        setNote('Asked your grown up! They will start your time when they say yes.')
+        // Ask first: the ask is away and the status banner at the top of the
+        // child's screen carries the waiting story from here, so the card
+        // folds back and there is never two places telling it.
+        setNote(null)
         setPhase('idle')
+        onAsked?.({ id: data.request?.id, device, minutes })
       } else if (res.ok && data.session) {
         setNote(null)
         setEndedByGuide(false)
@@ -400,27 +415,38 @@ export default function DeviceTimeCard({
 
   // ── Picking a device and minutes ──
   if (phase === 'picking') {
+    const guideToday = Math.max(0, Math.round(recommendedMinutes))
+    const exceedsGuide = guideToday > 0 && Math.round(usedTodayMinutes) + minutes > guideToday
     return (
       <div style={{ background: '#fff', borderRadius: '20px', padding: '18px 20px', marginBottom: '16px', boxShadow: '0 5px 0 rgba(0,0,0,0.14)' }}>
-        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: 'var(--ink)', marginBottom: '12px' }}>
-          What are you using?
+        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: 'var(--ink)', marginBottom: asksFirst ? '4px' : '12px' }}>
+          What will you use?
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px', marginBottom: '16px' }}>
-          {DEVICES.map(d => {
+        {/* The deal, said plainly before anything is picked: an ask is an
+            ask, and the yes is what starts the timer. */}
+        {asksFirst && (
+          <p style={{ fontSize: '13px', fontWeight: 600, color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 12px' }}>
+            This asks your grown up. They get a ping, and when they say yes your timer starts.
+          </p>
+        )}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '9px', marginBottom: '16px' }}>
+          {KID_DEVICES.map(d => {
             const on = device === d.key
             return (
               <button
                 key={d.key}
                 onClick={() => setDevice(d.key)}
+                aria-pressed={on}
                 style={{
-                  display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px',
-                  padding: '12px 4px', borderRadius: '14px', cursor: 'pointer',
+                  display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '5px',
+                  minHeight: 86, padding: '12px 6px', borderRadius: '16px', cursor: 'pointer',
                   border: `2px solid ${on ? 'var(--terracotta)' : 'var(--border)'}`,
                   background: on ? 'var(--terracotta-lt)' : 'var(--cream)',
-                  fontFamily: 'var(--font-display)', fontSize: '11px', fontWeight: 800, color: 'var(--ink)',
+                  fontFamily: 'var(--font-display)', fontSize: '12.5px', fontWeight: 800, color: 'var(--ink)',
+                  lineHeight: 1.2, textAlign: 'center',
                 }}
               >
-                <span style={{ fontSize: '1.5rem' }}>{d.emoji}</span>
+                <span style={{ fontSize: '1.9rem', lineHeight: 1 }}>{d.emoji}</span>
                 {d.label}
               </button>
             )
@@ -445,6 +471,16 @@ export default function DeviceTimeCard({
             style={{ width: 44, height: 44, borderRadius: '12px', border: '1.5px solid var(--border)', background: 'var(--cream)', cursor: minutes + STAR_MINUTES > maxMinutes ? 'default' : 'pointer', fontSize: '20px', fontWeight: 800, color: 'var(--ink)', opacity: minutes + STAR_MINUTES > maxMinutes ? 0.4 : 1, flexShrink: 0 }}
           >+</button>
         </div>
+        {/* An ask past today's healthy amount is allowed, just named: the
+            grown up decides, and the good offline stuff sits right there. */}
+        {asksFirst && exceedsGuide && (
+          <div style={{ background: 'var(--terracotta-lt)', borderRadius: '12px', padding: '11px 13px', marginBottom: '12px' }}>
+            <p style={{ fontSize: '12.5px', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.45, margin: '0 0 10px' }}>
+              🌱 This goes past the healthy amount for today, your grown up decides.
+            </p>
+            <OfflineIdeas onPrintables={onPrintables} onGames={onGames} />
+          </div>
+        )}
         {note && (
           <div style={{ background: '#FDECEC', border: '1.5px solid #E5484D', borderRadius: '12px', padding: '10px 13px', marginBottom: '12px', fontSize: '13px', fontWeight: 700, color: '#B93B3F', lineHeight: 1.4 }}>
             {note}
@@ -460,7 +496,9 @@ export default function DeviceTimeCard({
             disabled={busy || minutes < STAR_MINUTES}
             style={{ flex: 1, padding: '13px', borderRadius: '14px', border: 'none', background: 'var(--terracotta)', color: 'var(--ink)', cursor: busy ? 'default' : 'pointer', fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 800, boxShadow: '0 4px 0 var(--terracotta-dark)', opacity: busy ? 0.6 : 1 }}
           >
-            {busy ? 'Starting...' : `Start ${minutes} min ⏱️`}
+            {busy
+              ? (asksFirst ? 'Asking...' : 'Starting...')
+              : asksFirst ? `Ask for ${minutes} min 🙋` : `Start ${minutes} min ⏱️`}
           </button>
         </div>
       </div>
@@ -529,10 +567,18 @@ export default function DeviceTimeCard({
         <span style={{ fontSize: '1.7rem', flexShrink: 0 }}>{canSpend ? '⏱️' : '⭐'}</span>
         <span style={{ flex: 1, minWidth: 0 }}>
           <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: 'var(--ink)', lineHeight: 1.2 }}>
-            {canSpend ? (reachedGuide ? 'That is your screen time for today 🌱' : 'Use my device time') : 'Earn your screen time'}
+            {canSpend
+              ? (reachedGuide && !asksFirst ? 'That is your screen time for today 🌱' : 'Use device time now')
+              : 'Earn your screen time'}
           </span>
           <span style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: 'var(--ink-muted)', marginTop: '2px' }}>
-            {canSpend ? (reachedGuide ? 'Your stars are safe for tomorrow. Do a job to earn more' : `You have ${maxMinutes} minutes to use now`) : 'Do a job to earn stars, then swap them for time. Tap to see your jobs'}
+            {canSpend
+              ? (reachedGuide && !asksFirst
+                ? 'Your stars are safe for tomorrow. Do a job to earn more'
+                : asksFirst
+                ? `Pick your screen and ask your grown up. You have ${maxMinutes} minutes of stars`
+                : `You have ${maxMinutes} minutes to use now`)
+              : 'Do a job to earn stars, then swap them for time. Tap to see your jobs'}
           </span>
         </span>
         <span style={{ fontSize: '1.3rem', flexShrink: 0 }}>{canSpend ? '▶' : '→'}</span>
