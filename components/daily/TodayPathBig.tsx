@@ -38,7 +38,7 @@ function Connector({ fromX, toX, walked }: { fromX: number; toX: number; walked:
   const x1 = cx + fromX
   const x2 = cx + toX
   return (
-    <div aria-hidden style={{ position: 'relative', height: GAP_H, overflow: 'visible' }}>
+    <div aria-hidden style={{ position: 'relative', height: GAP_H, overflow: 'visible', zIndex: 0 }}>
       <svg
         width={GAP_W}
         height={GAP_H}
@@ -233,7 +233,7 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
                 />
               )}
 
-              <div data-path-node style={{ position: 'relative' }}>
+              <div data-path-node style={{ position: 'relative', zIndex: 1 }}>
                 <Link
                   href={task.href}
                   aria-label={isDoneNode ? `${task.label}, done` : isCurrent ? `${task.label}, up next` : task.label}
@@ -315,7 +315,7 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
               {/* The action callout rides right next to the current node: the
                   exact next step, the honest minute line, and one big Go. */}
               {showCallout && (
-                <div style={{ position: 'relative', marginTop: 14 }}>
+                <div style={{ position: 'relative', marginTop: 14, zIndex: 2 }}>
                   <span aria-hidden style={{
                     position: 'absolute', top: -9, left: '50%',
                     transform: `translateX(calc(-50% + ${x}px)) rotate(45deg)`,

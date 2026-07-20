@@ -163,7 +163,7 @@ function RoadConnector({ fromX, toX, walked, height = 58 }: { fromX: number; toX
   const x1 = cx + fromX
   const x2 = cx + toX
   return (
-    <div aria-hidden style={{ position: 'relative', height, overflow: 'visible' }}>
+    <div aria-hidden style={{ position: 'relative', height, overflow: 'visible', zIndex: 0 }}>
       <svg
         width={ROAD_GAP_W}
         height={height}
@@ -249,12 +249,12 @@ export default function StageRoad({
                 />
               )}
 
-              {/* The stamp node, big, with its pressed edge and its name */}
-              <div style={{ position: 'relative' }}>
+              {/* The stamp node, big, with its pressed edge and its name.
+                  The node rides the full meander; its labels only shift half
+                  way, so no pill ever runs off a phone edge. */}
+              <div style={{ position: 'relative', zIndex: 1 }}>
                 <div style={{
-                  display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8,
                   width: 'fit-content', margin: '0 auto', transform: `translateX(${x}px)`,
-                  position: 'relative', zIndex: 1, maxWidth: 'calc(100% - 20px)',
                 }}>
                   <div className={here ? 'gc-road-here' : undefined} style={{ position: 'relative', width: ROAD_NODE, height: ROAD_NODE, borderRadius: '50%' }}>
                     {here && (
@@ -291,7 +291,10 @@ export default function StageRoad({
                     )}
                   </div>
 
-                  {/* Big label under the node */}
+                </div>
+
+                {/* Big label under the node, half the meander */}
+                <div style={{ width: 'fit-content', maxWidth: 'calc(100% - 12px)', margin: '8px auto 0', transform: `translateX(${x / 2}px)` }}>
                   <div style={{ textAlign: 'center' }}>
                     <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 26, letterSpacing: '-0.02em', lineHeight: 1.1, color: here ? 'var(--ink)' : 'var(--ink-soft)' }}>
                       {stage.name}
@@ -323,7 +326,7 @@ export default function StageRoad({
 
               {/* The current stage opens out below its node, full width */}
               {here ? (
-                <div style={{ marginTop: 14, background: '#fff', border: '1.5px solid var(--border)', borderLeft: '6px solid var(--terracotta)', borderRadius: 16, padding: '16px 16px 14px' }}>
+                <div style={{ marginTop: 14, background: '#fff', border: '1.5px solid var(--border)', borderLeft: '6px solid var(--terracotta)', borderRadius: 16, padding: '16px 16px 14px', position: 'relative', zIndex: 2 }}>
                   {progressPct !== null && (
                     <div style={{ marginBottom: 12 }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 6 }}>
@@ -360,7 +363,7 @@ export default function StageRoad({
                   </Link>
                 </div>
               ) : (
-                <details style={{ marginTop: 10, width: 'fit-content', maxWidth: '100%', margin: '10px auto 0', transform: `translateX(${x / 2}px)` }}>
+                <details style={{ marginTop: 10, width: 'fit-content', maxWidth: '100%', margin: '10px auto 0', transform: `translateX(${x / 2}px)`, position: 'relative', zIndex: 2 }}>
                   <summary style={{ cursor: 'pointer', listStyle: 'none', textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700, color: 'var(--ink-muted)', letterSpacing: '0.03em' }}>
                     {behind ? 'Revisit this stage ▾' : 'What this stage holds ▾'}
                   </summary>
