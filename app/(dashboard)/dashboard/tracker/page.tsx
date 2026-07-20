@@ -182,7 +182,6 @@ export default async function ProgressPage({ searchParams }: { searchParams: Pro
       {/* The same four strands as Home and the pathway, read from the same
           source, so progress always lands in one consistent picture. */}
       {await (async () => {
-        const primary = (children ?? [])[0]
         const stageNum = primary?.age_band ? getStageFromAgeBand(primary.age_band as AgeBand).id : 1
         return (
           <div style={{ margin: '0 -20px' }}>
