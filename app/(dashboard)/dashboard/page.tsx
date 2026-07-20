@@ -10,6 +10,7 @@ import DeviceSetupBanner from '@/components/device/DeviceSetupBanner'
 import SmartAlerts from '@/components/alerts/SmartAlerts'
 import DigiPrompts from '@/components/digi/DigiPrompts'
 import DigiWondering from '@/components/digi/DigiWondering'
+import DigiDeviceCheckin from '@/components/digi/DigiDeviceCheckin'
 import SundayCheckIn from '@/components/digi/SundayCheckIn'
 import RevealCard from '@/components/onboarding/RevealCard'
 import { revealedKeys, eligibleReveals, daysSince } from '@/lib/onboarding/reveal'
@@ -372,6 +373,11 @@ export default async function DashboardPage() {
           {/* The Sunday round up now rides as a row in HomeRows above; the
               check in and DiGi's occasional wondering keep their spot. */}
           <SundayCheckIn />
+          {/* Device aware check in first: when DiGi has noticed a real
+              pattern in a child's device data it asks about that, and the
+              generic wondering steps back (the card stamps the shared gap
+              key). At most one device check in per child per week. */}
+          <DigiDeviceCheckin />
           <DigiWondering />
         </>
       )}

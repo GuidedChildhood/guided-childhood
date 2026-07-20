@@ -40,6 +40,12 @@ export default function DigiWondering() {
       .then(r => r.json())
       .then(d => {
         if (d && d.question) return // a reflection already exists today
+        // Check the gap again at show time: the device check in card stamps
+        // this key when it renders, so DiGi never asks twice in one visit.
+        try {
+          const stamped = localStorage.getItem(KEY)
+          if (stamped && (Date.now() - Date.parse(stamped)) / 86_400_000 < GAP_DAYS) return
+        } catch { /* private mode */ }
         const day = Math.floor(Date.now() / 86_400_000)
         setQuestion(QUESTIONS[day % QUESTIONS.length])
       })
