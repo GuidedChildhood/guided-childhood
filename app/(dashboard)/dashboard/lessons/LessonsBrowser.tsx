@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import BrowseTile from '@/components/ui/BrowseTile'
 import { literacyAreaFor } from '@/lib/content/literacy'
+import { lessonCoverForTitle } from '@/lib/content/lesson-covers'
 import LessonSendButton from './together/LessonSendButton'
 import PrintableActions from '../printables/PrintableActions'
 import type { Printable } from '@/lib/printables/registry'
@@ -268,6 +269,7 @@ export default function LessonsBrowser({
                     title={l.title}
                     sub={literacyAreaFor(l.categoryLabel)?.name ?? l.categoryLabel}
                     emoji={categoryEmoji(l.categoryLabel)}
+                    coverUrl={lessonCoverForTitle(l.title)}
                     done={l.done}
                     doneLabel={l.score != null ? `✓ Passed · ${l.score} right` : '✓ Passed'}
                     locked={l.locked}
