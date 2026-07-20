@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { quizByKey } from '@/lib/content/school-quizzes'
+import { quizByKey, QUIZ_LENGTH } from '@/lib/content/school-quizzes'
 
 // The school quiz behind the path character. Pass four of five and two bonus
 // stars land through the star_bonuses ledger, one quiz a day, checked server
@@ -17,7 +17,9 @@ export async function POST(req: NextRequest) {
   }
   const quiz = quizByKey(quizKey)
   if (!quiz) return NextResponse.json({ error: 'unknown quiz' }, { status: 404 })
-  const total = quiz.questions.length
+  // Every run is a sample of QUIZ_LENGTH from the pool, so that is the total
+  // the score is honest against.
+  const total = QUIZ_LENGTH
   const right = Math.min(Math.max(0, Number(correct) || 0), total)
   if (right / total < PASS_MARK) {
     return NextResponse.json({ error: 'not passed' }, { status: 400 })

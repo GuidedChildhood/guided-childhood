@@ -153,7 +153,7 @@ export default async function KidPathPage({ params }: { params: Promise<{ token:
       jobs={jobs}
       lessons={lessons}
       games={games}
-      quiz={quizForBand(ageBand, Math.floor(Date.now() / 86400000))}
+      quiz={quizForBand(ageBand)}
       dayIndex={Math.floor(Date.now() / 86400000)}
       chestClaimed={chestClaimed}
       quizClaimed={quizClaimed}

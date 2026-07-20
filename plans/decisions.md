@@ -1750,3 +1750,17 @@ many; rehearsal chips send immediately vs prefill for tweaking; eyeball
 the 96 generated covers on the hub. Next booked: fortnightly lesson
 writer pipeline, school curriculum depth tier, educator views adopting
 the lesson covers.
+
+## 20 Jul 2026 (late): school quiz v2 after first child test
+Justin's daughter play tested the path and spotted the quiz answers sat in
+predictable positions. Fixed properly: every run now samples 5 questions from
+a bigger curriculum pool per age band and shuffles answer positions client
+side, so there is never a pattern. Every question gained a why line shown
+after answering with a Continue button (the Duolingo and Bitesize teach beat,
+checked on Mobbin). Pools stay curriculum honest: KS1 bonds and counting, the
+Year 4 tables check, KS3 FDP and algebra, GCSE foundation, everyday money at
+16 plus. BOOKED NEXT: question banks in the database per school year (not per
+band), more subjects (spelling, grammar, science), adaptive difficulty that
+follows the child's hit rate, and educator review of every item. That build
+should follow the lessons pipeline pattern: research grounded, testable on
+arrival, review queue before live.
