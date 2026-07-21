@@ -8,7 +8,7 @@ import PathwayJourney from '@/components/pathway/PathwayJourney'
 import StageRoad from '@/components/pathway/StageRoad'
 import LiteracyAreas from '@/components/pathway/LiteracyAreas'
 import { getLiteracyStatuses } from '@/lib/pathway/literacy-status'
-import { getStageProgress, type StageId as ProgressStageId } from '@/lib/pathway/progress'
+import { getStageProgress, getAllStagesProgress, type StageId as ProgressStageId } from '@/lib/pathway/progress'
 import { getJourney } from '@/lib/pathway/journey'
 import ChildSwitcher from '@/components/children/ChildSwitcher'
 import { pickChild } from '@/lib/children/select'
@@ -38,12 +38,23 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
   const primaryChild = pickChild(children, childParam)
   const currentStageNum = primaryChild?.stage_id ? stageIdToNum[primaryChild.stage_id] ?? null : null
 
-  const [currentStageProgress, journey] = primaryChild?.stage_id
+  const [currentStageProgress, journey, allStagesProgress] = primaryChild?.stage_id
     ? await Promise.all([
         getStageProgress(supabase, user.id, primaryChild.stage_id as ProgressStageId, primaryChild.streak_weeks ?? 0),
         getJourney(supabase, user.id, primaryChild.stage_id as ProgressStageId),
+        getAllStagesProgress(supabase, user.id, primaryChild.streak_weeks ?? 0),
       ])
-    : [null, null]
+    : [null, null, null]
+
+  // One shared reading per stage for the road, the same blend the passport
+  // uses, keyed by stage number, so caught up pages and filled stamps show
+  // truthfully on the road instead of a fixed badge.
+  const stageStatus: Record<number, { pct: number; complete: boolean }> = {}
+  if (allStagesProgress) {
+    for (const slug of Object.keys(allStagesProgress) as ProgressStageId[]) {
+      stageStatus[stageIdToNum[slug]] = { pct: allStagesProgress[slug].overallPct, complete: allStagesProgress[slug].contentComplete }
+    }
+  }
 
   const currentStageContent = currentStageNum ? STAGES.find(s => s.id === currentStageNum) : null
 
@@ -91,6 +102,7 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
           currentStageNum={currentStageNum}
           progressPct={currentStageProgress?.overallPct ?? null}
           childName={primaryChild?.name ?? undefined}
+          stageStatus={stageStatus}
         />
       </div>
 

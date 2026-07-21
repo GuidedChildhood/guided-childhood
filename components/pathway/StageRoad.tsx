@@ -202,14 +202,20 @@ export default function StageRoad({
   currentStageNum,
   progressPct,
   childName,
+  stageStatus,
 }: {
   currentStageNum: number | null
   progressPct: number | null
   childName?: string
+  // The one shared reading per stage, from the same blend the passport uses, so
+  // the road can show a caught up page as caught up and a filled stamp as done,
+  // never a stale badge. Keyed by stage number.
+  stageStatus?: Record<number, { pct: number; complete: boolean }>
 }) {
   const current = currentStageNum ?? 0
   const kid = childName && childName !== 'Your child' ? childName : 'your child'
   const currentReadiness = current > 0 ? READINESS[current - 1] : null
+  const isComplete = (id: number) => !!stageStatus?.[id]?.complete
 
   return (
     <div>
@@ -219,36 +225,43 @@ export default function StageRoad({
         @media (min-width: 768px) { .gc-road-sticky { top: 76px; } }
       `}</style>
 
-      {/* The sticky position card: always know where you stand while the
-          road scrolls, Duolingo style, in butter and ink. */}
+      {/* The sticky position card: always know where you stand while the road
+          scrolls. The whole card is a link that continues the work, so "where
+          am I" and "what next" are the same tap. Clear, larger, plain case
+          titling, BBC style, no cramped ellipsis. */}
       {current > 0 && currentReadiness && (
-        <div className="gc-road-sticky" style={{
-          background: 'var(--terracotta)', borderRadius: 16, padding: '13px 18px',
+        <Link href={`/dashboard/lessons?stage=${current}`} className="gc-road-sticky" style={{
+          textDecoration: 'none',
+          background: 'var(--terracotta)', borderRadius: 16, padding: '14px 18px',
           boxShadow: '0 5px 0 var(--terracotta-dark)', marginBottom: 22,
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12,
+          display: 'flex', alignItems: 'center', gap: 13,
         }}>
           {/* DiGi rides the sticky card, so the guide travels the whole road
               with the parent while the big trail scrolls beneath. */}
           <div style={{ flexShrink: 0 }}>
-            <DigiCharacter mood="happy" size={30} once />
+            <DigiCharacter mood="happy" size={32} once />
           </div>
           <div style={{ minWidth: 0, flex: 1 }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink)', opacity: 0.7 }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink)', opacity: 0.68 }}>
               The road to 16
             </div>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(15px, 4.2vw, 19px)', color: 'var(--ink)', letterSpacing: '-0.01em', lineHeight: 1.15, textTransform: 'uppercase', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-              {STAGES[current - 1].name} · stamp {current} of 5
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(19px, 5.6vw, 24px)', color: 'var(--ink)', letterSpacing: '-0.01em', lineHeight: 1.12 }}>
+              {STAGES[current - 1].name}
+            </div>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700, letterSpacing: '0.04em', color: 'var(--ink)', opacity: 0.72, marginTop: 2 }}>
+              Stamp {current} of 5{isComplete(current) ? ' · filled' : ''}
             </div>
           </div>
           {progressPct !== null && (
             <span style={{
-              flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 15,
-              background: '#fff', color: 'var(--terracotta-dark)', borderRadius: 100, padding: '7px 13px',
+              flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 16,
+              background: '#fff', color: 'var(--terracotta-dark)', borderRadius: 100, padding: '8px 14px',
             }}>
-              {progressPct}%
+              {isComplete(current) ? '✓' : `${progressPct}%`}
             </span>
           )}
-        </div>
+          <span aria-hidden style={{ flexShrink: 0, color: 'var(--ink)', opacity: 0.5, fontSize: 20, fontWeight: 900, lineHeight: 1 }}>›</span>
+        </Link>
       )}
 
       <div>
@@ -298,7 +311,7 @@ export default function StageRoad({
                       </span>
                       <span aria-hidden style={{ fontSize: 15, lineHeight: 1, marginTop: 2, filter: here || behind ? 'none' : 'grayscale(1) opacity(0.5)' }}>🪪</span>
                     </div>
-                    {behind && (
+                    {behind && isComplete(stage.id) && (
                       <span aria-hidden style={{
                         position: 'absolute', right: -4, bottom: -2, width: 28, height: 28, borderRadius: '50%',
                         background: '#2F8F6B', border: '3px solid #fff',
@@ -324,20 +337,32 @@ export default function StageRoad({
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'center', gap: 6, marginTop: 7, flexWrap: 'wrap' }}>
                       <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: here ? 'var(--terracotta-lt)' : 'var(--cream)', border: `1.5px solid ${here ? 'var(--terracotta)' : 'var(--border)'}`, borderRadius: 100, padding: '5px 13px' }}>
-                        <span aria-hidden style={{ fontSize: 13 }}>{behind ? '✅' : '🪪'}</span>
+                        <span aria-hidden style={{ fontSize: 13 }}>{behind && isComplete(stage.id) ? '✅' : '🪪'}</span>
                         <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10.5, fontWeight: 700, letterSpacing: '0.04em', color: here ? 'var(--terracotta-dark)' : 'var(--ink-muted)' }}>
                           Stamp: {r.stamp}
                         </span>
                       </span>
                       {here && (
-                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', background: 'var(--terracotta)', color: 'var(--ink)', padding: '5px 11px', borderRadius: 100, alignSelf: 'center' }}>
-                          You are here
-                        </span>
+                        isComplete(stage.id) ? (
+                          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 800, letterSpacing: '0.06em', textTransform: 'uppercase', background: '#2F8F6B', color: '#fff', padding: '7px 14px', borderRadius: 100, alignSelf: 'center' }}>
+                            ✓ Stage complete
+                          </span>
+                        ) : (
+                          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 800, letterSpacing: '0.06em', textTransform: 'uppercase', background: 'var(--terracotta)', color: 'var(--ink)', padding: '7px 14px', borderRadius: 100, alignSelf: 'center' }}>
+                            You are here
+                          </span>
+                        )
                       )}
                       {behind && (
-                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', border: '1px dashed var(--terracotta)', padding: '4px 10px', borderRadius: 100, alignSelf: 'center' }}>
-                          Catch up any time
-                        </span>
+                        isComplete(stage.id) ? (
+                          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 800, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#fff', background: '#2F8F6B', padding: '5px 12px', borderRadius: 100, alignSelf: 'center' }}>
+                            ✓ Caught up
+                          </span>
+                        ) : (
+                          <Link href={`/dashboard/lessons?stage=${stage.id}`} style={{ textDecoration: 'none', fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', border: '1px dashed var(--terracotta)', padding: '5px 12px', borderRadius: 100, alignSelf: 'center' }}>
+                            Catch up →
+                          </Link>
+                        )
                       )}
                     </div>
 
