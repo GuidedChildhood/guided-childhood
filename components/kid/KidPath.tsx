@@ -27,6 +27,7 @@ export type PathJob = { id: string; title: string; emoji: string; stars: number;
 export type PathPrintable = { key: string; title: string; emoji: string; stars: number; sheetUrl: string; status: 'todo' | 'pending' | 'confirmed' }
 
 type Stone =
+  | { type: 'start' }
   | { type: 'job'; job: PathJob }
   | { type: 'lesson'; lesson: PathLesson }
   | { type: 'chest' }
@@ -36,6 +37,9 @@ type Stone =
   | { type: 'tip'; tip: PathTip }
   | { type: 'character'; character: PathCharacter; holdsQuiz: boolean; challenge: PathChallenge }
   | { type: 'finish' }
+  // The road never dead ends at the stamp: a couple of greyed "coming next"
+  // stones trail past it so the child always sees the journey keeps going.
+  | { type: 'next'; label: string; sub: string }
 
 export default function KidPath({
   token, childName, stageId, stageName, ages, stamp,
@@ -129,7 +133,9 @@ export default function KidPath({
   ]
   // Which character holds the quiz rotates with the day.
   const quizCharIdx = dayIndex % PATH_CHARACTERS.length
-  const stones: Stone[] = []
+  // The trail opens with a start circle, so the journey visibly begins at one
+  // clear round marker rather than dropping straight into the first job.
+  const stones: Stone[] = [{ type: 'start' }]
   let charIdx = 0
   let gameIdx = 0
   let printIdx = 0
@@ -179,6 +185,14 @@ export default function KidPath({
   while (tipIdx < tips.length) stones.push({ type: 'tip', tip: tips[tipIdx++] })
   if (!readingPlaced) stones.push({ type: 'reading' })
   stones.push({ type: 'finish' })
+  // Past the stamp the road carries on: the next stage waits, then a promise
+  // of fresh stones, both greyed, so a milestone is a marker on a longer
+  // journey and never the end of the line.
+  const STAGE_AFTER: Record<number, string> = { 1: 'Builder', 2: 'Explorer', 3: 'Shaper', 4: 'Independent' }
+  if (stageId >= 1 && stageId < 5) {
+    stones.push({ type: 'next', label: `${STAGE_AFTER[stageId]} stage`, sub: 'Unlocks as you grow' })
+  }
+  stones.push({ type: 'next', label: 'More lessons soon', sub: 'Fresh stones keep landing' })
 
 
   const nextLessonId = lessons.find(l => !l.done && !l.locked)?.id ?? null
@@ -222,9 +236,25 @@ export default function KidPath({
     if (s.type === 'game') return Boolean(foundMarks[`game_${s.game.key}`])
     if (s.type === 'reading') return Boolean(foundMarks['reading'])
     if (s.type === 'tip') return Boolean(foundMarks[`tip_${s.tip.key}`])
+    // The start cap and the "coming next" teasers never gate the day: they are
+    // always cleared so the glow and the path complete check ignore them.
+    if (s.type === 'start' || s.type === 'next') return true
     return true
   }
-  const currentIndex = stones.findIndex(s => s.type !== 'finish' && !stoneDone(s))
+  // A stone earns a green check when it is genuinely completed (not merely
+  // sent or pending): passed lessons above all, plus confirmed printables and
+  // the finds once met. Jobs already show their own tick, so they are left
+  // out here to avoid two marks.
+  function stoneChecked(s: Stone): boolean {
+    if (s.type === 'lesson') return s.lesson.done
+    if (s.type === 'printable') return printStatus(s.printable.key) === 'confirmed'
+    if (s.type === 'game') return Boolean(foundMarks[`game_${s.game.key}`])
+    if (s.type === 'reading') return Boolean(foundMarks['reading'])
+    if (s.type === 'tip') return Boolean(foundMarks[`tip_${s.tip.key}`])
+    if (s.type === 'character') return s.holdsQuiz ? quizClaimed : Boolean(foundMarks[`char_${s.character.key}`])
+    return false
+  }
+  const currentIndex = stones.findIndex(s => s.type !== 'finish' && s.type !== 'next' && !stoneDone(s))
   // The glow advances past a pending printable (the child did their part), but
   // the "path complete" celebration waits until nothing is still awaiting the
   // grown up, so it never claims "every stone done" while a "?" is on screen.
@@ -285,7 +315,7 @@ export default function KidPath({
 
   // Trail progress counts every stone the same way the glow does, passes
   // leaping double, so the bar and the path can never disagree.
-  const unitOf = (s: Stone) => s.type === 'finish' ? 0 : s.type === 'lesson' ? (s.lesson.locked ? 0 : 2) : 1
+  const unitOf = (s: Stone) => (s.type === 'finish' || s.type === 'start' || s.type === 'next') ? 0 : s.type === 'lesson' ? (s.lesson.locked ? 0 : 2) : 1
   const totalUnits = stones.reduce((sum, s) => sum + unitOf(s), 0)
   const doneUnits = stones.reduce((sum, s) => sum + (stoneDone(s) ? unitOf(s) : 0), 0)
   const childFrac = totalUnits > 0 ? Math.min(1, doneUnits / totalUnits) : 0
@@ -562,8 +592,18 @@ export default function KidPath({
             // coloured, and everything ahead of the glowing one greys out and
             // stops responding until the step before it is done. One clear
             // place to tap, never a wall of choices.
-            const locked = stone.type !== 'finish' && currentIndex !== -1 && i > currentIndex && !stoneDone(stone)
-            if (stone.type === 'job') {
+            const locked = stone.type !== 'finish' && stone.type !== 'next' && currentIndex !== -1 && i > currentIndex && !stoneDone(stone)
+            if (stone.type === 'start') {
+              node = (
+                <div style={{ ...column, cursor: 'default' }}>
+                  <span style={shell({ bg: 'var(--terracotta-lt)', border: '3px solid var(--terracotta)' })}>
+                    <DigiCharacter mood="wave" size={52} once />
+                  </span>
+                  <span style={label}>Start here</span>
+                  <span style={sub}>{childName}&apos;s pathway</span>
+                </div>
+              )
+            } else if (stone.type === 'job') {
               const j = stone.job
               const done = j.state !== 'todo'
               node = (
@@ -667,6 +707,16 @@ export default function KidPath({
                   <span style={sub}>{tipDone ? 'Read today ✓' : `DiGi tip · ${t.tag}`}</span>
                 </button>
               )
+            } else if (stone.type === 'next') {
+              node = (
+                <div style={{ ...column, cursor: 'default' }}>
+                  <span style={shell({ bg: 'var(--cream)', dim: true })}>
+                    <span style={{ fontSize: 30, lineHeight: 1, filter: 'grayscale(1)', opacity: 0.55 }}>🔒</span>
+                  </span>
+                  <span style={{ ...label, color: 'var(--ink-muted)' }}>{stone.label}</span>
+                  <span style={sub}>{stone.sub}</span>
+                </div>
+              )
             } else {
               node = (
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -703,6 +753,17 @@ export default function KidPath({
                       }}>
                         Start
                       </span>
+                    )}
+                    {/* A green check rides the top right of any completed
+                        stone, a lesson pass above all, so real progress is
+                        marked all the way along the road. */}
+                    {stoneChecked(stone) && (
+                      <span aria-hidden style={{
+                        position: 'absolute', top: (isCurrent ? 34 : 0) - 1, left: '50%', transform: 'translateX(20px)',
+                        width: 26, height: 26, borderRadius: '50%', background: '#2F8F6B', color: '#fff',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15, fontWeight: 900,
+                        border: '2.5px solid var(--warm-bg, #F7F3EE)', boxShadow: '0 2px 0 rgba(26,26,46,0.18)', zIndex: 3,
+                      }}>✓</span>
                     )}
                     {node}
                   </div>
