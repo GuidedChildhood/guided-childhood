@@ -38,6 +38,7 @@
     { "path": "/api/cron/weekly-review", "schedule": "45 18 * * 0" },
     { "path": "/api/cron/settings-nudge", "schedule": "0 10 * * 3" },
     { "path": "/api/cron/knowledge-refresh", "schedule": "0 6 1,15 * *" },
-    { "path": "/api/cron/script-refresh", "schedule": "0 7 1,15 * *" }
+    { "path": "/api/cron/script-refresh", "schedule": "0 7 1,15 * *" },
+    { "path": "/api/cron/lesson-drip", "schedule": "0 9 1,15 * *" }
   ]
 }
