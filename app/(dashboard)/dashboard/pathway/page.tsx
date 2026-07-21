@@ -12,6 +12,7 @@ import { getStageProgress, getAllStagesProgress, type StageId as ProgressStageId
 import { getJourney } from '@/lib/pathway/journey'
 import ChildSwitcher from '@/components/children/ChildSwitcher'
 import { pickChild } from '@/lib/children/select'
+import DigiCharacter from '@/components/digi/DigiCharacter'
 
 type Child = { id: string; name: string; age_band: string | null; stage_id: string | null; is_primary: boolean; streak_weeks: number | null }
 
@@ -91,6 +92,24 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
             {children.length} children, one account.
           </p>
         )}
+      </div>
+
+      {/* Reassurance before the map. The five stages can look like a lot at a
+          glance, so DiGi says the one thing a parent needs to hear: you do not
+          hold all of this, we do. Just do today. */}
+      <div style={{ padding: '0 20px', maxWidth: '560px', margin: '0 auto 20px' }}>
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: '13px',
+          background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
+          borderRadius: '18px', padding: '15px 17px',
+        }}>
+          <span style={{ flexShrink: 0, width: 42, height: 42, borderRadius: '50%', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <DigiCharacter size={28} mood="wave" />
+          </span>
+          <p style={{ flex: 1, minWidth: 0, fontSize: '14.5px', color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>
+            <strong style={{ fontWeight: 800 }}>Do not worry about the whole map.</strong> We have got you. Just follow each daily task and we drive the growing up for you, all the way to 16 and beyond.
+          </p>
+        </div>
       </div>
 
       {/* THE road, the hero of the page: five big stamp nodes on one thick
