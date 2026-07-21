@@ -1781,3 +1781,22 @@ when it is defined. New skill .claude/skills/printables-engine/SKILL.md is
 the production pipeline; plans/etsy-launch-plan.md is the step by step plan.
 Full research outputs live in the session, summaries to be committed as
 research docs on the etsy research branch.
+
+## 21 Jul 2026: three La Casita game copies built into the child app
+The A to Z Showdown, Word Fishing and Ice Cream Shop printables (merged in
+PR 443) are now playable inside the child app, the interactive twin of the
+paper products a member family buys on Etsy. Built into the EXISTING
+quest-games system (lib/quest-games/registry.ts + components/quest-games/
+QuestGamePlayer.tsx), not a parallel one: three new mechanics (wheel, fishing,
+coins) with three renderer views. Key decision: the games plug into the
+registry and the existing games tab (gamesForStage) and pay stars through the
+existing /api/quests/lesson-complete approval loop, so NO migration, NO new
+routes, NO new API and NO home screen changes were needed. Content lives as
+data (78 A to Z clues, phonics word lists, ice cream coin prices verified
+makeable in two to three coins), renderers in the app, per the school-quizzes
+precedent. Fronted by DiGi (A to Z, Word Fishing) and Sofia (Ice Cream Shop).
+Verified: full tsc clean, both Vercel previews deployed green, and all three
+rendered and interaction tested in a real browser at mobile width. PR 449
+(draft). Note: the parallel routes/kid_games approach the first architecture
+map suggested was rejected after reading the real code, which already had the
+quest-games system.
