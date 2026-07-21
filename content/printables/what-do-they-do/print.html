@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>What Do They Do? · A Zara Detective Mission</title>
+<link href="fonts/local-fonts.css" rel="stylesheet">
+<style>
+  :root{
+    --white:#FFFFFF; --cream:#F9F8F6; --ink:#1A1A2E; --ink-soft:#52526A;
+    --ink-muted:#8888A0; --border:#EAEAF0; --terracotta:#EDC35F;
+    --terracotta-dark:#C99A28; --terracotta-lt:#FEF7E0; --coral:#D4600A;
+    --green:#2F8F6B; --gold-dark:#C99A28; --tint-blue:#D8E8F8;
+    --tint-sage:#E8F0EE; --pastel-pink:#FBCFE8;
+    --skin:#F4CDA6; --skin2:#E7B488; --hair:#4A3728;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:'Nunito',sans-serif;color:var(--ink);background:#ddd;}
+  .sheet{width:210mm;height:296mm;background:var(--cream);position:relative;overflow:hidden;
+    page-break-after:always;padding:13mm 13mm 12mm;display:flex;flex-direction:column;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:8.5pt;
+    letter-spacing:2.5px;text-transform:uppercase;color:var(--gold-dark);}
+  h1{font-weight:900;font-size:34pt;line-height:1.04;}
+  h2{font-weight:900;font-size:20pt;line-height:1.1;}
+  h3{font-weight:800;font-size:13pt;line-height:1.15;}
+  p{font-size:10.5pt;line-height:1.55;color:var(--ink-soft);}
+  strong{color:var(--ink);}
+  .footer{position:absolute;bottom:7mm;left:13mm;right:13mm;display:flex;
+    justify-content:space-between;align-items:center;
+    font-family:'IBM Plex Mono',monospace;font-size:7pt;letter-spacing:1.5px;
+    color:var(--ink-muted);text-transform:uppercase;}
+  .card{background:var(--white);border:2.5px solid var(--ink);border-radius:16px;
+    box-shadow:0 5px 0 var(--ink);}
+  .bubble{background:var(--white);border:2.5px solid var(--ink);border-radius:16px;
+    box-shadow:0 4px 0 var(--ink);padding:5mm 6mm;position:relative;
+    font-weight:700;font-size:11pt;line-height:1.42;color:var(--ink);}
+  .bubble:after{content:'';position:absolute;left:-4.5mm;top:20mm;
+    width:0;height:0;border-top:3.5mm solid transparent;border-bottom:3.5mm solid transparent;
+    border-right:4.5mm solid var(--ink);}
+  .avatar{width:24mm;height:24mm;border-radius:14px;border:2.5px solid var(--ink);
+    object-fit:cover;box-shadow:0 4px 0 var(--ink);background:var(--white);}
+  .zchip{display:inline-flex;align-items:center;gap:2mm;background:var(--terracotta-lt);
+    border:2px solid var(--gold-dark);border-radius:999px;padding:1.5mm 4mm;
+    font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:7.5pt;
+    letter-spacing:1.5px;text-transform:uppercase;color:var(--gold-dark);}
+  .claps{display:inline-flex;align-items:center;gap:1.5mm;background:var(--tint-sage);
+    border:2px solid var(--green);border-radius:999px;padding:1.5mm 4mm;
+    font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:7.5pt;
+    letter-spacing:1px;text-transform:uppercase;color:var(--green);}
+  .art{display:block;}
+  /* JOB CARDS */
+  .jobcard{border:2.5px solid var(--ink);border-radius:16px;box-shadow:0 5px 0 var(--ink);
+    background:var(--white);padding:5mm 6mm;flex:1;display:flex;flex-direction:column;}
+  .jobhead{display:flex;justify-content:space-between;align-items:center;}
+  .jobbody{display:flex;gap:5mm;margin-top:3mm;flex:1;align-items:center;}
+  .worker-svg{width:34mm;height:auto;flex:none;}
+  .jobmain{flex:1;display:flex;flex-direction:column;gap:2.5mm;}
+  .jobname{font-weight:900;font-size:19pt;letter-spacing:1px;color:var(--ink);}
+  .tilerow{display:flex;align-items:center;gap:3mm;flex-wrap:wrap;}
+  .tile{display:inline-flex;align-items:center;justify-content:center;
+    background:var(--terracotta-lt);border:2.5px dashed var(--ink);border-radius:12px;
+    padding:3mm 6mm;font-weight:900;font-size:16pt;letter-spacing:2px;color:var(--ink);}
+  .tile.b{background:var(--tint-blue);}
+  .plus{font-weight:900;font-size:15pt;color:var(--ink-muted);}
+  .makes{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:7.5pt;
+    letter-spacing:1.5px;text-transform:uppercase;color:var(--gold-dark);}
+  .lbox{width:9mm;height:11mm;border:2.5px solid var(--ink);border-radius:6px;
+    background:var(--white);display:inline-flex;align-items:center;justify-content:center;
+    font-weight:900;font-size:13pt;}
+  .lboxes{display:flex;gap:2mm;}
+  .jobfoot{display:flex;gap:5mm;margin-top:1mm;}
+  .ft{display:flex;align-items:center;gap:2mm;flex:1;}
+  .ftlabel{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:7pt;
+    letter-spacing:1px;text-transform:uppercase;color:var(--ink-muted);}
+  .mini{width:11mm;height:11mm;flex:none;}
+  .ftname{font-weight:800;font-size:10pt;color:var(--ink);}
+  .cutnote{display:inline-flex;align-items:center;gap:1.5mm;font-family:'IBM Plex Mono',monospace;
+    font-weight:600;font-size:7pt;letter-spacing:1px;text-transform:uppercase;color:var(--ink-muted);}
+  /* MATCH PAGE */
+  .matchrow{display:flex;align-items:center;gap:3mm;padding:1.5mm 0;}
+  .mchip{display:flex;align-items:center;gap:3mm;border:2.5px solid var(--ink);border-radius:12px;
+    background:var(--white);padding:2mm 3mm;box-shadow:0 4px 0 var(--ink);}
+  .mdot{width:7mm;height:7mm;border-radius:50%;background:var(--gold-dark);color:var(--white);
+    border:2px solid var(--ink);font-weight:900;font-size:9pt;display:flex;align-items:center;
+    justify-content:center;flex:none;}
+  .clapcell{border:2.5px solid var(--ink);border-radius:14px;box-shadow:0 5px 0 var(--ink);
+    background:var(--white);padding:4mm 5mm;display:flex;flex-direction:column;gap:2mm;}
+  .clapdots{display:flex;gap:2mm;align-items:center;}
+  .clapdot{width:8mm;height:8mm;border-radius:50%;background:var(--terracotta-lt);
+    border:2.5px solid var(--gold-dark);}
+  .writebox{width:13mm;height:13mm;border:2.5px dashed var(--ink);border-radius:8px;
+    background:var(--white);display:inline-flex;align-items:center;justify-content:center;
+    font-weight:900;font-size:15pt;flex:none;}
+  /* COLOUR IN MODE */
+  body.colourin .sheet{background:var(--white);}
+  body.colourin .card,body.colourin .bubble,body.colourin .avatar,
+  body.colourin .jobcard,body.colourin .clapcell,body.colourin .mchip{box-shadow:none;}
+  body.colourin .fillband{background:var(--white) !important;}
+  body.colourin .tile{background:var(--white) !important;}
+  body.colourin .clapdot{background:var(--white) !important;}
+  body.colourin .art *{fill:#FFFFFF !important;stroke:#1A1A2E !important;
+    stroke-width:2 !important;vector-effect:non-scaling-stroke !important;}
+  body.colourin .art .keep{fill:#1A1A2E !important;stroke:none !important;}
+  body.colourin .art .noline{stroke:none !important;}
+  body.colourin .photo-colour{display:none !important;}
+  .photo-colourin{display:none;}
+  body.colourin .photo-colourin{display:flex !important;}
+  .tips-page{display:none !important;}
+  body.colourin .tips-page{display:flex !important;}
+  @page{size:A4;margin:0;}
+  @media print{body{background:none;}}
+</style>
+</head>
+<body>
+
+<!-- ============ PAGE 1 · COVER ============ -->
+<div class="sheet" style="align-items:center;text-align:center;justify-content:flex-start;">
+  <div style="margin-top:4mm;" class="eyebrow">Guided Childhood · Print and Play Mission</div>
+  <h1 style="margin-top:5mm;font-size:44pt;">What Do<br>They Do?</h1>
+  <p style="margin-top:4mm;font-weight:800;color:var(--ink);font-size:13.5pt;">
+    A detective game about jobs, syllables and the tools they use.
+  </p>
+
+  <img class="photo-colour" src="images/Zara.png" alt="Zara the Truth Finder"
+       style="width:70mm;height:70mm;object-fit:contain;margin-top:4mm;">
+  <div class="photo-colourin" style="width:70mm;height:70mm;margin-top:4mm;align-items:center;justify-content:center;">
+    <svg class="art" viewBox="0 0 100 100" style="width:64mm;height:64mm;">
+      <circle class="noline" cx="44" cy="42" r="26" fill="var(--tint-blue)" stroke="var(--ink)" stroke-width="3"/>
+      <circle cx="44" cy="42" r="19" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+      <path d="M62 60 L82 82" stroke="var(--ink)" stroke-width="7" stroke-linecap="round" fill="none"/>
+      <path d="M36 42 l6 6 12 -14" fill="none" stroke="var(--gold-dark)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M20 20 l3 6 6 3 -6 3 -3 6 -3 -6 -6 -3 6 -3z" fill="var(--terracotta)" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+  <div style="display:flex;gap:3.5mm;margin-top:5mm;flex-wrap:wrap;justify-content:center;">
+    <div class="card" style="padding:3mm 6mm;font-weight:800;font-size:10.5pt;">Ages 5 to 8</div>
+    <div class="card" style="padding:3mm 6mm;font-weight:800;font-size:10.5pt;">8 UK jobs</div>
+    <div class="card" style="padding:3mm 6mm;font-weight:800;font-size:10.5pt;">Clap · build · match</div>
+  </div>
+  <div class="card fillband" style="margin-top:6mm;padding:4mm 8mm;background:var(--terracotta-lt);max-width:160mm;">
+    <p style="font-weight:800;color:var(--ink);font-size:11pt;">
+      A baker, a vet, a postie and more. Clap the syllables, build each word<br>from its tiles, then match every worker to their tool and their place.
+    </p>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Zara · Truth Finder</span></div>
+</div>
+
+<!-- ============ PAGE 2 · HOW TO PLAY + GROWN UP GUIDE ============ -->
+<div class="sheet">
+  <div class="eyebrow">Two minutes before you start</div>
+  <h2 style="margin-top:3mm;">How to play, and the grown up guide</h2>
+
+  <div style="display:flex;gap:5mm;margin-top:4mm;align-items:flex-start;">
+    <img class="photo-colour avatar" src="images/Zara.png" alt="Zara" style="width:26mm;height:26mm;">
+    <div class="photo-colourin avatar" style="width:26mm;height:26mm;align-items:center;justify-content:center;">
+      <svg class="art" viewBox="0 0 100 100" style="width:20mm;height:20mm;">
+        <circle cx="42" cy="42" r="24" fill="var(--white)" stroke="var(--ink)" stroke-width="4"/>
+        <path d="M60 60 L84 84" stroke="var(--ink)" stroke-width="8" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="bubble" style="flex:1;">
+      Detective, we have a case to crack. Eight workers have lost the words for their jobs.
+      Clap out the beats in each job, build the word from its syllable tiles, then work out
+      where each worker goes and what they hold. Trust the clues, take your time, and every case
+      gets solved.
+    </div>
+  </div>
+
+  <div style="display:flex;gap:5mm;margin-top:5mm;">
+    <div class="card" style="flex:1;padding:5mm;">
+      <div class="eyebrow" style="color:var(--green);">1 · Clap the syllables</div>
+      <p style="margin-top:2mm;">Say each job out loud and clap once for every beat. BA KER is two claps.
+      VET is one. Clapping helps young readers hear the parts of a word before they read it.</p>
+    </div>
+    <div class="card" style="flex:1;padding:5mm;">
+      <div class="eyebrow" style="color:var(--green);">2 · Build the word</div>
+      <p style="margin-top:2mm;">Cut out the syllable tiles on each job card along the dashed lines.
+      Push them together in order to make the whole word, then write it in the letter boxes.</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:5mm;padding:5mm;">
+    <div class="eyebrow">3 · Match the worker to their place and their tool</div>
+    <p style="margin-top:2mm;">Each card shows where the worker goes and one tool they use. Talk about it
+    together. A baker works at a bakery and holds a rolling pin. A vet works at an animal clinic and
+    holds a bandage. Then the big matching page brings all eight together in a mixed up order to solve.</p>
+  </div>
+
+  <div class="card" style="margin-top:5mm;padding:5mm;">
+    <div class="eyebrow">Grown up tips</div>
+    <p style="margin-top:2mm;">
+      <strong>Read it together.</strong> For younger detectives, clap and say the words with them and
+      let them slot the tiles. For older ones, hand it over and let them cut, build and match on their
+      own. Praise the effort of sounding a word out, not just getting it right. Laminate the pages and
+      use a dry wipe pen so the mission plays again and again.
+    </p>
+  </div>
+
+  <div class="card" style="margin-top:5mm;padding:4mm 5mm;background:var(--tint-sage);">
+    <div class="eyebrow" style="color:var(--green);">Answer key · Grown ups only</div>
+    <p style="margin-top:2mm;font-weight:800;color:var(--ink);font-size:9.5pt;line-height:1.7;">
+      BA KER makes BAKER · 2 claps · bakery · rolling pin &nbsp;&nbsp; DOC TOR makes DOCTOR · 2 claps · surgery · stethoscope<br>
+      FARM ER makes FARMER · 2 claps · farm · tractor &nbsp;&nbsp; TEACH ER makes TEACHER · 2 claps · classroom · book<br>
+      BUILD ER makes BUILDER · 2 claps · building site · hammer &nbsp;&nbsp; VET makes VET · 1 clap · animal clinic · bandage<br>
+      CHEF makes CHEF · 1 clap · kitchen · frying pan &nbsp;&nbsp; POST IE makes POSTIE · 2 claps · post office · letters<br>
+      <strong>Match page answers: A to 1 · B to 4 · C to 8 · D to 7 · E to 2 · F to 6 · G to 3 · H to 5.</strong>
+    </p>
+  </div>
+
+  <div class="footer"><span>guidedchildhood.com</span><span>What Do They Do? · Guide</span></div>
+</div>
+
+<!-- ============ PAGE 3 · JOB CARDS 1 and 2 ============ -->
+<div class="sheet">
+  <div class="eyebrow">Job cards · clap, cut, build, match</div>
+  <h3 style="margin-top:2mm;margin-bottom:3mm;">Cut the syllable tiles and build each word</h3>
+
+  <!-- JOB 1 BAKER -->
+  <div class="jobcard">
+    <div class="jobhead"><span class="zchip">Job 1</span><span class="claps">2 claps</span></div>
+    <div class="jobbody">
+      <svg class="art worker-svg" viewBox="0 0 120 132">
+        <path class="noline" d="M14 132 V104 a46 46 0 0 1 92 0 V132 Z" fill="var(--terracotta-lt)" stroke="var(--ink)" stroke-width="3"/>
+        <rect x="52" y="74" width="16" height="20" fill="var(--skin)" stroke="var(--ink)" stroke-width="3"/>
+        <circle cx="60" cy="58" r="30" fill="var(--skin)" stroke="var(--ink)" stroke-width="3"/>
+        <path d="M30 44 a30 20 0 0 1 60 0 a10 10 0 0 1 0 8 H30 a10 10 0 0 1 0 -8z" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+        <ellipse cx="60" cy="34" rx="26" ry="16" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+        <circle class="keep" cx="50" cy="60" r="3" fill="var(--ink)"/>
+        <circle class="keep" cx="70" cy="60" r="3" fill="var(--ink)"/>
+        <path d="M50 72 q10 8 20 0" stroke="var(--ink)" stroke-width="3" fill="none" stroke-linecap="round"/>
+      </svg>
+      <div class="jobmain">
+        <div class="jobname">BAKER</div>
+        <div class="tilerow">
+          <span class="cutnote">&#9986; cut</span>
+          <div class="tile">BA</div><div class="plus">+</div><div class="tile b">KER</div>
+          <span class="makes">makes</span>
+          <div class="lboxes"><span class="lbox"></span><span class="lbox"></span><span class="lbox"></span><span class="lbox"></span><span class="lbox"></span></div>
+        </div>
+        <div class="jobfoot">
+          <div class="ft"><span class="ftlabel">Works at</span>
+            <svg class="art mini" viewBox="0 0 48 48"><path class="noline" d="M6 16 h36 v6 H6z" fill="var(--coral)" stroke="var(--ink)" stroke-width="2.5"/><rect x="9" y="22" width="30" height="20" fill="var(--white)" stroke="var(--ink)" stroke-width="2.5"/><rect x="19" y="30" width="10" height="12" fill="var(--terracotta-lt)" stroke="var(--ink)" stroke-width="2.5"/><path d="M8 16 l4 -8 h24 l4 8" fill="var(--terracotta-lt)" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/></svg>
+            <span class="ftname">a bakery</span></div>
+          <div class="ft"><span class="ftlabel">Uses</span>
+            <svg class="art mini" viewBox="0 0 48 48"><rect x="12" y="20" width="24" height="9" rx="4" fill="var(--terracotta)" stroke="var(--ink)" stroke-width="2.5"/><rect x="6" y="22" width="7" height="5" rx="2" fill="var(--white)" stroke="var(--ink)" stroke-width="2.5"/><rect x="35" y="22" width="7" height="5" rx="2" fill="var(--white)" stroke="var(--ink)" stroke-width="2.5"/></svg>
+            <span class="ftname">a rolling pin</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="height:5mm;"></div>
+
+  <!-- JOB 2 DOCTOR -->
+  <div class="jobcard">
+    <div class="jobhead"><span class="zchip">Job 2</span><span class="claps">2 claps</span></div>
+    <div class="jobbody">
+      <svg class="art worker-svg" viewBox="0 0 120 132">
+        <path class="noline" d="M14 132 V104 a46 46 0 0 1 92 0 V132 Z" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+        <path d="M50 92 q10 12 20 0" fill="none" stroke="var(--tint-blue)" stroke-width="6" stroke-linecap="round"/>
+        <circle cx="46" cy="124" r="5" fill="var(--tint-blue)" stroke="var(--ink)" stroke-width="2.5"/>
+        <rect x="52" y="74" width="16" height="20" fill="var(--skin2)" stroke="var(--ink)" stroke-width="3"/>
+        <circle cx="60" cy="58" r="30" fill="var(--skin2)" stroke="var(--ink)" stroke-width="3"/>
+        <path d="M32 44 a28 24 0 0 1 56 0 q-14 -10 -28 -10 q-14 0 -28 10z" fill="var(--hair)" stroke="var(--ink)" stroke-width="3"/>
+        <circle class="keep" cx="50" cy="60" r="3" fill="var(--ink)"/>
+        <circle class="keep" cx="70" cy="60" r="3" fill="var(--ink)"/>
+        <path d="M50 72 q10 8 20 0" stroke="var(--ink)" stroke-width="3" fill="none" stroke-linecap="round"/>
+      </svg>
+      <div class="jobmain">
+        <div class="jobname">DOCTOR</div>
+        <div class="tilerow">
+          <span class="cutnote">&#9986; cut</span>
+          <div class="tile">DOC</div><div class="plus">+</div><div class="tile b">TOR</div>
+          <span class="makes">makes</span>
+          <div class="lboxes"><span class="lbox"></span><span class="lbox"></span><span class="lbox"></span><span class="lbox"></span><span class="lbox"></span><span class="lbox"></span></div>
+        </div>
+        <div class="jobfoot">
+          <div class="ft"><span class="ftlabel">Works at</span>
+            <svg class="art mini" viewBox="0 0 48 48"><rect x="8" y="12" width="32" height="30" rx="4" fill="var(--white)" stroke="var(--ink)" stroke-width="2.5"/><rect x="20" y="16" width="8" height="8" fill="var(--green)" stroke="var(--ink)" stroke-width="0" class="noline"/><path d="M24 16 v8 M20 20 h8" stroke="var(--white)" stroke-width="2.5"/><rect x="14" y="30" width="8" height="12" fill="var(--tint-blue)" stroke="var(--ink)" stroke-width="2.5"/><rect x="26" y="30" width="8" height="12" fill="var(--tint-blue)" stroke="var(--ink)" stroke-width="2.5"/></svg>
+            <span class="ftname">a surgery</span></div>
+          <div class="ft"><span class="ftlabel">Uses</span>
+            <svg class="art mini" viewBox="0 0 48 48"><path d="M14 8 v14 a10 10 0 0 0 20 0 v-14" fill="none" stroke="var(--ink)" stroke-width="2.5"/><path d="M24 32 v6" fill="none" stroke="var(--ink)" stroke-width="2.5"/><circle cx="24" cy="40" r="5" fill="var(--tint-blue)" stroke="var(--ink)" stroke-width="2.5"/><circle class="keep" cx="14" cy="8" r="2.4" fill="var(--ink)"/><circle class="keep" cx="34" cy="8" r="2.4" fill="var(--ink)"/></svg>
+            <span class="ftname">a stethoscope</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer"><span>guidedchildhood.com</span><span>Job cards · baker and doctor</span></div>
+</div>
+
+<!-- ============ PAGE 4 · JOB CARDS 3 and 4 ============ -->
+<div class="sheet">
+  <div class="eyebrow">Job cards · clap, cut, build, match</div>
+  <h3 style="margin-top:2mm;margin-bottom:3mm;">Cut the syllable tiles and build each word</h3>
+
+  <!-- JOB 3 FARMER -->
+  <div class="jobcard">
+    <div class="jobhead"><span class="zchip">Job 3</span><span class="claps">2 claps</span></div>
+    <div class="jobbody">
+      <svg class="art worker-svg" viewBox="0 0 120 132">
+        <path class="noline" d="M14 132 V104 a46 46 0 0 1 92 0 V132 Z" fill="var(--green)" stroke="var(--ink)" stroke-width="3"/>
+        <rect x="52" y="74" width="16" height="20" fill="var(--skin)" stroke="var(--ink)" stroke-width="3"/>
+        <circle cx="60" cy="58" r="30" fill="var(--skin)" stroke="var(--ink)" stroke-width="3"/>
+        <path d="M22 48 h76 l-8 -8 H30z" fill="var(--terracotta)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M34 40 a26 20 0 0 1 52 0 H34z" fill="var(--terracotta)" stroke="var(--ink)" stroke-width="3"/>
+        <circle class="keep" cx="50" cy="60" r="3" fill="var(--ink)"/>
+        <circle class="keep" cx="70" cy="60" r="3" fill="var(--ink)"/>
+        <path d="M50 72 q10 8 20 0" stroke="var(--ink)" stroke-width="3" fill="none" stroke-linecap="round"/>
+      </svg>
+      <div class="jobmain">
+        <div class="jobname">FARMER</div>
+        <div class="tilerow">
+          <span class="cutnote">&#9986; cut</span>
+          <div class="tile">FARM</div><div class="plus">+</div><div class="tile b">ER</div>
+          <span class="makes">makes</span>
+          <div class="lboxes"><span class="lbox"></span><span class="lbox"></span><span class="lbox"></span><span class="lbox"></span><span class="lbox"></span><span class="lbox"></span></div>
+        </div>
+        <div class="jobfoot">
+          <div class="ft"><span class="ftlabel">Works at</span>
+            <svg class="art mini" viewBox="0 0 48 48"><path d="M8 22 l16 -12 16 12 v20 H8z" fill="var(--coral)" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/><rect x="18" y="30" width="12" height="12" fill="var(--white)" stroke="var(--ink)" stroke-width="2.5"/><path d="M18 36 h12 M24 30 v12" stroke="var(--ink)" stroke-width="2"/></svg>
+            <span class="ftname">a farm</span></div>
+          <div class="ft"><span class="ftlabel">Uses</span>
+            <svg class="art mini" viewBox="0 0 48 48"><rect x="10" y="18" width="18" height="12" rx="3" fill="var(--green)" stroke="var(--ink)" stroke-width="2.5"/><rect x="28" y="22" width="10" height="8" fill="var(--terracotta)" stroke="var(--ink)" stroke-width="2.5"/><circle cx="16" cy="36" r="6" fill="var(--white)" stroke="var(--ink)" stroke-width="2.5"/><circle cx="33" cy="36" r="8" fill="var(--white)" stroke="var(--ink)" stroke-width="2.5"/><circle class="keep" cx="16" cy="36" r="2" fill="var(--ink)"/><circle class="keep" cx="33" cy="36" r="2.5" fill="var(--ink)"/></svg>
+            <span class="ftname">a tractor</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="height:5mm;"></div>
+
+  <!-- JOB 4 TEACHER -->
+  <div class="jobcard">
+    <div class="jobhead"><span class="zchip">Job 4</span><span class="claps">2 claps</span></div>
+    <div class="jobbody">
+      <svg class="art worker-svg" viewBox="0 0 120 132">
+        <path class="noline" d="M14 132 V104 a46 46 0 0 1 92 0 V132 Z" fill="var(--coral)" stroke="var(--ink)" stroke-width="3"/>
+        <rect x="52" y="74" width="16" height="20" fill="var(--skin2)" stroke="var(--ink)" stroke-width="3"/>
+        <circle cx="60" cy="58" r="30" fill="var(--skin2)" stroke="var(--ink)" stroke-width="3"/>
+        <path d="M30 58 q-4 -34 30 -34 q34 0 30 34 q-6 -20 -30 -20 q-24 0 -30 20z" fill="var(--hair)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+        <circle class="keep" cx="50" cy="60" r="3" fill="var(--ink)"/>
+        <circle class="keep" cx="70" cy="60" r="3" fill="var(--ink)"/>
+        <path d="M50 72 q10 8 20 0" stroke="var(--ink)" stroke-width="3" fill="none" stroke-linecap="round"/>
+      </svg>
+      <div class="jobmain">
+        <div class="jobname">TEACHER</div>
+        <div class="tilerow">
+          <span class="cutnote">&#9986; cut</span>
+          <div class="tile">TEACH</div><div class="plus">+</div><div class="tile b">ER</div>
+          <span class="makes">makes</span>
+          <div class="lboxes"><span class="lbox"></span><span class="lbox"></span><span class="lbox"></span><span class="lbox"></span><span class="lbox"></span><span class="lbox"></span><span class="lbox"></span></div>
+        </div>
+        <div class="jobfoot">
+          <div class="ft"><span class="ftlabel">Works at</span>
+            <svg class="art mini" viewBox="0 0 48 48"><rect x="8" y="14" width="32" height="22" rx="3" fill="var(--green)" stroke="var(--ink)" stroke-width="2.5"/><path d="M14 22 h20 M14 28 h14" stroke="var(--white)" stroke-width="2.5"/><rect x="18" y="36" width="12" height="6" fill="var(--terracotta-lt)" stroke="var(--ink)" stroke-width="2.5"/></svg>
+            <span class="ftname">a classroom</span></div>
+          <div class="ft"><span class="ftlabel">Uses</span>
+            <svg class="art mini" viewBox="0 0 48 48"><path d="M8 12 c6 -3 12 -3 16 0 v24 c-4 -3 -10 -3 -16 0z" fill="var(--tint-sage)" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/><path d="M40 12 c-6 -3 -12 -3 -16 0 v24 c4 -3 10 -3 16 0z" fill="var(--white)" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/></svg>
+            <span class="ftname">a book</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer"><span>guidedchildhood.com</span><span>Job cards · farmer and teacher</span></div>
+</div>
+
+<!-- ============ PAGE 5 · JOB CARDS 5 and 6 ============ -->
+<div class="sheet">
+  <div class="eyebrow">Job cards · clap, cut, build, match</div>
+  <h3 style="margin-top:2mm;margin-bottom:3mm;">Cut the syllable tiles and build each word</h3>
+
+  <!-- JOB 5 BUILDER -->
+  <div class="jobcard">
+    <div class="jobhead"><span class="zchip">Job 5</span><span class="claps">2 claps</span></div>
+    <div class="jobbody">
+      <svg class="art worker-svg" viewBox="0 0 120 132">
+        <path class="noline" d="M14 132 V104 a46 46 0 0 1 92 0 V132 Z" fill="var(--terracotta)" stroke="var(--ink)" stroke-width="3"/>
+        <rect x="52" y="74" width="16" height="20" fill="var(--skin)" stroke="var(--ink)" stroke-width="3"/>
+        <circle cx="60" cy="58" r="30" fill="var(--skin)" stroke="var(--ink)" stroke-width="3"/>
+        <path d="M28 46 a32 26 0 0 1 64 0 z" fill="var(--gold-dark)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+        <rect x="24" y="44" width="72" height="7" rx="3" fill="var(--gold-dark)" stroke="var(--ink)" stroke-width="3"/>
+        <rect x="55" y="26" width="10" height="10" rx="2" fill="var(--terracotta-lt)" stroke="var(--ink)" stroke-width="3"/>
+        <circle class="keep" cx="50" cy="60" r="3" fill="var(--ink)"/>
+        <circle class="keep" cx="70" cy="60" r="3" fill="var(--ink)"/>
+        <path d="M50 72 q10 8 20 0" stroke="var(--ink)" stroke-width="3" fill="none" stroke-linecap="round"/>
+      </svg>
+      <div class="jobmain">
+        <div class="jobname">BUILDER</div>
+        <div class="tilerow">
+          <span class="cutnote">&#9986; cut</span>
+          <div class="tile">BUILD</div><div class="plus">+</div><div class="tile b">ER</div>
+          <span class="makes">makes</span>
+          <div class="lboxes"><span class="lbox"></span><span class="lbox"></span><span class="lbox"></span><span class="lbox"></span><span class="lbox"></span><span class="lbox"></span><span class="lbox"></span></div>
+        </div>
+        <div class="jobfoot">
+          <div class="ft"><span class="ftlabel">Works at</span>
+            <svg class="art mini" viewBox="0 0 48 48"><rect x="10" y="20" width="24" height="22" fill="var(--terracotta-lt)" stroke="var(--ink)" stroke-width="2.5"/><path d="M10 26 h24 M10 32 h24 M10 38 h24 M22 20 v6 M16 26 v6 M28 32 v6 M16 38 v4" stroke="var(--ink)" stroke-width="1.6"/><path d="M34 42 V10 h4" fill="none" stroke="var(--ink)" stroke-width="2.5"/><path d="M38 10 l6 4" stroke="var(--ink)" stroke-width="2.5"/><rect x="41" y="16" width="6" height="6" fill="var(--gold-dark)" stroke="var(--ink)" stroke-width="2"/></svg>
+            <span class="ftname">a building site</span></div>
+          <div class="ft"><span class="ftlabel">Uses</span>
+            <svg class="art mini" viewBox="0 0 48 48"><rect x="10" y="10" width="20" height="10" rx="2" fill="var(--ink-muted)" stroke="var(--ink)" stroke-width="2.5"/><rect x="18" y="18" width="6" height="26" rx="2" fill="var(--terracotta)" stroke="var(--ink)" stroke-width="2.5"/></svg>
+            <span class="ftname">a hammer</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="height:5mm;"></div>
+
+  <!-- JOB 6 VET -->
+  <div class="jobcard">
+    <div class="jobhead"><span class="zchip">Job 6</span><span class="claps">1 clap</span></div>
+    <div class="jobbody">
+      <svg class="art worker-svg" viewBox="0 0 120 132">
+        <path class="noline" d="M14 132 V104 a46 46 0 0 1 92 0 V132 Z" fill="var(--tint-sage)" stroke="var(--ink)" stroke-width="3"/>
+        <path class="keep" d="M60 100 l3 6 6 1 -4.5 4.5 1 6.5 -5.5 -3 -5.5 3 1 -6.5 -4.5 -4.5 6 -1z" fill="var(--ink)"/>
+        <rect x="52" y="74" width="16" height="20" fill="var(--skin)" stroke="var(--ink)" stroke-width="3"/>
+        <circle cx="60" cy="58" r="30" fill="var(--skin)" stroke="var(--ink)" stroke-width="3"/>
+        <path d="M30 56 q-2 -32 30 -32 q32 0 30 32 q-8 -22 -30 -22 q-22 0 -30 22z" fill="var(--hair)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+        <circle class="keep" cx="50" cy="60" r="3" fill="var(--ink)"/>
+        <circle class="keep" cx="70" cy="60" r="3" fill="var(--ink)"/>
+        <path d="M50 72 q10 8 20 0" stroke="var(--ink)" stroke-width="3" fill="none" stroke-linecap="round"/>
+      </svg>
+      <div class="jobmain">
+        <div class="jobname">VET</div>
+        <div class="tilerow">
+          <span class="cutnote">&#9986; cut</span>
+          <div class="tile">VET</div>
+          <span class="makes">makes</span>
+          <div class="lboxes"><span class="lbox"></span><span class="lbox"></span><span class="lbox"></span></div>
+        </div>
+        <div class="jobfoot">
+          <div class="ft"><span class="ftlabel">Works at</span>
+            <svg class="art mini" viewBox="0 0 48 48"><rect x="8" y="14" width="32" height="28" rx="4" fill="var(--white)" stroke="var(--ink)" stroke-width="2.5"/><path d="M24 20 c-4 0 -6 4 -3 7 l3 3 3 -3 c3 -3 1 -7 -3 -7z" fill="var(--coral)" stroke="var(--ink)" stroke-width="0" class="noline"/><g class="keep" fill="var(--ink)"><circle cx="17" cy="34" r="2"/><circle cx="23" cy="36" r="2"/><circle cx="29" cy="34" r="2"/><ellipse cx="23" cy="30" rx="3.5" ry="2.5"/></g></svg>
+            <span class="ftname">an animal clinic</span></div>
+          <div class="ft"><span class="ftlabel">Uses</span>
+            <svg class="art mini" viewBox="0 0 48 48"><rect x="6" y="20" width="36" height="9" rx="4.5" fill="var(--white)" stroke="var(--ink)" stroke-width="2.5" transform="rotate(-20 24 24)"/><path d="M20 18 l8 12" stroke="var(--ink)" stroke-width="2" transform="rotate(-20 24 24)"/></svg>
+            <span class="ftname">a bandage</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer"><span>guidedchildhood.com</span><span>Job cards · builder and vet</span></div>
+</div>
+
+<!-- ============ PAGE 6 · JOB CARDS 7 and 8 ============ -->
+<div class="sheet">
+  <div class="eyebrow">Job cards · clap, cut, build, match</div>
+  <h3 style="margin-top:2mm;margin-bottom:3mm;">Cut the syllable tiles and build each word</h3>
+
+  <!-- JOB 7 CHEF -->
+  <div class="jobcard">
+    <div class="jobhead"><span class="zchip">Job 7</span><span class="claps">1 clap</span></div>
+    <div class="jobbody">
+      <svg class="art worker-svg" viewBox="0 0 120 132">
+        <path class="noline" d="M14 132 V104 a46 46 0 0 1 92 0 V132 Z" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+        <path d="M46 104 l14 12 14 -12" fill="none" stroke="var(--coral)" stroke-width="5" stroke-linecap="round"/>
+        <rect x="52" y="74" width="16" height="20" fill="var(--skin2)" stroke="var(--ink)" stroke-width="3"/>
+        <circle cx="60" cy="58" r="30" fill="var(--skin2)" stroke="var(--ink)" stroke-width="3"/>
+        <rect x="36" y="38" width="48" height="12" rx="3" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+        <path d="M40 38 a14 14 0 0 1 0 -22 a12 12 0 0 1 20 -4 a12 12 0 0 1 20 4 a14 14 0 0 1 0 22z" fill="var(--white)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+        <circle class="keep" cx="50" cy="60" r="3" fill="var(--ink)"/>
+        <circle class="keep" cx="70" cy="60" r="3" fill="var(--ink)"/>
+        <path d="M50 72 q10 8 20 0" stroke="var(--ink)" stroke-width="3" fill="none" stroke-linecap="round"/>
+      </svg>
+      <div class="jobmain">
+        <div class="jobname">CHEF</div>
+        <div class="tilerow">
+          <span class="cutnote">&#9986; cut</span>
+          <div class="tile">CHEF</div>
+          <span class="makes">makes</span>
+          <div class="lboxes"><span class="lbox"></span><span class="lbox"></span><span class="lbox"></span><span class="lbox"></span></div>
+        </div>
+        <div class="jobfoot">
+          <div class="ft"><span class="ftlabel">Works at</span>
+            <svg class="art mini" viewBox="0 0 48 48"><rect x="8" y="18" width="32" height="24" rx="3" fill="var(--tint-blue)" stroke="var(--ink)" stroke-width="2.5"/><circle cx="17" cy="26" r="3" fill="var(--white)" stroke="var(--ink)" stroke-width="2"/><circle cx="31" cy="26" r="3" fill="var(--white)" stroke="var(--ink)" stroke-width="2"/><path d="M8 34 h32" stroke="var(--ink)" stroke-width="2"/><path d="M14 12 v6 M24 10 v8 M34 12 v6" stroke="var(--coral)" stroke-width="2.5" stroke-linecap="round"/></svg>
+            <span class="ftname">a kitchen</span></div>
+          <div class="ft"><span class="ftlabel">Uses</span>
+            <svg class="art mini" viewBox="0 0 48 48"><circle cx="20" cy="28" r="12" fill="var(--ink-muted)" stroke="var(--ink)" stroke-width="2.5"/><circle cx="20" cy="28" r="7" fill="var(--white)" stroke="var(--ink)" stroke-width="0" class="noline"/><rect x="31" y="25" width="14" height="5" rx="2.5" fill="var(--terracotta)" stroke="var(--ink)" stroke-width="2.5"/></svg>
+            <span class="ftname">a frying pan</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="height:5mm;"></div>
+
+  <!-- JOB 8 POSTIE -->
+  <div class="jobcard">
+    <div class="jobhead"><span class="zchip">Job 8</span><span class="claps">2 claps</span></div>
+    <div class="jobbody">
+      <svg class="art worker-svg" viewBox="0 0 120 132">
+        <path class="noline" d="M14 132 V104 a46 46 0 0 1 92 0 V132 Z" fill="var(--tint-blue)" stroke="var(--ink)" stroke-width="3"/>
+        <rect x="52" y="74" width="16" height="20" fill="var(--skin)" stroke="var(--ink)" stroke-width="3"/>
+        <circle cx="60" cy="58" r="30" fill="var(--skin)" stroke="var(--ink)" stroke-width="3"/>
+        <path d="M28 46 a32 24 0 0 1 64 0 z" fill="var(--coral)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+        <rect x="26" y="46" width="68" height="8" rx="3" fill="var(--coral)" stroke="var(--ink)" stroke-width="3"/>
+        <rect x="46" y="48" width="28" height="6" rx="2" fill="var(--gold-dark)" stroke="var(--ink)" stroke-width="2.5"/>
+        <circle class="keep" cx="50" cy="60" r="3" fill="var(--ink)"/>
+        <circle class="keep" cx="70" cy="60" r="3" fill="var(--ink)"/>
+        <path d="M50 72 q10 8 20 0" stroke="var(--ink)" stroke-width="3" fill="none" stroke-linecap="round"/>
+      </svg>
+      <div class="jobmain">
+        <div class="jobname">POSTIE</div>
+        <div class="tilerow">
+          <span class="cutnote">&#9986; cut</span>
+          <div class="tile">POST</div><div class="plus">+</div><div class="tile b">IE</div>
+          <span class="makes">makes</span>
+          <div class="lboxes"><span class="lbox"></span><span class="lbox"></span><span class="lbox"></span><span class="lbox"></span><span class="lbox"></span><span class="lbox"></span></div>
+        </div>
+        <div class="jobfoot">
+          <div class="ft"><span class="ftlabel">Works at</span>
+            <svg class="art mini" viewBox="0 0 48 48"><rect x="15" y="12" width="18" height="30" rx="9" fill="var(--coral)" stroke="var(--ink)" stroke-width="2.5"/><rect x="19" y="18" width="10" height="3" rx="1.5" fill="var(--ink)" class="keep"/><path d="M15 26 h18" stroke="var(--ink)" stroke-width="2"/></svg>
+            <span class="ftname">a post office</span></div>
+          <div class="ft"><span class="ftlabel">Uses</span>
+            <svg class="art mini" viewBox="0 0 48 48"><rect x="8" y="14" width="32" height="22" rx="3" fill="var(--terracotta-lt)" stroke="var(--ink)" stroke-width="2.5"/><path d="M8 16 l16 12 16 -12" fill="none" stroke="var(--ink)" stroke-width="2.5"/></svg>
+            <span class="ftname">letters</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer"><span>guidedchildhood.com</span><span>Job cards · chef and postie</span></div>
+</div>
+
+<!-- ============ PAGE 7 · MATCH THE WORKER TO THEIR TOOL ============ -->
+<div class="sheet">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <div>
+      <div class="zchip">The big case</div>
+      <h2 style="margin-top:3mm;">Match the worker to their tool</h2>
+    </div>
+  </div>
+  <div class="bubble" style="margin:3mm 0 4mm 6mm;">
+    Eight workers, eight tools, all mixed up. Draw a line from each worker on the left to the one tool
+    they use on the right. Say the job as you go. Grown ups, the answers are on the guide page.
+  </div>
+
+  <div style="display:flex;gap:8mm;flex:1;">
+    <!-- workers column -->
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:space-between;">
+      <div class="mchip"><span class="mdot">A</span>
+        <svg class="art" viewBox="0 0 60 60" style="width:12mm;height:12mm;flex:none;"><circle cx="30" cy="30" r="16" fill="var(--skin)" stroke="var(--ink)" stroke-width="2.5"/><ellipse cx="30" cy="17" rx="15" ry="8" fill="var(--white)" stroke="var(--ink)" stroke-width="2.5"/><circle class="keep" cx="25" cy="31" r="1.8" fill="var(--ink)"/><circle class="keep" cx="35" cy="31" r="1.8" fill="var(--ink)"/></svg>
+        <span class="ftname" style="font-size:11pt;">Baker</span></div>
+      <div class="mchip"><span class="mdot">B</span>
+        <svg class="art" viewBox="0 0 60 60" style="width:12mm;height:12mm;flex:none;"><circle cx="30" cy="30" r="16" fill="var(--skin2)" stroke="var(--ink)" stroke-width="2.5"/><path d="M15 24 a16 12 0 0 1 30 0 q-8 -6 -15 -6 q-7 0 -15 6z" fill="var(--hair)" stroke="var(--ink)" stroke-width="2.5"/><circle class="keep" cx="25" cy="31" r="1.8" fill="var(--ink)"/><circle class="keep" cx="35" cy="31" r="1.8" fill="var(--ink)"/></svg>
+        <span class="ftname" style="font-size:11pt;">Doctor</span></div>
+      <div class="mchip"><span class="mdot">C</span>
+        <svg class="art" viewBox="0 0 60 60" style="width:12mm;height:12mm;flex:none;"><circle cx="30" cy="30" r="16" fill="var(--skin)" stroke="var(--ink)" stroke-width="2.5"/><path d="M12 26 h36 l-5 -5 H17z" fill="var(--terracotta)" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/><circle class="keep" cx="25" cy="32" r="1.8" fill="var(--ink)"/><circle class="keep" cx="35" cy="32" r="1.8" fill="var(--ink)"/></svg>
+        <span class="ftname" style="font-size:11pt;">Farmer</span></div>
+      <div class="mchip"><span class="mdot">D</span>
+        <svg class="art" viewBox="0 0 60 60" style="width:12mm;height:12mm;flex:none;"><circle cx="30" cy="30" r="16" fill="var(--skin2)" stroke="var(--ink)" stroke-width="2.5"/><path d="M14 30 q-2 -18 16 -18 q18 0 16 18 q-5 -12 -16 -12 q-11 0 -16 12z" fill="var(--hair)" stroke="var(--ink)" stroke-width="2.5"/><circle class="keep" cx="25" cy="32" r="1.8" fill="var(--ink)"/><circle class="keep" cx="35" cy="32" r="1.8" fill="var(--ink)"/></svg>
+        <span class="ftname" style="font-size:11pt;">Teacher</span></div>
+      <div class="mchip"><span class="mdot">E</span>
+        <svg class="art" viewBox="0 0 60 60" style="width:12mm;height:12mm;flex:none;"><circle cx="30" cy="30" r="16" fill="var(--skin)" stroke="var(--ink)" stroke-width="2.5"/><path d="M14 25 a17 14 0 0 1 32 0z" fill="var(--gold-dark)" stroke="var(--ink)" stroke-width="2.5"/><rect x="11" y="24" width="38" height="4" rx="2" fill="var(--gold-dark)" stroke="var(--ink)" stroke-width="2.5"/><circle class="keep" cx="25" cy="33" r="1.8" fill="var(--ink)"/><circle class="keep" cx="35" cy="33" r="1.8" fill="var(--ink)"/></svg>
+        <span class="ftname" style="font-size:11pt;">Builder</span></div>
+      <div class="mchip"><span class="mdot">F</span>
+        <svg class="art" viewBox="0 0 60 60" style="width:12mm;height:12mm;flex:none;"><circle cx="30" cy="30" r="16" fill="var(--skin)" stroke="var(--ink)" stroke-width="2.5"/><path d="M14 28 q-1 -16 16 -16 q17 0 16 16 q-5 -11 -16 -11 q-11 0 -16 11z" fill="var(--hair)" stroke="var(--ink)" stroke-width="2.5"/><circle class="keep" cx="25" cy="32" r="1.8" fill="var(--ink)"/><circle class="keep" cx="35" cy="32" r="1.8" fill="var(--ink)"/></svg>
+        <span class="ftname" style="font-size:11pt;">Vet</span></div>
+      <div class="mchip"><span class="mdot">G</span>
+        <svg class="art" viewBox="0 0 60 60" style="width:12mm;height:12mm;flex:none;"><circle cx="30" cy="30" r="16" fill="var(--skin2)" stroke="var(--ink)" stroke-width="2.5"/><rect x="18" y="16" width="24" height="7" rx="2" fill="var(--white)" stroke="var(--ink)" stroke-width="2.5"/><path d="M20 16 a10 10 0 0 1 20 0z" fill="var(--white)" stroke="var(--ink)" stroke-width="2.5"/><circle class="keep" cx="25" cy="32" r="1.8" fill="var(--ink)"/><circle class="keep" cx="35" cy="32" r="1.8" fill="var(--ink)"/></svg>
+        <span class="ftname" style="font-size:11pt;">Chef</span></div>
+      <div class="mchip"><span class="mdot">H</span>
+        <svg class="art" viewBox="0 0 60 60" style="width:12mm;height:12mm;flex:none;"><circle cx="30" cy="30" r="16" fill="var(--skin)" stroke="var(--ink)" stroke-width="2.5"/><path d="M14 25 a16 12 0 0 1 32 0z" fill="var(--coral)" stroke="var(--ink)" stroke-width="2.5"/><rect x="12" y="25" width="36" height="4" rx="2" fill="var(--coral)" stroke="var(--ink)" stroke-width="2.5"/><circle class="keep" cx="25" cy="33" r="1.8" fill="var(--ink)"/><circle class="keep" cx="35" cy="33" r="1.8" fill="var(--ink)"/></svg>
+        <span class="ftname" style="font-size:11pt;">Postie</span></div>
+    </div>
+
+    <!-- tools column (shuffled) -->
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:space-between;">
+      <!-- 1 rolling pin -->
+      <div class="mchip" style="justify-content:flex-end;"><span class="ftname" style="font-size:11pt;">rolling pin</span>
+        <svg class="art" viewBox="0 0 60 40" style="width:14mm;height:9mm;flex:none;"><rect x="14" y="16" width="32" height="10" rx="5" fill="var(--terracotta)" stroke="var(--ink)" stroke-width="2.5"/><rect x="6" y="18" width="9" height="6" rx="2" fill="var(--white)" stroke="var(--ink)" stroke-width="2.5"/><rect x="45" y="18" width="9" height="6" rx="2" fill="var(--white)" stroke="var(--ink)" stroke-width="2.5"/></svg>
+        <span class="mdot" style="background:var(--white);color:var(--ink);">1</span></div>
+      <!-- 2 hammer -->
+      <div class="mchip" style="justify-content:flex-end;"><span class="ftname" style="font-size:11pt;">hammer</span>
+        <svg class="art" viewBox="0 0 48 48" style="width:11mm;height:11mm;flex:none;"><rect x="10" y="10" width="22" height="10" rx="2" fill="var(--ink-muted)" stroke="var(--ink)" stroke-width="2.5"/><rect x="19" y="18" width="6" height="26" rx="2" fill="var(--terracotta)" stroke="var(--ink)" stroke-width="2.5"/></svg>
+        <span class="mdot" style="background:var(--white);color:var(--ink);">2</span></div>
+      <!-- 3 frying pan -->
+      <div class="mchip" style="justify-content:flex-end;"><span class="ftname" style="font-size:11pt;">frying pan</span>
+        <svg class="art" viewBox="0 0 48 48" style="width:11mm;height:11mm;flex:none;"><circle cx="20" cy="28" r="12" fill="var(--ink-muted)" stroke="var(--ink)" stroke-width="2.5"/><circle cx="20" cy="28" r="7" fill="var(--white)" stroke="var(--ink)" stroke-width="0" class="noline"/><rect x="31" y="25" width="14" height="5" rx="2.5" fill="var(--terracotta)" stroke="var(--ink)" stroke-width="2.5"/></svg>
+        <span class="mdot" style="background:var(--white);color:var(--ink);">3</span></div>
+      <!-- 4 stethoscope -->
+      <div class="mchip" style="justify-content:flex-end;"><span class="ftname" style="font-size:11pt;">stethoscope</span>
+        <svg class="art" viewBox="0 0 48 48" style="width:11mm;height:11mm;flex:none;"><path d="M14 8 v14 a10 10 0 0 0 20 0 v-14" fill="none" stroke="var(--ink)" stroke-width="2.5"/><path d="M24 32 v6" fill="none" stroke="var(--ink)" stroke-width="2.5"/><circle cx="24" cy="40" r="5" fill="var(--tint-blue)" stroke="var(--ink)" stroke-width="2.5"/><circle class="keep" cx="14" cy="8" r="2.4" fill="var(--ink)"/><circle class="keep" cx="34" cy="8" r="2.4" fill="var(--ink)"/></svg>
+        <span class="mdot" style="background:var(--white);color:var(--ink);">4</span></div>
+      <!-- 5 letters -->
+      <div class="mchip" style="justify-content:flex-end;"><span class="ftname" style="font-size:11pt;">letters</span>
+        <svg class="art" viewBox="0 0 48 48" style="width:11mm;height:11mm;flex:none;"><rect x="8" y="14" width="32" height="22" rx="3" fill="var(--terracotta-lt)" stroke="var(--ink)" stroke-width="2.5"/><path d="M8 16 l16 12 16 -12" fill="none" stroke="var(--ink)" stroke-width="2.5"/></svg>
+        <span class="mdot" style="background:var(--white);color:var(--ink);">5</span></div>
+      <!-- 6 bandage -->
+      <div class="mchip" style="justify-content:flex-end;"><span class="ftname" style="font-size:11pt;">bandage</span>
+        <svg class="art" viewBox="0 0 48 48" style="width:11mm;height:11mm;flex:none;"><rect x="6" y="20" width="36" height="9" rx="4.5" fill="var(--white)" stroke="var(--ink)" stroke-width="2.5" transform="rotate(-20 24 24)"/><path d="M20 18 l8 12" stroke="var(--ink)" stroke-width="2" transform="rotate(-20 24 24)"/></svg>
+        <span class="mdot" style="background:var(--white);color:var(--ink);">6</span></div>
+      <!-- 7 book -->
+      <div class="mchip" style="justify-content:flex-end;"><span class="ftname" style="font-size:11pt;">book</span>
+        <svg class="art" viewBox="0 0 48 48" style="width:11mm;height:11mm;flex:none;"><path d="M8 12 c6 -3 12 -3 16 0 v24 c-4 -3 -10 -3 -16 0z" fill="var(--tint-sage)" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/><path d="M40 12 c-6 -3 -12 -3 -16 0 v24 c4 -3 10 -3 16 0z" fill="var(--white)" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/></svg>
+        <span class="mdot" style="background:var(--white);color:var(--ink);">7</span></div>
+      <!-- 8 tractor -->
+      <div class="mchip" style="justify-content:flex-end;"><span class="ftname" style="font-size:11pt;">tractor</span>
+        <svg class="art" viewBox="0 0 48 48" style="width:11mm;height:11mm;flex:none;"><rect x="10" y="18" width="18" height="12" rx="3" fill="var(--green)" stroke="var(--ink)" stroke-width="2.5"/><rect x="28" y="22" width="10" height="8" fill="var(--terracotta)" stroke="var(--ink)" stroke-width="2.5"/><circle cx="16" cy="36" r="6" fill="var(--white)" stroke="var(--ink)" stroke-width="2.5"/><circle cx="33" cy="36" r="8" fill="var(--white)" stroke="var(--ink)" stroke-width="2.5"/><circle class="keep" cx="16" cy="36" r="2" fill="var(--ink)"/><circle class="keep" cx="33" cy="36" r="2.5" fill="var(--ink)"/></svg>
+        <span class="mdot" style="background:var(--white);color:var(--ink);">8</span></div>
+    </div>
+  </div>
+
+  <div class="footer"><span>guidedchildhood.com</span><span>The big case · match the tool</span></div>
+</div>
+
+<!-- ============ PAGE 8 · CLAP THE SYLLABLES ============ -->
+<div class="sheet">
+  <div class="zchip">Clap along</div>
+  <h2 style="margin-top:3mm;">How many claps in each job?</h2>
+  <div class="bubble" style="margin:3mm 0 4mm 6mm;">
+    Say each job out loud, slowly. Clap once for every beat you hear. The gold dots show you how many
+    beats there are. Write the number of claps in the box. BA KER has two beats, so it is two claps.
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:5mm;flex:1;align-content:space-between;">
+    <div class="clapcell">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-weight:900;font-size:15pt;letter-spacing:2px;">BA KER</span><span class="writebox">&nbsp;</span></div>
+      <div class="clapdots"><span class="clapdot"></span><span class="clapdot"></span><span class="makes" style="color:var(--ink-muted);">beats</span></div>
+    </div>
+    <div class="clapcell">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-weight:900;font-size:15pt;letter-spacing:2px;">DOC TOR</span><span class="writebox">&nbsp;</span></div>
+      <div class="clapdots"><span class="clapdot"></span><span class="clapdot"></span><span class="makes" style="color:var(--ink-muted);">beats</span></div>
+    </div>
+    <div class="clapcell">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-weight:900;font-size:15pt;letter-spacing:2px;">FARM ER</span><span class="writebox">&nbsp;</span></div>
+      <div class="clapdots"><span class="clapdot"></span><span class="clapdot"></span><span class="makes" style="color:var(--ink-muted);">beats</span></div>
+    </div>
+    <div class="clapcell">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-weight:900;font-size:15pt;letter-spacing:2px;">TEACH ER</span><span class="writebox">&nbsp;</span></div>
+      <div class="clapdots"><span class="clapdot"></span><span class="clapdot"></span><span class="makes" style="color:var(--ink-muted);">beats</span></div>
+    </div>
+    <div class="clapcell">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-weight:900;font-size:15pt;letter-spacing:2px;">BUILD ER</span><span class="writebox">&nbsp;</span></div>
+      <div class="clapdots"><span class="clapdot"></span><span class="clapdot"></span><span class="makes" style="color:var(--ink-muted);">beats</span></div>
+    </div>
+    <div class="clapcell">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-weight:900;font-size:15pt;letter-spacing:2px;">VET</span><span class="writebox">&nbsp;</span></div>
+      <div class="clapdots"><span class="clapdot"></span><span class="makes" style="color:var(--ink-muted);">beat</span></div>
+    </div>
+    <div class="clapcell">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-weight:900;font-size:15pt;letter-spacing:2px;">CHEF</span><span class="writebox">&nbsp;</span></div>
+      <div class="clapdots"><span class="clapdot"></span><span class="makes" style="color:var(--ink-muted);">beat</span></div>
+    </div>
+    <div class="clapcell">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-weight:900;font-size:15pt;letter-spacing:2px;">POST IE</span><span class="writebox">&nbsp;</span></div>
+      <div class="clapdots"><span class="clapdot"></span><span class="clapdot"></span><span class="makes" style="color:var(--ink-muted);">beats</span></div>
+    </div>
+  </div>
+
+  <div class="footer"><span>guidedchildhood.com</span><span>Clap the syllables</span></div>
+</div>
+
+<!-- ============ PAGE 9 · BONUS / FUNNEL ============ -->
+<div class="sheet" style="align-items:center;text-align:center;">
+  <div style="margin-top:12mm;" class="eyebrow">A free bonus for your detective</div>
+  <h1 style="margin-top:5mm;font-size:29pt;">One case solved.<br>Here is the next one, free.</h1>
+
+  <img class="photo-colour" src="images/Zara.png" alt="Zara" style="width:52mm;height:52mm;object-fit:contain;margin-top:7mm;">
+  <div class="photo-colourin" style="width:52mm;height:52mm;margin-top:7mm;align-items:center;justify-content:center;">
+    <svg class="art" viewBox="0 0 100 100" style="width:46mm;height:46mm;"><circle cx="42" cy="42" r="24" fill="var(--white)" stroke="var(--ink)" stroke-width="4"/><path d="M60 60 L84 84" stroke="var(--ink)" stroke-width="8" stroke-linecap="round"/></svg>
+  </div>
+
+  <p style="margin-top:7mm;max-width:145mm;font-size:11.5pt;">
+    Loved solving these jobs? Zara has a whole new mission waiting. Grab the free
+    <strong>More Jobs edition</strong>, a print and play set with a nurse, a firefighter, a hairdresser
+    and a mechanic to clap, build and match. It is our thank you for printing this one.
+  </p>
+
+  <div class="card" style="margin-top:8mm;padding:5mm 10mm;background:var(--terracotta-lt);">
+    <div style="font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:13pt;letter-spacing:1px;">guidedchildhood.com/etsy-bonus</div>
+  </div>
+
+  <p style="margin-top:10mm;font-size:9.5pt;max-width:135mm;">
+    Made by Guided Childhood, the UK platform helping families raise confident kids in a digital world.
+    If your detective loved this mission, a kind review on Etsy helps another family find it. Thank you.
+  </p>
+  <div class="footer"><span>guidedchildhood.com</span><span>Thank you · Justin and the squad</span></div>
+</div>
+
+<!-- ============ PAGE 10 · COLOURING TIPS (colour in PDF only) ============ -->
+<div class="sheet tips-page">
+  <div class="eyebrow">For the colour in edition</div>
+  <h2 style="margin-top:3mm;">Zara's colouring tips</h2>
+
+  <div style="display:flex;gap:5mm;margin-top:4mm;align-items:flex-start;">
+    <div class="avatar" style="width:26mm;height:26mm;align-items:center;justify-content:center;display:flex;">
+      <svg class="art" viewBox="0 0 100 100" style="width:20mm;height:20mm;"><circle cx="42" cy="42" r="24" fill="var(--white)" stroke="var(--ink)" stroke-width="4"/><path d="M60 60 L84 84" stroke="var(--ink)" stroke-width="8" stroke-linecap="round"/></svg>
+    </div>
+    <div class="bubble" style="flex:1;">
+      A good detective notices the little things, and colouring is the same. Take your time, look closely,
+      and make every worker yours. Here is how I do mine.
+    </div>
+  </div>
+
+  <div style="display:flex;gap:5mm;margin-top:6mm;">
+    <div class="card" style="flex:1;padding:5mm;">
+      <div class="eyebrow" style="color:var(--gold-dark);">Colours from my world</div>
+      <p style="margin-top:2mm;"><strong>My colour is gold.</strong> Try warm gold and honey for the builder's
+      hat and the farmer's tractor. A baker's hat and a chef's hat love a soft cream. Reds and blues look
+      brilliant on the postie and the letters, and green is lovely for the vet.</p>
+    </div>
+    <div class="card" style="flex:1;padding:5mm;">
+      <div class="eyebrow" style="color:var(--gold-dark);">Press lightly first</div>
+      <p style="margin-top:2mm;">Start soft. Press lightly and lay down a gentle layer of colour, then go
+      over it again to build it up richer. Light to strong always looks better than pressing hard straight
+      away, and it never tears the paper.</p>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:5mm;margin-top:5mm;">
+    <div class="card" style="flex:1;padding:5mm;">
+      <div class="eyebrow" style="color:var(--gold-dark);">Big shapes first</div>
+      <p style="margin-top:2mm;">Colour the big shapes first, like the tops and the hats, then move to the
+      small details like the eyes and the tools. Big to small keeps your page tidy and your hand relaxed.</p>
+    </div>
+    <div class="card" style="flex:1;padding:5mm;">
+      <div class="eyebrow" style="color:var(--gold-dark);">Stay inside the lines, gently</div>
+      <p style="margin-top:2mm;">Follow the bold black outlines and slow down at the edges. If you wander
+      over a line, no worry at all. Real detectives make mistakes and carry on. Your page, your rules.</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:5mm;padding:5mm;background:var(--terracotta-lt);">
+    <div class="eyebrow" style="color:var(--gold-dark);">One more thing</div>
+    <p style="margin-top:2mm;font-weight:700;color:var(--ink);">Colour each worker in as you solve them, or
+    solve first and colour after. Either way works. When every job is bright and every word is built, you
+    have a mission you made your own. Brilliant work, detective.</p>
+  </div>
+
+  <div class="footer"><span>guidedchildhood.com</span><span>Colour in edition · Zara's tips</span></div>
+</div>
+
+</body>
+</html>

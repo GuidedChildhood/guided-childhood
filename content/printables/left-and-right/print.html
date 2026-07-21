@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Left and Right with Oliver</title>
+<link href="fonts/local-fonts.css" rel="stylesheet">
+<style>
+  :root{
+    --white:#FFFFFF; --cream:#F9F8F6; --ink:#1A1A2E; --ink-soft:#52526A;
+    --ink-muted:#8888A0; --border:#EAEAF0; --terracotta:#EDC35F;
+    --terracotta-dark:#C99A28; --terracotta-lt:#FEF7E0; --coral:#D4600A;
+    --coral-lt:#FBE6D4; --green:#2F8F6B; --gold-dark:#C99A28; --tint-blue:#D8E8F8;
+    --tint-sage:#E8F0EE; --pastel-pink:#FBCFE8;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:'Nunito',sans-serif;color:var(--ink);background:#ddd;}
+  .sheet{width:210mm;height:296mm;background:var(--cream);position:relative;overflow:hidden;
+    page-break-after:always;padding:14mm 14mm 12mm;display:flex;flex-direction:column;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:8.5pt;
+    letter-spacing:2.5px;text-transform:uppercase;color:var(--coral);}
+  h1{font-weight:900;font-size:34pt;line-height:1.04;}
+  h2{font-weight:900;font-size:20pt;line-height:1.1;}
+  h3{font-weight:800;font-size:13pt;line-height:1.15;}
+  p{font-size:10.5pt;line-height:1.55;color:var(--ink-soft);}
+  strong{color:var(--ink);}
+  .footer{position:absolute;bottom:7mm;left:14mm;right:14mm;display:flex;
+    justify-content:space-between;align-items:center;
+    font-family:'IBM Plex Mono',monospace;font-size:7pt;letter-spacing:1.5px;
+    color:var(--ink-muted);text-transform:uppercase;}
+  .card{background:var(--white);border:2.5px solid var(--ink);border-radius:16px;
+    box-shadow:0 5px 0 var(--ink);}
+  .bubble{background:var(--white);border:2.5px solid var(--ink);border-radius:16px;
+    box-shadow:0 4px 0 var(--ink);padding:5mm 6mm;position:relative;
+    font-weight:700;font-size:11pt;line-height:1.42;color:var(--ink);}
+  .bubble:after{content:'';position:absolute;left:-4.5mm;top:22mm;
+    width:0;height:0;border-top:3.5mm solid transparent;border-bottom:3.5mm solid transparent;
+    border-right:4.5mm solid var(--ink);}
+  .avatar{width:24mm;height:24mm;border-radius:14px;border:2.5px solid var(--ink);
+    object-fit:cover;box-shadow:0 4px 0 var(--ink);background:var(--white);}
+  .ochip{display:inline-flex;align-items:center;gap:2mm;background:var(--coral-lt);
+    border:2px solid var(--coral);border-radius:999px;padding:1.5mm 4mm;
+    font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:7.5pt;
+    letter-spacing:1.5px;text-transform:uppercase;color:var(--coral);}
+  .step-no{width:11mm;height:11mm;border-radius:50%;background:var(--coral);color:var(--white);
+    font-weight:900;font-size:14pt;display:flex;align-items:center;justify-content:center;
+    border:2.5px solid var(--ink);flex:none;}
+  .art{display:block;}
+  .lr-label{font-weight:900;font-size:20pt;letter-spacing:2px;color:var(--ink);}
+  .cutcard{border:2.5px dashed var(--ink);border-radius:14px;background:var(--white);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:3mm;position:relative;}
+  .cutcard .dirbadge{position:absolute;top:2mm;right:2mm;}
+  .cutcard .cardlabel{font-weight:800;font-size:9.5pt;margin-top:1.5mm;color:var(--ink);}
+  .writeline{border-bottom:2.5px solid var(--ink);flex:1;height:9mm;}
+  /* COLOUR IN MODE */
+  body.colourin .sheet{background:var(--white);}
+  body.colourin .card,body.colourin .bubble,body.colourin .avatar{box-shadow:none;}
+  body.colourin .step-no{background:var(--white);color:var(--ink);}
+  body.colourin .ochip{background:var(--white);border-color:var(--ink);color:var(--ink);}
+  body.colourin .fillband{background:var(--white) !important;}
+  body.colourin .art *{fill:#FFFFFF !important;stroke:#1A1A2E !important;
+    stroke-width:2 !important;vector-effect:non-scaling-stroke !important;}
+  body.colourin .art .keep{fill:#1A1A2E !important;stroke:none !important;}
+  body.colourin .art .noline{stroke:none !important;}
+  body.colourin .photo-colour{display:none !important;}
+  .photo-colourin{display:none;}
+  body.colourin .photo-colourin{display:flex !important;}
+  /* TIPS PAGE only in colour in */
+  .tips-page{display:none !important;}
+  body.colourin .tips-page{display:flex !important;}
+  @page{size:A4;margin:0;}
+  @media print{body{background:none;}}
+</style>
+</head>
+<body>
+
+<!-- ============ PAGE 1 · COVER ============ -->
+<div class="sheet" style="align-items:center;text-align:center;justify-content:flex-start;">
+  <div style="margin-top:5mm;" class="eyebrow">Guided Childhood · Print and Play Learning</div>
+  <h1 style="margin-top:5mm;font-size:40pt;">Left and Right<br>with Oliver</h1>
+  <p style="margin-top:4mm;font-weight:800;color:var(--ink);font-size:13.5pt;">
+    Kick off with a football game that teaches left and right.
+  </p>
+
+  <img class="photo-colour" src="images/Oliver.png" alt="Oliver the Screen Time Boss"
+       style="width:74mm;height:74mm;object-fit:contain;margin-top:4mm;">
+  <div class="photo-colourin" style="width:74mm;height:74mm;margin-top:4mm;align-items:center;justify-content:center;">
+    <svg class="art" viewBox="0 0 100 100" style="width:66mm;height:66mm;">
+      <circle class="noline" cx="50" cy="50" r="40" fill="var(--tint-sage)" stroke="var(--ink)" stroke-width="3"/>
+      <circle cx="50" cy="50" r="34" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+      <path class="keep" d="M50 30 l7 10 -3 12 h-8 l-3 -12z" fill="var(--ink)"/>
+      <g class="keep" fill="var(--ink)">
+        <path d="M50 30 l7 10 -12 0z" opacity="0"/>
+      </g>
+      <path d="M50 30 l7 10 -3 12 h-8 l-3 -12z" fill="var(--coral)" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/>
+      <path d="M26 46 l10 -4 6 10 -8 8z M74 46 l-10 -4 -6 10 8 8z" fill="var(--terracotta)" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/>
+      <path d="M40 66 l6 8 4 -6 4 6 6 -8" fill="none" stroke="var(--ink)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+  <div style="display:flex;gap:3.5mm;margin-top:5mm;flex-wrap:wrap;justify-content:center;">
+    <div class="card" style="padding:3mm 6mm;font-weight:800;font-size:10.5pt;">Ages 4 to 7</div>
+    <div class="card" style="padding:3mm 6mm;font-weight:800;font-size:10.5pt;">Print and play</div>
+    <div class="card" style="padding:3mm 6mm;font-weight:800;font-size:10.5pt;">Cut, sort and trace</div>
+  </div>
+  <div class="card fillband" style="margin-top:5mm;padding:4mm 8mm;background:var(--coral-lt);max-width:160mm;">
+    <p style="font-weight:800;color:var(--ink);font-size:11pt;">
+      Oliver kicks with his right foot. Learn which is left and which is right,<br>then sort, trace and follow the arrows to the goal.
+    </p>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Oliver · Screen Time Boss</span></div>
+</div>
+
+<!-- ============ PAGE 2 · HOW TO PLAY + GROWN UP GUIDE ============ -->
+<div class="sheet">
+  <div class="eyebrow">Two minutes before you print</div>
+  <h2 style="margin-top:3mm;">How to play, and the grown up guide</h2>
+
+  <div style="display:flex;gap:5mm;margin-top:4mm;align-items:flex-start;">
+    <img class="photo-colour avatar" src="images/Oliver.png" alt="Oliver" style="width:26mm;height:26mm;">
+    <div class="photo-colourin avatar" style="width:26mm;height:26mm;align-items:center;justify-content:center;display:flex;">
+      <svg class="art" viewBox="0 0 100 100" style="width:20mm;height:20mm;">
+        <circle cx="50" cy="50" r="30" fill="var(--white)" stroke="var(--ink)" stroke-width="4"/>
+        <path d="M50 24 l9 13 -4 15 h-10 l-4 -15z" fill="var(--white)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="bubble" style="flex:1;">
+      Right, team, let us kick off. I kick a football with my RIGHT foot, so my right side is easy to
+      remember. First we find left and right on your body, then on the page. Once you know which is which,
+      you are ready for the whole match. Come on, boots on.
+    </div>
+  </div>
+
+  <div style="display:flex;gap:5mm;margin-top:6mm;">
+    <div class="card" style="flex:1;padding:5mm;">
+      <div class="eyebrow" style="color:var(--green);">Start with the body</div>
+      <p style="margin-top:2mm;">Stand up together first. Wave your right hand, then your left. Hop on your
+      right foot, then your left. Point right, then left. Do this before any page so left and right live in
+      the body, not just on paper.</p>
+    </div>
+    <div class="card" style="flex:1;padding:5mm;">
+      <div class="eyebrow" style="color:var(--green);">Then move to the page</div>
+      <p style="margin-top:2mm;">On every page, left is the side of your left hand and right is the side of
+      your right hand. Rest both hands flat on the table with the page in the middle. Now the page and the
+      body agree, and the sorting makes sense.</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:5mm;padding:5mm;">
+    <div class="eyebrow">Oliver's trick for remembering</div>
+    <p style="margin-top:2mm;">
+      <strong>The kicking foot.</strong> Ask your child which foot they would kick a ball with. For most
+      children that is the right foot. Tap that foot and say right, tap the other and say left. Come back to
+      the kicking foot whenever they are unsure. A body memory beats a rule every time.
+    </p>
+  </div>
+
+  <div class="card" style="margin-top:5mm;padding:4mm 5mm;background:var(--tint-sage);">
+    <div class="eyebrow" style="color:var(--green);">Answer note · Grown ups only</div>
+    <p style="margin-top:2mm;font-weight:800;color:var(--ink);font-size:10pt;line-height:1.65;">
+      Sorting mat cards. LEFT side: left arrow, hand pointing left, car facing left, left football boot,
+      footballer kicking left, signpost pointing left.<br>
+      RIGHT side: right arrow, hand pointing right, car facing right, right football boot, footballer
+      kicking right, signpost pointing right.<br>
+      Every card shows a small arrow in the top corner pointing to its correct side, so a stuck child can
+      self check. <strong>Six cards belong on the left and six on the right.</strong>
+    </p>
+  </div>
+
+  <div class="card" style="margin-top:5mm;padding:4mm 5mm;background:var(--coral-lt);">
+    <div class="eyebrow">What is inside</div>
+    <p style="margin-top:2mm;font-weight:700;color:var(--ink);font-size:10pt;">
+      One big left and right sorting mat, twelve cards to cut out and sort, a which hand tracing and
+      pointing page, and a follow the arrows path to the goal. Print the whole set, or just the page you need
+      today. Laminate the mat and reuse it again and again.
+    </p>
+  </div>
+
+  <div class="footer"><span>guidedchildhood.com</span><span>Left and Right with Oliver · Guide</span></div>
+</div>
+
+<!-- ============ PAGE 3 · THE SORTING MAT ============ -->
+<div class="sheet">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <div>
+      <div class="ochip">The pitch</div>
+      <h2 style="margin-top:3mm;">The left and right sorting mat</h2>
+    </div>
+    <div class="step-no">1</div>
+  </div>
+  <div class="bubble" style="margin:3mm 0 4mm 6mm;">
+    This is your pitch. Cut out the cards from the next two pages, then place each one on the correct side.
+    Left cards on the LEFT, right cards on the RIGHT. Say the word out loud as you place each one.
+  </div>
+
+  <div class="card" style="flex:1;display:flex;flex-direction:column;padding:0;overflow:hidden;margin-top:1mm;">
+    <div style="display:flex;flex:1;">
+      <!-- LEFT HALF -->
+      <div class="fillband" style="flex:1;background:var(--tint-blue);display:flex;flex-direction:column;align-items:center;padding:6mm 4mm;">
+        <div class="lr-label">LEFT</div>
+        <svg class="art" viewBox="0 0 120 70" style="width:52mm;height:auto;margin-top:4mm;">
+          <path d="M52 8 L10 35 L52 62 L52 46 L112 46 L112 24 L52 24 Z" fill="var(--coral)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+        </svg>
+        <p style="margin-top:5mm;font-weight:800;color:var(--ink);font-size:11pt;text-align:center;">
+          Place the LEFT cards here
+        </p>
+        <p style="margin-top:3mm;font-weight:700;color:var(--ink-soft);font-size:9.5pt;text-align:center;">
+          This is the side of your left hand
+        </p>
+      </div>
+      <!-- DIVIDER -->
+      <div style="width:0;border-left:3px dashed var(--ink);"></div>
+      <!-- RIGHT HALF -->
+      <div class="fillband" style="flex:1;background:var(--tint-sage);display:flex;flex-direction:column;align-items:center;padding:6mm 4mm;">
+        <div class="lr-label">RIGHT</div>
+        <svg class="art" viewBox="0 0 120 70" style="width:52mm;height:auto;margin-top:4mm;">
+          <path d="M68 8 L110 35 L68 62 L68 46 L8 46 L8 24 L68 24 Z" fill="var(--coral)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+        </svg>
+        <p style="margin-top:5mm;font-weight:800;color:var(--ink);font-size:11pt;text-align:center;">
+          Place the RIGHT cards here
+        </p>
+        <p style="margin-top:3mm;font-weight:700;color:var(--ink-soft);font-size:9.5pt;text-align:center;">
+          This is the side of your right hand
+        </p>
+      </div>
+    </div>
+    <div style="border-top:2.5px solid var(--ink);background:var(--white);padding:4mm 6mm;display:flex;justify-content:space-between;align-items:center;">
+      <span style="font-weight:800;color:var(--ink);font-size:10.5pt;">Left hand goes here</span>
+      <span class="eyebrow" style="color:var(--ink-muted);">Rest a hand on each side</span>
+      <span style="font-weight:800;color:var(--ink);font-size:10.5pt;">Right hand goes here</span>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:5mm;padding:4mm 5mm;background:var(--coral-lt);">
+    <p style="font-weight:800;color:var(--ink);font-size:11pt;">Goal for a winner: every card on the
+    correct side, with no peeking at the corner arrow until you have had a good try.</p>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Sorting mat · Left and right</span></div>
+</div>
+
+<!-- ============ PAGE 4 · CUT OUT CARDS SET 1 ============ -->
+<div class="sheet">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <div>
+      <div class="ochip">Cut out · Set 1 of 2</div>
+      <h2 style="margin-top:3mm;">Cards to cut out and sort</h2>
+    </div>
+    <div class="step-no">2</div>
+  </div>
+  <div class="bubble" style="margin:3mm 0 4mm 6mm;">
+    Cut along the dashed lines with a grown up. Look at each card, decide left or right, then place it on
+    the matching side of the pitch. The little arrow in the corner shows the correct side if you get stuck.
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr 1fr;gap:5mm;flex:1;">
+
+    <!-- Card: arrow left -->
+    <div class="cutcard">
+      <svg class="art dirbadge" viewBox="0 0 40 24" style="width:11mm;height:auto;"><path d="M18 3 L4 12 L18 21 L18 15 L36 15 L36 9 L18 9 Z" fill="var(--coral)" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/></svg>
+      <svg class="art" viewBox="0 0 120 70" style="width:56mm;height:auto;"><path d="M52 8 L10 35 L52 62 L52 46 L112 46 L112 24 L52 24 Z" fill="var(--tint-blue)" stroke="var(--ink)" stroke-width="3.5" stroke-linejoin="round"/></svg>
+      <div class="cardlabel">This arrow points left</div>
+    </div>
+
+    <!-- Card: arrow right -->
+    <div class="cutcard">
+      <svg class="art dirbadge" viewBox="0 0 40 24" style="width:11mm;height:auto;"><path d="M22 3 L36 12 L22 21 L22 15 L4 15 L4 9 L22 9 Z" fill="var(--coral)" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/></svg>
+      <svg class="art" viewBox="0 0 120 70" style="width:56mm;height:auto;"><path d="M68 8 L110 35 L68 62 L68 46 L8 46 L8 24 L68 24 Z" fill="var(--tint-sage)" stroke="var(--ink)" stroke-width="3.5" stroke-linejoin="round"/></svg>
+      <div class="cardlabel">This arrow points right</div>
+    </div>
+
+    <!-- Card: hand pointing left -->
+    <div class="cutcard">
+      <svg class="art dirbadge" viewBox="0 0 40 24" style="width:11mm;height:auto;"><path d="M18 3 L4 12 L18 21 L18 15 L36 15 L36 9 L18 9 Z" fill="var(--coral)" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/></svg>
+      <svg class="art" viewBox="0 0 110 70" style="width:46mm;height:auto;">
+        <path d="M8 34 L44 30 L44 20 Q44 14 52 14 L52 30 Q60 28 66 30 Q74 30 74 38 L74 52 Q74 62 62 62 L40 62 Q30 62 24 54 L8 40 Z"
+              fill="var(--pastel-pink)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+      </svg>
+      <div class="cardlabel">Hand pointing left</div>
+    </div>
+
+    <!-- Card: hand pointing right -->
+    <div class="cutcard">
+      <svg class="art dirbadge" viewBox="0 0 40 24" style="width:11mm;height:auto;"><path d="M22 3 L36 12 L22 21 L22 15 L4 15 L4 9 L22 9 Z" fill="var(--coral)" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/></svg>
+      <svg class="art" viewBox="0 0 110 70" style="width:46mm;height:auto;">
+        <path d="M102 34 L66 30 L66 20 Q66 14 58 14 L58 30 Q50 28 44 30 Q36 30 36 38 L36 52 Q36 62 48 62 L70 62 Q80 62 86 54 L102 40 Z"
+              fill="var(--pastel-pink)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+      </svg>
+      <div class="cardlabel">Hand pointing right</div>
+    </div>
+
+    <!-- Card: car facing left -->
+    <div class="cutcard">
+      <svg class="art dirbadge" viewBox="0 0 40 24" style="width:11mm;height:auto;"><path d="M18 3 L4 12 L18 21 L18 15 L36 15 L36 9 L18 9 Z" fill="var(--coral)" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/></svg>
+      <svg class="art" viewBox="0 0 130 70" style="width:52mm;height:auto;">
+        <path d="M6 46 Q2 42 8 40 L20 38 Q30 24 44 24 L74 24 Q90 24 104 38 L118 42 Q124 44 122 50 L122 50 L6 50 Z" fill="var(--coral)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M44 26 L70 26 L82 38 L44 38 Z" fill="var(--tint-blue)" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/>
+        <circle cx="34" cy="52" r="10" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/><circle class="keep" cx="34" cy="52" r="3" fill="var(--ink)"/>
+        <circle cx="94" cy="52" r="10" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/><circle class="keep" cx="94" cy="52" r="3" fill="var(--ink)"/>
+        <circle cx="14" cy="42" r="3.5" fill="var(--terracotta)" stroke="var(--ink)" stroke-width="2"/>
+      </svg>
+      <div class="cardlabel">Car facing left</div>
+    </div>
+
+    <!-- Card: car facing right -->
+    <div class="cutcard">
+      <svg class="art dirbadge" viewBox="0 0 40 24" style="width:11mm;height:auto;"><path d="M22 3 L36 12 L22 21 L22 15 L4 15 L4 9 L22 9 Z" fill="var(--coral)" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/></svg>
+      <svg class="art" viewBox="0 0 130 70" style="width:52mm;height:auto;">
+        <path d="M124 46 Q128 42 122 40 L110 38 Q100 24 86 24 L56 24 Q40 24 26 38 L12 42 Q6 44 8 50 L8 50 L124 50 Z" fill="var(--coral)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M86 26 L60 26 L48 38 L86 38 Z" fill="var(--tint-blue)" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/>
+        <circle cx="96" cy="52" r="10" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/><circle class="keep" cx="96" cy="52" r="3" fill="var(--ink)"/>
+        <circle cx="36" cy="52" r="10" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/><circle class="keep" cx="36" cy="52" r="3" fill="var(--ink)"/>
+        <circle cx="116" cy="42" r="3.5" fill="var(--terracotta)" stroke="var(--ink)" stroke-width="2"/>
+      </svg>
+      <div class="cardlabel">Car facing right</div>
+    </div>
+
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Cut out cards · Set 1</span></div>
+</div>
+
+<!-- ============ PAGE 5 · CUT OUT CARDS SET 2 ============ -->
+<div class="sheet">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <div>
+      <div class="ochip">Cut out · Set 2 of 2</div>
+      <h2 style="margin-top:3mm;">More cards to cut and sort</h2>
+    </div>
+    <div class="step-no">2</div>
+  </div>
+  <div class="bubble" style="margin:3mm 0 4mm 6mm;">
+    Here are the football cards. Boots, kicks and signposts, each one pointing left or right. Cut them out,
+    sort them onto the pitch, and shout left or right like a real match commentator.
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr 1fr;gap:5mm;flex:1;">
+
+    <!-- Card: left boot -->
+    <div class="cutcard">
+      <svg class="art dirbadge" viewBox="0 0 40 24" style="width:11mm;height:auto;"><path d="M18 3 L4 12 L18 21 L18 15 L36 15 L36 9 L18 9 Z" fill="var(--coral)" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/></svg>
+      <svg class="art" viewBox="0 0 130 80" style="width:52mm;height:auto;">
+        <path d="M78 14 L78 40 Q78 46 70 48 L20 56 Q8 58 8 66 L8 68 Q8 72 14 72 L96 72 Q104 72 104 62 L104 40 Q104 22 90 16 Z" fill="var(--coral)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M8 66 L104 62" stroke="var(--ink)" stroke-width="2.5" fill="none"/>
+        <g class="keep" fill="var(--ink)"><circle cx="24" cy="70" r="2.4"/><circle cx="40" cy="69" r="2.4"/><circle cx="56" cy="68" r="2.4"/><circle cx="72" cy="67" r="2.4"/><circle cx="88" cy="66" r="2.4"/></g>
+        <path d="M80 20 L92 22 M80 28 L94 30 M80 36 L94 38" stroke="var(--ink)" stroke-width="2.5"/>
+      </svg>
+      <div class="cardlabel">Left football boot</div>
+    </div>
+
+    <!-- Card: right boot -->
+    <div class="cutcard">
+      <svg class="art dirbadge" viewBox="0 0 40 24" style="width:11mm;height:auto;"><path d="M22 3 L36 12 L22 21 L22 15 L4 15 L4 9 L22 9 Z" fill="var(--coral)" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/></svg>
+      <svg class="art" viewBox="0 0 130 80" style="width:52mm;height:auto;">
+        <path d="M52 14 L52 40 Q52 46 60 48 L110 56 Q122 58 122 66 L122 68 Q122 72 116 72 L34 72 Q26 72 26 62 L26 40 Q26 22 40 16 Z" fill="var(--coral)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M122 66 L26 62" stroke="var(--ink)" stroke-width="2.5" fill="none"/>
+        <g class="keep" fill="var(--ink)"><circle cx="106" cy="70" r="2.4"/><circle cx="90" cy="69" r="2.4"/><circle cx="74" cy="68" r="2.4"/><circle cx="58" cy="67" r="2.4"/><circle cx="42" cy="66" r="2.4"/></g>
+        <path d="M50 20 L38 22 M50 28 L36 30 M50 36 L36 38" stroke="var(--ink)" stroke-width="2.5"/>
+      </svg>
+      <div class="cardlabel">Right football boot</div>
+    </div>
+
+    <!-- Card: footballer kicking left -->
+    <div class="cutcard">
+      <svg class="art dirbadge" viewBox="0 0 40 24" style="width:11mm;height:auto;"><path d="M18 3 L4 12 L18 21 L18 15 L36 15 L36 9 L18 9 Z" fill="var(--coral)" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/></svg>
+      <svg class="art" viewBox="0 0 110 90" style="width:38mm;height:auto;">
+        <circle cx="70" cy="20" r="11" fill="var(--terracotta-lt)" stroke="var(--ink)" stroke-width="3"/>
+        <path d="M70 31 L66 56 L58 74" fill="none" stroke="var(--ink)" stroke-width="6" stroke-linecap="round"/>
+        <path d="M66 46 L40 40" fill="none" stroke="var(--ink)" stroke-width="6" stroke-linecap="round"/>
+        <path d="M66 52 L44 66" fill="none" stroke="var(--ink)" stroke-width="6" stroke-linecap="round"/>
+        <circle cx="24" cy="70" r="14" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+        <path class="keep" d="M24 62 l6 4 -2 8 h-8 l-2 -8z" fill="var(--ink)"/>
+      </svg>
+      <div class="cardlabel">Kicking to the left</div>
+    </div>
+
+    <!-- Card: footballer kicking right -->
+    <div class="cutcard">
+      <svg class="art dirbadge" viewBox="0 0 40 24" style="width:11mm;height:auto;"><path d="M22 3 L36 12 L22 21 L22 15 L4 15 L4 9 L22 9 Z" fill="var(--coral)" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/></svg>
+      <svg class="art" viewBox="0 0 110 90" style="width:38mm;height:auto;">
+        <circle cx="40" cy="20" r="11" fill="var(--terracotta-lt)" stroke="var(--ink)" stroke-width="3"/>
+        <path d="M40 31 L44 56 L52 74" fill="none" stroke="var(--ink)" stroke-width="6" stroke-linecap="round"/>
+        <path d="M44 46 L70 40" fill="none" stroke="var(--ink)" stroke-width="6" stroke-linecap="round"/>
+        <path d="M44 52 L66 66" fill="none" stroke="var(--ink)" stroke-width="6" stroke-linecap="round"/>
+        <circle cx="86" cy="70" r="14" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+        <path class="keep" d="M86 62 l6 4 -2 8 h-8 l-2 -8z" fill="var(--ink)"/>
+      </svg>
+      <div class="cardlabel">Kicking to the right</div>
+    </div>
+
+    <!-- Card: signpost left -->
+    <div class="cutcard">
+      <svg class="art dirbadge" viewBox="0 0 40 24" style="width:11mm;height:auto;"><path d="M18 3 L4 12 L18 21 L18 15 L36 15 L36 9 L18 9 Z" fill="var(--coral)" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/></svg>
+      <svg class="art" viewBox="0 0 110 80" style="width:44mm;height:auto;">
+        <rect x="50" y="8" width="9" height="64" rx="3" fill="var(--terracotta)" stroke="var(--ink)" stroke-width="3"/>
+        <path d="M54 16 L14 16 L4 28 L14 40 L54 40 Z" fill="var(--green)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M40 24 L26 24 M40 32 L30 32" stroke="var(--white)" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      <div class="cardlabel">Signpost pointing left</div>
+    </div>
+
+    <!-- Card: signpost right -->
+    <div class="cutcard">
+      <svg class="art dirbadge" viewBox="0 0 40 24" style="width:11mm;height:auto;"><path d="M22 3 L36 12 L22 21 L22 15 L4 15 L4 9 L22 9 Z" fill="var(--coral)" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/></svg>
+      <svg class="art" viewBox="0 0 110 80" style="width:44mm;height:auto;">
+        <rect x="51" y="8" width="9" height="64" rx="3" fill="var(--terracotta)" stroke="var(--ink)" stroke-width="3"/>
+        <path d="M56 16 L96 16 L106 28 L96 40 L56 40 Z" fill="var(--green)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M70 24 L84 24 M70 32 L80 32" stroke="var(--white)" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      <div class="cardlabel">Signpost pointing right</div>
+    </div>
+
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Cut out cards · Set 2</span></div>
+</div>
+
+<!-- ============ PAGE 6 · WHICH HAND GAMES ============ -->
+<div class="sheet">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <div>
+      <div class="ochip">Which hand</div>
+      <h2 style="margin-top:3mm;">Trace your hands, then play</h2>
+    </div>
+    <div class="step-no">3</div>
+  </div>
+  <div class="bubble" style="margin:3mm 0 4mm 6mm;">
+    Put your LEFT hand flat on the left box and draw round it. Then your RIGHT hand on the right box. Now
+    you have your very own left and right hands on the page. Colour them in if you like.
+  </div>
+
+  <div style="display:flex;gap:5mm;">
+    <div class="card" style="flex:1;padding:4mm;display:flex;flex-direction:column;align-items:center;">
+      <div class="eyebrow" style="color:var(--coral);">Trace your left hand</div>
+      <svg class="art" viewBox="0 0 120 150" style="width:100%;height:auto;margin-top:2mm;">
+        <path d="M30 148 L30 92 Q22 92 22 80 L22 60 Q22 54 28 54 Q34 54 34 60 L34 78
+                 L40 40 Q41 34 47 35 Q53 36 52 42 L48 76
+                 L58 30 Q59 24 65 25 Q71 26 70 32 L64 76
+                 L76 36 Q77 30 83 31 Q89 32 88 38 L80 80
+                 L92 60 Q93 54 99 56 Q104 58 102 64 L92 96 Q90 120 90 148 Z"
+              fill="var(--tint-blue)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round" stroke-dasharray="7 5"/>
+      </svg>
+      <div style="font-weight:900;font-size:16pt;color:var(--ink);margin-top:1mm;">LEFT</div>
+    </div>
+    <div class="card" style="flex:1;padding:4mm;display:flex;flex-direction:column;align-items:center;">
+      <div class="eyebrow" style="color:var(--coral);">Trace your right hand</div>
+      <svg class="art" viewBox="0 0 120 150" style="width:100%;height:auto;margin-top:2mm;">
+        <path d="M90 148 L90 92 Q98 92 98 80 L98 60 Q98 54 92 54 Q86 54 86 60 L86 78
+                 L80 40 Q79 34 73 35 Q67 36 68 42 L72 76
+                 L62 30 Q61 24 55 25 Q49 26 50 32 L56 76
+                 L44 36 Q43 30 37 31 Q31 32 32 38 L40 80
+                 L28 60 Q27 54 21 56 Q16 58 18 64 L28 96 Q30 120 30 148 Z"
+              fill="var(--tint-sage)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round" stroke-dasharray="7 5"/>
+      </svg>
+      <div style="font-weight:900;font-size:16pt;color:var(--ink);margin-top:1mm;">RIGHT</div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:5mm;padding:5mm;">
+    <div class="eyebrow" style="color:var(--green);">Put your right hand on...</div>
+    <p style="margin-top:2mm;font-weight:700;color:var(--ink);font-size:10.5pt;">A grown up reads each one.
+    Do the action, then tick the box when you get it right. Take it slowly, this is a warm up not a race.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:3mm 6mm;margin-top:4mm;">
+      <div style="display:flex;align-items:center;gap:3mm;"><span class="art" style="display:inline-block;"><svg class="art" viewBox="0 0 24 24" style="width:6mm;height:6mm;"><rect x="2" y="2" width="20" height="20" rx="5" fill="var(--white)" stroke="var(--ink)" stroke-width="2.5"/></svg></span><span style="font-weight:800;font-size:10.5pt;color:var(--ink);">Right hand on your head</span></div>
+      <div style="display:flex;align-items:center;gap:3mm;"><span class="art" style="display:inline-block;"><svg class="art" viewBox="0 0 24 24" style="width:6mm;height:6mm;"><rect x="2" y="2" width="20" height="20" rx="5" fill="var(--white)" stroke="var(--ink)" stroke-width="2.5"/></svg></span><span style="font-weight:800;font-size:10.5pt;color:var(--ink);">Left hand on your tummy</span></div>
+      <div style="display:flex;align-items:center;gap:3mm;"><span class="art" style="display:inline-block;"><svg class="art" viewBox="0 0 24 24" style="width:6mm;height:6mm;"><rect x="2" y="2" width="20" height="20" rx="5" fill="var(--white)" stroke="var(--ink)" stroke-width="2.5"/></svg></span><span style="font-weight:800;font-size:10.5pt;color:var(--ink);">Right hand on your left knee</span></div>
+      <div style="display:flex;align-items:center;gap:3mm;"><span class="art" style="display:inline-block;"><svg class="art" viewBox="0 0 24 24" style="width:6mm;height:6mm;"><rect x="2" y="2" width="20" height="20" rx="5" fill="var(--white)" stroke="var(--ink)" stroke-width="2.5"/></svg></span><span style="font-weight:800;font-size:10.5pt;color:var(--ink);">Left hand on your right ear</span></div>
+      <div style="display:flex;align-items:center;gap:3mm;"><span class="art" style="display:inline-block;"><svg class="art" viewBox="0 0 24 24" style="width:6mm;height:6mm;"><rect x="2" y="2" width="20" height="20" rx="5" fill="var(--white)" stroke="var(--ink)" stroke-width="2.5"/></svg></span><span style="font-weight:800;font-size:10.5pt;color:var(--ink);">Right foot forward, like a kick</span></div>
+      <div style="display:flex;align-items:center;gap:3mm;"><span class="art" style="display:inline-block;"><svg class="art" viewBox="0 0 24 24" style="width:6mm;height:6mm;"><rect x="2" y="2" width="20" height="20" rx="5" fill="var(--white)" stroke="var(--ink)" stroke-width="2.5"/></svg></span><span style="font-weight:800;font-size:10.5pt;color:var(--ink);">Wave your left hand high</span></div>
+    </div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Which hand · Trace and play</span></div>
+</div>
+
+<!-- ============ PAGE 7 · FOLLOW THE ARROWS PATH ============ -->
+<div class="sheet">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <div>
+      <div class="ochip">The dribble</div>
+      <h2 style="margin-top:3mm;">Follow the arrows to the goal</h2>
+    </div>
+    <div class="step-no">4</div>
+  </div>
+  <div class="bubble" style="margin:3mm 0 4mm 6mm;">
+    Time to dribble to the goal. Start at the ball. Follow each arrow and say left or right out loud as you
+    turn. Trace the path with your finger first, then with a pen. Score the winning goal at the end.
+  </div>
+
+  <div class="card" style="flex:1;padding:5mm;display:flex;flex-direction:column;margin-top:1mm;">
+    <div class="eyebrow" style="color:var(--green);margin-bottom:2mm;">Start at the ball · finish at the goal</div>
+    <svg class="art" viewBox="0 0 480 360" style="width:100%;height:auto;flex:1;">
+      <!-- the zig zag path: right along row 1, down, left along row 2, down, right to goal -->
+      <path d="M60 70 L420 70 L420 180 L60 180 L60 290 L400 290"
+            fill="none" stroke="var(--coral-lt)" stroke-width="30" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M60 70 L420 70 L420 180 L60 180 L60 290 L400 290"
+            fill="none" stroke="var(--ink)" stroke-width="3" stroke-dasharray="10 9" stroke-linecap="round" stroke-linejoin="round"/>
+
+      <!-- ball at start -->
+      <circle cx="60" cy="70" r="21" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+      <path class="keep" d="M60 57 l8 6 -3 11 h-10 l-3 -11z" fill="var(--ink)"/>
+      <text class="keep" x="60" y="40" text-anchor="middle" font-family="Nunito,sans-serif" font-weight="900" font-size="16" fill="var(--ink)">START</text>
+
+      <!-- row 1: travel RIGHT -->
+      <text class="keep" x="230" y="52" text-anchor="middle" font-family="Nunito,sans-serif" font-weight="900" font-size="17" fill="var(--ink)">Go RIGHT</text>
+      <path d="M208 62 L236 62 L236 52 L262 70 L236 88 L236 78 L208 78 Z" fill="var(--coral)" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/>
+
+      <!-- row 2: travel LEFT -->
+      <text class="keep" x="250" y="162" text-anchor="middle" font-family="Nunito,sans-serif" font-weight="900" font-size="17" fill="var(--ink)">Go LEFT</text>
+      <path d="M272 172 L244 172 L244 162 L218 180 L244 198 L244 188 L272 188 Z" fill="var(--coral)" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/>
+
+      <!-- row 3: travel RIGHT -->
+      <text class="keep" x="210" y="272" text-anchor="middle" font-family="Nunito,sans-serif" font-weight="900" font-size="17" fill="var(--ink)">Go RIGHT</text>
+      <path d="M188 282 L216 282 L216 272 L242 290 L216 308 L216 298 L188 298 Z" fill="var(--coral)" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/>
+
+      <!-- goal net at end of row 3 -->
+      <g transform="translate(402,262)">
+        <rect x="0" y="0" width="58" height="56" rx="4" fill="var(--tint-sage)" stroke="var(--ink)" stroke-width="3"/>
+        <path d="M12 0 V56 M24 0 V56 M36 0 V56 M48 0 V56 M0 14 H58 M0 28 H58 M0 42 H58" stroke="var(--ink)" stroke-width="1.5" fill="none"/>
+        <circle cx="29" cy="30" r="11" fill="var(--white)" stroke="var(--ink)" stroke-width="2.5"/>
+        <path class="keep" d="M29 22 l5 4 -2 7 h-6 l-2 -7z" fill="var(--ink)"/>
+      </g>
+      <text class="keep" x="431" y="250" text-anchor="middle" font-family="Nunito,sans-serif" font-weight="900" font-size="16" fill="var(--ink)">GOAL</text>
+    </svg>
+    <p style="margin-top:3mm;font-weight:800;color:var(--ink);font-size:11pt;text-align:center;">
+      Say each arrow out loud as you trace: right, then left, then right into the goal.
+    </p>
+  </div>
+
+  <div class="card" style="margin-top:5mm;padding:4mm 5mm;background:var(--coral-lt);">
+    <p style="font-weight:800;color:var(--ink);font-size:11pt;">Play again: this time you be the coach and
+    call the turns while a grown up traces. Swap over and see who can call left and right the fastest.</p>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Follow the arrows · To the goal</span></div>
+</div>
+
+<!-- ============ PAGE 8 · BONUS / FUNNEL ============ -->
+<div class="sheet" style="align-items:center;text-align:center;">
+  <div style="margin-top:10mm;" class="eyebrow">A free bonus for your player</div>
+  <h1 style="margin-top:5mm;font-size:29pt;">You learned left and right.<br>Here is the next one, free.</h1>
+
+  <img class="photo-colour" src="images/Oliver.png" alt="Oliver" style="width:52mm;height:52mm;object-fit:contain;margin-top:6mm;">
+  <div class="photo-colourin" style="width:52mm;height:52mm;margin-top:6mm;align-items:center;justify-content:center;">
+    <svg class="art" viewBox="0 0 100 100" style="width:46mm;height:46mm;">
+      <circle cx="50" cy="50" r="34" fill="var(--white)" stroke="var(--ink)" stroke-width="4"/>
+      <path d="M50 24 l9 13 -4 15 h-10 l-4 -15z" fill="var(--white)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+  <p style="margin-top:6mm;max-width:145mm;font-size:11.5pt;">
+    Loved playing with Oliver? He has a free follow on for you. Grab the <strong>Up and Down and Front
+    and Back pack</strong>, a print and play set of position games in the same football style. It is our
+    thank you for printing this one.
+  </p>
+
+  <div class="card" style="margin-top:7mm;padding:5mm 10mm;background:var(--coral-lt);">
+    <div style="font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:13pt;letter-spacing:1px;">guidedchildhood.com/etsy-bonus</div>
+  </div>
+
+  <p style="margin-top:9mm;font-size:9.5pt;max-width:135mm;">
+    Made by Guided Childhood, the UK platform helping families raise confident kids in a digital world.
+    If your player loved learning left and right, a kind review on Etsy helps another family find it. Thank you.
+  </p>
+  <div class="footer"><span>guidedchildhood.com</span><span>Thank you · Justin and the squad</span></div>
+</div>
+
+<!-- ============ PAGE 9 · COLOURING TIPS (colour in PDF only) ============ -->
+<div class="sheet tips-page">
+  <div class="eyebrow">For the colour in edition</div>
+  <h2 style="margin-top:3mm;">Oliver's colouring tips</h2>
+
+  <div style="display:flex;gap:5mm;margin-top:4mm;align-items:flex-start;">
+    <div class="avatar" style="width:26mm;height:26mm;align-items:center;justify-content:center;display:flex;">
+      <svg class="art" viewBox="0 0 100 100" style="width:20mm;height:20mm;">
+        <circle cx="50" cy="50" r="30" fill="var(--white)" stroke="var(--ink)" stroke-width="4"/>
+        <path d="M50 24 l9 13 -4 15 h-10 l-4 -15z" fill="var(--white)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="bubble" style="flex:1;">
+      Colouring is a bit like a warm up before the match. No rush, just enjoy it and make each page yours.
+      Here is how I colour mine when I am winding down after a game.
+    </div>
+  </div>
+
+  <div style="display:flex;gap:5mm;margin-top:6mm;">
+    <div class="card" style="flex:1;padding:5mm;">
+      <div class="eyebrow" style="color:var(--coral);">Colours from my world</div>
+      <p style="margin-top:2mm;"><strong>My colour is coral.</strong> Try warm coral and orange for the boots,
+      the arrows and the car. Green looks brilliant on the signposts and the pitch. Leave the football white
+      with black patches so it looks like a real match ball.</p>
+    </div>
+    <div class="card" style="flex:1;padding:5mm;">
+      <div class="eyebrow" style="color:var(--coral);">Press lightly first</div>
+      <p style="margin-top:2mm;">Start soft, like a gentle first touch. Press lightly and lay down a light
+      layer, then go over it again to build it up. Light to strong always looks better than pressing hard,
+      and it never tears the paper.</p>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:5mm;margin-top:5mm;">
+    <div class="card" style="flex:1;padding:5mm;">
+      <div class="eyebrow" style="color:var(--coral);">Big shapes first</div>
+      <p style="margin-top:2mm;">Colour the big shapes first, like the car body or the hand you traced, then
+      move to the small bits like the boot laces and the wheels. Big to small keeps your page tidy and your
+      hand relaxed.</p>
+    </div>
+    <div class="card" style="flex:1;padding:5mm;">
+      <div class="eyebrow" style="color:var(--coral);">Stay inside the lines, gently</div>
+      <p style="margin-top:2mm;">Follow the bold black outlines and slow down at the edges, like slowing the
+      ball before a shot. If you wander over a line, no worry at all. Even top players miss. Your page, your
+      rules.</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:5mm;padding:5mm;background:var(--coral-lt);">
+    <div class="eyebrow" style="color:var(--coral);">One more thing</div>
+    <p style="margin-top:2mm;font-weight:700;color:var(--ink);">Colour the left cards in one colour and the
+    right cards in another. Then you can spot left and right in a flash when you sort them. When every page
+    is bright, you have a set you made your own. Top work, team.</p>
+  </div>
+
+  <div class="footer"><span>guidedchildhood.com</span><span>Colour in edition · Oliver's tips</span></div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Splash! Match the Fish to Their Colour</title>
+<link href="fonts/local-fonts.css" rel="stylesheet">
+<style>
+  :root{
+    --white:#FFFFFF; --cream:#F9F8F6; --ink:#1A1A2E; --ink-soft:#52526A;
+    --ink-muted:#8888A0; --border:#EAEAF0; --terracotta:#EDC35F;
+    --terracotta-dark:#C99A28; --terracotta-lt:#FEF7E0; --coral:#D4600A;
+    --green:#2F8F6B; --gold-dark:#C99A28; --tint-blue:#D8E8F8;
+    --tint-sage:#E8F0EE; --pastel-pink:#FBCFE8;
+    --fish-red:#E23B3B;
+    --fish-orange:#D4600A;
+    --fish-yellow:#EAB308;
+    --fish-green:#2F8F6B;
+    --fish-blue:#2F7FC9;
+    --fish-pink:#E85FA0;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:'Nunito',sans-serif;color:var(--ink);background:#ddd;}
+  .sheet{width:210mm;height:296mm;background:var(--cream);position:relative;overflow:hidden;
+    page-break-after:always;padding:14mm 14mm 14mm;display:flex;flex-direction:column;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:8.5pt;
+    letter-spacing:2.5px;text-transform:uppercase;color:var(--gold-dark);}
+  h1{font-weight:900;font-size:34pt;line-height:1.04;}
+  h2{font-weight:900;font-size:20pt;line-height:1.1;}
+  h3{font-weight:800;font-size:13pt;line-height:1.15;}
+  p{font-size:10.5pt;line-height:1.55;color:var(--ink-soft);}
+  strong{color:var(--ink);}
+  .footer{position:absolute;bottom:7mm;left:14mm;right:14mm;display:flex;
+    justify-content:space-between;align-items:center;
+    font-family:'IBM Plex Mono',monospace;font-size:7pt;letter-spacing:1.5px;
+    color:var(--ink-muted);text-transform:uppercase;}
+  .card{background:var(--white);border:2.5px solid var(--ink);border-radius:16px;
+    box-shadow:0 5px 0 var(--ink);}
+  .bubble{background:var(--white);border:2.5px solid var(--ink);border-radius:16px;
+    box-shadow:0 4px 0 var(--ink);padding:5mm 6mm;position:relative;
+    font-weight:700;font-size:11pt;line-height:1.42;color:var(--ink);}
+  .bubble:after{content:'';position:absolute;left:-4.5mm;top:20mm;
+    width:0;height:0;border-top:3.5mm solid transparent;border-bottom:3.5mm solid transparent;
+    border-right:4.5mm solid var(--ink);}
+  .digi-av{border-radius:14px;border:2.5px solid var(--ink);background:var(--white);
+    box-shadow:0 4px 0 var(--ink);object-fit:contain;padding:2mm;flex:none;}
+  .chip{display:inline-flex;align-items:center;gap:2.5mm;border:2.5px solid var(--ink);
+    border-radius:999px;padding:1.5mm 5mm 1.5mm 2mm;font-weight:900;font-size:11pt;
+    color:var(--ink);box-shadow:0 3px 0 var(--ink);}
+  .chip span{letter-spacing:0.3px;}
+  .chip.big{font-size:15pt;padding:2mm 7mm 2mm 2.5mm;}
+  .cutcell{border:2.5px dashed var(--ink);border-radius:12px;background:var(--white);
+    padding:3mm;display:flex;align-items:center;justify-content:center;flex:1;}
+  .art{display:block;max-width:100%;height:auto;}
+  /* COLOUR IN MODE */
+  body.colourin .sheet{background:var(--white);}
+  body.colourin .card,body.colourin .bubble,body.colourin .digi-av,body.colourin .chip{box-shadow:none;}
+  body.colourin .fillband{background:var(--white) !important;}
+  body.colourin .art *{fill:#FFFFFF !important;stroke:#1A1A2E !important;
+    stroke-width:2 !important;vector-effect:non-scaling-stroke !important;}
+  body.colourin .art .keep{fill:#1A1A2E !important;stroke:none !important;}
+  body.colourin .art .noline{stroke:none !important;}
+  body.colourin .photo-colour{display:none !important;}
+  .photo-colourin{display:none;}
+  body.colourin .photo-colourin{display:flex !important;}
+  /* TIPS PAGE only in colour in */
+  .tips-page{display:none !important;}
+  body.colourin .tips-page{display:flex !important;}
+  @page{size:A4;margin:0;}
+  @media print{body{background:none;}}
+</style>
+</head>
+<body>
+
+<div class="sheet" style="align-items:center;text-align:center;justify-content:flex-start;">
+  <div style="margin-top:4mm;" class="eyebrow">Guided Childhood · Print and Play</div>
+  <h1 style="margin-top:5mm;font-size:39pt;">Splash! Match the<br>Fish to Their Colour</h1>
+  <p style="margin-top:4mm;font-weight:800;color:var(--ink);font-size:13.5pt;">
+    A first colour matching game for little hands.
+  </p>
+
+  <img class="photo-colour" src="images/DiGi-star.svg" alt="DiGi the golden star"
+       style="width:62mm;height:62mm;object-fit:contain;margin-top:4mm;">
+  <div class="photo-colourin" style="width:62mm;height:62mm;margin-top:4mm;align-items:center;justify-content:center;">
+    <svg class="art" viewBox="0 0 400 430" style="width:56mm;height:auto;">
+    <polygon points="200,62 238,165 345,165 263,228 293,338 200,272 107,338 137,228 55,165 162,165" fill="#F5CD3A" stroke="var(--ink)" stroke-width="10" stroke-linejoin="round"/>
+    <circle class="keep" cx="173" cy="226" r="12" fill="var(--ink)"/>
+    <circle class="keep" cx="227" cy="226" r="12" fill="var(--ink)"/>
+    <path d="M183 248 Q200 264 217 248" fill="none" stroke="var(--ink)" stroke-width="5" stroke-linecap="round"/>
+  </svg>
+  </div>
+
+  <div style="display:flex;gap:6mm;margin-top:3mm;justify-content:center;">
+    <svg class="art" viewBox="0 0 130 92" style="width:30mm;height:auto;">
+    <path d="M96 48 L126 22 Q119 48 126 74 Z" fill="var(--fish-red)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M44 22 Q60 4 76 24 Q60 28 44 22 Z" fill="var(--fish-red)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M50 74 Q60 88 74 78 Q62 72 50 74 Z" fill="var(--fish-red)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <ellipse cx="58" cy="48" rx="42" ry="30" fill="var(--fish-red)" stroke="var(--ink)" stroke-width="3"/>
+    <circle cx="40" cy="40" r="11" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+    <circle class="keep" cx="37" cy="42" r="5" fill="var(--ink)"/>
+    <circle class="noline" cx="43" cy="37" r="2.6" fill="var(--white)"/>
+    <path d="M28 57 Q39 65 52 58" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+  </svg>
+    <svg class="art" viewBox="0 0 130 92" style="width:30mm;height:auto;">
+    <path d="M96 48 L126 22 Q119 48 126 74 Z" fill="var(--fish-blue)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M44 22 Q60 4 76 24 Q60 28 44 22 Z" fill="var(--fish-blue)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M50 74 Q60 88 74 78 Q62 72 50 74 Z" fill="var(--fish-blue)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <ellipse cx="58" cy="48" rx="42" ry="30" fill="var(--fish-blue)" stroke="var(--ink)" stroke-width="3"/>
+    <circle cx="40" cy="40" r="11" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+    <circle class="keep" cx="37" cy="42" r="5" fill="var(--ink)"/>
+    <circle class="noline" cx="43" cy="37" r="2.6" fill="var(--white)"/>
+    <path d="M28 57 Q39 65 52 58" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+  </svg>
+    <svg class="art" viewBox="0 0 130 92" style="width:30mm;height:auto;">
+    <path d="M96 48 L126 22 Q119 48 126 74 Z" fill="var(--fish-green)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M44 22 Q60 4 76 24 Q60 28 44 22 Z" fill="var(--fish-green)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M50 74 Q60 88 74 78 Q62 72 50 74 Z" fill="var(--fish-green)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <ellipse cx="58" cy="48" rx="42" ry="30" fill="var(--fish-green)" stroke="var(--ink)" stroke-width="3"/>
+    <circle cx="40" cy="40" r="11" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+    <circle class="keep" cx="37" cy="42" r="5" fill="var(--ink)"/>
+    <circle class="noline" cx="43" cy="37" r="2.6" fill="var(--white)"/>
+    <path d="M28 57 Q39 65 52 58" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+  </svg>
+  </div>
+
+  <div style="display:flex;gap:3.5mm;margin-top:4mm;flex-wrap:wrap;justify-content:center;">
+    <div class="card" style="padding:3mm 6mm;font-weight:800;font-size:10.5pt;">Ages 2 to 5</div>
+    <div class="card" style="padding:3mm 6mm;font-weight:800;font-size:10.5pt;">6 bright colours</div>
+    <div class="card" style="padding:3mm 6mm;font-weight:800;font-size:10.5pt;">Print and play</div>
+  </div>
+  <div class="card fillband" style="margin-top:5mm;padding:4mm 8mm;background:var(--terracotta-lt);">
+    <p style="font-weight:800;color:var(--ink);font-size:11pt;">
+      BEEP BOOP! Six fishbowls and lots of little fish.<br>Can you pop each fish in the bowl of the same colour?
+    </p>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>DiGi · Your guide</span></div>
+</div>
+
+<div class="sheet">
+  <div class="eyebrow">Two minutes before you play</div>
+  <h2 style="margin-top:3mm;">How to play, and a note for grown ups</h2>
+
+  <div style="display:flex;gap:5mm;margin-top:4mm;align-items:flex-start;">
+    <img class="photo-colour digi-av" src="images/DiGi-star.svg" alt="DiGi the golden star" style="width:26mm;height:26mm;">
+    <div class="photo-colourin digi-av" style="width:26mm;height:26mm;align-items:center;justify-content:center;"><svg class="art" viewBox="0 0 400 430" style="width:19mm;height:auto;">
+    <polygon points="200,62 238,165 345,165 263,228 293,338 200,272 107,338 137,228 55,165 162,165" fill="#F5CD3A" stroke="var(--ink)" stroke-width="10" stroke-linejoin="round"/>
+    <circle class="keep" cx="173" cy="226" r="12" fill="var(--ink)"/>
+    <circle class="keep" cx="227" cy="226" r="12" fill="var(--ink)"/>
+    <path d="M183 248 Q200 264 217 248" fill="none" stroke="var(--ink)" stroke-width="5" stroke-linecap="round"/>
+  </svg></div>
+    <div class="bubble" style="flex:1;">
+      BEEP BOOP! Hello little one. I am DiGi. Print the fish and pop them out. Then find the bowl that
+      is the same colour as each fish. Red fish to the red bowl, blue fish to the blue bowl. Say the
+      colour out loud with me as you go. Ready? Let us splash!
+    </div>
+  </div>
+
+  <div style="display:flex;gap:5mm;margin-top:6mm;">
+    <div class="card" style="flex:1;padding:5mm;">
+      <div class="eyebrow" style="color:var(--green);">Setting it up</div>
+      <p style="margin-top:2mm;">Print the pages and cut out the fish along the dashed lines. Big scissors
+      for grown up hands. Laminate the fish and the bowls if you want them to last, then play again and
+      again. Nothing else to buy.</p>
+    </div>
+    <div class="card" style="flex:1;padding:5mm;">
+      <div class="eyebrow" style="color:var(--green);">How to play</div>
+      <p style="margin-top:2mm;">Spread the six bowls out. Give your child one fish at a time. Name the
+      colour together, then find the bowl that matches. When every fish is home, the tank is full and the
+      colours are sorted.</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:5mm;padding:5mm;">
+    <div class="eyebrow">A note for grown ups</div>
+    <p style="margin-top:2mm;">
+      <strong>Colour is one of the very first sorting skills.</strong> Before children can count or read,
+      they group the world by what looks the same. Matching a red fish to a red bowl is real early maths,
+      quietly at work. Play alongside your child rather than testing them. Name each colour out loud,
+      go slow, and let them place the fish themselves. If a fish lands in the wrong bowl, that is part of
+      learning. Just say the colour again warmly and try together. Celebrate the match, not the speed.
+    </p>
+  </div>
+
+  <div class="card fillband" style="margin-top:5mm;padding:4mm 5mm;background:var(--tint-sage);">
+    <div class="eyebrow" style="color:var(--green);">The six colours in this pack</div>
+    <div style="display:flex;flex-wrap:wrap;gap:3mm 6mm;margin-top:3mm;">
+      <div class="chip fillband" style="background:#F8C9C9;"><svg class="art" viewBox="0 0 40 40" style="width:8mm;height:8mm;flex:none;"><circle cx="20" cy="20" r="16" fill="#E23B3B" stroke="var(--ink)" stroke-width="3"/></svg><span>Red</span></div><div class="chip fillband" style="background:#F8D6B0;"><svg class="art" viewBox="0 0 40 40" style="width:8mm;height:8mm;flex:none;"><circle cx="20" cy="20" r="16" fill="#D4600A" stroke="var(--ink)" stroke-width="3"/></svg><span>Orange</span></div><div class="chip fillband" style="background:#F8E7A0;"><svg class="art" viewBox="0 0 40 40" style="width:8mm;height:8mm;flex:none;"><circle cx="20" cy="20" r="16" fill="#EAB308" stroke="var(--ink)" stroke-width="3"/></svg><span>Yellow</span></div><div class="chip fillband" style="background:#CFE8DF;"><svg class="art" viewBox="0 0 40 40" style="width:8mm;height:8mm;flex:none;"><circle cx="20" cy="20" r="16" fill="#2F8F6B" stroke="var(--ink)" stroke-width="3"/></svg><span>Green</span></div><div class="chip fillband" style="background:#C6DFF6;"><svg class="art" viewBox="0 0 40 40" style="width:8mm;height:8mm;flex:none;"><circle cx="20" cy="20" r="16" fill="#2F7FC9" stroke="var(--ink)" stroke-width="3"/></svg><span>Blue</span></div><div class="chip fillband" style="background:#F8C6E0;"><svg class="art" viewBox="0 0 40 40" style="width:8mm;height:8mm;flex:none;"><circle cx="20" cy="20" r="16" fill="#E85FA0" stroke="var(--ink)" stroke-width="3"/></svg><span>Pink</span></div>
+    </div>
+  </div>
+
+  <div class="footer"><span>guidedchildhood.com</span><span>How to play · The grown up note</span></div>
+</div>
+
+<div class="sheet">
+  <div class="eyebrow">The fishbowls · page 1 of 2</div>
+  <h2 style="margin-top:3mm;">Line up the bowls</h2>
+  <p style="margin-top:2mm;max-width:150mm;">Set these bowls out where your child can reach them. Each bowl
+  has one colour and its name. Match every fish to the bowl of the same colour.</p>
+
+  <div style="display:flex;gap:5mm;margin-top:auto;margin-bottom:auto;justify-content:center;align-items:stretch;">
+    
+    <div class="card" style="flex:1;min-width:0;padding:7mm 4mm;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5mm;">
+      <div style="display:flex;align-items:center;justify-content:center;"><svg class="art" viewBox="0 0 220 210" style="width:58mm;height:auto;">
+    <path d="M56 60 A74 74 0 1 0 164 60" fill="#F8C9C9" stroke="var(--ink)" stroke-width="4"/>
+    <path class="noline" d="M150 162 q-9 -32 5 -54 q9 17 2 38 q11 -13 15 -32 q5 23 -13 42 z" fill="#E23B3B"/>
+    <path d="M150 162 q-9 -32 5 -54 q9 17 2 38 q11 -13 15 -32 q5 23 -13 42 z" fill="none" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/>
+    <circle cx="86" cy="162" r="12" fill="#E23B3B" stroke="var(--ink)" stroke-width="2.5"/>
+    <circle cx="110" cy="168" r="14" fill="#E23B3B" stroke="var(--ink)" stroke-width="2.5"/>
+    <circle cx="134" cy="160" r="11" fill="#E23B3B" stroke="var(--ink)" stroke-width="2.5"/>
+    <circle cx="150" cy="74" r="5" fill="var(--white)" stroke="var(--ink)" stroke-width="2.5"/>
+    <circle cx="162" cy="56" r="3.4" fill="var(--white)" stroke="var(--ink)" stroke-width="2.5"/>
+    <ellipse cx="110" cy="60" rx="56" ry="14" fill="var(--white)" stroke="var(--ink)" stroke-width="4"/>
+    <ellipse class="noline" cx="110" cy="60" rx="42" ry="8" fill="#F8C9C9"/>
+  </svg></div>
+      <div class="chip fillband big" style="background:#F8C9C9;"><svg class="art" viewBox="0 0 40 40" style="width:8mm;height:8mm;flex:none;"><circle cx="20" cy="20" r="16" fill="#E23B3B" stroke="var(--ink)" stroke-width="3"/></svg><span>Red</span></div>
+    </div>
+    <div class="card" style="flex:1;min-width:0;padding:7mm 4mm;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5mm;">
+      <div style="display:flex;align-items:center;justify-content:center;"><svg class="art" viewBox="0 0 220 210" style="width:58mm;height:auto;">
+    <path d="M56 60 A74 74 0 1 0 164 60" fill="#F8D6B0" stroke="var(--ink)" stroke-width="4"/>
+    <path class="noline" d="M150 162 q-9 -32 5 -54 q9 17 2 38 q11 -13 15 -32 q5 23 -13 42 z" fill="#D4600A"/>
+    <path d="M150 162 q-9 -32 5 -54 q9 17 2 38 q11 -13 15 -32 q5 23 -13 42 z" fill="none" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/>
+    <circle cx="86" cy="162" r="12" fill="#D4600A" stroke="var(--ink)" stroke-width="2.5"/>
+    <circle cx="110" cy="168" r="14" fill="#D4600A" stroke="var(--ink)" stroke-width="2.5"/>
+    <circle cx="134" cy="160" r="11" fill="#D4600A" stroke="var(--ink)" stroke-width="2.5"/>
+    <circle cx="150" cy="74" r="5" fill="var(--white)" stroke="var(--ink)" stroke-width="2.5"/>
+    <circle cx="162" cy="56" r="3.4" fill="var(--white)" stroke="var(--ink)" stroke-width="2.5"/>
+    <ellipse cx="110" cy="60" rx="56" ry="14" fill="var(--white)" stroke="var(--ink)" stroke-width="4"/>
+    <ellipse class="noline" cx="110" cy="60" rx="42" ry="8" fill="#F8D6B0"/>
+  </svg></div>
+      <div class="chip fillband big" style="background:#F8D6B0;"><svg class="art" viewBox="0 0 40 40" style="width:8mm;height:8mm;flex:none;"><circle cx="20" cy="20" r="16" fill="#D4600A" stroke="var(--ink)" stroke-width="3"/></svg><span>Orange</span></div>
+    </div>
+    <div class="card" style="flex:1;min-width:0;padding:7mm 4mm;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5mm;">
+      <div style="display:flex;align-items:center;justify-content:center;"><svg class="art" viewBox="0 0 220 210" style="width:58mm;height:auto;">
+    <path d="M56 60 A74 74 0 1 0 164 60" fill="#F8E7A0" stroke="var(--ink)" stroke-width="4"/>
+    <path class="noline" d="M150 162 q-9 -32 5 -54 q9 17 2 38 q11 -13 15 -32 q5 23 -13 42 z" fill="#EAB308"/>
+    <path d="M150 162 q-9 -32 5 -54 q9 17 2 38 q11 -13 15 -32 q5 23 -13 42 z" fill="none" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/>
+    <circle cx="86" cy="162" r="12" fill="#EAB308" stroke="var(--ink)" stroke-width="2.5"/>
+    <circle cx="110" cy="168" r="14" fill="#EAB308" stroke="var(--ink)" stroke-width="2.5"/>
+    <circle cx="134" cy="160" r="11" fill="#EAB308" stroke="var(--ink)" stroke-width="2.5"/>
+    <circle cx="150" cy="74" r="5" fill="var(--white)" stroke="var(--ink)" stroke-width="2.5"/>
+    <circle cx="162" cy="56" r="3.4" fill="var(--white)" stroke="var(--ink)" stroke-width="2.5"/>
+    <ellipse cx="110" cy="60" rx="56" ry="14" fill="var(--white)" stroke="var(--ink)" stroke-width="4"/>
+    <ellipse class="noline" cx="110" cy="60" rx="42" ry="8" fill="#F8E7A0"/>
+  </svg></div>
+      <div class="chip fillband big" style="background:#F8E7A0;"><svg class="art" viewBox="0 0 40 40" style="width:8mm;height:8mm;flex:none;"><circle cx="20" cy="20" r="16" fill="#EAB308" stroke="var(--ink)" stroke-width="3"/></svg><span>Yellow</span></div>
+    </div>
+  </div>
+
+  <div class="footer"><span>guidedchildhood.com</span><span>The fishbowls · page 1 of 2</span></div>
+</div>
+
+<div class="sheet">
+  <div class="eyebrow">The fishbowls · page 2 of 2</div>
+  <h2 style="margin-top:3mm;">Line up the bowls</h2>
+  <p style="margin-top:2mm;max-width:150mm;">Set these bowls out where your child can reach them. Each bowl
+  has one colour and its name. Match every fish to the bowl of the same colour.</p>
+
+  <div style="display:flex;gap:5mm;margin-top:auto;margin-bottom:auto;justify-content:center;align-items:stretch;">
+    
+    <div class="card" style="flex:1;min-width:0;padding:7mm 4mm;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5mm;">
+      <div style="display:flex;align-items:center;justify-content:center;"><svg class="art" viewBox="0 0 220 210" style="width:58mm;height:auto;">
+    <path d="M56 60 A74 74 0 1 0 164 60" fill="#CFE8DF" stroke="var(--ink)" stroke-width="4"/>
+    <path class="noline" d="M150 162 q-9 -32 5 -54 q9 17 2 38 q11 -13 15 -32 q5 23 -13 42 z" fill="#2F8F6B"/>
+    <path d="M150 162 q-9 -32 5 -54 q9 17 2 38 q11 -13 15 -32 q5 23 -13 42 z" fill="none" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/>
+    <circle cx="86" cy="162" r="12" fill="#2F8F6B" stroke="var(--ink)" stroke-width="2.5"/>
+    <circle cx="110" cy="168" r="14" fill="#2F8F6B" stroke="var(--ink)" stroke-width="2.5"/>
+    <circle cx="134" cy="160" r="11" fill="#2F8F6B" stroke="var(--ink)" stroke-width="2.5"/>
+    <circle cx="150" cy="74" r="5" fill="var(--white)" stroke="var(--ink)" stroke-width="2.5"/>
+    <circle cx="162" cy="56" r="3.4" fill="var(--white)" stroke="var(--ink)" stroke-width="2.5"/>
+    <ellipse cx="110" cy="60" rx="56" ry="14" fill="var(--white)" stroke="var(--ink)" stroke-width="4"/>
+    <ellipse class="noline" cx="110" cy="60" rx="42" ry="8" fill="#CFE8DF"/>
+  </svg></div>
+      <div class="chip fillband big" style="background:#CFE8DF;"><svg class="art" viewBox="0 0 40 40" style="width:8mm;height:8mm;flex:none;"><circle cx="20" cy="20" r="16" fill="#2F8F6B" stroke="var(--ink)" stroke-width="3"/></svg><span>Green</span></div>
+    </div>
+    <div class="card" style="flex:1;min-width:0;padding:7mm 4mm;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5mm;">
+      <div style="display:flex;align-items:center;justify-content:center;"><svg class="art" viewBox="0 0 220 210" style="width:58mm;height:auto;">
+    <path d="M56 60 A74 74 0 1 0 164 60" fill="#C6DFF6" stroke="var(--ink)" stroke-width="4"/>
+    <path class="noline" d="M150 162 q-9 -32 5 -54 q9 17 2 38 q11 -13 15 -32 q5 23 -13 42 z" fill="#2F7FC9"/>
+    <path d="M150 162 q-9 -32 5 -54 q9 17 2 38 q11 -13 15 -32 q5 23 -13 42 z" fill="none" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/>
+    <circle cx="86" cy="162" r="12" fill="#2F7FC9" stroke="var(--ink)" stroke-width="2.5"/>
+    <circle cx="110" cy="168" r="14" fill="#2F7FC9" stroke="var(--ink)" stroke-width="2.5"/>
+    <circle cx="134" cy="160" r="11" fill="#2F7FC9" stroke="var(--ink)" stroke-width="2.5"/>
+    <circle cx="150" cy="74" r="5" fill="var(--white)" stroke="var(--ink)" stroke-width="2.5"/>
+    <circle cx="162" cy="56" r="3.4" fill="var(--white)" stroke="var(--ink)" stroke-width="2.5"/>
+    <ellipse cx="110" cy="60" rx="56" ry="14" fill="var(--white)" stroke="var(--ink)" stroke-width="4"/>
+    <ellipse class="noline" cx="110" cy="60" rx="42" ry="8" fill="#C6DFF6"/>
+  </svg></div>
+      <div class="chip fillband big" style="background:#C6DFF6;"><svg class="art" viewBox="0 0 40 40" style="width:8mm;height:8mm;flex:none;"><circle cx="20" cy="20" r="16" fill="#2F7FC9" stroke="var(--ink)" stroke-width="3"/></svg><span>Blue</span></div>
+    </div>
+    <div class="card" style="flex:1;min-width:0;padding:7mm 4mm;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5mm;">
+      <div style="display:flex;align-items:center;justify-content:center;"><svg class="art" viewBox="0 0 220 210" style="width:58mm;height:auto;">
+    <path d="M56 60 A74 74 0 1 0 164 60" fill="#F8C6E0" stroke="var(--ink)" stroke-width="4"/>
+    <path class="noline" d="M150 162 q-9 -32 5 -54 q9 17 2 38 q11 -13 15 -32 q5 23 -13 42 z" fill="#E85FA0"/>
+    <path d="M150 162 q-9 -32 5 -54 q9 17 2 38 q11 -13 15 -32 q5 23 -13 42 z" fill="none" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/>
+    <circle cx="86" cy="162" r="12" fill="#E85FA0" stroke="var(--ink)" stroke-width="2.5"/>
+    <circle cx="110" cy="168" r="14" fill="#E85FA0" stroke="var(--ink)" stroke-width="2.5"/>
+    <circle cx="134" cy="160" r="11" fill="#E85FA0" stroke="var(--ink)" stroke-width="2.5"/>
+    <circle cx="150" cy="74" r="5" fill="var(--white)" stroke="var(--ink)" stroke-width="2.5"/>
+    <circle cx="162" cy="56" r="3.4" fill="var(--white)" stroke="var(--ink)" stroke-width="2.5"/>
+    <ellipse cx="110" cy="60" rx="56" ry="14" fill="var(--white)" stroke="var(--ink)" stroke-width="4"/>
+    <ellipse class="noline" cx="110" cy="60" rx="42" ry="8" fill="#F8C6E0"/>
+  </svg></div>
+      <div class="chip fillband big" style="background:#F8C6E0;"><svg class="art" viewBox="0 0 40 40" style="width:8mm;height:8mm;flex:none;"><circle cx="20" cy="20" r="16" fill="#E85FA0" stroke="var(--ink)" stroke-width="3"/></svg><span>Pink</span></div>
+    </div>
+  </div>
+
+  <div class="footer"><span>guidedchildhood.com</span><span>The fishbowls · page 2 of 2</span></div>
+</div>
+
+<div class="sheet">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <div>
+      <div class="eyebrow">Cut out the fish · page 1 of 2</div>
+      <h2 style="margin-top:3mm;">Pop out the little fish</h2>
+    </div>
+    <svg class="art" viewBox="0 0 60 60" style="width:16mm;height:16mm;">
+      <circle cx="14" cy="20" r="9" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+      <circle cx="14" cy="42" r="9" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+      <path d="M20 24 L54 12 M20 38 L54 50 M22 31 L40 31" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+    </svg>
+  </div>
+  <p style="margin-top:1mm;max-width:150mm;">Cut along the dashed line around each fish. A grown up job. Then let
+  your child match them to the bowls.</p>
+
+  <div style="display:flex;flex-direction:column;gap:4mm;margin-top:4mm;flex:1;">
+    
+    <div class="card" style="padding:4mm 5mm;">
+      <div class="chip fillband" style="background:#F8C9C9;margin-bottom:3mm;"><svg class="art" viewBox="0 0 40 40" style="width:8mm;height:8mm;flex:none;"><circle cx="20" cy="20" r="16" fill="#E23B3B" stroke="var(--ink)" stroke-width="3"/></svg><span>Red fish</span></div>
+      <div style="display:flex;gap:4mm;justify-content:space-between;">
+        <div class="cutcell"><svg class="art" viewBox="0 0 130 92" style="width:32mm;height:auto;">
+    <path d="M96 48 L126 22 Q119 48 126 74 Z" fill="var(--fish-red)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M44 22 Q60 4 76 24 Q60 28 44 22 Z" fill="var(--fish-red)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M50 74 Q60 88 74 78 Q62 72 50 74 Z" fill="var(--fish-red)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <ellipse cx="58" cy="48" rx="42" ry="30" fill="var(--fish-red)" stroke="var(--ink)" stroke-width="3"/>
+    <circle cx="40" cy="40" r="11" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+    <circle class="keep" cx="37" cy="42" r="5" fill="var(--ink)"/>
+    <circle class="noline" cx="43" cy="37" r="2.6" fill="var(--white)"/>
+    <path d="M28 57 Q39 65 52 58" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+  </svg></div><div class="cutcell"><svg class="art" viewBox="0 0 130 92" style="width:32mm;height:auto;">
+    <path d="M96 48 L126 22 Q119 48 126 74 Z" fill="var(--fish-red)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M44 22 Q60 4 76 24 Q60 28 44 22 Z" fill="var(--fish-red)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M50 74 Q60 88 74 78 Q62 72 50 74 Z" fill="var(--fish-red)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <ellipse cx="58" cy="48" rx="42" ry="30" fill="var(--fish-red)" stroke="var(--ink)" stroke-width="3"/>
+    <circle cx="40" cy="40" r="11" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+    <circle class="keep" cx="37" cy="42" r="5" fill="var(--ink)"/>
+    <circle class="noline" cx="43" cy="37" r="2.6" fill="var(--white)"/>
+    <path d="M28 57 Q39 65 52 58" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+  </svg></div><div class="cutcell"><svg class="art" viewBox="0 0 130 92" style="width:32mm;height:auto;">
+    <path d="M96 48 L126 22 Q119 48 126 74 Z" fill="var(--fish-red)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M44 22 Q60 4 76 24 Q60 28 44 22 Z" fill="var(--fish-red)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M50 74 Q60 88 74 78 Q62 72 50 74 Z" fill="var(--fish-red)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <ellipse cx="58" cy="48" rx="42" ry="30" fill="var(--fish-red)" stroke="var(--ink)" stroke-width="3"/>
+    <circle cx="40" cy="40" r="11" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+    <circle class="keep" cx="37" cy="42" r="5" fill="var(--ink)"/>
+    <circle class="noline" cx="43" cy="37" r="2.6" fill="var(--white)"/>
+    <path d="M28 57 Q39 65 52 58" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+  </svg></div><div class="cutcell"><svg class="art" viewBox="0 0 130 92" style="width:32mm;height:auto;">
+    <path d="M96 48 L126 22 Q119 48 126 74 Z" fill="var(--fish-red)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M44 22 Q60 4 76 24 Q60 28 44 22 Z" fill="var(--fish-red)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M50 74 Q60 88 74 78 Q62 72 50 74 Z" fill="var(--fish-red)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <ellipse cx="58" cy="48" rx="42" ry="30" fill="var(--fish-red)" stroke="var(--ink)" stroke-width="3"/>
+    <circle cx="40" cy="40" r="11" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+    <circle class="keep" cx="37" cy="42" r="5" fill="var(--ink)"/>
+    <circle class="noline" cx="43" cy="37" r="2.6" fill="var(--white)"/>
+    <path d="M28 57 Q39 65 52 58" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+  </svg></div>
+      </div>
+    </div>
+    <div class="card" style="padding:4mm 5mm;">
+      <div class="chip fillband" style="background:#F8D6B0;margin-bottom:3mm;"><svg class="art" viewBox="0 0 40 40" style="width:8mm;height:8mm;flex:none;"><circle cx="20" cy="20" r="16" fill="#D4600A" stroke="var(--ink)" stroke-width="3"/></svg><span>Orange fish</span></div>
+      <div style="display:flex;gap:4mm;justify-content:space-between;">
+        <div class="cutcell"><svg class="art" viewBox="0 0 130 92" style="width:32mm;height:auto;">
+    <path d="M96 48 L126 22 Q119 48 126 74 Z" fill="var(--fish-orange)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M44 22 Q60 4 76 24 Q60 28 44 22 Z" fill="var(--fish-orange)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M50 74 Q60 88 74 78 Q62 72 50 74 Z" fill="var(--fish-orange)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <ellipse cx="58" cy="48" rx="42" ry="30" fill="var(--fish-orange)" stroke="var(--ink)" stroke-width="3"/>
+    <circle cx="40" cy="40" r="11" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+    <circle class="keep" cx="37" cy="42" r="5" fill="var(--ink)"/>
+    <circle class="noline" cx="43" cy="37" r="2.6" fill="var(--white)"/>
+    <path d="M28 57 Q39 65 52 58" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+  </svg></div><div class="cutcell"><svg class="art" viewBox="0 0 130 92" style="width:32mm;height:auto;">
+    <path d="M96 48 L126 22 Q119 48 126 74 Z" fill="var(--fish-orange)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M44 22 Q60 4 76 24 Q60 28 44 22 Z" fill="var(--fish-orange)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M50 74 Q60 88 74 78 Q62 72 50 74 Z" fill="var(--fish-orange)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <ellipse cx="58" cy="48" rx="42" ry="30" fill="var(--fish-orange)" stroke="var(--ink)" stroke-width="3"/>
+    <circle cx="40" cy="40" r="11" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+    <circle class="keep" cx="37" cy="42" r="5" fill="var(--ink)"/>
+    <circle class="noline" cx="43" cy="37" r="2.6" fill="var(--white)"/>
+    <path d="M28 57 Q39 65 52 58" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+  </svg></div><div class="cutcell"><svg class="art" viewBox="0 0 130 92" style="width:32mm;height:auto;">
+    <path d="M96 48 L126 22 Q119 48 126 74 Z" fill="var(--fish-orange)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M44 22 Q60 4 76 24 Q60 28 44 22 Z" fill="var(--fish-orange)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M50 74 Q60 88 74 78 Q62 72 50 74 Z" fill="var(--fish-orange)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <ellipse cx="58" cy="48" rx="42" ry="30" fill="var(--fish-orange)" stroke="var(--ink)" stroke-width="3"/>
+    <circle cx="40" cy="40" r="11" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+    <circle class="keep" cx="37" cy="42" r="5" fill="var(--ink)"/>
+    <circle class="noline" cx="43" cy="37" r="2.6" fill="var(--white)"/>
+    <path d="M28 57 Q39 65 52 58" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+  </svg></div><div class="cutcell"><svg class="art" viewBox="0 0 130 92" style="width:32mm;height:auto;">
+    <path d="M96 48 L126 22 Q119 48 126 74 Z" fill="var(--fish-orange)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M44 22 Q60 4 76 24 Q60 28 44 22 Z" fill="var(--fish-orange)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M50 74 Q60 88 74 78 Q62 72 50 74 Z" fill="var(--fish-orange)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <ellipse cx="58" cy="48" rx="42" ry="30" fill="var(--fish-orange)" stroke="var(--ink)" stroke-width="3"/>
+    <circle cx="40" cy="40" r="11" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+    <circle class="keep" cx="37" cy="42" r="5" fill="var(--ink)"/>
+    <circle class="noline" cx="43" cy="37" r="2.6" fill="var(--white)"/>
+    <path d="M28 57 Q39 65 52 58" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+  </svg></div>
+      </div>
+    </div>
+    <div class="card" style="padding:4mm 5mm;">
+      <div class="chip fillband" style="background:#F8E7A0;margin-bottom:3mm;"><svg class="art" viewBox="0 0 40 40" style="width:8mm;height:8mm;flex:none;"><circle cx="20" cy="20" r="16" fill="#EAB308" stroke="var(--ink)" stroke-width="3"/></svg><span>Yellow fish</span></div>
+      <div style="display:flex;gap:4mm;justify-content:space-between;">
+        <div class="cutcell"><svg class="art" viewBox="0 0 130 92" style="width:32mm;height:auto;">
+    <path d="M96 48 L126 22 Q119 48 126 74 Z" fill="var(--fish-yellow)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M44 22 Q60 4 76 24 Q60 28 44 22 Z" fill="var(--fish-yellow)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M50 74 Q60 88 74 78 Q62 72 50 74 Z" fill="var(--fish-yellow)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <ellipse cx="58" cy="48" rx="42" ry="30" fill="var(--fish-yellow)" stroke="var(--ink)" stroke-width="3"/>
+    <circle cx="40" cy="40" r="11" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+    <circle class="keep" cx="37" cy="42" r="5" fill="var(--ink)"/>
+    <circle class="noline" cx="43" cy="37" r="2.6" fill="var(--white)"/>
+    <path d="M28 57 Q39 65 52 58" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+  </svg></div><div class="cutcell"><svg class="art" viewBox="0 0 130 92" style="width:32mm;height:auto;">
+    <path d="M96 48 L126 22 Q119 48 126 74 Z" fill="var(--fish-yellow)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M44 22 Q60 4 76 24 Q60 28 44 22 Z" fill="var(--fish-yellow)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M50 74 Q60 88 74 78 Q62 72 50 74 Z" fill="var(--fish-yellow)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <ellipse cx="58" cy="48" rx="42" ry="30" fill="var(--fish-yellow)" stroke="var(--ink)" stroke-width="3"/>
+    <circle cx="40" cy="40" r="11" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+    <circle class="keep" cx="37" cy="42" r="5" fill="var(--ink)"/>
+    <circle class="noline" cx="43" cy="37" r="2.6" fill="var(--white)"/>
+    <path d="M28 57 Q39 65 52 58" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+  </svg></div><div class="cutcell"><svg class="art" viewBox="0 0 130 92" style="width:32mm;height:auto;">
+    <path d="M96 48 L126 22 Q119 48 126 74 Z" fill="var(--fish-yellow)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M44 22 Q60 4 76 24 Q60 28 44 22 Z" fill="var(--fish-yellow)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M50 74 Q60 88 74 78 Q62 72 50 74 Z" fill="var(--fish-yellow)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <ellipse cx="58" cy="48" rx="42" ry="30" fill="var(--fish-yellow)" stroke="var(--ink)" stroke-width="3"/>
+    <circle cx="40" cy="40" r="11" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+    <circle class="keep" cx="37" cy="42" r="5" fill="var(--ink)"/>
+    <circle class="noline" cx="43" cy="37" r="2.6" fill="var(--white)"/>
+    <path d="M28 57 Q39 65 52 58" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+  </svg></div><div class="cutcell"><svg class="art" viewBox="0 0 130 92" style="width:32mm;height:auto;">
+    <path d="M96 48 L126 22 Q119 48 126 74 Z" fill="var(--fish-yellow)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M44 22 Q60 4 76 24 Q60 28 44 22 Z" fill="var(--fish-yellow)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M50 74 Q60 88 74 78 Q62 72 50 74 Z" fill="var(--fish-yellow)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <ellipse cx="58" cy="48" rx="42" ry="30" fill="var(--fish-yellow)" stroke="var(--ink)" stroke-width="3"/>
+    <circle cx="40" cy="40" r="11" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+    <circle class="keep" cx="37" cy="42" r="5" fill="var(--ink)"/>
+    <circle class="noline" cx="43" cy="37" r="2.6" fill="var(--white)"/>
+    <path d="M28 57 Q39 65 52 58" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+  </svg></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer"><span>guidedchildhood.com</span><span>Cut out the fish · page 1 of 2</span></div>
+</div>
+
+<div class="sheet">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <div>
+      <div class="eyebrow">Cut out the fish · page 2 of 2</div>
+      <h2 style="margin-top:3mm;">Pop out the little fish</h2>
+    </div>
+    <svg class="art" viewBox="0 0 60 60" style="width:16mm;height:16mm;">
+      <circle cx="14" cy="20" r="9" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+      <circle cx="14" cy="42" r="9" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+      <path d="M20 24 L54 12 M20 38 L54 50 M22 31 L40 31" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+    </svg>
+  </div>
+  <p style="margin-top:1mm;max-width:150mm;">Cut along the dashed line around each fish. A grown up job. Then let
+  your child match them to the bowls.</p>
+
+  <div style="display:flex;flex-direction:column;gap:4mm;margin-top:4mm;flex:1;">
+    
+    <div class="card" style="padding:4mm 5mm;">
+      <div class="chip fillband" style="background:#CFE8DF;margin-bottom:3mm;"><svg class="art" viewBox="0 0 40 40" style="width:8mm;height:8mm;flex:none;"><circle cx="20" cy="20" r="16" fill="#2F8F6B" stroke="var(--ink)" stroke-width="3"/></svg><span>Green fish</span></div>
+      <div style="display:flex;gap:4mm;justify-content:space-between;">
+        <div class="cutcell"><svg class="art" viewBox="0 0 130 92" style="width:32mm;height:auto;">
+    <path d="M96 48 L126 22 Q119 48 126 74 Z" fill="var(--fish-green)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M44 22 Q60 4 76 24 Q60 28 44 22 Z" fill="var(--fish-green)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M50 74 Q60 88 74 78 Q62 72 50 74 Z" fill="var(--fish-green)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <ellipse cx="58" cy="48" rx="42" ry="30" fill="var(--fish-green)" stroke="var(--ink)" stroke-width="3"/>
+    <circle cx="40" cy="40" r="11" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+    <circle class="keep" cx="37" cy="42" r="5" fill="var(--ink)"/>
+    <circle class="noline" cx="43" cy="37" r="2.6" fill="var(--white)"/>
+    <path d="M28 57 Q39 65 52 58" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+  </svg></div><div class="cutcell"><svg class="art" viewBox="0 0 130 92" style="width:32mm;height:auto;">
+    <path d="M96 48 L126 22 Q119 48 126 74 Z" fill="var(--fish-green)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M44 22 Q60 4 76 24 Q60 28 44 22 Z" fill="var(--fish-green)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M50 74 Q60 88 74 78 Q62 72 50 74 Z" fill="var(--fish-green)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <ellipse cx="58" cy="48" rx="42" ry="30" fill="var(--fish-green)" stroke="var(--ink)" stroke-width="3"/>
+    <circle cx="40" cy="40" r="11" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+    <circle class="keep" cx="37" cy="42" r="5" fill="var(--ink)"/>
+    <circle class="noline" cx="43" cy="37" r="2.6" fill="var(--white)"/>
+    <path d="M28 57 Q39 65 52 58" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+  </svg></div><div class="cutcell"><svg class="art" viewBox="0 0 130 92" style="width:32mm;height:auto;">
+    <path d="M96 48 L126 22 Q119 48 126 74 Z" fill="var(--fish-green)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M44 22 Q60 4 76 24 Q60 28 44 22 Z" fill="var(--fish-green)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M50 74 Q60 88 74 78 Q62 72 50 74 Z" fill="var(--fish-green)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <ellipse cx="58" cy="48" rx="42" ry="30" fill="var(--fish-green)" stroke="var(--ink)" stroke-width="3"/>
+    <circle cx="40" cy="40" r="11" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+    <circle class="keep" cx="37" cy="42" r="5" fill="var(--ink)"/>
+    <circle class="noline" cx="43" cy="37" r="2.6" fill="var(--white)"/>
+    <path d="M28 57 Q39 65 52 58" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+  </svg></div><div class="cutcell"><svg class="art" viewBox="0 0 130 92" style="width:32mm;height:auto;">
+    <path d="M96 48 L126 22 Q119 48 126 74 Z" fill="var(--fish-green)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M44 22 Q60 4 76 24 Q60 28 44 22 Z" fill="var(--fish-green)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M50 74 Q60 88 74 78 Q62 72 50 74 Z" fill="var(--fish-green)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <ellipse cx="58" cy="48" rx="42" ry="30" fill="var(--fish-green)" stroke="var(--ink)" stroke-width="3"/>
+    <circle cx="40" cy="40" r="11" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+    <circle class="keep" cx="37" cy="42" r="5" fill="var(--ink)"/>
+    <circle class="noline" cx="43" cy="37" r="2.6" fill="var(--white)"/>
+    <path d="M28 57 Q39 65 52 58" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+  </svg></div>
+      </div>
+    </div>
+    <div class="card" style="padding:4mm 5mm;">
+      <div class="chip fillband" style="background:#C6DFF6;margin-bottom:3mm;"><svg class="art" viewBox="0 0 40 40" style="width:8mm;height:8mm;flex:none;"><circle cx="20" cy="20" r="16" fill="#2F7FC9" stroke="var(--ink)" stroke-width="3"/></svg><span>Blue fish</span></div>
+      <div style="display:flex;gap:4mm;justify-content:space-between;">
+        <div class="cutcell"><svg class="art" viewBox="0 0 130 92" style="width:32mm;height:auto;">
+    <path d="M96 48 L126 22 Q119 48 126 74 Z" fill="var(--fish-blue)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M44 22 Q60 4 76 24 Q60 28 44 22 Z" fill="var(--fish-blue)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M50 74 Q60 88 74 78 Q62 72 50 74 Z" fill="var(--fish-blue)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <ellipse cx="58" cy="48" rx="42" ry="30" fill="var(--fish-blue)" stroke="var(--ink)" stroke-width="3"/>
+    <circle cx="40" cy="40" r="11" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+    <circle class="keep" cx="37" cy="42" r="5" fill="var(--ink)"/>
+    <circle class="noline" cx="43" cy="37" r="2.6" fill="var(--white)"/>
+    <path d="M28 57 Q39 65 52 58" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+  </svg></div><div class="cutcell"><svg class="art" viewBox="0 0 130 92" style="width:32mm;height:auto;">
+    <path d="M96 48 L126 22 Q119 48 126 74 Z" fill="var(--fish-blue)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M44 22 Q60 4 76 24 Q60 28 44 22 Z" fill="var(--fish-blue)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M50 74 Q60 88 74 78 Q62 72 50 74 Z" fill="var(--fish-blue)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <ellipse cx="58" cy="48" rx="42" ry="30" fill="var(--fish-blue)" stroke="var(--ink)" stroke-width="3"/>
+    <circle cx="40" cy="40" r="11" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+    <circle class="keep" cx="37" cy="42" r="5" fill="var(--ink)"/>
+    <circle class="noline" cx="43" cy="37" r="2.6" fill="var(--white)"/>
+    <path d="M28 57 Q39 65 52 58" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+  </svg></div><div class="cutcell"><svg class="art" viewBox="0 0 130 92" style="width:32mm;height:auto;">
+    <path d="M96 48 L126 22 Q119 48 126 74 Z" fill="var(--fish-blue)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M44 22 Q60 4 76 24 Q60 28 44 22 Z" fill="var(--fish-blue)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M50 74 Q60 88 74 78 Q62 72 50 74 Z" fill="var(--fish-blue)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <ellipse cx="58" cy="48" rx="42" ry="30" fill="var(--fish-blue)" stroke="var(--ink)" stroke-width="3"/>
+    <circle cx="40" cy="40" r="11" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+    <circle class="keep" cx="37" cy="42" r="5" fill="var(--ink)"/>
+    <circle class="noline" cx="43" cy="37" r="2.6" fill="var(--white)"/>
+    <path d="M28 57 Q39 65 52 58" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+  </svg></div><div class="cutcell"><svg class="art" viewBox="0 0 130 92" style="width:32mm;height:auto;">
+    <path d="M96 48 L126 22 Q119 48 126 74 Z" fill="var(--fish-blue)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M44 22 Q60 4 76 24 Q60 28 44 22 Z" fill="var(--fish-blue)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M50 74 Q60 88 74 78 Q62 72 50 74 Z" fill="var(--fish-blue)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <ellipse cx="58" cy="48" rx="42" ry="30" fill="var(--fish-blue)" stroke="var(--ink)" stroke-width="3"/>
+    <circle cx="40" cy="40" r="11" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+    <circle class="keep" cx="37" cy="42" r="5" fill="var(--ink)"/>
+    <circle class="noline" cx="43" cy="37" r="2.6" fill="var(--white)"/>
+    <path d="M28 57 Q39 65 52 58" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+  </svg></div>
+      </div>
+    </div>
+    <div class="card" style="padding:4mm 5mm;">
+      <div class="chip fillband" style="background:#F8C6E0;margin-bottom:3mm;"><svg class="art" viewBox="0 0 40 40" style="width:8mm;height:8mm;flex:none;"><circle cx="20" cy="20" r="16" fill="#E85FA0" stroke="var(--ink)" stroke-width="3"/></svg><span>Pink fish</span></div>
+      <div style="display:flex;gap:4mm;justify-content:space-between;">
+        <div class="cutcell"><svg class="art" viewBox="0 0 130 92" style="width:32mm;height:auto;">
+    <path d="M96 48 L126 22 Q119 48 126 74 Z" fill="var(--fish-pink)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M44 22 Q60 4 76 24 Q60 28 44 22 Z" fill="var(--fish-pink)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M50 74 Q60 88 74 78 Q62 72 50 74 Z" fill="var(--fish-pink)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <ellipse cx="58" cy="48" rx="42" ry="30" fill="var(--fish-pink)" stroke="var(--ink)" stroke-width="3"/>
+    <circle cx="40" cy="40" r="11" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+    <circle class="keep" cx="37" cy="42" r="5" fill="var(--ink)"/>
+    <circle class="noline" cx="43" cy="37" r="2.6" fill="var(--white)"/>
+    <path d="M28 57 Q39 65 52 58" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+  </svg></div><div class="cutcell"><svg class="art" viewBox="0 0 130 92" style="width:32mm;height:auto;">
+    <path d="M96 48 L126 22 Q119 48 126 74 Z" fill="var(--fish-pink)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M44 22 Q60 4 76 24 Q60 28 44 22 Z" fill="var(--fish-pink)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M50 74 Q60 88 74 78 Q62 72 50 74 Z" fill="var(--fish-pink)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <ellipse cx="58" cy="48" rx="42" ry="30" fill="var(--fish-pink)" stroke="var(--ink)" stroke-width="3"/>
+    <circle cx="40" cy="40" r="11" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+    <circle class="keep" cx="37" cy="42" r="5" fill="var(--ink)"/>
+    <circle class="noline" cx="43" cy="37" r="2.6" fill="var(--white)"/>
+    <path d="M28 57 Q39 65 52 58" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+  </svg></div><div class="cutcell"><svg class="art" viewBox="0 0 130 92" style="width:32mm;height:auto;">
+    <path d="M96 48 L126 22 Q119 48 126 74 Z" fill="var(--fish-pink)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M44 22 Q60 4 76 24 Q60 28 44 22 Z" fill="var(--fish-pink)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M50 74 Q60 88 74 78 Q62 72 50 74 Z" fill="var(--fish-pink)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <ellipse cx="58" cy="48" rx="42" ry="30" fill="var(--fish-pink)" stroke="var(--ink)" stroke-width="3"/>
+    <circle cx="40" cy="40" r="11" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+    <circle class="keep" cx="37" cy="42" r="5" fill="var(--ink)"/>
+    <circle class="noline" cx="43" cy="37" r="2.6" fill="var(--white)"/>
+    <path d="M28 57 Q39 65 52 58" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+  </svg></div><div class="cutcell"><svg class="art" viewBox="0 0 130 92" style="width:32mm;height:auto;">
+    <path d="M96 48 L126 22 Q119 48 126 74 Z" fill="var(--fish-pink)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M44 22 Q60 4 76 24 Q60 28 44 22 Z" fill="var(--fish-pink)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M50 74 Q60 88 74 78 Q62 72 50 74 Z" fill="var(--fish-pink)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <ellipse cx="58" cy="48" rx="42" ry="30" fill="var(--fish-pink)" stroke="var(--ink)" stroke-width="3"/>
+    <circle cx="40" cy="40" r="11" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+    <circle class="keep" cx="37" cy="42" r="5" fill="var(--ink)"/>
+    <circle class="noline" cx="43" cy="37" r="2.6" fill="var(--white)"/>
+    <path d="M28 57 Q39 65 52 58" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+  </svg></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer"><span>guidedchildhood.com</span><span>Cut out the fish · page 2 of 2</span></div>
+</div>
+
+<div class="sheet">
+  <div class="eyebrow">Colour and match</div>
+  <h2 style="margin-top:3mm;">Colour your own fish</h2>
+
+  <div style="display:flex;gap:5mm;margin-top:4mm;align-items:flex-start;">
+    <img class="photo-colour digi-av" src="images/DiGi-star.svg" alt="DiGi the golden star" style="width:24mm;height:24mm;">
+    <div class="photo-colourin digi-av" style="width:24mm;height:24mm;align-items:center;justify-content:center;"><svg class="art" viewBox="0 0 400 430" style="width:19mm;height:auto;">
+    <polygon points="200,62 238,165 345,165 263,228 293,338 200,272 107,338 137,228 55,165 162,165" fill="#F5CD3A" stroke="var(--ink)" stroke-width="10" stroke-linejoin="round"/>
+    <circle class="keep" cx="173" cy="226" r="12" fill="var(--ink)"/>
+    <circle class="keep" cx="227" cy="226" r="12" fill="var(--ink)"/>
+    <path d="M183 248 Q200 264 217 248" fill="none" stroke="var(--ink)" stroke-width="5" stroke-linecap="round"/>
+  </svg></div>
+    <div class="bubble" style="flex:1;">
+      BEEP BOOP! These fish have no colour yet. Colour each one to match its little dot, then pop it in the
+      bowl of the same colour. Six fish, six colours, all up to you.
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5mm;margin-top:6mm;flex:1;">
+    
+    <div class="card" style="padding:4mm;display:flex;flex-direction:column;align-items:center;justify-content:space-between;">
+      <div class="cutcell" style="border:none;padding:2mm;"><svg class="art" viewBox="0 0 130 92" style="width:38mm;height:auto;">
+    <path d="M96 48 L126 22 Q119 48 126 74 Z" fill="var(--white)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M44 22 Q60 4 76 24 Q60 28 44 22 Z" fill="var(--white)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M50 74 Q60 88 74 78 Q62 72 50 74 Z" fill="var(--white)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <ellipse cx="58" cy="48" rx="42" ry="30" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+    <circle cx="40" cy="40" r="11" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+    <circle class="keep" cx="37" cy="42" r="5" fill="var(--ink)"/>
+    <circle class="noline" cx="43" cy="37" r="2.6" fill="var(--white)"/>
+    <path d="M28 57 Q39 65 52 58" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+  </svg></div>
+      <div class="chip fillband" style="background:#F8C9C9;margin-top:2mm;"><svg class="art" viewBox="0 0 40 40" style="width:8mm;height:8mm;flex:none;"><circle cx="20" cy="20" r="16" fill="#E23B3B" stroke="var(--ink)" stroke-width="3"/></svg><span>Colour red</span></div>
+    </div>
+    <div class="card" style="padding:4mm;display:flex;flex-direction:column;align-items:center;justify-content:space-between;">
+      <div class="cutcell" style="border:none;padding:2mm;"><svg class="art" viewBox="0 0 130 92" style="width:38mm;height:auto;">
+    <path d="M96 48 L126 22 Q119 48 126 74 Z" fill="var(--white)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M44 22 Q60 4 76 24 Q60 28 44 22 Z" fill="var(--white)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M50 74 Q60 88 74 78 Q62 72 50 74 Z" fill="var(--white)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <ellipse cx="58" cy="48" rx="42" ry="30" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+    <circle cx="40" cy="40" r="11" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+    <circle class="keep" cx="37" cy="42" r="5" fill="var(--ink)"/>
+    <circle class="noline" cx="43" cy="37" r="2.6" fill="var(--white)"/>
+    <path d="M28 57 Q39 65 52 58" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+  </svg></div>
+      <div class="chip fillband" style="background:#F8D6B0;margin-top:2mm;"><svg class="art" viewBox="0 0 40 40" style="width:8mm;height:8mm;flex:none;"><circle cx="20" cy="20" r="16" fill="#D4600A" stroke="var(--ink)" stroke-width="3"/></svg><span>Colour orange</span></div>
+    </div>
+    <div class="card" style="padding:4mm;display:flex;flex-direction:column;align-items:center;justify-content:space-between;">
+      <div class="cutcell" style="border:none;padding:2mm;"><svg class="art" viewBox="0 0 130 92" style="width:38mm;height:auto;">
+    <path d="M96 48 L126 22 Q119 48 126 74 Z" fill="var(--white)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M44 22 Q60 4 76 24 Q60 28 44 22 Z" fill="var(--white)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M50 74 Q60 88 74 78 Q62 72 50 74 Z" fill="var(--white)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <ellipse cx="58" cy="48" rx="42" ry="30" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+    <circle cx="40" cy="40" r="11" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+    <circle class="keep" cx="37" cy="42" r="5" fill="var(--ink)"/>
+    <circle class="noline" cx="43" cy="37" r="2.6" fill="var(--white)"/>
+    <path d="M28 57 Q39 65 52 58" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+  </svg></div>
+      <div class="chip fillband" style="background:#F8E7A0;margin-top:2mm;"><svg class="art" viewBox="0 0 40 40" style="width:8mm;height:8mm;flex:none;"><circle cx="20" cy="20" r="16" fill="#EAB308" stroke="var(--ink)" stroke-width="3"/></svg><span>Colour yellow</span></div>
+    </div>
+    <div class="card" style="padding:4mm;display:flex;flex-direction:column;align-items:center;justify-content:space-between;">
+      <div class="cutcell" style="border:none;padding:2mm;"><svg class="art" viewBox="0 0 130 92" style="width:38mm;height:auto;">
+    <path d="M96 48 L126 22 Q119 48 126 74 Z" fill="var(--white)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M44 22 Q60 4 76 24 Q60 28 44 22 Z" fill="var(--white)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M50 74 Q60 88 74 78 Q62 72 50 74 Z" fill="var(--white)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <ellipse cx="58" cy="48" rx="42" ry="30" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+    <circle cx="40" cy="40" r="11" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+    <circle class="keep" cx="37" cy="42" r="5" fill="var(--ink)"/>
+    <circle class="noline" cx="43" cy="37" r="2.6" fill="var(--white)"/>
+    <path d="M28 57 Q39 65 52 58" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+  </svg></div>
+      <div class="chip fillband" style="background:#CFE8DF;margin-top:2mm;"><svg class="art" viewBox="0 0 40 40" style="width:8mm;height:8mm;flex:none;"><circle cx="20" cy="20" r="16" fill="#2F8F6B" stroke="var(--ink)" stroke-width="3"/></svg><span>Colour green</span></div>
+    </div>
+    <div class="card" style="padding:4mm;display:flex;flex-direction:column;align-items:center;justify-content:space-between;">
+      <div class="cutcell" style="border:none;padding:2mm;"><svg class="art" viewBox="0 0 130 92" style="width:38mm;height:auto;">
+    <path d="M96 48 L126 22 Q119 48 126 74 Z" fill="var(--white)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M44 22 Q60 4 76 24 Q60 28 44 22 Z" fill="var(--white)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M50 74 Q60 88 74 78 Q62 72 50 74 Z" fill="var(--white)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <ellipse cx="58" cy="48" rx="42" ry="30" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+    <circle cx="40" cy="40" r="11" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+    <circle class="keep" cx="37" cy="42" r="5" fill="var(--ink)"/>
+    <circle class="noline" cx="43" cy="37" r="2.6" fill="var(--white)"/>
+    <path d="M28 57 Q39 65 52 58" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+  </svg></div>
+      <div class="chip fillband" style="background:#C6DFF6;margin-top:2mm;"><svg class="art" viewBox="0 0 40 40" style="width:8mm;height:8mm;flex:none;"><circle cx="20" cy="20" r="16" fill="#2F7FC9" stroke="var(--ink)" stroke-width="3"/></svg><span>Colour blue</span></div>
+    </div>
+    <div class="card" style="padding:4mm;display:flex;flex-direction:column;align-items:center;justify-content:space-between;">
+      <div class="cutcell" style="border:none;padding:2mm;"><svg class="art" viewBox="0 0 130 92" style="width:38mm;height:auto;">
+    <path d="M96 48 L126 22 Q119 48 126 74 Z" fill="var(--white)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M44 22 Q60 4 76 24 Q60 28 44 22 Z" fill="var(--white)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M50 74 Q60 88 74 78 Q62 72 50 74 Z" fill="var(--white)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <ellipse cx="58" cy="48" rx="42" ry="30" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+    <circle cx="40" cy="40" r="11" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+    <circle class="keep" cx="37" cy="42" r="5" fill="var(--ink)"/>
+    <circle class="noline" cx="43" cy="37" r="2.6" fill="var(--white)"/>
+    <path d="M28 57 Q39 65 52 58" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+  </svg></div>
+      <div class="chip fillband" style="background:#F8C6E0;margin-top:2mm;"><svg class="art" viewBox="0 0 40 40" style="width:8mm;height:8mm;flex:none;"><circle cx="20" cy="20" r="16" fill="#E85FA0" stroke="var(--ink)" stroke-width="3"/></svg><span>Colour pink</span></div>
+    </div>
+  </div>
+
+  <div class="footer"><span>guidedchildhood.com</span><span>Colour and match · Your own fish</span></div>
+</div>
+
+<div class="sheet" style="align-items:center;text-align:center;">
+  <div style="margin-top:10mm;" class="eyebrow">A free bonus for your little one</div>
+  <h1 style="margin-top:5mm;font-size:28pt;">You matched every colour.<br>Here is the next game, free.</h1>
+
+  <img class="photo-colour" src="images/DiGi-star.svg" alt="DiGi the golden star"
+       style="width:48mm;height:48mm;object-fit:contain;margin-top:6mm;">
+  <div class="photo-colourin" style="width:48mm;height:48mm;margin-top:6mm;align-items:center;justify-content:center;">
+    <svg class="art" viewBox="0 0 400 430" style="width:44mm;height:auto;">
+    <polygon points="200,62 238,165 345,165 263,228 293,338 200,272 107,338 137,228 55,165 162,165" fill="#F5CD3A" stroke="var(--ink)" stroke-width="10" stroke-linejoin="round"/>
+    <circle class="keep" cx="173" cy="226" r="12" fill="var(--ink)"/>
+    <circle class="keep" cx="227" cy="226" r="12" fill="var(--ink)"/>
+    <path d="M183 248 Q200 264 217 248" fill="none" stroke="var(--ink)" stroke-width="5" stroke-linecap="round"/>
+  </svg>
+  </div>
+
+  <p style="margin-top:6mm;max-width:145mm;font-size:11.5pt;">
+    Loved sorting the fish? DiGi has a free <strong>Shapes and Colours Splash Pack</strong> waiting for you,
+    with big friendly shapes to match the very same way. It is our thank you for printing this one.
+  </p>
+
+  <div class="card fillband" style="margin-top:7mm;padding:5mm 10mm;background:var(--terracotta-lt);">
+    <div style="font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:13pt;letter-spacing:1px;">guidedchildhood.com/etsy-bonus</div>
+  </div>
+
+  <p style="margin-top:9mm;font-size:9.5pt;max-width:135mm;">
+    Made by Guided Childhood, the UK platform helping families raise confident kids in a digital world.
+    If your little one loved this game, a kind review on Etsy helps another family find it. Thank you.
+  </p>
+  <div class="footer"><span>guidedchildhood.com</span><span>Thank you · Justin and DiGi</span></div>
+</div>
+
+<div class="sheet tips-page">
+  <div class="eyebrow">For the colour in edition</div>
+  <h2 style="margin-top:3mm;">DiGi's colouring tips</h2>
+
+  <div style="display:flex;gap:5mm;margin-top:4mm;align-items:flex-start;">
+    <div class="digi-av" style="width:26mm;height:26mm;display:flex;align-items:center;justify-content:center;"><svg class="art" viewBox="0 0 400 430" style="width:20mm;height:auto;">
+    <polygon points="200,62 238,165 345,165 263,228 293,338 200,272 107,338 137,228 55,165 162,165" fill="#F5CD3A" stroke="var(--ink)" stroke-width="10" stroke-linejoin="round"/>
+    <circle class="keep" cx="173" cy="226" r="12" fill="var(--ink)"/>
+    <circle class="keep" cx="227" cy="226" r="12" fill="var(--ink)"/>
+    <path d="M183 248 Q200 264 217 248" fill="none" stroke="var(--ink)" stroke-width="5" stroke-linecap="round"/>
+  </svg></div>
+    <div class="bubble" style="flex:1;">
+      BEEP BOOP! In this edition the fish and the bowls are ready for you to colour. Take your time and make
+      each one bright. Here is how I like to do mine.
+    </div>
+  </div>
+
+  <div style="display:flex;gap:5mm;margin-top:6mm;">
+    <div class="card" style="flex:1;padding:5mm;">
+      <div class="eyebrow" style="color:var(--gold-dark);">Colours to try</div>
+      <p style="margin-top:2mm;">Colour a red fish for the red bowl, a blue fish for the blue bowl, then green,
+      yellow, orange and pink. Match each fish to a bowl the same colour. That is the whole game, and you make
+      the colours yourself.</p>
+    </div>
+    <div class="card" style="flex:1;padding:5mm;">
+      <div class="eyebrow" style="color:var(--gold-dark);">Press lightly first</div>
+      <p style="margin-top:2mm;">Start soft. Lay down a gentle layer of colour, then go over it again to make it
+      richer. Light to strong always looks better than pressing hard, and it never tears the paper.</p>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:5mm;margin-top:5mm;">
+    <div class="card" style="flex:1;padding:5mm;">
+      <div class="eyebrow" style="color:var(--gold-dark);">Big shapes first</div>
+      <p style="margin-top:2mm;">Colour the big round bowl first, then the fish, then the little pebbles and
+      bubbles. Big to small keeps your page tidy and your hand relaxed.</p>
+    </div>
+    <div class="card" style="flex:1;padding:5mm;">
+      <div class="eyebrow" style="color:var(--gold-dark);">Stay in the lines, gently</div>
+      <p style="margin-top:2mm;">Follow the bold black outlines and slow down at the edges. If you wander over a
+      line, no worry at all. Your page, your rules.</p>
+    </div>
+  </div>
+
+  <div class="card fillband" style="margin-top:5mm;padding:5mm;background:var(--terracotta-lt);">
+    <div class="eyebrow" style="color:var(--gold-dark);">One more thing</div>
+    <p style="margin-top:2mm;font-weight:700;color:var(--ink);">Colour a fish and its bowl in the very same colour
+    so they are easy to match. When every fish has a home, your tank is full and bright. Brilliant work, little one.</p>
+  </div>
+
+  <div class="footer"><span>guidedchildhood.com</span><span>Colour in edition · DiGi's tips</span></div>
+</div>
+</body>
+</html>
