@@ -269,16 +269,6 @@ export default function LessonsBrowser({
               libraryItems={libraryItems}
               onSeeStage={() => setStage(childStageNum)}
             />
-            <Link href="/dashboard/lessons/preview" style={{ textDecoration: 'none', display: 'block', marginBottom: '16px' }}>
-              <div style={{ background: '#DEF0E7', border: '1.5px solid #2F8F6B', borderRadius: '18px', padding: '16px 18px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '14px' }}>
-                <div>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#2F8F6B', marginBottom: '3px' }}>New · 15 min together · ages 11 to 15</div>
-                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: 'var(--ink)' }}>Is That Real?</div>
-                  <div style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: '2px' }}>The sofa lesson on fake images and deepfakes.</div>
-                </div>
-                <span style={{ background: 'var(--terracotta)', color: 'var(--ink)', flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', borderRadius: '12px', padding: '10px 16px', boxShadow: '0 4px 0 var(--terracotta-dark)' }}>Start</span>
-              </div>
-            </Link>
             {libForStage.length === 0 ? (
               <Empty>No library lessons at this stage yet. Try another stage above.</Empty>
             ) : (
@@ -341,6 +331,19 @@ export default function LessonsBrowser({
                   )
                 })
             )}
+            {/* A featured together lesson sits AFTER the route, so the
+                Rosenshine deep lessons that pass the stamp always lead and the
+                extra is a bonus below, never ahead of the ones that count. */}
+            <Link href="/dashboard/lessons/preview" style={{ textDecoration: 'none', display: 'block', marginTop: '8px' }}>
+              <div style={{ background: '#DEF0E7', border: '1.5px solid #2F8F6B', borderRadius: '18px', padding: '16px 18px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '14px' }}>
+                <div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#2F8F6B', marginBottom: '3px' }}>Bonus · new · 15 min together · ages 11 to 15</div>
+                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: 'var(--ink)' }}>Is That Real?</div>
+                  <div style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: '2px' }}>The sofa lesson on fake images and deepfakes.</div>
+                </div>
+                <span style={{ background: 'var(--terracotta)', color: 'var(--ink)', flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', borderRadius: '12px', padding: '10px 16px', boxShadow: '0 4px 0 var(--terracotta-dark)' }}>Start</span>
+              </div>
+            </Link>
           </>
         )}
 

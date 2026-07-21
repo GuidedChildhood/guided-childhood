@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
-import { freeLessonIds } from '@/lib/content/lesson-access'
+import { freeLessonIds, nextOpenLessonId } from '@/lib/content/lesson-access'
 import { hasFullAccess } from '@/lib/access'
 import KidLessonList, { type KidLessonItem } from '@/components/kid/KidLessonList'
 
@@ -75,6 +75,10 @@ export default async function KidLessonsPage({ params }: { params: Promise<{ tok
     (parentProfile as { email?: string | null } | null)?.email,
   )
   const freeIds = freeLessonIds((allLessons ?? []).map(l => ({ id: l.id, stage_id: l.stage_id, sort_order: l.sort_order })))
+  // The child's next lesson in order is always open to them, so the drip never
+  // stalls behind the paywall; the ones beyond it still wait for membership.
+  const passedIds = new Set(stageLessons.filter(l => { const c = byLesson.get(l.id); return Boolean(c && c.passed !== false) }).map(l => l.id))
+  const nextOpenId = nextOpenLessonId(stageLessons.map(l => ({ id: l.id, stage_id: l.stage_id, sort_order: l.sort_order })), passedIds)
 
   const items: KidLessonItem[] = stageLessons.map(l => {
     const c = byLesson.get(l.id)
@@ -86,7 +90,7 @@ export default async function KidLessonsPage({ params }: { params: Promise<{ tok
       keyMessage: l.key_message,
       done,
       score: done ? c?.score ?? null : null,
-      locked: !paid && !freeIds.has(l.id) && !c,
+      locked: !paid && !freeIds.has(l.id) && !c && l.id !== nextOpenId,
     }
   })
 

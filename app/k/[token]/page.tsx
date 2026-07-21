@@ -10,6 +10,7 @@ import { getMinutesUsedToday } from '@/lib/quests/usage'
 import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
 import { hasFullAccess } from '@/lib/access'
 import { contractLevelFor } from '@/lib/content/kid-contract'
+import { getPrintable } from '@/lib/printables/registry'
 import KidQuestScreen from './KidQuestScreen'
 
 // The kid's own screen. Opened from the private link their parent sends,
@@ -409,8 +410,21 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     if (!error) initialNudges = (data ?? []).map(n => ({ id: String(n.id), message: String(n.message) }))
   }
 
+  // A printable a grown up sent straight to this child lands at the top of
+  // their to do. The oldest open one leads. Fails soft to none before 089.
+  let assignedPrintable: { key: string; title: string; emoji: string; stars: number; sheetUrl: string } | null = null
+  {
+    const { data } = await supabase.from('printable_assignments')
+      .select('printable_key')
+      .eq('child_id', link.child_id).is('cleared_at', null)
+      .order('created_at', { ascending: true }).limit(1).maybeSingle()
+    const p = data ? getPrintable(String(data.printable_key)) : null
+    if (p) assignedPrintable = { key: p.key, title: p.title, emoji: p.emoji, stars: p.stars, sheetUrl: p.sheetUrl }
+  }
+
   return (
     <KidQuestScreen
+      assignedPrintable={assignedPrintable}
       token={token}
       agreementItems={agreementItems}
       agreementSigned={agreementSigned}

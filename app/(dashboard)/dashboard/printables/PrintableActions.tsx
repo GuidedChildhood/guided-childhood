@@ -9,6 +9,7 @@ import type { Printable } from '@/lib/printables/registry'
 
 export default function PrintableActions({ printable, isPaid = true }: { printable: Printable; isPaid?: boolean }) {
   const [added, setAdded] = useState(false)
+  const [sent, setSent] = useState(false)
 
   async function addToQuests() {
     if (added) return
@@ -26,6 +27,21 @@ export default function PrintableActions({ printable, isPaid = true }: { printab
         }),
       })
     } catch { setAdded(false) }
+  }
+
+  // Send it straight to the child's app, where it jumps to the top of their to
+  // do. They print it, do it, and show it to be confirmed like any printable.
+  async function sendToChild() {
+    if (sent) return
+    setSent(true)
+    try {
+      const r = await fetch('/api/printables/assign', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ printable_key: printable.key }),
+      })
+      if (!r.ok) setSent(false)
+    } catch { setSent(false) }
   }
 
   const downloadStyle: React.CSSProperties = {
@@ -68,6 +84,18 @@ export default function PrintableActions({ printable, isPaid = true }: { printab
         }}
       >
         {added ? 'On the quest list ✓' : `Add to quests · ⭐ ${printable.stars}`}
+      </button>
+      <button
+        onClick={sendToChild}
+        disabled={sent}
+        style={{
+          background: sent ? 'var(--tint-sage)' : 'var(--stage-1)',
+          border: '1.5px solid var(--border)', borderRadius: '12px',
+          padding: '10px 16px', cursor: sent ? 'default' : 'pointer',
+          fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 800, color: 'var(--ink)',
+        }}
+      >
+        {sent ? 'Sent to their app ✓' : '📲 Send to my child'}
       </button>
     </div>
   )

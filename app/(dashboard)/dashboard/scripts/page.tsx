@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import BrowseTile from '@/components/ui/BrowseTile'
 import { CHALLENGE_TO_CATEGORY } from '@/lib/content/challenge-map'
+import { momentImageForTitle } from '@/lib/content/moment-images'
 import { getRecommendedScript } from '@/lib/pathway/recommend'
 import type { ChallengeId } from '@/lib/content/stages'
 import ScriptFinder from '@/components/scripts/ScriptFinder'
@@ -25,15 +26,46 @@ export const CATEGORY_META: Record<string, {
   'relationships': { label: 'Relationships', description: 'Trust, independence, and keeping the conversation open.',                 bg: 'var(--stage-3)',    border: 'var(--stage-3)',    accent: 'var(--terracotta)' },
 }
 
-// A big friendly emoji per category, for the collection card header block, so
-// the scripts shelf reads as topic cards, not a plain list. Falls back to a
-// quote mark, never a wrong picture.
+// A contextual icon per script, so a card shows what it is about at a glance
+// instead of a generic quote mark. The title wins first (the moment it names),
+// then the category, then a warm talk bubble, never a bare quote glyph. Where
+// a title matches one of our Higgsfield moment illustrations, the card shows
+// that drawn art through BrowseTile's coverUrl instead of an emoji.
 const CATEGORY_EMOJI: Record<string, string> = {
-  'first-device': '📱', 'social-media': '💬', 'gaming': '🎮', 'safety': '🛡️',
-  'wellbeing': '💛', 'screen-habits': '⏰', 'ai-and-tech': '🤖', 'relationships': '🤝',
+  'first-device': '📱', 'first device': '📱',
+  'social-media': '💬', 'social media': '💬',
+  'gaming': '🎮', 'games': '🎮',
+  'safety': '🛡️', 'online-safety': '🛡️', 'online safety': '🛡️',
+  'wellbeing': '💛',
+  'screen-habits': '⏰', 'screen-time': '⏰', 'screen time': '⏰',
+  'ai-and-tech': '🤖', 'ai and tech': '🤖',
+  'relationships': '🤝',
+  'daily-moments': '🏡', 'daily moments': '🏡',
 }
-function scriptEmoji(category: string): string {
-  return CATEGORY_EMOJI[category] ?? '❝'
+// Keyword to icon, read off the script title, so an everyday battle shows its
+// real subject: the console, the toothbrush, the dinner table.
+const TITLE_ICON: [RegExp, string][] = [
+  [/bed|sleep|night|bath/i, '🌙'],
+  [/teeth|brush/i, '🪥'],
+  [/morning|wake|get up/i, '🌅'],
+  [/tv|telly|watch|video|youtube/i, '📺'],
+  [/dinner|meal|eat|food|table|snack/i, '🍽️'],
+  [/dress|clothes|uniform|getting dressed/i, '👕'],
+  [/school|drop off|pick ?up|homework|bag/i, '🎒'],
+  [/console|gaming|game|xbox|playstation|fortnite|roblox|minecraft/i, '🎮'],
+  [/phone|device|tablet|ipad|first (device|screen)/i, '📱'],
+  [/stranger|online|scam|safe|predator/i, '🛡️'],
+  [/screen ?time|screens|more screen/i, '⏰'],
+  [/social|friend|message|chat|group/i, '💬'],
+  [/ai|deepfake|robot|fake|real/i, '🤖'],
+  [/money|spend|buy|purchase|skin/i, '💷'],
+  [/bored|boring|nothing to do/i, '🎨'],
+]
+function scriptEmoji(category: string, title: string): string {
+  const t = (title ?? '').toLowerCase()
+  const byTitle = TITLE_ICON.find(([re]) => re.test(t))
+  if (byTitle) return byTitle[1]
+  return CATEGORY_EMOJI[(category ?? '').toLowerCase()] ?? '💬'
 }
 
 const STAGE_META = {
@@ -202,7 +234,8 @@ export default async function ScriptsPage() {
                   stageNum={group.meta.num}
                   title={script.title}
                   sub={cat?.label ?? script.category}
-                  emoji={scriptEmoji(script.category)}
+                  emoji={scriptEmoji(script.category, script.title)}
+                  coverUrl={momentImageForTitle(script.title)}
                   done={isDone}
                   locked={isLocked}
                 />

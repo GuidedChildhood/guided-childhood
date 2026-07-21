@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 // chosen buddy pops up big on their own colour, a warm hello before the day's
 // quests. Once per browser session so it greets on a fresh open but never nags
 // between screens. Fades itself away after a beat; a tap skips it.
-export default function KidSplash({ buddyImg, buddyName, bg, ink, buddyIsStar }: { buddyImg: string; buddyName: string; bg: string; ink: string; buddyIsStar: boolean }) {
+export default function KidSplash({ buddyImg, buddyName, childName, bg, ink, buddyIsStar }: { buddyImg: string; buddyName: string; childName: string; bg: string; ink: string; buddyIsStar: boolean }) {
   const [show, setShow] = useState(false)
   const [leaving, setLeaving] = useState(false)
 
@@ -16,8 +16,10 @@ export default function KidSplash({ buddyImg, buddyName, bg, ink, buddyIsStar }:
       sessionStorage.setItem('gc_kid_splash', '1')
     } catch { /* still show once this mount */ }
     setShow(true)
-    const t1 = setTimeout(() => setLeaving(true), 1350)
-    const t2 = setTimeout(() => setShow(false), 1750)
+    // A slower hello, so the child reads the welcome and the buddy has a
+    // moment to land before the quests appear.
+    const t1 = setTimeout(() => setLeaving(true), 2800)
+    const t2 = setTimeout(() => setShow(false), 3200)
     return () => { clearTimeout(t1); clearTimeout(t2) }
   }, [])
 
@@ -43,8 +45,13 @@ export default function KidSplash({ buddyImg, buddyName, bg, ink, buddyIsStar }:
           ? { width: 136, height: 136 }
           : { width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }} />
       </span>
-      <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.6rem', color: ink, letterSpacing: '-0.01em' }}>
-        Hi, it&apos;s {buddyName}!
+      <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.7rem', color: ink, letterSpacing: '-0.01em', textAlign: 'center', padding: '0 20px' }}>
+        Welcome {childName}!
+      </span>
+      <span style={{ fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: '1.02rem', color: ink, opacity: 0.85, textAlign: 'center', padding: '0 28px', lineHeight: 1.4, marginTop: -8 }}>
+        {buddyIsStar
+          ? 'DiGi here to guide you. Have fun!'
+          : `I'm ${buddyName}, here to guide you. Have fun!`}
       </span>
     </div>
   )

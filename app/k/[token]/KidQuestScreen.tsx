@@ -115,7 +115,7 @@ export default function KidQuestScreen({
   weekChart = [], schoolToday = [], notes = [], agreementItems = [], agreementSigned = false,
   contractLevel = '11plus', contractAgreedAt = null, contractReady = false, giftStarsOwed = 0,
   deviceTrust = 'ask', initialAsk = null, initialNudges = [],
-  stageLessonsPassed = null, stageLessonsTotal = null, focusLesson = null,
+  stageLessonsPassed = null, stageLessonsTotal = null, focusLesson = null, assignedPrintable = null,
 }: {
   token: string
   childName: string
@@ -170,6 +170,9 @@ export default function KidQuestScreen({
   // the pass and ticks the parent's progress report). Null falls back to the
   // mini lessons, so nothing regresses before the library is seeded.
   focusLesson?: { id: string; title: string; emoji: string; stars: number } | null
+  // A printable a grown up sent to this child, shown at the top of the to do:
+  // print it, do it, then send it to be confirmed like any printable.
+  assignedPrintable?: { key: string; title: string; emoji: string; stars: number; sheetUrl: string } | null
 }) {
   // Only the games, mini lessons and printables that suit this child's
   // stage, so a young child never meets an older child's content.
@@ -197,6 +200,21 @@ export default function KidQuestScreen({
       if (raw) setLessonScore(JSON.parse(raw))
     } catch { /* fresh device */ }
   }, [])
+  // The printable a grown up sent, shown at the top of the to do until the
+  // child sends it to be confirmed (which also clears the assignment).
+  const [assignedSent, setAssignedSent] = useState(false)
+  async function sendAssignedPrintable() {
+    if (!assignedPrintable || assignedSent) return
+    setAssignedSent(true)
+    try {
+      await fetch('/api/kid/printable-done', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token, printable_key: assignedPrintable.key }),
+      })
+      setToast('Sent to your grown up to check ⭐')
+      setTimeout(() => setToast(null), 3500)
+    } catch { setAssignedSent(false) }
+  }
   const [activeLesson, setActiveLesson] = useState<KidLesson | null>(null)
   const [activeGame, setActiveGame] = useState<QuestGame | null>(null)
   const [doneGames, setDoneGames] = useState<Set<string>>(new Set())
@@ -797,6 +815,7 @@ export default function KidQuestScreen({
       <KidSplash
         buddyImg={BUDDY_MAP[chosenBuddy].img}
         buddyName={BUDDY_MAP[chosenBuddy].name}
+        childName={childName}
         buddyIsStar={chosenBuddy === 'digi'}
         bg={theme.bg}
         ink={theme.ink}
@@ -976,6 +995,33 @@ export default function KidQuestScreen({
             through, and a timed one goes red as it nears, so it lands with
             them too, not only the parent. */}
         <KidSchoolBanner items={schoolToday} />
+
+        {/* A printable a grown up sent lands right at the top of the to do:
+            print it, do it, then send it to be confirmed like any printable. */}
+        {assignedPrintable && !assignedSent && (
+          <div style={{ background: '#fff', border: '2px solid var(--terracotta)', borderRadius: 18, padding: '14px 16px', marginBottom: 16, boxShadow: '0 5px 0 var(--terracotta-dark)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
+              <span style={{ fontSize: 30, lineHeight: 1 }}>{assignedPrintable.emoji}</span>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>Your grown up sent you this</div>
+                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 17, color: 'var(--ink)', lineHeight: 1.2 }}>{assignedPrintable.title}</div>
+              </div>
+            </div>
+            <p style={{ fontSize: 13.5, color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 12px' }}>
+              Print it and do it away from the screen. Then show your grown up for {assignedPrintable.stars} stars.
+            </p>
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+              <a href={assignedPrintable.sheetUrl} target="_blank" rel="noopener noreferrer" onClick={() => playKidSound('tap')}
+                style={{ flex: 1, textAlign: 'center', background: '#fff', color: 'var(--ink)', border: '1.5px solid var(--border)', borderRadius: 14, padding: '12px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 14, boxSizing: 'border-box' }}>
+                🖨️ Print it
+              </a>
+              <button onClick={sendAssignedPrintable}
+                style={{ flex: 1, background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 14, padding: '12px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 14, boxShadow: '0 4px 0 var(--terracotta-dark)' }}>
+                I did it ⭐{assignedPrintable.stars}
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* The ONE Today list: every job due today, plus Learn and Move, each
             with its stars, ticked in one flow. The buddy's line sits above it

@@ -3,7 +3,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { parseSlides, autoSlidesFromLesson } from '@/lib/content/lesson-slides'
 import { badgesFor } from '@/lib/content/curriculum-badges'
-import { freeLessonIds } from '@/lib/content/lesson-access'
+import { freeLessonIds, nextOpenLessonId } from '@/lib/content/lesson-access'
 import { hasFullAccess } from '@/lib/access'
 import LessonPlayer from '@/components/lessons/LessonPlayer'
 
@@ -49,17 +49,24 @@ export default async function KidStageLessonPage({ params }: { params: Promise<{
 
   // The paywall holds here too: one free taste per stage unless the family
   // is a member or a completion already opened this lesson.
-  const [{ data: parentProfile }, { data: stageList }, completionRes] = await Promise.all([
+  const [{ data: parentProfile }, { data: stageList }, { data: allCompletions }] = await Promise.all([
     supabase.from('profiles').select('subscription_status, trial_ends_at, email').eq('id', link.user_id).maybeSingle(),
     supabase.from('lessons').select('id, stage_id, sort_order').eq('audience', 'parent').neq('status', 'stub'),
-    supabase.from('lesson_completions').select('lesson_id').eq('user_id', link.user_id).eq('lesson_id', lessonId).eq('lesson_source', 'lesson').maybeSingle(),
+    supabase.from('lesson_completions').select('lesson_id, passed').eq('user_id', link.user_id).eq('lesson_source', 'lesson'),
   ])
   const paid = hasFullAccess(
     parentProfile as { subscription_status?: string | null; trial_ends_at?: string | null } | null,
     (parentProfile as { email?: string | null } | null)?.email,
   )
   const freeIds = freeLessonIds((stageList ?? []) as { id: string; stage_id: string; sort_order: number }[])
-  if (!paid && !freeIds.has(lesson.id) && !completionRes.data) redirect(`/k/${token}/lessons`)
+  // The child's next unpassed lesson in this stage is always open to them, so
+  // the drip never dead ends at the paywall; the ones past it still wait for
+  // membership. A lesson they have already opened never re locks.
+  const openedThis = (allCompletions ?? []).some(c => c.lesson_id === lessonId)
+  const passedIds = new Set((allCompletions ?? []).filter(c => c.passed !== false).map(c => c.lesson_id as string))
+  const stageLessonsForStage = ((stageList ?? []) as { id: string; stage_id: string; sort_order: number }[]).filter(l => l.stage_id === lesson.stage_id)
+  const nextOpenId = nextOpenLessonId(stageLessonsForStage, passedIds)
+  if (!paid && !freeIds.has(lesson.id) && !openedThis && lesson.id !== nextOpenId) redirect(`/k/${token}/lessons`)
 
   const rawSlides = parseSlides(lesson.slides) ?? autoSlidesFromLesson(lesson)
   if (!rawSlides) notFound()
