@@ -5,6 +5,7 @@ import { freeLessonIds } from '@/lib/content/lesson-access'
 import { getParentLessons, getCompletionsForChild, durationLabel } from '@/lib/lessons/parent-lessons'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { keyStageFor, strandFor } from '@/lib/content/curriculum-badges'
+import { lessonCoverForTitle, lessonCoverForAiCategory } from '@/lib/content/lesson-covers'
 import { PRINTABLES } from '@/lib/printables/registry'
 import LessonsBrowser, { type WatchItem, type LibraryItem } from './LessonsBrowser'
 
@@ -31,7 +32,12 @@ const AUDIENCE_TO_STAGE: Record<string, string> = {
   age_7: 'foundation', age_9: 'builder', age_11: 'explorer', age_13: 'shaper', age_16: 'independent',
 }
 
-type LessonRow = { id: string; stageKey: string; category: string; title: string; key_message: string; sort_order: number; source: 'lesson' | 'ai' }
+// deep = the full seven beat Rosenshine deck (five or more slides). These are
+// the qualifying route for a stage's stamp; the thinner lessons and the AI
+// modules ride along as linked bonus. coverUrl is resolved here, where the raw
+// title and AI category are both to hand, so every tile shows a real drawn
+// badge rather than the fallback emoji.
+type LessonRow = { id: string; stageKey: string; category: string; title: string; key_message: string; sort_order: number; source: 'lesson' | 'ai'; coverUrl: string | null; deep: boolean }
 
 export default async function LessonsPage() {
   const supabase = await createClient()
@@ -45,7 +51,7 @@ export default async function LessonsPage() {
 
   const [{ data: profile }, { data: lessonsData }, { data: aiLessonsData }, { data: completionsData }, watch, watchCompletions] = await Promise.all([
     supabase.from('profiles').select('full_name, subscription_status, trial_ends_at').eq('id', user.id).maybeSingle(),
-    supabase.from('lessons').select('id, stage_id, category, title, key_message, sort_order').eq('audience', 'parent').neq('status', 'stub').order('sort_order', { ascending: true }),
+    supabase.from('lessons').select('id, stage_id, category, title, key_message, sort_order, slides').eq('audience', 'parent').neq('status', 'stub').order('sort_order', { ascending: true }),
     supabase.from('ai_lessons').select('id, audience, category, title, key_message, sort_order').in('audience', ['age_7', 'age_9', 'age_11', 'age_13', 'age_16']).order('sort_order', { ascending: true }),
     supabase.from('lesson_completions').select('lesson_id, lesson_source, score, passed').eq('user_id', user.id).in('lesson_source', ['lesson', 'ai_lesson']),
     getParentLessons(supabase),
@@ -55,8 +61,12 @@ export default async function LessonsPage() {
   const isPaid = hasFullAccess(profile, user.email)
 
   // ── Interactive library, flattened for the browser ──
-  const generalLessons: LessonRow[] = (lessonsData ?? []).map(l => ({ id: l.id, stageKey: l.stage_id, category: l.category, title: l.title, key_message: l.key_message, sort_order: l.sort_order, source: 'lesson' as const }))
-  const aiLessons: LessonRow[] = (aiLessonsData ?? []).map(l => ({ id: l.id, stageKey: AUDIENCE_TO_STAGE[l.audience], category: 'ai_literacy', title: l.title, key_message: l.key_message, sort_order: l.sort_order, source: 'ai' as const }))
+  const generalLessons: LessonRow[] = (lessonsData ?? []).map(l => {
+    const slides = (l as { slides?: unknown }).slides
+    const deep = Array.isArray(slides) && slides.length >= 5
+    return { id: l.id, stageKey: l.stage_id, category: l.category, title: l.title, key_message: l.key_message, sort_order: l.sort_order, source: 'lesson' as const, coverUrl: lessonCoverForTitle(l.title), deep }
+  })
+  const aiLessons: LessonRow[] = (aiLessonsData ?? []).map(l => ({ id: l.id, stageKey: AUDIENCE_TO_STAGE[l.audience], category: 'ai_literacy', title: l.title, key_message: l.key_message, sort_order: l.sort_order, source: 'ai' as const, coverUrl: lessonCoverForAiCategory(l.category) ?? lessonCoverForTitle(l.title), deep: false }))
   const allLessons = [...generalLessons, ...aiLessons]
   const freeIds = freeLessonIds(generalLessons.map(l => ({ ...l, stage_id: l.stageKey })))
   // A lesson shows as done once its end of lesson check was passed; a failed
@@ -83,6 +93,7 @@ export default async function LessonsPage() {
         title: l.title, keyMessage: l.key_message, locked, done,
         score: done ? passMap.get(l.id) ?? null : null,
         ks: keyStageFor(l.stageKey), strand: strandFor(l.category),
+        coverUrl: l.coverUrl, deep: l.deep,
       }
     })
     .filter(l => l.stageNum)

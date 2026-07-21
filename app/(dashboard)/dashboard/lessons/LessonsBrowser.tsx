@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import BrowseTile from '@/components/ui/BrowseTile'
 import { literacyAreaFor } from '@/lib/content/literacy'
-import { lessonCoverForTitle } from '@/lib/content/lesson-covers'
+import { sceneCoverForStage } from '@/lib/content/lesson-scene-covers'
 import LessonSendButton from './together/LessonSendButton'
 import PrintableActions from '../printables/PrintableActions'
 import type { Printable } from '@/lib/printables/registry'
@@ -30,6 +30,11 @@ export type LibraryItem = {
   // Connected World strand from the category. Null when there is no clean fit.
   ks: string | null
   strand: string | null
+  // The drawn badge for the tile, resolved on the server so AI modules get one
+  // by category. deep marks the full seven beat Rosenshine decks: those are the
+  // route that passes the stage, everything else is linked bonus.
+  coverUrl: string | null
+  deep: boolean
 }
 
 type View = 'together' | 'library' | 'printables'
@@ -269,31 +274,58 @@ export default function LessonsBrowser({
             ) : (
               // The child's own stage leads the All ages view: those are the
               // lessons that move their progress report, so they come first.
+              // Within each stage the deep seven beat lessons show first as the
+              // route that passes the stamp, then the thinner lessons and AI
+              // modules sit below as linked bonus, so it is always clear which
+              // ones earn the level and which are extra.
               [...groupByStage(libForStage)]
                 .sort((a, b) => Number(b.s.num === childStageNum) - Number(a.s.num === childStageNum))
-                .map(g => (
-              <div key={g.s.num} style={{ marginBottom: '18px' }}>
-                {stage === 'all' && <StageSubHead s={g.s} childStageNum={childStageNum} childName={childName} />}
-                {/* Big pastel browse tiles, the Good Inside Discover pattern. */}
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: '12px' }}>
-                {g.items.map(l => (
-                  <BrowseTile
-                    key={l.id}
-                    href={l.href}
-                    stageNum={l.stageNum}
-                    title={l.title}
-                    sub={literacyAreaFor(l.categoryLabel)?.name ?? l.categoryLabel}
-                    emoji={categoryEmoji(l.categoryLabel)}
-                    coverUrl={lessonCoverForTitle(l.title)}
-                    done={l.done}
-                    doneLabel={l.score != null ? `✓ Passed · ${l.score} right` : '✓ Passed'}
-                    locked={l.locked}
-                    chips={[l.ks, l.strand].filter((c): c is string => Boolean(c))}
-                  />
-                ))}
-                </div>
-              </div>
-              ))
+                .map(g => {
+                  const route = g.items.filter(i => i.deep)
+                  const bonus = g.items.filter(i => !i.deep)
+                  const tile = (l: LibraryItem) => (
+                    <BrowseTile
+                      key={l.id}
+                      href={l.href}
+                      stageNum={l.stageNum}
+                      title={l.title}
+                      sub={literacyAreaFor(l.categoryLabel)?.name ?? l.categoryLabel}
+                      emoji={categoryEmoji(l.categoryLabel)}
+                      coverUrl={l.coverUrl}
+                      done={l.done}
+                      doneLabel={l.score != null ? `✓ Passed · ${l.score} right` : '✓ Passed'}
+                      locked={l.locked}
+                      chips={[l.ks, l.strand].filter((c): c is string => Boolean(c))}
+                    />
+                  )
+                  return (
+                    <div key={g.s.num} style={{ marginBottom: '26px' }}>
+                      {stage === 'all' && <StageSubHead s={g.s} childStageNum={childStageNum} childName={childName} />}
+
+                      {route.length > 0 && (
+                        <div style={{ marginBottom: bonus.length > 0 ? '20px' : 0 }}>
+                          <RouteHeader s={g.s} count={route.length} childName={childName} />
+                          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: '12px' }}>
+                            {route.map(tile)}
+                          </div>
+                        </div>
+                      )}
+
+                      {bonus.length > 0 && (
+                        <div>
+                          <SectionLabel
+                            eyebrow={route.length > 0 ? 'Bonus · dip in any time' : 'Lessons'}
+                            title={route.length > 0 ? `More for Stage ${g.s.num}` : `Stage ${g.s.num} lessons`}
+                            note={route.length > 0 ? 'Extra lessons and AI modules that add to the route. Lovely to do, not needed to pass the stage.' : undefined}
+                          />
+                          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: '12px' }}>
+                            {bonus.map(tile)}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )
+                })
             )}
           </>
         )}
@@ -351,6 +383,49 @@ function StageSubHead({ s, childStageNum, childName }: { s: typeof STAGE_LIST[nu
           {childName}&apos;s stage · counts for progress now
         </span>
       )}
+    </div>
+  )
+}
+
+// The route header: the warm age scene for the stage, then the plain promise
+// that these deep lessons are the ones that fill the stamp. One scene per age
+// band, cosy for the little ones and side by side for the teens, so the parent
+// sees themselves and their child in the work, not a stock icon.
+function RouteHeader({ s, count, childName }: { s: typeof STAGE_LIST[number]; count: number; childName: string }) {
+  const scene = sceneCoverForStage(s.num)
+  return (
+    <div style={{ background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: '18px', overflow: 'hidden', marginBottom: '13px' }}>
+      {scene && (
+        <div style={{ position: 'relative', aspectRatio: '5 / 2', background: `var(--stage-${s.num})` }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={scene} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+        </div>
+      )}
+      <div style={{ padding: '14px 16px', display: 'flex', alignItems: 'flex-start', gap: '11px' }}>
+        <span aria-hidden style={{ flexShrink: 0, width: 38, height: 38, borderRadius: '11px', background: '#fff', border: '1.5px solid var(--terracotta)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 19 }}>🪪</span>
+        <div style={{ minWidth: 0 }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '3px' }}>
+            Pass this stage · {count} lesson{count === 1 ? '' : 's'}
+          </div>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: 'var(--ink)', lineHeight: 1.15 }}>
+            The {s.label} route
+          </div>
+          <p style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '4px 0 0' }}>
+            The deep lessons that fill this stamp. Work through them in order, open one to do together, or send the set to {childName}.
+          </p>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// A quiet section label, used to head the bonus shelf under a route.
+function SectionLabel({ eyebrow, title, note }: { eyebrow: string; title: string; note?: string }) {
+  return (
+    <div style={{ margin: '0 0 12px' }}>
+      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '2px' }}>{eyebrow}</div>
+      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)' }}>{title}</div>
+      {note && <p style={{ fontSize: '12px', color: 'var(--ink-muted)', lineHeight: 1.45, margin: '3px 0 0' }}>{note}</p>}
     </div>
   )
 }

@@ -217,3 +217,27 @@ export function lessonCoverForTitle(title: string): string | null {
   const key = TITLE_TO_COVER[title.trim().toLowerCase().replace(/\u2019/g, "'")]
   return key ? LESSON_COVERS[key] : null
 }
+
+// The AI modules (ai_lessons) share one topic across five age versions, so a
+// title map would need forty near duplicate rows. They carry a stable category
+// instead, so each resolves its cover by category, reusing the closest badge
+// from the set above. Every AI module now shows a real drawn badge, never the
+// bare book emoji, which was leaving half the library looking unfinished.
+const AI_CATEGORY_TO_COVER: Record<string, keyof typeof LESSON_COVERS> = {
+  what_is_ai:      'what_is_ai',
+  how_ai_learns:   'robot_brain',
+  llms_chatbots:   'voices_not_people',
+  ai_safety:       'stop_and_tell',
+  hallucinations:  'real_fake_ai_made',
+  privacy_data:    'keep_private_online',
+  ai_and_feelings: 'ai_companions',
+  deepfakes:       'deepfakes_doctored',
+  using_ai_well:   'building_with_ai',
+  ai_at_school:    'ai_learn_not_skip',
+  bias_fairness:   'spot_the_trick',
+}
+
+export function lessonCoverForAiCategory(category: string): string | null {
+  const key = AI_CATEGORY_TO_COVER[category]
+  return key ? LESSON_COVERS[key] : null
+}
