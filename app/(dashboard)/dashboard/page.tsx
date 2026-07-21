@@ -34,6 +34,10 @@ import ExploreGrid from '@/components/home/ExploreGrid'
 import { investedMinutes } from '@/lib/pathway/task-minutes'
 import { getLiteracyStatuses } from '@/lib/pathway/literacy-status'
 import DigiLessonNudge from '@/components/lessons/DigiLessonNudge'
+import DigiFlashUp from '@/components/digi/DigiFlashUp'
+import DigiPrintableNudge from '@/components/digi/DigiPrintableNudge'
+import DigiScriptNudge from '@/components/digi/DigiScriptNudge'
+import { printablesForStage } from '@/lib/printables/registry'
 import { getParentLessons, getCompletionsForChild } from '@/lib/lessons/parent-lessons'
 import { getDailyStreak } from '@/lib/pathway/streak'
 import { getTodayLoop } from '@/lib/pathway/daily-tasks'
@@ -163,6 +167,23 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     if (pick) lessonNudge = { code: pick.lesson_code, title: pick.title, catchphrase: pick.catchphrase ?? null }
   }
   const lessonChildName = child?.name && child.name !== 'Your child' ? child.name : 'your child'
+
+  // The flash up rotation: DiGi brings ONE thing to Home now and then, a
+  // printable one visit, a script another, a lesson, a moment. The cards
+  // themselves are picked here so the choice is steady by the day, not random,
+  // and the gate below decides whether today is even a show day.
+  const childStageNum = child?.age_band ? getStageFromAgeBand(child.age_band as AgeBand).id : 2
+  const dayIndex = Math.floor(Date.now() / 86_400_000)
+  const stagePrintables = printablesForStage(childStageNum)
+  const flashPrintable = stagePrintables.length ? stagePrintables[dayIndex % stagePrintables.length] : null
+  let flashScript: { title: string; situation: string | null; sort_order: number } | null = null
+  if (revealed.has('moments')) {
+    const { data: scriptRows } = await supabase
+      .from('scripts').select('title, situation, sort_order').order('sort_order', { ascending: true }).limit(30)
+    const rows = scriptRows ?? []
+    const r = rows.length ? rows[dayIndex % rows.length] : null
+    if (r) flashScript = { title: r.title as string, situation: (r.situation as string | null) ?? null, sort_order: r.sort_order as number }
+  }
 
   // One conductor, one ask at a time. SetupPath sequences the setup steps
   // in order, and the standalone prompts below only appear when it is their
@@ -404,24 +425,33 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           parent, once. Silent for an established account. */}
       <RevealCard reveals={reveals} />
 
-      {/* One interrupt, not a stack. The Sunday check in always renders (it
-          carries the agreed plan through the week), but the other rhythm
-          surfaces take turns by day: the round up on Friday and Saturday when
-          it is fresh, DiGi wondering the rest of the week. At most two quiet
-          cards here, never three. */}
-      {revealed.has('wellbeing') && (
-        <>
-          {/* The Sunday round up now rides as a row in HomeRows above; the
-              check in and DiGi's occasional wondering keep their spot. */}
-          <SundayCheckIn />
-          {/* Device aware check in first: when DiGi has noticed a real
-              pattern in a child's device data it asks about that, and the
-              generic wondering steps back (the card stamps the shared gap
-              key). At most one device check in per child per week. */}
-          <DigiDeviceCheckin />
-          <DigiWondering />
-        </>
-      )}
+      {/* The Sunday round up keeps its spot: it carries the agreed plan through
+          the week and is a weekly ritual, not a daily nag. */}
+      {revealed.has('wellbeing') && <SundayCheckIn />}
+
+      {/* One DiGi interrupt, and only now and then. The flash up gate shows a
+          SINGLE card on the first visit of a day, at most twice a week, never
+          two days running, rotating the theme: a lesson one time, a printable
+          another, a script, a gentle moment, a device check in, and most days
+          nothing at all. Each slot may still self hide (a device check in with
+          no pattern to raise), which simply makes it a quiet day. This replaces
+          the old stack of device check in, wondering and the standalone lesson
+          nudge, so a parent never meets a wall of DiGi cards. */}
+      <DigiFlashUp
+        slots={[
+          ...(lessonNudge ? [{ key: 'lesson', node: (
+            <DigiLessonNudge childId={child?.id ?? null} childName={lessonChildName} code={lessonNudge.code} title={lessonNudge.title} catchphrase={lessonNudge.catchphrase} />
+          ) }] : []),
+          ...(revealed.has('lessons') && flashPrintable ? [{ key: 'printable', node: (
+            <DigiPrintableNudge emoji={flashPrintable.emoji} title={flashPrintable.title} blurb={flashPrintable.blurb} />
+          ) }] : []),
+          ...(flashScript ? [{ key: 'script', node: (
+            <DigiScriptNudge title={flashScript.title} situation={flashScript.situation} sortOrder={flashScript.sort_order} />
+          ) }] : []),
+          ...(revealed.has('wellbeing') ? [{ key: 'moment', node: <DigiWondering /> }] : []),
+          ...(revealed.has('wellbeing') ? [{ key: 'device', node: <DigiDeviceCheckin /> }] : []),
+        ]}
+      />
 
       {/* Setup lives on its own page now, out of the daily Home. While it is
           unfinished, Home carries one compact way in, naming the next step;
@@ -544,18 +574,9 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
 
         <p className="eyebrow" style={{ margin: '4px 0 10px 2px', fontSize: 10 }}>Your cards and prompts</p>
 
-      {/* DiGi hands a lesson straight to the parent, so lessons are reachable
-          on mobile even without a Lessons tab: watch together here, or send it
-          to the child's phone. */}
-      {lessonNudge && (
-        <DigiLessonNudge
-          childId={child?.id ?? null}
-          childName={lessonChildName}
-          code={lessonNudge.code}
-          title={lessonNudge.title}
-          catchphrase={lessonNudge.catchphrase}
-        />
-      )}
+      {/* The lesson nudge now rides through the DiGi flash up rotation above,
+          so lessons stay reachable on mobile without stacking a second DiGi
+          card on Home. */}
 
       {/* Keep going: the rest of the membership as a quiet grid of tiles, so
           every part is one tap away without a wall of full width cards. */}
