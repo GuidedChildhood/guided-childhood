@@ -68,6 +68,7 @@ function categoryEmoji(category: string): string {
 
 export default function LessonsBrowser({
   childId, childName, childStageNum, watchItems, libraryItems, printables, isPaid,
+  initialStage = null, initialView,
 }: {
   childId: string | null
   childName: string
@@ -76,12 +77,17 @@ export default function LessonsBrowser({
   libraryItems: LibraryItem[]
   printables: Printable[]
   isPaid: boolean
+  // A deep link (from the passport) can open a specific stage's route straight
+  // away, otherwise the browser opens on its usual Watch together, All ages view.
+  initialStage?: number | null
+  initialView?: View
 }) {
-  const [view, setView] = useState<View>('together')
+  const [view, setView] = useState<View>(initialView ?? 'together')
   // Default to All ages, so a parent sees every illustrated video we made and
   // can send whichever they judge right for their child, not only their own
-  // stage. The chips still let them narrow to one age.
-  const [stage, setStage] = useState<number | 'all'>('all')
+  // stage. The chips still let them narrow to one age. A deep link overrides
+  // this to land on the stage it named.
+  const [stage, setStage] = useState<number | 'all'>(initialStage ?? 'all')
 
   const inStage = (n: number) => stage === 'all' || n === stage
   const watchForStage = watchItems.filter(w => inStage(w.stageNum))
