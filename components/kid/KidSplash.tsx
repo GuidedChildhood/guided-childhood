@@ -34,13 +34,13 @@ export default function KidSplash({ buddyImg, buddyName, bg, ink, buddyIsStar }:
     >
       <style>{`@keyframes gcSplashPop { 0% { transform: scale(0.5); opacity: 0 } 55% { transform: scale(1.08); opacity: 1 } 100% { transform: scale(1); opacity: 1 } }`}</style>
       <span style={{
-        width: 156, height: 156, borderRadius: '50%', background: 'rgba(255,255,255,0.55)',
+        width: 200, height: 200, borderRadius: '50%', background: 'rgba(255,255,255,0.55)',
         display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden',
         boxShadow: '0 12px 40px -8px rgba(26,26,46,0.35)', animation: 'gcSplashPop 0.6s cubic-bezier(0.22,1,0.36,1)',
       }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={buddyImg} alt="" style={buddyIsStar
-          ? { width: 104, height: 104 }
+          ? { width: 136, height: 136 }
           : { width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }} />
       </span>
       <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.6rem', color: ink, letterSpacing: '-0.01em' }}>

@@ -360,7 +360,7 @@ export default function KidTodayList({
     <div id="my-todo" style={{ marginBottom: '18px', scrollMarginTop: '12px' }}>
       {/* The buddy's one line above the list. */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
-        {buddyFace(38)}
+        {buddyFace(52)}
         <div style={{
           background: '#fff', borderRadius: '4px 16px 16px 16px', padding: '9px 14px',
           border: '1.5px solid rgba(26,26,46,0.08)', boxShadow: '0 3px 0 rgba(26,26,46,0.08)',
@@ -417,7 +417,7 @@ export default function KidTodayList({
               Every job, plus Learn and Move. Amazing work {childName}!
             </span>
           </span>
-          {buddyFace(40)}
+          {buddyFace(54)}
         </div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '11px' }}>
