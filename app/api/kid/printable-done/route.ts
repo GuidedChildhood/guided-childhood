@@ -43,6 +43,15 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 
+  // If a grown up had sent this printable, clear the assignment so it drops
+  // off the top of the child's to do now they have done it. Fails soft before
+  // migration 089.
+  try {
+    await supabase.from('printable_assignments')
+      .update({ cleared_at: new Date().toISOString() })
+      .eq('child_id', link.child_id).eq('printable_key', printable_key).is('cleared_at', null)
+  } catch { /* pre 089, nothing to clear */ }
+
   // The grown up is asked to confirm, best effort push. Their phone opens the
   // quests board where the confirm control lives.
   try {
