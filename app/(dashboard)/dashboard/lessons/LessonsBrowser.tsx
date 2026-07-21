@@ -24,6 +24,8 @@ export type WatchItem = {
 export type LibraryItem = {
   id: string; href: string; stageNum: number; stageLabel: string; stageAges: string
   categoryLabel: string; title: string; keyMessage: string; locked: boolean; done: boolean
+  // Started but not passed, so the tile can say "attempted, retake".
+  attempted: boolean
   // Choice questions answered right on the passing run, when the deck had any.
   score: number | null
   // The honest curriculum mapping: Key Stage from the stage, Education for a
@@ -83,11 +85,13 @@ export default function LessonsBrowser({
   initialView?: View
 }) {
   const [view, setView] = useState<View>(initialView ?? 'together')
-  // Default to All ages, so a parent sees every illustrated video we made and
-  // can send whichever they judge right for their child, not only their own
-  // stage. The chips still let them narrow to one age. A deep link overrides
-  // this to land on the stage it named.
-  const [stage, setStage] = useState<number | 'all'>(initialStage ?? 'all')
+  // Watch together opens on All ages so a parent can send any illustrated
+  // video. Lessons open on the child's own age, the set that moves their
+  // progress, in a clear numbered order to work through; the chips still let
+  // a parent step to another stage. A deep link overrides both.
+  const [stage, setStage] = useState<number | 'all'>(
+    initialStage ?? ((initialView ?? 'together') === 'library' ? childStageNum : 'all')
+  )
 
   const inStage = (n: number) => stage === 'all' || n === stage
   const watchForStage = watchItems.filter(w => inStage(w.stageNum))
@@ -134,7 +138,7 @@ export default function LessonsBrowser({
             return (
               <button
                 key={t.key}
-                onClick={() => setView(t.key)}
+                onClick={() => { setView(t.key); if (t.key === 'library') setStage(childStageNum) }}
                 style={{
                   flex: 1, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '6px',
                   padding: '9px 8px', borderRadius: '100px', cursor: 'pointer', border: 'none',
@@ -289,7 +293,9 @@ export default function LessonsBrowser({
                 .map(g => {
                   const route = g.items.filter(i => i.deep)
                   const bonus = g.items.filter(i => !i.deep)
-                  const tile = (l: LibraryItem) => (
+                  // The route lessons carry their place in the stage order, so
+                  // a parent reads a clear numbered path of what to do next.
+                  const tile = (l: LibraryItem, number?: number) => (
                     <BrowseTile
                       key={l.id}
                       href={l.href}
@@ -300,6 +306,8 @@ export default function LessonsBrowser({
                       coverUrl={l.coverUrl}
                       done={l.done}
                       doneLabel={l.score != null ? `✓ Passed · ${l.score} right` : '✓ Passed'}
+                      attempted={l.attempted}
+                      number={number}
                       locked={l.locked}
                       chips={[l.ks, l.strand].filter((c): c is string => Boolean(c))}
                     />
@@ -312,7 +320,7 @@ export default function LessonsBrowser({
                         <div style={{ marginBottom: bonus.length > 0 ? '20px' : 0 }}>
                           <RouteHeader s={g.s} count={route.length} childName={childName} />
                           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: '12px' }}>
-                            {route.map(tile)}
+                            {route.map((l, i) => tile(l, i + 1))}
                           </div>
                         </div>
                       )}
@@ -325,7 +333,7 @@ export default function LessonsBrowser({
                             note={route.length > 0 ? 'Extra lessons and AI modules that add to the route. Lovely to do, not needed to pass the stage.' : undefined}
                           />
                           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: '12px' }}>
-                            {bonus.map(tile)}
+                            {bonus.map(l => tile(l))}
                           </div>
                         </div>
                       )}

@@ -404,21 +404,39 @@ export default function StageRoad({
                   <p style={{ fontFamily: 'var(--font-body)', fontSize: 14, color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 12px' }}>
                     Everything {kid} does this stage is building toward {r.toward}
                   </p>
+                  {/* The concepts are tappable: each opens this stage's
+                      lessons, where the child actually learns and does it, and
+                      every pass ticks the progress above and the passport. */}
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 14 }}>
                     {STAGE_CONCEPTS[stage.id].map(c => (
-                      <span key={c} style={{ fontFamily: 'var(--font-mono)', fontSize: 10.5, fontWeight: 600, letterSpacing: '0.03em', color: 'var(--ink-soft)', background: 'var(--cream)', border: '1px solid var(--border)', padding: '4px 10px', borderRadius: 100 }}>
-                        {c}
-                      </span>
+                      <Link key={c} href={`/dashboard/lessons?stage=${stage.id}`} style={{ fontFamily: 'var(--font-mono)', fontSize: 10.5, fontWeight: 600, letterSpacing: '0.03em', color: 'var(--ink-soft)', background: 'var(--cream)', border: '1px solid var(--border)', padding: '4px 10px', borderRadius: 100, textDecoration: 'none' }}>
+                        {c} →
+                      </Link>
                     ))}
                   </div>
+                  {/* Two clear next steps: the lessons the child does (these
+                      move the progress and the passport), and the words for the
+                      grown up. */}
+                  <Link
+                    href={`/dashboard/lessons?stage=${stage.id}`}
+                    style={{
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                      background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none',
+                      borderRadius: 16, padding: '14px 20px', marginBottom: 8,
+                      fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15,
+                      boxShadow: '0 5px 0 var(--terracotta-dark)', whiteSpace: 'nowrap',
+                    }}
+                  >
+                    This stage&apos;s lessons →
+                  </Link>
                   <Link
                     href={`/dashboard/scripts?stage=${STAGE_SLUGS[stage.id - 1]}`}
                     style={{
                       display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-                      background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none',
-                      borderRadius: 16, padding: '14px 20px',
-                      fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15,
-                      boxShadow: '0 5px 0 var(--terracotta-dark)', whiteSpace: 'nowrap',
+                      background: '#fff', color: 'var(--ink)', textDecoration: 'none',
+                      borderRadius: 16, padding: '12px 20px', border: '1.5px solid var(--border)',
+                      fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 14.5,
+                      whiteSpace: 'nowrap',
                     }}
                   >
                     The words for this stage →
