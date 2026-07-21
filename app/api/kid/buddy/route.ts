@@ -8,7 +8,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 // wheel but never write arbitrary data.
 
 const BUDDIES = ['digi', 'oliver', 'sofia', 'zara']
-const ACCENTS = ['graphite', 'sunshine', 'grass', 'ocean', 'coral', 'berry']
+const ACCENTS = ['graphite', 'sunshine', 'grass', 'ocean', 'coral', 'berry', 'sky', 'mint', 'lavender', 'peach', 'bubblegum', 'midnight']
 
 // A mixed colour saved from the hue slider: the letter h and a hue 0 to 360.
 function validAccent(a: unknown): a is string {

@@ -8,8 +8,9 @@ import { getStarBanks } from '@/lib/quests/bank'
 import { getMinutesUsedToday } from '@/lib/quests/usage'
 import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
 import { gamesForStage } from '@/lib/quest-games/registry'
+import { printablesForStage } from '@/lib/printables/registry'
 import { quizForBand } from '@/lib/content/school-quizzes'
-import KidPath, { type PathLesson, type PathGame, type PathJob } from '@/components/kid/KidPath'
+import KidPath, { type PathLesson, type PathGame, type PathJob, type PathPrintable } from '@/components/kid/KidPath'
 
 // My path: the child's own Duolingo style trail for their stage, opened from
 // the My road tile. Token scoped like every kid surface; the reads mirror the
@@ -91,6 +92,38 @@ export default async function KidPathPage({ params }: { params: Promise<{ token:
     key: g.key, title: g.title, emoji: g.emoji,
   }))
 
+  // Printables for this child's stage, with any completion status. The child
+  // taps one, does it at home, and it goes pending until the grown up
+  // confirms. Two shown on the path, rotated by the day so it varies. Fails
+  // soft to no-status before migration 087.
+  const stagePrintables = printablesForStage(stage.id)
+  const printableStatus: Record<string, string> = {}
+  {
+    const { data, error } = await supabase
+      .from('printable_completions')
+      .select('printable_key, status, created_at')
+      .eq('user_id', link.user_id).eq('child_id', link.child_id)
+      .order('created_at', { ascending: false })
+      .limit(50)
+    if (!error) {
+      for (const r of data ?? []) {
+        const k = String(r.printable_key)
+        if (!(k in printableStatus)) printableStatus[k] = String(r.status)
+      }
+    }
+  }
+  const dayIdx = Math.floor(Date.now() / 86400000)
+  const printables: PathPrintable[] = stagePrintables.length > 0
+    ? [0, 1].map(off => stagePrintables[(dayIdx + off) % stagePrintables.length])
+        .filter((p, i, arr) => arr.findIndex(x => x.key === p.key) === i)
+        .map(p => ({
+          key: p.key, title: p.title, emoji: p.emoji, stars: p.stars,
+          sheetUrl: p.sheetUrl,
+          status: (printableStatus[p.key] === 'confirmed' ? 'confirmed'
+            : printableStatus[p.key] === 'pending' ? 'pending' : 'todo') as PathPrintable['status'],
+        }))
+    : []
+
   // Today's jobs as steps on the trail: the quests the parent set that are
   // due today, with the tick state right on the stone. Same due rules the
   // quest board uses, kept simple: daily always, weekdays and weekend by the
@@ -153,6 +186,7 @@ export default async function KidPathPage({ params }: { params: Promise<{ token:
       jobs={jobs}
       lessons={lessons}
       games={games}
+      printables={printables}
       quiz={quizForBand(ageBand)}
       dayIndex={Math.floor(Date.now() / 86400000)}
       chestClaimed={chestClaimed}

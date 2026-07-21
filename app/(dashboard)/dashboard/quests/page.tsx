@@ -4,6 +4,7 @@ import QuestManager from './QuestManager'
 import QuestBoard from '@/components/quests/QuestBoard'
 import ParentDeviceTime from '@/components/quests/ParentDeviceTime'
 import SpotSomethingGood from '@/components/quests/SpotSomethingGood'
+import PrintablesToConfirm from '@/components/quests/PrintablesToConfirm'
 import { STAR_MINUTES } from '@/lib/quests/templates'
 import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
 
@@ -92,6 +93,10 @@ export default async function QuestsPage() {
       <div id="quest-board" style={{ scrollMarginTop: '80px' }}>
         <QuestBoard />
       </div>
+
+      {/* Printables the child finished at home, waiting on one tap to confirm
+          and land the stars. */}
+      <PrintablesToConfirm />
 
       {/* The in the moment star: seen kindness or a job done unasked, reward
           it right here and the reason pings the child's own app. */}
