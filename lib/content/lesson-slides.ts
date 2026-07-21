@@ -251,6 +251,28 @@ export function autoSlidesFromLesson(
   if (idea) slides.push({ type: 'concept', heading: 'The idea', body: idea })
   if (why) slides.push({ type: 'concept', heading: 'Why it matters', body: why })
   if (tryThis) slides.push({ type: 'tryit', heading: 'Try this tonight', body: tryThis })
+
+  // A prove check before the close, so a lesson can never be passed by tapping
+  // straight through: the score gate has a real question to grade. The
+  // takeaway from the lesson is the right answer, sat among two plausible but
+  // wrong readings, so finishing means engaging with the idea, not clicking
+  // past it. Authored decks bring their own richer questions; this is the
+  // floor for the lighter, text only lessons that had none.
+  const takeaway = (key || idea || why).replace(/\s+/g, ' ').trim()
+  if (takeaway) {
+    const short = takeaway.length > 128 ? `${takeaway.slice(0, 122).replace(/[\s,.;:]+\S*$/, '')}…` : takeaway
+    slides.push({
+      type: 'choice',
+      phase: 'prove',
+      question: 'Before you finish, show what stuck. Which one is the big idea here?',
+      options: [
+        { text: short, correct: true, feedback: 'Yes. That is exactly it.' },
+        { text: 'It is best to keep what happens online a secret from a grown up.', correct: false, feedback: 'Not this one. A grown up you trust is always the safe person to tell.' },
+        { text: 'None of this really matters, so you can ignore it.', correct: false, feedback: 'Not this one. Have another look and pick again.' },
+      ],
+    })
+  }
+
   if (key) slides.push({ type: 'digi', heading: 'Remember', lines: [key] })
   return slides
 }
