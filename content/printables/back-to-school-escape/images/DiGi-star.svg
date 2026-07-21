@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 430" role="img" aria-label="DiGi the star guide">
+  <defs>
+    <!-- Clay body gradient: bright centre, warm golden edges -->
+    <radialGradient id="cg" cx="44%" cy="36%" r="62%">
+      <stop offset="0%"   stop-color="#FFFEF4"/>
+      <stop offset="15%"  stop-color="#FFF3C0"/>
+      <stop offset="55%"  stop-color="#F5CD3A"/>
+      <stop offset="100%" stop-color="#D4A318"/>
+    </radialGradient>
+    <!-- Soft highlight: top-left sheen -->
+    <radialGradient id="hl" cx="40%" cy="28%" r="50%">
+      <stop offset="0%"   stop-color="rgba(255,255,255,0.78)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+    </radialGradient>
+    <!-- Warm floor bounce -->
+    <radialGradient id="bounce" cx="50%" cy="100%" r="40%">
+      <stop offset="0%"   stop-color="rgba(240,185,20,0.22)"/>
+      <stop offset="100%" stop-color="rgba(240,185,20,0)"/>
+    </radialGradient>
+    <!-- Drop shadow filter -->
+    <filter id="ds" x="-32%" y="-22%" width="164%" height="168%">
+      <feDropShadow dx="0" dy="18" stdDeviation="22"
+        flood-color="#C08B0A" flood-opacity="0.22"/>
+    </filter>
+    <!-- Clip star fill to body outline (inner fill only) -->
+    <clipPath id="sc">
+      <polygon points="200,62 238,165 345,165 263,228 293,338 200,272 107,338 137,228 55,165 162,165"/>
+    </clipPath>
+  </defs>
+
+  <!-- ── Star body ───────────────────────────────────────────────── -->
+  <g filter="url(#ds)">
+    <polygon
+      points="200,62 238,165 345,165 263,228 293,338 200,272 107,338 137,228 55,165 162,165"
+      fill="url(#cg)"
+      stroke="url(#cg)"
+      stroke-width="44"
+      stroke-linejoin="round"
+    />
+  </g>
+
+  <!-- ── Sheen highlight (clipped to star area) ─────────────────── -->
+  <ellipse cx="184" cy="155" rx="94" ry="80"
+    fill="url(#hl)" clip-path="url(#sc)"/>
+
+  <!-- ── Floor bounce light ────────────────────────────────────── -->
+  <ellipse cx="200" cy="355" rx="88" ry="30"
+    fill="url(#bounce)" clip-path="url(#sc)"/>
+
+  <!-- ── Face ──────────────────────────────────────────────────── -->
+  <!-- Left eyebrow -->
+  <path d="M 163 207 Q 173 199 183 207"
+    stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+  <!-- Right eyebrow -->
+  <path d="M 217 207 Q 227 199 237 207"
+    stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+  <!-- Left eye -->
+  <circle cx="173" cy="226" r="12.5" fill="#18120A"/>
+  <circle cx="168" cy="220" r="4"    fill="white"/>
+  <!-- Right eye -->
+  <circle cx="227" cy="226" r="12.5" fill="#18120A"/>
+  <circle cx="222" cy="220" r="4"    fill="white"/>
+  <!-- Smile -->
+  <path d="M 183 248 Q 200 264 217 248"
+    stroke="#6B4500" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+</svg>

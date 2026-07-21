@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Zara's Back to School Escape</title>
+<link href="fonts/local-fonts.css" rel="stylesheet">
+<style>
+  :root{
+    --white:#FFFFFF; --cream:#F9F8F6; --ink:#1A1A2E; --ink-soft:#52526A;
+    --ink-muted:#8888A0; --border:#EAEAF0; --terracotta:#EDC35F;
+    --terracotta-dark:#C99A28; --terracotta-lt:#FEF7E0; --coral:#D4600A;
+    --green:#2F8F6B; --gold-dark:#C99A28; --tint-blue:#D8E8F8;
+    --tint-sage:#E8F0EE; --pastel-pink:#FBCFE8;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:'Nunito',sans-serif;color:var(--ink);background:#ddd;}
+  .sheet{width:210mm;height:296mm;background:var(--cream);position:relative;overflow:hidden;
+    page-break-after:always;padding:14mm 14mm 12mm;display:flex;flex-direction:column;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:8.5pt;
+    letter-spacing:2.5px;text-transform:uppercase;color:var(--gold-dark);}
+  h1{font-weight:900;font-size:34pt;line-height:1.04;}
+  h2{font-weight:900;font-size:20pt;line-height:1.1;}
+  h3{font-weight:800;font-size:13pt;line-height:1.15;}
+  p{font-size:10.5pt;line-height:1.55;color:var(--ink-soft);}
+  strong{color:var(--ink);}
+  .footer{position:absolute;bottom:7mm;left:14mm;right:14mm;display:flex;
+    justify-content:space-between;align-items:center;
+    font-family:'IBM Plex Mono',monospace;font-size:7pt;letter-spacing:1.5px;
+    color:var(--ink-muted);text-transform:uppercase;}
+  .card{background:var(--white);border:2.5px solid var(--ink);border-radius:16px;
+    box-shadow:0 5px 0 var(--ink);}
+  .bubble{background:var(--white);border:2.5px solid var(--ink);border-radius:16px;
+    box-shadow:0 4px 0 var(--ink);padding:5mm 6mm;position:relative;
+    font-weight:700;font-size:11pt;line-height:1.42;color:var(--ink);}
+  .bubble:after{content:'';position:absolute;left:-4.5mm;top:22mm;
+    width:0;height:0;border-top:3.5mm solid transparent;border-bottom:3.5mm solid transparent;
+    border-right:4.5mm solid var(--ink);}
+  .avatar{width:24mm;height:24mm;border-radius:14px;border:2.5px solid var(--ink);
+    object-fit:cover;box-shadow:0 4px 0 var(--ink);background:var(--white);}
+  .zchip{display:inline-flex;align-items:center;gap:2mm;background:var(--terracotta-lt);
+    border:2px solid var(--gold-dark);border-radius:999px;padding:1.5mm 4mm;
+    font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:7.5pt;
+    letter-spacing:1.5px;text-transform:uppercase;color:var(--gold-dark);}
+  .digit-box{width:16mm;height:18mm;border:2.5px solid var(--ink);border-radius:12px;
+    background:var(--white);display:flex;align-items:center;justify-content:center;
+    font-weight:900;font-size:22pt;color:var(--ink);box-shadow:0 4px 0 var(--ink);}
+  .digit-tag{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:7.5pt;
+    letter-spacing:1.5px;text-transform:uppercase;color:var(--gold-dark);text-align:center;
+    margin-top:2mm;}
+  .answerline{display:flex;align-items:center;gap:4mm;margin-top:5mm;}
+  .step-no{width:11mm;height:11mm;border-radius:50%;background:var(--gold-dark);color:var(--white);
+    font-weight:900;font-size:14pt;display:flex;align-items:center;justify-content:center;
+    border:2.5px solid var(--ink);flex:none;}
+  .writebox{min-width:14mm;height:12mm;border:2.5px dashed var(--ink);border-radius:8px;
+    background:var(--white);display:inline-flex;align-items:center;justify-content:center;
+    font-weight:900;font-size:15pt;padding:0 3mm;}
+  .art{display:block;}
+  .tick{width:6mm;height:6mm;border:2.5px solid var(--ink);border-radius:5px;
+    background:var(--white);flex:none;}
+  /* COLOUR IN MODE */
+  body.colourin .sheet{background:var(--white);}
+  body.colourin .card,body.colourin .bubble,body.colourin .avatar,body.colourin .digit-box{box-shadow:none;}
+  body.colourin .fillband{background:var(--white) !important;}
+  body.colourin .art *{fill:#FFFFFF !important;stroke:#1A1A2E !important;
+    stroke-width:2 !important;vector-effect:non-scaling-stroke !important;}
+  body.colourin .art .keep{fill:#1A1A2E !important;stroke:none !important;}
+  body.colourin .art .noline{stroke:none !important;}
+  body.colourin .photo-colour{display:none !important;}
+  .photo-colourin{display:none;}
+  body.colourin .photo-colourin{display:flex !important;}
+  /* TIPS PAGE only in colour in */
+  .tips-page{display:none !important;}
+  body.colourin .tips-page{display:flex !important;}
+  @page{size:A4;margin:0;}
+  @media print{body{background:none;}}
+</style>
+</head>
+<body>
+
+<!-- ============ PAGE 1 · COVER ============ -->
+<div class="sheet" style="align-items:center;text-align:center;justify-content:flex-start;">
+  <div style="margin-top:5mm;" class="eyebrow">Guided Childhood · Print and Play Escape</div>
+  <h1 style="margin-top:5mm;font-size:40pt;">Zara's Back<br>to School Escape</h1>
+  <p style="margin-top:4mm;font-weight:800;color:var(--ink);font-size:13.5pt;">
+    5 clues. 1 padlock. Be ready for the new term.
+  </p>
+
+  <img class="photo-colour" src="images/Zara.png" alt="Zara the Truth Finder"
+       style="width:78mm;height:78mm;object-fit:contain;margin-top:5mm;">
+  <div class="photo-colourin" style="width:78mm;height:78mm;margin-top:5mm;align-items:center;justify-content:center;">
+    <svg class="art" viewBox="0 0 100 100" style="width:70mm;height:70mm;">
+      <circle class="noline" cx="44" cy="42" r="26" fill="var(--tint-blue)" stroke="var(--ink)" stroke-width="3"/>
+      <circle cx="44" cy="42" r="19" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+      <path d="M62 60 L82 82" stroke="var(--ink)" stroke-width="7" stroke-linecap="round" fill="none"/>
+      <path d="M36 42 l6 6 12 -14" fill="none" stroke="var(--gold-dark)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M20 20 l3 6 6 3 -6 3 -3 6 -3 -6 -6 -3 6 -3z" fill="var(--terracotta)" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+  <div style="display:flex;gap:3.5mm;margin-top:6mm;flex-wrap:wrap;justify-content:center;">
+    <div class="card" style="padding:3mm 6mm;font-weight:800;font-size:10.5pt;">5 to 15 minute setup</div>
+    <div class="card" style="padding:3mm 6mm;font-weight:800;font-size:10.5pt;">Ages 8 to 13</div>
+    <div class="card" style="padding:3mm 6mm;font-weight:800;font-size:10.5pt;">Print and play</div>
+  </div>
+  <div class="card fillband" style="margin-top:6mm;padding:4mm 8mm;background:var(--terracotta-lt);">
+    <p style="font-weight:800;color:var(--ink);font-size:11pt;">
+      The classroom is locked. Solve five puzzles, crack the code,<br>and open the door before the first day of term.
+    </p>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Zara · Truth Finder</span></div>
+</div>
+
+<!-- ============ PAGE 2 · HOW TO PLAY + GROWN UP GUIDE ============ -->
+<div class="sheet">
+  <div class="eyebrow">Two minutes before you print</div>
+  <h2 style="margin-top:3mm;">How to play, and the grown up guide</h2>
+
+  <div style="display:flex;gap:5mm;margin-top:4mm;align-items:flex-start;">
+    <img class="photo-colour avatar" src="images/Zara.png" alt="Zara" style="width:26mm;height:26mm;">
+    <div class="photo-colourin avatar" style="width:26mm;height:26mm;align-items:center;justify-content:center;">
+      <svg class="art" viewBox="0 0 100 100" style="width:20mm;height:20mm;">
+        <circle cx="42" cy="42" r="24" fill="var(--white)" stroke="var(--ink)" stroke-width="4"/>
+        <path d="M60 60 L84 84" stroke="var(--ink)" stroke-width="8" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="bubble" style="flex:1;">
+      Detective, listen up. This is your mission. The classroom is locked with a five digit padlock.
+      Each puzzle you solve hands you one digit. Solve all five, write the code, and you crack it open.
+      Work in order, trust the clues, and no peeking at the answer key. Ready? Case open.
+    </div>
+  </div>
+
+  <div style="display:flex;gap:5mm;margin-top:6mm;">
+    <div class="card" style="flex:1;padding:5mm;">
+      <div class="eyebrow" style="color:var(--green);">Setting it up</div>
+      <p style="margin-top:2mm;">Print the pages and go. You can laminate them and use a dry wipe pen so
+      the mission plays again and again. There is nothing to hide and nothing to cut out. Just work
+      through the puzzles in order, one to five.</p>
+    </div>
+    <div class="card" style="flex:1;padding:5mm;">
+      <div class="eyebrow" style="color:var(--green);">How the code works</div>
+      <p style="margin-top:2mm;">Every puzzle gives one number, the digit in the gold box at the bottom
+      of the page. Write each digit in order onto the padlock on the finale page. Five digits, and the
+      classroom door swings open.</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:5mm;padding:5mm;">
+    <div class="eyebrow">Grown up tips</div>
+    <p style="margin-top:2mm;">
+      <strong>Read it together.</strong> For younger detectives, read each puzzle aloud and let them do the
+      counting and the thinking. For older ones, hand it over and time them. Praise the effort, not just
+      the answer. If they get stuck, point back to Zara's clue rather than giving the digit away. The
+      joy is in the crack, not the copy.
+    </p>
+  </div>
+
+  <div class="card" style="margin-top:5mm;padding:4mm 5mm;background:var(--tint-sage);" >
+    <div class="eyebrow" style="color:var(--green);">Answer key · Grown ups only</div>
+    <p style="margin-top:2mm;font-weight:800;color:var(--ink);font-size:10.5pt;line-height:1.7;">
+      Puzzle 1 Count the supplies = <strong>7</strong> &nbsp;·&nbsp; three pencils, two rubbers, two glue sticks make seven.<br>
+      Puzzle 2 Crack the word = <strong>6</strong> &nbsp;·&nbsp; the word is PENCIL, which has six letters.<br>
+      Puzzle 3 Pack the PE bag = <strong>5</strong> &nbsp;·&nbsp; five items belong in the PE bag.<br>
+      Puzzle 4 The timetable code = <strong>3</strong> &nbsp;·&nbsp; there are three maths lessons in the week.<br>
+      Puzzle 5 Lunch money = <strong>8</strong> &nbsp;·&nbsp; two two pound coins and four one pound coins make eight pounds.<br>
+      <strong style="font-size:12pt;">The padlock code is 7 6 5 3 8.</strong>
+    </p>
+  </div>
+
+  <div class="footer"><span>guidedchildhood.com</span><span>Zara's Back to School Escape · Guide</span></div>
+</div>
+
+<!-- ============ PAGE 3 · PUZZLE 1 COUNT THE SUPPLIES ============ -->
+<div class="sheet">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <div>
+      <div class="zchip">Clue 1 of 5</div>
+      <h2 style="margin-top:3mm;">Count the supplies</h2>
+    </div>
+    <div class="step-no">1</div>
+  </div>
+  <div class="bubble" style="margin:4mm 0 5mm 6mm;">
+    First stop, the school supplies shop. The shopkeeper has laid everything on the counter.
+    Count every single item on the stall. The total is your first digit. Careful now, detectives
+    count twice.
+  </div>
+
+  <div class="card" style="padding:6mm;margin-top:1mm;">
+    <div class="eyebrow" style="margin-bottom:3mm;">The back to school stall</div>
+    <svg class="art" viewBox="0 0 520 240" style="width:100%;height:auto;">
+      <!-- awning -->
+      <rect class="noline" x="20" y="14" width="480" height="26" rx="6" fill="var(--coral)" stroke="var(--ink)" stroke-width="3"/>
+      <g fill="var(--terracotta-lt)" stroke="var(--ink)" stroke-width="2.5">
+        <path d="M20 40 h60 v18 l-30 14 -30-14z"/><path d="M140 40 h60 v18 l-30 14 -30-14z"/>
+        <path d="M260 40 h60 v18 l-30 14 -30-14z"/><path d="M380 40 h60 v18 l-30 14 -30-14z"/>
+        <path d="M80 40 h60 v18 l-30 14 -30-14z" fill="var(--white)"/><path d="M200 40 h60 v18 l-30 14 -30-14z" fill="var(--white)"/>
+        <path d="M320 40 h60 v18 l-30 14 -30-14z" fill="var(--white)"/><path d="M440 40 h60 v18 l-30 14 -30-14z" fill="var(--white)"/>
+      </g>
+      <!-- counter -->
+      <rect class="noline" x="30" y="200" width="460" height="26" rx="6" fill="var(--terracotta)" stroke="var(--ink)" stroke-width="3"/>
+      <rect x="40" y="96" width="440" height="104" rx="10" fill="var(--white)" stroke="var(--ink)" stroke-width="2.5"/>
+      <!-- 3 pencils -->
+      <g>
+        <g transform="translate(70,120)"><rect x="0" y="0" width="18" height="60" rx="3" fill="var(--terracotta)" stroke="var(--ink)" stroke-width="2.5"/><path d="M0 0 l9 -16 9 16z" fill="var(--tint-blue)" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/><rect x="0" y="60" width="18" height="8" fill="var(--pastel-pink)" stroke="var(--ink)" stroke-width="2.5"/></g>
+        <g transform="translate(100,120)"><rect x="0" y="0" width="18" height="60" rx="3" fill="var(--green)" stroke="var(--ink)" stroke-width="2.5"/><path d="M0 0 l9 -16 9 16z" fill="var(--tint-blue)" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/><rect x="0" y="60" width="18" height="8" fill="var(--pastel-pink)" stroke="var(--ink)" stroke-width="2.5"/></g>
+        <g transform="translate(130,120)"><rect x="0" y="0" width="18" height="60" rx="3" fill="var(--coral)" stroke="var(--ink)" stroke-width="2.5"/><path d="M0 0 l9 -16 9 16z" fill="var(--tint-blue)" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/><rect x="0" y="60" width="18" height="8" fill="var(--pastel-pink)" stroke="var(--ink)" stroke-width="2.5"/></g>
+      </g>
+      <!-- 2 rubbers -->
+      <g>
+        <g transform="translate(210,150)"><rect x="0" y="0" width="44" height="26" rx="5" fill="var(--pastel-pink)" stroke="var(--ink)" stroke-width="2.5"/><rect x="0" y="0" width="14" height="26" rx="5" fill="var(--tint-blue)" stroke="var(--ink)" stroke-width="2.5"/></g>
+        <g transform="translate(210,120)"><rect x="0" y="0" width="44" height="26" rx="5" fill="var(--terracotta-lt)" stroke="var(--ink)" stroke-width="2.5"/><rect x="0" y="0" width="14" height="26" rx="5" fill="var(--green)" stroke="var(--ink)" stroke-width="2.5"/></g>
+      </g>
+      <!-- 2 glue sticks -->
+      <g>
+        <g transform="translate(320,116)"><rect x="0" y="12" width="26" height="60" rx="5" fill="var(--tint-sage)" stroke="var(--ink)" stroke-width="2.5"/><rect x="2" y="0" width="22" height="16" rx="4" fill="var(--gold-dark)" stroke="var(--ink)" stroke-width="2.5"/><rect x="0" y="34" width="26" height="14" fill="var(--white)" stroke="var(--ink)" stroke-width="2.5"/></g>
+        <g transform="translate(370,116)"><rect x="0" y="12" width="26" height="60" rx="5" fill="var(--tint-blue)" stroke="var(--ink)" stroke-width="2.5"/><rect x="2" y="0" width="22" height="16" rx="4" fill="var(--gold-dark)" stroke="var(--ink)" stroke-width="2.5"/><rect x="0" y="34" width="26" height="14" fill="var(--white)" stroke="var(--ink)" stroke-width="2.5"/></g>
+      </g>
+    </svg>
+  </div>
+
+  <div class="card" style="margin-top:5mm;padding:4mm 5mm;">
+    <p style="font-weight:800;color:var(--ink);font-size:11pt;">Count the pencils, the rubbers and the glue sticks.
+    How many school supplies are on the stall in total?</p>
+  </div>
+
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:auto;padding-bottom:2mm;">
+    <div class="answerline" style="margin-top:0;">
+      <span style="font-weight:800;font-size:11pt;color:var(--ink);">My total:</span>
+      <span class="writebox">&nbsp;</span>
+    </div>
+    <div style="text-align:center;">
+      <div class="digit-box">&nbsp;</div>
+      <div class="digit-tag">Digit 1</div>
+    </div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Puzzle 1 · Count the supplies</span></div>
+</div>
+
+<!-- ============ PAGE 4 · PUZZLE 2 CRACK THE WORD ============ -->
+<div class="sheet">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <div>
+      <div class="zchip">Clue 2 of 5</div>
+      <h2 style="margin-top:3mm;">Crack the word</h2>
+    </div>
+    <div class="step-no">2</div>
+  </div>
+  <div class="bubble" style="margin:4mm 0 5mm 6mm;">
+    Someone has jumbled up the syllables of a back to school word. Put them back in the right order
+    to read the hidden word. Then count the letters. That count is your next digit. This one is a
+    true detective's favourite.
+  </div>
+
+  <div class="card" style="padding:6mm;margin-top:1mm;text-align:center;">
+    <div class="eyebrow" style="margin-bottom:4mm;">The jumbled syllables</div>
+    <div style="display:flex;gap:6mm;justify-content:center;align-items:center;">
+      <div class="card" style="padding:5mm 9mm;background:var(--terracotta-lt);font-weight:900;font-size:22pt;letter-spacing:2px;">CIL</div>
+      <div style="font-weight:900;font-size:22pt;color:var(--ink-muted);">+</div>
+      <div class="card" style="padding:5mm 9mm;background:var(--tint-blue);font-weight:900;font-size:22pt;letter-spacing:2px;">PEN</div>
+    </div>
+    <p style="margin-top:5mm;font-weight:700;color:var(--ink);font-size:10.5pt;">
+      Clue from Zara: you write with it, and it lives in your pencil case.
+    </p>
+  </div>
+
+  <div class="card" style="margin-top:5mm;padding:5mm;">
+    <p style="font-weight:800;color:var(--ink);font-size:11pt;margin-bottom:4mm;">Write the word, one letter per box:</p>
+    <div style="display:flex;gap:4mm;justify-content:center;">
+      <div class="writebox" style="width:16mm;height:16mm;">&nbsp;</div>
+      <div class="writebox" style="width:16mm;height:16mm;">&nbsp;</div>
+      <div class="writebox" style="width:16mm;height:16mm;">&nbsp;</div>
+      <div class="writebox" style="width:16mm;height:16mm;">&nbsp;</div>
+      <div class="writebox" style="width:16mm;height:16mm;">&nbsp;</div>
+      <div class="writebox" style="width:16mm;height:16mm;">&nbsp;</div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:5mm;padding:4mm 5mm;background:var(--terracotta-lt);">
+    <p style="font-weight:800;color:var(--ink);font-size:11pt;">Now count the letters in your word.
+    How many letters are there? That number is your digit.</p>
+  </div>
+
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:auto;padding-bottom:2mm;">
+    <div class="answerline" style="margin-top:0;">
+      <span style="font-weight:800;font-size:11pt;color:var(--ink);">Letters counted:</span>
+      <span class="writebox">&nbsp;</span>
+    </div>
+    <div style="text-align:center;">
+      <div class="digit-box">&nbsp;</div>
+      <div class="digit-tag">Digit 2</div>
+    </div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Puzzle 2 · Crack the word</span></div>
+</div>
+
+<!-- ============ PAGE 5 · PUZZLE 3 PACK THE PE BAG ============ -->
+<div class="sheet">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <div>
+      <div class="zchip">Clue 3 of 5</div>
+      <h2 style="margin-top:3mm;">Pack the PE bag</h2>
+    </div>
+    <div class="step-no">3</div>
+  </div>
+  <div class="bubble" style="margin:4mm 0 5mm 6mm;">
+    It is PE day. Some things belong in the PE bag on the left, and some belong in the school bag on
+    the right. Tick only the things that go in the PE bag. Count your ticks for the next digit.
+  </div>
+
+  <div style="display:flex;gap:5mm;">
+    <!-- PE bag column -->
+    <div class="card" style="flex:1;padding:5mm;">
+      <div class="eyebrow" style="color:var(--green);margin-bottom:3mm;">Goes in the PE bag · tick these</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:3mm;">
+        <!-- trainers -->
+        <div class="card" style="padding:2mm;display:flex;align-items:center;gap:2mm;box-shadow:none;">
+          <svg class="art" viewBox="0 0 60 40" style="width:16mm;height:11mm;"><path d="M6 26 q0-10 10-12 l6 8 12 2 18 6 4 6 -2 4 H6z" fill="var(--tint-blue)" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/><path d="M18 16 l4 6 M26 20 l3 5" stroke="var(--ink)" stroke-width="2" fill="none"/></svg>
+          <span style="font-weight:800;font-size:9pt;flex:1;">Trainers</span>
+          <span class="tick"></span>
+        </div>
+        <!-- shorts -->
+        <div class="card" style="padding:2mm;display:flex;align-items:center;gap:2mm;box-shadow:none;">
+          <svg class="art" viewBox="0 0 44 44" style="width:12mm;height:12mm;"><path d="M8 6 h28 v14 l-4 18 h-8 l-2 -16 -2 16 h-8 l-4 -18z" fill="var(--coral)" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/></svg>
+          <span style="font-weight:800;font-size:9pt;flex:1;">Shorts</span>
+          <span class="tick"></span>
+        </div>
+        <!-- PE top -->
+        <div class="card" style="padding:2mm;display:flex;align-items:center;gap:2mm;box-shadow:none;">
+          <svg class="art" viewBox="0 0 48 44" style="width:12mm;height:11mm;"><path d="M14 6 l10 5 10 -5 8 8 -6 6 -4 -2 v20 h-16 v-20 l-4 2 -6 -6z" fill="var(--terracotta)" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/></svg>
+          <span style="font-weight:800;font-size:9pt;flex:1;">PE top</span>
+          <span class="tick"></span>
+        </div>
+        <!-- socks -->
+        <div class="card" style="padding:2mm;display:flex;align-items:center;gap:2mm;box-shadow:none;">
+          <svg class="art" viewBox="0 0 40 44" style="width:11mm;height:12mm;"><path d="M16 4 h10 v20 l10 10 -6 6 -14 -14z" fill="var(--pastel-pink)" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/></svg>
+          <span style="font-weight:800;font-size:9pt;flex:1;">Socks</span>
+          <span class="tick"></span>
+        </div>
+        <!-- water bottle -->
+        <div class="card" style="padding:2mm;display:flex;align-items:center;gap:2mm;box-shadow:none;">
+          <svg class="art" viewBox="0 0 30 48" style="width:8mm;height:12mm;"><rect x="10" y="2" width="10" height="6" rx="2" fill="var(--gold-dark)" stroke="var(--ink)" stroke-width="2.5"/><rect x="6" y="8" width="18" height="36" rx="7" fill="var(--tint-sage)" stroke="var(--ink)" stroke-width="2.5"/></svg>
+          <span style="font-weight:800;font-size:9pt;flex:1;">Water bottle</span>
+          <span class="tick"></span>
+        </div>
+        <div style="visibility:hidden;"></div>
+      </div>
+    </div>
+    <!-- school bag column -->
+    <div class="card" style="flex:1;padding:5mm;background:var(--tint-blue);">
+      <div class="eyebrow" style="color:var(--ink-soft);margin-bottom:3mm;">Goes in the school bag · leave these</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:3mm;">
+        <div class="card" style="padding:2mm;display:flex;align-items:center;gap:2mm;box-shadow:none;">
+          <svg class="art" viewBox="0 0 48 32" style="width:13mm;height:9mm;"><rect x="4" y="8" width="40" height="18" rx="8" fill="var(--coral)" stroke="var(--ink)" stroke-width="2.5"/><path d="M4 17 h40" stroke="var(--ink)" stroke-width="2"/><circle cx="38" cy="17" r="2.4" class="keep" fill="var(--ink)"/></svg>
+          <span style="font-weight:800;font-size:9pt;">Pencil case</span>
+        </div>
+        <div class="card" style="padding:2mm;display:flex;align-items:center;gap:2mm;box-shadow:none;">
+          <svg class="art" viewBox="0 0 40 40" style="width:11mm;height:11mm;"><path d="M6 8 c6-3 10-3 14 0 v26 c-4-3-8-3-14 0z" fill="var(--tint-sage)" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/><path d="M34 8 c-6-3-10-3-14 0 v26 c4-3 8-3 14 0z" fill="var(--white)" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/></svg>
+          <span style="font-weight:800;font-size:9pt;">Reading book</span>
+        </div>
+        <div class="card" style="padding:2mm;display:flex;align-items:center;gap:2mm;box-shadow:none;">
+          <svg class="art" viewBox="0 0 40 40" style="width:11mm;height:11mm;"><path d="M8 14 h24 v18 a4 4 0 0 1 -4 4 h-16 a4 4 0 0 1 -4 -4z" fill="var(--terracotta)" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/><rect x="14" y="6" width="12" height="8" rx="2" fill="var(--white)" stroke="var(--ink)" stroke-width="2.5"/></svg>
+          <span style="font-weight:800;font-size:9pt;">Lunchbox</span>
+        </div>
+        <div class="card" style="padding:2mm;display:flex;align-items:center;gap:2mm;box-shadow:none;">
+          <svg class="art" viewBox="0 0 34 40" style="width:9mm;height:11mm;"><rect x="6" y="4" width="22" height="32" rx="4" fill="var(--green)" stroke="var(--ink)" stroke-width="2.5"/><rect x="10" y="8" width="14" height="7" rx="2" fill="var(--white)" stroke="var(--ink)" stroke-width="2"/><g class="keep" fill="var(--ink)"><circle cx="12" cy="21" r="1.6"/><circle cx="17" cy="21" r="1.6"/><circle cx="22" cy="21" r="1.6"/><circle cx="12" cy="27" r="1.6"/><circle cx="17" cy="27" r="1.6"/><circle cx="22" cy="27" r="1.6"/></g></svg>
+          <span style="font-weight:800;font-size:9pt;">Calculator</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:5mm;padding:4mm 5mm;background:var(--terracotta-lt);">
+    <p style="font-weight:800;color:var(--ink);font-size:11pt;">Count the ticks in the PE bag.
+    How many items belong in the PE bag? That is your digit.</p>
+  </div>
+
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:auto;padding-bottom:2mm;">
+    <div class="answerline" style="margin-top:0;">
+      <span style="font-weight:800;font-size:11pt;color:var(--ink);">PE items counted:</span>
+      <span class="writebox">&nbsp;</span>
+    </div>
+    <div style="text-align:center;">
+      <div class="digit-box">&nbsp;</div>
+      <div class="digit-tag">Digit 3</div>
+    </div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Puzzle 3 · Pack the PE bag</span></div>
+</div>
+
+<!-- ============ PAGE 6 · PUZZLE 4 THE TIMETABLE CODE ============ -->
+<div class="sheet">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <div>
+      <div class="zchip">Clue 4 of 5</div>
+      <h2 style="margin-top:3mm;">The timetable code</h2>
+    </div>
+    <div class="step-no">4</div>
+  </div>
+  <div class="bubble" style="margin:4mm 0 5mm 6mm;">
+    Here is the class timetable for the week. Read it carefully, detective. I need you to find every
+    maths lesson and count them. The number of maths lessons is your fourth digit.
+  </div>
+
+  <table style="width:100%;border-collapse:separate;border-spacing:0;background:var(--white);
+    border:2.5px solid var(--ink);border-radius:16px;overflow:hidden;box-shadow:0 5px 0 var(--ink);margin-top:1mm;">
+    <tr>
+      <th style="background:var(--ink);color:var(--white);font-weight:800;font-size:10pt;padding:3mm;text-align:left;">Day</th>
+      <th style="background:var(--gold-dark);color:var(--white);font-weight:800;font-size:10pt;padding:3mm;border-left:2.5px solid var(--ink);">Morning</th>
+      <th style="background:var(--gold-dark);color:var(--white);font-weight:800;font-size:10pt;padding:3mm;border-left:2.5px solid var(--ink);">Afternoon</th>
+    </tr>
+    <tr>
+      <td style="font-weight:800;font-size:10.5pt;padding:3.5mm;border-top:2px solid var(--border);">Monday</td>
+      <td style="text-align:center;font-weight:800;font-size:10.5pt;border-top:2px solid var(--border);border-left:2px solid var(--border);background:var(--terracotta-lt);">Maths</td>
+      <td style="text-align:center;font-weight:700;font-size:10.5pt;border-top:2px solid var(--border);border-left:2px solid var(--border);">English</td>
+    </tr>
+    <tr>
+      <td style="font-weight:800;font-size:10.5pt;padding:3.5mm;border-top:2px solid var(--border);">Tuesday</td>
+      <td style="text-align:center;font-weight:700;font-size:10.5pt;border-top:2px solid var(--border);border-left:2px solid var(--border);">Science</td>
+      <td style="text-align:center;font-weight:800;font-size:10.5pt;border-top:2px solid var(--border);border-left:2px solid var(--border);background:var(--terracotta-lt);">Maths</td>
+    </tr>
+    <tr>
+      <td style="font-weight:800;font-size:10.5pt;padding:3.5mm;border-top:2px solid var(--border);">Wednesday</td>
+      <td style="text-align:center;font-weight:700;font-size:10.5pt;border-top:2px solid var(--border);border-left:2px solid var(--border);">English</td>
+      <td style="text-align:center;font-weight:700;font-size:10.5pt;border-top:2px solid var(--border);border-left:2px solid var(--border);">PE</td>
+    </tr>
+    <tr>
+      <td style="font-weight:800;font-size:10.5pt;padding:3.5mm;border-top:2px solid var(--border);">Thursday</td>
+      <td style="text-align:center;font-weight:800;font-size:10.5pt;border-top:2px solid var(--border);border-left:2px solid var(--border);background:var(--terracotta-lt);">Maths</td>
+      <td style="text-align:center;font-weight:700;font-size:10.5pt;border-top:2px solid var(--border);border-left:2px solid var(--border);">Art</td>
+    </tr>
+    <tr>
+      <td style="font-weight:800;font-size:10.5pt;padding:3.5mm;border-top:2px solid var(--border);">Friday</td>
+      <td style="text-align:center;font-weight:700;font-size:10.5pt;border-top:2px solid var(--border);border-left:2px solid var(--border);">History</td>
+      <td style="text-align:center;font-weight:700;font-size:10.5pt;border-top:2px solid var(--border);border-left:2px solid var(--border);">Reading</td>
+    </tr>
+  </table>
+
+  <div class="card" style="margin-top:5mm;padding:4mm 5mm;">
+    <p style="font-weight:800;color:var(--ink);font-size:11pt;">Hunt through every day, morning and
+    afternoon. How many maths lessons are there in the whole week? That count is your digit.</p>
+  </div>
+
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:auto;padding-bottom:2mm;">
+    <div class="answerline" style="margin-top:0;">
+      <span style="font-weight:800;font-size:11pt;color:var(--ink);">Maths lessons:</span>
+      <span class="writebox">&nbsp;</span>
+    </div>
+    <div style="text-align:center;">
+      <div class="digit-box">&nbsp;</div>
+      <div class="digit-tag">Digit 4</div>
+    </div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Puzzle 4 · The timetable code</span></div>
+</div>
+
+<!-- ============ PAGE 7 · PUZZLE 5 LUNCH MONEY ============ -->
+<div class="sheet">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <div>
+      <div class="zchip">Clue 5 of 5</div>
+      <h2 style="margin-top:3mm;">Lunch money</h2>
+    </div>
+    <div class="step-no">5</div>
+  </div>
+  <div class="bubble" style="margin:4mm 0 5mm 6mm;">
+    Last clue, detective. Here is the lunch money in your pocket for the first day. Add up every coin
+    to find the total in pounds. That total is your final digit, and it opens the door.
+  </div>
+
+  <div class="card" style="padding:6mm;margin-top:1mm;text-align:center;">
+    <div class="eyebrow" style="margin-bottom:4mm;">The coins in your pocket</div>
+    <div style="display:flex;gap:6mm;justify-content:center;flex-wrap:wrap;">
+      <!-- two 2 pound coins -->
+      <svg class="art" viewBox="0 0 100 100" style="width:26mm;height:26mm;"><circle cx="50" cy="50" r="44" fill="var(--gold-dark)" stroke="var(--ink)" stroke-width="3"/><circle cx="50" cy="50" r="32" fill="var(--terracotta-lt)" stroke="var(--ink)" stroke-width="2.5"/><text class="keep" x="50" y="62" text-anchor="middle" font-family="Nunito,sans-serif" font-weight="900" font-size="34" fill="var(--ink)">£2</text></svg>
+      <svg class="art" viewBox="0 0 100 100" style="width:26mm;height:26mm;"><circle cx="50" cy="50" r="44" fill="var(--gold-dark)" stroke="var(--ink)" stroke-width="3"/><circle cx="50" cy="50" r="32" fill="var(--terracotta-lt)" stroke="var(--ink)" stroke-width="2.5"/><text class="keep" x="50" y="62" text-anchor="middle" font-family="Nunito,sans-serif" font-weight="900" font-size="34" fill="var(--ink)">£2</text></svg>
+      <!-- four 1 pound coins -->
+      <svg class="art" viewBox="0 0 100 100" style="width:23mm;height:23mm;"><circle cx="50" cy="50" r="42" fill="var(--terracotta)" stroke="var(--ink)" stroke-width="3"/><text class="keep" x="50" y="62" text-anchor="middle" font-family="Nunito,sans-serif" font-weight="900" font-size="34" fill="var(--ink)">£1</text></svg>
+      <svg class="art" viewBox="0 0 100 100" style="width:23mm;height:23mm;"><circle cx="50" cy="50" r="42" fill="var(--terracotta)" stroke="var(--ink)" stroke-width="3"/><text class="keep" x="50" y="62" text-anchor="middle" font-family="Nunito,sans-serif" font-weight="900" font-size="34" fill="var(--ink)">£1</text></svg>
+      <svg class="art" viewBox="0 0 100 100" style="width:23mm;height:23mm;"><circle cx="50" cy="50" r="42" fill="var(--terracotta)" stroke="var(--ink)" stroke-width="3"/><text class="keep" x="50" y="62" text-anchor="middle" font-family="Nunito,sans-serif" font-weight="900" font-size="34" fill="var(--ink)">£1</text></svg>
+      <svg class="art" viewBox="0 0 100 100" style="width:23mm;height:23mm;"><circle cx="50" cy="50" r="42" fill="var(--terracotta)" stroke="var(--ink)" stroke-width="3"/><text class="keep" x="50" y="62" text-anchor="middle" font-family="Nunito,sans-serif" font-weight="900" font-size="34" fill="var(--ink)">£1</text></svg>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:5mm;padding:4mm 5mm;background:var(--terracotta-lt);">
+    <p style="font-weight:800;color:var(--ink);font-size:11pt;">Add the two pound coins and the one pound
+    coins together. What is the total in pounds? That number is your last digit.</p>
+  </div>
+
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:auto;padding-bottom:2mm;">
+    <div class="answerline" style="margin-top:0;">
+      <span style="font-weight:800;font-size:11pt;color:var(--ink);">Total in pounds: £</span>
+      <span class="writebox">&nbsp;</span>
+    </div>
+    <div style="text-align:center;">
+      <div class="digit-box">&nbsp;</div>
+      <div class="digit-tag">Digit 5</div>
+    </div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Puzzle 5 · Lunch money</span></div>
+</div>
+
+<!-- ============ PAGE 8 · PADLOCK FINALE ============ -->
+<div class="sheet" style="text-align:center;align-items:center;">
+  <div class="zchip" style="margin-top:2mm;">The final crack</div>
+  <h2 style="margin-top:4mm;font-size:24pt;">Open the padlock</h2>
+  <p style="margin-top:3mm;max-width:150mm;font-weight:700;color:var(--ink);">
+    Bring your five digits here, in order, one to five. Write the code into the padlock and turn it.
+  </p>
+
+  <svg class="art" viewBox="0 0 240 200" style="width:70mm;height:auto;margin-top:5mm;">
+    <path d="M70 92 V64 a50 50 0 0 1 100 0 V92" fill="none" stroke="var(--ink)" stroke-width="12" stroke-linecap="round"/>
+    <rect class="noline" x="40" y="90" width="160" height="100" rx="20" fill="var(--gold-dark)" stroke="var(--ink)" stroke-width="4"/>
+    <rect x="56" y="106" width="128" height="52" rx="10" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
+    <circle cx="120" cy="172" r="8" fill="var(--terracotta-lt)" stroke="var(--ink)" stroke-width="3"/>
+  </svg>
+
+  <div style="display:flex;gap:4mm;margin-top:6mm;justify-content:center;">
+    <div style="text-align:center;"><div class="digit-box" style="width:20mm;height:24mm;font-size:26pt;">&nbsp;</div><div class="digit-tag">Digit 1</div></div>
+    <div style="text-align:center;"><div class="digit-box" style="width:20mm;height:24mm;font-size:26pt;">&nbsp;</div><div class="digit-tag">Digit 2</div></div>
+    <div style="text-align:center;"><div class="digit-box" style="width:20mm;height:24mm;font-size:26pt;">&nbsp;</div><div class="digit-tag">Digit 3</div></div>
+    <div style="text-align:center;"><div class="digit-box" style="width:20mm;height:24mm;font-size:26pt;">&nbsp;</div><div class="digit-tag">Digit 4</div></div>
+    <div style="text-align:center;"><div class="digit-box" style="width:20mm;height:24mm;font-size:26pt;">&nbsp;</div><div class="digit-tag">Digit 5</div></div>
+  </div>
+
+  <div class="card" style="margin-top:8mm;padding:6mm 8mm;background:var(--terracotta-lt);max-width:160mm;">
+    <h3 style="font-size:16pt;">Case solved, detective!</h3>
+    <p style="margin-top:2mm;font-weight:700;color:var(--ink);">
+      The classroom door swings open and the new term is ready for you. You spotted every clue, counted
+      true and cracked the code. That is exactly how a Truth Finder thinks. Now walk in tall on the
+      first day. You have got this.
+    </p>
+  </div>
+
+  <div class="card" style="margin-top:6mm;padding:4mm 8mm;border-style:dashed;max-width:160mm;">
+    <div class="eyebrow" style="text-align:center;">Detective certificate</div>
+    <p style="margin-top:2mm;font-weight:800;color:var(--ink);font-size:11pt;">
+      This certifies that <span style="display:inline-block;min-width:55mm;border-bottom:2.5px solid var(--ink);">&nbsp;</span>
+      cracked Zara's Back to School Escape and is ready for the new term.
+    </p>
+  </div>
+
+  <div class="footer"><span>guidedchildhood.com</span><span>Case solved · Zara</span></div>
+</div>
+
+<!-- ============ PAGE 9 · BONUS / FUNNEL ============ -->
+<div class="sheet" style="align-items:center;text-align:center;">
+  <div style="margin-top:12mm;" class="eyebrow">A free bonus for your detective</div>
+  <h1 style="margin-top:5mm;font-size:29pt;">You cracked one case.<br>Here is the next one, free.</h1>
+
+  <img class="photo-colour" src="images/Zara.png" alt="Zara" style="width:52mm;height:52mm;object-fit:contain;margin-top:7mm;">
+  <div class="photo-colourin" style="width:52mm;height:52mm;margin-top:7mm;align-items:center;justify-content:center;">
+    <svg class="art" viewBox="0 0 100 100" style="width:46mm;height:46mm;"><circle cx="42" cy="42" r="24" fill="var(--white)" stroke="var(--ink)" stroke-width="4"/><path d="M60 60 L84 84" stroke="var(--ink)" stroke-width="8" stroke-linecap="round"/></svg>
+  </div>
+
+  <p style="margin-top:7mm;max-width:145mm;font-size:11.5pt;">
+    Loved this mission? Zara has a whole new one waiting. Grab the <strong>Christmas Escape edition</strong>,
+    a free print and play case with five festive puzzles and a brand new padlock to crack. It is our
+    thank you for printing this one.
+  </p>
+
+  <div class="card" style="margin-top:8mm;padding:5mm 10mm;background:var(--terracotta-lt);">
+    <div style="font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:13pt;letter-spacing:1px;">guidedchildhood.com/etsy-bonus</div>
+  </div>
+
+  <p style="margin-top:10mm;font-size:9.5pt;max-width:135mm;">
+    Made by Guided Childhood, the UK platform helping families raise confident kids in a digital world.
+    If your detective loved this escape, a kind review on Etsy helps another family find it. Thank you.
+  </p>
+  <div class="footer"><span>guidedchildhood.com</span><span>Thank you · Justin and the squad</span></div>
+</div>
+
+<!-- ============ PAGE 10 · COLOURING TIPS (colour in PDF only) ============ -->
+<div class="sheet tips-page">
+  <div class="eyebrow">For the colour in edition</div>
+  <h2 style="margin-top:3mm;">Zara's colouring tips</h2>
+
+  <div style="display:flex;gap:5mm;margin-top:4mm;align-items:flex-start;">
+    <div class="avatar" style="width:26mm;height:26mm;align-items:center;justify-content:center;display:flex;">
+      <svg class="art" viewBox="0 0 100 100" style="width:20mm;height:20mm;"><circle cx="42" cy="42" r="24" fill="var(--white)" stroke="var(--ink)" stroke-width="4"/><path d="M60 60 L84 84" stroke="var(--ink)" stroke-width="8" stroke-linecap="round"/></svg>
+    </div>
+    <div class="bubble" style="flex:1;">
+      A good detective notices the little things, and colouring is the same. Take your time, look closely,
+      and make each page yours. Here is how I do mine.
+    </div>
+  </div>
+
+  <div style="display:flex;gap:5mm;margin-top:6mm;">
+    <div class="card" style="flex:1;padding:5mm;">
+      <div class="eyebrow" style="color:var(--gold-dark);">Colours from my world</div>
+      <p style="margin-top:2mm;"><strong>My colour is gold.</strong> Try warm gold and honey for the coins,
+      the padlock and my magnifying glass. School reds and blues look brilliant on the pencils, the PE kit
+      and the water bottle. Green is lovely for the glue sticks.</p>
+    </div>
+    <div class="card" style="flex:1;padding:5mm;">
+      <div class="eyebrow" style="color:var(--gold-dark);">Press lightly first</div>
+      <p style="margin-top:2mm;">Start soft. Press lightly and lay down a gentle layer of colour, then go
+      over it again to build it up richer. Light to strong always looks better than pressing hard straight
+      away, and it never tears the paper.</p>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:5mm;margin-top:5mm;">
+    <div class="card" style="flex:1;padding:5mm;">
+      <div class="eyebrow" style="color:var(--gold-dark);">Big shapes first</div>
+      <p style="margin-top:2mm;">Colour the big shapes first, like the school bag or the awning, then move
+      to the small details like the pencil tips and the coins. Big to small keeps your page tidy and your
+      hand relaxed.</p>
+    </div>
+    <div class="card" style="flex:1;padding:5mm;">
+      <div class="eyebrow" style="color:var(--gold-dark);">Stay inside the lines, gently</div>
+      <p style="margin-top:2mm;">Follow the bold black outlines and slow down at the edges. If you wander
+      over a line, no worry at all. Real detectives make mistakes and carry on. Your page, your rules.</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:5mm;padding:5mm;background:var(--terracotta-lt);">
+    <div class="eyebrow" style="color:var(--gold-dark);">One more thing</div>
+    <p style="margin-top:2mm;font-weight:700;color:var(--ink);">Colour the puzzles in as you solve them, or
+    solve first and colour after. Either way works. When every page is bright and the code is cracked,
+    you have a mission you made your own. Brilliant work, detective.</p>
+  </div>
+
+  <div class="footer"><span>guidedchildhood.com</span><span>Colour in edition · Zara's tips</span></div>
+</div>
+
+</body>
+</html>
