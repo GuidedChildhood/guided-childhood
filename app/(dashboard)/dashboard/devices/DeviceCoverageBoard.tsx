@@ -36,16 +36,20 @@ export default function DeviceCoverageBoard({
   devices,
   childAge,
   completed,
+  notOwned,
   pending,
   onToggle,
   onOpen,
+  onRestore,
 }: {
   devices: DeviceGuide[]
   childAge: number
   completed: Set<string>
+  notOwned: Set<string>
   pending: string | null
   onToggle: (key: string) => void
   onOpen: (key: string) => void
+  onRestore: (key: string) => void
 }) {
   const network: LayerItem = {
     key: NETWORK_KEY,
@@ -55,13 +59,21 @@ export default function DeviceCoverageBoard({
     isNetwork: true,
   }
 
-  // Age ready devices only, split into the device layer and the app layer.
-  const ready = devices.filter(d => childAge >= d.min_age)
+  // Age ready devices the family actually has, split into the device layer
+  // and the app layer. Not owned devices drop out of both, so they never
+  // count against coverage.
+  const ready = devices.filter(d => childAge >= d.min_age && !notOwned.has(d.device_key))
   const deviceItems: LayerItem[] = ready
     .filter(d => !APP_KEYS.has(d.device_key))
     .map(d => ({ key: d.device_key, name: d.name, emoji: d.emoji, why: d.subtitle }))
   const appItems: LayerItem[] = ready
     .filter(d => APP_KEYS.has(d.device_key))
+    .map(d => ({ key: d.device_key, name: d.name, emoji: d.emoji, why: d.subtitle }))
+
+  // The quiet group of things the family said they do not have yet, kept so
+  // the guide is one tap away the day one arrives.
+  const notOwnedItems: LayerItem[] = devices
+    .filter(d => notOwned.has(d.device_key))
     .map(d => ({ key: d.device_key, name: d.name, emoji: d.emoji, why: d.subtitle }))
 
   const layers: { label: string; blurb: string; items: LayerItem[] }[] = [
@@ -128,25 +140,67 @@ export default function DeviceCoverageBoard({
               </span>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              {layer.items.map(item => {
-                const isDone = completed.has(item.key)
-                const isNext = item.key === nextKey
-                return (
-                  <Row
-                    key={item.key}
-                    item={item}
-                    isDone={isDone}
-                    isNext={isNext}
-                    busy={pending === item.key}
-                    onToggle={onToggle}
-                    onOpen={onOpen}
-                  />
-                )
-              })}
+              {/* Set up rows sink to the bottom, so the layer always leads
+                  with what is still left to do. Marking one set up flips it
+                  down here into the done pile. */}
+              {[...layer.items]
+                .sort((a, b) => Number(completed.has(a.key)) - Number(completed.has(b.key)))
+                .map(item => {
+                  const isDone = completed.has(item.key)
+                  const isNext = item.key === nextKey
+                  return (
+                    <Row
+                      key={item.key}
+                      item={item}
+                      isDone={isDone}
+                      isNext={isNext}
+                      busy={pending === item.key}
+                      onToggle={onToggle}
+                      onOpen={onOpen}
+                    />
+                  )
+                })}
             </div>
           </div>
         ))}
       </div>
+
+      {/* Not in our home yet: the escape hatch, kept findable for the day a
+          device arrives. */}
+      {notOwnedItems.length > 0 && (
+        <div style={{ marginTop: '18px', paddingTop: '16px', borderTop: '1px dashed var(--border)' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
+            Not in our home yet
+          </span>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '9px' }}>
+            {notOwnedItems.map(item => (
+              <div key={item.key} style={{
+                display: 'flex', alignItems: 'center', gap: '12px',
+                background: 'var(--cream)', border: '1.5px solid var(--border)',
+                borderRadius: '15px', padding: '10px 13px', opacity: 0.9,
+              }}>
+                <div style={{ width: 34, height: 34, borderRadius: '10px', flexShrink: 0, background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '17px' }}>
+                  {item.emoji}
+                </div>
+                <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--ink-soft)' }}>
+                  {item.name}
+                </span>
+                <button
+                  onClick={() => onRestore(item.key)}
+                  disabled={pending === item.key}
+                  style={{
+                    flexShrink: 0, background: 'none', border: '1.5px solid var(--border)', borderRadius: '100px',
+                    padding: '6px 13px', cursor: pending === item.key ? 'wait' : 'pointer',
+                    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '12px', color: 'var(--ink)',
+                  }}
+                >
+                  We have it now
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   )
 }
@@ -205,6 +259,7 @@ function Row({ item, isDone, isNext, busy, onToggle, onOpen }: {
     border: `1.5px solid ${isNext && !isDone ? 'var(--terracotta)' : 'var(--border)'}`,
     borderRadius: '15px', padding: '11px 13px', cursor: 'pointer',
     opacity: isDone ? 0.85 : 1,
+    transition: 'opacity 0.3s ease, background 0.3s ease, border-color 0.3s ease',
   }
 
   // The network row has no guide to open, so its body links to a DiGi

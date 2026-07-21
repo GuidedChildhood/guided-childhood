@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import type { AgeBand } from '@/lib/content/stages'
 import DeviceHub from './DeviceHub'
+import DeviceSweepCard from '@/components/devices/DeviceSweepCard'
 import type { DeviceGuide } from './DeviceList'
 
 const STAGE_MAP: Record<string, { id: string; label: string }> = {
@@ -40,12 +41,17 @@ export default async function DevicesPage() {
       .maybeSingle(),
     supabase
       .from('device_setup_progress')
-      .select('device_key')
+      .select('device_key, status')
       .eq('user_id', user.id),
   ])
 
   const devices = (devicesData ?? []) as DeviceGuide[]
-  const completedKeys = (progressData ?? []).map(p => p.device_key as string)
+  // status is done (settings in place) or not_owned (we do not have this yet).
+  // Before migration 090 there is no status column, so a missing value reads
+  // as done, exactly as it did before.
+  const progressRows = (progressData ?? []) as { device_key: string; status?: string }[]
+  const completedKeys = progressRows.filter(p => (p.status ?? 'done') === 'done').map(p => p.device_key)
+  const notOwnedKeys = progressRows.filter(p => p.status === 'not_owned').map(p => p.device_key)
 
   return (
     <div style={{ maxWidth: '720px', margin: '0 auto', padding: '24px 20px 48px' }}>
@@ -78,7 +84,14 @@ export default async function DevicesPage() {
         </div>
       )}
 
-      <DeviceHub devices={devices} childAge={childAge} initialCompleted={completedKeys} />
+      <DeviceSweepCard />
+
+      <DeviceHub
+        devices={devices}
+        childAge={childAge}
+        initialCompleted={completedKeys}
+        initialNotOwned={notOwnedKeys}
+      />
     </div>
   )
 }
