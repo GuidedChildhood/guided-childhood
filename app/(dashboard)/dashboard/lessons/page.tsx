@@ -39,7 +39,14 @@ const AUDIENCE_TO_STAGE: Record<string, string> = {
 // badge rather than the fallback emoji.
 type LessonRow = { id: string; stageKey: string; category: string; title: string; key_message: string; sort_order: number; source: 'lesson' | 'ai'; coverUrl: string | null; deep: boolean }
 
-export default async function LessonsPage() {
+export default async function LessonsPage({ searchParams }: { searchParams: Promise<{ stage?: string }> }) {
+  // A ?stage=<1..5> deep link (from the passport rows and the road) opens the
+  // library straight on that stage's route, so "Watch the lessons" lands
+  // exactly where the work is, not on a generic all ages grid.
+  const { stage: stageParam } = await searchParams
+  const stageNum = Number(stageParam)
+  const initialStage = Number.isInteger(stageNum) && stageNum >= 1 && stageNum <= 5 ? stageNum : null
+
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
@@ -125,6 +132,8 @@ export default async function LessonsPage() {
         libraryItems={libraryItems}
         printables={PRINTABLES}
         isPaid={isPaid}
+        initialStage={initialStage}
+        initialView={initialStage ? 'library' : undefined}
       />
     </div>
   )

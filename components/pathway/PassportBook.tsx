@@ -20,6 +20,8 @@ const STAGE_THEME: Record<number, { bg: string; bold: string; text: string }> = 
   5: { bg: 'var(--stage-5)', bold: 'var(--stage-5-bold)', text: 'var(--stage-5-text)' },
 }
 
+const STAGE_SLUGS = ['foundation', 'builder', 'explorer', 'shaper', 'independent'] as const
+
 const R = 52
 const C = 2 * Math.PI * R
 
@@ -237,7 +239,7 @@ export default function PassportBook({
                   {stamp.name}
                 </div>
                 <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: theme.text, marginTop: '4px' }}>
-                  Ages {stamp.ages}
+                  {stamp.ages}
                 </div>
               </div>
 
@@ -245,21 +247,27 @@ export default function PassportBook({
                   stage. Each task shows a tick when it is done and how much is
                   left when it is not, so the page always says exactly what to
                   do next. Lessons lead, they are the process. */}
-              <div style={{ borderTop: `1.5px dashed ${theme.bold}`, paddingTop: '12px', marginTop: 'auto' }}>
+              {/* This whole panel rides above the flip tap zones (zIndex 3) so
+                  every row is tappable and takes the parent straight to the
+                  exact thing that fills it: the stage lessons, the scripts, the
+                  device setup, the daily habit. Nobody is left guessing the
+                  next step. */}
+              <div style={{ position: 'relative', zIndex: 3, borderTop: `1.5px dashed ${theme.bold}`, paddingTop: '12px', marginTop: 'auto' }}>
                 <div style={{ fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: theme.text, opacity: 0.7, marginBottom: '9px' }}>
-                  {stamp.status === 'earned' ? 'This page is stamped' : 'To stamp this page'}
+                  {stamp.status === 'earned' ? 'This page is stamped' : 'To stamp this page · tap any one to do it'}
                 </div>
                 {(() => {
                   const lt = stamp.lessonsTotal ?? 0
                   const ld = stamp.lessonsDone ?? 0
-                  const tasks: { label: string; done: boolean; detail: string }[] = [
-                    { label: 'Watch the lessons', done: (stamp.lessonsPct ?? 0) >= 100, detail: lt > 0 ? `${ld} of ${lt} done` : `${stamp.lessonsPct ?? 0}%` },
-                    { label: 'Read the scripts', done: (stamp.scriptsPct ?? 0) >= 100, detail: `${stamp.scriptsPct ?? 0}%` },
-                    { label: 'Set up the devices', done: (stamp.devicesPct ?? 0) >= 100, detail: `${stamp.devicesPct ?? 0}%` },
-                    { label: 'Keep the daily habit', done: (stamp.streakPct ?? 0) >= 100, detail: `${stamp.streakPct ?? 0}%` },
+                  const slug = STAGE_SLUGS[stamp.id - 1] ?? 'foundation'
+                  const tasks: { label: string; done: boolean; detail: string; href: string }[] = [
+                    { label: 'Watch the lessons', done: (stamp.lessonsPct ?? 0) >= 100, detail: lt > 0 ? `${ld} of ${lt} done` : `${stamp.lessonsPct ?? 0}%`, href: `/dashboard/lessons?stage=${stamp.id}` },
+                    { label: 'Read the scripts', done: (stamp.scriptsPct ?? 0) >= 100, detail: `${stamp.scriptsPct ?? 0}%`, href: `/dashboard/scripts?stage=${slug}` },
+                    { label: 'Set up the devices', done: (stamp.devicesPct ?? 0) >= 100, detail: `${stamp.devicesPct ?? 0}%`, href: '/dashboard/devices' },
+                    { label: 'Keep the daily habit', done: (stamp.streakPct ?? 0) >= 100, detail: `${stamp.streakPct ?? 0}%`, href: '/dashboard' },
                   ]
                   return tasks.map(t => (
-                    <div key={t.label} style={{ display: 'flex', alignItems: 'center', gap: '9px', marginBottom: '7px' }}>
+                    <Link key={t.label} href={t.href} style={{ display: 'flex', alignItems: 'center', gap: '9px', marginBottom: '7px', textDecoration: 'none' }}>
                       <span style={{
                         width: 17, height: 17, borderRadius: '6px', flexShrink: 0,
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -273,23 +281,22 @@ export default function PassportBook({
                       <span style={{ flex: 1, fontSize: '12.5px', fontWeight: 700, color: 'var(--ink)', opacity: t.done ? 0.5 : 1, textDecoration: t.done ? 'line-through' : 'none' }}>
                         {t.label}
                       </span>
-                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: theme.text, opacity: 0.75 }}>
-                        {t.detail}
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: theme.text, opacity: 0.75, whiteSpace: 'nowrap' }}>
+                        {t.detail}{t.done ? '' : ' ›'}
                       </span>
-                    </div>
+                    </Link>
                   ))
                 })()}
                 <Link
-                  href={stamp.href}
+                  href={`/dashboard/lessons?stage=${stamp.id}`}
                   style={{
-                    position: 'relative', zIndex: 3,
                     display: 'block', textAlign: 'center', marginTop: '11px',
                     fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px',
                     color: 'var(--ink)', textDecoration: 'none',
                     background: theme.bold, borderRadius: '12px', padding: '10px 14px',
                   }}
                 >
-                  {stamp.status === 'earned' ? 'Look back at this stage' : stamp.status === 'catchup' ? 'Catch this page up →' : 'Fill this page →'}
+                  {stamp.status === 'earned' ? 'Look back at this stage' : stamp.status === 'catchup' ? 'Catch this page up →' : 'Start the next step →'}
                 </Link>
               </div>
             </div>
@@ -352,7 +359,7 @@ export default function PassportBook({
             🎉 Passport complete
           </div>
           <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.82)', lineHeight: 1.5, marginTop: '3px' }}>
-            Every page stamped, all the way to 16. {childName === 'your child' ? 'Your child is' : `${childName} is`} prepared, educated and safe.
+            Every page stamped, all the way to 16. {childName === 'your child' ? 'Your child has' : `${childName} has`} grown up online with the habits, the know how and the judgement built stage by stage.
           </div>
         </div>
       )}
@@ -404,7 +411,7 @@ export default function PassportBook({
                 {celebrating.name} complete
               </div>
               <div style={{ fontSize: '13.5px', color: 'rgba(255,255,255,0.82)', lineHeight: 1.55, marginTop: '8px' }}>
-                {childName === 'your child' ? 'Your family' : `${childName}`} finished a whole stage of the journey to 16. That page is stamped for good.
+                {childName === 'your child' ? 'Your child' : childName} has the {celebrating.name} habits in place for their age now. A real step on the road to a confident, capable 16.
               </div>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.55)', marginTop: '18px' }}>
                 Tap to see the page
