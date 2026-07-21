@@ -45,7 +45,33 @@ export type SumsGame = QuestGameMeta & {
   questions: { q: string; options: number[]; answer: number }[]
 }
 
-export type QuestGame = PairsGame | JudgeGame | SumsGame
+export type WheelGame = QuestGameMeta & {
+  mechanic: 'wheel'
+  // A to Z Showdown: DiGi reads a clue, the child taps the option that both
+  // fits the clue and starts with the letter. Tiers rise in difficulty; the
+  // player samples seven letters from one tier per round.
+  rounds: { tier: string; label: string; items: { letter: string; clue: string; options: string[]; answer: number }[] }[]
+}
+
+export type FishingGame = QuestGameMeta & {
+  mechanic: 'fishing'
+  // Word Fishing: a target tricky word is called, the child taps the matching
+  // fish among the shoal. Catches is how many targets make a round.
+  catches: number
+  phases: { id: string; label: string; words: string[] }[]
+}
+
+export type CoinsGame = QuestGameMeta & {
+  mechanic: 'coins'
+  // Sofia's Ice Cream Shop: build the price in coins. Prices are pence
+  // integers, pre chosen to be makeable in two to three coins. Serves is how
+  // many orders make a round.
+  coins: number[]
+  orders: { item: string; price: number }[]
+  serves: number
+}
+
+export type QuestGame = PairsGame | JudgeGame | SumsGame | WheelGame | FishingGame | CoinsGame
 
 export const QUEST_GAMES: QuestGame[] = [
   {
@@ -372,6 +398,129 @@ export const QUEST_GAMES: QuestGame[] = [
       { text: 'Storm expected to reach the coast by Friday evening', correct: 'left', why: 'Specific, checkable, tells you the thing up front.' },
       { text: 'This everyday food is slowly destroying your brain', correct: 'right', why: 'Fear plus vagueness. If it were true it would name the food and the evidence.' },
       { text: 'Local team loses final on penalties', correct: 'left', why: 'The whole story in six words. Reporting gives, clickbait withholds.' },
+    ],
+  },
+  // ── The play games from the printables, made playable in the app so a
+  // member family gets the interactive twin of the paper product. New
+  // mechanics: wheel (A to Z clues), fishing (phonics tricky words) and
+  // coins (UK money). 21 July 2026. ──
+  {
+    key: 'a-to-z-showdown', mechanic: 'wheel',
+    title: "DiGi's A to Z Showdown", emoji: '🔤', stage: 'Ages 7 to 13', stages: [1, 2, 3], stars: 3,
+    blurb: 'Race the alphabet. DiGi reads a clue, you find the answer that starts with the letter.',
+    rounds: [
+      { tier: 'Starter', label: 'Ages 7 to 9', items: [
+        { letter: 'A', clue: 'A squirrel buries this nut, and it can grow into an oak tree', options: ['Apple', 'Conker', 'Acorn'], answer: 2 },
+        { letter: 'B', clue: 'The bendy yellow fruit monkeys love to peel', options: ['Broccoli', 'Banana', 'Orange'], answer: 1 },
+        { letter: 'C', clue: 'The farm animal that says moo and gives us milk', options: ['Cow', 'Cat', 'Sheep'], answer: 0 },
+        { letter: 'D', clue: 'A huge reptile like T rex that lived millions of years ago', options: ['Dolphin', 'Lizard', 'Dinosaur'], answer: 2 },
+        { letter: 'E', clue: 'The biggest land animal, with big ears and a trunk', options: ['Eagle', 'Elephant', 'Hippo'], answer: 1 },
+        { letter: 'F', clue: 'The orange bushy tailed animal that visits UK gardens at night', options: ['Fox', 'Frog', 'Badger'], answer: 0 },
+        { letter: 'G', clue: 'The tallest animal in the world, with a very long neck', options: ['Goat', 'Ostrich', 'Giraffe'], answer: 2 },
+        { letter: 'H', clue: 'The prickly British garden animal that rolls into a ball', options: ['Horse', 'Hedgehog', 'Porcupine'], answer: 1 },
+        { letter: 'I', clue: 'The frozen treat you lick from a cone on a sunny day', options: ['Ice cream', 'Igloo', 'Lolly'], answer: 0 },
+        { letter: 'J', clue: 'The wobbly fruity pudding you find at birthday parties', options: ['Jam', 'Custard', 'Jelly'], answer: 2 },
+        { letter: 'K', clue: 'The Australian animal that carries its baby in a pouch', options: ['Kitten', 'Kangaroo', 'Wombat'], answer: 1 },
+        { letter: 'L', clue: 'The big cat known as the king of the jungle', options: ['Lion', 'Lamb', 'Cheetah'], answer: 0 },
+        { letter: 'M', clue: 'You pour it on your cereal, and it comes from cows', options: ['Mud', 'Juice', 'Milk'], answer: 2 },
+        { letter: 'N', clue: 'A bird builds this twiggy home and lays its eggs in it', options: ['Nose', 'Nest', 'Burrow'], answer: 1 },
+        { letter: 'O', clue: 'The sea creature with eight arms', options: ['Octopus', 'Owl', 'Squid'], answer: 0 },
+        { letter: 'P', clue: 'The black and white bird that slides on ice and cannot fly', options: ['Parrot', 'Seal', 'Penguin'], answer: 2 },
+        { letter: 'Q', clue: 'The sound a duck makes', options: ['Queen', 'Quack', 'Moo'], answer: 1 },
+        { letter: 'R', clue: 'The little bird with a red breast on Christmas cards', options: ['Robin', 'Rabbit', 'Sparrow'], answer: 0 },
+        { letter: 'S', clue: 'The slow garden creature that carries its home on its back', options: ['Spider', 'Tortoise', 'Snail'], answer: 2 },
+        { letter: 'T', clue: 'The big cat with orange and black stripes', options: ['Turtle', 'Tiger', 'Leopard'], answer: 1 },
+        { letter: 'U', clue: 'You put this up over your head when it rains', options: ['Umbrella', 'Unicorn', 'Raincoat'], answer: 0 },
+        { letter: 'V', clue: 'Carrots, peas and broccoli are all this kind of food', options: ['Volcano', 'Fruit', 'Vegetables'], answer: 2 },
+        { letter: 'W', clue: 'The biggest animal in the whole ocean, the blue one', options: ['Wasp', 'Whale', 'Shark'], answer: 1 },
+        { letter: 'X', clue: 'The instrument with wooden bars that you hit with beaters', options: ['Xylophone', 'X ray', 'Drum'], answer: 0 },
+        { letter: 'Y', clue: 'The colour of bananas, custard and the sun', options: ['Yogurt', 'Purple', 'Yellow'], answer: 2 },
+        { letter: 'Z', clue: 'The animal like a horse in black and white stripes', options: ['Zoo', 'Zebra', 'Donkey'], answer: 1 },
+      ] },
+      { tier: 'Challenger', label: 'Ages 9 to 11', items: [
+        { letter: 'A', clue: 'The frozen continent at the South Pole', options: ['Arctic', 'Greenland', 'Antarctica'], answer: 2 },
+        { letter: 'B', clue: 'The capital city of Germany', options: ['Brussels', 'Berlin', 'Munich'], answer: 1 },
+        { letter: 'C', clue: 'The capital city of Wales', options: ['Cardiff', 'Cairo', 'Swansea'], answer: 0 },
+        { letter: 'D', clue: 'The famous flightless bird from Mauritius, now extinct', options: ['Dove', 'Emu', 'Dodo'], answer: 2 },
+        { letter: 'E', clue: 'The tallest mountain in the world', options: ['Etna', 'Everest', 'Kilimanjaro'], answer: 1 },
+        { letter: 'F', clue: 'The country you visit to see the Eiffel Tower', options: ['France', 'Finland', 'Italy'], answer: 0 },
+        { letter: 'G', clue: 'The force that pulls everything down towards the ground', options: ['Gas', 'Magnetism', 'Gravity'], answer: 2 },
+        { letter: 'H', clue: 'Harry Potter’s snowy owl', options: ['Hagrid', 'Hedwig', 'Errol'], answer: 1 },
+        { letter: 'I', clue: 'The boot shaped country famous for pizza and pasta', options: ['Italy', 'India', 'Spain'], answer: 0 },
+        { letter: 'J', clue: 'The biggest planet in our solar system', options: ['January', 'Saturn', 'Jupiter'], answer: 2 },
+        { letter: 'K', clue: 'The chess piece shaped like a horse', options: ['King', 'Knight', 'Bishop'], answer: 1 },
+        { letter: 'L', clue: 'The capital city of England', options: ['London', 'Lisbon', 'Paris'], answer: 0 },
+        { letter: 'M', clue: 'The planet known as the red planet', options: ['Mercury', 'Venus', 'Mars'], answer: 2 },
+        { letter: 'N', clue: 'Florence, the famous nurse called the lady with the lamp', options: ['Nelson', 'Nightingale', 'Seacole'], answer: 1 },
+        { letter: 'O', clue: 'The five ring sporting event held every four years', options: ['Olympics', 'Olympus', 'Wimbledon'], answer: 0 },
+        { letter: 'P', clue: 'The largest ocean on Earth', options: ['Pond', 'Atlantic', 'Pacific'], answer: 2 },
+        { letter: 'Q', clue: 'The most powerful piece on a chess board', options: ['Quill', 'Queen', 'Rook'], answer: 1 },
+        { letter: 'R', clue: 'The capital city of Italy', options: ['Rome', 'Riga', 'Venice'], answer: 0 },
+        { letter: 'S', clue: 'The planet famous for its beautiful rings', options: ['Sun', 'Neptune', 'Saturn'], answer: 2 },
+        { letter: 'T', clue: 'The famous ship that sank on its first voyage in 1912', options: ['Tugboat', 'Titanic', 'Mayflower'], answer: 1 },
+        { letter: 'U', clue: 'The name of the United Kingdom’s flag', options: ['Union Jack', 'Umbrella', 'Tricolour'], answer: 0 },
+        { letter: 'V', clue: 'A mountain that can erupt with hot lava', options: ['Valley', 'Geyser', 'Volcano'], answer: 2 },
+        { letter: 'W', clue: 'The London home of the famous tennis championships', options: ['Westminster', 'Wimbledon', 'Ascot'], answer: 1 },
+        { letter: 'X', clue: 'Contains an X: the photo a doctor takes to see your bones', options: ['X ray', 'Xylophone', 'Scan'], answer: 0 },
+        { letter: 'Y', clue: 'The northern English city famous for Vikings and its Minster', options: ['Yeovil', 'Durham', 'York'], answer: 2 },
+        { letter: 'Z', clue: 'The number that means nothing at all', options: ['Zone', 'Zero', 'One'], answer: 1 },
+      ] },
+      { tier: 'Family', label: 'Everyone plays', items: [
+        { letter: 'A', clue: 'Neil, the first person to walk on the Moon', options: ['Aldrin', 'Gagarin', 'Armstrong'], answer: 2 },
+        { letter: 'B', clue: 'The composer who kept writing symphonies after going deaf', options: ['Bach', 'Beethoven', 'Mozart'], answer: 1 },
+        { letter: 'C', clue: 'The capital city of Denmark', options: ['Copenhagen', 'Cardiff', 'Stockholm'], answer: 0 },
+        { letter: 'D', clue: 'The scientist who wrote On the Origin of Species', options: ['Dawkins', 'Newton', 'Darwin'], answer: 2 },
+        { letter: 'E', clue: 'The scientist behind E equals mc squared', options: ['Edison', 'Einstein', 'Curie'], answer: 1 },
+        { letter: 'F', clue: 'Alexander, the Scottish scientist who discovered penicillin', options: ['Fleming', 'Faraday', 'Jenner'], answer: 0 },
+        { letter: 'G', clue: 'The vast Arizona canyon carved by the Colorado River', options: ['Great Barrier Reef', 'Niagara Falls', 'Grand Canyon'], answer: 2 },
+        { letter: 'H', clue: 'The Tudor king who had six wives', options: ['Harold', 'Henry the Eighth', 'Edward'], answer: 1 },
+        { letter: 'I', clue: 'The land of ice and fire, capital Reykjavik', options: ['Iceland', 'Ireland', 'Norway'], answer: 0 },
+        { letter: 'J', clue: 'The month named after a Roman god with two faces', options: ['July', 'March', 'January'], answer: 2 },
+        { letter: 'K', clue: 'The tallest mountain in Africa', options: ['Kenya', 'Kilimanjaro', 'Everest'], answer: 1 },
+        { letter: 'L', clue: 'The Italian genius who painted the Mona Lisa', options: ['Leonardo da Vinci', 'Lippi', 'Michelangelo'], answer: 0 },
+        { letter: 'M', clue: 'The sea between Europe and Africa', options: ['Mersey', 'Baltic', 'Mediterranean'], answer: 2 },
+        { letter: 'N', clue: 'The admiral on the column in Trafalgar Square', options: ['Napoleon', 'Nelson', 'Drake'], answer: 1 },
+        { letter: 'O', clue: 'The capital city of Norway', options: ['Oslo', 'Ottawa', 'Helsinki'], answer: 0 },
+        { letter: 'P', clue: 'Pablo, the Spanish artist who painted Guernica', options: ['Pissarro', 'Dali', 'Picasso'], answer: 2 },
+        { letter: 'Q', clue: 'The feather pen people wrote with before fountain pens', options: ['Quiver', 'Quill', 'Inkwell'], answer: 1 },
+        { letter: 'R', clue: 'The sea between Egypt and Saudi Arabia, named after a colour', options: ['Red Sea', 'River Nile', 'Dead Sea'], answer: 0 },
+        { letter: 'S', clue: 'The playwright who wrote Romeo and Juliet', options: ['Shelley', 'Dickens', 'Shakespeare'], answer: 2 },
+        { letter: 'T', clue: 'The river that flows through London', options: ['Trent', 'Thames', 'Severn'], answer: 1 },
+        { letter: 'U', clue: 'The planet that spins on its side', options: ['Uranus', 'Ursa Major', 'Neptune'], answer: 0 },
+        { letter: 'V', clue: 'The Italian city built on canals', options: ['Verona', 'Amsterdam', 'Venice'], answer: 2 },
+        { letter: 'W', clue: 'The 1815 battle where Napoleon was finally defeated', options: ['Wellington', 'Waterloo', 'Trafalgar'], answer: 1 },
+        { letter: 'X', clue: 'Contains an X: the country just south of the United States', options: ['Mexico', 'Texas', 'Canada'], answer: 0 },
+        { letter: 'Y', clue: 'The longest river in Asia', options: ['Yukon', 'Ganges', 'Yangtze'], answer: 2 },
+        { letter: 'Z', clue: 'The giant German airship named after a count', options: ['Zephyr', 'Zeppelin', 'Blimp'], answer: 1 },
+      ] },
+    ],
+  },
+  {
+    key: 'word-fishing', mechanic: 'fishing',
+    title: 'Word Fishing', emoji: '🐟', stage: 'Ages 4 to 7', stages: [1, 2], stars: 2,
+    blurb: 'DiGi calls a tricky word and you catch the fish that carries it.',
+    catches: 5,
+    phases: [
+      { id: 'phase-2', label: 'Phase 2 tricky words', words: ['the', 'to', 'I', 'no', 'go', 'into'] },
+      { id: 'phase-3', label: 'Phase 3 tricky words', words: ['he', 'she', 'we', 'me', 'be', 'was', 'you', 'they', 'all', 'are', 'my', 'her'] },
+      { id: 'letters', label: 'First letter sounds', words: ['s', 'a', 't', 'p', 'i', 'n', 'm', 'd'] },
+    ],
+  },
+  {
+    key: 'ice-cream-shop', mechanic: 'coins',
+    title: "Sofia's Ice Cream Shop", emoji: '🍦', stage: 'Ages 5 to 7', stages: [1, 2], stars: 2,
+    blurb: 'Run the ice cream shop and count out the coins to pay for every treat.',
+    coins: [1, 2, 5, 10, 20, 50, 100, 200],
+    serves: 5,
+    orders: [
+      { item: 'chocolate flake', price: 15 },
+      { item: 'scoop with sprinkles', price: 25 },
+      { item: 'scoop with strawberry sauce', price: 30 },
+      { item: 'double scoop', price: 45 },
+      { item: 'ice lolly', price: 55 },
+      { item: 'triple scoop', price: 70 },
+      { item: 'super sundae', price: 120 },
+      { item: 'family tub', price: 250 },
     ],
   },
 ]
