@@ -62,13 +62,15 @@ line art so children colour clean outlines, so both editions coexist in one
 print.html (CSS: `.jobcard.has-photo .worker-svg` is hidden in colour mode,
 `.worker-photo` is hidden in colour in mode).
 
-Six jobs are illustrated: farmer, teacher, builder, vet, chef, postie. Baker and
-doctor still fall back to the SVG worker in colour mode: the first baker render
-never synced to Drive and both doctor renders were flawed (one framed bust, one
-with baked in text). Clean replacements are queued in Higgsfield (baker job
-`8cd8281d`, doctor job `29c44a10`); once synced to the Drive folder and dropped
-into `images/jobs/clean/` as `baker.png` and `doctor.png`, add `has-photo` plus a
-`worker-photo` img to job cards 1 and 2 and rebuild.
+Seven jobs are illustrated: doctor, farmer, teacher, builder, vet, chef, postie.
+The doctor is the `e248ce05` render with its decorative frame inset cropped and
+the background floodfilled to transparent (canvas processor), so it reads as a
+bust rather than full body but sits cleanly on the card. Baker is the only card
+still on the SVG worker in colour mode: no baker render ever synced to Drive (the
+first baker `ffc72380` and the hardened retry `8cd8281d` are both in Higgsfield
+but not in the Drive folder). Once a baker render lands in the folder, drop it in
+`images/jobs/clean/` as `baker.png`, add `has-photo` plus a `worker-photo` img to
+job card 1, and rebuild for the full eight.
 
 ## Assets
 - `images/Zara.png` — Zara's real character art (cover and avatar).
