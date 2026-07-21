@@ -50,6 +50,42 @@ const TIPS: Record<number, PathTip[]> = {
   ],
 }
 
+// A "for you" tip built from what the child actually loves, the interest the
+// parent noted. The shape is always the same: enjoy a little on the screen,
+// then go and do the real thing off it, so a hobby and screen time pull the
+// same way instead of fighting. Known loves get their own warm line; anything
+// else gets a clean generic that still names their thing. Null when no
+// interest is set, so the path simply shows the age tips.
+const INTEREST_TIPS: [RegExp, { emoji: string; make: (thing: string) => string }][] = [
+  [/foot ?ball|soccer/i, { emoji: '⚽', make: () => 'You love football. Watch how the pros train or a skills video, then head outside and try it for real. Screen first, pitch after, the perfect combo.' }],
+  [/sing|song|choir/i, { emoji: '🎤', make: () => 'You love singing. Find one song or a tutorial, learn a line or two, then perform it away from the screen. Big applause from us.' }],
+  [/craft|make|sew|knit/i, { emoji: '✂️', make: () => 'You love making things. Watch one craft idea, then switch the screen off and make it for real, real hands, real mess, real fun.' }],
+  [/draw|art|paint|sketch/i, { emoji: '🎨', make: () => 'You love art. Watch one how to draw or paint idea, then get real paper out and make your own version.' }],
+  [/danc/i, { emoji: '💃', make: () => 'You love dancing. Learn one routine from a video, then turn the screen off and dance it out for real.' }],
+  [/cook|bak/i, { emoji: '🧑‍🍳', make: () => 'You love cooking. Watch one simple recipe with your grown up, then make it for real in the kitchen.' }],
+  [/lego|build|brick|minecraft/i, { emoji: '🧱', make: () => 'You love building. Watch one build idea, then switch off and make it with your own bricks or in the garden.' }],
+  [/animal|dog|cat|horse|nature|bug|bird/i, { emoji: '🐾', make: () => 'You love animals and nature. Watch one clip, then get outside and spot the real thing. The world beats any screen.' }],
+  [/read|book|story|writ/i, { emoji: '📖', make: () => 'You love stories. Find one book to try, then curl up with the real thing for twenty screen free minutes.' }],
+  [/scien|space|experiment|robot|code|coding/i, { emoji: '🔬', make: () => 'You love finding out how things work. Watch one experiment, then do a safe version for real with your grown up.' }],
+  [/gam/i, { emoji: '🎮', make: () => 'You love games. Watch a clever tip, play for your set time, then make a real world version, build it, draw it, act it out.' }],
+]
+
+export function interestTipFor(interest: string | null | undefined): PathTip | null {
+  const thing = (interest ?? '').trim()
+  if (!thing) return null
+  const match = INTEREST_TIPS.find(([re]) => re.test(thing))
+  const clean = thing.length > 40 ? thing.slice(0, 40) : thing
+  return {
+    key: 'interest',
+    emoji: match ? match[1].emoji : '💛',
+    tag: 'For you',
+    title: match ? 'A little screen, then the real thing' : `You love ${clean.toLowerCase()}`,
+    body: match
+      ? match[1].make(clean)
+      : `You love ${clean.toLowerCase()}. Watch one clever video about it with your grown up, then go and do the real thing away from the screen. That is screens working for you.`,
+  }
+}
+
 // Today's tips for a stage: two of them, rotated by the day so the path
 // stays fresh across the week. Fewer than two defined falls back gracefully.
 export function tipsForStage(stageId: number, dayIndex: number): PathTip[] {

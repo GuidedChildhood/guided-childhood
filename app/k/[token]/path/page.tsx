@@ -10,7 +10,7 @@ import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
 import { gamesForStage } from '@/lib/quest-games/registry'
 import { printablesForStage } from '@/lib/printables/registry'
 import { quizForBand } from '@/lib/content/school-quizzes'
-import { tipsForStage } from '@/lib/content/path-tips'
+import { tipsForStage, interestTipFor } from '@/lib/content/path-tips'
 import KidPath, { type PathLesson, type PathGame, type PathJob, type PathPrintable } from '@/components/kid/KidPath'
 
 // My path: the child's own Duolingo style trail for their stage, opened from
@@ -182,8 +182,16 @@ export default async function KidPathPage({ params }: { params: Promise<{ token:
   const stampsTotal = lessons.length
   const stampsEarned = lessons.filter(l => l.done).length
 
-  // Two of DiGi's age matched tips to meet along the path today.
-  const tips = tipsForStage(stage.id, dayIdx)
+  // Two of DiGi's age matched tips to meet along the path today, led by a
+  // "for you" tip built from what this child loves when the parent has noted
+  // it. The interest read fails soft to none before migration 088.
+  let interest: string | null = null
+  {
+    const { data } = await supabase.from('children').select('interests').eq('id', link.child_id).maybeSingle()
+    interest = (data as { interests?: string | null } | null)?.interests ?? null
+  }
+  const interestTip = interestTipFor(interest)
+  const tips = interestTip ? [interestTip, ...tipsForStage(stage.id, dayIdx)] : tipsForStage(stage.id, dayIdx)
 
   return (
     <KidPath
