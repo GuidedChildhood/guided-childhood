@@ -74,32 +74,8 @@ function PlayCoin({ value, size }: { value: number; size: number }) {
   )
 }
 
-// ── Sofia, the shopkeeper ─────────────────────────────────────────────
-// A friendly flat avatar in house style: round face, warm skin, wavy
-// chestnut hair, lavender jumper and a cream apron with a little scoop.
-// Not a photo, drawn to match the printable's cute cones and scoops.
-function SofiaAvatar({ size }: { size: number }) {
-  return (
-    <svg viewBox="0 0 100 110" width={size} height={size} style={{ display: 'block' }} aria-hidden="true">
-      <path d="M16 110 C16 87 31 79 50 79 C69 79 84 87 84 110 Z"
-        fill="var(--stage-5-bold, #DDD6FE)" stroke="var(--ink, #1A1A2E)" strokeWidth={3} strokeLinejoin="round" />
-      <path d="M37 82 L63 82 L67 110 L33 110 Z" fill="var(--cream, #F9F8F6)" stroke="var(--ink, #1A1A2E)" strokeWidth={2.5} strokeLinejoin="round" />
-      <rect x={43} y={76} width={14} height={12} rx={3} fill="var(--cream, #F9F8F6)" stroke="var(--ink, #1A1A2E)" strokeWidth={2.5} />
-      <circle cx={50} cy={96} r={6} fill="#FBCFE8" stroke="var(--ink, #1A1A2E)" strokeWidth={2} />
-      <path d="M46 100 L50 108 L54 100 Z" fill="var(--terracotta, #EDC35F)" stroke="var(--ink, #1A1A2E)" strokeWidth={1.6} strokeLinejoin="round" />
-      <path d="M22 46 C20 20 35 9 50 9 C65 9 80 20 78 46 C74 33 63 27 50 27 C37 27 26 33 22 46 Z"
-        fill="#8B5A2B" stroke="var(--ink, #1A1A2E)" strokeWidth={3} strokeLinejoin="round" />
-      <circle cx={50} cy={44} r={24} fill="#E7B58E" stroke="var(--ink, #1A1A2E)" strokeWidth={3} />
-      <path d="M26 44 C24 56 27 64 32 67 L37 60 C33 55 33 49 34 44 Z" fill="#8B5A2B" stroke="var(--ink, #1A1A2E)" strokeWidth={2.6} strokeLinejoin="round" />
-      <path d="M74 44 C76 56 73 64 68 67 L63 60 C67 55 67 49 66 44 Z" fill="#8B5A2B" stroke="var(--ink, #1A1A2E)" strokeWidth={2.6} strokeLinejoin="round" />
-      <circle cx={37} cy={50} r={4.5} fill="rgba(212,96,10,.22)" />
-      <circle cx={63} cy={50} r={4.5} fill="rgba(212,96,10,.22)" />
-      <circle cx={42} cy={44} r={2.8} fill="var(--ink, #1A1A2E)" />
-      <circle cx={58} cy={44} r={2.8} fill="var(--ink, #1A1A2E)" />
-      <path d="M42 53 Q50 60 58 53" fill="none" stroke="var(--ink, #1A1A2E)" strokeWidth={2.8} strokeLinecap="round" />
-    </svg>
-  )
-}
+// Sofia, the shopkeeper, is the real character portrait
+// (public/digi-squad/Sofia.jpeg), shown as a round avatar at the counter.
 
 // ── The built ice cream that pops in when an order is served ──────────
 function ServedTreat({ colours, size }: { colours: string[]; size: number }) {
@@ -267,7 +243,9 @@ export function CoinsView({ game, onDone }: { game: CoinsGame; onDone: () => voi
           {/* Sofia and her order */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '14px' }}>
             <div ref={sofiaRef} style={{ flexShrink: 0 }}>
-              <SofiaAvatar size={72} />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/digi-squad/Sofia.jpeg" alt="Sofia" width={72} height={72}
+                style={{ width: 72, height: 72, borderRadius: '50%', objectFit: 'cover', border: '3px solid #fff', boxShadow: '0 4px 0 var(--border)' }} />
             </div>
             <div style={{
               flex: 1, background: '#fff', border: '1.5px solid var(--border)',
