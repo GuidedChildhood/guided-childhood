@@ -36,16 +36,22 @@ export default function DeviceList({
   devices,
   childAge,
   completed,
+  notOwned,
   pending,
   onToggle,
+  onNotOwned,
+  onRestore,
   openKey,
   setOpenKey,
 }: {
   devices: DeviceGuide[]
   childAge: number
   completed: Set<string>
+  notOwned: Set<string>
   pending: string | null
   onToggle: (key: string) => void
+  onNotOwned: (key: string) => void
+  onRestore: (key: string) => void
   openKey: string | null
   setOpenKey: (key: string | null) => void
 }) {
@@ -109,6 +115,7 @@ export default function DeviceList({
         {filtered.map(d => {
           const isOpen = openKey === d.device_key
           const isDone = completed.has(d.device_key)
+          const isNotOwned = notOwned.has(d.device_key)
           const ageReady = childAge >= d.min_age
 
           return (
@@ -136,6 +143,11 @@ export default function DeviceList({
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '15px', color: 'var(--ink)' }}>{d.name}</span>
                     {isDone && <span style={{ fontSize: '13px', color: 'var(--terracotta)' }}>✓</span>}
+                    {isNotOwned && (
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)', background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '100px', padding: '2px 8px' }}>
+                        Not in our home
+                      </span>
+                    )}
                   </div>
                   <div style={{ fontSize: '12px', color: 'var(--ink-muted)' }}>{d.subtitle}</div>
                 </div>
@@ -192,6 +204,21 @@ export default function DeviceList({
                       DiGi can walk me through it
                     </Link>
                   </div>
+
+                  {/* The escape from saying yes to a device you do not own. It
+                      drops off the checklist and the ring, but stays here to
+                      find again the day it arrives. */}
+                  <button
+                    onClick={() => (isNotOwned ? onRestore(d.device_key) : onNotOwned(d.device_key))}
+                    disabled={pending === d.device_key}
+                    style={{
+                      marginTop: '10px', background: 'none', border: 'none', cursor: 'pointer',
+                      fontFamily: 'var(--font-body)', fontSize: '13px', fontWeight: 600,
+                      color: 'var(--ink-muted)', textDecoration: 'underline', textUnderlineOffset: '3px', padding: '2px 0',
+                    }}
+                  >
+                    {isNotOwned ? 'We have this now, put it back on the list' : 'We do not have this yet'}
+                  </button>
                 </div>
               )}
             </div>
