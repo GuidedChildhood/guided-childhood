@@ -1,4 +1,5 @@
 import type { createClient } from '@/lib/supabase/server'
+import { getStageProgress, type StageId } from '@/lib/pathway/progress'
 
 type SupabaseClient = Awaited<ReturnType<typeof createClient>>
 
@@ -169,6 +170,47 @@ export async function getWhatWorked(
 
   return '\n\nWHAT HAS ALREADY WORKED FOR THIS FAMILY (real wins they have earned, lean on these to build momentum and remind them they can do this, never as pressure or a to do list):\n' +
     data.map(c => `- ${c.label}: ${c.status === 'resolved' ? 'sorted' : 'getting better'}`).join('\n')
+}
+
+// Where this family stands on the road to 16, from the same per stage blend the
+// passport and the road read, so DiGi's chat, the passport and the pathway all
+// speak from one truth. DiGi gets the stage, how full the current stamp is, what
+// still fills it, and the single most useful next step, so it can always point
+// forward to one concrete thing rather than leaving a parent unsure. The daily
+// habit is reported but never offered as "the next step", because it can only
+// move over weeks, not in today's session.
+export async function getPathwayPosition(
+  supabase: SupabaseClient,
+  userId: string,
+  stage: { id: number; name: string; ages: string; stageId: StageId },
+  streakWeeks: number,
+): Promise<string> {
+  let p
+  try {
+    p = await getStageProgress(supabase, userId, stage.stageId, streakWeeks)
+  } catch {
+    return '' // pathway position is an anchor, never a hard dependency of the reply
+  }
+
+  const lessonsDetail = p.lessonsTotal > 0 ? `${p.lessonsDone} of ${p.lessonsTotal} done` : `${p.lessonsPct}%`
+  const actionable = [
+    { label: 'the stage lessons', pct: p.lessonsPct, href: `/dashboard/lessons?stage=${stage.id}`, detail: lessonsDetail },
+    { label: 'the word for word scripts', pct: p.scriptsPct, href: '/dashboard/scripts', detail: `${p.scriptsPct}%` },
+    { label: 'the device setup', pct: p.devicesPct, href: '/dashboard/devices', detail: `${p.devicesPct}%` },
+  ].filter(t => t.pct < 100).sort((a, b) => a.pct - b.pct)
+  const next = actionable[0]
+
+  const nextLine = p.contentComplete
+    ? 'The lessons and scripts that fill this stamp are all done. If they have not seen it celebrated yet, point them warmly at the passport to see the stamp, and gently open the next stage.'
+    : next
+      ? `The single best next step to fill the ${stage.name} stamp right now is ${next.label} (${next.detail}). When they ask what to do next, or the conversation allows, name this one step and link it exactly as [${next.label}](${next.href}).`
+      : 'The stamp is close. Point them at the passport to see the one task left.'
+
+  return `\n\nWHERE THIS FAMILY IS ON THE ROAD TO 16 (their anchor: always know it, and point forward to the ONE next concrete step so they are never left unsure what to do):
+- Stage ${stage.id} of 5, ${stage.name} (${stage.ages}). The ${stage.name} stamp is ${p.overallPct}% filled.
+- What fills this stamp: lessons ${lessonsDetail}, scripts ${p.scriptsPct}%, devices ${p.devicesPct}%, daily habit ${streakWeeks} of 4 weeks.
+- ${nextLine}
+Keep it to one calibrated next step, never a to do list, never pressure, never guilt.`
 }
 
 export interface ProactiveTrigger {
