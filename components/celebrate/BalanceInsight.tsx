@@ -9,6 +9,8 @@
 
 import { useMemo, useState } from 'react'
 import DigiCharacter from '@/components/digi/DigiCharacter'
+import BalanceScales from '@/components/quests/BalanceScales'
+import { STAR_MINUTES } from '@/lib/quests/templates'
 import { insightsForStage, type InsightCharacter, type InsightTheme } from '@/lib/content/child-insights'
 
 // The clever part: which idea leads is chosen from the child's own day, not at
@@ -77,6 +79,25 @@ export default function BalanceInsight({
       boxShadow: '0 4px 16px rgba(26,26,46,0.06)',
     }}>
       <style>{`@keyframes gcInsightIn { from { opacity: 0; transform: translateY(6px) } to { opacity: 1; transform: translateY(0) } }`}</style>
+
+      {/* The scales, so a child sees their own balance the same way a grown up
+          does: the screen they have used against the stars they have earned.
+          Earn more stars and the good side sinks. The idea below says how. */}
+      <div style={{ background: '#fff', borderRadius: '16px', padding: '10px 8px 6px', marginBottom: '14px', border: '1.5px solid rgba(26,26,46,0.06)' }}>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', textAlign: 'center', marginBottom: '2px' }}>
+          Your balance today
+        </div>
+        <BalanceScales
+          compact
+          screenMins={Math.round(usedTodayMinutes)}
+          realMins={Math.round(balanceStars * STAR_MINUTES)}
+          earnedStars={balanceStars}
+          screenFill={recommendedMinutes > 0 && usedTodayMinutes >= recommendedMinutes ? 'var(--danger)' : 'var(--terracotta)'}
+        />
+        <div style={{ fontFamily: 'var(--font-body)', fontSize: '12px', color: 'var(--ink-soft)', textAlign: 'center', lineHeight: 1.45, margin: '0 2px' }}>
+          Do a job, a printable or a lesson to earn stars and tip it to the good side.
+        </div>
+      </div>
 
       <div key={cur.id} style={{ animation: 'gcInsightIn 0.35s ease' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '11px', marginBottom: '12px' }}>
