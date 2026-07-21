@@ -3,6 +3,7 @@ import { useState, useRef, useEffect, type ReactNode } from 'react'
 import Link from 'next/link'
 import DigiCharacter, { type DigiMood } from '@/components/digi/DigiCharacter'
 import DigiHero from '@/components/digi/DigiHero'
+import ThinkingReassurance from '@/components/digi/ThinkingReassurance'
 
 function DigiAvatar({ size = 26, mood = 'idle' }: { size?: number; mood?: DigiMood }) {
   return <DigiCharacter size={size} mood={mood} />
@@ -720,10 +721,15 @@ export default function DigiChat({
               <div style={{ width: 26, height: 26, flexShrink: 0 }}><DigiAvatar size={26} mood="thinking" /></div>
               <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15, color: 'var(--ink)' }}>DiGi</span>
             </div>
-            <div style={{ display: 'inline-flex', gap: '5px', alignItems: 'center', background: 'var(--cream)', borderRadius: '100px', padding: '10px 14px' }}>
-              {[0, 1, 2].map(i => (
-                <div key={i} style={{ width: '7px', height: '7px', background: 'var(--ink-light)', borderRadius: '50%', animation: `bounce 1.2s ease-in-out ${i * 0.2}s infinite` }} />
-              ))}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+              <div style={{ display: 'inline-flex', gap: '5px', alignItems: 'center', background: 'var(--cream)', borderRadius: '100px', padding: '10px 14px' }}>
+                {[0, 1, 2].map(i => (
+                  <div key={i} style={{ width: '7px', height: '7px', background: 'var(--ink-light)', borderRadius: '50%', animation: `bounce 1.2s ease-in-out ${i * 0.2}s infinite` }} />
+                ))}
+              </div>
+              {/* The true reassurance: DiGi is reading vetted research, not the
+                  open web, and every answer clears our safety guardrails. */}
+              <ThinkingReassurance />
             </div>
           </div>
         )}
