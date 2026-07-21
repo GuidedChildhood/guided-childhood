@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Count to 20 with Sofia</title>
+<link href="fonts/local-fonts.css" rel="stylesheet">
+<style>
+  :root{
+    --white:#FFFFFF; --cream:#F9F8F6; --ink:#1A1A2E; --ink-soft:#52526A;
+    --ink-muted:#8888A0; --border:#EAEAF0; --terracotta:#EDC35F;
+    --terracotta-dark:#C99A28; --terracotta-lt:#FEF7E0; --coral:#D4600A;
+    --green:#2F8F6B; --green-dark:#2E7D5A; --gold-dark:#C99A28; --tint-blue:#D8E8F8;
+    --tint-sage:#E8F0EE; --pastel-pink:#FBCFE8; --skin:#FADFC4;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:'Nunito',sans-serif;color:var(--ink);background:#ddd;}
+  .sheet{width:210mm;height:296mm;background:var(--cream);position:relative;overflow:hidden;
+    page-break-after:always;padding:14mm 14mm 13mm;display:flex;flex-direction:column;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:8.5pt;
+    letter-spacing:2.5px;text-transform:uppercase;color:var(--green-dark);}
+  h1{font-weight:900;font-size:34pt;line-height:1.04;}
+  h2{font-weight:900;font-size:20pt;line-height:1.1;}
+  h3{font-weight:800;font-size:13pt;line-height:1.15;}
+  p{font-size:10.5pt;line-height:1.55;color:var(--ink-soft);}
+  strong{color:var(--ink);}
+  .footer{position:absolute;bottom:7mm;left:14mm;right:14mm;display:flex;
+    justify-content:space-between;align-items:center;
+    font-family:'IBM Plex Mono',monospace;font-size:7pt;letter-spacing:1.5px;
+    color:var(--ink-muted);text-transform:uppercase;}
+  .card{background:var(--white);border:2.5px solid var(--ink);border-radius:16px;
+    box-shadow:0 5px 0 var(--ink);}
+  .bubble{background:var(--white);border:2.5px solid var(--ink);border-radius:16px;
+    box-shadow:0 4px 0 var(--ink);padding:5mm 6mm;position:relative;
+    font-weight:700;font-size:11pt;line-height:1.42;color:var(--ink);}
+  .bubble:after{content:'';position:absolute;left:-4.5mm;top:20mm;
+    width:0;height:0;border-top:3.5mm solid transparent;border-bottom:3.5mm solid transparent;
+    border-right:4.5mm solid var(--ink);}
+  .avatar{width:24mm;height:24mm;border-radius:14px;border:2.5px solid var(--ink);
+    object-fit:cover;box-shadow:0 4px 0 var(--ink);background:var(--white);}
+  .chip{display:inline-flex;align-items:center;gap:2mm;background:var(--tint-sage);
+    border:2px solid var(--green-dark);border-radius:999px;padding:1.5mm 4mm;
+    font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:7.5pt;
+    letter-spacing:1.5px;text-transform:uppercase;color:var(--green-dark);}
+  .art{display:block;}
+  /* number cards */
+  .cardgrid{display:grid;grid-template-columns:1fr 1fr;gap:5mm;margin-top:5mm;}
+  .numcard{display:flex;align-items:center;gap:4mm;background:var(--white);
+    border:2.5px solid var(--ink);border-radius:16px;box-shadow:0 5px 0 var(--ink);
+    padding:4mm 5mm;min-height:53mm;position:relative;}
+  .numeral{font-weight:900;font-size:46pt;line-height:1;color:var(--ink);flex:none;
+    width:25mm;text-align:center;}
+  .numside{flex:1;display:flex;flex-direction:column;gap:2.5mm;align-items:center;
+    justify-content:center;}
+  .numword{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:8pt;
+    letter-spacing:2px;text-transform:uppercase;color:var(--green-dark);}
+  .cutline{position:absolute;inset:-2.5px;border:2px dashed var(--ink-muted);
+    border-radius:18px;pointer-events:none;display:none;}
+  .writebox{min-width:14mm;height:13mm;border:2.5px dashed var(--ink);border-radius:8px;
+    background:var(--white);display:inline-flex;align-items:center;justify-content:center;
+    font-weight:900;font-size:16pt;padding:0 3mm;}
+  /* ten frame */
+  .frame{display:grid;grid-template-columns:repeat(5,1fr);
+    border:3px solid var(--ink);border-radius:14px;overflow:hidden;background:var(--white);
+    box-shadow:0 5px 0 var(--ink);}
+  .cell{aspect-ratio:1/1;border:1.5px solid var(--ink);display:flex;align-items:center;
+    justify-content:center;}
+  .cellnum{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:9pt;
+    color:var(--ink-muted);}
+  /* count and match */
+  .matchrow{display:flex;align-items:center;gap:4mm;background:var(--white);
+    border:2.5px solid var(--ink);border-radius:16px;box-shadow:0 5px 0 var(--ink);
+    padding:3.5mm 5mm;margin-bottom:4mm;}
+  .picwrap{flex:1;display:flex;flex-wrap:wrap;gap:2mm;align-items:center;}
+  .picwrap svg{width:11mm;height:11mm;}
+  .taglabel{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:9pt;
+    color:var(--green-dark);width:9mm;flex:none;}
+  .numstrip{display:flex;gap:3mm;justify-content:center;flex-wrap:wrap;}
+  .numtile{width:17mm;height:17mm;border:2.5px solid var(--ink);border-radius:12px;
+    background:var(--terracotta-lt);display:flex;align-items:center;justify-content:center;
+    font-weight:900;font-size:18pt;box-shadow:0 4px 0 var(--ink);}
+  /* colour by number key */
+  .keyrow{display:flex;gap:4mm;flex-wrap:wrap;margin-top:3mm;}
+  .keyitem{display:flex;align-items:center;gap:2mm;font-weight:800;font-size:10pt;}
+  .swatch{width:9mm;height:9mm;border:2.5px solid var(--ink);border-radius:7px;flex:none;}
+  .rlabel{font-weight:900;font-size:13pt;fill:var(--ink);}
+  /* COLOUR IN MODE */
+  body.colourin .sheet{background:var(--white);}
+  body.colourin .card,body.colourin .bubble,body.colourin .avatar,
+  body.colourin .numcard,body.colourin .frame,body.colourin .matchrow,
+  body.colourin .numtile{box-shadow:none;}
+  body.colourin .fillband{background:var(--white) !important;}
+  body.colourin .numtile{background:var(--white) !important;}
+  body.colourin .art *{fill:#FFFFFF !important;stroke:#1A1A2E !important;
+    stroke-width:2 !important;vector-effect:non-scaling-stroke !important;}
+  body.colourin .art .keep{fill:#1A1A2E !important;stroke:none !important;}
+  body.colourin .art .noline{stroke:none !important;}
+  body.colourin .cutline{display:block;}
+  body.colourin .photo-colour{display:none !important;}
+  .photo-colourin{display:none;}
+  body.colourin .photo-colourin{display:flex !important;}
+  /* TIPS PAGE only in colour in */
+  .tips-page{display:none !important;}
+  body.colourin .tips-page{display:flex !important;}
+  @page{size:A4;margin:0;}
+  @media print{body{background:none;}}
+</style>
+</head>
+<body>
+
+<!-- ============ PAGE 1 · COVER ============ -->
+<div class="sheet" style="align-items:center;text-align:center;justify-content:flex-start;">
+  <div style="margin-top:6mm;" class="eyebrow">Guided Childhood · Print and Play Numbers</div>
+  <h1 style="margin-top:5mm;font-size:42pt;">Count to 20<br>with me</h1>
+  <p style="margin-top:4mm;font-weight:800;color:var(--ink);font-size:13.5pt;">
+    Number cards 1 to 20 and a counting mat, made with Sofia.
+  </p>
+
+  <img class="photo-colour" src="images/Sofia.jpeg" alt="Sofia the Safety Guardian"
+       style="width:74mm;height:74mm;object-fit:cover;border-radius:24px;border:2.5px solid var(--ink);box-shadow:0 6px 0 var(--ink);margin-top:6mm;">
+  <div class="photo-colourin" style="width:74mm;height:74mm;margin-top:6mm;align-items:center;justify-content:center;">
+    <svg class="art sofia" viewBox="0 0 100 110" style="width:70mm;height:auto;"></svg>
+  </div>
+
+  <div style="display:flex;gap:3.5mm;margin-top:7mm;flex-wrap:wrap;justify-content:center;">
+    <div class="card" style="padding:3mm 6mm;font-weight:800;font-size:10.5pt;">Ages 4 to 7</div>
+    <div class="card" style="padding:3mm 6mm;font-weight:800;font-size:10.5pt;">Cut out and play</div>
+    <div class="card" style="padding:3mm 6mm;font-weight:800;font-size:10.5pt;">Numbers 1 to 20</div>
+  </div>
+  <div class="card fillband" style="margin-top:6mm;padding:4mm 8mm;background:var(--tint-sage);">
+    <p style="font-weight:800;color:var(--ink);font-size:11pt;">
+      Count the dots, find the number, and cheer out loud.<br>Every number has a friend to match it.
+    </p>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Sofia · Safety Guardian</span></div>
+</div>
+
+<!-- ============ PAGE 2 · HOW TO PLAY + GROWN UP GUIDE ============ -->
+<div class="sheet">
+  <div class="eyebrow">Two minutes before you print</div>
+  <h2 style="margin-top:3mm;">How to play, and the grown up guide</h2>
+
+  <div style="display:flex;gap:5mm;margin-top:5mm;align-items:flex-start;">
+    <img class="photo-colour avatar" src="images/Sofia.jpeg" alt="Sofia" style="width:26mm;height:26mm;">
+    <div class="photo-colourin avatar" style="width:26mm;height:26mm;align-items:center;justify-content:center;">
+      <svg class="art sofia" viewBox="0 0 100 110" style="width:22mm;height:auto;"></svg>
+    </div>
+    <div class="bubble" style="flex:1;">
+      Hello, little counter. I am Sofia and I love numbers. We are going to count all the way to twenty
+      together. Touch each dot as you say its number out loud, one touch for one dot. When you know how
+      many, find the number that matches. You have got this, and I am right here with you.
+    </div>
+  </div>
+
+  <div style="display:flex;gap:5mm;margin-top:6mm;">
+    <div class="card" style="flex:1;padding:5mm;">
+      <div class="eyebrow">Setting it up</div>
+      <p style="margin-top:2mm;">Print the pages and go. Cut out the twenty number cards along the lines.
+      Laminate them if you can, so they last and last. Buttons, pasta or coins make lovely counters for
+      the counting mat.</p>
+    </div>
+    <div class="card" style="flex:1;padding:5mm;">
+      <div class="eyebrow">How the counting works</div>
+      <p style="margin-top:2mm;">Each card shows a big number and the same amount of dots. Count the dots
+      to see what the number means. Twenty cards, twenty amounts, from one all the way up to twenty.</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:5mm;padding:5mm;">
+    <div class="eyebrow">Grown up guide · counting one to one</div>
+    <p style="margin-top:2mm;">
+      <strong>Point and say together.</strong> The big idea at this age is one to one counting, one number
+      word for one object, with no skipping and no doubling up. Move a finger onto each dot as your child
+      says the number. Then ask the magic question, <strong>how many altogether?</strong> The last number
+      they say is the total. That is the link between a number and an amount, and it is the whole game.
+    </p>
+  </div>
+
+  <div class="card fillband" style="margin-top:5mm;padding:4mm 5mm;background:var(--tint-sage);">
+    <div class="eyebrow">Three gentle steps</div>
+    <p style="margin-top:2mm;font-weight:800;color:var(--ink);font-size:10.5pt;line-height:1.7;">
+      One · Count the dots on a card, touching each one.<br>
+      Two · Look at the big number. That is how many there were.<br>
+      Three · Say it proudly, then find something at home to count the same way.
+    </p>
+  </div>
+
+  <div class="card" style="margin-top:5mm;padding:4mm 5mm;background:var(--terracotta-lt);" >
+    <p style="font-weight:800;color:var(--ink);font-size:11pt;">Praise the trying, not just the right
+    answer. If a count goes wrong, smile and say let us count again together. Slow and happy beats fast
+    and worried every time.</p>
+  </div>
+
+  <div class="footer"><span>guidedchildhood.com</span><span>Count to 20 with Sofia · Guide</span></div>
+</div>
+
+<!-- ============ PAGE 3 · NUMBER CARDS 1 TO 8 ============ -->
+<div class="sheet">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <div>
+      <div class="chip">Cut out cards · 1 of 3</div>
+      <h2 style="margin-top:3mm;">Number cards, one to eight</h2>
+    </div>
+  </div>
+  <p style="margin-top:2mm;font-weight:700;color:var(--ink);font-size:10.5pt;">Cut along the dashed lines.
+  Count the dots on each card and say the number out loud.</p>
+  <div class="cardgrid" id="cards1"></div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Number cards · 1 to 8</span></div>
+</div>
+
+<!-- ============ PAGE 4 · NUMBER CARDS 9 TO 16 ============ -->
+<div class="sheet">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <div>
+      <div class="chip">Cut out cards · 2 of 3</div>
+      <h2 style="margin-top:3mm;">Number cards, nine to sixteen</h2>
+    </div>
+  </div>
+  <p style="margin-top:2mm;font-weight:700;color:var(--ink);font-size:10.5pt;">The dots line up in rows of
+  five, so bigger numbers are easy to count. Five, then some more.</p>
+  <div class="cardgrid" id="cards2"></div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Number cards · 9 to 16</span></div>
+</div>
+
+<!-- ============ PAGE 5 · NUMBER CARDS 17 TO 20 ============ -->
+<div class="sheet">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <div>
+      <div class="chip">Cut out cards · 3 of 3</div>
+      <h2 style="margin-top:3mm;">Number cards, seventeen to twenty</h2>
+    </div>
+  </div>
+  <p style="margin-top:2mm;font-weight:700;color:var(--ink);font-size:10.5pt;">The last four cards. You are
+  nearly at twenty now, brilliant counting.</p>
+  <div class="cardgrid" id="cards3"></div>
+
+  <div style="display:flex;gap:5mm;margin-top:7mm;align-items:flex-start;">
+    <div class="photo-colourin avatar" style="width:24mm;height:24mm;align-items:center;justify-content:center;">
+      <svg class="art sofia" viewBox="0 0 100 110" style="width:20mm;height:auto;"></svg>
+    </div>
+    <img class="photo-colour avatar" src="images/Sofia.jpeg" alt="Sofia" style="width:24mm;height:24mm;">
+    <div class="bubble" style="flex:1;">
+      Twenty cards, all counted. Now shuffle them and lay them in order from one to twenty. Can you build
+      the whole line? I know you can, guardian.
+    </div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Number cards · 17 to 20</span></div>
+</div>
+
+<!-- ============ PAGE 6 · TEN FRAME COUNTING MAT ============ -->
+<div class="sheet">
+  <div class="chip">Counting mat</div>
+  <h2 style="margin-top:3mm;">The ten frame counting mat</h2>
+  <p style="margin-top:2mm;font-weight:700;color:var(--ink);font-size:10.5pt;">Place one counter in each
+  box as you count. A full frame is ten. Two full frames make twenty.</p>
+
+  <div class="card" style="margin-top:5mm;padding:5mm;">
+    <div class="eyebrow">Ten frame one · one to ten</div>
+    <div class="frame" id="frame1" style="margin-top:3mm;"></div>
+  </div>
+
+  <div class="card" style="margin-top:5mm;padding:5mm;">
+    <div class="eyebrow">Ten frame two · eleven to twenty</div>
+    <div class="frame" id="frame2" style="margin-top:3mm;"></div>
+  </div>
+
+  <div class="card fillband" style="margin-top:5mm;padding:4mm 5mm;background:var(--tint-sage);">
+    <p style="font-weight:800;color:var(--ink);font-size:11pt;">Fill the top frame first, box by box. When
+    it is full you have ten. Carry on into the second frame to count all the way to twenty.</p>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Ten frame counting mat</span></div>
+</div>
+
+<!-- ============ PAGE 7 · COUNT AND MATCH ============ -->
+<div class="sheet">
+  <div class="chip">Count and match</div>
+  <h2 style="margin-top:3mm;">Count the group, find the number</h2>
+  <p style="margin-top:2mm;font-weight:700;color:var(--ink);font-size:10.5pt;">Count each group of
+  pictures. Then draw a line to the number that matches, or write the number in the box.</p>
+
+  <div id="matchpics" style="margin-top:5mm;"></div>
+
+  <div class="card fillband" style="margin-top:2mm;padding:4mm 5mm;background:var(--terracotta-lt);">
+    <div class="eyebrow" style="text-align:center;">The numbers to match</div>
+    <div class="numstrip" id="matchnums" style="margin-top:3mm;"></div>
+  </div>
+
+  <div class="card" style="margin-top:5mm;padding:3.5mm 5mm;background:var(--tint-sage);">
+    <div class="eyebrow">Answer key · grown ups only</div>
+    <p style="margin-top:1.5mm;font-weight:800;color:var(--ink);font-size:10pt;line-height:1.6;">
+      A apples = <strong>3</strong> &nbsp;·&nbsp; B stars = <strong>6</strong> &nbsp;·&nbsp;
+      C fish = <strong>4</strong> &nbsp;·&nbsp; D hearts = <strong>8</strong> &nbsp;·&nbsp;
+      E flowers = <strong>5</strong>
+    </p>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Count and match</span></div>
+</div>
+
+<!-- ============ PAGE 8 · COLOUR BY NUMBER ============ -->
+<div class="sheet">
+  <div class="chip">Colour by number</div>
+  <h2 style="margin-top:3mm;">Sofia in her garden</h2>
+  <p style="margin-top:2mm;font-weight:700;color:var(--ink);font-size:10.5pt;">Look at the number in each
+  shape. Find that number in the key, then colour the shape that colour.</p>
+
+  <div class="card" style="margin-top:5mm;padding:5mm;flex:1;display:flex;align-items:center;justify-content:center;">
+    <svg class="art" viewBox="0 0 300 230" style="width:100%;max-height:150mm;height:auto;">
+      <!-- sky/backdrop kept plain -->
+      <!-- sun region 4 -->
+      <circle cx="255" cy="42" r="26" fill="var(--white)" stroke="var(--ink)" stroke-width="2.5"/>
+      <g stroke="var(--ink)" stroke-width="2.5" stroke-linecap="round">
+        <path d="M255 6 v-0.5 M255 78 v0.5 M219 42 h-0.5 M291 42 h0.5 M230 17 l-0.4 -0.4 M280 67 l0.4 0.4 M280 17 l0.4 -0.4 M230 67 l-0.4 0.4"/>
+      </g>
+      <text class="rlabel" x="255" y="48" text-anchor="middle">4</text>
+      <!-- grass region 1 -->
+      <path d="M0 200 h300 v30 h-300z" fill="var(--white)" stroke="var(--ink)" stroke-width="2.5"/>
+      <text class="rlabel" x="30" y="221" text-anchor="middle">1</text>
+      <text class="rlabel" x="270" y="221" text-anchor="middle">1</text>
+      <!-- flower stem region 1 -->
+      <path d="M96 200 q4 -40 0 -78" fill="none" stroke="var(--ink)" stroke-width="4"/>
+      <!-- leaf region 1 -->
+      <path d="M96 150 q26 -6 30 12 q-24 6 -30 -12z" fill="var(--white)" stroke="var(--ink)" stroke-width="2.5"/>
+      <text class="rlabel" x="116" y="160" text-anchor="middle">1</text>
+      <!-- flower petals region 2 -->
+      <g fill="var(--white)" stroke="var(--ink)" stroke-width="2.5">
+        <circle cx="96" cy="86" r="20"/>
+        <circle cx="66" cy="106" r="20"/>
+        <circle cx="126" cy="106" r="20"/>
+        <circle cx="78" cy="140" r="20"/>
+        <circle cx="114" cy="140" r="20"/>
+      </g>
+      <text class="rlabel" x="96" y="92" text-anchor="middle">2</text>
+      <text class="rlabel" x="66" y="112" text-anchor="middle">2</text>
+      <text class="rlabel" x="126" y="112" text-anchor="middle">2</text>
+      <text class="rlabel" x="78" y="146" text-anchor="middle">2</text>
+      <text class="rlabel" x="114" y="146" text-anchor="middle">2</text>
+      <!-- flower centre region 3 -->
+      <circle cx="96" cy="114" r="17" fill="var(--white)" stroke="var(--ink)" stroke-width="2.5"/>
+      <text class="rlabel" x="96" y="120" text-anchor="middle">3</text>
+      <!-- pot region 5 -->
+      <path d="M170 150 h84 l-12 50 h-60z" fill="var(--white)" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/>
+      <text class="rlabel" x="212" y="182" text-anchor="middle">5</text>
+      <!-- little bush region 3 -->
+      <circle cx="212" cy="140" r="24" fill="var(--white)" stroke="var(--ink)" stroke-width="2.5"/>
+      <text class="rlabel" x="212" y="146" text-anchor="middle">3</text>
+    </svg>
+  </div>
+
+  <div class="card" style="margin-top:5mm;padding:4mm 5mm;">
+    <div class="eyebrow">Colour key</div>
+    <div class="keyrow">
+      <div class="keyitem"><span class="swatch" style="background:var(--green);"></span>1 is green</div>
+      <div class="keyitem"><span class="swatch" style="background:var(--pastel-pink);"></span>2 is pink</div>
+      <div class="keyitem"><span class="swatch" style="background:var(--terracotta);"></span>3 is yellow</div>
+      <div class="keyitem"><span class="swatch" style="background:var(--coral);"></span>4 is orange</div>
+      <div class="keyitem"><span class="swatch" style="background:var(--tint-blue);"></span>5 is blue</div>
+    </div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Colour by number</span></div>
+</div>
+
+<!-- ============ PAGE 9 · BONUS / FUNNEL ============ -->
+<div class="sheet" style="align-items:center;text-align:center;">
+  <div style="margin-top:12mm;" class="eyebrow">A free bonus for your little counter</div>
+  <h1 style="margin-top:5mm;font-size:29pt;">You counted to twenty.<br>Here is a free next step.</h1>
+
+  <img class="photo-colour" src="images/Sofia.jpeg" alt="Sofia"
+       style="width:50mm;height:50mm;object-fit:cover;border-radius:22px;border:2.5px solid var(--ink);box-shadow:0 6px 0 var(--ink);margin-top:7mm;">
+  <div class="photo-colourin" style="width:50mm;height:50mm;margin-top:7mm;align-items:center;justify-content:center;">
+    <svg class="art sofia" viewBox="0 0 100 110" style="width:46mm;height:auto;"></svg>
+  </div>
+
+  <p style="margin-top:7mm;max-width:145mm;font-size:11.5pt;">
+    Loved counting with Sofia? She has a free <strong>Count to 20 tracing pack</strong> waiting, with big
+    friendly numbers to trace and colour so your child learns to write every number too. It is our thank
+    you for printing this one.
+  </p>
+
+  <div class="card fillband" style="margin-top:8mm;padding:5mm 10mm;background:var(--tint-sage);">
+    <div style="font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:13pt;letter-spacing:1px;">guidedchildhood.com/etsy-bonus</div>
+  </div>
+
+  <p style="margin-top:10mm;font-size:9.5pt;max-width:135mm;">
+    Made by Guided Childhood, the UK platform helping families raise confident kids in a digital world.
+    If your little one loved counting with Sofia, a kind review on Etsy helps another family find it.
+    Thank you.
+  </p>
+  <div class="footer"><span>guidedchildhood.com</span><span>Thank you · Justin and the squad</span></div>
+</div>
+
+<!-- ============ PAGE 10 · COLOURING TIPS (colour in PDF only) ============ -->
+<div class="sheet tips-page">
+  <div class="eyebrow">For the colour in edition</div>
+  <h2 style="margin-top:3mm;">Sofia's colouring tips</h2>
+
+  <div style="display:flex;gap:5mm;margin-top:5mm;align-items:flex-start;">
+    <div class="avatar" style="width:26mm;height:26mm;align-items:center;justify-content:center;display:flex;">
+      <svg class="art sofia" viewBox="0 0 100 110" style="width:22mm;height:auto;"></svg>
+    </div>
+    <div class="bubble" style="flex:1;">
+      Colouring is quiet and calm, just how I like it. Take your time, breathe, and make each page yours.
+      Here is how I colour mine.
+    </div>
+  </div>
+
+  <div style="display:flex;gap:5mm;margin-top:6mm;">
+    <div class="card" style="flex:1;padding:5mm;">
+      <div class="eyebrow">Colours from my world</div>
+      <p style="margin-top:2mm;"><strong>My colour is green.</strong> Green is lovely for the leaves, the
+      grass and my shield. Try warm yellow and orange for the sun and the flower, and soft pink for the
+      petals. Blue is perfect for the little pot.</p>
+    </div>
+    <div class="card" style="flex:1;padding:5mm;">
+      <div class="eyebrow">Press lightly first</div>
+      <p style="margin-top:2mm;">Start soft. Lay down a gentle layer of colour, then go over it again to
+      make it richer. Light to strong always looks lovely, and it never tears the paper.</p>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:5mm;margin-top:5mm;">
+    <div class="card" style="flex:1;padding:5mm;">
+      <div class="eyebrow">Big shapes first</div>
+      <p style="margin-top:2mm;">Colour the big shapes first, like the flower and the pot. Then colour the
+      little dots and details. Big to small keeps your hand relaxed and your page tidy.</p>
+    </div>
+    <div class="card" style="flex:1;padding:5mm;">
+      <div class="eyebrow">Stay inside the lines, gently</div>
+      <p style="margin-top:2mm;">Follow the bold black lines and slow down at the edges. If you wander over
+      a line, no worry at all. We all do. Your page, your rules, guardian.</p>
+    </div>
+  </div>
+
+  <div class="card fillband" style="margin-top:5mm;padding:5mm;background:var(--tint-sage);">
+    <div class="eyebrow">One more thing</div>
+    <p style="margin-top:2mm;font-weight:700;color:var(--ink);">Colour the dots on the number cards too,
+    a different colour for each number if you like. When every page is bright, you have a counting set you
+    made all your own. Beautiful work.</p>
+  </div>
+
+  <div class="footer"><span>guidedchildhood.com</span><span>Colour in edition · Sofia's tips</span></div>
+</div>
+
+<script>
+  const WORDS=['zero','one','two','three','four','five','six','seven','eight','nine','ten',
+    'eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen','twenty'];
+  const DOTC=['var(--green)','var(--coral)','var(--terracotta)','var(--tint-blue)'];
+
+  function dots(n){
+    const per=5, rows=Math.ceil(n/per), cell=30, r=11;
+    const w=per*cell, h=rows*cell;
+    let s=`<svg class="art" viewBox="0 0 ${w} ${h}" style="width:100%;height:auto;max-height:${rows*7.5}mm;">`;
+    for(let row=0;row<rows;row++){
+      const inRow=Math.min(per,n-row*per);
+      const offset=(per-inRow)*cell/2; // centre a short row
+      for(let c=0;c<inRow;c++){
+        const cx=offset+c*cell+cell/2, cy=row*cell+cell/2;
+        s+=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="${DOTC[row%DOTC.length]}" stroke="var(--ink)" stroke-width="2.5"/>`;
+      }
+    }
+    return s+'</svg>';
+  }
+  function card(n){
+    return `<div class="numcard"><div class="cutline"></div>
+      <div class="numeral">${n}</div>
+      <div class="numside"><div class="numword">${WORDS[n]}</div>${dots(n)}</div>
+    </div>`;
+  }
+  function fill(id,a,b){let h='';for(let n=a;n<=b;n++)h+=card(n);document.getElementById(id).innerHTML=h;}
+  fill('cards1',1,8);
+  fill('cards2',9,16);
+  fill('cards3',17,20);
+
+  // ten frames
+  function frame(id,start){
+    let h='';
+    for(let i=0;i<10;i++){h+=`<div class="cell"><span class="cellnum">${start+i}</span></div>`;}
+    document.getElementById(id).innerHTML=h;
+  }
+  frame('frame1',1);
+  frame('frame2',11);
+
+  // count and match icons
+  function icon(shape){
+    switch(shape){
+      case 'apple': return `<circle cx="20" cy="24" r="13" fill="var(--coral)" stroke="var(--ink)" stroke-width="2.5"/><rect x="18.5" y="7" width="3" height="8" rx="1.5" fill="var(--gold-dark)" stroke="var(--ink)" stroke-width="1.5"/><path d="M21 11 q7 -5 10 1 q-7 4 -10 -1z" fill="var(--green)" stroke="var(--ink)" stroke-width="1.8" stroke-linejoin="round"/>`;
+      case 'star': return `<path d="M20 4 l4.6 9.3 10.3 1.5 -7.5 7.2 1.8 10.2 -9.2 -4.8 -9.2 4.8 1.8 -10.2 -7.5 -7.2 10.3 -1.5z" fill="var(--terracotta)" stroke="var(--ink)" stroke-width="2.2" stroke-linejoin="round"/>`;
+      case 'fish': return `<path d="M5 20 q9 -12 23 0 q-9 12 -23 0z" fill="var(--tint-blue)" stroke="var(--ink)" stroke-width="2.2" stroke-linejoin="round"/><path d="M28 20 l9 -7 v14z" fill="var(--tint-blue)" stroke="var(--ink)" stroke-width="2.2" stroke-linejoin="round"/><circle cx="13" cy="18" r="1.9" class="keep" fill="var(--ink)"/>`;
+      case 'heart': return `<path d="M20 35 C4 24 6 11 14 11 c4 0 6 3 6 3 s2 -3 6 -3 c8 0 10 13 -6 24z" fill="var(--pastel-pink)" stroke="var(--ink)" stroke-width="2.2" stroke-linejoin="round"/>`;
+      case 'flower': return `<g fill="var(--pastel-pink)" stroke="var(--ink)" stroke-width="2"><circle cx="20" cy="12" r="6"/><circle cx="11" cy="18" r="6"/><circle cx="29" cy="18" r="6"/><circle cx="14" cy="28" r="6"/><circle cx="26" cy="28" r="6"/></g><circle cx="20" cy="21" r="6" fill="var(--terracotta)" stroke="var(--ink)" stroke-width="2"/>`;
+    }
+  }
+  function group(n,shape){
+    let ic='';for(let i=0;i<n;i++)ic+=`<svg class="art" viewBox="0 0 40 40">${icon(shape)}</svg>`;
+    return ic;
+  }
+  const rows=[['A','apple',3],['B','star',6],['C','fish',4],['D','heart',8],['E','flower',5]];
+  let mh='';
+  for(const [tag,shape,n] of rows){
+    mh+=`<div class="matchrow"><span class="taglabel">${tag}</span><div class="picwrap">${group(n,shape)}</div><div class="writebox">&nbsp;</div></div>`;
+  }
+  document.getElementById('matchpics').innerHTML=mh;
+  const opts=[3,4,5,6,8];
+  document.getElementById('matchnums').innerHTML=opts.map(n=>`<div class="numtile">${n}</div>`).join('');
+
+  // Sofia line-art avatar (colour in fallback)
+  const SOFIA = `
+    <path d="M22 52 C16 24 84 24 78 52 C86 66 80 88 66 96 L34 96 C20 88 14 66 22 52z" fill="var(--terracotta)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <circle cx="50" cy="54" r="24" fill="var(--skin)" stroke="var(--ink)" stroke-width="3"/>
+    <path d="M26 48 C32 34 68 34 74 48 C66 44 60 50 50 48 C40 50 34 44 26 48z" fill="var(--terracotta)" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/>
+    <circle cx="42" cy="54" r="2.6" class="keep" fill="var(--ink)"/>
+    <circle cx="58" cy="54" r="2.6" class="keep" fill="var(--ink)"/>
+    <circle cx="37" cy="60" r="3.4" fill="var(--pastel-pink)" stroke="none"/>
+    <circle cx="63" cy="60" r="3.4" fill="var(--pastel-pink)" stroke="none"/>
+    <path d="M43 63 q7 6 14 0" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+    <path d="M50 80 l15 5 v8 c0 9 -9 13 -15 15 c-6 -2 -15 -6 -15 -15 v-8z" fill="var(--green)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M43 94 l5 5 9 -10" fill="none" stroke="var(--white)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" class="noline"/>
+  `;
+  document.querySelectorAll('svg.sofia').forEach(s=>s.innerHTML=SOFIA);
+</script>
+
+</body>
+</html>
