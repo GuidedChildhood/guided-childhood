@@ -62,6 +62,9 @@ export default function KidPath({
 }) {
   const [jobs, setJobs] = useState(jobsInitial)
   const [printables, setPrintables] = useState(printablesInitial)
+  // The bank total lives in state so a live printable confirm bumps the
+  // header pill, not just the node.
+  const [bankStars, setBankStars] = useState(balanceStars)
   const [chestClaimed, setChestClaimed] = useState(chestClaimedInitial)
   const [quizClaimed, setQuizClaimed] = useState(quizClaimedInitial)
   const [busy, setBusy] = useState(false)
@@ -200,7 +203,11 @@ export default function KidPath({
     return true
   }
   const currentIndex = stones.findIndex(s => s.type !== 'finish' && !stoneDone(s))
-  const allPathDone = currentIndex === -1 && stones.length > 1
+  // The glow advances past a pending printable (the child did their part), but
+  // the "path complete" celebration waits until nothing is still awaiting the
+  // grown up, so it never claims "every stone done" while a "?" is on screen.
+  const anyPrintablePending = printables.some(p => p.status === 'pending')
+  const allPathDone = currentIndex === -1 && stones.length > 1 && !anyPrintablePending
 
   // Open the trail on the glowing stone, the Duolingo way: the current one
   // scrolls into the middle of the screen on load so the child lands exactly
@@ -218,7 +225,11 @@ export default function KidPath({
 
   // Live flip: while the child is on the path, poll the printable statuses so
   // a "?" turns to done the moment the grown up confirms, no reload. Cheap,
-  // fails soft, and re-checks the instant they return to the tab.
+  // fails soft, and re-checks the instant they return to the tab. The ref
+  // holds the latest printables so the poll can compute the newly confirmed
+  // stars without going stale or re-subscribing.
+  const printablesRef = useRef(printables)
+  useEffect(() => { printablesRef.current = printables }, [printables])
   useEffect(() => {
     if (printablesInitial.length === 0) return
     const pull = async () => {
@@ -226,13 +237,20 @@ export default function KidPath({
         const r = await fetch(`/api/kid/printable-status?token=${token}`, { cache: 'no-store' })
         const d = await r.json()
         const statuses = (d?.statuses ?? {}) as Record<string, string>
+        // Side effects (the cheer and the bank bump) are computed against the
+        // ref and fired here, once, OUTSIDE the state updater, so a double
+        // rendered updater can never double count.
+        const cur = printablesRef.current
+        const gained = cur.reduce((sum, p) =>
+          (statuses[p.key] === 'confirmed' && p.status !== 'confirmed') ? sum + p.stars : sum, 0)
+        if (gained > 0) { playKidSound('done'); setBankStars(b => b + gained) }
         setPrintables(list => list.map(p => {
           const s = statuses[p.key]
-          if ((s === 'confirmed' || s === 'pending') && s !== p.status) {
-            if (s === 'confirmed') { playKidSound('done') }
-            return { ...p, status: s as PathPrintable['status'] }
-          }
-          return p
+          // Every transition reflects live: confirmed shows done, pending
+          // shows the "?", and a declined printable returns to tappable so the
+          // child can redo it, matching what a reload already does.
+          const next = s === 'confirmed' ? 'confirmed' : s === 'pending' ? 'pending' : s === 'declined' ? 'todo' : p.status
+          return next !== p.status ? { ...p, status: next as PathPrintable['status'] } : p
         }))
       } catch { /* next tick */ }
     }
@@ -433,7 +451,7 @@ export default function KidPath({
             ← My quests
           </Link>
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink)', background: 'var(--terracotta)', borderRadius: '100px', padding: '5px 12px', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
-            ⭐ {balanceStars} in the bank
+            ⭐ {bankStars} in the bank
           </span>
         </div>
 

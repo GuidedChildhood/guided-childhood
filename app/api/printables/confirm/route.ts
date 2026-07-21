@@ -52,25 +52,33 @@ export async function POST(req: NextRequest) {
   if (!row) return NextResponse.json({ error: 'not found' }, { status: 404 })
   if (row.status !== 'pending') return NextResponse.json({ ok: true, already: true })
 
+  // The flip IS the gate for the award: the database serialises the
+  // pending -> decided transition, so only the request that actually moved a
+  // row lands the stars. A concurrent double submit (two taps, a retry) finds
+  // zero rows on the loser and awards nothing, so a 5 star printable can never
+  // bank 10.
   const status = decision === 'confirm' ? 'confirmed' : 'declined'
-  const { error } = await supabase
+  const { data: flipped, error } = await supabase
     .from('printable_completions')
     .update({ status, decided_at: new Date().toISOString() })
     .eq('id', id).eq('user_id', user.id).eq('status', 'pending')
+    .select('id')
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+  if (!flipped || flipped.length === 0) return NextResponse.json({ ok: true, already: true })
 
+  const stars = Number(row.stars) || 5
   if (decision === 'confirm') {
     // The stars land through the ledger the bank already reads.
     try {
       await supabase.from('star_bonuses').insert({
-        user_id: user.id, child_id: row.child_id, stars: Number(row.stars) || 5,
+        user_id: user.id, child_id: row.child_id, stars,
         note: `Printable done: ${row.title} 🖍️`,
       })
     } catch { /* the confirm still stands */ }
 
     // The child hears it two ways. The nudge is the reliable one their poll
     // reads; the push is the best effort buzz.
-    const message = `Your ${row.emoji ?? '🖍️'} ${row.title} is confirmed! ${Number(row.stars) || 5} stars are in your bank.`
+    const message = `Your ${row.emoji ?? '🖍️'} ${row.title} is confirmed! ${stars} stars are in your bank.`
     try {
       await supabase.from('kid_nudges').insert({
         user_id: user.id, child_id: row.child_id, quest_id: null, message,
@@ -78,6 +86,18 @@ export async function POST(req: NextRequest) {
     } catch { /* pre migration 081, push only */ }
     try {
       await pushToChild(createAdminClient(), user.id, row.child_id as string, 'Printable confirmed! ⭐', message)
+    } catch { /* best effort */ }
+  } else {
+    // Declined warmly: tell the child so it never just silently resets. Their
+    // path node returns to tappable so they can have another go.
+    const message = `Have another go at your ${row.emoji ?? '🖍️'} ${row.title}, then show your grown up again.`
+    try {
+      await supabase.from('kid_nudges').insert({
+        user_id: user.id, child_id: row.child_id, quest_id: null, message,
+      })
+    } catch { /* pre migration 081 */ }
+    try {
+      await pushToChild(createAdminClient(), user.id, row.child_id as string, 'One more go 🖍️', message)
     } catch { /* best effort */ }
   }
 
