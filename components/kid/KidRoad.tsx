@@ -88,7 +88,7 @@ export default function KidRoad({
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0, position: 'relative' }}>
                   {here && (
                     <div style={{ position: 'absolute', top: -38, left: '50%', transform: 'translateX(-50%)', zIndex: 2 }}>
-                      {buddyFace(34)}
+                      {buddyFace(48)}
                     </div>
                   )}
                   <StageDot n={stage.id} state={state} size={52} />

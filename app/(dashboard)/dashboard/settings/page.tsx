@@ -20,6 +20,7 @@ interface Child {
   name: string
   age_band: string
   date_of_birth: string | null
+  interests: string | null
   is_primary: boolean
 }
 
@@ -27,6 +28,10 @@ interface ChildForm {
   name: string
   ageBand: AgeBand
   dob: string
+  // What this child loves, so DiGi can point screens back at the real world:
+  // a short free text (football, singing, crafts) that becomes a "for you"
+  // tip on their pathway.
+  interests: string
   // Month and year is plenty to work from: the toggle swaps the input to a
   // month picker and the save lands on the first of that month.
   monthOnly: boolean
@@ -44,6 +49,8 @@ export default function SettingsPage() {
   // False when migration 083 has not run yet: the birthday field hides and
   // saves write the same columns they always did.
   const [dobSupported, setDobSupported] = useState(true)
+  // False before migration 088: the interests field hides and saves skip it.
+  const [interestsSupported, setInterestsSupported] = useState(true)
   const [loading, setLoading] = useState(true)
 
   // Profile form
@@ -62,13 +69,23 @@ export default function SettingsPage() {
       // column select fails, so we fail soft: load without it and the
       // birthday field simply waits. Nothing breaks either side of the
       // migration landing.
+      // Cascade the child read so each new column fails soft on its own:
+      // first the full set (with birthday and interests), then drop interests
+      // if 088 has not run, then drop the birthday too if 083 has not run.
       let [profileResult, childrenResult] = await Promise.all([
         supabase.from('profiles').select('full_name, email, subscription_status, subscription_tier, is_founder').eq('id', user.id).single(),
-        supabase.from('children').select('id, name, age_band, date_of_birth, is_primary').eq('parent_id', user.id).order('is_primary', { ascending: false }),
+        supabase.from('children').select('id, name, age_band, date_of_birth, interests, is_primary').eq('parent_id', user.id).order('is_primary', { ascending: false }),
       ])
       if (childrenResult.error) {
-        childrenResult = await supabase.from('children').select('id, name, age_band, is_primary').eq('parent_id', user.id).order('is_primary', { ascending: false }) as typeof childrenResult
-        setDobSupported(false)
+        const withDob = await supabase.from('children').select('id, name, age_band, date_of_birth, is_primary').eq('parent_id', user.id).order('is_primary', { ascending: false }) as typeof childrenResult
+        if (!withDob.error) {
+          childrenResult = withDob
+          setInterestsSupported(false)
+        } else {
+          childrenResult = await supabase.from('children').select('id, name, age_band, is_primary').eq('parent_id', user.id).order('is_primary', { ascending: false }) as typeof childrenResult
+          setDobSupported(false)
+          setInterestsSupported(false)
+        }
       }
 
       if (profileResult.data) {
@@ -80,6 +97,7 @@ export default function SettingsPage() {
         name: k.name ?? 'Your child',
         age_band: k.age_band ?? '8-10',
         date_of_birth: k.date_of_birth ?? null,
+        interests: k.interests ?? null,
         is_primary: k.is_primary ?? false,
       })) as Child[]
       setKids(loadedKids)
@@ -87,6 +105,7 @@ export default function SettingsPage() {
         name: k.name === 'Your child' ? '' : k.name,
         ageBand: (k.age_band as AgeBand) || '8-10',
         dob: k.date_of_birth ?? '',
+        interests: k.interests ?? '',
         monthOnly: false,
         saving: false,
         saved: false,
@@ -136,12 +155,13 @@ export default function SettingsPage() {
       stage_id: stage.name.toLowerCase(),
     }
     if (dobSupported) update.date_of_birth = dobFull || null
+    if (interestsSupported) update.interests = form.interests.trim() || null
     const { error: err } = await supabase
       .from('children')
       .update(update)
       .eq('id', id)
     if (err) { setError(err.message); patchForm(id, { saving: false }); return }
-    setKids(ks => ks.map(k => k.id === id ? { ...k, name: form.name.trim() || 'Your child', age_band: band, date_of_birth: dobFull || null } : k))
+    setKids(ks => ks.map(k => k.id === id ? { ...k, name: form.name.trim() || 'Your child', age_band: band, date_of_birth: dobFull || null, interests: form.interests.trim() || null } : k))
     patchForm(id, { saving: false, saved: true, ageBand: band })
     setTimeout(() => patchForm(id, { saved: false }), 2500)
   }
@@ -243,6 +263,22 @@ export default function SettingsPage() {
                 placeholder="Your child"
               />
             </div>
+            {interestsSupported && (
+            <div>
+              <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '6px' }}>
+                What they love (optional)
+              </label>
+              <input
+                className="input"
+                value={form.interests}
+                onChange={e => patchForm(kid.id, { interests: e.target.value })}
+                placeholder="Football, singing, crafts..."
+              />
+              <p style={{ fontSize: '12px', color: 'var(--ink-muted)', marginTop: '4px' }}>
+                DiGi turns this into a for you tip on their pathway: enjoy a little on the screen, then go and do the real thing.
+              </p>
+            </div>
+            )}
             {dobSupported && (
             <div>
               <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '6px' }}>

@@ -128,16 +128,46 @@ export async function POST(req: NextRequest) {
   const perfect = correct === lesson.questions.length
   const stars = Math.min(10, lesson.stars + (perfect ? lesson.bonusStars : 0))
 
-  // Each lesson lands its stars once per child, perfect or not.
+  // Each lesson lands its base stars once per child, perfect or not.
   const { data: existing } = await supabase
     .from('family_quests')
-    .select('id')
+    .select('id, title')
     .eq('user_id', link.user_id)
     .eq('child_id', link.child_id)
     .like('title', `${kidLessonBaseTitle(lesson)}%`)
     .limit(1)
     .maybeSingle()
-  if (existing) return NextResponse.json({ ok: true, already: true, correct, perfect })
+  if (existing) {
+    // The improve to 100% path: a child who came back and aced a lesson they
+    // did not ace before claims the bonus star, once, as its own tiny one off
+    // so the base stars are never re-minted and it can never be farmed. The
+    // first pass already carried the 💯 in its title if it was perfect, so a
+    // title without it means there is genuine room to improve.
+    const wasPerfect = String(existing.title).includes('💯')
+    if (perfect && !wasPerfect && lesson.bonusStars > 0) {
+      const bonusTitle = `100% bonus: ${lesson.title}`
+      const { data: bonusExists } = await supabase
+        .from('family_quests')
+        .select('id')
+        .eq('user_id', link.user_id).eq('child_id', link.child_id)
+        .eq('title', bonusTitle).limit(1).maybeSingle()
+      if (!bonusExists) {
+        const { data: bonusQuest } = await supabase
+          .from('family_quests')
+          .insert({ user_id: link.user_id, child_id: link.child_id, title: bonusTitle, emoji: '💯', stars: lesson.bonusStars, schedule: 'once' })
+          .select('id').single()
+        if (bonusQuest) {
+          await supabase.from('quest_ticks').insert({
+            quest_id: bonusQuest.id, user_id: link.user_id, child_id: link.child_id,
+            tick_date: new Date().toISOString().slice(0, 10), status: 'pending', ticked_by: 'child',
+          })
+          await notifyParent(req, supabase, link, `improved to 100% 💯`, `${lesson.title}, every question right this time. Approve and the ${lesson.bonusStars} bonus star lands.`)
+          return NextResponse.json({ ok: true, improved: true, correct, perfect, stars: lesson.bonusStars })
+        }
+      }
+    }
+    return NextResponse.json({ ok: true, already: true, correct, perfect })
+  }
 
   const { data: quest, error: questError } = await supabase
     .from('family_quests')

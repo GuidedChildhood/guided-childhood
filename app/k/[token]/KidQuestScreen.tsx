@@ -77,6 +77,12 @@ const ACCENT_MAP: Record<string, { name: string; hex: string; bg: string; ink: s
 const DEFAULT_BUDDY = 'digi'
 const DEFAULT_ACCENT = 'graphite'
 
+// The eight the picker offers: one clean choice from each part of the
+// spectrum plus a dark, so the row is a proper rainbow with no two the same
+// family. The other named colours stay in ACCENT_MAP so a child who already
+// picked one keeps it, they are just no longer offered as fresh duplicates.
+const PICKER_ACCENTS = ['coral', 'peach', 'sunshine', 'mint', 'sky', 'lavender', 'bubblegum', 'midnight']
+
 // A mixed colour: the child slides the hue wheel and gets their own soft pastel
 // wash, built the exact gentle way as the named ones (light background, dark
 // readable ink, a deeper accent for rings and edges), so any colour they land
@@ -181,6 +187,16 @@ export default function KidQuestScreen({
   const [askedMore, setAskedMore] = useState(false)
   const [tab, setTab] = useState<'quests' | 'lessons' | 'print'>('quests')
   const [doneLessons, setDoneLessons] = useState<Set<string>>(new Set(doneLessonKeys))
+  // How a done lesson went, remembered on this device so a less than perfect
+  // one can invite a retry for 100% and a perfect one can stop asking. Keys
+  // not in here are historical passes we simply leave be, never nagging.
+  const [lessonScore, setLessonScore] = useState<Record<string, 'perfect' | 'tryagain'>>({})
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem('gc_kid_lesson_score')
+      if (raw) setLessonScore(JSON.parse(raw))
+    } catch { /* fresh device */ }
+  }, [])
   const [activeLesson, setActiveLesson] = useState<KidLesson | null>(null)
   const [activeGame, setActiveGame] = useState<QuestGame | null>(null)
   const [doneGames, setDoneGames] = useState<Set<string>>(new Set())
@@ -462,19 +478,37 @@ export default function KidQuestScreen({
     const correct = lesson.questions.reduce((sum, q, i) => sum + (answers[i] === q.answer ? 1 : 0), 0)
     const perfect = correct === lesson.questions.length
     const stars = lesson.stars + (perfect ? lesson.bonusStars : 0)
+    const wasReplay = doneLessons.has(lesson.key)
+    const wasPerfect = lessonScore[lesson.key] === 'perfect'
     setDoneLessons(prev => new Set(prev).add(lesson.key))
+    // Remember how it went so the tab can invite a retry, or stop once aced.
+    setLessonScore(prev => {
+      const next = { ...prev, [lesson.key]: (perfect ? 'perfect' : 'tryagain') as 'perfect' | 'tryagain' }
+      try { localStorage.setItem('gc_kid_lesson_score', JSON.stringify(next)) } catch { /* still holds this session */ }
+      return next
+    })
     setActiveLesson(null)
-    setToast(perfect
+    const improved = perfect && wasReplay && !wasPerfect
+    setToast(improved
+      ? `💯 You did it! 100% this time. The bonus star is on its way ⭐`
+      : perfect
       ? `💯 Perfect! ${stars} stars sent, bonus TV time included ⭐`
+      : wasReplay
+      ? `Good try! ${correct} of ${lesson.questions.length}. I reckon you can get them all, have another go any time ⭐`
       : `Lesson done! ⭐ ${stars} stars sent to your grown up.`)
     setTimeout(() => setToast(null), 3500)
-    try {
-      await fetch('/api/quests/lesson-complete', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token, lesson_key: lesson.key, answers }),
-      })
-    } catch { /* best effort, the next load reconciles */ }
+    // A first pass always sends. A replay only needs the server when it newly
+    // reaches 100% (to claim the one time bonus); a non improving replay is
+    // just practice and sends nothing, so nothing can be farmed.
+    if (!wasReplay || (perfect && !wasPerfect)) {
+      try {
+        await fetch('/api/quests/lesson-complete', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token, lesson_key: lesson.key, answers }),
+        })
+      } catch { /* best effort, the next load reconciles */ }
+    }
   }
 
   // A quest game finished. Record the stars server side (fixed, from the
@@ -1679,15 +1713,27 @@ export default function KidQuestScreen({
               {activeLessonTab === 'learn' && stageLessons.length > 0 && <SectionHead kidIcon="lessons">Lessons for me</SectionHead>}
               {activeLessonTab === 'learn' && stageLessons.map(lesson => {
                 const done = doneLessons.has(lesson.key)
+                // A done lesson that was not aced invites a retry for 100%, so
+                // it stays tappable and wears an encouraging line instead of a
+                // flat "done". A perfect one, or a historical pass we have no
+                // record of, simply reads as done.
+                const tryAgain = done && lessonScore[lesson.key] === 'tryagain'
+                const aced = done && lessonScore[lesson.key] === 'perfect'
                 return (
-                  <button key={lesson.key} onClick={() => !done && openLesson(lesson)} disabled={done} style={bigCardShell(done)}>
+                  <button key={lesson.key} onClick={() => (!done || tryAgain) && openLesson(lesson)} disabled={done && !tryAgain} style={bigCardShell(done && !tryAgain)}>
                     <CardFace
-                      seed={lesson.key} done={done}
+                      seed={lesson.key} done={done && !tryAgain}
                       emoji={lesson.emoji}
                       title={lesson.title}
-                      subtitle={done ? 'Done! Stars with your grown up ⭐' : `Worth ${lesson.stars} stars, +${lesson.bonusStars} bonus at 100% · 2 minutes`}
-                      pill={`⭐ ${lesson.stars}`}
-                      actionIcon="▶"
+                      subtitle={tryAgain
+                        ? 'You did well! I reckon you can get 100%. Tap to try again 💯'
+                        : aced
+                        ? 'Nailed it! 100% ⭐'
+                        : done
+                        ? 'Done! Stars with your grown up ⭐'
+                        : `Worth ${lesson.stars} stars, +${lesson.bonusStars} bonus at 100% · 2 minutes`}
+                      pill={tryAgain ? 'Try for 💯' : `⭐ ${lesson.stars}`}
+                      actionIcon={tryAgain ? '↻' : '▶'}
                     />
                   </button>
                 )
@@ -2108,10 +2154,10 @@ function MakeItMine({ onClose, chosenBuddy, chosenAccent, onPick }: {
             const on = chosenBuddy === id
             return (
               <button key={id} onClick={() => onPick({ buddy: id })} aria-pressed={on} style={{ flex: 1, cursor: 'pointer', background: '#fff', border: on ? '3px solid var(--ink)' : '2px solid transparent', borderRadius: '16px', padding: '8px 4px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px' }}>
-                <span style={{ width: 46, height: 46, borderRadius: '50%', overflow: 'hidden', background: '#FFF7E8', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <span style={{ width: 60, height: 60, borderRadius: '50%', overflow: 'hidden', background: '#FFF7E8', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   {id === 'digi'
-                    ? <img src={b.img} alt="" style={{ width: 32, height: 32 }} />
+                    ? <img src={b.img} alt="" style={{ width: 42, height: 42 }} />
                     : <img src={b.img} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }} />}
                 </span>
                 <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: 'var(--ink)' }}>{b.name}</span>
@@ -2128,11 +2174,12 @@ function MakeItMine({ onClose, chosenBuddy, chosenAccent, onPick }: {
           <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '16px', color: preview.ink }}>My app</span>
         </div>
         <div style={{ display: 'flex', gap: '9px', marginBottom: '16px', overflowX: 'auto', paddingBottom: '4px' }}>
-          {Object.entries(ACCENT_MAP).map(([id, a]) => {
+          {PICKER_ACCENTS.map(id => {
+            const a = ACCENT_MAP[id]
             const on = chosenAccent === id
             return (
               <button key={id} onClick={() => onPick({ accent: id })} aria-label={a.name} aria-pressed={on} style={{ flexShrink: 0, cursor: 'pointer', background: 'none', border: 'none', padding: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px' }}>
-                <span style={{ width: 46, height: 46, borderRadius: '14px', background: a.bg, boxShadow: on ? '0 0 0 3px #fff, 0 0 0 6px var(--ink)' : 'inset 0 0 0 1.5px rgba(26,26,46,0.12)' }} />
+                <span style={{ width: 50, height: 50, borderRadius: '14px', background: a.bg, boxShadow: on ? '0 0 0 3px #fff, 0 0 0 6px var(--ink)' : 'inset 0 0 0 1.5px rgba(26,26,46,0.12)' }} />
                 <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: on ? 'var(--ink)' : 'var(--ink-soft)' }}>{a.name}</span>
               </button>
             )
