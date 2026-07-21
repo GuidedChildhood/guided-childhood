@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>The Calm Down Corner Kit</title>
+<link href="fonts/local-fonts.css" rel="stylesheet">
+<style>
+  :root{
+    --white:#FFFFFF; --cream:#F9F8F6; --ink:#1A1A2E; --ink-soft:#52526A;
+    --ink-muted:#8888A0; --border:#EAEAF0; --terracotta:#EDC35F;
+    --terracotta-dark:#C99A28; --terracotta-lt:#FEF7E0; --coral:#D4600A;
+    --green:#2F8F6B; --tint-blue:#D8E8F8; --tint-sage:#E8F0EE; --pink:#FBCFE8;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:'Nunito',sans-serif;color:var(--ink);background:#ddd;}
+  .sheet{width:210mm;height:296mm;background:var(--cream);position:relative;overflow:hidden;
+    page-break-after:always;padding:14mm 14mm 12mm;display:flex;flex-direction:column;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:8.5pt;
+    letter-spacing:2.5px;text-transform:uppercase;color:var(--coral);}
+  h1{font-weight:900;font-size:34pt;line-height:1.04;}
+  h2{font-weight:900;font-size:20pt;line-height:1.1;}
+  p{font-size:10.5pt;line-height:1.55;color:var(--ink-soft);}
+  .footer{position:absolute;bottom:7mm;left:14mm;right:14mm;display:flex;
+    justify-content:space-between;align-items:center;
+    font-family:'IBM Plex Mono',monospace;font-size:7pt;letter-spacing:1.5px;
+    color:var(--ink-muted);text-transform:uppercase;}
+  .card{background:var(--white);border:2.5px solid var(--ink);border-radius:16px;
+    box-shadow:0 5px 0 var(--ink);}
+  .bubble{background:var(--white);border:2.5px solid var(--ink);border-radius:16px;
+    box-shadow:0 4px 0 var(--ink);padding:5mm 6mm;position:relative;
+    font-weight:700;font-size:11pt;line-height:1.4;color:var(--ink);}
+  .bubble:after{content:'';position:absolute;left:-4.5mm;top:50%;transform:translateY(-50%);
+    width:0;height:0;border-top:3.5mm solid transparent;border-bottom:3.5mm solid transparent;
+    border-right:4.5mm solid var(--ink);}
+  .cutcard{background:var(--white);border:2.5px dashed var(--ink);border-radius:16px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;}
+  .facegrid{display:grid;grid-template-columns:repeat(4,1fr);gap:5mm;margin-top:6mm;}
+  .facecard{height:74mm;padding:4mm 2mm;}
+  .facecard svg{width:38mm;height:38mm;}
+  .facecard .name{font-weight:900;font-size:14pt;margin-top:3mm;}
+  .copegrid{display:grid;grid-template-columns:repeat(3,1fr);gap:5mm;margin-top:6mm;}
+  .copecard{height:50mm;padding:3mm;}
+  .copecard svg{width:19mm;height:19mm;}
+  .copecard .name{font-weight:800;font-size:11pt;line-height:1.25;margin-top:2.5mm;}
+  .ink-only{display:none !important;}
+  body.ink .sheet{background:var(--white);}
+  body.ink .colour-only{display:none !important;}
+  body.ink .ink-only{display:flex !important;}
+  body.ink .card,body.ink .bubble{box-shadow:none;}
+  body.ink .card,body.ink .cutcard{background:var(--white) !important;}
+  body.ink .face-fill{fill:var(--white) !important;}
+  body.ink .tint-fill{fill:var(--white) !important;}
+  body.ink .sign-wrap{background:var(--white) !important;}
+  @page{size:A4;margin:0;}
+  @media print{body{background:none;}}
+</style>
+</head>
+<body>
+
+<!-- PAGE 1 · COVER -->
+<div class="sheet" style="align-items:center;text-align:center;justify-content:flex-start;">
+  <div style="margin-top:14mm;" class="eyebrow">Guided Childhood · Print at Home</div>
+  <h1 style="margin-top:8mm;font-size:44pt;">The Calm Down<br>Corner Kit</h1>
+  <p style="margin-top:6mm;font-weight:700;color:var(--ink);font-size:14pt;">
+    A cosy corner and a plan,<br>for the big feeling moments.
+  </p>
+  <img class="colour-only" src="images/sofia.jpeg" alt="Sofia, the Safety Guardian"
+       style="width:96mm;height:96mm;object-fit:cover;margin-top:10mm;border:2.5px solid var(--ink);
+       border-radius:16px;box-shadow:0 5px 0 var(--ink);">
+  <div class="ink-only" style="width:96mm;height:96mm;margin-top:10mm;border:2.5px solid var(--ink);border-radius:16px;align-items:center;justify-content:center;font-weight:900;font-size:16pt;">SOFIA</div>
+  <div style="display:flex;gap:4mm;margin-top:11mm;flex-wrap:wrap;justify-content:center;">
+    <div class="card" style="padding:3mm 5mm;font-weight:800;font-size:10.5pt;">8 feelings cards</div>
+    <div class="card" style="padding:3mm 5mm;font-weight:800;font-size:10.5pt;">Star breathing poster</div>
+    <div class="card" style="padding:3mm 5mm;font-weight:800;font-size:10.5pt;">12 calm choice cards</div>
+    <div class="card" style="padding:3mm 5mm;font-weight:800;font-size:10.5pt;background:var(--terracotta-lt);">Ages 4 to 9</div>
+  </div>
+  <p style="margin-top:9mm;font-size:10.5pt;max-width:135mm;">
+    Sofia the Safety Guardian and DiGi Junior help your child practise calming down,
+    one small pause at a time. For home and for classrooms.
+  </p>
+  <div class="footer"><span>guidedchildhood.com</span><span>Sofia · Safety Guardian</span></div>
+</div>
+
+<!-- PAGE 2 · PARENT AND TEACHER SETUP -->
+<div class="sheet">
+  <div class="eyebrow">Ten minutes before the first big feeling</div>
+  <h2 style="margin-top:3mm;">What a calm corner is, and what it is not</h2>
+  <p style="margin-top:4mm;">
+    A calm corner is a cosy spot you choose together, in a calm moment, before it is ever needed.
+    A beanbag by the bookshelf. A cushion under the stairs. The carpet corner of your classroom.
+    What makes it work is not the spot. It is the deal: this is where feelings come to get smaller,
+    and your child chooses to go there. It is never a punishment spot. The moment a child is sent
+    there in disgrace, it becomes the naughty step in a nicer jumper, and it stops working.
+  </p>
+  <div class="card" style="margin-top:5mm;padding:5mm;background:var(--terracotta-lt);">
+    <div class="eyebrow" style="color:var(--terracotta-dark);">The golden rule</div>
+    <p style="margin-top:2mm;font-weight:800;color:var(--ink);font-size:12pt;">
+      The corner is where feelings get smaller. It is not where children get sent.
+    </p>
+  </div>
+  <div style="display:flex;gap:5mm;margin-top:5mm;">
+    <div class="card" style="flex:1;padding:5mm;">
+      <div class="eyebrow" style="color:var(--green);">Introduce it in a calm moment</div>
+      <p style="margin-top:2mm;">
+        Set it up on an ordinary afternoon when everyone is fine. Let your child choose the cushion
+        and place the cards. Practise the star breathing together once, for fun, like a game.
+        Then, when a big feeling arrives, the corner is already a friend. You are not teaching
+        anything new in the storm. You are pointing at something familiar.
+      </p>
+    </div>
+    <div class="card" style="flex:1;padding:5mm;">
+      <div class="eyebrow" style="color:var(--green);">In the moment, keep it tiny</div>
+      <p style="margin-top:2mm;">
+        Get low, slow your voice, and offer, never order. Try "shall we visit your corner?"
+        If the answer is no, that is allowed. Sit nearby and breathe slowly yourself.
+        Children borrow calm from the adult in the room long before they can make their own.
+        The script card on page eight gives you the exact words.
+      </p>
+    </div>
+  </div>
+  <div class="card" style="margin-top:5mm;padding:5mm;">
+    <div class="eyebrow">The ten minute setup, with things you already own</div>
+    <p style="margin-top:2mm;">
+      <strong style="color:var(--ink);">1.</strong> Pick the spot together. Low traffic, a bit tucked away, never behind a closed door.<br>
+      <strong style="color:var(--ink);">2.</strong> Add one cushion, one soft toy, and a book or two your child already loves.<br>
+      <strong style="color:var(--ink);">3.</strong> Put the calm corner sign up at your child's eye height, not yours.<br>
+      <strong style="color:var(--ink);">4.</strong> Cut out the feelings cards and the calm choice cards, and keep this kit in a folder in the corner.<br>
+      <strong style="color:var(--ink);">5.</strong> Stick the star breathing poster where a small finger can reach the star.
+    </p>
+  </div>
+  <p style="margin-top:4mm;font-size:9.5pt;">
+    Teachers: this works as a whole class corner too. One corner, one chair, the same cards.
+    Laminate everything and it will survive the year. This kit helps children practise calming
+    down and builds a calm corner habit. It is a parenting and teaching tool, not a treatment
+    for anything.
+  </p>
+  <div class="footer"><span>guidedchildhood.com</span><span>Calm Down Corner Kit · Setup Guide</span></div>
+</div>
+
+<!-- PAGE 3 · CALM CORNER SIGN -->
+<div class="sheet" style="padding:12mm;">
+  <div class="sign-wrap" style="flex:1;background:var(--terracotta-lt);border:2.5px solid var(--ink);
+       border-radius:16px;box-shadow:0 5px 0 var(--ink);display:flex;flex-direction:column;
+       align-items:center;justify-content:center;text-align:center;padding:14mm 10mm;margin-bottom:6mm;">
+    <div class="eyebrow" style="font-size:10.5pt;">A cosy spot for big feelings</div>
+    <h1 style="margin-top:12mm;font-size:60pt;">My Calm<br>Corner</h1>
+    <p style="margin-top:11mm;font-weight:800;color:var(--ink);font-size:19pt;">All feelings welcome here.</p>
+    <div style="display:flex;gap:9mm;margin-top:13mm;align-items:center;">
+      <svg width="76" height="76" viewBox="0 0 120 120"><circle class="face-fill" cx="60" cy="60" r="48" fill="#EDC35F" stroke="#1A1A2E" stroke-width="5"/><circle cx="44" cy="52" r="4.5" fill="#1A1A2E"/><circle cx="76" cy="52" r="4.5" fill="#1A1A2E"/><path d="M40 70 Q60 88 80 70" fill="none" stroke="#1A1A2E" stroke-width="5" stroke-linecap="round"/></svg>
+      <svg width="76" height="76" viewBox="0 0 120 120"><circle class="face-fill" cx="60" cy="60" r="48" fill="#D8E8F8" stroke="#1A1A2E" stroke-width="5"/><circle cx="44" cy="52" r="4.5" fill="#1A1A2E"/><circle cx="76" cy="52" r="4.5" fill="#1A1A2E"/><path d="M42 82 Q60 68 78 82" fill="none" stroke="#1A1A2E" stroke-width="5" stroke-linecap="round"/><path class="tint-fill" d="M86 60 q7 11 0 15 q-7 -4 0 -15" fill="#D8E8F8" stroke="#1A1A2E" stroke-width="3"/></svg>
+      <svg width="76" height="76" viewBox="0 0 120 120"><circle class="face-fill" cx="60" cy="60" r="48" fill="#D4600A" stroke="#1A1A2E" stroke-width="5"/><path d="M34 40 L52 48 M86 40 L68 48" stroke="#1A1A2E" stroke-width="5" stroke-linecap="round"/><circle cx="46" cy="56" r="4.5" fill="#1A1A2E"/><circle cx="74" cy="56" r="4.5" fill="#1A1A2E"/><path d="M42 84 Q60 72 78 84" fill="none" stroke="#1A1A2E" stroke-width="5" stroke-linecap="round"/></svg>
+      <svg width="76" height="76" viewBox="0 0 120 120"><circle class="face-fill" cx="60" cy="60" r="48" fill="#E8F0EE" stroke="#1A1A2E" stroke-width="5"/><path d="M38 56 Q46 50 54 56 M66 56 Q74 50 82 56" fill="none" stroke="#1A1A2E" stroke-width="5" stroke-linecap="round"/><path d="M48 76 Q60 84 72 76" fill="none" stroke="#1A1A2E" stroke-width="5" stroke-linecap="round"/></svg>
+    </div>
+    <p style="margin-top:13mm;font-weight:700;color:var(--ink);font-size:13.5pt;max-width:130mm;">
+      Come as you are. Breathe with the star.<br>Stay until the feeling gets smaller.
+    </p>
+    <div style="display:flex;align-items:center;gap:4mm;margin-top:13mm;">
+      <img class="colour-only" src="images/sofia.jpeg" alt="Sofia" style="width:24mm;height:24mm;object-fit:cover;border:2.5px solid var(--ink);border-radius:50%;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:8.5pt;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-soft);">Sofia keeps this corner safe</div>
+    </div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Calm Corner Sign · Hang at child height</span></div>
+</div>
+
+<!-- PAGE 4 · FEELINGS CHECK IN CARDS -->
+<div class="sheet">
+  <div class="eyebrow">Cut out · Keep in a pot or on a ring in the corner</div>
+  <h2 style="margin-top:2mm;">How do you feel right now?</h2>
+  <p style="margin-top:2mm;">
+    Point to a face, or pick up the card that matches. Naming nothing is fine too.
+    Sometimes holding the card is the whole answer.
+  </p>
+  <div class="facegrid">
+    <div class="cutcard facecard">
+      <svg viewBox="0 0 120 120"><circle class="face-fill" cx="60" cy="60" r="48" fill="#EDC35F" stroke="#1A1A2E" stroke-width="5"/><circle cx="44" cy="52" r="4.5" fill="#1A1A2E"/><circle cx="76" cy="52" r="4.5" fill="#1A1A2E"/><path d="M40 70 Q60 88 80 70" fill="none" stroke="#1A1A2E" stroke-width="5" stroke-linecap="round"/></svg>
+      <div class="name">Happy</div>
+    </div>
+    <div class="cutcard facecard">
+      <svg viewBox="0 0 120 120"><circle class="face-fill" cx="60" cy="60" r="48" fill="#D8E8F8" stroke="#1A1A2E" stroke-width="5"/><circle cx="44" cy="52" r="4.5" fill="#1A1A2E"/><circle cx="76" cy="52" r="4.5" fill="#1A1A2E"/><path d="M42 82 Q60 68 78 82" fill="none" stroke="#1A1A2E" stroke-width="5" stroke-linecap="round"/><path class="tint-fill" d="M86 60 q7 11 0 15 q-7 -4 0 -15" fill="#D8E8F8" stroke="#1A1A2E" stroke-width="3"/></svg>
+      <div class="name">Sad</div>
+    </div>
+    <div class="cutcard facecard">
+      <svg viewBox="0 0 120 120"><circle class="face-fill" cx="60" cy="60" r="48" fill="#D4600A" stroke="#1A1A2E" stroke-width="5"/><path d="M34 40 L52 48 M86 40 L68 48" stroke="#1A1A2E" stroke-width="5" stroke-linecap="round"/><circle cx="46" cy="56" r="4.5" fill="#1A1A2E"/><circle cx="74" cy="56" r="4.5" fill="#1A1A2E"/><path d="M42 84 Q60 72 78 84" fill="none" stroke="#1A1A2E" stroke-width="5" stroke-linecap="round"/></svg>
+      <div class="name">Angry</div>
+    </div>
+    <div class="cutcard facecard">
+      <svg viewBox="0 0 120 120"><circle class="face-fill" cx="60" cy="60" r="48" fill="#FBCFE8" stroke="#1A1A2E" stroke-width="5"/><path d="M36 42 Q45 35 54 41 M66 41 Q75 35 84 42" fill="none" stroke="#1A1A2E" stroke-width="4.5" stroke-linecap="round"/><circle cx="46" cy="54" r="4.5" fill="#1A1A2E"/><circle cx="74" cy="54" r="4.5" fill="#1A1A2E"/><path d="M44 79 Q52 73 60 79 Q68 85 76 79" fill="none" stroke="#1A1A2E" stroke-width="4.5" stroke-linecap="round"/></svg>
+      <div class="name">Worried</div>
+    </div>
+    <div class="cutcard facecard">
+      <svg viewBox="0 0 120 120"><circle class="face-fill" cx="60" cy="60" r="48" fill="#C99A28" stroke="#1A1A2E" stroke-width="5"/><path d="M36 44 L54 47 M84 44 L66 47" stroke="#1A1A2E" stroke-width="4.5" stroke-linecap="round"/><circle cx="46" cy="56" r="4.5" fill="#1A1A2E"/><circle cx="74" cy="56" r="4.5" fill="#1A1A2E"/><path d="M42 81 L50 75 L58 81 L66 75 L74 81" fill="none" stroke="#1A1A2E" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div class="name">Frustrated</div>
+    </div>
+    <div class="cutcard facecard">
+      <svg viewBox="0 0 120 120"><circle class="face-fill" cx="60" cy="60" r="48" fill="#EAEAF0" stroke="#1A1A2E" stroke-width="5"/><path d="M38 54 Q46 61 54 54 M66 54 Q74 61 82 54" fill="none" stroke="#1A1A2E" stroke-width="4.5" stroke-linecap="round"/><circle cx="60" cy="80" r="6.5" fill="none" stroke="#1A1A2E" stroke-width="4.5"/></svg>
+      <div class="name">Tired</div>
+    </div>
+    <div class="cutcard facecard">
+      <svg viewBox="0 0 120 120"><circle class="face-fill" cx="60" cy="60" r="48" fill="#FEF7E0" stroke="#1A1A2E" stroke-width="5"/><path d="M44 43 L46.5 49 L52.5 51.5 L46.5 54 L44 60 L41.5 54 L35.5 51.5 L41.5 49 Z" fill="#1A1A2E"/><path d="M76 43 L78.5 49 L84.5 51.5 L78.5 54 L76 60 L73.5 54 L67.5 51.5 L73.5 49 Z" fill="#1A1A2E"/><path d="M42 71 Q60 92 78 71 Z" fill="#1A1A2E"/></svg>
+      <div class="name">Excited</div>
+    </div>
+    <div class="cutcard facecard">
+      <svg viewBox="0 0 120 120"><circle class="face-fill" cx="60" cy="60" r="48" fill="#E8F0EE" stroke="#1A1A2E" stroke-width="5"/><path d="M38 56 Q46 50 54 56 M66 56 Q74 50 82 56" fill="none" stroke="#1A1A2E" stroke-width="5" stroke-linecap="round"/><path d="M48 76 Q60 84 72 76" fill="none" stroke="#1A1A2E" stroke-width="5" stroke-linecap="round"/></svg>
+      <div class="name">Calm</div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:5mm;padding:4mm 5mm;display:flex;align-items:center;gap:4mm;background:var(--tint-sage);">
+    <img class="colour-only" src="images/sofia.jpeg" alt="Sofia" style="width:16mm;height:16mm;object-fit:cover;border:2.5px solid var(--ink);border-radius:50%;">
+    <p style="font-weight:700;color:var(--ink);font-size:10pt;">
+      Sofia says: every face on this page is a friend. There are no bad feelings,
+      only big ones and small ones. We help the big ones get smaller.
+    </p>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Feelings Check In Cards · 8 of 8</span></div>
+</div>
+
+<!-- PAGE 5 · STAR BREATHING POSTER -->
+<div class="sheet">
+  <div style="display:flex;align-items:center;gap:5mm;">
+    <img src="images/DiGi-star.svg" alt="DiGi Junior" style="width:22mm;height:24mm;">
+    <div class="bubble" style="flex:1;">BEEP BOOP! Let's breathe together. Put your finger on the green dot and follow me round the star.</div>
+  </div>
+  <div style="text-align:center;margin-top:2mm;">
+    <h2 style="font-size:22pt;">Star breathing with DiGi Junior</h2>
+  </div>
+  <div style="position:relative;flex:1;display:flex;align-items:center;justify-content:center;">
+    <svg viewBox="-10 -30 420 440" style="width:150mm;height:157mm;">
+      <path d="M200 25 L244.1 149.3 L375.9 152.8 L271.3 233.2 L308.7 359.7 L200 285 L91.3 359.7 L128.7 233.2 L24.1 152.8 L155.9 149.3 Z"
+            class="tint-fill" fill="#FEF7E0" stroke="#1A1A2E" stroke-width="16" stroke-linejoin="round"/>
+      <path d="M200 25 L244.1 149.3 L375.9 152.8 L271.3 233.2 L308.7 359.7 L200 285 L91.3 359.7 L128.7 233.2 L24.1 152.8 L155.9 149.3 Z"
+            fill="none" stroke="#F9F8F6" stroke-width="4" stroke-dasharray="10 10" stroke-linejoin="round"/>
+      <defs>
+        <marker id="ah-g" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#2F8F6B"/></marker>
+        <marker id="ah-c" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#D4600A"/></marker>
+      </defs>
+      <line x1="141" y1="116" x2="167" y2="46" stroke="#2F8F6B" stroke-width="6" stroke-linecap="round" marker-end="url(#ah-g)"/>
+      <line x1="233" y1="46" x2="259" y2="116" stroke="#D4600A" stroke-width="6" stroke-linecap="round" marker-end="url(#ah-c)"/>
+      <circle cx="155.9" cy="149.3" r="13" fill="#2F8F6B" stroke="#1A1A2E" stroke-width="4"/>
+      <text x="162" y="190" text-anchor="middle" font-family="IBM Plex Mono" font-size="15" font-weight="600" letter-spacing="1.5" fill="#2F8F6B" style="text-transform:uppercase;">START HERE</text>
+    </svg>
+    <div style="position:absolute;top:1mm;left:50%;transform:translateX(-50%);font-family:'IBM Plex Mono',monospace;font-size:9pt;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink);background:var(--white);border:2.5px solid var(--ink);border-radius:16px;padding:1.5mm 4mm;">Hold... one, two</div>
+    <div style="position:absolute;top:24mm;left:16mm;font-family:'IBM Plex Mono',monospace;font-size:9pt;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--green);background:var(--white);border:2.5px solid var(--green);border-radius:16px;padding:1.5mm 4mm;">Breathe in</div>
+    <div style="position:absolute;top:24mm;right:16mm;font-family:'IBM Plex Mono',monospace;font-size:9pt;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--coral);background:var(--white);border:2.5px solid var(--coral);border-radius:16px;padding:1.5mm 4mm;">Breathe out</div>
+  </div>
+  <div class="card" style="padding:4mm 5mm;">
+    <p style="font-weight:700;color:var(--ink);font-size:10.5pt;line-height:1.5;">
+      <strong>1.</strong> Finger on the green dot. &nbsp;<strong>2.</strong> Trace a side slowly, breathing in through your nose.
+      &nbsp;<strong>3.</strong> Hold still at the point... one, two. &nbsp;<strong>4.</strong> Trace down slowly, breathing out through your mouth.
+      &nbsp;<strong>5.</strong> Keep going all the way round.
+    </p>
+  </div>
+  <div class="card" style="margin-top:4mm;padding:3.5mm 5mm;display:flex;align-items:center;justify-content:space-between;background:var(--terracotta-lt);">
+    <div style="font-weight:800;font-size:10.5pt;">Five rounds makes a super calm star. Touch one after each round:</div>
+    <div style="display:flex;gap:3mm;">
+      <svg width="30" height="30" viewBox="0 0 24 24"><path d="M12 2.5 14.9 8.6l6.6.8-4.9 4.5 1.3 6.5L12 17.2 6.1 20.4l1.3-6.5L2.5 9.4l6.6-.8z" fill="none" stroke="#1A1A2E" stroke-width="1.6"/></svg>
+      <svg width="30" height="30" viewBox="0 0 24 24"><path d="M12 2.5 14.9 8.6l6.6.8-4.9 4.5 1.3 6.5L12 17.2 6.1 20.4l1.3-6.5L2.5 9.4l6.6-.8z" fill="none" stroke="#1A1A2E" stroke-width="1.6"/></svg>
+      <svg width="30" height="30" viewBox="0 0 24 24"><path d="M12 2.5 14.9 8.6l6.6.8-4.9 4.5 1.3 6.5L12 17.2 6.1 20.4l1.3-6.5L2.5 9.4l6.6-.8z" fill="none" stroke="#1A1A2E" stroke-width="1.6"/></svg>
+      <svg width="30" height="30" viewBox="0 0 24 24"><path d="M12 2.5 14.9 8.6l6.6.8-4.9 4.5 1.3 6.5L12 17.2 6.1 20.4l1.3-6.5L2.5 9.4l6.6-.8z" fill="none" stroke="#1A1A2E" stroke-width="1.6"/></svg>
+      <svg width="30" height="30" viewBox="0 0 24 24"><path d="M12 2.5 14.9 8.6l6.6.8-4.9 4.5 1.3 6.5L12 17.2 6.1 20.4l1.3-6.5L2.5 9.4l6.6-.8z" fill="none" stroke="#1A1A2E" stroke-width="1.6"/></svg>
+    </div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Star Breathing Poster · Stick at finger height</span></div>
+</div>
+
+<!-- PAGE 6 · CALM CHOICE CARDS -->
+<div class="sheet">
+  <div class="eyebrow">Cut out · Twelve things to try when the feeling is big</div>
+  <h2 style="margin-top:2mm;">My calm choices</h2>
+  <p style="margin-top:2mm;">
+    Pick a card. Try it. If it does not help, pick another. There is no wrong choice,
+    only the next thing to try.
+  </p>
+  <div class="copegrid">
+    <div class="cutcard copecard">
+      <svg viewBox="0 0 48 48"><rect x="6" y="12" width="36" height="24" rx="10" class="tint-fill" fill="#FBCFE8" stroke="#1A1A2E" stroke-width="2.5"/><path d="M14 24h20" stroke="#1A1A2E" stroke-width="2" stroke-linecap="round" stroke-dasharray="2 4"/></svg>
+      <div class="name">Squeeze a cushion tight</div>
+    </div>
+    <div class="cutcard copecard">
+      <svg viewBox="0 0 48 48"><path d="M14 8h20l-3 32H17L14 8z" class="tint-fill" fill="#D8E8F8" stroke="#1A1A2E" stroke-width="2.5" stroke-linejoin="round"/><path d="M16 20h16" stroke="#1A1A2E" stroke-width="2"/></svg>
+      <div class="name">Have a drink of water</div>
+    </div>
+    <div class="cutcard copecard">
+      <svg viewBox="0 0 48 48"><path d="M6 24 Q24 8 42 24 Q24 40 6 24 Z" class="tint-fill" fill="#E8F0EE" stroke="#1A1A2E" stroke-width="2.5"/><circle cx="24" cy="24" r="6" fill="#1A1A2E"/></svg>
+      <div class="name">Count 5 things you can see</div>
+    </div>
+    <div class="cutcard copecard">
+      <svg viewBox="0 0 48 48"><circle cx="24" cy="12" r="5" fill="#EDC35F" class="tint-fill" stroke="#1A1A2E" stroke-width="2.5"/><path d="M24 17v14 M24 22 L12 10 M24 22 L36 10 M24 31 L16 42 M24 31 L32 42" stroke="#1A1A2E" stroke-width="2.5" stroke-linecap="round"/></svg>
+      <div class="name">Do a big stretch</div>
+    </div>
+    <div class="cutcard copecard">
+      <svg viewBox="0 0 48 48"><path d="M24 42 S6 30 6 18 a9 9 0 0 1 18 -3 a9 9 0 0 1 18 3 c0 12 -18 24 -18 24z" class="tint-fill" fill="#FBCFE8" stroke="#1A1A2E" stroke-width="2.5"/></svg>
+      <div class="name">Ask for a hug</div>
+    </div>
+    <div class="cutcard copecard">
+      <svg viewBox="0 0 48 48"><path d="M8 10c6-3 10-3 16 0v28c-6-3-10-3-16 0V10zM40 10c-6-3-10-3-16 0v28c6-3 10-3 16 0V10z" class="tint-fill" fill="#D8E8F8" stroke="#1A1A2E" stroke-width="2.5" stroke-linejoin="round"/></svg>
+      <div class="name">Look at a book</div>
+    </div>
+    <div class="cutcard copecard">
+      <svg viewBox="0 0 48 48"><path d="M10 38 L14 26 L34 6 L42 14 L22 34 Z" class="tint-fill" fill="#EDC35F" stroke="#1A1A2E" stroke-width="2.5" stroke-linejoin="round"/><path d="M10 38 L14 26 L22 34 Z" fill="#1A1A2E"/></svg>
+      <div class="name">Draw the feeling</div>
+    </div>
+    <div class="cutcard copecard">
+      <svg viewBox="0 0 48 48"><path d="M10 34 Q8 22 18 20 Q16 10 26 10 Q36 8 36 18 Q44 22 40 32 Q42 40 32 40 L16 40 Q8 40 10 34 Z" class="tint-fill" fill="#E8F0EE" stroke="#1A1A2E" stroke-width="2.5" stroke-linejoin="round"/></svg>
+      <div class="name">Squish some playdough</div>
+    </div>
+    <div class="cutcard copecard">
+      <svg viewBox="0 0 48 48"><path d="M18 8 a12 12 0 0 1 12 12 c0 6 -4 8 -4 14 a6 6 0 0 1 -12 0" fill="none" stroke="#1A1A2E" stroke-width="2.5" stroke-linecap="round"/><path d="M34 14 q6 6 0 12 M38 8 q10 10 0 20" fill="none" stroke="#D4600A" stroke-width="2.5" stroke-linecap="round"/></svg>
+      <div class="name">Listen for 3 sounds</div>
+    </div>
+    <div class="cutcard copecard">
+      <svg viewBox="0 0 48 48"><path d="M12 30 a8 8 0 0 1 2 -16 a10 10 0 0 1 19 -2 a8 8 0 0 1 3 18 Z" class="tint-fill" fill="#F9F8F6" stroke="#1A1A2E" stroke-width="2.5" stroke-linejoin="round"/></svg>
+      <div class="name">Hold something soft</div>
+    </div>
+    <div class="cutcard copecard">
+      <svg viewBox="0 0 48 48"><circle cx="24" cy="13" r="6" class="tint-fill" fill="#EDC35F" stroke="#1A1A2E" stroke-width="2.5"/><path d="M15 33 a9 9 0 0 1 18 0 Z" class="tint-fill" fill="#E8F0EE" stroke="#1A1A2E" stroke-width="2.5" stroke-linejoin="round"/><path d="M10 38 a15 15 0 0 0 28 0" fill="none" stroke="#1A1A2E" stroke-width="2.5" stroke-linecap="round"/><path d="M7 34 l2 6 6 -2 M41 34 l-2 6 -6 -2" fill="none" stroke="#2F8F6B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div class="name">Rock gently, side to side</div>
+    </div>
+    <div class="cutcard copecard">
+      <svg viewBox="0 0 48 48"><path d="M6 10h28a4 4 0 0 1 4 4v10a4 4 0 0 1 -4 4H18l-8 8V28H10a4 4 0 0 1 -4 -4V10z" class="tint-fill" fill="#FEF7E0" stroke="#1A1A2E" stroke-width="2.5" stroke-linejoin="round"/><path d="M14 19h16" stroke="#2F8F6B" stroke-width="2.5" stroke-linecap="round"/></svg>
+      <div class="name">Tell your adult</div>
+    </div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Calm Choice Cards · 12 of 12</span></div>
+</div>
+
+<!-- PAGE 7 · THE FEELING IS GOING -->
+<div class="sheet">
+  <div class="eyebrow">For after · When the storm has mostly passed</div>
+  <h2 style="margin-top:2mm;">The feeling is going</h2>
+  <p style="margin-top:2mm;">
+    This page is noticing, not homework. A point, a scribble or one word all count.
+    Skip anything. Do it together or not at all.
+  </p>
+  <div class="card" style="margin-top:5mm;padding:5mm;">
+    <div class="eyebrow" style="color:var(--terracotta-dark);">How big was the feeling? Colour it in.</div>
+    <div style="display:flex;align-items:flex-end;gap:8mm;margin-top:4mm;padding-left:2mm;">
+      <div style="text-align:center;"><div style="width:9mm;height:9mm;border:2.5px solid var(--ink);border-radius:50%;"></div><div style="font-weight:800;font-size:9pt;margin-top:1.5mm;">1</div></div>
+      <div style="text-align:center;"><div style="width:13mm;height:13mm;border:2.5px solid var(--ink);border-radius:50%;"></div><div style="font-weight:800;font-size:9pt;margin-top:1.5mm;">2</div></div>
+      <div style="text-align:center;"><div style="width:17mm;height:17mm;border:2.5px solid var(--ink);border-radius:50%;"></div><div style="font-weight:800;font-size:9pt;margin-top:1.5mm;">3</div></div>
+      <div style="text-align:center;"><div style="width:21mm;height:21mm;border:2.5px solid var(--ink);border-radius:50%;"></div><div style="font-weight:800;font-size:9pt;margin-top:1.5mm;">4</div></div>
+      <div style="text-align:center;"><div style="width:25mm;height:25mm;border:2.5px solid var(--ink);border-radius:50%;"></div><div style="font-weight:800;font-size:9pt;margin-top:1.5mm;">5</div></div>
+      <div style="flex:1;font-weight:700;color:var(--ink-soft);font-size:9.5pt;padding-bottom:4mm;">Small like a marble, or big like a beach ball. Any size is allowed.</div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:5mm;padding:5mm;">
+    <div class="eyebrow" style="color:var(--green);">What helped? Circle it.</div>
+    <div style="display:flex;gap:4mm;margin-top:3.5mm;justify-content:space-between;">
+      <div style="text-align:center;flex:1;"><svg width="42" height="42" viewBox="-6 -6 432 460"><path d="M200 25 L244.1 149.3 L375.9 152.8 L271.3 233.2 L308.7 359.7 L200 285 L91.3 359.7 L128.7 233.2 L24.1 152.8 L155.9 149.3 Z" fill="none" stroke="#1A1A2E" stroke-width="24" stroke-linejoin="round"/></svg><div style="font-weight:800;font-size:8.5pt;">Star breathing</div></div>
+      <div style="text-align:center;flex:1;"><svg width="42" height="42" viewBox="0 0 48 48"><rect x="6" y="12" width="36" height="24" rx="10" fill="none" stroke="#1A1A2E" stroke-width="2.5"/></svg><div style="font-weight:800;font-size:8.5pt;">A squeeze</div></div>
+      <div style="text-align:center;flex:1;"><svg width="42" height="42" viewBox="0 0 48 48"><path d="M14 8h20l-3 32H17L14 8z" fill="none" stroke="#1A1A2E" stroke-width="2.5" stroke-linejoin="round"/></svg><div style="font-weight:800;font-size:8.5pt;">A drink</div></div>
+      <div style="text-align:center;flex:1;"><svg width="42" height="42" viewBox="0 0 48 48"><path d="M24 42 S6 30 6 18 a9 9 0 0 1 18 -3 a9 9 0 0 1 18 3 c0 12 -18 24 -18 24z" fill="none" stroke="#1A1A2E" stroke-width="2.5"/></svg><div style="font-weight:800;font-size:8.5pt;">A hug</div></div>
+      <div style="text-align:center;flex:1;"><svg width="42" height="42" viewBox="0 0 48 48"><path d="M8 10c6-3 10-3 16 0v28c-6-3-10-3-16 0V10zM40 10c-6-3-10-3-16 0v28c6-3 10-3 16 0V10z" fill="none" stroke="#1A1A2E" stroke-width="2.5" stroke-linejoin="round"/></svg><div style="font-weight:800;font-size:8.5pt;">A book</div></div>
+      <div style="text-align:center;flex:1;"><svg width="42" height="42" viewBox="0 0 48 48"><path d="M6 10h28a4 4 0 0 1 4 4v10a4 4 0 0 1 -4 4H18l-8 8V28H10a4 4 0 0 1 -4 -4V10z" fill="none" stroke="#1A1A2E" stroke-width="2.5" stroke-linejoin="round"/></svg><div style="font-weight:800;font-size:8.5pt;">Telling someone</div></div>
+      <div style="text-align:center;flex:1;"><svg width="42" height="42" viewBox="0 0 48 48"><circle cx="24" cy="24" r="16" fill="none" stroke="#1A1A2E" stroke-width="2.5"/><path d="M18 26 Q24 32 30 26" fill="none" stroke="#1A1A2E" stroke-width="2.5" stroke-linecap="round"/></svg><div style="font-weight:800;font-size:8.5pt;">Something else</div></div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:5mm;padding:5mm;background:var(--terracotta-lt);">
+    <div class="eyebrow" style="color:var(--terracotta-dark);">One thing I want my adult to know</div>
+    <div style="border-bottom:2.5px solid var(--ink);height:12mm;"></div>
+    <div style="border-bottom:2.5px solid var(--ink);height:12mm;"></div>
+    <p style="margin-top:3mm;font-size:9pt;">Words, a drawing, or a face from the cards. Anything counts.</p>
+  </div>
+  <div class="card" style="margin-top:5mm;padding:4mm 5mm;display:flex;align-items:center;gap:4mm;">
+    <img class="colour-only" src="images/sofia.jpeg" alt="Sofia" style="width:14mm;height:14mm;object-fit:cover;border:2.5px solid var(--ink);border-radius:50%;">
+    <p style="font-weight:700;color:var(--ink);font-size:10pt;">
+      Sofia says: you did not get rid of the feeling. You helped it get smaller.
+      That is a real skill, and you just practised it.
+    </p>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>The Feeling Is Going · Print a stack</span></div>
+</div>
+
+<!-- PAGE 8 · GROWN UP SCRIPT CARD -->
+<div class="sheet">
+  <div class="eyebrow">For the grown up · Cut out and keep in the corner</div>
+  <h2 style="margin-top:2mm;">What to say when the feeling is big</h2>
+  <p style="margin-top:2mm;">
+    In the storm, children cannot take in much. Say less than you think you need to,
+    slower than feels natural, and let the corner do the rest.
+  </p>
+  <div style="display:flex;gap:6mm;margin-top:6mm;">
+    <div class="cutcard" style="flex:1;padding:6mm;align-items:flex-start;text-align:left;">
+      <div class="eyebrow" style="font-size:9pt;">In the moment</div>
+      <p style="margin-top:3mm;font-weight:800;color:var(--ink);font-size:13pt;line-height:1.5;">
+        You are safe.<br>
+        I am here.<br>
+        Let's make the feeling smaller together.
+      </p>
+      <p style="margin-top:4mm;font-size:9.5pt;">
+        Then offer, never order: "Shall we visit your corner? Do you want the star or the cards?"
+        Get low. Slow your own breathing. If they say no, stay close and wait.
+        Your calm is the loudest thing in the room.
+      </p>
+    </div>
+    <div class="cutcard" style="flex:1;padding:6mm;align-items:flex-start;text-align:left;background:var(--terracotta-lt);">
+      <div class="eyebrow" style="font-size:9pt;">Save for later</div>
+      <p style="margin-top:3mm;font-weight:800;color:var(--ink);font-size:13pt;line-height:1.5;">
+        That was a big feeling.<br>
+        You got through it.<br>
+        What helped?
+      </p>
+      <p style="margin-top:4mm;font-size:9.5pt;">
+        Never talk about the behaviour until everyone is calm, including you. Teaching lands
+        after the storm, not during it. Later, keep it short and warm, then let it go.
+        The corner stays a safe place, whatever happened before it.
+      </p>
+    </div>
+  </div>
+  <div class="card" style="margin-top:6mm;padding:5mm;">
+    <div class="eyebrow">Why this works</div>
+    <p style="margin-top:2mm;">
+      A child mid storm is all feeling and no listening. Your first job is not to fix or to teach.
+      It is to be the safe, steady grown up while the feeling passes through. The words on these
+      cards do exactly that job and nothing else. Everything else can wait ten minutes, and it
+      will go better because it waited.
+    </p>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Grown Up Script Card · Keep in the corner</span></div>
+</div>
+
+<!-- PAGE 9 · BONUS / FUNNEL -->
+<div class="sheet" style="align-items:center;text-align:center;">
+  <div style="margin-top:14mm;" class="eyebrow">A free gift for your family</div>
+  <h1 style="margin-top:5mm;font-size:30pt;">Your corner is ready.<br>Now meet the star<br>who breathes with you.</h1>
+  <img src="images/DiGi-star.svg" alt="DiGi Junior" style="width:44mm;height:47mm;margin-top:8mm;">
+  <p style="margin-top:7mm;max-width:140mm;font-size:11.5pt;">
+    DiGi Junior's <strong style="color:var(--ink);">animated breathing pause</strong> is the star on
+    your poster, brought to life. A free mini lesson where DiGi Junior counts the breaths, beeps
+    the beeps, and practises the pause with your child, so the calm corner habit sticks.
+    It pairs perfectly with the poster on the wall.
+  </p>
+  <div class="card" style="margin-top:8mm;padding:5mm 10mm;background:var(--terracotta-lt);">
+    <div style="font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:13pt;letter-spacing:1px;">guidedchildhood.com/etsy-bonus</div>
+  </div>
+  <p style="margin-top:10mm;font-size:9.5pt;max-width:130mm;">
+    Made by Guided Childhood, the UK platform helping families raise confident kids in a digital
+    world. If this kit brings a little more calm to your corner, a kind review on Etsy helps
+    another family find it.
+  </p>
+  <div class="footer"><span>guidedchildhood.com</span><span>Thank you · Justin and the squad</span></div>
+</div>
+
+</body>
+</html>

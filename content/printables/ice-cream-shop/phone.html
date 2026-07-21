@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Sofia's Ice Cream Shop · Phone</title>
+<link href="fonts/local-fonts.css" rel="stylesheet">
+<style>
+  :root{--cream:#F9F8F6;--ink:#1A1A2E;--ink-soft:#52526A;--ink-muted:#8888A0;
+    --border:#EAEAF0;--terracotta:#EDC35F;--terracotta-dark:#C99A28;--terracotta-lt:#FEF7E0;
+    --coral:#D4600A;--green:#2F8F6B;--tint-blue:#D8E8F8;--tint-sage:#E8F0EE;
+    --pink:#FBCFE8;--white:#FFF;
+    --a-straw:#FBCFE8;--a-van:#FEF7E0;--a-choc:#C99A28;--a-mint:#E8F0EE;
+    --a-blueb:#D8E8F8;--a-honey:#EDC35F;--a-butter:#EDC35F;--a-bdark:#C99A28;
+    --a-blue:#D8E8F8;--a-coral:#D4600A;--a-cream:#FEF7E0;--a-grn:#2F8F6B;
+    --a-lat:#C99A28;--a-cheek:rgba(212,96,10,.22);--a-pink:#FBCFE8;--a-sage:#E8F0EE;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Nunito',sans-serif;color:var(--ink);}
+  .screen{width:1080px;height:1920px;background:var(--cream);padding:64px 60px 56px;
+    display:flex;flex-direction:column;position:relative;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:26px;
+    letter-spacing:6px;text-transform:uppercase;color:var(--coral);}
+  .awn{height:62px;border:7px solid var(--ink);border-radius:24px 24px 0 0;border-bottom:none;
+    background:repeating-linear-gradient(90deg,var(--pink) 0 80px,var(--white) 80px 160px);}
+  .board{background:var(--white);border:7px solid var(--ink);border-radius:0 0 32px 32px;
+    box-shadow:0 12px 0 var(--ink);padding:40px 44px 34px;}
+  .mrow{display:flex;align-items:center;gap:26px;padding:21px 0;}
+  .mrow+.mrow{border-top:3px solid var(--border);}
+  .mic{width:78px;display:flex;justify-content:center;align-items:flex-end;flex-shrink:0;}
+  .mname{font-weight:800;font-size:40px;}
+  .msub{font-family:'IBM Plex Mono',monospace;font-size:20px;color:var(--ink-muted);
+    letter-spacing:1px;text-transform:uppercase;margin-top:3px;}
+  .mdots{flex:1;border-bottom:6px dotted var(--ink-muted);margin:0 8px;height:2px;}
+  .mprice{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:44px;}
+  .foot{margin-top:auto;text-align:center;font-family:'IBM Plex Mono',monospace;
+    font-size:24px;letter-spacing:4px;color:var(--ink-muted);text-transform:uppercase;padding-top:26px;}
+  /* coins */
+  .coin{border-radius:50%;border:5px solid var(--ink);display:flex;flex-direction:column;
+    align-items:center;justify-content:center;position:relative;flex-shrink:0;}
+  .coin::after{content:'';position:absolute;inset:7px;border-radius:50%;
+    border:2.5px solid rgba(26,26,46,.35);}
+  .coin .cv{font-weight:900;line-height:1;position:relative;z-index:2;}
+  .coin .cm{font-family:'IBM Plex Mono',monospace;font-weight:600;letter-spacing:1px;
+    line-height:1;margin-top:6px;position:relative;z-index:2;color:rgba(26,26,46,.75);}
+  .copper{background:var(--terracotta);}
+  .silver{background:var(--tint-blue);}
+  .pound{background:var(--terracotta-dark);}
+  .two{background:var(--terracotta-dark);}
+  .two::before{content:'';position:absolute;inset:24px;border-radius:50%;
+    background:var(--tint-blue);border:2.5px solid rgba(26,26,46,.35);}
+  .crow{background:var(--white);border:6px solid var(--ink);border-radius:32px;
+    box-shadow:0 10px 0 var(--ink);padding:34px 36px;display:flex;align-items:center;gap:30px;}
+  .cname{font-weight:800;font-size:40px;line-height:1.1;}
+  .ctag{font-family:'IBM Plex Mono',monospace;font-size:20px;letter-spacing:2px;
+    text-transform:uppercase;color:var(--ink-muted);margin-top:4px;}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute;">
+  <defs>
+    <clipPath id="coneClip"><path d="M14 20 L50 126 L86 20 Z"/></clipPath>
+    <g id="scoopG">
+      <path d="M8 46 C8 21 26 5 50 5 C74 5 92 21 92 46 A14 14 0 0 1 64 46 A14 14 0 0 1 36 46 A14 14 0 0 1 8 46 Z"
+        fill="var(--sf,#FBCFE8)" stroke="#1A1A2E" stroke-width="3" stroke-linejoin="round"/>
+      <circle cx="40" cy="30" r="3" fill="#1A1A2E"/><circle cx="60" cy="30" r="3" fill="#1A1A2E"/>
+      <path d="M44 37 Q50 43 56 37" fill="none" stroke="#1A1A2E" stroke-width="2.6" stroke-linecap="round"/>
+      <circle cx="30" cy="36" r="4.5" fill="var(--a-cheek)"/><circle cx="70" cy="36" r="4.5" fill="var(--a-cheek)"/>
+    </g>
+    <g id="coneG">
+      <path d="M14 20 L50 126 L86 20 Z" fill="var(--a-butter)" stroke="#1A1A2E" stroke-width="3" stroke-linejoin="round"/>
+      <g clip-path="url(#coneClip)" stroke="var(--a-lat)" stroke-width="3">
+        <path d="M20 24 L80 96"/><path d="M10 52 L58 110"/><path d="M80 24 L20 96"/><path d="M90 52 L42 110"/>
+      </g>
+      <path d="M14 20 L50 126 L86 20 Z" fill="none" stroke="#1A1A2E" stroke-width="3" stroke-linejoin="round"/>
+      <rect x="6" y="4" width="88" height="15" rx="7.5" fill="var(--a-butter)" stroke="#1A1A2E" stroke-width="3"/>
+    </g>
+    <g id="flakeG">
+      <rect x="10" y="4" width="20" height="82" rx="9" fill="var(--a-bdark)" stroke="#1A1A2E" stroke-width="2.5"/>
+      <g stroke="rgba(26,26,46,.32)" stroke-width="2">
+        <path d="M14 14 L26 26"/><path d="M14 30 L26 42"/><path d="M14 46 L26 58"/><path d="M14 62 L26 74"/>
+      </g>
+    </g>
+    <g id="cherryG">
+      <path d="M30 27 Q32 10 46 8" fill="none" stroke="#1A1A2E" stroke-width="3" stroke-linecap="round"/>
+      <ellipse cx="47" cy="10" rx="8" ry="4" fill="var(--a-grn)" stroke="#1A1A2E" stroke-width="1.5" transform="rotate(18 47 10)"/>
+      <circle cx="28" cy="46" r="20" fill="var(--a-coral)" stroke="#1A1A2E" stroke-width="3"/>
+      <circle cx="21" cy="39" r="5" fill="#FFFFFF" opacity=".45"/>
+    </g>
+    <g id="sauceG">
+      <path d="M8 24 Q50 2 92 24 Q94 32 84 32 Q84 46 75 46 Q66 46 68 34 Q60 38 52 36 Q52 52 42 52 Q33 52 36 36 Q26 40 20 34 Q10 34 8 24 Z"
+        fill="var(--a-coral)" stroke="#1A1A2E" stroke-width="2.5" stroke-linejoin="round"/>
+    </g>
+    <g id="sprkG">
+      <path d="M10 44 A50 40 0 0 1 110 44 Z" fill="var(--a-cream)" stroke="#1A1A2E" stroke-width="2.5" stroke-linejoin="round"/>
+      <g stroke="#1A1A2E" stroke-width="0.8">
+        <rect x="30" y="26" width="9" height="3.5" rx="1.7" fill="var(--a-coral)" transform="rotate(-20 34 28)"/>
+        <rect x="52" y="18" width="9" height="3.5" rx="1.7" fill="var(--a-grn)" transform="rotate(15 56 20)"/>
+        <rect x="74" y="26" width="9" height="3.5" rx="1.7" fill="var(--a-blueb)" transform="rotate(-12 78 28)"/>
+        <rect x="42" y="34" width="9" height="3.5" rx="1.7" fill="var(--a-pink)" transform="rotate(24 46 36)"/>
+        <rect x="63" y="34" width="9" height="3.5" rx="1.7" fill="var(--a-coral)" transform="rotate(-24 67 36)"/>
+      </g>
+    </g>
+    <g id="lollyG">
+      <rect x="30" y="88" width="10" height="28" rx="4" fill="var(--a-cream)" stroke="#1A1A2E" stroke-width="2.5"/>
+      <rect x="8" y="6" width="54" height="84" rx="27" fill="var(--a-blueb)" stroke="#1A1A2E" stroke-width="3"/>
+      <circle cx="27" cy="42" r="3" fill="#1A1A2E"/><circle cx="43" cy="42" r="3" fill="#1A1A2E"/>
+      <path d="M29 50 Q35 55 41 50" fill="none" stroke="#1A1A2E" stroke-width="2.4" stroke-linecap="round"/>
+    </g>
+    <g id="sundaeG">
+      <circle cx="32" cy="44" r="19" fill="var(--a-straw)" stroke="#1A1A2E" stroke-width="3"/>
+      <circle cx="78" cy="44" r="19" fill="var(--a-mint)" stroke="#1A1A2E" stroke-width="3"/>
+      <circle cx="55" cy="30" r="19" fill="var(--a-van)" stroke="#1A1A2E" stroke-width="3"/>
+      <use href="#cherryG" transform="translate(42,-6) scale(0.42)"/>
+      <path d="M8 58 H102 L88 96 Q55 106 22 96 Z" fill="var(--a-blue)" stroke="#1A1A2E" stroke-width="3" stroke-linejoin="round"/>
+      <rect x="45" y="98" width="20" height="10" fill="var(--a-blue)" stroke="#1A1A2E" stroke-width="2.5"/>
+      <rect x="33" y="108" width="44" height="7" rx="3.5" fill="var(--a-blue)" stroke="#1A1A2E" stroke-width="2.5"/>
+    </g>
+    <g id="tubG">
+      <rect x="45" y="8" width="20" height="11" rx="5" fill="var(--a-butter)" stroke="#1A1A2E" stroke-width="2.5"/>
+      <rect x="6" y="17" width="98" height="16" rx="8" fill="var(--a-butter)" stroke="#1A1A2E" stroke-width="3"/>
+      <path d="M12 33 L98 33 L88 94 L22 94 Z" fill="var(--a-sage)" stroke="#1A1A2E" stroke-width="3" stroke-linejoin="round"/>
+      <rect x="31" y="49" width="48" height="19" rx="4" fill="#FFFFFF" stroke="#1A1A2E" stroke-width="2"/>
+      <text x="55" y="62" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" font-weight="600" fill="#1A1A2E" letter-spacing="1">TUB</text>
+    </g>
+  </defs>
+</svg>
+
+<!-- SCREEN 1 · THE MENU -->
+<div class="screen" id="s1">
+  <div class="eyebrow" style="text-align:center;">Sofia's Ice Cream Shop</div>
+  <div style="margin-top:26px;">
+    <div class="awn"></div>
+    <div class="board">
+      <div style="text-align:center;padding-bottom:10px;">
+        <div style="font-weight:900;font-size:58px;letter-spacing:1px;">THE MENU</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:21px;letter-spacing:5px;color:var(--ink-muted);text-transform:uppercase;margin-top:6px;">Every price is coin practice</div>
+      </div>
+      <div class="mrow" style="border-top:5px solid var(--ink);">
+        <div class="mic"><svg viewBox="0 0 100 186" style="width:44px;height:82px;"><use href="#coneG" transform="translate(0,56)"/><use href="#scoopG" style="--sf:var(--a-straw)"/></svg></div>
+        <div><div class="mname">Single scoop</div></div>
+        <div class="mdots"></div><div class="mprice">20p</div>
+      </div>
+      <div class="mrow">
+        <div class="mic"><svg viewBox="0 0 100 234" style="width:44px;height:103px;"><use href="#coneG" transform="translate(0,104)"/><use href="#scoopG" transform="translate(0,48)" style="--sf:var(--a-mint)"/><use href="#scoopG" style="--sf:var(--a-straw)"/></svg></div>
+        <div><div class="mname">Double scoop</div></div>
+        <div class="mdots"></div><div class="mprice">45p</div>
+      </div>
+      <div class="mrow">
+        <div class="mic"><svg viewBox="0 0 100 282" style="width:44px;height:124px;"><use href="#coneG" transform="translate(0,152)"/><use href="#scoopG" transform="translate(0,96)" style="--sf:var(--a-choc)"/><use href="#scoopG" transform="translate(0,48)" style="--sf:var(--a-van)"/><use href="#scoopG" style="--sf:var(--a-blueb)"/></svg></div>
+        <div><div class="mname">Triple scoop</div></div>
+        <div class="mdots"></div><div class="mprice">70p</div>
+      </div>
+      <div class="mrow">
+        <div class="mic"><svg viewBox="0 0 70 120" style="width:40px;height:69px;"><use href="#lollyG"/></svg></div>
+        <div><div class="mname">Ice lolly</div></div>
+        <div class="mdots"></div><div class="mprice">55p</div>
+      </div>
+      <div class="mrow">
+        <div class="mic"><svg viewBox="0 0 110 120" style="width:62px;height:68px;"><use href="#sundaeG"/></svg></div>
+        <div><div class="mname">Super sundae</div></div>
+        <div class="mdots"></div><div class="mprice">£1.20</div>
+      </div>
+      <div class="mrow">
+        <div class="mic"><svg viewBox="0 0 110 100" style="width:62px;height:56px;"><use href="#tubG"/></svg></div>
+        <div><div class="mname">Family tub</div></div>
+        <div class="mdots"></div><div class="mprice">£2.50</div>
+      </div>
+      <div class="mrow" style="border-top:5px solid var(--ink);">
+        <div class="mic"><svg viewBox="0 0 40 90" style="width:24px;height:54px;"><use href="#flakeG"/></svg></div>
+        <div><div class="mname" style="font-size:34px;">Chocolate flake</div></div>
+        <div class="mdots"></div><div class="mprice" style="font-size:38px;">15p</div>
+      </div>
+      <div class="mrow">
+        <div class="mic"><svg viewBox="0 0 100 55" style="width:56px;height:31px;"><use href="#sauceG"/></svg></div>
+        <div><div class="mname" style="font-size:34px;">Strawberry sauce</div></div>
+        <div class="mdots"></div><div class="mprice" style="font-size:38px;">10p</div>
+      </div>
+      <div class="mrow">
+        <div class="mic"><svg viewBox="0 0 120 50" style="width:56px;height:23px;"><use href="#sprkG"/></svg></div>
+        <div><div class="mname" style="font-size:34px;">Rainbow sprinkles</div></div>
+        <div class="mdots"></div><div class="mprice" style="font-size:38px;">5p</div>
+      </div>
+    </div>
+  </div>
+  <div style="background:var(--terracotta-lt);border:7px solid var(--ink);border-radius:32px;box-shadow:0 12px 0 var(--ink);padding:30px 36px;text-align:center;margin-top:44px;">
+    <div style="font-weight:900;font-size:38px;line-height:1.2;">Sofia's usual: a strawberry single with a flake</div>
+    <div style="font-weight:700;font-size:28px;color:var(--ink-soft);margin-top:10px;">20p + 15p = 35p. What coins pay it?</div>
+  </div>
+  <div class="foot">Guided Childhood · Sofia's Ice Cream Shop</div>
+</div>
+
+<!-- SCREEN 2 · KNOW YOUR COINS -->
+<div class="screen" id="s2">
+  <div class="eyebrow" style="text-align:center;">Know your UK coins</div>
+  <div style="text-align:center;font-weight:900;font-size:64px;margin-top:22px;">Coppers, silvers<br>and pounds</div>
+  <div style="display:flex;flex-direction:column;gap:34px;margin-top:52px;">
+    <div class="crow">
+      <span class="coin copper" style="width:112px;height:112px;"><span class="cv" style="font-size:34px;">1p</span><span class="cm" style="font-size:11px;">PLAY MONEY</span></span>
+      <div style="flex:1;"><div class="cname">One penny</div><div class="ctag">Copper</div></div>
+      <span class="coin copper" style="width:142px;height:142px;"><span class="cv" style="font-size:42px;">2p</span><span class="cm" style="font-size:13px;">PLAY MONEY</span></span>
+      <div style="flex:1;"><div class="cname">Two pence</div><div class="ctag">Copper</div></div>
+    </div>
+    <div class="crow">
+      <span class="coin silver" style="width:100px;height:100px;"><span class="cv" style="font-size:30px;">5p</span><span class="cm" style="font-size:10px;">PLAY MONEY</span></span>
+      <div style="flex:1;"><div class="cname">Five pence</div><div class="ctag">Silver</div></div>
+      <span class="coin silver" style="width:134px;height:134px;"><span class="cv" style="font-size:40px;">10p</span><span class="cm" style="font-size:13px;">PLAY MONEY</span></span>
+      <div style="flex:1;"><div class="cname">Ten pence</div><div class="ctag">Silver</div></div>
+    </div>
+    <div class="crow">
+      <span class="coin silver" style="width:118px;height:118px;"><span class="cv" style="font-size:35px;">20p</span><span class="cm" style="font-size:11px;">PLAY MONEY</span></span>
+      <div style="flex:1;"><div class="cname">Twenty pence</div><div class="ctag">Silver</div></div>
+      <span class="coin silver" style="width:150px;height:150px;"><span class="cv" style="font-size:45px;">50p</span><span class="cm" style="font-size:14px;">PLAY MONEY</span></span>
+      <div style="flex:1;"><div class="cname">Fifty pence</div><div class="ctag">Silver</div></div>
+    </div>
+    <div class="crow">
+      <span class="coin pound" style="width:128px;height:128px;"><span class="cv" style="font-size:38px;">£1</span><span class="cm" style="font-size:12px;">PLAY MONEY</span></span>
+      <div style="flex:1;"><div class="cname">One pound</div><div class="ctag">100 pennies</div></div>
+      <span class="coin two" style="width:156px;height:156px;"><span class="cv" style="font-size:47px;">£2</span><span class="cm" style="font-size:14px;">PLAY MONEY</span></span>
+      <div style="flex:1;"><div class="cname">Two pounds</div><div class="ctag">200 pennies</div></div>
+    </div>
+  </div>
+  <div style="background:var(--terracotta-lt);border:7px solid var(--ink);border-radius:32px;box-shadow:0 12px 0 var(--ink);padding:40px 36px;text-align:center;margin-top:52px;">
+    <div style="font-weight:900;font-size:42px;line-height:1.2;">Can you make 45p three different ways?</div>
+    <div style="font-weight:700;font-size:29px;color:var(--ink-soft);margin-top:12px;">Sofia's answer starts with two 20p coins</div>
+  </div>
+  <div class="foot">Guided Childhood · Know Your Coins</div>
+</div>
+
+</body>
+</html>

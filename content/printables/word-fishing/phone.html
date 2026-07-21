@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Word Fishing · Phone</title>
+<link href="fonts/local-fonts.css" rel="stylesheet">
+<style>
+  :root{--cream:#F9F8F6;--ink:#1A1A2E;--ink-soft:#52526A;--ink-muted:#8888A0;
+    --border:#EAEAF0;--terracotta:#EDC35F;--terracotta-dark:#C99A28;--terracotta-lt:#FEF7E0;
+    --coral:#D4600A;--green:#2F8F6B;--tint-blue:#D8E8F8;--tint-sage:#E8F0EE;
+    --pink:#FBCFE8;--white:#FFF;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Nunito',sans-serif;color:var(--ink);}
+  .screen{width:1080px;height:1920px;background:var(--cream);padding:70px 60px;
+    display:flex;flex-direction:column;position:relative;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:26px;
+    letter-spacing:6px;text-transform:uppercase;color:var(--coral);}
+  h1{font-weight:900;font-size:78px;line-height:1.05;margin-top:18px;}
+  .gamecard{background:var(--white);border:6px solid var(--ink);border-radius:36px;
+    box-shadow:0 10px 0 var(--ink);padding:44px 44px;display:flex;gap:36px;align-items:flex-start;}
+  .gnum{width:92px;height:92px;border-radius:50%;border:6px solid var(--ink);flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;font-weight:900;font-size:46px;
+    background:var(--terracotta);}
+  .gamecard h2{font-weight:900;font-size:48px;}
+  .gamecard p{font-weight:600;font-size:33px;line-height:1.45;color:var(--ink-soft);margin-top:10px;}
+  .note{background:var(--tint-sage);border:6px solid var(--ink);border-radius:36px;
+    box-shadow:0 10px 0 var(--ink);padding:34px 40px;}
+  .note p{font-weight:700;font-size:31px;line-height:1.45;color:var(--ink);}
+  .foot{margin-top:auto;text-align:center;font-family:'IBM Plex Mono',monospace;
+    font-size:24px;letter-spacing:4px;color:var(--ink-muted);text-transform:uppercase;}
+  .fishwrap{position:relative;}
+  .fishwrap svg.fish{display:block;width:100%;height:auto;}
+  .word{position:absolute;left:22%;top:14%;width:44%;height:74%;display:flex;
+    align-items:center;justify-content:center;font-weight:800;color:var(--ink);line-height:1;}
+  .f-butter{--fc:#EDC35F;--fin:#C99A28;}
+  .f-blue{--fc:#D8E8F8;--fin:#9FC0E4;}
+  .f-pink{--fc:#FBCFE8;--fin:#F09CC8;}
+  .f-coral{--fc:#D4600A;--fin:#A84A06;}
+  .f-green{--fc:#2F8F6B;--fin:#236F52;}
+  .f-coral .word,.f-green .word{color:var(--white);}
+  .pondgrid{display:grid;grid-template-columns:1fr 1fr;gap:34px;margin-top:44px;}
+  .pondcell{background:var(--white);border:6px solid var(--ink);border-radius:36px;
+    box-shadow:0 10px 0 var(--ink);padding:26px 30px;display:flex;align-items:center;justify-content:center;}
+  .pondgrid .word{font-size:64px;}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <g id="fishy">
+      <path d="M150 75 C178 44 196 34 206 28 C202 52 202 98 206 122 C196 116 178 106 150 75 Z"
+            fill="var(--fin)" stroke="#1A1A2E" stroke-width="6" stroke-linejoin="round"/>
+      <path d="M62 32 C74 8 112 6 128 27 C106 19 82 22 62 32 Z"
+            fill="var(--fin)" stroke="#1A1A2E" stroke-width="6" stroke-linejoin="round"/>
+      <path d="M76 120 C86 142 114 143 126 122 C108 130 90 130 76 120 Z"
+            fill="var(--fin)" stroke="#1A1A2E" stroke-width="6" stroke-linejoin="round"/>
+      <ellipse cx="94" cy="76" rx="72" ry="52" fill="var(--fc)" stroke="#1A1A2E" stroke-width="6"/>
+      <path d="M142 44 C154 62 154 90 142 108 M154 52 C162 66 162 86 154 100"
+            fill="none" stroke="#1A1A2E" stroke-width="4" opacity="0.15"/>
+      <circle cx="44" cy="58" r="13" fill="#FFFFFF" stroke="#1A1A2E" stroke-width="5"/>
+      <circle cx="47.5" cy="60.5" r="6.5" fill="#1A1A2E"/>
+      <circle cx="44" cy="55.5" r="2.6" fill="#FFFFFF"/>
+      <path d="M25 85 Q34 94 45 89" fill="none" stroke="#1A1A2E" stroke-width="4.5" stroke-linecap="round"/>
+      <ellipse cx="58" cy="90" rx="8" ry="5" fill="#1A1A2E" opacity="0.1"/>
+    </g>
+  </defs>
+</svg>
+
+<!-- SCREEN 1 · HOW TO PLAY -->
+<div class="screen" id="s1">
+  <div class="eyebrow">Word Fishing</div>
+  <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:30px;">
+    <h1>How to play</h1>
+    <div class="fishwrap f-coral" style="width:290px;flex-shrink:0;margin-right:10px;">
+      <svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg>
+      <span class="word" style="font-size:60px;">the</span>
+    </div>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:52px;margin-top:70px;">
+    <div class="gamecard">
+      <div class="gnum">1</div>
+      <div><h2>Catch and say</h2>
+        <p>Catch a fish, read the word out loud. Read it right and it goes in your bucket. Most fish wins.</p></div>
+    </div>
+    <div class="gamecard">
+      <div class="gnum" style="background:var(--tint-blue);">2</div>
+      <div><h2>Word match</h2>
+        <p>The grown up calls a word. Fish until you land that exact word. Reading with a mission.</p></div>
+    </div>
+    <div class="gamecard">
+      <div class="gnum" style="background:var(--pink);">3</div>
+      <div><h2>Beat the clock</h2>
+        <p>Two minutes on the timer. How many fish can you catch and read? Beat your own best tomorrow.</p></div>
+    </div>
+  </div>
+  <div class="note" style="margin-top:56px;">
+    <p>Keep it playful, never a test. Stuck on a word? Say it together, throw the fish back, play on.</p>
+  </div>
+  <div class="foot">Guided Childhood · Word Fishing</div>
+</div>
+
+<!-- SCREEN 2 · TRICKY WORDS PRACTICE -->
+<div class="screen" id="s2">
+  <div class="eyebrow">Tricky words practice</div>
+  <h1>Can you read<br>your catch?</h1>
+  <p style="font-weight:700;font-size:32px;color:var(--ink-soft);margin-top:22px;line-height:1.4;">
+    Phase 2 and Phase 3 tricky words from your pond. Read each fish out loud, then tap the next one.
+  </p>
+  <div class="pondgrid">
+    <div class="pondcell"><div class="fishwrap f-coral" style="width:100%;"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">the</span></div></div>
+    <div class="pondcell"><div class="fishwrap f-butter" style="width:100%;"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">go</span></div></div>
+    <div class="pondcell"><div class="fishwrap f-blue" style="width:100%;"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">no</span></div></div>
+    <div class="pondcell"><div class="fishwrap f-green" style="width:100%;"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">she</span></div></div>
+    <div class="pondcell"><div class="fishwrap f-pink" style="width:100%;"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">was</span></div></div>
+    <div class="pondcell"><div class="fishwrap f-green" style="width:100%;"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">they</span></div></div>
+    <div class="pondcell"><div class="fishwrap f-butter" style="width:100%;"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">are</span></div></div>
+    <div class="pondcell"><div class="fishwrap f-coral" style="width:100%;"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">you</span></div></div>
+  </div>
+  <div class="note" style="margin-top:44px;background:var(--terracotta-lt);">
+    <p>Read all eight? That is a full bucket. High five, little angler.</p>
+  </div>
+  <div class="foot">Guided Childhood · Word Fishing</div>
+</div>
+
+</body>
+</html>
