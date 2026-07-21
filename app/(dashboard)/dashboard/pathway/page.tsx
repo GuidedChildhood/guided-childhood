@@ -13,6 +13,8 @@ import { getJourney } from '@/lib/pathway/journey'
 import ChildSwitcher from '@/components/children/ChildSwitcher'
 import { pickChild } from '@/lib/children/select'
 import DigiCharacter from '@/components/digi/DigiCharacter'
+import PassportBook from '@/components/pathway/PassportBook'
+import { type Stamp, type StampStatus } from '@/components/pathway/PassportStamps'
 
 type Child = { id: string; name: string; age_band: string | null; stage_id: string | null; is_primary: boolean; streak_weeks: number | null }
 
@@ -58,6 +60,28 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
   }
 
   const currentStageContent = currentStageNum ? STAGES.find(s => s.id === currentStageNum) : null
+
+  // The passport the road is filling, so the goal sits right beside the map:
+  // one stamp per stage, earned as the family works through it, catch up pages
+  // for earlier stages and a peek at the ones ahead. Same reading as the road.
+  const STAGE_SLUGS_ARR: ProgressStageId[] = ['foundation', 'builder', 'explorer', 'shaper', 'independent']
+  const passportStamps: Stamp[] = allStagesProgress && currentStageNum
+    ? STAGES.map(s => {
+        const prog = allStagesProgress[STAGE_SLUGS_ARR[s.id - 1]]
+        const status: StampStatus =
+          prog.contentComplete ? 'earned'
+          : s.id === currentStageNum ? 'current'
+          : s.id < currentStageNum ? 'catchup'
+          : 'upcoming'
+        return {
+          id: s.id, name: s.name, ages: s.ages, pct: prog.overallPct, status,
+          href: '/dashboard/lessons',
+          lessonsDone: prog.lessonsDone, lessonsTotal: prog.lessonsTotal,
+          scriptsPct: prog.scriptsPct, streakPct: prog.streakPct,
+          devicesPct: prog.devicesPct, lessonsPct: prog.lessonsPct,
+        }
+      })
+    : []
 
   // Tailor the stage by the concern this family actually flagged, not by any
   // assumption about the child. The top open concern maps straight to the
@@ -124,6 +148,23 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
           stageStatus={stageStatus}
         />
       </div>
+
+      {/* The goal beside the map: the passport they are filling, one stamp per
+          stage, so a parent looking at the road can see exactly what it builds
+          towards and watch the stamps land as they go. */}
+      {passportStamps.length > 0 && (
+        <div style={{ padding: '0 20px', maxWidth: '560px', margin: '0 auto 28px' }}>
+          <div style={{ textAlign: 'center', marginBottom: '14px' }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
+              What you are working towards
+            </span>
+            <p style={{ fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '5px auto 0', maxWidth: '440px' }}>
+              Every step on the road stamps a page here. This is the passport {primaryChild?.name && primaryChild.name !== 'Your child' ? primaryChild.name : 'your child'} is earning, all the way to 16.
+            </p>
+          </div>
+          <PassportBook stamps={passportStamps} childName={primaryChild?.name ?? 'your child'} />
+        </div>
+      )}
 
       {/* The four literacy strands in plain words, each with a live reading
           from the family's real week: the jobs and screen balance, open

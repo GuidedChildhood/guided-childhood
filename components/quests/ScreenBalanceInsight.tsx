@@ -14,6 +14,7 @@ import Link from 'next/link'
 import DigiCharacter from '@/components/digi/DigiCharacter'
 import { STAR_MINUTES } from '@/lib/quests/templates'
 import { screenBalanceInsight } from '@/lib/quests/screen-balance'
+import BalanceScales from '@/components/quests/BalanceScales'
 
 export default function ScreenBalanceInsight({
   childName, ageBand, balanceStars, weekStars, timerRunning, usedTodayMinutes = 0, earnedTodayStars = 0,
@@ -42,9 +43,6 @@ export default function ScreenBalanceInsight({
   const screenMins = Math.max(0, Math.round(usedTodayMinutes))
   const realMins = Math.max(0, Math.round(earnedTodayStars * STAR_MINUTES))
   const total = screenMins + realMins
-  // Where the level tips right now. 50 is even, higher tips to real life, lower
-  // to screen. A calm midpoint when the day is still empty.
-  const screenPct = total > 0 ? Math.round((screenMins / total) * 100) : 50
 
   // The healthy daily amount for this age is the line that matters most. When
   // screen crosses it the bar goes red and DiGi steps in with a gentle steer;
@@ -117,46 +115,23 @@ export default function ScreenBalanceInsight({
         </div>
       </div>
 
-      {/* The level: a bold bar that moves with the real minutes used and earned.
-          The screen side turns amber then red as it passes the healthy amount.
-          A dashed marker shows where the age screen guide falls, so the needle
-          passing it reads at a glance as screen going over the healthy amount. */}
-      <div style={{ position: 'relative', height: 22, borderRadius: '100px', overflow: 'hidden', border: '1.5px solid var(--border)', display: 'flex', marginBottom: '8px', boxShadow: 'inset 0 1px 3px rgba(26,26,46,0.10)' }}>
-        <span style={{ width: `${screenPct}%`, background: screenFill, transition: 'width 0.6s ease, background 0.4s ease' }} />
-        <span style={{ flex: 1, background: 'var(--deep-teal)' }} />
-        {/* The age guide marker: a dashed line the screen side should stay under. */}
-        {guideMarkerPct != null && (
-          <span aria-hidden style={{
-            position: 'absolute', top: -1, bottom: -1, left: `${guideMarkerPct}%`, width: 0, marginLeft: -1,
-            borderLeft: '2px dashed rgba(255,255,255,0.9)', zIndex: 1,
-          }} />
-        )}
-        {/* The needle sits where the balance tips right now. */}
-        <span style={{
-          position: 'absolute', top: -2, bottom: -2, left: `${screenPct}%`, width: 3, marginLeft: -1.5,
-          background: 'var(--ink)', borderRadius: '2px', transition: 'left 0.6s ease', zIndex: 2,
-        }} />
-      </div>
+      {/* The balance, as a scale that actually tips: screen time in one pan,
+          real world time earned in the other, the heavier side dipping so the
+          lean is obvious at a glance and the numbers sit right in the pans. */}
+      <BalanceScales
+        screenMins={screenMins}
+        realMins={realMins}
+        earnedStars={earnedTodayStars}
+        screenFill={screenFill}
+      />
 
-      {guideMarkerPct != null && (
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '10px' }}>
-          <span aria-hidden style={{ width: 14, height: 0, borderTop: '2px dashed var(--ink-light)', flexShrink: 0 }} />
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, color: 'var(--ink-muted)', letterSpacing: '0.02em' }}>
-            Healthy screen guide for their age, about {guide} min
+      {guide > 0 && (
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', marginBottom: '12px' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, color: overGuide ? accent : 'var(--ink-muted)', letterSpacing: '0.02em', textAlign: 'center' }}>
+            Healthy screen guide for their age, about {guide} min{overGuide ? ' · over for today' : nearingGuide ? ' · nearly there' : ''}
           </span>
         </div>
       )}
-
-      <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10, marginBottom: '12px' }}>
-        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', color: 'var(--ink)' }}>
-          <span style={{ width: 10, height: 10, borderRadius: '3px', background: 'var(--terracotta)', flexShrink: 0 }} />
-          {screenMins} min screen
-        </span>
-        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', color: 'var(--ink)' }}>
-          {realMins} min earned real life
-          <span style={{ width: 10, height: 10, borderRadius: '3px', background: 'var(--deep-teal)', flexShrink: 0 }} />
-        </span>
-      </div>
 
       <p style={{ fontFamily: 'var(--font-body)', fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 8px' }}>
         {line}
