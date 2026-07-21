@@ -10,6 +10,7 @@ import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
 import { gamesForStage } from '@/lib/quest-games/registry'
 import { printablesForStage } from '@/lib/printables/registry'
 import { quizForBand } from '@/lib/content/school-quizzes'
+import { tipsForStage } from '@/lib/content/path-tips'
 import KidPath, { type PathLesson, type PathGame, type PathJob, type PathPrintable } from '@/components/kid/KidPath'
 
 // My path: the child's own Duolingo style trail for their stage, opened from
@@ -175,6 +176,15 @@ export default async function KidPathPage({ params }: { params: Promise<{ token:
   const parentLimit = (child as { daily_limit_minutes?: number | null } | null)?.daily_limit_minutes
   const guideMinutes = parentLimit != null && parentLimit > 0 ? parentLimit : recommendedDailyMinutes(ageBand)
 
+  // The digital literacy passport: one stamp per stage lesson passed, the
+  // exact same lesson_completions the parent's safety badge counts, so the
+  // child's passport and the grown up's progress report always match.
+  const stampsTotal = lessons.length
+  const stampsEarned = lessons.filter(l => l.done).length
+
+  // Two of DiGi's age matched tips to meet along the path today.
+  const tips = tipsForStage(stage.id, dayIdx)
+
   return (
     <KidPath
       token={token}
@@ -187,8 +197,11 @@ export default async function KidPathPage({ params }: { params: Promise<{ token:
       lessons={lessons}
       games={games}
       printables={printables}
+      tips={tips}
+      stampsEarned={stampsEarned}
+      stampsTotal={stampsTotal}
       quiz={quizForBand(ageBand)}
-      dayIndex={Math.floor(Date.now() / 86400000)}
+      dayIndex={dayIdx}
       chestClaimed={chestClaimed}
       quizClaimed={quizClaimed}
       usedTodayMinutes={usedTodayMap.get(link.child_id) ?? 0}
