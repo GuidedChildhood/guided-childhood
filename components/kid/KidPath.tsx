@@ -1,10 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import DigiCharacter from '@/components/digi/DigiCharacter'
 import { playKidSound } from '@/lib/sound/kidSounds'
 import { PATH_CHARACTERS, challengeFor, type PathChallenge, type PathCharacter } from '@/lib/content/path-challenges'
+import { STAR_MINUTES } from '@/lib/quests/templates'
 import type { SchoolQuiz } from '@/lib/content/school-quizzes'
 
 // The child's pathway, the full Duolingo grammar in our butter and ink: one
@@ -142,16 +143,69 @@ export default function KidPath({
   if (!readingPlaced) stones.push({ type: 'reading' })
   stones.push({ type: 'finish' })
 
-  // ── Trail progress: passes leap double, jobs and finds count single. ──
-  const totalUnits = lessons.length * 2 + jobs.length + 2 // chest and quiz
-  const doneUnits =
-    lessons.filter(l => l.done).length * 2 +
-    jobs.filter(j => j.state !== 'todo').length +
-    (chestClaimed ? 1 : 0) + (quizClaimed ? 1 : 0)
-  const childFrac = totalUnits > 0 ? Math.min(1, doneUnits / totalUnits) : 0
 
   const nextLessonId = lessons.find(l => !l.done && !l.locked)?.id ?? null
   const jobsTicked = jobs.filter(j => j.state !== 'todo').length
+
+  // One glowing stone at a time. Every stone counts as done for today
+  // somehow: jobs tick, the chest opens, lessons pass (locked ones step
+  // aside), and the friends, the game and the reading stone count as found
+  // once tapped, remembered on this device for the day. The first stone not
+  // yet done wears the glow and the Start bubble, and when every stone is
+  // done the whole path pays a bonus.
+  const [foundMarks, setFoundMarks] = useState<Record<string, boolean>>({})
+  const [pathComplete, setPathComplete] = useState(false)
+  const dayKey = () => new Date().toISOString().slice(0, 10)
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(`gc_path_found_${dayKey()}`)
+      if (raw) setFoundMarks(JSON.parse(raw))
+    } catch { /* fresh day */ }
+  }, [])
+  function markFound(key: string) {
+    setFoundMarks(f => {
+      const next = { ...f, [key]: true }
+      try { localStorage.setItem(`gc_path_found_${dayKey()}`, JSON.stringify(next)) } catch { /* still counts this visit */ }
+      return next
+    })
+  }
+  function stoneDone(s: Stone): boolean {
+    if (s.type === 'job') return s.job.state !== 'todo'
+    if (s.type === 'lesson') return s.lesson.done || s.lesson.locked
+    if (s.type === 'chest') return chestClaimed
+    if (s.type === 'character') return s.holdsQuiz ? (quizClaimed || Boolean(foundMarks['quiz'])) : Boolean(foundMarks[`char_${s.character.key}`])
+    if (s.type === 'game') return Boolean(foundMarks[`game_${s.game.key}`])
+    if (s.type === 'reading') return Boolean(foundMarks['reading'])
+    return true
+  }
+  const currentIndex = stones.findIndex(s => s.type !== 'finish' && !stoneDone(s))
+  const allPathDone = currentIndex === -1 && stones.length > 1
+
+  // Trail progress counts every stone the same way the glow does, passes
+  // leaping double, so the bar and the path can never disagree.
+  const unitOf = (s: Stone) => s.type === 'finish' ? 0 : s.type === 'lesson' ? (s.lesson.locked ? 0 : 2) : 1
+  const totalUnits = stones.reduce((sum, s) => sum + unitOf(s), 0)
+  const doneUnits = stones.reduce((sum, s) => sum + (stoneDone(s) ? unitOf(s) : 0), 0)
+  const childFrac = totalUnits > 0 ? Math.min(1, doneUnits / totalUnits) : 0
+
+  // The whole path done pays, once a day: a big celebration and three bonus
+  // stars, checked server side against the jobs and the chest so it stays a
+  // game and never a loophole.
+  useEffect(() => {
+    if (!allPathDone) return
+    try {
+      const k = `gc_path_complete_${dayKey()}`
+      if (localStorage.getItem(k)) return
+      localStorage.setItem(k, '1')
+    } catch { /* celebrate anyway, the server dedupes */ }
+    playKidSound('done')
+    setPathComplete(true)
+    fetch('/api/kid/path-complete', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token }),
+    }).catch(() => { /* the celebration stands */ })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [allPathDone])
 
   // ── Actions ──
   async function tickJob(job: PathJob) {
@@ -197,6 +251,9 @@ export default function KidPath({
 
   function openSheet(stone: Stone) {
     playKidSound('tap')
+    // A challenge friend counts as found the moment they are met; the quiz
+    // friend counts once the quiz run is finished, win or brave try.
+    if (stone.type === 'character' && !stone.holdsQuiz) markFound(`char_${stone.character.key}`)
     setRunQs(dealQuiz())
     setQIndex(0); setQRight(0); setQPicked(null); setQDone(null)
     setSheet(stone)
@@ -224,6 +281,7 @@ export default function KidPath({
   async function finishQuiz(right: number) {
     const passed = runQs.length > 0 && right / runQs.length >= 0.8
     setQDone(passed ? 'pass' : 'fail')
+    markFound('quiz')
     if (passed) playKidSound('done')
     if (!passed || quizClaimed) return
     try {
@@ -327,18 +385,19 @@ export default function KidPath({
             const align = drift(i)
             let node: React.ReactNode = null
 
+            const isCurrent = i === currentIndex
             if (stone.type === 'job') {
               const j = stone.job
               const done = j.state !== 'todo'
               node = (
                 <button onClick={() => tickJob(j)} disabled={done || busy} style={column}>
-                  <span style={shell({ bg: j.state === 'done' ? 'var(--tint-sage)' : j.state === 'waiting' ? '#FFF7E0' : '#fff', border: j.state === 'waiting' ? '3px dashed var(--terracotta)' : undefined })}>
+                  <span style={shell({ bg: j.state === 'done' ? 'var(--tint-sage)' : j.state === 'waiting' ? '#FFF7E0' : '#fff', dim: done, pulse: isCurrent })}>
                     <span style={{ fontSize: 32, lineHeight: 1 }}>{j.state === 'done' ? '✓' : j.emoji}</span>
                     {j.state === 'waiting' && <span style={{ fontSize: 15, marginTop: 1 }}>⏳</span>}
                   </span>
                   <span style={label}>{j.title}</span>
                   <span style={sub}>
-                    {j.state === 'done' ? 'Done! Stars landed' : j.state === 'waiting' ? 'With your grown up' : `Job · ${j.stars} star${j.stars === 1 ? '' : 's'} · tap when done`}
+                    {j.state === 'done' ? 'Done! Stars landed' : j.state === 'waiting' ? 'With your grown up ✓' : `Job · ${j.stars} star${j.stars === 1 ? '' : 's'} · tap when done`}
                   </span>
                 </button>
               )
@@ -346,22 +405,8 @@ export default function KidPath({
               const l = stone.lesson
               const isNext = l.id === nextLessonId
               node = (
-                <Link href={`/k/${token}/lessons/${l.id}`} onClick={() => playKidSound('tap')} style={{ ...column, position: 'relative', paddingTop: isNext ? 34 : 0 }}>
-                  {/* The floating START bubble, the Duolingo hallmark, bobbing
-                      over the one stone to do next. */}
-                  {isNext && (
-                    <span style={{
-                      position: 'absolute', top: 0, left: '50%',
-                      animation: 'gcStartBob 1.4s ease-in-out infinite',
-                      background: '#fff', border: '2px solid var(--terracotta)', borderRadius: 12,
-                      padding: '5px 13px', fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700,
-                      letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)',
-                      boxShadow: '0 3px 0 rgba(26,26,46,0.12)', whiteSpace: 'nowrap',
-                    }}>
-                      Start
-                    </span>
-                  )}
-                  <span style={shell({ bg: l.done ? 'var(--terracotta)' : 'var(--cream)', dim: !l.done && !isNext, pulse: isNext })}>
+                <Link href={`/k/${token}/lessons/${l.id}`} onClick={() => playKidSound('tap')} style={column}>
+                  <span style={shell({ bg: l.done ? 'var(--terracotta)' : 'var(--cream)', dim: !l.done && !isCurrent, pulse: isCurrent })}>
                     <span style={{ fontSize: 34, lineHeight: 1 }}>{l.done ? '⭐' : l.locked ? '🔒' : l.emoji}</span>
                     {l.done && <span style={{ fontFamily: 'var(--font-mono)', fontSize: 9, fontWeight: 700, color: 'var(--ink)', marginTop: 2 }}>+2 ⚡ leap</span>}
                   </span>
@@ -375,7 +420,7 @@ export default function KidPath({
               const openable = !chestClaimed && jobsTicked > 0 && !needsMigration
               node = (
                 <button onClick={openChest} disabled={busy} style={column}>
-                  <span style={shell({ bg: chestClaimed ? 'var(--tint-sage)' : openable ? 'var(--terracotta-lt)' : 'var(--cream)', border: openable ? '3px solid var(--terracotta)' : undefined, dim: !openable && !chestClaimed, pulse: openable })}>
+                  <span style={shell({ bg: chestClaimed ? 'var(--tint-sage)' : openable ? 'var(--terracotta-lt)' : 'var(--cream)', border: openable ? '3px solid var(--terracotta)' : undefined, dim: chestClaimed, pulse: isCurrent })}>
                     <span style={{ fontSize: 34, lineHeight: 1 }}>{chestClaimed ? '✨' : '🎁'}</span>
                   </span>
                   <span style={label}>{chestClaimed ? 'Chest opened' : 'The daily chest'}</span>
@@ -384,46 +429,49 @@ export default function KidPath({
               )
             } else if (stone.type === 'character') {
               const c = stone.character
-              const found = stone.holdsQuiz && quizClaimed
+              const charDone = stoneDone(stone)
               node = (
                 <button onClick={() => openSheet(stone)} style={column}>
-                  <span style={shell({ bg: '#fff', border: '3px solid var(--terracotta)', pulse: !found })}>
+                  <span style={shell({ bg: '#fff', border: '3px solid var(--terracotta)', dim: charDone, pulse: isCurrent })}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={c.img} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   </span>
                   <span style={label}>{c.name} has something for you</span>
-                  <span style={sub}>{found ? 'Quiz passed today ⭐' : 'Tap to find out'}</span>
+                  <span style={sub}>
+                    {charDone ? (stone.holdsQuiz ? (quizClaimed ? 'Quiz passed today ⭐' : 'Brave try today ✓') : 'Found today ✓') : 'Tap to find out'}
+                  </span>
                 </button>
               )
             } else if (stone.type === 'game') {
+              const gameDone = stoneDone(stone)
               node = (
-                <a href={`/k/${token}?tab=games`} onClick={() => playKidSound('tap')} style={column}>
-                  <span style={shell({ bg: 'var(--tint-blue, #E4ECF7)' })}>
+                <a href={`/k/${token}?tab=games`} onClick={() => { markFound(`game_${stone.game.key}`); playKidSound('tap') }} style={column}>
+                  <span style={shell({ bg: 'var(--tint-blue, #E4ECF7)', dim: gameDone, pulse: isCurrent })}>
                     <span style={{ fontSize: 34, lineHeight: 1 }}>{stone.game.emoji || '🎮'}</span>
                   </span>
                   <span style={label}>{stone.game.title}</span>
-                  <span style={sub}>Learning game</span>
+                  <span style={sub}>{gameDone ? 'Played today ✓' : 'Learning game'}</span>
                 </a>
               )
             } else if (stone.type === 'reading') {
+              const readDone = stoneDone(stone)
               node = (
-                <a href={`/k/${token}#my-todo`} onClick={() => playKidSound('tap')} style={column}>
-                  <span style={shell({ bg: 'var(--cream)' })}>
+                <a href={`/k/${token}#my-todo`} onClick={() => { markFound('reading'); playKidSound('tap') }} style={column}>
+                  <span style={shell({ bg: 'var(--cream)', dim: readDone, pulse: isCurrent })}>
                     <span style={{ fontSize: 34, lineHeight: 1 }}>📚</span>
                   </span>
                   <span style={label}>Twenty minutes lost in a book</span>
-                  <span style={sub}>A big star job</span>
+                  <span style={sub}>{readDone ? 'On it today ✓' : 'A big star job'}</span>
                 </a>
               )
             } else {
-              const allDone = lessons.length > 0 && lessons.every(l => l.done)
               node = (
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                  <span style={shell({ bg: allDone ? 'var(--terracotta)' : 'var(--cream)', dim: !allDone })}>
+                  <span style={shell({ bg: allPathDone ? 'var(--terracotta)' : 'var(--cream)', dim: !allPathDone, pulse: allPathDone })}>
                     <span style={{ fontSize: 34, lineHeight: 1 }}>🪪</span>
                   </span>
                   <span style={label}>The {stamp} stamp</span>
-                  <span style={sub}>{allDone ? 'Earned! Your passport shines' : 'Waiting at the end of the path'}</span>
+                  <span style={sub}>{allPathDone ? 'Path complete today! ⭐' : 'Waiting at the end of the path'}</span>
                 </div>
               )
             }
@@ -431,7 +479,23 @@ export default function KidPath({
             return (
               <div key={i}>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', transform: `translateX(${align}px)` }}>{node}</div>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', transform: `translateX(${align}px)`, position: 'relative', paddingTop: isCurrent ? 34 : 0 }}>
+                    {/* The Start bubble rides whichever stone is next, the one
+                        glowing thing on the whole trail. */}
+                    {isCurrent && (
+                      <span style={{
+                        position: 'absolute', top: 0, left: '50%',
+                        animation: 'gcStartBob 1.4s ease-in-out infinite',
+                        background: '#fff', border: '2px solid var(--terracotta)', borderRadius: 12,
+                        padding: '5px 13px', fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700,
+                        letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)',
+                        boxShadow: '0 3px 0 rgba(26,26,46,0.12)', whiteSpace: 'nowrap', zIndex: 2,
+                      }}>
+                        Start
+                      </span>
+                    )}
+                    {node}
+                  </div>
                 </div>
                 {i < stones.length - 1 && (
                   <div style={{ display: 'flex', justifyContent: 'center', padding: '6px 0' }}>
@@ -450,6 +514,28 @@ export default function KidPath({
           </p>
         </div>
       </div>
+
+      {/* The whole path done: the big one. Three bonus stars, a quarter hour
+          when they want it, and the stamp stone glowing gold behind it. */}
+      {pathComplete && (
+        <div onClick={() => setPathComplete(false)} style={{ position: 'fixed', inset: 0, zIndex: 135, background: 'rgba(26,26,46,0.55)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
+          <div onClick={e => e.stopPropagation()} style={{ width: '100%', maxWidth: 420, background: 'var(--cream)', borderRadius: 26, padding: '30px 24px', boxShadow: '0 24px 60px -16px rgba(0,0,0,0.55)', textAlign: 'center' }}>
+            <div style={{ fontSize: 64, lineHeight: 1, marginBottom: 10, display: 'inline-block', animation: 'gcChestPop 0.7s ease-out' }}>🏁</div>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.7rem', color: 'var(--ink)', letterSpacing: '-0.02em', lineHeight: 1.1, marginBottom: 8 }}>
+              Path complete, {childName}!
+            </div>
+            <p style={{ fontSize: '16px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 18px' }}>
+              Every stone on today&apos;s path, done. 3 bonus stars are landing in your bank, that is {3 * STAR_MINUTES} more minutes of screen time whenever you want them. Same again tomorrow?
+            </p>
+            <button
+              onClick={() => { setPathComplete(false); playKidSound('tap') }}
+              style={{ width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 16, padding: '15px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 16, boxShadow: '0 5px 0 var(--terracotta-dark)' }}
+            >
+              Brilliant ⭐
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* The chest reveal: the mini celebration and the day's lottery. The
           star is always banked; what it uncovers points somewhere good. */}
