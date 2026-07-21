@@ -520,20 +520,24 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           (the Explore section), then every quieter card Home used to stack,
           all one tap behind one calm row so the daily screen keeps one shape
           and the next action above stays dominant. */}
-      <details className="gc-home-more" style={{ marginBottom: '20px' }}>
-        <summary style={{
-          display: 'flex', alignItems: 'center', gap: '13px', cursor: 'pointer',
-          background: '#fff', border: '1.5px solid var(--border)', borderRadius: '16px',
-          padding: '14px 15px', boxShadow: '0 3px 0 rgba(26,26,46,0.05)', listStyle: 'none',
-        }}>
-          <span style={{ width: 50, height: 50, borderRadius: '14px', background: 'var(--terracotta-lt)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px', flexShrink: 0 }}>🧭</span>
-          <span style={{ flex: 1, minWidth: 0 }}>
-            <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)', lineHeight: 1.2 }}>See everything we do</span>
-            <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: '12.5px', color: 'var(--ink-muted)', marginTop: '3px' }}>Every part of the platform, one tap away</span>
-          </span>
-          <span aria-hidden style={{ color: 'var(--ink-muted)', fontWeight: 800, flexShrink: 0 }}>›</span>
-        </summary>
-        <div style={{ paddingTop: '16px' }}>
+      {/* Everything we do, no longer buried behind one tap: a sticky row of
+          section tabs jumps straight to the group you want, so the whole
+          platform is organised and reachable while the daily flow above still
+          leads. Each group keeps its own clear subheading below. */}
+      <div style={{ marginBottom: '20px' }}>
+        <div style={{ position: 'sticky', top: 0, zIndex: 4, display: 'flex', gap: '8px', overflowX: 'auto', padding: '10px 0', marginBottom: '6px', background: 'var(--cream)', borderBottom: '1px solid var(--border)' }}>
+          {[
+            { href: '#dash-explore', label: '🧭 Explore' },
+            { href: '#dash-keepgoing', label: '📚 Every part' },
+            { href: '#dash-more', label: '💛 DiGi and alerts' },
+          ].map(t => (
+            <a key={t.href} href={t.href} style={{ flexShrink: 0, textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', color: 'var(--ink)', background: '#fff', border: '1.5px solid var(--border)', borderRadius: '100px', padding: '8px 14px', boxShadow: '0 2px 0 rgba(26,26,46,0.05)' }}>
+              {t.label}
+            </a>
+          ))}
+        </div>
+        <div id="dash-explore" style={{ paddingTop: '10px', scrollMarginTop: '64px' }}>
+          <p className="eyebrow" style={{ margin: '0 0 10px 2px', fontSize: 10 }}>Explore everything</p>
 
         {/* The Explore grid: grouped big icons, every tile an existing page */}
         <ExploreGrid scriptHref={todayLoop.find(t => t.key === 'script')?.href ?? '/dashboard/scripts'} />
@@ -555,7 +559,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
 
       {/* Keep going: the rest of the membership as a quiet grid of tiles, so
           every part is one tap away without a wall of full width cards. */}
-      <p className="eyebrow" style={{ margin: '0 0 10px', fontSize: 10 }}>Keep going</p>
+      <p id="dash-keepgoing" className="eyebrow" style={{ margin: '0 0 10px', fontSize: 10, scrollMarginTop: '64px' }}>Keep going, every part one tap</p>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', marginBottom: '22px' }}>
         {([
           { href: '/dashboard/digi', external: false, bg: 'var(--stage-5)', icon: '◎', title: 'Ask DiGi', sub: 'Anything about their world', reveal: 'core' },
@@ -578,6 +582,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
 
       {/* Below the daily flow, quieter: the streak card, DiGi's proactive
           prompts, the ranked alerts and the age gate. */}
+      <p id="dash-more" className="eyebrow" style={{ margin: '0 0 10px', fontSize: 10, scrollMarginTop: '64px' }}>DiGi, your streak and alerts</p>
       <DigiStreakWidget count={streak.count} aliveToday={streak.aliveToday} firstName={firstName} />
       {revealed.has('moments') && (
         <>
@@ -871,7 +876,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
       )}
 
         </div>
-      </details>
+      </div>
     </div>
   )
 }
