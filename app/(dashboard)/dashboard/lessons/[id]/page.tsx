@@ -16,6 +16,12 @@ const STAGE_LABEL: Record<string, { label: string; bg: string }> = {
   independent: { label: 'Independent · Ages 16 and above', bg: 'var(--stage-5)' },
 }
 
+// Stage slug to number, so "back" returns to the lessons for this lesson's own
+// stage, the set the parent was on, not the full All ages shelf.
+const STAGE_NUM: Record<string, number> = {
+  foundation: 1, builder: 2, explorer: 3, shaper: 4, independent: 5,
+}
+
 const SECTIONS = [
   { num: 1, key: 'the_idea',       label: 'The idea',       bg: 'var(--stage-2)' },
   { num: 2, key: 'why_it_matters', label: 'Why it matters', bg: 'var(--stage-3)' },
@@ -52,6 +58,9 @@ export default async function LessonDetailPage({ params }: { params: Promise<{ i
   if (!lesson) notFound()
 
   const stageForEyebrow = STAGE_LABEL[lesson.stage_id] ?? STAGE_LABEL.foundation
+  // Back returns to this lesson's own stage, so the parent lands on the set
+  // they were working through, not the whole All ages shelf.
+  const lessonsBackHref = `/dashboard/lessons?stage=${STAGE_NUM[lesson.stage_id] ?? 2}`
   // Authored deck wins; otherwise build one from the lesson's own four parts
   // so every parent lesson plays as slides, never a flat wall of text.
   const slides = parseSlides(lesson.slides) ?? autoSlidesFromLesson(lesson, { eyebrow: stageForEyebrow.label })
@@ -78,8 +87,8 @@ export default async function LessonDetailPage({ params }: { params: Promise<{ i
     return (
       <div style={{ maxWidth: '560px', margin: '0 auto', padding: '24px 20px 48px' }}>
         <div style={{ marginBottom: '20px' }}>
-          <Link href="/dashboard/lessons" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '13px', color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}>
-            ← All lessons
+          <Link href={lessonsBackHref} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '13px', color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}>
+            ← Lessons
           </Link>
         </div>
         <div style={{ background: 'var(--deep-teal)', borderRadius: '20px', padding: '32px 26px', textAlign: 'center' }}>
@@ -108,17 +117,17 @@ export default async function LessonDetailPage({ params }: { params: Promise<{ i
       <div style={{ maxWidth: '620px', margin: '0 auto', padding: '24px 20px 48px' }}>
         <div style={{ marginBottom: '20px' }}>
           <Link
-            href="/dashboard/lessons"
+            href={lessonsBackHref}
             style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '13px', color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}
           >
-            ← All lessons
+            ← Lessons
           </Link>
         </div>
         <LessonPlayer
           lessonId={lesson.id}
           lessonSource="lesson"
           slides={slides}
-          backHref="/dashboard/lessons"
+          backHref={lessonsBackHref}
           digiPrompt={lesson.digi_prompt}
           badges={badgesFor(lesson.stage_id, lesson.category)}
         />
@@ -132,10 +141,10 @@ export default async function LessonDetailPage({ params }: { params: Promise<{ i
       {/* Back */}
       <div style={{ marginBottom: '24px' }}>
         <Link
-          href="/dashboard/lessons"
+          href={lessonsBackHref}
           style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '13px', color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}
         >
-          ← All lessons
+          ← Lessons
         </Link>
       </div>
 
@@ -209,11 +218,11 @@ export default async function LessonDetailPage({ params }: { params: Promise<{ i
 
       {/* Back to all */}
       <Link
-        href="/dashboard/lessons"
+        href={lessonsBackHref}
         style={{ display: 'flex', padding: '14px 18px', background: 'var(--stage-2)', border: '1px solid var(--stage-2)', borderRadius: '12px', textDecoration: 'none', flexDirection: 'column', gap: '4px', textAlign: 'center' }}
       >
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>Lessons</span>
-        <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--terracotta)' }}>Back to all lessons</span>
+        <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--terracotta)' }}>Back to lessons</span>
       </Link>
     </div>
   )

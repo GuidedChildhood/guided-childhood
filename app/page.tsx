@@ -490,7 +490,7 @@ export default function HomePage() {
               zIndex: 1,
             }}>
               {/* Card header */}
-              <div style={{ background: 'var(--stage-3)', padding: '14px 18px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div style={{ background: 'var(--terracotta-lt)', padding: '14px 18px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div>
                   <div style={{ fontFamily: 'var(--font-mono)', fontSize: '8px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '2px' }}>Stage 3 · Ages 11 to 13</div>
                   <div style={{ fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 800, color: 'var(--ink)' }}>Your dashboard today</div>
@@ -504,14 +504,14 @@ export default function HomePage() {
               <div style={{ padding: '14px 18px', borderBottom: '1px solid var(--border)' }}>
                 <div style={{ fontFamily: 'var(--font-mono)', fontSize: '8px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '7px' }}>Tonight&apos;s script</div>
                 <div style={{ fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 700, color: 'var(--ink)', marginBottom: '6px' }}>Screen time shutdown</div>
-                <div style={{ background: 'var(--stage-2)', borderRadius: '10px', padding: '9px 12px', fontSize: '11px', color: 'var(--ink)', lineHeight: 1.5, fontStyle: 'italic' }}>
+                <div style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '10px', padding: '9px 12px', fontSize: '11px', color: 'var(--ink)', lineHeight: 1.5, fontStyle: 'italic' }}>
                   &ldquo;Let&apos;s do a 5 minute warning from now on, so it never feels like a surprise.&rdquo;
                 </div>
               </div>
 
               {/* Device tip row */}
               <div style={{ padding: '11px 18px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <div style={{ width: '30px', height: '30px', background: 'var(--stage-1)', borderRadius: '9px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: '13px' }}>📱</div>
+                <div style={{ width: '30px', height: '30px', background: 'var(--terracotta-lt)', borderRadius: '9px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: '13px' }}>📱</div>
                 <div>
                   <div style={{ fontFamily: 'var(--font-display)', fontSize: '11px', fontWeight: 700, color: 'var(--ink)' }}>iOS Screen Time</div>
                   <div style={{ fontFamily: 'var(--font-mono)', fontSize: '8px', color: 'var(--ink-muted)', marginTop: '1px' }}>2 steps · App limits for Instagram</div>
@@ -521,7 +521,7 @@ export default function HomePage() {
 
               {/* AI literacy row */}
               <div style={{ padding: '11px 18px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <div style={{ width: '30px', height: '30px', background: 'var(--stage-5)', borderRadius: '9px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: '13px' }}>🤖</div>
+                <div style={{ width: '30px', height: '30px', background: 'var(--tint-sage)', borderRadius: '9px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: '13px' }}>🤖</div>
                 <div>
                   <div style={{ fontFamily: 'var(--font-display)', fontSize: '11px', fontWeight: 700, color: 'var(--ink)' }}>AI literacy · Lesson 3</div>
                   <div style={{ fontFamily: 'var(--font-mono)', fontSize: '8px', color: 'var(--ink-muted)', marginTop: '1px' }}>Mapped to RSE · 8 minutes</div>
@@ -546,10 +546,10 @@ export default function HomePage() {
               boxShadow: '0 22px 52px rgba(26,26,46,0.22)', border: '1px solid rgba(0,0,0,0.05)',
               transform: 'rotate(-5deg)', zIndex: 3,
             }}>
-              <div style={{ background: 'linear-gradient(165deg, #FBE9B6 0%, #F6D07E 100%)', padding: '11px 13px' }}>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '7.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink)', opacity: 0.7 }}>Teo&apos;s quests</div>
+              <div style={{ background: '#fff', padding: '11px 13px', borderBottom: '1px solid var(--border)' }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '7.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>Teo&apos;s quests</div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '5px' }}>
-                  <span style={{ width: 30, height: 30, borderRadius: '9px', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow: '0 2px 0 rgba(140,110,40,0.18)' }}>
+                  <span style={{ width: 30, height: 30, borderRadius: '9px', background: 'var(--terracotta-lt)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow: '0 2px 0 rgba(140,110,40,0.18)' }}>
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="var(--terracotta-dark)" aria-hidden><path d="M12 3.2l2.35 4.76 5.25.76-3.8 3.7.9 5.23L12 15.94l-4.7 2.47.9-5.23-3.8-3.7 5.25-.76z" /></svg>
                   </span>
                   <div>

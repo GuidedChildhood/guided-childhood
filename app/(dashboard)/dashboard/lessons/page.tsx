@@ -84,20 +84,28 @@ export default async function LessonsPage({ searchParams }: { searchParams: Prom
     new Map((completionsData ?? []).filter(c => c.lesson_source === src && c.passed !== false).map(c => [c.lesson_id, c.score as number | null]))
   const passedLessons = passedScore('lesson')
   const passedAi = passedScore('ai_lesson')
+  // A genuine attempt that did not pass: the lesson reads as "attempted, retake"
+  // rather than fresh, so a near miss is honest and inviting.
+  const attemptedSet = (src: 'lesson' | 'ai_lesson') =>
+    new Set((completionsData ?? []).filter(c => c.lesson_source === src && c.passed === false).map(c => c.lesson_id))
+  const attemptedLessons = attemptedSet('lesson')
+  const attemptedAi = attemptedSet('ai_lesson')
 
   const libraryItems: LibraryItem[] = allLessons
     .sort((a, b) => a.sort_order - b.sort_order)
     .map(l => {
       const meta = STAGE_META[l.stageKey]
       const passMap = l.source === 'ai' ? passedAi : passedLessons
+      const attemptedSetForSrc = l.source === 'ai' ? attemptedAi : attemptedLessons
       const done = passMap.has(l.id)
+      const attempted = !done && attemptedSetForSrc.has(l.id)
       const locked = l.source === 'lesson' && !isPaid && !freeIds.has(l.id) && !completedLessonIds.has(l.id)
       return {
         id: `${l.source}-${l.id}`,
         href: l.source === 'ai' ? `/dashboard/ai-module/${l.id}` : `/dashboard/lessons/${l.id}`,
         stageNum: meta?.num ?? 2, stageLabel: meta?.label ?? '', stageAges: meta?.ages ?? '',
         categoryLabel: CATEGORY_LABEL[l.category] ?? l.category,
-        title: l.title, keyMessage: l.key_message, locked, done,
+        title: l.title, keyMessage: l.key_message, locked, done, attempted,
         score: done ? passMap.get(l.id) ?? null : null,
         ks: keyStageFor(l.stageKey), strand: strandFor(l.category),
         coverUrl: l.coverUrl, deep: l.deep,

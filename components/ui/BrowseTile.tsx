@@ -9,7 +9,7 @@ import Link from 'next/link'
 // that art as a round storybook badge instead of the emoji; the emoji stays
 // as the fallback for anything without a cover yet.
 export default function BrowseTile({
-  href, stageNum, title, sub, emoji, coverUrl, done = false, doneLabel, locked = false, external = false, chips = [],
+  href, stageNum, title, sub, emoji, coverUrl, done = false, doneLabel, attempted = false, number, locked = false, external = false, chips = [],
 }: {
   href: string
   stageNum: number
@@ -21,6 +21,12 @@ export default function BrowseTile({
   // What the green badge says when done. Defaults to "✓ Done"; lesson tiles
   // pass "✓ Passed" with the score so parents see the check was passed.
   doneLabel?: string
+  // Started but not yet passed: shows an amber "Attempted" badge inviting a
+  // retake, so a near miss reads differently from a fresh lesson.
+  attempted?: boolean
+  // The lesson's place in its stage order, shown as a round number badge so a
+  // parent sees a clear numbered path of what to do next.
+  number?: number
   locked?: boolean
   external?: boolean
   // Small quiet mono chips under the sub line: the lesson tiles carry their
@@ -28,6 +34,7 @@ export default function BrowseTile({
   chips?: string[]
 }) {
   const text = `var(--stage-${stageNum}-text)`
+  const hasBadge = done || locked || attempted
   return (
     <Link
       href={href}
@@ -43,9 +50,9 @@ export default function BrowseTile({
         fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.15rem',
         color: text, lineHeight: 1.12, letterSpacing: '-0.02em',
         position: 'relative', zIndex: 1, maxWidth: '85%',
-        // The badge rides the top right corner, so the title drops below it
+        // The badges ride the top corners, so the title drops below them
         // rather than running underneath.
-        marginTop: done || locked ? '22px' : 0,
+        marginTop: hasBadge || number != null ? '24px' : 0,
       }}>
         {title}
       </span>
@@ -88,16 +95,31 @@ export default function BrowseTile({
           {emoji}
         </span>
       )}
-      {(done || locked) && (
+      {/* Order number, top left: the clear numbered path of what to do next. */}
+      {number != null && (
+        <span aria-hidden style={{
+          position: 'absolute', top: '11px', left: '12px', zIndex: 2,
+          width: 22, height: 22, borderRadius: '50%',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '11px',
+          background: done ? '#2F8F6B' : 'rgba(255,255,255,0.9)',
+          color: done ? '#fff' : text,
+          boxShadow: '0 2px 0 rgba(26,26,46,0.14)',
+        }}>
+          {number}
+        </span>
+      )}
+      {/* Status, top right: passed, a warm attempted, or members lock. */}
+      {hasBadge && (
         <span style={{
           position: 'absolute', top: '11px', right: '12px', zIndex: 2,
           fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700,
           letterSpacing: '0.06em', textTransform: 'uppercase',
-          background: done ? '#D4EDDF' : 'rgba(255,255,255,0.85)',
-          color: done ? '#1F7A54' : 'var(--ink)',
+          background: done ? '#D4EDDF' : attempted ? '#FBE7C6' : 'rgba(255,255,255,0.85)',
+          color: done ? '#1F7A54' : attempted ? '#9A6A16' : 'var(--ink)',
           borderRadius: '100px', padding: '3px 9px',
         }}>
-          {done ? doneLabel ?? '✓ Done' : '🔒 Members'}
+          {done ? doneLabel ?? '✓ Done' : attempted ? '↻ Attempted' : '🔒 Members'}
         </span>
       )}
     </Link>
