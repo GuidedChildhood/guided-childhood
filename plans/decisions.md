@@ -1800,3 +1800,14 @@ rendered and interaction tested in a real browser at mobile width. PR 449
 (draft). Note: the parallel routes/kid_games approach the first architecture
 map suggested was rejected after reading the real code, which already had the
 quest-games system.
+
+## 21 Jul 2026: real character art + game thumbnails + New badges
+Justin supplied the finished squad art (via Google Drive, since the Higgsfield
+CDN download stays blocked in session and pasted images do not persist). Saved
+to public/digi-squad/: Oliver.png (portrait), Oliver-football.png (hero), Zara.png,
+Sofia.jpeg, DiGi-star.png; the old basic Oliver is replaced. Built three
+professional game card thumbnails from the real art (public/games/) with the
+HTML to PNG pipeline, no Higgsfield needed. Sofia's Ice Cream Shop now uses the
+real Sofia portrait at the counter instead of the drawn stand in. Added thumb
+and isNew to QuestGameMeta so the kid Games tab shows a proper picture and a New
+badge on the three La Casita games. tsc clean, games re rendered and checked.

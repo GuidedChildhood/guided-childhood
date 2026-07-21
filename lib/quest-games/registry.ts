@@ -17,6 +17,10 @@ export type QuestGameMeta = {
   stages: number[]
   stars: number
   blurb: string
+  // Optional professional card thumbnail and a New flag, so the kid screen
+  // can show a proper picture and badge freshly added games.
+  thumb?: string
+  isNew?: boolean
 }
 
 export type PairsGame = QuestGameMeta & {
@@ -405,7 +409,7 @@ export const QUEST_GAMES: QuestGame[] = [
   // mechanics: wheel (A to Z clues), fishing (phonics tricky words) and
   // coins (UK money). 21 July 2026. ──
   {
-    key: 'a-to-z-showdown', mechanic: 'wheel',
+    key: 'a-to-z-showdown', mechanic: 'wheel', thumb: '/games/a-to-z-showdown.png', isNew: true,
     title: "DiGi's A to Z Showdown", emoji: '🔤', stage: 'Ages 7 to 13', stages: [1, 2, 3], stars: 3,
     blurb: 'Race the alphabet. DiGi reads a clue, you find the answer that starts with the letter.',
     rounds: [
@@ -496,7 +500,7 @@ export const QUEST_GAMES: QuestGame[] = [
     ],
   },
   {
-    key: 'word-fishing', mechanic: 'fishing',
+    key: 'word-fishing', mechanic: 'fishing', thumb: '/games/word-fishing.png', isNew: true,
     title: 'Word Fishing', emoji: '🐟', stage: 'Ages 4 to 7', stages: [1, 2], stars: 2,
     blurb: 'DiGi calls a tricky word and you catch the fish that carries it.',
     catches: 5,
@@ -507,7 +511,7 @@ export const QUEST_GAMES: QuestGame[] = [
     ],
   },
   {
-    key: 'ice-cream-shop', mechanic: 'coins',
+    key: 'ice-cream-shop', mechanic: 'coins', thumb: '/games/ice-cream-shop.png', isNew: true,
     title: "Sofia's Ice Cream Shop", emoji: '🍦', stage: 'Ages 5 to 7', stages: [1, 2], stars: 2,
     blurb: 'Run the ice cream shop and count out the coins to pay for every treat.',
     coins: [1, 2, 5, 10, 20, 50, 100, 200],

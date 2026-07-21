@@ -4,6 +4,22 @@ This folder is the single source of truth for all DiGi Squad characters. Read it
 
 ---
 
+## Canonical character art (the real files)
+
+The finished character art lives in `public/digi-squad/`. Use these, never a
+basic placeholder:
+
+- `Oliver.png` — Oliver portrait, orange hoodie (the everyday avatar)
+- `Oliver-football.png` — Oliver in his kit, the action hero shot
+- `Zara.png` — Zara, yellow top
+- `Sofia.jpeg` — Sofia, green top
+- `DiGi-star.svg` — DiGi, the golden star, animated in app via DigiCharacter
+- `DiGi-star.png` — DiGi star as a raster, for thumbnails and print
+
+Game card thumbnails built from this art live in `public/games/`.
+
+---
+
 ## The Team
 
 ### DiGi — The Guide

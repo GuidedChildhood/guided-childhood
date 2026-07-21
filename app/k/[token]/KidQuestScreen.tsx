@@ -1673,6 +1673,8 @@ export default function KidQuestScreen({
                     <CardFace
                       seed={game.key} done={done}
                       emoji={game.emoji}
+                      image={game.thumb}
+                      isNew={Boolean(game.isNew) && !done}
                       title={game.title}
                       subtitle={done ? 'Done! Stars with your grown up ⭐' : `A game, worth ${game.stars} stars`}
                       pill={`⭐ ${game.stars}`}
@@ -2353,10 +2355,10 @@ function SectionHead({ icon, kidIcon, children }: { icon?: string; kidIcon?: Kid
 // action on the right, so a whole tab of lessons scans like the quests list
 // instead of a long stack of tall banners. Crisper, shorter, same pictures.
 function CardFace({
-  emoji, title, subtitle, seed, done, image, pill, actionIcon,
+  emoji, title, subtitle, seed, done, image, pill, actionIcon, isNew,
 }: {
   emoji: string; title: string; subtitle: string; seed: string; done: boolean
-  image?: string; pill?: string; actionIcon: string
+  image?: string; pill?: string; actionIcon: string; isNew?: boolean
 }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: '13px', padding: '11px 13px' }}>
@@ -2370,6 +2372,11 @@ function CardFace({
         {pill && (
           <span style={{ position: 'absolute', bottom: '5px', left: '5px', fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, color: 'var(--ink)', background: 'rgba(255,255,255,0.9)', borderRadius: '100px', padding: '2px 7px' }}>
             {pill}
+          </span>
+        )}
+        {isNew && (
+          <span style={{ position: 'absolute', top: '4px', right: '4px', fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, color: '#fff', background: 'var(--coral, #D4600A)', borderRadius: '100px', padding: '2px 6px', letterSpacing: '0.05em', textTransform: 'uppercase', boxShadow: '0 1px 3px rgba(0,0,0,0.3)' }}>
+            New
           </span>
         )}
       </div>
