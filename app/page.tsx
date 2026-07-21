@@ -531,7 +531,7 @@ export default function HomePage() {
 
               {/* Ask DiGi row */}
               <div style={{ padding: '11px 18px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <DigiCharacter mood="idle" size={30} />
+                <DigiCharacter mood="wave" size={36} />
                 <div style={{ fontFamily: 'var(--font-display)', fontSize: '11px', fontWeight: 700, color: 'var(--ink)' }}>Ask DiGi about this situation</div>
                 <div style={{ marginLeft: 'auto', fontFamily: 'var(--font-mono)', fontSize: '8px', fontWeight: 700, color: 'var(--terracotta)' }}>Ask →</div>
               </div>
