@@ -53,6 +53,11 @@
   .jobhead{display:flex;justify-content:space-between;align-items:center;}
   .jobbody{display:flex;gap:5mm;margin-top:3mm;flex:1;align-items:center;}
   .worker-svg{width:34mm;height:auto;flex:none;}
+  /* Real illustrated worker (colour edition). Line art SVG stays for colour in. */
+  .worker-photo{height:40mm;width:auto;max-width:38mm;object-fit:contain;flex:none;
+    align-self:center;display:none;}
+  body:not(.colourin) .worker-photo{display:block;}
+  body:not(.colourin) .jobcard.has-photo .worker-svg{display:none;}
   .jobmain{flex:1;display:flex;flex-direction:column;gap:2.5mm;}
   .jobname{font-weight:900;font-size:19pt;letter-spacing:1px;color:var(--ink);}
   .tilerow{display:flex;align-items:center;gap:3mm;flex-wrap:wrap;}
@@ -252,9 +257,10 @@
   <div style="height:5mm;"></div>
 
   <!-- JOB 2 DOCTOR -->
-  <div class="jobcard">
+  <div class="jobcard has-photo">
     <div class="jobhead"><span class="zchip">Job 2</span><span class="claps">2 claps</span></div>
     <div class="jobbody">
+      <img class="worker-photo" src="images/jobs/clean/doctor.png" alt="A friendly doctor with a stethoscope and a clipboard">
       <svg class="art worker-svg" viewBox="0 0 120 132">
         <path class="noline" d="M14 132 V104 a46 46 0 0 1 92 0 V132 Z" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
         <path d="M50 92 q10 12 20 0" fill="none" stroke="var(--tint-blue)" stroke-width="6" stroke-linecap="round"/>
@@ -295,9 +301,10 @@
   <h3 style="margin-top:2mm;margin-bottom:3mm;">Cut the syllable tiles and build each word</h3>
 
   <!-- JOB 3 FARMER -->
-  <div class="jobcard">
+  <div class="jobcard has-photo">
     <div class="jobhead"><span class="zchip">Job 3</span><span class="claps">2 claps</span></div>
     <div class="jobbody">
+      <img class="worker-photo" src="images/jobs/clean/farmer.png" alt="A friendly farmer holding a basket of fresh vegetables">
       <svg class="art worker-svg" viewBox="0 0 120 132">
         <path class="noline" d="M14 132 V104 a46 46 0 0 1 92 0 V132 Z" fill="var(--green)" stroke="var(--ink)" stroke-width="3"/>
         <rect x="52" y="74" width="16" height="20" fill="var(--skin)" stroke="var(--ink)" stroke-width="3"/>
@@ -331,9 +338,10 @@
   <div style="height:5mm;"></div>
 
   <!-- JOB 4 TEACHER -->
-  <div class="jobcard">
+  <div class="jobcard has-photo">
     <div class="jobhead"><span class="zchip">Job 4</span><span class="claps">2 claps</span></div>
     <div class="jobbody">
+      <img class="worker-photo" src="images/jobs/clean/teacher.png" alt="A friendly teacher with an open book and a chalkboard">
       <svg class="art worker-svg" viewBox="0 0 120 132">
         <path class="noline" d="M14 132 V104 a46 46 0 0 1 92 0 V132 Z" fill="var(--coral)" stroke="var(--ink)" stroke-width="3"/>
         <rect x="52" y="74" width="16" height="20" fill="var(--skin2)" stroke="var(--ink)" stroke-width="3"/>
@@ -372,9 +380,10 @@
   <h3 style="margin-top:2mm;margin-bottom:3mm;">Cut the syllable tiles and build each word</h3>
 
   <!-- JOB 5 BUILDER -->
-  <div class="jobcard">
+  <div class="jobcard has-photo">
     <div class="jobhead"><span class="zchip">Job 5</span><span class="claps">2 claps</span></div>
     <div class="jobbody">
+      <img class="worker-photo" src="images/jobs/clean/builder.png" alt="A friendly builder in a hard hat and hi vis vest holding a hammer">
       <svg class="art worker-svg" viewBox="0 0 120 132">
         <path class="noline" d="M14 132 V104 a46 46 0 0 1 92 0 V132 Z" fill="var(--terracotta)" stroke="var(--ink)" stroke-width="3"/>
         <rect x="52" y="74" width="16" height="20" fill="var(--skin)" stroke="var(--ink)" stroke-width="3"/>
@@ -409,9 +418,10 @@
   <div style="height:5mm;"></div>
 
   <!-- JOB 6 VET -->
-  <div class="jobcard">
+  <div class="jobcard has-photo">
     <div class="jobhead"><span class="zchip">Job 6</span><span class="claps">1 clap</span></div>
     <div class="jobbody">
+      <img class="worker-photo" src="images/jobs/clean/vet.png" alt="A friendly vet gently holding a happy puppy">
       <svg class="art worker-svg" viewBox="0 0 120 132">
         <path class="noline" d="M14 132 V104 a46 46 0 0 1 92 0 V132 Z" fill="var(--tint-sage)" stroke="var(--ink)" stroke-width="3"/>
         <path class="keep" d="M60 100 l3 6 6 1 -4.5 4.5 1 6.5 -5.5 -3 -5.5 3 1 -6.5 -4.5 -4.5 6 -1z" fill="var(--ink)"/>
@@ -451,9 +461,10 @@
   <h3 style="margin-top:2mm;margin-bottom:3mm;">Cut the syllable tiles and build each word</h3>
 
   <!-- JOB 7 CHEF -->
-  <div class="jobcard">
+  <div class="jobcard has-photo">
     <div class="jobhead"><span class="zchip">Job 7</span><span class="claps">1 clap</span></div>
     <div class="jobbody">
+      <img class="worker-photo" src="images/jobs/clean/chef.png" alt="A friendly chef in whites and a tall hat holding a frying pan">
       <svg class="art worker-svg" viewBox="0 0 120 132">
         <path class="noline" d="M14 132 V104 a46 46 0 0 1 92 0 V132 Z" fill="var(--white)" stroke="var(--ink)" stroke-width="3"/>
         <path d="M46 104 l14 12 14 -12" fill="none" stroke="var(--coral)" stroke-width="5" stroke-linecap="round"/>
@@ -488,9 +499,10 @@
   <div style="height:5mm;"></div>
 
   <!-- JOB 8 POSTIE -->
-  <div class="jobcard">
+  <div class="jobcard has-photo">
     <div class="jobhead"><span class="zchip">Job 8</span><span class="claps">2 claps</span></div>
     <div class="jobbody">
+      <img class="worker-photo" src="images/jobs/clean/postie.png" alt="A friendly postie in a red and navy uniform carrying letters and a parcel">
       <svg class="art worker-svg" viewBox="0 0 120 132">
         <path class="noline" d="M14 132 V104 a46 46 0 0 1 92 0 V132 Z" fill="var(--tint-blue)" stroke="var(--ink)" stroke-width="3"/>
         <rect x="52" y="74" width="16" height="20" fill="var(--skin)" stroke="var(--ink)" stroke-width="3"/>

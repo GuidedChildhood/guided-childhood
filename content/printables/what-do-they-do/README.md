@@ -53,8 +53,28 @@ Syllable splits use spaces, never hyphens. UK spelling and UK jobs throughout
 D to 7, E to 2, F to 6, G to 3, H to 5.** Both the answer key on page 2 and the
 shuffled tool column on page 7 were cross checked against each worker's card.
 
+## Worker illustrations (colour edition)
+The colour edition job cards use real Higgsfield illustrations (nano_banana,
+flat premium preschool card style, UK jobs) in `images/jobs/clean/`, cleaned to
+transparent backgrounds and tight cropped by the canvas processor (grey card
+frames removed from builder and vet). The colour in edition keeps the bold SVG
+line art so children colour clean outlines, so both editions coexist in one
+print.html (CSS: `.jobcard.has-photo .worker-svg` is hidden in colour mode,
+`.worker-photo` is hidden in colour in mode).
+
+Seven jobs are illustrated: doctor, farmer, teacher, builder, vet, chef, postie.
+The doctor is the `e248ce05` render with its decorative frame inset cropped and
+the background floodfilled to transparent (canvas processor), so it reads as a
+bust rather than full body but sits cleanly on the card. Baker is the only card
+still on the SVG worker in colour mode: no baker render ever synced to Drive (the
+first baker `ffc72380` and the hardened retry `8cd8281d` are both in Higgsfield
+but not in the Drive folder). Once a baker render lands in the folder, drop it in
+`images/jobs/clean/` as `baker.png`, add `has-photo` plus a `worker-photo` img to
+job card 1, and rebuild for the full eight.
+
 ## Assets
 - `images/Zara.png` — Zara's real character art (cover and avatar).
+- `images/jobs/clean/*.png` — cleaned Higgsfield worker illustrations (6 jobs).
 - `images/preview-page-N.png` — colour edition page previews (1 to 9).
 - `images/colour-in-preview-page-N.png` — colour in previews (1 to 10, tips is 10).
 - `fonts/` — Nunito and IBM Plex Mono, local, via local-fonts.css.
