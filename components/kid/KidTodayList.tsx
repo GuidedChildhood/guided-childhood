@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import KidTickBurst from './KidTickBurst'
 import { playKidSound } from '@/lib/sound/kidSounds'
 import { TIMER_RULE } from '@/lib/quests/device-time'
@@ -273,9 +273,27 @@ export default function KidTodayList({
   // Jobs already sent to the grown up need nothing from the child, so they
   // fold behind one quiet button instead of filling the top of the page. The
   // count keeps them visible, the tap brings them back for a look.
-  const activeRows = rows.filter(r => r.state !== 'waiting')
   const waitingRows = rows.filter(r => r.state === 'waiting')
   const [waitingOpen, setWaitingOpen] = useState(false)
+
+  // A finished row takes a bow, then leaves: a short celebratory beat with
+  // the gold tick and the burst, then the list closes up behind it. The done
+  // count above keeps the credit, so nothing ever looks lost. Rows that were
+  // already done when the page opened skip straight to gone.
+  const [parting, setParting] = useState<Record<string, boolean>>({})
+  const prevDoneRef = useRef<Record<string, boolean>>({})
+  useEffect(() => {
+    for (const r of rows) {
+      const was = prevDoneRef.current[r.key]
+      if (r.state === 'done' && was === false) {
+        const key = r.key
+        setParting(p => ({ ...p, [key]: true }))
+        setTimeout(() => setParting(p => { const n = { ...p }; delete n[key]; return n }), 1900)
+      }
+      prevDoneRef.current[r.key] = r.state === 'done'
+    }
+  })
+  const activeRows = rows.filter(r => r.state === 'todo' || (r.state === 'done' && parting[r.key]))
 
   const rowCard = (r: Row) => {
     const done = r.state === 'done'
@@ -294,27 +312,27 @@ export default function KidTodayList({
           boxShadow: done ? '0 2px 0 rgba(0,0,0,0.10)' : waiting ? 'none' : '0 5px 0 rgba(0,0,0,0.18)',
           transform: done ? 'translateY(3px)' : 'none',
           transition: 'all 0.15s ease',
-          animation: r.burst ? 'kid-pop 0.5s ease' : undefined,
+          animation: r.burst ? 'kid-pop 0.5s ease' : done ? 'kid-done-leave 1.9s ease forwards' : undefined,
         }}
       >
         <span style={{ fontSize: '1.7rem', flexShrink: 0, opacity: waiting ? 0.85 : 1 }}>{r.emoji}</span>
         <span style={{ flex: 1, minWidth: 0 }}>
-          <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: done ? 'var(--ink-muted)' : 'var(--terracotta-dark)' }}>
+          <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: done ? 'var(--ink-muted)' : 'var(--terracotta-dark)' }}>
             {r.kind}
           </span>
           <span style={{
             display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800,
-            fontSize: '1.12rem', color: 'var(--ink)', lineHeight: 1.25, marginTop: 1,
+            fontSize: '1.3rem', color: 'var(--ink)', lineHeight: 1.25, marginTop: 1,
             textDecoration: done ? 'line-through' : 'none', opacity: done ? 0.6 : 1,
           }}>
             {r.title}
           </span>
-          <span style={{ display: 'block', fontSize: '14.5px', fontWeight: 600, color: waiting ? 'var(--terracotta-dark)' : 'var(--ink-muted)', marginTop: 2, lineHeight: 1.3 }}>
+          <span style={{ display: 'block', fontSize: '16.5px', fontWeight: 600, color: waiting ? 'var(--terracotta-dark)' : 'var(--ink-muted)', marginTop: 2, lineHeight: 1.35 }}>
             {r.sub}
             {r.beforeScreens && (
               <span style={{
                 display: 'inline-block', marginLeft: 8, verticalAlign: 'middle',
-                fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700,
+                fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700,
                 letterSpacing: '0.08em', textTransform: 'uppercase',
                 background: 'var(--terracotta-lt)', color: 'var(--terracotta-dark)',
                 border: '1px solid var(--terracotta)', borderRadius: '100px', padding: '2px 8px',
@@ -347,7 +365,7 @@ export default function KidTodayList({
           background: '#fff', borderRadius: '4px 16px 16px 16px', padding: '9px 14px',
           border: '1.5px solid rgba(26,26,46,0.08)', boxShadow: '0 3px 0 rgba(26,26,46,0.08)',
         }}>
-          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16.5px', color: 'var(--ink)', lineHeight: 1.35 }}>
+          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '18px', color: 'var(--ink)', lineHeight: 1.35 }}>
             {tod} {childName}. {line}
           </span>
         </div>
@@ -376,7 +394,7 @@ export default function KidTodayList({
             <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.02rem', color: 'var(--ink)', lineHeight: 1.25 }}>
               Pay back the gift
             </span>
-            <span style={{ display: 'block', fontSize: '14.5px', fontWeight: 600, color: 'var(--ink-soft)', marginTop: 2 }}>
+            <span style={{ display: 'block', fontSize: '16px', fontWeight: 600, color: 'var(--ink-soft)', marginTop: 2 }}>
               do a job to say thanks · {giftStarsOwed} star{giftStarsOwed === 1 ? '' : 's'} of gifted time
             </span>
           </span>
@@ -410,14 +428,14 @@ export default function KidTodayList({
                 onClick={() => setWaitingOpen(o => !o)}
                 style={{
                   display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10,
-                  width: '100%', background: 'rgba(255,255,255,0.10)', border: '1.5px dashed rgba(255,255,255,0.28)',
+                  width: '100%', background: 'rgba(255,255,255,0.55)', border: '1.5px dashed rgba(26,26,46,0.35)',
                   borderRadius: '16px', padding: '12px 16px', cursor: 'pointer',
                 }}
               >
-                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: 'rgba(255,255,255,0.85)' }}>
+                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)' }}>
                   ⏳ With your grown up · {waitingRows.length}
                 </span>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)' }}>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-soft)' }}>
                   {waitingOpen ? 'Hide' : 'Show'}
                 </span>
               </button>
@@ -428,7 +446,7 @@ export default function KidTodayList({
       )}
 
       {/* The device rule, quiet but always here: what using any screen means. */}
-      <p style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.03em', color: inkSoft, lineHeight: 1.6, margin: '12px 6px 0' }}>
+      <p style={{ textAlign: 'center', fontFamily: 'var(--font-body)', fontSize: '15px', fontWeight: 600, color: inkSoft, lineHeight: 1.55, margin: '12px 6px 0' }}>
         {TIMER_RULE}
       </p>
     </div>

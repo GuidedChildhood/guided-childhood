@@ -739,6 +739,12 @@ export default function KidQuestScreen({
         />
       )}
       <style>{`
+        @keyframes kid-done-leave {
+          0% { opacity: 1; transform: scale(1); }
+          12% { transform: scale(1.03); }
+          75% { opacity: 1; transform: scale(1) translateY(0); }
+          100% { opacity: 0; transform: translateY(-10px) scale(0.96); }
+        }
         @keyframes kid-pop {
           0% { transform: scale(1); }
           40% { transform: scale(1.25) rotate(-4deg); }
@@ -963,11 +969,11 @@ export default function KidQuestScreen({
               >
                 <span style={{ width: 48, height: 48, borderRadius: '14px', background: 'var(--tint-sage)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><KidIcon name="time" size={26} color="#2F8F6B" /></span>
                 <span style={{ flex: 1, minWidth: 0 }}>
-                  <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.1rem', color: 'var(--ink)', lineHeight: 1.1 }}>
-                    Use my time <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--ink-muted)' }}>· {bankBalance * STAR_MINUTES} min ready</span>
+                  <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.25rem', color: 'var(--ink)', lineHeight: 1.1 }}>
+                    Use my time <span style={{ fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 700, color: 'var(--ink-muted)' }}>· {bankBalance * STAR_MINUTES} min ready</span>
                   </span>
                   {/* The device rule, right where the screen would start. */}
-                  <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: '14.5px', color: 'var(--ink-muted)', marginTop: '3px', lineHeight: 1.4 }}>
+                  <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: '16px', color: 'var(--ink-muted)', marginTop: '3px', lineHeight: 1.45 }}>
                     {TIMER_RULE}
                   </span>
                 </span>
