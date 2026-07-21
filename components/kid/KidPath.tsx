@@ -246,6 +246,7 @@ export default function KidPath({
   // the finds once met. Jobs already show their own tick, so they are left
   // out here to avoid two marks.
   function stoneChecked(s: Stone): boolean {
+    if (s.type === 'start') return true
     if (s.type === 'lesson') return s.lesson.done
     if (s.type === 'printable') return printStatus(s.printable.key) === 'confirmed'
     if (s.type === 'game') return Boolean(foundMarks[`game_${s.game.key}`])
@@ -469,7 +470,7 @@ export default function KidPath({
     display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
     boxShadow: '0 6px 0 rgba(26,26,46,0.16)', cursor: 'pointer',
     opacity: opts.dim ? 0.78 : 1, position: 'relative', overflow: 'hidden',
-    animation: opts.pulse ? 'gcPathPulse 1.8s ease-in-out infinite' : undefined,
+    animation: opts.pulse ? 'gcPathPulse 1.8s ease-in-out infinite, gcNodeBounce 1.3s ease-in-out infinite' : undefined,
     textDecoration: 'none', padding: 0,
   })
   const label: React.CSSProperties = {
@@ -494,6 +495,10 @@ export default function KidPath({
         @keyframes gcStartBob {
           0%, 100% { transform: translate(-50%, 0); }
           50% { transform: translate(-50%, -6px); }
+        }
+        @keyframes gcNodeBounce {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-6px); }
         }
         @keyframes gcChestPop {
           0% { transform: scale(0.3) rotate(-8deg); opacity: 0; }
@@ -594,13 +599,16 @@ export default function KidPath({
             // place to tap, never a wall of choices.
             const locked = stone.type !== 'finish' && stone.type !== 'next' && currentIndex !== -1 && i > currentIndex && !stoneDone(stone)
             if (stone.type === 'start') {
+              // The start cap is always behind the child, so it reads as done,
+              // dimmed with a check, and never competes with the one glowing
+              // stone they are actually on.
               node = (
                 <div style={{ ...column, cursor: 'default' }}>
-                  <span style={shell({ bg: 'var(--terracotta-lt)', border: '3px solid var(--terracotta)' })}>
-                    <DigiCharacter mood="wave" size={52} once />
+                  <span style={shell({ bg: 'var(--tint-sage)', dim: true })}>
+                    <DigiCharacter mood="idle" size={46} once />
                   </span>
                   <span style={label}>Start here</span>
-                  <span style={sub}>{childName}&apos;s pathway</span>
+                  <span style={sub}>{childName}&apos;s pathway ✓</span>
                 </div>
               )
             } else if (stone.type === 'job') {
