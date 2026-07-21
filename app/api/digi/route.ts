@@ -7,7 +7,7 @@ import Anthropic from '@anthropic-ai/sdk'
 import { getStageFromAgeBand, STAGES, ageBandInList, type AgeBand, type ChallengeId } from '@/lib/content/stages'
 import { getRecommendedScript } from '@/lib/pathway/recommend'
 import type { StageId } from '@/lib/pathway/progress'
-import { getExpertKnowledge, getFamilyMemory, getWhatWorked } from '@/lib/digi/brain'
+import { getExpertKnowledge, getFamilyMemory, getWhatWorked, getPathwayPosition } from '@/lib/digi/brain'
 import { getAggregateWisdom } from '@/lib/digi/wisdom'
 import { lexicalFlags, highestSeverity } from '@/lib/digi/safety'
 import { STATIC_SYSTEM } from '@/lib/digi/system'
@@ -190,7 +190,7 @@ export async function POST(request: Request) {
   const parentChallenge = (profile?.onboarding_answers as Record<string, string> | null)?.challenge as ChallengeId | undefined
 
   // Second parallel round trip for the queries that depend on the first
-  const [expertKnowledge, aggregateWisdom, recommended, matchingScriptsResult] = await Promise.all([
+  const [expertKnowledge, aggregateWisdom, recommended, matchingScriptsResult, pathwayPosition] = await Promise.all([
     getExpertKnowledge(supabase, child?.age_band ?? null, message),
     getAggregateWisdom(supabase, child?.age_band ?? null, message),
     child?.stage_id
@@ -202,6 +202,9 @@ export async function POST(request: Request) {
           .select('sort_order, title')
           .in('sort_order', scriptFeedback.map(f => f.script_sort_order))
       : Promise.resolve({ data: null }),
+    child?.stage_id
+      ? getPathwayPosition(supabase, user.id, { id: stage.id, name: stage.name, ages: stage.ages, stageId: child.stage_id as StageId }, (child?.streak_weeks as number | null) ?? 0)
+      : Promise.resolve(''),
   ])
 
   let nextStepKnowledge = ''
@@ -318,7 +321,7 @@ When a parent asks whether or for how long their child should use any device, do
     trackerResult.data ?? [],
     feedbackResult.data ?? [],
     aiKnowledge,
-    deviceGuideKnowledge + screenLifeKnowledge + scriptFeedbackKnowledge + scriptLinkKnowledge + momentLinkKnowledge + nextStepKnowledge + concernsKnowledge + whatWorked + aggregateWisdom + expertKnowledge + familyMemory,
+    pathwayPosition + deviceGuideKnowledge + screenLifeKnowledge + scriptFeedbackKnowledge + scriptLinkKnowledge + momentLinkKnowledge + nextStepKnowledge + concernsKnowledge + whatWorked + aggregateWisdom + expertKnowledge + familyMemory,
   )
 
   // Drop any malformed or empty entries before the history reaches the model:
