@@ -112,9 +112,9 @@ export const PRINTABLES: Printable[] = [
     title: 'My Spanish Bucket List', emoji: '🇪🇸', kind: 'bucket',
     stages: [1, 2, 3, 4], minutes: 'A week of words', setting: 'anywhere', skill: 'Spanish',
     stars: 5,
-    blurb: 'Hola, gracias, uno dos tres. Eight first steps into Spanish, said out loud and coloured in.',
-    sheetUrl: BASE + 'hf_20260713_130906_33a56139-da85-4684-ad89-84067d3e705b.png',
-    previewUrl: BASE + 'hf_20260713_130909_6f362795-3990-499b-81b7-69068534efc8.png',
+    blurb: 'Hola, gracias, uno dos tres. Six first steps into Spanish, said out loud and coloured in.',
+    sheetUrl: BASE + 'hf_20260721_103653_637f3e46-fb57-4722-ae5b-9e55680c6e97.png',
+    previewUrl: BASE + 'hf_20260721_103653_637f3e46-fb57-4722-ae5b-9e55680c6e97.png',
   },
 ]
 
