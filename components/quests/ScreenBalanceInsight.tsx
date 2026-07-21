@@ -137,42 +137,43 @@ export default function ScreenBalanceInsight({
         {line}
       </p>
       {digiStepsIn && (
-        <>
-          <Link
-            href={`/dashboard/digi?q=${encodeURIComponent(`${childName} has had a good amount of screen time today. What is a warm way to help them wind down and switch off without a fight?`)}`}
-            style={{
-              display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: '12px',
-              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '12.5px',
-              color: '#fff', background: accent, borderRadius: '11px', padding: '8px 14px', textDecoration: 'none',
-            }}
-          >
-            Ask DiGi how to wind down →
-          </Link>
-          {/* Good things to do instead of more screen, one tap each. The child
-              app reaches this same limit and can offer these to the child too. */}
-          <div style={{ marginBottom: '12px' }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '7px' }}>
-              Good things to do instead
-            </div>
-            <div style={{ display: 'flex', gap: '7px', flexWrap: 'wrap' }}>
-              {[
-                { icon: '🖨️', label: 'Printables', href: '/dashboard/printables' },
-                { icon: '✅', label: 'A real world job', href: '/dashboard/quests?tab=manage' },
-                { icon: '🎲', label: 'Learning games', href: '/dashboard/quests?tab=games' },
-              ].map(o => (
-                <Link key={o.label} href={o.href} style={{
-                  display: 'inline-flex', alignItems: 'center', gap: '6px',
-                  background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: '11px',
-                  padding: '8px 12px', textDecoration: 'none',
-                  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '12.5px', color: 'var(--ink)',
-                }}>
-                  <span aria-hidden>{o.icon}</span>{o.label}
-                </Link>
-              ))}
-            </div>
-          </div>
-        </>
+        <Link
+          href={`/dashboard/digi?q=${encodeURIComponent(`${childName} has had a good amount of screen time today. What is a warm way to help them wind down and switch off without a fight?`)}`}
+          style={{
+            display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: '12px',
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '12.5px',
+            color: '#fff', background: accent, borderRadius: '11px', padding: '8px 14px', textDecoration: 'none',
+          }}
+        >
+          Ask DiGi how to wind down →
+        </Link>
       )}
+
+      {/* Always shown: exactly how to tip the scales back to real life, each one
+          earning the stars that add weight to that pan. The instruction the
+          scales are missing on their own, one tap each. */}
+      <div style={{ marginBottom: '12px' }}>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '7px' }}>
+          {realMins > screenMins ? 'Keep it tipped to real life · each earns stars' : 'Tip it back to real life · each earns stars'}
+        </div>
+        <div style={{ display: 'flex', gap: '7px', flexWrap: 'wrap' }}>
+          {[
+            { icon: '🖨️', label: 'A printable', href: '/dashboard/printables' },
+            { icon: '✅', label: 'A real world job', href: '/dashboard/quests?tab=manage' },
+            { icon: '📚', label: 'A lesson', href: '/dashboard/lessons' },
+            { icon: '🎲', label: 'Learning games', href: '/dashboard/quests?tab=games' },
+          ].map(o => (
+            <Link key={o.label} href={o.href} style={{
+              display: 'inline-flex', alignItems: 'center', gap: '6px',
+              background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: '11px',
+              padding: '8px 12px', textDecoration: 'none',
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '12.5px', color: 'var(--ink)',
+            }}>
+              <span aria-hidden>{o.icon}</span>{o.label}
+            </Link>
+          ))}
+        </div>
+      </div>
       <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, color: 'var(--ink-muted)' }}>
         Guide for age {insight.bandLabel}: about {insight.guideMins} min screen a day · ⭐ {earnedTodayStars} earned today
       </div>
