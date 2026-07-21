@@ -4,6 +4,9 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Celebration from '@/components/ui/Celebration'
 import type { QuestGame, PairsGame, JudgeGame, SumsGame } from '@/lib/quest-games/registry'
+import WheelView from './WheelView'
+import FishingView from './FishingView'
+import CoinsView from './CoinsView'
 
 // The in app quest game player. Renders a game by its mechanic, calm and
 // finite, ending in a warm finish that names the stars. Scoring wiring (send
@@ -56,6 +59,12 @@ export default function QuestGamePlayer({ game, onComplete, onClose }: {
             <PairsView game={game} onDone={finish} />
           ) : game.mechanic === 'sums' ? (
             <SumsView game={game} onDone={finish} />
+          ) : game.mechanic === 'wheel' ? (
+            <WheelView game={game} onDone={finish} />
+          ) : game.mechanic === 'fishing' ? (
+            <FishingView game={game} onDone={finish} />
+          ) : game.mechanic === 'coins' ? (
+            <CoinsView game={game} onDone={finish} />
           ) : (
             <JudgeView game={game} onDone={finish} />
           )}
