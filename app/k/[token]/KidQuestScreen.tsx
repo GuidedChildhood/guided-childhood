@@ -109,7 +109,7 @@ export default function KidQuestScreen({
   weekChart = [], schoolToday = [], notes = [], agreementItems = [], agreementSigned = false,
   contractLevel = '11plus', contractAgreedAt = null, contractReady = false, giftStarsOwed = 0,
   deviceTrust = 'ask', initialAsk = null, initialNudges = [],
-  stageLessonsPassed = null, stageLessonsTotal = null,
+  stageLessonsPassed = null, stageLessonsTotal = null, focusLesson = null,
 }: {
   token: string
   childName: string
@@ -158,6 +158,12 @@ export default function KidQuestScreen({
   // report uses, for the road's proof chip. Nulls fall back to the old count.
   stageLessonsPassed?: number | null
   stageLessonsTotal?: number | null
+  // The child's focus lesson: the next real Rosenshine library lesson for
+  // this stage they have not passed yet. When present this is what the Today
+  // "Learn" headline points at, opening the real lesson player (which writes
+  // the pass and ticks the parent's progress report). Null falls back to the
+  // mini lessons, so nothing regresses before the library is seeded.
+  focusLesson?: { id: string; title: string; emoji: string; stars: number } | null
 }) {
   // Only the games, mini lessons and printables that suit this child's
   // stage, so a young child never meets an older child's content.
@@ -617,8 +623,24 @@ export default function KidQuestScreen({
   // A Stage 1 child has no reading quizzes, so their Learn is the next watch
   // together adventure instead; nothing new gets invented for the tile.
   const nextAdventure = adventures.find(a => a.stageId === stageId && !a.done) ?? null
-  const learnTarget = nextLesson ?? (stageLessons.length === 0 ? nextAdventure : null)
-  const learnedThisSession = doneLessons.size > doneLessonKeys.length
+  // The Today "Learn" headline. The real Rosenshine library lesson comes
+  // first when the child has one to pass, so the curriculum is put in front
+  // of them one at a time; tapping opens the real player, which writes the
+  // pass and ticks the parent's report. It only falls back to the mini
+  // lessons (then the next adventure) when the library has nothing left.
+  const learnTile: { title: string; emoji: string; stars: number; href?: string } | null =
+    focusLesson
+      ? { title: focusLesson.title, emoji: focusLesson.emoji, stars: focusLesson.stars, href: `/k/${token}/lessons/${focusLesson.id}` }
+      : nextLesson
+        ? { title: nextLesson.title, emoji: nextLesson.emoji, stars: nextLesson.stars }
+        : (stageLessons.length === 0 && nextAdventure)
+          ? { title: nextAdventure.title, emoji: '🍿', stars: 10 }
+          : null
+  const learnTarget = learnTile
+  // A mini lesson passed this session flips the tile locally; a library
+  // lesson is a full navigation, so on return focusLesson has already
+  // advanced to the next one. Either way the tile reflects real state.
+  const learnedThisSession = !focusLesson && doneLessons.size > doneLessonKeys.length
   const dailyLearnDone = learnedThisSession || !learnTarget
 
 
@@ -931,9 +953,9 @@ export default function KidQuestScreen({
           buddyName={BUDDY_MAP[chosenBuddy].name}
           buddyImg={BUDDY_MAP[chosenBuddy].img}
           buddyIsStar={chosenBuddy === 'digi'}
-          learnTitle={nextLesson ? nextLesson.title : nextAdventure && stageLessons.length === 0 ? nextAdventure.title : null}
-          learnEmoji={nextLesson ? nextLesson.emoji : nextAdventure && stageLessons.length === 0 ? '🍿' : null}
-          learnStars={nextLesson ? nextLesson.stars : nextAdventure && stageLessons.length === 0 ? 10 : null}
+          learnTitle={learnTile ? learnTile.title : null}
+          learnEmoji={learnTile ? learnTile.emoji : null}
+          learnStars={learnTile ? learnTile.stars : null}
           learnDoneLive={dailyLearnDone}
           allLessonsDone={!learnTarget}
           quests={quests}
@@ -943,10 +965,16 @@ export default function KidQuestScreen({
           giftStarsOwed={giftStarsOwed}
           inkSoft={theme.inkSoft}
           onLearnTap={() => {
+            playKidSound('tap')
+            // A real library lesson opens its own player; the mini lessons
+            // stay in the Learn tab as before.
+            if (learnTile?.href) {
+              window.location.assign(learnTile.href)
+              return
+            }
             setTab('lessons')
             setActiveLesson(null)
             setLessonTab(nextLesson || stageLessons.length > 0 ? 'learn' : 'watch')
-            playKidSound('tap')
             setTimeout(() => document.getElementById('kid-tabs')?.scrollIntoView({ behavior: 'smooth' }), 80)
           }}
           onCelebrate={() => {

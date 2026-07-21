@@ -19,6 +19,13 @@ import KidQuestScreen from './KidQuestScreen'
 
 export const dynamic = 'force-dynamic'
 
+// The same category emoji the lesson player and the path use, so the Today
+// "Learn" headline, the road stone and the lesson itself never disagree.
+const KID_LESSON_EMOJI: Record<string, string> = {
+  safety: '🛡️', screen_habits: '📱', wellbeing: '💛',
+  online_risks: '🔍', ai_safety: '🤖', ai_literacy: '🤖',
+}
+
 // On a child's Home Screen this page is called My Quests, opens full
 // screen like a real app (which is also what lets reminders work on
 // iPhone), and wears the DiGi star icon from apple-icon.tsx.
@@ -214,18 +221,41 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   // The child's stage library lessons and their passes, the exact same count
   // the parent's progress report uses, so the road's proof and the report can
   // never disagree. Fails soft to nulls on any read error.
+  //
+  // From the same read we also pick the child's focus lesson: the next one for
+  // this stage they have not passed yet, in the curriculum's own order. This
+  // is what the Today "Learn" headline points at, so the real Rosenshine
+  // lessons are put in front of the child one at a time, and passing one
+  // ticks the parent's progress report through the lesson player. Nulls fall
+  // back to the mini lessons on any read error.
   let stageLessonsPassed: number | null = null
   let stageLessonsTotal: number | null = null
+  let focusLesson: { id: string; title: string; emoji: string; stars: number } | null = null
   {
     const stageSlug = ageBand ? getStageFromAgeBand(ageBand).name.toLowerCase() : 'builder'
     const [{ data: stageLessonRows, error: lessonsErr }, { data: passRows, error: passErr }] = await Promise.all([
-      supabase.from('lessons').select('id').eq('audience', 'parent').eq('stage_id', stageSlug).neq('status', 'stub'),
+      supabase.from('lessons').select('id, title, category, sort_order')
+        .eq('audience', 'parent').eq('stage_id', stageSlug).neq('status', 'stub')
+        .order('sort_order', { ascending: true }),
       supabase.from('lesson_completions').select('lesson_id, passed').eq('user_id', link.user_id).eq('lesson_source', 'lesson'),
     ])
     if (!lessonsErr && !passErr && (stageLessonRows ?? []).length > 0) {
-      const ids = new Set((stageLessonRows ?? []).map(l => l.id))
+      const rows = stageLessonRows ?? []
+      const ids = new Set(rows.map(l => l.id))
+      const passedIds = new Set(
+        (passRows ?? []).filter(c => c.passed !== false && ids.has(c.lesson_id)).map(c => c.lesson_id),
+      )
       stageLessonsTotal = ids.size
-      stageLessonsPassed = (passRows ?? []).filter(c => c.passed !== false && ids.has(c.lesson_id)).length
+      stageLessonsPassed = passedIds.size
+      const next = rows.find(l => !passedIds.has(l.id))
+      if (next) {
+        focusLesson = {
+          id: next.id as string,
+          title: next.title as string,
+          emoji: KID_LESSON_EMOJI[String(next.category)] ?? '📘',
+          stars: 10,
+        }
+      }
     }
   }
 
@@ -403,6 +433,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       recommendedMinutes={recommendedMinutes}
       stageLessonsPassed={stageLessonsPassed}
       stageLessonsTotal={stageLessonsTotal}
+      focusLesson={focusLesson}
       printablesUnlocked={printablesUnlocked}
       activeSession={activeSession}
       weekChart={weekChart}
