@@ -797,6 +797,7 @@ export default function KidQuestScreen({
       <KidSplash
         buddyImg={BUDDY_MAP[chosenBuddy].img}
         buddyName={BUDDY_MAP[chosenBuddy].name}
+        childName={childName}
         buddyIsStar={chosenBuddy === 'digi'}
         bg={theme.bg}
         ink={theme.ink}
