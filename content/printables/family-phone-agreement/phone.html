@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>The Family Phone Agreement · Phone</title>
+<link href="fonts/local-fonts.css" rel="stylesheet">
+<style>
+  :root{--cream:#F9F8F6;--ink:#1A1A2E;--ink-soft:#52526A;--ink-muted:#8888A0;
+    --border:#EAEAF0;--terracotta:#EDC35F;--terracotta-dark:#C99A28;--terracotta-lt:#FEF7E0;
+    --coral:#D4600A;--green:#2F8F6B;--tint-sage:#E8F0EE;--tint-blue:#D8E8F8;--white:#FFF;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Nunito',sans-serif;color:var(--ink);}
+  .screen{width:1080px;height:1920px;background:var(--cream);padding:70px 60px;
+    display:flex;flex-direction:column;position:relative;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:26px;
+    letter-spacing:6px;text-transform:uppercase;color:var(--coral);}
+  .hero{display:flex;align-items:center;gap:34px;margin-top:22px;}
+  .hero img{width:230px;height:246px;object-fit:contain;}
+  .bubble{background:var(--white);border:7px solid var(--ink);border-radius:40px;
+    box-shadow:0 12px 0 var(--ink);padding:36px 42px;font-weight:800;font-size:38px;
+    line-height:1.3;position:relative;flex:1;}
+  .bubble:after{content:'';position:absolute;left:-30px;top:50%;transform:translateY(-50%);
+    border-top:24px solid transparent;border-bottom:24px solid transparent;
+    border-right:30px solid var(--ink);}
+  .rows{display:flex;flex-direction:column;gap:22px;margin-top:38px;flex:1;justify-content:space-evenly;}
+  .row{background:var(--white);border:6px solid var(--ink);border-radius:36px;
+    box-shadow:0 10px 0 var(--ink);padding:26px 38px;display:flex;align-items:center;gap:30px;}
+  .row svg{width:66px;height:66px;flex-shrink:0;}
+  .row .label{font-weight:800;font-size:38px;flex:1;line-height:1.2;}
+  .row .label span{display:block;font-weight:600;font-size:28px;color:var(--ink-muted);margin-top:4px;}
+  .tally{background:var(--terracotta-lt);border:7px solid var(--ink);border-radius:40px;
+    box-shadow:0 12px 0 var(--ink);padding:34px;text-align:center;margin-top:36px;}
+  .tally .big{font-weight:900;font-size:44px;line-height:1.2;}
+  .tally .small{font-weight:700;font-size:30px;color:var(--ink-soft);margin-top:12px;line-height:1.35;}
+  .step{background:var(--white);border:7px solid var(--ink);border-radius:40px;
+    box-shadow:0 12px 0 var(--ink);padding:36px 42px;display:flex;gap:34px;align-items:flex-start;text-align:left;}
+  .stepnum{width:88px;height:88px;border-radius:50%;border:7px solid var(--ink);flex-shrink:0;
+    background:var(--terracotta);display:flex;align-items:center;justify-content:center;
+    font-weight:900;font-size:44px;}
+  .step .t{font-weight:900;font-size:44px;line-height:1.1;}
+  .step .d{font-weight:600;font-size:32px;color:var(--ink-soft);line-height:1.4;margin-top:10px;}
+  .foot{margin-top:30px;text-align:center;font-family:'IBM Plex Mono',monospace;
+    font-size:24px;letter-spacing:4px;color:var(--ink-muted);text-transform:uppercase;}
+</style>
+</head>
+<body>
+
+<!-- SCREEN 1 · MY COPY OF THE DEAL -->
+<div class="screen" id="s1">
+  <div class="eyebrow">Our family phone agreement</div>
+  <div class="hero">
+    <img src="images/DiGi-star.svg" alt="DiGi">
+    <div class="bubble">My copy of the deal we signed. Both sides promised, not just me.</div>
+  </div>
+  <div class="rows">
+    <div class="row"><svg viewBox="0 0 24 24"><path d="M12 3a7.5 7.5 0 1 0 9 9 8 8 0 1 1-9-9z" fill="#D8E8F8" stroke="#1A1A2E" stroke-width="1.5" stroke-linejoin="round"/></svg><div class="label">My phone sleeps in its spot every night</div></div>
+    <div class="row"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="#FEF7E0" stroke="#1A1A2E" stroke-width="1.5"/><path d="M12 6.5V12l3.5 2.5" fill="none" stroke="#1A1A2E" stroke-width="1.7" stroke-linecap="round"/></svg><div class="label">Screens down at our time on school nights</div></div>
+    <div class="row"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4" fill="#E8F0EE" stroke="#1A1A2E" stroke-width="1.5"/><path d="M12 8.5v7M8.5 12h7" stroke="#2F8F6B" stroke-width="1.8" stroke-linecap="round"/></svg><div class="label">I ask before new apps</div></div>
+    <div class="row"><svg viewBox="0 0 24 24"><path d="M4 6h13a3 3 0 0 1 0 6H9l-5 6V6z" fill="#FBCFE8" stroke="#1A1A2E" stroke-width="1.5" stroke-linejoin="round"/></svg><div class="label">I tell someone when something feels wrong</div></div>
+    <div class="row"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="#FEF7E0" stroke="#1A1A2E" stroke-width="1.5"/><path d="M8 4.5v5M10 4.5v5M9 9.5V15M15.5 4.5c-1.2 1-1.8 2.5-1.8 4.2 0 1 .6 1.6 1.5 1.6V15" stroke="#1A1A2E" stroke-width="1.3" fill="none" stroke-linecap="round"/></svg><div class="label">Phones away at meals<span>Everyone's. Even theirs.</span></div></div>
+    <div class="row"><svg viewBox="0 0 24 24"><path d="M12 2.5 14.9 8.6l6.6.8-4.9 4.5 1.3 6.5L12 17.2 6.1 20.4l1.3-6.5L2.5 9.4l6.6-.8z" fill="#EDC35F" stroke="#1A1A2E" stroke-width="1.4"/></svg><div class="label">They promised too<span>Knock before you look. No ambush changes. No anger, ever.</span></div></div>
+  </div>
+  <div class="tally">
+    <div class="big">We review the deal every school term</div>
+    <div class="small">Trust grows, the deal grows. That is the pathway.</div>
+  </div>
+  <div class="foot">Guided Childhood · Our Deal</div>
+</div>
+
+<!-- SCREEN 2 · WHEN SOMETHING FEELS WRONG -->
+<div class="screen" id="s2">
+  <div class="eyebrow">When something feels wrong</div>
+  <div class="hero">
+    <img src="images/DiGi-star.svg" alt="DiGi">
+    <div class="bubble">Tummy drop moment? You do not have to fix it. Just three steps.</div>
+  </div>
+  <div class="rows" style="gap:34px;">
+    <div class="step">
+      <div class="stepnum">1</div>
+      <div><div class="t">Stop</div><div class="d">Put the phone down. No replies, no clicks, no arguing back.</div></div>
+    </div>
+    <div class="step">
+      <div class="stepnum">2</div>
+      <div><div class="t">Keep it</div><div class="d">Screenshot if you can. Forward it to nobody. Delete nothing. It is proof, not your fault.</div></div>
+    </div>
+    <div class="step">
+      <div class="stepnum">3</div>
+      <div><div class="t">Tell your adult</div><div class="d">Today, not someday. They signed a promise to stay calm, remember?</div></div>
+    </div>
+  </div>
+  <div class="tally" style="background:var(--tint-sage);">
+    <div class="big" style="color:var(--green);">You will never be in trouble for telling.</div>
+    <div class="small">Not even if you clicked something. Telling is always the winning move.</div>
+  </div>
+  <div class="foot">Guided Childhood · Feels Wrong Card</div>
+</div>
+
+</body>
+</html>

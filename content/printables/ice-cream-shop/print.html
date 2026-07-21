@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Sofia's Ice Cream Shop</title>
+<link href="fonts/local-fonts.css" rel="stylesheet">
+<style>
+  :root{
+    --white:#FFFFFF; --cream:#F9F8F6; --ink:#1A1A2E; --ink-soft:#52526A;
+    --ink-muted:#8888A0; --border:#EAEAF0; --terracotta:#EDC35F;
+    --terracotta-dark:#C99A28; --terracotta-lt:#FEF7E0; --coral:#D4600A;
+    --green:#2F8F6B; --tint-blue:#D8E8F8; --tint-sage:#E8F0EE; --pink:#FBCFE8;
+    /* art fills, all of them go white in ink mode */
+    --a-straw:#FBCFE8; --a-van:#FEF7E0; --a-choc:#C99A28; --a-mint:#E8F0EE;
+    --a-blueb:#D8E8F8; --a-honey:#EDC35F; --a-butter:#EDC35F; --a-bdark:#C99A28;
+    --a-blue:#D8E8F8; --a-sage:#E8F0EE; --a-coral:#D4600A; --a-pink:#FBCFE8;
+    --a-cream:#FEF7E0; --a-grn:#2F8F6B; --a-lat:#C99A28;
+    --a-cheek:rgba(212,96,10,.22);
+    --a-copper:#EDC35F; --a-silver:#D8E8F8; --a-poundc:#C99A28;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:'Nunito',sans-serif;color:var(--ink);background:#ddd;}
+  .sheet{width:210mm;height:296mm;background:var(--cream);position:relative;overflow:hidden;
+    page-break-after:always;padding:13mm 14mm 14mm;display:flex;flex-direction:column;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:8.5pt;
+    letter-spacing:2.5px;text-transform:uppercase;color:var(--coral);}
+  h1{font-weight:900;font-size:34pt;line-height:1.04;}
+  h2{font-weight:900;font-size:19pt;line-height:1.12;}
+  p{font-size:10.5pt;line-height:1.55;color:var(--ink-soft);}
+  .footer{position:absolute;bottom:6.5mm;left:14mm;right:14mm;display:flex;
+    justify-content:space-between;align-items:center;
+    font-family:'IBM Plex Mono',monospace;font-size:7pt;letter-spacing:1.5px;
+    color:var(--ink-muted);text-transform:uppercase;}
+  .card{background:var(--white);border:2.5px solid var(--ink);border-radius:16px;
+    box-shadow:0 5px 0 var(--ink);}
+  .chip{background:var(--white);border:2.5px solid var(--ink);border-radius:16px;
+    box-shadow:0 4px 0 var(--ink);padding:3mm 6mm;font-weight:800;font-size:10.5pt;}
+  .badge{display:inline-block;font-family:'IBM Plex Mono',monospace;font-weight:600;
+    font-size:6.8pt;letter-spacing:1px;text-transform:uppercase;color:var(--ink);
+    background:var(--tint-sage);border:1.5px solid var(--ink);border-radius:8px;
+    padding:1mm 2.5mm;}
+  .badge.blue{background:var(--tint-blue);}
+  .badge.butter{background:var(--terracotta-lt);}
+  .bubble{background:var(--white);border:2.5px solid var(--ink);border-radius:16px;
+    box-shadow:0 4px 0 var(--ink);padding:4mm 5mm;position:relative;
+    font-weight:700;font-size:10.5pt;line-height:1.4;color:var(--ink);}
+  .bubble:after{content:'';position:absolute;left:-4.5mm;top:50%;transform:translateY(-50%);
+    width:0;height:0;border-top:3.5mm solid transparent;border-bottom:3.5mm solid transparent;
+    border-right:4.5mm solid var(--ink);}
+  .sofia{border-radius:50%;border:2.5px solid var(--ink);object-fit:cover;background:var(--cream);}
+
+  /* ---- coins ---- */
+  .coinrow{display:flex;gap:1.5mm;align-items:flex-end;flex-wrap:wrap;margin-top:2.5mm;}
+  .cut{border:0.5mm dashed var(--ink-muted);border-radius:50%;padding:1mm;
+    display:inline-flex;align-items:center;justify-content:center;}
+  .coin{border-radius:50%;border:0.6mm solid var(--ink);display:flex;flex-direction:column;
+    align-items:center;justify-content:center;position:relative;overflow:hidden;}
+  .coin::after{content:'';position:absolute;inset:0.9mm;border-radius:50%;
+    border:0.3mm solid rgba(26,26,46,.35);pointer-events:none;}
+  .coin .cv{font-weight:900;line-height:1;position:relative;z-index:2;}
+  .coin .cm{font-family:'IBM Plex Mono',monospace;font-weight:600;letter-spacing:0.15mm;
+    line-height:1;margin-top:0.6mm;position:relative;z-index:2;color:rgba(26,26,46,.75);}
+  .coin.copper{background:var(--a-copper);}
+  .coin.silver{background:var(--a-silver);}
+  .coin.pound{background:var(--a-poundc);}
+  .coin.two{background:var(--a-poundc);}
+  .coin.two::before{content:'';position:absolute;inset:2.9mm;border-radius:50%;
+    background:var(--a-blue);border:0.3mm solid rgba(26,26,46,.35);}
+
+  /* ---- menu ---- */
+  .menu{background:var(--white);border:2.5px solid var(--ink);border-radius:16px;
+    box-shadow:0 5px 0 var(--ink);overflow:hidden;}
+  .awning{height:11mm;border-bottom:2.5px solid var(--ink);
+    background:repeating-linear-gradient(90deg,var(--a-pink) 0 14mm,var(--white) 14mm 28mm);}
+  .mrow{display:flex;align-items:center;gap:4mm;padding:2.5mm 7mm;}
+  .mrow+.mrow{border-top:1.5px solid var(--border);}
+  .mrow .mic{width:12mm;display:flex;justify-content:center;align-items:flex-end;}
+  .mrow .mname{font-weight:800;font-size:12.5pt;}
+  .mrow .msub{font-family:'IBM Plex Mono',monospace;font-size:7pt;color:var(--ink-muted);
+    letter-spacing:0.5px;text-transform:uppercase;margin-top:0.5mm;}
+  .mrow .mdots{flex:1;border-bottom:2px dotted var(--ink-muted);margin:0 1mm;height:1px;}
+  .mrow .mprice{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:14pt;}
+
+  /* ---- cut pieces ---- */
+  .pcut{border:0.5mm dashed var(--ink-muted);border-radius:5mm;padding:2mm;
+    display:flex;align-items:center;justify-content:center;}
+  .pieces{display:flex;gap:3mm;flex-wrap:wrap;align-items:flex-end;margin-top:3mm;}
+
+  /* ---- order cards ---- */
+  .ogrid{display:grid;grid-template-columns:repeat(3,1fr);gap:3.2mm;margin-top:4mm;}
+  .ocard{background:var(--white);border:0.5mm dashed var(--ink-muted);border-radius:16px;
+    padding:3.5mm 4mm;height:57mm;display:flex;flex-direction:column;position:relative;}
+  .ocard .inner{border:2px solid var(--ink);border-radius:12px;position:absolute;inset:1.6mm;
+    pointer-events:none;}
+  .oline{font-weight:800;font-size:10.5pt;line-height:1.3;color:var(--ink);margin-top:2mm;}
+  .oq{font-size:9pt;line-height:1.4;margin-top:1.5mm;flex:1;}
+  .oans{font-family:'IBM Plex Mono',monospace;font-size:6.6pt;color:var(--ink-muted);
+    border-top:1.5px dotted var(--border);padding-top:1.5mm;letter-spacing:0.2px;}
+
+  /* ---- shopkeeper kit ---- */
+  .signbig{font-weight:900;font-size:30pt;letter-spacing:2px;}
+  .receipt{background:var(--white);border:0.5mm dashed var(--ink-muted);border-radius:3mm;
+    padding:3.5mm 4mm;font-family:'IBM Plex Mono',monospace;font-size:8pt;line-height:2.05;
+    color:var(--ink);width:56mm;}
+  .receipt .rh{font-weight:600;text-align:center;font-size:7.5pt;letter-spacing:1px;
+    border-bottom:1.5px dotted var(--ink-muted);padding-bottom:1.5mm;margin-bottom:1.5mm;}
+  .receipt .rf{text-align:center;font-size:6.5pt;letter-spacing:1px;color:var(--ink-muted);
+    border-top:1.5px dotted var(--ink-muted);padding-top:1.5mm;margin-top:1mm;}
+
+  /* ---- ink friendly ---- */
+  .ink-only{display:none !important;}
+  body.ink .sheet{background:var(--white);}
+  body.ink .colour-only{display:none !important;}
+  body.ink .ink-only{display:flex !important;}
+  body.ink .card,body.ink .chip,body.ink .bubble,body.ink .menu{box-shadow:none;}
+  body.ink{
+    --a-straw:#FFFFFF; --a-van:#FFFFFF; --a-choc:#FFFFFF; --a-mint:#FFFFFF;
+    --a-blueb:#FFFFFF; --a-honey:#FFFFFF; --a-butter:#FFFFFF; --a-bdark:#FFFFFF;
+    --a-blue:#FFFFFF; --a-sage:#FFFFFF; --a-coral:#FFFFFF; --a-pink:#FFFFFF;
+    --a-cream:#FFFFFF; --a-grn:#FFFFFF; --a-lat:#D5D5E0; --a-cheek:transparent;
+    --a-copper:#FFFFFF; --a-silver:#FFFFFF; --a-poundc:#FFFFFF;
+  }
+  body.ink .badge{background:var(--white);}
+  body.ink .awning{background:var(--white);}
+  body.ink .tinted{background:var(--white) !important;}
+  @page{size:A4;margin:0;}
+  @media print{body{background:none;}}
+</style>
+</head>
+<body>
+
+<!-- shared hand drawn art -->
+<svg width="0" height="0" style="position:absolute;">
+  <defs>
+    <clipPath id="coneClip"><path d="M14 20 L50 126 L86 20 Z"/></clipPath>
+    <g id="scoopG">
+      <path d="M8 46 C8 21 26 5 50 5 C74 5 92 21 92 46 A14 14 0 0 1 64 46 A14 14 0 0 1 36 46 A14 14 0 0 1 8 46 Z"
+        fill="var(--sf,#FBCFE8)" stroke="#1A1A2E" stroke-width="3" stroke-linejoin="round"/>
+      <circle cx="40" cy="30" r="3" fill="#1A1A2E"/><circle cx="60" cy="30" r="3" fill="#1A1A2E"/>
+      <path d="M44 37 Q50 43 56 37" fill="none" stroke="#1A1A2E" stroke-width="2.6" stroke-linecap="round"/>
+      <circle cx="30" cy="36" r="4.5" fill="var(--a-cheek)"/><circle cx="70" cy="36" r="4.5" fill="var(--a-cheek)"/>
+    </g>
+    <g id="coneG">
+      <path d="M14 20 L50 126 L86 20 Z" fill="var(--a-butter)" stroke="#1A1A2E" stroke-width="3" stroke-linejoin="round"/>
+      <g clip-path="url(#coneClip)" stroke="var(--a-lat)" stroke-width="3">
+        <path d="M20 24 L80 96"/><path d="M10 52 L58 110"/><path d="M80 24 L20 96"/><path d="M90 52 L42 110"/>
+      </g>
+      <path d="M14 20 L50 126 L86 20 Z" fill="none" stroke="#1A1A2E" stroke-width="3" stroke-linejoin="round"/>
+      <rect x="6" y="4" width="88" height="15" rx="7.5" fill="var(--a-butter)" stroke="#1A1A2E" stroke-width="3"/>
+    </g>
+    <g id="flakeG">
+      <rect x="10" y="4" width="20" height="82" rx="9" fill="var(--a-bdark)" stroke="#1A1A2E" stroke-width="2.5"/>
+      <g stroke="rgba(26,26,46,.32)" stroke-width="2">
+        <path d="M14 14 L26 26"/><path d="M14 30 L26 42"/><path d="M14 46 L26 58"/><path d="M14 62 L26 74"/>
+      </g>
+    </g>
+    <g id="cherryG">
+      <path d="M30 27 Q32 10 46 8" fill="none" stroke="#1A1A2E" stroke-width="3" stroke-linecap="round"/>
+      <ellipse cx="47" cy="10" rx="8" ry="4" fill="var(--a-grn)" stroke="#1A1A2E" stroke-width="1.5" transform="rotate(18 47 10)"/>
+      <circle cx="28" cy="46" r="20" fill="var(--a-coral)" stroke="#1A1A2E" stroke-width="3"/>
+      <circle cx="21" cy="39" r="5" fill="#FFFFFF" opacity=".45"/>
+    </g>
+    <g id="sauceG">
+      <path d="M8 24 Q50 2 92 24 Q94 32 84 32 Q84 46 75 46 Q66 46 68 34 Q60 38 52 36 Q52 52 42 52 Q33 52 36 36 Q26 40 20 34 Q10 34 8 24 Z"
+        fill="var(--a-coral)" stroke="#1A1A2E" stroke-width="2.5" stroke-linejoin="round"/>
+    </g>
+    <g id="sprkG">
+      <path d="M10 44 A50 40 0 0 1 110 44 Z" fill="var(--a-cream)" stroke="#1A1A2E" stroke-width="2.5" stroke-linejoin="round"/>
+      <g stroke="#1A1A2E" stroke-width="0.8">
+        <rect x="30" y="26" width="9" height="3.5" rx="1.7" fill="var(--a-coral)" transform="rotate(-20 34 28)"/>
+        <rect x="52" y="18" width="9" height="3.5" rx="1.7" fill="var(--a-grn)" transform="rotate(15 56 20)"/>
+        <rect x="74" y="26" width="9" height="3.5" rx="1.7" fill="var(--a-blueb)" transform="rotate(-12 78 28)"/>
+        <rect x="42" y="34" width="9" height="3.5" rx="1.7" fill="var(--a-pink)" transform="rotate(24 46 36)"/>
+        <rect x="63" y="34" width="9" height="3.5" rx="1.7" fill="var(--a-coral)" transform="rotate(-24 67 36)"/>
+      </g>
+    </g>
+    <g id="lollyG">
+      <rect x="30" y="88" width="10" height="28" rx="4" fill="var(--a-cream)" stroke="#1A1A2E" stroke-width="2.5"/>
+      <rect x="8" y="6" width="54" height="84" rx="27" fill="var(--a-blueb)" stroke="#1A1A2E" stroke-width="3"/>
+      <circle cx="27" cy="42" r="3" fill="#1A1A2E"/><circle cx="43" cy="42" r="3" fill="#1A1A2E"/>
+      <path d="M29 50 Q35 55 41 50" fill="none" stroke="#1A1A2E" stroke-width="2.4" stroke-linecap="round"/>
+    </g>
+    <g id="sundaeG">
+      <circle cx="32" cy="44" r="19" fill="var(--a-straw)" stroke="#1A1A2E" stroke-width="3"/>
+      <circle cx="78" cy="44" r="19" fill="var(--a-mint)" stroke="#1A1A2E" stroke-width="3"/>
+      <circle cx="55" cy="30" r="19" fill="var(--a-van)" stroke="#1A1A2E" stroke-width="3"/>
+      <use href="#cherryG" transform="translate(42,-6) scale(0.42)"/>
+      <path d="M8 58 H102 L88 96 Q55 106 22 96 Z" fill="var(--a-blue)" stroke="#1A1A2E" stroke-width="3" stroke-linejoin="round"/>
+      <rect x="45" y="98" width="20" height="10" fill="var(--a-blue)" stroke="#1A1A2E" stroke-width="2.5"/>
+      <rect x="33" y="108" width="44" height="7" rx="3.5" fill="var(--a-blue)" stroke="#1A1A2E" stroke-width="2.5"/>
+    </g>
+    <g id="tubG">
+      <rect x="45" y="8" width="20" height="11" rx="5" fill="var(--a-butter)" stroke="#1A1A2E" stroke-width="2.5"/>
+      <rect x="6" y="17" width="98" height="16" rx="8" fill="var(--a-butter)" stroke="#1A1A2E" stroke-width="3"/>
+      <path d="M12 33 L98 33 L88 94 L22 94 Z" fill="var(--a-sage)" stroke="#1A1A2E" stroke-width="3" stroke-linejoin="round"/>
+      <rect x="31" y="49" width="48" height="19" rx="4" fill="#FFFFFF" stroke="#1A1A2E" stroke-width="2"/>
+      <text x="55" y="62" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" font-weight="600" fill="#1A1A2E" letter-spacing="1">TUB</text>
+    </g>
+    <g id="cartG">
+      <path d="M130 24 V7" stroke="#1A1A2E" stroke-width="3"/>
+      <path d="M130 7 L154 13 L130 19 Z" fill="var(--a-coral)" stroke="#1A1A2E" stroke-width="2.4" stroke-linejoin="round"/>
+      <clipPath id="awnClip"><path d="M24 24 H236 V44 A17.7 17.7 0 0 1 200.6 44 A17.7 17.7 0 0 1 165.3 44 A17.7 17.7 0 0 1 130 44 A17.7 17.7 0 0 1 94.6 44 A17.7 17.7 0 0 1 59.3 44 A17.7 17.7 0 0 1 24 44 Z"/></clipPath>
+      <g clip-path="url(#awnClip)">
+        <rect x="24" y="20" width="35.4" height="46" fill="var(--a-pink)"/>
+        <rect x="59.4" y="20" width="35.3" height="46" fill="#FFFFFF"/>
+        <rect x="94.7" y="20" width="35.3" height="46" fill="var(--a-pink)"/>
+        <rect x="130" y="20" width="35.3" height="46" fill="#FFFFFF"/>
+        <rect x="165.3" y="20" width="35.3" height="46" fill="var(--a-pink)"/>
+        <rect x="200.6" y="20" width="35.4" height="46" fill="#FFFFFF"/>
+      </g>
+      <path d="M24 24 H236 V44 A17.7 17.7 0 0 1 200.6 44 A17.7 17.7 0 0 1 165.3 44 A17.7 17.7 0 0 1 130 44 A17.7 17.7 0 0 1 94.6 44 A17.7 17.7 0 0 1 59.3 44 A17.7 17.7 0 0 1 24 44 Z"
+        fill="none" stroke="#1A1A2E" stroke-width="3.5" stroke-linejoin="round"/>
+      <rect x="28" y="52" width="5" height="62" fill="var(--a-bdark)" stroke="#1A1A2E" stroke-width="2"/>
+      <rect x="227" y="52" width="5" height="62" fill="var(--a-bdark)" stroke="#1A1A2E" stroke-width="2"/>
+      <rect x="18" y="112" width="224" height="62" rx="12" fill="#FFFFFF" stroke="#1A1A2E" stroke-width="3.5"/>
+      <use href="#coneG" transform="translate(34,118) scale(0.28)"/>
+      <use href="#scoopG" transform="translate(34,104) scale(0.28)" style="--sf:var(--a-straw)"/>
+      <use href="#scoopG" transform="translate(192,126) scale(0.34)" style="--sf:var(--a-mint)"/>
+      <text x="130" y="142" text-anchor="middle" font-family="Nunito" font-size="21" font-weight="900" fill="#1A1A2E">SOFIA'S</text>
+      <text x="130" y="158" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" font-weight="600" fill="#52526A" letter-spacing="3">ICE CREAM SHOP</text>
+      <circle cx="78" cy="184" r="17" fill="#FFFFFF" stroke="#1A1A2E" stroke-width="4"/>
+      <circle cx="78" cy="184" r="5" fill="#1A1A2E"/>
+      <circle cx="182" cy="184" r="17" fill="#FFFFFF" stroke="#1A1A2E" stroke-width="4"/>
+      <circle cx="182" cy="184" r="5" fill="#1A1A2E"/>
+    </g>
+  </defs>
+</svg>
+
+<!-- PAGE 1 · COVER -->
+<div class="sheet" style="align-items:center;text-align:center;">
+  <div style="margin-top:7mm;" class="eyebrow">Guided Childhood · Print and Play</div>
+  <h1 style="margin-top:6mm;font-size:41pt;">Sofia's<br>Ice Cream Shop</h1>
+  <p style="margin-top:4.5mm;font-weight:700;color:var(--ink);font-size:13.5pt;">
+    Open your shop. Learn your coins.
+  </p>
+  <p style="margin-top:2mm;font-size:10.5pt;">
+    A pretend play money game for ages 5 to 7, played with real UK coin values.
+  </p>
+  <svg viewBox="0 0 260 210" style="width:132mm;height:106mm;margin-top:8mm;"><use href="#cartG"/></svg>
+  <div style="display:flex;align-items:center;gap:5mm;margin-top:9mm;width:162mm;">
+    <img class="sofia colour-only" src="images/Sofia.jpeg" alt="Sofia" style="width:30mm;height:30mm;">
+    <div class="ink-only" style="width:30mm;height:30mm;border:2.5px solid var(--ink);border-radius:50%;align-items:center;justify-content:center;font-weight:900;font-size:11pt;flex-shrink:0;">SOFIA</div>
+    <div class="bubble" style="flex:1;text-align:left;">Welcome in! I am Sofia, I am six, and today YOU are running my shop. Grab the scoop!</div>
+  </div>
+  <div style="display:flex;gap:4mm;margin-top:9mm;">
+    <div class="chip">Ages 5 to 7</div>
+    <div class="chip">Year 1 and Year 2 maths</div>
+    <div class="chip">Printable UK play coins</div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Sofia's Ice Cream Shop · Cover</span></div>
+</div>
+
+<!-- PAGE 2 · SET UP AND PLAY -->
+<div class="sheet">
+  <div class="eyebrow">Ten minutes before the shop opens</div>
+  <h2 style="margin-top:2.5mm;">Set up the shop, then let the till do the teaching</h2>
+  <div class="card" style="margin-top:4mm;padding:4mm 5mm;">
+    <div class="eyebrow" style="color:var(--green);">Setup · About ten minutes</div>
+    <p style="margin-top:1.5mm;font-size:9.8pt;">
+      <strong style="color:var(--ink);">1.</strong> Print everything. Coins, cards and the shopkeeper kit come out best on card. A laminate on the menu and the coins keeps the shop open all summer.<br>
+      <strong style="color:var(--ink);">2.</strong> Cut out the coins, the cones, scoops and toppings, and the twelve order cards.<br>
+      <strong style="color:var(--ink);">3.</strong> Build the counter: menu propped against a cereal box, coins sorted into the till, teddies in the queue with a small pile of coins each.<br>
+      <strong style="color:var(--ink);">4.</strong> Badge on, sign flipped to OPEN, and you join the queue.
+    </p>
+  </div>
+  <div style="display:flex;gap:4mm;margin-top:4mm;">
+    <div class="card" style="flex:1;padding:4mm;">
+      <span class="badge">Game 1 · Year 1 maths</span>
+      <p style="margin-top:2mm;font-weight:800;color:var(--ink);font-size:11pt;">Pay the price</p>
+      <p style="margin-top:1.5mm;font-size:9.2pt;">The customer orders one thing and pays with exactly the coins on the price. A single scoop is 20p, so a 20p coin crosses the counter. Say every coin's name out loud as it lands. That is the whole game, and it is Year 1 coin recognition doing its job.</p>
+    </div>
+    <div class="card" style="flex:1;padding:4mm;">
+      <span class="badge blue">Game 2 · Year 2 maths</span>
+      <p style="margin-top:2mm;font-weight:800;color:var(--ink);font-size:11pt;">Make it another way</p>
+      <p style="margin-top:1.5mm;font-size:9.2pt;">Now the till has no 20p coins left! Every order is paid with two or three coins that make the amount. A 45p double scoop becomes 20p, 20p and 5p. One amount, many ways: that is the Year 2 skill of combining coins.</p>
+    </div>
+    <div class="card" style="flex:1;padding:4mm;">
+      <span class="badge butter">Game 3 · Year 2 stretch</span>
+      <p style="margin-top:2mm;font-weight:800;color:var(--ink);font-size:11pt;">The change challenge</p>
+      <p style="margin-top:1.5mm;font-size:9.2pt;">Customers get fancy and pay with 50p or £1. The shopkeeper counts the change back out loud, counting up from the price. A 20p scoop paid with 50p: "twenty... thirty, forty, fifty. Your change is 30p!"</p>
+    </div>
+  </div>
+  <div class="card tinted" style="margin-top:4mm;padding:4mm 5mm;background:var(--terracotta-lt);">
+    <div class="eyebrow">The golden tip</div>
+    <p style="margin-top:1.5mm;font-size:9.8pt;color:var(--ink);font-weight:600;">
+      Let your child be the shopkeeper, not the customer. The one behind the till does the reaching,
+      sorting, counting and handing back, and the handling is where the learning lives. Your job is to
+      be the fussy customer who orders wrong, pays with the wrong coin and needs correcting.
+      Being put right by a six year old is the whole point.
+    </p>
+  </div>
+  <div style="display:flex;align-items:center;gap:4mm;margin-top:4mm;">
+    <img class="sofia colour-only" src="images/Sofia.jpeg" alt="Sofia" style="width:18mm;height:18mm;flex-shrink:0;">
+    <div class="bubble" style="flex:1;">My rule: the shopkeeper touches every coin. If a grown up starts counting for you, they go to the back of the queue.</div>
+  </div>
+  <p style="margin-top:3mm;font-size:8.8pt;">
+    Curriculum note for the grown ups: Game 1 practises Year 1 maths, recognising coins and their values.
+    Games 2 and 3 practise Year 2 maths, making amounts from combinations of coins and giving change.
+  </p>
+  <div class="footer"><span>guidedchildhood.com</span><span>Sofia's Ice Cream Shop · Set Up and Play</span></div>
+</div>
+
+<!-- PAGE 3 · MENU BOARD -->
+<div class="sheet">
+  <div style="display:flex;justify-content:space-between;align-items:center;">
+    <div class="eyebrow">Prop me on the counter</div>
+    <span class="badge">Year 1 and Year 2 coin practice</span>
+  </div>
+  <div class="menu" style="margin-top:3mm;">
+    <div class="awning"></div>
+    <div style="text-align:center;padding:4mm 6mm 2mm;">
+      <div style="font-weight:900;font-size:23pt;letter-spacing:0.5px;">SOFIA'S ICE CREAM SHOP</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:7.5pt;letter-spacing:2.5px;color:var(--ink-muted);text-transform:uppercase;margin-top:1mm;">Every price is coin practice</div>
+    </div>
+    <div class="mrow" style="border-top:2px solid var(--ink);">
+      <div class="mic"><svg viewBox="0 0 100 186" style="width:7mm;height:13mm;"><use href="#coneG" transform="translate(0,56)"/><use href="#scoopG" style="--sf:var(--a-straw)"/></svg></div>
+      <div><div class="mname">Single scoop</div><div class="msub">One coin pays it</div></div>
+      <div class="mdots"></div><div class="mprice">20p</div>
+    </div>
+    <div class="mrow">
+      <div class="mic"><svg viewBox="0 0 100 234" style="width:7mm;height:16.4mm;"><use href="#coneG" transform="translate(0,104)"/><use href="#scoopG" transform="translate(0,48)" style="--sf:var(--a-mint)"/><use href="#scoopG" style="--sf:var(--a-straw)"/></svg></div>
+      <div><div class="mname">Double scoop</div><div class="msub">20p + 20p + 5p</div></div>
+      <div class="mdots"></div><div class="mprice">45p</div>
+    </div>
+    <div class="mrow">
+      <div class="mic"><svg viewBox="0 0 100 282" style="width:7mm;height:19.7mm;"><use href="#coneG" transform="translate(0,152)"/><use href="#scoopG" transform="translate(0,96)" style="--sf:var(--a-choc)"/><use href="#scoopG" transform="translate(0,48)" style="--sf:var(--a-van)"/><use href="#scoopG" style="--sf:var(--a-blueb)"/></svg></div>
+      <div><div class="mname">Triple scoop</div><div class="msub">50p + 20p</div></div>
+      <div class="mdots"></div><div class="mprice">70p</div>
+    </div>
+    <div class="mrow">
+      <div class="mic"><svg viewBox="0 0 70 120" style="width:6mm;height:10.3mm;"><use href="#lollyG"/></svg></div>
+      <div><div class="mname">Ice lolly</div><div class="msub">50p + 5p</div></div>
+      <div class="mdots"></div><div class="mprice">55p</div>
+    </div>
+    <div class="mrow">
+      <div class="mic"><svg viewBox="0 0 110 120" style="width:9.5mm;height:10.4mm;"><use href="#sundaeG"/></svg></div>
+      <div><div class="mname">Super sundae</div><div class="msub">£1 + 20p</div></div>
+      <div class="mdots"></div><div class="mprice">£1.20</div>
+    </div>
+    <div class="mrow">
+      <div class="mic"><svg viewBox="0 0 110 100" style="width:9.5mm;height:8.6mm;"><use href="#tubG"/></svg></div>
+      <div><div class="mname">Family tub</div><div class="msub">£2 + 50p</div></div>
+      <div class="mdots"></div><div class="mprice">£2.50</div>
+    </div>
+    <div class="mrow tinted" style="border-top:2px solid var(--ink);background:var(--terracotta-lt);">
+      <div class="mic"><svg viewBox="0 0 40 90" style="width:3.5mm;height:8mm;"><use href="#flakeG"/></svg></div>
+      <div><div class="mname" style="font-size:11pt;">Chocolate flake</div></div>
+      <div class="mdots"></div><div class="mprice" style="font-size:12pt;">15p</div>
+    </div>
+    <div class="mrow tinted" style="background:var(--terracotta-lt);">
+      <div class="mic"><svg viewBox="0 0 100 55" style="width:8.5mm;height:4.7mm;"><use href="#sauceG"/></svg></div>
+      <div><div class="mname" style="font-size:11pt;">Strawberry sauce</div></div>
+      <div class="mdots"></div><div class="mprice" style="font-size:12pt;">10p</div>
+    </div>
+    <div class="mrow tinted" style="background:var(--terracotta-lt);border-radius:0 0 13px 13px;">
+      <div class="mic"><svg viewBox="0 0 120 50" style="width:8.5mm;height:3.6mm;"><use href="#sprkG"/></svg></div>
+      <div><div class="mname" style="font-size:11pt;">Rainbow sprinkles</div></div>
+      <div class="mdots"></div><div class="mprice" style="font-size:12pt;">5p</div>
+    </div>
+  </div>
+  <div style="display:flex;gap:4mm;margin-top:4mm;align-items:stretch;">
+    <div style="display:flex;align-items:center;gap:4mm;flex:1.2;">
+      <img class="sofia colour-only" src="images/Sofia.jpeg" alt="Sofia" style="width:16mm;height:16mm;flex-shrink:0;">
+      <div class="bubble" style="flex:1;font-size:9.5pt;">What would you like today? I always pick strawberry with a flake!</div>
+    </div>
+    <div class="card" style="flex:1;padding:3mm 4mm;">
+      <p style="font-size:8.8pt;"><strong style="color:var(--ink);">Laminate me.</strong> A menu that survives sticky
+      fingers and a splash of squash runs the whole summer. Prop me against a cereal box.</p>
+    </div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Sofia's Ice Cream Shop · The Menu</span></div>
+</div>
+
+<!-- PAGE 4 · ICE CREAM CARDS -->
+<div class="sheet">
+  <div style="display:flex;justify-content:space-between;align-items:center;">
+    <div class="eyebrow">Cut out · The freezer</div>
+    <span class="badge">Build every order for real</span>
+  </div>
+  <h2 style="margin-top:2mm;">Cones, scoops and toppings</h2>
+  <p style="margin-top:1.5mm;font-size:9.5pt;">Cut round the dashed lines. When an order comes in, the shopkeeper
+  builds it: cone first, scoops stacked on top, topping last. Six flavours in the freezer: strawberry, vanilla,
+  chocolate, mint, blueberry and honeycomb.</p>
+  <div class="pieces" style="margin-top:3.5mm;">
+    <div class="pcut"><svg viewBox="0 0 100 130" style="width:30mm;height:39mm;"><use href="#coneG"/></svg></div>
+    <div class="pcut"><svg viewBox="0 0 100 130" style="width:30mm;height:39mm;"><use href="#coneG"/></svg></div>
+    <div class="pcut"><svg viewBox="0 0 100 130" style="width:30mm;height:39mm;"><use href="#coneG"/></svg></div>
+    <div class="pcut"><svg viewBox="0 0 100 130" style="width:30mm;height:39mm;"><use href="#coneG"/></svg></div>
+  </div>
+  <div class="pieces">
+    <div class="pcut"><svg viewBox="0 0 100 66" style="width:36mm;height:23.8mm;"><use href="#scoopG" style="--sf:var(--a-straw)"/></svg></div>
+    <div class="pcut"><svg viewBox="0 0 100 66" style="width:36mm;height:23.8mm;"><use href="#scoopG" style="--sf:var(--a-straw)"/></svg></div>
+    <div class="pcut"><svg viewBox="0 0 100 66" style="width:36mm;height:23.8mm;"><use href="#scoopG" style="--sf:var(--a-van)"/></svg></div>
+    <div class="pcut"><svg viewBox="0 0 100 66" style="width:36mm;height:23.8mm;"><use href="#scoopG" style="--sf:var(--a-van)"/></svg></div>
+  </div>
+  <div class="pieces">
+    <div class="pcut"><svg viewBox="0 0 100 66" style="width:36mm;height:23.8mm;"><use href="#scoopG" style="--sf:var(--a-choc)"/></svg></div>
+    <div class="pcut"><svg viewBox="0 0 100 66" style="width:36mm;height:23.8mm;"><use href="#scoopG" style="--sf:var(--a-choc)"/></svg></div>
+    <div class="pcut"><svg viewBox="0 0 100 66" style="width:36mm;height:23.8mm;"><use href="#scoopG" style="--sf:var(--a-mint)"/></svg></div>
+    <div class="pcut"><svg viewBox="0 0 100 66" style="width:36mm;height:23.8mm;"><use href="#scoopG" style="--sf:var(--a-mint)"/></svg></div>
+  </div>
+  <div class="pieces">
+    <div class="pcut"><svg viewBox="0 0 100 66" style="width:36mm;height:23.8mm;"><use href="#scoopG" style="--sf:var(--a-blueb)"/></svg></div>
+    <div class="pcut"><svg viewBox="0 0 100 66" style="width:36mm;height:23.8mm;"><use href="#scoopG" style="--sf:var(--a-blueb)"/></svg></div>
+    <div class="pcut"><svg viewBox="0 0 100 66" style="width:36mm;height:23.8mm;"><use href="#scoopG" style="--sf:var(--a-honey)"/></svg></div>
+    <div class="pcut"><svg viewBox="0 0 100 66" style="width:36mm;height:23.8mm;"><use href="#scoopG" style="--sf:var(--a-honey)"/></svg></div>
+  </div>
+  <div class="pieces">
+    <div class="pcut"><svg viewBox="0 0 40 90" style="width:8mm;height:18mm;"><use href="#flakeG"/></svg></div>
+    <div class="pcut"><svg viewBox="0 0 40 90" style="width:8mm;height:18mm;"><use href="#flakeG"/></svg></div>
+    <div class="pcut"><svg viewBox="0 0 40 90" style="width:8mm;height:18mm;"><use href="#flakeG"/></svg></div>
+    <div class="pcut"><svg viewBox="0 0 40 90" style="width:8mm;height:18mm;"><use href="#flakeG"/></svg></div>
+    <div class="pcut"><svg viewBox="0 0 60 70" style="width:13mm;height:15.2mm;"><use href="#cherryG"/></svg></div>
+    <div class="pcut"><svg viewBox="0 0 60 70" style="width:13mm;height:15.2mm;"><use href="#cherryG"/></svg></div>
+    <div class="pcut"><svg viewBox="0 0 100 55" style="width:26mm;height:14.3mm;"><use href="#sauceG"/></svg></div>
+    <div class="pcut"><svg viewBox="0 0 100 55" style="width:26mm;height:14.3mm;"><use href="#sauceG"/></svg></div>
+    <div class="pcut"><svg viewBox="0 0 120 50" style="width:28mm;height:11.7mm;"><use href="#sprkG"/></svg></div>
+    <div class="pcut"><svg viewBox="0 0 120 50" style="width:28mm;height:11.7mm;"><use href="#sprkG"/></svg></div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Sofia's Ice Cream Shop · The Freezer</span></div>
+</div>
+
+<!-- PAGE 5 · PLAY MONEY COPPERS AND SMALL SILVERS -->
+<div class="sheet">
+  <div style="display:flex;justify-content:space-between;align-items:center;">
+    <div class="eyebrow">Cut out · Print on card</div>
+    <span class="badge">Year 1 maths · Recognise coins</span>
+  </div>
+  <h2 style="margin-top:2mm;">Play money: coppers and small silvers</h2>
+  <p style="margin-top:1.5mm;font-size:9.5pt;">Cut round the dashed circles. These play coins print close to the
+  size of the real thing, so the shop works just as well with real pocket change when you have it. Coppers print
+  golden, silvers print blue, pounds print deep gold, which keeps sorting easy for small hands.</p>
+  <div class="coinrow" data-coins="1p:7"></div>
+  <div class="coinrow" data-coins="2p:6"></div>
+  <div class="coinrow" data-coins="5p:8"></div>
+  <div class="coinrow" data-coins="10p:6"></div>
+  <div class="coinrow" data-coins="1p:2,2p:1,5p:2,10p:1"></div>
+  <div class="card" style="margin-top:4mm;padding:3mm 4.5mm;">
+    <p style="font-size:9pt;"><strong style="color:var(--ink);">Shopkeeper short of change?</strong> Print this page
+    twice. Card stock and a laminate make coins that survive the whole summer holiday, and a real coin taped
+    beside its play twin makes a lovely matching game for day one.</p>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Sofia's Ice Cream Shop · Play Money 1 of 2</span></div>
+</div>
+
+<!-- PAGE 6 · PLAY MONEY BIG SILVERS AND POUNDS -->
+<div class="sheet">
+  <div style="display:flex;justify-content:space-between;align-items:center;">
+    <div class="eyebrow">Cut out · Print on card</div>
+    <span class="badge blue">Year 2 maths · Make amounts and give change</span>
+  </div>
+  <h2 style="margin-top:2mm;">Play money: big silvers and pounds</h2>
+  <p style="margin-top:1.5mm;font-size:9.5pt;">These are the change makers for Game 3. A 50p or a £1 coin pays for
+  almost everything on the menu, and counting the change back out loud is the Year 2 skill teachers most want
+  practised at home. The £2 coin exists for one glorious order: the family tub.</p>
+  <div class="coinrow" data-coins="20p:6"></div>
+  <div class="coinrow" data-coins="50p:5"></div>
+  <div class="coinrow" data-coins="£1:6"></div>
+  <div class="coinrow" data-coins="£2:4"></div>
+  <div class="coinrow" data-coins="20p:3,50p:2"></div>
+  <div class="card tinted" style="margin-top:4mm;padding:3mm 4.5mm;background:var(--terracotta-lt);">
+    <p style="font-size:9pt;"><strong style="color:var(--ink);">A note on our coins.</strong> These are stylised play
+    coins in Sofia's shop colours, made for little fingers and coin value practice. They are not pictures of real
+    money, which is exactly why every one says PLAY MONEY on its face.</p>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Sofia's Ice Cream Shop · Play Money 2 of 2</span></div>
+</div>
+
+<!-- PAGE 7 · ORDER AND CHALLENGE CARDS -->
+<div class="sheet">
+  <div style="display:flex;justify-content:space-between;align-items:center;">
+    <div class="eyebrow">Cut out · Twelve customers waiting</div>
+    <span class="badge">Year 1, Year 2 and change challenges</span>
+  </div>
+  <h2 style="margin-top:2mm;">Order and challenge cards</h2>
+  <p style="margin-top:1.5mm;font-size:9.5pt;">Shuffle the cards face down. The customer draws one, reads it in
+  their silliest voice, and the shopkeeper does the maths. Answers hide at the bottom of each card: fold them
+  under, or trust the person behind the till.</p>
+  <div class="ogrid">
+    <div class="ocard"><div class="inner"></div><span class="badge" style="align-self:flex-start;">Year 1</span>
+      <p class="oline">"One single scoop, please!"</p>
+      <p class="oq">Which one coin pays for it?</p>
+      <div class="oans">Answer: the 20p coin</div>
+    </div>
+    <div class="ocard"><div class="inner"></div><span class="badge" style="align-self:flex-start;">Year 1</span>
+      <p class="oline">"A flake for my scoop, please!"</p>
+      <p class="oq">It costs 15p. Pay with two coins.</p>
+      <div class="oans">Answer: 10p + 5p</div>
+    </div>
+    <div class="ocard"><div class="inner"></div><span class="badge" style="align-self:flex-start;">Year 1</span>
+      <p class="oline">"A single scoop with sprinkles!"</p>
+      <p class="oq">What does it cost altogether?</p>
+      <div class="oans">Answer: 20p + 5p = 25p</div>
+    </div>
+    <div class="ocard"><div class="inner"></div><span class="badge" style="align-self:flex-start;">Year 1</span>
+      <p class="oline">"A single scoop with strawberry sauce, please!"</p>
+      <p class="oq">What does it cost altogether?</p>
+      <div class="oans">Answer: 20p + 10p = 30p</div>
+    </div>
+    <div class="ocard"><div class="inner"></div><span class="badge blue" style="align-self:flex-start;">Year 2</span>
+      <p class="oline">"A double scoop, please!"</p>
+      <p class="oq">Pay 45p with exactly three coins.</p>
+      <div class="oans">Answer: 20p + 20p + 5p</div>
+    </div>
+    <div class="ocard"><div class="inner"></div><span class="badge blue" style="align-self:flex-start;">Year 2</span>
+      <p class="oline">"One ice lolly, please!"</p>
+      <p class="oq">Pay 55p with exactly two coins.</p>
+      <div class="oans">Answer: 50p + 5p</div>
+    </div>
+    <div class="ocard"><div class="inner"></div><span class="badge blue" style="align-self:flex-start;">Year 2</span>
+      <p class="oline">"A triple scoop, please!"</p>
+      <p class="oq">Pay 70p with exactly two coins.</p>
+      <div class="oans">Answer: 50p + 20p</div>
+    </div>
+    <div class="ocard"><div class="inner"></div><span class="badge blue" style="align-self:flex-start;">Year 2</span>
+      <p class="oline">"A double scoop with a flake. What do I pay?"</p>
+      <p class="oq">Add the two prices, then pay with two coins.</p>
+      <div class="oans">Answer: 45p + 15p = 60p, paid 50p + 10p</div>
+    </div>
+    <div class="ocard"><div class="inner"></div><span class="badge butter" style="align-self:flex-start;">Change</span>
+      <p class="oline">"A single scoop. Here is 50p."</p>
+      <p class="oq">What change does the shopkeeper give back?</p>
+      <div class="oans">Answer: 50p take away 20p is 30p, given as 20p + 10p</div>
+    </div>
+    <div class="ocard"><div class="inner"></div><span class="badge butter" style="align-self:flex-start;">Change</span>
+      <p class="oline">"A double scoop. Here is 50p."</p>
+      <p class="oq">What change does the shopkeeper give back?</p>
+      <div class="oans">Answer: 50p take away 45p is 5p, one little coin</div>
+    </div>
+    <div class="ocard"><div class="inner"></div><span class="badge butter" style="align-self:flex-start;">Change</span>
+      <p class="oline">"A triple scoop. Here is £1."</p>
+      <p class="oq">What change does the shopkeeper give back?</p>
+      <div class="oans">Answer: £1 take away 70p is 30p, given as 20p + 10p</div>
+    </div>
+    <div class="ocard"><div class="inner"></div><span class="badge butter" style="align-self:flex-start;">Change</span>
+      <p class="oline">"An ice lolly. Here is £1."</p>
+      <p class="oq">What change does the shopkeeper give back?</p>
+      <div class="oans">Answer: £1 take away 55p is 45p, given as 20p + 20p + 5p</div>
+    </div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Sofia's Ice Cream Shop · Order Cards</span></div>
+</div>
+
+<!-- PAGE 8 · SHOPKEEPER KIT -->
+<div class="sheet">
+  <div class="eyebrow">Cut out · The shopkeeper kit</div>
+  <h2 style="margin-top:2mm;">Badge on. Sign up. Shop open.</h2>
+  <p style="margin-top:1.5mm;font-size:9.5pt;">Colour the badge, write your name, and pin it on with a safety pin or
+  a loop of tape. Flip between OPEN and CLOSED so everyone knows when the shopkeeper is on a biscuit break.</p>
+  <div style="display:flex;gap:4mm;margin-top:4mm;">
+    <div class="pcut" style="flex:1;">
+      <div style="width:100%;background:var(--white);border:2.5px solid var(--ink);border-radius:12px;padding:4mm 5mm;display:flex;align-items:center;gap:4mm;">
+        <svg viewBox="0 0 100 66" style="width:20mm;height:13.2mm;flex-shrink:0;"><use href="#scoopG" style="--sf:#FFFFFF"/></svg>
+        <div style="flex:1;">
+          <div class="eyebrow" style="font-size:7pt;">Sofia's Ice Cream Shop</div>
+          <div style="font-weight:900;font-size:14pt;margin-top:1mm;">Shopkeeper <span style="display:inline-block;min-width:30mm;border-bottom:2.5px solid var(--ink);">&nbsp;</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="pcut" style="flex:1;">
+      <div style="width:100%;background:var(--white);border:2.5px solid var(--ink);border-radius:12px;padding:4mm 5mm;display:flex;align-items:center;gap:4mm;">
+        <svg viewBox="0 0 100 66" style="width:20mm;height:13.2mm;flex-shrink:0;"><use href="#scoopG" style="--sf:#FFFFFF"/></svg>
+        <div style="flex:1;">
+          <div class="eyebrow" style="font-size:7pt;">Sofia's Ice Cream Shop</div>
+          <div style="font-weight:900;font-size:14pt;margin-top:1mm;">Shopkeeper <span style="display:inline-block;min-width:30mm;border-bottom:2.5px solid var(--ink);">&nbsp;</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="display:flex;gap:4mm;margin-top:4mm;">
+    <div class="pcut" style="flex:1;">
+      <div class="tinted" style="width:100%;background:var(--terracotta-lt);border:2.5px solid var(--ink);border-radius:12px;padding:6mm;text-align:center;">
+        <div class="signbig">OPEN</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:7.5pt;letter-spacing:2px;color:var(--ink-soft);text-transform:uppercase;margin-top:1.5mm;">Please queue nicely</div>
+      </div>
+    </div>
+    <div class="pcut" style="flex:1;">
+      <div class="tinted" style="width:100%;background:var(--tint-blue);border:2.5px solid var(--ink);border-radius:12px;padding:6mm;text-align:center;">
+        <div class="signbig">CLOSED</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:7.5pt;letter-spacing:2px;color:var(--ink-soft);text-transform:uppercase;margin-top:1.5mm;">Back after tea</div>
+      </div>
+    </div>
+  </div>
+  <div class="pcut" style="margin-top:4mm;">
+    <div class="tinted" style="width:100%;background:var(--tint-sage);border:2.5px solid var(--ink);border-radius:12px;padding:5mm 6mm;display:flex;align-items:center;gap:6mm;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:10pt;letter-spacing:2px;text-transform:uppercase;flex-shrink:0;">Today's<br>special</div>
+      <div style="flex:1;font-weight:900;font-size:15pt;">
+        <span style="display:inline-block;min-width:62mm;border-bottom:2.5px solid var(--ink);">&nbsp;</span>
+        &nbsp;only&nbsp;
+        <span style="display:inline-block;min-width:20mm;border-bottom:2.5px solid var(--ink);">&nbsp;</span>p
+      </div>
+      <svg viewBox="0 0 100 66" style="width:18mm;height:11.9mm;flex-shrink:0;"><use href="#scoopG" style="--sf:#FFFFFF"/></svg>
+    </div>
+  </div>
+  <p style="margin-top:2.5mm;font-size:8.8pt;">The shopkeeper sets the special and its price. Watch what they
+  choose: a price they can already make from two coins is a child quietly showing you what they know.</p>
+  <div style="margin-top:4mm;">
+    <div class="eyebrow" style="font-size:7.5pt;">The receipt pad · One per customer</div>
+    <div style="display:flex;gap:4mm;margin-top:2mm;justify-content:space-between;">
+      <div class="receipt">
+        <div class="rh">SOFIA'S ICE CREAM SHOP</div>
+        ITEM ........... ___p<br>
+        ITEM ........... ___p<br>
+        TOTAL .......... ___p<br>
+        PAID WITH ...... ____<br>
+        CHANGE ......... ____
+        <div class="rf">THANK YOU · COME AGAIN</div>
+      </div>
+      <div class="receipt">
+        <div class="rh">SOFIA'S ICE CREAM SHOP</div>
+        ITEM ........... ___p<br>
+        ITEM ........... ___p<br>
+        TOTAL .......... ___p<br>
+        PAID WITH ...... ____<br>
+        CHANGE ......... ____
+        <div class="rf">THANK YOU · COME AGAIN</div>
+      </div>
+      <div class="receipt">
+        <div class="rh">SOFIA'S ICE CREAM SHOP</div>
+        ITEM ........... ___p<br>
+        ITEM ........... ___p<br>
+        TOTAL .......... ___p<br>
+        PAID WITH ...... ____<br>
+        CHANGE ......... ____
+        <div class="rf">THANK YOU · COME AGAIN</div>
+      </div>
+    </div>
+    <p style="margin-top:2.5mm;font-size:8.8pt;">Writing the total and the change on a receipt is sneaky number
+    formation practice. Print this page again whenever the pad runs out.</p>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Sofia's Ice Cream Shop · Shopkeeper Kit</span></div>
+</div>
+
+<!-- PAGE 9 · BONUS / FUNNEL -->
+<div class="sheet" style="align-items:center;text-align:center;">
+  <div style="margin-top:14mm;" class="eyebrow">A free gift for your shopkeeper</div>
+  <h1 style="margin-top:5mm;font-size:30pt;">The ice cream shop is a hit.<br>Now open the market stall.</h1>
+  <img class="sofia colour-only" src="images/Sofia.jpeg" alt="Sofia" style="width:42mm;height:42mm;margin-top:8mm;">
+  <div class="ink-only" style="width:42mm;height:42mm;margin-top:8mm;border:2.5px solid var(--ink);border-radius:50%;align-items:center;justify-content:center;font-weight:900;font-size:13pt;">SOFIA</div>
+  <p style="margin-top:7mm;max-width:140mm;font-size:11.5pt;">
+    Sofia here, with a thank you from Guided Childhood. Your free bonus is the
+    <strong style="color:var(--ink);">Mini Market price cards</strong>, a little add on that turns the same
+    play coins into a fruit and veg stall, so the coin practice carries on long after the pretend ice cream
+    melts. Print them free at the link below.
+  </p>
+  <div class="card tinted" style="margin-top:8mm;padding:5mm 10mm;background:var(--terracotta-lt);">
+    <div style="font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:13pt;letter-spacing:1px;">guidedchildhood.com/etsy-bonus</div>
+  </div>
+  <p style="margin-top:10mm;font-size:9.5pt;max-width:132mm;">
+    Made by Guided Childhood, the UK platform helping families raise confident kids in a digital world.
+    If this little shop fills a rainy afternoon and sneaks some Year 2 maths past everyone, a kind review
+    on Etsy helps another family find it.
+  </p>
+  <div class="footer"><span>guidedchildhood.com</span><span>Thank you · Justin, Sofia and the squad</span></div>
+</div>
+
+<script>
+  // stamp the play coins: real UK diameters in mm, stylised house colours
+  const COINS = {
+    '1p':  { d: 20.3, cls: 'copper' },
+    '2p':  { d: 25.9, cls: 'copper' },
+    '5p':  { d: 18.0, cls: 'silver' },
+    '10p': { d: 24.5, cls: 'silver' },
+    '20p': { d: 21.4, cls: 'silver' },
+    '50p': { d: 27.3, cls: 'silver' },
+    '£1':  { d: 23.4, cls: 'pound' },
+    '£2':  { d: 28.4, cls: 'two' }
+  };
+  document.querySelectorAll('[data-coins]').forEach(row => {
+    row.getAttribute('data-coins').split(',').forEach(tok => {
+      const [val, n] = tok.split(':');
+      const c = COINS[val];
+      for (let i = 0; i < +n; i++) {
+        const cut = document.createElement('span');
+        cut.className = 'cut';
+        const coin = document.createElement('span');
+        coin.className = 'coin ' + c.cls;
+        coin.style.width = c.d + 'mm';
+        coin.style.height = c.d + 'mm';
+        const cv = document.createElement('span');
+        cv.className = 'cv';
+        cv.textContent = val;
+        cv.style.fontSize = (c.d * 0.26) + 'mm';
+        const cm = document.createElement('span');
+        cm.className = 'cm';
+        cm.textContent = 'PLAY MONEY';
+        cm.style.fontSize = Math.max(1.35, c.d * 0.062) + 'mm';
+        coin.appendChild(cv); coin.appendChild(cm);
+        cut.appendChild(coin); row.appendChild(cut);
+      }
+    });
+  });
+</script>
+</body>
+</html>

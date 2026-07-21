@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Word Fishing</title>
+<link href="fonts/local-fonts.css" rel="stylesheet">
+<style>
+  :root{
+    --white:#FFFFFF; --cream:#F9F8F6; --ink:#1A1A2E; --ink-soft:#52526A;
+    --ink-muted:#8888A0; --border:#EAEAF0; --terracotta:#EDC35F;
+    --terracotta-dark:#C99A28; --terracotta-lt:#FEF7E0; --coral:#D4600A;
+    --green:#2F8F6B; --green-dark:#236F52; --tint-blue:#D8E8F8;
+    --tint-sage:#E8F0EE; --pink:#FBCFE8;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:'Nunito',sans-serif;color:var(--ink);background:#ddd;}
+  .sheet{width:210mm;height:296mm;background:var(--cream);position:relative;overflow:hidden;
+    page-break-after:always;padding:14mm 14mm 14mm;display:flex;flex-direction:column;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:8.5pt;
+    letter-spacing:2.5px;text-transform:uppercase;color:var(--coral);}
+  h1{font-weight:900;font-size:34pt;line-height:1.04;}
+  h2{font-weight:900;font-size:20pt;line-height:1.1;}
+  p{font-size:10.5pt;line-height:1.55;color:var(--ink-soft);}
+  .footer{position:absolute;bottom:7mm;left:14mm;right:14mm;display:flex;
+    justify-content:space-between;align-items:center;
+    font-family:'IBM Plex Mono',monospace;font-size:7pt;letter-spacing:1.5px;
+    color:var(--ink-muted);text-transform:uppercase;}
+  .card{background:var(--white);border:2.5px solid var(--ink);border-radius:16px;
+    box-shadow:0 5px 0 var(--ink);}
+  .badge{background:var(--white);border:2.5px solid var(--ink);border-radius:16px;
+    box-shadow:0 4px 0 var(--ink);padding:2.5mm 5mm;font-weight:800;font-size:10pt;}
+
+  /* ---- fish cards ---- */
+  .fishcard{border:2px dashed var(--ink-muted);border-radius:16px;display:flex;
+    align-items:center;justify-content:center;padding:3mm;}
+  .fishwrap{position:relative;width:100%;}
+  .fishwrap svg.fish{display:block;width:100%;height:auto;}
+  .word{position:absolute;left:22%;top:14%;width:44%;height:74%;display:flex;
+    align-items:center;justify-content:center;font-weight:800;color:var(--ink);
+    letter-spacing:0.5px;line-height:1;}
+  .f-butter{--fc:#EDC35F;--fin:#C99A28;}
+  .f-blue{--fc:#D8E8F8;--fin:#9FC0E4;}
+  .f-pink{--fc:#FBCFE8;--fin:#F09CC8;}
+  .f-coral{--fc:#D4600A;--fin:#A84A06;}
+  .f-green{--fc:#2F8F6B;--fin:#236F52;}
+  .f-coral .word,.f-green .word{color:var(--white);}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm;margin-top:5mm;flex:1;margin-bottom:6mm;}
+  .grid3 .word{font-size:24pt;}
+  .grid4r{display:grid;grid-template-columns:repeat(3,1fr);gap:3.5mm;margin-top:4mm;flex:1;margin-bottom:6mm;}
+  .grid4r .word{font-size:21pt;}
+  .grid44{display:grid;grid-template-columns:repeat(4,1fr);gap:3.5mm;margin-top:4mm;}
+  .grid44 .word{font-size:30pt;font-weight:800;}
+  .writeline{position:absolute;left:26%;top:30%;width:38%;height:40%;
+    border-bottom:2px dashed var(--ink-muted);}
+
+  .pagehead{display:flex;justify-content:space-between;align-items:flex-end;gap:8mm;}
+  .pagehead .hint{font-size:9pt;max-width:62mm;text-align:right;}
+
+  /* ---- build page ---- */
+  table.mats{width:100%;border-collapse:separate;border-spacing:0;background:var(--white);
+    border:2.5px solid var(--ink);border-radius:16px;overflow:hidden;box-shadow:0 5px 0 var(--ink);}
+  table.mats th{background:var(--ink);color:var(--white);font-weight:800;font-size:9.5pt;
+    padding:2.5mm 3.5mm;text-align:left;border-bottom:2.5px solid var(--ink);}
+  table.mats td{border-top:1.5px solid var(--border);padding:2.2mm 3.5mm;font-size:9.5pt;
+    line-height:1.35;color:var(--ink-soft);vertical-align:middle;}
+  table.mats td:first-child{font-weight:800;color:var(--ink);}
+  table.mats td:nth-child(2){white-space:nowrap;font-weight:700;color:var(--ink);}
+  .steps{display:flex;gap:3.5mm;margin-top:5mm;}
+  .step{flex:1;background:var(--white);border:2.5px solid var(--ink);border-radius:16px;
+    box-shadow:0 4px 0 var(--ink);padding:3.5mm 3mm;text-align:center;}
+  .step .num{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:8pt;
+    letter-spacing:1.5px;color:var(--coral);text-transform:uppercase;}
+  .step svg{width:17mm;height:17mm;margin:1.5mm auto;display:block;}
+  .step p{font-size:8pt;line-height:1.4;}
+  .step p strong{color:var(--ink);font-size:8.5pt;}
+
+  .gamecard{display:flex;gap:5mm;align-items:flex-start;padding:5mm 6mm;}
+  .gamecard .gnum{width:12mm;height:12mm;border-radius:50%;border:2.5px solid var(--ink);
+    display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14pt;
+    flex-shrink:0;background:var(--terracotta);}
+  .pond{background:var(--tint-blue);border:2.5px solid var(--ink);border-radius:24px;
+    box-shadow:0 5px 0 var(--ink);position:relative;}
+
+  /* ---- ink friendly ---- */
+  .ink-only{display:none !important;}
+  body.ink .sheet{background:var(--white);}
+  body.ink .colour-only{display:none !important;}
+  body.ink .ink-only{display:block !important;}
+  body.ink .fishcard,body.ink .fishwrap{--fc:#FFFFFF;--fin:#FFFFFF;}
+  body.ink .word{color:var(--ink) !important;}
+  body.ink .card,body.ink .badge,body.ink .step,body.ink table.mats{box-shadow:none;}
+  body.ink table.mats th{background:var(--white);color:var(--ink);}
+  body.ink .pond{background:var(--white);box-shadow:none;}
+  body.ink .gamecard .gnum{background:var(--white);}
+  body.ink [data-tint]{background:var(--white) !important;}
+  @page{size:A4;margin:0;}
+  @media print{body{background:none;}}
+</style>
+</head>
+<body>
+
+<!-- shared art -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <g id="fishy">
+      <path d="M150 75 C178 44 196 34 206 28 C202 52 202 98 206 122 C196 116 178 106 150 75 Z"
+            fill="var(--fin)" stroke="#1A1A2E" stroke-width="6" stroke-linejoin="round"/>
+      <path d="M62 32 C74 8 112 6 128 27 C106 19 82 22 62 32 Z"
+            fill="var(--fin)" stroke="#1A1A2E" stroke-width="6" stroke-linejoin="round"/>
+      <path d="M76 120 C86 142 114 143 126 122 C108 130 90 130 76 120 Z"
+            fill="var(--fin)" stroke="#1A1A2E" stroke-width="6" stroke-linejoin="round"/>
+      <ellipse cx="94" cy="76" rx="72" ry="52" fill="var(--fc)" stroke="#1A1A2E" stroke-width="6"/>
+      <path d="M142 44 C154 62 154 90 142 108 M154 52 C162 66 162 86 154 100"
+            fill="none" stroke="#1A1A2E" stroke-width="4" opacity="0.15"/>
+      <circle cx="44" cy="58" r="13" fill="#FFFFFF" stroke="#1A1A2E" stroke-width="5"/>
+      <circle cx="47.5" cy="60.5" r="6.5" fill="#1A1A2E"/>
+      <circle cx="44" cy="55.5" r="2.6" fill="#FFFFFF"/>
+      <path d="M25 85 Q34 94 45 89" fill="none" stroke="#1A1A2E" stroke-width="4.5" stroke-linecap="round"/>
+      <ellipse cx="58" cy="90" rx="8" ry="5" fill="#1A1A2E" opacity="0.1"/>
+    </g>
+    <g id="clip">
+      <rect x="3" y="3" width="16" height="34" rx="8" fill="none" stroke="#52526A" stroke-width="3.5"/>
+      <path d="M8 22 V12 a3.5 3.5 0 0 1 7 0 v16" fill="none" stroke="#52526A" stroke-width="3.5" stroke-linecap="round"/>
+    </g>
+    <g id="magnet">
+      <path d="M12 8 v20 a18 18 0 0 0 36 0 V8 H36 v20 a6 6 0 0 1 -12 0 V8 Z"
+            fill="#D4600A" stroke="#1A1A2E" stroke-width="4" stroke-linejoin="round"/>
+      <rect x="12" y="4" width="12" height="9" fill="#FFFFFF" stroke="#1A1A2E" stroke-width="4"/>
+      <rect x="36" y="4" width="12" height="9" fill="#FFFFFF" stroke="#1A1A2E" stroke-width="4"/>
+    </g>
+    <g id="bowl">
+      <path d="M26 92 C43 84 66 102 100 94 C134 86 157 102 174 94 L174 112 C174 154 141 184 100 184 C59 184 26 154 26 112 Z"
+            fill="var(--water,#D8E8F8)"/>
+      <circle cx="66" cy="70" r="5" fill="none" stroke="#8888A0" stroke-width="3"/>
+      <circle cx="82" cy="52" r="3.5" fill="none" stroke="#8888A0" stroke-width="3"/>
+      <path d="M64 26 C35 52 21 84 21 116 C21 158 56 188 100 188 C144 188 179 158 179 116 C179 84 165 52 136 26 Z"
+            fill="none" stroke="#1A1A2E" stroke-width="6" stroke-linejoin="round"/>
+      <path d="M64 26 L136 26" stroke="#1A1A2E" stroke-width="6" stroke-linecap="round"/>
+    </g>
+  </defs>
+</svg>
+
+<!-- PAGE 1 · COVER -->
+<div class="sheet" style="align-items:center;text-align:center;">
+  <div style="margin-top:4mm;" class="eyebrow">Guided Childhood · A build at home phonics game</div>
+  <h1 style="margin-top:5mm;font-size:46pt;">Word Fishing</h1>
+  <p style="margin-top:3mm;font-weight:700;color:var(--ink);font-size:13.5pt;">
+    Print it. Build it. Fish for words.
+  </p>
+  <div class="pond" style="width:170mm;height:118mm;margin-top:7mm;">
+    <svg style="position:absolute;left:96mm;top:-2mm;width:26mm;height:52mm;overflow:visible;" viewBox="0 0 60 120">
+      <path d="M30 0 C30 20 26 34 28 52" fill="none" stroke="#1A1A2E" stroke-width="3" stroke-linecap="round"/>
+      <use href="#magnet" transform="translate(0 54)"/>
+    </svg>
+    <div class="fishwrap f-coral" style="position:absolute;left:34mm;top:44mm;width:74mm;">
+      <svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg>
+      <span class="word" style="font-size:30pt;color:var(--white);">the</span>
+      <svg style="position:absolute;left:-4mm;top:6mm;width:8mm;height:15mm;" viewBox="0 0 22 40"><use href="#clip"/></svg>
+    </div>
+    <div class="fishwrap f-blue" style="position:absolute;left:6mm;top:12mm;width:44mm;transform:rotate(-8deg);">
+      <svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg>
+      <span class="word" style="font-size:18pt;">go</span>
+    </div>
+    <div class="fishwrap f-butter" style="position:absolute;left:120mm;top:66mm;width:44mm;transform:rotate(7deg);">
+      <svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg>
+      <span class="word" style="font-size:18pt;">she</span>
+    </div>
+    <div class="fishwrap f-pink" style="position:absolute;left:12mm;top:78mm;width:38mm;transform:rotate(6deg);">
+      <svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg>
+      <span class="word" style="font-size:16pt;">was</span>
+    </div>
+    <div class="fishwrap f-green" style="position:absolute;left:124mm;top:16mm;width:38mm;transform:rotate(-6deg);">
+      <svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg>
+      <span class="word" style="font-size:16pt;color:var(--white);">they</span>
+    </div>
+    <svg style="position:absolute;left:70mm;top:10mm;width:14mm;height:14mm;" viewBox="0 0 40 40">
+      <circle cx="12" cy="28" r="5" fill="none" stroke="#8888A0" stroke-width="2.5"/>
+      <circle cx="26" cy="14" r="7" fill="none" stroke="#8888A0" stroke-width="2.5"/>
+    </svg>
+  </div>
+  <div style="display:flex;gap:4mm;margin-top:8mm;">
+    <div class="badge">The 10 minute build</div>
+    <div class="badge">Ages 4 to 7</div>
+    <div class="badge">Phase 2 and Phase 3 tricky words</div>
+  </div>
+  <p style="margin-top:6mm;font-size:10pt;max-width:150mm;">
+    A paperclip on every fish, a magnet on a string, and suddenly reading practice
+    is the best game in the house.
+  </p>
+  <div class="footer"><span>guidedchildhood.com</span><span>Word Fishing · Print at Home</span></div>
+</div>
+
+<!-- PAGE 2 · BUILD PAGE -->
+<div class="sheet">
+  <div class="pagehead">
+    <div>
+      <div class="eyebrow">Build once · Play for years</div>
+      <h2 style="margin-top:2mm;">The 10 minute build</h2>
+    </div>
+    <div style="display:flex;gap:3mm;">
+      <div class="badge" style="font-size:8.5pt;">Prep 10 minutes</div>
+      <div class="badge" style="font-size:8.5pt;">Mess level low</div>
+      <div class="badge" style="font-size:8.5pt;">Grown up on scissors</div>
+    </div>
+  </div>
+  <p style="margin-top:3mm;">Everything here is already in your kitchen drawer. No glue, no paint, no trip to the shops.</p>
+  <table class="mats" style="margin-top:4mm;">
+    <tr><th style="width:34%;">You will need</th><th style="width:22%;">How many</th><th>Nice to have</th></tr>
+    <tr><td>A4 paper or thin card</td><td>6 sheets</td><td>Laminating pouches, so the fish survive years of little hands</td></tr>
+    <tr><td>Scissors</td><td>1 pair</td><td>Kid safe scissors, so your child can cut the straight bits</td></tr>
+    <tr><td>Paperclips</td><td>1 per fish, about 60</td><td>Coloured clips that flash like scales in the pond</td></tr>
+    <tr><td>A magnet</td><td>1, fridge magnet strength</td><td>A magnetic letter borrowed from the fridge works a treat</td></tr>
+    <tr><td>String or wool</td><td>About 50 cm</td><td>A second string, so two children can fish at once</td></tr>
+    <tr><td>A wooden spoon or a stick</td><td>1</td><td>A stick from the garden makes it feel like real fishing</td></tr>
+    <tr><td>Something blue for the pond</td><td>1 towel, scarf or tray</td><td>A big blue scarf makes a properly splashy pond</td></tr>
+  </table>
+  <div class="steps">
+    <div class="step"><div class="num">Step 1</div>
+      <svg viewBox="0 0 60 60"><rect x="8" y="22" width="44" height="22" rx="5" fill="#E8F0EE" stroke="#1A1A2E" stroke-width="3"/><rect x="17" y="10" width="26" height="12" fill="#FFFFFF" stroke="#1A1A2E" stroke-width="3"/><rect x="17" y="38" width="26" height="16" fill="#FFFFFF" stroke="#1A1A2E" stroke-width="3"/><circle cx="46" cy="28" r="2.5" fill="#2F8F6B"/></svg>
+      <p><strong>Print.</strong><br>Pages 4 to 9 on paper or thin card.</p>
+    </div>
+    <div class="step"><div class="num">Step 2</div>
+      <svg viewBox="0 0 60 60"><circle cx="14" cy="42" r="7" fill="none" stroke="#1A1A2E" stroke-width="3"/><circle cx="14" cy="18" r="7" fill="none" stroke="#1A1A2E" stroke-width="3"/><path d="M20 22 L52 40 M20 38 L52 20" stroke="#1A1A2E" stroke-width="3.5" stroke-linecap="round"/></svg>
+      <p><strong>Cut.</strong><br>Cut round each dashed card. Grown up on scissor duty.</p>
+    </div>
+    <div class="step"><div class="num">Step 3</div>
+      <svg viewBox="0 0 60 60"><g transform="translate(4 14) scale(0.25)"><g style="--fc:#EDC35F;--fin:#C99A28;"><use href="#fishy"/></g></g><g transform="translate(2 8) scale(0.55)"><use href="#clip"/></g></svg>
+      <p><strong>Clip.</strong><br>Laminate if you can, then slide a paperclip on every fish nose.</p>
+    </div>
+    <div class="step"><div class="num">Step 4</div>
+      <svg viewBox="0 0 60 60"><path d="M6 54 L38 10" stroke="#C99A28" stroke-width="5" stroke-linecap="round"/><path d="M38 10 C42 22 40 30 40 36" fill="none" stroke="#1A1A2E" stroke-width="2.5"/><g transform="translate(30 36) scale(0.36)"><use href="#magnet"/></g></svg>
+      <p><strong>Rig the rod.</strong><br>Tie string to the spoon, tie the magnet to the string.</p>
+    </div>
+    <div class="step"><div class="num">Step 5</div>
+      <svg viewBox="0 0 60 60"><ellipse cx="30" cy="34" rx="26" ry="16" fill="#D8E8F8" stroke="#1A1A2E" stroke-width="3"/><g transform="translate(12 26) scale(0.16)"><g style="--fc:#D4600A;--fin:#A84A06;"><use href="#fishy"/></g></g><g transform="translate(32 32) scale(0.13)"><g style="--fc:#FBCFE8;--fin:#F09CC8;"><use href="#fishy"/></g></g></svg>
+      <p><strong>Fill the pond.</strong><br>Scatter the fish on the blue fabric, clips up. Go fish!</p>
+    </div>
+  </div>
+  <div class="card" style="margin-top:4.5mm;padding:3.5mm 5mm;background:var(--terracotta-lt);" data-tint>
+    <p style="font-size:9.5pt;"><strong style="color:var(--ink);">The laminate tip.</strong> Laminated fish
+    shrug off juice, bath water and garden ponds, and a dry wipe pen turns the blank fish on page 9
+    into an endless spelling list. One print, years of fishing.</p>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Word Fishing · The Build</span></div>
+</div>
+
+<!-- PAGE 3 · HOW TO PLAY -->
+<div class="sheet">
+  <div class="pagehead">
+    <div>
+      <div class="eyebrow">Three games · One pond</div>
+      <h2 style="margin-top:2mm;">How to play</h2>
+    </div>
+    <div class="fishwrap f-blue" style="width:32mm;">
+      <svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg>
+      <span class="word" style="font-size:13pt;">go</span>
+    </div>
+  </div>
+  <p style="margin-top:2mm;">Start with game one. When the catching gets confident, move up. Five minutes a day beats an hour on Sunday.</p>
+  <div class="card gamecard" style="margin-top:5mm;">
+    <div class="gnum">1</div>
+    <div>
+      <h2 style="font-size:14pt;">Catch and say</h2>
+      <p style="margin-top:1.5mm;">Dangle the magnet, catch a fish, read the word out loud.
+      Read it right and the fish goes in your bucket. Stuck on one? Say the word together,
+      throw the fish back, and it will swim round again. Most fish when the pond is empty wins.</p>
+    </div>
+  </div>
+  <div class="card gamecard" style="margin-top:4mm;">
+    <div class="gnum" style="background:var(--tint-blue);">2</div>
+    <div>
+      <h2 style="font-size:14pt;">Word match</h2>
+      <p style="margin-top:1.5mm;">The grown up calls a word: catch me the word <strong style="color:var(--ink);">was</strong>.
+      The child fishes until they land it, checking each catch against the call. This is reading
+      with a mission, and it is sneakily the hardest workout on the page.</p>
+    </div>
+  </div>
+  <div class="card gamecard" style="margin-top:4mm;">
+    <div class="gnum" style="background:var(--pink);">3</div>
+    <div>
+      <h2 style="font-size:14pt;">Beat the clock</h2>
+      <p style="margin-top:1.5mm;">Set a timer for 2 minutes. How many fish can you catch and read
+      before it beeps? Write the score somewhere proud and try to beat it tomorrow. Children race
+      their own best, never each other.</p>
+    </div>
+  </div>
+  <div class="card" style="margin-top:5mm;padding:5mm 6mm;background:var(--tint-sage);" data-tint>
+    <div class="eyebrow" style="color:var(--green-dark);">Keep it playful</div>
+    <p style="margin-top:2mm;">This is a game, never a test. If a word is tricky today, say it
+    cheerfully, let them repeat it, and move on. The magic of Word Fishing is that your child asks
+    to play again, so the practice happens on its own. End every game while it is still fun.</p>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Word Fishing · How to Play</span></div>
+</div>
+
+<!-- PAGE 4 · PHASE 2 FISH 1 -->
+<div class="sheet">
+  <div class="pagehead">
+    <div>
+      <div class="eyebrow">Cut out · Phase 2 tricky words</div>
+      <h2 style="margin-top:2mm;">Phase 2 fish, first shoal</h2>
+    </div>
+    <p class="hint">Cut round each dashed card, laminate if you can, and clip a paperclip on every nose.</p>
+  </div>
+  <div class="grid3">
+    <div class="fishcard f-coral"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">the</span></div></div>
+    <div class="fishcard f-butter"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">to</span></div></div>
+    <div class="fishcard f-blue"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">I</span></div></div>
+    <div class="fishcard f-green"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">no</span></div></div>
+    <div class="fishcard f-pink"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">go</span></div></div>
+    <div class="fishcard f-coral"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">into</span></div></div>
+    <div class="fishcard f-blue"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">the</span></div></div>
+    <div class="fishcard f-green"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">to</span></div></div>
+    <div class="fishcard f-butter"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">go</span></div></div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Word Fishing · Phase 2 · Page 1 of 2</span></div>
+</div>
+
+<!-- PAGE 5 · PHASE 2 FISH 2 -->
+<div class="sheet">
+  <div class="pagehead">
+    <div>
+      <div class="eyebrow">Cut out · Phase 2 tricky words</div>
+      <h2 style="margin-top:2mm;">Phase 2 fish, second shoal</h2>
+    </div>
+    <p class="hint">Three of every word across both pages, so the pond stays full even when one fish visits the sofa cushions.</p>
+  </div>
+  <div class="grid3">
+    <div class="fishcard f-pink"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">no</span></div></div>
+    <div class="fishcard f-green"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">into</span></div></div>
+    <div class="fishcard f-butter"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">I</span></div></div>
+    <div class="fishcard f-blue"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">go</span></div></div>
+    <div class="fishcard f-coral"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">no</span></div></div>
+    <div class="fishcard f-pink"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">the</span></div></div>
+    <div class="fishcard f-green"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">I</span></div></div>
+    <div class="fishcard f-butter"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">into</span></div></div>
+    <div class="fishcard f-coral"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">to</span></div></div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Word Fishing · Phase 2 · Page 2 of 2</span></div>
+</div>
+
+<!-- PAGE 6 · PHASE 3 FISH 1 -->
+<div class="sheet">
+  <div class="pagehead">
+    <div>
+      <div class="eyebrow">Cut out · Phase 3 tricky words</div>
+      <h2 style="margin-top:2mm;">Phase 3 fish, first shoal</h2>
+    </div>
+    <p class="hint">Twelve words, two of each across both pages. Add them to the pond as your child meets them at school.</p>
+  </div>
+  <div class="grid4r">
+    <div class="fishcard f-butter"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">he</span></div></div>
+    <div class="fishcard f-coral"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">she</span></div></div>
+    <div class="fishcard f-blue"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">we</span></div></div>
+    <div class="fishcard f-green"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">me</span></div></div>
+    <div class="fishcard f-pink"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">be</span></div></div>
+    <div class="fishcard f-butter"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">was</span></div></div>
+    <div class="fishcard f-green"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">you</span></div></div>
+    <div class="fishcard f-pink"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">they</span></div></div>
+    <div class="fishcard f-coral"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">all</span></div></div>
+    <div class="fishcard f-blue"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">are</span></div></div>
+    <div class="fishcard f-coral"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">my</span></div></div>
+    <div class="fishcard f-butter"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">her</span></div></div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Word Fishing · Phase 3 · Page 1 of 2</span></div>
+</div>
+
+<!-- PAGE 7 · PHASE 3 FISH 2 -->
+<div class="sheet">
+  <div class="pagehead">
+    <div>
+      <div class="eyebrow">Cut out · Phase 3 tricky words</div>
+      <h2 style="margin-top:2mm;">Phase 3 fish, second shoal</h2>
+    </div>
+    <p class="hint">Mix both phases in one pond for a big game, or keep the shoals separate for a gentler one.</p>
+  </div>
+  <div class="grid4r">
+    <div class="fishcard f-green"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">they</span></div></div>
+    <div class="fishcard f-pink"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">all</span></div></div>
+    <div class="fishcard f-butter"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">are</span></div></div>
+    <div class="fishcard f-coral"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">we</span></div></div>
+    <div class="fishcard f-blue"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">my</span></div></div>
+    <div class="fishcard f-green"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">her</span></div></div>
+    <div class="fishcard f-pink"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">he</span></div></div>
+    <div class="fishcard f-blue"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">she</span></div></div>
+    <div class="fishcard f-coral"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">me</span></div></div>
+    <div class="fishcard f-butter"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">be</span></div></div>
+    <div class="fishcard f-green"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">was</span></div></div>
+    <div class="fishcard f-pink"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">you</span></div></div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Word Fishing · Phase 3 · Page 2 of 2</span></div>
+</div>
+
+<!-- PAGE 8 · LETTER FISH -->
+<div class="sheet">
+  <div class="pagehead">
+    <div>
+      <div class="eyebrow">Cut out · First letters, s a t p i n m d</div>
+      <h2 style="margin-top:2mm;">Letter fish for younger anglers</h2>
+    </div>
+    <p class="hint">The first eight letter sounds children learn, two fish of each. Catch letters, then line them up to build words.</p>
+  </div>
+  <div class="grid44" style="flex:1;margin-bottom:4mm;">
+    <div class="fishcard f-coral"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">s</span></div></div>
+    <div class="fishcard f-butter"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">a</span></div></div>
+    <div class="fishcard f-blue"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">t</span></div></div>
+    <div class="fishcard f-green"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">p</span></div></div>
+    <div class="fishcard f-pink"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">i</span></div></div>
+    <div class="fishcard f-green"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">n</span></div></div>
+    <div class="fishcard f-coral"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">m</span></div></div>
+    <div class="fishcard f-blue"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">d</span></div></div>
+    <div class="fishcard f-butter"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">s</span></div></div>
+    <div class="fishcard f-pink"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">a</span></div></div>
+    <div class="fishcard f-green"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">t</span></div></div>
+    <div class="fishcard f-coral"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">p</span></div></div>
+    <div class="fishcard f-blue"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">i</span></div></div>
+    <div class="fishcard f-butter"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">n</span></div></div>
+    <div class="fishcard f-pink"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">m</span></div></div>
+    <div class="fishcard f-green"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="word">d</span></div></div>
+  </div>
+  <div class="card" style="padding:3.5mm 5mm;background:var(--terracotta-lt);margin-bottom:5mm;" data-tint>
+    <p style="font-size:9.5pt;"><strong style="color:var(--ink);">Build a word.</strong> Catch three letters
+    and line them up on the pond edge: sat, pin, tap, mat, nap, dip, sad, tin, pat, sit, man, and.
+    Sound each letter, then blend them together like a magic spell.</p>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Word Fishing · Letter Fish</span></div>
+</div>
+
+<!-- PAGE 9 · BLANK FISH -->
+<div class="sheet">
+  <div class="pagehead">
+    <div>
+      <div class="eyebrow">Cut out · Your fish, your words</div>
+      <h2 style="margin-top:2mm;">Blank fish for any word</h2>
+    </div>
+    <p class="hint">Write this week's spelling list, names, or new words from school. Laminate and use a dry wipe pen to change them forever.</p>
+  </div>
+  <div class="grid3">
+    <div class="fishcard f-butter"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="writeline"></span></div></div>
+    <div class="fishcard f-blue"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="writeline"></span></div></div>
+    <div class="fishcard f-pink"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="writeline"></span></div></div>
+    <div class="fishcard f-green"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="writeline"></span></div></div>
+    <div class="fishcard f-coral"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="writeline"></span></div></div>
+    <div class="fishcard f-butter"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="writeline"></span></div></div>
+    <div class="fishcard f-pink"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="writeline"></span></div></div>
+    <div class="fishcard f-blue"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="writeline"></span></div></div>
+    <div class="fishcard f-green"><div class="fishwrap"><svg class="fish" viewBox="0 0 216 150"><use href="#fishy"/></svg><span class="writeline"></span></div></div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Word Fishing · Blank Fish</span></div>
+</div>
+
+<!-- PAGE 10 · BONUS / FUNNEL -->
+<div class="sheet" style="align-items:center;text-align:center;">
+  <div style="margin-top:14mm;" class="eyebrow">A free gift for your family</div>
+  <h1 style="margin-top:5mm;font-size:30pt;">You caught the words.<br>Now crack the code.</h1>
+  <img src="images/DiGi-star.svg" alt="DiGi" style="width:44mm;height:47mm;margin-top:8mm;">
+  <p style="margin-top:7mm;max-width:140mm;font-size:11.5pt;">
+    DiGi is the friendly star who guides children through Guided Childhood. As a thank you for
+    building your fishing game, your child can play DiGi's
+    <strong style="color:var(--ink);">Secret Word decoding game</strong> free: a printable
+    code wheel that turns the tricky words your child just caught into secret messages to crack
+    at the kitchen table.
+  </p>
+  <div class="card" style="margin-top:8mm;padding:5mm 10mm;background:var(--terracotta-lt);" data-tint>
+    <div style="font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:13pt;letter-spacing:1px;">guidedchildhood.com/etsy-bonus</div>
+  </div>
+  <p style="margin-top:10mm;font-size:9.5pt;max-width:130mm;">
+    Made by Guided Childhood, the UK platform helping families raise confident kids in a digital
+    world. If your kitchen just became a fishing lake, a kind review on Etsy helps another
+    family find theirs.
+  </p>
+  <div class="footer"><span>guidedchildhood.com</span><span>Thank you · Justin and the squad</span></div>
+</div>
+
+</body>
+</html>

@@ -1764,3 +1764,20 @@ band), more subjects (spelling, grammar, science), adaptive difficulty that
 follows the child's hit rate, and educator review of every item. That build
 should follow the lessons pipeline pattern: research grounded, testable on
 arrival, review queue before live.
+
+## 20 Jul 2026 (evening): Etsy channel greenlit, printables engine created
+Justin ran a multi agent research sweep on best selling Etsy printables
+(school planners, build at home kits, launch mechanics, funnel case studies,
+plus a teardown of La Casita Educativa, a 400k follower Spanish printables
+brand). Decisions: revive Justin's dormant Etsy shop as the Guided Childhood
+shop rather than opening fresh; the shop's two jobs are profitable sales and
+compliant list building toward /starter-pack; price floor £4, revenue core
+£8 to £25 bundles; opt out of Offsite Ads on day one; school planners ship
+first (US back to school peaks now, UK wave 15 Aug to 10 Sep); products are
+fronted by the CURRENT squad (Oliver, Zara, Sofia, DiGi golden star, UK
+animals; Teo, Olga, Alma remain legacy) with each character owning the lane
+matching their lesson topic; classroom products will carry the schools team
+when it is defined. New skill .claude/skills/printables-engine/SKILL.md is
+the production pipeline; plans/etsy-launch-plan.md is the step by step plan.
+Full research outputs live in the session, summaries to be committed as
+research docs on the etsy research branch.
