@@ -28,7 +28,7 @@ export type NotificationFeed = {
 
 export async function getNotifications(supabase: NotifClient, userId: string): Promise<NotificationFeed> {
   const weekAgo = new Date(Date.now() - 7 * 86400000).toISOString().slice(0, 10)
-  const [childrenRes, questsRes, ticksRes, asksRes, schoolRes, digiRes, sessionsRes] = await Promise.all([
+  const [childrenRes, questsRes, ticksRes, asksRes, schoolRes, digiRes, sessionsRes, printablesRes] = await Promise.all([
     supabase.from('children').select('id, name').eq('parent_id', userId),
     supabase.from('family_quests').select('id, title, emoji').eq('user_id', userId),
     supabase.from('quest_ticks').select('id, quest_id, child_id, tick_date').eq('user_id', userId).eq('status', 'pending').gte('tick_date', weekAgo),
@@ -36,6 +36,9 @@ export async function getNotifications(supabase: NotifClient, userId: string): P
     supabase.from('school_actions').select('id, title, due_date, created_at, recurs_weekday, cleared_on').eq('user_id', userId).eq('status', 'open'),
     supabase.from('digi_prompts').select('id, kind, title, body, href, created_at').eq('user_id', userId).eq('status', 'pending'),
     supabase.from('device_sessions').select('id, child_id, device, ends_at').eq('user_id', userId).eq('status', 'active').gt('ends_at', new Date().toISOString()),
+    // Printables a child says they finished, waiting on the parent to confirm.
+    // Fails soft to nothing before migration 087.
+    supabase.from('printable_completions').select('id, child_id, title, emoji, stars, created_at').eq('user_id', userId).eq('status', 'pending'),
   ])
 
   const childName = new Map((childrenRes.data ?? []).map(c => [c.id as string, c.name as string]))
@@ -53,6 +56,17 @@ export async function getNotifications(supabase: NotifClient, userId: string): P
       title: `${nameOf(t.child_id as string)} finished a quest`,
       body: q ? `${q.emoji} ${q.title} · tap to land the stars` : 'Tap to approve the stars',
       href: '/dashboard/quests', at: String(t.tick_date),
+    })
+  }
+
+  // A child finished a printable at home and is waiting on the grown up to
+  // confirm it so the stars land. Urgent like a tick: a child did real work.
+  for (const p of printablesRes.data ?? []) {
+    items.push({
+      id: `printable-${p.id}`, kind: 'approve', icon: '🖍️', urgent: true,
+      title: `${nameOf(p.child_id as string)} finished a printable`,
+      body: `${p.emoji ?? '🖍️'} ${p.title} · tap to confirm and land ${p.stars} stars`,
+      href: '/dashboard/quests', at: String(p.created_at),
     })
   }
 

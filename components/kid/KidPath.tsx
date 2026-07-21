@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import DigiCharacter from '@/components/digi/DigiCharacter'
 import { playKidSound } from '@/lib/sound/kidSounds'
@@ -20,19 +20,24 @@ import type { SchoolQuiz } from '@/lib/content/school-quizzes'
 export type PathLesson = { id: string; title: string; emoji: string; done: boolean; score: number | null; locked: boolean }
 export type PathGame = { key: string; title: string; emoji: string }
 export type PathJob = { id: string; title: string; emoji: string; stars: number; state: 'todo' | 'waiting' | 'done' }
+// A printable on the path. The child does it at home, taps "show my grown
+// up" (todo -> pending, the "?" state), and the grown up confirms it
+// (pending -> confirmed), which lands the stars.
+export type PathPrintable = { key: string; title: string; emoji: string; stars: number; sheetUrl: string; status: 'todo' | 'pending' | 'confirmed' }
 
 type Stone =
   | { type: 'job'; job: PathJob }
   | { type: 'lesson'; lesson: PathLesson }
   | { type: 'chest' }
   | { type: 'game'; game: PathGame }
+  | { type: 'printable'; printable: PathPrintable }
   | { type: 'reading' }
   | { type: 'character'; character: PathCharacter; holdsQuiz: boolean; challenge: PathChallenge }
   | { type: 'finish' }
 
 export default function KidPath({
   token, childName, stageId, stageName, ages, stamp,
-  jobs: jobsInitial, lessons, games, quiz, dayIndex,
+  jobs: jobsInitial, lessons, games, printables: printablesInitial = [], quiz, dayIndex,
   chestClaimed: chestClaimedInitial, quizClaimed: quizClaimedInitial,
   usedTodayMinutes, guideMinutes, balanceStars, needsMigration = false,
 }: {
@@ -45,6 +50,7 @@ export default function KidPath({
   jobs: PathJob[]
   lessons: PathLesson[]
   games: PathGame[]
+  printables?: PathPrintable[]
   quiz: SchoolQuiz
   dayIndex: number
   chestClaimed: boolean
@@ -55,15 +61,21 @@ export default function KidPath({
   needsMigration?: boolean
 }) {
   const [jobs, setJobs] = useState(jobsInitial)
+  const [printables, setPrintables] = useState(printablesInitial)
+  // The bank total lives in state so a live printable confirm bumps the
+  // header pill, not just the node.
+  const [bankStars, setBankStars] = useState(balanceStars)
   const [chestClaimed, setChestClaimed] = useState(chestClaimedInitial)
   const [quizClaimed, setQuizClaimed] = useState(quizClaimedInitial)
   const [busy, setBusy] = useState(false)
   const [toast, setToast] = useState<string | null>(null)
-  // The chest lottery: opening always banks the star, and the celebration
-  // uncovers a bonus direction, the school quiz, a printable to do and show,
-  // or pure sparkle. Which one is the day's luck.
-  const [chestReveal, setChestReveal] = useState<'quiz' | 'printable' | 'star' | null>(null)
+  // The Claim node's lottery: claiming always banks the star, and the
+  // celebration uncovers a random bonus, the school quiz, a printable, a
+  // learning game, a surprise job, or pure sparkle. The day's luck.
+  const [chestReveal, setChestReveal] = useState<'quiz' | 'printable' | 'game' | 'challenge' | 'star' | null>(null)
   const [sheet, setSheet] = useState<Stone | null>(null)
+  // The printable a child tapped to do at home, open in its own sheet.
+  const [activePrintable, setActivePrintable] = useState<PathPrintable | null>(null)
   // The quiz run, living inside the character sheet. Each run samples five
   // questions from the band's pool and shuffles every question's answer
   // positions, so replays differ and there is never a positional pattern to
@@ -109,10 +121,14 @@ export default function KidPath({
   const stones: Stone[] = []
   let charIdx = 0
   let gameIdx = 0
+  let printIdx = 0
   let readingPlaced = false
   baseStones.forEach((s, i) => {
     stones.push(s)
     if (i === 0) stones.push({ type: 'chest' })
+    if ((i + 1) % 2 === 0 && printIdx < printables.length) {
+      stones.push({ type: 'printable', printable: printables[printIdx++] })
+    }
     if ((i + 1) % 3 === 0 && charIdx < PATH_CHARACTERS.length) {
       stones.push({
         type: 'character',
@@ -139,6 +155,9 @@ export default function KidPath({
       challenge: challengeFor(dayIndex, charIdx),
     })
     charIdx++
+  }
+  while (printIdx < printables.length) {
+    stones.push({ type: 'printable', printable: printables[printIdx++] })
   }
   if (!readingPlaced) stones.push({ type: 'reading' })
   stones.push({ type: 'finish' })
@@ -169,17 +188,78 @@ export default function KidPath({
       return next
     })
   }
+  // A printable counts as the child's part done the moment they send it to be
+  // confirmed (pending), so the glow moves on and the path is never held up
+  // waiting on the grown up; the node still shows "?" until confirmed.
+  const printStatus = (key: string) => printables.find(p => p.key === key)?.status ?? 'todo'
   function stoneDone(s: Stone): boolean {
     if (s.type === 'job') return s.job.state !== 'todo'
     if (s.type === 'lesson') return s.lesson.done || s.lesson.locked
     if (s.type === 'chest') return chestClaimed
+    if (s.type === 'printable') return printStatus(s.printable.key) !== 'todo'
     if (s.type === 'character') return s.holdsQuiz ? (quizClaimed || Boolean(foundMarks['quiz'])) : Boolean(foundMarks[`char_${s.character.key}`])
     if (s.type === 'game') return Boolean(foundMarks[`game_${s.game.key}`])
     if (s.type === 'reading') return Boolean(foundMarks['reading'])
     return true
   }
   const currentIndex = stones.findIndex(s => s.type !== 'finish' && !stoneDone(s))
-  const allPathDone = currentIndex === -1 && stones.length > 1
+  // The glow advances past a pending printable (the child did their part), but
+  // the "path complete" celebration waits until nothing is still awaiting the
+  // grown up, so it never claims "every stone done" while a "?" is on screen.
+  const anyPrintablePending = printables.some(p => p.status === 'pending')
+  const allPathDone = currentIndex === -1 && stones.length > 1 && !anyPrintablePending
+
+  // Open the trail on the glowing stone, the Duolingo way: the current one
+  // scrolls into the middle of the screen on load so the child lands exactly
+  // where they are, not at the top every time.
+  const currentRef = useRef<HTMLDivElement | null>(null)
+  const scrolledRef = useRef(false)
+  useEffect(() => {
+    if (scrolledRef.current || !currentRef.current) return
+    scrolledRef.current = true
+    setTimeout(() => {
+      try { currentRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }) } catch { /* no-op */ }
+    }, 250)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  // Live flip: while the child is on the path, poll the printable statuses so
+  // a "?" turns to done the moment the grown up confirms, no reload. Cheap,
+  // fails soft, and re-checks the instant they return to the tab. The ref
+  // holds the latest printables so the poll can compute the newly confirmed
+  // stars without going stale or re-subscribing.
+  const printablesRef = useRef(printables)
+  useEffect(() => { printablesRef.current = printables }, [printables])
+  useEffect(() => {
+    if (printablesInitial.length === 0) return
+    const pull = async () => {
+      try {
+        const r = await fetch(`/api/kid/printable-status?token=${token}`, { cache: 'no-store' })
+        const d = await r.json()
+        const statuses = (d?.statuses ?? {}) as Record<string, string>
+        // Side effects (the cheer and the bank bump) are computed against the
+        // ref and fired here, once, OUTSIDE the state updater, so a double
+        // rendered updater can never double count.
+        const cur = printablesRef.current
+        const gained = cur.reduce((sum, p) =>
+          (statuses[p.key] === 'confirmed' && p.status !== 'confirmed') ? sum + p.stars : sum, 0)
+        if (gained > 0) { playKidSound('done'); setBankStars(b => b + gained) }
+        setPrintables(list => list.map(p => {
+          const s = statuses[p.key]
+          // Every transition reflects live: confirmed shows done, pending
+          // shows the "?", and a declined printable returns to tappable so the
+          // child can redo it, matching what a reload already does.
+          const next = s === 'confirmed' ? 'confirmed' : s === 'pending' ? 'pending' : s === 'declined' ? 'todo' : p.status
+          return next !== p.status ? { ...p, status: next as PathPrintable['status'] } : p
+        }))
+      } catch { /* next tick */ }
+    }
+    const id = setInterval(() => { if (document.visibilityState === 'visible') pull() }, 15000)
+    const onVis = () => { if (document.visibilityState === 'visible') pull() }
+    document.addEventListener('visibilitychange', onVis)
+    return () => { clearInterval(id); document.removeEventListener('visibilitychange', onVis) }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token])
 
   // Trail progress counts every stone the same way the glow does, passes
   // leaping double, so the bar and the path can never disagree.
@@ -241,12 +321,40 @@ export default function KidPath({
       if (r.ok) {
         setChestClaimed(true)
         playKidSound('done')
-        const finds: ('quiz' | 'printable' | 'star')[] = quizClaimed ? ['printable', 'star'] : ['quiz', 'printable', 'star']
+        // The random bonus: a job idea, a printable, a game, the quiz, or
+        // pure sparkle, whatever is actually available today.
+        const finds: ('quiz' | 'printable' | 'game' | 'challenge' | 'star')[] = ['challenge', 'star']
+        if (!quizClaimed) finds.push('quiz')
+        if (printables.some(p => p.status === 'todo')) finds.push('printable')
+        if (games.length > 0) finds.push('game')
         setChestReveal(finds[Math.floor(Math.random() * finds.length)])
       }
-      else if (d?.needsMigration) say('The chest is still being built. Soon!')
+      else if (d?.needsMigration) say('Claim is still being built. Soon!')
       else if (/already/.test(String(d?.error))) setChestClaimed(true)
     } catch { /* stays shut */ } finally { setBusy(false) }
+  }
+
+  // The child did a printable at home and sends it to the grown up to confirm.
+  // The node goes to "?" pending straight away; the poll flips it to done when
+  // the grown up confirms.
+  async function sendPrintable(p: PathPrintable) {
+    if (busy) return
+    setBusy(true)
+    try {
+      const r = await fetch('/api/kid/printable-done', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token, printable_key: p.key }),
+      })
+      const d = await r.json().catch(() => ({}))
+      if (r.ok) {
+        setPrintables(list => list.map(x => x.key === p.key ? { ...x, status: (d.status === 'confirmed' ? 'confirmed' : 'pending') } : x))
+        setActivePrintable(null)
+        playKidSound('star')
+        say('Sent to your grown up to check ⭐')
+      } else if (d?.needsMigration) {
+        say('This is still being built. Soon!')
+      }
+    } catch { /* tap again */ } finally { setBusy(false) }
   }
 
   function openSheet(stone: Stone) {
@@ -343,7 +451,7 @@ export default function KidPath({
             ← My quests
           </Link>
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink)', background: 'var(--terracotta)', borderRadius: '100px', padding: '5px 12px', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
-            ⭐ {balanceStars} in the bank
+            ⭐ {bankStars} in the bank
           </span>
         </div>
 
@@ -421,10 +529,24 @@ export default function KidPath({
               node = (
                 <button onClick={openChest} disabled={busy} style={column}>
                   <span style={shell({ bg: chestClaimed ? 'var(--tint-sage)' : openable ? 'var(--terracotta-lt)' : 'var(--cream)', border: openable ? '3px solid var(--terracotta)' : undefined, dim: chestClaimed, pulse: isCurrent })}>
-                    <span style={{ fontSize: 34, lineHeight: 1 }}>{chestClaimed ? '✨' : '🎁'}</span>
+                    <span style={{ fontSize: 34, lineHeight: 1 }}>{chestClaimed ? '⭐' : '🎁'}</span>
                   </span>
-                  <span style={label}>{chestClaimed ? 'Chest opened' : 'The daily chest'}</span>
-                  <span style={sub}>{chestClaimed ? '+1 star banked' : openable ? 'Tap to open!' : 'Tick a job to open'}</span>
+                  <span style={label}>{chestClaimed ? 'Star claimed' : 'Claim your star'}</span>
+                  <span style={sub}>{chestClaimed ? '+1 star banked' : openable ? 'Tap to claim!' : 'Tick a job to claim'}</span>
+                </button>
+              )
+            } else if (stone.type === 'printable') {
+              const p = stone.printable
+              const st = printStatus(p.key)
+              node = (
+                <button onClick={() => { if (st === 'todo') { setActivePrintable(p); playKidSound('tap') } }} disabled={busy || st !== 'todo'} style={column}>
+                  <span style={shell({ bg: st === 'confirmed' ? 'var(--tint-sage)' : st === 'pending' ? '#FFF7E0' : 'var(--cream)', border: st === 'pending' ? '3px dashed var(--terracotta)' : undefined, dim: st === 'confirmed', pulse: isCurrent })}>
+                    <span style={{ fontSize: 34, lineHeight: 1 }}>{st === 'confirmed' ? '✓' : st === 'pending' ? '❓' : '🖍️'}</span>
+                  </span>
+                  <span style={label}>{p.title}</span>
+                  <span style={sub}>
+                    {st === 'confirmed' ? `Done! +${p.stars} stars` : st === 'pending' ? 'Show your grown up' : `Printable · ${p.stars} stars`}
+                  </span>
                 </button>
               )
             } else if (stone.type === 'character') {
@@ -479,7 +601,7 @@ export default function KidPath({
             return (
               <div key={i}>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', transform: `translateX(${align}px)`, position: 'relative', paddingTop: isCurrent ? 34 : 0 }}>
+                  <div ref={isCurrent ? currentRef : undefined} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', transform: `translateX(${align}px)`, position: 'relative', paddingTop: isCurrent ? 34 : 0 }}>
                     {/* The Start bubble rides whichever stone is next, the one
                         glowing thing on the whole trail. */}
                     {isCurrent && (
@@ -537,45 +659,88 @@ export default function KidPath({
         </div>
       )}
 
-      {/* The chest reveal: the mini celebration and the day's lottery. The
-          star is always banked; what it uncovers points somewhere good. */}
-      {chestReveal && (
+      {/* The Claim reveal: the star is always banked, and a random bonus is
+          uncovered, a quiz, a printable, a game, a surprise job, or sparkle. */}
+      {chestReveal && (() => {
+        const emoji = chestReveal === 'quiz' ? '🎓' : chestReveal === 'printable' ? '🖍️' : chestReveal === 'game' ? '🎮' : chestReveal === 'challenge' ? '🎁' : '✨'
+        const todoPrintable = printables.find(p => p.status === 'todo')
+        const bonusChallenge = challengeFor(dayIndex, 4)
+        return (
         <div onClick={() => setChestReveal(null)} style={{ position: 'fixed', inset: 0, zIndex: 132, background: 'rgba(26,26,46,0.5)', display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
           <div onClick={e => e.stopPropagation()} style={{ width: '100%', maxWidth: 520, background: 'var(--cream)', borderTopLeftRadius: 26, borderTopRightRadius: 26, padding: '24px 22px calc(28px + env(safe-area-inset-bottom))', boxShadow: '0 -18px 50px -16px rgba(0,0,0,0.5)', textAlign: 'center' }}>
-            <div style={{ fontSize: 56, lineHeight: 1, marginBottom: 8, display: 'inline-block', animation: 'gcChestPop 0.6s ease-out' }}>
-              {chestReveal === 'quiz' ? '🎓' : chestReveal === 'printable' ? '🖍️' : '✨'}
-            </div>
+            <div style={{ fontSize: 56, lineHeight: 1, marginBottom: 8, display: 'inline-block', animation: 'gcChestPop 0.6s ease-out' }}>{emoji}</div>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.4rem', color: 'var(--ink)', marginBottom: 4 }}>
-              Chest opened! +1 star banked ⭐
+              Star claimed! +1 in your bank ⭐
             </div>
             <p style={{ fontSize: '15.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 16px' }}>
-              {chestReveal === 'quiz' && 'And inside: the school quiz! Pass it and 2 more stars are yours.'}
-              {chestReveal === 'printable' && 'And inside: a printable! Print it, do it, and show your grown up. Finished sheets can pay stars as a quest.'}
-              {chestReveal === 'star' && 'Pure sparkle today. Spend it well on the timer, or save it up for something bigger.'}
+              {chestReveal === 'quiz' && 'And a surprise: the school quiz! Pass it and 2 more stars are yours.'}
+              {chestReveal === 'printable' && (todoPrintable ? `And a surprise: the ${todoPrintable.title}! Do it at home and show your grown up for ${todoPrintable.stars} stars.` : 'And a surprise printable to do at home. Find the 🖍️ stone on your path.')}
+              {chestReveal === 'game' && 'And a surprise: a learning game to play. Quick, clever, and good fun.'}
+              {chestReveal === 'challenge' && `And a surprise dare: ${bonusChallenge.title}. ${bonusChallenge.body}`}
+              {chestReveal === 'star' && 'Pure sparkle today. Spend it on the timer, or save up for something bigger.'}
             </p>
             {chestReveal === 'quiz' && (
               <button
-                onClick={() => {
-                  const quizStone = stones.find(s => s.type === 'character' && s.holdsQuiz)
-                  setChestReveal(null)
-                  if (quizStone) openSheet(quizStone)
-                }}
+                onClick={() => { const s = stones.find(s => s.type === 'character' && s.holdsQuiz); setChestReveal(null); if (s) openSheet(s) }}
                 style={{ width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 14, padding: '14px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 15.5, boxShadow: '0 5px 0 var(--terracotta-dark)' }}
               >
                 Take the quiz, 2 more stars →
               </button>
             )}
-            {chestReveal === 'printable' && (
-              <a
-                href={`/k/${token}?tab=print`}
-                onClick={() => playKidSound('tap')}
-                style={{ display: 'block', width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 14, padding: '14px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 15.5, boxShadow: '0 5px 0 var(--terracotta-dark)', boxSizing: 'border-box' }}
+            {chestReveal === 'printable' && todoPrintable && (
+              <button
+                onClick={() => { setChestReveal(null); setActivePrintable(todoPrintable); playKidSound('tap') }}
+                style={{ width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 14, padding: '14px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 15.5, boxShadow: '0 5px 0 var(--terracotta-dark)' }}
               >
-                See the printables →
+                Do the printable →
+              </button>
+            )}
+            {chestReveal === 'game' && (
+              <a href={`/k/${token}?tab=games`} onClick={() => playKidSound('tap')} style={{ display: 'block', width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 14, padding: '14px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 15.5, boxShadow: '0 5px 0 var(--terracotta-dark)', boxSizing: 'border-box' }}>
+                Play a game →
+              </a>
+            )}
+            {chestReveal === 'challenge' && (
+              <a href={`/k/${token}#my-todo`} onClick={() => playKidSound('tap')} style={{ display: 'block', width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 14, padding: '14px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 15.5, boxShadow: '0 5px 0 var(--terracotta-dark)', boxSizing: 'border-box' }}>
+                {bonusChallenge.cta} →
               </a>
             )}
             <button onClick={() => setChestReveal(null)} style={{ background: 'none', border: 'none', cursor: 'pointer', margin: '14px auto 0', fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: 14, color: 'var(--ink-muted)', textDecoration: 'underline', textUnderlineOffset: 3 }}>
               Back to the path
+            </button>
+          </div>
+        </div>
+        )
+      })()}
+
+      {/* The printable at home sheet: do it, then send it to the grown up to
+          confirm. Tapping the node opens this. */}
+      {activePrintable && (
+        <div onClick={() => setActivePrintable(null)} style={{ position: 'fixed', inset: 0, zIndex: 133, background: 'rgba(26,26,46,0.5)', display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
+          <div onClick={e => e.stopPropagation()} style={{ width: '100%', maxWidth: 520, background: 'var(--cream)', borderTopLeftRadius: 26, borderTopRightRadius: 26, padding: '24px 22px calc(28px + env(safe-area-inset-bottom))', boxShadow: '0 -18px 50px -16px rgba(0,0,0,0.5)' }}>
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ fontSize: 48, lineHeight: 1, marginBottom: 8 }}>{activePrintable.emoji}</div>
+              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.35rem', color: 'var(--ink)', marginBottom: 6 }}>{activePrintable.title}</div>
+              <p style={{ fontSize: '15.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 16px' }}>
+                Print it and do it at home, away from screens. When it is finished, show your grown up so they can confirm it and land your {activePrintable.stars} stars.
+              </p>
+            </div>
+            <a
+              href={activePrintable.sheetUrl} target="_blank" rel="noopener noreferrer"
+              onClick={() => playKidSound('tap')}
+              style={{ display: 'block', textAlign: 'center', background: '#fff', color: 'var(--ink)', border: '1.5px solid var(--border)', borderRadius: 14, padding: '13px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15, marginBottom: 10, boxSizing: 'border-box' }}
+            >
+              🖨️ Open the sheet to print
+            </a>
+            <button
+              onClick={() => sendPrintable(activePrintable)}
+              disabled={busy}
+              style={{ width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 14, padding: '15px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 15.5, boxShadow: '0 5px 0 var(--terracotta-dark)' }}
+            >
+              {busy ? 'Sending...' : `I did it! Show my grown up ⭐${activePrintable.stars}`}
+            </button>
+            <button onClick={() => setActivePrintable(null)} style={{ background: 'none', border: 'none', cursor: 'pointer', margin: '14px auto 0', display: 'block', fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: 14, color: 'var(--ink-muted)', textDecoration: 'underline', textUnderlineOffset: 3 }}>
+              Not yet, back to the path
             </button>
           </div>
         </div>

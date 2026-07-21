@@ -28,6 +28,7 @@ import KidIcon, { type KidIconName } from '@/components/kid/KidIcon'
 import KidTodayList from '@/components/kid/KidTodayList'
 import KidContract from '@/components/kid/KidContract'
 import KidRoad from '@/components/kid/KidRoad'
+import KidSplash from '@/components/kid/KidSplash'
 
 // The kid facing quest screen: joyful, huge tap targets, instant ticks,
 // stars that count up, and a goal bar. Pending ticks show as "waiting
@@ -66,6 +67,12 @@ const ACCENT_MAP: Record<string, { name: string; hex: string; bg: string; ink: s
   sunshine: { name: 'Sunshine', hex: '#E19A2E', bg: 'linear-gradient(180deg, #FBEFCF 0%, #F6E3AE 100%)', ink: 'var(--ink)', inkSoft: 'rgba(26,26,46,0.60)' },
   coral:    { name: 'Coral',    hex: '#E56B57', bg: 'linear-gradient(180deg, #FBE3DB 0%, #F6D0C4 100%)', ink: 'var(--ink)', inkSoft: 'rgba(26,26,46,0.60)' },
   berry:    { name: 'Berry',    hex: '#C65B8E', bg: 'linear-gradient(180deg, #F8E2EC 0%, #F1CEDE 100%)', ink: 'var(--ink)', inkSoft: 'rgba(26,26,46,0.60)' },
+  sky:      { name: 'Sky',      hex: '#4C9FD6', bg: 'linear-gradient(180deg, #E4F1FB 0%, #CFE6F7 100%)', ink: 'var(--ink)', inkSoft: 'rgba(26,26,46,0.60)' },
+  mint:     { name: 'Mint',     hex: '#3FA98A', bg: 'linear-gradient(180deg, #E0F4EC 0%, #C9ECDD 100%)', ink: 'var(--ink)', inkSoft: 'rgba(26,26,46,0.60)' },
+  lavender: { name: 'Lavender', hex: '#8A72C9', bg: 'linear-gradient(180deg, #EEE9FA 0%, #E0D6F3 100%)', ink: 'var(--ink)', inkSoft: 'rgba(26,26,46,0.60)' },
+  peach:    { name: 'Peach',    hex: '#E58A4E', bg: 'linear-gradient(180deg, #FCECDC 0%, #F8DBC2 100%)', ink: 'var(--ink)', inkSoft: 'rgba(26,26,46,0.60)' },
+  bubblegum:{ name: 'Bubblegum',hex: '#DD6BA6', bg: 'linear-gradient(180deg, #FBE6F1 0%, #F6D2E5 100%)', ink: 'var(--ink)', inkSoft: 'rgba(26,26,46,0.60)' },
+  midnight: { name: 'Midnight', hex: '#6FA8DC', bg: 'linear-gradient(180deg, #2C3A57 0%, #202B40 100%)', ink: '#F7F7F5', inkSoft: 'rgba(255,255,255,0.74)' },
 }
 const DEFAULT_BUDDY = 'digi'
 const DEFAULT_ACCENT = 'graphite'
@@ -729,6 +736,15 @@ export default function KidQuestScreen({
       padding: '22px 16px 40px',
       fontFamily: 'var(--font-body)',
     }}>
+      {/* Their own buddy says hello when the app opens, the Duolingo front
+          door, once per session on their own colour. */}
+      <KidSplash
+        buddyImg={BUDDY_MAP[chosenBuddy].img}
+        buddyName={BUDDY_MAP[chosenBuddy].name}
+        buddyIsStar={chosenBuddy === 'digi'}
+        bg={theme.bg}
+        ink={theme.ink}
+      />
       {/* Quest game overlay: the child plays, the stars record on finish
           through the same approve loop, the celebration stays until Done. */}
       {activeGame && (
