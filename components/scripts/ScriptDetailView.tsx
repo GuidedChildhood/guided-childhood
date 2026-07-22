@@ -245,6 +245,22 @@ export default function ScriptDetailView({
           )}
         </div>
 
+        {/* The one tap way back to the daily path after doing this step, so a
+            parent sent here from home always has a clear return to the next
+            thing rather than reaching for the browser back button. */}
+        <Link
+          href="/dashboard"
+          style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+            background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none',
+            borderRadius: 16, padding: '15px 20px',
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15,
+            boxShadow: '0 5px 0 var(--terracotta-dark)',
+          }}
+        >
+          Continue your pathway →
+        </Link>
+
       </div>
     </div>
   )

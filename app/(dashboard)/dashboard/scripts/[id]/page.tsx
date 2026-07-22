@@ -62,9 +62,14 @@ export default async function ScriptDetailPage({
   // for the vast majority of visits (the deck flow marks it too, same
   // row, upsert makes either order safe). Never touches the worked
   // rating a parent may have already given.
+  //
+  // completed_at is refreshed to now on every open. The daily path counts a
+  // script as done today only when its completion is dated today, so without
+  // this a re-read of a script first opened on an earlier day kept its old
+  // date and never ticked the path. Opening it, any day, now counts that day.
   await supabase
     .from('script_completions')
-    .upsert({ user_id: user.id, script_sort_order: sortOrder }, { onConflict: 'user_id,script_sort_order' })
+    .upsert({ user_id: user.id, script_sort_order: sortOrder, completed_at: new Date().toISOString() }, { onConflict: 'user_id,script_sort_order' })
 
   const showBanNote = script.law_flag !== 'none' && SOCIAL_MEDIA_LAW !== 'none'
 
