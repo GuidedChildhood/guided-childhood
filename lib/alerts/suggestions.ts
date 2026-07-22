@@ -37,7 +37,10 @@ export async function getSuggestions(
   const in2days = new Date(Date.now() + 2 * 86400000).toISOString().slice(0, 10)
 
   const win21 = new Date(Date.now() - 21 * 86400000).toISOString()
-  const [journey, schoolSoon, questCount, concernToday, recurringConcern, recentWin] = await Promise.all([
+  // Sunday, UK time, so the weekly school setup nudge lands on the day a parent
+  // is thinking about the week ahead.
+  const isSunday = new Intl.DateTimeFormat('en-GB', { weekday: 'short', timeZone: 'Europe/London' }).format(new Date()) === 'Sun'
+  const [journey, schoolSoon, questCount, concernToday, recurringConcern, recentWin, schoolRoutines] = await Promise.all([
     getJourney(supabase, userId, stageId),
     supabase.from('school_actions').select('title, due_date').eq('user_id', userId).eq('status', 'open').not('due_date', 'is', null).gte('due_date', todayDate).lte('due_date', in2days).order('due_date', { ascending: true }).limit(1),
     supabase.from('family_quests').select('id', { count: 'exact', head: true }).eq('user_id', userId).eq('active', true),
@@ -47,6 +50,9 @@ export async function getSuggestions(
     // weeks. Momentum, not only problems, so the family in view is one that is
     // making progress. The dismiss cool off keeps it from repeating.
     supabase.from('concerns').select('label, slug, status').eq('user_id', userId).in('status', ['resolved', 'improving']).gte('last_flagged_at', win21).order('last_flagged_at', { ascending: false }).limit(1),
+    // Whether this family already runs weekly school routines. If none are set,
+    // the Sunday nudge invites them to turn the alerts on for the week ahead.
+    supabase.from('school_actions').select('id', { count: 'exact', head: true }).eq('user_id', userId).not('recurs_weekday', 'is', null),
   ])
 
   // Only look for a kid link when it can pay off, at screen off time.
@@ -64,6 +70,18 @@ export async function getSuggestions(
     title: `Coming up: ${school.title}`,
     body: 'Sort it tonight while it is easy, or send the reminder to their phone.',
     cta: 'Open school reminders', href: '/dashboard/school',
+  })
+
+  // Sunday setup nudge: DiGi invites the parent to line up the week ahead once,
+  // and after that the school alerts run themselves to both phones. Only when
+  // no weekly routines are set yet, and only from Sunday afternoon on, so it
+  // reads as help with the week rather than a chore. The dismiss cool off keeps
+  // it from repeating if they would rather not.
+  if (isSunday && ukHour >= 15 && (schoolRoutines.count ?? 0) === 0) s.push({
+    key: 'school:sunday-setup', kind: 'school', urgency: 7, emoji: '🗓️',
+    title: 'Set up next week’s school run',
+    body: 'Add the weekly routines once, hockey kit, chess club, spellings, reading books, and I will remind your phone and theirs the night before and the morning of.',
+    cta: 'Set up school alerts', href: '/dashboard/school',
   })
 
   const flagged = concernToday.data?.[0]
