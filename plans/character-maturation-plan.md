@@ -118,6 +118,75 @@ Monster idea, and exactly the passport stamp colours.
   bands and draw them down the same maturation gradient. Warmer and British, but
   mixed species reads as different characters, not one growing up.
 
+## Update, 22 July: humans out, Sparks richer
+
+Decision: retire the human characters (Oliver, Zara, Sofia) entirely. The cast
+becomes DiGi plus the five Sparks, one coherent star family, nothing generic.
+Any lesson that used a human now uses that stage's Spark. This means updating the
+digi-squad README and the lesson intro references, a content and asset job, not
+urgent, no code risk.
+
+### How the Sparks stay unmistakably DiGi's family
+
+Only three things change across the five. Everything else is shared, so they read
+as one family at five ages, and always as DiGi's kin:
+
+- **Shared, never changes:** DiGi's golden star mark somewhere on every Spark
+  (tummy, forehead, or tail), the same eyes and smile language, the same soft
+  rounded Nunito friendly forms, the same butter and cream world, the same ink
+  line. A child should know a Spark is DiGi's the instant they see it.
+- **Changes per stage:** the stage colour, the maturity of the proportions (the
+  baby schema gradient, big head and eyes down to balanced), and one skill prop.
+
+### The five, in character
+
+Names follow the arc from a spark to a nova, mirroring growing up.
+
+1. **Pip, Foundation, 4 to 7, butter.** The roundest, softest Spark, almost all
+   head and eyes, a golden star on its tummy that glows when calm, a comfort
+   blanket cape. Power: the calm off switch. When Pip yawns, screens go to sleep.
+   Teaches screens off without a battle, tell a grown up. The cuddly one, a night
+   light energy. "Screens sleep, and so do I."
+2. **Glim, Builder, 8 to 10.** Taller, springy, little arms, the star now a
+   headlamp on its forehead. Power: the trick spotter. Its light shines on the
+   tries and hooks built into games and apps. Teaches healthy habits and spot the
+   trick. The detective who reveals hidden things. "If it wants you to keep going,
+   I want to know why."
+3. **Vela, Explorer, 11 to 13.** Leaner, a curious tween, carries a little
+   lantern or compass made of star light. Power: the feed reader. Vela can see
+   the invisible current of the feed pulling. Teaches the feed is built to hold
+   you, and comparison. The explorer who maps what others cannot see. "I can see
+   which way the feed is pulling."
+4. **Ember, Shaper, 13 to 15.** Cooler, angular, minimal, understated, teen
+   coded, less cute on purpose, a small steady ember glow on the chest. Power: the
+   steady one, the footprint keeper. Calm under pressure, reads the long game.
+   Teaches platforms, footprint, pressure. The cool older one a teen actually
+   wants, not babyish. "What you post has a long memory. So do I."
+5. **Nova, Independent, 16+.** The most mature, sleek, near adult, almost a grown
+   up DiGi, elegant, a tool satchel. Power: the builder. Builds with AI, judges
+   output, runs an adult digital life. Teaches building with AI, two factor,
+   money, data. The final form, the aspirational unlock. "I do not just use it. I
+   build with it."
+
+### Making them genuinely collectible (why a child wants them)
+
+- **Earned, never bought.** A Spark is unlocked by filling that stage's stamp. To
+  collect the set is to complete the journey to 16. The Spark is the reward for
+  the learning, so the collecting drives the education.
+- **They wake up as you progress.** Within a stage the Spark starts faint and
+  sleepy at zero percent and glows brighter, gains its full colour and its prop,
+  and fully wakes at one hundred percent. A visible grow in that mirrors the
+  passport circle filling. The Tamagotchi and Pokemon evolution beat, a proven
+  child magnet.
+- **The constellation shelf.** Earned Sparks live in a night sky or shelf that
+  fills as the child goes, with the not yet earned ones showing as quiet
+  silhouettes, the collect them all tease. The Pokedex effect.
+- **Physical crossover.** The same five Sparks are the Croc charms, the stickers
+  and the trading cards in the physical rewards plan. Collect the digital, collect
+  the real.
+- **A hidden sixth.** A secret golden Spark, a baby DiGi, unlocked only when all
+  five stamps are filled by 16. Rarity drives desire, and it becomes the keepsake.
+
 ## Next step, only when Justin says go
 
 A small art test on Higgsfield: the five Sparks in a row, same family, walked
