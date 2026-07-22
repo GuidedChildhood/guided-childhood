@@ -42,7 +42,7 @@ export const PRINTABLES: Printable[] = [
     stars: 5,
     blurb: 'Sixteen real world summer wins, coloured in one by one. Fill the page before September.',
     sheetUrl: BASE + 'hf_20260722_110249_9222b05c-e58b-4035-b376-723bfb02a03e.png',
-    sheetUrlEs: BASE + 'hf_20260713_132550_1294330c-1bf1-4803-b1ab-f4bd1f054f6f.png',
+    sheetUrlEs: BASE + 'hf_20260722_122910_c7938e56-a03c-47ba-841c-1d3a4669cdb1.png',
     previewUrl: BASE + 'hf_20260713_124936_d5894552-b377-4835-b103-599872e5b4d5.png',
   },
   {
@@ -52,7 +52,7 @@ export const PRINTABLES: Printable[] = [
     stars: 5,
     blurb: 'The screens stay off and the rain stays out. Forts, baking, kitchen discos and hot chocolate.',
     sheetUrl: BASE + 'hf_20260722_110252_6c5a3564-5f2f-414f-948f-2bef16fa978a.png',
-    sheetUrlEs: BASE + 'hf_20260713_132555_33e47caa-d096-43ee-8294-f18bf561d992.png',
+    sheetUrlEs: BASE + 'hf_20260722_122913_8935b9b3-71c1-4514-8023-e30e081cf413.png',
     previewUrl: BASE + 'hf_20260713_125305_b235e9e2-d3c2-4fd0-aef6-a6c0c90e8a5b.png',
   },
   {
@@ -62,7 +62,7 @@ export const PRINTABLES: Printable[] = [
     stars: 5,
     blurb: 'Every box coloured made someone’s day better. Thank you notes, baking for a neighbour, three real compliments.',
     sheetUrl: BASE + 'hf_20260722_110300_e6831a25-796a-4d58-8e24-486a56683717.png',
-    sheetUrlEs: BASE + 'hf_20260713_132622_2f3c7661-f22d-4f7a-8d58-2c34ac5ede9e.png',
+    sheetUrlEs: BASE + 'hf_20260722_122921_d147a484-fb66-41a5-8248-7380d91dfd4d.png',
     previewUrl: BASE + 'hf_20260713_125326_94438fa2-9760-4981-b058-205ea2623e2f.png',
   },
   {
@@ -72,7 +72,7 @@ export const PRINTABLES: Printable[] = [
     stars: 5,
     blurb: 'Eight ways to read: outside, to someone, about space, a book they chose themselves.',
     sheetUrl: BASE + 'hf_20260722_110303_5c28f7af-1d9a-4a3f-bb03-a5d84c7c47e5.png',
-    sheetUrlEs: BASE + 'hf_20260713_132628_59a9f6de-080b-4765-9a58-5ebce84fb951.png',
+    sheetUrlEs: BASE + 'hf_20260722_122923_526700d3-41c9-417f-8b31-f781821d8582.png',
     previewUrl: BASE + 'hf_20260713_125344_3aaa7475-b816-4b0b-8d3f-932fd86f48f2.png',
   },
   {
@@ -82,7 +82,7 @@ export const PRINTABLES: Printable[] = [
     stars: 5,
     blurb: 'Take it on a walk. A feather, a snail, a funny shaped cloud. Look, spot, colour.',
     sheetUrl: BASE + 'hf_20260721_152826_19a6c2b0-d195-496c-8f6f-dcb128419b54.png',
-    sheetUrlEs: BASE + 'hf_20260713_132647_97614a78-c23d-40c8-aa1c-a02632ce75d9.png',
+    sheetUrlEs: BASE + 'hf_20260722_122935_9531a458-ca41-4e5b-8804-daa0bcaf69e2.png',
     previewUrl: BASE + 'hf_20260713_125404_e98b9bff-4d58-43e9-976f-8e7704586b31.png',
   },
   {
@@ -92,7 +92,7 @@ export const PRINTABLES: Printable[] = [
     stars: 5,
     blurb: 'Done together or not at all: game night, a screen free evening, a walk somewhere new.',
     sheetUrl: BASE + 'hf_20260722_110311_fdc24488-64e3-451d-aaed-1bc317f17bf8.png',
-    sheetUrlEs: BASE + 'hf_20260713_132652_0b2abeb9-04eb-4c6b-9fda-753a7c9c8242.png',
+    sheetUrlEs: BASE + 'hf_20260722_122939_99b00997-c232-46ce-809d-75ea7984317a.png',
     previewUrl: BASE + 'hf_20260713_125425_decdd972-db44-4eb1-9b37-56ea142bee1d.png',
   },
   {
@@ -101,10 +101,10 @@ export const PRINTABLES: Printable[] = [
     stages: [1, 2, 3], minutes: 'One afternoon', setting: 'indoors', skill: 'Creativity',
     stars: 5,
     blurb: 'Two pages, one craft: cut out the bucket, glue on the handle and friends, write the list, colour the lot.',
-    sheetUrl: BASE + 'hf_20260713_135347_bd5adb12-5316-4d17-a99a-68dca28c1d07.png',
-    extraSheetUrls: [BASE + 'hf_20260713_135351_23e3bb15-5856-4759-95cf-b989098f9faa.png'],
-    sheetUrlEs: BASE + 'hf_20260713_135730_8cd335c2-8065-4c3d-9416-bdd52eb1c322.png',
-    extraSheetUrlsEs: [BASE + 'hf_20260713_135734_8c8dee4f-dd30-4a87-a5d6-f1568d371767.png'],
+    sheetUrl: BASE + 'hf_20260722_122949_d76a94fa-873d-434a-97eb-1d725fcded32.png',
+    extraSheetUrls: [BASE + 'hf_20260722_122952_c1dc8750-7494-4d3e-92d1-004708dadaa9.png'],
+    sheetUrlEs: BASE + 'hf_20260722_123013_7e5fdfdd-2cca-4dfe-b7d0-9a494802915c.png',
+    extraSheetUrlsEs: [BASE + 'hf_20260722_123017_3f1f0526-a079-45c8-b2c6-36bcc85a58aa.png'],
     previewUrl: BASE + 'hf_20260713_140432_f5db6b56-1610-47bb-a7bf-bb4b29a07d73.png',
   },
   {
