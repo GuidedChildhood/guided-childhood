@@ -117,6 +117,15 @@ export default function ScriptDetailView({
             Marked as read just by opening it. It counts on your path today.
           </span>
         </div>
+
+        {/* DiGi picks the likely script for tonight, but the parent knows the
+            evening best, so the way to search for a better fitting one is always
+            one tap away, right here on the pick. */}
+        <div style={{ marginTop: '16px' }}>
+          <Link href="/dashboard/scripts" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '13.5px', fontWeight: 700, color: 'var(--terracotta-dark)', textDecoration: 'none' }}>
+            Not the right words for tonight? Search all scripts →
+          </Link>
+        </div>
       </div>
 
       {/* Everything below sits on one grid with one rhythm */}
