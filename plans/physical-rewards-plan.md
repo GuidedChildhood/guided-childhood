@@ -28,6 +28,10 @@ The hero object. A real little passport that mirrors the digital one exactly.
 - A premium kit could carry a real self inking rubber stamp per stage.
 - Small milestone stickers for the sub steps: first lesson done, first script
   used, bedroom rule kept a week.
+- Three sticker themes to collect across the journey: the passport stamps (one
+  per stage), stars (the reward currency made tangible), and DiGi in different
+  moods and poses. Sold or unlocked as sheets, they decorate the passport, a
+  water bottle, a laptop, or the Croc charms below.
 
 ## Wearables
 
@@ -46,6 +50,11 @@ The hero object. A real little passport that mirrors the digital one exactly.
 - **Digi squad trading cards.** Teo, Olga, Alma, DiGi Junior and the UK animals
   as a collectible set, one earned per lesson block or stage, each card's
   "power" being that lesson's idea. Kids collect, swap, complete the set.
+- **Croc charms, the clip in shoe charms.** DiGi and the stage stamps as rubber
+  charms that clip into Crocs: one per stage, plus the digi squad characters and
+  a star. A highly visible playground collectible where the child wears their
+  progress on their feet and completes the set on the way to 16. Cheap to make,
+  strong pull, and it puts the brand in front of every other child at school.
 - Stage sticker packs.
 
 ## Home and room, parent visible every day
