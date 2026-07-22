@@ -117,6 +117,15 @@ export default function ScriptDetailView({
             Marked as read just by opening it. It counts on your path today.
           </span>
         </div>
+
+        {/* DiGi picks the likely script for tonight, but the parent knows the
+            evening best, so the way to search for a better fitting one is always
+            one tap away, right here on the pick. */}
+        <div style={{ marginTop: '16px' }}>
+          <Link href="/dashboard/scripts" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '13.5px', fontWeight: 700, color: 'var(--terracotta-dark)', textDecoration: 'none' }}>
+            Not the right words for tonight? Search all scripts →
+          </Link>
+        </div>
       </div>
 
       {/* Everything below sits on one grid with one rhythm */}
@@ -235,6 +244,22 @@ export default function ScriptDetailView({
             </Link>
           )}
         </div>
+
+        {/* The one tap way back to the daily path after doing this step, so a
+            parent sent here from home always has a clear return to the next
+            thing rather than reaching for the browser back button. */}
+        <Link
+          href="/dashboard"
+          style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+            background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none',
+            borderRadius: 16, padding: '15px 20px',
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15,
+            boxShadow: '0 5px 0 var(--terracotta-dark)',
+          }}
+        >
+          Continue your pathway →
+        </Link>
 
       </div>
     </div>
