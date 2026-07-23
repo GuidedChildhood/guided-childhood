@@ -12,6 +12,7 @@ import { hasFullAccess } from '@/lib/access'
 import { contractLevelFor } from '@/lib/content/kid-contract'
 import { getPrintable } from '@/lib/printables/registry'
 import { getAllStagesProgress } from '@/lib/pathway/progress'
+import { earnedFriends } from '@/lib/pathway/streak-unlock'
 import KidQuestScreen from './KidQuestScreen'
 
 // The kid's own screen. Opened from the private link their parent sends,
@@ -426,16 +427,29 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   // How many passport stages the family has completed, so the app only offers
   // the Planet Friends this child has earned. Same reading as the passport;
   // fails soft to none.
-  let earnedStages = 0
+  let stageEarned = 0
   try {
     const prog = await getAllStagesProgress(supabase, link.user_id, 0)
-    earnedStages = (['foundation', 'builder', 'explorer', 'shaper', 'independent'] as const)
+    stageEarned = (['foundation', 'builder', 'explorer', 'shaper', 'independent'] as const)
       .filter(s => prog[s]?.contentComplete).length
-  } catch { earnedStages = 0 }
+  } catch { stageEarned = 0 }
+
+  // Streaks also unlock Friends: every four completed jobs streaks earns one, so
+  // a child never waits years. The child has whichever is further along.
+  let completedStreaks = 0
+  try {
+    const { count } = await supabase
+      .from('job_streaks')
+      .select('id', { count: 'exact', head: true })
+      .eq('child_id', link.child_id)
+    completedStreaks = count ?? 0
+  } catch { completedStreaks = 0 }
+  const earnedStages = earnedFriends(stageEarned, completedStreaks)
 
   return (
     <KidQuestScreen
       earnedStages={earnedStages}
+      completedStreaks={completedStreaks}
       assignedPrintable={assignedPrintable}
       token={token}
       agreementItems={agreementItems}

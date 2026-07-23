@@ -30,6 +30,7 @@ import KidContract from '@/components/kid/KidContract'
 import KidRoad from '@/components/kid/KidRoad'
 import KidSplash from '@/components/kid/KidSplash'
 import KidSquadIntro, { squadIntroSeen } from '@/components/kid/KidSquadIntro'
+import StreakBar from '@/components/kid/StreakBar'
 import Image from 'next/image'
 import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
 
@@ -119,13 +120,15 @@ export default function KidQuestScreen({
   contractLevel = '11plus', contractAgreedAt = null, contractReady = false, giftStarsOwed = 0,
   deviceTrust = 'ask', initialAsk = null, initialNudges = [],
   stageLessonsPassed = null, stageLessonsTotal = null, focusLesson = null, assignedPrintable = null,
-  earnedStages = 0,
+  earnedStages = 0, completedStreaks = 0,
 }: {
   token: string
   childName: string
-  // How many passport stages this child has completed, so the picker only
-  // offers the Planet Friends they have actually earned.
+  // How many Planet Friends this child has earned, the further of the passport
+  // stages and the streak unlock, so the picker only offers earned Friends.
   earnedStages?: number
+  // Completed jobs streaks so far, driving the streak bar and the next unlock.
+  completedStreaks?: number
   agreementItems?: { title: string; body: string }[]
   agreementSigned?: boolean
   // The age based timer contract: which wording fits this child, whether the
@@ -376,6 +379,28 @@ export default function KidQuestScreen({
   // very first open, then never again.
   const [showIntro, setShowIntro] = useState(false)
   useEffect(() => { if (!squadIntroSeen()) setShowIntro(true) }, [])
+
+  // A new Planet Friend just unlocked: celebrate it once. The first ever load
+  // records the baseline quietly so already earned Friends are not celebrated
+  // on install; after that, any rise means a fresh unlock worth a burst.
+  useEffect(() => {
+    const KEY = 'gc_kid_friends_earned'
+    let stored: string | null = null
+    try { stored = localStorage.getItem(KEY) } catch { return }
+    if (stored === null) {
+      try { localStorage.setItem(KEY, String(earnedStages)) } catch { /* private mode */ }
+      return
+    }
+    const last = parseInt(stored, 10) || 0
+    if (earnedStages > last) {
+      const friend = STAGE_CHARACTERS.find(c => c.stageId === earnedStages)
+      if (friend) {
+        playKidSound('star')
+        setHappyNews({ character: friend.key as CharacterKey, headline: `You unlocked ${friend.name}! 🎉`, sub: friend.unlockLine })
+      }
+      try { localStorage.setItem(KEY, String(earnedStages)) } catch { /* private mode */ }
+    }
+  }, [earnedStages])
   const theme = resolveTheme(chosenAccent)
   function saveMine(next: { buddy?: string; accent?: string }) {
     if (next.buddy) setChosenBuddy(next.buddy)
@@ -1448,6 +1473,8 @@ export default function KidQuestScreen({
         {/* The balance insight surface: a bigger, brighter, character led card
             that teaches why balance is worth it, rotating a fresh idea daily,
             grounded in the science bank. Replaces the old single tip line. */}
+        <StreakBar completedStreaks={completedStreaks} earnedStages={earnedStages} />
+
         <BalanceInsight stageId={stageId} usedTodayMinutes={usedTodayMinutes} recommendedMinutes={recommendedMinutes} balanceStars={bankBalance} streakDays={streakDays} />
 
         {/* The jobs themselves live in the ONE Today list above, ticked in one
