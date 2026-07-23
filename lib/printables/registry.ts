@@ -117,8 +117,9 @@ export const PRINTABLES: Printable[] = [
     previewUrl: BASE + 'hf_20260722_110327_09f96b0e-2738-4ed7-9c2b-3ad726c6aa1f.png',
   },
   // DiGi's Planet Friends, one colour in sheet each, tied to the stage that
-  // unlocks that Friend. The preview is the friendly coloured avatar; the sheet
-  // is the empty line art to colour.
+  // unlocks that Friend. Both preview and sheet are the empty line art: a
+  // printable is a page to colour in, so the card shows exactly that. The
+  // finished, coloured Friend lives on the app, not here.
   {
     key: 'meet-pebble',
     title: 'Colour in Pebble', emoji: '🟡', kind: 'craft',
@@ -126,7 +127,7 @@ export const PRINTABLES: Printable[] = [
     stars: 5,
     blurb: 'Your Stage 1 Planet Friend, full of curiosity and wonder. Colour Pebble in however you like.',
     sheetUrl: BASE + 'hf_20260723_121101_b9370321-6338-41b6-8c06-220c937d6705.png',
-    previewUrl: BASE + 'hf_20260723_133718_4eda577c-63c4-4097-a1e1-f1266914feed.png',
+    previewUrl: BASE + 'hf_20260723_121101_b9370321-6338-41b6-8c06-220c937d6705.png',
   },
   {
     key: 'meet-bloop',
@@ -135,7 +136,7 @@ export const PRINTABLES: Printable[] = [
     stars: 5,
     blurb: 'Your Stage 2 Planet Friend, creative and clever. Bring Bloop to life with colour.',
     sheetUrl: BASE + 'hf_20260723_121102_5535f574-b642-4f8f-bcc3-8d4a7ff2c334.png',
-    previewUrl: BASE + 'hf_20260723_133720_1797b79b-c8f5-439a-8d27-b8a8801231a7.png',
+    previewUrl: BASE + 'hf_20260723_121102_5535f574-b642-4f8f-bcc3-8d4a7ff2c334.png',
   },
   {
     key: 'meet-orbit',
@@ -144,7 +145,7 @@ export const PRINTABLES: Printable[] = [
     stars: 5,
     blurb: 'Your Stage 3 Planet Friend, always exploring. Colour Orbit ready for the next big question.',
     sheetUrl: BASE + 'hf_20260723_121113_c6a1b8e9-da55-43d5-bf5f-9bdf7ffa9954.png',
-    previewUrl: BASE + 'hf_20260723_133724_384a2716-b03a-41d3-986a-281868923131.png',
+    previewUrl: BASE + 'hf_20260723_121113_c6a1b8e9-da55-43d5-bf5f-9bdf7ffa9954.png',
   },
   {
     key: 'meet-nova',
@@ -153,7 +154,7 @@ export const PRINTABLES: Printable[] = [
     stars: 5,
     blurb: 'Your Stage 4 Planet Friend, thoughtful and kind. Colour Nova your way.',
     sheetUrl: BASE + 'hf_20260723_121115_b411f979-744c-4e51-89ee-7e3266ec8abe.png',
-    previewUrl: BASE + 'hf_20260723_133726_649ec5ea-dc60-4fb2-9947-a512f119f6d3.png',
+    previewUrl: BASE + 'hf_20260723_121115_b411f979-744c-4e51-89ee-7e3266ec8abe.png',
   },
   {
     key: 'meet-cosmo',
@@ -162,7 +163,7 @@ export const PRINTABLES: Printable[] = [
     stars: 5,
     blurb: 'Your Stage 5 Planet Friend, confident and independent. Colour Cosmo ready to lead.',
     sheetUrl: BASE + 'hf_20260723_121116_41d12750-7101-4c14-a3b0-671c45b1b570.png',
-    previewUrl: BASE + 'hf_20260723_133727_cf7b7165-632b-43bb-9dd4-299783e3425b.png',
+    previewUrl: BASE + 'hf_20260723_121116_41d12750-7101-4c14-a3b0-671c45b1b570.png',
   },
 ]
 

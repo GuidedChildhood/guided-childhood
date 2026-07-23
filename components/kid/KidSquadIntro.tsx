@@ -52,7 +52,7 @@ export default function KidSquadIntro({
           </div>
           {/* The current Friend, floating clean like DiGi, no box */}
           <img
-            src={current.img} alt={current.name} width={200} height={200}
+            src={current.cutout} alt={current.name} width={200} height={200}
             style={{ objectFit: 'contain', filter: 'drop-shadow(0 12px 14px rgba(26,26,46,0.18))', animation: 'gcFriendPop 0.6s cubic-bezier(0.34,1.56,0.64,1)' }}
           />
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.8rem, 9vw, 2.4rem)', color: 'var(--ink)', letterSpacing: '-0.02em', margin: '8px 0 2px' }}>
@@ -80,7 +80,7 @@ export default function KidSquadIntro({
           <div style={{ display: 'flex', gap: 6, justifyContent: 'center', alignItems: 'flex-end', flexWrap: 'wrap', marginBottom: 22, minHeight: 74 }}>
             {STAGE_CHARACTERS.map((c, i) => (
               <img
-                key={c.key} src={c.img} alt={c.name} width={64} height={64}
+                key={c.key} src={c.cutout} alt={c.name} width={64} height={64}
                 style={{
                   objectFit: 'contain', opacity: 0,
                   filter: 'drop-shadow(0 6px 6px rgba(26,26,46,0.14))',

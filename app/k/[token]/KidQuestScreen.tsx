@@ -51,7 +51,7 @@ export type KidSchoolToday = { id: string; title: string; kind: string; time: st
 // ever chooses from the Friends they have earned; DiGi is always theirs.
 const BUDDY_MAP: Record<string, { name: string; img: string; stageId?: number }> = {
   digi: { name: 'DiGi', img: '/digi-squad/DiGi-star.svg' },
-  ...Object.fromEntries(STAGE_CHARACTERS.map(c => [c.key, { name: c.name, img: c.img, stageId: c.stageId }])),
+  ...Object.fromEntries(STAGE_CHARACTERS.map(c => [c.key, { name: c.name, img: c.cutout, stageId: c.stageId }])),
 }
 // Make it mine now recolours the whole screen, not just the ring. Each theme is
 // the full background the child lives in, plus the ink that reads on top of it
