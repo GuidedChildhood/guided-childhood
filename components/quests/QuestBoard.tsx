@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { questDueToday } from '@/lib/quests/due'
 import { STAR_MINUTES } from '@/lib/quests/templates'
-import Button, { ButtonLink } from '@/components/ui/Button'
+import Button from '@/components/ui/Button'
 
 // The family quest board on Home: every child's day at a glance, big
 // enough to matter. The approve queue leads (kid ticked, one tap lands
@@ -136,11 +136,10 @@ export default function QuestBoard() {
       background: '#fff', border: '1.5px solid var(--border)',
       borderRadius: '20px', padding: '20px 22px', marginBottom: '20px',
     }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
+      <div style={{ marginBottom: '14px' }}>
         <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
           Family Quests
         </span>
-        <ButtonLink href="/dashboard/quests" variant="primary" size="sm">Manage</ButtonLink>
       </div>
 
       {/* The kids' own quest ideas: one tap makes it real */}

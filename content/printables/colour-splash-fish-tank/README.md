@@ -50,8 +50,18 @@ a toddler matching game. Each fish and its bowl share the colour so matching
 works. Red is not a standard house token but a colour matching game needs a
 true red, so it is defined only inside this product.
 
+## Cover fish (colour edition)
+The cover hero shows the six real Higgsfield fish (one per colour, house
+preschool card style) from `images/fish/clean/`, cleaned to transparent cutouts
+and tight cropped by the canvas processor. The colour in edition keeps the bold
+SVG line art fish so children still colour clean outlines (CSS `.photo-colour`
+shows the image in colour mode, `.photo-colourin` shows the SVG in colour in
+mode). The bowls and the cut out fish sheets stay SVG by design, since those get
+coloured, matched and cut.
+
 ## Assets
 - `images/DiGi-star.svg` — DiGi's real character art (cover and avatars).
+- `images/fish/clean/*.png` — the six cleaned real cover fish.
 - `images/preview-page-N.png` — colour edition page previews (1 to 8).
 - `images/colour-in-preview-page-N.png` — colour in previews (1 to 9, tips is 9).
 - `fonts/` — Nunito and IBM Plex Mono, local, via local-fonts.css.

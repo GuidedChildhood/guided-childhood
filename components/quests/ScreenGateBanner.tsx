@@ -102,20 +102,20 @@ export default function ScreenGateBanner({
       )}
 
       <div style={{
-        background: locked ? 'var(--danger-bg)' : 'var(--tint-sage)',
-        border: `1.5px solid ${locked ? 'var(--danger)' : 'var(--terracotta)'}`,
+        background: locked ? 'var(--danger-bg)' : 'var(--stage-4)',
+        border: `1.5px solid ${locked ? 'var(--danger)' : 'var(--pastel-pink-deep)'}`,
         borderRadius: '14px', padding: '13px 15px',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: locked ? '10px' : 0 }}>
-          <span style={{ fontSize: '1.3rem', lineHeight: 1, flexShrink: 0 }}>{locked ? '🔒' : '✅'}</span>
+          <span style={{ fontSize: '1.3rem', lineHeight: 1, flexShrink: 0 }}>{locked ? '🔒' : '🎉'}</span>
           <div style={{ minWidth: 0 }}>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: 'var(--ink)' }}>
-              {locked ? 'Screen time is locked' : 'Screen time is unlocked'}
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: locked ? 'var(--ink)' : 'var(--stage-4-text)' }}>
+              {locked ? 'Screen time is locked' : `Screen time unlocked for ${childName}`}
             </div>
             <div style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
               {locked
                 ? `Approve the job${blocking.length === 1 && blocking[0].count === 1 ? '' : 's'} below and ${childName}'s timer can start.`
-                : `${childName} finished the before screens ${gateCount === 1 ? 'task' : 'tasks'}, so the timer is ready to go.`}
+                : `${childName} finished the before screens ${gateCount === 1 ? 'task' : 'tasks'}, so their timer is ready. Enjoy some screen together, they have earned it.`}
             </div>
           </div>
         </div>

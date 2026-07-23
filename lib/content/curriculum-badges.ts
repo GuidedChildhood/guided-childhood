@@ -27,6 +27,7 @@ const STRAND: Record<string, string> = {
   misinformation:'Managing online information',
   identity:      'Self image and identity',
   social:        'Self image and identity',
+  'social media':'Online relationships',
 }
 
 export type CurriculumBadges = {

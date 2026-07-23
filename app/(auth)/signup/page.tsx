@@ -153,8 +153,11 @@ export default function SignupPage() {
                 {loading ? 'Creating account...' : 'Create free account'}
               </button>
 
-              <p style={{ textAlign: 'center', fontSize: '12px', color: 'var(--ink-muted)' }}>
-                By signing up you agree to our privacy policy.
+              <p style={{ textAlign: 'center', fontSize: '12px', color: 'var(--ink-muted)', lineHeight: 1.55 }}>
+                By creating an account you agree to our{' '}
+                <Link href="/terms" style={{ color: 'var(--terracotta)', fontWeight: 600, textDecoration: 'none' }}>Terms</Link>
+                {' '}and{' '}
+                <Link href="/privacy" style={{ color: 'var(--terracotta)', fontWeight: 600, textDecoration: 'none' }}>Privacy Policy</Link>.
                 No card required.
               </p>
             </form>

@@ -145,7 +145,11 @@ Reply with ONLY valid JSON: {"title":"...","say_this":"...","not_this":"..."}`
       child_id: child?.id ?? null,
       source: 'rightnow',
       slug: 'rightnow-custom',
-      label: detail.slice(0, 200),
+      // Use DiGi's clean title for the moment as the label, not the parent's raw
+      // typed line. The parent's line is a hurried one liner with typos ("seith"
+      // for "screens"), and it was surfacing verbatim in tomorrow's check in.
+      // The title is a tidy, correctly spelled four to eight word name.
+      label: title.slice(0, 200),
       status: prior ? (prior.status === 'resolved' ? 'open' : prior.status) : 'open',
       times_flagged: prior ? prior.times_flagged + 1 : 1,
       last_flagged_at: now,

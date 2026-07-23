@@ -176,6 +176,19 @@ export default function SocialMediaReadiness({
           See the evidence
         </Link>
       </div>
+
+      {/* The two practical ways on from here, quiet under the actions: the exact
+          settings for the apps at this age, and the lessons that teach the why.
+          Additive, so the panel a parent knows stays the same and simply points
+          onward when they want to act. */}
+      <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', marginTop: '16px' }}>
+        <Link href="/dashboard/social-settings" style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.02em', color: onDark ? '#FFE9B8' : 'var(--terracotta-dark)', textDecoration: 'none' }}>
+          Settings for their age →
+        </Link>
+        <Link href={`/dashboard/lessons?stage=${stageId}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.02em', color: onDark ? '#FFE9B8' : 'var(--terracotta-dark)', textDecoration: 'none' }}>
+          The lessons for this stage →
+        </Link>
+      </div>
     </div>
   )
 }
