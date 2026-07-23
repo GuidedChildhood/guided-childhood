@@ -30,6 +30,7 @@ import KidContract from '@/components/kid/KidContract'
 import KidRoad from '@/components/kid/KidRoad'
 import KidSplash from '@/components/kid/KidSplash'
 import KidSquadIntro, { squadIntroSeen } from '@/components/kid/KidSquadIntro'
+import Image from 'next/image'
 import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
 
 // The kid facing quest screen: joyful, huge tap targets, instant ticks,
@@ -1857,8 +1858,7 @@ export default function KidQuestScreen({
                     <div key={p.key} style={{ ...bigCardShell(false), padding: '11px 13px 13px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '13px', marginBottom: '11px' }}>
                         <div style={{ position: 'relative', width: 76, height: 76, borderRadius: '15px', flexShrink: 0, overflow: 'hidden', background: '#EFE9DD' }}>
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img src={p.previewUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                          <Image src={p.previewUrl} alt="" fill sizes="76px" style={{ objectFit: 'cover' }} />
                           <span style={{ position: 'absolute', bottom: '5px', left: '5px', fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, color: 'var(--ink)', background: 'rgba(255,255,255,0.9)', borderRadius: '100px', padding: '2px 7px' }}>
                             ⭐ {p.stars}
                           </span>

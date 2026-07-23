@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import { PRINTABLES, printablesForStage } from '@/lib/printables/registry'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { hasFullAccess } from '@/lib/access'
@@ -53,9 +54,12 @@ export default async function PrintablesPage() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '16px' }}>
           {items.map(p => (
             <div key={p.key} style={card}>
-              {/* The pinned preview, the sheet styled the way it lives in a home */}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={p.previewUrl} alt={`${p.title} preview`} style={{ width: '100%', aspectRatio: '1 / 1', objectFit: 'cover', display: 'block' }} />
+              {/* The pinned preview. next/image resizes each large sheet down to
+                  the card size, serves webp, and lazy loads the ones below the
+                  fold, so a full grid paints fast instead of pulling megabytes. */}
+              <div style={{ position: 'relative', width: '100%', aspectRatio: '1 / 1', background: 'var(--cream)' }}>
+                <Image src={p.previewUrl} alt={`${p.title} preview`} fill sizes="(max-width: 640px) 50vw, 300px" style={{ objectFit: 'cover' }} />
+              </div>
               <div style={{ padding: '16px 18px 18px', display: 'flex', flexDirection: 'column', gap: '10px', flex: 1 }}>
                 <div>
                   <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
