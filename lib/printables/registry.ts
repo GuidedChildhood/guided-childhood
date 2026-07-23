@@ -126,7 +126,7 @@ export const PRINTABLES: Printable[] = [
     stars: 5,
     blurb: 'Your Stage 1 Planet Friend, full of curiosity and wonder. Colour Pebble in however you like.',
     sheetUrl: BASE + 'hf_20260723_121101_b9370321-6338-41b6-8c06-220c937d6705.png',
-    previewUrl: BASE + 'hf_20260723_120310_52c3cb2f-de3e-4660-9e67-006552a220ee.png',
+    previewUrl: BASE + 'hf_20260723_133334_be547506-54bd-4ecd-836a-a5e080b12a7a.png',
   },
   {
     key: 'meet-bloop',
@@ -135,7 +135,7 @@ export const PRINTABLES: Printable[] = [
     stars: 5,
     blurb: 'Your Stage 2 Planet Friend, creative and clever. Bring Bloop to life with colour.',
     sheetUrl: BASE + 'hf_20260723_121102_5535f574-b642-4f8f-bcc3-8d4a7ff2c334.png',
-    previewUrl: BASE + 'hf_20260723_120312_b7eb690e-9459-45fd-a8bb-d657870019e0.png',
+    previewUrl: BASE + 'hf_20260723_133337_be90a6e3-85ba-4191-a715-dc9a658fb439.png',
   },
   {
     key: 'meet-orbit',
@@ -144,7 +144,7 @@ export const PRINTABLES: Printable[] = [
     stars: 5,
     blurb: 'Your Stage 3 Planet Friend, always exploring. Colour Orbit ready for the next big question.',
     sheetUrl: BASE + 'hf_20260723_121113_c6a1b8e9-da55-43d5-bf5f-9bdf7ffa9954.png',
-    previewUrl: BASE + 'hf_20260723_120320_328ee92e-7a09-47b9-bc4b-5927861a24c5.png',
+    previewUrl: BASE + 'hf_20260723_133343_3cb59e81-8df1-4382-81c2-6bc741c4596a.png',
   },
   {
     key: 'meet-nova',
@@ -153,7 +153,7 @@ export const PRINTABLES: Printable[] = [
     stars: 5,
     blurb: 'Your Stage 4 Planet Friend, thoughtful and kind. Colour Nova your way.',
     sheetUrl: BASE + 'hf_20260723_121115_b411f979-744c-4e51-89ee-7e3266ec8abe.png',
-    previewUrl: BASE + 'hf_20260723_120322_6140bdde-2f58-41ce-889a-63ae64068d11.png',
+    previewUrl: BASE + 'hf_20260723_133346_734cf8b1-c3c6-431b-b2ae-16f01b9c68f9.png',
   },
   {
     key: 'meet-cosmo',
@@ -162,7 +162,7 @@ export const PRINTABLES: Printable[] = [
     stars: 5,
     blurb: 'Your Stage 5 Planet Friend, confident and independent. Colour Cosmo ready to lead.',
     sheetUrl: BASE + 'hf_20260723_121116_41d12750-7101-4c14-a3b0-671c45b1b570.png',
-    previewUrl: BASE + 'hf_20260723_120328_8e6a3302-7595-4708-b4ca-44e56db39c1a.png',
+    previewUrl: BASE + 'hf_20260723_133349_6a028da0-7b9d-41d0-83af-9b52de3b6cc2.png',
   },
 ]
 
