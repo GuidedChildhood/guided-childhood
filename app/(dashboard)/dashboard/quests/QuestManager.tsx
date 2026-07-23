@@ -8,7 +8,6 @@ import ChildLinkShare from '@/components/quests/ChildLinkShare'
 import QrHandoverModal from '@/components/quests/QrHandoverModal'
 import StarSummary from '@/components/quests/StarSummary'
 import ScreenGateBanner from '@/components/quests/ScreenGateBanner'
-import ScreenBalanceInsight from '@/components/quests/ScreenBalanceInsight'
 import { questDueToday } from '@/lib/quests/due'
 import { recommendedDailyMinutes, bandLabelFor } from '@/lib/quests/screen-balance'
 import { STAGE_LABELS, AGE_BAND_TO_STAGE, type StageKey } from '@/lib/quests/game-picks'
@@ -255,6 +254,15 @@ export default function QuestManager() {
   }, [activeChild])
 
   useEffect(() => { load() }, [load])
+
+  // When the approve queue on the board says yes to a child's tick, it fires
+  // gc:notifs-changed. Reload here so the Waiting your yes count on the summary
+  // drops in step with the approval, instead of lingering until a refresh.
+  useEffect(() => {
+    const onChange = () => { load() }
+    window.addEventListener('gc:notifs-changed', onChange)
+    return () => window.removeEventListener('gc:notifs-changed', onChange)
+  }, [load])
 
   // The day goal box always shows what is currently set for this child.
   useEffect(() => {
@@ -665,7 +673,7 @@ export default function QuestManager() {
                 sessionEndsAt={sessions.find(s => s.child_id === activeChild)?.ends_at ?? null}
                 onApprove={() => { if (ticks.some(t => t.child_id === activeChild && t.status === 'pending')) { window.location.href = '/dashboard/quests#quest-board' } else { goToSection('quest-tabs', 'manage') } }}
                 onTodo={() => goToSection('my-todo', 'manage')}
-                onScreenTime={() => goToSection('screen-time')}
+                onScreenTime={() => { window.location.href = '/dashboard/stats' }}
                 onShare={() => goToSection('quest-tabs', 'share')}
               />
             )
@@ -695,19 +703,18 @@ export default function QuestManager() {
             )
           })()}
 
-          {/* DiGi's calm, age aware read on the child's screen time balance,
-              evidence led and never a hard limit. The Screen time quick button
-              lands here. */}
+          {/* The balance and stats now live on their own page, opened from this
+              button and from the Screen time quick tile, so the Quests page
+              stays clean instead of carrying the whole scales card. */}
           <div id="screen-time" style={{ scrollMarginTop: '80px' }} />
-          <ScreenBalanceInsight
-            childName={child.name}
-            ageBand={child.age_band}
-            balanceStars={banks.find(b => b.child_id === activeChild)?.balance ?? 0}
-            weekStars={starsThisWeek}
-            timerRunning={sessions.some(s => s.child_id === activeChild)}
-            usedTodayMinutes={usage[activeChild ?? ''] ?? 0}
-            earnedTodayStars={completed.filter(t => t.tick_date === todayStr).reduce((sum, t) => sum + (questById.get(t.quest_id)?.stars ?? 1), 0)}
-          />
+          <Link href="/dashboard/stats" style={{ ...card, display: 'flex', alignItems: 'center', gap: 14, textDecoration: 'none' }}>
+            <span style={{ width: 44, height: 44, borderRadius: '50%', background: 'radial-gradient(circle at 40% 35%, #FFE9A8, #EDC35F)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, boxShadow: '0 3px 0 var(--terracotta-dark)', flexShrink: 0 }} aria-hidden>📊</span>
+            <span style={{ flex: 1, minWidth: 0 }}>
+              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '16px', color: 'var(--ink)', letterSpacing: '-0.01em' }}>Balance and stats</span>
+              <span style={{ display: 'block', fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '2px' }}>See {child.name}&apos;s screen time by type this week, the healthy level, and the off screen wins.</span>
+            </span>
+            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '18px', color: 'var(--terracotta-dark)' }}>›</span>
+          </Link>
 
           {/* Hand it over: the one decision, made simple. To their phone,
               or onto paper. Everything else lives in the tabs below. */}
