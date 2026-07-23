@@ -16,6 +16,9 @@ import { computeJobsStreak, jobsTodayStatus, type StreakQuest, type StreakTick }
 import ToolCard, { type Tool } from '@/components/tools/ToolCard'
 import ChildSwitcher from '@/components/children/ChildSwitcher'
 import { pickChild } from '@/lib/children/select'
+import BalanceReport from '@/components/balance/BalanceReport'
+import { buildParentReport, type ParentReport } from '@/lib/balance/parent-report'
+import { STAR_MINUTES } from '@/lib/quests/templates'
 
 // The Progress page: the answer to the only question that matters, is it
 // working. One honest generated sentence at the top, then the evidence:
@@ -111,15 +114,20 @@ export default async function ProgressPage({ searchParams }: { searchParams: Pro
   let jobsStatus: 'on_track' | 'pending' | 'none' = 'none'
   let jobsStreakDays = 0
   let aheadNames: string[] = []
+  // Section five, the screen balance and limits view, from the mobbin session's
+  // parent report: this week's screen minutes per device against the healthy
+  // amount for the child's age, with the off screen effort beside it.
+  let parentReport: ParentReport | null = null
   if (primary?.id) {
     const sinceJobs = new Date(Date.now() - 60 * 86400000).toISOString().slice(0, 10)
     const AGE_BAND_UPPER: Record<string, number> = { '4-7': 7, '8-10': 10, '11-13': 13, '13-15': 15, '16+': 99 }
     const childUpper = primary.age_band ? (AGE_BAND_UPPER[primary.age_band] ?? 99) : 99
-    const [jqRes, jtRes, dgRes, dpRes] = await Promise.all([
+    const [jqRes, jtRes, dgRes, dpRes, dsRes] = await Promise.all([
       supabase.from('family_quests').select('id, schedule, schedule_days, created_at').eq('user_id', user.id).eq('child_id', primary.id).eq('active', true),
       supabase.from('quest_ticks').select('quest_id, tick_date, status').eq('user_id', user.id).eq('child_id', primary.id).gte('tick_date', sinceJobs),
       supabase.from('device_guides').select('device_key, name, min_age'),
       supabase.from('device_setup_progress').select('device_key, status').eq('user_id', user.id),
+      supabase.from('device_sessions').select('device, minutes').eq('user_id', user.id).eq('child_id', primary.id).gte('started_at', weekAgo),
     ])
     const jq = (jqRes.data ?? []) as StreakQuest[]
     const jt = (jtRes.data ?? []) as StreakTick[]
@@ -131,8 +139,28 @@ export default async function ProgressPage({ searchParams }: { searchParams: Pro
     aheadNames = (dgRes.data ?? [])
       .filter(d => doneKeys.has(d.device_key) && (d.min_age as number) > childUpper)
       .map(d => d.name as string)
+
+    // The off screen effort this week, from approved jobs, so the report weighs
+    // real life against screen. Stars carry the minutes at the family rate.
+    const childTicks = ticks.filter(t => t.child_id === primary.id)
+    const offStars = childTicks.reduce((sum, t) => sum + ((quests.find(q => q.id === t.quest_id)?.stars as number | undefined) ?? 1), 0)
+    parentReport = buildParentReport({
+      childName: primary.name,
+      ageBand: primary.age_band ?? null,
+      deviceMinutes: (dsRes.data ?? []).map(d => ({ device: d.device as string, minutes: d.minutes as number })),
+      offscreen: { activities: childTicks.length, stars: offStars, minutes: offStars * STAR_MINUTES },
+    })
   }
   const jobsPct = jobsStatus === 'on_track' ? 100 : jobsStatus === 'pending' ? 40 : 0
+  // Balance section reading: healthy or a light week is full, over is a nudge,
+  // well over is the clear to do. Never a lock, just the honest heads up.
+  const balancePct = !parentReport ? 100
+    : parentReport.status === 'well_over' ? 0
+    : parentReport.status === 'over' ? 50 : 100
+  const balanceDetail = !parentReport ? 'No screens logged'
+    : parentReport.status === 'under' ? 'Light week'
+    : parentReport.status === 'healthy' ? 'Healthy'
+    : parentReport.status === 'over' ? 'A bit over' : 'Well over'
 
   const stamps: Stamp[] = stage && allProgress
     ? STAGES.map(s => {
@@ -174,6 +202,13 @@ export default async function ProgressPage({ searchParams }: { searchParams: Pro
             detail: jobsStreakDays > 0 ? `${jobsStreakDays} day streak` : jobsStatus === 'pending' ? 'Jobs to do' : 'Set a job',
             href: '/dashboard/quests',
             help: 'Keep the daily jobs going, all done on time.',
+          },
+          {
+            key: 'balance', emoji: '⚖️', label: 'Screen balance',
+            pct: balancePct,
+            detail: balanceDetail,
+            href: '/dashboard/tracker#screen-balance',
+            help: 'The healthy screen amount for their age, across the week.',
           },
         ]
         const pct = Math.round(sections.reduce((sum, x) => sum + x.pct, 0) / sections.length)
@@ -290,6 +325,16 @@ export default async function ProgressPage({ searchParams }: { searchParams: Pro
             {earnedStages >= 5 ? 'DiGi is whole. Every stage earned 🌟' : `${earnedStages} of 5 points of DiGi's star earned`}
           </p>
           <PassportBook stamps={stamps} childName={primary?.name ?? 'your child'} />
+        </div>
+      )}
+
+      {/* Section five of the passport, the screen balance and limits view: this
+          week's screen minutes per device against the healthy amount for their
+          age, with the off screen effort beside it. The checklist balance row
+          taps down to here. */}
+      {parentReport && (
+        <div id="screen-balance" style={{ scrollMarginTop: '80px', marginBottom: '22px' }}>
+          <BalanceReport report={parentReport} />
         </div>
       )}
 
