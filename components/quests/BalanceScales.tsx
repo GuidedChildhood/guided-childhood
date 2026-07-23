@@ -71,7 +71,7 @@ export default function BalanceScales({
         transform: `rotate(${beamDeg}deg)`, transformOrigin: 'center', transition: 'transform 0.7s ease', zIndex: 2,
       }}>
         {pan('screen', '📱', `${screenMins}`, 'min screen', screenFill, screenHeavier)}
-        {pan('real', '⭐', `${earnedStars}`, `${realMins} min earned`, realFill, realHeavier)}
+        {pan('real', '⭐', `${earnedStars}`, earnedStars === 1 ? 'star from real life' : 'stars from real life', realFill, realHeavier)}
       </div>
 
       {/* the central column and a steady, weighted base */}
