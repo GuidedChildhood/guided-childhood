@@ -824,9 +824,9 @@ export default function KidQuestScreen({
       padding: '22px 16px 40px',
       fontFamily: 'var(--font-body)',
     }}>
-      {/* First open ever: meet DiGi's Sparks, one at a time, before anything
-          else. Overlays the app until the child taps through. */}
-      {showIntro && <KidSquadIntro childName={childName} onDone={() => setShowIntro(false)} />}
+      {/* First open ever: meet the Planet Friend for this child's stage, then
+          the whole family they can earn. Overlays the app until they tap through. */}
+      {showIntro && <KidSquadIntro childName={childName} currentStageId={stageId} onDone={() => setShowIntro(false)} />}
 
       {/* Their own buddy says hello when the app opens, the Duolingo front
           door, once per session on their own colour. */}
