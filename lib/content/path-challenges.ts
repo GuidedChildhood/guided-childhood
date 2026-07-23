@@ -5,13 +5,18 @@
 // the school quiz behind them instead. The day rotates who holds what, so
 // the path has something fresh to find every day without any storage.
 
+import { characterByKey } from '@/lib/content/stage-characters'
+
 export type PathCharacter = { key: string; name: string; img: string }
 
-export const PATH_CHARACTERS: PathCharacter[] = [
-  { key: 'zara', name: 'Zara', img: '/digi-squad/Zara.png' },
-  { key: 'oliver', name: 'Oliver', img: '/digi-squad/Oliver.png' },
-  { key: 'sofia', name: 'Sofia', img: '/digi-squad/Sofia.jpeg' },
-]
+// The Planet Friends hide along the path now, drawn from the one source of
+// truth as transparent cut outs so they float clean like DiGi.
+const onPath = (key: string): PathCharacter => {
+  const c = characterByKey(key)
+  return { key, name: c?.name ?? key, img: c?.cutout ?? '' }
+}
+
+export const PATH_CHARACTERS: PathCharacter[] = [onPath('orbit'), onPath('nova'), onPath('bloop')]
 
 export type PathChallenge = {
   emoji: string
