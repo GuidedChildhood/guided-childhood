@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import BrowseTile from '@/components/ui/BrowseTile'
 import { literacyAreaFor } from '@/lib/content/literacy'
 import { sceneCoverForStage } from '@/lib/content/lesson-scene-covers'
@@ -378,8 +379,7 @@ export default function LessonsBrowser({
                 {printForStage.map(p => (
                   <div key={p.key} style={{ display: 'flex', flexDirection: 'column', background: '#fff', border: '1.5px solid var(--border)', borderRadius: '18px', overflow: 'hidden', boxShadow: '0 4px 18px rgba(26,26,46,0.06)' }}>
                     <div style={{ position: 'relative', aspectRatio: '16 / 11', overflow: 'hidden', background: '#EFE9DD' }}>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={p.previewUrl} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+                      <Image src={p.previewUrl} alt="" fill sizes="(max-width: 640px) 100vw, 240px" style={{ objectFit: 'cover' }} />
                       <span style={{ position: 'absolute', top: '10px', left: '12px', fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: 'var(--ink)', background: 'rgba(255,255,255,0.85)', borderRadius: '100px', padding: '3px 9px' }}>⭐ {p.stars}</span>
                     </div>
                     <div style={{ padding: '13px 15px 15px', display: 'flex', flexDirection: 'column', gap: '10px', flex: 1 }}>

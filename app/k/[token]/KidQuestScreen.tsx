@@ -30,6 +30,7 @@ import KidContract from '@/components/kid/KidContract'
 import KidRoad from '@/components/kid/KidRoad'
 import KidSplash from '@/components/kid/KidSplash'
 import KidSquadIntro, { squadIntroSeen } from '@/components/kid/KidSquadIntro'
+import Image from 'next/image'
 import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
 
 // The kid facing quest screen: joyful, huge tap targets, instant ticks,
@@ -51,7 +52,7 @@ export type KidSchoolToday = { id: string; title: string; kind: string; time: st
 // ever chooses from the Friends they have earned; DiGi is always theirs.
 const BUDDY_MAP: Record<string, { name: string; img: string; stageId?: number }> = {
   digi: { name: 'DiGi', img: '/digi-squad/DiGi-star.svg' },
-  ...Object.fromEntries(STAGE_CHARACTERS.map(c => [c.key, { name: c.name, img: c.img, stageId: c.stageId }])),
+  ...Object.fromEntries(STAGE_CHARACTERS.map(c => [c.key, { name: c.name, img: c.cutout, stageId: c.stageId }])),
 }
 // Make it mine now recolours the whole screen, not just the ring. Each theme is
 // the full background the child lives in, plus the ink that reads on top of it
@@ -824,9 +825,9 @@ export default function KidQuestScreen({
       padding: '22px 16px 40px',
       fontFamily: 'var(--font-body)',
     }}>
-      {/* First open ever: meet DiGi's Sparks, one at a time, before anything
-          else. Overlays the app until the child taps through. */}
-      {showIntro && <KidSquadIntro childName={childName} onDone={() => setShowIntro(false)} />}
+      {/* First open ever: meet the Planet Friend for this child's stage, then
+          the whole family they can earn. Overlays the app until they tap through. */}
+      {showIntro && <KidSquadIntro childName={childName} currentStageId={stageId} onDone={() => setShowIntro(false)} />}
 
       {/* Their own buddy says hello when the app opens, the Duolingo front
           door, once per session on their own colour. */}
@@ -1860,8 +1861,7 @@ export default function KidQuestScreen({
                     <div key={p.key} style={{ ...bigCardShell(false), padding: '11px 13px 13px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '13px', marginBottom: '11px' }}>
                         <div style={{ position: 'relative', width: 76, height: 76, borderRadius: '15px', flexShrink: 0, overflow: 'hidden', background: '#EFE9DD' }}>
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img src={p.previewUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                          <Image src={p.previewUrl} alt="" fill sizes="76px" style={{ objectFit: 'cover' }} />
                           <span style={{ position: 'absolute', bottom: '5px', left: '5px', fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, color: 'var(--ink)', background: 'rgba(255,255,255,0.9)', borderRadius: '100px', padding: '2px 7px' }}>
                             ⭐ {p.stars}
                           </span>
