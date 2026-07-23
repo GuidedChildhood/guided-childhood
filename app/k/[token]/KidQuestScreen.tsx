@@ -1098,6 +1098,9 @@ export default function KidQuestScreen({
             { icon: 'deal', iconColor: 'var(--terracotta-dark)', label: 'Our deal', sub: 'How it works', tint: 'var(--cream)', onClick: () => { setDealOpen(true); playKidSound('tap') } },
             { emoji: '🎨', label: 'Make it mine', sub: 'Buddy and colour', tint: 'var(--terracotta-lt)', onClick: () => { setMakeMineOpen(true); playKidSound('tap') } },
             { icon: 'newjob', iconColor: '#3D739A', label: askedMore ? 'Asked' : 'New job', sub: askedMore ? 'Grown up knows' : 'Ask a grown up', tint: askedMore ? 'var(--tint-sage)' : 'var(--tint-blue, #E4ECF7)', onClick: () => { if (!askedMore) { askForMore(); playKidSound('tap') } } },
+            // Printables fills the last grid slot: a tap opens the printables
+            // tab, where the child does the ones sent to them and asks for more.
+            { emoji: '🖍️', label: 'Printables', sub: 'Colour and do', tint: 'var(--tint-sage)', onClick: () => { setTab('print'); setActiveLesson(null); playKidSound('tap'); setTimeout(() => document.getElementById('kid-tabs')?.scrollIntoView({ behavior: 'smooth' }), 120) } },
           ]
           return (
             <div style={{ marginBottom: '18px' }}>
