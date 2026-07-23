@@ -121,15 +121,15 @@ export default function KidSquadIntro({
             How to earn a new Friend
           </div>
 
-          {/* 4 days on time make a streak */}
+          {/* 5 jobs on time make a streak */}
           <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 16, padding: '13px 15px', marginBottom: 10, width: '100%' }}>
-            <div style={{ display: 'flex', gap: 7, justifyContent: 'center', marginBottom: 8 }}>
-              {[0, 1, 2, 3].map(i => (
-                <span key={i} style={{ width: 30, height: 30, borderRadius: '50%', background: 'var(--tint-sage)', border: '1.5px solid #CFE3D9', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15, animation: `gcFriendPop 0.4s cubic-bezier(0.34,1.56,0.64,1) ${0.2 + i * 0.18}s both` }}>✓</span>
+            <div style={{ display: 'flex', gap: 6, justifyContent: 'center', marginBottom: 8 }}>
+              {[0, 1, 2, 3, 4].map(i => (
+                <span key={i} style={{ width: 28, height: 28, borderRadius: '50%', background: 'var(--tint-sage)', border: '1.5px solid #CFE3D9', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, animation: `gcFriendPop 0.4s cubic-bezier(0.34,1.56,0.64,1) ${0.2 + i * 0.16}s both` }}>✓</span>
               ))}
             </div>
             <p style={{ fontFamily: 'var(--font-body)', fontSize: '14.5px', color: 'var(--ink)', lineHeight: 1.5, margin: 0 }}>
-              Do your jobs <b>on time 4 days in a row</b> to earn a <b>streak</b> ⭐
+              Do <b>5 jobs on time in a row</b> to earn a <b>streak</b> ⭐
             </p>
           </div>
 
