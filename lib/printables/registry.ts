@@ -165,6 +165,36 @@ export const PRINTABLES: Printable[] = [
     sheetUrl: BASE + 'hf_20260723_171734_f1dd550e-6557-4519-afc2-48476701840e.jpeg',
     previewUrl: BASE + 'hf_20260723_171734_f1dd550e-6557-4519-afc2-48476701840e.jpeg',
   },
+  // Brought over from the Etsy shop into the app library, redrawn in the house
+  // colour in style (clean line art, no old squad). The professions sheet and
+  // the two fish sheets Justin was looking for.
+  {
+    key: 'what-do-they-do',
+    title: 'What Do They Do?', emoji: '👩‍🚒', kind: 'brain',
+    stages: [1, 2, 3], minutes: 'One sitting', setting: 'anywhere', skill: 'The world of work',
+    stars: 5,
+    blurb: 'Six real jobs to colour in and name, from a doctor to an astronaut. A gentle first look at what people do all day.',
+    sheetUrl: BASE + 'hf_20260723_175806_cef2b287-0b7a-44df-8fcb-2d4bd49438f4.jpeg',
+    previewUrl: BASE + 'hf_20260723_175806_cef2b287-0b7a-44df-8fcb-2d4bd49438f4.jpeg',
+  },
+  {
+    key: 'fish-tank-splash',
+    title: 'Splash! Colour the Fish Tank', emoji: '🐠', kind: 'craft',
+    stages: [1, 2], minutes: 'One sitting', setting: 'anywhere', skill: 'Creativity',
+    stars: 5,
+    blurb: 'A whole fish tank to bring to life: fish, bubbles, seaweed and hidden treasure, all waiting for colour.',
+    sheetUrl: BASE + 'hf_20260723_175808_fa0d39b7-eec9-4668-9c0c-c0ccc44a9d23.jpeg',
+    previewUrl: BASE + 'hf_20260723_175808_fa0d39b7-eec9-4668-9c0c-c0ccc44a9d23.jpeg',
+  },
+  {
+    key: 'word-fishing',
+    title: 'Word Fishing', emoji: '🎣', kind: 'brain',
+    stages: [1, 2], minutes: 'One sitting', setting: 'anywhere', skill: 'Early reading',
+    stars: 5,
+    blurb: 'Catch a fish, write a word. Colour the scene, then fill each fish with a word you have learned.',
+    sheetUrl: BASE + 'hf_20260723_175811_2b009418-c5e9-4ed0-b683-afefbce44562.jpeg',
+    previewUrl: BASE + 'hf_20260723_175811_2b009418-c5e9-4ed0-b683-afefbce44562.jpeg',
+  },
 ]
 
 export function getPrintable(key: string): Printable | null {

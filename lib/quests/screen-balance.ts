@@ -15,15 +15,53 @@ export type BalanceTone = 'good' | 'pace' | 'evening'
 type BandGuide = { label: string; dailyMins: number; line: string }
 
 // Soft daily steers for recreational screen time, framed as guides not rules.
-// Chosen to sit with mainstream guidance while staying calibrated rather than
-// prescriptive, since the evidence favours balance and displacement over a
-// fixed cap.
+// The numbers lean on where mainstream public health guidance has settled, and
+// stay calibrated rather than prescriptive because the bodies themselves
+// resist a single cap for school age and up. What the science agrees on is
+// that the number matters less than what screens displace: sleep, movement,
+// real play and family time.
+//
+// Sources the guides draw on:
+//   - WHO, physical activity, sedentary behaviour and sleep for children under
+//     5 (2019): under 2, no sedentary screen; ages 2 to 4, no more than 1 hour,
+//     less is better.
+//   - American Academy of Pediatrics: about 1 hour a day of high quality
+//     content ages 2 to 5, then consistent family limits from 6 so screens do
+//     not displace sleep, activity and offline time (a plan, not a number).
+//   - Canadian 24-Hour Movement Guidelines, ages 5 to 17: no more than 2 hours
+//     a day of recreational screen time.
+//   - RCPCH, the health impacts of screen time (UK, 2019): evidence does not
+//     support one universal threshold; guard sleep, activity and family time.
 const BAND: Record<string, BandGuide> = {
   '4-7': { label: '4 to 7', dailyMins: 60, line: 'Around an hour of screen a day sits comfortably at this age, with plenty of real play around it.' },
   '8-10': { label: '8 to 10', dailyMins: 75, line: 'Up to an hour or so a day works well here, best balanced with movement, making and time outside.' },
   '11-13': { label: '11 to 13', dailyMins: 90, line: 'A couple of hours can be fine at this age when sleep, activity and real friendships still come first.' },
   '13-15': { label: '13 to 15', dailyMins: 120, line: 'The focus now shifts from the clock to the balance: what the screen adds, and what it might be crowding out.' },
   '16+': { label: '16 plus', dailyMins: 120, line: 'This is the age to hand more of the balance to them, with you as the steady guide rather than the timer.' },
+}
+
+// The guidance bodies behind the age guides, surfaced so the app can show the
+// science on the balance graphs rather than assert a bare number.
+export const SCREEN_GUIDE_SOURCES = [
+  { body: 'World Health Organization', year: 2019, note: 'None under 2, up to 1 hour ages 2 to 4' },
+  { body: 'American Academy of Pediatrics', year: 2016, note: '1 hour ages 2 to 5, consistent limits from 6' },
+  { body: 'Canadian 24-Hour Movement Guidelines', year: 2016, note: 'Up to 2 hours recreational, ages 5 to 17' },
+  { body: 'RCPCH', year: 2019, note: 'No single limit; guard sleep, activity and family time' },
+] as const
+
+// Where a day's recreational screen sits against the age guide. The balance
+// graphs colour the bars from this, and DiGi reads the same call when deciding
+// whether to gently prompt: 'under' and 'healthy' need no nudge, 'over' and
+// 'well_over' are the ones DiGi acts on, always as a calibrated pathway and
+// never as a block.
+export type ScreenStatus = 'under' | 'healthy' | 'over' | 'well_over'
+export function screenStatusForAge(ageBand: string | null, dailyMins: number): ScreenStatus {
+  const guide = recommendedDailyMinutes(ageBand)
+  if (guide <= 0) return 'healthy'
+  if (dailyMins < guide * 0.5) return 'under'
+  if (dailyMins <= guide) return 'healthy'
+  if (dailyMins <= guide * 1.5) return 'over'
+  return 'well_over'
 }
 
 function guideFor(ageBand: string | null): BandGuide {

@@ -5,13 +5,18 @@
 // the school quiz behind them instead. The day rotates who holds what, so
 // the path has something fresh to find every day without any storage.
 
+import { characterByKey } from '@/lib/content/stage-characters'
+
 export type PathCharacter = { key: string; name: string; img: string }
 
-export const PATH_CHARACTERS: PathCharacter[] = [
-  { key: 'zara', name: 'Zara', img: '/digi-squad/Zara.png' },
-  { key: 'oliver', name: 'Oliver', img: '/digi-squad/Oliver.png' },
-  { key: 'sofia', name: 'Sofia', img: '/digi-squad/Sofia.jpeg' },
-]
+// The Planet Friends hide along the path now, drawn from the one source of
+// truth as transparent cut outs so they float clean like DiGi.
+const onPath = (key: string): PathCharacter => {
+  const c = characterByKey(key)
+  return { key, name: c?.name ?? key, img: c?.cutout ?? '' }
+}
+
+export const PATH_CHARACTERS: PathCharacter[] = [onPath('orbit'), onPath('nova'), onPath('bloop')]
 
 export type PathChallenge = {
   emoji: string
@@ -22,34 +27,43 @@ export type PathChallenge = {
   cta: string
 }
 
+// The surprise dares: small, real, everyday routines a child can actually do,
+// the good habits that build up around the stars. Kept concrete so a child
+// always knows exactly what to go and do, and can pitch it to a grown up for a
+// star too.
 export const PATH_CHALLENGES: PathChallenge[] = [
   {
-    emoji: '🎁', title: 'Surprise your grown up',
-    body: 'Pick a job nobody asked you to do and just do it. Then watch their face. Pitch it as a quest first if you want the stars too.',
+    emoji: '🛏️', title: 'Make your bed',
+    body: 'Straighten your covers and pop your pillow up when you get up. A tidy bed to climb back into tonight.',
     cta: 'Pitch it as a quest',
   },
   {
-    emoji: '✂️', title: 'Make something real',
-    body: 'Paper, cardboard, pens, anything. Twenty minutes of making beats twenty minutes of watching. Show your grown up what you made.',
+    emoji: '🪥', title: 'Brush your teeth before bed',
+    body: 'Give your teeth a proper brush before you say goodnight. Two minutes, top and bottom, keeps your smile strong.',
     cta: 'Pitch it as a quest',
   },
   {
-    emoji: '📚', title: 'Read a book today',
-    body: 'Twenty minutes lost in a book is one of the biggest star jobs there is. Find it on your list.',
+    emoji: '📚', title: 'Read a book before bedtime',
+    body: 'Read a book before lights out tonight. A story is a lovely way to wind down, much better than a screen.',
     cta: 'See my jobs',
   },
   {
-    emoji: '🍳', title: 'Kitchen helper',
-    body: 'Ask what is for dinner and help make it. Chefs who help earn stars, and dinner tastes better when you made it.',
+    emoji: '👕', title: 'Get your clothes ready',
+    body: 'Lay out your clothes for tomorrow before bed, so the morning is quick and easy.',
     cta: 'Pitch it as a quest',
   },
   {
-    emoji: '🛏️', title: 'Bedroom blitz',
-    body: 'Five minutes, everything off the floor, race the clock. Blitzers can pitch it for stars.',
+    emoji: '🧺', title: 'Clothes in the laundry basket',
+    body: 'Any dirty clothes on the floor go straight in the laundry basket. Quick to do and your room stays tidy.',
     cta: 'Pitch it as a quest',
   },
   {
-    emoji: '💛', title: 'The secret kind thing',
+    emoji: '🍽️', title: 'Clear your plate',
+    body: 'After you eat, take your plate to the kitchen and give it a little rinse. A big helper move.',
+    cta: 'Pitch it as a quest',
+  },
+  {
+    emoji: '💛', title: 'A secret kind thing',
     body: 'Do one kind thing for someone in your house and do not tell them it was you. See how long it takes them to notice.',
     cta: 'See my jobs',
   },

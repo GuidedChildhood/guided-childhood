@@ -22,7 +22,7 @@
 // concrete and short, older ones get the real reasoning.
 
 export type InsightTheme = 'offline' | 'save' | 'connect' | 'brain' | 'watch' | 'task'
-export type InsightCharacter = 'digi' | 'oliver' | 'zara' | 'sofia'
+export type InsightCharacter = 'digi' | 'pebble' | 'bloop' | 'orbit' | 'nova' | 'cosmo'
 
 export type ChildInsight = {
   id: string
@@ -39,14 +39,14 @@ export type ChildInsight = {
 export const CHILD_INSIGHTS: ChildInsight[] = [
   // Offline play grows the body and brain (the displacement idea, made joyful)
   {
-    id: 'offline-young', theme: 'offline', character: 'oliver', emoji: '🌳',
+    id: 'offline-young', theme: 'offline', character: 'orbit', emoji: '🌳',
     headline: 'Out there is where you get your superpowers',
     body: 'Running, jumping and building make your body and brain grow big and strong. Screens are brilliant, but real play is the secret power up.',
     stages: [1, 2],
     source: 'Screen harm is mostly displacement: what screens crowd out (movement, play, sleep). Protect the play.',
   },
   {
-    id: 'offline-older', theme: 'offline', character: 'oliver', emoji: '🌳',
+    id: 'offline-older', theme: 'offline', character: 'orbit', emoji: '🌳',
     headline: 'Your brain grows most when you make and do',
     body: 'Building, sport, music, making things with your hands. This is when your brain wires up the strongest. A screen after that hits different to a screen instead of it.',
     stages: [3, 4, 5],
@@ -64,14 +64,14 @@ export const CHILD_INSIGHTS: ChildInsight[] = [
 
   // Connecting with real people and helping at home (relatedness, prosocial)
   {
-    id: 'connect-young', theme: 'connect', character: 'zara', emoji: '🤝',
+    id: 'connect-young', theme: 'connect', character: 'nova', emoji: '🤝',
     headline: 'Real people fill your happy tank',
     body: 'Playing and chatting with people face to face fills you up more than any screen. Helping at home makes you feel proud too. Try it and see.',
     stages: [1, 2, 3],
     source: 'Connection and prosocial acts (helping) are among the strongest, most reliable lifts to child wellbeing.',
   },
   {
-    id: 'connect-older', theme: 'connect', character: 'zara', emoji: '🤝',
+    id: 'connect-older', theme: 'connect', character: 'nova', emoji: '🤝',
     headline: 'The best chats are the ones in the room',
     body: 'Messaging is fun, but time with people in real life is what actually settles your mood and builds friendships that last. Pitch in at home too, it feels better than it sounds.',
     stages: [3, 4, 5],
@@ -87,7 +87,7 @@ export const CHILD_INSIGHTS: ChildInsight[] = [
     source: 'Screens near bedtime disrupt sleep onset and quality; sleep is when memory and mood reset.',
   },
   {
-    id: 'brain-older', theme: 'brain', character: 'sofia', emoji: '🧠',
+    id: 'brain-older', theme: 'brain', character: 'bloop', emoji: '🧠',
     headline: 'Balance is what keeps your mood steady',
     body: 'Too much of one thing, scrolling included, can leave you flat or wired. Mixing screens with sleep, movement and real life is what keeps your head feeling good.',
     stages: [3, 4, 5],
@@ -96,14 +96,14 @@ export const CHILD_INSIGHTS: ChildInsight[] = [
 
   // What is worth watching: quality over scroll (active vs passive)
   {
-    id: 'watch-young', theme: 'watch', character: 'sofia', emoji: '🎬',
+    id: 'watch-young', theme: 'watch', character: 'bloop', emoji: '🎬',
     headline: 'Pick something that teaches or makes you create',
     body: 'When it is screen time, choose a thing that shows you how to make or do something. Making one thing beats scrolling past a hundred things.',
     stages: [1, 2, 3],
     source: 'Active, creative and educational use is more beneficial than passive infinite scrolling.',
   },
   {
-    id: 'watch-older', theme: 'watch', character: 'sofia', emoji: '🎬',
+    id: 'watch-older', theme: 'watch', character: 'bloop', emoji: '🎬',
     headline: 'Choose it, do not just fall into it',
     body: 'Deciding what to watch or play before you start beats letting the app decide for you. Creating, learning or a chosen show beats an hour you did not really choose.',
     stages: [3, 4, 5],

@@ -8,18 +8,21 @@ import { useEffect } from 'react'
 // face delivering the news, never a grey toast. Tap it to send it away early,
 // or it leaves on its own after a few seconds.
 //
-// The art is the real squad: DiGi the golden star, and Oliver, Zara and Sofia.
-// Swappable for warmer Happy News style illustrations later without touching
-// any of the call sites.
+// The art is the real cast: DiGi the golden star, and the Planet Friends
+// (Pebble, Bloop, Orbit, Nova, Cosmo) drawn from the one source of truth, so a
+// child's own buddy can pop up here and every surface stays in step.
 
-export type CharacterKey = 'digi' | 'oliver' | 'zara' | 'sofia'
+import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
+
+export type CharacterKey = 'digi' | 'pebble' | 'bloop' | 'orbit' | 'nova' | 'cosmo'
 
 const CHARACTER: Record<CharacterKey, { src: string; name: string; ring: string }> = {
-  digi:   { src: '/digi-squad/DiGi-star.svg', name: 'DiGi',   ring: 'var(--terracotta)' },
-  oliver: { src: '/digi-squad/Oliver.png',    name: 'Oliver', ring: '#D4600A' },
-  zara:   { src: '/digi-squad/Zara.png',      name: 'Zara',   ring: '#C9962A' },
-  sofia:  { src: '/digi-squad/Sofia.jpeg',    name: 'Sofia',  ring: '#2E7D5A' },
-}
+  digi: { src: '/digi-squad/DiGi-star.svg', name: 'DiGi', ring: 'var(--terracotta)' },
+  ...Object.fromEntries(STAGE_CHARACTERS.map(c => [c.key, { src: c.cutout, name: c.name, ring: c.colour }])),
+} as Record<CharacterKey, { src: string; name: string; ring: string }>
+
+// A friendly fallback so a missing or unknown key never crashes a celebration.
+function charFor(key: CharacterKey) { return CHARACTER[key] ?? CHARACTER.digi }
 
 // An optional action turns the pop into a doorway: a chunky button that takes
 // the child straight to the thing it is about (their to-do list, or a fun sheet)
@@ -38,7 +41,7 @@ export default function HappyNews({ item, onClose }: { item: HappyNewsItem | nul
   }, [item, onClose])
 
   if (!item) return null
-  const c = CHARACTER[item.character]
+  const c = charFor(item.character)
 
   return (
     <div

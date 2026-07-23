@@ -5,11 +5,13 @@ import Link from 'next/link'
 import Image from 'next/image'
 import DigiCharacter from '@/components/digi/DigiCharacter'
 import { card, cardPad, eyebrow } from '@/components/scripts/card-system'
+import { characterByKey } from '@/lib/content/stage-characters'
 
-// The child is played by Oliver, the warm Pixar style DiGi squad boy, so a
-// parent is rehearsing with what feels like a real little person rather than a
-// chat bubble. Always Oliver, for one familiar face across every rehearsal.
-const KID_FACE = '/digi-squad/Oliver.png'
+// The child is played by Pebble, the youngest Planet Friend, so a parent is
+// rehearsing with what feels like a real little person rather than a chat
+// bubble. One familiar face across every rehearsal, from the one source of
+// truth.
+const KID_FACE = characterByKey('pebble')?.cutout ?? '/digi-squad/DiGi-star.svg'
 
 // A rehearsal room for the words, in the same conversation grammar as the
 // DiGi chat: the scenario pinned in the blue pill at the top, the child's
