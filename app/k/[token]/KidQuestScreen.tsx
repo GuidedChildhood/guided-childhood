@@ -362,6 +362,10 @@ export default function KidQuestScreen({
   // a tap. It starts open only when a timer is already running, so a live
   // countdown is never hidden.
   const [deviceOpen, setDeviceOpen] = useState(Boolean(activeSession))
+  // When the child taps the big Use my time button we want the timer open on the
+  // set and start screen straight away, not the calm balance view. This flag
+  // lands them right there; browsing the balance card leaves it false.
+  const [pickNow, setPickNow] = useState(false)
   // The child's own buddy and accent. Starts from what the grown up account has
   // saved, changes instantly when they pick, and saves back to their record.
   const [chosenBuddy, setChosenBuddy] = useState(buddy && BUDDY_MAP[buddy] ? buddy : DEFAULT_BUDDY)
@@ -1098,7 +1102,7 @@ export default function KidQuestScreen({
           return (
             <div style={{ marginBottom: '18px' }}>
               <button
-                onClick={() => { setDeviceOpen(true); playKidSound('tap'); setTimeout(() => document.getElementById('my-timer')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 160) }}
+                onClick={() => { setDeviceOpen(true); setPickNow(bankBalance > 0); playKidSound('tap'); setTimeout(() => document.getElementById('my-timer')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 160) }}
                 style={{
                   display: 'flex', alignItems: 'center', gap: '13px', width: '100%', cursor: 'pointer',
                   background: '#fff', border: '1.5px solid rgba(26,26,46,0.08)', borderRadius: '20px', padding: '15px 16px', textAlign: 'left',
@@ -1153,7 +1157,7 @@ export default function KidQuestScreen({
               : 'Screen has run a little ahead. Do a job to bring your balance back.'
           return (
         <div id="my-device-time" style={{ scrollMarginTop: '80px', marginBottom: '16px', background: '#fff', borderRadius: '20px', border: '1.5px solid rgba(26,26,46,0.08)', boxShadow: '0 4px 0 rgba(26,26,46,0.08)', overflow: 'hidden' }}>
-          <button onClick={() => { setDeviceOpen(o => !o); playKidSound('tap') }} aria-expanded={deviceOpen} style={{ width: '100%', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', padding: '16px 18px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          <button onClick={() => { setDeviceOpen(o => !o); setPickNow(false); playKidSound('tap') }} aria-expanded={deviceOpen} style={{ width: '100%', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', padding: '16px 18px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
               <span style={{ flexShrink: 0, width: 52, height: 52, borderRadius: '14px', background: 'var(--terracotta-lt)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><KidIcon name="star" size={28} color="var(--terracotta-dark)" /></span>
               <span style={{ flex: 1, minWidth: 0 }}>
@@ -1182,7 +1186,8 @@ export default function KidQuestScreen({
           {deviceOpen && (
             <div id="my-timer" style={{ padding: '0 18px 18px', scrollMarginTop: '72px' }}>
               <DeviceTimeCard
-                key={activeSession?.id ?? 'idle'}
+                key={`${activeSession?.id ?? 'idle'}-${pickNow ? 'pick' : 'view'}`}
+                startPicking={pickNow}
                 token={token} balanceStars={bankBalance} initialSession={activeSession}
                 usedTodayMinutes={usedTodayMinutes} recommendedMinutes={recommendedMinutes}
                 ageBand={(['4-7', '8-10', '11-13', '13-15', '16+'] as const)[Math.min(4, Math.max(0, stageId - 1))]}
