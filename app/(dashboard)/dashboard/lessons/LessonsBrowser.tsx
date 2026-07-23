@@ -37,6 +37,9 @@ export type LibraryItem = {
   // route that passes the stage, everything else is linked bonus.
   coverUrl: string | null
   deep: boolean
+  // Part of the dedicated Social Media Ready module: the spine pulled from
+  // across the stages into one ramp. Curated on the server by title.
+  module: boolean
 }
 
 type View = 'together' | 'library' | 'printables'
@@ -85,6 +88,13 @@ export default function LessonsBrowser({
   initialView?: View
 }) {
   const [view, setView] = useState<View>(initialView ?? 'together')
+  // The Social Media Ready module: when on, the Lessons view drops the stage
+  // groups and shows only the social media spine, ordered as one ramp. Toggled
+  // from a pinned card at the top of the library.
+  const [moduleOn, setModuleOn] = useState(false)
+  const moduleItems = [...libraryItems]
+    .filter(l => l.module)
+    .sort((a, b) => a.stageNum - b.stageNum)
   // Watch together opens on All ages so a parent can send any illustrated
   // video. Lessons open on the child's own age, the set that moves their
   // progress, in a clear numbered order to work through; the chips still let
@@ -259,9 +269,16 @@ export default function LessonsBrowser({
         )}
 
         {/* ── Lessons ── the interactive library the parent leads, grouped by
-            age when showing all. */}
-        {view === 'library' && (
+            age when showing all. The Social Media Ready module takes over the
+            whole view when opened, so the spine reads as one ramp. */}
+        {view === 'library' && moduleOn && (
+          <SocialMediaModule items={moduleItems} childName={childName} onBack={() => setModuleOn(false)} />
+        )}
+        {view === 'library' && !moduleOn && (
           <>
+            {moduleItems.length > 0 && (
+              <ModuleCard count={moduleItems.length} onOpen={() => { setModuleOn(true); setStage('all') }} />
+            )}
             <ProgressLessonsBanner
               childId={childId}
               childName={childName}
@@ -536,6 +553,100 @@ function ProgressLessonsBanner({
           {sendLabel}
         </button>
       </div>
+    </div>
+  )
+}
+
+// The pinned entry to the Social Media Ready module: the one topic parents
+// worry about most, gathered from across the stages into a single dedicated
+// spine. Sits at the top of the Lessons view so it is the first thing offered.
+function ModuleCard({ count, onOpen }: { count: number; onOpen: () => void }) {
+  return (
+    <button
+      onClick={onOpen}
+      style={{
+        width: '100%', textAlign: 'left', cursor: 'pointer', border: '1.5px solid var(--stage-4-bold, var(--terracotta))',
+        background: 'linear-gradient(135deg, var(--stage-4) 0%, var(--stage-3) 100%)', borderRadius: '18px',
+        padding: '16px 18px', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '13px',
+      }}
+    >
+      <span aria-hidden style={{ flexShrink: 0, width: 46, height: 46, borderRadius: '13px', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24 }}>📱</span>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '3px' }}>
+          Special module · the big one
+        </div>
+        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.1rem', color: 'var(--ink)', lineHeight: 1.15 }}>
+          Social Media Ready
+        </div>
+        <p style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '3px 0 0' }}>
+          The whole spine in one ramp, {count} lessons from what it even is to taking the wheel at 16. Settings, dangers, safe use, and the research behind every one.
+        </p>
+      </div>
+      <span aria-hidden style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: '18px', color: 'var(--terracotta-dark)' }}>→</span>
+    </button>
+  )
+}
+
+// The module itself, taking over the Lessons view: a header that frames the
+// ramp and the evidence, then every social media lesson in stage order, with a
+// quiet age divider so a parent sees it climb from 8 to 16. A back control
+// returns to the full library.
+function SocialMediaModule({ items, childName, onBack }: { items: LibraryItem[]; childName: string; onBack: () => void }) {
+  const groups = STAGE_LIST
+    .map(s => ({ s, items: items.filter(i => i.stageNum === s.num) }))
+    .filter(g => g.items.length > 0)
+  return (
+    <div>
+      <button
+        onClick={onBack}
+        style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--ink-muted)', fontFamily: 'var(--font-mono)', fontSize: '12px', letterSpacing: '0.04em', padding: 0, marginBottom: '14px' }}
+      >
+        ← All lessons
+      </button>
+
+      <div style={{ background: 'linear-gradient(135deg, var(--stage-4) 0%, var(--stage-3) 100%)', border: '1.5px solid var(--terracotta)', borderRadius: '18px', padding: '18px 20px', marginBottom: '20px' }}>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '4px' }}>
+          Special module · {items.length} lessons
+        </div>
+        <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.4rem', color: 'var(--ink)', lineHeight: 1.1, margin: '0 0 8px' }}>
+          Social Media Ready
+        </h2>
+        <p style={{ fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>
+          The one topic parents worry about most, taught as a ramp, not a cliff. It climbs from what social media even is, through the settings that keep you private and the real dangers, to the honest mood check and taking the wheel at 16. Grounded in Orben, Odgers, Przybylski, Livingstone and Knibbs, so every lesson holds up to a hard question.
+        </p>
+      </div>
+
+      {groups.map(g => (
+        <div key={g.s.num} style={{ marginBottom: '24px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: '0 0 12px' }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink)', background: `var(--stage-${g.s.num})`, padding: '4px 11px', borderRadius: '100px' }}>
+              Stage {g.s.num} · Ages {g.s.ages}
+            </span>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: '12px' }}>
+            {g.items.map(l => (
+              <BrowseTile
+                key={l.id}
+                href={l.href}
+                stageNum={l.stageNum}
+                title={l.title}
+                sub={l.categoryLabel}
+                emoji={categoryEmoji(l.categoryLabel)}
+                coverUrl={l.coverUrl}
+                done={l.done}
+                doneLabel={l.score != null ? `✓ Passed · ${l.score} right` : '✓ Passed'}
+                attempted={l.attempted}
+                locked={l.locked}
+                chips={[l.ks, l.strand].filter((c): c is string => Boolean(c))}
+              />
+            ))}
+          </div>
+        </div>
+      ))}
+
+      <p style={{ fontSize: '12.5px', color: 'var(--ink-muted)', lineHeight: 1.6, margin: '4px 0 0', textAlign: 'center' }}>
+        More lands as {childName} grows. Do one a week and the ramp does the rest.
+      </p>
     </div>
   )
 }

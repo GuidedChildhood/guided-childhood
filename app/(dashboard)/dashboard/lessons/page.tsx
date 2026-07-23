@@ -32,6 +32,32 @@ const AUDIENCE_TO_STAGE: Record<string, string> = {
   age_7: 'foundation', age_9: 'builder', age_11: 'explorer', age_13: 'shaper', age_16: 'independent',
 }
 
+// The Social Media Ready module: the dedicated spine for the one topic parents
+// worry about most, pulled from across the stages into a single ramp from ages
+// 8 to 16 and beyond. Curated by title so it gathers the deep social media
+// lessons wherever they sit (the algorithm lives under AI, group chats under
+// safety), not just the ones tagged 'social media'. Ordered by stage on the
+// module page, so it reads as concepts before accounts, then settings, then
+// dangers, then safe use and the handover at 16.
+const SOCIAL_MEDIA_MODULE = new Set([
+  'what social media really is',
+  'the feed is built to hold you',
+  'before you make an account',
+  'real life is not a highlight reel',
+  'followers are not friends',
+  'when the group chat turns',
+  'built to be bottomless',
+  'the settings that keep you private',
+  'the footprint test',
+  'when someone asks for a photo',
+  'the honest check on your mood',
+  'take back your notifications',
+  'your accounts, your locks',
+  'the money machine behind the feed',
+  'taking the wheel at 16',
+])
+const normaliseTitle = (t: string) => t.trim().toLowerCase().replace(/’/g, "'")
+
 // deep = the full seven beat Rosenshine deck (five or more slides). These are
 // the qualifying route for a stage's stamp; the thinner lessons and the AI
 // modules ride along as linked bonus. coverUrl is resolved here, where the raw
@@ -109,6 +135,7 @@ export default async function LessonsPage({ searchParams }: { searchParams: Prom
         score: done ? passMap.get(l.id) ?? null : null,
         ks: keyStageFor(l.stageKey), strand: strandFor(l.category),
         coverUrl: l.coverUrl, deep: l.deep,
+        module: l.source === 'lesson' && SOCIAL_MEDIA_MODULE.has(normaliseTitle(l.title)),
       }
     })
     .filter(l => l.stageNum)

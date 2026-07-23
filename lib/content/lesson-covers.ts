@@ -211,6 +211,13 @@ const TITLE_TO_COVER: Record<string, keyof typeof LESSON_COVERS> = {
   "sextortion": 'sextortion',
   "radicalisation and misogyny": 'radicalisation_misogyny',
   "readiness at 16: the ban world": 'readiness_at_16',
+  // Social Media Ready module (migration 092): the dedicated spine.
+  "what social media really is": 'who_behind_screen',
+  "before you make an account": 'me_screen_me_real',
+  "real life is not a highlight reel": 'filters_not_faces',
+  "the settings that keep you private": 'privacy_shield',
+  "the honest check on your mood": 'mood_and_scroll',
+  "taking the wheel at 16": 'design_digital_life',
 }
 
 export function lessonCoverForTitle(title: string): string | null {

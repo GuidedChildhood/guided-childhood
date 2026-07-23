@@ -23,6 +23,8 @@ import WaitingOnYou from '@/components/quests/WaitingOnYou'
 import HomeStats from '@/components/dashboard/HomeStats'
 import { visibleSteps as visibleSetupSteps } from '@/lib/setup/steps'
 import SocialMediaReadiness from '@/components/pathway/SocialMediaReadiness'
+import SocialMediaHeadsUp from '@/components/pathway/SocialMediaHeadsUp'
+import PhoneHeadsUp from '@/components/pathway/PhoneHeadsUp'
 import SetupUnlockToast from '@/components/setup/SetupUnlockToast'
 import DigiWelcomeSheet from '@/components/digi/DigiWelcomeSheet'
 import TodayPathBig from '@/components/daily/TodayPathBig'
@@ -588,6 +590,15 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
         <>
           <DigiPrompts />
           <SmartAlerts suggestions={suggestions} />
+          {/* Looking ahead at Builder (Stage 2): DiGi rotates two calm pre
+              warnings so only one shows, and never every day, the phone
+              conversation and the secondary school social media move. From
+              Stage 3 the full readiness panel takes over. */}
+          {stage.id === 2 && (
+            new Date().getDate() % 2 === 0
+              ? <PhoneHeadsUp childName={child?.name} />
+              : <SocialMediaHeadsUp childName={child?.name} />
+          )}
           <SocialMediaReadiness stageId={stage.id} childName={child?.name} />
         </>
       )}
