@@ -9,6 +9,7 @@
 
 import { useMemo, useState } from 'react'
 import DigiCharacter from '@/components/digi/DigiCharacter'
+import BalanceDial from '@/components/celebrate/BalanceDial'
 import { insightsForStage, type InsightCharacter, type InsightTheme } from '@/lib/content/child-insights'
 
 // The clever part: which idea leads is chosen from the child's own day, not at
@@ -78,9 +79,16 @@ export default function BalanceInsight({
     }}>
       <style>{`@keyframes gcInsightIn { from { opacity: 0; transform: translateY(6px) } to { opacity: 1; transform: translateY(0) } }`}</style>
 
-      {/* No screen balance on the child's own app: the device use balance is a
-          parent read, part of the passport, so a child is never shown minutes to
-          spend. Here they get only the warm idea about why real life wins. */}
+      {/* The dial, so a child sees their day at a glance: off screen against
+          screen, the needle in the green when it is balanced. It shows the
+          balance, never raw minutes to spend, so it reads as encouragement not
+          a budget. The idea below says how to tip it back. */}
+      <BalanceDial
+        screenMins={Math.round(usedTodayMinutes)}
+        healthyMins={Math.round(recommendedMinutes)}
+        offscreenStars={balanceStars}
+      />
+
       <div key={cur.id} style={{ animation: 'gcInsightIn 0.35s ease' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '11px', marginBottom: '12px' }}>
           <span style={{
