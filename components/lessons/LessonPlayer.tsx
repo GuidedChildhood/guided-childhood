@@ -542,6 +542,7 @@ export default function LessonPlayer({
   lessonSource,
   slides,
   backHref,
+  homeHref,
   digiPrompt,
   teacherView = false,
   kidMode = false,
@@ -556,6 +557,9 @@ export default function LessonPlayer({
   lessonSource: 'lesson' | 'ai_lesson' | 'school_lesson'
   slides: LessonSlide[]
   backHref: string
+  // The child's way straight back to their quests home, shown as a big
+  // obvious button in kid mode instead of a tiny cross.
+  homeHref?: string
   digiPrompt?: string
   teacherView?: boolean
   // Kid mission mode: celebration finish, stars earned, quiz score sent
@@ -975,13 +979,27 @@ export default function LessonPlayer({
         display: 'flex', alignItems: 'center', gap: '12px', flexShrink: 0,
         padding: '10px clamp(16px, 4vw, 28px)',
       }}>
-        <Link href={backHref} aria-label="Leave the lesson" style={{
-          fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
-          color: 'var(--ink-muted)', textDecoration: 'none', letterSpacing: '0.06em',
-          padding: '6px 8px', marginLeft: '-8px',
-        }}>
-          ✕
-        </Link>
+        {kidMode ? (
+          // A big, obvious way home for a child: never leave them hunting for
+          // a tiny cross to get back to their quests.
+          <Link href={homeHref ?? backHref} aria-label="Back to my quests" style={{
+            display: 'inline-flex', alignItems: 'center', gap: '6px',
+            fontFamily: 'var(--font-display)', fontSize: '13.5px', fontWeight: 800,
+            color: 'var(--ink)', textDecoration: 'none',
+            background: '#fff', border: '2px solid var(--border)', borderRadius: '100px',
+            padding: '8px 15px', boxShadow: '0 3px 0 var(--border)',
+          }}>
+            ◀ Quests
+          </Link>
+        ) : (
+          <Link href={backHref} aria-label="Leave the lesson" style={{
+            fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
+            color: 'var(--ink-muted)', textDecoration: 'none', letterSpacing: '0.06em',
+            padding: '6px 8px', marginLeft: '-8px',
+          }}>
+            ✕
+          </Link>
+        )}
         <span style={{
           fontFamily: 'var(--font-mono)', fontSize: projector ? '13px' : '10.5px', fontWeight: 700,
           letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-muted)',

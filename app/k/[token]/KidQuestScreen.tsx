@@ -29,6 +29,8 @@ import KidTodayList from '@/components/kid/KidTodayList'
 import KidContract from '@/components/kid/KidContract'
 import KidRoad from '@/components/kid/KidRoad'
 import KidSplash from '@/components/kid/KidSplash'
+import KidSquadIntro, { squadIntroSeen } from '@/components/kid/KidSquadIntro'
+import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
 
 // The kid facing quest screen: joyful, huge tap targets, instant ticks,
 // stars that count up, and a goal bar. Pending ticks show as "waiting
@@ -45,11 +47,11 @@ export type KidSchoolToday = { id: string; title: string; kind: string; time: st
 
 // The child's own choices: a squad buddy who greets them, and an accent colour.
 // Small, known sets, so the app stays on brand whatever they pick.
-const BUDDY_MAP: Record<string, { name: string; img: string }> = {
+// DiGi the guide, then the five Planet Friends, one per stage. A child only
+// ever chooses from the Friends they have earned; DiGi is always theirs.
+const BUDDY_MAP: Record<string, { name: string; img: string; stageId?: number }> = {
   digi: { name: 'DiGi', img: '/digi-squad/DiGi-star.svg' },
-  oliver: { name: 'Oliver', img: '/digi-squad/Oliver.png' },
-  sofia: { name: 'Sofia', img: '/digi-squad/Sofia.jpeg' },
-  zara: { name: 'Zara', img: '/digi-squad/Zara.png' },
+  ...Object.fromEntries(STAGE_CHARACTERS.map(c => [c.key, { name: c.name, img: c.img, stageId: c.stageId }])),
 }
 // Make it mine now recolours the whole screen, not just the ring. Each theme is
 // the full background the child lives in, plus the ink that reads on top of it
@@ -116,9 +118,13 @@ export default function KidQuestScreen({
   contractLevel = '11plus', contractAgreedAt = null, contractReady = false, giftStarsOwed = 0,
   deviceTrust = 'ask', initialAsk = null, initialNudges = [],
   stageLessonsPassed = null, stageLessonsTotal = null, focusLesson = null, assignedPrintable = null,
+  earnedStages = 0,
 }: {
   token: string
   childName: string
+  // How many passport stages this child has completed, so the picker only
+  // offers the Planet Friends they have actually earned.
+  earnedStages?: number
   agreementItems?: { title: string; body: string }[]
   agreementSigned?: boolean
   // The age based timer contract: which wording fits this child, whether the
@@ -361,6 +367,10 @@ export default function KidQuestScreen({
   const [chosenBuddy, setChosenBuddy] = useState(buddy && BUDDY_MAP[buddy] ? buddy : DEFAULT_BUDDY)
   const [chosenAccent, setChosenAccent] = useState(knownAccent(accent) ? accent : DEFAULT_ACCENT)
   const [makeMineOpen, setMakeMineOpen] = useState(false)
+  // The one time squad welcome: DiGi's Sparks introduced one at a time on the
+  // very first open, then never again.
+  const [showIntro, setShowIntro] = useState(false)
+  useEffect(() => { if (!squadIntroSeen()) setShowIntro(true) }, [])
   const theme = resolveTheme(chosenAccent)
   function saveMine(next: { buddy?: string; accent?: string }) {
     if (next.buddy) setChosenBuddy(next.buddy)
@@ -810,6 +820,10 @@ export default function KidQuestScreen({
       padding: '22px 16px 40px',
       fontFamily: 'var(--font-body)',
     }}>
+      {/* First open ever: meet DiGi's Sparks, one at a time, before anything
+          else. Overlays the app until the child taps through. */}
+      {showIntro && <KidSquadIntro childName={childName} onDone={() => setShowIntro(false)} />}
+
       {/* Their own buddy says hello when the app opens, the Duolingo front
           door, once per session on their own colour. */}
       <KidSplash
@@ -1239,6 +1253,7 @@ export default function KidQuestScreen({
             onClose={() => setMakeMineOpen(false)}
             chosenBuddy={chosenBuddy}
             chosenAccent={chosenAccent}
+            earnedStages={earnedStages}
             onPick={saveMine}
           />
         )}
@@ -2175,10 +2190,11 @@ function FamilyDeal({ onClose, recommendedMinutes, goal, bankBalance, goalRedeem
 
 // Make it mine: the child picks their buddy and their colour. Their choice, not
 // an assumption about them. Saves instantly and the whole app takes the accent.
-function MakeItMine({ onClose, chosenBuddy, chosenAccent, onPick }: {
+function MakeItMine({ onClose, chosenBuddy, chosenAccent, earnedStages = 0, onPick }: {
   onClose: () => void
   chosenBuddy: string
   chosenAccent: string
+  earnedStages?: number
   onPick: (next: { buddy?: string; accent?: string }) => void
 }) {
   // A mixed colour reads back as h<hue>; the slider starts from it, or from a
@@ -2197,18 +2213,31 @@ function MakeItMine({ onClose, chosenBuddy, chosenAccent, onPick }: {
         </div>
 
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '10px' }}>Pick your buddy</div>
-        <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
+        {/* DiGi is always yours; a Planet Friend can only be chosen once its
+            stage has been earned. Locked Friends still show, greyed with a
+            lock, so a child can see who is coming and keep going for them. */}
+        <div style={{ display: 'flex', gap: '9px', marginBottom: '20px', flexWrap: 'wrap' }}>
           {Object.entries(BUDDY_MAP).map(([id, b]) => {
+            const locked = typeof b.stageId === 'number' && b.stageId > earnedStages
             const on = chosenBuddy === id
             return (
-              <button key={id} onClick={() => onPick({ buddy: id })} aria-pressed={on} style={{ flex: 1, cursor: 'pointer', background: '#fff', border: on ? '3px solid var(--ink)' : '2px solid transparent', borderRadius: '16px', padding: '8px 4px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px' }}>
-                <span style={{ width: 60, height: 60, borderRadius: '50%', overflow: 'hidden', background: '#FFF7E8', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <button
+                key={id}
+                onClick={() => { if (!locked) onPick({ buddy: id }) }}
+                aria-pressed={on}
+                aria-disabled={locked}
+                title={locked ? `Earn ${b.name} at Stage ${b.stageId}` : b.name}
+                style={{ flex: '1 0 26%', minWidth: 72, cursor: locked ? 'not-allowed' : 'pointer', background: '#fff', border: on ? '3px solid var(--ink)' : '2px solid transparent', borderRadius: '16px', padding: '8px 4px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px', opacity: locked ? 0.55 : 1, position: 'relative' }}
+              >
+                <span style={{ width: 56, height: 56, borderRadius: '50%', overflow: 'hidden', background: '#FFF7E8', display: 'flex', alignItems: 'center', justifyContent: 'center', filter: locked ? 'grayscale(1)' : 'none' }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   {id === 'digi'
-                    ? <img src={b.img} alt="" style={{ width: 42, height: 42 }} />
-                    : <img src={b.img} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }} />}
+                    ? <img src={b.img} alt="" style={{ width: 40, height: 40 }} />
+                    : <img src={b.img} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />}
                 </span>
-                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: 'var(--ink)' }}>{b.name}</span>
+                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', color: 'var(--ink)' }}>
+                  {locked ? `🔒 ${b.name}` : b.name}
+                </span>
               </button>
             )
           })}

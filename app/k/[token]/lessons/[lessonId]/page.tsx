@@ -84,6 +84,7 @@ export default async function KidStageLessonPage({ params }: { params: Promise<{
         lessonSource="lesson"
         slides={slides}
         backHref={`/k/${token}/lessons`}
+        homeHref={`/k/${token}`}
         kidMode
         completeEndpoint="/api/kid/lesson-complete"
         completeBody={{ token }}

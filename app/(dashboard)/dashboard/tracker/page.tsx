@@ -11,6 +11,7 @@ import { getLiteracyStatuses } from '@/lib/pathway/literacy-status'
 import { READINESS } from '@/lib/content/readiness'
 import PassportBook from '@/components/pathway/PassportBook'
 import { type Stamp, type StampStatus } from '@/components/pathway/PassportStamps'
+import ToolCard, { type Tool } from '@/components/tools/ToolCard'
 import ChildSwitcher from '@/components/children/ChildSwitcher'
 import { pickChild } from '@/lib/children/select'
 
@@ -120,6 +121,20 @@ export default async function ProgressPage({ searchParams }: { searchParams: Pro
 
   const open = concerns.filter(c => c.status === 'open')
   const improving = concerns.filter(c => c.status === 'improving')
+
+  // DiGi's toolbox, matched to the moment: the one vetted outside tool that
+  // helps with the concern this family has actually flagged. Fails soft to
+  // nothing before migration 091, or when no tool matches the concern.
+  const topConcernSlug = (open[0] ?? improving[0] ?? concerns[0])?.slug ?? null
+  let matchedTool: Tool | null = null
+  if (topConcernSlug) {
+    const { data: mt } = await supabase
+      .from('recommended_tools')
+      .select('id, category, name, problem, fix, science, benefit, url, cost_note, evidence_grade, affiliate')
+      .eq('concern_slug', topConcernSlug).eq('active', true)
+      .order('sort_order', { ascending: true }).limit(1).maybeSingle()
+    matchedTool = (mt as Tool | null) ?? null
+  }
 
   // Trend: this week's average against the one before
   const a0 = checks[0] ? avg(checks[0]) : null
@@ -271,6 +286,23 @@ export default async function ProgressPage({ searchParams }: { searchParams: Pro
         childName={primary?.name ?? 'your child'}
         parentEmail={user.email ?? ''}
       />
+
+      {/* The one outside tool that helps with what this family flagged, in the
+          honest problem to benefit shape. Only shows when a vetted tool matches
+          the concern. */}
+      {matchedTool && (
+        <div style={{ marginBottom: '20px' }}>
+          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '10px', marginBottom: '9px' }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
+              What helps with this
+            </span>
+            <Link href="/dashboard/toolbox" style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: 'var(--terracotta-dark)', textDecoration: 'none' }}>
+              The toolbox →
+            </Link>
+          </div>
+          <ToolCard tool={matchedTool} />
+        </div>
+      )}
 
       {/* The week in numbers */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', marginBottom: '20px' }}>
