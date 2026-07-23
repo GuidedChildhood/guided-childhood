@@ -116,6 +116,54 @@ export const PRINTABLES: Printable[] = [
     sheetUrl: BASE + 'hf_20260722_110316_0eaf5193-a07e-4936-a8c0-246d3b214238.png',
     previewUrl: BASE + 'hf_20260722_110327_09f96b0e-2738-4ed7-9c2b-3ad726c6aa1f.png',
   },
+  // DiGi's Planet Friends, one colour in sheet each, tied to the stage that
+  // unlocks that Friend. The preview is the friendly coloured avatar; the sheet
+  // is the empty line art to colour.
+  {
+    key: 'meet-pebble',
+    title: 'Colour in Pebble', emoji: '🟡', kind: 'craft',
+    stages: [1], minutes: 'One sitting', setting: 'anywhere', skill: 'Creativity',
+    stars: 5,
+    blurb: 'Your Stage 1 Planet Friend, full of curiosity and wonder. Colour Pebble in however you like.',
+    sheetUrl: BASE + 'hf_20260723_121101_b9370321-6338-41b6-8c06-220c937d6705.png',
+    previewUrl: BASE + 'hf_20260723_120310_52c3cb2f-de3e-4660-9e67-006552a220ee.png',
+  },
+  {
+    key: 'meet-bloop',
+    title: 'Colour in Bloop', emoji: '🟢', kind: 'craft',
+    stages: [2], minutes: 'One sitting', setting: 'anywhere', skill: 'Creativity',
+    stars: 5,
+    blurb: 'Your Stage 2 Planet Friend, creative and clever. Bring Bloop to life with colour.',
+    sheetUrl: BASE + 'hf_20260723_121102_5535f574-b642-4f8f-bcc3-8d4a7ff2c334.png',
+    previewUrl: BASE + 'hf_20260723_120312_b7eb690e-9459-45fd-a8bb-d657870019e0.png',
+  },
+  {
+    key: 'meet-orbit',
+    title: 'Colour in Orbit', emoji: '🔵', kind: 'craft',
+    stages: [3], minutes: 'One sitting', setting: 'anywhere', skill: 'Creativity',
+    stars: 5,
+    blurb: 'Your Stage 3 Planet Friend, always exploring. Colour Orbit ready for the next big question.',
+    sheetUrl: BASE + 'hf_20260723_121113_c6a1b8e9-da55-43d5-bf5f-9bdf7ffa9954.png',
+    previewUrl: BASE + 'hf_20260723_120320_328ee92e-7a09-47b9-bc4b-5927861a24c5.png',
+  },
+  {
+    key: 'meet-nova',
+    title: 'Colour in Nova', emoji: '🟣', kind: 'craft',
+    stages: [4], minutes: 'One sitting', setting: 'anywhere', skill: 'Creativity',
+    stars: 5,
+    blurb: 'Your Stage 4 Planet Friend, thoughtful and kind. Colour Nova your way.',
+    sheetUrl: BASE + 'hf_20260723_121115_b411f979-744c-4e51-89ee-7e3266ec8abe.png',
+    previewUrl: BASE + 'hf_20260723_120322_6140bdde-2f58-41ce-889a-63ae64068d11.png',
+  },
+  {
+    key: 'meet-cosmo',
+    title: 'Colour in Cosmo', emoji: '🟠', kind: 'craft',
+    stages: [5], minutes: 'One sitting', setting: 'anywhere', skill: 'Creativity',
+    stars: 5,
+    blurb: 'Your Stage 5 Planet Friend, confident and independent. Colour Cosmo ready to lead.',
+    sheetUrl: BASE + 'hf_20260723_121116_41d12750-7101-4c14-a3b0-671c45b1b570.png',
+    previewUrl: BASE + 'hf_20260723_120328_8e6a3302-7595-4708-b4ca-44e56db39c1a.png',
+  },
 ]
 
 export function getPrintable(key: string): Printable | null {
