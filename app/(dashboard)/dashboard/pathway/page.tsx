@@ -74,8 +74,12 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
           : s.id === currentStageNum ? 'current'
           : s.id < currentStageNum ? 'catchup'
           : 'upcoming'
+        // A stage still ahead reads a true zero, never the blend's free credit
+        // from the global streak or empty device list. Earned shows the stamp,
+        // the current and catch up stages show their real reading.
+        const pct = status === 'earned' ? 100 : status === 'upcoming' ? 0 : prog.overallPct
         return {
-          id: s.id, name: s.name, ages: s.ages, pct: prog.overallPct, status,
+          id: s.id, name: s.name, ages: s.ages, pct, status,
           href: '/dashboard/lessons',
           lessonsDone: prog.lessonsDone, lessonsTotal: prog.lessonsTotal,
           scriptsPct: prog.scriptsPct, streakPct: prog.streakPct,

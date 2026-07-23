@@ -171,21 +171,28 @@ export default async function ProgressPage({ searchParams }: { searchParams: Pro
           : s.id === stage.id ? 'current'
           : s.id < stage.id ? 'catchup'
           : 'upcoming'
+        const isCurrent = s.id === stage.id
+        const reached = isCurrent || status === 'earned' || status === 'catchup'
+        // The live now reads, moments, jobs and screen balance, belong to the
+        // stage the child is actually on. On any other page they show as later,
+        // so a stage still ahead never borrows today's wellbeing and reads a
+        // true zero. Devices and lessons stay per stage, naturally zero for a
+        // stage the child has not reached yet.
         const sections: ChecklistSection[] = [
           {
             key: 'devices', emoji: '🔧', label: 'Devices set up',
-            pct: prog.devicesPct,
-            detail: prog.devicesPct >= 100 ? 'All set' : prog.devicesPct === 0 ? 'To set up' : `${prog.devicesPct}%`,
+            pct: reached ? prog.devicesPct : 0,
+            detail: !reached ? 'Ahead' : prog.devicesPct >= 100 ? 'All set' : prog.devicesPct === 0 ? 'To set up' : `${prog.devicesPct}%`,
             href: '/dashboard/devices',
             help: 'Set up the devices you have for their age.',
-            ...(s.id === stage.id && aheadNames.length > 0
+            ...(isCurrent && aheadNames.length > 0
               ? { alert: `${aheadNames.join(', ')} is set up ahead of their age. Worth a look together.` }
               : {}),
           },
           {
             key: 'moments', emoji: '💬', label: 'Moments to resolve',
-            pct: momentsPct,
-            detail: openMoments > 0 ? `${openMoments} to resolve` : 'All clear',
+            pct: isCurrent ? momentsPct : 0,
+            detail: !isCurrent ? 'Later' : openMoments > 0 ? `${openMoments} to resolve` : 'All clear',
             href: '/dashboard/moments',
             help: 'Work through any open worries together.',
           },
@@ -198,20 +205,29 @@ export default async function ProgressPage({ searchParams }: { searchParams: Pro
           },
           {
             key: 'jobs', emoji: '⭐', label: 'Jobs and routines',
-            pct: jobsPct,
-            detail: jobsStreakDays > 0 ? `${jobsStreakDays} day streak` : jobsStatus === 'pending' ? 'Jobs to do' : 'Set a job',
+            pct: isCurrent ? jobsPct : 0,
+            detail: !isCurrent ? 'Later' : jobsStreakDays > 0 ? `${jobsStreakDays} day streak` : jobsStatus === 'pending' ? 'Jobs to do' : 'Set a job',
             href: '/dashboard/quests',
             help: 'Keep the daily jobs going, all done on time.',
           },
           {
             key: 'balance', emoji: '⚖️', label: 'Screen balance',
-            pct: balancePct,
-            detail: balanceDetail,
+            pct: isCurrent ? balancePct : 0,
+            detail: !isCurrent ? 'Later' : balanceDetail,
             href: '/dashboard/tracker#screen-balance',
             help: 'The healthy screen amount for their age, across the week.',
           },
         ]
-        const pct = Math.round(sections.reduce((sum, x) => sum + x.pct, 0) / sections.length)
+        // The headline circle reads this stage only. The stamp when earned, the
+        // live blend on the stage the child is on, that stage's own content when
+        // catching up an earlier page, and a true zero for any stage still
+        // ahead. So the passport never shows progress on a stage not reached.
+        const blended = Math.round(sections.reduce((sum, x) => sum + x.pct, 0) / sections.length)
+        const contentPct = Math.round(prog.lessonsPct * 0.55 + prog.scriptsPct * 0.3 + prog.devicesPct * 0.15)
+        const pct = status === 'earned' ? 100
+          : isCurrent ? blended
+          : status === 'catchup' ? contentPct
+          : 0
         return {
           id: s.id, name: s.name, ages: s.ages, pct, status,
           href: `/dashboard/lessons`,
@@ -303,19 +319,9 @@ export default async function ProgressPage({ searchParams }: { searchParams: Pro
         Green means that part of the plan is doing its job. Anything amber comes with one clear next step, like a good school report.
       </p>
 
-      {/* The map and the passport together, the merge Justin asked for: the road
-          to 16 with the child on their stage, the star assembling a point per
-          stage, and the passport it all fills, stamp by stage. */}
-      {stage && (
-        <div style={{ margin: '6px -20px 8px' }}>
-          <StageRoad
-            currentStageNum={stage.id}
-            progressPct={currentStagePct}
-            childName={primary?.name ?? undefined}
-            stageStatus={stageStatus}
-          />
-        </div>
-      )}
+      {/* The passport first, the document this whole page fills: the star
+          assembling a point per stage and the passport it earns, stamp by
+          stage. The pathway road follows below, the map it all sits on. */}
       {stage && stamps.length > 0 && (
         <div style={{ marginBottom: '22px' }}>
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '6px' }}>
@@ -335,6 +341,20 @@ export default async function ProgressPage({ searchParams }: { searchParams: Pro
       {parentReport && (
         <div id="screen-balance" style={{ scrollMarginTop: '80px', marginBottom: '22px' }}>
           <BalanceReport report={parentReport} />
+        </div>
+      )}
+
+      {/* The pathway road below the passport: the road to 16 with the child on
+          their stage. It follows the document now, so the passport comes first
+          and the map shows where that stage sits on the whole journey. */}
+      {stage && (
+        <div style={{ margin: '6px -20px 24px' }}>
+          <StageRoad
+            currentStageNum={stage.id}
+            progressPct={currentStagePct}
+            childName={primary?.name ?? undefined}
+            stageStatus={stageStatus}
+          />
         </div>
       )}
 
