@@ -15,7 +15,7 @@ const NAV_TABS = [
   { href: '/dashboard/scripts', label: 'Scripts', icon: '❝' },
   { href: '/dashboard/digi', label: 'DiGi', icon: '◎' },
   { href: '/dashboard/quests', label: 'Quests', icon: '✦' },
-  { href: '/dashboard/tracker', label: 'Progress', icon: '△' },
+  { href: '/dashboard/tracker', label: 'Passport', icon: '△' },
 ]
 
 export default function MobileTabBar({ pendingAsks = 0 }: { pendingAsks?: number }) {

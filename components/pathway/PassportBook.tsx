@@ -2,7 +2,9 @@
 
 import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import type { Stamp, StampStatus } from './PassportStamps'
+import { characterForStage } from '@/lib/content/stage-characters'
 
 // The passport as a little book. A teal cover with the gold crest, then
 // one page per stage in that stage's colour, each carrying a big progress
@@ -98,6 +100,9 @@ export default function PassportBook({
 
   const stamp = page >= 1 ? stamps[page - 1] : null
   const theme = stamp ? STAGE_THEME[stamp.id] ?? STAGE_THEME[1] : null
+  // The Planet Friend earned at this stage, so each passport page carries the
+  // character who grows up alongside the child there.
+  const friend = stamp ? characterForStage(stamp.id) : undefined
 
   return (
     <div style={{ marginBottom: '20px' }}>
@@ -235,6 +240,20 @@ export default function PassportBook({
               </div>
 
               <div style={{ textAlign: 'center', marginBottom: '14px' }}>
+                {friend && (
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '9px' }}>
+                    <span style={{
+                      width: 62, height: 62, borderRadius: '50%', overflow: 'hidden',
+                      border: `2.5px solid ${friend.colour}`, background: '#fff',
+                      boxShadow: '0 3px 0 rgba(26,26,46,0.10)', position: 'relative', flexShrink: 0,
+                    }}>
+                      <Image src={friend.img} alt={friend.name} fill sizes="62px" style={{ objectFit: 'cover' }} />
+                    </span>
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: theme.text, opacity: 0.8, marginTop: '6px' }}>
+                      {stamp.status === 'earned' || stamp.status === 'current' ? `With ${friend.name}` : `Meet ${friend.name}`}
+                    </span>
+                  </div>
+                )}
                 <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.35rem', color: 'var(--ink)', letterSpacing: '-0.02em' }}>
                   {stamp.name}
                 </div>
