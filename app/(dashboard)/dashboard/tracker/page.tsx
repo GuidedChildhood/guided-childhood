@@ -5,10 +5,11 @@ import { getStageFromAgeBand, STAGES, type AgeBand } from '@/lib/content/stages'
 import { getDailyStreak } from '@/lib/pathway/streak'
 import { getAllStagesProgress, type StageId } from '@/lib/pathway/progress'
 import WorkingOn from '@/components/tracker/WorkingOn'
+import StageRoad from '@/components/pathway/StageRoad'
+import DigiStarBuild from '@/components/pathway/DigiStarBuild'
 import LiteracyAreas from '@/components/pathway/LiteracyAreas'
 import LiteracyCheckIn from '@/components/pathway/LiteracyCheckIn'
 import { getLiteracyStatuses } from '@/lib/pathway/literacy-status'
-import { READINESS } from '@/lib/content/readiness'
 import PassportBook from '@/components/pathway/PassportBook'
 import { type Stamp, type StampStatus } from '@/components/pathway/PassportStamps'
 import ToolCard, { type Tool } from '@/components/tools/ToolCard'
@@ -116,6 +117,19 @@ export default async function ProgressPage({ searchParams }: { searchParams: Pro
       })
     : []
 
+  // Road readings: the same per stage blend the passport uses, keyed by stage
+  // number, so the map and the stamps always tell one story. This is what
+  // brings the pathway road onto the Digital Passport, beside the stamps.
+  const stageStatus: Record<number, { pct: number; complete: boolean }> = {}
+  if (allProgress) {
+    STAGE_SLUGS.forEach((slug, i) => {
+      stageStatus[i + 1] = { pct: allProgress[slug].overallPct, complete: allProgress[slug].contentComplete }
+    })
+  }
+  const earnedStages = stamps.filter(s => s.status === 'earned').length
+  const currentIdx = stamps.findIndex(s => s.status === 'current')
+  const currentStagePct = stage ? stamps[stage.id - 1]?.pct ?? null : null
+
   const starsByQuest = new Map(quests.map(q => [q.id, q.stars]))
   const weekStars = ticks.reduce((sum, t) => sum + (starsByQuest.get(t.quest_id) ?? 1), 0)
 
@@ -173,7 +187,7 @@ export default async function ProgressPage({ searchParams }: { searchParams: Pro
   return (
     <div style={{ maxWidth: '640px', margin: '0 auto', padding: '24px 20px 40px' }}>
       <ChildSwitcher kids={children} selectedId={primary?.id ?? null} basePath="/dashboard/tracker" />
-      <p className="eyebrow" style={{ color: 'var(--terracotta-dark)', marginBottom: '8px' }}>Progress</p>
+      <p className="eyebrow" style={{ color: 'var(--terracotta-dark)', marginBottom: '8px' }}>Digital Passport</p>
       <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 6.5vw, 2.7rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '10px' }}>
         Is it working?
       </h1>
@@ -183,14 +197,30 @@ export default async function ProgressPage({ searchParams }: { searchParams: Pro
         Green means that part of the plan is doing its job. Anything amber comes with one clear next step, like a good school report.
       </p>
 
-      {/* The stamp these four earn, right under the title where the
-          report begins */}
-      <Link href="/dashboard/pathway" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 14, background: 'var(--terracotta-lt)', border: '1px solid var(--terracotta)', borderRadius: 100, padding: '5px 12px', textDecoration: 'none' }}>
-        <span aria-hidden style={{ fontSize: 13 }}>🪪</span>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>
-          These four earn the {READINESS[stageNum - 1].stamp} stamp on the road to 16 →
-        </span>
-      </Link>
+      {/* The map and the passport together, the merge Justin asked for: the road
+          to 16 with the child on their stage, the star assembling a point per
+          stage, and the passport it all fills, stamp by stage. */}
+      {stage && (
+        <div style={{ margin: '6px -20px 8px' }}>
+          <StageRoad
+            currentStageNum={stage.id}
+            progressPct={currentStagePct}
+            childName={primary?.name ?? undefined}
+            stageStatus={stageStatus}
+          />
+        </div>
+      )}
+      {stage && stamps.length > 0 && (
+        <div style={{ marginBottom: '22px' }}>
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '6px' }}>
+            <DigiStarBuild earned={earnedStages} currentIndex={currentIdx >= 0 ? currentIdx : null} size={150} />
+          </div>
+          <p style={{ textAlign: 'center', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '12.5px', color: 'var(--ink)', margin: '0 0 16px' }}>
+            {earnedStages >= 5 ? 'DiGi is whole. Every stage earned 🌟' : `${earnedStages} of 5 points of DiGi's star earned`}
+          </p>
+          <PassportBook stamps={stamps} childName={primary?.name ?? 'your child'} />
+        </div>
+      )}
 
       {/* Warmth when the report is mostly green, in colour not noise */}
       {greenCount >= 3 && (
@@ -268,14 +298,6 @@ export default async function ProgressPage({ searchParams }: { searchParams: Pro
             </div>
           </div>
         </div>
-      )}
-
-      {/* The passport as a flip book: a cover and one page per stage, each
-          page's circle filling as that stage is worked through, stamped
-          solid at 100 percent, with catch up pages for earlier stages and a
-          celebration when the whole passport is complete. */}
-      {stage && stamps.length > 0 && (
-        <PassportBook stamps={stamps} childName={primary?.name ?? 'your child'} />
       )}
 
       {/* What we are working on: the real list, with the parent's verdict */}

@@ -18,7 +18,7 @@ const TABS = [
   { href: '/dashboard/lessons', label: 'Lessons' },
   { href: '/dashboard/school', label: 'School' },
   { href: '/dashboard/scripts', label: 'Scripts' },
-  { href: '/dashboard/tracker', label: 'Progress' },
+  { href: '/dashboard/tracker', label: 'Passport' },
 ]
 
 export default function MobileSecondaryNav() {

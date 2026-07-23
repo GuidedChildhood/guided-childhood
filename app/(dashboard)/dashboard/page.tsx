@@ -42,6 +42,7 @@ import DigiScriptNudge from '@/components/digi/DigiScriptNudge'
 import { printablesForStage } from '@/lib/printables/registry'
 import { getParentLessons, getCompletionsForChild } from '@/lib/lessons/parent-lessons'
 import { getDailyStreak } from '@/lib/pathway/streak'
+import { computeJobsStreak, jobsTodayStatus, type StreakQuest, type StreakTick } from '@/lib/pathway/jobs-streak'
 import { getTodayLoop } from '@/lib/pathway/daily-tasks'
 import type { StageId as PathwayStageId } from '@/lib/pathway/progress'
 import ChildSwitcher from '@/components/children/ChildSwitcher'
@@ -311,6 +312,24 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   const trialLeft = trialDaysLeft(profile)
   const trialEnded = !isPaid && Boolean(profile?.trial_ends_at) && !showTrial
 
+  // The child's jobs, read across for DiGi's greeting: whether today's jobs are
+  // done and the on time streak, so the parent line says if they are on track
+  // and links to the screen and jobs balance. The same strict streak the
+  // passport uses. Best effort, silent if the tables are not there yet.
+  let jobsStatus: 'on_track' | 'pending' | 'none' | undefined
+  let jobsStreakDays = 0
+  if (child?.id) {
+    const sinceJobs = new Date(Date.now() - 60 * 86400000).toISOString().slice(0, 10)
+    const [jqRes, jtRes] = await Promise.all([
+      supabase.from('family_quests').select('id, schedule, schedule_days, created_at').eq('user_id', user.id).eq('child_id', child.id).eq('active', true),
+      supabase.from('quest_ticks').select('quest_id, tick_date, status').eq('user_id', user.id).eq('child_id', child.id).gte('tick_date', sinceJobs),
+    ])
+    const jq = (jqRes.data ?? []) as StreakQuest[]
+    const jt = (jtRes.data ?? []) as StreakTick[]
+    jobsStatus = jobsTodayStatus(jq, jt)
+    jobsStreakDays = computeJobsStreak(jq, jt).streakDays
+  }
+
   return (
     <div style={{ maxWidth: '640px', margin: '0 auto', padding: '24px 20px' }}>
       {/* More than one child: butter pills at the top switch whose day this
@@ -384,6 +403,9 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
             dayDone={spent >= dailyBudget || stepsAllDone}
             streakCount={streak.count}
             aliveToday={streak.aliveToday}
+            jobsStatus={jobsStatus}
+            jobsStreakDays={jobsStreakDays}
+            balanceHref="/dashboard/quests"
           />
         )
       })()}
