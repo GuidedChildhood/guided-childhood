@@ -55,29 +55,42 @@ export default function DigiWelcomeSheet({ childrenInfo, guide }: { childrenInfo
   const [dragging, setDragging] = useState(false)
 
   useEffect(() => {
-    // DiGi greets once per login. The guard is the browser session, so a fresh
-    // login always brings DiGi up first thing, but an in app navigation within
-    // the same session never fires it twice.
+    // DiGi greets at most once a day, and never on every login. The session
+    // guard stops an in app navigation firing it twice; the day guard caps it
+    // to once a day; then the cadence eases it right back so a settled family
+    // sees DiGi now and then, not every time they land.
     const sessionKey = 'gc_digi_welcome_session'
     if (sessionStorage.getItem(sessionKey)) return
-    const priorCount = Number(localStorage.getItem('gc_welcome_count') || '0')
-    // While a family is still learning the app, DiGi greets on every login, the
-    // warm front door Justin wanted. Once they know their way around (after the
-    // first few), it settles to once a day so it never nags a returning parent.
     const today = new Date().toISOString().slice(0, 10)
     const dayKey = `gc_digi_welcome_${today}`
-    if (priorCount >= 3 && localStorage.getItem(dayKey)) return
-    // The first greetings come up right after login. After the family knows the
-    // app, DiGi eases back to five minutes in so it never interrupts a parent
-    // the second they land. A short beat still lets Home paint first.
-    const delay = priorCount < 3 ? POPUP_DELAY.welcome : POPUP_DELAY.welcomeSettled
+    if (localStorage.getItem(dayKey)) return
+    // One DiGi prompt a day, never two: if the flash up already claimed today,
+    // the welcome sheet stays quiet, and the other way round (claimed below).
+    const promptKey = `gc_digi_prompt_${today}`
+    if (localStorage.getItem(promptKey)) return
+
+    const count = Number(localStorage.getItem('gc_welcome_count') || '0')
+    const lastShown = localStorage.getItem('gc_welcome_lastshown')
+    const daysSince = lastShown ? Math.floor((Date.parse(today) - Date.parse(lastShown)) / 86400000) : Infinity
+    // The warm front door for the first couple of visits, then it eases right
+    // back: weekly while they settle, then monthly, so DiGi returns now and
+    // then rather than every login. Never a pop up they have to dismiss daily.
+    const cadenceDays = count < 2 ? 0 : count < 5 ? 7 : 30
+    if (count >= 2 && daysSince < cadenceDays) return
+
+    // Claim the day for DiGi now, before the delay, so the flash up yields to
+    // the welcome sheet and only one DiGi prompt ever shows in a day.
+    try { localStorage.setItem(promptKey, 'welcome') } catch { /* private mode */ }
+
+    const delay = count < 2 ? POPUP_DELAY.welcome : POPUP_DELAY.welcomeSettled
     const id = setTimeout(() => {
       sessionStorage.setItem(sessionKey, '1')
       localStorage.setItem(dayKey, '1')
+      localStorage.setItem('gc_welcome_lastshown', today)
       // Count the greetings, and only after the first few, and only now and
       // then, add one age relevant social media insight for one named child, so
       // it stays a gentle check rather than a lecture every day.
-      const seen = Number(localStorage.getItem('gc_welcome_count') || '0') + 1
+      const seen = count + 1
       localStorage.setItem('gc_welcome_count', String(seen))
       if (seen > 3 && seen % 3 === 0 && childrenInfo.length > 0) {
         const child = childrenInfo[Math.floor(seen / 3) % childrenInfo.length]
