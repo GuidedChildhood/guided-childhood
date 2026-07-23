@@ -62,7 +62,7 @@ export async function getStageProgress(
     supabase.from('scripts').select('sort_order').eq('stage_id', stageId),
     supabase.from('script_completions').select('script_sort_order').eq('user_id', userId),
     supabase.from('device_guides').select('device_key, min_age'),
-    supabase.from('device_setup_progress').select('device_key').eq('user_id', userId),
+    supabase.from('device_setup_progress').select('device_key, status').eq('user_id', userId),
     supabase.from('lessons').select('id').eq('stage_id', stageId).eq('audience', 'parent').neq('status', 'stub'),
     supabase.from('ai_lessons').select('id, audience').in('audience', ['age_7', 'age_9', 'age_11', 'age_13', 'age_16']),
     supabase.from('lesson_completions').select('lesson_id, lesson_source').eq('user_id', userId),
@@ -77,12 +77,15 @@ export async function getStageProgress(
   // a permanent streak to ever show full marks.
   const streakPct = Math.min(Math.round((streakWeeks / 4) * 100), 100)
 
-  // Devices: bucket each device guide to a stage by its minimum age, then
-  // check completion against only the devices that belong to this stage.
-  const devicesInStage = (stageDeviceGuides ?? []).filter(d => deviceAgeToStage(d.min_age) === stageId)
-  const completedDeviceKeys = new Set((deviceProgress ?? []).map(d => d.device_key))
-  const devicesDoneInStage = devicesInStage.filter(d => completedDeviceKeys.has(d.device_key)).length
-  const devicesPct = devicesInStage.length > 0 ? Math.round((devicesDoneInStage / devicesInStage.length) * 100) : 0
+  // Devices: bucket each guide to a stage by its minimum age, then read against
+  // only the devices the family actually has. A device marked not in our home
+  // drops out, so the passport never counts all nineteen guides, only theirs.
+  const notOwnedDeviceKeys = new Set((deviceProgress ?? []).filter(d => d.status === 'not_owned').map(d => d.device_key))
+  const doneDeviceKeys = new Set((deviceProgress ?? []).filter(d => d.status !== 'not_owned').map(d => d.device_key))
+  const guidesInStage = (stageDeviceGuides ?? []).filter(d => deviceAgeToStage(d.min_age) === stageId)
+  const ownedInStage = guidesInStage.filter(d => !notOwnedDeviceKeys.has(d.device_key))
+  const devicesDoneInStage = ownedInStage.filter(d => doneDeviceKeys.has(d.device_key)).length
+  const devicesPct = ownedInStage.length > 0 ? Math.round((devicesDoneInStage / ownedInStage.length) * 100) : 100
 
   // Lessons: combine the general lessons table (already stage scoped) with
   // ai_lessons (audience scoped, mapped to stage), then check completion.
@@ -132,14 +135,18 @@ export async function getAllStagesProgress(
     supabase.from('scripts').select('sort_order, stage_id'),
     supabase.from('script_completions').select('script_sort_order').eq('user_id', userId),
     supabase.from('device_guides').select('device_key, min_age'),
-    supabase.from('device_setup_progress').select('device_key').eq('user_id', userId),
+    supabase.from('device_setup_progress').select('device_key, status').eq('user_id', userId),
     supabase.from('lessons').select('id, stage_id').eq('audience', 'parent').neq('status', 'stub'),
     supabase.from('ai_lessons').select('id, audience'),
     supabase.from('lesson_completions').select('lesson_id, lesson_source').eq('user_id', userId),
   ])
 
   const completedScriptOrders = new Set((completedScripts ?? []).map(c => c.script_sort_order))
-  const completedDeviceKeys = new Set((deviceProgress ?? []).map(d => d.device_key))
+  // Devices only count the ones a family actually has: a device marked not in
+  // our home drops out of the denominator, so the passport reads against their
+  // real devices, never all nineteen guides. A device set up counts as done.
+  const notOwnedDeviceKeys = new Set((deviceProgress ?? []).filter(d => d.status === 'not_owned').map(d => d.device_key))
+  const doneDeviceKeys = new Set((deviceProgress ?? []).filter(d => d.status !== 'not_owned').map(d => d.device_key))
   const completedLessonKeys = new Set((lessonCompletions ?? []).map(c => `${c.lesson_source}:${c.lesson_id}`))
   const streakPct = Math.min(Math.round((streakWeeks / 4) * 100), 100)
 
@@ -149,9 +156,12 @@ export async function getAllStagesProgress(
     const scriptsDone = stageScripts.filter(s => completedScriptOrders.has(s.sort_order)).length
     const scriptsPct = stageScripts.length > 0 ? Math.round((scriptsDone / stageScripts.length) * 100) : 0
 
-    const devicesInStage = (deviceGuides ?? []).filter(d => deviceAgeToStage(d.min_age) === stageId)
-    const devicesDone = devicesInStage.filter(d => completedDeviceKeys.has(d.device_key)).length
-    const devicesPct = devicesInStage.length > 0 ? Math.round((devicesDone / devicesInStage.length) * 100) : 0
+    const guidesInStage = (deviceGuides ?? []).filter(d => deviceAgeToStage(d.min_age) === stageId)
+    const ownedInStage = guidesInStage.filter(d => !notOwnedDeviceKeys.has(d.device_key))
+    const devicesDone = ownedInStage.filter(d => doneDeviceKeys.has(d.device_key)).length
+    // No owned devices for this stage means nothing to set up here, so that part
+    // of the ring is full rather than stuck at zero.
+    const devicesPct = ownedInStage.length > 0 ? Math.round((devicesDone / ownedInStage.length) * 100) : 100
 
     const stageLessons = (lessons ?? []).filter(l => l.stage_id === stageId)
     const aiInStage = (aiLessons ?? []).filter(l => AUDIENCE_TO_STAGE[l.audience] === stageId)
