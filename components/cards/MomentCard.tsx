@@ -50,6 +50,9 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
   const [shared, setShared] = useState(false)
   const [questMade, setQuestMade] = useState(false)
   const [questBusy, setQuestBusy] = useState(false)
+  // The deck: which card the parent is on, and whether they saved this one.
+  const [card, setCard] = useState(0)
+  const [saved, setSaved] = useState(false)
 
   const accentColor = CATEGORY_COLORS[moment.category] ?? 'var(--stage-1)'
   // Real photo first (covers every card), the older tile as a fallback.
@@ -72,6 +75,7 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
 
   function handleOpen() {
     setOpen(true)
+    setCard(0)
     onFlip?.(moment.id)
     if (!digiResponse) fetchDigiMoment()
     // Reading a moment is doing today's moment: record it so the daily pathway
@@ -189,263 +193,230 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
         </div>
       </div>
 
-      {/* ── Full screen deck card: tinted backdrop, curved band header ── */}
-      {open && (
-        <div
-          style={{
-            position: 'fixed', inset: 0, zIndex: 120,
-            background: 'var(--deep-teal)',
-            display: 'flex', alignItems: 'stretch', justifyContent: 'center',
-            padding: 'max(14px, env(safe-area-inset-top)) 14px max(14px, env(safe-area-inset-bottom))',
-          }}
-        >
+      {/* ── Full screen card DECK, Good Inside pattern in our green and Nunito:
+          a progress bar, a coloured band with bookmark and share, big type, one
+          idea per card, tap to advance, previous card below, and a final card
+          that hands off to the relevant scripts. ── */}
+      {open && (() => {
+        const scriptsHref = `/dashboard/scripts?topic=${encodeURIComponent(moment.category)}`
+        // Build the deck from what DiGi returned, one clear idea per card, and
+        // a scripts hand off as the last card. Falls back to the static fields
+        // while DiGi is still gathering, so the deck is never empty.
+        type Deck = { eyebrow: string; heading: string; render: () => React.ReactNode }
+        const deck: Deck[] = []
+        deck.push({
+          eyebrow: 'The moment', heading: moment.title,
+          render: () => (
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12, marginTop: 4 }}>
+              <DigiCharacter mood={digiMood} size={46} />
+              <p style={cardBody}>
+                {loading && !digiResponse ? 'One moment, I am pulling the evidence and the exact words together for you.' : (digiResponse?.digiQuestion ?? moment.digi_opener)}
+              </p>
+            </div>
+          ),
+        })
+        deck.push({
+          eyebrow: 'Why this happens', heading: 'This is normal, and there is a reason',
+          render: () => <p style={cardBody}>{digiResponse?.science ?? moment.science_brief}</p>,
+        })
+        if (digiResponse?.technique) {
+          const t = digiResponse.technique
+          deck.push({
+            eyebrow: 'The technique', heading: t.name,
+            render: () => (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                {t.steps.map((step, i) => (
+                  <div key={i} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+                    <span style={stepNum}>{i + 1}</span>
+                    <p style={{ ...cardBody, margin: 0 }}>{step}</p>
+                  </div>
+                ))}
+                {t.why && <p style={{ ...cardBody, fontStyle: 'italic', opacity: 0.85, fontSize: '1rem' }}>Why it works: {t.why}</p>}
+              </div>
+            ),
+          })
+        }
+        if (digiResponse?.solutions && digiResponse.solutions.length > 0) {
+          deck.push({
+            eyebrow: 'Try this', heading: 'Three things that help',
+            render: () => (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                {digiResponse.solutions.slice(0, 3).map((sol, i) => (
+                  <div key={i} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+                    <span style={stepNum}>{i + 1}</span>
+                    <p style={{ ...cardBody, margin: 0 }}>{sol}</p>
+                  </div>
+                ))}
+              </div>
+            ),
+          })
+        }
+        if (digiResponse?.script) {
+          deck.push({
+            eyebrow: 'Say this tonight', heading: 'The words, ready to use',
+            render: () => <p style={{ ...cardBody, fontStyle: 'italic' }}>&ldquo;{digiResponse.script}&rdquo;</p>,
+          })
+        }
+        // The last card: hand off to the relevant scripts, the clear next step.
+        deck.push({
+          eyebrow: 'The scripts', heading: 'Want the words for this, ready to read?',
+          render: () => (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 14, marginTop: 4 }}>
+              <p style={cardBody}>The scripts give you exactly what to say, word for word, for {moment.title.toLowerCase()}.</p>
+              <a
+                href={scriptsHref}
+                onClick={e => e.stopPropagation()}
+                style={{
+                  display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                  background: look.band, color: '#fff', borderRadius: '16px', padding: '16px 22px',
+                  textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800,
+                  fontSize: '1.05rem', boxShadow: '0 5px 0 rgba(0,0,0,0.18)',
+                }}
+              >
+                Take me to relevant scripts →
+              </a>
+              <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', marginTop: 2 }}>
+                <a href={`/dashboard/digi?q=${encodeURIComponent(moment.title)}`} onClick={e => e.stopPropagation()} style={lesserLink}>Ask DiGi more →</a>
+                <button
+                  onClick={async e => {
+                    e.stopPropagation()
+                    if (questMade || questBusy) return
+                    setQuestBusy(true)
+                    try {
+                      const res = await fetch('/api/moments/make-quest', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ momentId: moment.id }) })
+                      if (res.ok) setQuestMade(true)
+                    } catch { /* leave as is */ } finally { setQuestBusy(false) }
+                  }}
+                  style={{ ...lesserLink, background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
+                >
+                  {questMade ? `Sent to ${childName && childName !== 'Your child' ? childName : 'them'} ✓` : questBusy ? 'Making...' : 'Make it a quest →'}
+                </button>
+              </div>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '6px 0 0', display: 'flex', alignItems: 'center', gap: 8 }}>
+                <span aria-hidden>🗓️</span> DiGi will check how this one went in your Sunday catch up.
+              </p>
+            </div>
+          ),
+        })
+
+        const total = deck.length
+        const idx = Math.min(card, total - 1)
+        const current = deck[idx]
+        const isLast = idx === total - 1
+        const next = () => setCard(c => Math.min(c + 1, total - 1))
+        const prev = () => setCard(c => Math.max(c - 1, 0))
+
+        return (
           <div
             style={{
-              width: 'min(100%, 520px)',
-              background: look.tint,
-              borderRadius: '26px',
-              display: 'flex', flexDirection: 'column',
-              overflow: 'hidden',
-              boxShadow: '0 12px 48px rgba(0,0,0,0.35)',
+              position: 'fixed', inset: 0, zIndex: 120,
+              background: 'var(--deep-teal)',
+              display: 'flex', flexDirection: 'column', alignItems: 'center',
+              padding: 'max(14px, env(safe-area-inset-top)) 14px max(14px, env(safe-area-inset-bottom))',
             }}
           >
-            {/* Curved band header */}
-            <div style={{
-              background: look.band,
-              padding: '18px 20px 26px',
-              borderRadius: '0 0 50% 50% / 0 0 26px 26px',
-              display: 'flex', alignItems: 'flex-start', gap: 12, flexShrink: 0,
-            }}>
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.85)', marginBottom: 3 }}>
-                  Moment
-                </p>
-                <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.15rem', color: '#fff', lineHeight: 1.2, margin: 0 }}>
-                  {moment.category}
-                </p>
-              </div>
-              <button
-                onClick={handleShare}
-                aria-label="Share this card"
-                style={{
-                  width: 38, height: 38, borderRadius: '50%',
-                  border: '1.5px solid rgba(255,255,255,0.7)', background: 'transparent',
-                  cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-                }}
-              >
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path d="M12 3v12M12 3l-4.5 4.5M12 3l4.5 4.5M5 13v6h14v-6" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </button>
-              <button
-                onClick={() => setOpen(false)}
-                aria-label="Close"
-                style={{
-                  width: 38, height: 38, borderRadius: '50%',
-                  border: '1.5px solid rgba(255,255,255,0.7)', background: 'transparent',
-                  cursor: 'pointer', fontSize: '16px', color: '#fff',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-                }}
-              >
-                ✕
-              </button>
+            {/* Progress bar, one segment per card */}
+            <div style={{ width: 'min(100%, 520px)', display: 'flex', gap: 5, marginBottom: 12, flexShrink: 0 }}>
+              {deck.map((_, i) => (
+                <div key={i} style={{ flex: 1, height: 5, borderRadius: 100, background: i <= idx ? '#fff' : 'rgba(255,255,255,0.28)', transition: 'background 0.25s ease' }} />
+              ))}
             </div>
 
-            {shared && (
-              <div style={{ padding: '8px 20px 0', flexShrink: 0 }}>
-                <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: look.band, margin: 0 }}>
-                  Link copied, paste it anywhere ✓
-                </p>
-              </div>
-            )}
-
-            {/* Body: big display type, deck style */}
-            <div style={{ flex: 1, overflowY: 'auto', padding: '22px 22px 18px', display: 'flex', flexDirection: 'column', gap: 16 }}>
-              <h2 style={{
-                fontFamily: 'var(--font-display)', fontWeight: 900,
-                fontSize: 'clamp(1.5rem, 6.5vw, 2rem)', color: 'var(--ink)',
-                letterSpacing: '-0.02em', lineHeight: 1.12, margin: 0,
-              }}>
-                {moment.title}
-              </h2>
-
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                <DigiCharacter mood={digiMood} size={44} />
-                <p style={{
-                  fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink)',
-                  lineHeight: 1.55, fontWeight: 500, margin: 0, flex: 1,
-                }}>
-                  {loading ? 'One moment, I am pulling the evidence together for you.' : digiResponse?.digiQuestion ?? moment.digi_opener}
-                </p>
-              </div>
-
+            {/* The card. Tapping it advances, like flicking through a deck. */}
+            <div
+              onClick={() => { if (!isLast) next() }}
+              role="button"
+              tabIndex={0}
+              onKeyDown={e => { if (e.key === 'ArrowRight' || e.key === 'Enter') next(); if (e.key === 'ArrowLeft') prev() }}
+              style={{
+                width: 'min(100%, 520px)', flex: 1, minHeight: 0,
+                background: look.tint, borderRadius: '26px',
+                display: 'flex', flexDirection: 'column', overflow: 'hidden',
+                boxShadow: '0 12px 48px rgba(0,0,0,0.35)',
+                cursor: isLast ? 'default' : 'pointer', WebkitTapHighlightColor: 'transparent',
+              }}
+            >
+              {/* Coloured band: down chevron to close, eyebrow and topic, then
+                  bookmark and share, exactly the Good Inside header shape. */}
               <div style={{
-                background: 'rgba(255,255,255,0.65)', borderRadius: '14px', padding: '14px 16px',
-                borderLeft: `3px solid ${look.band}`,
+                background: look.band, padding: '16px 20px 26px',
+                borderRadius: '0 0 50% 50% / 0 0 30px 30px',
+                display: 'flex', alignItems: 'flex-start', gap: 12, flexShrink: 0,
               }}>
-                <p style={{ fontFamily: 'var(--font-body)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: look.band, marginBottom: 6 }}>
-                  The science
-                </p>
-                <p style={{ fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--ink)', lineHeight: 1.6, margin: 0 }}>
-                  {digiResponse?.science ?? moment.science_brief}
-                </p>
+                <button onClick={e => { e.stopPropagation(); setOpen(false) }} aria-label="Close" style={roundIcon}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M6 9l6 6 6-6" stroke="#fff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                </button>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.85)', margin: '2px 0 3px' }}>
+                    Moment
+                  </p>
+                  <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.2rem', color: '#fff', lineHeight: 1.15, margin: 0 }}>
+                    {moment.category}
+                  </p>
+                </div>
+                <button onClick={e => { e.stopPropagation(); setSaved(s => !s) }} aria-label="Save this card" style={roundIcon}>
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill={saved ? '#fff' : 'none'} aria-hidden><path d="M6 3h12v18l-6-4-6 4V3z" stroke="#fff" strokeWidth="2" strokeLinejoin="round" /></svg>
+                </button>
+                <button onClick={e => { e.stopPropagation(); handleShare() }} aria-label="Share this card" style={roundIcon}>
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M12 3v12M12 3l-4.5 4.5M12 3l4.5 4.5M5 13v6h14v-6" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                </button>
               </div>
 
-              {/* While DiGi fetches the personalised technique and words, a warm
-                  heads up so the wait feels like care, not a freeze. It sits
-                  exactly where the technique will land, so the card fills in
-                  before their eyes. */}
-              {loading && !digiResponse && (
-                <div style={{
-                  background: 'var(--terracotta-lt)', borderRadius: '16px', padding: '16px 18px',
-                  display: 'flex', alignItems: 'center', gap: 12,
-                }}>
-                  <style>{`@keyframes gcMomentPulse { 0%,100% { opacity: 0.45 } 50% { opacity: 1 } }`}</style>
-                  <span aria-hidden style={{ fontSize: '1.4rem', animation: 'gcMomentPulse 1.3s ease-in-out infinite' }}>✨</span>
-                  <div>
-                    <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: 'var(--ink)', margin: '0 0 2px' }}>
-                      DiGi is gathering the evidence
-                    </p>
-                    <p style={{ fontFamily: 'var(--font-body)', fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
-                      Reading the research and the exact words for {moment.title.toLowerCase()}. Stay with me, we are nearly there.
-                    </p>
-                  </div>
-                </div>
-              )}
-
-              {digiResponse?.technique && (
-                <div style={{
-                  background: look.band, borderRadius: '16px', padding: '16px 18px',
-                }}>
-                  <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.8)', marginBottom: 4 }}>
-                    The technique
-                  </p>
-                  <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.05rem', color: '#fff', lineHeight: 1.25, marginBottom: 10 }}>
-                    {digiResponse.technique.name}
-                  </p>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
-                    {digiResponse.technique.steps.map((step, i) => (
-                      <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
-                        <span style={{
-                          width: 20, height: 20, borderRadius: '50%', flexShrink: 0,
-                          background: 'rgba(255,255,255,0.25)', color: '#fff',
-                          display: 'flex', alignItems: 'center', justifyContent: 'center',
-                          fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, marginTop: 1,
-                        }}>{i + 1}</span>
-                        <p style={{ fontFamily: 'var(--font-body)', fontSize: '14px', color: '#fff', lineHeight: 1.5, margin: 0 }}>{step}</p>
-                      </div>
-                    ))}
-                  </div>
-                  {digiResponse.technique.why && (
-                    <p style={{ fontFamily: 'var(--font-body)', fontSize: '12.5px', color: 'rgba(255,255,255,0.85)', lineHeight: 1.55, margin: '10px 0 0', fontStyle: 'italic' }}>
-                      Why it works: {digiResponse.technique.why}
-                    </p>
-                  )}
-                </div>
-              )}
-
-              {digiResponse?.solutions && digiResponse.solutions.length > 0 && (
-                <div>
-                  <p style={{ fontFamily: 'var(--font-body)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 8 }}>
-                    Try this
-                  </p>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                    {digiResponse.solutions.slice(0, 3).map((sol, i) => (
-                      <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
-                        <span style={{ fontFamily: 'var(--font-body)', fontSize: '13px', fontWeight: 700, color: 'var(--terracotta)', flexShrink: 0, marginTop: 1 }}>{i + 1}.</span>
-                        <p style={{ fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>{sol}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {digiResponse?.script && (
-                <div style={{ background: 'rgba(255,255,255,0.65)', borderRadius: '14px', padding: '14px 16px' }}>
-                  <p style={{ fontFamily: 'var(--font-body)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-soft)', marginBottom: 6 }}>
-                    Say tonight
-                  </p>
-                  <p style={{ fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--ink)', lineHeight: 1.6, fontStyle: 'italic', margin: 0 }}>
-                    &ldquo;{digiResponse.script}&rdquo;
-                  </p>
-                </div>
-              )}
-
-              {/* The loop back: reading this is remembered, and DiGi brings it up
-                  in the Sunday catch up to ask how it went, so nothing is a one
-                  off. */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, opacity: 0.85 }}>
-                <span aria-hidden style={{ fontSize: '1rem' }}>🗓️</span>
-                <p style={{ fontFamily: 'var(--font-body)', fontSize: '12px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
-                  Noted. DiGi will check how this one went in your Sunday catch up.
+              {/* One idea, big. Scrolls only if a card runs long. */}
+              <div style={{ flex: 1, overflowY: 'auto', padding: '20px 24px 22px', display: 'flex', flexDirection: 'column', gap: 14 }}>
+                <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: look.band, margin: 0 }}>
+                  {current.eyebrow}
                 </p>
+                <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.7rem, 6.5vw, 2.2rem)', color: 'var(--ink)', letterSpacing: '-0.02em', lineHeight: 1.12, margin: 0 }}>
+                  {current.heading}
+                </h2>
+                {current.render()}
+                {shared && (
+                  <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: look.band, margin: '4px 0 0' }}>Link copied, paste it anywhere ✓</p>
+                )}
               </div>
+
+              {/* The quiet see scripts link, on every card, small at the bottom. */}
+              {!isLast && (
+                <div style={{ padding: '0 24px 16px', flexShrink: 0 }}>
+                  <a href={scriptsHref} onClick={e => e.stopPropagation()} style={lesserLink}>See the scripts for this →</a>
+                </div>
+              )}
             </div>
 
-            {/* Footer */}
-            <div style={{
-              padding: '12px 20px calc(12px + env(safe-area-inset-bottom))',
-              borderTop: '1px solid rgba(26,26,46,0.08)',
-              display: 'flex', gap: 10, flexShrink: 0,
-            }}>
-              <a
-                href={`/dashboard/digi?q=${encodeURIComponent(moment.title)}`}
-                style={{
-                  flex: 1, padding: '12px 14px',
-                  background: 'var(--terracotta)', color: 'var(--ink)',
-                  borderRadius: '14px', fontFamily: 'var(--font-display)',
-                  fontSize: '14px', fontWeight: 800, textAlign: 'center',
-                  textDecoration: 'none', display: 'block',
-                  boxShadow: '0 3px 0 var(--terracotta-dark)',
-                }}
-              >
-                Ask DiGi more
-              </a>
-              <button
-                onClick={async () => {
-                  if (questMade || questBusy) return
-                  setQuestBusy(true)
-                  try {
-                    // Turn this moment's advice into a real child task and send
-                    // it to their app, rather than a generic quest named after
-                    // the problem.
-                    const res = await fetch('/api/moments/make-quest', {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({ momentId: moment.id }),
-                    })
-                    if (res.ok) setQuestMade(true)
-                  } catch { /* leave the button as is */ } finally {
-                    setQuestBusy(false)
-                  }
-                }}
-                style={{
-                  padding: '12px 14px', background: questMade ? 'var(--tint-sage)' : '#fff',
-                  border: `1.5px solid ${questMade ? look.band : 'var(--border)'}`, borderRadius: '14px',
-                  fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 700,
-                  color: 'var(--ink)', cursor: questMade || questBusy ? 'default' : 'pointer',
-                  opacity: questBusy ? 0.6 : 1,
-                }}
-              >
-                {questMade
-                  ? `Sent to ${childName && childName !== 'Your child' ? childName : 'them'} ✓`
-                  : questBusy ? 'Making...' : 'Make it a quest'}
-              </button>
-              <button
-                onClick={() => setOpen(false)}
-                style={{
-                  padding: '12px 16px', background: 'none',
-                  border: '1.5px solid var(--border)', borderRadius: '14px',
-                  fontFamily: 'var(--font-body)', fontSize: '13px',
-                  color: 'var(--ink-muted)', cursor: 'pointer',
-                }}
-              >
-                Back to moments
-              </button>
+            {/* Previous card, below the deck, from the second card on. */}
+            <div style={{ height: 52, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              {idx > 0 && (
+                <button onClick={prev} style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'inline-flex', flexDirection: 'column', alignItems: 'center', gap: 3 }}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M9 14L4 9l5-5M4 9h11a5 5 0 015 5v1" stroke="rgba(255,255,255,0.9)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.9)' }}>Previous card</span>
+                </button>
+              )}
             </div>
           </div>
-        </div>
-      )}
+        )
+      })()}
     </>
   )
+}
+
+// Shared card styles, kept out of the render so the deck reads cleanly.
+const cardBody: React.CSSProperties = {
+  fontFamily: 'var(--font-body)', fontSize: 'clamp(1.12rem, 4.4vw, 1.35rem)',
+  fontWeight: 500, color: 'var(--ink)', lineHeight: 1.42, letterSpacing: '-0.005em', margin: 0,
+}
+const stepNum: React.CSSProperties = {
+  width: 30, height: 30, borderRadius: '50%', flexShrink: 0, marginTop: 2,
+  background: 'rgba(0,0,0,0.10)', color: 'var(--ink)',
+  display: 'flex', alignItems: 'center', justifyContent: 'center',
+  fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 700,
+}
+const roundIcon: React.CSSProperties = {
+  width: 38, height: 38, borderRadius: '50%',
+  border: '1.5px solid rgba(255,255,255,0.7)', background: 'transparent',
+  cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+}
+const lesserLink: React.CSSProperties = {
+  fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.02em',
+  color: 'var(--ink-soft)', textDecoration: 'none',
 }
