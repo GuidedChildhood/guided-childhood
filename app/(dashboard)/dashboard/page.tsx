@@ -23,6 +23,7 @@ import WaitingOnYou from '@/components/quests/WaitingOnYou'
 import HomeStats from '@/components/dashboard/HomeStats'
 import { visibleSteps as visibleSetupSteps } from '@/lib/setup/steps'
 import SocialMediaReadiness from '@/components/pathway/SocialMediaReadiness'
+import SocialMediaHeadsUp from '@/components/pathway/SocialMediaHeadsUp'
 import SetupUnlockToast from '@/components/setup/SetupUnlockToast'
 import DigiWelcomeSheet from '@/components/digi/DigiWelcomeSheet'
 import TodayPathBig from '@/components/daily/TodayPathBig'
@@ -588,6 +589,10 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
         <>
           <DigiPrompts />
           <SmartAlerts suggestions={suggestions} />
+          {/* Pre warning before it becomes a discussion: at Builder (Stage 2)
+              DiGi looks ahead to the secondary school move; from Stage 3 the
+              full readiness panel takes over. One or the other, never both. */}
+          {stage.id === 2 && <SocialMediaHeadsUp childName={child?.name} />}
           <SocialMediaReadiness stageId={stage.id} childName={child?.name} />
         </>
       )}
