@@ -11,7 +11,8 @@ import LiteracyAreas from '@/components/pathway/LiteracyAreas'
 import LiteracyCheckIn from '@/components/pathway/LiteracyCheckIn'
 import { getLiteracyStatuses } from '@/lib/pathway/literacy-status'
 import PassportBook from '@/components/pathway/PassportBook'
-import { type Stamp, type StampStatus } from '@/components/pathway/PassportStamps'
+import { type Stamp, type StampStatus, type ChecklistSection } from '@/components/pathway/PassportStamps'
+import { computeJobsStreak, jobsTodayStatus, type StreakQuest, type StreakTick } from '@/lib/pathway/jobs-streak'
 import ToolCard, { type Tool } from '@/components/tools/ToolCard'
 import ChildSwitcher from '@/components/children/ChildSwitcher'
 import { pickChild } from '@/lib/children/select'
@@ -97,22 +98,92 @@ export default async function ProgressPage({ searchParams }: { searchParams: Pro
   // its stage so the passport doubles as a map and a catch up plan.
   const STAGE_SLUGS: StageId[] = ['foundation', 'builder', 'explorer', 'shaper', 'independent']
   const allProgress = stage ? await getAllStagesProgress(supabase, user.id, primary?.streak_weeks ?? 0) : null
+
+  // The five section checklist reads. Devices and lessons vary per stage (from
+  // the blend); moments, jobs and the ahead of age heads up read for the child
+  // now, the current readiness picture, so they are the same on every page.
+  // Section five (screen balance and limits) is the mobbin session's stats
+  // dashboard and slots in when it lands, so it is not built here.
+  const openMoments = concerns.length
+  const momentsTotal = openMoments + solvedCount
+  const momentsPct = momentsTotal > 0 ? Math.round((solvedCount / momentsTotal) * 100) : 100
+
+  let jobsStatus: 'on_track' | 'pending' | 'none' = 'none'
+  let jobsStreakDays = 0
+  let aheadNames: string[] = []
+  if (primary?.id) {
+    const sinceJobs = new Date(Date.now() - 60 * 86400000).toISOString().slice(0, 10)
+    const AGE_BAND_UPPER: Record<string, number> = { '4-7': 7, '8-10': 10, '11-13': 13, '13-15': 15, '16+': 99 }
+    const childUpper = primary.age_band ? (AGE_BAND_UPPER[primary.age_band] ?? 99) : 99
+    const [jqRes, jtRes, dgRes, dpRes] = await Promise.all([
+      supabase.from('family_quests').select('id, schedule, schedule_days, created_at').eq('user_id', user.id).eq('child_id', primary.id).eq('active', true),
+      supabase.from('quest_ticks').select('quest_id, tick_date, status').eq('user_id', user.id).eq('child_id', primary.id).gte('tick_date', sinceJobs),
+      supabase.from('device_guides').select('device_key, name, min_age'),
+      supabase.from('device_setup_progress').select('device_key, status').eq('user_id', user.id),
+    ])
+    const jq = (jqRes.data ?? []) as StreakQuest[]
+    const jt = (jtRes.data ?? []) as StreakTick[]
+    jobsStatus = jobsTodayStatus(jq, jt)
+    jobsStreakDays = computeJobsStreak(jq, jt).streakDays
+    // A device counts as ahead only when it is actually set up (owned) and its
+    // minimum age is above the child's band, like a smartphone for a young one.
+    const doneKeys = new Set((dpRes.data ?? []).filter(d => d.status !== 'not_owned').map(d => d.device_key))
+    aheadNames = (dgRes.data ?? [])
+      .filter(d => doneKeys.has(d.device_key) && (d.min_age as number) > childUpper)
+      .map(d => d.name as string)
+  }
+  const jobsPct = jobsStatus === 'on_track' ? 100 : jobsStatus === 'pending' ? 40 : 0
+
   const stamps: Stamp[] = stage && allProgress
     ? STAGES.map(s => {
         const slug = STAGE_SLUGS[s.id - 1]
         const prog = allProgress[slug]
-        const pct = prog.overallPct
         const status: StampStatus =
           prog.contentComplete ? 'earned'
           : s.id === stage.id ? 'current'
           : s.id < stage.id ? 'catchup'
           : 'upcoming'
+        const sections: ChecklistSection[] = [
+          {
+            key: 'devices', emoji: '🔧', label: 'Devices set up',
+            pct: prog.devicesPct,
+            detail: prog.devicesPct >= 100 ? 'All set' : prog.devicesPct === 0 ? 'To set up' : `${prog.devicesPct}%`,
+            href: '/dashboard/devices',
+            help: 'Set up the devices you have for their age.',
+            ...(s.id === stage.id && aheadNames.length > 0
+              ? { alert: `${aheadNames.join(', ')} is set up ahead of their age. Worth a look together.` }
+              : {}),
+          },
+          {
+            key: 'moments', emoji: '💬', label: 'Moments to resolve',
+            pct: momentsPct,
+            detail: openMoments > 0 ? `${openMoments} to resolve` : 'All clear',
+            href: '/dashboard/moments',
+            help: 'Work through any open worries together.',
+          },
+          {
+            key: 'lessons', emoji: '📚', label: 'Lessons and tests',
+            pct: prog.lessonsPct,
+            detail: prog.lessonsTotal > 0 ? `${prog.lessonsDone} of ${prog.lessonsTotal}` : 'None yet',
+            href: `/dashboard/lessons?stage=${s.id}`,
+            help: 'Do the age matched lessons and pass the check.',
+          },
+          {
+            key: 'jobs', emoji: '⭐', label: 'Jobs and routines',
+            pct: jobsPct,
+            detail: jobsStreakDays > 0 ? `${jobsStreakDays} day streak` : jobsStatus === 'pending' ? 'Jobs to do' : 'Set a job',
+            href: '/dashboard/quests',
+            help: 'Keep the daily jobs going, all done on time.',
+          },
+        ]
+        const pct = Math.round(sections.reduce((sum, x) => sum + x.pct, 0) / sections.length)
         return {
           id: s.id, name: s.name, ages: s.ages, pct, status,
           href: `/dashboard/lessons`,
           lessonsDone: prog.lessonsDone, lessonsTotal: prog.lessonsTotal,
           scriptsPct: prog.scriptsPct, streakPct: prog.streakPct,
           devicesPct: prog.devicesPct, lessonsPct: prog.lessonsPct,
+          sections,
         }
       })
     : []

@@ -275,7 +275,58 @@ export default function PassportBook({
                 <div style={{ fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: theme.text, opacity: 0.7, marginBottom: '9px' }}>
                   {stamp.status === 'earned' ? 'This page is stamped' : 'To stamp this page · tap any one to do it'}
                 </div>
-                {(() => {
+                {stamp.sections && stamp.sections.length > 0 ? (
+                  (() => {
+                    const secs = stamp.sections
+                    const runningPct = Math.round(secs.reduce((s, x) => s + x.pct, 0) / secs.length)
+                    return (
+                      <>
+                        {secs.map(sec => {
+                          const done = sec.pct >= 100
+                          return (
+                            <Link key={sec.key} href={sec.href} style={{ display: 'block', textDecoration: 'none', marginBottom: '8px' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '9px' }}>
+                                <span style={{
+                                  width: 17, height: 17, borderRadius: '6px', flexShrink: 0,
+                                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                  background: done ? theme.bold : 'transparent',
+                                  border: done ? 'none' : `1.5px solid ${theme.bold}`,
+                                }}>
+                                  {done && (
+                                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke={theme.text} strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12.5l4.5 4.5L19 7" /></svg>
+                                  )}
+                                </span>
+                                <span style={{ flex: 1, fontSize: '12.5px', fontWeight: 700, color: 'var(--ink)', opacity: done ? 0.55 : 1 }}>
+                                  <span aria-hidden style={{ marginRight: 5 }}>{sec.emoji}</span>{sec.label}
+                                </span>
+                                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: theme.text, opacity: 0.75, whiteSpace: 'nowrap' }}>
+                                  {sec.detail}{done ? '' : ' ›'}
+                                </span>
+                              </div>
+                              {sec.alert && (
+                                <div style={{ display: 'flex', alignItems: 'flex-start', gap: 6, marginTop: 5, marginLeft: 26, background: '#FDECEC', borderRadius: '9px', padding: '6px 9px' }}>
+                                  <span aria-hidden style={{ fontSize: 12, lineHeight: 1.3 }}>⚠️</span>
+                                  <span style={{ fontSize: '11px', fontWeight: 700, color: '#B93B3F', lineHeight: 1.35 }}>{sec.alert}</span>
+                                </div>
+                              )}
+                            </Link>
+                          )
+                        })}
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '10px', paddingTop: '9px', borderTop: '1px solid rgba(26,26,46,0.12)' }}>
+                          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: theme.text, opacity: 0.7 }}>
+                            This stage
+                          </span>
+                          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '14px', color: 'var(--ink)' }}>
+                            {runningPct}%
+                          </span>
+                        </div>
+                        <p style={{ fontSize: '11px', color: 'var(--ink-soft)', lineHeight: 1.4, margin: '6px 0 0' }}>
+                          Tap any row for exactly how. We have got them, one step at a time.
+                        </p>
+                      </>
+                    )
+                  })()
+                ) : (() => {
                   const lt = stamp.lessonsTotal ?? 0
                   const ld = stamp.lessonsDone ?? 0
                   const slug = STAGE_SLUGS[stamp.id - 1] ?? 'foundation'

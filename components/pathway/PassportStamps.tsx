@@ -14,6 +14,20 @@ import Link from 'next/link'
 
 export type StampStatus = 'earned' | 'current' | 'catchup' | 'upcoming'
 
+// One row of the passport's per stage checklist: a plain thing to do or a tick,
+// with a running percent, where it links to, and a warm line on how to improve.
+// An alert carries a gentle amber heads up, like a device set up ahead of age.
+export interface ChecklistSection {
+  key: string
+  emoji: string
+  label: string
+  pct: number
+  detail: string
+  href: string
+  help: string
+  alert?: string
+}
+
 export interface Stamp {
   id: number
   name: string
@@ -30,6 +44,10 @@ export interface Stamp {
   streakPct?: number
   devicesPct?: number
   lessonsPct?: number
+  // The newer five section checklist (devices, moments, lessons and tests, jobs
+  // and routines, balance). When present the passport page renders this instead
+  // of the four task list, each row a tick or a tap with a running percent.
+  sections?: ChecklistSection[]
 }
 
 const R = 32
