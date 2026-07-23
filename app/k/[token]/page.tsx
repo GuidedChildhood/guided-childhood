@@ -11,6 +11,7 @@ import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
 import { hasFullAccess } from '@/lib/access'
 import { contractLevelFor } from '@/lib/content/kid-contract'
 import { getPrintable } from '@/lib/printables/registry'
+import { getAllStagesProgress } from '@/lib/pathway/progress'
 import KidQuestScreen from './KidQuestScreen'
 
 // The kid's own screen. Opened from the private link their parent sends,
@@ -422,8 +423,19 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     if (p) assignedPrintable = { key: p.key, title: p.title, emoji: p.emoji, stars: p.stars, sheetUrl: p.sheetUrl }
   }
 
+  // How many passport stages the family has completed, so the app only offers
+  // the Planet Friends this child has earned. Same reading as the passport;
+  // fails soft to none.
+  let earnedStages = 0
+  try {
+    const prog = await getAllStagesProgress(supabase, link.user_id, 0)
+    earnedStages = (['foundation', 'builder', 'explorer', 'shaper', 'independent'] as const)
+      .filter(s => prog[s]?.contentComplete).length
+  } catch { earnedStages = 0 }
+
   return (
     <KidQuestScreen
+      earnedStages={earnedStages}
       assignedPrintable={assignedPrintable}
       token={token}
       agreementItems={agreementItems}

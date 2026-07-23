@@ -4,6 +4,37 @@ This folder is the single source of truth for all DiGi Squad characters. Read it
 
 ---
 
+## CURRENT SQUAD — DiGi and the Planet Friends (23 July 2026)
+
+Justin's agreed design. DiGi (the golden star) is kept as the guide. The old
+squad (Oliver, Zara, Sofia) is SUPERSEDED by five Planet Friends, one unlocked
+per stage, who grow up alongside the child on the way to 16. Art is generated
+in the house plush mascot style from Justin's reference sheet and hosted on the
+CDN. The canonical data (names, ages, colours, blurbs, art URLs, intro lines)
+lives in code at `lib/content/stage-characters.ts` — edit there, every surface
+follows.
+
+| Stage | Ages | Friend | Colour | Verb | Character |
+|-------|------|--------|--------|------|-----------|
+| 1 | 4 to 7 | **Pebble** | yellow | Explore | Curiosity and wonder. Every big journey starts small. |
+| 2 | 8 to 10 | **Bloop** | green | Create | Creative and clever. Building skills and strong foundations. |
+| 3 | 11 to 13 | **Orbit** | blue | Explore | Bigger worlds and big questions. |
+| 4 | 13 to 15 | **Nova** | purple | Guide | Good choices, shaping your path. |
+| 5 | 16+ | **Cosmo** | orange | Lead | Confident, independent, ready to lead. |
+
+Where they appear: the child app first-open intro (`components/kid/KidSquadIntro.tsx`,
+Duolingo style, one at a time then the family), the buddy picker (earned Friends
+only, locked ones greyed), and the greeting. DiGi stays the star everywhere via
+`components/digi/DigiCharacter.tsx`.
+
+Still to do (no rush, Justin): colour-in printables of each Friend at the right
+stage, and refreshing the lesson and school animations to the new cast.
+
+The sections below (Oliver, Zara, Sofia) are kept for history only and are no
+longer the live squad.
+
+---
+
 ## Canonical character art (the real files)
 
 The finished character art lives in `public/digi-squad/`. Use these, never a
