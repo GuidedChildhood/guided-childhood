@@ -88,7 +88,8 @@ type ScriptRow = {
   sort_order: number
 }
 
-export default async function ScriptsPage() {
+export default async function ScriptsPage({ searchParams }: { searchParams: Promise<{ topic?: string }> }) {
+  const { topic } = await searchParams
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
@@ -106,6 +107,23 @@ export default async function ScriptsPage() {
   const challenge = (profile?.onboarding_answers as Record<string, string> | null)?.challenge as ChallengeId | undefined
   const matchCategory = challenge ? CHALLENGE_TO_CATEGORY[challenge] : null
   const currentStageId = (child?.stage_id as StageId) ?? null
+
+  // Handoff from a moment card: when the deck sends the parent here with a
+  // topic, the scripts for that exact moment lead the page as the yellow Good
+  // Inside numbered list, so the loop closes on the relevant words, not a
+  // browse. Falls back silently to the normal page when nothing matches.
+  const topicKey = topic ? decodeURIComponent(topic).toLowerCase().trim() : null
+  // Match the moment's category to the scripts, tolerant of small taxonomy
+  // differences (a moment tagged sibling_conflict still finds sibling scripts),
+  // so the handoff reliably lands the relevant words rather than nothing.
+  const topicScripts = topicKey
+    ? scripts.filter(s => {
+        const c = (s.category ?? '').toLowerCase().trim()
+        if (!c) return false
+        return c === topicKey || (topicKey.length >= 4 && (c.includes(topicKey) || topicKey.includes(c)))
+      })
+    : []
+  const topicLabel = topicKey ? (CATEGORY_META[topicKey]?.label ?? topicKey.replace(/_/g, ' ')) : null
 
   const recommended = currentStageId
     ? await getRecommendedScript(supabase, user.id, currentStageId, challenge ?? null, { preferFree: !isPaid })
@@ -158,6 +176,43 @@ export default async function ScriptsPage() {
         scripts={scripts.map(s => ({ sort_order: s.sort_order, title: s.title, situation: s.situation, category: s.category, is_free: s.is_free }))}
         isPaid={isPaid}
       />
+
+      {/* Handoff from a moment card: the scripts for that exact moment lead, as
+          the yellow Good Inside numbered list, so the deck closes on the words. */}
+      {topicScripts.length > 0 && (
+        <section style={{ marginBottom: '24px' }}>
+          <div style={{ background: 'var(--stage-5)', border: '1.5px solid var(--stage-5-bold)', borderRadius: '18px 18px 0 0', padding: '15px 18px 13px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--stage-5-text)', marginBottom: '3px' }}>
+              Scripts for this moment
+            </div>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.2rem', color: 'var(--ink)', lineHeight: 1.15, textTransform: 'capitalize' }}>
+              {topicLabel}
+            </div>
+          </div>
+          <div style={{ background: 'var(--stage-5)', border: '1.5px solid var(--stage-5-bold)', borderTop: 'none', borderRadius: '0 0 18px 18px', overflow: 'hidden' }}>
+            {topicScripts.map((script, i) => {
+              const isDone = completedOrders.has(script.sort_order)
+              const isLocked = !isPaid && !isDone && (!script.is_free || freeAllowanceUsedUp)
+              return (
+                <Link
+                  key={script.id}
+                  href={isLocked ? '/dashboard/upgrade' : `/dashboard/scripts/${script.sort_order}`}
+                  style={{ display: 'flex', alignItems: 'center', gap: '13px', padding: '14px 16px', textDecoration: 'none', borderTop: i === 0 ? 'none' : '1px solid var(--stage-5-bold)' }}
+                >
+                  <span style={{ flexShrink: 0, width: 30, height: 30, borderRadius: '50%', background: 'var(--stage-5-bold)', color: 'var(--stage-5-text)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '14px' }}>
+                    {i + 1}
+                  </span>
+                  <span style={{ flex: 1, minWidth: 0 }}>
+                    <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)', lineHeight: 1.25 }}>{script.title}</span>
+                    <span style={{ display: 'block', fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.45, marginTop: '2px' }}>{script.situation}</span>
+                  </span>
+                  <span aria-hidden style={{ flexShrink: 0, fontSize: '17px', fontWeight: 800, color: 'var(--stage-5-text)' }}>{isDone ? '✓' : isLocked ? '🔒' : '›'}</span>
+                </Link>
+              )
+            })}
+          </div>
+        </section>
+      )}
 
       {recommended && (
         <Link
