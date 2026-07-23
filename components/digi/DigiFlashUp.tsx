@@ -50,6 +50,11 @@ export default function DigiFlashUp({ slots }: { slots: Slot[] }) {
       return
     }
 
+    // One DiGi prompt a day, never two: if the welcome sheet already claimed
+    // today (it runs first), the flash up stays quiet so a parent never meets
+    // two DiGi cards at once.
+    try { if (localStorage.getItem(`gc_digi_prompt_${today}`)) { setReady(true); return } } catch { /* private mode */ }
+
     const last = state.dates.length ? Math.max(...state.dates.map(dayNum)) : -Infinity
     const gapOk = dayNum(today) - last >= GAP_DAYS
     const weekCount = state.dates.filter(d => dayNum(today) - dayNum(d) < 7).length
@@ -65,6 +70,8 @@ export default function DigiFlashUp({ slots }: { slots: Slot[] }) {
       pick: { date: today, key },
     }
     try { localStorage.setItem(STATE_KEY, JSON.stringify(next)) } catch { /* private mode */ }
+    // Claim the day so nothing else DiGi shows a second card today.
+    try { localStorage.setItem(`gc_digi_prompt_${today}`, 'flashup') } catch { /* private mode */ }
     setChosen(key)
     setReady(true)
   }, [slots])

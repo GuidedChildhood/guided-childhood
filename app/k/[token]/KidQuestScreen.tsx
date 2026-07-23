@@ -1166,6 +1166,19 @@ export default function KidQuestScreen({
                   </button>
                 ))}
               </div>
+              {/* Reopen the meet the Planet Friends intro any time: who they can
+                  earn and how, so it is never a one time thing they miss. */}
+              <button
+                onClick={() => { setShowIntro(true); playKidSound('tap') }}
+                style={{
+                  width: '100%', marginTop: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', cursor: 'pointer',
+                  background: 'var(--tint-blue, #E4ECF7)', border: '1.5px solid rgba(26,26,46,0.08)', borderRadius: '18px', padding: '13px 16px',
+                  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1rem', color: 'var(--ink)',
+                  boxShadow: '0 4px 0 rgba(26,26,46,0.08)',
+                }}
+              >
+                <span aria-hidden>⭐</span> Meet the Planet Friends
+              </button>
             </div>
           )
         })()}
