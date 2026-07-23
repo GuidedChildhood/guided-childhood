@@ -3,6 +3,29 @@ import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { pushToChild } from '@/lib/quests/kid-push'
 import { STAR_MINUTES } from '@/lib/quests/templates'
+import { recordJobsStreak } from '@/lib/pathway/jobs-streak'
+
+// After a job is confirmed, see whether it just completed a five day run of
+// every job done on time. If so, the milestone is recorded once, the parent
+// bell rings, and the child hears the good news on their own phone. Best effort
+// throughout: a streak never blocks or fails an approval.
+type StreakClient = Parameters<typeof recordJobsStreak>[0]
+async function celebrateStreakIfComplete(supabase: StreakClient, userId: string, childId: string | null) {
+  if (!childId) return
+  try {
+    const { data: child } = await supabase
+      .from('children').select('id, name, stage_id').eq('id', childId).maybeSingle()
+    if (!child) return
+    const done = await recordJobsStreak(supabase, userId, child)
+    if (done) {
+      await pushToChild(
+        createAdminClient(), userId, childId,
+        'Streak complete! 🌟',
+        `You did every job on time for ${done.streakDays} days running. A gift is on its way. Superstar!`,
+      )
+    }
+  } catch { /* the streak is a happy extra, never a reason an approval fails */ }
+}
 
 // Parent approval: the one tap that lands the stars. Approve or reject a
 // pending tick; parents can also tick on the child's behalf (the printed
@@ -75,6 +98,7 @@ export async function POST(req: NextRequest) {
     if (quest.child_id) {
       await settleOldestGiftDebt(supabase, user.id, quest.child_id)
       await tellChildConfirmed(user.id, quest.child_id, quest.title, quest.stars ?? 1)
+      await celebrateStreakIfComplete(supabase, user.id, quest.child_id)
     }
     return NextResponse.json({ ok: true })
   }
@@ -104,6 +128,7 @@ export async function POST(req: NextRequest) {
         .from('family_quests').select('title, stars').eq('id', tick.quest_id).maybeSingle()
       if (quest) await tellChildConfirmed(user.id, tick.child_id, quest.title, quest.stars ?? 1)
     }
+    if (tick?.child_id) await celebrateStreakIfComplete(supabase, user.id, tick.child_id)
   }
   return NextResponse.json({ ok: true })
 }

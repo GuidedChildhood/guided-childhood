@@ -5,6 +5,7 @@ import QuestBoard from '@/components/quests/QuestBoard'
 import ParentDeviceTime from '@/components/quests/ParentDeviceTime'
 import SpotSomethingGood from '@/components/quests/SpotSomethingGood'
 import PrintablesToConfirm from '@/components/quests/PrintablesToConfirm'
+import StreakRewards, { type StreakReward } from '@/components/quests/StreakRewards'
 import { STAR_MINUTES } from '@/lib/quests/templates'
 import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
 
@@ -27,6 +28,8 @@ export default async function QuestsPage() {
   // each child, held against the healthy daily guide for their age, so the
   // star economy lands the screen time roughly where the evidence points.
   let tuning: { name: string; earnMins: number; guideMins: number; tone: 'tuned' | 'light' | 'rich' }[] = []
+  // Completed jobs streaks waiting for the parent to send a reward.
+  let streakRewards: StreakReward[] = []
   if (user) {
     const [{ data: kids }, { data: links }, { data: quests }] = await Promise.all([
       supabase.from('children').select('id, name, age_band, is_primary').eq('parent_id', user.id).order('is_primary', { ascending: false }),
@@ -39,6 +42,21 @@ export default async function QuestsPage() {
     )
     handoverName = ready?.name ?? null
     spotKids = (kids ?? []).filter(k => k.name && k.name !== 'Your child').map(k => ({ id: k.id, name: k.name }))
+
+    // Completed jobs streaks still waiting on a reward. Fails soft before
+    // migration 096 (the table simply does not exist yet).
+    const { data: streaks } = await supabase
+      .from('job_streaks')
+      .select('id, child_id, length')
+      .eq('user_id', user.id)
+      .is('reward_sent_at', null)
+      .order('completed_on', { ascending: false })
+    const nameById = new Map((kids ?? []).map(k => [k.id, k.name as string]))
+    streakRewards = (streaks ?? []).map(s => ({
+      id: s.id as string,
+      childName: (nameById.get(s.child_id as string) || 'Your child'),
+      streakDays: (s.length as number) ?? 5,
+    }))
 
     // Under the guide is a win, never a gap: the healthy amount is a
     // ceiling, not a target, so the only verdicts are inside it (good) or
@@ -101,6 +119,10 @@ export default async function QuestsPage() {
           </div>
         </Link>
       )}
+
+      {/* A five day jobs streak, done and confirmed on time, waiting on the
+          parent to send its reward. Leads the page when there is one. */}
+      <StreakRewards streaks={streakRewards} />
 
       {/* The board leads, moved here from Home when the daily screen
           narrowed. The id is the anchor the approve links land on. */}
