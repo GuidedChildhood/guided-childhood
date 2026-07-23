@@ -105,6 +105,28 @@ export function computeJobsStreak(
 // The milestone length: a gift every five good days in a row.
 export const STREAK_TARGET = 5
 
+// Today at a glance, for the parent greeting: on_track when every job due today
+// is approved (or nothing is due, a rest day is not behind), pending when a job
+// due today is still open, none when no recurring jobs are set at all.
+export function jobsTodayStatus(
+  quests: StreakQuest[],
+  ticks: StreakTick[],
+  today: Date = new Date(),
+): 'on_track' | 'pending' | 'none' {
+  const routines = quests.filter(isRecurring)
+  if (routines.length === 0) return 'none'
+  const day = ymd(today)
+  const due = routines.filter(q => {
+    if (q.created_at && q.created_at.slice(0, 10) > day) return false
+    return questDueToday(q.schedule, q.schedule_days ?? null, today)
+  })
+  if (due.length === 0) return 'on_track'
+  const approved = new Set(
+    ticks.filter(t => t.status === 'approved' && t.tick_date === day).map(t => t.quest_id),
+  )
+  return due.every(q => approved.has(q.id)) ? 'on_track' : 'pending'
+}
+
 // ── Server side: record a completed milestone ──
 // Called right after a parent confirms a job. Works out the strict streak and,
 // when today has just landed a fresh multiple of five good days, records the
