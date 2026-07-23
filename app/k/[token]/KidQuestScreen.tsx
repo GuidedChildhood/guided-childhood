@@ -29,6 +29,7 @@ import KidTodayList from '@/components/kid/KidTodayList'
 import KidContract from '@/components/kid/KidContract'
 import KidRoad from '@/components/kid/KidRoad'
 import KidSplash from '@/components/kid/KidSplash'
+import KidSquadIntro, { squadIntroSeen } from '@/components/kid/KidSquadIntro'
 
 // The kid facing quest screen: joyful, huge tap targets, instant ticks,
 // stars that count up, and a goal bar. Pending ticks show as "waiting
@@ -361,6 +362,10 @@ export default function KidQuestScreen({
   const [chosenBuddy, setChosenBuddy] = useState(buddy && BUDDY_MAP[buddy] ? buddy : DEFAULT_BUDDY)
   const [chosenAccent, setChosenAccent] = useState(knownAccent(accent) ? accent : DEFAULT_ACCENT)
   const [makeMineOpen, setMakeMineOpen] = useState(false)
+  // The one time squad welcome: DiGi's Sparks introduced one at a time on the
+  // very first open, then never again.
+  const [showIntro, setShowIntro] = useState(false)
+  useEffect(() => { if (!squadIntroSeen()) setShowIntro(true) }, [])
   const theme = resolveTheme(chosenAccent)
   function saveMine(next: { buddy?: string; accent?: string }) {
     if (next.buddy) setChosenBuddy(next.buddy)
@@ -810,6 +815,10 @@ export default function KidQuestScreen({
       padding: '22px 16px 40px',
       fontFamily: 'var(--font-body)',
     }}>
+      {/* First open ever: meet DiGi's Sparks, one at a time, before anything
+          else. Overlays the app until the child taps through. */}
+      {showIntro && <KidSquadIntro childName={childName} onDone={() => setShowIntro(false)} />}
+
       {/* Their own buddy says hello when the app opens, the Duolingo front
           door, once per session on their own colour. */}
       <KidSplash
