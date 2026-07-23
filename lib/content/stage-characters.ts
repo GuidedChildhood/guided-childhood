@@ -62,8 +62,8 @@ export const STAGE_CHARACTERS: StageCharacter[] = [
   },
   {
     stageId: 4, key: 'nova', name: 'Nova',
-    img: BASE + 'hf_20260723_184303_987d7fdb-065c-4def-9184-521670307a4b.png',
-    cutout: BASE + 'hf_20260723_184330_c77afdba-06a2-44fe-8078-bec59b577424.png',
+    img: BASE + 'hf_20260723_185241_3f99a3c0-c93c-4e3c-873d-7fc512d67b35.png',
+    cutout: BASE + 'hf_20260723_185507_080f89c3-3d9a-4e3b-953b-f0593d8d31c2.png',
     ages: 'Ages 13 to 15', colour: '#9B72CF', action: 'Guide',
     blurb: 'Learning to make good choices and shape your path.',
     role: 'making your own good choices',
@@ -72,8 +72,8 @@ export const STAGE_CHARACTERS: StageCharacter[] = [
   },
   {
     stageId: 5, key: 'cosmo', name: 'Cosmo',
-    img: BASE + 'hf_20260723_184306_a68b7eeb-7d4c-4554-9626-2954b0875ac9.png',
-    cutout: BASE + 'hf_20260723_184331_09f2ceea-7fdc-435c-9f15-710be796a072.png',
+    img: BASE + 'hf_20260723_185509_598025da-b2b4-4a64-9dba-3de53d79c469.png',
+    cutout: BASE + 'hf_20260723_185539_691f244f-17ab-4d0c-a8d5-ebf2026781c2.png',
     ages: 'Ages 16+', colour: '#E8873C', action: 'Lead',
     blurb: 'Confident and independent. Ready to lead your own future.',
     role: 'leading your own way',
