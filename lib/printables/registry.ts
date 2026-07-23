@@ -153,8 +153,8 @@ export const PRINTABLES: Printable[] = [
     stages: [4], minutes: 'One sitting', setting: 'anywhere', skill: 'Creativity',
     stars: 5,
     blurb: 'Your Stage 4 Planet Friend, thoughtful and kind. Colour Nova your way.',
-    sheetUrl: BASE + 'hf_20260723_171732_929dc5a8-b3df-4992-8a3e-be268255c2a4.jpeg',
-    previewUrl: BASE + 'hf_20260723_171732_929dc5a8-b3df-4992-8a3e-be268255c2a4.jpeg',
+    sheetUrl: BASE + 'hf_20260723_184309_4e3199da-706d-43f5-8b4d-af3482630def.png',
+    previewUrl: BASE + 'hf_20260723_184309_4e3199da-706d-43f5-8b4d-af3482630def.png',
   },
   {
     key: 'meet-cosmo',
@@ -162,8 +162,8 @@ export const PRINTABLES: Printable[] = [
     stages: [5], minutes: 'One sitting', setting: 'anywhere', skill: 'Creativity',
     stars: 5,
     blurb: 'Your Stage 5 Planet Friend, confident and independent. Colour Cosmo ready to lead.',
-    sheetUrl: BASE + 'hf_20260723_171734_f1dd550e-6557-4519-afc2-48476701840e.jpeg',
-    previewUrl: BASE + 'hf_20260723_171734_f1dd550e-6557-4519-afc2-48476701840e.jpeg',
+    sheetUrl: BASE + 'hf_20260723_184311_577f353e-d8eb-4d86-af2e-8cc50ecb364a.png',
+    previewUrl: BASE + 'hf_20260723_184311_577f353e-d8eb-4d86-af2e-8cc50ecb364a.png',
   },
   // Brought over from the Etsy shop into the app library, redrawn in the house
   // colour in style (clean line art, no old squad). The professions sheet and
