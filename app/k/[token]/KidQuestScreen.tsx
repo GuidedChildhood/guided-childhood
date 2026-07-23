@@ -402,7 +402,7 @@ export default function KidQuestScreen({
         setGoalRedeemed(true)
         setGoalConfirm(false)
         playKidSound('done')
-        setHappyNews({ character: 'oliver', headline: 'You earned it! 🎉', sub: `Your grown up knows. Time to enjoy ${goal.title}!` })
+        setHappyNews({ character: 'orbit', headline: 'You earned it! 🎉', sub: `Your grown up knows. Time to enjoy ${goal.title}!` })
         router.refresh()
       } else {
         setToast(data.error === 'not enough stars' ? 'Not quite enough stars yet.' : 'Could not redeem, try again.')
@@ -598,7 +598,7 @@ export default function KidQuestScreen({
       playKidSound('star')
       // A squad friend springs up with the good news, rotating so it is not
       // always the same face. The toast stays as the quiet backup line.
-      const cast: CharacterKey[] = ['oliver', 'zara', 'digi']
+      const cast: CharacterKey[] = ['orbit', 'nova', 'digi']
       const who = cast[quest.title.length % cast.length]
       setHappyNews({
         character: who,
@@ -724,7 +724,7 @@ export default function KidQuestScreen({
       const hit = [...BANK_MILES].reverse().find(m => bankBalance >= m && m > seenBank)
       if (hit) {
         localStorage.setItem('gc_kid_bank_mile', String(hit))
-        setHappyNews({ character: 'zara', headline: `${hit} stars in the bank!`, sub: `That is ${hit * STAR_MINUTES} minutes of screen time earned. Superstar.` })
+        setHappyNews({ character: 'nova', headline: `${hit} stars in the bank!`, sub: `That is ${hit * STAR_MINUTES} minutes of screen time earned. Superstar.` })
         return
       }
       if (streakDays >= 3) {
@@ -735,8 +735,8 @@ export default function KidQuestScreen({
           // in between days get the gentler cheer.
           const fiveInARow = streakDays % 5 === 0
           setHappyNews(fiveInARow
-            ? { character: 'oliver', headline: `${streakDays} days of jobs in a row! 🔥`, sub: 'That is a proper streak. Champions show up like this. Keep the run going!' }
-            : { character: 'oliver', headline: `${streakDays} day streak!`, sub: 'You have shown up every day. That is how champions train. Keep it going!' })
+            ? { character: 'orbit', headline: `${streakDays} days of jobs in a row! 🔥`, sub: 'That is a proper streak. Champions show up like this. Keep the run going!' }
+            : { character: 'orbit', headline: `${streakDays} day streak!`, sub: 'You have shown up every day. That is how champions train. Keep it going!' })
           return
         }
       }
@@ -1895,7 +1895,7 @@ export default function KidQuestScreen({
                           <button
                             onClick={() => {
                               submitAsk(finishedTitle, p.emoji)
-                              setHappyNews({ character: 'sofia', headline: 'Beautiful work!', sub: `${p.stars} star${p.stars === 1 ? '' : 's'} on the way once your grown up sees it.` })
+                              setHappyNews({ character: 'bloop', headline: 'Beautiful work!', sub: `${p.stars} star${p.stars === 1 ? '' : 's'} on the way once your grown up sees it.` })
                             }}
                             disabled={finished}
                             style={{
@@ -1926,7 +1926,7 @@ export default function KidQuestScreen({
                           <button
                             onClick={() => {
                               submitAsk(wantTitle, p.emoji)
-                              setHappyNews({ character: 'sofia', headline: 'Asked your grown up!', sub: `They can set up ${p.title} for you to colour in.` })
+                              setHappyNews({ character: 'bloop', headline: 'Asked your grown up!', sub: `They can set up ${p.title} for you to colour in.` })
                             }}
                             disabled={requested}
                             style={{

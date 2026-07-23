@@ -10,6 +10,7 @@
 import { useMemo, useState } from 'react'
 import DigiCharacter from '@/components/digi/DigiCharacter'
 import BalanceDial from '@/components/celebrate/BalanceDial'
+import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
 import { insightsForStage, type InsightCharacter, type InsightTheme } from '@/lib/content/child-insights'
 
 // The clever part: which idea leads is chosen from the child's own day, not at
@@ -31,10 +32,8 @@ function themePriority(s: { usedToday: number; recommended: number; balanceStars
 
 const CHARACTER: Record<InsightCharacter, { src: string | null; name: string; ring: string }> = {
   digi: { src: null, name: 'DiGi', ring: 'var(--terracotta)' },
-  oliver: { src: '/digi-squad/Oliver.png', name: 'Oliver', ring: '#D4600A' },
-  zara: { src: '/digi-squad/Zara.png', name: 'Zara', ring: '#C9962A' },
-  sofia: { src: '/digi-squad/Sofia.jpeg', name: 'Sofia', ring: '#2E7D5A' },
-}
+  ...Object.fromEntries(STAGE_CHARACTERS.map(c => [c.key, { src: c.cutout, name: c.name, ring: c.colour }])),
+} as Record<InsightCharacter, { src: string | null; name: string; ring: string }>
 
 // Barely there tints per theme so the six ideas read as distinct, warm cards,
 // never a wall of the same colour. Ink stays readable on every one.
@@ -97,7 +96,7 @@ export default function BalanceInsight({
             overflow: 'hidden',
           }}>
             {c.src
-              ? <img src={c.src} alt={c.name} width={50} height={50} style={{ objectFit: 'cover', borderRadius: '14px' }} />
+              ? <img src={c.src} alt={c.name} width={50} height={50} style={{ objectFit: 'contain' }} />
               : <DigiCharacter mood="happy" size={38} />}
           </span>
           <div>
