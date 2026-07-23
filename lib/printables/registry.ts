@@ -153,8 +153,8 @@ export const PRINTABLES: Printable[] = [
     stages: [4], minutes: 'One sitting', setting: 'anywhere', skill: 'Creativity',
     stars: 5,
     blurb: 'Your Stage 4 Planet Friend, thoughtful and kind. Colour Nova your way.',
-    sheetUrl: BASE + 'hf_20260723_121115_b411f979-744c-4e51-89ee-7e3266ec8abe.png',
-    previewUrl: BASE + 'hf_20260723_121115_b411f979-744c-4e51-89ee-7e3266ec8abe.png',
+    sheetUrl: BASE + 'hf_20260723_171732_929dc5a8-b3df-4992-8a3e-be268255c2a4.jpeg',
+    previewUrl: BASE + 'hf_20260723_171732_929dc5a8-b3df-4992-8a3e-be268255c2a4.jpeg',
   },
   {
     key: 'meet-cosmo',
@@ -162,8 +162,8 @@ export const PRINTABLES: Printable[] = [
     stages: [5], minutes: 'One sitting', setting: 'anywhere', skill: 'Creativity',
     stars: 5,
     blurb: 'Your Stage 5 Planet Friend, confident and independent. Colour Cosmo ready to lead.',
-    sheetUrl: BASE + 'hf_20260723_121116_41d12750-7101-4c14-a3b0-671c45b1b570.png',
-    previewUrl: BASE + 'hf_20260723_121116_41d12750-7101-4c14-a3b0-671c45b1b570.png',
+    sheetUrl: BASE + 'hf_20260723_171734_f1dd550e-6557-4519-afc2-48476701840e.jpeg',
+    previewUrl: BASE + 'hf_20260723_171734_f1dd550e-6557-4519-afc2-48476701840e.jpeg',
   },
 ]
 

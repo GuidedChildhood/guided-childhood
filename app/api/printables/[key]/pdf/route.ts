@@ -105,7 +105,12 @@ export async function GET(req: NextRequest, ctx: { params: Promise<{ key: string
     for (const artworkUrl of artworkUrls) {
       const imageRes = await fetch(artworkUrl)
       if (!imageRes.ok) throw new Error(`artwork fetch ${imageRes.status}`)
-      const image = await pdf.embedPng(await imageRes.arrayBuffer())
+      const bytes = await imageRes.arrayBuffer()
+      // Sheets are PNG or JPEG depending on the generator; pick the matching
+      // embedder off the content type or the file extension so either works.
+      const isJpg = (imageRes.headers.get('content-type') || '').includes('jpeg')
+        || /\.jpe?g(\?|$)/i.test(artworkUrl)
+      const image = isJpg ? await pdf.embedJpg(bytes) : await pdf.embedPng(bytes)
       const page = pdf.addPage([A4.width, A4.height])
       stampBrand(page, font)
 
