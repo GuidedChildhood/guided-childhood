@@ -48,6 +48,17 @@ export function isDeviceKey(v: unknown): v is DeviceKey {
   return typeof v === 'string' && DEVICES.some(d => d.key === v)
 }
 
+// Is a screen time ask still worth showing the child? A pending or declined ask
+// goes stale after twelve hours so yesterday's answer never greets them, but an
+// approved ask stays startable for a full day, so a yes given near the twelve
+// hour edge never disappears before the child taps Start. One rule, used by the
+// child banner (server render and live poll) so both agree.
+export function isAskLive(status: string, createdAtIso: string): boolean {
+  const ageMs = Date.now() - new Date(createdAtIso).getTime()
+  if (Number.isNaN(ageMs) || ageMs < 0) return true
+  return status === 'approved' ? ageMs < 24 * 3600000 : ageMs < 12 * 3600000
+}
+
 // Minutes cost one star per STAR_MINUTES, rounded up: a part block still
 // costs a whole star, so there is never a fractional spend.
 export function minutesToStars(minutes: number): number {

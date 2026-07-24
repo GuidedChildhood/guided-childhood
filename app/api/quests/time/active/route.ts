@@ -31,9 +31,14 @@ export async function GET() {
     supabase.from('device_sessions')
       .select('id, child_id, device, minutes, stars, ends_at, started_at')
       .eq('user_id', user.id).eq('status', 'active').gt('ends_at', nowIso),
+    // Only asks from the last twelve hours, the same freshness window the
+    // child's banner uses. A stale overnight ask is no longer offered for
+    // approval, so a parent can never approve one the child can no longer see.
     supabase.from('device_requests')
       .select('id, child_id, device, minutes, created_at')
-      .eq('user_id', user.id).eq('status', 'pending').order('created_at', { ascending: false }),
+      .eq('user_id', user.id).eq('status', 'pending')
+      .gte('created_at', new Date(Date.now() - 12 * 3600000).toISOString())
+      .order('created_at', { ascending: false }),
     getMinutesUsedToday(supabase, user.id, ids),
     // The last seven days of timer blocks, for the where the time goes read:
     // which devices carry the time, how many sittings, and how many today.

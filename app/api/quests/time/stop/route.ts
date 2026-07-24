@@ -43,8 +43,12 @@ export async function POST(req: NextRequest) {
       .eq('id', session.spend_id)
   }
   const nowIso = new Date().toISOString()
+  // Record the minutes actually used on the session too, not just the spend, so
+  // the balance and the where the time goes read (both count device_sessions.
+  // minutes) stop overcounting an early hand back. On a finished countdown
+  // usedMinutes equals what was booked, so nothing changes there.
   await supabase.from('device_sessions')
-    .update({ status: 'ended', ended_at: nowIso })
+    .update({ status: 'ended', ended_at: nowIso, minutes: usedMinutes })
     .eq('id', session.id)
 
   // Did the child hand it back early, or did the countdown simply finish? Early
