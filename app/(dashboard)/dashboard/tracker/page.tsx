@@ -313,11 +313,14 @@ export default async function ProgressPage({ searchParams }: { searchParams: Pro
       <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 6.5vw, 2.7rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '10px' }}>
         Is it working?
       </h1>
-      {/* The report in one warm sentence: what green means, and that amber
-          is a next step, never a mark against anyone. */}
-      <p style={{ fontSize: '16.5px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 12px', maxWidth: '620px' }}>
-        Green means that part of the plan is doing its job. Anything amber comes with one clear next step, like a good school report.
-      </p>
+      {/* The report in one warm sentence, sat on green so the message shows
+          itself: what green means, and that amber is a next step, never a mark
+          against anyone. Bigger and ink dark so it reads at a glance. */}
+      <div style={{ background: 'var(--tint-green)', border: '1.5px solid #BADFC9', borderRadius: '16px', padding: '16px 18px', margin: '0 0 22px', maxWidth: '620px' }}>
+        <p style={{ fontSize: '18px', color: 'var(--ink)', lineHeight: 1.55, fontWeight: 600, margin: 0 }}>
+          <span style={{ color: '#2F8F6B', fontWeight: 800 }}>Green</span> means that part of the plan is doing its job. Anything <span style={{ color: 'var(--terracotta-dark)', fontWeight: 800 }}>amber</span> comes with one clear next step, like a good school report.
+        </p>
+      </div>
 
       {/* The passport first, the document this whole page fills: the star
           assembling a point per stage and the passport it earns, stamp by
@@ -327,7 +330,7 @@ export default async function ProgressPage({ searchParams }: { searchParams: Pro
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '6px' }}>
             <DigiStarBuild earned={earnedStages} currentIndex={currentIdx >= 0 ? currentIdx : null} size={150} />
           </div>
-          <p style={{ textAlign: 'center', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '12.5px', color: 'var(--ink)', margin: '0 0 16px' }}>
+          <p style={{ textAlign: 'center', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)', margin: '0 0 16px' }}>
             {earnedStages >= 5 ? 'DiGi is whole. Every stage earned 🌟' : `${earnedStages} of 5 points of DiGi's star earned`}
           </p>
           <PassportBook stamps={stamps} childName={primary?.name ?? 'your child'} />
