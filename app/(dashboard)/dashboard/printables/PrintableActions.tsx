@@ -63,15 +63,33 @@ export default function PrintableActions({ printable, isPaid = true }: { printab
     )
   }
 
+  // The finished products offer both editions straight from public: the full
+  // colour version to print and use, and the colour in version to print and
+  // colour for stars. Everything else falls back to the single generated sheet.
+  const hasLocal = Boolean(printable.pdfColour && printable.pdfColourIn)
+
   return (
     <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-      <a href={`/api/printables/${printable.key}/pdf`} style={downloadStyle}>
-        ⬇ PDF{printable.sheetUrlEs ? ' · English' : ''}
-      </a>
-      {printable.sheetUrlEs && (
-        <a href={`/api/printables/${printable.key}/pdf?lang=es`} style={downloadStyle}>
-          ⬇ PDF · Espanol
-        </a>
+      {hasLocal ? (
+        <>
+          <a href={printable.pdfColour} download style={downloadStyle}>
+            ⬇ Colour
+          </a>
+          <a href={printable.pdfColourIn} download style={{ ...downloadStyle, background: '#fff', border: '1.5px solid var(--border)', boxShadow: 'none' }}>
+            ⬇ Colour in
+          </a>
+        </>
+      ) : (
+        <>
+          <a href={`/api/printables/${printable.key}/pdf`} style={downloadStyle}>
+            ⬇ PDF{printable.sheetUrlEs ? ' · English' : ''}
+          </a>
+          {printable.sheetUrlEs && (
+            <a href={`/api/printables/${printable.key}/pdf?lang=es`} style={downloadStyle}>
+              ⬇ PDF · Espanol
+            </a>
+          )}
+        </>
       )}
       <button
         onClick={addToQuests}

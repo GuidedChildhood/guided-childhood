@@ -15,6 +15,7 @@ import { pickChild } from '@/lib/children/select'
 import DigiCharacter from '@/components/digi/DigiCharacter'
 import PassportBook from '@/components/pathway/PassportBook'
 import { type Stamp, type StampStatus } from '@/components/pathway/PassportStamps'
+import MeetTheFriends from '@/components/pathway/MeetTheFriends'
 
 type Child = { id: string; name: string; age_band: string | null; stage_id: string | null; is_primary: boolean; streak_weeks: number | null }
 
@@ -158,6 +159,9 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
           towards and watch the stamps land as they go. */}
       {passportStamps.length > 0 && (
         <div style={{ padding: '0 20px', maxWidth: '560px', margin: '0 auto 28px' }}>
+          {/* Meet the family, where the five point star used to sit: DiGi and the
+              Planet Friends the child grows up with, an introduction not a score. */}
+          <MeetTheFriends childName={primaryChild?.name ?? null} />
           <PassportBook stamps={passportStamps} childName={primaryChild?.name ?? 'your child'} />
         </div>
       )}

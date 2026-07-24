@@ -50,6 +50,7 @@ export default function DigiChat({
   initialCount,
   isPaid,
   stagePrompts,
+  faqPrompts,
   pendingReflection,
   stageId,
   stageName,
@@ -58,6 +59,7 @@ export default function DigiChat({
   initialCount: number
   isPaid: boolean
   stagePrompts: string[]
+  faqPrompts?: string[]
   pendingReflection?: { question: string; answered: boolean } | null
   stageId?: number
   stageName?: string
@@ -841,6 +843,38 @@ export default function DigiChat({
 
       {/* Input */}
       <div style={{ padding: '14px 20px', borderTop: '1px solid var(--border)', background: 'var(--white)', flexShrink: 0 }}>
+        {/* A quiet strip of example questions that stays under the chat once it
+            is under way, so a parent always sees the kind of thing they can ask,
+            like how long a child their age should be on a screen. Hidden while
+            they are typing or continuing a topic, and gone at the daily limit.
+            The empty state keeps its own bigger Try asking list above. */}
+        {!atLimit && messages.length > 0 && !input.trim() && !continuingTopic && (faqPrompts?.length ?? 0) > 0 && (
+          <div
+            aria-label="Example questions to ask DiGi"
+            style={{
+              display: 'flex', gap: '7px', overflowX: 'auto', paddingBottom: '10px',
+              margin: '0 -20px', paddingLeft: '20px', paddingRight: '20px', scrollbarWidth: 'none',
+            }}
+          >
+            {faqPrompts!.map((q, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => sendMessage(q)}
+                style={{
+                  flexShrink: 0, whiteSpace: 'nowrap', cursor: 'pointer',
+                  background: 'var(--cream)', border: '1px solid var(--border)',
+                  borderRadius: '100px', padding: '8px 14px',
+                  fontFamily: 'var(--font-body)', fontSize: '13px', color: 'var(--ink-soft)',
+                }}
+                onMouseEnter={e => (e.currentTarget.style.borderColor = 'var(--terracotta)')}
+                onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--border)')}
+              >
+                {q}
+              </button>
+            ))}
+          </div>
+        )}
         {atLimit ? (
           <div style={{ textAlign: 'center', padding: '8px 0' }}>
             <p style={{ fontSize: '13px', color: 'var(--ink-muted)', marginBottom: '12px' }}>

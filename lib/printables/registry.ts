@@ -32,6 +32,12 @@ export type Printable = {
   extraSheetUrls?: string[]
   extraSheetUrlsEs?: string[]
   previewUrl: string
+  // The finished Etsy grade products, when we have built them: the full
+  // colour edition and the print at home colour in edition, served straight
+  // from public. When set, the card offers both as direct downloads instead
+  // of the single generated sheet.
+  pdfColour?: string
+  pdfColourIn?: string
 }
 
 export const PRINTABLES: Printable[] = [
@@ -43,7 +49,7 @@ export const PRINTABLES: Printable[] = [
     blurb: 'Sixteen real world summer wins, coloured in one by one. Fill the page before September.',
     sheetUrl: BASE + 'hf_20260723_213637_d6872260-9a6f-46a0-9649-4aa63d2749cc.png',
     sheetUrlEs: BASE + 'hf_20260722_122910_c7938e56-a03c-47ba-841c-1d3a4669cdb1.png',
-    previewUrl: BASE + 'hf_20260723_213637_d6872260-9a6f-46a0-9649-4aa63d2749cc.png',
+    previewUrl: BASE + 'hf_20260713_124936_d5894552-b377-4835-b103-599872e5b4d5.png',
   },
   {
     key: 'rainy-day-bucket-list',
@@ -53,7 +59,7 @@ export const PRINTABLES: Printable[] = [
     blurb: 'The screens stay off and the rain stays out. Forts, baking, kitchen discos and hot chocolate.',
     sheetUrl: BASE + 'hf_20260723_213647_3b2e6b06-247b-4077-9e99-3503153c49aa.png',
     sheetUrlEs: BASE + 'hf_20260722_122913_8935b9b3-71c1-4514-8023-e30e081cf413.png',
-    previewUrl: BASE + 'hf_20260723_213647_3b2e6b06-247b-4077-9e99-3503153c49aa.png',
+    previewUrl: BASE + 'hf_20260713_125305_b235e9e2-d3c2-4fd0-aef6-a6c0c90e8a5b.png',
   },
   {
     key: 'kindness-bucket-list',
@@ -63,7 +69,7 @@ export const PRINTABLES: Printable[] = [
     blurb: 'Every box coloured made someone’s day better. Thank you notes, baking for a neighbour, three real compliments.',
     sheetUrl: BASE + 'hf_20260723_213653_581c2af5-6ad9-4c34-8b4b-91e9c1f16e12.png',
     sheetUrlEs: BASE + 'hf_20260722_122921_d147a484-fb66-41a5-8248-7380d91dfd4d.png',
-    previewUrl: BASE + 'hf_20260723_213653_581c2af5-6ad9-4c34-8b4b-91e9c1f16e12.png',
+    previewUrl: BASE + 'hf_20260713_125326_94438fa2-9760-4981-b058-205ea2623e2f.png',
   },
   {
     key: 'reading-bucket-list',
@@ -73,7 +79,7 @@ export const PRINTABLES: Printable[] = [
     blurb: 'Eight ways to read: outside, to someone, about space, a book they chose themselves.',
     sheetUrl: BASE + 'hf_20260723_213701_edd87579-52fb-4064-afe7-2ec65759e841.png',
     sheetUrlEs: BASE + 'hf_20260722_122923_526700d3-41c9-417f-8b31-f781821d8582.png',
-    previewUrl: BASE + 'hf_20260723_213701_edd87579-52fb-4064-afe7-2ec65759e841.png',
+    previewUrl: BASE + 'hf_20260713_125344_3aaa7475-b816-4b0b-8d3f-932fd86f48f2.png',
   },
   {
     key: 'nature-scavenger-hunt',
@@ -83,7 +89,7 @@ export const PRINTABLES: Printable[] = [
     blurb: 'Take it on a walk. A feather, a snail, a funny shaped cloud. Look, spot, colour.',
     sheetUrl: BASE + 'hf_20260723_213708_0127e4b3-6a1b-4b71-adda-7698c48f5a9e.png',
     sheetUrlEs: BASE + 'hf_20260722_122935_9531a458-ca41-4e5b-8804-daa0bcaf69e2.png',
-    previewUrl: BASE + 'hf_20260723_213708_0127e4b3-6a1b-4b71-adda-7698c48f5a9e.png',
+    previewUrl: BASE + 'hf_20260713_125404_e98b9bff-4d58-43e9-976f-8e7704586b31.png',
   },
   {
     key: 'family-challenge-list',
@@ -93,7 +99,7 @@ export const PRINTABLES: Printable[] = [
     blurb: 'Done together or not at all: game night, a screen free evening, a walk somewhere new.',
     sheetUrl: BASE + 'hf_20260723_213714_9e2a8b73-f0c7-49d9-8cc4-cf811315dc51.png',
     sheetUrlEs: BASE + 'hf_20260722_122939_99b00997-c232-46ce-809d-75ea7984317a.png',
-    previewUrl: BASE + 'hf_20260723_213714_9e2a8b73-f0c7-49d9-8cc4-cf811315dc51.png',
+    previewUrl: BASE + 'hf_20260713_125425_decdd972-db44-4eb1-9b37-56ea142bee1d.png',
   },
   {
     key: 'bucket-list-craft',
@@ -105,7 +111,7 @@ export const PRINTABLES: Printable[] = [
     extraSheetUrls: [BASE + 'hf_20260723_213727_8befed5e-3de3-47f7-847c-6d9950cc6d54.png'],
     sheetUrlEs: BASE + 'hf_20260722_123013_7e5fdfdd-2cca-4dfe-b7d0-9a494802915c.png',
     extraSheetUrlsEs: [BASE + 'hf_20260722_123017_3f1f0526-a079-45c8-b2c6-36bcc85a58aa.png'],
-    previewUrl: BASE + 'hf_20260723_213720_c1179ea9-8395-4561-88a0-c7f0d3276a65.png',
+    previewUrl: BASE + 'hf_20260713_140432_f5db6b56-1610-47bb-a7bf-bb4b29a07d73.png',
   },
   {
     key: 'spanish-bucket-list',
@@ -114,7 +120,7 @@ export const PRINTABLES: Printable[] = [
     stars: 5,
     blurb: 'Hola, gracias, uno dos tres. Six first steps into Spanish, said out loud and coloured in.',
     sheetUrl: BASE + 'hf_20260723_213735_043f46a9-afa4-4c21-bb19-1579404a2bfc.png',
-    previewUrl: BASE + 'hf_20260723_213735_043f46a9-afa4-4c21-bb19-1579404a2bfc.png',
+    previewUrl: BASE + 'hf_20260722_110327_09f96b0e-2738-4ed7-9c2b-3ad726c6aa1f.png',
   },
   // DiGi's Planet Friends, one colour in sheet each, tied to the stage that
   // unlocks that Friend. Both preview and sheet are the empty line art: a
@@ -279,6 +285,92 @@ export const PRINTABLES: Printable[] = [
     previewUrl: BASE + 'hf_20260723_183708_00cedad0-7425-4b44-bb8d-4c3f3de98a43.jpeg',
   },
 ]
+
+// The real, finished products we have built and shipped to Etsy, now brought
+// into the app library as the actual multi page PDFs (colour to print and use,
+// plus a colour in edition to print and colour for stars). Held as an overlay
+// so the base entries above stay the single source, and each product's real
+// preview and both editions come straight from public. Optional blurb and title
+// overrides keep the card honest where the earlier sheet described something
+// different.
+type LocalProduct = { preview: string; colour: string; colourIn: string; blurb?: string; title?: string }
+
+const LOCAL_PRODUCTS: Record<string, LocalProduct> = {
+  'what-do-they-do': {
+    preview: '/printables/what-do-they-do.png',
+    colour: '/printables/what-do-they-do-colour.pdf',
+    colourIn: '/printables/what-do-they-do-colourin.pdf',
+    title: 'What Do They Do?',
+    blurb: 'Eight real jobs to build and name, from a baker to a postie. Cut the syllable tiles, make each word, then match the worker to their place and tool.',
+  },
+  'fish-tank-splash': {
+    preview: '/printables/fish-tank-splash.png',
+    colour: '/printables/fish-tank-splash-colour.pdf',
+    colourIn: '/printables/fish-tank-splash-colourin.pdf',
+    title: 'Splash! Match the Fish to Their Colour',
+    blurb: 'A first colour matching game. Six bright fishbowls and lots of little fish: colour each fish and pop it in the bowl of the same colour.',
+  },
+  'word-fishing': {
+    preview: '/printables/word-fishing.png',
+    colour: '/printables/word-fishing-colour.pdf',
+    colourIn: '/printables/word-fishing-colourin.pdf',
+  },
+  'a-to-z-showdown': {
+    preview: '/printables/a-to-z-showdown.png',
+    colour: '/printables/a-to-z-showdown-colour.pdf',
+    colourIn: '/printables/a-to-z-showdown-colourin.pdf',
+  },
+  'back-to-school-escape': {
+    preview: '/printables/back-to-school-escape.png',
+    colour: '/printables/back-to-school-escape-colour.pdf',
+    colourIn: '/printables/back-to-school-escape-colourin.pdf',
+  },
+  'calm-down-corner': {
+    preview: '/printables/calm-down-corner.png',
+    colour: '/printables/calm-down-corner-colour.pdf',
+    colourIn: '/printables/calm-down-corner-colourin.pdf',
+  },
+  'count-to-20': {
+    preview: '/printables/count-to-20.png',
+    colour: '/printables/count-to-20-colour.pdf',
+    colourIn: '/printables/count-to-20-colourin.pdf',
+  },
+  'earn-your-screen-time': {
+    preview: '/printables/earn-your-screen-time.png',
+    colour: '/printables/earn-your-screen-time-colour.pdf',
+    colourIn: '/printables/earn-your-screen-time-colourin.pdf',
+  },
+  'family-phone-agreement': {
+    preview: '/printables/family-phone-agreement.png',
+    colour: '/printables/family-phone-agreement-colour.pdf',
+    colourIn: '/printables/family-phone-agreement-colourin.pdf',
+  },
+  'ice-cream-shop': {
+    preview: '/printables/ice-cream-shop.png',
+    colour: '/printables/ice-cream-shop-colour.pdf',
+    colourIn: '/printables/ice-cream-shop-colourin.pdf',
+  },
+  'left-and-right': {
+    preview: '/printables/left-and-right.png',
+    colour: '/printables/left-and-right-colour.pdf',
+    colourIn: '/printables/left-and-right-colourin.pdf',
+  },
+  'school-year-planner': {
+    preview: '/printables/school-year-planner.png',
+    colour: '/printables/school-year-planner-colour.pdf',
+    colourIn: '/printables/school-year-planner-colourin.pdf',
+  },
+}
+
+for (const p of PRINTABLES) {
+  const local = LOCAL_PRODUCTS[p.key]
+  if (!local) continue
+  p.previewUrl = local.preview
+  p.pdfColour = local.colour
+  p.pdfColourIn = local.colourIn
+  if (local.blurb) p.blurb = local.blurb
+  if (local.title) p.title = local.title
+}
 
 export function getPrintable(key: string): Printable | null {
   return PRINTABLES.find(p => p.key === key) ?? null

@@ -6,6 +6,7 @@ import { getDailyStreak } from '@/lib/pathway/streak'
 import { getAllStagesProgress, type StageId } from '@/lib/pathway/progress'
 import WorkingOn from '@/components/tracker/WorkingOn'
 import StageRoad from '@/components/pathway/StageRoad'
+import MeetTheFriends from '@/components/pathway/MeetTheFriends'
 import LiteracyAreas from '@/components/pathway/LiteracyAreas'
 import LiteracyCheckIn from '@/components/pathway/LiteracyCheckIn'
 import { getLiteracyStatuses } from '@/lib/pathway/literacy-status'
@@ -319,9 +320,13 @@ export default async function ProgressPage({ searchParams }: { searchParams: Pro
         </p>
       </div>
 
-      {/* The passport first, the document this whole page fills: the stamps it
-          earns, stage by stage. The pathway road follows below, the map it all
-          sits on. */}
+      {/* Meet the family, where the five point badge used to sit: DiGi and the
+          Planet Friends the child grows up with, an introduction not a score. */}
+      {stage && stamps.length > 0 && <MeetTheFriends childName={primary?.name ?? null} />}
+
+      {/* The passport, the document this whole page fills: one stamp per stage,
+          earned as the family works through it. The pathway road follows below,
+          the map it all sits on. */}
       {stage && stamps.length > 0 && (
         <div style={{ marginBottom: '22px' }}>
           <PassportBook stamps={stamps} childName={primary?.name ?? 'your child'} />
