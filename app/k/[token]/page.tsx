@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { questDueToday } from '@/lib/quests/due'
+import { isPrintableAskTitle } from '@/lib/quests/printable-ask'
 import { getStarBanks } from '@/lib/quests/bank'
 import { KID_LESSONS, kidLessonBaseTitle } from '@/lib/quests/kid-lessons'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
@@ -119,8 +120,12 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     return { label: 'SMTWTFS'[dow], count, today: off === 0 }
   })
 
-  const quests = (questsRes.data ?? []).filter(q => questDueToday(q.schedule, (q as { schedule_days?: number[] | null }).schedule_days))
-  const laterQuests = (questsRes.data ?? [])
+  // A printable ask that was turned into a job on an older build (before the
+  // decide endpoint stopped doing that) is not a real job, so it never shows in
+  // the child's list as one. New asks never reach here at all.
+  const realQuests = (questsRes.data ?? []).filter(q => !isPrintableAskTitle(q.title as string))
+  const quests = realQuests.filter(q => questDueToday(q.schedule, (q as { schedule_days?: number[] | null }).schedule_days))
+  const laterQuests = realQuests
     .filter(q => !questDueToday(q.schedule, (q as { schedule_days?: number[] | null }).schedule_days))
     .map(q => ({ title: q.title, emoji: q.emoji, schedule: q.schedule }))
   const starsByQuest = new Map((questsRes.data ?? []).map(q => [q.id, q.stars]))
