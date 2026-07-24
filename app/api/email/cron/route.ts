@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { sendEmail, emailConfigured, unsubscribeUrl } from '@/lib/email'
-import { welcomeEmail, day2StageEmail, day3TourEmail, day4DigiEmail, day7FounderEmail, weeklyDigestEmail, trialEndingEmail, winBackEmail, leadNurtureEmail, childPhoneEmail, screenTimeEmail, lessonsEmail, schoolRemindersEmail, familyAgreementEmail } from '@/lib/email/templates'
+import { welcomeEmail, day2StageEmail, day3TourEmail, day4DigiEmail, day7FounderEmail, weeklyDigestEmail, trialEndingEmail, winBackEmail, leadNurtureEmail, childPhoneEmail, screenTimeEmail, lessonsEmail, schoolRemindersEmail, familyAgreementEmail, printablesRevealEmail, balanceRevealEmail, mentalHealthRevealEmail, passportRevealEmail, digiTeaserEmail, scriptsTeaserEmail, printablesTeaserEmail, balanceTeaserEmail, mentalHealthTeaserEmail, safetyTeaserEmail, passportTeaserEmail, founderLeadEmail } from '@/lib/email/templates'
+import type { EmailContent } from '@/lib/email/templates'
 import { lifecycleState, trialDaysLeft } from '@/lib/email/lifecycle'
 import { STAGES, getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { FOUNDER_CAP } from '@/lib/stripe'
@@ -80,7 +81,7 @@ export async function GET(req: NextRequest) {
     return founderRemaining
   }
 
-  const results: Record<string, number> = { welcome: 0, day2: 0, day3: 0, day4: 0, day7: 0, svcChildPhone: 0, svcScreenTime: 0, svcLessons: 0, svcSchool: 0, svcAgreement: 0, trialEnding: 0, winback: 0, leadNurture: 0, digest: 0, errors: 0 }
+  const results: Record<string, number> = { welcome: 0, day2: 0, day3: 0, day4: 0, day7: 0, svcChildPhone: 0, svcScreenTime: 0, svcLessons: 0, svcSchool: 0, svcAgreement: 0, revealPrintables: 0, revealBalance: 0, revealMind: 0, revealPassport: 0, trialEnding: 0, winback: 0, leadNurture: 0, leadTeaser: 0, digest: 0, errors: 0 }
 
   async function deliver(userId: string, email: string, key: string, content: { subject: string; html: string }, counter: string) {
     const { error: logError } = await supabase.from('email_log').insert({ user_id: userId, email_key: key })
@@ -171,6 +172,22 @@ export async function GET(req: NextRequest) {
       if (!agreement) await deliver(profile.id, profile.email, 'svc-agreement', familyAgreementEmail({ childName, unsubscribe }), 'svcAgreement')
     }
 
+    // The pillar reveals: one warm feature spotlight each, spaced through the
+    // third and fourth week so the free plan keeps giving. Sent once each, so a
+    // parent who already lives in that feature simply never sees a second one.
+    if (days >= 19 && !alreadySent(profile.id, 'reveal-printables')) {
+      await deliver(profile.id, profile.email, 'reveal-printables', printablesRevealEmail({ childName, unsubscribe }), 'revealPrintables')
+    }
+    if (days >= 21 && !alreadySent(profile.id, 'reveal-balance')) {
+      await deliver(profile.id, profile.email, 'reveal-balance', balanceRevealEmail({ childName, unsubscribe }), 'revealBalance')
+    }
+    if (days >= 23 && !alreadySent(profile.id, 'reveal-mind')) {
+      await deliver(profile.id, profile.email, 'reveal-mind', mentalHealthRevealEmail({ unsubscribe }), 'revealMind')
+    }
+    if (days >= 25 && !alreadySent(profile.id, 'reveal-passport')) {
+      await deliver(profile.id, profile.email, 'reveal-passport', passportRevealEmail({ childName, unsubscribe }), 'revealPassport')
+    }
+
     // The status aware layer: branch on where the contact actually is, not on
     // the day count. Trial nurture stops on payment (an active member is never
     // in trial_ending or lapsed), and win back starts on lapse. Both send once.
@@ -225,6 +242,71 @@ export async function GET(req: NextRequest) {
       else {
         results.errors += 1
         await supabase.from('starter_leads').update({ nurtured_at: null }).eq('email', email)
+      }
+    }
+  }
+
+  // Lead teaser drip: the pre sign up sequence. One clever thing per email on a
+  // gentle cadence (day 3 to 15, then the founder close), each earning the sign
+  // up by showing not telling. Leads have no account id, so the sequence is
+  // deduped in lead_email_log, mirroring the account email_log. Anyone who has
+  // since made an account drops out, so a real member never gets a teaser.
+  {
+    const monthAgo = new Date(Date.now() - 30 * 86400000).toISOString()
+    const { data: teaserLeads } = await supabase
+      .from('starter_leads')
+      .select('email, created_at')
+      .gte('created_at', monthAgo)
+      .lte('created_at', dayAgo)
+      .limit(500)
+    const rows = (teaserLeads ?? []).filter(l => !!l.email)
+    if (rows.length > 0) {
+      const originals = rows.map(l => l.email as string)
+      const [{ data: accounts }, { data: sentLog }] = await Promise.all([
+        supabase.from('profiles').select('email').in('email', originals),
+        supabase.from('lead_email_log').select('email, email_key').in('email', originals),
+      ])
+      const hasAccount = new Set((accounts ?? []).map(p => (p.email as string)?.toLowerCase()))
+      const leadSent = new Set((sentLog ?? []).map(l => `${(l.email as string).toLowerCase()}:${l.email_key}`))
+
+      // Days since capture, the key, and the content. Day 1 is the existing
+      // nurture above, so the teasers start at day 3.
+      const schedule: { day: number; key: string; make: () => EmailContent }[] = [
+        { day: 3, key: 'teaser-digi', make: () => digiTeaserEmail() },
+        { day: 5, key: 'teaser-scripts', make: () => scriptsTeaserEmail() },
+        { day: 7, key: 'teaser-printables', make: () => printablesTeaserEmail() },
+        { day: 9, key: 'teaser-balance', make: () => balanceTeaserEmail() },
+        { day: 11, key: 'teaser-mind', make: () => mentalHealthTeaserEmail() },
+        { day: 13, key: 'teaser-safety', make: () => safetyTeaserEmail() },
+        { day: 15, key: 'teaser-passport', make: () => passportTeaserEmail() },
+      ]
+
+      const deliverLead = async (email: string, key: string, content: EmailContent) => {
+        const { error: logErr } = await supabase.from('lead_email_log').insert({ email, email_key: key })
+        if (logErr) return // unique violation means another run got here first
+        const sent = await sendEmail({ to: email, subject: content.subject, html: content.html })
+        if (sent.ok) results.leadTeaser += 1
+        else {
+          results.errors += 1
+          await supabase.from('lead_email_log').delete().eq('email', email).eq('email_key', key)
+        }
+      }
+
+      for (const lead of rows) {
+        const email = lead.email as string
+        if (hasAccount.has(email.toLowerCase())) continue
+        const age = daysSince(lead.created_at as string)
+        // At most one teaser per lead per run, the earliest milestone they have
+        // reached and not yet had, so a lead found late catches up one email a
+        // day rather than a burst all at once.
+        const due = schedule.find(s => age >= s.day && !leadSent.has(`${email.toLowerCase()}:${s.key}`))
+        if (due) {
+          await deliverLead(email, due.key, due.make())
+        } else if (age >= 18 && !leadSent.has(`${email.toLowerCase()}:teaser-founder`)) {
+          // The founder close, only while places remain.
+          const remaining = await getFounderRemaining()
+          if (remaining > 0) await deliverLead(email, 'teaser-founder', founderLeadEmail({ remaining }))
+        }
       }
     }
   }

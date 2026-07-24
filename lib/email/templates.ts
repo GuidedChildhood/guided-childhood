@@ -449,3 +449,181 @@ export function weeklyReviewEmail(params: {
     ),
   }
 }
+
+// ── Pre sign up teasers ──────────────────────────────────────────────
+// One clever thing per email, each earning the sign up by showing not telling.
+// Sent to leads on a gentle cadence. Leads have no signed unsubscribe token, so
+// they fall back to the plain mailto. Every call to action goes to the free
+// starter pack (house rule 9).
+
+const LEAD_UNSUB = 'mailto:hello@guidedchildhood.com?subject=Unsubscribe'
+
+export function digiTeaserEmail(unsubscribe: string = LEAD_UNSUB): EmailContent {
+  return {
+    subject: 'The assistant that never just says no',
+    html: wrapper(
+      heading('An answer, not a ban.') +
+      p(`Most advice on screens comes down to take it away. That teaches a child nothing for the day they get it back.`) +
+      p(`DiGi is different. Ask it anything, the 11pm worry, the game you have never heard of, the friend who just got a phone, and it hands you a calm pathway for your child's exact age. Never allow or deny, always one small step you can actually take tonight.`) +
+      p(`It is the part parents tell us they did not know they were missing.`) +
+      button('See the free starter pack', `${APP}/starter-pack`),
+      unsubscribe
+    ),
+  }
+}
+
+export function scriptsTeaserEmail(unsubscribe: string = LEAD_UNSUB): EmailContent {
+  return {
+    subject: 'The exact words for the 7am screen meltdown',
+    html: wrapper(
+      heading('When you do not know what to say.') +
+      p(`The tablet goes off, the morning falls apart, and every calm plan you had goes with it. In that moment you do not need a theory, you need the next sentence.`) +
+      p(`Guided Childhood gives you the actual words. Short scripts for the meltdowns, the handovers and the hard nos, written with child psychologists, ready to read off your phone while it is happening.`) +
+      p(`Warm, firm, and tested on real mornings.`) +
+      button('See the free starter pack', `${APP}/starter-pack`),
+      unsubscribe
+    ),
+  }
+}
+
+export function printablesTeaserEmail(unsubscribe: string = LEAD_UNSUB): EmailContent {
+  return {
+    subject: 'Print it tonight, offline win tomorrow',
+    html: wrapper(
+      heading('Screens down, without the fight.') +
+      p(`Sometimes the best screen tool is a piece of paper. Star charts for the fridge, colour in Planet Friends, a whole offline pack a child can do at the table while you make tea.`) +
+      p(`Every printable ties back to the same reward loop as the app, so time off screens becomes something a child chooses, not something you have to enforce.`) +
+      p(`Print one tonight and see what tomorrow looks like.`) +
+      button('See the free starter pack', `${APP}/starter-pack`),
+      unsubscribe
+    ),
+  }
+}
+
+export function balanceTeaserEmail(unsubscribe: string = LEAD_UNSUB): EmailContent {
+  return {
+    subject: 'An hour a day, is that ok?',
+    html: wrapper(
+      heading('The number, settled by the science.') +
+      p(`Every parent asks it and no one gives a straight answer. Guided Childhood does. It shows the healthy amount of recreational screen for your child's exact age, per day and per week, drawn straight from the WHO, the American Academy of Pediatrics, the Canadian movement guidelines and the RCPCH.`) +
+      p(`Then it sets your child's real usage against it, so you can see at a glance where an hour a day actually sits. A calm steer for their age, never a hard cap.`) +
+      button('See the free starter pack', `${APP}/starter-pack`),
+      unsubscribe
+    ),
+  }
+}
+
+export function mentalHealthTeaserEmail(unsubscribe: string = LEAD_UNSUB): EmailContent {
+  return {
+    subject: 'It is not just you',
+    html: wrapper(
+      heading('The worry you have not said out loud.') +
+      p(`The late night doubt, the comparison, the feeling that everyone else has this figured out. They do not, and the evidence is clear that these moments are normal.`) +
+      p(`Guided Childhood has a library of those exact moments, each one met with a calm, research backed reason it is ok, from the people parents actually trust. Not just for your child. For you.`) +
+      button('See the free starter pack', `${APP}/starter-pack`),
+      unsubscribe
+    ),
+  }
+}
+
+export function safetyTeaserEmail(unsubscribe: string = LEAD_UNSUB): EmailContent {
+  return {
+    subject: 'The talk about deepfakes and scams, done for you',
+    html: wrapper(
+      heading('The hard talks, made easy.') +
+      p(`Strangers, scams, deepfakes, what stays online forever. The conversations that matter most are the ones we put off because we do not know how to start them.`) +
+      p(`Guided Childhood turns each one into a five minute lesson, pitched to your child's age, that does the hard part for you. You come out of it closer, not lectured at.`) +
+      button('See the free starter pack', `${APP}/starter-pack`),
+      unsubscribe
+    ),
+  }
+}
+
+export function passportTeaserEmail(unsubscribe: string = LEAD_UNSUB): EmailContent {
+  return {
+    subject: 'One map, from 4 to 16',
+    html: wrapper(
+      heading('A childhood you can see.') +
+      p(`Digital parenting feels like a hundred separate decisions. Guided Childhood turns it into one clear map, a passport your child grows along from their first safe steps at 4 to full readiness at 16.`) +
+      p(`Every job done, every lesson learned and every calm screen off earns a stamp. You always know where you are, and where you are heading next.`) +
+      button('See the free starter pack', `${APP}/starter-pack`),
+      unsubscribe
+    ),
+  }
+}
+
+export function founderLeadEmail(params: { remaining: number; unsubscribe?: string }): EmailContent {
+  const { remaining, unsubscribe = LEAD_UNSUB } = params
+  return {
+    subject: `${remaining} founding places left`,
+    html: wrapper(
+      heading('Before the founder rate closes.') +
+      p(`You had a look at Guided Childhood but have not started yet, so here is the one nudge worth sending.`) +
+      p(`The founder rate opens the whole platform for £7.99 a month, held for life, and it is capped at 50 families. Right now there are <strong>${remaining}</strong> places left. When they are gone the price goes up and stays up.`) +
+      p(`The starter pack still picks your child's first move in about two minutes, free.`) +
+      button('Claim a founding place', `${APP}/starter-pack`),
+      unsubscribe
+    ),
+  }
+}
+
+// ── Post sign up pillar reveals ──────────────────────────────────────
+// Once a family is in, reveal one feature at a time so the free plan feels
+// generous. Each is only sent when that feature has not been touched yet, so it
+// is a genuine here is why, here is where, never a nag about something done.
+
+export function printablesRevealEmail(params: { childName: string; unsubscribe: string }): EmailContent {
+  const { childName, unsubscribe } = params
+  return {
+    subject: `Colour in the Planet Friends with ${childName} tonight`,
+    html: wrapper(
+      heading('The offline pack is yours.') +
+      p(`Alongside the app there is a whole set of printables: star charts for the fridge, colour in Planet Friends, weekly calendars and the full offline pack, all free on your plan.`) +
+      p(`They use the same stars ${childName} already earns, so screen off time becomes a reward, not a battle. Print one tonight.`) +
+      button('Open the printables', `${APP}/dashboard/printables`),
+      unsubscribe
+    ),
+  }
+}
+
+export function balanceRevealEmail(params: { childName: string; unsubscribe: string }): EmailContent {
+  const { childName, unsubscribe } = params
+  return {
+    subject: `Where ${childName}'s screen time actually sits`,
+    html: wrapper(
+      heading('The balance, by the science.') +
+      p(`Your balance and stats now show the healthy amount of recreational screen for ${childName}'s age, per day and per week, drawn from the WHO, the American Academy of Pediatrics, the Canadian movement guidelines and the RCPCH.`) +
+      p(`It sets ${childName}'s real usage against that guide, so you can see in one glance whether a day sits inside the healthy range. A steer for their age, never a hard cap.`) +
+      button('See the balance', `${APP}/dashboard/quests`),
+      unsubscribe
+    ),
+  }
+}
+
+export function mentalHealthRevealEmail(params: { unsubscribe: string }): EmailContent {
+  const { unsubscribe } = params
+  return {
+    subject: 'For the worry you have not said out loud',
+    html: wrapper(
+      heading('This one is for you.') +
+      p(`The late night doubt, the comparison, the feeling everyone else has it figured out. Guided Childhood has a library of those exact moments, each met with a calm, research backed reason it is normal.`) +
+      p(`It is there whenever you need it, from the experts parents actually trust. Two minutes, and you feel a little less alone in it.`) +
+      button('Open the library', `${APP}/dashboard`),
+      unsubscribe
+    ),
+  }
+}
+
+export function passportRevealEmail(params: { childName: string; unsubscribe: string }): EmailContent {
+  const { childName, unsubscribe } = params
+  return {
+    subject: `${childName}'s passport is filling up`,
+    html: wrapper(
+      heading('See how far you have come.') +
+      p(`Every job done, lesson learned and calm screen off earns ${childName} a stamp on their passport, the one map that runs from their first safe steps to full readiness at 16.`) +
+      p(`It is the clearest way to see the childhood you are building, one small win at a time. Take a look at where you are.`) +
+      button('Open the passport', `${APP}/dashboard/pathway`),
+      unsubscribe
+    ),
+  }
+}
