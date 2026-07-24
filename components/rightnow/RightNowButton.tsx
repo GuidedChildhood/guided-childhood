@@ -589,6 +589,29 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
                   </>
                 )}
 
+                {/* When the words point to doing something fun instead of the
+                    screen, offer the printables for real ideas, so the parent is
+                    not left holding 'let us find something fun' with nothing to
+                    reach for. Only on cards that actually suggest it. */}
+                {script && /\bfun\b|do together|do instead|something (else )?to do|off ?screen|offline/i.test(`${script.say_this ?? ''} ${script.title ?? ''}`) && (
+                  <Link
+                    href="/dashboard/printables"
+                    onClick={() => { stopVoice(); setOpen(false) }}
+                    className="no-print"
+                    style={{
+                      display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none',
+                      background: 'var(--tint-sage)', border: '1.5px solid #D6E5DF', borderRadius: '14px',
+                      padding: '12px 14px', marginBottom: '10px',
+                    }}
+                  >
+                    <span aria-hidden style={{ fontSize: '20px', flexShrink: 0 }}>🖍️</span>
+                    <span style={{ flex: 1, fontFamily: 'var(--font-body)', fontSize: '13.5px', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.4 }}>
+                      Need something fun to reach for? Printables for offline ideas
+                    </span>
+                    <span aria-hidden style={{ fontFamily: 'var(--font-display)', fontWeight: 800, color: 'var(--terracotta-dark)' }}>→</span>
+                  </Link>
+                )}
+
                 <div className="no-print" style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '10px', paddingBottom: '12px' }}>
                   {script && (
                     <div style={{ display: 'flex', gap: '10px' }}>
