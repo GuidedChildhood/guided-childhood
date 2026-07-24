@@ -142,9 +142,13 @@ export default function ParentDeviceTime() {
         </ol>
       </details>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-        {kids.map(k => (
-          <ChildRow key={k.id} kid={k} onChange={load} onAlarm={alarm} />
-        ))}
+        {/* A child asking for time pops to the top, then a child with a timer
+            running, so the thing that needs the parent is always first. */}
+        {[...kids]
+          .sort((a, b) => (b.request ? 2 : b.session ? 1 : 0) - (a.request ? 2 : a.session ? 1 : 0))
+          .map(k => (
+            <ChildRow key={k.id} kid={k} onChange={load} onAlarm={alarm} />
+          ))}
       </div>
     </div>
   )
