@@ -734,6 +734,7 @@ export default function QuestManager() {
                 gateCount={gate.length}
                 blocking={[...grouped.values()]}
                 onAnswered={load}
+                coView={child.use_mode !== 'own'}
               />
             )
           })()}
