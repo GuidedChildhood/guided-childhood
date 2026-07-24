@@ -182,7 +182,7 @@ export default function KidQuestScreen({
   focusLesson?: { id: string; title: string; emoji: string; stars: number } | null
   // A printable a grown up sent to this child, shown at the top of the to do:
   // print it, do it, then send it to be confirmed like any printable.
-  assignedPrintable?: { key: string; title: string; emoji: string; stars: number; sheetUrl: string } | null
+  assignedPrintable?: { key: string; title: string; emoji: string; stars: number; sheetUrl: string; previewUrl: string } | null
 }) {
   // Only the games, mini lessons and printables that suit this child's
   // stage, so a young child never meets an older child's content.
@@ -1044,6 +1044,10 @@ export default function KidQuestScreen({
             print it, do it, then send it to be confirmed like any printable. */}
         {assignedPrintable && !assignedSent && (
           <div style={{ background: '#fff', border: '2px solid var(--terracotta)', borderRadius: 18, padding: '14px 16px', marginBottom: 16, boxShadow: '0 5px 0 var(--terracotta-dark)' }}>
+            {/* The real product cover, so the child sees exactly what is coming. */}
+            <div style={{ position: 'relative', width: '100%', height: 132, borderRadius: 12, overflow: 'hidden', marginBottom: 10, background: 'var(--cream)', border: '1.5px solid var(--border)' }}>
+              <Image src={assignedPrintable.previewUrl} alt="" fill sizes="(max-width: 480px) 100vw, 420px" style={{ objectFit: 'cover', objectPosition: 'top' }} />
+            </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
               <span style={{ fontSize: 30, lineHeight: 1 }}>{assignedPrintable.emoji}</span>
               <div style={{ flex: 1, minWidth: 0 }}>
@@ -1926,7 +1930,7 @@ export default function KidQuestScreen({
                       {printablesUnlocked ? (
                         <>
                           <button
-                            onClick={() => printSheet(p.sheetUrl, p.title)}
+                            onClick={() => { if (p.pdfColourIn) { playKidSound('tap'); window.open(p.pdfColourIn, '_blank') } else { printSheet(p.sheetUrl, p.title) } }}
                             style={{
                               width: '100%', padding: '12px', borderRadius: '13px', border: 'none',
                               cursor: 'pointer', marginBottom: '7px',
