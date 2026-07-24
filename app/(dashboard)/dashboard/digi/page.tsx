@@ -69,6 +69,23 @@ export default async function DigiPage() {
   const childName = childResult.data?.name ?? null
   const stagePrompts = getStagePrompts(stage.id, childName)
 
+  // A short evergreen set of example questions that stays under the chat, so a
+  // parent who has already asked something still sees the kind of thing DiGi is
+  // for. The first is the screen time question parents ask most, framed by the
+  // child's own age so it reads like their question, then a few from the stage.
+  const AGE_LABEL: Record<string, string> = {
+    '4-7': 'a 4 to 7 year old',
+    '8-10': 'an 8 to 10 year old',
+    '11-13': 'an 11 to 13 year old',
+    '13-15': 'a 13 to 15 year old',
+    '16+': 'a 16 year old',
+  }
+  const ageLabel = childResult.data?.age_band ? (AGE_LABEL[childResult.data.age_band as string] ?? 'my child') : 'my child'
+  const faqPrompts = [
+    `How long should ${ageLabel} be on a screen each day?`,
+    ...stagePrompts,
+  ].slice(0, 4)
+
   const conv = convResult.data
   const isNewDay = !conv || conv.last_message_date !== today
   const initialCount = isNewDay ? 0 : (conv?.messages_today ?? 0)
@@ -94,6 +111,7 @@ export default async function DigiPage() {
       initialCount={initialCount}
       isPaid={isPaid}
       stagePrompts={stagePrompts}
+      faqPrompts={faqPrompts}
       pendingReflection={pendingReflection}
       stageId={stage.id}
       stageName={stage.name}
