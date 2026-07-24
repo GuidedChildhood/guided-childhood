@@ -3,6 +3,44 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { PrintBrandFooter } from '@/components/brand/PrintBrand'
+import { STAR_MINUTES } from '@/lib/quests/templates'
+
+// The award button under every game, so a finished pack pays out like a
+// printable does: it drops a one off family quest worth the pack's stars into
+// the same approve loop, and the stars buy screen time once the parent ticks
+// it. Screen only, never printed.
+function AwardStars({ title, worth }: { title: string; worth: number }) {
+  const [added, setAdded] = useState(false)
+  async function add() {
+    if (added) return
+    setAdded(true)
+    try {
+      const r = await fetch('/api/quests', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title: `Play ${title}`, emoji: '🎲', stars: worth, schedule: 'once', child_id: null }),
+      })
+      if (!r.ok) setAdded(false)
+    } catch { setAdded(false) }
+  }
+  return (
+    <button
+      onClick={add}
+      disabled={added}
+      className="no-print"
+      style={{
+        marginTop: '14px', width: '100%',
+        background: added ? 'var(--tint-sage)' : 'var(--terracotta)',
+        border: 'none', borderRadius: '14px', padding: '13px 18px',
+        cursor: added ? 'default' : 'pointer',
+        fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--ink)',
+        boxShadow: added ? 'none' : '0 4px 0 var(--terracotta-dark)',
+      }}
+    >
+      {added ? 'On the quest list ✓ · stars land when you tick it' : `Add to quests · earns ${'⭐'.repeat(worth)}`}
+    </button>
+  )
+}
 
 // The Game Pack. Age banded printable games and crafts, each one screen
 // free, each one worth stars, each one secretly a digital literacy
@@ -67,6 +105,104 @@ function Sheet({ children, band, title, worth, lesson, plays }: {
       {children}
       <p style={{ ...mono, fontSize: '9px', color: 'var(--ink-light)', textAlign: 'center', marginTop: '20px' }}>
         Finished? Tick it on your quest page and the stars are yours
+      </p>
+      <AwardStars title={title} worth={worth} />
+      <PrintBrandFooter />
+    </div>
+  )
+}
+
+// The fridge chart: stars turn into screen time, the same rate on every
+// device. Printed big and colour in, it goes on the fridge so the whole deal
+// is visible without opening the app. The star row is there to colour in as
+// they are earned, the reward track a child can see filling up.
+function StarChartSheet() {
+  const rows: { icon: string; label: string }[] = [
+    { icon: '📺', label: 'TV and films' },
+    { icon: '🎮', label: 'Console and games' },
+    { icon: '📱', label: 'Phone' },
+    { icon: '💻', label: 'Tablet and iPad' },
+  ]
+  const ladder = [1, 2, 3, 5, 10]
+  return (
+    <div className="craft-sheet" style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: '20px', padding: '28px', marginBottom: '24px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '14px', flexWrap: 'wrap' }}>
+        <img src="/digi-squad/DiGi-star.svg" alt="" style={{ width: '44px', height: '44px' }} />
+        <div style={{ flex: 1, minWidth: '200px' }}>
+          <div style={{ ...mono, fontSize: '9px', color: 'var(--terracotta-dark)' }}>For the fridge · Guided Childhood</div>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.55rem', letterSpacing: '-0.02em', color: 'var(--ink)', margin: '2px 0 0' }}>
+            Stars turn into screen time
+          </h2>
+        </div>
+      </div>
+      <p style={{ fontSize: '13.5px', color: 'var(--ink)', lineHeight: 1.6, margin: '0 0 16px' }}>
+        Jobs and games earn stars. Stars buy screen time, and <strong>1 star is {STAR_MINUTES} minutes</strong> on any screen. Same rate for the TV, the console, the phone and the tablet, because a screen is a screen.
+      </p>
+
+      {/* The conversion ladder */}
+      <div style={{ border: '2px solid var(--ink)', borderRadius: '16px', overflow: 'hidden', marginBottom: '16px' }}>
+        {ladder.map((s, i) => (
+          <div key={s} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '11px 16px', background: i % 2 === 0 ? 'var(--cream)' : '#fff', borderTop: i === 0 ? 'none' : '1px solid var(--border)' }}>
+            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '15px', color: 'var(--ink)', minWidth: 62 }}>{s} {'⭐'.repeat(Math.min(s, 3))}{s > 3 ? '…' : ''}</span>
+            <span style={{ flex: 1, borderBottom: '1px dashed var(--border)' }} />
+            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '15px', color: 'var(--terracotta-dark)' }}>{s * STAR_MINUTES} minutes</span>
+          </div>
+        ))}
+      </div>
+
+      {/* Which screens it covers */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '8px', marginBottom: '18px' }}>
+        {rows.map(r => (
+          <div key={r.label} style={{ border: '1.5px solid var(--border)', borderRadius: '12px', padding: '10px 12px', textAlign: 'center', background: 'var(--cream)' }}>
+            <div style={{ fontSize: '1.4rem' }}>{r.icon}</div>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '12px', color: 'var(--ink)', marginTop: '2px' }}>{r.label}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Colour a star as you earn it */}
+      <div style={{ border: '2px dashed var(--terracotta-dark)', borderRadius: '14px', padding: '14px 16px', textAlign: 'center' }}>
+        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--ink)', marginBottom: '8px' }}>
+          My stars this week
+        </div>
+        <div style={{ fontSize: '26px', letterSpacing: '6px', lineHeight: 1.6, wordBreak: 'break-word' }}>
+          {'☆'.repeat(20)}
+        </div>
+        <div style={{ fontSize: '11.5px', color: 'var(--ink-soft)', marginTop: '4px' }}>
+          Colour a star in every time a grown up says a job or a game is done.
+        </div>
+      </div>
+      <PrintBrandFooter />
+    </div>
+  )
+}
+
+// The weekly star calendar, the child's name at the top, a row per day with
+// stars to colour in as jobs and games are done. Fridge ready, the paper twin
+// of the app's star bank, so a family with no child device still runs the loop.
+function StarCalendarSheet({ childName }: { childName: string | null }) {
+  const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+  return (
+    <div className="craft-sheet" style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: '20px', padding: '28px', marginBottom: '24px' }}>
+      <div style={{ textAlign: 'center', marginBottom: '16px' }}>
+        <div style={{ ...mono, fontSize: '9px', color: 'var(--terracotta-dark)', marginBottom: '4px' }}>My week of stars · Guided Childhood</div>
+        <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.7rem', letterSpacing: '-0.02em', color: 'var(--ink)', margin: 0 }}>
+          {childName ? `${childName}'s star week` : 'My star week'}
+        </h2>
+        {!childName && (
+          <div style={{ borderBottom: '2.5px solid var(--ink)', width: '60%', margin: '10px auto 0', height: '28px' }} />
+        )}
+      </div>
+      <div style={{ border: '2px solid var(--ink)', borderRadius: '16px', overflow: 'hidden' }}>
+        {days.map((d, i) => (
+          <div key={d} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '12px 16px', background: i % 2 === 0 ? 'var(--cream)' : '#fff', borderTop: i === 0 ? 'none' : '1px solid var(--border)' }}>
+            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', color: 'var(--ink)', width: 86, flexShrink: 0 }}>{d}</span>
+            <span style={{ flex: 1, fontSize: '20px', letterSpacing: '4px', color: 'var(--ink-light)' }}>{'☆'.repeat(5)}</span>
+          </div>
+        ))}
+      </div>
+      <p style={{ fontSize: '11.5px', color: 'var(--ink-soft)', textAlign: 'center', marginTop: '12px', marginBottom: 0 }}>
+        Colour a star for each job or game done. Stars turn into screen time on the fridge chart, and buy the prize on the reward sheet.
       </p>
       <PrintBrandFooter />
     </div>
@@ -154,8 +290,17 @@ const DINNER_CARDS = [
   'Phones sleep in the kitchen tonight. What shall we do instead?',
 ]
 
-export default function CraftPack() {
+export default function CraftPack({ childName = null }: { childName?: string | null }) {
   const [band, setBand] = useState<BandKey>('young')
+  // The whole offline pack: every game across every age, plus the fridge star
+  // chart and the weekly star calendar, all printed in one go for a family that
+  // wants the paper set on the wall. Turning it on renders every sheet so a
+  // single print run catches the lot.
+  const [showAll, setShowAll] = useState(false)
+  function printWholePack() {
+    setShowAll(true)
+    setTimeout(() => window.print(), 200)
+  }
 
   return (
     <div style={{ maxWidth: '760px', margin: '0 auto', padding: '24px 20px 60px' }}>
@@ -179,12 +324,35 @@ export default function CraftPack() {
             Screen free games that earn stars and quietly teach the digital skills. Print, cut, play. Every finished craft counts as a quest.
           </p>
         </div>
-        <button onClick={() => window.print()} className="btn btn-gold" style={{ padding: '12px 22px', fontSize: '13px', cursor: 'pointer' }}>
-          Print this pack
-        </button>
+        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+          <button onClick={() => window.print()} className="btn btn-gold" style={{ padding: '12px 22px', fontSize: '13px', cursor: 'pointer' }}>
+            Print this pack
+          </button>
+          <button onClick={printWholePack} style={{ padding: '12px 22px', fontSize: '13px', cursor: 'pointer', background: '#fff', border: '1.5px solid var(--border)', borderRadius: '14px', fontFamily: 'var(--font-display)', fontWeight: 800, color: 'var(--ink)' }}>
+            ⭐ Print the whole offline pack
+          </button>
+        </div>
       </div>
 
+      {/* When the whole pack is on, a line so the parent knows the print will
+          be long: every game, the fridge chart and the star calendar at once. */}
+      {showAll && (
+        <div className="no-print" style={{ background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: '14px', padding: '12px 16px', marginBottom: '18px', fontSize: '13.5px', color: 'var(--ink)', lineHeight: 1.5 }}>
+          The whole offline star pack is ready below: every game for every age, the fridge star chart and {childName ? `${childName}'s` : 'the'} weekly star calendar. Print the lot, or use Print this pack for one age at a time.
+        </div>
+      )}
+
+      {/* The offline pack extras lead when printing everything: the fridge
+          star chart and the child's weekly star calendar, then all the games. */}
+      {showAll && (
+        <>
+          <StarChartSheet />
+          <StarCalendarSheet childName={childName} />
+        </>
+      )}
+
       {/* Age band picker */}
+      {!showAll && (
       <div className="no-print" style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '22px' }}>
         {BANDS.map(b => (
           <button
@@ -203,9 +371,10 @@ export default function CraftPack() {
           </button>
         ))}
       </div>
+      )}
 
       {/* ------------------------------ 4 to 7 ------------------------------ */}
-      {band === 'young' && (
+      {(showAll || band === 'young') && (
         <>
           <Sheet band="Ages 4 to 7" title="Robot Parent" worth={3} plays="Simon Says" lesson="computers only do exactly what they are told, nothing more">
             <div style={{ background: 'var(--cream)', borderRadius: '14px', padding: '14px 16px', marginBottom: '4px' }}>
@@ -274,7 +443,7 @@ export default function CraftPack() {
       )}
 
       {/* ------------------------------ 8 to 10 ----------------------------- */}
-      {band === 'middle' && (
+      {(showAll || band === 'middle') && (
         <>
           <Sheet band="Ages 8 to 10" title="Password Monster" worth={3} plays="Mad Libs" lesson="three random words beat any clever short password">
             <p style={{ fontSize: '13.5px', color: 'var(--ink)', lineHeight: 1.6, margin: '0 0 14px' }}>
@@ -346,7 +515,7 @@ export default function CraftPack() {
       )}
 
       {/* ------------------------------ 11 to 13 ---------------------------- */}
-      {band === 'older' && (
+      {(showAll || band === 'older') && (
         <>
           <Sheet band="Ages 11 to 13" title="Deepfake or Real: the family quiz" worth={3} plays="a TV quiz show" lesson="the tells of fake content, learned by beating your parents at it">
             <p style={{ fontSize: '13.5px', color: 'var(--ink)', lineHeight: 1.6, margin: '0 0 4px' }}>
@@ -395,7 +564,7 @@ export default function CraftPack() {
       )}
 
       {/* ------------------------------ Family ------------------------------ */}
-      {band === 'family' && (
+      {(showAll || band === 'family') && (
         <Sheet band="The whole family" title="Device free dinner cards" worth={2} plays="a card deck in a jar" lesson="the best parental control ever invented is a conversation">
           <p style={{ fontSize: '13.5px', color: 'var(--ink)', lineHeight: 1.6, margin: '0 0 4px' }}>
             <strong>How to play:</strong> cut out the cards, keep them in a jar on the table. Phones sleep somewhere else during dinner, grown ups included. Youngest picks a card, everyone answers, no wrong answers.
