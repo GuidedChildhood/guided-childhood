@@ -3,6 +3,7 @@
 import { StageDot, RoadPulseStyle, type StageDotState } from '@/components/pathway/StageRoad'
 import { STAGES } from '@/lib/content/stages'
 import { READINESS, KID_STAGE_DEALS } from '@/lib/content/readiness'
+import { characterForStage } from '@/lib/content/stage-characters'
 import { STAR_MINUTES } from '@/lib/quests/templates'
 import { playKidSound } from '@/lib/sound/kidSounds'
 
@@ -115,16 +116,43 @@ export default function KidRoad({
                     )}
                   </div>
 
-                  {/* The passport stamp this stage earns, same as the big road */}
-                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: 6, background: here ? 'var(--terracotta-lt)' : 'var(--cream)', border: `1px solid ${here ? 'var(--terracotta)' : 'var(--border)'}`, borderRadius: 100, padding: '4px 12px' }}>
-                    <span aria-hidden style={{ fontSize: 15 }}>🪪</span>
+                  {/* The passport stamp this stage earns, the Planet Friend as
+                      the stamp, same friend the child is earning on the road */}
+                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, marginTop: 6, background: here ? 'var(--terracotta-lt)' : 'var(--cream)', border: `1px solid ${here ? 'var(--terracotta)' : 'var(--border)'}`, borderRadius: 100, padding: '3px 12px 3px 4px' }}>
+                    {(() => {
+                      const ch = characterForStage(stage.id)
+                      return ch ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={ch.cutout} alt="" width={22} height={22} style={{ objectFit: 'contain', filter: here || behind ? 'none' : 'grayscale(1) opacity(0.55)' }} />
+                      ) : <span aria-hidden style={{ fontSize: 15 }}>🪪</span>
+                    })()}
                     <span style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, letterSpacing: '0.04em', color: here ? 'var(--terracotta-dark)' : 'var(--ink-muted)' }}>
-                      Stamp: {r.stamp}
+                      {r.stamp}
                     </span>
                   </div>
 
                   {here ? (
                     <div style={{ marginTop: 10, background: '#fff', border: '1.5px solid var(--border)', borderLeft: '6px solid var(--terracotta)', borderRadius: 16, padding: '14px 14px 12px' }}>
+                      {/* The simple passport percent, the same lesson count the
+                          grown up's passport uses, so a pass moves both at once.
+                          Only shows when there are stage lessons to measure. */}
+                      {stageLessonsTotal != null && stageLessonsTotal > 0 && (() => {
+                        const pct = Math.min(100, Math.round(((stageLessonsPassed ?? 0) / stageLessonsTotal) * 100))
+                        return (
+                          <div style={{ marginBottom: 12 }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 5 }}>
+                              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>My passport this stage</span>
+                              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 15, color: 'var(--terracotta-dark)' }}>{pct}%</span>
+                            </div>
+                            <div style={{ height: 10, borderRadius: 100, background: 'var(--cream)', border: '1px solid var(--border)', overflow: 'hidden' }}>
+                              <div style={{ height: '100%', width: `${pct}%`, background: 'var(--terracotta)', borderRadius: 100 }} />
+                            </div>
+                            <p style={{ fontSize: 12.5, color: 'var(--ink-soft)', lineHeight: 1.45, margin: '6px 0 0' }}>
+                              {pct >= 100 ? `Every lesson done. ${buddyName} is yours!` : `${stageLessonsTotal - (stageLessonsPassed ?? 0)} more lesson${stageLessonsTotal - (stageLessonsPassed ?? 0) === 1 ? '' : 's'} to earn ${buddyName} and fill your stamp.`}
+                            </p>
+                          </div>
+                        )
+                      })()}
                       <p style={{ fontSize: 16, fontWeight: 600, color: 'var(--ink)', lineHeight: 1.5, margin: '0 0 10px' }}>
                         {KID_STAGE_LINES[stage.id]}
                       </p>
