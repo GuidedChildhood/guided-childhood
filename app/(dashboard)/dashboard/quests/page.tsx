@@ -80,16 +80,24 @@ export default async function QuestsPage() {
 
   return (
     <div style={{ maxWidth: '640px', margin: '0 auto', padding: '24px 20px 40px' }}>
-      {/* The two things a parent comes here to do, made obvious at the top and
-          each landing exactly where it says: Manage jobs drops to the manager
-          (set, agree and send in one place), View printables opens the
-          printables library. No more label that hides where it goes. */}
-      <div style={{ display: 'flex', gap: '10px', marginBottom: '18px' }}>
-        <a href="#quest-manager" style={{ flex: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none', borderRadius: 16, padding: '14px 16px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15, boxShadow: '0 5px 0 var(--terracotta-dark)', lineHeight: 1.2 }}>
-          Manage jobs
+      {/* The two things a parent comes here to do, each its own action card:
+          an icon, what it is, and a line saying what happens, so the top of the
+          page tells you where each tap goes. Manage jobs drops to the manager
+          (set, agree and send in one place), Printables opens the library. */}
+      <div style={{ display: 'flex', gap: '11px', marginBottom: '18px' }}>
+        <a href="#quest-manager" style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '11px', background: 'var(--gold)', color: 'var(--ink)', textDecoration: 'none', borderRadius: 18, padding: '14px 15px', boxShadow: '0 5px 0 var(--gold-dark)' }}>
+          <span aria-hidden style={{ width: 42, height: 42, borderRadius: 12, background: 'rgba(255,255,255,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '21px', flexShrink: 0 }}>🧩</span>
+          <span style={{ minWidth: 0 }}>
+            <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 16, lineHeight: 1.15 }}>Manage jobs</span>
+            <span style={{ display: 'block', fontSize: 12, color: 'rgba(26,26,46,0.66)', lineHeight: 1.3, marginTop: '2px' }}>Set, agree and send</span>
+          </span>
         </a>
-        <Link href="/dashboard/printables" style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', background: '#fff', color: 'var(--ink)', textDecoration: 'none', border: '1.5px solid var(--border)', borderRadius: 16, padding: '14px 16px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15, lineHeight: 1.2 }}>
-          View printables
+        <Link href="/dashboard/printables" style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '11px', background: '#fff', color: 'var(--ink)', textDecoration: 'none', border: '1.5px solid var(--border)', borderRadius: 18, padding: '14px 15px', boxShadow: '0 3px 0 var(--border)' }}>
+          <span aria-hidden style={{ width: 42, height: 42, borderRadius: 12, background: 'var(--gold-lt)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '21px', flexShrink: 0 }}>🖨️</span>
+          <span style={{ minWidth: 0 }}>
+            <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 16, lineHeight: 1.15 }}>Printables</span>
+            <span style={{ display: 'block', fontSize: 12, color: 'var(--ink-soft)', lineHeight: 1.3, marginTop: '2px' }}>Charts to print</span>
+          </span>
         </Link>
       </div>
 

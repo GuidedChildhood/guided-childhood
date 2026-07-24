@@ -441,18 +441,18 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           Silent until the habit is done, so it never crowds the path. */}
       {dayComplete && (
         <Link href="/dashboard/quests" style={{ textDecoration: 'none', display: 'block', marginBottom: '22px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '15px', background: 'var(--deep-teal)', borderRadius: '22px', padding: '18px 20px', boxShadow: '0 10px 30px -10px rgba(26,26,46,0.28)' }}>
-            <span style={{ flexShrink: 0, width: 50, height: 50, borderRadius: '15px', background: 'rgba(255,255,255,0.14)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '26px' }}>⭐</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '15px', background: 'linear-gradient(135deg, #FFF7EA 0%, #FCEAC0 100%)', border: '1.5px solid var(--gold)', borderRadius: '22px', padding: '18px 20px', boxShadow: '0 10px 26px -12px rgba(198,144,24,0.45)' }}>
+            <span style={{ flexShrink: 0, width: 52, height: 52, borderRadius: '15px', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '27px', boxShadow: '0 3px 8px rgba(198,144,24,0.18)' }}>⭐</span>
             <span style={{ flex: 1, minWidth: 0 }}>
-              <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.65)', marginBottom: '3px' }}>Today&apos;s habit done</span>
-              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.2rem', color: '#fff', lineHeight: 1.15, letterSpacing: '-0.01em' }}>
+              <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--gold-dark)', marginBottom: '4px' }}>Today&apos;s habit done</span>
+              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.4rem', color: 'var(--ink)', lineHeight: 1.15, letterSpacing: '-0.01em' }}>
                 {questsChildName ? `${questsChildName}'s quests` : 'Family quests'}
               </span>
-              <span style={{ display: 'block', fontSize: '13.5px', color: 'rgba(255,255,255,0.8)', marginTop: '2px' }}>
+              <span style={{ display: 'block', fontSize: '14.5px', color: 'var(--ink-soft)', marginTop: '3px', lineHeight: 1.4 }}>
                 {questsLine}
               </span>
             </span>
-            <span style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--ink)', background: 'var(--terracotta)', borderRadius: '13px', padding: '11px 18px', boxShadow: '0 4px 0 var(--terracotta-dark)' }}>Open</span>
+            <span style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: 'var(--ink)', background: 'var(--gold)', borderRadius: '13px', padding: '12px 20px', boxShadow: '0 4px 0 var(--gold-dark)' }}>Open</span>
           </div>
         </Link>
       )}
