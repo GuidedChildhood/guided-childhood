@@ -16,7 +16,7 @@ parenting printable, screen free activities
 
 ## What is inside (listing description bullets)
 - Two charts: ages 5 to 7 with picture rows and colour in stars, ages 8 to 11
-  with a weekly screen bucks tally and a spend menu
+  with a weekly stars tally and a spend menu
 - Cut out screen tokens: 10, 15 and 30 minute tokens plus family swap tokens
 - The ending well cards: the five minutes left card and the time is up card,
   the pair that retires you as referee
@@ -33,7 +33,7 @@ parenting printable, screen free activities
 3. Close up: child's hand colouring a star (the Natalia shot)
 4. The token sheet, some tokens cut out, scissors in frame
 5. Instant download overlay graphic (no physical item ships)
-6. The 8 to 11 chart with the screen bucks menu circled
+6. The 8 to 11 chart with the stars menu circled
 7. The ending well cards propped by a TV remote
 8. Phone version on a phone on a bedside table
 9. Sizing and formats guide (A4, US Letter, ink friendly, phone)
