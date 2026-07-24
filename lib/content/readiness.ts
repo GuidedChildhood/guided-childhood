@@ -20,6 +20,7 @@ export type ReadinessStamp = {
   ages: string
   ageBand: AgeBand
   stamp: string   // the passport stamp, a short badge name
+  means: string   // the stamp in plain words, so the badge is never a mystery
   skill: string   // the competence this stage builds
   toward: string  // what it is building toward, the 16 ready line
 }
@@ -27,31 +28,36 @@ export type ReadinessStamp = {
 export const READINESS: ReadinessStamp[] = [
   {
     id: 1, stage: 'Foundation', ages: 'Ages 4 to 7', ageBand: '4-7',
-    stamp: 'Steady stops',
+    stamp: 'Calm screen offs',
+    means: 'screens go off without a battle',
     skill: 'Screens go off calmly, so the off switch is never a battle.',
     toward: 'the self control they will lean on when the algorithm arrives.',
   },
   {
     id: 2, stage: 'Builder', ages: 'Ages 8 to 10', ageBand: '8-10',
     stamp: 'Healthy habits',
+    means: 'good screen habits set early',
     skill: 'The habits get set (bedroom rule, earned time) before an app tries to set them first.',
     toward: 'walking in with their own habits, not ones a feed built for them.',
   },
   {
     id: 3, stage: 'Explorer', ages: 'Ages 11 to 13', ageBand: '11-13',
-    stamp: 'How it works',
+    stamp: 'Knows how it works',
+    means: 'sees how the feed is built to hold them',
     skill: 'They learn how the feed and the algorithm are built to hold them.',
     toward: 'using social media with their eyes open, not being used by it.',
   },
   {
     id: 4, stage: 'Shaper', ages: 'Ages 13 to 15', ageBand: '13-15',
-    stamp: 'Real footprint',
+    stamp: 'Owns their footprint',
+    means: 'looks after their name online',
     skill: 'They own their identity online, and know you are the first call when things go wrong.',
     toward: 'handling the hard moments with you beside them, not hiding them.',
   },
   {
     id: 5, stage: 'Independent', ages: 'Ages 16 and above', ageBand: '16+',
-    stamp: 'Ready',
+    stamp: 'Ready for the world',
+    means: 'runs their own healthy digital life',
     skill: 'They decide for themselves what a healthy digital life looks like.',
     toward: 'the full phone, ready, because they built up to it and did not fall off a cliff.',
   },
@@ -79,7 +85,7 @@ export const KID_STAGE_DEALS: Record<number, KidStageDeal> = {
       { emoji: '🧩', label: 'Learning games' },
       { emoji: '📞', label: 'Video calls with family' },
     ],
-    later: 'Playing on your own and searching come next stage, when you have shown your steady stops.',
+    later: 'Playing on your own and searching come next stage, when you have shown you can turn screens off calmly.',
   },
   2: {
     greatNow: [
