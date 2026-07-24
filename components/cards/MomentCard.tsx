@@ -376,10 +376,15 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
                 )}
               </div>
 
-              {/* The quiet see scripts link, on every card, small at the bottom. */}
+              {/* The quiet see scripts link, and a clear tap to continue cue so
+                  it is obvious the whole card flicks on, on every card, at the
+                  bottom. */}
               {!isLast && (
-                <div style={{ padding: '0 24px 16px', flexShrink: 0 }}>
+                <div style={{ padding: '0 24px 16px', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
                   <a href={scriptsHref} onClick={e => e.stopPropagation()} style={lesserLink}>See the scripts for this →</a>
+                  <span aria-hidden style={{ display: 'inline-flex', alignItems: 'center', gap: 5, background: 'rgba(255,255,255,0.16)', borderRadius: 100, padding: '5px 11px', fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.06em', color: 'rgba(255,255,255,0.95)', flexShrink: 0 }}>
+                    Tap to continue →
+                  </span>
                 </div>
               )}
             </div>
