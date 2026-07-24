@@ -7,7 +7,10 @@ import { createAdminClient } from '@/lib/supabase/admin'
 // only ever a bounded hue (h0 to h360), so the child can own the whole hue
 // wheel but never write arbitrary data.
 
-const BUDDIES = ['digi', 'oliver', 'sofia', 'zara']
+// DiGi the guide plus the five Planet Friends. Kept in step with BUDDY_MAP on
+// the child app; a child only ever saves one they have earned, and the app
+// gates that, so the whole set is safe to accept here.
+const BUDDIES = ['digi', 'pebble', 'bloop', 'orbit', 'nova', 'cosmo']
 const ACCENTS = ['graphite', 'sunshine', 'grass', 'ocean', 'coral', 'berry', 'sky', 'mint', 'lavender', 'peach', 'bubblegum', 'midnight']
 
 // A mixed colour saved from the hue slider: the letter h and a hue 0 to 360.

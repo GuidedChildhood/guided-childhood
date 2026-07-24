@@ -660,7 +660,7 @@ export default function HomePage() {
               <div style={{ background: '#fff', borderRadius: '24px', overflow: 'hidden', border: '1px solid var(--border)', boxShadow: '0 5px 0 var(--terracotta), 0 20px 44px rgba(26,26,46,0.12)' }}>
                 <div style={{ padding: '15px 18px 12px', textAlign: 'center', borderBottom: '1px solid var(--border)' }}>
                   <div style={{ fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '3px' }}>Today&apos;s quests</div>
-                  <div style={{ fontFamily: 'var(--font-display)', fontSize: '17px', fontWeight: 900, color: 'var(--ink)', letterSpacing: '-.02em' }}>Go Sofia!</div>
+                  <div style={{ fontFamily: 'var(--font-display)', fontSize: '17px', fontWeight: 900, color: 'var(--ink)', letterSpacing: '-.02em' }}>Go Pebble!</div>
                 </div>
                 <div style={{ padding: '12px 14px' }}>
                   <div style={{ background: 'linear-gradient(165deg, #FBE9B6 0%, #F6D07E 100%)', borderRadius: '14px', padding: '11px 14px', boxShadow: '0 3px 0 rgba(140,110,40,0.25)' }}>
