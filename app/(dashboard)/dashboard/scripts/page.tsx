@@ -178,18 +178,22 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
       />
 
       {/* Handoff from a moment card: the scripts for that exact moment lead, as
-          the yellow Good Inside numbered list, so the deck closes on the words. */}
+          the butter Good Inside numbered list, so the deck closes on the words.
+          Butter and gold, never lavender: this is the Good Inside "4 Scripts"
+          sheet in our own palette. Each script is its own soft butter pill with
+          a gold number, and the type sits at reading size, matching the daily
+          deck cards, so the words carry the same weight on screen as on paper. */}
       {topicScripts.length > 0 && (
         <section style={{ marginBottom: '24px' }}>
-          <div style={{ background: 'var(--stage-5)', border: '1.5px solid var(--stage-5-bold)', borderRadius: '18px 18px 0 0', padding: '15px 18px 13px' }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--stage-5-text)', marginBottom: '3px' }}>
-              Scripts for this moment
+          <div style={{ background: 'var(--terracotta)', borderRadius: '18px', padding: '16px 20px 14px', marginBottom: '12px', boxShadow: '0 4px 0 var(--terracotta-dark)' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--stage-1-text)', marginBottom: '4px' }}>
+              {topicScripts.length} script{topicScripts.length > 1 ? 's' : ''} for this moment
             </div>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.2rem', color: 'var(--ink)', lineHeight: 1.15, textTransform: 'capitalize' }}>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.35rem', color: 'var(--ink)', lineHeight: 1.12, letterSpacing: '-0.02em', textTransform: 'capitalize' }}>
               {topicLabel}
             </div>
           </div>
-          <div style={{ background: 'var(--stage-5)', border: '1.5px solid var(--stage-5-bold)', borderTop: 'none', borderRadius: '0 0 18px 18px', overflow: 'hidden' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
             {topicScripts.map((script, i) => {
               const isDone = completedOrders.has(script.sort_order)
               const isLocked = !isPaid && !isDone && (!script.is_free || freeAllowanceUsedUp)
@@ -197,16 +201,16 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
                 <Link
                   key={script.id}
                   href={isLocked ? '/dashboard/upgrade' : `/dashboard/scripts/${script.sort_order}`}
-                  style={{ display: 'flex', alignItems: 'center', gap: '13px', padding: '14px 16px', textDecoration: 'none', borderTop: i === 0 ? 'none' : '1px solid var(--stage-5-bold)' }}
+                  style={{ display: 'flex', alignItems: 'center', gap: '15px', padding: '18px 18px', textDecoration: 'none', background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: '18px' }}
                 >
-                  <span style={{ flexShrink: 0, width: 30, height: 30, borderRadius: '50%', background: 'var(--stage-5-bold)', color: 'var(--stage-5-text)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '14px' }}>
+                  <span style={{ flexShrink: 0, width: 34, height: 34, borderRadius: '50%', background: 'var(--terracotta)', color: 'var(--stage-1-text)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '16px' }}>
                     {i + 1}
                   </span>
                   <span style={{ flex: 1, minWidth: 0 }}>
-                    <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)', lineHeight: 1.25 }}>{script.title}</span>
-                    <span style={{ display: 'block', fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.45, marginTop: '2px' }}>{script.situation}</span>
+                    <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '18px', color: 'var(--ink)', lineHeight: 1.25, letterSpacing: '-0.01em' }}>{script.title}</span>
+                    <span style={{ display: 'block', fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '3px' }}>{script.situation}</span>
                   </span>
-                  <span aria-hidden style={{ flexShrink: 0, fontSize: '17px', fontWeight: 800, color: 'var(--stage-5-text)' }}>{isDone ? '✓' : isLocked ? '🔒' : '›'}</span>
+                  <span aria-hidden style={{ flexShrink: 0, fontSize: '18px', fontWeight: 800, color: 'var(--terracotta-dark)' }}>{isDone ? '✓' : isLocked ? '🔒' : '›'}</span>
                 </Link>
               )
             })}
