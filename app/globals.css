@@ -104,6 +104,11 @@ body {
   font-size: 16px;
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
+  /* One global readability dial for both apps. The interface is built in fixed
+     pixel sizes across hundreds of components, so a modest uniform zoom is the
+     honest way to make every screen bigger and clearer at once, text, spacing
+     and all. Tuned here in one place: nudge up for larger, down for tighter. */
+  zoom: 1.07;
 }
 
 h1, h2, h3, h4, h5 {

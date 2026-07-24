@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import type { DeviceKey } from '@/lib/quests/device-time'
+import { DEVICES, type DeviceKey } from '@/lib/quests/device-time'
 import { wouldExceedGuide } from '@/lib/quests/daily-guide'
 import { PendingAskBox } from '@/components/quests/ParentDeviceTime'
 
@@ -24,7 +24,7 @@ type ActiveKid = {
 }
 
 export default function ScreenGateBanner({
-  childId, childName, gateCount, blocking, onAnswered, fixture,
+  childId, childName, gateCount, blocking, onAnswered, coView, fixture,
 }: {
   childId: string
   childName: string
@@ -34,6 +34,10 @@ export default function ScreenGateBanner({
   blocking: GateJob[]
   // Let the page reload its board after a yes or not yet.
   onAnswered?: () => void
+  // Co-view children have no device of their own to press Start, so once the
+  // gate is clear the parent starts the timer here, and the minutes are
+  // recorded to the week just as a child's own Start would.
+  coView?: boolean
   // Fixture only: seed the ask and skip the network, so the ref page can
   // screenshot the banner without a database.
   fixture?: { request: { id: string; device: DeviceKey; minutes: number } | null }
@@ -71,6 +75,32 @@ export default function ScreenGateBanner({
     } catch { /* non blocking */ }
     setBusy(false)
   }
+
+  // Co-view start: the parent begins the timer for a child with no device of
+  // their own, so the co-watched minutes still land in the week's stats. A
+  // gift (no stars spent), since the gate jobs already earned it.
+  const [startDevice, setStartDevice] = useState<DeviceKey>('tv')
+  const [startMins, setStartMins] = useState(30)
+  const [starting, setStarting] = useState(false)
+  const [started, setStarted] = useState(false)
+  async function startTimer() {
+    if (starting) return
+    setStarting(true)
+    try {
+      const r = await fetch('/api/quests/time/parent-start', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ childId, device: startDevice, minutes: startMins, bonus: true }),
+      })
+      if (r.ok) { setStarted(true); onAnswered?.(); setTimeout(() => setStarted(false), 4000) }
+    } catch { /* the tap can be tried again */ }
+    setStarting(false)
+  }
+  const startChip = (active: boolean): React.CSSProperties => ({
+    padding: '6px 11px', borderRadius: 100, cursor: 'pointer',
+    border: `1.5px solid ${active ? 'var(--terracotta)' : 'var(--border)'}`,
+    background: active ? '#fff' : 'rgba(255,255,255,0.55)',
+    fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 13, color: 'var(--ink)', flexShrink: 0,
+  })
 
   async function remind(job: GateJob) {
     setReminded(job.questId)
@@ -119,6 +149,39 @@ export default function ScreenGateBanner({
             </div>
           </div>
         </div>
+
+        {/* Co-view: no child device to press Start, so the parent starts the
+            timer here and the minutes are recorded to the week. */}
+        {!locked && coView && (
+          <div style={{ marginTop: 12, borderTop: '1px solid var(--pastel-pink-deep)', paddingTop: 12 }}>
+            <div style={{ fontSize: 12.5, color: 'var(--ink-soft)', fontWeight: 600, marginBottom: 9, lineHeight: 1.45 }}>
+              Watching together on a shared screen? Start the timer here so it still counts in {childName}&apos;s week.
+            </div>
+            <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 8 }}>
+              {DEVICES.map(d => (
+                <button key={d.key} type="button" onClick={() => setStartDevice(d.key)} style={startChip(startDevice === d.key)}>{d.emoji} {d.label}</button>
+              ))}
+            </div>
+            <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 10 }}>
+              {[15, 30, 45, 60].map(m => (
+                <button key={m} type="button" onClick={() => setStartMins(m)} style={startChip(startMins === m)}>{m}m</button>
+              ))}
+            </div>
+            <button
+              type="button"
+              onClick={startTimer}
+              disabled={starting}
+              style={{
+                width: '100%', padding: '10px', borderRadius: 12, border: 'none',
+                cursor: starting ? 'default' : 'pointer', background: 'var(--terracotta)', color: 'var(--ink)',
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 14,
+                boxShadow: starting ? 'none' : '0 3px 0 var(--terracotta-dark)',
+              }}
+            >
+              {starting ? 'Starting…' : started ? 'Started ✓' : `Start ${startMins} minutes`}
+            </button>
+          </div>
+        )}
 
         {/* The blocking jobs, one row each, grouped by title. */}
         {locked && (
