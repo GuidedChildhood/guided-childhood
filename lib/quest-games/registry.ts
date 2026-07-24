@@ -67,7 +67,7 @@ export type FishingGame = QuestGameMeta & {
 
 export type CoinsGame = QuestGameMeta & {
   mechanic: 'coins'
-  // Sofia's Ice Cream Shop: build the price in coins. Prices are pence
+  // Pebble's Ice Cream Shop: build the price in coins. Prices are pence
   // integers, pre chosen to be makeable in two to three coins. Serves is how
   // many orders make a round.
   coins: number[]
@@ -512,7 +512,7 @@ export const QUEST_GAMES: QuestGame[] = [
   },
   {
     key: 'ice-cream-shop', mechanic: 'coins', thumb: '/games/ice-cream-shop.png', isNew: true,
-    title: "Sofia's Ice Cream Shop", emoji: '🍦', stage: 'Ages 5 to 7', stages: [1, 2], stars: 2,
+    title: "Pebble's Ice Cream Shop", emoji: '🍦', stage: 'Ages 5 to 7', stages: [1, 2], stars: 2,
     blurb: 'Run the ice cream shop and count out the coins to pay for every treat.',
     coins: [1, 2, 5, 10, 20, 50, 100, 200],
     serves: 5,

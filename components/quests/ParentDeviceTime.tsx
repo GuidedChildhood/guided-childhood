@@ -85,7 +85,9 @@ export default function ParentDeviceTime() {
   }
   useEffect(() => {
     load()
-    const t = setInterval(load, 20000)
+    // Poll often enough that a child stopping early clears the parent's live
+    // timer within a few seconds, not up to twenty, so both sides agree.
+    const t = setInterval(load, 8000)
     return () => clearInterval(t)
   }, [])
 
@@ -163,11 +165,39 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
   const [remaining, setRemaining] = useState<number | null>(null)
   const [finished, setFinished] = useState(false)
   const firedRef = useRef(false)
+  // The last running session we were counting down, so when it vanishes from a
+  // poll we can tell whether the child handed it back early or the clock simply
+  // ran out.
+  const lastRunRef = useRef<{ endsAt: number; startedAt: number; planned: number; device: DeviceKey } | null>(null)
+  // A calm note when the child stopped early, shown on the open board so a
+  // parent looking at it is told, not just the push when the app is closed.
+  const [stoppedNote, setStoppedNote] = useState<{ mins: number; device: DeviceKey } | null>(null)
 
   // Live countdown from the running session, ticking every second, alarming
   // once when it reaches zero.
   useEffect(() => {
-    if (!kid.session) { setRemaining(null); setFinished(false); firedRef.current = false; return }
+    if (!kid.session) {
+      // A running timer just disappeared. If its planned end is still in the
+      // future, the child stopped watching early, so surface it here too. When
+      // the end has already passed the clock ran out and the time up flow and
+      // the push have that covered.
+      const last = lastRunRef.current
+      if (last && Date.now() < last.endsAt - 1500) {
+        const used = Math.max(1, Math.min(Math.round(last.planned), Math.ceil((Date.now() - last.startedAt) / 60000)))
+        setStoppedNote({ mins: used, device: last.device })
+      }
+      lastRunRef.current = null
+      setRemaining(null); setFinished(false); firedRef.current = false
+      return
+    }
+    // A fresh timer is running: remember it and clear any old stopped note.
+    lastRunRef.current = {
+      endsAt: new Date(kid.session.ends_at).getTime(),
+      startedAt: new Date(kid.session.started_at).getTime(),
+      planned: kid.session.minutes,
+      device: kid.session.device,
+    }
+    setStoppedNote(null)
     const end = new Date(kid.session.ends_at).getTime()
     firedRef.current = false
     const tick = () => {
@@ -207,12 +237,15 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
   // Start button begins the timer, so minutes never tick away on a screen
   // nobody is looking at. Not yet declines it warmly.
   const [answered, setAnswered] = useState<'yes' | null>(null)
+  const [jobsLeftAfterYes, setJobsLeftAfterYes] = useState(0)
   async function approveRequest() {
     if (!kid.request || busy) return
     setBusy(true); setErr(null)
     try {
       const r = await fetch('/api/quests/time/request', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: kid.request.id, status: 'approved' }) })
+      const d = await r.json().catch(() => ({}))
       if (!r.ok) { setErr('Could not send the yes, try again'); setBusy(false); return }
+      setJobsLeftAfterYes(Number(d.jobsLeft) || 0)
       setAnswered('yes')
       onChange()
     } catch { setErr('Could not send the yes, try again') }
@@ -270,6 +303,25 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>⭐ {kid.balance}</span>
       </div>
 
+      {/* The child handed the device back before the time was up. Their timer
+          stopped, and so did this one, so a parent watching the board is told
+          the same thing the push says, with the minutes that were recorded. */}
+      {stoppedNote && (
+        <div style={{ border: '1.5px solid var(--terracotta)', background: 'var(--terracotta-lt)', borderRadius: '13px', padding: '11px 13px', marginBottom: '11px' }}>
+          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '8px' }}>
+            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: 'var(--ink)' }}>
+              ⏹️ {kid.name} has stopped watching
+            </span>
+            <button onClick={() => setStoppedNote(null)} style={{ flexShrink: 0, background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.04em', color: 'var(--ink-muted)' }}>
+              OK
+            </button>
+          </div>
+          <div style={{ fontSize: '12px', color: 'var(--ink-soft)', lineHeight: 1.45, marginTop: '2px' }}>
+            {stoppedNote.mins} minute{stoppedNote.mins === 1 ? '' : 's'} on the {deviceLabel(stoppedNote.device)} recorded, on today&apos;s balance. The rest of the stars went back.
+          </div>
+        </div>
+      )}
+
       {/* A gift still being paid back, quietly. A gift is a gift: this is a
           note of the thank you on its way, never a debt collector. */}
       {(kid.giftOwed ?? 0) > 0 && (
@@ -305,10 +357,14 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
           onDecline={declineRequest}
         />
       )}
-      {/* The yes is away: one calm line while the child taps Start. */}
+      {/* The yes is away: one calm line while the child taps Start. When jobs
+          are still to do today, the same soft nudge the child gets shows here,
+          so both sides are told to finish those first. Never a block. */}
       {!kid.request && answered === 'yes' && !kid.session && (
         <p style={{ fontSize: '12px', fontWeight: 600, color: 'var(--ink-soft)', background: 'var(--tint-sage)', borderRadius: '11px', padding: '9px 12px', margin: '0 0 11px', lineHeight: 1.45 }}>
-          ✅ Yes sent. {kid.name} taps Start on their screen and the countdown shows here too.
+          {jobsLeftAfterYes > 0
+            ? `✅ Yes sent. ${kid.name} still has ${jobsLeftAfterYes} job${jobsLeftAfterYes === 1 ? '' : 's'} to do today, so we have asked them to finish those first, then tap Start.`
+            : `✅ Yes sent. ${kid.name} taps Start on their screen and the countdown shows here too.`}
         </p>
       )}
 

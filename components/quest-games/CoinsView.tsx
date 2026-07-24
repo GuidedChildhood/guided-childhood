@@ -3,11 +3,12 @@
 import { useState, useRef, useEffect } from 'react'
 import { gsap } from 'gsap'
 import type { CoinsGame } from '@/lib/quest-games/registry'
+import { characterByKey } from '@/lib/content/stage-characters'
 
-// Sofia's Ice Cream Shop, the coins mechanic. Sofia runs the counter and
+// Pebble's Ice Cream Shop, the coins mechanic. Pebble runs the counter and
 // asks for a treat at price P pence. The child taps play coins from the
 // till to build the total; when it lands on P exactly the order is served
-// (Sofia cheers, the scoops pop). Tapping over P gently bounces the coin
+// (Pebble cheers, the scoops pop). Tapping over P gently bounces the coin
 // back, and a coin already in the pile can be tapped to take it back.
 // Finishing all serves calls onDone once, which awards the stars. No pass
 // mark, no losing. Tap only, big targets, GSAP only.
@@ -74,8 +75,9 @@ function PlayCoin({ value, size }: { value: number; size: number }) {
   )
 }
 
-// Sofia, the shopkeeper, is the real character portrait
-// (public/digi-squad/Sofia.jpeg), shown as a round avatar at the counter.
+// Pebble, the shopkeeper, is the Planet Friend cutout, shown as a round
+// avatar at the counter. Art comes from the one stage-characters source.
+const PEBBLE_IMG = characterByKey('pebble')?.cutout ?? ''
 
 // ── The built ice cream that pops in when an order is served ──────────
 function ServedTreat({ colours, size }: { colours: string[]; size: number }) {
@@ -122,7 +124,7 @@ export function CoinsView({ game, onDone }: { game: CoinsGame; onDone: () => voi
   const busyRef = useRef(false)
   const doneRef = useRef(false)
   const stageRef = useRef<HTMLDivElement>(null)
-  const sofiaRef = useRef<HTMLDivElement>(null)
+  const pebbleRef = useRef<HTMLDivElement>(null)
   const treatRef = useRef<HTMLDivElement>(null)
   const timers = useRef<number[]>([])
   const tweens = useRef<gsap.core.Tween[]>([])
@@ -165,8 +167,8 @@ export function CoinsView({ game, onDone }: { game: CoinsGame; onDone: () => voi
     busyRef.current = true
     setNudge(null)
     setServing(true)
-    if (sofiaRef.current) {
-      track(gsap.fromTo(sofiaRef.current, { y: 0 }, { y: -9, duration: 0.24, yoyo: true, repeat: 3, ease: 'sine.inOut' }))
+    if (pebbleRef.current) {
+      track(gsap.fromTo(pebbleRef.current, { y: 0 }, { y: -9, duration: 0.24, yoyo: true, repeat: 3, ease: 'sine.inOut' }))
     }
     after(() => {
       if (treatRef.current) {
@@ -235,16 +237,16 @@ export function CoinsView({ game, onDone }: { game: CoinsGame; onDone: () => voi
             Yes! One {order.item} coming up!
           </p>
           <p style={{ fontFamily: 'var(--font-body)', fontSize: '13.5px', color: 'var(--ink-soft)', marginTop: '4px' }}>
-            Exactly {priceLabel(order.price)}. Sofia is so proud of you.
+            Exactly {priceLabel(order.price)}. Pebble is so proud of you.
           </p>
         </div>
       ) : (
         <div ref={stageRef}>
-          {/* Sofia and her order */}
+          {/* Pebble and her order */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '14px' }}>
-            <div ref={sofiaRef} style={{ flexShrink: 0 }}>
+            <div ref={pebbleRef} style={{ flexShrink: 0 }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/digi-squad/Sofia.jpeg" alt="Sofia" width={72} height={72}
+              <img src={PEBBLE_IMG} alt="Pebble" width={72} height={72}
                 style={{ width: 72, height: 72, borderRadius: '50%', objectFit: 'cover', border: '3px solid #fff', boxShadow: '0 4px 0 var(--border)' }} />
             </div>
             <div style={{

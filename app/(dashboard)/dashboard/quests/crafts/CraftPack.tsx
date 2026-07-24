@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { PrintBrandFooter } from '@/components/brand/PrintBrand'
 import { STAR_MINUTES } from '@/lib/quests/templates'
+import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
 
 // The award button under every game, so a finished pack pays out like a
 // printable does: it drops a one off family quest worth the pack's stars into
@@ -125,7 +126,10 @@ function StarChartSheet() {
   ]
   const ladder = [1, 2, 3, 5, 10]
   return (
-    <div className="craft-sheet" style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: '20px', padding: '28px', marginBottom: '24px' }}>
+    <div className="craft-sheet" style={{ position: 'relative', overflow: 'hidden', background: '#fff', border: '2px solid var(--ink)', borderRadius: '20px', padding: '28px', marginBottom: '24px' }}>
+      {/* A Planet Friend in the corner, a little brand mark on the fridge */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={STAGE_CHARACTERS[0].cutout} alt="" aria-hidden style={{ position: 'absolute', right: 10, bottom: 8, width: 64, height: 64, objectFit: 'contain', opacity: 0.9, pointerEvents: 'none' }} />
       <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '14px', flexWrap: 'wrap' }}>
         <img src="/digi-squad/DiGi-star.svg" alt="" style={{ width: '44px', height: '44px' }} />
         <div style={{ flex: 1, minWidth: '200px' }}>
@@ -177,6 +181,40 @@ function StarChartSheet() {
   )
 }
 
+// Colour in the Planet Friends: the five characters in clean line art, one to
+// colour for each Friend a child is working toward. Same friends they earn in
+// the app, so the paper and the screen tell one story. Two per row, big enough
+// for crayons.
+function PlanetFriendsColourSheet() {
+  return (
+    <div className="craft-sheet" style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: '20px', padding: '28px', marginBottom: '24px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '10px', flexWrap: 'wrap' }}>
+        <img src="/digi-squad/DiGi-star.svg" alt="" style={{ width: '44px', height: '44px' }} />
+        <div style={{ flex: 1, minWidth: '200px' }}>
+          <div style={{ ...mono, fontSize: '9px', color: 'var(--terracotta-dark)' }}>Colour me in · Guided Childhood</div>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.55rem', letterSpacing: '-0.02em', color: 'var(--ink)', margin: '2px 0 0' }}>
+            Colour your Planet Friends
+          </h2>
+        </div>
+      </div>
+      <p style={{ fontSize: '13.5px', color: 'var(--ink)', lineHeight: 1.6, margin: '0 0 16px' }}>
+        Meet the five Planet Friends you earn on the way to 16. Colour each one in as you unlock them, and stick them on your fridge star chart.
+      </p>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '14px' }}>
+        {STAGE_CHARACTERS.map(c => (
+          <div key={c.key} style={{ border: '2px dashed var(--ink-light)', borderRadius: '16px', padding: '12px', textAlign: 'center' }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={c.colouring} alt={`Colour in ${c.name}`} style={{ width: '100%', maxWidth: '190px', height: 'auto', margin: '0 auto', display: 'block' }} />
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '17px', color: 'var(--ink)', marginTop: '6px' }}>{c.name}</div>
+            <div style={{ ...mono, fontSize: '8.5px', color: 'var(--ink-light)', marginTop: '2px' }}>{c.ages}</div>
+          </div>
+        ))}
+      </div>
+      <PrintBrandFooter />
+    </div>
+  )
+}
+
 // The cut out stars: a sheet of star tokens a child snips and sticks onto the
 // fridge chart as they are earned, sorted into today, this week and this month
 // piles. The physical reward, the paper twin of a star landing in the bank.
@@ -222,7 +260,9 @@ function StarTokensSheet() {
 function StarCalendarSheet({ childName }: { childName: string | null }) {
   const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
   return (
-    <div className="craft-sheet" style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: '20px', padding: '28px', marginBottom: '24px' }}>
+    <div className="craft-sheet" style={{ position: 'relative', overflow: 'hidden', background: '#fff', border: '2px solid var(--ink)', borderRadius: '20px', padding: '28px', marginBottom: '24px' }}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={STAGE_CHARACTERS[1].cutout} alt="" aria-hidden style={{ position: 'absolute', right: 10, bottom: 8, width: 60, height: 60, objectFit: 'contain', opacity: 0.9, pointerEvents: 'none' }} />
       <div style={{ textAlign: 'center', marginBottom: '16px' }}>
         <div style={{ ...mono, fontSize: '9px', color: 'var(--terracotta-dark)', marginBottom: '4px' }}>My week of stars · Guided Childhood</div>
         <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.7rem', letterSpacing: '-0.02em', color: 'var(--ink)', margin: 0 }}>
@@ -388,6 +428,7 @@ export default function CraftPack({ childName = null }: { childName?: string | n
           <StarChartSheet />
           <StarCalendarSheet childName={childName} />
           <StarTokensSheet />
+          <PlanetFriendsColourSheet />
         </>
       )}
 

@@ -83,7 +83,10 @@ export default function SetupNextBar() {
   return (
     <div style={{
       position: 'fixed', left: '50%', transform: 'translateX(-50%)',
-      bottom: 'calc(80px + env(safe-area-inset-bottom, 0px))',
+      // Sit clear above the Help now button, which floats at bottom 78px and
+      // stands 60px tall on its right. Sharing that line hid the Go button
+      // behind it, so the bar rides above the whole stack instead.
+      bottom: 'calc(150px + env(safe-area-inset-bottom, 0px))',
       width: 'calc(100% - 24px)', maxWidth: '440px', zIndex: 60,
     }}>
       <div style={{
