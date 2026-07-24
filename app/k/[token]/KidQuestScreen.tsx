@@ -375,10 +375,12 @@ export default function KidQuestScreen({
   const [chosenBuddy, setChosenBuddy] = useState(buddy && BUDDY_MAP[buddy] ? buddy : DEFAULT_BUDDY)
   const [chosenAccent, setChosenAccent] = useState(knownAccent(accent) ? accent : DEFAULT_ACCENT)
   const [makeMineOpen, setMakeMineOpen] = useState(false)
-  // The one time squad welcome: DiGi's Sparks introduced one at a time on the
-  // very first open, then never again.
+  // The squad welcome: DiGi and the Planet Friends introduced one at a time,
+  // every open. The first meeting is a gentle tap through; every open after
+  // auto plays like a short splash. squadIntroSeen still marks the first open so
+  // the component knows which of the two to run.
   const [showIntro, setShowIntro] = useState(false)
-  useEffect(() => { if (!squadIntroSeen()) setShowIntro(true) }, [])
+  useEffect(() => { setShowIntro(true) }, [])
 
   // A new Planet Friend just unlocked: celebrate it once. The first ever load
   // records the baseline quietly so already earned Friends are not celebrated
