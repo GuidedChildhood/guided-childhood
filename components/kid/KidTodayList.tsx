@@ -356,6 +356,47 @@ export default function KidTodayList({
     )
   }
 
+  // The concertina peek: a slim one line card for a job still waiting its turn,
+  // stacked just behind the one being done now so a long day folds into a tidy
+  // deck instead of a page long scroll. Each still taps to tick, but the eye
+  // rests on the top card, one thing at a time. The slight overlap and the
+  // stepped shadow give the folded, do the next one feel.
+  const peekCard = (r: Row, idx: number) => (
+    <button
+      key={r.key}
+      onClick={r.onTap}
+      disabled={!r.tappable}
+      style={{
+        display: 'flex', alignItems: 'center', gap: 12, width: '100%', textAlign: 'left',
+        background: '#fff', border: 'none', borderRadius: '16px', padding: '12px 15px',
+        marginTop: idx === 0 ? '11px' : '-7px', position: 'relative', zIndex: 40 - idx,
+        cursor: r.tappable ? 'pointer' : 'default',
+        boxShadow: '0 4px 0 rgba(0,0,0,0.12)',
+      }}
+    >
+      <span style={{ fontSize: '1.35rem', flexShrink: 0 }}>{r.emoji}</span>
+      <span style={{ flex: 1, minWidth: 0 }}>
+        <span style={{
+          display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800,
+          fontSize: '1.05rem', color: 'var(--ink)', lineHeight: 1.2,
+          whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+        }}>
+          {r.title}
+        </span>
+      </span>
+      {r.beforeScreens && <span aria-hidden style={{ fontSize: '15px', flexShrink: 0 }}>📵</span>}
+      <span style={{
+        width: 30, height: 30, borderRadius: '50%', flexShrink: 0,
+        background: 'var(--cream)', border: '2px dashed var(--ink-light)',
+      }} />
+    </button>
+  )
+
+  // Fold into the concertina once the day is long, so a big list never fills the
+  // whole screen. The first job stays full size, the rest peek behind it.
+  const CONCERTINA_AT = 5
+  const concertina = activeRows.length > CONCERTINA_AT
+
   return (
     <div id="my-todo" style={{ marginBottom: '18px', scrollMarginTop: '12px' }}>
       {/* The buddy's one line above the list. */}
@@ -421,7 +462,19 @@ export default function KidTodayList({
         </div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '11px' }}>
-          {activeRows.map(rowCard)}
+          {concertina ? (
+            // The one being done now sits full size; the rest fold behind it as
+            // a tidy peek deck, worked down one at a time.
+            <div>
+              {rowCard(activeRows[0])}
+              {activeRows.slice(1).map((r, i) => peekCard(r, i))}
+              <p style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.06em', color: inkSoft, margin: '12px 0 0' }}>
+                {activeRows.length - 1} more, one at a time
+              </p>
+            </div>
+          ) : (
+            activeRows.map(rowCard)
+          )}
           {waitingRows.length > 0 && (
             <>
               <button
