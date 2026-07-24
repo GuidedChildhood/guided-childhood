@@ -85,7 +85,9 @@ export default function ParentDeviceTime() {
   }
   useEffect(() => {
     load()
-    const t = setInterval(load, 20000)
+    // Poll often enough that a child stopping early clears the parent's live
+    // timer within a few seconds, not up to twenty, so both sides agree.
+    const t = setInterval(load, 8000)
     return () => clearInterval(t)
   }, [])
 
