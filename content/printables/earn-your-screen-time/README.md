@@ -3,7 +3,7 @@
 Recipe: routine and screen time charts (printables-engine recipe 1), the
 launch grid's review engine. Price rung £4 to £5. Evergreen.
 
-Built 20 July 2026 by the printables-engine pipeline. Fronted by Oliver
+Built 20 July 2026 by the printables-engine pipeline. Fronted by Bloop
 (Screen Time Boss) with DiGi Junior on the ending well cards.
 
 ## Contents
@@ -23,7 +23,9 @@ guidedchildhood.com/etsy-bonus (page still to be built on the platform).
 Discreet footer URL on every page.
 
 ## Still to do before listing goes live
-1. Swap in the flat Higgsfield Oliver (job 656bcbe2) once downloadable, and
+1. Bloop the Planet Friend now fronts the pack, referenced from the CDN in
+   print.html and phone.html. Re run the build script from a machine that
+   reaches the CDN to refresh the product PDFs and preview PNGs, and
    generate the remaining photo slot imagery.
 2. Build /etsy-bonus on the platform and wire the DiGi mini lesson.
 3. Editable name field version (Canva or fillable PDF) to justify the

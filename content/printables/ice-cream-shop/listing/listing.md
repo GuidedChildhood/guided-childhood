@@ -1,4 +1,4 @@
-# Etsy Listing Package — Sofia's Ice Cream Shop
+# Etsy Listing Package — Pebble's Ice Cream Shop
 
 ## Title (74 characters)
 Ice Cream Shop Money Game Printable | UK Coins Pretend Play | Ages 5 to 7
@@ -71,5 +71,5 @@ No medical claims anywhere. The play coins are stylised originals in house
 colours with PLAY MONEY on every face, not reproductions of Royal Mint
 artwork. Bonus link inside the PDF goes to a free page, never a checkout.
 No review incentives. AI assisted imagery disclosed per Etsy Creativity
-Standards (Sofia character art; all other artwork is original vector
+Standards (Pebble character art; all other artwork is original vector
 illustration).

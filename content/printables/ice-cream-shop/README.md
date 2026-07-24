@@ -1,9 +1,9 @@
-# Sofia's Ice Cream Shop — product folder
+# Pebble's Ice Cream Shop — product folder
 
 Recipe: build at home kit (printables-engine recipe 3), filling gap 3 from
 the July 2026 market sweep: pound coin pretend play money games barely
 exist on Etsy while dollar versions are crowded. Price rung £4 to £5.
-Evergreen with a summer peak. Fronted by Sofia (age six, warm lane,
+Evergreen with a summer peak. Fronted by Pebble (age six, warm lane,
 ages 4 to 9), which fits a first shop game for ages 5 to 7.
 
 Built 21 July 2026 by the printables-engine pipeline.
@@ -25,7 +25,7 @@ order card answer is arithmetic checked against the menu.
   board, receipt pad), free bonus page.
 - `phone/` — 1080x1920 set: menu-board.png and coin-chart.png, the send to
   a phone versions no competitor ships.
-- `images/` — Sofia source art, page previews and the imagery ledger
+- `images/` — Pebble source art, page previews and the imagery ledger
   (images.md).
 - `listing/` — full Etsy listing package: title, tags, photo plan, video
   and reel scripts, compliance notes.
