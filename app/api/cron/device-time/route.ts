@@ -161,13 +161,13 @@ export async function GET(request: Request) {
       await push(
         s.user_id as string,
         `${kid.name} has reached the healthy amount for today 🌱`,
-        `The ${deviceLabel(s.device as string)} timer is wrapping up with some offline ideas. Anything more today is a treat you can grant from the board.`,
+        `The ${deviceLabel(s.device as string)} timer is wrapping up with some offline ideas. A lot of screen can slow their passport stamp a little, so a quieter day or an outside job keeps it moving. Anything more today is a treat you can grant from the board.`,
       )
       try {
         await pushToChild(
           admin, s.user_id as string, cid,
           'Nearly time to wrap up 🌱',
-          'You have reached the healthy amount for today. When the timer ends, pick a job or something fun offline.',
+          'You have reached the healthy amount for today. A lot of screen can slow your passport stamp a little, so a job or something fun offline keeps it growing.',
         )
       } catch { /* best effort per session */ }
       alerted += 1

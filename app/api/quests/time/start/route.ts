@@ -6,6 +6,7 @@ import { isDeviceKey, minutesToStars, deviceLabel, readTrust } from '@/lib/quest
 import { questDueToday } from '@/lib/quests/due'
 import { getMinutesUsedToday } from '@/lib/quests/usage'
 import { wouldExceedGuide } from '@/lib/quests/daily-guide'
+import { jobsTodayCount } from '@/lib/pathway/jobs-streak'
 
 // The child spends earned stars as device time. The link token is the auth,
 // same trust model as ticking. Starting a session records the spend against
@@ -98,6 +99,24 @@ export async function POST(req: NextRequest) {
     const { data: askRow } = await supabase.from('device_requests').insert({
       user_id: link.user_id, child_id: link.child_id, device, minutes: mins, status: 'pending',
     }).select('id, device, minutes').single()
+
+    // The jobs picture, so the yes is an informed one: never a gate, just the
+    // day's jobs at a glance beside the ask. "All jobs done" when the day is
+    // clear, otherwise the count still to go.
+    let jobsLine = ''
+    try {
+      const { data: jq } = await supabase
+        .from('family_quests')
+        .select('id, schedule, schedule_days, created_at')
+        .eq('user_id', link.user_id).eq('active', true)
+        .or(`child_id.eq.${link.child_id},child_id.is.null`)
+      const { data: jt } = await supabase
+        .from('quest_ticks').select('quest_id, tick_date, status')
+        .eq('child_id', link.child_id).eq('status', 'approved').eq('tick_date', gateToday)
+      const { due, done } = jobsTodayCount(jq ?? [], jt ?? [])
+      if (due > 0) jobsLine = done >= due ? ' All jobs done today ✅' : ` ${done} of ${due} jobs done today so far.`
+    } catch { /* the ask still sends without the jobs line */ }
+
     try {
       const origin = process.env.NEXT_PUBLIC_APP_URL ?? req.nextUrl.origin
       await fetch(`${origin}/api/push/send`, {
@@ -106,7 +125,7 @@ export async function POST(req: NextRequest) {
         body: JSON.stringify({
           userId: link.user_id,
           title: `${childName} is asking for screen time ⏳`,
-          body: `${mins} minutes on the ${deviceLabel(device)}, that is ${stars} star${stars === 1 ? '' : 's'}. Tap to say yes on your board.`,
+          body: `${mins} minutes on the ${deviceLabel(device)}, that is ${stars} star${stars === 1 ? '' : 's'}.${jobsLine} Tap to say yes on your board.`,
           url: '/dashboard/quests',
         }),
       })

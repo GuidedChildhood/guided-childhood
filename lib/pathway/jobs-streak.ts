@@ -127,6 +127,26 @@ export function jobsTodayStatus(
   return due.every(q => approved.has(q.id)) ? 'on_track' : 'pending'
 }
 
+// The plain count for today: how many recurring jobs were due, and how many are
+// approved. Feeds the screen time ask alert so a parent sees at a glance whether
+// the day's jobs are done before they say yes, without any gate or block.
+export function jobsTodayCount(
+  quests: StreakQuest[],
+  ticks: StreakTick[],
+  today: Date = new Date(),
+): { due: number; done: number } {
+  const routines = quests.filter(isRecurring)
+  const day = ymd(today)
+  const due = routines.filter(q => {
+    if (q.created_at && q.created_at.slice(0, 10) > day) return false
+    return questDueToday(q.schedule, q.schedule_days ?? null, today)
+  })
+  const approved = new Set(
+    ticks.filter(t => t.status === 'approved' && t.tick_date === day).map(t => t.quest_id),
+  )
+  return { due: due.length, done: due.filter(q => approved.has(q.id)).length }
+}
+
 // ── Server side: record a completed milestone ──
 // Called right after a parent confirms a job. Works out the strict streak and,
 // when today has just landed a fresh multiple of five good days, records the
