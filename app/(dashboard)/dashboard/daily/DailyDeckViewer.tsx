@@ -187,26 +187,6 @@ function CardFace({ card, palette, blank = false }: { card: DailyCard; palette: 
             )
           })}
         </div>
-        {card.action && (
-          <a
-            href={card.action.href}
-            onClick={e => e.stopPropagation()}
-            style={{
-              marginTop: 'auto', paddingTop: '22px',
-              display: 'block', ...hide,
-            }}
-          >
-            <span style={{
-              display: 'inline-block', width: '100%', textAlign: 'center',
-              background: 'var(--terracotta)', color: 'var(--ink)',
-              borderRadius: '14px', padding: '14px 18px',
-              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px',
-              boxShadow: '0 4px 0 var(--terracotta-dark)',
-            }}>
-              {card.action.label}
-            </span>
-          </a>
-        )}
       </div>
     </div>
   )
@@ -673,6 +653,24 @@ export default function DailyDeckViewer({
           {isLast && done ? 'Back to home' : isLast ? 'Done for today ✓' : 'Next →'}
         </button>
       </div>
+
+      {/* The script sits under Next as a quiet link, never a rival button.
+          Good Inside style: one thing to do, and a soft way through if you
+          want the deeper read. Next always leads. */}
+      {card.action && (
+        <a
+          href={card.action.href}
+          onClick={e => e.stopPropagation()}
+          style={{
+            display: 'block', textAlign: 'center', marginTop: '16px',
+            fontFamily: 'var(--font-body)', fontSize: '14px', fontWeight: 600,
+            color: 'var(--ink-soft)', textDecoration: 'underline',
+            textUnderlineOffset: '3px', textDecorationColor: 'var(--border)',
+          }}
+        >
+          {card.action.label}
+        </a>
+      )}
 
       </div>
     </div>
