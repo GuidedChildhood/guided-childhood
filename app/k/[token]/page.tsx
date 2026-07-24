@@ -5,7 +5,7 @@ import { getStarBanks } from '@/lib/quests/bank'
 import { KID_LESSONS, kidLessonBaseTitle } from '@/lib/quests/kid-lessons'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { getParentLessons, getCompletionsForChild } from '@/lib/lessons/parent-lessons'
-import { getActiveSession } from '@/lib/quests/device-time'
+import { getActiveSession, isAskLive } from '@/lib/quests/device-time'
 import { getMinutesUsedToday } from '@/lib/quests/usage'
 import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
 import { hasFullAccess } from '@/lib/access'
@@ -382,18 +382,19 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       deviceTrust = data.device_trust
     }
   }
-  const askSinceIso = new Date(Date.now() - 12 * 3600000).toISOString()
   let initialAsk: { id: string; device: string; minutes: number; status: 'pending' | 'approved' | 'declined' } | null = null
   {
     const { data, error } = await supabase
       .from('device_requests')
-      .select('id, device, minutes, status')
+      .select('id, device, minutes, status, created_at')
       .eq('child_id', link.child_id)
-      .gte('created_at', askSinceIso)
       .order('created_at', { ascending: false })
       .limit(1)
       .maybeSingle()
-    if (!error && data && ['pending', 'approved', 'declined'].includes(String(data.status))) {
+    // Same freshness rule as the live poll: pending or declined stales at twelve
+    // hours, an approved yes stays startable for a full day.
+    if (!error && data && ['pending', 'approved', 'declined'].includes(String(data.status))
+        && isAskLive(String(data.status), String(data.created_at))) {
       initialAsk = {
         id: String(data.id), device: String(data.device),
         minutes: Number(data.minutes), status: data.status as 'pending' | 'approved' | 'declined',

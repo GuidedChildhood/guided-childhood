@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { getActiveSession } from '@/lib/quests/device-time'
+import { getActiveSession, isAskLive } from '@/lib/quests/device-time'
 
 // What the child's status banner needs in one call: their latest screen time
 // ask (so an ask's fate is never hunted for), the live session if one runs,
@@ -20,17 +20,18 @@ export async function GET(req: NextRequest) {
     .from('kid_links').select('user_id, child_id').eq('token', token).maybeSingle()
   if (!link) return NextResponse.json({ error: 'unknown link' }, { status: 404 })
 
-  // The latest ask from the last twelve hours, whatever its state. Older
-  // answers have gone stale: yesterday's not yet should never greet a child.
-  const sinceIso = new Date(Date.now() - 12 * 3600000).toISOString()
+  // The latest ask, shown while it is still live. A pending or declined ask
+  // goes stale after twelve hours (yesterday's not yet should never greet a
+  // child), but an approved ask stays startable for a full day, so a yes given
+  // near the twelve hour edge never vanishes before the child taps Start.
   const { data: askRow } = await supabase
     .from('device_requests')
     .select('id, device, minutes, status, created_at')
     .eq('child_id', link.child_id)
-    .gte('created_at', sinceIso)
     .order('created_at', { ascending: false })
     .limit(1)
     .maybeSingle()
+  const askIsLive = askRow ? isAskLive(String(askRow.status), String(askRow.created_at)) : false
 
   const session = await getActiveSession(supabase, link.child_id)
 
@@ -49,7 +50,7 @@ export async function GET(req: NextRequest) {
   }
 
   return NextResponse.json({
-    ask: askRow ? {
+    ask: (askRow && askIsLive) ? {
       id: String(askRow.id),
       device: String(askRow.device),
       minutes: Number(askRow.minutes),
