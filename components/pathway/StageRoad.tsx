@@ -2,6 +2,7 @@ import Link from 'next/link'
 import DigiCharacter from '@/components/digi/DigiCharacter'
 import { STAGES } from '@/lib/content/stages'
 import { READINESS } from '@/lib/content/readiness'
+import { characterForStage } from '@/lib/content/stage-characters'
 import { LITERACY_AREAS, type LiteracyKey } from '@/lib/content/literacy'
 import type { AreaStatus } from '@/lib/pathway/literacy-status'
 
@@ -336,8 +337,14 @@ export default function StageRoad({
                       {r.ages}
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'center', gap: 6, marginTop: 7, flexWrap: 'wrap' }}>
-                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: here ? 'var(--terracotta-lt)' : 'var(--cream)', border: `1.5px solid ${here ? 'var(--terracotta)' : 'var(--border)'}`, borderRadius: 100, padding: '5px 13px' }}>
-                        <span aria-hidden style={{ fontSize: 13 }}>{behind && isComplete(stage.id) ? '✅' : '🪪'}</span>
+                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: here ? 'var(--terracotta-lt)' : 'var(--cream)', border: `1.5px solid ${here ? 'var(--terracotta)' : 'var(--border)'}`, borderRadius: 100, padding: '4px 13px 4px 5px' }}>
+                        {(() => {
+                          const ch = characterForStage(stage.id)
+                          return ch ? (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img src={ch.img} alt="" width={22} height={22} style={{ borderRadius: '50%', objectFit: 'cover', filter: here || (behind && isComplete(stage.id)) ? 'none' : 'grayscale(1) opacity(0.55)' }} />
+                          ) : <span aria-hidden style={{ fontSize: 13 }}>{behind && isComplete(stage.id) ? '✅' : '🪪'}</span>
+                        })()}
                         <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10.5, fontWeight: 700, letterSpacing: '0.04em', color: here ? 'var(--terracotta-dark)' : 'var(--ink-muted)' }}>
                           Stamp: {r.stamp}
                         </span>
@@ -365,6 +372,12 @@ export default function StageRoad({
                         )
                       )}
                     </div>
+
+                    {/* The stamp in plain words, right under its name, so the
+                        badge is never a mystery. */}
+                    <p style={{ fontFamily: 'var(--font-body)', fontSize: 11.5, fontStyle: 'italic', color: 'var(--ink-muted)', margin: '5px auto 0', maxWidth: 260 }}>
+                      {r.stamp} means {r.means}
+                    </p>
 
                     {/* The literacy level running with the stamp: what the
                         child can do at this stage, in the readiness words.

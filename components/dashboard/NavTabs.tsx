@@ -3,13 +3,14 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
+// One nav, phone and laptop the same: the five core destinations in one order,
+// so the app never reads differently on a bigger screen. Lessons and School
+// reach from Home and the Passport rather than a top level tab, and the old
+// Pathway tab folded into the Passport (it is the same journey now).
 const NAV_TABS = [
   { href: '/dashboard', label: 'Home' },
   { href: '/dashboard/digi', label: 'DiGi' },
-  { href: '/dashboard/pathway', label: 'Pathway' },
   { href: '/dashboard/quests', label: 'Quests' },
-  { href: '/dashboard/lessons', label: 'Lessons' },
-  { href: '/dashboard/school', label: 'School' },
   { href: '/dashboard/scripts', label: 'Scripts' },
   { href: '/dashboard/tracker', label: 'Passport' },
 ]

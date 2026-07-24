@@ -1143,6 +1143,13 @@ export default function KidQuestScreen({
                   <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.25rem', color: 'var(--ink)', lineHeight: 1.1 }}>
                     Use my time <span style={{ fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 700, color: 'var(--ink-muted)' }}>· {bankBalance * STAR_MINUTES} min ready</span>
                   </span>
+                  {/* All jobs done today unlocks the ask: a warm line so the
+                      child sees the door open, still an ask, never an auto start. */}
+                  {allDone && bankBalance > 0 && (
+                    <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: '#2F8F6B', marginTop: '3px' }}>
+                      🔓 All your jobs are done, screen time is unlocked
+                    </span>
+                  )}
                   {/* The device rule, right where the screen would start. */}
                   <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: '16px', color: 'var(--ink-muted)', marginTop: '3px', lineHeight: 1.45 }}>
                     {TIMER_RULE}

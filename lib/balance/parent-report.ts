@@ -9,7 +9,7 @@
 // device maps to one of four buckets, inferred from its name for now, with room
 // for a parent set override later.
 
-import { recommendedDailyMinutes, bandLabelFor, screenStatusForAge, type ScreenStatus } from '@/lib/quests/screen-balance'
+import { recommendedDailyMinutes, bandLabelFor, screenStatusForAge, statusForGuide, bucketDailyGuide, type ScreenStatus } from '@/lib/quests/screen-balance'
 
 export type Bucket = 'gaming' | 'watching' | 'social' | 'learning'
 
@@ -38,6 +38,19 @@ export function bucketForDevice(device: string): Bucket {
 export type DeviceUsage = { device: string; minutes: number; bucket: Bucket }
 export type BucketSummary = { bucket: Bucket; label: string; emoji: string; tone: string; minutes: number; devices: DeviceUsage[] }
 
+// The healthy amount for one device type at this age, with what was actually
+// used this week set against it, so the report can show each type as under, on
+// track or over on its own line, not just the week as a whole.
+export type TypeGuide = {
+  bucket: Bucket
+  label: string
+  emoji: string
+  recommendedDailyMins: number
+  recommendedWeekMins: number
+  actualWeekMins: number
+  status: ScreenStatus
+}
+
 export type ParentReport = {
   childName: string
   bandLabel: string
@@ -45,6 +58,9 @@ export type ParentReport = {
   healthyWeekMins: number
   status: ScreenStatus
   buckets: BucketSummary[]
+  // The recommended amount per device type for this age, all four always
+  // present so a parent sees the full picture even for a type not used yet.
+  typeGuides: TypeGuide[]
   offscreen: { activities: number; stars: number; minutes: number }
   guidance: string
 }
@@ -99,6 +115,25 @@ export function buildParentReport(input: ParentReportInput): ParentReport {
   const busiest = buckets.reduce<BucketSummary | null>((top, b) => (!top || b.minutes > top.minutes ? b : top), null)
   const name = input.childName ?? 'Your child'
 
+  // The per type healthy amounts for this age, every type shown so a parent
+  // reads the full picture. Actual weekly minutes come from the bucketed total,
+  // and the status compares the daily average of each type to its own guide.
+  const typeDaily = bucketDailyGuide(input.ageBand)
+  const typeGuides = BUCKET_ORDER.map(b => {
+    const meta = BUCKET_META[b]
+    const actualWeekMins = byBucket.get(b)?.minutes ?? 0
+    const recommendedDailyMins = typeDaily[b]
+    return {
+      bucket: b,
+      label: meta.label,
+      emoji: meta.emoji,
+      recommendedDailyMins,
+      recommendedWeekMins: recommendedDailyMins * 7,
+      actualWeekMins,
+      status: statusForGuide(recommendedDailyMins, Math.round(actualWeekMins / 7)),
+    }
+  })
+
   return {
     childName: name,
     bandLabel: bandLabelFor(input.ageBand),
@@ -106,6 +141,7 @@ export function buildParentReport(input: ParentReportInput): ParentReport {
     healthyWeekMins,
     status,
     buckets,
+    typeGuides,
     offscreen: {
       activities: Math.max(0, Math.round(input.offscreen?.activities ?? 0)),
       stars: Math.max(0, Math.round(input.offscreen?.stars ?? 0)),
