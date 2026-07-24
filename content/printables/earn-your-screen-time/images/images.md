@@ -2,8 +2,7 @@
 
 | Asset | Source | Job ID | Status |
 |---|---|---|---|
-| oliver-hero.png | Repo canonical art (public/digi-squad/Oliver.png) | n/a | in use |
-| Flat sticker Oliver, football kit, holding token | Higgsfield nano_banana_pro, reference 414b72ed (Oliver.png import) | `656bcbe2-eeff-4dab-b19a-d3cbc376e736` | generated, viewable in Higgsfield library; NOT yet downloadable from this session because the egress policy blocks d8j0ntlcm91z4.cloudfront.net. Swap in from a local machine and re run the build script. |
+| Bloop hero (screen time host) | Planet Friend cutout on the CDN, the same art the app uses: d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260723_135534_b8fa0227.png | n/a | referenced by URL in print.html and phone.html. Bloop owns screen routines, gaming and good habits, so he fronts this pack in place of the retired Oliver. |
 | DiGi-star.svg | Repo canonical art (public/digi-squad/DiGi-star.svg) | n/a | in use |
 | Row icons (shirt, toothbrush, ball, book, heart, speech) | Hand built inline SVG in print.html, house tokens | n/a | in use |
 
