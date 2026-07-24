@@ -9,7 +9,7 @@
 // (built by lib/balance/parent-report) so any surface can drop it in.
 
 import { fmtMins, BUCKET_META, type ParentReport } from '@/lib/balance/parent-report'
-import type { ScreenStatus } from '@/lib/quests/screen-balance'
+import { SCREEN_GUIDE_SOURCES, type ScreenStatus } from '@/lib/quests/screen-balance'
 
 const GOOD = '#4C9F6B'
 const OVER = '#D98B45'
@@ -41,6 +41,10 @@ export default function BalanceReport({ report }: { report: ParentReport }) {
   ) * 1.08
 
   const over = status === 'over' || status === 'well_over'
+  const dailyGuideMins = Math.round(healthyWeekMins / 7)
+  // The hover, on the dashed guide line, so a parent can see exactly where the
+  // number comes from without a wall of text on the page.
+  const sourceHover = 'Where this guide comes from: ' + SCREEN_GUIDE_SOURCES.map(s => `${s.body} (${s.year}), ${s.note}`).join('; ')
 
   const card: React.CSSProperties = {
     background: '#fff', border: '1.5px solid var(--border)', borderRadius: 20,
@@ -57,11 +61,19 @@ export default function BalanceReport({ report }: { report: ParentReport }) {
       <div style={card}>
         <div style={cardTitle}>{name}&apos;s screen time this week</div>
 
-        <div style={{ display: 'flex', gap: 14, alignItems: 'center', marginBottom: 16, flexWrap: 'wrap' }}>
-          <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, color: 'var(--ink-soft)', fontWeight: 700 }}>
-            <i style={{ width: 16, height: 0, borderTop: `2px dashed ${OVER}`, display: 'inline-block' }} /> Healthy guide for their age
-          </span>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ink-muted)', fontWeight: 700 }}>Ages {bandLabel}</span>
+        <div style={{ marginBottom: 16 }}>
+          <div style={{ display: 'flex', gap: 14, alignItems: 'center', marginBottom: 8, flexWrap: 'wrap' }}>
+            <span title={sourceHover} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, color: 'var(--ink-soft)', fontWeight: 700, cursor: 'help', borderBottom: '1px dotted var(--ink-light)' }}>
+              <i style={{ width: 16, height: 0, borderTop: `2px dashed ${OVER}`, display: 'inline-block' }} /> Healthy daily guide
+            </span>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ink-muted)', fontWeight: 700 }}>Ages {bandLabel}</span>
+          </div>
+          {/* The number in plain words, why it is a guide not a cap, and that the
+              average across the week is what matters. Hover the dashed line above
+              for the science it draws on. */}
+          <p style={{ fontSize: 12.5, color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
+            For age {bandLabel}, the science based guide is about <b>{fmtMins(dailyGuideMins)} a day</b> of recreational screen. The dashed line marks it on each bar, and the coloured bar is the minutes we have recorded. It is an average to aim at, not a limit: a day over is fine when the week balances out.
+          </p>
         </div>
 
         {rows.map(({ tg, summary }) => {
@@ -127,7 +139,10 @@ export default function BalanceReport({ report }: { report: ParentReport }) {
           <span style={{ width: 42, height: 42, flexShrink: 0, borderRadius: 12, background: 'var(--stage-1, #FFFBEE)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22 }}>🌟</span>
           <div style={{ flex: 1, minWidth: 0 }}>
             <p style={{ fontSize: 14.5, lineHeight: 1.55, color: 'var(--ink)', margin: 0 }}>
-              {name} spent <b>{fmtMins(offscreen.minutes)} off screen</b> this week, against <b>{fmtMins(totalWeekMins)} on screen</b>, across <b>{offscreen.activities}</b> off screen {offscreen.activities === 1 ? 'win' : 'wins'} and <b>{offscreen.stars} {offscreen.stars === 1 ? 'star' : 'stars'}</b> earned away from a screen.
+              {name} put in <b>{fmtMins(offscreen.minutes)} on jobs, tasks and getting outside</b> this week, against <b>{fmtMins(totalWeekMins)} on screen</b>, earning <b>{offscreen.stars} {offscreen.stars === 1 ? 'star' : 'stars'}</b> across <b>{offscreen.activities}</b> real world {offscreen.activities === 1 ? 'win' : 'wins'}.
+            </p>
+            <p style={{ fontSize: 12, lineHeight: 1.5, color: 'var(--ink-soft)', margin: '6px 0 0' }}>
+              This counts the offline things they logged, jobs done, tasks and time outside, not their whole day away from a screen.
             </p>
           </div>
         </div>
