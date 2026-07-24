@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { sendEmail, emailConfigured, unsubscribeUrl } from '@/lib/email'
-import { day2StageEmail, day3TourEmail, day4DigiEmail, day7FounderEmail, weeklyDigestEmail, trialEndingEmail, winBackEmail, leadNurtureEmail, childPhoneEmail, screenTimeEmail, lessonsEmail, schoolRemindersEmail, familyAgreementEmail } from '@/lib/email/templates'
+import { welcomeEmail, day2StageEmail, day3TourEmail, day4DigiEmail, day7FounderEmail, weeklyDigestEmail, trialEndingEmail, winBackEmail, leadNurtureEmail, childPhoneEmail, screenTimeEmail, lessonsEmail, schoolRemindersEmail, familyAgreementEmail } from '@/lib/email/templates'
 import { lifecycleState, trialDaysLeft } from '@/lib/email/lifecycle'
 import { STAGES, getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { FOUNDER_CAP } from '@/lib/stripe'
@@ -80,7 +80,7 @@ export async function GET(req: NextRequest) {
     return founderRemaining
   }
 
-  const results: Record<string, number> = { day2: 0, day3: 0, day4: 0, day7: 0, svcChildPhone: 0, svcScreenTime: 0, svcLessons: 0, svcSchool: 0, svcAgreement: 0, trialEnding: 0, winback: 0, leadNurture: 0, digest: 0, errors: 0 }
+  const results: Record<string, number> = { welcome: 0, day2: 0, day3: 0, day4: 0, day7: 0, svcChildPhone: 0, svcScreenTime: 0, svcLessons: 0, svcSchool: 0, svcAgreement: 0, trialEnding: 0, winback: 0, leadNurture: 0, digest: 0, errors: 0 }
 
   async function deliver(userId: string, email: string, key: string, content: { subject: string; html: string }, counter: string) {
     const { error: logError } = await supabase.from('email_log').insert({ user_id: userId, email_key: key })
@@ -108,6 +108,13 @@ export async function GET(req: NextRequest) {
       .maybeSingle()
     const childName = child?.name && child.name !== 'Your child' ? child.name : 'your child'
     const stage = child?.age_band ? getStageFromAgeBand(child.age_band as AgeBand) : STAGES[2]
+
+    // Day 0 welcome, the moment onboarding is done. Held to genuinely new
+    // accounts (first couple of days) so switching this on never lands a
+    // welcome in an established parent's inbox on the next run.
+    if (days <= 2 && !alreadySent(profile.id, 'welcome')) {
+      await deliver(profile.id, profile.email, 'welcome', welcomeEmail({ parentName: name, childName, unsubscribe }), 'welcome')
+    }
 
     if (days >= 2 && !alreadySent(profile.id, 'day2-stage')) {
       await deliver(profile.id, profile.email, 'day2-stage', day2StageEmail({
