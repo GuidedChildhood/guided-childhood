@@ -177,6 +177,45 @@ function StarChartSheet() {
   )
 }
 
+// The cut out stars: a sheet of star tokens a child snips and sticks onto the
+// fridge chart as they are earned, sorted into today, this week and this month
+// piles. The physical reward, the paper twin of a star landing in the bank.
+function StarTokensSheet() {
+  const piles = [
+    { label: 'Today', count: 10 },
+    { label: 'This week', count: 20 },
+    { label: 'This month', count: 30 },
+  ]
+  return (
+    <div className="craft-sheet" style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: '20px', padding: '28px', marginBottom: '24px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '10px', flexWrap: 'wrap' }}>
+        <img src="/digi-squad/DiGi-star.svg" alt="" style={{ width: '44px', height: '44px' }} />
+        <div style={{ flex: 1, minWidth: '200px' }}>
+          <div style={{ ...mono, fontSize: '9px', color: 'var(--terracotta-dark)' }}>Cut and keep · Guided Childhood</div>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.55rem', letterSpacing: '-0.02em', color: 'var(--ink)', margin: '2px 0 0' }}>
+            Stars to cut out
+          </h2>
+        </div>
+      </div>
+      <p style={{ fontSize: '13.5px', color: 'var(--ink)', lineHeight: 1.6, margin: '0 0 6px' }}>
+        Colour these in, cut them out, and stick one on the fridge chart every time a job or a game is done. Keep them in a today, a this week and a this month pile.
+      </p>
+      <CutLine />
+      {piles.map(p => (
+        <div key={p.label} style={{ marginBottom: '14px' }}>
+          <div style={{ ...mono, fontSize: '9px', color: 'var(--ink-muted)', marginBottom: '6px' }}>{p.label}</div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+            {Array.from({ length: p.count }).map((_, i) => (
+              <span key={i} style={{ fontSize: '30px', color: 'var(--ink-light)', lineHeight: 1, width: 34, textAlign: 'center' }}>☆</span>
+            ))}
+          </div>
+        </div>
+      ))}
+      <PrintBrandFooter />
+    </div>
+  )
+}
+
 // The weekly star calendar, the child's name at the top, a row per day with
 // stars to colour in as jobs and games are done. Fridge ready, the paper twin
 // of the app's star bank, so a family with no child device still runs the loop.
@@ -348,6 +387,7 @@ export default function CraftPack({ childName = null }: { childName?: string | n
         <>
           <StarChartSheet />
           <StarCalendarSheet childName={childName} />
+          <StarTokensSheet />
         </>
       )}
 
