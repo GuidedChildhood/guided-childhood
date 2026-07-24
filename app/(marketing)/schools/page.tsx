@@ -201,17 +201,22 @@ export default function SchoolsPage() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(168px, 1fr))', gap: '14px' }}>
             {[
               { key: 'digi', line: 'The golden star who closes every lesson' },
-              { key: 'zara', line: 'Truth, checks and the detective work' },
-              { key: 'oliver', line: 'Screen time, routines and gaming' },
-              { key: 'sofia', line: 'Kindness, privacy and staying safe' },
-              { key: 'vix', line: 'Street smart on scams and workarounds' },
-              { key: 'brock', line: 'The calm one, for mood and wellbeing' },
+              { key: 'pebble', line: 'First safe steps, kindness and staying safe' },
+              { key: 'bloop', line: 'Screen routines, gaming and good habits' },
+              { key: 'orbit', line: 'Truth, checks and the detective work' },
+              { key: 'nova', line: 'The calm one, for mood and wellbeing' },
+              { key: 'cosmo', line: 'Street smart on scams and workarounds' },
             ].map((c, i) => {
               const ch = CHARACTERS[c.key as keyof typeof CHARACTERS]
               return (
                 <Reveal key={c.key} delay={(i % 3) * 0.05} as="div" style={{ height: '100%' }}>
                   <div style={{ background: ch.soft, border: `1.5px solid ${ch.accent}`, borderRadius: '20px', padding: '22px 18px', textAlign: 'center', height: '100%' }}>
-                    <div style={{ width: '56px', height: '56px', margin: '0 auto 14px', borderRadius: '50%', background: '#fff', border: `2px solid ${ch.accent}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '28px' }}>{ch.emblem}</div>
+                    <div style={{ width: '56px', height: '56px', margin: '0 auto 14px', borderRadius: '50%', background: '#fff', border: `2px solid ${ch.accent}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '28px', overflow: 'hidden' }}>
+                      {ch.img
+                        // eslint-disable-next-line @next/next/no-img-element
+                        ? <img src={ch.img} alt={ch.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        : ch.emblem}
+                    </div>
                     <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: ch.ink, marginBottom: '6px' }}>{ch.name}</div>
                     <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: 'var(--ink-soft)', lineHeight: 1.5 }}>{c.line}</div>
                   </div>
