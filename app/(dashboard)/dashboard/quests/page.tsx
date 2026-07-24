@@ -80,18 +80,17 @@ export default async function QuestsPage() {
 
   return (
     <div style={{ maxWidth: '640px', margin: '0 auto', padding: '24px 20px 40px' }}>
-      {/* The two things a parent comes here to do, made obvious at the top:
-          agree the waiting jobs and send a new one, or print a sheet for a
-          little one. Both drop to the manager, the single hub for setting,
-          sending and printing. Replaces a Manage button that just linked back
-          to this same page. */}
+      {/* The two things a parent comes here to do, made obvious at the top and
+          each landing exactly where it says: Manage jobs drops to the manager
+          (set, agree and send in one place), View printables opens the
+          printables library. No more label that hides where it goes. */}
       <div style={{ display: 'flex', gap: '10px', marginBottom: '18px' }}>
         <a href="#quest-manager" style={{ flex: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none', borderRadius: 16, padding: '14px 16px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15, boxShadow: '0 5px 0 var(--terracotta-dark)', lineHeight: 1.2 }}>
-          Agree and send jobs
+          Manage jobs
         </a>
-        <a href="#quest-manager" style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', background: '#fff', color: 'var(--ink)', textDecoration: 'none', border: '1.5px solid var(--border)', borderRadius: 16, padding: '14px 16px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15, lineHeight: 1.2 }}>
-          Print a sheet
-        </a>
+        <Link href="/dashboard/printables" style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', background: '#fff', color: 'var(--ink)', textDecoration: 'none', border: '1.5px solid var(--border)', borderRadius: 16, padding: '14px 16px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15, lineHeight: 1.2 }}>
+          View printables
+        </Link>
       </div>
 
       {handoverName && (

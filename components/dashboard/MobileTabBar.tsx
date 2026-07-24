@@ -10,11 +10,13 @@ import { usePathname } from 'next/navigation'
 // taking a nav slot. Active is decided from the real route by longest matching
 // prefix, so a script or quest sub page still lights its parent tab.
 
+// The same five as the laptop nav, in the same order, so the app reads
+// identically on both: Home, DiGi, Quests, Scripts, Passport.
 const NAV_TABS = [
   { href: '/dashboard', label: 'Home', icon: '⌂' },
-  { href: '/dashboard/scripts', label: 'Scripts', icon: '❝' },
   { href: '/dashboard/digi', label: 'DiGi', icon: '◎' },
   { href: '/dashboard/quests', label: 'Quests', icon: '✦' },
+  { href: '/dashboard/scripts', label: 'Scripts', icon: '❝' },
   { href: '/dashboard/tracker', label: 'Passport', icon: '△' },
 ]
 
