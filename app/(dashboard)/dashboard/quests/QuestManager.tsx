@@ -353,6 +353,25 @@ export default function QuestManager() {
     setAddingRoutine(null)
   }
 
+  // Turn a whole routine off in one tap, for a holiday or a change of shape:
+  // every quest that came from this pack drops off the child's board. It is not
+  // gone for good, adding the routine again brings the same jobs straight back.
+  const [removingRoutine, setRemovingRoutine] = useState<string | null>(null)
+  async function removeRoutine(pack: RoutinePack) {
+    if (!activeChild || removingRoutine) return
+    setRemovingRoutine(pack.key)
+    const ids = childQuests.filter(q => pack.tasks.some(t => t.title === q.title)).map(q => q.id)
+    for (const id of ids) {
+      await fetch('/api/quests', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ quest_id: id }),
+      }).catch(() => {})
+    }
+    await load()
+    setRemovingRoutine(null)
+  }
+
   // The spotted it prompt: the bedroom is not tidy, homework is not done.
   // One tap makes it a one off quest flagged before screens, at the top of
   // the child's list, on the printed contract, with a best effort ping to
@@ -1278,22 +1297,37 @@ export default function QuestManager() {
                       <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)' }}>{pack.name}</span>
                     </div>
                     <p style={{ fontSize: '12px', color: 'var(--ink-soft)', lineHeight: 1.45, margin: 0, flex: 1 }}>{pack.blurb}</p>
-                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, color: 'var(--ink-muted)' }}>
-                      {pack.tasks.length} jobs{already > 0 && !allIn ? ` · ${already} already set` : ''}
+                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, color: allIn ? 'var(--retro-green-dark, #2F8F6B)' : 'var(--ink-muted)' }}>
+                      {allIn ? `On · ${pack.tasks.length} jobs` : `${pack.tasks.length} jobs${already > 0 ? ` · ${already} already set` : ''}`}
                     </div>
-                    <button
-                      onClick={() => addRoutine(pack)}
-                      disabled={allIn || addingRoutine === pack.key}
-                      style={{
-                        width: '100%', padding: '10px', borderRadius: '12px', border: 'none',
-                        cursor: allIn || addingRoutine === pack.key ? 'default' : 'pointer',
-                        background: allIn ? 'var(--tint-sage)' : 'var(--terracotta)',
-                        color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px',
-                        boxShadow: allIn ? 'none' : '0 3px 0 var(--terracotta-dark)',
-                      }}
-                    >
-                      {allIn ? 'All set ✓' : addingRoutine === pack.key ? 'Adding…' : `Add this routine`}
-                    </button>
+                    {allIn ? (
+                      <button
+                        onClick={() => removeRoutine(pack)}
+                        disabled={removingRoutine === pack.key}
+                        style={{
+                          width: '100%', padding: '10px', borderRadius: '12px',
+                          border: '1.5px solid var(--border)', background: '#fff',
+                          cursor: removingRoutine === pack.key ? 'default' : 'pointer',
+                          color: 'var(--ink-soft)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px',
+                        }}
+                      >
+                        {removingRoutine === pack.key ? 'Turning off…' : 'Turn off'}
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => addRoutine(pack)}
+                        disabled={addingRoutine === pack.key}
+                        style={{
+                          width: '100%', padding: '10px', borderRadius: '12px', border: 'none',
+                          cursor: addingRoutine === pack.key ? 'default' : 'pointer',
+                          background: 'var(--terracotta)',
+                          color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px',
+                          boxShadow: '0 3px 0 var(--terracotta-dark)',
+                        }}
+                      >
+                        {addingRoutine === pack.key ? 'Adding…' : already > 0 ? 'Finish adding' : 'Add this routine'}
+                      </button>
+                    )}
                   </div>
                 )
               })}

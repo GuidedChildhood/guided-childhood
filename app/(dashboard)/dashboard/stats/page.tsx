@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { buildParentReport } from '@/lib/balance/parent-report'
 import BalanceReport from '@/components/balance/BalanceReport'
+import ParentStartTimer from '@/components/balance/ParentStartTimer'
 
 // The parent balance stats: the screen time graph that replaces the old
 // tipping scales card on the Quests page. Reads this week's device sessions,
@@ -81,6 +82,7 @@ export default async function StatsPage() {
       <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: 20 }}>
         {child?.name && child.name !== 'Your child' ? `${child.name}'s week` : 'This week'}
       </h1>
+      {child?.id && <ParentStartTimer childId={child.id} childName={child.name} />}
       <BalanceReport report={report} />
     </div>
   )
