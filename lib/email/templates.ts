@@ -1,6 +1,8 @@
-// The five lifecycle emails. Plain warm HTML in the butter and ink
+// The lifecycle and nurture emails. Plain warm HTML in the butter and ink
 // system, table based so every client renders it, Justin's voice
 // throughout. No dashes in any copy.
+
+import type { WeeklyReview } from '@/lib/digi/weekly-review'
 
 const INK = '#1A1A2E'
 const INK_SOFT = '#52526A'
@@ -393,6 +395,57 @@ export function magnetEmail(params: {
       p(`This is the free front door to Guided Childhood. When you want the calm plan behind it, the starter pack picks the first small move for your child in about two minutes.`) +
       button('See the free starter pack', `${APP}/starter-pack`),
       'mailto:hello@guidedchildhood.com?subject=Unsubscribe'
+    ),
+  }
+}
+
+// Minutes to a short label for the weekly review stats block.
+function fmtMinsEmail(mins: number): string {
+  const m = Math.max(0, Math.round(mins))
+  const h = Math.floor(m / 60)
+  const r = m % 60
+  if (h <= 0) return `${r} min`
+  if (r === 0) return `${h}h`
+  return `${h}h ${r}m`
+}
+
+// The DiGi weekly catch up. The clever per family read the Sunday review
+// already builds, turned into an email so it reaches a parent who lives in
+// their inbox, not only the phone push: the week's own numbers, one warm note,
+// one gentle watch for, and one thing to set up for next week. Nothing is
+// shared or compared, the numbers are the family's own.
+export function weeklyReviewEmail(params: {
+  parentName: string
+  childLabel: string
+  review: WeeklyReview
+  unsubscribe: string
+}): EmailContent {
+  const { childLabel, review, unsubscribe } = params
+  const s = review.stats
+  const statRow = (label: string, value: string) => `<tr>
+    <td style="padding:8px 4px;font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:15px;color:${INK_SOFT}">${label}</td>
+    <td style="padding:8px 4px;font-family:'IBM Plex Mono',Menlo,monospace;font-size:14px;font-weight:700;color:${INK};text-align:right">${value}</td>
+  </tr>`
+  const rows = [
+    statRow('Jobs done', `${s.questsApproved}`),
+    statRow('Stars earned', `${s.starsEarned}`),
+    statRow('Screen time', s.deviceMinutes > 0 ? fmtMinsEmail(s.deviceMinutes) : 'none logged'),
+    ...(s.lessonsDone.length ? [statRow('Lessons', `${s.lessonsDone.length}`)] : []),
+    ...(s.momentsDone ? [statRow('Calm moments', `${s.momentsDone}`)] : []),
+    statRow('Days you showed up', `${s.activeDays} of 7`),
+  ].join('')
+
+  return {
+    subject: `${childLabel}'s week with DiGi`,
+    html: wrapper(
+      heading(`This week with ${childLabel}`) +
+      p(review.summary) +
+      `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${CREAM};border:1px solid ${BORDER};border-radius:14px;padding:8px 16px;margin:0 0 20px">${rows}</table>` +
+      (review.watch_for ? p(`<strong>One thing to keep an eye on.</strong> ${review.watch_for}`) : '') +
+      (review.suggestion ? p(`<strong>For next week.</strong> ${review.suggestion}`) : '') +
+      button('See the full week', `${APP}/dashboard`) +
+      p(`These numbers are ${childLabel}'s own. Nothing here is shared or set against another family, it is just your week, read back to you.`),
+      unsubscribe
     ),
   }
 }
