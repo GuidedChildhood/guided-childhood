@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { QUEST_TEMPLATES, PLAY_PAYS_WHY, STAR_MINUTES } from '@/lib/quests/templates'
 import { ROUTINE_PACKS, type RoutinePack } from '@/lib/quests/routines'
+import JobBalance from '@/components/quests/JobBalance'
 import ChildLinkShare from '@/components/quests/ChildLinkShare'
 import QrHandoverModal from '@/components/quests/QrHandoverModal'
 import StarSummary from '@/components/quests/StarSummary'
@@ -694,6 +695,21 @@ export default function QuestManager() {
                 onTodo={() => goToSection('my-todo', 'manage')}
                 onScreenTime={() => { window.location.href = '/dashboard/stats' }}
                 onShare={() => goToSection('quest-tabs', 'share')}
+              />
+            )
+          })()}
+
+          {/* DiGi's read on today's job load: the science backed check that jobs
+              stay a helpful dose, not a swamp, with a spread across the week
+              nudge when the day runs heavy. */}
+          {(() => {
+            const dueToday = childQuests.filter(q => questDueToday(q.schedule, q.schedule_days))
+            return (
+              <JobBalance
+                childName={child.name}
+                ageBand={child.age_band}
+                jobsDueToday={dueToday.map(q => ({ title: q.title, stars: q.stars }))}
+                onReview={() => goToSection('quest-tabs', 'manage')}
               />
             )
           })()}
