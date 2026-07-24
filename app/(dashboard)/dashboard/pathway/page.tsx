@@ -16,6 +16,9 @@ import DigiCharacter from '@/components/digi/DigiCharacter'
 import PassportBook from '@/components/pathway/PassportBook'
 import { type Stamp, type StampStatus } from '@/components/pathway/PassportStamps'
 import MeetTheFriends from '@/components/pathway/MeetTheFriends'
+import StageReadiness from '@/components/pathway/StageReadiness'
+import { getPassedStageQuizzes } from '@/lib/pathway/stage-quiz-status'
+import { READINESS } from '@/lib/content/readiness'
 
 type Child = { id: string; name: string; age_band: string | null; stage_id: string | null; is_primary: boolean; streak_weeks: number | null }
 
@@ -61,6 +64,38 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
   }
 
   const currentStageContent = currentStageNum ? STAGES.find(s => s.id === currentStageNum) : null
+
+  // One live literacy reading for the whole page, shared by the four strands
+  // card and the end of stage check below, so they never disagree.
+  const litStatuses = await getLiteracyStatuses(supabase, user.id, currentStageNum ?? 1)
+
+  // The end of stage readiness inputs: which strands for this age are green,
+  // which are still amber (with their one next step), how many stage lessons
+  // are left, and whether the passport quiz for this stage is already passed.
+  const READINESS_AREAS = [
+    { key: 'safe', name: 'Safe online', startStage: 1 },
+    { key: 'balance', name: 'Healthy balance', startStage: 1 },
+    { key: 'ai', name: 'AI and chatbots', startStage: 3 },
+    { key: 'social', name: 'Social media ready', startStage: 3 },
+  ] as const
+  const stageNum = currentStageNum ?? 1
+  const activeAreas = READINESS_AREAS.filter(a => stageNum >= a.startStage)
+  const readinessAmbers = activeAreas
+    .filter(a => (litStatuses[a.key]?.tone ?? 'green') !== 'green')
+    .map(a => ({ name: a.name, improve: litStatuses[a.key]?.improve ?? 'Do the next step', href: litStatuses[a.key]?.href ?? '/dashboard/lessons' }))
+  const readinessGreens = activeAreas.length - readinessAmbers.length
+  const lessonsLeft = Math.max(0, (currentStageProgress?.lessonsTotal ?? 0) - (currentStageProgress?.lessonsDone ?? 0))
+  const passedStages = await getPassedStageQuizzes(supabase, user.id, primaryChild?.id ?? null)
+  const stageQuizPassed = passedStages.has(stageNum)
+
+  // Show the end of stage check as a family nears the end: content finished, or
+  // the blend past three quarters, or the stamp already earned so it can show.
+  const nearStageEnd = !!primaryChild?.stage_id && (
+    stageQuizPassed ||
+    (currentStageProgress?.contentComplete ?? false) ||
+    (currentStageProgress?.overallPct ?? 0) >= 75
+  )
+  const stampName = READINESS[Math.min(4, Math.max(0, stageNum - 1))].stamp
 
   // The passport the road is filling, so the goal sits right beside the map:
   // one stamp per stage, earned as the family works through it, catch up pages
@@ -170,7 +205,27 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
           from the family's real week: the jobs and screen balance, open
           worries, and lessons done per strand. Green means on track, red means
           worth a look, the same readings the rest of the app uses. */}
-      <LiteracyAreas stageId={currentStageNum ?? 1} childName={primaryChild?.name ?? undefined} statuses={await getLiteracyStatuses(supabase, user.id, currentStageNum ?? 1)} />
+      <LiteracyAreas stageId={currentStageNum ?? 1} childName={primaryChild?.name ?? undefined} statuses={litStatuses} />
+
+      {/* The end of stage readiness check, DiGi's voice: as the family nears the
+          end of a stage, DiGi reads where they are, names what is left, and when
+          nothing is, offers the short passport quiz that earns the stamp. */}
+      {nearStageEnd && currentStageContent && (
+        <div style={{ marginTop: 4 }}>
+          <StageReadiness
+            stageId={stageNum}
+            stageName={currentStageContent.name}
+            stampName={stampName}
+            childId={primaryChild?.id ?? null}
+            childName={primaryChild?.name ?? null}
+            greens={readinessGreens}
+            activeAreas={activeAreas.length}
+            lessonsLeft={lessonsLeft}
+            ambers={readinessAmbers}
+            alreadyPassed={stageQuizPassed}
+          />
+        </div>
+      )}
 
       {/* Tailored by what this family flagged, not by the child's sex. */}
       {tailoredAction && (

@@ -160,6 +160,55 @@ export default function LiteracyAreas({ stageId, childName, statuses = {}, stamp
           </Link>
         )}
 
+        {/* The at a glance verdict, the important insight, extra large: how many
+            of the four for this age are green, and the exact steps to make the
+            rest green. This is the answer to how do I get it all green, right at
+            the top, each amber a tap straight to its fix. */}
+        {(() => {
+          const activeAreas = AREAS.filter(a => current >= a.startStage)
+          const ambers = activeAreas.filter(a => (statuses[a.key]?.tone ?? 'green') !== 'green')
+          const greens = activeAreas.length - ambers.length
+          const allGreen = ambers.length === 0 && activeAreas.length > 0
+          return (
+            <div style={{
+              borderRadius: 16, padding: '16px 18px', marginBottom: 6,
+              background: allGreen ? 'var(--tint-green)' : 'var(--terracotta-lt)',
+              border: `1.5px solid ${allGreen ? 'var(--retro-green)' : 'var(--terracotta)'}`,
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <span aria-hidden style={{ fontSize: 26, lineHeight: 1, flexShrink: 0 }}>{allGreen ? '🌱' : '🎯'}</span>
+                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 22, letterSpacing: '-0.01em', color: allGreen ? 'var(--retro-green-dark)' : 'var(--ink)', lineHeight: 1.15 }}>
+                  {allGreen
+                    ? 'All green for this stage'
+                    : `${greens} of ${activeAreas.length} green`}
+                </span>
+              </div>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: 16, color: 'var(--ink-soft)', lineHeight: 1.55, margin: '9px 0 0' }}>
+                {allGreen
+                  ? `Every part of the plan for this stage is doing its job. This is what ready looks like.`
+                  : `To make it all green, ${ambers.length === 1 ? 'one thing' : `${ambers.length} things`} left:`}
+              </p>
+              {!allGreen && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 11 }}>
+                  {ambers.map(a => (
+                    <Link key={a.key} href={statuses[a.key]?.href ?? '/dashboard/lessons'} style={{
+                      display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none',
+                      background: '#fff', border: '1.5px solid var(--terracotta)', borderRadius: 12, padding: '11px 14px',
+                    }}>
+                      <span aria-hidden style={{ fontSize: 18, flexShrink: 0 }}>{a.icon}</span>
+                      <span style={{ flex: 1, minWidth: 0 }}>
+                        <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 16, color: 'var(--ink)', lineHeight: 1.2 }}>{a.name}</span>
+                        <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: 13.5, color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: 1 }}>{statuses[a.key]?.improve ?? 'Do the next step'}</span>
+                      </span>
+                      <span aria-hidden style={{ flexShrink: 0, color: 'var(--terracotta-dark)', fontSize: 20, fontWeight: 800 }}>→</span>
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+          )
+        })()}
+
         {AREAS.map(area => {
           const active = current >= area.startStage
           const live = active ? statuses[area.key] : undefined
