@@ -278,7 +278,10 @@ export default function PassportBook({
                 {stamp.sections && stamp.sections.length > 0 ? (
                   (() => {
                     const secs = stamp.sections
-                    const runningPct = Math.round(secs.reduce((s, x) => s + x.pct, 0) / secs.length)
+                    // One number for the page: the same reading as the big
+                    // circle, so a stage still ahead reads a true zero here too
+                    // instead of averaging today's live rows back in.
+                    const runningPct = stamp.pct
                     return (
                       <>
                         {secs.map(sec => {
