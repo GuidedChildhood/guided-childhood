@@ -15,7 +15,7 @@ import { pickChild } from '@/lib/children/select'
 import DigiCharacter from '@/components/digi/DigiCharacter'
 import PassportBook from '@/components/pathway/PassportBook'
 import { type Stamp, type StampStatus } from '@/components/pathway/PassportStamps'
-import DigiStarBuild from '@/components/pathway/DigiStarBuild'
+import MeetTheFriends from '@/components/pathway/MeetTheFriends'
 
 type Child = { id: string; name: string; age_band: string | null; stage_id: string | null; is_primary: boolean; streak_weeks: number | null }
 
@@ -157,36 +157,14 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
       {/* The goal beside the map: the passport they are filling, one stamp per
           stage, so a parent looking at the road can see exactly what it builds
           towards and watch the stamps land as they go. */}
-      {passportStamps.length > 0 && (() => {
-        const earnedStages = passportStamps.filter(s => s.status === 'earned').length
-        const currentIdx = passportStamps.findIndex(s => s.status === 'current')
-        const childLabel = primaryChild?.name && primaryChild.name !== 'Your child' ? primaryChild.name : 'your child'
-        return (
-          <div style={{ padding: '0 20px', maxWidth: '560px', margin: '0 auto 28px' }}>
-            <div style={{ textAlign: 'center', marginBottom: '14px' }}>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
-                Building DiGi, one stage at a time
-              </span>
-              <p style={{ fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '5px auto 0', maxWidth: '440px' }}>
-                DiGi is a star with five points, one for each stage. {childLabel} earns a point every stage, and by 16 the whole star is theirs.
-              </p>
-            </div>
-
-            {/* The star assembling: a shard locks in for every stage earned, and
-                the sparkles grow with each level. */}
-            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '6px' }}>
-              <DigiStarBuild earned={earnedStages} currentIndex={currentIdx >= 0 ? currentIdx : null} size={172} />
-            </div>
-            <p style={{ textAlign: 'center', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', color: 'var(--ink)', margin: '0 0 18px' }}>
-              {earnedStages >= 5
-                ? 'DiGi is whole. Every stage earned, all the way to 16 🌟'
-                : `${earnedStages} of 5 points of DiGi's star earned so far`}
-            </p>
-
-            <PassportBook stamps={passportStamps} childName={primaryChild?.name ?? 'your child'} />
-          </div>
-        )
-      })()}
+      {passportStamps.length > 0 && (
+        <div style={{ padding: '0 20px', maxWidth: '560px', margin: '0 auto 28px' }}>
+          {/* Meet the family, where the five point star used to sit: DiGi and the
+              Planet Friends the child grows up with, an introduction not a score. */}
+          <MeetTheFriends childName={primaryChild?.name ?? null} />
+          <PassportBook stamps={passportStamps} childName={primaryChild?.name ?? 'your child'} />
+        </div>
+      )}
 
       {/* The four literacy strands in plain words, each with a live reading
           from the family's real week: the jobs and screen balance, open
