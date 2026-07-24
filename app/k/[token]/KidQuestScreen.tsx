@@ -984,6 +984,7 @@ export default function KidQuestScreen({
         <KidAskBanner
           ask={screenAsk}
           blockingJobs={[...new Set(quests.filter(q => q.blocks_screens && !ticks[q.id]).map(q => q.title))]}
+          outstandingJobs={[...new Set(quests.filter(q => !ticks[q.id]).map(q => q.title))]}
           nudges={kidNudges}
           hasSession={Boolean(liveSession)}
           startBusy={askStartBusy}

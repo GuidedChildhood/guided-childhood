@@ -237,12 +237,15 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
   // Start button begins the timer, so minutes never tick away on a screen
   // nobody is looking at. Not yet declines it warmly.
   const [answered, setAnswered] = useState<'yes' | null>(null)
+  const [jobsLeftAfterYes, setJobsLeftAfterYes] = useState(0)
   async function approveRequest() {
     if (!kid.request || busy) return
     setBusy(true); setErr(null)
     try {
       const r = await fetch('/api/quests/time/request', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: kid.request.id, status: 'approved' }) })
+      const d = await r.json().catch(() => ({}))
       if (!r.ok) { setErr('Could not send the yes, try again'); setBusy(false); return }
+      setJobsLeftAfterYes(Number(d.jobsLeft) || 0)
       setAnswered('yes')
       onChange()
     } catch { setErr('Could not send the yes, try again') }
@@ -354,10 +357,14 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
           onDecline={declineRequest}
         />
       )}
-      {/* The yes is away: one calm line while the child taps Start. */}
+      {/* The yes is away: one calm line while the child taps Start. When jobs
+          are still to do today, the same soft nudge the child gets shows here,
+          so both sides are told to finish those first. Never a block. */}
       {!kid.request && answered === 'yes' && !kid.session && (
         <p style={{ fontSize: '12px', fontWeight: 600, color: 'var(--ink-soft)', background: 'var(--tint-sage)', borderRadius: '11px', padding: '9px 12px', margin: '0 0 11px', lineHeight: 1.45 }}>
-          ✅ Yes sent. {kid.name} taps Start on their screen and the countdown shows here too.
+          {jobsLeftAfterYes > 0
+            ? `✅ Yes sent. ${kid.name} still has ${jobsLeftAfterYes} job${jobsLeftAfterYes === 1 ? '' : 's'} to do today, so we have asked them to finish those first, then tap Start.`
+            : `✅ Yes sent. ${kid.name} taps Start on their screen and the countdown shows here too.`}
         </p>
       )}
 

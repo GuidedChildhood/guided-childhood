@@ -24,12 +24,15 @@ const cardBase: React.CSSProperties = {
 }
 
 export default function KidAskBanner({
-  ask, blockingJobs, nudges, hasSession, startBusy,
+  ask, blockingJobs, outstandingJobs = [], nudges, hasSession, startBusy,
   onStart, onDismissDeclined, onDismissNudge,
 }: {
   ask: KidAskState | null
   // Titles of the before screens jobs still to do today, already deduped.
   blockingJobs: string[]
+  // Titles of the day's jobs not yet done, a soft nudge on the yes, never a
+  // block. Already deduped.
+  outstandingJobs?: string[]
   nudges: KidNudge[]
   // A live timer outranks every ask state: the countdown card tells it.
   hasSession: boolean
@@ -82,6 +85,16 @@ export default function KidAskBanner({
               They said yes! Tap to start your timer
             </span>
           </div>
+          {/* Jobs still to do today: a soft steer to finish those first, the
+              same one their grown up saw. Never a block, the Start still works. */}
+          {outstandingJobs.length > 0 && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: 9, background: 'rgba(26,26,46,0.10)', borderRadius: '13px', padding: '10px 13px' }}>
+              <span style={{ fontSize: '1.2rem', flexShrink: 0 }}>🌱</span>
+              <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)', lineHeight: 1.35 }}>
+                Finish {outstandingJobs[0]}{outstandingJobs.length > 1 ? ` and ${outstandingJobs.length - 1} more` : ''} first
+              </span>
+            </div>
+          )}
           <button
             onClick={onStart}
             disabled={startBusy}
