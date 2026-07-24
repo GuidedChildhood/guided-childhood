@@ -6,7 +6,6 @@ import { getDailyStreak } from '@/lib/pathway/streak'
 import { getAllStagesProgress, type StageId } from '@/lib/pathway/progress'
 import WorkingOn from '@/components/tracker/WorkingOn'
 import StageRoad from '@/components/pathway/StageRoad'
-import DigiStarBuild from '@/components/pathway/DigiStarBuild'
 import LiteracyAreas from '@/components/pathway/LiteracyAreas'
 import LiteracyCheckIn from '@/components/pathway/LiteracyCheckIn'
 import { getLiteracyStatuses } from '@/lib/pathway/literacy-status'
@@ -248,8 +247,6 @@ export default async function ProgressPage({ searchParams }: { searchParams: Pro
       stageStatus[i + 1] = { pct: allProgress[slug].overallPct, complete: allProgress[slug].contentComplete }
     })
   }
-  const earnedStages = stamps.filter(s => s.status === 'earned').length
-  const currentIdx = stamps.findIndex(s => s.status === 'current')
   const currentStagePct = stage ? stamps[stage.id - 1]?.pct ?? null : null
 
   const starsByQuest = new Map(quests.map(q => [q.id, q.stars]))
@@ -322,17 +319,11 @@ export default async function ProgressPage({ searchParams }: { searchParams: Pro
         </p>
       </div>
 
-      {/* The passport first, the document this whole page fills: the star
-          assembling a point per stage and the passport it earns, stamp by
-          stage. The pathway road follows below, the map it all sits on. */}
+      {/* The passport first, the document this whole page fills: the stamps it
+          earns, stage by stage. The pathway road follows below, the map it all
+          sits on. */}
       {stage && stamps.length > 0 && (
         <div style={{ marginBottom: '22px' }}>
-          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '6px' }}>
-            <DigiStarBuild earned={earnedStages} currentIndex={currentIdx >= 0 ? currentIdx : null} size={150} />
-          </div>
-          <p style={{ textAlign: 'center', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)', margin: '0 0 16px' }}>
-            {earnedStages >= 5 ? 'DiGi is whole. Every stage earned 🌟' : `${earnedStages} of 5 points of DiGi's star earned`}
-          </p>
           <PassportBook stamps={stamps} childName={primary?.name ?? 'your child'} />
         </div>
       )}

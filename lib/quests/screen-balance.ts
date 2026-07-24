@@ -55,13 +55,48 @@ export const SCREEN_GUIDE_SOURCES = [
 // 'well_over' are the ones DiGi acts on, always as a calibrated pathway and
 // never as a block.
 export type ScreenStatus = 'under' | 'healthy' | 'over' | 'well_over'
-export function screenStatusForAge(ageBand: string | null, dailyMins: number): ScreenStatus {
-  const guide = recommendedDailyMinutes(ageBand)
+
+// The status of any daily figure against any daily guide, so the whole week
+// and each single device type read on the same four step scale.
+export function statusForGuide(guide: number, dailyMins: number): ScreenStatus {
   if (guide <= 0) return 'healthy'
   if (dailyMins < guide * 0.5) return 'under'
   if (dailyMins <= guide) return 'healthy'
   if (dailyMins <= guide * 1.5) return 'over'
   return 'well_over'
+}
+
+export function screenStatusForAge(ageBand: string | null, dailyMins: number): ScreenStatus {
+  return statusForGuide(recommendedDailyMinutes(ageBand), dailyMins)
+}
+
+// A healthy split of the daily guide across the four device types, shifting
+// with age: younger leans to watching together and making things, with barely
+// any phone; older hands more of the day to social and gaming as the skills to
+// handle them are built. Calibrated steers, never hard caps, and the parts sum
+// to the age daily guide so the types and the whole tell one story. Keyed to
+// the same activity buckets the balance report groups devices into (a phone is
+// social, a TV is watching, a console is gaming, an iPad leans watching).
+export type BalanceBucketKey = 'gaming' | 'watching' | 'social' | 'learning'
+const BUCKET_SHARE: Record<string, Record<BalanceBucketKey, number>> = {
+  '4-7':   { watching: 0.45, learning: 0.35, gaming: 0.15, social: 0.05 },
+  '8-10':  { watching: 0.35, learning: 0.30, gaming: 0.25, social: 0.10 },
+  '11-13': { watching: 0.30, learning: 0.25, gaming: 0.25, social: 0.20 },
+  '13-15': { watching: 0.25, learning: 0.20, gaming: 0.25, social: 0.30 },
+  '16+':   { watching: 0.25, learning: 0.20, gaming: 0.20, social: 0.35 },
+}
+
+// The recommended daily minutes for each device type at this age. Reads as the
+// per type version of recommendedDailyMinutes.
+export function bucketDailyGuide(ageBand: string | null): Record<BalanceBucketKey, number> {
+  const daily = recommendedDailyMinutes(ageBand)
+  const share = (ageBand && BUCKET_SHARE[ageBand]) || BUCKET_SHARE['8-10']
+  return {
+    gaming: Math.round(daily * share.gaming),
+    watching: Math.round(daily * share.watching),
+    social: Math.round(daily * share.social),
+    learning: Math.round(daily * share.learning),
+  }
 }
 
 function guideFor(ageBand: string | null): BandGuide {

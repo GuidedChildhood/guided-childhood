@@ -8,9 +8,20 @@
 // its own rows and drop this in.
 
 import { fmtMins, type ParentReport } from '@/lib/balance/parent-report'
+import type { ScreenStatus } from '@/lib/quests/screen-balance'
 
 const GOOD = '#4C9F6B'
 const OVER = '#D98B45'
+
+// Each device type reads as under, on track or over on its own line, with a
+// calm colour a parent can scan. Under and on track are both green (a light
+// week is never a problem); over warms to amber, well over a shade deeper.
+const TYPE_STATUS: Record<ScreenStatus, { label: string; bg: string; fg: string }> = {
+  under:     { label: 'Under guide', bg: '#EAF3EC', fg: GOOD },
+  healthy:   { label: 'On track',    bg: '#EAF3EC', fg: GOOD },
+  over:      { label: 'Over',        bg: '#FBEEDF', fg: OVER },
+  well_over: { label: 'Well over',   bg: '#F7E3D6', fg: '#C0603A' },
+}
 
 export default function BalanceReport({ report }: { report: ParentReport }) {
   const { childName, bandLabel, totalWeekMins, healthyWeekMins, status, buckets, offscreen, guidance } = report
@@ -86,6 +97,42 @@ export default function BalanceReport({ report }: { report: ParentReport }) {
             </span>
           </div>
         </div>
+      </div>
+
+      {/* The recommended amount per device type, for this age, with each type
+          set as under, on track or over so the guidance is concrete, not one
+          number for the whole week. */}
+      <div style={card}>
+        <div style={cardTitle}>Healthy amount by type · Ages {bandLabel}</div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+          {report.typeGuides.map(tg => {
+            const s = TYPE_STATUS[tg.status]
+            const dailyAvg = Math.round(tg.actualWeekMins / 7)
+            return (
+              <div key={tg.bucket} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '9px 0', borderTop: '1px solid var(--border)' }}>
+                <span style={{ fontSize: 20, flexShrink: 0 }} aria-hidden>{tg.emoji}</span>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 14, color: 'var(--ink)' }}>{tg.label}</div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ink-muted)', fontWeight: 700, marginTop: 2 }}>
+                    Guide about {fmtMins(tg.recommendedDailyMins)} a day · {fmtMins(tg.recommendedWeekMins)} a week
+                  </div>
+                </div>
+                <div style={{ textAlign: 'right', flexShrink: 0 }}>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12.5, fontWeight: 700, color: s.fg }}>{fmtMins(tg.actualWeekMins)}</div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--ink-muted)', fontWeight: 700, marginTop: 1 }}>
+                    {tg.actualWeekMins > 0 ? `${fmtMins(dailyAvg)}/day` : 'none yet'}
+                  </div>
+                </div>
+                <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 9.5, fontWeight: 800, letterSpacing: '0.05em', textTransform: 'uppercase', color: s.fg, background: s.bg, padding: '5px 9px', borderRadius: 100, minWidth: 62, textAlign: 'center' }}>
+                  {s.label}
+                </span>
+              </div>
+            )
+          })}
+        </div>
+        <p style={{ fontSize: 12, color: 'var(--ink-muted)', lineHeight: 1.5, margin: '12px 0 0' }}>
+          A steer for their age, never a hard cap. What screens crowd out, sleep, movement and real play, matters more than the clock.
+        </p>
       </div>
 
       {/* The off screen report line */}
