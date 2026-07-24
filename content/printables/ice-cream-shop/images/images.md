@@ -4,11 +4,11 @@ Pebble the Planet Friend now fronts the shop in place of the retired
 Sofia. Her age (four to seven) matches the shopkeeper who says "I am six".
 
 ## Sources
-- Pebble hero: the Planet Friend cutout on the CDN, the same art the app
-  uses, referenced by URL in `print.html` and `phone.html`:
-  `d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260723_135533_4b42a90b.png`.
-  Cropped to a circle in CSS. The local machine that runs the build reaches
-  the CDN, so no file lives in this folder.
+- Pebble hero: the Planet Friend cutout, the same art the app uses, saved
+  locally as `images/pebble-hero.png` (transparent cutout from the GUIDED
+  CHARACTERS Drive art) and referenced by that path in `print.html`. Cropped
+  to a circle in CSS. Held in the folder so the build no longer depends on the
+  CDN.
 - All other artwork (ice cream cart, cones, scoops with faces, flake,
   cherry, sauce, sprinkles, lolly, sundae, family tub, and the full play
   coin set) is hand drawn inline SVG living in `print.html` and
