@@ -82,9 +82,9 @@ export async function POST(req: NextRequest) {
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.CRON_SECRET}` },
       body: JSON.stringify({
         userId: link.user_id,
-        title: 'Quest done, needs your approve',
+        title: 'A quest is ready for your ok',
         body: `${quest.title} was just ticked off. One tap to approve and the stars land.`,
-        url: '/dashboard',
+        url: '/dashboard/quests',
       }),
     })
   } catch { /* push is best effort */ }
