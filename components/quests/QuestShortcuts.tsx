@@ -33,7 +33,7 @@ const TILES: Tile[] = [
     icon: 'games', bg: 'var(--tint-green)', iconBg: 'rgba(255,255,255,0.72)',
   },
   {
-    href: '/dashboard/agreement', label: 'Our family deal', sub: 'Signed by everyone',
+    href: '/dashboard/quests/deal', label: 'Our family deal', sub: 'Print it for the fridge',
     icon: 'deal', bg: 'var(--tint-sage)', iconBg: 'rgba(255,255,255,0.72)',
   },
 ]

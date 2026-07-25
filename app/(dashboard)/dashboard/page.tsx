@@ -30,6 +30,7 @@ import DigiWelcomeSheet from '@/components/digi/DigiWelcomeSheet'
 import TodayPathBig from '@/components/daily/TodayPathBig'
 import DigiGreeting from '@/components/home/DigiGreeting'
 import MissionWelcome from '@/components/home/MissionWelcome'
+import DealReviewNudge from '@/components/quests/DealReviewNudge'
 import HomeRows from '@/components/home/HomeRows'
 import BirthdayNudge from '@/components/home/BirthdayNudge'
 import LiveTimerChip from '@/components/home/LiveTimerChip'
@@ -236,6 +237,26 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     ? firstNameRaw.charAt(0).toUpperCase() + firstNameRaw.slice(1)
     : 'there'
 
+  // How long since anything in the family deal actually moved, so the review
+  // nudge only ever fires on a deal that has genuinely gone quiet. The most
+  // recent job added or changed is the honest signal: it is the part of the
+  // deal a family touches. Null means there is no deal yet to review.
+  let dealDaysSinceChange: number | null = null
+  let dealChildToken: string | null = null
+  try {
+    const { data: lastQuest } = await supabase
+      .from('family_quests').select('created_at')
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: false }).limit(1).maybeSingle()
+    if (lastQuest?.created_at) {
+      const days = Math.floor((Date.now() - new Date(lastQuest.created_at as string).getTime()) / 86400000)
+      dealDaysSinceChange = Number.isFinite(days) ? days : null
+    }
+    const { data: tokenRow } = await supabase
+      .from('kid_links').select('token').eq('user_id', user.id).limit(1).maybeSingle()
+    dealChildToken = (tokenRow?.token as string | null) ?? null
+  } catch { dealDaysSinceChange = null }
+
   // Today's loop and the daily streak, both resolved server side.
   // stage.name lowercased matches the pathway stage slugs exactly
   // (foundation/builder/explorer/shaper/independent), same rule the
@@ -406,6 +427,13 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           all for, so the mission rotates across visits rather than sitting as a
           wall of text nobody reads. */}
       <MissionWelcome firstName={firstName} />
+
+      {/* Every couple of weeks, DiGi asks whether the deal still fits. A deal
+          set in week one quietly stops matching the family by week six, so this
+          is the prompt to look, update, and put the new one on the fridge. */}
+      {dealDaysSinceChange !== null && (
+        <DealReviewNudge daysSinceChange={dealDaysSinceChange} childToken={dealChildToken} />
+      )}
 
       {/* DiGi greets in one line: who, where on the road, and what today
           costs in minutes, with the streak flame alongside. The h1 header
