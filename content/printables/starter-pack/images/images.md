@@ -34,19 +34,17 @@ To pull one in: sync the job to the Drive folder, download to this images
 folder, background remove, then set the matching `.artslot img` src in
 print.html and rebuild.
 
-## Planet Friend colour art for the cut out sheet (page 13)
+## Planet Friend colour art (page 13, the chart cheer row, the page kickers)
 
-The family cut out cards on page 13 and the friend slots on the chart want the
-real Planet Friend colour art. It already lives in the GUIDED CHARACTERS Drive
-folder (these are the same files the app registry serves by CDN). The build
-environment cannot reach the CDN or Drive directly (both are blocked by the
-egress policy) and the Drive MCP only returns base64, which is too large to
-write to disk here, so the cards currently fall back to the DiGi star.
+DONE. Justin uploaded the five Planet Friends directly, they were background
+removed with the corner seeded colour distance cutout (`gh/process-planet-friends.mjs`)
+and now live at `images/friends/<name>.png`. They appear on the family cut out
+cards (page 13), the cheer row on the star chart (page 2), and one per activity
+page kicker (pages 4 to 8).
 
-To swap in the real friends: download each Drive file below to
-`images/friends/<name>.png`, background remove, then change the six
-`.charcard img` sources in print.html from `images/DiGi-star.svg` to
-`images/friends/<name>.png` and rebuild.
+The source files are the same the app registry serves by CDN; the CDN and Drive
+are blocked to the build environment, so keep pulling them in through an upload
+if they ever need regenerating.
 
 | Friend | Drive file id | Drive filename |
 |---|---|---|

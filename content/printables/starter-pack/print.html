@@ -108,6 +108,9 @@
     padding:1.5mm 3mm;border-radius:6px;}
   .kicker-row h2{flex:1;font-size:20pt;}
   .kicker-row .pg{font-family:'IBM Plex Mono',monospace;font-size:7.5pt;color:var(--ink-muted);letter-spacing:1.5px;}
+  .kfriend{height:15mm;width:auto;object-fit:contain;flex:none;margin-right:3mm;}
+  .friendcheer{display:flex;align-items:center;justify-content:center;gap:2.5mm;}
+  .friendcheer img{height:15mm;width:auto;object-fit:contain;}
 
   /* ---------- HOW TO GUIDE CARDS ---------- */
   .guide{background:var(--white);border:2.5px solid var(--ink);border-radius:16px;
@@ -344,7 +347,17 @@
     <div class="opt" style="background:var(--tint-sage);border-color:var(--green);box-shadow:0 4px 0 var(--green);"><div class="ic">🌟</div><div class="lab" style="color:var(--green-dark);">Save up</div><div class="mins" style="color:var(--green-dark);">for a big treat</div></div>
   </div>
 
-  <p style="margin-top:auto;font-size:9.5pt;text-align:center;padding-top:4mm;">
+  <div style="margin-top:auto;padding-top:5mm;">
+    <div class="friendcheer">
+      <span class="eyebrow" style="color:var(--butter-dark);margin-right:1mm;">Your Planet Friends cheer you on</span>
+      <img src="images/friends/pebble.png" alt="Pebble">
+      <img src="images/friends/bloop.png" alt="Bloop">
+      <img src="images/friends/orbit.png" alt="Orbit">
+      <img src="images/friends/nova.png" alt="Nova">
+      <img src="images/friends/cosmo.png" alt="Cosmo">
+    </div>
+  </div>
+  <p style="font-size:9.5pt;text-align:center;padding-top:3mm;">
     <strong>Little ones (4 to 7):</strong> colour a star and spend it the same day.
     <strong>Bigger ones (8 up):</strong> tally the week on Sunday and choose how to spend.
   </p>
@@ -395,7 +408,7 @@
   <div class="kicker-row">
     <span class="sec">How to</span>
     <h2>The jobs, shown step by step</h2>
-    <span class="pg">No. 4</span>
+    <img class="kfriend" src="images/friends/pebble.png" alt=""><span class="pg">No. 4</span>
   </div>
   <p style="margin-bottom:4mm;max-width:165mm;">A star is easier to earn when a child knows exactly what the job looks like. Cut these out, pop them by the sink or the table, and let them follow along until it is second nature.</p>
 
@@ -446,7 +459,7 @@
   <div class="kicker-row">
     <span class="sec">Move</span>
     <h2>The five minute wake up workout</h2>
-    <span class="pg">No. 5</span>
+    <img class="kfriend" src="images/friends/bloop.png" alt=""><span class="pg">No. 5</span>
   </div>
   <p style="margin-bottom:4mm;max-width:165mm;">Six moves, one after the other. Do the whole round twice and that is a star earned. No kit, no space needed, brilliant before school or to break up a screen.</p>
 
@@ -480,7 +493,7 @@
   <div class="kicker-row">
     <span class="sec">Skills</span>
     <h2>Football to practise, dances to learn</h2>
-    <span class="pg">No. 6</span>
+    <img class="kfriend" src="images/friends/orbit.png" alt=""><span class="pg">No. 6</span>
   </div>
 
   <div style="display:flex;gap:5mm;flex:1;">
@@ -524,7 +537,7 @@
   <div class="kicker-row">
     <span class="sec">Fuel</span>
     <h2>Build a breakfast that lasts till lunch</h2>
-    <span class="pg">No. 7</span>
+    <img class="kfriend" src="images/friends/nova.png" alt=""><span class="pg">No. 7</span>
   </div>
   <p style="margin-bottom:4mm;max-width:165mm;">A good breakfast is three parts on one plate. Get all three and a child stays full, calm and focused for the whole morning, no mid morning meltdown, no snack begging.</p>
 
@@ -558,7 +571,7 @@
   <div class="kicker-row">
     <span class="sec">Together</span>
     <h2>Read with a grown up, then celebrate</h2>
-    <span class="pg">No. 8</span>
+    <img class="kfriend" src="images/friends/cosmo.png" alt=""><span class="pg">No. 8</span>
   </div>
 
   <div style="display:flex;gap:6mm;flex:1;">
@@ -790,11 +803,11 @@
   <div class="scissors" style="margin-bottom:2mm;">✂ Cut along the dashed lines</div>
   <div class="charcut">
     <div class="charcard"><img class="cimg" src="images/DiGi-star.svg" alt=""><div class="cname">DiGi</div><div class="crole">Your family guide</div></div>
-    <div class="charcard"><img class="cimg" src="images/DiGi-star.svg" alt=""><div class="cname">Pebble</div><div class="crole">Stage 1 · curious</div></div>
-    <div class="charcard"><img class="cimg" src="images/DiGi-star.svg" alt=""><div class="cname">Bloop</div><div class="crole">Stage 2 · creative</div></div>
-    <div class="charcard"><img class="cimg" src="images/DiGi-star.svg" alt=""><div class="cname">Orbit</div><div class="crole">Stage 3 · explorer</div></div>
-    <div class="charcard"><img class="cimg" src="images/DiGi-star.svg" alt=""><div class="cname">Nova</div><div class="crole">Stage 4 · kind</div></div>
-    <div class="charcard"><img class="cimg" src="images/DiGi-star.svg" alt=""><div class="cname">Cosmo</div><div class="crole">Stage 5 · leader</div></div>
+    <div class="charcard"><img class="cimg" src="images/friends/pebble.png" alt=""><div class="cname">Pebble</div><div class="crole">Stage 1 · curious</div></div>
+    <div class="charcard"><img class="cimg" src="images/friends/bloop.png" alt=""><div class="cname">Bloop</div><div class="crole">Stage 2 · creative</div></div>
+    <div class="charcard"><img class="cimg" src="images/friends/orbit.png" alt=""><div class="cname">Orbit</div><div class="crole">Stage 3 · explorer</div></div>
+    <div class="charcard"><img class="cimg" src="images/friends/nova.png" alt=""><div class="cname">Nova</div><div class="crole">Stage 4 · kind</div></div>
+    <div class="charcard"><img class="cimg" src="images/friends/cosmo.png" alt=""><div class="cname">Cosmo</div><div class="crole">Stage 5 · leader</div></div>
   </div>
 
   <div style="margin-top:5mm;"><span class="eyebrow" style="color:var(--coral);">Well done bubbles · cut and stick on the chart</span></div>
