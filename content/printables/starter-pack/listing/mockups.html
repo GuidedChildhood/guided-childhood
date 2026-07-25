@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Starter Pack listing mockups</title>
+<link href="../fonts/local-fonts.css" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F9F8F6; --ink:#1A1A2E; --ink-soft:#52526A; --ink-muted:#8888A0; --butter:#EDC35F;
+    --butter-dark:#C99A28; --butter-lt:#FEF7E0; --coral:#D4600A; --green:#2F8F6B; --green-dark:#236F52; --gold:#F5CD3A;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:'Nunito',sans-serif;color:var(--ink);background:#ccc;}
+  .stack{display:flex;flex-direction:column;gap:30px;padding:30px;align-items:flex-start;}
+  .frame{width:2000px;height:2000px;position:relative;overflow:hidden;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-weight:600;letter-spacing:8px;text-transform:uppercase;color:var(--butter-dark);}
+
+  /* ---- 1. HERO / COVER MOCKUP ---- */
+  #hero{background:var(--cream);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:120px;}
+  #hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 24%, var(--butter-lt) 0 34%, transparent 60%);}
+  #hero .z{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;text-align:center;}
+  #hero .eyebrow{font-size:34px;}
+  #hero h1{font-weight:900;font-size:150px;line-height:0.95;letter-spacing:-5px;margin:26px 0 10px;}
+  #hero h1 span{color:var(--butter-dark);}
+  #hero .tag{font-weight:700;font-size:52px;color:var(--ink-soft);margin-bottom:56px;}
+  #hero .cover{width:1040px;height:auto;border:8px solid var(--ink);border-radius:34px;box-shadow:0 26px 0 var(--ink);}
+  #hero .ribbon{position:absolute;top:88px;right:-360px;transform:rotate(38deg);background:var(--coral);color:#fff;
+    font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:44px;letter-spacing:6px;text-transform:uppercase;
+    padding:34px 400px;z-index:3;box-shadow:0 8px 0 rgba(0,0,0,0.18);}
+  #hero .badges{position:relative;z-index:1;display:flex;gap:26px;margin-top:60px;}
+  #hero .badge{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:34px;letter-spacing:3px;text-transform:uppercase;
+    color:var(--butter-dark);background:#fff;border:5px solid var(--butter-dark);border-radius:999px;padding:18px 44px;}
+
+  /* ---- 2. HOW IT WORKS ---- */
+  #how{background:var(--cream);padding:130px 120px;display:flex;flex-direction:column;}
+  #how .eyebrow{font-size:36px;}
+  #how h2{font-weight:900;font-size:118px;line-height:1.0;letter-spacing:-3px;margin:26px 0 90px;}
+  #how .loop{display:flex;align-items:center;justify-content:space-between;gap:20px;flex:1;}
+  #how .node{flex:1;background:#fff;border:7px solid var(--ink);border-radius:44px;box-shadow:0 18px 0 var(--ink);
+    padding:70px 40px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:24px;min-height:760px;justify-content:center;}
+  #how .node .ic{font-size:170px;line-height:1;}
+  #how .node .t{font-weight:900;font-size:60px;line-height:1.02;}
+  #how .node .s{font-size:38px;line-height:1.3;color:var(--ink-soft);}
+  #how .arrow{font-size:120px;color:var(--butter-dark);flex:none;font-weight:900;}
+  #how .deal{margin-top:80px;background:var(--butter-lt);border:7px solid var(--butter-dark);border-radius:40px;
+    padding:56px;text-align:center;font-weight:900;font-size:86px;letter-spacing:-1px;}
+  #how .deal small{display:block;font-weight:700;font-size:40px;color:var(--ink-soft);margin-top:16px;letter-spacing:0;}
+
+  /* ---- 3. CONTENTS GRID ---- */
+  #contents{background:var(--ink);padding:120px 110px;display:flex;flex-direction:column;}
+  #contents .eyebrow{font-size:36px;color:var(--gold);}
+  #contents h2{font-weight:900;font-size:112px;line-height:1.0;letter-spacing:-3px;color:#fff;margin:24px 0 20px;}
+  #contents .sub{font-size:44px;color:#C9C9DA;margin-bottom:60px;font-weight:700;}
+  #contents .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:34px;flex:1;}
+  #contents .cell{background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 12px 0 rgba(0,0,0,0.25);}
+  #contents .cell img{width:100%;height:100%;object-fit:cover;object-position:top;display:block;}
+  #contents .foot{display:flex;justify-content:space-between;align-items:center;margin-top:56px;}
+  #contents .foot .m{font-family:'IBM Plex Mono',monospace;font-size:38px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);}
+  #contents .foot .p{font-weight:900;font-size:64px;color:#fff;}
+</style>
+</head>
+<body>
+<div class="stack">
+
+  <!-- 1. HERO -->
+  <div class="frame" id="hero">
+    <div class="ribbon">Instant download</div>
+    <div class="z">
+      <span class="eyebrow">The screen time system</span>
+      <h1>The <span>Starter Pack</span></h1>
+      <div class="tag">Star charts, jobs and play. Ages 4 up.</div>
+      <img class="cover" src="../images/preview-page-1.png" alt="">
+      <div class="badges">
+        <span class="badge">11 pages</span>
+        <span class="badge">Print at home</span>
+        <span class="badge">A4 and US Letter</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. HOW IT WORKS -->
+  <div class="frame" id="how">
+    <span class="eyebrow">How it works</span>
+    <h2>Jobs in, screen time out</h2>
+    <div class="loop">
+      <div class="node"><div class="ic">🧺</div><div class="t">Do a job</div><div class="s">Get dressed, tidy up, help at the table, read together.</div></div>
+      <div class="arrow">→</div>
+      <div class="node"><div class="ic">⭐</div><div class="t">Earn a star</div><div class="s">Colour a star on the fridge chart the moment it is done.</div></div>
+      <div class="arrow">→</div>
+      <div class="node"><div class="ic">🎮</div><div class="t">Spend it</div><div class="s">Five minutes of games, device or telly for every star.</div></div>
+    </div>
+    <div class="deal">1 star = 5 minutes<small>Earned from real jobs, never a battle, always a deal</small></div>
+  </div>
+
+  <!-- 3. CONTENTS GRID -->
+  <div class="frame" id="contents">
+    <span class="eyebrow">What is inside</span>
+    <h2>Eleven pages, one pack</h2>
+    <div class="sub">A whole newspaper styled booklet to print and use.</div>
+    <div class="grid">
+      <div class="cell"><img src="../images/preview-page-1.png" alt=""></div>
+      <div class="cell"><img src="../images/preview-page-2.png" alt=""></div>
+      <div class="cell"><img src="../images/preview-page-3.png" alt=""></div>
+      <div class="cell"><img src="../images/preview-page-4.png" alt=""></div>
+      <div class="cell"><img src="../images/preview-page-5.png" alt=""></div>
+      <div class="cell"><img src="../images/preview-page-6.png" alt=""></div>
+      <div class="cell"><img src="../images/preview-page-7.png" alt=""></div>
+      <div class="cell"><img src="../images/preview-page-9.png" alt=""></div>
+    </div>
+    <div class="foot"><span class="m">Star chart · jobs · how to · move · football · dance · breakfast · game · colour</span><span class="p">Ages 4 up</span></div>
+  </div>
+
+</div>
+</body>
+</html>

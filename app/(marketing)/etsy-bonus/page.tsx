@@ -18,8 +18,8 @@ const H1: CSSProperties = { fontFamily: 'var(--font-display)', fontWeight: 900, 
 const P: CSSProperties = { fontSize: '15.5px', lineHeight: 1.65, color: 'var(--ink-soft)', margin: '0 0 12px' }
 
 const GETS = [
-  ['🖍️', 'It is genuinely free', 'No catch and no second checkout. You bought the printable, this is the thank you that goes with it.'],
-  ['⭐', 'It fits the same system', 'The bonus works alongside your printable, the same calm way of turning screens into something earned, not a battle.'],
+  ['📰', 'The whole starter pack', 'Eleven pages: the fridge star chart, the jobs that earn stars, how to guides, a workout, football, dance, a healthy breakfast, a game and pages to colour.'],
+  ['⭐', 'The same system, on paper', 'One star is five minutes of screen time. Real jobs earn the stars, the daily battle becomes a deal the whole family already made.'],
   ['📮', 'Straight to your inbox', 'Pop your email in and we send it over right away, then a short, warm welcome, never spam.'],
 ]
 
@@ -29,7 +29,7 @@ export default function EtsyBonusPage() {
       <p style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '10px' }}>Your free bonus</p>
       <h1 style={H1}>Thank you for your Guided Childhood printable</h1>
       <p style={P}>
-        You are exactly the kind of parent we make these for. As a little thank you, here is a free bonus to go with your sheet. No catch, and your purchase stays right where it was.
+        You are exactly the kind of parent we make these for. As a little thank you, here is the full Guided Childhood Starter Pack, free. A whole newspaper styled booklet to print at home. No catch, and your purchase stays right where it was.
       </p>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', margin: '30px 0 36px' }}>
@@ -45,9 +45,9 @@ export default function EtsyBonusPage() {
       </div>
 
       <MagnetGate
-        slug="five-questions"
-        heading="Send me my free bonus"
-        sub="The five questions fridge sheet, a calm one page guide to any screen decision. Pop your email in and it is yours."
+        slug="starter-pack"
+        heading="Send me the starter pack"
+        sub="The full eleven page Guided Childhood Starter Pack, ready to print at home. Pop your email in and it is yours."
       />
 
       {/* The one permitted funnel line, once, routing to /starter-pack per house

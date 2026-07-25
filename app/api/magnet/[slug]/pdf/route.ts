@@ -148,10 +148,17 @@ function buildPdf(magnet: Magnet): Promise<Uint8Array> {
   })()
 }
 
-export async function GET(_req: NextRequest, ctx: { params: Promise<{ slug: string }> }) {
+export async function GET(req: NextRequest, ctx: { params: Promise<{ slug: string }> }) {
   const { slug } = await ctx.params
   const magnet = getMagnet(slug)
   if (!magnet) return NextResponse.json({ error: 'unknown magnet' }, { status: 404 })
+
+  // A full product magnet is already a real PDF in public; hand that over
+  // rather than generating a one page sheet.
+  if (magnet.staticPdf) {
+    const origin = process.env.NEXT_PUBLIC_APP_URL ?? req.nextUrl.origin
+    return NextResponse.redirect(`${origin}${magnet.staticPdf}`, 307)
+  }
 
   try {
     const bytes = await buildPdf(magnet)
