@@ -392,10 +392,15 @@ export default function KidTodayList({
     </button>
   )
 
-  // Fold into the concertina once the day is long, so a big list never fills the
-  // whole screen. The first job stays full size, the rest peek behind it.
-  const CONCERTINA_AT = 5
+  // Fold into the concertina as soon as the day is more than a short list, so a
+  // busy day never fills the whole screen. The one being done now stays full
+  // size, the next few peek behind it, and anything past that is counted in the
+  // line underneath rather than drawn, so ten jobs take no more room than five.
+  const CONCERTINA_AT = 3
+  const MAX_PEEKS = 4
   const concertina = activeRows.length > CONCERTINA_AT
+  const peeks = activeRows.slice(1, 1 + MAX_PEEKS)
+  const tucked = Math.max(0, activeRows.length - 1 - peeks.length)
 
   return (
     <div id="my-todo" style={{ marginBottom: '18px', scrollMarginTop: '12px' }}>
@@ -467,9 +472,11 @@ export default function KidTodayList({
             // a tidy peek deck, worked down one at a time.
             <div>
               {rowCard(activeRows[0])}
-              {activeRows.slice(1).map((r, i) => peekCard(r, i))}
+              {peeks.map((r, i) => peekCard(r, i))}
               <p style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.06em', color: inkSoft, margin: '12px 0 0' }}>
-                {activeRows.length - 1} more, one at a time
+                {tucked > 0
+                  ? `${activeRows.length - 1} more to go, ${tucked} tucked behind`
+                  : `${activeRows.length - 1} more, one at a time`}
               </p>
             </div>
           ) : (
