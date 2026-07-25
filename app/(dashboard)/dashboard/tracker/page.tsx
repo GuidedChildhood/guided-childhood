@@ -17,8 +17,8 @@ import ToolCard, { type Tool } from '@/components/tools/ToolCard'
 import ChildSwitcher from '@/components/children/ChildSwitcher'
 import { pickChild } from '@/lib/children/select'
 import BalanceReport from '@/components/balance/BalanceReport'
+import { buildOffscreen } from '@/lib/balance/offscreen'
 import { buildParentReport, type ParentReport } from '@/lib/balance/parent-report'
-import { STAR_MINUTES } from '@/lib/quests/templates'
 
 // The Progress page: the answer to the only question that matters, is it
 // working. One honest generated sentence at the top, then the evidence:
@@ -164,11 +164,12 @@ export default async function ProgressPage({ searchParams }: { searchParams: Pro
       childName: primary.name,
       ageBand: primary.age_band ?? null,
       deviceMinutes: (dsRes.data ?? []).map(d => ({ device: d.device as string, minutes: d.minutes as number })),
-      offscreen: {
-        activities: childTicks.length + sheetCount,
-        stars: offStars + sheetStars,
-        minutes: (offStars + sheetStars) * STAR_MINUTES,
-      },
+      // The same shared estimate the stats page uses, so a parent never sees two
+      // different off screen totals for one week.
+      offscreen: buildOffscreen({
+        jobs: childTicks.length, jobStars: offStars,
+        sheets: sheetCount, sheetStars,
+      }),
     })
   }
   const jobsPct = jobsStatus === 'on_track' ? 100 : jobsStatus === 'pending' ? 40 : 0
