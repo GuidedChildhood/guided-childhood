@@ -160,10 +160,10 @@ export default function BalanceReport({ report }: { report: ParentReport }) {
           <span style={{ width: 42, height: 42, flexShrink: 0, borderRadius: 12, background: 'var(--stage-1, #FFFBEE)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22 }}>🌟</span>
           <div style={{ flex: 1, minWidth: 0 }}>
             <p style={{ fontSize: 14.5, lineHeight: 1.55, color: 'var(--ink)', margin: 0 }}>
-              {name} put in <b>{fmtMins(offscreen.minutes)} on jobs, tasks and getting outside</b> this week, against <b>{fmtMins(totalWeekMins)} on screen</b>, earning <b>{offscreen.stars} {offscreen.stars === 1 ? 'star' : 'stars'}</b> across <b>{offscreen.activities}</b> real world {offscreen.activities === 1 ? 'win' : 'wins'}.
+              {name} put in <b>{fmtMins(offscreen.minutes)} on jobs, printables and getting outside</b> this week, against <b>{fmtMins(totalWeekMins)} on screen</b>, earning <b>{offscreen.stars} {offscreen.stars === 1 ? 'star' : 'stars'}</b> across <b>{offscreen.activities}</b> real world {offscreen.activities === 1 ? 'win' : 'wins'}.
             </p>
             <p style={{ fontSize: 12, lineHeight: 1.5, color: 'var(--ink-soft)', margin: '6px 0 0' }}>
-              This counts the offline things they logged, jobs done, tasks and time outside, not their whole day away from a screen.
+              This counts the offline things that got recorded, jobs done, printables finished and time outside, not their whole day away from a screen.
             </p>
           </div>
         </div>
