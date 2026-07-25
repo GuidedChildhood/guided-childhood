@@ -167,7 +167,7 @@ export const PRINTABLES: Printable[] = [
     stages: [4], minutes: 'One sitting', setting: 'anywhere', skill: 'Creativity',
     stars: 5,
     blurb: 'Your Stage 4 Planet Friend, thoughtful and kind. Colour Nova your way.',
-    sheetUrl: BASE + 'hf_20260723_185250_f65c7cc0-aac9-474f-b99c-b85aad8d47f3.png',
+    sheetUrl: BASE + 'hf_20260725_090749_b565097d-be3d-403d-8435-2817497807bc.png',
     previewUrl: friendArt('nova'),
   },
   {
@@ -176,7 +176,7 @@ export const PRINTABLES: Printable[] = [
     stages: [5], minutes: 'One sitting', setting: 'anywhere', skill: 'Creativity',
     stars: 5,
     blurb: 'Your Stage 5 Planet Friend, confident and independent. Colour Cosmo ready to lead.',
-    sheetUrl: BASE + 'hf_20260723_185512_775a18be-3cf2-4a0b-bde1-c85f2d591021.png',
+    sheetUrl: BASE + 'hf_20260725_090756_3600a3d8-266c-40ca-af9c-b890f0223bed.png',
     previewUrl: friendArt('cosmo'),
   },
   // Brought over from the Etsy shop into the app library, redrawn in the house
