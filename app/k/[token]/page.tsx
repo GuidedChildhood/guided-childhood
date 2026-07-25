@@ -454,8 +454,26 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   } catch { completedStreaks = 0 }
   const earnedStages = earnedFriends(stageEarned, completedStreaks)
 
+  // Sheets finished away from a screen and confirmed by a grown up. The parent
+  // stats already count these into the off screen total; this is so the child
+  // sees their own real world tally too, in the place they do the work. Fails
+  // soft before migration 087, where it simply reads zero.
+  let sheetsDone = 0
+  let sheetStars = 0
+  try {
+    const { data: sheets } = await supabase
+      .from('printable_completions')
+      .select('stars')
+      .eq('child_id', link.child_id)
+      .eq('status', 'confirmed')
+    sheetsDone = (sheets ?? []).length
+    sheetStars = (sheets ?? []).reduce((sum, r) => sum + (Number(r.stars) || 0), 0)
+  } catch { sheetsDone = 0; sheetStars = 0 }
+
   return (
     <KidQuestScreen
+      sheetsDone={sheetsDone}
+      sheetStars={sheetStars}
       earnedStages={earnedStages}
       completedStreaks={completedStreaks}
       assignedPrintable={assignedPrintable}
