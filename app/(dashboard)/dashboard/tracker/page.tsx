@@ -11,6 +11,8 @@ import LiteracyAreas from '@/components/pathway/LiteracyAreas'
 import LiteracyCheckIn from '@/components/pathway/LiteracyCheckIn'
 import { getLiteracyStatuses } from '@/lib/pathway/literacy-status'
 import PassportBook from '@/components/pathway/PassportBook'
+import StickerBook from '@/components/pathway/StickerBook'
+import { getStickerBook } from '@/lib/stickers/book'
 import { type Stamp, type StampStatus, type ChecklistSection } from '@/components/pathway/PassportStamps'
 import { computeJobsStreak, jobsTodayStatus, type StreakQuest, type StreakTick } from '@/lib/pathway/jobs-streak'
 import ToolCard, { type Tool } from '@/components/tools/ToolCard'
@@ -173,6 +175,13 @@ export default async function ProgressPage({ searchParams }: { searchParams: Pro
       }),
     })
   }
+  // The child's sticker book: earned from the same star bank and printable
+  // loop the rest of this page reads, so the collection can never disagree with
+  // the numbers. Reconciled and made permanent on read, fails soft pre 101.
+  const stickerBook = primary?.id
+    ? await getStickerBook(supabase, user.id, { id: primary.id, age_band: primary.age_band ?? null })
+    : null
+
   const jobsPct = jobsStatus === 'on_track' ? 100 : jobsStatus === 'pending' ? 40 : 0
   // Balance section reading: healthy or a light week is full, over is a nudge,
   // well over is the clear to do. Never a lock, just the honest heads up.
@@ -352,6 +361,14 @@ export default async function ProgressPage({ searchParams }: { searchParams: Pro
       {stage && stamps.length > 0 && (
         <div style={{ marginBottom: '22px' }}>
           <PassportBook stamps={stamps} childName={primary?.name ?? 'your child'} />
+        </div>
+      )}
+
+      {/* The sticker book: the child's collection, filling up as they earn
+          stars, finish printables and grow through the stages. */}
+      {stickerBook && stickerBook.total > 0 && (
+        <div style={{ marginBottom: '22px' }}>
+          <StickerBook book={stickerBook} childName={primary?.name ?? undefined} />
         </div>
       )}
 
