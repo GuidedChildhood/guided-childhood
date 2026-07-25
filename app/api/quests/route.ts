@@ -6,6 +6,7 @@ import { getStarBanks } from '@/lib/quests/bank'
 import { getMinutesUsedToday } from '@/lib/quests/usage'
 import { pushToChild } from '@/lib/quests/kid-push'
 import { STAR_MINUTES } from '@/lib/quests/templates'
+import { isPrintableAskTitle } from '@/lib/quests/printable-ask'
 
 // The parent's quest manager API. GET returns everything the manager and
 // the board need in one call: children, their quests, today's ticks, the
@@ -215,22 +216,35 @@ export async function POST(req: NextRequest) {
     if (!request) return NextResponse.json({ error: 'unknown request' }, { status: 404 })
 
     if (body.decision === 'added') {
-      const stars = Math.min(10, Math.max(1, Number(body.stars) || 2))
-      const schedule = ['daily', 'weekdays', 'weekend', 'once'].includes(body.schedule) ? body.schedule : 'once'
-      const { error: questError } = await supabase.from('family_quests').insert({
-        user_id: user.id,
-        child_id: request.child_id,
-        title: request.title,
-        emoji: request.emoji ?? '⭐',
-        stars,
-        schedule,
-      })
-      if (questError) return NextResponse.json({ error: questError.message }, { status: 500 })
-      await pushToChild(
-        createAdminClient(), user.id, request.child_id,
-        'Your quest idea is on! ⭐',
-        `"${request.title}" is now a real quest worth ${stars} star${stars === 1 ? '' : 's'}, that is ${stars * STAR_MINUTES} minutes. Go get it.`
-      )
+      // A printable ask is not a job: turning "Please can I do the X printable"
+      // into a family_quest would drop the child's own asking phrase into their
+      // daily list as a task. Printables live in the printables flow, where the
+      // child does the sheet and claims its own stars, so here the ask is simply
+      // said yes to and closed, and the child is pointed at their Printables tab.
+      if (isPrintableAskTitle(request.title)) {
+        await pushToChild(
+          createAdminClient(), user.id, request.child_id,
+          'Yes to your printable! 🖍️',
+          'Your grown up said yes. Open your Printables to colour it in and earn the stars.'
+        )
+      } else {
+        const stars = Math.min(10, Math.max(1, Number(body.stars) || 2))
+        const schedule = ['daily', 'weekdays', 'weekend', 'once'].includes(body.schedule) ? body.schedule : 'once'
+        const { error: questError } = await supabase.from('family_quests').insert({
+          user_id: user.id,
+          child_id: request.child_id,
+          title: request.title,
+          emoji: request.emoji ?? '⭐',
+          stars,
+          schedule,
+        })
+        if (questError) return NextResponse.json({ error: questError.message }, { status: 500 })
+        await pushToChild(
+          createAdminClient(), user.id, request.child_id,
+          'Your quest idea is on! ⭐',
+          `"${request.title}" is now a real quest worth ${stars} star${stars === 1 ? '' : 's'}, that is ${stars * STAR_MINUTES} minutes. Go get it.`
+        )
+      }
     } else {
       await pushToChild(
         createAdminClient(), user.id, request.child_id,
