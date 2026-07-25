@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
 // The mobile bottom bar: Home, DiGi, Quests, Scripts, Passport. The two most
 // asked for destinations, Scripts and Quests, are real tabs rather than cards
@@ -84,9 +85,16 @@ const NAV_TABS: Tab[] = [
 
 export default function MobileTabBar({ pendingAsks = 0 }: { pendingAsks?: number }) {
   const pathname = usePathname()
-  const active = NAV_TABS
+  // usePathname only updates once a navigation has fully resolved, so on a
+  // heavier page the highlight lagged the tap and the bar felt slow. We track
+  // the tapped tab optimistically and light it the instant a finger lifts,
+  // then hand back to the real route once it catches up.
+  const [pending, setPending] = useState<string | null>(null)
+  const routeActive = NAV_TABS
     .filter(t => (t.href === '/dashboard' ? pathname === '/dashboard' : pathname.startsWith(t.href)))
     .sort((a, b) => b.href.length - a.href.length)[0]?.href
+  useEffect(() => { setPending(null) }, [pathname])
+  const active = pending ?? routeActive
 
   return (
     <nav className="bottom-tab-bar">
@@ -97,6 +105,8 @@ export default function MobileTabBar({ pendingAsks = 0 }: { pendingAsks?: number
           <Link
             key={tab.href}
             href={tab.href}
+            prefetch
+            onClick={() => setPending(tab.href)}
             className={`tab-item${isActive ? ' active' : ''}`}
             style={{ textDecoration: 'none' }}
             aria-current={isActive ? 'page' : undefined}

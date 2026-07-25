@@ -297,11 +297,20 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
   letter-spacing: 0;
   text-transform: none;
   line-height: 1.2;
-  transition: color 0.15s;
+  transition: color 0.15s, transform 0.06s ease;
   flex: 1;
   border-radius: 12px;
+  /* Kill the 300ms mobile tap delay and the grey tap flash, then give our
+     own instant press feedback below so the bar answers a finger at once. */
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  user-select: none;
 }
 .tab-item.active { font-weight: 800; }
+/* Immediate tactile response the moment a finger lands, before the next
+   page has loaded, so the tab bar never feels like it is thinking. */
+.tab-item:active { transform: scale(0.9); }
 .tab-item svg { width: 24px; height: 24px; }
 /* Hover only for real pointers: on touch, :hover can stick after a tap
    and leave the wrong tab looking active until another tap clears it,
