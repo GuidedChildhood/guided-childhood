@@ -21,6 +21,17 @@ export default function SetupNextBar() {
   // Counted in sessionStorage, so it starts fresh on their next visit.
   const MAX_SHOWS = 2
   const SESSION_KEY = 'gc_setupbar_shows'
+  // Following the bar retires it for the visit, so it guides once and then
+  // trusts the parent to get on with it.
+  const WENT_KEY = 'gc_setupbar_went'
+  const [goneForSession, setGoneForSession] = useState(false)
+  useEffect(() => {
+    try { if (sessionStorage.getItem(WENT_KEY) === '1') setGoneForSession(true) } catch { /* private mode */ }
+  }, [])
+  const followed = useCallback(() => {
+    try { sessionStorage.setItem(WENT_KEY, '1') } catch { /* private mode */ }
+    setGoneForSession(true)
+  }, [])
   const [showThis, setShowThis] = useState(false)
   const shownFlag = useRef(false)
 
@@ -78,7 +89,11 @@ export default function SetupNextBar() {
     }
   }, [eligible])
 
-  if (!eligible || !showThis) return null
+  // Tapped Go: the bar has done its job and leaves for the rest of the visit.
+  // Without this, walking to the step's page counts as a route change, which
+  // un-hides the bar, so the parent who followed it politely gets it thrown at
+  // them again on arrival. That is the nag.
+  if (!eligible || !showThis || goneForSession) return null
 
   return (
     <div style={{
@@ -110,6 +125,7 @@ export default function SetupNextBar() {
         </button>
         <Link
           href={next.href}
+          onClick={followed}
           style={{
             flexShrink: 0, background: 'var(--terracotta)', color: 'var(--ink)',
             borderRadius: '12px', padding: '11px 18px', textDecoration: 'none',
