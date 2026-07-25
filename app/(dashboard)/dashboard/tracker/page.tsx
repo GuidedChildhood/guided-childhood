@@ -144,11 +144,31 @@ export default async function ProgressPage({ searchParams }: { searchParams: Pro
     // real life against screen. Stars carry the minutes at the family rate.
     const childTicks = ticks.filter(t => t.child_id === primary.id)
     const offStars = childTicks.reduce((sum, t) => sum + ((quests.find(q => q.id === t.quest_id)?.stars as number | undefined) ?? 1), 0)
+
+    // Confirmed printables count too: a page coloured at the table is off screen
+    // effort in the plainest sense, whether the child ticked it or the parent
+    // recorded it. Fails soft before migration 087.
+    let sheetCount = 0
+    let sheetStars = 0
+    try {
+      const { data: sheets } = await supabase
+        .from('printable_completions')
+        .select('stars')
+        .eq('child_id', primary.id).eq('status', 'confirmed')
+        .gte('created_at', weekAgo)
+      sheetCount = (sheets ?? []).length
+      sheetStars = (sheets ?? []).reduce((sum, s) => sum + (Number(s.stars) || 0), 0)
+    } catch { /* pre 087, jobs only */ }
+
     parentReport = buildParentReport({
       childName: primary.name,
       ageBand: primary.age_band ?? null,
       deviceMinutes: (dsRes.data ?? []).map(d => ({ device: d.device as string, minutes: d.minutes as number })),
-      offscreen: { activities: childTicks.length, stars: offStars, minutes: offStars * STAR_MINUTES },
+      offscreen: {
+        activities: childTicks.length + sheetCount,
+        stars: offStars + sheetStars,
+        minutes: (offStars + sheetStars) * STAR_MINUTES,
+      },
     })
   }
   const jobsPct = jobsStatus === 'on_track' ? 100 : jobsStatus === 'pending' ? 40 : 0

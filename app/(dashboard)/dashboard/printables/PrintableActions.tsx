@@ -10,6 +10,24 @@ import type { Printable } from '@/lib/printables/registry'
 export default function PrintableActions({ printable, isPaid = true }: { printable: Printable; isPaid?: boolean }) {
   const [added, setAdded] = useState(false)
   const [sent, setSent] = useState(false)
+  const [done, setDone] = useState(false)
+
+  // They did it: the parent records the finished sheet themselves. A young child
+  // colouring at the table never taps "I did it", and a family with no child app
+  // never can, so this is how the paper that was actually finished lands its
+  // stars and counts on the off screen total.
+  async function markDone() {
+    if (done) return
+    setDone(true)
+    try {
+      const r = await fetch('/api/printables/confirm', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ printable_key: printable.key }),
+      })
+      if (!r.ok) setDone(false)
+    } catch { setDone(false) }
+  }
 
   async function addToQuests() {
     if (added) return
@@ -114,6 +132,19 @@ export default function PrintableActions({ printable, isPaid = true }: { printab
         }}
       >
         {sent ? 'Sent to their app ✓' : '📲 Send to my child'}
+      </button>
+      <button
+        onClick={markDone}
+        disabled={done}
+        title="Record it done and land the stars, for a sheet finished away from the app"
+        style={{
+          background: done ? 'var(--tint-sage)' : '#fff',
+          border: '1.5px solid var(--border)', borderRadius: '12px',
+          padding: '10px 16px', cursor: done ? 'default' : 'pointer',
+          fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 800, color: 'var(--ink)',
+        }}
+      >
+        {done ? `Done, ⭐ ${printable.stars} landed ✓` : `✅ They did it · ⭐ ${printable.stars}`}
       </button>
     </div>
   )

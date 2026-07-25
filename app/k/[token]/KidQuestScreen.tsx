@@ -1129,7 +1129,7 @@ export default function KidQuestScreen({
             // lights the same tick their grown up sees on the pathway.
             { emoji: '📚', label: 'My lessons', sub: 'Learn it, pass it', tint: 'var(--terracotta-lt)', onClick: () => { playKidSound('tap'); window.location.href = `/k/${token}/lessons` } },
             { icon: 'deal', iconColor: 'var(--terracotta-dark)', label: 'Our deal', sub: 'How it works', tint: 'var(--cream)', onClick: () => { setDealOpen(true); playKidSound('tap') } },
-            { emoji: '🎨', label: 'Make it mine', sub: 'Buddy and colour', tint: 'var(--terracotta-lt)', onClick: () => { setMakeMineOpen(true); playKidSound('tap') } },
+            { emoji: '🎨', label: 'Make it mine', sub: 'Buddy, colour, new Friends', tint: 'var(--terracotta-lt)', onClick: () => { setMakeMineOpen(true); playKidSound('tap') } },
             { icon: 'newjob', iconColor: '#3D739A', label: askedMore ? 'Asked' : 'New job', sub: askedMore ? 'Grown up knows' : 'Ask a grown up', tint: askedMore ? 'var(--tint-sage)' : 'var(--tint-blue, #E4ECF7)', onClick: () => { if (!askedMore) { askForMore(); playKidSound('tap') } } },
             // Printables fills the last grid slot: a tap opens the printables
             // tab, where the child does the ones sent to them and asks for more.
@@ -1315,6 +1315,7 @@ export default function KidQuestScreen({
             chosenBuddy={chosenBuddy}
             chosenAccent={chosenAccent}
             earnedStages={earnedStages}
+            completedStreaks={completedStreaks}
             onPick={saveMine}
           />
         )}
@@ -2252,11 +2253,12 @@ function FamilyDeal({ onClose, recommendedMinutes, goal, bankBalance, goalRedeem
 
 // Make it mine: the child picks their buddy and their colour. Their choice, not
 // an assumption about them. Saves instantly and the whole app takes the accent.
-function MakeItMine({ onClose, chosenBuddy, chosenAccent, earnedStages = 0, onPick }: {
+function MakeItMine({ onClose, chosenBuddy, chosenAccent, earnedStages = 0, completedStreaks = 0, onPick }: {
   onClose: () => void
   chosenBuddy: string
   chosenAccent: string
   earnedStages?: number
+  completedStreaks?: number
   onPick: (next: { buddy?: string; accent?: string }) => void
 }) {
   // A mixed colour reads back as h<hue>; the slider starts from it, or from a
@@ -2274,11 +2276,15 @@ function MakeItMine({ onClose, chosenBuddy, chosenAccent, earnedStages = 0, onPi
           <button onClick={onClose} aria-label="Close" style={{ width: 34, height: 34, borderRadius: '50%', border: 'none', background: '#fff', cursor: 'pointer', fontSize: '18px', color: 'var(--ink-muted)', flexShrink: 0 }}>✕</button>
         </div>
 
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '10px' }}>Pick your buddy</div>
-        {/* DiGi is always yours; a Planet Friend can only be chosen once its
-            stage has been earned. Locked Friends still show, greyed with a
-            lock, so a child can see who is coming and keep going for them. */}
-        <div style={{ display: 'flex', gap: '9px', marginBottom: '20px', flexWrap: 'wrap' }}>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>Pick your buddy</div>
+        {/* How a child gets a new Friend, said plainly right where they ask it.
+            A padlock on its own only raises the question, so the answer sits
+            above the row and the streak bar underneath shows exactly how close
+            the next Friend is. */}
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: '15px', fontWeight: 600, color: 'var(--ink-soft)', lineHeight: 1.45, margin: '0 0 10px' }}>
+          DiGi is always yours. You earn a new Planet Friend every time you keep your jobs going, so the locked ones join you as you go.
+        </p>
+        <div style={{ display: 'flex', gap: '9px', marginBottom: '12px', flexWrap: 'wrap' }}>
           {Object.entries(BUDDY_MAP).map(([id, b]) => {
             const locked = typeof b.stageId === 'number' && b.stageId > earnedStages
             const on = chosenBuddy === id
@@ -2288,8 +2294,8 @@ function MakeItMine({ onClose, chosenBuddy, chosenAccent, earnedStages = 0, onPi
                 onClick={() => { if (!locked) onPick({ buddy: id }) }}
                 aria-pressed={on}
                 aria-disabled={locked}
-                title={locked ? `Earn ${b.name} at Stage ${b.stageId}` : b.name}
-                style={{ flex: '1 0 26%', minWidth: 72, cursor: locked ? 'not-allowed' : 'pointer', background: '#fff', border: on ? '3px solid var(--ink)' : '2px solid transparent', borderRadius: '16px', padding: '8px 4px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px', opacity: locked ? 0.55 : 1, position: 'relative' }}
+                aria-label={locked ? `${b.name}, not earned yet` : b.name}
+                style={{ flex: '1 0 26%', minWidth: 72, cursor: locked ? 'not-allowed' : 'pointer', background: '#fff', border: on ? '3px solid var(--ink)' : '2px solid transparent', borderRadius: '16px', padding: '8px 4px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', opacity: locked ? 0.7 : 1, position: 'relative' }}
               >
                 <span style={{ width: 56, height: 56, borderRadius: '50%', overflow: 'hidden', background: '#FFF7E8', display: 'flex', alignItems: 'center', justifyContent: 'center', filter: locked ? 'grayscale(1)' : 'none' }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -2300,9 +2306,19 @@ function MakeItMine({ onClose, chosenBuddy, chosenAccent, earnedStages = 0, onPi
                 <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', color: 'var(--ink)' }}>
                   {locked ? `🔒 ${b.name}` : b.name}
                 </span>
+                {/* The visible unlock line: a tooltip never shows on a phone, so
+                    the one who needs it most could not read it. */}
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', color: locked ? 'var(--terracotta-dark)' : '#2F8F6B', textAlign: 'center', lineHeight: 1.2 }}>
+                  {locked ? 'Keep going' : id === 'digi' ? 'Always yours' : 'Yours ✓'}
+                </span>
               </button>
             )
           })}
+        </div>
+
+        {/* Exactly how close the next Friend is, in the child's own numbers. */}
+        <div style={{ marginBottom: '18px' }}>
+          <StreakBar completedStreaks={completedStreaks} earnedStages={earnedStages} />
         </div>
 
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '10px' }}>Pick your background</div>

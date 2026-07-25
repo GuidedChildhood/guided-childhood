@@ -63,6 +63,24 @@ export default async function StatsPage() {
         minutes: approved.length * 15,
       }
     } catch { /* thin week */ }
+
+    // A finished printable is one of the clearest off screen wins there is: a
+    // page coloured at the table, away from a screen. Confirmed ones count here
+    // beside the jobs, so the off screen total reflects the whole real world
+    // effort rather than jobs alone. Fails soft before migration 087.
+    try {
+      const { data: sheets } = await supabase
+        .from('printable_completions')
+        .select('stars')
+        .eq('child_id', child.id).eq('status', 'confirmed')
+        .gte('created_at', sinceIso)
+      const done = sheets ?? []
+      offscreen = {
+        activities: offscreen.activities + done.length,
+        stars: offscreen.stars + done.reduce((sum, s) => sum + (Number(s.stars) || 0), 0),
+        minutes: offscreen.minutes + done.length * 20,
+      }
+    } catch { /* pre 087, jobs only */ }
   }
 
   const report = buildParentReport({
