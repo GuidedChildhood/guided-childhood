@@ -67,11 +67,31 @@ export default function MissionWelcome({ firstName }: { firstName?: string }) {
   if (!open) return null
 
   return (
-    <div style={{ padding: '0 20px', maxWidth: 720, margin: '0 auto 16px' }}>
-      <div style={{
-        background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
-        borderRadius: 20, padding: '18px 20px 20px',
-      }}>
+    <div
+      onClick={() => setOpen(false)}
+      role="dialog"
+      aria-label="Welcome"
+      style={{
+        position: 'fixed', inset: 0, zIndex: 200,
+        background: 'rgba(26,26,46,0.45)', backdropFilter: 'blur(3px)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        padding: 20, animation: 'gc-welcome-in 0.3s ease',
+      }}
+    >
+      <style>{`
+        @keyframes gc-welcome-in { from { opacity: 0 } to { opacity: 1 } }
+        @media (prefers-reduced-motion: reduce) { [data-gc-welcome] { animation: none !important } }
+      `}</style>
+      <div
+        data-gc-welcome
+        onClick={e => e.stopPropagation()}
+        style={{
+          width: '100%', maxWidth: 460,
+          background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
+          borderRadius: 24, padding: '22px 22px 24px',
+          boxShadow: '0 24px 60px -18px rgba(26,26,46,0.5)',
+        }}
+      >
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
           <span style={{ flexShrink: 0, width: 44, height: 44, borderRadius: '50%', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <DigiCharacter size={29} mood="wave" />
@@ -99,8 +119,22 @@ export default function MissionWelcome({ firstName }: { firstName?: string }) {
           {CAPTIONS[i]}
         </p>
 
+        {/* One way out, plus tapping anywhere off the card. An overlay a parent
+            cannot dismiss on a busy morning is worse than no overlay. */}
+        <button
+          onClick={() => setOpen(false)}
+          style={{
+            width: '100%', marginTop: 16, padding: '14px', cursor: 'pointer',
+            background: 'var(--terracotta)', color: 'var(--ink)', border: 'none',
+            borderRadius: 16, fontFamily: 'var(--font-display)', fontWeight: 800,
+            fontSize: 16, boxShadow: '0 4px 0 var(--terracotta-dark)',
+          }}
+        >
+          Start today
+        </button>
+
         {/* Which of the mission lines they are on, so it reads as a set. */}
-        <div style={{ display: 'flex', gap: 5, marginTop: 4 }}>
+        <div style={{ display: 'flex', gap: 5, marginTop: 14, justifyContent: 'center' }}>
           {CAPTIONS.map((_, n) => (
             <span key={n} style={{
               width: n === i ? 18 : 6, height: 6, borderRadius: 100,
