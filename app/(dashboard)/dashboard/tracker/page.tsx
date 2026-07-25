@@ -72,7 +72,7 @@ export default async function ProgressPage({ searchParams }: { searchParams: Pro
     // back. Reopening it bumps the flag count and DiGi reads the recurrence.
     supabase.from('concerns').select('slug, label, times_flagged').eq('user_id', user.id).eq('status', 'resolved').order('last_checked_at', { ascending: false }).limit(6),
     supabase.from('wellbeing_checks').select('week_start, mood_score, sleep_score, social_score, screen_mood_score, open_communication').eq('parent_id', user.id).order('week_start', { ascending: false }).limit(6),
-    supabase.from('family_quests').select('id, stars, child_id').eq('user_id', user.id).eq('active', true),
+    supabase.from('family_quests').select('id, stars, child_id, title').eq('user_id', user.id).eq('active', true),
     supabase.from('quest_ticks').select('quest_id, child_id, status').eq('user_id', user.id).eq('status', 'approved').gte('tick_date', weekAgo),
     getDailyStreak(supabase, user.id),
     // Today's ten minute loop, so the report can say the day's work is
@@ -167,7 +167,8 @@ export default async function ProgressPage({ searchParams }: { searchParams: Pro
       // The same shared estimate the stats page uses, so a parent never sees two
       // different off screen totals for one week.
       offscreen: buildOffscreen({
-        jobs: childTicks.length, jobStars: offStars,
+        jobs: childTicks.map(t => ({ title: (quests.find(q => q.id === t.quest_id)?.title as string | undefined) ?? '' })),
+        jobStars: offStars,
         sheets: sheetCount, sheetStars,
       }),
     })

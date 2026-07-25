@@ -36,7 +36,8 @@ export default async function StatsPage() {
   let offscreen = { activities: 0, stars: 0, minutes: 0 }
   // Counted first, totalled once at the end through the shared builder, so this
   // page and the tracker can never drift apart again.
-  let jobs = 0, jobStars = 0, sheets_ = 0, sheetStars = 0
+  let jobs: { title: string; minutes?: number | null }[] = []
+  let jobStars = 0, sheets_ = 0, sheetStars = 0
 
   if (child?.id) {
     try {
@@ -55,13 +56,15 @@ export default async function StatsPage() {
 
     try {
       const [{ data: quests }, { data: ticks }] = await Promise.all([
-        supabase.from('family_quests').select('id, stars').eq('child_id', child.id),
+        supabase.from('family_quests').select('id, stars, title').eq('child_id', child.id),
         supabase.from('quest_ticks').select('quest_id').eq('child_id', child.id).eq('status', 'approved').gte('tick_date', sinceDay),
       ])
-      const starById = new Map((quests ?? []).map(q => [q.id as string, Number(q.stars) || 1]))
+      const byId = new Map((quests ?? []).map(q => [q.id as string, { stars: Number(q.stars) || 1, title: (q.title as string) ?? '' }]))
       const approved = ticks ?? []
-      jobs = approved.length
-      jobStars = approved.reduce((sum, t) => sum + (starById.get(t.quest_id as string) ?? 1), 0)
+      // Carry the title through, so each job's minutes come from what it
+      // actually is rather than one average across all of them.
+      jobs = approved.map(t => ({ title: byId.get(t.quest_id as string)?.title ?? '' }))
+      jobStars = approved.reduce((sum, t) => sum + (byId.get(t.quest_id as string)?.stars ?? 1), 0)
     } catch { /* thin week */ }
 
     // A finished printable is one of the clearest off screen wins there is: a
