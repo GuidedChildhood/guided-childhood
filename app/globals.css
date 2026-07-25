@@ -258,7 +258,7 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
   bottom: 0;
   left: 0;
   right: 0;
-  height: 64px;
+  height: 72px;
   background: rgba(255,255,255,.96);
   backdrop-filter: blur(20px);
   border-top: 1px solid var(--border);
@@ -277,26 +277,32 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
    matters while typing. */
 body.gc-input-focused .bottom-tab-bar { display: none; }
 
+/* Sentence case at a readable size, the way the best parent apps label a tab
+   bar. The old 9px uppercase letterspaced label in muted grey was the hardest
+   text in either app to read, and pale butter for the active tab was almost
+   invisible on white. Labels are now ink, the active one darker and heavier,
+   and the colour lives in the icon pill where it can be seen. */
 .tab-item {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 3px;
-  padding: 8px 12px;
+  padding: 6px 6px;
   cursor: pointer;
   text-decoration: none;
-  color: var(--ink-muted);
+  color: var(--ink-soft);
   font-family: var(--font-body);
-  font-size: 9px;
+  font-size: 12px;
   font-weight: 600;
-  letter-spacing: .05em;
-  text-transform: uppercase;
+  letter-spacing: 0;
+  text-transform: none;
+  line-height: 1.2;
   transition: color 0.15s;
   flex: 1;
   border-radius: 12px;
 }
-.tab-item.active { color: var(--terracotta); font-weight: 800; }
-.tab-item svg { width: 22px; height: 22px; }
+.tab-item.active { font-weight: 800; }
+.tab-item svg { width: 24px; height: 24px; }
 /* Hover only for real pointers: on touch, :hover can stick after a tap
    and leave the wrong tab looking active until another tap clears it,
    which is exactly what made Home look current while on another page. */

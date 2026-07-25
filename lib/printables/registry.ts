@@ -9,7 +9,15 @@
 // creates a one off family quest, the child hands the finished sheet
 // back, the parent ticks it, the stars land in the time bank.
 
+import { characterByKey } from '@/lib/content/stage-characters'
+
 const BASE = 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/'
+
+// The Planet Friend colour in sheets show the finished character on the card and
+// the empty line art in the PDF. A card thumbnail is a shop window: the child
+// should see who they are about to colour, in full colour, the same art they
+// meet in the app. The sheet they print is still the clean line art.
+const friendArt = (key: string) => characterByKey(key)?.img ?? ''
 
 export type Printable = {
   key: string
@@ -123,9 +131,9 @@ export const PRINTABLES: Printable[] = [
     previewUrl: BASE + 'hf_20260722_110327_09f96b0e-2738-4ed7-9c2b-3ad726c6aa1f.png',
   },
   // DiGi's Planet Friends, one colour in sheet each, tied to the stage that
-  // unlocks that Friend. Both preview and sheet are the empty line art: a
-  // printable is a page to colour in, so the card shows exactly that. The
-  // finished, coloured Friend lives on the app, not here.
+  // unlocks that Friend. The card shows the finished Friend in full colour, the
+  // same art the child meets in the app, so the thumbnail sells what they are
+  // about to make. The sheet they actually print is still the clean line art.
   {
     key: 'meet-pebble',
     title: 'Colour in Pebble', emoji: '🟡', kind: 'craft',
@@ -133,7 +141,7 @@ export const PRINTABLES: Printable[] = [
     stars: 5,
     blurb: 'Your Stage 1 Planet Friend, full of curiosity and wonder. Colour Pebble in however you like.',
     sheetUrl: BASE + 'hf_20260723_121101_b9370321-6338-41b6-8c06-220c937d6705.png',
-    previewUrl: BASE + 'hf_20260723_121101_b9370321-6338-41b6-8c06-220c937d6705.png',
+    previewUrl: friendArt('pebble'),
   },
   {
     key: 'meet-bloop',
@@ -142,7 +150,7 @@ export const PRINTABLES: Printable[] = [
     stars: 5,
     blurb: 'Your Stage 2 Planet Friend, creative and clever. Bring Bloop to life with colour.',
     sheetUrl: BASE + 'hf_20260723_121102_5535f574-b642-4f8f-bcc3-8d4a7ff2c334.png',
-    previewUrl: BASE + 'hf_20260723_121102_5535f574-b642-4f8f-bcc3-8d4a7ff2c334.png',
+    previewUrl: friendArt('bloop'),
   },
   {
     key: 'meet-orbit',
@@ -151,7 +159,7 @@ export const PRINTABLES: Printable[] = [
     stars: 5,
     blurb: 'Your Stage 3 Planet Friend, always exploring. Colour Orbit ready for the next big question.',
     sheetUrl: BASE + 'hf_20260723_121113_c6a1b8e9-da55-43d5-bf5f-9bdf7ffa9954.png',
-    previewUrl: BASE + 'hf_20260723_121113_c6a1b8e9-da55-43d5-bf5f-9bdf7ffa9954.png',
+    previewUrl: friendArt('orbit'),
   },
   {
     key: 'meet-nova',
@@ -160,7 +168,7 @@ export const PRINTABLES: Printable[] = [
     stars: 5,
     blurb: 'Your Stage 4 Planet Friend, thoughtful and kind. Colour Nova your way.',
     sheetUrl: BASE + 'hf_20260723_185250_f65c7cc0-aac9-474f-b99c-b85aad8d47f3.png',
-    previewUrl: BASE + 'hf_20260723_185250_f65c7cc0-aac9-474f-b99c-b85aad8d47f3.png',
+    previewUrl: friendArt('nova'),
   },
   {
     key: 'meet-cosmo',
@@ -169,7 +177,7 @@ export const PRINTABLES: Printable[] = [
     stars: 5,
     blurb: 'Your Stage 5 Planet Friend, confident and independent. Colour Cosmo ready to lead.',
     sheetUrl: BASE + 'hf_20260723_185512_775a18be-3cf2-4a0b-bde1-c85f2d591021.png',
-    previewUrl: BASE + 'hf_20260723_185512_775a18be-3cf2-4a0b-bde1-c85f2d591021.png',
+    previewUrl: friendArt('cosmo'),
   },
   // Brought over from the Etsy shop into the app library, redrawn in the house
   // colour in style (clean line art, no old squad). The professions sheet and
@@ -218,8 +226,8 @@ export const PRINTABLES: Printable[] = [
     stages: [1, 2], minutes: '30 minutes', setting: 'indoors', skill: 'Problem solving',
     stars: 5,
     blurb: 'Find the way from home to school through the maze, spot the school things and colour them all in.',
-    sheetUrl: BASE + 'hf_20260723_183653_e3528445-9baa-4115-867c-ca3f7f4584ea.jpeg',
-    previewUrl: BASE + 'hf_20260723_183653_e3528445-9baa-4115-867c-ca3f7f4584ea.jpeg',
+    sheetUrl: BASE + 'hf_20260725_001938_cc4414ce-8819-4566-bd22-0b2f12228a8f.png',
+    previewUrl: BASE + 'hf_20260725_001938_cc4414ce-8819-4566-bd22-0b2f12228a8f.png',
   },
   {
     key: 'calm-down-corner',
@@ -263,8 +271,8 @@ export const PRINTABLES: Printable[] = [
     stages: [1, 2], minutes: 'One sitting', setting: 'anywhere', skill: 'Numbers',
     stars: 5,
     blurb: 'Colour the shop, set your own prices on the tags and take an order. Play shop and practise coins.',
-    sheetUrl: BASE + 'hf_20260723_183705_e8ec0ce4-d63a-4e22-a11a-16adfbf8ab1b.jpeg',
-    previewUrl: BASE + 'hf_20260723_183705_e8ec0ce4-d63a-4e22-a11a-16adfbf8ab1b.jpeg',
+    sheetUrl: BASE + 'hf_20260725_001946_59d57d74-f6d9-4374-a2bb-1b92cac6e41c.png',
+    previewUrl: BASE + 'hf_20260725_001946_59d57d74-f6d9-4374-a2bb-1b92cac6e41c.png',
   },
   {
     key: 'left-and-right',
@@ -272,8 +280,8 @@ export const PRINTABLES: Printable[] = [
     stages: [1], minutes: 'One sitting', setting: 'anywhere', skill: 'Learning',
     stars: 5,
     blurb: 'Colour and label your left and right hands, follow the arrows, and work out which way to go.',
-    sheetUrl: BASE + 'hf_20260723_183706_43adf331-25b7-4051-8109-80519631b4d8.jpeg',
-    previewUrl: BASE + 'hf_20260723_183706_43adf331-25b7-4051-8109-80519631b4d8.jpeg',
+    sheetUrl: BASE + 'hf_20260725_001930_01e5df7c-cf07-4c46-8fd8-2924b3d8ea53.png',
+    previewUrl: BASE + 'hf_20260725_001930_01e5df7c-cf07-4c46-8fd8-2924b3d8ea53.png',
   },
   {
     key: 'school-year-planner',
@@ -293,11 +301,17 @@ export const PRINTABLES: Printable[] = [
 // preview and both editions come straight from public. Optional blurb and title
 // overrides keep the card honest where the earlier sheet described something
 // different.
+//
+// Character note: four of these covers were drawn with the retired squad
+// (Oliver, Zara, Sofia). Their card previews now point at freshly generated
+// covers starring the Planet Friends instead. The multi page PDFs behind them
+// still carry the old squad inside and need regenerating as their own job, so
+// the cover a family sees is right while the download is still being redrawn.
 type LocalProduct = { preview: string; colour: string; colourIn: string; blurb?: string; title?: string }
 
 const LOCAL_PRODUCTS: Record<string, LocalProduct> = {
   'what-do-they-do': {
-    preview: '/printables/what-do-they-do.png',
+    preview: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260725_002144_a4d80aee-4086-4d1e-95b2-32acea06a208.png',
     colour: '/printables/what-do-they-do-colour.pdf',
     colourIn: '/printables/what-do-they-do-colourin.pdf',
     title: 'What Do They Do?',
@@ -321,7 +335,7 @@ const LOCAL_PRODUCTS: Record<string, LocalProduct> = {
     colourIn: '/printables/a-to-z-showdown-colourin.pdf',
   },
   'back-to-school-escape': {
-    preview: '/printables/back-to-school-escape.png',
+    preview: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260725_001938_cc4414ce-8819-4566-bd22-0b2f12228a8f.png',
     colour: '/printables/back-to-school-escape-colour.pdf',
     colourIn: '/printables/back-to-school-escape-colourin.pdf',
   },
@@ -346,12 +360,12 @@ const LOCAL_PRODUCTS: Record<string, LocalProduct> = {
     colourIn: '/printables/family-phone-agreement-colourin.pdf',
   },
   'ice-cream-shop': {
-    preview: '/printables/ice-cream-shop.png',
+    preview: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260725_001946_59d57d74-f6d9-4374-a2bb-1b92cac6e41c.png',
     colour: '/printables/ice-cream-shop-colour.pdf',
     colourIn: '/printables/ice-cream-shop-colourin.pdf',
   },
   'left-and-right': {
-    preview: '/printables/left-and-right.png',
+    preview: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260725_001930_01e5df7c-cf07-4c46-8fd8-2924b3d8ea53.png',
     colour: '/printables/left-and-right-colour.pdf',
     colourIn: '/printables/left-and-right-colourin.pdf',
   },

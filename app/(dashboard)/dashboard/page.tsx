@@ -29,6 +29,7 @@ import SetupUnlockToast from '@/components/setup/SetupUnlockToast'
 import DigiWelcomeSheet from '@/components/digi/DigiWelcomeSheet'
 import TodayPathBig from '@/components/daily/TodayPathBig'
 import DigiGreeting from '@/components/home/DigiGreeting'
+import MissionWelcome from '@/components/home/MissionWelcome'
 import HomeRows from '@/components/home/HomeRows'
 import BirthdayNudge from '@/components/home/BirthdayNudge'
 import LiveTimerChip from '@/components/home/LiveTimerChip'
@@ -400,6 +401,12 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           </Link>
         </div>
       )}
+      {/* The welcome and the whole point, said back in one big line at a time.
+          A parent opening the app on a busy Tuesday has forgotten what this is
+          all for, so the mission rotates across visits rather than sitting as a
+          wall of text nobody reads. */}
+      <MissionWelcome firstName={firstName} />
+
       {/* DiGi greets in one line: who, where on the road, and what today
           costs in minutes, with the streak flame alongside. The h1 header
           this replaces said the same things across three rows. */}

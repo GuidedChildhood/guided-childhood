@@ -854,7 +854,7 @@ export default function KidQuestScreen({
     }}>
       {/* First open ever: meet the Planet Friend for this child's stage, then
           the whole family they can earn. Overlays the app until they tap through. */}
-      {showIntro && <KidSquadIntro childName={childName} currentStageId={stageId} onDone={() => setShowIntro(false)} />}
+      {showIntro && <KidSquadIntro childName={childName} earnedFriends={earnedStages} completedStreaks={completedStreaks} onDone={() => setShowIntro(false)} />}
 
       {/* Their own buddy says hello when the app opens, the Duolingo front
           door, once per session on their own colour. */}

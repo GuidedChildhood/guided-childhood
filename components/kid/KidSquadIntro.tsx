@@ -3,45 +3,55 @@
 import { useEffect, useRef, useState } from 'react'
 import DigiCharacter from '@/components/digi/DigiCharacter'
 import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
+import { nextFriendToEarn, streaksBankedTowardNext, STREAKS_PER_FRIEND } from '@/lib/pathway/streak-unlock'
 
-// The welcome, the Duolingo way: the family introduced one at a time. DiGi says
-// hello first, then each Planet Friend floats in on its own with its own hello,
-// Pebble, Bloop, Orbit, Nova, Cosmo, in order, before the child drops into the
-// app. It plays every time the child opens, because meeting the family is part
-// of arriving. The very first open is a gentle tap through so a new child can
-// read each one; every open after auto plays like a short animated splash they
-// can tap to hurry or skip. A child only ever picks from the Friends they have
-// earned, inside the app, so there is no character to choose here.
+// The welcome splash, built the way the best kid apps do it: a rich warm screen,
+// big white words, and the character floating and glowing in the middle. It runs
+// every open, because arriving should feel like something.
+//
+// The story it tells changes as the child earns. DiGi, the guiding star, says
+// hello first, always. Then it shows the ONE Planet Friend they are working
+// toward right now, glowing just out of reach, with how close they are. Earn
+// that Friend and the next open brings up the next one. So a child in their
+// first week is only ever chasing Pebble, not being shown five names they have
+// no line to yet. Friends already earned ride along as a small proud row.
 
 const SEEN_KEY = 'gc_kid_squad_intro_seen'
-const AUTO_MS = 1700
+const AUTO_MS = 2100
 
 export function squadIntroSeen(): boolean {
   try { return localStorage.getItem(SEEN_KEY) === '1' } catch { return true }
 }
 
-// One card per member: DiGi at the front, then the five Planet Friends in stage
-// order, each with its own hello line from the character source.
-type Member =
-  | { kind: 'digi'; name: string }
-  | { kind: 'friend'; index: number }
+type Card = { kind: 'digi' } | { kind: 'team' } | { kind: 'next' } | { kind: 'complete' }
 
 export default function KidSquadIntro({
-  childName, onDone,
+  childName, earnedFriends = 0, completedStreaks = 0, onDone,
 }: {
   childName: string
   currentStageId?: number
+  // How many Planet Friends this child has actually earned, so the splash only
+  // ever points at the next one.
+  earnedFriends?: number
+  completedStreaks?: number
   onDone: () => void
 }) {
   const name = childName && childName !== 'Your child' ? childName : 'friend'
-  const members: Member[] = [
-    { kind: 'digi', name: 'DiGi' },
-    ...STAGE_CHARACTERS.map((_, i) => ({ kind: 'friend' as const, index: i })),
-  ]
-  const total = members.length
+  const earned = Math.max(0, Math.min(5, earnedFriends))
+  const next = nextFriendToEarn(earned)
+  const banked = streaksBankedTowardNext(completedStreaks)
 
-  // Auto play only for a returning child, so a first meeting can be read at the
-  // child's own pace. Fixed at mount so it does not flip mid sequence.
+  // DiGi always leads. The team card only appears once there is a team. Then
+  // either the next Friend to chase, or the whole family home.
+  const cards: Card[] = [
+    { kind: 'digi' },
+    ...(earned > 0 ? [{ kind: 'team' as const }] : []),
+    next ? { kind: 'next' as const } : { kind: 'complete' as const },
+  ]
+  const total = cards.length
+
+  // A first meeting is tapped through at the child's own pace. Every open after
+  // auto plays like a splash, tap anywhere to hurry it along.
   const [autoPlay] = useState(() => squadIntroSeen())
   const [step, setStep] = useState(0)
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -56,8 +66,6 @@ export default function KidSquadIntro({
     else finish()
   }
 
-  // Returning child: each card holds for a beat then moves itself on, all the
-  // way into the app. A tap anywhere hurries it along.
   useEffect(() => {
     if (!autoPlay) return
     timer.current = setTimeout(advance, AUTO_MS)
@@ -65,15 +73,35 @@ export default function KidSquadIntro({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [step, autoPlay])
 
-  const m = members[step]
-  const isDigi = m.kind === 'digi'
-  const friend = m.kind === 'friend' ? STAGE_CHARACTERS[m.index] : null
+  const card = cards[step]
+  const earnedList = STAGE_CHARACTERS.slice(0, earned)
+
+  // Everything on this screen is white or butter, because the splash is a rich
+  // warm dark. Never ink on dark.
+  const white = '#FFFFFF'
+  const soft = 'rgba(255,255,255,0.76)'
+  const headline: React.CSSProperties = {
+    fontFamily: 'var(--font-display)', fontWeight: 900, color: white,
+    letterSpacing: '-0.02em', lineHeight: 1.1, margin: '18px 0 8px',
+    fontSize: 'clamp(1.8rem, 8.5vw, 2.4rem)',
+  }
+  const body: React.CSSProperties = {
+    fontFamily: 'var(--font-body)', fontSize: '17px', color: soft,
+    lineHeight: 1.55, margin: 0, maxWidth: 340,
+  }
+  const eyebrow: React.CSSProperties = {
+    fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
+    letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta)',
+  }
 
   return (
     <div
       onClick={autoPlay ? advance : undefined}
       style={{
-        position: 'fixed', inset: 0, zIndex: 80, background: 'var(--kid-bg, #FFF9EC)',
+        position: 'fixed', inset: 0, zIndex: 80,
+        // A warm premium gradient of our own, never the flat app grey and never
+        // a purple. The glow behind the character sits on top of it.
+        background: 'radial-gradient(circle at 50% 38%, #4A4029 0%, #2E2818 55%, #1E1A10 100%)',
         display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
         padding: '28px 22px', textAlign: 'center', overflowY: 'auto',
         cursor: autoPlay ? 'pointer' : 'default',
@@ -81,73 +109,134 @@ export default function KidSquadIntro({
     >
       <button
         onClick={(e) => { e.stopPropagation(); finish() }}
-        style={{ position: 'absolute', top: 16, right: 18, background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, color: 'var(--ink-muted)' }}
+        style={{ position: 'absolute', top: 16, right: 18, background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, color: 'rgba(255,255,255,0.55)' }}
       >
         Skip
       </button>
 
-      {/* One member at a time. The key on the sequence re-runs the pop in on
-          every step, so each hello lands as its own little arrival. */}
-      <div key={step} style={{ animation: 'gcIntroIn 0.45s ease', display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: 380 }}>
-        {isDigi ? (
+      <div key={step} style={{ animation: 'gcIntroIn 0.5s ease', display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: 380 }}>
+
+        {/* DiGi, the guiding star. Always first, always glowing. */}
+        {card.kind === 'digi' && (
           <>
-            <div style={{ animation: 'gcFriendPop 0.6s cubic-bezier(0.34,1.56,0.64,1)' }}>
-              <DigiCharacter mood="happy" size={132} />
-            </div>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.7rem, 8vw, 2.2rem)', color: 'var(--ink)', letterSpacing: '-0.02em', margin: '16px 0 8px', lineHeight: 1.1 }}>
-              Hi {name}! I&apos;m DiGi
-            </div>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: '16.5px', color: 'var(--ink)', lineHeight: 1.6, margin: 0 }}>
-              Meet my family of Planet Friends. Do your jobs and earn device time, and you earn them one by one, all the way to the whole team.
+            <span style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', animation: 'gcFloat 3.2s ease-in-out infinite' }}>
+              <span aria-hidden style={{ position: 'absolute', width: 210, height: 210, borderRadius: '50%', background: 'radial-gradient(circle, rgba(237,195,95,0.42) 0%, rgba(237,195,95,0) 68%)', animation: 'gcGlow 2.6s ease-in-out infinite' }} />
+              <span style={{ position: 'relative', animation: 'gcFriendPop 0.65s cubic-bezier(0.34,1.56,0.64,1)' }}>
+                <DigiCharacter mood="happy" size={140} />
+              </span>
+            </span>
+            <div style={{ ...eyebrow, marginTop: 20 }}>Your guiding star</div>
+            <div style={headline}>Hi {name}! I&apos;m DiGi</div>
+            <p style={body}>
+              I am with you every day. Do your jobs, earn your device time, and my Planet Friends come to join us one by one.
             </p>
           </>
-        ) : friend && (
+        )}
+
+        {/* The team already earned, a proud little row. */}
+        {card.kind === 'team' && (
           <>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: 10 }}>
-              Planet Friend {m.kind === 'friend' ? m.index + 1 : ''} of {STAGE_CHARACTERS.length}
+            <div style={eyebrow}>Your team</div>
+            <div style={{ ...headline, margin: '10px 0 16px' }}>
+              {earned === 1 ? 'You have earned 1 Friend' : `You have earned ${earned} Friends`}
             </div>
-            <img
-              src={friend.cutout} alt={friend.name} width={200} height={200}
-              style={{ objectFit: 'contain', filter: 'drop-shadow(0 12px 14px rgba(26,26,46,0.18))', animation: 'gcFriendPop 0.6s cubic-bezier(0.34,1.56,0.64,1)' }}
-            />
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.8rem, 9vw, 2.4rem)', color: 'var(--ink)', letterSpacing: '-0.02em', margin: '8px 0 2px' }}>
-              {friend.name}
+            <div style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap' }}>
+              {earnedList.map((c, i) => (
+                <span key={c.key} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, opacity: 0, animation: `gcFriendPop 0.5s cubic-bezier(0.34,1.56,0.64,1) ${0.12 + i * 0.16}s forwards` }}>
+                  <img
+                    src={c.cutout} alt={c.name} width={72} height={72}
+                    style={{ objectFit: 'contain', filter: 'drop-shadow(0 8px 10px rgba(0,0,0,0.4))' }}
+                  />
+                  <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 13, color: white }}>{c.name}</span>
+                </span>
+              ))}
             </div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: friend.colour, marginBottom: 12 }}>
-              {friend.action} · {friend.ages}
+            <p style={{ ...body, marginTop: 18 }}>
+              They are yours for keeps. Keep your streaks going and the next one is on the way.
+            </p>
+          </>
+        )}
+
+        {/* The ONE Friend they are chasing right now, glowing just out of reach. */}
+        {card.kind === 'next' && next && (
+          <>
+            <div style={eyebrow}>Earn me next</div>
+            <span style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 14, animation: 'gcFloat 3.2s ease-in-out infinite' }}>
+              <span aria-hidden style={{ position: 'absolute', width: 250, height: 250, borderRadius: '50%', background: `radial-gradient(circle, ${next.colour}55 0%, ${next.colour}00 68%)`, animation: 'gcGlow 2.6s ease-in-out infinite' }} />
+              <img
+                src={next.cutout} alt={next.name} width={200} height={200}
+                style={{ position: 'relative', objectFit: 'contain', filter: 'drop-shadow(0 14px 16px rgba(0,0,0,0.45))', animation: 'gcFriendPop 0.65s cubic-bezier(0.34,1.56,0.64,1)' }}
+              />
+            </span>
+            <div style={{ ...headline, margin: '14px 0 4px' }}>{next.name}</div>
+            <p style={{ ...body, marginBottom: 16 }}>{next.intro}</p>
+
+            {/* How close they actually are: four streak stars, the banked ones lit. */}
+            <div style={{ display: 'flex', gap: 9, justifyContent: 'center', alignItems: 'center' }}>
+              {Array.from({ length: STREAKS_PER_FRIEND }).map((_, i) => (
+                <span key={i} aria-hidden style={{
+                  width: 30, height: 30, borderRadius: '50%',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15,
+                  background: i < banked ? 'var(--terracotta)' : 'rgba(255,255,255,0.12)',
+                  border: `1.5px solid ${i < banked ? 'var(--terracotta)' : 'rgba(255,255,255,0.22)'}`,
+                  opacity: 0, animation: `gcFriendPop 0.4s cubic-bezier(0.34,1.56,0.64,1) ${0.2 + i * 0.12}s forwards`,
+                }}>
+                  {i < banked ? '⭐' : ''}
+                </span>
+              ))}
             </div>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: '16px', color: 'var(--ink)', lineHeight: 1.6, margin: 0 }}>
-              {friend.intro}
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 12.5, fontWeight: 700, color: 'var(--terracotta)', letterSpacing: '0.04em', margin: '11px 0 0' }}>
+              {banked} of {STREAKS_PER_FRIEND} streaks banked
+            </p>
+          </>
+        )}
+
+        {/* The whole family home. */}
+        {card.kind === 'complete' && (
+          <>
+            <div style={eyebrow}>The whole family</div>
+            <div style={{ ...headline, margin: '10px 0 16px' }}>You earned them all</div>
+            <div style={{ display: 'flex', gap: 8, justifyContent: 'center', flexWrap: 'wrap' }}>
+              {STAGE_CHARACTERS.map((c, i) => (
+                <img
+                  key={c.key} src={c.cutout} alt={c.name} width={62} height={62}
+                  style={{ objectFit: 'contain', opacity: 0, filter: 'drop-shadow(0 8px 8px rgba(0,0,0,0.4))', animation: `gcFriendPop 0.5s cubic-bezier(0.34,1.56,0.64,1) ${0.15 + i * 0.18}s forwards` }}
+                />
+              ))}
+            </div>
+            <p style={{ ...body, marginTop: 18 }}>
+              Every Planet Friend is home with you and DiGi. That took real staying power.
             </p>
           </>
         )}
       </div>
 
-      {/* On a first meeting, a button to move through at the child's pace. On a
-          replay it auto plays, so the button becomes a gentle hurry along. */}
       <button
         onClick={(e) => { e.stopPropagation(); advance() }}
         style={{
           background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: '16px',
-          padding: '15px 30px', cursor: 'pointer', minWidth: 200, marginTop: 26,
+          padding: '16px 32px', cursor: 'pointer', minWidth: 210, marginTop: 30,
           fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '17px',
           boxShadow: '0 5px 0 var(--terracotta-dark)',
         }}
       >
-        {step < total - 1 ? (isDigi ? 'Meet the family ▶' : 'Next ▶') : "Let's go! ⭐"}
+        {step < total - 1 ? 'Next ▶' : "Let's go! ⭐"}
       </button>
 
-      {/* Progress dots, one per member, so the child sees the whole family
-          coming and how far through they are. */}
       <div style={{ display: 'flex', gap: 6, marginTop: 20 }}>
-        {members.map((_, i) => (
-          <span key={i} style={{ width: i === step ? 20 : 7, height: 7, borderRadius: 100, background: i === step ? 'var(--terracotta)' : 'var(--border)', transition: 'width 0.25s ease' }} />
+        {cards.map((_, i) => (
+          <span key={i} style={{ width: i === step ? 20 : 7, height: 7, borderRadius: 100, background: i === step ? 'var(--terracotta)' : 'rgba(255,255,255,0.25)', transition: 'width 0.25s ease' }} />
         ))}
       </div>
 
       <style>{`
         @keyframes gcIntroIn { from { opacity: 0; transform: translateY(10px) scale(0.96) } to { opacity: 1; transform: translateY(0) scale(1) } }
         @keyframes gcFriendPop { 0% { opacity: 0; transform: scale(0.4) translateY(12px) } 100% { opacity: 1; transform: scale(1) translateY(0) } }
+        @keyframes gcFloat { 0%, 100% { transform: translateY(0) } 50% { transform: translateY(-9px) } }
+        @keyframes gcGlow { 0%, 100% { opacity: 0.55; transform: scale(0.94) } 50% { opacity: 1; transform: scale(1.06) } }
+        @media (prefers-reduced-motion: reduce) {
+          [style*="gcFloat"], [style*="gcGlow"] { animation: none !important }
+        }
       `}</style>
     </div>
   )
