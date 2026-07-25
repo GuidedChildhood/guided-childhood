@@ -21,11 +21,12 @@ Per non-negotiable 6, lessons are database rows, not hardcoded. This handoff tur
 1. **Claim a migration number first.** Highest on origin/main is 062. Before writing, re-check origin/main and every open PR for the next free number (the sync rules in CLAUDE.md), then name it in the draft PR at claim time. Likely 063, do not assume.
 
 2. **New KS2 lesson.** Insert one row into `public.school_lessons` following the exact shape in 033_full_curriculum.sql.
-   - `module_id`: suggest `ks2-22-ai-maker` or fit the existing KS2 id convention. Sort_order places it just after Lesson 6, How algorithms work, so the two KS2 AI lessons sit together.
+   - **Decided (Justin, 25 Jul 2026): this is module 22.** A clean addition, no renumbering of the existing 21. Do not touch the other modules' sort_order.
+   - `module_id`: `ks2-22-ai-maker`.
    - `key_stage` KS2, `year_band` Years 3 to 6, `audience` teacher, `character_cast` DiGi.
    - `single_action_outcome`: I can let AI help me and still do the thinking myself.
    - Build the `slides` v3 deck from the seven beats in the script (title, objective, then one teaching slide per beat, DiGi closing), matching the teacher script and phase and minutes pattern already used in 033. `video_beats` can stay an empty array until a Higgsfield render pass, same as the other modules.
-   - **Module numbering is a curriculum decision.** This is the 22nd lesson, or it renumbers KS2. Do not renumber the existing 21 unilaterally. Confirm with Justin whether this is module 22 or an inserted 6b before touching sort_order across the set.
+   - `sort_order`: place it after Lesson 6, How algorithms work, so the two KS2 AI lessons sit together, using a fractional or end sort value that does not disturb the existing rows.
 
 3. **KS3 Lesson 12 update.** Add the extra teaching beat and the it-is-the-activity-not-the-device framing to the existing Lesson 12 row. Idempotent upsert, on conflict update, same as 033.
 
@@ -45,5 +46,5 @@ Per non-negotiable 6, lessons are database rows, not hardcoded. This handoff tur
 - DiGi is a calibrated pathway everywhere it appears.
 - Safeguarding lessons are untouched here.
 
-## One open decision for Justin
-Module number for the new KS2 lesson: a clean module 22, or inserted as 6b next to How algorithms work. Everything else can proceed without him.
+## Decisions locked
+Module number for the new KS2 lesson is **module 22** (Justin, 25 Jul 2026), a clean addition with no renumbering. Nothing else is blocked. The build session can proceed end to end.
