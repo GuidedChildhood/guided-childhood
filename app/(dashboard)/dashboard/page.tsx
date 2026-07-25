@@ -30,6 +30,7 @@ import DigiWelcomeSheet from '@/components/digi/DigiWelcomeSheet'
 import TodayPathBig from '@/components/daily/TodayPathBig'
 import DigiGreeting from '@/components/home/DigiGreeting'
 import MissionWelcome from '@/components/home/MissionWelcome'
+import ChildAppNudge from '@/components/home/ChildAppNudge'
 import CommunityBite from '@/components/community/CommunityBite'
 import DealReviewNudge from '@/components/quests/DealReviewNudge'
 import HomeRows from '@/components/home/HomeRows'
@@ -97,8 +98,10 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     // moment the open list empties out.
     supabase.from('school_actions').select('id').eq('user_id', user.id).limit(1).maybeSingle(),
     // Whether any child already has their own phone link (the kid companion
-    // link). Keyed by user, matched to the primary child below.
-    supabase.from('kid_links').select('child_id').eq('user_id', user.id),
+    // link). Keyed by user, matched to the primary child below. last_seen_at
+    // rides along because a link that was made and never opened leaves the
+    // family exactly where a link that was never made does.
+    supabase.from('kid_links').select('child_id, last_seen_at').eq('user_id', user.id),
     // The problem this family is working on right now: the most recently
     // flagged live concern, for the focus bar above the path.
     supabase.from('concerns').select('label, status').eq('user_id', user.id).in('status', ['open', 'improving']).order('last_flagged_at', { ascending: false }).limit(1).maybeSingle(),
@@ -143,6 +146,12 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // child, the step simply waits until they move up.
   const phoneAge = !!child?.age_band && child.age_band !== '4-7'
   const hasKidLink = (kidLinksResult.data ?? []).some(k => k.child_id === child?.id)
+  // The child app is only really set up once the child has actually opened it.
+  // A parent can run the whole parent side for weeks without realising the
+  // jobs, the earned device time and the printables all live on the child's
+  // side, so until this is true Home says so plainly.
+  const childAppLive = (kidLinksResult.data ?? [])
+    .some(k => k.child_id === child?.id && !!k.last_seen_at)
   const setupFlags = {
     agreement: !!agreementResult.data,
     quests: (questsCountResult.count ?? 0) > 0,
@@ -379,7 +388,13 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           stageNum: stage.id,
           stageName: stage.name,
           childName: (child?.name && child.name !== 'Your child') ? child.name : 'your child',
-          nextTask: (() => { const t = todayLoop.find(x => !x.done && x.key !== 'done'); return t ? { label: t.label, href: t.href } : null })(),
+          // DiGi's walk ends on today, one thing. While the child has never
+          // opened their app, that IS the one thing: nothing else on the loop
+          // pays off as much as the side of the product they cannot see yet.
+          // Once they are in, it goes back to the normal daily loop.
+          nextTask: !childAppLive
+            ? { label: 'Share the QR code with them', href: '/dashboard/quests?tab=share' }
+            : (() => { const t = todayLoop.find(x => !x.done && x.key !== 'done'); return t ? { label: t.label, href: t.href } : null })(),
           strands: (['safe', 'balance', 'ai', 'social'] as const).map(k => ({
             name: k === 'safe' ? 'Safe online' : k === 'balance' ? 'Healthy balance' : k === 'ai' ? 'AI and chatbots' : 'Social media ready',
             tone: (stage.id >= (k === 'ai' || k === 'social' ? 3 : 1))
@@ -428,6 +443,12 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           all for, so the mission rotates across visits rather than sitting as a
           wall of text nobody reads. */}
       <MissionWelcome firstName={firstName} />
+
+      {/* Half the product is on the child's phone. Until they have opened it,
+          the parent is running one side of a two sided thing and usually does
+          not know it, so this says what is missing and where the QR code is.
+          It goes for good the moment the child opens their app. */}
+      {!childAppLive && <ChildAppNudge childName={child?.name ?? null} />}
 
       {/* Every couple of weeks, DiGi asks whether the deal still fits. A deal
           set in week one quietly stops matching the family by week six, so this
