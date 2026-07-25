@@ -18,6 +18,17 @@ type Feed = { poll: Poll | null; myChoice: number | null; counts: number[]; tota
 
 const SEEN_PREFIX = 'gc_community_bite_'
 
+// Asked at the start of the month and only then. A question that sits on Home
+// all month stops being a moment and becomes furniture, so the bite has a short
+// window: the first seven days, then it waits for next month whether it was
+// answered or not.
+const ASK_WINDOW_DAYS = 7
+
+// How long the thank you stays up before the card takes itself away. Long
+// enough to read what happens to the answer, short enough that Home is theirs
+// again without a tap.
+const CLOSE_AFTER_MS = 7000
+
 export default function CommunityBite() {
   const [feed, setFeed] = useState<Feed | null>(null)
   const [busy, setBusy] = useState(false)
@@ -58,6 +69,10 @@ export default function CommunityBite() {
       if (r.ok) {
         setFeed(f => f ? { ...f, myChoice: d.myChoice, counts: d.counts, total: d.total } : f)
         setJustVoted(true)
+        // Answered: show them where it goes, then get out of the way on its own.
+        // The answer is already saved, so closing loses nothing and DiGi still
+        // has it to bring up next month.
+        setTimeout(close, CLOSE_AFTER_MS)
       }
     } catch { /* leave it up so they can try again */ }
     finally { setBusy(false) }
@@ -70,7 +85,13 @@ export default function CommunityBite() {
     setDismissed(true)
   }
 
+  // Outside the asking window, or already answered on a previous visit, the
+  // card is simply not there. Only a fresh answer keeps it up long enough to
+  // read the thank you.
+  const inAskWindow = new Date().getDate() <= ASK_WINDOW_DAYS
   if (!feed?.poll || dismissed) return null
+  if (!inAskWindow && !justVoted) return null
+  if (feed.myChoice !== null && !justVoted) return null
   const { poll, myChoice, counts, total } = feed
   const answered = myChoice !== null
   const top = answered && counts.length ? Math.max(...counts) : 0
@@ -169,7 +190,7 @@ export default function CommunityBite() {
           {answered && (
             <p style={{ fontSize: 14.5, color: 'var(--ink-soft)', lineHeight: 1.5, margin: '14px 0 0' }}>
               {justVoted ? 'Thanks. ' : ''}
-              That is the honest shape of it across every family here. Whatever you picked, you are in good company, and the full read lands in your Sunday email once a month.
+              That is the honest shape of it across every family here, and whatever you picked, you are in good company. DiGi keeps hold of your answer so it can pick the thread back up, and the full read lands in your Sunday email once a month. Closing this now.
             </p>
           )}
         </div>
