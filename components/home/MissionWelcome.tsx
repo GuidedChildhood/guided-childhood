@@ -3,15 +3,17 @@
 import { useEffect, useState } from 'react'
 import DigiCharacter from '@/components/digi/DigiCharacter'
 
-// The welcome at the very top of Home. A parent opening the app on a busy
-// Tuesday has forgotten what all this is for, so this says it back to them in
-// one big line at a time: the whole point is the journey from 4 to 16, built in
-// order, grounded in the research, real world jobs balancing the screen, and a
-// young person genuinely ready for social media by the time they get there.
+// The welcome intro when the app opens. A parent opening it on a busy Tuesday
+// has forgotten what all this is for, so this says it back to them in one big
+// line at a time: the whole point is the journey from 4 to 16, built in order,
+// grounded in the research, real world jobs balancing the screen, and a young
+// person genuinely ready for social media by the time they get there.
 //
-// The captions rotate so a parent sees the whole mission across a few visits
-// rather than a wall of it at once. Deliberately the largest type on the page,
-// because this is the thing worth remembering.
+// It greets the open, then steps back. Once a parent is in and moving around,
+// Home belongs to today's actual work, so this shows on the first Home view of
+// an app open and not again until the next one. The captions rotate so the
+// whole mission lands across a few opens rather than a wall of it at once.
+// Deliberately the largest type on the page, because it is worth remembering.
 
 const CAPTIONS = [
   'Every stage from 4 to 16, in order, so 16 lands as a gentle ramp and never a cliff edge.',
@@ -24,17 +26,30 @@ const CAPTIONS = [
 
 const ROTATE_MS = 6000
 
+// One app open is exactly a session: a fresh launch or a new tab greets them
+// again, moving around inside the app does not.
+const OPEN_KEY = 'gc_mission_welcome_open'
+
 export default function MissionWelcome({ firstName }: { firstName?: string }) {
-  // Start somewhere different each visit so the same parent is not always met
+  // Start somewhere different each open so the same parent is not always met
   // by the same line. Client only, so Date is fine.
   const [i, setI] = useState(0)
   const [shown, setShown] = useState(true)
+  // Hidden until the client has checked whether this open has been greeted, so
+  // a parent already moving around never sees it flash back in.
+  const [open, setOpen] = useState(false)
 
   useEffect(() => {
+    let greeted = false
+    try { greeted = sessionStorage.getItem(OPEN_KEY) === '1' } catch { /* private mode, greet them */ }
+    if (greeted) return
+    try { sessionStorage.setItem(OPEN_KEY, '1') } catch { /* private mode, greeted every Home view */ }
     setI(Math.floor(Date.now() / ROTATE_MS) % CAPTIONS.length)
+    setOpen(true)
   }, [])
 
   useEffect(() => {
+    if (!open) return
     const t = setInterval(() => {
       // Fade out, swap, fade back in, so the change is calm rather than a jump.
       setShown(false)
@@ -44,9 +59,12 @@ export default function MissionWelcome({ firstName }: { firstName?: string }) {
       }, 320)
     }, ROTATE_MS)
     return () => clearInterval(t)
-  }, [])
+  }, [open])
 
   const name = firstName && firstName.trim() ? firstName.trim() : null
+
+  // Already greeted this open: Home is theirs now.
+  if (!open) return null
 
   return (
     <div style={{ padding: '0 20px', maxWidth: 720, margin: '0 auto 16px' }}>

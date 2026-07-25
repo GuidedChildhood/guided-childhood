@@ -419,8 +419,9 @@ export function weeklyReviewEmail(params: {
   childLabel: string
   review: WeeklyReview
   unsubscribe: string
+  poll?: { question: string; results: { label: string; pct: number }[]; total: number } | null
 }): EmailContent {
-  const { childLabel, review, unsubscribe } = params
+  const { childLabel, review, unsubscribe, poll } = params
   const s = review.stats
   const statRow = (label: string, value: string) => `<tr>
     <td style="padding:8px 4px;font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:15px;color:${INK_SOFT}">${label}</td>
@@ -443,6 +444,25 @@ export function weeklyReviewEmail(params: {
       `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${CREAM};border:1px solid ${BORDER};border-radius:14px;padding:8px 16px;margin:0 0 20px">${rows}</table>` +
       (review.watch_for ? p(`<strong>One thing to keep an eye on.</strong> ${review.watch_for}`) : '') +
       (review.suggestion ? p(`<strong>For next week.</strong> ${review.suggestion}`) : '') +
+      // Once a month the community bite comes back as the crowd: what every
+      // other family answered. The reassurance is the whole point, so it reads
+      // as company rather than a chart.
+      (poll && poll.total > 0
+        ? `<div style="background:${CREAM};border:1px solid ${BORDER};border-radius:14px;padding:16px 18px;margin:0 0 20px">
+             <div style="font-family:'IBM Plex Mono',Menlo,monospace;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:${BUTTER_DARK};margin-bottom:6px">This month, across every family</div>
+             <div style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:17px;font-weight:800;color:${INK};line-height:1.3;margin-bottom:12px">${poll.question}</div>
+             ${poll.results.map(r => `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 8px"><tr>
+               <td style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:15px;color:${INK_SOFT};padding-right:10px">${r.label}</td>
+               <td width="52" style="font-family:'IBM Plex Mono',Menlo,monospace;font-size:14px;font-weight:700;color:${INK};text-align:right">${r.pct}%</td>
+             </tr><tr><td colspan="2" style="padding-top:4px">
+               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#EFEDE8;border-radius:100px"><tr>
+                 <td width="${r.pct}%" style="background:${BUTTER};border-radius:100px;font-size:0;line-height:6px">&nbsp;</td>
+                 <td style="font-size:0;line-height:6px">&nbsp;</td>
+               </tr></table>
+             </td></tr></table>`).join('')}
+             <div style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:13px;color:${INK_MUTED};margin-top:10px">${poll.total} ${poll.total === 1 ? 'family' : 'families'} answered. Whatever your week looked like, you are in good company.</div>
+           </div>`
+        : '') +
       button('See the full week', `${APP}/dashboard`) +
       p(`These numbers are ${childLabel}'s own. Nothing here is shared or set against another family, it is just your week, read back to you.`),
       unsubscribe

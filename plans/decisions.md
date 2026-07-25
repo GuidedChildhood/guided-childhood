@@ -1811,3 +1811,14 @@ HTML to PNG pipeline, no Higgsfield needed. Sofia's Ice Cream Shop now uses the
 real Sofia portrait at the counter instead of the drawn stand in. Added thumb
 and isNew to QuestGameMeta so the kid Games tab shows a proper picture and a New
 badge on the three La Casita games. tsc clean, games re rendered and checked.
+
+## 25 Jul 2026: learning printables show no score to the child
+The UK curriculum learning sheets (England, Years 1 to 6, maths, English and
+reading) will never show the child a mark or a percentage. The sheet returns one
+thing: the two or three items to go over with a grown up. Justin agreed the
+recommendation.
+
+The reason is the product, not squeamishness. A score turns a warm shared thing
+into a test that judges them, and the child stops asking for help on the bits
+they found hard, which is the entire mechanism. The parent gets the substance
+(here is where she is shaky) without a number attached to their child.

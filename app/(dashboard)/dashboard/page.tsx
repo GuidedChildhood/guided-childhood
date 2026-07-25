@@ -30,6 +30,7 @@ import DigiWelcomeSheet from '@/components/digi/DigiWelcomeSheet'
 import TodayPathBig from '@/components/daily/TodayPathBig'
 import DigiGreeting from '@/components/home/DigiGreeting'
 import MissionWelcome from '@/components/home/MissionWelcome'
+import CommunityBite from '@/components/community/CommunityBite'
 import DealReviewNudge from '@/components/quests/DealReviewNudge'
 import HomeRows from '@/components/home/HomeRows'
 import BirthdayNudge from '@/components/home/BirthdayNudge'
@@ -468,6 +469,12 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           the quests to approve and the ideas a child pitched, tapping through
           to where a parent acts on them. Silent when nothing waits. */}
       <WaitingOnYou />
+
+      {/* The monthly community bite: one question, answered in a tap, and the
+          answer turns into the crowd. Sits under what is waiting, because a
+          parent with jobs to approve should see those first. Silent once it is
+          answered and read, until next month's question. */}
+      <CommunityBite />
 
       {/* Day done, so lead with quests. A returning parent whose daily habit is
           finished lands on an overview of what is waiting from their child,

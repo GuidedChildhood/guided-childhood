@@ -119,61 +119,62 @@ function CardFace({ card, palette, blank = false }: { card: DailyCard; palette: 
       display: 'flex',
       flexDirection: 'column',
     }}>
-      {/* Curved header band */}
+      {/* The coloured band carries only the label, and its bottom edge curves
+          down in the middle so the card reads as one piece rather than a block
+          sat on a box. The headline belongs in the body, big, where the eye
+          lands after the colour. */}
       <div style={{
         background: palette.header,
-        padding: '20px 24px 24px',
-        borderRadius: '0 0 32px 32px',
+        padding: '18px 22px 22px',
+        borderRadius: '0 0 50% 50% / 0 0 30px 30px',
         display: 'flex', alignItems: 'center', gap: '12px',
       }}>
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{
-            fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700,
-            letterSpacing: '.18em', textTransform: 'uppercase',
-            color: palette.text, opacity: 0.85, marginBottom: '6px',
-            ...hide,
-          }}>
-            {card.eyebrow}
-          </div>
-          <div style={{
-            fontFamily: 'var(--font-display)', fontWeight: 800,
-            fontSize: '20px',
-            color: palette.text, lineHeight: 1.25, letterSpacing: '-0.015em',
-            ...hide,
-          }}>
-            {card.headline}
-          </div>
+        <div style={{
+          flex: 1, minWidth: 0,
+          fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
+          letterSpacing: '.16em', textTransform: 'uppercase',
+          color: palette.text, ...hide,
+        }}>
+          {card.eyebrow}
         </div>
         <button
           onClick={shareCard}
           aria-label="Share this card"
           style={{
-            width: 36, height: 36, borderRadius: '50%', flexShrink: 0,
-            border: `1.5px solid ${palette.text}`, opacity: 0.7,
+            width: 38, height: 38, borderRadius: '50%', flexShrink: 0,
+            border: `1.8px solid ${palette.text}`,
             background: 'transparent', cursor: 'pointer',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             ...hide,
           }}
         >
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M12 3v12M12 3l-4.5 4.5M12 3l4.5 4.5M5 13v6h14v-6" stroke={palette.text} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </button>
       </div>
 
-      {/* Card body: BBC clear. A bold standfirst opens the piece, then
-          short paragraphs of near black ink on a near white ground, body
-          size type with generous leading and a readable measure. */}
-      <div style={{ padding: '24px 24px 24px', background: palette.body, flex: 1, display: 'flex', flexDirection: 'column' }}>
+      {/* Card body: the headline first, the biggest type on the screen, then
+          the words at a size a parent reads at arm's length on a phone in a
+          hallway. Big and calm beats dense and tidy. */}
+      <div style={{ padding: '26px 24px 28px', background: palette.body, flex: 1, display: 'flex', flexDirection: 'column' }}>
         <div style={{ maxWidth: '620px', ...hide }}>
+          <h2 style={{
+            fontFamily: 'var(--font-display)', fontWeight: 900,
+            fontSize: 'clamp(26px, 7.2vw, 32px)',
+            lineHeight: 1.12, letterSpacing: '-0.02em',
+            color: 'var(--ink)', margin: '0 0 18px',
+          }}>
+            {card.headline}
+          </h2>
           {toParagraphs(card.body).map((para, i, all) => {
             const [lead, rest] = i === 0 ? splitLead(para) : ['', para]
             return (
               <p key={i} style={{
-                fontSize: '16.5px',
-                lineHeight: 1.6,
+                fontSize: 'clamp(18px, 5vw, 21px)',
+                lineHeight: 1.5,
                 color: 'var(--ink)',
-                margin: i === all.length - 1 ? 0 : '0 0 14px',
+                margin: i === all.length - 1 ? 0 : '0 0 18px',
                 fontWeight: 500,
                 fontFamily: 'var(--font-body)',
               }}>
@@ -544,16 +545,19 @@ export default function DailyDeckViewer({
           ×
         </button>
 
-        {/* Progress dots */}
-        <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
-          {cards.map((_, i) => (
-            <div key={i} style={{
-              width: i === cardIndex ? 20 : 7,
-              height: 7, borderRadius: '100px',
-              background: i <= cardIndex ? 'var(--stage-2-text)' : 'var(--border)',
-              transition: 'width 0.5s ease, background 0.5s ease',
-            }} />
-          ))}
+        {/* One filling bar rather than a row of dots: with a long deck the dots
+            shrink to specks, and a bar reads as how far through you are at any
+            length. */}
+        <div style={{
+          flex: 1, height: 8, borderRadius: '100px', margin: '0 14px',
+          background: 'var(--border)', overflow: 'hidden',
+        }}>
+          <div style={{
+            width: `${((cardIndex + 1) / Math.max(1, cards.length)) * 100}%`,
+            height: '100%', borderRadius: '100px',
+            background: 'var(--stage-2-text)',
+            transition: 'width 0.5s cubic-bezier(0.22, 1, 0.36, 1)',
+          }} />
         </div>
 
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-muted)', minWidth: 36, textAlign: 'right' }}>
