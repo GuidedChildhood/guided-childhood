@@ -35,6 +35,44 @@ export async function GET(request: Request) {
   const origin = process.env.NEXT_PUBLIC_APP_URL ?? new URL(request.url).origin
   let built = 0
 
+  // The community bite, once a month: on the first Sunday, the review email
+  // carries what every family answered. Counted once for the whole run rather
+  // than per family, since the crowd is the same crowd for everyone. Fails soft
+  // before migration 099, and a poll nobody answered simply does not appear.
+  let poll: { question: string; results: { label: string; pct: number }[]; total: number } | null = null
+  const isFirstSunday = new Date().getUTCDate() <= 7
+  if (isFirstSunday) {
+    try {
+      const { data: row } = await admin
+        .from('community_polls')
+        .select('id, question, options')
+        .eq('active', true)
+        .order('month', { ascending: false })
+        .limit(1).maybeSingle()
+      const options = Array.isArray(row?.options) ? (row!.options as string[]) : []
+      if (row && options.length > 0) {
+        const { data: votes } = await admin
+          .from('community_poll_votes').select('choice').eq('poll_id', row.id).limit(20000)
+        const total = (votes ?? []).length
+        if (total > 0) {
+          const counts = new Array(options.length).fill(0) as number[]
+          for (const v of votes ?? []) {
+            const c = Number(v.choice)
+            if (Number.isInteger(c) && c >= 0 && c < options.length) counts[c] += 1
+          }
+          poll = {
+            question: String(row.question),
+            total,
+            // Heaviest first, so the email opens on what most families said.
+            results: options
+              .map((label, i) => ({ label, pct: Math.round((counts[i] / total) * 100) }))
+              .sort((a, b) => b.pct - a.pct),
+          }
+        }
+      }
+    } catch { /* pre 099, the review goes out without the bite */ }
+  }
+
   for (const userId of userIds) {
     try {
       const review = await buildWeeklyReview(userId)
@@ -65,7 +103,7 @@ export async function GET(request: Request) {
             if (!logErr) {
               const parentName = (prof.full_name as string | null)?.split(' ')[0] ?? 'there'
               const childLabel = review.stats.children.filter(Boolean).join(' and ') || 'your child'
-              const content = weeklyReviewEmail({ parentName, childLabel, review, unsubscribe: unsubscribeUrl(userId) })
+              const content = weeklyReviewEmail({ parentName, childLabel, review, unsubscribe: unsubscribeUrl(userId), poll })
               const sent = await sendEmail({ to: prof.email as string, subject: content.subject, html: content.html })
               if (!sent.ok) await admin.from('email_log').delete().eq('user_id', userId).eq('email_key', key)
             }
