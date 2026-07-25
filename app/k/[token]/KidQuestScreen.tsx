@@ -1917,12 +1917,25 @@ export default function KidQuestScreen({
               <HappyScene headline="More printables soon" sub="New colouring sheets land here. Check back soon!" />
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                {stagePrintables.map(p => {
+                {/* Anything a grown up has already said yes to comes first. A
+                    yes buried eight cards down is a yes the child never acts
+                    on, and this tab is long. */}
+                {[...stagePrintables].sort((a, b) => {
+                  const yes = (x: typeof a) => asks.find(k => k.title === `Please can I do the ${x.title} printable`)?.status === 'added' ? 0 : 1
+                  return yes(a) - yes(b)
+                }).map(p => {
                   const finishedTitle = `Finished the ${p.title} sheet`
                   const printTitle = `Print the ${p.title} sheet`
                   const wantTitle = `Please can I do the ${p.title} printable`
                   const finished = asks.some(a => a.title === finishedTitle)
-                  const requested = asks.some(a => a.title === wantTitle)
+                  // The ask and, crucially, its ANSWER. Reading only that an ask
+                  // exists meant a child who had been told yes saw exactly the
+                  // same card as a child still waiting, so the yes only ever
+                  // arrived as a notification they might never have seen.
+                  const ask = asks.find(a => a.title === wantTitle)
+                  const requested = !!ask
+                  const saidYes = ask?.status === 'added'
+                  const saidNo = ask?.status === 'declined'
                   return (
                     <div key={p.key} style={{ ...bigCardShell(false), padding: '11px 13px 13px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '13px', marginBottom: '11px' }}>
@@ -1998,16 +2011,22 @@ export default function KidQuestScreen({
                             style={{
                               width: '100%', padding: '12px', borderRadius: '13px', border: 'none',
                               cursor: requested ? 'default' : 'pointer',
-                              background: requested ? 'var(--tint-sage)' : 'var(--deep-teal)',
-                              color: requested ? 'var(--ink)' : '#fff',
+                              // A yes is green and loud, a no is quiet, still
+                              // waiting is the calm sage it always was.
+                              background: saidYes ? 'var(--retro-green)' : requested ? 'var(--tint-sage)' : 'var(--deep-teal)',
+                              color: saidYes ? '#fff' : requested ? 'var(--ink)' : '#fff',
                               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16.5px',
                               boxShadow: requested ? 'none' : '0 4px 0 rgba(0,0,0,0.22)',
                             }}
                           >
-                            {requested ? 'Asked your grown up ✓' : 'Ask a grown up for this one ⭐'}
+                            {saidYes ? 'Yes! Colour it in ⭐' : saidNo ? 'Not this one for now' : requested ? 'Asked your grown up ✓' : 'Ask a grown up for this one ⭐'}
                           </button>
                           <p style={{ fontSize: '13.5px', color: 'var(--ink-muted)', textAlign: 'center', margin: '8px 0 0', lineHeight: 1.4 }}>
-                            Your grown up can set up printables for you.
+                            {saidYes
+                              ? 'Your grown up said yes. Get it printed and colour it in for your stars.'
+                              : saidNo
+                              ? 'Maybe another time. Plenty more to colour.'
+                              : 'Your grown up can set up printables for you.'}
                           </p>
                         </>
                       )}
