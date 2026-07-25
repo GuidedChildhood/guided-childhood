@@ -2020,14 +2020,15 @@ export default function KidQuestScreen({
                         </div>
                       </div>
 
-                      {/* Either the family is unlocked, or a grown up said yes to
-                          THIS sheet. A yes is permission for the sheet it was
-                          given for, so it has to open the same door: saying yes
-                          and then leaving the child with nothing to tap is worse
-                          than never having asked. */}
-                      {(printablesUnlocked || saidYes) ? (
+                      {/* Either the family is unlocked, or this sheet is one of
+                          the free ones, or a grown up said yes to THIS sheet. A
+                          yes is permission for the sheet it was given for, so it
+                          has to open the same door: saying yes and then leaving
+                          the child with nothing to tap is worse than never
+                          having asked. */}
+                      {(printablesUnlocked || p.free || saidYes) ? (
                         <>
-                          {saidYes && !printablesUnlocked && (
+                          {saidYes && !printablesUnlocked && !p.free && (
                             <p style={{ fontSize: '14.5px', fontWeight: 700, color: 'var(--retro-green-dark, var(--deep-teal))', textAlign: 'center', margin: '0 0 8px', lineHeight: 1.4 }}>
                               Your grown up said yes to this one ⭐
                             </p>

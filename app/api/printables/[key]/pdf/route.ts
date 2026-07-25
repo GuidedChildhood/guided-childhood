@@ -78,17 +78,23 @@ export async function GET(req: NextRequest, ctx: { params: Promise<{ key: string
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
 
-  // Printables are a member feature: the download is gated server side so
-  // the paywall holds even against a direct link to this route.
-  const { data: profile } = await supabase
-    .from('profiles').select('subscription_status, trial_ends_at').eq('id', user.id).maybeSingle()
-  if (!hasFullAccess(profile, user.email)) {
-    return NextResponse.json({ error: 'members only' }, { status: 402 })
-  }
-
   const { key } = await ctx.params
   const printable = getPrintable(key)
   if (!printable) return NextResponse.json({ error: 'unknown printable' }, { status: 404 })
+
+  // Printables are a member feature: the download is gated server side so
+  // the paywall holds even against a direct link to this route. The sheet is
+  // looked up FIRST because the gate depends on which sheet it is: the ones
+  // marked free are handed to strangers on the marketing site, so refusing
+  // them to a signed in parent here made no sense. Skipping the profile read
+  // for those is also one less query on the free path.
+  if (!printable.free) {
+    const { data: profile } = await supabase
+      .from('profiles').select('subscription_status, trial_ends_at').eq('id', user.id).maybeSingle()
+    if (!hasFullAccess(profile, user.email)) {
+      return NextResponse.json({ error: 'members only' }, { status: 402 })
+    }
+  }
 
   // English by default; es serves the translated artwork when it exists.
   const lang = req.nextUrl.searchParams.get('lang') === 'es' && printable.sheetUrlEs ? 'es' : 'en'
