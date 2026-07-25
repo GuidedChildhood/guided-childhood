@@ -129,6 +129,7 @@ without a rebuild, but nothing is claimed about them until they are built.
 - Do we cover **Reception**, or start at Year 1? Started at Year 1 per Justin.
 - Times tables check practice as its own standalone product, given how much
   parents search for it?
-- Do we show the child a score, or only "here is what to go over"? Leaning
-  strongly to the latter: this is not a test that judges them, and a score turns
-  a warm thing cold.
+- **Decided 25 Jul: the child is shown no score**, only what to go over. A score
+  turns a warm shared thing into a test that judges them, and the child stops
+  flagging what they found hard, which is the whole mechanism. The parent still
+  gets the substance, just never a number attached to their child.
