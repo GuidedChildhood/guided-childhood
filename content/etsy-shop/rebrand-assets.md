@@ -118,9 +118,23 @@ Sources:
 - https://www.etsy.com/market/digital_chore_charts
 - https://www.insightagent.app/trends/digital-trends
 
+## Sell the charts as their own listings, not only the pack
+
+Etsy rewards focused, single purpose listings, so the charts go up on their own
+as well as inside the premium pack. This widens the funnel: a parent searching
+star chart finds the cheap chart, leaves a review, and gets fed up to the pack.
+
+- **Star Reward Chart** (`content/printables/star-chart/`), 3 pages, 3 to 4
+  pounds. Built and ready, extracted from the pack so they never drift.
+- The full **Starter Pack** stays the premium 8 to 12 pound anchor.
+- Earn Your Screen Time chart, already built, is a third chart listing.
+
+Each chart listing carries the same free bonus line to /etsy-bonus.
+
 ## First listings to publish (from the launch plan order)
 
 1. The Guided Childhood Starter Pack (the anchor, built and ready).
-2. Earn Your Screen Time chart (built).
-3. My School Year Planner (built, back to school window is open now).
+2. The Star Reward Chart standalone (built, the cheap review engine).
+3. Earn Your Screen Time chart (built).
+4. My School Year Planner (built, back to school window is open now).
 Then work down the top ten in `briefings/etsy/03-top-ten.md`.
