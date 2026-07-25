@@ -9,7 +9,7 @@ The throughline for the whole AI strand, in the panel's words: it is the activit
 ## NEW LESSON (KS2, Years 3 to 6, ages 7 to 11)
 
 - **Lesson**: Let AI help you, not do it for you
-- **Proposed placement**: sits with Lesson 6, How algorithms work, as the second AI lesson in KS2. Final module number to be assigned by the build session (see handoff).
+- **Placement**: module 22 (decided 25 Jul 2026), sitting with Lesson 6, How algorithms work, as the second AI lesson in KS2. module_id ks2-22-ai-maker. See handoff for wiring.
 - **Host character**: DiGi, the guide, emblem star
 - **Learning outcome**: I can let AI help me and still do the thinking myself
 - **Runtime**: about 4 minutes, seven beats
