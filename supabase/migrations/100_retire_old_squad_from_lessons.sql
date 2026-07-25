@@ -1,4 +1,4 @@
--- Guided Childhood — Migration 099
+-- Guided Childhood — Migration 100
 -- Retire the old human squad from the schools curriculum.
 --
 -- The 22 July decision (plans/character-maturation-plan.md) was to retire the
