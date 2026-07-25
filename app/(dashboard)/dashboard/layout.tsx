@@ -78,7 +78,9 @@ export default async function DashboardLayout({ children }: { children: React.Re
           reaches from Home or the bottom bar. */}
 
       {/* Main content */}
-      <main style={{ flex: 1, paddingBottom: '80px' }}>
+      {/* Clear the fixed bottom bar and the phone's own home indicator, so the
+          last card on a page is never tucked under the tabs. */}
+      <main style={{ flex: 1, paddingBottom: 'calc(88px + env(safe-area-inset-bottom))' }}>
         {children}
       </main>
 
