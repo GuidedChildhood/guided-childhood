@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Guided Childhood Etsy branding</title>
+<link href="local-fonts.css" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F9F8F6; --ink:#1A1A2E; --ink-soft:#52526A; --butter:#EDC35F;
+    --butter-dark:#C99A28; --butter-lt:#FEF7E0; --coral:#D4600A; --green:#2F8F6B; --gold:#F5CD3A;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:'Nunito',sans-serif;color:var(--ink);background:#ccc;}
+  .stack{display:flex;flex-direction:column;gap:24px;padding:24px;align-items:flex-start;}
+
+  /* ---- ETSY BANNER 1600x400 ---- */
+  .banner{width:1600px;height:400px;background:var(--cream);position:relative;overflow:hidden;
+    display:flex;align-items:center;padding:0 90px;gap:60px;}
+  .banner::before{content:"";position:absolute;inset:0;
+    background:radial-gradient(circle at 88% 30%, var(--butter-lt) 0 30%, transparent 55%);}
+  .banner .mark{width:200px;height:200px;flex:none;position:relative;z-index:1;
+    display:flex;align-items:center;justify-content:center;
+    background:var(--butter-lt);border:5px solid var(--ink);border-radius:44px;box-shadow:0 10px 0 var(--ink);}
+  .banner .mark img{width:130px;height:130px;}
+  .banner .words{position:relative;z-index:1;}
+  .banner .eyebrow{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:19px;
+    letter-spacing:6px;text-transform:uppercase;color:var(--butter-dark);}
+  .banner h1{font-weight:900;font-size:84px;line-height:0.98;letter-spacing:-2.5px;margin:8px 0 10px;}
+  .banner .tag{font-weight:700;font-size:27px;color:var(--ink-soft);}
+  .banner .badges{display:flex;gap:14px;margin-top:20px;}
+  .banner .badge{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:15px;letter-spacing:2px;
+    text-transform:uppercase;color:var(--butter-dark);background:#fff;border:2.5px solid var(--butter-dark);
+    border-radius:999px;padding:7px 18px;}
+
+  /* ---- ETSY SHOP ICON 500x500 ---- */
+  .icon{width:500px;height:500px;background:var(--cream);position:relative;overflow:hidden;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;}
+  .icon::before{content:"";position:absolute;inset:0;
+    background:radial-gradient(circle at 50% 42%, var(--butter-lt) 0 42%, transparent 62%);}
+  .icon .disc{width:250px;height:250px;position:relative;z-index:1;display:flex;align-items:center;justify-content:center;
+    background:#fff;border:6px solid var(--ink);border-radius:60px;box-shadow:0 12px 0 var(--ink);}
+  .icon .disc img{width:170px;height:170px;}
+  .icon .name{position:relative;z-index:1;font-weight:900;font-size:40px;letter-spacing:-1px;line-height:1;text-align:center;}
+  .icon .name small{display:block;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:13px;
+    letter-spacing:4px;text-transform:uppercase;color:var(--butter-dark);margin-top:8px;}
+</style>
+</head>
+<body>
+<div class="stack">
+  <div class="banner" id="banner">
+    <div class="mark"><img src="DiGi-star.svg" alt=""></div>
+    <div class="words">
+      <div class="eyebrow">Calm, modern parenting</div>
+      <h1>Guided Childhood</h1>
+      <div class="tag">Screen time, earned not fought over</div>
+      <div class="badges">
+        <span class="badge">Instant download</span>
+        <span class="badge">Print at home</span>
+        <span class="badge">Ages 4 up</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="icon" id="icon">
+    <div class="disc"><img src="DiGi-star.svg" alt=""></div>
+    <div class="name">Guided Childhood<small>Print · play · earn</small></div>
+  </div>
+</div>
+</body>
+</html>
