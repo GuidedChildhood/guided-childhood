@@ -26,7 +26,9 @@ export async function POST(req: NextRequest) {
   if (!magnet) return NextResponse.json({ error: 'unknown magnet' }, { status: 400 })
 
   const origin = process.env.NEXT_PUBLIC_APP_URL ?? req.nextUrl.origin
-  const downloadPath = `/api/magnet/${magnet.slug}/pdf`
+  // A full product magnet hands over its ready made PDF from public; a one
+  // page magnet is generated on the fly by the pdf route.
+  const downloadPath = magnet.staticPdf ?? `/api/magnet/${magnet.slug}/pdf`
   const downloadUrl = `${origin}${downloadPath}`
 
   try {
