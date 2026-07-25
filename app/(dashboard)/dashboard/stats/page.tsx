@@ -11,6 +11,8 @@ import ParentStartTimer from '@/components/balance/ParentStartTimer'
 // level, and reports the off screen wins. Everything best effort: a thin or
 // empty week still renders, it just says so.
 
+import { buildOffscreen } from '@/lib/balance/offscreen'
+
 export const metadata = { title: 'Balance and stats — Guided Childhood' }
 
 const WEEK_MS = 7 * 24 * 60 * 60 * 1000
@@ -32,6 +34,10 @@ export default async function StatsPage() {
 
   let deviceMinutes: { device: string; minutes: number }[] = []
   let offscreen = { activities: 0, stars: 0, minutes: 0 }
+  // Counted first, totalled once at the end through the shared builder, so this
+  // page and the tracker can never drift apart again.
+  let jobs: { title: string; minutes?: number | null }[] = []
+  let jobStars = 0, sheets_ = 0, sheetStars = 0
 
   if (child?.id) {
     try {
@@ -50,18 +56,15 @@ export default async function StatsPage() {
 
     try {
       const [{ data: quests }, { data: ticks }] = await Promise.all([
-        supabase.from('family_quests').select('id, stars').eq('child_id', child.id),
+        supabase.from('family_quests').select('id, stars, title').eq('child_id', child.id),
         supabase.from('quest_ticks').select('quest_id').eq('child_id', child.id).eq('status', 'approved').gte('tick_date', sinceDay),
       ])
-      const starById = new Map((quests ?? []).map(q => [q.id as string, Number(q.stars) || 1]))
+      const byId = new Map((quests ?? []).map(q => [q.id as string, { stars: Number(q.stars) || 1, title: (q.title as string) ?? '' }]))
       const approved = ticks ?? []
-      offscreen = {
-        activities: approved.length,
-        stars: approved.reduce((sum, t) => sum + (starById.get(t.quest_id as string) ?? 1), 0),
-        // We do not track off screen minutes directly, so estimate gently from
-        // the count of real world wins rather than claim a false zero.
-        minutes: approved.length * 15,
-      }
+      // Carry the title through, so each job's minutes come from what it
+      // actually is rather than one average across all of them.
+      jobs = approved.map(t => ({ title: byId.get(t.quest_id as string)?.title ?? '' }))
+      jobStars = approved.reduce((sum, t) => sum + (byId.get(t.quest_id as string)?.stars ?? 1), 0)
     } catch { /* thin week */ }
 
     // A finished printable is one of the clearest off screen wins there is: a
@@ -75,12 +78,11 @@ export default async function StatsPage() {
         .eq('child_id', child.id).eq('status', 'confirmed')
         .gte('created_at', sinceIso)
       const done = sheets ?? []
-      offscreen = {
-        activities: offscreen.activities + done.length,
-        stars: offscreen.stars + done.reduce((sum, s) => sum + (Number(s.stars) || 0), 0),
-        minutes: offscreen.minutes + done.length * 20,
-      }
+      sheets_ = done.length
+      sheetStars = done.reduce((sum, s) => sum + (Number(s.stars) || 0), 0)
     } catch { /* pre 087, jobs only */ }
+
+    offscreen = buildOffscreen({ jobs, jobStars, sheets: sheets_, sheetStars })
   }
 
   const report = buildParentReport({

@@ -121,7 +121,7 @@ export default function KidQuestScreen({
   contractLevel = '11plus', contractAgreedAt = null, contractReady = false, giftStarsOwed = 0,
   deviceTrust = 'ask', initialAsk = null, initialNudges = [],
   stageLessonsPassed = null, stageLessonsTotal = null, focusLesson = null, assignedPrintable = null,
-  earnedStages = 0, completedStreaks = 0,
+  earnedStages = 0, completedStreaks = 0, sheetsDone = 0, sheetStars = 0,
 }: {
   token: string
   childName: string
@@ -130,6 +130,10 @@ export default function KidQuestScreen({
   earnedStages?: number
   // Completed jobs streaks so far, driving the streak bar and the next unlock.
   completedStreaks?: number
+  // Sheets finished away from a screen and confirmed, and the stars they paid.
+  // The same numbers the parent's off screen total is built from.
+  sheetsDone?: number
+  sheetStars?: number
   agreementItems?: { title: string; body: string }[]
   agreementSigned?: boolean
   // The age based timer contract: which wording fits this child, whether the
@@ -376,6 +380,10 @@ export default function KidQuestScreen({
   const [chosenBuddy, setChosenBuddy] = useState(buddy && BUDDY_MAP[buddy] ? buddy : DEFAULT_BUDDY)
   const [chosenAccent, setChosenAccent] = useState(knownAccent(accent) ? accent : DEFAULT_ACCENT)
   const [makeMineOpen, setMakeMineOpen] = useState(false)
+  // Which kind of printable is showing. The whole library on one scroll was a
+  // long way to the sheet you wanted, so it filters by the kind already in the
+  // registry rather than a new grouping invented for the child app.
+  const [printKind, setPrintKind] = useState<string>('all')
   // The squad welcome: DiGi and the Planet Friends introduced one at a time,
   // every open. The first meeting is a gentle tap through; every open after
   // auto plays like a short splash. squadIntroSeen still marks the first open so
@@ -1910,6 +1918,24 @@ export default function KidQuestScreen({
                 are working toward keeps showing up rather than living on one
                 tab. Seeing who is close is what keeps the streak going. */}
             <StreakBar completedStreaks={completedStreaks} earnedStages={earnedStages} />
+
+            {/* Their own off screen tally. The grown up's stats already count
+                every confirmed sheet into the off screen total, and this is the
+                same number said back to the child, in the place they earned it,
+                so the work away from a screen is visible on both sides. */}
+            {sheetsDone > 0 && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: 11, background: 'var(--tint-sage)', border: '1.5px solid #CFE3D9', borderRadius: 16, padding: '12px 14px', marginBottom: 12 }}>
+                <span aria-hidden style={{ fontSize: 24, lineHeight: 1, flexShrink: 0 }}>🖍️</span>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 17, color: 'var(--ink)', lineHeight: 1.2 }}>
+                    {sheetsDone} {sheetsDone === 1 ? 'sheet' : 'sheets'} done away from a screen
+                  </div>
+                  <div style={{ fontSize: 14.5, color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: 2 }}>
+                    That is {sheetStars} {sheetStars === 1 ? 'star' : 'stars'} earned with a pencil, not a screen.
+                  </div>
+                </div>
+              </div>
+            )}
             <p style={{ textAlign: 'center', color: 'var(--ink-soft)', fontSize: '16px', lineHeight: 1.5, margin: '0 0 14px' }}>
               Colour a sheet away from the screen, then show your grown up for stars.
             </p>
@@ -1917,10 +1943,49 @@ export default function KidQuestScreen({
               <HappyScene headline="More printables soon" sub="New colouring sheets land here. Check back soon!" />
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                {/* Sections, so the whole library is not one long scroll. The
+                    groups are the kinds the registry already carries, so nothing
+                    here invents a second way of sorting the same sheets. Only
+                    kinds that actually have a sheet for this age show up. */}
+                {(() => {
+                  const KINDS: { key: string; label: string; emoji: string }[] = [
+                    { key: 'all', label: 'All', emoji: '📚' },
+                    { key: 'craft', label: 'Colour', emoji: '🎨' },
+                    { key: 'bucket', label: 'Lists', emoji: '📋' },
+                    { key: 'brain', label: 'Learn', emoji: '🧠' },
+                    { key: 'challenge', label: 'Dares', emoji: '🏆' },
+                    { key: 'hunt', label: 'Hunts', emoji: '🔍' },
+                  ]
+                  const live = KINDS.filter(k => k.key === 'all' || stagePrintables.some(p => p.kind === k.key))
+                  if (live.length <= 2) return null
+                  return (
+                    <div style={{ display: 'flex', gap: '5px', overflowX: 'auto', paddingBottom: '2px', marginBottom: '2px' }}>
+                      {live.map(k => {
+                        const on = k.key === printKind
+                        return (
+                          <button
+                            key={k.key}
+                            onClick={() => { setPrintKind(k.key); playKidSound('tap') }}
+                            style={{
+                              flexShrink: 0, padding: '9px 14px', borderRadius: '13px', cursor: 'pointer',
+                              border: on ? 'none' : '1.5px solid rgba(26,26,46,0.12)',
+                              background: on ? 'var(--terracotta)' : 'var(--cream)',
+                              color: 'var(--ink)', display: 'flex', alignItems: 'center', gap: '6px',
+                              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
+                              boxShadow: on ? '0 3px 0 var(--terracotta-dark)' : 'none',
+                            }}
+                          >
+                            <span aria-hidden>{k.emoji}</span>{k.label}
+                          </button>
+                        )
+                      })}
+                    </div>
+                  )
+                })()}
                 {/* Anything a grown up has already said yes to comes first. A
                     yes buried eight cards down is a yes the child never acts
                     on, and this tab is long. */}
-                {[...stagePrintables].sort((a, b) => {
+                {[...stagePrintables].filter(p => printKind === 'all' || p.kind === printKind).sort((a, b) => {
                   const yes = (x: typeof a) => asks.find(k => k.title === `Please can I do the ${x.title} printable`)?.status === 'added' ? 0 : 1
                   return yes(a) - yes(b)
                 }).map(p => {
