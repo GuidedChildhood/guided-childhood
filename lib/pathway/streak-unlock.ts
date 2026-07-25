@@ -32,3 +32,12 @@ export function nextFriendToEarn(earned: number): StageCharacter | null {
   if (earned >= 5) return null
   return characterForStage(earned + 1) ?? null
 }
+
+// How many more streaks until THIS particular Friend joins, so a child can be
+// told exactly what each locked one costs rather than a vague keep going. A
+// Friend at stage N wants N complete runs of four, so Pebble is four streaks
+// away from nothing and Cosmo is twenty. Returns 0 once it is theirs.
+export function streaksToUnlockFriend(stageId: number, completedStreaks: number): number {
+  const needed = Math.max(0, stageId) * STREAKS_PER_FRIEND
+  return Math.max(0, needed - Math.max(0, completedStreaks))
+}

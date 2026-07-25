@@ -11,6 +11,14 @@
 //
 // One place, one source of truth. Rename, recolour or re-point art here and
 // every surface follows.
+//
+// July 2026: Nova and Cosmo were both re-pointed. Nova had been rendered in a
+// different style from the other four, matte with horns and photographed on a
+// wooden floor, so it read as a character from another property and could never
+// have been made into a plush or a charm alongside them. It is now drawn to
+// match: same glossy body, same cream studio background, a crescent moon where
+// the others have their sprout or antenna. Cosmo now points at the orange flame
+// character, which is the one Justin means by Cosmo.
 
 const BASE = 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/'
 
@@ -66,9 +74,9 @@ export const STAGE_CHARACTERS: StageCharacter[] = [
   },
   {
     stageId: 4, key: 'nova', name: 'Nova',
-    img: BASE + 'hf_20260723_185241_3f99a3c0-c93c-4e3c-873d-7fc512d67b35.png',
-    cutout: BASE + 'hf_20260723_185507_080f89c3-3d9a-4e3b-953b-f0593d8d31c2.png',
-    colouring: BASE + 'hf_20260724_130032_22801be6-c4af-45c7-80a7-56e508b52b77.png',
+    img: BASE + 'hf_20260725_083831_3ddf2672-53e8-4e87-9bbd-be69d40ec545.png',
+    cutout: BASE + 'hf_20260725_090735_80eecf61-9864-4a94-9800-da51aa2b7d3d.png',
+    colouring: BASE + 'hf_20260725_090749_b565097d-be3d-403d-8435-2817497807bc.png',
     ages: 'Ages 13 to 15', colour: '#9B72CF', action: 'Guide',
     blurb: 'Learning to make good choices and shape your path.',
     role: 'making your own good choices',
@@ -77,9 +85,9 @@ export const STAGE_CHARACTERS: StageCharacter[] = [
   },
   {
     stageId: 5, key: 'cosmo', name: 'Cosmo',
-    img: BASE + 'hf_20260723_185509_598025da-b2b4-4a64-9dba-3de53d79c469.png',
-    cutout: BASE + 'hf_20260723_185539_691f244f-17ab-4d0c-a8d5-ebf2026781c2.png',
-    colouring: BASE + 'hf_20260724_130034_421e890d-6515-4ba5-bd3c-abf195ebf8b8.png',
+    img: BASE + 'hf_20260723_185244_0c2a39ff-cee0-448c-865d-596c43c2c46d.png',
+    cutout: BASE + 'hf_20260725_090730_c0428406-c720-4b1f-97e7-5aaea2d9bb6c.png',
+    colouring: BASE + 'hf_20260725_090756_3600a3d8-266c-40ca-af9c-b890f0223bed.png',
     ages: 'Ages 16+', colour: '#E8873C', action: 'Lead',
     blurb: 'Confident and independent. Ready to lead your own future.',
     role: 'leading your own way',

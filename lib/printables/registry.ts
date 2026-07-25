@@ -167,7 +167,7 @@ export const PRINTABLES: Printable[] = [
     stages: [4], minutes: 'One sitting', setting: 'anywhere', skill: 'Creativity',
     stars: 5,
     blurb: 'Your Stage 4 Planet Friend, thoughtful and kind. Colour Nova your way.',
-    sheetUrl: BASE + 'hf_20260723_185250_f65c7cc0-aac9-474f-b99c-b85aad8d47f3.png',
+    sheetUrl: BASE + 'hf_20260725_090749_b565097d-be3d-403d-8435-2817497807bc.png',
     previewUrl: friendArt('nova'),
   },
   {
@@ -176,7 +176,7 @@ export const PRINTABLES: Printable[] = [
     stages: [5], minutes: 'One sitting', setting: 'anywhere', skill: 'Creativity',
     stars: 5,
     blurb: 'Your Stage 5 Planet Friend, confident and independent. Colour Cosmo ready to lead.',
-    sheetUrl: BASE + 'hf_20260723_185512_775a18be-3cf2-4a0b-bde1-c85f2d591021.png',
+    sheetUrl: BASE + 'hf_20260725_090756_3600a3d8-266c-40ca-af9c-b890f0223bed.png',
     previewUrl: friendArt('cosmo'),
   },
   // Brought over from the Etsy shop into the app library, redrawn in the house
@@ -292,6 +292,19 @@ export const PRINTABLES: Printable[] = [
     sheetUrl: BASE + 'hf_20260723_183708_00cedad0-7425-4b44-bb8d-4c3f3de98a43.jpeg',
     previewUrl: BASE + 'hf_20260723_183708_00cedad0-7425-4b44-bb8d-4c3f3de98a43.jpeg',
   },
+  // The flagship. A premium, newspaper styled booklet that teaches the whole
+  // deal on paper: real jobs earn stars, one star is five minutes of screen
+  // time. The fridge star chart is the hero. Served funnel free in the app, the
+  // last page bonus swapped for a member note.
+  {
+    key: 'starter-pack',
+    title: 'The Guided Childhood Starter Pack', emoji: '📰', kind: 'challenge',
+    stages: [1, 2, 3, 4, 5], minutes: 'All week', setting: 'anywhere', skill: 'Screen time',
+    stars: 5,
+    blurb: 'The whole deal on paper. A star reward chart for the fridge, the jobs that earn stars, how to guides, a wake up workout, football, dance, a healthy breakfast plate, a print and play game and pages to colour. One star is five minutes of screen time.',
+    sheetUrl: '/printables/starter-pack-colour.pdf',
+    previewUrl: '/printables/starter-pack.png',
+  },
 ]
 
 // The real, finished products we have built and shipped to Etsy, now brought
@@ -373,6 +386,11 @@ const LOCAL_PRODUCTS: Record<string, LocalProduct> = {
     preview: '/printables/school-year-planner.png',
     colour: '/printables/school-year-planner-colour.pdf',
     colourIn: '/printables/school-year-planner-colourin.pdf',
+  },
+  'starter-pack': {
+    preview: '/printables/starter-pack.png',
+    colour: '/printables/starter-pack-colour.pdf',
+    colourIn: '/printables/starter-pack-colourin.pdf',
   },
 }
 

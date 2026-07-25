@@ -31,6 +31,7 @@ import KidRoad from '@/components/kid/KidRoad'
 import KidSplash from '@/components/kid/KidSplash'
 import KidSquadIntro, { squadIntroSeen } from '@/components/kid/KidSquadIntro'
 import StreakBar from '@/components/kid/StreakBar'
+import { streaksToUnlockFriend } from '@/lib/pathway/streak-unlock'
 import Image from 'next/image'
 import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
 
@@ -1288,6 +1289,7 @@ export default function KidQuestScreen({
             agreementSigned={agreementSigned}
             contractRule={contractRule(contractLevel, trust)}
             contractAgreedAt={contractAgreedAt}
+            token={token}
           />
         )}
 
@@ -1765,6 +1767,11 @@ export default function KidQuestScreen({
             </div>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '13px' }}>
+              {/* The next Friend rides along here too, so the one they are
+                  working toward keeps showing up across the app rather than
+                  living on a single tab. Hidden while a lesson is open, so it
+                  never competes with the thing they are actually doing. */}
+              <StreakBar completedStreaks={completedStreaks} earnedStages={earnedStages} />
               {/* Sub-tabs so the long list stops being a jumble: Watch, Learn,
                   Games, Print. Each wears a red dot the moment a grown up pings
                   something new into it. */}
@@ -1899,6 +1906,10 @@ export default function KidQuestScreen({
             not, the ask still goes through so the grown up can sort it. */}
         {tab === 'print' && (
           <div>
+            {/* The next Friend rides along on this screen too, so the one they
+                are working toward keeps showing up rather than living on one
+                tab. Seeing who is close is what keeps the streak going. */}
+            <StreakBar completedStreaks={completedStreaks} earnedStages={earnedStages} />
             <p style={{ textAlign: 'center', color: 'var(--ink-soft)', fontSize: '16px', lineHeight: 1.5, margin: '0 0 14px' }}>
               Colour a sheet away from the screen, then show your grown up for stars.
             </p>
@@ -2140,7 +2151,7 @@ const SCHOOL_KIND_EMOJI: Record<string, string> = {
 // by, in their own words. How it works, the exchange rate, a good amount of
 // screen a day, and what they are saving for right now. No dashes, no rules
 // shouted, just the deal they can keep an eye on any time.
-function FamilyDeal({ onClose, recommendedMinutes, goal, bankBalance, goalRedeemed, agreementItems = [], agreementSigned = false, contractRule, contractAgreedAt = null }: {
+function FamilyDeal({ onClose, recommendedMinutes, goal, bankBalance, goalRedeemed, agreementItems = [], agreementSigned = false, contractRule, contractAgreedAt = null, token }: {
   onClose: () => void
   recommendedMinutes: number
   goal: { title?: string; stars_needed?: number; achieved_at?: string | null } | null
@@ -2152,6 +2163,8 @@ function FamilyDeal({ onClose, recommendedMinutes, goal, bankBalance, goalRedeem
   // it is locked in. The child never edits it from their side.
   contractRule?: string
   contractAgreedAt?: string | null
+  // The child's own link, so the fridge print is one tap from here.
+  token?: string
 }) {
   // Which agreed promise is open to read. One at a time keeps the deal tidy.
   const [openPromise, setOpenPromise] = useState<number | null>(null)
@@ -2243,7 +2256,18 @@ function FamilyDeal({ onClose, recommendedMinutes, goal, bankBalance, goalRedeem
           </div>
         )}
 
-        <button onClick={onClose} style={{ width: '100%', marginTop: '16px', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: '15px', padding: '14px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '17px', boxShadow: '0 5px 0 var(--terracotta-dark)' }}>
+        {/* The deal on the fridge, printed from the child's own side. They
+            should not have to ask a grown up to log in to get it on the wall. */}
+        {token && (
+          <a
+            href={`/k/${token}/deal`}
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, width: '100%', marginTop: '14px', background: '#fff', color: 'var(--ink)', border: '1.5px solid var(--border)', borderRadius: '15px', padding: '13px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px' }}
+          >
+            🖨️ Print it for the fridge
+          </a>
+        )}
+
+        <button onClick={onClose} style={{ width: '100%', marginTop: '10px', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: '15px', padding: '14px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '17px', boxShadow: '0 5px 0 var(--terracotta-dark)' }}>
           Got it!
         </button>
       </div>
@@ -2307,9 +2331,16 @@ function MakeItMine({ onClose, chosenBuddy, chosenAccent, earnedStages = 0, comp
                   {locked ? `🔒 ${b.name}` : b.name}
                 </span>
                 {/* The visible unlock line: a tooltip never shows on a phone, so
-                    the one who needs it most could not read it. */}
+                    the one who needs it most could not read it. Each locked
+                    Friend says exactly what IT costs, not a vague keep going, so
+                    a child can see that Pebble is close and Cosmo is a way off. */}
                 <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', color: locked ? 'var(--terracotta-dark)' : '#2F8F6B', textAlign: 'center', lineHeight: 1.2 }}>
-                  {locked ? 'Keep going' : id === 'digi' ? 'Always yours' : 'Yours ✓'}
+                  {locked
+                    ? (() => {
+                        const away = streaksToUnlockFriend(b.stageId ?? 0, completedStreaks)
+                        return away === 1 ? '1 streak away' : `${away} streaks away`
+                      })()
+                    : id === 'digi' ? 'Always yours' : 'Yours ✓'}
                 </span>
               </button>
             )
