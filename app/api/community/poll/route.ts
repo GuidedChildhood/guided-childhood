@@ -95,6 +95,20 @@ export async function POST(req: NextRequest) {
     .upsert({ poll_id: poll.id, user_id: user.id, choice }, { onConflict: 'poll_id,user_id' })
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
+  // DiGi remembers what they said, so next month it can pick the thread back
+  // up: last month you told me the hardest moment was the handover, how has
+  // that been? Written as a plain memory row, so it flows through the same
+  // retrieval as everything else DiGi knows about this family rather than
+  // needing its own lookup. Best effort: the vote stands either way.
+  try {
+    await admin.from('digi_memory').insert({
+      user_id: user.id,
+      kind: 'community_poll',
+      active: true,
+      content: `Community poll (${poll.month}). Asked: ${poll.question} This parent answered: ${poll.options[choice]}`,
+    })
+  } catch { /* the vote is recorded regardless */ }
+
   const tally = await countsFor(admin, poll.id, poll.options.length)
   return NextResponse.json({ ok: true, counts: tally.counts, total: tally.total, myChoice: choice })
 }
