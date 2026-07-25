@@ -46,6 +46,21 @@ version both included.
 12. kids print and play
 13. positive parenting tool
 
+## Rendered mockups ready to upload (mockups/)
+
+Three of the ten slots are already built on brand, rendered locally at 2000 by
+2000 from the house design system (rebuild with the scratchpad
+`gh/build-mockups.mjs`):
+
+- `mockups/mockup-hero.png` — slot 1, the cover framed with an instant download
+  ribbon and trust badges. The listing thumbnail.
+- `mockups/mockup-how.png` — slot 6, the do a job, earn a star, spend it loop
+  with the one star is five minutes deal.
+- `mockups/mockup-contents.png` — slot 2, all eleven pages as a contents grid.
+
+The remaining slots (real fridge lifestyle, sizing guide, phone version, bonus
+mention) are photographic or need the Happy News art and are listed below.
+
 ## Ten image slots
 
 1. Lifestyle mockup, the chart on a real fridge with a child colouring a star
