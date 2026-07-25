@@ -86,6 +86,13 @@ export default async function QuestsPage() {
           could only hold two of them, so the rest were buried down the page. */}
       <QuestShortcuts />
 
+      {/* Asked for first, because it is the thing a parent opens this page to
+          answer. A child waiting on a timer request is waiting on a person, and
+          this card carries the answer plus what they have already used today
+          against the guide for their age, so the decision is made with the
+          usage in front of you rather than two screens away. */}
+      <ParentDeviceTime />
+
       {handoverName && (
         <Link href="/dashboard/quests?tab=share" style={{ textDecoration: 'none', display: 'block', marginBottom: '16px' }}>
           <div style={{
@@ -116,8 +123,9 @@ export default async function QuestsPage() {
           parent to send its reward. Leads the page when there is one. */}
       <StreakRewards streaks={streakRewards} />
 
-      {/* The board leads, moved here from Home when the daily screen
-          narrowed. The id is the anchor the approve links land on. */}
+      {/* Then the jobs waiting on a yes. The page runs in the order a parent
+          actually works: answer the timer request, agree what is done, then set
+          what comes next. The id is the anchor the approve links land on. */}
       <div id="quest-board" style={{ scrollMarginTop: '80px' }}>
         <QuestBoard />
       </div>
@@ -159,7 +167,6 @@ export default async function QuestsPage() {
         <QuestManager />
       </div>
 
-      <ParentDeviceTime />
 
       <Link href="/dashboard/lessons" style={{ textDecoration: 'none', display: 'block', marginTop: '28px' }}>
         <div style={{
