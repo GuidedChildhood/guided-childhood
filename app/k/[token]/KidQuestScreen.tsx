@@ -2020,8 +2020,18 @@ export default function KidQuestScreen({
                         </div>
                       </div>
 
-                      {printablesUnlocked ? (
+                      {/* Either the family is unlocked, or a grown up said yes to
+                          THIS sheet. A yes is permission for the sheet it was
+                          given for, so it has to open the same door: saying yes
+                          and then leaving the child with nothing to tap is worse
+                          than never having asked. */}
+                      {(printablesUnlocked || saidYes) ? (
                         <>
+                          {saidYes && !printablesUnlocked && (
+                            <p style={{ fontSize: '14.5px', fontWeight: 700, color: 'var(--retro-green-dark, var(--deep-teal))', textAlign: 'center', margin: '0 0 8px', lineHeight: 1.4 }}>
+                              Your grown up said yes to this one ⭐
+                            </p>
+                          )}
                           <button
                             onClick={() => { if (p.pdfColourIn) { playKidSound('tap'); window.open(p.pdfColourIn, '_blank') } else { printSheet(p.sheetUrl, p.title) } }}
                             style={{
@@ -2076,20 +2086,19 @@ export default function KidQuestScreen({
                             style={{
                               width: '100%', padding: '12px', borderRadius: '13px', border: 'none',
                               cursor: requested ? 'default' : 'pointer',
-                              // A yes is green and loud, a no is quiet, still
-                              // waiting is the calm sage it always was.
-                              background: saidYes ? 'var(--retro-green)' : requested ? 'var(--tint-sage)' : 'var(--deep-teal)',
-                              color: saidYes ? '#fff' : requested ? 'var(--ink)' : '#fff',
+                              // A no is quiet, still waiting is the calm sage it
+                              // always was. A yes never lands here now, it opens
+                              // the print actions above instead.
+                              background: requested ? 'var(--tint-sage)' : 'var(--deep-teal)',
+                              color: requested ? 'var(--ink)' : '#fff',
                               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16.5px',
                               boxShadow: requested ? 'none' : '0 4px 0 rgba(0,0,0,0.22)',
                             }}
                           >
-                            {saidYes ? 'Yes! Colour it in ⭐' : saidNo ? 'Not this one for now' : requested ? 'Asked your grown up ✓' : 'Ask a grown up for this one ⭐'}
+                            {saidNo ? 'Not this one for now' : requested ? 'Asked your grown up ✓' : 'Ask a grown up for this one ⭐'}
                           </button>
                           <p style={{ fontSize: '13.5px', color: 'var(--ink-muted)', textAlign: 'center', margin: '8px 0 0', lineHeight: 1.4 }}>
-                            {saidYes
-                              ? 'Your grown up said yes. Get it printed and colour it in for your stars.'
-                              : saidNo
+                            {saidNo
                               ? 'Maybe another time. Plenty more to colour.'
                               : 'Your grown up can set up printables for you.'}
                           </p>
