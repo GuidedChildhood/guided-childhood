@@ -31,6 +31,7 @@ import KidRoad from '@/components/kid/KidRoad'
 import KidSplash from '@/components/kid/KidSplash'
 import KidSquadIntro, { squadIntroSeen } from '@/components/kid/KidSquadIntro'
 import StreakBar from '@/components/kid/StreakBar'
+import { streaksToUnlockFriend } from '@/lib/pathway/streak-unlock'
 import Image from 'next/image'
 import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
 
@@ -1765,6 +1766,11 @@ export default function KidQuestScreen({
             </div>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '13px' }}>
+              {/* The next Friend rides along here too, so the one they are
+                  working toward keeps showing up across the app rather than
+                  living on a single tab. Hidden while a lesson is open, so it
+                  never competes with the thing they are actually doing. */}
+              <StreakBar completedStreaks={completedStreaks} earnedStages={earnedStages} />
               {/* Sub-tabs so the long list stops being a jumble: Watch, Learn,
                   Games, Print. Each wears a red dot the moment a grown up pings
                   something new into it. */}
@@ -1899,6 +1905,10 @@ export default function KidQuestScreen({
             not, the ask still goes through so the grown up can sort it. */}
         {tab === 'print' && (
           <div>
+            {/* The next Friend rides along on this screen too, so the one they
+                are working toward keeps showing up rather than living on one
+                tab. Seeing who is close is what keeps the streak going. */}
+            <StreakBar completedStreaks={completedStreaks} earnedStages={earnedStages} />
             <p style={{ textAlign: 'center', color: 'var(--ink-soft)', fontSize: '16px', lineHeight: 1.5, margin: '0 0 14px' }}>
               Colour a sheet away from the screen, then show your grown up for stars.
             </p>
@@ -2307,9 +2317,16 @@ function MakeItMine({ onClose, chosenBuddy, chosenAccent, earnedStages = 0, comp
                   {locked ? `🔒 ${b.name}` : b.name}
                 </span>
                 {/* The visible unlock line: a tooltip never shows on a phone, so
-                    the one who needs it most could not read it. */}
+                    the one who needs it most could not read it. Each locked
+                    Friend says exactly what IT costs, not a vague keep going, so
+                    a child can see that Pebble is close and Cosmo is a way off. */}
                 <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', color: locked ? 'var(--terracotta-dark)' : '#2F8F6B', textAlign: 'center', lineHeight: 1.2 }}>
-                  {locked ? 'Keep going' : id === 'digi' ? 'Always yours' : 'Yours ✓'}
+                  {locked
+                    ? (() => {
+                        const away = streaksToUnlockFriend(b.stageId ?? 0, completedStreaks)
+                        return away === 1 ? '1 streak away' : `${away} streaks away`
+                      })()
+                    : id === 'digi' ? 'Always yours' : 'Yours ✓'}
                 </span>
               </button>
             )
