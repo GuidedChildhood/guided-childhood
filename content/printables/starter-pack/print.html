@@ -186,6 +186,42 @@
   .colour-line{fill:var(--white);stroke:var(--ink);stroke-width:2.2;stroke-linejoin:round;stroke-linecap:round;}
   .colour-line.thin{stroke-width:1.6;}
 
+  /* ---------- CUT OUT STAR TOKENS ---------- */
+  .cutline{border:2px dashed var(--ink-muted);}
+  .scissors{font-family:'IBM Plex Mono',monospace;font-size:7pt;letter-spacing:1.5px;text-transform:uppercase;
+    color:var(--ink-muted);display:flex;align-items:center;gap:2mm;}
+  .tokgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:3mm;}
+  .tok{aspect-ratio:1;border:2px dashed var(--ink-muted);border-radius:12px;background:var(--white);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1mm;padding:2mm;}
+  .tok svg{width:15mm;height:15mm;}
+  .tok .m{font-family:'IBM Plex Mono',monospace;font-size:6pt;letter-spacing:0.5px;color:var(--butter-dark);font-weight:600;}
+  /* parent tracker that feeds the app */
+  .tracker{background:var(--white);border:2.5px solid var(--ink);border-radius:16px;box-shadow:0 5px 0 var(--ink);padding:4.5mm 5mm;}
+  .tracker .wkrow{display:flex;gap:2mm;margin-top:2mm;}
+  .tracker .wk{flex:1;text-align:center;}
+  .tracker .wk .d{font-family:'IBM Plex Mono',monospace;font-size:7pt;color:var(--ink-muted);text-transform:uppercase;}
+  .tracker .wk .box{height:11mm;border:2px solid var(--ink);border-radius:8px;margin-top:1mm;background:var(--cream);}
+  .totalrow{display:flex;gap:3mm;margin-top:3mm;align-items:stretch;}
+  .totalrow .tt{flex:1;background:var(--butter-lt);border:2.5px solid var(--butter-dark);border-radius:12px;
+    padding:3mm 4mm;display:flex;align-items:center;gap:3mm;}
+  .totalrow .tt .big{font-weight:900;font-size:16pt;color:var(--ink);}
+  .appnote{background:var(--tint-sage);border:2.5px solid var(--green);border-radius:12px;padding:3mm 4mm;
+    display:flex;align-items:center;gap:3mm;}
+  .appnote .ph{font-size:22pt;}
+
+  /* ---------- CHARACTER CUT OUTS + BUBBLES ---------- */
+  .charcut{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm;}
+  .charcard{border:2px dashed var(--ink-muted);border-radius:16px;background:var(--white);padding:3.5mm;
+    display:flex;flex-direction:column;align-items:center;gap:2mm;text-align:center;}
+  .charcard .cimg{width:32mm;height:32mm;object-fit:contain;}
+  .charcard .cname{font-weight:900;font-size:12.5pt;line-height:1;}
+  .charcard .crole{font-family:'IBM Plex Mono',monospace;font-size:6.5pt;letter-spacing:1px;text-transform:uppercase;color:var(--butter-dark);}
+  .bub{position:relative;background:var(--white);border:2.5px solid var(--ink);border-radius:12px;
+    padding:2.5mm 3mm;font-weight:800;font-size:8.5pt;line-height:1.15;color:var(--ink);box-shadow:0 3px 0 var(--ink);}
+  .bub .amt{color:var(--coral);}
+  .bubgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm;margin-top:4mm;}
+  .bubwrap{border:2px dashed var(--ink-muted);border-radius:14px;padding:4mm 3mm;display:flex;align-items:center;justify-content:center;}
+
   /* ---------- INK FRIENDLY MODE ---------- */
   body.ink .sheet{background:var(--white);}
   body.ink .card,body.ink .deal,body.ink .spend .opt,body.ink .jobrow,body.ink .name-field{box-shadow:none;}
@@ -199,6 +235,10 @@
   body.ink .ministep .n,body.ink .move .mnum,body.ink .buildrow .bnum{background:var(--white);color:var(--ink);border:2px solid var(--ink);}
   body.ink .artslot{background:var(--white);}
   body.ink .board .sq.gold,body.ink .board .sq.up,body.ink .board .sq.down{background:var(--white);}
+  body.ink .tracker,body.ink .bub,body.ink .charcard{box-shadow:none;}
+  body.ink .tracker .wk .box{background:var(--white);}
+  body.ink .totalrow .tt,body.ink .appnote{background:var(--white);}
+  body.ink .tok .fill{fill:var(--white)!important;stroke:var(--ink)!important;stroke-width:1.4!important;}
 </style>
 </head>
 <body>
@@ -683,6 +723,90 @@
     </div>
   </div>
   <div class="footer"><span>guidedchildhood.com</span><span>Made with love by Guided Childhood · Screen time, earned not fought over</span></div>
+</div>
+
+<!-- ============ PAGE 12 · CUT OUT STAR TOKENS + PARENT TRACKER ============ -->
+<div class="sheet">
+  <div class="kicker-row">
+    <span class="sec">Stars</span>
+    <h2>Cut out your stars, keep the tracker</h2>
+    <span class="pg">No. 12</span>
+  </div>
+  <p style="margin-bottom:3mm;max-width:170mm;">Print these on card, cut them out, and hand a real gold star over the moment a job is done. Little ones love holding the star before they stick it on the chart. Each one is worth five minutes of screen time.</p>
+
+  <div class="scissors" style="margin-bottom:2mm;">✂ Cut along the dashed lines</div>
+  <div class="tokgrid">
+    <!-- 18 star tokens -->
+    <div class="tok"><svg viewBox="0 0 24 24"><path class="fill" d="M12 2 l2.9 6.3 6.9 .7 -5.2 4.6 1.5 6.8 -6.1 -3.6 -6.1 3.6 1.5 -6.8 -5.2 -4.6 6.9 -.7z" fill="var(--gold)" stroke="var(--ink)" stroke-width="1.2" stroke-linejoin="round"/></svg><span class="m">5 min</span></div>
+    <div class="tok"><svg viewBox="0 0 24 24"><path class="fill" d="M12 2 l2.9 6.3 6.9 .7 -5.2 4.6 1.5 6.8 -6.1 -3.6 -6.1 3.6 1.5 -6.8 -5.2 -4.6 6.9 -.7z" fill="var(--gold)" stroke="var(--ink)" stroke-width="1.2" stroke-linejoin="round"/></svg><span class="m">5 min</span></div>
+    <div class="tok"><svg viewBox="0 0 24 24"><path class="fill" d="M12 2 l2.9 6.3 6.9 .7 -5.2 4.6 1.5 6.8 -6.1 -3.6 -6.1 3.6 1.5 -6.8 -5.2 -4.6 6.9 -.7z" fill="var(--gold)" stroke="var(--ink)" stroke-width="1.2" stroke-linejoin="round"/></svg><span class="m">5 min</span></div>
+    <div class="tok"><svg viewBox="0 0 24 24"><path class="fill" d="M12 2 l2.9 6.3 6.9 .7 -5.2 4.6 1.5 6.8 -6.1 -3.6 -6.1 3.6 1.5 -6.8 -5.2 -4.6 6.9 -.7z" fill="var(--gold)" stroke="var(--ink)" stroke-width="1.2" stroke-linejoin="round"/></svg><span class="m">5 min</span></div>
+    <div class="tok"><svg viewBox="0 0 24 24"><path class="fill" d="M12 2 l2.9 6.3 6.9 .7 -5.2 4.6 1.5 6.8 -6.1 -3.6 -6.1 3.6 1.5 -6.8 -5.2 -4.6 6.9 -.7z" fill="var(--gold)" stroke="var(--ink)" stroke-width="1.2" stroke-linejoin="round"/></svg><span class="m">5 min</span></div>
+    <div class="tok"><svg viewBox="0 0 24 24"><path class="fill" d="M12 2 l2.9 6.3 6.9 .7 -5.2 4.6 1.5 6.8 -6.1 -3.6 -6.1 3.6 1.5 -6.8 -5.2 -4.6 6.9 -.7z" fill="var(--gold)" stroke="var(--ink)" stroke-width="1.2" stroke-linejoin="round"/></svg><span class="m">5 min</span></div>
+    <div class="tok"><svg viewBox="0 0 24 24"><path class="fill" d="M12 2 l2.9 6.3 6.9 .7 -5.2 4.6 1.5 6.8 -6.1 -3.6 -6.1 3.6 1.5 -6.8 -5.2 -4.6 6.9 -.7z" fill="var(--gold)" stroke="var(--ink)" stroke-width="1.2" stroke-linejoin="round"/></svg><span class="m">5 min</span></div>
+    <div class="tok"><svg viewBox="0 0 24 24"><path class="fill" d="M12 2 l2.9 6.3 6.9 .7 -5.2 4.6 1.5 6.8 -6.1 -3.6 -6.1 3.6 1.5 -6.8 -5.2 -4.6 6.9 -.7z" fill="var(--gold)" stroke="var(--ink)" stroke-width="1.2" stroke-linejoin="round"/></svg><span class="m">5 min</span></div>
+    <div class="tok"><svg viewBox="0 0 24 24"><path class="fill" d="M12 2 l2.9 6.3 6.9 .7 -5.2 4.6 1.5 6.8 -6.1 -3.6 -6.1 3.6 1.5 -6.8 -5.2 -4.6 6.9 -.7z" fill="var(--gold)" stroke="var(--ink)" stroke-width="1.2" stroke-linejoin="round"/></svg><span class="m">5 min</span></div>
+    <div class="tok"><svg viewBox="0 0 24 24"><path class="fill" d="M12 2 l2.9 6.3 6.9 .7 -5.2 4.6 1.5 6.8 -6.1 -3.6 -6.1 3.6 1.5 -6.8 -5.2 -4.6 6.9 -.7z" fill="var(--gold)" stroke="var(--ink)" stroke-width="1.2" stroke-linejoin="round"/></svg><span class="m">5 min</span></div>
+    <div class="tok"><svg viewBox="0 0 24 24"><path class="fill" d="M12 2 l2.9 6.3 6.9 .7 -5.2 4.6 1.5 6.8 -6.1 -3.6 -6.1 3.6 1.5 -6.8 -5.2 -4.6 6.9 -.7z" fill="var(--gold)" stroke="var(--ink)" stroke-width="1.2" stroke-linejoin="round"/></svg><span class="m">5 min</span></div>
+    <div class="tok"><svg viewBox="0 0 24 24"><path class="fill" d="M12 2 l2.9 6.3 6.9 .7 -5.2 4.6 1.5 6.8 -6.1 -3.6 -6.1 3.6 1.5 -6.8 -5.2 -4.6 6.9 -.7z" fill="var(--gold)" stroke="var(--ink)" stroke-width="1.2" stroke-linejoin="round"/></svg><span class="m">5 min</span></div>
+    <div class="tok"><svg viewBox="0 0 24 24"><path class="fill" d="M12 2 l2.9 6.3 6.9 .7 -5.2 4.6 1.5 6.8 -6.1 -3.6 -6.1 3.6 1.5 -6.8 -5.2 -4.6 6.9 -.7z" fill="var(--gold)" stroke="var(--ink)" stroke-width="1.2" stroke-linejoin="round"/></svg><span class="m">5 min</span></div>
+    <div class="tok"><svg viewBox="0 0 24 24"><path class="fill" d="M12 2 l2.9 6.3 6.9 .7 -5.2 4.6 1.5 6.8 -6.1 -3.6 -6.1 3.6 1.5 -6.8 -5.2 -4.6 6.9 -.7z" fill="var(--gold)" stroke="var(--ink)" stroke-width="1.2" stroke-linejoin="round"/></svg><span class="m">5 min</span></div>
+    <div class="tok"><svg viewBox="0 0 24 24"><path class="fill" d="M12 2 l2.9 6.3 6.9 .7 -5.2 4.6 1.5 6.8 -6.1 -3.6 -6.1 3.6 1.5 -6.8 -5.2 -4.6 6.9 -.7z" fill="var(--gold)" stroke="var(--ink)" stroke-width="1.2" stroke-linejoin="round"/></svg><span class="m">5 min</span></div>
+    <div class="tok"><svg viewBox="0 0 24 24"><path class="fill" d="M12 2 l2.9 6.3 6.9 .7 -5.2 4.6 1.5 6.8 -6.1 -3.6 -6.1 3.6 1.5 -6.8 -5.2 -4.6 6.9 -.7z" fill="var(--gold)" stroke="var(--ink)" stroke-width="1.2" stroke-linejoin="round"/></svg><span class="m">5 min</span></div>
+    <div class="tok"><svg viewBox="0 0 24 24"><path class="fill" d="M12 2 l2.9 6.3 6.9 .7 -5.2 4.6 1.5 6.8 -6.1 -3.6 -6.1 3.6 1.5 -6.8 -5.2 -4.6 6.9 -.7z" fill="var(--gold)" stroke="var(--ink)" stroke-width="1.2" stroke-linejoin="round"/></svg><span class="m">5 min</span></div>
+    <div class="tok"><svg viewBox="0 0 24 24"><path class="fill" d="M12 2 l2.9 6.3 6.9 .7 -5.2 4.6 1.5 6.8 -6.1 -3.6 -6.1 3.6 1.5 -6.8 -5.2 -4.6 6.9 -.7z" fill="var(--gold)" stroke="var(--ink)" stroke-width="1.2" stroke-linejoin="round"/></svg><span class="m">5 min</span></div>
+    <div class="tok"><svg viewBox="0 0 24 24"><path class="fill" d="M12 2 l2.9 6.3 6.9 .7 -5.2 4.6 1.5 6.8 -6.1 -3.6 -6.1 3.6 1.5 -6.8 -5.2 -4.6 6.9 -.7z" fill="var(--gold)" stroke="var(--ink)" stroke-width="1.2" stroke-linejoin="round"/></svg><span class="m">5 min</span></div>
+  </div>
+
+  <div class="tracker" style="margin-top:auto;">
+    <span class="eyebrow" style="color:var(--green-dark);">Parent tracker · feeds the app</span>
+    <h3 style="margin:1.5mm 0 1mm;">Write the stars earned each day, then add the week to the app</h3>
+    <div class="wkrow">
+      <div class="wk"><span class="d">Mon</span><div class="box"></div></div>
+      <div class="wk"><span class="d">Tue</span><div class="box"></div></div>
+      <div class="wk"><span class="d">Wed</span><div class="box"></div></div>
+      <div class="wk"><span class="d">Thu</span><div class="box"></div></div>
+      <div class="wk"><span class="d">Fri</span><div class="box"></div></div>
+      <div class="wk"><span class="d">Sat</span><div class="box"></div></div>
+      <div class="wk"><span class="d">Sun</span><div class="box"></div></div>
+    </div>
+    <div class="totalrow">
+      <div class="tt"><span class="big">▢ stars</span><span style="font-size:9pt;color:var(--ink-soft);">this week, added up from the boxes above</span></div>
+      <div class="appnote"><span class="ph">📱</span><p style="font-size:9pt;color:var(--ink);"><strong>Open Guided Childhood</strong> and add the week's stars to the time bank, so the offline chart and the app balance always match.</p></div>
+    </div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Cut out your stars · Parent tracker feeds the app</span></div>
+</div>
+
+<!-- ============ PAGE 13 · FAMILY CUT OUTS + ACHIEVEMENT BUBBLES ============ -->
+<div class="sheet">
+  <div class="kicker-row">
+    <span class="sec">Family</span>
+    <h2>Cut out the family and the well done bubbles</h2>
+    <span class="pg">No. 13</span>
+  </div>
+  <p style="margin-bottom:3mm;max-width:170mm;">Colour the Planet Friends, cut them out, and pop one on the chart for the week. Then cut out a well done bubble and stick it up when your child hits the stars. A little moment of proud, made real.</p>
+
+  <div class="scissors" style="margin-bottom:2mm;">✂ Cut along the dashed lines</div>
+  <div class="charcut">
+    <div class="charcard"><img class="cimg" src="images/DiGi-star.svg" alt=""><div class="cname">DiGi</div><div class="crole">Your family guide</div></div>
+    <div class="charcard"><img class="cimg" src="images/DiGi-star.svg" alt=""><div class="cname">Pebble</div><div class="crole">Stage 1 · curious</div></div>
+    <div class="charcard"><img class="cimg" src="images/DiGi-star.svg" alt=""><div class="cname">Bloop</div><div class="crole">Stage 2 · creative</div></div>
+    <div class="charcard"><img class="cimg" src="images/DiGi-star.svg" alt=""><div class="cname">Orbit</div><div class="crole">Stage 3 · explorer</div></div>
+    <div class="charcard"><img class="cimg" src="images/DiGi-star.svg" alt=""><div class="cname">Nova</div><div class="crole">Stage 4 · kind</div></div>
+    <div class="charcard"><img class="cimg" src="images/DiGi-star.svg" alt=""><div class="cname">Cosmo</div><div class="crole">Stage 5 · leader</div></div>
+  </div>
+
+  <div style="margin-top:5mm;"><span class="eyebrow" style="color:var(--coral);">Well done bubbles · cut and stick on the chart</span></div>
+  <div class="bubgrid">
+    <div class="bubwrap"><div class="bub">I did <span class="amt">5 stars</span>, that is <span class="amt">25 minutes</span> of screen. Well done me.</div></div>
+    <div class="bubwrap"><div class="bub">I did <span class="amt">10 stars</span>, that is <span class="amt">50 minutes</span> of screen. Well done me.</div></div>
+    <div class="bubwrap"><div class="bub">I did <span class="amt">15 stars</span>, that is <span class="amt">75 minutes</span> of screen. Amazing.</div></div>
+    <div class="bubwrap"><div class="bub">I did <span class="amt">20 stars</span>, that is <span class="amt">100 minutes</span> of screen. Superstar.</div></div>
+    <div class="bubwrap"><div class="bub">I am <span class="amt">saving my stars</span> for a big treat. So proud.</div></div>
+    <div class="bubwrap"><div class="bub" style="background:var(--butter-lt);">I did <span style="border-bottom:1.5px solid var(--ink-muted);padding:0 8mm;">&nbsp;</span> stars. Write your own.</div></div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Cut out the family · Well done bubbles</span></div>
 </div>
 
 </body>

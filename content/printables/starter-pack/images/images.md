@@ -33,3 +33,28 @@ pack is complete and premium at every stage.
 To pull one in: sync the job to the Drive folder, download to this images
 folder, background remove, then set the matching `.artslot img` src in
 print.html and rebuild.
+
+## Planet Friend colour art for the cut out sheet (page 13)
+
+The family cut out cards on page 13 and the friend slots on the chart want the
+real Planet Friend colour art. It already lives in the GUIDED CHARACTERS Drive
+folder (these are the same files the app registry serves by CDN). The build
+environment cannot reach the CDN or Drive directly (both are blocked by the
+egress policy) and the Drive MCP only returns base64, which is too large to
+write to disk here, so the cards currently fall back to the DiGi star.
+
+To swap in the real friends: download each Drive file below to
+`images/friends/<name>.png`, background remove, then change the six
+`.charcard img` sources in print.html from `images/DiGi-star.svg` to
+`images/friends/<name>.png` and rebuild.
+
+| Friend | Drive file id | Drive filename |
+|---|---|---|
+| pebble | 1Q2OD13po5wkiKN03e0SfXuWql0TfRTgX | hf_20260723_133334_be547506...png |
+| bloop | 1EZlQBmBqq62gXQ-Vb2pAqEXomdAJVvyI | hf_20260723_133337_be90a6e3...png |
+| orbit | 1z_t5ce9RuJBUL6Lx-yxdE4Eilbrkgbwo | hf_20260723_133343_3cb59e81...png |
+| nova | 1kx-tAlNERKEXCzlpRhnGEN6DLDTEG6yE | hf_20260723_185241_3f99a3c0...png |
+| cosmo | (not in the folder yet, re sync) | hf_20260723_185509_598025da...png |
+
+The same friends can then drop onto the star chart (page 2) and the jobs list
+(page 3), one per item, popping up in colour on the fridge.

@@ -18,7 +18,7 @@ hosts. The characters demonstrate every job and skill, never decorate.
   in the library. Served funnel free (the app edition strips the last page
   bonus panel, the Etsy edition keeps it).
 
-## The pages (11)
+## The pages (13)
 
 1. Masthead cover, The Guided Childhood Weekly.
 2. The star reward chart, the hero. Name field, the deal, five daily jobs
@@ -32,6 +32,10 @@ hosts. The characters demonstrate every job and skill, never decorate.
 9. The Star Run, a print and play game.
 10. Colour in DiGi and the family.
 11. Tips, assembly and the free bonus (Etsy edition only).
+12. Cut out star tokens (real gold stars for younger children) plus a parent
+    tracker that reconciles the offline week into the app time bank.
+13. Cut out the Planet Friend family and the well done achievement bubbles
+    (five stars is twenty five minutes, and so on) to pin on the chart.
 
 ## The deal (must match the app)
 
