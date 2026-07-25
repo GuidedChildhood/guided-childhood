@@ -4,10 +4,15 @@
 -- Three tables and nothing clever: a catalogue, an order, and the lines on it.
 --
 -- The one rule that makes this ours rather than generic tat lives here as a
--- column: requires_earned. A charm can only be bought once the child has
--- actually earned that Planet Friend in the app, so the merch stops being merch
--- and becomes proof. The gate is re checked server side at checkout, because a
--- flag on a row a browser can read is a label, not a lock.
+-- column: min_earned. A charm can only be bought once the child has actually
+-- earned that Planet Friend in the app, so the merch stops being merch and
+-- becomes proof. The gate is re checked server side at checkout, because a
+-- number on a row a browser can read is a label, not a lock.
+--
+-- It is a count rather than a yes or no because the interesting cases are not
+-- yes or no. The Cosmo charm wants all five Friends home, the set of six wants
+-- the same, the bracelet wants at least one so it has something on it, and the
+-- passport and stickers want nothing at all. One integer says all of that.
 --
 -- Prices live in the database, never in the client. The checkout route reads
 -- price_pence from here and ignores whatever the basket claims, so a doctored
@@ -32,7 +37,7 @@ create table if not exists public.products (
   price_pence    int         not null check (price_pence >= 0),
   kind           text        not null check (kind in ('passport', 'stickers', 'charm', 'charm_set', 'bracelet', 'plush')),
   character_key  text,
-  requires_earned boolean    not null default false,
+  min_earned     int         not null default 0 check (min_earned between 0 and 5),
   personalised   boolean     not null default false,
   image_url      text,
   sort           int         not null default 0,
@@ -99,24 +104,24 @@ create policy "order_items_own_read" on public.order_items
 -- The catalogue. Upsert on key so re running this migration corrects a price or
 -- a blurb rather than failing, and so Phase 2 can flip active in place.
 
-insert into public.products (key, name, blurb, price_pence, kind, character_key, requires_earned, personalised, sort, active) values
-  ('passport_printed', 'The printed passport', 'A keepsake quality A6 booklet of their real digital passport. Their name on the cover, every stage they have actually stamped printed inside. Made to order, so no two are the same.', 1400, 'passport', null, false, true, 10, true),
-  ('sticker_sheet', 'Planet Friends sticker sheet', 'DiGi and all five Planet Friends, plus the five stage stamps, on one glossy sheet. For the fridge, the folder, the back of the bedroom door.', 400, 'stickers', null, false, false, 20, true),
-  ('charm_pebble', 'Pebble charm', 'Pebble as a chunky charm for shoes, a bag or a keyring. Earned in the app first.', 500, 'charm', 'pebble', true, false, 30, false),
-  ('charm_bloop', 'Bloop charm', 'Bloop as a chunky charm for shoes, a bag or a keyring. Earned in the app first.', 500, 'charm', 'bloop', true, false, 31, false),
-  ('charm_orbit', 'Orbit charm', 'Orbit as a chunky charm for shoes, a bag or a keyring. Earned in the app first.', 500, 'charm', 'orbit', true, false, 32, false),
-  ('charm_nova', 'Nova charm', 'Nova as a chunky charm for shoes, a bag or a keyring. Earned in the app first.', 500, 'charm', 'nova', true, false, 33, false),
-  ('charm_cosmo', 'Cosmo charm', 'Cosmo as a chunky charm for shoes, a bag or a keyring. Earned in the app first.', 500, 'charm', 'cosmo', true, false, 34, false),
-  ('charm_digi', 'DiGi charm', 'DiGi, the guide who is there from the very first day. No earning needed, DiGi is always with them.', 500, 'charm', 'digi', false, false, 35, false),
-  ('charm_set_six', 'The whole family, set of six', 'All five Planet Friends plus DiGi, boxed as a set, at a saving on buying them one at a time.', 2200, 'charm_set', null, false, false, 40, false),
-  ('charm_bracelet', 'The charm bracelet', 'The band, plus the Friends they have earned. Add the next one the day it comes home.', 1600, 'bracelet', null, false, false, 50, false),
-  ('plush_pebble', 'Pebble plush', 'Super soft, marshmallow round, embroidered face. Made in a campaign run, so it only happens when enough families want one.', 2800, 'plush', 'pebble', true, false, 60, false)
+insert into public.products (key, name, blurb, price_pence, kind, character_key, min_earned, personalised, sort, active) values
+  ('passport_printed', 'The printed passport', 'A keepsake quality A6 booklet of their real digital passport. Their name on the cover, every stage they have actually stamped printed inside. Made to order, so no two are the same.', 1400, 'passport', null, 0, true, 10, true),
+  ('sticker_sheet', 'Planet Friends sticker sheet', 'DiGi and all five Planet Friends, plus the five stage stamps, on one glossy sheet. For the fridge, the folder, the back of the bedroom door.', 400, 'stickers', null, 0, false, 20, true),
+  ('charm_pebble', 'Pebble charm', 'Pebble as a chunky charm for shoes, a bag or a keyring. Earned in the app first.', 500, 'charm', 'pebble', 1, false, 30, false),
+  ('charm_bloop', 'Bloop charm', 'Bloop as a chunky charm for shoes, a bag or a keyring. Earned in the app first.', 500, 'charm', 'bloop', 2, false, 31, false),
+  ('charm_orbit', 'Orbit charm', 'Orbit as a chunky charm for shoes, a bag or a keyring. Earned in the app first.', 500, 'charm', 'orbit', 3, false, 32, false),
+  ('charm_nova', 'Nova charm', 'Nova as a chunky charm for shoes, a bag or a keyring. Earned in the app first.', 500, 'charm', 'nova', 4, false, 33, false),
+  ('charm_cosmo', 'Cosmo charm', 'Cosmo as a chunky charm for shoes, a bag or a keyring. Earned in the app first.', 500, 'charm', 'cosmo', 5, false, 34, false),
+  ('charm_digi', 'DiGi charm', 'DiGi, the guide who is there from the very first day. No earning needed, DiGi is always with them.', 500, 'charm', 'digi', 0, false, 35, false),
+  ('charm_set_six', 'The whole family, set of six', 'All five Planet Friends plus DiGi, boxed as a set, at a saving on buying them one at a time.', 2200, 'charm_set', null, 5, false, 40, false),
+  ('charm_bracelet', 'The charm bracelet', 'The band, plus the Friends they have earned. Add the next one the day it comes home.', 1600, 'bracelet', null, 1, false, 50, false),
+  ('plush_pebble', 'Pebble plush', 'Super soft, marshmallow round, embroidered face. Made in a campaign run, so it only happens when enough families want one.', 2800, 'plush', 'pebble', 1, false, 60, false)
 on conflict (key) do update set
   name = excluded.name,
   blurb = excluded.blurb,
   price_pence = excluded.price_pence,
   kind = excluded.kind,
   character_key = excluded.character_key,
-  requires_earned = excluded.requires_earned,
+  min_earned = excluded.min_earned,
   personalised = excluded.personalised,
   sort = excluded.sort;

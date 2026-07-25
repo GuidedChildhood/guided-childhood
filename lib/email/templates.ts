@@ -647,3 +647,60 @@ export function passportRevealEmail(params: { childName: string; unsubscribe: st
     ),
   }
 }
+
+// The keepsake order confirmation. A physical thing is being made and posted,
+// so this says plainly what was bought, what happens next and roughly when,
+// because the gap between paying and a parcel arriving is where doubt lives.
+export function orderConfirmationEmail(params: {
+  lines: { name: string; qty: number }[]
+  totalLabel: string
+  childName: string | null
+  unsubscribe: string
+}): EmailContent {
+  const { lines, totalLabel, childName, unsubscribe } = params
+  const list = lines
+    .map(l => `<li style="margin:0 0 6px">${l.name}${l.qty > 1 ? ` × ${l.qty}` : ''}</li>`)
+    .join('')
+  return {
+    subject: 'Your keepsake is on its way',
+    html: wrapper(
+      heading('Thank you. We are making it now.') +
+      p(`Here is what you ordered:`) +
+      `<ul style="margin:0 0 16px;padding-left:20px">${list}</ul>` +
+      p(`Total paid: <strong>${totalLabel}</strong>`) +
+      p(childName
+        ? `The passport prints ${childName}'s real stamps, the ones actually earned, so no two are ever the same. That does mean each one is made to order rather than pulled off a shelf.`
+        : `Everything here is made to order rather than pulled off a shelf.`) +
+      p(`Expect it inside two weeks. If anything is wrong when it lands, reply to this email and I will sort it myself.`) +
+      button('See the passport', `${APP}/dashboard/pathway`),
+      unsubscribe
+    ),
+  }
+}
+
+// The note to ourselves. Not a customer email: it is the thing that stops a
+// paid order sitting unnoticed while a family waits.
+export function orderFulfilmentEmail(params: {
+  orderId: string
+  email: string
+  lines: { name: string; qty: number }[]
+  totalLabel: string
+  childName: string | null
+  shipping: string
+}): EmailContent {
+  const { orderId, email, lines, totalLabel, childName, shipping } = params
+  const list = lines
+    .map(l => `<li style="margin:0 0 6px">${l.name}${l.qty > 1 ? ` × ${l.qty}` : ''}</li>`)
+    .join('')
+  return {
+    subject: `New keepsake order ${orderId.slice(0, 8)}`,
+    html: wrapper(
+      heading('A keepsake order to fulfil.') +
+      `<ul style="margin:0 0 16px;padding-left:20px">${list}</ul>` +
+      p(`Paid <strong>${totalLabel}</strong> by ${email}.`) +
+      p(childName ? `Child on the order: ${childName}. Print the passport from their real stamps.` : `No child on the order.`) +
+      p(`Ship to:<br>${shipping}`),
+      `${APP}/dashboard`
+    ),
+  }
+}
