@@ -1822,3 +1822,47 @@ The reason is the product, not squeamishness. A score turns a warm shared thing
 into a test that judges them, and the child stops asking for help on the bits
 they found hard, which is the entire mechanism. The parent gets the substance
 (here is where she is shaky) without a number attached to their child.
+
+## 26 Jul 2026: the welcome rotates across opens, not inside one
+The launch overlay used to cycle six mission lines every six seconds inside a
+single view, and it quoted a duration. Both are now gone.
+
+The rotation axis was wrong. It rotates **across opens**: one card, one service,
+one tap, gone, and a parent meets the whole product across a fortnight of quick
+hellos rather than a tour nobody sits through. Anything the family has not set
+up leads, so the card is a useful next thing rather than a fact about us.
+
+The duration was worse. "Today takes about six minutes" is the first thing a
+tired parent reads and it lands as a commitment, not a welcome. They find out it
+is short by it being short. No total is ever quoted again.
+
+Every card carries the trust line: not what the service is, but what happens to
+what you tell it. Families are rightly wary of apps that hoover up information
+about their children, so the honest answer is both the explanation and the
+reason to trust us. `lib/home/welcome-cards.ts` holds the catalogue and the
+pick, kept pure so the selection can be reasoned about on its own.
+
+## 26 Jul 2026: the child phone handover is asked once, properly, and paper is a real answer
+Half the product lives on the child's side and the QR code was buried on the
+Quests page, so a family could run one side of a two sided thing for weeks. It
+is now asked on the second app open, never the first, and never as a second
+overlay: it takes the one welcome slot when it is its turn.
+
+Three calls worth recording.
+
+**Sending the link sits equal to the QR code.** The parent is holding the phone
+showing the code and cannot scan it with that same device, so a QR only ask is a
+dead end for every child who is not stood right next to them.
+
+**"We do it on paper" is a real preference, not a dismissal.** Plenty of
+families will not give a child a phone and we should be the platform that says
+fine. It is stored (`profiles.handover_choice`) and the prompt never returns.
+
+**The asking is capped** at three (`profiles.handover_asks`, migration 103, with
+a browser side backstop). An overlay on login is the most intrusive surface we
+have and the fastest way to make it hated is to let it nag forever. After that
+it falls back to the quiet prompt already on Quests.
+
+The age gate was already right and stays: nothing is offered below the 8 plus
+band, because asking a parent of a five year old to link a phone reads as us
+pushing devices onto little children.

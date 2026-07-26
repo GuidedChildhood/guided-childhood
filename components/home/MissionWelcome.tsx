@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import DigiCharacter from '@/components/digi/DigiCharacter'
+import HandoverPrompt, { type HandoverChild } from '@/components/home/HandoverPrompt'
+import { MAX_HANDOVER_ASKS } from '@/lib/handover'
 import { pickWelcomeCard, type WelcomeCard } from '@/lib/home/welcome-cards'
 import type { SetupFlags } from '@/lib/setup/steps'
 
@@ -24,6 +26,14 @@ const OPEN_KEY = 'gc_mission_welcome_open'
 // logins. Trimmed so it can never grow without end.
 const SEEN_KEY = 'gc_welcome_seen'
 const SEEN_MAX = 40
+// How many times this browser has opened the app. The handover ask waits for
+// the second, because the first open already carries the welcome and the
+// onboarding, and two overlays on day one is a wall.
+const OPENS_KEY = 'gc_app_opens'
+// How many times this browser has shown the handover ask. The real cap lives
+// on the profile, but a browser side count means the ask is still bounded on a
+// deploy where the columns are not there yet, or if the write ever fails.
+const HANDOVER_ASKS_KEY = 'gc_handover_asks'
 
 function readSeen(): string[] {
   try {
@@ -37,14 +47,20 @@ export default function MissionWelcome({
   firstName,
   flags,
   phoneAge = false,
+  handoverChild = null,
 }: {
   firstName?: string
   flags?: Partial<SetupFlags>
   phoneAge?: boolean
+  // Set only when this family is still to answer the handover ask. The server
+  // has already checked the age band, that no link exists, that they have not
+  // chosen paper and that we have not asked too many times.
+  handoverChild?: HandoverChild | null
 }) {
   // Hidden until the client has checked whether this open has been greeted, so
   // a parent already moving around never sees it flash back in.
   const [card, setCard] = useState<WelcomeCard | null>(null)
+  const [handover, setHandover] = useState(false)
 
   useEffect(() => {
     let greeted = false
@@ -52,15 +68,51 @@ export default function MissionWelcome({
     if (greeted) return
     try { sessionStorage.setItem(OPEN_KEY, '1') } catch { /* private mode, greeted every Home view */ }
 
+    let opens = 1
+    try {
+      opens = Number(localStorage.getItem(OPENS_KEY) ?? 0) + 1
+      localStorage.setItem(OPENS_KEY, String(opens))
+    } catch { /* private mode, every open is the first, so the ask waits */ }
+
+    // One overlay per open, never two. The handover takes the slot when it is
+    // its turn, and the service card takes it every other time.
+    let asked = 0
+    try { asked = Number(localStorage.getItem(HANDOVER_ASKS_KEY) ?? 0) } catch { /* counted server side only */ }
+    if (handoverChild && opens >= 2 && asked < MAX_HANDOVER_ASKS) {
+      try { localStorage.setItem(HANDOVER_ASKS_KEY, String(asked + 1)) } catch { /* server side cap still holds */ }
+      setHandover(true)
+      return
+    }
+
     const seen = readSeen()
     const pick = pickWelcomeCard(flags ?? {}, seen, phoneAge)
     try {
       localStorage.setItem(SEEN_KEY, JSON.stringify([...seen, pick.key].slice(-SEEN_MAX)))
     } catch { /* private mode, the rotation resets each time, still fine */ }
     setCard(pick)
-  }, [flags, phoneAge])
+  }, [flags, phoneAge, handoverChild])
 
   const name = firstName && firstName.trim() ? firstName.trim() : null
+
+  if (handover && handoverChild) {
+    return (
+      <HandoverPrompt
+        child={handoverChild}
+        onDone={choice => {
+          setHandover(false)
+          // Closed without deciding: count the ask, so a parent who never
+          // answers is left alone after a few and falls back to the quiet
+          // prompt already sitting on the Quests page.
+          if (choice === 'later') {
+            void fetch('/api/handover', {
+              method: 'POST', headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ action: 'asked' }),
+            })
+          }
+        }}
+      />
+    )
+  }
 
   // Already greeted this open: Home is theirs now.
   if (!card) return null

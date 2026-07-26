@@ -22,6 +22,7 @@ import SchoolPromoCard from '@/components/school/SchoolPromoCard'
 import WaitingOnYou from '@/components/quests/WaitingOnYou'
 import HomeStats from '@/components/dashboard/HomeStats'
 import { visibleSteps as visibleSetupSteps } from '@/lib/setup/steps'
+import { MAX_HANDOVER_ASKS } from '@/lib/handover'
 import SocialMediaReadiness from '@/components/pathway/SocialMediaReadiness'
 import SocialMediaHeadsUp from '@/components/pathway/SocialMediaHeadsUp'
 import PhoneHeadsUp from '@/components/pathway/PhoneHeadsUp'
@@ -209,6 +210,25 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   const setupSteps = visibleSetupSteps(phoneAge)
   const currentSetupStep = setupSteps.find(s => !setupFlags[s.key])?.key ?? null
   const setupComplete = currentSetupStep === null
+
+  // Is the child phone handover still an open question for this family? Four
+  // gates, all of them server side. Old enough to have a phone at all, no link
+  // made yet, they have not told us they do it on paper, and we have not
+  // already asked more times than is fair. The overlay itself waits for the
+  // second app open, which the client counts.
+  //
+  // Read on its own rather than folded into the profile select above, so that
+  // on any deploy where migration 103 has not been run yet the missing columns
+  // cost nothing but this one null. Putting them in the main select would take
+  // the whole profile read down with them, and Home would lose the name, the
+  // trial banner and the daily minutes over a prompt.
+  const { data: handoverRow } = await supabase
+    .from('profiles').select('handover_choice, handover_asks').eq('id', user.id).maybeSingle()
+  const handoverAsks = Number((handoverRow as { handover_asks?: number } | null)?.handover_asks ?? 0)
+  const handoverChoice = (handoverRow as { handover_choice?: string | null } | null)?.handover_choice ?? null
+  const handoverChild = (phoneAge && child?.id && !hasKidLink && !handoverChoice && handoverAsks < MAX_HANDOVER_ASKS)
+    ? { id: child.id, name: child.name ?? null }
+    : null
 
   // Most applicable first: filter to the child's age, then lead with the
   // categories most likely happening at this hour (UK time), so the grid
@@ -483,7 +503,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           the platform does, and what we do with what you tell it, so a parent
           meets the whole product across a fortnight of quick hellos instead of
           a tour nobody sits through. Anything not set up yet leads. */}
-      <MissionWelcome firstName={firstName} flags={setupFlags} phoneAge={phoneAge} />
+      <MissionWelcome firstName={firstName} flags={setupFlags} phoneAge={phoneAge} handoverChild={handoverChild} />
 
       {/* Half the product is on the child's phone. Until they have opened it,
           the parent is running one side of a two sided thing and usually does
