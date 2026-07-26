@@ -18,7 +18,11 @@ Per non-negotiable 6, lessons are database rows, not hardcoded. This handoff tur
 
 ## Steps
 
-1. **Claim a migration number first.** Highest on origin/main is 062. Before writing, re-check origin/main and every open PR for the next free number (the sync rules in CLAUDE.md), then name it in the draft PR at claim time. Likely 063, do not assume.
+1. **Claim a migration number first.** Corrected 26 Jul 2026: the clone was stale, origin/main is at migration **102**, so the next number is **103**. Re-check origin/main and every open PR again before writing, then name it in the draft PR at claim time.
+
+   **Two things the stale clone hid, both must be honoured:**
+   - **Migration 100 retired the old human squad.** The cast is now DiGi plus five Planet Friends: Pebble (EYFS and KS1), Bloop (KS2), Orbit (KS3), Nova (KS4). The lesson scripts in ai-panel-additions.md still name the old cast. Before seeding: module 22 (KS2) keeps DiGi as the guide, which is fine, DiGi was not retired. The KS3 Lesson 12 uplift names **Zara**, which is retired, use **Orbit**. Any Vix or Oliver reference becomes the stage's Friend.
+   - **A social media module already exists (migration 092, Social Media Ready).** The parent lesson here goes into `public.lessons` alongside that existing spine, same table and pattern, category social media if it fits. Do not duplicate 092.
 
 2. **New KS2 lesson.** Insert one row into `public.school_lessons` following the exact shape in 033_full_curriculum.sql.
    - **Decided (Justin, 25 Jul 2026): this is module 22.** A clean addition, no renumbering of the existing 21. Do not touch the other modules' sort_order.
