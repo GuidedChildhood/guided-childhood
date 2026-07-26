@@ -56,6 +56,87 @@
     border-bottom:2px solid var(--ink);padding-bottom:1mm;display:block;}
   .drop{font-weight:900;font-size:15pt;color:var(--ink);float:left;line-height:0.8;margin:1mm 1.5mm 0 0;}
 
+
+
+  /* ---------- THE JOB MENU (page 3) ---------- */
+  /* Etsy reviews of every top selling chart say the same thing in different
+     words: they want it to be THEIR list. So this is a menu to tick, not a
+     list to obey, and it ends in blank lines. */
+  .menu{display:flex;gap:4mm;}
+  .menucol{flex:1;background:var(--white);border:2.5px solid var(--ink);border-radius:14px;
+    box-shadow:0 4px 0 var(--ink);padding:3mm 3mm 3.5mm;}
+  .menuhead{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:7pt;
+    letter-spacing:1.2px;text-transform:uppercase;color:var(--butter-dark);
+    border-bottom:2px solid var(--ink);padding-bottom:1.5mm;margin-bottom:2mm;}
+  .menuitem{display:flex;align-items:center;gap:1.8mm;padding:1.3mm 0;}
+  .mtick{width:4.2mm;height:4.2mm;border:1.8px solid var(--ink);border-radius:4px;flex:none;background:var(--white);}
+  .mic{font-size:11pt;line-height:1;flex:none;width:6mm;text-align:center;}
+  .mname{font-size:8.5pt;font-weight:700;color:var(--ink);line-height:1.15;}
+  .menublank{margin-top:3.5mm;background:var(--butter-lt);border:2.5px dashed var(--butter-dark);
+    border-radius:14px;padding:3mm 4mm;}
+  .blanklines{display:flex;flex-wrap:wrap;gap:2mm 4mm;margin-top:2.5mm;}
+  .bl{flex:1 1 46%;border-bottom:1.4px dashed var(--ink-muted);height:6mm;}
+
+  /* ---------- STAR CHART (page 2), rebuilt ---------- */
+  /* The format every best selling chart on Etsy and Pinterest converges on:
+     one row per job, one column per day, a STAR to colour in rather than a
+     tick box, and the days colour coded so a four year old can find today
+     without reading. What none of them have is the exchange rate, which is
+     the whole point of ours, so that gets its own band under the grid. */
+  .sc{width:100%;border-collapse:separate;border-spacing:0;}
+  .sc th,.sc td{border:1.2px solid var(--border);padding:0;text-align:center;}
+  .sc thead th{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:7.5pt;
+    letter-spacing:1.2px;text-transform:uppercase;color:var(--ink);padding:2mm 0;}
+  .sc thead th.jobhead{background:var(--ink);color:var(--white);text-align:left;
+    padding-left:3mm;width:60mm;letter-spacing:1.8px;}
+  .sc thead th.tothead{background:var(--butter);color:var(--ink);width:14mm;}
+  .sc td.job{text-align:left;padding:1.2mm 2mm 1.2mm 2.5mm;background:var(--white);}
+  .sc td.job .jrow{display:flex;align-items:center;gap:2.2mm;}
+  .sc td.job .ji{font-size:13pt;line-height:1;flex:none;width:7mm;text-align:center;}
+  .sc td.job .jn{font-weight:800;font-size:9.5pt;color:var(--ink);line-height:1.15;}
+  .sc td.job .js{font-size:7pt;color:var(--ink-muted);line-height:1.15;}
+  .sc td.cel{height:8.5mm;background:var(--white);}
+  .sc td.tot{background:var(--butter-lt);}
+  .sc tr.alt td.job,.sc tr.alt td.cel{background:var(--cream);}
+  /* Write your own. Dashed and pale, so it reads as an invitation rather than
+     a row somebody forgot to fill in. */
+  .sc tr.own td.job{background:var(--white);}
+  .sc tr.own td.job .jn{color:var(--ink-light,#AEAEC0);font-weight:700;}
+  .sc tr.own td.job .writeline{flex:1;border-bottom:1.4px dashed var(--ink-muted);height:4.6mm;}
+  .sc tr.bonus td.job{background:var(--tint-sage);}
+  .sc tr.bonus td.cel{background:var(--tint-sage);}
+  .sc tr.total td{background:var(--butter);border-color:var(--butter-dark);}
+  .sc tr.total td.job .jn{font-size:10pt;}
+  .sk{width:6.1mm;height:6.1mm;fill:none;stroke:currentColor;stroke-width:1.7;
+    stroke-linejoin:round;vertical-align:middle;}
+  /* Each day its own colour, taken from the Planet Friends so the chart and the
+     app are visibly the same family. */
+  .sc td.cel:nth-child(2),.sc thead th:nth-child(2){color:#C99A28;}
+  .sc thead th:nth-child(2){background:#FDF3D8;}
+  .sc td.cel:nth-child(3),.sc thead th:nth-child(3){color:#5C9433;}
+  .sc thead th:nth-child(3){background:#E9F3DF;}
+  .sc td.cel:nth-child(4),.sc thead th:nth-child(4){color:#3C82B4;}
+  .sc thead th:nth-child(4){background:#DCEBF7;}
+  .sc td.cel:nth-child(5),.sc thead th:nth-child(5){color:#7E56B4;}
+  .sc thead th:nth-child(5){background:#EAE1F6;}
+  .sc td.cel:nth-child(6),.sc thead th:nth-child(6){color:#C96C25;}
+  .sc thead th:nth-child(6){background:#FBE7D8;}
+  .sc td.cel:nth-child(7),.sc thead th:nth-child(7){color:#C4477E;}
+  .sc thead th:nth-child(7){background:#FBE0EC;}
+  .sc td.cel:nth-child(8),.sc thead th:nth-child(8){color:#2E8C84;}
+  .sc thead th:nth-child(8){background:#DDF0EE;}
+  .sc td.tot .sk{color:var(--butter-dark);}
+  /* The maths, said once, in the biggest type on the page. */
+  .swap{display:flex;align-items:center;gap:3mm;background:var(--butter-lt);
+    border:2.5px solid var(--butter-dark);border-radius:14px;padding:2.5mm 5mm;margin-top:3mm;}
+  .swap .big{font-weight:900;font-size:13pt;color:var(--ink);line-height:1.1;white-space:nowrap;}
+  .swap .box{display:inline-block;min-width:13mm;height:7mm;background:var(--white);
+    border:2px solid var(--ink);border-radius:7px;vertical-align:middle;}
+  body.ink .sc thead th.jobhead{background:var(--white);color:var(--ink);}
+  body.ink .sc thead th{background:var(--white)!important;color:var(--ink)!important;}
+  body.ink .sc td.cel,body.ink .sc td.job,body.ink .sc td.tot{background:var(--white)!important;}
+  body.ink .sk{color:var(--ink-muted)!important;}
+
   /* ---------- STAR / GRID ---------- */
   .star{width:16px;height:16px;flex:none;}
   .starbox{width:8mm;height:8mm;border:2px solid var(--ink);border-radius:50%;
@@ -295,51 +376,51 @@
 
 <!-- ============ PAGE 2 · THE STAR REWARD CHART ============ -->
 <div class="sheet">
-  <span class="eyebrow">The star reward chart</span>
-  <h2 style="margin-top:2mm;margin-bottom:3mm;">Colour a star for every job done</h2>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="st" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></symbol></svg>
 
-  <div style="display:flex;gap:4mm;margin-bottom:4mm;">
-    <div class="name-field">
-      <span class="eyebrow" style="color:var(--ink-muted);">This chart belongs to</span>
-      <div style="height:9mm;"></div>
-      <div class="rule-thin"></div>
+  <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:4mm;">
+    <div>
+      <span class="eyebrow">The star reward chart</span>
+      <h1 style="font-size:30pt;margin-top:1.5mm;">My star chart</h1>
     </div>
-    <div class="deal" style="flex:1.1;">
-      <svg class="art star" viewBox="0 0 24 24" style="width:14mm;height:14mm;flex:none;">
-        <path class="fill" d="M12 2 l2.9 6.3 6.9 .7 -5.2 4.6 1.5 6.8 -6.1 -3.6 -6.1 3.6 1.5 -6.8 -5.2 -4.6 6.9 -.7z" fill="var(--gold)" stroke="var(--ink)" stroke-width="1.4" stroke-linejoin="round"/>
-      </svg>
-      <div>
-        <div style="font-weight:900;font-size:15pt;color:var(--ink);line-height:1.1;">1 star = 5 minutes</div>
-        <p style="font-size:9pt;margin-top:1mm;">of screen time, on games, the device or the telly. Earn them from the jobs below, spend them when you like.</p>
-      </div>
+    <div class="name-field" style="flex:none;width:74mm;min-height:13mm;padding:2.5mm 4mm;">
+      <span class="eyebrow" style="color:var(--ink-muted);">This chart belongs to</span>
+      <div style="height:6mm;"></div>
+      <div class="rule-thin"></div>
     </div>
   </div>
 
-  <table class="chart">
-    <thead>
-      <tr>
-        <th class="tasklabel">Today's five jobs</th>
-        <th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th>
-      </tr>
-    </thead>
+  <p style="margin:2mm 0 2.5mm;max-width:172mm;font-size:9.5pt;">Colour a star every time a job is done. Stars are not points for a chart nobody spends, they buy real screen time, so the deal is plain to everyone in the house.</p>
+
+  <table class="sc">
+    <thead><tr><th class="jobhead">My jobs</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th><th class="tothead">Week</th></tr></thead>
     <tbody>
-      <script>/* rows written below as static html */</script>
-      <tr><td class="task"><div class="tname">Get dressed and ready</div><div class="tsub">Before breakfast</div></td>
-        <td class="cell"><span class="dot"></span></td><td class="cell"><span class="dot"></span></td><td class="cell"><span class="dot"></span></td><td class="cell"><span class="dot"></span></td><td class="cell"><span class="dot"></span></td><td class="cell"><span class="dot"></span></td><td class="cell"><span class="dot"></span></td></tr>
-      <tr><td class="task"><div class="tname">Tidy up my things</div><div class="tsub">Toys and books away</div></td>
-        <td class="cell"><span class="dot"></span></td><td class="cell"><span class="dot"></span></td><td class="cell"><span class="dot"></span></td><td class="cell"><span class="dot"></span></td><td class="cell"><span class="dot"></span></td><td class="cell"><span class="dot"></span></td><td class="cell"><span class="dot"></span></td></tr>
-      <tr><td class="task"><div class="tname">Help at the table</div><div class="tsub">Lay it or clear it</div></td>
-        <td class="cell"><span class="dot"></span></td><td class="cell"><span class="dot"></span></td><td class="cell"><span class="dot"></span></td><td class="cell"><span class="dot"></span></td><td class="cell"><span class="dot"></span></td><td class="cell"><span class="dot"></span></td><td class="cell"><span class="dot"></span></td></tr>
-      <tr><td class="task"><div class="tname">Move my body</div><div class="tsub">Outside or a workout card</div></td>
-        <td class="cell"><span class="dot"></span></td><td class="cell"><span class="dot"></span></td><td class="cell"><span class="dot"></span></td><td class="cell"><span class="dot"></span></td><td class="cell"><span class="dot"></span></td><td class="cell"><span class="dot"></span></td><td class="cell"><span class="dot"></span></td></tr>
-      <tr><td class="task"><div class="tname">Read with a grown up</div><div class="tsub">One story together</div></td>
-        <td class="cell"><span class="dot"></span></td><td class="cell"><span class="dot"></span></td><td class="cell"><span class="dot"></span></td><td class="cell"><span class="dot"></span></td><td class="cell"><span class="dot"></span></td><td class="cell"><span class="dot"></span></td><td class="cell"><span class="dot"></span></td></tr>
-      <tr><td class="task" style="background:var(--butter-lt);"><div class="tname">Stars today</div><div class="tsub">Add them up</div></td>
-        <td class="cell" style="background:var(--butter-lt);"></td><td class="cell" style="background:var(--butter-lt);"></td><td class="cell" style="background:var(--butter-lt);"></td><td class="cell" style="background:var(--butter-lt);"></td><td class="cell" style="background:var(--butter-lt);"></td><td class="cell" style="background:var(--butter-lt);"></td><td class="cell" style="background:var(--butter-lt);"></td></tr>
+      <tr><td class="job"><div class="jrow"><span class="ji">👕</span><span><span class="jn">Get dressed and ready</span><br><span class="js">Before breakfast</span></span></div></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel tot"><svg class="sk"><use href="#st"/></svg></td></tr>
+      <tr class="alt"><td class="job"><div class="jrow"><span class="ji">🧸</span><span><span class="jn">Tidy my things away</span><br><span class="js">Toys, books, shoes</span></span></div></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel tot"><svg class="sk"><use href="#st"/></svg></td></tr>
+      <tr><td class="job"><div class="jrow"><span class="ji">🍽️</span><span><span class="jn">Help at the table</span><br><span class="js">Lay it or clear it</span></span></div></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel tot"><svg class="sk"><use href="#st"/></svg></td></tr>
+      <tr class="alt"><td class="job"><div class="jrow"><span class="ji">🏃</span><span><span class="jn">Move my body</span><br><span class="js">Outside or a workout card</span></span></div></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel tot"><svg class="sk"><use href="#st"/></svg></td></tr>
+      <tr><td class="job"><div class="jrow"><span class="ji">📚</span><span><span class="jn">Read with a grown up</span><br><span class="js">One story together</span></span></div></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel tot"><svg class="sk"><use href="#st"/></svg></td></tr>
+      <tr class="own alt"><td class="job"><div class="jrow"><span class="ji">✏️</span><span class="writeline"></span></div></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel tot"><svg class="sk"><use href="#st"/></svg></td></tr>
+      <tr class="own"><td class="job"><div class="jrow"><span class="ji">✏️</span><span class="writeline"></span></div></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel tot"><svg class="sk"><use href="#st"/></svg></td></tr>
+      <tr class="own alt"><td class="job"><div class="jrow"><span class="ji">✏️</span><span class="writeline"></span></div></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel tot"><svg class="sk"><use href="#st"/></svg></td></tr>
+      <tr class="own"><td class="job"><div class="jrow"><span class="ji">✏️</span><span class="writeline"></span></div></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel tot"><svg class="sk"><use href="#st"/></svg></td></tr>
+      <tr class="bonus"><td class="job"><div class="jrow"><span class="ji">💛</span><span><span class="jn">A kind thing, unasked</span><br><span class="js">Bonus star</span></span></div></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel tot"><svg class="sk"><use href="#st"/></svg></td></tr>
+      <tr class="bonus"><td class="job"><div class="jrow"><span class="ji">🤝</span><span><span class="jn">Helped without asking</span><br><span class="js">Bonus star</span></span></div></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel tot"><svg class="sk"><use href="#st"/></svg></td></tr>
+      <tr class="total"><td class="job"><div class="jrow"><span class="ji">⭐</span><span><span class="jn">Stars today</span><br><span class="js">Add up the column</span></span></div></td><td class="cel"></td><td class="cel"></td><td class="cel"></td><td class="cel"></td><td class="cel"></td><td class="cel"></td><td class="cel"></td><td class="cel tot"></td></tr>
     </tbody>
   </table>
 
-  <div style="margin-top:5mm;"><span class="eyebrow">Spend your stars on</span></div>
+  <div class="swap">
+    <svg class="art star" viewBox="0 0 24 24" style="width:11mm;height:11mm;flex:none;">
+      <path d="M12 2 l2.9 6.3 6.9 .7 -5.2 4.6 1.5 6.8 -6.1 -3.6 -6.1 3.6 1.5 -6.8 -5.2 -4.6 6.9 -.7z" fill="var(--gold)" stroke="var(--ink)" stroke-width="1.4" stroke-linejoin="round"/>
+    </svg>
+    <div style="flex:1;">
+      <div class="big">1 star = 5 minutes of screen time</div>
+      <p style="font-size:9pt;margin-top:1mm;">Stars this week <span class="box"></span> &times; 5 = <span class="box"></span> minutes to spend on games, the device or the telly.</p>
+    </div>
+  </div>
+
+  <div style="margin-top:3mm;"><span class="eyebrow">Spend your stars on</span></div>
   <div class="spend">
     <div class="opt"><div class="ic">🎮</div><div class="lab">Games</div><div class="mins">5 min a star</div></div>
     <div class="opt"><div class="ic">📱</div><div class="lab">Device</div><div class="mins">5 min a star</div></div>
@@ -347,9 +428,9 @@
     <div class="opt" style="background:var(--tint-sage);border-color:var(--green);box-shadow:0 4px 0 var(--green);"><div class="ic">🌟</div><div class="lab" style="color:var(--green-dark);">Save up</div><div class="mins" style="color:var(--green-dark);">for a big treat</div></div>
   </div>
 
-  <div style="margin-top:auto;padding-top:5mm;">
+  <div style="margin-top:auto;padding-top:2mm;">
     <div class="friendcheer">
-      <span class="eyebrow" style="color:var(--butter-dark);margin-right:1mm;">Your Planet Friends cheer you on</span>
+      <span class="eyebrow" style="color:var(--butter-dark);margin-right:1mm;">You are doing brilliantly</span>
       <img src="images/friends/pebble.png" alt="Pebble">
       <img src="images/friends/bloop.png" alt="Bloop">
       <img src="images/friends/orbit.png" alt="Orbit">
@@ -357,46 +438,56 @@
       <img src="images/friends/cosmo.png" alt="Cosmo">
     </div>
   </div>
-  <p style="font-size:9.5pt;text-align:center;padding-top:3mm;">
-    <strong>Little ones (4 to 7):</strong> colour a star and spend it the same day.
-    <strong>Bigger ones (8 up):</strong> tally the week on Sunday and choose how to spend.
-  </p>
-  <div class="footer"><span>guidedchildhood.com</span><span>Star reward chart · Colour a star for every job</span></div>
+  <div class="footer"><span>guidedchildhood.com</span><span>My star chart &middot; Colour a star for every job</span></div>
 </div>
 
 <!-- ============ PAGE 3 · JOBS LIST + HOW TO MAKE THE CHART ============ -->
 <div class="sheet">
   <span class="eyebrow">The jobs that earn stars</span>
-  <h2 style="margin-top:2mm;margin-bottom:3mm;">Put this on the fridge next to the chart</h2>
+  <h2 style="margin-top:2mm;margin-bottom:3mm;">Pick your jobs, then write your own</h2>
 
-  <div style="display:flex;gap:6mm;flex:1;">
-    <div style="flex:1.15;">
-      <div class="jobrow"><span class="jic" style="font-size:18pt;text-align:center;">👕</span><span class="jname">Get dressed on my own</span><span class="jstars">★</span></div>
-      <div class="jobrow"><span class="jic" style="font-size:18pt;text-align:center;">🧸</span><span class="jname">Tidy my toys away</span><span class="jstars">★</span></div>
-      <div class="jobrow"><span class="jic" style="font-size:18pt;text-align:center;">🍽️</span><span class="jname">Lay or clear the table</span><span class="jstars">★★</span></div>
-      <div class="jobrow"><span class="jic" style="font-size:18pt;text-align:center;">🪥</span><span class="jname">Brush my teeth, no fuss</span><span class="jstars">★</span></div>
-      <div class="jobrow"><span class="jic" style="font-size:18pt;text-align:center;">🍽️</span><span class="jname">Help load the dishwasher</span><span class="jstars">★★</span></div>
-      <div class="jobrow"><span class="jic" style="font-size:18pt;text-align:center;">🏃</span><span class="jname">Move my body or play outside</span><span class="jstars">★★★</span></div>
-      <div class="jobrow"><span class="jic" style="font-size:18pt;text-align:center;">📚</span><span class="jname">Read with a grown up</span><span class="jstars">★★★</span></div>
-      <div class="jobrow" style="border-style:dashed;box-shadow:none;"><span class="jic" style="font-size:18pt;text-align:center;">✏️</span><span class="jname" style="color:var(--ink-muted);">Add your own job</span><span class="jstars" style="color:var(--ink-muted);">★</span></div>
-      <p style="font-size:9pt;margin-top:3mm;text-align:center;background:var(--tint-sage);border:1.5px solid var(--green);border-radius:10px;padding:2.5mm 3mm;">
-        Play and outside jobs pay the <strong>most</strong> stars on purpose. Screens are brilliant, but bodies and brains grow strongest running about and making things.
-      </p>
-    </div>
+  <p style="margin-bottom:3.5mm;max-width:172mm;">Tick the ones that fit your family, write them onto the chart, and ignore the rest. A chart works when it is <strong>your</strong> list, not ours. There are four blank rows on the chart waiting for the jobs only your house has.</p>
 
-    <div style="flex:1;background:var(--white);border:2.5px solid var(--ink);border-radius:16px;box-shadow:0 5px 0 var(--ink);padding:5mm;">
-      <span class="eyebrow" style="color:var(--green-dark);">How to make your chart</span>
-      <h3 style="margin:2mm 0 3mm;">Five minutes, then it runs itself</h3>
-      <div class="steps">
-        <div class="step"><span class="num"></span><span class="body"><b>Print</b> the chart page and this jobs list. Card stock lasts longer.</span></div>
-        <div class="step"><span class="num"></span><span class="body"><b>Write</b> their name at the top and swap in any jobs that fit your family.</span></div>
-        <div class="step"><span class="num"></span><span class="body"><b>Laminate</b> it, or slide it in a wallet, so a dry wipe pen makes it last all year.</span></div>
-        <div class="step"><span class="num"></span><span class="body"><b>Stick</b> both pages on the fridge at their eye height, chart on the left, jobs on the right.</span></div>
-        <div class="step"><span class="num"></span><span class="body"><b>Colour a star</b> together the moment a job is done. Naming the good thing is half the reward.</span></div>
-        <div class="step"><span class="num"></span><span class="body"><b>Spend</b> the stars: five minutes of screen each, or save them for a bigger treat.</span></div>
+  <div class="menu">
+      <div class="menucol">
+        <div class="menuhead">Every day, worth 1 star</div>
+        <div class="menuitem"><span class="mtick"></span><span class="mic">👕</span><span class="mname">Get dressed on my own</span></div><div class="menuitem"><span class="mtick"></span><span class="mic">🛏️</span><span class="mname">Make my bed</span></div><div class="menuitem"><span class="mtick"></span><span class="mic">🪥</span><span class="mname">Brush my teeth, no fuss</span></div><div class="menuitem"><span class="mtick"></span><span class="mic">🧸</span><span class="mname">Tidy my toys away</span></div><div class="menuitem"><span class="mtick"></span><span class="mic">👟</span><span class="mname">Shoes and coat away</span></div><div class="menuitem"><span class="mtick"></span><span class="mic">🧺</span><span class="mname">Dirty clothes in the basket</span></div>
       </div>
-      <div style="margin-top:4mm;background:var(--butter-lt);border:2px solid var(--butter-dark);border-radius:12px;padding:3mm 4mm;">
-        <p style="font-size:9pt;color:var(--ink);"><strong>DiGi says:</strong> never take a star back. The chart only ever pays out. Consequences live somewhere else, this is where the good gets seen.</p>
+      <div class="menucol">
+        <div class="menuhead">A bit more, worth 2 stars</div>
+        <div class="menuitem"><span class="mtick"></span><span class="mic">🍽️</span><span class="mname">Lay or clear the table</span></div><div class="menuitem"><span class="mtick"></span><span class="mic">🍴</span><span class="mname">Help load the dishwasher</span></div><div class="menuitem"><span class="mtick"></span><span class="mic">🐕</span><span class="mname">Feed the pet</span></div><div class="menuitem"><span class="mtick"></span><span class="mic">🗑️</span><span class="mname">Take the bins out</span></div><div class="menuitem"><span class="mtick"></span><span class="mic">🛒</span><span class="mname">Help put the shopping away</span></div><div class="menuitem"><span class="mtick"></span><span class="mic">🧹</span><span class="mname">Sweep or hoover one room</span></div>
+      </div>
+      <div class="menucol">
+        <div class="menuhead">The big ones, worth 3 stars</div>
+        <div class="menuitem"><span class="mtick"></span><span class="mic">🏃</span><span class="mname">Play outside for half an hour</span></div><div class="menuitem"><span class="mtick"></span><span class="mic">📚</span><span class="mname">Read with a grown up</span></div><div class="menuitem"><span class="mtick"></span><span class="mic">🎨</span><span class="mname">Make something with my hands</span></div><div class="menuitem"><span class="mtick"></span><span class="mic">🍲</span><span class="mname">Help cook a whole meal</span></div><div class="menuitem"><span class="mtick"></span><span class="mic">🧑‍🤝‍🧑</span><span class="mname">A job for someone else in the family</span></div><div class="menuitem"><span class="mtick"></span><span class="mic">🌱</span><span class="mname">Water the plants or the garden</span></div>
+      </div>
+  </div>
+
+  <div class="menublank">
+    <span class="eyebrow" style="color:var(--butter-dark);">Jobs only your house has</span>
+    <div class="blanklines">
+      <div class="bl"></div><div class="bl"></div><div class="bl"></div>
+      <div class="bl"></div><div class="bl"></div><div class="bl"></div>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:5mm;margin-top:4mm;flex:1;">
+    <p style="flex:1;font-size:9pt;background:var(--tint-sage);border:1.5px solid var(--green);border-radius:10px;padding:3mm 3.5mm;align-self:flex-start;">
+      Play and outside jobs pay the <strong>most</strong> stars on purpose. Screens are brilliant, but bodies and brains grow strongest running about and making things.
+    </p>
+    <div style="flex:1.15;background:var(--white);border:2.5px solid var(--ink);border-radius:16px;box-shadow:0 5px 0 var(--ink);padding:4mm 5mm;">
+      <span class="eyebrow" style="color:var(--green-dark);">How to make your chart</span>
+      <h3 style="margin:1.5mm 0 2.5mm;">Five minutes, then it runs itself</h3>
+      <div class="steps">
+        <div class="step"><span class="num"></span><span class="body"><b>Print</b> the chart page and this list. Card stock lasts longer.</span></div>
+        <div class="step"><span class="num"></span><span class="body"><b>Choose</b> the jobs above that fit, and write them into the chart with the blanks for your own.</span></div>
+        <div class="step"><span class="num"></span><span class="body"><b>Laminate</b> it, or slide it in a wallet, so a dry wipe pen makes it last all year.</span></div>
+        <div class="step"><span class="num"></span><span class="body"><b>Stick</b> both pages on the fridge at their eye height.</span></div>
+        <div class="step"><span class="num"></span><span class="body"><b>Colour a star</b> the moment a job is done. Naming the good thing is half the reward.</span></div>
+        <div class="step"><span class="num"></span><span class="body"><b>Add up</b> on Sunday and spend the minutes.</span></div>
+      </div>
+      <div style="margin-top:3mm;background:var(--butter-lt);border:2px solid var(--butter-dark);border-radius:12px;padding:2.5mm 3.5mm;">
+        <p style="font-size:8.5pt;color:var(--ink);"><strong>DiGi says:</strong> never take a star back. The chart only ever pays out. Consequences live somewhere else, this is where the good gets seen.</p>
       </div>
     </div>
   </div>
