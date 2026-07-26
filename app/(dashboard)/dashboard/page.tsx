@@ -479,11 +479,11 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           </Link>
         </div>
       )}
-      {/* The welcome and the whole point, said back in one big line at a time.
-          A parent opening the app on a busy Tuesday has forgotten what this is
-          all for, so the mission rotates across visits rather than sitting as a
-          wall of text nobody reads. */}
-      <MissionWelcome firstName={firstName} />
+      {/* Welcome back, one beat, gone. Each open introduces a different thing
+          the platform does, and what we do with what you tell it, so a parent
+          meets the whole product across a fortnight of quick hellos instead of
+          a tour nobody sits through. Anything not set up yet leads. */}
+      <MissionWelcome firstName={firstName} flags={setupFlags} phoneAge={phoneAge} />
 
       {/* Half the product is on the child's phone. Until they have opened it,
           the parent is running one side of a two sided thing and usually does
