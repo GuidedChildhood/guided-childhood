@@ -1,15 +1,22 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { card, cardPad, eyebrow, stepCircle } from '@/components/scripts/card-system'
+import {
+  eyebrow, sheet, sheetBand, dottedRule, sheetBody, stageAccent, stageCircle,
+} from '@/components/scripts/card-system'
 
-// The heart of a script: the line to say, made to feel like the single
-// most important thing on the screen. A parent opens this in the heat of a
-// hard moment, so the words they will actually say are set large and warm,
-// and they can hear them read aloud first so the delivery lands calm, not
-// clipped. Everything else on the page supports this one card. The four
-// steps share one card grammar: same radius, same border, same shallow
-// ledge shadow, same 28px number circle on one left edge.
+// The heart of a script: the line to say, made to feel like the single most
+// important thing on the screen. A parent opens this in the heat of a hard
+// moment, so the words they will actually say are set large and warm, and they
+// can hear them read aloud first so the delivery lands calm, not clipped.
+//
+// It used to arrive as four separate white boxes, and four boxes read as four
+// things to get through. It is one thing: the words for one moment. So it is
+// one sheet now, butter, with the four steps as numbered blocks divided by a
+// dotted rule, the way a good worksheet is laid out. Every supporting step is
+// set at the same size, because none of them outranks the one beside it. Only
+// the words to say are bigger, because they are the only part a parent is
+// going to say out loud.
 
 type Props = {
   sayThis: string
@@ -80,85 +87,87 @@ function SpeakerIcon({ speaking }: { speaking: boolean }) {
   )
 }
 
-// Every step opens the same way: the number circle and the mono label on one
-// baseline, so the eye can walk the sequence 1 to 4 down one left edge.
-function StepHeader({ num, label, accent }: { num: number; label: string; accent: string }) {
-  return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
-      <span style={stepCircle}>{num}</span>
-      <span style={{ ...eyebrow, color: accent }}>{label}</span>
-    </div>
-  )
-}
-
 export default function ScriptReader({ sayThis, notThis, whyItWorks, tonight, stageId, voiceUrl }: Props) {
   const { speaking, supported, play } = useReadAloud(voiceUrl)
+  const accent = stageAccent(stageId)
+
+  // Every step opens the same way: the number circle and the mono label on one
+  // baseline, so the eye walks the sequence 1 to 4 down one left edge.
+  const head = (num: number, label: string, tone?: string) => (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 11, marginBottom: 12 }}>
+      <span style={stageCircle(accent)}>{num}</span>
+      <span style={{ ...eyebrow, color: tone ?? 'var(--terracotta-dark)' }}>{label}</span>
+    </div>
+  )
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+    <section style={sheet}>
 
-      {/* ── 1 · Say this: the hero, the only butter card on the page ───── */}
-      <section
-        style={{
-          ...card,
-          padding: cardPad,
-          background: 'linear-gradient(180deg, #FFF9EC 0%, #FCEFD2 100%)',
-          border: '1.5px solid rgba(201,154,40,0.32)',
-        }}
-      >
-        <StepHeader num={1} label="Say this" accent="var(--terracotta-dark)" />
+      {/* The band, with the same convex arc the daily deck cards wear, so a
+          script and a card read as one family. It names what the sheet is. */}
+      <div style={sheetBand}>
+        <div style={{ ...eyebrow, fontSize: 12, color: '#4A3410', opacity: 0.75 }}>
+          The script
+        </div>
+        <div style={{
+          fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 19,
+          color: '#3A2C0C', lineHeight: 1.2, letterSpacing: '-0.01em', marginTop: 2,
+        }}>
+          Four steps, in order
+        </div>
+      </div>
 
+      <div style={{ padding: 'clamp(20px, 5vw, 26px)' }}>
+
+        {/* ── 1 · Say this: the one thing on the page said out loud ─────── */}
+        {head(1, 'Say this')}
         <blockquote style={{
           margin: 0,
           fontFamily: 'var(--font-display)',
-          fontWeight: 800,
-          fontSize: 'clamp(1.4rem, 5vw, 2.05rem)',
-          lineHeight: 1.35,
+          fontWeight: 900,
+          fontSize: 'clamp(24px, 6.6vw, 30px)',
+          lineHeight: 1.3,
           letterSpacing: '-0.015em',
           color: '#4A3410',
           textWrap: 'balance',
         }}>
-          <span aria-hidden style={{ opacity: 0.4 }}>&ldquo;</span>{sayThis}<span aria-hidden style={{ opacity: 0.4 }}>&rdquo;</span>
+          <span aria-hidden style={{ opacity: 0.35 }}>&ldquo;</span>{sayThis}<span aria-hidden style={{ opacity: 0.35 }}>&rdquo;</span>
         </blockquote>
 
         {supported && (
-          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 20 }}>
+          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 18 }}>
             <button onClick={play} style={heroBtn(speaking)}>
               <SpeakerIcon speaking={speaking} />
               {speaking ? 'Stop' : 'Hear it aloud'}
             </button>
           </div>
         )}
-      </section>
 
-      {/* ── 2 · Not this ──────────────────────────────────────────────── */}
-      <div style={{ ...card, padding: cardPad }}>
-        <StepHeader num={2} label="Not this" accent="var(--danger)" />
-        <p style={{ fontSize: 16, color: 'var(--danger)', lineHeight: 1.6, fontStyle: 'italic', margin: 0 }}>
+        <div style={dottedRule} />
+
+        {/* ── 2 · Not this ─────────────────────────────────────────────── */}
+        {head(2, 'Not this', 'var(--danger)')}
+        <p style={{ ...sheetBody, color: 'var(--danger)', fontStyle: 'italic' }}>
           <span aria-hidden style={{ opacity: 0.5 }}>&ldquo;</span>{notThis}<span aria-hidden style={{ opacity: 0.5 }}>&rdquo;</span>
         </p>
-      </div>
 
-      {/* ── 3 · Why it works (the evidence) ───────────────────────────── */}
-      <div style={{ ...card, padding: cardPad }}>
-        <StepHeader num={3} label="Why it works" accent="var(--terracotta-dark)" />
-        <p style={{ fontSize: 16.5, color: 'var(--ink)', lineHeight: 1.7, margin: 0 }}>
-          {whyItWorks}
-        </p>
-      </div>
+        <div style={dottedRule} />
 
-      {/* ── 4 · Tonight (the one action) ──────────────────────────────── */}
-      <div style={{ ...card, padding: cardPad }}>
-        <StepHeader num={4} label="Tonight" accent="var(--terracotta-dark)" />
-        <p style={{ fontSize: 16.5, color: 'var(--ink)', lineHeight: 1.65, fontWeight: 600, margin: 0 }}>
-          {tonight}
-        </p>
+        {/* ── 3 · Why it works (the evidence) ──────────────────────────── */}
+        {head(3, 'Why it works')}
+        <p style={sheetBody}>{whyItWorks}</p>
+
+        <div style={dottedRule} />
+
+        {/* ── 4 · Tonight (the one action) ─────────────────────────────── */}
+        {head(4, 'Tonight')}
+        <p style={{ ...sheetBody, fontWeight: 600 }}>{tonight}</p>
       </div>
 
       <style>{`
         @keyframes sr-bar { 0%,100% { transform: scaleY(0.4) } 50% { transform: scaleY(1) } }
       `}</style>
-    </div>
+    </section>
   )
 }
 
@@ -167,8 +176,8 @@ function heroBtn(active: boolean): React.CSSProperties {
   return {
     display: 'inline-flex', alignItems: 'center', gap: 8,
     padding: '11px 18px', borderRadius: 14, cursor: 'pointer',
-    fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 13.5,
-    background: active ? 'var(--terracotta)' : 'rgba(255,255,255,0.72)',
+    fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 15.5,
+    background: active ? 'var(--terracotta)' : 'var(--terracotta-lt)',
     color: active ? '#fff' : '#4A3410',
     border: '1.5px solid rgba(201,154,40,0.35)',
     boxShadow: active ? 'none' : '0 3px 0 rgba(201,154,40,0.3)',

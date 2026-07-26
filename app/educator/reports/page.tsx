@@ -8,8 +8,8 @@ import { CURRICULUM } from '@/lib/content/schools-curriculum'
 // termly report and the inspection file. Generated from register taps,
 // so evidence is a side effect of teaching, never a filing job.
 
-const mono: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }
-const body: React.CSSProperties = { fontFamily: 'var(--font-body)', fontSize: '13px', color: 'var(--ink)', lineHeight: 1.6 }
+const mono: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }
+const body: React.CSSProperties = { fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink)', lineHeight: 1.6 }
 
 export default async function ReportsPage() {
   const supabase = await createClient()
@@ -68,13 +68,13 @@ export default async function ReportsPage() {
         </p>
 
         <div style={{ overflowX: 'auto' }}>
-          <table style={{ borderCollapse: 'collapse', width: '100%', fontSize: '12px', fontFamily: 'var(--font-body)' }}>
+          <table style={{ borderCollapse: 'collapse', width: '100%', fontSize: '14px', fontFamily: 'var(--font-body)' }}>
             <thead>
               <tr>
-                <th style={{ textAlign: 'left', padding: '6px 8px', borderBottom: '2px solid var(--ink)', fontFamily: 'var(--font-display)', fontSize: '12px' }}>Module</th>
+                <th style={{ textAlign: 'left', padding: '6px 8px', borderBottom: '2px solid var(--ink)', fontFamily: 'var(--font-display)', fontSize: '14px' }}>Module</th>
                 {(classes ?? []).map(c => (
-                  <th key={c.id} style={{ padding: '6px 8px', borderBottom: '2px solid var(--ink)', fontFamily: 'var(--font-display)', fontSize: '11.5px', whiteSpace: 'nowrap' }}>
-                    {c.name}<br /><span style={{ fontWeight: 400, fontSize: '10px', color: 'var(--ink-muted)' }}>{c.year_group}</span>
+                  <th key={c.id} style={{ padding: '6px 8px', borderBottom: '2px solid var(--ink)', fontFamily: 'var(--font-display)', fontSize: '13.5px', whiteSpace: 'nowrap' }}>
+                    {c.name}<br /><span style={{ fontWeight: 400, fontSize: '12px', color: 'var(--ink-muted)' }}>{c.year_group}</span>
                   </th>
                 ))}
               </tr>
@@ -86,7 +86,7 @@ export default async function ReportsPage() {
                 return (
                   <tr key={l.id}>
                     <td style={{ padding: '6px 8px', borderBottom: '1px solid var(--border)' }}>
-                      <span style={{ ...mono, fontSize: '9px', display: 'block' }}>{l.key_stage}{m ? ` · M${String(m.n).padStart(2, '0')}` : ''}</span>
+                      <span style={{ ...mono, fontSize: '11px', display: 'block' }}>{l.key_stage}{m ? ` · M${String(m.n).padStart(2, '0')}` : ''}</span>
                       <strong>{l.title}</strong>
                     </td>
                     {(classes ?? []).map(c => {
@@ -106,7 +106,7 @@ export default async function ReportsPage() {
           </table>
         </div>
 
-        <p style={{ ...body, fontSize: '11.5px', color: 'var(--ink-muted)', marginTop: '16px', maxWidth: '640px' }}>
+        <p style={{ ...body, fontSize: '13.5px', color: 'var(--ink-muted)', marginTop: '16px', maxWidth: '640px' }}>
           Every tick is a recorded delivery with its register date. Per pupil judgements (working towards,
           met, exceeded) sit on each delivery record, and the statutory grounding for every module is in
           the Hub&rsquo;s RSHE 2025 mapping matrix. Together the three documents are the coverage and

@@ -62,11 +62,11 @@ function StatusChip({ tone, children }: { tone: ChipTone; children: React.ReactN
       display: 'inline-flex', alignItems: 'center', gap: 5, flexShrink: 0,
       background: look.bg, color: look.color, border: `1px solid ${look.border}`,
       borderRadius: 6, padding: '4px 10px',
-      fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700,
+      fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 700,
       letterSpacing: '0.06em', textTransform: 'uppercase', whiteSpace: 'nowrap',
       lineHeight: 1.3,
     }}>
-      {tone === 'green' && <span aria-hidden style={{ fontSize: '11px', lineHeight: 1 }}>✓</span>}
+      {tone === 'green' && <span aria-hidden style={{ fontSize: '13px', lineHeight: 1 }}>✓</span>}
       {children}
     </span>
   )
@@ -145,16 +145,16 @@ export default function LiteracyAreas({ stageId, childName, statuses = {}, stamp
   return (
     <div style={{ padding: '0 20px', maxWidth: '720px', margin: '0 auto 20px' }}>
       <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '20px', padding: '22px 20px 8px', boxShadow: '0 4px 0 rgba(26,26,46,0.05)' }}>
-        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '0 0 6px' }}>
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '0 0 6px' }}>
           The four things we build
         </p>
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: '16px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 12px', maxWidth: '620px' }}>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: '18px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 12px', maxWidth: '620px' }}>
           Everything {kid} does adds up to these four, ready by 16. Green means on track. Amber comes with the one next step, never a mark against anyone.
         </p>
         {stampChip && (
           <Link href="/dashboard/pathway" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 14, background: 'var(--terracotta-lt)', border: '1px solid var(--terracotta)', borderRadius: 100, padding: '5px 12px', textDecoration: 'none' }}>
-            <span aria-hidden style={{ fontSize: 13 }}>🪪</span>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>
+            <span aria-hidden style={{ fontSize: 15 }}>🪪</span>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>
               These four earn the {READINESS[current - 1].stamp} stamp on the road to 16 →
             </span>
           </Link>
@@ -183,7 +183,7 @@ export default function LiteracyAreas({ stageId, childName, statuses = {}, stamp
                     : `${greens} of ${activeAreas.length} green`}
                 </span>
               </div>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: 16, color: 'var(--ink-soft)', lineHeight: 1.55, margin: '9px 0 0' }}>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: 18, color: 'var(--ink-soft)', lineHeight: 1.55, margin: '9px 0 0' }}>
                 {allGreen
                   ? `Every part of the plan for this stage is doing its job. This is what ready looks like.`
                   : `To make it all green, ${ambers.length === 1 ? 'one thing' : `${ambers.length} things`} left:`}
@@ -195,12 +195,12 @@ export default function LiteracyAreas({ stageId, childName, statuses = {}, stamp
                       display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none',
                       background: '#fff', border: '1.5px solid var(--terracotta)', borderRadius: 12, padding: '11px 14px',
                     }}>
-                      <span aria-hidden style={{ fontSize: 18, flexShrink: 0 }}>{a.icon}</span>
+                      <span aria-hidden style={{ fontSize: 20, flexShrink: 0 }}>{a.icon}</span>
                       <span style={{ flex: 1, minWidth: 0 }}>
-                        <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 16, color: 'var(--ink)', lineHeight: 1.2 }}>{a.name}</span>
-                        <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: 13.5, color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: 1 }}>{statuses[a.key]?.improve ?? 'Do the next step'}</span>
+                        <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 18, color: 'var(--ink)', lineHeight: 1.2 }}>{a.name}</span>
+                        <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: 15.5, color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: 1 }}>{statuses[a.key]?.improve ?? 'Do the next step'}</span>
                       </span>
-                      <span aria-hidden style={{ flexShrink: 0, color: 'var(--terracotta-dark)', fontSize: 20, fontWeight: 800 }}>→</span>
+                      <span aria-hidden style={{ flexShrink: 0, color: 'var(--terracotta-dark)', fontSize: 22, fontWeight: 800 }}>→</span>
                     </Link>
                   ))}
                 </div>
@@ -220,12 +220,12 @@ export default function LiteracyAreas({ stageId, childName, statuses = {}, stamp
                 <span style={{ flexShrink: 0, width: 44, height: 44, borderRadius: '13px', background: 'var(--cream)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px', filter: 'grayscale(0.6) opacity(0.7)' }}>{area.icon}</span>
                 <span style={{ flex: 1, minWidth: 0 }}>
                   <span style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', justifyContent: 'space-between' }}>
-                    <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '18px', color: 'var(--ink-soft)', lineHeight: 1.25 }}>
+                    <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '20px', color: 'var(--ink-soft)', lineHeight: 1.25 }}>
                       {area.name}
                     </span>
                     <StatusChip tone="grey">Comes at age {area.comesAge}</StatusChip>
                   </span>
-                  <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--ink-muted)', lineHeight: 1.6, marginTop: 6 }}>
+                  <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: '16px', color: 'var(--ink-muted)', lineHeight: 1.6, marginTop: 6 }}>
                     {area.comesWhy} It starts in the {STAGE_LABELS[area.startStage - 1]} stage.
                   </span>
                 </span>
@@ -242,24 +242,24 @@ export default function LiteracyAreas({ stageId, childName, statuses = {}, stamp
               <span style={{ flexShrink: 0, width: 44, height: 44, borderRadius: '13px', background: area.tint, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px' }}>{area.icon}</span>
               <span style={{ flex: 1, minWidth: 0 }}>
                 <span style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', justifyContent: 'space-between' }}>
-                  <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '18px', color: 'var(--ink)', lineHeight: 1.25 }}>
+                  <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '20px', color: 'var(--ink)', lineHeight: 1.25 }}>
                     {area.name}
                   </span>
                   <StatusChip tone={chipTone}>{onTrack ? 'On track' : 'One thing to do'}</StatusChip>
                 </span>
                 {/* The proof, big and bold: the real numbers behind the reading */}
                 {live?.value && (
-                  <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '20px', color: 'var(--ink)', lineHeight: 1.2, marginTop: 7 }}>
+                  <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '22px', color: 'var(--ink)', lineHeight: 1.2, marginTop: 7 }}>
                     {live.value}
                   </span>
                 )}
                 {bar && <ProgressBar done={bar.done} total={bar.total} tone={chipTone} />}
-                <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: '15.5px', color: 'var(--ink-soft)', lineHeight: 1.6, marginTop: 7 }}>
+                <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: '17.5px', color: 'var(--ink-soft)', lineHeight: 1.6, marginTop: 7 }}>
                   {live?.note ?? area.blurb}
                 </span>
                 {/* The day to day wiring, quiet and true: what a parent
                     does that actually moves this reading. */}
-                <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--ink-muted)', lineHeight: 1.6, marginTop: 6 }}>
+                <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: '16px', color: 'var(--ink-muted)', lineHeight: 1.6, marginTop: 6 }}>
                   <span style={{ fontWeight: 700 }}>What moves this:</span> {MOVES[area.key]}
                 </span>
                 {/* One next step, the butter button, straight to where the
@@ -269,7 +269,7 @@ export default function LiteracyAreas({ stageId, childName, statuses = {}, stamp
                     display: 'inline-flex', alignItems: 'flex-start', gap: 8, marginTop: 12,
                     background: 'var(--terracotta)', color: 'var(--ink)',
                     borderRadius: '12px', padding: '11px 16px', textDecoration: 'none',
-                    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px',
+                    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px',
                     lineHeight: 1.4, boxShadow: '0 3px 0 var(--terracotta-dark)',
                   }}>
                     <span>{live.improve}</span>

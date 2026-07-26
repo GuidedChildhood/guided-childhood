@@ -8,8 +8,8 @@ import { parseSlides, type KeywordsSlide } from '@/lib/content/lesson-slides'
 // The whole scheme vocabulary: every keyword from every module, grouped
 // by key stage, generated from the decks so it can never drift.
 
-const mono: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }
-const body: React.CSSProperties = { fontFamily: 'var(--font-body)', fontSize: '13px', color: 'var(--ink)', lineHeight: 1.6 }
+const mono: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }
+const body: React.CSSProperties = { fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink)', lineHeight: 1.6 }
 
 type TeacherNotes = { keywords?: { word: string; definition: string }[] }
 
@@ -62,10 +62,10 @@ export default async function VocabularyPage() {
                 if (!words.length) return null
                 return (
                   <div key={m.moduleId} style={{ border: '1.5px solid var(--border)', borderRadius: '12px', padding: '10px 16px', marginBottom: '8px' }}>
-                    <div style={{ ...mono, fontSize: '9px', marginBottom: '4px' }}>M{String(m.n).padStart(2, '0')} · {m.title}</div>
+                    <div style={{ ...mono, fontSize: '11px', marginBottom: '4px' }}>M{String(m.n).padStart(2, '0')} · {m.title}</div>
                     {words.map(w => (
-                      <p key={w.word} style={{ ...body, fontSize: '12.5px', margin: '3px 0' }}>
-                        <strong style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px' }}>{w.word}</strong> · {w.definition}
+                      <p key={w.word} style={{ ...body, fontSize: '14.5px', margin: '3px 0' }}>
+                        <strong style={{ fontFamily: 'var(--font-mono)', fontSize: '13.5px' }}>{w.word}</strong> · {w.definition}
                       </p>
                     ))}
                   </div>

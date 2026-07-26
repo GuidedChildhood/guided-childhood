@@ -45,7 +45,7 @@ export default function AgeUpFixturePage() {
           <h2 style={{ fontSize: '1rem', marginBottom: '18px', color: 'var(--ink)' }}>Alfie</h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
             <div>
-              <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '6px' }}>
+              <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '6px' }}>
                 Birthday
               </label>
               <input
@@ -55,16 +55,16 @@ export default function AgeUpFixturePage() {
                 onChange={e => setDob(e.target.value)}
                 max={new Date().toISOString().slice(0, 10)}
               />
-              <p style={{ fontSize: '12px', color: 'var(--ink-muted)', marginTop: '4px' }}>
+              <p style={{ fontSize: '14px', color: 'var(--ink-muted)', marginTop: '4px' }}>
                 Set the birthday and everything grows up with them on its own.
               </p>
               {derivedOpt && (
-                <p style={{ fontSize: '12px', color: 'var(--ink-soft)', marginTop: '2px' }}>
+                <p style={{ fontSize: '14px', color: 'var(--ink-soft)', marginTop: '2px' }}>
                   From this birthday: {derivedOpt.label} · {derivedOpt.sub}
                 </p>
               )}
             </div>
-            <button type="button" className="btn btn-green" style={{ alignSelf: 'flex-start', padding: '10px 24px', fontSize: '14px' }}>
+            <button type="button" className="btn btn-green" style={{ alignSelf: 'flex-start', padding: '10px 24px', fontSize: '16px' }}>
               Save child details
             </button>
           </div>

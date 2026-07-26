@@ -33,9 +33,9 @@ const VERDICT_LABEL: Record<string, string> = {
 }
 
 const page: React.CSSProperties = { pageBreakAfter: 'always', padding: '24px 8px' }
-const h2: React.CSSProperties = { fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '20px', color: 'var(--ink)', margin: '0 0 4px' }
-const mono: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }
-const body: React.CSSProperties = { fontFamily: 'var(--font-body)', fontSize: '13.5px', color: 'var(--ink)', lineHeight: 1.6 }
+const h2: React.CSSProperties = { fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '22px', color: 'var(--ink)', margin: '0 0 4px' }
+const mono: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }
+const body: React.CSSProperties = { fontFamily: 'var(--font-body)', fontSize: '15.5px', color: 'var(--ink)', lineHeight: 1.6 }
 const box: React.CSSProperties = { border: '1.5px solid var(--border)', borderRadius: '12px', padding: '14px 16px', marginTop: '10px' }
 const writeLine: React.CSSProperties = { borderBottom: '1px solid var(--border)', height: '26px' }
 
@@ -122,7 +122,7 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
               {tool.lines.map((line, j) => (
                 <p key={j} style={{ ...body, fontWeight: 800, marginTop: j === 0 ? '8px' : 0 }}>{line}</p>
               ))}
-              <p style={{ ...body, fontSize: '11.5px', color: 'var(--ink-muted)', marginTop: '8px' }}>{tool.strapline}</p>
+              <p style={{ ...body, fontSize: '13.5px', color: 'var(--ink-muted)', marginTop: '8px' }}>{tool.strapline}</p>
             </div>
           ))}
         </div>
@@ -177,7 +177,7 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
         </div>
         {parent.try_this && <div style={box}><span style={mono}>Try this at home</span><p style={body}>{parent.try_this}</p></div>}
         {parent.family_question && <div style={box}><span style={mono}>Dinner table question</span><p style={{ ...body, fontWeight: 700 }}>{parent.family_question}</p></div>}
-        <p style={{ ...body, fontSize: '11px', color: 'var(--ink-light)', marginTop: '14px' }}>Guided Childhood Schools · no login needed, nothing to sign up for. This note is yours.</p>
+        <p style={{ ...body, fontSize: '13px', color: 'var(--ink-light)', marginTop: '14px' }}>Guided Childhood Schools · no login needed, nothing to sign up for. This note is yours.</p>
         <PrintBrandFooter />
       </section>
     </main>

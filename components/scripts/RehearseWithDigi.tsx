@@ -234,7 +234,7 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
           Rehearse the words out loud in a safe place. DiGi plays {childLabel}, reacting the way a real
           child might, so the real conversation is not the first time you say it. Then DiGi coaches you on how it went.
         </p>
-        <Link href="/dashboard/upgrade" className="btn btn-gold" style={{ marginTop: 16, display: 'inline-flex', padding: '11px 20px', fontSize: 13 }}>
+        <Link href="/dashboard/upgrade" className="btn btn-gold" style={{ marginTop: 16, display: 'inline-flex', padding: '11px 20px', fontSize: 15 }}>
           Unlock rehearsals
         </Link>
       </div>
@@ -249,8 +249,8 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
         <div style={{ ...card, padding: cardPad, display: 'flex', alignItems: 'center', gap: 12 }}>
           <span aria-hidden style={{ fontSize: '1.4rem', flexShrink: 0 }}>✅</span>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15, color: 'var(--ink)' }}>Rehearsed and ready</div>
-            <div style={{ fontSize: 14, color: 'var(--ink-soft)' }}>The words are warmed up for the real moment.</div>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 17, color: 'var(--ink)' }}>Rehearsed and ready</div>
+            <div style={{ fontSize: 16, color: 'var(--ink-soft)' }}>The words are warmed up for the real moment.</div>
           </div>
           <button onClick={start} style={ghostBtn}>Run it again</button>
         </div>
@@ -264,7 +264,7 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
           A safe run through before the real moment. DiGi plays {childLabel} and reacts the way a real
           child might, so you can find your footing, then coaches you on how it went.
         </p>
-        <button onClick={start} className="btn btn-gold" style={{ marginTop: 16, padding: '12px 22px', fontSize: 13.5, cursor: 'pointer' }}>
+        <button onClick={start} className="btn btn-gold" style={{ marginTop: 16, padding: '12px 22px', fontSize: 15.5, cursor: 'pointer' }}>
           Start a practice run
         </button>
       </div>
@@ -291,10 +291,10 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
             </span>
           )}
           <div>
-            <div style={{ ...eyebrow, fontSize: 9.5, color: 'var(--terracotta-dark)' }}>
+            <div style={{ ...eyebrow, fontSize: 11.5, color: 'var(--terracotta-dark)' }}>
               Rehearsal
             </div>
-            <div style={{ fontSize: 14, fontWeight: 800, color: 'var(--ink)', fontFamily: 'var(--font-display)' }}>
+            <div style={{ fontSize: 16, fontWeight: 800, color: 'var(--ink)', fontFamily: 'var(--font-display)' }}>
               {coached ? 'DiGi is coaching you' : `DiGi is playing ${childLabel}`}
             </div>
           </div>
@@ -333,10 +333,10 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
           rehearsing. */}
       <div style={{ padding: '14px 18px 12px', background: '#fff' }}>
         <div style={{ background: '#DCE7FB', color: '#1B2A4A', borderRadius: 18, padding: '12px 16px' }}>
-          <div style={{ ...eyebrow, fontSize: 9, color: '#1B2A4A', opacity: 0.65, marginBottom: 4 }}>
+          <div style={{ ...eyebrow, fontSize: 11, color: '#1B2A4A', opacity: 0.65, marginBottom: 4 }}>
             You are rehearsing
           </div>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 14.5, lineHeight: 1.5 }}>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 16.5, lineHeight: 1.5 }}>
             {situation}
           </div>
         </div>
@@ -352,7 +352,7 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
           <div key={i} style={{ display: 'flex', justifyContent: m.role === 'user' ? 'flex-end' : 'flex-start' }}>
             {m.role === 'user' ? (
               <div style={{
-                maxWidth: '82%', padding: '12px 16px', fontSize: 15, lineHeight: 1.5,
+                maxWidth: '82%', padding: '12px 16px', fontSize: 17, lineHeight: 1.5,
                 whiteSpace: 'pre-wrap', borderRadius: '18px 18px 6px 18px',
                 background: '#DCE7FB', color: '#1B2A4A',
                 fontFamily: 'var(--font-display)', fontWeight: 700,
@@ -361,7 +361,7 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
               </div>
             ) : m.coach ? (
               <div style={{
-                maxWidth: '86%', padding: '12px 15px', fontSize: 14.5, lineHeight: 1.55,
+                maxWidth: '86%', padding: '12px 15px', fontSize: 16.5, lineHeight: 1.55,
                 whiteSpace: 'pre-wrap', fontWeight: 500, borderRadius: 16,
                 background: 'linear-gradient(180deg,#FFF9EC,#FCEFD2)', color: 'var(--ink)',
                 border: '1.5px solid rgba(201,154,40,0.3)',
@@ -370,7 +370,7 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
               </div>
             ) : (
               <p style={{
-                maxWidth: '90%', margin: 0, fontSize: 15.5, lineHeight: 1.6,
+                maxWidth: '90%', margin: 0, fontSize: 17.5, lineHeight: 1.6,
                 whiteSpace: 'pre-wrap', fontWeight: 500,
                 fontFamily: 'var(--font-body)', color: 'var(--ink)',
               }}>
@@ -391,7 +391,7 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
                   <span key={i} style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--ink-light)', animation: `rh-bounce 1.2s ease-in-out ${i * 0.2}s infinite` }} />
                 ))}
               </span>
-              <span style={{ fontSize: 14, color: 'var(--ink-muted)', lineHeight: 1.3 }}>
+              <span style={{ fontSize: 16, color: 'var(--ink-muted)', lineHeight: 1.3 }}>
                 {coached
                   ? 'DiGi is thinking about how it went...'
                   : `DiGi is thinking about ${childLabel === 'your child' ? "your child's" : `${childLabel}'s`} answer...`}
@@ -399,7 +399,7 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
             </div>
           </div>
         )}
-        {error && <p style={{ fontSize: 14, color: 'var(--danger)', padding: '4px 2px', margin: 0 }}>{error}</p>}
+        {error && <p style={{ fontSize: 16, color: 'var(--danger)', padding: '4px 2px', margin: 0 }}>{error}</p>}
       </div>
 
       <div style={{ padding: '12px 16px 14px', borderTop: '1px solid var(--border)', background: 'var(--white,#fff)' }}>
@@ -409,7 +409,7 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
                 script's own line always leads until DiGi's calibrated
                 suggestions take their place. */}
             <div style={{ marginBottom: 10 }}>
-              <div style={{ ...eyebrow, fontSize: 9.5, letterSpacing: '0.08em', color: 'var(--ink-muted)', marginBottom: 7 }}>
+              <div style={{ ...eyebrow, fontSize: 11.5, letterSpacing: '0.08em', color: 'var(--ink-muted)', marginBottom: 7 }}>
                 {suggestions.length > 0 ? 'Lines from DiGi · tap one to say it' : 'Tap a line to say it, or try your own'}
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
@@ -421,7 +421,7 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
                     style={{
                       textAlign: 'left', background: 'var(--terracotta-lt)', border: '1.5px solid rgba(201,154,40,0.45)',
                       borderRadius: 14, padding: '10px 14px', cursor: busy ? 'default' : 'pointer',
-                      fontFamily: 'var(--font-body)', fontSize: 14, color: 'var(--ink)', lineHeight: 1.45,
+                      fontFamily: 'var(--font-body)', fontSize: 16, color: 'var(--ink)', lineHeight: 1.45,
                       opacity: busy ? 0.55 : 1,
                     }}
                   >
@@ -431,7 +431,7 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
               </div>
             </div>
             {suggMsg && (
-              <p style={{ fontSize: 14, color: 'var(--ink-muted)', lineHeight: 1.45, margin: '0 0 10px' }}>{suggMsg}</p>
+              <p style={{ fontSize: 16, color: 'var(--ink-muted)', lineHeight: 1.45, margin: '0 0 10px' }}>{suggMsg}</p>
             )}
             <form onSubmit={e => { e.preventDefault(); sendLine() }} style={{ display: 'flex', gap: 8, alignItems: 'flex-end' }}>
               <textarea
@@ -442,13 +442,13 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
                 rows={1}
                 style={{
                   flex: 1, padding: '11px 16px', borderRadius: 100, border: '1.5px solid var(--border)',
-                  background: 'var(--cream)', fontFamily: 'var(--font-body)', fontSize: 15.5, color: 'var(--ink)',
+                  background: 'var(--cream)', fontFamily: 'var(--font-body)', fontSize: 17.5, color: 'var(--ink)',
                   resize: 'none', outline: 'none', lineHeight: 1.5, maxHeight: 120,
                 }}
                 onFocus={e => { e.currentTarget.style.borderColor = 'var(--terracotta)' }}
                 onBlur={e => { e.currentTarget.style.borderColor = 'var(--border)' }}
               />
-              <button type="submit" disabled={busy || !input.trim()} className="btn" style={{ padding: '11px 16px', fontSize: 12.5, flexShrink: 0 }}>
+              <button type="submit" disabled={busy || !input.trim()} className="btn" style={{ padding: '11px 16px', fontSize: 14.5, flexShrink: 0 }}>
                 Say it
               </button>
             </form>
@@ -464,7 +464,7 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
             </div>
           </>
         ) : (
-          <button onClick={reset} disabled={busy} className="btn btn-green" style={{ width: '100%', padding: '12px', fontSize: 13, cursor: 'pointer' }}>
+          <button onClick={reset} disabled={busy} className="btn btn-green" style={{ width: '100%', padding: '12px', fontSize: 15, cursor: 'pointer' }}>
             Practise it again
           </button>
         )}
@@ -480,10 +480,10 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
 }
 
 const heading: React.CSSProperties = { fontSize: 'clamp(1.15rem,3.4vw,1.35rem)', letterSpacing: '-0.01em', margin: '6px 0 8px', color: 'var(--ink)' }
-const sub: React.CSSProperties = { fontSize: 14.5, color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0 }
+const sub: React.CSSProperties = { fontSize: 16.5, color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0 }
 const ghostBtn: React.CSSProperties = {
   background: 'none', border: '1px solid var(--border)', borderRadius: 10, cursor: 'pointer',
-  fontFamily: 'var(--font-mono)', fontSize: 10.5, fontWeight: 700, letterSpacing: '0.06em',
+  fontFamily: 'var(--font-mono)', fontSize: 12.5, fontWeight: 700, letterSpacing: '0.06em',
   color: 'var(--ink-muted)', padding: '7px 12px',
 }
 
@@ -491,7 +491,7 @@ function Eyebrow() {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
       <DigiCharacter size={26} mood="wave" once />
-      <span style={{ ...eyebrow, fontSize: 10, color: 'var(--terracotta-dark)' }}>
+      <span style={{ ...eyebrow, fontSize: 12, color: 'var(--terracotta-dark)' }}>
         Rehearse with DiGi
       </span>
     </div>

@@ -46,26 +46,26 @@ export default function SchoolLink() {
 
   return (
     <div style={{ background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: '16px', padding: '20px' }}>
-      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
+      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
         School link
       </div>
       <h3 style={{ fontSize: '1rem', marginBottom: '8px' }}>Let DiGi catch the school emails</h3>
-      <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: '14px' }}>
+      <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: '14px' }}>
         Forward school emails to your private DiGi address and DiGi pulls out the things that matter: PE kit tomorrow, payment due, homework, trip forms. DiGi never sees your inbox, only what you forward.
       </p>
 
       <input className="input" placeholder="School name" value={schoolName} onChange={e => setSchoolName(e.target.value)} style={{ marginBottom: '10px' }} />
       <input className="input" placeholder="School sender addresses, comma separated (optional)" value={senders} onChange={e => setSenders(e.target.value)} style={{ marginBottom: '12px' }} />
-      <button onClick={save} disabled={saving || !schoolName.trim()} className="btn btn-gold" style={{ fontSize: '13px', padding: '11px 20px' }}>
+      <button onClick={save} disabled={saving || !schoolName.trim()} className="btn btn-gold" style={{ fontSize: '15px', padding: '11px 20px' }}>
         {token ? 'Update school link' : 'Create my DiGi address'}
       </button>
 
       {address && (
         <div style={{ marginTop: '16px', background: '#fff', border: '1.5px solid var(--terracotta)', borderRadius: '12px', padding: '14px' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, color: 'var(--ink)', wordBreak: 'break-all', marginBottom: '10px' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 700, color: 'var(--ink)', wordBreak: 'break-all', marginBottom: '10px' }}>
             {address}
           </div>
-          <p style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>
+          <p style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>
             One time setup in your email: create a forwarding rule for messages from your school to this address. The step by step walkthrough lives at <a href="/dashboard/school" style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>School link setup</a>. Or simply forward any school email here manually and DiGi handles it.
           </p>
         </div>

@@ -134,7 +134,7 @@ export default function PathwayMap({
               <text
                 x={n.x} y={n.y + 1}
                 textAnchor="middle" dominantBaseline="middle"
-                style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px' }}
+                style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px' }}
                 fill={done ? n.text : isCurrent ? 'var(--terracotta)' : 'var(--ink-light)'}
               >
                 {done ? '✓' : stageNum}
@@ -142,7 +142,7 @@ export default function PathwayMap({
               <text
                 x={labelLeft ? n.x - 30 : n.x + 30} y={n.y - 5}
                 textAnchor={labelLeft ? 'end' : 'start'}
-                style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px' }}
+                style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px' }}
                 fill="var(--ink)"
               >
                 {n.label}
@@ -150,7 +150,7 @@ export default function PathwayMap({
               <text
                 x={labelLeft ? n.x - 30 : n.x + 30} y={n.y + 12}
                 textAnchor={labelLeft ? 'end' : 'start'}
-                style={{ fontFamily: 'var(--font-mono)', fontWeight: 600, fontSize: '10px', letterSpacing: '0.06em' }}
+                style={{ fontFamily: 'var(--font-mono)', fontWeight: 600, fontSize: '12px', letterSpacing: '0.06em' }}
                 fill="var(--ink-muted)"
               >
                 Ages {n.ages}
@@ -174,7 +174,7 @@ export default function PathwayMap({
         <div style={{
           position: 'absolute', top: '-24px', left: '50%', transform: 'translateX(-50%)',
           background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '100px',
-          padding: '3px 10px', fontFamily: 'var(--font-mono)', fontSize: '10px',
+          padding: '3px 10px', fontFamily: 'var(--font-mono)', fontSize: '12px',
           fontWeight: 700, letterSpacing: '0.06em', whiteSpace: 'nowrap',
           boxShadow: '0 3px 0 var(--terracotta-dark)',
         }}>

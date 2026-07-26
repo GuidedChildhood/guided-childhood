@@ -40,11 +40,11 @@ export default async function UpgradePage() {
         <h1 style={{ fontSize: 'clamp(1.6rem, 5vw, 2.1rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: '12px' }}>
           You already have everything.
         </h1>
-        <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.65, marginBottom: '28px' }}>
+        <p style={{ fontSize: '17px', color: 'var(--ink-soft)', lineHeight: 1.65, marginBottom: '28px' }}>
           Your account has full access: every stage, unlimited DiGi, every script, rehearsals, the tracker and the agreement builder. If a button sent you here, it was checking, and the answer is yes.
         </p>
         <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}>
-          <Link href="/dashboard" className="btn btn-gold" style={{ padding: '14px 24px', fontSize: '14px' }}>
+          <Link href="/dashboard" className="btn btn-gold" style={{ padding: '14px 24px', fontSize: '16px' }}>
             Back to home
           </Link>
           <Link
@@ -52,7 +52,7 @@ export default async function UpgradePage() {
             style={{
               display: 'inline-flex', alignItems: 'center', padding: '14px 24px',
               background: '#fff', color: 'var(--ink)', borderRadius: '16px', textDecoration: 'none',
-              border: '1.5px solid var(--border)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px',
+              border: '1.5px solid var(--border)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px',
             }}
           >
             Manage my plan
@@ -73,7 +73,7 @@ export default async function UpgradePage() {
         <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.6rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.08, marginBottom: '12px' }}>
           Unlock the full pathway
         </h1>
-        <p style={{ color: 'var(--ink-muted)', fontSize: '16px', maxWidth: '440px', margin: '0 auto' }}>
+        <p style={{ color: 'var(--ink-muted)', fontSize: '18px', maxWidth: '440px', margin: '0 auto' }}>
           All five stages, unlimited DiGi, 100 plus expert scripts grounded in the research, the wellbeing tracker, and the family agreement builder.
         </p>
       </div>
@@ -81,7 +81,7 @@ export default async function UpgradePage() {
       {/* One subscription, every child: the family framing the best family
           apps lead with. */}
       <div style={{ background: 'var(--tint-sage)', border: '1px solid var(--border)', borderRadius: '14px', padding: '14px 18px', marginBottom: '24px', textAlign: 'center' }}>
-        <span style={{ fontFamily: 'var(--font-body)', fontSize: '14px', fontWeight: 600, color: 'var(--ink)' }}>
+        <span style={{ fontFamily: 'var(--font-body)', fontSize: '16px', fontWeight: 600, color: 'var(--ink)' }}>
           One subscription covers every child, at every stage from 4 to 16.
         </span>
       </div>
@@ -102,7 +102,7 @@ export default async function UpgradePage() {
             <div style={{
               position: 'absolute', top: 0, right: 0,
               background: 'var(--terracotta)', color: 'var(--ink)',
-              fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700,
+              fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
               letterSpacing: '0.1em', textTransform: 'uppercase',
               padding: '6px 16px', borderRadius: '0 22px 0 14px',
             }}>
@@ -112,8 +112,8 @@ export default async function UpgradePage() {
             <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '10px' }}>Founder rate</p>
             <div style={{ marginBottom: '18px' }}>
               <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '2.6rem', color: '#fff', letterSpacing: '-0.03em' }}>£7.99</span>
-              <span style={{ color: 'rgba(255,255,255,0.55)', fontSize: '15px' }}> / month</span>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--terracotta)', marginTop: '4px' }}>
+              <span style={{ color: 'rgba(255,255,255,0.55)', fontSize: '17px' }}> / month</span>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', color: 'var(--terracotta)', marginTop: '4px' }}>
                 Locked for life, never increases
               </div>
             </div>
@@ -127,14 +127,14 @@ export default async function UpgradePage() {
                 'Monthly live Pathway Session with Justin (from member 50)',
               ].map((item, i) => (
                 <li key={i} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
-                  <span style={{ color: 'var(--terracotta)', fontSize: '14px', marginTop: '1px' }}>✓</span>
-                  <span style={{ fontSize: '14px', color: 'rgba(255,255,255,0.85)', lineHeight: 1.5 }}>{item}</span>
+                  <span style={{ color: 'var(--terracotta)', fontSize: '16px', marginTop: '1px' }}>✓</span>
+                  <span style={{ fontSize: '16px', color: 'rgba(255,255,255,0.85)', lineHeight: 1.5 }}>{item}</span>
                 </li>
               ))}
             </ul>
             <form action="/api/stripe/checkout" method="POST">
               <input type="hidden" name="tier" value="founder" />
-              <button type="submit" className="btn btn-gold" style={{ width: '100%', justifyContent: 'center', fontSize: '15px', padding: '16px' }}>
+              <button type="submit" className="btn btn-gold" style={{ width: '100%', justifyContent: 'center', fontSize: '17px', padding: '16px' }}>
                 Claim founder rate, £7.99 a month
               </button>
             </form>
@@ -149,7 +149,7 @@ export default async function UpgradePage() {
           same job the trial timeline does on the best paywalls, in our
           money back model. */}
       <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '18px', padding: '20px 22px', marginBottom: '32px', boxShadow: '0 4px 22px rgba(26,26,46,0.05)' }}>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '14px' }}>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '14px' }}>
           No risk, here is exactly how it works
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
@@ -161,11 +161,11 @@ export default async function UpgradePage() {
             <div key={i} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
               <span style={{
                 width: '30px', height: '30px', borderRadius: '9px', flexShrink: 0,
-                background: 'var(--tint-sage)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '15px',
+                background: 'var(--tint-sage)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '17px',
               }}>{s.icon}</span>
               <span>
-                <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: 'var(--ink)' }}>{s.t}</span>
-                <span style={{ display: 'block', fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '1px' }}>{s.d}</span>
+                <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px', color: 'var(--ink)' }}>{s.t}</span>
+                <span style={{ display: 'block', fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '1px' }}>{s.d}</span>
               </span>
             </div>
           ))}
@@ -195,15 +195,15 @@ export default async function UpgradePage() {
             },
           ].map((faq, i) => (
             <div key={i} style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '14px', padding: '18px 20px' }}>
-              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '15px', marginBottom: '8px' }}>{faq.q}</div>
-              <p style={{ fontSize: '14px', color: 'var(--ink-muted)', lineHeight: 1.6 }}>{faq.a}</p>
+              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '17px', marginBottom: '8px' }}>{faq.q}</div>
+              <p style={{ fontSize: '16px', color: 'var(--ink-muted)', lineHeight: 1.6 }}>{faq.a}</p>
             </div>
           ))}
         </div>
       </div>
 
       <div style={{ textAlign: 'center', marginTop: '32px' }}>
-        <Link href="/dashboard" style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--ink-muted)', textDecoration: 'none' }}>
+        <Link href="/dashboard" style={{ fontFamily: 'var(--font-mono)', fontSize: '14px', color: 'var(--ink-muted)', textDecoration: 'none' }}>
           Back to dashboard
         </Link>
       </div>

@@ -102,8 +102,8 @@ export default function SundayCheckIn() {
             <DigiCharacter mood="happy" size={30} once />
           </span>
           <div style={{ minWidth: 0 }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.11em', textTransform: 'uppercase', color: 'var(--deep-teal)' }}>This week with DiGi</div>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '17px', color: 'var(--ink)', lineHeight: 1.2 }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.11em', textTransform: 'uppercase', color: 'var(--deep-teal)' }}>This week with DiGi</div>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '19px', color: 'var(--ink)', lineHeight: 1.2 }}>
               {focusSaved ? focusSaved : 'Your agreed plan'}
             </div>
           </div>
@@ -111,11 +111,11 @@ export default function SundayCheckIn() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '9px' }}>
           {plan.map((p, i) => (
             <div key={i} style={{ display: 'flex', gap: '11px', background: 'var(--cream)', borderRadius: '13px', padding: '11px 13px' }}>
-              <span style={{ flexShrink: 0, width: 22, height: 22, borderRadius: '50%', background: 'var(--retro-green)', color: '#fff', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{i + 1}</span>
+              <span style={{ flexShrink: 0, width: 22, height: 22, borderRadius: '50%', background: 'var(--retro-green)', color: '#fff', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{i + 1}</span>
               <div style={{ minWidth: 0 }}>
-                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: 'var(--ink)', lineHeight: 1.3 }}>{p.title}</div>
-                <div style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '3px' }}>{p.why}</div>
-                {p.expert && <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginTop: '5px' }}>{p.expert}</div>}
+                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16.5px', color: 'var(--ink)', lineHeight: 1.3 }}>{p.title}</div>
+                <div style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '3px' }}>{p.why}</div>
+                {p.expert && <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginTop: '5px' }}>{p.expert}</div>}
               </div>
             </div>
           ))}
@@ -143,14 +143,14 @@ export default function SundayCheckIn() {
           <DigiCharacter mood="wave" size={30} once />
         </span>
         <span style={{ flex: 1, minWidth: 0 }}>
-          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '16px', color: 'var(--ink)', lineHeight: 1.2 }}>
+          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '18px', color: 'var(--ink)', lineHeight: 1.2 }}>
             Your Sunday check in
           </span>
-          <span style={{ display: 'block', fontSize: '13px', color: 'var(--ink-soft)', marginTop: '2px', lineHeight: 1.4 }}>
+          <span style={{ display: 'block', fontSize: '15px', color: 'var(--ink-soft)', marginTop: '2px', lineHeight: 1.4 }}>
             Five quick things, then DiGi sets a small plan for the week with you.
           </span>
         </span>
-        <span style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', color: '#fff', background: 'var(--terracotta-dark)', borderRadius: '12px', padding: '10px 15px' }}>
+        <span style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: '#fff', background: 'var(--terracotta-dark)', borderRadius: '12px', padding: '10px 15px' }}>
           Start
         </span>
       </button>
@@ -171,7 +171,7 @@ export default function SundayCheckIn() {
           <DigiCharacter mood={busy ? 'thinking' : 'speak'} size={28} once />
         </span>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.11em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>Sunday check in</div>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.11em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>Sunday check in</div>
           {/* Progress dots */}
           <div style={{ display: 'flex', gap: '5px', marginTop: '6px' }}>
             {steps.map((_, i) => (
@@ -179,12 +179,12 @@ export default function SundayCheckIn() {
             ))}
           </div>
         </div>
-        <button onClick={() => setOpen(false)} aria-label="Close" style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '18px', color: 'var(--ink-muted)', flexShrink: 0 }}>✕</button>
+        <button onClick={() => setOpen(false)} aria-label="Close" style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '20px', color: 'var(--ink-muted)', flexShrink: 0 }}>✕</button>
       </div>
 
       {stepIdx === 0 && (
         <div>
-          <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '19px', color: 'var(--ink)', margin: '0 0 14px', lineHeight: 1.25 }}>First, how are you this week?</h3>
+          <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '21px', color: 'var(--ink)', margin: '0 0 14px', lineHeight: 1.25 }}>First, how are you this week?</h3>
           <div style={{ display: 'flex', gap: '7px', justifyContent: 'space-between' }}>
             {MOODS.map(m => (
               <button key={m.v} onClick={() => setMood(m.v)} style={{
@@ -196,35 +196,35 @@ export default function SundayCheckIn() {
               </button>
             ))}
           </div>
-          {mood != null && <p style={{ textAlign: 'center', fontSize: '13px', fontWeight: 700, color: 'var(--terracotta-dark)', margin: '11px 0 0' }}>{MOODS.find(m => m.v === mood)?.label}</p>}
+          {mood != null && <p style={{ textAlign: 'center', fontSize: '15px', fontWeight: 700, color: 'var(--terracotta-dark)', margin: '11px 0 0' }}>{MOODS.find(m => m.v === mood)?.label}</p>}
         </div>
       )}
 
       {stepIdx === 1 && (
         <div>
-          <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '19px', color: 'var(--ink)', margin: '0 0 6px', lineHeight: 1.25 }}>What went well?</h3>
-          <p style={{ fontSize: '13px', color: 'var(--ink-muted)', margin: '0 0 13px' }}>Tap any that fit, or none. Every week has something.</p>
+          <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '21px', color: 'var(--ink)', margin: '0 0 6px', lineHeight: 1.25 }}>What went well?</h3>
+          <p style={{ fontSize: '15px', color: 'var(--ink-muted)', margin: '0 0 13px' }}>Tap any that fit, or none. Every week has something.</p>
           <ChipGrid options={WENT_WELL.map(w => ({ v: w, label: w }))} selected={wentWell} onToggle={v => toggle(wentWell, setWentWell, v)} />
         </div>
       )}
 
       {stepIdx === 2 && (
         <div>
-          <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '19px', color: 'var(--ink)', margin: '0 0 6px', lineHeight: 1.25 }}>What felt hardest?</h3>
-          <p style={{ fontSize: '13px', color: 'var(--ink-muted)', margin: '0 0 13px' }}>So DiGi points the plan at the right thing.</p>
+          <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '21px', color: 'var(--ink)', margin: '0 0 6px', lineHeight: 1.25 }}>What felt hardest?</h3>
+          <p style={{ fontSize: '15px', color: 'var(--ink-muted)', margin: '0 0 13px' }}>So DiGi points the plan at the right thing.</p>
           <ChipGrid options={HARDEST.map(h => ({ v: h.slug, label: h.label }))} selected={hardest} onToggle={v => toggle(hardest, setHardest, v)} />
         </div>
       )}
 
       {stepIdx === 3 && (
         <div>
-          <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '19px', color: 'var(--ink)', margin: '0 0 13px', lineHeight: 1.25 }}>What do you want next week to feel like?</h3>
+          <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '21px', color: 'var(--ink)', margin: '0 0 13px', lineHeight: 1.25 }}>What do you want next week to feel like?</h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {FOCUS.map(f => (
               <button key={f} onClick={() => setFocus(f)} style={{
                 textAlign: 'left', cursor: 'pointer', background: focus === f ? 'var(--terracotta-lt)' : 'var(--cream)',
                 border: `2px solid ${focus === f ? 'var(--terracotta)' : 'transparent'}`, borderRadius: '13px', padding: '13px 15px',
-                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)',
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)',
               }}>
                 {f}
               </button>
@@ -235,19 +235,19 @@ export default function SundayCheckIn() {
 
       {stepIdx === 4 && (
         <div>
-          <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '19px', color: 'var(--ink)', margin: '0 0 4px', lineHeight: 1.25 }}>DiGi’s plan for your week</h3>
-          <p style={{ fontSize: '13px', color: 'var(--ink-muted)', margin: '0 0 14px' }}>Small, doable, grounded in the evidence. Agree it and it sits on your Home all week.</p>
+          <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '21px', color: 'var(--ink)', margin: '0 0 4px', lineHeight: 1.25 }}>DiGi’s plan for your week</h3>
+          <p style={{ fontSize: '15px', color: 'var(--ink-muted)', margin: '0 0 14px' }}>Small, doable, grounded in the evidence. Agree it and it sits on your Home all week.</p>
           {busy && draftPlan.length === 0 ? (
-            <p style={{ fontSize: '14px', color: 'var(--terracotta-dark)', fontWeight: 700 }}>Reading your week and shaping a plan…</p>
+            <p style={{ fontSize: '16px', color: 'var(--terracotta-dark)', fontWeight: 700 }}>Reading your week and shaping a plan…</p>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '9px' }}>
               {draftPlan.map((p, i) => (
                 <div key={i} style={{ display: 'flex', gap: '11px', background: 'var(--cream)', borderRadius: '13px', padding: '12px 13px' }}>
-                  <span style={{ flexShrink: 0, width: 22, height: 22, borderRadius: '50%', background: 'var(--terracotta)', color: '#fff', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{i + 1}</span>
+                  <span style={{ flexShrink: 0, width: 22, height: 22, borderRadius: '50%', background: 'var(--terracotta)', color: '#fff', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{i + 1}</span>
                   <div style={{ minWidth: 0 }}>
-                    <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: 'var(--ink)', lineHeight: 1.3 }}>{p.title}</div>
-                    <div style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '3px' }}>{p.why}</div>
-                    {p.expert && <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginTop: '5px' }}>{p.expert}</div>}
+                    <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16.5px', color: 'var(--ink)', lineHeight: 1.3 }}>{p.title}</div>
+                    <div style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '3px' }}>{p.why}</div>
+                    {p.expert && <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginTop: '5px' }}>{p.expert}</div>}
                   </div>
                 </div>
               ))}
@@ -259,18 +259,18 @@ export default function SundayCheckIn() {
       {/* Nav */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '18px' }}>
         {stepIdx > 0 && stepIdx < 4 && (
-          <button onClick={() => setStepIdx(i => i - 1)} style={{ background: 'none', border: '1.5px solid var(--border)', borderRadius: '12px', padding: '11px 16px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--ink-soft)' }}>Back</button>
+          <button onClick={() => setStepIdx(i => i - 1)} style={{ background: 'none', border: '1.5px solid var(--border)', borderRadius: '12px', padding: '11px 16px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink-soft)' }}>Back</button>
         )}
         {stepIdx < 3 && (
-          <button onClick={() => setStepIdx(i => i + 1)} disabled={!canNext} style={{ flex: 1, background: canNext ? 'var(--terracotta)' : 'var(--border)', color: 'var(--ink)', border: 'none', borderRadius: '13px', padding: '13px', cursor: canNext ? 'pointer' : 'default', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', boxShadow: canNext ? '0 4px 0 var(--terracotta-dark)' : 'none' }}>Next</button>
+          <button onClick={() => setStepIdx(i => i + 1)} disabled={!canNext} style={{ flex: 1, background: canNext ? 'var(--terracotta)' : 'var(--border)', color: 'var(--ink)', border: 'none', borderRadius: '13px', padding: '13px', cursor: canNext ? 'pointer' : 'default', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', boxShadow: canNext ? '0 4px 0 var(--terracotta-dark)' : 'none' }}>Next</button>
         )}
         {stepIdx === 3 && (
-          <button onClick={suggest} disabled={!canNext || busy} style={{ flex: 1, background: canNext ? 'var(--terracotta)' : 'var(--border)', color: 'var(--ink)', border: 'none', borderRadius: '13px', padding: '13px', cursor: canNext && !busy ? 'pointer' : 'default', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', boxShadow: canNext ? '0 4px 0 var(--terracotta-dark)' : 'none' }}>
+          <button onClick={suggest} disabled={!canNext || busy} style={{ flex: 1, background: canNext ? 'var(--terracotta)' : 'var(--border)', color: 'var(--ink)', border: 'none', borderRadius: '13px', padding: '13px', cursor: canNext && !busy ? 'pointer' : 'default', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', boxShadow: canNext ? '0 4px 0 var(--terracotta-dark)' : 'none' }}>
             {busy ? 'Shaping your plan…' : 'See my plan'}
           </button>
         )}
         {stepIdx === 4 && (
-          <button onClick={agree} disabled={busy || draftPlan.length === 0} className="btn btn-green" style={{ flex: 1, borderRadius: '13px', padding: '13px', cursor: busy ? 'default' : 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px' }}>
+          <button onClick={agree} disabled={busy || draftPlan.length === 0} className="btn btn-green" style={{ flex: 1, borderRadius: '13px', padding: '13px', cursor: busy ? 'default' : 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px' }}>
             {busy ? 'Saving…' : 'Agree this plan ✓'}
           </button>
         )}
@@ -288,7 +288,7 @@ function ChipGrid({ options, selected, onToggle }: { options: { v: string; label
           <button key={o.v} onClick={() => onToggle(o.v)} style={{
             cursor: 'pointer', background: on ? 'var(--terracotta)' : 'var(--cream)',
             border: `2px solid ${on ? 'var(--terracotta)' : 'transparent'}`, borderRadius: '100px', padding: '9px 15px',
-            fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '13.5px', color: on ? '#fff' : 'var(--ink)',
+            fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '15.5px', color: on ? '#fff' : 'var(--ink)',
           }}>
             {on ? '✓ ' : ''}{o.label}
           </button>

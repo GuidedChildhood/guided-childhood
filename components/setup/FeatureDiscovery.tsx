@@ -94,23 +94,23 @@ export default function FeatureDiscovery({ done = [] }: { done?: string[] }) {
       <button
         onClick={dismiss}
         aria-label="Dismiss"
-        style={{ position: 'absolute', top: 12, right: 12, background: 'none', border: 'none', color: 'rgba(255,255,255,0.6)', fontSize: '18px', cursor: 'pointer', lineHeight: 1, padding: 4 }}
+        style={{ position: 'absolute', top: 12, right: 12, background: 'none', border: 'none', color: 'rgba(255,255,255,0.6)', fontSize: '20px', cursor: 'pointer', lineHeight: 1, padding: 4 }}
       >
         ×
       </button>
-      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '6px' }}>
+      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '6px' }}>
         Have you tried
       </div>
-      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', lineHeight: 1.2, marginBottom: '6px', paddingRight: '20px' }}>
+      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '19px', lineHeight: 1.2, marginBottom: '6px', paddingRight: '20px' }}>
         {tip.q}
       </div>
-      <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.82)', lineHeight: 1.55, margin: '0 0 14px' }}>
+      <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.82)', lineHeight: 1.55, margin: '0 0 14px' }}>
         {tip.body}
       </p>
 
       {tip.href === null && showInstall && (
         <div style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '12px', padding: '13px 15px', marginBottom: '14px' }}>
-          <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.92)', lineHeight: 1.55, margin: 0 }}>
+          <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.92)', lineHeight: 1.55, margin: 0 }}>
             {isIOS
               ? 'Tap the Share button at the bottom of Safari (the square with an arrow), scroll down, then tap Add to Home Screen.'
               : 'Open your browser menu (the three dots), then tap Install app or Add to Home screen.'}
@@ -122,7 +122,7 @@ export default function FeatureDiscovery({ done = [] }: { done?: string[] }) {
         {tip.href === null ? (
           <button
             onClick={() => setShowInstall(true)}
-            style={{ background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: '12px', padding: '11px 18px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', cursor: 'pointer', boxShadow: '0 3px 0 var(--terracotta-dark)' }}
+            style={{ background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: '12px', padding: '11px 18px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', cursor: 'pointer', boxShadow: '0 3px 0 var(--terracotta-dark)' }}
           >
             {tip.cta}
           </button>
@@ -130,14 +130,14 @@ export default function FeatureDiscovery({ done = [] }: { done?: string[] }) {
           <Link
             href={tip.href}
             onClick={dismiss}
-            style={{ display: 'inline-flex', alignItems: 'center', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '12px', padding: '11px 18px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', boxShadow: '0 3px 0 var(--terracotta-dark)' }}
+            style={{ display: 'inline-flex', alignItems: 'center', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '12px', padding: '11px 18px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', boxShadow: '0 3px 0 var(--terracotta-dark)' }}
           >
             {tip.cta}
           </Link>
         )}
         <button
           onClick={dismiss}
-          style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.6)', fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, cursor: 'pointer', letterSpacing: '0.04em' }}
+          style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.6)', fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, cursor: 'pointer', letterSpacing: '0.04em' }}
         >
           Not now
         </button>

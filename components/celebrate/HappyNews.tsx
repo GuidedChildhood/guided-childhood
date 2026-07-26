@@ -94,14 +94,14 @@ export default function HappyNews({ item, onClose }: { item: HappyNewsItem | nul
           <img src={c.src} alt={c.name} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
         </span>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: c.ring, marginBottom: '2px' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: c.ring, marginBottom: '2px' }}>
             {c.name} says
           </div>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '19px', color: 'var(--ink)', lineHeight: 1.15, letterSpacing: '-0.01em' }}>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '21px', color: 'var(--ink)', lineHeight: 1.15, letterSpacing: '-0.01em' }}>
             {item.headline}
           </div>
           {item.sub && (
-            <div style={{ fontSize: '13px', fontWeight: 600, color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: '3px' }}>
+            <div style={{ fontSize: '15px', fontWeight: 600, color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: '3px' }}>
               {item.sub}
             </div>
           )}
@@ -118,7 +118,7 @@ export default function HappyNews({ item, onClose }: { item: HappyNewsItem | nul
               style={{
                 marginTop: '9px', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none',
                 borderRadius: '12px', padding: '9px 16px', cursor: 'pointer',
-                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px',
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px',
                 boxShadow: '0 4px 0 var(--terracotta-dark)',
               }}
             >

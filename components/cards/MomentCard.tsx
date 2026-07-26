@@ -174,7 +174,7 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
             }}>
               {moment.title}
             </p>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: '12px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
               {moment.category}
             </p>
           </div>
@@ -187,7 +187,7 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
           background: 'var(--cream)', marginTop: 'auto',
         }}>
           <span style={{ fontSize: '0.7rem' }}>✨</span>
-          <span style={{ fontFamily: 'var(--font-body)', fontSize: '11px', color: 'var(--ink-muted)', fontWeight: 500 }}>
+          <span style={{ fontFamily: 'var(--font-body)', fontSize: '13px', color: 'var(--ink-muted)', fontWeight: 500 }}>
             Tap for DiGi
           </span>
         </div>
@@ -292,7 +292,7 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
                   {questMade ? `Sent to ${childName && childName !== 'Your child' ? childName : 'them'} ✓` : questBusy ? 'Making...' : 'Make it a quest →'}
                 </button>
               </div>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '6px 0 0', display: 'flex', alignItems: 'center', gap: 8 }}>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '6px 0 0', display: 'flex', alignItems: 'center', gap: 8 }}>
                 <span aria-hidden>🗓️</span> DiGi will check how this one went in your Sunday catch up.
               </p>
             </div>
@@ -347,7 +347,7 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M6 9l6 6 6-6" stroke="#fff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
                 </button>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.85)', margin: '2px 0 3px' }}>
+                  <p style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.85)', margin: '2px 0 3px' }}>
                     Moment
                   </p>
                   <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.2rem', color: '#fff', lineHeight: 1.15, margin: 0 }}>
@@ -364,7 +364,7 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
 
               {/* One idea, big. Scrolls only if a card runs long. */}
               <div style={{ flex: 1, overflowY: 'auto', padding: '20px 24px 22px', display: 'flex', flexDirection: 'column', gap: 14 }}>
-                <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: look.band, margin: 0 }}>
+                <p style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: look.band, margin: 0 }}>
                   {current.eyebrow}
                 </p>
                 <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.7rem, 6.5vw, 2.2rem)', color: 'var(--ink)', letterSpacing: '-0.02em', lineHeight: 1.12, margin: 0 }}>
@@ -372,7 +372,7 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
                 </h2>
                 {current.render()}
                 {shared && (
-                  <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: look.band, margin: '4px 0 0' }}>Link copied, paste it anywhere ✓</p>
+                  <p style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: look.band, margin: '4px 0 0' }}>Link copied, paste it anywhere ✓</p>
                 )}
               </div>
 
@@ -382,7 +382,7 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
               {!isLast && (
                 <div style={{ padding: '0 24px 16px', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
                   <a href={scriptsHref} onClick={e => e.stopPropagation()} style={lesserLink}>See the scripts for this →</a>
-                  <span aria-hidden style={{ display: 'inline-flex', alignItems: 'center', gap: 5, background: 'rgba(255,255,255,0.16)', borderRadius: 100, padding: '5px 11px', fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.06em', color: 'rgba(255,255,255,0.95)', flexShrink: 0 }}>
+                  <span aria-hidden style={{ display: 'inline-flex', alignItems: 'center', gap: 5, background: 'rgba(255,255,255,0.16)', borderRadius: 100, padding: '5px 11px', fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.06em', color: 'rgba(255,255,255,0.95)', flexShrink: 0 }}>
                     Tap to continue →
                   </span>
                 </div>
@@ -394,7 +394,7 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
               {idx > 0 && (
                 <button onClick={prev} style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'inline-flex', flexDirection: 'column', alignItems: 'center', gap: 3 }}>
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M9 14L4 9l5-5M4 9h11a5 5 0 015 5v1" stroke="rgba(255,255,255,0.9)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.9)' }}>Previous card</span>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.9)' }}>Previous card</span>
                 </button>
               )}
             </div>
@@ -414,7 +414,7 @@ const stepNum: React.CSSProperties = {
   width: 30, height: 30, borderRadius: '50%', flexShrink: 0, marginTop: 2,
   background: 'rgba(0,0,0,0.10)', color: 'var(--ink)',
   display: 'flex', alignItems: 'center', justifyContent: 'center',
-  fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 700,
+  fontFamily: 'var(--font-mono)', fontSize: '16px', fontWeight: 700,
 }
 const roundIcon: React.CSSProperties = {
   width: 38, height: 38, borderRadius: '50%',
@@ -422,6 +422,6 @@ const roundIcon: React.CSSProperties = {
   cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
 }
 const lesserLink: React.CSSProperties = {
-  fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.02em',
+  fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 700, letterSpacing: '0.02em',
   color: 'var(--ink-soft)', textDecoration: 'none',
 }

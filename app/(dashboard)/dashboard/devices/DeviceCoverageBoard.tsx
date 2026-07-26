@@ -99,7 +99,7 @@ export default function DeviceCoverageBoard({
       {/* Header with the coverage ring */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '6px' }}>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
             Device coverage
           </span>
           <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.25rem, 4vw, 1.5rem)', letterSpacing: '-0.03em', lineHeight: 1.12, margin: '3px 0 0' }}>
@@ -117,11 +117,11 @@ export default function DeviceCoverageBoard({
             />
           </svg>
           <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '15px', color: 'var(--ink)', lineHeight: 1 }}>{done}<span style={{ color: 'var(--ink-muted)', fontSize: '11px' }}>/{total}</span></span>
+            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '17px', color: 'var(--ink)', lineHeight: 1 }}>{done}<span style={{ color: 'var(--ink-muted)', fontSize: '13px' }}>/{total}</span></span>
           </div>
         </div>
       </div>
-      <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 18px' }}>
+      <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 18px' }}>
         {allDone
           ? 'Settings are in place across the network, the devices and the apps. Come back whenever a new device arrives.'
           : 'Protection works in layers. Set the network first, then each device, then the apps on them.'}
@@ -132,10 +132,10 @@ export default function DeviceCoverageBoard({
         {layers.map(layer => (
           <div key={layer.label}>
             <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '10px', marginBottom: '9px' }}>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink)' }}>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink)' }}>
                 {layer.label}
               </span>
-              <span style={{ fontSize: '11px', color: 'var(--ink-muted)', textAlign: 'right', flex: 1, minWidth: 0 }}>
+              <span style={{ fontSize: '13px', color: 'var(--ink-muted)', textAlign: 'right', flex: 1, minWidth: 0 }}>
                 {layer.blurb}
               </span>
             </div>
@@ -169,7 +169,7 @@ export default function DeviceCoverageBoard({
           device arrives. */}
       {notOwnedItems.length > 0 && (
         <div style={{ marginTop: '18px', paddingTop: '16px', borderTop: '1px dashed var(--border)' }}>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
             Not in our home yet
           </span>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '9px' }}>
@@ -179,10 +179,10 @@ export default function DeviceCoverageBoard({
                 background: 'var(--cream)', border: '1.5px solid var(--border)',
                 borderRadius: '15px', padding: '10px 13px', opacity: 0.9,
               }}>
-                <div style={{ width: 34, height: 34, borderRadius: '10px', flexShrink: 0, background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '17px' }}>
+                <div style={{ width: 34, height: 34, borderRadius: '10px', flexShrink: 0, background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '19px' }}>
                   {item.emoji}
                 </div>
-                <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--ink-soft)' }}>
+                <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink-soft)' }}>
                   {item.name}
                 </span>
                 <button
@@ -191,7 +191,7 @@ export default function DeviceCoverageBoard({
                   style={{
                     flexShrink: 0, background: 'none', border: '1.5px solid var(--border)', borderRadius: '100px',
                     padding: '6px 13px', cursor: pending === item.key ? 'wait' : 'pointer',
-                    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '12px', color: 'var(--ink)',
+                    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--ink)',
                   }}
                 >
                   We have it now
@@ -221,7 +221,7 @@ function Row({ item, isDone, isNext, busy, onToggle, onOpen }: {
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         background: isDone ? 'var(--tint-sage)' : '#fff',
         border: isDone ? '2px solid var(--tint-sage)' : '2px solid var(--border)',
-        color: '#2D5016', fontSize: '13px', fontWeight: 800,
+        color: '#2D5016', fontSize: '15px', fontWeight: 800,
       }}
     >
       {isDone ? '✓' : ''}
@@ -233,13 +233,13 @@ function Row({ item, isDone, isNext, busy, onToggle, onOpen }: {
       <div style={{
         width: 40, height: 40, borderRadius: '11px', flexShrink: 0,
         background: isDone ? 'var(--tint-sage)' : 'var(--stage-2)',
-        display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '19px',
+        display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '21px',
       }}>
         {item.emoji}
       </div>
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: 'var(--ink)' }}>
+          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16.5px', color: 'var(--ink)' }}>
             {item.name}
           </span>
           {isNext && !isDone && (
@@ -248,7 +248,7 @@ function Row({ item, isDone, isNext, busy, onToggle, onOpen }: {
             </span>
           )}
         </div>
-        <div style={{ fontSize: '12px', color: 'var(--ink-soft)', lineHeight: 1.45, marginTop: '1px' }}>{item.why}</div>
+        <div style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.45, marginTop: '1px' }}>{item.why}</div>
       </div>
     </>
   )

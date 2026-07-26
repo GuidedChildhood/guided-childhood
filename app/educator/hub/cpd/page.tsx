@@ -7,10 +7,10 @@ import PrintButton from '@/components/educator/PrintButton'
 // Youth Select Committee 2026 report found teachers often lack confidence
 // to deliver specialist content; these briefings are the confidence.
 
-const mono: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }
-const body: React.CSSProperties = { fontFamily: 'var(--font-body)', fontSize: '13.5px', color: 'var(--ink)', lineHeight: 1.7 }
-const h2: React.CSSProperties = { fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)', margin: '0 0 6px' }
-const label: React.CSSProperties = { fontFamily: 'var(--font-body)', fontWeight: 800, fontSize: '13px', color: 'var(--ink)' }
+const mono: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }
+const body: React.CSSProperties = { fontFamily: 'var(--font-body)', fontSize: '15.5px', color: 'var(--ink)', lineHeight: 1.7 }
+const h2: React.CSSProperties = { fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '18px', color: 'var(--ink)', margin: '0 0 6px' }
+const label: React.CSSProperties = { fontFamily: 'var(--font-body)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)' }
 
 const BRIEFINGS = [
   {
@@ -90,7 +90,7 @@ export default async function CpdBriefingsPage() {
           </div>
         ))}
 
-        <p style={{ ...body, fontSize: '11.5px', color: 'var(--ink-muted)' }}>
+        <p style={{ ...body, fontSize: '13.5px', color: 'var(--ink-muted)' }}>
           These briefings support your safeguarding training, they do not replace it. Your school&rsquo;s
           safeguarding policy and DSL always take precedence.
         </p>

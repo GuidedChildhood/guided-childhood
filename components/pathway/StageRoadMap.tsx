@@ -37,11 +37,11 @@ export default function StageRoadMap({
       `}</style>
 
       <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 26 }}>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
           The road to 16
         </span>
         {current > 0 && (
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700, color: 'var(--terracotta-dark)' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, fontWeight: 700, color: 'var(--terracotta-dark)' }}>
             Stage {current} of {STAGES.length}{progressPct !== null ? ` · ${progressPct}% of this stage` : ''}
           </span>
         )}
@@ -69,7 +69,7 @@ export default function StageRoadMap({
                   style={{
                     width: 44, height: 44, borderRadius: '50%', flexShrink: 0,
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15,
+                    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 17,
                     background: here ? '#fff' : behind ? 'var(--terracotta-lt)' : 'var(--cream)',
                     border: here ? '3px solid var(--terracotta)' : behind ? '2px dashed var(--terracotta)' : '2px solid var(--border)',
                     color: here ? 'var(--terracotta-dark)' : behind ? 'var(--terracotta-dark)' : 'var(--ink-light)',
@@ -83,7 +83,7 @@ export default function StageRoadMap({
                   <div style={{ fontFamily: 'var(--font-mono)', fontSize: 8.5, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: here ? 'var(--ink)' : 'var(--ink-muted)', whiteSpace: 'nowrap' }}>
                     {stage.name}
                   </div>
-                  <div style={{ fontFamily: 'var(--font-display)', fontSize: 10, fontWeight: 700, color: 'var(--ink-soft)', whiteSpace: 'nowrap' }}>
+                  <div style={{ fontFamily: 'var(--font-display)', fontSize: 12, fontWeight: 700, color: 'var(--ink-soft)', whiteSpace: 'nowrap' }}>
                     {ages}
                   </div>
                   {here && (
@@ -119,7 +119,7 @@ export default function StageRoadMap({
       {/* Honest framing: the earlier stages are set by age, not learning, so
           they are foundations to revisit, never boxes already ticked. */}
       {current > 1 && (
-        <p style={{ fontSize: 12, color: 'var(--ink-soft)', lineHeight: 1.5, margin: '16px 4px 0', textAlign: 'center' }}>
+        <p style={{ fontSize: 14, color: 'var(--ink-soft)', lineHeight: 1.5, margin: '16px 4px 0', textAlign: 'center' }}>
           The stages before yours are foundations, not finished. Dip back into one a little each day whenever it helps. Nothing is marked done just because of your child&apos;s age.
         </p>
       )}

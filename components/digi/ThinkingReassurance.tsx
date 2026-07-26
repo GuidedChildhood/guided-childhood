@@ -26,7 +26,7 @@ export default function ThinkingReassurance() {
     <span
       key={i}
       style={{
-        fontFamily: 'var(--font-body)', fontSize: '12.5px', fontWeight: 500,
+        fontFamily: 'var(--font-body)', fontSize: '14.5px', fontWeight: 500,
         color: 'var(--ink-muted)', lineHeight: 1.4,
         animation: 'gcReassureFade 0.5s ease',
       }}

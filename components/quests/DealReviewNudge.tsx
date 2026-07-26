@@ -53,7 +53,7 @@ export default function DealReviewNudge({
   const action: React.CSSProperties = {
     display: 'inline-flex', alignItems: 'center', gap: 6, textDecoration: 'none',
     borderRadius: 12, padding: '11px 15px',
-    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 14.5,
+    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 16.5,
   }
 
   return (
@@ -64,13 +64,13 @@ export default function DealReviewNudge({
             <DigiCharacter size={27} mood="thinking" />
           </span>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10.5, fontWeight: 700, letterSpacing: '0.13em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12.5, fontWeight: 700, letterSpacing: '0.13em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
               Every couple of weeks
             </div>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 20, color: 'var(--ink)', lineHeight: 1.15, marginTop: 2 }}>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 22, color: 'var(--ink)', lineHeight: 1.15, marginTop: 2 }}>
               Does the deal still fit?
             </div>
-            <p style={{ fontSize: 15.5, color: 'var(--ink-soft)', lineHeight: 1.55, margin: '7px 0 0' }}>
+            <p style={{ fontSize: 17.5, color: 'var(--ink-soft)', lineHeight: 1.55, margin: '7px 0 0' }}>
               Nothing has changed in the deal for about {weeks === 1 ? 'a week' : `${weeks} weeks`}. Jobs get outgrown and terms change shape. Have a look together, then put the new one on the fridge.
             </p>
           </div>
@@ -95,7 +95,7 @@ export default function DealReviewNudge({
 
         {/* The reassurance that stops a parent worrying they have to resend
             anything: the child's app is the same live deal, always. */}
-        <p style={{ fontSize: 13, color: 'var(--ink-muted)', lineHeight: 1.5, margin: '10px 0 0' }}>
+        <p style={{ fontSize: 15, color: 'var(--ink-muted)', lineHeight: 1.5, margin: '10px 0 0' }}>
           Anything you change lands in their app straight away. There is nothing to send.
         </p>
       </div>

@@ -58,7 +58,7 @@ export default function BrowseTile({
       </span>
       {sub && (
         <span style={{
-          fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700,
+          fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 700,
           letterSpacing: '0.06em', textTransform: 'uppercase', color: text, opacity: 0.68,
           marginTop: '5px', position: 'relative', zIndex: 1,
         }}>
@@ -101,7 +101,7 @@ export default function BrowseTile({
           position: 'absolute', top: '11px', left: '12px', zIndex: 2,
           width: 22, height: 22, borderRadius: '50%',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '11px',
+          fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '13px',
           background: done ? '#2F8F6B' : 'rgba(255,255,255,0.9)',
           color: done ? '#fff' : text,
           boxShadow: '0 2px 0 rgba(26,26,46,0.14)',
@@ -113,7 +113,7 @@ export default function BrowseTile({
       {hasBadge && (
         <span style={{
           position: 'absolute', top: '11px', right: '12px', zIndex: 2,
-          fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700,
+          fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
           letterSpacing: '0.06em', textTransform: 'uppercase',
           background: done ? '#D4EDDF' : attempted ? '#FBE7C6' : 'rgba(255,255,255,0.85)',
           color: done ? '#1F7A54' : attempted ? '#9A6A16' : 'var(--ink)',

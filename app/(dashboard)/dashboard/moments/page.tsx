@@ -69,7 +69,7 @@ export default async function MomentsPage() {
         <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '8px' }}>
           Every moment, handled
         </h1>
-        <p style={{ fontSize: '14px', color: 'var(--ink-muted)', lineHeight: 1.6 }}>
+        <p style={{ fontSize: '16px', color: 'var(--ink-muted)', lineHeight: 1.6 }}>
           Flip a card to get the science and the exact words from DiGi.
           {child?.name && child.name !== 'Your child' ? ` Filtered for ${child.name}.` : ''}
         </p>

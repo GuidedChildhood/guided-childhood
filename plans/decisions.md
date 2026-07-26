@@ -1822,3 +1822,103 @@ The reason is the product, not squeamishness. A score turns a warm shared thing
 into a test that judges them, and the child stops asking for help on the bits
 they found hard, which is the entire mechanism. The parent gets the substance
 (here is where she is shaky) without a number attached to their child.
+
+## 26 Jul 2026: the welcome rotates across opens, not inside one
+The launch overlay used to cycle six mission lines every six seconds inside a
+single view, and it quoted a duration. Both are now gone.
+
+The rotation axis was wrong. It rotates **across opens**: one card, one service,
+one tap, gone, and a parent meets the whole product across a fortnight of quick
+hellos rather than a tour nobody sits through. Anything the family has not set
+up leads, so the card is a useful next thing rather than a fact about us.
+
+The duration was worse. "Today takes about six minutes" is the first thing a
+tired parent reads and it lands as a commitment, not a welcome. They find out it
+is short by it being short. No total is ever quoted again.
+
+Every card carries the trust line: not what the service is, but what happens to
+what you tell it. Families are rightly wary of apps that hoover up information
+about their children, so the honest answer is both the explanation and the
+reason to trust us. `lib/home/welcome-cards.ts` holds the catalogue and the
+pick, kept pure so the selection can be reasoned about on its own.
+
+## 26 Jul 2026: the child phone handover is asked once, properly, and paper is a real answer
+Half the product lives on the child's side and the QR code was buried on the
+Quests page, so a family could run one side of a two sided thing for weeks. It
+is now asked on the second app open, never the first, and never as a second
+overlay: it takes the one welcome slot when it is its turn.
+
+Three calls worth recording.
+
+**Sending the link sits equal to the QR code.** The parent is holding the phone
+showing the code and cannot scan it with that same device, so a QR only ask is a
+dead end for every child who is not stood right next to them.
+
+**"We do it on paper" is a real preference, not a dismissal.** Plenty of
+families will not give a child a phone and we should be the platform that says
+fine. It is stored (`profiles.handover_choice`) and the prompt never returns.
+
+**The asking is capped** at three (`profiles.handover_asks`, migration 103, with
+a browser side backstop). An overlay on login is the most intrusive surface we
+have and the fastest way to make it hated is to let it nag forever. After that
+it falls back to the quiet prompt already on Quests.
+
+The age gate was already right and stays: nothing is offered below the 8 plus
+band, because asking a parent of a five year old to link a phone reads as us
+pushing devices onto little children.
+
+## 26 Jul 2026: leads get a real stop link, because address matching cannot catch everyone
+Checked whether the pre sign up emails reach people who have already joined.
+Every starter pack link lives in a lead only email, and the cron does exclude
+anyone with a matching account, so the design is right. Both sides lowercase the
+address at write time, so case is not the hole either.
+
+The hole is a parent who took a printable with one address and then signed up
+with another. Matching on address cannot ever catch that, and until now their
+only way out was a mailto in the footer, which is no way out at all.
+
+So every lead email now carries a real one click stop, signed with an HMAC over
+the address (`leadUnsubscribeUrl`), and the same door handles both kinds of
+recipient. Clicking it stops the lead sequence AND opts out any account on that
+address, because someone clicking stop means stop, not stop one of two lists
+they did not know they were on. Migration 104 adds `starter_leads.unsubscribed_at`.
+
+Both lead reads fall back to the unfiltered query if that column is missing, so
+a deploy landing before the migration cannot silently switch the whole lead
+programme off. This is the same defensive shape as the handover column read.
+
+It is also what the bulk sender rules ask for: a link that works in one tap.
+
+## 26 Jul 2026: the parent app type scale goes up, by rule not by hand
+Justin, on a real phone: the text is way too small, make it much bigger across
+the app. He was right, and it was not one screen. Every size in the parent app
+is set by hand in an inline style, about two and a half thousand of them, so
+there was no single number to turn and no honest way to do it by eye.
+
+`tools/bump-type-scale.py` holds the rule, deliberately dull so it is
+predictable and reversible:
+
+- under 9px, left alone. Micro marks inside small dots and badges, where two
+  more pixels overflows the thing holding them.
+- 9 to 20px, plus two. The whole readable range: labels, body, sub copy.
+- over 20px, left alone. Already display sized, and mostly emoji glyphs sized
+  to fit a fixed box.
+
+Plus two rather than a percentage on purpose. It lifts the small end most in
+relative terms, which is where the pain was (a 10px mono label gains a fifth, a
+20px heading a tenth), and it can never reorder the hierarchy: anything bigger
+than its neighbour before is still bigger after. clamp() sizes move too, but
+only where the top of the clamp is 22px or under.
+
+2477 sizes across 228 files. Checked for horizontal overflow at 390 wide on
+three fixture pages: zero on all three, console clean.
+
+## 26 Jul 2026: add a job is a button, at the top of the list
+Adding a job is the one thing a parent opens the Quests manager to do, and the
+only way to write one was a lone input below two screens of ready made ideas.
+Set tasks and Manage jobs both landed above that wall rather than at it.
+
+There is now an add a job button in the header of the child's own quest list,
+opening an inline composer in place. Set tasks and Manage jobs land there with
+it already open. The ideas grid stays where it is, for a parent who wants to
+browse rather than type.

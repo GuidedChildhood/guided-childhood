@@ -1,7 +1,9 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { card, cardPad, eyebrow, stepCircle } from '@/components/scripts/card-system'
+import {
+  card, cardPad, eyebrow, sheet, dottedRule, sheetBody, stageAccent, stageCircle,
+} from '@/components/scripts/card-system'
 
 // The deeper half of every script: what to say when the child pushes
 // back, how to check back later in the week, and a short note written
@@ -63,6 +65,9 @@ export default function ScriptDepth({ sortOrder, initial, childName, childPhone,
     ? `sms:${childPhone.replace(/\s/g, '')}?&body=${encodeURIComponent(note)}`
     : null
   const isYoung = YOUNG_STAGES.includes(stageId)
+  // The stage shows in the numbered circles only, so a Foundation script and a
+  // Shaper one are still the same familiar butter sheet.
+  const accent = stageAccent(stageId)
 
   const share = () => {
     if (!note) return
@@ -112,7 +117,7 @@ export default function ScriptDepth({ sortOrder, initial, childName, childPhone,
         ...card, boxShadow: 'none', borderStyle: 'dashed',
         background: 'var(--cream)', padding: cardPad, textAlign: 'center',
       }}>
-        <p style={{ fontSize: '14px', color: 'var(--ink-muted)', margin: 0 }}>
+        <p style={{ fontSize: '16px', color: 'var(--ink-muted)', margin: 0 }}>
           DiGi is writing the deeper half of this script, the push back reply, the follow up and a note for your child...
         </p>
       </div>
@@ -124,18 +129,24 @@ export default function ScriptDepth({ sortOrder, initial, childName, childPhone,
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
 
-      {/* Steps 5 and 6, the exact same card grammar as steps 1 to 4 */}
-      {DEEP_STEPS.map(step => (
-        <div key={step.num} style={{ ...card, padding: cardPad }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px' }}>
-            <span style={stepCircle}>{step.num}</span>
-            <span style={{ ...eyebrow, color: 'var(--terracotta-dark)' }}>{step.label}</span>
-          </div>
-          <p style={{ fontSize: '16.5px', color: 'var(--ink)', lineHeight: 1.7, margin: 0 }}>
-            {expansion[step.key]}
-          </p>
+      {/* Steps 5 and 6 continue the sheet the first four steps are on: one
+          butter sheet, numbered blocks, a dotted rule between them, and the
+          same body size, so the script reads as one thing being read down
+          rather than two products stacked. */}
+      <section style={sheet}>
+        <div style={{ padding: 'clamp(20px, 5vw, 26px)' }}>
+          {DEEP_STEPS.map((step, i) => (
+            <div key={step.num}>
+              {i > 0 && <div style={dottedRule} />}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 11, marginBottom: 12 }}>
+                <span style={stageCircle(accent)}>{step.num}</span>
+                <span style={{ ...eyebrow, color: 'var(--terracotta-dark)' }}>{step.label}</span>
+              </div>
+              <p style={sheetBody}>{expansion[step.key]}</p>
+            </div>
+          ))}
         </div>
-      ))}
+      </section>
 
       {/* The note for the child. Spoken words live in the DiGi blue pill,
           the chat speech treatment, and everything around them (the how to
@@ -147,14 +158,14 @@ export default function ScriptDepth({ sortOrder, initial, childName, childPhone,
         </div>
 
         <p style={{
-          fontSize: '16px', color: '#1B2A4A', lineHeight: 1.6, marginBottom: '14px',
+          fontSize: '18px', color: '#1B2A4A', lineHeight: 1.6, marginBottom: '14px',
           fontStyle: 'italic', background: '#DCE7FB',
           borderRadius: '18px 18px 18px 6px', padding: '14px 16px',
         }}>
           {note}
         </p>
 
-        <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.55, marginBottom: '16px' }}>
+        <p style={{ fontSize: '16px', color: 'var(--ink-soft)', lineHeight: 1.55, marginBottom: '16px' }}>
           {isYoung
             ? 'At this age there is no phone, so read it together at bedtime, or tuck it into a lunchbox. It always comes from you, we never message your child.'
             : childHasApp
@@ -167,27 +178,27 @@ export default function ScriptDepth({ sortOrder, initial, childName, childPhone,
               number needed. The read together and copy paths stay for the
               young ages and the no app families. */}
           {childHasApp && !isYoung && childId && (
-            <button onClick={sendToApp} disabled={sending} className="btn btn-gold" style={{ padding: '10px 18px', fontSize: '12px', cursor: sending ? 'wait' : 'pointer' }}>
+            <button onClick={sendToApp} disabled={sending} className="btn btn-gold" style={{ padding: '10px 18px', fontSize: '14px', cursor: sending ? 'wait' : 'pointer' }}>
               {sending ? 'Sending…' : `💛 Send to ${childName ?? 'their'}'s app`}
             </button>
           )}
           {smsHref && (
             <a href={smsHref} className={childHasApp && !isYoung ? '' : 'btn btn-gold'} style={{
-              padding: '10px 18px', fontSize: '12px', textDecoration: 'none',
+              padding: '10px 18px', fontSize: '14px', textDecoration: 'none',
               ...(childHasApp && !isYoung ? { background: 'var(--white)', color: 'var(--ink)', border: '1.5px solid var(--border)', borderRadius: '16px', fontFamily: 'var(--font-display)', fontWeight: 700, boxShadow: '0 3px 0 var(--border)' } : {}),
             }}>
               Text it instead
             </a>
           )}
           {!(childHasApp && !isYoung) && (
-            <button onClick={share} className="btn btn-gold" style={{ padding: '10px 18px', fontSize: '12px', cursor: 'pointer' }}>
+            <button onClick={share} className="btn btn-gold" style={{ padding: '10px 18px', fontSize: '14px', cursor: 'pointer' }}>
               {smsHref ? 'Share another way' : `Share it with ${childName ?? 'your child'}`}
             </button>
           )}
           <button
             onClick={copy}
             style={{
-              padding: '10px 18px', fontSize: '12px', cursor: 'pointer',
+              padding: '10px 18px', fontSize: '14px', cursor: 'pointer',
               background: 'var(--white)', color: 'var(--ink)',
               border: '1.5px solid var(--border)', borderRadius: '16px',
               fontFamily: 'var(--font-display)', fontWeight: 700,
@@ -198,7 +209,7 @@ export default function ScriptDepth({ sortOrder, initial, childName, childPhone,
           </button>
         </div>
         {sent && (
-          <p style={{ fontSize: '14px', color: 'var(--ink)', fontWeight: 700, lineHeight: 1.5, margin: '12px 0 0' }}>{sent}</p>
+          <p style={{ fontSize: '16px', color: 'var(--ink)', fontWeight: 700, lineHeight: 1.5, margin: '12px 0 0' }}>{sent}</p>
         )}
       </div>
 

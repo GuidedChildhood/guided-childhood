@@ -68,11 +68,11 @@ export default function MomentsGrid({ initialMoments, allMoments, childName, age
                 style={{ position: 'relative', zIndex: 1, flex: 1, minWidth: 0, background: 'none', border: 'none', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5, padding: 0 }}
               >
                 <span style={{ width: 46, height: 46, borderRadius: '50%', background: on ? 'var(--terracotta)' : 'var(--cream)', border: `1.5px solid ${on ? 'var(--terracotta-dark)' : 'var(--border)'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, boxShadow: on ? '0 3px 0 var(--terracotta-dark)' : 'none' }}>{b.icon}</span>
-                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 12, color: 'var(--ink)', lineHeight: 1.1, textAlign: 'center' }}>{b.label}</span>
-                <span style={{ display: 'flex', gap: 1, fontSize: 11, lineHeight: 1 }}>
+                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 14, color: 'var(--ink)', lineHeight: 1.1, textAlign: 'center' }}>{b.label}</span>
+                <span style={{ display: 'flex', gap: 1, fontSize: 13, lineHeight: 1 }}>
                   {b.items.slice(0, 4).map(m => <span key={m.id}>{m.icon}</span>)}
                 </span>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 9, fontWeight: 700, color: 'var(--ink-muted)' }}>{b.items.length}</span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700, color: 'var(--ink-muted)' }}>{b.items.length}</span>
               </button>
             )
           })}
@@ -86,8 +86,8 @@ export default function MomentsGrid({ initialMoments, allMoments, childName, age
           padding: '14px 16px', marginBottom: 14,
         }}>
           <span style={{ fontSize: '1.3rem', flexShrink: 0 }} aria-hidden>✨</span>
-          <p style={{ margin: 0, fontSize: '13.5px', lineHeight: 1.55, color: 'rgba(255,255,255,0.9)' }}>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', display: 'block', marginBottom: 3 }}>
+          <p style={{ margin: 0, fontSize: '15.5px', lineHeight: 1.55, color: 'rgba(255,255,255,0.9)' }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', display: 'block', marginBottom: 3 }}>
               DiGi&apos;s pick
             </span>
             <strong>{suggestedMoment.title}</strong>, {suggestReason}. It is the first card below.
@@ -112,7 +112,7 @@ export default function MomentsGrid({ initialMoments, allMoments, childName, age
                 background: scope === key ? 'var(--deep-teal)' : 'var(--white)',
                 color: scope === key ? '#fff' : 'var(--ink-soft)',
                 fontFamily: 'var(--font-mono)',
-                fontSize: '11.5px',
+                fontSize: '13.5px',
                 fontWeight: 700,
                 letterSpacing: '0.03em',
                 cursor: 'pointer',
@@ -146,7 +146,7 @@ export default function MomentsGrid({ initialMoments, allMoments, childName, age
               background: activeCategory === cat ? 'var(--terracotta)' : 'var(--white)',
               color: activeCategory === cat ? '#fff' : 'var(--ink-soft)',
               fontFamily: 'var(--font-body)',
-              fontSize: '13px',
+              fontSize: '15px',
               fontWeight: activeCategory === cat ? 600 : 400,
               cursor: 'pointer',
               whiteSpace: 'nowrap',
@@ -178,7 +178,7 @@ export default function MomentsGrid({ initialMoments, allMoments, childName, age
 
       {filtered.length === 0 && (
         <div style={{ textAlign: 'center', padding: '40px 20px', color: 'var(--ink-muted)' }}>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: '14px' }}>No moments in this category yet.</p>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: '16px' }}>No moments in this category yet.</p>
         </div>
       )}
     </div>

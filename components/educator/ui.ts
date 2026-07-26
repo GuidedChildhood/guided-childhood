@@ -5,7 +5,7 @@
 import type { CSSProperties } from 'react'
 
 export const eyebrow: CSSProperties = {
-  fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700,
+  fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
   letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-muted)',
 }
 
@@ -26,31 +26,31 @@ export const innerRow: CSSProperties = {
 export const input: CSSProperties = {
   width: '100%', padding: '12px 14px', borderRadius: '12px',
   border: '1.5px solid var(--border)', fontFamily: 'var(--font-body)',
-  fontSize: '15px', background: '#fff', color: 'var(--ink)',
+  fontSize: '17px', background: '#fff', color: 'var(--ink)',
 }
 
 export const label: CSSProperties = {
-  fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '13px', color: 'var(--ink)',
+  fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '15px', color: 'var(--ink)',
 }
 
 export const btnGold: CSSProperties = {
   display: 'inline-block', padding: '12px 22px', borderRadius: '16px',
   background: 'var(--gold)', color: 'var(--ink)', border: 'none',
   boxShadow: '0 5px 0 var(--gold-hover, #E3B53A)', cursor: 'pointer',
-  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
+  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px',
 }
 
 export const btnGreen: CSSProperties = {
   display: 'inline-block', padding: '12px 22px', borderRadius: '16px',
   background: 'var(--green-lt)', color: 'var(--green-dark)',
   border: '2px solid var(--green-dark)', boxShadow: '0 5px 0 var(--green-dark)',
-  cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
+  cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px',
 }
 
 export const btnQuiet: CSSProperties = {
   display: 'inline-block', padding: '10px 16px', borderRadius: '12px',
   background: '#fff', color: 'var(--ink)', border: '1.5px solid var(--border)',
-  cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px',
+  cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px',
 }
 
 // The section heading pattern: a green mono eyebrow above the block.

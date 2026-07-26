@@ -42,7 +42,7 @@ export default function DigiJuniorPause({ message, onContinue }: DigiJuniorPause
         🤖
       </div>
 
-      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '12px' }}>
+      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '12px' }}>
         DiGi Junior · Pause point
       </div>
 

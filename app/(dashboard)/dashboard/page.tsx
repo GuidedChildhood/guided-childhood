@@ -22,6 +22,7 @@ import SchoolPromoCard from '@/components/school/SchoolPromoCard'
 import WaitingOnYou from '@/components/quests/WaitingOnYou'
 import HomeStats from '@/components/dashboard/HomeStats'
 import { visibleSteps as visibleSetupSteps } from '@/lib/setup/steps'
+import { MAX_HANDOVER_ASKS } from '@/lib/handover'
 import SocialMediaReadiness from '@/components/pathway/SocialMediaReadiness'
 import SocialMediaHeadsUp from '@/components/pathway/SocialMediaHeadsUp'
 import PhoneHeadsUp from '@/components/pathway/PhoneHeadsUp'
@@ -209,6 +210,25 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   const setupSteps = visibleSetupSteps(phoneAge)
   const currentSetupStep = setupSteps.find(s => !setupFlags[s.key])?.key ?? null
   const setupComplete = currentSetupStep === null
+
+  // Is the child phone handover still an open question for this family? Four
+  // gates, all of them server side. Old enough to have a phone at all, no link
+  // made yet, they have not told us they do it on paper, and we have not
+  // already asked more times than is fair. The overlay itself waits for the
+  // second app open, which the client counts.
+  //
+  // Read on its own rather than folded into the profile select above, so that
+  // on any deploy where migration 103 has not been run yet the missing columns
+  // cost nothing but this one null. Putting them in the main select would take
+  // the whole profile read down with them, and Home would lose the name, the
+  // trial banner and the daily minutes over a prompt.
+  const { data: handoverRow } = await supabase
+    .from('profiles').select('handover_choice, handover_asks').eq('id', user.id).maybeSingle()
+  const handoverAsks = Number((handoverRow as { handover_asks?: number } | null)?.handover_asks ?? 0)
+  const handoverChoice = (handoverRow as { handover_choice?: string | null } | null)?.handover_choice ?? null
+  const handoverChild = (phoneAge && child?.id && !hasKidLink && !handoverChoice && handoverAsks < MAX_HANDOVER_ASKS)
+    ? { id: child.id, name: child.name ?? null }
+    : null
 
   // Most applicable first: filter to the child's age, then lead with the
   // categories most likely happening at this hour (UK time), so the grid
@@ -454,42 +474,48 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
       {showTrial && (
         <div style={{ background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: '16px', padding: '14px 18px', marginBottom: '18px' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap' }}>
-            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--ink)' }}>
+            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)' }}>
               ✨ Full access, {trialLeft} {trialLeft === 1 ? 'day' : 'days'} left
             </span>
-            <Link href="/dashboard/upgrade" style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--terracotta-dark)', textDecoration: 'none', letterSpacing: '0.04em' }}>
+            <Link href="/dashboard/upgrade" style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--terracotta-dark)', textDecoration: 'none', letterSpacing: '0.04em' }}>
               See membership →
             </Link>
           </div>
-          <p style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '6px 0 0' }}>
+          <p style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '6px 0 0' }}>
             Everything is open while you settle in. Five to ten minutes a day, all the way to 16.
           </p>
         </div>
       )}
       {trialEnded && (
         <div style={{ background: 'var(--deep-teal)', borderRadius: '16px', padding: '16px 18px', marginBottom: '18px' }}>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: '#fff', marginBottom: '4px' }}>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16.5px', color: '#fff', marginBottom: '4px' }}>
             Your 7 days of full access have finished
           </div>
-          <p style={{ fontSize: '12.5px', color: 'rgba(255,255,255,0.8)', lineHeight: 1.55, margin: '0 0 12px' }}>
+          <p style={{ fontSize: '14.5px', color: 'rgba(255,255,255,0.8)', lineHeight: 1.55, margin: '0 0 12px' }}>
             The daily habit, quests and your tracker stay free. The founder rate opens everything for £7.99 a month, for life.
           </p>
-          <Link href="/dashboard/upgrade" style={{ display: 'inline-flex', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '12px', padding: '10px 18px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
+          <Link href="/dashboard/upgrade" style={{ display: 'inline-flex', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '12px', padding: '10px 18px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
             Unlock everything again
           </Link>
         </div>
       )}
-      {/* The welcome and the whole point, said back in one big line at a time.
-          A parent opening the app on a busy Tuesday has forgotten what this is
-          all for, so the mission rotates across visits rather than sitting as a
-          wall of text nobody reads. */}
-      <MissionWelcome firstName={firstName} />
+      {/* Welcome back, one beat, gone. Each open introduces a different thing
+          the platform does, and what we do with what you tell it, so a parent
+          meets the whole product across a fortnight of quick hellos instead of
+          a tour nobody sits through. Anything not set up yet leads. */}
+      <MissionWelcome
+        firstName={firstName}
+        flags={setupFlags}
+        phoneAge={phoneAge}
+        handoverChild={handoverChild}
+        child={child?.id ? { id: child.id, name: child.name ?? null } : null}
+      />
 
       {/* Half the product is on the child's phone. Until they have opened it,
           the parent is running one side of a two sided thing and usually does
           not know it, so this says what is missing and where the QR code is.
           It goes for good the moment the child opens their app. */}
-      {!childAppLive && <ChildAppNudge childName={child?.name ?? null} />}
+      {!childAppLive && <ChildAppNudge childName={child?.name ?? null} childId={child?.id ?? null} />}
 
       {/* Every couple of weeks, DiGi asks whether the deal still fits. A deal
           set in week one quietly stops matching the family by week six, so this
@@ -548,15 +574,15 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           <div style={{ display: 'flex', alignItems: 'center', gap: '15px', background: 'linear-gradient(135deg, #FFF7EA 0%, #FCEAC0 100%)', border: '1.5px solid var(--gold)', borderRadius: '22px', padding: '18px 20px', boxShadow: '0 10px 26px -12px rgba(198,144,24,0.45)' }}>
             <span style={{ flexShrink: 0, width: 52, height: 52, borderRadius: '15px', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '27px', boxShadow: '0 3px 8px rgba(198,144,24,0.18)' }}>{nextUp.icon}</span>
             <span style={{ flex: 1, minWidth: 0 }}>
-              <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--gold-dark)', marginBottom: '4px' }}>{nextUp.eyebrow}</span>
+              <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--gold-dark)', marginBottom: '4px' }}>{nextUp.eyebrow}</span>
               <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.4rem', color: 'var(--ink)', lineHeight: 1.15, letterSpacing: '-0.01em' }}>
                 {nextUp.title}
               </span>
-              <span style={{ display: 'block', fontSize: '14.5px', color: 'var(--ink-soft)', marginTop: '3px', lineHeight: 1.4 }}>
+              <span style={{ display: 'block', fontSize: '16.5px', color: 'var(--ink-soft)', marginTop: '3px', lineHeight: 1.4 }}>
                 {nextUp.line}
               </span>
             </span>
-            <span style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: 'var(--ink)', background: 'var(--gold)', borderRadius: '13px', padding: '12px 20px', boxShadow: '0 4px 0 var(--gold-dark)' }}>Open</span>
+            <span style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16.5px', color: 'var(--ink)', background: 'var(--gold)', borderRadius: '13px', padding: '12px 20px', boxShadow: '0 4px 0 var(--gold-dark)' }}>Open</span>
           </div>
         </Link>
       )}
@@ -637,11 +663,11 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
                 <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: 'var(--ink)', lineHeight: 1.2 }}>
                   Finish setting up
                 </span>
-                <span style={{ display: 'block', fontSize: '13px', color: 'var(--ink-soft)', marginTop: '2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                <span style={{ display: 'block', fontSize: '15px', color: 'var(--ink-soft)', marginTop: '2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                   {doneCount} of {setupSteps.length} done{next ? ` · next: ${next.title.toLowerCase()}` : ''}
                 </span>
               </span>
-              <span style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', color: 'var(--ink)', background: 'var(--terracotta)', borderRadius: '11px', padding: '9px 16px', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
+              <span style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)', background: 'var(--terracotta)', borderRadius: '11px', padding: '9px 16px', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
                 Continue
               </span>
             </div>
@@ -681,16 +707,16 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
               background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
               borderRadius: '14px', padding: '11px 14px',
             }}>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', flexShrink: 0 }}>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', flexShrink: 0 }}>
                 Your focus
               </span>
-              <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: 'var(--ink)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+              <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px', color: 'var(--ink)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                 {label}
                 <span style={{ fontWeight: 600, color: improving ? 'var(--stage-1-text)' : 'var(--ink-muted)' }}>
                   {' '}· {focusConcern ? (improving ? 'getting better' : 'working on it') : 'your starting focus'}
                 </span>
               </span>
-              <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: 'var(--terracotta-dark)', whiteSpace: 'nowrap' }}>
+              <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, color: 'var(--terracotta-dark)', whiteSpace: 'nowrap' }}>
                 The words for tonight →
               </span>
             </div>
@@ -727,18 +753,18 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
             { href: '#dash-keepgoing', label: '📚 Every part' },
             { href: '#dash-more', label: '💛 DiGi and alerts' },
           ].map(t => (
-            <a key={t.href} href={t.href} style={{ flexShrink: 0, textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', color: 'var(--ink)', background: '#fff', border: '1.5px solid var(--border)', borderRadius: '100px', padding: '8px 14px', boxShadow: '0 2px 0 rgba(26,26,46,0.05)' }}>
+            <a key={t.href} href={t.href} style={{ flexShrink: 0, textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)', background: '#fff', border: '1.5px solid var(--border)', borderRadius: '100px', padding: '8px 14px', boxShadow: '0 2px 0 rgba(26,26,46,0.05)' }}>
               {t.label}
             </a>
           ))}
         </div>
         <div id="dash-explore" style={{ paddingTop: '10px', scrollMarginTop: '64px' }}>
-          <p className="eyebrow" style={{ margin: '0 0 10px 2px', fontSize: 10 }}>Explore everything</p>
+          <p className="eyebrow" style={{ margin: '0 0 10px 2px', fontSize: 12 }}>Explore everything</p>
 
         {/* The Explore grid: grouped big icons, every tile an existing page */}
         <ExploreGrid scriptHref={todayLoop.find(t => t.key === 'script')?.href ?? '/dashboard/scripts'} />
 
-        <p className="eyebrow" style={{ margin: '4px 0 10px 2px', fontSize: 10 }}>Your cards and prompts</p>
+        <p className="eyebrow" style={{ margin: '4px 0 10px 2px', fontSize: 12 }}>Your cards and prompts</p>
 
       {/* The lesson nudge now rides through the DiGi flash up rotation above,
           so lessons stay reachable on mobile without stacking a second DiGi
@@ -746,7 +772,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
 
       {/* Keep going: the rest of the membership as a quiet grid of tiles, so
           every part is one tap away without a wall of full width cards. */}
-      <p id="dash-keepgoing" className="eyebrow" style={{ margin: '0 0 10px', fontSize: 10, scrollMarginTop: '64px' }}>Keep going, every part one tap</p>
+      <p id="dash-keepgoing" className="eyebrow" style={{ margin: '0 0 10px', fontSize: 12, scrollMarginTop: '64px' }}>Keep going, every part one tap</p>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', marginBottom: '22px' }}>
         {([
           { href: '/dashboard/digi', external: false, bg: 'var(--stage-5)', icon: '◎', title: 'Ask DiGi', sub: 'Anything about their world', reveal: 'core' },
@@ -760,16 +786,16 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           { href: 'https://www.guidedchildhood.com/digitalwellbeing', external: true, bg: 'var(--stage-2)', icon: '🩺', title: 'Health report', sub: 'One free with membership', reveal: 'wellbeing' },
         ] as const).filter(t => revealed.has(t.reveal)).map(t => (
           <Link key={t.href} href={t.href} {...(t.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})} style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: '6px', background: t.bg, border: `1.5px solid ${t.bg}`, borderRadius: '16px', padding: '15px' }}>
-            <span style={{ fontSize: '20px', lineHeight: 1 }}>{t.icon}</span>
-            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--ink)', lineHeight: 1.2 }}>{t.title}</span>
-            <span style={{ fontSize: '11.5px', color: 'var(--ink-soft)', lineHeight: 1.4 }}>{t.sub}</span>
+            <span style={{ fontSize: '22px', lineHeight: 1 }}>{t.icon}</span>
+            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)', lineHeight: 1.2 }}>{t.title}</span>
+            <span style={{ fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.4 }}>{t.sub}</span>
           </Link>
         ))}
       </div>
 
       {/* Below the daily flow, quieter: the streak card, DiGi's proactive
           prompts, the ranked alerts and the age gate. */}
-      <p id="dash-more" className="eyebrow" style={{ margin: '0 0 10px', fontSize: 10, scrollMarginTop: '64px' }}>DiGi, your streak and alerts</p>
+      <p id="dash-more" className="eyebrow" style={{ margin: '0 0 10px', fontSize: 12, scrollMarginTop: '64px' }}>DiGi, your streak and alerts</p>
       <DigiStreakWidget count={streak.count} aliveToday={streak.aliveToday} firstName={firstName} />
       {revealed.has('moments') && (
         <>
@@ -807,27 +833,27 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
               <span style={{ fontSize: '.9rem', color: '#fff', lineHeight: 1 }}>◎</span>
             </div>
             <div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>DiGi</div>
-              <div style={{ fontSize: '12px', color: 'var(--ink-muted)' }}>Following up from {lastFeedback.feedback_date === today ? 'earlier today' : 'yesterday'}</div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>DiGi</div>
+              <div style={{ fontSize: '14px', color: 'var(--ink-muted)' }}>Following up from {lastFeedback.feedback_date === today ? 'earlier today' : 'yesterday'}</div>
             </div>
           </div>
 
           {lastFeedback.digi_insight ? (
-            <p style={{ fontSize: '14px', color: 'var(--ink)', lineHeight: 1.65, margin: 0 }}>
+            <p style={{ fontSize: '16px', color: 'var(--ink)', lineHeight: 1.65, margin: 0 }}>
               {lastFeedback.digi_insight}
             </p>
           ) : (
             <>
-              <p style={{ fontSize: '12px', color: 'var(--ink-muted)', fontStyle: 'italic', marginBottom: '8px' }}>
+              <p style={{ fontSize: '14px', color: 'var(--ink-muted)', fontStyle: 'italic', marginBottom: '8px' }}>
                 You answered: &ldquo;{lastFeedback.parent_response!.length > 120 ? lastFeedback.parent_response!.slice(0, 117) + '...' : lastFeedback.parent_response}&rdquo;
               </p>
-              <p style={{ fontSize: '14px', color: 'var(--ink)', lineHeight: 1.65, margin: 0 }}>
+              <p style={{ fontSize: '16px', color: 'var(--ink)', lineHeight: 1.65, margin: 0 }}>
                 {buildDigiFollowup(stage.id, child?.name ?? null)}
               </p>
             </>
           )}
 
-          <Link href="/dashboard/digi" style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--terracotta)', textDecoration: 'none', marginTop: '14px', display: 'inline-block' }}>
+          <Link href="/dashboard/digi" style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', color: 'var(--terracotta)', textDecoration: 'none', marginTop: '14px', display: 'inline-block' }}>
             Continue with DiGi →
           </Link>
         </div>
@@ -862,7 +888,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
             <p className="eyebrow" style={{ margin: 0 }}>Moment cards</p>
             <Link
               href="/dashboard/moments"
-              style={{ fontFamily: 'var(--font-body)', fontSize: '12px', color: 'var(--terracotta)', textDecoration: 'none', fontWeight: 500 }}
+              style={{ fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--terracotta)', textDecoration: 'none', fontWeight: 500 }}
             >
               Browse all →
             </Link>
@@ -895,7 +921,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
                 <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '0.95rem', color: '#fff', lineHeight: 1.25 }}>
                   All moments
                 </span>
-                <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.75)', lineHeight: 1.4 }}>
+                <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.75)', lineHeight: 1.4 }}>
                   Quick help for any battle, any time of day
                 </span>
               </div>
@@ -914,20 +940,20 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           marginBottom: '20px',
         }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '10px', gap: '12px', flexWrap: 'wrap' }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>
               Last script insight
             </div>
             <Link
               href={`/dashboard/scripts/${lastInsight.sort_order}/deck`}
-              style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--terracotta)', textDecoration: 'none', letterSpacing: '0.06em' }}
+              style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--terracotta)', textDecoration: 'none', letterSpacing: '0.06em' }}
             >
               Read again →
             </Link>
           </div>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '14px', color: 'var(--ink)', marginBottom: '8px' }}>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '16px', color: 'var(--ink)', marginBottom: '8px' }}>
             {lastInsight.title}
           </div>
-          <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>
+          <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>
             {lastInsight.why_it_works}
           </p>
         </div>
@@ -952,17 +978,17 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
               display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px', flexShrink: 0,
             }}>💛</span>
             <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '4px' }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '4px' }}>
                 Monthly check in
               </div>
-              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)', marginBottom: '2px' }}>
+              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '18px', color: 'var(--ink)', marginBottom: '2px' }}>
                 A minute for you, {firstName}
               </div>
-              <div style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.45 }}>
+              <div style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.45 }}>
                 How have you been this month? Not your child. You.
               </div>
             </div>
-            <span style={{ fontSize: '18px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>
+            <span style={{ fontSize: '20px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>
           </div>
         </Link>
       )}
@@ -970,10 +996,10 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
       {/* This week's actions */}
       <div style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '20px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
             This week's actions
           </div>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--terracotta)' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--terracotta)' }}>
             {child?.actions_this_week ?? 0} done from daily practice
           </div>
         </div>
@@ -988,23 +1014,23 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
                 flexShrink: 0,
                 marginTop: '7px',
               }} />
-              <span style={{ fontSize: '14px', color: 'var(--ink)', lineHeight: 1.5 }}>{action}</span>
+              <span style={{ fontSize: '16px', color: 'var(--ink)', lineHeight: 1.5 }}>{action}</span>
             </div>
           ))}
         </div>
 
         <div style={{ marginTop: '16px', padding: '14px 16px', background: 'var(--stage-5)', border: '1px solid var(--stage-5)', borderRadius: '10px' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--terracotta)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--terracotta)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
             DiGi tip
           </div>
-          <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
+          <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
             {stage.id <= 2
               ? 'The bedroom rule is the single most effective structural protection at this stage. If it is not in place, this is the week.'
               : stage.id === 3
               ? 'The algorithm conversation opens more than any rule will close. Curiosity, not alarm.'
               : 'The weekly check in, same day same time, is your relationship maintenance. It does not have to be about screens.'}
           </p>
-          <Link href="/dashboard/digi" style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--terracotta)', textDecoration: 'none', marginTop: '8px', display: 'block' }}>
+          <Link href="/dashboard/digi" style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', color: 'var(--terracotta)', textDecoration: 'none', marginTop: '8px', display: 'block' }}>
             Ask DiGi →
           </Link>
         </div>
@@ -1016,7 +1042,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
       <div style={{ background: 'var(--stage-5)', border: '1.5px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '20px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '14px' }}>
           <div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '6px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '6px' }}>
               DiGi
             </div>
             <h3 style={{ fontSize: '1.1rem', color: 'var(--ink)', marginBottom: '0' }}>
@@ -1024,7 +1050,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
             </h3>
           </div>
           {!isPaid && (
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--ink-muted)', whiteSpace: 'nowrap', marginLeft: '12px' }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--ink-muted)', whiteSpace: 'nowrap', marginLeft: '12px' }}>
               3 / day free
             </span>
           )}
@@ -1041,7 +1067,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
                 background: 'var(--cream)',
                 border: '1px solid var(--border)',
                 borderRadius: '10px',
-                fontSize: '13px',
+                fontSize: '15px',
                 color: 'var(--ink-soft)',
                 textDecoration: 'none',
                 lineHeight: 1.4,
@@ -1062,7 +1088,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
         <div style={{ border: '2px solid var(--stage-5)', borderRadius: '16px', padding: '20px 22px', background: 'var(--stage-5)' }}>
           <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '8px' }}>Founder rate, 50 places</p>
           <h3 style={{ fontSize: '1.1rem', marginBottom: '8px' }}>Unlock everything for £7.99 / month</h3>
-          <p style={{ fontSize: '14px', color: 'var(--ink-muted)', marginBottom: '16px' }}>
+          <p style={{ fontSize: '16px', color: 'var(--ink-muted)', marginBottom: '16px' }}>
             All 5 stages, unlimited DiGi, 100 plus scripts, the AI module, wellbeing tracker. First 50 members only.
           </p>
           <Link href="/dashboard/upgrade" className="btn btn-gold" style={{ display: 'inline-flex' }}>

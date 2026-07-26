@@ -60,24 +60,24 @@ export default async function DevicesPage() {
         <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '8px' }}>
           Set up every device the right way
         </h1>
-        <p style={{ color: 'var(--ink)', fontSize: '15px' }}>
+        <p style={{ color: 'var(--ink)', fontSize: '17px' }}>
           Step by step guides for every device{child?.name && child.name !== 'Your child' ? ` ${child.name} uses` : ' your family uses'}, matched to age.
         </p>
       </div>
 
       {stageNote && (
         <div style={{ background: 'var(--stage-3)', border: '1.5px solid var(--stage-3)', borderRadius: '16px', padding: '18px 20px', marginBottom: '20px' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '6px' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '6px' }}>
             {stage.label}
           </div>
-          <p style={{ fontSize: '14px', color: 'var(--ink)', lineHeight: 1.6, marginBottom: '12px' }}>
+          <p style={{ fontSize: '16px', color: 'var(--ink)', lineHeight: 1.6, marginBottom: '12px' }}>
             {stageNote.desc_text}
           </p>
           <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '10px', padding: '12px 14px', borderLeft: '3px solid var(--terracotta)' }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '4px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '4px' }}>
               What the research says at this age
             </div>
-            <p style={{ fontSize: '13px', color: 'var(--ink)', lineHeight: 1.6 }}>
+            <p style={{ fontSize: '15px', color: 'var(--ink)', lineHeight: 1.6 }}>
               {stageNote.science}
             </p>
           </div>

@@ -347,7 +347,7 @@ export default async function ProgressPage({ searchParams }: { searchParams: Pro
           itself: what green means, and that amber is a next step, never a mark
           against anyone. Bigger and ink dark so it reads at a glance. */}
       <div style={{ background: 'var(--tint-green)', border: '1.5px solid #BADFC9', borderRadius: '16px', padding: '16px 18px', margin: '0 0 22px', maxWidth: '620px' }}>
-        <p style={{ fontSize: '18px', color: 'var(--ink)', lineHeight: 1.55, fontWeight: 600, margin: 0 }}>
+        <p style={{ fontSize: '20px', color: 'var(--ink)', lineHeight: 1.55, fontWeight: 600, margin: 0 }}>
           <span style={{ color: '#2F8F6B', fontWeight: 800 }}>Green</span> means that part of the plan is doing its job. Anything <span style={{ color: 'var(--terracotta-dark)', fontWeight: 800 }}>amber</span> comes with one clear next step, like a good school report.
         </p>
       </div>
@@ -399,7 +399,7 @@ export default async function ProgressPage({ searchParams }: { searchParams: Pro
 
       {/* Warmth when the report is mostly green, in colour not noise */}
       {greenCount >= 3 && (
-        <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px', color: 'var(--retro-green-dark)', lineHeight: 1.5, margin: '0 0 14px' }}>
+        <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17.5px', color: 'var(--retro-green-dark)', lineHeight: 1.5, margin: '0 0 14px' }}>
           🌱 Nearly all green. Lovely work.
         </p>
       )}
@@ -415,9 +415,9 @@ export default async function ProgressPage({ searchParams }: { searchParams: Pro
             flexShrink: 0, width: 22, height: 22, borderRadius: '50%',
             background: 'var(--retro-green)', color: '#fff',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: '12px', fontWeight: 900,
+            fontSize: '14px', fontWeight: 900,
           }}>✓</span>
-          <p style={{ fontSize: '15px', color: 'var(--ink)', fontWeight: 600, lineHeight: 1.5, margin: 0 }}>
+          <p style={{ fontSize: '17px', color: 'var(--ink)', fontWeight: 600, lineHeight: 1.5, margin: 0 }}>
             Today&rsquo;s ten minutes are done. That feeds the four below.
           </p>
         </div>
@@ -435,10 +435,10 @@ export default async function ProgressPage({ searchParams }: { searchParams: Pro
       <div style={{
         background: 'var(--tint-sage)', borderRadius: '18px', padding: '18px 20px', marginBottom: '20px',
       }}>
-        <p style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '16px', color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>
+        <p style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '18px', color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>
           {headline.charAt(0).toUpperCase() + headline.slice(1)}
         </p>
-        <p style={{ fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '8px 0 0' }}>
+        <p style={{ fontSize: '15.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '8px 0 0' }}>
           Next: {nextStep.next}. <Link href={nextStep.href} style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>Go →</Link>
         </p>
       </div>
@@ -466,7 +466,7 @@ export default async function ProgressPage({ searchParams }: { searchParams: Pro
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.7rem', color: streak.aliveToday ? 'var(--terracotta-dark)' : 'var(--ink)', lineHeight: 1 }}>
               {streak.count} day{streak.count === 1 ? '' : 's'} running
             </div>
-            <div style={{ fontSize: '13px', color: 'var(--ink-soft)', marginTop: '4px' }}>
+            <div style={{ fontSize: '15px', color: 'var(--ink-soft)', marginTop: '4px' }}>
               {streak.aliveToday
                 ? 'Today is already counted. Come back tomorrow to keep it going.'
                 : 'Not counted yet today. One check in, moment or script keeps it alive.'}
@@ -490,10 +490,10 @@ export default async function ProgressPage({ searchParams }: { searchParams: Pro
       {matchedTool && (
         <div style={{ marginBottom: '20px' }}>
           <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '10px', marginBottom: '9px' }}>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
               What helps with this
             </span>
-            <Link href="/dashboard/toolbox" style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: 'var(--terracotta-dark)', textDecoration: 'none' }}>
+            <Link href="/dashboard/toolbox" style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, color: 'var(--terracotta-dark)', textDecoration: 'none' }}>
               The toolbox →
             </Link>
           </div>
@@ -509,8 +509,8 @@ export default async function ProgressPage({ searchParams }: { searchParams: Pro
         ].map(stat => (
           <div key={stat.label} style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '16px', padding: '14px 12px', textAlign: 'center' }}>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.5rem', color: 'var(--ink)', lineHeight: 1 }}>{stat.n}</div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginTop: '6px' }}>{stat.label}</div>
-            <div style={{ fontSize: '10.5px', color: 'var(--ink-light)', marginTop: '2px' }}>{stat.sub}</div>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginTop: '6px' }}>{stat.label}</div>
+            <div style={{ fontSize: '12.5px', color: 'var(--ink-light)', marginTop: '2px' }}>{stat.sub}</div>
           </div>
         ))}
       </div>
@@ -522,10 +522,10 @@ export default async function ProgressPage({ searchParams }: { searchParams: Pro
         background: '#fff', border: '1.5px solid var(--border)', borderRadius: '18px', padding: '16px 20px', marginBottom: '20px',
       }}>
         <span style={{ flex: 1, minWidth: '180px' }}>
-          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: 'var(--ink)' }}>
+          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16.5px', color: 'var(--ink)' }}>
             {checkedThisWeek ? 'This week is logged' : 'Weekly check in'}
           </span>
-          <span style={{ display: 'block', fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '2px' }}>
+          <span style={{ display: 'block', fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '2px' }}>
             {checkedThisWeek
               ? `A quick read on how ${primary?.name ?? 'your child'} is doing, done for this week.`
               : `Five minutes on how ${primary?.name ?? 'your child'} is really doing. It feeds the advice DiGi gives you.`}
@@ -533,7 +533,7 @@ export default async function ProgressPage({ searchParams }: { searchParams: Pro
         </span>
         <Link href="/dashboard/tracker/checkin" style={{
           flexShrink: 0,
-          fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px',
+          fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
           background: checkedThisWeek ? 'var(--cream)' : 'var(--terracotta)',
           color: checkedThisWeek ? 'var(--ink-muted)' : 'var(--ink)',
           borderRadius: '12px', padding: '11px 18px', textDecoration: 'none',
@@ -546,15 +546,15 @@ export default async function ProgressPage({ searchParams }: { searchParams: Pro
 
       {/* The weekly mission, an invitation never a lock */}
       <div style={{ background: 'var(--deep-teal)', borderRadius: '18px', padding: '18px 20px' }}>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)', marginBottom: '8px' }}>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)', marginBottom: '8px' }}>
           Streak missions
         </div>
-        <p style={{ fontSize: '14px', color: '#fff', lineHeight: 1.6, margin: '0 0 8px', fontWeight: 600 }}>
+        <p style={{ fontSize: '16px', color: '#fff', lineHeight: 1.6, margin: '0 0 8px', fontWeight: 600 }}>
           {streak.count >= 5
             ? `Five days of showing up. This week's mission: do an age matched lesson together. Is That Real? is a good one to start with.`
             : `Show up ${Math.max(0, 5 - streak.count)} more day${5 - streak.count === 1 ? '' : 's'} and your first mission lands: a lesson to do together.`}
         </p>
-        <p style={{ fontSize: '12.5px', color: 'rgba(255,255,255,0.75)', lineHeight: 1.55, margin: 0 }}>
+        <p style={{ fontSize: '14.5px', color: 'rgba(255,255,255,0.75)', lineHeight: 1.55, margin: 0 }}>
           Missions are invitations, never locks. Every lesson is open to members any time in the Lessons tab.
         </p>
       </div>

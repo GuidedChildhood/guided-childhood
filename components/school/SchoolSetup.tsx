@@ -39,7 +39,7 @@ const card: React.CSSProperties = {
 }
 
 const eyebrow: React.CSSProperties = {
-  fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600,
+  fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600,
   letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)',
   marginBottom: '8px',
 }
@@ -47,7 +47,7 @@ const eyebrow: React.CSSProperties = {
 const inputStyle: React.CSSProperties = {
   width: '100%', padding: '13px 16px', borderRadius: '12px',
   border: '1.5px solid var(--border)', background: 'var(--cream)',
-  fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink)',
+  fontFamily: 'var(--font-body)', fontSize: '17px', color: 'var(--ink)',
   outline: 'none',
 }
 
@@ -55,13 +55,13 @@ const primaryBtn: React.CSSProperties = {
   display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
   background: 'var(--terracotta)', color: 'var(--ink)', border: 'none',
   borderRadius: '16px', padding: '14px 26px', cursor: 'pointer',
-  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
+  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px',
   boxShadow: '0 5px 0 var(--terracotta-dark)', textDecoration: 'none',
 }
 
 const quietBtn: React.CSSProperties = {
   background: 'none', border: 'none', cursor: 'pointer',
-  fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-muted)',
+  fontFamily: 'var(--font-mono)', fontSize: '13px', color: 'var(--ink-muted)',
   padding: '6px 0',
 }
 
@@ -80,7 +80,7 @@ function CopyButton({ value, label = 'Copy' }: { value: string; label?: string }
         background: copied ? 'var(--tint-green)' : 'var(--deep-teal)',
         color: copied ? 'var(--ink)' : '#fff',
         border: 'none', borderRadius: '10px', padding: '8px 16px', cursor: 'pointer',
-        fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, flexShrink: 0,
+        fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 700, flexShrink: 0,
       }}
     >
       {copied ? 'Copied ✓' : label}
@@ -95,9 +95,9 @@ function StepRow({ n, children }: { n: number; children: React.ReactNode }) {
         width: '24px', height: '24px', borderRadius: '50%', flexShrink: 0,
         background: 'var(--stage-1-bold)', color: 'var(--stage-1-text)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, marginTop: '1px',
+        fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, marginTop: '1px',
       }}>{n}</div>
-      <div style={{ fontSize: '14px', color: 'var(--ink)', lineHeight: 1.6, flex: 1, minWidth: 0 }}>{children}</div>
+      <div style={{ fontSize: '16px', color: 'var(--ink)', lineHeight: 1.6, flex: 1, minWidth: 0 }}>{children}</div>
     </div>
   )
 }
@@ -242,7 +242,7 @@ export default function SchoolSetup() {
   }
 
   if (screen === 'loading') {
-    return <p style={{ fontSize: '14px', color: 'var(--ink-muted)' }}>One moment...</p>
+    return <p style={{ fontSize: '16px', color: 'var(--ink-muted)' }}>One moment...</p>
   }
 
   /* ── Screen 1: the letterbox pitch ─────────────────────────────── */
@@ -253,7 +253,7 @@ export default function SchoolSetup() {
         <h1 style={{ fontSize: 'clamp(1.6rem, 5vw, 2.1rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '14px' }}>
           Never miss a PE kit day again
         </h1>
-        <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.65, marginBottom: '18px' }}>
+        <p style={{ fontSize: '17px', color: 'var(--ink-soft)', lineHeight: 1.65, marginBottom: '18px' }}>
           Forward your school&apos;s emails to your own private Guided Childhood address and DiGi pulls out the things you actually need: kit days, trips, payments, homework and deadlines. They land on your dashboard as reminders, and your phone buzzes when something new arrives.
         </p>
 
@@ -261,7 +261,7 @@ export default function SchoolSetup() {
           background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
           borderRadius: '16px', padding: '18px 20px', marginBottom: '20px',
         }}>
-          <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)', lineHeight: 1.6, margin: 0 }}>
+          <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)', lineHeight: 1.6, margin: 0 }}>
             You are giving us a letterbox, not a key. We never see your inbox. You choose exactly which senders get forwarded, and we keep the actions, never the email.
           </p>
         </div>
@@ -274,9 +274,9 @@ export default function SchoolSetup() {
                 <span style={{
                   width: '20px', height: '20px', borderRadius: '50%', flexShrink: 0, marginTop: '2px',
                   background: 'var(--tint-green)', color: 'var(--ink)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '13px',
                 }}>✓</span>
-                <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>
+                <p style={{ fontSize: '16px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>
                   <strong style={{ color: 'var(--ink)' }}>{r.title}</strong> {r.body}
                 </p>
               </div>
@@ -299,12 +299,12 @@ export default function SchoolSetup() {
         <h1 style={{ fontSize: 'clamp(1.5rem, 5vw, 1.9rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: '12px' }}>
           Who emails you?
         </h1>
-        <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: '20px' }}>
+        <p style={{ fontSize: '16px', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: '20px' }}>
           Start with one sender, usually the school office. You can add clubs and more addresses any time.
         </p>
 
         <div style={card}>
-          <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
+          <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
             School or club name
           </label>
           <input
@@ -314,7 +314,7 @@ export default function SchoolSetup() {
             style={{ ...inputStyle, marginBottom: '18px' }}
             maxLength={120}
           />
-          <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
+          <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
             The address their emails come from
           </label>
           <input
@@ -325,13 +325,13 @@ export default function SchoolSetup() {
             style={inputStyle}
             maxLength={200}
           />
-          <p style={{ fontSize: '12px', color: 'var(--ink-muted)', lineHeight: 1.5, marginTop: '10px', marginBottom: 0 }}>
+          <p style={{ fontSize: '14px', color: 'var(--ink-muted)', lineHeight: 1.5, marginTop: '10px', marginBottom: 0 }}>
             Open a recent school email and copy the address it came from. Only emails from senders you list ever reach us.
           </p>
         </div>
 
         {errorMsg && (
-          <p style={{ fontSize: '13px', color: 'var(--danger)', marginBottom: '14px' }}>{errorMsg}</p>
+          <p style={{ fontSize: '15px', color: 'var(--danger)', marginBottom: '14px' }}>{errorMsg}</p>
         )}
 
         <button onClick={createConnection} disabled={saving} style={{ ...primaryBtn, width: '100%', opacity: saving ? 0.7 : 1 }}>
@@ -355,7 +355,7 @@ export default function SchoolSetup() {
         <h1 style={{ fontSize: 'clamp(1.5rem, 5vw, 1.9rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: '12px' }}>
           Your private forwarding address
         </h1>
-        <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: '18px' }}>
+        <p style={{ fontSize: '16px', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: '18px' }}>
           This address belongs to your family alone. Anything you forward to it gets read once for the actions, then deleted.
         </p>
 
@@ -366,10 +366,10 @@ export default function SchoolSetup() {
             background: '#FBEAEA', border: '1.5px solid var(--danger, #c0392b)', borderRadius: '14px',
             padding: '14px 16px', marginBottom: '18px',
           }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--danger, #c0392b)', marginBottom: '6px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--danger, #c0392b)', marginBottom: '6px' }}>
               Not ready to receive yet
             </div>
-            <p style={{ fontSize: '13px', color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>
+            <p style={{ fontSize: '15px', color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>
               This address is not live on our mail servers yet, so a forward may bounce back for now. We are finishing the setup. Save the address, and try forwarding again a little later or tap Test the letterbox below.
             </p>
           </div>
@@ -380,7 +380,7 @@ export default function SchoolSetup() {
           display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap',
         }}>
           <div style={{
-            fontFamily: 'var(--font-mono)', fontSize: 'clamp(13px, 3.4vw, 16px)', fontWeight: 700,
+            fontFamily: 'var(--font-mono)', fontSize: 'clamp(15px, 3.4vw, 18px)', fontWeight: 700,
             color: '#fff', wordBreak: 'break-all', flex: 1, minWidth: '200px', lineHeight: 1.5,
           }}>
             {connection.forward_address}
@@ -392,10 +392,10 @@ export default function SchoolSetup() {
             parent goes fishing for a code that might never arrive. */}
         <div style={{ ...card, display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
           <div style={{ flex: 1, minWidth: '180px' }}>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: 'var(--ink)', marginBottom: '2px' }}>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16.5px', color: 'var(--ink)', marginBottom: '2px' }}>
               Is the letterbox working?
             </div>
-            <div style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
+            <div style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
               Run a quick check that your address is live and reading emails.
             </div>
           </div>
@@ -405,7 +405,7 @@ export default function SchoolSetup() {
             style={{
               background: 'var(--deep-teal)', color: '#fff', border: 'none', borderRadius: '12px',
               padding: '11px 18px', cursor: testing ? 'wait' : 'pointer', flexShrink: 0,
-              fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
+              fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 700,
             }}
           >
             {testing ? 'Testing...' : 'Test the letterbox'}
@@ -415,7 +415,7 @@ export default function SchoolSetup() {
               width: '100%',
               background: testResult.ok ? 'var(--tint-green)' : 'var(--stage-1)',
               border: '1px solid var(--border)', borderRadius: '12px', padding: '12px 14px',
-              fontSize: '13px', color: 'var(--ink)', lineHeight: 1.55,
+              fontSize: '15px', color: 'var(--ink)', lineHeight: 1.55,
             }}>
               <strong>{testResult.ok ? '✓ Platform ready. ' : 'Heads up. '}</strong>
               {testResult.message}
@@ -431,7 +431,7 @@ export default function SchoolSetup() {
             <StepRow n={2}>When a school email lands, tap <strong>Forward</strong> and send it to DiGi, exactly like forwarding it to a friend.</StepRow>
             <StepRow n={3}>That is the whole setup. The actions appear under <strong>Things you need to know</strong> and your phone buzzes.</StepRow>
           </div>
-          <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.6, marginTop: '14px', marginBottom: 0 }}>
+          <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.6, marginTop: '14px', marginBottom: 0 }}>
             Try it now: forward the last email {connection.school_name} sent you and watch your dashboard.
           </p>
         </div>
@@ -443,14 +443,14 @@ export default function SchoolSetup() {
             style={{ ...card, width: '100%', textAlign: 'left', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px' }}
           >
             <span>
-              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)', marginBottom: '4px' }}>
+              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)', marginBottom: '4px' }}>
                 Want it fully automatic?
               </span>
-              <span style={{ display: 'block', fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
+              <span style={{ display: 'block', fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
                 A one time rule in your email forwards the school for you, so you never even press Forward. Takes about three minutes, and you can come back for this any time.
               </span>
             </span>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '18px', color: 'var(--terracotta-dark)', flexShrink: 0 }}>→</span>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '20px', color: 'var(--terracotta-dark)', flexShrink: 0 }}>→</span>
           </button>
         ) : (
           <>
@@ -464,7 +464,7 @@ export default function SchoolSetup() {
                 border: '1.5px solid var(--border)',
                 background: provider === key ? 'var(--deep-teal)' : '#fff',
                 color: provider === key ? '#fff' : 'var(--ink-soft)',
-                fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
+                fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 700,
               }}
             >
               {label}
@@ -488,27 +488,27 @@ export default function SchoolSetup() {
                   {connection.verification_code ? (
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
                       <div>
-                        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '4px' }}>Your confirmation code</div>
+                        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '4px' }}>Your confirmation code</div>
                         <div style={{ fontFamily: 'var(--font-mono)', fontSize: '22px', fontWeight: 700, color: 'var(--ink)', letterSpacing: '0.06em' }}>{connection.verification_code}</div>
                       </div>
                       <CopyButton value={connection.verification_code} label="Copy code" />
                     </div>
                   ) : connection.verification_link ? (
                     <div>
-                      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '6px' }}>Confirmation received</div>
-                      <a href={connection.verification_link} target="_blank" rel="noopener noreferrer" style={{ fontSize: '14px', color: 'var(--terracotta-dark)', fontWeight: 700 }}>
+                      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '6px' }}>Confirmation received</div>
+                      <a href={connection.verification_link} target="_blank" rel="noopener noreferrer" style={{ fontSize: '16px', color: 'var(--terracotta-dark)', fontWeight: 700 }}>
                         Confirm the forwarding with one tap →
                       </a>
                     </div>
                   ) : (
                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                       <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: 'var(--terracotta)', flexShrink: 0 }} />
-                      <span style={{ fontSize: '13px', color: 'var(--ink-muted)' }}>Waiting for Google. Your code or confirm link usually arrives within a minute of clicking Add in Gmail.</span>
+                      <span style={{ fontSize: '15px', color: 'var(--ink-muted)' }}>Waiting for Google. Your code or confirm link usually arrives within a minute of clicking Add in Gmail.</span>
                     </div>
                   )}
                   {connection.verification_code && connection.verification_link && (
                     <div style={{ marginTop: '10px' }}>
-                      <a href={connection.verification_link} target="_blank" rel="noopener noreferrer" style={{ fontSize: '13px', color: 'var(--terracotta-dark)', fontWeight: 700 }}>
+                      <a href={connection.verification_link} target="_blank" rel="noopener noreferrer" style={{ fontSize: '15px', color: 'var(--terracotta-dark)', fontWeight: 700 }}>
                         Or confirm with one tap instead →
                       </a>
                     </div>
@@ -524,7 +524,7 @@ export default function SchoolSetup() {
                   background: 'var(--cream)', border: '1.5px solid var(--border)',
                   display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap',
                 }}>
-                  <code style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', color: 'var(--ink)', wordBreak: 'break-all', flex: 1, minWidth: '160px' }}>
+                  <code style={{ fontFamily: 'var(--font-mono)', fontSize: '15px', color: 'var(--ink)', wordBreak: 'break-all', flex: 1, minWidth: '160px' }}>
                     {filterText}
                   </code>
                   <CopyButton value={filterText} label="Copy filter" />
@@ -549,12 +549,12 @@ export default function SchoolSetup() {
               <div style={{ marginTop: '14px', padding: '14px 16px', borderRadius: '12px', background: 'var(--tint-green)' }}>
                 {connection.verification_code && (
                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap', marginBottom: connection.verification_link ? '8px' : 0 }}>
-                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '18px', fontWeight: 700, color: 'var(--ink)' }}>{connection.verification_code}</span>
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '20px', fontWeight: 700, color: 'var(--ink)' }}>{connection.verification_code}</span>
                     <CopyButton value={connection.verification_code} label="Copy code" />
                   </div>
                 )}
                 {connection.verification_link && (
-                  <a href={connection.verification_link} target="_blank" rel="noopener noreferrer" style={{ fontSize: '13px', color: 'var(--terracotta-dark)', fontWeight: 700 }}>
+                  <a href={connection.verification_link} target="_blank" rel="noopener noreferrer" style={{ fontSize: '15px', color: 'var(--terracotta-dark)', fontWeight: 700 }}>
                     Confirm the forwarding with one tap →
                   </a>
                 )}
@@ -566,7 +566,7 @@ export default function SchoolSetup() {
         )}
 
         <div style={{ ...card, background: 'var(--stage-2)', border: '1.5px solid var(--stage-2)' }}>
-          <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>
+          <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>
             The next time {connection.school_name} emails you, the actions appear on your dashboard under <strong>Things you need to know</strong> and your phone buzzes if notifications are on.
           </p>
         </div>
@@ -590,11 +590,11 @@ export default function SchoolSetup() {
         <div style={card}>
           <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '12px', marginBottom: '14px' }}>
             <div>
-              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)', marginBottom: '4px' }}>
+              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '19px', color: 'var(--ink)', marginBottom: '4px' }}>
                 {connection.school_name}
               </div>
               <span style={{
-                fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700,
+                fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
                 letterSpacing: '0.08em', textTransform: 'uppercase',
                 background: connection.active ? 'var(--tint-green)' : 'var(--border)',
                 color: connection.active ? 'var(--ink)' : 'var(--ink-muted)',
@@ -621,7 +621,7 @@ export default function SchoolSetup() {
             </button>
           </div>
 
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '6px' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '6px' }}>
             Your private address
           </div>
           <div style={{
@@ -629,13 +629,13 @@ export default function SchoolSetup() {
             padding: '12px 14px', borderRadius: '12px', background: 'var(--cream)',
             border: '1.5px solid var(--border)', marginBottom: '16px',
           }}>
-            <code style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--ink)', wordBreak: 'break-all', flex: 1, minWidth: '160px' }}>
+            <code style={{ fontFamily: 'var(--font-mono)', fontSize: '14px', color: 'var(--ink)', wordBreak: 'break-all', flex: 1, minWidth: '160px' }}>
               {connection.forward_address}
             </code>
             <CopyButton value={connection.forward_address} />
           </div>
 
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
             Senders you allow
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '12px' }}>
@@ -644,7 +644,7 @@ export default function SchoolSetup() {
                 display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px',
                 padding: '9px 12px', borderRadius: '10px', background: 'var(--cream)', border: '1px solid var(--border)',
               }}>
-                <span style={{ fontSize: '13px', color: 'var(--ink)', wordBreak: 'break-all' }}>{s}</span>
+                <span style={{ fontSize: '15px', color: 'var(--ink)', wordBreak: 'break-all' }}>{s}</span>
                 {connection.sender_addresses.length > 1 && (
                   <button onClick={() => removeSender(s)} disabled={saving} style={{ ...quietBtn, padding: 0 }}>Remove</button>
                 )}
@@ -658,7 +658,7 @@ export default function SchoolSetup() {
               onKeyDown={e => { if (e.key === 'Enter') addSender() }}
               placeholder="Add another sender, like the PTA or a club"
               type="email"
-              style={{ ...inputStyle, padding: '10px 14px', fontSize: '13px', flex: 1 }}
+              style={{ ...inputStyle, padding: '10px 14px', fontSize: '15px', flex: 1 }}
               maxLength={200}
             />
             <button
@@ -667,13 +667,13 @@ export default function SchoolSetup() {
               style={{
                 background: 'var(--deep-teal)', color: '#fff', border: 'none', borderRadius: '12px',
                 padding: '10px 18px', cursor: 'pointer', fontFamily: 'var(--font-mono)',
-                fontSize: '12px', fontWeight: 700, flexShrink: 0,
+                fontSize: '14px', fontWeight: 700, flexShrink: 0,
               }}
             >
               Add
             </button>
           </div>
-          {errorMsg && <p style={{ fontSize: '12px', color: 'var(--danger)', marginTop: '8px', marginBottom: 0 }}>{errorMsg}</p>}
+          {errorMsg && <p style={{ fontSize: '14px', color: 'var(--danger)', marginTop: '8px', marginBottom: 0 }}>{errorMsg}</p>}
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap' }}>
@@ -682,7 +682,7 @@ export default function SchoolSetup() {
           </button>
           {confirmDelete ? (
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: '10px' }}>
-              <span style={{ fontSize: '12px', color: 'var(--ink-muted)' }}>Sure? This forgets the address and all reminders stop.</span>
+              <span style={{ fontSize: '14px', color: 'var(--ink-muted)' }}>Sure? This forgets the address and all reminders stop.</span>
               <button onClick={deleteConnection} disabled={saving} style={{ ...quietBtn, color: 'var(--danger)', fontWeight: 700 }}>Yes, delete</button>
               <button onClick={() => setConfirmDelete(false)} style={quietBtn}>Keep it</button>
             </span>
@@ -699,7 +699,7 @@ export default function SchoolSetup() {
   // A deleted or missing connection while on a connection screen: back to the pitch.
   return (
     <div>
-      <p style={{ fontSize: '14px', color: 'var(--ink-muted)', marginBottom: '14px' }}>No connection yet.</p>
+      <p style={{ fontSize: '16px', color: 'var(--ink-muted)', marginBottom: '14px' }}>No connection yet.</p>
       <button onClick={() => setScreen('pitch')} style={primaryBtn}>Start again</button>
     </div>
   )

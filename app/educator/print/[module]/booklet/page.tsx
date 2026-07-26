@@ -15,9 +15,9 @@ type TeacherNotes = { worksheet_items?: WorksheetItem[] }
 type ParentNote = { family_question?: string }
 
 const page: React.CSSProperties = { pageBreakAfter: 'always', padding: '28px 20px', minHeight: '250mm' }
-const mono: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--gold-dark)' }
+const mono: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--gold-dark)' }
 const big: React.CSSProperties = { fontFamily: 'var(--font-display)', fontWeight: 900, color: 'var(--ink)', lineHeight: 1.15 }
-const body: React.CSSProperties = { fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink)', lineHeight: 1.6 }
+const body: React.CSSProperties = { fontFamily: 'var(--font-body)', fontSize: '17px', color: 'var(--ink)', lineHeight: 1.6 }
 const writeLine: React.CSSProperties = { borderBottom: '2px solid var(--border)', height: '34px' }
 const star = (size: number): React.CSSProperties => ({ fontSize: `${size}px`, lineHeight: 1 })
 
@@ -53,7 +53,7 @@ export default async function PupilBookletPage({ params }: { params: Promise<{ m
         <div style={star(64)}>⭐</div>
         <div style={{ ...mono, margin: '18px 0 10px' }}>{characterName} needs a detective</div>
         <h1 style={{ ...big, fontSize: '34px', margin: '0 auto 18px', maxWidth: '520px' }}>{lesson.title}</h1>
-        <p style={{ ...body, fontSize: '16px', color: 'var(--ink-soft)', maxWidth: '420px', margin: '0 auto 40px' }}>
+        <p style={{ ...body, fontSize: '18px', color: 'var(--ink-soft)', maxWidth: '420px', margin: '0 auto 40px' }}>
           By the end of this lesson: {lesson.single_action_outcome.replace('I can', 'you can')}
         </p>
         <div style={{ maxWidth: '380px', margin: '0 auto', width: '100%', textAlign: 'left' }}>
@@ -70,11 +70,11 @@ export default async function PupilBookletPage({ params }: { params: Promise<{ m
           <div key={i} style={{ display: 'flex', gap: '14px', alignItems: 'flex-start', border: '1.5px solid var(--border)', borderRadius: '16px', padding: '16px 18px', marginBottom: '12px' }}>
             <span style={{
               flexShrink: 0, width: '32px', height: '32px', borderRadius: '50%', background: 'var(--gold)',
-              color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '16px',
+              color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '18px',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}>{i + 1}</span>
             <div>
-              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)', marginBottom: '4px' }}>
+              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '18px', color: 'var(--ink)', marginBottom: '4px' }}>
                 {c.emoji ? `${c.emoji} ` : ''}{c.heading}
               </div>
             </div>
@@ -83,7 +83,7 @@ export default async function PupilBookletPage({ params }: { params: Promise<{ m
         {quote && (
           <div style={{ background: 'var(--gold-lt)', border: '2px solid var(--gold)', borderRadius: '16px', padding: '18px 20px', marginTop: '20px' }}>
             <div style={{ ...mono, marginBottom: '8px' }}>{quote.label ?? `Say it like ${characterName}`}</div>
-            <p style={{ ...body, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px' }}>{quote.text}</p>
+            <p style={{ ...body, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '19px' }}>{quote.text}</p>
           </div>
         )}
       </section>
@@ -96,7 +96,7 @@ export default async function PupilBookletPage({ params }: { params: Promise<{ m
         {items.map(it => (
           <div key={it.n} style={{ border: '1.5px solid var(--border)', borderRadius: '16px', padding: '14px 16px', marginBottom: '10px' }}>
             <p style={{ ...body, fontWeight: 700, marginBottom: '8px' }}>Case {it.n}: {it.item}</p>
-            <p style={{ ...body, fontSize: '14px' }}>Believe &nbsp;·&nbsp; Pause &nbsp;·&nbsp; Do not share</p>
+            <p style={{ ...body, fontSize: '16px' }}>Believe &nbsp;·&nbsp; Pause &nbsp;·&nbsp; Do not share</p>
             <div style={{ ...writeLine, height: '26px' }} />
           </div>
         ))}
@@ -118,7 +118,7 @@ export default async function PupilBookletPage({ params }: { params: Promise<{ m
           </div>
         )}
         <p style={{ textAlign: 'center', marginTop: '32px' }}><span style={star(40)}>⭐</span></p>
-        <p style={{ ...body, textAlign: 'center', color: 'var(--ink-muted)', fontSize: '13px' }}>Case closed, detective. {characterName} is proud of you.</p>
+        <p style={{ ...body, textAlign: 'center', color: 'var(--ink-muted)', fontSize: '15px' }}>Case closed, detective. {characterName} is proud of you.</p>
       </section>
     </main>
   )

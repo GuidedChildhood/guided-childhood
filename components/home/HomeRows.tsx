@@ -26,12 +26,12 @@ function SlimRow({ href, emoji, title, meta, badge, urgent }: {
           display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px', flexShrink: 0,
         }}>{emoji}</span>
         <span style={{ flex: 1, minWidth: 0 }}>
-          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)', lineHeight: 1.2 }}>{title}</span>
-          <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: '12.5px', color: 'var(--ink-muted)', marginTop: '3px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{meta}</span>
+          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '18px', color: 'var(--ink)', lineHeight: 1.2 }}>{title}</span>
+          <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: '14.5px', color: 'var(--ink-muted)', marginTop: '3px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{meta}</span>
         </span>
         {badge && (
           <span style={{
-            fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, flexShrink: 0,
+            fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, flexShrink: 0,
             background: urgent ? '#E5484D' : 'var(--tint-blue)', color: urgent ? '#fff' : 'var(--ink)',
             borderRadius: '100px', padding: '5px 11px',
           }}>{badge}</span>
@@ -99,11 +99,11 @@ export default function HomeRows({ stageName, stageNum, handoverChildName, isSun
             background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
             borderRadius: '14px', padding: '11px 14px', marginTop: '-4px',
           }}>
-            <span aria-hidden style={{ fontSize: '20px', flexShrink: 0 }}>📲</span>
-            <span style={{ flex: 1, fontFamily: 'var(--font-body)', fontSize: '13px', color: 'var(--ink)', lineHeight: 1.45 }}>
+            <span aria-hidden style={{ fontSize: '22px', flexShrink: 0 }}>📲</span>
+            <span style={{ flex: 1, fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink)', lineHeight: 1.45 }}>
               {handoverChildName} can tick their own jobs now. Share the QR code to hand them their side.
             </span>
-            <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, color: 'var(--terracotta-dark)', whiteSpace: 'nowrap' }}>
+            <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 700, color: 'var(--terracotta-dark)', whiteSpace: 'nowrap' }}>
               Share →
             </span>
           </div>

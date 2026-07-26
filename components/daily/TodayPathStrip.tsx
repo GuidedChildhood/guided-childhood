@@ -184,10 +184,10 @@ export default function TodayPathStrip({ tasks, dailyMinutes = 10, childName, st
           are here to do before any steps: understand today's moment and walk
           away with the words for it. */}
       <div style={{ padding: '0 4px', marginBottom: '12px' }}>
-        <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '17px', color: 'var(--ink)', letterSpacing: '-0.01em', lineHeight: 1.2, margin: '0 0 3px' }}>
+        <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '19px', color: 'var(--ink)', letterSpacing: '-0.01em', lineHeight: 1.2, margin: '0 0 3px' }}>
           {dayDone ? 'Today, sorted' : `Today with ${kid}`}
         </h2>
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.45, margin: 0 }}>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.45, margin: 0 }}>
           {dayDone
             ? 'You understood a moment and you have the words. That is the day.'
             : 'Understand one moment, and walk away with the exact words for it.'}
@@ -195,10 +195,10 @@ export default function TodayPathStrip({ tasks, dailyMinutes = 10, childName, st
       </div>
 
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px', padding: '0 4px' }}>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
           {dayDone ? 'Today' : 'Today · do this next'}
         </span>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: dayDone ? 'var(--terracotta-dark)' : 'var(--ink-muted)' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, color: dayDone ? 'var(--terracotta-dark)' : 'var(--ink-muted)' }}>
           {dayDone ? 'All done ✓' : `${investedMinutes} of ${minutes} min`}
         </span>
       </div>
@@ -207,7 +207,7 @@ export default function TodayPathStrip({ tasks, dailyMinutes = 10, childName, st
           whichever size they pick, so a five minute day still keeps the
           streak. Quiet, tappable, never a demand. */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px', padding: '0 4px' }}>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, color: 'var(--ink-light)' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, color: 'var(--ink-light)' }}>
           I have
         </span>
         {[5, 10, 15].map(m => {
@@ -218,7 +218,7 @@ export default function TodayPathStrip({ tasks, dailyMinutes = 10, childName, st
               onClick={() => pickMinutes(m)}
               aria-pressed={on}
               style={{
-                fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
+                fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700,
                 padding: '4px 11px', borderRadius: '100px', cursor: 'pointer',
                 border: on ? '1.5px solid var(--terracotta)' : '1.5px solid var(--border)',
                 background: on ? 'var(--terracotta-lt)' : '#fff',
@@ -259,7 +259,7 @@ export default function TodayPathStrip({ tasks, dailyMinutes = 10, childName, st
                   background: celebrating ? 'var(--terracotta)' : 'var(--terracotta-lt)',
                   color: 'var(--ink)',
                   border: celebrating ? 'none' : '1.5px solid var(--terracotta)',
-                  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '10.5px',
+                  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '12.5px',
                   padding: '5px 10px', borderRadius: '100px', whiteSpace: 'nowrap',
                   boxShadow: '0 3px 10px rgba(237,195,95,0.35)',
                   marginBottom: '2px', transition: 'background 0.3s',
@@ -341,7 +341,7 @@ export default function TodayPathStrip({ tasks, dailyMinutes = 10, childName, st
                         ? '3px solid var(--terracotta)'
                         : '2.5px solid var(--border)',
                       boxShadow: isCurrent ? '0 0 0 5px var(--terracotta-lt)' : 'none',
-                      fontSize: '17px',
+                      fontSize: '19px',
                       filter: !isDoneNode && !isCurrent ? 'grayscale(1) opacity(0.55)' : 'none',
                     }}
                   >
@@ -358,7 +358,7 @@ export default function TodayPathStrip({ tasks, dailyMinutes = 10, childName, st
                 </div>
                 <span style={{
                   fontFamily: 'var(--font-mono)',
-                  fontSize: '9px',
+                  fontSize: '11px',
                   fontWeight: isCurrent ? 700 : 600,
                   letterSpacing: '0.06em',
                   textTransform: 'uppercase',
@@ -393,20 +393,20 @@ export default function TodayPathStrip({ tasks, dailyMinutes = 10, childName, st
           }}
         >
           <span style={{ minWidth: 0 }}>
-            <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: '13.5px', fontWeight: 700, color: 'var(--ink)' }}>
+            <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: '15.5px', fontWeight: 700, color: 'var(--ink)' }}>
               Next: {tasks[currentIndex].label}
               <span style={{ color: 'var(--ink-muted)', fontWeight: 500 }}>
                 {' '}· {investedMinutes + nextWeight >= minutes ? `last of your ${minutes} min` : investedMinutes > 0 ? `${investedMinutes} min done today, about ${toBudgetMin} more to your ${minutes}` : `about ${toBudgetMin} min to your ${minutes} min`}
               </span>
             </span>
-            <span style={{ display: 'block', fontSize: '12px', color: 'var(--ink-soft)', marginTop: '2px' }}>
+            <span style={{ display: 'block', fontSize: '14px', color: 'var(--ink-soft)', marginTop: '2px' }}>
               {nextHint(tasks[currentIndex].key)}
             </span>
           </span>
           <span style={{
             flexShrink: 0, background: 'var(--terracotta)', color: 'var(--ink)',
             borderRadius: '12px', padding: '9px 16px',
-            fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 800,
+            fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 800,
             boxShadow: '0 3px 0 var(--terracotta-dark)',
           }}>
             Go
@@ -417,17 +417,17 @@ export default function TodayPathStrip({ tasks, dailyMinutes = 10, childName, st
           marginTop: '14px', padding: '13px 15px',
           background: 'var(--tint-sage)', borderRadius: '14px',
         }}>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: 'var(--ink)' }}>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px', color: 'var(--ink)' }}>
             That is your {minutes} minutes, day done 🎉
           </div>
-          <div style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '3px' }}>
+          <div style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '3px' }}>
             You are readier for {kid} today than yesterday.{streakCount >= 2 ? ` ${streakCount} days in a row now.` : ''} Streak safe, the rest waits for tomorrow. Got a spare minute?
           </div>
           <Link
             href={tasks[currentIndex].href}
             style={{
               display: 'inline-block', marginTop: '9px',
-              fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
+              fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700,
               color: 'var(--terracotta-dark)', textDecoration: 'none',
             }}
           >
@@ -439,10 +439,10 @@ export default function TodayPathStrip({ tasks, dailyMinutes = 10, childName, st
           href="/dashboard/tracker"
           style={{
             display: 'block', marginTop: '14px', textAlign: 'center', textDecoration: 'none',
-            fontFamily: 'var(--font-body)', fontSize: '13px', color: 'var(--ink-soft)',
+            fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink-soft)',
           }}
         >
-          Day complete, streak safe. <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>See what it moved →</span>
+          Day complete, streak safe. <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>See what it moved →</span>
         </Link>
       )}
     </div>

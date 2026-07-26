@@ -20,7 +20,7 @@ import Interactive from '@/components/lessons/interactives'
 // untouched from the v2 pass build.
 
 const eyebrowStyle: React.CSSProperties = {
-  fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700,
+  fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
   letterSpacing: '0.12em', textTransform: 'uppercase',
 }
 
@@ -29,7 +29,7 @@ const eyebrowStyle: React.CSSProperties = {
 function BadgeChips({ badges }: { badges: CurriculumBadges }) {
   if (!badges.keyStage && !badges.strand) return null
   const chip: React.CSSProperties = {
-    fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700,
+    fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
     letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-soft)',
     background: '#fff', border: '1.5px solid var(--border)',
     borderRadius: '100px', padding: '5px 12px', whiteSpace: 'nowrap',
@@ -167,7 +167,7 @@ function DiscussionBlock({ slide }: { slide: DiscussionSlide }) {
           <button
             onClick={() => setRunning(r => !r)}
             style={{
-              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px',
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px',
               background: 'var(--terracotta)', color: 'var(--ink)', border: 'none',
               borderRadius: '12px', padding: '9px 20px', cursor: 'pointer',
               boxShadow: '0 4px 0 var(--terracotta-dark)',
@@ -178,7 +178,7 @@ function DiscussionBlock({ slide }: { slide: DiscussionSlide }) {
         )}
       </div>
       {done && slide.lookFor && (
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: '16px', color: 'var(--ink)', lineHeight: 1.7, maxWidth: '460px', margin: '18px auto 0' }}>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: '18px', color: 'var(--ink)', lineHeight: 1.7, maxWidth: '460px', margin: '18px auto 0' }}>
           <strong>A good answer sounds like:</strong> {slide.lookFor}
         </p>
       )}
@@ -197,7 +197,7 @@ function StatBlock({ slide }: { slide: StatSlide }) {
       <p data-reveal style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'clamp(1.15rem, 2.8vw, 1.5rem)', color: 'var(--ink)', lineHeight: 1.4, maxWidth: '480px', margin: '0 auto 14px' }}>
         {slide.claim}
       </p>
-      <p data-reveal style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 600, color: 'var(--ink-muted)', letterSpacing: '0.04em' }}>
+      <p data-reveal style={{ fontFamily: 'var(--font-mono)', fontSize: '13.5px', fontWeight: 600, color: 'var(--ink-muted)', letterSpacing: '0.04em' }}>
         Source: {slide.source}
       </p>
     </div>
@@ -228,11 +228,11 @@ function ScenarioBlock({ slide }: { slide: ScenarioSlide }) {
             {slide.avatar}
           </div>
           <div>
-            <div style={{ fontFamily: 'var(--font-body)', fontWeight: 800, fontSize: '14px', color: 'var(--ink)' }}>{slide.handle}</div>
-            {slide.meta && <div style={{ fontFamily: 'var(--font-body)', fontSize: '12px', color: 'var(--ink-muted)' }}>{slide.meta}</div>}
+            <div style={{ fontFamily: 'var(--font-body)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)' }}>{slide.handle}</div>
+            {slide.meta && <div style={{ fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--ink-muted)' }}>{slide.meta}</div>}
           </div>
         </div>
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: '16.5px', color: 'var(--ink)', lineHeight: 1.7, marginBottom: slide.image || slide.stats ? '12px' : 0 }}>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: '18.5px', color: 'var(--ink)', lineHeight: 1.7, marginBottom: slide.image || slide.stats ? '12px' : 0 }}>
           {slide.text}
         </p>
         {slide.image && (
@@ -244,7 +244,7 @@ function ScenarioBlock({ slide }: { slide: ScenarioSlide }) {
           </div>
         )}
         {slide.stats && (
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, color: 'var(--ink-muted)', letterSpacing: '0.04em' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 600, color: 'var(--ink-muted)', letterSpacing: '0.04em' }}>
             {slide.stats}
           </div>
         )}
@@ -291,12 +291,12 @@ function DiagramBlock({ slide }: { slide: DiagramSlide }) {
             }}>
               <span style={{ fontSize: '30px', flexShrink: 0 }}>{step.emoji}</span>
               <div>
-                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)' }}>{step.title}</div>
-                {step.text && <div style={{ fontFamily: 'var(--font-body)', fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.5 }}>{step.text}</div>}
+                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)' }}>{step.title}</div>
+                {step.text && <div style={{ fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.5 }}>{step.text}</div>}
               </div>
             </div>
             {i < slide.steps.length - 1 && (
-              <div style={{ fontSize: '18px', color: 'var(--terracotta-dark)', fontWeight: 900, padding: '6px 0' }}>↓</div>
+              <div style={{ fontSize: '20px', color: 'var(--terracotta-dark)', fontWeight: 900, padding: '6px 0' }}>↓</div>
             )}
           </div>
         ))}
@@ -304,7 +304,7 @@ function DiagramBlock({ slide }: { slide: DiagramSlide }) {
           <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', justifyContent: 'center', marginTop: '16px' }}>
             {slide.verdicts.map((v, i) => (
               <span key={i} data-diagram-chip style={{
-                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px',
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px',
                 background: 'var(--stage-1)', border: '2px solid var(--stage-1-bold)',
                 color: 'var(--stage-1-text)', borderRadius: '100px', padding: '8px 16px',
               }}>
@@ -315,7 +315,7 @@ function DiagramBlock({ slide }: { slide: DiagramSlide }) {
         )}
       </div>
       {slide.caption && (
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: '13.5px', color: 'var(--ink-soft)', textAlign: 'center', lineHeight: 1.6, maxWidth: '420px', margin: '16px auto 0' }}>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: '15.5px', color: 'var(--ink-soft)', textAlign: 'center', lineHeight: 1.6, maxWidth: '420px', margin: '16px auto 0' }}>
           {slide.caption}
         </p>
       )}
@@ -362,7 +362,7 @@ function DigiClosingBlock({ slide }: { slide: DigiSlide }) {
             <div key={i} data-digi-line style={{
               opacity: 0, background: '#fff', border: '1.5px solid var(--border)',
               borderRadius: i === 0 ? '4px 18px 18px 18px' : '18px', padding: '13px 18px', textAlign: 'left',
-              fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '15.5px',
+              fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '17.5px',
               color: 'var(--ink)', lineHeight: 1.55, boxShadow: '0 3px 0 rgba(26,26,46,0.06)',
             }}>
               {line}
@@ -389,7 +389,7 @@ function SlideBody({
               off, the title reveals, far cleaner than a busy stock scene. */}
           <AnimatedIntro eyebrow={slide.eyebrow} title={slide.title} character={slide.character} />
           {slide.body && (
-            <p data-reveal style={{ fontSize: '15.5px', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '420px', margin: '18px auto 0', textAlign: 'center' }}>
+            <p data-reveal style={{ fontSize: '17.5px', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '420px', margin: '18px auto 0', textAlign: 'center' }}>
               {slide.body}
             </p>
           )}
@@ -410,12 +410,12 @@ function SlideBody({
               {slide.outcome}
             </p>
           </div>
-          <p data-reveal style={{ fontSize: '15.5px', color: 'var(--ink)', lineHeight: 1.7, marginBottom: '16px' }}>{slide.why}</p>
+          <p data-reveal style={{ fontSize: '17.5px', color: 'var(--ink)', lineHeight: 1.7, marginBottom: '16px' }}>{slide.why}</p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '9px' }}>
             {slide.gains.map((g, i) => (
               <div key={i} data-reveal style={{ display: 'flex', gap: '11px', alignItems: 'flex-start', background: '#fff', border: '1.5px solid var(--border)', borderRadius: '14px', padding: '12px 15px' }}>
                 <span style={{ color: 'var(--terracotta-dark)', fontWeight: 900, flexShrink: 0 }}>✓</span>
-                <span style={{ fontSize: '14.5px', color: 'var(--ink)', lineHeight: 1.55 }}>{g}</span>
+                <span style={{ fontSize: '16.5px', color: 'var(--ink)', lineHeight: 1.55 }}>{g}</span>
               </div>
             ))}
           </div>
@@ -431,13 +431,13 @@ function SlideBody({
             {slide.words.map((w, i) => (
               <div key={i} data-reveal style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '16px', padding: '13px 16px' }}>
                 <span style={{
-                  display: 'inline-block', fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: '13px',
+                  display: 'inline-block', fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: '15px',
                   color: 'var(--stage-1-text)', background: 'var(--stage-1)', border: '1.5px solid var(--stage-1-bold)',
                   borderRadius: '8px', padding: '3px 10px', marginBottom: '7px',
                 }}>
                   {w.word}
                 </span>
-                <p style={{ fontSize: '14px', color: 'var(--ink)', lineHeight: 1.6 }}>{w.meaning}</p>
+                <p style={{ fontSize: '16px', color: 'var(--ink)', lineHeight: 1.6 }}>{w.meaning}</p>
               </div>
             ))}
           </div>
@@ -500,7 +500,7 @@ function SlideBody({
             style={{ width: '100%', borderRadius: '20px', background: 'var(--ink)', display: 'block' }}
           />
           {slide.caption && (
-            <p style={{ fontSize: '12.5px', color: 'var(--ink-muted)', marginTop: '10px', textAlign: 'center' }}>
+            <p style={{ fontSize: '14.5px', color: 'var(--ink-muted)', marginTop: '10px', textAlign: 'center' }}>
               {slide.caption}
             </p>
           )}
@@ -515,7 +515,7 @@ function SlideBody({
           <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.3rem, 3vw, 1.6rem)', fontWeight: 900, color: 'var(--ink)', letterSpacing: '-0.02em', marginBottom: '12px' }}>
             {slide.heading}
           </h2>
-          <p style={{ fontSize: '15px', color: 'var(--ink)', lineHeight: 1.7 }}>{slide.body}</p>
+          <p style={{ fontSize: '17px', color: 'var(--ink)', lineHeight: 1.7 }}>{slide.body}</p>
         </div>
       )
     case 'recap':
@@ -528,7 +528,7 @@ function SlideBody({
             {slide.points.map((p, i) => (
               <li key={i} data-reveal style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', background: '#fff', border: '1.5px solid var(--border)', borderRadius: '14px', padding: '13px 16px' }}>
                 <span style={{ color: 'var(--terracotta-dark)', fontWeight: 900, flexShrink: 0 }}>✓</span>
-                <span style={{ fontSize: '14.5px', color: 'var(--ink)', lineHeight: 1.6 }}>{p}</span>
+                <span style={{ fontSize: '16.5px', color: 'var(--ink)', lineHeight: 1.6 }}>{p}</span>
               </li>
             ))}
           </ul>
@@ -745,10 +745,10 @@ export default function LessonPlayer({
           The full school curriculum goes deeper: complete schemes of work by key stage, teacher scripts, assessment and progress evidence for every child.
         </p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxWidth: '340px', margin: '0 auto' }}>
-          <Link href="/schools" className="btn btn-gold" style={{ justifyContent: 'center', fontSize: '15px' }}>
+          <Link href="/schools" className="btn btn-gold" style={{ justifyContent: 'center', fontSize: '17px' }}>
             See the school curriculum
           </Link>
-          <button onClick={runAgain} className="btn btn-outline" style={{ justifyContent: 'center', fontSize: '13px' }}>
+          <button onClick={runAgain} className="btn btn-outline" style={{ justifyContent: 'center', fontSize: '15px' }}>
             Play it again ↻
           </button>
         </div>
@@ -765,17 +765,17 @@ export default function LessonPlayer({
         <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.5rem, 5vw, 2rem)', fontWeight: 900, color: 'var(--ink)', letterSpacing: '-0.02em', marginBottom: '8px' }}>
           Nearly!
         </h2>
-        <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)', marginBottom: '8px' }}>
+        <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '18px', color: 'var(--ink)', marginBottom: '8px' }}>
           You got {correctCount} of {choiceCount} right.
         </p>
-        <p style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '340px', margin: '0 auto 24px' }}>
+        <p style={{ fontSize: '16.5px', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '340px', margin: '0 auto 24px' }}>
           Going over it again is how it sticks. The tricky bit comes round first, then the questions.
         </p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxWidth: '300px', margin: '0 auto' }}>
-          <button onClick={tryAgain} className="btn btn-gold" style={{ justifyContent: 'center', fontSize: '14px' }}>
+          <button onClick={tryAgain} className="btn btn-gold" style={{ justifyContent: 'center', fontSize: '16px' }}>
             Have another go
           </button>
-          <Link href={backHref} className="btn btn-outline" style={{ justifyContent: 'center', fontSize: '13px' }}>
+          <Link href={backHref} className="btn btn-outline" style={{ justifyContent: 'center', fontSize: '15px' }}>
             Back to my lessons
           </Link>
         </div>
@@ -793,7 +793,7 @@ export default function LessonPlayer({
           You did it! 🎉
         </h2>
         {results.length > 0 && (
-          <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)', marginBottom: '6px' }}>
+          <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '18px', color: 'var(--ink)', marginBottom: '6px' }}>
             You got {correct} of {results.length} questions right.
           </p>
         )}
@@ -802,18 +802,18 @@ export default function LessonPlayer({
             display: 'inline-block', background: 'var(--terracotta-lt, #FBEEC9)',
             border: '2px solid var(--terracotta)', borderRadius: '100px',
             padding: '10px 22px', margin: '10px 0 12px',
-            fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '18px', color: 'var(--ink)',
+            fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '20px', color: 'var(--ink)',
           }}>
             ⭐ {kidStars} star{kidStars === 1 ? '' : 's'} in your bank!
           </div>
         )}
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.6, maxWidth: '340px', margin: '0 auto 20px' }}>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: '15.5px', color: 'var(--ink-soft)', lineHeight: 1.6, maxWidth: '340px', margin: '0 auto 20px' }}>
           {lessonSource === 'lesson'
             ? 'That is a pass, and your grown up just got the good news. One more step down your road to 16.'
             : 'Your grown up just got the good news. Stars mean screen time, and you earned it the smart way.'}
         </p>
         <div style={{ maxWidth: '300px', margin: '0 auto' }}>
-          <Link href={backHref} className="btn btn-gold" style={{ justifyContent: 'center', fontSize: '14px', width: '100%' }}>
+          <Link href={backHref} className="btn btn-gold" style={{ justifyContent: 'center', fontSize: '16px', width: '100%' }}>
             {lessonSource === 'lesson' ? 'Back to my road ⭐' : 'Back to my quests'}
           </Link>
         </div>
@@ -832,22 +832,22 @@ export default function LessonPlayer({
         <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.4rem, 3.4vw, 1.8rem)', fontWeight: 900, color: 'var(--ink)', letterSpacing: '-0.02em', marginBottom: '10px' }}>
           Nearly
         </h2>
-        <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)', marginBottom: '8px' }}>
+        <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '18px', color: 'var(--ink)', marginBottom: '8px' }}>
           {correctCount} of {choiceCount} right this time.
         </p>
-        <p style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '380px', margin: '0 auto 26px' }}>
+        <p style={{ fontSize: '16.5px', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '380px', margin: '0 auto 26px' }}>
           Going back over it is exactly how learning sticks. It picks up just before the tricky bit, so the idea comes first and the questions come round fresh.
         </p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxWidth: '320px', margin: '0 auto' }}>
-          <button onClick={tryAgain} className="btn btn-gold" style={{ justifyContent: 'center', fontSize: '14px' }}>
+          <button onClick={tryAgain} className="btn btn-gold" style={{ justifyContent: 'center', fontSize: '16px' }}>
             Go back over it
           </button>
           {digiPrompt && (
-            <Link href={`/dashboard/digi?q=${encodeURIComponent(digiPrompt)}`} className="btn btn-outline" style={{ justifyContent: 'center', fontSize: '13px' }}>
+            <Link href={`/dashboard/digi?q=${encodeURIComponent(digiPrompt)}`} className="btn btn-outline" style={{ justifyContent: 'center', fontSize: '15px' }}>
               Talk it through with DiGi
             </Link>
           )}
-          <Link href={backHref} className="btn btn-outline" style={{ justifyContent: 'center', fontSize: '13px' }}>
+          <Link href={backHref} className="btn btn-outline" style={{ justifyContent: 'center', fontSize: '15px' }}>
             Back to all lessons
           </Link>
         </div>
@@ -865,32 +865,32 @@ export default function LessonPlayer({
           {hasScore ? 'Passed' : 'Completed'}
         </h2>
         {hasScore && (
-          <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)', marginBottom: '8px' }}>
+          <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '18px', color: 'var(--ink)', marginBottom: '8px' }}>
             {correctCount} of {choiceCount} right, that is a pass 🌱
           </p>
         )}
-        <p style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '360px', margin: '0 auto 26px' }}>
+        <p style={{ fontSize: '16.5px', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '360px', margin: '0 auto 26px' }}>
           {isSchool
             ? 'Now the worksheet verdicts and the named exit quizzes. Then one tap on the register records the delivery.'
             : 'Counted towards your stage progress. The best next step is trying it at home tonight, and you can run it again any time.'}
         </p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxWidth: '320px', margin: '0 auto' }}>
           {digiPrompt && (
-            <Link href={`/dashboard/digi?q=${encodeURIComponent(digiPrompt)}`} className="btn btn-gold" style={{ justifyContent: 'center', fontSize: '13px' }}>
+            <Link href={`/dashboard/digi?q=${encodeURIComponent(digiPrompt)}`} className="btn btn-gold" style={{ justifyContent: 'center', fontSize: '15px' }}>
               Talk it through with DiGi
             </Link>
           )}
           {!isSchool && (
-            <Link href="/dashboard/tracker" className="btn btn-outline" style={{ justifyContent: 'center', fontSize: '13px' }}>
+            <Link href="/dashboard/tracker" className="btn btn-outline" style={{ justifyContent: 'center', fontSize: '15px' }}>
               See your passport fill →
             </Link>
           )}
           {!isSchool && (
-            <button onClick={runAgain} className="btn btn-outline" style={{ justifyContent: 'center', fontSize: '13px' }}>
+            <button onClick={runAgain} className="btn btn-outline" style={{ justifyContent: 'center', fontSize: '15px' }}>
               Run it again ↻
             </button>
           )}
-          <Link href={backHref} className="btn btn-outline" style={{ justifyContent: 'center', fontSize: '13px' }}>
+          <Link href={backHref} className="btn btn-outline" style={{ justifyContent: 'center', fontSize: '15px' }}>
             {isSchool ? 'Back to the lesson hub' : 'Back to all lessons'}
           </Link>
         </div>
@@ -920,7 +920,7 @@ export default function LessonPlayer({
             <button
               onClick={() => setScriptOpen(o => !o)}
               style={{
-                fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
+                fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700,
                 letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)',
                 background: 'none', border: 'none', cursor: 'pointer', padding: '2px 0', marginBottom: '8px',
               }}
@@ -932,7 +932,7 @@ export default function LessonPlayer({
                 background: 'var(--stage-2)', borderLeft: '3px solid var(--terracotta)',
                 borderRadius: '12px', padding: '13px 16px',
               }}>
-                <p style={{ fontFamily: 'var(--font-body)', fontSize: '13.5px', color: 'var(--ink)', lineHeight: 1.65 }}>
+                <p style={{ fontFamily: 'var(--font-body)', fontSize: '15.5px', color: 'var(--ink)', lineHeight: 1.65 }}>
                   {slide.script ?? 'No script for this slide. Let it land, then continue.'}
                 </p>
               </div>
@@ -946,7 +946,7 @@ export default function LessonPlayer({
             <button
               onClick={goBack}
               className="btn btn-outline"
-              style={{ fontSize: '13px', padding: '13px 18px', flexShrink: 0 }}
+              style={{ fontSize: '15px', padding: '13px 18px', flexShrink: 0 }}
             >
               Back
             </button>
@@ -955,7 +955,7 @@ export default function LessonPlayer({
             onClick={advance}
             disabled={!canContinue}
             className="btn btn-gold"
-            style={{ flex: 1, justifyContent: 'center', fontSize: projector ? '16px' : '14px', padding: '14px 20px', opacity: canContinue ? 1 : 0.45 }}
+            style={{ flex: 1, justifyContent: 'center', fontSize: projector ? '18px' : '16px', padding: '14px 20px', opacity: canContinue ? 1 : 0.45 }}
           >
             {isLast ? 'Finish lesson' : isChoice && !answered ? 'Pick an answer to continue' : 'Continue'}
           </button>
@@ -984,7 +984,7 @@ export default function LessonPlayer({
           // a tiny cross to get back to their quests.
           <Link href={homeHref ?? backHref} aria-label="Back to my quests" style={{
             display: 'inline-flex', alignItems: 'center', gap: '6px',
-            fontFamily: 'var(--font-display)', fontSize: '13.5px', fontWeight: 800,
+            fontFamily: 'var(--font-display)', fontSize: '15.5px', fontWeight: 800,
             color: 'var(--ink)', textDecoration: 'none',
             background: '#fff', border: '2px solid var(--border)', borderRadius: '100px',
             padding: '8px 15px', boxShadow: '0 3px 0 var(--border)',
@@ -993,7 +993,7 @@ export default function LessonPlayer({
           </Link>
         ) : (
           <Link href={backHref} aria-label="Leave the lesson" style={{
-            fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
+            fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 700,
             color: 'var(--ink-muted)', textDecoration: 'none', letterSpacing: '0.06em',
             padding: '6px 8px', marginLeft: '-8px',
           }}>
@@ -1011,7 +1011,7 @@ export default function LessonPlayer({
         <span style={{ marginLeft: 'auto', display: 'inline-flex', alignItems: 'center', gap: '10px' }}>
           {kidMode && typeof kidStars === 'number' && !finished && (
             <span style={{
-              fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '12.5px',
+              fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '14.5px',
               color: 'var(--ink)', background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
               borderRadius: '100px', padding: '4px 11px',
             }}>

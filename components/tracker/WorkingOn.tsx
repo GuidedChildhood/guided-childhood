@@ -105,7 +105,7 @@ export default function WorkingOn({
 
   return (
     <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '18px', padding: '18px 20px', marginBottom: '20px' }}>
-      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '14px' }}>
+      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '14px' }}>
         What we are working on
       </div>
 
@@ -113,16 +113,16 @@ export default function WorkingOn({
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: working > 0 ? '16px' : '0' }}>
         <div style={{ background: 'var(--tint-green)', border: '1px solid var(--border)', borderRadius: '14px', padding: '14px', textAlign: 'center' }}>
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.5rem', color: 'var(--ink)', lineHeight: 1 }}>{solvedTotal}</div>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#2D5016', marginTop: '6px' }}>Sorted</div>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#2D5016', marginTop: '6px' }}>Sorted</div>
         </div>
         <div style={{ background: 'var(--terracotta-lt)', border: '1px solid var(--border)', borderRadius: '14px', padding: '14px', textAlign: 'center' }}>
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.5rem', color: 'var(--ink)', lineHeight: 1 }}>{working}</div>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginTop: '6px' }}>On the go</div>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginTop: '6px' }}>On the go</div>
         </div>
       </div>
 
       {working === 0 ? (
-        <p style={{ fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '14px 0 0' }}>
+        <p style={{ fontSize: '15.5px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '14px 0 0' }}>
           {solvedTotal > 0
             ? `Nothing open right now, and ${solvedTotal} sorted. When something comes up, flag it in the moment and it lands here to work through.`
             : 'Nothing flagged yet. When a hard moment comes up, tap it in the daily check in or Help now and it lands here so we can work through it together.'}
@@ -131,10 +131,10 @@ export default function WorkingOn({
         <>
           {pattern && (
             <div style={{ background: 'var(--stage-1)', border: '1px solid var(--border)', borderRadius: '12px', padding: '12px 14px', marginBottom: '14px' }}>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--stage-1-text)', display: 'block', marginBottom: '4px' }}>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--stage-1-text)', display: 'block', marginBottom: '4px' }}>
                 Pattern
               </span>
-              <span style={{ fontSize: '13px', color: 'var(--ink)', lineHeight: 1.5 }}>{pattern}</span>
+              <span style={{ fontSize: '15px', color: 'var(--ink)', lineHeight: 1.5 }}>{pattern}</span>
             </div>
           )}
 
@@ -142,11 +142,11 @@ export default function WorkingOn({
             {live.map(c => (
               <div key={c.slug} style={{ border: '1px solid var(--border)', borderRadius: '14px', padding: '13px 15px', background: 'var(--cream)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
-                  <span style={{ flex: 1, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: 'var(--ink)' }}>
+                  <span style={{ flex: 1, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16.5px', color: 'var(--ink)' }}>
                     {c.label}
                   </span>
                   {c.times_flagged > 1 && (
-                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--ink-muted)', flexShrink: 0 }}>
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--ink-muted)', flexShrink: 0 }}>
                       {c.times_flagged}x
                     </span>
                   )}
@@ -157,7 +157,7 @@ export default function WorkingOn({
                     style={{
                       background: 'var(--tint-green)', border: '1.5px solid #2D5016', color: '#2D5016',
                       borderRadius: '100px', padding: '7px 14px', cursor: 'pointer',
-                      fontFamily: 'var(--font-display)', fontSize: '12.5px', fontWeight: 800,
+                      fontFamily: 'var(--font-display)', fontSize: '14.5px', fontWeight: 800,
                     }}
                   >
                     Sorted ✓
@@ -167,7 +167,7 @@ export default function WorkingOn({
                     style={{
                       background: '#fff', border: '1.5px solid var(--border)', color: 'var(--ink-soft)',
                       borderRadius: '100px', padding: '7px 14px', cursor: 'pointer',
-                      fontFamily: 'var(--font-display)', fontSize: '12.5px', fontWeight: 700,
+                      fontFamily: 'var(--font-display)', fontSize: '14.5px', fontWeight: 700,
                     }}
                   >
                     Still going
@@ -177,7 +177,7 @@ export default function WorkingOn({
                     style={{
                       background: 'var(--terracotta)', border: 'none', color: 'var(--ink)',
                       borderRadius: '100px', padding: '7px 14px', textDecoration: 'none',
-                      fontFamily: 'var(--font-display)', fontSize: '12.5px', fontWeight: 800,
+                      fontFamily: 'var(--font-display)', fontSize: '14.5px', fontWeight: 800,
                       boxShadow: '0 3px 0 var(--terracotta-dark)',
                     }}
                   >
@@ -185,7 +185,7 @@ export default function WorkingOn({
                   </a>
                 </div>
                 {helped[c.slug] && (
-                  <p style={{ fontSize: '12px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '10px 0 0' }}>
+                  <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '10px 0 0' }}>
                     Kept on the list. If it is stubborn, tap Need help and we will come back with a plan.
                   </p>
                 )}
@@ -203,7 +203,7 @@ export default function WorkingOn({
             onClick={() => setShowSolved(s => !s)}
             style={{
               background: 'none', border: 'none', padding: 0, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px',
-              fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)',
+              fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)',
             }}
           >
             Recently sorted ({solvedList.length})
@@ -214,7 +214,7 @@ export default function WorkingOn({
               {solvedList.map(s => (
                 <div key={s.slug} style={{ display: 'flex', alignItems: 'center', gap: '10px', border: '1px solid var(--border)', borderRadius: '12px', padding: '10px 13px', background: 'var(--tint-green)' }}>
                   <span style={{ flexShrink: 0, color: '#2D5016' }} aria-hidden="true">✓</span>
-                  <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '13.5px', color: 'var(--ink)' }}>
+                  <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '15.5px', color: 'var(--ink)' }}>
                     {s.label}
                   </span>
                   <button
@@ -222,7 +222,7 @@ export default function WorkingOn({
                     style={{
                       flexShrink: 0, background: '#fff', border: '1.5px solid var(--border)', color: 'var(--ink-soft)',
                       borderRadius: '100px', padding: '6px 12px', cursor: 'pointer',
-                      fontFamily: 'var(--font-display)', fontSize: '12px', fontWeight: 700,
+                      fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 700,
                     }}
                   >
                     Happened again

@@ -57,7 +57,7 @@ export default function ChildSwitcher({
               textDecoration: 'none',
               fontFamily: 'var(--font-display)',
               fontWeight: 800,
-              fontSize: '14px',
+              fontSize: '16px',
               lineHeight: 1,
               color: 'var(--ink)',
               background: active ? 'var(--terracotta)' : '#fff',

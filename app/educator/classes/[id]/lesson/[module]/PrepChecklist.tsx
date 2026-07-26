@@ -51,11 +51,11 @@ export default function PrepChecklist({
         display: 'flex', justifyContent: 'space-between', alignItems: 'center',
         marginBottom: '14px',
       }}>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--green-dark)' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--green-dark)' }}>
           Lesson checklist
         </span>
         <span style={{
-          fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px',
+          fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
           color: ticked === total ? 'var(--green-dark)' : 'var(--ink-muted)',
           background: ticked === total ? 'var(--green-lt)' : 'var(--warm)',
           border: '1.5px solid var(--border)', borderRadius: '10px', padding: '4px 12px',
@@ -66,7 +66,7 @@ export default function PrepChecklist({
 
       {groups.map(group => (
         <div key={group.heading} style={{ marginBottom: '18px' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
             {group.heading}
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -86,7 +86,7 @@ export default function PrepChecklist({
                       flexShrink: 0, width: '26px', height: '26px', borderRadius: '8px',
                       border: isDone ? '2px solid var(--green-dark)' : '2px solid var(--ink-light)',
                       background: isDone ? 'var(--green-dark)' : '#fff',
-                      color: '#fff', fontWeight: 900, fontSize: '15px', cursor: 'pointer',
+                      color: '#fff', fontWeight: 900, fontSize: '17px', cursor: 'pointer',
                       display: 'flex', alignItems: 'center', justifyContent: 'center', lineHeight: 1,
                     }}
                   >
@@ -94,21 +94,21 @@ export default function PrepChecklist({
                   </button>
                   <div style={{ flex: 1 }}>
                     <div style={{
-                      fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '14.5px',
+                      fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '16.5px',
                       color: 'var(--ink)', textDecoration: isDone ? 'line-through' : 'none',
                       opacity: isDone ? 0.65 : 1,
                     }}>
                       {item.label}
                     </div>
                     {item.detail && (
-                      <div style={{ fontFamily: 'var(--font-body)', fontSize: '12.5px', color: 'var(--ink-muted)', lineHeight: 1.5, marginTop: '2px' }}>
+                      <div style={{ fontFamily: 'var(--font-body)', fontSize: '14.5px', color: 'var(--ink-muted)', lineHeight: 1.5, marginTop: '2px' }}>
                         {item.detail}
                       </div>
                     )}
                   </div>
                   {item.href && (
                     <Link href={item.href} target={item.external ? '_blank' : undefined} style={{
-                      flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px',
+                      flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
                       color: 'var(--green-dark)', textDecoration: 'none', padding: '4px 2px',
                     }}>
                       Open →

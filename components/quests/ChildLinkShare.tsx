@@ -48,12 +48,12 @@ export default function ChildLinkShare({ token, childName, ageBand, useMode, onS
     display: 'inline-flex', alignItems: 'center', gap: '7px', background: '#fff',
     border: '1.5px solid var(--border)', borderRadius: '12px', padding: '10px 14px',
     cursor: 'pointer', textDecoration: 'none', fontFamily: 'var(--font-display)',
-    fontWeight: 700, fontSize: '13px', color: 'var(--ink)',
+    fontWeight: 700, fontSize: '15px', color: 'var(--ink)',
   }
 
   return (
     <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '16px', padding: '18px 20px', marginBottom: '20px' }}>
-      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
+      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
         Share to {childName}
       </div>
 
@@ -68,7 +68,7 @@ export default function ChildLinkShare({ token, childName, ageBand, useMode, onS
         ) : (
           <div style={{ width: 230, height: 230, borderRadius: '16px', background: '#fff', border: '1.5px solid var(--border)' }} />
         )}
-        <p style={{ fontSize: '12.5px', color: 'var(--ink-soft)', textAlign: 'center', lineHeight: 1.45, margin: 0, maxWidth: 280 }}>
+        <p style={{ fontSize: '14.5px', color: 'var(--ink-soft)', textAlign: 'center', lineHeight: 1.45, margin: 0, maxWidth: 280 }}>
           Point {childName}&apos;s camera at this and their app opens. No typing, nothing to install.
         </p>
       </div>
@@ -79,7 +79,7 @@ export default function ChildLinkShare({ token, childName, ageBand, useMode, onS
           {([['own', '📱 Own app'], ['coview', '👀 Together']] as const).map(([m, label]) => (
             <button key={m} onClick={() => choose(m)} aria-pressed={youngest === (m === 'coview')} style={{
               flex: 1, padding: '9px', borderRadius: '11px', cursor: 'pointer',
-              fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '12.5px', color: 'var(--ink)',
+              fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '14.5px', color: 'var(--ink)',
               background: (youngest === (m === 'coview')) ? 'var(--terracotta-lt)' : '#fff',
               border: (youngest === (m === 'coview')) ? '1.5px solid var(--terracotta)' : '1.5px solid var(--border)',
             }}>{label}</button>
@@ -89,7 +89,7 @@ export default function ChildLinkShare({ token, childName, ageBand, useMode, onS
 
       {/* Co-view for the youngest, who have no device of their own. */}
       {youngest && (
-        <a href={url} target="_blank" rel="noopener noreferrer" style={{ ...btn, width: '100%', justifyContent: 'center', background: 'var(--terracotta)', border: 'none', color: 'var(--ink)', boxShadow: '0 4px 0 var(--terracotta-dark)', fontWeight: 800, fontSize: '14px', marginBottom: '12px' }}>
+        <a href={url} target="_blank" rel="noopener noreferrer" style={{ ...btn, width: '100%', justifyContent: 'center', background: 'var(--terracotta)', border: 'none', color: 'var(--ink)', boxShadow: '0 4px 0 var(--terracotta-dark)', fontWeight: 800, fontSize: '16px', marginBottom: '12px' }}>
           👀 Open {childName}&apos;s app here and use it together
         </a>
       )}

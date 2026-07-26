@@ -59,7 +59,7 @@ export default async function ParentDealPrintPage({ searchParams }: { searchPara
       `}</style>
 
       <div className="no-print" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: 20 }}>
-        <Link href="/dashboard/quests" style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, color: 'var(--ink-muted)', textDecoration: 'none' }}>
+        <Link href="/dashboard/quests" style={{ fontFamily: 'var(--font-mono)', fontSize: 14, fontWeight: 700, color: 'var(--ink-muted)', textDecoration: 'none' }}>
           ← Back to quests
         </Link>
         <PrintButton />

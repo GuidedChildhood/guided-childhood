@@ -42,17 +42,17 @@ function Tile({ s }: { s: StickerState }) {
             style={{
               position: 'absolute', right: -2, bottom: -2, width: 20, height: 20, borderRadius: '50%',
               background: 'var(--retro-green, #2F8F6B)', color: '#fff', border: '2px solid #fff',
-              display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', fontWeight: 900,
+              display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '13px', fontWeight: 900,
             }}
           >
             ✓
           </span>
         )}
       </div>
-      <span style={{ fontSize: '11px', fontWeight: 800, color: s.earned ? 'var(--ink)' : 'var(--ink-muted)', lineHeight: 1.15 }}>
+      <span style={{ fontSize: '13px', fontWeight: 800, color: s.earned ? 'var(--ink)' : 'var(--ink-muted)', lineHeight: 1.15 }}>
         {s.name}
       </span>
-      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', letterSpacing: '0.02em', color: 'var(--ink-light)', lineHeight: 1 }}>
+      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.02em', color: 'var(--ink-light)', lineHeight: 1 }}>
         {s.earned ? 'Earned' : showCount ? `${s.have} of ${s.need}` : s.earn}
       </span>
     </div>
@@ -70,14 +70,14 @@ export default function StickerBook({ book, childName }: { book: Book; childName
       }}
     >
       <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '10px', marginBottom: '4px' }}>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
           Sticker book
         </span>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: 'var(--ink-muted)' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, color: 'var(--ink-muted)' }}>
           {earnedCount} of {total}
         </span>
       </div>
-      <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '18px', color: 'var(--ink)', margin: '0 0 12px' }}>
+      <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '20px', color: 'var(--ink)', margin: '0 0 12px' }}>
         {childName ? `${childName}'s stickers` : 'Your stickers'}
       </h2>
 
@@ -90,7 +90,7 @@ export default function StickerBook({ book, childName }: { book: Book; childName
         {stickers.map(s => <Tile key={s.key} s={s} />)}
       </div>
 
-      <p style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '16px 0 0' }}>
+      <p style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '16px 0 0' }}>
         Stickers are earned from real stars, finished printables and growing through the stages. Once earned they are kept for good.
       </p>
     </section>

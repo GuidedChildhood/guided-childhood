@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
-import { sendEmail, emailConfigured, unsubscribeUrl } from '@/lib/email'
+import { sendEmail, emailConfigured, unsubscribeUrl, leadUnsubscribeUrl } from '@/lib/email'
 import { welcomeEmail, day2StageEmail, day3TourEmail, day4DigiEmail, day7FounderEmail, weeklyDigestEmail, trialEndingEmail, winBackEmail, leadNurtureEmail, childPhoneEmail, screenTimeEmail, lessonsEmail, schoolRemindersEmail, familyAgreementEmail, printablesRevealEmail, balanceRevealEmail, mentalHealthRevealEmail, passportRevealEmail, digiTeaserEmail, scriptsTeaserEmail, printablesTeaserEmail, balanceTeaserEmail, mentalHealthTeaserEmail, safetyTeaserEmail, passportTeaserEmail, founderLeadEmail } from '@/lib/email/templates'
 import type { EmailContent } from '@/lib/email/templates'
 import { lifecycleState, trialDaysLeft } from '@/lib/email/lifecycle'
@@ -216,13 +216,20 @@ export async function GET(req: NextRequest) {
   // an account is excluded, so a real member never gets a start your trial
   // email (the converted flag is not reliably set, so profiles is the source
   // of truth here).
+  //
+  // Both lead reads skip anyone who has clicked stop, and both fall back to the
+  // unfiltered read if that column is not there yet. Without the fallback, a
+  // deploy landing before migration 104 would error the query, return nothing,
+  // and silently switch the whole lead programme off with nothing to say why.
   const dayAgo = new Date(Date.now() - 86400000).toISOString()
-  const { data: leads } = await supabase
+  const nurtureQuery = () => supabase
     .from('starter_leads')
     .select('email')
     .is('nurtured_at', null)
     .lte('created_at', dayAgo)
     .limit(200)
+  let { data: leads, error: leadsErr } = await nurtureQuery().is('unsubscribed_at', null)
+  if (leadsErr) ({ data: leads } = await nurtureQuery())
 
   const leadEmails = (leads ?? []).map(l => l.email as string).filter(Boolean)
   if (leadEmails.length > 0) {
@@ -237,7 +244,7 @@ export async function GET(req: NextRequest) {
         .from('starter_leads').update({ nurtured_at: new Date().toISOString() })
         .eq('email', email).is('nurtured_at', null)
       if (stampErr) continue
-      const sent = await sendEmail({ to: email, ...leadNurtureEmail() })
+      const sent = await sendEmail({ to: email, ...leadNurtureEmail(leadUnsubscribeUrl(email)) })
       if (sent.ok) results.leadNurture += 1
       else {
         results.errors += 1
@@ -253,12 +260,14 @@ export async function GET(req: NextRequest) {
   // since made an account drops out, so a real member never gets a teaser.
   {
     const monthAgo = new Date(Date.now() - 30 * 86400000).toISOString()
-    const { data: teaserLeads } = await supabase
+    const teaserQuery = () => supabase
       .from('starter_leads')
       .select('email, created_at')
       .gte('created_at', monthAgo)
       .lte('created_at', dayAgo)
       .limit(500)
+    let { data: teaserLeads, error: teaserErr } = await teaserQuery().is('unsubscribed_at', null)
+    if (teaserErr) ({ data: teaserLeads } = await teaserQuery())
     const rows = (teaserLeads ?? []).filter(l => !!l.email)
     if (rows.length > 0) {
       const originals = rows.map(l => l.email as string)
@@ -271,14 +280,18 @@ export async function GET(req: NextRequest) {
 
       // Days since capture, the key, and the content. Day 1 is the existing
       // nurture above, so the teasers start at day 3.
-      const schedule: { day: number; key: string; make: () => EmailContent }[] = [
-        { day: 3, key: 'teaser-digi', make: () => digiTeaserEmail() },
-        { day: 5, key: 'teaser-scripts', make: () => scriptsTeaserEmail() },
-        { day: 7, key: 'teaser-printables', make: () => printablesTeaserEmail() },
-        { day: 9, key: 'teaser-balance', make: () => balanceTeaserEmail() },
-        { day: 11, key: 'teaser-mind', make: () => mentalHealthTeaserEmail() },
-        { day: 13, key: 'teaser-safety', make: () => safetyTeaserEmail() },
-        { day: 15, key: 'teaser-passport', make: () => passportTeaserEmail() },
+      // Each teaser carries a real one click stop keyed to the address it is
+      // going to, so a parent who has since joined under a different address
+      // can end the sequence themselves. The account check below only ever
+      // catches the same address, and it always will.
+      const schedule: { day: number; key: string; make: (unsub: string) => EmailContent }[] = [
+        { day: 3, key: 'teaser-digi', make: u => digiTeaserEmail(u) },
+        { day: 5, key: 'teaser-scripts', make: u => scriptsTeaserEmail(u) },
+        { day: 7, key: 'teaser-printables', make: u => printablesTeaserEmail(u) },
+        { day: 9, key: 'teaser-balance', make: u => balanceTeaserEmail(u) },
+        { day: 11, key: 'teaser-mind', make: u => mentalHealthTeaserEmail(u) },
+        { day: 13, key: 'teaser-safety', make: u => safetyTeaserEmail(u) },
+        { day: 15, key: 'teaser-passport', make: u => passportTeaserEmail(u) },
       ]
 
       const deliverLead = async (email: string, key: string, content: EmailContent) => {
@@ -300,12 +313,13 @@ export async function GET(req: NextRequest) {
         // reached and not yet had, so a lead found late catches up one email a
         // day rather than a burst all at once.
         const due = schedule.find(s => age >= s.day && !leadSent.has(`${email.toLowerCase()}:${s.key}`))
+        const unsub = leadUnsubscribeUrl(email)
         if (due) {
-          await deliverLead(email, due.key, due.make())
+          await deliverLead(email, due.key, due.make(unsub))
         } else if (age >= 18 && !leadSent.has(`${email.toLowerCase()}:teaser-founder`)) {
           // The founder close, only while places remain.
           const remaining = await getFounderRemaining()
-          if (remaining > 0) await deliverLead(email, 'teaser-founder', founderLeadEmail({ remaining }))
+          if (remaining > 0) await deliverLead(email, 'teaser-founder', founderLeadEmail({ remaining, unsubscribe: unsub }))
         }
       }
     }

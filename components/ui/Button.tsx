@@ -11,9 +11,9 @@ type Variant = 'primary' | 'secondary' | 'quiet' | 'teal' | 'danger'
 type Size = 'sm' | 'md' | 'lg'
 
 const SIZE: Record<Size, { padding: string; fontSize: string; radius: string; lift: string }> = {
-  sm: { padding: '8px 14px', fontSize: '12.5px', radius: '11px', lift: '3px' },
-  md: { padding: '11px 18px', fontSize: '14px', radius: '13px', lift: '4px' },
-  lg: { padding: '14px 22px', fontSize: '15px', radius: '15px', lift: '5px' },
+  sm: { padding: '8px 14px', fontSize: '14.5px', radius: '11px', lift: '3px' },
+  md: { padding: '11px 18px', fontSize: '16px', radius: '13px', lift: '4px' },
+  lg: { padding: '14px 22px', fontSize: '17px', radius: '15px', lift: '5px' },
 }
 
 function surface(variant: Variant): { bg: string; color: string; border: string; shadowColor: string | null } {

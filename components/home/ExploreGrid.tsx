@@ -62,7 +62,7 @@ export default function ExploreGrid({ scriptHref = '/dashboard/scripts' }: { scr
     <div>
       {groups(scriptHref).map(g => (
         <div key={g.eyebrow} style={{ marginBottom: '18px' }}>
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '0 0 8px 2px' }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '0 0 8px 2px' }}>
             {g.eyebrow}
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '9px' }}>
@@ -85,10 +85,10 @@ export default function ExploreGrid({ scriptHref = '/dashboard/scripts' }: { scr
                     ? <KidIcon name={t.icon} size={30} color="var(--terracotta-dark)" />
                     : <span aria-hidden>{t.emoji}</span>}
                 </span>
-                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '12.5px', color: 'var(--ink)', lineHeight: 1.2 }}>
+                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: 'var(--ink)', lineHeight: 1.2 }}>
                   {t.label}
                 </span>
-                <span style={{ fontFamily: 'var(--font-body)', fontSize: '11px', color: 'var(--ink-muted)', lineHeight: 1.35 }}>
+                <span style={{ fontFamily: 'var(--font-body)', fontSize: '13px', color: 'var(--ink-muted)', lineHeight: 1.35 }}>
                   {t.sub}
                 </span>
               </Link>

@@ -57,7 +57,7 @@ export default function WeekPage() {
 
   return (
     <div style={{ maxWidth: '640px', margin: '0 auto', padding: '20px 20px 40px' }}>
-      <Link href="/dashboard" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.04em', color: 'var(--ink-muted)', textDecoration: 'none', marginBottom: '18px' }}>
+      <Link href="/dashboard" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, letterSpacing: '0.04em', color: 'var(--ink-muted)', textDecoration: 'none', marginBottom: '18px' }}>
         ← Home
       </Link>
 
@@ -71,10 +71,10 @@ export default function WeekPage() {
           <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.4rem, 5vw, 1.8rem)', color: 'var(--ink)', letterSpacing: '-0.03em', margin: '0 0 8px' }}>
             Your week with DiGi
           </h1>
-          <p style={{ fontSize: '14.5px', color: busy ? 'var(--terracotta-dark)' : 'var(--ink-soft)', lineHeight: 1.55, fontWeight: busy ? 700 : 400, margin: '0 auto 20px', maxWidth: '380px', transition: 'color 0.3s' }}>
+          <p style={{ fontSize: '16.5px', color: busy ? 'var(--terracotta-dark)' : 'var(--ink-soft)', lineHeight: 1.55, fontWeight: busy ? 700 : 400, margin: '0 auto 20px', maxWidth: '380px', transition: 'color 0.3s' }}>
             {busy ? READING_STEPS[step] : 'A clear read of your family’s week, the balance, the wins, and one thing to try next. Nothing compared to anyone else, never a report card on your child.'}
           </p>
-          <button onClick={build} disabled={busy} style={{ background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: '14px', padding: '13px 24px', cursor: busy ? 'default' : 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', boxShadow: '0 5px 0 var(--terracotta-dark)', opacity: busy ? 0.85 : 1 }}>
+          <button onClick={build} disabled={busy} style={{ background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: '14px', padding: '13px 24px', cursor: busy ? 'default' : 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', boxShadow: '0 5px 0 var(--terracotta-dark)', opacity: busy ? 0.85 : 1 }}>
             {busy ? 'Reading your week…' : 'Read my week'}
           </button>
         </div>

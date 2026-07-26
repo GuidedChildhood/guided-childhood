@@ -8,8 +8,8 @@ import { CURRICULUM, KEY_STAGE_META, KEY_STAGE_ORDER } from '@/lib/content/schoo
 // the consultation the 2025 guidance requires. Family questions pull live
 // from each module's parent note so the pack never drifts from the lessons.
 
-const mono: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }
-const body: React.CSSProperties = { fontFamily: 'var(--font-body)', fontSize: '13.5px', color: 'var(--ink)', lineHeight: 1.7 }
+const mono: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }
+const body: React.CSSProperties = { fontFamily: 'var(--font-body)', fontSize: '15.5px', color: 'var(--ink)', lineHeight: 1.7 }
 
 type ParentNote = { family_question?: string; taught?: string }
 
@@ -71,23 +71,23 @@ export default async function ParentPackPage() {
               <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.15rem', color: 'var(--ink)', margin: '0 0 2px' }}>
                 {meta.years}
               </h2>
-              <p style={{ ...body, fontSize: '12.5px', color: 'var(--ink-muted)', marginBottom: '10px' }}>{meta.strapline}</p>
+              <p style={{ ...body, fontSize: '14.5px', color: 'var(--ink-muted)', marginBottom: '10px' }}>{meta.strapline}</p>
               {modules.map(m => {
                 const note = noteByModule.get(m.moduleId)
                 return (
                   <div key={m.moduleId} style={{ border: '1.5px solid var(--border)', borderRadius: '12px', padding: '12px 16px', marginBottom: '8px' }}>
                     <p style={{ ...body, fontWeight: 800, marginBottom: '2px' }}>{m.title}</p>
-                    <p style={{ ...body, fontSize: '12.5px', marginBottom: '4px' }}>{m.blurb}</p>
-                    <p style={{ ...body, fontSize: '12.5px' }}>
+                    <p style={{ ...body, fontSize: '14.5px', marginBottom: '4px' }}>{m.blurb}</p>
+                    <p style={{ ...body, fontSize: '14.5px' }}>
                       <strong>Afterwards your child can say:</strong> &ldquo;{m.outcome}&rdquo;
                     </p>
                     {note?.family_question && (
-                      <p style={{ ...body, fontSize: '12.5px', marginTop: '4px', color: 'var(--green-dark)', fontWeight: 600 }}>
+                      <p style={{ ...body, fontSize: '14.5px', marginTop: '4px', color: 'var(--green-dark)', fontWeight: 600 }}>
                         The question coming home: {note.family_question}
                       </p>
                     )}
                     {m.dsl && (
-                      <p style={{ ...mono, fontSize: '9px', color: 'var(--coral-dark)', marginTop: '6px' }}>
+                      <p style={{ ...mono, fontSize: '11px', color: 'var(--coral-dark)', marginTop: '6px' }}>
                         Taught with additional safeguarding care · full materials available on request
                       </p>
                     )}
@@ -98,7 +98,7 @@ export default async function ParentPackPage() {
           )
         })}
 
-        <p style={{ ...body, fontSize: '11.5px', color: 'var(--ink-muted)' }}>
+        <p style={{ ...body, fontSize: '13.5px', color: 'var(--ink-muted)' }}>
           Questions about any lesson? Ask the school office to see the material, or send your question in
           and the PSHE lead will come back to you. This pack was generated from the live curriculum on{' '}
           {new Date().toLocaleDateString('en-GB')}.

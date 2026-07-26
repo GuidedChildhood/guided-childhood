@@ -41,29 +41,29 @@ export default function JobBalance({
           <DigiCharacter size={22} mood="idle" once />
         </span>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 9.5, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11.5, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
             Today&apos;s balance
           </div>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15.5, color: 'var(--ink)', lineHeight: 1.2 }}>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 17.5, color: 'var(--ink)', lineHeight: 1.2 }}>
             {a.headline}
           </div>
         </div>
-        <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 800, letterSpacing: '0.05em', textTransform: 'uppercase', color: t.fg, background: t.bg, border: `1px solid ${t.border}`, padding: '5px 10px', borderRadius: 100 }}>
+        <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 800, letterSpacing: '0.05em', textTransform: 'uppercase', color: t.fg, background: t.bg, border: `1px solid ${t.border}`, padding: '5px 10px', borderRadius: 100 }}>
           {t.label}
         </span>
       </div>
 
       {/* The count and time today against the sweet spot for their age. */}
       <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 12 }}>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11.5, fontWeight: 700, color: 'var(--ink-soft)', background: 'var(--cream)', borderRadius: 100, padding: '6px 11px' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13.5, fontWeight: 700, color: 'var(--ink-soft)', background: 'var(--cream)', borderRadius: 100, padding: '6px 11px' }}>
           {a.count} job{a.count === 1 ? '' : 's'} · about {timeStr} today
         </span>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11.5, fontWeight: 700, color: 'var(--ink-muted)', background: 'var(--cream)', borderRadius: 100, padding: '6px 11px' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13.5, fontWeight: 700, color: 'var(--ink-muted)', background: 'var(--cream)', borderRadius: 100, padding: '6px 11px' }}>
           Sweet spot for {a.bandLabel}: up to {a.maxJobs} a day
         </span>
       </div>
 
-      <p style={{ fontSize: 13.5, color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 12px' }}>
+      <p style={{ fontSize: 15.5, color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 12px' }}>
         {a.advice.replace('they', name === 'your child' ? 'they' : name)}
       </p>
 
@@ -73,12 +73,12 @@ export default function JobBalance({
         <div style={{ borderTop: '1px solid var(--border)', paddingTop: 10, marginBottom: a.suggestSpread ? 12 : 0 }}>
           {jobsDueToday.slice(0, 8).map((j, i) => (
             <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 10, padding: '3px 0' }}>
-              <span style={{ fontSize: 13, color: 'var(--ink)', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{j.title}</span>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700, color: 'var(--ink-muted)', flexShrink: 0 }}>~{jobMinutes(j)}m</span>
+              <span style={{ fontSize: 15, color: 'var(--ink)', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{j.title}</span>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, fontWeight: 700, color: 'var(--ink-muted)', flexShrink: 0 }}>~{jobMinutes(j)}m</span>
             </div>
           ))}
           {jobsDueToday.length > 8 && (
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10.5, color: 'var(--ink-muted)', fontWeight: 700, marginTop: 3 }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12.5, color: 'var(--ink-muted)', fontWeight: 700, marginTop: 3 }}>
               and {jobsDueToday.length - 8} more
             </div>
           )}
@@ -89,13 +89,13 @@ export default function JobBalance({
           swamp: spread some jobs across the week. */}
       {a.suggestSpread && (
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, background: t.bg, border: `1px solid ${t.border}`, borderRadius: 14, padding: '11px 13px' }}>
-          <span style={{ flex: 1, minWidth: 0, fontSize: 12.5, color: 'var(--ink)', lineHeight: 1.45 }}>
+          <span style={{ flex: 1, minWidth: 0, fontSize: 14.5, color: 'var(--ink)', lineHeight: 1.45 }}>
             <b style={{ fontWeight: 800 }}>Spread it across the week.</b> Move a couple to set days so no single day feels like a lot.
           </span>
           {onReview && (
             <button
               onClick={onReview}
-              style={{ flexShrink: 0, background: '#fff', border: '1.5px solid var(--border)', borderRadius: 10, padding: '8px 12px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 12.5, color: 'var(--ink)' }}
+              style={{ flexShrink: 0, background: '#fff', border: '1.5px solid var(--border)', borderRadius: 10, padding: '8px 12px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 14.5, color: 'var(--ink)' }}
             >
               Review jobs
             </button>

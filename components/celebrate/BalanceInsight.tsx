@@ -100,7 +100,7 @@ export default function BalanceInsight({
               : <DigiCharacter mood="happy" size={38} />}
           </span>
           <div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-soft)' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-soft)' }}>
               {cur.emoji} {c.name} says
             </div>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.15rem, 5vw, 1.35rem)', color: 'var(--ink)', lineHeight: 1.15, letterSpacing: '-0.02em', marginTop: '3px' }}>
@@ -109,7 +109,7 @@ export default function BalanceInsight({
           </div>
         </div>
 
-        <p style={{ fontFamily: 'var(--font-body)', fontWeight: 500, fontSize: '15px', lineHeight: 1.55, color: 'var(--ink)', opacity: 0.86, margin: '0 0 14px' }}>
+        <p style={{ fontFamily: 'var(--font-body)', fontWeight: 500, fontSize: '17px', lineHeight: 1.55, color: 'var(--ink)', opacity: 0.86, margin: '0 0 14px' }}>
           {cur.body}
         </p>
       </div>
@@ -128,7 +128,7 @@ export default function BalanceInsight({
           style={{
             background: '#fff', border: '1.5px solid rgba(26,26,46,0.12)', borderRadius: '100px',
             padding: '8px 15px', cursor: 'pointer',
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', color: 'var(--ink)',
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)',
           }}
         >
           Show me another ✨

@@ -35,10 +35,10 @@ export default function StreakFlame({ count, aliveToday }: StreakFlameProps) {
         />
       </svg>
       <div>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '15px', fontWeight: 700, color: aliveToday ? 'var(--terracotta-dark)' : 'var(--ink)', lineHeight: 1.1 }}>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '17px', fontWeight: 700, color: aliveToday ? 'var(--terracotta-dark)' : 'var(--ink)', lineHeight: 1.1 }}>
           {count}
         </div>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 600, color: 'var(--ink-muted)', letterSpacing: '0.05em', textTransform: 'uppercase', whiteSpace: 'nowrap', lineHeight: 1.3 }}>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 600, color: 'var(--ink-muted)', letterSpacing: '0.05em', textTransform: 'uppercase', whiteSpace: 'nowrap', lineHeight: 1.3 }}>
           {aliveToday ? 'day streak' : 'keep it alive today'}
         </div>
       </div>

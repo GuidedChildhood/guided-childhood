@@ -1,16 +1,28 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
-import { unsubscribeToken } from '@/lib/email'
+import { unsubscribeToken, leadUnsubscribeToken } from '@/lib/email'
 
 export const dynamic = 'force-dynamic'
 
 // One click unsubscribe from the email footer. The HMAC token proves the
-// link came from an email we sent to this account, no login needed.
+// link came from an email we sent, no login needed.
+//
+// Two kinds of recipient, one door. ?u is an account, and opts the profile out.
+// ?e is someone who gave us their email before they had an account, and stops
+// the pre sign up sequence. That second case is the one that matters: a parent
+// who downloaded a printable with one address and then joined with another was
+// still being sold the thing they had already bought, with only a mailto to
+// stop it.
 export async function GET(req: NextRequest) {
   const userId = req.nextUrl.searchParams.get('u')
+  const leadEmail = req.nextUrl.searchParams.get('e')
   const token = req.nextUrl.searchParams.get('k')
 
-  if (!userId || !token || token !== unsubscribeToken(userId)) {
+  const validAccount = !!userId && !!token && token === unsubscribeToken(userId)
+  const addr = leadEmail?.trim().toLowerCase() ?? ''
+  const validLead = !!addr && !!token && token === leadUnsubscribeToken(addr)
+
+  if (!validAccount && !validLead) {
     return NextResponse.json({ error: 'Invalid link' }, { status: 400 })
   }
 
@@ -18,7 +30,16 @@ export async function GET(req: NextRequest) {
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.SUPABASE_SERVICE_KEY!
   )
-  await supabase.from('profiles').update({ email_opt_out: true }).eq('id', userId)
+  if (validAccount) {
+    await supabase.from('profiles').update({ email_opt_out: true }).eq('id', userId!)
+  } else {
+    await supabase
+      .from('starter_leads').update({ unsubscribed_at: new Date().toISOString() })
+      .eq('email', addr).is('unsubscribed_at', null)
+    // If that address also has an account, stop those too. Someone clicking
+    // stop means stop, not stop one of the two lists they did not know about.
+    await supabase.from('profiles').update({ email_opt_out: true }).eq('email', addr)
+  }
 
   return new NextResponse(
     `<!doctype html><html><body style="margin:0;background:#F9F8F6;font-family:Nunito,Helvetica,Arial,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh">

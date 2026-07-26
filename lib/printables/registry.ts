@@ -329,15 +329,20 @@ export const PRINTABLES: Printable[] = [
 // different.
 //
 // Character note: four of these covers were drawn with the retired squad
-// (Oliver, Zara, Sofia). Their card previews now point at freshly generated
-// covers starring the Planet Friends instead. The multi page PDFs behind them
-// still carry the old squad inside and need regenerating as their own job, so
-// the cover a family sees is right while the download is still being redrawn.
+// (Oliver, Zara, Sofia), and for a while the fix was to point those four card
+// previews at separately generated art on the CDN. That left a card promising
+// one thing and a download delivering another, on an external host, for a cover
+// we already had.
+//
+// The PDFs themselves have since been redrawn with the Planet Friends, so every
+// preview here is now rendered straight from page one of its own colour edition
+// and served from public. The card is the sheet. Regenerate a PDF and its cover
+// is regenerated from it, which is the only way the two can never drift again.
 type LocalProduct = { preview: string; colour: string; colourIn: string; blurb?: string; title?: string }
 
 const LOCAL_PRODUCTS: Record<string, LocalProduct> = {
   'what-do-they-do': {
-    preview: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260725_002144_a4d80aee-4086-4d1e-95b2-32acea06a208.png',
+    preview: '/printables/what-do-they-do.png',
     colour: '/printables/what-do-they-do-colour.pdf',
     colourIn: '/printables/what-do-they-do-colourin.pdf',
     title: 'What Do They Do?',
@@ -361,7 +366,7 @@ const LOCAL_PRODUCTS: Record<string, LocalProduct> = {
     colourIn: '/printables/a-to-z-showdown-colourin.pdf',
   },
   'back-to-school-escape': {
-    preview: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260725_001938_cc4414ce-8819-4566-bd22-0b2f12228a8f.png',
+    preview: '/printables/back-to-school-escape.png',
     colour: '/printables/back-to-school-escape-colour.pdf',
     colourIn: '/printables/back-to-school-escape-colourin.pdf',
   },
@@ -386,12 +391,12 @@ const LOCAL_PRODUCTS: Record<string, LocalProduct> = {
     colourIn: '/printables/family-phone-agreement-colourin.pdf',
   },
   'ice-cream-shop': {
-    preview: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260725_001946_59d57d74-f6d9-4374-a2bb-1b92cac6e41c.png',
+    preview: '/printables/ice-cream-shop.png',
     colour: '/printables/ice-cream-shop-colour.pdf',
     colourIn: '/printables/ice-cream-shop-colourin.pdf',
   },
   'left-and-right': {
-    preview: 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/hf_20260725_001930_01e5df7c-cf07-4c46-8fd8-2924b3d8ea53.png',
+    preview: '/printables/left-and-right.png',
     colour: '/printables/left-and-right-colour.pdf',
     colourIn: '/printables/left-and-right-colourin.pdf',
   },

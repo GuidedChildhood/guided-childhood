@@ -7,7 +7,7 @@ import PrintButton from '@/components/educator/PrintButton'
 // two per A4 page (print design system 4.7). The one artefact where a
 // decorative frame is expected. DiGi the golden star presides.
 
-const mono: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }
+const mono: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }
 
 export default async function CertificatesPage({ params }: { params: Promise<{ classId: string }> }) {
   const { classId } = await params
@@ -50,22 +50,22 @@ export default async function CertificatesPage({ params }: { params: Promise<{ c
           <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.5rem', margin: '0 0 10px', letterSpacing: '-0.01em' }}>
             Digital Detective Award
           </h2>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: '13px', color: 'var(--ink-muted)', margin: '0 0 6px' }}>This is to certify that</p>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink-muted)', margin: '0 0 6px' }}>This is to certify that</p>
           <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '2rem', margin: '0 0 10px', letterSpacing: '-0.01em' }}>
             {p.display_name}
           </p>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: '13.5px', lineHeight: 1.6, maxWidth: '420px', margin: '0 auto 20px' }}>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: '15.5px', lineHeight: 1.6, maxWidth: '420px', margin: '0 auto 20px' }}>
             ran the checks, asked the questions, and built judgement most people never learn.
             The internet is lucky to have you.
           </p>
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '40px', fontFamily: 'var(--font-body)', fontSize: '12px', color: 'var(--ink-muted)' }}>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '40px', fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--ink-muted)' }}>
             <span>Signed ▁▁▁▁▁▁▁▁▁▁▁▁</span>
             <span>Date ▁▁▁▁▁▁▁▁</span>
           </div>
         </div>
       ))}
       {(pupils ?? []).length === 0 && (
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--ink-muted)' }}>No pupils in this class yet.</p>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: '16px', color: 'var(--ink-muted)' }}>No pupils in this class yet.</p>
       )}
     </main>
   )

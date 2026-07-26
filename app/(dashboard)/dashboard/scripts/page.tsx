@@ -165,7 +165,7 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
       <div style={{ marginBottom: '24px' }}>
         <p className="eyebrow" style={{ marginBottom: '4px' }}>Conversation tools</p>
         <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '8px' }}>Scripts</h1>
-        <p style={{ color: 'var(--ink-muted)', fontSize: '15px' }}>
+        <p style={{ color: 'var(--ink-muted)', fontSize: '17px' }}>
           What to say, what not to say, and why it works. Scripts for real moments, not perfect families.
         </p>
       </div>
@@ -186,7 +186,7 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
       {topicScripts.length > 0 && (
         <section style={{ marginBottom: '24px' }}>
           <div style={{ background: 'var(--terracotta)', borderRadius: '18px', padding: '16px 20px 14px', marginBottom: '12px', boxShadow: '0 4px 0 var(--terracotta-dark)' }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--stage-1-text)', marginBottom: '4px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--stage-1-text)', marginBottom: '4px' }}>
               {topicScripts.length} script{topicScripts.length > 1 ? 's' : ''} for this moment
             </div>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.35rem', color: 'var(--ink)', lineHeight: 1.12, letterSpacing: '-0.02em', textTransform: 'capitalize' }}>
@@ -203,14 +203,14 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
                   href={isLocked ? '/dashboard/upgrade' : `/dashboard/scripts/${script.sort_order}`}
                   style={{ display: 'flex', alignItems: 'center', gap: '15px', padding: '18px 18px', textDecoration: 'none', background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: '18px' }}
                 >
-                  <span style={{ flexShrink: 0, width: 34, height: 34, borderRadius: '50%', background: 'var(--terracotta)', color: 'var(--stage-1-text)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '16px' }}>
+                  <span style={{ flexShrink: 0, width: 34, height: 34, borderRadius: '50%', background: 'var(--terracotta)', color: 'var(--stage-1-text)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '18px' }}>
                     {i + 1}
                   </span>
                   <span style={{ flex: 1, minWidth: 0 }}>
-                    <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '18px', color: 'var(--ink)', lineHeight: 1.25, letterSpacing: '-0.01em' }}>{script.title}</span>
-                    <span style={{ display: 'block', fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '3px' }}>{script.situation}</span>
+                    <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '20px', color: 'var(--ink)', lineHeight: 1.25, letterSpacing: '-0.01em' }}>{script.title}</span>
+                    <span style={{ display: 'block', fontSize: '17px', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '3px' }}>{script.situation}</span>
                   </span>
-                  <span aria-hidden style={{ flexShrink: 0, fontSize: '18px', fontWeight: 800, color: 'var(--terracotta-dark)' }}>{isDone ? '✓' : isLocked ? '🔒' : '›'}</span>
+                  <span aria-hidden style={{ flexShrink: 0, fontSize: '20px', fontWeight: 800, color: 'var(--terracotta-dark)' }}>{isDone ? '✓' : isLocked ? '🔒' : '›'}</span>
                 </Link>
               )
             })}
@@ -224,13 +224,13 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
           style={{ textDecoration: 'none', display: 'block', marginBottom: '20px' }}
         >
           <div style={{ background: 'var(--terracotta)', borderRadius: '16px', padding: '18px 20px', boxShadow: '0 5px 0 var(--terracotta-dark)' }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.85)', marginBottom: '6px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.85)', marginBottom: '6px' }}>
               {recommended.matchesChallenge ? 'Recommended next, matches what you told us' : 'Recommended next'}
             </div>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: '#fff', marginBottom: '4px' }}>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '19px', color: '#fff', marginBottom: '4px' }}>
               {recommended.title}
             </div>
-            <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.8)', fontStyle: 'italic' }}>
+            <div style={{ fontSize: '15px', color: 'rgba(255,255,255,0.8)', fontStyle: 'italic' }}>
               {recommended.situation}
             </div>
           </div>
@@ -241,21 +241,21 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
         <div style={{ background: 'var(--stage-5)', border: '2px solid var(--stage-5)', borderRadius: '16px', padding: '16px 20px', marginBottom: '24px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px', flexWrap: 'wrap', marginBottom: '10px' }}>
             <div>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--terracotta)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Free plan</span>
-              <p style={{ fontSize: '14px', color: 'var(--ink)', marginTop: '4px', fontWeight: 600 }}>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--terracotta)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Free plan</span>
+              <p style={{ fontSize: '16px', color: 'var(--ink)', marginTop: '4px', fontWeight: 600 }}>
                 {freeAllowanceUsedUp
                   ? "That is your free scripts for this week. Fresh ones unlock in a few days, and every one you have opened stays yours to reread."
                   : `${freeScriptsReadCount} of ${FREE_SCRIPTS_PER_WEEK} free scripts this week, ${freeScriptsLeft} left. They refresh every week.`}
               </p>
             </div>
-            <Link href="/dashboard/upgrade" className="btn btn-gold" style={{ flexShrink: 0, padding: '10px 20px', fontSize: '12px' }}>
+            <Link href="/dashboard/upgrade" className="btn btn-gold" style={{ flexShrink: 0, padding: '10px 20px', fontSize: '14px' }}>
               Unlock all
             </Link>
           </div>
           <div style={{ height: '8px', borderRadius: '8px', background: 'rgba(0,0,0,0.08)', overflow: 'hidden', marginBottom: '10px' }}>
             <div style={{ height: '100%', borderRadius: '8px', background: 'var(--terracotta)', width: `${Math.min(100, (freeScriptsReadCount / FREE_SCRIPTS_PER_WEEK) * 100)}%`, transition: 'width 0.4s ease' }} />
           </div>
-          <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
+          <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
             Scripts are one part of it. Your daily path on the Home tab, a moment card, a check in, and a few free DiGi messages, never runs out and never needs membership. That is where the everyday habit lives, keep that going regardless.
           </p>
         </div>
@@ -265,14 +265,14 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
         <section key={group.stageId} style={{ marginBottom: '28px' }}>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px', marginBottom: '12px' }}>
             <span style={{
-              fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600,
+              fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600,
               letterSpacing: '0.1em', textTransform: 'uppercase',
               color: group.meta.color, background: group.meta.bg,
               padding: '4px 10px', borderRadius: '100px',
             }}>
               Stage {group.meta.num}: {group.meta.label}
             </span>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--ink-light)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--ink-light)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
               {group.meta.ages}
             </span>
           </div>
@@ -310,10 +310,10 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
           borderRadius: '16px', padding: '24px 20px', textAlign: 'center',
         }}>
           <div style={{ fontSize: '24px', marginBottom: '12px' }}>🔒</div>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '16px', marginBottom: '8px' }}>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '18px', marginBottom: '8px' }}>
             The full library of 100 plus scripts is unlocked with membership
           </div>
-          <p style={{ fontSize: '14px', color: 'var(--ink)', marginBottom: '16px' }}>
+          <p style={{ fontSize: '16px', color: 'var(--ink)', marginBottom: '16px' }}>
             Every stage from 4 to 16. Gaming, safety, social media, AI, body image, sleep, and the hard moments in between.
           </p>
           <Link href="/dashboard/upgrade" className="btn btn-gold" style={{ display: 'inline-flex' }}>

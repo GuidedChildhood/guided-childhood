@@ -80,7 +80,7 @@ export default function BalanceScales({
       <div style={{ position: 'absolute', bottom: 10, left: '50%', width: 84, height: 10, marginLeft: -42, borderRadius: '100px', background: 'var(--ink)' }} />
 
       {/* a plain read of which way it leans, so the tilt is never ambiguous */}
-      <div style={{ position: 'absolute', bottom: -8, left: 0, right: 0, textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: screenHeavier ? screenFill : realHeavier ? realFill : 'var(--ink-muted)' }}>
+      <div style={{ position: 'absolute', bottom: -8, left: 0, right: 0, textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: screenHeavier ? screenFill : realHeavier ? realFill : 'var(--ink-muted)' }}>
         {total === 0 ? 'Level, the day is young'
           : screenHeavier ? '▼ Tipping to screen'
           : realHeavier ? 'Tipping to real life ▼'

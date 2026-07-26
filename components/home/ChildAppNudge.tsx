@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import ShareQrButton from '@/components/quests/ShareQrButton'
 
 // The half set up family. A parent can run the whole parent side and never
 // realise the child has a side of their own, which is where most of the value
@@ -14,7 +15,7 @@ import Link from 'next/link'
 // opened. A code sent and never scanned leaves the family in exactly the same
 // place as one never sent.
 
-export default function ChildAppNudge({ childName }: { childName?: string | null }) {
+export default function ChildAppNudge({ childName, childId }: { childName?: string | null; childId?: string | null }) {
   const name = childName && childName !== 'Your child' ? childName : null
 
   const point = (title: string, body: string) => (
@@ -24,8 +25,8 @@ export default function ChildAppNudge({ childName }: { childName?: string | null
         background: 'var(--terracotta-dark)', marginTop: 8,
       }} />
       <span>
-        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15, color: 'var(--ink)' }}>{title}</span>
-        <span style={{ display: 'block', fontSize: 14.5, color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: 1 }}>{body}</span>
+        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 17, color: 'var(--ink)' }}>{title}</span>
+        <span style={{ display: 'block', fontSize: 16.5, color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: 1 }}>{body}</span>
       </span>
     </li>
   )
@@ -43,7 +44,7 @@ export default function ChildAppNudge({ childName }: { childName?: string | null
             display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24,
           }}>📲</span>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10.5, fontWeight: 700, letterSpacing: '0.13em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12.5, fontWeight: 700, letterSpacing: '0.13em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
               One thing left to set up
             </div>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 21, color: 'var(--ink)', lineHeight: 1.15, letterSpacing: '-0.01em' }}>
@@ -52,8 +53,8 @@ export default function ChildAppNudge({ childName }: { childName?: string | null
           </div>
         </div>
 
-        <p style={{ fontSize: 15.5, color: 'var(--ink)', lineHeight: 1.55, margin: '0 0 14px', fontWeight: 600 }}>
-          Share the QR code in Quests and their app opens on their phone or tablet. Nothing to install, nothing to sign up for.
+        <p style={{ fontSize: 17.5, color: 'var(--ink)', lineHeight: 1.55, margin: '0 0 14px', fontWeight: 600 }}>
+          Press the button and the code appears. Point their phone or tablet at it and their app opens. Nothing to install, nothing to sign up for.
         </p>
 
         <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 6px' }}>
@@ -71,17 +72,28 @@ export default function ChildAppNudge({ childName }: { childName?: string | null
           )}
         </ul>
 
-        <Link href="/dashboard/quests?tab=share" style={{
-          display: 'inline-flex', alignItems: 'center', marginTop: 8,
-          background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none',
-          borderRadius: 16, padding: '14px 24px',
-          fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 16,
-          boxShadow: '0 5px 0 var(--terracotta-dark)',
-        }}>
-          Share the QR code
-        </Link>
-        <p style={{ fontSize: 13, color: 'var(--ink-muted)', margin: '12px 0 0', lineHeight: 1.5 }}>
-          It is all in Quests: the jobs, the QR code and the printables.
+        {/* The code comes up here. A button that says share the QR code and
+            then drops a parent on a page where they have to find it again is a
+            button that lies, and it lost people at the one step the whole child
+            side depends on. The link to Quests stays underneath for a parent
+            who wants the rest of it. */}
+        {childId ? (
+          <ShareQrButton childId={childId} childName={childName} style={{ marginTop: 8 }} />
+        ) : (
+          <Link href="/dashboard/quests?tab=share" style={{
+            display: 'inline-flex', alignItems: 'center', marginTop: 8,
+            background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none',
+            borderRadius: 16, padding: '14px 24px',
+            fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 18,
+            boxShadow: '0 5px 0 var(--terracotta-dark)',
+          }}>
+            Share the QR code
+          </Link>
+        )}
+        <p style={{ fontSize: 15, color: 'var(--ink-muted)', margin: '12px 0 0', lineHeight: 1.5 }}>
+          <Link href="/dashboard/quests?tab=share" style={{ color: 'var(--ink-muted)' }}>
+            The jobs, the code and the printables all live in Quests
+          </Link>
         </p>
       </div>
     </div>

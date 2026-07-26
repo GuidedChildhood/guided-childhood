@@ -120,7 +120,7 @@ export default function StageReadiness({
               <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 22, color: 'var(--retro-green-dark)', lineHeight: 1.15 }}>
                 {stampName} stamped
               </div>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: 16, color: 'var(--ink-soft)', lineHeight: 1.5, margin: '6px 0 0' }}>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: 18, color: 'var(--ink-soft)', lineHeight: 1.5, margin: '6px 0 0' }}>
                 {kid} passed the {stageName} check. That stage is done and the stamp is theirs.
               </p>
             </div>
@@ -142,7 +142,7 @@ export default function StageReadiness({
               <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 22, color: passed ? 'var(--retro-green-dark)' : 'var(--ink)', lineHeight: 1.15 }}>
                 {passed ? `${stampName} stamped` : 'Nearly there'}
               </div>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: 16, color: 'var(--ink-soft)', lineHeight: 1.5, margin: '6px 0 0' }}>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: 18, color: 'var(--ink-soft)', lineHeight: 1.5, margin: '6px 0 0' }}>
                 {passed
                   ? `${finished.score} of ${STAGE_QUIZ_LENGTH}. The ${stageName} stage is stamped and ${kid} is ready for what comes next.`
                   : `${finished.score} of ${STAGE_QUIZ_LENGTH}. Have another look at the stage together and try again when you are ready. No rush at all.`}
@@ -155,7 +155,7 @@ export default function StageReadiness({
               style={{
                 marginTop: 15, width: '100%', background: 'var(--terracotta)', color: 'var(--ink)',
                 border: 'none', borderRadius: 14, padding: '13px 18px', cursor: 'pointer',
-                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 16,
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 18,
                 boxShadow: '0 4px 0 var(--terracotta-dark)',
               }}
             >
@@ -173,10 +173,10 @@ export default function StageReadiness({
       <div style={{ padding: '0 20px', maxWidth: 720, margin: '0 auto 20px' }}>
         <div style={card}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
               {stageName} check
             </span>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, color: 'var(--terracotta-dark)' }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 14, fontWeight: 700, color: 'var(--terracotta-dark)' }}>
               {step + 1} of {questions.length}
             </span>
           </div>
@@ -188,7 +188,7 @@ export default function StageReadiness({
             ))}
           </div>
 
-          <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 20, color: 'var(--ink)', lineHeight: 1.3, margin: '0 0 16px' }}>
+          <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 22, color: 'var(--ink)', lineHeight: 1.3, margin: '0 0 16px' }}>
             {q.q}
           </p>
 
@@ -211,7 +211,7 @@ export default function StageReadiness({
                   style={{
                     textAlign: 'left', background: bg, border: `1.5px solid ${border}`,
                     borderRadius: 14, padding: '14px 16px', cursor: picked === null ? 'pointer' : 'default',
-                    fontFamily: 'var(--font-body)', fontSize: 16, fontWeight: 600, color: 'var(--ink)',
+                    fontFamily: 'var(--font-body)', fontSize: 18, fontWeight: 600, color: 'var(--ink)',
                     lineHeight: 1.4, display: 'flex', alignItems: 'center', gap: 10,
                   }}
                 >
@@ -224,7 +224,7 @@ export default function StageReadiness({
 
           {picked !== null && (
             <div style={{ marginTop: 15 }}>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: 15, color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0, background: 'var(--cream)', borderRadius: 12, padding: '12px 14px' }}>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: 17, color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0, background: 'var(--cream)', borderRadius: 12, padding: '12px 14px' }}>
                 {q.why}
               </p>
               <button
@@ -233,7 +233,7 @@ export default function StageReadiness({
                 style={{
                   marginTop: 14, width: '100%', background: 'var(--deep-teal)', color: '#fff',
                   border: 'none', borderRadius: 14, padding: '14px 18px', cursor: 'pointer',
-                  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 16,
+                  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 18,
                   boxShadow: '0 4px 0 rgba(0,0,0,0.18)',
                 }}
               >
@@ -253,7 +253,7 @@ export default function StageReadiness({
         <div style={{ display: 'flex', alignItems: 'center', gap: 13 }}>
           {digiHead(allGreen ? 'happy' : 'speak')}
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 3 }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 13, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 3 }}>
               End of stage check
             </div>
             {/* The important insight, extra large */}
@@ -265,7 +265,7 @@ export default function StageReadiness({
           </div>
         </div>
 
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: 16, color: 'var(--ink-soft)', lineHeight: 1.55, margin: '13px 0 0' }}>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: 18, color: 'var(--ink-soft)', lineHeight: 1.55, margin: '13px 0 0' }}>
           {allGreen
             ? `Every part of the ${stageName} stage is done, ${greens} of ${activeAreas} strands green. One short check together and the stamp is theirs.`
             : `${greens} of ${activeAreas} strands are green. Here is the little that is left before the ${stageName} stamp lands.`}
@@ -279,10 +279,10 @@ export default function StageReadiness({
                 background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: 12, padding: '12px 14px',
               }}>
                 <span style={{ flex: 1, minWidth: 0 }}>
-                  <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 16, color: 'var(--ink)', lineHeight: 1.2 }}>{a.name}</span>
-                  <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: 14, color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: 1 }}>{a.improve}</span>
+                  <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 18, color: 'var(--ink)', lineHeight: 1.2 }}>{a.name}</span>
+                  <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: 16, color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: 1 }}>{a.improve}</span>
                 </span>
-                <span aria-hidden style={{ flexShrink: 0, color: 'var(--terracotta-dark)', fontSize: 20, fontWeight: 800 }}>→</span>
+                <span aria-hidden style={{ flexShrink: 0, color: 'var(--terracotta-dark)', fontSize: 22, fontWeight: 800 }}>→</span>
               </Link>
             ))}
             {lessonsLeft > 0 && (
@@ -291,12 +291,12 @@ export default function StageReadiness({
                 background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: 12, padding: '12px 14px',
               }}>
                 <span style={{ flex: 1, minWidth: 0 }}>
-                  <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 16, color: 'var(--ink)', lineHeight: 1.2 }}>
+                  <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 18, color: 'var(--ink)', lineHeight: 1.2 }}>
                     {lessonsLeft} stage {lessonsLeft === 1 ? 'lesson' : 'lessons'} to finish
                   </span>
-                  <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: 14, color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: 1 }}>Ten minutes each, done together.</span>
+                  <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: 16, color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: 1 }}>Ten minutes each, done together.</span>
                 </span>
-                <span aria-hidden style={{ flexShrink: 0, color: 'var(--terracotta-dark)', fontSize: 20, fontWeight: 800 }}>→</span>
+                <span aria-hidden style={{ flexShrink: 0, color: 'var(--terracotta-dark)', fontSize: 22, fontWeight: 800 }}>→</span>
               </Link>
             )}
           </div>
@@ -308,7 +308,7 @@ export default function StageReadiness({
             style={{
               marginTop: 16, width: '100%', background: 'var(--terracotta)', color: 'var(--ink)',
               border: 'none', borderRadius: 14, padding: '14px 18px', cursor: 'pointer',
-              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 17,
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 19,
               boxShadow: '0 4px 0 var(--terracotta-dark)',
             }}
           >

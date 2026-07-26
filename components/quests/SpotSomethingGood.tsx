@@ -51,7 +51,7 @@ export default function SpotSomethingGood({ kids }: { kids: { id: string; name: 
     border: `1.5px solid ${on ? 'var(--terracotta)' : 'var(--border)'}`,
     background: on ? 'var(--terracotta-lt)' : '#fff',
     color: on ? 'var(--terracotta-dark)' : 'var(--ink-soft)',
-    fontFamily: 'var(--font-display)', fontSize: '12.5px', fontWeight: 800, whiteSpace: 'nowrap',
+    fontFamily: 'var(--font-display)', fontSize: '14.5px', fontWeight: 800, whiteSpace: 'nowrap',
   })
 
   return (
@@ -63,20 +63,20 @@ export default function SpotSomethingGood({ kids }: { kids: { id: string; name: 
         >
           <span aria-hidden style={{ width: 46, height: 46, borderRadius: '13px', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px', flexShrink: 0 }}>⭐</span>
           <span style={{ flex: 1, minWidth: 0 }}>
-            <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: 'var(--ink)', lineHeight: 1.3 }}>
+            <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16.5px', color: 'var(--ink)', lineHeight: 1.3 }}>
               Spot something good? Give a star
             </span>
-            <span style={{ display: 'block', fontSize: '12.5px', color: 'var(--ink-soft)', marginTop: '2px', lineHeight: 1.45 }}>
+            <span style={{ display: 'block', fontSize: '14.5px', color: 'var(--ink-soft)', marginTop: '2px', lineHeight: 1.45 }}>
               Kindness, a job done without being asked. Reward it on the spot, it pings their app.
             </span>
           </span>
-          <span style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', color: 'var(--ink)', background: 'var(--terracotta)', borderRadius: '12px', padding: '10px 15px', boxShadow: '0 4px 0 var(--terracotta-dark)' }}>
+          <span style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)', background: 'var(--terracotta)', borderRadius: '12px', padding: '10px 15px', boxShadow: '0 4px 0 var(--terracotta-dark)' }}>
             Give
           </span>
         </button>
       ) : (
         <div>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)', marginBottom: '10px' }}>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)', marginBottom: '10px' }}>
             ⭐ What did {kids.length > 1 ? 'they' : child.name} do?
           </div>
 
@@ -105,7 +105,7 @@ export default function SpotSomethingGood({ kids }: { kids: { id: string; name: 
             onChange={e => setCustom(e.target.value)}
             placeholder="Or say it in your words"
             maxLength={140}
-            style={{ width: '100%', padding: '11px 14px', borderRadius: '12px', border: '1.5px solid var(--border)', background: '#fff', fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--ink)', outline: 'none', marginBottom: '10px' }}
+            style={{ width: '100%', padding: '11px 14px', borderRadius: '12px', border: '1.5px solid var(--border)', background: '#fff', fontFamily: 'var(--font-body)', fontSize: '16px', color: 'var(--ink)', outline: 'none', marginBottom: '10px' }}
           />
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
@@ -122,7 +122,7 @@ export default function SpotSomethingGood({ kids }: { kids: { id: string; name: 
               style={{
                 flex: 1, minWidth: '150px', background: note ? 'var(--terracotta)' : 'var(--border)', color: 'var(--ink)',
                 border: 'none', borderRadius: '12px', padding: '12px 16px', cursor: note && state !== 'sending' ? 'pointer' : 'default',
-                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px',
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px',
                 boxShadow: note ? '0 4px 0 var(--terracotta-dark)' : 'none',
               }}
             >
@@ -134,7 +134,7 @@ export default function SpotSomethingGood({ kids }: { kids: { id: string; name: 
             </button>
             <button
               onClick={() => { setOpen(false); setReason(''); setCustom('') }}
-              style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '13px', color: 'var(--ink-muted)', textDecoration: 'underline', textUnderlineOffset: 3 }}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '15px', color: 'var(--ink-muted)', textDecoration: 'underline', textUnderlineOffset: 3 }}
             >
               Not now
             </button>

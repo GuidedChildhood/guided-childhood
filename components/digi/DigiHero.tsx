@@ -48,7 +48,7 @@ export default function DigiHero({
 
       {eyebrow && (
         <div style={{
-          fontFamily: 'var(--font-mono)', fontSize: 10.5, fontWeight: 700,
+          fontFamily: 'var(--font-mono)', fontSize: 12.5, fontWeight: 700,
           letterSpacing: '0.16em', textTransform: 'uppercase',
           color: 'var(--terracotta-dark)', marginBottom: 10,
         }}>
@@ -68,7 +68,7 @@ export default function DigiHero({
       {subtitle && (
         <p style={{
           fontFamily: 'var(--font-body)', fontWeight: 500, color: 'var(--ink-soft)',
-          fontSize: 16.5, lineHeight: 1.55, margin: '14px auto 0', maxWidth: 34 + 'ch',
+          fontSize: 18.5, lineHeight: 1.55, margin: '14px auto 0', maxWidth: 34 + 'ch',
         }}>
           {subtitle}
         </p>

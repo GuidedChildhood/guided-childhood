@@ -93,16 +93,16 @@ export function StrandPills({ strands }: { strands: Strand[] }) {
           return (
             <span key={s.key} style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: red ? '#FDF0EE' : 'var(--cream)', border: `1.5px solid ${red ? '#E8C4BC' : 'var(--border)'}`, borderRadius: 100, padding: '7px 14px', opacity: s.tone === 'grey' ? 0.55 : 1 }}>
               <span aria-hidden style={{ width: 10, height: 10, borderRadius: '50%', background: TONE_DOT[s.tone], flexShrink: 0, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 7, fontWeight: 900 }}>{s.tone === 'green' ? '✓' : ''}</span>
-              <span style={{ fontFamily: 'var(--font-display)', fontSize: '13.5px', fontWeight: 800, color: red ? '#93392A' : 'var(--ink)', whiteSpace: 'nowrap' }}>{s.name}</span>
+              <span style={{ fontFamily: 'var(--font-display)', fontSize: '15.5px', fontWeight: 800, color: red ? '#93392A' : 'var(--ink)', whiteSpace: 'nowrap' }}>{s.name}</span>
               {red && (
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, color: '#93392A', whiteSpace: 'nowrap' }}>· fix this →</span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 700, color: '#93392A', whiteSpace: 'nowrap' }}>· fix this →</span>
               )}
             </span>
           )
         })}
       </div>
       {/* One quiet line so the dots explain themselves at a glance */}
-      <p style={{ margin: '8px 2px 0', fontFamily: 'var(--font-body)', fontSize: '12px', color: 'var(--ink-muted)', lineHeight: 1.4 }}>
+      <p style={{ margin: '8px 2px 0', fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--ink-muted)', lineHeight: 1.4 }}>
         {anyRed
           ? 'A red one needs one thing doing. Tap through to see it and fix it together.'
           : 'Green means on track for their age. Grey comes later, at the right age.'}
@@ -134,7 +134,7 @@ export function MiniRoad({ currentStage, showDigi = true }: { currentStage: numb
                 </div>
               )}
               <StageDot n={stage.id} state={state} size={36} />
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 9, fontWeight: 700, letterSpacing: '0.02em', color: state === 'here' ? 'var(--ink)' : 'var(--ink-muted)', textAlign: 'center', whiteSpace: 'nowrap' }}>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700, letterSpacing: '0.02em', color: state === 'here' ? 'var(--ink)' : 'var(--ink-muted)', textAlign: 'center', whiteSpace: 'nowrap' }}>
                 {ages}
               </span>
             </div>
@@ -243,25 +243,25 @@ export default function StageRoad({
             <DigiCharacter mood="happy" size={32} once />
           </div>
           <div style={{ minWidth: 0, flex: 1 }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink)', opacity: 0.68 }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink)', opacity: 0.68 }}>
               The road to 16
             </div>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(19px, 5.6vw, 24px)', color: 'var(--ink)', letterSpacing: '-0.01em', lineHeight: 1.12 }}>
               {STAGES[current - 1].name}
             </div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700, letterSpacing: '0.04em', color: 'var(--ink)', opacity: 0.72, marginTop: 2 }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 13, fontWeight: 700, letterSpacing: '0.04em', color: 'var(--ink)', opacity: 0.72, marginTop: 2 }}>
               Stamp {current} of 5{isComplete(current) ? ' · filled' : ''}
             </div>
           </div>
           {progressPct !== null && (
             <span style={{
-              flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 16,
+              flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 18,
               background: '#fff', color: 'var(--terracotta-dark)', borderRadius: 100, padding: '8px 14px',
             }}>
               {isComplete(current) ? '✓' : `${progressPct}%`}
             </span>
           )}
-          <span aria-hidden style={{ flexShrink: 0, color: 'var(--ink)', opacity: 0.5, fontSize: 20, fontWeight: 900, lineHeight: 1 }}>›</span>
+          <span aria-hidden style={{ flexShrink: 0, color: 'var(--ink)', opacity: 0.5, fontSize: 22, fontWeight: 900, lineHeight: 1 }}>›</span>
         </Link>
       )}
 
@@ -310,7 +310,7 @@ export default function StageRoad({
                       <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 30, lineHeight: 1, color: here || behind ? 'var(--terracotta-dark)' : 'var(--ink-light)' }}>
                         {stage.id}
                       </span>
-                      <span aria-hidden style={{ fontSize: 15, lineHeight: 1, marginTop: 2, filter: here || behind ? 'none' : 'grayscale(1) opacity(0.5)' }}>🪪</span>
+                      <span aria-hidden style={{ fontSize: 17, lineHeight: 1, marginTop: 2, filter: here || behind ? 'none' : 'grayscale(1) opacity(0.5)' }}>🪪</span>
                     </div>
                     {behind && isComplete(stage.id) && (
                       <span aria-hidden style={{
@@ -333,7 +333,7 @@ export default function StageRoad({
                     <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 26, letterSpacing: '-0.02em', lineHeight: 1.1, color: here ? 'var(--ink)' : 'var(--ink-soft)' }}>
                       {stage.name}
                     </div>
-                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700, color: 'var(--ink-muted)', marginTop: 3 }}>
+                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: 13, fontWeight: 700, color: 'var(--ink-muted)', marginTop: 3 }}>
                       {r.ages}
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'center', gap: 6, marginTop: 7, flexWrap: 'wrap' }}>
@@ -343,30 +343,30 @@ export default function StageRoad({
                           return ch ? (
                             // eslint-disable-next-line @next/next/no-img-element
                             <img src={ch.img} alt="" width={22} height={22} style={{ borderRadius: '50%', objectFit: 'cover', filter: here || (behind && isComplete(stage.id)) ? 'none' : 'grayscale(1) opacity(0.55)' }} />
-                          ) : <span aria-hidden style={{ fontSize: 13 }}>{behind && isComplete(stage.id) ? '✅' : '🪪'}</span>
+                          ) : <span aria-hidden style={{ fontSize: 15 }}>{behind && isComplete(stage.id) ? '✅' : '🪪'}</span>
                         })()}
-                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10.5, fontWeight: 700, letterSpacing: '0.04em', color: here ? 'var(--terracotta-dark)' : 'var(--ink-muted)' }}>
+                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 12.5, fontWeight: 700, letterSpacing: '0.04em', color: here ? 'var(--terracotta-dark)' : 'var(--ink-muted)' }}>
                           Stamp: {r.stamp}
                         </span>
                       </span>
                       {here && (
                         isComplete(stage.id) ? (
-                          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 800, letterSpacing: '0.06em', textTransform: 'uppercase', background: '#2F8F6B', color: '#fff', padding: '7px 14px', borderRadius: 100, alignSelf: 'center' }}>
+                          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, fontWeight: 800, letterSpacing: '0.06em', textTransform: 'uppercase', background: '#2F8F6B', color: '#fff', padding: '7px 14px', borderRadius: 100, alignSelf: 'center' }}>
                             ✓ Stage complete
                           </span>
                         ) : (
-                          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 800, letterSpacing: '0.06em', textTransform: 'uppercase', background: 'var(--terracotta)', color: 'var(--ink)', padding: '7px 14px', borderRadius: 100, alignSelf: 'center' }}>
+                          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, fontWeight: 800, letterSpacing: '0.06em', textTransform: 'uppercase', background: 'var(--terracotta)', color: 'var(--ink)', padding: '7px 14px', borderRadius: 100, alignSelf: 'center' }}>
                             You are here
                           </span>
                         )
                       )}
                       {behind && (
                         isComplete(stage.id) ? (
-                          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 800, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#fff', background: '#2F8F6B', padding: '5px 12px', borderRadius: 100, alignSelf: 'center' }}>
+                          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 800, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#fff', background: '#2F8F6B', padding: '5px 12px', borderRadius: 100, alignSelf: 'center' }}>
                             ✓ Caught up
                           </span>
                         ) : (
-                          <Link href={`/dashboard/lessons?stage=${stage.id}`} style={{ textDecoration: 'none', fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', border: '1px dashed var(--terracotta)', padding: '5px 12px', borderRadius: 100, alignSelf: 'center' }}>
+                          <Link href={`/dashboard/lessons?stage=${stage.id}`} style={{ textDecoration: 'none', fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', border: '1px dashed var(--terracotta)', padding: '5px 12px', borderRadius: 100, alignSelf: 'center' }}>
                             Catch up →
                           </Link>
                         )
@@ -375,7 +375,7 @@ export default function StageRoad({
 
                     {/* The stamp in plain words, right under its name, so the
                         badge is never a mystery. */}
-                    <p style={{ fontFamily: 'var(--font-body)', fontSize: 11.5, fontStyle: 'italic', color: 'var(--ink-muted)', margin: '5px auto 0', maxWidth: 260 }}>
+                    <p style={{ fontFamily: 'var(--font-body)', fontSize: 13.5, fontStyle: 'italic', color: 'var(--ink-muted)', margin: '5px auto 0', maxWidth: 260 }}>
                       {r.stamp} means {r.means}
                     </p>
 
@@ -383,8 +383,8 @@ export default function StageRoad({
                         child can do at this stage, in the readiness words.
                         The current stage says it biggest in its card below. */}
                     {!here && (
-                      <p style={{ fontFamily: 'var(--font-body)', fontSize: 12.5, color: behind ? 'var(--ink-soft)' : 'var(--ink-muted)', lineHeight: 1.45, margin: '8px auto 0', maxWidth: 300 }}>
-                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 9.5, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: behind ? 'var(--terracotta-dark)' : 'var(--ink-muted)' }}>
+                      <p style={{ fontFamily: 'var(--font-body)', fontSize: 14.5, color: behind ? 'var(--ink-soft)' : 'var(--ink-muted)', lineHeight: 1.45, margin: '8px auto 0', maxWidth: 300 }}>
+                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11.5, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: behind ? 'var(--terracotta-dark)' : 'var(--ink-muted)' }}>
                           Can do ·{' '}
                         </span>
                         {r.skill}
@@ -400,8 +400,8 @@ export default function StageRoad({
                   {progressPct !== null && (
                     <div style={{ marginBottom: 12 }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 6 }}>
-                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>This stage</span>
-                        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 16, color: 'var(--terracotta-dark)' }}>{progressPct}%</span>
+                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>This stage</span>
+                        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 18, color: 'var(--terracotta-dark)' }}>{progressPct}%</span>
                       </div>
                       <div style={{ height: 10, borderRadius: 100, background: 'var(--cream)', border: '1px solid var(--border)', overflow: 'hidden' }}>
                         <div style={{ height: '100%', width: `${progressPct}%`, background: 'var(--terracotta)', borderRadius: 100 }} />
@@ -410,11 +410,11 @@ export default function StageRoad({
                   )}
                   {/* The literacy level, biggest on the current stage: the
                       passport stamp and what the child can do, together. */}
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', margin: '0 0 4px' }}>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', margin: '0 0 4px' }}>
                     Can do at this stage
                   </div>
-                  <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 18, color: 'var(--ink)', letterSpacing: '-0.01em', lineHeight: 1.35, margin: '0 0 8px' }}>{r.skill}</p>
-                  <p style={{ fontFamily: 'var(--font-body)', fontSize: 14, color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 12px' }}>
+                  <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 20, color: 'var(--ink)', letterSpacing: '-0.01em', lineHeight: 1.35, margin: '0 0 8px' }}>{r.skill}</p>
+                  <p style={{ fontFamily: 'var(--font-body)', fontSize: 16, color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 12px' }}>
                     Everything {kid} does this stage is building toward {r.toward}
                   </p>
                   {/* The concepts are tappable: each opens this stage's
@@ -422,7 +422,7 @@ export default function StageRoad({
                       every pass ticks the progress above and the passport. */}
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 14 }}>
                     {STAGE_CONCEPTS[stage.id].map(c => (
-                      <Link key={c} href={`/dashboard/lessons?stage=${stage.id}`} style={{ fontFamily: 'var(--font-mono)', fontSize: 10.5, fontWeight: 600, letterSpacing: '0.03em', color: 'var(--ink-soft)', background: 'var(--cream)', border: '1px solid var(--border)', padding: '4px 10px', borderRadius: 100, textDecoration: 'none' }}>
+                      <Link key={c} href={`/dashboard/lessons?stage=${stage.id}`} style={{ fontFamily: 'var(--font-mono)', fontSize: 12.5, fontWeight: 600, letterSpacing: '0.03em', color: 'var(--ink-soft)', background: 'var(--cream)', border: '1px solid var(--border)', padding: '4px 10px', borderRadius: 100, textDecoration: 'none' }}>
                         {c} →
                       </Link>
                     ))}
@@ -436,7 +436,7 @@ export default function StageRoad({
                       display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
                       background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none',
                       borderRadius: 16, padding: '14px 20px', marginBottom: 8,
-                      fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15,
+                      fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 17,
                       boxShadow: '0 5px 0 var(--terracotta-dark)', whiteSpace: 'nowrap',
                     }}
                   >
@@ -448,7 +448,7 @@ export default function StageRoad({
                       display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
                       background: '#fff', color: 'var(--ink)', textDecoration: 'none',
                       borderRadius: 16, padding: '12px 20px', border: '1.5px solid var(--border)',
-                      fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 14.5,
+                      fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 16.5,
                       whiteSpace: 'nowrap',
                     }}
                   >
@@ -457,21 +457,21 @@ export default function StageRoad({
                 </div>
               ) : (
                 <details style={{ marginTop: 10, width: 'fit-content', maxWidth: '100%', margin: '10px auto 0', transform: `translateX(${x / 2}px)`, position: 'relative', zIndex: 2 }}>
-                  <summary style={{ cursor: 'pointer', listStyle: 'none', textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700, color: 'var(--ink-muted)', letterSpacing: '0.03em' }}>
+                  <summary style={{ cursor: 'pointer', listStyle: 'none', textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: 13, fontWeight: 700, color: 'var(--ink-muted)', letterSpacing: '0.03em' }}>
                     {behind ? 'Revisit this stage ▾' : 'What this stage holds ▾'}
                   </summary>
                   <div style={{ marginTop: 10, background: '#fff', border: '1.5px solid var(--border)', borderRadius: 14, padding: '13px 14px', transform: `translateX(${-x / 2}px)`, width: 'min(340px, calc(100vw - 40px))' }}>
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 10 }}>
                       {STAGE_CONCEPTS[stage.id].map(c => (
-                        <span key={c} style={{ fontFamily: 'var(--font-mono)', fontSize: 10.5, fontWeight: 600, letterSpacing: '0.03em', color: 'var(--ink-soft)', background: 'var(--cream)', border: '1px solid var(--border)', padding: '4px 10px', borderRadius: 100 }}>
+                        <span key={c} style={{ fontFamily: 'var(--font-mono)', fontSize: 12.5, fontWeight: 600, letterSpacing: '0.03em', color: 'var(--ink-soft)', background: 'var(--cream)', border: '1px solid var(--border)', padding: '4px 10px', borderRadius: 100 }}>
                           {c}
                         </span>
                       ))}
                     </div>
-                    <p style={{ fontSize: 13.5, fontStyle: 'italic', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 10px' }}>
+                    <p style={{ fontSize: 15.5, fontStyle: 'italic', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 10px' }}>
                       &ldquo;{stage.parentQuote.replace(/^"/, '').replace(/"$/, '')}&rdquo;
                     </p>
-                    <Link href={`/dashboard/scripts?stage=${STAGE_SLUGS[stage.id - 1]}`} style={{ fontFamily: 'var(--font-mono)', fontSize: 11.5, fontWeight: 700, color: 'var(--terracotta-dark)', textDecoration: 'none' }}>
+                    <Link href={`/dashboard/scripts?stage=${STAGE_SLUGS[stage.id - 1]}`} style={{ fontFamily: 'var(--font-mono)', fontSize: 13.5, fontWeight: 700, color: 'var(--terracotta-dark)', textDecoration: 'none' }}>
                       See the scripts →
                     </Link>
                   </div>
@@ -498,10 +498,10 @@ export default function StageRoad({
             🏆
           </div>
           <div style={{ textAlign: 'center' }}>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 20, letterSpacing: '-0.01em', color: current >= 5 ? 'var(--ink)' : 'var(--ink-soft)' }}>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 22, letterSpacing: '-0.01em', color: current >= 5 ? 'var(--ink)' : 'var(--ink-soft)' }}>
               Sixteen, ready
             </div>
-            <div style={{ fontFamily: 'var(--font-body)', fontSize: 12.5, color: 'var(--ink-muted)', marginTop: 2, maxWidth: 240 }}>
+            <div style={{ fontFamily: 'var(--font-body)', fontSize: 14.5, color: 'var(--ink-muted)', marginTop: 2, maxWidth: 240 }}>
               Social media walked into with open eyes, not fallen into off a cliff
             </div>
           </div>
@@ -511,7 +511,7 @@ export default function StageRoad({
       {/* Honest framing, kept from the old map: age sets the stage, learning
           fills it in. */}
       {current > 1 && (
-        <p style={{ fontSize: 13, color: 'var(--ink-soft)', lineHeight: 1.55, margin: '16px 2px 0' }}>
+        <p style={{ fontSize: 15, color: 'var(--ink-soft)', lineHeight: 1.55, margin: '16px 2px 0' }}>
           The stages before yours are foundations, not finished. Dip back into one a little each day whenever it helps. Nothing is marked done just because of {kid ? `${kid}'s` : 'your child’s'} age.
         </p>
       )}

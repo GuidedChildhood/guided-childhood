@@ -177,7 +177,7 @@ export default function PushPrompt({ userId, stage }: Props) {
             style={{
               background: 'none', border: '1.5px solid var(--border)', borderRadius: '10px',
               padding: '7px 14px', cursor: 'pointer', flexShrink: 0,
-              fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--ink-soft)',
+              fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--ink-soft)',
             }}
           >
             Send a test
@@ -194,7 +194,7 @@ export default function PushPrompt({ userId, stage }: Props) {
           disabled={resetting}
           style={{
             background: 'none', border: 'none', cursor: resetting ? 'wait' : 'pointer', padding: 0, marginTop: '10px',
-            fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700,
+            fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 700,
             color: 'var(--ink-muted)', textDecoration: 'underline',
           }}
         >
@@ -228,7 +228,7 @@ export default function PushPrompt({ userId, stage }: Props) {
       border: '2px solid var(--terracotta)',
       boxShadow: '0 6px 20px rgba(224,122,63,0.16)',
     }}>
-      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '8px' }}>
+      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '8px' }}>
         Important step
       </div>
       <p style={{
@@ -327,7 +327,7 @@ function NudgeSlots() {
             onClick={() => toggle(o.key)}
             aria-pressed={on}
             style={{
-              fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700,
+              fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 700,
               letterSpacing: '0.04em', borderRadius: '100px', padding: '7px 13px',
               cursor: 'pointer', transition: 'all 0.12s',
               background: on ? 'var(--terracotta)' : '#fff',
