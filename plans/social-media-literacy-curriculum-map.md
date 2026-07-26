@@ -56,7 +56,11 @@ Every module is built in all three versions unless noted. The 092 column shows w
 | 13 | The good side, held honestly (connection, belonging, activism and marginalised identity, learning and creativity, support seeking) | woven, own module 14+ | New | new | new | new |
 | 14 | Taking the wheel (breaks, curating a feed, the account decision, self governance) | 16+ | Partial (Taking the wheel at 16) | extend | new | new |
 
-**Emerging addition flagged by the research: AI companions and chatbots** (a fast growing harm and support surface for teens). Recommend adding as a 15th module or folding into Module 10, once we have a UK source. Your call.
+| 15 | AI companions and chatbots (companion apps, emotional dependence, chatbot advice and its limits, the 2026 RSHE hook) | 14 to 15 | New | new | new | new |
+
+**Decided (Justin, 26 Jul 2026): AI companions is its own module 15.** It is distinct and fast growing, and the 2026 RSHE guidance names AI chatbots explicitly, which strengthens the schools sell. Pair with a UK source before learner facing copy.
+
+**Template module (Justin, 26 Jul 2026): Module 1, How the machine works, built in all three versions, schools version leading, as the sign off template for the remaining 14.**
 
 ## Age staging within 13+
 
