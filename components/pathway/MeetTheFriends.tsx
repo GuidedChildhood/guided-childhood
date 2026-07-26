@@ -15,10 +15,10 @@ export default function MeetTheFriends({ childName }: { childName?: string | nul
       background: 'var(--cream)', border: '1.5px solid var(--border)',
       borderRadius: '18px', padding: '18px 18px 16px', marginBottom: '22px',
     }}>
-      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
+      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
         Meet the family
       </div>
-      <p style={{ fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 14px' }}>
+      <p style={{ fontSize: '15.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 14px' }}>
         DiGi is {name}&apos;s guide, there the whole way. They meet a new Planet Friend at every stage, one to grow up alongside, all the way to 16.
       </p>
 
@@ -33,7 +33,7 @@ export default function MeetTheFriends({ childName }: { childName?: string | nul
           }}>
             <DigiCharacter size={38} mood="wave" once />
           </span>
-          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '12px', color: 'var(--ink)' }}>DiGi</span>
+          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--ink)' }}>DiGi</span>
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: '8px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)', textAlign: 'center', lineHeight: 1.2 }}>Your guide</span>
         </div>
 
@@ -46,7 +46,7 @@ export default function MeetTheFriends({ childName }: { childName?: string | nul
             }}>
               <Image src={friend.img} alt={friend.name} fill sizes="56px" style={{ objectFit: 'cover' }} />
             </span>
-            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '12px', color: 'var(--ink)' }}>{friend.name}</span>
+            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--ink)' }}>{friend.name}</span>
             <span style={{ fontFamily: 'var(--font-mono)', fontSize: '8px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)', textAlign: 'center', lineHeight: 1.2 }}>{friend.ages.replace('Ages ', '')}</span>
           </div>
         ))}

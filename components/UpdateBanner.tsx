@@ -46,7 +46,7 @@ export default function UpdateBanner() {
           width: '100%', background: 'var(--deep-teal)', color: '#fff', border: 'none',
           borderRadius: '18px', padding: '15px 18px', cursor: 'pointer',
           boxShadow: '0 2px 4px rgba(23,60,70,0.10), 0 18px 42px -12px rgba(23,60,70,0.45)',
-          fontFamily: 'var(--font-body)', fontSize: '13.5px', fontWeight: 600,
+          fontFamily: 'var(--font-body)', fontSize: '15.5px', fontWeight: 600,
         }}
       >
         <span>A newer version is ready</span>

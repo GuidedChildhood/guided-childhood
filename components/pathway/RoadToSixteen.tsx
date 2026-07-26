@@ -33,20 +33,20 @@ export default function RoadToSixteen({
       }}
     >
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, marginBottom: 8 }}>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
           The road to 16
         </span>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: 'var(--ink-muted)' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, color: 'var(--ink-muted)' }}>
           Stage {current} of 5
         </span>
       </div>
 
-      <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '18px', color: 'var(--ink)', letterSpacing: '-0.01em', lineHeight: 1.25, margin: '0 0 3px' }}>
+      <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '20px', color: 'var(--ink)', letterSpacing: '-0.01em', lineHeight: 1.25, margin: '0 0 3px' }}>
         {atEnd
           ? `${kid} is digitally ready`
           : `${kid} is on track, ${STAGE_LABELS[current - 1]} stage`}
       </p>
-      <p style={{ fontFamily: 'var(--font-body)', fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 16px' }}>
+      <p style={{ fontFamily: 'var(--font-body)', fontSize: '15.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 16px' }}>
         The pathway to social media access at 16: safe, AI literate and digitally aware, built a little each day.
         {streakCount >= 2 ? ` ${streakCount} days running.` : ''}
       </p>
@@ -61,7 +61,7 @@ export default function RoadToSixteen({
         <StrandPills strands={strandsFor(current, statuses)} />
       </div>
 
-      <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', color: 'var(--terracotta-dark)' }}>
+      <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--terracotta-dark)' }}>
         See the whole road and the proof →
       </span>
     </Link>

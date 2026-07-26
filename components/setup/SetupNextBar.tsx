@@ -110,16 +110,16 @@ export default function SetupNextBar() {
         display: 'flex', alignItems: 'center', gap: '12px',
       }}>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '2px' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '2px' }}>
             Next step
           </div>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: '#fff', lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: '#fff', lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
             {next.title}
           </div>
         </div>
         <button
           onClick={() => setHidden(true)}
-          style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.04em', color: 'rgba(255,255,255,0.6)', padding: '6px 4px', flexShrink: 0 }}
+          style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.04em', color: 'rgba(255,255,255,0.6)', padding: '6px 4px', flexShrink: 0 }}
         >
           Not now
         </button>
@@ -129,7 +129,7 @@ export default function SetupNextBar() {
           style={{
             flexShrink: 0, background: 'var(--terracotta)', color: 'var(--ink)',
             borderRadius: '12px', padding: '11px 18px', textDecoration: 'none',
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px',
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
             boxShadow: '0 3px 0 var(--terracotta-dark)',
           }}
         >

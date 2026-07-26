@@ -66,7 +66,7 @@ export default async function KeepsakesPage({
             display: 'inline-flex', alignItems: 'center', gap: 8,
             background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: 12,
             padding: '9px 14px', textDecoration: 'none',
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 13.5, color: 'var(--ink)',
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15.5, color: 'var(--ink)',
           }}>
             📦 Keepsake orders
           </Link>

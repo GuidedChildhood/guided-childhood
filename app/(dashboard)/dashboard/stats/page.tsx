@@ -95,7 +95,7 @@ export default async function StatsPage() {
 
   return (
     <div style={{ maxWidth: 640, margin: '0 auto', padding: '24px 20px 48px' }}>
-      <Link href="/dashboard/quests" style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, color: 'var(--ink-muted)', textDecoration: 'none' }}>
+      <Link href="/dashboard/quests" style={{ fontFamily: 'var(--font-mono)', fontSize: 14, fontWeight: 700, color: 'var(--ink-muted)', textDecoration: 'none' }}>
         ‹ Quests
       </Link>
       <p className="eyebrow" style={{ color: 'var(--terracotta-dark)', margin: '10px 0 8px' }}>Balance and stats</p>

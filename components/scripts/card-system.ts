@@ -18,7 +18,7 @@ export const cardPad = 'clamp(20px, 5vw, 24px)'
 // The mono eyebrow every section label wears, always the same size.
 export const eyebrow: CSSProperties = {
   fontFamily: 'var(--font-mono)',
-  fontSize: 10.5,
+  fontSize: 12.5,
   fontWeight: 700,
   letterSpacing: '0.14em',
   textTransform: 'uppercase',
@@ -38,7 +38,7 @@ export const stepCircle: CSSProperties = {
   justifyContent: 'center',
   fontFamily: 'var(--font-display)',
   fontWeight: 800,
-  fontSize: 14,
+  fontSize: 16,
 }
 
 // ── The script sheet ──────────────────────────────────────────────────────
@@ -82,7 +82,7 @@ export const dottedRule: CSSProperties = {
 // because they are the only thing on the page a parent is going to say out loud.
 export const sheetBody: CSSProperties = {
   fontFamily: 'var(--font-body)',
-  fontSize: 'clamp(17px, 4.6vw, 19px)',
+  fontSize: 'clamp(19px, 4.6vw, 21px)',
   lineHeight: 1.6,
   color: 'var(--ink)',
   margin: 0,
@@ -108,7 +108,7 @@ export function stageCircle(accent: StageAccent): CSSProperties {
     ...stepCircle,
     width: 30,
     height: 30,
-    fontSize: 15,
+    fontSize: 17,
     background: accent.fill,
     color: accent.ink,
     border: '1.5px solid rgba(26,26,46,0.10)',

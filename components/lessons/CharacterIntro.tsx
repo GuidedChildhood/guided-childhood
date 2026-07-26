@@ -75,7 +75,7 @@ export default function CharacterIntro({ character, greeting, lessonTitle, ageSt
       <div style={{ maxWidth: '560px', width: '100%', textAlign: 'center' }}>
 
         {/* Stage badge */}
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(158,216,178,.2)', border: '1px solid rgba(158,216,178,.4)', borderRadius: '100px', padding: '5px 14px', fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--stage-2)', marginBottom: '32px' }}>
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(158,216,178,.2)', border: '1px solid rgba(158,216,178,.4)', borderRadius: '100px', padding: '5px 14px', fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--stage-2)', marginBottom: '32px' }}>
           {ageStage}
         </div>
 
@@ -98,7 +98,7 @@ export default function CharacterIntro({ character, greeting, lessonTitle, ageSt
         </div>
 
         {/* Name tag */}
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,.5)', marginBottom: '4px' }}>{c.kit}</div>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, letterSpacing: '.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,.5)', marginBottom: '4px' }}>{c.kit}</div>
         <h1 style={{ color: '#fff', fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', marginBottom: '32px' }}>{c.name}</h1>
 
         {/* Speech bubble */}
@@ -125,7 +125,7 @@ export default function CharacterIntro({ character, greeting, lessonTitle, ageSt
 
         {/* Lesson title */}
         <div style={{ background: 'rgba(255,255,255,.06)', border: '1px solid rgba(255,255,255,.1)', borderRadius: '14px', padding: '16px 20px', marginBottom: '32px' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,.4)', marginBottom: '6px' }}>Today&rsquo;s lesson</div>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,.4)', marginBottom: '6px' }}>Today&rsquo;s lesson</div>
           <div style={{ color: '#fff', fontWeight: 700, fontSize: '1.05rem' }}>{lessonTitle}</div>
         </div>
 

@@ -108,14 +108,14 @@ export default function StarChartBuilder() {
       `}</style>
 
       <div className="no-print">
-        <Link href="/dashboard/printables" style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--ink-muted)', textDecoration: 'none' }}>
+        <Link href="/dashboard/printables" style={{ fontFamily: 'var(--font-mono)', fontSize: 14, color: 'var(--ink-muted)', textDecoration: 'none' }}>
           ← All printables
         </Link>
         <p className="eyebrow" style={{ color: 'var(--terracotta-dark)', margin: '14px 0 8px' }}>Star chart builder</p>
         <h1 style={{ fontSize: 'clamp(1.6rem, 5vw, 2.1rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: 10 }}>
           Put your own jobs on it, then print
         </h1>
-        <p style={{ fontSize: 15, color: 'var(--ink-soft)', lineHeight: 1.65, marginBottom: 20, maxWidth: 560 }}>
+        <p style={{ fontSize: 17, color: 'var(--ink-soft)', lineHeight: 1.65, marginBottom: 20, maxWidth: 560 }}>
           The printed chart has blank rows for a pen, which is fine once it is on the fridge and no help before it. Choose your jobs here and they print properly, every time you reprint.
         </p>
 
@@ -124,12 +124,12 @@ export default function StarChartBuilder() {
           onChange={e => setChildName(e.target.value)}
           maxLength={20}
           placeholder="Their name (optional)"
-          style={{ width: '100%', maxWidth: 320, padding: '12px 15px', borderRadius: 12, border: '1.5px solid var(--border)', background: '#fff', fontFamily: 'var(--font-body)', fontSize: 15, color: 'var(--ink)', outline: 'none', marginBottom: 20 }}
+          style={{ width: '100%', maxWidth: 320, padding: '12px 15px', borderRadius: 12, border: '1.5px solid var(--border)', background: '#fff', fontFamily: 'var(--font-body)', fontSize: 17, color: 'var(--ink)', outline: 'none', marginBottom: 20 }}
         />
 
         {POOL.map(group => (
           <div key={group.group} style={{ marginBottom: 14 }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 8 }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 8 }}>
               {group.group}
             </div>
             <div style={{ display: 'flex', gap: 7, flexWrap: 'wrap' }}>
@@ -143,7 +143,7 @@ export default function StarChartBuilder() {
                       padding: '9px 14px', borderRadius: 100, cursor: 'pointer',
                       border: `1.5px solid ${on ? 'var(--terracotta)' : 'var(--border)'}`,
                       background: on ? 'var(--terracotta-lt)' : '#fff',
-                      fontFamily: 'var(--font-body)', fontSize: 13.5, fontWeight: 600, color: 'var(--ink)',
+                      fontFamily: 'var(--font-body)', fontSize: 15.5, fontWeight: 600, color: 'var(--ink)',
                     }}
                   >
                     {job.emoji} {job.text}{on ? ' ✓' : ''}
@@ -161,11 +161,11 @@ export default function StarChartBuilder() {
             onKeyDown={e => { if (e.key === 'Enter') addCustom() }}
             maxLength={40}
             placeholder="Or write a job only your house has…"
-            style={{ flex: 1, minWidth: 0, padding: '12px 15px', borderRadius: 12, border: '1.5px solid var(--border)', background: '#fff', fontFamily: 'var(--font-body)', fontSize: 14, color: 'var(--ink)', outline: 'none' }}
+            style={{ flex: 1, minWidth: 0, padding: '12px 15px', borderRadius: 12, border: '1.5px solid var(--border)', background: '#fff', fontFamily: 'var(--font-body)', fontSize: 16, color: 'var(--ink)', outline: 'none' }}
           />
           <button
             onClick={addCustom}
-            style={{ padding: '12px 18px', borderRadius: 12, border: 'none', cursor: 'pointer', background: 'var(--deep-teal)', color: '#fff', fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700 }}
+            style={{ padding: '12px 18px', borderRadius: 12, border: 'none', cursor: 'pointer', background: 'var(--deep-teal)', color: '#fff', fontFamily: 'var(--font-mono)', fontSize: 14, fontWeight: 700 }}
           >
             Add
           </button>
@@ -175,11 +175,11 @@ export default function StarChartBuilder() {
           <button
             onClick={() => window.print()}
             className="btn btn-gold"
-            style={{ padding: '13px 22px', fontSize: 14 }}
+            style={{ padding: '13px 22px', fontSize: 16 }}
           >
             🖨️ Print my chart ({picked.length}/{MAX_ROWS})
           </button>
-          <span style={{ fontSize: 13.5, color: 'var(--ink-muted)' }}>
+          <span style={{ fontSize: 15.5, color: 'var(--ink-muted)' }}>
             {blanks > 0 ? `${blanks} blank ${blanks === 1 ? 'row' : 'rows'} left for a pen` : 'Full chart, no blanks left'}
           </span>
         </div>
@@ -189,16 +189,16 @@ export default function StarChartBuilder() {
       <div className="print-sheet" style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 16, padding: 22 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 14, marginBottom: 12 }}>
           <div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 9, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
               The star reward chart
             </div>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 30, letterSpacing: '-0.02em', color: 'var(--ink)', lineHeight: 1.05 }}>
               {name ? `${name}'s star chart` : 'My star chart'}
             </div>
           </div>
-          <div style={{ textAlign: 'right', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 15, color: 'var(--ink)' }}>
+          <div style={{ textAlign: 'right', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 17, color: 'var(--ink)' }}>
             1 star = 5 minutes
-            <div style={{ fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: 12, color: 'var(--ink-soft)' }}>
+            <div style={{ fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: 14, color: 'var(--ink-soft)' }}>
               4 stars in a day = one Planet Friend
             </div>
           </div>
@@ -207,11 +207,11 @@ export default function StarChartBuilder() {
         <table style={{ width: '100%', borderCollapse: 'separate', borderSpacing: 0, tableLayout: 'fixed' }}>
           <thead>
             <tr>
-              <th style={{ background: 'var(--ink)', color: '#fff', textAlign: 'left', padding: '7px 10px', fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', border: '1px solid var(--border)', width: '34%' }}>
+              <th style={{ background: 'var(--ink)', color: '#fff', textAlign: 'left', padding: '7px 10px', fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', border: '1px solid var(--border)', width: '34%' }}>
                 My jobs
               </th>
               {DAYS.map((d, i) => (
-                <th key={d} style={{ background: DAY_BG[i], color: DAY_INK[i], padding: '7px 0', fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', border: '1px solid var(--border)' }}>
+                <th key={d} style={{ background: DAY_BG[i], color: DAY_INK[i], padding: '7px 0', fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', border: '1px solid var(--border)' }}>
                   {d}
                 </th>
               ))}
@@ -221,8 +221,8 @@ export default function StarChartBuilder() {
             {picked.map((job, r) => (
               <tr key={job.text}>
                 <td style={{ border: '1px solid var(--border)', padding: '6px 10px', background: r % 2 ? 'var(--cream)' : '#fff' }}>
-                  <span style={{ fontSize: 15, marginRight: 7 }}>{job.emoji}</span>
-                  <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 13, color: 'var(--ink)' }}>{job.text}</span>
+                  <span style={{ fontSize: 17, marginRight: 7 }}>{job.emoji}</span>
+                  <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15, color: 'var(--ink)' }}>{job.text}</span>
                 </td>
                 {DAYS.map((d, i) => (
                   <td key={d} style={{ border: '1px solid var(--border)', textAlign: 'center', height: 30, background: r % 2 ? 'var(--cream)' : '#fff' }}>
@@ -234,7 +234,7 @@ export default function StarChartBuilder() {
             {Array.from({ length: blanks }, (_, b) => (
               <tr key={`blank-${b}`}>
                 <td style={{ border: '1px solid var(--border)', padding: '6px 10px', background: (picked.length + b) % 2 ? 'var(--cream)' : '#fff' }}>
-                  <span style={{ fontSize: 15, marginRight: 7 }}>✏️</span>
+                  <span style={{ fontSize: 17, marginRight: 7 }}>✏️</span>
                   <span style={{ display: 'inline-block', width: '62%', borderBottom: '1.4px dashed var(--ink-muted)', verticalAlign: 'middle', height: 14 }} />
                 </td>
                 {DAYS.map((d, i) => (
@@ -246,8 +246,8 @@ export default function StarChartBuilder() {
             ))}
             <tr>
               <td style={{ border: '1px solid var(--butter-dark)', padding: '7px 10px', background: 'var(--terracotta)' }}>
-                <span style={{ fontSize: 15, marginRight: 7 }}>⭐</span>
-                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 13.5, color: 'var(--ink)' }}>Stars today</span>
+                <span style={{ fontSize: 17, marginRight: 7 }}>⭐</span>
+                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 15.5, color: 'var(--ink)' }}>Stars today</span>
               </td>
               {DAYS.map(d => (
                 <td key={d} style={{ border: '1px solid var(--butter-dark)', height: 30, background: 'var(--terracotta)' }} />
@@ -256,7 +256,7 @@ export default function StarChartBuilder() {
           </tbody>
         </table>
 
-        <p style={{ fontSize: 12.5, color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: 12, textAlign: 'center' }}>
+        <p style={{ fontSize: 14.5, color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: 12, textAlign: 'center' }}>
           Colour a star for every job done. Four stars in a day brings a Planet Friend home, worth twenty minutes of screen time.
         </p>
       </div>

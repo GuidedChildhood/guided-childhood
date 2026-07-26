@@ -8,7 +8,7 @@ export default function PrintButton() {
         style={{
           padding: '10px 18px', borderRadius: '16px', background: 'var(--gold)',
           color: 'var(--ink)', border: 'none', boxShadow: '0 5px 0 var(--gold-hover)',
-          cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px',
+          cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px',
         }}
       >
         Print the pack

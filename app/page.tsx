@@ -400,7 +400,7 @@ export default function HomePage() {
         {/* Header actions, always visible so Log in is never lost when the
             section nav hides on mobile. Two balanced premium capsules: a clear
             ghost Log in and the solid butter Get Started. */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(7px, 1.5vw, 11px)', flexShrink: 0 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(7px, 1.5vw, 13px)', flexShrink: 0 }}>
           <Link href="/login" className="hdr-login">
             Log in
           </Link>
@@ -442,7 +442,7 @@ export default function HomePage() {
               ))}
             </ul>
             <div className="fu" style={{ marginBottom: '12px' }}>
-              <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '16px', padding: '17px 42px' }}>
+              <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '18px', padding: '17px 42px' }}>
                 Get Started
               </Link>
             </div>
@@ -493,9 +493,9 @@ export default function HomePage() {
               <div style={{ background: 'var(--terracotta-lt)', padding: '14px 18px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div>
                   <div style={{ fontFamily: 'var(--font-mono)', fontSize: '8px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '2px' }}>Stage 3 · Ages 11 to 13</div>
-                  <div style={{ fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 800, color: 'var(--ink)' }}>Your dashboard today</div>
+                  <div style={{ fontFamily: 'var(--font-display)', fontSize: '16px', fontWeight: 800, color: 'var(--ink)' }}>Your dashboard today</div>
                 </div>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '100px', padding: '5px 11px', letterSpacing: '0.06em', flexShrink: 0 }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '100px', padding: '5px 11px', letterSpacing: '0.06em', flexShrink: 0 }}>
                   10 min
                 </div>
               </div>
@@ -503,17 +503,17 @@ export default function HomePage() {
               {/* Tonight's script */}
               <div style={{ padding: '14px 18px', borderBottom: '1px solid var(--border)' }}>
                 <div style={{ fontFamily: 'var(--font-mono)', fontSize: '8px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '7px' }}>Tonight&apos;s script</div>
-                <div style={{ fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 700, color: 'var(--ink)', marginBottom: '6px' }}>Screen time shutdown</div>
-                <div style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '10px', padding: '9px 12px', fontSize: '11px', color: 'var(--ink)', lineHeight: 1.5, fontStyle: 'italic' }}>
+                <div style={{ fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 700, color: 'var(--ink)', marginBottom: '6px' }}>Screen time shutdown</div>
+                <div style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '10px', padding: '9px 12px', fontSize: '13px', color: 'var(--ink)', lineHeight: 1.5, fontStyle: 'italic' }}>
                   &ldquo;Let&apos;s do a 5 minute warning from now on, so it never feels like a surprise.&rdquo;
                 </div>
               </div>
 
               {/* Device tip row */}
               <div style={{ padding: '11px 18px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <div style={{ width: '30px', height: '30px', background: 'var(--terracotta-lt)', borderRadius: '9px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: '13px' }}>📱</div>
+                <div style={{ width: '30px', height: '30px', background: 'var(--terracotta-lt)', borderRadius: '9px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: '15px' }}>📱</div>
                 <div>
-                  <div style={{ fontFamily: 'var(--font-display)', fontSize: '11px', fontWeight: 700, color: 'var(--ink)' }}>iOS Screen Time</div>
+                  <div style={{ fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 700, color: 'var(--ink)' }}>iOS Screen Time</div>
                   <div style={{ fontFamily: 'var(--font-mono)', fontSize: '8px', color: 'var(--ink-muted)', marginTop: '1px' }}>2 steps · App limits for Instagram</div>
                 </div>
                 <div style={{ marginLeft: 'auto', fontFamily: 'var(--font-mono)', fontSize: '8px', fontWeight: 700, color: 'var(--terracotta)' }}>Settings →</div>
@@ -521,9 +521,9 @@ export default function HomePage() {
 
               {/* AI literacy row */}
               <div style={{ padding: '11px 18px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <div style={{ width: '30px', height: '30px', background: 'var(--tint-sage)', borderRadius: '9px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: '13px' }}>🤖</div>
+                <div style={{ width: '30px', height: '30px', background: 'var(--tint-sage)', borderRadius: '9px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: '15px' }}>🤖</div>
                 <div>
-                  <div style={{ fontFamily: 'var(--font-display)', fontSize: '11px', fontWeight: 700, color: 'var(--ink)' }}>AI literacy · Lesson 3</div>
+                  <div style={{ fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 700, color: 'var(--ink)' }}>AI literacy · Lesson 3</div>
                   <div style={{ fontFamily: 'var(--font-mono)', fontSize: '8px', color: 'var(--ink-muted)', marginTop: '1px' }}>Mapped to RSE · 8 minutes</div>
                 </div>
                 <div style={{ marginLeft: 'auto', fontFamily: 'var(--font-mono)', fontSize: '8px', fontWeight: 700, color: 'var(--terracotta)' }}>Start →</div>
@@ -532,7 +532,7 @@ export default function HomePage() {
               {/* Ask DiGi row */}
               <div style={{ padding: '11px 18px', display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <DigiCharacter mood="wave" size={36} />
-                <div style={{ fontFamily: 'var(--font-display)', fontSize: '11px', fontWeight: 700, color: 'var(--ink)' }}>Ask DiGi about this situation</div>
+                <div style={{ fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 700, color: 'var(--ink)' }}>Ask DiGi about this situation</div>
                 <div style={{ marginLeft: 'auto', fontFamily: 'var(--font-mono)', fontSize: '8px', fontWeight: 700, color: 'var(--terracotta)' }}>Ask →</div>
               </div>
             </div>
@@ -553,7 +553,7 @@ export default function HomePage() {
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="var(--terracotta-dark)" aria-hidden><path d="M12 3.2l2.35 4.76 5.25.76-3.8 3.7.9 5.23L12 15.94l-4.7 2.47.9-5.23-3.8-3.7 5.25-.76z" /></svg>
                   </span>
                   <div>
-                    <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '15px', color: 'var(--ink)', lineHeight: 1 }}>22 stars</div>
+                    <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '17px', color: 'var(--ink)', lineHeight: 1 }}>22 stars</div>
                     <div style={{ fontFamily: 'var(--font-mono)', fontSize: '8px', fontWeight: 700, color: 'var(--ink)', opacity: 0.75, marginTop: '2px' }}>= 110 min screen time</div>
                   </div>
                 </div>
@@ -564,9 +564,9 @@ export default function HomePage() {
                   { title: 'Tidy room', stars: '+1', done: false },
                 ].map((q, i) => (
                   <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span style={{ flex: 1, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '11px', color: 'var(--ink)' }}>{q.title}</span>
+                    <span style={{ flex: 1, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', color: 'var(--ink)' }}>{q.title}</span>
                     <span style={{ fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>{q.stars}</span>
-                    <span style={{ width: 19, height: 19, borderRadius: '50%', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: q.done ? 'var(--deep-teal)' : 'var(--cream)', border: q.done ? 'none' : '2px dashed var(--ink-light)', color: '#fff', fontSize: '10px', fontWeight: 900 }}>{q.done ? '✓' : ''}</span>
+                    <span style={{ width: 19, height: 19, borderRadius: '50%', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: q.done ? 'var(--deep-teal)' : 'var(--cream)', border: q.done ? 'none' : '2px dashed var(--ink-light)', color: '#fff', fontSize: '12px', fontWeight: 900 }}>{q.done ? '✓' : ''}</span>
                   </div>
                 ))}
               </div>
@@ -607,22 +607,22 @@ export default function HomePage() {
                 <div style={{ background: 'var(--stage-1)', borderBottom: '1px solid var(--border)', padding: '15px 18px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                   <div>
                     <div style={{ fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '3px' }}>Stage 3 · Ages 11 to 13</div>
-                    <div style={{ fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 800, color: 'var(--ink)' }}>Your home tonight</div>
+                    <div style={{ fontFamily: 'var(--font-display)', fontSize: '17px', fontWeight: 800, color: 'var(--ink)' }}>Your home tonight</div>
                   </div>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '100px', padding: '5px 11px', letterSpacing: '0.06em', flexShrink: 0, boxShadow: '0 2px 0 var(--terracotta-dark)' }}>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '100px', padding: '5px 11px', letterSpacing: '0.06em', flexShrink: 0, boxShadow: '0 2px 0 var(--terracotta-dark)' }}>
                     10 min
                   </div>
                 </div>
                 <div style={{ padding: '14px 18px', borderBottom: '1px solid var(--border)' }}>
                   <div style={{ fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '7px' }}>Tonight&apos;s script</div>
-                  <div style={{ fontFamily: 'var(--font-display)', fontSize: '13.5px', fontWeight: 800, color: 'var(--ink)', marginBottom: '7px' }}>The bedtime handover</div>
-                  <div style={{ background: 'var(--terracotta-lt)', border: '1px solid rgba(201,154,40,0.25)', borderRadius: '12px', padding: '10px 13px', fontSize: '12px', color: 'var(--ink)', lineHeight: 1.55, fontStyle: 'italic' }}>
+                  <div style={{ fontFamily: 'var(--font-display)', fontSize: '15.5px', fontWeight: 800, color: 'var(--ink)', marginBottom: '7px' }}>The bedtime handover</div>
+                  <div style={{ background: 'var(--terracotta-lt)', border: '1px solid rgba(201,154,40,0.25)', borderRadius: '12px', padding: '10px 13px', fontSize: '14px', color: 'var(--ink)', lineHeight: 1.55, fontStyle: 'italic' }}>
                     &ldquo;The phone charges in the hallway from tonight. Whole house rule, mine included.&rdquo;
                   </div>
                 </div>
                 <div style={{ padding: '13px 18px', borderBottom: '1px solid var(--border)' }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
-                    <div style={{ fontFamily: 'var(--font-display)', fontSize: '12.5px', fontWeight: 800, color: 'var(--ink)' }}>The road to 16</div>
+                    <div style={{ fontFamily: 'var(--font-display)', fontSize: '14.5px', fontWeight: 800, color: 'var(--ink)' }}>The road to 16</div>
                     <div style={{ fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, color: 'var(--ink-muted)', letterSpacing: '0.06em' }}>Stage 3 of 5</div>
                   </div>
                   <div style={{ display: 'flex', gap: '5px' }}>
@@ -632,9 +632,9 @@ export default function HomePage() {
                   </div>
                 </div>
                 <div style={{ padding: '12px 18px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <span style={{ width: '30px', height: '30px', background: 'var(--stage-1-bold)', borderRadius: '9px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: '14px' }}>⭐</span>
+                  <span style={{ width: '30px', height: '30px', background: 'var(--stage-1-bold)', borderRadius: '9px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: '16px' }}>⭐</span>
                   <div>
-                    <div style={{ fontFamily: 'var(--font-display)', fontSize: '12px', fontWeight: 800, color: 'var(--ink)' }}>Star timer</div>
+                    <div style={{ fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 800, color: 'var(--ink)' }}>Star timer</div>
                     <div style={{ fontFamily: 'var(--font-mono)', fontSize: '8.5px', color: 'var(--ink-muted)', marginTop: '2px' }}>Jobs done today earn tonight&apos;s minutes</div>
                   </div>
                   <div style={{ marginLeft: 'auto', fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>Open →</div>
@@ -642,7 +642,7 @@ export default function HomePage() {
                 <div style={{ padding: '12px 18px', display: 'flex', alignItems: 'center', gap: '10px', background: 'var(--cream)' }}>
                   <DigiCharacter mood="idle" size={30} />
                   <div>
-                    <div style={{ fontFamily: 'var(--font-display)', fontSize: '12px', fontWeight: 800, color: 'var(--ink)' }}>Ask DiGi anything</div>
+                    <div style={{ fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 800, color: 'var(--ink)' }}>Ask DiGi anything</div>
                     <div style={{ fontFamily: 'var(--font-mono)', fontSize: '8.5px', color: 'var(--ink-muted)', marginTop: '2px' }}>Even at 11pm, especially at 11pm</div>
                   </div>
                   <div style={{ marginLeft: 'auto', fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>Ask →</div>
@@ -660,7 +660,7 @@ export default function HomePage() {
               <div style={{ background: '#fff', borderRadius: '24px', overflow: 'hidden', border: '1px solid var(--border)', boxShadow: '0 5px 0 var(--terracotta), 0 20px 44px rgba(26,26,46,0.12)' }}>
                 <div style={{ padding: '15px 18px 12px', textAlign: 'center', borderBottom: '1px solid var(--border)' }}>
                   <div style={{ fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '3px' }}>Today&apos;s quests</div>
-                  <div style={{ fontFamily: 'var(--font-display)', fontSize: '17px', fontWeight: 900, color: 'var(--ink)', letterSpacing: '-.02em' }}>Go Pebble!</div>
+                  <div style={{ fontFamily: 'var(--font-display)', fontSize: '19px', fontWeight: 900, color: 'var(--ink)', letterSpacing: '-.02em' }}>Go Pebble!</div>
                 </div>
                 <div style={{ padding: '12px 14px' }}>
                   <div style={{ background: 'linear-gradient(165deg, #FBE9B6 0%, #F6D07E 100%)', borderRadius: '14px', padding: '11px 14px', boxShadow: '0 3px 0 rgba(140,110,40,0.25)' }}>
@@ -668,7 +668,7 @@ export default function HomePage() {
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '4px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
                         <svg width="19" height="19" viewBox="0 0 24 24" fill="var(--terracotta-dark)" aria-hidden><path d="M12 3.2l2.35 4.76 5.25.76-3.8 3.7.9 5.23L12 15.94l-4.7 2.47.9-5.23-3.8-3.7 5.25-.76z" /></svg>
-                        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '19px', color: 'var(--ink)', lineHeight: 1 }}>21</span>
+                        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '21px', color: 'var(--ink)', lineHeight: 1 }}>21</span>
                       </div>
                       <span style={{ fontFamily: 'var(--font-mono)', fontSize: '8px', fontWeight: 700, color: 'var(--ink)', opacity: 0.75 }}>3 day streak</span>
                     </div>
@@ -682,7 +682,7 @@ export default function HomePage() {
                   ].map(row => (
                     <div key={row.label} style={{ background: 'var(--stage-1)', border: '1px solid var(--border)', borderRadius: '12px', padding: '9px 12px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px' }}>
-                        <span style={{ fontFamily: 'var(--font-display)', fontSize: '11px', fontWeight: 800, color: 'var(--ink)' }}>{row.label}</span>
+                        <span style={{ fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 800, color: 'var(--ink)' }}>{row.label}</span>
                         <span style={{ fontFamily: 'var(--font-mono)', fontSize: '8px', fontWeight: 700, color: 'var(--ink-muted)' }}>{row.meta}</span>
                       </div>
                       <div style={{ height: '7px', borderRadius: '100px', background: '#fff', border: '1px solid var(--border)', overflow: 'hidden' }}>
@@ -697,9 +697,9 @@ export default function HomePage() {
                     { title: 'Read for 20 minutes', stars: '+2', done: false },
                   ].map(q => (
                     <div key={q.title} style={{ display: 'flex', alignItems: 'center', gap: '9px', border: '1px solid var(--border)', borderRadius: '12px', padding: '8px 12px' }}>
-                      <span style={{ flex: 1, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '11.5px', color: 'var(--ink)', textDecoration: q.done ? 'line-through' : 'none', opacity: q.done ? 0.6 : 1 }}>{q.title}</span>
+                      <span style={{ flex: 1, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: 'var(--ink)', textDecoration: q.done ? 'line-through' : 'none', opacity: q.done ? 0.6 : 1 }}>{q.title}</span>
                       <span style={{ fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>{q.stars}</span>
-                      <span style={{ width: 19, height: 19, borderRadius: '50%', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: q.done ? 'var(--retro-green)' : 'var(--stage-1)', border: q.done ? 'none' : '2px dashed var(--ink-light)', color: '#fff', fontSize: '10px', fontWeight: 900 }}>{q.done ? '✓' : ''}</span>
+                      <span style={{ width: 19, height: 19, borderRadius: '50%', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: q.done ? 'var(--retro-green)' : 'var(--stage-1)', border: q.done ? 'none' : '2px dashed var(--ink-light)', color: '#fff', fontSize: '12px', fontWeight: 900 }}>{q.done ? '✓' : ''}</span>
                     </div>
                   ))}
                 </div>
@@ -792,7 +792,7 @@ export default function HomePage() {
           </div>
 
           <div className="fu" style={{ textAlign: 'center', marginTop: '38px' }}>
-            <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '14px', padding: '15px 34px' }}>
+            <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '16px', padding: '15px 34px' }}>
               Start tonight
             </Link>
           </div>
@@ -829,12 +829,12 @@ export default function HomePage() {
             ].map((p) => (
               <div key={p.name} style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '20px', padding: '24px 22px', display: 'flex', flexDirection: 'column', boxShadow: '0 5px 0 var(--border)' }}>
                 <div aria-hidden style={{ fontFamily: 'var(--font-display)', fontSize: '2.2rem', color: 'var(--terracotta)', lineHeight: 0.7, marginBottom: '10px' }}>&ldquo;</div>
-                <p style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.65, fontStyle: 'italic', margin: '0 0 18px', flex: 1 }}>
+                <p style={{ fontSize: '16.5px', color: 'var(--ink-soft)', lineHeight: 1.65, fontStyle: 'italic', margin: '0 0 18px', flex: 1 }}>
                   {p.quote}
                 </p>
                 <div>
-                  <div style={{ fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 800, color: 'var(--ink)' }}>{p.name}</div>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginTop: '3px' }}>Guided Childhood parent</div>
+                  <div style={{ fontFamily: 'var(--font-display)', fontSize: '16px', fontWeight: 800, color: 'var(--ink)' }}>{p.name}</div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginTop: '3px' }}>Guided Childhood parent</div>
                 </div>
               </div>
             ))}
@@ -932,43 +932,43 @@ export default function HomePage() {
                   body: 'Tell it what happened tonight and get the exact words back, calibrated to your child and stage. Never a lecture, never a shrug.',
                 },
                 {
-                  icon: <span style={{ fontSize: '20px' }}>🛂</span>,
+                  icon: <span style={{ fontSize: '22px' }}>🛂</span>,
                   tint: 'var(--stage-4-bold)',
                   name: 'The road to 16, with passport stamps',
                   body: 'Five stages, a stamp for each one earned. Sixteen arrives as a step your child walked up to, not a cliff edge.',
                 },
                 {
-                  icon: <span style={{ fontSize: '20px' }}>💬</span>,
+                  icon: <span style={{ fontSize: '22px' }}>💬</span>,
                   tint: 'var(--stage-3-bold)',
                   name: 'Daily scripts, word for word',
                   body: 'The morning, the handover, the bedtime. What to say, what not to say, and why it works.',
                 },
                 {
-                  icon: <span style={{ fontSize: '20px' }}>⭐</span>,
+                  icon: <span style={{ fontSize: '22px' }}>⭐</span>,
                   tint: 'var(--stage-1-bold)',
                   name: 'The star timer',
                   body: 'Real jobs and play earn stars, stars buy agreed screen time, and the timer keeps the deal fair for everyone.',
                 },
                 {
-                  icon: <span style={{ fontSize: '20px' }}>🛡️</span>,
+                  icon: <span style={{ fontSize: '22px' }}>🛡️</span>,
                   tint: 'var(--stage-2-bold)',
                   name: 'Device setup guides for every doorway',
                   body: 'First tablet, first console, first phone. What to set tonight, before the device reaches your child.',
                 },
                 {
-                  icon: <span style={{ fontSize: '20px' }}>📚</span>,
+                  icon: <span style={{ fontSize: '22px' }}>📚</span>,
                   tint: 'var(--stage-5-bold)',
                   name: 'Lessons matched to their stage',
                   body: 'Short lessons built on Rosenshine’s principles of instruction, taught at the kitchen table in minutes.',
                 },
                 {
-                  icon: <span style={{ fontSize: '20px' }}>🗞️</span>,
+                  icon: <span style={{ fontSize: '22px' }}>🗞️</span>,
                   tint: 'var(--stage-2-bold)',
                   name: 'The weekly round up',
                   body: 'Sunday catches your week: what happened, what shifted, and a plan for the one ahead. No spiralling required.',
                 },
                 {
-                  icon: <span style={{ fontSize: '20px' }}>🎒</span>,
+                  icon: <span style={{ fontSize: '22px' }}>🎒</span>,
                   tint: 'var(--stage-1-bold)',
                   name: 'Their own app',
                   body: 'Quests, stars and the passport in a space that is theirs. Progress your child can hold up and show you.',
@@ -994,7 +994,7 @@ export default function HomePage() {
               <p style={{ fontFamily: 'var(--font-mono)', fontSize: '.68rem', fontWeight: 700, letterSpacing: '.06em', color: 'var(--ink-muted)', margin: 0 }}>
                 Plus the family agreement, the wellbeing tracker, printables in English and Spanish, and 24 learning games.
               </p>
-              <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '13px', padding: '13px 28px', flexShrink: 0 }}>
+              <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '15px', padding: '13px 28px', flexShrink: 0 }}>
                 Get started here
               </Link>
             </div>
@@ -1076,7 +1076,7 @@ export default function HomePage() {
               That is the whole pathway. Five stages, from the first shared screen at four to full independence at sixteen. Guided the entire way. Never handed the deep end with no warning.
             </p>
             <div className="fu" style={{ display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap', alignItems: 'center' }}>
-              <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '14px', padding: '15px 30px' }}>
+              <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '16px', padding: '15px 30px' }}>
                 Start your pathway free
               </Link>
               <Link href="/schools" style={{ fontFamily: 'var(--font-mono)', fontSize: '.8rem', fontWeight: 700, color: 'var(--terracotta)', textDecoration: 'none' }}>
@@ -1185,7 +1185,7 @@ export default function HomePage() {
                           background: s.bg,
                           borderRadius: '100px',
                           padding: '4px 10px',
-                          fontSize: '9px',
+                          fontSize: '11px',
                           fontWeight: 700,
                           fontFamily: 'var(--font-mono)',
                           letterSpacing: '0.06em',
@@ -1216,24 +1216,24 @@ export default function HomePage() {
 
                       {/* Card body */}
                       <div style={{ padding: '14px 14px 0', display: 'flex', flexDirection: 'column', flex: 1 }}>
-                        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: s.bold, marginBottom: '4px' }}>
+                        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: s.bold, marginBottom: '4px' }}>
                           Stage {s.num}
                         </div>
-                        <div style={{ fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 800, color: 'var(--ink)', letterSpacing: '-0.02em', marginBottom: '2px' }}>
+                        <div style={{ fontFamily: 'var(--font-display)', fontSize: '17px', fontWeight: 800, color: 'var(--ink)', letterSpacing: '-0.02em', marginBottom: '2px' }}>
                           {s.name}
                         </div>
-                        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--ink-muted)', marginBottom: '6px' }}>
+                        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--ink-muted)', marginBottom: '6px' }}>
                           {s.ks}
                         </div>
-                        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', color: 'var(--ink-light)', marginBottom: '10px' }}>
+                        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-light)', marginBottom: '10px' }}>
                           {s.ages}
                         </div>
-                        <p style={{ fontFamily: 'var(--font-display)', fontSize: '11px', fontStyle: 'italic', color: 'var(--ink)', lineHeight: 1.55, marginBottom: '10px', flex: 1 }}>
+                        <p style={{ fontFamily: 'var(--font-display)', fontSize: '13px', fontStyle: 'italic', color: 'var(--ink)', lineHeight: 1.55, marginBottom: '10px', flex: 1 }}>
                           {s.quote}
                         </p>
                         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '3px', marginBottom: '12px' }}>
                           {s.tags.map(t => (
-                            <span key={t} style={{ background: s.bg, borderRadius: '100px', padding: '3px 8px', fontSize: '9px', color: s.text, fontWeight: 600, fontFamily: 'var(--font-mono)' }}>
+                            <span key={t} style={{ background: s.bg, borderRadius: '100px', padding: '3px 8px', fontSize: '11px', color: s.text, fontWeight: 600, fontFamily: 'var(--font-mono)' }}>
                               {t}
                             </span>
                           ))}
@@ -1245,7 +1245,7 @@ export default function HomePage() {
                           color: s.text,
                           borderRadius: '10px',
                           padding: '10px',
-                          fontSize: '11px',
+                          fontSize: '13px',
                           fontWeight: 800,
                           fontFamily: 'var(--font-display)',
                           letterSpacing: '-0.01em',
@@ -1263,7 +1263,7 @@ export default function HomePage() {
           </div>
 
           <div style={{ textAlign: 'center', marginTop: '32px' }}>
-            <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '14px', padding: '15px 32px' }}>
+            <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '16px', padding: '15px 32px' }}>
               Find your stage
             </Link>
             <p style={{ fontSize: '.76rem', color: 'var(--ink-muted)', marginTop: '12px' }}>
@@ -1289,7 +1289,7 @@ export default function HomePage() {
                 borderRadius: '4px 18px 18px 18px', padding: '11px 14px',
                 boxShadow: '0 3px 0 rgba(26,26,46,0.05)',
               }}>
-                <p style={{ margin: 0, fontFamily: 'var(--font-body)', fontSize: '14.5px', color: 'var(--ink)', lineHeight: 1.45 }}>
+                <p style={{ margin: 0, fontFamily: 'var(--font-body)', fontSize: '16.5px', color: 'var(--ink)', lineHeight: 1.45 }}>
                   I have every step from 4 to 16 covered. Ask me anything.
                 </p>
               </div>
@@ -1301,18 +1301,18 @@ export default function HomePage() {
                 'My answers are checked against the science every week.',
                 'I have guardrails, and the guide in your family is always you.',
               ].map(line => (
-                <p key={line} style={{ margin: 0, fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
+                <p key={line} style={{ margin: 0, fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
                   {line}
                 </p>
               ))}
             </div>
-            <div style={{ fontFamily: 'var(--font-display)', fontSize: '17px', fontWeight: 800, color: 'var(--ink)', textAlign: 'center', marginTop: '4px' }}>
+            <div style={{ fontFamily: 'var(--font-display)', fontSize: '19px', fontWeight: 800, color: 'var(--ink)', textAlign: 'center', marginTop: '4px' }}>
               DiGi guides you through every stage
             </div>
-            <p style={{ fontSize: '13px', color: 'var(--ink)', lineHeight: 1.6, maxWidth: '380px', textAlign: 'center' }}>
+            <p style={{ fontSize: '15px', color: 'var(--ink)', lineHeight: 1.6, maxWidth: '380px', textAlign: 'center' }}>
               Tell DiGi what is happening. Get the exact words for tonight. Available at 11pm when you need it most.
             </p>
-            <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '12px', padding: '11px 24px', marginTop: '4px' }}>
+            <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '14px', padding: '11px 24px', marginTop: '4px' }}>
               Ask DiGi your first question
             </Link>
           </div>
@@ -1669,7 +1669,7 @@ export default function HomePage() {
           </div>
 
           <div style={{ textAlign: 'center', marginTop: '44px' }}>
-            <Link href="/starter-pack" className="btn btn-gold fu" style={{ fontSize: '14px', padding: '16px 36px' }}>
+            <Link href="/starter-pack" className="btn btn-gold fu" style={{ fontSize: '16px', padding: '16px 36px' }}>
               Get started here
             </Link>
           </div>
@@ -1761,7 +1761,7 @@ export default function HomePage() {
                     background: item.bg,
                     color: item.text,
                     fontFamily: 'var(--font-mono)',
-                    fontSize: '9px',
+                    fontSize: '11px',
                     fontWeight: 700,
                     letterSpacing: '0.08em',
                     textTransform: 'uppercase',
@@ -1774,10 +1774,10 @@ export default function HomePage() {
                     {item.marker}
                   </div>
                   <div style={{ background: '#fff', borderRadius: '16px', padding: '20px', border: '1px solid var(--border)', boxShadow: '0 2px 16px rgba(26,26,46,0.05)', flex: 1, width: '100%' }}>
-                    <h3 style={{ fontSize: '13px', fontWeight: 800, color: 'var(--ink)', lineHeight: 1.3, marginBottom: '10px', letterSpacing: '-0.02em' }}>
+                    <h3 style={{ fontSize: '15px', fontWeight: 800, color: 'var(--ink)', lineHeight: 1.3, marginBottom: '10px', letterSpacing: '-0.02em' }}>
                       {item.title}
                     </h3>
-                    <p style={{ fontSize: '11.5px', color: 'var(--ink-soft)', lineHeight: 1.65, margin: 0 }}>
+                    <p style={{ fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.65, margin: 0 }}>
                       {item.body}
                     </p>
                   </div>
@@ -1787,7 +1787,7 @@ export default function HomePage() {
           </div>
 
           <div style={{ textAlign: 'center', marginTop: '36px' }}>
-            <Link href="/starter-pack" className="btn btn-gold fu" style={{ fontSize: '14px', padding: '15px 32px' }}>
+            <Link href="/starter-pack" className="btn btn-gold fu" style={{ fontSize: '16px', padding: '15px 32px' }}>
               Start your pathway today
             </Link>
           </div>
@@ -1812,8 +1812,8 @@ export default function HomePage() {
           </div>
 
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'var(--stage-2)', border: '1px solid var(--stage-2)', borderRadius: '100px', padding: '8px 18px', marginBottom: '40px' }}>
-            <span style={{ fontSize: '13px' }}>🔬</span>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 600, color: 'var(--ink)', letterSpacing: '0.02em' }}>
+            <span style={{ fontSize: '15px' }}>🔬</span>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 600, color: 'var(--ink)', letterSpacing: '0.02em' }}>
               Every script is grounded in the research and tested to get the best real response, not just something to say.
             </span>
           </div>
@@ -1860,7 +1860,7 @@ export default function HomePage() {
                       top: '12px', right: '12px',
                       background: 'rgba(255,255,255,0.9)',
                       borderRadius: '100px', padding: '4px 10px',
-                      fontSize: '10px', fontFamily: 'var(--font-mono)', fontWeight: 700,
+                      fontSize: '12px', fontFamily: 'var(--font-mono)', fontWeight: 700,
                       color: cat.text, letterSpacing: '0.04em',
                     }}>
                       {cat.count}
@@ -1870,7 +1870,7 @@ export default function HomePage() {
                       bottom: '12px', left: '12px',
                       background: cat.bg,
                       borderRadius: '100px', padding: '3px 10px',
-                      fontSize: '9px', fontFamily: 'var(--font-mono)', fontWeight: 600,
+                      fontSize: '11px', fontFamily: 'var(--font-mono)', fontWeight: 600,
                       color: cat.text, letterSpacing: '0.06em', textTransform: 'uppercase',
                     }}>
                       {cat.ks}
@@ -1879,13 +1879,13 @@ export default function HomePage() {
 
                   {/* Content */}
                   <div style={{ padding: '18px 20px 22px', flex: 1, display: 'flex', flexDirection: 'column' }}>
-                    <h3 style={{ fontSize: '15px', fontWeight: 800, color: 'var(--ink)', letterSpacing: '-0.02em', marginBottom: '6px' }}>
+                    <h3 style={{ fontSize: '17px', fontWeight: 800, color: 'var(--ink)', letterSpacing: '-0.02em', marginBottom: '6px' }}>
                       {cat.label}
                     </h3>
-                    <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.65, marginBottom: '14px', flex: 1 }}>
+                    <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.65, marginBottom: '14px', flex: 1 }}>
                       {cat.desc}
                     </p>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--terracotta)', fontSize: '12px', fontWeight: 700, fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--terracotta)', fontSize: '14px', fontWeight: 700, fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}>
                       Explore scripts →
                     </div>
                   </div>
@@ -1895,7 +1895,7 @@ export default function HomePage() {
           </div>
 
           <div style={{ textAlign: 'center', marginTop: '36px' }}>
-            <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '14px', padding: '15px 32px' }}>
+            <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '16px', padding: '15px 32px' }}>
               Get started here
             </Link>
           </div>
@@ -2109,7 +2109,7 @@ export default function HomePage() {
                   </li>
                 ))}
               </ul>
-              <Link href="/starter-pack" className="btn btn-gold fu" style={{ fontSize: '13px' }}>
+              <Link href="/starter-pack" className="btn btn-gold fu" style={{ fontSize: '15px' }}>
                 Ask DiGi your first question
               </Link>
             </div>
@@ -2156,7 +2156,7 @@ export default function HomePage() {
                 <div style={{ padding: '20px 16px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
                   <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
                     <span style={{ width: 40, height: 40, borderRadius: '50%', flexShrink: 0, background: 'var(--terracotta)', border: '2px solid var(--terracotta-dark)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 3px 0 var(--terracotta-dark)' }}><DigiCharacter mood="speak" size={26} /></span>
-                    <div className="bubble-digi" style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '4px 18px 18px 18px', boxShadow: '0 3px 0 rgba(26,26,46,0.05)', fontSize: '14.5px', color: 'var(--ink)' }}>
+                    <div className="bubble-digi" style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '4px 18px 18px 18px', boxShadow: '0 3px 0 rgba(26,26,46,0.05)', fontSize: '16.5px', color: 'var(--ink)' }}>
                       What is happening at home with screens right now?
                     </div>
                   </div>
@@ -2167,7 +2167,7 @@ export default function HomePage() {
                   </div>
                   <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
                     <span style={{ width: 40, height: 40, borderRadius: '50%', flexShrink: 0, background: 'var(--terracotta)', border: '2px solid var(--terracotta-dark)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 3px 0 var(--terracotta-dark)' }}><DigiCharacter mood="speak" size={26} /></span>
-                    <div className="bubble-digi" style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '4px 18px 18px 18px', boxShadow: '0 3px 0 rgba(26,26,46,0.05)', fontSize: '14.5px', color: 'var(--ink)' }}>
+                    <div className="bubble-digi" style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '4px 18px 18px 18px', boxShadow: '0 3px 0 rgba(26,26,46,0.05)', fontSize: '16.5px', color: 'var(--ink)' }}>
                       This is one of the most common patterns at Stage 2. The fix is a 20 minute wind down routine with a script so it does not become a fight. Want the exact words for tonight?
                     </div>
                   </div>
@@ -2176,7 +2176,7 @@ export default function HomePage() {
                   </div>
                   <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
                     <span style={{ width: 40, height: 40, borderRadius: '50%', flexShrink: 0, background: 'var(--terracotta)', border: '2px solid var(--terracotta-dark)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 3px 0 var(--terracotta-dark)' }}><DigiCharacter mood="speak" size={26} /></span>
-                    <div className="bubble-digi" style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '4px 18px 18px 18px', boxShadow: '0 3px 0 rgba(26,26,46,0.05)', fontSize: '14.5px', color: 'var(--ink)' }}>
+                    <div className="bubble-digi" style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '4px 18px 18px 18px', boxShadow: '0 3px 0 rgba(26,26,46,0.05)', fontSize: '16.5px', color: 'var(--ink)' }}>
                       <strong style={{ display: 'block', marginBottom: '4px', color: 'var(--terracotta)', fontSize: '.76rem' }}>Stage 2 · Transition script</strong>
                       "Before you get the TV on, let's do your five things: shoes away, bag on hook, snack, five minutes outside, then TV. Deal?" Say it once, warmly. Then hold it.
                     </div>
@@ -2472,7 +2472,7 @@ export default function HomePage() {
               <p className="fu" style={{ fontSize: '.92rem', color: 'var(--ink)', lineHeight: 1.85, marginBottom: '28px' }}>
                 The problem is not the phone. The problem is nobody gave parents a map. A law about social media does not give you one. Guided Childhood does.
               </p>
-              <Link href="/starter-pack" className="btn btn-gold fu" style={{ fontSize: '13px' }}>
+              <Link href="/starter-pack" className="btn btn-gold fu" style={{ fontSize: '15px' }}>
                 Find my starting point
               </Link>
             </div>
@@ -2652,7 +2652,7 @@ export default function HomePage() {
               <p className="fu" style={{ fontSize: '.92rem', color: 'var(--ink)', lineHeight: 1.82, marginBottom: '28px' }}>
                 Screen behaviour, routines, every online risk, digital literacy, AI, and full readiness at 16. EYFS to Sixth Form. Every lesson comes with a parent note so school work extends into the home.
               </p>
-              <Link href="/schools" className="btn btn-ink fu" style={{ fontSize: '13px' }}>
+              <Link href="/schools" className="btn btn-ink fu" style={{ fontSize: '15px' }}>
                 See the full school programme
               </Link>
             </div>
@@ -2835,12 +2835,12 @@ export default function HomePage() {
             No setup. No waiting. The platform is free to start and opens immediately. One account covers all your children.
           </p>
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '20px' }}>
-            <Link href="/starter-pack" className="btn btn-gold fu" style={{ fontSize: '15px', padding: '17px 40px' }}>
+            <Link href="/starter-pack" className="btn btn-gold fu" style={{ fontSize: '17px', padding: '17px 40px' }}>
               Get started here
             </Link>
             <Link href="https://www.guidedchildhood.com/digitalwellbeing" target="_blank" rel="noopener noreferrer" style={{
               display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-              fontSize: '15px', fontWeight: 700, padding: '17px 36px', borderRadius: 'var(--radius-btn)',
+              fontSize: '17px', fontWeight: 700, padding: '17px 36px', borderRadius: 'var(--radius-btn)',
               border: '2px solid var(--ink)', color: 'var(--ink)', textDecoration: 'none',
               background: 'transparent', transition: 'background .15s',
             }}>

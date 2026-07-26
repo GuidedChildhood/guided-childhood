@@ -28,7 +28,7 @@ export default function SetupPath({ flags, phoneAge = false }: { flags: SetupFla
       borderRadius: '20px', padding: '20px 22px', marginBottom: '20px',
     }}>
       <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '10px', marginBottom: '12px' }}>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
           Your next step
         </span>
         <span style={{ display: 'inline-flex', gap: '4px', alignItems: 'center' }}>
@@ -40,7 +40,7 @@ export default function SetupPath({ flags, phoneAge = false }: { flags: SetupFla
               transition: 'all 0.3s ease',
             }} />
           ))}
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: 'var(--ink-muted)', marginLeft: '4px' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, color: 'var(--ink-muted)', marginLeft: '4px' }}>
             {doneCount}/{steps.length}
           </span>
         </span>
@@ -54,16 +54,16 @@ export default function SetupPath({ flags, phoneAge = false }: { flags: SetupFla
           display: 'flex', alignItems: 'center', gap: '14px',
         }}>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px', color: 'var(--ink)', lineHeight: 1.25, marginBottom: '4px' }}>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17.5px', color: 'var(--ink)', lineHeight: 1.25, marginBottom: '4px' }}>
               {current.title}
             </div>
-            <div style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
+            <div style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
               {current.what}
             </div>
           </div>
           <span style={{
             background: 'var(--terracotta)', color: 'var(--ink)', flexShrink: 0,
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px',
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
             borderRadius: '12px', padding: '10px 16px', boxShadow: '0 3px 0 var(--terracotta-dark)',
           }}>
             Go
@@ -76,7 +76,7 @@ export default function SetupPath({ flags, phoneAge = false }: { flags: SetupFla
           the card, so a parent never faces the whole pile at once. A quiet
           count is all the reassurance they need that there is a sequence. */}
       {waiting.length > 0 && (
-        <p style={{ margin: '14px 0 0', fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-muted)', letterSpacing: '0.02em' }}>
+        <p style={{ margin: '14px 0 0', fontFamily: 'var(--font-mono)', fontSize: '13px', color: 'var(--ink-muted)', letterSpacing: '0.02em' }}>
           Then {waiting.length} more, one at a time.
         </p>
       )}

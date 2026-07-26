@@ -85,7 +85,7 @@ export default function WeeklyRoundup({ review, onContinue }: { review: Review; 
           <DigiCharacter mood="happy" size={34} once />
         </span>
         <span style={{ flex: 1, minWidth: 0 }}>
-          <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>Your week with DiGi</span>
+          <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>Your week with DiGi</span>
           <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.5rem, 5vw, 1.9rem)', color: 'var(--ink)', lineHeight: 1.1, letterSpacing: '-0.03em', marginTop: '4px' }}>
             The week just gone
           </span>
@@ -96,18 +96,18 @@ export default function WeeklyRoundup({ review, onContinue }: { review: Review; 
           evidence based healthy guide, as one clear number and a moving level. */}
       <div style={{ background: 'var(--cream)', border: `1.5px solid var(--border)`, borderLeft: `6px solid ${balAccent}`, borderRadius: '18px', padding: '16px 18px', marginBottom: '16px' }}>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px', marginBottom: '10px' }}>
-          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '38px', lineHeight: 1, color: balAccent }}>{bal.balancePct}<span style={{ fontSize: '20px' }}>%</span></span>
-          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)' }}>{balLabel}</span>
+          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '38px', lineHeight: 1, color: balAccent }}>{bal.balancePct}<span style={{ fontSize: '22px' }}>%</span></span>
+          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '18px', color: 'var(--ink)' }}>{balLabel}</span>
         </div>
         {/* The level: how the week's screen time sits against the healthy guide.
             Full and green when comfortably inside it, amber and over when not. */}
         <div style={{ height: 14, borderRadius: '100px', background: '#fff', border: '1.5px solid var(--border)', overflow: 'hidden', marginBottom: '8px' }}>
           <span style={{ display: 'block', height: '100%', width: `${Math.min(100, guidePct)}%`, background: balAccent, borderRadius: '100px', transition: 'width 0.6s ease' }} />
         </div>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, color: 'var(--ink-muted)', marginBottom: '8px' }}>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 700, color: 'var(--ink-muted)', marginBottom: '8px' }}>
           {bal.screenMins} min screen used · healthy guide about {bal.guideMins} min a week
         </div>
-        <p style={{ fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0 }}>{bal.line}</p>
+        <p style={{ fontSize: '15.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0 }}>{bal.line}</p>
       </div>
 
       {/* Glanceable stats */}
@@ -118,25 +118,25 @@ export default function WeeklyRoundup({ review, onContinue }: { review: Review; 
           ['📅', `${activeDays}/7 days`],
           ['📱', `${s.deviceMinutes ?? 0} min screen`],
         ].map(([icon, label]) => (
-          <span key={label} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '100px', padding: '6px 13px', fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, color: 'var(--ink-soft)' }}>
+          <span key={label} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '100px', padding: '6px 13px', fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 700, color: 'var(--ink-soft)' }}>
             <span>{icon}</span>{label}
           </span>
         ))}
       </div>
 
-      <p style={{ fontSize: '15.5px', color: 'var(--ink)', opacity: 0.86, lineHeight: 1.6, margin: '0 0 16px' }}>
+      <p style={{ fontSize: '17.5px', color: 'var(--ink)', opacity: 0.86, lineHeight: 1.6, margin: '0 0 16px' }}>
         <WriteIn key={review.summary} text={review.summary} baseDelay={120} stepMs={16} />
       </p>
 
       {/* This week's wins, gathered in one place */}
       {topWins.length > 0 && (
         <div style={{ marginBottom: '15px' }}>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--retro-green-dark, var(--deep-teal))' }}>This week’s wins</span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--retro-green-dark, var(--deep-teal))' }}>This week’s wins</span>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '7px', marginTop: '8px' }}>
             {topWins.map((w, i) => (
               <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '10px', background: 'var(--tint-sage)', borderRadius: '12px', padding: '10px 13px' }}>
-                <span style={{ fontSize: '16px', flexShrink: 0 }}>{w.icon}</span>
-                <span style={{ fontSize: '14px', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.4 }}>{w.text}</span>
+                <span style={{ fontSize: '18px', flexShrink: 0 }}>{w.icon}</span>
+                <span style={{ fontSize: '16px', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.4 }}>{w.text}</span>
               </div>
             ))}
           </div>
@@ -145,22 +145,22 @@ export default function WeeklyRoundup({ review, onContinue }: { review: Review; 
 
       {/* One line of guidance from the experts we stand on, chosen for this week */}
       <div style={{ display: 'flex', gap: '11px', background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: '14px', padding: '13px 15px', marginBottom: '15px' }}>
-        <span style={{ fontSize: '17px', flexShrink: 0 }}>💡</span>
+        <span style={{ fontSize: '19px', flexShrink: 0 }}>💡</span>
         <div style={{ minWidth: 0 }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '3px' }}>The evidence · {tip.expert}</div>
-          <p style={{ fontSize: '14px', color: 'var(--ink)', lineHeight: 1.5, margin: 0, fontWeight: 500 }}>{tip.tip}</p>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '3px' }}>The evidence · {tip.expert}</div>
+          <p style={{ fontSize: '16px', color: 'var(--ink)', lineHeight: 1.5, margin: 0, fontWeight: 500 }}>{tip.tip}</p>
         </div>
       </div>
 
       {/* Worth a glance, each linking to the thing it is about */}
       {topGlances.length > 0 && (
         <div style={{ marginBottom: '16px' }}>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--deep-teal)' }}>Worth a glance</span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--deep-teal)' }}>Worth a glance</span>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '7px', marginTop: '8px' }}>
             {topGlances.map((g, i) => (
               <Link key={i} href={g.href} style={{ display: 'flex', alignItems: 'center', gap: '11px', background: '#fff', border: '1.5px solid var(--border)', borderRadius: '13px', padding: '11px 14px', textDecoration: 'none' }}>
-                <span style={{ flex: 1, fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.45 }}>{g.text}</span>
-                <span style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '12px', color: '#fff', background: 'var(--deep-teal)', borderRadius: '10px', padding: '7px 12px', whiteSpace: 'nowrap' }}>{g.cta} →</span>
+                <span style={{ flex: 1, fontSize: '15.5px', color: 'var(--ink-soft)', lineHeight: 1.45 }}>{g.text}</span>
+                <span style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: '#fff', background: 'var(--deep-teal)', borderRadius: '10px', padding: '7px 12px', whiteSpace: 'nowrap' }}>{g.cta} →</span>
               </Link>
             ))}
           </div>
@@ -169,20 +169,20 @@ export default function WeeklyRoundup({ review, onContinue }: { review: Review; 
 
       {/* The week on the pathway: this stamp, one step nearer ready at 16. */}
       <Link href="/dashboard/pathway" style={{ display: 'flex', alignItems: 'center', gap: '11px', background: 'var(--cream)', borderRadius: '13px', padding: '11px 14px', marginBottom: '16px', textDecoration: 'none' }}>
-        <span style={{ fontSize: '18px', flexShrink: 0 }}>🪪</span>
-        <span style={{ flex: 1, minWidth: 0, fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.45 }}>
+        <span style={{ fontSize: '20px', flexShrink: 0 }}>🪪</span>
+        <span style={{ flex: 1, minWidth: 0, fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.45 }}>
           On the pathway this is <strong style={{ color: 'var(--ink)' }}>Stage {readiness.id}, {readiness.stamp}</strong>. A good week here is one step nearer ready at 16.
         </span>
-        <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>See →</span>
+        <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>See →</span>
       </Link>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
-        <Link href={routineHref} onClick={onContinue} style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none', borderRadius: '15px', padding: '13px 20px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', boxShadow: '0 5px 0 var(--terracotta-dark)' }}>
+        <Link href={routineHref} onClick={onContinue} style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none', borderRadius: '15px', padding: '13px 20px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', boxShadow: '0 5px 0 var(--terracotta-dark)' }}>
           {review.suggestion ? 'Set up next week' : 'Open Quests'}
-          <span style={{ fontSize: '16px' }} aria-hidden>→</span>
+          <span style={{ fontSize: '18px' }} aria-hidden>→</span>
         </Link>
         {review.suggestion && (
-          <span style={{ flex: 1, minWidth: 150, fontSize: '13.5px', color: 'var(--ink-muted)', lineHeight: 1.5 }}>{review.suggestion}</span>
+          <span style={{ flex: 1, minWidth: 150, fontSize: '15.5px', color: 'var(--ink-muted)', lineHeight: 1.5 }}>{review.suggestion}</span>
         )}
       </div>
     </div>

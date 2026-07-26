@@ -50,16 +50,16 @@ export default function ParentStartTimer({ childId, childName }: { childId: stri
     padding: '7px 12px', borderRadius: 100, cursor: 'pointer',
     border: `1.5px solid ${active ? 'var(--terracotta)' : 'var(--border)'}`,
     background: active ? 'var(--terracotta-lt)' : '#fff',
-    fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 13,
+    fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 15,
     color: 'var(--ink)', flexShrink: 0,
   })
 
   return (
     <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 20, boxShadow: '0 4px 22px rgba(26,26,46,0.06)', padding: 18, marginBottom: 16 }}>
-      <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.13em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 6 }}>
+      <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, letterSpacing: '0.13em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 6 }}>
         Start screen time
       </div>
-      <p style={{ fontSize: 13.5, color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 12px' }}>
+      <p style={{ fontSize: 15.5, color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 12px' }}>
         No phone of their own? Start {name}&apos;s screen time here and it still counts in the balance below, on the same countdown you both watch.
       </p>
 
@@ -85,14 +85,14 @@ export default function ParentStartTimer({ childId, childName }: { childId: stri
         style={{
           width: '100%', padding: '11px', borderRadius: 12, border: 'none',
           cursor: busy ? 'default' : 'pointer', background: 'var(--terracotta)', color: 'var(--ink)',
-          fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 14,
+          fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 16,
           boxShadow: busy ? 'none' : '0 3px 0 var(--terracotta-dark)',
         }}
       >
         {busy ? 'Starting…' : done ? 'Started ✓' : `Start ${minutes} minutes`}
       </button>
-      {error && <p style={{ fontSize: 12, color: '#B93B3F', margin: '9px 0 0', fontWeight: 600 }}>{error}</p>}
-      {done && <p style={{ fontSize: 12, color: 'var(--retro-green-dark, #2F8F6B)', margin: '9px 0 0', fontWeight: 600 }}>Counting down now. It will show in the week below.</p>}
+      {error && <p style={{ fontSize: 14, color: '#B93B3F', margin: '9px 0 0', fontWeight: 600 }}>{error}</p>}
+      {done && <p style={{ fontSize: 14, color: 'var(--retro-green-dark, #2F8F6B)', margin: '9px 0 0', fontWeight: 600 }}>Counting down now. It will show in the week below.</p>}
     </div>
   )
 }

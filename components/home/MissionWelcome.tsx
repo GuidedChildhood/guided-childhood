@@ -156,10 +156,10 @@ export default function MissionWelcome({
             <DigiCharacter size={26} mood="wave" />
           </span>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 20, color: 'var(--ink)', lineHeight: 1.15, letterSpacing: '-0.01em' }}>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 22, color: 'var(--ink)', lineHeight: 1.15, letterSpacing: '-0.01em' }}>
               {name ? `Welcome back, ${name}` : 'Welcome back'}
             </div>
-            <div style={{ fontSize: 12.5, color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: 2 }}>
+            <div style={{ fontSize: 14.5, color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: 2 }}>
               While we get today ready, here is one thing we do
             </div>
           </div>
@@ -176,7 +176,7 @@ export default function MissionWelcome({
           }}>
             {card.title}
           </h2>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: 16, fontWeight: 500, color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: 18, fontWeight: 500, color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
             {card.line}
           </p>
         </div>
@@ -184,10 +184,10 @@ export default function MissionWelcome({
         {/* What we do with what you tell it. Every card carries one, because
             the honest answer is the feature. */}
         <div style={{ margin: '14px 18px 0', background: 'var(--tint-sage)', borderRadius: 14, padding: '11px 13px' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 9.5, fontWeight: 700, letterSpacing: '0.13em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 4 }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11.5, fontWeight: 700, letterSpacing: '0.13em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 4 }}>
             What we do with it
           </div>
-          <p style={{ fontSize: 13.5, color: 'var(--ink)', lineHeight: 1.5, margin: 0 }}>
+          <p style={{ fontSize: 15.5, color: 'var(--ink)', lineHeight: 1.5, margin: 0 }}>
             {card.trust}
           </p>
         </div>
@@ -203,7 +203,7 @@ export default function MissionWelcome({
               childId={child.id}
               childName={child.name}
               label={card.cta ?? 'Send their link'}
-              style={{ flex: 1, padding: '13px 10px', fontSize: 15, boxShadow: '0 4px 0 var(--terracotta-dark)' }}
+              style={{ flex: 1, padding: '13px 10px', fontSize: 17, boxShadow: '0 4px 0 var(--terracotta-dark)' }}
             />
           ) : card.href && (
             <Link
@@ -212,7 +212,7 @@ export default function MissionWelcome({
               style={{
                 flex: 1, textAlign: 'center', padding: '13px 10px', textDecoration: 'none',
                 background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 16,
-                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15,
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 17,
                 boxShadow: '0 4px 0 var(--terracotta-dark)',
               }}
             >
@@ -226,7 +226,7 @@ export default function MissionWelcome({
               background: card.href ? '#fff' : 'var(--terracotta)',
               color: 'var(--ink)',
               border: card.href ? '1.5px solid var(--border)' : 'none',
-              borderRadius: 16, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15,
+              borderRadius: 16, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 17,
               boxShadow: card.href ? 'none' : '0 4px 0 var(--terracotta-dark)',
             }}
           >

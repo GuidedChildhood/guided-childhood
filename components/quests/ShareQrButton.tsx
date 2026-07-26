@@ -56,7 +56,7 @@ export default function ShareQrButton({
           display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
           background: 'var(--terracotta)', color: 'var(--ink)', border: 'none',
           borderRadius: 16, padding: '14px 24px', cursor: busy ? 'default' : 'pointer',
-          fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 16,
+          fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 18,
           boxShadow: '0 5px 0 var(--terracotta-dark)', opacity: busy ? 0.75 : 1,
           ...style,
         }}
@@ -65,7 +65,7 @@ export default function ShareQrButton({
       </button>
 
       {failed && (
-        <p style={{ fontSize: 13, color: 'var(--terracotta-dark)', fontWeight: 700, margin: '10px 0 0' }}>
+        <p style={{ fontSize: 15, color: 'var(--terracotta-dark)', fontWeight: 700, margin: '10px 0 0' }}>
           That did not come through. Have another go, or find the code any time in Quests.
         </p>
       )}

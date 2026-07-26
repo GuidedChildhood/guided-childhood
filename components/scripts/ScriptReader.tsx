@@ -106,11 +106,11 @@ export default function ScriptReader({ sayThis, notThis, whyItWorks, tonight, st
       {/* The band, with the same convex arc the daily deck cards wear, so a
           script and a card read as one family. It names what the sheet is. */}
       <div style={sheetBand}>
-        <div style={{ ...eyebrow, fontSize: 10, color: '#4A3410', opacity: 0.75 }}>
+        <div style={{ ...eyebrow, fontSize: 12, color: '#4A3410', opacity: 0.75 }}>
           The script
         </div>
         <div style={{
-          fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 17,
+          fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 19,
           color: '#3A2C0C', lineHeight: 1.2, letterSpacing: '-0.01em', marginTop: 2,
         }}>
           Four steps, in order
@@ -176,7 +176,7 @@ function heroBtn(active: boolean): React.CSSProperties {
   return {
     display: 'inline-flex', alignItems: 'center', gap: 8,
     padding: '11px 18px', borderRadius: 14, cursor: 'pointer',
-    fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 13.5,
+    fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 15.5,
     background: active ? 'var(--terracotta)' : 'var(--terracotta-lt)',
     color: active ? '#fff' : '#4A3410',
     border: '1.5px solid rgba(201,154,40,0.35)',

@@ -1888,3 +1888,37 @@ a deploy landing before the migration cannot silently switch the whole lead
 programme off. This is the same defensive shape as the handover column read.
 
 It is also what the bulk sender rules ask for: a link that works in one tap.
+
+## 26 Jul 2026: the parent app type scale goes up, by rule not by hand
+Justin, on a real phone: the text is way too small, make it much bigger across
+the app. He was right, and it was not one screen. Every size in the parent app
+is set by hand in an inline style, about two and a half thousand of them, so
+there was no single number to turn and no honest way to do it by eye.
+
+`tools/bump-type-scale.py` holds the rule, deliberately dull so it is
+predictable and reversible:
+
+- under 9px, left alone. Micro marks inside small dots and badges, where two
+  more pixels overflows the thing holding them.
+- 9 to 20px, plus two. The whole readable range: labels, body, sub copy.
+- over 20px, left alone. Already display sized, and mostly emoji glyphs sized
+  to fit a fixed box.
+
+Plus two rather than a percentage on purpose. It lifts the small end most in
+relative terms, which is where the pain was (a 10px mono label gains a fifth, a
+20px heading a tenth), and it can never reorder the hierarchy: anything bigger
+than its neighbour before is still bigger after. clamp() sizes move too, but
+only where the top of the clamp is 22px or under.
+
+2477 sizes across 228 files. Checked for horizontal overflow at 390 wide on
+three fixture pages: zero on all three, console clean.
+
+## 26 Jul 2026: add a job is a button, at the top of the list
+Adding a job is the one thing a parent opens the Quests manager to do, and the
+only way to write one was a lone input below two screens of ready made ideas.
+Set tasks and Manage jobs both landed above that wall rather than at it.
+
+There is now an add a job button in the header of the child's own quest list,
+opening an inline composer in place. Set tasks and Manage jobs land there with
+it already open. The ideas grid stays where it is, for a parent who wants to
+browse rather than type.

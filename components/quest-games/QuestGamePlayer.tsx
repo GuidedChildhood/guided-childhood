@@ -47,7 +47,7 @@ export default function QuestGamePlayer({ game, onComplete, onClose }: {
       <div style={{ width: 'min(100%, 460px)', display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
           <CloseControl onClose={onClose} />
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'rgba(255,255,255,0.78)' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'rgba(255,255,255,0.78)' }}>
             {game.title}
           </span>
         </div>
@@ -76,7 +76,7 @@ export default function QuestGamePlayer({ game, onComplete, onClose }: {
 
 const closeStyle = {
   width: 34, height: 34, borderRadius: '50%', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
-  border: '1.5px solid rgba(26,26,46,0.2)', background: 'transparent', color: 'var(--ink)', fontSize: '15px', textDecoration: 'none', cursor: 'pointer',
+  border: '1.5px solid rgba(26,26,46,0.2)', background: 'transparent', color: 'var(--ink)', fontSize: '17px', textDecoration: 'none', cursor: 'pointer',
 } as const
 
 function CloseControl({ onClose }: { onClose?: () => void }) {
@@ -86,7 +86,7 @@ function CloseControl({ onClose }: { onClose?: () => void }) {
 
 function Finish({ game, onClose }: { game: QuestGame; onClose?: () => void }) {
   const btnStyle = {
-    display: 'inline-block', marginTop: '20px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px',
+    display: 'inline-block', marginTop: '20px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px',
     background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: '14px', padding: '13px 22px', textDecoration: 'none',
     boxShadow: '0 4px 0 var(--terracotta-dark)', cursor: 'pointer',
   } as const
@@ -95,7 +95,7 @@ function Finish({ game, onClose }: { game: QuestGame; onClose?: () => void }) {
       <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}><Celebration /></div>
       <div style={{ fontSize: '54px' }}>⭐</div>
       <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.5rem', letterSpacing: '-0.02em', margin: '8px 0 4px' }}>Well done!</h2>
-      <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: 'var(--terracotta-dark)', fontSize: '13px' }}>
+      <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: 'var(--terracotta-dark)', fontSize: '15px' }}>
         {game.stars} star{game.stars === 1 ? '' : 's'} sent to your grown up
       </div>
       {onClose
@@ -135,7 +135,7 @@ function PairsView({ game, onDone }: { game: PairsGame; onDone: () => void }) {
 
   return (
     <>
-      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
+      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
         {game.stage}
       </div>
       <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.2rem, 4.5vw, 1.5rem)', letterSpacing: '-0.02em', lineHeight: 1.15, margin: '0 0 16px' }}>
@@ -190,7 +190,7 @@ function SumsView({ game, onDone }: { game: SumsGame; onDone: () => void }) {
 
   return (
     <>
-      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
+      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
         {game.stage} · {i + 1} of {game.questions.length}
       </div>
 
@@ -238,13 +238,13 @@ function SumsView({ game, onDone }: { game: SumsGame; onDone: () => void }) {
       {answered !== null && (
         <div>
           <div style={{
-            fontSize: '14px', lineHeight: 1.5, color: 'var(--ink)', marginTop: '14px', textAlign: 'center',
+            fontSize: '16px', lineHeight: 1.5, color: 'var(--ink)', marginTop: '14px', textAlign: 'center',
             fontFamily: 'var(--font-display)', fontWeight: 800,
           }}>
             {isCorrect ? 'Correct! ⭐' : answered === -1 ? `Time! It was ${item.answer}.` : `Not quite, it was ${item.answer}.`}
           </div>
           <button onClick={next} style={{
-            marginTop: '14px', width: '100%', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
+            marginTop: '14px', width: '100%', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px',
             padding: '14px', borderRadius: '15px', border: 'none', background: 'var(--deep-teal)', color: '#fff', cursor: 'pointer',
           }}>{i + 1 < game.questions.length ? 'Next' : 'Finish'}</button>
         </div>
@@ -269,23 +269,23 @@ function JudgeView({ game, onDone }: { game: JudgeGame; onDone: () => void }) {
 
   return (
     <>
-      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
+      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
         {game.stage} · {i + 1} of {game.items.length}
       </div>
       <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.2rem, 4.5vw, 1.5rem)', letterSpacing: '-0.02em', lineHeight: 1.15, margin: '0 0 14px' }}>
         {game.title}
       </h2>
       <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '20px', padding: '20px', boxShadow: '0 8px 24px rgba(46,40,24,0.1)', marginBottom: '16px' }}>
-        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '0 0 8px' }}>Post {i + 1}</p>
-        <p style={{ fontSize: '16px', lineHeight: 1.5, fontWeight: 600, margin: 0, color: 'var(--ink)' }}>{item.text}</p>
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '0 0 8px' }}>Post {i + 1}</p>
+        <p style={{ fontSize: '18px', lineHeight: 1.5, fontWeight: 600, margin: 0, color: 'var(--ink)' }}>{item.text}</p>
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
         <button onClick={() => answer('left')} disabled={answered !== null} style={{
-          fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', padding: '15px', borderRadius: '15px',
+          fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', padding: '15px', borderRadius: '15px',
           cursor: answered === null ? 'pointer' : 'default', background: '#fff', border: '2px solid var(--border)', color: 'var(--ink)',
         }}>{game.leftLabel}</button>
         <button onClick={() => answer('right')} disabled={answered !== null} style={{
-          fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', padding: '15px', borderRadius: '15px',
+          fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', padding: '15px', borderRadius: '15px',
           cursor: answered === null ? 'pointer' : 'default', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none',
           boxShadow: '0 4px 0 var(--terracotta-dark)',
         }}>{game.rightLabel}</button>
@@ -293,14 +293,14 @@ function JudgeView({ game, onDone }: { game: JudgeGame; onDone: () => void }) {
       {answered !== null && (
         <div>
           <div style={{
-            fontSize: '13.5px', lineHeight: 1.55, color: 'var(--ink)', marginTop: '14px',
+            fontSize: '15.5px', lineHeight: 1.55, color: 'var(--ink)', marginTop: '14px',
             background: answered ? 'var(--stage-4)' : '#FBEAEA', borderLeft: `3px solid ${answered ? 'var(--gold-dark, #C99A28)' : '#c0392b'}`,
             borderRadius: '10px', padding: '12px 14px',
           }}>
             {answered ? 'Yes. ' : 'Not quite. '}{item.why}
           </div>
           <button onClick={next} style={{
-            marginTop: '14px', width: '100%', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
+            marginTop: '14px', width: '100%', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px',
             padding: '14px', borderRadius: '15px', border: 'none', background: 'var(--deep-teal)', color: '#fff', cursor: 'pointer',
           }}>{i + 1 < game.items.length ? 'Next post' : 'Finish'}</button>
         </div>

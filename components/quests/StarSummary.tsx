@@ -93,11 +93,11 @@ export default function StarSummary({
       }}
     >
       {onClick && (
-        <span aria-hidden style={{ position: 'absolute', top: 6, right: 9, fontSize: '13px', fontWeight: 800, color: hot ? 'var(--danger)' : 'var(--ink-light)' }}>›</span>
+        <span aria-hidden style={{ position: 'absolute', top: 6, right: 9, fontSize: '15px', fontWeight: 800, color: hot ? 'var(--danger)' : 'var(--ink-light)' }}>›</span>
       )}
       <div style={{ fontSize: '1.2rem', lineHeight: 1 }}>{icon}</div>
       <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.2rem', color: hot ? 'var(--danger)' : 'var(--ink)', marginTop: '3px' }}>{big}</div>
-      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.03em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginTop: '2px' }}>{label}</div>
+      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.03em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginTop: '2px' }}>{label}</div>
     </button>
   )
 
@@ -105,12 +105,12 @@ export default function StarSummary({
     <button onClick={onClick} style={{
       flex: 1, minWidth: 96, padding: '12px 8px', borderRadius: '14px', cursor: 'pointer',
       display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '3px',
-      fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px',
+      fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
       background: primary ? 'var(--terracotta)' : 'var(--cream)', color: 'var(--ink)',
       boxShadow: primary ? '0 4px 0 var(--terracotta-dark)' : '0 3px 0 rgba(26,26,46,0.14)',
       border: primary ? 'none' : '1.5px solid rgba(26,26,46,0.1)',
     }}>
-      <span style={{ fontSize: '18px', lineHeight: 1 }}>{icon}</span>
+      <span style={{ fontSize: '20px', lineHeight: 1 }}>{icon}</span>
       <span>{label}</span>
     </button>
   )
@@ -118,19 +118,19 @@ export default function StarSummary({
   return (
     <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '18px', padding: '16px 18px', marginBottom: '18px' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px', marginBottom: '10px' }}>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
           {childName}&apos;s stars
         </span>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--ink-soft)', background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '100px', padding: '4px 11px' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--ink-soft)', background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '100px', padding: '4px 11px' }}>
           1 ⭐ = {STAR_MINUTES} min
         </span>
       </div>
 
       <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px', marginBottom: '4px' }}>
         <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '2rem', color: 'var(--ink)' }}>⭐ {balanceStars}</span>
-        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink-soft)' }}>= {minutes} minutes ready</span>
+        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink-soft)' }}>= {minutes} minutes ready</span>
       </div>
-      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--ink-muted)', marginBottom: '13px' }}>
+      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--ink-muted)', marginBottom: '13px' }}>
         ⭐ {weekStars} earned this week
       </div>
 
@@ -144,10 +144,10 @@ export default function StarSummary({
         }}>
           <span style={{ fontSize: '1.3rem', lineHeight: 1 }}>⏱️</span>
           <div style={{ flex: 1 }}>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: 'var(--ink)' }}>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px', color: 'var(--ink)' }}>
               {childName} is on screen time now
             </div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--ink-soft)' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--ink-soft)' }}>
               {remainingMs != null ? `${fmt(remainingMs)} left on the clock` : 'timer running'}
             </div>
           </div>
@@ -174,21 +174,21 @@ export default function StarSummary({
             <button
               onClick={onDismissGoalDone}
               aria-label="Clear this"
-              style={{ position: 'absolute', top: 8, right: 10, zIndex: 2, background: 'none', border: 'none', cursor: 'pointer', fontSize: '17px', lineHeight: 1, color: 'var(--ink-muted)', padding: '2px 4px' }}
+              style={{ position: 'absolute', top: 8, right: 10, zIndex: 2, background: 'none', border: 'none', cursor: 'pointer', fontSize: '19px', lineHeight: 1, color: 'var(--ink-muted)', padding: '2px 4px' }}
             >
               ×
             </button>
           )}
           <div style={{ position: 'relative', zIndex: 1 }}>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--ink)', marginBottom: 4, paddingRight: 18 }}>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)', marginBottom: 4, paddingRight: 18 }}>
               🎉 {goal.title}: reward earned
             </div>
-            <p style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '0 0 10px' }}>
+            <p style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '0 0 10px' }}>
               {childName} saved it and cashed it in. Time to agree the next thing to save for.
             </p>
             <button
               onClick={onSetGoal}
-              style={{ background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: '11px', padding: '9px 15px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', boxShadow: '0 3px 0 var(--terracotta-dark)' }}
+              style={{ background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: '11px', padding: '9px 15px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', boxShadow: '0 3px 0 var(--terracotta-dark)' }}
             >
               Set a new goal
             </button>
@@ -199,8 +199,8 @@ export default function StarSummary({
       {goal && !goalAchieved && (
         <div style={{ background: goalReached ? 'var(--terracotta-lt)' : 'var(--cream)', border: `1px solid ${goalReached ? 'var(--terracotta)' : 'var(--border)'}`, borderRadius: '13px', padding: '10px 12px', marginBottom: '14px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8, marginBottom: 6 }}>
-            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', color: 'var(--ink)' }}>🎯 Saving for: {goal.title}</span>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--ink-soft)' }}>{Math.min(balanceStars, goal.stars_needed)}/{goal.stars_needed}</span>
+            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)' }}>🎯 Saving for: {goal.title}</span>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--ink-soft)' }}>{Math.min(balanceStars, goal.stars_needed)}/{goal.stars_needed}</span>
           </div>
           <div style={{ height: 8, borderRadius: 100, background: 'rgba(26,26,46,0.1)', overflow: 'hidden' }}>
             <div style={{ height: '100%', width: `${goalPct}%`, borderRadius: 100, background: goalReached ? 'var(--deep-teal)' : 'var(--terracotta)', transition: 'width 0.5s ease' }} />
@@ -208,21 +208,21 @@ export default function StarSummary({
           {goalReached && (
             confirmDone ? (
               <div style={{ marginTop: 10 }}>
-                <p style={{ fontSize: '12.5px', fontWeight: 700, color: 'var(--ink)', margin: '0 0 8px' }}>
+                <p style={{ fontSize: '14.5px', fontWeight: 700, color: 'var(--ink)', margin: '0 0 8px' }}>
                   Hand over {goal.title} and spend {goal.stars_needed} stars?
                 </p>
                 <div style={{ display: 'flex', gap: 8 }}>
                   <button
                     onClick={markDone}
                     disabled={redeeming}
-                    style={{ flex: 1, background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: '11px', padding: '10px', cursor: redeeming ? 'default' : 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', boxShadow: '0 3px 0 var(--terracotta-dark)', opacity: redeeming ? 0.7 : 1 }}
+                    style={{ flex: 1, background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: '11px', padding: '10px', cursor: redeeming ? 'default' : 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', boxShadow: '0 3px 0 var(--terracotta-dark)', opacity: redeeming ? 0.7 : 1 }}
                   >
                     {redeeming ? 'Marking…' : 'Yes, done'}
                   </button>
                   <button
                     onClick={() => setConfirmDone(false)}
                     disabled={redeeming}
-                    style={{ flexShrink: 0, background: '#fff', color: 'var(--ink-soft)', border: '1.5px solid var(--border)', borderRadius: '11px', padding: '10px 14px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '13px' }}
+                    style={{ flexShrink: 0, background: '#fff', color: 'var(--ink-soft)', border: '1.5px solid var(--border)', borderRadius: '11px', padding: '10px 14px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '15px' }}
                   >
                     Not yet
                   </button>
@@ -231,7 +231,7 @@ export default function StarSummary({
             ) : (
               <button
                 onClick={() => setConfirmDone(true)}
-                style={{ width: '100%', marginTop: 10, background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: '11px', padding: '11px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '14px', boxShadow: '0 4px 0 var(--terracotta-dark)' }}
+                style={{ width: '100%', marginTop: 10, background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: '11px', padding: '11px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '16px', boxShadow: '0 4px 0 var(--terracotta-dark)' }}
               >
                 🎉 Saved enough! Mark as done
               </button>

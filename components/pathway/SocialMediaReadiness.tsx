@@ -72,13 +72,13 @@ export default function SocialMediaReadiness({
       {/* Eyebrow: the passport, named, plus the live moment */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '9px', flexWrap: 'wrap', marginBottom: '14px' }}>
         <span style={{
-          fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700,
+          fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 700,
           letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta)',
         }}>
           Social media passport
         </span>
         <span style={{
-          fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 600,
+          fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 600,
           letterSpacing: '0.08em', textTransform: 'uppercase',
           color: onDark ? 'rgba(255,255,255,0.72)' : 'var(--ink-muted)',
           background: onDark ? 'rgba(255,255,255,0.10)' : 'rgba(255,255,255,0.65)',
@@ -111,13 +111,13 @@ export default function SocialMediaReadiness({
         borderRadius: '16px', padding: '16px 18px', marginBottom: '14px',
       }}>
         <div style={{
-          fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700,
+          fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700,
           letterSpacing: '0.1em', textTransform: 'uppercase',
           color: 'var(--terracotta)', marginBottom: '7px',
         }}>
           {isEarned ? 'Where it lands' : 'This stage'}
         </div>
-        <p style={{ fontSize: '14.5px', lineHeight: 1.6, fontWeight: onDark ? 500 : 400, color: onDark ? 'rgba(255,251,244,0.95)' : 'var(--ink)', margin: 0 }}>
+        <p style={{ fontSize: '16.5px', lineHeight: 1.6, fontWeight: onDark ? 500 : 400, color: onDark ? 'rgba(255,251,244,0.95)' : 'var(--ink)', margin: 0 }}>
           {readiness.focus}
         </p>
       </div>
@@ -128,16 +128,16 @@ export default function SocialMediaReadiness({
         borderRadius: '16px', padding: '16px 18px', marginBottom: '22px',
       }}>
         <p style={{
-          fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px',
+          fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16.5px',
           color: titleColor, marginBottom: '6px', lineHeight: 1.3,
         }}>
           {evidence.headline}
         </p>
-        <p style={{ fontSize: '13.5px', lineHeight: 1.62, fontWeight: onDark ? 500 : 400, color: bodyColor, margin: '0 0 9px' }}>
+        <p style={{ fontSize: '15.5px', lineHeight: 1.62, fontWeight: onDark ? 500 : 400, color: bodyColor, margin: '0 0 9px' }}>
           {evidence.detail}
         </p>
         <p style={{
-          fontFamily: 'var(--font-mono)', fontSize: '10.5px', letterSpacing: '0.03em',
+          fontFamily: 'var(--font-mono)', fontSize: '12.5px', letterSpacing: '0.03em',
           color: onDark ? 'rgba(255,251,244,0.64)' : 'var(--ink-muted)', margin: 0,
         }}>
           {evidence.source}
@@ -156,7 +156,7 @@ export default function SocialMediaReadiness({
             display: 'inline-flex', alignItems: 'center', gap: '8px',
             background: 'var(--terracotta)', color: 'var(--ink)',
             borderRadius: '14px', padding: '13px 20px', textDecoration: 'none',
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px',
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px',
             boxShadow: '0 4px 0 var(--terracotta-dark)',
           }}
         >
@@ -170,7 +170,7 @@ export default function SocialMediaReadiness({
             background: onDark ? 'rgba(255,251,244,0.08)' : 'transparent',
             border: `1.5px solid ${onDark ? 'rgba(255,251,244,0.30)' : 'var(--border)'}`,
             borderRadius: '14px', padding: '13px 20px', textDecoration: 'none',
-            fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '13px',
+            fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '15px',
           }}
         >
           See the evidence
@@ -182,10 +182,10 @@ export default function SocialMediaReadiness({
           Additive, so the panel a parent knows stays the same and simply points
           onward when they want to act. */}
       <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', marginTop: '16px' }}>
-        <Link href="/dashboard/social-settings" style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.02em', color: onDark ? '#FFE9B8' : 'var(--terracotta-dark)', textDecoration: 'none' }}>
+        <Link href="/dashboard/social-settings" style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', fontFamily: 'var(--font-mono)', fontSize: '13.5px', fontWeight: 700, letterSpacing: '0.02em', color: onDark ? '#FFE9B8' : 'var(--terracotta-dark)', textDecoration: 'none' }}>
           Settings for their age →
         </Link>
-        <Link href={`/dashboard/lessons?stage=${stageId}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.02em', color: onDark ? '#FFE9B8' : 'var(--terracotta-dark)', textDecoration: 'none' }}>
+        <Link href={`/dashboard/lessons?stage=${stageId}`} style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', fontFamily: 'var(--font-mono)', fontSize: '13.5px', fontWeight: 700, letterSpacing: '0.02em', color: onDark ? '#FFE9B8' : 'var(--terracotta-dark)', textDecoration: 'none' }}>
           The lessons for this stage →
         </Link>
       </div>

@@ -19,7 +19,7 @@ export function PrintBrandHeader() {
             ))}
           </span>
         </span>
-        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '15px', color: 'var(--ink)', letterSpacing: '-0.02em' }}>
+        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '17px', color: 'var(--ink)', letterSpacing: '-0.02em' }}>
           {BRAND_NAME}
         </span>
       </div>
@@ -36,7 +36,7 @@ export function PrintBrandHeader() {
 export function PrintBrandFooter() {
   return (
     <div style={{ textAlign: 'center', marginTop: '12px' }}>
-      <div style={{ fontSize: '9px', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
+      <div style={{ fontSize: '11px', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
         {BRAND_CATCHPHRASE}
       </div>
       <div style={{

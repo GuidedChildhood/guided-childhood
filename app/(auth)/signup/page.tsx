@@ -77,7 +77,7 @@ export default function SignupPage() {
           <div style={{ marginBottom: '28px' }}>
             <p className="eyebrow" style={{ marginBottom: '8px' }}>Free to start</p>
             <h1 style={{ fontSize: '1.75rem', marginBottom: '4px' }}>Save your pathway</h1>
-            <p style={{ color: 'var(--ink-muted)', fontSize: '15px' }}>Your child's stage is already set. Create your free account to save it.</p>
+            <p style={{ color: 'var(--ink-muted)', fontSize: '17px' }}>Your child's stage is already set. Create your free account to save it.</p>
           </div>
 
           {alreadyRegistered ? (
@@ -90,10 +90,10 @@ export default function SignupPage() {
                 borderRadius: 14,
                 marginBottom: '16px',
               }}>
-                <p style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 15, color: 'var(--ink)', marginBottom: 6 }}>
+                <p style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 17, color: 'var(--ink)', marginBottom: 6 }}>
                   We found your account.
                 </p>
-                <p style={{ fontSize: 14, color: '#6b7280', lineHeight: 1.6, margin: 0 }}>
+                <p style={{ fontSize: 16, color: '#6b7280', lineHeight: 1.6, margin: 0 }}>
                   {email} already has an account. Sign in to continue, your pathway is saved and waiting for you.
                 </p>
               </div>
@@ -104,7 +104,7 @@ export default function SignupPage() {
                   padding: '16px 28px',
                   background: 'var(--terracotta)', color: 'var(--ink)',
                   borderRadius: 16, textDecoration: 'none',
-                  fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 13,
+                  fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 15,
                   letterSpacing: '0.08em', textTransform: 'uppercase',
                   boxShadow: '0 5px 0 var(--terracotta-dark)',
                   marginBottom: 14,
@@ -114,7 +114,7 @@ export default function SignupPage() {
               </Link>
               <button
                 onClick={() => { setAlreadyRegistered(false); setPassword('') }}
-                style={{ display: 'block', width: '100%', background: 'none', border: 'none', color: '#9ca3af', fontFamily: 'var(--font-mono)', fontSize: '11px', cursor: 'pointer', textAlign: 'center', padding: '8px 0', letterSpacing: '0.06em' }}
+                style={{ display: 'block', width: '100%', background: 'none', border: 'none', color: '#9ca3af', fontFamily: 'var(--font-mono)', fontSize: '13px', cursor: 'pointer', textAlign: 'center', padding: '8px 0', letterSpacing: '0.06em' }}
               >
                 Use a different email instead
               </button>
@@ -123,28 +123,28 @@ export default function SignupPage() {
             /* ── Sign up form ── */
             <form onSubmit={handleSignup} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               <div>
-                <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
+                <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
                   Your name
                 </label>
                 <input className="input" type="text" placeholder="First name" value={name} onChange={e => setName(e.target.value)} required />
               </div>
 
               <div>
-                <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
+                <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
                   Email
                 </label>
                 <input className="input" type="email" placeholder="you@email.com" value={email} onChange={e => setEmail(e.target.value)} required autoComplete="email" />
               </div>
 
               <div>
-                <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
+                <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
                   Password
                 </label>
                 <input className="input" type="password" placeholder="At least 8 characters" value={password} onChange={e => setPassword(e.target.value)} required autoComplete="new-password" />
               </div>
 
               {error && (
-                <div style={{ padding: '12px 16px', background: 'var(--danger-bg)', border: '1px solid var(--danger-border)', borderRadius: '10px', color: 'var(--danger)', fontFamily: 'var(--font-mono)', fontSize: '12px' }}>
+                <div style={{ padding: '12px 16px', background: 'var(--danger-bg)', border: '1px solid var(--danger-border)', borderRadius: '10px', color: 'var(--danger)', fontFamily: 'var(--font-mono)', fontSize: '14px' }}>
                   {error}
                 </div>
               )}
@@ -153,7 +153,7 @@ export default function SignupPage() {
                 {loading ? 'Creating account...' : 'Create free account'}
               </button>
 
-              <p style={{ textAlign: 'center', fontSize: '12px', color: 'var(--ink-muted)', lineHeight: 1.55 }}>
+              <p style={{ textAlign: 'center', fontSize: '14px', color: 'var(--ink-muted)', lineHeight: 1.55 }}>
                 By creating an account you agree to our{' '}
                 <Link href="/terms" style={{ color: 'var(--terracotta)', fontWeight: 600, textDecoration: 'none' }}>Terms</Link>
                 {' '}and{' '}
@@ -164,7 +164,7 @@ export default function SignupPage() {
           )}
         </div>
 
-        <p style={{ marginTop: '24px', textAlign: 'center', color: 'var(--ink-muted)', fontSize: '14px' }}>
+        <p style={{ marginTop: '24px', textAlign: 'center', color: 'var(--ink-muted)', fontSize: '16px' }}>
           Already have an account?{' '}
           <Link href="/login" style={{ color: 'var(--terracotta)', fontWeight: 600, textDecoration: 'none' }}>Sign in</Link>
         </p>

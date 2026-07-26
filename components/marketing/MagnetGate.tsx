@@ -58,14 +58,14 @@ export default function MagnetGate({
         <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.25rem', color: 'var(--ink)', margin: '0 0 8px' }}>
           Your printable is ready
         </p>
-        <p style={{ fontSize: '14.5px', lineHeight: 1.6, color: 'var(--ink-soft)', margin: '0 auto 18px', maxWidth: 380 }}>
+        <p style={{ fontSize: '16.5px', lineHeight: 1.6, color: 'var(--ink-soft)', margin: '0 auto 18px', maxWidth: 380 }}>
           We have popped a copy in your inbox too, in case you want it later.
         </p>
         <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}>
-          <a href={download} target="_blank" rel="noopener noreferrer" className="btn btn-gold" style={{ padding: '13px 26px', fontSize: '15px' }}>
+          <a href={download} target="_blank" rel="noopener noreferrer" className="btn btn-gold" style={{ padding: '13px 26px', fontSize: '17px' }}>
             Download the printable
           </a>
-          <Link href="/starter-pack" className="btn" style={{ padding: '13px 26px', fontSize: '15px', border: '1.5px solid var(--border)' }}>
+          <Link href="/starter-pack" className="btn" style={{ padding: '13px 26px', fontSize: '17px', border: '1.5px solid var(--border)' }}>
             See the free plan
           </Link>
         </div>
@@ -78,7 +78,7 @@ export default function MagnetGate({
       <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.25rem', color: 'var(--ink)', margin: '0 0 6px' }}>
         {heading}
       </p>
-      <p style={{ fontSize: '14.5px', lineHeight: 1.6, color: 'var(--ink-soft)', margin: '0 auto 16px', maxWidth: 400 }}>
+      <p style={{ fontSize: '16.5px', lineHeight: 1.6, color: 'var(--ink-soft)', margin: '0 auto 16px', maxWidth: 400 }}>
         {sub}
       </p>
       <form onSubmit={submit} style={{ display: 'flex', gap: '8px', justifyContent: 'center', flexWrap: 'wrap', maxWidth: 440, margin: '0 auto' }}>
@@ -91,19 +91,19 @@ export default function MagnetGate({
           placeholder="you@email.com"
           aria-label="Your email"
           style={{
-            flex: '1 1 200px', minWidth: 0, padding: '13px 16px', fontSize: '15px',
+            flex: '1 1 200px', minWidth: 0, padding: '13px 16px', fontSize: '17px',
             fontFamily: 'var(--font-body, inherit)', color: 'var(--ink)',
             background: '#fff', border: '1.5px solid var(--border)', borderRadius: '13px', outline: 'none',
           }}
         />
-        <button type="submit" disabled={state === 'sending'} className="btn btn-gold" style={{ padding: '13px 24px', fontSize: '15px', opacity: state === 'sending' ? 0.7 : 1 }}>
+        <button type="submit" disabled={state === 'sending'} className="btn btn-gold" style={{ padding: '13px 24px', fontSize: '17px', opacity: state === 'sending' ? 0.7 : 1 }}>
           {state === 'sending' ? 'Sending...' : 'Send it to me'}
         </button>
       </form>
       {error && (
-        <p style={{ fontSize: '13px', color: 'var(--danger)', margin: '10px 0 0' }}>{error}</p>
+        <p style={{ fontSize: '15px', color: 'var(--danger)', margin: '10px 0 0' }}>{error}</p>
       )}
-      <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-muted)', margin: '12px 0 0' }}>
+      <p style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', color: 'var(--ink-muted)', margin: '12px 0 0' }}>
         One printable, no spam. Unsubscribe any time.
       </p>
     </div>

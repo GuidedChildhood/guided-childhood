@@ -49,7 +49,7 @@ export default function BalanceReport({ report }: { report: ParentReport }) {
     boxShadow: '0 4px 22px rgba(26,26,46,0.06)', padding: 18, marginBottom: 16,
   }
   const cardTitle: React.CSSProperties = {
-    fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.13em',
+    fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, letterSpacing: '0.13em',
     textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 14,
   }
 
@@ -61,30 +61,30 @@ export default function BalanceReport({ report }: { report: ParentReport }) {
 
         <div style={{ marginBottom: 16 }}>
           <div style={{ display: 'flex', gap: 14, alignItems: 'center', marginBottom: 8, flexWrap: 'wrap' }}>
-            <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, color: 'var(--ink-soft)', fontWeight: 700 }}>
+            <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, color: 'var(--ink-soft)', fontWeight: 700 }}>
               <i style={{ width: 16, height: 0, borderTop: `2px dashed ${OVER}`, display: 'inline-block' }} /> Healthy guide
             </span>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--ink-muted)', fontWeight: 700 }}>Ages {bandLabel}</span>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ink-muted)', fontWeight: 700 }}>Ages {bandLabel}</span>
           </div>
           {/* The number in plain words, day and week, why it is a guide not a
               cap, and that the average across the week is what matters. The
               research it draws on is listed below, open on the page not a hover,
               so a parent on a phone can see exactly where it comes from. */}
-          <p style={{ fontSize: 12.5, color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
+          <p style={{ fontSize: 14.5, color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
             For age {bandLabel}, the health guidance lands on about <b style={{ color: 'var(--ink)' }}>{fmtMins(dailyGuideMins)} a day</b> of recreational screen, which is around <b style={{ color: 'var(--ink)' }}>{fmtMins(healthyWeekMins)} a week</b>. The dashed line marks it on each bar, and the coloured bar is what we have recorded. It is an average to aim at, not a limit: a day over is fine when the week balances out.
           </p>
           <details style={{ marginTop: 9 }}>
-            <summary style={{ cursor: 'pointer', listStyle: 'none', fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
+            <summary style={{ cursor: 'pointer', listStyle: 'none', fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
               Where this guide comes from ›
             </summary>
             <ul style={{ margin: '9px 0 0', padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 7 }}>
               {SCREEN_GUIDE_SOURCES.map(src => (
-                <li key={src.body} style={{ fontSize: 11.5, color: 'var(--ink-soft)', lineHeight: 1.45 }}>
+                <li key={src.body} style={{ fontSize: 13.5, color: 'var(--ink-soft)', lineHeight: 1.45 }}>
                   <b style={{ color: 'var(--ink)' }}>{src.body}</b> ({src.year}): {src.note}
                 </li>
               ))}
             </ul>
-            <p style={{ fontSize: 11, color: 'var(--ink-muted)', lineHeight: 1.45, margin: '8px 0 0' }}>
+            <p style={{ fontSize: 13, color: 'var(--ink-muted)', lineHeight: 1.45, margin: '8px 0 0' }}>
               The bodies stop short of one universal number for school age and up, so this is a calibrated steer for the age, not a hard rule. What screens crowd out, sleep, movement and real play, matters more than the clock.
             </p>
           </details>
@@ -103,17 +103,17 @@ export default function BalanceReport({ report }: { report: ParentReport }) {
             <div key={tg.bucket} style={{ marginBottom: 18 }}>
               {/* Type header: name on the left, the status for the age on the right */}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 10, marginBottom: 6 }}>
-                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 14, color: 'var(--ink)' }}>
+                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 16, color: 'var(--ink)' }}>
                   {tg.emoji} {tg.label}
                 </span>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 9, fontWeight: 800, letterSpacing: '0.05em', textTransform: 'uppercase', color: s.fg, background: s.bg, padding: '4px 8px', borderRadius: 100, flexShrink: 0 }}>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 800, letterSpacing: '0.05em', textTransform: 'uppercase', color: s.fg, background: s.bg, padding: '4px 8px', borderRadius: 100, flexShrink: 0 }}>
                   {s.label}
                 </span>
               </div>
 
               {/* The plain daily read, the one a parent grasps at a glance: what
                   the child averaged a day set beside the recommended a day. */}
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 8, marginBottom: 6, fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 8, marginBottom: 6, fontFamily: 'var(--font-mono)', fontSize: 14, fontWeight: 700 }}>
                 <span style={{ color: s.fg }}>{name}: {fmtMins(usedDaily)} a day</span>
                 <span style={{ color: 'var(--ink-muted)' }}>guide {fmtMins(guideDaily)} a day</span>
               </div>
@@ -126,7 +126,7 @@ export default function BalanceReport({ report }: { report: ParentReport }) {
 
               {/* The full week: recorded against the recommended week, and the per
                   device split when a type has more than one device in it. */}
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10.5, color: 'var(--ink-muted)', fontWeight: 700, marginTop: 5 }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12.5, color: 'var(--ink-muted)', fontWeight: 700, marginTop: 5 }}>
                 This week {fmtMins(used)} of {fmtMins(guide)} recommended
                 {summary && summary.devices.length > 1 && (
                   <span style={{ color: 'var(--ink-soft)' }}>
@@ -140,15 +140,15 @@ export default function BalanceReport({ report }: { report: ParentReport }) {
         })}
 
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginTop: 4, paddingTop: 12, borderTop: '1px solid var(--border)' }}>
-          <b style={{ fontSize: 14.5, fontWeight: 900, color: 'var(--ink)' }}>Total this week</b>
-          <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 12.5, color: over ? OVER : GOOD }}>
+          <b style={{ fontSize: 16.5, fontWeight: 900, color: 'var(--ink)' }}>Total this week</b>
+          <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 14.5, color: over ? OVER : GOOD }}>
             {fmtMins(totalWeekMins)} of {fmtMins(healthyWeekMins)} healthy
           </span>
         </div>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10.5, fontWeight: 700, color: 'var(--ink-muted)', textAlign: 'right', marginTop: 3 }}>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12.5, fontWeight: 700, color: 'var(--ink-muted)', textAlign: 'right', marginTop: 3 }}>
           about {fmtMins(totalDailyAvg)} a day of {fmtMins(dailyGuideMins)} a day recommended
         </div>
-        <p style={{ fontSize: 12, color: 'var(--ink-muted)', lineHeight: 1.5, margin: '10px 0 0' }}>
+        <p style={{ fontSize: 14, color: 'var(--ink-muted)', lineHeight: 1.5, margin: '10px 0 0' }}>
           A steer for their age, never a hard cap. What screens crowd out, sleep, movement and real play, matters more than the clock.
         </p>
       </div>
@@ -159,10 +159,10 @@ export default function BalanceReport({ report }: { report: ParentReport }) {
         <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
           <span style={{ width: 42, height: 42, flexShrink: 0, borderRadius: 12, background: 'var(--stage-1, #FFFBEE)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22 }}>🌟</span>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <p style={{ fontSize: 14.5, lineHeight: 1.55, color: 'var(--ink)', margin: 0 }}>
+            <p style={{ fontSize: 16.5, lineHeight: 1.55, color: 'var(--ink)', margin: 0 }}>
               {name} put in <b>{fmtMins(offscreen.minutes)} on jobs, printables and getting outside</b> this week, against <b>{fmtMins(totalWeekMins)} on screen</b>, earning <b>{offscreen.stars} {offscreen.stars === 1 ? 'star' : 'stars'}</b> across <b>{offscreen.activities}</b> real world {offscreen.activities === 1 ? 'win' : 'wins'}.
             </p>
-            <p style={{ fontSize: 12, lineHeight: 1.5, color: 'var(--ink-soft)', margin: '6px 0 0' }}>
+            <p style={{ fontSize: 14, lineHeight: 1.5, color: 'var(--ink-soft)', margin: '6px 0 0' }}>
               This counts the offline things that got recorded, jobs done, printables finished and time outside, not their whole day away from a screen.
             </p>
           </div>
@@ -171,8 +171,8 @@ export default function BalanceReport({ report }: { report: ParentReport }) {
 
       {/* One line of guidance */}
       <div style={{ ...card, marginBottom: 0, background: 'var(--terracotta-lt)', border: '1.5px solid #F1E4BE', display: 'flex', gap: 11, alignItems: 'flex-start' }}>
-        <span style={{ width: 40, height: 40, flexShrink: 0, borderRadius: '50%', background: 'radial-gradient(circle at 40% 35%, #FFE9A8, #EDC35F)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, boxShadow: '0 3px 0 var(--terracotta-dark)' }}>⭐</span>
-        <p style={{ fontSize: 14, lineHeight: 1.55, color: 'var(--ink)', margin: 0 }}>{guidance}</p>
+        <span style={{ width: 40, height: 40, flexShrink: 0, borderRadius: '50%', background: 'radial-gradient(circle at 40% 35%, #FFE9A8, #EDC35F)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, boxShadow: '0 3px 0 var(--terracotta-dark)' }}>⭐</span>
+        <p style={{ fontSize: 16, lineHeight: 1.55, color: 'var(--ink)', margin: 0 }}>{guidance}</p>
       </div>
     </div>
   )

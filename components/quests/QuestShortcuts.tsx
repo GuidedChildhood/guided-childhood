@@ -21,7 +21,10 @@ type Tile = {
 
 const TILES: Tile[] = [
   {
-    href: '#quest-manager', label: 'Manage jobs', sub: 'Set, agree and send',
+    // Straight to the child's own list, which is where the add a job button
+    // lives. It used to land at the top of the manager, above two screens of
+    // ideas, which is not what a parent pressing manage jobs came to do.
+    href: '#my-todo', label: 'Manage jobs', sub: 'Add, agree and send',
     icon: 'jobs', bg: 'var(--terracotta-lt)', iconBg: 'rgba(255,255,255,0.72)',
   },
   {
@@ -53,10 +56,10 @@ export default function QuestShortcuts() {
             }}>
               <KidIcon name={t.icon} size={23} />
             </span>
-            <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 16.5, color: 'var(--ink)', lineHeight: 1.15 }}>
+            <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 18.5, color: 'var(--ink)', lineHeight: 1.15 }}>
               {t.label}
             </span>
-            <span style={{ display: 'block', fontSize: 13, color: 'var(--ink-soft)', lineHeight: 1.35, marginTop: 3 }}>
+            <span style={{ display: 'block', fontSize: 15, color: 'var(--ink-soft)', lineHeight: 1.35, marginTop: 3 }}>
               {t.sub}
             </span>
           </>

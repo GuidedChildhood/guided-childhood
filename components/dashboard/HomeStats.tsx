@@ -12,8 +12,8 @@ export default function HomeStats({ streakCount, streakTotal = 0 }: { streakCoun
   if (!fiveInARow) return null
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 10, background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: 14, padding: '11px 14px', marginBottom: '16px' }}>
-      <span style={{ fontSize: 20, flexShrink: 0 }}>🔥</span>
-      <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 14, color: 'var(--ink)', lineHeight: 1.35 }}>
+      <span style={{ fontSize: 22, flexShrink: 0 }}>🔥</span>
+      <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 16, color: 'var(--ink)', lineHeight: 1.35 }}>
         {streakCount} days of jobs in a row, brilliant.{streakTotal > streakCount ? ` ${streakTotal} days in all and counting.` : ''}
       </span>
     </div>

@@ -29,21 +29,21 @@ export default function GlobalError({
           <h1 style={{ fontWeight: 800, fontSize: '1.5rem', margin: '0 0 10px' }}>
             Something went wrong
           </h1>
-          <p style={{ fontSize: 15, color: '#55516A', lineHeight: 1.6, maxWidth: 360, margin: '0 0 24px' }}>
+          <p style={{ fontSize: 17, color: '#55516A', lineHeight: 1.6, maxWidth: 360, margin: '0 0 24px' }}>
             Nothing is lost. This is usually an old version held in the browser. Reload to pull the latest.
           </p>
           <button
             onClick={() => { window.location.reload() }}
             style={{
               background: '#DC5832', color: '#fff', border: 'none',
-              borderRadius: 14, padding: '14px 28px', fontSize: 14, fontWeight: 700,
+              borderRadius: 14, padding: '14px 28px', fontSize: 16, fontWeight: 700,
               boxShadow: '0 5px 0 #B8451F', cursor: 'pointer',
             }}
           >
             Reload the page
           </button>
           {error.digest && (
-            <p style={{ fontFamily: 'ui-monospace, monospace', fontSize: 11, color: '#8A8598', marginTop: 20 }}>
+            <p style={{ fontFamily: 'ui-monospace, monospace', fontSize: 13, color: '#8A8598', marginTop: 20 }}>
               Reference {error.digest}
             </p>
           )}

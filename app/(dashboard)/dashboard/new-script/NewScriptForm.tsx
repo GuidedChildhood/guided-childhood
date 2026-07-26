@@ -14,8 +14,8 @@ const STAGES: [string, string][] = [
   ['independent', 'Independent · 16+'],
 ]
 
-const label: React.CSSProperties = { display: 'block', fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 6 }
-const field: React.CSSProperties = { width: '100%', padding: '11px 13px', borderRadius: 12, border: '1.5px solid var(--border)', background: '#fff', fontFamily: 'var(--font-body)', fontSize: 15, color: 'var(--ink)', outline: 'none', boxSizing: 'border-box', marginBottom: 16 }
+const label: React.CSSProperties = { display: 'block', fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 6 }
+const field: React.CSSProperties = { width: '100%', padding: '11px 13px', borderRadius: 12, border: '1.5px solid var(--border)', background: '#fff', fontFamily: 'var(--font-body)', fontSize: 17, color: 'var(--ink)', outline: 'none', boxSizing: 'border-box', marginBottom: 16 }
 
 export default function NewScriptForm({ prefillSituation }: { prefillSituation?: string }) {
   const router = useRouter()
@@ -73,7 +73,7 @@ export default function NewScriptForm({ prefillSituation }: { prefillSituation?:
       {ta('tonight', 2)}
 
       <div style={{ borderTop: '1px solid var(--border)', margin: '4px 0 16px', paddingTop: 16 }}>
-        <p style={{ fontSize: 12.5, color: 'var(--ink-muted)', marginBottom: 14 }}>The deeper three (optional).</p>
+        <p style={{ fontSize: 14.5, color: 'var(--ink-muted)', marginBottom: 14 }}>The deeper three (optional).</p>
         <label style={label}>If they push back</label>
         {ta('if_they_push_back', 2)}
         <label style={label}>Check back</label>
@@ -82,11 +82,11 @@ export default function NewScriptForm({ prefillSituation }: { prefillSituation?:
         {ta('for_your_child', 2)}
       </div>
 
-      <label style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 18, cursor: 'pointer', fontSize: 14, color: 'var(--ink)' }}>
+      <label style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 18, cursor: 'pointer', fontSize: 16, color: 'var(--ink)' }}>
         <input type="checkbox" checked={f.is_free} onChange={set('is_free')} /> Free on the free plan
       </label>
 
-      {error && <p style={{ color: 'var(--danger)', fontSize: 13.5, marginBottom: 12 }}>{error}</p>}
+      {error && <p style={{ color: 'var(--danger)', fontSize: 15.5, marginBottom: 12 }}>{error}</p>}
 
       <button onClick={save} disabled={saving} className="btn" style={{ width: '100%', opacity: saving ? 0.7 : 1 }}>
         {saving ? 'Saving…' : 'Add this script'}

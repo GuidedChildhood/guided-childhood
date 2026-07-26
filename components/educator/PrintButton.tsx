@@ -11,7 +11,7 @@ export default function PrintButton({ label = 'Print this document' }: { label?:
         style={{
           padding: '11px 20px', borderRadius: '16px', background: 'var(--gold)',
           color: 'var(--ink)', border: 'none', boxShadow: '0 4px 0 var(--gold-hover)',
-          cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px',
+          cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px',
         }}
       >
         {label}

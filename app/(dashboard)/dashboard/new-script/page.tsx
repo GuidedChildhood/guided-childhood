@@ -20,9 +20,9 @@ export default async function NewScriptPage({ searchParams }: { searchParams: Pr
 
   return (
     <div style={{ maxWidth: 640, margin: '0 auto', padding: '24px 20px 56px' }}>
-      <Link href="/dashboard/insights" style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--ink-muted)', textDecoration: 'none' }}>← Insights</Link>
+      <Link href="/dashboard/insights" style={{ fontFamily: 'var(--font-mono)', fontSize: 14, color: 'var(--ink-muted)', textDecoration: 'none' }}>← Insights</Link>
       <h1 style={{ fontSize: 'clamp(1.6rem, 5vw, 2.1rem)', fontWeight: 900, letterSpacing: '-0.02em', margin: '10px 0 6px' }}>Add a script</h1>
-      <p style={{ color: 'var(--ink-muted)', fontSize: 14.5, marginBottom: 24 }}>
+      <p style={{ color: 'var(--ink-muted)', fontSize: 16.5, marginBottom: 24 }}>
         Write it once here and it joins the library for every parent. {problem ? 'Pre-filled from a parent request.' : ''}
       </p>
       <NewScriptForm prefillSituation={problem} />

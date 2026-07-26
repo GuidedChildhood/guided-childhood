@@ -64,7 +64,7 @@ export default async function ContractPage() {
         </div>
         <PrintButton />
       </div>
-      <p className="no-print" style={{ fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '-8px 0 20px', maxWidth: '540px' }}>
+      <p className="no-print" style={{ fontSize: '15.5px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '-8px 0 20px', maxWidth: '540px' }}>
         The quest deal on paper, signed by both of you. Stars pay for screen time, the before screens jobs come first, and the star bank in the app keeps the score for both sides.
       </p>
 
@@ -92,7 +92,7 @@ export default async function ContractPage() {
               <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.7rem', color: 'var(--ink)', letterSpacing: '-0.02em', lineHeight: 1.1 }}>
                 {child.name}&apos;s Device Time Contract
               </div>
-              <div style={{ ...mono, fontSize: '10px', color: 'var(--ink-muted)', marginTop: '6px' }}>
+              <div style={{ ...mono, fontSize: '12px', color: 'var(--ink-muted)', marginTop: '6px' }}>
                 Agreed on {today}
               </div>
             </div>
@@ -104,7 +104,7 @@ export default async function ContractPage() {
               background: 'var(--terracotta-lt)',
             }}>
               <span style={{ fontSize: '1.6rem' }}>⭐</span>
-              <p style={{ fontSize: '13.5px', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.5, margin: 0 }}>
+              <p style={{ fontSize: '15.5px', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.5, margin: 0 }}>
                 The deal: quests earn stars, stars buy screen time. 1 star is {STAR_MINUTES} minutes. Stars only land when a grown up approves the job.
               </p>
             </div>
@@ -112,16 +112,16 @@ export default async function ContractPage() {
             {/* Before screens clause */}
             {first.length > 0 && (
               <div style={{ border: '2px dashed var(--terracotta-dark)', borderRadius: '14px', padding: '13px 16px', marginBottom: '16px' }}>
-                <div style={{ ...mono, fontSize: '10px', color: 'var(--terracotta-dark)', marginBottom: '8px' }}>
+                <div style={{ ...mono, fontSize: '12px', color: 'var(--terracotta-dark)', marginBottom: '8px' }}>
                   📵 These come first, before any screens
                 </div>
                 {first.map(q => (
                   <div key={q.id} style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
                     <span style={{ width: 18, height: 18, border: '2px solid var(--ink)', borderRadius: '5px', flexShrink: 0 }} />
-                    <span style={{ fontSize: '13.5px', fontWeight: 700, color: 'var(--ink)' }}>{q.emoji} {q.title}</span>
+                    <span style={{ fontSize: '15.5px', fontWeight: 700, color: 'var(--ink)' }}>{q.emoji} {q.title}</span>
                   </div>
                 ))}
-                <p style={{ fontSize: '11.5px', color: 'var(--ink-soft)', margin: '8px 0 0', lineHeight: 1.5 }}>
+                <p style={{ fontSize: '13.5px', color: 'var(--ink-soft)', margin: '8px 0 0', lineHeight: 1.5 }}>
                   Done and shown to a grown up. Then the screens can come on.
                 </p>
               </div>
@@ -132,7 +132,7 @@ export default async function ContractPage() {
               <thead>
                 <tr>
                   {['Quest', 'When', 'Stars', 'Worth'].map(h => (
-                    <th key={h} style={{ ...mono, textAlign: h === 'Quest' ? 'left' : 'center', padding: '7px 6px', fontSize: '9.5px', color: 'var(--ink-muted)', borderBottom: '2px solid var(--ink)' }}>
+                    <th key={h} style={{ ...mono, textAlign: h === 'Quest' ? 'left' : 'center', padding: '7px 6px', fontSize: '11.5px', color: 'var(--ink-muted)', borderBottom: '2px solid var(--ink)' }}>
                       {h}
                     </th>
                   ))}
@@ -141,16 +141,16 @@ export default async function ContractPage() {
               <tbody>
                 {[...first, ...rest].map(q => (
                   <tr key={q.id}>
-                    <td style={{ padding: '9px 6px', borderBottom: '1px solid var(--border)', fontSize: '13px', fontWeight: 700, color: 'var(--ink)' }}>
+                    <td style={{ padding: '9px 6px', borderBottom: '1px solid var(--border)', fontSize: '15px', fontWeight: 700, color: 'var(--ink)' }}>
                       {q.emoji} {q.title}{q.blocks_screens ? ' 📵' : ''}
                     </td>
-                    <td style={{ padding: '9px 4px', borderBottom: '1px solid var(--border)', textAlign: 'center', fontSize: '11px', color: 'var(--ink-soft)' }}>
+                    <td style={{ padding: '9px 4px', borderBottom: '1px solid var(--border)', textAlign: 'center', fontSize: '13px', color: 'var(--ink-soft)' }}>
                       {SCHEDULE_LABELS[q.schedule] ?? q.schedule}
                     </td>
-                    <td style={{ padding: '9px 4px', borderBottom: '1px solid var(--border)', textAlign: 'center', fontSize: '12.5px', fontWeight: 700 }}>
+                    <td style={{ padding: '9px 4px', borderBottom: '1px solid var(--border)', textAlign: 'center', fontSize: '14.5px', fontWeight: 700 }}>
                       ⭐ {q.stars}
                     </td>
-                    <td style={{ padding: '9px 4px', borderBottom: '1px solid var(--border)', textAlign: 'center', fontSize: '11px', color: 'var(--ink-soft)' }}>
+                    <td style={{ padding: '9px 4px', borderBottom: '1px solid var(--border)', textAlign: 'center', fontSize: '13px', color: 'var(--ink-soft)' }}>
                       {q.stars * STAR_MINUTES} min
                     </td>
                   </tr>
@@ -168,11 +168,11 @@ export default async function ContractPage() {
                 <div key={stat.label} style={{ border: '1.5px solid var(--border)', borderRadius: '12px', padding: '10px 8px', textAlign: 'center' }}>
                   <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.3rem', color: 'var(--ink)', lineHeight: 1 }}>{stat.n}</div>
                   <div style={{ ...mono, fontSize: '8px', color: 'var(--ink-muted)', marginTop: '5px' }}>{stat.label}</div>
-                  <div style={{ fontSize: '9.5px', color: 'var(--ink-light)', marginTop: '1px' }}>{stat.sub}</div>
+                  <div style={{ fontSize: '11.5px', color: 'var(--ink-light)', marginTop: '1px' }}>{stat.sub}</div>
                 </div>
               ))}
             </div>
-            <p style={{ fontSize: '11.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 18px' }}>
+            <p style={{ fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 18px' }}>
               How we keep score: every approved quest pays stars into the bank in the app. Screen time is bought from the bank before the screens go on, so both of us can always see what is earned, what is spent and what is left.
             </p>
 
@@ -181,7 +181,7 @@ export default async function ContractPage() {
               {['Parent', child.name].map(name => (
                 <div key={name} style={{ flex: 1, minWidth: '160px' }}>
                   <div style={{ borderBottom: '2px solid var(--ink)', minHeight: '34px' }} />
-                  <div style={{ ...mono, fontSize: '9px', color: 'var(--ink-muted)', marginTop: '5px' }}>
+                  <div style={{ ...mono, fontSize: '11px', color: 'var(--ink-muted)', marginTop: '5px' }}>
                     Signed, {name}
                   </div>
                 </div>
@@ -194,7 +194,7 @@ export default async function ContractPage() {
       })}
 
       {quests.length === 0 && (
-        <p className="no-print" style={{ fontSize: '14px', color: 'var(--ink-muted)' }}>
+        <p className="no-print" style={{ fontSize: '16px', color: 'var(--ink-muted)' }}>
           No quests set yet. Add some in the <Link href="/dashboard/quests" style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>quest manager</Link> first, then print the contract.
         </p>
       )}

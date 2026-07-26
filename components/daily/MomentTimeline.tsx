@@ -111,7 +111,7 @@ function MomentTile({
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          fontSize: '10px',
+          fontSize: '12px',
           fontWeight: 800,
           color: 'var(--ink)',
           transform: selected ? 'scale(1)' : 'scale(0)',
@@ -122,7 +122,7 @@ function MomentTile({
 
       <span style={{
         fontFamily: 'var(--font-body)',
-        fontSize: '11px',
+        fontSize: '13px',
         fontWeight: selected ? 700 : 500,
         lineHeight: 1.25,
         // Every label block reserves two lines so tiles in a row share one
@@ -175,7 +175,7 @@ export default function MomentTimeline({
             width: '32px',
             textAlign: 'right',
             fontFamily: 'var(--font-mono)',
-            fontSize: '10px',
+            fontSize: '12px',
             fontWeight: 600,
             color: 'var(--ink-muted)',
             letterSpacing: '.04em',
@@ -198,7 +198,7 @@ export default function MomentTimeline({
 
           <div style={{
             fontFamily: 'var(--font-mono)',
-            fontSize: '10px',
+            fontSize: '12px',
             fontWeight: 700,
             letterSpacing: '.14em',
             textTransform: 'uppercase',
@@ -234,10 +234,10 @@ export default function MomentTimeline({
           borderRadius: '14px', textDecoration: 'none',
         }}
       >
-        <span style={{ fontSize: '13.5px', fontWeight: 700, color: 'var(--ink)', fontFamily: 'var(--font-display)' }}>
+        <span style={{ fontSize: '15.5px', fontWeight: 700, color: 'var(--ink)', fontFamily: 'var(--font-display)' }}>
           Every moment, with the science behind it
         </span>
-        <span style={{ color: 'var(--terracotta-dark)', fontSize: '16px' }}>→</span>
+        <span style={{ color: 'var(--terracotta-dark)', fontSize: '18px' }}>→</span>
       </Link>
     </div>
   )

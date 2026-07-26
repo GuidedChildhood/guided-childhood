@@ -62,7 +62,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <NotificationsBell />
             {!isPaid && (
-              <Link href="/dashboard/upgrade" className="btn btn-gold" style={{ padding: '10px 20px', fontSize: '13px' }}>
+              <Link href="/dashboard/upgrade" className="btn btn-gold" style={{ padding: '10px 20px', fontSize: '15px' }}>
                 Upgrade
               </Link>
             )}

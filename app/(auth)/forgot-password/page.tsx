@@ -40,7 +40,7 @@ export default function ForgotPasswordPage() {
             <>
               <div style={{ marginBottom: '28px' }}>
                 <h1 style={{ fontSize: '1.75rem', marginBottom: '4px' }}>Reset your password</h1>
-                <p style={{ color: 'var(--ink-muted)', fontSize: '15px' }}>Enter your email and we will send a reset link.</p>
+                <p style={{ color: 'var(--ink-muted)', fontSize: '17px' }}>Enter your email and we will send a reset link.</p>
               </div>
 
               <form onSubmit={handleReset} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -51,7 +51,7 @@ export default function ForgotPasswordPage() {
               </form>
 
               <div style={{ marginTop: '20px', textAlign: 'center' }}>
-                <Link href="/login" style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--ink-muted)', textDecoration: 'none' }}>
+                <Link href="/login" style={{ fontFamily: 'var(--font-mono)', fontSize: '14px', color: 'var(--ink-muted)', textDecoration: 'none' }}>
                   Back to sign in
                 </Link>
               </div>

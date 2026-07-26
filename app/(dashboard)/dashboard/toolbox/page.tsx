@@ -29,16 +29,16 @@ export default async function ToolboxPage() {
       <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.9rem, 6vw, 2.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '10px' }}>
         What actually helps
       </h1>
-      <p style={{ fontSize: '15.5px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 22px', maxWidth: '560px' }}>
+      <p style={{ fontSize: '17.5px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 22px', maxWidth: '560px' }}>
         A short, honest set of outside tools for the common problems. For each one: the problem, the fix and the science behind it, and what it changes at home. We grade the evidence in plain sight, and we only ever recommend what we would use ourselves.
       </p>
 
       {tools.length === 0 ? (
         <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '18px', padding: '22px', textAlign: 'center' }}>
-          <p style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 12px' }}>
+          <p style={{ fontSize: '16.5px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 12px' }}>
             The toolbox is being stocked. In the meantime, DiGi can point you to the right kind of tool for whatever you are facing.
           </p>
-          <Link href="/dashboard/digi" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: 'var(--terracotta-dark)', textDecoration: 'none' }}>
+          <Link href="/dashboard/digi" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px', color: 'var(--terracotta-dark)', textDecoration: 'none' }}>
             Ask DiGi →
           </Link>
         </div>

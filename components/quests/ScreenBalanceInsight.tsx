@@ -106,10 +106,10 @@ export default function ScreenBalanceInsight({
           <DigiCharacter mood="speak" size={34} once />
         </span>
         <div style={{ minWidth: 0 }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: digiStepsIn ? accent : 'var(--terracotta-dark)', marginBottom: '3px' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: digiStepsIn ? accent : 'var(--terracotta-dark)', marginBottom: '3px' }}>
             {digiStepsIn ? 'DiGi says' : "Today's balance"}
           </div>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '18px', color: 'var(--ink)', lineHeight: 1.2 }}>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '20px', color: 'var(--ink)', lineHeight: 1.2 }}>
             {headline}
           </div>
         </div>
@@ -127,13 +127,13 @@ export default function ScreenBalanceInsight({
 
       {guide > 0 && (
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', marginBottom: '12px' }}>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, color: overGuide ? accent : 'var(--ink-muted)', letterSpacing: '0.02em', textAlign: 'center' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, color: overGuide ? accent : 'var(--ink-muted)', letterSpacing: '0.02em', textAlign: 'center' }}>
             Healthy screen guide for their age, about {guide} min{overGuide ? ' · over for today' : nearingGuide ? ' · nearly there' : ''}
           </span>
         </div>
       )}
 
-      <p style={{ fontFamily: 'var(--font-body)', fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 8px' }}>
+      <p style={{ fontFamily: 'var(--font-body)', fontSize: '15.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 8px' }}>
         {line}
       </p>
       {digiStepsIn && (
@@ -141,7 +141,7 @@ export default function ScreenBalanceInsight({
           href={`/dashboard/digi?q=${encodeURIComponent(`${childName} has had a good amount of screen time today. What is a warm way to help them wind down and switch off without a fight?`)}`}
           style={{
             display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: '12px',
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '12.5px',
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px',
             color: '#fff', background: accent, borderRadius: '11px', padding: '8px 14px', textDecoration: 'none',
           }}
         >
@@ -153,7 +153,7 @@ export default function ScreenBalanceInsight({
           earning the stars that add weight to that pan. The instruction the
           scales are missing on their own, one tap each. */}
       <div style={{ marginBottom: '12px' }}>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '7px' }}>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '7px' }}>
           {realMins > screenMins ? 'Keep it tipped to real life · each earns stars' : 'Tip it back to real life · each earns stars'}
         </div>
         <div style={{ display: 'flex', gap: '7px', flexWrap: 'wrap' }}>
@@ -167,14 +167,14 @@ export default function ScreenBalanceInsight({
               display: 'inline-flex', alignItems: 'center', gap: '6px',
               background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: '11px',
               padding: '8px 12px', textDecoration: 'none',
-              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '12.5px', color: 'var(--ink)',
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: 'var(--ink)',
             }}>
               <span aria-hidden>{o.icon}</span>{o.label}
             </Link>
           ))}
         </div>
       </div>
-      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, color: 'var(--ink-muted)' }}>
+      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 700, color: 'var(--ink-muted)' }}>
         Guide for age {insight.bandLabel}: about {insight.guideMins} min screen a day · ⭐ {earnedTodayStars} earned today
       </div>
     </div>

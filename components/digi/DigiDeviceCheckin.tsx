@@ -83,8 +83,8 @@ export default function DigiDeviceCheckin({ fixture }: { fixture?: Checkin }) {
           <DigiCharacter size={26} mood={dismissed ? 'happy' : 'idle'} />
         </span>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>DiGi noticed</div>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px', color: 'var(--ink)', lineHeight: 1.35 }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>DiGi noticed</div>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17.5px', color: 'var(--ink)', lineHeight: 1.35 }}>
             {dismissed ? 'No problem. DiGi will leave it for a few weeks.' : checkin.question}
           </div>
         </div>
@@ -93,19 +93,19 @@ export default function DigiDeviceCheckin({ fixture }: { fixture?: Checkin }) {
         <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
           <button
             onClick={() => answer('yes')}
-            style={{ padding: '11px 17px', borderRadius: '12px', border: 'none', cursor: 'pointer', background: 'var(--terracotta)', color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', boxShadow: '0 3px 0 var(--terracotta-dark)' }}
+            style={{ padding: '11px 17px', borderRadius: '12px', border: 'none', cursor: 'pointer', background: 'var(--terracotta)', color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', boxShadow: '0 3px 0 var(--terracotta-dark)' }}
           >
             Yes this is us
           </button>
           <button
             onClick={() => answer('not_really')}
-            style={{ padding: '11px 17px', borderRadius: '12px', border: '1.5px solid var(--border)', cursor: 'pointer', background: 'var(--cream)', color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px' }}
+            style={{ padding: '11px 17px', borderRadius: '12px', border: '1.5px solid var(--border)', cursor: 'pointer', background: 'var(--cream)', color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px' }}
           >
             Not really
           </button>
           <a
             href={checkin.pathway.href}
-            style={{ marginLeft: 'auto', fontFamily: 'var(--font-body)', fontSize: '13.5px', fontWeight: 600, color: 'var(--ink-muted)', textDecoration: 'underline', textUnderlineOffset: '3px' }}
+            style={{ marginLeft: 'auto', fontFamily: 'var(--font-body)', fontSize: '15.5px', fontWeight: 600, color: 'var(--ink-muted)', textDecoration: 'underline', textUnderlineOffset: '3px' }}
           >
             {checkin.pathway.label}
           </a>

@@ -25,8 +25,8 @@ export default function ChildAppNudge({ childName, childId }: { childName?: stri
         background: 'var(--terracotta-dark)', marginTop: 8,
       }} />
       <span>
-        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15, color: 'var(--ink)' }}>{title}</span>
-        <span style={{ display: 'block', fontSize: 14.5, color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: 1 }}>{body}</span>
+        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 17, color: 'var(--ink)' }}>{title}</span>
+        <span style={{ display: 'block', fontSize: 16.5, color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: 1 }}>{body}</span>
       </span>
     </li>
   )
@@ -44,7 +44,7 @@ export default function ChildAppNudge({ childName, childId }: { childName?: stri
             display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24,
           }}>📲</span>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10.5, fontWeight: 700, letterSpacing: '0.13em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12.5, fontWeight: 700, letterSpacing: '0.13em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
               One thing left to set up
             </div>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 21, color: 'var(--ink)', lineHeight: 1.15, letterSpacing: '-0.01em' }}>
@@ -53,7 +53,7 @@ export default function ChildAppNudge({ childName, childId }: { childName?: stri
           </div>
         </div>
 
-        <p style={{ fontSize: 15.5, color: 'var(--ink)', lineHeight: 1.55, margin: '0 0 14px', fontWeight: 600 }}>
+        <p style={{ fontSize: 17.5, color: 'var(--ink)', lineHeight: 1.55, margin: '0 0 14px', fontWeight: 600 }}>
           Press the button and the code appears. Point their phone or tablet at it and their app opens. Nothing to install, nothing to sign up for.
         </p>
 
@@ -84,13 +84,13 @@ export default function ChildAppNudge({ childName, childId }: { childName?: stri
             display: 'inline-flex', alignItems: 'center', marginTop: 8,
             background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none',
             borderRadius: 16, padding: '14px 24px',
-            fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 16,
+            fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 18,
             boxShadow: '0 5px 0 var(--terracotta-dark)',
           }}>
             Share the QR code
           </Link>
         )}
-        <p style={{ fontSize: 13, color: 'var(--ink-muted)', margin: '12px 0 0', lineHeight: 1.5 }}>
+        <p style={{ fontSize: 15, color: 'var(--ink-muted)', margin: '12px 0 0', lineHeight: 1.5 }}>
           <Link href="/dashboard/quests?tab=share" style={{ color: 'var(--ink-muted)' }}>
             The jobs, the code and the printables all live in Quests
           </Link>

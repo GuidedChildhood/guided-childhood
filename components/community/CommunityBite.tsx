@@ -111,10 +111,10 @@ export default function CommunityBite() {
         }}>
           <span aria-hidden style={{ fontSize: 30, lineHeight: 1, flexShrink: 0 }}>📣</span>
           <span style={{ flex: 1, minWidth: 0 }}>
-            <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--gold-dark)' }}>
+            <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 13, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--gold-dark)' }}>
               This month
             </span>
-            <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 20, color: 'var(--ink)', lineHeight: 1.15 }}>
+            <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 22, color: 'var(--ink)', lineHeight: 1.15 }}>
               Community bite
             </span>
           </span>
@@ -124,7 +124,7 @@ export default function CommunityBite() {
             style={{
               width: 32, height: 32, borderRadius: '50%', flexShrink: 0,
               border: 'none', background: 'rgba(255,255,255,0.55)', cursor: 'pointer',
-              fontSize: 16, color: 'var(--ink)', lineHeight: 1,
+              fontSize: 18, color: 'var(--ink)', lineHeight: 1,
             }}
           >
             ×
@@ -133,7 +133,7 @@ export default function CommunityBite() {
 
         <div style={{ padding: '18px 20px 20px' }}>
           {total > 0 && (
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, color: 'var(--ink-muted)', marginBottom: 8 }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 14, fontWeight: 700, color: 'var(--ink-muted)', marginBottom: 8 }}>
               {total} {total === 1 ? 'family has' : 'families have'} answered
             </div>
           )}
@@ -161,7 +161,7 @@ export default function CommunityBite() {
                     background: mine ? 'var(--gold-lt)' : '#fff',
                     border: `1.5px solid ${mine ? 'var(--gold)' : 'var(--border)'}`,
                     borderRadius: 14, padding: '13px 15px', cursor: busy ? 'default' : 'pointer',
-                    fontFamily: 'var(--font-body)', fontSize: 16, fontWeight: 600, color: 'var(--ink)',
+                    fontFamily: 'var(--font-body)', fontSize: 18, fontWeight: 600, color: 'var(--ink)',
                     lineHeight: 1.4,
                   }}
                 >
@@ -177,7 +177,7 @@ export default function CommunityBite() {
                   <span style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: 10 }}>
                     <span style={{ flex: 1, minWidth: 0 }}>{opt}</span>
                     {answered && (
-                      <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 13, fontWeight: 700, color: mine ? 'var(--gold-dark)' : 'var(--ink-muted)' }}>
+                      <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 15, fontWeight: 700, color: mine ? 'var(--gold-dark)' : 'var(--ink-muted)' }}>
                         {pct}%{mine ? ' ✓' : ''}
                       </span>
                     )}
@@ -188,7 +188,7 @@ export default function CommunityBite() {
           </div>
 
           {answered && (
-            <p style={{ fontSize: 14.5, color: 'var(--ink-soft)', lineHeight: 1.5, margin: '14px 0 0' }}>
+            <p style={{ fontSize: 16.5, color: 'var(--ink-soft)', lineHeight: 1.5, margin: '14px 0 0' }}>
               {justVoted ? 'Thanks. ' : ''}
               That is the honest shape of it across every family here, and whatever you picked, you are in good company. DiGi keeps hold of your answer so it can pick the thread back up, and the full read lands in your Sunday email once a month. Closing this now.
             </p>

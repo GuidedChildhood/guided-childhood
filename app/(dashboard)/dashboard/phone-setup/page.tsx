@@ -35,7 +35,7 @@ export default async function PhoneSetupPage() {
 
   return (
     <div style={{ maxWidth: '680px', margin: '0 auto', padding: '24px 20px 48px' }}>
-      <Link href="/dashboard" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '13px', color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em', marginBottom: '18px' }}>
+      <Link href="/dashboard" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '15px', color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em', marginBottom: '18px' }}>
         ← Home
       </Link>
 
@@ -43,16 +43,16 @@ export default async function PhoneSetupPage() {
       <h1 style={{ fontSize: 'clamp(1.8rem, 6vw, 2.4rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '10px' }}>
         Not a brick phone. A phone you release, bit by bit.
       </h1>
-      <p style={{ color: 'var(--ink-soft)', fontSize: '15px', lineHeight: 1.6, marginBottom: '18px' }}>
+      <p style={{ color: 'var(--ink-soft)', fontSize: '17px', lineHeight: 1.6, marginBottom: '18px' }}>
         The danger is the open, unmanaged phone, not the phone itself. Set up well, with safe settings and a small allowance, a phone teaches a child to stop, to ask, and to use good apps, and it can be a genuine tutor long before social media is anywhere near.
       </p>
 
       {/* Our belief, stated plainly */}
       <div style={{ background: 'var(--tint-sage)', border: '1.5px solid var(--tint-sage)', borderRadius: '16px', padding: '16px 18px', marginBottom: '26px' }}>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '7px' }}>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '7px' }}>
           Our belief
         </div>
-        <p style={{ fontSize: '14px', color: 'var(--ink)', lineHeight: 1.6, margin: 0 }}>
+        <p style={{ fontSize: '16px', color: 'var(--ink)', lineHeight: 1.6, margin: 0 }}>
           We do not push the brick phone. We start a real phone locked right down, hand back a little time and one more app as trust grows, and use the early apps to build good habits. Done this way, used correctly, a phone is one of the best educators a child has. When to start is about the child, not a birthday, but the conversation usually begins around 9 to 10, with independence, not apps, as the reason.
         </p>
       </div>
@@ -62,10 +62,10 @@ export default async function PhoneSetupPage() {
       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '30px' }}>
         {PHONE_LADDER.map((rung, i) => (
           <div key={i} style={{ display: 'flex', gap: '13px', background: '#fff', border: '1.5px solid var(--border)', borderRadius: '14px', padding: '13px 15px' }}>
-            <span aria-hidden style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: 'var(--terracotta-dark)', background: 'var(--terracotta-lt)', borderRadius: '100px', padding: '3px 9px', height: 'fit-content' }}>{rung.ages}</span>
+            <span aria-hidden style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, color: 'var(--terracotta-dark)', background: 'var(--terracotta-lt)', borderRadius: '100px', padding: '3px 9px', height: 'fit-content' }}>{rung.ages}</span>
             <div style={{ minWidth: 0 }}>
-              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--ink)', marginBottom: '2px' }}>{rung.device}</div>
-              <p style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>{rung.detail}</p>
+              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)', marginBottom: '2px' }}>{rung.device}</div>
+              <p style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>{rung.detail}</p>
             </div>
           </div>
         ))}
@@ -85,9 +85,9 @@ export default async function PhoneSetupPage() {
             {apps.map(a => (
               <a key={a.app_key} href={a.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', background: '#fff', border: '1.5px solid var(--border)', borderRadius: '16px', padding: '14px 15px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
                 <span style={{ fontSize: '22px', lineHeight: 1 }}>{a.emoji}</span>
-                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--ink)', lineHeight: 1.2 }}>{a.name}</span>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>{a.teaches} · {a.from_age}</span>
-                <span style={{ fontSize: '11.5px', color: 'var(--ink-soft)', lineHeight: 1.4 }}>{a.why_good}</span>
+                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)', lineHeight: 1.2 }}>{a.name}</span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>{a.teaches} · {a.from_age}</span>
+                <span style={{ fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.4 }}>{a.why_good}</span>
               </a>
             ))}
           </div>
@@ -97,17 +97,17 @@ export default async function PhoneSetupPage() {
       <Link href="/dashboard/lessons" style={{ textDecoration: 'none', display: 'block', marginTop: '20px' }}>
         <div style={{ background: 'var(--stage-2)', border: '1.5px solid var(--stage-2)', borderRadius: '16px', padding: '18px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '14px' }}>
           <div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '4px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '4px' }}>
               Teach it, do not just set it
             </div>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)' }}>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)' }}>
               The lessons on habits and balance
             </div>
-            <div style={{ fontSize: '12px', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '4px' }}>
+            <div style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '4px' }}>
               Why stopping feels hard and how to win at it, and the daily balance that makes a phone a good thing.
             </div>
           </div>
-          <span style={{ fontSize: '18px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>
+          <span style={{ fontSize: '20px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>
         </div>
       </Link>
     </div>
@@ -120,13 +120,13 @@ function PhoneCard({ g }: { g: PhoneGuide }) {
       <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
         <span aria-hidden style={{ flexShrink: 0, width: 42, height: 42, borderRadius: '12px', background: 'var(--cream)', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22 }}>{g.emoji}</span>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)' }}>{g.name}</span>
-          <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '4px 0 0' }}>{g.blurb}</p>
+          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '18px', color: 'var(--ink)' }}>{g.name}</span>
+          <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '4px 0 0' }}>{g.blurb}</p>
         </div>
       </div>
 
       <details style={{ marginTop: '12px' }}>
-        <summary style={{ cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', color: 'var(--terracotta-dark)', listStyle: 'none' }}>
+        <summary style={{ cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--terracotta-dark)', listStyle: 'none' }}>
           The full setup, lock down then release
         </summary>
         <div style={{ marginTop: '12px' }}>
@@ -135,14 +135,14 @@ function PhoneCard({ g }: { g: PhoneGuide }) {
           <StepList label="Then release, one step at a time" steps={g.release} tint="var(--tint-sage)" />
 
           <div style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '12px', padding: '11px 13px', marginTop: '14px' }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '4px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '4px' }}>
               Time and earn back
             </div>
-            <p style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0 }}>{g.time_management}</p>
+            <p style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0 }}>{g.time_management}</p>
           </div>
 
-          <p style={{ fontSize: '12px', color: 'var(--ink-muted)', lineHeight: 1.5, margin: '12px 0 0' }}>{g.parental_tool}</p>
-          <a href={g.official_url} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', marginTop: '10px', fontSize: '13px', fontWeight: 700, color: 'var(--terracotta-dark)', textDecoration: 'none' }}>
+          <p style={{ fontSize: '14px', color: 'var(--ink-muted)', lineHeight: 1.5, margin: '12px 0 0' }}>{g.parental_tool}</p>
+          <a href={g.official_url} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', marginTop: '10px', fontSize: '15px', fontWeight: 700, color: 'var(--terracotta-dark)', textDecoration: 'none' }}>
             Open the official setup page →
           </a>
         </div>
@@ -154,12 +154,12 @@ function PhoneCard({ g }: { g: PhoneGuide }) {
 function StepList({ label, steps, tint }: { label: string; steps: { name: string; how: string }[]; tint: string }) {
   return (
     <div>
-      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>{label}</div>
+      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>{label}</div>
       <ol style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '9px' }}>
         {steps.map((s, i) => (
           <li key={i} style={{ display: 'flex', gap: '9px' }}>
-            <span aria-hidden style={{ flexShrink: 0, width: 18, height: 18, borderRadius: '50%', background: tint, color: 'var(--ink)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-mono)', fontSize: 9, fontWeight: 700, marginTop: 1 }}>{i + 1}</span>
-            <span style={{ fontSize: '13.5px', color: 'var(--ink)', lineHeight: 1.5 }}>
+            <span aria-hidden style={{ flexShrink: 0, width: 18, height: 18, borderRadius: '50%', background: tint, color: 'var(--ink)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700, marginTop: 1 }}>{i + 1}</span>
+            <span style={{ fontSize: '15.5px', color: 'var(--ink)', lineHeight: 1.5 }}>
               <strong style={{ fontWeight: 800 }}>{s.name}.</strong> <span style={{ color: 'var(--ink-soft)' }}>{s.how}</span>
             </span>
           </li>
@@ -172,9 +172,9 @@ function StepList({ label, steps, tint }: { label: string; steps: { name: string
 function SectionLabel({ eyebrow, title, note }: { eyebrow: string; title: string; note?: string }) {
   return (
     <div style={{ margin: '0 0 13px' }}>
-      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '3px' }}>{eyebrow}</div>
+      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '3px' }}>{eyebrow}</div>
       <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.15rem', color: 'var(--ink)' }}>{title}</div>
-      {note && <p style={{ fontSize: '12.5px', color: 'var(--ink-muted)', lineHeight: 1.5, margin: '3px 0 0' }}>{note}</p>}
+      {note && <p style={{ fontSize: '14.5px', color: 'var(--ink-muted)', lineHeight: 1.5, margin: '3px 0 0' }}>{note}</p>}
     </div>
   )
 }

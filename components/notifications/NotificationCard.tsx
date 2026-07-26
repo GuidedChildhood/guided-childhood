@@ -45,17 +45,17 @@ function CardShell({ n, children }: { n: Notification; children: React.ReactNode
         </span>
         <span style={{ flex: 1, minWidth: 0 }}>
           <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: n.urgent ? '#B93B3F' : 'var(--terracotta-dark)' }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: n.urgent ? '#B93B3F' : 'var(--terracotta-dark)' }}>
               {KIND_LABEL[n.kind]}
             </span>
             {n.urgent && <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#E5484D', display: 'inline-block' }} />}
           </span>
-          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)', lineHeight: 1.3, marginTop: '3px' }}>
+          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '19px', color: 'var(--ink)', lineHeight: 1.3, marginTop: '3px' }}>
             {n.title}
           </span>
         </span>
       </div>
-      <p style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.62, margin: '0 0 14px' }}>
+      <p style={{ fontSize: '16.5px', color: 'var(--ink-soft)', lineHeight: 1.62, margin: '0 0 14px' }}>
         {n.body}
       </p>
       {children}
@@ -74,7 +74,7 @@ const pill = (n: Notification): React.CSSProperties => ({
   display: 'inline-flex', alignItems: 'center', gap: '7px',
   background: n.urgent ? '#E5484D' : 'var(--terracotta)', color: n.urgent ? '#fff' : 'var(--ink)',
   borderRadius: '13px', padding: '10px 16px', border: 'none', cursor: 'pointer',
-  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px',
+  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px',
   boxShadow: n.urgent ? '0 4px 0 #B93B3F' : '0 4px 0 var(--terracotta-dark)',
 })
 
@@ -107,7 +107,7 @@ export default function NotificationCard({ n }: { n: Notification }) {
             <button onClick={clearIt} disabled={busy} style={pill(n)}>
               {n.recurring ? 'Clear for this week ✓' : 'Got it, clear ✓'}
             </button>
-            <Link href="/dashboard/school" style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, color: 'var(--ink-muted)', textDecoration: 'none' }}>
+            <Link href="/dashboard/school" style={{ fontFamily: 'var(--font-mono)', fontSize: '13.5px', fontWeight: 700, color: 'var(--ink-muted)', textDecoration: 'none' }}>
               Open school
             </Link>
           </div>
@@ -136,7 +136,7 @@ export default function NotificationCard({ n }: { n: Notification }) {
       <CardShell n={n}>
         <span style={pill(n)}>
           {ctaLabel(n)}
-          <span style={{ fontSize: '15px' }} aria-hidden>→</span>
+          <span style={{ fontSize: '17px' }} aria-hidden>→</span>
         </span>
       </CardShell>
     </Link>

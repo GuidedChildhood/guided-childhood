@@ -84,7 +84,7 @@ export default function SeeInside() {
         </div>
 
         <div className="fu" style={{ textAlign: 'center', marginTop: '38px' }}>
-          <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '15px', padding: '15px 32px' }}>
+          <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '17px', padding: '15px 32px' }}>
             Step inside, it is free
           </Link>
         </div>

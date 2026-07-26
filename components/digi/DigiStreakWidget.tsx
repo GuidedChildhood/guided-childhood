@@ -107,7 +107,7 @@ export default function DigiStreakWidget({ count, aliveToday, firstName }: Props
         </div>
 
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: accent, marginBottom: 3 }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: accent, marginBottom: 3 }}>
             {s.eyebrow}
           </div>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 4 }}>
@@ -115,10 +115,10 @@ export default function DigiStreakWidget({ count, aliveToday, firstName }: Props
               {s.headline}
             </span>
             {count > 0 && (
-              <span aria-hidden style={{ fontSize: 18, lineHeight: 1, filter: aliveToday ? 'none' : 'grayscale(0.7) opacity(0.6)' }}>🔥</span>
+              <span aria-hidden style={{ fontSize: 20, lineHeight: 1, filter: aliveToday ? 'none' : 'grayscale(0.7) opacity(0.6)' }}>🔥</span>
             )}
           </div>
-          <p style={{ fontSize: 13.5, color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>{s.body}</p>
+          <p style={{ fontSize: 15.5, color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>{s.body}</p>
         </div>
       </div>
 
@@ -147,7 +147,7 @@ export default function DigiStreakWidget({ count, aliveToday, firstName }: Props
             display: 'inline-flex', alignItems: 'center', gap: 6,
             background: 'var(--terracotta)', color: 'var(--ink)',
             borderRadius: 14, padding: '10px 18px', textDecoration: 'none',
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 13,
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15,
             boxShadow: '0 4px 0 var(--terracotta-dark)',
           }}
         >

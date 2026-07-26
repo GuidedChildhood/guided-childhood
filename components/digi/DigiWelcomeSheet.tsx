@@ -193,7 +193,7 @@ export default function DigiWelcomeSheet({ childrenInfo, guide }: { childrenInfo
         {step === 0 && (
         <p style={{
           fontFamily: 'var(--font-body)', fontWeight: 500, color: 'var(--ink-soft)',
-          fontSize: '17px', lineHeight: 1.55, margin: 0,
+          fontSize: '19px', lineHeight: 1.55, margin: 0,
         }}>
           I know life does not pause for {names}. What is on your mind today? Bring me up to speed and I will point us at the next small thing.
         </p>
@@ -201,7 +201,7 @@ export default function DigiWelcomeSheet({ childrenInfo, guide }: { childrenInfo
 
         {step === 1 && guide && (
           <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 16, padding: '16px 18px' }}>
-            <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)', margin: '0 0 14px' }}>
+            <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '19px', color: 'var(--ink)', margin: '0 0 14px' }}>
               Stage {guide.stageNum} of 5, {guide.stageName}. On the road to 16.
             </p>
             {/* The same road, the same pills, as Home and the pathway page:
@@ -222,10 +222,10 @@ export default function DigiWelcomeSheet({ childrenInfo, guide }: { childrenInfo
                   borderRadius: 12, padding: '11px 13px',
                 }}
               >
-                <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 9.5, fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase', color: 'var(--ink-soft)', marginBottom: 3 }}>
+                <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 11.5, fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase', color: 'var(--ink-soft)', marginBottom: 3 }}>
                   Lessons that move this
                 </span>
-                <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: 14, fontWeight: 600, color: 'var(--ink)', lineHeight: 1.45 }}>
+                <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: 16, fontWeight: 600, color: 'var(--ink)', lineHeight: 1.45 }}>
                   {guide.stageLessons.passed < guide.stageLessons.total
                     ? <>Send {guide.childName} the {guide.stageName} lessons, {guide.stageLessons.passed} of {guide.stageLessons.total} passed. Each pass ticks the report. <strong style={{ fontWeight: 800 }}>Open lessons →</strong></>
                     : <>All {guide.stageLessons.total} {guide.stageName} lessons passed. The report shows the full tick for this stage.</>}
@@ -236,7 +236,7 @@ export default function DigiWelcomeSheet({ childrenInfo, guide }: { childrenInfo
         )}
 
         {step === 2 && (
-          <p style={{ fontFamily: 'var(--font-body)', fontWeight: 500, color: 'var(--ink-soft)', fontSize: '17px', lineHeight: 1.55, margin: 0 }}>
+          <p style={{ fontFamily: 'var(--font-body)', fontWeight: 500, color: 'var(--ink-soft)', fontSize: '19px', lineHeight: 1.55, margin: 0 }}>
             {guide?.nextTask
               ? <>Just this: <strong style={{ color: 'var(--ink)', fontWeight: 800 }}>{guide.nextTask.label}</strong>. A few minutes, then everything else can wait its turn.</>
               : <>Today is already done. Lovely. Everything else is there when you want it.</>}
@@ -245,11 +245,11 @@ export default function DigiWelcomeSheet({ childrenInfo, guide }: { childrenInfo
 
         {step === 0 && insight && (
           <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 16, padding: '14px 16px', marginTop: 18 }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: 5 }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: 5 }}>
               A quiet thought on {insight.childName}
             </div>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>{insight.body.text}</p>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, color: 'var(--ink-muted)', marginTop: 7 }}>{insight.body.source}</div>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: '17px', color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>{insight.body.text}</p>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, color: 'var(--ink-muted)', marginTop: 7 }}>{insight.body.source}</div>
           </div>
         )}
 
@@ -263,7 +263,7 @@ export default function DigiWelcomeSheet({ childrenInfo, guide }: { childrenInfo
             style={{
               width: '100%', marginTop: 20, padding: '15px', borderRadius: 16, border: 'none',
               background: 'var(--terracotta)', color: 'var(--ink)', cursor: 'pointer',
-              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px',
               boxShadow: '0 4px 0 var(--terracotta-dark)',
             }}
           >
@@ -276,7 +276,7 @@ export default function DigiWelcomeSheet({ childrenInfo, guide }: { childrenInfo
             style={{
               width: '100%', marginTop: 20, padding: '15px', borderRadius: 16, border: 'none',
               background: 'var(--terracotta)', color: 'var(--ink)', cursor: 'pointer',
-              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px',
               boxShadow: '0 4px 0 var(--terracotta-dark)',
             }}
           >
@@ -298,7 +298,7 @@ export default function DigiWelcomeSheet({ childrenInfo, guide }: { childrenInfo
             style={{
               flex: 1, minWidth: 0, padding: '15px 18px', borderRadius: 16,
               background: '#fff', border: '1.5px solid var(--border)',
-              fontFamily: 'var(--font-body)', fontSize: '16px', color: 'var(--ink)', outline: 'none',
+              fontFamily: 'var(--font-body)', fontSize: '18px', color: 'var(--ink)', outline: 'none',
             }}
           />
           <button
@@ -308,7 +308,7 @@ export default function DigiWelcomeSheet({ childrenInfo, guide }: { childrenInfo
               flexShrink: 0, width: 52, height: 52, borderRadius: '50%', border: 'none',
               background: 'var(--terracotta)', color: 'var(--ink)', cursor: 'pointer',
               boxShadow: '0 4px 0 var(--terracotta-dark)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20,
+              display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22,
             }}
           >
             ↑
@@ -320,7 +320,7 @@ export default function DigiWelcomeSheet({ childrenInfo, guide }: { childrenInfo
           onClick={close}
           style={{
             background: 'none', border: 'none', cursor: 'pointer', margin: '18px auto 0',
-            fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '15px',
+            fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '17px',
             color: 'var(--ink-muted)', textDecoration: 'underline', textUnderlineOffset: 3,
           }}
         >

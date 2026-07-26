@@ -41,17 +41,17 @@ export default function BirthdayNudge({ kidNames }: { kidNames: string[] }) {
       <div style={{ display: 'flex', alignItems: 'flex-start', gap: '13px' }}>
         <span aria-hidden style={{ width: 44, height: 44, borderRadius: '12px', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '21px', flexShrink: 0 }}>🎂</span>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: 'var(--ink)', lineHeight: 1.3 }}>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16.5px', color: 'var(--ink)', lineHeight: 1.3 }}>
             Add {names}&apos;s birthday and the app grows up with them
           </div>
-          <p style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '3px 0 10px' }}>
+          <p style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '3px 0 10px' }}>
             One date, set once: the stage, the lessons, the screen time guide and the deal all move up on their own as they get older, with a little celebration on the day. Nothing to remember later.
           </p>
           <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
-            <Link href="/dashboard/settings" style={{ background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '11px', padding: '9px 15px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
+            <Link href="/dashboard/settings" style={{ background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '11px', padding: '9px 15px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
               Set the birthday →
             </Link>
-            <button onClick={snooze} style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '12.5px', color: 'var(--ink-muted)', textDecoration: 'underline', textUnderlineOffset: 3, padding: 0 }}>
+            <button onClick={snooze} style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '14.5px', color: 'var(--ink-muted)', textDecoration: 'underline', textUnderlineOffset: 3, padding: 0 }}>
               Not now
             </button>
           </div>

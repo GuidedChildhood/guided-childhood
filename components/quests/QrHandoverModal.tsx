@@ -41,7 +41,7 @@ export default function QrHandoverModal({ token, childName, onClose }: {
     flex: 1, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '7px',
     background: '#fff', border: '1.5px solid var(--border)', borderRadius: '13px', padding: '12px',
     cursor: 'pointer', textDecoration: 'none', fontFamily: 'var(--font-display)',
-    fontWeight: 800, fontSize: '13.5px', color: 'var(--ink)',
+    fontWeight: 800, fontSize: '15.5px', color: 'var(--ink)',
   }
 
   return (
@@ -57,8 +57,8 @@ export default function QrHandoverModal({ token, childName, onClose }: {
         style={{ width: '100%', maxWidth: 380, background: 'var(--cream)', borderRadius: '26px', padding: '24px 22px', boxShadow: '0 24px 60px -18px rgba(26,26,46,0.45)', textAlign: 'center' }}
       >
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>Scan to open</span>
-          <button onClick={onClose} aria-label="Close" style={{ width: 34, height: 34, borderRadius: '50%', border: 'none', background: '#fff', cursor: 'pointer', fontSize: '16px', color: 'var(--ink-muted)', flexShrink: 0 }}>✕</button>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>Scan to open</span>
+          <button onClick={onClose} aria-label="Close" style={{ width: 34, height: 34, borderRadius: '50%', border: 'none', background: '#fff', cursor: 'pointer', fontSize: '18px', color: 'var(--ink-muted)', flexShrink: 0 }}>✕</button>
         </div>
 
         <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.5rem', letterSpacing: '-0.02em', color: 'var(--ink)', lineHeight: 1.1, margin: '0 0 16px' }}>
@@ -74,7 +74,7 @@ export default function QrHandoverModal({ token, childName, onClose }: {
           )}
         </div>
 
-        <p style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 18px', maxWidth: 280, marginLeft: 'auto', marginRight: 'auto' }}>
+        <p style={{ fontSize: '16.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 18px', maxWidth: 280, marginLeft: 'auto', marginRight: 'auto' }}>
           Point {childName}&apos;s phone or tablet camera at this. Their app opens straight away, nothing to type, nothing to install.
         </p>
 

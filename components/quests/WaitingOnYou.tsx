@@ -74,7 +74,7 @@ export default function WaitingOnYou() {
           <span style={{
             position: 'absolute', top: -7, right: -7, minWidth: 22, height: 22, padding: '0 5px',
             borderRadius: '100px', background: urgent > 0 ? '#E5484D' : 'var(--ink-muted)', color: '#fff',
-            fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, lineHeight: '22px',
+            fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 700, lineHeight: '22px',
             textAlign: 'center', boxShadow: '0 0 0 2px #fff',
           }}>
             {total > 9 ? '9+' : total}
@@ -84,12 +84,12 @@ export default function WaitingOnYou() {
           <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.2rem', color: 'var(--ink)', lineHeight: 1.15, letterSpacing: '-0.01em' }}>
             {urgent > 0 ? 'Waiting on you' : 'Notifications'}
           </span>
-          <span style={{ display: 'block', fontSize: '14px', color: 'var(--ink-soft)', marginTop: '3px' }}>
+          <span style={{ display: 'block', fontSize: '16px', color: 'var(--ink-soft)', marginTop: '3px' }}>
             {parts.join(' · ')}
           </span>
         </span>
         <span style={{
-          flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px',
+          flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px',
           color: '#fff', background: urgent > 0 ? '#E5484D' : 'var(--deep-teal)', borderRadius: '13px', padding: '11px 18px',
           boxShadow: urgent > 0 ? '0 4px 0 #B93B3F' : '0 4px 0 rgba(0,0,0,0.25)',
         }}>
