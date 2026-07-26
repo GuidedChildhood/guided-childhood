@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
+import Link from 'next/link'
 import Shop from '@/components/shop/Shop'
 import Keepsakes from '@/components/rewards/Keepsakes'
 import { earnedFriendCount } from '@/lib/shop/earned'
@@ -16,6 +17,8 @@ import type { Product } from '@/lib/shop/catalogue'
 // do not land at the same minute.
 
 export const metadata = { title: 'Keepsakes — Guided Childhood' }
+
+const FOUNDER_EMAIL = (process.env.FOUNDER_NOTIFY_EMAIL ?? 'justin@thesocialbillboard.com').toLowerCase()
 
 export default async function KeepsakesPage({
   searchParams,
@@ -54,13 +57,29 @@ export default async function KeepsakesPage({
     : 0
 
   return (
-    <Shop
-      products={products}
-      earned={earned}
-      childName={childName}
-      email={user.email ?? ''}
-      ordered={Boolean(params.ordered)}
-      cancelled={params.cancelled === '1'}
-    />
+    <>
+      {/* The way in to the fulfilment board, for the one person who has to post
+          the parcels. Nobody else ever sees it. */}
+      {(user.email ?? '').toLowerCase() === FOUNDER_EMAIL && (
+        <div style={{ maxWidth: 640, margin: '0 auto', padding: '18px 20px 0' }}>
+          <Link href="/dashboard/orders" style={{
+            display: 'inline-flex', alignItems: 'center', gap: 8,
+            background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: 12,
+            padding: '9px 14px', textDecoration: 'none',
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 13.5, color: 'var(--ink)',
+          }}>
+            📦 Keepsake orders
+          </Link>
+        </div>
+      )}
+      <Shop
+        products={products}
+        earned={earned}
+        childName={childName}
+        email={user.email ?? ''}
+        ordered={Boolean(params.ordered)}
+        cancelled={params.cancelled === '1'}
+      />
+    </>
   )
 }
