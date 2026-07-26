@@ -98,6 +98,30 @@ export default async function PrintablesPage() {
         Print it, put the crayons out, and the screens look after themselves. Every finished sheet is worth stars: add it to the quest list, they hand the page back, you approve, the stars land in their bank.
       </p>
 
+      {/* The star chart, typed before it is printed. Free, like the Starter Pack
+          it belongs to, and first because it is the one every family uses. */}
+      <Link
+        href="/dashboard/printables/star-chart"
+        style={{
+          display: 'flex', alignItems: 'center', gap: '16px', textDecoration: 'none',
+          background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: '20px',
+          padding: '18px 22px', marginBottom: '12px',
+        }}
+      >
+        <span style={{ fontSize: '30px', lineHeight: 1 }} aria-hidden>⭐</span>
+        <span style={{ flex: 1 }}>
+          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
+            Build your star chart
+          </span>
+          <span style={{ display: 'block', fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.55, marginTop: '3px' }}>
+            Put your own jobs on it before you print, so you are not writing them in by hand on every reprint.
+          </span>
+        </span>
+        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--ink)', whiteSpace: 'nowrap' }}>
+          Open →
+        </span>
+      </Link>
+
       {/* The builder: pick from the idea pool or write your own, then print.
           A member feature; free parents see it and are pointed to upgrade. */}
       <Link
