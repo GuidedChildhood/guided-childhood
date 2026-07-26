@@ -321,6 +321,26 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
           </div>
         )}
 
+        {/* The physical end of the same passport. It belongs here rather than
+            buried in a menu: a parent looking at the stamps their child earned
+            is exactly the parent who would like a printed copy of them. */}
+        <Link href="/dashboard/keepsakes" style={{
+          display: 'flex', alignItems: 'center', gap: '14px', textDecoration: 'none',
+          background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
+          borderRadius: '18px', padding: '16px 18px', margin: '20px 0 4px',
+        }}>
+          <span style={{ fontSize: '34px', lineHeight: 1 }} aria-hidden>🛂</span>
+          <span style={{ flex: 1, minWidth: 0 }}>
+            <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '17px', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
+              Have the passport printed
+            </span>
+            <span style={{ display: 'block', fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '3px' }}>
+              A real booklet with their name on it and every stamp they actually earned inside.
+            </span>
+          </span>
+          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '20px', color: 'var(--terracotta-dark)' }} aria-hidden>›</span>
+        </Link>
+
         {/* Add child prompt */}
         <div style={{ textAlign: 'center', marginTop: '8px' }}>
           <p style={{ fontSize: '13px', color: 'var(--ink-muted)', marginBottom: '10px' }}>

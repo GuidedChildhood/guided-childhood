@@ -73,7 +73,11 @@ export default function PrintableActions({ printable, isPaid = true }: { printab
   // Free parents see the beautiful preview (the sell) but the download and
   // the star wiring are a member feature, so the printables sit behind the
   // paywall like the rest of the library.
-  if (!isPaid) {
+  //
+  // Except the ones marked free. The Starter Pack is handed to strangers on
+  // the marketing site, so charging a member for the same booklet was the
+  // wrong way round, and it also meant nobody could open it to check it.
+  if (!isPaid && !printable.free) {
     return (
       <a href="/dashboard/upgrade" style={{ ...downloadStyle, background: '#fff', border: '1.5px solid var(--border)', boxShadow: 'none', color: 'var(--ink)' }}>
         🔒 Members download and print

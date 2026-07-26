@@ -57,6 +57,7 @@ export async function getTodayLoop(
     { data: scriptToday },
     { data: digiToday },
     { data: momentCompletionsToday },
+    { data: anyConcerns },
   ] = await Promise.all([
     // Concerns flagged before today that have not been checked today:
     // the same query the daily deck uses to build its check in card.
@@ -72,6 +73,10 @@ export async function getTodayLoop(
     supabase.from('script_completions').select('id').eq('user_id', userId).gte('completed_at', `${today}T00:00:00Z`).limit(1),
     supabase.from('digi_questions').select('id').eq('user_id', userId).gte('created_at', `${today}T00:00:00Z`).limit(1),
     supabase.from('moment_completions').select('id').eq('user_id', userId).eq('completed_on', today).limit(1),
+    // Whether this family has ANY live concern at all. Nothing to check in on
+    // is not the same thing as having checked in, and only one of those two is
+    // worth a tick. See the comment where the step is built.
+    supabase.from('concerns').select('slug').eq('user_id', userId).in('status', ['open', 'improving']).limit(1),
   ])
 
   const scriptHref = await safeScriptHref(supabase, userId, isPaid, recommended)
@@ -81,13 +86,23 @@ export async function getTodayLoop(
   const momentDone = (!!session && (session.completed_at !== null || (session.cards_completed ?? 0) > 0))
     || (momentCompletionsToday ?? []).length > 0
 
+  // The check in only belongs on today's loop when there is something to check
+  // in ON. It used to be done whenever no concern was waiting, which is true
+  // from the very first minute of a brand new account, so every parent who had
+  // never flagged a concern opened Home to a green tick against a step they
+  // had never touched. An empty list means nothing to do, not done, and only
+  // one of those two deserves a tick. So: no live concerns, no step.
+  const hasLiveConcerns = (anyConcerns ?? []).length > 0
+
   const tasks: TodayLoopTask[] = [
-    {
-      key: 'checkin',
+    ...(hasLiveConcerns ? [{
+      key: 'checkin' as const,
       label: 'Check in',
       href: '/dashboard/daily#checkin',
+      // Now a real reading: they have concerns, and none is still waiting on
+      // them today, so this was genuinely earned.
       done: (pendingConcerns ?? []).length === 0,
-    },
+    }] : []),
     {
       key: 'moment',
       label: 'Moment',

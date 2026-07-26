@@ -270,6 +270,19 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
 }
 @media (min-width: 768px) { .bottom-tab-bar { display: none; } }
 
+/* A page's own sticky action bar (the shop basket, for one) has to sit ABOVE
+   the global tab bar on mobile or the tab bar covers it, and on the floor on
+   desktop where there is no tab bar to clear. Media queries cannot be written
+   inline, so the offset lives here. */
+.above-tab-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: calc(72px + env(safe-area-inset-bottom));
+  z-index: 40;
+}
+@media (min-width: 768px) { .above-tab-bar { bottom: 0; } }
+
 /* While a text input has focus and the on screen keyboard is up, the
    global tab bar and the page's own compose bar both try to pin
    themselves above the keyboard, stacking messily. The tab bar steps

@@ -30,6 +30,7 @@ import DigiWelcomeSheet from '@/components/digi/DigiWelcomeSheet'
 import TodayPathBig from '@/components/daily/TodayPathBig'
 import DigiGreeting from '@/components/home/DigiGreeting'
 import MissionWelcome from '@/components/home/MissionWelcome'
+import ChildAppNudge from '@/components/home/ChildAppNudge'
 import CommunityBite from '@/components/community/CommunityBite'
 import DealReviewNudge from '@/components/quests/DealReviewNudge'
 import HomeRows from '@/components/home/HomeRows'
@@ -97,8 +98,10 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     // moment the open list empties out.
     supabase.from('school_actions').select('id').eq('user_id', user.id).limit(1).maybeSingle(),
     // Whether any child already has their own phone link (the kid companion
-    // link). Keyed by user, matched to the primary child below.
-    supabase.from('kid_links').select('child_id').eq('user_id', user.id),
+    // link). Keyed by user, matched to the primary child below. last_seen_at
+    // rides along because a link that was made and never opened leaves the
+    // family exactly where a link that was never made does.
+    supabase.from('kid_links').select('child_id, last_seen_at').eq('user_id', user.id),
     // The problem this family is working on right now: the most recently
     // flagged live concern, for the focus bar above the path.
     supabase.from('concerns').select('label, status').eq('user_id', user.id).in('status', ['open', 'improving']).order('last_flagged_at', { ascending: false }).limit(1).maybeSingle(),
@@ -143,6 +146,12 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // child, the step simply waits until they move up.
   const phoneAge = !!child?.age_band && child.age_band !== '4-7'
   const hasKidLink = (kidLinksResult.data ?? []).some(k => k.child_id === child?.id)
+  // The child app is only really set up once the child has actually opened it.
+  // A parent can run the whole parent side for weeks without realising the
+  // jobs, the earned device time and the printables all live on the child's
+  // side, so until this is true Home says so plainly.
+  const childAppLive = (kidLinksResult.data ?? [])
+    .some(k => k.child_id === child?.id && !!k.last_seen_at)
   const setupFlags = {
     agreement: !!agreementResult.data,
     quests: (questsCountResult.count ?? 0) > 0,
@@ -362,10 +371,51 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     || investedMinutes(todayLoop) >= ((profile?.daily_minutes as number | null) ?? 10)
     || (dailySteps.length > 0 && dailySteps.every(t => t.done))
   const questsChildName = child?.name && child.name !== 'Your child' ? child.name : null
-  const questsLine =
-    jobsStatus === 'pending' ? 'Jobs to check off and any asks to answer'
-    : jobsStatus === 'on_track' ? "Today's jobs are done. Check any asks and set tomorrow's"
-    : 'Set the jobs and screen time to get the stars flowing'
+
+  // Finishing the daily habit is not the end of the day's work, it is the point
+  // the parent is free to do the thing that actually moves the family along. So
+  // rather than always pointing at the quests board, this picks the one real
+  // next job and names it.
+  //
+  // The order is what would genuinely cost them most to miss: a child waiting
+  // on an answer beats setting anything up, an empty jobs board beats the
+  // passport (nothing else works without jobs), and once both are running the
+  // passport is what is left. The child app handover is deliberately not in
+  // here, because ChildAppNudge above already owns that and saying it twice on
+  // one screen is nagging.
+  const noQuestsYet = (questsCountResult.count ?? 0) === 0
+  const stageLessonsLeft = stageLessons ? stageLessons.total - stageLessons.passed : 0
+
+  const nextUp: { eyebrow: string; title: string; line: string; href: string; icon: string } =
+    jobsStatus === 'pending'
+      ? {
+          eyebrow: "Today's habit done",
+          title: questsChildName ? `${questsChildName}'s quests` : 'Family quests',
+          line: 'Jobs to check off and any asks to answer',
+          href: '/dashboard/quests', icon: '⭐',
+        }
+      : noQuestsYet
+      ? {
+          eyebrow: "Today's habit done",
+          title: 'Set their first jobs',
+          line: 'Real world jobs are what earn screen time, so nothing else starts moving until these exist.',
+          href: '/dashboard/quests', icon: '🧹',
+        }
+      : stageLessonsLeft > 0
+      ? {
+          eyebrow: "Today's habit done",
+          title: 'Move the passport on',
+          line: `${stageLessons!.passed} of ${stageLessons!.total} lessons passed at ${stage.name}. Pass the rest to stamp this stage.`,
+          href: '/dashboard/pathway', icon: '🛂',
+        }
+      : {
+          eyebrow: "Today's habit done",
+          title: questsChildName ? `${questsChildName}'s quests` : 'Family quests',
+          line: jobsStatus === 'on_track'
+            ? "Today's jobs are done. Check any asks and set tomorrow's"
+            : 'Set the jobs and screen time to get the stars flowing',
+          href: '/dashboard/quests', icon: '⭐',
+        }
 
   return (
     <div style={{ maxWidth: '640px', margin: '0 auto', padding: '24px 20px' }}>
@@ -379,7 +429,13 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           stageNum: stage.id,
           stageName: stage.name,
           childName: (child?.name && child.name !== 'Your child') ? child.name : 'your child',
-          nextTask: (() => { const t = todayLoop.find(x => !x.done && x.key !== 'done'); return t ? { label: t.label, href: t.href } : null })(),
+          // DiGi's walk ends on today, one thing. While the child has never
+          // opened their app, that IS the one thing: nothing else on the loop
+          // pays off as much as the side of the product they cannot see yet.
+          // Once they are in, it goes back to the normal daily loop.
+          nextTask: !childAppLive
+            ? { label: 'Share the QR code with them', href: '/dashboard/quests?tab=share' }
+            : (() => { const t = todayLoop.find(x => !x.done && x.key !== 'done'); return t ? { label: t.label, href: t.href } : null })(),
           strands: (['safe', 'balance', 'ai', 'social'] as const).map(k => ({
             name: k === 'safe' ? 'Safe online' : k === 'balance' ? 'Healthy balance' : k === 'ai' ? 'AI and chatbots' : 'Social media ready',
             tone: (stage.id >= (k === 'ai' || k === 'social' ? 3 : 1))
@@ -428,6 +484,12 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           all for, so the mission rotates across visits rather than sitting as a
           wall of text nobody reads. */}
       <MissionWelcome firstName={firstName} />
+
+      {/* Half the product is on the child's phone. Until they have opened it,
+          the parent is running one side of a two sided thing and usually does
+          not know it, so this says what is missing and where the QR code is.
+          It goes for good the moment the child opens their app. */}
+      {!childAppLive && <ChildAppNudge childName={child?.name ?? null} />}
 
       {/* Every couple of weeks, DiGi asks whether the deal still fits. A deal
           set in week one quietly stops matching the family by week six, so this
@@ -482,16 +544,16 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           sits above the finished path so the day's next real thing is first.
           Silent until the habit is done, so it never crowds the path. */}
       {dayComplete && (
-        <Link href="/dashboard/quests" style={{ textDecoration: 'none', display: 'block', marginBottom: '22px' }}>
+        <Link href={nextUp.href} style={{ textDecoration: 'none', display: 'block', marginBottom: '22px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '15px', background: 'linear-gradient(135deg, #FFF7EA 0%, #FCEAC0 100%)', border: '1.5px solid var(--gold)', borderRadius: '22px', padding: '18px 20px', boxShadow: '0 10px 26px -12px rgba(198,144,24,0.45)' }}>
-            <span style={{ flexShrink: 0, width: 52, height: 52, borderRadius: '15px', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '27px', boxShadow: '0 3px 8px rgba(198,144,24,0.18)' }}>⭐</span>
+            <span style={{ flexShrink: 0, width: 52, height: 52, borderRadius: '15px', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '27px', boxShadow: '0 3px 8px rgba(198,144,24,0.18)' }}>{nextUp.icon}</span>
             <span style={{ flex: 1, minWidth: 0 }}>
-              <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--gold-dark)', marginBottom: '4px' }}>Today&apos;s habit done</span>
+              <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--gold-dark)', marginBottom: '4px' }}>{nextUp.eyebrow}</span>
               <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.4rem', color: 'var(--ink)', lineHeight: 1.15, letterSpacing: '-0.01em' }}>
-                {questsChildName ? `${questsChildName}'s quests` : 'Family quests'}
+                {nextUp.title}
               </span>
               <span style={{ display: 'block', fontSize: '14.5px', color: 'var(--ink-soft)', marginTop: '3px', lineHeight: 1.4 }}>
-                {questsLine}
+                {nextUp.line}
               </span>
             </span>
             <span style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: 'var(--ink)', background: 'var(--gold)', borderRadius: '13px', padding: '12px 20px', boxShadow: '0 4px 0 var(--gold-dark)' }}>Open</span>

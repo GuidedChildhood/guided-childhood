@@ -46,6 +46,15 @@ export type Printable = {
   // of the single generated sheet.
   pdfColour?: string
   pdfColourIn?: string
+  /**
+   * Free to download without a membership. Almost nothing is: the printables
+   * are a member feature and the preview is the sell. The exception is the
+   * Starter Pack, which is the lead magnet every marketing CTA on the site
+   * points at. Giving it away at the front door and then locking the same
+   * booklet inside the app is the wrong way round, and it also meant nobody,
+   * including us, could open it to check it.
+   */
+  free?: boolean
 }
 
 export const PRINTABLES: Printable[] = [
@@ -301,6 +310,10 @@ export const PRINTABLES: Printable[] = [
     title: 'The Guided Childhood Starter Pack', emoji: '📰', kind: 'challenge',
     stages: [1, 2, 3, 4, 5], minutes: 'All week', setting: 'anywhere', skill: 'Screen time',
     stars: 5,
+    // Free, as the comment above always said it was. It is the lead magnet the
+    // whole marketing site hands out at /starter-pack, so locking it inside the
+    // app was giving it away to strangers and charging members for it.
+    free: true,
     blurb: 'The whole deal on paper. A star reward chart for the fridge, the jobs that earn stars, how to guides, a wake up workout, football, dance, a healthy breakfast plate, a print and play game and pages to colour. One star is five minutes of screen time.',
     sheetUrl: '/printables/starter-pack-colour.pdf',
     previewUrl: '/printables/starter-pack.png',
