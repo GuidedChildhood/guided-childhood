@@ -1,7 +1,9 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { card, cardPad, eyebrow, stepCircle } from '@/components/scripts/card-system'
+import {
+  card, cardPad, eyebrow, sheet, dottedRule, sheetBody, stageAccent, stageCircle,
+} from '@/components/scripts/card-system'
 
 // The deeper half of every script: what to say when the child pushes
 // back, how to check back later in the week, and a short note written
@@ -63,6 +65,9 @@ export default function ScriptDepth({ sortOrder, initial, childName, childPhone,
     ? `sms:${childPhone.replace(/\s/g, '')}?&body=${encodeURIComponent(note)}`
     : null
   const isYoung = YOUNG_STAGES.includes(stageId)
+  // The stage shows in the numbered circles only, so a Foundation script and a
+  // Shaper one are still the same familiar butter sheet.
+  const accent = stageAccent(stageId)
 
   const share = () => {
     if (!note) return
@@ -124,18 +129,24 @@ export default function ScriptDepth({ sortOrder, initial, childName, childPhone,
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
 
-      {/* Steps 5 and 6, the exact same card grammar as steps 1 to 4 */}
-      {DEEP_STEPS.map(step => (
-        <div key={step.num} style={{ ...card, padding: cardPad }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px' }}>
-            <span style={stepCircle}>{step.num}</span>
-            <span style={{ ...eyebrow, color: 'var(--terracotta-dark)' }}>{step.label}</span>
-          </div>
-          <p style={{ fontSize: '16.5px', color: 'var(--ink)', lineHeight: 1.7, margin: 0 }}>
-            {expansion[step.key]}
-          </p>
+      {/* Steps 5 and 6 continue the sheet the first four steps are on: one
+          butter sheet, numbered blocks, a dotted rule between them, and the
+          same body size, so the script reads as one thing being read down
+          rather than two products stacked. */}
+      <section style={sheet}>
+        <div style={{ padding: 'clamp(20px, 5vw, 26px)' }}>
+          {DEEP_STEPS.map((step, i) => (
+            <div key={step.num}>
+              {i > 0 && <div style={dottedRule} />}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 11, marginBottom: 12 }}>
+                <span style={stageCircle(accent)}>{step.num}</span>
+                <span style={{ ...eyebrow, color: 'var(--terracotta-dark)' }}>{step.label}</span>
+              </div>
+              <p style={sheetBody}>{expansion[step.key]}</p>
+            </div>
+          ))}
         </div>
-      ))}
+      </section>
 
       {/* The note for the child. Spoken words live in the DiGi blue pill,
           the chat speech treatment, and everything around them (the how to
