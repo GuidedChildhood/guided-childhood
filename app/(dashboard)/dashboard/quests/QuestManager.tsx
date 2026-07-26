@@ -1145,6 +1145,52 @@ export default function QuestManager() {
 
             {addOpen && (
               <div style={{ background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: '14px', padding: '12px', marginBottom: '12px' }}>
+                {/* Add a job means add a job, not only write one from scratch.
+                    Most parents want a ready made one, and asking them to type
+                    out "one hour of outside play" when we already have it is
+                    work we invented. Play first, because play pays the most
+                    stars and is the job families most often forget counts. */}
+                {templatesUnused.length > 0 && (
+                  <>
+                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '8px' }}>
+                      Tap one to add it
+                    </div>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(190px, 1fr))', gap: '7px', marginBottom: '12px' }}>
+                      {[...templatesUnused].sort((a, b) => Number(!!b.play) - Number(!!a.play)).slice(0, 6).map(t => (
+                        <button
+                          key={t.title}
+                          onClick={() => addQuest(t)}
+                          style={{
+                            display: 'flex', alignItems: 'center', gap: '9px', textAlign: 'left',
+                            padding: '10px 11px', borderRadius: '13px', cursor: 'pointer',
+                            background: '#fff', border: '1.5px solid var(--border)',
+                          }}
+                        >
+                          <span aria-hidden style={{ fontSize: '20px', lineHeight: 1, flexShrink: 0 }}>{t.emoji}</span>
+                          <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '15px', color: 'var(--ink)', lineHeight: 1.25 }}>
+                            {t.title}
+                          </span>
+                          <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>
+                            ⭐{t.stars}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                    <button
+                      onClick={() => document.getElementById('all-ideas')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                      style={{
+                        background: 'none', border: 'none', padding: 0, marginBottom: '14px', cursor: 'pointer',
+                        fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '15px', color: 'var(--terracotta-dark)',
+                      }}
+                    >
+                      See all {templatesUnused.length} ideas, and the whole week routines →
+                    </button>
+                  </>
+                )}
+
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '8px' }}>
+                  Or write your own
+                </div>
                 <div style={{ display: 'flex', gap: '8px' }}>
                   <input
                     autoFocus
@@ -1419,7 +1465,7 @@ export default function QuestManager() {
 
           {/* Templates: play and outside lead, and pay the most */}
           {templatesUnused.length > 0 && (
-            <div style={card}>
+            <div id="all-ideas" style={{ ...card, scrollMarginTop: '80px' }}>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
                 Play pays best
               </div>
