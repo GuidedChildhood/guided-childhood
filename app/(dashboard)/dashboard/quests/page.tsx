@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import QuestManager from './QuestManager'
 import QuestBoard from '@/components/quests/QuestBoard'
 import ParentDeviceTime from '@/components/quests/ParentDeviceTime'
+import NoPhoneButton from '@/components/quests/NoPhoneButton'
 import SpotSomethingGood from '@/components/quests/SpotSomethingGood'
 import PrintablesToConfirm from '@/components/quests/PrintablesToConfirm'
 import QuestShortcuts from '@/components/quests/QuestShortcuts'
@@ -24,6 +25,7 @@ export default async function QuestsPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   let handoverName: string | null = null
+  let handoverId: string | null = null
   let spotKids: { id: string; name: string }[] = []
   // The deal, tuned to their age: what a good weekday on this board can earn
   // each child, held against the healthy daily guide for their age, so the
@@ -38,10 +40,22 @@ export default async function QuestsPage() {
       supabase.from('family_quests').select('stars, schedule, child_id').eq('user_id', user.id).eq('active', true),
     ])
     const linked = new Set((links ?? []).map(l => l.child_id))
+    // Children the parent has said have no phone stay parent managed and never
+    // see the handover nudge. Read separately and fail soft, so a page load
+    // before migration 105 lands never breaks on the missing column.
+    const noPhone = new Set<string>()
+    {
+      const { data: np, error } = await supabase
+        .from('children').select('id').eq('parent_id', user.id).eq('no_phone', true)
+      if (!error) for (const r of np ?? []) noPhone.add(r.id as string)
+    }
+    // A child ready to run their own side: old enough, named, not yet linked,
+    // and not one the parent has said has no phone.
     const ready = (kids ?? []).find(k =>
-      k.age_band && k.age_band !== '4-7' && !linked.has(k.id) && k.name && k.name !== 'Your child'
+      k.age_band && k.age_band !== '4-7' && !linked.has(k.id) && !noPhone.has(k.id) && k.name && k.name !== 'Your child'
     )
     handoverName = ready?.name ?? null
+    handoverId = ready?.id ?? null
     spotKids = (kids ?? []).filter(k => k.name && k.name !== 'Your child').map(k => ({ id: k.id, name: k.name }))
 
     // Completed jobs streaks still waiting on a reward. Fails soft before
@@ -91,7 +105,7 @@ export default async function QuestsPage() {
           this card carries the answer plus what they have already used today
           against the guide for their age, so the decision is made with the
           usage in front of you rather than two screens away. */}
-      <ParentDeviceTime />
+      <ParentDeviceTime userId={user?.id} />
 
       {handoverName && (
         <Link href="/dashboard/quests?tab=share" style={{ textDecoration: 'none', display: 'block', marginBottom: '16px' }}>
@@ -117,6 +131,12 @@ export default async function QuestsPage() {
             </span>
           </div>
         </Link>
+      )}
+
+      {/* If there will never be a phone, one tap says so and the nudge above is
+          gone for good, the app committing to the fridge and parent managed way. */}
+      {handoverName && handoverId && (
+        <NoPhoneButton childId={handoverId} childName={handoverName} />
       )}
 
       {/* A five day jobs streak, done and confirmed on time, waiting on the

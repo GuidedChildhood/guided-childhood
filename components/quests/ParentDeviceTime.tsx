@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { DEVICES, type DeviceKey, minutesToStars, deviceLabel, deviceEmoji } from '@/lib/quests/device-time'
 import { dailyGuide, wouldExceedGuide } from '@/lib/quests/daily-guide'
 import { bandLabelFor } from '@/lib/quests/screen-balance'
+import PushPrompt from '@/components/push/PushPrompt'
 
 // The parent's screen time control, one card per child. When a child has time
 // running it shows the same countdown the child sees, and warns the parent
@@ -72,9 +73,21 @@ function fmt(ms: number): string {
   return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`
 }
 
-export default function ParentDeviceTime() {
+export default function ParentDeviceTime({ userId }: { userId?: string }) {
   const [kids, setKids] = useState<Kid[] | null>(null)
   const audioRef = useRef<AudioContext | null>(null)
+  // The rising tone is best effort, so the reliable end of timer signal is the
+  // push. If notifications are not on yet, offer to turn them on right here
+  // where the timer lives, so a parent watching TV across the room still hears
+  // the alarm. Cleared once granted, so a set up parent never sees it.
+  const [alarmOff, setAlarmOff] = useState(false)
+  useEffect(() => {
+    try {
+      if (typeof Notification !== 'undefined' && 'serviceWorker' in navigator) {
+        setAlarmOff(Notification.permission !== 'granted')
+      }
+    } catch { /* no notifications api on this browser */ }
+  }, [])
 
   async function load() {
     try {
@@ -125,6 +138,14 @@ export default function ParentDeviceTime() {
       <p style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 10px' }}>
         Set device time for each child. It spends their stars, or give a bonus for a treat. You both get the alarm when it is up.
       </p>
+      {userId && alarmOff && (
+        <div style={{ marginBottom: '14px' }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', margin: '0 0 6px' }}>
+            Turn on the timer alarm
+          </p>
+          <PushPrompt userId={userId} />
+        </div>
+      )}
       <details style={{ marginBottom: '16px' }}>
         <summary style={{ cursor: 'pointer', listStyle: 'none', fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
           How does screen time work? ›
