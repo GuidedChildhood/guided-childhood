@@ -1,9 +1,17 @@
+'use client'
+
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 
 // The child switcher: butter pill tabs, one per child, shown only when a
-// family has more than one. Each pill is a plain link carrying ?child=<id>,
-// so the server page re renders everything for that child and the choice
-// survives refresh and sharing. The primary child keeps the clean URL.
+// family has more than one. Each pill carries ?child=<id> so the server page
+// re renders everything for that child and the choice survives refresh and
+// sharing. The primary child keeps the clean URL.
+//
+// Fluidity: the server drives the real selection, but that only lands once the
+// heavy page has re rendered, so on its own the pill lagged the tap. We move
+// the highlight optimistically the instant a pill is pressed, prefetch the
+// destination, and hand back to the server's choice the moment it arrives.
 
 export interface SwitcherChild {
   id: string
@@ -20,11 +28,16 @@ export default function ChildSwitcher({
   selectedId: string | null
   basePath: string
 }) {
+  const [pending, setPending] = useState<string | null>(null)
+  // Once the server re renders with the new child, hand the highlight back.
+  useEffect(() => { setPending(null) }, [selectedId])
+  const activeId = pending ?? selectedId
+
   if (kids.length < 2) return null
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '18px' }} aria-label="Choose which child">
       {kids.map(kid => {
-        const active = kid.id === selectedId
+        const active = kid.id === activeId
         const isDefault = kid.is_primary ?? false
         const href = isDefault ? basePath : `${basePath}?child=${kid.id}`
         const label = kid.name && kid.name !== 'Your child' ? kid.name : 'Your child'
@@ -32,7 +45,10 @@ export default function ChildSwitcher({
           <Link
             key={kid.id}
             href={href}
+            prefetch
+            onClick={() => setPending(kid.id)}
             aria-current={active ? 'page' : undefined}
+            className="child-switch-pill"
             style={{
               display: 'inline-flex',
               alignItems: 'center',

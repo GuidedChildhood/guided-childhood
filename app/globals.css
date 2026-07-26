@@ -332,6 +332,16 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
   .tab-item:hover { color: var(--terracotta); }
 }
 
+/* Child switcher pills: instant press response so switching child on the
+   Passport feels immediate, paired with the optimistic highlight in the
+   component. No tap delay, no grey flash. */
+.child-switch-pill {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.06s ease, background 0.12s, box-shadow 0.12s, border-color 0.12s;
+}
+.child-switch-pill:active { transform: scale(0.94); }
+
 /* ── DIGI CARD (app) ── */
 .digi-card {
   background: var(--white);
