@@ -31,6 +31,27 @@ export function unsubscribeUrl(userId: string): string {
   return `${origin}/api/email/unsubscribe?u=${userId}&k=${unsubscribeToken(userId)}`
 }
 
+// The same one click stop, for someone who gave us their email before they had
+// an account. There is no user id to key off, so the address itself is signed.
+//
+// This exists because the pre sign up sequence used to offer nothing but a
+// mailto, and a parent who has since joined under a different address had no
+// way to stop being sold something they already own except by writing to us.
+// It is also what the bulk sender rules ask for: a link that works in one tap,
+// not an email to compose.
+export function leadUnsubscribeToken(email: string): string {
+  return createHmac('sha256', process.env.CRON_SECRET ?? 'dev')
+    .update(`lead:${email.trim().toLowerCase()}`)
+    .digest('hex')
+    .slice(0, 32)
+}
+
+export function leadUnsubscribeUrl(email: string): string {
+  const origin = process.env.NEXT_PUBLIC_APP_URL ?? 'https://guidedchildhood.com'
+  const addr = email.trim().toLowerCase()
+  return `${origin}/api/email/unsubscribe?e=${encodeURIComponent(addr)}&k=${leadUnsubscribeToken(addr)}`
+}
+
 export async function sendEmail(params: {
   to: string
   subject: string

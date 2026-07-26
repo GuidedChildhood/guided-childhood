@@ -1866,3 +1866,25 @@ it falls back to the quiet prompt already on Quests.
 The age gate was already right and stays: nothing is offered below the 8 plus
 band, because asking a parent of a five year old to link a phone reads as us
 pushing devices onto little children.
+
+## 26 Jul 2026: leads get a real stop link, because address matching cannot catch everyone
+Checked whether the pre sign up emails reach people who have already joined.
+Every starter pack link lives in a lead only email, and the cron does exclude
+anyone with a matching account, so the design is right. Both sides lowercase the
+address at write time, so case is not the hole either.
+
+The hole is a parent who took a printable with one address and then signed up
+with another. Matching on address cannot ever catch that, and until now their
+only way out was a mailto in the footer, which is no way out at all.
+
+So every lead email now carries a real one click stop, signed with an HMAC over
+the address (`leadUnsubscribeUrl`), and the same door handles both kinds of
+recipient. Clicking it stops the lead sequence AND opts out any account on that
+address, because someone clicking stop means stop, not stop one of two lists
+they did not know they were on. Migration 104 adds `starter_leads.unsubscribed_at`.
+
+Both lead reads fall back to the unfiltered query if that column is missing, so
+a deploy landing before the migration cannot silently switch the whole lead
+programme off. This is the same defensive shape as the handover column read.
+
+It is also what the bulk sender rules ask for: a link that works in one tap.

@@ -293,7 +293,7 @@ export function weeklyDigestEmail(params: {
 // 10 · Lead nurture, sent once to an email captured before an account exists
 // (a magnet download or a quiz drop off). Warm, no hard sell, one door to the
 // free trial. No account yet, so unsubscribe is a plain reply address.
-export function leadNurtureEmail(): EmailContent {
+export function leadNurtureEmail(unsubscribe: string = LEAD_UNSUB): EmailContent {
   return {
     subject: 'Your pathway is a couple of minutes away',
     html: wrapper(
@@ -302,7 +302,7 @@ export function leadNurtureEmail(): EmailContent {
       p(`It takes about two minutes to set up, no card needed, and the free trial opens everything: the scripts for the hard conversations, the daily moments, and DiGi whenever you want the exact words.`) +
       button('Start the free trial', `${APP}/starter-pack`) +
       p(`No rush, and no pressure. The door stays open whenever the timing feels right.`),
-      'mailto:hello@guidedchildhood.com?subject=Unsubscribe'
+      unsubscribe
     ),
   }
 }
@@ -472,9 +472,15 @@ export function weeklyReviewEmail(params: {
 
 // ── Pre sign up teasers ──────────────────────────────────────────────
 // One clever thing per email, each earning the sign up by showing not telling.
-// Sent to leads on a gentle cadence. Leads have no signed unsubscribe token, so
-// they fall back to the plain mailto. Every call to action goes to the free
+// Sent to leads on a gentle cadence. Every call to action goes to the free
 // starter pack (house rule 9).
+//
+// The cron passes a real signed stop link (leadUnsubscribeUrl), which matters
+// most for the parent who took a printable with one address and then joined
+// with another: the account check matches on address, so two addresses defeat
+// it and always will, and without a working link they were stuck being sold
+// what they already own. The mailto stays only as the default for a caller
+// with no address to hand, which in practice is the fixture pages.
 
 const LEAD_UNSUB = 'mailto:hello@guidedchildhood.com?subject=Unsubscribe'
 
