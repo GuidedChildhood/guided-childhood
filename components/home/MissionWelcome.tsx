@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import DigiCharacter from '@/components/digi/DigiCharacter'
 import HandoverPrompt, { type HandoverChild } from '@/components/home/HandoverPrompt'
+import ShareQrButton from '@/components/quests/ShareQrButton'
 import { MAX_HANDOVER_ASKS } from '@/lib/handover'
 import { pickWelcomeCard, type WelcomeCard } from '@/lib/home/welcome-cards'
 import type { SetupFlags } from '@/lib/setup/steps'
@@ -48,6 +49,7 @@ export default function MissionWelcome({
   flags,
   phoneAge = false,
   handoverChild = null,
+  child = null,
 }: {
   firstName?: string
   flags?: Partial<SetupFlags>
@@ -56,6 +58,9 @@ export default function MissionWelcome({
   // has already checked the age band, that no link exists, that they have not
   // chosen paper and that we have not asked too many times.
   handoverChild?: HandoverChild | null
+  // The primary child, whatever the handover state, so the phone link card can
+  // put the code up rather than point at a page.
+  child?: HandoverChild | null
 }) {
   // Hidden until the client has checked whether this open has been greeted, so
   // a parent already moving around never sees it flash back in.
@@ -190,7 +195,17 @@ export default function MissionWelcome({
         {/* One tap out, always. Where the card points somewhere useful they get
             that too, but the way past is never hidden. */}
         <div style={{ display: 'flex', gap: 8, padding: '16px 18px 18px' }}>
-          {card.href && (
+          {/* The phone link card puts the code up right here rather than
+              pointing at the page it lives on, because send their link is a
+              promise and a page is not the thing promised. */}
+          {card.key === 'childLink' && child ? (
+            <ShareQrButton
+              childId={child.id}
+              childName={child.name}
+              label={card.cta ?? 'Send their link'}
+              style={{ flex: 1, padding: '13px 10px', fontSize: 15, boxShadow: '0 4px 0 var(--terracotta-dark)' }}
+            />
+          ) : card.href && (
             <Link
               href={card.href}
               onClick={close}

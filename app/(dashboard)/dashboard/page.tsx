@@ -503,13 +503,19 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           the platform does, and what we do with what you tell it, so a parent
           meets the whole product across a fortnight of quick hellos instead of
           a tour nobody sits through. Anything not set up yet leads. */}
-      <MissionWelcome firstName={firstName} flags={setupFlags} phoneAge={phoneAge} handoverChild={handoverChild} />
+      <MissionWelcome
+        firstName={firstName}
+        flags={setupFlags}
+        phoneAge={phoneAge}
+        handoverChild={handoverChild}
+        child={child?.id ? { id: child.id, name: child.name ?? null } : null}
+      />
 
       {/* Half the product is on the child's phone. Until they have opened it,
           the parent is running one side of a two sided thing and usually does
           not know it, so this says what is missing and where the QR code is.
           It goes for good the moment the child opens their app. */}
-      {!childAppLive && <ChildAppNudge childName={child?.name ?? null} />}
+      {!childAppLive && <ChildAppNudge childName={child?.name ?? null} childId={child?.id ?? null} />}
 
       {/* Every couple of weeks, DiGi asks whether the deal still fits. A deal
           set in week one quietly stops matching the family by week six, so this

@@ -47,7 +47,10 @@ export default function QrHandoverModal({ token, childName, onClose }: {
   return (
     <div
       onClick={onClose}
-      style={{ position: 'fixed', inset: 0, zIndex: 140, background: 'rgba(26,26,46,0.45)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}
+      // Above the welcome and the handover overlays (200), because this is now
+      // opened from inside them. At 140 the code came up behind the card that
+      // asked for it, which looks exactly like the button doing nothing.
+      style={{ position: 'fixed', inset: 0, zIndex: 240, background: 'rgba(26,26,46,0.45)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}
     >
       <div
         onClick={e => e.stopPropagation()}
