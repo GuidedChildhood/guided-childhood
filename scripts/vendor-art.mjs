@@ -1,12 +1,16 @@
 // Bring every generated image into the repo, so nothing the app shows depends
 // on somebody else's CDN staying up.
 //
-// Right now 109 distinct images (the Planet Friends, lesson covers, moment
-// photos, printable thumbnails, the shop) are hotlinked straight from the
-// Higgsfield generator's CloudFront bucket. It works today. It works until it
-// does not, and the failure mode is every character in the child's app turning
-// into a broken box on a paying customer's screen, with nothing in our logs to
-// say why. That is not an outage we could even diagnose quickly, let alone fix.
+// 335 distinct images (the Planet Friends, lesson covers, moment photos,
+// printable thumbnails, the shop) are hotlinked straight from the Higgsfield
+// generator's CloudFront bucket. It works today. It works until it does not,
+// and the failure mode is every character in the child's app turning into a
+// broken box on a paying customer's screen, with nothing in our logs to say
+// why. That is not an outage we could even diagnose quickly, let alone fix.
+//
+// This is not hypothetical. One of them, the stop and tell lesson cover, had
+// already gone by the time this script was first run, and had been a broken
+// tile in the live library for days with nobody any the wiser.
 //
 // Run this once, on a machine that can reach the CDN, and commit the result:
 //
@@ -20,7 +24,7 @@
 // Re-runnable. Anything already downloaded is skipped, so adding a new image
 // later and running it again fetches only the new one.
 
-import { readFile, writeFile, mkdir, readdir, stat, access } from 'node:fs/promises'
+import { readFile, writeFile, mkdir, readdir, access } from 'node:fs/promises'
 import { join, extname } from 'node:path'
 
 const CDN = 'https://d8j0ntlcm91z4.cloudfront.net/'
