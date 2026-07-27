@@ -82,23 +82,21 @@ What is the word your child used, and what were they actually trying to tell you
 
 ---
 
-## 4. Founder Story, post 2: Building the brain
+## 4. Founder Story, post 2: Building the brain  [pair with the research behind DiGi image]
 
-Most AI parenting tools are a nice prompt sitting on top of a guess. I did not want to build that. So before DiGi could answer a single parent, I gave it a library.
+Most AI parenting tools are a nice prompt sitting on top of a guess. I did not want to build that. So before DiGi could answer a single parent, I gave it a brain. The picture with this post is that brain, mapped out, and the whole design fits three lines. Researchers in. Principles on. No verdicts out.
 
-There is a table in our database called expert knowledge. It holds real findings from the actual researchers in this field, Candace Odgers, Amy Orben, Andrew Przybylski, Sonia Livingstone, Becky Kennedy, the NHS, the Royal College of Psychiatrists, and more. When a parent messages DiGi, an engine scores every one of those findings against what the parent actually asked, by the child's age and the topic, and hands the best ones to DiGi with one instruction. Cite the source by name when you use it.
+Researchers in. DiGi answers from a library of findings from the actual people who study this, Amy Orben, Candice Odgers, Andrew Przybylski, Sonia Livingstone, Lucy Foulkes, Chris Ferguson, Catherine Knibbs, Jacqueline Nesi, Patti Valkenburg, and Jean Twenge held honestly as the concern side. When a parent asks something, an engine scores every finding against their exact question, by the child's age and the topic, and hands DiGi the best ones with one instruction. Cite the source by name.
 
-Two rules sit on top of that, and I care about them more than any feature.
+Principles on. On top of the research sit ten principles it cannot break. No verdicts only pathways. Evidence before opinion. Child before platform. Relationship first. Sleep matters. Privacy and safeguarding by design. Those are not slogans, they are rules the guide runs inside.
 
-The first is no invented statistics. Ever. DiGi represents real researchers at the level of their real position, and if it does not know, it says so. It will never hand you a made up study to sound sure.
+No verdicts out. This is the one that matters most. DiGi will never hand you a yes or a no. It gives you the best next step and leaves the deciding to you.
 
-The second is the one people find strange. I deliberately left the scariest, most viral research out of the brain. The work that says phones are rewiring a generation, the stuff that goes viral precisely because it frightens you, is not what DiGi reaches for. Not because I am hiding it, but because our whole approach is education, not alarm. The brain is built from the honest, careful, often boring middle of the evidence, where the truth actually lives.
+Two rules I care about more than any feature. No invented statistics, ever, and if it does not know, it says so. And it does not lead with the most alarming, most viral research, because our whole approach is education, not alarm, so the brain is built from the honest, careful middle of the evidence where the truth actually lives.
 
-The result is a guide that speaks the research as if it simply knows it, not as a bibliography it is reading off. Calm, sourced, and honest about how much is still uncertain, because most of it is.
+And it gets better the more we feed it. Every solid finding we add, every real moment it helps a family through, sharpens what it knows. A brain that learns, not a script that goes stale.
 
-And it is built to get better the more we feed it. Every solid finding we add, every real moment it helps a family through, sharpens what it knows. That is the whole bet. A brain that learns instead of a script that goes stale, and tech used, quietly, to help children use tech better.
-
-Anyone can bolt a chatbot onto a parenting website. The hard part, and the part I lost weeks to, was making sure that when it speaks, it is standing on something real.
+One thing to be clear about, because people assume DiGi is the whole product. It is not. DiGi is one part of the platform, the parent facing guide, the bit a mum or dad actually talks to. Around it sits everything else we are building, the staged pathway, the scripts for real moments, the family agreement, the lessons. DiGi is the voice. The platform is the house.
 
 If an AI gave you parenting advice, what would you need before you trusted it?
 
