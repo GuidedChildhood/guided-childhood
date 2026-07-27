@@ -14,6 +14,7 @@ import { POPUP_DELAY, openPopup, closePopup, whenClear } from '@/lib/ui/popupQue
 const UNLOCK_COPY: Record<keyof SetupFlags, string> = {
   quests: 'Family Quests are live. Everyday jobs now earn stars, and the stars buy the screen time you both agreed.',
   daily: 'Your daily practice has started. Two minutes a day is the whole habit, and it just began.',
+  birthday: 'The birthday is in, so we can place them in their school year. The learning sheets now show the actual curriculum for that year, and the stage, the lessons and the screen time guide all grow up with them on their own.',
   push: 'Check ins are on. From now on we nudge you right at the moments your child actually faces screens.',
   school: 'School routines are set. Whatever you added will remind you, and your child too if you switch that on, every time it comes round.',
   childLink: 'Their phone link is ready. Send it by message and their quests open like a mini app, nothing to install.',

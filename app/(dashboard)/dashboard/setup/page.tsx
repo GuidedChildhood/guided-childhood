@@ -13,7 +13,7 @@ export const metadata = { title: 'Set up — Guided Childhood' }
 // just points here until it is finished.
 
 const STEP_ICON: Record<string, string> = {
-  daily: '🌅', push: '🔔', quests: '⭐', school: '🏫', childLink: '📲', agreement: '🤝',
+  daily: '🌅', birthday: '🎂', push: '🔔', quests: '⭐', school: '🏫', childLink: '📲', agreement: '🤝',
 }
 
 export default async function SetupPage() {
@@ -106,6 +106,7 @@ export default async function SetupPage() {
 function shortWhat(key: string): string {
   const map: Record<string, string> = {
     daily: 'Two minutes: the moment, the words, the check in.',
+    birthday: 'One date. It puts their real school year in front of you.',
     push: 'Three gentle nudges a day, at screen time moments.',
     quests: 'Jobs earn stars, stars buy the screen time you agree.',
     school: 'PE kit, library day, clubs. Reminds you both weekly.',

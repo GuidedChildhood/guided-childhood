@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import DigiCharacter from '@/components/digi/DigiCharacter'
 import HandoverPrompt, { type HandoverChild } from '@/components/home/HandoverPrompt'
-import ShareQrButton from '@/components/quests/ShareQrButton'
 import { MAX_HANDOVER_ASKS } from '@/lib/handover'
 import { pickWelcomeCards, type WelcomeCard } from '@/lib/home/welcome-cards'
 import type { SetupFlags } from '@/lib/setup/steps'
@@ -19,6 +18,15 @@ import type { SetupFlags } from '@/lib/setup/steps'
 // Anything they have not set up leads, so the card is a useful next thing.
 // And every card says what we do with what they tell it, because that is the
 // part parents actually want to know.
+//
+// Where it hands over. The card used to point at the page the service lives on,
+// which made the hello a menu: read a paragraph about Family Quests, land on
+// the Quests page, still on your own. It goes to DiGi now, carrying that card's
+// question already asked, so a greeting day is hello, one conversation, Home.
+// Later goes straight to Home as it always did, and the four quiet days have no
+// hello at all, so they keep no detour either. DiGi's header already carries the
+// way back to today's pathway, which is the Home half of that sequence, so there
+// is no second control here telling a parent how to leave.
 
 // The hello is not every open. Justin's call after seeing it land, and he is
 // right: a card every single time you open the app stops being a welcome and
@@ -60,8 +68,6 @@ export default function MissionWelcome({
   flags,
   phoneAge = false,
   handoverChild = null,
-  child = null,
-  needsBirthday = false,
 }: {
   firstName?: string
   flags?: Partial<SetupFlags>
@@ -70,12 +76,6 @@ export default function MissionWelcome({
   // has already checked the age band, that no link exists, that they have not
   // chosen paper and that we have not asked too many times.
   handoverChild?: HandoverChild | null
-  // The primary child, whatever the handover state, so the phone link card can
-  // put the code up rather than point at a page.
-  child?: HandoverChild | null
-  // True when a child on this account has no birthday recorded. It blocks the
-  // learning sheets outright, so it leads the hello until it is fixed.
-  needsBirthday?: boolean
 }) {
   // Hidden until the client has checked whether this open has been greeted, so
   // a parent already moving around never sees it flash back in.
@@ -131,13 +131,13 @@ export default function MissionWelcome({
     }
 
     const seen = readSeen()
-    const pick = pickWelcomeCards(flags ?? {}, seen, phoneAge, needsBirthday, 1)
+    const pick = pickWelcomeCards(flags ?? {}, seen, phoneAge, 1)
     try {
       localStorage.setItem(SEEN_KEY, JSON.stringify([...seen, ...pick.map(c => c.key)].slice(-SEEN_MAX)))
     } catch { /* private mode, the rotation resets each time, still fine */ }
     openDecision = { cards: pick, handover: false, dismissed: false }
     setCards(pick)
-  }, [flags, phoneAge, handoverChild, needsBirthday])
+  }, [flags, phoneAge, handoverChild])
 
   const name = firstName && firstName.trim() ? firstName.trim() : null
 
@@ -241,48 +241,46 @@ export default function MissionWelcome({
           </p>
         </div>
 
-        {/* One tap out, always. Where the card points somewhere useful they get
-            that too, but the way past is never hidden. */}
-        <div style={{ display: 'flex', gap: 8, padding: '16px 18px 18px' }}>
-          {/* The phone link card puts the code up right here rather than
-              pointing at the page it lives on, because send their link is a
-              promise and a page is not the thing promised. */}
-          {card.key === 'childLink' && child ? (
-            <ShareQrButton
-              childId={child.id}
-              childName={child.name}
-              label={card.cta ?? 'Send their link'}
-              style={{ flex: 1, padding: '13px 10px', fontSize: 17, boxShadow: '0 4px 0 var(--terracotta-dark)' }}
-            />
-          ) : card.href && (
-            <Link
-              href={card.href}
-              onClick={close}
-              style={{
-                flex: 1, textAlign: 'center', padding: '13px 10px', textDecoration: 'none',
-                background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 16,
-                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 17,
-                boxShadow: '0 4px 0 var(--terracotta-dark)',
-              }}
-            >
-              {card.cta ?? 'Have a look'}
-            </Link>
-          )}
+        {/* The question, shown before it is asked. A button that only said Ask
+            DiGi would be a mystery box, and a parent who cannot see what is
+            about to be sent on their behalf has every right not to press it. */}
+        <div style={{ padding: '16px 18px 0' }}>
+          <p style={{
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 17,
+            color: 'var(--ink)', lineHeight: 1.35, margin: 0,
+          }}>
+            &ldquo;{card.ask}&rdquo;
+          </p>
+        </div>
+
+        {/* One tap in, one tap past, and the way past is never hidden. */}
+        <div style={{ display: 'flex', gap: 8, padding: '12px 18px 18px' }}>
+          <Link
+            href={`/dashboard/digi?q=${encodeURIComponent(card.ask)}`}
+            onClick={close}
+            style={{
+              flex: 1, textAlign: 'center', padding: '13px 10px', textDecoration: 'none',
+              background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 16,
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 17,
+              boxShadow: '0 4px 0 var(--terracotta-dark)',
+            }}
+          >
+            Ask DiGi this
+          </Link>
           {/* Next while there is more to see, the way out on the last one.
-              Following a link closes the whole hello rather than parking them
-              mid sequence, because they have gone to do the thing. */}
+              Following the question closes the whole hello rather than parking
+              them mid sequence, because they have gone to have the conversation
+              and coming back to a leftover overlay would be nonsense. */}
           <button
             onClick={() => (isLast ? close() : setStep(step + 1))}
             style={{
-              flex: card.href ? '0 0 auto' : 1, padding: '13px 18px', cursor: 'pointer',
-              background: card.href ? '#fff' : 'var(--terracotta)',
-              color: 'var(--ink)',
-              border: card.href ? '1.5px solid var(--border)' : 'none',
+              flex: '0 0 auto', padding: '13px 18px', cursor: 'pointer',
+              background: '#fff', color: 'var(--ink)',
+              border: '1.5px solid var(--border)',
               borderRadius: 16, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 17,
-              boxShadow: card.href ? 'none' : '0 4px 0 var(--terracotta-dark)',
             }}
           >
-            {isLast ? (card.href ? 'Later' : 'Start today') : 'Next'}
+            {isLast ? 'Later' : 'Next'}
           </button>
         </div>
 

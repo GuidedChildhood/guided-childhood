@@ -2235,6 +2235,137 @@ migration. Apostrophes come from chr(39) and semicolons from chr(59). The
 statutory text keeps every character it is meant to have and nothing in the
 paste path has an escape left to mangle. 114 and 115 are rewritten this way.
 
+## 27 Jul 2026: the curriculum is in, and the connector was the answer
+448 rows live in curriculum_objectives: maths 228, english 165, reading 55. The
+learning sheets stop saying "not written yet" the moment a child has a birthday.
+
+The unresolved note above this one has its answer, and it was not the SQL. The
+Supabase web editor was never going to take these files, and no amount of
+splitting or requoting was going to change that. The MCP connector runs
+statements over the API, where chr(39) and chr(59) are just function calls and
+nothing in the path has an escape left to mangle. Seven statements for 115,
+straight in, no error.
+
+**The table was not empty when this started, and that mattered.** Maths was
+already complete at 228 and english was sitting at 52 rows: a partial 115 from
+the paste that failed, stopped at the exact point the parser lost quote parity.
+Rerunning the whole file would have been fine for the rows that carry `on
+conflict do nothing`, but a half loaded curriculum is the worst state to reason
+from, so english and reading were deleted and reloaded whole. Safe today because
+learning_sheet_results is still empty, so no child's tricky flag pointed at a row
+that went away. Once families are using the sheets that is no longer true and a
+reload has to keep the ids.
+
+**Verified by hash, not by eyeball.** The migration files were parsed locally,
+the chr() splices evaluated back into real characters, and every row reduced to
+one string. Postgres was asked for the same digest over the live table, with the
+sort forced to collate "C" so the two agree on ordering. Both sides:
+74c1c94c9a3756053b04d1211358651c over 448 rows. That is every apostrophe in
+`I(chr 39)m` and every semicolon inside the reading comprehension lists proven to
+have round tripped, rather than assumed because the counts looked right. Counts
+would have passed on 448 subtly wrong rows.
+
+**One real defect found on the way in.** Migration 115 had half a GOV.UK URL
+glued to the end of a Year 2 spelling objective: "apply spelling rules and
+guidance, as listed in English appendix 1 (https://www.gov.uk". A parent would
+have read that on a sheet. It is page furniture from the copy, not statutory
+text, and the Year 1 row directly above it proves the point by ending cleanly at
+"English appendix 1". Loaded without it and the file corrected to match.
+
+## 27 Jul 2026: the birthday is a setup step, and it had three homes
+It was a welcome card, a Home nudge card that waited until day three, and
+nothing in the checklist. Three places to meet the same ask and no place to
+finish it. It is one step now, second in the path, with a flag and a tick like
+everything else, and the two cards are gone.
+
+Second rather than first because the daily practice stays the front door. But it
+is the shortest job on the list and the only one whose absence leaves a service
+the family has already paid for saying "not written yet" on every page it
+touches, so it leads everything except the habit.
+
+The flag is true when NO child on the account is missing a birthday, not when
+the primary one has it. A second child with no date is a second sheet that
+cannot be built.
+
+It also reads true when the read errors. The column arrives with migration 083,
+and on a deploy where that has not run the select fails. Failing to done is the
+difference between a quiet path and a step every parent is shown, cannot
+complete, and cannot get rid of.
+
+## 27 Jul 2026: six tabs, and why 360px was worth measuring
+Lessons had no desktop tab at all, only a chip in the mobile secondary strip.
+The one part of the product that actually teaches a child was the one part with
+no way in on a laptop. It sits before Quests now, on both navs, because it is
+the thing the quests are for.
+
+Six across a phone was measured, not assumed, in Chromium with the real Nunito
+at 430, 393, 375, 360 and 320. Five had room to spare everywhere. Six did not:
+
+    360px  "Passport" is 48.5px wide in 49px of space
+    320px  the row runs 21px past the viewport and the last tab is cut
+
+A tab bar does not scroll when it overflows, it clips, so on a 320px phone the
+Passport tab simply would not have been there. min-width lets the items share
+the width evenly instead of each demanding room for its own label, and the label
+steps down a size below 420px and again below 345px. After: 44.5px in 57px at
+360, 39.5px in 51px at 320.
+
+Worth writing down that the pessimistic guess was wrong in the useful direction.
+Guessed from character counts, six looked fine at 360 and it is half a pixel off.
+
+## 27 Jul 2026: the welcome hands over to DiGi, and MissionWelcome fixtures
+The card used to point at the page its service lives on, which made the hello a
+menu: read a paragraph about Family Quests, land on the Quests page, still on
+your own. Every card now carries an `ask`, the real question a parent would put
+about that service, and the primary action opens DiGi with it already sent. So a
+greeting day is hello, one conversation, Home. Later still goes straight to Home,
+and the four quiet days have no hello, so they keep no detour.
+
+The question is shown above the button rather than hidden behind it. A button
+that only said Ask DiGi is a mystery box, and a parent who cannot see what is
+about to be sent on their behalf has every right not to press it.
+
+Nothing was added to DiGi for the way back. Its header already carries "Today's
+pathway", written for exactly this and already calling a question a detour.
+
+**Why every MissionWelcome fixture has failed.** Instrumented in a production
+build rather than guessed at. The module is evaluated TWICE per page load, so
+`openDecision`, the module scope guard that is supposed to survive a remount,
+resets to null on the second instance. The first instance greets correctly and
+renders the card. The second finds gc_mission_welcome_open already set to 1 by
+the first, decides this open has been greeted, and renders nothing. The overlay
+appears and is then replaced by null, in that order, every time.
+
+The guard cannot do its job if the module it lives in is not a singleton. Left
+alone here because it is not this branch's change and Justin has seen the real
+Home greet him, so on that page something differs. Written down because the next
+person to build a fixture will lose the same afternoon otherwise, and because
+"it renders and then unrenders" is the shape to look for, not "it never renders".
+
+## 27 Jul 2026: a finished sheet offers a quest for the tricky bits
+The loop. On its own a printable is a nice afternoon and then it is over: a
+family works a sheet, ticks two things as tricky, and nothing changes. The flag
+was collected and filed, which is the fastest way to teach a child that saying
+"I found this hard" leads nowhere. Now it comes back the same day as one small
+job on their own phone, worth stars like any other, and the parent has a reason
+to print the next sheet.
+
+Three rules in the route. The flagged ids are read off the saved result rather
+than taken from the request, so a quest can only ever be about objectives that
+were validated when the sheet was finished. ONE quest, never one per flag,
+because five jobs for five flags is a homework pile and a board full of
+everything a child cannot do. And the words tricky, struggling and behind are
+banned from what reaches the child: they were honest with us and the only
+acceptable answer to that is help, never a verdict.
+
+Weekdays, not daily. Practice wants repeating and a short one after school five
+times beats one heroic go, but a job that also lands on a Saturday morning turns
+the weekend into school and gets switched off inside a week.
+
+The statutory wording goes to DiGi and stops there. "Recognise and use
+thousandths and relate them to tenths, hundredths and decimal equivalents" is the
+standard, not a task. The parent has the sheet with the words on it.
+
 ## 2026-07-27 — Every spoken line is British, by one rule
 
 **The live browser voice is British first (lib/voice/english-voice.ts).** Two

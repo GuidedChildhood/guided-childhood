@@ -324,6 +324,27 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
 /* Immediate tactile response the moment a finger lands, before the next
    page has loaded, so the tab bar never feels like it is thinking. */
 .tab-item:active { transform: scale(0.9); }
+
+/* Six tabs, not five, since Lessons joined the bar. Measured rather than
+   assumed, in Chromium with the real Nunito at 430, 393, 375, 360 and 320.
+   Five tabs had room to spare everywhere. Six does not:
+
+     360px, six, unchanged   "Passport" is 48.5px wide in 49px of space
+     320px, six, unchanged   the row runs 21px past the viewport, last tab cut
+
+   A tab bar that overflows does not scroll, it clips, so on a 320px phone the
+   Passport simply would not have been there. min-width lets the items share the
+   width evenly instead of each demanding room for its own label, and the label
+   steps down a size so it fits with room around it rather than to the pixel.
+   After this: 44.5px in 57px at 360, 39.5px in 51px at 320. */
+.tab-item { min-width: 0; }
+@media (max-width: 420px) {
+  .bottom-tab-bar { padding-left: 2px; padding-right: 2px; }
+  .tab-item { font-size: 11px; padding: 6px 1px; gap: 2px; }
+}
+@media (max-width: 345px) {
+  .tab-item { font-size: 10px; letter-spacing: -0.012em; }
+}
 .tab-item svg { width: 24px; height: 24px; }
 /* Hover only for real pointers: on touch, :hover can stick after a tap
    and leave the wrong tab looking active until another tap clears it,
