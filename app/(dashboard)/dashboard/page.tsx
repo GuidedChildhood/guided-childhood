@@ -509,6 +509,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
         phoneAge={phoneAge}
         handoverChild={handoverChild}
         child={child?.id ? { id: child.id, name: child.name ?? null } : null}
+        needsBirthday={birthdayMissing.length > 0}
       />
 
       {/* Half the product is on the child's phone. Until they have opened it,

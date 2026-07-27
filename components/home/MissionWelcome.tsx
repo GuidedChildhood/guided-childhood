@@ -6,7 +6,7 @@ import DigiCharacter from '@/components/digi/DigiCharacter'
 import HandoverPrompt, { type HandoverChild } from '@/components/home/HandoverPrompt'
 import ShareQrButton from '@/components/quests/ShareQrButton'
 import { MAX_HANDOVER_ASKS } from '@/lib/handover'
-import { pickWelcomeCard, type WelcomeCard } from '@/lib/home/welcome-cards'
+import { pickWelcomeCards, type WelcomeCard } from '@/lib/home/welcome-cards'
 import type { SetupFlags } from '@/lib/setup/steps'
 
 // The welcome when the app opens. Duolingo does this right: welcome back, one
@@ -44,12 +44,17 @@ function readSeen(): string[] {
   } catch { return [] }
 }
 
+// What was decided for this page load, so a remount shows the same hello again
+// rather than nothing, and a dismissed one stays dismissed.
+let openDecision: { cards: WelcomeCard[] | null; handover: boolean; dismissed: boolean } | null = null
+
 export default function MissionWelcome({
   firstName,
   flags,
   phoneAge = false,
   handoverChild = null,
   child = null,
+  needsBirthday = false,
 }: {
   firstName?: string
   flags?: Partial<SetupFlags>
@@ -61,16 +66,34 @@ export default function MissionWelcome({
   // The primary child, whatever the handover state, so the phone link card can
   // put the code up rather than point at a page.
   child?: HandoverChild | null
+  // True when a child on this account has no birthday recorded. It blocks the
+  // learning sheets outright, so it leads the hello until it is fixed.
+  needsBirthday?: boolean
 }) {
   // Hidden until the client has checked whether this open has been greeted, so
   // a parent already moving around never sees it flash back in.
-  const [card, setCard] = useState<WelcomeCard | null>(null)
+  const [cards, setCards] = useState<WelcomeCard[] | null>(null)
+  const [step, setStep] = useState(0)
   const [handover, setHandover] = useState(false)
 
   useEffect(() => {
+    // The decision for this page session is made once and remembered here,
+    // outside React. Without this the component is one remount away from
+    // silently greeting nobody: the first pass writes the "already greeted"
+    // key, and a second pass, from StrictMode in development, from Fast
+    // Refresh, or from a client navigation back to Home, reads the key it just
+    // wrote, bails, and leaves a blank screen. Caught by looking at it rather
+    // than by the build, which is the only way this class of bug ever surfaces.
+    if (openDecision) {
+      if (openDecision.dismissed) return
+      if (openDecision.handover) setHandover(true)
+      else setCards(openDecision.cards)
+      return
+    }
+
     let greeted = false
     try { greeted = sessionStorage.getItem(OPEN_KEY) === '1' } catch { /* private mode, greet them */ }
-    if (greeted) return
+    if (greeted) { openDecision = { cards: null, handover: false, dismissed: true }; return }
     try { sessionStorage.setItem(OPEN_KEY, '1') } catch { /* private mode, greeted every Home view */ }
 
     let opens = 1
@@ -85,17 +108,19 @@ export default function MissionWelcome({
     try { asked = Number(localStorage.getItem(HANDOVER_ASKS_KEY) ?? 0) } catch { /* counted server side only */ }
     if (handoverChild && opens >= 2 && asked < MAX_HANDOVER_ASKS) {
       try { localStorage.setItem(HANDOVER_ASKS_KEY, String(asked + 1)) } catch { /* server side cap still holds */ }
+      openDecision = { cards: null, handover: true, dismissed: false }
       setHandover(true)
       return
     }
 
     const seen = readSeen()
-    const pick = pickWelcomeCard(flags ?? {}, seen, phoneAge)
+    const pick = pickWelcomeCards(flags ?? {}, seen, phoneAge, needsBirthday)
     try {
-      localStorage.setItem(SEEN_KEY, JSON.stringify([...seen, pick.key].slice(-SEEN_MAX)))
+      localStorage.setItem(SEEN_KEY, JSON.stringify([...seen, ...pick.map(c => c.key)].slice(-SEEN_MAX)))
     } catch { /* private mode, the rotation resets each time, still fine */ }
-    setCard(pick)
-  }, [flags, phoneAge, handoverChild])
+    openDecision = { cards: pick, handover: false, dismissed: false }
+    setCards(pick)
+  }, [flags, phoneAge, handoverChild, needsBirthday])
 
   const name = firstName && firstName.trim() ? firstName.trim() : null
 
@@ -120,20 +145,27 @@ export default function MissionWelcome({
   }
 
   // Already greeted this open: Home is theirs now.
-  if (!card) return null
+  if (!cards || cards.length === 0) return null
+  const card = cards[step]
+  const isLast = step === cards.length - 1
 
-  const close = () => setCard(null)
+  const close = () => {
+    if (openDecision) openDecision.dismissed = true
+    setCards(null)
+  }
 
   return (
     <div
-      onClick={close}
       role="dialog"
       aria-label="Welcome back"
       style={{
         position: 'fixed', inset: 0, zIndex: 200,
-        background: 'rgba(26,26,46,0.45)', backdropFilter: 'blur(3px)',
+        // Opaque and edge to edge. A blurred app behind it reads as an
+        // interruption to something they were already doing, when in fact this
+        // is the front door. Full screen makes it the room, not a popup.
+        background: 'var(--cream)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        padding: 20, animation: 'gc-welcome-in 0.3s ease',
+        padding: 20, overflowY: 'auto', animation: 'gc-welcome-in 0.3s ease',
       }}
     >
       <style>{`
@@ -144,10 +176,10 @@ export default function MissionWelcome({
         data-gc-welcome
         onClick={e => e.stopPropagation()}
         style={{
-          width: '100%', maxWidth: 440,
+          width: '100%', maxWidth: 440, margin: 'auto',
           background: '#fff', border: '1.5px solid var(--border)',
           borderRadius: 24, overflow: 'hidden',
-          boxShadow: '0 24px 60px -18px rgba(26,26,46,0.5)',
+          boxShadow: '0 10px 30px -14px rgba(26,26,46,0.28)',
         }}
       >
         {/* The hello. Short, warm, and no idea how long today is going to be. */}
@@ -160,7 +192,9 @@ export default function MissionWelcome({
               {name ? `Welcome back, ${name}` : 'Welcome back'}
             </div>
             <div style={{ fontSize: 14.5, color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: 2 }}>
-              While we get today ready, here is one thing we do
+              {cards.length > 1
+                ? `While we get today ready, ${cards.length} quick things we do`
+                : 'While we get today ready, here is one thing we do'}
             </div>
           </div>
         </div>
@@ -219,8 +253,11 @@ export default function MissionWelcome({
               {card.cta ?? 'Have a look'}
             </Link>
           )}
+          {/* Next while there is more to see, the way out on the last one.
+              Following a link closes the whole hello rather than parking them
+              mid sequence, because they have gone to do the thing. */}
           <button
-            onClick={close}
+            onClick={() => (isLast ? close() : setStep(step + 1))}
             style={{
               flex: card.href ? '0 0 auto' : 1, padding: '13px 18px', cursor: 'pointer',
               background: card.href ? '#fff' : 'var(--terracotta)',
@@ -230,9 +267,23 @@ export default function MissionWelcome({
               boxShadow: card.href ? 'none' : '0 4px 0 var(--terracotta-dark)',
             }}
           >
-            {card.href ? 'Later' : 'Start today'}
+            {isLast ? (card.href ? 'Later' : 'Start today') : 'Next'}
           </button>
         </div>
+
+        {/* Where they are in the three. Quiet, and only when there is more than
+            one, so a single card never wears a progress bar for no reason. */}
+        {cards.length > 1 && (
+          <div style={{ display: 'flex', gap: 6, justifyContent: 'center', padding: '0 18px 18px' }}>
+            {cards.map((c, i) => (
+              <span key={c.key} aria-hidden style={{
+                width: i === step ? 20 : 7, height: 7, borderRadius: 4,
+                background: i === step ? 'var(--terracotta)' : 'var(--border)',
+                transition: 'width 0.2s ease',
+              }} />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   )
