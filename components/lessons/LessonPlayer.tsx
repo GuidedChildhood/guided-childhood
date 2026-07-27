@@ -881,7 +881,7 @@ export default function LessonPlayer({
             </Link>
           )}
           {!isSchool && (
-            <Link href="/dashboard/tracker" className="btn btn-outline" style={{ justifyContent: 'center', fontSize: '15px' }}>
+            <Link href="/dashboard/pathway" className="btn btn-outline" style={{ justifyContent: 'center', fontSize: '15px' }}>
               See your passport fill →
             </Link>
           )}

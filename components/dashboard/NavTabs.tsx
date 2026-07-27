@@ -18,7 +18,7 @@ const NAV_TABS = [
   { href: '/dashboard/lessons', label: 'Lessons' },
   { href: '/dashboard/quests', label: 'Quests' },
   { href: '/dashboard/scripts', label: 'Scripts' },
-  { href: '/dashboard/tracker', label: 'Passport' },
+  { href: '/dashboard/pathway', label: 'Passport' },
 ]
 
 // Segmented pill navigation: the active tab sits in a dark pill, hover

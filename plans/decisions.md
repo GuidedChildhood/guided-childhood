@@ -2365,3 +2365,31 @@ the weekend into school and gets switched off inside a week.
 The statutory wording goes to DiGi and stops there. "Recognise and use
 thousandths and relate them to tenths, hundredths and decimal equivalents" is the
 standard, not a task. The parent has the sheet with the words on it.
+
+## 2026-07-27 — Every spoken line is British, by one rule
+
+**The live browser voice is British first (lib/voice/english-voice.ts).** Two
+places speak live text through the device: the child's ten second countdown in
+DeviceTimeCard and the rehearsal child in RehearseWithDigi. Both picked their
+own voice, badly. DeviceTimeCard set no lang at all and matched Samantha first,
+who is American. RehearseWithDigi set en-GB but preferred any enhanced or
+natural English voice ahead of it, which on a device set to US English is again
+American. Both now call speakEnglish, which walks one ladder: en-GB, then any
+British English, warm named British women (Kate, Serena, Martha, Sonia, Libby,
+Google UK English Female) preferred inside that, quality preferred only inside
+British, and any English at all as the last resort. Accent beats quality on
+purpose. The voice list is warmed on mount because Chrome fills it a moment
+after load and a cold page was silently falling through to the device default.
+
+**DiGi's name is respelled for speech only.** sayable() rewrites DiGi to Dijee
+in the spoken string, never in anything anyone reads, so the engine says it the
+English way rather than the hard American one. One string to change if the
+sound is wrong.
+
+**DiGi's recorded voice is a separate job.** The 118 say this recordings in
+lib/content/script-voice.ts are Skye, an American preset, and no code change
+touches them: swapping voice is one Higgsfield batch plus a rewrite of that map
+(the 12 July decision still holds). Candidate British presets sampled for Justin
+to choose: Imogen, Tamsin, Mabel. Note these wav files are still hotlinked to
+the generation CDN, the same one the vendored images came off, so the
+regeneration should land them in public/ at the same time.

@@ -555,7 +555,7 @@ function CompletionCard({
           Ask DiGi about this
         </Link>
         <Link
-          href="/dashboard/tracker"
+          href="/dashboard/pathway"
           style={{
             flexBasis: '100%', textAlign: 'center', padding: '11px 0', textDecoration: 'none',
             fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700,

@@ -244,7 +244,7 @@ export async function getDailyTasks(
       key: 'checkin',
       label: 'Weekly check in',
       detail: checkin ? 'Done for this week' : 'Five questions, once a week',
-      href: '/dashboard/tracker',
+      href: '/dashboard/pathway',
       done: !!checkin,
     },
   ]
