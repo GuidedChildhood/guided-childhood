@@ -2234,3 +2234,31 @@ The rule now, alongside the 3 July semicolon rule: NO doubled quotes in any
 migration. Apostrophes come from chr(39) and semicolons from chr(59). The
 statutory text keeps every character it is meant to have and nothing in the
 paste path has an escape left to mangle. 114 and 115 are rewritten this way.
+
+## 2026-07-27 — Every spoken line is British, by one rule
+
+**The live browser voice is British first (lib/voice/english-voice.ts).** Two
+places speak live text through the device: the child's ten second countdown in
+DeviceTimeCard and the rehearsal child in RehearseWithDigi. Both picked their
+own voice, badly. DeviceTimeCard set no lang at all and matched Samantha first,
+who is American. RehearseWithDigi set en-GB but preferred any enhanced or
+natural English voice ahead of it, which on a device set to US English is again
+American. Both now call speakEnglish, which walks one ladder: en-GB, then any
+British English, warm named British women (Kate, Serena, Martha, Sonia, Libby,
+Google UK English Female) preferred inside that, quality preferred only inside
+British, and any English at all as the last resort. Accent beats quality on
+purpose. The voice list is warmed on mount because Chrome fills it a moment
+after load and a cold page was silently falling through to the device default.
+
+**DiGi's name is respelled for speech only.** sayable() rewrites DiGi to Dijee
+in the spoken string, never in anything anyone reads, so the engine says it the
+English way rather than the hard American one. One string to change if the
+sound is wrong.
+
+**DiGi's recorded voice is a separate job.** The 118 say this recordings in
+lib/content/script-voice.ts are Skye, an American preset, and no code change
+touches them: swapping voice is one Higgsfield batch plus a rewrite of that map
+(the 12 July decision still holds). Candidate British presets sampled for Justin
+to choose: Imogen, Tamsin, Mabel. Note these wav files are still hotlinked to
+the generation CDN, the same one the vendored images came off, so the
+regeneration should land them in public/ at the same time.

@@ -7,6 +7,7 @@ import DigiCharacter from '@/components/digi/DigiCharacter'
 import { card, cardPad, eyebrow } from '@/components/scripts/card-system'
 import { characterByKey } from '@/lib/content/stage-characters'
 import { ladderStep, STEP_NOTE, BOUNDARY_LINES, CLOSE_LINES, AFTER_THE_STANDOFF } from '@/lib/content/refusal-ladder'
+import { speakEnglish, warmVoices } from '@/lib/voice/english-voice'
 
 // The child is played by Pebble, the youngest Planet Friend, so a parent is
 // rehearsing with what feels like a real little person rather than a chat
@@ -79,35 +80,27 @@ export default function RehearseWithDigi({ sortOrder, scriptTitle, situation, sa
   const [suggMsg, setSuggMsg] = useState<string | null>(null)
 
   const speakChild = (text: string) => {
-    if (typeof window === 'undefined' || !('speechSynthesis' in window)) return
-    const synth = window.speechSynthesis
-    synth.cancel()
-    const u = new SpeechSynthesisUtterance(text)
     // A little lighter and quicker than an adult, but not the shrill chipmunk
     // a high pitch gives: a gentler lift reads as a real child, not a robot.
-    u.pitch = 1.22
-    u.rate = 1.04
-    u.lang = 'en-GB'
-    const voices = synth.getVoices()
-    // Prefer the device's high quality neural voices first (iOS and modern
-    // Chrome ship enhanced or natural en voices that sound genuinely human),
-    // then a named younger sounding voice, then any English fallback.
-    const en = voices.filter(v => v.lang?.startsWith('en'))
-    const pick =
-      en.find(v => /enhanced|premium|natural|neural/i.test(v.name))
-      ?? en.find(v => /child|kid|girl|Serena|Kate|Martha|Ava|Zoe|Google UK English Female/i.test(v.name))
-      ?? en.find(v => v.lang === 'en-GB')
-      ?? en[0]
-    if (pick) u.voice = pick
-    synth.speak(u)
+    //
+    // The voice itself comes from the one shared rule (lib/voice/english-voice)
+    // so this child sounds British like the rest of the platform. The picker
+    // that lived here reached for any enhanced or natural voice first, which
+    // on a device set to US English handed the child an American accent.
+    speakEnglish(text, { pitch: 1.22, rate: 1.04, warm: true, cancelFirst: true })
   }
 
   const stopSpeaking = () => {
     if (typeof window !== 'undefined' && 'speechSynthesis' in window) window.speechSynthesis.cancel()
   }
 
-  // Never leave the child voice talking after the panel unmounts.
-  useEffect(() => () => stopSpeaking(), [])
+  // Never leave the child voice talking after the panel unmounts. Warm the
+  // voice list on the way in so the first line already has a British voice to
+  // reach for rather than the device default.
+  useEffect(() => {
+    warmVoices()
+    return () => stopSpeaking()
+  }, [])
 
   async function run(mode: 'child' | 'coach', history: Msg[]) {
     setBusy(true)

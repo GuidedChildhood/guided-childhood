@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { KID_DEVICES, TIMER_RULE, deviceEmoji, deviceLabel, type ActiveSession, type TrustLevel } from '@/lib/quests/device-time'
 import { deviceIcon, type FamilyDevice } from '@/lib/devices/family'
 import { screenTipFor } from '@/lib/content/screen-tips'
+import { speakEnglish, warmVoices } from '@/lib/voice/english-voice'
 import { STAR_MINUTES } from '@/lib/quests/templates'
 import Celebration from '@/components/ui/Celebration'
 
@@ -113,6 +114,10 @@ export default function DeviceTimeCard({
   // second interval every time the screen around this card re rendered.
   const onSessionChangeRef = useRef(onSessionChange)
   useEffect(() => { onSessionChangeRef.current = onSessionChange }, [onSessionChange])
+  // Chrome fills its voice list a moment after load. Warming it on mount means
+  // the ten second line has a British voice ready rather than falling back to
+  // the device default on a cold page.
+  useEffect(() => { warmVoices() }, [])
   const [phase, setPhase] = useState<'idle' | 'picking' | 'up'>(startPicking && !initialSession ? 'picking' : 'idle')
   const [device, setDevice] = useState<string>('tv')
   // Which named screen, when there is a list. The kind still rides along,
@@ -195,22 +200,13 @@ export default function DeviceTimeCard({
   // if the browser has no voice or sound is muted. The audio gesture on start
   // already unlocked speech, so this is allowed to play later.
   const say = useCallback((text: string) => {
-    try {
-      const synth = window.speechSynthesis
-      if (!synth) return
-      const u = new SpeechSynthesisUtterance(text)
-      // Bright and warm, a shade slower than normal so it lands as a friendly
-      // send off, never a bark. We reach for a softer, higher voice when the
-      // browser offers one (Samantha, Google UK female and the like), so it
-      // feels like a kind grown up counting down with them.
-      const voices = synth.getVoices?.() ?? []
-      const warm = voices.find(v => /samantha|google uk english female|karen|serena|female/i.test(v.name))
-      if (warm) u.voice = warm
-      u.rate = 0.92
-      u.pitch = 1.18
-      u.volume = 0.9
-      synth.speak(u)
-    } catch { /* speech optional */ }
+    // Bright and warm, a shade slower than normal so it lands as a friendly
+    // send off, never a bark. The voice itself is chosen by one rule shared
+    // with every other spoken line (lib/voice/english-voice): British first,
+    // warm British if the device has one. The old picker here named Samantha
+    // ahead of everything else and set no language at all, so a child on a US
+    // English device was counted down by an American.
+    speakEnglish(text, { rate: 0.92, pitch: 1.18, volume: 0.9, warm: true })
   }, [])
 
   // The last ten seconds are a happy countdown to offline fun, not an alarm
