@@ -1,6 +1,6 @@
 # In Proportion — Adolescent Self Diagnosis. A five post LinkedIn series.
 
-Five posts. Series branding throughout. Each follows the proven anatomy: cold open on a precise finding or a quoted line, dense fill near the character limit, named researchers and the study, the honest pivot conceding the strongest opposing point, one vivid contrast, series branding, engagement mechanics in order, a prepared first comment. One direct CTA in the pack, on Post 4, routed to /starter-pack. Every other post uses the soft comment keyword only. UK English. Qualitative framing kept throughout. No dashes anywhere.
+Five posts. Longer, plainer versions (posts 2 to 5 rewritten July 2026, Post 1 already posted). Series branding throughout. Each follows the proven anatomy: cold open on a finding or a quoted line, dense readable fill, named researchers and the study, the honest pivot conceding the strongest opposing point, one vivid contrast, series branding, engagement mechanics, a question to close. A quiet thread about what we are building (DiGi, the calibrated pathway) runs through 2 to 4 as belief, not a pitch. The single direct CTA sits on Post 5 only, routed to /starter-pack. Every other post uses the soft comment keyword only. UK English. Qualitative framing kept throughout. No em dashes.
 
 Source: Cunningham-Rowe K and Foulkes L, "Adolescents' self-diagnosis of mental disorders: a qualitative study of mental health clinicians' perspectives," Child and Adolescent Mental Health, 15 July 2026, DOI 10.1111/camh.70102.
 
@@ -8,8 +8,7 @@ Source: Cunningham-Rowe K and Foulkes L, "Adolescents' self-diagnosis of mental 
 
 ## POST 1 — The reframe
 **Angle:** The researchers expected clinicians to hate it. Most said it usually does not matter, and is often useful.
-**Format:** Text post, near character limit.
-**Best posting day:** Monday, research reframe slot.
+**Best posting day:** Monday, research reframe slot. ALREADY POSTED, unchanged.
 
 **Post text:**
 
@@ -37,40 +36,35 @@ Follow Justin Phillips for the rest of the series.
 
 When your child named something they were feeling, did it sound like a performance to you, or like relief.
 
-**Prepared first comment (Justin):**
-Before anyone reads this as me saying self-diagnosis is harmless, I am not. Post 5 is entirely about the minority who get stuck, and it is serious. This first post is only the finding the researchers themselves flagged as a surprise. They expected the clinicians to be worried and mostly they were not. The honest limits matter too. It is 16 clinicians, all White, no psychiatrists or GPs in the sample, qualitative, and it did not cover autism or ADHD. Source is Cunningham-Rowe and Foulkes, Child and Adolescent Mental Health, 15 July 2026, DOI 10.1111/camh.70102.
-
-**Claims used and sources:**
-- Researchers expected clinicians to find self-diagnosis problematic; most instead said it usually did not matter and was often useful; public understanding may be oversimplified and overly negative. Cunningham-Rowe and Foulkes 2026.
-- 16 UK clinicians, reflexive thematic analysis, disorders not neurodivergence. Cunningham-Rowe and Foulkes 2026.
-- Honest limits, small qualitative sample, all White, no psychiatrists or GPs, no young people's voice. Cunningham-Rowe and Foulkes 2026.
-
 ---
 
 ## POST 2 — Why they do it
-**Angle:** The need to be understood. Compassion, not blame.
-**Format:** Text post, near character limit.
+**Angle:** The need to be understood. Compassion, not blame. Longer, plainer, subtle DiGi thread, soft keyword REACH, no CTA.
 **Best posting day:** Tuesday.
 
 **Post text:**
 
-One clinician in the study described what a young person is running from when they reach for a label. The alternative, they said, is more frightening. It is feeling like you are uniquely mad or miserable. A name, even a borrowed one, is better than that.
+The researchers found something I did not expect. When a teenager reaches for a label like anxiety or depression, most of the time they are not copying a trend. They are reaching for a word because the thing underneath it is frightening, and a word makes it smaller.
 
 This is In Proportion, continued.
 
-That line is from the Cunningham-Rowe and Foulkes study, published on the 15th of July 2026 in Child and Adolescent Mental Health, 16 UK clinicians interviewed about adolescent self-diagnosis of mental disorders. Their first theme is the one I keep coming back to. Self-diagnosis stems from an inherent need to be understood. To make sense of distress, to communicate it, to build an identity around something nameable rather than something formless.
+One clinician in the study put it in a way I keep thinking about. The alternative to having a name, they said, is worse. It is feeling like you are uniquely mad, or uniquely miserable. The only one it has ever happened to. A borrowed word is better than that, because it quietly says other people have felt this too, so maybe I am not broken.
 
-Once you see it that way, the blame drains out of it. A teenager who says I think I have anxiety is usually not performing. They are trying to hand you their experience in a word small enough to pass across a kitchen table.
+The study is Katie Cunningham-Rowe and Lucy Foulkes, published on the 15th of July 2026 in Child and Adolescent Mental Health. They interviewed 16 UK mental health clinicians about young people who turn up having diagnosed themselves. And the first thing the clinicians noticed was the need underneath it. Self-diagnosis, they said, comes from an inherent need to be understood. To make sense of a feeling, to hand it to someone, to have something you can point at instead of a fog.
 
-The clinicians named where the words come from, and they did not flinch from it. Diagnostic language has proliferated, especially on social media. They named TikTok. They named recommendation algorithms. They named schools and awareness campaigns too, giving young people the vocabulary to self-diagnose. And as anxiety and depression get normalised, some young people escalate to bigger sounding labels to be taken seriously. That connects to Foulkes and Andrews' prevalence inflation hypothesis, the idea that awareness can tip over into over-identifying ordinary distress as disorder.
+Once you see it that way, the blame drains out of the whole thing. A teenager who says I think I have anxiety is usually not performing for attention. They are trying to pass you their experience in a word small enough to fit across a kitchen table.
 
-None of this means the words are the enemy, or that the child is being manipulated. Here is the strongest version of the worry, and I will not dodge it. Awareness campaigns and social media genuinely do put labels within reach that a child might not have reached alone, and rising waitlists push young people to name it themselves while they wait for anyone qualified to. Both of those are real. Both are in the paper.
+I am not going to pretend the words come from nowhere. The clinicians were honest about where kids pick them up. Social media. TikTok. The algorithm that keeps serving more of whatever you paused on. Schools and awareness campaigns too, which hand young people the vocabulary. And they noticed something uncomfortable, that as anxiety and depression become everyday words, a few young people reach for bigger, rarer labels just to be taken seriously. There is even a name for that risk, the prevalence inflation idea from Foulkes and Andrews, where raising awareness tips over into calling ordinary distress a disorder.
 
-But hold the contrast. One reading says the child caught a diagnosis like a trend. The other says the child was in enough distress to go looking for a word, and the world handed them one. Same behaviour. Only one of them earns your compassion, and it is the true one.
+So here is the strongest version of the worry, and I will not dodge it. Awareness and social media really do put labels in a child's hands that they might never have found alone. And long waiting lists push young people to name it themselves, because naming it is one of the few things they can actually do while they wait months for someone qualified.
+
+But hold the two readings side by side. One says this child caught a diagnosis like a trend, so correct them. The other says this child was in enough pain to go looking for a word, and the world handed them one, so understand them. Same behaviour. Only one of them is true, and it is the one that earns your compassion.
+
+This is really the whole idea behind what we are building. A child in that moment does not need a verdict, they need to be met. So DiGi, the guide we are building for children, is designed to do what those clinicians did, stay calm, stay curious, and never shame a child for the word they reached for. Not to diagnose. Just to keep the conversation open and walk them back to a trusted adult.
 
 Start with why they reached, not with what they grabbed.
 
-Drop REACH in the comments and I will send you the sourced breakdown.
+Drop REACH in the comments and I will send you the sourced breakdown of the study.
 
 If this landed, repost it. Parents deserve the compassion version, not the cynical one.
 
@@ -78,37 +72,35 @@ Follow Justin Phillips for the rest of the series.
 
 What is the word your child used, and what were they actually trying to tell you underneath it.
 
-**Prepared first comment (Justin):**
-The quote is real and it is the one that stayed with me. A clinician in the study said the alternative to a label is more frightening, like being uniquely mad or miserable. That is the need underneath the behaviour. On the drivers, the authors are even handed. They name social media, TikTok and algorithms, and they name schools and awareness campaigns too, and they tie the escalation to bigger labels to Foulkes and Andrews' prevalence inflation hypothesis. Rising waitlists are in there as well, young people self-diagnosing while they wait. Source is Cunningham-Rowe and Foulkes, Child and Adolescent Mental Health, 15 July 2026.
-
 **Claims used and sources:**
-- Theme one, self-diagnosis stems from an inherent need to be understood, to make sense of distress, communicate it, form identity. Cunningham-Rowe and Foulkes 2026.
-- The quote, the alternative is more frightening, like being uniquely mad or miserable. A clinician in the study.
-- Theme two, diagnostic language proliferated, TikTok, algorithms, schools and awareness campaigns; escalation to bigger labels; prevalence inflation hypothesis. Cunningham-Rowe and Foulkes 2026, Foulkes and Andrews.
-- Rising waitlists push young people to self-diagnose while they wait. Cunningham-Rowe and Foulkes 2026.
+- Theme one, self-diagnosis stems from an inherent need to be understood; the clinician quote that the alternative is more frightening, like being uniquely mad or miserable. Cunningham-Rowe and Foulkes 2026.
+- Drivers named by the clinicians, social media, TikTok, algorithms, schools and awareness campaigns; escalation to bigger labels; prevalence inflation hypothesis. Cunningham-Rowe and Foulkes 2026, Foulkes and Andrews.
+- Rising waiting lists push young people to self-diagnose while they wait. Cunningham-Rowe and Foulkes 2026.
+- DiGi framed as a calibrated pathway, no allow or deny, no CTA.
 
 ---
 
 ## POST 3 — It fades when they feel heard
-**Angle:** Validation, not correction. The label melts away.
-**Format:** Text post, near character limit.
+**Angle:** Validation, not correction. The label melts away. Longer, plainer, subtle DiGi thread, soft keyword HEARD, no CTA.
 **Best posting day:** Wednesday.
 
 **Post text:**
 
-The clinicians described what happens to a self-diagnosis once a young person genuinely feels heard. It does not have to be argued away. In their words, it melts away. It fades away naturally. The label they arrived clutching quietly loosens its grip, on its own.
+Here is the finding from this study that could change a hard night in a lot of houses. When a young person genuinely feels heard, the label they arrived clutching often just loosens on its own. Nobody has to argue them out of it. In the clinicians' own words, it melts away.
 
 This is In Proportion, continued.
 
-This is the fourth theme in the Cunningham-Rowe and Foulkes study, 16 UK clinicians, published on the 15th of July 2026 in Child and Adolescent Mental Health. When adolescents feel validated, self-diagnosis often fades over time. Not because someone corrected them. Because the need the label was doing a job for, the need to be understood, finally got met by a person instead of a word.
+The study is Katie Cunningham-Rowe and Lucy Foulkes, 16 UK clinicians, published on the 15th of July 2026 in Child and Adolescent Mental Health. One of their themes is exactly this. When adolescents feel validated, the self-diagnosis often fades over time. Not because an adult corrected it. Because the job the label was doing, the job of being understood, finally got done by a person instead of a word. Once the child feels met, they do not need the word so much.
 
-And here is the part I want every parent to catch, because it is easy to get wrong. Validation does not mean accepting the label without question. It is not nodding along and saying yes, you have bipolar, well done for spotting it. It means staying curious. Taking the young person seriously enough to explore what they are feeling, together, without either rubber stamping the diagnosis or snatching it away.
+But here is the part that is really easy to get wrong, so I want to slow right down on it. Feeling heard is not the same as agreeing. Validation does not mean nodding along and saying, yes, you have bipolar, well spotted. That is not it. It means staying curious. Taking your child seriously enough to explore the feeling with them, together, without either stamping the diagnosis as true or snatching it away.
 
-That is a narrow path and both ditches are tempting. Dismiss the label and you confirm the child's fear, that no one will understand them, so they hold it tighter. Just affirm the label and you can harden it into a fixed thing before you have understood a single day of what it is actually made of. Curiosity is the road between the two.
+That is a narrow path, and both sides of it are tempting. If you dismiss the label, you confirm the exact fear that made them reach for it, that nobody will understand them, so they grip it tighter. If you just accept the label, you can accidentally set it in concrete before you have understood a single day of what it is actually made of. Curiosity is the road right down the middle.
 
-None of this means the label is always wrong and destined to fade. Sometimes the young person is right, and the self-diagnosis is a correct, useful starting point that gets straight to the crux. Staying curious is not a polite way of disagreeing. It is how you find out which of those you are dealing with, and the study says many self-diagnoses turn out to be accurate.
+And curiosity is not a polite way of disagreeing. This matters, because sometimes the young person is right. The study is clear that many self-diagnoses turn out to be accurate. So staying curious is not you gently talking them out of it. It is how you find out which kind you are dealing with, the feeling that fades once it is heard, or the real thing that needs proper help. You cannot know at the start, and curiosity is how you find out without doing harm either way.
 
-Here is the contrast that changes how you sit at the table. Correction says you are wrong, let me fix your idea of yourself. Curiosity says tell me more, I am with you. One makes a child defend the label. The other makes the label unnecessary. Same love, opposite outcome.
+So picture the difference at the table. Correction sounds like, you are wrong, let me fix how you see yourself. Curiosity sounds like, tell me more, I am here. One makes a child defend the label like their life depends on it. The other makes the label quietly unnecessary. Same love. Opposite result.
+
+This is the exact thing we are trying to build for children. Not a tool that rules on a child, and not one that agrees with everything either, because both of those do harm. Something that stays curious with them, keeps them talking, and walks them back toward a trusted adult. It turns out curiosity is the thing that helps, and it is something a machine can be taught to protect, and something a parent can practise tonight.
 
 Do not correct the label. Get so curious about the child that it melts.
 
@@ -120,36 +112,36 @@ Follow Justin Phillips for the rest of the series.
 
 Think of the last time your child felt truly heard by you. What did you do differently that day.
 
-**Prepared first comment (Justin):**
-The phrases are the clinicians', not mine. They described self-diagnosis melting away and fading away naturally once a young person feels genuinely heard. The nuance the authors are firm on is that validation is not the same as accepting the label uncritically. It means staying curious rather than either dismissing or just affirming. And they are clear that many self-diagnoses are accurate, so curiosity is how you find out, not a soft way of saying no. Source is Cunningham-Rowe and Foulkes, Child and Adolescent Mental Health, 15 July 2026.
-
 **Claims used and sources:**
-- Theme four, when adolescents feel validated self-diagnosis often fades over time, melts away, fades away naturally. Cunningham-Rowe and Foulkes 2026.
-- Validation means staying curious, not accepting the label without question. Cunningham-Rowe and Foulkes 2026.
-- Theme three, many self-diagnoses are correct, a useful starting point that gets to the crux. Cunningham-Rowe and Foulkes 2026.
+- Theme four, when adolescents feel validated self-diagnosis often fades, melts away. Validation means staying curious, not accepting the label uncritically. Cunningham-Rowe and Foulkes 2026.
+- Theme three, many self-diagnoses are accurate, so curiosity is how you find out. Cunningham-Rowe and Foulkes 2026.
+- DiGi framed as a calibrated pathway, curious not ruling, no allow or deny, no CTA.
 
 ---
 
-## POST 4 — What a parent and DiGi actually do [CARRIES THE CTA]
-**Angle:** Take it seriously, stay curious. A pathway, not a verdict.
-**Format:** Text post, near character limit. This is the pack's single direct CTA, routed to /starter-pack.
-**Best posting day:** Thursday, prime slot for the CTA.
+## POST 4 — Take it seriously, stay curious
+**Angle:** A pathway, not a verdict. Longer, plainer, subtle DiGi thread, soft keyword PATHWAY, no CTA (moved to Post 5).
+**Best posting day:** Thursday.
 
 **Post text:**
 
-The clinicians in this study did not do the two things a worried parent instinctively does. They did not say no, you do not have that. And they did not say yes, you clearly do. They took the label seriously, and stayed curious about it. That is the whole move, and it has a shape.
+Watch what the clinicians in this study did not do, because it is the whole thing. When a young person handed them a label, they did not say, no, you do not have that. And they did not say, yes, you clearly do. They took it seriously, and they stayed curious about it. That is the entire move, and it has a shape you can copy.
 
 This is In Proportion, continued.
 
-The study is Cunningham-Rowe and Foulkes, 16 UK clinicians, published on the 15th of July 2026 in Child and Adolescent Mental Health. Read across its themes and a practice falls out of it. A young person hands you a label. You do not rule on it. You get curious with them, and because they feel heard, the label either does its useful job and points you at something real, or it quietly fades. Either way the child got what they came for, which was to be understood.
+The study is Katie Cunningham-Rowe and Lucy Foulkes, 16 UK clinicians, published on the 15th of July 2026 in Child and Adolescent Mental Health. Read across everything they found and a simple practice falls out of it. A young person hands you a label. You do not rule on it. You get curious with them. And because they feel heard, one of two good things happens. Either the label does its job and points you at something real that needs help, or it quietly fades because the need underneath it got met. Either way, the child got the thing they actually came for, which was to be understood.
 
-That is not a verdict. It is a pathway. And it is exactly how we built DiGi, our AI guide for children, to respond. DiGi never allows and never denies. Faced with a child naming something heavy, it does not diagnose and it does not dismiss. It stays curious, keeps the child talking, and returns them to a trusted adult with a calmer way in. A verdict closes the conversation. A pathway keeps it open, which is the only place the understanding can happen.
+That is not a verdict. It is a pathway. A verdict is a door slamming shut, decided and final. A pathway is a walk you take together, one step at a time, staying open.
 
-Let me be careful about what I am claiming. I am not telling you this improves developmental outcomes or fixes anything. No product does that, and I will not pretend mine does. What a pathway gives you is narrower and more honest. A calmer conversation, and a next step, instead of a slammed door or a rubber stamp.
+I want to be really honest about what that does and does not do, because there are a lot of people online promising more than they can deliver. Staying curious does not cure anything. It does not fix your child. It is not therapy. What it gives you is smaller and more real, a calmer conversation and a next step, instead of a slammed door or a rubber stamp. That is it. And in my experience that is a lot.
 
-Here is the contrast to keep. Allow or deny is a courtroom, and a child on trial defends their label to the death. A pathway is a walk, and a child who is being walked beside puts the label down when they no longer need it. Same parent, same love, opposite room.
+Here is the picture I would hold onto. Allow or deny is a courtroom, and a child on trial will defend their label to the death, because you have made it the thing they have to win. A pathway is a walk, and a child being walked beside will put the label down themselves the moment they no longer need to carry it. Same parent. Same love. Completely different room.
 
-If you want the shape of that conversation before you next need it, the free place we built to start is at guidedchildhood.com/starter-pack. It walks you through how to take the label seriously and stay curious, without ruling on it.
+This is the principle underneath everything we are building for families. DiGi, the guide we are building for children, never allows and never denies, on purpose, because the clinicians who do this well never do either. It stays curious, keeps the child talking, and hands them back to a trusted adult with a calmer way in. It is not there to replace you. It is there to hold the same open door these clinicians hold, at two in the morning when you are asleep.
+
+So the next time your child hands you something heavy, try not to rule on it. Walk with it instead.
+
+Drop PATHWAY in the comments and I will send you the sourced breakdown.
 
 If this was useful, repost it. Every parent needs the pathway before the label arrives at their kitchen table.
 
@@ -157,55 +149,49 @@ Follow Justin Phillips for the rest of the series.
 
 When your child hands you something heavy, do you find yourself ruling on it, or walking with it.
 
-**Prepared first comment (Justin):**
-To be clear about the boundary, I am not claiming DiGi treats anything or improves outcomes, and the study does not either. The study describes how clinicians respond, taking the label seriously while staying curious rather than allowing or denying it. That is the same principle DiGi is built on, a calibrated pathway rather than a verdict, and honestly it is the same principle a parent can use at the table with no product at all. The pack at guidedchildhood.com/starter-pack just gives you the shape of it. Source is Cunningham-Rowe and Foulkes, Child and Adolescent Mental Health, 15 July 2026.
-
 **Claims used and sources:**
 - Clinicians took the label seriously and stayed curious, neither allowing nor denying. Cunningham-Rowe and Foulkes 2026, themes three and four.
-- The practice as pathway, mapped to DiGi's calibrated pathway design, no allow or deny. Series thesis grounded in the study.
-- No developmental outcome claim, claim limited to calmer conversation and a next step. Compliance guardrail.
-- CTA. guidedchildhood.com/starter-pack.
+- The practice as pathway, mapped to DiGi's calibrated pathway design, no allow or deny.
+- No developmental outcome claim, limited to a calmer conversation and a next step. Compliance guardrail. No CTA on this post.
 
 ---
 
 ## POST 5 — The real risk, kept in proportion
-**Angle:** The inflexible minority. Prison-like, self-fulfilling. Severe, but a minority.
-**Format:** Text post, near character limit.
-**Best posting day:** Sunday, founder slot, the closing landing of the series.
+**Angle:** The inflexible minority. Prison-like, self-fulfilling. Severe, but a minority. Longer, plainer. CARRIES THE SINGLE CTA.
+**Best posting day:** Sunday, the closing landing of the series.
 
 **Post text:**
 
-There is a group in this study I will not soften. For a minority of young people, the clinicians said, the self-diagnosis stops being a doorway and becomes a cell. One word they reached for was prison-like. The label hardens into a fixed identity, and the young person cannot see a way out of it.
+There is a group in this study I am not going to soften, because they deserve better than that. For a minority of young people, the clinicians said, a self-diagnosis stops being a doorway and becomes a cell. The word one of them used was prison-like. The label hardens into a fixed identity, and the young person cannot see a way out of it.
 
 This is In Proportion, continued.
 
-This is the fifth theme in Cunningham-Rowe and Foulkes, 16 UK clinicians, published on the 15th of July 2026 in Child and Adolescent Mental Health. In most cases self-diagnosis did not matter or helped. But in a minority it becomes a barrier to change, and the mechanism is grim. The label stops being flexible. It sets into identity. It becomes a self-fulfilling prophecy, so a young person expecting to be unwell behaves and interprets themselves into staying unwell. Peer groups can reinforce it, until a young person's whole social life is organised around being the ill one. The clinicians said this can worsen symptoms.
+This is the last theme in Katie Cunningham-Rowe and Lucy Foulkes, 16 UK clinicians, published on the 15th of July 2026 in Child and Adolescent Mental Health. In most cases, they said, the self-diagnosis did not matter much, or it helped. But in a minority it becomes a barrier to change, and the way it works is grim. The label stops being something the young person has and becomes the whole of who they are. It turns into a self-fulfilling prophecy, so a young person who expects to be unwell starts to behave, and read themselves, in ways that keep them unwell. And peer groups can lock it in place, until a young person's whole social world is arranged around being the ill one. The clinicians said this can actually make symptoms worse.
 
-I have spent four posts arguing for proportion against the panic. This is the post where proportion cuts the other way. This minority is real and it is serious, and pretending the whole thing is harmless would be its own kind of dishonesty. Proportion is not the same as calm. It means severe where the harm is real, calm where it is not.
+I have spent four posts arguing for calm against the panic. This is the post where I turn that around. This minority is real, and it is serious, and pretending the whole thing is harmless would be its own kind of lie. Proportion is not the same as calm. Proportion means calm where the fear is bigger than the evidence, and serious where the harm is real. This is the serious part, and it gets the alarm.
 
-Here is the honest limit that keeps me humble about all of it. This is 16 clinicians, all White, no psychiatrists and no GPs in the sample, recruited partly through the senior author's own network. It is qualitative, so it cannot tell you how big this minority is. And there are currently no clinician guidelines at all for handling self-diagnosis, which tells you how new this ground is. In follow up work the authors report similar themes with psychiatrists, but that is not in this paper's results, so I will not lean on it.
+Let me keep myself honest about the limits, because they matter. This is 16 clinicians. All White. No psychiatrists and no GPs in the room. Recruited partly through the senior author's own network. It is a qualitative study, which means it can tell you this stuck minority exists, but it cannot tell you how big it is. And there are, right now, no guidelines at all for clinicians on how to handle self-diagnosis, which tells you how new this ground is.
 
-Here is the contrast to carry out of the whole series. For most young people a label is a doorway, and the kindest thing you can do is walk through it with them until they no longer need it. For a few it becomes a cell, and the kindest thing you can do is keep the door unlocked, stay curious, and never let the identity set. Same posture, curiosity, does both jobs. It walks most of them through, and it stops a few getting stuck.
+So here is the contrast to carry out of the whole series, because it is the same move for both children. For most young people a label is a doorway, and the kindest thing you can do is walk through it with them until they no longer need it. For a few it becomes a cell, and the kindest thing you can do is keep the door unlocked, stay curious, and never let the identity harden. One posture, curiosity, does both jobs. It walks most of them through, and it keeps a few from getting stuck. That is why I keep coming back to it.
 
-That is the whole of it. Not panic, and not a shrug. Take the label seriously enough to be curious about it, every time, and you are ready for both children.
+And that, really, is the whole of it. Not panic. Not a shrug. Take the label seriously enough to stay curious about it, every single time, and you are ready for both children, the one who will be fine and the one at real risk.
+
+If you want the shape of that conversation before you ever need it, we built a free place to start, and it is what all five of these posts have quietly been about. It walks you through how to take your child's words seriously and stay curious, without ruling on them. It is at guidedchildhood.com/starter-pack.
 
 Drop PROPORTION in the comments and I will send you the sourced breakdown of all five themes.
 
-If this series said something you needed, repost it. This is the part of the conversation that gets flattened into a headline.
+If this series said something you needed, repost it. This is the part of the conversation that always gets flattened into a headline.
 
 Follow Justin Phillips. That is the series. Thank you for reading it in proportion.
 
 Have you seen a young person get stuck inside a label, and what, if anything, helped them out.
 
-**Prepared first comment (Justin):**
-This post is the counterweight to the other four, on purpose. The minority who harden into a fixed identity are real, the clinicians called it prison-like and a self-fulfilling prophecy, and peer reinforcement can make a young person's social life about being unwell, which can worsen symptoms. I will not minimise that. I also will not overstate its size, because the study is qualitative and cannot tell you how common it is. Sixteen clinicians, all White, no psychiatrists or GPs, partly the senior author's network, and no guidelines exist yet for handling any of this. In follow up work the authors say psychiatrists gave similar themes, but that is not in this paper. Source is Cunningham-Rowe and Foulkes, Child and Adolescent Mental Health, 15 July 2026, DOI 10.1111/camh.70102.
-
 **Claims used and sources:**
-- Theme five, in a minority self-diagnosis becomes a barrier to change when inflexible, hardens into fixed identity, prison-like, self-fulfilling prophecy, peer reinforcement, social life about being unwell, can worsen symptoms. Cunningham-Rowe and Foulkes 2026.
-- Most cases did not matter or helped, the minority is where harm sits. Cunningham-Rowe and Foulkes 2026.
-- Honest limits, 16 clinicians, all White, no psychiatrists or GPs, snowball through senior author's network, qualitative, no guidelines exist. Cunningham-Rowe and Foulkes 2026.
-- Follow up work with psychiatrists reports similar themes, flagged as not in this paper's results. Stated as follow up work only.
+- Theme five, in a minority self-diagnosis becomes a barrier to change when inflexible, prison-like, self-fulfilling prophecy, peer reinforcement, can worsen symptoms. Cunningham-Rowe and Foulkes 2026.
+- Most cases did not matter or helped; the minority is where harm sits. Cunningham-Rowe and Foulkes 2026.
+- Honest limits, 16 clinicians, all White, no psychiatrists or GPs, snowball through senior author's network, qualitative, no guidelines exist yet. Cunningham-Rowe and Foulkes 2026.
+- The single CTA, guidedchildhood.com/starter-pack, framed as the quiet through line of the series.
 
 ---
 
-**Series compliance notes:** Qualitative framing kept throughout, clinicians in this study, in most cases, a minority. Proportionality both ways, calm on the panic across Posts 1 to 4, severe on the real minority harm in Post 5. Connection over control, validate and stay curious, never dismiss or just affirm. The quiet thread carried not shouted, unmet need, mental health waitlists and awareness that outran support, surfaced in Post 2 and implied under Post 5. DiGi framed as a calibrated pathway, no allow or deny. No developmental outcome claims anywhere, only calmer conversations and a pathway. Single CTA on Post 4. Autism and ADHD explicitly excluded. Follow up psychiatrist work flagged as outside this paper. No dashes anywhere.
+**Series compliance notes:** Longer, plainer versions for readers. Qualitative framing kept throughout, clinicians in this study, in most cases, a minority. Proportionality both ways, calm on the panic across Posts 1 to 4, serious on the real minority harm in Post 5. Connection over control, validate and stay curious. DiGi woven subtly through Posts 2 to 4 as belief, framed as a calibrated pathway, never allow or deny, never a hard sell. No developmental outcome claims anywhere. Single CTA now on Post 5 only, all other posts use the soft comment keyword. Autism and ADHD explicitly excluded. Author names correct, Katie Cunningham-Rowe and Lucy Foulkes. No em dashes.
