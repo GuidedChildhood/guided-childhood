@@ -51,8 +51,9 @@ function OfflineIdeas({ onPrintables, onGames }: { onPrintables?: () => void; on
 
 export default function DeviceTimeCard({
   token, balanceStars, initialSession, usedTodayMinutes = 0, recommendedMinutes = 0,
-  deviceTrust = 'ask', onAsked, startPicking = false,
+  deviceTrust = 'ask', onAsked, onSessionChange, startPicking = false,
   onPrintables, onGames, ageBand = null,
+  outstandingJobs = [], outstandingMinutes = 0,
 }: {
   token: string
   balanceStars: number
@@ -70,6 +71,11 @@ export default function DeviceTimeCard({
   // The ask went off: the kid screen's status banner takes over the waiting
   // story, so this card can fold back to idle.
   onAsked?: (ask: { id?: string; device: string; minutes: number }) => void
+  // A block started or ended in here. The screen around this card keeps its own
+  // idea of whether a timer is running, and it used to find out only on the
+  // next poll, so for up to twelve seconds after a child pressed stop the rest
+  // of the app still believed the clock was going. This says so at once.
+  onSessionChange?: (session: ActiveSession | null) => void
   // Fixture only: open on the picker so the ref page can screenshot it.
   startPicking?: boolean
   // Optional doorways for the offline ideas row: the kid screen passes these to
@@ -77,9 +83,30 @@ export default function DeviceTimeCard({
   // simply do not show.
   onPrintables?: () => void
   onGames?: () => void
+  // Jobs still to do, and what the lot is worth in minutes. Shown when the
+  // timer runs out, never before it.
+  //
+  // The alternative was refusing screen time while anything is outstanding, and
+  // that is the wrong tool. At four in the afternoon every daily job is
+  // outstanding, bedtime ones included, so a blanket block would fire almost
+  // always and the child would learn the deal is rigged. It also makes the app
+  // the one saying no, which is the opposite of what this product is for. The
+  // jobs a family genuinely wants gated already have their own switch, per job,
+  // set by the parent.
+  //
+  // So this is the nudge instead, at the strongest moment there is: the fun has
+  // just finished, they are being handed back to the room anyway, and the
+  // minutes waiting to be earned are a number they can see.
+  outstandingJobs?: string[]
+  outstandingMinutes?: number
 }) {
   const router = useRouter()
   const [session, setSession] = useState<ActiveSession | null>(initialSession)
+  // Held in a ref for the countdown effect, whose dependency list must stay
+  // stable: taking the callback directly would tear down and restart the one
+  // second interval every time the screen around this card re rendered.
+  const onSessionChangeRef = useRef(onSessionChange)
+  useEffect(() => { onSessionChangeRef.current = onSessionChange }, [onSessionChange])
   const [phase, setPhase] = useState<'idle' | 'picking' | 'up'>(startPicking && !initialSession ? 'picking' : 'idle')
   const [device, setDevice] = useState<string>('tv')
   const [minutes, setMinutes] = useState<number>(Math.min(30, balanceStars * STAR_MINUTES))
@@ -252,6 +279,7 @@ export default function DeviceTimeCard({
           : 'Time for offline fun!')
         setEndedByGuide(capsAtGuide)
         setPhase('up')
+        onSessionChangeRef.current?.(null)
         // Record the stop. A full block used all its minutes so nothing
         // refunds; a block ended at the guide trims back to the minutes
         // actually used, exactly like stopping early, so the rest of the
@@ -297,13 +325,15 @@ export default function DeviceTimeCard({
         // This block is not on the server's today number yet, so what the page
         // loaded with is exactly the minutes used before it.
         usedBeforeRef.current = Math.max(0, Math.round(usedTodayMinutes))
-        setSession({
+        const started: ActiveSession = {
           id: data.session.id, device: data.session.device, minutes: data.session.minutes,
           stars: data.session.stars, endsAt: data.session.ends_at, startedAt: data.session.started_at,
           // A child started block is never a treat: treats are only ever a
           // grown up knowingly granting time beyond the day's guide.
           treat: false,
-        })
+        }
+        setSession(started)
+        onSessionChange?.(started)
         setPhase('idle')
         router.refresh()
       } else if (data.error === 'chores first') {
@@ -327,6 +357,7 @@ export default function DeviceTimeCard({
       })
     } catch { /* best effort */ }
     setSession(null)
+    onSessionChange?.(null)
     setPhase('idle')
     setBusy(false)
     router.refresh()
@@ -417,6 +448,31 @@ export default function DeviceTimeCard({
               ? 'That is the healthy amount for today. Your stars are safe for tomorrow, and there is plenty of good stuff to do right now.'
               : `Great play! Your ${deviceLabel(session?.device ?? 'phone')} time is done for now. Go find something fun away from the screen, and earn more stars to unlock more.`}
           </p>
+          {/* The jobs still waiting, named, with what they are worth. Not a
+              telling off: the next block of time is sitting right there in
+              them, which is a far better reason to go and do one. */}
+          {outstandingJobs.length > 0 && (
+            <div style={{ background: 'rgba(255,255,255,0.72)', borderRadius: '14px', padding: '13px 14px', marginBottom: '12px', textAlign: 'left' }}>
+              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '18px', color: 'var(--ink)', marginBottom: '7px' }}>
+                {outstandingMinutes > 0
+                  ? `${outstandingMinutes} more minutes are waiting in your jobs`
+                  : 'Still to do today'}
+              </div>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '5px' }}>
+                {outstandingJobs.slice(0, 4).map(j => (
+                  <li key={j} style={{ display: 'flex', gap: '8px', alignItems: 'center', fontSize: '17px', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.3 }}>
+                    <span aria-hidden style={{ flexShrink: 0 }}>⭐</span>{j}
+                  </li>
+                ))}
+                {outstandingJobs.length > 4 && (
+                  <li style={{ fontSize: '16px', fontWeight: 700, color: 'var(--ink)', opacity: 0.7 }}>
+                    and {outstandingJobs.length - 4} more
+                  </li>
+                )}
+              </ul>
+            </div>
+          )}
+
           {/* Not just "go away from the screen": here is what to do, one tap. */}
           <div style={{ background: 'rgba(255,255,255,0.45)', borderRadius: '14px', padding: '12px 13px', marginBottom: '14px' }}>
             <OfflineIdeas onPrintables={onPrintables} onGames={onGames} />

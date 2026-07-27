@@ -6,8 +6,7 @@ import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
 import { streaksToUnlockFriend } from '@/lib/pathway/streak-unlock'
 
 // The welcome splash: a rich warm screen, big white words, and one character at
-// a time floating and glowing in the middle. It runs every open, because
-// arriving should feel like something.
+// a time floating and glowing in the middle.
 //
 // DiGi says hello first, always, then the WHOLE family one by one, in order, so
 // a child meets every Planet Friend and knows who is out there to collect. Each
@@ -17,12 +16,54 @@ import { streaksToUnlockFriend } from '@/lib/pathway/streak-unlock'
 //
 // Paced slowly on purpose. A child reads far slower than an adult skims, and
 // this is the moment the whole collection is being taught.
+//
+// Which is exactly why it cannot run every open. Six cards at four and a half
+// seconds is nearly half a minute of splash between a child and their jobs, and
+// a thing that lovely stops being lovely the third time in a day. So it plays
+// once a week: often enough that the family they are collecting stays in mind,
+// rare enough that it is still a treat rather than a toll gate.
 
 const SEEN_KEY = 'gc_kid_squad_intro_seen'
+// When it last played, so the weekly gate survives a reload and a new tab.
+const LAST_KEY = 'gc_kid_squad_intro_at'
+// This open's answer, so every mount within one open agrees.
+const OPEN_KEY = 'gc_kid_squad_intro_open'
+const EVERY_MS = 7 * 24 * 60 * 60 * 1000
 const AUTO_MS = 4600
 
 export function squadIntroSeen(): boolean {
   try { return localStorage.getItem(SEEN_KEY) === '1' } catch { return true }
+}
+
+// Is it due? Never played, or a week since it last did.
+//
+// The answer is worked out once per app open and then held in sessionStorage,
+// which matters more than it looks. Playing the intro stamps the clock, so a
+// second read of the raw timestamp during the same open would say "not due" and
+// the intro would disappear from under the child. Anything that remounts the
+// screen would do it: React strict mode in development does exactly this, and
+// it is how the bug was caught. Deciding once per open makes the answer stable
+// however many times the tree mounts.
+//
+// Private mode has no memory, so it falls back to not due: a splash on every
+// single open is worse than a child who never gets one.
+export function squadIntroDue(): boolean {
+  try {
+    const decided = sessionStorage.getItem(OPEN_KEY)
+    if (decided !== null) return decided === '1'
+    const last = Number(localStorage.getItem(LAST_KEY) ?? 0)
+    const due = !last || Date.now() - last >= EVERY_MS
+    sessionStorage.setItem(OPEN_KEY, due ? '1' : '0')
+    return due
+  } catch { return false }
+}
+
+// Stamped when it starts rather than when it ends, so a child who wanders off
+// halfway through is not met by the whole thing again on the next open.
+function markPlayed(): void {
+  try {
+    localStorage.setItem(LAST_KEY, String(Date.now()))
+  } catch { /* private mode, squadIntroDue already says no */ }
 }
 
 type Card = { kind: 'digi' } | { kind: 'friend'; index: number }
@@ -51,6 +92,9 @@ export default function KidSquadIntro({
   const [autoPlay] = useState(() => squadIntroSeen())
   const [step, setStep] = useState(0)
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  // The week starts the moment it appears.
+  useEffect(() => { markPlayed() }, [])
 
   function finish() {
     if (timer.current) clearTimeout(timer.current)
