@@ -73,7 +73,11 @@ Every module is built in all three versions unless noted. The 092 column shows w
 - **Settings walk lives in the database** (scripts table, non negotiable 6), because it dates fastest as platforms change.
 - **Verify before learner facing copy.** Several taxonomy claims lean on international sources, pair each with a UK anchor (Ofcom Children and Parents 2025, NSPCC, Internet Matters, YoungMinds). All statutory bullets to be confirmed against the primary RSHE 2026 and UKCIS PDFs.
 - **Sensitive modules (9, 10)** are written calm and non graphic, close on agency and support, name a trusted adult, Childline 0800 1111, CEOP and Report Remove, and carry a DSL note, matching the existing safeguarding lesson pattern.
-- **Wiring** is the build session's job (school_lessons for kid and schools rows, lessons for parent rows), the same as the AI lessons handoff. This map plus the written lessons become that handoff.
+- **Wiring, confirmed targets (checked against origin/main, 26 Jul 2026).** Migration numbers: main is at 102, Module 1 parent is seeded in migration 103, so the next free number is 104.
+  - **Parent version to `public.lessons`**, audience parent, category social media, stage_id one of foundation/builder/explorer/shaper/independent, status live, with the five co view fields plus a slides deck. Mirrors migrations 092 and 074 exactly. Module 1 is wired as the tested worked example in migration 103; modules 2 to 15 follow the identical pattern.
+  - **Schools in depth version to `public.school_lessons`**, audience teacher, the 033 full curriculum pattern (module_id, key_stage, evidence_anchor, single_action_outcome, character_cast, slides deck, assessment, teacher_notes, parent_note, dsl_note). Not yet seeded, needs the full v3 deck JSON built per module and a player render check.
+  - **Kid interactive version: target table NOT yet confirmed.** Neither `public.lessons` nor `public.school_lessons` carries a pupil audience (both are teacher or parent only), so the child facing lessons live in a different surface (likely the quests or kid missions system, migration 034). A session with the running app must confirm the table and shape before seeding the kid versions.
+  - Non negotiable 5 applies: whoever seeds the schools and kid rows must render check them on mobile and desktop before calling it done. This map plus the written lessons and migration 103 become the handoff.
 
 ## Open decisions for Justin (before I build)
 
